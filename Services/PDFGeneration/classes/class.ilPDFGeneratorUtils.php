@@ -5,6 +5,27 @@
  */
 class ilPDFGeneratorUtils
 {
+	/**
+	 * Prepare the content processing for a PDF generation request
+	 * This function should be called as in a request before any content is generated
+	 * It sets the generation mode for Latex processing according the needs of the PDF renderer
+	 *
+	 * @param string $service
+	 * @param string $purpose
+	 */
+	public static function prepareGenerationRequest($service, $purpose)
+	{
+		try
+		{
+			$map = self::getRendererMapForPurpose($service, $purpose);
+			$renderer = self::getRendererInstance($map['selected']);
+			$renderer->prepareGenerationRequest($service, $purpose);
+		}
+		catch (Exception $e)
+		{
+			return;
+		}
+	}
 
 	public static function getTestPdfDir()
 	{

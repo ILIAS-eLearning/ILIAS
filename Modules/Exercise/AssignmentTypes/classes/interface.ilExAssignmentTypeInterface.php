@@ -51,4 +51,12 @@ interface ilExAssignmentTypeInterface
 	 */
 	public function isSubmissionAssignedToTeam();
 
+	/**
+	 * Clone type specific properties of an assignment
+	 *
+	 * @param ilExAssignment $source
+	 * @param ilExAssignment $target
+	 */
+	public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target);
+
 }

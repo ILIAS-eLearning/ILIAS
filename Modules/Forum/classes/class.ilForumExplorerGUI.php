@@ -51,6 +51,9 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	 * @var ilForumPost|null
 	 */
 	protected $root_node = null;
+	
+	/** @var \ilForumAuthorInformation[]  */
+	protected $authorInformation = [];
 
 	/**
 	 * {@inheritdoc}
@@ -62,6 +65,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
 
 		$this->setSkipRootNode(false);
+		$this->setAjax(true);
 
 		$this->tpl  = $DIC->ui()->mainTemplate();
 		$this->ctrl = $DIC->ctrl();
@@ -85,10 +89,25 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	{
 		$this->thread    = $thread;
 		$this->root_node = $thread->getFirstPostNode();
-		$this->root_node->setIsRead($this->root_node->isRead($this->root_node->getPosAuthorId()));
+
+		$this->setNodeOpen($this->root_node->getId());
 
 		$this->ctrl->setParameter($this->parent_obj, 'thr_pk', $this->thread->getId());
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function isNodeClickable($a_node)
+	{
+		$result = parent::isNodeClickable($a_node);
+		if (!$result) {
+			return false;
+		}
+
+		return $this->root_node->getId() != $a_node['pos_pk'];
+	}
+
 
 	/**
 	 * {@inheritdoc}
@@ -166,12 +185,11 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 		$tpl->setVariable('TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($a_node)));
 		$tpl->parseCurrentBlock();
 
-		$authorinfo = new ilForumAuthorInformation(
-			$a_node['pos_author_id'],
-			$a_node['pos_display_user_id'],
-			$a_node['pos_usr_alias'],
-			$a_node['import_name']
-		);
+		if ($this->root_node->getId() == $a_node['pos_pk']) {
+			return $tpl->get();
+		}
+
+		$authorinfo = $this->getAuthorInformationByNode($a_node);
 
 		$tpl->setCurrentBlock('unlinked-node-content-block');
 		$tpl->setVariable('UNLINKED_CONTENT_CLASS', $this->getUnlinkedNodeContentClass());
@@ -189,6 +207,10 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	protected function getNodeTitleClasses(array $node_config)
 	{
 		$node_title_classes = array('ilForumTreeTitle');
+
+		if ($this->root_node->getId() == $node_config['pos_pk']) {
+			return $node_title_classes;
+		}
 
 		if(isset($node_config['post_read']) && !$node_config['post_read'])
 		{
@@ -230,6 +252,24 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	}
 
 	/**
+	 * @param array $node
+	 * @return \ilForumAuthorInformation
+	 */
+	private function getAuthorInformationByNode(array $node): \ilForumAuthorInformation
+	{
+		if (isset($this->authorInformation[(int)$node['pos_pk']])) {
+			return $this->authorInformation[(int)$node['pos_pk']];
+		}
+
+		return $this->authorInformation[(int)$node['pos_pk']] = new ilForumAuthorInformation(
+			$node['pos_author_id'],
+			$node['pos_display_user_id'],
+			$node['pos_usr_alias'],
+			$node['import_name']
+		);
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getNodeId($a_node)
@@ -242,7 +282,26 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	 */
 	public function getNodeIcon($a_node)
 	{
-		return ilObject::_getIcon(0, 'tiny', 'frm');
+		if ($this->root_node->getId() == $a_node['pos_pk']) {
+			return ilObject::_getIcon(0, 'tiny', 'frm');
+		}
+
+		return $this->getAuthorInformationByNode($a_node)->getProfilePicture();
+	}
+
+	/** 
+	 * @inheritdoc 
+	 */
+	public function beforeRendering()
+	{
+		if (isset($_GET['post_created_below']) && (int)$_GET['post_created_below'] > 0) {
+			$parent  = (int)$_GET['post_created_below'];
+			do {
+				$this->setNodeOpen((int)$parent);
+			} while($parent = $this->node_id_to_parent_node_id_map[$parent]);
+
+			$this->store->set("on_".$this->id, serialize(array_unique(array_merge($this->open_nodes, $this->custom_open_nodes))));
+		}
 	}
 
 	/**
@@ -251,16 +310,6 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 	public function getHTML()
 	{
 		$this->preloadChildren();
-
-		if(isset($_GET['post_created_below']) && (int)$_GET['post_created_below'] > 0)
-		{
-			$parent  = (int)$_GET['post_created_below'];
-			do
-			{
-				$this->setNodeOpen((int)$parent);
-			}
-			while($parent = $this->node_id_to_parent_node_id_map[$parent]);
-		}
 
 		$html = parent::getHTML();
 

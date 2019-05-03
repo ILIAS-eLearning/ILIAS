@@ -203,19 +203,22 @@ class ilLPStatus
 	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_force_raise = false)
 	{
 		$log = ilLoggerFactory::getLogger('trac');
-		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_usr_id.", object: ".
-			get_class($a_obj));
+		$log->debug(sprintf(
+			"obj_id: %s, user id: %s, object: %s",
+			$a_obj_id, $a_usr_id, (is_object($a_obj) ? get_class($a_obj) : 'null')
+		));
 
 		$status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
-		$changed = self::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
+		$old_status = null;
+		$changed = self::writeStatus($a_obj_id, $a_usr_id, $status, $percentage, false, $old_status);
 
 		// ak: I don't think that this is a good way to fix 15529, we should not
 		// raise the event, if the status does not change imo.
 		// for now the changes in the next line just prevent the event being raised twice
 		if(!$changed && (bool)$a_force_raise) // #15529
 		{
-			self::raiseEvent($a_obj_id, $a_usr_id, $status, $percentage);
+			self::raiseEvent($a_obj_id, $a_usr_id, $status, $old_status, $percentage);
 		}			
 	}
 	
@@ -297,7 +300,7 @@ class ilLPStatus
 		}
 	}
 	
-	static protected function raiseEvent($a_obj_id, $a_usr_id, $a_status, $a_percentage)
+	static protected function raiseEvent($a_obj_id, $a_usr_id, $a_status, $a_old_status, $a_percentage)
 	{
 		global $DIC;
 
@@ -311,6 +314,7 @@ class ilLPStatus
 			"obj_id" => $a_obj_id,
 			"usr_id" => $a_usr_id,
 			"status" => $a_status,
+			"old_status" => $a_old_status,
 			"percentage" => $a_percentage
 			));
 	}
@@ -379,7 +383,7 @@ class ilLPStatus
 	 * @param
 	 * @return bool
 	 */
-	static function writeStatus($a_obj_id, $a_user_id, $a_status, $a_percentage = false, $a_force_per = false)
+	static function writeStatus($a_obj_id, $a_user_id, $a_status, $a_percentage = false, $a_force_per = false, &$a_old_status = self::LP_STATUS_NOT_ATTEMPTED_NUM)
 	{
 		global $DIC;
 
@@ -391,6 +395,8 @@ class ilLPStatus
 
 		$update_collections = false;
 
+		$a_old_status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
+
 		// get status in DB
 		$set = $ilDB->query("SELECT usr_id,status,status_dirty FROM ut_lp_marks WHERE ".
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
@@ -401,6 +407,8 @@ class ilLPStatus
 		// update
 		if ($rec)
 		{
+			$a_old_status = $rec["status"];
+
 			// status has changed: update
 			if ($rec["status"] != $a_status)
 			{
@@ -490,7 +498,7 @@ class ilLPStatus
 				}
 			}
 
-			self::raiseEvent($a_obj_id, $a_user_id, $a_status, $a_percentage);
+			self::raiseEvent($a_obj_id, $a_user_id, $a_status, $a_old_status, $a_percentage);
 		}
 		
 		return $update_collections;
@@ -949,9 +957,13 @@ class ilLPStatus
 	
 	public static function getListGUIStatus($a_obj_id, $a_image_only = true)
 	{
-		if ($a_image_only)
-		{
-			return self::$list_gui_cache[$a_obj_id]["image"];
+		if ($a_image_only) {
+			$image = '';
+			if (isset(self::$list_gui_cache[$a_obj_id]["image"])) {
+				$image = self::$list_gui_cache[$a_obj_id]["image"];
+			}
+
+			return $image;
 		}
 		return self::$list_gui_cache[$a_obj_id];
 	}

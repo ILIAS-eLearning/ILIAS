@@ -11,7 +11,34 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * @ingroup ingroup ModulesSession
  */
 class ilSessionDataSet extends ilDataSet
-{	
+{
+	/**
+	 * @var \ilLogger
+	 */
+	private $logger = null;
+
+	/**
+	 * @var int
+	 */
+	private $target_id = 0;
+
+	public function __construct()
+	{
+		global $DIC;
+
+		parent::__construct();
+		$this->logger = $DIC->logger()->sess();
+
+	}
+
+	/**
+	 * @param int $target_id
+	 */
+	public function setTargetId(int $target_id)
+	{
+		$this->target_id = $target_id;
+	}
+
 	/**
 	 * Get supported versions
 	 *
@@ -20,7 +47,7 @@ class ilSessionDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0", "5.0.0", "5.1.0");
+		return array("4.1.0", "5.0.0", "5.1.0", '5.4.0');
 	}
 	
 	/**
@@ -105,6 +132,31 @@ class ilSessionDataSet extends ilDataSet
 						"LimitUsers" => "integer",
 						"MinUsers" => "integer"
 					);
+				case "5.4.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"Location" => "text",
+						"TutorName" => "text",
+						"TutorEmail" => "text",
+						"TutorPhone" => "text",
+						"Details" => "text",
+						"Registration" => "integer",
+						"EventStart" => "text",
+						"EventEnd" => "text",
+						"StartingTime" => "integer",
+						"EndingTime" => "integer",
+						"Fulltime" => "integer",
+						"LimitedRegistration" => "integer",
+						"WaitingList" => "integer",
+						"AutoWait" => "integer",
+						"LimitUsers" => "integer",
+						"MinUsers" => "integer",
+						'MailMembers' => 'integer',
+						'ShowMembers' => 'integer',
+						'Type' => 'integer'
+					);
 			}
 		}
 
@@ -115,6 +167,7 @@ class ilSessionDataSet extends ilDataSet
 				case "4.1.0":
 				case "5.0.0":
 				case "5.1.0":
+				case "5.4.0":
 					return array(
 						"SessionId" => "integer",
 						"ItemId" => "text",
@@ -177,6 +230,20 @@ class ilSessionDataSet extends ilDataSet
 						" JOIN object_description odes ON (ev.obj_id = odes.obj_id) ".
 						"WHERE ".
 						$ilDB->in("ev.obj_id", $a_ids, false, "integer"));
+					break;
+				case "5.4.0":
+					$this->getDirectDataFromQuery($q = "SELECT ev.obj_id id, od.title title, odes.description description, ".
+						" location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, ".
+						" reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, ".
+						" reg_limit_users limit_users, reg_min_users min_users, ".
+						" e_start event_start, e_end event_end, starting_time, ending_time, fulltime, mail_members, show_members ".
+						" FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) ".
+						" JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  ".
+						" JOIN object_description odes ON (ev.obj_id = odes.obj_id) ".
+						"WHERE ".
+						$ilDB->in("ev.obj_id", $a_ids, false, "integer"));
+
+					$this->readDidacticTemplateType($a_ids);
 					break;
 			}
 		}
@@ -261,13 +328,18 @@ class ilSessionDataSet extends ilDataSet
 
 				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
 				{
-					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+					$refs = ilObject::_getAllReferences($new_id);
+					$newObj = ilObjectFactory::getInstanceByRefId(end($refs),false);
 				}
 				else
 				{
+					$this->logger->debug('Session creation without existing instance');
 					$newObj = new ilObjSession();
 					$newObj->setType("sess");
 					$newObj->create(true);
+					$newObj->createReference();
+					$newObj->putInTree($this->target_id);
+					$newObj->setPermissions($this->target_id);
 				}
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
@@ -294,6 +366,17 @@ class ilSessionDataSet extends ilDataSet
 						if(isset($a_rec["AutoWait"])) {
 							$newObj->setWaitingListAutoFill($a_rec["AutoWait"]);
 						}
+						break;
+					case '5.4.0':
+						if(isset($a_rec['MailMembers']))
+						{
+							$newObj->setMailToMembersType($a_rec['MailMembers']);
+						}
+						if(isset($a_rec['ShowMembers']))
+						{
+							$newObj->setShowMembers($a_rec['ShowMembers']);
+						}
+						$this->applyDidacticTemplate($newObj, $a_rec['Type']);
 						break;
 				}
 
@@ -339,6 +422,51 @@ class ilSessionDataSet extends ilDataSet
 					$evi->update();
 				}
 				break;
+		}
+	}
+
+	/**
+	 * @param int[] $a_obj_ids
+	 */
+	protected function readDidacticTemplateType($a_obj_ids)
+	{
+		$ref_ids = [];
+		$counter = 0;
+		foreach($a_obj_ids as $obj_id)
+		{
+			$ref_ids = ilObject::_getAllReferences($obj_id);
+			foreach($ref_ids as $ref_id)
+			{
+				$tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($ref_id);
+				$this->data[$counter++]['Type'] = (int) $tpl_id;
+				break;
+			}
+		}
+	}
+
+	/**
+	 * @param ilObject $rep_object
+	 * @param $tpl_id
+	 */
+	protected function applyDidacticTemplate(ilObject $rep_object, $tpl_id)
+	{
+		$this->logger->debug('Apply didactic template');
+
+		if((int) $tpl_id == 0)
+		{
+			$this->logger->debug('Default permissions');
+			// Default template
+			return;
+		}
+
+		$templates = ilDidacticTemplateSettings::getInstanceByObjectType('sess')->getTemplates();
+		foreach($templates as $template)
+		{
+			if($template->isAutoGenerated())
+			{
+				$this->logger->debug('Apply first auto generated');
+				$rep_object->applyDidacticTemplate($template->getId());
+			}
 		}
 	}
 }

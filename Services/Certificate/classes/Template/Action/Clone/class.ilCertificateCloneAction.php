@@ -88,7 +88,8 @@ class ilCertificateCloneAction
 	public function cloneCertificate(
 		ilObject $oldObject,
 		ilObject $newObject,
-		string $iliasVersion = ILIAS_VERSION_NUMERIC
+		string $iliasVersion = ILIAS_VERSION_NUMERIC,
+		string $webDir = CLIENT_WEB_DIR
 	) {
 		$oldType = $oldObject->getType();
 		$newType = $newObject->getType();
@@ -101,8 +102,6 @@ class ilCertificateCloneAction
 			));
 		}
 
-		$oldCertificate = $this->certificateFactory->create($oldObject);
-
 		$newCertificate = $this->certificateFactory->create($newObject);
 
 		$templates = $this->templateRepository->fetchCertificateTemplatesByObjId($oldObject->getId());
@@ -111,12 +110,16 @@ class ilCertificateCloneAction
 		foreach ($templates as $template) {
 			$backgroundImagePath = $template->getBackgroundImagePath();
 			$backgroundImageFile = basename($backgroundImagePath);
-			$backgroundImageThumbnail = $oldCertificate->getBackgroundImageThumbPath();
+			$backgroundImageThumbnail = dirname($backgroundImagePath) . '/background.jpg.thumb.jpg';
 
 			$newBackgroundImage = $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
-			$newBackgroundImageThumbnail = $newCertificate->getBackgroundImageThumbPath();
+			$newBackgroundImageThumbnail = str_replace($webDir, '', $newCertificate->getBackgroundImageThumbPath());
 
 			if ($this->fileSystem->has($backgroundImagePath)) {
+				if ($this->fileSystem->has($newBackgroundImage)) {
+					$this->fileSystem->delete($newBackgroundImage);
+				}
+
 				$this->fileSystem->copy(
 					$backgroundImagePath,
 					$newBackgroundImage
@@ -124,6 +127,10 @@ class ilCertificateCloneAction
 			}
 
 			if ($this->fileSystem->has($backgroundImageThumbnail)) {
+				if ($this->fileSystem->has($newBackgroundImageThumbnail)) {
+					$this->fileSystem->delete($newBackgroundImageThumbnail);
+				}
+
 				$this->fileSystem->copy(
 					$backgroundImageThumbnail,
 					$newBackgroundImageThumbnail

@@ -11,7 +11,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Erişim Anahtarı
@@ -719,7 +719,7 @@ assessment#:#tst_dont_use_previous_answers#:#Sonraki testleriniz için önceki c
 assessment#:#tst_edit_scoring#:#Puanlama Düzenle
 assessment#:#tst_ending_time#:#Bitiş Zamanı
 assessment#:#tst_enter_questionpool#:#Yeni sorunun saklanacağı bir soru havuzu adı girin
-assessment#:#tst_eval_question_points#:#%s. Test İçin Soru Sonuçları 
+assessment#:#tst_eval_question_points#:#%s. Test İçin Soru Sonuçları
 assessment#:#tst_eval_results_by_pass#:#%s. Geçiş için Cevap Listesi
 assessment#:#tst_eval_show_answer#:#Cevap Göster
 assessment#:#tst_eval_total_finished#:#Toplam Biten Testler (Bitir butonu ile testini sonlandırmış kullanıcılar)
@@ -758,7 +758,7 @@ assessment#:#tst_highscore_top_num_description#:#En iyi derece tablosuna kaç ad
 assessment#:#tst_highscore_top_num_unit#:#eleman
 assessment#:#tst_highscore_top_table#:#'En iyi derece' Tablosunu Göster
 assessment#:#tst_highscore_top_table_description#:#Kontroller, tablo 'üst düzey' gösterildiği gibi olmalıdır eğer.
-assessment#:#tst_highscore_wtime#:#Çalışma süresini göster 
+assessment#:#tst_highscore_wtime#:#Çalışma süresini göster
 assessment#:#tst_highscore_wtime_description#:#Kontroller, çalışma zamanı testleri ile bir sütun gösterilecek olmalıdır eğer.
 assessment#:#tst_import_no_items#:#Hata: İçe aktarma dosyası hiç soru içermiyor!
 assessment#:#tst_import_verify_found_questions#:#ILIAS testi alma dosyasında aşağıdaki soruları bulundu. Bu test ile almak istediğiniz soruları seçiniz.
@@ -7800,7 +7800,7 @@ sahs#:#sahs_sequencing#:#Dizileme
 sahs#:#sahs_std_sequencing#:#Standart Dizileme
 sahs#:#sahs_std_sequencing_info#:#kullanımlar ILIAS standart sıralama davranışı.
 sahs#:#sahs_unit#:#SCO
-sahs#:#scorm_create_export_file_html_one#:#Dışa Aktarma Dosyası Oluştur(HTML, Tek Sayfa, İnceleme Modu) 
+sahs#:#scorm_create_export_file_html_one#:#Dışa Aktarma Dosyası Oluştur(HTML, Tek Sayfa, İnceleme Modu)
 scormdebug#:#adl.nav.request#:#Navigasyon istek) (Sonlandır hemen aşağıdaki işlenecek
 scormdebug#:#adl.nav.request_valid.choice#:#Belirli bir etkinlik için bir Seçim gezinti isteği başarılı olmadığını belirlemek için bir SCO tarafından el.
 scormdebug#:#adl.nav.request_valid.continue#:#Bir Devam gezinti isteği başarılı olmadığını belirlemek için bir SCO tarafından el.
@@ -8112,7 +8112,7 @@ skmg#:#skmg_cert_skill_level_title#:#Yeterlilik Düzeyi Başlığı
 skmg#:#skmg_cert_skill_title#:#Yetkinlik Başlığı
 skmg#:#skmg_cert_skill_trigger_title#:#Yetkinlik Tetik Başlık
 skmg#:#skmg_create_sctp#:#Oluştur Şablon Kategori
-skmg#:#skmg_create_skill_category#:#Yetkinlik Kategorisi Oluştur 
+skmg#:#skmg_create_skill_category#:#Yetkinlik Kategorisi Oluştur
 skmg#:#skmg_create_skill_template#:#Yetkinlik Şablonu Oluştur
 skmg#:#skmg_create_skill_template_category#:#Yetkinlik Şablon Kategori Oluştur
 skmg#:#skmg_create_skill_template_reference#:#Yetkinlik Şablon Referans Oluştur
@@ -9661,7 +9661,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable
@@ -10641,7 +10641,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

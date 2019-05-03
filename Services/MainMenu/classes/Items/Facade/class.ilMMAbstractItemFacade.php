@@ -1,7 +1,18 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Main;
-use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
+use ILIAS\UI\Component\Link\Link;
 
 /**
  * Class ilMMAbstractItemFacade
@@ -11,7 +22,7 @@ use ILIAS\GlobalScreen\MainMenu\isItem;
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 	/**
-	 * @var \ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformation
+	 * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation
 	 */
 	protected $type_information;
 	/**
@@ -103,7 +114,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	public function getAmountOfChildren(): int {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isParent) {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent) {
 			return count($this->gs_item->getChildren());
 		}
 
@@ -144,7 +155,11 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	 * @return string
 	 */
 	public function getDefaultTitle(): string {
-		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\hasTitle) {
+		$default_translation = ilMMItemTranslationStorage::getDefaultTranslation($this->identification);
+		if ($default_translation !== "") {
+			return $default_translation;
+		}
+		if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle) {
 			$this->default_title = $this->gs_item->getTitle();
 		}
 
@@ -183,7 +198,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	public function getParentIdentificationString(): string {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+		if ($this->gs_item instanceof isChild) {
 			$provider_name_for_presentation = $this->gs_item->getParent()->serialize();
 
 			return $provider_name_for_presentation;
@@ -194,10 +209,46 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isCustomType(): bool {
+		$known_core_types = [
+			Complex::class,
+			Link::class,
+			LinkList::class,
+			Lost::class,
+			RepositoryLink::class,
+			Separator::class,
+			TopLinkItem::class,
+			TopParentItem::class,
+		];
+		foreach ($known_core_types as $known_core_type) {
+			if (get_class($this->gs_item) === $known_core_type) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+
+	/**
 	 * @inheritDoc
 	 */
 	public function isTopItem(): bool {
-		return $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isTopItem;
+		return $this->gs_item instanceof isTopItem;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isInLostItem(): bool {
+		if ($this->gs_item instanceof isChild) {
+			return $this->gs_item->getParent() instanceof NullIdentification;
+		}
+
+		return false;
 	}
 
 
@@ -247,7 +298,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 
 	public function update() {
 		ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
-
 		$this->mm_item->update();
 	}
 
@@ -259,7 +309,20 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	}
 
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete() {
-		throw new Exception();
+		if ($this->isDeletable()) {
+			$serialize = $this->identification->serialize();
+			$gs = ilGSIdentificationStorage::find($serialize);
+			if ($gs instanceof ilGSIdentificationStorage) {
+				$gs->delete();
+			}
+			$mm = ilMMItemStorage::find($serialize);
+			if ($mm instanceof ilMMItemStorage) {
+				$mm->delete();
+			}
+		}
 	}
 }

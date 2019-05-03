@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\GlobalScreen\Services;
+use ILIAS\NavigationContext\ContextServices;
+
 include_once("./Services/Table/classes/class.ilTableGUI.php");
 
 
@@ -62,6 +65,10 @@ class ilRepositoryGUI
 	 * @var ilAccessHandler
 	 */
 	protected $access;
+	/**
+	 * @var ContextServices
+	 */
+	protected $navigation_context;
 
 	var $lng;
 	var $tpl;
@@ -95,6 +102,7 @@ class ilRepositoryGUI
 		$ilLog = $DIC["ilLog"];
 		$ilUser = $DIC->user();
 		$ilSetting = $DIC->settings();
+		$this->navigation_context = $DIC->navigationContext();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -230,6 +238,8 @@ class ilRepositoryGUI
 		$ilCtrl = $this->ctrl;
 		$ilHelp = $this->help;
 		$ilErr = $this->error;
+
+		$this->navigation_context->claim()->repository();
 
 		// check creation mode
 		// determined by "new_type" parameter
@@ -383,7 +393,7 @@ class ilRepositoryGUI
 					{
 						$_SESSION["il_rep_ref_id"] = "";
 						$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 					}
 					else
 					{
@@ -402,7 +412,7 @@ class ilRepositoryGUI
 		$ret = $this->ctrl->forwardCommand($this->gui_obj);
 		$this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -430,7 +440,7 @@ class ilRepositoryGUI
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		$this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
@@ -543,7 +553,7 @@ class ilRepositoryGUI
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery($this->tpl);
 		
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 		exit;
 	}
 

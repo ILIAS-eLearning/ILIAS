@@ -42,7 +42,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 		),
 	);
 	
-	public function __construct(ilLanguage $lng, ilTemplate $tpl)
+	public function __construct(ilLanguage $lng, ilGlobalTemplate $tpl)
 	{
 		$this->lng = $lng;
 		$this->tpl = $tpl;

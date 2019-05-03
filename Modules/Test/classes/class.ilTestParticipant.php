@@ -73,6 +73,11 @@ class ilTestParticipant
 	protected $unfinishedPasses;
 	
 	/**
+	 * @var ilTestParticipantScoring
+	 */
+	protected $scoring;
+	
+	/**
 	 * ilTestParticipant constructor.
 	 * @param string $activeId
 	 * @param string $anonymousId
@@ -292,5 +297,26 @@ class ilTestParticipant
 	public function setUnfinishedPasses($unfinishedPasses)
 	{
 		$this->unfinishedPasses = $unfinishedPasses;
+	}
+	
+	/**
+	 * @return ilTestParticipantScoring
+	 */
+	public function getScoring(): ilTestParticipantScoring
+	{
+		return $this->scoring;
+	}
+	
+	/**
+	 * @param ilTestParticipantScoring $scoring
+	 */
+	public function setScoring(ilTestParticipantScoring $scoring)
+	{
+		$this->scoring = $scoring;
+	}
+	
+	public function hasScoring()
+	{
+		return $this->scoring instanceof ilTestParticipantScoring;
 	}
 }

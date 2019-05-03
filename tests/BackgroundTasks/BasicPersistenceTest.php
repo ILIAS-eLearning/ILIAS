@@ -8,6 +8,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\MockObserver;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\NonPersistingObserver;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
@@ -45,7 +46,7 @@ class BasicPersistenceTest extends TestCase {
 	/** @var  BasicPersistence */
 	protected $persistence;
 
-	public function setUp() {
+	public function setUp(): void{
 		$dic = new Container();
 		$dic[Bucket::class] = function ($c) {
 			return new BasicBucket();
@@ -179,16 +180,16 @@ class BasicPersistenceTest extends TestCase {
 
 
 	public function testUserInteraction() {
-		$this->setExpectedException(UserInteractionRequiredException::class);
+		$this->expectException(UserInteractionRequiredException::class);
 		/** @var IntegerValue $finalValue */
-		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
+		$taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */
 		$taskManager->executeTask($this->bucket->getTask(), new MockObserver());
 	}
 
 	public function testContinueUserInteraction() {
 		/** @var IntegerValue $finalValue */
-		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
+		$taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
 		try {
 			/** @var IntegerValue $finalValue */
 			$taskManager->executeTask($this->bucket->getTask(), new NonPersistingObserver($this->bucket));
@@ -224,7 +225,7 @@ class BasicPersistenceTest extends TestCase {
 		$this->bucket->setTask($x);
 
 		/** @var IntegerValue $finalValue */
-		$taskManager = new BasicTaskManager(Mockery::mock(Persistence::class));
+		$taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
 		try {
 			/** @var IntegerValue $finalValue */
 			$taskManager->executeTask($this->bucket->getTask(), new NonPersistingObserver($this->bucket));

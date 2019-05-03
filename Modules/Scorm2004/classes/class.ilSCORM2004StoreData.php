@@ -23,7 +23,7 @@ class ilSCORM2004StoreData
 			$userId=(int) $data->p;
 			self::checkIfAllowed($packageId,$userId,$data->hash); 
 		}
-		$last_visited = "";
+		$last_visited = null;
 		if ($data->last !="") $last_visited = $data->last;
 		$endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
 		$total_time_sec = null;

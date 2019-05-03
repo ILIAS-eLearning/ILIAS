@@ -81,21 +81,15 @@ class ImageTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_invalid_source(){
+		$this->expectException(\InvalidArgumentException::class);
 		$f = $this->getImageFactory();
-
-		try{
-			$f->standard(1,"alt");
-			$this->assertFalse("This should not happen");
-		}catch(InvalidArgumentException $e){}
+		$f->standard(1,"alt");
 	}
 
 	public function test_invalid_alt(){
+		$this->expectException(\InvalidArgumentException::class);
 		$f = $this->getImageFactory();
-
-		try{
-			$f->standard("source",1);
-			$this->assertFalse("This should not happen");
-		}catch(InvalidArgumentException $e){}
+		$f->standard("source",1);
 	}
 
 	public function test_render_standard() {
@@ -155,7 +149,7 @@ class ImageTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($i));
 
-		$expected = "<a id=\"id_1\"><img src=\"source\" class=\"img-standard\" alt=\"alt\" /></a>";
+		$expected = "<a href=\"#\" id=\"id_1\"><img src=\"source\" class=\"img-standard\" alt=\"alt\" /></a>";
 
 		$this->assertEquals($expected, $html);
 	}

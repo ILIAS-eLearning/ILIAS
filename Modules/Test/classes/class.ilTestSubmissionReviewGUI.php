@@ -75,7 +75,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		if ($this->object->getKioskMode())
 		{
 			$this->tpl->setBodyClass("kiosk");
-			$this->tpl->setAddFooter(FALSE);
+			$this->tpl->hideFooter();
 			return "CONTENT";
 		}
 		else
@@ -188,13 +188,12 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 	
 	protected function pdfDownload()
 	{
+		ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
+
 		$reviewOutput = $this->buildUserReviewOutput();
 		
-		require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-		ilPDFGeneration::prepareGeneration();
-		
 		require_once 'class.ilTestPDFGenerator.php';
-		ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD);
+		ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, null, PDF_USER_RESULT);
 		
 		exit;
 	}

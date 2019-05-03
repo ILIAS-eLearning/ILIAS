@@ -8,18 +8,18 @@
 class ilMMItemStorage extends CachedActiveRecord {
 
 	/**
-	 * @param \ILIAS\GlobalScreen\MainMenu\isItem $item
+	 * @param \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item
 	 *
 	 * @return ilMMItemStorage
 	 */
-	public static function register(\ILIAS\GlobalScreen\MainMenu\isItem $item) {
+	public static function register(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item) {
 		$mm_item = ilMMItemStorage::find($item->getProviderIdentification()->serialize());
 		if ($mm_item === null) {
 			$mm_item = new ilMMItemStorage();
 			$mm_item->setPosition($item->getPosition());
 			$mm_item->setIdentification($item->getProviderIdentification()->serialize());
 			$mm_item->setActive(true);
-			if ($item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+			if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
 				$mm_item->setParentIdentification($item->getParent()->serialize());
 			}
 			$mm_item->create();
@@ -42,9 +42,7 @@ class ilMMItemStorage extends CachedActiveRecord {
 	 * @inheritDoc
 	 */
 	public function getCache(): ilGlobalCache {
-		global $DIC;
-
-		return $DIC->globalScreen()->storage()->cache();
+		return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
 	}
 
 

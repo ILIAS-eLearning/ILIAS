@@ -8,6 +8,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Provider\Provider;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 use ilPlugin;
 use InvalidArgumentException;
@@ -34,6 +35,11 @@ require_once('./libs/composer/vendor/autoload.php');
 class IdentificationFactoryTest extends TestCase {
 
 	use MockeryPHPUnitIntegration;
+	const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
+	/**
+	 * @var Mockery\MockInterface|ProviderFactoryInterface
+	 */
+	protected $provider_factory;
 	/**
 	 * @var Mockery\MockInterface|Provider
 	 */
@@ -51,13 +57,19 @@ class IdentificationFactoryTest extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp() {
+	protected function setUp(): void{
 		parent::setUp();
 
-		$this->identification = new IdentificationFactory();
 		$this->plugin_mock = Mockery::mock(ilPlugin::class);
+
 		$this->provider_mock = Mockery::mock(Provider::class);
 		$this->provider_mock->shouldReceive('getProviderNameForPresentation')->andReturn('Provider')->byDefault();
+
+		$this->provider_factory = Mockery::mock(ProviderFactoryInterface::class);
+		$this->provider_factory->shouldReceive('getProviderByClassName')->with(self::MOCKED_PROVIDER_CLASSNAME)->andReturn($this->provider_mock);
+		$this->provider_factory->shouldReceive('isInstanceCreationPossible')->andReturn(true);
+
+		$this->identification = new IdentificationFactory($this->provider_factory);
 	}
 
 
@@ -111,11 +123,7 @@ class IdentificationFactoryTest extends TestCase {
 	}
 
 
-	/**
-	 *
-	 */
 	public function testUnserializingPlugin() {
-		// $this->markTestSkipped('I currently have absolutely no idea why this test does not work since this seems to be identical zo the test testUnserializingCore :(');
 		$this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
 		$identification = $this->identification->plugin($this->plugin_mock, $this->provider_mock)->identifier('dummy');
 		$serialized_identification = $identification->serialize();
@@ -133,8 +141,7 @@ class IdentificationFactoryTest extends TestCase {
 
 
 	public function testFactoryMustReturnCorrectTypeCore() {
-		$this->markTestSkipped('I currently have absolutely no idea why this test does not work since this seems to be identical zo the test testUnserializingCore :(');
-		$class_name = "Mockery_1_ILIAS_GlobalScreen_Provider_Provider";
+		$class_name = self::MOCKED_PROVIDER_CLASSNAME;
 		$internal_identifier = "internal_identifier";
 
 		$string_core = "{$class_name}|{$internal_identifier}";
@@ -147,8 +154,7 @@ class IdentificationFactoryTest extends TestCase {
 
 
 	public function testFactoryMustReturnCorrectTypePlugin() {
-		$this->markTestSkipped('I currently have absolutely no idea why this test does not work since this seems to be identical zo the test testUnserializingCore :(');
-		$class_name = "Mockery_1_ILIAS_GlobalScreen_Provider_Provider";
+		$class_name = self::MOCKED_PROVIDER_CLASSNAME;
 		$internal_identifier = "internal_identifier";
 
 		// $this->markTestSkipped('I currently have absolutely no idea why this test does not work since this seems to be identical zo the test testUnserializingCore :(');

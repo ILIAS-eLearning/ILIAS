@@ -31,9 +31,29 @@ class ilDownloadSubmissionsBackgroundTask
 	protected $participant_id;
 
 	/**
+	 * @var int
+	 */
+	protected $user_id;
+
+	/**
 	 * @var \ILIAS\BackgroundTasks\Task\TaskFactory
 	 */
 	protected $task_factory = null;
+
+	/**
+	 * @var \ILIAS\BackgroundTasks\TaskManager
+	 */
+	protected $task_manager = null;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	/**
+	 * @var
+	 */
+	private $logger = null;
 
 	/**
 	 * Constructor
@@ -55,7 +75,8 @@ class ilDownloadSubmissionsBackgroundTask
 
 		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
 		$this->task_manager = $DIC->backgroundTasks()->taskManager();
-		$this->lng = $DIC->language();
+		$this->logger = $DIC->logger()->exc();
+
 	}
 
 	public function run()
@@ -63,19 +84,23 @@ class ilDownloadSubmissionsBackgroundTask
 		$bucket = new BasicBucket();
 		$bucket->setUserId($this->user_id);
 
-		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilExerciseManagementCollectFilesJob.php';
-		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilSubmissionsZipJob.php';
-		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilExDownloadSubmissionsZipInteraction.php';
+		$this->logger->debug("* Create task 'collect_data_job' using the following values:");
+		$this->logger->debug("job class = ". ilExerciseManagementCollectFilesJob::class);
+		$this->logger->debug("exc_id = ".$this->exc_id.", exc_ref_id = ".$this->exc_ref_id.", ass_id = ".(int)$this->ass_id.", participant_id = ".(int)$this->participant_id.", user_id = ".(int)$this->user_id);
 
 		$collect_data_job = $this->task_factory->createTask(ilExerciseManagementCollectFilesJob::class,
 			[
-				$this->exc_id,
-				$this->exc_ref_id,
+				(int)$this->exc_id,
+				(int)$this->exc_ref_id,
 				(int)$this->ass_id,
 				(int)$this->participant_id,
-				(int) $this->user_id
+				(int)$this->user_id
 			]
 		);
+
+		$this->logger->debug("* Create task 'zip job' using the following values:");
+		$this->logger->debug("job class = ". ilSubmissionsZipJob::class);
+		$this->logger->debug("sending as input the task called->collect_data_job");
 
 		$zip_job = $this->task_factory->createTask(ilSubmissionsZipJob::class, [$collect_data_job]);
 
@@ -88,8 +113,11 @@ class ilDownloadSubmissionsBackgroundTask
 		}
 
 
-		ilLoggerFactory::getRootLogger()->debug("*** Interaction task ::: 1st parameter :: Download name should be the directory name => ".$download_name);
-		$download_interaction = $this->task_factory->createTask(ilExDownloadSubmissionsZipInteraction::class,[$download_name, $zip_job]);
+		$this->logger->debug("* Create task 'download_interaction' using the following values:");
+		$this->logger->debug("job class = ". ilExDownloadSubmissionsZipInteraction::class);
+		$this->logger->debug("download_name which is the same as bucket title = ".$download_name." + the zip_job task");
+		// see comments here -> https://github.com/leifos-gmbh/ILIAS/commit/df6fc44a4c85da33bd8dd5b391a396349e7fa68f
+		$download_interaction = $this->task_factory->createTask(ilExDownloadSubmissionsZipInteraction::class,[$zip_job, $download_name]);
 
 		 //download name
 		$bucket->setTask($download_interaction);

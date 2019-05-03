@@ -11,8 +11,7 @@ class HasMaxLength extends Custom implements Constraint {
 	 */
 	protected $max_length;
 
-	public function __construct($max_length, Data\Factory $data_factory, \ilLanguage $lng) {
-		assert('is_int($max_length)');
+	public function __construct(int $max_length, Data\Factory $data_factory, \ilLanguage $lng) {
 		$this->max_length = $max_length;
 		parent::__construct( function ($value) {
 				return strlen($value) <= $this->max_length;

@@ -426,7 +426,7 @@ class ilSCORM13Player
 		
 		//template variables	
 		//$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
-		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", true, true, "Modules/Scorm2004");
+		$this->tpl = new ilGlobalTemplate("tpl.scorm2004.player.html", true, true, "Modules/Scorm2004");
 
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		$this->tpl->setVariable("JS_FILE",iljQueryUtil::getLocaljQueryPath());
@@ -497,7 +497,7 @@ class ilSCORM13Player
 		$this->increase_attemptAndsave_module_version();
 		$this->resetSharedData();
 
-		$this->tpl->show("DEFAULT", false);
+		$this->tpl->printToStdout("DEFAULT", false);
 	}
 
 	/**
@@ -1004,7 +1004,7 @@ class ilSCORM13Player
 			"_TOC_"				=>		"seq_toc"
 		);
 		
-		$this->tpl = new ilTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
+		$this->tpl = new ilGlobalTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt($specialpages[$this->page]));
 		if ($this->page!="_TOC_" && $this->page!="_SEQABANDON_" && $this->page!="_SEQABANDONALL_" ) {
@@ -1012,7 +1012,7 @@ class ilSCORM13Player
 		} else {
 			$this->tpl->setVariable('CLOSE_WINDOW',"");	
 		}
-		$this->tpl->show("DEFAULT", false);				
+		$this->tpl->printToStdout("DEFAULT", false);				
 	}
 	
 	
@@ -1656,7 +1656,7 @@ class ilSCORM13Player
 			$this->tpl->setVariable('PASSWORD_ENTER', $lng->txt("debugwindow_password_enter"));
 			$this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$_GET["ref_id"]);
 		} else {*/
-			$this->tpl = new ilTemplate("tpl.scorm2004.debug.html", false, false, "./Modules/Scorm2004");
+			$this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "./Modules/Scorm2004");
 			$this->tpl->setVariable('CONSOLE', $lng->txt("debugwindow_console"));
 			$this->tpl->setVariable('LOGS', $lng->txt("debugwindow_logs"));
 			$this->tpl->setVariable('COMMENT', $lng->txt("debugwindow_comment"));

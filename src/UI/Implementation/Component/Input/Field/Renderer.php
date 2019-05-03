@@ -52,6 +52,7 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
+		$registry->register('./src/UI/templates/js/Input/Field/input.js');
 	}
 
 
@@ -220,6 +221,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
+
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
 		 * TODO: should we throw an error in case for no name or render without name?
@@ -508,6 +510,11 @@ class Renderer extends AbstractComponentRenderer {
 			}
 			if ($input->isDisabled()) {
 				$input_tpl->setVariable("DISABLED", 'disabled="disabled"');
+			}
+
+			$byline = $input->getBylineFor($value);
+			if (!empty($byline)) {
+				$input_tpl->setVariable("BYLINE", $byline);
 			}
 
 			//dependant fields

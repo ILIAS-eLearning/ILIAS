@@ -5,6 +5,7 @@ require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Validation;
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 class MyValidationConstraintsCustom extends Validation\Constraints\Custom {
 	public function _getLngClosure() {
@@ -25,19 +26,21 @@ class MyToStringClass {
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
+class ValidationConstraintsCustomTest extends TestCase {
 	/**
 	 * @var Validation\Factory
 	 */
 	protected $f = null;
 
-	public function setUp() {
+	protected $txt_id = '';
+
+	public function setUp(): void{
 		$is_ok = function ($value) {
 			return false;
 		};
 		$this->txt_id = "TXT_ID";
-		$error = function (callable $txt, $value) use ($txt_id) {
-			return $txt($txt_id, $value);
+		$error = function (callable $txt, $value) {
+			return $txt($this->txt_id, $value);
 		};
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->constraint = new MyValidationConstraintsCustom($is_ok, $error, new Data\Factory(), $this->lng);
@@ -59,7 +62,7 @@ class ValidationConstraintsCustomTest extends PHPUnit_Framework_TestCase {
 		$this->lng
 			->expects($this->once())
 			->method("txt")
-			->with($txt_id)
+			->with($this->txt_id)
 			->willReturn($txt_out);
 
 		$value = "VALUE";

@@ -276,7 +276,7 @@ class ilCOPageHTMLExport
 		else
 		{
 			// template workaround: reset of template
-			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		}
 		
 		// scripts needed
@@ -570,7 +570,7 @@ class ilCOPageHTMLExport
 			unset($xh);
 						
 			// render fullscreen html
-			$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");						
+			$tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");						
 			$tpl = $this->getPreparedMainTemplate($tpl); // adds js/css		
 			$tpl->setCurrentBlock("ilMedia");			
 			$tpl->setVariable("MEDIA_CONTENT", $output);

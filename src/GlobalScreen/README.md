@@ -107,8 +107,22 @@ $this)->identifier('my_internal_id');
 
 ## Collectors
 In most cases, you won't need to implement a collector. For the
-StaticMainMenuProvider, for example, the necessary collectors (Main-Collector,
+StaticMainMenuProvider, for example, the necessary collectors (MainMenuMainCollector-Collector,
 which combines all necessary elements from the collectors "Plugins" and "Core")
 are already implemented in GlobalScreen\Collector\MainMenu.
 
+# Usage in Plugins
+All Plugin-types in ILIAS are capable of using the GlobalScreen-Service 
+(currently Mainmenu-Items). All activated Plugins are asked for their providers, 
+an empty provider is returned per default. If you want to provide items and even 
+types, just override the method promoteGlobalScreenProvider() in your 
+Plugin-Class, e.g.:
+```php
+public function promoteGlobalScreenProvider(): AbstractStaticPluginMainMenuProvider {
+		global $DIC;
 
+		return new ilGSDProvider($DIC, $this);
+	}
+```
+A working sample can be found at https://github.com/studer-raimann/GlobalScreenDemo.git
+This is not a new Plugin-Slot, this is just an addition to all existing Plugin-Slots.

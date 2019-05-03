@@ -34,12 +34,12 @@ class ilMailTemplate
 	public function __construct(array $data = null)
 	{
 		if (is_array($data)) {
-			$this->setTplId($data['tpl_id']);
-			$this->setTitle($data['title']);
-			$this->setContext($data['context']);
-			$this->setLang($data['lang']);
-			$this->setSubject($data['m_subject']);
-			$this->setMessage($data['m_message']);
+			$this->setTplId((int)$data['tpl_id']);
+			$this->setTitle((string)$data['title']);
+			$this->setContext((string)$data['context']);
+			$this->setLang((string)$data['lang']);
+			$this->setSubject((string)$data['m_subject']);
+			$this->setMessage((string)$data['m_message']);
 			$this->setAsDefault((bool)$data['is_default']);
 		}
 	}

@@ -12,25 +12,30 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
+use ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager;
 use ILIAS\BackgroundTasks\Implementation\Tasks\DownloadInteger;
 use ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob;
 use ILIAS\DI\Container;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\EmptyDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
 
-class BasicTaskManagerTest extends \PHPUnit_Framework_TestCase {
+class BasicTaskManagerTest extends TestCase {
 
 	use MockeryPHPUnitIntegration;
 
 	protected $taskManager;
 	protected $bucket;
 
-	public function setUp() {
+	public function setUp(): void{
 		$persistence = \Mockery::mock(BasicPersistence::class);
-		$this->taskManager = new BasicTaskManager($persistence);
+		$this->taskManager = new SyncTaskManager($persistence);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testBasicTaskManager() {
 		$dic = new Container();
 

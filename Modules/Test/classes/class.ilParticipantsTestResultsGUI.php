@@ -139,13 +139,13 @@ class ilParticipantsTestResultsGUI
 	}
 	
 	/**
-	 * @return ilTestParticipantsTableGUI
+	 * @return ilParticipantsTestResultsTableGUI
 	 */
 	protected function buildTableGUI()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
-		$tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW_PARTICIPANTS);
+		require_once 'Modules/Test/classes/tables/class.ilParticipantsTestResultsTableGUI.php';
+		$tableGUI = new ilParticipantsTestResultsTableGUI($this, self::CMD_SHOW_PARTICIPANTS);
 		$tableGUI->setTitle($DIC->language()->txt('tst_tbl_results_grades'));
 		return $tableGUI;
 	}
@@ -177,26 +177,22 @@ class ilParticipantsTestResultsGUI
 		$participantList = $participantList->getAccessFilteredList($manageParticipantFilter);
 		$participantList = $participantList->getAccessFilteredList($accessResultsFilter);
 		
+		$scoredParticipantList = $participantList->getScoredParticipantList();
+		
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
 		$tableGUI = $this->buildTableGUI();
-		$tableGUI->setRowKeyDataField('active_id');
 
 		if( !$this->getQuestionSetConfig()->areDepenciesBroken() )
 		{
+			$tableGUI->setAccessResultsCommandsEnabled(
+				$this->getTestAccess()->checkParticipantsResultsAccess()
+			);
+			
 			$tableGUI->setManageResultsCommandsEnabled(
 				$this->getTestAccess()->checkManageParticipantsAccess()
 			);
 			
-			$tableGUI->setAccessResultsCommandsEnabled(
-				$this->getTestAccess()->checkParticipantsResultsAccess()
-			);
-
-			if( $participantList->hasUnfinishedPasses() )
-			{
-				$this->addFinishAllPassesButton($DIC->toolbar());
-			}
-			
-			if( $participantList->hasTestResults() )
+			if( $scoredParticipantList->hasScorings() )
 			{
 				$this->addDeleteAllTestResultsButton($DIC->toolbar());
 			}
@@ -207,7 +203,7 @@ class ilParticipantsTestResultsGUI
 		$tableGUI->initColumns();
 		$tableGUI->initCommands();
 		
-		$tableGUI->setData($participantList->getTableRows());
+		$tableGUI->setData($participantList->getScoringsTableRows());
 		
 		$DIC->ui()->mainTemplate()->setContent($tableGUI->getHTML());
 	}
@@ -224,19 +220,6 @@ class ilParticipantsTestResultsGUI
 		$delete_all_results_btn->setCaption('delete_all_user_data');
 		$delete_all_results_btn->setUrl($DIC->ctrl()->getLinkTarget($this, 'deleteAllUserResults'));
 		$toolbar->addButtonInstance($delete_all_results_btn);
-	}
-	
-	/**
-	 * @param ilToolbarGUI $toolbar
-	 */
-	protected function addFinishAllPassesButton(ilToolbarGUI $toolbar)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$finish_all_user_passes_btn = ilLinkButton::getInstance();
-		$finish_all_user_passes_btn->setCaption('finish_all_user_passes');
-		$finish_all_user_passes_btn->setUrl($DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
-		$toolbar->addButtonInstance($finish_all_user_passes_btn);
 	}
 	
 	/**
@@ -271,6 +254,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		$participantData->load($this->getTestObj()->getTestId());
 		
@@ -306,6 +290,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		
 		$participantData->setActiveIdsFilter((array)$_POST["chbUser"]);
@@ -332,11 +317,14 @@ class ilParticipantsTestResultsGUI
 		
 		if( isset($_POST["chbUser"]) && is_array($_POST["chbUser"]) && count($_POST["chbUser"]) )
 		{
+			
+			
 			require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
 			$accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
 			
 			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 			$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+			//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 			$participantData->setParticipantAccessFilter($accessFilter);
 			$participantData->setActiveIdsFilter($_POST["chbUser"]);
 			
@@ -435,8 +423,7 @@ class ilParticipantsTestResultsGUI
 		// prepare generation before contents are processed (needed for mathjax)
 		if( $this->isPdfDeliveryRequest() )
 		{
-			require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-			ilPDFGeneration::prepareGeneration();
+			ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 		}
 		
 		$DIC->tabs()->setBackTarget(
@@ -555,7 +542,7 @@ class ilParticipantsTestResultsGUI
 			require_once 'class.ilTestPDFGenerator.php';
 			
 			ilTestPDFGenerator::generatePDF(
-				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->getTestObj()->getTitle(), PDF_USER_RESULT
+				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->getTestObj()->getTitleFilenameCompliant(), PDF_USER_RESULT
 			);
 		}
 		else

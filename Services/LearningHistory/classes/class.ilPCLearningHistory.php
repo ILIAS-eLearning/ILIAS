@@ -231,13 +231,14 @@ class ilPCLearningHistory extends ilPageContent
 	/**
 	 * Get presentation
 	 *
-	 * @param $from
-	 * @param $to
-	 * @param $classes
-	 * @param $a_mode
+	 * @param int $from unix timestamp
+	 * @param int $to unix timestamp
+	 * @param array $classes
+	 * @param string $mode
 	 * @return string
+	 * @throws ilCtrlException
 	 */
-	protected function getPresentation($from, $to, $classes, $a_mode)
+	protected function getPresentation($from, $to, $classes, $a_mode): string
 	{
 		if ($a_mode == "preview" || $a_mode == "presentation")
 		{
@@ -264,7 +265,7 @@ class ilPCLearningHistory extends ilPageContent
 			{
 				$classes = null;
 			}
-			$tpl->setVariable("LHIST", $hist_gui->getHistoryHtml($from_unix, $to_unix, $classes));
+			$tpl->setVariable("LHIST", $hist_gui->getEmbeddedHtml($from_unix, $to_unix, $classes));
 			return $tpl->get();
 		}
 

@@ -139,7 +139,7 @@ assessment#:#eval_all_users#:#Оцінка для усіх користувач�
 assessment#:#eval_legend_link#:#Будь ласка подивіться в позначення для отримання позначень символів в заголовку колонки.
 assessment#:#exp_eval_data#:#Експортувати Оціночну Дату
 assessment#:#exp_type_excel#:#  Excel  ###17 May 2005 content changed
-assessment#:#exp_type_spss#:#  SPSS  
+assessment#:#exp_type_spss#:#  SPSS
 assessment#:#export#:#Експорт
 assessment#:#failed_official#:#провалений
 assessment#:#failed_short#:#провалений
@@ -751,7 +751,7 @@ common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Файл інфікований вірусом.
 common#:#file_not_found#:#Файл Не Знайдений
 common#:#file_not_valid#:#Файл є пошкодженим!
-common#:#file_notice#:#Будь ласка візьміть до уваги ліміт на розмір файлу 
+common#:#file_notice#:#Будь ласка візьміть до уваги ліміт на розмір файлу
 rbac#:#file_read#:#Завантажити Файл
 common#:#file_valid#:#Файл є корректним!
 common#:#file_version#:#Версія Знаходиться в Файлі
@@ -894,7 +894,7 @@ common#:#i2passwd#:#ILIAS 2 password###20 Jun 2005 new variable
 common#:#icon_settings#:#Icon Settings###03 Nov 2005 new variable
 common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
-common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла 
+common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла
 common#:#ignore_on_conflict#:#Ігнорувати при конфлікті
 common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
 common#:#il_crs_admin#:#Administrator###20 Jun 2005 new variable
@@ -1734,7 +1734,7 @@ common#:#usrimport_action_replaced#:#Замінена дія %1$s на %2$s.
 common#:#usrimport_cant_delete#:#Неможливо виконати дію "Видалити". Немає такого користувача в базі даних.
 common#:#usrimport_cant_insert#:#Неможливо виконати дію "Вставити". Користувач вже в базі даних.
 common#:#usrimport_cant_update#:#Неможливо виконати дію "Оновити". Немає такого користувача в базі даних.
-common#:#usrimport_conflict_handling_info#:#Коли вибрано "Ігнорувати при конфлікті", ILIAS ігнорує дію, якщо вона не може бути виконана (наприклад дія "Вставити" не буде виконана, якщо вже є користувач з таким логіном в базі даних.)\nКоли вибрано "Оновити при конфлікті", ILIAS оновлює базу даних якщо дія не може бути виконана. (наприклад дія "Вставити" замінюється на дію "Оновити", якщо користувач з таким самим логіном існує в базі даних). 
+common#:#usrimport_conflict_handling_info#:#Коли вибрано "Ігнорувати при конфлікті", ILIAS ігнорує дію, якщо вона не може бути виконана (наприклад дія "Вставити" не буде виконана, якщо вже є користувач з таким логіном в базі даних.)\nКоли вибрано "Оновити при конфлікті", ILIAS оновлює базу даних якщо дія не може бути виконана. (наприклад дія "Вставити" замінюється на дію "Оновити", якщо користувач з таким самим логіном існує в базі даних).
 common#:#usrimport_global_role_for_action_required#:#Принаймні одна глобальна роль повинна бути визначена для дії "%1$s".
 common#:#usrimport_ignore_role#:#Ігнорувати роль
 common#:#usrimport_login_is_not_unique#:#Логін не унікальний.
@@ -1767,7 +1767,7 @@ common#:#webr_active#:#Активний
 common#:#webr_add#:#Додати Веб Ресурс
 rbac#:#webr_delete#:#Видалити Веб Ресурс
 common#:#webr_deleted_items#:#Видалити Веб Ресурс(и).
-common#:#webr_disable_check#:#Відключити перевірку 
+common#:#webr_disable_check#:#Відключити перевірку
 common#:#webr_edit#:#Редагувати Веб Ресурс
 rbac#:#webr_edit_permission#:#Змінити настройки прав
 common#:#webr_last_check_table#:#Остання перевірка:
@@ -1788,7 +1788,7 @@ common#:#zipcode#:#Поштовий Код
 content#:#Pages#:#Сторінки
 content#:#add_menu_entry#:#Додати нове входження >>
 content#:#all#:#Асі
-content#:#all_pages#:#цілісний Учбовий модуль 
+content#:#all_pages#:#цілісний Учбовий модуль
 content#:#choose_public_mode#:#Незареєстровані користувачі мають доступ
 content#:#choose_public_pages#:#Виберіть публічно доступні сторінки
 content#:#citate#:#Citate###26 Jun 2006 new variable
@@ -2082,7 +2082,7 @@ content#:#par#:#Параграф
 content#:#pg#:#Сторінка
 content#:#public_section#:#Публічна Секція###19 Jul 2005 content changed
 content#:#select_a_file#:#Будь ласка виберіть файл.
-content#:#selected_pages_only#:#тільки ті сторінки вибрані нижче 
+content#:#selected_pages_only#:#тільки ті сторінки вибрані нижче
 content#:#set_public_mode#:#Встановити публічний режим доступу
 content#:#st#:#Глава
 crs#:#activation_times_not_valid#:#The availability period is not valid.###13 May 2005 new variable
@@ -9691,7 +9691,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable
@@ -10671,7 +10671,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

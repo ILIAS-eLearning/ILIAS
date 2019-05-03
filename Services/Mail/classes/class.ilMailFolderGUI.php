@@ -17,7 +17,7 @@ class ilMailFolderGUI
 	/** @var bool */
 	private $errorDelete = false;
 
-	/** @var \ilTemplate */
+	/** @var \ilGlobalTemplate */
 	private $tpl;
 
 	/** @var \ilCtrl */
@@ -149,7 +149,7 @@ class ilMailFolderGUI
 				if ($ret != '') {
 					$this->tpl->setContent($ret);
 				}
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			default:
@@ -206,7 +206,7 @@ class ilMailFolderGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail'));
 		$this->tpl->setContent($this->ctrl->getHTML($profile_gui));
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -354,7 +354,7 @@ class ilMailFolderGUI
 		}
 
 		$this->tpl->setVariable('MAIL_TABLE', $table_html);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -455,7 +455,7 @@ class ilMailFolderGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail'));
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -500,7 +500,7 @@ class ilMailFolderGUI
 
 		$this->tpl->setTitle($this->lng->txt('mail'));
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -568,12 +568,20 @@ class ilMailFolderGUI
 			return;
 		}
 
-		$folderId = (int)($this->httpRequest->getParsedBody()['folder_id'] ?? 0);
-		if ($this->umail->moveMailsToFolder($mailIds, $folderId)) {
+		$newFolderId = (int)($this->httpRequest->getParsedBody()['folder_id'] ?? 0);
+		$redirectFolderId = $newFolderId;
+		foreach ($mailIds as $mailId) {
+			$mailData = $this->umail->getMail($mailId);
+			if (isset($mailData['folder_id']) && is_numeric($mailData['folder_id']) && (int)$mailData['folder_id'] > 0) {
+				$redirectFolderId = $mailData['folder_id'];
+				break;
+			}
+		}
+
+		if ($this->umail->moveMailsToFolder($mailIds, $newFolderId)) {
 			\ilUtil::sendSuccess($this->lng->txt('mail_moved'), true);
-			$this->ctrl->setParameter($this, 'mail_id', current($mailIds));
-			$this->ctrl->setParameter($this, 'mobj_id', $folderId);
-			$this->ctrl->redirect($this, 'showMail');
+			$this->ctrl->setParameter($this, 'mobj_id', $redirectFolderId);
+			$this->ctrl->redirect($this, 'showFolder');
 		} else {
 			\ilUtil::sendFailure($this->lng->txt('mail_move_error'));
 			$this->showMail();
@@ -742,7 +750,10 @@ class ilMailFolderGUI
 
 		if ($sender && $sender->getId() && !$sender->isAnonymous()) {
 			$linked_fullname    = $sender->getPublicName();
-			$picture            = ilUtil::img($sender->getPersonalPicturePath('xsmall'), $sender->getPublicName());
+			$picture            = ilUtil::img(
+				$sender->getPersonalPicturePath('xsmall'), $sender->getPublicName(),
+				'', '', 0, '', 'ilMailAvatar'
+			);
 
 			if (in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), array('y', 'g'))) {
 				$this->ctrl->setParameter($this, 'mail_id', $mailId);
@@ -761,7 +772,10 @@ class ilMailFolderGUI
 			$form->addItem($from);
 		} else {
 			$from = new ilCustomInputGUI($this->lng->txt('from') . ':');
-			$from->setHtml(ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName()) . '<br />' . ilMail::_getIliasMailerName());
+			$from->setHtml(
+				ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName(), '', '', 0, '', 'ilMailAvatar') .
+				'<br />' . ilMail::_getIliasMailerName()
+			);
 			$form->addItem($from);
 		}
 
@@ -880,7 +894,7 @@ class ilMailFolderGUI
 		}
 
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -888,8 +902,7 @@ class ilMailFolderGUI
 	 */
 	public function printMail()
 	{
-		$tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
-		$tplprint->setVariable('JSPATH', $this->tpl->tplPath);
+		$tplprint = new ilGlobalTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
 
 		$mailData = $this->umail->getMail((int)($this->httpRequest->getQueryParams()['mail_id'] ?? 0));
 
@@ -933,7 +946,7 @@ class ilMailFolderGUI
 		$tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
 		$tplprint->setVariable('MAIL_MESSAGE', nl2br(htmlspecialchars($mailData['m_message'])));
 
-		$tplprint->show();
+		$tplprint->printToStdout();
 	}
 
 	protected function deliverFile()

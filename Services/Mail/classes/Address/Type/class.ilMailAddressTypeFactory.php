@@ -70,7 +70,7 @@ class ilMailAddressTypeFactory
 		}
 
 		if ($lists === null) {
-			$lists = new \ilMailingList($DIC->user());
+			$lists = new \ilMailingLists($DIC->user());
 		}
 
 		if ($roleMailboxSearch === null) {

@@ -106,13 +106,14 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			}
 		}
 		
-		if($user_data["usr_id"] > 0)
+		if(ilObjUserTracking::_enabledLearningProgress() && $user_data["usr_id"] > 0)
 		{
 			$completion_date = $this->getUserCompletionDate($user_data["usr_id"]);
 		}
 		else
 		{
-			$completion_date = false;
+			$dt = new ilDateTime($result_array['test']['result_tstamp'], IL_CAL_UNIX);
+			$completion_date = $dt->get(IL_CAL_DATETIME);
 		}
 
 		$vars = $this->getBaseVariablesForPresentation($user_data, null, $completion_date);		
@@ -183,14 +184,6 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		$visibility->setValue($form_fields["certificate_visibility"]);
 		if (count($_POST)) $visibility->checkInput();
 		$form->addItem($visibility);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function hasAdditionalFormElements()
-	{
-		return true;
 	}
 
 	/**

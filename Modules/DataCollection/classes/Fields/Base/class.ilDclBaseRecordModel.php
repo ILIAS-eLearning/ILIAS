@@ -675,6 +675,21 @@ class ilDclBaseRecordModel {
 		}
 	}
 
+    /**
+     * @param string $field_id
+     *
+     * @return array|string
+     */
+    public function getStandardFieldPlainText($field_id) {
+        switch ($field_id) {
+            case 'comments':
+                return count(ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(),"dcl", 2,
+                    false, "", "y", true, true));
+            default:
+                return strip_tags($this->getStandardFieldHTML($field_id));
+        }
+    }
+
 
 	/**
 	 * Load record fields

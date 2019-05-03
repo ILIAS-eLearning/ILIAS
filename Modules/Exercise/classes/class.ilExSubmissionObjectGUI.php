@@ -375,8 +375,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			}
 		}
 		
-		ilUtil::sendFailure($this->lng->txt("select_one"));
-		return $this->selectPortfolioObject();
+//		ilUtil::sendFailure($this->lng->txt("select_one_blog"));
+		return $this->selectBlogObject();
 	}
 
 	/**

@@ -432,6 +432,39 @@
 //** Minimal size of non-empty buttons inside forms
 @il-button-min-width-forms: 	  60px;
 
+//== Standard Filter
+//
+//## Variables used to style the ILIAS Standard Filter
+
+//** Filter Bar
+@il-standard-filter-bar-btn-toggle-height: (@il-btn-toggle-height)-6px;
+@il-standard-filter-bar-btn-toggle-padding: (@il-btn-toggle-padding)-10px;
+@il-standard-filter-bar-btn-toggle-switch-width: (@il-btn-toggle-switch-size)-6px;
+@il-standard-filter-bar-btn-bulky-font-size: 14px;
+@il-standard-filter-bar-btn-bulky-border-width: 0;
+@il-standard-filter-bar-glyph-padding: 0.3em;
+
+//** Input Fields Area
+@il-standard-filter-input-section-border: 1px solid #dddddd;
+@il-standard-filter-input-group-width: 100%;
+@il-standard-filter-input-group-height: 25px;
+@il-standard-filter-label-width: 30%;
+@il-standard-filter-input-remove-width: 10%;
+@il-standard-filter-font-color-disabled: #b0b0b0;
+
+//** Division with active inputs under Filter Bar
+@il-standard-filter-active-inputs-margin-left: 0;
+@il-standard-filter-active-inputs-padding-vertical: 0;
+@il-standard-filter-active-inputs-font-size: 0.8em;
+
+//** Popovers
+@il-standard-filter-screen-sm-input-popover-padding: 4px;
+@il-standard-filter-screen-sm-input-popover-margin-top: 0;
+@il-standard-filter-screen-sm-input-popover-border: 0;
+@il-standard-filter-add-input-popover-list-margin: 0;
+@il-standard-filter-add-input-popover-list-padding: 0;
+@il-standard-filter-add-input-popover-list-button-width: 100%;
+
 //== Input Fields
 //
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
@@ -510,8 +543,10 @@
 //** Presentation Table colum widths
 @il-table-presentation-rowcontrol-colwidth: 5%;
 @il-table-presentation-contents-colwidth: 95%;
-@il-table-presentation-description-colwidth: 60%;
-@il-table-presentation-details-colwidth: 40%;
+
+@il-table-presentation-details-viewcontrols-bg-color: lighten(@brand-primary,50%);
+@il-table-presentation-details-viewcontrols-btn-color: @brand-primary;
+@il-table-presentation-details-viewcontrols-btn-bg: white;
 
 //== Toolbar
 //
@@ -684,22 +719,38 @@
 @il-chart-item-inactive-bg: #e0e0e0;
 @il-chart-item-inactive-color: @il-light-text-color;
 @il-chart-item-space: 2px;
+
+//** Progress Meter: minimal width
+@il-chart-progressmeter-min-width: 80px;
+//** Progress Meter: maximal width / height
+@il-chart-progressmeter-max-width: 800px;
+//** Progress Meter: background stroke width
+@il-chart-progressmeter-bg-stroke-width: 6;
+//** Progress Meter: multi bar progress stroke width
+@il-chart-progressmeter-multi-stroke-width: (@il-chart-progressmeter-mini-bg-stroke-width / 3);
+//** Progress Meter: single bar progress stroke width
+@il-chart-progressmeter-mono-stroke-width: (@il-chart-progressmeter-mini-bg-stroke-width - 1);
 //** Progress Meter: background color
-@il-chart-progressmeter-background: #dddddd;
-//** Progress Meter standard/fixedSize: text color
-@il-chart-progressmeter-text: #aaaaaa;
-//** Progress Meter standard/fixedSize: marker color
-@il-chart-progressmeter-marker: #f0f0f0;
-//** Progress Meter standard/fixedSize: marker shadow
-@il-chart-progressmeter-marker-shadow: #bcbcbc;
+@il-chart-progressmeter-bg-color: #dddddd;
+//** Progress Meter: marker color
+@il-chart-progressmeter-marker-color: #efefef;
+//** Progress Meter: marker border color
+@il-chart-progressmeter-marker-shadow-color: #bcbcbc;
 //** Progress Meter main bar: success color
-@il-chart-progressmeter-bar-success: #6ea03c;
+@il-chart-progressmeter-success: #6ea03c;
 //** Progress Meter main bar: no-success color
-@il-chart-progressmeter-bar-no-success: #d9534f;
+@il-chart-progressmeter-no-success: #d9534f;
 //** Progress Meter comparision bar: no-user-score color
-@il-chart-progressmeter-bar-active: #f0ad4e;
+@il-chart-progressmeter-not-active: #f0ad4e;
 //** Progress Meter comparision bar: user-score color
-@il-chart-progressmeter-bar-inactive: #aaaaaa;
+@il-chart-progressmeter-active: #aaaaaa;
+//** Progress Meter score text color
+@il-chart-progressmeter-score-text-color: #000000;
+//** Progress Meter info-text color
+@il-chart-progressmeter-info-text-color: #bcbcbc;
+
+//** Progress Meter Fixed-Size: width
+@il-chart-progressmeter-fixed-size: 350px;
 
 //** Progress Meter Mini: minimal width
 @il-chart-progressmeter-mini-min-width: 20px;
@@ -756,7 +807,7 @@
 @il-card-highlight-bg: @brand-warning;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
-@il-card-repository-head-color: rgba(0,0,0,0.3);
+@il-card-repository-head-color: rgba(0,0,0,0.5);
 @il-card-repository-dropdown-border: #e0e0e0 1px solid;
 @il-card-repository-outlined-icon-filter: brightness(1);
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
@@ -781,3 +832,66 @@
 //## Variables that modify and minpulate the appearance of modals
 //** Controls the speed of the fade in/out of the modal
 @il-modal-transition-speed: 0.15s;
+
+//== Layout (UI Layout Page)
+//
+//## Variables to modify the appearance of the page generated by the UI Framework.
+//** header, footer and logo
+@il-standard-page-logo-height: 45px;
+@il-standard-page-logo-width: 45px;
+@il-standard-page-header-height: 60px;
+@il-standard-page-header-bg-color: #fff;
+@il-standard-page-border-light-color: #ddd;
+@il-standard-page-content-padding: 20px;
+
+//** metabar
+@il-metabar-entry-height: 60px;
+@il-metabar-entry-width: 60px;
+@il-metabar-glyph-size: 2.3rem;
+@il-metabar-glyph-color: #aaa;
+
+//** breadcrumbs
+@il-standard-page-breadcrumbs-height: 33px;
+@il-standard-page-breadcrumbs-bg-color: #fff;
+@il-standard-page-breadcrumbs-divider-color: #bbb;
+
+//** mainbar
+@il-maincontrols-mainbar-bg-color: #fff;
+@il-mainbar-btn-height: 80px;
+@il-mainbar-btn-width: 80px;
+@il-mainbar-btn-color: #fff;
+@il-mainbar-btn-bg-color: #4a4a4a;
+@il-mainbar-btn-color-engaged: #4a4a4a;
+@il-mainbar-btn-bg-color-engaged: #fff;
+@il-mainbar-btn-border: 1px solid @il-standard-page-border-light-color;
+@il-mainbar-btn-label-size: .7rem;
+@il-mainbar-bulky-label-margin-top: 5px;
+
+//** slates
+@il-slate-bulky-bg-color: #f2f2f2;
+@il-slate-bulky-level2-bg-color: #e3e3e3;
+@il-slate-bulky-bg-color-engaged: #d1d8e3;
+@il-slate-content-padding: 10px 20px;
+@il-slate-bulky-padding: @il-slate-content-padding;
+@il-slate-bulky-icon-margin-right: 10px;
+@il-slate-bulky-label-size: 1.5rem;
+@il-slate-content-spacing: 2px;
+@il-standard-page-slate-width: 400px;
+@il-metabar-slates-bg-color: #fafafa;
+@il-mainbar-close-slate-btn-height: 45px;
+
+//** shadows
+@il-standard-page-shadow-color: #ccc;
+@il-mainbar-shadow-right: 1px 3px 4px @il-standard-page-shadow-color;
+@il-standard-page-header-shadow-bottom: 0 1px 4px @il-standard-page-shadow-color;
+
+//** for mobile (small devices)
+@il-standard-page-small-header-height: 45px;
+@il-standard-page-small-mainbar-height: 50px;
+@il-mainbar-small-btn-height: @il-standard-page-small-mainbar-height;
+@il-mainbar-small-btn-width: 75px;
+
+//== Tree
+//
+//## Basic adjustments for the tree
+@il-tree-node-indentation: 20px;

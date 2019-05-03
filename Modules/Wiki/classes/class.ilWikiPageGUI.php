@@ -13,7 +13,7 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
 * @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
 * @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
-* @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI, ilPropertyFormGUI
 *
 * @ingroup ModulesWiki
 */
@@ -197,7 +197,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				}
 				return parent::executeCommand();
 				break;
-				
+
+			case "ilpropertyformgui":
+				// only case is currently adv metadata internal link in info settings, see #24497
+				$form = $this->initAdvancedMetaDataForm();
+				$ilCtrl->forwardCommand($form);
+				break;
+
 			default:
 
 				if (strtolower($ilCtrl->getNextClass()) == "ilpageeditorgui")
@@ -1253,7 +1259,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 *
 	 * @param ilTemplate $a_tpl template
 	 */
-	static function initEditingJS(ilTemplate $a_tpl)
+	static function initEditingJS(ilGlobalTemplateInterface $a_tpl)
 	{
 		global $DIC;
 

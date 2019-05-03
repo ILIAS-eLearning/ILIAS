@@ -6,6 +6,7 @@ require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\TriggeredSignal;
+use PHPUnit\Framework\TestCase;
 
 class Triggerermock {
 	use \ILIAS\UI\Implementation\Component\Triggerer;
@@ -26,8 +27,8 @@ class Triggerermock {
 /**
  * @author  Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ILIAS_UI_Component_TriggererTest extends PHPUnit_Framework_TestCase {
-	public function setUp() {
+class ILIAS_UI_Component_TriggererTest extends TestCase {
+	public function setUp(): void{
 		$this->mock = new TriggererMock();
 	}
 

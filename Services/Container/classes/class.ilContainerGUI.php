@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
@@ -90,6 +91,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @var ilPluginAdmin
 	 */
 	protected $plugin_admin;
+	/**
+	 * @var Services
+	 */
+	protected $global_screen;
 
 	/**
 	 * @var ilAppEventHandler
@@ -131,6 +136,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->plugin_admin = $DIC["ilPluginAdmin"];
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
 		$this->ui = $DIC->ui();
+		$this->global_screen = $DIC->globalScreen();
 		$rbacsystem = $DIC->rbac()->system();
 		$lng = $DIC->language();
 
@@ -313,12 +319,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng->loadLanguageModule("content");
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		// $this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+		// $this->tpl->parseCurrentBlock();
 
 		if (!ilContainerPage::_exists("cont",
 			$this->object->getId()))
@@ -546,7 +550,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			// all items in one block
 			case ilContainer::VIEW_SESSIONS:
-			case IL_CRS_VIEW_TIMING:			// not nice this workaround
+			case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
 				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
 				$container_view = new ilContainerSessionsContentGUI($this);
 				break;
@@ -795,6 +799,41 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
+			// bugfix mantis 24559
+			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+			// as they don't have the possibility to use the multi-download-capability of the manage-tab
+			else if ($this->isMultiDownloadEnabled())
+			{
+				// bugfix mantis 0021272
+				$ref_id = $_GET['ref_id'];
+				$num_files = $this->tree->getChildsByType($ref_id, "file");
+				$num_folders = $this->tree->getChildsByType($ref_id, "fold");
+				if(count($num_files) > 0 OR count($num_folders) > 0)
+				{
+					// #11843
+					$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+
+					include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+					$toolbar = new ilToolbarGUI();
+					$this->ctrl->setParameter($this, "type", "");
+					$this->ctrl->setParameter($this, "item_ref_id", "");
+
+					$toolbar->addFormButton(
+						$this->lng->txt('download_selected_items'),
+						'download'
+					);
+
+					$GLOBALS['tpl']->addAdminPanelToolbar(
+						$toolbar,
+						$this->object->gotItems() ? true : false,
+						$this->object->gotItems() ? true : false
+					);
+				}
+				else
+				{
+					ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
+				}
+			}
 		}
 	}
 
@@ -1011,7 +1050,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$tree = $this->tree;
 		
-		$tpl = new ilTemplate("tpl.container_link_help.html", true, true,
+		$tpl = new ilGlobalTemplate("tpl.container_link_help.html", true, true,
 			"Services/Container");
 		
 		$type_ordering = array(
@@ -1051,7 +1090,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 		exit;
 
 	}
@@ -1450,7 +1489,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
-	
+
+	// bugfix mantis 24559
+	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+	// as they don't have the possibility to use the multi-download-capability of the manage-tab
+	function enableMultiDownloadObject()
+	{
+		$this->multi_download_enabled = true;
+		$this->renderObject();
+	}
+
 	function isMultiDownloadEnabled()
 	{
 		return $this->multi_download_enabled;
@@ -1473,7 +1521,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$_POST["id"] = array($_GET["item_ref_id"]);
 		}
 
-		//$ilErr->raiseError("move operation does not work at the moment and is disabled", $ilErr->MESSAGE);
+		$no_cut = [];
 
 		if (!isset($_POST["id"]))
 		{
@@ -1540,6 +1588,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$objDefinition = $this->obj_definition;
 		$ilErr = $this->error;
 
+		$no_copy = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1589,7 +1639,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
-		if (count($no_copy))
+		if (is_array($no_copy) && count($no_copy))
 		{
 			$titles = array();
 			foreach((array) $no_copy as $copy_id)
@@ -1626,7 +1676,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
-		
+
+		$no_download = [];
+		$no_perm = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1790,6 +1843,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		$ilErr = $this->error;
 
+		$no_cut = [];
+		$no_link = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1886,6 +1942,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$ctrl = $this->ctrl;
 		$ui = $this->ui;
+
+		$exists = [];
+		$is_child = [];
+		$not_allowed_subobject = [];
+		$no_paste = [];
 
 		$command = $_SESSION['clipboard']['cmd'];
 		if(!in_array($command, array('cut', 'link', 'copy')))
@@ -3874,9 +3935,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			if ($allow_lso) {
-				$whiltelist = $exp->getTypeWhiteList();
+				$whitelist = $exp->getTypeWhiteList();
 				$whitelist[] = 'lso';
-				$exp->setTypeWhiteList($whiltelist);
+				$exp->setTypeWhiteList($whitelist);
 			}
 		}
 

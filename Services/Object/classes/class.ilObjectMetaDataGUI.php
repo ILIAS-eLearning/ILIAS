@@ -183,6 +183,12 @@ class ilObjectMetaDataGUI
 				$ilCtrl->forwardCommand($this->tax_obj_gui);
 				break;
 
+			case "ilpropertyformgui":
+				// only case is currently adv metadata internal link in info settings, see #24497
+				$form = $this->initEditForm();
+				$ilCtrl->forwardCommand($form);
+				break;
+
 			default:
 				$this->setSubTabs("advmd");	
 				$this->$cmd();

@@ -88,6 +88,22 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 
 	/**
 	 * @param integer $ref_id
+	 *
+	 * @return bool
+	 */
+	public static function _checkAccessExport($ref_id) {
+		global $DIC;
+		$ilAccess = $DIC['ilAccess'];
+
+		if($ilAccess->checkAccess('write','',$ref_id)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param integer $ref_id
 	 * @param integer $usr_id
 	 *
 	 * @return bool

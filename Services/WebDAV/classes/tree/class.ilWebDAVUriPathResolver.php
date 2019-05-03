@@ -191,7 +191,7 @@ class ilWebDAVUriPathResolver
         // Search if any child of the given ref has the name of the given searched element
         foreach($this->repo_helper->getChildrenOfRefId($a_parent_ref_id) as $child_ref)
         {
-            $child_title = $this->repo_helper->getObjectTitleFromRefId($child_ref);
+            $child_title = $this->repo_helper->getObjectTitleFromRefId($child_ref, true);
             if($a_searched_title == $child_title)
             {
                 return $child_ref;

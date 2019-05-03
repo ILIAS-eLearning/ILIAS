@@ -758,6 +758,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 			return 'NULL';
 		}
 
+		$pdo_type = PDO::PARAM_STR;
 		switch ($type) {
 			case ilDBConstants::T_TIMESTAMP:
 			case ilDBConstants::T_DATETIME:

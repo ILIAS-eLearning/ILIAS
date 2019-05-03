@@ -47,34 +47,16 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
 				if(count($post_conditions) > 0) {
 					foreach ($post_conditions as $post_condition) {
 						$operator = false;
-						switch ($post_condition->getConditionType()) {
-							case \LSPostConditionTypesDB::TYPE_ALWAYS:
-								continue;
-								break;
-							case \LSPostConditionTypesDB::TYPE_FINISHED:
-								$operator = $f->operator()->finished();
-								break;
-							case \LSPostConditionTypesDB::TYPE_COMPLETED:
-								$operator = $f->operator()->passed();
-								break;
-							case \LSPostConditionTypesDB::TYPE_FAILED:
-								$operator = $f->operator()->failed();
-								break;
+						$condition_op = $post_condition->getConditionOperator();
+						if($condition_op === 'learning_progress') {
+							$condition_op = 'learningProgress';
 						}
-
-
-						if($operator) {
-
-							//TODO: use correct operators
-							$operator = $f->operator()->learningProgress();
-
+						if($condition_op !== \ilLSPostConditionDB::STD_ALWAYS_OPERATOR) {
 							$conditions[] = $f->condition(
 								$f->repositoryTrigger($previous_item->getRefId()),
-								$operator
+								$f->operator()->$condition_op()
 							);
 						}
-
-
 					}
 				}
 			}

@@ -4,6 +4,7 @@ use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -40,10 +41,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	const FBK_DIRECTORY = "Feedback_files";
 	const LINK_COLOR = "0,0,255";
 	const BG_COLOR = "255,255,255";
-	const PARTICIPANT_NAME_COLUMN = 1;
-	const SUBMISSION_DATE_COLUMN = 2;
-	const FIRST_DEFAULT_SUBMIT_COLUMN = 3;
-	const FIRST_DEFAULT_REVIEW_COLUMN = 4;
+	//Column number incremented in ilExcel
+	const PARTICIPANT_NAME_COLUMN = 0;
+	const SUBMISSION_DATE_COLUMN = 1;
+	const FIRST_DEFAULT_SUBMIT_COLUMN = 2;
+	const FIRST_DEFAULT_REVIEW_COLUMN = 3;
 
 	/**
 	 * Constructor
@@ -52,6 +54,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	{
 		global $DIC;
 		$this->lng = $DIC->language();
+		$this->lng->loadLanguageModule('exc');
 		//TODO will be deprecated when use the new assignment type interface
 		$this->ass_types_with_files = array(
 			ilExAssignment::TYPE_UPLOAD,
@@ -69,8 +72,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	{
 		return
 			[
-				new SingleType(StringValue::class),
-				new SingleType(\ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue::class)
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class),
+				new SingleType(IntegerValue::class)
 			];
 	}
 
@@ -162,7 +168,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 */
 	protected function addColumnTitles()
 	{
-		$col = 1;
+		$col = 0;
 		foreach($this->title_columns as $title)
 		{
 			$this->excel->setCell(1, $col, $title);
@@ -199,6 +205,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	 */
 	protected function createSubmissionsDirectory()
 	{
+		$this->logger->dump("lang key => ".$this->lng->getLangKey());
 		$this->submissions_directory = $this->target_directory.DIRECTORY_SEPARATOR.$this->lng->txt("exc_ass_submission_zip");
 		ilUtil::createDirectory($this->submissions_directory);
 	}
@@ -279,6 +286,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
 		foreach($this->criteria_items as $item)
 		{
+			$col++;
+
 			//Criteria without catalog doesn't have ID nor TITLE. The criteria instance is given via "type" ilExcCriteria::getInstanceByType
 			$crit_id = $item->getId();
 			$crit_type = $item->getType();
@@ -293,9 +302,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			switch ($crit_type){
 				case 'bool':
 					if($values[$crit_id] == 1){
-						$this->excel->setCell($row,++$col,$this->lng->txt("yes"));
+						$this->excel->setCell($row,$col,$this->lng->txt("yes"));
 					} elseif($values[$crit_id] == -1){
-						$this->excel->setCell($row,++$col,$this->lng->txt("no"));
+						$this->excel->setCell($row,$col,$this->lng->txt("no"));
 					}
 					break;
 				case 'rating':
@@ -322,15 +331,15 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 					);
 					if($rating_int = round((int)$rating))
 					{
-						$this->excel->setCell($row,++$col, $rating_int);
+						$this->excel->setCell($row,$col, $rating_int);
 					}
 					break;
 				case 'text':
 					//again another check for criteria id (if instantiated via type)
 					if($crit_id) {
-						$this->excel->setCell($row,++$col, $values[$crit_id]);
+						$this->excel->setCell($row,$col, $values[$crit_id]);
 					} else {
-						$this->excel->setCell($row,++$col, $values['text']);
+						$this->excel->setCell($row,$col, $values['text']);
 					}
 					break;
 				case 'file':
@@ -350,9 +359,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 						}
 						$extra_crit_column++;
 						$this->copyFileToSubDirectory(self::FBK_DIRECTORY,$file);
-						$this->excel->setCell($row,++$col, "./".self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
-						$this->excel->addLink($row, $col, './'.self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
-						$this->excel->setColors($this->excel->getCoordByColumnAndRow($col,$row), self::BG_COLOR,self::LINK_COLOR);
+						$this->excel->setCell($row,$col, "./".self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
+						// col 11 because ilExcel setCell adds
+						$current_col = $col+1;
+						$this->excel->addLink($row, $current_col, './'.self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
+						$this->excel->setColors($this->excel->getCoordByColumnAndRow($current_col,$row), self::BG_COLOR,self::LINK_COLOR);
 					}
 					break;
 			}

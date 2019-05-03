@@ -11,7 +11,7 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
  *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilObjBlogGUI, ilBlogPostingGUI
- * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI, ilLearningHistoryGUI
  *
  * @ingroup ModulesPortfolio
  */
@@ -384,24 +384,59 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			return $pub_profile->getEmbeddable();
 		}
-	}		
-	
+	}
+
+	/**
+	 * @param $a_user_id
+	 * @param $a_type
+	 * @param $a_id
+	 * @return string
+	 * @throws ilException
+	 */
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
 		$objDefinition = $this->obj_definition;
 
+		$outputMode = $this->getOutputMode();
+
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
-		
+		if ($a_type === 'crta' && $outputMode === 'offline') {
+			$fileService = new ilPortfolioCertificateFileService();
+
+			$certificatePdfFile = $fileService->createCertificateFilePath($a_user_id, $a_id);
+			$this->export_material["files"][] = $certificatePdfFile;
+
+			$url = 'files/' . basename($certificatePdfFile);
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
+		} elseif ($a_type === 'crta' && $outputMode === 'print') {
+			$userCertificateRepository = new ilUserCertificateRepository();
+			$url = $this->getPagePermaLink();
+
+			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
+		}
+		elseif ($a_type === 'crta') {
+			$this->ctrl->setParameter($this, "dlid", $a_id);
+			$url = $this->ctrl->getLinkTarget($this, "dl" . $a_type);
+			$this->ctrl->setParameter($this, "dlid", "");
+
+			$userCertificateRepository = new ilUserCertificateRepository();
+
+			return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
+		}
+
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
 		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 
-		if($this->getOutputMode() == "print")
+		if($outputMode == "print")
 		{
 			$url = $this->getPagePermaLink();
 		}
-		else if($this->getOutputMode() != "offline")
+		else if($outputMode != "offline")
 		{			
 			// direct download link
 			$this->ctrl->setParameter($this, "dlid", $a_id);
@@ -412,9 +447,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$file = $verification->object->getFilePath();
 			$url = "files/".basename($file);
-			
-			$this->export_material["files"][] = $file;		
-		}		
+
+			$this->export_material["files"][] = $file;
+		}
 		
 		return $verification->render(true, $url);
 	}
@@ -462,7 +497,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$verification->downloadFromPortfolioPage($this->getPageObject());
 		}
 	}
-	
+
+	protected function dlcrta()
+	{
+		$objectId = $_GET["dlid"];
+		if($objectId) {
+			$object = new ilObjPersistentCertificateVerificationGUI();
+			$object->downloadFromPortfolioPage($this->getPageObject(), $objectId, $this->user->getId());
+		}
+	}
+
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
 		$ilCtrl = $this->ctrl;
@@ -1251,7 +1295,23 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$href = ilLink::_getStaticLink($pid, "prtf", true, "_".$this->getId());
 		return $href;
 	}
-	
+
+	/**
+	 * @param $a_id
+	 * @param $userCertificateRepository
+	 * @param $url
+	 * @return string
+	 */
+	private function createPersistentCertificateUrl($a_id, $userCertificateRepository, $url): string
+	{
+		$presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
+		$caption = $this->lng->txt('certificate') . ': ';
+		$caption .= $this->lng->txt($presentation->getUserCertificate()->getObjType()) . ' ';
+		$caption .= '"' . $presentation->getObjectTitle() . '"';
+
+		return '<div><a href="' . $url . '">' . $caption . '</a></div>';
+	}
+
 }
 
 ?>

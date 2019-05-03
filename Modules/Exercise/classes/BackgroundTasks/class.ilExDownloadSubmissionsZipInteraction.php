@@ -10,10 +10,7 @@ use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
- * TODO Centralize all this Download Zip interactions in the same place.
- *
  * @author Jesús López <lopez@leifos.com>
- *
  */
 class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction {
 
@@ -76,11 +73,8 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction {
 		$download_name = $input[0]; //directory name.
 		$zip_name = $input[1]; // zip job
 
-		$this->logger->info("Interaction -> option[0] download name MUST BE FULL PATH=> ".$download_name->getValue());
-		$this->logger->info("Interaction -> option[1] zip name get value() MUST BE THE NAME WITHOUT EXTENSION. => ".$zip_name->getValue());
-
-		$this->logger->debug('User interaction download zip ==> ' . $input[0]->getValue() . ' as ==>'
-			. $input[1]->getValue());
+		$this->logger->debug("Interaction -> input[0] download name MUST BE FULL PATH=> ".$download_name->getValue());
+		$this->logger->debug("Interaction -> input[1] zip name MUST BE THE NAME WITHOUT EXTENSION. => ".$zip_name->getValue());
 
 		if ($user_selected_option->getValue() != self::OPTION_DOWNLOAD) {
 			$this->logger->info('Download canceled');

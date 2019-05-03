@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testCreate()
 	{
@@ -17,10 +17,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			->getMock();
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -54,7 +50,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			'/some/where/',
 			$object,
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,
@@ -75,6 +70,9 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 		$this->assertEquals($formMock, $result);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testSave()
 	{
 		$object = $this->getMockBuilder('ilObjTest')
@@ -86,10 +84,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			->willReturn(100);
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -118,7 +112,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			'/some/where/',
 			$object,
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,
@@ -140,10 +133,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			->willReturn(100);
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -177,7 +166,6 @@ class ilCertificateSettingsTestFormRepositoryTest extends PHPUnit_Framework_Test
 			'/some/where/',
 			$object,
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,

@@ -488,8 +488,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						$template->parseCurrentBlock();
 					}
 					
+					$answerImageSrc = ilWACSignedPath::signFile(
+						$this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture
+					);
+					
 					$template->setCurrentBlock('definition_image');
-					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture);
+					$template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
 					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
 					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
 					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
@@ -514,9 +518,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 						$template->setVariable("TEXT_TERM", ilUtil::prepareFormOutput($term->text));
 						$template->parseCurrentBlock();
 					}
+
+					$answerImageSrc = ilWACSignedPath::signFile(
+						$this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture
+					);
 					
 					$template->setCurrentBlock('term_image');
-					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture);
+					$template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
 					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
 					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
 					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
@@ -681,7 +689,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, TRUE) : '');
+				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, TRUE, true) : '');
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 				$template->parseCurrentBlock();
@@ -689,7 +697,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			else
 			{
 				$template->setCurrentBlock("definition_text");
-				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, TRUE));
+				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, TRUE, true));
 				$template->parseCurrentBlock();
 			}
 
@@ -719,14 +727,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, TRUE) : '');
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, TRUE, true) : '');
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 				$template->parseCurrentBlock();
 			}
 			else
 			{
 				$template->setCurrentBlock("term_text");
-				$template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, TRUE));
+				$template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, TRUE, true));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("draggable");
@@ -786,6 +794,22 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 
 		return $neworder;
+	}
+	
+	public function getPresentationJavascripts()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$files = array();
+		
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			$files[] = './libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js';
+		}
+		
+		$files[] = 'Modules/TestQuestionPool/js/ilMatchingQuestion.js';
+		
+		return $files;
 	}
 
 	// hey: prevPassSolutions - pass will be always available from now on
@@ -894,7 +918,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : '');
+				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, true, true) : '');
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 				$template->parseCurrentBlock();
@@ -902,7 +926,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			else
 			{
 				$template->setCurrentBlock("definition_text");
-				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true));
+				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true, true));
 				$template->parseCurrentBlock();
 			}
 
@@ -932,14 +956,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : '');
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, true, true) : '');
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
 				$template->parseCurrentBlock();
 			}
 			else
 			{
 				$template->setCurrentBlock("term_text");
-				$template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, true));
+				$template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, true, true));
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("draggable");
@@ -1048,7 +1072,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($userSolution)
 	{
-		$matches = array_values($this->object->getMaximumScoringMatchingPairs());
+		$matches = array_values($this->object->matchingpairs);
 
 		if( !$this->object->feedbackOBJ->specificAnswerFeedbackExists() )
 		{
@@ -1059,6 +1083,21 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		foreach ($matches as $idx => $ans)
 		{
+			if( !isset($userSolution[$ans->definition->identifier]) )
+			{
+				continue;
+			}
+			
+			if( !is_array($userSolution[$ans->definition->identifier]) )
+			{
+				continue;
+			}
+			
+			if( !in_array($ans->term->identifier, $userSolution[$ans->definition->identifier]) )
+			{
+				continue;
+			}
+			
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 				$this->object->getId(),0, $idx
 			);

@@ -8,11 +8,11 @@ require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assAnswerOrderingTest extends PHPUnit\Framework\TestCase
+class assAnswerOrderingTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{

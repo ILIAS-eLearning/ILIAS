@@ -154,7 +154,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 			$data['cnt'] = $row_cnt['cnt'];
 
 			$this->logger->info(sprintf('All active certificates for user: "%s" total: "%s"', $userId,
-				count($data['cnt'])));
+				$data['cnt']));
 		} else {
 			$data['cnt'] = count($data['items']);
 		}

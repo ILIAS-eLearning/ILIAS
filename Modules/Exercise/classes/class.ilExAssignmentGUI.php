@@ -53,7 +53,6 @@ class ilExAssignmentGUI
 		
 		$lng->loadLanguageModule("exc");
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
 		$tpl = new ilTemplate("tpl.assignment_head.html", true, true, "Modules/Exercise");
@@ -160,7 +159,6 @@ class ilExAssignmentGUI
 		
 		$tpl = new ilTemplate("tpl.assignment_body.html", true, true, "Modules/Exercise");
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -193,7 +191,6 @@ class ilExAssignmentGUI
 		$ilUser = $this->user;
 		$lng = $this->lng;
 		
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
 		if ($state->areInstructionsVisible())
@@ -221,7 +218,6 @@ class ilExAssignmentGUI
 
 		$idl = $a_ass->getPersonalDeadline($ilUser->getId());
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
 		$a_info->addSection($lng->txt("exc_schedule"));
@@ -309,7 +305,6 @@ class ilExAssignmentGUI
 		$ilUser = $this->user;
 		
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
 		// submissions are visible, even if other users may still have a larger individual deadline
@@ -410,7 +405,6 @@ class ilExAssignmentGUI
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
 		$a_info->addSection($lng->txt("exc_your_submission"));
@@ -484,7 +478,7 @@ class ilExAssignmentGUI
 			if ($lpcomment != "")
 			{
 				$a_info->addProperty($lng->txt("exc_comment"),
-					$lpcomment);
+					nl2br($lpcomment));
 			}
 			if ($mark != "")
 			{

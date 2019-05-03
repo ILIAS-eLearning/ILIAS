@@ -80,4 +80,12 @@ class ilExAssTypeUploadTeam implements ilExAssignmentTypeInterface
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
+	{
+
+	}
+
 }

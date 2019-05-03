@@ -288,7 +288,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$this->assertNull($constraint->problemWith($criterionAssignment1));
 		$this->assertNull($constraint->problemWith($criterionAssignment2));
 		$this->assertNull($constraint->problemWith($criterionAssignment4));
-		$this->assertInternalType('string', $constraint->problemWith($criterionAssignment3));
+		$this->assertIsString($constraint->problemWith($criterionAssignment3));
 	}
 
 	/**

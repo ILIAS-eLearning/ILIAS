@@ -4,7 +4,8 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\Data\Result;
 
@@ -12,7 +13,7 @@ use ILIAS\Data\Result;
  * Describes the interface of inputs that is used for internal
  * processing of data from the client.
  */
-interface InputInternal {
+interface InputInternal extends Input {
 
 	/**
 	 * The name of the input as used in HTML.
@@ -35,11 +36,11 @@ interface InputInternal {
 	/**
 	 * Get an input like this with input from post data.
 	 *
-	 * @param    PostData $input
+	 * @param    InputData $input
 	 *
 	 * @return    Input
 	 */
-	public function withInput(PostData $input);
+	public function withInput(InputData $input);
 
 
 	/**

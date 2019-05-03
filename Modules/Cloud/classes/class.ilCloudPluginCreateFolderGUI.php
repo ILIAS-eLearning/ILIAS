@@ -36,7 +36,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
 
         } catch (Exception $e)
         {
-            $response->message = $tpl->getMessageHTML($e->getMessage(), "failure");
+            $response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
         }
         header('Content-type: application/json');
         echo ilJsonUtil::encode($response);
@@ -99,10 +99,10 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
             $response->folder_id = $new_node->getId();
             $response->folder_path = $new_node->getPath();
             $response->success = true;
-            $response->message = $tpl->getMessageHTML($lng->txt("cld_folder_created"), "success");
+            $response->message = ilUtil::getSystemMessageHTML($lng->txt("cld_folder_created"), "success");
         } catch(Exception $e)
         {
-            $response->message = $tpl->getMessageHTML($e->getMessage(), "failure");
+            $response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
         }
         echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . ilJsonUtil::encode($response) . ");</script>";
         exit;

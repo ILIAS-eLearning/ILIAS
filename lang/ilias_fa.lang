@@ -11,7 +11,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#کلید دسترسی
@@ -210,7 +210,7 @@ administration#:#restoring_trash#:#در حال بازگردانی سطل زبا�
 administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...
 administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
 administration#:#scan#:#اسکن
-administration#:#scan_desc#:#اسکن سیستم در شی های corrupted/invalid/missing/unbound 
+administration#:#scan_desc#:#اسکن سیستم در شی های corrupted/invalid/missing/unbound
 administration#:#scan_details#:#جزئیات اسکن
 administration#:#scan_modes#:#Scan modes used
 administration#:#scanning_system#:#Scanning system...
@@ -257,7 +257,7 @@ assessment#:#allowedextensions#:#فایلهای با پسوند مجاز
 assessment#:#allowedextensions_info#:#لیستی از پسوندها که با کاما از هم جدا شده اند وارد کنید، مانند doc,xls,odt
 assessment#:#analyze_errortext#:#آنالیز متن خطا
 assessment#:#answer#:#Answer
-assessment#:#answer_characters#:# characters allowed, entered number of characters: 
+assessment#:#answer_characters#:# characters allowed, entered number of characters:
 assessment#:#answer_image#:#عکس جواب
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
 assessment#:#answer_is_right#:#Your solution is correct
@@ -637,7 +637,7 @@ assessment#:#textsize_errortext_info#:#اندازه بر حسب درصد وار�
 assessment#:#textsize_info#:#اندازه متن متن مرتب سازی را بر حسب درصد وارد کنید. مقدار پیش فرض 100 درصد است.
 assessment#:#thumb_geometry#:#هندسه تصویر
 assessment#:#thumb_geometry_info#:#نسبت ابعاد حفظ خواهد شد.
-assessment#:#thumb_size#:#اندازه عکس 
+assessment#:#thumb_size#:#اندازه عکس
 assessment#:#thumb_size_info#:#اگر یک اندازه وارد نکنید، اندازه خود عکس در نظر گرفته خواهد شد.
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
@@ -2589,7 +2589,7 @@ common#:#objs_lm#:#ماژولهای یادگیری ILIAS
 common#:#objs_lres#:#منابع یادگیری
 common#:#objs_mail#:#ایمیل
 common#:#objs_mcst#:#پوشش رسانه ای
-common#:#objs_mep#:#مخزن رسانه 
+common#:#objs_mep#:#مخزن رسانه
 common#:#objs_qpl#:#مخزن سوال تست
 common#:#objs_qst#:#سوالها
 common#:#objs_rcrs#:#Course-Links
@@ -3346,7 +3346,7 @@ content#:#cont_change_type#:#Change Type
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_chapters#:#فصل ها
-content#:#cont_chapters_after_pages#:#لطفا توجه داشته باشید که صفحه ها جلوتز از همه زیر قسمت های همین سطح هستند. 
+content#:#cont_chapters_after_pages#:#لطفا توجه داشته باشید که صفحه ها جلوتز از همه زیر قسمت های همین سطح هستند.
 content#:#cont_chapters_and_pages#:#فصل ها و صفحه ها
 content#:#cont_chapters_only#:#فقط فصل ها
 content#:#cont_char_format#:#کاراکتر
@@ -4026,7 +4026,7 @@ content#:#glo_text_snippet_length#:#طول قطعه متن معنی
 content#:#glo_text_snippet_length_info#:#طول قطعه متن معنی که در مرور کلی نمایش داده می شود.
 content#:#glo_usages#:#لغتنامه در ... استفاده شده
 content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.
-content#:#htlm_import#:#وارد کردن ماژول یادگیری HTML 
+content#:#htlm_import#:#وارد کردن ماژول یادگیری HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Edit menu entry
 content#:#lm_menu_entry_target#:#Target
@@ -4721,7 +4721,7 @@ didactic#:#didactic_delete_msg#:#Deleted didactical templates.
 didactic#:#didactic_do_export#:#صدور
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
 didactic#:#didactic_import_btn#:#Import Didactic Template
-didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: 
+didactic#:#didactic_import_failed#:#Importing the didactical template failed with message:
 didactic#:#didactic_import_success#:#Successfully imported didactical template
 didactic#:#didactic_import_table_title#:#Import of a didactic template
 didactic#:#didactic_install_info#:#اطلاعات همگانی
@@ -4885,7 +4885,7 @@ exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version
 exc#:#exc_edit_assignment#:#Edit Assignment
 exc#:#exc_edit_assignments#:#Edit Assignments
 exc#:#exc_edit_submission#:#Edit Submission
-exc#:#exc_ended_on#:#پایان یافته در 
+exc#:#exc_ended_on#:#پایان یافته در
 exc#:#exc_export_excel#:#صدور (Excel)
 exc#:#exc_fb_files#:#Feedback Files
 exc#:#exc_grades#:#مرور کلی نمره ها
@@ -5235,7 +5235,7 @@ grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.
 grp#:#grp_view_info_by_type#:#این نحوه نمایش همه آیتم ها را  بر اساس نوع شی گروه بندی می کند.
 grp#:#grp_view_info_simple#:#این نحوه نمایش همه آیتم ها را در یک بلوک لیست می کند.
 grp#:#grp_view_inherit#:#استاندارد
-grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. 
+grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course.
 grp#:#grp_waiting_list#:#فعال کردن لیست انتظار
 grp#:#grp_waiting_list_info#:#اگر فعال باشد و تعداد کاربرها به حداکثر رسیده باشد، ثبت نام های جدید در لیست انتظار قرار می گیرند.
 grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.
@@ -6349,7 +6349,7 @@ prtf#:#prtf_existing_portfolio#:#Existing Portfolio
 prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio
 prtf#:#prtf_finalized#:#The portfolio has been submitted.
 prtf#:#prtf_first_page_title#:#عنوان صفحه اول
-prtf#:#prtf_new_portfolio#:#New Portfolio 
+prtf#:#prtf_new_portfolio#:#New Portfolio
 prtf#:#prtf_no_blogs_info#:#محیط کاری شما شامل هیچ بلاگی نیست. بلاگ بسازید تا بتوانید از آنها به عنوان قسمتی از نمونه کار خود استفاده کنید.
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_pages_copied#:#The pages have been copied.
@@ -6662,7 +6662,7 @@ rbac#:#rbac_create_htlm#:#ساختن ماژول یادگیری HTML
 rbac#:#rbac_create_lm#:#ساختن ماژول یادگیری ILIAS
 rbac#:#rbac_create_mcst#:#ویرایش آیتم پوشش رسانه ای
 rbac#:#rbac_create_mep#:#ساختن مخزن رسانه
-rbac#:#rbac_create_qpl#:#ساختن مخزن سوال تست 
+rbac#:#rbac_create_qpl#:#ساختن مخزن سوال تست
 rbac#:#rbac_create_rcrs#:#Create Course-Link
 rbac#:#rbac_create_sahs#:#ساختن ماژول یادگیری SCORM/AICC
 rbac#:#rbac_create_spl#:#ساختن مخزن سوال بررسی
@@ -7859,8 +7859,8 @@ survey#:#survey_question_text_hidden#:#Text hidden
 survey#:#survey_question_text_visible#:#Text visible
 survey#:#survey_question_title#:#عنوان سوال
 survey#:#survey_questions#:#سوالها
-survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
-survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
+survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
+survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard.
 survey#:#survey_show_blocktitle#:#Show Block Title
 survey#:#survey_show_blocktitle_description#:#If activated the block title will be shown in the survey.
 survey#:#survey_start#:#Go To Start Page
@@ -8259,7 +8259,7 @@ wsp#:#wsp_permission_removed#:#The item has been removed.
 wsp#:#wsp_permissions#:#به اشتراک گذاری
 wsp#:#wsp_personal_workspace#:#منابع
 wsp#:#wsp_personal_workspace_description#:#اینجا می توانید فایلها، بلاگها و مصنوعات شخصی خود را مدیریت کنید.
-wsp#:#wsp_set_permission_all#:#Publish 
+wsp#:#wsp_set_permission_all#:#Publish
 wsp#:#wsp_set_permission_all_password#:#Publish (Password required)
 wsp#:#wsp_set_permission_course#:#درس
 wsp#:#wsp_set_permission_group#:#گروه
@@ -9691,7 +9691,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable
@@ -10671,7 +10671,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

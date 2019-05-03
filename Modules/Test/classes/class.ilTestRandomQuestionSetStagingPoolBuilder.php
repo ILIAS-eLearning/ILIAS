@@ -144,6 +144,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		{
 			$taxFilter = $definition->getOriginalTaxonomyFilter();
 			$typeFilter = $definition->getTypeFilter();
+			$lifecycleFilter = $definition->getLifecycleFilter();
 			
 			if (!empty($taxFilter))
 			{
@@ -172,7 +173,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
                 // and save the duplication map for later use
 				
 				$questionIdMappingPerPool = $this->stageQuestionsFromSourcePoolCheap(
-					$definition->getPoolId(), $questionIdMappingPerPool, array_values($filterItems), $typeFilter
+					$definition->getPoolId(), $questionIdMappingPerPool, array_values($filterItems), $typeFilter, $lifecycleFilter
 				);
 			}
 			else
@@ -181,7 +182,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
                 // and save the duplication map for later use
 				
 				$questionIdMappingPerPool = $this->stageQuestionsFromSourcePoolCheap(
-					$definition->getPoolId(), $questionIdMappingPerPool, null, $typeFilter
+					$definition->getPoolId(), $questionIdMappingPerPool, null, $typeFilter, $lifecycleFilter
 				);
 			}
 		}
@@ -194,7 +195,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		}
 	}
 	
-	private function stageQuestionsFromSourcePoolCheap($sourcePoolId, $questionIdMappingPerPool, $filterIds = null, $typeFilter = null)
+	private function stageQuestionsFromSourcePoolCheap($sourcePoolId, $questionIdMappingPerPool, $filterIds = null, $typeFilter = null, $lifecycleFilter = null)
 	{
 		$query = 'SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND complete = %s AND original_id IS NULL';
 		if (!empty($filterIds))
@@ -204,6 +205,10 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 		if (!empty($typeFilter))
 		{
 			$query .= ' AND ' . $this->db->in('question_type_fi', $typeFilter, false, 'integer');
+		}
+		if (!empty($lifecycleFilter))
+		{
+			$query .= ' AND ' . $this->db->in('lifecycle', $lifecycleFilter, false, 'text');
 		}
 		$res = $this->db->queryF( $query, array('integer', 'text'), array($sourcePoolId, 1) );
 		

@@ -34,34 +34,19 @@ include_once 'Services/Search/classes/class.ilWikiContentSearch.php';
 */
 class ilFulltextWikiContentSearch extends ilWikiContentSearch
 {
-	
+
 	function __createWhereCondition()
 	{
-		// IN BOOLEAN MODE
-		if($this->db->getDbType() == "mysql")
+		$where = '';
+
+		$where .= " WHERE MATCH(content,title) AGAINST('";
+		foreach($this->query_parser->getQuotedWords(true) as $word)
 		{
-			$where .= " WHERE MATCH(content,title) AGAINST('";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$where .= $word;
-				$where .= '* ';
-			}
-			$where .= "' IN BOOLEAN MODE) ";
+			$where .= $word;
+			$where .= '* ';
 		}
-		else if($this->db->getDbType() == "oracle")
-		{
-			// fallback to like
-			$where.= " WHERE ";
-			foreach($this->query_parser->getQuotedWords(true) as $word)
-			{
-				$where.= " ".$sep." ";
-				$where.= $this->db->like("content", "clob", $word);
-				$where.= " OR ";
-				$where.= $this->db->like("title", "text", $word);
-				$sep = "OR";
-			}
-		}
+		$where .= "' IN BOOLEAN MODE) ";
 		return $where;
-	}		
+	}
 }
 ?>

@@ -12,7 +12,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analysis_options#:#Επιλογές ανάλυσης
@@ -537,7 +537,7 @@ assessment#:#tst_results_access_finished#:#After Test is Finished
 assessment#:#tst_results_aggregated#:#Αθροιστικά αποτελέσματα διαγωνίσματος
 assessment#:#tst_results_back_introduction#:#Πίσω στην εισαγωγή
 assessment#:#tst_results_back_overview#:#Πίσω στα περιληπτικά αποτελέσματα
-assessment#:#tst_results_overview#:#Pass Overview of the Test Results 
+assessment#:#tst_results_overview#:#Pass Overview of the Test Results
 assessment#:#tst_result_user_name#:#Αποτελέσματα διαγωνίσματος για %s
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_resume_test#:#Συνέχιση του διαγωνίσματος
@@ -1069,7 +1069,7 @@ common#:#db_type#:#Τύπος βάσης δεδομένων
 common#:#db_user#:#Χρήστης βάσης δεδομένων
 common#:#db_version#:#Έκδοση βάσης δεδομένων
 common#:#deactivate#:#Set Inactive
-common#:#decrease_attempts#:#Attempts - 1 
+common#:#decrease_attempts#:#Attempts - 1
 common#:#default#:#Προεπιλογή
 common#:#defaults#:#Defaults
 common#:#default_auth_mode#:#Default Authentication Method
@@ -1907,7 +1907,7 @@ common#:#obj_ldap_desc#:#Ρύθμιση καθολικών ρυθμίσεων LD
 common#:#obj_lm#:#Εκπαιδευτική Μονάδα ILIAS
 common#:#obj_lng#:#Γλώσσα
 common#:#obj_lngf#:#Γλώσσες
-common#:#obj_lngf_desc#:#Διαχείριση των γλωσσών συστήματος. 
+common#:#obj_lngf_desc#:#Διαχείριση των γλωσσών συστήματος.
 common#:#obj_mail#:#Ταχυδρομείο
 common#:#obj_mail_desc#:#Η διαμόρφωση των ρυθμίσεων του καθολικού mail γίνεται εδώ.
 common#:#obj_mcst#:#Εκπομπή Μέσων
@@ -1924,7 +1924,7 @@ common#:#obj_pdts#:#Ρυθμίσεις Επιφάνειας Εργασίας.
 common#:#obj_pdts_desc#:#Ρυθμίστε την Επιφάνεια Εργασίας σας.
 common#:#obj_pg#:#Σελίδα
 common#:#obj_ps#:#Ιδιωτικότητα και Ασφάλεια
-common#:#obj_ps_desc#:#Ορίστε τις καθολικές Ρυθμίσεις Ασφαλείας και Εμπιστευτικότητας.  
+common#:#obj_ps_desc#:#Ορίστε τις καθολικές Ρυθμίσεις Ασφαλείας και Εμπιστευτικότητας.
 common#:#obj_qpl#:#Μνήμη ερωτήσεων για διαγώνισμα
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test
 common#:#obj_qpl_select#:#-- Please select one Question Pool Test --
@@ -1966,7 +1966,7 @@ common#:#obj_usr#:#Χρήστης
 common#:#obj_usrf#:#Λογαριασμοί χρηστών
 common#:#obj_usrf_desc#:#Διαχείριση των λογαριασμών των χρηστών.
 common#:#obj_webr#:#Πόρος Ιστού
-common#:#obj_webr_duplicate#:#Copy Web Resource 
+common#:#obj_webr_duplicate#:#Copy Web Resource
 common#:#obj_wiki#:#Wiki
 common#:#of#:#του
 common#:#offline#:#χωρίς σύνδεση
@@ -2623,7 +2623,7 @@ content#:#cont_add_elements#:#Click on placeholders to add new elements.
 content#:#cont_align#:#Alignment
 content#:#cont_all_pages#:#Όλες οι Σελίδες
 content#:#cont_alphabetic#:#Alphabetic A, B, ...
-content#:#cont_alphabetic_s#:#Alphabetic a, b, ... 
+content#:#cont_alphabetic_s#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Παράρτημα
 content#:#cont_areas_deleted#:#Οι περιοχές του χάρτη έχουν διαγραφεί.
 content#:#cont_assign_full#:#Ανάθεση Πλήρους Οθόνης
@@ -2767,7 +2767,7 @@ content#:#cont_html_table#:#HTML Table
 content#:#cont_id_ref#:#αναγνωριστικό ref
 content#:#cont_imagemap#:#Χάρτης εικόνας
 content#:#cont_import_id#:#αναγνωριστικό
-content#:#cont_import_tracking#:#Import Tracking Data	
+content#:#cont_import_tracking#:#Import Tracking Data
 content#:#cont_insert_as_chapter#:#Εισαγωγή ως Κεφαλαίου
 content#:#cont_insert_as_subchapter#:#Insert as Subchapter
 content#:#cont_insert_chapter#:#Εισαγωγή Κεφαλαίου
@@ -2899,7 +2899,7 @@ content#:#cont_right_float#:#Right, Floating
 content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?
 content#:#cont_roman#:#Roman I, II, ...
-content#:#cont_roman_s#:#Roman i, ii, ...  
+content#:#cont_roman_s#:#Roman i, ii, ...
 content#:#cont_rvalue#:#Τιμή
 content#:#cont_saved_map_area#:#Αποθηκευμένη περιοχή του χάρτη
 content#:#cont_saved_map_data#:#Αποθηκευμένα δεδομένα του χάρτη
@@ -3359,7 +3359,7 @@ dateplaner#:#cal_calendar_name#:#Title
 dateplaner#:#cal_cal_details#:#Calendar Details
 dateplaner#:#cal_cal_type#:#Calendar Type
 dateplaner#:#cal_category_selection#:#Calendar Selection
-dateplaner#:#cal_changed_events_header#:#Changed Appointments 
+dateplaner#:#cal_changed_events_header#:#Changed Appointments
 dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_daily#:#Daily
 dateplaner#:#cal_day_of_month#:#Day of the month
@@ -3443,7 +3443,7 @@ dateplaner#:#free#:#Ελεύθερο
 dateplaner#:#Fr_long#:#Παρασκευή
 dateplaner#:#Fr_short#:#Πα
 dateplaner#:#group#:#Ομάδα
-dateplaner#:#grp_cal_reg_end#:#Registration End 
+dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registration Start
 dateplaner#:#hour#:#ώρα
 dateplaner#:#inbox#:#Εισερχόμενα
@@ -3960,7 +3960,7 @@ mail#:#mail_sure_delete_entry#:#Είστε σίγουροι οτι θέλετε 
 mail#:#mail_sure_delete_file#:#Το αρχείο θα διαγραφεί μόνιμα
 mail#:#mail_sure_delete_folder#:#Ο φάκελος και τα περιεχόμενά του θα διαγραφούν μόνιμα
 mail#:#mail_to#:#Σε
-mail#:#placeholders_advise#:#Οι κρατήσεις θέσεων (Placeholders) διευθετούνται μόνο για παραλήπτες στο πεδίο πρός. Παραλήπτες στα πεδία κοιν. και ιδ. κοιν. θα λάβουν ακαθόριστες κρατήσεις θέσεων (placeholders). 
+mail#:#placeholders_advise#:#Οι κρατήσεις θέσεων (Placeholders) διευθετούνται μόνο για παραλήπτες στο πεδίο πρός. Παραλήπτες στα πεδία κοιν. και ιδ. κοιν. θα λάβουν ακαθόριστες κρατήσεις θέσεων (placeholders).
 mail#:#search_recipients#:#Αναζήτηση παραληπτών.
 mail#:#send_mail_to#:#Mail to
 mcst#:#mcst_add_new_item#:#Add New Media Cast Item
@@ -4439,7 +4439,7 @@ meta#:#meta_l_lt#:#Λιθουανικά
 meta#:#meta_l_lv#:#Λετονικά
 meta#:#meta_l_mg#:#Malagasy
 meta#:#meta_l_mi#:#Μαορικά
-meta#:#meta_l_mk#:#(Π.Γ.Δ.Μ. Σκόπια)-Μακεδονικά 
+meta#:#meta_l_mk#:#(Π.Γ.Δ.Μ. Σκόπια)-Μακεδονικά
 meta#:#meta_l_ml#:#Malayalam
 meta#:#meta_l_mn#:#Μογγολικά
 meta#:#meta_l_mo#:#Μολδαβικά
@@ -4645,7 +4645,7 @@ news#:#news_public_feed_info#:#Εφόσον ειναι ενεργοποιημέ�
 news#:#news_rss_period#:#RSS Period
 news#:#news_settings#:#News Settings
 news#:#news_visibility_public#:#Κοινό
-news#:#news_visibility_users#:#Ενεργοί Χρήστες 
+news#:#news_visibility_users#:#Ενεργοί Χρήστες
 news#:#news_x_files_created#:#%s Files have been added.
 news#:#news_x_files_updated#:#%s Files have been updated.
 news#:#news_x_postings#:#%s Postings have been added.
@@ -4812,7 +4812,7 @@ rbac#:#rcrs_visible#:#Course-Link is visible
 rbac#:#rcrs_write#:#Edit Course-Link
 rbac#:#recf_edit_permission#:#Change permission settings
 rbac#:#recf_read#:#Read access to Restored Objects
-rbac#:#recf_visible#:#Restored Objects are visible 
+rbac#:#recf_visible#:#Restored Objects are visible
 rbac#:#recf_write#:#Edit Restored Objects
 rbac#:#sess_edit_event#:#Edit Calendar Events
 rbac#:#sess_edit_permission#:#Change Permission Settings
@@ -5213,7 +5213,7 @@ survey#:#select_relation#:#Επιλογή σχέσης
 survey#:#select_target_position_for_move_question#:#Παρακαλώ επιλέξτε μία θέση στόχου για μετακίνηση των ερωτήσεων και πιέστε ένα από τα κουμπιά εισαγωγής!
 survey#:#select_value#:#Επιλογή μιας τιμής
 survey#:#show_questiontext#:#Display the Question Text
-survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. 
+survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden.
 survey#:#skipped#:#παράλειψη
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Αν η μνήμη ερωτήσεων είναι online, δεν μπορεί να χρησιμοποιηθεί σε έρευνες.
@@ -9692,7 +9692,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable
@@ -10672,7 +10672,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13301,7 +13301,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14928,7 +14927,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

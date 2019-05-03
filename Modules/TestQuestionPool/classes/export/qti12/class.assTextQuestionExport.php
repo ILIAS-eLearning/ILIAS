@@ -15,6 +15,11 @@ include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionE
 class assTextQuestionExport extends assQuestionExport
 {
 	/**
+	 * @var assTextQuestion
+	 */
+	public $object;
+	
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal
@@ -64,6 +69,8 @@ class assTextQuestionExport extends assQuestionExport
 		// additional content editing information
 		$this->addAdditionalContentEditingModeInformation($a_xml_writer);
 		$this->addGeneralMetadata($a_xml_writer);
+		
+		$this->addQtiMetaDataField($a_xml_writer, 'wordcounter', (int)$this->object->isWordCounterEnabled());
 		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "textrating");
@@ -232,6 +239,8 @@ class assTextQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("respcondition");
 		$a_xml_writer->xmlEndTag("resprocessing");
 
+		$this->addAnswerSpecificFeedback($a_xml_writer, $this->object->feedbackOBJ->getAnswerOptionsByAnswerIndex());
+		
 		if (strlen($feedback_allcorrect))
 		{
 			$attrs = array(

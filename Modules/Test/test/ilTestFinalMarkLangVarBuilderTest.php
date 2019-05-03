@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /** 
  * Unit tests for ilTestFinalMarkLangVarBuilder
  * 
@@ -11,11 +13,11 @@
  * @package Modules/Test
  * @ingroup ModulesTest
  */
-class ilTestFinalMarkLangVarBuilderTest extends PHPUnit\Framework\TestCase
+class ilTestFinalMarkLangVarBuilderTest extends TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{
@@ -29,6 +31,9 @@ class ilTestFinalMarkLangVarBuilderTest extends PHPUnit\Framework\TestCase
 		}
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_build()
 	{
 		$testCases = array(

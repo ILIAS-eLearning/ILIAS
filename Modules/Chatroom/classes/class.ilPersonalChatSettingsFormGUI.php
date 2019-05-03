@@ -167,7 +167,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 		));
 
 		$this->mainTpl->setContent($this->getHTML());
-		$this->mainTpl->show();
+		$this->mainTpl->printToStdout();
 	}
 
 	/**

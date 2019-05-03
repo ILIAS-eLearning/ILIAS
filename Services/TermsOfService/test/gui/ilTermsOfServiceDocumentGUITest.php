@@ -19,7 +19,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilObjTermsOfService */
 	protected $tos;
 
-	/** @var PHPUnit_Framework_MockObject_MockObject|\ilTemplate */
+	/** @var PHPUnit_Framework_MockObject_MockObject|\ilGlobalTemplate */
 	protected $tpl;
 
 	/** @var PHPUnit_Framework_MockObject_MockObject|\ilCtrl */
@@ -67,13 +67,13 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	/**
 	 *
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
 		$this->tos = $this->getMockBuilder(\ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 		$this->criterionTypeFactory = $this->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-		$this->tpl = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->setMethods(['g'])->getMock();
+		$this->tpl = $this->getMockBuilder(\ilGlobalTemplate::class)->disableOriginalConstructor()->getMock();
 		$this->ctrl = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock();
 		$this->lng = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
 		$this->rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
@@ -115,17 +115,11 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 
 	/**
 	 * @dataProvider commandProvider
-	 * @expectedException \ilException
 	 * @param string $command
 	 * @param bool[] $accessResults
 	 */
 	public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults)
 	{
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
-
 		$this->ctrl
 			->expects($this->once())
 			->method('getCmd')
@@ -157,7 +151,7 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 			$this->tableDataProviderFactory, $this->documentPurifier
 		);
 
-		$this->assertException(\ilException::class);
+		$this->expectException(\ilException::class);
 
 		$gui->executeCommand();
 	}
@@ -169,11 +163,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	{
 		$this->setGlobalVariable('lng', clone $this->lng);
 		$this->setGlobalVariable('ilUser', clone $this->user);
-
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
 
 		$lastResetDate = $this->getMockBuilder(\ilDate::class)
 			->disableOriginalConstructor()
@@ -295,11 +284,6 @@ class ilTermsOfServiceDocumentGUITest extends \ilTermsOfServiceBaseTest
 	{
 		$this->setGlobalVariable('lng', clone $this->lng);
 		$this->setGlobalVariable('ilUser', clone $this->user);
-
-		$this->tos
-			->expects($this->any())
-			->method('getRefId')
-			->willReturn(4711);
 
 		$lastResetDate = $this->getMockBuilder(\ilDate::class)
 			->disableOriginalConstructor()

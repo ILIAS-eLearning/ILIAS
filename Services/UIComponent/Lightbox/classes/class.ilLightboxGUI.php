@@ -12,7 +12,7 @@
 class ilLightboxGUI
 {
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $tpl;
 
@@ -83,7 +83,7 @@ class ilLightboxGUI
  	/**
 	 * Init lightbox
 	 */
-	public function addLightbox($a_tpl = null)
+	public function addLightbox(\ilGlobalTemplate $a_tpl = null)
 	{
 		$tpl = $this->tpl;
 		

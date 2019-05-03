@@ -360,7 +360,7 @@ class ilTrQuery
 			return;
 		}
 		
-		if(sizeof($a_udf))
+		if(is_array($a_udf) && count($a_udf) > 0)
 		{
 			$query = "SELECT usr_id, field_id, value FROM udf_text WHERE ".$ilDB->in("field_id", $a_udf, false, "integer");
 			$set = $ilDB->query($query);
@@ -968,7 +968,6 @@ class ilTrQuery
 				break;
 
 			case "exc":
-				include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 				include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
 				$exc = new ilObjExercise($obj_id, false);
 				$members = new ilExerciseMembers($exc);
@@ -1027,7 +1026,7 @@ class ilTrQuery
 
 		$having = array();
 
-		if(sizeof($a_filters))
+		if(is_array($a_filters) && sizeof($a_filters) > 0)
 		{
 			foreach($a_filters as $id => $value)
 			{
@@ -1623,7 +1622,6 @@ class ilTrQuery
 						// #14953
 						$result["set"][$row["usr_id"]]["obj_".$obj_id] = $row["status"];
 						$result["set"][$row["usr_id"]]["obj_".$obj_id."_perc"] = $row["percentage"];
-						
 						if($obj_id == $parent_obj_id)
 						{
 							$result["set"][$row["usr_id"]]["status_changed"] = $row["status_changed"];
@@ -1653,8 +1651,11 @@ class ilTrQuery
 					}
 				}
 			}
-			
-			$result["cnt"] = sizeof($result["set"]);	
+
+			$result["cnt"] = 0;
+			if (is_array($result["set"])) {
+				$result["cnt"] = count($result["set"]);
+			}
 			$result["users"] = $a_users;	
 			
 			self::getUDFAndHandlePrivacy($result, $udf, $a_check_agreement, $a_privacy_fields, $a_additional_fields);																									

@@ -94,19 +94,52 @@ class ilUserCertificateRepository
 	/**
 	 * @param int $userId
 	 * @param string $orderBy
-	 * @return ilUserCertificate[]
+	 * @return ilUserCertificatePresentation[]
 	 */
 	public function fetchActiveCertificates(int $userId) : array
 	{
 		$this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
-		$sql = 'SELECT * FROM il_cert_user_cert WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+		$sql = '
+SELECT 
+  il_cert_user_cert.pattern_certificate_id,
+  il_cert_user_cert.obj_id,
+  il_cert_user_cert.obj_type,
+  il_cert_user_cert.user_id,
+  il_cert_user_cert.user_name,
+  il_cert_user_cert.acquired_timestamp,
+  il_cert_user_cert.certificate_content,
+  il_cert_user_cert.template_values,
+  il_cert_user_cert.valid_until,
+  il_cert_user_cert.version,
+  il_cert_user_cert.ilias_version,
+  il_cert_user_cert.currently_active,
+  il_cert_user_cert.background_image_path,
+  il_cert_user_cert.id,
+  il_cert_user_cert.thumbnail_image_path,
+  (CASE WHEN (object_data.title IS NULL)
+    THEN
+      CASE WHEN (object_data_del.title IS NULL)
+        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
+        ELSE object_data_del.title
+        END
+    ELSE object_data.title 
+    END
+  ) as title
+FROM il_cert_user_cert
+LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
+WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
+AND currently_active = 1';
 
 		$query = $this->database->query($sql);
 
 		$result = array();
 		while ($row = $this->database->fetchAssoc($query)) {
-			$result[] = $this->createUserCertificate($row);
+			$userCertificate = $this->createUserCertificate($row);
+
+			$presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+			$result[] = $presentation;
 		}
 
 		$this->logger->debug(sprintf('Actual results:', json_encode($result)));

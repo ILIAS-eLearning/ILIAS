@@ -96,14 +96,10 @@ class ilBookingParticipant
 	 */
 	static function getAssignableParticipants($a_bp_object_id)
 	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-
 		$booking_object = new ilBookingObject($a_bp_object_id);
 		$pool_id = $booking_object->getPoolId();
 		$pool = new ilObjBookingPool($pool_id, false);
-		$overall_limit = $pool->getOverallLimit();
+		$overall_limit = (int)$pool->getOverallLimit();
 
 		$res = array();
 
@@ -114,7 +110,7 @@ class ilBookingParticipant
 			//check if the user reached the limit of booking in this booking pool.
 			$total_reservations = ilBookingReservation::isBookingPoolLimitReachedByUser($member_id,$pool_id);
 
-			if($total_reservations < $overall_limit)
+			if($overall_limit == 0 || ($overall_limit > 0 && $total_reservations < $overall_limit))
 			{
 				$user_name = ilObjUser::_lookupName($member_id);
 				$name = $user_name['lastname'] . ", " . $user_name['firstname'];

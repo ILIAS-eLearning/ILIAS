@@ -37,6 +37,8 @@ function domxml_open_file($filename)
 	return new php4DOMDocument($filename);
 }
 
+define('DOMXML_LOAD_PARSING', 0);
+
 /*
 * ##added
 */

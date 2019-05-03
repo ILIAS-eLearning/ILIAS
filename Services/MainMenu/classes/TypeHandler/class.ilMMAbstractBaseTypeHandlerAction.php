@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
-use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 /**
  * Class ilMMAbstractBaseTypeHandlerAction

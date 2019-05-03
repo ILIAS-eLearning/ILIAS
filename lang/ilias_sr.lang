@@ -30,7 +30,7 @@ administration#:#found#:#nadeno.
 administration#:#found_none#:#nije nadeno.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Registruj skenirane rezultate
-administration#:#log_scan_desc#:#Unesite skenirane rezultate na 'scanlog.log' u registru podataka klijenta. 
+administration#:#log_scan_desc#:#Unesite skenirane rezultate na 'scanlog.log' u registru podataka klijenta.
 administration#:#nothing_to_purge#:#Nema nicega za brisanje....
 administration#:#nothing_to_remove#:#Nema nicega za uklanjanje....
 administration#:#nothing_to_restore#:#Nema nicega za obnavljanje...
@@ -116,7 +116,7 @@ assessment#:#circle#:#Opseg
 assessment#:#circle_click_center#:#Molimo vas da kliknete u centar željenog podrucja.
 assessment#:#circle_click_circle#:#Molimo vas da kliknete mesto opsega željenog podrucja.
 assessment#:#clientip#:#Client IP ### 2006-8-11 --- Add new translation here.
-assessment#:#close_text_hint#:#Možete definisati razmak unošenjem [gap][/gap] na mesto vašeg izbora u tekstu. Pritisnite dugme 'Create gaps' da biste dodali formu za uredivanje za svaki razmak. 
+assessment#:#close_text_hint#:#Možete definisati razmak unošenjem [gap][/gap] na mesto vašeg izbora u tekstu. Pritisnite dugme 'Create gaps' da biste dodali formu za uredivanje za svaki razmak.
 assessment#:#cloze_text#:#Zatvori tekst###20 Jun 2005 content changed
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -228,7 +228,7 @@ assessment#:#polygon_click_next_or_save#:#Molimo kliknite na sledecu tacku polig
 assessment#:#polygon_click_next_point#:#Molimo kliknite na sledecu tacku poligona.
 assessment#:#polygon_click_starting_point#:#Molimo kliknite na pocetnu tacku poligona.
 assessment#:#postponed#:#odloženo
-assessment#:#preview#:#Pregled 
+assessment#:#preview#:#Pregled
 assessment#:#previous_question_rows#:#<< Pitanja %d - %d od %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Nema raspoložive provere za odabrano pitanje! Pitanje nikad nije korišceno u testu.
 assessment#:#qpl_assessment_total_of_answers#:#Ukupni odgovori
@@ -257,7 +257,7 @@ assessment#:#question_summary#:#Question Summary###21 Aug 2006 new variable
 assessment#:#question_title#:#Naziv pitanja
 assessment#:#question_type#:#Vrsta pitanja
 assessment#:#questionpool_not_entered#:#Molimo unesite naziv bazu pitanja!
-assessment#:#questions_from#:#pitanje iz 
+assessment#:#questions_from#:#pitanje iz
 assessment#:#random_accept_sample#:#Prihvati primer
 assessment#:#random_another_sample#:#Uzmi drugi primer
 assessment#:#random_selection#:#Slucajni izbor
@@ -942,17 +942,17 @@ common#:#gender_f#:#Ženski
 common#:#gender_m#:#Muški
 common#:#general_settings#:#Osnovna podešavanja
 common#:#generate#:#Generiši
-common#:#glo#:#Recnik 
+common#:#glo#:#Recnik
 common#:#glo_add#:#Dodaj Recnik
 common#:#glo_added#:#Recnik je dodat
-rbac#:#glo_delete#:#Obriši Recnik 
+rbac#:#glo_delete#:#Obriši Recnik
 rbac#:#glo_edit_permission#:#Promenite okvir za dozvolu
 common#:#glo_mode#:#Mode###20 Jun 2005 new variable
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).###20 Jun 2005 new variable
 common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
 common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
 common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
-common#:#glo_new#:#Novi Recnik 
+common#:#glo_new#:#Novi Recnik
 rbac#:#glo_read#:#Upoznajte pristup Recniku
 rbac#:#glo_visible#:#Recnik termina je vidljiv
 rbac#:#glo_write#:#Uredi Recnik
@@ -961,7 +961,7 @@ common#:#global_default#:#Opšti standardi
 common#:#global_fixed#:#Opšte utvrdeni
 common#:#global_settings#:#Opšta podešavanja
 common#:#global_user#:#Globalni korisnici
-common#:#glossaries#:#Recnici 
+common#:#glossaries#:#Recnici
 common#:#glossary#:#Recnik
 common#:#group_members#:#Clanovi Grupe
 common#:#group_name#:#Naziv Grupe
@@ -1138,7 +1138,7 @@ common#:#last_change#:#Poslednja promena
 common#:#last_edited_on#:#Last edited on###03 Nov 2005 new variable
 common#:#last_login#:#Last login###10 Jul 2006 new variable
 common#:#last_update#:#Poslednje ažuriranje
-common#:#lastname#:#Prezime 
+common#:#lastname#:#Prezime
 common#:#launch#:#Pokreni
 common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP Baza DN
@@ -1191,7 +1191,7 @@ rbac#:#lngf_edit_permission#:#Promenite okvir za dozvolu
 rbac#:#lngf_read#:#Procitajte o pristupu podešavanjima za jezik
 rbac#:#lngf_visible#:#Podešavanje jezika je vidljivo
 common#:#lo#:#Predmet ucenja
-common#:#local#:#Lokal 
+common#:#local#:#Lokal
 common#:#local_language_file#:#local language file ### 2006-8-11 --- Add new translation here.
 common#:#local_language_files#:#local language files ### 2006-8-11 --- Add new translation here.
 common#:#local_languages_already_installed#:#Selected local language file(s) are already installed ### 2006-8-11 --- Add new translation here.
@@ -1338,7 +1338,7 @@ common#:#msg_perm_adopted_from1#:#Podešavanja za dozvolu usvojena od
 common#:#msg_perm_adopted_from2#:#(Podešavanja su snimljena!)
 common#:#msg_perm_adopted_from_itself#:#Ne možete prisvojiti dozvolu za podešavanje od važece funkcije/funkcije šablona.
 common#:#msg_removed#:#Objekti uklonjeni iz sistema.
-common#:#msg_role_reserved_prefix#:#Prefiks 'il_' je rezervisan za automatsko generisanje funkcija. Molimo odaberite drugi naziv 
+common#:#msg_role_reserved_prefix#:#Prefiks 'il_' je rezervisan za automatsko generisanje funkcija. Molimo odaberite drugi naziv
 common#:#msg_roleassignment_changed#:#Funkcija raspodele je promenjena
 common#:#msg_sysrole_not_deletable#:#Sistemska funkcija ne može biti obrisana
 common#:#msg_sysrole_not_editable#:#Podešavanja za dozvolu sistemske funkcije ne mogu biti promenjena. Sistemska funkcija garantuje svim prijavljenim korisnicima pristup svim objektima i funkcijama.
@@ -1493,7 +1493,7 @@ common#:#passwd_invalid#:#Nova lozinka je pogrešna! Samo su sledeci karakteri d
 common#:#passwd_not_match#:#Unosi za novu lozinku ne odgovaraju! Molimo ponovo unesite vašu novu lozinku.###10 Jul 2006 content changed
 common#:#passwd_wrong#:#Lozinka koju ste uneli je pogrešna!
 common#:#password#:#Lozinka
-common#:#password_assistance_info#:#Ukoliko je asistencija omogucena, veza sa tekstom "Zaboravili ste vašu lozinku?" je prikazana na ILIAS stranici za prijavljivanje. Korisnici mogu da koriste ovu vezu kako bi registrovali novu lozinku za njihov korisnicki nalog bez potrebe za asistencijom sistem administratora. 
+common#:#password_assistance_info#:#Ukoliko je asistencija omogucena, veza sa tekstom "Zaboravili ste vašu lozinku?" je prikazana na ILIAS stranici za prijavljivanje. Korisnici mogu da koriste ovu vezu kako bi registrovali novu lozinku za njihov korisnicki nalog bez potrebe za asistencijom sistem administratora.
 common#:#paste#:#Zalepi
 common#:#pasteChapter#:#Zalepi
 common#:#pastePage#:#Zalepi
@@ -1942,20 +1942,20 @@ rbac#:#usrf_visible#:#Korisnicki nalozi su vidljivi
 rbac#:#usrf_write#:#Uredi korisnicke naloge
 common#:#usrimport_action_ignored#:#Odbacena radnja %1$s.
 common#:#usrimport_action_replaced#:#Premeštena akcija %1$s od %2$s.
-common#:#usrimport_cant_delete#:#Nije moguce izvesti akciju "Obriši". Ne postoji takav korisnik u bazi podataka. 
-common#:#usrimport_cant_insert#:#Nije moguce izvesti akciju "Ubaci". Korisnik se vec nalazi u bazi podataka. 
-common#:#usrimport_cant_update#:#Nije moguce izvesti akciju "Ažuriraj". Ne postoji takav korisnik u bazi podataka. 
-common#:#usrimport_conflict_handling_info#:#Kada je 'Ignor on confict' odabrano, ILIAS odbacuje radnju, ukoliko ne može biti izvršena (npr. Radnja 'insert' nije obavljena ukoliko vec postoji korisnik sa istom prijavom u bazi podataka.) Kada je 'Update on conflict' odabran, ILIAS ažurira bazu podataka ako radnja ne može biti izvedena. (Npr. 'Insert' akcija je premeštena na osnovu radnje 'Update' ukoliko korisnik sa istom prijavom postoji u bazi podataka). 
-common#:#usrimport_global_role_for_action_required#:#Najmanje jedna opšta uloga mora biti odredena za "%1$s" akciju. 
+common#:#usrimport_cant_delete#:#Nije moguce izvesti akciju "Obriši". Ne postoji takav korisnik u bazi podataka.
+common#:#usrimport_cant_insert#:#Nije moguce izvesti akciju "Ubaci". Korisnik se vec nalazi u bazi podataka.
+common#:#usrimport_cant_update#:#Nije moguce izvesti akciju "Ažuriraj". Ne postoji takav korisnik u bazi podataka.
+common#:#usrimport_conflict_handling_info#:#Kada je 'Ignor on confict' odabrano, ILIAS odbacuje radnju, ukoliko ne može biti izvršena (npr. Radnja 'insert' nije obavljena ukoliko vec postoji korisnik sa istom prijavom u bazi podataka.) Kada je 'Update on conflict' odabran, ILIAS ažurira bazu podataka ako radnja ne može biti izvedena. (Npr. 'Insert' akcija je premeštena na osnovu radnje 'Update' ukoliko korisnik sa istom prijavom postoji u bazi podataka).
+common#:#usrimport_global_role_for_action_required#:#Najmanje jedna opšta uloga mora biti odredena za "%1$s" akciju.
 common#:#usrimport_ignore_role#:#Ignore role ### 2006-8-11 --- Add new translation here.
 common#:#usrimport_login_is_not_unique#:#Prijava nije jedinstvena.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted. ### 2006-8-11 --- Add new translation here.
-common#:#usrimport_xml_attribute_missing#:#Atribut "%2$s" u elementu "%1$s" nedostaje. 
-common#:#usrimport_xml_attribute_value_illegal#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je nelegalna. 
-common#:#usrimport_xml_attribute_value_inapplicable#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je neprimenljiva za "%4$s" radnju. 
-common#:#usrimport_xml_element_content_illegal#:#Sadržaj "%2$s" elementa "%1$s" je nezakonita. 
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" mora biti odredena za "%2$s" radnju. 
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" je neprimenljiv za "%2$s" radnju. 
+common#:#usrimport_xml_attribute_missing#:#Atribut "%2$s" u elementu "%1$s" nedostaje.
+common#:#usrimport_xml_attribute_value_illegal#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je nelegalna.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Vrednost "%3$s" atributa "%2$s" u elementu "%1$s" je neprimenljiva za "%4$s" radnju.
+common#:#usrimport_xml_element_content_illegal#:#Sadržaj "%2$s" elementa "%1$s" je nezakonita.
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" mora biti odredena za "%2$s" radnju.
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" je neprimenljiv za "%2$s" radnju.
 common#:#valid#:#Valid ### 2006-8-11 --- Add new translation here.
 common#:#validate#:#Potvrdi
 common#:#value#:#Vrednost
@@ -2062,7 +2062,7 @@ content#:#cont_content#:#Sadržaj
 content#:#cont_coords#:#Koordinate
 content#:#cont_copy_to_clipboard#:#Kopiraj na klipbord
 content#:#cont_create_mob#:#Kreiraj Medija Objekat
-content#:#cont_credit_mode#:#Kreiraj nacin (za model lekcije 'standardno') 
+content#:#cont_credit_mode#:#Kreiraj nacin (za model lekcije 'standardno')
 content#:#cont_credit_off#:#Nema kredita
 content#:#cont_credit_on#:#Kredit
 content#:#cont_credits#:#Krediti
@@ -2179,7 +2179,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Izvor sredstava
-content#:#cont_missing_preconditions#:#Neophodno je da ispunite sledece preduslove da biste pristupili poglavlju "%s". 
+content#:#cont_missing_preconditions#:#Neophodno je da ispunite sledece preduslove da biste pristupili poglavlju "%s".
 content#:#cont_mob_inst_prop#:#Primerne karakteristike
 content#:#cont_mob_usages#:#Primena
 content#:#cont_name#:#Ime
@@ -2293,7 +2293,7 @@ content#:#dgl_pagebreak#:#Pagebreak###10 Jul 2006 new variable
 content#:#glo_definition_abbr#:#Def.###04 Nov 2005 new variable
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
 content#:#lm_menu_edit_entry#:#Uredi unos u meni
-content#:#lm_menu_entry_target#:#Cilj 
+content#:#lm_menu_entry_target#:#Cilj
 content#:#lm_menu_entry_title#:#Naslov
 content#:#lm_menu_new_entry#:#Kreiraj novi unos u meni
 content#:#lm_menu_select_internal_object#:#Odaberite interne objekte >>
@@ -2310,7 +2310,7 @@ content#:#selectFooter#:#Select As Footer###10 Jul 2006 new variable
 content#:#selectHeader#:#Select As Header###10 Jul 2006 new variable
 content#:#select_a_file#:#Molimo odaberite datoteku.
 content#:#selected_pages_only#:#samo te dole odabrane stranice###25 Jul 2006 content changed
-content#:#set_public_mode#:#Podesi nacin za javni pristup 
+content#:#set_public_mode#:#Podesi nacin za javni pristup
 content#:#st#:#Poglavlje
 crs#:#activation_times_not_valid#:#The availability period is not valid. ### 2006-8-11 --- Add new translation here.
 crs#:#assigned#:#Prijavljeno
@@ -2666,8 +2666,8 @@ forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 grp#:#grp_registration_unlimited#:#Unlimited registration period###10 Jul 2006 new variable
 jscalendar#:#about_calendar#:#O Kalendaru
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\n\nDatum odabira:\n- Koristite «, » dugmad kako biste odabrali godinu \n- Koristite <, > kako biste odabrali mesec\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije. 
-jscalendar#:#about_time#:#\n\n Odabir vremena\n- kliknite na bilo koji deo vremena kako biste ga uvecali \n- ili Shift-klik kako biste ga umanjili\n- ili kliknite i izvucite radi brže selekcije. 
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nZa poslednju verziju posetite: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Pogledajte radi detalja i http://gnu.org/licenses/lgpl.html.\n\nDatum odabira:\n- Koristite «, » dugmad kako biste odabrali godinu \n- Koristite <, > kako biste odabrali mesec\n- Zadržite taster miša na nekom od gore pomenutih dugmadi radi brže selekcije.
+jscalendar#:#about_time#:#\n\n Odabir vremena\n- kliknite na bilo koji deo vremena kako biste ga uvecali \n- ili Shift-klik kako biste ga umanjili\n- ili kliknite i izvucite radi brže selekcije.
 jscalendar#:#close#:#Zatvori
 jscalendar#:#day_first#:#Prikaži %s prvo
 jscalendar#:#def_date_format#:#5G-%m-%d
@@ -2831,7 +2831,7 @@ meta#:#meta_c_CA#:#Kanada
 meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#Centralno Africka Republika
 meta#:#meta_c_CG#:#Kongo
-meta#:#meta_c_CH#:#Švajcarska 
+meta#:#meta_c_CH#:#Švajcarska
 meta#:#meta_c_CI#:#Obala Slonovace###10 Jul 2006 content changed
 meta#:#meta_c_CK#:#Kukova Ostrva
 meta#:#meta_c_CL#:#Cile
@@ -2977,7 +2977,7 @@ meta#:#meta_c_SA#:#Saudijska Arabija
 meta#:#meta_c_SB#:#Solomoni
 meta#:#meta_c_SC#:#Sejšeli
 meta#:#meta_c_SD#:#Sudan
-meta#:#meta_c_SE#:#Švedska 
+meta#:#meta_c_SE#:#Švedska
 meta#:#meta_c_SG#:#Singapur
 meta#:#meta_c_SH#:#Sv. Jelena
 meta#:#meta_c_SI#:#Slovenija
@@ -2992,7 +2992,7 @@ meta#:#meta_c_ST#:#Sao Tome i Principe
 meta#:#meta_c_SV#:#Salvador
 meta#:#meta_c_SY#:#Sirijska Arapska Republika
 meta#:#meta_c_SZ#:#Svazilend
-meta#:#meta_c_TC#:#Turkes i Kejkes 
+meta#:#meta_c_TC#:#Turkes i Kejkes
 meta#:#meta_c_TD#:#Cad
 meta#:#meta_c_TF#:#Južne Francuske Teritorije
 meta#:#meta_c_TG#:#Togo
@@ -3010,7 +3010,7 @@ meta#:#meta_c_TZ#:#Tanzanija
 meta#:#meta_c_UA#:#Ukrajina
 meta#:#meta_c_UG#:#Uganda
 meta#:#meta_c_UM#:#Americka mala udaljena ostrva
-meta#:#meta_c_US#:#S.A.D. 
+meta#:#meta_c_US#:#S.A.D.
 meta#:#meta_c_UY#:#Urugvaj
 meta#:#meta_c_UZ#:#Ubekistan
 meta#:#meta_c_VA#:#Vatikan
@@ -3103,7 +3103,7 @@ meta#:#meta_l_ay#:#Aymara
 meta#:#meta_l_az#:#Azerbejdžanski
 meta#:#meta_l_ba#:#Bashkir
 meta#:#meta_l_be#:#Beloruski
-meta#:#meta_l_bg#:#Bugarski 
+meta#:#meta_l_bg#:#Bugarski
 meta#:#meta_l_bh#:#Bihari
 meta#:#meta_l_bi#:#Bislamski
 meta#:#meta_l_bn#:#Bengali
@@ -3129,7 +3129,7 @@ meta#:#meta_l_fo#:#Faranski
 meta#:#meta_l_fr#:#Francuski
 meta#:#meta_l_fy#:#Frisian
 meta#:#meta_l_ga#:#Irski
-meta#:#meta_l_gd#:#Škotski 
+meta#:#meta_l_gd#:#Škotski
 meta#:#meta_l_gl#:#Galicijski
 meta#:#meta_l_gn#:#Guarani
 meta#:#meta_l_gu#:#Gujarati
@@ -3265,7 +3265,7 @@ meta#:#meta_or_composite#:#Ili složen
 meta#:#meta_other#:#drugo
 meta#:#meta_other_plattform_requirements#:#drugi zahtevi programa rada
 meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Molimo odaberite 
+meta#:#meta_please_select#:#Molimo odaberite
 meta#:#meta_prerequisite#:#Preduslov
 meta#:#meta_problem_statement#:#Problemski izveštaj
 meta#:#meta_publisher#:#Izdavac
@@ -3304,7 +3304,7 @@ meta#:#meta_terminator#:#Terminator###20 Jun 2005 new variable
 meta#:#meta_title#:#Naziv
 meta#:#meta_training#:#Trening
 meta#:#meta_type#:#Vrsta resursa ucenja
-meta#:#meta_typical_age_range#:#Tipicnan starosni domet 
+meta#:#meta_typical_age_range#:#Tipicnan starosni domet
 meta#:#meta_typical_learning_time#:#Tiicno vreme ucenja
 meta#:#meta_unavailable#:#Nedostubn
 meta#:#meta_unknown#:#Unknown###20 Jun 2005 new variable
@@ -3318,14 +3318,14 @@ meta#:#meta_very_low#:#Veoma nisko
 meta#:#meta_yes#:#Da
 pwassist#:#password_assistance#:#Pomoc oko lozinke
 pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s. 
+pwassist#:#pwassist_enter_username_and_email#:#Unesite korisnicko ime i povezane email adrese u polja prikazana dole.\nILIAS ce oslati poruku na tu email adresu. Poruka sadrži adresu za web stranicu gde možete uneti novu lozinku za korisnicki nalog.\nU slucaju da niste u mogucnosti da prijavite lozinku za vaš korisnicki nalog koristeci ovu formu, kontaktirajte vašeg administratora kursa ili pošaljite email %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Unesite korisnicko ime i novu lozinku zu polja za unos.
-pwassist#:#pwassist_login_not_match#:#Molimo unesite drugo korisnicko ime.\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke. 
-pwassist#:#pwassist_mail_body#:#Registrujte novu lozinku za vaš korisnicki nalog.\n\t%1$s\n\nOva poruka je automatski generisana uz pomoc ILIAS servera\n\t%2$s\n\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog "%4$s".\n\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\n\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\nObrišite ovu poruku.\n\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\nMolimo obratite se %5$s. \n\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\n\n1. Otvorite vaš pretraživac.\n\n2. Unesite sledecu adresu u vaš pretraživac.\n\t%1$s\n\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\n\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\n\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru. 
-pwassist#:#pwassist_mail_sent#:#Poruka je poslata %1$s.\nMolimo proverite vaše poštansko sanduce. 
+pwassist#:#pwassist_login_not_match#:#Molimo unesite drugo korisnicko ime.\nKorisnicko ime koje ste uneli ne odgovara korisnickom imenu za koje ste tražili pomoc oko lozinke.
+pwassist#:#pwassist_mail_body#:#Registrujte novu lozinku za vaš korisnicki nalog.\n\t%1$s\n\nOva poruka je automatski generisana uz pomoc ILIAS servera\n\t%2$s\n\nVi (ili neko na %3$s) ste tražili pomoc oko lozinke za korisnicki nalog "%4$s".\n\n Molimo pažljivo proverite dole navedene uslove u u skladu postupite:\n\n- Ukoliko ste koristili model pomoci oko lozinke ILIAS servera slucajno:\nObrišite ovu poruku.\n\n-Ako ste sigurni da nikada necete tražiti pomoc oko lozinke na ILIAS serveru:\nMolimo obratite se %5$s. \n\n Ako ste tražili pomoc oko lozinke, molimo postupite na sledeci nacin:\n\n1. Otvorite vaš pretraživac.\n\n2. Unesite sledecu adresu u vaš pretraživac.\n\t%1$s\n\n Važno:Adresa je jedan red. Ukoliko vidite ovu adresu razdvojenu u više redova onda je vaš program ubacio razmeke izmedu redova.\n\n3. Na web stranici prikazanoj od strane vašeg pretraživaca unesite novu lozinku za vaš korisnicki nalog.\n\nMolimo vas da obratite pažnju da, iz bezbednosnih razloga, možete izvesti samo tri koraka tacno jedanput i to u ogranicenom vremenu. Posle toga adresa postaje nevažeca i morate ponovo koristiti pomoc oko lozinke na ILIAS serveru.
+pwassist#:#pwassist_mail_sent#:#Poruka je poslata %1$s.\nMolimo proverite vaše poštansko sanduce.
 pwassist#:#pwassist_mail_subject#:#ILIAS pomoc oko lozinke
-pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku "%1$s". 
-pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata. 
+pwassist#:#pwassist_password_assigned#:#Lozinka je uspešno dodeljena korisniku "%1$s".
+pwassist#:#pwassist_session_expired#:#Molimo ponovo popune obrazac.\nVaša sesija pomoci oko lozinke je istekla. Ovo se možda dogodili zato što ste pokušali da iskoristite vezu koja vam je poslata elektronskom poštom više od jednog puta ili zato što je prošlo previše vremena od kad vam je veza poslata.
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
@@ -3522,7 +3522,7 @@ survey#:#dc_no#:#ne
 survey#:#dc_notacceptable#:#nije prihvatljivo
 survey#:#dc_poor#:#slabo
 survey#:#dc_rarely#:#retko
-survey#:#dc_should#:#trebalo bi 
+survey#:#dc_should#:#trebalo bi
 survey#:#dc_shouldnot#:#ne bi trebalo
 survey#:#dc_sometimes#:#ponekad
 survey#:#dc_stronglyagree#:#jako saglasan
@@ -3567,7 +3567,7 @@ survey#:#edit_heading#:#Uredi zaglavlje
 survey#:#end_date#:#Datum završetka
 survey#:#end_date_reached#:#Ne možete startovati anketu. Datum završetka je nastupio!
 survey#:#enter_anonymous_id#:#Pristupni anketni kod
-survey#:#enter_phrase_title#:#Molimo unesite naslov fraze 
+survey#:#enter_phrase_title#:#Molimo unesite naslov fraze
 survey#:#enter_valid_number_of_codes#:#Molimo unesite validni broj kako bite generisali pristupne anketne kodove!
 survey#:#error_retrieving_anonymous_survey#:#Sistem ne može da pronade anketne podatke za pristupni anketni kod &quot;%s&quot;. Molimo odaberite anketni kod koji ste uneli!
 survey#:#evaluation#:#Vrednovanje
@@ -3650,7 +3650,7 @@ survey#:#qpl_delete_select_none#:#Molimo proverite najmanje jedno pitanje da bis
 survey#:#qpl_export_select_none#:#Molimo proverite najmanje jedno pitanje da biste ga izvezli
 survey#:#qpl_phrases_deleted#:#Fraza je obrisana.
 survey#:#qpl_questions_deleted#:#Pitanja su obrisana.
-survey#:#qpl_savephrase_empty#:#Molimo unesite naslov fraze 
+survey#:#qpl_savephrase_empty#:#Molimo unesite naslov fraze
 survey#:#qpl_savephrase_exists#:#Naslov fraze vec postoji! Molimo unesite drugi naslov.
 survey#:#qpl_unfold_select_none#:#Molimo odaberite najmanje jedan blok pitanja ukoliko želite da sastavite blokove pitanja!
 survey#:#question_obligatory#:#Ovo pitanje je obavezujuce!
@@ -9691,7 +9691,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable
@@ -10671,7 +10671,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

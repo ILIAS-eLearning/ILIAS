@@ -74,10 +74,10 @@ class ilDclTableListGUI {
 		 */
 		$tableHelper = new ilDclTableHelper((int)$this->obj_id, (int)$_GET['ref_id'], $DIC->rbac()->review(), $DIC->user(), $DIC->database());
 		// send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
-		$role_titles = $tableHelper->getRBACRoleTitlesWithoutReadRightOnAnyStandardView();
+		$role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
 
 		if (count($role_titles) > 0) {
-			ilUtil::sendInfo($DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " (" . implode(", ", $role_titles) . ")");
+			ilUtil::sendInfo($DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ", $role_titles));
 		}
 
 		switch ($next_class) {

@@ -1,8 +1,7 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Main;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\MainMenu\isItem;
 
 /**
  * Class ilMMNullItemFacade
@@ -88,7 +87,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 		global $DIC;
 		$provider = new ilMMCustomProvider($DIC);
 		$this->gs_item = $provider->getSingleCustomItem($s);
-		if ($this->parent_identification && $this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+		if ($this->parent_identification && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
 			global $DIC;
 			$this->gs_item = $this->gs_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
 		}
@@ -100,7 +99,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 		$this->mm_item->setIdentification($this->gs_item->getProviderIdentification()->serialize());
 		$this->mm_item->setParentIdentification($this->parent_identification);
 		$this->mm_item->setActive($this->active_status);
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isChild) {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
 			$this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());
 		}
 
@@ -118,22 +117,6 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 	 */
 	public function isAlwaysAvailable(): bool {
 		return false;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function delete() {
-		$serialize = $this->identification->serialize();
-		$gs = ilGSIdentificationStorage::find($serialize);
-		if ($gs instanceof ilGSIdentificationStorage) {
-			$gs->delete();
-		}
-		$mm = ilMMItemStorage::find($serialize);
-		if ($mm instanceof ilMMItemStorage) {
-			$mm->delete();
-		}
 	}
 
 

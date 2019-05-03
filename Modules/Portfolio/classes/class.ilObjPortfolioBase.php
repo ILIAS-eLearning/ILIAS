@@ -598,7 +598,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 								$node->setAttribute("User", $ilUser->getId());									
 							}
 							// new skill
-							else if(in_array($skill_id, $a_recipe["skills"]) || $copy_all)
+							else if($copy_all || in_array($skill_id, $a_recipe["skills"]))
 							{
 								include_once "Services/Skill/classes/class.ilPersonalSkill.php";
 								ilPersonalSkill::addPersonalSkill($ilUser->getId(), $skill_id);

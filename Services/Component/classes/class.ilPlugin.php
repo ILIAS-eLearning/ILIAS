@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 
 /**
  * @defgroup ServicesComponent Services/Component
@@ -406,7 +406,7 @@ abstract class ilPlugin {
 	 *
 	 * @var array|null $a_lang_keys keys of languages to be updated (null for all)
 	 */
-	public function updateLanguages(array $a_lang_keys = null) {
+	public function updateLanguages($a_lang_keys = null) {
 		ilGlobalCache::flushAll();
 
 		// get the keys of all installed languages if keys are not provided

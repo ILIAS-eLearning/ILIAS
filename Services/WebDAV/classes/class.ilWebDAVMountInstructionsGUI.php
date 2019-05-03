@@ -59,8 +59,8 @@ class ilWebDAVMountInstructionsGUI {
     protected function getInstructionTemplate()
     {
         global $DIC;
-        
-        $settings = $DIC->settings();
+
+        $settings = new ilSetting('file_access');
         $instruction_tpl = '';
         
         if($this->mount_instruction->instructionsTplFileExists())

@@ -133,7 +133,7 @@ class ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedRaw($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedRaw($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$lng = $DIC['lng'];
@@ -158,7 +158,7 @@ class ilSCORMTrackingItems
 		while($data = $ilDB->fetchAssoc($res))
 		{
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 			$data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
 			$data["sco_title"] = $scoTitles[$data["sco_id"]];
@@ -190,7 +190,7 @@ class ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 		$lng = $DIC['lng'];
@@ -238,7 +238,7 @@ class ilSCORMTrackingItems
 
 		foreach($dbdata as $data) {
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 
@@ -292,7 +292,7 @@ class ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -362,7 +362,7 @@ class ilSCORMTrackingItems
 		}
 		foreach($dbdata as $data) {
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 
@@ -406,7 +406,7 @@ class ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -468,7 +468,7 @@ class ilSCORMTrackingItems
 		}
 		foreach($dbdata as $data) {
 			$data["lm_id"] = $obj_id;
-			$data["lm_title"] = $this->lmTitle;
+			$data["lm_title"] = $lmTitle;
 
 			$data=array_merge($data,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
 
@@ -511,12 +511,12 @@ class ilSCORMTrackingItems
 		return $cols;
 	}
 
-	function exportSelectedSuccessRows($a_user = array(), $allowExportPrivacy=false, $dbdata = array(), $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id) {
+	function exportSelectedSuccessRows($a_user = array(), $allowExportPrivacy=false, $dbdata = array(), $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id, $lmTitle) {
 		$returnData=array();
 		foreach($dbdata as $data) {
 			$dat=array();
 			$dat["LearningModuleId"] = $obj_id;
-			$dat["LearningModuleTitle"] = "".$this->lmTitle;
+			$dat["LearningModuleTitle"] = "".$lmTitle;
 			$dat["LearningModuleVersion"]="".$data["module_version"];
 
 			$dat=array_merge($dat,self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
@@ -537,7 +537,7 @@ class ilSCORMTrackingItems
 		return $returnData;
 	}
 
-	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id) {
+	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id, $lmTitle) {
 		global $DIC;
 		$ilDB = $DIC['ilDB'];
 
@@ -616,8 +616,7 @@ class ilSCORMTrackingItems
 		{
 			$dbdata[] = $row;
 		}
-		//return self::exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO);
-		return $this->exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id);
+		return $this->exportSelectedSuccessRows($a_user, $allowExportPrivacy, $dbdata, $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id, $lmTitle);
 	}
 
 	public static function userDataHeaderForExport() {

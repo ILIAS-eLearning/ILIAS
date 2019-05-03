@@ -179,6 +179,11 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 */
 	private function initTestoutputCommands()
 	{
+		if( $this->parent_obj instanceof ilAssQuestionHintsGUI )
+		{
+			return;
+		}
+		
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];

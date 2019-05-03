@@ -31,7 +31,7 @@ class AsyncTaskManager extends BasicTaskManager {
 
 		// Call SOAP-Server
 		$soap_client = new \ilSoapClient();
-		$soap_client->setResponseTimeout(0);
+		$soap_client->setResponseTimeout(1);
 		$soap_client->enableWSDL(true);
 		$soap_client->init();
 		$session_id = session_id();
@@ -39,9 +39,8 @@ class AsyncTaskManager extends BasicTaskManager {
 		$call = $soap_client->call(self::CMD_START_WORKER, array(
 			$session_id . '::' . $ilClientId,
 		));
+		$DIC->logger()->root()->info("[BackgroundTasks] After SOAP Call");
 		$DIC->logger()->root()->info(var_export($call, true));
-
-		$this->runAsync(); // FIX https://mantis.ilias.de/view.php?id=24151
 	}
 
 

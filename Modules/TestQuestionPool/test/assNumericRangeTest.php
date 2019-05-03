@@ -8,11 +8,11 @@
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assNumericRangeTest extends PHPUnit\Framework\TestCase
+class assNumericRangeTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{

@@ -10,9 +10,23 @@ require_once 'libs/composer/vendor/autoload.php';
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assFormulaQuestionTest extends PHPUnit\Framework\TestCase
+class assFormulaQuestionTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
+
+	protected function setUp(): void
+	{
+		parent::setUp();
+
+		$lng = $this->getMockBuilder(\ilLanguage::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$lng->method('txt')
+			->will($this->returnArgument(0));
+
+		$this->setGlobalVariable('lng', $lng);
+	}
+
 
 	/**
 	 * @dataProvider simpleRatedCalculationsData

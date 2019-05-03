@@ -345,7 +345,7 @@ class assMatchingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
-		foreach ($this->object->getMatchingPairs() as $matchingpair)
+		foreach ($this->object->getMatchingPairs() as $index => $matchingpair)
 		{
 			$attrs = array(
 				"ident" => "correct_" . $matchingpair->term->identifier . "_" . $matchingpair->definition->identifier,
@@ -355,7 +355,9 @@ class assMatchingQuestionExport extends assQuestionExport
 			// qti flow_mat
 			$a_xml_writer->xmlStartTag("flow_mat");
 			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext");
+			$a_xml_writer->xmlElement("mattext", null, $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
+				$this->object->getId(), 0, $index
+			));
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("flow_mat");
 			$a_xml_writer->xmlEndTag("itemfeedback");

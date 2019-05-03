@@ -34,6 +34,11 @@ class ilClient
 	 */
 	public $ini;
 
+	/**
+	 * @var ilDbSetup|null
+	 */
+	protected $db_setup = null;
+
 
 	/**
 	 * ilClient constructor.
@@ -57,12 +62,21 @@ class ilClient
 
 
 	/**
+	 * @param bool $cached
 	 * @return \ilDbSetup
 	 */
-	public function getDBSetup() {
+	public function getDBSetup($cached = true) {
 		require_once('./setup/classes/class.ilDbSetup.php');
 
-		return ilDbSetup::getInstanceForClient($this);
+		if ($cached) {
+			if (is_null($this->db_setup)) {
+				$this->db_setup = \ilDbSetup::getNewInstanceForClient($this);
+			}
+			return $this->db_setup;
+		}
+
+
+		return \ilDbSetup::getNewInstanceForClient($this);
 	}
 
 	/**
@@ -220,6 +234,12 @@ class ilClient
 			return false;
 		}
 		$GLOBALS["ilDB"] = $this->db;
+
+		if ($GLOBALS["DIC"]->offsetExists("ilDB"))
+		{
+			$GLOBALS["DIC"]->offsetUnset("ilDB");
+		}
+
 		$GLOBALS["DIC"]["ilDB"] = function($c) {
 			return $GLOBALS["ilDB"];
 		};

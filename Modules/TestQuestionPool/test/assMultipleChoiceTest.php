@@ -10,11 +10,11 @@
 *
 * @ingroup ServicesTree
 */
-class assMultipleChoiceTest extends PHPUnit\Framework\TestCase
+class assMultipleChoiceTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		require_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))

@@ -31,6 +31,7 @@ class ilTestTabsManager
 	const TAB_ID_RESULTS = 'results';
 	const SUBTAB_ID_PARTICIPANTS_RESULTS = 'participantsresults';
 	const SUBTAB_ID_MY_RESULTS = 'myresults';
+	const SUBTAB_ID_LO_RESULTS = 'loresults';
 	const SUBTAB_ID_HIGHSCORE = 'highscore';
 	const SUBTAB_ID_SKILL_RESULTS = 'skillresults';
 	const SUBTAB_ID_MY_SOLUTIONS = 'mysolutions';
@@ -49,6 +50,11 @@ class ilTestTabsManager
 	 * @var ilTestAccess
 	 */
 	protected $testAccess;
+	
+	/**
+	 * @var ilTestObjectiveOrientedContainer
+	 */
+	protected $objectiveParent;
 	
 	/**
 	 * @var ilLanguage
@@ -88,9 +94,10 @@ class ilTestTabsManager
 	/**
 	 * ilTestTabsManager constructor.
 	 */
-	public function __construct(ilTestAccess $testAccess)
+	public function __construct(ilTestAccess $testAccess, ilTestObjectiveOrientedContainer $objectiveParent)
 	{
 		$this->testAccess = $testAccess;
+		$this->objectiveParent = $objectiveParent;
 		
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$this->tabs = $DIC['ilTabs'];
@@ -124,6 +131,7 @@ class ilTestTabsManager
 				
 			case self::SUBTAB_ID_PARTICIPANTS_RESULTS:
 			case self::SUBTAB_ID_MY_RESULTS:
+			case self::SUBTAB_ID_LO_RESULTS:
 			case self::SUBTAB_ID_HIGHSCORE:
 			case self::SUBTAB_ID_SKILL_RESULTS:
 			case self::SUBTAB_ID_MY_SOLUTIONS:
@@ -325,7 +333,7 @@ class ilTestTabsManager
 	/**
 	 * @return bool
 	 */
-	protected function checkParticipantTabAccess()
+	protected function checkDashboardTabAccess()
 	{
 		if( $this->testAccess->checkManageParticipantsAccess() )
 		{
@@ -376,11 +384,6 @@ class ilTestTabsManager
 		}
 		
 		if ($DIC->ctrl()->getCmdClass() == 'iltestoutputgui')
-		{
-			return false;
-		}
-		
-		if ($DIC->ctrl()->getCmdClass() == 'iltestevalobjectiveorientedgui')
 		{
 			return false;
 		}
@@ -455,7 +458,7 @@ class ilTestTabsManager
 			case "resetTextFilter":
 			case "insertQuestions":
 				$classes = array(
-					'iltestparticipantsgui',
+					'iltestdashboardgui',
 					'iltestresultsgui',
 					"illearningprogressgui" // #8497: resetfilter is also used in lp
 				);
@@ -597,11 +600,10 @@ class ilTestTabsManager
 			}
 		}	
 		
-		if( $this->needsParticipantsTab() )
+		if( $this->needsDashboardTab() )
 		{
-			// participants
 			$this->tabs->addTab(self::TAB_ID_EXAM_DASHBOARD,
-				$DIC->language()->txt('dashboard_tab'), $this->getParticipantsTabTarget()
+				$DIC->language()->txt('dashboard_tab'), $this->getDashboardTabTarget()
 			);
 		}
 		
@@ -867,32 +869,35 @@ class ilTestTabsManager
 				array("", "ilobjtestgui", "ilcertificategui")
 			);
 		}
+		
+		$lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
+		if($lti_settings->hasSettingsAccess())
+		{
+			$this->tabs->addSubTabTarget(
+				'lti_provider',
+				$DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+				'',
+				[ilLTIProviderObjectSettingGUI::class]
+			);
+		}
 	}
 	
 	/**
 	 * @return bool
 	 */
-	protected function needsParticipantsTab()
+	protected function needsDashboardTab()
 	{
 		if( $this->isHiddenTab(self::TAB_ID_EXAM_DASHBOARD) )
 		{
 			return false;
 		}
 		
-		if( !$this->checkParticipantTabAccess() )
+		if( !$this->checkDashboardTabAccess() )
 		{
 			return false;
 		}
 		
-		return $this->needsFixedParticipantsSubTab() || $this->needsTimeExtensionSubTab(); 
-	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function needsFixedParticipantsSubTab()
-	{
-		return (bool)$this->getTestOBJ()->getFixedParticipants();
+		return true;
 	}
 	
 	/**
@@ -921,19 +926,14 @@ class ilTestTabsManager
 	/**
 	 * @return string
 	 */
-	protected function getParticipantsTabTarget()
+	protected function getDashboardTabTarget()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if( $this->needsFixedParticipantsSubTab() )
-		{
-			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestParticipantsGUI', 'ilTestFixedParticipantsGUI'));
-		}
-		
-		return $DIC->ctrl()->getLinkTargetByClass(array('ilTestParticipantsGUI', 'ilTestParticipantsTimeExtensionGUI'));
+		return $DIC->ctrl()->getLinkTargetByClass(array('ilTestDashboardGUI', 'ilTestParticipantsGUI'));
 	}
 	
-	public function getParticipantsSubTabs()
+	public function getDashboardSubTabs()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
@@ -942,13 +942,10 @@ class ilTestTabsManager
 			return;
 		}
 		
-		if( $this->needsFixedParticipantsSubTab() )
-		{
-			$this->tabs->addSubTab(
-				self::SUBTAB_ID_FIXED_PARTICIPANTS, $DIC->language()->txt('fixedparticipants_subtab'),
-				$DIC->ctrl()->getLinkTargetByClass('ilTestFixedParticipantsGUI')
-			);
-		}
+		$this->tabs->addSubTab(
+			self::SUBTAB_ID_FIXED_PARTICIPANTS, $this->getDashbardParticipantsSubTabLabel(),
+			$DIC->ctrl()->getLinkTargetByClass('ilTestParticipantsGUI')
+		);
 		
 		if( $this->needsTimeExtensionSubTab() )
 		{
@@ -957,6 +954,18 @@ class ilTestTabsManager
 				$DIC->ctrl()->getLinkTargetByClass('ilTestParticipantsTimeExtensionGUI')
 			);
 		}
+	}
+	
+	protected function getDashbardParticipantsSubTabLabel()
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		if( $this->getTestOBJ()->getFixedParticipants() )
+		{
+			return $DIC->language()->txt('fixedparticipants_subtab');
+		}
+		
+		return $DIC->language()->txt('autoparticipants_subtab');
 	}
 	
 	/**
@@ -979,6 +988,11 @@ class ilTestTabsManager
 			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
 		}
 		
+		if( $this->needsLoResultsSubTab() )
+		{
+			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'));
+		}
+		
 		if( $this->needsMyResultsSubTab() )
 		{
 			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
@@ -993,6 +1007,19 @@ class ilTestTabsManager
 	public function needsMyResultsSubTab()
 	{
 		return $this->getTestSession()->reportableResultsAvailable($this->getTestOBJ());
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function needsLoResultsSubTab()
+	{
+		if( !$this->needsMyResultsSubTab() )
+		{
+			return false;
+		}
+		
+		return $this->objectiveParent->isObjectiveOrientedPresentationRequired();
 	}
 	
 	/**
@@ -1062,11 +1089,27 @@ class ilTestTabsManager
 			);
 		}
 		
-		if( $this->needsMyResultsSubTab() )
+		if( $this->needsLoResultsSubTab() )
 		{
 			$this->tabs->addSubTab(
+				self::SUBTAB_ID_LO_RESULTS,
+				$DIC->language()->txt('tst_tab_results_objective_oriented'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'))
+			);
+		}
+		
+		if( $this->needsMyResultsSubTab() )
+		{
+			$myResultsLabel = $DIC->language()->txt('tst_show_results');
+			
+			if( $this->needsLoResultsSubTab() )
+			{
+				$myResultsLabel = $DIC->language()->txt('tst_tab_results_pass_oriented');
+			}
+			
+			$this->tabs->addSubTab(
 				self::SUBTAB_ID_MY_RESULTS,
-				$DIC->language()->txt('tst_show_results'),
+				$myResultsLabel,
 				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'))
 				// 'ilTestEvaluationGUI' => 'outUserResultsOverview'
 			);

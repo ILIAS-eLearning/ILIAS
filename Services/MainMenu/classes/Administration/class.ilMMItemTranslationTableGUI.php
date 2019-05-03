@@ -36,12 +36,15 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
 		$this->initColumns();
+		$this->initCommands();
+		$this->lng->loadLanguageModule("meta");
+
 
 		$this->addCommandButton(
 			ilMMItemTranslationGUI::CMD_SAVE_TRANSLATIONS, $this->lng()
 			->txt("save")
 		);
-		$this->addCommandButton(
+		$this->addMultiCommand(
 			ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng()
 			->txt("delete")
 		);
@@ -50,17 +53,20 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 	}
 
 
-
-
 	protected function initColumns() {
 		$this->addColumn($this->lng()->txt('mm_translation_select'), '', '15px', true);
 		$this->addColumn($this->lng()->txt('mm_translation_lang'));
 		$this->addColumn($this->lng()->txt('mm_translation_trans'));
 	}
 
+	protected function initCommands()
+	{
+		$this->addMultiCommand(ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng()
+			->txt("delete"));
+	}
+
 
 	protected function parseData() {
-		ilMMItemTranslationStorage::storeDefaultTranslation($this->item_facade->identification(), $this->item_facade->getDefaultTitle());
 		$this->setData(ilMMItemTranslationStorage::where(['identification' => $this->item_facade->getId()])->getArray());
 	}
 
@@ -75,7 +81,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI {
 		$translation = ilMMItemTranslationStorage::find($a_set['id']);
 
 		$this->tpl->setVariable('ID', $translation->getId());
-		$this->tpl->setVariable('LANGUAGE', $translation->getLanguageKey());
+		$this->tpl->setVariable('LANGUAGE', $this->lng()->txt("meta_l_" . $translation->getLanguageKey()));
 		$this->tpl->setVariable('TEXT', $translation->getTranslation());
 	}
 }

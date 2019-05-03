@@ -73,6 +73,11 @@ class ilCourseImporter extends ilXmlImporter
 			$parser = new ilCourseXMLParser($this->course);
 			$parser->setXMLContent($a_xml);
 			$parser->startParsing();
+
+			// set course offline
+			$this->course->setOfflineStatus(true);
+			$this->course->update();
+
 			$a_mapping->addMapping('Modules/Course','crs',$a_id,$this->course->getId());
 		}
 		catch(ilSaxParserException $e)

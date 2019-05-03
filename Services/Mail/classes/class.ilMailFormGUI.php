@@ -175,7 +175,7 @@ class ilMailFormGUI
 
 		$mailer->setSaveInSentbox(true);
 
-		if ($errors = $mailer->sendMail(
+		if ($errors = $mailer->validateAndEnqueue(
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
@@ -312,7 +312,7 @@ class ilMailFormGUI
 		$form->addCommandButton('cancelSearch', $this->lng->txt("cancel"));
 
 		$this->tpl->setContent($form->getHtml());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -813,28 +813,38 @@ class ilMailFormGUI
 		$this->tpl->setVariable('FORM', $form_gui->getHTML());
 
 		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	public function lookupRecipientAsync()
 	{
-		$search = $_REQUEST["term"];
+		$search = '';
+		if (isset($_GET["term"]) && is_string($_GET["term"])) {
+			$search = $_GET["term"];
+		}
+		if (isset($_POST["term"]) && is_string($_POST["term"])) {
+			$search = $_POST["term"];
+		}
+
+		$search = trim($search);
+
 		$result = array();
-		if (!$search)
-		{			
-			echo ilJsonUtil::encode($result);
+
+		require_once 'Services/Utilities/classes/class.ilStr.php';
+		if (\ilStr::strLen($search) < 3) {
+			echo json_encode($result);
 			exit;
 		}
-		
+
 		// #14768
 		$quoted = ilUtil::stripSlashes($search);
 		$quoted = str_replace('%', '\%', $quoted);
 		$quoted = str_replace('_', '\_', $quoted);
-		
+
 		$mailFormObj = new ilMailForm;
 		$result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
-		
-		echo ilJsonUtil::encode($result);
+
+		echo json_encode($result);
 		exit;
 	}
 

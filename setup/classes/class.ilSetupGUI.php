@@ -17,6 +17,8 @@ require_once('./Services/Database/classes/class.ilDBConstants.php');
  */
 class ilSetupGUI
 {
+	const UI_PASSWORD_PLACEHOLDER = '********';
+
 	var $tpl;       // template object
 	var $lng;       // language objet
 	var $log;       // log object
@@ -621,7 +623,6 @@ class ilSetupGUI
 		}
 
 		$this->tpl->setVariable("VAL_CMD", htmlspecialchars($_GET["cmd"]));
-		$this->tpl->setVariable("TXT_OK",$this->lng->txt("change"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE",$this->lng->txt("choose_language"));
 		$this->tpl->setVariable("PAGETITLE","Setup");
 		//$this->tpl->setVariable("LOCATION_STYLESHEET","./templates/blueshadow.css");
@@ -1783,10 +1784,14 @@ class ilSetupGUI
 		$ti->setMaxLength(8);
 		$this->form->addItem($ti);
 
-		// db password
-		$ti = new ilTextInputGUI($lng->txt("db_pass"), "db_pass");
-		$ti->setMaxLength(40);
-		$this->form->addItem($ti);
+		$sqlPassword = new \ilPasswordInputGUI($lng->txt('db_pass'), 'db_pass');
+		$sqlPassword->setDisableHtmlAutoComplete(true);
+		$sqlPassword->setValidateAuthPost(false);
+		$sqlPassword->setSkipSyntaxCheck(true);
+		$sqlPassword->setRequired(false);
+		$sqlPassword->setMaxLength(40);
+		$sqlPassword->setRetype(false);
+		$this->form->addItem($sqlPassword);
 
 		$this->form->addCommandButton("saveClientIni", $lng->txt("save"));
 
@@ -1804,7 +1809,11 @@ class ilSetupGUI
 		$values["db_host"] = $this->setup->getClient()->getDbHost();
 		$values["db_user"] = $this->setup->getClient()->getDbUser();
 		$values["db_port"] = $this->setup->getClient()->getDbPort();
-		$values["db_pass"] = $this->setup->getClient()->getDbPass();
+		$password = '';
+		if (is_string($this->setup->getClient()->getDbPass()) && strlen($this->setup->getClient()->getDbPass())) {
+			$password = self::UI_PASSWORD_PLACEHOLDER;
+		}
+		$values["db_pass"] = $password;
 		$values["db_name"] = $this->setup->getClient()->getDbName();
 		$values["client_id"] = $this->setup->getClient()->getId();
 
@@ -1858,18 +1867,21 @@ class ilSetupGUI
 							$this->setup->getClient()->setDbName($_POST["db_name"]);
 							$this->setup->getClient()->setDbUser($_POST["db_user"]);
 							$this->setup->getClient()->setDbPort($_POST["db_port"]);
-							$this->setup->getClient()->setDbPass($_POST["db_pass"]);
+							$dbPassword = (string)($_POST["db_pass"] ?? '');
+							if ('' === $dbPassword || $dbPassword !== self::UI_PASSWORD_PLACEHOLDER) {
+								$this->setup->getClient()->setDbPass($dbPassword);
+							}
 							$this->setup->getClient()->setDbType($_SESSION["db_type"]);
 							$this->setup->getClient()->setDSN();
 
 							// try to connect to database
-							if (!$this->setup->getClient()->getDBSetup()->isConnectable()) {
+							if (!$this->setup->getClient()->getDBSetup(false)->isConnectable()) {
 								$i = $this->form->getItemByPostVar("db_host");
 								$i->setAlert($this->lng->txt($this->setup->getClient()->getError()));
 								ilUtil::sendFailure($this->setup->getClient()->getError(), true);
 							} else {
 								// check if db exists
-								$db_installed = $this->setup->getClient()->getDBSetup()->isDatabaseInstalled();
+								$db_installed = $this->setup->getClient()->getDBSetup(false)->isDatabaseInstalled();
 
 								if ($db_installed and (!$this->setup->ini_ilias_exists or ($this->setup->getClient()->getDbName() != $old_db_name))) {
 									$_POST["db_name"] = $old_db_name;
@@ -4067,8 +4079,8 @@ class ilSetupGUI
 
 			if ($status["finish"]["status"])
 			{
-				$this->setup->ini->write();
 				$this->setup->ini->setVariable("clients","default",$client->getId());
+				$this->setup->ini->write();
 				$message = "default_client_changed";
 			}
 			else

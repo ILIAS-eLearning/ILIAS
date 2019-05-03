@@ -322,7 +322,7 @@ class ilCertificate
 	/**
 	* Gets the adapter
 	*
-	* @return object Adapter
+	* @return ilCertificateAdapter Adapter
 	*/
 	public function getAdapter()
 	{
@@ -343,7 +343,7 @@ class ilCertificate
 		$type = ilObject::_lookupType($this->objectId);
 		$certificateId = $this->objectId;
 
-		$dir = $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $type . "__" . $certificateId . "__certificate/";
+		$dir = CLIENT_WEB_DIR . $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $type . "__" . $certificateId . "__certificate/";
 		ilUtil::makeDirParents($dir);
 		return $dir;
 	}
@@ -372,12 +372,13 @@ class ilCertificate
 	public function zipCertificatesInArchiveDirectory($dir, $deliver = TRUE)
 	{
 		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificates.zip";
-		ilUtil::zip($dir, $this->certificatePath . $zipfile);
+		$zipfilePath = CLIENT_WEB_DIR . $this->certificatePath . $zipfile;
+		ilUtil::zip($dir, $zipfilePath);
 		ilUtil::delDir($dir);
 		if ($deliver) {
-			ilUtil::deliverFile($this->certificatePath . $zipfile, $zipfile, "application/zip");
+			ilUtil::deliverFile($zipfilePath, $zipfile, "application/zip", false, true);
 		}
-		return $this->certificatePath . $zipfile;
+		return $zipfilePath;
 	}
 
 	public static function isActive()
@@ -445,24 +446,5 @@ class ilCertificate
 	{
 		$set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
 		return $this->db->numRows($set);
-	}
-
-	/**
-	 * Get custom certificate fields
-	 */
-	static function getCustomCertificateFields()
-	{
-		$user_field_definitions = ilUserDefinedFields::_getInstance();
-		$fds = $user_field_definitions->getDefinitions();
-
-		$fields = array();
-		foreach ($fds as $f) {
-			if ($f["certificate"]) {
-				$fields[$f["field_id"]] = array("name" => $f["field_name"],
-					"ph" => "[#" . str_replace(" ", "_", strtoupper($f["field_name"])) . "]");
-			}
-		}
-
-		return $fields;
 	}
 }

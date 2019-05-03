@@ -44,11 +44,56 @@ class ilMMItemTranslationStorage extends CachedActiveRecord {
 	 * @return ilMMItemTranslationStorage
 	 */
 	public static function storeDefaultTranslation(IdentificationInterface $identification, string $translation): self {
+		return self::storeTranslation($identification, self::getDefaultLanguage(), $translation);
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return string
+	 */
+	public static function getDefaultTranslation(IdentificationInterface $identification): string {
+		if (!self::hasDefaultTranslation($identification)) {
+			return "";
+		}
+		$lng = self::getDefaultLanguage();
+		$key = "{$identification->serialize()}|{$lng}";
+		/**
+		 * @var $item self
+		 */
+		if ($item = self::find($key)) {
+			return $item->getTranslation();
+		}
+
+		return "";
+	}
+
+
+	/**
+	 * @param IdentificationInterface $identification
+	 *
+	 * @return bool
+	 */
+	public static function hasDefaultTranslation(IdentificationInterface $identification): bool {
+		$lng = self::getDefaultLanguage();
+		$key = "{$identification->serialize()}|{$lng}";
+
+		return self::find($key) instanceof self;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getDefaultLanguage(): string {
+		static $default_language;
 		global $DIC;
+		if (!$default_language) {
+			$default_language = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
+		}
 
-		$language_key = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
-
-		return self::storeTranslation($identification, $language_key, $translation);
+		return $default_language;
 	}
 
 
@@ -160,8 +205,6 @@ class ilMMItemTranslationStorage extends CachedActiveRecord {
 	 * @inheritDoc
 	 */
 	public function getCache(): ilGlobalCache {
-		global $DIC;
-
-		return $DIC->globalScreen()->storage()->cache();
+		return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
 	}
 }

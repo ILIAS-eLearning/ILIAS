@@ -1317,7 +1317,7 @@ bibl#:#bibl_add#:#Přidat bibliografii
 bibl#:#bibl_copy#:#Uživatel může kopírovat bibliografii
 bibl#:#bibl_edit#:#Upravit bibliografii
 bibl#:#bibl_new#:#Nová bibliografie
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#detail_view#:#Podrobný náhled
 bibl#:#download_original_file#:#Download Original File
 bibl#:#obj_bibl_duplicate#:#Duplikovat bibliografii
@@ -1804,7 +1804,7 @@ cmps#:#no_changes#:#Žádné změny
 cntr#:#cntr_add_new_item#:#Přidat novou položku
 cntr#:#cntr_adopt_content#:#Převzít obsah
 cntr#:#cntr_back_to_old_editor#:#Zpět ke starému editoru
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#cntr_hide_title_and_icon#:#Skrýt název a ikonu
 cntr#:#cntr_manage#:#Spravovat
 cntr#:#cntr_old_editor_open_standard_editor#:#Otevřít standardní editor
@@ -3237,7 +3237,7 @@ common#:#obj_tool_setting_calendar_info#:#The "Calendar" block will be displayed
 common#:#obj_tool_setting_news#:#Zobrazit zprávy
 common#:#obj_tool_setting_news_info#:#The "News" block will be displayed inside the "Content" tab.
 common#:#obj_tos#:#Termíny služby
-common#:#obj_tos_desc#:#Nastavení termínů služby 
+common#:#obj_tos_desc#:#Nastavení termínů služby
 common#:#obj_trac#:#Postup výuky a sledování
 common#:#obj_trac_desc#:#Přístup uživatele k údajům sledování
 common#:#obj_tst#:#Test
@@ -4964,7 +4964,7 @@ cron#:#cron_action_run#:#Vykonat
 cron#:#cron_action_run_fail#:#Cron-Job selhal.
 cron#:#cron_action_run_success#:#Cron-Job běží úspěšně.
 cron#:#cron_action_run_sure#:#Skutečně chcete spustit cron-job "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEM 
+cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Komponenta
 cron#:#cron_job_id#:#Id
 cron#:#cron_last_run#:#Poslední chod
@@ -6181,7 +6181,7 @@ exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"
 exc#:#exc_passing_exc#:#Passing the Exercise
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers after the deadline.
-exc#:#exc_peer_review_deadline#:#Feedback Deadline 
+exc#:#exc_peer_review_deadline#:#Feedback Deadline
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
 exc#:#exc_peer_review_deadline_info_button#:#Deadline: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback time is up.
@@ -6308,7 +6308,7 @@ file#:#file_new_version#:#Vytvořit novou verzi
 file#:#file_new_version_info#:#Vytváří novou verzi souboru. Stará verze nebude modifikována.
 file#:#file_uploaded_by#:#Uploaded by
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace. 
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
 file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 file#:#replace_file_info#:#Všechny dřívější verze souboru budou smazány.
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
@@ -6466,7 +6466,7 @@ forum#:#select_at_least_one_thread#:#Vyberte prosím alespoň jedno téma.
 forum#:#select_max_one_thread#:#Please select one thread only!
 forum#:#sort_by_date#:#Sort by date
 forum#:#sort_by_posts#:#Sort by Posts
-forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
+forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky#:#Lepkavé
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
@@ -6806,7 +6806,7 @@ ldap#:#ldap_user_mapping#:#Mapování uživatelských profilů
 ldap#:#ldap_user_scope#:#Oblast vyhledávání
 ldap#:#ldap_user_scope_info#:#Oblast pro uživatelské vyhledávání. Není-li zajištěno, volte "Sub".
 ldap#:#ldap_user_sync#:#Nastavení uživatelské synchronizace
-ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 
+ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
 ldap#:#ldap_user_sync_info#:#Definuje zda nový uživatel je automaticky vytvářen při přihlášení, nebo řádně přes Cron-Job.
 license#:#arbitrary#:#libovolný
@@ -6906,7 +6906,7 @@ mail#:#mail_nacc_target#:#URL cílové položky, např. připojený kurz, který
 mail#:#mail_nacc_target_block#:#Tento text je zahrnut jen tehdy, když je poskytnuta cílová položka.
 mail#:#mail_nacc_target_title#:#Název cílové položky, např. název kurzu.
 mail#:#mail_nacc_target_type#:#Typ cílové položky, např. "Kurz" pro položku kurzů.
-mail#:#mail_nacc_timelimit#:#User access period 
+mail#:#mail_nacc_timelimit#:#User access period
 mail#:#mail_nacc_use_placeholder#:#Můžete využít následující rezervovaná místa
 mail#:#mail_no_permissions_write_smtp#:#Nemáte oprávněná psát externí e-maily.
 mail#:#mail_no_valid_mailing_list#:#Neplatný poštovní seznam
@@ -8815,7 +8815,7 @@ registration#:#registration_codes_override_global_info#:#These settings may be o
 registration#:#registration_codes_override_info#:#This setting overrides any values defined in "Registration Settings".
 registration#:#registration_codes_roles#:#Role pro nové účty
 registration#:#registration_codes_roles_limitation_none#:#No Predefined Access Limitation
-registration#:#registration_codes_roles_local#:#Local Role(s) 
+registration#:#registration_codes_roles_local#:#Local Role(s)
 registration#:#registration_codes_roles_title#:#Role for New Accounts
 registration#:#registration_export_codes_no_data#:#K exportu nebyly vybrány žádné kódy.
 registration#:#registration_generated#:#Datum vytvoření
@@ -9361,18 +9361,18 @@ sop#:#sop_already_exported#:#The Learning Module is already exported. Please rec
 sop#:#sop_check_system_requirements#:#Checking system requirements
 sop#:#sop_desc_export#:#Offline learning modules are only available for offline usage. After trackingdata import the learning module will be online again.
 sop#:#sop_export#:#SCORM-Learning Module Export
-sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player.
 sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds
 sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
 sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
 sop#:#sop_msg_export_tracking#:#Transfering tracking data to SCORM Offline Manager. Please wait some seconds
-sop#:#sop_msg_lm_not_exists#:#The learning module does not exist or is inactive in the SCORM-Offline-Manager. 
+sop#:#sop_msg_lm_not_exists#:#The learning module does not exist or is inactive in the SCORM-Offline-Manager.
 sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait some seconds
 sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful
 sop#:#sop_push_tracking#:#Import trackingdata
 sop#:#sop_reload_page#:#Reload page
 sop#:#sop_start_som#:#Start SOM
-sop#:#sop_text_export#:#Export SCORM-Learning Module for offline performance  
+sop#:#sop_text_export#:#Export SCORM-Learning Module for offline performance
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
 sop#:#sop_text_start_offline#:#Start learning module in offline mode
 sop#:#sop_text_start_som#:#Start SCORM-Offline-Manager
@@ -13304,7 +13304,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

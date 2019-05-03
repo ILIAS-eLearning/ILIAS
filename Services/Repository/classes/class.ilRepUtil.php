@@ -67,6 +67,7 @@ class ilRepUtil
 		$a_ids = array_unique((array) $a_ids);
 
 		// FOR ALL SELECTED OBJECTS
+		$not_deletable = [];
 		foreach ($a_ids as $id)
 		{
 			if ($tree->isDeleted($id))
@@ -98,7 +99,7 @@ class ilRepUtil
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
-		if (count($not_deletable))
+		if (count($not_deletable) > 0)
 		{
 			$not_deletable_titles = array();
 			foreach ($not_deletable as $key => $ref_id) {

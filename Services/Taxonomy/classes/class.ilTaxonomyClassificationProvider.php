@@ -140,7 +140,11 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 			}					
 		}
 
-		return sizeof(self::$valid_tax_map[$a_parent_ref_id]);		
+		if (is_array(self::$valid_tax_map[$a_parent_ref_id])) {
+			return sizeof(self::$valid_tax_map[$a_parent_ref_id]);
+		}
+
+		return 0;
 	}
 	
 	public function getFilteredObjects()

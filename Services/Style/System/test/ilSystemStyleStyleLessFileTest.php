@@ -6,12 +6,14 @@ include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessFile.p
 include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
 include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSystemStyleStyleLessFileTest extends PHPUnit_Framework_TestCase {
+class ilSystemStyleStyleLessFileTest extends TestCase {
 
 
 	/**
@@ -31,7 +33,7 @@ class ilSystemStyleStyleLessFileTest extends PHPUnit_Framework_TestCase {
 
 	protected $save_dic = null;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		global $DIC;
 
@@ -47,7 +49,7 @@ class ilSystemStyleStyleLessFileTest extends PHPUnit_Framework_TestCase {
 		$this->style = $this->container->getSkin()->getStyle("style1");
 	}
 
-	protected function tearDown()
+	protected function tearDown(): void
 	{
 		global $DIC;
 		$DIC = $this->save_dic;

@@ -1248,6 +1248,10 @@ class ilExAssignment
 			{
 				ilUtil::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
 			}
+
+			// type specific properties
+			$ass_type = $d->getAssignmentType();
+			$ass_type->cloneSpecificProperties($d, $new_ass);
 		}
 	}
 	
@@ -1321,8 +1325,26 @@ class ilExAssignment
 		
 		return $res->numRows() ? true : false;
 	}
-	
-	
+
+	/**
+	 * Lookup excercise id for assignment id
+	 *
+	 * @param int $a_ass_id
+	 * @return int
+	 */
+	public static function lookupExerciseId($a_ass_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = "SELECT exc_id FROM exc_assignment ".
+			"WHERE id = ".$ilDB->quote($a_ass_id,'integer');
+		$res = $ilDB->fetchAssoc($ilDB->query($query));
+
+		return (int) $res["exc_id"];
+	}
+
 	/**
 	 * Private lookup
 	 */
@@ -1589,7 +1611,6 @@ class ilExAssignment
 
 		$ilDB = $DIC->database();
 		
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($a_exc);
 		$mems = $exmem->getMembers();
 
@@ -1646,7 +1667,6 @@ class ilExAssignment
 		ilUtil::makeDir($mfdir);
 		
 		// create subfolders <lastname>_<firstname>_<id> for each participant
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($exc);
 		$mems = $exmem->getMembers();
 		
@@ -1734,7 +1754,6 @@ class ilExAssignment
 		
 		// get members
 		$exc = new ilObjExercise($this->getExerciseId(), false);
-		include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$exmem = new ilExerciseMembers($exc);
 		$mems = $exmem->getMembers();
 
@@ -2014,7 +2033,6 @@ class ilExAssignment
 		
 		if(!$a_user_id)
 		{
-			include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 			$ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
 						
 			$ilDB->manipulate("UPDATE exc_assignment".

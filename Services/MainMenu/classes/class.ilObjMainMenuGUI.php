@@ -103,7 +103,7 @@ class ilObjMainMenuGUI extends ilObject2GUI {
 	 * @return void
 	 */
 	private function prepareAdminOutput() {
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_mme.svg'));
 		$this->tpl->setTitle($this->object->getPresentationTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());

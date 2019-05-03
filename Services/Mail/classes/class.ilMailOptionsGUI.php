@@ -66,7 +66,7 @@ class ilMailOptionsGUI
 	 * @param \ilMailBox|null $malBox
 	 */
 	public function __construct(
-		\ilTemplate $tpl = null,
+		\ilGlobalTemplate $tpl = null,
 		\ilCtrl $ctrl = null,
 		\ilSetting $setting = null,
 		\ilLanguage $lng = null,
@@ -198,6 +198,6 @@ class ilMailOptionsGUI
 		}
 
 		$this->tpl->setContent($form->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 }

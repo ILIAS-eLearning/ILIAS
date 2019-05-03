@@ -56,35 +56,9 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(Component\Chart\ProgressMeter\Standard $component, RendererInterface $default_renderer)
     {
         $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
-        if ($hasComparison) {
-            $tpl = $this->getTemplate("tpl.progressmeter_two_bar.html", true, true);
-        } else {
-            $tpl = $this->getTemplate("tpl.progressmeter_one_bar.html", true, true);
-        }
+		$tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
-        // set "responsive class" false
-        $tpl->touchBlock('responsive');
-
-        // set visible values
-        $tpl = $this->modifyVisibleValues($tpl, $component);
-
-        // set skew and rotation for process bars
-        $tpl = $this->modifyProgressBar($tpl, $component->getMainValueAsPercent(), 'MAIN');
-        if ($hasComparison) {
-            $tpl = $this->modifyProgressBar($tpl, $component->getComparisonAsPercent(), 'COMPARE');
-        }
-
-        // set progress bar color class
-        $tpl = $this->modifyProgressBarClasses($tpl, $component);
-
-        // set marker position
-        if($component->getRequired() != $component->getMaximum()) {
-            $tpl->setVariable("MARKER_POS", $this->getMarkerPos($component->getRequiredAsPercent()));
-        } else {
-            $tpl->setVariable("MARKER_POS",'180');
-        }
-
-        $tpl->parseCurrentBlock();
+		$tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
 
         return $tpl->get();
     }
@@ -98,38 +72,16 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component, RendererInterface $default_renderer)
     {
-        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
-        if ($hasComparison) {
-            $tpl = $this->getTemplate("tpl.progressmeter_two_bar.html", true, true);
-        } else {
-            $tpl = $this->getTemplate("tpl.progressmeter_one_bar.html", true, true);
-        }
+		$hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
+		$tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
-        // set "responsive class" false
-        $tpl->touchBlock('fixed-size');
+		$tpl->setCurrentBlock('fixed');
+		$tpl->setVariable('FIXED_CLASS', 'fixed-size');
+		$tpl->parseCurrentBlock();
 
-        // set visible values
-        $tpl = $this->modifyVisibleValues($tpl, $component);
+		$tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
 
-        // set skew and rotation for process bars
-        $tpl = $this->modifyProgressBar($tpl, $component->getMainValueAsPercent(), 'MAIN');
-        if ($hasComparison) {
-            $tpl = $this->modifyProgressBar($tpl, $component->getComparisonAsPercent(), 'COMPARE');
-        }
-
-        // set progress bar color class
-        $tpl = $this->modifyProgressBarClasses($tpl, $component);
-
-        // set marker position
-        if($component->getRequired() != $component->getMaximum()) {
-            $tpl->setVariable("MARKER_POS", $this->getMarkerPos($component->getRequiredAsPercent()));
-        } else {
-            $tpl->setVariable("MARKER_POS",'180');
-        }
-
-        $tpl->parseCurrentBlock();
-
-        return $tpl->get();
+		return $tpl->get();
     }
 
     /**
@@ -142,14 +94,6 @@ class Renderer extends AbstractComponentRenderer
     protected function renderMini(Component\Chart\ProgressMeter\Mini $component, RendererInterface $default_renderer)
     {
         $tpl = $this->getTemplate("tpl.progressmeter_mini.html", true, true);
-
-        // new vars
-		/*
-		 * COLOR_ONE_CLASS
-		 * BAR_ONE_WIDTH
-		 * ROTATE_ONE
-		 * NEEDLE_ONE_CLASS
-		 */
 
 		$main_percentage = $component->getMainValueAsPercent();
 
@@ -164,7 +108,7 @@ class Renderer extends AbstractComponentRenderer
         // set marker position
 		$needle_class = 'no-needle';
         if($component->getRequired() != $component->getMaximum()) {
-			$needle_class = 'needle_color';
+			$needle_class = '';
 			$tpl->setVariable('ROTATE_ONE', $this->getMarkerPos($component->getRequiredAsPercent()));
 		}
 		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
@@ -173,6 +117,68 @@ class Renderer extends AbstractComponentRenderer
 
         return $tpl->get();
     }
+
+    protected function getDefaultGraphicByComponent(
+    	Component\Chart\ProgressMeter\ProgressMeter $component,
+		\ILIAS\UI\Implementation\Render\Template $tpl,
+		$hasComparison = false
+	) {
+
+		$main_percentage = $component->getMainValueAsPercent();
+
+		if ($hasComparison) {
+			// multicircle
+			$tpl->setCurrentBlock('multicircle');
+			// set first progress bar color class
+			$color_one_class = 'no-success';
+			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+				$color_one_class = 'success';
+			}
+			$tpl->setVariable('COLOR_ONE_CLASS', $color_one_class);
+			// set width for first process bar
+			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+
+			// set second progress bar color class
+			$color_two_class = 'active';
+			if(!$this->getIsValueSet($component->getMainValueAsPercent()) && $this->getIsValueSet($component->getComparison())) {
+				$color_two_class = 'not-active';
+			}
+			$tpl->setVariable('COLOR_TWO_CLASS', $color_two_class);
+			// set width for second process bar
+			$tpl->setVariable('BAR_TWO_WIDTH', (88.8 * ($component->getComparisonAsPercent() / 100)));
+
+			$tpl->parseCurrentBlock();
+
+		} else {
+			// monocircle
+			$tpl->setCurrentBlock('monocircle');
+			// set progress bar color class
+			$color_class = 'no-success';
+			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+				$color_class = 'success';
+			}
+			$tpl->setVariable('COLOR_ONE_CLASS', $color_class);
+			// set width for process bars
+			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+
+			$tpl->parseCurrentBlock();
+		}
+
+		// set visible values
+		$tpl = $this->modifyVisibleValues($tpl, $component);
+
+		// set marker position
+		$needle_class = 'no-needle';
+		if($component->getRequired() != $component->getMaximum()) {
+			$needle_class = '';
+			$tpl->setVariable('ROTATE_ONE', (276 / 100 * $component->getRequiredAsPercent() - 138));
+		}
+		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
+
+		$tpl->parseCurrentBlock();
+
+		return $tpl;
+	}
 
     /**
      * Modify visible template variables
@@ -189,84 +195,9 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->setVariable("REQUIRED", '');
         }
-        if ($component instanceof Component\Chart\ProgressMeter\Standard) {
-            if ($component->getComparison() > 0) {
-                $tpl->setVariable("COMPARE", $component->getComparisonAsPercent() . ' %');
-            }
-        }
         $tpl->setVariable("TEXT_MAIN", htmlspecialchars($component->getMainText()));
         $tpl->setVariable("TEXT_REQUIRED", htmlspecialchars($component->getRequiredText()));
         return $tpl;
-    }
-
-    /**
-     * Modify the template skew and rotation variables for a specific progress bar, identified by its prefix
-     *
-     * @param \ILIAS\UI\Implementation\Render\Template $tpl
-     * @param float $value   Percantage value to render bar.
-     * @param string $prefix Prefix to identify bar in template.
-     * @return \ILIAS\UI\Implementation\Render\Template
-     */
-    protected function modifyProgressBar(\ILIAS\UI\Implementation\Render\Template $tpl, $value, $prefix)
-    {
-        $skew_value = $this->getSkew($value);
-        $tpl->setVariable("SKEW_".$prefix, $skew_value);
-        $rotation_value = $this->getRotation($skew_value);
-        $tpl->setVariable("ROTATION_".$prefix."1", $rotation_value[0]);
-        $tpl->setVariable("ROTATION_".$prefix."2", $rotation_value[1]);
-        $tpl->setVariable("ROTATION_".$prefix."3", $rotation_value[2]);
-        return $tpl;
-    }
-
-    /**
-     * Modify the template variables for the progress bar classes, used for colors
-     *
-     * @param \ILIAS\UI\Implementation\Render\Template $tpl
-     * @param Component\Chart\ProgressMeter\ProgressMeter $component
-     * @return \ILIAS\UI\Implementation\Render\Template
-     */
-    protected function modifyProgressBarClasses(\ILIAS\UI\Implementation\Render\Template $tpl, Component\Component $component)
-    {
-        if ($this->getIsValueSet($component->getMainValueAsPercent())) {
-            if($this->getIsReached($component->getMainValueAsPercent(), $component->getRequiredAsPercent())) {
-                $tpl->touchBlock('outer-bar-success');
-            } else {
-                $tpl->touchBlock('outer-bar-no-success');
-            }
-        } else {
-            if ($component instanceof Component\Chart\ProgressMeter\Standard) {
-                if ($component->getComparison() > 0) {
-                    $tpl->touchBlock('inner-bar-active');
-                }
-            }
-        }
-        return $tpl;
-    }
-
-    /**
-     * get skew by percent
-     *
-     * @param int $percentage
-     * @return float
-     */
-    protected function getSkew($percentage)
-    {
-        return (((90 - (3.6 * ($percentage - 100))) - 90) / 4 + ($percentage * 0.1323));
-    }
-
-    /**
-     * get rotation by skew
-     *
-     * @param float $skew
-     * @return array
-     */
-    protected function getRotation($skew)
-    {
-        $rotation = array();
-        $rotation[0] = (-25 + ((90 - $skew) * 0));
-        $rotation[1] = (-25 + ((90 - $skew-1) * 1));
-        $rotation[2] = (-25 + ((90 - $skew-1) * 2));
-        return $rotation;
     }
 
     /**

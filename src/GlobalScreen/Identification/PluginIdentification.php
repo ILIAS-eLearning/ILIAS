@@ -1,7 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Identification;
 
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
-use ILIAS\GlobalScreen\Provider\Provider;
 
 /**
  * Class PluginIdentification

@@ -25,6 +25,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 */
 class ilPersonalDesktopGUI
 {
+	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
 	/**
 	 * @var ilCtrl
 	 */
@@ -127,6 +128,11 @@ class ilPersonalDesktopGUI
 	*/
 	function executeCommand()
 	{
+		global $DIC;
+
+		$context = $DIC->navigationContext();
+		$context->claim()->desktop();
+
 		$ilSetting = $this->settings;
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
@@ -192,7 +198,7 @@ class ilPersonalDesktopGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
 				$cal = new ilCalendarPresentationGUI();
 				$ret = $this->ctrl->forwardCommand($cal);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 			
 				// pd notes
@@ -250,7 +256,7 @@ class ilPersonalDesktopGUI
 				include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
 				$wsgui = new ilPersonalWorkspaceGUI();
 				$ret = $this->ctrl->forwardCommand($wsgui);								
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 			
 			case 'ilportfoliorepositorygui':
@@ -259,7 +265,7 @@ class ilPersonalDesktopGUI
 				include_once 'Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php';
 				$pfgui = new ilPortfolioRepositoryGUI();
 				$ret = $this->ctrl->forwardCommand($pfgui);				
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case 'ilachievementsgui':
@@ -269,9 +275,8 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($achievegui);
 				break;
 
-			case 'ilmystaffgui':
+			case strtolower(ilMyStaffGUI::class):
 				$this->getStandardTemplates();
-				include_once './Services/MyStaff/classes/class.ilMyStaffGUI.php';
 				$mstgui = new ilMyStaffGUI();
 				$ret = $this->ctrl->forwardCommand($mstgui);
 				break;
@@ -281,7 +286,7 @@ class ilPersonalDesktopGUI
 				include_once './Modules/Group/UserActions/classes/class.ilGroupUserActionsGUI.php';
 				$ggui = new ilGroupUserActionsGUI();
 				$ret = $this->ctrl->forwardCommand($ggui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 			case 'redirect':
 				$this->redirect();
@@ -303,7 +308,7 @@ class ilPersonalDesktopGUI
 	*/
 	function getStandardTemplates()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 	}
 	
 	/**
@@ -354,7 +359,7 @@ class ilPersonalDesktopGUI
 			$tpl->setHeaderActionMenu($htpl->get());
 		}
 		
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	
@@ -512,7 +517,7 @@ class ilPersonalDesktopGUI
 	{
 		// add template for content
 		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 				
 		// display infopanel if something happened
 		ilUtil::infoPanel();
@@ -762,10 +767,12 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 
-
+	/**
+	 *
+	 */
 	protected function jumpToMyStaff()
 	{
-		$this->ctrl->redirectByClass("ilmystaffgui");
+		$this->ctrl->redirectByClass(ilMyStaffGUI::class);
 	}
 	
 	/**
@@ -773,7 +780,7 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToBadges()
 	{
-		$this->ctrl->redirectByClass("ilbadgeprofilegui");
+		$this->ctrl->redirectByClass(["ilAchievementsGUI", "ilbadgeprofilegui"]);
 	}
 	
 	/**

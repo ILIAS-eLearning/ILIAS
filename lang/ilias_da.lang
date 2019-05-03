@@ -1,6 +1,6 @@
 ﻿/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file 
+* ILIAS language file
 *
 * @module		language file Danish
 * @modulegroup	language
@@ -267,7 +267,7 @@ common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is h
 common#:#auth_configure#:#Konfigurer...
 common#:#auth_create_users#:#Opret automatisk ikke-eksisterende brugere
 common#:#auth_default#:#Standardinstillinger
-common#:#auth_default_mode_changed_to#:#Standard autentificerings metode ændret til 
+common#:#auth_default_mode_changed_to#:#Standard autentificerings metode ændret til
 rbac#:#auth_edit_permission#:#Rediger rettighedsindstillinger
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_enable#:#Aktiver LDAP
@@ -538,7 +538,7 @@ common#:#email_not_valid#:#Den indtastede emailadresse er ikke gyldig!
 common#:#enable#:#Aktiver
 common#:#enable_calendar#:#Aktiver kalender
 common#:#enable_custom_icons#:#Brugervalgte ikoner
-common#:#enable_custom_icons_info#:#Tillader at der kan uploades brugervalgte ikoner i specifikke kategorier, kurser og grupper. 
+common#:#enable_custom_icons_info#:#Tillader at der kan uploades brugervalgte ikoner i specifikke kategorier, kurser og grupper.
 common#:#enable_fora_statistics#:#Aktiver statistik i fora
 common#:#enable_fora_statistics_desc#:#Hvis deaktiveret har ingen adgang til forumstatistik.
 common#:#enable_hist_user_comments#:#Aktiver brugerfiler i loggen
@@ -629,7 +629,7 @@ common#:#file_info#:#Fil information
 common#:#file_is_infected#:#Denne fil er inficeret med en virus.
 common#:#file_not_found#:#Filen er ikke fundet
 common#:#file_not_valid#:#Filen er ikke gyldig!
-common#:#file_notice#:#Bemærk at den maksimale størrelse er 
+common#:#file_notice#:#Bemærk at den maksimale størrelse er
 common#:#file_allowed_suffixes#:#Tilladte filtyper:
 rbac#:#file_read#:#Download fil
 common#:#file_suffix_repl#:#Erstatning af filendelser
@@ -1625,7 +1625,7 @@ common#:#tst_user_not_invited#:#Du ikke en af de studerende der skal tage denne 
 rbac#:#tst_visible#:#Testen er synlig
 common#:#tst_warning_test_not_complete#:#Testen er endnu ikke færdiggjort
 rbac#:#tst_write#:#Rediger Test
-common#:#txt_registered#:#Din ILIAS-konto er nu oprettet. Klik på knappen nedenfor for at logge ind. 
+common#:#txt_registered#:#Din ILIAS-konto er nu oprettet. Klik på knappen nedenfor for at logge ind.
 common#:#txt_registered_passw_gen#:#Du har nu oprettet en konto på ILIAS. I løbet af kort tid modtager du en email med det genererede password.
 common#:#txt_submitted#:#Du har succesfuldt sendt en ansøgning om en konto til ILIAS. Din forespørgsel vil set på af en system administrator, og vil blive aktiveret indenfor 48 timer, Du har ikke mulighed for at logge ind før din konto er aktiveret.
 common#:#typ#:#Objekt typedefinition
@@ -2477,7 +2477,7 @@ pdesk#:#bm_num_bookmarks#:#Foretrukne
 pdesk#:#bm_num_bookmark_folders#:#Folder(e)
 pdesk#:#pdesk_intro#:#Velkommen til dit skrivebord!
 pdesk#:#pdesk_intro2#:#Dette er dit personlige sted til at organisere læring og arbejde. Du kan placere resurser fra andre områder her. Det kræver kun to skridt:
-pdesk#:#pdesk_intro3#:#Klik på '%s' og gennemse de arbejds og læreresurser. 
+pdesk#:#pdesk_intro3#:#Klik på '%s' og gennemse de arbejds og læreresurser.
 pdesk#:#pdesk_intro4#:#Hvis du finder noget interessant tilføjer du det til skrivebordet ved at trykke <i>Vis på skrivebord</i> knappen
 rep#:#rep_intro#:#Velkommen til oversigten!
 rep#:#rep_intro1#:#I dette område kan du oprette læring og arbejdsresurser til alle brugere. Alle resurser er organiseret i kategorier. Kategorier kan afspejle strukturen af din organisation (f.eks. afdelinger), et hieraki af discipliner eller klasser i en skole.
@@ -2755,7 +2755,7 @@ content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
 content#:#cont_text_fn#:#Fodnote
-content#:#cont_text_iln#:#Internt link, f.eks: 
+content#:#cont_text_iln#:#Internt link, f.eks:
 content#:#cont_text_quot#:#Spørgsmål
 content#:#cont_text_str#:#Fed tekst:
 content#:#cont_text_tex#:#LaTeX kode:
@@ -3938,7 +3938,7 @@ registration#:#reg_mail_body_approve#:#Du har allerede registreret på ILIAS og 
 registration#:#reg_mail_body_profile#:#Profilinformationer:
 registration#:#reg_mail_body_profile_changed#:#Din profil er blevet ændret !
 registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by email.
-registration#:#reg_mail_new_user_body#:#En ny bruger er blevet registreret. 
+registration#:#reg_mail_new_user_body#:#En ny bruger er blevet registreret.
 registration#:#reg_missing_domain#:#Udflyld venligst alle felter.
 registration#:#reg_missing_role#:#Udfyld venligst alle felter.
 registration#:#reg_notification#:#Advisering
@@ -4061,7 +4061,7 @@ survey#:#search_groups#:#Grupper fundet
 survey#:#search_roles#:#Roller fundet
 survey#:#search_term#:#Søgekriterier
 survey#:#select_target_position_for_move_question#:#Vælg venligst en destination for at flytte spørgsmålet/spørgsmålene og tryk på 1 af indsæt knapperne!
-survey#:#text_maximum_chars_allowed#:#Bemærk at kun de første %s karakterer tæller med i besvarelsen. 
+survey#:#text_maximum_chars_allowed#:#Bemærk at kun de første %s karakterer tæller med i besvarelsen.
 survey#:#warning_question_not_complete#:#Spørgeskemaet er ikke færdigt!
 survey#:#back#:#<< Tilbage
 survey#:#categories#:#Svar
@@ -4397,7 +4397,7 @@ trac#:#trac_mode_objectives_info#:#The learning progress will be calculated auto
 trac#:#trac_mode_collection_info#:#Vælg hvilke læreresurser som bestemmer lærefremskridtet.
 trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.###10 05 2007 new variable
 trac#:#trac_mode_test_passed_info#:#Testen skal bestås af brugeren før status kan sættes til fuldført.
-trac#:#trac_mode_exercise_returned_info#:#Status fuldført/gemmemført kan kun sættes af tutorer. 
+trac#:#trac_mode_exercise_returned_info#:#Status fuldført/gemmemført kan kun sættes af tutorer.
 trac#:#trac_mode_manual_by_tutor#:#Manuelt af tutor
 trac#:#trac_mode_manual_by_tutor_info#:#Den overordnede status kan kun sættes af hjælpeundervisere.
 ldap#:#ldap_server_name#:#LDAP konfigurationens navn
@@ -4784,9 +4784,9 @@ content#:#cont_next_rev#:#Næste revision
 content#:#cont_latest_rev#:#Seneste revision
 content#:#content_page_history#:#Sidehistorik
 content#:#cont_alphabetic#:#Alfabetisk A, B, ...
-content#:#cont_alphabetic_s#:#Alfabetisk a, b, ... 
+content#:#cont_alphabetic_s#:#Alfabetisk a, b, ...
 content#:#cont_roman#:#Romersk I, II, ...
-content#:#cont_roman_s#:#Romersk i, ii, ...  
+content#:#cont_roman_s#:#Romersk i, ii, ...
 content#:#cont_ed_insert_section#:#Indsæt sektion
 common#:#obj_qpl_duplicate#:#Kopier spørgsmål til test
 common#:#obj_qpl_select#:#-- Vælg spørgsmål til test --
@@ -4928,7 +4928,7 @@ content#:#cont_ed_insert_map#:#Indsæt kort
 content#:#cont_ed_insert_dtable#:#Indsæt datatabel
 content#:#cont_ed_insert_atable#:#Indsæt avanceret tabel
 content#:#cont_ed_edit_data#:#Ret data
-cntr#:#cntr_view_info_sessions#:#Denne præsentationstype placerer alle sessionerne øverst og andet kursusmateriale nederst. 
+cntr#:#cntr_view_info_sessions#:#Denne præsentationstype placerer alle sessionerne øverst og andet kursusmateriale nederst.
 cntr#:#cntr_view_info_simple#:#Denne præsentationstype viser alt kursusmaterialet på en liste.
 cntr#:#cntr_view_info_by_type#:#Kursusmaterialet grupperes efter hvilken resursetype det er.
 cntr#:#cntr_view_simple#:#Simpel
@@ -5890,7 +5890,7 @@ search#:#lucene_last_index_time#:#Index sidst opdateret
 search#:#lucene_last_index_time_info#:#Ret kun denne indstilling hvis Please modify this settings only if you have installed an index backup.###30 04 2009 new variable
 search#:#lucene_all_occurrences#:#... %s other occurrence(s)###30 04 2009 new variable
 notes#:#notes_note_deleted#:#Noten er blevet slettet.
-notes#:#notes_notes_deleted#:#Noter slettet. 
+notes#:#notes_notes_deleted#:#Noter slettet.
 common#:#user_image#:#Brugerbillede
 ps#:#ps_prevent_simultaneous_logins#:#Forhindrer flere samtidige logins
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.###30 04 2009 new variable
@@ -6009,7 +6009,7 @@ style#:#sty_tag_normal#:#Normal
 style#:#sty_tag_hover#:#:hover
 content#:#cont_span#:#Span
 content#:#cont_colspan#:#Kol. span
-content#:#cont_rowspan#:#Rækkespan 
+content#:#cont_rowspan#:#Rækkespan
 content#:#cont_save_spans#:#Gem spænd
 content#:#cont_save_widths#:#Gem bredder
 content#:#cont_set_styles#:#Sæt stilark
@@ -6546,7 +6546,7 @@ style#:#style_current_style#:#Nuværende stilark
 style#:#style_edit_style#:#Ret stilark
 style#:#style_delete_style#:#Slet stilark
 crs#:#crs_subscribe_wl_body#:#Du er sat på venteliste til kurset "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
-grp#:#grp_mail_permanent_link#:#Tryk på nedenstående link for at få mere information om gruppen: 
+grp#:#grp_mail_permanent_link#:#Tryk på nedenstående link for at få mere information om gruppen:
 grp#:#grp_mail_admission_new_sub#:#Din anmodning til gruppen "%s"
 grp#:#grp_mail_admission_new_bod#:#Vi bekræfter hermed at din anmodning om medlemsskab af gruppen "%s".
 grp#:#grp_mail_dismiss_sub#:#Medlemsskab i gruppe "%s" ophørt
@@ -7865,7 +7865,7 @@ skmg#:#skmg_assign_materials#:#Assign Materials###18 07 2011 new variable
 skmg#:#skmg_add_skill#:#Add Skill###18 07 2011 new variable
 skmg#:#skmg_selectable#:#Selectable###18 07 2011 new variable
 skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.###18 07 2011 new variable
-assessment#:#test_is_offline#:#Du kan ikke tage testen, da den er offline. 
+assessment#:#test_is_offline#:#Du kan ikke tage testen, da den er offline.
 skmg#:#skmg_materials#:#Materialer
 skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
@@ -8417,8 +8417,8 @@ rbac#:#rbac_precondition_target#:#Condition limits access to###01 10 2011 new va
 rbac#:#rbac_precondition_mode#:#Metode
 rbac#:#rbac_precondition_mode_all#:#Alle betingelser
 rbac#:#rbac_precondition_mode_all_info#:#Alle betingelser skal være opfyldt før der gives adgang.
-rbac#:#rbac_precondition_mode_subset#:#Delvis opfyldelse. 
-rbac#:#rbac_precondition_mode_subset_info#:#En delmængde af betingelserne skal være opfyldt. Nogle betingelser kan stadig sættes som obligatoriske. 
+rbac#:#rbac_precondition_mode_subset#:#Delvis opfyldelse.
+rbac#:#rbac_precondition_mode_subset_info#:#En delmængde af betingelserne skal være opfyldt. Nogle betingelser kan stadig sættes som obligatoriske.
 rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###01 10 2011 new variable
 rbac#:#rbac_precondition_minimum_optional#:#Mindst 2 betingelser skal fortsat være valgfrie.
 common#:#precondition_required_itemlist#:#Krævet betingelse
@@ -8498,7 +8498,7 @@ dateplaner#:#cal_cal_deleted#:#Kalenderne er slettet
 wfld#:#wfld_edit#:#Ret mappe
 pd#:#pd_enable_comments#:#Aktiver kommentarer
 common#:#continue#:#fortsæt
-assessment#:#test_has_datasets_warning_page_view#:#Testen indeholder allerede besvarelser. Du kan ikke rette testspørgsmålene før du sletter besvarelserne. 
+assessment#:#test_has_datasets_warning_page_view#:#Testen indeholder allerede besvarelser. Du kan ikke rette testspørgsmålene før du sletter besvarelserne.
 assessment#:#test_has_datasets_warning_page_view_link#:#Ret besvarelser
 wsp#:#wsp_share_with_users#:#Del med brugere
 acc#:#acc_last_rep_visited#:#Repository/Last Visited###31 12 2011 new variable
@@ -9188,7 +9188,7 @@ poll#:#poll_population#:#%s stemmer
 poll#:#poll_delete_votes#:#Slet alle stemmer
 poll#:#poll_delete_votes_sure#:#Er du sikker på du vil slette alle stemmer?
 poll#:#poll_voting_period_and_results#:#Afstemningsperiode og resultat
-poll#:#poll_voting_period_limited#:#Begrænset 
+poll#:#poll_voting_period_limited#:#Begrænset
 blog#:#blog_keywords#:#Søgeord
 blog#:#blog_no_keywords#:#Ingen søgeord er indtastet.
 blog#:#blog_edit_keywords#:#Ret søgeord.
@@ -9330,7 +9330,7 @@ assessment#:#edit_page#:#Ret side
 assessment#:#edit_question#:#Ret spørgsmål
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Kopier datasamling
-dcl#:#dcl_no_search_results_found_for#:#Der kunne ikke findes moduler til 
+dcl#:#dcl_no_search_results_found_for#:#Der kunne ikke findes moduler til
 dcl#:#dcl_notimage_exception#:#Filen skal være en billedfil
 rbac#:#lp_other_users#:#Overblik over lærefremskridt for andre brugere
 rbac#:#trac_lp_other_users#:#See learning progress overview of other users###28 11 2012 new variable
@@ -9641,7 +9641,7 @@ bibl#:#download_original_file#:#Download Original File###16 09 2013 new variable
 bibl#:#Type#:#Type###16 09 2013 new variable
 bibl#:#override_entries#:#Override Entries###16 09 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###16 09 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###16 09 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###16 09 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###16 09 2013 new variable
 bibl#:#detail_view#:#Detail View###16 09 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###16 09 2013 new variable
@@ -10671,7 +10671,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

@@ -37,7 +37,6 @@ il.News = {
 
 	moreOnScroll: function() {
 		var w = $(window), t = il.News;
-		//w.off('scroll');
 		if (!t.scroll_init) {
 			w.on('scroll', function () {
 				if ($(window).scrollTop() + $(window).height() + 60 > $(document).height()) {
@@ -72,6 +71,7 @@ il.News = {
 		}
 		//console.log("get more news");
 
+		t.scroll_init = false;
 		$(window).off('scroll');
 
 		$.ajax({

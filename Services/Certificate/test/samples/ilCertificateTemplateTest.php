@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTemplateTest extends \PHPUnit_Framework_TestCase
+class ilCertificateTemplateTest extends ilCertificateBaseTestCase
 {
 	public function testCreateCertificateTemplate()
 	{

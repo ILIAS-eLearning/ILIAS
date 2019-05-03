@@ -43,4 +43,5 @@
 	<web_access_checker>
 		<secure_path path="ilExercise" checking-class="ilObjExerciseAccess" />
 	</web_access_checker>
+	<logging />
 </module>

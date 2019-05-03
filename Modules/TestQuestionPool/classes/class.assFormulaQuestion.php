@@ -741,6 +741,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
 			$this->setOwner($data["owner"]);
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
 
 			try
 			{
@@ -1014,7 +1020,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				$this->unitrepository->getUnits());
 		}
 
-		return $points;
+		$reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
+		
+		return $this->ensureNonNegativePoints($reachedPoints);
 	}
 	
 	protected function isValidSolutionResultValue($submittedValue)
@@ -1247,14 +1255,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
-	}
-
-	/**
 	 * Returns the question type of the question
 	 * @return string The question type of the question
 	 */
@@ -1421,8 +1421,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				{
 					//get unit-factor
 					$unit_factor = assFormulaQuestionUnit::lookupUnitFactor($user_solution[$result_name]['unit']);
-					$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 				}
+
+				$user_solution[$result->getResult()]["value"] = round(ilMath::_div($resVal, $unit_factor), 55);
 			}
 			if($result->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
 				|| $result->getResultType() == assFormulaQuestionResult::RESULT_FRAC)
@@ -1441,11 +1442,15 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			}
 			elseif($result->getPrecision() > 0)
 			{
-				$user_solution[$result->getResult()]["value"] = round($resVal, $result->getPrecision());
+				$user_solution[$result->getResult()]["value"] = round(
+					$user_solution[$result->getResult()]["value"], $result->getPrecision()
+				);
 			}
 			else
 			{
-				$user_solution[$result->getResult()]["value"] = round($resVal);
+				$user_solution[$result->getResult()]["value"] = round(
+					$user_solution[$result->getResult()]["value"]
+				);
 			}
 		}
 		return $user_solution;
@@ -1499,14 +1504,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		{
 			if(preg_match("/^result_(\\\$r\\d+)$/", $k))
 			{
-				if( $this->isValidSolutionResultValue($v) )
-				{
-					$solutionSubmit[$k] = $v;
-				}
-				else
-				{
-					$solutionSubmit[$k] = '';
-				}
+				$solutionSubmit[$k] = $v;
 			}
 			elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
 			{
@@ -1514,6 +1512,27 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 			}
 		}
 		return $solutionSubmit;
+	}
+	
+	public function validateSolutionSubmit()
+	{
+		foreach($this->getSolutionSubmit() as $key => $value)
+		{
+			if(preg_match("/^result_(\\\$r\\d+)$/", $key))
+			{
+				if( strlen($value) && !$this->isValidSolutionResultValue($value) )
+				{
+					ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+					return false;
+				}
+			}
+			elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $key))
+			{
+				continue;
+			}
+		}
+		
+		return true;
 	}
 
 	/**

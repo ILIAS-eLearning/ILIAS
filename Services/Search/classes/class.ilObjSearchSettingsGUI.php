@@ -444,7 +444,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'),'mime_enabled');
 		$if->setValue(1);
 		$if->setChecked($this->settings->isLuceneMimeFilterEnabled());
-		$if->setInfo($this->lng->txt('search_item_filter_form_info'));
+		$if->setInfo($this->lng->txt('search_mime_filter_form_info'));
 		$this->form->addItem($if);
 		
 		$mimes = $this->settings->getLuceneMimeFilter();

@@ -19,7 +19,10 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 	const CONTEXT_SUBSTITUTION = 4;
 	const CONTEXT_SUBSTITUTION_COURSE = 5;
 	const CONTEXT_SUBSTITUTION_CATEGORY = 6;
-			
+	const CONTEXT_SUBSTITUTION_SESSION = 7;
+	const CONTEXT_SUBSTITUTION_IASS = 8;
+	const CONTEXT_SUBSTITUTION_GROUP = 9;
+
 	
 	const ACTION_MD_CREATE_RECORD = 1;
 	const ACTION_MD_IMPORT_RECORDS = 2;
@@ -47,7 +50,15 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 	const ACTION_SUBSTITUTION_CATEGORY_SHOW_FIELD = 21;
 	const ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY = 22;
 	
-	
+	const ACTION_SUBSTITUTION_SESSION_SHOW_FIELD = 23;
+	const ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY = 24;
+
+	const ACTION_SUBSTITUTION_GROUP_SHOW_FIELD = 25;
+	const ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY = 26;
+
+	const ACTION_SUBSTITUTION_IASS_SHOW_FIELD = 27;
+	const ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY = 28;
+
 	const SUBACTION_RECORD_TITLE = 1;
 	const SUBACTION_RECORD_DESCRIPTION = 2;
 	const SUBACTION_RECORD_OBJECT_TYPES = 3;	
@@ -82,13 +93,16 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 						
 			case self::CONTEXT_FIELD:
 			case self::CONTEXT_SUBSTITUTION_COURSE:
+			case self::CONTEXT_SUBSTITUTION_GROUP:
+			case self::CONTEXT_SUBSTITUTION_SESSION:
 			case self::CONTEXT_SUBSTITUTION_CATEGORY:
+			case self::CONTEXT_SUBSTITUTION_IASS:
 				$set = $ilDB->query("SELECT field_id id".
 					" FROM adv_mdf_definition");						
 				break;
 			
 			case self::CONTEXT_SUBSTITUTION:
-				return array("crs", "cat");				
+				return ['crs','cat','sess','iass','grp'];
 										
 			default:
 				return array();
@@ -178,8 +192,44 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 							,self::SUBACTION_SUBSTITUTION_NEWLINE
 						)
 				)
+			),
+			self::CONTEXT_SUBSTITUTION_SESSION => array(
+				"actions" => array(
+					self::ACTION_SUBSTITUTION_SESSION_SHOW_FIELD
+				),
+				"subactions" => array(
+					self::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY =>
+						array(
+							self::SUBACTION_SUBSTITUTION_BOLD
+						,self::SUBACTION_SUBSTITUTION_NEWLINE
+						)
+				)
+			),
+			self::CONTEXT_SUBSTITUTION_GROUP => array(
+				"actions" => array(
+					self::ACTION_SUBSTITUTION_GROUP_SHOW_FIELD
+				),
+				"subactions" => array(
+					self::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY =>
+						array(
+							self::SUBACTION_SUBSTITUTION_BOLD
+						,self::SUBACTION_SUBSTITUTION_NEWLINE
+						)
+				)
+			),
+			self::CONTEXT_SUBSTITUTION_IASS => array(
+				"actions" => array(
+					self::ACTION_SUBSTITUTION_IASS_SHOW_FIELD
+				),
+				"subactions" => array(
+					self::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY =>
+						array(
+							self::SUBACTION_SUBSTITUTION_BOLD
+						,self::SUBACTION_SUBSTITUTION_NEWLINE
+						)
+				)
 			)
-		);		
+		);
 	}
 	
 	

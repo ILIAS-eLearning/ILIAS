@@ -3,7 +3,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCoursePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
+class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
 	public function testPlaceholderGetHtmlDescription()
 	{
@@ -19,7 +19,17 @@ class ilCoursePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 		$templateMock->method('get')
 			->willReturn('');
 
-		$placeholderDescriptionObject = new ilCoursePlaceholderDescription(null, $languageMock);
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
+		$placeholderDescriptionObject = new ilCoursePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 

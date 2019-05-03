@@ -3,10 +3,12 @@
 
 require_once 'libs/composer/vendor/autoload.php';
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Class ilServicesSamlTestSuite
  */
-class ilServicesSamlTestSuite extends \PHPUnit_Framework_TestSuite
+class ilServicesSamlTestSuite extends TestSuite
 {
 	/**
 	 * @return self

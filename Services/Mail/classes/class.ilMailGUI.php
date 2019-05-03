@@ -228,7 +228,7 @@ class ilMailGUI
 		$DIC['ilHelp']->setScreenIdComponent("mail");
 		$DIC['ilMainMenu']->setActive("mail");
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitleIcon(\ilUtil::getImagePath("icon_mail.svg"));
 
 		\ilUtil::infoPanel();

@@ -463,9 +463,9 @@ class ilCertificateMigrationJob extends AbstractJob
 				continue;
 			}
 
-			if ($object->hasUserCertificate($this->user_id))
+			$adapter = new \ilExerciseCertificateAdapter($object);
+			if ($adapter->hasUserCertificate($this->user_id))
 			{
-				$adapter = new \ilExerciseCertificateAdapter($object);
 				$data = $this->createCertificateData($objectId, $adapter, $object, $data);
 			}
 		}

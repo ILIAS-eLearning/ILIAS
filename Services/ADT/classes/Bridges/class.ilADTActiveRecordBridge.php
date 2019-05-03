@@ -15,7 +15,7 @@ abstract class ilADTActiveRecordBridge
 	protected $adt; // [ilADT]
 	protected $id; // [string]
 	protected $tabe; // [string]
-	protected $primary; // [array]
+	protected $primary = []; // [array]
 	
 	/**
 	 * Constructor

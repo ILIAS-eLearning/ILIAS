@@ -695,6 +695,25 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 		return $changed;
 	}
 
+	/**
+	 * Remove all data of a user
+	 *
+	 * @param int $a_user_id
+	 */
+	static function removeAllUserData($a_user_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$db->manipulate("DELETE FROM skl_user_skill_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+		);
+		$db->manipulate("DELETE FROM skl_user_has_level WHERE "
+			." user_id = ".$db->quote($a_user_id, "integer")
+		);
+	}
+
 
 	/**
 	 * Get max levels per type

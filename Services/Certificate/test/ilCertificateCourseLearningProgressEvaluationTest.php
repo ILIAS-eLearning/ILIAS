@@ -4,20 +4,45 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCourseLearningProgressEvaluationTest extends PHPUnit_Framework_TestCase
+class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBaseTestCase
 {
 	public function testOnlyOneCourseIsCompletedOnLPChange()
 	{
-
 		$templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$templateRepository->method('fetchAllObjectIdsByType')
+		$templateRepository->method('fetchActiveTemplatesByType')
 			->willReturn(
 				array(
-					5,
-					6
+					new ilCertificateTemplate(
+							5,
+							'crs',
+							'<xml>Some Content</xml>',
+							md5('<xml>Some Content</xml>'),
+							'[]',
+							'1',
+							'v5.4.0',
+							123456789,
+							true,
+							'/some/where/background.jpg',
+							'/some/where/thumbnail.svg',
+							1
+					),
+					new ilCertificateTemplate(
+						6,
+						'crs',
+						'<xml>Some Content</xml>',
+						md5('<xml>Some Content</xml>'),
+						'[]',
+						'1',
+						'v5.4.0',
+						123456789,
+						true,
+						'/some/where/background.jpg',
+						'/some/where/thumbnail.svg',
+						5
+					),
 				)
 			);
 
@@ -65,30 +90,61 @@ class ilCertificateCourseLearningProgressEvaluationTest extends PHPUnit_Framewor
 				ilLPStatus::LP_STATUS_IN_PROGRESS
 			);
 
+		$trackingHelper = $this->getMockBuilder('ilCertificateObjUserTrackingHelper')
+			->getMock();
+
+		$trackingHelper->method('enabledLearningProgress')->willReturn(false);
+
 		$evaluation = new ilCertificateCourseLearningProgressEvaluation(
 			$templateRepository,
 			$setting,
 			$objectHelper,
-			$statusHelper
+			$statusHelper,
+			$trackingHelper
 		);
 
 		$completedCourses = $evaluation->evaluate(10, 200);
 
-		$this->assertEquals(array(5), $completedCourses);
+		$this->assertEquals(5, $completedCourses[0]->getObjId());
 	}
 
 	public function testAllCoursesAreCompletedOnLPChange()
 	{
-
 		$templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$templateRepository->method('fetchAllObjectIdsByType')
+		$templateRepository->method('fetchActiveTemplatesByType')
 			->willReturn(
 				array(
-					5,
-					6
+					new ilCertificateTemplate(
+						5,
+						'crs',
+						'<xml>Some Content</xml>',
+						md5('<xml>Some Content</xml>'),
+						'[]',
+						'1',
+						'v5.4.0',
+						123456789,
+						true,
+						'/some/where/background.jpg',
+						'/some/where/thumbnail.svg',
+						1
+					),
+					new ilCertificateTemplate(
+						6,
+						'crs',
+						'<xml>Some Content</xml>',
+						md5('<xml>Some Content</xml>'),
+						'[]',
+						'1',
+						'v5.4.0',
+						123456789,
+						true,
+						'/some/where/background.jpg',
+						'/some/where/thumbnail.svg',
+						5
+					),
 				)
 			);
 
@@ -136,30 +192,62 @@ class ilCertificateCourseLearningProgressEvaluationTest extends PHPUnit_Framewor
 				ilLPStatus::LP_STATUS_COMPLETED_NUM
 			);
 
+		$trackingHelper = $this->getMockBuilder('ilCertificateObjUserTrackingHelper')
+			->getMock();
+
+		$trackingHelper->method('enabledLearningProgress')->willReturn(false);
+
 		$evaluation = new ilCertificateCourseLearningProgressEvaluation(
 			$templateRepository,
 			$setting,
 			$objectHelper,
-			$statusHelper
+			$statusHelper,
+			$trackingHelper
 		);
 
 		$completedCourses = $evaluation->evaluate(10, 200);
 
-		$this->assertEquals(array(5, 6), $completedCourses);
+		$this->assertEquals(5, $completedCourses[0]->getObjId());
+		$this->assertEquals(6, $completedCourses[1]->getObjId());
 	}
 
 	public function testNoSubitemDefinedForEvaluation()
 	{
-
 		$templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$templateRepository->method('fetchAllObjectIdsByType')
+		$templateRepository->method('fetchActiveTemplatesByType')
 			->willReturn(
 				array(
-					5,
-					6
+					new ilCertificateTemplate(
+						5,
+						'crs',
+						'<xml>Some Content</xml>',
+						md5('<xml>Some Content</xml>'),
+						'[]',
+						'1',
+						'v5.4.0',
+						123456789,
+						true,
+						'/some/where/background.jpg',
+						'/some/where/thumbnail.svg',
+						1
+					),
+					new ilCertificateTemplate(
+						6,
+						'crs',
+						'<xml>Some Content</xml>',
+						md5('<xml>Some Content</xml>'),
+						'[]',
+						'1',
+						'v5.4.0',
+						123456789,
+						true,
+						'/some/where/background.jpg',
+						'/some/where/thumbnail.svg',
+						5
+					),
 				)
 			);
 
@@ -184,11 +272,17 @@ class ilCertificateCourseLearningProgressEvaluationTest extends PHPUnit_Framewor
 		$statusHelper = $this->getMockBuilder('ilCertificateLPStatusHelper')
 			->getMock();
 
+		$trackingHelper = $this->getMockBuilder('ilCertificateObjUserTrackingHelper')
+			->getMock();
+
+		$trackingHelper->method('enabledLearningProgress')->willReturn(false);
+
 		$evaluation = new ilCertificateCourseLearningProgressEvaluation(
 			$templateRepository,
 			$setting,
 			$objectHelper,
-			$statusHelper
+			$statusHelper,
+			$trackingHelper
 		);
 
 		$completedCourses = $evaluation->evaluate(10, 200);

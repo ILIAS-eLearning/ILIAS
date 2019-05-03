@@ -261,6 +261,12 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			$this->setSelectionLimit((int)$data['selection_limit'] > 0 ? (int)$data['selection_limit'] : null);
 			$this->feedback_setting = $data['feedback_setting'];
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -786,14 +792,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			);
 		}
 		$this->rebuildThumbnails();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
-	{
-		// nothing to rework!
 	}
 
 	function syncWithOriginal()

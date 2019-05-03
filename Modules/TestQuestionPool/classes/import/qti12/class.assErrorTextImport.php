@@ -105,8 +105,10 @@ class assErrorTextImport extends assQuestionImport
 		
 		foreach ($feedbacks as $ident => $material)
 		{
+			$index = $this->fetchIndexFromFeedbackIdent($ident);
+			
 			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
-				$this->object->getId(),0, $ident, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+				$this->object->getId(),0, $index, ilRTE::_replaceMediaObjectImageSrc($material, 1)
 			);
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)

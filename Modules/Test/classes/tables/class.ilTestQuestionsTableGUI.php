@@ -97,6 +97,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 			'qid'         => array('txt' => $this->lng->txt('question_id'), 'default' => true),
 			'description' => array('txt' => $this->lng->txt('description'), 'default' => false),
 			'author'      => array('txt' => $this->lng->txt('author'), 'default' => false),
+			'lifecycle'      => array('txt' => $this->lng->txt('qst_lifecycle'), 'default' => true),
 			'working_time'=> array('txt' => $this->lng->txt('working_time'), 'default' => false)
 		);
 		
@@ -155,6 +156,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		if( $this->isColumnSelected('author') )
 		{
 			$this->addColumn($this->lng->txt('author'),'author', '');
+		}
+		if( $this->isColumnSelected('lifecycle') )
+		{
+			$this->addColumn($this->lng->txt('qst_lifecycle'),'lifecycle', '');
 		}
 		if( $this->isColumnSelected('working_time') )
 		{
@@ -255,6 +260,16 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		if( $this->isColumnSelected('author') )
 		{
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+		}
+		
+		if( $this->isColumnSelected('lifecycle') )
+		{
+			try {
+				$lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle'])->getTranslation($this->lng);
+				$this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle);
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->tpl->setVariable("QUESTION_LIFECYCLE", '');
+			}
 		}
 
 		if( $this->isColumnSelected('working_time') )

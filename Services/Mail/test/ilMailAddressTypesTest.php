@@ -10,7 +10,7 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 	/**
 	 * @inheritdoc
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if (!defined('ANONYMOUS_USER_ID')) {
 			define('ANONYMOUS_USER_ID', 13);
@@ -265,6 +265,10 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 		$addressTypeHelper->expects($this->atLeast(3))->method('getInstallationHost')->willReturn('ilias');
 		$addressTypeHelper->expects($this->exactly(2))->method('getUserIdByLogin')->willReturnOnConsecutiveCalls(
 			4711, 4711, 0
+		);
+
+		$addressTypeHelper->expects($this->any())->method('receivesInternalMailsOnly')->willReturnOnConsecutiveCalls(
+			true
 		);
 
 		$rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();

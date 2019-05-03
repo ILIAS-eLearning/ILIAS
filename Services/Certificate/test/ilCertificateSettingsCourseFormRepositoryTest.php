@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testSaveSettings()
 	{
@@ -18,10 +18,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_Te
 			->willReturn(100);
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -61,6 +57,15 @@ class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_Te
 			->disableOriginalConstructor()
 			->getMock();
 
+		$lpMock = $this->getMockBuilder('ilObjectLP')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$lpMock->method('getCurrentMode')
+			->willReturn(100);
+
+		$lpHelper->method('getInstance')->willReturn($lpMock);
+
 		$tree = $this->getMockBuilder('ilTree')
 			->disableOriginalConstructor()
 			->getMock();
@@ -77,7 +82,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_Te
 			$object,
 			'/some/where',
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,
@@ -106,10 +110,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_Te
 			->willReturn(100);
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -175,7 +175,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends PHPUnit_Framework_Te
 			$object,
 			'/some/where',
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,

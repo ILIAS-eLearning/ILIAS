@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
+class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 {
 	public function testCloneCertificate()
 	{
@@ -138,6 +138,6 @@ class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
 		$newObject->method('getId')
 			->willReturn(10);
 
-		$cloneAction->cloneCertificate($oldObject, $newObject, 'v5.4.0');
+		$cloneAction->cloneCertificate($oldObject, $newObject, 'v5.4.0', '/some/web/dir');
 	}
 }

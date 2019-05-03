@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Main;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
@@ -49,9 +49,9 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 		if ($this->isCustom()) {
 			$mm = $this->getCustomStorage();
 			if ($mm instanceof ilMMCustomItemStorage) {
-				$default_title = $this->getDefaultTitle();
+				$default_title = ilMMItemTranslationStorage::getDefaultTranslation($this->identification());
 				$mm->setDefaultTitle($default_title);
-				$mm->setType($this->getType()); // FSX
+				$mm->setType($this->getType());
 				$mm->update();
 			}
 		}
@@ -63,7 +63,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	 * @inheritDoc
 	 */
 	public function delete() {
-		if (!$this->isCustom()) {
+		if (!$this->isDeletable()) {
 			throw new LogicException("Non Custom items can't be deleted");
 		}
 
@@ -71,14 +71,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 		if ($cm instanceof ilMMCustomItemStorage) {
 			$cm->delete();
 		}
-		$gs = ilGSIdentificationStorage::find($this->gs_item->getProviderIdentification()->serialize());
-		if ($gs instanceof ilGSIdentificationStorage) {
-			$gs->delete();
-		}
-		$mm = ilMMItemStorage::find($this->gs_item->getProviderIdentification()->serialize());
-		if ($mm instanceof ilMMItemStorage) {
-			$mm->delete();
-		}
+		parent::delete();
 	}
 
 
@@ -97,6 +90,22 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	 * @inheritDoc
 	 */
 	public function isCustom(): bool {
+		return true;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isEditable(): bool {
+		return true;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isDeletable(): bool {
 		return true;
 	}
 
@@ -145,7 +154,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade {
 	 * @inheritDoc
 	 */
 	public function isTopItem(): bool {
-		if ($this->gs_item instanceof \ILIAS\GlobalScreen\MainMenu\isItem) {
+		if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
 			return parent::isTopItem();
 		}
 

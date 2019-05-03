@@ -33,7 +33,6 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 
 		$this->ctrl = $DIC->ctrl();
 		$ilCtrl = $DIC->ctrl();
-
 		$this->multi_nodes = $a_multi;
 		$this->postvar = $a_postvar;
 

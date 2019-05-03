@@ -1009,17 +1009,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function downloadItemObject()
 	{
 		$ilCtrl = $this->ctrl;
-		$this->checkPermission("read");		
-		
+		$ilUser = $this->user;
+
+		$this->checkPermission("read");
 		$news_item = new ilNewsItem($_GET["item_id"]);
+		$this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
 		if (!$news_item->deliverMobFile($_GET["purpose"], (int) $_GET["presentation"]))
 		{
 			$ilCtrl->redirect($this, "listItems");
-		}
-		else
-		{
-		$ilUser = $this->user;
-			$this->object->handleLPUpdate($ilUser->getId(), $news_item->getMobId());
 		}
 		exit;
 	}
@@ -1593,8 +1590,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// need read events for parent for LP statistics
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';						
 		ilChangeEvent::_recordReadEvent("mcst", $this->object->getRefId(),
-			$this->object->getId(), $ilUser->getId());		
-		
+			$this->object->getId(), $ilUser->getId());
+
+		// trigger LP update
+		require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
+
 		if ($this->object->getViewMode() == ilObjMediaCast::VIEW_GALLERY)
 		{
 			$this->showGallery();

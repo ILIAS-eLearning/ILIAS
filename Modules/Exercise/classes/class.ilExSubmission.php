@@ -70,7 +70,6 @@ class ilExSubmission
 		$this->is_tutor = (bool)$a_is_tutor;
 		$this->public_submissions = (bool)$a_public_submissions;
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$this->state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $a_user_id);
 		
 		if($a_ass->hasTeam())
@@ -1225,16 +1224,19 @@ class ilExSubmission
 				}				 
 				
 				// late submission?
-				foreach($user_files as $file)
+				if (is_array($user_files))	// see #23900
 				{
-					if(basename($file["filename"]) == $sourcefile)
+					foreach ($user_files as $file)
 					{
-						if($file["late"])
+						if (basename($file["filename"]) == $sourcefile)
 						{
-							$targetfile = $lng->txt("exc_late_submission")." - ".
-								$targetfile;
+							if ($file["late"])
+							{
+								$targetfile = $lng->txt("exc_late_submission") . " - " .
+									$targetfile;
+							}
+							break;
 						}
-						break;
 					}
 				}
 				

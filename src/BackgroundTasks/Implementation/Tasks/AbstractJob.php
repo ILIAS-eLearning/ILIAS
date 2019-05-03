@@ -13,4 +13,10 @@ use ILIAS\BackgroundTasks\Task\Job;
  */
 abstract class AbstractJob extends AbstractTask implements Job {
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getInput() {
+		return $this->input;
+	}
 }

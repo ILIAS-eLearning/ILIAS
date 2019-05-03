@@ -122,7 +122,7 @@ class ilSearchController
 				$this->ctrl->forwardCommand($search_gui);
 				break;
 		}
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 
 		return true;
 	}

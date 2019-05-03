@@ -32,7 +32,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 	/** @var ilLanguage $lng */
 	protected $lng = null;
 	
-	/** @var ilTemplate $tpl */
+	/** @var ilGlobalTemplate $tpl */
 	protected $tpl = null;
 	
 	/** @var ilTree $tree */
@@ -76,17 +76,18 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		ilCtrl $ctrl, 
 		ilAccessHandler $access, 
 		ilLanguage $lng, 
-		ilTemplate $tpl, 
 		ilTree $tree,
 		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
 		ilObjTestGUI $testGUI
 	)
 	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
 		$this->ctrl = $ctrl;
 		$this->access = $access;
 		$this->lng = $lng;
-		$this->tpl = $tpl;
+		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->tree = $tree;
 		$this->db = $db;
 		$this->pluginAdmin = $pluginAdmin;

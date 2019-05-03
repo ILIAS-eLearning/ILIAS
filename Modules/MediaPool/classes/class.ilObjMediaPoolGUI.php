@@ -196,7 +196,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					$tpl->setContent($ret);
 				}
 				$this->setMediaPoolPageTabs();
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilobjmediaobjectgui":
@@ -254,7 +254,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				}
 				else
 				{
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 				}
 				break;
 
@@ -272,7 +272,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$folder_gui->setFormAction("save",
 							$this->ctrl->getFormActionByClass("ilobjfoldergui"));
 						$folder_gui->createObject();
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 						break;
 
 					case "saveObject":
@@ -291,7 +291,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$this->ctrl->setParameter($this, "foldereditmode", "1");
 						$folder_gui->setFormAction("update", $this->ctrl->getFormActionByClass("ilobjfoldergui"));
 						$folder_gui->editObject();
-						$this->tpl->show();
+						$this->tpl->printToStdout();
 						break;
 
 					case "updateObject":
@@ -320,14 +320,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$clip_gui->setInsertButtonTitle($lng->txt("mep_copy_to_mep"));
 				$ilTabs->setTabActive("clipboard");
 				$this->ctrl->forwardCommand($clip_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 				
 			case 'ilinfoscreengui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				$this->infoScreen();
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case 'ilpermissiongui':
@@ -337,7 +337,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 				
 			case "ilexportgui":
@@ -355,7 +355,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					$exp_gui->addFormat("xml_masternomedia", "XML (".$lng->txt("mep_master_language_only_no_media").")", $this, "export");
 				}
 				$this->ctrl->forwardCommand($exp_gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilfilesystemgui":
@@ -379,7 +379,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						false, true);
 					$this->ctrl->forwardCommand($fs_gui);
 				}
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 				
 			case "ilcommonactiondispatchergui":
@@ -398,7 +398,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$transgui = new ilObjectTranslationGUI($this);
 				$transgui->setTitleDescrOnlyMode(false);
 				$this->ctrl->forwardCommand($transgui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilmediapoolimportgui":
@@ -408,19 +408,20 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolImportGUI.php");
 				$gui = new ilMediaPoolImportGUI($this->object);
 				$this->ctrl->forwardCommand($gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 			case "ilmobmultisrtuploadgui":
+				$this->checkPermission("write");
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$this->setTabs("content");
+				//$this->setTabs("content");
 				$this->setContentSubTabs("srt_files");
 				include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtUploadGUI.php");
 				include_once("./Modules/MediaPool/classes/class.ilMepMultiSrt.php");
 				$gui = new ilMobMultiSrtUploadGUI(new ilMepMultiSrt($this->object));
 				$this->ctrl->forwardCommand($gui);
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 				break;
 
 
@@ -431,7 +432,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->$cmd();
 				if (!$this->getCreationMode())
 				{
-					$this->tpl->show();
+					$this->tpl->printToStdout();
 				}
 				break;
 		}
@@ -717,7 +718,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function getTemplate()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 	}
 
 
@@ -751,7 +752,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$item = new ilMediaPoolItem((int) $_GET["mepitem_id"]);
 		$mob_id = $item->getForeignId();
 
-		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -806,7 +807,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	{
 		$tpl = $this->tpl;
 		
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
@@ -839,7 +840,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		//$ret = "<div style='background-color: white; padding:5px; margin-bottom: 30px;'>".$ret."</div>";
 
 
-		$tpl->show();
+		$tpl->printToStdout();
 		exit;
 	}
 	
@@ -1550,6 +1551,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function setContentSubTabs($a_active)
 	{
+		$ilAccess = $this->access;
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
 
@@ -1559,9 +1561,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilTabs->addSubTab("mep_all_mobs", $this->lng->txt("mep_all_mobs"), $this->ctrl->getLinkTarget($this, "allMedia"));
 		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 
-		$ilTabs->addSubtab("srt_files",
-			$this->lng->txt("mep_media_subtitles"),
-			$ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", ""));
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilTabs->addSubtab("srt_files",
+				$this->lng->txt("mep_media_subtitles"),
+				$ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", ""));
+		}
 
 		$ilTabs->activateSubTab($a_active);
 	}
@@ -1999,11 +2004,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$form->setPreventDoubleSubmission(false);
 
 		$item = new ilFileStandardDropzoneInputGUI($lng->txt("mep_media_files"), 'media_files');
-//		$item->setUploadUrl($ctrl->getLinkTarget($this, "uploadMediaFiles", "save", true, true));
+		$item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
 		$item->setMaxFiles(20);
-		//$item->setSuffixes([ 'jpg', 'gif', 'png', 'pdf' , 'svg']);
-		//$item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
-		$item->setDropzoneMessage('For the purpose of this demo, any PDF file will fail to upload');
 		$form->addItem($item);
 
 		$form->addCommandButton("performBulkUpload", $lng->txt("upload"));
@@ -2012,7 +2014,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		return $form;
 	}
-
 
 	/**
 	 * Save bulk upload form
@@ -2032,7 +2033,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			$mep_item_ids = [];
 			// Check if this is a request to upload a file
+			$log->debug("checking for uploads...");
 			if ($upload->hasUploads()) {
+				$log->debug("has upload...");
 				try {
 					$upload->process();
 					$log->debug("nr of results: ".count($upload->getResults()));
@@ -2084,30 +2087,18 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$media_item->setUploadHash(ilUtil::stripSlashes($_POST["ilfilehash"]));
 						$mob->update();
 						$mep_item_ids[] = $mob->getId();
-
-
-						include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
-
-						//ilSession::set("mep_ids_".$_POST["ilfilehash"], $ids);
-
-						//$log->debug("added mob: ".$mob->getId());
-						//$log->debug("mep_item_ids: ".print_r($mep_item_ids, true));
-						//$log->debug("post: ".print_r($_POST, true));
-						//$log->debug("get: ".print_r($_GET, true));
-						//$log->debug("files: ".print_r($_FILES, true));
 					}
 				}
 				catch (Exception $e)
 				{
-					$log->debug("failure ".$e->getMessage());
-					ilUtil::sendFailure($e->getMessage());
-					$form->setValuesByPost();
-					$main_tpl->setContent($form->getHtml());
+					$log->debug("Got exception: ".$e->getMessage());
+					echo json_encode(array( 'success' => false, 'message' => $e->getMessage()));
 				}
 				$log->debug("end of 'has_uploads'");
 			}
+			$log->debug("has no upload...");
 
-			$log->debug("calling redirect...");
+			$log->debug("calling redirect... (".$_POST["ilfilehash"].")");
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ctrl->setParameter($this, "mep_hash", $_POST["ilfilehash"]);
 			$ctrl->redirect($this, "editTitlesAndDescriptions");

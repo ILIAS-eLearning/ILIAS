@@ -16,7 +16,7 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 	 * @return string
 	 */
 	public function in($field, $values, $negate = false, $type = "") {
-		if (count($values) == 0) {
+		if (!is_array($values) || count($values) == 0) {
 			// BEGIN fixed mantis #0014191:
 			//return " 1=2 ";		// return a false statement on empty array
 			return $negate ? ' 1=1 ' : ' 1=2 ';

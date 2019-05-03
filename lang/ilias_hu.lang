@@ -10596,7 +10596,7 @@ bibl#:#download_original_file#:#Eredeti fájl letöltése
 bibl#:#Type#:#Típus
 bibl#:#override_entries#:#Bejegyzések felülbírálása
 bibl#:#bibl_edit#:#Bibliográfia módosítása
-bibl#:#bibliography file#:#Bibliográfia fájl
+bibl#:#bibliography_file#:#Bibliográfia fájl
 bibl#:#obj_bibl_duplicate#:#Bibliográfia duplikálása
 bibl#:#detail_view#:#Részletes nézet
 bibl#:#bibl_settings_libraries#:#Könyvtárak
@@ -13806,7 +13806,6 @@ iass#:#iass_edit#:#Beállítások
 iass#:#iass_add#:#Személyes értékelés létrehozása
 iass#:#iass_membership_finalized#:#Bejegyzés véglegesítve
 iass#:#iass_membership_saved#:#A bejegyzést sikeresen mentett, de az még nincs véglegesítve
-iass#:#iass_return#:#Vissza az áttekintéshez
 iass#:#iass_remove_user_qst#:#Biztos, hogy eltávolítja az értékelendőt?
 iass#:#iass_finalize_user_qst#:#Biztos, hogy véglegesíti az értékelendő állapotát? Utána annak módosítása már nem lehetséges.
 iass#:#iass_settings_saved#:#A beállításokat sikeresen mentette.

@@ -1351,6 +1351,7 @@ var ClozeGapBuilder = (function () {
 	};
 
 	pub.showHidePointsFieldForGaps = function (gap, show) {
+		$('#numeric_answers_points_'+gap).css('display', show);
 		$('.gap_points_' + gap).css('display', show);
 		$('#text_row_' + gap + '_0').find('th').eq(1).css('display', show);
 	};

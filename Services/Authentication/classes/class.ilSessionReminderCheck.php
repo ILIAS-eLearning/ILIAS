@@ -16,14 +16,12 @@ class ilSessionReminderCheck
 	{
 		/**
 		 * @var $ilDB            ilDB
-		 * @var $ilUser          ilObjUser
 		 * @var $ilClientIniFile ilIniFile
 		 * @var $lng             ilLanguage
 		 */
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
 		$lng = $DIC['lng'];
 		$ilClientIniFile = $DIC['ilClientIniFile'];
 
@@ -77,12 +75,7 @@ class ilSessionReminderCheck
 			$response['message'] = 'The session is already expired. The client should have received a remind command before.';
 			return ilJsonUtil::encode($response);
 		}
-		
-		/**
-		 * @var $user ilObjUser
-		 */
-		$ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
-		
+
 		if(null === $expiretime)
 		{
 			$response['message'] = 'ILIAS could not determine the expire time from the session data.';

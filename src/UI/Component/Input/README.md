@@ -178,3 +178,22 @@ attach transformations and validations as needed.
 
 ### Example 3, Container Input
 TBD, see the form as example for such a container.
+
+## How to add a new Filter Input
+
+After an Input has been added to the UI-Framework, it is possible to declare them as a
+Filter Input. Existing Inputs can not automatically be used in Filters, because
+not every Input makes sense there. A new Filter Input MUST be discussed in the JF.
+
+#### Step 1, Extend from the Filter Input Interface
+When an Input is suitable to also be used as a Filter Input, it must extend the [FilterInput](src/UI/Component/Input/Field/FilterInput.php)
+interface. This ensures that not suitable Inputs will not be accepted in a Filter.
+In the future, the interface may provide methods which are necessary for a correct behaviour 
+of Inputs within Filters. When a new Filter Input is added, you must take care of these
+methods in the implementation of each Input.
+
+#### Step 2, Extend the Filter Context Renderer
+Due to a different appearance of Inputs in the Filter component, Filter Inputs can not
+use the standard Renderer like for Forms. Therefore, the [FilterContextRenderer](src/UI/Implementation/Component/Input/Field/FilterContextRenderer.php)
+was introduced. In this renderer, you must provide an appropriate presentation of each
+new Filter Input within the Filter.

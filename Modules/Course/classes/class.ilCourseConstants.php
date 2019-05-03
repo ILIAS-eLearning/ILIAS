@@ -65,7 +65,12 @@ class ilCourseConstants
 	const IL_CRS_VIEW_TIMING_ABSOLUTE = 0;
 	const IL_CRS_VIEW_TIMING_RELATIVE = 1;
 	// cognos-blu-patch: end
-	
+
+	const IL_CRS_VIEW_SESSIONS = 0;
+	const IL_CRS_VIEW_OBJECTIVE = 1;
+	const IL_CRS_VIEW_TIMING = 2;
+	const IL_CRS_VIEW_SIMPLE = 4;
+	const IL_CRS_VIEW_BY_TYPE = 5;
 }
 
 ?>

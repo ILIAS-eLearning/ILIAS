@@ -97,7 +97,7 @@ class ilSharedResourceGUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		// #8509
 		$ilMainMenu->setActive("desktop");
@@ -183,7 +183,7 @@ class ilSharedResourceGUI
 				$this->$cmd();
 		}
 		
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	protected function process()

@@ -19,6 +19,11 @@ class ilPublicUserProfileGUI
 	protected $additional; // [string] used in forum
 	protected $embedded; // [bool] used in portfolio
 	protected $custom_prefs; // [array] used in portfolio
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $current_user;
 	
 	/**
 	* Constructor
@@ -31,7 +36,9 @@ class ilPublicUserProfileGUI
 
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
-		
+
+		$this->current_user = $DIC->user();
+
 		if($a_user_id)
 		{
 			$this->setUserId($a_user_id);
@@ -208,7 +215,7 @@ class ilPublicUserProfileGUI
 		$next_class = $ilCtrl->getNextClass($this);	
 		$cmd = $ilCtrl->getCmd();
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		switch($next_class)
 		{	
@@ -246,7 +253,7 @@ class ilPublicUserProfileGUI
 		// only for direct links
 		if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui")
 		{
-			$tpl->show();
+			$tpl->printToStdout();
 		}
 	}
 	
@@ -746,7 +753,9 @@ class ilPublicUserProfileGUI
 		// ilsharedresourceGUI: embedded in shared portfolio
 		if ($user->getPref("public_profile") != "y" &&
 			$user->getPref("public_profile") != "g" &&
-			$_GET["baseClass"] != "ilsharedresourceGUI")
+			$_GET["baseClass"] != "ilsharedresourceGUI" &&
+			$this->current_user->getId() != $this->getUserId()
+		)
 		{
 			return;
 		}

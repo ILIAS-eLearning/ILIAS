@@ -115,6 +115,15 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 		return parent::getDomNodeIdForNodeId(str_replace(":", "_", $node_id));
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	function getNodeIdForDomNodeId($a_dom_node_id)
+	{
+		$id = parent::getNodeIdForDomNodeId($a_dom_node_id);
+		return str_replace("_", ":", $id);
+	}
+
 
 	/**
 	 * Get childs of node

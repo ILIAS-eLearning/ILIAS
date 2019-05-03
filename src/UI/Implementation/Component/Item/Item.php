@@ -50,6 +50,7 @@ abstract class Item implements C\Item\Item {
 			$this->checkStringArg("title", $title);
 		}
 		$this->title = $title;
+		$this->props = [];
 	}
 
 	/**

@@ -63,6 +63,12 @@
   src: url('fonts/OpenSansEmoji/OpenSansEmoji.ttf') format('truetype'), url('fonts/OpenSansEmoji/OpenSansEmoji.otf') format('otf');
   font-style: normal;
 }
+@font-face {
+  font-family: 'il-icons';
+  src: url('fonts/Iconfont/il-icons.woff') format('woff'), url('fonts/Iconfont/il-icons.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
 /* rtl-review is this font safe for RTL languages? */
 /* rtl-review */
 [dir="ltr"] * {
@@ -6473,7 +6479,9 @@ button.close {
 .modal-header:before,
 .modal-header:after,
 .modal-footer:before,
-.modal-footer:after {
+.modal-footer:after,
+.il-table-presentation-row .il-table-presentation-row-expanded:before,
+.il-table-presentation-row .il-table-presentation-row-expanded:after {
   content: " ";
   display: table;
 }
@@ -6492,7 +6500,8 @@ button.close {
 .pager:after,
 .panel-body:after,
 .modal-header:after,
-.modal-footer:after {
+.modal-footer:after,
+.il-table-presentation-row .il-table-presentation-row-expanded:after {
   clear: both;
 }
 .center-block {
@@ -6871,9 +6880,13 @@ button.close {
   width: 100%;
   position: relative;
   background-color: white;
+  /* see bug #24947 */
 }
 .il-card img {
   width: 100%;
+}
+.il-card a {
+  overflow: hidden;
 }
 .il-card .thumbnail {
   margin-bottom: 0px;
@@ -6901,7 +6914,7 @@ button.close {
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -6918,6 +6931,14 @@ button.close {
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
   float: left;
+}
+.il-card .il-card-repository-head .il-chart-progressmeter-box {
+  width: 41px;
+  height: 38px;
+}
+.il-card .il-card-repository-head .il-chart-progressmeter-box > .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
+  max-width: 100%;
+  filter: brightness(1.2);
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown {
   float: right;
@@ -8386,6 +8407,9 @@ ul.breadcrumb li:hover {
 [dir="rtl"] ul.breadcrumb {
   padding-right: 12px;
 }
+/************/
+/* ScaleBar */
+/************/
 .il-chart-scale-bar {
   min-width: 100px;
   overflow: hidden;
@@ -8417,411 +8441,117 @@ ul.breadcrumb li:hover {
   color: white;
   background-color: #4c6586;
 }
-.il-chart-progressmeter-container {
-  display: block;
-  position: relative;
-  background-color: transparent;
-  height: 130%;
-  width: 100%;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-  height: 100%;
-  width: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-  background-color: #dddddd;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-pointer {
-  position: absolute;
-  transform-origin: 100% 100%;
-  transform: rotate(-25deg) skew(90deg);
-  width: 50%;
-  height: 50%;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-success > .il-chart-progressmeter-pointer {
-  background-color: #6ea03c;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox.il-chart-progressmeter-bar-no-success > .il-chart-progressmeter-pointer {
-  background-color: #d9534f;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox {
-  position: absolute;
-  width: 94%;
-  height: 94%;
-  border-radius: 50%;
-  top: 3%;
-  left: 3%;
-  background-color: #dddddd;
-  border: 5px solid transparent;
-  overflow: hidden;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox .il-chart-progressmeter-pointer {
-  position: absolute;
-  transform-origin: 100% 100%;
-  transform: rotate(-24deg) skew(90deg);
-  height: 50%;
-  width: 50%;
-  background-color: #aaaaaa;
-  top: -1px;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-innerbox.il-chart-progressmeter-active > .il-chart-progressmeter-pointer {
-  background-color: #f0ad4e;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover {
-  position: absolute;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  overflow: hidden;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  color: #000;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score-text {
-  position: absolute;
-  left: 25%;
-  top: 22%;
-  width: 50%;
-  text-align: center;
-  color: #aaaaaa;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-  position: absolute;
-  left: 20%;
-  top: 28%;
-  text-align: center;
-  font-weight: bold;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore {
-  position: absolute;
-  left: 25%;
-  top: 58%;
-  width: 50%;
-  text-align: center;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-minscore-text {
-  position: absolute;
-  left: 25%;
-  top: 66%;
-  width: 50%;
-  text-align: center;
-  color: #aaaaaa;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-cover .il-chart-progressmeter-text-container .il-chart-progressmeter-test-score {
-  display: none;
-  font-size: 1em;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-  position: absolute;
-  width: 93.3334%;
-  height: 93.3334%;
-  transform: rotate(0deg);
-  pointer-events: none;
-  background: transparent;
-  z-index: 3;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-  position: absolute;
-  left: 50%;
-  margin-left: -8px;
-  border-left: 9px solid transparent;
-  border-right: 9px solid transparent;
-  border-top: 11px solid #bcbcbc;
-  width: 1px;
-  height: 1px;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-  position: relative;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 13px solid #f0f0f0;
-  width: 1px;
-  height: 1px;
-  top: -14px;
-  left: -10.5px;
-}
-.il-chart-progressmeter-container {
-  padding: 10px;
-  font-size: 1.25rem;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-  border: 5px solid transparent;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox > .il-chart-progressmeter-cover {
-  width: 84.552%;
-  height: 84.552%;
-  top: 8.3224%;
-  left: 8.3224%;
-  border: 5px solid #dddddd;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox > .il-chart-progressmeter-cover {
-  width: 93.552%;
-  height: 93.552%;
-  top: 3.3224%;
-  left: 3.3224%;
-  border: 5px solid #dddddd;
-}
-.il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-  width: 60%;
-  font-size: 3em;
-}
+/*****************/
+/* ProgressMeter */
+/*****************/
 .il-chart-progressmeter-box {
   overflow: hidden;
   position: relative;
-  /* new SVG styles */
 }
-.il-chart-progressmeter-box:before,
-.il-chart-progressmeter-box:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  background-color: #ddd;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+.il-chart-progressmeter-box.fixed-size {
+  width: 350px;
 }
-.il-chart-progressmeter-box:before {
-  bottom: 0;
-  left: 30px;
-  z-index: 2;
-}
-.il-chart-progressmeter-box:after {
-  bottom: 0;
-  right: 30px;
-  z-index: 2;
-}
-.il-chart-progressmeter-box .il-chart-progressmeter-container:after {
-  content: " ";
-  display: block;
-  position: absolute;
-  width: 93%;
-  height: 93%;
-  bottom: -60%;
-  border-radius: 25%;
-  z-index: 1;
-  background-color: #f0f0f0;
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-fixed-size {
-  width: 300px;
-  height: 230px;
-}
-@media (min-width: 1200px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 300px;
-    height: 230px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container:after {
-    bottom: -60%;
-    border-radius: 25%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 1.25rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 5px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 5px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-@media (min-width: 992px) and (max-width: 1199px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 250px;
-    height: 192px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before,
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    width: 26px;
-    height: 26px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before {
-    left: 26px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    right: 26px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 1.25rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-    width: 92.3334%;
-    height: 92.3334%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-top: 11px solid #bcbcbc;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 13px solid #f0f0f0;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 4px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox {
-    border: 4px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 4px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 200px;
-    height: 154px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before,
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    width: 21px;
-    height: 21px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before {
-    left: 22px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    right: 22px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 1rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-    width: 90.3334%;
-    height: 90.3334%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 9px solid #bcbcbc;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 11px solid #f0f0f0;
-    top: -12px;
-    left: -8.5px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 3px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox {
-    border: 3px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 3px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-@media (max-width: 767px) {
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive {
-    width: 150px;
-    height: 115px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before,
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    width: 16px;
-    height: 16px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:before {
-    left: 18px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive:after {
-    right: 18px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container {
-    font-size: 0.75rem;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box {
-    width: 87.3334%;
-    height: 87.3334%;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker {
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 8px solid #bcbcbc;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-marker-box .il-chart-progressmeter-marker .il-chart-progressmeter-arrow {
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 10px solid #f0f0f0;
-    top: -11px;
-    left: -6.5px;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox {
-    border: 2px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-innerbox {
-    border: 2px solid transparent;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-cover {
-    border: 2px solid #dddddd;
-  }
-  .il-chart-progressmeter-box.il-chart-progressmeter-responsive .il-chart-progressmeter-container .il-chart-progressmeter-outerbox .il-chart-progressmeter-text-container .il-chart-progressmeter-score {
-    width: 60%;
-    font-size: 3em;
-  }
-}
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:before,
-.il-chart-progressmeter-box.il-chart-progressmeter-mini:after {
-  content: none;
-}
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container {
+.il-chart-progressmeter-box .il-chart-progressmeter-container {
   position: relative;
-  min-width: 20px;
-  max-width: 250px;
+  min-width: 80px;
+  max-width: 800px;
   width: 100%;
   height: auto;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox {
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
   display: block;
   max-width: 80%;
+  min-width: 80px;
+  max-height: 800px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
+  stroke: #dddddd;
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
+  fill: none;
+  stroke-linecap: round;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-multicircle .il-chart-progressmeter-circle {
+  stroke-width: 1.66666667;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-monocircle .il-chart-progressmeter-circle {
+  stroke-width: 4;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
+  stroke: #d9534f;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
+  stroke: #6ea03c;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.not-active {
+  stroke: #f0ad4e;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.active {
+  stroke: #aaaaaa;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text text {
+  text-anchor: middle;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-score {
+  font-size: 7.5px;
+  font-weight: bold;
+  fill: #000000;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-comparision {
+  font-size: 2.5px;
+  fill: #000000;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-score-info,
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-comparision-info {
+  font-size: 2.5px;
+  fill: #bcbcbc;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle {
+  transform-origin: 24.6066px 22.8934px;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle .il-chart-progressmeter-needle-border {
+  stroke: #bcbcbc;
+  stroke-width: 0.1;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle .il-chart-progressmeter-needle-fill {
+  fill: #efefef;
+  stroke-width: 0;
+}
+.il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle.no-needle {
+  display: none;
+}
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container {
+  min-width: 20px;
+  max-width: 250px;
+}
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
   min-width: 20px;
   max-height: 250px;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle-bg {
   stroke: #dddddd;
-  fill: none;
   stroke-width: 5;
-  stroke-linecap: round;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
-  fill: none;
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle {
   stroke-width: 5;
-  stroke-linecap: round;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.no-success {
   stroke: #d9534f;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-circle.success {
   stroke: #6ea03c;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle {
   stroke: #bcbcbc;
   fill: none;
   stroke-width: 4;
   stroke-linecap: round;
   transform-origin: 25px 23.25px;
 }
-.il-chart-progressmeter-box .il-chart-progressmeter-mini-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle-mini.no-needle {
+.il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle.no-needle {
   stroke: transparent;
 }
 .il-standard-form {
@@ -8955,17 +8685,212 @@ ul.breadcrumb li:hover {
 .il-standard-form textarea {
   height: 76px;
 }
-.il-table-presentation-viewcontrols {
-  height: 40px;
+.il-filter .col-md-4 {
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
-.il-table-presentation-viewcontrols div {
-  display: table;
-  margin: 0 auto;
+.il-filter .glyphicon-ok {
+  font-size: unset;
+  text-align: unset;
+}
+.il-filter input {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.il-filter .input-group {
+  width: 100%;
+  height: 25px;
+  table-layout: fixed;
+}
+.il-filter .leftaddon {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 30%;
+}
+.il-filter .rightaddon {
+  overflow: visible;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 10%;
+}
+.il-filter-bar {
+  padding: 3px 12px;
+}
+.il-filter-bar .il-toggle-button {
+  height: 13px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.il-filter-bar .il-toggle-button .il-toggle-switch {
+  width: 19px;
+  height: 19px;
+}
+.il-filter-bar .btn-bulky {
+  display: inline-flex;
+  width: auto;
+  background-color: initial;
+  font-size: 14px;
+  border-width: 0;
+}
+.il-filter-bar .btn-bulky.disabled .bulky-label {
+  color: #b0b0b0;
+}
+.il-filter-bar .glyph {
+  padding-right: 0.3em;
+}
+.il-filter-bar-controls {
+  float: right;
+}
+.il-filter-inputs-active {
+  background-color: #f9f9f9;
+  padding: 3px 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.il-filter-inputs-active span {
+  display: inline-block;
+  margin: 3px 8px 3px 0;
+  padding: 0 8px;
+  float: left;
+  background-color: white;
+  font-size: 0.8em;
+}
+.il-filter-input-section {
+  border-top: 1px solid #dddddd;
+}
+.il-filter-field {
+  cursor: text;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@media (max-width: 768px) {
+  .il-filter-bar-controls .bulky-label {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .il-filter .webui-popover {
+    position: static;
+    max-width: none;
+  }
+  .il-filter .webui-popover.bottom > .webui-arrow,
+  .il-filter .webui-popover.bottom-right > .webui-arrow,
+  .il-filter .webui-popover.bottom-left > .webui-arrow {
+    display: none;
+  }
+  .il-filter .webui-popover.bottom,
+  .il-filter .webui-popover.bottom-left,
+  .il-filter .webui-popover.bottom-right {
+    padding: 4px;
+    margin-top: 0;
+    border: 0;
+    box-shadow: none;
+    background-color: #f9f9f9;
+  }
+}
+.il-filter.disabled .input-group-addon {
+  background-color: white;
+  color: #b0b0b0;
+}
+.il-filter.disabled .input-group span.form-control {
+  color: #b0b0b0;
+}
+.il-filter-add-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.il-filter-add-list ul li > button {
+  padding: 6px 12px;
+  display: block;
+  width: 100%;
+}
+.il-table-presentation-viewcontrols {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #e2e8ef;
+}
+.il-table-presentation-viewcontrols > div {
+  padding: 6px;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+  color: #4c6586;
+  background-color: white;
+  border-color: #708bae;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+  color: #4c6586;
+  background-color: #e6e6e6;
+  border-color: #3a4c65;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):hover {
+  color: #4c6586;
+  background-color: #e6e6e6;
+  border-color: #526c90;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+  color: #4c6586;
+  background-color: #e6e6e6;
+  border-color: #526c90;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active:hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active:hover,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active:focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active:focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active.focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active.focus,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+  color: #4c6586;
+  background-color: #d4d4d4;
+  border-color: #3a4c65;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled):active,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).active,
+.open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
+  background-image: none;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:hover,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):hover,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled.focus,
+.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled].focus,
+fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
+  background-color: white;
+  border-color: #708bae;
+}
+.il-table-presentation-viewcontrols .btn-default:not(.disabled) .badge {
+  color: white;
+  background-color: #4c6586;
+}
+.il-table-presentation-viewcontrols .il-viewcontrol-pagination {
+  order: 1;
+}
+.il-table-presentation-viewcontrols .il-viewcontrol-mode {
+  order: 2;
+}
+.il-table-presentation-viewcontrols .il-viewcontrol-sortation {
+  order: 3;
 }
 .il-table-presentation-row {
   white-space: nowrap;
+  margin: 0;
   border-top: 1px solid #ddd;
   padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: white;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
 .il-table-presentation-row .il-table-presentation-row-contents {
@@ -8974,6 +8899,7 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-row .il-table-presentation-row-controls {
   width: 5%;
+  padding-left: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-controls .il-table-presentation-row-controls-collapser {
   display: none;
@@ -8984,10 +8910,8 @@ ul.breadcrumb li:hover {
   /*initially visible*/
 }
 .il-table-presentation-row .il-table-presentation-row-contents {
-  width: 95%;
-}
-.il-table-presentation-row .il-table-presentation-row-header {
   white-space: normal;
+  width: 95%;
 }
 .il-table-presentation-row .il-table-presentation-row-header h4 {
   font-size: 17px;
@@ -9001,25 +8925,56 @@ ul.breadcrumb li:hover {
   /*initially visible*/
 }
 .il-table-presentation-row .il-table-presentation-row-expanded {
+  margin-left: -15px;
+  margin-right: -15px;
   display: none;
   /*initially hidden*/
-  white-space: nowrap;
   margin-top: 6px;
-}
-.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist,
-.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
-  display: inline-block;
-  vertical-align: top;
-  white-space: normal;
+  margin-left: 0;
+  margin-right: 0;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
-  width: 60%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
+    float: left;
+    width: 58.33333333%;
+  }
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
-  width: 40%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-actions {
+  margin-bottom: 6px;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   font-size: 12px;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #909090;
@@ -9164,6 +9119,745 @@ div.alert ul > li:before {
 }
 .carousel.slide.text-only .carousel-control {
   background: none !important;
+}
+.il-tree {
+  list-style-type: none;
+}
+.il-tree ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+.il-tree li.il-tree-node .node-line {
+  cursor: pointer;
+}
+.il-tree .il-tree-node > ul {
+  display: none;
+}
+.il-tree .il-tree-node.expanded > ul {
+  display: block;
+}
+.il-tree .il-tree-node.expandable .node-label {
+  padding-left: 2px;
+}
+.il-tree .il-tree-node.expandable > .node-line:before {
+  font-family: 'Glyphicons Halflings';
+  content: "\e250";
+}
+.il-tree .il-tree-node.expandable.expanded > .node-line:before {
+  font-family: 'Glyphicons Halflings';
+  content: "\e252";
+}
+.il-tree .il-tree-node.highlighted > .node-line {
+  background-color: #ffffd0;
+}
+.shadow-right {
+  box-shadow: 1px 3px 4px #ccc;
+}
+.shadow-bottom {
+  box-shadow: 0 1px 4px #ccc;
+}
+* {
+  box-sizing: border-box;
+}
+menu,
+article,
+aside,
+details,
+footer,
+header,
+nav,
+section {
+  display: block;
+}
+/*
+*********************
+grid-based layout
+*********************
+*/
+.il-layout-page {
+  background: #f0f0f0;
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 0px;
+  -ms-grid-columns: 80px 1fr;
+  grid-template-columns: 80px 1fr;
+  -ms-grid-rows: 60px 33px 1fr;
+  grid-template-rows: 60px 33px 1fr;
+  /* // not supported in IE, use track-line instead
+	grid-template-areas:
+    "header header"
+	"breadcrumbs breadcrumbs"
+    "mainbar content"
+    "footer footer";
+	*/
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+.il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
+  display: none;
+}
+.il-layout-page.with-mainbar-slates-engaged {
+  -ms-grid-columns: 480px 1fr;
+  grid-template-columns: 480px 1fr;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
+  width: 480px;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  z-index: 995;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
+  overflow-y: auto;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-close-slates {
+  display: -ms-flexbox;
+  display: flex;
+}
+/* metabar */
+header {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 1;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 1;
+  z-index: 999;
+}
+.header-inner {
+  -ms-flex-align: center;
+  align-items: center;
+  background: #fff;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 60px;
+  padding: 0 15px;
+  position: fixed;
+  width: 100%;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.il-logo {
+  width: 45px;
+  height: 45px;
+  justify-self: start;
+}
+/* breadcrumbs */
+.breadcrumbs {
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 2;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 2;
+  z-index: 998;
+  box-shadow: 0 1px 4px #ccc;
+}
+.breadcrumbs ul.breadcrumb {
+  padding-left: 100px;
+}
+.breadcrumbs ul.breadcrumb > li + li:before {
+  content: " \e606";
+  color: #bbb;
+  font-family: "il-icons";
+}
+/* mainbar */
+nav.il-maincontrols {
+  -ms-grid-column: 1;
+  -ms-grid-row: 3;
+  grid-column: 1;
+  grid-row: 3;
+  z-index: 997;
+}
+.il-maincontrols-mainbar {
+  background-color: #fff;
+  display: -ms-grid;
+  display: grid;
+  height: 100%;
+  -ms-grid-colums: 80px 400px;
+  grid-template-columns: 80px 400px;
+  -ms-grid-rows: 1fr;
+  grid-template-rows: 1fr;
+  width: 80px;
+}
+.il-mainbar {
+  background-color: #4a4a4a;
+  -ms-grid-column: 1;
+  -ms-grid-row: 1;
+  grid-column: 1;
+  grid-row: 1;
+  box-shadow: 1px 3px 4px #ccc;
+  z-index: 996;
+}
+.il-mainbar-tools-button {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+.il-mainbar-tools-button button {
+  height: 80px;
+  width: 80px;
+}
+.il-mainbar-tools-entries button {
+  height: 80px;
+  width: 80px;
+}
+.il-mainbar-tools-entries.engaged {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+.il-mainbar-slates {
+  -ms-grid-column: 2;
+  -ms-grid-row: 1;
+  grid-column: 2;
+  grid-row: 1;
+}
+.il-mainbar-remove-tool {
+  display: none;
+}
+.il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+  display: block;
+}
+/* content */
+main {
+  display: block;
+}
+.il-layout-page-content {
+  -ms-grid-column: 2;
+  -ms-grid-row: 3;
+  grid-column: 2;
+  grid-row: 3;
+  overflow: auto;
+  padding: 20px;
+}
+/* Footer */
+footer {
+  background-color: #4c6586;
+  grid-area: footer;
+  z-index: 2;
+}
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@media only screen and (max-width: 767px) {
+  .il-layout-page {
+    background: #f0f0f0;
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 0px;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 45px 33px 1fr 50px;
+    grid-template-rows: 45px 33px 1fr 50px;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar {
+    display: grid;
+    display: -ms-grid;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 0 50px;
+    grid-template-rows: 0 50px;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
+    display: none;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar {
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .il-layout-page.with-mainbar-slates-engaged {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols {
+    -ms-grid-column: 1;
+    -ms-grid-row: 3;
+    -ms-grid-row-span: 2;
+    grid-column: 1;
+    grid-row: 3;
+    grid-row-end: 4;
+    height: 100%;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 1fr 50px;
+    grid-template-rows: 1fr 50px;
+    width: 100%;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    z-index: 995;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
+    overflow-y: auto;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
+    display: -ms-flexbox;
+    display: flex;
+  }
+  /* metabar */
+  header {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 999;
+  }
+  .header-inner {
+    height: 45px;
+    padding: 0;
+    width: 100%;
+  }
+  /* breadcrumbs */
+  .breadcrumbs {
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+    grid-column: 1;
+    grid-row: 2;
+    z-index: 998;
+    box-shadow: 0 1px 4px #ccc;
+  }
+  .breadcrumbs ul.breadcrumb {
+    padding-left: 20px;
+  }
+  .breadcrumbs ul.breadcrumb > li + li:before {
+    content: " \e606";
+    color: #bbb;
+    font-family: "il-icons";
+  }
+  /* mainbar */
+  nav.il-maincontrols {
+    -ms-grid-column: 1;
+    -ms-grid-row: 4;
+    grid-column: 1;
+    grid-row: 4;
+    width: 100%;
+    z-index: 997;
+  }
+  .il-maincontrols-mainbar {
+    display: block;
+    width: 100%;
+  }
+  .il-mainbar {
+    background-color: #4a4a4a;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 996;
+  }
+  .il-mainbar-tools-button {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .il-mainbar-tools-button button {
+    height: 50px;
+    width: 75px;
+  }
+  .il-mainbar-tools-entries button {
+    height: 50px;
+    width: 75px;
+  }
+  .il-mainbar-tools-entries.engaged {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .il-mainbar-slates {
+    -ms-grid-column: 2;
+    -ms-grid-row: 1;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .il-mainbar-remove-tool {
+    display: none;
+  }
+  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+    display: block;
+  }
+  /* content */
+  main {
+    display: block;
+  }
+  .il-layout-page-content {
+    -ms-grid-column: 1;
+    -ms-grid-row: 3;
+    grid-column: 1;
+    grid-row: 3;
+    overflow: auto;
+    padding: 20px;
+  }
+}
+.il-maincontrols-slate.disengaged {
+  display: none;
+}
+.il-maincontrols-slate .btn-bulky {
+  align-items: center;
+  background-color: #f2f2f2;
+  display: flex;
+  margin-bottom: 2px;
+  padding: 10px 20px;
+}
+.il-maincontrols-slate .btn-bulky.disengaged:before {
+  content: " \e606";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky.engaged:before {
+  content: " \e604";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky:hover,
+.il-maincontrols-slate .btn-bulky.engaged {
+  background-color: #d1d8e3;
+  border-color: #e0e0e0;
+  color: inherit;
+}
+.il-maincontrols-slate .btn-bulky .icon {
+  filter: invert(50%);
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky .bulky-label {
+  font-size: 1.5rem;
+}
+.il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
+  background-color: #e3e3e3;
+}
+.il-maincontrols-slate-overflow {
+  min-height: 0;
+}
+.il-maincontrols-slate-content p,
+.il-maincontrols-slate-content h1,
+.il-maincontrols-slate-content h2,
+.il-maincontrols-slate-content h3,
+.il-maincontrols-slate-content h4 {
+  padding: 10px 20px;
+}
+.il-maincontrols-slate-close button,
+.il-maincontrols-slate-back button {
+  background-color: transparent;
+}
+.il-maincontrols-slate-back {
+  display: none;
+}
+.il-maincontrols-slate-back.active {
+  display: block;
+}
+.il-maincontrols-slate-back button {
+  width: 100%;
+  text-align: left;
+  padding: 30px 0 10px 20px;
+}
+.il-maincontrols-slate-close {
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  height: 50px;
+  margin-top: auto;
+  bottom: 0;
+  position: sticky;
+}
+.il-maincontrols-slate-close .bulky-label {
+  display: none;
+}
+.il-maincontrols-slate-close .btn-bulky {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+}
+.il-maincontrols-slate-close .btn-bulky .glyph {
+  padding-right: 20px;
+}
+.il-maincontrols-slate-close .btn-bulky.engaged {
+  background-color: #fff;
+  border: 0;
+}
+.il-maincontrols-slate-close .btn-bulky:active,
+.il-maincontrols-slate-close .btn-bulky:focus {
+  outline: none;
+}
+.il-maincontrols-metabar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.il-maincontrols-metabar .il-metabar-entries {
+  align-items: center;
+  display: flex;
+  height: 60px;
+}
+.il-maincontrols-metabar .il-metabar-entries .il-metabar-entry,
+.il-maincontrols-metabar .il-metabar-entries .il-logout {
+  padding-left: 10px;
+}
+.il-metabar-entry {
+  position: relative;
+}
+.il-metabar-entry .btn .badge {
+  margin-top: -20px;
+}
+.il-metabar-entry .il-counter-status {
+  margin-top: -4px;
+}
+.il-metabar-entry > .btn-bulky > div > .bulky-label {
+  display: none;
+}
+.il-metabar-entry .btn-bulky {
+  background-color: transparent;
+  height: 60px;
+  min-width: 60px;
+}
+.il-metabar-entry .btn-bulky.engaged,
+.il-metabar-entry .btn-bulky.engaged:focus {
+  box-shadow: 1px 3px 4px #ccc;
+  background-color: #fafafa;
+  border: none;
+  color: initial;
+  outline-color: transparent;
+}
+.il-metabar-entry .btn-bulky .glyphicon {
+  color: #aaa;
+  font-size: 2.3rem;
+}
+.il-metabar-entry .glyphicon {
+  font-family: 'il-icons';
+}
+.il-metabar-entry .glyphicon-bell:before {
+  content: "\e027";
+}
+.il-metabar-entry .glyphicon-comment:before {
+  content: "\e04a";
+}
+.il-metabar-entry .glyphicon-envelope:before {
+  content: "\e086";
+}
+.il-metabar-entry .glyphicon-question-sign:before {
+  content: "\e05d";
+}
+.il-metabar-entry .glyphicon-search:before {
+  content: "\e090";
+}
+.il-metabar-entry .glyphicon-user:before {
+  content: "\e005";
+}
+.il-metabar-slates {
+  box-shadow: 1px 3px 4px #ccc;
+  background-color: #fafafa;
+  position: absolute;
+  right: 0;
+}
+.il-maincontrols-mainbar .btn-bulky {
+  font-size: 0.7rem;
+}
+.il-maincontrols-mainbar .bulky-label {
+  white-space: normal;
+  margin-top: 5px;
+  display: block;
+}
+.il-maincontrols-mainbar .btn:focus,
+.il-maincontrols-metabar .btn:focus,
+.il-maincontrols-mainbar .btn:active,
+.il-maincontrols-metabar .btn:active {
+  border: 0;
+  outline: 0;
+}
+.il-mainbar-triggers {
+  background: #4a4a4a;
+  display: flex;
+  position: relative;
+  width: 80px;
+  z-index: 1;
+}
+.il-mainbar-triggers .btn-bulky {
+  height: 80px;
+  width: 80px;
+  justify-content: center;
+  padding: 0;
+  display: inline-flex;
+  flex-flow: column wrap;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  background: #4a4a4a;
+  border-bottom: 1px solid #ddd;
+  color: #fff;
+}
+.il-mainbar-triggers .btn-bulky img {
+  filter: invert(100%);
+}
+.il-mainbar-triggers .btn-bulky.engaged {
+  background-color: #fff;
+  color: #4a4a4a;
+}
+.il-mainbar-triggers .btn-bulky.engaged img {
+  filter: invert(50%);
+}
+.il-mainbar-triggers .btn-bulky:focus {
+  outline: none;
+}
+.il-mainbar-triggers .btn-bulky .bulky-label {
+  white-space: normal;
+  margin-top: 5px;
+  display: block;
+}
+.il-mainbar-triggers.engaged {
+  background: #fff;
+}
+.il-mainbar-slates {
+  box-shadow: 1px 3px 4px #ccc;
+  width: 400px;
+  display: none;
+}
+.il-mainbar-tools-button .btn-bulky,
+.il-mainbar-tools-button .btn-bulky.engaged {
+  background-color: #d2dae5;
+  border: 0;
+  color: #4a4a4a;
+  padding: 0;
+}
+.il-mainbar-tools-button .btn-bulky img,
+.il-mainbar-tools-button .btn-bulky.engaged img {
+  filter: invert(35%);
+}
+.il-mainbar-tools-entries {
+  display: none;
+}
+.il-mainbar-tools-entries.engaged {
+  display: block;
+  flex-shrink: 0;
+}
+.il-mainbar-tools-entries .btn-bulky {
+  background-color: #91a5c1;
+  color: #fff;
+  padding: 0;
+}
+.il-mainbar-tools-entries .btn-bulky .icon {
+  filter: invert(100%);
+}
+.il-mainbar-tools-entries .btn-bulky.engaged {
+  background-color: #fff;
+  border: 0;
+  color: #4a4a4a;
+}
+.il-mainbar-tools-entries .btn-bulky.engaged .icon {
+  filter: invert(60%);
+}
+.il-mainbar-close-slates {
+  align-items: flex-end;
+  display: flex;
+  flex-shrink: 0;
+  height: 45px;
+}
+.il-mainbar-close-slates .btn-bulky {
+  background-color: transparent;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: row;
+  height: 45px;
+  justify-content: flex-end;
+  align-items: center;
+}
+.il-mainbar-close-slates .btn-bulky .bulky-label {
+  display: none;
+}
+.il-mainbar-close-slates .btn-bulky .glyph:before {
+  content: " \e605";
+  display: block;
+  font-family: "il-icons";
+  font-size: 2.1rem;
+}
+.il-mainbar-close-slates .btn-bulky .glyph .glyphicon {
+  display: none;
+}
+.il-mainbar-remove-tool .close {
+  color: #4c6586;
+  font-size: 4.5rem;
+  font-weight: 300;
+  height: auto;
+  padding: 0 30px;
+  width: auto;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
+  height: 0px;
+}
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@media only screen and (max-width: 767px) {
+  .il-mainbar-triggers {
+    background: #4a4a4a;
+    display: flex;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+  .il-mainbar-triggers .btn-bulky {
+    border: 0;
+    height: 50px;
+    width: 75px;
+  }
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
@@ -10666,6 +11360,11 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
     width: 24px;
   }
 }
+div.ilPermanentLinkWrapper .ilPermalinkContainer > input,
+div.ilPermanentLinkWrapper .ilPermalinkContainer .btn-group {
+  z-index: 0;
+  /* see bug #24567 */
+}
 div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
   width: 28px;
 }
@@ -11159,6 +11858,9 @@ img.ilSmallIcon {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+span.ilIcalIcon {
+  text-align: initial;
 }
 /* Component Imports */
 /* Services/Accordion */
@@ -11918,10 +12620,16 @@ div.ilFrmPostHeader span.small {
 .ilFrmBottomToolbar {
   margin-top: 20px;
 }
+.ilForumTreeTitle {
+  display: inline-block;
+}
 .ilForumTreeTitleUnread {
   font-weight: bold;
 }
 .ilForumTreeUnlinkedContent {
+  display: block;
+  line-height: 0.9em;
+  margin-bottom: 10px;
   text-decoration: none;
   cursor: text;
   font-size: smaller;
@@ -11946,6 +12654,11 @@ a.mailunread:visited {
 }
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;
+}
+.ilMailAvatar {
+  min-width: 45px !important;
+  max-width: 45px !important;
+  height: auto;
 }
 /* --- Services/COPage ---*/
 a.ilEditSubmit {
@@ -13269,6 +13982,12 @@ div.ilTopMemberView h3 {
     margin-top: 40px;
     padding-top: 0;
   }
+}
+ul.il-mm-selfloading {
+  width: 768px;
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
 }
 /* Services/UIComponent/Tabs */
 .nav-tabs > li {

@@ -70,4 +70,12 @@ interface ilContextTemplate
 	 */
 	public static function supportsPushMessages();
 
+	/**
+	 * Context that are not only temporary in a session (e.g. WAC is, Cron is not)
+	 *
+	 * @return bool
+	 */
+	public static function isSessionMainContext();
+
+
 }

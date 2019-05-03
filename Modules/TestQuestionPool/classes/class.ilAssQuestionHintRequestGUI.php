@@ -294,7 +294,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		if( !$this->isQuestionPreview() && $this->parentGUI->object->getKioskMode() )
 		{
 			$tpl->setBodyClass('kiosk');
-			$tpl->setAddFooter(false);
+			$tpl->hideFooter();
 
 			$tpl->addBlockFile(
 					'CONTENT', 'content', 'tpl.il_tst_question_hints_kiosk_page.html', 'Modules/TestQuestionPool'

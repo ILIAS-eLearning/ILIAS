@@ -147,7 +147,9 @@ class ilLMMenuEditor
 			 $ilDB->quote($this->getActive(), "text").
 			")";
 		$r = $ilDB->manipulate($q);
-		
+
+		$this->entry_id = $id;
+
 		return true;
 	}
 	
@@ -312,6 +314,24 @@ class ilLMMenuEditor
 		}
 	}
 
+	/**
+	 * Write status for entry id
+	 *
+	 * @param $entry_id
+	 * @param $active
+	 */
+	static public function writeActive($entry_id, $active)
+	{
+		global $DIC;
 
+		$db = $DIC->database();
+
+		$db->update("lm_menu", array(
+				"active" => array("text", ($active ? "y" : "n"))
+			), array(	// where
+				"id" => array("", $entry_id)
+			));
+	}
+	
 }
 ?>

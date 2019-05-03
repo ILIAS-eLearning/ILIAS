@@ -921,6 +921,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 			foreach ($_POST["id"] as $i)
 			{
 				$sres->setResourceAsImparting((int) $_GET["level_id"], $i, false);
+				$sres->setResourceAsTrigger((int) $_GET["level_id"], $i, false);
 			}
 			$sres->save();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

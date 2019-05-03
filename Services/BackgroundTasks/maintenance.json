@@ -2,9 +2,7 @@
     "maintenance_model": "Classic",
     "first_maintainer": "fschmid(21087)",
     "second_maintainer": "",
-    "implicit_maintainers": [
-        "otruffer(29130)"
-    ],
+    "implicit_maintainers": [],
     "coordinator": [
         ""
     ],
@@ -12,5 +10,7 @@
     "testcase_writer": "",
     "path": "Services/BackgroundTasks",
     "belong_to_component": "BackgroundTasks",
-    "used_in_components": []
+    "used_in_components": [
+        "File"
+    ]
 }

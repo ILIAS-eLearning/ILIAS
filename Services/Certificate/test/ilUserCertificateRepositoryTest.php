@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
+class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testSaveOfUserCertificateToDatabase()
 	{
@@ -93,6 +93,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/background.jpg',
 				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
+				'title'                  => 'Some Title'
 			),
 			array(
 				'id'                     => 142,
@@ -110,6 +111,7 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 				'currently_active'       => true,
 				'background_image_path'  => '/some/where/else/background.jpg',
 				'thumbnail_image_path'   => array('clob', '/some/where/thumbnail.svg'),
+				'title'                  => 'Someother Title'
 			)
 		);
 
@@ -129,8 +131,8 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 
 		$results = $repository->fetchActiveCertificates(400);
 
-		$this->assertEquals(141, $results[0]->getId());
-		$this->assertEquals(142, $results[1]->getId());
+		$this->assertEquals(141, $results[0]->getUserCertificate()->getId());
+		$this->assertEquals(142, $results[1]->getUserCertificate()->getId());
 	}
 
 	public function testFetchActiveCertificateForUserObjectCombination()
@@ -197,10 +199,12 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilException
+	 * 
 	 */
 	public function testFetchNoActiveCertificateLeadsToException()
 	{
+		$this->expectException(\ilException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->getMock();
 
@@ -332,10 +336,12 @@ class ilUserCertificateRepositoryTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilException
+	 * 
 	 */
 	public function testNoCertificateInFetchtCertificateLeadsToException()
 	{
+		$this->expectException(\ilException::class);
+
 		$database = $this->getMockBuilder('ilDBInterface')
 			->getMock();
 

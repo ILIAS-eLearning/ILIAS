@@ -66,8 +66,15 @@ class ilObjContentObject extends ilObject
 		$this->tree = $DIC->repositoryTree();
 		$this->lng = $DIC->language();
 		$this->error = $DIC["ilErr"];
-		$this->tpl = $DIC["tpl"];
-		$this->locator = $DIC["ilLocator"];
+		if (isset($DIC["tpl"]))
+		{
+			$this->tpl = $DIC["tpl"];
+		}
+		if (isset($DIC["ilLocator"]))
+		{
+			$this->locator = $DIC["ilLocator"];
+		}
+
 		// this also calls read() method! (if $a_id is set)
 		parent::__construct($a_id,$a_call_by_reference);
 
@@ -2126,11 +2133,13 @@ class ilObjContentObject extends ilObject
 			preg_match_all("/url\(([^\)]*)\)/",$css,$files);
 			foreach (array_unique($files[1]) as $fileref)
 			{
-				if (is_file(str_replace("..", ".", $fileref)))
+				$target_fileref = str_replace("..", ".", $fileref);
+				$target_fileref = str_replace('"', "", $target_fileref);
+				if (is_file($target_fileref))
 				{
-					copy(str_replace("..", ".", $fileref), $content_style_img_dir."/".basename($fileref));
+					copy($target_fileref, $content_style_img_dir."/".basename($target_fileref));
 				}
-				$css = str_replace($fileref, "images/".basename($fileref),$css);
+				$css = str_replace($fileref, "images/".basename($target_fileref),$css);
 			}	
 			fwrite(fopen($content_style_dir."/content.css",'w'),$css);
 		}
@@ -2210,7 +2219,7 @@ class ilObjContentObject extends ilObject
 			$ilLocator->clearItems();
 			if ($this->isActiveTOC())
 			{
-				$tpl = new ilTemplate("tpl.main.html", true, true);
+				$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 				$GLOBALS["tpl"] = $tpl;
 
@@ -2335,7 +2344,7 @@ class ilObjContentObject extends ilObject
 			}
 		}
 		// template workaround: reset of template 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
@@ -2438,6 +2447,9 @@ class ilObjContentObject extends ilObject
 			array("source" => ilExplorerBaseGUI::getLocalJsTreeJsPath(),
 				"target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalJsTreeJsPath(),
 				"type" => "js"),
+			array("source" => ilExplorerBaseGUI::getLocalJsTreeCssPath(),
+				"target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalJsTreeCssPath(),
+				"type" => "css"),
 			array("source" => './Modules/LearningModule/js/LearningModule.js',
 				"target" => $a_target_dir.'/js/LearningModule.js',
 				"type" => "js")
@@ -2510,7 +2522,7 @@ class ilObjContentObject extends ilObject
 			ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
 		}
 		
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["mob_id"]  = $a_mob_id;
@@ -2534,7 +2546,7 @@ class ilObjContentObject extends ilObject
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
 		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			$_GET["obj_type"]  = "";
 			$_GET["frame"]  = "";
@@ -2574,7 +2586,7 @@ class ilObjContentObject extends ilObject
 			$ilLocator->clearItems();
 			if ($int_link["type"] == "git")
 			{
-				$tpl = new ilTemplate("tpl.main.html", true, true);
+				$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 				$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
 				$_GET["obj_id"] = $int_link["id"];
@@ -2741,7 +2753,7 @@ class ilObjContentObject extends ilObject
 		
 //echo "<br>B: export Page HTML ($a_lm_page_id)"; flush();
 		// template workaround: reset of template 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
 		include_once("./Services/COPage/classes/class.ilPCQuestion.php");
@@ -3386,6 +3398,30 @@ class ilObjContentObject extends ilObject
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->getId());
 		$ot->copy($new_obj->getId());
+
+		// copy lm menu
+		include_once './Modules/LearningModule/classes/class.ilLMMenuEditor.php';
+		$menu = new ilLMMenuEditor();
+		$menu->setObjId($this->getId());
+		$new_menu = new ilLMMenuEditor();
+		$new_menu->setObjId($new_obj->getId());
+		foreach ($menu->getMenuEntries() as $entry)
+		{
+			/*'id'		=> $row->id,
+							   'title'	=> $row->title,
+							   'link'	=> $row->target,
+							   'type'	=> $row->link_type,
+							   'ref_id'	=> $row->link_ref_id,
+							   'active'*/
+
+			$new_menu->setTarget($entry["link"]);
+			$new_menu->setTitle($entry["title"]);
+			$new_menu->setLinkType($entry["type"]);
+			$new_menu->setLinkRefId($entry["ref_id"]);
+			$new_menu->create();
+			ilLMMenuEditor::writeActive($new_menu->getEntryId(), $entry["active"] == "y" ? true : false);
+		}
+
 
 		return $new_obj;
 	}

@@ -19,14 +19,14 @@ function base() {
 	];
 
 	$radio_d = $ui->input()->field()->radio("Dep. Radio", "check an option")
-		->withOption('value1', 'label1')
-		->withOption('value2', 'label2', $dependant_fields);
+		->withOption('value1', 'label1', 'byline1')
+		->withOption('value2', 'label2', 'byline2' ,$dependant_fields);
 
 	//Step 2: define the radio
 	$radio = $ui->input()->field()->radio("Radio", "check an option")
-		->withOption('value1', 'label1')
-		->withOption('value2', 'label2', $dependant_fields)
-		->withOption('value3', 'label3', [$radio_d]);
+		->withOption('value1', 'label1', 'byline1')
+		->withOption('value2', 'label2', 'byline2', $dependant_fields)
+		->withOption('value3', 'label3', 'byline3', [$radio_d]);
 
 
 	//Step 3: define form and form actions

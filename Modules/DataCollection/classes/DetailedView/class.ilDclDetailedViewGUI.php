@@ -177,7 +177,7 @@ class ilDclDetailedViewGUI {
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 
-		$rctpl = new ilTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
+		$rctpl = new ilDataCollectionGlobalTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
 
 		$ilTabs->setTabActive("id_content");
 
@@ -223,7 +223,7 @@ class ilDclDetailedViewGUI {
 		$rctpl->setVariable("CONTENT", $html);
 
 		//Permanent Link
-		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $this->record_obj->getId() . "_" . $this->tableview_id);
+		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $this->tableview_id . "_" . $this->record_obj->getId());
 		$tpl->setVariable('PRMLINK', $perma_link->getHTML());
 
 		// Buttons for previous/next records

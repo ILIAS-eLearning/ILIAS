@@ -635,6 +635,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 					$questionGui, true
 				);
 // fau.
+				$this->testSession->getQuestionSetFilterSelection()->setForcedQuestionIds(array());
 			}
 
 // fau: testNav - add feedback modal
@@ -676,6 +677,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			if( $this->saveQuestionSolution(true) )
 			{
 				$this->removeIntermediateSolution();
+				$this->persistQuestionAnswerStatus();
 				$this->setAnswerChangedParameter(false);
 			}
 			else
@@ -736,7 +738,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			$message .= "<br /><br />{$this->buildFinishPagePassDeletionLink()}";
 		}
 		
-		$msgHtml = $this->tpl->getMessageHTML($message);
+		$msgHtml = ilUtil::getSystemMessageHTML($message);
 		
 		$tpl = new ilTemplate('tpl.test_currently_finished_msg.html', true, true, 'Modules/Test');
 		$tpl->setVariable('TEST_CURRENTLY_FINISHED_MSG', $msgHtml);

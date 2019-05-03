@@ -1,11 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\Collector;
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
-use ILIAS\GlobalScreen\Collector\MainMenu\ItemSorting;
-use ILIAS\GlobalScreen\Collector\MainMenu\ItemTranslation;
-use ILIAS\GlobalScreen\Collector\MainMenu\Main;
-use ILIAS\GlobalScreen\Collector\MainMenu\Information\TypeInformationCollection;
-use ILIAS\GlobalScreen\Provider\Provider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
+use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 
 /**
  * Class CollectorFactory
@@ -14,6 +12,7 @@ use ILIAS\GlobalScreen\Provider\Provider;
  */
 class CollectorFactory {
 
+	const SCOPE_MAINBAR = 'mainbar';
 	/**
 	 * @var array
 	 */
@@ -24,14 +23,29 @@ class CollectorFactory {
 	 * @param array                $providers
 	 * @param ItemInformation|null $information
 	 *
-	 * @return Main
+	 * @return MainMenuMainCollector
 	 * @throws \Throwable
 	 */
-	public function mainmenu(array $providers, ItemInformation $information = null): Main {
-		if (!isset(self::$instances['mainmenu'])) {
-			self::$instances['mainmenu'] = new Main($providers, $information);
+	public function mainmenu(array $providers, ItemInformation $information = null): MainMenuMainCollector {
+		if (!isset(self::$instances[self::SCOPE_MAINBAR])) {
+			self::$instances[self::SCOPE_MAINBAR] = new MainMenuMainCollector($providers, $information);
 		}
 
-		return self::$instances['mainmenu'];
+		return self::$instances[self::SCOPE_MAINBAR];
+	}
+
+
+	/**
+	 * @return MetaBarMainCollector
+	 */
+	public function metaBar(): MetaBarMainCollector {
+		if (!isset(self::$instances[StaticMetaBarProvider::PURPOSE_MBS])) {
+			global $DIC;
+			$providers = [new \ilSearchGSProvider($DIC), new \ilMMCustomProvider($DIC)];
+
+			self::$instances[StaticMetaBarProvider::PURPOSE_MBS] = new MetaBarMainCollector($providers);
+		}
+
+		return self::$instances[StaticMetaBarProvider::PURPOSE_MBS];
 	}
 }

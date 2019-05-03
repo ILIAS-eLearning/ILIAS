@@ -57,6 +57,9 @@ class ilNoteGUI
 	var $old = false;
 
 	protected $default_command = "getNotesHTML";
+	
+	/** @var array */
+	protected $observer = [];
 
 	/**
 	 * @var \ILIAS\DI\UIServices
@@ -422,7 +425,7 @@ if ($this->private_enabled && $this->public_enabled
 				if ($this->ajax && !$comments_col)
 				{
 					$ntpl->setVariable("COMMENTS_MESS",
-						$ntpl->getMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
+						ilUtil::getSystemMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
 				}
 			}
 			$ntpl->parseCurrentBlock();
@@ -935,7 +938,7 @@ if ($this->private_enabled && $this->public_enabled
 		}
 		if ($mtxt != "")
 		{
-			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+			$tpl->setVariable("MESS", ilUtil::getSystemMessageHTML($mtxt, $mtype));
 		}
 		else
 		{
@@ -1587,7 +1590,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/ 
 	function exportNotesHTML()
 	{
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		$this->export_html = true;
 		$this->multi_selection = false;
@@ -1665,7 +1668,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilTemplate $a_main_tpl = null)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 
@@ -1798,18 +1801,16 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 */
 	protected function notifyObserver($a_action, $a_note)
 	{
-		if(sizeof($this->observer))
-		{
-			foreach($this->observer as $item)
-			{
-				$param = $a_note->getObject();			
+		if (is_array($this->observer) && count($this->observer) > 0) {
+			foreach ($this->observer as $item) {
+				$param = $a_note->getObject();
 				$param["action"] = $a_action;
 				$param["note_id"] = $a_note->getId();
-				
-				call_user_func_array($item, $param);				
+
+				call_user_func_array($item, $param);
 			}
 		}
-	}	
+	}
 	
 	protected function listSortAsc()
 	{
@@ -1851,7 +1852,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		$ctrl->setParameter($this, "news_id", $this->news_id);
 		$hash = ilCommonActionDispatcherGUI::buildAjaxHash(
 			ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
-			null , ilObject::_lookupType($this->rep_obj_id), $this->rep_obj_id, "", 0, $this->news_id);
+			null , ilObject::_lookupType($this->rep_obj_id), $this->rep_obj_id, $this->obj_type, $this->obj_id, $this->news_id);
 
 		$cnt = ilNote::_countNotesAndComments($this->rep_obj_id, $this->obj_id, $this->obj_type, $this->news_id);
 		$cnt = $cnt[$this->rep_obj_id][IL_NOTE_PUBLIC];

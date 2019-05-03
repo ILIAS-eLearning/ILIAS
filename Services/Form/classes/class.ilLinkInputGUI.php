@@ -14,6 +14,8 @@
 */
 class ilLinkInputGUI extends ilFormPropertyGUI
 {
+	const EXTERNAL_LINK_MAX_LENGTH = 200;
+
 	const BOTH = "both";
 	const INT = "int";
 	const EXT = "ext";
@@ -22,6 +24,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	protected $int_link_default_obj = 0;
 	protected $int_link_filter_types = array("RepositoryItem");
 	protected $filter_white_list = true;
+
+	protected $external_link_max_length = self::EXTERNAL_LINK_MAX_LENGTH;
 
 	static protected $iltypemap = array(
 		"page" => "PageObject",
@@ -134,6 +138,22 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	function getFilterWhiteList()
 	{
 		return $this->filter_white_list;
+	}
+
+	/**
+	 * @param int max length for external links
+	 */
+	public function setExternalLinkMaxLength($a_max)
+	{
+		$this->external_link_max_length = $a_max;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getExternalLinkMaxLength()
+	{
+		return $this->external_link_max_length;
 	}
 
 	/**
@@ -334,9 +354,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			
 			// external
 			$ti = new ilTextInputGUI($title, $this->getPostVar());
-			$ti->setMaxLength(200);
-			$ti->setSize(50);
-		}				
+			$ti->setMaxLength($this->getExternalLinkMaxLength());
+		}
 		
 		// internal
 		if($has_int)

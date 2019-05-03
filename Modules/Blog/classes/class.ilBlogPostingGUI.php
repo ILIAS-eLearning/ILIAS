@@ -334,7 +334,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	protected function isInWorkspace()
 	{
-		return stristr(get_class($this->access_handler), "workspace");
+		$class = '';
+		if (is_object($this->access_handler)) {
+			$class = get_class($this->access_handler);
+		}
+
+		return stristr($class, "workspace");
 	}
 
 	/**

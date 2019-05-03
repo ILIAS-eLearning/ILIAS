@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
+class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
 	public function testGetPlaceholderValues()
 	{
@@ -16,7 +16,7 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 					'getFullname',
 					'getFirstname',
 					'getLastname',
-					'getTitle',
+					'getUTitle',
 					'getGender',
 					'getBirthday',
 					'getInstitution',
@@ -47,7 +47,7 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			->willReturn('Theen');
 
 		$objectMock->expects($this->once())
-			->method('getTitle')
+			->method('getUTitle')
 			->willReturn('');
 
 		$objectMock->expects($this->once())
@@ -120,12 +120,23 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				return $input;
 			});
 
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderValues')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('getPlaceholderValues')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
+			->willReturn(array());
+
 		$placeHolderObject = new ilDefaultPlaceholderValues(
 			$objectHelper,
 			$dateHelper,
 			1,
 			$language,
-			$utilHelper
+			$utilHelper,
+			$userDefinePlaceholderMock
 		);
 
 		$result = $placeHolderObject->getPlaceholderValues(100, 200);
@@ -169,6 +180,9 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		$dateHelper->method('formatDate')
 			->willReturn('2018-09-09');
 
+		$dateHelper->method('formatDateTime')
+			->willReturn('2018-09-09 14:00:30');
+
 		$language = $this->getMockBuilder('ilLanguage')
 			->disableOriginalConstructor()
 			->getMock();
@@ -184,12 +198,23 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				return $input;
 			});
 
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderValues')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('getPlaceholderValues')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
+			->willReturn(array());
+
 		$placeHolderObject = new ilDefaultPlaceholderValues(
 			$objectHelper,
 			$dateHelper,
 			1,
 			$language,
-			$utilHelper
+			$utilHelper,
+			$userDefinePlaceholderMock
 		);
 
 		$result = $placeHolderObject->getPlaceholderValuesForPreview(
@@ -215,7 +240,9 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				'USER_COUNTRY'       => 'Something',
 				'USER_MATRICULATION' => 'Something',
 				'DATE'               => '2018-09-09',
-				'DATETIME'           => '2018-09-09'
+				'DATETIME'           => '2018-09-09 14:00:30',
+				'DATE_COMPLETED'     => '2018-09-09',
+				'DATETIME_COMPLETED' => '2018-09-09 14:00:30'
 			),
 			$result
 		);

@@ -549,8 +549,8 @@ class ilCourseContentGUI
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
 		foreach((array) $_POST['item'] as $ref_id => $data)
 		{
-			$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']);
-			$sug_end_dt = ilCalendarUtil::dateFromUserSetting($data['sug_end']);
+			$sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
+			$sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
 			
 			if(($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate))
 			{
@@ -1291,9 +1291,10 @@ class ilCourseContentGUI
 
 			if($this->course_obj->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE)
 			{
-				$sug_start_dt = ilCalendarUtil::dateFromUserSetting($data['sug_start']);
-				$sug_end_dt = ilCalendarUtil::dateFromUserSetting($data['sug_end']);
-				
+				$sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
+				$sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
+
+
 				if(($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) 
 				{
 					include_once './Services/Calendar/classes/class.ilDateTime.php';
@@ -1337,8 +1338,12 @@ class ilCourseContentGUI
 		}
 		if(!$failed)
 		{
+			// update course => create calendar entries
+			$this->course_obj->update();
+
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 			$this->manageTimings();
+
 			return TRUE;
 		}
 		else

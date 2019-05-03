@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 
 /**
  * Class ilPluginGlobalScreenNullProvider

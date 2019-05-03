@@ -28,19 +28,17 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$ctrl = $DIC->ctrl();
 
 		$a_app = $this->appointment;
-
-		$cat_info = $this->getCatInfo();
-
-		$exc_obj = new ilObjExercise($cat_info['obj_id'], false);
-		//$exc_ref = $exc_obj->getRefId(); //emtpy...
+		$exc_obj = new ilObjExercise($this->getObjIdForAppointment(), false);
 		//is this safe?
-		$exc_ref = current(ilObject::_getAllReferences($exc_obj->getId()));
+
+		$refs = $this->getReadableRefIds($this->getObjIdForAppointment());
+		$exc_ref = current($refs);
 
 		// common section: title, location, parent info
-		$this->addCommonSection($a_app, $cat_info['obj_id'], null, true);
+		$this->addCommonSection($a_app, $this->getObjIdForAppointment(), null, true);
 
 		//Assignment title information
-		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$this->addInfoSection($this->lng->txt("cal_exc_info"));
 
 		//var_dump($a_app); exit;
 		$ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
@@ -61,7 +59,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		if(count($files) > 0)
 		{
 			$this->has_files = true;
-			$str_files = "";
+			$str_files = array();
 			foreach($files as $file)
 			{
 				$ctrl->setParameterByClass("ilexsubmissiongui", "ref_id", $exc_ref);

@@ -196,11 +196,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
 	 */
 	protected function renderContentStyle()
 	{
-		$this->mainTemplate->setVariable('LOCATION_CONTENT_STYLESHEET', \ilObjStyleSheet::getContentStylePath(
-			$this->contentPageObject->getStyleSheetId()
-		));
-		$this->mainTemplate->setCurrentBlock('SyntaxStyle');
-		$this->mainTemplate->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
-		$this->mainTemplate->parseCurrentBlock();
+		$this->mainTemplate->addCss(\ilObjStyleSheet::getSyntaxStylePath());
+		$this->mainTemplate->addCss(\ilObjStyleSheet::getContentStylePath(
+			$this->contentPageObject->getStyleSheetId())
+		);
 	}
 }

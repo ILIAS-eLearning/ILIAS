@@ -10,6 +10,7 @@ declare(strict_types=1);
 class ilLSPostConditionDB
 {
 	const TABLE_NAME = 'post_conditions';
+	const STD_ALWAYS_OPERATOR = 'always';
 
 	/**
 	 * @var ilDBInterface
@@ -31,7 +32,7 @@ class ilLSPostConditionDB
 		}
 
 		$data = [];
-		$query = "SELECT ref_id, condition_type, value" .PHP_EOL
+		$query = "SELECT ref_id, condition_operator, value" .PHP_EOL
 			."FROM ".static::TABLE_NAME .PHP_EOL
 			."WHERE ref_id IN ("
 			.implode(',', $ref_ids)
@@ -39,20 +40,20 @@ class ilLSPostConditionDB
 
 		$result = $this->db->query($query);
 		while ($row = $this->db->fetchAssoc($result)) {
-			$data[$row['ref_id']] = [(int)$row['condition_type'], (int)$row['value']];
+			$data[$row['ref_id']] = [$row['condition_operator'], (int)$row['value']];
 		}
 
 		$conditions = [];
 		foreach ($ref_ids as $ref_id) {
 			//always-condition, standard
-			$type = LSPostConditionTypesDB::TYPE_ALWAYS;
+			$op = self::STD_ALWAYS_OPERATOR;
 			$value = null;
 
 			//if from db: proper values
 			if(array_key_exists($ref_id, $data)) {
-				list($type, $value) = $data[$ref_id];
+				list($op, $value) = $data[$ref_id];
 			}
-			$conditions[] = new \ilLSPostCondition($ref_id, $type, $value);
+			$conditions[] = new \ilLSPostCondition($ref_id, $op, $value);
 		}
 		return $conditions;
 	}
@@ -75,7 +76,7 @@ class ilLSPostConditionDB
 		foreach ($ls_post_conditions as $condition) {
 			$values = array(
 				"ref_id" => array("integer", $condition->getRefId()),
-				"condition_type" => array("integer", $condition->getConditionType())
+				"condition_operator" => array("text", $condition->getConditionOperator())
 			);
 			$this->db->insert(static::TABLE_NAME, $values);
 		}

@@ -409,6 +409,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 					break;
 			}
 
+			$ilCtrl->clearParameterByClass(ilCalendarPresentationGUI::class,'ref_id');
+
 			$a_tpl->setVariable('EDIT_LINK',$link);
 			$a_tpl->setVariable('VAL_TITLE',$a_set['title']);
 

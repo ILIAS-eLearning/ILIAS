@@ -82,7 +82,9 @@ class ilContainerExporter extends ilXmlExporter
 		foreach($a_ids as $id)
 		{
 			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-			$style_id = ilObjStyleSheet::lookupObjectStyle($id);			
+			$style_id = ilObjStyleSheet::lookupObjectStyle($id);
+			// see #24888
+			$style_id = ilObjStyleSheet::getEffectiveContentStyleId($style_id);
 			if($style_id > 0)
 			{
 				$style_ids[] = $style_id;				

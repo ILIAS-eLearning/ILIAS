@@ -30,7 +30,7 @@ class ilTestSkillEvaluationGUI
 	private $tabs;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	private $tpl;
 
@@ -73,7 +73,7 @@ class ilTestSkillEvaluationGUI
 	 */
 	protected $testPassesSelector = null;
 
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDBInterface $db, ilObjTest $testOBJ)
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplate $tpl, ilLanguage $lng, ilDBInterface $db, ilObjTest $testOBJ)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;

@@ -118,7 +118,16 @@ class ilLMEditorGUI
 		$this->tree = new ilTree($this->lm_obj->getId());
 		$this->tree->setTableNames('lm_tree','lm_data');
 		$this->tree->setTreeTablePK("lm_id");
-		
+
+		if ($this->obj_id > 0 && ilLMObject::_lookupContObjID($this->obj_id) != $this->lm_obj->getId())
+		{
+			throw new ilException("Object ID does not match learning module.");
+		}
+		if ($_REQUEST["active_node"] > 0 && ilLMObject::_lookupContObjID((int) $_REQUEST["active_node"]) != $this->lm_obj->getId())
+		{
+			throw new ilException("Active node does not match learning module.");
+		}
+
 		$ilNavigationHistory->addItem($_GET["ref_id"],
 			"ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"], "lm");
 	}
@@ -174,7 +183,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
+				$output =  $this->tpl->getSpecial("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');
@@ -207,7 +216,7 @@ class ilLMEditorGUI
 	 */
 	function main_header()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");

@@ -71,74 +71,90 @@ class ilForumSettingsGUI
 	{
 		$this->settingsTabs();
 
-		//sorting for sticky threads
-		$cb_sort = new ilCheckboxInputGUI($this->lng->txt('sorting_manual_sticky'),	'thread_sorting');
-		$cb_sort->setValue('1');
-		$cb_sort->setInfo($this->lng->txt('sticky_threads_always_on_top'));
-		$a_form->addItem($cb_sort);
-		
-		// sorting for postings
+		$a_form->setTitle($this->lng->txt('frm_settings_form_header'));
+
+		$presentationHeader = new ilFormSectionHeaderGUI();
+		$presentationHeader->setTitle($this->lng->txt('frm_settings_presentation_header'));
+		$a_form->addItem($presentationHeader);
+
+		$this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->addTileImage();
+
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
-		
 		$rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), ilForumProperties::VIEW_TREE));
 		$rg_sort_by_date = new ilRadioOption($this->lng->txt('sort_by_date'), ilForumProperties::VIEW_DATE);
 		$rg_pro->addOption($rg_sort_by_date);
-		
 		$view_direction_group_gui = new ilRadioGroupInputGUI('', 'default_view_sort_dir');
 		$view_desc = new ilRadioOption($this->lng->txt('descending_order'), ilForumProperties::VIEW_DATE_DESC);
 		$view_asc = new ilRadioOption($this->lng->txt('ascending_order'), ilForumProperties::VIEW_DATE_ASC);
 		$view_direction_group_gui->addOption($view_desc);
 		$view_direction_group_gui->addOption($view_asc);
-		
 		$rg_sort_by_date->addSubItem($view_direction_group_gui);
 		$a_form->addItem($rg_pro);
-		
-		if($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized())
-		{
-			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'),	'anonymized');
-			$cb_prop->setValue('1');
-			$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
-			$a_form->addItem($cb_prop);
-		}
-		
-		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('mark_moderator_posts'), 'mark_mod_posts');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
-		$a_form->addItem($cb_prop);
-		
-		if($this->settings->get('enable_fora_statistics', false))
-		{
-			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
-			$cb_prop->setValue('1');
-			$cb_prop->setInfo($this->lng->txt('frm_statistics_enabled_desc'));
-			$a_form->addItem($cb_prop);
-		}
-		
-		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('activate_new_posts'), 'post_activation');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($this->lng->txt('post_activation_desc'));
-		$a_form->addItem($cb_prop);
-		
+
+		$userFunctionsHeader = new \ilFormSectionHeaderGUI();
+		$userFunctionsHeader->setTitle($this->lng->txt('frm_settings_user_functions_header'));
+		$a_form->addItem($userFunctionsHeader);
+
 		$frm_subject = new ilRadioGroupInputGUI($this->lng->txt('frm_subject_setting'), 'subject_setting');
 		$frm_subject->addOption(new ilRadioOption($this->lng->txt('preset_subject'), 'preset_subject'));
 		$frm_subject->addOption(new ilRadioOption($this->lng->txt('add_re_to_subject'), 'add_re_to_subject'));
 		$frm_subject->addOption(new ilRadioOption($this->lng->txt('empty_subject'), 'empty_subject'));
 		$a_form->addItem($frm_subject);
-		
+
 		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('enable_thread_ratings'), 'thread_rating');
 		$cb_prop->setValue(1);
 		$cb_prop->setInfo($this->lng->txt('enable_thread_ratings_info'));
 		$a_form->addItem($cb_prop);
-		
-		if(!ilForumProperties::isFileUploadGloballyAllowed())
-		{
+
+		if (!ilForumProperties::isFileUploadGloballyAllowed()) {
 			$frm_upload = new ilCheckboxInputGUI($this->lng->txt('file_upload_allowed'), 'file_upload_allowed');
 			$frm_upload->setValue(1);
 			$frm_upload->setInfo($this->lng->txt('allow_file_upload_desc'));
 			$a_form->addItem($frm_upload);
 		}
 
-		$this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->addTileImage();
+		$moderatorFunctionsHeader = new \ilFormSectionHeaderGUI();
+		$moderatorFunctionsHeader->setTitle($this->lng->txt('frm_settings_mod_functions_header'));
+		$a_form->addItem($moderatorFunctionsHeader);
+
+		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('activate_new_posts'), 'post_activation');
+		$cb_prop->setValue(1);
+		$cb_prop->setInfo($this->lng->txt('post_activation_desc'));
+		$a_form->addItem($cb_prop);
+
+		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('mark_moderator_posts'), 'mark_mod_posts');
+		$cb_prop->setValue(1);
+		$cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
+		$a_form->addItem($cb_prop);
+
+		
+		$stickyThreadSorting = new ilRadioGroupInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
+		$latestAtTop = new ilRadioOption($this->lng->txt('frm_sticky_threads_latest_at_top'), 0);
+		$latestAtTop->setInfo($this->lng->txt('frm_sticky_threads_latest_at_top_info'));
+		$latestAtTop->setValue(0);
+		$stickyThreadSorting->addOption($latestAtTop);
+		$manualSorting = new ilRadioOption($this->lng->txt('frm_sticky_threads_manual_sorting'), 1);
+		$manualSorting->setInfo($this->lng->txt('frm_sticky_threads_manual_sorting_info'));
+		$stickyThreadSorting->addOption($manualSorting);
+		$a_form->addItem($stickyThreadSorting);
+
+		$privacyHeader = new \ilFormSectionHeaderGUI();
+		$privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
+		$a_form->addItem($privacyHeader);
+
+		if ($this->settings->get('enable_fora_statistics', false)) {
+			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
+			$cb_prop->setValue(1);
+			$cb_prop->setInfo($this->lng->txt('frm_statistics_enabled_desc'));
+			$a_form->addItem($cb_prop);
+		}
+
+		if ($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized()) {
+			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'), 'anonymized');
+			$cb_prop->setValue(1);
+			$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
+			$a_form->addItem($cb_prop);
+		}
 	}
 	
 	/**
@@ -147,7 +163,7 @@ class ilForumSettingsGUI
 	public function settingsTabs()
 	{
 		$this->tabs->activateTab('settings');
-		$this->tabs->addSubTabTarget('basic_settings', $this->ctrl->getLinkTarget($this->parent_obj, 'edit'), '', 'ilobjforumgui');
+		$this->tabs->addSubTabTarget('basic_settings', $this->ctrl->getLinkTarget($this->parent_obj, 'edit'), '', ['ilobjforumgui', 'ilObjForumGUI']);
 
 		if($this->settings->get('forum_notification') > 0)
 		{
@@ -163,13 +179,13 @@ class ilForumSettingsGUI
 					$mem_active = array('showMembers', 'forums_notification_settings');
 					(in_array($_GET['cmd'],$mem_active)) ? $force_mem_active = true : $force_mem_active = false;
 
-					$this->tabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), '', get_class($this), '', $force_mem_active);
+					$this->tabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), '', '', '', $force_mem_active);
 				}
 			}
 		}
-		//news subtab
-		$this->lng->loadLanguageModule('forum');
-		$this->tabs->addSubTab('obj_news_settings', $this->lng->txt("cont_news_settings"), $this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'));
+
+		$this->lng->loadLanguageModule('cont');
+		$this->tabs->addSubTabTarget('cont_news_settings', $this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'), '', 'ilcontainernewssettingsgui');
 
 		return true;
 	}

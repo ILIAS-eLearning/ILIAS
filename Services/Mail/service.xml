@@ -20,5 +20,9 @@
 	<mailtemplates>
 		<context id="mail_template_generic" class="ilMailTemplateGenericContext" />
 	</mailtemplates>
+	<events>
+		<event type="raise" id="externalEmailDelegated" />
+		<event type="raise" id="sentInternalMail" />
+	</events>
 	<logging />
 </service>

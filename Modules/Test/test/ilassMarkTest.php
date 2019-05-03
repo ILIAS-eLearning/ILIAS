@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /** 
  * Unit tests for ASS_Mark
  * 
@@ -10,7 +12,7 @@
  * 
  * @ingroup ModulesTest
  */
-class ilassMarkTest extends PHPUnit\Framework\TestCase
+class ilassMarkTest extends TestCase
 {
 	/** @var $backupGlobals bool  */
 	protected $backupGlobals = FALSE;
@@ -18,7 +20,7 @@ class ilassMarkTest extends PHPUnit\Framework\TestCase
 	/** @var  $ass_mark ASS_Mark */
 	protected $ass_mark;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{
@@ -172,11 +174,12 @@ class ilassMarkTest extends PHPUnit\Framework\TestCase
 	 * Set test on member minimumLevel using accessor methods with a too
 	 * low level.
 	 * 
-	 * @expectedException Exception
 	 * @see testSetMinimumLevel_High()
 	 */
 	public function testSetMinimumLevel_TooLow()
 	{
+		$this->expectException(\Exception::class);
+
 		// Arrange
 		$expected = -1;
 		$this->ass_mark->setMinimumLevel($expected);

@@ -3,7 +3,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
+class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
 	public function testPlaceholderGetHtmlDescription()
 	{
@@ -16,10 +16,20 @@ class ilExercisePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->disableOriginalConstructor()
 			->getMock();
 
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
 		$templateMock->method('get')
 			->willReturn('');
 
-		$placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock);
+		$placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
@@ -33,11 +43,21 @@ class ilExercisePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->setMethods(array('txt'))
 			->getMock();
 
-		$languageMock->expects($this->exactly(19))
+		$languageMock->expects($this->exactly(21))
 			->method('txt')
 			->willReturn('Something translated');
 
-		$placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock);
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
+		$placeholderDescriptionObject = new ilExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
 		$placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
@@ -61,7 +81,9 @@ class ilExercisePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 				'DATETIME'           => 'Something translated',
 				'RESULT_PASSED'      => 'Something translated',
 				'RESULT_MARK'        => 'Something translated',
-				'EXERCISE_TITLE'     => 'Something translated'
+				'EXERCISE_TITLE'     => 'Something translated',
+				'DATE_COMPLETED'     => 'Something translated',
+				'DATETIME_COMPLETED' => 'Something translated'
 			),
 			$placeHolders
 		);

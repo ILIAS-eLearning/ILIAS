@@ -119,14 +119,19 @@ var OSDNotifier, OSDNotifications = function (settings) {
 
 						$("body").append($notielm);
 
-						var player = new MediaElementPlayer('#' + id, {
-							plugins: ['flash','silverlight'],
-							features: [],
-							audioWidth: 0,
-							audioHeight: 0
-						});
-						player.setVolume(1);
-						player.play();
+						$
+							.when($("body").append($notielm))
+							.then(function() {
+								var p = $("#" + id).get(0).play();
+
+								if (p !== undefined) {
+									p.then(function() {
+										console.log("Played sound successfully!");
+									}).catch(function(e) {
+										console.log("Could not play sound, autoplay policy changes: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes");
+									});
+								}
+							});
 					}
 				});
 

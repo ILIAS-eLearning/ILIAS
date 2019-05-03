@@ -319,28 +319,6 @@ class ilTestServiceGUI
 		return $cmd;
 	}
 	
-	protected function handleTabs($activeTabId)
-	{
-		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			require_once 'Services/Link/classes/class.ilLink.php';
-			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-			
-			$this->tabs->addTab(
-				'results_pass_oriented', $this->lng->txt('tst_tab_results_pass_oriented'),
-				$this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outUserResultsOverview')
-			);
-			
-			$this->tabs->addTab(
-				'results_objective_oriented', $this->lng->txt('tst_tab_results_objective_oriented'),
-				$this->ctrl->getLinkTargetByClass('ilTestEvalObjectiveOrientedGUI', 'showVirtualPass')
-			);
-			
-			$this->tabs->setTabActive($activeTabId);
-		}
-	}
-	
 	/**
 	 * @return bool
 	 */
@@ -589,7 +567,7 @@ class ilTestServiceGUI
 		return $maintemplate->get();
 	}
 
-	protected function getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null)
+	protected function getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null, $multipleObjectivesInvolved = true)
 	{
 		$this->ctrl->setParameter($targetGUI, 'active_id', $active_id);
 		$this->ctrl->setParameter($targetGUI, 'pass', $pass);
@@ -609,6 +587,8 @@ class ilTestServiceGUI
 			$tableGUI->setQuestionRelatedObjectivesList($objectivesList);
 			$tableGUI->setObjectiveOrientedPresentationEnabled(true);
 		}
+		
+		$tableGUI->setMultipleObjectivesInvolved($multipleObjectivesInvolved);
 
 		$tableGUI->setActiveId($active_id);
 		$tableGUI->setShowSuggestedSolution(false);
@@ -1006,9 +986,8 @@ class ilTestServiceGUI
 	 */
 	public function getQuestionResultForTestUsers($question_id, $test_id)
 	{
-        // prepare generation before contents are processed (for mathjax)
-		require_once 'Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-		ilPDFGeneration::prepareGeneration();
+		// prepare generation before contents are processed (for mathjax)
+		ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
 
 		// REQUIRED, since we call this object regardless of the loop
 		$question_gui = $this->object->createQuestionGUI("", $question_id);
@@ -1048,7 +1027,7 @@ class ilTestServiceGUI
 		}
 
 		require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
-		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitle());
+		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitleFilenameCompliant(),PDF_USER_RESULT);
 	}
 
 	/**
@@ -1185,7 +1164,7 @@ class ilTestServiceGUI
 			require_once 'class.ilTestPDFGenerator.php';
 
 			ilTestPDFGenerator::generatePDF(
-				$content, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
+				$content, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT
 			);
 		}
 		else
@@ -1235,6 +1214,15 @@ class ilTestServiceGUI
 		$pass = (int)$_GET['pass'];
 
 		$questionId = (int)$_GET['evaluation'];
+		
+		$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
+		$testSequence->loadFromDb();
+		$testSequence->loadQuestions();
+		
+		if( !$testSequence->questionExists($questionId) )
+		{
+			ilObjTestGUI::accessViolationRedirect();
+		}
 
 		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{

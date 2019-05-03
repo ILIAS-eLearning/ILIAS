@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilPDGlobalScreenProvider
@@ -58,25 +58,45 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	public function getStaticSubItems(): array {
 		$dic = $this->dic;
 
-
 		$dic->language()->loadLanguageModule("pd");
 
 		// overview
 		$entries[] = $this->mainmenu->link($this->if->identifier('mm_pd_sel_items'))
 			->withTitle($this->dic->language()->txt("overview"))
 			->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems")
-			->withParent($this->getTopItem());
+			->withParent($this->getTopItem())
+			->withPosition(1)
+			->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+			->withAvailableCallable(
+				function () use ($dic) {
+					return $dic->settings()->get('disable_my_offers', 0) == 0;
+				}
+			)
+			->withVisibilityCallable(
+				function () use ($dic) {
+					$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
+
+					return (bool)$pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
+				}
+			);
 
 		// my groups and courses, if both is available
 		$entries[] = $this->mainmenu->link($this->if->identifier('mm_pd_crs_grp'))
 			->withTitle($this->dic->language()->txt("my_courses_groups"))
 			->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
 			->withParent($this->getTopItem())
+			->withPosition(2)
+			->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+			->withAvailableCallable(
+				function () use ($dic) {
+					return $dic->settings()->get('disable_my_memberships', 0) == 0;
+				}
+			)
 			->withVisibilityCallable(
 				function () use ($dic) {
 					$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 
-					return (bool)$pdItemsViewSettings->allViewsEnabled();
+					return (bool)$pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
 				}
 			);
 
@@ -85,10 +105,13 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			->withTitle($this->dic->language()->txt("pd_achievements"))
 			->withAction($dic->ctrl()->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI"], ""))
 			->withParent($this->getTopItem())
-			->withVisibilityCallable(
+			->withIcon($this->dic->ui()->factory()->icon()->standard("bdga", ""))
+			->withPosition(7)
+			->withAvailableCallable(
 				function () use ($dic) {
 					$achievements = new ilAchievements();
-					return (bool) $achievements->isAnyActive();
+
+					return (bool)$achievements->isAnyActive();
 				}
 			);
 

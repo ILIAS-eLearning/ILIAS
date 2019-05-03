@@ -47,7 +47,6 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createMetaData();
 
 		$this->createDataDirectory();
-		$this->setOfflineStatus(true);
 		$ilDB->manipulateF('
 			INSERT INTO sahs_lm (id, api_adapter, c_type, editable, seq_exp_mode,localization) 
 			VALUES (%s,%s,%s,%s,%s,%s)', 
@@ -326,6 +325,8 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getDefaultLessonMode()
 	{
+		global $DIC;
+		if ($DIC['ilUser']->getId() == 13) return "browse";
 		return $this->lesson_mode;
 	}
 	/**
@@ -1317,12 +1318,12 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
 
+		$new_obj->setOfflineStatus($this->getOfflineStatus());
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
-
-		if(!$cp_options->isRootNode($this->getRefId()))
+		if($cp_options->isRootNode($this->getRefId()))
 		{
-			$new_obj->setOfflineStatus($this->getOfflineStatus());
+			$new_obj->setOfflineStatus(true);
 		}
 
 		// copy properties

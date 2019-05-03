@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 
 /**
  * Interface SerializerInterface
@@ -10,7 +11,14 @@ use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
  */
 interface SerializerInterface {
 
+	const MAX_LENGTH = 255;
+
+
 	/**
+	 * The string MUST be shorter than 64 characters
+	 *
+	 * @throws \LogicException whn longer than 64 characters
+	 *
 	 * @param IdentificationInterface $identification
 	 *
 	 * @return string
@@ -19,11 +27,14 @@ interface SerializerInterface {
 
 
 	/**
-	 * @param string $serialized_string
+	 * @param string                   $serialized_string
+	 * @param IdentificationMap        $map
+	 *
+	 * @param ProviderFactoryInterface $provider_factory
 	 *
 	 * @return IdentificationInterface
 	 */
-	public function unserialize(string $serialized_string, IdentificationMap $map): IdentificationInterface;
+	public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactoryInterface $provider_factory): IdentificationInterface;
 
 
 	/**

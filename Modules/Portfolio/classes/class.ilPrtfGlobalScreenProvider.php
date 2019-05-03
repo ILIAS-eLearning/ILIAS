@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilPrtfGlobalScreenProvider
@@ -52,8 +52,9 @@ class ilPrtfGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("portfolio"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio")
 			        ->withParent($this->getTopItem())
+			        ->withPosition(6)
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
-			        ->withActiveCallable(
+			        ->withAvailableCallable(
 				        function () use ($dic) {
 					        return (bool)($dic->settings()->get('user_portfolios'));
 				        }

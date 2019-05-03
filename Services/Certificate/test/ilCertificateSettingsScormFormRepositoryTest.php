@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateSettingsScormFormRepositoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTestCase
 {
 	public function testSave()
 	{
@@ -13,10 +13,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends PHPUnit_Framework_Tes
 			->getMock();
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -52,7 +48,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends PHPUnit_Framework_Tes
 			$object,
 			'/some/where/',
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,
@@ -76,10 +71,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends PHPUnit_Framework_Tes
 			->getMock();
 
 		$language = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$template = $this->getMockBuilder('ilTemplate')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -126,7 +117,6 @@ class ilCertificateSettingsScormFormRepositoryTest extends PHPUnit_Framework_Tes
 			$object,
 			'/some/where/',
 			$language,
-			$template,
 			$controller,
 			$access,
 			$toolbar,

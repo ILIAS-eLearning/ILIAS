@@ -3,7 +3,7 @@
 * ILIAS language file
 *
 * @module		language file Vietnamese
-* @modulegroup	language 
+* @modulegroup	language
 * @author 		Đỗ Xuân Tiến <tiendx2002@yahoo.com>
 * @version		$Id$
 * @comment      File ngôn ngữ này chưa phải là bản hoàn thiện mà còn có nhiều phần
@@ -1255,14 +1255,14 @@ common#:#obj_not_found#:#Không có đối tượng nào
 common#:#obj_objf#:#Định nghĩa đối tượng
 common#:#obj_objf_desc#:#Quản lý các kiểu đối tượng ILIAS và quyền hạn. (chỉ cho các chuyên gia!)
 common#:#obj_pg#:#Trang
-common#:#obj_qpl#:#Thư viện câu hỏi kiểm tra 
+common#:#obj_qpl#:#Thư viện câu hỏi kiểm tra
 common#:#obj_recf#:#Các đối tượng đã phục hồi
 common#:#obj_recf_desc#:#Chứa các đối tượng đã phục hồi từ Kiểm tra hệ thống.
 common#:#obj_role#:#Vai trò
 common#:#obj_rolf#:#Vai trò
 common#:#obj_rolf_desc#:#Quản lý các vai trò.
 common#:#obj_rolf_local#:#Vai trò nội bộ
-common#:#obj_rolf_local_desc#:#Chứa các vai trò nội bộ của đối tượng số&nbsp 
+common#:#obj_rolf_local_desc#:#Chứa các vai trò nội bộ của đối tượng số&nbsp
 common#:#obj_rolt#:#Vai trò mẫu
 common#:#obj_root#:#Nút gốc ILIAS
 common#:#obj_sahs#:#Học phần SCORM/AICC
@@ -1379,7 +1379,7 @@ common#:#private_notes#:#Ghi chép cá nhân
 common#:#pro#:#Pro///
 common#:#profile#:#Hồ sơ
 common#:#profile_changed#:#Hồ sơ của bạn đã thay đổi
-common#:#profile_of#:#Hồ sơ cá nhân của 
+common#:#profile_of#:#Hồ sơ cá nhân của
 common#:#properties#:#Thuộc tính
 common#:#pub_section#:#Khu vực công khai
 common#:#public#:#công khai
@@ -1724,7 +1724,7 @@ common#:#usr_agreement#:#Thỏa thuận sử dụng
 common#:#usr_edit#:#Sửa người sử dụng
 common#:#usr_inactive_only#:#Chỉ người sử dụng không hoạt động
 common#:#usr_new#:#Người sử dụng mới
-common#:#usr_settings_explanation_profile#:#Đánh dấu vào những hộp chọn đế khóa / ẩn các thiết lập hồ sơ cá nhân trên bàn làm việc cho tất cả những người sử dụng. Tất cả thiết lập khóa / ẩn chỉ sửa được trên Quản trị / Tài khoản người sử dụng.  
+common#:#usr_settings_explanation_profile#:#Đánh dấu vào những hộp chọn đế khóa / ẩn các thiết lập hồ sơ cá nhân trên bàn làm việc cho tất cả những người sử dụng. Tất cả thiết lập khóa / ẩn chỉ sửa được trên Quản trị / Tài khoản người sử dụng.
 common#:#usr_settings_header_profile#:#Thiết lập hồ sơ cá nhân người sử dụng
 common#:#usr_settings_saved#:#Ghi thành công thiết lập người sử dụng toàn cục!
 common#:#usr_skin_style#:#Skin / giao diện
@@ -2067,7 +2067,7 @@ content#:#cont_total_time#:#Tổng thời gian
 content#:#cont_tracking_data#:#Dữ liệu theo dõi
 content#:#cont_tracking_items#:#Các khoản mục theo dõi
 content#:#cont_tree_fixed#:#Cây cấu trúc đã được sửa chữa.
-content#:#cont_users_have_mob_in_clip1#:#Đối tượng phương tiện này đang ở trong bộ nhớ đệm của 
+content#:#cont_users_have_mob_in_clip1#:#Đối tượng phương tiện này đang ở trong bộ nhớ đệm của
 content#:#cont_users_have_mob_in_clip2#:#người sử dụng.
 content#:#cont_validate_file#:#Thẩm định file
 content#:#cont_version#:#phiên bản
@@ -2093,7 +2093,7 @@ content#:#par#:#Đoạn
 content#:#pg#:#Trang
 content#:#public_section#:#Khu vực công khai
 content#:#select_a_file#:#Hãy chọn một file.
-content#:#selected_pages_only#:#chỉ những trang đã chọn dưới đây 
+content#:#selected_pages_only#:#chỉ những trang đã chọn dưới đây
 content#:#set_public_mode#:#Đặt phương thức truy cập công khai
 content#:#st#:#Chương
 crs#:#activation_times_not_valid#:#Khoảng thời gian hiệu lực không hợp lệ.
@@ -9693,7 +9693,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable
@@ -10673,7 +10673,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13302,7 +13302,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14929,7 +14928,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

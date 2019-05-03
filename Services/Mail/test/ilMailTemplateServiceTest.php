@@ -9,14 +9,6 @@ class ilMailTemplateServiceTest extends \ilMailBaseTest
 	/**
 	 *
 	 */
-	protected function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
-	 *
-	 */
 	public function testDefaultTemplateCanBeSetByContext()
 	{
 		$repo = $this->getMockbuilder(\ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();

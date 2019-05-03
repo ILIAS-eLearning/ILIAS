@@ -148,7 +148,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$table = ilDclCache::getTableCache($field->getTableId());
 		$record_id = 0;
 		foreach ($table->getRecords() as $record) {
-			$record_value = $record->getRecordField($field->getId())->getValue();
+			$record_value = $record->getRecordField($field->getId())->getExportValue();
 			// in case of a url-field
 			if (is_array($record_value) && !is_array($value)) {
 				$record_value = array_shift($record_value);

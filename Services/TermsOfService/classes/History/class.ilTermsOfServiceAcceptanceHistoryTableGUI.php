@@ -24,18 +24,20 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 
 	/**
 	 * ilTermsOfServiceAcceptanceHistoryTableGUI constructor.
-	 * @param \ilTermsOfServiceControllerEnabled $controller
-	 * @param string $command
+	 * @param \ilTermsOfServiceControllerEnabled             $controller
+	 * @param string                                         $command
 	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-	 * @param Factory $uiFactory
-	 * @param Renderer $uiRenderer
+	 * @param Factory                                        $uiFactory
+	 * @param Renderer                                       $uiRenderer
+	 * @param \ilGlobalTemplate                               $globalTemplate
 	 */
 	public function __construct(
 		\ilTermsOfServiceControllerEnabled $controller,
 		string $command,
 		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
 		Factory $uiFactory,
-		Renderer $uiRenderer
+		Renderer $uiRenderer,
+		\ilGlobalTemplate $globalTemplate
 	) {
 		$this->criterionTypeFactory = $criterionTypeFactory;
 		$this->uiFactory = $uiFactory;
@@ -54,9 +56,10 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 
-		\iljQueryUtil::initjQuery();
-		\ilYuiUtil::initPanel();
-		\ilYuiUtil::initOverlay();
+		\iljQueryUtil::initjQuery($globalTemplate);
+		\ilYuiUtil::initPanel($globalTemplate);
+		\ilYuiUtil::initOverlay($globalTemplate);
+		$globalTemplate->addJavaScript("./Services/Form/js/Form.js");
 
 		$this->setShowRowsSelector(true);
 
@@ -228,7 +231,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 		$ul->readFromSession();
 		$this->filter['query'] = $ul->getValue();
 
-		$this->tpl->addJavaScript("./Services/Form/js/Form.js");
 		$duration = new \ilDateDurationInputGUI($this->lng->txt('tos_period'), 'period');
 		$duration->setRequired(true);
 		$duration->setStartText($this->lng->txt('tos_period_from'));

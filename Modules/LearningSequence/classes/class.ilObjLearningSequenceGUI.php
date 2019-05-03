@@ -102,7 +102,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		global $DIC;
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->lng = $DIC['lng'];
-		$this->template = $DIC['tpl'];
 		$this->user = $DIC['ilUser'];
 		$this->tabs = $DIC['ilTabs'];
 		$this->toolbar = $DIC['ilToolbar'];
@@ -112,21 +111,28 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->rbac_review = $DIC['rbacreview'];
 		$this->ui_factory = $DIC['ui.factory'];
 		$this->ui_renderer = $DIC['ui.renderer'];
+		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
 		$this->app_event_handler = $DIC['ilAppEventHandler'];
 		$this->navigation_history = $DIC['ilNavigationHistory'];
 		$this->obj_definition = $DIC['objDefinition'];
+		$this->tpl = $DIC["tpl"];
+		$this->obj_service = $DIC->object();
+		$this->toolbar = $DIC['ilToolbar'];
 
 		$this->help->setScreenIdComponent($this->obj_type);
 		$this->lng->loadLanguageModule($this->obj_type);
 
 		$this->object = $this->getObject();
+		$this->data_factory = new \ILIAS\Data\Factory();
+
 	}
 
 	public function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		$tpl = $this->tpl;
 
 		parent::prepareOutput();
 		$this->addToNavigationHistory();
@@ -139,6 +145,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$next_class === 'ilobjlearningsequencelearnergui'
 			&& $cmd === 'view'
 		);
+
+		$tpl->setPermanentLink("lso", $this->ref_id);
 
 		switch ($next_class) {
 			case "ilcommonactiondispatchergui":
@@ -272,6 +280,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		$this->tabs->setTabActive(self::TAB_INFO);
 		$this->ctrl->setCmdClass('ilinfoscreengui');
+		$this->ctrl->setCmd($cmd);
 		$info = new ilInfoScreenGUI($this);
 		$this->ctrl->forwardCommand($info);
 	}
@@ -291,7 +300,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->getObject(),
 			$this->ctrl,
 			$this->lng,
-			$this->template
+			$this->tpl,
+			$this->obj_service
 		);
 		$this->ctrl->setCmd($cmd);
 		$this->ctrl->forwardCommand($gui);
@@ -349,8 +359,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->lng,
 			$this->tpl,
 			$this->toolbar,
+			$this->kiosk_mode_service,
+			$this->access,
+			$this->settings,
 			$this->ui_factory,
-			$this->ui_renderer
+			$this->ui_renderer,
+			$this->data_factory
 		);
 
 		$this->ctrl->setCmd($cmd);
@@ -375,12 +389,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$ms_gui = new ilLearningSequenceMembershipGUI(
 			$this,
 			$this->getObject(),
+			$this->getTrackingObject(),
 			ilPrivacySettings::_getInstance(),
 			$this->lng,
 			$this->ctrl,
 			$this->access,
 			$this->rbac_review,
-			$this->settings
+			$this->settings,
+			$this->toolbar
 		);
 
 		$this->ctrl->setCmd($cmd);
@@ -447,6 +463,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$participant->add($this->user->getId(),IL_LSO_ADMIN);
 		$participant->updateNotification($this->user->getId(),$this->settings->get('mail_lso_admin_notification', true));
 
+
+		$settings = new \ilContainerSortingSettings($new_object->getId());
+		$settings->setSortMode(\ilContainer::SORT_MANUAL);
+		$settings->setSortDirection(\ilContainer::SORT_DIRECTION_ASC);
+		$settings->setSortNewItemsOrder(\ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
+		$settings->setSortNewItemsPosition(\ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
+		$settings->save();
+
 		ilUtil::sendSuccess($this->lng->txt('object_added'), true);
 		$this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
 		ilUtil::redirect(
@@ -473,7 +497,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 	public function getTabs()
 	{
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("read")) {
 			$this->tabs->addTab(
 				self::TAB_CONTENT_MAIN
 				, $this->lng->txt(self::TAB_CONTENT_MAIN)
@@ -481,7 +505,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			);
 		}
 
-		if ($this->checkAccess("visible")) {
+		if ($this->checkAccess("read") || $this->checkAccess("visible")) {
 			$this->tabs->addTab(
 				self::TAB_INFO
 				, $this->lng->txt(self::TAB_INFO)
@@ -498,10 +522,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		if ( $this->checkAccess("read")) {
-
-			if ($this->getObject()->getLSSettings()->getMembersGallery()
-				|| $this->checkAccess("edit_members"))
-			{
+			if ($this->checkAccess("manage_members")
+				|| (
+					$this->getObject()->getLSSettings()->getMembersGallery()
+					&&
+					$this->object->isMember((int)$this->user->getId())
+				)
+			){
 				$this->tabs->addTab(
 					self::TAB_MEMBERS
 					, $this->lng->txt(self::TAB_MEMBERS)
@@ -630,6 +657,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		}
 
 		return $this->object;
+	}
+
+	protected function getTrackingObject(): ilObjUserTracking
+	{
+		return new ilObjUserTracking();
 	}
 
 	/**

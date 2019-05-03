@@ -48,7 +48,11 @@ $( document ).ready( function() {
 			log("sop: checkSystem");
 			msg(sopGlobals.sop_check_system_requirements,true,true);
 			if (typeof window.applicationCache !== 'object') {
-				msg(sopGlobals.sop_system_check_error,true);
+				if (location.protocol === 'http:') {
+					msg(sopGlobals.sop_system_check_https,true);
+				} else {
+					msg(sopGlobals.sop_system_check_error,true);
+				}
 			}
 			inProgress();
 			if (sopGlobals.mode == 'offline') { // check if lm exists in browser

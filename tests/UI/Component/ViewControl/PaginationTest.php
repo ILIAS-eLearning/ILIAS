@@ -12,30 +12,21 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  * Test on Pagination view control.
  */
 class PaginationTest extends ILIAS_UI_TestBase {
+
 	public function getUIFactory() {
-        $sg = new SignalGenerator();
-		return new \ILIAS\UI\Implementation\Factory(
-			$this->createMock(C\Counter\Factory::class),
-			new IC\Glyph\Factory($sg),
-			new IC\Button\Factory($sg),
-			$this->createMock(C\Listing\Factory::class),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			new IC\Dropdown\Factory(),
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
-		);
+		$factory = new class extends NoUIFactory
+		{
+			public function glyph() {
+				return new IC\Glyph\Factory(new SignalGenerator());
+			}
+			public function button() {
+				return new IC\Button\Factory(new SignalGenerator());
+			}
+			public function dropdown() {
+				return new IC\Dropdown\Factory();
+			}
+		};
+		return $factory;
 	}
 
 	private function getFactory() {

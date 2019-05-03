@@ -11,7 +11,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Sisenemisvõti
@@ -522,7 +522,7 @@ assessment#:#err_unit_in_results#:#The unit cannot be deleted. It is aleady in u
 assessment#:#err_unit_in_variables#:#The unit cannot be deleted. It is aleady in use in one or more test questions.
 assessment#:#err_unit_is_baseunit#:#The unit cannot be deleted. It is used as base unit by other units.
 assessment#:#err_wrong_categoryname#:#The category already exists.
-assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent 
+assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
 assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect information!!
 assessment#:#error_importing_question#:#Küsimus(t)e importimisel valitud failist tekkis viga!
 assessment#:#error_open_image_file#:#Pildifaili avamisel tekkis viga!
@@ -541,7 +541,7 @@ assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.
 assessment#:#eval_all_users#:#Kasutajate tulemused
 assessment#:#eval_legend_link#:#Pöördu veerupäise sümbolite tähenduste juurde.
-assessment#:#exam_id#:#Exam Id: 
+assessment#:#exam_id#:#Exam Id:
 assessment#:#examid_in_test_pass#:#Display Testpass ID
 assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A new ID is generated for every testpass.
 assessment#:#examid_in_test_res#:#ILIAS Testpass ID
@@ -1555,7 +1555,7 @@ bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_settings_edit#:#Edit Library
 bibl#:#bibl_settings_libraries#:#Libraries
 bibl#:#bibl_settings_new#:#Add Library
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#detail_view#:#Detail View
 bibl#:#download_original_file#:#Download Original File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
@@ -1636,7 +1636,7 @@ blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by 
 blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months
 blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.
 blog#:#blog_nav_mode_month_single#:#Show Selected Month
-blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the 'Postings' block. Month can be changed by dropdown. 
+blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the 'Postings' block. Month can be changed by dropdown.
 blog#:#blog_nav_sortorder#:#Order of Blocks
 blog#:#blog_navigation#:#Postitused
 blog#:#blog_needs_approval#:#Needs Approval
@@ -2081,7 +2081,7 @@ cmps#:#no_changes#:#Muudatused puuduvad
 cntr#:#cntr_add_new_item#:#Lisa uus üksus
 cntr#:#cntr_adopt_content#:#Sisu laenamine
 cntr#:#cntr_back_to_old_editor#:#Tagasi vanasse toimetisse
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#cntr_hide_title_and_icon#:#Peida tiitel ja ikoon
 cntr#:#cntr_manage#:#Halda
 cntr#:#cntr_old_editor_open_standard_editor#:#Ava standardtoimeti
@@ -5215,7 +5215,7 @@ content#:#content_no_edit_lock#:#The page is currently locked by another user.
 content#:#content_page_history#:#Lehe ajalugu
 content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.
 content#:#content_some_export_ids_multiple_times#:#Mõnesid eksport ID-sid on kasutatud korduvalt. See võib tähendada puuduvaid lehti ekspordi failis.
-content#:#content_until#:#At least locked until: 
+content#:#content_until#:#At least locked until:
 content#:#copied_to_clipboard#:#Kopeeritud objekt(id) on puhvris.
 content#:#dgl_pagebreak#:#Lehekatkestus
 content#:#glo_add_new_term#:#Lisa uus termin
@@ -5326,7 +5326,7 @@ cron#:#cron_action_run#:#Execute
 cron#:#cron_action_run_fail#:#Cron-Job failed.
 cron#:#cron_action_run_success#:#Cron-Job run successfully.
 cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
-cron#:#cron_changed_by_crontab#:#SYSTEM 
+cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Component
 cron#:#cron_job_id#:#Id
 cron#:#cron_last_run#:#Last Run
@@ -6646,7 +6646,7 @@ exc#:#exc_files_returned_text#:#Assignment Text
 exc#:#exc_global_feedback_file#:#Feedback file for all learners
 exc#:#exc_global_feedback_file_cron#:#Notification
 exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the feedback file becomes available.
-exc#:#exc_global_feedback_file_date#:#Availability 
+exc#:#exc_global_feedback_file_date#:#Availability
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_grades#:#Hinnete ülevaade
@@ -6703,7 +6703,7 @@ exc#:#exc_passing_exc#:#Passing the Exercise
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers after the deadline.
-exc#:#exc_peer_review_deadline#:#Feedback Deadline 
+exc#:#exc_peer_review_deadline#:#Feedback Deadline
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
 exc#:#exc_peer_review_deadline_info_button#:#Deadline: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback time is up.
@@ -6727,7 +6727,7 @@ exc#:#exc_peer_review_personal#:#Personalized Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers are shown with full name
 exc#:#exc_peer_review_rating#:#Rating
 exc#:#exc_peer_review_recipient#:#Feedback Recipient
-exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback 
+exc#:#exc_peer_review_reset#:#Delete and Reset Peer-Feedback
 exc#:#exc_peer_review_reset_done#:#All Peer-Feedback-related data has been deleted for the assignment.
 exc#:#exc_peer_review_reset_sure#:#Are you sure you want to delete the complete peer-feedback for the assignment "%s"?
 exc#:#exc_peer_review_show#:#Show Received Feedback
@@ -6809,7 +6809,7 @@ exercise#:#exc_notgraded#:#Pole hinnatud
 exercise#:#exc_passed#:#Läbitud
 exercise#:#exc_send_mail#:#Saada kiri
 exercise#:#exc_start_date_should_be_before_end_date#:#Algusaeg peab olema enne tähtaega.
-exercise#:#exc_to_desktop_info#:#Lisa harjutus pärast selle esitamist õppuri töölauale 
+exercise#:#exc_to_desktop_info#:#Lisa harjutus pärast selle esitamist õppuri töölauale
 exercise#:#exc_your_submission#:#Koduse töö vastus
 exp#:#exp_create_file#:#Loo eksportfail
 exp#:#exp_export_files#:#Ekspordifailid
@@ -6854,7 +6854,7 @@ file#:#file_new_version#:#Loo uus versioon
 file#:#file_new_version_info#:#Loo uus versioon. Vanu versioone ei muudeta.
 file#:#file_uploaded_by#:#Uploaded by
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace. 
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
 file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 file#:#replace_file_info#:#Kõik failiversioonid kustutatakse.
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
@@ -7025,7 +7025,7 @@ forum#:#select_at_least_one_thread#:#Valige vähemalt üks teema.
 forum#:#select_max_one_thread#:#Please select one thread only!
 forum#:#sort_by_date#:#Sort by date
 forum#:#sort_by_posts#:#Sort by Posts
-forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
+forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky#:#Kleeps
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
@@ -7372,7 +7372,7 @@ ldap#:#ldap_user_mapping#:#User Profile Mapping
 ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".
 ldap#:#ldap_user_sync#:#Kasutaja sünkroniseerimise seaded
-ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 
+ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 license#:#arbitrary#:#arbitrary
@@ -7460,7 +7460,7 @@ mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists#:#Listid
 mail#:#mail_mark_read#:#Märgista kirjad loetuks
 mail#:#mail_mark_unread#:#Märgista kirjad mitteloetuks
-mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). 
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_member_notification#:#Participant Notification
@@ -7485,7 +7485,7 @@ mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passe
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Sihtmärgi pealkiri, näiteks kursuse nimetus
 mail#:#mail_nacc_target_type#:#Sisesta sihtmärk, nagu näiteks "kursus" kursuse ühiku jaoks
-mail#:#mail_nacc_timelimit#:#User access period 
+mail#:#mail_nacc_timelimit#:#User access period
 mail#:#mail_nacc_use_placeholder#:#On võimalik kasutada järgmisi kohahoidjaid
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
@@ -9528,7 +9528,7 @@ registration#:#registration_codes_override_global_info#:#These settings may be o
 registration#:#registration_codes_override_info#:#This setting overrides any values defined in "Registration Settings".
 registration#:#registration_codes_roles#:#Roll uue konto jaoks
 registration#:#registration_codes_roles_limitation_none#:#No Predefined Access Limitation
-registration#:#registration_codes_roles_local#:#Local Role(s) 
+registration#:#registration_codes_roles_local#:#Local Role(s)
 registration#:#registration_codes_roles_title#:#Role for New Accounts
 registration#:#registration_codes_type#:#Code Type
 registration#:#registration_codes_type_ext#:#Extension of limited user accounts
@@ -10193,18 +10193,18 @@ sop#:#sop_already_exported#:#The Learning Module is already exported. Please rec
 sop#:#sop_check_system_requirements#:#Checking system requirements
 sop#:#sop_desc_export#:#Offline learning modules are only available for offline usage. After trackingdata import the learning module will be online again.
 sop#:#sop_export#:#SCORM-Learning Module Export
-sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player.
 sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds
 sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
 sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
 sop#:#sop_msg_export_tracking#:#Transfering tracking data to SCORM Offline Manager. Please wait some seconds
-sop#:#sop_msg_lm_not_exists#:#The learning module does not exist or is inactive in the SCORM-Offline-Manager. 
+sop#:#sop_msg_lm_not_exists#:#The learning module does not exist or is inactive in the SCORM-Offline-Manager.
 sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait some seconds
 sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful
 sop#:#sop_push_tracking#:#Import trackingdata
 sop#:#sop_reload_page#:#Reload page
 sop#:#sop_start_som#:#Start SOM
-sop#:#sop_text_export#:#Export SCORM-Learning Module for offline performance  
+sop#:#sop_text_export#:#Export SCORM-Learning Module for offline performance
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
 sop#:#sop_text_start_offline#:#Start learning module in offline mode
 sop#:#sop_text_start_som#:#Start SCORM-Offline-Manager
@@ -11050,9 +11050,9 @@ survey#:#svy_eval_skipped_value_custom_value#:#Value
 survey#:#svy_eval_skipped_value_lng#:#Use language file entry
 survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"
 survey#:#svy_eval_user#:#Kasutajatest lähtuvad tulemused
-survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey. 
+survey#:#svy_evaluation_access_all_info#:#All registered users that can access the survey can also look at the results of this survey.
 survey#:#svy_evaluation_access_off_info#:#Only Users that can edit the survey (write permission) have access to the survey's results.
-survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it. 
+survey#:#svy_evaluation_access_participants_info#:#All users that participated in the survey may choose to look at the results after finishing it.
 survey#:#svy_export_files#:#Ekspordifail(id)
 survey#:#svy_gap_analysis#:#Gap Analysis
 survey#:#svy_general_properties#:#Üldised seaded
@@ -11636,8 +11636,8 @@ wiki#:#wiki_stat_page_words#:#Number of Words
 wiki#:#wiki_stat_rating_avg#:#Average Rating
 wiki#:#wiki_stat_read_pages#:#Number of Read Accesses
 wiki#:#wiki_stat_scope#:#Timeframe
-wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages 
-wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages 
+wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages
+wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages
 wiki#:#wiki_stat_words#:#Number of Words
 wiki#:#wiki_stat_words_avg#:# Average Number of Words per Page
 wiki#:#wiki_style#:#Stiil
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

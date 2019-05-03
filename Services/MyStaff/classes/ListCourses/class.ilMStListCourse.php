@@ -3,7 +3,7 @@
 /**
  * Class ilMStListCourse
  *
- * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCourse {
 
@@ -20,17 +20,14 @@ class ilMStListCourse {
 	 */
 	protected $crs_title;
 	/**
-	 *
 	 * @var int
 	 */
 	protected $usr_id;
 	/**
-	 *
 	 * @var int
 	 */
 	protected $usr_reg_status;
 	/**
-	 *
 	 * @var int
 	 */
 	protected $usr_lp_status;
@@ -225,20 +222,21 @@ class ilMStListCourse {
 	 */
 	static function getMembershipStatusText($status) {
 		global $DIC;
-		$lng = $DIC->language();
 
 		switch ($status) {
 			case self::MEMBERSHIP_STATUS_WAITINGLIST:
-				return $lng->txt('mst_memb_status_waitinglist');
+				return $DIC->language()->txt('mst_memb_status_waitinglist');
 				break;
 
 			case self::MEMBERSHIP_STATUS_REGISTERED:
-				return $lng->txt('mst_memb_status_registered');
+				return $DIC->language()->txt('mst_memb_status_registered');
 				break;
 
 			case self::MEMBERSHIP_STATUS_REQUESTED:
-				return $lng->txt('mst_memb_status_requested');
+				return $DIC->language()->txt('mst_memb_status_requested');
 				break;
 		}
+
+		return "";
 	}
 }

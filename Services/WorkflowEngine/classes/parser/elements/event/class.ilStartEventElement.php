@@ -27,7 +27,9 @@ class ilStartEventElement extends ilBaseElement
 		$this->element_varname = '$_v_'.$element_id; // TODO: xsd:ID allows hyphens and periods. Deal with it!
 
 		$event_definition = null;
-		if(count(@$element['children']))
+
+		$hasChildren = (isset($element['children']) && is_array($element['children']) && count($element['children']) > 0);
+		if($hasChildren)
 		{
 			foreach ($element['children'] as $child)
 			{
@@ -73,6 +75,11 @@ class ilStartEventElement extends ilBaseElement
 			{
 				$code .= $this->element_varname . '_detector->setListeningTimeframe(' .(int) $event_definition['listening_start'] . 
 					', ' . (int) $event_definition['listening_end'] . ');';
+			}
+			else if(isset($event_definition['listening_relative']) && isset($event_definition['listening_interval']))
+			{
+				$code .= $this->element_varname . '_detector->setTimerRelative(true);';
+				$code .= $this->element_varname . '_detector->setTimerLimit(' .(int) $event_definition['listening_interval'] . ');';
 			}
 		}
 		else

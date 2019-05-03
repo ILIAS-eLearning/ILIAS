@@ -1619,6 +1619,7 @@ class ilCtrl
 		}
 
 		$nr = $this->current_node;
+		$new_baseclass= "";
 		foreach ($a_class as $class)
 		{
 			$class = strtolower($class);

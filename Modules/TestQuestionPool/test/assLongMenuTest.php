@@ -6,7 +6,7 @@
  *
  * @ingroup ModulesTestQuestionPool
  */
-class assLongmenuTest  extends PHPUnit\Framework\TestCase
+class assLongmenuTest  extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
@@ -18,7 +18,7 @@ class assLongmenuTest  extends PHPUnit\Framework\TestCase
 		return $method;
 	}
 	
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$GLOBALS['DIC']['ilDB']  = 'test';
 

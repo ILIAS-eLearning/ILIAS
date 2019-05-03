@@ -83,7 +83,7 @@ class ilSearchSettings
 		return array(
 			'crs' => array('filter' => 'type:crs','trans' => 'objs_crs'),
 			'grp' => array('filter' => 'type:grp', 'trans' => 'objs_grp'),
-			'lms' => array('filter' => 'type:lm OR type:htlm OR type:sahs OR type:dbk','trans' => 'learning_resource'),
+			'lms' => array('filter' => 'type:lm OR type:htlm','trans' => 'obj_lrss'),
 			'glo' => array('filter' => 'type:glo','trans' => 'objs_glo'),
 			'mep' => array('filter' => 'type:mep', 'trans' => 'objs_mep'),
 			'tst' => array('filter' => 'type:tst OR type:svy OR type:qpl OR type:spl','trans' => 'search_tst_svy'),
@@ -91,7 +91,8 @@ class ilSearchSettings
 			'exc' => array('filter' => 'type:exc','trans' => 'objs_exc'),
 			'file' => array('filter' => 'type:file','trans' => 'objs_file'),
 			'mcst' => array('filter' => 'type:mcst','trans' => 'objs_mcst'),
-			'wiki' => array('filter' => 'type:wiki','trans' => 'objs_wiki')
+			'wiki' => array('filter' => 'type:wiki','trans' => 'objs_wiki'),
+			'copa' => array('filter' => 'type:copa','trans' => 'objs_copa'),
 		);
 	}
 	

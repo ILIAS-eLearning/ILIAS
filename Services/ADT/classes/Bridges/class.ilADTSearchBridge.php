@@ -14,7 +14,7 @@ abstract class ilADTSearchBridge
 {
 	protected $form; // [ilPropertyFormGUI]
 	protected $table_gui; // [ilTable2GUI]
-	protected $table_filter_fields; // [array]
+	protected $table_filter_fields = []; // [array]
 	protected $id; // [string]
 	protected $title; // [string]
 	protected $info; // [string]

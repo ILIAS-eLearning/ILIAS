@@ -143,13 +143,39 @@ class ilLearningHistoryGUI
 		exit;
 	}
 
+	/**
+	 * Get HTML
+	 *
+	 * @param null $from
+	 * @param null $to
+	 * @param null $classes
+	 * @return string
+	 * @throws ilCtrlException
+	 */
+	public function getEmbeddedHTML($from = null, $to = null, $classes = null)
+	{
+		$ctrl = $this->ctrl;
+
+		return $ctrl->getHTML($this, ["from" => $from, "to" => $to, "classes" => $classes]);
+	}
+
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return string
+	 */
+	public function getHTML($par)
+	{
+		return $this->getHistoryHtml($par["from"], $par["to"], $par["classes"]);
+	}
 	
 	/**
 	 * Get history html
 	 *
 	 * @return string
 	 */
-	public function getHistoryHtml($from = null, $to = null, $classes = null)
+	protected function getHistoryHtml($from = null, $to = null, $classes = null)
 	{
 		$tpl = new ilTemplate("tpl.timeline.html", true, true, "Services/LearningHistory");
 
@@ -168,10 +194,12 @@ class ilLearningHistoryGUI
 	/**
 	 * render timeline
 	 *
-	 * @param
-	 * @return
+ 	 * @param int $from unix timestamp
+	 * @param int $to unix timestamp
+	 * @param array $classes
+	 * @return string
 	 */
-	protected function renderTimeline($from = null, $to = null, $classes = null)
+	protected function renderTimeline(int $from = null, int $to = null, array $classes = null): string
 	{
 		$collector = $this->lhist_service->factory()->collector();
 		$ctrl = $this->ctrl;

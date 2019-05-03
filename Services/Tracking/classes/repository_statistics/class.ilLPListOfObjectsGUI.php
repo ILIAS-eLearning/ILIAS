@@ -227,7 +227,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		/*
 		if($a_print_view)
 		{
-			echo $this->tpl->get("DEFAULT", false, false, false, false, false, false);
+			echo $this->tpl->getSpecial("DEFAULT", false, false, false, false, false, false);
 			exit();
 		}		 
 		*/
@@ -378,7 +378,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		else
 		{
 			$tpl->setVariable("ADM_CONTENT", $table->getHTML());
-			echo $tpl->get("DEFAULT", false, false, false, false, false, false);
+			echo $tpl->getSpecial("DEFAULT", false, false, false, false, false, false);
 			exit();
 		}
 	}

@@ -161,6 +161,15 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
 		$ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());
 		self::$all_columns = $ef->getSelectableFieldsInfo($this->getRepositoryObject()->getId());
+
+		// #25215
+		if(
+			is_array(self::$all_columns) &&
+			array_key_exists('consultation_hour',self::$all_columns)
+		)
+		{
+			unset(self::$all_columns['consultation_hour']);
+		}
 		return self::$all_columns;
 	}
 	

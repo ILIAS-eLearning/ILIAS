@@ -8,7 +8,7 @@
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMSubItemGUI {
+class ilMMSubItemGUI extends ilMMAbstractItemGUI {
 
 	use ilMMHasher;
 	const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
@@ -20,111 +20,66 @@ class ilMMSubItemGUI {
 	const CMD_TRANSLATE = 'subitem_translate';
 	const CMD_UPDATE = 'subitem_update';
 	const CMD_SAVE_TABLE = 'save_table';
-	const IDENTIFIER = 'identifier';
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_RESET_FILTER = 'resetFilter';
 	const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
-	/**
-	 * @var ilMMItemRepository
-	 */
-	private $repository;
-	/**
-	 * @var ilToolbarGUI
-	 */
-	private $toolbar;
-	/**
-	 * @var ilMMTabHandling
-	 */
-	private $tab_handling;
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs;
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTemplate
-	 */
-	public $tpl;
-	/**
-	 * @var ilTree
-	 */
-	public $tree;
-	/**
-	 * ilMMTopItemGUI constructor.
-	 *
-	 * @param ilMMTabHandling $tab_handling
-	 */
 	const CMD_CANCEL = 'cancel';
-
-
-	public function __construct(ilMMTabHandling $tab_handling) {
-		global $DIC;
-
-		$this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
-		$this->tab_handling = $tab_handling;
-		$this->tabs = $DIC['ilTabs'];
-		$this->lng = $DIC->language();
-		$this->ctrl = $DIC['ilCtrl'];
-		$this->tpl = $DIC['tpl'];
-		$this->tree = $DIC['tree'];
-		$this->rbacsystem = $DIC['rbacsystem'];
-		$this->toolbar = $DIC['ilToolbar'];
-	}
 
 
 	private function dispatchCommand($cmd) {
 		global $DIC;
 		switch ($cmd) {
 			case self::CMD_ADD:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
+				$this->access->checkAccessAndThrowException('write');
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
 
 				return $this->add($DIC);
 			case self::CMD_CREATE:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
-				$this->create($DIC);
-				break;
+				$this->access->checkAccessAndThrowException('write');
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
+
+				return $this->create($DIC);
 			case self::CMD_EDIT:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
+				$this->access->checkAccessAndThrowException('write');
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
 
 				return $this->edit($DIC);
 			case self::CMD_UPDATE:
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true);
-				$this->update($DIC);
-				break;
+				$this->access->checkAccessAndThrowException('write');
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
+
+				return $this->update($DIC);
 			case self::CMD_APPLY_FILTER:
+				$this->access->checkAccessAndThrowException('visible,read');
 				$this->applyFilter();
 				break;
 			case self::CMD_RESET_FILTER :
+				$this->access->checkAccessAndThrowException('visible,read');
 				$this->resetFilter();
 				break;
 			case self::CMD_VIEW_SUB_ITEMS:
+				$this->access->checkAccessAndThrowException('visible,read');
 				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, $cmd);
 
 				return $this->index();
 			case self::CMD_SAVE_TABLE:
+				$this->access->checkAccessAndThrowException('write');
 				$this->saveTable();
 				break;
 			case self::CMD_CONFIRM_DELETE:
+				$this->access->checkAccessAndThrowException('write');
+
 				return $this->confirmDelete();
 				break;
 			case self::CMD_DELETE:
+				$this->access->checkAccessAndThrowException('write');
 				$this->delete();
 				break;
 			case self::CMD_CANCEL:
 				$this->cancel();
 				break;
 			case self::CMD_RENDER_INTERRUPTIVE:
+				$this->access->checkAccessAndThrowException('write');
 				$this->renderInterruptiveModal();
 				break;
 		}
@@ -148,35 +103,11 @@ class ilMMSubItemGUI {
 	}
 
 
-	/**
-	 * @return ilMMItemFacadeInterface
-	 * @throws Throwable
-	 */
-	private function getMMItemFromRequest(): ilMMItemFacadeInterface {
-		global $DIC;
-
-		if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
-			$string = $DIC->http()->request()->getParsedBody()['interruptive_items'][0];
-			$identification = $this->unhash($string);
-		} else {
-			$identification = $this->unhash($DIC->http()->request()->getQueryParams()[self::IDENTIFIER]);
-		}
-
-		return $this->repository->getItemFacadeForIdentificationString($identification);
-	}
-
-
 	public function executeCommand() {
-		global $DIC;
 		$next_class = $this->ctrl->getNextClass();
 
 		if ($next_class == '') {
-			$cmd = $this->ctrl->getCmd(self::CMD_VIEW_SUB_ITEMS);
-
-			if (isset($DIC->http()->request()->getParsedBody()['interruptive_items'])) {
-				$cmd = self::CMD_DELETE;
-			}
-
+			$cmd = $this->determineCommand(self::CMD_VIEW_SUB_ITEMS, self::CMD_DELETE);
 			$this->tpl->setContent($this->dispatchCommand($cmd));
 
 			return;
@@ -184,7 +115,7 @@ class ilMMSubItemGUI {
 
 		switch ($next_class) {
 			case strtolower(ilMMItemTranslationGUI::class):
-				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true);
+				$this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2]['class'] ? $this->ctrl->getCallHistory()[2]['class'] : "");
 				$g = new ilMMItemTranslationGUI($this->getMMItemFromRequest(), $this->repository);
 				$this->ctrl->forwardCommand($g);
 				break;
@@ -210,13 +141,16 @@ class ilMMSubItemGUI {
 	/**
 	 * @param $DIC
 	 *
+	 * @return string
 	 * @throws Throwable
 	 */
 	private function create($DIC) {
 		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
-		$f->save();
+		if ($f->save()) {
+			$this->cancel();
+		}
 
-		$this->cancel();
+		return $f->getHTML();
 	}
 
 
@@ -236,13 +170,16 @@ class ilMMSubItemGUI {
 	/**
 	 * @param $DIC
 	 *
+	 * @return string
 	 * @throws Throwable
 	 */
 	private function update($DIC) {
 		$f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
-		$f->save();
+		if ($f->save()) {
+			$this->cancel();
+		}
 
-		$this->cancel();
+		return $f->getHTML();
 	}
 
 
@@ -268,14 +205,17 @@ class ilMMSubItemGUI {
 	 */
 	private function index(): string {
 		// ADD NEW
-		$b = ilLinkButton::getInstance();
-		$b->setUrl($this->ctrl->getLinkTarget($this, ilMMSubItemGUI::CMD_ADD));
-		$b->setCaption($this->lng->txt(ilMMSubItemGUI::CMD_ADD), false);
+		if ($this->access->hasUserPermissionTo('write')) {
+			$b = ilLinkButton::getInstance();
+			$b->setUrl($this->ctrl->getLinkTarget($this, ilMMSubItemGUI::CMD_ADD));
+			$b->setCaption($this->lng->txt(ilMMSubItemGUI::CMD_ADD), false);
 
-		$this->toolbar->addButtonInstance($b);
+			$this->toolbar->addButtonInstance($b);
+		}
 
 		// TABLE
-		$table = new ilMMSubItemTableGUI($this, $this->repository);
+		$table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
+		$table->setShowRowsSelector(false);
 
 		return $table->getHTML();
 	}
@@ -312,25 +252,5 @@ class ilMMSubItemGUI {
 		$c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
 
 		return $c->getHTML();
-	}
-
-
-	public function renderInterruptiveModal() {
-		global $DIC;
-		$f = $DIC->ui()->factory();
-		$r = $DIC->ui()->renderer();
-
-		$form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
-		$delete_modal = $f->modal()->interruptive(
-			$this->lng->txt("delete"),
-			$this->lng->txt(self::CMD_CONFIRM_DELETE),
-			$form_action
-		);
-		//->withAffectedItems(
-		//[$f->modal()->interruptiveItem($ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
-		//);
-
-		echo $r->render([$delete_modal]);
-		exit;
 	}
 }

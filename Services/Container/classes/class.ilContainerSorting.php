@@ -245,6 +245,10 @@ class ilContainerSorting
 	 */
 	public function sortItems($a_items)
 	{
+		if (!is_array($a_items)) {
+			return [];
+		}
+
 		$sorted = array();
 		if($this->getSortingSettings()->getSortMode() != ilContainer::SORT_MANUAL)
 		{
@@ -320,7 +324,7 @@ class ilContainerSorting
 			}
 			return $a_items;
 		}
-		if(!count($a_items))
+		if(!is_array($a_items) || !count($a_items))
 		{
 			return $a_items;
 		}

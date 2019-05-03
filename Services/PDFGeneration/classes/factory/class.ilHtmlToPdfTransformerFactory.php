@@ -41,6 +41,7 @@ class ilHtmlToPdfTransformerFactory
 			ilUtil::makeDirParents($dir);
 		}
 
+		$output = preg_replace('#[\\\\/:*?"<>|]#', '-', $output);
 		$output = $dir . '/' . $output;
 		return $output;
 	}
@@ -59,7 +60,11 @@ class ilHtmlToPdfTransformerFactory
 		$renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
 		$config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $map['selected']);
 
-		$output = $this->generateTempPath($output);
+		if( basename($output) == $output )
+		{
+			$output = $this->generateTempPath($output);
+		}
+		
 		$job = new ilPDFGenerationJob();
 		$job->setFilename($output);
 		$job->addPage($src);
@@ -67,7 +72,7 @@ class ilHtmlToPdfTransformerFactory
 
 		/** @var ilPDFRenderer $renderer */
 		$renderer->generatePDF($service, $purpose, $config, $job);
-		$this->deliverPDF($output, $delivery_type);
+		return $this->deliverPDF($output, $delivery_type);
 	}
 
 

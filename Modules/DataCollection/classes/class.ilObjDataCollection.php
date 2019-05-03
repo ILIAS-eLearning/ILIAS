@@ -150,7 +150,9 @@ class ilObjDataCollection extends ilObject2 {
 		foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]
-			if ($user_id != $ilUser->getId() && $ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id'])) {
+			$record = ilDclCache::getRecordCache($a_record_id);
+			$ilDclTable = new ilDclTable($record->getTableId());
+			if ($user_id != $ilUser->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(INPUT_GET, 'ref_id'), $record, $user_id)) {
 				// use language of recipient to compose message
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
 				$ulng->loadLanguageModule('dcl');
@@ -164,7 +166,6 @@ class ilObjDataCollection extends ilObject2 {
 				$message .= $ulng->txt('dcl_record') . ":\n";
 				$message .= "------------------------------------\n";
 				if ($a_record_id) {
-					$record = ilDclCache::getRecordCache($a_record_id);
 					if (!$record->getTableId()) {
 						$record->setTableId($a_table_id);
 					}
@@ -178,7 +179,7 @@ class ilObjDataCollection extends ilObject2 {
 						/** @var ilDclBaseFieldModel $field */
 						foreach ($visible_fields as $field) {
 							if ($field->isStandardField()) {
-								$value = $record->getStandardFieldHTML($field->getId());
+								$value = $record->getStandardFieldPlainText($field->getId());
 							} elseif ($record_field = $record->getRecordField($field->getId())) {
 								$value = $record_field->getPlainText();
 							}
@@ -199,7 +200,7 @@ class ilObjDataCollection extends ilObject2 {
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, array(), array("system"));
+				$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, array(), array("system"));
 			} else {
 				unset($users[$idx]);
 			}

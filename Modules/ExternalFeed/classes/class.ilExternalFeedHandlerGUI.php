@@ -94,7 +94,7 @@ class ilExternalFeedHandlerGUI
 				break;
 		}
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 }

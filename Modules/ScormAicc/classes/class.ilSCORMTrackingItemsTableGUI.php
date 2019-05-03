@@ -18,7 +18,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 	private $scosSelected = array();
 	private $userSelected = array();
 	private $allowExportPrivacy = false;
-	private $scoTite = "";
+	private $lmTitle = "";
 
 	/**
 	 * Constructor
@@ -43,7 +43,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
 		$this->setId('AICC'.$this->report);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setLimit(9999);
+		// $this->setLimit(9999); //#23582
 
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
@@ -146,28 +146,28 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 		$ilSCORMTrackingItems = new ilSCORMTrackingItems();
 		switch($this->report) {
 			case "exportSelectedCore":
-				$tr_data = $ilSCORMTrackingItems->exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 			case "exportSelectedRaw":
-				$tr_data = $ilSCORMTrackingItems->exportSelectedRaw($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->exportSelectedRaw($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 			case "exportSelectedInteractions":
-				$tr_data = $ilSCORMTrackingItems->exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 			case "exportSelectedObjectives":
-				$tr_data = $ilSCORMTrackingItems->exportSelectedObjectives($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->exportSelectedObjectives($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 			case "tracInteractionItem":
-				$tr_data = $ilSCORMTrackingItems->tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 			case "tracInteractionUser":
-				$tr_data = $ilSCORMTrackingItems->tracInteractionUser($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->tracInteractionUser($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 			case "tracInteractionUserAnswers":
-				$tr_data = $ilSCORMTrackingItems->tracInteractionUserAnswers($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->tracInteractionUserAnswers($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 			case "exportSelectedSuccess":
-				$tr_data = $ilSCORMTrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId());
+				$tr_data = $ilSCORMTrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
 			break;
 		}
 		$this->setMaxCount($tr_data["cnt"]);

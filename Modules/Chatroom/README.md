@@ -13,13 +13,13 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
   - [Requirement](#requirement)
   - [ILIAS configuration](#ilias-configuration)
     - [Chat Server Settings](#chat-server-settings)
-      - [IP Address / FQDN](#ip-addressfqdn)
+      - [IP Address / FQDN](#ip-address--fqdn)
         - [port](#port)
         - [relative path](#relative-path)
         - [protocol](#protocol)
         - [Logging](#logging)
-        - [Connection ILIAS to server](#connection-ilias-to-server)
-        - [connection client to server](#connection-client-to-server)
+        - [Connection ILIAS to server](#connection-ilias-to-the-server)
+        - [Connection client to server](#connection-client-to-the-server)
         - [Delete old messages](#delete-old-messages)
       - [General Settings](#general-settings)
         - [Enable chat](#chat-enable)
@@ -27,12 +27,12 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
         - [Name and Authentication](#name-and-authentication)
   - [Server Configuration](#server-configuration)
       - [Single ILIAS client:](#single-ilias-client)
-      - [Multiple ILIAS client:](#multiple-ilias-client)
-  - [Start chat server automatically](#chat-server-automatically-start)
+      - [Multiple ILIAS client:](#multiple-ilias-clients)
+  - [Start chat server automatically](#start-the-chat-server-automatically)
       - [systemd (ubuntu)](#systemd-ubuntu)
   - [Proxy Configuration](#proxy-configuration)
-      - [Proxy configuration via nginx](#proxy-configuration-by-nginx)
-      - [Proxy configuration via apache2](#proxy-configuration-per-apache2)
+      - [Proxy configuration via nginx](#proxy-configuration-via-nginx)
+      - [Proxy configuration via apache2](#proxy-configuration-via-apache2)
   - [Development](#development)
       - [Dependency Management](#dependency-management)
 
@@ -42,9 +42,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 A prerequisite for the chat server is Node.js. The chat server is tested with the following versions of Node.js:
 
-* 8.9.4 (LTS)
-* 9.7.1
-
+* 8.9.4 (LTS) - 10.15.3 (LTS)
 
 The latest version can be downloaded at the following URL: https://github.com/nodesource/distributions#debinstall
 
@@ -278,6 +276,14 @@ RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
+```
+
+It is recommended to use a specific user and group for running the Node.js chat server instance:
+
+```
+useradd --system -d /%path%/%to%/%onscreenchat% -c "ILIAS onscreenchat" onscreenchat;
+chown onscreenchat:onscreenchat -R /%path%/%to%/%onscreenchat%/;
+usermod -a -G onscreenchat onscreenchat;
 ```
 
 ## Proxy configuration

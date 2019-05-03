@@ -1148,7 +1148,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					}
 	
 					// pre selection for role
-					$pre_select = array_search($role[name], $gl_roles);
+					$pre_select = array_search($role["name"], $gl_roles);
 					if (! $pre_select)
 					{
 						switch($role["name"])

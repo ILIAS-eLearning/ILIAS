@@ -743,7 +743,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		foreach($this->object->getAnswers() as $lmIndex => $lm)
 		{
 			$lmValues = array(
-				'answers_all' => $lm,
+				'answers_all' => array(0 => $lm),
 				'answers_all_count' => count($lm),
 				'answers_correct' => $correctAnswers[$lmIndex][0]
 			);

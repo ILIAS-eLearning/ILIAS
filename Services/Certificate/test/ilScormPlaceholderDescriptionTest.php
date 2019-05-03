@@ -3,7 +3,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
+class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
 	public function testPlaceholderGetHtmlDescription()
 	{
@@ -40,11 +40,22 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 		$learningProgressMock->method('getCollectionInstance')
 			->willReturn($collectionInstance);
 
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
 		$placeholderDescriptionObject = new ilScormPlaceholderDescription(
 			$objectMock,
 			null,
 			$languageMock,
-			$learningProgressMock
+			$learningProgressMock,
+			$userDefinePlaceholderMock
 		);
 
 		$html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
@@ -64,7 +75,7 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->setMethods(array('txt'))
 			->getMock();
 
-		$languageMock->expects($this->exactly(19))
+		$languageMock->expects($this->exactly(21))
 			->method('txt')
 			->willReturn('Something translated');
 
@@ -73,11 +84,22 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 			->setMethods(array('getCollectionInstance'))
 			->getMock();
 
+		$userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
+			->willReturn(array());
+
+		$userDefinePlaceholderMock->method('getPlaceholderDescriptions')
+			->willReturn(array());
+
 		$placeholderDescriptionObject = new ilScormPlaceholderDescription(
 			$objectMock,
 			null,
 			$languageMock,
-			$learningProgressMock
+			$learningProgressMock,
+			$userDefinePlaceholderMock
 		);
 
 		$placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
@@ -102,8 +124,9 @@ class ilScormPlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 				'DATETIME'           => 'Something translated',
 				'SCORM_TITLE'        => 'Something translated',
 				'SCORM_POINTS'       => 'Something translated',
-				'SCORM_POINTS_MAX'   => 'Something translated'
-
+				'SCORM_POINTS_MAX'   => 'Something translated',
+				'DATE_COMPLETED'     => 'Something translated',
+				'DATETIME_COMPLETED' => 'Something translated'
 			),
 			$placeHolders
 		);

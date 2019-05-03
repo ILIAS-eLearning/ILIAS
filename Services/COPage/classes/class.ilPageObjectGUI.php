@@ -23,7 +23,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
  *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
- * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
  *
  * @ingroup ServicesCOPage
  */
@@ -1125,6 +1125,18 @@ return;
 				//$this->setSubTabs("cont_multilinguality");
 				$ret = $this->ctrl->forwardCommand($ml_gui);
 				break;*/
+
+
+			case 'ilLearninghistorygui':
+				$user_id = null;
+				if ($this->getPageObject()->getParentType() == "prtf")
+				{
+					$user_id = ilObject::_lookupOwner($this->getPageObject()->getPortfolioId());
+				}
+				$hist_gui = new ilLearningHistoryGUI();
+				$hist_gui->setUserId($user_id);
+				$this->ctrl->forwardCommand($hist_gui);
+				break;
 
 			default:
 				$cmd = $this->ctrl->getCmd("preview");
@@ -2616,7 +2628,7 @@ return;
 	{
 		$tpl = $this->tpl;
 
-		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+		$tpl = new ilCOPageGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
 
 		//$int_links = $page_object->getInternalLinks();
@@ -2955,7 +2967,7 @@ return;
 			}
 			else
 			{
-				echo $this->tpl->getMessageHTML($info);
+				echo ilUtil::getSystemMessageHTML($info);
 				exit;
 			}
 		}
@@ -3072,7 +3084,7 @@ return;
 	*/
 	function showMediaFullscreen($a_style_id = 0)
 	{
-		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", 0);
 		$this->tpl->parseCurrentBlock();

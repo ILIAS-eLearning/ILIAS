@@ -181,7 +181,7 @@ class ilTermDefinitionEditorGUI
 	{
 		$lng = $this->lng;
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitle($a_header_title);
 		$this->displayLocator();
 		//$this->setAdminTabs($a_type);

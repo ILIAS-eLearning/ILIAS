@@ -9,6 +9,11 @@
 		width: 100%;
 	}
 
+	/* see bug #24947 */
+	a {
+		overflow: hidden;
+	}
+
 	.thumbnail{
 		margin-bottom: 0px;
 	}
@@ -62,6 +67,16 @@
 		> div {
 			padding: @padding-large-vertical @padding-small-horizontal;
 			float: left;
+		}
+
+		.il-chart-progressmeter-box {
+			width: @icon-size-medium + @padding-small-horizontal;
+			height: @icon-size-medium + @padding-small-vertical;
+
+			> .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
+				max-width: 100%;
+				filter: brightness(1.2);
+			}
 		}
 
 

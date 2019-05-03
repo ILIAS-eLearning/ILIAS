@@ -345,13 +345,13 @@ class ilInternalLinkGUI
 		}
 		if ($ilCtrl->isAsynch())
 		{
-			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
+			$tpl = new ilGlobalTemplate("tpl.link_help_asynch.html", true, true, "Services/Link");
 			$tpl->setVariable("NEW_LINK_URL", $this->ctrl->getLinkTarget($this,
 				"", false, true, false));
 		}
 		else
 		{
-			$tpl = new ilTemplate("tpl.link_help.html", true, true, "Services/Link");
+			$tpl = new ilGlobalTemplate("tpl.link_help.html", true, true, "Services/Link");
 			$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		}
 
@@ -1171,7 +1171,7 @@ class ilInternalLinkGUI
 			if (strlen($_POST["usr_search_str"]) > 0)
 			{
 				$lng->loadLanguageModule("search");
-				return $tpl->getMessageHTML($lng->txt("search_minimum_three"), "info");
+				return ilUtil::getSystemMessageHTML($lng->txt("search_minimum_three"), "info");
 			}
 
 			return "";
@@ -1183,7 +1183,7 @@ class ilInternalLinkGUI
 		$users = ilInternalLink::searchUsers($form->getInput("usr_search_str"));
 		if (count($users) == 0)
 		{
-			return $tpl->getMessageHTML($lng->txt("cont_user_search_did_not_match"), "info");
+			return ilUtil::getSystemMessageHTML($lng->txt("cont_user_search_did_not_match"), "info");
 		}
 
 		$f = $DIC->ui()->factory();

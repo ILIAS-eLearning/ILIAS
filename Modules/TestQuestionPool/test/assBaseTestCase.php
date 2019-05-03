@@ -1,15 +1,17 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class assBaseTestCase
  */
-abstract class assBaseTestCase extends \PHPUnit\Framework\TestCase
+abstract class assBaseTestCase extends TestCase
 {
 	/**
 	 * @inheritdoc
 	 */
-	protected function setUp()
+	protected function setUp(): void 
 	{
 		$GLOBALS['DIC'] = new \ILIAS\DI\Container();
 

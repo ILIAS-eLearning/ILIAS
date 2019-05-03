@@ -1680,37 +1680,26 @@ class ilUtil
 		return ilObjUser::_getUsersOnline($a_user_id);
 	}
 
+
 	/**
-	* Create a temporary file in an ILIAS writable directory
-	*
-	* @return	string File name of the temporary file
-	* @static
-	* 
-	*/
-	public static function ilTempnam($a_temp_path = null)
-	{
-		if($a_temp_path === null )
-		{
+	 * Returns a unique and non existing Path for e temporary file or directory
+	 *
+	 * @param string $a_temp_path
+	 *
+	 * @return    string
+	 */
+	public static function ilTempnam($a_temp_path = null) {
+		if ($a_temp_path === null) {
 			$temp_path = ilUtil::getDataDir() . "/temp";
-		}
-		else
-		{
+		} else {
 			$temp_path = $a_temp_path;
 		}
-		
-		if (!is_dir($temp_path))
-		{
+
+		if (!is_dir($temp_path)) {
 			ilUtil::createDirectory($temp_path);
 		}
-		$temp_name = tempnam($temp_path, "tmp");
-		// --->
-		// added the following line because tempnam creates a backslash on some
-		// Windows systems which leads to problems, because the "...\tmp..." can be
-		// interpreted as "...{TAB-CHARACTER}...". The normal slash works fine
-		// even under windows (Helmut Schottmüller, 2005-08-31)
-		$temp_name = str_replace("\\", "/", $temp_name);
-		// --->
-		unlink($temp_name);
+		$temp_name = $temp_path."/".uniqid("tmp");
+
 		return $temp_name;
 	}
 
@@ -2495,18 +2484,18 @@ class ilUtil
 		{
 			if(is_dir($a_dir."/".$file) and ($file != "." and $file!=".."))
 			{
-				ilUtil::delDir(${a_dir}."/".${file});
+				ilUtil::delDir($a_dir."/".$file);
 			}
 			elseif ($file != "." and $file != "..")
 			{
-				unlink(${a_dir}."/".${file});
+				unlink($a_dir."/".$file);
 			}
 		}
 
 		closedir($current_dir);
 		if (!$a_clean_only)
 		{
-			@rmdir(${a_dir});
+			@rmdir($a_dir);
 		}
 	}
 
@@ -2849,18 +2838,15 @@ class ilUtil
 			$numberOfMatches = preg_match_all('/(?:(?:http|https|ftp|ftps|mailto):|www\.)(?:[a-zA-Z0-9]|[;\/?:|&=+$,]|[\\-_.!~*\'()]|%[0-9a-fA-F]{2}|#|[;?:@&=+$,])+/',$a_str, $matches, PREG_OFFSET_CAPTURE);
 			$pos1 = 0;
 			$encoded = "";
-			foreach ($matches as $match)
-			{
-			}
+
 			foreach ($matches[0] as $match)
 			{
 				$matched_text = $match[0];
 				$pos2 = $match[1];
-				if ($matched_offset != previous_offset)
-				{
-					// encode plain text
-					$encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1, $pos2 - $pos1)));
-				}
+
+				// encode plain text
+				$encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1, $pos2 - $pos1)));
+
 				// encode URI
 				$encoded .= ilUtil::makeClickable($matched_text, $a_detect_goto_links);
 
@@ -4480,13 +4466,6 @@ class ilUtil
 		$result = $txt_output;
 		$is_html = self::isHTML($result);
 
-		if ($prepare_for_latex_output)
-		{
-			include_once './Services/MathJax/classes/class.ilMathJax.php';
-			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-		}
-
 		// removed: did not work with magic_quotes_gpc = On
 		if (!$is_html )
 		{
@@ -4513,6 +4492,16 @@ class ilUtil
 				}
 			}
 		}
+		
+		// since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
+		// do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
+		if ($prepare_for_latex_output)
+		{
+			include_once './Services/MathJax/classes/class.ilMathJax.php';
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+			$result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+		}
+
 		if ($prepare_for_latex_output)
 		{
 			// replace special characters to prevent problems with the ILIAS template system
@@ -4803,6 +4792,26 @@ class ilUtil
 	}
 
 	/**
+	 * Get HTML for a system message
+     *
+     * ATTENTION: This method is deprecated. Use MessageBox from the
+     * UI-framework instead.
+	 */
+	public static function getSystemMessageHTML($a_txt, $a_type = "info")
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+		$mtpl->setCurrentBlock($a_type."_message");
+		$mtpl->setVariable("TEXT", $a_txt);
+		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
+		$mtpl->parseCurrentBlock();
+
+		return $mtpl->get();
+	}
+
+	/**
 	* Send Info Message to Screen.
 	*
 	* @param	string	message
@@ -4815,7 +4824,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("info", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("info", $a_info, $a_keep);
 	}
 
 	/**
@@ -4833,7 +4842,7 @@ class ilUtil
 		if(isset($DIC["tpl"]))
 		{
 			$tpl = $DIC["tpl"];
-			$tpl->setMessage("failure", $a_info, $a_keep);
+			$tpl->setOnScreenMessage("failure", $a_info, $a_keep);
 		}
 	}
 
@@ -4848,7 +4857,7 @@ class ilUtil
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("question", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("question", $a_info, $a_keep);
 	}
 
 	/**
@@ -4865,7 +4874,7 @@ class ilUtil
 
 		/** @var ilTemplate $tpl */
 		$tpl = $DIC["tpl"];
-		$tpl->setMessage("success", $a_info, $a_keep);
+		$tpl->setOnScreenMessage("success", $a_info, $a_keep);
 	}
 
 	public static function infoPanel($a_keep = true)

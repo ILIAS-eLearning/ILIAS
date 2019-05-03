@@ -23,6 +23,11 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjExerciseGUI extends ilObjectGUI
 {
 	/**
+	 * @var
+	 */
+	private $certificateDownloadValidator;
+
+	/**
 	 * @var ilTabsGUI
 	 */
 	protected $tabs;
@@ -63,12 +68,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$lng->loadLanguageModule("exercise");
 		$lng->loadLanguageModule("exc");
 		$this->ctrl->saveParameter($this, "ass_id");
-		
-		if ($_REQUEST["ass_id"] > 0)
+
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		if ($_REQUEST["ass_id"] > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId($_REQUEST["ass_id"]) == $this->object->getId())
 		{
-			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			$this->ass = new ilExAssignment((int) $_REQUEST["ass_id"]);
 		}
+		else if ($_REQUEST["ass_id"] > 0)
+		{
+			throw new ilExerciseException("Assignment ID does not match Exercise.");
+		}
+
+
+		$this->certificateDownloadValidator = new ilCertificateDownloadValidator();
 	}
 
 	function executeCommand()
@@ -165,15 +177,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 			case "ilexercisemanagementgui":
 				// rbac or position access
-				$GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
+				if ($GLOBALS['DIC']->access()->checkRbacOrPositionPermissionAccess(
 					'edit_submissions_grades',
 					'edit_submissions_grades',
 					$this->object->getRefId()
-				);
-				$ilTabs->activateTab("grades");				
-				include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
-				$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
-				$this->ctrl->forwardCommand($mgmt_gui);
+					))
+				{
+					$ilTabs->activateTab("grades");
+					include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
+					$mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
+					$this->ctrl->forwardCommand($mgmt_gui);
+				}
+				else
+				{
+					$this->checkPermission("edit_submissions_grades");	// throw error by standard procedure
+				}
 				break;
 			
 			case "ilexccriteriacataloguegui":
@@ -821,9 +839,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");
-		
-		$validator = new ilCertificateDownloadValidator();
-		if($validator->isCertificateDownloadable($ilUser->getId(), $this->object->getId())) {
+
+		if($this->certificateDownloadValidator->isCertificateDownloadable((int) $ilUser->getId(), (int) $this->object->getId())) {
 			$ilToolbar->addButton($this->lng->txt("certificate"),
 			$this->ctrl->getLinkTarget($this, "outCertificate"));
 		}
@@ -887,11 +904,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$logger = $DIC->logger()->root();
 
 		$ilUser = $this->user;
-	
-		if($this->object->hasUserCertificate($ilUser->getId()))
-		{	
-			ilUtil::sendFailure($this->lng->txt("msg_failed"));
-			$this->showOverviewObject();			
+
+		$objectId = (int) $this->object->getId();
+
+		if(false === $this->certificateDownloadValidator->isCertificateDownloadable($ilUser->getId(), $objectId)) {
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this);
 		}
 
 		$ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
@@ -904,7 +922,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->lng->txt('error_creating_certificate_pdf')
 		);
 
-		$pdfAction->downloadPdf((int) $ilUser->getId(), (int)$this->object->getId());
+		$pdfAction->downloadPdf((int) $ilUser->getId(), (int) $objectId);
 	}
 
 	/**
@@ -919,7 +937,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		if ($this->ass)
 		{
-			include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 			$state = ilExcAssMemberState::getInstanceByIds($this->ass->getId(), $ilUser->getId());
 			if (!$state->getCommonDeadline() && $state->getRelativeDeadline())
 			{

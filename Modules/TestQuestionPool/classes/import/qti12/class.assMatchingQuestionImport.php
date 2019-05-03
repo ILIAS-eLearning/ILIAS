@@ -314,6 +314,8 @@ class assMatchingQuestionImport extends assQuestionImport
 			$feedbacksgeneric[$correctness] = $m;
 		}
 
+		$feedbacks = $this->getFeedbackAnswerSpecific($item, 'correct_');
+
 		// handle the import of media objects in XHTML code
 		$questiontext = $this->object->getQuestion();
 		if (is_array($_SESSION["import_mob_xhtml"]))
@@ -337,6 +339,10 @@ class assMatchingQuestionImport extends assQuestionImport
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
+				foreach ($feedbacks as $ident => $material)
+				{
+					$feedbacks[$ident] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
+				}
 				foreach ($feedbacksgeneric as $correctness => $material)
 				{
 					$feedbacksgeneric[$correctness] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
@@ -344,6 +350,14 @@ class assMatchingQuestionImport extends assQuestionImport
 			}
 		}
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
+		foreach ($feedbacks as $ident => $material)
+		{
+			$index = $this->fetchIndexFromFeedbackIdent($ident, 'correct_');
+			
+			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
+				$this->object->getId(),0, $index, ilRTE::_replaceMediaObjectImageSrc($material, 1)
+			);
+		}
 		foreach ($feedbacksgeneric as $correctness => $material)
 		{
 			$this->object->feedbackOBJ->importGenericFeedback(
@@ -362,6 +376,35 @@ class assMatchingQuestionImport extends assQuestionImport
 		{
 			$import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
 		}
+	}
+	
+	/**
+	 * @param $feedbackIdent
+	 * @param string $prefix
+	 * @return int
+	 */
+	protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_')
+	{
+		list($termId, $definitionId) = explode('_', str_replace($prefix, '', $feedbackIdent));
+		
+		foreach($this->object->getMatchingPairs() as $index => $pair)
+		{
+			/* @var assAnswerMatchingPair $pair */
+			
+			if( $pair->term->identifier != $termId)
+			{
+				continue;
+			}
+			
+			if( $pair->definition->identifier != $definitionId)
+			{
+				continue;
+			}
+			
+			return (int)$index;
+		}
+		
+		return -1;
 	}
 }
 

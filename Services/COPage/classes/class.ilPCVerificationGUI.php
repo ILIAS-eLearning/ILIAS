@@ -119,6 +119,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 	 *
 	 * @param bool $a_insert
 	 * @return ilPropertyFormGUI
+	 * @throws ilDateTimeException
 	 */
 	protected function initForm($a_insert = false)
 	{
@@ -126,7 +127,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		$ilUser = $this->user;
 		$lng = $this->lng;
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		if ($a_insert)
@@ -139,8 +139,13 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		}
 
 		$lng->loadLanguageModule("wsp");
-		$options = array();
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$workspaceOptions = array();
+
+		$certificateSource = new ilRadioGroupInputGUI($this->lng->txt('certificate_selection'), 'certificate_selection');
+
+		$workspaceRadioButton = new ilRadioOption($this->lng->txt('certificate_workspace_option'), 'certificate_workspace_option');
+		$persistentRadioButton = new ilRadioOption($this->lng->txt('certificate_persistent_option'), 'certificate_persistent_option');
+
 		$tree = new ilWorkspaceTree($ilUser->getId());
 		$root = $tree->getRootId();
 		if($root)
@@ -150,27 +155,59 @@ class ilPCVerificationGUI extends ilPageContentGUI
 			{
 				if (in_array($node["type"], array("excv", "tstv", "crsv", "scov")))
 				{
-					$options[$node["obj_id"]] = $node["title"]." (".$lng->txt("wsp_type_".$node["type"]).")";
+					$workspaceOptions[$node["obj_id"]] = $node["title"]." (".$lng->txt("wsp_type_".$node["type"]).")";
 				}
 			}
-			asort($options);		
-		}	
-		$obj = new ilSelectInputGUI($this->lng->txt("cont_verification_object"), "object");
-		$obj->setRequired(true);
-		$obj->setOptions($options);
-		$form->addItem($obj);
+			asort($workspaceOptions);
+		}
 
-		if ($a_insert)
-		{
-			
+		$workspaceCertificates = new ilSelectInputGUI($this->lng->txt("cont_verification_object"), "object");
+		$workspaceCertificates->setRequired(true);
+		$workspaceCertificates->setOptions($workspaceOptions);
+
+		$repository = new ilUserCertificateRepository();
+
+		$certificates = $repository->fetchActiveCertificates($ilUser->getId());
+
+		$persistentOptions = array();
+		foreach ($certificates as $certificate) {
+			$userCertificate = $certificate->getUserCertificate();
+			$dateTime = ilDatePresentation::formatDate(new ilDateTime($userCertificate->getAcquiredTimestamp(),IL_CAL_UNIX));
+
+			$type = $lng->txt("wsp_type_" . $userCertificate->getObjType() . 'v');
+			$additionalInformation = ' (' . $type . ' / ' . $dateTime .')';
+			$persistentOptions[$userCertificate->getObjId()] = $certificate->getObjectTitle() . $additionalInformation;
+		}
+
+		$persistentObject = new ilSelectInputGUI($this->lng->txt("cont_verification_object"), "persistent_object");
+		$persistentObject->setRequired(true);
+		$persistentObject->setOptions($persistentOptions);
+
+		$persistentRadioButton->addSubItem($persistentObject);
+		$workspaceRadioButton->addSubItem($workspaceCertificates);
+
+		$certificateSource->addOption($persistentRadioButton);
+		$certificateSource->addOption($workspaceRadioButton);
+
+		$certificateSource->setValue('certificate_persistent_option');
+
+		$form->addItem($certificateSource);
+
+		if ($a_insert) {
 			$form->addCommandButton("create_verification", $this->lng->txt("save"));
 			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
-		}
-		else
-		{
+		} else {
 			$data = $this->content_obj->getData();
-			$obj->setValue($data["id"]);
-			
+
+			if ($data['type'] === 'crta') {
+				$certificateSource->setValue('certificate_persistent_option');
+				$persistentObject->setValue($data["id"]);
+			} else {
+				$certificateSource->setValue('certificate_workspace_option');
+				$workspaceCertificates->setValue($data["id"]);
+			}
+
+
 			$form->addCommandButton("update", $this->lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
 		}
@@ -179,24 +216,60 @@ class ilPCVerificationGUI extends ilPageContentGUI
 	}
 
 	/**
-	* Create new verification
-	*/
+	 * Create new verification
+	 * @throws ilException
+	 */
 	function create()
 	{
 		$form = $this->initForm(true);
-		if($form->checkInput())
-		{
-			$type = ilObject::_lookupType($form->getInput("object"));
-			if($type)
-			{			
+		if($form->checkInput()) {
+			$option = $form->getInput('certificate_selection');
+
+			if ('certificate_workspace_option' === $option) {
+				$type = ilObject::_lookupType($form->getInput("object"));
+				if($type) {
+					$this->content_obj = new ilPCVerification($this->getPage());
+					$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
+					$verificationObjectId = $form->getInput("object");
+
+					$this->content_obj->setData($type, $verificationObjectId);
+
+					$this->updated = $this->pg_obj->update();
+					if ($this->updated === true) {
+						$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+					}
+				}
+			} elseif ('certificate_persistent_option' === $option) {
+				$objectId = $form->getInput("persistent_object");
+
+				$userId = $this->user->getId();
+
+				$certificateFileService = new ilPortfolioCertificateFileService();
+				try {
+					$certificateFileService->createCertificateFile($userId, $objectId);
+				} catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
+					$this->log->warning($e->getMessage());
+				} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'), true);
+					$this->log->error($e->getMessage());
+					return $this->ctrl->redirect($this, 'initForm');
+				} catch (ilException $e) {
+					ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'), true);
+					$this->log->error($e->getMessage());
+					return $this->ctrl->redirect($this, 'initForm');
+				}
+
 				$this->content_obj = new ilPCVerification($this->getPage());
 				$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-				$this->content_obj->setData($type, $form->getInput("object"));
+				$this->content_obj->setData('crta', $objectId);
+
 				$this->updated = $this->pg_obj->update();
-				if ($this->updated === true)
-				{
+				if ($this->updated === true) {
 					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 				}
+
+				$this->log->info('File could not be created');
 			}
 		}
 
@@ -211,20 +284,96 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		$form = $this->initForm(true);
 		if($form->checkInput())
 		{
-			$type = ilObject::_lookupType($form->getInput("object"));
-			if($type)
-			{	
-				$this->content_obj->setData($type, $form->getInput("object"));
+			$option = $form->getInput('certificate_selection');
+			if ('certificate_workspace_option' === $option) {
+				$object = $form->getInput("object");
+				$type = ilObject::_lookupType($object);
+				if($type) {
+					$oldContentData = $this->content_obj->getData();
+
+					if ('crta' === $oldContentData['type']) {
+						$userId = $this->user->getId();
+						$oldObjectId = $oldContentData['id'];
+
+						$certificateFileService = new ilPortfolioCertificateFileService();
+						try {
+							$certificateFileService->deleteCertificateFile($userId, $oldObjectId);
+						} catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+							ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'));
+							$this->log->warning($e->getMessage());
+						} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+							ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'));
+							$this->log->warning($e->getMessage());
+						}
+					}
+
+					$this->content_obj->setData($type, $object);
+					$this->updated = $this->pg_obj->update();
+					if ($this->updated === true) {
+						$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+					}
+				}
+			} elseif ('certificate_persistent_option' === $option) {
+				$oldContentData = $this->content_obj->getData();
+
+				$objectId = $form->getInput("persistent_object");
+
+				$certificateFileService = new ilPortfolioCertificateFileService();
+
+				try {
+					$userId = $this->user->getId();
+
+					$certificateFileService->createCertificateFile($userId, $objectId);
+					if ('crta' === $oldContentData['type']) {
+						$oldObjectId = $oldContentData['id'];
+						$certificateFileService->deleteCertificateFile($userId, $oldObjectId);
+					}
+				} catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
+					$this->log->warning($e->getMessage());
+				}
+				catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
+					$this->log->warning($e->getMessage());
+				} catch (\ILIAS\Filesystem\Exception\IOException $e) {
+					ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'), true);
+					$this->log->warning($e->getMessage());
+				} catch (ilException $e) {
+					ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'), true);
+					$this->log->error($e->getMessage());
+					return $this->ctrl->redirect($this, 'initForm');
+				}
+
+				$this->content_obj->setData('crta', $objectId);
 				$this->updated = $this->pg_obj->update();
-				if ($this->updated === true)
-				{
+				if ($this->updated === true) {
 					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 				}
+
+				$this->log->info('File could not be created');
 			}
 		}
 
 		$this->pg_obj->addHierIDs();
 		$this->edit($form);
+	}
+
+	private function initStorage(int $objectId, string $subDirectory = '')
+	{
+		$storage = new ilVerificationStorageFile($objectId);
+		$storage->create();
+
+		$path = $storage->getAbsolutePath()."/";
+
+		if($subDirectory !== '') {
+			$path .= $subDirectory."/";
+
+			if(!is_dir($path)) {
+				mkdir($path);
+			}
+		}
+
+		return $path;
 	}
 }
 

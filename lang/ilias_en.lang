@@ -50,7 +50,7 @@ auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet. 
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
@@ -63,7 +63,7 @@ auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rol
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_roles#:#Rollenzuordnung
@@ -71,6 +71,7 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -346,6 +347,9 @@ adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#autosave#:#Automatic saving
 assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
 assessment#:#autosave_ival#:#Interval
+assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
+assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
+assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#for#:#for
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
@@ -453,6 +457,7 @@ assessment#:#tst_nav_next_locks_current_answer_header#:#Navigation to Next Quest
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#When you navigate to the next question your answer to the current question will be locked and cannot be changed any longer.
 assessment#:#tst_filter_question_type#:#Question Type
 assessment#:#tst_filter_question_type_enabled#:#Use Question Type as Filter
+assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter
 assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#assClozeTest#:#Cloze Question
@@ -505,6 +510,8 @@ assessment#:#close_text_hint#:#To add a new gap set the cursor to the position o
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value, all text gap fields, not providing an own maximum character limitation, as well as all numeric gap fields will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
 assessment#:#qpl_maxchars_info_numeric_question#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.
 assessment#:#cloze_fixed_textlength#:#Text Field Length
 assessment#:#cloze_text#:#Cloze Text
 assessment#:#cloze_textgap_case_insensitive#:#Case Insensitive
@@ -810,6 +817,10 @@ assessment#:#matching_type#:#Matching Question Subtype
 assessment#:#material_file#:#Material File
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Maximum Number of Characters
+assessment#:#qst_essay_chars_remaining#:#Remaining characters:
+assessment#:#qst_essay_allready_written_words#:#Already entered words:
+assessment#:#qst_essay_wordcounter_enabled#:#Word Counter
+assessment#:#qst_essay_wordcounter_enabled_info#:#A word counter is shown to participants. It provides an orientation of how much text participants allready have written.
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
@@ -848,8 +859,8 @@ assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a prev
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to work through this question, because otherwise your learning objective result will be degraded.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to already passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
-assessment#:#tst_tab_results_pass_oriented#:#Results by Attempts
-assessment#:#tst_tab_results_objective_oriented#:#Results by Learning Objectives
+assessment#:#tst_tab_results_pass_oriented#:#Test Results by Attempts
+assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objectives
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions
 assessment#:#tst_inp_source_pool_label#:#Question Pool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
@@ -995,7 +1006,7 @@ assessment#:#result#:#Result
 assessment#:#finish_test#:#Finish the Test
 assessment#:#next_question#:#Next
 assessment#:#previous_question#:#Previous
-assessment#:#submit_answer#:#Save Answer and Next
+assessment#:#submit_answer#:#Save Answer
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
@@ -1133,7 +1144,6 @@ assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_side_list#:#Hide List of Questions
 news#:#new_test_online#:#The Test was set online.
-assessment#:#tst_import_no_items#:#Error: The import file contains no questions!
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
@@ -1179,7 +1189,18 @@ assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_nr_of_tries#:#Max. Number of Passes
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
+assessment#:#tst_tbl_participants#:#Participants
 assessment#:#tst_tbl_results_grades#:#Results and Grades
+assessment#:#tst_answered_questions_of_total#:#%s of %s
+assessment#:#tst_reached_points_of_max#:#%s of %s
+assessment#:#tst_passed#:#Passed
+assessment#:#tst_failed#:#Failed
+assessment#:#tst_tbl_col_scored_pass#:#Scored Pass
+assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
+assessment#:#tst_tbl_col_reached_points#:#Reached Points
+assessment#:#tst_tbl_col_percent_result#:#Percent Solved
+assessment#:#tst_tbl_col_passed_status#:#Grading
+assessment#:#tst_tbl_col_final_mark#:#Mark
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
 assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
 assessment#:#tst_pass_details#:#Detailed Results
@@ -1524,10 +1545,17 @@ assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#saved_adjustment#:#Changes saved.
+assessment#:#qst_lifecycle_filter_all#:#All Lifecycles
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Draft
+assessment#:#qst_lifecycle_review#:#To be Reviewed
+assessment#:#qst_lifecycle_rejected#:#Rejected
+assessment#:#qst_lifecycle_final#:#Final
+assessment#:#qst_lifecycle_sharable#:#Sharable
+assessment#:#qst_lifecycle_outdated#:#Outdated
 assessment#:#sign_submission#:#Digitally Sign Test Submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be requested to digitally sign their submissions.
-assessment#:#preserve_manscoring#:#Preserve manual scorings
-assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.
+assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
@@ -2004,7 +2032,7 @@ common#:#check_user_accounts#:#Check user accounts
 common#:#check_web_resources_desc#:#If enabled all Weblinks will be checked if they are active.
 common#:#check_web_resources#:#Check Weblinks
 common#:#check#:#Check
-assessment#:#submit_and_check#:#Save Answer and Check
+assessment#:#submit_and_check#:#Save and Check Answer
 common#:#checked_files#:#Importable files
 common#:#checked#:#Checked
 common#:#chg_ilias_and_webfolder_password#:#Change Webfolder Password
@@ -2791,6 +2819,11 @@ common#:#mail#:#Mail
 common#:#mails_pl#:#Mail(s)
 common#:#mails#:#Mails
 common#:#main_menu#:#Main Menu
+common#:#add_remove_edit_entries_of_main_menu#:#Add, remove or edit entries of the main menu
+common#:#all#:#All
+common#:#only_active#:#Only Active
+common#:#only_inactive#:#Only Inactive
+common#:#entry_status#:#Entry status
 common#:#manage_members#:#Manage Members
 common#:#marked_entries#:#Marked Entries
 common#:#matriculation#:#Matriculation number
@@ -3453,6 +3486,7 @@ common#:#select_max_one_item#:#Please select one item only
 common#:#select_object_to_link#:#Please select the object which you want to link
 common#:#select_one#:#Please select one.
 common#:#select_questionpool#:#Insert questions into
+common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.
 common#:#select#:#Select
 common#:#selected_items_back#:#Back to Personal Items
 common#:#selected_items#:#Personal Items
@@ -3666,7 +3700,7 @@ common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Statistics
 common#:#tst_results#:#Test Results
-rbac#:#tst_tst_results#:#User has access to test results
+rbac#:#tst_tst_results#:#User has access to test results of others
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
@@ -3724,7 +3758,7 @@ common#:#use_default_instructions#:#Use default instructions.
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system)
+common#:#user_cant_receive_mail#:#%1$s – user is not allowed to use the mail system.
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -4546,7 +4580,8 @@ crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
 crs#:#crs_groupings#:#Course groupings
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
+crs#:#crs_grp_already_assigned#:#You are already member of this grouping of courses.
+crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
@@ -4572,6 +4607,7 @@ crs#:#crs_info_start#:#Please work through all of the course items stated below.
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
 crs#:#crs_join_request#:#Send
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
 crs#:#crs_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the course:
 crs#:#crs_map_location#:#Course Map Location
 crs#:#crs_map_settings#:#Map
@@ -5206,7 +5242,7 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/rss.php
+feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL
 feed#:#block_feed_block_feed_url#:#Feed URL
 feed#:#block_feed_block_head#:#External Web Feed
 feed#:#block_feed_block_title#:#Title
@@ -5276,7 +5312,7 @@ forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
 forum#:#forums_new_thread#:#New Thread
-forum#:#forums_no_posts_available#:#This thread has no posts yet or the moderator deactivated the first post.
+forum#:#forums_no_posts_available#:#This thread has no posts.
 forum#:#forums_notification_disabled#:#Notification disabled
 forum#:#forums_notification_enabled#:#Notification enabled
 forum#:#forums_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
@@ -5727,7 +5763,7 @@ mail#:#mail_select_group#:#Please select at least one group.
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
-mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
+mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
@@ -6482,6 +6518,8 @@ news#:#news_x_postings#:#%s Postings have been added.
 news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
+news#:#lso_news_online_title#:#A new learning sequence object is online!
+news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_all_comments#:#All Comments
@@ -6655,6 +6693,10 @@ rbac#:#mds_read#:#User has read access to Metadata administration
 rbac#:#mds_visible#:#Metadata administration is visible
 rbac#:#mds_write#:#User can edit settings in Metadata administration
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
+rbac#:#mme_visible#:#Administration of Main Menu is visible
+rbac#:#mme_read#:#User has read access to administration of Main Menu
+rbac#:#mme_write#:#User can edit settings of Main Menu administration
+rbac#:#mme_edit_permission#:#User can change permission settings of Main Menu administration
 rbac#:#pdts_edit_permission#:#User can change permission settings of Personal Desktop administration
 rbac#:#pdts_read#:#User has read access to Personal Desktop administration
 rbac#:#pdts_visible#:#Personal Desktop administration is visible
@@ -6719,6 +6761,10 @@ rbac#:#svyf_edit_permission#:#User change permission settings in Survey administ
 rbac#:#svyf_read#:#User has read access to Survey administration
 rbac#:#svyf_visible#:#Survey administration is visible
 rbac#:#svyf_write#:#Edit settings in Survey administration
+rbac#:#wfe_visible#:#Administration of Workflow Engine is visible
+rbac#:#wfe_read#:#User has read access to administration of Workflow Engine
+rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration
+rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration
 rcrs#:#rcrs_call#:#Call ECS Course
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
 registration#:#auth_radius_name#:#Name of RADIUS Configuration
@@ -7689,7 +7735,7 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
-common#:#db_need_hotfix#:#Hotfix available. Please open setup program.
+common#:#db_need_hotfix#:#Hotfix available. Please open <a href="./setup/setup.php">»Setup</a>!
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_max_count#:#Max active sessions
@@ -7863,7 +7909,7 @@ dateplaner#:#cal_notification_info#:#If enabled, all course/group participants w
 dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
 rbac#:#rbac_add_new_local_role#:#Add New Local Role
 search#:#search_item_filter_form#:#Search by Type
-search#:#search_item_filter_form_info#:#Search can be restricted to the chosen file types.
+search#:#search_item_filter_form_info#:#Search can be restricted to the chosen object types.
 administration#:#group_export#:#Visible in Groups
 tbl#:#tbl_export_csv#:#Export CSV
 tbl#:#tbl_export_excel#:#Export Excel
@@ -7882,6 +7928,8 @@ exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_link#:#URL
 feed#:#feed_import#:#Import Feed
@@ -9519,7 +9567,7 @@ rbac#:#tst_tst_statistics#:#User has access to test statistics
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. You cannot edit the test questions until you remove these data sets.
-assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
+assessment#:#test_has_datasets_warning_page_view_link#:#Participant Results
 wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
 acc#:#acc_personal_desktop#:#Personal Desktop
@@ -9887,6 +9935,7 @@ dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
+dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
@@ -10021,7 +10070,7 @@ content#:#cont_show_adv#:#Show Advanced Knowledge
 content#:#cont_hide_adv#:#Hide Advanced Knowledge
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
-registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. Registration codes override these rules.
+registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. E.g. "*@ilias.de". Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
 pd#:#block_show_pdsysmess#:#Show System Messages
@@ -10484,7 +10533,6 @@ tos#:#tos_form_attach_criterion_head#:#Attach Criterion
 tos#:#tos_form_edit_criterion_head#:#Edit Criterion Assignment
 tos#:#tos_form_criterion#:#Criterion
 tos#:#tos_document#:#Document
-tos#:#tos_form_criterion_info#:#Please select the desired criterion for this document.
 tos#:#tos_sure_delete_documents_s#:#Are you sure you want to delete the document?
 tos#:#tos_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
 tos#:#tos_deleted_documents_s#:#The document has been deleted.
@@ -10519,6 +10567,10 @@ ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
+forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top
+forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.
+forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’
+forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. The ‘Sticky Threads’ can be sorted manually.
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 forum#:#merge#:#Merge
 forum#:#please_choose_target#:#Please choose a thread as merge target.
@@ -10666,7 +10718,7 @@ bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
 bibl#:#override_entries#:#Override Entries
 bibl#:#bibl_edit#:#Edit Bibliography
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#detail_view#:#Detail View
 bibl#:#bibl_settings_libraries#:#Libraries
@@ -10940,6 +10992,7 @@ assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
+assessment#:#autoparticipants_subtab#:#Participants
 assessment#:#redirect_after_finishing_tst#:#Redirect
 assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.
 assessment#:#redirect_after_finishing_rule#:#Redirect
@@ -11241,8 +11294,8 @@ mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
 orgu#:#msg_position_udpated#:#Position aktualisiert
 orgu#:#remove_successful#:#User was removed successfully.
-orgu#:#orgu_enable_my_staff#:#Enable View ‘Staff’
-orgu#:#orgu_enable_my_staff_info#:#The View ‘Staff’ shows the Learning Progress of the own Employees.
+orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’
+orgu#:#orgu_enable_my_staff_info#:#Shows learning progress of own employees.
 orgu#:#org_op_manage_members#:#Manage Members
 orgu#:#org_op_access_results#:#Access Results
 rbac#:#org_op_access_results#:#Access Results of Subordinated Users
@@ -11253,7 +11306,7 @@ rbac#:#org_op_score_participants#:#Score Subordinated Participants
 orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
 orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
-rbac#:#org_op_write_learning_progress#:#Set learning Progress of Subordinate Users
+rbac#:#org_op_write_learning_progress#:#Set learning Progress of subordinate users
 orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
@@ -11450,6 +11503,7 @@ search#:#search_mime_powerpoint#:#Powerpoint Files
 search#:#search_mime_image#:#Images
 search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#search_mime_filter_form#:#Mime Type Filter
+search#:#search_mime_filter_form_info#:#Search can be restricted to the chosen mime types.
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
 obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
@@ -11646,6 +11700,8 @@ common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.
+sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.
 sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
 sop#:#sop_reload_page#:#Reload page
@@ -11841,7 +11897,7 @@ obj#:#obj_activate_multilang#:#Activate Multilingualism
 obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
 cntr#:#msg_no_downloadable_objects#:#No downloadable objects found.
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
@@ -12122,6 +12178,7 @@ rbac#:#exc_read_learning_progress#:#User can view learning progress of other use
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
 rbac#:#file_read_learning_progress#:#User can view learning progress of other users
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
+rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
 content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
 content#:#cont_self_assessment#:#Self Assessment
@@ -12387,8 +12444,8 @@ scormtrac#:#tracinteractionuseranswers#:#Responses of users
 scormtrac#:#user_id#:#User-ID
 scormtrac#:#weighting#:#weighting
 scormtrac#:#report#:#Report
-common#:#ps_export_scorm#:#SCORM Tracking Data
-common#:#enable_export_scorm_desc#:#Allow export of user data of SCORM Learning Modules
+common#:#ps_export_scorm#:#Personal Data in Protocol Data
+common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Data (SCORM)
 content#:#cont_ed_click_to_add_pg#:#Click here to add content.
 link#:#link_chapters#:#Chapters
 link#:#link_wpages#:#Wiki Pages
@@ -12550,6 +12607,7 @@ crs#:#crs_hide_all_obj#:#Collapse All
 notes#:#notes_comment_deleted#:#The comment has been deleted.
 notes#:#notes_comments_deleted#:#The comments have been deleted.
 orgu#:#ou_id_not_valid#:#Import-ID not found.
+orgu#:#ou_more_than_one_match_found#:#More then one match found.
 blog#:#blog_profile_picture_repository_info#:#Profile pictures of the authors are only shown on the postings pages, not on overview pages.
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
 news#:#news_rss#:#RSS
@@ -13033,7 +13091,8 @@ buddysystem#:#buddy_notification_contact_request_link#:#Approve Request:
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
 buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request:
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to his friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
+buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
@@ -13226,6 +13285,11 @@ forum#:#forums_threads_deleted#:#The selected threads including all postings hav
 forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
 forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
 forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.
+forum#:#frm_settings_form_header#:#Forum Settings
+forum#:#frm_settings_presentation_header#:#Presentation
+forum#:#frm_settings_user_functions_header#:#User Functions
+forum#:#frm_settings_mod_functions_header#:#Moderator Functions
+forum#:#frm_settings_privacy_header#:#Privacy
 meta#:#meta_advmd_select_options#:#Entries
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 search#:#btn_search#:#Search
@@ -13329,6 +13393,8 @@ rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration
 rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#read_results#:#Survey Results
+rbac#:#svy_read_results#:#User has access to survey results of others
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings
 crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"
 crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"
@@ -13876,7 +13942,6 @@ iass#:#iass_edit#:#Settings
 iass#:#iass_add#:#Create Individual Assessment
 iass#:#iass_membership_finalized#:#Record finalised
 iass#:#iass_membership_saved#:#Record saved, not yet finalised
-iass#:#iass_return#:#Back to overview
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.
 iass#:#iass_settings_saved#:#Settings saved.
@@ -14122,8 +14187,8 @@ book#:#book_open#:#Open Booking Pool
 book#:#book_booking_information#:#Information
 sess#:#sess_open#:#Open Session
 dateplaner#:#cal_show_weeks#:#Show Weeks
-dateplaner#:#cal_def_show_weeks#:#Default Show Weeks
-dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block. Users can deactivate the column in their settings.
+dateplaner#:#cal_def_show_weeks#:#Show Weeks
+dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_repo_obj#:#Repository Objects
@@ -14440,8 +14505,10 @@ adve#:#adve_grp_copa#:#Content Pages
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
+mail#:#mail_bg_task_title#:#E-mail Delivery
+mail#:#mail_bg_task_desc#:#Subject: %s
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
-common#:#presentation_table_more#:#more
+common#:#presentation_table_more#:#Show More
 ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_max#:#Maximum:
@@ -14453,7 +14520,7 @@ exc#:#feedback_from#:#Feedback from
 exc#:#text_assignment#:#Text Assignment
 exc#:#not_yet#:#not yet
 exc#:#grade_evaluate#:#Grade and Evaluate
-exc#:#submissions_feedback#:#Submissions and Feedback
+exc#:#submissions_feedback#:#Submissions and Peer Feedback
 exc#:#submissions_only#:#Submissions Only
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
@@ -14536,7 +14603,7 @@ mme#:#sub_actions#:#Actions
 mme#:#button_save#:#Save
 mme#:#table_show_inactive#:#Show inactive
 mme#:#sub_title_default#:#Title (Default Language)
-mme#:#sub_title_default_byline#:#Other Translations can be added with the Translation Action after.
+mme#:#sub_title_default_byline#:#Additional languages can be added via the action link "Translate".
 mme#:#sub_type_byline#:#Specific type for the Item additional configuration may be needed.
 mme#:#sub_active_byline#:#Activate this Item for all users.
 mme#:#add_languages#:#Add Language
@@ -14545,8 +14612,11 @@ mme#:#mm_translation_trans#:#Translation
 mme#:#additional_langs#:#Additional Languages
 mme#:#msg_languages_added#:#Added languages
 mme#:#msg_translations_saved#:#Translations saved
+mme#:#msg_translations_deleted#:#Translations deleted
 mme#:#topitem_css_id#:#CSS-ID
-common#:#deleted_item#:#Deleted Item
+common#:#mme_lost_item_title#:#No assignment
+common#:#mme_lost_item_reason#:#Item is no longer provided.
+mme#:#type_lost#:#Lost
 mme#:#component_not_active#:#Component is not activated.
 mme#:#item_must_be_always_active#:#Item must be active.
 mme#:#msg_subitem_deleted#:#Item deleted.
@@ -14563,6 +14633,7 @@ common#:#obj_mme#:#Main Menu
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
 mme#:#type_separator#:#Separator
+mme#:#type_separator_info#:#The title of this item will be displayed in a grey banner. If you do not enter any title, a simple line will be shown.
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Complex
@@ -14663,7 +14734,7 @@ lhist#:#lhist_cont_placeholder_text#:#This element will show the learning histor
 lhist#:#lhist_lhist#:#Learning History
 skmg#:#skmg_materials_ressources#:#Resources/Materials
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.x implemented changes to the certificates. If the download of acquired certificates was previously linked to your current authorizations and your status to the learning objects or the availability, certificates can now be acquired persistently. For this start the migration.
+cert#:#certificate_migration_confirm_start#:#Since ILIAS 5.4, certificates in ILIAS are persistent. Even if courses, tests or learning modules are deleted, you are still able to access any certificate you might have earned by them. In order to use this new functionality, you need to migrate your old certificates once.
 cert#:#certificate_migration_lastrun_failed#:#The migration of the certificates failed. Try again?
 cert#:#certificate_migration_confirm_started#:#The migration was started.
 cert#:#certificate_migration_go#:#Start Migration
@@ -14704,6 +14775,8 @@ iass#:#iass_sort_name_asc#:#Username ascending
 iass#:#iass_sort_name_desc#:#Username descending
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending
 iass#:#iass_sort_examiner_login_desc#:#Examiner descending
+iass#:#iass_sort_changetime_asc#:#Last Change ascending
+iass#:#iass_sort_changetime_desc#:#Last Change descending
 exc#:#exc_team_formation#:#Team Formation
 exc#:#exc_team_by_participants#:#Participants Self-Organise Forming Teams
 exc#:#exc_team_by_participants_info#:#Participants opt for teams.
@@ -14731,7 +14804,6 @@ exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_text#:#Submission Text
 common#:#open#:#Open
-exc#:#exc_down_files_started#:#Download of submission files has started.
 book#:#participants#:#Participants
 book#:#book_assign_object#:#Assign Booking Object
 book#:#book_assign#:#Assign
@@ -14770,7 +14842,7 @@ sess#:#sess_contact#:#Contact
 sess#:#sess_mem_contacts#:#Tutorial Support
 dateplaner#:#cal_calendar_subscription_modal_title#:#Calendar Subscription
 sess#:#sess_members#:#Participants
-grp#:#grp_contact#:#Contact
+grp#:#grp_contact#:#Support
 grp#:#grp_mem_contacts#:#Tutorial Support
 common#:#lso_new#:#New Learning Sequence
 common#:#lso_add#:#Add Learning Sequence
@@ -14781,11 +14853,11 @@ common#:#obj_lso#:#Learning Sequence
 common#:#objs_lso#:#Learning Sequences
 common#:#obj_lso_duplicate#:#Copy Learning Sequence
 common#:#lso_copy_threads_info#:#Please decide which elements of the Learning Sequence should be copied, linked or omitted.
-common#:#slo_wizard_page#:#Copy Learning Sequence
 rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_copy#:#User can copy Learning Sequence
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
 rbac#:#lso_delete#:#User can delete Learning Sequence
+rbac#:#lso_lp_other_users#:#User can view learning progress of other users
 lso#:#learner_view#:#Overview
 lso#:#manage#:#Manage
 lso#:#manage_content_maintab#:#Content
@@ -14801,14 +14873,15 @@ lso#:#entries_deleted#:#Successfuly delete entries
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
-lso#:#lso_search_users#:#Search user
-lso#:#lso_print_list#:#Print list
+lso#:#lso_start_item#:#Start
+lso#:#lso_search_users#:#Search Users
+lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
 lso#:#lso_notification#:#Notification
 lso#:#lso_header_edit_members#:#Edit Members
-lso#:#lso_members_print_title#:#Learning sequence mebers
+lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence administrator.
 lso#:#lso_members_deleted#:#Deleted members
 lso#:#mail_lso_roles#:#Send mails to roles of learning sequence.
@@ -14834,12 +14907,13 @@ lso#:#lso_player_finish#:#Finish
 lso#:#lso_player_suspend#:#Suspend
 lso#:#lso_player_previous#:#Previous
 lso#:#lso_player_next#:#Next
-lso#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
+common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#condition_always#:#Always
-lso#:#condition_completed#:#Completed
-lso#:#condition_failed#:#Failed
+lso#:#finished#:#Finished
+lso#:#not_finished#:#Not Finished
+lso#:#failed#:#Failed
 rbac#:#rbac_create_lso#:#Create Learning Sequence
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_extro#:#Exitpage Settings
@@ -14869,7 +14943,6 @@ lso#:#first_access#:#First Access
 lso#:#last_access#:#Last Access
 lso#:#lso_settings_availability#:#availability
 lso#:#avail_time_period#:#Period
-lso#:#lso_settings_misc#:#Settings
 lso#:#completed_steps#:#Passed Steps
 lso#:#last_visited_step#:#Last visited Step
 lso#:#members_gallery#:#Member Gallery
@@ -14918,7 +14991,7 @@ common#:#il_lso_member#:#Learning Sequence Member
 lso#:#entries_updated#:#Entries saved
 lso#:#curriculum#:#Curriculum
 lso#:#unparticipate#:#Unsubscribe
-lso#:#participate#:#Subsribe
+lso#:#participate#:#Subscribe
 lhist#:#lhist_show_more#:#Show More
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
 book#:#book_objects_available#:#Objects available %s
@@ -14948,17 +15021,59 @@ style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
 sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
-rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment
-rbac#:#lso_read#:#Users can access the Learning Sequence
-rbac#:#lso_manage_members#:#Manage members of Learning Sequence
-rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence
-common#:#unparticipate#:#Unsubscribe
-common#:#participate#:#Subscribe
-rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
-rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
-rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
-rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#msg_spoint_not_modified#:#Starting point not modified
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
+blog#:#blog_download_submission#:#Download Submission
+exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.
+user#:#user_profile_info_std#:#Default User Profile Info
+lti#:#lti_cron_title#:#LTI Outcome Service
+lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
+crs#:#crs_timings_short_end#:#End Date
+lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
+dateplaner#:#cal_crs_timing_start#:#Suggested Start
+dateplaner#:#cal_crs_timing_end#:#Suggested End
+crs#:#crs_timings_edit_personal#:#Edit Personal Timings
+crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
+crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
+crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile Presentation" and "Session Limitation" at the same time.
+content#:#cont_choose_file_source#:#Source
+content#:#cont_choose_local#:#Local directory
+content#:#cont_choose_upload_dir#:#Upload directory
+sess#:#sess_assign#:#Assign
+common#:#certificate_selection#:#Origin of Certificates
+common#:#certificate_persistent_option#:#Certificates of Achievements
+common#:#certificate_workspace_option#:#Certificates of Workspace
+common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
+common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
+common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
+certificate#:#persistent_certificate_mode#:#User Certificate Creation
+certificate#:#persistent_certificate_mode_cron#:#Cron Job
+certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
+certificate#:#persistent_certificate_mode_instant#:#Instant
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+task#:#task_derived_tasks#:#Tasks
+task#:#task_tasks_with_deadline#:#With Deadline
+task#:#task_tasks_without_deadline#:#Without Deadline
+task#:#task_deadline#:#End
+task#:#task_no_tasks#:#You do not have any open tasks.
+task#:#task_start#:#Start
+task#:#task_task#:#Task
+task#:#task_details#:#Details
+pd#:#block_show_pdtasks#:#Show Tasks
+exc#:#exc_task_submission#:#Submission of Assignment "%1"
+exc#:#exc_task_grading#:#Grading of Assignment "%1"
+exc#:#exc_task_peer_feedback#:#Give Peer Feedback in Assignment "%1"
+content#:#cont_Attention#:#Attention
+content#:#cont_Confirmation#:#Confirmation
+content#:#cont_Information#:#Information
+content#:#cont_Link#:#Link
+content#:#cont_Literature#:#Literature
+content#:#cont_Separator#:#Separator
+content#:#cont_StandardCenter#:#Standard Center
+content#:#cont_Interaction#:#Interaction
+content#:#cont_Background#:#Background
+dateplaner#:#cal_usr_info#:#Appointment Information
+certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
+certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.

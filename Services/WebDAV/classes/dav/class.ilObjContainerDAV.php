@@ -60,35 +60,39 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function createFile($name, $data = null)
     {
-        if ($this->repo_helper->checkAccess("write", $this->obj->getRefId())) {
+        if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file'))
+        {
             // Check if file has valid extension
-            if (!$this->repo_helper->isValidFileNameWithValidFileExtension($name)) {
-                // Throw forbidden if invalid exstension. As far as we know, it is sadly not
-                // possible to inform the user why this is forbidden.
-                //ilLoggerFactory::getLogger('WebDAV')->warning(get_class($this). ' ' . $this->obj->getTitle() ." -> invalid File-Extension for file '$name'");
+            if ($this->dav_helper->isValidFileNameWithValidFileExtension($name))
+            {
+                if ($this->childExists($name)) {
+                    $file_dav = $this->getChild($name);
+                    $file_dav->handleFileUpload($data);
+                } else {
+                    $file_obj = new ilObjFile();
+                    $file_obj->setTitle($name);
+                    $file_obj->setFileName($name);
+                    $file_obj->setVersion(1);
+                    $file_obj->createDirectory();
+                    $file_obj->create();
 
-                throw new Forbidden('Invalid file extension');
+                    $file_obj->createReference();
+                    $file_obj->putInTree($this->obj->getRefId());
+                    $file_obj->setPermissions($this->ref_id);
+                    $file_obj->update();
+
+                    $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
+                    $file_dav->handleFileUpload($data);
+                }
             }
-
-            if ($this->childExists($name)) {
-                $file_dav = $this->getChild($name);
-                $file_dav->handleFileUpload($data);
-            } else {
-                $file_obj = new ilObjFile();
-                $file_obj->setTitle($name);
-                $file_obj->setFileName($name);
-                $file_obj->setVersion(1);
-                $file_obj->createDirectory();
-                $file_obj->create();
-
-                $file_obj->createReference();
-                $file_obj->putInTree($this->obj->getRefId());
-                $file_obj->update();
-
-                $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
-                $file_dav->handleFileUpload($data);
+            else
+            {
+                // Throw forbidden if invalid extension or filename. As far as we know, it is sadly not
+                // possible to inform the user why his upload was "forbidden".
+                throw new Forbidden('Invalid file name or file extension');
             }
-        } else {
+        } else
+        {
             throw new Forbidden('No write access');
         }
 
@@ -105,33 +109,38 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     public function createDirectory($name)
     {
         global $DIC;
-        
+
         $type = $this->getChildCollectionType();
-        
-        switch($type)
-        {
-            case 'cat':
-                $new_obj = new ilObjCategory();
-                break;
-                
-            case 'fold':
-                $new_obj = new ilObjFolder();
-                break;
-            
-            default:
-                ilLoggerFactory::getLogger('WebDAV')->info(get_class($this). ' ' . $this->obj->getTitle() ." -> $type is not supported as webdav directory");
-                throw new NotImplemented("Create type '$type' as collection is not implemented yet");
+        if($this->repo_helper->checkCreateAccessForType($this->getRefId(), $type) && $this->dav_helper->isDAVableObjTitle($name)) {
+
+            switch ($type) {
+                case 'cat':
+                    $new_obj = new ilObjCategory();
+                    break;
+
+                case 'fold':
+                    $new_obj = new ilObjFolder();
+                    break;
+
+                default:
+                    ilLoggerFactory::getLogger('WebDAV')->info(get_class($this) . ' ' . $this->obj->getTitle() . " -> $type is not supported as webdav directory");
+                    throw new NotImplemented("Create type '$type' as collection is not implemented yet");
+            }
+
+            $new_obj->setType($type);
+            $new_obj->setOwner($DIC->user()->getId());
+            $new_obj->setTitle($name);
+            $new_obj->create();
+
+            $new_obj->createReference();
+            $new_obj->putInTree($this->obj->getRefId());
+            $new_obj->setPermissions($this->obj->getRefId());
+            $new_obj->update();
         }
-        
-        $new_obj->setType($type);
-        $new_obj->setOwner($DIC->user()->getId());
-        $new_obj->setTitle($name);
-        $new_obj->create();
-        
-        $new_obj->createReference();
-        $new_obj->putInTree($this->obj->getRefId());
-        $new_obj->setPermissions($this->obj->getRefId());
-        $new_obj->update();
+        else
+        {
+            throw new Forbidden();
+        }
     }
     
     /**
@@ -154,7 +163,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names matches
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
                 {
                     $child_exists = true;
                     
@@ -184,7 +193,6 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function getChildren()
     {
-        
         $child_nodes = array();
         foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
         {
@@ -216,7 +224,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             if($this->dav_helper->isDAVableObject($child_ref, true))
             {
                 // Check if names are the same
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref) == $name)
+                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
                 {
                     // Check if read permission is given
                     if($this->repo_helper->checkAccess("read", $child_ref))

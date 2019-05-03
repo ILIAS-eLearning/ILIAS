@@ -20,7 +20,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
 		$this->initLanguage( $this->getRecipient() );
 		$this->getLanguage()->loadLanguageModule('assessment');
 
-		$this->initMail()->enableSoap(false);
+		$this->initMail();
 	}
 	
 	public function send()

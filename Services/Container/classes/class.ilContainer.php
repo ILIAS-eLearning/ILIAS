@@ -547,13 +547,19 @@ class ilContainer extends ilObject
 		// #20614 - copy style
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
-		if ($style_id > 0 &&
-			!ilObjStyleSheet::_lookupStandard($style_id))
+		if ($style_id > 0)
 		{
-			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-			$new_id = $style_obj->ilClone();
-			$new_obj->setStyleSheetId($new_id);
-			$new_obj->update();
+			if (!!ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+				$new_id = $style_obj->ilClone();
+				$new_obj->setStyleSheetId($new_id);
+				$new_obj->update();
+			}
+			else
+			{
+				$new_obj->setStyleSheetId($this->getStyleSheetId());
+			}
 		}
 
 		// #10271 - copy start objects page

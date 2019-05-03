@@ -258,6 +258,8 @@ class ilObjSurvey extends ilObject
 		{
 			$this->createMetaData();
 		}
+		$this->setOfflineStatus(true);
+		$this->update();
 	}
 
 /**
@@ -4065,6 +4067,10 @@ class ilObjSurvey extends ilObject
 		$newObj->setTutorNotificationRecipients($this->getTutorNotificationRecipients());
 		$newObj->setTutorNotificationTarget($this->getTutorNotificationTarget());
 
+		$newObj->setMailNotification($this->getMailNotification());
+		$newObj->setMailAddresses($this->getMailAddresses());
+		$newObj->setMailParticipantData($this->getMailParticipantData());
+
 		$question_pointer = array();
 		// clone the questions
 		$mapping = array();
@@ -4676,7 +4682,7 @@ class ilObjSurvey extends ilObject
 					}
 					
 					// send mail
-					$mail->sendMail(
+					$mail->validateAndEnqueue(
 						$data['email'], // to
 						"", // cc
 						"", // bcc
@@ -5441,8 +5447,7 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		//$mail->enableSOAP(false); // #10410
-		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
@@ -5472,8 +5477,7 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		//$mail->enableSOAP(false); // #10410
-		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
@@ -5504,8 +5508,7 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		//$mail->enableSOAP(false); // #10410
-		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
@@ -6288,8 +6291,7 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->enableSOAP(false); // #10410
-		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id),
+		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
@@ -6352,7 +6354,7 @@ class ilObjSurvey extends ilObject
 
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
-			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+			$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($user_id),
 				"", "", $subject, $message, array(), array("system"));
 		}
 	}
@@ -6523,7 +6525,7 @@ class ilObjSurvey extends ilObject
 
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
-			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+			$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($user_id),
 				"", "", $subject, $message, array(), array("system"));
 		}					
 	}

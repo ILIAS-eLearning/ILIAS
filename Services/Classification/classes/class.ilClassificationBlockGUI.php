@@ -358,7 +358,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		else
 		{
 			//$content_block->setContent($lng->txt("clsfct_content_no_match"));
-			echo $tpl->getMessageHTML($lng->txt("clsfct_content_no_match"), "info");
+			echo ilUtil::getSystemMessageHTML($lng->txt("clsfct_content_no_match"), "info");
 		}
 
 		exit();

@@ -30,7 +30,7 @@ administration#:#found#:#Gasit.
 administration#:#found_none#:#Cautare fara rezultat.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
 administration#:#log_scan#:#Indosarierea rezultatelor scanarii
-administration#:#log_scan_desc#:#Inscrierea rezultatelor scanarii in 'scanlog.log' in directorul de date al clientului. 
+administration#:#log_scan_desc#:#Inscrierea rezultatelor scanarii in 'scanlog.log' in directorul de date al clientului.
 administration#:#nothing_to_purge#:#Nimic de filtrat...
 administration#:#nothing_to_remove#:#Nimic de sters...
 administration#:#nothing_to_restore#:#Nimic de reabilitat...
@@ -116,7 +116,7 @@ assessment#:#circle#:#Incercuiti
 assessment#:#circle_click_center#:#Va rugam apasati in centrul perimetrului dorit.
 assessment#:#circle_click_circle#:#Va rugam apasati intr-un punct al perimetrului dorit.
 assessment#:#clientip#:#Adresa IP client
-assessment#:#close_text_hint#:#Puteti crea spatii tastand [gap][/gap] oriunde in text. Apasati butonul 'Creaza spatii' pentru a forma un spatiu editabil. 
+assessment#:#close_text_hint#:#Puteti crea spatii tastand [gap][/gap] oriunde in text. Apasati butonul 'Creaza spatii' pentru a forma un spatiu editabil.
 assessment#:#cloze_text#:#Text cu spatii se completat
 assessment#:#cloze_textgap_case_insensitive#:#Case insensitive###03 Nov 2005 new variable
 assessment#:#cloze_textgap_case_sensitive#:#Case sensitive###03 Nov 2005 new variable
@@ -735,7 +735,7 @@ common#:#cutPage#:#Decupare
 common#:#daily#:#daily ### 2006-8-11 --- Add new translation here.
 common#:#database#:#Baza de Date
 common#:#database_version#:#Versiunea curenta a Bazei de Date
-common#:#dataset#:#Item 
+common#:#dataset#:#Item
 common#:#date#:#Data
 common#:#dateplaner#:#Calendar
 common#:#day#:#Zi
@@ -1326,7 +1326,7 @@ common#:#msg_no_perm_read_lm#:#Nu aveti permisiunea de a citi acest modul de inv
 common#:#msg_no_perm_write#:#Nu aveti permisiunea de a scrie
 common#:#msg_no_search_result#:#Nu au fost gasite referinte
 common#:#msg_no_search_string#:#Va rugam introduceti cerinta
-common#:#msg_no_title#:#Va rugam introduceti un titlu. 
+common#:#msg_no_title#:#Va rugam introduceti un titlu.
 common#:#msg_not_available_for_anon#:#Pagina pe care ati ales-o este accesibila numai utilizatorilor inregistrati
 common#:#msg_not_in_itself#:#Nu puteti lipi obiectul de el insusi###10 Jul 2006 content changed
 common#:#msg_obj_created#:#Obiect creat.
@@ -1337,7 +1337,7 @@ common#:#msg_perm_adopted_from1#:#Setarile de permisiune adoptate de la
 common#:#msg_perm_adopted_from2#:#(Setarile au fost salvate!)
 common#:#msg_perm_adopted_from_itself#:#Nu puteti adopta starile de permisiune de la rolul curent sau din tabelul de roluri.
 common#:#msg_removed#:#Obiecte eliminate din sistem.
-common#:#msg_role_reserved_prefix#:#Prefixul 'il_' este rezervat pentru rolurile generate automat. Va rugam alegeti un alt nume. 
+common#:#msg_role_reserved_prefix#:#Prefixul 'il_' este rezervat pentru rolurile generate automat. Va rugam alegeti un alt nume.
 common#:#msg_roleassignment_changed#:#Desemnarea rolurilor a fost schimbata
 common#:#msg_sysrole_not_deletable#:#Rolul de sistem nu poate fi schimbat
 common#:#msg_sysrole_not_editable#:#Setarile de permisiune ale rolului de sistem nu pot fi schimbate. Rolul de sistem permite tuturor utilizatorilor desemnati acces nelimitat la toate obiectele si functiile.
@@ -1492,7 +1492,7 @@ common#:#passwd_invalid#:#Noua parola nu este valabila! Numai urmatoarele caract
 common#:#passwd_not_match#:#Introducerile pentru noua parola nu se potrivesc! Va rugam reintroduceti noua parola.###10 Jul 2006 content changed
 common#:#passwd_wrong#:#Parola pe care ati introdus-o este gresita!
 common#:#password#:#Parola
-common#:#password_assistance_info#:#Daca asistenta pentru parola este activata, apare un link cu textul "Ati uitat parola?" pe pagina de login ILIAS. Uilizatorii pot folosi acest link pentru a desemna o noua parola contului lor, fara a avea nevoie de ajutor de la administratorul de sistem. 
+common#:#password_assistance_info#:#Daca asistenta pentru parola este activata, apare un link cu textul "Ati uitat parola?" pe pagina de login ILIAS. Uilizatorii pot folosi acest link pentru a desemna o noua parola contului lor, fara a avea nevoie de ajutor de la administratorul de sistem.
 common#:#paste#:#Lipiti
 common#:#pasteChapter#:#Lipiti
 common#:#pastePage#:#Lipiti
@@ -1625,7 +1625,7 @@ common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the follo
 common#:#role_templates_only#:#Doar tabelele de roluri
 common#:#roles#:#Roluri
 common#:#roles_of_import_global#:#Rolurile globale ale fisierului importat
-common#:#roles_of_import_local#:#Rolurile locale ale fisierului importat 
+common#:#roles_of_import_local#:#Rolurile locale ale fisierului importat
 common#:#rolf#:#Roluri
 common#:#rolf_added#:#Dosar de roluri adaugat
 common#:#rolf_create_role#:#Creati definitie noua a rolului
@@ -1940,17 +1940,17 @@ rbac#:#usrf_visible#:#Conturile de utilizatori sunt vizibile
 rbac#:#usrf_write#:#Editati conturile de utilizatori
 common#:#usrimport_action_ignored#:#Ignored action %1$s. ### 2006-8-11 --- Add new translation here.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s. ### 2006-8-11 --- Add new translation here.
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.) When "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). 
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action. 
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.) When "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
+common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role ### 2006-8-11 --- Add new translation here.
 common#:#usrimport_login_is_not_unique#:#Login is not unique. ### 2006-8-11 --- Add new translation here.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted. ### 2006-8-11 --- Add new translation here.
-common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing. 
-common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal. 
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action. 
-common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal. 
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action. 
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action. 
+common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
+common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
+common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.
 common#:#valid#:#Valid ### 2006-8-11 --- Add new translation here.
 common#:#validate#:#Validati
 common#:#value#:#Valoare
@@ -2057,7 +2057,7 @@ content#:#cont_content#:#Continut
 content#:#cont_coords#:#Coordonate
 content#:#cont_copy_to_clipboard#:#Copiati in clipboard
 content#:#cont_create_mob#:#Creati Obiect Media
-content#:#cont_credit_mode#:#Creditati mod (pentru mod de lectie 'normal') 
+content#:#cont_credit_mode#:#Creditati mod (pentru mod de lectie 'normal')
 content#:#cont_credit_off#:#Fara Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credite
@@ -2165,7 +2165,7 @@ content#:#cont_lk_media_new#:#Media (Frame nou)
 content#:#cont_lk_page#:#Pagina
 content#:#cont_lk_page_faq#:#Pagina (Frame FAQ)
 content#:#cont_lk_page_new#:#Pagina (Frame nou)
-content#:#cont_lk_term#:#Termen din Glosar 
+content#:#cont_lk_term#:#Termen din Glosar
 content#:#cont_lk_term_new#:#Termen din Glosar (Frame nou)
 content#:#cont_lm_menu#:#Meniu
 content#:#cont_lm_properties#:#Proprietatile Modulului de Invatare
@@ -2174,7 +2174,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:scor de maiestrie
 content#:#cont_max_time_allowed#:#adlcp:timpulmaximpermis
 content#:#cont_media_source#:#Sursa Media
-content#:#cont_missing_preconditions#:#Trebuie sa indepliniti urmatoarele preconditii pentru a accesa Capitolul "%s". 
+content#:#cont_missing_preconditions#:#Trebuie sa indepliniti urmatoarele preconditii pentru a accesa Capitolul "%s".
 content#:#cont_mob_inst_prop#:#Proprietatile Exemplului
 content#:#cont_mob_usages#:#Folosire
 content#:#cont_name#:#Nume
@@ -2659,8 +2659,8 @@ forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 grp#:#grp_registration_unlimited#:#Unlimited registration period###10 Jul 2006 new variable
 jscalendar#:#about_calendar#:#Despre calendar
-jscalendar#:#about_calendar_long#:#Selector de Data / Timp DHTML \n(c) dynarch.com 2002-2003\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\n\nSelectarea datei:\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\n- Folositi butoanele <, > pentru a selecta luna \n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida. 
-jscalendar#:#about_time#:#\n\nSelectarea timpului:\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\n- sau tineti apasat si shift pentru ai scadea valoarea\n- sau apasati si trageti pentru o selectare mai rapida. 
+jscalendar#:#about_calendar_long#:#Selector de Data / Timp DHTML \n(c) dynarch.com 2002-2003\nPentru ultima versiune vizitati: http://dynarch.com/mishoo/calendar.epl\nDistribuit sub conditiile GNU LGPL.  Vezi http://gnu.org/licenses/lgpl.html pentru detalii.\n\nSelectarea datei:\n- Folositi butoanele Ã‚Â«, Ã‚Â» pentru a selecta anul\n- Folositi butoanele <, > pentru a selecta luna \n- Tineti apasat butonul de la mouse pe oricare din butoanele de mai sus pentru o selectare mai rapida.
+jscalendar#:#about_time#:#\n\nSelectarea timpului:\n- Apasati pe oricare din diviziunile timpului pentru a-i mari valoarea\n- sau tineti apasat si shift pentru ai scadea valoarea\n- sau apasati si trageti pentru o selectare mai rapida.
 jscalendar#:#close#:#Inchideti
 jscalendar#:#day_first#:#Afiseaza %s mai intai
 jscalendar#:#def_date_format#:#%A-%l-%z
@@ -3310,15 +3310,15 @@ meta#:#meta_very_high#:#Foarte inalt
 meta#:#meta_very_low#:#Foarte jos
 meta#:#meta_yes#:#Da
 pwassist#:#password_assistance#:#Ajutor pentru parola
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form. ILIAS will send an email to that address. The email contains all usernames which have registered this email address. Choose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s. 
-pwassist#:#pwassist_enter_username_and_email#:#Introduceti un nume de utilizator si adresa de mail asociata in campurile de mai jos.\nILIAS va trimite un mesaj la adresa mentionata. Mesajul contine adresa unei pagini de web, unde puteti introduce o parola noua pentru contul de utilizator.\nIn cazul in care nu puteti desemna parola contului dumneavoastra de utilizator folosind aceasta metoda, contactati-l pe administratorul cursului sau trimiteti un e-mail la %1$s. 
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form. ILIAS will send an email to that address. The email contains all usernames which have registered this email address. Choose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Introduceti un nume de utilizator si adresa de mail asociata in campurile de mai jos.\nILIAS va trimite un mesaj la adresa mentionata. Mesajul contine adresa unei pagini de web, unde puteti introduce o parola noua pentru contul de utilizator.\nIn cazul in care nu puteti desemna parola contului dumneavoastra de utilizator folosind aceasta metoda, contactati-l pe administratorul cursului sau trimiteti un e-mail la %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduceti numele de utilizator si noua parola in campurile de mai jos.
-pwassist#:#pwassist_login_not_match#:#Va rugam introduceti un alt nume de utilizator.\nNumele de utilizator pe care l-ati introdus nu corespunde numelui de utilizator pentru cere ati cerut ajutor pentru parola. 
-pwassist#:#pwassist_mail_body#:#Inregistrati o noua parola pentru contul de utilizator  :\n\t%1$s\n\nAcest mesaj a fost generat automat de catre serverul ILIAS \n\t%2$s\n\nDumneavoastra (sau cineva de la %3$s) a cerut ajutor pentru parola pentru contul de utilizator "%4$s".\n\nVa rugam verificati cu atentie conditiile exprimate mai jossi continuati conform cu ele:\n\n- Daca ati folosit ajutorul pentru parola al serverului ILIAS din intamplare:\nStergeti acest mail.\n\n- Daca sunteti sigur/a ca nu ati cerut niciodata ajutorul pentru parola de pe acest server ILIAS :\nVa rugam contactati %5$s.\n\n- Daca ati cerut ajutor pentru parole continuati dupa cum urmeaza:\n\n1. Deschideti browser-ul.\n\n2. Introduceti urmatoarea adresa in browser:\n\t%1$s\n\nImportant: Adresa trebuie sa fie pe un singur rand. Daca adresa este impartita in randuri multiple, programul dumneavoastra de e-mail a introdus spatii pentru.\n\n3. Pe pagina de web deschisa de browser, introduceti o noua parola pentru contul de utilizator.\n\nFiti atenti ca, din motive de securitate, puteti urma cei trei pasi de mai sus numai o data si intr-un timp limitat. Dupa aceea adresa nu mai este valabila si trebuie sa folositi ajutorul pentru parola de pe serverul ILIAS din nou. 
-pwassist#:#pwassist_mail_sent#:#A fost trimis un mesaj la %1$s.\nVa rugam verificati mail-ul. 
+pwassist#:#pwassist_login_not_match#:#Va rugam introduceti un alt nume de utilizator.\nNumele de utilizator pe care l-ati introdus nu corespunde numelui de utilizator pentru cere ati cerut ajutor pentru parola.
+pwassist#:#pwassist_mail_body#:#Inregistrati o noua parola pentru contul de utilizator  :\n\t%1$s\n\nAcest mesaj a fost generat automat de catre serverul ILIAS \n\t%2$s\n\nDumneavoastra (sau cineva de la %3$s) a cerut ajutor pentru parola pentru contul de utilizator "%4$s".\n\nVa rugam verificati cu atentie conditiile exprimate mai jossi continuati conform cu ele:\n\n- Daca ati folosit ajutorul pentru parola al serverului ILIAS din intamplare:\nStergeti acest mail.\n\n- Daca sunteti sigur/a ca nu ati cerut niciodata ajutorul pentru parola de pe acest server ILIAS :\nVa rugam contactati %5$s.\n\n- Daca ati cerut ajutor pentru parole continuati dupa cum urmeaza:\n\n1. Deschideti browser-ul.\n\n2. Introduceti urmatoarea adresa in browser:\n\t%1$s\n\nImportant: Adresa trebuie sa fie pe un singur rand. Daca adresa este impartita in randuri multiple, programul dumneavoastra de e-mail a introdus spatii pentru.\n\n3. Pe pagina de web deschisa de browser, introduceti o noua parola pentru contul de utilizator.\n\nFiti atenti ca, din motive de securitate, puteti urma cei trei pasi de mai sus numai o data si intr-un timp limitat. Dupa aceea adresa nu mai este valabila si trebuie sa folositi ajutorul pentru parola de pe serverul ILIAS din nou.
+pwassist#:#pwassist_mail_sent#:#A fost trimis un mesaj la %1$s.\nVa rugam verificati mail-ul.
 pwassist#:#pwassist_mail_subject#:#Ajutor pentru Parola ILIAS
-pwassist#:#pwassist_password_assigned#:#Parola a fost desemnata catre utilizatorul "%1$s" cu succes. 
-pwassist#:#pwassist_session_expired#:#Va rugam completati din nou acest formular.\nSesiunea de ajutor pentru parola dumneavoastra a expirat. Acest lucru s-a intamplat probabil pentru ca ati incercat sa folositi link-ul trimis mai mult de o singura data, sau pentru ca a trecut prea mult timp de cand v-a fost trimis. 
+pwassist#:#pwassist_password_assigned#:#Parola a fost desemnata catre utilizatorul "%1$s" cu succes.
+pwassist#:#pwassist_session_expired#:#Va rugam completati din nou acest formular.\nSesiunea de ajutor pentru parola dumneavoastra a expirat. Acest lucru s-a intamplat probabil pentru ca ati incercat sa folositi link-ul trimis mai mult de o singura data, sau pentru ca a trecut prea mult timp de cand v-a fost trimis.
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -9691,7 +9691,7 @@ bibl#:#download_original_file#:#Download Original File###24 10 2013 new variable
 bibl#:#Type#:#Type###24 10 2013 new variable
 bibl#:#override_entries#:#Override Entries###24 10 2013 new variable
 bibl#:#bibl_edit#:#Edit Bibliography###24 10 2013 new variable
-bibl#:#bibliography file#:#Bibliography File###24 10 2013 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 10 2013 new variable
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography###24 10 2013 new variable
 bibl#:#detail_view#:#Detail View###24 10 2013 new variable
 rbac#:#bibl_visible#:#Bibliography is visible###24 10 2013 new variable
@@ -10671,7 +10671,7 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variabl
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
-cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
@@ -13300,7 +13300,6 @@ iass#:#iass_edit#:#Settings###25 10 2016 new variable
 iass#:#iass_add#:#Create Individual Assessment###25 10 2016 new variable
 iass#:#iass_membership_finalized#:#Record finalised###25 10 2016 new variable
 iass#:#iass_membership_saved#:#Record saved, not yet finalised###25 10 2016 new variable
-iass#:#iass_return#:#Back to overview###25 10 2016 new variable
 iass#:#iass_remove_user_qst#:#Should the examinee really be removed?###25 10 2016 new variable
 iass#:#iass_finalize_user_qst#:#Should the examinee's status really be finalised? No changes possible thereafter.###25 10 2016 new variable
 iass#:#iass_settings_saved#:#Settings saved.###25 10 2016 new variable
@@ -14927,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

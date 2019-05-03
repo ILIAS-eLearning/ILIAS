@@ -734,23 +734,6 @@ class ilNusoapUserAdministrationAdapter
 
 
 		// ILIAS util functions
-		$this->server->register('sendMail',
-								array('sid' => 'xsd:string',
-									  'rcp_to' => 'xsd:string',
-									  'rcp_cc' => 'xsd:string',
-									  'rcp_bcc' => 'xsd:string',
-									  'sender' => 'xsd:string',
-									  'subject' => 'xsd:string',
-									  'message' => 'xsd:string',
-									  'attachments' => 'xsd:string'),
-								array('status' => 'xsd:boolean'),
-								SERVICE_NAMESPACE,
-								SERVICE_NAMESPACE.'#sendMail',
-								SERVICE_STYLE,
-								SERVICE_USE,
-								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
-								'Syntax, parameters may change in future releases');
-
 		$this->server->register('distributeMails',
 								array('sid' => 'xsd:string',
 									  'mail_xml' => 'xsd:string'),
