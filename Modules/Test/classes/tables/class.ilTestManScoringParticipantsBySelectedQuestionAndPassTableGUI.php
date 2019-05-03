@@ -165,7 +165,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		$this->tpl->setVariable('VAL_REACHED_POINTS', $row['reached_points']);
 		$this->tpl->setVariable('VAL_MAX_POINTS', $row['maximum_points']);
 		$finalized = (isset($row['feedback']['finalized_evaluation']) && $row['feedback']['finalized_evaluation'] == 1);
-		$this->tpl->setVariable('VAL_EVALUATED', $finalized);
+		$this->tpl->setVariable(
+			'VAL_EVALUATED', 
+			($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
+		);
 		$fin_usr_id = $row['feedback']['finalized_by_usr_id'];
 
 			$this->tpl->setVariable('VAL_MODAL_CORRECTION', $row['feedback']['feedback']);
@@ -175,7 +178,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 			$fin_timestamp = $row['feedback']['finalized_tstamp'];
 			if($fin_timestamp > 0){
 				$time = new ilDateTime($fin_timestamp, 3);
-				$this->tpl->setVariable('VAL_FINALIZED_ON', $time->get(1));
+				$this->tpl->setVariable('VAL_FINALIZED_ON', $time->get(4, $this->lng->txt('datetime_format')));
 			}
 
 		$this->tpl->setVariable('VAL_PASS', $row['pass_id']);

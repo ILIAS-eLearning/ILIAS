@@ -15038,6 +15038,7 @@ assessment#:#evaluated_users#:#Bewertete Benutzer
 assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
 assessment#:#finalized_by#:#Bewertung abgeschlossen von
 assessment#:#finalized_on#:#Bewertung abgeschlossen am
+common#:#datetime_format#:#d.m.Y H:i
 crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
 crs#:#crs_timings_short_start_end_rel#:#Empfohlener Start (Tage nach Kursbeitritt)
 crs#:#crs_tile_and_objective_view_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Lernziel-orientierter Ansicht wird nicht unterstützt.
