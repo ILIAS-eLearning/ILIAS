@@ -250,6 +250,15 @@ class ilExcel
 			);
 			$this->setDateFormat($cell, $a_value);
 		}
+		elseif(is_numeric($a_value))
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicit(
+				$a_coords,
+				$this->prepareValue($a_value),
+				PHPExcel_Cell_DataType::TYPE_NUMERIC,
+				false
+			);
+		}
 		else
 		{
 			$this->workbook->getActiveSheet()->setCellValueExplicit(
@@ -280,6 +289,16 @@ class ilExcel
 				true
 			);
 			$this->setDateFormat($cell, $a_value);
+		}
+		elseif(is_numeric($a_value))
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+				$a_col,
+				$a_row,
+				$this->prepareValue($a_value),
+				PHPExcel_Cell_DataType::TYPE_NUMERIC,
+				false
+			);
 		}
 		else
 		{
