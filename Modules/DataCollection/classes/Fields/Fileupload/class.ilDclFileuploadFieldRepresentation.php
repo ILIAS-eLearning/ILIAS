@@ -13,7 +13,6 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation {
 	 */
 	public function getInputField(ilPropertyFormGUI $form, $record_id = 0) {
 		$input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-
 		$input->setSuffixes($this->getField()->getSupportedExtensions());
 		$input->setAllowDeletion(true);
 
@@ -53,7 +52,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation {
 
 		$this->setupFilterInputField($input);
 
-		return $this->getFilterInputFieldValue($input);;
+		return $this->getFilterInputFieldValue($input);
 	}
 
 
