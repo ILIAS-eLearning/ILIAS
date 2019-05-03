@@ -225,7 +225,7 @@
 	methods.requestPermission = function() {
 		return new Promise(function(resolve, reject) {
 			setTimeout(() => {
-				root.Notification.requestPermission().then((permission) => {
+				const pc = (permission) => {
 					switch (permission) {
 						case PERMISSION_GRANTED:
 							resolve(permission);
@@ -237,7 +237,13 @@
 							reject(permission);
 							break;
 					}
-				}).catch(() => reject());
+				};
+
+				let np = root.Notification.requestPermission(pc);
+				// This stunt is necessary because of old Safari browsers
+				if (np && typeof np.then === "function") {
+					np.then(pc).catch(() => reject());
+				}
 			}, 0);
 		});
 	};
