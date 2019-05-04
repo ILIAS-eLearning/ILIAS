@@ -23,7 +23,7 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	protected $signalGenerator;
 
 	/** @var string */
-	private $placement = self::PLACEMENT_TOP;
+	private $position = self::POSITION_TOP;
 
 	/**
 	 * @param SignalGeneratorInterface $signal_generator
@@ -66,10 +66,10 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	/**
 	 * @inheritdoc
 	 */
-	public function withPlacementTop(): Component\Tooltip\Tooltip
+	public function withTopPosition(): Component\Tooltip\Tooltip
 	{
 		$clone = clone $this;
-		$clone->placement = self::PLACEMENT_TOP;
+		$clone->position = self::POSITION_TOP;
 
 		return $clone;
 	}
@@ -77,10 +77,10 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	/**
 	 * @inheritdoc
 	 */
-	public function withPlacementRight(): Component\Tooltip\Tooltip
+	public function withRightPosition(): Component\Tooltip\Tooltip
 	{
 		$clone = clone $this;
-		$clone->placement = self::PLACEMENT_RIGHT;
+		$clone->position = self::POSITION_RIGHT;
 
 		return $clone;
 	}
@@ -88,10 +88,10 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	/**
 	 * @inheritdoc
 	 */
-	public function withPlacementLeft(): Component\Tooltip\Tooltip
+	public function withLeftPosition(): Component\Tooltip\Tooltip
 	{
 		$clone = clone $this;
-		$clone->placement = self::PLACEMENT_LEFT;
+		$clone->position = self::POSITION_LEFT;
 
 		return $clone;
 	}
@@ -99,10 +99,10 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	/**
 	 * @inheritdoc
 	 */
-	public function withPlacemenBottom(): Component\Tooltip\Tooltip
+	public function withBottomPosition(): Component\Tooltip\Tooltip
 	{
 		$clone = clone $this;
-		$clone->placement = self::PLACEMENT_BOTTOM;
+		$clone->position = self::POSITION_BOTTOM;
 
 		return $clone;
 	}
@@ -110,8 +110,8 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	/**
 	 * @inheritdoc
 	 */
-	public function getPlacement(): string
+	public function getPosition(): string
 	{
-		return $this->placement;
+		return $this->position;
 	}
 }

@@ -18,7 +18,7 @@ function show_tooltip_for_button() : string {
 		->standard([$factory->legacy(
 			'Foo <i>bar</i> with some <b>HTML</b>!'
 		)])
-		->withPlacementRight();
+		->withRightPosition();
 	$button2 = $factory->button()
 		->standard('Click Me!', '#')
 		->withOnClick($tooltip2->getShowSignal());

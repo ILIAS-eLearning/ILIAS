@@ -21,7 +21,7 @@ class Renderer extends AbstractComponentRenderer
 		$this->checkComponent($component);
 
 		$options = array(
-			'placement' => $component->getPlacement(),
+			'placement' => $component->getPosition(),
 		);
 
 		$tpl = $this->getTemplate('tpl.standard-tooltip-content.html', true, true);

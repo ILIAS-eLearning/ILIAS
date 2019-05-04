@@ -11,10 +11,10 @@ use ILIAS\UI\Component\Triggerable;
  */
 interface Tooltip extends Component, Triggerable
 {
-	const PLACEMENT_TOP = 'top';
-	const PLACEMENT_RIGHT = 'right';
-	const PLACEMENT_BOTTOM = 'bottom';
-	const PLACEMENT_LEFT = 'left';
+	const POSITION_TOP = 'top';
+	const POSITION_RIGHT = 'right';
+	const POSITION_BOTTOM = 'bottom';
+	const POSITION_LEFT = 'left';
 
 	/**
 	 * Get the signal the tooltip reacts to.
@@ -24,43 +24,43 @@ interface Tooltip extends Component, Triggerable
 	public function getShowSignal(): Signal;
 
 	/**
-	 * Create a new instance of the tooltip with an placement on the `top` of
+	 * Create a new instance of the tooltip with a position on the `top` of
 	 * the current UI element.
 	 *
 	 * @return self
 	 */
-	public function withPlacementTop(): self;
+	public function withTopPosition(): self;
 
 	/**
-	 * Create a new instance of the tooltip with an placement on the `right` of
+	 * Create a new instance of the tooltip with a position on the `right` of
 	 * the current UI element.
 	 *
 	 * @return self
 	 */
-	public function withPlacementRight(): self;
+	public function withRightPosition(): self;
 
 	/**
-	 * Create a new instance of the tooltip with an placement on the `left` of
+	 * Create a new instance of the tooltip with a position on the `left` of
 	 * the current UI element.
 	 *
 	 * @return self
 	 */
-	public function withPlacementLeft(): self;
+	public function withLeftPosition(): self;
 
 	/**
-	 * Create a new instance of the tooltip with an placement on the `bottom` of
+	 * Create a new instance of the tooltip with a position on the `bottom` of
 	 * the current UI element.
 	 *
 	 * @return self
 	 */
-	public function withPlacemenBottom(): self;
+	public function withBottomPosition(): self;
 
 	/**
-	 * Get the current placement of the tooltip as string.
+	 * Get the current position of the tooltip as string.
 	 * The value is based on the Constants of the interface
 	 * `UI\Component\Tooltip\Tooltip`.
 	 *
 	 * @return string
 	 */
-	public function getPlacement(): string;
+	public function getPosition(): string;
 }

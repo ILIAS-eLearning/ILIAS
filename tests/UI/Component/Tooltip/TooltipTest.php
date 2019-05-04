@@ -22,7 +22,7 @@ class TooltipTest extends ILIAS_UI_TestBase
 
 		$tooltip = $factory->standard([new I\Component\Legacy\Legacy('phpunit')]);
 
-		$this->assertEquals(Tooltip::PLACEMENT_TOP, $tooltip->getPlacement());
+		$this->assertEquals(Tooltip::POSITION_TOP, $tooltip->getPosition());
 
 		return $tooltip;
 	}
@@ -50,13 +50,13 @@ EOT;
 	 */
 	public function testPlacingATooltipWorksAsExpected(Standard $tooltip)
 	{
-		$tooltip2 = $tooltip->withPlacementLeft();
-		$tooltip3 = $tooltip2->withPlacementRight();
-		$tooltip4 = $tooltip3->withPlacemenBottom();
+		$tooltip2 = $tooltip->withLeftPosition();
+		$tooltip3 = $tooltip2->withRightPosition();
+		$tooltip4 = $tooltip3->withBottomPosition();
 
-		$this->assertEquals(Tooltip::PLACEMENT_LEFT, $tooltip2->getPlacement());
-		$this->assertEquals(Tooltip::PLACEMENT_RIGHT, $tooltip3->getPlacement());
-		$this->assertEquals(Tooltip::PLACEMENT_BOTTOM, $tooltip4->getPlacement());
+		$this->assertEquals(Tooltip::POSITION_LEFT, $tooltip2->getPosition());
+		$this->assertEquals(Tooltip::POSITION_RIGHT, $tooltip3->getPosition());
+		$this->assertEquals(Tooltip::POSITION_BOTTOM, $tooltip4->getPosition());
 		$this->assertEquals($tooltip->contents(), $tooltip2->contents());
 		$this->assertEquals($tooltip->contents(), $tooltip3->contents());
 		$this->assertEquals($tooltip->contents(), $tooltip4->contents());
