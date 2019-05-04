@@ -1,9 +1,3 @@
-/**
- * @author Niels Theen <ntheen@databay.de>
- * @author Colin Kiegel <kiegel@qualitus.de>
- * @author Michael Jansen <mjansen@databay.de>
- */
-
 var il = il || {};
 il.UI = il.UI || {};
 

@@ -8,10 +8,7 @@ require_once __DIR__ . '/../../../../libs/composer/vendor/autoload.php';
 require_once __DIR__ . '/../../Base.php';
 
 /**
- * Class TooltipTest
- * @author Niels Theen <ntheen@databay.de>
- * @author Colin Kiegel <kiegel@qualitus.de>
- * @author Michael Jansen <mjansen@databay.de>
+ *
  */
 class TooltipTest extends ILIAS_UI_TestBase
 {
