@@ -16,13 +16,13 @@ class TooltipTest extends ILIAS_UI_TestBase
 	/**
 	 * @return Standard
 	 */
-	public function testInitialPlacementIsAlwaysTop(): Standard
+	public function testTooltipsAreInitiallyPositionedAutomatically(): Standard
 	{
 		$factory  = new I\Component\Tooltip\Factory(new I\Component\SignalGenerator);
 
 		$tooltip = $factory->standard([new I\Component\Legacy\Legacy('phpunit')]);
 
-		$this->assertEquals(Tooltip::POSITION_TOP, $tooltip->getPosition());
+		$this->assertEquals(Tooltip::POSITION_AUTO, $tooltip->getPosition());
 
 		return $tooltip;
 	}
@@ -31,7 +31,7 @@ class TooltipTest extends ILIAS_UI_TestBase
 	 * @param Standard $tooltip
 	 * @depends testInitialPlacementIsAlwaysTop
 	 */
-	public function testRenderedHtmlMatchesExptectedDom(Standard $tooltip)
+	public function testRenderedHtmlMatchesExpectedDom(Standard $tooltip)
 	{
 		$expected = <<<EOT
 <div class="il-standard-tooltip" style="display:none;" id="id_1">
@@ -48,17 +48,20 @@ EOT;
 	 * @depends testInitialPlacementIsAlwaysTop
 	 * @param Standard $tooltip
 	 */
-	public function testPlacingATooltipWorksAsExpected(Standard $tooltip)
+	public function testPositioningATooltipWorksAsExpected(Standard $tooltip)
 	{
 		$tooltip2 = $tooltip->withLeftPosition();
 		$tooltip3 = $tooltip2->withRightPosition();
 		$tooltip4 = $tooltip3->withBottomPosition();
+		$tooltip5 = $tooltip3->withTopPosition();
 
 		$this->assertEquals(Tooltip::POSITION_LEFT, $tooltip2->getPosition());
 		$this->assertEquals(Tooltip::POSITION_RIGHT, $tooltip3->getPosition());
 		$this->assertEquals(Tooltip::POSITION_BOTTOM, $tooltip4->getPosition());
+		$this->assertEquals(Tooltip::POSITION_TOP, $tooltip5->getPosition());
 		$this->assertEquals($tooltip->contents(), $tooltip2->contents());
 		$this->assertEquals($tooltip->contents(), $tooltip3->contents());
 		$this->assertEquals($tooltip->contents(), $tooltip4->contents());
+		$this->assertEquals($tooltip->contents(), $tooltip5->contents());
 	}
 }

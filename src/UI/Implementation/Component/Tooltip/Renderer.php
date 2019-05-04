@@ -20,9 +20,11 @@ class Renderer extends AbstractComponentRenderer
 		/** @var Component\Tooltip\Tooltip $component */
 		$this->checkComponent($component);
 
-		$options = array(
-			'placement' => $component->getPosition(),
-		);
+		$options = [];
+
+		if ($component->getPosition() !== Component\Tooltip\Tooltip::POSITION_AUTO) {
+			$options['placement'] = $component->getPosition();
+		}
 
 		$tpl = $this->getTemplate('tpl.standard-tooltip-content.html', true, true);
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->contents()));

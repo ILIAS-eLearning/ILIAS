@@ -23,7 +23,7 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	protected $signalGenerator;
 
 	/** @var string */
-	private $position = self::POSITION_TOP;
+	private $position = self::POSITION_AUTO;
 
 	/**
 	 * @param SignalGeneratorInterface $signal_generator
@@ -103,6 +103,17 @@ abstract class Tooltip implements Component\Tooltip\Tooltip
 	{
 		$clone = clone $this;
 		$clone->position = self::POSITION_BOTTOM;
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withAutomaticPosition(): Component\Tooltip\Tooltip
+	{
+		$clone = clone $this;
+		$clone->position = self::POSITION_AUTO;
 
 		return $clone;
 	}

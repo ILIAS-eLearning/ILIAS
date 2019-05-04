@@ -6,7 +6,6 @@ il.UI = il.UI || {};
 	UI.tooltip = (function ($) {
 
 		const defaultOptions = {
-			placement: "top",
 			interactive: true,
 			arrow: true,
 			trigger: 'click',

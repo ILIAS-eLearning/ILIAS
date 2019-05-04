@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Triggerable;
  */
 interface Tooltip extends Component, Triggerable
 {
+	const POSITION_AUTO = 'auto';
 	const POSITION_TOP = 'top';
 	const POSITION_RIGHT = 'right';
 	const POSITION_BOTTOM = 'bottom';
@@ -54,6 +55,13 @@ interface Tooltip extends Component, Triggerable
 	 * @return self
 	 */
 	public function withBottomPosition(): self;
+
+	/**
+	 * Create a new instance of the tooltip with default/automatic positioning.
+	 *
+	 * @return self
+	 */
+	public function withAutomaticPosition(): self;
 
 	/**
 	 * Get the current position of the tooltip as string.
