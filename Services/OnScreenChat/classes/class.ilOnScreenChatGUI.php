@@ -217,7 +217,7 @@ class ilOnScreenChatGUI
 					$clientSettings->get('enable_browser_notifications', false) &&
 					(bool)ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
 				),
-				'notificationIconPath' => \ilUtil::getImagePath('icon_chta.svg'),
+				'notificationIconPath' => \ilUtil::getImagePath('icon_chta.png'),
 			);
 
 			$chatConfig = array(
