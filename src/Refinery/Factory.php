@@ -16,6 +16,19 @@ use ILIAS\Refinery\To;
 class Factory
 {
 	/**
+	 * @var \ILIAS\Data\Factory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param \ILIAS\Data\Factory $dataFactory
+	 */
+	public function __construct(\ILIAS\Data\Factory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Combined validations and transformations for primitive data types that
 	 * establish a baseline for further constraints and more complex transformations
 	 *
@@ -23,7 +36,7 @@ class Factory
 	 */
 	public function to(): To\Group
 	{
-		return new To\Group();
+		return new To\Group($this->dataFactory);
 	}
 
 	/**

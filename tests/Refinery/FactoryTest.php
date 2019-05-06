@@ -21,7 +21,7 @@ class FactoryTest extends TestCase
 
 	public function setUp() : void
 	{
-		$this->basicFactory = new Factory();
+		$this->basicFactory = new Factory(new \ILIAS\Data\Factory());
 	}
 
 	public function testCreateToGroup()
