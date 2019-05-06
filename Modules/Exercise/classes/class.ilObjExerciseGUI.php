@@ -494,6 +494,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$a_values['obj_orgunit_positions'] = (bool) ilOrgUnitGlobalSettings::getInstance()
 			->isPositionAccessActiveForObject($this->object->getId());
 
+		$a_values['cont_custom_md'] = ilContainer::_lookupContainerSetting(
+			$this->object->getId(),
+			ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+			false
+		);
+
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
