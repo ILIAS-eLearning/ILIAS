@@ -292,8 +292,8 @@ $c["ui.factory.dropzone.file"] = function($c) {
 };
 $c["ui.factory.input.field"] = function($c) {
 	$data_factory = new ILIAS\Data\Factory();
-	$validation_factory = new ILIAS\Validation\Factory($data_factory, $c["lng"]);
-	$transformation_factory = new ILIAS\Transformation\Factory();
+	$validation_factory = new ILIAS\Refinery\Validation\Factory($data_factory, $c["lng"]);
+	$transformation_factory = new ILIAS\Refinery\Transformation\Factory();
 	return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 		$c["ui.signal_generator"],
 		$data_factory,

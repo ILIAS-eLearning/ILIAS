@@ -4,8 +4,8 @@
 require_once 'libs/composer/vendor/autoload.php';
 
 use ILIAS\Data;
-use ILIAS\Validation;
-use ILIAS\Validation\Constraints\LogicalOr;
+use ILIAS\Refinery\Validation;
+use ILIAS\Refinery\Validation\Constraints\LogicalOr;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -79,13 +79,13 @@ class LogicalOrTest extends TestCase
 		$ok2   = $rf->ok($errorValue);
 		$error = $rf->error('text');
 
-		$result = $constraint->restrict($ok);
+		$result = $constraint->applyTo($ok);
 		$this->assertTrue($result->isOk());
 
-		$result = $constraint->restrict($ok2);
+		$result = $constraint->applyTo($ok2);
 		$this->assertTrue($result->isError());
 
-		$result = $constraint->restrict($error);
+		$result = $constraint->applyTo($error);
 		$this->assertSame($error, $result);
 	}
 
