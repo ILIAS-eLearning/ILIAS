@@ -12,12 +12,14 @@
 			<parent id="fold">fold</parent>
 		</object>
 	</objects>
-	<events>		
+	<events>
 		<event type="raise" id="create" />
 		<event type="raise" id="update" />
 		<event type="raise" id="delete" />
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
+		<event type="raise" id="enter" />
+		<event type="raise" id="register" />
 		<event type="listen" id="Modules/Session" />
 	</events>
 	<mailtemplates>
