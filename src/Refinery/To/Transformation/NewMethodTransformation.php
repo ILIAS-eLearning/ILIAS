@@ -19,7 +19,7 @@ class NewMethodTransformation implements Transformation
 	use DeriveApplyToFromTransform;
 
 	/**
-	 * @var
+	 * @var object
 	 */
 	private $object;
 
@@ -29,20 +29,13 @@ class NewMethodTransformation implements Transformation
 	private $method;
 
 	/**
-	 * @param string $object
+	 * @param object $object
 	 * @param string $methodToCall
 	 */
-	public function __construct($object, string $methodToCall)
+	public function __construct(object $object, string $methodToCall)
 	{
-		if (false === is_object($object)) {
-			throw new ConstraintViolationException(
-				'The first parameter MUST be an object',
-				'first_parameter_must_be_an_object'
-			);
-		}
-
 		if (false === method_exists($object, $methodToCall)) {
-			throw new ConstraintViolationException(
+			throw new \InvalidArgumentException(
 				'The second parameter MUST be an method of the object',
 				'second_parameter_must_be_an_method'
 			);
