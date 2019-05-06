@@ -165,6 +165,6 @@ class Group
 	 */
 	public function data(string $dataType): Transformation
 	{
-		return $this->toNew(array('\ILIAS\Data\Factory', $dataType));
+		return $this->toNew(array(new \ILIAS\Data\Factory(), $dataType));
 	}
 }

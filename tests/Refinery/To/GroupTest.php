@@ -110,7 +110,7 @@ class GroupTest extends TestCase
 	 */
 	public function testNewMethodTransformation()
 	{
-		$transformation = $this->basicGroup->toNew(array(MyClass::class, 'myMethod'));
+		$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod'));
 
 		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 	}
@@ -120,7 +120,7 @@ class GroupTest extends TestCase
 		$this->expectNotToPerformAssertions();
 
 		try {
-			$transformation = $this->basicGroup->toNew(array(MyClass::class, 'myMethod', 'hello'));
+			$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod', 'hello'));
 		} catch (\InvalidArgumentException $exception) {
 			return;
 		}
@@ -133,7 +133,7 @@ class GroupTest extends TestCase
 		$this->expectNotToPerformAssertions();
 
 		try {
-			$transformation = $this->basicGroup->toNew(array(MyClass::class));
+			$transformation = $this->basicGroup->toNew(array(new MyClass()));
 		} catch (\InvalidArgumentException $exception) {
 			return;
 		}
