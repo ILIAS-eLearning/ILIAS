@@ -2389,5 +2389,4 @@ class ilExerciseManagementGUI
 		return $internal_file_path;
 	}
 
-	//TODO: When deleting particular submission: check if the submission type has access to the web directory and delete all dir/files if any.
 }
