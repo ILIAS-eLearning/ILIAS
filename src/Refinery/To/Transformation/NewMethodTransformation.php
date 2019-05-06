@@ -36,8 +36,7 @@ class NewMethodTransformation implements Transformation
 	{
 		if (false === method_exists($object, $methodToCall)) {
 			throw new \InvalidArgumentException(
-				'The second parameter MUST be an method of the object',
-				'second_parameter_must_be_an_method'
+				'The second parameter MUST be an method of the object'
 			);
 		}
 

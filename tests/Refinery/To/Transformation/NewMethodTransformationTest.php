@@ -7,6 +7,7 @@
 
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
+use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\Data\Result\Ok;
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Refinery\To\Transformation\NewMethodTransformation;
@@ -58,7 +59,7 @@ class NewMethodTransformationTest extends TestCase
 
 		try {
 			$transformation = new NewMethodTransformation('BreakdanceMcFunkyPants', 'myMethod');
-		} catch (ConstraintViolationException $exception) {
+		} catch (\Error $exception) {
 			return;
 		}
 
@@ -71,7 +72,7 @@ class NewMethodTransformationTest extends TestCase
 
 		try {
 			$transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'someMethod');
-		} catch (ConstraintViolationException $exception) {
+		} catch (\InvalidArgumentException $exception) {
 			return;
 		}
 

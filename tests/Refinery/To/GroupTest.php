@@ -33,7 +33,7 @@ class GroupTest extends TestCase
 
 	public function setUp() : void
 	{
-		$this->basicGroup = new Group();
+		$this->basicGroup = new Group(new \ILIAS\Data\Factory());
 	}
 
 	public function testIsIntegerTransformationInstance()
