@@ -11,6 +11,8 @@
  */
 class ilExAssignmentTypes
 {
+	const STR_IDENTIFIER_PORTFOLIO = "prtf";
+
 	/**
 	 * Constructor
 	 */

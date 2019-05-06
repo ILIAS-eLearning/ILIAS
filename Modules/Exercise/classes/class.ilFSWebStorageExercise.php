@@ -13,6 +13,7 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 {
 	protected $log;
 	protected $ass_id;
+	protected $submissions_path;
 
 	/**
 	 * Constructor
@@ -36,6 +37,8 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 		{
 			if ($this->ass_id > 0)
 			{
+				$this->submissions_path = $this->path."/subm_".$this->ass_id;
+
 				$this->log->debug("parent init() with ass_id =".$this->ass_id);
 				$this->path.= "/ass_".$this->ass_id;
 			}
@@ -85,6 +88,22 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 
 		return true;
 
+	}
+
+	public function deleteUserSubmissionDirectory(int $user_id): void
+	{
+		$internal_dir = $this->submissions_path."/".$user_id;
+
+		//remove first dot from (./data/client/ilExercise/3/exc_318/subm_21/6)
+		$internal_dir_without_dot = substr($internal_dir,1);
+
+		$absolute_path = ILIAS_ABSOLUTE_PATH.$internal_dir_without_dot;
+
+		if(is_dir($absolute_path))
+		{
+			parent::deleteDirectory($absolute_path);
+			$this->log->debug("Removed = ".$absolute_path);
+		}
 	}
 
 	/**

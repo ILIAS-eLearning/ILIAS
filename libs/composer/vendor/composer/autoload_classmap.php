@@ -4457,6 +4457,8 @@ return array(
     'ilExcRepoObjAssignmentInfoInterface' => $baseDir . '/../../Modules/Exercise/RepoObjectAssignment/interfaces/interface.ilExcRepoObjAssignmentInfoInterface.php',
     'ilExcRepoObjAssignmentInterface' => $baseDir . '/../../Modules/Exercise/RepoObjectAssignment/interfaces/interface.ilExcRepoObjAssignmentInterface.php',
     'ilExcTutorRepository' => $baseDir . '/../../Modules/Exercise/Tutor/classes/class.ilExcTutorRepository.php',
+    'ilExcSubmissionRepository' => $baseDir . '/../../Modules/Exercise/Submission/classes/class.ilExcSubmissionRepository.php',
+    'ilExcSubmissionRepositoryInterface' => $baseDir . '/../../Modules/Exercise/Submission/classes/class.ilExcSubmissionInterface.php',
     'ilExcel' => $baseDir . '/../../Services/Excel/classes/class.ilExcel.php',
     'ilException' => $baseDir . '/../../Services/Exceptions/classes/class.ilException.php',
     'ilExclusiveGatewayElement' => $baseDir . '/../../Services/WorkflowEngine/classes/parser/elements/gateway/class.ilExclusiveGatewayElement.php',
