@@ -24,7 +24,7 @@ class NewMethodTransformation implements Transformation
 	private $object;
 
 	/**
-	 * @var
+	 * @var string
 	 */
 	private $method;
 
