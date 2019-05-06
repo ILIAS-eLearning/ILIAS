@@ -722,7 +722,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$record_gui->parse();
 
 		// standard meta data
-		//$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 
 		// instructions
 		$info->addSection($this->lng->txt("exc_overview"));
