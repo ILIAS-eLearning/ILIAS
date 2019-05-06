@@ -129,9 +129,9 @@ class ilExerciseExporter extends ilXmlExporter
 		}
 
 		$md_ids = array();
-		foreach ($a_ids as $sess_id)
+		foreach ($a_ids as $exc_id)
 		{
-			$md_ids[] = $sess_id.":0:sess";
+			$md_ids[] = $exc_id.":0:exc";
 		}
 		if($md_ids)
 		{
@@ -166,7 +166,7 @@ class ilExerciseExporter extends ilXmlExporter
 				}
 				// local activation
 				if(
-					$obj_info['obj_type'] == 'sess' &&
+					$obj_info['obj_type'] == 'exc' &&
 					$obj_info['optional'] == 1 &&
 					$a_id == $record_obj->getParentObject()
 				)
