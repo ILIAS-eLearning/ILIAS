@@ -59,21 +59,21 @@ class NotTest extends TestCase {
 	public function testRestrictOk() {
 		$ok = $this->df->ok(null);
 
-		$res = $this->not_false->restrict($ok);
+		$res = $this->not_false->applyTo($ok);
 		$this->assertTrue($res->isOk());
 	}
 
 	public function testRestrictNotOk() {
 		$not_ok = $this->df->ok(null);
 
-		$res = $this->not_true->restrict($not_ok);
+		$res = $this->not_true->applyTo($not_ok);
 		$this->assertFalse($res->isOk());
 	}
 
 	public function testRestrictError() {
 		$error = $this->df->error("error");
 
-		$res = $this->not_false->restrict($error);
+		$res = $this->not_false->applyTo($error);
 		$this->assertSame($error, $res);
 	}
 
