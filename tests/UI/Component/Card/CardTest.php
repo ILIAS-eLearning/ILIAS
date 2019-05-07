@@ -73,10 +73,17 @@ class CardTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($c->getTitle(), "Card Title New");
 	}
 
-	public function test_with_title_action() {
+	public function test_with_string_title_action() {
 		$c = $this->getBaseCard();
 		$c = $c->withTitleAction("newAction");
 		$this->assertEquals("newAction", $c->getTitleAction());
+	}
+
+	public function test_with_signal_title_action() {
+		$c = $this->getBaseCard();
+		$signal = $this->createMock(C\Signal::class);
+		$c = $c->withTitleAction($signal);
+		$this->assertEquals([$signal], $c->getTitleAction());
 	}
 
 	public function test_with_highlight() {
