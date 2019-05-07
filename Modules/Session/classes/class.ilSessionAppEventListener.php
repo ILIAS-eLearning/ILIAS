@@ -126,8 +126,8 @@ class ilSessionAppEventListener implements ilAppEventListener
 				$this->handleRegisterEvent();
 			} elseif ('enter' === $this->event) {
 				$this->handleEnteredEvent();
-			} elseif ('deleteParticipant' === $this->event) {
-				$this->handleDeleteEvent();
+			} elseif ('unregister' === $this->event) {
+				$this->handleUnregisterEvent();
 			}
 		} catch (\ilException $e) {
 			$this->logger->error($e->getMessage());
@@ -138,10 +138,9 @@ class ilSessionAppEventListener implements ilAppEventListener
 	{
 		$recipients = $this->fetchRecipientParticipants();
 		if (array() !== $recipients) {
-			$notification = new ilSessionMailNotification();
-			$notification->setRecipients($recipients);
+			$type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
 
-			$notification->send(ilSessionMailNotification::REGISTERED_EVENT, $this->parameters['usr_id'], $this->parameters['obj_id']);
+			$this->sendMail($recipients, $type);
 		}
 	}
 
@@ -149,21 +148,19 @@ class ilSessionAppEventListener implements ilAppEventListener
 	{
 		$recipients = $this->fetchRecipientParticipants();
 		if (array() !== $recipients) {
-			$notification = new ilSessionMailNotification();
-			$notification->setRecipients($recipients);
+			$type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
 
-			$notification->send(ilSessionMailNotification::ENTERED_EVENT, $this->parameters['usr_id'], $this->parameters['obj_id']);
+			$this->sendMail($recipients, $type);
 		}
 	}
 
-	private function handleDeleteEvent()
+	private function handleUnregisterEvent()
 	{
 		$recipients = $this->fetchRecipientParticipants();
 		if (array() !== $recipients) {
-			$notification = new ilSessionMailNotification();
-			$notification->setRecipients($recipients);
+			$type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
 
-			$notification->send(ilSessionMailNotification::DELETION_EVENT, $this->parameters['usr_id'], $this->parameters['obj_id']);
+			$this->sendMail($recipients, $type);
 		}
 	}
 
@@ -180,6 +177,20 @@ class ilSessionAppEventListener implements ilAppEventListener
 		}
 
 		return $recipients;
+	}
+
+	/**
+	 * @param array $recipients
+	 * @param $type
+	 */
+	private function sendMail(array $recipients, $type)
+	{
+		$notification = new ilSessionMembershipMailNotification();
+		$notification->setRecipients($recipients);
+		$notification->setType($type);
+		$notification->setRefId($this->parameters['ref_id']);
+
+		$notification->send($this->parameters['usr_id']);
 	}
 }
 // thkoeln-patch: end

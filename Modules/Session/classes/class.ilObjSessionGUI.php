@@ -289,6 +289,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 					'enter',
 					array(
 						'obj_id' => $this->getCurrentObject()->getId(),
+						'ref_id' => $this->getCurrentObject()->getRefId(),
 						'usr_id' => $ilUser->getId()
 					)
 				);
@@ -305,6 +306,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 					'register',
 					array(
 						'obj_id' => $this->getCurrentObject()->getId(),
+						'ref_id' => $this->getCurrentObject()->getRefId(),
 						'usr_id' => $ilUser->getId()
 					)
 				);
@@ -359,8 +361,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
-		
-		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+
+        include_once './Modules/Session/classes/class.ilSessionParticipants.php';
 		$part = ilSessionParticipants::getInstance($this->object->getRefId());
 		if($part->isSubscriber($ilUser->getId()))
 		{
@@ -387,6 +390,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->redirectToRefId($parent);
 			return;
 		}
+
+		$ilAppEventHandler->raise(
+			"Modules/Session",
+			'unregister',
+			array(
+				'obj_id' => $this->getCurrentObject()->getId(),
+				'ref_id' => $this->getCurrentObject()->getRefId(),
+				'usr_id' => $ilUser->getId()
+			)
+		);
 
 		ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
 		$this->ctrl->returnToParent($this);
@@ -1619,7 +1632,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$dur->setEnd($this->object->getFirstAppointment()->getEnd());
 		
 		$this->form->addItem($dur);
-		
+
 
 		// Recurrence
 		if($a_mode == 'create')
@@ -2108,7 +2121,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				);
 			}
 		}
-		
+
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -2314,6 +2327,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl->setContent($form->getHtml());
 	}
 
-	
+
 }
 ?>
