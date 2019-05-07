@@ -152,18 +152,17 @@ class DrilldownTest extends ILIAS_UI_TestBase
 		$r = $this->getDefaultRenderer();
 		$html = $r->render($menu);
 		$expected = <<<EOT
-
 			<div class="il-drilldown" id="id_3">
 				<ul class="il-drilldown-structure">
 					<li class="il-menu-item" id="id_1">
 						<span class="il-menu-item-label">
-							<button class="btn btn-link" data-action="" >root</button>
+							<button class="btn btn-link" data-action="">root</button>
 						</span>
 
 						<ul class="il-menu-level">
 							<li class="il-menu-item" id="id_2">
 								<span class="il-menu-item-label">
-									<button class="btn btn-link" data-action="" >sub</button>
+									<button class="btn btn-link" data-action="">sub</button>
 								</span>
 
 								<ul class="il-menu-level">
