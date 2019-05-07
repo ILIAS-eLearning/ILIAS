@@ -7,8 +7,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat as DateFormat;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -57,6 +57,14 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	 */
 	protected $transformation_factory;
 
+	/**
+	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
+	 * @param TransformationFactory $transformation_factory
+	 * @param Component\Input\Field\Factory $field_factory
+	 * @param string $label
+	 * @param string $byline
+	 */
 	public function __construct(
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
@@ -65,7 +73,6 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		$label,
 		$byline
 	) {
-
 		$inputs = [
 			$field_factory->dateTime('start'),
 			$field_factory->dateTime('end')
@@ -78,7 +85,10 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		$this->transformation_factory = $transformation_factory;
 	}
 
-
+	/**
+	 * Return-value of Duration is an assoc array with start, end and interval.
+	 * @param TransformationFactory $transformation_factory
+	 */
 	protected function addTransformation(TransformationFactory $transformation_factory)
 	{
 		$duration = $transformation_factory->custom(function($v) {
@@ -91,6 +101,10 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		$this->setAdditionalTransformation($duration);
 	}
 
+	/**
+	 * Input is valid, if start is before end.
+	 * @param ValidationFactory $validation_factory
+	 */
 	protected function addValidation(ValidationFactory $validation_factory)
 	{
 		$txt_id = 'duration_end_must_not_be_earlier_than_start';

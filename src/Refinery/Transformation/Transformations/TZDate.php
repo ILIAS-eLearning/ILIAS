@@ -1,8 +1,11 @@
 <?php
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Transformation\Transformations;
-use ILIAS\Transformation\Transformation;
+namespace ILIAS\Refinery\Transformation\Transformations;
+
+use ILIAS\Data\Factory;
+use ILIAS\Data\Result;
+use ILIAS\Refinery\Transformation\Transformation;
 
 /**
  * change the timezone of php's \DateTime
@@ -14,7 +17,6 @@ class TZDate implements Transformation
 
 	public function __construct(string $timezone)
 	{
-
 		if(!in_array($timezone, timezone_identifiers_list())) {
 			throw new \invalidArgumentException("$timezone is not a valid timezone identifier", 1);
 		}
@@ -57,5 +59,14 @@ class TZDate implements Transformation
 	 */
 	public function __invoke($from) {
 		return $this->transform($from);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function applyTo(Result $data): Result
+	{
+		//TODO
+		throw new \ILIAS\UI\NotImplementedException('NYI');
 	}
 }

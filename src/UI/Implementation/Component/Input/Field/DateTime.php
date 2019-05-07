@@ -7,8 +7,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat as DateFormat;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -78,7 +78,14 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 */
 	protected $timezone;
 
-
+	/**
+	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
+	 * @param TransformationFactory $transformation_factory
+	 * @param Component\Input\Field\Factory $field_factory
+	 * @param string $label
+	 * @param string $byline
+	 */
 	public function __construct(
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
@@ -236,12 +243,22 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 		return $this->validation_factory->hasMinLength(1);
 	}
 
-
+	/**
+	 * Get config to be passed to the bootstrap picker.
+	 * Used by the renderer only.
+	 * @return array <string => mixed>
+	 */
 	public function getAdditionalPickerconfig(): array
 	{
 		return $this->additional_picker_config;
 	}
 
+	/**
+	 * The bootstrap picker can be configured, e.g. with a minimum date.
+	 * Used by the renderer only.
+	 * @param array <string => mixed> $config
+	 * @return DateTime
+	 */
 	public function withAdditionalPickerconfig(array $config): DateTime
 	{
 		$clone = clone $this;
