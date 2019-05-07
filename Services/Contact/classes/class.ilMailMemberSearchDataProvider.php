@@ -70,7 +70,6 @@ class ilMailMemberSearchDataProvider
 			$this->data[$user_id]['name'] = $publicName;
 
 			$assignedRoles = $this->objParticipants->getAssignedRoles($user_id);
-			shuffle($assignedRoles);
 			$this->dataCache->preloadObjectCache($assignedRoles);
 			$roleTitles = [];
 			foreach ($assignedRoles as $roleId) {
