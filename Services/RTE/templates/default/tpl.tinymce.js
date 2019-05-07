@@ -1,3 +1,4 @@
+<!-- BEGIN tinymce -->
 <!-- BEGIN obj_id -->
 	var obj_id = '{OBJ_ID}';
 	var obj_type = '{OBJ_TYPE}';
@@ -116,4 +117,4 @@
 			ilTinyMceInitCallbackRegistry.callCallbacks();
 		}
 	});
-
+<!-- END tinymce -->
