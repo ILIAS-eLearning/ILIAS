@@ -20,6 +20,10 @@ class Drilldown extends LabeledMenu implements IMenu\Drilldown
 	 */
 	protected $back_icon;
 
+	/**
+	 * @param Component\Clickable | string $label
+	 * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
+	 */
 	public function __construct($label, array $items)
 	{
 		$this->checkLabelParameter($label);

@@ -22,6 +22,10 @@ class Sub extends LabeledMenu implements IMenu\Sub
 	 */
 	protected $active = false;
 
+	/**
+	 * @param Component\Clickable | string $label
+	 * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
+	 */
 	public function __construct($label, array $items)
 	{
 		$this->checkLabelParameter($label);

@@ -10,7 +10,8 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Menu;
 
-class Renderer extends AbstractComponentRenderer {
+class Renderer extends AbstractComponentRenderer
+{
 	/**
 	 * @inheritdoc
 	 */
@@ -36,6 +37,12 @@ class Renderer extends AbstractComponentRenderer {
 		return $html;
 	}
 
+	/**
+	 * Render a Menu.
+	 * @param Menu  $component
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
 	protected function renderMenu(
 		Menu\Menu $component,
 		RendererInterface $default_renderer
@@ -70,6 +77,12 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
+	/**
+	 * Wrap an entry like Clickable or Divider to fit the menu-structure.
+	 * @param Component  $component
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
 	protected function wrapMenuEntry(
 		Component\Component $component,
 		RendererInterface $default_renderer
@@ -83,6 +96,12 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 
+	/**
+	 * A string will be converted to a Shy Button, any Clickables
+	 * will be returned as they are.
+	 * @param mixed  $label
+	 * @return Component\Clickable
+	 */
 	protected function maybeConvertLabelToShy($label): Component\Clickable
 	{
 		if(is_string($label)) {
