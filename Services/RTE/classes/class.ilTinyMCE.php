@@ -314,7 +314,6 @@ class ilTinyMCE extends ilRTE
 		$template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
 		$this->handleImgContextMenuItem($template);
 		$template->setCurrentBlock("tinymce");
-		$template->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 		include_once "./Services/Object/classes/class.ilObject.php";
 		$template->setVariable("SELECTOR", $editor_selector);
 		$template->setVariable("BLOCKFORMATS", "");
@@ -329,9 +328,9 @@ class ilTinyMCE extends ilRTE
 		$template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation() . "," . ilUtil::getStyleSheetLocation("output", "delos.css"));
 		$template->setVariable("LANG", $this->_getEditorLanguage());
 		$template->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", $template->get());
-		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->addJavaScript("./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
+		$this->tpl->addOnLoadCode($template->get());
 	}
 
 	/**
