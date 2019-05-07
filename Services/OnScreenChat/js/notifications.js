@@ -357,21 +357,25 @@
 		})();
 
 	/**
-	 * 
+	 *
 	 * @param {Object} notification
+	 * @param respectIdleTime
 	 */
-	const delegateBrowserNotification = function delegateBrowserNotification(notification) {
+	const delegateBrowserNotification = function delegateBrowserNotification(notification, respectIdleTime = false) {
 		logger.debug("Entered final browser notification handling for message with id: " + notification.uuid);
 		if (!storage.isMarkedAsSent(notification)) {
 			if (il.BrowserNotifications.isSupported()) {
 				storage.markAsSent(notification);
 
-				if (!storage.shouldTriggerForConversation(notification.conversationUuid)) {
-					logger.info("Notification not triggered because idle time was not exceeded for conversation with id: " + notification.conversationUuid + " (message id: " + notification.uuid + ")");
-					return;
+				if (respectIdleTime) {
+					if (!storage.shouldTriggerForConversation(notification.conversationUuid)) {
+						logger.info("Notification not triggered because idle time was not exceeded for conversation with id: " + notification.conversationUuid + " (message id: " + notification.uuid + ")");
+						return;
+					}
+
+					storage.markTriggeredForConversation(notification.conversationUuid);
 				}
 
-				storage.markTriggeredForConversation(notification.conversationUuid);
 				il.BrowserNotifications.requestPermission().then(() => {
 					il.BrowserNotifications.notification(notification.title, {
 						closeOnClick: true,
@@ -482,7 +486,8 @@
 		logger.debug("Started browser notification handling for incoming chat message with id: " + notification.uuid);
 
 		if (il.UICore.isPageVisible()) {
-			logger.debug("Current tab is visible, ignoring message. The user was able to notice the chat message: " + notification.uuid);
+			logger.debug("Current tab is visible, directly show message message. The user was able to notice the chat message: " + notification.uuid);
+			delegateBrowserNotification(notification, true);
 			storage.markAsIgnored(notification);
 		} else {
 			root.setTimeout(function() {
