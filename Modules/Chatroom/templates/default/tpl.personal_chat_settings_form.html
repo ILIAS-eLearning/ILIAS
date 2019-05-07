@@ -4,8 +4,12 @@
 			modal: '<div class="help-block alert alert-danger"><img src="{ALERT_IMAGE_SRC}" /><span></span></div>'
 		};
 
-		let emptyErrorMessages = function emptyErrorMessages($parent) {
+		const emptyErrorMessages = function emptyErrorMessages($parent) {
 			$parent.find(".dynamic-errors").remove();
+		};
+
+		const hasErrorMessages = function emptyErrorMessages($parent) {
+			return 0 !== $parent.find(".dynamic-errors").size();
 		};
 
 		/**
@@ -13,7 +17,7 @@
 		 * @param $parent
 		 * @param {string} languageVariable
 		 */
-		let showErrorMessage = function showErrorMessage($parent, languageVariable) {
+		const showErrorMessage = function showErrorMessage($parent, languageVariable) {
 			let $warning = $(templates.modal);
 
 			$warning.addClass("dynamic-errors");
@@ -22,7 +26,7 @@
 			$warning.find("span").html(il.Language.txt(languageVariable));
 		};
 
-		let deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
+		const deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
 			$elm.prop("disabled", true);
 			$elm.prop("checked", false);
         } ;
@@ -52,8 +56,10 @@
 					} else {
 						root.setInterval(() => {
 							if (il.BrowserNotifications.isBlocked()) {
-								showErrorMessage($container, 'osc_browser_noti_no_permission_error');
-								deselectAndLockCheckbox($notificationToggle);
+								if (!hasErrorMessages($container)) {
+									showErrorMessage($container, 'osc_browser_noti_no_permission_error');
+									deselectAndLockCheckbox($notificationToggle);
+								}
 							} else {
 								$notificationToggle.prop("disabled", false);
 								emptyErrorMessages($container);
