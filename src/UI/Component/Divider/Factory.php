@@ -16,7 +16,7 @@ interface Factory
 	 *       A Horizontal Divider is used to mark a thematic change in a sequence of
 	 *       elements that are stacked from top to bottom.
 	 *   composition: >
-	 *     Horiztonal dividers consists of a horizontal ruler which may comprise a label.
+	 *     Horizontal dividers consists of a horizontal line which may comprise a label.
 	 *
 	 * rules:
 	 *   usage:

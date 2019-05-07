@@ -1103,7 +1103,8 @@ class ilInitialisation
 				ilECSTaskScheduler::start();					
 				
 				self::initHTML();		
-			}							
+			}
+			self::initRefinery();
 		}					
 	}
 	
@@ -1448,7 +1449,7 @@ class ilInitialisation
 	/**
 	 * init the ILIAS UI framework.
 	 */
-	protected static function initUIFramework(\ILIAS\DI\Container $c) {
+	public static function initUIFramework(\ILIAS\DI\Container $c) {
 		$c["ui.factory"] = function ($c) {
 			return new ILIAS\UI\Implementation\Factory(
 				$c["ui.factory.counter"],
@@ -1566,8 +1567,8 @@ class ilInitialisation
 		};
 		$c["ui.factory.input.field"] = function($c) {
 			$data_factory = new ILIAS\Data\Factory();
-			$validation_factory = new ILIAS\Validation\Factory($data_factory, $c["lng"]);
-			$transformation_factory = new ILIAS\Transformation\Factory();
+			$validation_factory = new ILIAS\Refinery\Validation\Factory($data_factory, $c["lng"]);
+			$transformation_factory = new ILIAS\Refinery\Transformation\Factory();
 			return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 				$c["ui.signal_generator"],
 				$data_factory,
@@ -1647,11 +1648,23 @@ class ilInitialisation
 	}
 
 	/**
+	 *
+	 */
+	protected static function initRefinery()
+	{
+		$container['refinery'] = function ($container) {
+			$dataFactory = new \ILIAS\Data\Factory();
+			return new \ILIAS\Refinery\Factory($dataFactory);
+		};
+	}
+
+	/**
 	 * init HTML output (level 3)
 	 */
 	protected static function initHTML()
 	{
-		global $ilUser;
+		global $ilUser, $DIC;
+
 		require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
 		$lti = new ilLTIViewGUI($ilUser);
 		$GLOBALS["DIC"]["lti"] = $lti;
@@ -1664,6 +1677,8 @@ class ilInitialisation
 		}
 
 		self::initUIFramework($GLOBALS["DIC"]);
+
+		$DIC->navigationContext()->claim()->main();
 
 		// LTI
 		if ($lti->isActive()) 
@@ -1678,12 +1693,16 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilLMEditorGUI"
 		) {
 			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
-			$_GET["cmdClass"] == "ilobjbloggui"
+			$_GET["cmdClass"] == "ilobjbloggui"		||
+			$_REQUEST["cmdClass"] == "ilblogpostinggui" ||
+			$_GET["cmdClass"] == "ilblogpostinggui"
 		) {
 			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
@@ -1703,10 +1722,13 @@ class ilInitialisation
 			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
 			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-		}
-		else 
-		{
-			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+		} else {
+			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
+				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
+			} else {
+				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+			}
 		}
 		
 		self::initGlobal("tpl", $tpl);
@@ -1720,7 +1742,7 @@ class ilInitialisation
 
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);				
+		$tpl->addCss($location_stylesheet);
 		
 		require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";				
 				

@@ -4,7 +4,7 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Validation;
+use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,7 @@ class PasswordContraintsTest extends TestCase {
 	public function constraintsProvider() {
 		$lng = $this->createMock(\ilLanguage::class);
 		$d = new \ILIAS\Data\Factory();
-		$validation = new \ILIAS\Validation\Factory($d, $lng);
+		$validation = new \ILIAS\Refinery\Validation\Factory($d, $lng);
 		$v = $validation->password();
 
 		return array(

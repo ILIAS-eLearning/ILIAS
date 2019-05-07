@@ -88,4 +88,19 @@ class ilExAssTypeUploadTeam implements ilExAssignmentTypeInterface
 
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function supportsWebDirAccess(): bool
+	{
+		return false;
+	}
+
+	/**
+	 *  @inheritdoc
+	 */
+	public function getStringIdentifier(): string
+	{
+		// TODO: Implement getSubmissionStringIdentifier() method.
+	}
 }

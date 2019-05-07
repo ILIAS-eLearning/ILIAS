@@ -52,7 +52,19 @@ class ilForumExportGUI
 		
 		$this->lng->loadLanguageModule('forum');
 
-		$this->is_moderator = $this->access->checkAccess('moderate_frm', '', $_GET['ref_id']);
+		$this->is_moderator = $this->access->checkAccess('moderate_frm', '', (int)$_GET['ref_id']);
+	}
+
+	/**
+	 * @param int $objId
+	 * @param ilForumTopic $thread
+	 */
+	public function ensureThreadBelongsToForum(int $objId, \ilForumTopic $thread)
+	{
+		$forumId = \ilObjForum::lookupForumIdByObjId($objId);
+		if ((int)$thread->getForumId() !== (int)$forumId) {
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
 	}
 
 	/**
@@ -73,8 +85,7 @@ class ilForumExportGUI
 
 	public function printThread()
 	{
-		if(!$this->access->checkAccess('read,visible', '', $_GET['ref_id']))
-		{
+		if(!$this->access->checkAccess('read,visible', '', (int)$_GET['ref_id'])) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 		
@@ -93,6 +104,7 @@ class ilForumExportGUI
 		if(is_array($frmData = $this->frm->getOneTopic()))
 		{
 			$topic = new ilForumTopic(addslashes($_GET['print_thread']), $this->is_moderator);
+			$this->ensureThreadBelongsToForum((int)$this->frm->getForumId(), $topic);
 
 			$topic->setOrderField('frm_posts_tree.rgt');
 			$first_post      = $topic->getFirstPostNode();
@@ -137,6 +149,7 @@ class ilForumExportGUI
 		if(is_array($frmData = $this->frm->getOneTopic()))
 		{
 			$post = new ilForumPost((int)$_GET['print_post'], $this->is_moderator);
+			$this->ensureThreadBelongsToForum((int)$this->frm->getForumId(), $post->getThread());
 
 			$tpl->setVariable('TITLE', $post->getThread()->getSubject());
 			$tpl->setVariable('HEADLINE', $this->lng->txt('forum').': '.$frmData['top_name'].' > '. $this->lng->txt('forums_thread').': '.$post->getThread()->getSubject());
@@ -166,11 +179,18 @@ class ilForumExportGUI
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 		$tpl->setVariable('BASE', (substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
 
-		$num_threads  = count((array)$_POST['thread_ids']);
-		for($j = 0; $j < $num_threads; $j++)
-		{
-			$topic = new ilForumTopic((int)$_POST['thread_ids'][$j], $this->is_moderator);
+		$threads = [];
+		$isModerator = $this->is_moderator;
+		$postIds = (array)$_POST['thread_ids'];
+		array_walk($postIds, function($threadId) use (&$threads, $isModerator) {
+			$thread = new \ilForumTopic($threadId, $isModerator);
+			$this->ensureThreadBelongsToForum((int)$this->frm->getForumId(), $thread);
 
+			$threads[] = $thread;
+		});
+
+		$j = 0;
+		foreach ($threads as $topic) {
 			$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topic->getForumId()));
 			if(is_array($thread_data = $this->frm->getOneTopic()))
 			{
@@ -214,6 +234,8 @@ class ilForumExportGUI
 				$tpl->setVariable('T_TXT_NUM_POSTS', $this->lng->txt('forums_articles') . ': ');
 				$tpl->setVariable('T_TXT_NUM_VISITS', $this->lng->txt('visits') . ': ');
 				$tpl->parseCurrentBlock();
+
+				++$j;
 			}
 			
 			$tpl->setCurrentBlock('thread_block');

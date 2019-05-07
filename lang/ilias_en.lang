@@ -818,9 +818,10 @@ assessment#:#material_file#:#Material File
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Maximum Number of Characters
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:
+assessment#:#qst_essay_written_words#:#Number of entered words:
 assessment#:#qst_essay_allready_written_words#:#Already entered words:
-assessment#:#qst_essay_wordcounter_enabled#:#Word Counter
-assessment#:#qst_essay_wordcounter_enabled_info#:#A word counter is shown to participants. It provides an orientation of how much text participants allready have written.
+assessment#:#qst_essay_wordcounter_enabled#:#Count Words
+assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
@@ -6518,6 +6519,8 @@ news#:#news_x_postings#:#%s Postings have been added.
 news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
+news#:#lso_news_online_title#:#A new learning sequence object is online!
+news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_all_comments#:#All Comments
@@ -10716,7 +10719,7 @@ bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
 bibl#:#override_entries#:#Override Entries
 bibl#:#bibl_edit#:#Edit Bibliography
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#detail_view#:#Detail View
 bibl#:#bibl_settings_libraries#:#Libraries
@@ -15025,8 +15028,6 @@ skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
 blog#:#blog_download_submission#:#Download Submission
 exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.
-lso#:#lso_news_online_title#:#A new learning sequence object is online!
-lso#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 user#:#user_profile_info_std#:#Default User Profile Info
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
@@ -15075,3 +15076,8 @@ content#:#cont_StandardCenter#:#Standard Center
 content#:#cont_Interaction#:#Interaction
 content#:#cont_Background#:#Background
 dateplaner#:#cal_usr_info#:#Appointment Information
+certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
+certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
+exc#:#exc_tbl_action_open_submission#:#Open Submission
+exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
+exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.

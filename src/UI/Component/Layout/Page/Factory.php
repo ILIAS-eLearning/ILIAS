@@ -46,9 +46,9 @@ interface Factory
 	 * @return \ILIAS\UI\Component\Layout\Page\Standard
 	 */
 	public function standard(
-		MainControls\Metabar $metabar,
-		MainControls\Mainbar $mainbar,
 		array $content,
+		MainControls\Metabar $metabar = null,
+		MainControls\Mainbar $mainbar = null,
 		Breadcrumbs $locator = null,
 		Image $logo = null
 	): Standard;

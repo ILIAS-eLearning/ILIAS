@@ -412,9 +412,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case "ilmobmultisrtuploadgui":
+				$this->checkPermission("write");
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$this->setTabs("content");
+				//$this->setTabs("content");
 				$this->setContentSubTabs("srt_files");
 				include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtUploadGUI.php");
 				include_once("./Modules/MediaPool/classes/class.ilMepMultiSrt.php");
@@ -1550,6 +1551,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function setContentSubTabs($a_active)
 	{
+		$ilAccess = $this->access;
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
 
@@ -1559,9 +1561,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilTabs->addSubTab("mep_all_mobs", $this->lng->txt("mep_all_mobs"), $this->ctrl->getLinkTarget($this, "allMedia"));
 		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 
-		$ilTabs->addSubtab("srt_files",
-			$this->lng->txt("mep_media_subtitles"),
-			$ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", ""));
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilTabs->addSubtab("srt_files",
+				$this->lng->txt("mep_media_subtitles"),
+				$ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", ""));
+		}
 
 		$ilTabs->activateSubTab($a_active);
 	}

@@ -22,19 +22,16 @@ class iljQueryUtil {
 	 *
 	 * @param \ilTemplate $a_tpl global $tpl is used when null
 	 */
-	public static function initjQuery($a_tpl = null) {
+	public static function initjQuery(ilGlobalTemplateInterface $a_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-
-		// self::$min = DEVMODE ? "" : ".min";
 		self::$min = "";
 		if ($a_tpl == null) {
-			$a_tpl = $tpl;
+			$a_tpl = $DIC["tpl"];
 		}
 
-		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
-		$a_tpl->addJavaScript('./libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js', true, 1);
+		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 0);
+		$a_tpl->addJavaScript('./libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js', true, 0);
 	}
 
 
@@ -45,10 +42,8 @@ class iljQueryUtil {
 	public static function initjQueryUI($a_tpl = null) {
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-
 		if ($a_tpl == null) {
-			$a_tpl = $tpl;
+			$a_tpl = $DIC["tpl"];
 		}
 
 		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);

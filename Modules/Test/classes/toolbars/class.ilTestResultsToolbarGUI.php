@@ -52,7 +52,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	 */
 	private $participantSelectorOptions = array();
 
-	public function __construct(ilCtrl $ctrl, ilGlobalTemplate $tpl, ilLanguage $lng)
+	public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng)
 	{
 		$this->ctrl = $ctrl;
 		$this->tpl = $tpl;

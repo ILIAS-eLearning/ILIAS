@@ -9,8 +9,8 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Validation;
+use \ILIAS\Refinery\Transformation;
 
 class TextareaTest extends ILIAS_UI_TestBase {
 

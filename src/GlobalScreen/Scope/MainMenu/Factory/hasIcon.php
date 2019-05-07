@@ -16,11 +16,17 @@ interface hasIcon {
 	 *
 	 * @return hasIcon
 	 */
-	public function withIconPath(Icon $icon): hasIcon;
+	public function withIcon(Icon $icon): hasIcon;
 
 
 	/**
-	 * @return string
+	 * @return Icon
 	 */
-	public function getIconPath(): Icon;
+	public function getIcon(): Icon;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasIcon(): bool;
 }

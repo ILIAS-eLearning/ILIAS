@@ -9,8 +9,8 @@ use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use ILIAS\UI\Component\Input\Field\Input;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Validation;
+use \ILIAS\Refinery\Transformation;
 
 interface Input1 extends InputInternal {};
 interface Input2 extends InputInternal {};

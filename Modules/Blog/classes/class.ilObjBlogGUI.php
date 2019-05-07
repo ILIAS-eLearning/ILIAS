@@ -151,6 +151,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		
+		if ($_REQUEST["blpg"] > 0 && ilBlogPosting::lookupBlogId($_REQUEST["blpg"]) != $this->object->getId())
+		{
+			throw new ilException("Posting ID does not match blog.");
+		}
+
 		if($this->object)
 		{
 			// gather postings by month

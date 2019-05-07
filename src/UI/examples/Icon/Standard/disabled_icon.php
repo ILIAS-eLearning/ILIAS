@@ -7,11 +7,12 @@ function disabled_icon()
 
 	$buffer = array();
 
-	$ico = $f->icon()->standard('grp', 'Course', 'large', false)->withDisabled(true);
+	$ico = $f->icon()->standard('grp', 'Group', 'large', false);
 
-	$buffer[] = $renderer->render($ico) .' Large Group Disabled';
-
-    $buffer[] = $renderer->render($ico->withIsOutlined(true)).' Large Group Disabled Outlined';
+	$buffer[] = $renderer->render($ico).' Large Group Enabled';
+	$buffer[] = $renderer->render($ico->withDisabled(true)).' Large Group Disabled';
+	$buffer[] = $renderer->render($ico->withIsOutlined(true)).' Large Group Enabled Outlined';
+	$buffer[] = $renderer->render($ico->withDisabled(true)->withIsOutlined(true)).' Large Group Disabled Outlined';
 
 	return implode('<br><br>', $buffer);
 }

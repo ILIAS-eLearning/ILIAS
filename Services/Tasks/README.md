@@ -2,7 +2,7 @@
 
 ## Derived Tasks
 
-If your component wants to add entries to the taksks list of a user it must do the following.
+If your component wants to add entries to the task list of a user it must do the following.
 
 Add an entry in the `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilDerivedTaskProviderMasterFactory.php`. It is planned to switch this to a future general collector/provider/consumer pattern.
 
@@ -18,12 +18,29 @@ $tasks[] = $this->derived()->factory()->task($title, $ref_id,
 	$deadline, $starting_time);
 ```
 
+### Custom Links
+
+The title of a task will be linked with the repository object
+by using `\ilLink::_getStaticLink`, if the task provides a valid `ref_id`.
+In case a concrete `\ilDerivedTaskProvider` would like to define a custom URL for
+it's tasks, you can use `\ilDerivedTask::withUrl` to retrieve a task with an URL
+passed as method argument.
+
+```php
+$task = $task->withUrl('...');
+``` 
+
 # JF Decisions
 
 12 Nov 2018
 
 - General introduction of the service and derived task interface
 - https://docu.ilias.de/goto_docu_wiki_wpage_4910_1357.html
+
+24 Apr 2019
+
+- Add custom url property.
+- https://github.com/ILIAS-eLearning/ILIAS/pull/1789#issuecomment-486218019
 
 # Metrics
 

@@ -10,26 +10,26 @@ function default_icon() {
 	$ico = $ico->withAbbreviation('E');
 
 	$buffer[] = $renderer->render($ico)
-		.' Small Example';
+		.' Small Example with Short Abbreviation';
 
 	$buffer[] = $renderer->render($ico->withSize('medium'))
-		.' Medium Example';
+		.' Medium Example with Short Abbreviation';
 
 	$buffer[] = $renderer->render($ico->withSize('large'))
-		.' Large Example';
+		.' Large Example with Short Abbreviation';
 
 
-	$ico = $f->icon()->standard('someObject', 'Object');
-	$ico = $ico->withAbbreviation('OB');
+	$ico = $f->icon()->standard('someOtherExample', 'Example');
+	$ico = $ico->withAbbreviation('LA');
 
 	$buffer[] = $renderer->render($ico->withSize('small'))
-		.' Small Object';
+		.' Small Example with Long Abbreviation';
 
 	$buffer[] = $renderer->render($ico->withSize('medium'))
-		.' Medium Object';
+		.' Medium Example with Long Abbreviation';
 
 	$buffer[] = $renderer->render($ico->withSize('large'))
-		.' Large Object';
+		.' Large Example with Long Abbreviation';
 
 
 	return implode('<br><br>', $buffer);

@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\CoreIdentification;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
@@ -9,10 +9,12 @@ use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 use ilPlugin;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\Mock;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;

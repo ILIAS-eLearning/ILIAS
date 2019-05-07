@@ -917,9 +917,10 @@ assessment#:#material#:#Material
 assessment#:#material_file#:#Materialdatei
 assessment#:#maxchars#:#Maximale Anzahl von Zeichen
 assessment#:#qst_essay_chars_remaining#:#Noch übrige Zeichen:
+assessment#:#qst_essay_written_words#:#Anzahl der eingegebenen Wörter:
 assessment#:#qst_essay_allready_written_words#:#Bereits geschriebene Wörter:
-assessment#:#qst_essay_wordcounter_enabled#:#Wortzähler
-assessment#:#qst_essay_wordcounter_enabled_info#:#Teilnehmern wird ein Wortzähler gezeigt. Er bietet eine Orientierung darüber wie viel Text Teilnehmer bereits geschrieben haben.
+assessment#:#qst_essay_wordcounter_enabled#:#Wörter zählen
+assessment#:#qst_essay_wordcounter_enabled_info#:#Die eingegebenen Wörter werden gezählt. Die Anzahl der Wörter wird den Teilnehmern unterhalb des Texteingabefeldes angezeigt.
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#maximum_points#:#Maximal erreichbare Punktezahl
 assessment#:#maxsize#:#Maximale Dateigröße
@@ -7526,6 +7527,8 @@ news#:#news_x_postings#:#%s Beiträge hinzugefügt.
 news#:#passwd_equals_ilpasswd#:#Bitte geben Sie aus Sicherheitsgründen ein anderes Passwort als Ihr ILIAS-Passwort ein
 news#:#priv_feed_disabled#:#Privater Newsfeed wurde deaktiviert.
 news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
+news#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
+news#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für dieses Objekt zur Zeit nicht aktiviert.
 notes#:#note_add_comment#:#Kommentar hinzufügen
 notes#:#note_add_note#:#Notiz hinzufügen
@@ -10699,7 +10702,7 @@ bibl#:#bibl_import#:#Literaturliste importieren
 bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#Type#:#Typ
 bibl#:#bibl_edit#:#Literaturliste bearbeiten
-bibl#:#bibliography file#:#Literaturlisten-Datei
+bibl#:#bibliography_file#:#Literaturlisten-Datei
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
 bibl#:#detail_view#:#Detailansicht
 bibl#:#bibl_settings_libraries#:#Bibliotheken
@@ -15027,8 +15030,6 @@ skll#:#skll_lhist_skill_self_eval#:#Status $4$ von $3$ ist selbst zugewiesen.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ von $3$ wurde selbst zugewiesen in $1$.
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
 exc#:#exc_down_files_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
-lso#:#lso_news_online_title#:#Neues Lernsequenz-Objekt ist online!
-lso#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz online gestellt.
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
@@ -15075,23 +15076,9 @@ content#:#cont_Separator#:#Begrenzer
 content#:#cont_StandardCenter#:#Standard Zentriert
 content#:#cont_Interaction#:#Interaktion
 content#:#cont_Background#:#Hintergrund
-mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
-survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
-survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zugeordnet werden. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
-sess#:#sess_material_assigned#:#Zugeordnet
-sess#:#sess_material_not_assigned#:#Nicht zugeordnet
-rbac#:#iass_amend_grading#:#Finalisierte Bewertung der Individuellen Bewertung ändern
-rbac#:#lso_read#:#Lesezugriff auf die Lernsequenz
-rbac#:#lso_manage_members#:#Mitglieder bearbeiten
-rbac#:#lso_edit_permission#:#Rechteeinstellungen ändern
-common#:#unparticipate#:#Abmelden
-common#:#participate#:#Anmelden
-rbac#:#lso_participate#:#An der Lernsequenz anmelden
-rbac#:#lso_unparticipate#:#Von der Lernsequenz abmelden
-rbac#:#lso_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-rbac#:#mcst_edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
-user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-Id existiert nicht
-user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert
-lti#:#lti_cron_title#:#LTI Outcome Service
-lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss. 
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
+certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
+certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
+exc#:#exc_tbl_action_open_submission#:#Open Submission
+exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
+exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
