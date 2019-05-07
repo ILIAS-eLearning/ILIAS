@@ -6,9 +6,14 @@ namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component\Card as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 class Card implements C\Card {
 	use ComponentHelper;
+	use JavaScriptBindable;
+	use Triggerer;
 
 	/**
 	 * @var string
@@ -31,9 +36,9 @@ class Card implements C\Card {
 	protected $image;
 
 	/**
-	 * @var string
+	 * @var string|Signal[]
 	 */
-	protected $title_url = '';
+	protected $title_action = '';
 
 	/**
 	 * @var boolean
@@ -108,11 +113,17 @@ class Card implements C\Card {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTitleAction($url) {
-		$this->checkStringArg("title_url", $url);
+	public function withTitleAction($action) {
+		$this->checkStringOrSignalArg("title_action", $action);
 
 		$clone = clone $this;
-		$clone->title_url = $url;
+		if (is_string($action)) {
+			$clone->title_action = $action;
+		}
+		else {
+			$clone->title_action = null;
+			$clone->setTriggeredSignal($action, "click");
+		}
 
 		return $clone;
 	}
@@ -121,7 +132,10 @@ class Card implements C\Card {
 	 * @inheritdoc
 	 */
 	public function getTitleAction() {
-		return $this->title_url;
+		if ($this->title_action !== null) {
+			return $this->title_action;
+		}
+		return $this->getTriggeredSignalsFor("click");
 	}
 
 	/**
@@ -139,5 +153,18 @@ class Card implements C\Card {
 	 */
 	public function isHighlighted() {
 		return $this->highlight;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnClick(Signal $signal) {
+		return $this->withTriggeredSignal($signal, 'click');
+	}
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnClick(Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'click');
 	}
 }
