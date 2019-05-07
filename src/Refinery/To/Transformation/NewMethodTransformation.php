@@ -17,38 +17,30 @@ use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
 class NewMethodTransformation implements Transformation
 {
 	use DeriveApplyToFromTransform;
-	/**
-	 * @var
-	 */
-	private $className;
 
 	/**
-	 * @var
+	 * @var object
+	 */
+	private $object;
+
+	/**
+	 * @var string
 	 */
 	private $method;
 
 	/**
-	 * @param string $className
+	 * @param object $object
 	 * @param string $methodToCall
 	 */
-	public function __construct(string $className, string $methodToCall)
+	public function __construct(object $object, string $methodToCall)
 	{
-		if (false === class_exists($className)) {
-			throw new ConstraintViolationException(
-				'The first parameter MUST be an object',
-				'first_parameter_must_be_an_object'
+		if (false === method_exists($object, $methodToCall)) {
+			throw new \InvalidArgumentException(
+				'The second parameter MUST be an method of the object'
 			);
 		}
 
-
-		if (false === method_exists($className, $methodToCall)) {
-			throw new ConstraintViolationException(
-				'The second parameter MUST be an method of the object',
-				'second_parameter_must_be_an_method'
-			);
-		}
-
-		$this->className = $className;
+		$this->object = $object;
 		$this->method    = $methodToCall;
 	}
 
@@ -58,7 +50,7 @@ class NewMethodTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
-		return call_user_func_array(array($this->className, $this->method), $from);
+		return call_user_func_array(array($this->object, $this->method), $from);
 	}
 
 	/**

@@ -59,4 +59,17 @@ interface ilExAssignmentTypeInterface
 	 */
 	public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target);
 
+	/**
+	 * Returns if the submission has support to web access directory.
+	 *
+	 * @return bool
+	 */
+	public function supportsWebDirAccess() : bool;
+
+	/**
+	 * Returns the short string identifier
+	 * @return string
+	 */
+	public function getStringIdentifier(): string;
+
 }

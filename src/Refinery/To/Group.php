@@ -25,6 +25,19 @@ use ILIAS\Refinery\Transformation\Transformation;
 class Group
 {
 	/**
+	 * @var \ILIAS\Data\Factory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param \ILIAS\Data\Factory $dataFactory
+	 */
+	public function __construct(\ILIAS\Data\Factory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Returns an object that allows to transform a value
 	 * to a string value
 	 * @return StringTransformation
@@ -165,6 +178,6 @@ class Group
 	 */
 	public function data(string $dataType): Transformation
 	{
-		return $this->toNew(array('\ILIAS\Data\Factory', $dataType));
+		return $this->toNew(array($this->dataFactory, $dataType));
 	}
 }
