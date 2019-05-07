@@ -33,6 +33,7 @@ SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
 IliasTemplateFiles = Files with name:"tpl[.].*[.]html"
 IsDependencyAvailableMethod = Methods with name:"isDependencyAvailable"
+SVGFiles = Files with name:".*[.]svg"
 
 
 /**
@@ -142,3 +143,8 @@ WholeIliasCodebaseExceptInitialisation cannot depend on: GlobalsExceptDIC
  * This was introduced as temporary workaround. See: https://github.com/ILIAS-eLearning/ILIAS/pull/1064
  */
 WholeIliasCodebase cannot depend on: IsDependencyAvailableMethod
+
+/**
+ * https://mantis.ilias.de/view.php?id=25040
+ */
+SVGFiles cannot contain text: "<foreignObject"
