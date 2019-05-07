@@ -198,7 +198,7 @@ class ilTinyMCE extends ilRTE
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		if ((ilObjAdvancedEditing::_getRichTextEditorUserState() != 0) && (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0))
 		{
-			$tpl = new ilTemplate(($cfg_template === null ? "tpl.tinymce.html" : $cfg_template), true, true, "Services/RTE");
+			$tpl = new ilTemplate(($cfg_template === null ? "tpl.tinymce.js" : $cfg_template), true, true, "Services/RTE");
 			$this->handleImgContextMenuItem($tpl);
 			$tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
 			$this->handleImagePluginsBeforeRendering($tags);
@@ -213,7 +213,6 @@ class ilTinyMCE extends ilRTE
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("tinymce");
-			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 			include_once "./Services/Object/classes/class.ilObject.php";
 			$tpl->setVariable("OBJ_ID", $obj_id);                   
 			$tpl->setVariable("OBJ_TYPE", $obj_type);
@@ -243,8 +242,9 @@ class ilTinyMCE extends ilRTE
 			}
 			
 			$tpl->parseCurrentBlock();
-			
-			$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
+
+			$this->tpl->addJavaScript("./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
+			$this->tpl->addOnLoadCode($tpl->get());
 		}
 	}
 
@@ -266,10 +266,9 @@ class ilTinyMCE extends ilRTE
 	{
 		$this->handleImagePluginsBeforeRendering($tags);
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
+		$tpl = new ilTemplate("tpl.tinymce.js", true, true, "Services/RTE");
 		$this->handleImgContextMenuItem($tpl);
 		$tpl->setCurrentBlock("tinymce");
-		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 		include_once "./Services/Object/classes/class.ilObject.php";
 		$tpl->setVariable("OBJ_ID", $obj_id);
 		$tpl->setVariable("OBJ_TYPE", $obj_type);
@@ -300,7 +299,9 @@ class ilTinyMCE extends ilRTE
 		}
 		
 		$tpl->parseCurrentBlock();
-		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
+
+		$this->tpl->addJavaScript("./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
+		$this->tpl->addOnLoadCode($tpl->get());
 	}
 
 	/**

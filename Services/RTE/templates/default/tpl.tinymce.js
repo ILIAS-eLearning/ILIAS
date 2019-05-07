@@ -1,6 +1,3 @@
-<!-- BEGIN tinymce -->
-<script language="javascript" type="text/javascript" src="{JAVASCRIPT_LOCATION}"></script>
-<script language="javascript" type="text/javascript">
 <!-- BEGIN obj_id -->
 	var obj_id = '{OBJ_ID}';
 	var obj_type = '{OBJ_TYPE}';
@@ -119,7 +116,4 @@
 			ilTinyMceInitCallbackRegistry.callCallbacks();
 		}
 	});
-	
-</script>
-<!-- END tinymce -->
 
