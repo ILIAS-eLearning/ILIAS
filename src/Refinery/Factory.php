@@ -21,11 +21,18 @@ class Factory
 	private $dataFactory;
 
 	/**
-	 * @param \ILIAS\Data\Factory $dataFactory
+	 * @var \ilLanguage
 	 */
-	public function __construct(\ILIAS\Data\Factory $dataFactory)
+	private $lanugage;
+
+	/**
+	 * @param \ILIAS\Data\Factory $dataFactory
+	 * @param \ilLanguage $language
+	 */
+	public function __construct(\ILIAS\Data\Factory $dataFactory, \ilLanguage $language)
 	{
 		$this->dataFactory = $dataFactory;
+		$this->lanugage = $language;
 	}
 
 	/**
@@ -49,5 +56,16 @@ class Factory
 	public function in(): In\Group
 	{
 		return new In\Group();
+	}
+
+	/**
+	 * Contains constraints and transformations on numbers. Each constraint
+	 * on an int will attempt to transform to int as well.
+	 *
+	 * @return Integer\Group
+	 */
+	public function int(): Integer\Group
+	{
+		return new Integer\Group($this->dataFactory, $this->lanugage);
 	}
 }

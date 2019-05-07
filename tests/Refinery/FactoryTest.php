@@ -21,7 +21,11 @@ class FactoryTest extends TestCase
 
 	public function setUp() : void
 	{
-		$this->basicFactory = new Factory(new \ILIAS\Data\Factory());
+		$language = $this->getMockBuilder('\ilLanguage')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->basicFactory = new Factory(new \ILIAS\Data\Factory(), $language);
 	}
 
 	public function testCreateToGroup()
@@ -36,5 +40,12 @@ class FactoryTest extends TestCase
 		$group = $this->basicFactory->in();
 
 		$this->assertInstanceOf(\ILIAS\Refinery\In\Group::class, $group);
+	}
+
+	public function testCreateIntegerGroup()
+	{
+		$group = $this->basicFactory->int();
+
+		$this->assertInstanceOf(\ILIAS\Refinery\Integer\Group::class, $group);
 	}
 }

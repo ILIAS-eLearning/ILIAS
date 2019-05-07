@@ -1,21 +1,43 @@
 <?php
 
 /* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
+namespace ILIAS\Tests\Refinery\Integer\Constraints;
+
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
-class GreatherThanConstraintTest extends TestCase {
+class GreaterThanConstraintTest extends TestCase {
+	/**
+	 * @var Data\Factory
+	 */
+	private $df;
+
+	/**
+	 * @var ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var integer
+	 */
+	private $greater_than;
+
 	public function setUp(): void{
 		$this->df = new Data\Factory();
-		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
+		$this->lng = $this->getMockBuilder(\ilLanguage::class)
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->greater_than = 10;
 
-		$this->c = $this->f->greaterThan($this->greater_than);
+		$this->c = new \ILIAS\Refinery\Integer\Constraints\GreaterThan(
+			$this->greater_than,
+			$this->df,
+			$this->lng
+		);
 	}
 
 	public function testAccepts() {
