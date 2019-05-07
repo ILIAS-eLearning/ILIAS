@@ -29,7 +29,19 @@
 		const deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
 			$elm.prop("disabled", true);
 			$elm.prop("checked", false);
-        } ;
+		};
+
+		const notificationStateChangeObserver = function notificationStateChangeObserver() {
+			if (il.BrowserNotifications.isBlocked()) {
+				if (!hasErrorMessages($container)) {
+					showErrorMessage($container, 'osc_browser_noti_no_permission_error');
+					deselectAndLockCheckbox($notificationToggle);
+				}
+			} else {
+				$notificationToggle.prop("disabled", false);
+				emptyErrorMessages($container);
+			}
+		};
 
 		il.Util.addOnLoad(function () {
 			// Nesting the addOnLoad code is required because otherwise we cannot use il.Language.txt
@@ -54,17 +66,8 @@
 						showErrorMessage($container, 'osc_browser_noti_no_support_error');
 						deselectAndLockCheckbox($notificationToggle);
 					} else {
-						root.setInterval(() => {
-							if (il.BrowserNotifications.isBlocked()) {
-								if (!hasErrorMessages($container)) {
-									showErrorMessage($container, 'osc_browser_noti_no_permission_error');
-									deselectAndLockCheckbox($notificationToggle);
-								}
-							} else {
-								$notificationToggle.prop("disabled", false);
-								emptyErrorMessages($container);
-							}
-						}, 1000);
+						notificationStateChangeObserver();
+						root.setInterval(notificationStateChangeObserver, 1000);
 					}
 
 					$notificationToggle.on("change", function () {
