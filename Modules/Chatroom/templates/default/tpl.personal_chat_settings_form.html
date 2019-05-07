@@ -47,20 +47,20 @@
 					}
 				}
 
-				const notificationStateChangeObserver = function notificationStateChangeObserver() {
-					if (il.BrowserNotifications.isBlocked()) {
-						if (!hasErrorMessages($container)) {
-							showErrorMessage($container, 'osc_browser_noti_no_permission_error');
-							deselectAndLockCheckbox($notificationToggle);
-						}
-					} else {
-						$notificationToggle.prop("disabled", false);
-						emptyErrorMessages($container);
-					}
-				};
-
 				if (null !== $notificationToggle) {
 					let $container = $notificationToggle.parent();
+
+					const notificationStateChangeObserver = function notificationStateChangeObserver() {
+						if (il.BrowserNotifications.isBlocked()) {
+							if (!hasErrorMessages($container)) {
+								showErrorMessage($container, 'osc_browser_noti_no_permission_error');
+								deselectAndLockCheckbox($notificationToggle);
+							}
+						} else {
+							$notificationToggle.prop("disabled", false);
+							emptyErrorMessages($container);
+						}
+					};
 
 					if (!il.BrowserNotifications.isSupported()) {
 						showErrorMessage($container, 'osc_browser_noti_no_support_error');
