@@ -818,9 +818,10 @@ assessment#:#material_file#:#Material File
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Maximum Number of Characters
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:
+assessment#:#qst_essay_written_words#:#Number of entered words:
 assessment#:#qst_essay_allready_written_words#:#Already entered words:
-assessment#:#qst_essay_wordcounter_enabled#:#Word Counter
-assessment#:#qst_essay_wordcounter_enabled_info#:#A word counter is shown to participants. It provides an orientation of how much text participants allready have written.
+assessment#:#qst_essay_wordcounter_enabled#:#Count Words
+assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
