@@ -15,10 +15,11 @@ function base() {
 
 	//Step 1: define the inputs
 	$date = $ui->input()->field()->dateTime("Pick a date/time", "This is the byline text");
-	$formatted = $date->withFormat($data->dateFormat()->germanShort());
+	$formatted = $date
+		->withMinValue(new DateTime())
+		->withFormat($data->dateFormat()->germanShort());
 	$time = $date->withTimeOnly(true);
-	$both = $date->withTime(true)
-		->withMinValue(new DateTime());
+	$both = $date->withTime(true);
 
 	//setting a timezone will return a date with this timezone.
 	$tz = 'Asia/Tokyo';

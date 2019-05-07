@@ -18,7 +18,9 @@ use \ILIAS\UI\Implementation\Render\Template;
  *
  * @package ILIAS\UI\Implementation\Component\Input
  */
-class Renderer extends AbstractComponentRenderer {
+class Renderer extends AbstractComponentRenderer
+{
+	const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
 
 	/**
 	 * @inheritdoc
@@ -595,13 +597,12 @@ class Renderer extends AbstractComponentRenderer {
 
 		$min_date = $input->getMinValue();
 		if(! is_null($min_date)) {
-			$config['minDate'] = date_format($min_date, $input->getFormat()->toString());
+			$config['minDate'] = date_format($min_date, self::DATEPICKER_MINMAX_FORMAT);
 		}
 		$max_date = $input->getMaxValue();
 		if(! is_null($max_date)) {
-			$config['maxDate'] = date_format($max_date, $input->getFormat()->toString());
+			$config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
 		}
-
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
 		\ilCalendarUtil::initDateTimePicker();
 		$input = $input->withAdditionalOnLoadCode(function($id) use ($config) {
