@@ -124,9 +124,7 @@ class ilSessionAppEventListener implements ilAppEventListener
 		try {
 			if ('register' === $this->event) {
 				$this->handleRegisterEvent();
-			} elseif ('addParticipant' === $this->event) {
-				$this->handleEnteredEvent();
-			} elseif ('entered' === $this->event) {
+			} elseif ('enter' === $this->event) {
 				$this->handleEnteredEvent();
 			} elseif ('deleteParticipant' === $this->event) {
 				$this->handleDeleteEvent();
