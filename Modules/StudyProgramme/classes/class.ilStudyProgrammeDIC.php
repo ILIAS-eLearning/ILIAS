@@ -54,6 +54,7 @@ class ilStudyProgrammeDIC
 				$DIC->http()->request(),
 				$dic['TransformationFactory'],
 				$dic['ValidationFactory'],
+				$dic['DataFactory'],
 				$dic['model.Type.ilStudyProgrammeTypeRepository']
 			);
 		};

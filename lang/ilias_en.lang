@@ -13259,6 +13259,13 @@ prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not P
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
 prg#:#prg_update_from_current_plan_success#:#Update From Current Plan
 prg#:#prg_no_user_selected#:#No User Selected
+prg#:#assignment_date#:#Assignment Date
+prg#:#completion_date#:#Completion Date
+prg#:#prg_no_deadline#:#No fixed prozessing time
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme

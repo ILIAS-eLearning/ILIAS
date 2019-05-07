@@ -51,17 +51,12 @@ class ilStudyProgrammeSettings{
 	const DEFAULT_POINTS = 100;
 	const DEFAULT_SUBTYPE = 0; // TODO: What should that be?
 	
-
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
 	/**
 	 * Id of this study program and the corresponding ILIAS-object as well.
 	 *
 	 * @var int
-	 * 
-	 * @con_is_primary  true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $obj_id;
 	
@@ -70,10 +65,6 @@ class ilStudyProgrammeSettings{
 	 * object in the subtree of the program.
 	 * 
 	 * @var string 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp 
-	 * @con_is_notnull  true
 	 */
 	protected $last_change;
 
@@ -83,11 +74,6 @@ class ilStudyProgrammeSettings{
 	 * Subtype concepts is also used in Org-Units. 
 	 * 
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $subtype_id;
 
@@ -97,11 +83,6 @@ class ilStudyProgrammeSettings{
 	 * as well.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $points; 
 
@@ -109,11 +90,6 @@ class ilStudyProgrammeSettings{
 	 * Mode the calculation of the learning progress on this node is run in.    
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      1
-	 * @con_is_notnull  true 
 	 */
 	protected $lp_mode;
 
@@ -121,14 +97,20 @@ class ilStudyProgrammeSettings{
 	 * Lifecycle status the program is in.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      1
-	 * @con_is_notnull  true 
 	 */
 	protected $status;
-	
+
+	/**
+	 * The period a user has to finish the prg in days, before he/she automaticaly fails.
+	 * @var int
+	 */
+	protected $deadline_period = 0;
+
+	/**
+	 * The date, before which a user has to finish the prg, before he/she automaticaly fails.
+	 * @var int | DateTime
+	 */
+	protected $deadline_date = null;
 	
 
 	public function __construct(int $a_id)
@@ -171,11 +153,11 @@ class ilStudyProgrammeSettings{
 	/**
 	 * Get the timestamp of the last change on this program or a sub program.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
-	public function getLastChange() : ilDateTime
+	public function getLastChange() : DateTime
 	{
-		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
+		return DateTime::createFromFormat(self::DATE_TIME_FORMAT,$this->last_change);
 	}
 
 	/**
@@ -185,7 +167,7 @@ class ilStudyProgrammeSettings{
 	 */
 	public function updateLastChange() : ilStudyProgrammeSettings
 	{
-		$this->setLastChange(new ilDateTime((new DateTime())->format('Y-m-d H:i:s'), IL_CAL_DATETIME));
+		$this->setLastChange(new DateTime());
 		return $this;
 	} 
 
@@ -197,13 +179,34 @@ class ilStudyProgrammeSettings{
 	 *
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $a_timestamp) : ilStudyProgrammeSettings
+	public function setLastChange(DateTime $a_timestamp) : ilStudyProgrammeSettings
 	{
-		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		$this->last_change = $a_timestamp->format(self::DATE_TIME_FORMAT);
 		return $this;
 	}
 
+	/**
+	 * Set the deadline period to a given value.
+	 */
+	public function setDeadlinePeriod(int $period) : ilStudyProgrammeSettings
+	{
+		if($period < 0) {
+			throw new ilException('A deadline period must be > 0');
+		}
+		$this->deadline_period = $period;
+		$this->deadline_date = null;
+		return $this;
+	}
 
+	/**
+	 * Set the deadline date to a given value.
+	 */
+	public function setDeadlineDate(DateTime $date = null) : ilStudyProgrammeSettings
+	{
+		$this->deadline_date = $date;
+		$this->deadline_period = 0;
+		return $this;
+	}
 
 	/**
 	 * Set the amount of points.
@@ -294,6 +297,22 @@ class ilStudyProgrammeSettings{
 	public function getStatus() : int
 	{
 		return (int)$this->status;
+	}
+
+	/**
+	 * Returns the set deadline period.
+	 */
+	public function getDeadlinePeriod() : int
+	{
+		return $this->deadline_period;
+	}
+
+	/**
+	 * Returns the set deadline date.
+	 */
+	public function getDeadlineDate()
+	{
+		return $this->deadline_date;
 	}
 }
 

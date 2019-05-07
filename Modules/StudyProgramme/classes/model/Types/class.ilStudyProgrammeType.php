@@ -13,63 +13,40 @@ class ilStudyProgrammeType
 	 * Folder in ILIAS webdir to store the icons
 	 */
 	const WEB_DATA_FOLDER = 'prg_data';
+
+
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
+
 	/**
 	 * @var int
-	 *
-	 * @con_is_primary  true
-	 * @con_sequence    true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $id = 0;
 
 	/**
 	 * @var string
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   text
-	 * @con_length      4
 	 */
 	protected $default_lang = '';
 
 	/**
 	 * @var int
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $owner;
 
 	/**
-	 * @var ilDateTime
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp
-	 * @con_is_notnull  true
+	 * @var DateTime
 	 */
 	protected $create_date;
 
 	/**
 	 * @var string
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp
-	 * @con_is_notnull  false
 	 */
 	protected $last_update;
 
 	/**
 	 * @var string
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   text
-	 * @con_length      255
 	 */
 	protected $icon;
-
 
 	/**
 	 * @var array
@@ -620,7 +597,7 @@ class ilStudyProgrammeType
 	/**
 	 * @param string $create_date
 	 */
-	public function setCreateDate(ilDateTime $create_date)
+	public function setCreateDate(DateTime $create_date)
 	{
 		$this->create_date = $create_date;
 	}

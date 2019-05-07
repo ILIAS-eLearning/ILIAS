@@ -11193,6 +11193,13 @@ prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Pla
 prg#:#prg_update_successful#:#Änderungen erfolgreich gespeichert!
 prg#:#prg_view#:#Anzeigen
 prg#:#warning#:#Warnung!
+prg#:#assignment_date#:#Beitrittsdatum
+prg#:#completion_date#:#Abschlussdatum
+prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
+prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
+prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums abgeschlossen werden.
+prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
+prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen

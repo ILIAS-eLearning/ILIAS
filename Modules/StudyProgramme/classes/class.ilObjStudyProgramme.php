@@ -3,32 +3,6 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Container/classes/class.ilContainer.php");
-require_once('./Services/Container/classes/class.ilContainerSorting.php');
-
-require_once("./Modules/StudyProgramme/classes/model/Settings/class.ilStudyProgrammeSettings.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Settings/interface.ilStudyProgrammeSettingsRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Settings/class.ilStudyProgrammeSettingsDBRepository.php");
-
-require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Progress/interface.ilStudyProgrammeProgressRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgressDBRepository.php");
-
-require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignment.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Assignments/interface.ilStudyProgrammeAssignmentRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProgrammeAssignmentDBRepository.php");
-
-
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeType.php");
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeTypeTranslation.php");
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeAdvancedMetadataRecord.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/model/Types/interface.ilStudyProgrammeTypeRepository.php");
-require_once("./Modules/StudyProgramme/classes/model/Types/class.ilStudyProgrammeTypeDBRepository.php");
-
-require_once("./Modules/StudyProgramme/classes/class.ilObjectFactoryWrapper.php");
-require_once("./Modules/StudyProgramme/classes/interfaces/interface.ilStudyProgrammeLeaf.php");
-require_once("./Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeTreeException.php");
-require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeCache.php");
 
 /**
  * Class ilObjStudyProgramme
@@ -285,7 +259,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Get the timestamp of the last change on this program or sub program.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
 	public function getLastChange() {
 		return $this->settings->getLastChange();
@@ -415,6 +389,27 @@ class ilObjStudyProgramme extends ilContainer {
 
 		return null;
 	}
+
+	public function getDeadlinePeriod()
+	{
+		return $this->settings->getDeadlinePeriod();
+	}
+
+	public function setDeadlinePeriod($period)
+	{
+		$this->settings->setDeadlinePeriod($period);
+	}
+
+	public function getDeadlineDate()
+	{
+		return $this->settings->getDeadlineDate();
+	}
+
+	public function setDeadlineDate(DateTime $date = null)
+	{
+		$this->settings->setDeadlineDate($date);
+	}
+
 
 	////////////////////////////////////
 	// TREE NAVIGATION
@@ -929,6 +924,23 @@ class ilObjStudyProgramme extends ilContainer {
 				$this->progress_repository->update(
 					$progress->setStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
 				);
+			} else {
+				$deadline_date = null;
+				if($deadline_date = $node->getDeadlineDate()) {
+					$this->progress_repository->update(
+						$progress->setDeadline($deadline_date)
+					);
+				}
+				if($deadline_period = $node->getDeadlinePeriod()) {
+					$deadline_date = new DateTime();
+					$deadline_date->add(new DateInterval('P'.$deadline_period.'D'));
+					$this->progress_repository->update(
+						$progress->setDeadline($deadline_date)
+					);
+				}
+				if($deadline_date) {
+					$this->progress_db->getInstanceById($progress->getId())->recalculateFailedToDeadline();
+				}
 			}
 		});
 
@@ -997,7 +1009,9 @@ class ilObjStudyProgramme extends ilContainer {
 				$this->assignment_repository->readByUsrIdAndPrgId($a_user_id,$prg_id));
 		}
 		usort($assignments, function($a_one,$a_other) {
-			return strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
+			return strcmp(
+				$a_one->getLastChange()->format('Y-m-d'),
+				$a_other->getLastChange()->format('Y-m-d'));
 		});
 		$assignment_db = $this->assignment_db;
 		return array_map(function($ass) use ($assignment_db){
@@ -1219,7 +1233,9 @@ class ilObjStudyProgramme extends ilContainer {
 			$assignments = array_merge($this->assignment_repository->readByPrgId($prg_id),$assignments);
 		}
 		usort($assignments, function($a_one,$a_other) {
-			return -strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
+			return -strcmp(
+				$a_one->getLastChange()->format('Y-m-d'),
+				$a_other->getLastChange()->format('Y-m-d'));
 		});
 		return $assignments;
 	}

@@ -139,10 +139,32 @@ class ilStudyProgrammeProgressTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @depends test_init_and_id
 	 */
+	public function test_assignmet_date()
+	{
+		$ad = new DateTime();
+		$spp = (new ilStudyProgrammeProgress(123))->setAssignmentDate($ad);
+		$this->assertEquals($spp->getAssignmentDate()->format('Y-m-d'),$ad->format('Y-m-d'));
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_completion_date()
+	{
+		$cd = new DateTime();
+		$spp = (new ilStudyProgrammeProgress(123))->setCompletionDate($cd);
+		$this->assertEquals($spp->getCompletionDate()->format('Y-m-d'),$cd->format('Y-m-d'));
+		$spp = (new ilStudyProgrammeProgress(123))->setCompletionDate(null);
+		$this->assertNull($spp->getCompletionDate());
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
 	public function test_deadline()
 	{
-		$dl = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
+		$dl = new DateTime();
 		$spp = (new ilStudyProgrammeProgress(123))->setDeadline($dl);
-		$this->assertEquals($spp->getDeadline()->get(IL_CAL_DATETIME),$dl->get(IL_CAL_DATETIME));
+		$this->assertEquals($spp->getDeadline()->format('Y-m-d'),$dl->format('Y-m-d'));
 	}
 }

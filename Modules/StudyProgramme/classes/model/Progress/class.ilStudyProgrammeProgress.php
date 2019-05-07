@@ -44,6 +44,8 @@ class ilStudyProgrammeProgress
 						  , self::STATUS_FAILED
 						  );  
 
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
 
 	/**
 	 * The id of this progress.
@@ -55,13 +57,6 @@ class ilStudyProgrammeProgress
 	 * desired guarantees by the database.
 	 * 
 	 * @var int
-	 *
-	 * @con_is_primary  true
-	 * @con_sequence    true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
 	 */
 	protected $id;
 
@@ -69,11 +64,6 @@ class ilStudyProgrammeProgress
 	 * The id of the assignment this progress belongs to.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $assignment_id;
 
@@ -81,11 +71,6 @@ class ilStudyProgrammeProgress
 	 * The id of the program node this progress belongs to.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $prg_id;
 
@@ -93,11 +78,6 @@ class ilStudyProgrammeProgress
 	 * The id of the user this progress belongs to.
 	 * 
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 
 	protected $usr_id;
@@ -107,11 +87,6 @@ class ilStudyProgrammeProgress
 	 * node.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $points;
 
@@ -119,11 +94,6 @@ class ilStudyProgrammeProgress
 	 * Amount of points the user currently has in the subnodes of this node.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $points_cur;
  
@@ -131,11 +101,6 @@ class ilStudyProgrammeProgress
 	 * The status this progress is in.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      1
-	 * @con_is_notnull  true 
 	 */
 	protected $status;
 
@@ -146,11 +111,6 @@ class ilStudyProgrammeProgress
 	 * otherwise.
 	 *
 	 * @var int
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  false
 	 */
 	protected $completion_by;
 	
@@ -160,10 +120,6 @@ class ilStudyProgrammeProgress
 	 * last time.
 	 *
 	 * @var int
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp 
-	 * @con_is_notnull  true
 	 */
 	protected $last_change;
 
@@ -171,22 +127,27 @@ class ilStudyProgrammeProgress
 	 * Id of the user who did the last manual update of the progress
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  false 
 	 */
 	protected $last_change_by;
 
 	/**
+	 * Date of asssignment
+	 *
+	 * @var \DateTime
+	 */
+	protected $assignment_date;
+
+	/**
+	 * Date of asssignment
+	 *
+	 * @var \DateTime
+	 */
+	protected $completion_date;
+
+	/**
 	 * Date until user has to finish
 	 *
-	 * @var \ilDateTime
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp
-	 * @con_is_notnull  false
+	 * @var \DateTime
 	 */
 	protected $deadline;
 
@@ -382,11 +343,11 @@ class ilStudyProgrammeProgress
 	/**
 	 * Get the timestamp of the last change on this progress.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
-	public function getLastChange() : ilDateTime
+	public function getLastChange() : DateTime
 	{
-		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
+		return DateTime::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
 	}
 
 	/**
@@ -401,7 +362,7 @@ class ilStudyProgrammeProgress
 	 */
 	public function updateLastChange()
 	{
-		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
+		$this->setLastChange(new DateTime());
 		return $this;
 	}
 
@@ -414,16 +375,52 @@ class ilStudyProgrammeProgress
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $a_timestamp) : ilStudyProgrammeProgress
+	public function setLastChange(DateTime $a_timestamp) : ilStudyProgrammeProgress
 	{
-		$this->last_change = $a_timestamp->get(IL_CAL_DATETIME);
+		$this->last_change = $a_timestamp->format(self::DATE_TIME_FORMAT);
 		return $this;
+	}
+
+	/**
+	 * Set the date of assignment.
+	 */
+	public function setAssignmentDate(DateTime $assignment_date) : ilStudyProgrammeProgress
+	{
+		$this->assignment_date = $assignment_date;
+		return $this;
+	}
+
+	/**
+	 * Get the date of assignment.
+	 */
+	public function getAssignmentDate() : DateTime
+	{
+		return $this->assignment_date;
+	}
+
+	/**
+	 * Set the timestamp of the complition of this progress.
+	 */
+	public function setCompletionDate(DateTime $completion_date = null) : ilStudyProgrammeProgress
+	{
+		$this->completion_date = $completion_date;
+		return $this;
+	}
+
+	/**
+	 * Get the timestamp of the complition of this progress.
+	 *
+	 * @return \DateTime | null
+	 */
+	public function getCompletionDate()
+	{
+		return $this->completion_date;
 	}
 
 	/**
 	 * Get the deadline of this progress.
 	 *
-	 * @return ilDateTime | null
+	 * @return DateTime | null
 	 */
 	public function getDeadline()
 	{
@@ -433,11 +430,11 @@ class ilStudyProgrammeProgress
 	/**
 	 * Set the deadline of this progress
 	 *
-	 * @param ilDateTime | null	$deadline
+	 * @param DateTime | null	$deadline
 	 *
 	 * @return $this
 	 */
-	public function setDeadline(ilDateTime $deadline = null) : ilStudyProgrammeProgress
+	public function setDeadline(DateTime $deadline = null) : ilStudyProgrammeProgress
 	{
 		$this->deadline = $deadline;
 		return $this;
