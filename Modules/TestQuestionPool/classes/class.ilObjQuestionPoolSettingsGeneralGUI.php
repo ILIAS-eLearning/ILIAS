@@ -44,7 +44,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 	/**
 	 * global $tpl object
 	 * 
-	 * @var ilGlobalTemplate
+	 * @var ilGlobalTemplateInterface
 	 */
 	protected $tpl = null;
 	
@@ -72,7 +72,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 	/**
 	 * Constructor
 	 */
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilLanguage $lng, ilGlobalTemplate $tpl, ilTabsGUI $tabs, ilObjQuestionPoolGUI $poolGUI)
+	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilLanguage $lng, ilGlobalTemplateInterface $tpl, ilTabsGUI $tabs, ilObjQuestionPoolGUI $poolGUI)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
