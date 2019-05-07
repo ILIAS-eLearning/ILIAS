@@ -67,7 +67,15 @@
 						deselectAndLockCheckbox($notificationToggle);
 					} else {
 						notificationStateChangeObserver();
-						root.setInterval(notificationStateChangeObserver, 1000);
+
+						/*
+							Firefox blocks permission requests temporarily. In this case a "default" permission
+							means "blocked", so we MUST NOT check it continuously
+							https://stackoverflow.com/questions/2324944/in-javascript-how-do-i-determine-if-my-current-browser-is-firefox-on-a-computer
+						 */
+						if (navigator.userAgent.search("Firefox") === -1) {
+							root.setInterval(notificationStateChangeObserver, 1000);
+						}
 					}
 
 					$notificationToggle.on("change", function () {
