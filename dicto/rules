@@ -32,6 +32,7 @@ SetErrorHandler = Functions with name:"set_error_handler"
 SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
 IliasTemplateFiles = Files with name:"tpl[.].*[.]html"
+SVGFiles = Files with name:".*[.]svg"
 
 
 /**
@@ -134,3 +135,7 @@ IliasTemplateFiles cannot contain text: "on(blur|change|click|dblclick|focus|key
  * Decision by JF 2015-08-03: http://www.ilias.de/docu/goto.php?target=wiki_1357_JourFixe-2015-08-03#ilPageTocA123
  */
 WholeIliasCodebaseExceptInitialisation cannot depend on: GlobalsExceptDIC
+/**
+ * https://mantis.ilias.de/view.php?id=25040
+ */
+SVGFiles cannot contain text: "<foreignObject"
