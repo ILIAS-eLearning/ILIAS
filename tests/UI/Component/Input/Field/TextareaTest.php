@@ -9,8 +9,8 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Validation;
+use \ILIAS\Refinery\Transformation;
 
 class TextareaTest extends ILIAS_UI_TestBase {
 
@@ -282,7 +282,7 @@ class TextareaTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$text = $f->textarea("")
 			->withNameFrom($this->name_source)
-			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+			->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 
 		$content = $text->getContent();
 		$this->assertEquals("alert()", $content->value());

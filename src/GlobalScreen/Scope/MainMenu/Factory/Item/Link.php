@@ -2,7 +2,9 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\UI\Component\Icon\Icon;
 
 /**
  * Class Link
@@ -12,8 +14,12 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildItem implements hasTitle, hasAction {
+class Link extends AbstractChildItem implements hasTitle, hasAction, hasIcon {
 
+	/**
+	 * @var Icon
+	 */
+	protected $icon;
 	/**
 	 * @var bool
 	 */
@@ -113,5 +119,32 @@ class Link extends AbstractChildItem implements hasTitle, hasAction {
 	 */
 	public function isLinkWithExternalAction(): bool {
 		return $this->is_external_action;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withIcon(Icon $icon): hasIcon {
+		$clone = clone $this;
+		$clone->icon = $icon;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getIcon(): Icon {
+		return $this->icon;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasIcon(): bool {
+		return ($this->icon instanceof Icon);
 	}
 }

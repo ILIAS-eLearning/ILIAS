@@ -128,6 +128,10 @@ class Factory implements \ILIAS\UI\Factory
      */
     protected $maincontrols_factory;
 
+	/**
+	 * @var C\Tree\Factory
+	 */
+	protected $tree_factory;
 
 	public function __construct(
 		C\Counter\Factory $counter_factory,
@@ -152,6 +156,7 @@ class Factory implements \ILIAS\UI\Factory
 		C\Card\Factory $card_factory,
 		C\Layout\Factory $layout_factory,
 		C\MainControls\Factory $maincontrols_factory,
+		C\Tree\Factory $tree_factory,
 		C\Menu\Factory $menu_factory
 	) {
 		$this->counter_factory = $counter_factory;
@@ -176,6 +181,7 @@ class Factory implements \ILIAS\UI\Factory
 		$this->card_factory = $card_factory;
 		$this->layout_factory = $layout_factory;
 		$this->maincontrols_factory = $maincontrols_factory;
+		$this->tree_factory = $tree_factory;
 		$this->menu_factory = $menu_factory;
 	}
 
@@ -377,6 +383,14 @@ class Factory implements \ILIAS\UI\Factory
 	public function mainControls(): C\MainControls\Factory
 	{
 		return $this->maincontrols_factory;
+	}
+
+	/**
+	* @inheritdoc
+	*/
+	public function tree()
+	{
+		return $this->tree_factory;
 	}
 
 	/**

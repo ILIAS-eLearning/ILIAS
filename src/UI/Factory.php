@@ -752,11 +752,11 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction:
-	 *      1: >
-	 *          In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
-	 *          provide interaction by using Buttons.
-	 *      2: >
-	 *          Navigation to other screens MUST by done by using Links.
+	 *     1: >
+	 *       In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
+	 *       provide interaction by using Buttons.
+	 *     2: >
+	 *       Navigation to other screens MUST by done by using Links.
 	 * ---
 	 * @return  \ILIAS\UI\Component\MessageBox\Factory
 	 */
@@ -809,11 +809,42 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
+	 *     Trees present hierarchically structured data.
+	 *   rivals:
+	 *     Drilldown: >
+	 *       A Drilldown shows only one level of the hierarchy, the Tree
+	 *       will show all at the same time.
+	 *     Presentation Table: >
+	 *       Allthough the rows in a table are expandable, entries in a table
+	 *       reflect entities and certain aspects of them. Nodes, however, are
+	 *       entities by themself.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Tree SHOULD NOT be used for data-structures with little hierachy.
+	 *       E.g., listing objects and their properties would call for a
+	 *       Presentation Table rather than a Tree (see "rivals"), since this is
+	 *       a two-dimensional structure only.
+	 *     2: >
+	 *       A Tree SHOULD NOT mix different kind of nodes, i.e.
+	 *       all nodes in the same Tree SHOULD be identical in structure.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Tree\Factory
+	 */
+	public function tree();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
 	 *     Menus let the user choose from several (navigational) options.
 	 *
 	 * ---
 	 * @return \ILIAS\UI\Component\Menu\Factory
 	 */
 	public function menu(): Component\Menu\Factory;
+
 }
 

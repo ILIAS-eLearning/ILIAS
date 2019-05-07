@@ -3,7 +3,7 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Validation;
+use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -32,13 +32,15 @@ class ValidationConstraintsCustomTest extends TestCase {
 	 */
 	protected $f = null;
 
+	protected $txt_id = '';
+
 	public function setUp(): void{
 		$is_ok = function ($value) {
 			return false;
 		};
 		$this->txt_id = "TXT_ID";
-		$error = function (callable $txt, $value) use ($txt_id) {
-			return $txt($txt_id, $value);
+		$error = function (callable $txt, $value) {
+			return $txt($this->txt_id, $value);
 		};
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->constraint = new MyValidationConstraintsCustom($is_ok, $error, new Data\Factory(), $this->lng);
@@ -60,7 +62,7 @@ class ValidationConstraintsCustomTest extends TestCase {
 		$this->lng
 			->expects($this->once())
 			->method("txt")
-			->with($txt_id)
+			->with($this->txt_id)
 			->willReturn($txt_out);
 
 		$value = "VALUE";

@@ -309,7 +309,20 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface {
 	}
 
 
+	/**
+	 * @inheritDoc
+	 */
 	public function delete() {
-		throw new Exception();
+		if ($this->isDeletable()) {
+			$serialize = $this->identification->serialize();
+			$gs = ilGSIdentificationStorage::find($serialize);
+			if ($gs instanceof ilGSIdentificationStorage) {
+				$gs->delete();
+			}
+			$mm = ilMMItemStorage::find($serialize);
+			if ($mm instanceof ilMMItemStorage) {
+				$mm->delete();
+			}
+		}
 	}
 }

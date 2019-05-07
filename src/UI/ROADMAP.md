@@ -91,6 +91,24 @@ to construct a new Counter.
 It would be handy to have a "withNumber"-mutator, or something like
 "withIncrease/withDecrease"
 
+### Implement `Input::getUpdateOnLoadCode`, `Input::withOnUpdate` and `Input::appendOnUpdate` for every Input (advanced, ~4h)
+
+When introducing [UI Filters](https://github.com/ILIAS-eLearning/ILIAS/pull/1735)
+some ends have been left open and need to be implemented properly. Currently
+`withOnUpdate` and `appendOnUpdate` do not work on Inputs in the general case and
+only work for `Select Field` and `Text Field` in the context of the filter. To
+let the promise of `OnUpdate` come true, the following things will need to be done:
+
+* Every Input needs to implement `Input::getUpdateOnLoadCode`.
+* Once this is done, the method `Input::getUpdateOnLoadCode` on the base class
+should be removed to force new inputs to implement this method properly.
+* The usage of the method should be moved from the (specific) `Container\Filter\Renderer`
+to the (general) `Field\Renderer` to make `OnUpdate` apply everywhere.
+* `Input::withOnUpdate` and `Input::appendOnUpdate` can then be reinstated on the
+base class and removed on `Field\Select` and `Field\Text`.
+* `Group::withOnUpdate` can use `parent::withOnUpdate` then.
+
+New inputs must already implement the methods.
 
 ## Long Term
 

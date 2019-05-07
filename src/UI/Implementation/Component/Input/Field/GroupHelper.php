@@ -5,11 +5,12 @@ docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Component as Component;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 
 /**
  * The code of Group is used in Checkbox, e.g., but a checkbox is not a group.
@@ -106,7 +107,7 @@ trait GroupHelper {
 	 *
 	 * @inheritdoc
 	 */
-	public function withInput(PostData $post_input) {
+	public function withInput(InputData $post_input) {
 		$clone = parent::withInput($post_input);
 		/**
 		 * @var $clone Group
@@ -120,11 +121,11 @@ trait GroupHelper {
 
 
 	/**
-	 * @param PostData $post_input
+	 * @param InputData $post_input
 	 *
 	 * @return Group|Input
 	 */
-	protected function withGroupInput(PostData $post_input) {
+	protected function withGroupInput(InputData $post_input) {
 		$clone = $this;
 
 		if (sizeof($this->getInputs()) === 0) {

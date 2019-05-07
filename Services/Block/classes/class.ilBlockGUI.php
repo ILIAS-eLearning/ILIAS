@@ -847,10 +847,20 @@ abstract class ilBlockGUI
 				}
 				else if ($command["html"] != "")
 				{
-					$this->tpl->setCurrentBlock("bc_html");
-					$this->tpl->setVariable("HTML", $command["html"]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("block_command");
+					if($command['href'] !== '')
+					{
+						$this->tpl->setCurrentBlock("bc_html");
+						$this->tpl->setVariable("HTML", $command["html"]);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->setCurrentBlock("block_command");
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock('bc_html_nohref');
+						$this->tpl->setVariable('HTML_NOHREF',$command['html']);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->setCurrentBlock("block_command");
+					}
 				}
 				else
 				{
@@ -859,8 +869,11 @@ abstract class ilBlockGUI
 					$this->tpl->setVariable("BC_CLASS", 'class="il_ContainerItemCommand"');
 				}
 
-				$this->tpl->setVariable("CMD_HREF", $command["href"]);
-				$this->tpl->parseCurrentBlock();				
+				if($command['href'] !== '')
+				{
+					$this->tpl->setVariable("CMD_HREF", $command["href"]);
+				}
+				$this->tpl->parseCurrentBlock();
 			}
 			
 			if($has_block_command)
@@ -944,7 +957,8 @@ abstract class ilBlockGUI
 		if ($ilCtrl->isAsynch())
 		{
 			// return without div wrapper
-			echo $this->tpl->getAsynch();
+			echo $this->tpl->get();
+			//echo $this->tpl->getAsynch();
 		}
 		else
 		{

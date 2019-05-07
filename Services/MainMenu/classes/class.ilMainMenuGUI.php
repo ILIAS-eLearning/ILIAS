@@ -302,9 +302,7 @@ class ilMainMenuGUI {
 		}
 
 		if ($this->getMode() == self::MODE_FULL) {
-			$renderer = new ilMMEntryRendererGUI();
-			$new_renderer = $renderer->getHTML();
-			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $new_renderer);
+			$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", "-");
 		}
 
 		if ($this->getMode() != self::MODE_TOPBAR_MEMBERVIEW) {
@@ -611,7 +609,7 @@ class ilMainMenuGUI {
 	 * @param \ilTemplate $mainTpl
 	 * @param \ilLanguage $lng
 	 */
-	private function renderOnScreenNotifications(\ilObjUser $user, \ilGlobalTemplate $mainTpl, \ilLanguage $lng) {
+	private function renderOnScreenNotifications(\ilObjUser $user, \ilGlobalTemplateInterface $mainTpl, \ilLanguage $lng) {
 		if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
 			$this->tpl->touchBlock('osd_container');
 

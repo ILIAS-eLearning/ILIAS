@@ -7,14 +7,14 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Data\Password as PWD;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Validation;
+use \ILIAS\Refinery\Transformation;
 
-class _PWDPostData implements PostData {
+class _PWDInputData implements InputData {
 	public function get($name) {
 		return 'some value';
 	}
@@ -198,11 +198,11 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$pwd = $f->password($label)->withNameFrom($this->name_source)->withRequired(true);
 
-		$pwd1 = $pwd->withInput(new DefPostData([$name => "0"]));
+		$pwd1 = $pwd->withInput(new DefInputData([$name => "0"]));
 		$value1 = $pwd1->getContent();
 		$this->assertTrue($value1->isOk());
 
-		$pwd2 = $pwd->withInput(new DefPostData([$name => ""]));
+		$pwd2 = $pwd->withInput(new DefInputData([$name => ""]));
 		$value2 = $pwd2->getContent();
 		$this->assertTrue($value2->isError());
 	}
@@ -213,7 +213,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 		$pwd = $f->password($label);
 		$this->assertNull($pwd->getValue());
 
-		$post = new _PWDPostData();
+		$post = new _PWDInputData();
 		$pwd = $pwd->withInput($post);
 		$this->assertEquals($post->getOr('',''), $pwd->getValue());
 		$this->assertInstanceOf(PWD::class, $pwd->getContent()->value());

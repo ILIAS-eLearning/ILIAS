@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+
 /**
  * Class ilMMItemFacade
  *
@@ -19,6 +21,24 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
 	public function isCustom(): bool {
 		return false;
 	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isEditable(): bool {
+		return (!$this->gs_item instanceof Lost);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isDeletable(): bool {
+		return ($this->gs_item instanceof Lost);
+	}
+
+
 
 
 	// Setter

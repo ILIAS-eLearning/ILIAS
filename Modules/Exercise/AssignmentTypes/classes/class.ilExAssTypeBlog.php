@@ -103,4 +103,17 @@ class ilExAssTypeBlog implements ilExAssignmentTypeInterface
 
 	}
 
+	/**
+	 *  @inheritdoc
+	 */
+	public function supportsWebDirAccess(): bool
+	{
+		return false;
+	}
+
+	public function getStringIdentifier(): string
+	{
+		// TODO: Implement getSubmissionStringIdentifier() method.
+	}
+
 }

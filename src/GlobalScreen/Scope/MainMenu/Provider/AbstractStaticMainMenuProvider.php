@@ -32,7 +32,7 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	 */
 	public function __construct(Container $dic) {
 		parent::__construct($dic);
-		$this->mainmenu = $this->globalScreen()->mainmenu();
+		$this->mainmenu = $this->globalScreen()->mainBar();
 		$this->if = $this->globalScreen()->identification()->core($this);
 	}
 
@@ -60,11 +60,11 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 	public function getProviderNameForPresentation(): string {
 		$reflector = new \ReflectionClass($this);
 
-		$re = '/.*\/(?P<provider>(Services|Modules)\/.*)\/classes/m';
+		$re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
 
 		preg_match($re, $reflector->getFileName(), $matches);
 
-		return $matches[1];
+		return isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : "-" : "-";
 	}
 
 

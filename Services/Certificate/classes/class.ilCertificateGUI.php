@@ -162,6 +162,16 @@ class ilCertificateGUI
 	private $certificatePath;
 
 	/**
+	 * @var ilSetting
+	 */
+	private $settings;
+
+	/**
+	 * @var ilPageFormats|null
+	 */
+	private $pageFormats;
+
+	/**
 	 * ilCertificateGUI constructor
 	 * @param ilCertificateAdapter $adapter A reference to the test container object
 	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
@@ -178,6 +188,7 @@ class ilCertificateGUI
 	 * @param ilCertificateBackgroundImageUpload|null $upload
 	 * @param ilCertificateTemplatePreviewAction|null $previewAction
 	 * @param \ILIAS\FileUpload\FileUpload|null $fileUpload
+	 * @param ilSetting|null $setting
 	 * @access public
 	 */
 	public function __construct(
@@ -195,7 +206,8 @@ class ilCertificateGUI
 		ilCertificateTemplateExportAction $exportAction = null,
 		ilCertificateBackgroundImageUpload $upload = null,
 		ilCertificateTemplatePreviewAction $previewAction = null,
-		\ILIAS\FileUpload\FileUpload $fileUpload = null
+		\ILIAS\FileUpload\FileUpload $fileUpload = null,
+		ilSetting $settings = null
 	) {
 		global $DIC;
 
@@ -263,6 +275,7 @@ class ilCertificateGUI
 		if (null === $pageFormats) {
 			$pageFormats = new ilPageFormats($DIC->language());
 		}
+		$this->pageFormats = $pageFormats;
 
 		if (null === $xlsFoParser) {
 			$xlsFoParser = new ilXlsFoParser($DIC->settings(), $pageFormats);
@@ -301,6 +314,11 @@ class ilCertificateGUI
 		$this->fileUpload = $fileUpload;
 
 		$this->certificatePath = $certificatePath;
+
+		if (null === $settings) {
+			$settings = new ilSetting('certificate');
+		}
+		$this->settings = $settings;
 	}
 
 	/**
@@ -432,20 +450,27 @@ class ilCertificateGUI
 
 	/**
 	 * @return ilPropertyFormGUI
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilDatabaseException
+	 * @throws ilException
+	 * @throws ilWACException
 	 */
 	private function getEditorForm(): \ilPropertyFormGUI
 	{
-		$certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
+		$certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
 		$form = $this->settingsFormFactory->createForm(
 			$this,
 			$this->certifcateObject
 		);
 
-		$form_fields = $this->settingsFormFactory->fetchFormFieldData($certificate->getCertificateContent());
-		$form_fields['active'] = $certificate->isCurrentlyActive();
+		$formFields = $this->createFormatArray($certificateTemplate);
 
-		$form->setValuesByArray($form_fields);
+		$formFields['active'] = $certificateTemplate->isCurrentlyActive();
+
+		$form->setValuesByArray($formFields);
 
 		return $form;
 	}
@@ -456,7 +481,32 @@ class ilCertificateGUI
 	public function certificateEditor()
 	{
 		$form = $this->getEditorForm();
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		$enabledGlobalLearningProgress = \ilObjUserTracking::_enabledLearningProgress();
+
+		$messageBoxHtml = '';
+		if ($enabledGlobalLearningProgress) {
+			$objectLearningProgressSettings = new ilLPObjSettings($this->objectId);
+			$mode = $objectLearningProgressSettings->getMode();
+
+			/** @var ilObject $object */
+			$object = ilObjectFactory::getInstanceByObjId($this->objectId);
+			if (ilLPObjSettings::LP_MODE_DEACTIVATED == $mode && $object->getType() !== 'crs') {
+				global $DIC;
+
+				$renderer = $DIC->ui()->renderer();
+				$messageBox = $DIC->ui()
+					->factory()
+					->messageBox()
+					->info($this->lng->txt('learning_progress_deactivated'));
+
+				$messageBoxHtml = $renderer->render($messageBox);
+				$form->clearCommandButtons();
+			}
+		}
+
+		$formHtml = $form->getHTML();
+
+		$this->tpl->setVariable("ADM_CONTENT", $messageBoxHtml. $formHtml);
 	}
 
 	/**
@@ -600,6 +650,32 @@ class ilCertificateGUI
 		$form->setValuesByArray($form_fields);
 
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+	}
+
+	/**
+	 * @param ilCertificateTemplate $certificateTemplate
+	 * @return array|mixed
+	 */
+	private function createFormatArray(ilCertificateTemplate $certificateTemplate)
+	{
+		if ('' === $certificateTemplate->getCertificateHash()) {
+			$format = $this->settings->get('pageformat');
+			$formats = $this->pageFormats->fetchPageFormats();
+
+			$formFieldArray = array(
+				'pageformat'         => $format,
+				'pagewidth'          => $formats['width'],
+				'pageheight'         => $formats['height'],
+				'margin_body_top'    => ilPageFormats::DEFAULT_MARGIN_BODY_TOP,
+				'margin_body_right'  => ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT,
+				'margin_body_bottom' => ilPageFormats::DEFAULT_MARGIN_BODY_BOTTOM,
+				'margin_body_left'   => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
+				'certificate_text'   => $certificateTemplate->getCertificateContent()
+			);
+
+			return $formFieldArray;
+		}
+		return $this->settingsFormFactory->fetchFormFieldData($certificateTemplate->getCertificateContent());
 	}
 
 }

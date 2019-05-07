@@ -1,0 +1,15 @@
+<div class="il-filter <!-- BEGIN disabled -->disabled<!-- END disabled --><!-- BEGIN enabled -->enabled<!-- END enabled -->" id="{ID_FILTER}">
+    <form class="il-standard-form form-horizontal" enctype="multipart/formdata" method="get" novalidate="novalidate"<!-- BEGIN action --> data-cmd-{ACTION_NAME}="{ACTION}"<!-- END action -->>
+        <div class="il-filter-bar">
+            <span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded={ARIA_EXPANDED}> {OPENER} </span>
+            <span class="il-filter-bar-controls"> {APPLY} {RESET} {TOGGLE} </span>
+        </div>
+        <!-- BEGIN active_inputs_section -->
+        <div class="il-filter-inputs-active clearfix collapse {INPUTS_ACTIVE_EXPANDED}"><!-- BEGIN active_inputs --> <span id="{ID}"> </span> <!-- END active_inputs --></div>
+        <!-- END active_inputs_section -->
+        <div class="il-filter-input-section form-group row collapse {INPUTS_EXPANDED}"> {INPUTS} </div>
+        <!-- BEGIN status -->
+        <input class="il-filter-field-status" type="hidden" name="__filter_status_{FIELD}" value="{VALUE}" />
+        <!-- END status -->
+    </form>
+</div>

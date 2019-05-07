@@ -6,8 +6,9 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
-use ILIAS\Validation\Factory as ValidationFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\UI\Component\Signal;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 
 /**
  * This implements the select.
@@ -62,5 +63,39 @@ class Select extends Input implements C\Input\Field\Select {
 	 */
 	protected function getConstraintForRequirement() {
 		return $this->validation_factory->hasMinLength(1);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
+			return $code;
+		};
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->withTriggeredSignal($signal, 'update');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->appendTriggeredSignal($signal, 'update');
 	}
 }

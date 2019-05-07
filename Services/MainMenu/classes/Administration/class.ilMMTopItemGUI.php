@@ -139,7 +139,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 		// $this->toolbar->addButtonInstance($b);
 
 		// TABLE
-		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository($DIC->globalScreen()->storage()), $this->access);
+		$table = new ilMMTopItemTableGUI($this, new ilMMItemRepository(), $this->access);
 		$table->setShowRowsSelector(false);
 
 		return $table->getHTML();
@@ -200,18 +200,23 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 	 * @throws Throwable
 	 */
 	private function update(\ILIAS\DI\Container $DIC) {
-		$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->getMMItemFromRequest(), $this->repository);
-		if ($f->save()) {
-			$this->cancel();
+		$item = $this->getMMItemFromRequest();
+		if ($item->isEditable()) {
+			$f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $item, $this->repository);
+			if ($f->save()) {
+				$this->cancel();
+			}
+
+			return $f->getHTML();
 		}
 
-		return $f->getHTML();
+		return "";
 	}
 
 
 	private function delete() {
 		$item = $this->getMMItemFromRequest();
-		if ($item->isCustom()) {
+		if ($item->isDeletable()) {
 			$this->repository->deleteItem($item);
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_topitem_deleted"), true);

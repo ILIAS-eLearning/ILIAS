@@ -9,8 +9,8 @@ use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Validation;
+use \ILIAS\Refinery\Transformation;
 
 class RadioInputTest extends ILIAS_UI_TestBase {
 

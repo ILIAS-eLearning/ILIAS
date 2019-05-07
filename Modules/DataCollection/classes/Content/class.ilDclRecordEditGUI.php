@@ -425,8 +425,7 @@ class ilDclRecordEditGUI {
 
 		// if save confirmation is enabled: Temporary file-uploads need to be handled
 		if ($this->table->getSaveConfirmation() && isset($_POST['save_confirmed']) && isset($_POST['ilfilehash']) && !isset($this->record_id) && !$this->ctrl->isAsynch()) {
-			$restore_files = ilDclPropertyFormGUI::getTempFileByHash($_POST['ilfilehash'], $ilUser->getId());
-			$_FILES = $restore_files;
+			ilDclPropertyFormGUI::rebuildTempFileByHash($_POST['ilfilehash']);
 
 			//handle empty fileuploads, since $_FILES has to have an entry for each fileuploadGUI
 			if (json_decode($_POST['empty_fileuploads']) && $_POST['empty_fileuploads'] != '') {
@@ -465,9 +464,7 @@ class ilDclRecordEditGUI {
 		}
 
 		if (!$valid) {
-			$this->cleanupTempFiles();
 			$this->sendFailure($this->lng->txt('form_input_not_valid'));
-
 			return;
 		}
 
@@ -735,7 +732,7 @@ class ilDclRecordEditGUI {
 	protected function cleanupTempFiles() {
 		$ilfilehash = (isset($_POST['ilfilehash'])) ? $_POST['ilfilehash'] : null;
 		if ($ilfilehash != null) {
-			$this->form->cleanupTempFiles($ilfilehash, $this->user->getId());
+			$this->form->cleanupTempFiles($ilfilehash);
 		}
 	}
 

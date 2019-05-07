@@ -25,7 +25,7 @@ class ilLink
 			$a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
 		}
 		$param_string = '';
-		if(count($a_params))
+		if(is_array($a_params) && count($a_params))
 		{
 			foreach($a_params as $name => $value)
 			{

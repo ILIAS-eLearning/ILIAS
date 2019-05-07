@@ -40,7 +40,7 @@ define("DEBUG",false);
 
 //require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class
-require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 
+require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class
 require_once "./Services/Logging/classes/class.ilLog.php";
 require_once "./Services/Authentication/classes/class.ilSession.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -58,7 +58,7 @@ include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 // set ilias pathes
 if($_SERVER['HTTPS'] == 'on')
 {
-	define ("ILIAS_HTTP_PATH",substr("https://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));	
+	define ("ILIAS_HTTP_PATH",substr("https://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));
 }
 else
 {
@@ -88,7 +88,7 @@ else
 	define ('ILIAS_ABSOLUTE_PATH',str_replace("/setup/include", "", dirname(__FILE__)));
 }
 
-// set default timezone 
+// set default timezone
 include_once './Services/Calendar/classes/class.ilTimeZone.php';
 include_once './Services/Init/classes/class.ilIniFile.php';
 $ini = new ilIniFile(ILIAS_ABSOLUTE_PATH.'/ilias.ini.php');
@@ -196,6 +196,7 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.card"],
 		$c["ui.factory.layout"],
 		$c["ui.factory.maincontrols"],
+		$c["ui.factory.tree"],
 		$c["ui.factory.menu"]
 	);
 };
@@ -284,6 +285,9 @@ $c["ui.factory.maincontrols"] = function($c) {
 $c["ui.factory.menu"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Menu\Factory();
 };
+$c["ui.factory.tree"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+};
 $c["ui.factory.progressmeter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
 };
@@ -292,8 +296,8 @@ $c["ui.factory.dropzone.file"] = function($c) {
 };
 $c["ui.factory.input.field"] = function($c) {
 	$data_factory = new ILIAS\Data\Factory();
-	$validation_factory = new ILIAS\Validation\Factory($data_factory, $c["lng"]);
-	$transformation_factory = new ILIAS\Transformation\Factory();
+	$validation_factory = new ILIAS\Refinery\Validation\Factory($data_factory, $c["lng"]);
+	$transformation_factory = new ILIAS\Refinery\Transformation\Factory();
 	return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 		$c["ui.signal_generator"],
 		$data_factory,
@@ -303,7 +307,14 @@ $c["ui.factory.input.field"] = function($c) {
 };
 $c["ui.factory.input.container"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
-		$c["ui.factory.input.container.form"]
+		$c["ui.factory.input.container.form"],
+		$c["ui.factory.input.container.filter"]
+	);
+};
+$c["ui.factory.input.container.filter"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+		$c["ui.signal_generator"],
+		$c["ui.factory.input.field"]
 	);
 };
 $c["ui.factory.input.container.form"] = function($c) {
@@ -321,21 +332,27 @@ $c["ui.renderer"] = function($c) {
 	);
 };
 $c["ui.component_renderer_loader"] = function($c) {
-	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper
-	( new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper
-		( $c["ui.resource_registry"]
-			, new ILIAS\UI\Implementation\Render\FSLoader
-			( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
-			($c["ui.factory"]
-				, $c["ui.template_factory"]
-				, $c["lng"]
-				, $c["ui.javascript_binding"]
-			),
-				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
-				($c["ui.factory"]
-					, $c["ui.template_factory"]
-					, $c["lng"]
-					, $c["ui.javascript_binding"]
+	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
+		new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
+			$c["ui.resource_registry"],
+			new ILIAS\UI\Implementation\Render\FSLoader(
+				new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
 				)
 			)
 		)

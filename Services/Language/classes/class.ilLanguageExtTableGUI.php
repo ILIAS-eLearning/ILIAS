@@ -60,6 +60,11 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
 
+        // mantis #25237
+        // @see https://php.net/manual/en/language.variables.external.php
+        $data['name'] = str_replace('.', '_POSTDOT_', $data['name']);
+        $data['name'] = str_replace(' ', '_POSTSPACE_', $data['name']);
+
         if ($this->params['langmode'])
         {
             $this->tpl->setCurrentBlock('comment');

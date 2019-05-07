@@ -412,9 +412,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case "ilmobmultisrtuploadgui":
+				$this->checkPermission("write");
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$this->setTabs("content");
+				//$this->setTabs("content");
 				$this->setContentSubTabs("srt_files");
 				include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtUploadGUI.php");
 				include_once("./Modules/MediaPool/classes/class.ilMepMultiSrt.php");
@@ -1550,6 +1551,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	 */
 	function setContentSubTabs($a_active)
 	{
+		$ilAccess = $this->access;
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
 
@@ -1559,9 +1561,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilTabs->addSubTab("mep_all_mobs", $this->lng->txt("mep_all_mobs"), $this->ctrl->getLinkTarget($this, "allMedia"));
 		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 
-		$ilTabs->addSubtab("srt_files",
-			$this->lng->txt("mep_media_subtitles"),
-			$ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", ""));
+		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilTabs->addSubtab("srt_files",
+				$this->lng->txt("mep_media_subtitles"),
+				$ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", ""));
+		}
 
 		$ilTabs->activateSubTab($a_active);
 	}
@@ -2003,29 +2008,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$item->setMaxFiles(20);
 		$form->addItem($item);
 
-		$form->addCommandButton("afterBulkUpload", $lng->txt("upload"));
+		$form->addCommandButton("performBulkUpload", $lng->txt("upload"));
 
 		$form->setTitle($lng->txt("mep_bulk_upload"));
 
 		return $form;
-	}
-
-	/**
-	 * Save bulk upload form
-	 */
-	public function afterBulkUpload()
-	{
-		// this seems never to be called...
-
-		$log = $this->mep_log;
-		$lng = $this->lng;
-		$ctrl = $this->ctrl;
-
-		$log->debug("afterBulkUpload");
-
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-		$ctrl->setParameter($this, "mep_hash", $_POST["ilfilehash"]);
-		$ctrl->redirect($this, "editTitlesAndDescriptions");
 	}
 
 	/**
@@ -2100,16 +2087,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						$media_item->setUploadHash(ilUtil::stripSlashes($_POST["ilfilehash"]));
 						$mob->update();
 						$mep_item_ids[] = $mob->getId();
-
-
-						// I either perform the json/exit code in (1) (2) like in the examples, but
-						// this makes it impossible to redirect anywhere after the upload or I
-						// do not make use of json/exit (like in the ilObjFileGUI->update() method)
-						// but this leads to multiple calls of the redirect at the end of this
-						// function and to the error in https://mantis.ilias.de/view.php?id=24616
-
-						// (1)
-//						echo json_encode(array( 'success' => $result));
 					}
 				}
 				catch (Exception $e)
@@ -2118,9 +2095,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					echo json_encode(array( 'success' => false, 'message' => $e->getMessage()));
 				}
 				$log->debug("end of 'has_uploads'");
-
-				// (2)
-//				exit();
 			}
 			$log->debug("has no upload...");
 
