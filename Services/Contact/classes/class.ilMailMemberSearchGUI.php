@@ -230,7 +230,7 @@ class ilMailMemberSearchGUI
 		include_once './Services/Contact/classes/class.ilMailMemberSearchDataProvider.php';
 		
 		$this->tpl->getStandardTemplate();
-		$tbl = new ilMailMemberSearchTableGUI($this, 'showSelectableUsers');
+		$tbl = new ilMailMemberSearchTableGUI($this);
 		$provider = new ilMailMemberSearchDataProvider($this->getObjParticipants());
 		$tbl->setData($provider->getData());
 
