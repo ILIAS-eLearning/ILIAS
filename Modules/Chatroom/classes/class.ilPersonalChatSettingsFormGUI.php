@@ -5,7 +5,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Factory;
-use \ILIAS\Transformation\Factory as TrafoFactory;
+use \ILIAS\Refinery\Transformation\Factory as TrafoFactory;
 use ILIAS\UI\Renderer;
 
 /**
@@ -71,7 +71,7 @@ class ilPersonalChatSettingsFormGUI
 		$this->uiFactory = $DIC->ui()->factory();
 		$this->uiRenderer = $DIC->ui()->renderer();
 		$this->httpRequest = $DIC->http()->request();
-		$this->transformationFactory = new \ILIAS\Transformation\Factory();
+		$this->transformationFactory = new TrafoFactory();
 
 		$this->lng->loadLanguageModule('chatroom');
 		$this->lng->loadLanguageModule('chatroom_adm');
