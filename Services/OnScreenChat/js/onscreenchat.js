@@ -492,6 +492,7 @@
 				(!messageObject.hasOwnProperty("isNeutral") || !messageObject.isNeutral) &&
 				messageObject.hasOwnProperty("uuid") && messageObject.uuid &&
 				getModule().user !== undefined &&
+				getConfig().enabledBrowserNotifications &&
 				parseInt(getModule().user.id) !== parseInt(messageObject.userId)
 			) {
 				il.OnScreenChatNotifications.send(
