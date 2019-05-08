@@ -81,6 +81,11 @@ class ilObjStudyProgrammeSettingsGUI {
 	 */
 	protected $trafo_factory;
 
+	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
 	public function __construct($a_parent_gui, $a_ref_id) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -92,6 +97,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$lng = $DIC['lng'];
 		$ilLog = $DIC['ilLog'];
 		$ilias = $DIC['ilias'];
+		$refinery = $DIC->refinery();
 
 		$this->parent_gui = $a_parent_gui;
 		$this->ref_id = $a_ref_id;
@@ -112,6 +118,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->trafo_factory = new \ILIAS\Refinery\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
 		$this->data = new \ILIAS\Data\Factory();
 		$this->validation = new \ILIAS\Refinery\Validation\Factory($this->data, $this->lng);
+		$this->refinery = $refinery;
 		
 		$this->object = null;
 
@@ -259,7 +266,7 @@ class ilObjStudyProgrammeSettingsGUI {
 						self::PROP_POINTS =>
 							$ff->numeric($txt("prg_points"))
 								->withValue((string)$prg->getPoints())
-								->withAdditionalConstraint($this->validation->greaterThan(-1)),
+								->withAdditionalConstraint($this->refinery->int()->isGreaterThan(-1)),
 						self::PROP_STATUS =>
 							$ff->select($txt("prg_status"), $status_options)
 								->withValue((string)$prg->getStatus())
