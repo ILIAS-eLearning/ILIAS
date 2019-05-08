@@ -92,7 +92,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 
 elif [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
 	then
-		printLn "Was a pull request ignoring missing results file!"
+		printLn "Was a pull request ignoring missing results file! Result code $TRAVIS_TEST_RESULT"
 		exit $TRAVIS_TEST_RESULT
 else
 	printLn "No result file found, stopping!"
