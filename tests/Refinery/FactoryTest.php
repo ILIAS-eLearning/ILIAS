@@ -49,10 +49,10 @@ class FactoryTest extends TestCase
 		$this->assertInstanceOf(\ILIAS\Refinery\Integer\Group::class, $group);
 	}
 
-	public function testCreateIntegerGroup()
+	public function testCreateStringGroup()
 	{
-		$group = $this->basicFactory->int();
+		$group = $this->basicFactory->string();
 
-		$this->assertInstanceOf(\ILIAS\Refinery\Integer\Group::class, $group);
+		$this->assertInstanceOf(\ILIAS\Refinery\String\Group::class, $group);
 	}
 }
