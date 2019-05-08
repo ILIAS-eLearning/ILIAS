@@ -59,7 +59,7 @@ class Factory {
 	 * @return  Transformation
 	 */
 	public function toDate() {
-		return new Transformations\Date($timezone);
+		return new Transformations\Date(new \ILIAS\Data\Factory());
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Factory {
 	 * @return  Transformation
 	 */
 	public function toTZDate(string $timezone) {
-		return new Transformations\TZDate($timezone);
+		return new Transformations\TZDate($timezone, new \ILIAS\Data\Factory());
 	}
 
 

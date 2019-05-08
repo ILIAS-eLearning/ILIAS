@@ -39,6 +39,15 @@ class TransformationFactoryTest extends TestCase {
 		$this->assertInstanceOf(Transformation\Transformation::class, $data);
 	}
 
+	public function testToDate() {
+		$t = $this->f->toDate();
+		$this->assertInstanceOf(Transformation\Transformation::class, $t);
+	}
+	public function testToTZDate() {
+		$t = $this->f->toTZDate('Europe/Berlin');
+		$this->assertInstanceOf(Transformation\Transformation::class, $t);
+	}
+
 	public function testToDataWrongType() {
 		try	{
 			$data = $this->f->toData('no_such_type');
