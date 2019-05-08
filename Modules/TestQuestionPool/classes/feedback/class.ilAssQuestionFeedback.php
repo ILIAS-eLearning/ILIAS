@@ -624,6 +624,47 @@ abstract class ilAssQuestionFeedback
 	}
 	
 	/**
+	 * @param int $feedbackId
+	 * @return bool
+	 */
+	protected function isGenericFeedbackId($feedbackId)
+	{
+		$row = $this->db->fetchAssoc($this->db->queryF(
+			"SELECT COUNT(feedback_id) cnt FROM {$this->getGenericFeedbackTableName()}
+					WHERE question_fi = %s AND feedback_id = %s",
+			array('integer','integer'), array($this->questionOBJ->getId(), $feedbackId)
+		));
+		
+		
+		return $row['cnt'];
+	}
+	
+	/**
+	 * @param int $feedbackId
+	 * @return bool
+	 */
+	abstract protected function isSpecificAnswerFeedbackId($feedbackId);
+	
+	/**
+	 * @param int $feedbackId
+	 * @return bool
+	 */
+	final public function checkFeedbackParent($feedbackId)
+	{
+		if( $this->isGenericFeedbackId($feedbackId) )
+		{
+			return true;
+		}
+		
+		if( $this->isSpecificAnswerFeedbackId($feedbackId) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * syncs the SPECIFIC feedback from a duplicated question back to the original question
 	 * 
 	 * @abstract

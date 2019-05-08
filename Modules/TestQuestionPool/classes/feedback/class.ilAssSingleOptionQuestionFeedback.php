@@ -169,4 +169,13 @@ abstract class ilAssSingleOptionQuestionFeedback extends ilAssQuestionFeedback
 	public function importSpecificAnswerFeedback($questionId, $questionIndex, $answerIndex, $feedbackContent)
 	{
 	}
+	
+	/**
+	 * @param int $feedbackId
+	 * @return bool
+	 */
+	protected function isSpecificAnswerFeedbackId($feedbackId)
+	{
+		return false;
+	}
 }
