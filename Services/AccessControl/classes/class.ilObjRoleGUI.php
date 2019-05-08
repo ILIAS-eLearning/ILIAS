@@ -1891,7 +1891,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		try {
 			$possible_roles = $review->getRolesOfObject(
 				$this->obj_ref_id,
-				true
+				false
 			);
 		}
 		catch(\InvalidArgumentException $e) {
