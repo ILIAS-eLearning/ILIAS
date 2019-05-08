@@ -19,7 +19,7 @@ libs/composer/vendor/phpunit/phpunit/phpunit --bootstrap ./libs/composer/vendor/
 
 printLn "Travis: event type ($TRAVIS_EVENT_TYPE), job number ($TRAVIS_JOB_NUMBER), pull request ($TRAVIS_PULL_REQUEST), commit ($TRAVIS_COMMIT) "
 
-if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
+if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 	then
 		printLn "Collecting data."
 		RESULT=`tail -n1 < "$PHPUNIT_RESULTS_PATH"`
@@ -53,48 +53,46 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 				FAILURE=true
 		fi
 
-		printLn "Cloning results repository, copy results file."
-		if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
-			printLn "Starting to remove old temp directory"
-			rm -rf "$TRAVIS_RESULTS_DIRECTORY"
-		fi
+		if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
+		then
+			printLn "Cloning results repository, copy results file."
+			if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
+				printLn "Starting to remove old temp directory"
+				rm -rf "$TRAVIS_RESULTS_DIRECTORY"
+			fi
 
-		cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
-		cp "$TRAVIS_RESULTS_DIRECTORY/data/phpunit_latest.csv" "$PHPUNIT_PATH"
+			cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
+			cp "$TRAVIS_RESULTS_DIRECTORY/data/phpunit_latest.csv" "$PHPUNIT_PATH"
 
-		printLn "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"
-		grep -v "$ILIAS_VERSION.*php_$PHP_VERSION" $PHPUNIT_PATH > $PHPUNIT_PATH_TMP 
+			printLn "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"
+			grep -v "$ILIAS_VERSION.*php_$PHP_VERSION" $PHPUNIT_PATH > $PHPUNIT_PATH_TMP 
 
-		NEW_LINE="$JOB_URL,$JOB_ID,$ILIAS_VERSION,php_$PHP_VERSION,PHP $PHP_VERSION,${RESULTS[Warnings]},${RESULTS[Skipped]},${RESULTS[Incomplete]},${RESULTS[Tests]},${RESULTS[Errors]},${RESULTS[Risky]},$FAILURE,$DATE";
-		printLn "Writing line: $NEW_LINE"
-		echo "$NEW_LINE" >> "$PHPUNIT_PATH_TMP";
+			NEW_LINE="$JOB_URL,$JOB_ID,$ILIAS_VERSION,php_$PHP_VERSION,PHP $PHP_VERSION,${RESULTS[Warnings]},${RESULTS[Skipped]},${RESULTS[Incomplete]},${RESULTS[Tests]},${RESULTS[Errors]},${RESULTS[Risky]},$FAILURE,$DATE";
+			printLn "Writing line: $NEW_LINE"
+			echo "$NEW_LINE" >> "$PHPUNIT_PATH_TMP";
 
-		printLn "Handling result."
+			printLn "Handling result."
 
-		if [ -e "$PHPUNIT_PATH_TMP" ]
-			then
-				mv "$PHPUNIT_PATH_TMP" "$PHPUNIT_PATH"
-				rm "$PHPUNIT_RESULTS_PATH"
-		fi
+			if [ -e "$PHPUNIT_PATH_TMP" ]
+				then
+					mv "$PHPUNIT_PATH_TMP" "$PHPUNIT_PATH"
+					rm "$PHPUNIT_RESULTS_PATH"
+			fi
 
-		#printLn "Switching directory and run results handling."
-		#cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
-		#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
+			#printLn "Switching directory and run results handling."
+			#cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
+			#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 
-		if [ "$FAILURE" == "true" ]
-			then
-				printLn "Errors were found, exiting with error code."
-				exit 99
-		else
+	fi		
+	if [ "$FAILURE" == "true" ]
+		then
+			printLn "Errors were found, exiting with error code."
+			exit 99
+	else
 			printLn "No errors were found."
 			exit 0
-		fi
-
-elif [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
-	then
-		printLn "Was a pull request ignoring missing results file! Result code $TRAVIS_TEST_RESULT"
-		exit $TRAVIS_TEST_RESULT
+	fi
 else
 	printLn "No result file found, stopping!"
 	exit 99
-fi
+fi		
