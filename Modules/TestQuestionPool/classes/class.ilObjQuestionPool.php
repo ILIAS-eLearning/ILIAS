@@ -862,6 +862,18 @@ class ilObjQuestionPool extends ilObject
 		return $questions;
 	}
 	
+	public function checkQuestionParent($questionId)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$row = $DIC->database()->fetchAssoc($DIC->database()->queryF(
+			"SELECT COUNT(question_id) cnt FROM qpl_questions WHERE question_id = %s AND obj_fi = %s",
+			array('integer', 'integer'), array($questionId, $this->getId())
+		));
+		
+		return (bool)$row['cnt'];
+	}
+	
 	/**
 	* get array of (two) new created questions for
 	* import id
