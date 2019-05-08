@@ -111,12 +111,12 @@ sess#:#sess_notification_option_inherit#:#Von übergeordneten Objekt erben
 sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
 sess#:#sess_notification_option_manual#:#Manuell setzen
 sess#:#sess_notification_option_manual_info#:#Benachrichtigung müssen manuell gesetzt werden.
-common#:#session_mail_subject_registered#:#Benutzer/in "%s" wurde für die Sitzung "%s" registriert
-common#:#session_mail_subject_deletion#:#Benutzer/in "%s" wurde aus der Sitzung "%s" gelöscht
-common#:#session_mail_subject_entered#:#Benutzer/in "%s" ist der "%s" beigetreten
-common#:#register_notification#:#Benutzer/in "%s" wurde für die Sitzung "%s" registriert. Der/Die Benutzer/in ist aktuell noch kein Mitglied der Sitzung und muss erst von einem/einer Nutzerin hinzugefügt werden.
-common#:#deletion_notification#:#Benutzer/in "%s" wurde aus der Sitzung "%s" gelöscht.
-common#:#entered_notification#:#Benutzer/in "%s" ist der Sitzung "%s" beigetreten und kann nun an der Sitzung teilnehmen.
+common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in "%s" für die Sitzung "%s"
+common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in "%s" von der Sitzung "%s"
+common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in "%s" zur Sitzung "%s"
+common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" beantragt.
+common#:#deletion_notification#:#"%s" hat sich von der Sitzung "%s" abgemeldet.
+common#:#entered_notification#:#"%s" ist der Sitzung "%s" beigetreten.
 news#:#news_show_more#:#Zeige mehr
 news#:#news_show_less#:#Zeige weniger
 common#:#obj_ltis#:#LTI
