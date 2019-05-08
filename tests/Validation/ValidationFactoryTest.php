@@ -18,9 +18,20 @@ class ValidationFactoryTest extends TestCase {
 	 */
 	protected $f = null;
 
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var Data\Factory
+	 */
+	private $data_factory;
+
 	protected function setUp(): void{
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory(new Data\Factory(), $this->lng);
+		$this->data_factory = new Data\Factory();
+		$this->f = new Validation\Factory($this->data_factory, $this->lng);
 	}
 
 	protected function tearDown(): void {
@@ -44,9 +55,9 @@ class ValidationFactoryTest extends TestCase {
 
 	public function testSequential() {
 		$constraints = array(
-				$this->f->hasMinLength(5),
-				$this->f->hasMaxLength(15)
-			);
+			new \ILIAS\Refinery\String\Constraints\HasMinLength(5, $this->data_factory, $this->lng),
+			new \ILIAS\Refinery\String\Constraints\HasMaxLength(15, $this->data_factory, $this->lng)
+		);
 
 		$sequential = $this->f->sequential($constraints);
 		$this->assertInstanceOf(Validation\Constraint::class, $sequential);
@@ -54,9 +65,9 @@ class ValidationFactoryTest extends TestCase {
 
 	public function testParallel() {
 		$constraints = array(
-				$this->f->hasMinLength(5),
-				$this->f->hasMaxLength(15)
-			);
+			new \ILIAS\Refinery\String\Constraints\HasMinLength(5, $this->data_factory, $this->lng),
+			new \ILIAS\Refinery\String\Constraints\HasMaxLength(15, $this->data_factory, $this->lng)
+		);
 
 		$parallel = $this->f->parallel($constraints);
 		$this->assertInstanceOf(Validation\Constraint::class, $parallel);
