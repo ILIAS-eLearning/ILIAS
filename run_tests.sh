@@ -92,7 +92,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" && "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 
 elif [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
 	then
-		LAST_EXIT=`$?`
+		LAST_EXIT=`echo $?`
 		printLn "Was a pull request ignoring missing results file! Last exit code was $LAST_EXIT."
 		exit $LAST_EXIT
 else
