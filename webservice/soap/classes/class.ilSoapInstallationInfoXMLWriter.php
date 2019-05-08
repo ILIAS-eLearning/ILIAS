@@ -61,7 +61,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	{
 		// we have to build the http path here since this request is client independent!
 		$httpPath = ilSoapFunctions::buildHTTPPath();	
-		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD Group//EN\" \"".$httpPath ."/xml/ilias_client_3_10.dtd\">");  
+		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD InstallationInfo//EN\" \"".$httpPath ."/xml/ilias_installation_info_5_3.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS clients.");
 		$this->xmlHeader();
 		$this->xmlStartTag("Installation",
