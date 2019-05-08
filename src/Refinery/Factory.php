@@ -23,7 +23,7 @@ class Factory
 	/**
 	 * @var \ilLanguage
 	 */
-	private $lanugage;
+	private $language;
 
 	/**
 	 * @param \ILIAS\Data\Factory $dataFactory
@@ -32,7 +32,7 @@ class Factory
 	public function __construct(\ILIAS\Data\Factory $dataFactory, \ilLanguage $language)
 	{
 		$this->dataFactory = $dataFactory;
-		$this->lanugage = $language;
+		$this->language = $language;
 	}
 
 	/**
@@ -66,6 +66,6 @@ class Factory
 	 */
 	public function int(): Integer\Group
 	{
-		return new Integer\Group($this->dataFactory, $this->lanugage);
+		return new Integer\Group($this->dataFactory, $this->language);
 	}
 }
