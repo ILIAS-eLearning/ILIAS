@@ -81,6 +81,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
+		$this->ensureRoleAccessForContext();
+
 		switch($next_class)
 		{
 			case 'ilrepositorysearchgui':
@@ -1780,5 +1782,45 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	}
 
+	/*
+	 * Ensure access to role for ref_id
+	 * @throws ilObjectException
+	 */
+	protected function ensureRoleAccessForContext()
+	{
+		global $DIC;
+
+		$review = $DIC->rbac()->review();
+		$logger = $DIC->logger()->ac();
+
+		// creation of roles
+		if(!$this->object->getId())
+		{
+			return true;
+		}
+
+
+		$possible_roles = [];
+		try {
+			$possible_roles = $review->getRolesOfObject(
+				$this->obj_ref_id,
+				true
+			);
+		}
+		catch(\InvalidArgumentException $e) {
+			$logger->warning('Role access check failed: ' . $e);
+
+			include_once "Services/Object/exceptions/class.ilObjectException.php";
+			throw new \ilObjectException($this->lng->txt('permission_denied'));
+		}
+
+		if(!in_array($this->object->getId(), $possible_roles))
+		{
+			$logger->warning('Object id: ' . $this->object->getId() .' is not accessible for ref_id: ' . $this->obj_ref_id);
+			include_once "Services/Object/exceptions/class.ilObjectException.php";
+			throw new \ilObjectException($this->lng->txt('permission_denied'));
+		}
+		return true;
+	}
 } // END class.ilObjRoleGUI
 ?>
