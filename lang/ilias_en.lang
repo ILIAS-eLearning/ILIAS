@@ -14,6 +14,16 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+chatroom#:#osc_noti_title#:#New Chat Message
+chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
+chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground. 
+chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
+chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
+chatroom#:#osc_browser_noti_req_permission_error#:#The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system.
+chatroom_adm#:#osc_adm_browser_noti_label#:#Browser Notifications
+chatroom_adm#:#osc_adm_browser_noti_info#:#If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground.
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Time between Browser Notifications
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages..
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
@@ -9071,7 +9081,7 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
 chatroom_adm#:#enable_osd#:#Repository Chat: Enable On-Screen Notifications
 chatroom_adm#:#general_settings_title#:#General Chat Settings
-chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
+chatroom_adm#:#osd_intervall#:#Refreshinterval
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
