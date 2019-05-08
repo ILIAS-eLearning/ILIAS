@@ -281,7 +281,7 @@ $c["ui.factory.maincontrols"] = function($c) {
 		$c['ui.signal_generator'],
 		$c['ui.factory.maincontrols.slate']
 	);
-}
+};
 $c["ui.factory.menu"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Menu\Factory();
 };
