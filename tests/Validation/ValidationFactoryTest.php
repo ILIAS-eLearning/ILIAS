@@ -28,6 +28,7 @@ class ValidationFactoryTest extends TestCase {
 	}
 
 	public function testIsInt() {
+		adas<sdadasda
 		$is_numeric = $this->f->isNumeric();
 		$this->assertInstanceOf(Validation\Constraint::class, $is_numeric);
 	}
