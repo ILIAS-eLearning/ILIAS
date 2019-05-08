@@ -3,19 +3,43 @@
 /* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
+use ILIAS\Refinery\String\Constraints\HasMinLength;
 use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
 class HasMinLengthConstraintTest extends TestCase {
+	/**
+	 * @var Data\Factory
+	 */
+	private $df;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var integer
+	 */
+	private $min_length;
+
+	/**
+	 * @var Validation\Constraint
+	 */
+	private $c;
+
 	public function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
 
 		$this->min_length = 10;
 
-		$this->c = $this->f->hasMinLength($this->min_length);
+		$this->c = new HasMinLength(
+			$this->min_length,
+			$this->df,
+			$this->lng
+		);
 	}
 
 	public function testAccepts1() {
