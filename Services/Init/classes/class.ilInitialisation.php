@@ -1658,7 +1658,9 @@ class ilInitialisation
 	{
 		$container['refinery'] = function ($container) {
 			$dataFactory = new \ILIAS\Data\Factory();
-			return new \ILIAS\Refinery\Factory($dataFactory);
+			$language = $container['lng'];
+
+			return new \ILIAS\Refinery\Factory($dataFactory, $language);
 		};
 	}
 

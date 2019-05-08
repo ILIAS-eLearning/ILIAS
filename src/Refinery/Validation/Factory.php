@@ -4,6 +4,7 @@
 
 namespace ILIAS\Refinery\Validation;
 use ILIAS\Data;
+
 /**
  * Factory for creating constraints.
  */
@@ -108,26 +109,6 @@ class Factory {
 	 */
 	public function isArrayOf(Constraint $on_element) {
 		return new Constraints\IsArrayOf($this->data_factory, $on_element, $this->lng);
-	}
-
-	/**
-	 * Get the constraint that some value is larger than $min.
-	 *
-	 * @param   int   $min
-	 * @return  Constraint
-	 */
-	public function greaterThan($min) {
-		return new Constraints\GreaterThan($min, $this->data_factory, $this->lng);
-	}
-
-	/**
-	 * Get the constraint that some value is smaller then $max.
-	 *
-	 * @param   int   $max
-	 * @return  Constraint
-	 */
-	public function lessThan($max) {
-		return new Constraints\LessThan($max, $this->data_factory, $this->lng);
 	}
 
 	/**

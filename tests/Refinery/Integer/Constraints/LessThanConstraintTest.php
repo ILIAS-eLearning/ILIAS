@@ -1,5 +1,7 @@
 <?php
 
+namespace ILIAS\Tests\Refinery\Integer\Constraints;
+
 /* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
@@ -8,14 +10,40 @@ use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
 class LessThanConstraintTest extends TestCase {
+
+	/**
+	 * @var \ILIAS\Refinery\Integer\Constraints\LessThan
+	 */
+	private $c;
+
+	/**
+	 * @var
+	 */
+	private $lng;
+
+	/**
+	 * @var Data\Factory
+	 */
+	private $df;
+
+	/**
+	 * @var integer
+	 */
+	private $less_than;
+
 	public function setUp(): void{
 		$this->df = new Data\Factory();
-		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
+		$this->lng = $this->getMockBuilder(\ilLanguage::class)
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->less_than = 10;
 
-		$this->c = $this->f->lessThan($this->less_than);
+		$this->c = new \ILIAS\Refinery\Integer\Constraints\LessThan(
+			$this->less_than,
+			$this->df,
+			$this->lng
+		);
 	}
 
 	public function testAccepts() {
