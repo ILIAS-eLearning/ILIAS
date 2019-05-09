@@ -104,6 +104,7 @@ cont#:#cont_filter_fields#:#Filterfelder
 cont#:#cont_show_more#:#Mehr anzeigen
 cont#:#cont_block_limit#:#Einträge per Block begrenzen
 cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
+sess#:#notification#:#Benachrichtigung
 sess#:#sess_registration_notification#:#Benachrichtigung
 sess#:#sess_registration_notification_info#:#Benutzer werden über neue Ereignise benachrichtigt.
 sess#:#sess_notification_option#:#Option

@@ -287,11 +287,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
 				$notificationShown = true;
 
-				$notificationEnabled = false;
-				if (ilSessionConstants::NOTIFICATION_MANUAL_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
-					$notificationEnabled = true;
+				$notificationCheckboxEnabled = true;
+				if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
+					$notificationCheckboxEnabled = false;
 				}
-				$tmp_data['notification_globally_enabled'] = $notificationEnabled;
+				$tmp_data['notification_globally_enabled'] = true;
+				$tmp_data['notification_checkbox_enabled'] = $notificationCheckboxEnabled;
 				$tmp_data['notification_checked'] = $usr_data['notification_enabled'];
 			}
 			$tmp_data['show_notification'] = $notificationShown;
@@ -411,7 +412,10 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('notification_column');
 			$this->tpl->setVariable('VAL_ID', $a_set['id']);
 			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['notification_checked'] ? 'checked="checked"' : '');
-			$this->tpl->setVariable('NOTIFICATION_ENABLED',$a_set['notification_globally_enabled'] ? '' : 'disabled');
+
+			$enableCheckbox = $a_set['notification_globally_enabled'] && $a_set['notification_checkbox_enabled'];
+
+			$this->tpl->setVariable('NOTIFICATION_ENABLED', $enableCheckbox ? '' : 'disabled');
 			$this->tpl->parseCurrentBlock();
 		}
 
