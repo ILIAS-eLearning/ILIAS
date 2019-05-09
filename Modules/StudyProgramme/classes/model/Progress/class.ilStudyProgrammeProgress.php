@@ -147,9 +147,16 @@ class ilStudyProgrammeProgress
 	/**
 	 * Date until user has to finish
 	 *
-	 * @var \DateTime
+	 * @var \DateTime | null
 	 */
 	protected $deadline;
+
+	/**
+	 * Date until which this qualification is valid.
+	 *
+	 * @var \DateTime |null
+	 */
+	protected $vq_date;
 
 
 	public function __construct(int $id)
@@ -438,6 +445,23 @@ class ilStudyProgrammeProgress
 	{
 		$this->deadline = $deadline;
 		return $this;
+	}
+
+	/**
+	 * Set limited validity of qualification date.
+	 */
+	public function setValidityOfQualification(DateTime $date = null) : ilStudyProgrammeProgress
+	{
+		$this->vq_date = $date;
+		return $this;
+	}
+
+	/**
+	 * Get the limited validity of qualification date.
+	 */
+	public function getValidityOfQualification()
+	{
+		return $this->vq_date;
 	}
 }
 

@@ -3352,6 +3352,21 @@ $ilDB->manipulateF($query, array('text'), array('lti'));
 
 <#5611>
 <?php
+if(!$ilDB->tableColumnExists('il_blog_posting','last_withdrawn'))
+{
+	$ilDB->addTableColumn(
+		'il_blog_posting',
+		'last_withdrawn',
+		array(
+			'type' 		=> 'timestamp',
+			'notnull'	=> false,
+			'default'	=> null
+		)
+	);
+?>
+
+<#5612>
+<?php
 global $DIC;
 $db = $DIC['ilDB'];
 if(!$db->tableColumnExists('prg_settings','deadline_period')) {
@@ -3378,7 +3393,7 @@ if(!$db->tableColumnExists('prg_settings','deadline_date')) {
 }
 ?>
 
-<#5612>
+<#5613>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3394,7 +3409,7 @@ if(!$db->tableColumnExists('prg_usr_progress','assignment_date')) {
 }
 ?>
 
-<#5613>
+<#5614>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3408,7 +3423,7 @@ if($db->tableColumnExists('prg_usr_progress','assignment_date') && $db->tableCol
 }
 ?>
 
-<#5614>
+<#5615>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3423,19 +3438,93 @@ if(!$db->tableColumnExists('prg_usr_progress','completion_date')) {
 		);
 }
 ?>
-<#5611>
+
+<#5616>
 <?php
-if(!$ilDB->tableColumnExists('il_blog_posting','last_withdrawn'))
-{
-	$ilDB->addTableColumn(
-		'il_blog_posting',
-		'last_withdrawn',
-		array(
-			'type' 		=> 'timestamp',
-			'notnull'	=> false,
-			'default'	=> null
-		)
-	);
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','vq_period')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'vq_period',
+			[
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => -1
+			]
+		);
+}
+if(!$db->tableColumnExists('prg_settings','vq_date')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'vq_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+if(!$db->tableColumnExists('prg_settings','vq_restart_period')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'vq_restart_period',
+			[
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => -1
+			]
+		);
+}
+?>
+
+<#5617>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','vq_date')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'vq_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5618>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_assignments','restart_date')) {
+	$db->addTableColumn(
+			'prg_usr_assignments',
+			'restart_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5619>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
+	$db->addTableColumn(
+			'prg_usr_assignments',
+			'restarted_assignment_id',
+			[
+				'type' => 'integer',
+				'notnull' => true,
+				'default' => -1
+			]
+		);
 }
 ?>
 <#5612>

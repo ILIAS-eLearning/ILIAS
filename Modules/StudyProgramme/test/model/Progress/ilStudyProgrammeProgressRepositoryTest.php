@@ -48,6 +48,7 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($prgs->getCompletionBy());
 		$this->assertNull($prgs->getDeadline());
 		$this->assertNull($prgs->getCompletionDate());
+		$this->assertNull($prgs->getValidityOfQualification());
 
 		$prg = new ilStudyProgrammeSettings(1);
 		$prg->setPoints(123);
@@ -101,7 +102,8 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 			->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
 			->setCompletionBy(6)
 			->setDeadline(DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT,'2018-01-01'))
-			->setCompletionDate(DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT,'2017-01-01'));
+			->setCompletionDate(DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT,'2017-01-01'))
+			->setValidityOfQualification(DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT,'2020-01-01'));
 		$repo->update($prgs);
 		
 		$repo = new ilStudyProgrammeProgressDBRepository($this->db);
@@ -115,6 +117,7 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($prgs->getCompletionBy(),6);
 		$this->assertEquals($prgs->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2018-01-01');
 		$this->assertEquals($prgs->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2017-01-01');
+		$this->assertEquals($prgs->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2020-01-01');
 	}
 
 	/**
@@ -134,6 +137,7 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($prgs->getCompletionBy(),6);
 		$this->assertEquals($prgs->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2018-01-01');
 		$this->assertEquals($prgs->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2017-01-01');
+		$this->assertEquals($prgs->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_FORMAT),'2020-01-01');
 	}
 
 	/**
@@ -176,6 +180,92 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 			$this->assertFalse('unexpected assignment id');
 		}
 		$this->assertEquals([20,21,22],$assignments);
+	}
+
+
+	/**
+	 * @depends test_save_and_load
+	 */
+	public function test_query_past_succsessful_1()
+	{
+		$repo = new ilStudyProgrammeProgressDBRepository($this->db);
+		$prgss = $repo->readByPrgId(1);
+
+		$yesterday = new DateTime();
+		$yesterday->sub(new DateInterval('P1D'));
+
+		$prgrs1 = array_shift($prgss);
+		$prgrs1->setValidityOfQualification($yesterday);
+		$prgrs1->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED);
+		$repo->update($prgrs1);
+
+		$prgrs2 = array_shift($prgss);
+		$prgrs2->setValidityOfQualification($yesterday);
+		$prgrs2->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
+		$repo->update($prgrs2);
+
+		$prgrs3 = array_shift($prgss);
+		$prgrs3->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED);
+		$repo->update($prgrs1);
+
+		$prgrss = $repo->readExpiredSuccessfull();
+
+		$this->assertEquals(
+			[$prgrs1->getId(),$prgrs2->getId()],
+			array_map(function($prgrs) {return $prgrs->getId();},$prgrss)
+		);
+
+		$u_prgrss = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB']->getExpiredSuccessfulInstances();
+		$this->assertEquals(
+			[$prgrs1->getId(),$prgrs2->getId()],
+			array_map(function($prgrs) {return $prgrs->getId();},$u_prgrss)
+		);
+	}
+
+	/**
+	 * @depends test_save_and_load
+	 */
+	public function test_query_past_succsessful_2()
+	{
+		$repo = new ilStudyProgrammeProgressDBRepository($this->db);
+		$prgss = $repo->readByPrgId(1);
+
+		$yesterday = new DateTime();
+		$yesterday->sub(new DateInterval('P1D'));
+		$tomorrow = new DateTime();
+		$tomorrow->add(new DateInterval('P1D'));
+
+		$prgrs1 = array_shift($prgss);
+		$prgrs1->setValidityOfQualification($yesterday);
+		$prgrs1->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED);
+		$repo->update($prgrs1);
+
+		$prgrs2 = array_shift($prgss);
+		$prgrs2->setValidityOfQualification($tomorrow);
+		$prgrs2->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
+		$repo->update($prgrs2);
+
+		$prgrs3 = array_shift($prgss);
+		$prgrs2->setValidityOfQualification($yesterday);
+		$prgrs3->setStatus(ilStudyProgrammeProgress::STATUS_FAILED);
+		$repo->update($prgrs1);
+
+	
+		$prgrss = [];
+		foreach ($repo->readExpiredSuccessfull() as $key => $prgrs) {
+			$prgrss[] = $prgrs;
+		}
+
+		$this->assertEquals(
+			[$prgrs1->getId()],
+			array_map(function($prgrs) {return $prgrs->getId();},$prgrss)
+		);
+
+		$u_prgrss = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB']->getExpiredSuccessfulInstances();
+		$this->assertEquals(
+			[$prgrs1->getId()],
+			array_map(function($prgrs) {return $prgrs->getId();},$u_prgrss)
+		);
 	}
 
 	public static function tearDownAfterClass()

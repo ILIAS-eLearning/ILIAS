@@ -61,6 +61,12 @@ interface ilStudyProgrammeProgressRepository
 	public function readByAssignmentId(int $assignment_id) : array;
 
 	/**
+	 * Load all progress objects which are successfull and whose
+	 * validity is expired.
+	 */
+	public function readExpiredSuccessfull() : array;
+
+	/**
 	 * Update record corresponding to progress.
 	 * Will throw if the record does not exist yet.
 	 */
