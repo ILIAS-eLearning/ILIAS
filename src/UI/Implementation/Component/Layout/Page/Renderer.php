@@ -83,7 +83,7 @@ class Renderer extends AbstractComponentRenderer {
 				$js_files[] = $js->getContent();
 			}
 			foreach ($view->metaContent()->getCss()->getItemsInOrderOfDelivery() as $css) {
-				$css_files[] = $css->getContent();
+				$css_files[] = ['file' => $css->getContent(), 'media' => $css->getMedia()];
 			}
 			foreach ($view->metaContent()->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
 				$css_inline[] = $inline_css->getContent();
@@ -102,13 +102,13 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		foreach ($css_files as $css_file) {
 			$tpl->setCurrentBlock("css_file");
-			$tpl->setVariable("CSS_FILE", $css_file);
+			$tpl->setVariable("CSS_FILE", $css_file['file']);
+			$tpl->setVariable("CSS_MEDIA", $css_file['media']);
 			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
 		$tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
-
 
 		$tpl->setVariable("BASE", $base_url);
 

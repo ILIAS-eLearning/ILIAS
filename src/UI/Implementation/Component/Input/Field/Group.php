@@ -12,8 +12,8 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 
 /**
  * This implements the group input.

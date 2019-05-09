@@ -55,6 +55,7 @@ class NoUIFactory implements Factory {
 	public function layout(): C\Layout\Factory {}
 	public function mainControls(): C\MainControls\Factory {}
 	public function tree() {}
+	public function menu(): C\Menu\Factory {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

@@ -562,7 +562,7 @@ abstract class assQuestionGUI
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
 	
-	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplate $tpl)
+	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl)
 	{
 		foreach($this->getPresentationJavascripts() as $jsFile)
 		{

@@ -1762,11 +1762,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply' || $_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft')
 		{
-			$oPostGUI->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
+			$oPostGUI->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '3.5.11');
 		}
 		else
 		{
-			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
+			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.js', false, '3.5.11');
 		}
 		// purifier
 		$oPostGUI->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
@@ -4324,7 +4324,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		}
 
 		$draftId = (int)($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
-		if ($draftId <= 0) {
+		if ($draftId <= 0 || !$this->checkDraftAccess($draftId)) {
 			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 		}
 
@@ -4556,6 +4556,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 				($_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft'))
 			{
 				if(!$this->access->checkAccess('add_reply', '', (int)$_GET['ref_id']))
+				{
+					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+				}
+				if(!$this->checkDraftAccess((int)$_GET['draft_id']))
 				{
 					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 				}
@@ -5028,6 +5032,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	 */
 	private function doHistoryCheck($draftId)
 	{
+		if(!$this->checkDraftAccess($draftId))
+		{
+			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+		}
+		
 		if (!\ilForumPostDraft::isAutoSavePostDraftAllowed()) {
 			return;
 		}

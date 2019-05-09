@@ -3029,7 +3029,7 @@ class ilObjectListGUI
 	 * 
 	 * @return string
 	 */
-	function getHeaderAction(ilGlobalTemplate $a_main_tpl = null)
+	function getHeaderAction(ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 

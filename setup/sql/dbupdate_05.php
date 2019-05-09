@@ -832,3 +832,39 @@ if (!$ilDB->tableColumnExists('exc_assignment_peer', 'is_valid'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5492>
+<?php
+if(!$ilDB->tableColumnExists('exc_returned', 'web_dir_access_time'))
+{
+	$ilDB->addTableColumn('exc_returned', 'web_dir_access_time', array(
+		'type' => 'timestamp',
+		'notnull' => false,
+		'default' => null
+	));
+}
+$ilCtrlStructureReader->getStructure();
+?>
+<#5493>
+<?php
+$settings = new \ilSetting('chatroom');
+$settings->set('conversation_idle_state_in_minutes', 1);
+
+$res = $ilDB->query("SELECT * FROM chatroom_admconfig");
+while ($row = $ilDB->fetchAssoc($res)) {
+	$settings = json_decode($row['client_settings'], true);
+
+	if (!is_numeric($settings['conversation_idle_state_in_minutes'])) {
+		$settings['conversation_idle_state_in_minutes'] = 1;
+	}
+
+	$ilDB->update('chatroom_admconfig', [
+		'client_settings' => ['text', json_encode($settings)]
+	], [
+		'instance_id' => ['integer', $row['instance_id']]
+	]);
+}
+?>
+<#5494>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

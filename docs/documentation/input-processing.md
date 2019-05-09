@@ -546,7 +546,7 @@ data unexpressable.
 
 ### Transformation
 
-The [Transformation-library](../../src/Transformation) declares properties of
+The [Transformation-library](../../src/Refinery/Transformation) declares properties of
 `Transformation`s which are understood as structural conversions between different
 shapes and types of data that do not perform side effects. It further aims at
 providing common `Transformations` to be reused throughout the system. The library
@@ -559,7 +559,7 @@ part of a good API we certainly will need to add more transformations that can b
 reused by consumers and showcase the benefits of a declarative approach to input
 security.
 
-Like the [Data-library](../../src/Data), the [Transformation-library](../../src/Transformation)
+Like the [Data-library](../../src/Data), the [Transformation-library](../../src/Refinery/Transformation)
 deals with structural constraints on the data and not policies. It will need to
 be backed by semantically rich data types that protect their integrity properly to
 become effective in securing input processing. If the transformations only work on
@@ -574,7 +574,7 @@ that use their own data structures.
 
 The [Validation-library](../../src/Validation) provides an abstraction for
 `Constraints` on data, where a `Constraint` is a check in conjunction with a
-builder for a human readable error-message. Like the [Transformation-library](../../src/Transformation)
+builder for a human readable error-message. Like the [Transformation-library](../../src/Refinery/Transformation)
 the [Validation-library](../../src/Validation) also attempts to provide a set of
 standard constraints and facilities to compose complex constraints from simpler
 ones.
@@ -901,7 +901,7 @@ given by the user. The API allows to handle a defined chunk of a form with its
 visuals, constraints and transformations and reuse it in various locations.
 
 This example also shows potential for improvements in the libraries that are
-used. The [Transformation-library](../../src/Transformation) currently doesn't
+used. The [Transformation-library](../../src/Refinery/Transformation) currently doesn't
 offer a premade solution to the common task of creating new objects and the
 user needs to fall back to a `custom`-transformation. Although not very visible
 in the example, the check on the "no empty title"-policy is duplicated, once
@@ -1186,7 +1186,7 @@ and passes the data on if it was successfull. This also shows in the observation
 that we indeed need to be able to incorporate checks into constructors of
 datastructure that can be processed in a way meaningful to humans.
 
-We thus propose to add a new method to the `ILIAS\Transformations\Transformation`
+We thus propose to add a new method to the `ILIAS\Refinery\Transformations\Transformation`
 interface:
 
 ```php
@@ -1228,7 +1228,7 @@ interface Transformation {
 }
 ```
 
-The current `ILIAS\Validation\Constraint` interface can then implement this interface
+The current `ILIAS\Refinery\Validation\Constraint` interface can then implement this interface
 by simply renaming `Constraint::restrict` to `Constraint::applyTo`. This change
 will allow simplification in the current form-implementation of the UI-Framework,
 on the consumer side as well as on the implementation side. This will also allow

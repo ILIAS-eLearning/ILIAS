@@ -3,7 +3,7 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Validation;
+use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -37,16 +37,6 @@ class ValidationFactoryTest extends TestCase {
 		$this->assertInstanceOf(Validation\Constraint::class, $is_int);
 	}
 
-	public function testGreaterThan() {
-		$gt = $this->f->greaterThan(5);
-		$this->assertInstanceOf(Validation\Constraint::class, $gt);
-	}
-
-	public function testLessThan() {
-		$lt = $this->f->lessThan(5);
-		$this->assertInstanceOf(Validation\Constraint::class, $lt);
-	}
-
 	public function testHasMinLength() {
 		$min = $this->f->hasMinLength(1);
 		$this->assertInstanceOf(Validation\Constraint::class, $min);
@@ -59,8 +49,8 @@ class ValidationFactoryTest extends TestCase {
 
 	public function testSequential() {
 		$constraints = array(
-				$this->f->greaterThan(5),
-				$this->f->lessThan(15)
+				$this->f->hasMinLength(5),
+				$this->f->hasMaxLength(15)
 			);
 
 		$sequential = $this->f->sequential($constraints);
@@ -69,8 +59,8 @@ class ValidationFactoryTest extends TestCase {
 
 	public function testParallel() {
 		$constraints = array(
-				$this->f->greaterThan(5),
-				$this->f->lessThan(15)
+				$this->f->hasMinLength(5),
+				$this->f->hasMaxLength(15)
 			);
 
 		$parallel = $this->f->parallel($constraints);
@@ -78,7 +68,7 @@ class ValidationFactoryTest extends TestCase {
 	}
 
 	public function testNot() {
-		$constraint = $this->f->greaterThan(5);
+		$constraint = $this->f->hasMinLength(5);
 		$not = $this->f->not($constraint);
 		$this->assertInstanceOf(Validation\Constraint::class, $not);
 	}

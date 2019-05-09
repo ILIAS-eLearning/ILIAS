@@ -11,10 +11,10 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Transformation\Transformation;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Constraint;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -344,7 +344,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	protected function setAdditionalConstraint(Constraint $constraint) {
 		$this->operations[] = $constraint;
 		if ($this->content !== null) {
-			$this->content = $constraint->restrict($this->content);
+			$this->content = $constraint->applyTo($this->content);
 			if ($this->content->isError()) {
 				$this->setError("" . $this->content->error());
 			}
@@ -438,7 +438,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($op instanceof Transformation) {
 				$res = $res->map($op);
 			} elseif ($op instanceof Constraint) {
-				$res = $op->restrict($res);
+				$res = $op->applyTo($res);
 			}
 		}
 
