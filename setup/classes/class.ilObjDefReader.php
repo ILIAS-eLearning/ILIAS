@@ -307,7 +307,7 @@ class ilObjDefReader extends ilSaxParser
 					break;
 				case 'gsprovider':
 					// ilGSProviderStorage::installDB();
-					ilGSProviderStorage::registerIdentifications($a_attribs['class_name'], $a_attribs['purpose']);
+					ilGSProviderStorage::register($a_attribs['class_name'], $a_attribs['purpose']);
 					break;
 			}
 		}
