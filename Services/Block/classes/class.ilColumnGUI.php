@@ -144,8 +144,8 @@ class ilColumnGUI
 			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
 			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
-			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
-			"ilPDNewsBlockGUI" => IL_COL_LEFT,
+			"ilPDSysMessageBlockGUI" => IL_COL_RIGHT,
+			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
 			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
 			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
@@ -950,6 +950,10 @@ class ilColumnGUI
 					if ($side === false)
 					{
 						$side = $def_side;
+					}
+					if ($side == IL_COL_LEFT)
+					{
+						$side = IL_COL_RIGHT;
 					}
 					
 					$this->blocks[$side][] = array(
