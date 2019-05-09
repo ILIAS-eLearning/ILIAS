@@ -44,16 +44,28 @@ class ilKSDocumentationEntryGUI
 	protected $r = null;
 
 	/**
+	 * @var ilKSDocumentationExplorerGUI
+	 */
+	protected $explorer;
+
+	/**
 	 * ilKSDocumentationEntryGUI constructor.
 	 * @param ilSystemStyleDocumentationGUI $parent
 	 * @param Entry\ComponentEntry $entry
 	 * @param Entry\ComponentEntries $entries
 	 */
-	public function __construct(ilSystemStyleDocumentationGUI $parent, Entry\ComponentEntry $entry, Entry\ComponentEntries $entries) {
+	public function __construct(
+			ilSystemStyleDocumentationGUI $parent,
+			ilKSDocumentationExplorerGUI $explorer,
+			Entry\ComponentEntries $entries
+	) {
 		global $DIC;
 
 		$this->f = $DIC->ui()->factory();
 		$this->r = $DIC->ui()->renderer();
+
+		$this->explorer = $explorer;
+		$entry = $explorer->getCurrentOpenedNode();
 
 		$this->setEntry($entry);
 		$this->setEntries($entries);
@@ -131,8 +143,11 @@ class ilKSDocumentationEntryGUI
 			}
 		}
 
-		$sub_panels[] = $this->f->panel()->sub("Relations",
-			$this->f->listing()->descriptive(
+
+		$relations_card = $this->f->card()
+			->standard('Relations')
+			->withSections([
+				$this->f->listing()->descriptive(
 					array(
 						"Parents" => $this->f->listing()->ordered(
 							$this->entries->getParentsOfEntryTitles($this->entry->getId())
@@ -141,10 +156,19 @@ class ilKSDocumentationEntryGUI
 							$this->entries->getDescendantsOfEntryTitles($this->entry->getId())
 						)
 					)
-			)
-		);
+				)
+			]);
 
-		$report = $this->f->panel()->report($this->entry->getTitle(),$sub_panels);
+
+		$sub_panels[] = $this->f->panel()->sub("Navigation",
+			$this->f->legacy($this->explorer->getHTML())
+		)
+		->withCard($relations_card);
+
+
+
+		$report = $this->f->panel()
+			->report($this->entry->getTitle(),$sub_panels);
 
 		return $this->r->render($report);
 	}
