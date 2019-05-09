@@ -29,11 +29,6 @@ class TransformationFactoryTest extends TestCase {
 		$this->assertInstanceOf(Transformation\Transformation::class, $split_string);
 	}
 
-	public function testCustom() {
-		$custom = $this->f->custom(function() {});
-		$this->assertInstanceOf(Transformation\Transformation::class, $custom);
-	}
-
 	public function testToData() {
 		$data = $this->f->toData('password');
 		$this->assertInstanceOf(Transformation\Transformation::class, $data);

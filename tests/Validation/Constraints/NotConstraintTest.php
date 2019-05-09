@@ -36,12 +36,12 @@ class NotTest extends TestCase {
 
 		$group = $this->refinery->custom();
 
-		$this->not_true = $this->f->not($group->custom(
+		$this->not_true = $this->f->not($group->constraint(
 			function($v) { return true; },
 			"not_true"
 		));
 
-		$this->not_false = $this->f->not($group->custom(
+		$this->not_false = $this->f->not($group->constraint(
 			function($v) { return false; },
 			"not_false"
 		));

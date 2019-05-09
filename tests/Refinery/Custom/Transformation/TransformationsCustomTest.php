@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,9 +18,16 @@ class TransformationsCustomTest extends TestCase {
 	 */
 	private $custom;
 
+	/**
+	 * @var Factory
+	 */
+	private $f;
+
 	protected function setUp() : void {
-		$this->f = new Transformation\Factory();
-		$this->custom = $this->f->custom(function($value) {
+		$language = $this->createMock(\ilLanguage::class);
+		$this->f = new Factory(new ILIAS\Data\Factory(), $language);
+
+		$this->custom = $this->f->custom()->transformation(function($value) {
 			if(!is_string($value)) {
 				throw new InvalidArgumentException("'".gettype($value)."' is not a string.");
 			}
@@ -69,7 +76,7 @@ class TransformationsCustomTest extends TestCase {
 	}
 
 	public function testInvoke() {
-		$custom = $this->f->custom(function($value) {
+		$custom = $this->f->custom()->transformation(function($value) {
 			if(!is_string($value)) {
 				throw new InvalidArgumentException("'".gettype($value)."' is not a string.");
 			}
@@ -81,7 +88,7 @@ class TransformationsCustomTest extends TestCase {
 	}
 
 	public function testInvokeFails() {
-		$custom = $this->f->custom(function($value) {
+		$custom = $this->f->custom()->transformation(function($value) {
 			if(!is_string($value)) {
 				throw new InvalidArgumentException("'".gettype($value)."' is not a string.");
 			}

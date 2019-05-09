@@ -31,7 +31,7 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 		$byline
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
-		$this->setAdditionalTransformation($transformation_factory->custom(function($v) {
+		$this->setAdditionalTransformation($refinery->custom()->transformation(function($v) {
 			return strip_tags($v);
 		}));
 	}

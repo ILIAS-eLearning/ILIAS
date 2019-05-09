@@ -52,7 +52,7 @@ class ValidationFactoryTest extends TestCase {
 	}
 
 	public function testCustom() {
-		$custom = $this->refinery->custom()->custom(function ($value) { return "This was fault";}, 5);
+		$custom = $this->refinery->custom()->constraint(function ($value) { return "This was fault";}, 5);
 		$this->assertInstanceOf(Validation\Constraint::class, $custom);
 	}
 

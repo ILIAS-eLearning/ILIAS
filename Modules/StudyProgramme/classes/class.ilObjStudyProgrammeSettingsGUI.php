@@ -251,7 +251,7 @@ class ilObjStudyProgrammeSettingsGUI {
 						self::PROP_TYPE =>
 							$ff->select($txt("type"), $sp_types)
 								->withValue($prg->getSubtypeId() == 0 ? "" : $prg->getSubtypeId())
-								->withAdditionalTransformation($tf->custom(function($v) {
+								->withAdditionalTransformation($this->refinery->custom()->transformation(function($v) {
 									if ($v == "") {
 										return 0;
 									}
@@ -277,7 +277,7 @@ class ilObjStudyProgrammeSettingsGUI {
 				)
 			]
 		)
-		->withAdditionalTransformation($tf->custom(function($values) {
+		->withAdditionalTransformation($this->refinery->custom()->transformation(function($values) {
 			// values now contains the results of the single sections,
 			// i.e. a list of arrays that each contains keys according
 			// to the section they originated from.

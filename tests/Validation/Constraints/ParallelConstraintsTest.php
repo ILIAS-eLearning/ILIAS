@@ -41,12 +41,12 @@ class ParallelTest extends TestCase {
 
 		$group = $this->refinery->custom();
 
-		$this->less_than_3 = $group->custom(
+		$this->less_than_3 = $group->constraint(
 			function($value) { return $value < 3; },
 			"not_less_than_3"
 		);
 
-		$this->less_than_5 = $group->custom(
+		$this->less_than_5 = $group->constraint(
 			function($value) { return $value < 5; },
 			"not_less_than_5"
 		);

@@ -12,9 +12,9 @@ function data_processing() {
     $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
-
+    $refinery = $DIC->refinery();
     //Step 1: Define transformations
-    $sum = $trafo->custom(function($vs) {
+    $sum = $refinery->custom()->transformation(function($vs) {
         list($l, $r) = $vs;
         $s = $l + $r;
         return "$l + $r = $s";

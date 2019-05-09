@@ -91,9 +91,11 @@ class FormTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildTransformation(\Closure $trafo) {
-		$f = new TransformationFactory();
+		$dataFactory = new Data\Factory();
+		$language = $this->createMock(\ilLanguage::class);
+		$refinery = new \ILIAS\Refinery\Factory($dataFactory, $language);
 
-		return $f->custom($trafo);
+		return $refinery->custom()->transformation($trafo);
 	}
 
 

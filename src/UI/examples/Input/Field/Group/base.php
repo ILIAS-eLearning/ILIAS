@@ -13,10 +13,10 @@ function base() {
     $request = $DIC->http()->request();
     $data = new \ILIAS\Data\Factory();
     $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
-    $trafo = new \ILIAS\Refinery\Transformation\Factory();
+    $refinery = $DIC->refinery();
 
     //Step 1: Implement transformation and constraints
-    $sum = $trafo->custom(function($vs) {
+    $sum = $refinery->custom()->transformation(function($vs) {
         list($l, $r) = $vs;
         $s = $l + $r;
         return $s;

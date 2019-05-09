@@ -34,16 +34,6 @@ class Factory {
 	}
 
 	/**
-	 * Create a custom transformation.
-	 *
-	 * @param	callable $f	mixed -> mixed
-	 * @return  Transformation
-	 */
-	public function custom(callable $f) {
-		return new Transformations\Custom($f, new \ILIAS\Data\Factory());
-	}
-
-	/**
 	 * Transform primitive value to data-type.
 	 *
 	 * @param	string $type
