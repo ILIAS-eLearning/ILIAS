@@ -128,8 +128,10 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		// import (ics appointments)
 		if ($this->actions->checkAddEvent($a_set['id']))
 		{
+			$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'backv', ilCalendarCategoryGUI::VIEW_MANAGE);
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(),'importAppointments');
 			$current_selection_list->addItem($this->lng->txt('cal_import_appointments'),'', $url);
+			$this->ctrl->clearParameterByClass(get_class($this->getParentObject()),'backv');
 		}
 
 		// unshare
