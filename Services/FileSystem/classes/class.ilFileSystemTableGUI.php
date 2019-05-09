@@ -147,7 +147,17 @@ class ilFileSystemTableGUI extends ilTable2GUI
 
 		$this->setData($items);		
 	}
-	
+
+
+	/**
+	 * @param array $entry
+	 *
+	 * @return bool
+	 */
+	private function isDoubleDotDirectory($entry) {
+		return (is_array($entry) && isset($entry) && $entry['entry'] === '..');
+	}
+
 	
 	/**
 	* Fill table row
@@ -161,8 +171,12 @@ class ilFileSystemTableGUI extends ilTable2GUI
 			: md5($a_set["entry"]);
 
 		if($this->has_multi)
-		{			
-			$this->tpl->setVariable("CHECKBOX_ID", $hash);			
+		{
+			if ($this->isDoubleDotDirectory($a_set)) {
+				$this->tpl->touchBlock('no_checkbox');
+			} else {
+				$this->tpl->setVariable("CHECKBOX_ID", $hash);
+			}
 		}
 
 		// label
