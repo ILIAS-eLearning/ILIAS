@@ -8,14 +8,37 @@ use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
 class HasMaxLengthConstraintTest extends TestCase {
+	/**
+	 * @var Data\Factory
+	 */
+	private $df;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var integer
+	 */
+	private $max_length;
+
+	/**
+	 * @var Validation\Constraint
+	 */
+	private $c;
+
 	public function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
 
 		$this->max_length = 2;
 
-		$this->c = $this->f->hasMaxLength($this->max_length);
+		$this->c = new \ILIAS\Refinery\String\Constraints\HasMaxLength(
+			$this->max_length,
+			$this->df,
+			$this->lng
+		);
 	}
 
 	public function testAccepts1() {

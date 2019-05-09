@@ -11,6 +11,7 @@ namespace ILIAS\Refinery;
 
 
 use ILIAS\Refinery\In;
+use ILIAS\Refinery\String\Group;
 use ILIAS\Refinery\To;
 
 class Factory
@@ -67,5 +68,15 @@ class Factory
 	public function int(): Integer\Group
 	{
 		return new Integer\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for string
+	 *
+	 * @return String\Group
+	 */
+	public function string(): String\Group
+	{
+		return new String\Group($this->dataFactory, $this->language);
 	}
 }
