@@ -13,6 +13,14 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 	protected static $usr_2;
 	public static function setUpBeforeClass()
 	{
+
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			try{
+				ilUnitUtil::performInitialisation();
+			} catch (Exception $e) {}
+		}
 		self::$prg_1 = ilObjStudyProgramme::createInstance();
 		self::$prg_1->putInTree(ROOT_FOLDER_ID);
 		self::$prg_2 = ilObjStudyProgramme::createInstance();
@@ -27,11 +35,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 	protected function setUp() {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		global $DIC;
-		if(!$DIC) {
-			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-			ilUnitUtil::performInitialisation();
-		}
+
 		global $DIC;
 		$this->db = $DIC['ilDB'];
 	}
@@ -60,6 +64,11 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 		$this->assertEquals($ass_1->getRootId(),self::$prg_2->getId());
 		$this->assertEquals($ass_1->getUserId(),self::$usr_1->getId());
 		$this->assertEquals($ass_1->getLastChangeBy(),6);
+		$this->assertNull($ass_1->getRestartDate());
+		$this->assertEquals(
+			$ass_1->getRestartedAssignmentId(),
+			ilStudyProgrammeAssignment::NO_RESTARTED_ASSIGNMENT
+		);
 	}
 
 	/**
@@ -75,6 +84,8 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 		$this->assertEquals($ass->getLastChangeBy(),6);
 		$ass->setRootId(self::$prg_1->getId());
 		$ass->setLastChangeBy(self::$usr_2->getId());
+		$ass->setRestartDate(DateTime::createFromFormat('Ymd','20210102'));
+		$ass->setRestartedAssignmentId(123);
 		$repo->update($ass);
 
 		$repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
@@ -83,6 +94,8 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 		$this->assertEquals($ass->getRootId(),self::$prg_1->getId());
 		$this->assertEquals($ass->getUserId(),self::$usr_1->getId());
 		$this->assertEquals($ass->getLastChangeBy(),self::$usr_2->getId());
+		$this->assertEquals($ass->getRestartDate()->format('Ymd'),'20210102');
+		$this->assertEquals($ass->getRestartedAssignmentId(),123);
 	}
 
 	/**
@@ -169,8 +182,72 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 	}
 
 
+	/**
+	 * @depends test_save_and_load
+	 */
+	public function test_read_due_to_restart()
+	{
+
+		$one_day = new DateInterval('P1D');
+		$yesterday = new DateTime();
+		$yesterday->sub($one_day);
+		$today = new DateTime();
+		$tomorrow = new DateTime();
+		$tomorrow->add($one_day);
+		$repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
+		$u_a_repo = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+		$created = self::$created;
+		$repo->update(array_shift($created)->setRestartDate($yesterday));
+		$repo->update(array_shift($created)->setRestartDate($today));
+		$repo->update(array_shift($created)->setRestartDate($tomorrow));
+		$repo->update(array_shift($created)->setRestartDate(null));
+		$created = self::$created;
+		$ref = [array_shift($created)->getId(),array_shift($created)->getId()];
+		$this->assertEquals(
+			array_map(function($ass) {return $ass->getId();}, $repo->readDueToRestart()),
+			$ref
+		);
+		$this->assertEquals(
+			array_map(function($ass) {return $ass->getId();}, $u_a_repo->getDueToRestartInstances()),
+			$ref
+		);
+
+
+		$created = self::$created;
+		$repo->update(array_shift($created)->setRestartDate($yesterday));
+		$repo->update(array_shift($created)->setRestartDate($today)->setRestartedAssignmentId(123));
+		$repo->update(array_shift($created)->setRestartDate($tomorrow)->setRestartedAssignmentId(223));
+		$repo->update(array_shift($created)->setRestartDate(null)->setRestartedAssignmentId(323));
+		$created = self::$created;
+		$ref = [array_shift($created)->getId()];
+		$this->assertEquals(
+			array_map(function($ass) {return $ass->getId();}, $repo->readDueToRestart()),
+			$ref
+		);
+		$this->assertEquals(
+			array_map(function($ass) {return $ass->getId();}, $u_a_repo->getDueToRestartInstances()),
+			$ref
+		);
+
+		$created = self::$created;
+		$repo->update(array_shift($created)->setRestartDate($yesterday)->setRestartedAssignmentId(23));
+		$repo->update(array_shift($created)->setRestartDate($today)->setRestartedAssignmentId(123));
+		$repo->update(array_shift($created)->setRestartDate($tomorrow)->setRestartedAssignmentId(223));
+		$repo->update(array_shift($created)->setRestartDate(null)->setRestartedAssignmentId(323));
+		$this->assertEquals(
+			array_map(function($ass) {return $ass->getId();}, $repo->readDueToRestart()),
+			[]
+		);
+		$this->assertEquals(
+			array_map(function($ass) {return $ass->getId();}, $u_a_repo->getDueToRestartInstances()),
+			[]
+		);
+
+	}
+
 	public static function tearDownAfterClass()
 	{
+
 		global $DIC;
 		if(!$DIC) {
 			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
@@ -181,6 +258,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 		try{
 			self::$prg_1->delete();
 		} catch (Exception $e) {}
+
 		try{
 			self::$prg_2->delete();
 		} catch (Exception $e) {}

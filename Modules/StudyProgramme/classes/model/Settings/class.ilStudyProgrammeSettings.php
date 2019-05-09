@@ -46,7 +46,9 @@ class ilStudyProgrammeSettings{
 						  , self::STATUS_OUTDATED
 						  );
 
-	
+	const NO_RESTART = -1;
+	const NO_VALIDITY_OF_QUALIFICATION_PERIOD = -1;
+
 	// Defaults
 	const DEFAULT_POINTS = 100;
 	const DEFAULT_SUBTYPE = 0; // TODO: What should that be?
@@ -111,7 +113,24 @@ class ilStudyProgrammeSettings{
 	 * @var int | DateTime
 	 */
 	protected $deadline_date = null;
-	
+
+	/**
+	 * The period after which a qualification will expire after completion.
+	 * @var int
+	 */
+	protected $validity_of_qualification_period = self::NO_VALIDITY_OF_QUALIFICATION_PERIOD;
+
+	/**
+	 * The date at which a qualification will expire after completion.
+	 * @var DateTime
+	 */
+	protected $validity_of_qualification_date = null;
+
+	/**
+	 * The bumber of days before qualification expiress, at which a user should be booked anew.
+	 * @var int
+	 */
+	protected $restart_period = self::NO_RESTART;
 
 	public function __construct(int $a_id)
 	{
@@ -313,6 +332,65 @@ class ilStudyProgrammeSettings{
 	public function getDeadlineDate()
 	{
 		return $this->deadline_date;
+	}
+
+	/**
+	 * Set the validity of qualification period
+	 */
+	public function setValidityOfQualificationPeriod(int $period) : ilStudyProgrammeSettings
+	{
+		if($period < -1) {
+			throw new ilException('invalid validity of qualification period: '.$period);
+		}
+		$this->validity_of_qualification_period = $period;
+		$this->validity_of_qualification_date = null;
+		return $this;
+	}
+
+	/**
+	 * Set the validity of qualification date
+	 */
+	public function setValidityOfQualificationDate(DateTime $date = null) : ilStudyProgrammeSettings
+	{
+		$this->validity_of_qualification_period = self::NO_VALIDITY_OF_QUALIFICATION_PERIOD;
+		$this->validity_of_qualification_date = $date;
+		return $this;
+	}
+
+	/**
+	 * Set the validity of qualification restart period
+	 */
+	public function setRestartPeriod(int $period) : ilStudyProgrammeSettings
+	{
+		if($period < -1) {
+			throw new ilException('invalid restart period: '.$period);
+		}
+		$this->restart_period = $period;
+		return $this;
+	}
+
+	/**
+	 * Return restart validity of qualification period
+	 */
+	public function getValidityOfQualificationPeriod() : int
+	{
+		return $this->validity_of_qualification_period;
+	}
+
+	/**
+	 * Return restart validity of qualification datetime or null, if none set.
+	 */
+	public function getValidityOfQualificationDate()
+	{
+		return $this->validity_of_qualification_date;
+	}
+
+	/**
+	 * Return restart period
+	 */
+	public function getRestartPeriod() : int
+	{
+		return $this->restart_period;
 	}
 }
 

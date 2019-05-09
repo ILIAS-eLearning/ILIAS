@@ -17,7 +17,9 @@ implements ilStudyProgrammeSettingsRepository
 	const FIELD_LAST_CHANGED = 'last_change';
 	const FIELD_DEADLINE_PERIOD = 'deadline_period';
 	const FIELD_DEADLINE_DATE = 'deadline_date';
-
+	const FIELD_VALIDITY_QUALIFICATION_DATE = 'vq_date';
+	const FIELD_VALIDITY_QUALIFICATION_PERIOD = 'vq_period';
+	const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
 
 	public function __construct(ilDBInterface $db)
 	{
@@ -38,7 +40,10 @@ implements ilStudyProgrammeSettingsRepository
 			ilStudyProgrammeSettings::DEFAULT_POINTS,
 			(new DateTime())->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
 			0,
-			null
+			null,
+			ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD,
+			null,
+			ilStudyProgrammeSettings::NO_RESTART
 		);
 		$prg->setSubtypeId(ilStudyProgrammeSettings::DEFAULT_SUBTYPE)
 			->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)
@@ -74,7 +79,12 @@ implements ilStudyProgrammeSettingsRepository
 			$settings->getDeadlinePeriod(),
 			$settings->getDeadlineDate() ?
 				$settings->getDeadlineDate()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT) :
-				null
+				null,
+			$settings->getValidityOfQualificationPeriod(),
+			$settings->getValidityOfQualificationDate() ?
+				$settings->getValidityOfQualificationDate()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT) :
+				null,
+			$settings->getRestartPeriod()
 		);
 		$this->cache[$settings->getObjId()] = $settings;
 	}
@@ -101,6 +111,9 @@ implements ilStudyProgrammeSettingsRepository
 			.'	,'.self::FIELD_OBJ_ID
 			.'	,'.self::FIELD_DEADLINE_PERIOD
 			.'	,'.self::FIELD_DEADLINE_DATE
+			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_PERIOD
+			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_DATE
+			.'	,'.self::FIELD_VQ_RESTART_PERIOD
 			.'	FROM '.self::TABLE
 			.'	WHERE '.self::FIELD_SUBTYPE_ID.' = '.$this->db->quote($type_id,'integer');
 		$res = $this->db->query($q);
@@ -124,7 +137,10 @@ implements ilStudyProgrammeSettingsRepository
 		int $points,
 		string $last_change,
 		int $deadline_period,
-		string $deadline_date = null
+		string $deadline_date = null,
+		int $vq_period,
+		string $vq_date = null,
+		int $vq_restart_period
 	)
 	{
 		$this->db->insert(
@@ -137,7 +153,10 @@ implements ilStudyProgrammeSettingsRepository
 				self::FIELD_LP_MODE => ['integer',$lp_mode],
 				self::FIELD_LAST_CHANGED => ['timestamp',$last_change],
 				self::FIELD_DEADLINE_PERIOD => ['integer',$deadline_period],
-				self::FIELD_DEADLINE_DATE => ['timestamp',$deadline_date]
+				self::FIELD_DEADLINE_DATE => ['timestamp',$deadline_date],
+				self::FIELD_VALIDITY_QUALIFICATION_DATE => ['timestamp',$vq_date],
+				self::FIELD_VALIDITY_QUALIFICATION_PERIOD => ['integer',$vq_period],
+				self::FIELD_VQ_RESTART_PERIOD => ['integer',$vq_restart_period],
 			]
 		);
 	}
@@ -154,6 +173,9 @@ implements ilStudyProgrammeSettingsRepository
 				.'	,'.self::FIELD_OBJ_ID
 				.'	,'.self::FIELD_DEADLINE_PERIOD
 				.'	,'.self::FIELD_DEADLINE_DATE
+				.'	,'.self::FIELD_VALIDITY_QUALIFICATION_PERIOD
+				.'	,'.self::FIELD_VALIDITY_QUALIFICATION_DATE
+				.'	,'.self::FIELD_VQ_RESTART_PERIOD
 				.'	FROM '.self::TABLE
 				.'	WHERE '.self::FIELD_OBJ_ID.' = '.$this->db->quote($obj_id,'integer')
 			)
@@ -173,9 +195,17 @@ implements ilStudyProgrammeSettingsRepository
 			->setPoints($row[self::FIELD_POINTS])
 			->setLastChange(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_LAST_CHANGED]));
 		if($row[self::FIELD_DEADLINE_DATE] !== null) {
-			return $return->setDeadlineDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_DEADLINE_DATE]));
+			$return->setDeadlineDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_DEADLINE_DATE]));
+		} else {
+			$return->setDeadlinePeriod((int)$row[self::FIELD_DEADLINE_PERIOD]);
 		}
-		return $return->setDeadlinePeriod((int)$row[self::FIELD_DEADLINE_PERIOD]);
+		if($row[self::FIELD_VALIDITY_QUALIFICATION_DATE] !== null) {
+			$return->setValidityOfQualificationDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT,$row[self::FIELD_VALIDITY_QUALIFICATION_DATE]));
+		} else {
+			$return->setValidityOfQualificationPeriod((int)$row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD]);
+		}
+		$return->setRestartPeriod((int)$row[self::FIELD_VQ_RESTART_PERIOD]);
+		return $return;
 	}
 
 	protected function deleteDB(int $obj_id)
@@ -197,7 +227,10 @@ implements ilStudyProgrammeSettingsRepository
 		int $points,
 		string $last_change,
 		int $deadline_period,
-		string $deadline_date = null
+		string $deadline_date = null,
+		int $vq_period,
+		string $vq_date = null,
+		int $vq_restart_period
 	)
 	{
 		if(!$this->checkExists($obj_id)) {
@@ -212,6 +245,9 @@ implements ilStudyProgrammeSettingsRepository
 			.'	,'.self::FIELD_LAST_CHANGED.' = '.$this->db->quote($last_change,'timestamp')
 			.'	,'.self::FIELD_DEADLINE_PERIOD.' = '.$this->db->quote($deadline_period,'integer')
 			.'	,'.self::FIELD_DEADLINE_DATE.' = '.$this->db->quote($deadline_date,'timestamp')
+			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_PERIOD.' = '.$this->db->quote($vq_period,'integer')
+			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_DATE.' = '.$this->db->quote($vq_date,'timestamp')
+			.'	,'.self::FIELD_VQ_RESTART_PERIOD.' = '.$this->db->quote($vq_restart_period,'integer')
 			.'	WHERE '.self::FIELD_OBJ_ID.' = '.$this->db->quote($obj_id,'integer')
 		);
 	}

@@ -167,4 +167,14 @@ class ilStudyProgrammeProgressTest extends PHPUnit_Framework_TestCase
 		$spp = (new ilStudyProgrammeProgress(123))->setDeadline($dl);
 		$this->assertEquals($spp->getDeadline()->format('Y-m-d'),$dl->format('Y-m-d'));
 	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_vq_date()
+	{
+		$dl = DateTime::createFromFormat('Ymd','20201011');
+		$spp = (new ilStudyProgrammeProgress(123))->setValidityOfQualification($dl);
+		$this->assertEquals($spp->getValidityOfQualification()->format('Ymd'),'20201011');
+	}
 }

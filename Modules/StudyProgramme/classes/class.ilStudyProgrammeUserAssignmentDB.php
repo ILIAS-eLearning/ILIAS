@@ -84,4 +84,20 @@ class ilStudyProgrammeUserAssignmentDB
 
 		}, array_values($assignments)); // use array values since we want keys 0...
 	}
+
+	public function getDueToRestartInstances()
+	{
+		return array_map(
+			function($ass) {
+				return new ilStudyProgrammeUserAssignment(
+					$ass,
+					$this->sp_user_progress_db,
+					$this->assignment_repository,
+					$this->progress_repository,
+					$this->log
+				);
+			},
+			$this->assignment_repository->readDueToRestart()
+		);
+	}
 }

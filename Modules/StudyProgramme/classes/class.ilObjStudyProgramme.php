@@ -411,6 +411,32 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 
 
+	public function setValidityOfQualificationPeriod($period)
+	{
+		$this->settings->setValidityOfQualificationPeriod($period);
+	}
+	public function setValidityOfQualificationDate(DateTime $date = null)
+	{
+		$this->settings->setValidityOfQualificationDate($date);
+	}
+	public function setRestartPeriod($period)
+	{
+		$this->settings->setRestartPeriod($period);
+	}
+
+	public function getValidityOfQualificationPeriod()
+	{
+		return $this->settings->getValidityOfQualificationPeriod();
+	}
+	public function getValidityOfQualificationDate()
+	{
+		return $this->settings->getValidityOfQualificationDate();
+	}
+	public function getRestartPeriod()
+	{
+		return $this->settings->getRestartPeriod();
+	}
+
 	////////////////////////////////////
 	// TREE NAVIGATION
 	////////////////////////////////////

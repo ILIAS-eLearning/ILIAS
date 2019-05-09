@@ -72,4 +72,27 @@ class ilStudyProgrammeAssignmentTest extends PHPUnit_Framework_TestCase
 		$spa = (new ilStudyProgrammeAssignment(123))->setLastChange($dl);
 		$this->assertEquals($spa->getLastChange()->format('Y-m-d H:i:s'),$dl->format('Y-m-d H:i:s'));
 	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_restart_date()
+	{
+		$dl = DateTime::createFromFormat('Ymd','20201001');
+		$spa = (new ilStudyProgrammeAssignment(123))->setRestartDate($dl);
+		$this->assertEquals($spa->getRestartDate()->format('Ymd'),'20201001');
+	}
+
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_restarted_assigment()
+	{
+		$spa = new ilStudyProgrammeAssignment(123);
+		$this->assertEquals($spa->getRestartedAssignmentId(),ilStudyProgrammeAssignment::NO_RESTARTED_ASSIGNMENT);
+		$this->assertEquals($spa->setRestartedAssignmentId(321)->getRestartedAssignmentId(),321);
+
+	}
+
 }

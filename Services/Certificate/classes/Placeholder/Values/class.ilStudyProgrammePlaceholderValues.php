@@ -89,7 +89,25 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
 		$object = $this->objectHelper->getInstanceByObjId($objId);
 
 		$placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
-		$progress = $object->getProgressesOf($userId);
+		$latest_progress = array_reduce(
+			$object->getProgressesOf($userId),
+			function($one, $other) {
+				if($one !== null && $one->isSuccessful() && $other !== null && $other->isSuccessful()) {
+					return
+						$one->getCompletionDate()->format('Y-m-d H:i:s') > $other->getCompletionDate()->format('Y-m-d H:i:s') ?
+						$one :
+						$other;
+
+				}
+				if($one !== null && $one->isSuccessful()) {
+					return $one;
+				}
+				if($other !== null && $other->isSuccessful()) {
+					return $other;
+				}
+				return null;
+			}
+		);
 		$type = $object->getSubType();
 		$placeholders['PRG_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
 		$placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
