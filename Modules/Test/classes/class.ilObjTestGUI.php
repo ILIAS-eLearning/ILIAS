@@ -409,7 +409,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$incompleteQuestionPurger->setOwnerId($ilUser->getId());
 				$incompleteQuestionPurger->purge();
 				
-				$qid = $this->fetchAuthoringQuestionIdParameter();
+				try
+				{
+					$qid = $this->fetchAuthoringQuestionIdParameter();
+				}
+				catch(ilTestException $e)
+				{
+					$qid = 0;
+				}
 				
 				$this->prepareOutput();
 				if(!in_array($cmd, array('addQuestion', 'browseForQuestions')))
