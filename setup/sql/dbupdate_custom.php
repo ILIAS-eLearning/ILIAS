@@ -84,4 +84,7 @@ if ($ilDB->tableExists('event_participants'))
 	);
 }
 ?>
-
+<#8>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
