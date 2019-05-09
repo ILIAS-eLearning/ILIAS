@@ -67,15 +67,11 @@ class ilStudyProgrammeUserProgressDB {
 	 * @return ilStudyProgrammeUserProgress[]
 	 */
 	public function getInstancesForUser($a_program_id, $a_user_id) {
-		$progresses = $this->progress_repository->readByPrgIdAndUserId($a_program_id,$a_user_id);
-		return array_values(array_map(function($dat) {
-			return new ilStudyProgrammeUserProgress(
-				$dat,
-				$this->progress_repository,
-				$this->assignment_repository,
-				$this->events
-			);
-		}, $progresses));
+		return array_values(
+			$this->getObjectsByModels(
+				$this->progress_repository->readByPrgIdAndUserId($a_program_id,$a_user_id)
+			)
+		);
 	}
 
 	/**
@@ -123,14 +119,7 @@ class ilStudyProgrammeUserProgressDB {
 								("ilStudyProgrammeUserProgress::getInstancesForAssignment: "
 								."Can't find progresses for assignment '$a_assignment_id'.");
 		}
-		return array_map(function($dat) {
-			return new ilStudyProgrammeUserProgress(
-				$dat,
-				$this->progress_repository,
-				$this->assignment_repository,
-				$this->events
-			);
-		}, $progresses);
+		return $this->getObjectsByModels($progresses);
 	}
 
 	/**
@@ -140,16 +129,31 @@ class ilStudyProgrammeUserProgressDB {
 	 * @return ilStudyProgrammeUserProgress[]
 	 */
 	public function getInstancesForProgram($a_program_id) {
-		$progresses = $this->progress_repository->readByPrgId($a_program_id);
-		return array_values(array_map(function($dat) {
+		return array_values($this->getObjectsByModels($this->progress_repository->readByPrgId($a_program_id)));
+	}
+
+	/**
+	 * Get all expired and successful progresses.
+	 *
+	 * @return ilStudyProgrammeUserProgress[]
+	 */
+	public function getExpiredSuccessfulInstances()
+	{
+		return $this->getObjectsByModels($this->progress_repository->readExpiredSuccessfull());
+	}
+
+	protected function getObjectsByModels(array $models) : array
+	{
+		return array_map(function($dat) {
 			return new ilStudyProgrammeUserProgress(
 				$dat,
 				$this->progress_repository,
 				$this->assignment_repository,
 				$this->events
 			);
-		}, $progresses));
+		}, $models);
 	}
+
 
 	/**
 	 * Get a user readable representation of a status.

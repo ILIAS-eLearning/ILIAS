@@ -22,6 +22,7 @@ implements ilStudyProgrammeProgressRepository
 	const FIELD_LAST_CHANGE_BY = 'last_change_by';
 	const FIELD_COMPLETION_DATE = 'completion_date';
 	const FIELD_DEADLINE = 'deadline';
+	const FIELD_VQ_DATE = 'vq_date';
 
 
 	public function __construct(ilDBInterface $db)
@@ -52,7 +53,8 @@ implements ilStudyProgrammeProgressRepository
 			self::FIELD_ASSIGNMENT_DATE => \ilUtil::now(),
 			self::FIELD_LAST_CHANGE_BY => null,
 			self::FIELD_COMPLETION_DATE => null,
-			self::FIELD_DEADLINE => null
+			self::FIELD_DEADLINE => null,
+			self::FIELD_VQ_DATE => null
 		];
 		$this->insertRowDB($row);
 		return $this->buildByRow($row);
@@ -140,6 +142,15 @@ implements ilStudyProgrammeProgressRepository
 		return $return;
 	}
 
+	public function readExpiredSuccessfull()
+	{
+		$return = [];
+		foreach ($this->loadExpiredSuccessful() as $row) {
+			$return[] = $this->buildByRow($row);
+		}
+		return $return;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -161,7 +172,8 @@ implements ilStudyProgrammeProgressRepository
 				self::FIELD_COMPLETION_DATE =>
 					$progress->getCompletionDate() ?
 					$progress->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
-				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) : null
+				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) : null,
+				self::FIELD_VQ_DATE => $progress->getValidityOfQualification() ? $progress->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null
 			]
 		);
 	}
@@ -192,6 +204,7 @@ implements ilStudyProgrammeProgressRepository
 				,self::FIELD_ASSIGNMENT_DATE => ['timestamp',$row[self::FIELD_ASSIGNMENT_DATE]]
 				,self::FIELD_COMPLETION_DATE => ['timestamp',$row[self::FIELD_COMPLETION_DATE]]
 				,self::FIELD_DEADLINE => ['text',$row[self::FIELD_DEADLINE]]
+				,self::FIELD_VQ_DATE => ['timestamp',$row[self::FIELD_VQ_DATE]]
 			]
 		);
 	}
@@ -219,6 +232,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_ASSIGNMENT_DATE.' = '.$this->db->quote($values[self::FIELD_ASSIGNMENT_DATE],'timestamp')
 			.'	,'.self::FIELD_COMPLETION_DATE.' = '.$this->db->quote($values[self::FIELD_COMPLETION_DATE],'timestamp')
 			.'	,'.self::FIELD_DEADLINE.' = '.$this->db->quote($values[self::FIELD_DEADLINE],'text')
+			.'	,'.self::FIELD_VQ_DATE.' = '.$this->db->quote($values[self::FIELD_VQ_DATE],'timestamp')
 			.'	WHERE '.self::FIELD_ID.' = '.$this->db->quote($values[self::FIELD_ID],'integer')
 		;
 		$this->db->manipulate($q);
@@ -247,8 +261,14 @@ implements ilStudyProgrammeProgressRepository
 				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT,$row[self::FIELD_COMPLETION_DATE]) :
 				null
 			)
-			->setLastChange($row[self::FIELD_LAST_CHANGE] ?
+			->setLastChange(
+				$row[self::FIELD_LAST_CHANGE] ?
 				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT,$row[self::FIELD_LAST_CHANGE]) :
+				null
+			)
+			->setValidityOfQualification(
+				$row[self::FIELD_VQ_DATE] ?
+				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT,$row[self::FIELD_VQ_DATE]) :
 				null
 			);
 	}
@@ -268,11 +288,50 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_ASSIGNMENT_DATE
 			.'	,'.self::FIELD_COMPLETION_DATE
 			.'	,'.self::FIELD_DEADLINE
+			.'	,'.self::FIELD_VQ_DATE
 			.'	FROM '.self::TABLE
 			.'	WHERE TRUE';
 		foreach ($filter as $field => $value) {
 			$q .= '	AND '.$field.' = '.$this->db->quote($value,'text');
 		}
+		$res = $this->db->query($q);
+		while($rec = $this->db->fetchAssoc($res)) {
+			yield $rec;
+		}
+	}
+
+	protected function loadExpiredSuccessful()
+	{
+		$q = 'SELECT '.self::FIELD_ID
+			.'	,'.self::FIELD_ASSIGNMENT_ID
+			.'	,'.self::FIELD_PRG_ID
+			.'	,'.self::FIELD_USR_ID
+			.'	,'.self::FIELD_STATUS
+			.'	,'.self::FIELD_POINTS
+			.'	,'.self::FIELD_POINTS_CUR
+			.'	,'.self::FIELD_COMPLETION_BY
+			.'	,'.self::FIELD_LAST_CHANGE
+			.'	,'.self::FIELD_LAST_CHANGE_BY
+			.'	,'.self::FIELD_ASSIGNMENT_DATE
+			.'	,'.self::FIELD_COMPLETION_DATE
+			.'	,'.self::FIELD_DEADLINE
+			.'	,'.self::FIELD_VQ_DATE
+			.'	FROM '.self::TABLE
+			.'	WHERE '.$this->db->in(
+							self::FIELD_STATUS,
+							[
+								ilStudyProgrammeProgress::STATUS_ACCREDITED,
+								ilStudyProgrammeProgress::STATUS_COMPLETED
+							],
+							false,
+							'integer'
+						)
+			.'		AND DATE('.self::FIELD_VQ_DATE.') < '
+							.$this->db->quote(
+								(new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT)
+								,'text'
+							);
+
 		$res = $this->db->query($q);
 		while($rec = $this->db->fetchAssoc($res)) {
 			yield $rec;

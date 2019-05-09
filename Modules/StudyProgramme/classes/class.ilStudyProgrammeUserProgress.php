@@ -189,6 +189,22 @@ class ilStudyProgrammeUserProgress {
 	}
 
 	/**
+	 * Get validity of qualification
+	 */
+	public function getValidityOfQualification()
+	{
+		return $this->progress->getValidityOfQualification();
+	}
+
+	/**
+	 * Set validity of qualification
+	 */
+	public function setValidityOfQualification(DateTime $date = null)
+	{
+		$this->progress->setValidityOfQualification($date);
+	}
+
+	/**
 	 * Delete the assignment from database.
 	 */
 	public function delete() {
@@ -207,8 +223,8 @@ class ilStudyProgrammeUserProgress {
 	 * @return $this
 	 */
 	public function markAccredited($a_user_id) {
+		$prg = $this->getStudyProgramme();
 		if ($this->getStatus() == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-			$prg = $this->getStudyProgramme();
 			if ($prg->getStatus() == ilStudyProgrammeSettings::STATUS_OUTDATED) {
 				throw new ilException("ilStudyProgrammeUserProgress::markAccredited: "
 									 ."Can't mark as accredited since program is outdated.");
@@ -221,7 +237,10 @@ class ilStudyProgrammeUserProgress {
 				->setCompletionDate(new DateTime())
 		);
 		$this->events->userSuccessful($this);
-
+		$assignment = $this->assignment_repository->read($this->getAssignmentId());
+		if((int)$prg->getId() === $assignment->getRootId()) {
+			$this->maybeLimitProgressValidity($prg,$assignment);
+		}
 		$this->updateParentStatus();
 		return $this;
 	}
@@ -266,7 +285,7 @@ class ilStudyProgrammeUserProgress {
 			, ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
 		);
 
-		if (in_array($this->getStatus(), $status)) {
+		if (in_array($this->getStatus(), $status) && !$this->isSuccessfulExpired()) {
 			throw new ilException("Can't mark as failed since program is passed.");
 		}
 
@@ -280,6 +299,24 @@ class ilStudyProgrammeUserProgress {
 		$this->refreshLPStatus();
 
 		return $this;
+	}
+
+	/**
+	 * Check, wether a the course is passed and expired due to limited validity
+	 */
+	public function isSuccessfulExpired()
+	{
+
+		if($this->getValidityOfQualification() === null) {
+			return false;
+		}
+		if(!$this->isSuccessful()) {
+			return false;
+		}
+		if($this->getValidityOfQualification()->format('Y-m-d') < (new DateTime())->format('Y-m-d') ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -567,6 +604,10 @@ class ilStudyProgrammeUserProgress {
 			if(!$this->progress->getCompletionDate()) {
 				$this->progress->setCompletionDate(new DateTime());
 			}
+			$assignment = $this->assignment_repository->read($this->getAssignmentId());
+			if((int)$prg->getId() === $assignment->getRootId()) {
+				$this->maybeLimitProgressValidity($prg,$assignment);
+			}
 		} else {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
 			$this->progress->setCompletionDate(null);
@@ -637,7 +678,34 @@ class ilStudyProgrammeUserProgress {
 		$this->events->userSuccessful($this);
 
 		$this->refreshLPStatus();
+		$assignment = $this->assignment_repository->read($this->getAssignmentId());
+		if((int)$prg->getId() === $assignment->getRootId()) {
+			$this->maybeLimitProgressValidity($prg,$assignment);
+		}
 		$this->updateParentStatus();
+	}
+
+	protected function maybeLimitProgressValidity(ilObjStudyProgramme $prg, ilStudyProgrammeAssignment $assignment)
+	{
+		if(null !== $prg->getValidityOfQualificationDate()) {
+			$date = $prg->getValidityOfQualificationDate();
+		} elseif(ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD !== $prg->getValidityOfQualificationPeriod()) {
+			$date = new DateTime();
+			$date->add(new DateInterval('P'.$prg->getValidityOfQualificationPeriod().'D'));
+		} else {
+			// nothing to do
+			return;
+		}
+		$this->progress_repository->update(
+			$this->progress
+				->setValidityOfQualification($date)
+		);
+		if(ilStudyProgrammeSettings::NO_RESTART !== $prg->getRestartPeriod()) {
+			$date->sub(new DateInterval('P'.$prg->getRestartPeriod().'D'));
+			$this->assignment_repository->update(
+				$assignment->setRestartDate($date)
+			);
+		}
 	}
 
 	/**
