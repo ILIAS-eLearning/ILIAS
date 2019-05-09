@@ -20,8 +20,10 @@ class SplitStringTest extends TestCase {
 	private $split_string;
 
 	protected function setUp() : void{
-		$this->f = new \ILIAS\Refinery\Transformation\Factory();
-		$this->split_string = $this->f->splitString("#");
+		$dataFactory = new \ILIAS\Data\Factory();
+		$language = $this->createMock('\ilLanguage');
+		$this->f = new \ILIAS\Refinery\Factory($dataFactory, $language);
+		$this->split_string = $this->f->string()->splitString("#");
 	}
 
 	protected function tearDown(): void {
@@ -64,13 +66,13 @@ class SplitStringTest extends TestCase {
 	}
 
 	public function testInvoke() {
-		$split_string = $this->f->splitString("#");
+		$split_string = $this->f->string()->splitString("#");
 		$arr = $split_string(self::STRING_TO_SPLIT);
 		$this->assertEquals(static::$result, $arr);
 	}
 
 	public function testInvokeFails() {
-		$split_string = $this->f->splitString("#");
+		$split_string = $this->f->string()->splitString("#");
 
 		$raised = false;
 		try {

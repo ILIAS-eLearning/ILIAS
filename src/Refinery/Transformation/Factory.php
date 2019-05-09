@@ -22,18 +22,6 @@ class Factory {
 	}
 
 	/**
-     * Split string at given delimiter.
-	 *
-	 * Will transform "a,b,c" to ["a", "b", "c"] with $delim = ",".
-	 *
-	 * @param   string $delimiter
-	 * @return  Transformation
-	 */
-	public function splitString($delimiter) {
-		return new Transformations\SplitString($delimiter, new \ILIAS\Data\Factory());
-	}
-
-	/**
 	 * Transform primitive value to data-type.
 	 *
 	 * @param	string $type
