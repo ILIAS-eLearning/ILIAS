@@ -726,6 +726,7 @@ class ilCalendarPresentationGUI
 				$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
 				$ctrl->setParameterByClass("ilcalendarcategorygui", "backv", "1");
 				$this->action_menu->addItem($lng->txt("cal_delete_cal"), "", $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
+				$ctrl->clearParameterByClass('ilcalendarcategorygui','backv');
 			}
 
 			$tpl->setHeaderActionMenu($this->action_menu->getHTML());

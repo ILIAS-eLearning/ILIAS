@@ -1549,6 +1549,10 @@ class ilCalendarCategoryGUI
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
+		if(array_key_exists('backv',$_REQUEST))
+		{
+			$this->ctrl->setParameter($this,'backv',(int) $_REQUEST['backv']);
+		}
 		
 		$this->ctrl->setParameter($this,'category_id',$this->category_id);
 
@@ -1599,8 +1603,14 @@ class ilCalendarCategoryGUI
 	 */
 	protected function uploadAppointments()
 	{
-		// @todo permission check
-		
+		if($_REQUEST['backv'] == self::VIEW_MANAGE)
+		{
+			$back = 'manage';
+		}
+		else
+		{
+			$back = 'cancel';
+		}
 		$form = $this->initImportForm();
 		if($form->checkInput())
 		{
@@ -1612,7 +1622,7 @@ class ilCalendarCategoryGUI
 			$num = $this->doImportFile($tmp, (int) $_REQUEST['category_id']);
 			
 			ilUtil::sendSuccess(sprintf($this->lng->txt('cal_imported_success'), (int) $num),true);
-			$this->ctrl->redirect($this,'manage');
+			$this->ctrl->redirect($this,$back);
 		}
 		
 		ilUtil::sendFailure($this->lng->txt('cal_err_file_upload'),true);
