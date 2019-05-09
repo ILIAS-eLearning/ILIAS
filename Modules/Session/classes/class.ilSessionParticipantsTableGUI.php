@@ -291,7 +291,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 				if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
 					$notificationCheckboxEnabled = false;
 				}
-				$tmp_data['notification_globally_enabled'] = true;
 				$tmp_data['notification_checkbox_enabled'] = $notificationCheckboxEnabled;
 				$tmp_data['notification_checked'] = $usr_data['notification_enabled'];
 			}
@@ -413,7 +412,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_ID', $a_set['id']);
 			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['notification_checked'] ? 'checked="checked"' : '');
 
-			$enableCheckbox = $a_set['notification_globally_enabled'] && $a_set['notification_checkbox_enabled'];
+			$enableCheckbox = $a_set['notification_checkbox_enabled'];
 
 			$this->tpl->setVariable('NOTIFICATION_ENABLED', $enableCheckbox ? '' : 'disabled');
 			$this->tpl->parseCurrentBlock();
