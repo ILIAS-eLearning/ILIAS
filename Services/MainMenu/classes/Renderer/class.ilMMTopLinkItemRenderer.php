@@ -33,6 +33,7 @@ class ilMMTopLinkItemRenderer extends BaseTypeRenderer {
 		$tpl->setVariable("TITLE", $item->getTitle());
 		$tpl->setVariable("HREF", $item->getAction());
 		$tpl->setVariable("TARGET", $item->isLinkWithExternalAction() ? self::BLANK : self::TOP);
+		$tpl->setVariable("ID", ilMMAbstractItemGUI::CSS_ID_PREFIX . $item->getProviderIdentification()->getInternalIdentifier());
 
 		return $this->ui_factory->legacy($tpl->get());
 	}
