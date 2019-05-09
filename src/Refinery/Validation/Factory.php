@@ -81,16 +81,6 @@ class Factory {
 	// SOME RESTRICTIONS
 
 	/**
-	 * Get a constraint for a string.
-	 *
-	 * @return  Constraint
-	 */
-	public function isString() {
-		return new Constraints\IsString($this->data_factory, $this->lng);
-	}
-
-
-	/**
 	 * Get a constraint for a array with constraint to all elements.
 	 *
 	 * @param Constraint $on_element

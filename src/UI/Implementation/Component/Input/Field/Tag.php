@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\Result\Ok;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -108,8 +109,16 @@ class Tag extends Input implements C\Input\Field\Tag {
 			}, "Empty array"
 		);
 
+		$this->refinery
+			->to()
+			->listOf($this->refinery->to()->string());
+
+		$listTransformation = $this->refinery
+			->to()
+			->listOf($this->refinery->to()->string());
+
 		return $this->validation_factory->sequential(
-			[$constraint, $this->validation_factory->isArrayOf($this->validation_factory->isString()),]
+			[$constraint, $listTransformation]
 		);
 	}
 
@@ -151,7 +160,13 @@ class Tag extends Input implements C\Input\Field\Tag {
 			}
 		}
 
-		return ($this->validation_factory->isNull()->accepts($value) || $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value));
+		$valueCanBeAddedAsStringToList = $this->refinery
+			->to()
+			->listOf($this->refinery->to()->string())
+			->applyTo(new Ok($value))
+			->isOK();
+
+		return ($this->validation_factory->isNull()->accepts($value) || $valueCanBeAddedAsStringToList);
 	}
 
 
