@@ -3,12 +3,12 @@
 
 namespace ILIAS\Refinery\Validation\Constraints\Password;
 
-use ILIAS\Refinery\Validation\Constraints;
+use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
 
 
-class HasSpecialChars extends Constraints\Custom implements Constraint {
+class HasSpecialChars extends Custom implements Constraint {
 
 	protected static $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/';
 

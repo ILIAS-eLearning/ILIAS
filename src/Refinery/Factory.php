@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-
 use ILIAS\Refinery\In;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Refinery\To;
@@ -78,5 +77,10 @@ class Factory
 	public function string(): String\Group
 	{
 		return new String\Group($this->dataFactory, $this->language);
+	}
+
+	public function custom(): Custom\Group
+	{
+		return new Custom\Group($this->dataFactory, $this->language);
 	}
 }

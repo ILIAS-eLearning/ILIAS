@@ -8,17 +8,40 @@ use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
 class NotTest extends TestCase {
+	/**
+	 * @var Data\Factory
+	 */
+	private $df;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var Validation\Factory
+	 */
+	private $f;
+
+	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
 	public function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->f = new Validation\Factory($this->df, $this->lng);
+		$this->refinery = new \ILIAS\Refinery\Factory($this->df, $this->lng);
 
-		$this->not_true = $this->f->not($this->f->custom(
+		$group = $this->refinery->custom();
+
+		$this->not_true = $this->f->not($group->custom(
 			function($v) { return true; },
 			"not_true"
 		));
 
-		$this->not_false = $this->f->not($this->f->custom(
+		$this->not_false = $this->f->not($group->custom(
 			function($v) { return false; },
 			"not_false"
 		));

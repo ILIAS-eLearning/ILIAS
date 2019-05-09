@@ -3,6 +3,7 @@
 
 namespace ILIAS\Refinery\Validation\Constraints;
 
+use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
 

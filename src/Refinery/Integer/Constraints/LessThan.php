@@ -5,7 +5,7 @@ namespace ILIAS\Refinery\Integer\Constraints;
 
 use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Validation\Constraints\Custom;
+use ILIAS\Refinery\Custom\Constraints\Custom;
 
 class LessThan extends Custom implements Constraint {
 	/**

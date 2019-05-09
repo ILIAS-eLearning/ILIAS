@@ -3,12 +3,12 @@
 
 namespace ILIAS\Refinery\Validation\Constraints\Password;
 
-use ILIAS\Refinery\Validation\Constraints;
+use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
 
 
-class HasNumbers extends Constraints\Custom implements Constraint {
+class HasNumbers extends Custom implements Constraint {
 	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
 		parent::__construct( function (Data\Password $value) {
 				return (bool) preg_match('/[0-9]/', $value->toString());

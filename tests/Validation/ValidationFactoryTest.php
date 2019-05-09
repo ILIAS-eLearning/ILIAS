@@ -30,10 +30,16 @@ class ValidationFactoryTest extends TestCase {
 	 */
 	private $data_factory;
 
+	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
 	protected function setUp(): void{
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->data_factory = new Data\Factory();
 		$this->f = new Validation\Factory($this->data_factory, $this->lng);
+		$this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $this->lng);
 	}
 
 	protected function tearDown(): void {
@@ -46,7 +52,7 @@ class ValidationFactoryTest extends TestCase {
 	}
 
 	public function testCustom() {
-		$custom = $this->f->custom(function ($value) { return "This was fault";}, 5);
+		$custom = $this->refinery->custom()->custom(function ($value) { return "This was fault";}, 5);
 		$this->assertInstanceOf(Validation\Constraint::class, $custom);
 	}
 

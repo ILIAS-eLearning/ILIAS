@@ -3,9 +3,9 @@
 
 namespace ILIAS\Refinery\Validation\Constraints;
 
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Data;
-use ILIAS\Data\Result;
+use ILIAS\Refinery\Validation\Constraint;
 
 /**
  * Class IsNull

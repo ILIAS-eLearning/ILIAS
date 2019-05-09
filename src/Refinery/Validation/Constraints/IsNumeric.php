@@ -3,9 +3,9 @@
 docs/LICENSE */
 
 namespace ILIAS\Refinery\Validation\Constraints;
+use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
-use ILIAS\Data\Result;
 
 class IsNumeric extends Custom implements Constraint {
 	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {

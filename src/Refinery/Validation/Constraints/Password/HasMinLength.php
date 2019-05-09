@@ -3,12 +3,12 @@
 
 namespace ILIAS\Refinery\Validation\Constraints\Password;
 
-use ILIAS\Refinery\Validation\Constraints;
+use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Data;
 
 
-class HasMinLength extends Constraints\Custom implements Constraint {
+class HasMinLength extends Custom implements Constraint {
 	/**
 	 * @var int
 	 */

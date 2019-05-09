@@ -13,17 +13,40 @@ use PHPUnit\Framework\TestCase;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
 class ParallelTest extends TestCase {
+	/**
+	 * @var Data\Factory
+	 */
+	private $df;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var Validation\Factory
+	 */
+	private $f;
+
+	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
 	protected function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->f = new Validation\Factory($this->df, $this->lng);
+		$this->refinery = new \ILIAS\Refinery\Factory($this->df, $this->lng);
 
-		$this->less_than_3 = $this->f->custom(
+		$group = $this->refinery->custom();
+
+		$this->less_than_3 = $group->custom(
 			function($value) { return $value < 3; },
 			"not_less_than_3"
 		);
 
-		$this->less_than_5 = $this->f->custom(
+		$this->less_than_5 = $group->custom(
 			function($value) { return $value < 5; },
 			"not_less_than_5"
 		);
