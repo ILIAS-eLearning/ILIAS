@@ -65,6 +65,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 
 		$this->ensureExistingTestSession($this->testSession);
+		$this->checkTestSessionUser($this->testSession);
 		$this->initProcessLocker($this->testSession->getActiveId());
 		
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
