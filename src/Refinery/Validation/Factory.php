@@ -81,16 +81,6 @@ class Factory {
 	// SOME RESTRICTIONS
 
 	/**
-	 * Get a constraint for an integer.
-	 *
-	 * @return  Constraint
-	 */
-	public function isInt() {
-		return new Constraints\IsInt($this->data_factory, $this->lng);
-	}
-
-
-	/**
 	 * Get a constraint for a string.
 	 *
 	 * @return  Constraint

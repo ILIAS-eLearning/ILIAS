@@ -40,14 +40,9 @@ class ValidationFactoryTest extends TestCase {
 		$this->f = null;
 	}
 
-	public function testIsInt() {
+	public function testIsNumeric() {
 		$is_numeric = $this->f->isNumeric();
 		$this->assertInstanceOf(Validation\Constraint::class, $is_numeric);
-	}
-
-	public function testIsNumeric() {
-		$is_int = $this->f->isInt();
-		$this->assertInstanceOf(Validation\Constraint::class, $is_int);
 	}
 
 	public function testCustom() {
