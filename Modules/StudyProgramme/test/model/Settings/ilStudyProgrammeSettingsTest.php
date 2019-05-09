@@ -126,4 +126,48 @@ class ilStudyProgrammeSettingsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($sps->setDeadlineDate(new \DateTime())->getDeadlineDate()->format('Ymd'),(new \DateTime())->format('Ymd'));
 		$this->assertNull($sps->setDeadlinePeriod(10)->getDeadlineDate());
 	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_validity_qualification_period($sps)
+	{
+		$this->assertEquals($sps->setValidityOfQualificationPeriod(10)->getValidityOfQualificationPeriod(),10);
+		$this->assertEquals($sps->setValidityOfQualificationDate(new \DateTime())->getValidityOfQualificationPeriod(),ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_validity_qualification_date($sps)
+	{
+		$this->assertEquals($sps->setValidityOfQualificationDate(new \DateTime())->getValidityOfQualificationDate()->format('Ymd'),(new \DateTime())->format('Ymd'));
+		$this->assertNull($sps->setValidityOfQualificationPeriod(10)->getValidityOfQualificationDate());
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 * @expectedException ilException
+	 */
+	public function test_wrong_vq_peiod($sps)
+	{
+		$sps->setValidityOfQualificationPeriod(-10);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 */
+	public function test_restart_period($sps)
+	{
+		$this->assertEquals($sps->setRestartPeriod(10)->getRestartPeriod(),10);
+	}
+
+	/**
+	 * @depends test_init_and_id
+	 * @expectedException ilException
+	 */
+	public function test_wrong_restart_period($sps)
+	{
+		$sps->setRestartPeriod(-10);
+	}
 }

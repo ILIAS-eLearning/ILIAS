@@ -205,9 +205,22 @@ class ilObjStudyProgrammeSettingsGUI {
 	const PROP_DEADLINE = "deadline";
 	const PROP_DEADLINE_PERIOD = "deadline_period";
 	const PROP_DEADLINE_DATE = "deadline_date";
+	const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
+	const PROP_VALIDITY_OF_QUALIFICATION_PERIOD = "validity_qualification_period";
+	const PROP_VALIDITY_OF_QUALIFICATION_DATE = "validity_qualification_date";
+	const PROP_RESTART = "restart";
+	const PROP_RESTART_PERIOD = "restart_period";
+
 	const OPT_NO_DEADLINE = 'opt_no_deadline';
 	const OPT_DEADLINE_PERIOD = "opt_deadline_period";
 	const OPT_DEADLINE_DATE = "opt_deadline_date";
+
+	const OPT_NO_VALIDITY_OF_QUALIFICATION = 'opt_no_validity_qualification';
+	const OPT_VALIDITY_OF_QUALIFICATION_PERIOD = "opt_validity_qualification_period";
+	const OPT_VALIDITY_OF_QUALIFICATION_DATE = "opt_validity_qualification_date";
+
+	const OPT_NO_RESTART = "opt_no_restart";
+	const OPT_RESTART_PERIOD = "opt_restart_period";
 
 	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
 		$trans = $prg->getObjectTranslation();
@@ -268,6 +281,15 @@ class ilObjStudyProgrammeSettingsGUI {
 					[self::PROP_DEADLINE => $this->getDeadlineSubform($prg)],
 					$txt("prg_deadline"),
 					""
+				),
+				$ff->section(
+					[
+						self::PROP_VALIDITY_OF_QUALIFICATION => $this->getValidityOfQualificationSubform($prg)
+						,self::PROP_RESTART => $this->getRestartSubform($prg)
+					],
+					$txt("prg_validity_of_qualification"),
+					""
+
 				)
 			]
 		)
@@ -306,6 +328,32 @@ class ilObjStudyProgrammeSettingsGUI {
 					$prg->setDeadlineDate(null); // deadline period will be set to 0 automatically
 				}
 			}
+
+			$vq_data = $values[4];
+			if(array_key_exists(self::PROP_VALIDITY_OF_QUALIFICATION,$vq_data)) {
+				if(is_array($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]) && array_key_exists('value', $vq_data[self::PROP_VALIDITY_OF_QUALIFICATION])) {
+					if($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['value'] === self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD) {
+						$prg->setValidityOfQualificationPeriod((int)$vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['group_values'][self::PROP_VALIDITY_OF_QUALIFICATION_PERIOD]);
+					}
+					if($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['value'] === self::OPT_VALIDITY_OF_QUALIFICATION_DATE) {
+						$date = $vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['group_values'][self::PROP_VALIDITY_OF_QUALIFICATION_DATE];
+						$prg->setValidityOfQualificationDate($date);
+					}
+				}
+				if($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION] === self::OPT_NO_VALIDITY_OF_QUALIFICATION) {
+					$prg->setValidityOfQualificationDate(null); // vq period will be set to 0 automatically
+				}
+			}
+			if(array_key_exists(self::PROP_RESTART,$vq_data)) {
+				if(is_array($vq_data[self::PROP_RESTART]) && array_key_exists('value', $vq_data[self::PROP_RESTART])) {
+					if($vq_data[self::PROP_RESTART]['value'] === self::OPT_RESTART_PERIOD) {
+						$prg->setRestartPeriod((int)$vq_data[self::PROP_RESTART]['group_values'][self::PROP_RESTART_PERIOD]);
+					}
+				}
+				if($vq_data[self::PROP_RESTART] === self::OPT_NO_RESTART) {
+					$prg->setRestartPeriod(ilStudyProgrammeSettings::NO_RESTART);
+				}
+			}
 			return $prg;
 		}));
 	}
@@ -329,8 +377,9 @@ class ilObjStudyProgrammeSettingsGUI {
 		$format = $this->data_factory->dateFormat()->germanShort();
 		$deadline_date_subform = $ff
 			->dateTime('',$txt('prg_deadline_date_desc'))
+			->withFormat($format)
 			->withMinValue(new DateTime())
-			->withFormat($format);
+			;
 		if($deadline_date !== null) {
 			$deadline_date_subform = $deadline_date_subform->withValue($deadline_date->format($format->toString()));
 			$radio_option = self::OPT_DEADLINE_DATE;
@@ -357,7 +406,83 @@ class ilObjStudyProgrammeSettingsGUI {
 		return $radio->withValue($radio_option);
 	}
 
-	
+	protected function getValidityOfQualificationSubform($prg)
+	{
+		$ff = $this->input_factory->field();
+		$txt = function($id) { return $this->lng->txt($id); };
+		$vq_period_subform = $ff
+			->numeric('',$txt('validity_qalification_period_desc'))
+			->withAdditionalConstraint(
+				$this->validation->greaterThan(-1)
+			);
+		$radio_option = self::OPT_NO_VALIDITY_OF_QUALIFICATION;
+		$period = $prg->getValidityOfQualificationPeriod();
+		if($period !== ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD) {
+			$vq_period_subform = $vq_period_subform->withValue($period);
+			$radio_option = self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD;
+		}
+		$format = $this->data_factory->dateFormat()->germanShort();
+		$vq_date_subform = $ff
+			->dateTime('',$txt('validity_qalification_date_desc'))
+			->withMinValue(new DateTime())
+			->withFormat($format);
+		$date = $prg->getValidityOfQualificationDate();
+		if($date !== null) {
+			$vq_date_subform = $vq_date_subform->withValue($date->format($format->toString()));
+			$radio_option = self::OPT_VALIDITY_OF_QUALIFICATION_DATE;
+		}
+		$radio = $ff->radio("","")
+			->withOption(
+				self::OPT_NO_VALIDITY_OF_QUALIFICATION,
+				$txt('prg_no_validity_qalification'),
+				''
+			)
+			->withOption(
+				self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD,
+				$txt('validity_qalification_period'),
+				'',
+				[self::PROP_VALIDITY_OF_QUALIFICATION_PERIOD => $vq_period_subform]
+			)
+			->withOption(
+				self::OPT_VALIDITY_OF_QUALIFICATION_DATE,
+				$txt('validity_qalification_date'),
+				'',
+				[self::PROP_VALIDITY_OF_QUALIFICATION_DATE => $vq_date_subform]
+			);
+
+		return $radio->withValue($radio_option);
+	}
+
+	protected function getRestartSubform($prg)
+	{
+		$ff = $this->input_factory->field();
+		$txt = function($id) { return $this->lng->txt($id); };
+		$restart_period_subform = $ff
+			->numeric('',$txt('restart_period_desc'))
+			->withAdditionalConstraint(
+				$this->validation->greaterThan(-1)
+			);
+		$radio_option = self::OPT_NO_RESTART;
+		$restart_period = $prg->getRestartPeriod();
+		if($restart_period !== ilStudyProgrammeSettings::NO_RESTART) {
+			$radio_option = self::OPT_RESTART_PERIOD;
+			$restart_period_subform = $restart_period_subform->withValue($restart_period);
+		}
+		$radio = $ff->radio("","")
+			->withOption(
+				self::OPT_NO_RESTART,
+				$txt('prg_no_restart'),
+				''
+			)
+			->withOption(
+				self::OPT_RESTART_PERIOD,
+				$txt('restart_period'),
+				'',
+				[self::PROP_RESTART_PERIOD => $restart_period_subform]
+			);
+		return $radio->withValue($radio_option);
+	}
+
 	protected function getObject() {
 		if ($this->object === null) {
 			$this->object = ilObjStudyProgramme::getInstanceByRefId($this->ref_id);
