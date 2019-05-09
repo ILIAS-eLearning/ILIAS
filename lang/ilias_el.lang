@@ -14243,3 +14243,6 @@ common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
 crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
 common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
 skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###09 05 2019 new variable
+buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###09 05 2019 new variable
+dateplaner#:#cal_usr_info#:#Appointment Information###09 05 2019 new variable
