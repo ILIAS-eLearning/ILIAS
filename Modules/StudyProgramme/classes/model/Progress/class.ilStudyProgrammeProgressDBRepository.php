@@ -142,7 +142,10 @@ implements ilStudyProgrammeProgressRepository
 		return $return;
 	}
 
-	public function readExpiredSuccessfull()
+	/**
+	 * @inheritdoc
+	 */
+	public function readExpiredSuccessfull() : array
 	{
 		$return = [];
 		foreach ($this->loadExpiredSuccessful() as $row) {
@@ -326,6 +329,7 @@ implements ilStudyProgrammeProgressRepository
 							false,
 							'integer'
 						)
+			.'		AND '.self::FIELD_VQ_DATE.' IS NOT NULL'
 			.'		AND DATE('.self::FIELD_VQ_DATE.') < '
 							.$this->db->quote(
 								(new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT)
