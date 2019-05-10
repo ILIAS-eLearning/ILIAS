@@ -24,11 +24,6 @@ class ParallelTest extends TestCase {
 	private $lng;
 
 	/**
-	 * @var Validation\Factory
-	 */
-	private $f;
-
-	/**
 	 * @var \ILIAS\Refinery\Factory
 	 */
 	private $refinery;
@@ -36,7 +31,6 @@ class ParallelTest extends TestCase {
 	protected function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
 		$this->refinery = new \ILIAS\Refinery\Factory($this->df, $this->lng);
 
 		$group = $this->refinery->custom();
@@ -51,7 +45,9 @@ class ParallelTest extends TestCase {
 			"not_less_than_5"
 		);
 
-		$this->c = $this->f->parallel([$this->less_than_3, $this->less_than_5]);
+		$this->c = $this->refinery
+			->logical()
+			->parallel([$this->less_than_3, $this->less_than_5]);
 	}
 
 	public function testAccepts() {

@@ -10,7 +10,6 @@ function with_contraints() {
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
     $refinery = new \ILIAS\Refinery\Factory($data, $lng);
     $pw_validation = $refinery->password();
 
@@ -18,7 +17,7 @@ function with_contraints() {
     //and add some constraints.
     $pwd_input = $ui->input()->field()->password("Password", "constraints in place.")
         ->withAdditionalConstraint(
-            $validation->parallel([
+            $refinery->logical()->parallel([
                 $refinery->string()->hasMinLength(8),
                 $pw_validation->hasLowerChars(),
                 $pw_validation->hasUpperChars(),

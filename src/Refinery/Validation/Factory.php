@@ -32,52 +32,6 @@ class Factory {
 		$this->lng->loadLanguageModule(self::LANGUAGE_MODULE);
 	}
 
-
-	// COMBINATORS
-
-	/**
-	 * Get a constraint that sequentially checks the supplied constraints.
-	 *
-	 * The new constraint tells the problem of the first violated constraint.
-	 *
-	 * @param   Constraint[]   $others
-	 * @return  Constraint
-	 */
-	public function sequential(array $others) {
-		return new Constraints\Sequential($others, $this->data_factory, $this->lng);
-	}
-
-	/**
-	 * Get a constraint that checks the supplied constraints in parallel.
-	 *
-	 * The new constraint tells the problems of all violated constraints.
-	 *
-	 * @param   Constraint[]   $others
-	 * @return	Constraint
-	 */
-	public function parallel(array $others) {
-		return new Constraints\Parallel($others, $this->data_factory, $this->lng);
-	}
-
-	/**
-	 * Get a negated constraint.
-	 *
-	 * @param   Constraint   $other
-	 * @return  Constraint
-	 */
-	public function not(Constraint $other) {
-		return new Constraints\Not($other, $this->data_factory, $this->lng);
-	}
-
-	/**
-	 * Get a logical or constraint.
-	 * @param   Constraint[]   $others
-	 * @return  Constraint
-	 */
-	public function or(array $others) {
-		return new Constraints\LogicalOr($others, $this->data_factory, $this->lng);
-	}
-
 	// SOME RESTRICTIONS
 
 	/**

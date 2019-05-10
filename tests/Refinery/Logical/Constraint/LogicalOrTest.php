@@ -112,12 +112,11 @@ class LogicalOrTest extends TestCase
 	{
 		$mock = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
 		$data_factory = new Data\Factory();
-		$f = new Validation\Factory($data_factory, $mock);
 
 		$refinery = new \ILIAS\Refinery\Factory($data_factory, $mock);
 		return [
-			[$f->or([$refinery->int()->isLessThan(6), $refinery->int()->isGreaterThan(100)]), '5', 8],
-			[$f->or([$refinery->int()->isGreaterThan(5), $refinery->int()->isLessThan(2)]), 7, 3]
+			[$refinery->logical()->logicalOr([$refinery->int()->isLessThan(6), $refinery->int()->isGreaterThan(100)]), '5', 8],
+			[$refinery->logical()->logicalOr([$refinery->int()->isGreaterThan(5), $refinery->int()->isLessThan(2)]), 7, 3]
 		];
 	}
 }

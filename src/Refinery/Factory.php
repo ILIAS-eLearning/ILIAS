@@ -92,4 +92,14 @@ class Factory
 	{
 		return new Password\Group($this->dataFactory, $this->language);
 	}
+
+	/**
+	 * Contains constraints for logical compositions with other constraints
+	 *
+	 * @return Logical\Group
+	 */
+	public function logical()
+	{
+		return new Logical\Group($this->dataFactory, $this->language);
+	}
 }

@@ -115,7 +115,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 			->to()
 			->listOf($this->refinery->to()->string());
 
-		return $this->validation_factory->sequential(
+		return $this->refinery->logical()->sequential(
 			[$constraint, $listTransformation]
 		);
 	}

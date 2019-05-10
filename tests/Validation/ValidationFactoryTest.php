@@ -56,32 +56,6 @@ class ValidationFactoryTest extends TestCase {
 		$this->assertInstanceOf(Validation\Constraint::class, $custom);
 	}
 
-	public function testSequential() {
-		$constraints = array(
-			new HasMinLength(5, $this->data_factory, $this->lng),
-			new HasMaxLength(15, $this->data_factory, $this->lng)
-		);
-
-		$sequential = $this->f->sequential($constraints);
-		$this->assertInstanceOf(Validation\Constraint::class, $sequential);
-	}
-
-	public function testParallel() {
-		$constraints = array(
-			new HasMinLength(5, $this->data_factory, $this->lng),
-			new HasMaxLength(15, $this->data_factory, $this->lng)
-		);
-
-		$parallel = $this->f->parallel($constraints);
-		$this->assertInstanceOf(Validation\Constraint::class, $parallel);
-	}
-
-	public function testNot() {
-		$constraint = new HasMinLength(5, $this->data_factory, $this->lng);
-		$not = $this->f->not($constraint);
-		$this->assertInstanceOf(Validation\Constraint::class, $not);
-	}
-
 	public function testLoadsLanguageModule() {
 		$lng = $this->createMock(\ilLanguage::class);
 

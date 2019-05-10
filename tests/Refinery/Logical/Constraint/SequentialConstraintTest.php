@@ -33,10 +33,19 @@ class SequentialTest extends TestCase {
 	 */
 	private $refinery;
 
+	/**
+	 * @var Validation\Constraint
+	 */
+	private $greater_than_3;
+
+	/**
+	 * @var Validation\Constraint
+	 */
+	private $less_than_5;
+
 	protected function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
 		$this->refinery = new \ILIAS\Refinery\Factory($this->df, $this->lng);
 
 		$group = $this->refinery->custom();
@@ -51,7 +60,9 @@ class SequentialTest extends TestCase {
 			"not_less_than_5"
 		);
 
-		$this->c = $this->f->sequential([$this->greater_than_3, $this->less_than_5]);
+		$this->c = $this->refinery
+			->logical()
+			->sequential([$this->greater_than_3, $this->less_than_5]);
 	}
 
 	public function testAccepts() {

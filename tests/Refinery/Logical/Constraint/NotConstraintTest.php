@@ -19,29 +19,33 @@ class NotTest extends TestCase {
 	private $lng;
 
 	/**
-	 * @var Validation\Factory
-	 */
-	private $f;
-
-	/**
 	 * @var \ILIAS\Refinery\Factory
 	 */
 	private $refinery;
 
+	/**
+	 * @var
+	 */
+	private $not_true;
+
+	/**
+	 * @var
+	 */
+	private $not_false;
+
 	public function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
 		$this->refinery = new \ILIAS\Refinery\Factory($this->df, $this->lng);
 
 		$group = $this->refinery->custom();
 
-		$this->not_true = $this->f->not($group->constraint(
+		$this->not_true = $this->refinery->logical()->not($group->constraint(
 			function($v) { return true; },
 			"not_true"
 		));
 
-		$this->not_false = $this->f->not($group->constraint(
+		$this->not_false = $this->refinery->logical()->not($group->constraint(
 			function($v) { return false; },
 			"not_false"
 		));
