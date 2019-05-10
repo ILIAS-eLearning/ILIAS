@@ -519,3 +519,15 @@ $ilDB->addIndex('il_orgu_ua', array('position_id','user_id'), 'pu');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#44>
+<?php
+if($ilDB->tableColumnExists("map_area", "href")) {
+	$field = array(
+		'type' 		=> 'text',
+		'length' 	=> 800,
+		'notnull' 	=> false
+	);
+
+	$ilDB->modifyTableColumn("map_area", "href", $field);
+}
+?>
