@@ -39,12 +39,12 @@ class TransformationFactoryTest extends TestCase {
 		$this->assertInstanceOf(Transformation\Transformation::class, $data);
 	}
 
-	public function testToDate() {
-		$t = $this->f->toDate();
+	public function testToDateTime() {
+		$t = $this->f->toDateTime();
 		$this->assertInstanceOf(Transformation\Transformation::class, $t);
 	}
-	public function testToTZDate() {
-		$t = $this->f->toTZDate('Europe/Berlin');
+	public function testToDateTimeWithTimezone() {
+		$t = $this->f->toDateTimeWithTimezone('Europe/Berlin');
 		$this->assertInstanceOf(Transformation\Transformation::class, $t);
 	}
 

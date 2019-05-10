@@ -19,7 +19,7 @@ function base() {
 		->withMinValue(new DateTime())
 		->withFormat($data->dateFormat()->germanShort());
 	$time = $date->withTimeOnly(true);
-	$both = $date->withTime(true);
+	$both = $date->withUseTime(true);
 
 	//setting a timezone will return a date with this timezone.
 	$tz = 'Asia/Tokyo';

@@ -33,15 +33,6 @@ interface DateTime extends Input
 	public function getTimezone();
 
 	/**
-	 * Return the datetime format in a form fit for the JS-component of this input.
-	 * Currently, this means transforming the elements of DateFormat to momentjs.
-	 *
-	 * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
-	 * http://momentjs.com/docs/#/displaying/format/
-	 */
-	public function getTransformedFormat(): string;
-
-	/**
 	 * Limit accepted values to datetime past (and including) the given $datetime.
 	 */
 	public function withMinValue(\DateTime $datetime) : DateTime;
@@ -67,7 +58,7 @@ interface DateTime extends Input
 	 * Input both date and time.
 	 * @return  DateTime
 	 */
-	public function withTime(bool $with_time) : DateTime;
+	public function withUseTime(bool $with_time) : DateTime;
 
 	/**
 	 * Should the input be used to get both date and time?

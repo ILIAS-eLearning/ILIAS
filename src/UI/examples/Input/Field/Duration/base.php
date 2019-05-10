@@ -18,7 +18,7 @@ function base() {
 	$time = $duration->withTimeOnly(true)->withRequired(true);
 	$timezone = $duration
 		->withTimezone('America/El_Salvador')
-		->withTime(true)
+		->withUseTime(true)
 		->withByline('timezone and both time and date');
 
 	//Step 2: define form and form actions, attach the input

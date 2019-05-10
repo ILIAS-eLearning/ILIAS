@@ -142,23 +142,6 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	}
 
 	/**
-	 * @inheritdoc
-	 */
-	public function getTransformedFormat(): string
-	{
-		$mapping = DTField::FORMAT_MAPPING;
-		$ret = '';
-		foreach ($this->format->toArray() as $element) {
-			if(array_key_exists($element, $mapping)) {
-				$ret .= $mapping[$element];
-			} else {
-				$ret .= $element;
-			}
-		}
-		return $ret;
-	}
-
-	/**
 	 * apply format to inputs
 	 */
 	protected function applyFormat() {
@@ -269,11 +252,11 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTime(bool $with_time): C\Input\Field\Duration
+	public function withUseTime(bool $with_time): C\Input\Field\Duration
 	{
 		$clone = clone $this;
 		$clone->with_time = $with_time;
-		$clone->applyWithTime();
+		$clone->applyWithUseTime();
 		return $clone;
 	}
 
@@ -288,10 +271,10 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * apply format to inputs
 	 */
-	protected function applyWithTime() {
+	protected function applyWithUseTime() {
 		$this->inputs = array_map(
 			function($inpt) {
-				return $inpt->withTime($this->getUseTime());
+				return $inpt->withUseTime($this->getUseTime());
 			},
 			$this->inputs
 		);
@@ -302,7 +285,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	 */
 	public function withTimezone(string $tz): C\Input\Field\Duration
 	{
-		$trafo = $this->transformation_factory->toTZDate($tz);
+		$trafo = $this->transformation_factory->toDateTimeWithTimezone($tz);
 		$clone = clone $this;
 		$clone->timezone = $tz;
 

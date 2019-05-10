@@ -8,12 +8,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * TestCase for timezone transformation
  */
-class TZDateTest extends TestCase {
-	/**
-	 * @var Transformation\Transformations\Date
-	 */
-	private $trans;
-
+class DateTimeWithTimezoneTest extends TestCase
+{
 	protected function setUp(): void
 	{
 		$this->tf = new Transformation\Factory();
@@ -22,9 +18,9 @@ class TZDateTest extends TestCase {
 	public function testConstruction()
 	{
 		$tz = 'America/El_Salvador';
-		$trans = $this->tf->toTZDate($tz);
+		$trans = $this->tf->toDateTimeWithTimezone($tz);
 		$this->assertInstanceOf(
-			Transformation\Transformations\TZDate::class,
+			Transformation\Transformations\DateTimeWithTimezone::class,
 			$trans
 		);
 	}
@@ -32,7 +28,7 @@ class TZDateTest extends TestCase {
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$tz = 'MiddleEarth/Minas_Morgul';
-		$trans = $this->tf->toTZDate($tz);
+		$trans = $this->tf->toDateTimeWithTimezone($tz);
 	}
 
 	public function testTransform()
@@ -42,7 +38,7 @@ class TZDateTest extends TestCase {
 		$target_tz = 'Europe/London';
 		$origin = new \DateTime($dat, new \DateTimeZone($origin_tz));
 		$expected = new \DateTime($dat, new \DateTimeZone($target_tz));
-		$trans = $this->tf->toTZDate($target_tz);
+		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
 
 		$this->assertEquals(
 			$expected,
@@ -56,7 +52,7 @@ class TZDateTest extends TestCase {
 		$origin_tz = 'Europe/Berlin';
 		$target_tz = 'America/El_Salvador';
 		$origin = new \DateTime($dat, new \DateTimeZone($origin_tz));
-		$trans = $this->tf->toTZDate($target_tz);
+		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
 		$this->assertEquals(
 			$dat,
 			date_format($trans->transform($origin), 'Y-m-d H:i:s')
@@ -65,14 +61,14 @@ class TZDateTest extends TestCase {
 
 	public function testNullTransform()
 	{
-		$trans = $this->tf->toTZDate('Europe/Berlin');
+		$trans = $this->tf->toDateTimeWithTimezone('Europe/Berlin');
 		$this->assertNull($trans->transform(null));
 	}
 
 	public function testInvalidTransform()
 	{
 		$this->expectException(\InvalidArgumentException::class);
-		$trans = $this->tf->toTZDate('Europe/Berlin');
+		$trans = $this->tf->toDateTimeWithTimezone('Europe/Berlin');
 		$trans->transform('erroneous');
 	}
 
@@ -83,13 +79,13 @@ class TZDateTest extends TestCase {
 		$target_tz = 'Europe/London';
 		$origin = new \DateTime($dat, new \DateTimeZone($origin_tz));
 		$expected = new \DateTime($dat, new \DateTimeZone($target_tz));
-		$trans = $this->tf->toTZDate($target_tz);
+		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
 		$this->assertEquals($expected, $trans($origin));
 	}
 
 	public function testApplyToOK()
 	{
-		$trans = $this->tf->toTZDate('Europe/London');
+		$trans = $this->tf->toDateTimeWithTimezone('Europe/London');
 		$value = '2019/05/26';
 		$origin = new \DateTime($value);
 		$expected = new \DateTime($value, new \DateTimeZone('Europe/London'));
@@ -104,7 +100,7 @@ class TZDateTest extends TestCase {
 
 	public function testApplyToFail()
 	{
-		$trans = $this->tf->toTZDate('Europe/London');
+		$trans = $this->tf->toDateTimeWithTimezone('Europe/London');
 		$df = new \ILIAS\Data\Factory();
 		$ok = $df->ok('not_a_date');
 

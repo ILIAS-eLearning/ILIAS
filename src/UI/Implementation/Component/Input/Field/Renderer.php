@@ -12,6 +12,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Component;
 use \ILIAS\UI\Implementation\Render\Template;
+use ILIAS\Data\DateFormat as DateFormat;
 
 /**
  * Class Renderer
@@ -21,6 +22,21 @@ use \ILIAS\UI\Implementation\Render\Template;
 class Renderer extends AbstractComponentRenderer
 {
 	const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
+
+	const DATEPICKER_FORMAT_MAPPING = [
+		'd' => 'DD',
+		'jS' => 'Do',
+		'l' => 'dddd',
+		'D' => 'dd',
+		'S' => 'o',
+		'W' => '',
+		'm' => 'MM',
+		'F' => 'MMMM',
+		'M' => 'MMM',
+		'Y' => 'YYYY',
+		'y' => 'YY'
+	];
+
 
 	/**
 	 * @inheritdoc
@@ -571,7 +587,36 @@ class Renderer extends AbstractComponentRenderer
 		return $tpl->get();
 	}
 
-	protected function renderDateTimeInput(Template $tpl, DateTime $input) :string {
+	/**
+	 * Return the datetime format in a form fit for the JS-component of this input.
+	 * Currently, this means transforming the elements of DateFormat to momentjs.
+	 *
+	 * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
+	 * http://momentjs.com/docs/#/displaying/format/
+	*/
+	protected function getTransformedDateFormat(
+		DateFormat\DateFormat $origin,
+		array $mapping
+	): string {
+		$ret = '';
+		foreach ($origin->toArray() as $element) {
+			if(array_key_exists($element, $mapping)) {
+				$ret .= $mapping[$element];
+			} else {
+				$ret .= $element;
+			}
+		}
+		return $ret;
+	}
+
+	/**
+	 * @param Template $tpl
+	 * @param DateTime $input
+	 *
+	 * @return string
+	 */
+	protected function renderDateTimeInput(Template $tpl, DateTime $input): string
+	{
 		global $DIC;
 		$f = $this->getUIFactory();
 		$renderer = $DIC->ui()->renderer()->withAdditionalContext($input);
@@ -580,7 +625,12 @@ class Renderer extends AbstractComponentRenderer
 			$format = $input::TIME_FORMAT;
 		} else {
 			$cal_glyph = $f->glyph()->calendar("#");
-			$format = $input->getTransformedFormat();
+
+			$format = $this->getTransformedDateFormat(
+				$input->getFormat(),
+				self::DATEPICKER_FORMAT_MAPPING
+			);
+
 			if($input->getUseTime() === true) {
 				$format .= ' ' .$input::TIME_FORMAT;
 			}

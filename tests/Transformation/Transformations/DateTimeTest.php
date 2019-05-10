@@ -6,9 +6,9 @@ use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
 /**
- * TestCase for Date transformations
+ * TestCase for DateTime transformations
  */
-class DateTest extends TestCase {
+class DateTimeTest extends TestCase {
 	/**
 	 * @var Transformation\Transformations\Date
 	 */
@@ -17,7 +17,7 @@ class DateTest extends TestCase {
 	protected function setUp(): void
 	{
 		$f = new Transformation\Factory();
-		$this->trans = $f->toDate();
+		$this->trans = $f->toDateTime();
 	}
 
 	public function testTransform()

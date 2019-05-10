@@ -24,20 +24,6 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 
 	const TIME_FORMAT = 'HH:mm';
 
-	const FORMAT_MAPPING = [
-		'd' => 'DD',
-		'jS' => 'Do',
-		'l' => 'dddd',
-		'D' => 'dd',
-		'S' => 'o',
-		'W' => '',
-		'm' => 'MM',
-		'F' => 'MMMM',
-		'M' => 'MMM',
-		'Y' => 'YYYY',
-		'y' => 'YY'
-	];
-
 	/**
 	 * @var DateFormat
 	 */
@@ -96,7 +82,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 
 		$this->transformation_factory = $transformation_factory;
-		$trafo = $transformation_factory->toDate();
+		$trafo = $transformation_factory->toDateTime();
 		$this->setAdditionalTransformation($trafo);
 		$this->format = $data_factory->dateFormat()->standard();
 	}
@@ -124,7 +110,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 */
 	public function withTimezone(string $tz): C\Input\Field\DateTime
 	{
-		$trafo = $this->transformation_factory->toTZDate($tz);
+		$trafo = $this->transformation_factory->toDateTimeWithTimezone($tz);
 		$clone = clone $this;
 		$clone->timezone = $tz;
 		return $clone->withAdditionalTransformation($trafo);
@@ -136,23 +122,6 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	public function getTimezone()
 	{
 		return $this->timezone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getTransformedFormat(): string
-	{
-		$mapping = static::FORMAT_MAPPING;
-		$ret = '';
-		foreach ($this->format->toArray() as $element) {
-			if(array_key_exists($element, $mapping)) {
-				$ret .= $mapping[$element];
-			} else {
-				$ret .= $element;
-			}
-		}
-		return $ret;
 	}
 
 	/**
@@ -194,7 +163,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTime(bool $with_time): C\Input\Field\DateTime
+	public function withUseTime(bool $with_time): C\Input\Field\DateTime
 	{
 		$clone = clone $this;
 		$clone->with_time = $with_time;
@@ -245,7 +214,6 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 
 	/**
 	 * Get config to be passed to the bootstrap picker.
-	 * Used by the renderer only.
 	 * @return array <string => mixed>
 	 */
 	public function getAdditionalPickerconfig(): array
@@ -255,7 +223,6 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 
 	/**
 	 * The bootstrap picker can be configured, e.g. with a minimum date.
-	 * Used by the renderer only.
 	 * @param array <string => mixed> $config
 	 * @return DateTime
 	 */

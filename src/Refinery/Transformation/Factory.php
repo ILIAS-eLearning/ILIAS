@@ -54,12 +54,13 @@ class Factory {
 	}
 
 	/**
-	 * Transform to php DateTime.
+	 * Transform a string to php DateTime; the string can be anything
+	 * understood by php's DateTime::__construct.
 	 *
 	 * @return  Transformation
 	 */
-	public function toDate() {
-		return new Transformations\Date(new \ILIAS\Data\Factory());
+	public function toDateTime() {
+		return new Transformations\DateTime(new \ILIAS\Data\Factory());
 	}
 
 	/**
@@ -68,8 +69,8 @@ class Factory {
 	 *
 	 * @return  Transformation
 	 */
-	public function toTZDate(string $timezone) {
-		return new Transformations\TZDate($timezone, new \ILIAS\Data\Factory());
+	public function toDateTimeWithTimezone(string $timezone) {
+		return new Transformations\DateTimeWithTimezone($timezone, new \ILIAS\Data\Factory());
 	}
 
 

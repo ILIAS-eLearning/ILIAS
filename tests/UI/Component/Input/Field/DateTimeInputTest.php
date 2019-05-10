@@ -68,10 +68,10 @@ class DateTimeInputTest extends ILIAS_UI_TestBase {
 		);
 	}
 
-	public function test_withTime() {
+	public function test_withUseTime() {
 		$datetime = $this->factory->datetime('label', 'byline');
 		$this->assertFalse($datetime->getUseTime());
-		$this->assertTrue($datetime->withTime(true)->getUseTime());
+		$this->assertTrue($datetime->withUseTime(true)->getUseTime());
 	}
 
 	public function test_withTimeOnly() {

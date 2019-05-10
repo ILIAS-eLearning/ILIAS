@@ -10,7 +10,7 @@ use ILIAS\Refinery\Transformation\Transformation;
 /**
  * Transform value to php \DateTime
  */
-class Date implements Transformation {
+class DateTime implements Transformation {
 
 	/**
 	 * @var DataFactory
@@ -44,7 +44,7 @@ class Date implements Transformation {
 	 * @param mixed $value
 	 * @return Result
 	 */
-	private function attemptTransformation($value): Result
+	protected function attemptTransformation($value): Result
 	{
 		try {
 			$value = new \DateTime($value);
@@ -68,7 +68,7 @@ class Date implements Transformation {
 	{
 		$value = $data->value();
 		if($value instanceof \DateTime) {
-			$value = date_format($value, "Y/m/d H:i:s");
+			return $this->factory->ok($value);
 		}
 		return $this->attemptTransformation($value);
 	}

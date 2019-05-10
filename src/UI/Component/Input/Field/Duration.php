@@ -22,15 +22,6 @@ interface Duration extends Group
 	public function getFormat(): DateFormat;
 
 	/**
-	 * Return the Duration format in a form fit for the JS-component of this input.
-	 * Currently, this means transforming the elements of DateFormat to momentjs.
-	 *
-	 * http://eonasdan.github.io/bootstrap-Durationpicker/Options/#format
-	 * http://momentjs.com/docs/#/displaying/format/
-	 */
-	public function getTransformedFormat(): string;
-
-	/**
 	 * Limit accepted values to Duration past (and including) the given $Duration.
 	 */
 	public function withMinValue(\DateTime $date) : Duration;
@@ -56,7 +47,7 @@ interface Duration extends Group
 	 * Input both date and time.
 	 * @return  Duration
 	 */
-	public function withTime(bool $with_time) : Duration;
+	public function withUseTime(bool $with_time) : Duration;
 
 	/**
 	 * Should the input be used to get both date and time?

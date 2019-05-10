@@ -10,7 +10,7 @@ use ILIAS\Refinery\Transformation\Transformation;
 /**
  * change the timezone of php's \DateTime
  */
-class TZDate implements Transformation
+class DateTimeWithTimezone implements Transformation
 {
 	/**
 	 * @var \DateTimeZone
@@ -60,7 +60,7 @@ class TZDate implements Transformation
 	 * @param \DateTime $from
 	 * @return \DateTime
 	 */
-	private function performTransformation(\DateTime $from): \DateTime
+	protected function performTransformation(\DateTime $from): \DateTime
 	{
 		$offset = $this->getTimezoneDeltaInHours(
 			$from->getTimezone(),
