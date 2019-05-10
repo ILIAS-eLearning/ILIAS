@@ -104,16 +104,12 @@ class Tag extends Input implements C\Input\Field\Tag {
 			}, "Empty array"
 		);
 
-		$this->refinery
-			->to()
-			->listOf($this->refinery->to()->string());
-
-		$listTransformation = $this->refinery
-			->to()
-			->listOf($this->refinery->to()->string());
+//		$listTransformation = $this->refinery
+//			->to()
+//			->listOf($this->refinery->to()->string());
 
 		return $this->refinery->logical()->sequential(
-			[$constraint, $listTransformation]
+			[$constraint]
 		);
 	}
 

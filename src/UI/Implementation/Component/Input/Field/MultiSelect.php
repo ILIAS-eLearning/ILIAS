@@ -19,7 +19,6 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 
 	/**
 	 * @param DataFactory $data_factory
-	 * @param ValidationFactory $validation_factory
 	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param string $label
 	 * @param array $options
@@ -27,7 +26,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$options,
 		$byline

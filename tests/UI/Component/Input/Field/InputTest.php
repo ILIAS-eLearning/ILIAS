@@ -89,11 +89,9 @@ class InputTest extends ILIAS_UI_TestBase {
 	public function setUp(): void{
 		$this->data_factory = new DataFactory();
 		$language = $this->createMock(\ilLanguage::class);
-		$this->validation_factory = new ValidationFactory($this->data_factory, $language);
 		$this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $language);
 		$this->input = new DefInput(
 			$this->data_factory,
-			$this->validation_factory,
 			$this->refinery,
 			"label",
 			"byline"

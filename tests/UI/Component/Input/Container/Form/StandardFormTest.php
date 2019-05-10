@@ -8,8 +8,6 @@ require_once(__DIR__ . "/FormTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
-use ILIAS\Refinery;
-use ILIAS\Refinery;
 
 class WithButtonNoUIFactory extends NoUIFactory {
 

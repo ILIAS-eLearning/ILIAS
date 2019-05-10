@@ -81,9 +81,6 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		$this->checkBoolArg('numbers', $numbers);
 		$this->checkBoolArg('special', $special);
 
-		$data = $this->data_factory;
-		$validation = $this->validation_factory;
-
 		$pw_validation = $this->refinery->password();
 		$constraints = [
 			$this->refinery->string()->hasMinLength($min_length),

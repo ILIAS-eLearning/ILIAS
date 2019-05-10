@@ -50,6 +50,10 @@ class NewMethodTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (false === is_array($from)) {
+			$from = array($from);
+		}
+
 		return call_user_func_array(array($this->object, $this->method), $from);
 	}
 
