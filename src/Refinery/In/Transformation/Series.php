@@ -7,7 +7,7 @@ declare(strict_types=1);
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\In\Transformation;
+namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;

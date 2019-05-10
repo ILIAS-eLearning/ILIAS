@@ -8,7 +8,7 @@
 namespace ILIAS\Tests\Refinery\In\Transformation;
 
 use ILIAS\Data\Result\Ok;
-use ILIAS\In\Transformation\Series;
+use ILIAS\Refinery\Series;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\ConstraintViolationException;

@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
-use ILIAS\In\Transformation\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
