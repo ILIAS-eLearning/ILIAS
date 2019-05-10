@@ -4,7 +4,7 @@
 namespace ILIAS\Setup\CLI;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * The ILIAS-setup-console-application.
