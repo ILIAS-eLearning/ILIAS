@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Validation\Constraints;
+namespace ILIAS\Refinery;
 use ILIAS\Refinery\Custom\Constraints\Custom;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
 class Parallel extends Custom implements Constraint {

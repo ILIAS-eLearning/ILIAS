@@ -10,7 +10,7 @@ namespace ILIAS\Tests\Refinery\To\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');

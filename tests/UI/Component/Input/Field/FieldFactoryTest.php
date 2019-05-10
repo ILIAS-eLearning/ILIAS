@@ -5,7 +5,7 @@ require_once 'tests/UI/AbstractFactoryTest.php';
 use \ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 
 class FieldFactoryTest extends AbstractFactoryTest {
 

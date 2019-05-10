@@ -2,9 +2,9 @@
 /* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
 docs/LICENSE */
 
-namespace ILIAS\Refinery\Validation\Constraints;
+namespace ILIAS\Refinery;
 use ILIAS\Refinery\Custom\Constraints\Custom;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
 class IsNumeric extends Custom implements Constraint {

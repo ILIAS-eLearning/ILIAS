@@ -4,7 +4,7 @@
 namespace ILIAS\Refinery\Numeric;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Validation\Constraints\IsNumeric;
+use ILIAS\Refinery\IsNumeric;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

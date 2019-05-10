@@ -4,7 +4,7 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 

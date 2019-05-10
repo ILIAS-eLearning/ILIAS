@@ -5,7 +5,7 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery\Validation\Constraints;
+namespace ILIAS\Refinery;
 
 /***
  * Signals the violation of some constraint on a value in a way that can be subject

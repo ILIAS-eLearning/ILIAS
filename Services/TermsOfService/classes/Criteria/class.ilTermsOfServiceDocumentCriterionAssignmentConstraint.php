@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Custom\Constraints\Custom;
 
 /**

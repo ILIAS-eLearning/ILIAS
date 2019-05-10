@@ -8,7 +8,7 @@ require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 
 /**
  * Class TagInputTest

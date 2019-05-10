@@ -2,7 +2,7 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Custom\Constraints;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Data\Result;
 

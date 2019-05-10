@@ -9,7 +9,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use ILIAS\UI\Component\Input\Field\Input;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 use \ILIAS\Refinery\Transformation;
 
 interface Input1 extends InputInternal {};

@@ -6,8 +6,8 @@ require_once 'libs/composer/vendor/autoload.php';
 use ILIAS\Data;
 use ILIAS\Refinery\Integer\Constraints\GreaterThan;
 use ILIAS\Refinery\Integer\Constraints\LessThan;
-use ILIAS\Refinery\Validation;
-use ILIAS\Refinery\Validation\Constraints\LogicalOr;
+use ILIAS\Refinery;
+use ILIAS\Refinery\LogicalOr;
 use PHPUnit\Framework\TestCase;
 
 /**

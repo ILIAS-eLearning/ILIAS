@@ -2,7 +2,7 @@
 /* Copyright (c) 2017 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\String\Constraints;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraints\Custom;
 

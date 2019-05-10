@@ -1,11 +1,11 @@
 <?php
 /* Copyright (c) 2018 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Validation\Constraints;
+namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Data;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 
 /**
  * Class IsNull

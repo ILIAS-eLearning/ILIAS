@@ -4,7 +4,7 @@
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Refinery\String\Constraints\HasMinLength;
-use ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ class HasMinLengthConstraintTest extends TestCase {
 	private $min_length;
 
 	/**
-	 * @var Validation\Constraint
+	 * @var Refinery\Constraint
 	 */
 	private $c;
 

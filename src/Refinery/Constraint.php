@@ -2,7 +2,7 @@
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Validation;
+namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
 

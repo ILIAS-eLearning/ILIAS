@@ -4,11 +4,11 @@
 namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Validation\Constraint;
-use ILIAS\Refinery\Validation\Constraints\LogicalOr;
-use ILIAS\Refinery\Validation\Constraints\Not;
-use ILIAS\Refinery\Validation\Constraints\Parallel;
-use ILIAS\Refinery\Validation\Constraints\Sequential;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\LogicalOr;
+use ILIAS\Refinery\Not;
+use ILIAS\Refinery\Parallel;
+use ILIAS\Refinery\Sequential;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

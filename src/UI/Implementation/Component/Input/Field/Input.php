@@ -13,7 +13,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 

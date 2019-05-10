@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace ILIAS\In\Transformation;
 
 use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class Series implements Transformation
 {

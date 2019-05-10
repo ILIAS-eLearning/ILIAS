@@ -9,7 +9,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 //use ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 
 class MultiSelectInputTest extends ILIAS_UI_TestBase {
 

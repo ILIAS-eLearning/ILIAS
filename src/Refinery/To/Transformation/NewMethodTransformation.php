@@ -12,7 +12,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\In\Transformation\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class NewMethodTransformation implements Transformation
 {

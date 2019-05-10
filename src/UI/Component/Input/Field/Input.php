@@ -6,7 +6,7 @@ namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\OnUpdateable;
 

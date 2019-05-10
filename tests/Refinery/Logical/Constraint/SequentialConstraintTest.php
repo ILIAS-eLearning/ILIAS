@@ -3,7 +3,7 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -29,12 +29,12 @@ class SequentialTest extends TestCase {
 	private $refinery;
 
 	/**
-	 * @var Validation\Constraint
+	 * @var Refinery\Constraint
 	 */
 	private $greater_than_3;
 
 	/**
-	 * @var Validation\Constraint
+	 * @var Refinery\Constraint
 	 */
 	private $less_than_5;
 

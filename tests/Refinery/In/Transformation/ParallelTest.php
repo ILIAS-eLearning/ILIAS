@@ -13,7 +13,7 @@ use ILIAS\In\Transformation\Parallel;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');

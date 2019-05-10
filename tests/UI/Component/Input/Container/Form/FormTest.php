@@ -13,7 +13,7 @@ use \ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 
 use Psr\Http\Message\ServerRequestInterface;
 

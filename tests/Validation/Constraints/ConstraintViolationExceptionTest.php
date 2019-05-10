@@ -17,13 +17,13 @@ class ConstraintViolationExceptionTest extends TestCase
 		};
 
 		try {
-			throw new \ILIAS\Refinery\Validation\Constraints\ConstraintViolationException(
+			throw new \ILIAS\Refinery\ConstraintViolationException(
 				'This is an error message for developers',
 				'some_key',
 				'Value To Replace',
 				'Some important stuff'
 			);
-		} catch (\ILIAS\Refinery\Validation\Constraints\ConstraintViolationException $exception) {
+		} catch (\ILIAS\Refinery\ConstraintViolationException $exception) {
 			$this->assertEquals(
 				'Some text "Value To Replace" and "Some important stuff"',
 				$exception->getTranslatedMessage($callback)

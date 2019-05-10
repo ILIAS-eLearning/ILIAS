@@ -11,7 +11,7 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 class FloatTransformationTest extends TestCase
