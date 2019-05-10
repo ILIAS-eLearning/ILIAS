@@ -95,13 +95,12 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	{
 		$result = new ilCronJobResult();
 		$result->setStatus(ilCronJobResult::STATUS_OK);
-		var_dump(count($this->user_progress_db->getExpiredSuccessfulInstances()));
 		foreach ($this->user_progress_db->getExpiredSuccessfulInstances() as $progress) {
-			//try {
+			try {
 				$progress->markFailed(6);
-			//} catch (ilException $e) {
-			//	$this->log->write('an error occured: '.$e->getMessage());
-			//}
+			} catch (ilException $e) {
+				$this->log->write('an error occured: '.$e->getMessage());
+			}
 		}
 		return $result;
 	}
