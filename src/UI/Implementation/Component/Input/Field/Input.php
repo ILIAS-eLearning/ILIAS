@@ -90,7 +90,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 *
 	 * @param DataFactory $data_factory
 	 * @param ValidationFactory $validation_factory
-	 * @param TransformationFactory $transformation_factory
 	 * @param Factory $refinery
 	 * @param                       $label
 	 * @param                       $byline
@@ -98,14 +97,12 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	public function __construct(
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
 		Factory $refinery,
 		$label,
 		$byline
 	) {
 		$this->data_factory = $data_factory;
 		$this->validation_factory = $validation_factory;
-		$this->transformation_factory = $transformation_factory;
 		$this->refinery = $refinery;
 		$this->checkStringArg("label", $label);
 		if ($byline !== null) {
