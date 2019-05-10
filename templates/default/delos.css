@@ -6984,7 +6984,7 @@ button.close {
   order: 4;
   background-color: #f9f9f9;
   text-align: center;
-  padding: 8px 0 0 0;
+  padding-top: 8px;
 }
 .panel-secondary .panel-heading.ilHeader {
   padding-bottom: 0;
