@@ -21,7 +21,6 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	/**
 	 * @param DataFactory $data_factory
 	 * @param ValidationFactory $validation_factory
-	 * @param TransformationFactory $transformation_factory
 	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param string $label
 	 * @param array $options

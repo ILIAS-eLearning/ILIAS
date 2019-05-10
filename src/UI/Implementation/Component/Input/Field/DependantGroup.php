@@ -46,7 +46,6 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 	 *
 	 * @param DataFactory              $data_factory
 	 * @param ValidationFactory        $validation_factory
-	 * @param TransformationFactory    $transformation_factory
 	 * @param \ILIAS\Refinery\Factory  $refinery
 	 * @param SignalGeneratorInterface $signal_generator
 	 * @param                          $inputs

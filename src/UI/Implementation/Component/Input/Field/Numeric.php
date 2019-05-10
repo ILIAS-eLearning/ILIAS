@@ -19,7 +19,6 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	 *
 	 * @param DataFactory $data_factory
 	 * @param ValidationFactory $validation_factory
-	 * @param TransformationFactory $transformation_factory
 	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param             $label
 	 * @param             $byline
