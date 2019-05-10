@@ -109,9 +109,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 												? $this->lng->txt("yes")
 												: $this->lng->txt("no"));
 		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
-		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown( $a_set["actions"]
-																	 , $a_set["prgrs_id"]
-																	 , $a_set["assignment_id"]));
+
 
 		foreach ($this->getSelectedColumns() as $column) {
 			switch($column) {
@@ -120,6 +118,21 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 					$this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
 					$this->tpl->parseCurrentBlock("assign_date");
 					break;
+				case "prg_completion_date":
+					$this->tpl->setCurrentBlock("prg_completion_date");
+					$this->tpl->setVariable("COMPLETION_DATE", $a_set["completion_date"]);
+					$this->tpl->parseCurrentBlock("prg_completion_date");
+					break;
+				case "prg_expiry_date":
+					$this->tpl->setCurrentBlock("prg_expiry_date");
+					$this->tpl->setVariable("EXPIRY_DATE", $a_set["vq_date"]);
+					$this->tpl->parseCurrentBlock("prg_expiry_date");
+					break;
+				case "prg_validity":
+					$this->tpl->setCurrentBlock("prg_validity");
+					$this->tpl->setVariable("VALIDITY",$a_set['prg_validity']);
+					$this->tpl->parseCurrentBlock("prg_validity");
+					break;
 				case "prg_assigned_by":
 					$this->tpl->setCurrentBlock("assigned_by");
 					$this->tpl->setVariable("ASSIGNED_BY", $a_set["prg_assigned_by"]);
@@ -127,6 +140,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 					break;
 			}
 		}
+		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown( $a_set["actions"]
+																	 , $a_set["prgrs_id"]
+																	 , $a_set["assignment_id"]));
 	}
 
 	/**
@@ -196,6 +212,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , cmpl_obj.type completion_by_type"
 				   ."     , prgrs.completion_by completion_by_id"
 				   ."     , prgrs.assignment_id assignment_id"
+				   ."     , prgrs.completion_date"
+				   ."     , prgrs.vq_date"
 				   ."     , ass.root_prg_id root_prg_id"
 				   ."     , ass.last_change prg_assign_date"
 				   ."     , ass_usr.login prg_assigned_by"
@@ -220,7 +238,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			$this->db->setLimit($limit, $offset !== null ? $offset : 0);
 		}
 		$res = $this->db->query($query);
-
+		$now = (new DateTime())->format('Y-m-d H:i:s');
 		$members_list = array();
 		while($rec = $this->db->fetchAssoc($res)) {
 			$rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
@@ -245,7 +263,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			else if($rec["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 				$rec["completion_by"] = $rec["accredited_by"];
 			}
-
+			if(!$rec['completion_date']) {
+				$rec['completion_date'] = '';
+			}
+			if($rec['vq_date']) {
+				$rec['prg_validity'] = $rec["vq_date"] > $now ? $this->lng->txt('prg_still_valid') : $this->lng->txt('prg_renewal_required');
+			} else {
+				$rec['prg_validity'] = '';
+				$rec['vq_date'] = '';
+			}
 			$members_list[] = $rec;
 		}
 		return $members_list;
@@ -313,6 +339,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$cols["prg_assigned_by"] = array(
 				"txt" => $this->lng->txt("prg_assigned_by"));
 
+		$cols["prg_completion_date"] = array(
+				"txt" => $this->lng->txt("prg_completion_date"));
+
+		$cols["prg_expiry_date"] = array(
+				"txt" => $this->lng->txt("prg_expiry_date"));
+
+		$cols["prg_validity"] = array(
+				"txt" => $this->lng->txt("prg_validity"));
 		return $cols;
 	}
 

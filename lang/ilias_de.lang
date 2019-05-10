@@ -11200,6 +11200,26 @@ prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
 prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums abgeschlossen werden.
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_validity_of_qualification#:#Gültigkeit des Studienprograms
+prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
+prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
+prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
+prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
+prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
+prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
+prg#:#sp_certificate_title#:#Titel des Studienprograms
+prg#:#sp_certificate_description#:#Beschreibung des Studienprograms
+prg#:#sp_certificate_type#:#Typ des Studienprograms
+prg#:#sp_certificate_points#:#Anzahl erworbener Punkte
+prg#:#sp_certificate_completion_date#:#Abschlußdatum
+prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
+prg#:#prg_completion_date#:#Abschlußdatum
+prg#:#prg_expiry_date#:#Ablaufdatum der Qualifikation
+prg#:#prg_validity#:#Gültigkeit der Qualifikation
+prg#:#prg_still_valid#:#Qualifikation gültig
+prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
