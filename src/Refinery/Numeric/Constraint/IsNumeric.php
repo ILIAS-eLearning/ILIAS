@@ -2,7 +2,8 @@
 /* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
 docs/LICENSE */
 
-namespace ILIAS\Refinery;
+namespace ILIAS\Refinery\Numeric\Constraint;
+
 use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
