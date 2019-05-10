@@ -41,11 +41,12 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline,
 		$signal_generator
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
 
 		$this->signal_generator = $signal_generator;
 		$trafo = $transformation_factory->toData('password');
@@ -64,7 +65,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		return $this->validation_factory->hasMinLength(1);
+		return $this->refinery->string()->hasMinLength(1);
 	}
 
 	/**
@@ -88,7 +89,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		$validation = $this->validation_factory;
 		$pw_validation = $validation->password();
 		$constraints = [
-			$pw_validation->hasMinLength($min_length),
+			$this->refinery->string()->hasMinLength($min_length),
 		];
 
 		if($lower) {

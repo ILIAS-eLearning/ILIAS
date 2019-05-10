@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
+use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -38,6 +39,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @var TransformationFactory
 	 */
 	protected $transformation_factory;
+	/**
+	 * @var Factory
+	 */
+	protected $refinery;
 	/**
 	 * @var string
 	 */
@@ -88,9 +93,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * Input constructor.
 	 *
-	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
+	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
 	 * @param TransformationFactory $transformation_factory
+	 * @param Factory $refinery
 	 * @param                       $label
 	 * @param                       $byline
 	 */
@@ -98,12 +104,14 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
+		Factory $refinery,
 		$label,
 		$byline
 	) {
 		$this->data_factory = $data_factory;
 		$this->validation_factory = $validation_factory;
 		$this->transformation_factory = $transformation_factory;
+		$this->refinery = $refinery;
 		$this->checkStringArg("label", $label);
 		if ($byline !== null) {
 			$this->checkStringArg("byline", $byline);

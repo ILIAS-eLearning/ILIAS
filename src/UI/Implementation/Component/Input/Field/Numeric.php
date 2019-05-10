@@ -19,6 +19,9 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	 * Numeric constructor.
 	 *
 	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
+	 * @param TransformationFactory $transformation_factory
+	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param             $label
 	 * @param             $byline
 	 */
@@ -26,11 +29,12 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
 
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
 
 		//TODO: Is there a better way to do this? Note, that "withConstraint" is not
 		// usable here (clone).

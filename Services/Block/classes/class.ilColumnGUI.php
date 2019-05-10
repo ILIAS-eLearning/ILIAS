@@ -143,9 +143,20 @@ class ilColumnGUI
 		"pd" => array(
 			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
 			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
+			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
+			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
+			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
+			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
+			"ilPDMailBlockGUI" => IL_COL_RIGHT
+			)
+		);
+	/*
+		"pd" => array(
+			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
+			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
-			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
-			"ilPDNewsBlockGUI" => IL_COL_LEFT,
+			"ilPDSysMessageBlockGUI" => IL_COL_RIGHT,
+			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
 			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
 			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
@@ -157,6 +168,7 @@ class ilColumnGUI
 			"ilForumPostingDraftsBlockGUI" => IL_COL_RIGHT
 			)
 		);
+	*/
 
 	// these are only for pd blocks
 	// other blocks are rep objects now
@@ -167,10 +179,12 @@ class ilColumnGUI
 		"frm" => array(),
 		"root" => array(),
 		"info" => array(),
-		"fold" => array(),
+		"fold" => array()
+	);
+	/*
 		"pd" => array("ilPDExternalFeedBlockGUI")
-		);
-		
+		);*/
+
 	// check global activation for these block types
 	// @todo: add calendar
 	protected $check_global_activation = 
@@ -951,6 +965,10 @@ class ilColumnGUI
 					{
 						$side = $def_side;
 					}
+					if ($side == IL_COL_LEFT)
+					{
+						$side = IL_COL_RIGHT;
+					}
 					
 					$this->blocks[$side][] = array(
 						"nr" => $nr,
@@ -1086,6 +1104,11 @@ class ilColumnGUI
 	{
 		$ilSetting = $this->settings;
 		$ilCtrl = $this->ctrl;
+
+		if ($a_type == 'pdfeed')
+		{
+			return false;
+		}
 
 		if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type])
 		{

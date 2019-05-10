@@ -21,10 +21,11 @@ class Text extends Input implements C\Input\Field\Text {
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
 		$this->setAdditionalTransformation($transformation_factory->custom(function($v) {
 			return strip_tags($v);
 		}));
@@ -42,7 +43,7 @@ class Text extends Input implements C\Input\Field\Text {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		return $this->validation_factory->hasMinLength(1);
+		return $this->refinery->string()->hasMinLength(1);
 	}
 
 	/**

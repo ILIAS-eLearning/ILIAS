@@ -80,11 +80,13 @@ class FilterTest extends ILIAS_UI_TestBase
 
 	protected function buildInputFactory() {
 		$df = new Data\Factory();
+		$language = $this->createMock(\ilLanguage::class);
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
-			new Transformation\Factory()
+			new Validation\Factory($df, $language),
+			new Transformation\Factory(),
+			new ILIAS\Refinery\Factory($df, $language)
 		);
 	}
 

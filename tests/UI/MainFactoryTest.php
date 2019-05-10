@@ -15,6 +15,7 @@ class MainFactoryTest extends AbstractFactoryTest {
 		, "input"		    => array("rules" => false)
         , "table"		    => array("rules" => false)
         , "layout"		    => array("rules" => false)
+        , "menu"		    => array("rules" => false)
 
     );
 

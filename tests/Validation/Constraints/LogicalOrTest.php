@@ -4,6 +4,8 @@
 require_once 'libs/composer/vendor/autoload.php';
 
 use ILIAS\Data;
+use ILIAS\Refinery\Integer\Constraints\GreaterThan;
+use ILIAS\Refinery\Integer\Constraints\LessThan;
 use ILIAS\Refinery\Validation;
 use ILIAS\Refinery\Validation\Constraints\LogicalOr;
 use PHPUnit\Framework\TestCase;
@@ -109,11 +111,12 @@ class LogicalOrTest extends TestCase
 	public function constraintsProvider(): array
 	{
 		$mock = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
-		$f = new Validation\Factory(new Data\Factory(), $mock);
+		$data_factory = new Data\Factory();
+		$f = new Validation\Factory($data_factory, $mock);
 
 		return [
 			[$f->or([$f->isInt(), $f->isString()]), '5', []],
-			[$f->or([$f->greaterThan(5), $f->lessThan(2)]), 7, 3]
+			[$f->or([new GreaterThan(5, $data_factory, $mock), new LessThan(2, $data_factory, $mock)]), 7, 3]
 		];
 	}
 }

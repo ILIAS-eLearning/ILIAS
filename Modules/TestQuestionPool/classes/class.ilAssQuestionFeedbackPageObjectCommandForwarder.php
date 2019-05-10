@@ -26,7 +26,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
 	{
 		parent::__construct($questionOBJ, $ctrl, $tabs, $lng);
 		
-		if( !isset($_GET['feedback_id']) || !(int)$_GET['feedback_id'] )
+		if( !isset($_GET['feedback_id']) || !(int)$_GET['feedback_id'] || !$questionOBJ->feedbackOBJ->checkFeedbackParent((int)$_GET['feedback_id']) )
 		{
 			ilUtil::sendFailure('invalid feedback id given: '.(int)$_GET['feedback_id'], true);
 			$this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);

@@ -20,13 +20,15 @@ class FilterFactoryTest extends AbstractFactoryTest {
 
 	final public function buildFactory() {
 		$df = new Data\Factory();
+		$language = $this->createMock(\ilLanguage::class);
 		return new \ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
 			new SignalGenerator(),
 			new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
 				new SignalGenerator(),
 				$df,
-				new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
-				new Transformation\Factory()
+				new Validation\Factory($df, $language),
+				new Transformation\Factory(),
+				new ILIAS\Refinery\Factory($df, $language)
 			)
 		);
 	}

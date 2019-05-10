@@ -695,27 +695,35 @@ if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
 ?>
 <#5476>
 <?php
-$ilDB->manipulate(
-	'UPDATE lso_activation'
-	.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
-	.'	WHERE activation_start IS NOT NULL'
-);
+if($ilDB->tableColumnExists('lso_activation', 'activation_start')) {
+	$ilDB->manipulate(
+		'UPDATE lso_activation'
+		.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+		.'	WHERE activation_start IS NOT NULL'
+	);
+}
 ?>
 <#5477>
 <?php
-$ilDB->manipulate(
-	'UPDATE lso_activation'
-	.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
-	.'	WHERE activation_end IS NOT NULL'
-);
+if($ilDB->tableColumnExists('lso_activation', 'activation_end')) {
+	$ilDB->manipulate(
+		'UPDATE lso_activation'
+		.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+		.'	WHERE activation_end IS NOT NULL'
+	);
+}
 ?>
 <#5478>
 <?php
-$ilDB->dropTableColumn("lso_activation", "activation_start");
+if($ilDB->tableColumnExists('lso_activation', 'activation_start')) {
+	$ilDB->dropTableColumn("lso_activation", "activation_start");
+}
 ?>
 <#5479>
 <?php
-$ilDB->dropTableColumn("lso_activation", "activation_end");
+if($ilDB->tableColumnExists('lso_activation', 'activation_end')) {
+	$ilDB->dropTableColumn("lso_activation", "activation_end");
+}
 ?>
 <#5480>
 <?php
@@ -844,4 +852,27 @@ if(!$ilDB->tableColumnExists('exc_returned', 'web_dir_access_time'))
 }
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5493>
+<?php
+$settings = new \ilSetting('chatroom');
+$settings->set('conversation_idle_state_in_minutes', 1);
 
+$res = $ilDB->query("SELECT * FROM chatroom_admconfig");
+while ($row = $ilDB->fetchAssoc($res)) {
+	$settings = json_decode($row['client_settings'], true);
+
+	if (!is_numeric($settings['conversation_idle_state_in_minutes'])) {
+		$settings['conversation_idle_state_in_minutes'] = 1;
+	}
+
+	$ilDB->update('chatroom_admconfig', [
+		'client_settings' => ['text', json_encode($settings)]
+	], [
+		'instance_id' => ['integer', $row['instance_id']]
+	]);
+}
+?>
+<#5494>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

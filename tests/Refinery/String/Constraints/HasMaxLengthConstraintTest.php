@@ -7,58 +7,85 @@ use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
-class LessThanConstraintTest extends TestCase {
+class HasMaxLengthConstraintTest extends TestCase {
+	/**
+	 * @var Data\Factory
+	 */
+	private $df;
+
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var integer
+	 */
+	private $max_length;
+
+	/**
+	 * @var Validation\Constraint
+	 */
+	private $c;
+
 	public function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
 
-		$this->less_than = 10;
+		$this->max_length = 2;
 
-		$this->c = $this->f->lessThan($this->less_than);
+		$this->c = new \ILIAS\Refinery\String\Constraints\HasMaxLength(
+			$this->max_length,
+			$this->df,
+			$this->lng
+		);
 	}
 
-	public function testAccepts() {
-		$this->assertTrue($this->c->accepts(2));
+	public function testAccepts1() {
+		$this->assertTrue($this->c->accepts("12"));
+	}
+
+	public function testAccepts2() {
+		$this->assertTrue($this->c->accepts("1"));
 	}
 
 	public function testNotAccepts() {
-		$this->assertFalse($this->c->accepts(10));
+		$this->assertFalse($this->c->accepts("123"));
 	}
 
 	public function testCheckSucceed() {
-		$this->c->check(2);
+		$this->c->check("12");
 		$this->assertTrue(true); // does not throw
 	}
 
 	public function testCheckFails() {
 		$this->expectException(\UnexpectedValueException::class);
-		$this->c->check(11);
+		$this->c->check("123");
 	}
 
 	public function testNoProblemWith() {
-		$this->assertNull($this->c->problemWith(1));
+		$this->assertNull($this->c->problemWith("12"));
 	}
 
 	public function testProblemWith() {
 		$this->lng
 			->expects($this->once())
 			->method("txt")
-			->with("not_less_than")
-			->willReturn("-%s-%s-");
+			->with("not_max_length")
+			->willReturn("-%s-");
 
-		$this->assertEquals("-12-{$this->less_than}-", $this->c->problemWith("12"));
+		$this->assertEquals("-2-", $this->c->problemWith("123"));
 	}
 
 	public function testRestrictOk() {
-		$ok = $this->df->ok(1);
+		$ok = $this->df->ok("12");
 
 		$res = $this->c->applyTo($ok);
 		$this->assertTrue($res->isOk());
 	}
 
 	public function testRestrictNotOk() {
-		$not_ok = $this->df->ok(1234);
+		$not_ok = $this->df->ok("123");
 
 		$res = $this->c->applyTo($not_ok);
 		$this->assertFalse($res->isOk());
@@ -73,6 +100,6 @@ class LessThanConstraintTest extends TestCase {
 
 	public function testWithProblemBuilder() {
 		$new_c = $this->c->withProblemBuilder(function() { return "This was a fault"; });
-		$this->assertEquals("This was a fault", $new_c->problemWith(13));
+		$this->assertEquals("This was a fault", $new_c->problemWith("123"));
 	}
 }

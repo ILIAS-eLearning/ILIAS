@@ -1,12 +1,15 @@
 <!-- BEGIN tinymce -->
-<script language="javascript" type="text/javascript" src="{JAVASCRIPT_LOCATION}"></script>
-<script language="javascript" type="text/javascript">
 <!-- BEGIN obj_id -->
 	var obj_id = '{OBJ_ID}';
 	var obj_type = '{OBJ_TYPE}';
+	window.obj_id = obj_id;
+	window.obj_type = obj_type;
 <!-- END obj_id -->
 	var client_id = '{CLIENT_ID}';
 	var session_id = '{SESSION_ID}';
+
+	window.client_id = client_id;
+	window.session_id = session_id;
 
 	function ilTinyMceInitCallback(ed) {
 		// Add hook for onContextMenu so that Insert Image can be removed
@@ -70,6 +73,5 @@
 			ed.onInit.add(ilTinyMceInitCallback);
 		}
 	});
-</script>
 <!-- END tinymce -->
 

@@ -11,6 +11,7 @@ namespace ILIAS\Refinery;
 
 
 use ILIAS\Refinery\In;
+use ILIAS\Refinery\String\Group;
 use ILIAS\Refinery\To;
 
 class Factory
@@ -21,11 +22,18 @@ class Factory
 	private $dataFactory;
 
 	/**
-	 * @param \ILIAS\Data\Factory $dataFactory
+	 * @var \ilLanguage
 	 */
-	public function __construct(\ILIAS\Data\Factory $dataFactory)
+	private $language;
+
+	/**
+	 * @param \ILIAS\Data\Factory $dataFactory
+	 * @param \ilLanguage $language
+	 */
+	public function __construct(\ILIAS\Data\Factory $dataFactory, \ilLanguage $language)
 	{
 		$this->dataFactory = $dataFactory;
+		$this->language = $language;
 	}
 
 	/**
@@ -49,5 +57,26 @@ class Factory
 	public function in(): In\Group
 	{
 		return new In\Group();
+	}
+
+	/**
+	 * Contains constraints and transformations on numbers. Each constraint
+	 * on an int will attempt to transform to int as well.
+	 *
+	 * @return Integer\Group
+	 */
+	public function int(): Integer\Group
+	{
+		return new Integer\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for string
+	 *
+	 * @return String\Group
+	 */
+	public function string(): String\Group
+	{
+		return new String\Group($this->dataFactory, $this->language);
 	}
 }
