@@ -22,6 +22,11 @@ class Listing extends Secondary implements C\Panel\Secondary\Listing {
 	 */
 	protected $item_groups = array();
 
+	/**
+	 * Panel Secondary Listing constructor.
+	 * @param string $title
+	 * @param array $item_groups
+	 */
 	public function __construct(string $title, array $item_groups)
 	{
 		$this->checkStringArg("title",$title);

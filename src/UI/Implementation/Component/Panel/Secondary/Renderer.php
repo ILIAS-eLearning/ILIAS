@@ -28,6 +28,11 @@ class Renderer extends AbstractComponentRenderer
 
 	}
 
+	/**
+	 * @param C\Panel\Secondary\Listing $component
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
 	protected function renderListing(C\Panel\Secondary\Listing $component, RendererInterface $default_renderer)
 	{
 		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
@@ -62,6 +67,11 @@ class Renderer extends AbstractComponentRenderer
 		return $tpl->get();
 	}
 
+	/**
+	 * @param C\Panel\Secondary\Legacy $component
+	 * @param RendererInterface $default_renderer
+	 * @return string
+	 */
 	protected function renderLegacy(C\Panel\Secondary\Legacy $component, RendererInterface $default_renderer)
 	{
 		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
