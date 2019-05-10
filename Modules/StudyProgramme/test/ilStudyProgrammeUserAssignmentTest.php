@@ -21,7 +21,9 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		global $DIC;
 		if(!$DIC) {
 			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-			ilUnitUtil::performInitialisation();
+			try {
+				ilUnitUtil::performInitialisation();
+			} catch(Exception $e) {}
 		}
 		
 		$this->root = ilObjStudyProgramme::createInstance();
@@ -232,7 +234,62 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 		$this->assertContains($ass1->getId(), $ass_ids);
 		$this->assertContains($ass2->getId(), $ass_ids);
 	}
-	
+
+	public function testNoRestartDate() {
+		$user1 = $this->newUser();
+
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$prg1->setValidityOfQualificationPeriod(110);
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$ass1 = $prg1->assignUser($user1->getId(),6);
+		$progress2 = $prg2->getProgressForAssignment($ass1->getId());				
+		$progress2->markAccredited(6);
+		$progress1 = $prg1->getProgressForAssignment($ass1->getId());
+		$this->assertTrue($progress1->isSuccessful());
+
+		$ass1_new = array_shift($prg1->getAssignmentsOf($user1->getId()));
+		$this->assertNull($ass1_new->getRestartDate());
+	}
+
+	public function testRestartDate() {
+		$user1 = $this->newUser();
+
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$prg1->setValidityOfQualificationPeriod(110);
+		$prg1->setRestartPeriod(10);
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$ass1 = $prg1->assignUser($user1->getId(),6);
+		$progress2 = $prg2->getProgressForAssignment($ass1->getId());				
+		$progress2->markAccredited(6);
+		$progress1 = $prg1->getProgressForAssignment($ass1->getId());
+		$this->assertTrue($progress1->isSuccessful());
+
+		$ass1_new = array_shift($prg1->getAssignmentsOf($user1->getId()));
+		$val_date = new DateTime();
+		$val_date->add(new DateInterval('P100D'));
+		$this->assertEquals(
+			$val_date->format('Ymd'),
+			$ass1_new->getRestartDate()->format('Ymd')
+		);
+	}
+
+
 	public function testDeleteOfProgrammeRemovesEntriesInPrgUsrAssignment() {
 		$user1 = $this->newUser();
 		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
@@ -266,6 +323,72 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase {
 							);
 		$rec = $ilDB->fetchAssoc($res);
 		$this->assertEquals(0, $rec["cnt"]);
+	}
+
+	public function testRstartAssignment()
+	{
+		$user1 = $this->newUser();
+
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$ass1 = $prg1->assignUser($user1->getId(),6);
+
+		$progress1 = $prg1->getProgressForAssignment($ass1->getId());
+		$progress1->markFailed(6);
+
+		$this->assertEquals(
+			$prg1->getProgressForAssignment($ass1->getId())->getStatus(),
+			ilStudyProgrammeProgress::STATUS_FAILED
+		);
+		$this->assertEquals(
+			$prg2->getProgressForAssignment($ass1->getId())->getStatus(),
+			ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+		);
+		
+		$ass2 = $ass1->restartAssignment();
+		$this->assertEquals(
+			$prg1->getProgressForAssignment($ass2->getId())->getStatus(),
+			ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+		);
+		$this->assertEquals(
+			$prg2->getProgressForAssignment($ass2->getId())->getStatus(),
+			ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+		);
+
+		$this->assertNotEquals($ass2->getId(),$ass1->getId());
+		$this->assertNotEquals(
+			$prg1->getProgressForAssignment($ass2->getId()),
+			$prg1->getProgressForAssignment($ass1->getId())
+		);
+		$this->assertNotEquals(
+			$prg2->getProgressForAssignment($ass2->getId()),
+			$prg2->getProgressForAssignment($ass1->getId())
+		);
+
+		$assignments = $prg1->getAssignmentsOf($user1->getId());
+		$this->assertCount(2,$assignments);
+		foreach ($assignments as $ass) {
+			if($ass->getId() === $ass1->getId()) {
+				$this->assertEquals(
+					$ass->getRestartedAssignmentId(),
+					$ass2->getId()
+				);
+			} elseif($ass->getId() === $ass2->getId()) {
+				$this->assertEquals(
+					$ass->getRestartedAssignmentId(),
+					ilStudyProgrammeAssignment::NO_RESTARTED_ASSIGNMENT
+				);
+			} else {
+				$this->assertFalse('there are more assignments than expected');
+			}
+		}
 	}
 	
 }

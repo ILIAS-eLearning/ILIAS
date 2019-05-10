@@ -69,6 +69,21 @@ class ilStudyProgrammeUserAssignment {
 	}
 
 	/**
+	 * Get the possible restart date of this assignment.
+	 */
+	public function getRestartDate() {
+		return $this->assignment->getRestartDate();
+	}
+
+	/**
+	 * Get restarted assignment id.
+	 */
+	public function getRestartedAssignmentId()
+	{
+		return $this->assignment->getRestartedAssignmentId();
+	}
+
+	/**
 	 * Get the progress on the root node of the programme.
 	 *
 	 * @throws ilException
@@ -76,6 +91,19 @@ class ilStudyProgrammeUserAssignment {
 	 */
 	public function getRootProgress() {
 		return $this->getStudyProgramme()->getProgressForAssignment($this->getId());
+	}
+
+	/**
+	 * Assign the user belonging to this assignemnt to the prg
+	 * belonging to this assignemnt again.
+	 */
+	public function restartAssignment()
+	{
+		$restarted = $this->getStudyProgramme()->assignUser($this->getUserId(),$this->getUserId());
+		$this->assignment_repository->update(
+			$this->assignment->setRestartedAssignmentId($restarted->getId())
+		);
+		return $restarted;
 	}
 
 	/**

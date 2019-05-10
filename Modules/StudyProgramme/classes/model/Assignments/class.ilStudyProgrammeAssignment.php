@@ -17,6 +17,11 @@
 
 class ilStudyProgrammeAssignment
 {
+	const NO_RESTARTED_ASSIGNMENT = -1;
+
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
+
 	/**
 	 * Id of this assignment.
 	 *
@@ -55,8 +60,16 @@ class ilStudyProgrammeAssignment
 	 */
 	protected $last_change_by;
 
-	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-	const DATE_FORMAT = 'Y-m-d';
+	/**
+	 * The date at which the user will be assigned to root prg anew.
+	 *
+	 * @var DateTime | null
+	 */
+	protected $restart_date;
+
+
+	protected $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
+
 
 	public function __construct(int $id)
 	{
@@ -157,16 +170,50 @@ class ilStudyProgrammeAssignment
 	/**
 	 * Set the last change timestamp to the given time.
 	 * 
-	 * Throws when given time is smaller then current timestamp
-	 * since that is logically impossible.
-	 * 
-	 * @throws ilException
 	 * @return $this
 	 */
 	public function setLastChange(DateTime $timestamp) : ilStudyProgrammeAssignment
 	{
 		$this->last_change = $timestamp->format(self::DATE_TIME_FORMAT);
 		return $this;
+	}
+
+	/**
+	 * Set the date, at which the user is to be reassigned to the programme
+	 */
+	public function setRestartDate(DateTime $date = null) : ilStudyProgrammeAssignment
+	{
+		$this->restart_date = $date;
+		return $this;
+	}
+
+	/**
+	 * Get the date, at which the user is to be reassigned to the programme
+	 *
+	 * @return DateTime | null
+	 */
+	public function getRestartDate()
+	{
+		return $this->restart_date;
+	}
+
+	/**
+	 * Set the date, at which the user was be reassigned to the programme
+	 */
+	public function setRestartedAssignmentId(int $id) : ilStudyProgrammeAssignment
+	{
+		$this->restarted_asssignment_id = $id;
+		return $this;
+	}
+
+	/**
+	 * Get the date, at which the user was reassigned to the programme
+	 *
+	 * @return int
+	 */
+	public function getRestartedAssignmentId() : int
+	{
+		return $this->restarted_asssignment_id;
 	}
 }
 
