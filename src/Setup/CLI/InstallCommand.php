@@ -50,5 +50,17 @@ class InstallCommand extends Command {
 	}
 
 	protected function readConfigFile(string $name) : array {
+		if (!file_exists($name) || !is_readable($name)) {
+			throw new \InvalidArgumentException(
+				"Config-file $name does not exist or is not readable."
+			);
+		}
+		$json = json_decode(file_get_contents($name), JSON_OBJECT_AS_ARRAY);
+		if (!is_array($json)) {
+			throw new \InvalidArgumentException(
+				"Could not find JSON-array in $name."
+			);
+		}
+		return $json;
 	}
 }
