@@ -64,4 +64,23 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 			"config" => $config_file
 		]);
 	}
+
+	public function testReadCondigFile() {
+		$filename = tempnam("/tmp", "ILIAS");
+		$expected = [
+			"some" => [
+				"nested" => "config"
+			]
+		];
+		file_put_contents($filename, json_encode($expected));
+		
+		$obj = new class extends Setup\CLI\InstallCommand {
+			public function __construct() {}
+			public function _readConfigFile($n) { return $this->readConfigFile($n); }
+		};
+
+		$config = $obj->_readConfigFile($filename);
+
+		$this->assertEquals($expected, $config);
+	}
 }
