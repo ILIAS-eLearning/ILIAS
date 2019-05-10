@@ -76,10 +76,11 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
 
 		$this->transformation_factory = $transformation_factory;
 		$trafo = $transformation_factory->toDateTime();

@@ -49,7 +49,7 @@ class Factory implements Field\Factory {
 		\ILIAS\Refinery\Transformation\Factory $transformation_factory,
 		\ILIAS\Refinery\Factory $refinery
 	) {
-		$this->data_factory = $data_factory; 
+		$this->data_factory = $data_factory;
 		$this->validation_factory = $validation_factory;
 		$this->transformation_factory = $transformation_factory;
 		$this->signal_generator = $signal_generator;
@@ -144,13 +144,13 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function dateTime($label, $byline = null) {
-		return new DateTime($this->data_factory, $this->validation_factory, $this->transformation_factory, $label, $byline);
+		return new DateTime($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $byline);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function duration($label, $byline = null) {
-		return new Duration($this->data_factory, $this->validation_factory, $this->transformation_factory, $this, $label, $byline);
+		return new Duration($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $this, $label, $byline);
 	}
 }
