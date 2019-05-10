@@ -42,13 +42,4 @@ class Factory {
 	public function isNumeric() {
 		return new Constraints\IsNumeric($this->data_factory, $this->lng);
 	}
-
-	/**
-	 * Get the constraint that some value is null
-	 *
-	 * @return  Constraint
-	 */
-	public function isNull() {
-		return new Constraints\IsNull($this->data_factory, $this->lng);
-	}
 }
