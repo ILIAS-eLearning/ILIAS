@@ -78,6 +78,7 @@ class Factory
 		return new String\Group($this->dataFactory, $this->language);
 	}
 
+
 	public function custom(): Custom\Group
 	{
 		return new Custom\Group($this->dataFactory, $this->language);
@@ -88,6 +89,10 @@ class Factory
 		return new Container\Group($this->dataFactory);
 	}
 
+	/**
+	 * Contains constraints for passwords
+	 * @return Password\Group
+	 */
 	public function password()
 	{
 		return new Password\Group($this->dataFactory, $this->language);
