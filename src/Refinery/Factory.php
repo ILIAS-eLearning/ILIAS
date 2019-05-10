@@ -79,6 +79,11 @@ class Factory
 	}
 
 
+	/**
+	 * Contains constraints and transformations for custom functions.
+	 *
+	 * @return Custom\Group
+	 */
 	public function custom(): Custom\Group
 	{
 		return new Custom\Group($this->dataFactory, $this->language);
