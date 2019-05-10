@@ -6,6 +6,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Symbol\Icon\Icon as Icon;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph as Glyph;
 
 /**
  * Bulky Button
@@ -15,13 +17,13 @@ class Bulky extends Button implements C\Button\Bulky
 	use Engageable;
 
 	/**
-	 * @var 	ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph
+	 * @var 	ILIAS\UI\Component\Symbol\Icon\Icon | \ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	protected $icon_or_glyph;
 
 	public function __construct($icon_or_glyph, string $label, string $action)
 	{
-		$allowed_classes = [C\Icon\Icon::class, C\Glyph\Glyph::class];
+		$allowed_classes = [Icon::class, Glyph::class];
 		$graphical_param = array($icon_or_glyph);
 		$this->checkArgListElements("icon_or_glyph", $graphical_param, $allowed_classes);
 		$this->checkStringArg("label", $label);

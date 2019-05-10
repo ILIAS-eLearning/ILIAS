@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Icon;
+namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -14,7 +14,7 @@ class Renderer extends AbstractComponentRenderer {
      */
     public function render(Component\Component $component, RendererInterface $default_renderer) {
         /**
-         * @var Component\Icon\Icon $component
+         * @var Component\Symbol\Icon\Icon $component
          */
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
@@ -23,7 +23,7 @@ class Renderer extends AbstractComponentRenderer {
         $tpl->setVariable("ARIA_LABEL",$component->getAriaLabel());
         $tpl->setVariable("SIZE",$component->getSize());
 
-        if ($component instanceof Component\Icon\Custom) {
+        if ($component instanceof Component\Symbol\Icon\Custom) {
                 $tpl->setVariable("CUSTOMIMAGE",$component->getIconPath());
         }else{
             if($component->isOutlined()){
@@ -48,7 +48,7 @@ class Renderer extends AbstractComponentRenderer {
      * @inheritdoc
      */
     protected function getComponentInterfaceName() {
-        return array(Component\Icon\Icon::class);
+        return array(Component\Symbol\Icon\Icon::class);
     }
 
 }

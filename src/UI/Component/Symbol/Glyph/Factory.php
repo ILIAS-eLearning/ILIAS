@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /* Copyright (c) 2015, 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Glyph;
+namespace ILIAS\UI\Component\Symbol\Glyph;
 
 /**
  * This is how a factory for glyphs looks like.
@@ -32,7 +32,7 @@ interface Factory {
 	 *          The aria-label MUST be “Settings”.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function settings(string $action = null): Glyph;
 
@@ -60,7 +60,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Collapse Content'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function collapse(string $action = null): Glyph;
 
@@ -88,7 +88,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Expand Content'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function expand(string $action = null): Glyph;
 
@@ -126,7 +126,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Add'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function add(string $action = null): Glyph;
 
@@ -163,7 +163,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Remove'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function remove(string $action = null): Glyph;
 
@@ -200,7 +200,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Up'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function up(string $action = null): Glyph;
 
@@ -237,7 +237,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Down'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function down(string $action = null): Glyph;
 
@@ -268,7 +268,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Back'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function back(string $action = null): Glyph;
 
@@ -297,7 +297,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Next'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function next(string $action = null): Glyph;
 
@@ -318,7 +318,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Sort Ascending'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function sortAscending(string $action = null): Glyph;
 
@@ -339,7 +339,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Sort Descending'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function sortDescending(string $action = null): Glyph;
 
@@ -359,7 +359,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Background Tasks'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function briefcase(string $action = null): Glyph;
 
@@ -381,7 +381,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Show who is online'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function user(string $action = null): Glyph;
 
@@ -403,7 +403,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Mail'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function mail(string $action = null): Glyph;
 
@@ -434,7 +434,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Notifications'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return 	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function notification(string $action = null): Glyph;
 
@@ -457,7 +457,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Tags'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function tag(string $action = null): Glyph;
 
@@ -480,7 +480,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Notes'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function note(string $action = null): Glyph;
 
@@ -503,7 +503,7 @@ interface Factory {
 	 *          The aria-label MUST be ‘Comments'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function comment(string $action = null): Glyph;
 
@@ -529,7 +529,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Like'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function like(string $action = null): Glyph;
 
@@ -555,7 +555,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Love'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function love(string $action = null): Glyph;
 
@@ -581,7 +581,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Dislike'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function dislike(string $action = null): Glyph;
 
@@ -607,7 +607,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Laugh'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function laugh(string $action = null): Glyph;
 
@@ -633,7 +633,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Astounded'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function astounded(string $action = null): Glyph;
 
@@ -659,7 +659,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Sad'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function sad(string $action = null): Glyph;
 
@@ -685,7 +685,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Angry'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function angry(string $action = null): Glyph;
 
@@ -713,7 +713,7 @@ interface Factory {
 	 *          The aria-label MUST be "eye closed - click to hide the input's contents".
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function eyeclosed(string $action = null): Glyph;
 
@@ -740,7 +740,7 @@ interface Factory {
 	 *          The aria-label MUST be "eye open - click to reveal the input's contents".
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function eyeopen(string $action = null): Glyph;
 
@@ -766,7 +766,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Attachment'.
 	 * ---
 	 * @param string|null	$action
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function attachment(string $action = null): Glyph;
 
@@ -800,7 +800,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Reset'.
 	 * ---
 	 * @param string|null	$action
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function reset(string $action = null): Glyph;
 
@@ -834,7 +834,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Apply'.
 	 * ---
 	 * @param string|null	$action
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function apply(string $action = null): Glyph;
 
@@ -859,7 +859,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Search'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function search(string $action = null): Glyph;
 
@@ -885,7 +885,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Help'.
 	 * ---
 	 * @param	string|null	$action
-	 * @return	\ILIAS\UI\Component\Glyph\Glyph
+	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function help(string $action = null): Glyph;
 

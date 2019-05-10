@@ -27,7 +27,7 @@ interface Factory
 	 * ----
 	 *
 	 * @param string $name
-	 * @param \ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph $symbol
+	 * @param \ILIAS\UI\Component\Symbol\Icon\Icon | \ILIAS\UI\Component\Symbol\Glyph\Glyph $symbol
 	 * @param \ILIAS\UI\Component\Legacy\Legacy $content
 	 * @return \ILIAS\UI\Component\MainControls\Slate\Legacy
 	 */
@@ -58,7 +58,7 @@ interface Factory
 	 * ----
 	 *
 	 * @param string $name
-	 * @param \ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph $symbol
+	 * @param \ILIAS\UI\Component\Symbol\Icon\Icon | \ILIAS\UI\Component\Symbol\Glyph\Glyph $symbol
 	 * @return \ILIAS\UI\Component\MainControls\Slate\Combined
 	 */
 	public function combined(string $name, $symbol): Combined;

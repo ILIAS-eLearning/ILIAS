@@ -62,7 +62,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_with_object_icon() {
-		$icon = new I\Component\Icon\Standard("crs", 'Course', 'medium', false);
+		$icon = new I\Component\Symbol\Icon\Standard("crs", 'Course', 'medium', false);
 		$card = $this->getBaseCard();
 		$card = $card->withObjectIcon($icon);
 
@@ -109,7 +109,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	public function test_render_with_object_icon() {
 		$r = $this->getDefaultRenderer();
 
-		$icon = new I\Component\Icon\Standard("crs", 'Course', 'medium', false);
+		$icon = new I\Component\Symbol\Icon\Standard("crs", 'Course', 'medium', false);
 		$c = $this->getBaseCard();
 		$c = $c->withObjectIcon($icon);
 
@@ -117,7 +117,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
 			<div class="icon crs medium" aria-label="Course">
@@ -127,10 +127,10 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 
 		</div>
 		<div>
-			
+
 		</div>
 		<div class="il-card-repository-dropdown">
-			
+
 		</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
@@ -138,7 +138,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 
@@ -156,10 +156,10 @@ EOT;
 
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
-			
+
 		</div>
 		<div>
 			<div class="icon cert medium outlined" aria-label="Certificate">
@@ -169,7 +169,7 @@ EOT;
 
 		</div>
 		<div class="il-card-repository-dropdown">
-			
+
 		</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
@@ -177,7 +177,7 @@ EOT;
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 
@@ -194,27 +194,27 @@ EOT;
 
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
-			
+
 		</div>
 		<div>
 			<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
 <div class="il-chart-progressmeter-container">
 <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
-<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" 
+<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100"
 d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100" 
+<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100"
 d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-<path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100" 
+<path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100"
 d="M25,10 l0,15" style="transform: rotate(deg)"></path>
 </svg>
 </div>
 </div>
 		</div>
 		<div class="il-card-repository-dropdown">
-			
+
 		</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
@@ -222,7 +222,7 @@ d="M25,10 l0,15" style="transform: rotate(deg)"></path>
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 
@@ -242,13 +242,13 @@ EOT;
 
 		$expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
-			
+
 		</div>
 		<div>
-			
+
 		</div>
 		<div class="il-card-repository-dropdown">
 			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
@@ -265,7 +265,7 @@ EOT;
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 

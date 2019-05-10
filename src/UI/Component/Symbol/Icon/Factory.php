@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-namespace ILIAS\UI\Component\Icon;
+
+namespace ILIAS\UI\Component\Symbol\Icon;
+
 /**
  * This is how a factory for icons looks like.
  */
@@ -37,7 +39,7 @@ interface Factory {
 	 * @param   string $name
 	 * @param   string $aria_label
 	 * @param   string $size
-	 * @return 	\ILIAS\UI\Component\Icon\Standard
+	 * @return 	\ILIAS\UI\Component\Symbol\Icon\Standard
 	 **/
 	public function standard($name, $aria_label, $size='small', $is_disabled = false);
 
@@ -69,7 +71,7 @@ interface Factory {
 	 * @param   string $icon_path
 	 * @param   string $aria_label
 	 * @param   string $size
-	 * @return 	\ILIAS\UI\Component\Icon\Custom
+	 * @return 	\ILIAS\UI\Component\Symbol\Icon\Custom
 	 **/
 	public function custom($icon_path, $aria_label, $size='small', $is_disabled = false);
 

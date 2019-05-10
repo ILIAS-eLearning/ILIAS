@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Icon;
+namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
-use ILIAS\UI\Component\Icon as I;
+use ILIAS\UI\Component\Symbol\Icon as I;
 
 class Factory implements I\Factory {
 	/**

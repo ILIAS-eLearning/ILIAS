@@ -7,8 +7,8 @@ namespace ILIAS\UI\Component\MainControls\Slate;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Icon\Icon;
-use ILIAS\UI\Component\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 /**
  * This describes a Slate

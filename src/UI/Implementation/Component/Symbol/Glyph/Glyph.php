@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Glyph;
+namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Counter\Counter;
@@ -11,7 +11,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
-class Glyph implements C\Glyph\Glyph {
+class Glyph implements C\Symbol\Glyph\Glyph {
 	use ComponentHelper;
 	use JavaScriptBindable;
 	use Triggerer;

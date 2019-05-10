@@ -12,7 +12,7 @@ use \ILIAS\UI\Component as C;
  */
 class GlyphTest extends ILIAS_UI_TestBase {
 	public function getGlyphFactory() {
-		return new \ILIAS\UI\Implementation\Component\Glyph\Factory();
+		return new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
 	}
 
 	public function getCounterFactory() {
@@ -248,7 +248,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 	public function test_known_glyphs_only() {
 		$this->expectException(\InvalidArgumentException::class);
-		new \ILIAS\UI\Implementation\Component\Glyph\Glyph("FOO", "http://www.ilias.de");
+		new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph("FOO", "http://www.ilias.de");
 	}
 
 	public function glyph_type_provider() {
@@ -370,7 +370,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 	public function test_dont_render_counter() {
 		$this->expectException(\LogicException::class);
-		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage(), $this->getJavaScriptBinding());
+		$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage(), $this->getJavaScriptBinding());
 		$f = $this->getCounterFactory();
 
 		$r->render($f->status(0), $this->getDefaultRenderer());

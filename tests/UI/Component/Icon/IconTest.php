@@ -12,7 +12,7 @@ use \ILIAS\UI\Implementation as I;
  */
 class IconTest extends ILIAS_UI_TestBase {
 	private function getIconFactory() {
-		return new I\Component\Icon\Factory();
+		return new I\Component\Symbol\Icon\Factory();
 	}
 
 	public function testConstruction() {

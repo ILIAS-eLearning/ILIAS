@@ -16,7 +16,7 @@ use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\ComponentRendererFSLoader;
 use ILIAS\UI\Implementation\Render;
-use ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Factory;
@@ -30,7 +30,6 @@ class ilIndependentTemplateFactory implements TemplateFactory {
 
 class NoUIFactory implements Factory {
 	public function counter() {}
-	public function glyph() {}
 	public function button() {}
 	public function card() {}
 	public function deck(array $cards) {}
@@ -45,7 +44,6 @@ class NoUIFactory implements Factory {
 	public function link() {}
 	public function dropdown() {}
 	public function item() {}
-	public function icon() {}
 	public function viewControl() {}
 	public function breadcrumbs(array $crumbs) {}
 	public function chart() {}
@@ -56,6 +54,7 @@ class NoUIFactory implements Factory {
 	public function mainControls(): C\MainControls\Factory {}
 	public function tree() {}
 	public function menu(): C\Menu\Factory {}
+	public function symbol(): C\Symbol\Factory {}
 }
 
 class LoggingRegistry implements ResourceRegistry {

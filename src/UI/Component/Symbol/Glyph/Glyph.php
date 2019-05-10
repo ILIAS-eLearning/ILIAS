@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Glyph;
+namespace ILIAS\UI\Component\Symbol\Glyph;
 
 use \ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Component\Clickable;

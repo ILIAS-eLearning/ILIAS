@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Glyph;
+namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Component;
 

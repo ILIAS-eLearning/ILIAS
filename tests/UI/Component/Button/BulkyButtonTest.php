@@ -16,8 +16,8 @@ class BulkyButtonTest extends ILIAS_UI_TestBase {
 
 	public function setUp(): void{
 		$this->button_factory = new I\Component\Button\Factory();
-		$this->glyph = new I\Component\Glyph\Glyph("briefcase", "briefcase");
-		$this->icon = new I\Component\Icon\Standard("someExample","Example", "small", false);
+		$this->glyph = new I\Component\Symbol\Glyph\Glyph("briefcase", "briefcase");
+		$this->icon = new I\Component\Symbol\Icon\Standard("someExample","Example", "small", false);
 	}
 
 	public function test_implements_factory_interface() {

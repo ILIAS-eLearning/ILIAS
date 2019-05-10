@@ -36,13 +36,13 @@ class BaseTypeRenderer implements TypeRenderer {
 
 
 	/**
-	 * @return \ILIAS\UI\Component\Icon\Standard
+	 * @return \ILIAS\UI\Component\Symbol\Icon\Standard
 	 */
-	protected function getStandardIcon(isItem $item): \ILIAS\UI\Component\Icon\Icon {
+	protected function getStandardIcon(isItem $item): \ILIAS\UI\Component\Symbol\Icon\Icon {
 		if ($item instanceof hasIcon && $item->hasIcon()) {
 			return $item->getIcon();
 		}
 
-		return $this->ui_factory->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", 'ILIAS', 'small', true);
+		return $this->ui_factory->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", 'ILIAS', 'small', true);
 	}
 }

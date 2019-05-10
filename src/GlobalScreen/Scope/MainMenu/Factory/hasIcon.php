@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
-use ILIAS\UI\Component\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Interface hasIcon

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Glyph;
+namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
-use ILIAS\UI\Component\Glyph as G;
+use ILIAS\UI\Component\Symbol\Glyph as G;
 
 class Factory implements G\Factory {
 	/**

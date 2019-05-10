@@ -154,7 +154,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	public function getUIFactory() {
 		return new \ILIAS\UI\Implementation\Factory(
 			$this->createMock(C\Counter\Factory::class),
-			new I\Component\Glyph\Factory(),
+			new I\Component\Symbol\Glyph\Factory(),
 			new I\Component\Button\Factory(),
 			$this->createMock(C\Listing\Factory::class),
 			$this->createMock(C\Image\Factory::class),
