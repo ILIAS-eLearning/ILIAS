@@ -44,7 +44,9 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
 		$this->placeholder['SP_TITLE'] = $this->language->txt('sp_certificate_title');
 		$this->placeholder['SP_DESCRIPTION'] = $this->language->txt('sp_certificate_description');
 		$this->placeholder['SP_TYPE'] = $this->language->txt('sp_certificate_type');
-		$this->placeholder['POINTS'] =  $this->language->txt('sp_certificate_points');
+		$this->placeholder['POINTS'] = $this->language->txt('sp_certificate_points');
+		$this->placeholder['COMPLETION_DATE'] = $this->language->txt('sp_certificate_completion_date');
+		$this->placeholder['EXPIRES_AT'] = $this->language->txt('sp_certificate_progress_expires_at');
 	}
 
 

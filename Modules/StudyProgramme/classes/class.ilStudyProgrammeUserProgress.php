@@ -236,11 +236,11 @@ class ilStudyProgrammeUserProgress {
 				->setCompletionBy($a_user_id)
 				->setCompletionDate(new DateTime())
 		);
-		$this->events->userSuccessful($this);
 		$assignment = $this->assignment_repository->read($this->getAssignmentId());
 		if((int)$prg->getId() === $assignment->getRootId()) {
 			$this->maybeLimitProgressValidity($prg,$assignment);
 		}
+		$this->events->userSuccessful($this);
 		$this->updateParentStatus();
 		return $this;
 	}
@@ -600,7 +600,6 @@ class ilStudyProgrammeUserProgress {
 		$this->progress->setCurrentAmountOfPoints($achieved_points);
 		if ($successful) {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
-			$this->events->userSuccessful($this);
 			if(!$this->progress->getCompletionDate()) {
 				$this->progress->setCompletionDate(new DateTime());
 			}
@@ -608,6 +607,7 @@ class ilStudyProgrammeUserProgress {
 			if((int)$prg->getId() === $assignment->getRootId()) {
 				$this->maybeLimitProgressValidity($prg,$assignment);
 			}
+			$this->events->userSuccessful($this);
 		} else {
 			$this->progress->setStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
 			$this->progress->setCompletionDate(null);
@@ -675,13 +675,12 @@ class ilStudyProgrammeUserProgress {
 				->setCompletionDate(new DateTime())
 		);
 
-		$this->events->userSuccessful($this);
-
 		$this->refreshLPStatus();
 		$assignment = $this->assignment_repository->read($this->getAssignmentId());
 		if((int)$prg->getId() === $assignment->getRootId()) {
 			$this->maybeLimitProgressValidity($prg,$assignment);
 		}
+		$this->events->userSuccessful($this);
 		$this->updateParentStatus();
 	}
 
