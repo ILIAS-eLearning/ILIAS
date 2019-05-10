@@ -47,6 +47,10 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::ATTACHMENT			=> "glyphicon glyphicon-paperclip"
 		, C\Glyph\Glyph::RESET				=> "glyphicon glyphicon-repeat"
 		, C\Glyph\Glyph::APPLY				=> "glyphicon glyphicon-ok"
+		, C\Glyph\Glyph::SEARCH				=> "glyphicon glyphicon-search"
+		, C\Glyph\Glyph::HELP				=> "glyphicon glyphicon-question-sign"
+		, C\Glyph\Glyph::CALENDAR			=> "glyphicon glyphicon-calendar"
+		, C\Glyph\Glyph::TIME				=> "glyphicon glyphicon-time"
 		);
 
 	static $aria_labels = array(
@@ -77,6 +81,10 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph\Glyph::ATTACHMENT			=> "attachment"
 		, C\Glyph\Glyph::RESET				=> "reset"
 		, C\Glyph\Glyph::APPLY				=> "apply"
+		, C\Glyph\Glyph::SEARCH				=> "search"
+		, C\Glyph\Glyph::HELP				=> "help"
+		, C\Glyph\Glyph::CALENDAR			=> "calendar"
+		, C\Glyph\Glyph::TIME				=> "time"
 	);
 
 	/**
@@ -280,7 +288,11 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			, array(C\Glyph\Glyph::ATTACHMENT)
 			, array(C\Glyph\Glyph::RESET)
 			, array(C\Glyph\Glyph::APPLY)
-			);
+			, array(C\Glyph\Glyph::SEARCH)
+			, array(C\Glyph\Glyph::HELP)
+			, array(C\Glyph\Glyph::CALENDAR)
+			, array(C\Glyph\Glyph::TIME)
+		);
 	}
 
 	public function counter_type_provider() {
