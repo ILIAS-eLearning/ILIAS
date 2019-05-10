@@ -62,13 +62,4 @@ class Factory {
 	public function isNull() {
 		return new Constraints\IsNull($this->data_factory, $this->lng);
 	}
-
-	/**
-	 * Get the factory for password constraints.
-	 *
-	 * @return   ILIAS\Refinery\Validation\Constraints\Password\Factory;
-	 */
-	public function password() {
-		return new Constraints\Password\Factory($this->data_factory, $this->lng);
-	}
 }
