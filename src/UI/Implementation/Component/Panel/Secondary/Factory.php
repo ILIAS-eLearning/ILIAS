@@ -20,9 +20,7 @@ class Factory implements C\Panel\Secondary\Factory {
 	}
 
 	/**
-	 * @param string $title
-	 * @param C\Legacy\Legacy $legacy
-	 * @return C\Panel\Secondary\Legacy
+	 * @inheritdoc
 	 */
 	public function legacy(string $title, C\Legacy\Legacy $legacy): C\Panel\Secondary\Legacy{
 		return new Legacy($title, $legacy);
