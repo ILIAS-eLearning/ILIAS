@@ -48,6 +48,8 @@ class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
         require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeAdvancedMetadataRecordTest.php");
         require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeTypeTest.php");
         require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeTypeRepositoryTest.php");
+        require_once("./Modules/StudyProgramme/test/ilPrgInvalidateExpiredProgressesCronJobTest.php");
+        require_once("./Modules/StudyProgramme/test/ilPrgRestartAssignmentsCronJobTest.php");
         $suite->addTestSuite("ilObjStudyProgrammeTest");
         $suite->addTestSuite("ilStudyProgrammeEventsTest");
         $suite->addTestSuite("ilStudyProgrammeLPTest");
@@ -64,6 +66,8 @@ class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
         $suite->addTestSuite("ilStudyProgrammeAdvancedMetadataRecordTest");
         $suite->addTestSuite("ilStudyProgrammeTypeTest");
         $suite->addTestSuite("ilStudyProgrammeTypeRepositoryTest");
+        $suite->addTestSuite("ilPrgInvalidateExpiredProgressesCronJobTest");
+        $suite->addTestSuite("ilPrgRestartAssignmentsCronJobTest");
         return $suite;
     }
 }
