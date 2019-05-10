@@ -23,8 +23,8 @@ class PasswordContraintsTest extends TestCase {
 	public function constraintsProvider() {
 		$lng = $this->createMock(\ilLanguage::class);
 		$d = new \ILIAS\Data\Factory();
-		$validation = new \ILIAS\Refinery\Validation\Factory($d, $lng);
-		$v = $validation->password();
+		$refinery = new \ILIAS\Refinery\Factory($d, $lng);
+		$v = $refinery->password();
 
 		return array(
 			array(

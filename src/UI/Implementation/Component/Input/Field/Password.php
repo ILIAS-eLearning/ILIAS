@@ -85,7 +85,8 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 
 		$data = $this->data_factory;
 		$validation = $this->validation_factory;
-		$pw_validation = $validation->password();
+
+		$pw_validation = $this->refinery->password();
 		$constraints = [
 			$this->refinery->string()->hasMinLength($min_length),
 		];

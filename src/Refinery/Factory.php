@@ -87,4 +87,9 @@ class Factory
 	{
 		return new Container\Group($this->dataFactory);
 	}
+
+	public function password()
+	{
+		return new Password\Group($this->dataFactory, $this->language);
+	}
 }

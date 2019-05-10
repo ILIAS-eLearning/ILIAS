@@ -12,7 +12,7 @@ function with_contraints() {
     $data = new \ILIAS\Data\Factory();
     $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
     $refinery = new \ILIAS\Refinery\Factory($data, $lng);
-	$pw_validation = $validation->password();
+    $pw_validation = $refinery->password();
 
     //Step 1: Define the input field
     //and add some constraints.
