@@ -35,17 +35,6 @@ class Factory {
 	// SOME RESTRICTIONS
 
 	/**
-	 * Get a constraint for a array with constraint to all elements.
-	 *
-	 * @param Constraint $on_element
-	 *
-	 * @return Constraints\IsArrayOf
-	 */
-	public function isArrayOf(Constraint $on_element) {
-		return new Constraints\IsArrayOf($this->data_factory, $on_element, $this->lng);
-	}
-
-	/**
 	 * Get the constraint that some value is a number
 	 *
 	 * @return  Constraint
