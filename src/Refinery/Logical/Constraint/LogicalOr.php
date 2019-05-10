@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery;
+namespace ILIAS\Refinery\Logical\Constraint;
 
 use ILIAS\Refinery\Custom\Constraints\Custom;
 use ILIAS\Refinery\Constraint;
