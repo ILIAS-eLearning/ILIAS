@@ -49,7 +49,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
 
 		$this->signal_generator = $signal_generator;
-		$trafo = $transformation_factory->toData('password');
+		$trafo = $this->refinery->to()->data('password');
 		$this->setAdditionalTransformation($trafo);
 		$this->initSignals();
 	}
