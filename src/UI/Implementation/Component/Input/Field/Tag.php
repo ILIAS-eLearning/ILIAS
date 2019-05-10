@@ -101,7 +101,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function getConstraintForRequirement() {
-		$constraint = $this->validation_factory->custom(
+		$constraint = $this->refinery->custom()->constraint(
 			function ($value) {
 				return (is_array($value) && count($value) > 0);
 			}, "Empty array"
@@ -127,7 +127,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	protected function isClientSideValueOk($value) {
 		if ($this->getMaxTags() > 0) {
 			$max_tags = $this->getMaxTags();
-			$max_tags_ok = $this->validation_factory->custom(
+			$max_tags_ok = $this->refinery->custom()->constraint(
 				function ($value) use ($max_tags) {
 					return (is_array($value) && count($value) <= $max_tags);
 				}, 'Too many Tags'
@@ -139,7 +139,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 
 		if ($this->getTagMaxLength() > 0) {
 			$tag_max_length = $this->getTagMaxLength();
-			$tag_max_length_ok = $this->validation_factory->custom(
+			$tag_max_length_ok = $this->refinery->custom()->constraint(
 				function ($value) use ($tag_max_length) {
 					if (!is_array($value)) {
 						return false;
@@ -186,7 +186,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 		 * @var $with_constraint C\Input\Field\Tag
 		 */
 		$with_constraint = $clone->withAdditionalConstraint(
-			$this->validation_factory->custom(
+			$this->refinery->custom()->constraint(
 				function ($value) use ($clone) {
 					return (0 == count(array_diff($value, $clone->getTags())));
 				}, function ($txt, $value) use ($clone) {

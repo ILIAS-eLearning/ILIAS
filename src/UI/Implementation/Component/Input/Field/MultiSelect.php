@@ -59,7 +59,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		$constraint = $this->validation_factory->custom(
+		$constraint = $this->refinery->custom()->constraint(
 			function ($value) {
 				return (is_array($value) && count($value) > 0);
 			}, "Empty"
