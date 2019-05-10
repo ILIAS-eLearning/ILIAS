@@ -111,7 +111,6 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->renderer = $DIC->ui()->renderer();
 		$this->request = $DIC->http()->request();
 		$this->data = new \ILIAS\Data\Factory();
-		$this->validation = new \ILIAS\Refinery\Validation\Factory($this->data, $this->lng);
 		$this->refinery = $refinery;
 		
 		$this->object = null;

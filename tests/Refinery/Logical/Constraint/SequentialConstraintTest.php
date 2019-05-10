@@ -24,11 +24,6 @@ class SequentialTest extends TestCase {
 	private $lng;
 
 	/**
-	 * @var Validation\Factory
-	 */
-	private $f;
-
-	/**
 	 * @var \ILIAS\Refinery\Factory
 	 */
 	private $refinery;

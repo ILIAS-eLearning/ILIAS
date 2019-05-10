@@ -9,7 +9,6 @@ use \ILIAS\UI\Implementation\Component\Input\Field\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\Data\Factory as DataFactory;
-use \ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use \ILIAS\Data\Result;
 
 class DefInput extends Input {

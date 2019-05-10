@@ -11,7 +11,6 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
-use ILIAS\Refinery\Validation\Factory;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');

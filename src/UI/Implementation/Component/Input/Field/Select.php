@@ -7,7 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 
 /**
  * This implements the select.
@@ -22,7 +21,6 @@ class Select extends Input implements C\Input\Field\Select {
 	 * Select constructor.
 	 *
 	 * @param DataFactory $data_factory
-	 * @param ValidationFactory $validation_factory
 	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param string $label
 	 * @param array $options
@@ -30,13 +28,12 @@ class Select extends Input implements C\Input\Field\Select {
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$options,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $refinery, $label, $byline);
+		parent::__construct($data_factory, $refinery, $label, $byline);
 		$this->options = $options;
 	}
 

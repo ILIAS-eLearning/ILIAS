@@ -7,7 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Password as PWD;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -38,13 +37,12 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline,
 		$signal_generator
 	) {
-		parent::__construct($data_factory, $validation_factory, $refinery, $label, $byline);
+		parent::__construct($data_factory, $refinery, $label, $byline);
 
 		$this->signal_generator = $signal_generator;
 		$trafo = $this->refinery->to()->data('password');

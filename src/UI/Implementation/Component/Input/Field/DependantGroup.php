@@ -6,7 +6,6 @@ docs/LICENSE */
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Triggerable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -52,12 +51,11 @@ class DependantGroup extends Group implements C\Input\Field\DependantGroup, Trig
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		SignalGeneratorInterface $signal_generator,
 		$inputs
 	) {
-		parent::__construct($data_factory, $validation_factory, $refinery, $inputs, "", "");
+		parent::__construct($data_factory, $refinery, $inputs, "", "");
 		$this->inputs = $inputs;
 		$this->signal_generator = $signal_generator;
 		$this->initSignals();

@@ -1589,13 +1589,11 @@ class ilInitialisation
 		};
 		$c["ui.factory.input.field"] = function($c) {
 			$data_factory = new ILIAS\Data\Factory();
-			$validation_factory = new ILIAS\Refinery\Validation\Factory($data_factory, $c["lng"]);
 			$refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
 
 			return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 				$c["ui.signal_generator"],
 				$data_factory,
-				$validation_factory,
 				$refinery
 			);
 		};

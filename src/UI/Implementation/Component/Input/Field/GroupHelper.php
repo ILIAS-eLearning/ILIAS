@@ -9,7 +9,6 @@ use ILIAS\UI\Component as Component;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 
 /**
  * The code of Group is used in Checkbox, e.g., but a checkbox is not a group.

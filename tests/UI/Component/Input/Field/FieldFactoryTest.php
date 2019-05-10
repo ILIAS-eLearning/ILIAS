@@ -50,7 +50,6 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		return new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $language),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}

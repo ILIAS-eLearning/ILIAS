@@ -10,7 +10,6 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 
 /**
  * Class TagInput
@@ -56,7 +55,6 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * TagInput constructor.
 	 *
 	 * @param \ILIAS\Data\Factory           $data_factory
-	 * @param \ILIAS\Refinery\Validation\Factory     $validation_factory
 	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param string                        $label
 	 * @param string                        $byline
@@ -64,13 +62,12 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline,
 		array $tags
 	) {
-		parent::__construct($data_factory, $validation_factory, $refinery, $label, $byline);
+		parent::__construct($data_factory, $refinery, $label, $byline);
 		$this->tags = $tags;
 	}
 

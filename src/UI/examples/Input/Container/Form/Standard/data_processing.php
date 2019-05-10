@@ -8,7 +8,6 @@ function data_processing() {
     $ui = $DIC->ui()->factory();
     $lng = $DIC->language();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $refinery = $DIC->refinery();

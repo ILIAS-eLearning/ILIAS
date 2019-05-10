@@ -41,11 +41,9 @@ class Factory implements Field\Factory {
 	public function __construct(
 		SignalGeneratorInterface $signal_generator,
 		Data\Factory $data_factory,
-		\ILIAS\Refinery\Validation\Factory $validation_factory,
 		\ILIAS\Refinery\Factory $refinery
 	) {
 		$this->data_factory = $data_factory; 
-		$this->validation_factory = $validation_factory;
 		$this->signal_generator = $signal_generator;
 		$this->refinery = $refinery;
 	}
@@ -55,7 +53,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function text($label, $byline = null) {
-		return new Text($this->data_factory, $this->validation_factory, $this->refinery, $label, $byline);
+		return new Text($this->data_factory, $this->refinery, $label, $byline);
 	}
 
 
@@ -63,7 +61,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function numeric($label, $byline = null) {
-		return new Numeric($this->data_factory, $this->validation_factory, $this->refinery, $label, $byline);
+		return new Numeric($this->data_factory, $this->refinery, $label, $byline);
 	}
 
 
@@ -71,7 +69,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function group(array $inputs) {
-		return new Group($this->data_factory, $this->validation_factory, $this->refinery, $inputs, "", "");
+		return new Group($this->data_factory, $this->refinery, $inputs, "", "");
 	}
 
 
@@ -79,7 +77,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function section(array $inputs, $label, $byline = null) {
-		return new Section($this->data_factory, $this->validation_factory, $this->refinery, $inputs, $label, $byline);
+		return new Section($this->data_factory, $this->refinery, $inputs, $label, $byline);
 	}
 
 
@@ -87,7 +85,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function dependantGroup(array $inputs) {
-		return new DependantGroup($this->data_factory, $this->validation_factory, $this->refinery, $this->signal_generator, $inputs);
+		return new DependantGroup($this->data_factory, $this->refinery, $this->signal_generator, $inputs);
 	}
 
 
@@ -95,7 +93,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function checkbox($label, $byline = null) {
-		return new Checkbox($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $byline);
+		return new Checkbox($this->data_factory, $this->refinery, $label, $byline);
 	}
 
 
@@ -103,7 +101,7 @@ class Factory implements Field\Factory {
 	 * @inheritDoc
 	 */
 	public function tag(string $label, array $tags, $byline = null): Field\Tag {
-		return new Tag($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $byline, $tags);
+		return new Tag($this->data_factory, $this->refinery, $label, $byline, $tags);
 	}
 
 
@@ -111,7 +109,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function password($label, $byline = null) {
-		return new Password($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $byline, $this->signal_generator);
+		return new Password($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator);
 	}
 
 
@@ -119,7 +117,7 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function select($label, array $options, $byline = null) {
-		return new Select($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $options, $byline);
+		return new Select($this->data_factory, $this->refinery, $label, $options, $byline);
 	}
 
 
@@ -127,21 +125,21 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function textarea($label, $byline = null) {
-		return new Textarea($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $byline);
+		return new Textarea($this->data_factory, $this->refinery, $label, $byline);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function radio($label, $byline = null) {
-		return new Radio($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $byline);
+		return new Radio($this->data_factory, $this->refinery, $label, $byline);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function multiSelect($label, array $options, $byline = null) {
-		return new MultiSelect($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $options, $byline);
+		return new MultiSelect($this->data_factory, $this->refinery, $label, $options, $byline);
 	}
 
 }
