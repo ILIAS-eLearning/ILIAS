@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\In\Transformation\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 class NewObjectTransformation implements Transformation
 {

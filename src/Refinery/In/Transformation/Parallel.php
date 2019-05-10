@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace ILIAS\In\Transformation;
 
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class Parallel implements Transformation

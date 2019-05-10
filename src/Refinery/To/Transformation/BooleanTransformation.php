@@ -11,7 +11,7 @@ namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Result;
 use ILIAS\In\Transformation\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class BooleanTransformation implements Transformation

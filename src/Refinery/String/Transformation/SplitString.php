@@ -5,7 +5,7 @@ namespace ILIAS\Refinery\String\Transformation;
 
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Split a string by delimiter into array

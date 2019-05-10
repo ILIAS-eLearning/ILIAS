@@ -5,7 +5,7 @@ namespace ILIAS\Refinery\Container\Transformation;
 
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Adds to any array keys for each value

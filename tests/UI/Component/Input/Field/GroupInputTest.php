@@ -10,7 +10,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use ILIAS\UI\Component\Input\Field\Input;
 use \ILIAS\Data;
 use ILIAS\Refinery;
-use \ILIAS\Refinery\Transformation;
+use ILIAS\Refinery;
 
 interface Input1 extends InputInternal {};
 interface Input2 extends InputInternal {};

@@ -4,7 +4,7 @@
 namespace ILIAS\Refinery\Custom\Transformations;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Transform values according to custom configuration

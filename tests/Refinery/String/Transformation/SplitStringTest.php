@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,7 +15,7 @@ class SplitStringTest extends TestCase {
 	protected static $result = array("I am", "a test string", "for split");
 
 	/**
-	 * @var Transformation\Transformations\SplitString
+	 * @var Refinery\Transformations\SplitString
 	 */
 	private $split_string;
 

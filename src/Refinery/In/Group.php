@@ -12,7 +12,7 @@ namespace ILIAS\Refinery\In;
 
 use ILIAS\In\Transformation\Parallel;
 use ILIAS\In\Transformation\Series;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 class Group
 {
