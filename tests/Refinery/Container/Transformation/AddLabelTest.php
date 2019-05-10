@@ -14,10 +14,17 @@ class AddLabelTest extends TestCase {
 	protected static $labels = array("A", "B", "C");
 	protected static $test_array = array(1, 2, 3);
 	protected static $result_array = array("A"=>1, "B"=>2, "C"=>3);
+	/**
+	 * @var ILIAS\Refinery\Factory
+	 */
+	private $f;
 
 	protected function setUp(): void{
-		$this->f = new Transformation\Factory();
-		$this->add_label = $this->f->addLabels(self::$labels);
+		$dataFactory = new ILIAS\Data\Factory();
+		$language = $this->createMock('\ilLanguage');
+
+		$this->f = new ILIAS\Refinery\Factory($dataFactory, $language);
+		$this->add_label = $this->f->container()->addLabels(self::$labels);
 	}
 
 	protected function tearDown(): void {
@@ -69,13 +76,13 @@ class AddLabelTest extends TestCase {
 	}
 
 	public function testInvoke() {
-		$add_label = $this->f->addLabels(self::$labels);
+		$add_label = $this->f->container()->addLabels(self::$labels);
 		$with = $add_label(self::$test_array);
 		$this->assertEquals(self::$result_array, $with);
 	}
 
 	public function testInvokeFails() {
-		$add_label = $this->f->addLabels(self::$labels);
+		$add_label = $this->f->container()->addLabels(self::$labels);
 
 		$raised = false;
 		try {

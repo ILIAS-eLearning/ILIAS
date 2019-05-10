@@ -10,18 +10,6 @@ namespace ILIAS\Refinery\Transformation;
  */
 class Factory {
 	/**
-	 * Add labels to an array.
-	 *
-	 * Will transform ["a","b"] to ["A" => "a", "B" => "b"] with $labels = ["A", "B"].
-	 *
-	 * @param   string[] $labels
-	 * @return  Transformation
-	 */
-	public function addLabels(array $labels) {
-		return new Transformations\AddLabels($labels, new \ILIAS\Data\Factory());
-	}
-
-	/**
 	 * Transform primitive value to data-type.
 	 *
 	 * @param	string $type
