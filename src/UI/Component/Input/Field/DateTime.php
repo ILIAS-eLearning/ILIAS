@@ -35,7 +35,7 @@ interface DateTime extends Input
 	/**
 	 * Limit accepted values to datetime past (and including) the given $datetime.
 	 */
-	public function withMinValue(\DateTime $datetime) : DateTime;
+	public function withMinValue(\DateTimeImmutable $datetime) : DateTime;
 
 	/**
 	 * Return the lowest value the input accepts.
@@ -46,7 +46,7 @@ interface DateTime extends Input
 	/**
 	 * Limit accepted values to datetime before (and including) the given value.
 	 */
-	public function withMaxValue(\DateTime $datetime) : DateTime;
+	public function withMaxValue(\DateTimeImmutable $datetime) : DateTime;
 
 	/**
 	 * Return the maximum date the input accepts.

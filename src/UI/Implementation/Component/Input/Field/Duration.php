@@ -28,12 +28,12 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	protected $format;
 
 	/**
-	 * @var \DateTime
+	 * @var \DateTimeImmutable
 	 */
 	protected $min_date;
 
 	/**
-	 * @var \DateTime
+	 * @var \DateTimeImmutable
 	 */
 	protected $max_date;
 
@@ -156,7 +156,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMinValue(\DateTime $date) : C\Input\Field\Duration
+	public function withMinValue(\DateTimeImmutable $date) : C\Input\Field\Duration
 	{
 		$clone = clone $this;
 		$clone->min_date = $date;
@@ -188,7 +188,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxValue(\DateTime $date) : C\Input\Field\Duration
+	public function withMaxValue(\DateTimeImmutable $date) : C\Input\Field\Duration
 	{
 		$clone = clone $this;
 		$clone->max_date = $date;

@@ -24,7 +24,7 @@ interface Duration extends Group
 	/**
 	 * Limit accepted values to Duration past (and including) the given $Duration.
 	 */
-	public function withMinValue(\DateTime $date) : Duration;
+	public function withMinValue(\DateTimeImmutable $date) : Duration;
 
 	/**
 	 * Return the lowest value the input accepts.
@@ -35,7 +35,7 @@ interface Duration extends Group
 	/**
 	 * Limit accepted values to Duration before (and including) the given value.
 	 */
-	public function withMaxValue(\DateTime $date) : Duration;
+	public function withMaxValue(\DateTimeImmutable $date) : Duration;
 
 	/**
 	 * Return the maximum date the input accepts.

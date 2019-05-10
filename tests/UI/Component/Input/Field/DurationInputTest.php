@@ -47,7 +47,7 @@ class DurationInputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withMinValue() {
-		$dat = new \DateTime('2019-01-09');
+		$dat = new \DateTimeImmutable('2019-01-09');
 		$duration = $this->factory->duration('label', 'byline')
 			->withMinValue($dat);
 
@@ -58,7 +58,7 @@ class DurationInputTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_withMaxValue() {
-		$dat = new \DateTime('2019-01-09');
+		$dat = new \DateTimeImmutable('2019-01-09');
 		$duration = $this->factory->duration('label', 'byline')
 			->withMaxValue($dat);
 

@@ -54,7 +54,7 @@ class Factory {
 	}
 
 	/**
-	 * Transform a string to php DateTime; the string can be anything
+	 * Transform a string to php \DateTimeImmutable; the string can be anything
 	 * understood by php's DateTime::__construct.
 	 *
 	 * @return  Transformation

@@ -23,7 +23,7 @@ class DateTimeTest extends TestCase {
 	public function testTransform()
 	{
 		$value = '26.05.1977';
-		$expected = new \DateTime($value);
+		$expected = new \DateTimeImmutable($value);
 
 		$this->assertEquals(
 			$expected,
@@ -45,7 +45,7 @@ class DateTimeTest extends TestCase {
 	public function testInvoke()
 	{
 		$value = '2019/05/26';
-		$expected = new \DateTime($value);
+		$expected = new \DateTimeImmutable($value);
 		$t = $this->trans;
 
 		$this->assertEquals($expected, $t($value));
@@ -54,7 +54,7 @@ class DateTimeTest extends TestCase {
 	public function testApplyToOK()
 	{
 		$value = '2019/05/26';
-		$expected = new \DateTime($value);
+		$expected = new \DateTimeImmutable($value);
 
 		$df = new \ILIAS\Data\Factory();
 		$ok = $df->ok($expected);

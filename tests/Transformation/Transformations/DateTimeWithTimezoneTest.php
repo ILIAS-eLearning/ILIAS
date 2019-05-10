@@ -36,8 +36,8 @@ class DateTimeWithTimezoneTest extends TestCase
 		$dat = '2019-05-26 13:15:01';
 		$origin_tz = 'Europe/Berlin';
 		$target_tz = 'Europe/London';
-		$origin = new \DateTime($dat, new \DateTimeZone($origin_tz));
-		$expected = new \DateTime($dat, new \DateTimeZone($target_tz));
+		$origin = new \DateTimeImmutable($dat, new \DateTimeZone($origin_tz));
+		$expected = new \DateTimeImmutable($dat, new \DateTimeZone($target_tz));
 		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
 
 		$this->assertEquals(
@@ -51,7 +51,7 @@ class DateTimeWithTimezoneTest extends TestCase
 		$dat = '2019-05-26 13:15:01';
 		$origin_tz = 'Europe/Berlin';
 		$target_tz = 'America/El_Salvador';
-		$origin = new \DateTime($dat, new \DateTimeZone($origin_tz));
+		$origin = new \DateTimeImmutable($dat, new \DateTimeZone($origin_tz));
 		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
 		$this->assertEquals(
 			$dat,
@@ -77,8 +77,8 @@ class DateTimeWithTimezoneTest extends TestCase
 		$dat = '2019/05/26 16:05:22';
 		$origin_tz = 'Europe/Berlin';
 		$target_tz = 'Europe/London';
-		$origin = new \DateTime($dat, new \DateTimeZone($origin_tz));
-		$expected = new \DateTime($dat, new \DateTimeZone($target_tz));
+		$origin = new \DateTimeImmutable($dat, new \DateTimeZone($origin_tz));
+		$expected = new \DateTimeImmutable($dat, new \DateTimeZone($target_tz));
 		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
 		$this->assertEquals($expected, $trans($origin));
 	}
@@ -87,8 +87,8 @@ class DateTimeWithTimezoneTest extends TestCase
 	{
 		$trans = $this->tf->toDateTimeWithTimezone('Europe/London');
 		$value = '2019/05/26';
-		$origin = new \DateTime($value);
-		$expected = new \DateTime($value, new \DateTimeZone('Europe/London'));
+		$origin = new \DateTimeImmutable($value);
+		$expected = new \DateTimeImmutable($value, new \DateTimeZone('Europe/London'));
 
 		$df = new \ILIAS\Data\Factory();
 		$ok = $df->ok($origin);

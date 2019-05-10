@@ -30,12 +30,12 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	protected $format;
 
 	/**
-	 * @var \DateTime
+	 * @var \DateTimeImmutable
 	 */
 	protected $min_date;
 
 	/**
-	 * @var \DateTime
+	 * @var \DateTimeImmutable
 	 */
 	protected $max_date;
 
@@ -127,7 +127,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMinValue(\DateTime $date) : C\Input\Field\DateTime
+	public function withMinValue(\DateTimeImmutable $date) : C\Input\Field\DateTime
 	{
 		$clone = clone $this;
 		$clone->min_date = $date;
@@ -145,7 +145,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	/**
 	 * @inheritdoc
 	 */
-	public function withMaxValue(\DateTime $date) : C\Input\Field\DateTime
+	public function withMaxValue(\DateTimeImmutable $date) : C\Input\Field\DateTime
 	{
 		$clone = clone $this;
 		$clone->max_date = $date;

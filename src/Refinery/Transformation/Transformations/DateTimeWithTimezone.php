@@ -8,7 +8,7 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
 
 /**
- * change the timezone of php's \DateTime
+ * change the timezone of php's \DateTimeImmutable
  */
 class DateTimeWithTimezone implements Transformation
 {
@@ -33,10 +33,10 @@ class DateTimeWithTimezone implements Transformation
 	/**
 	 * calculate the difference beween two timezones in seconds
 	 */
-	protected function getTimezoneDeltaInHours(\DateTimeZone $tz1, \DateTimeZone $tz2): int
+	protected function getTimezoneDelta(\DateTimeZone $tz1, \DateTimeZone $tz2): int
 	{
-		$date1 = new \DateTime('now', $tz1);
-		$date2 = new \DateTime('now', $tz2);
+		$date1 = new \DateTimeImmutable('now', $tz1);
+		$date2 = new \DateTimeImmutable('now', $tz2);
 		$delta = $tz1->getOffset($date1) - $tz2->getOffset($date2);
 		return $delta;
 	}
@@ -49,7 +49,7 @@ class DateTimeWithTimezone implements Transformation
 		if (!$from) {
 			return null;
 		}
-		if (! $from instanceof \DateTime) {
+		if (! $from instanceof \DateTimeImmutable) {
 			throw new \InvalidArgumentException("$from is not a DateTime-object", 1);
 		}
 		return $this->performTransformation($from);
@@ -57,19 +57,20 @@ class DateTimeWithTimezone implements Transformation
 
 	/**
 	 * Do tranformation.
-	 * @param \DateTime $from
-	 * @return \DateTime
+	 * @param \DateTimeImmutable $from
+	 * @return \DateTimeImmutable
 	 */
-	protected function performTransformation(\DateTime $from): \DateTime
+	protected function performTransformation(\DateTimeImmutable $from): \DateTimeImmutable
 	{
-		$offset = $this->getTimezoneDeltaInHours(
+		$offset = $this->getTimezoneDelta(
 			$from->getTimezone(),
 			$this->timezone
 		);
 
 		$to = clone $from;
-		$to->setTimezone($this->timezone);
-		$to = $to->modify("$offset seconds");
+		$to = $to
+			->setTimezone($this->timezone)
+			->modify("$offset seconds");
 		return $to;
 	}
 
@@ -86,7 +87,7 @@ class DateTimeWithTimezone implements Transformation
 	public function applyTo(Result $data): Result
 	{
 		$value = $data->value();
-		if (! $value instanceof \DateTime) {
+		if (! $value instanceof \DateTimeImmutable) {
 			$exception = new \InvalidArgumentException("$value is not a DateTime-object", 1);
 			return $this->factory->error($exception);
 		}

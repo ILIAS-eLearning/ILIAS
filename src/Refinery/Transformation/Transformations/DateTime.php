@@ -8,7 +8,7 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation\Transformation;
 
 /**
- * Transform value to php \DateTime
+ * Transform value to php \DateTimeImmutable
  */
 class DateTime implements Transformation {
 
@@ -47,7 +47,7 @@ class DateTime implements Transformation {
 	protected function attemptTransformation($value): Result
 	{
 		try {
-			$value = new \DateTime($value);
+			$value = new \DateTimeImmutable($value);
 		} catch (\Exception $e) {
 			return $this->factory->error($e->getMessage());
 		}
@@ -67,7 +67,7 @@ class DateTime implements Transformation {
 	public function applyTo(Result $data): Result
 	{
 		$value = $data->value();
-		if($value instanceof \DateTime) {
+		if($value instanceof \DateTimeImmutable) {
 			return $this->factory->ok($value);
 		}
 		return $this->attemptTransformation($value);
