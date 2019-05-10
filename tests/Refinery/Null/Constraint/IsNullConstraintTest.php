@@ -3,7 +3,7 @@ g<?php
 /* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Refinery\Validation;
+use ILIAS\Refinery\Factory;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -11,9 +11,9 @@ class IsNullConstraintTest extends TestCase {
 	public function setUp(): void{
 		$this->df = new Data\Factory();
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory($this->df, $this->lng);
+		$this->f = new Factory($this->df, $this->lng);
 
-		$this->c = $this->f->isNull();
+		$this->c = $this->f->null()->isNull();
 	}
 
 	public function testAccepts() {

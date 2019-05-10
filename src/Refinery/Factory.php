@@ -78,7 +78,6 @@ class Factory
 		return new String\Group($this->dataFactory, $this->language);
 	}
 
-
 	/**
 	 * Contains constraints and transformations for custom functions.
 	 *
@@ -117,5 +116,15 @@ class Factory
 	public function logical()
 	{
 		return new Logical\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for null types
+	 *
+	 * @return Null\Group
+	 */
+	public function null()
+	{
+		return new Null\Group($this->dataFactory, $this->language);
 	}
 }

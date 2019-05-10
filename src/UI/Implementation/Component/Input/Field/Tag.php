@@ -164,7 +164,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 			->applyTo(new Ok($value))
 			->isOK();
 
-		return ($this->validation_factory->isNull()->accepts($value) || $valueCanBeAddedAsStringToList);
+		return ($this->refinery->null()->isNull()->accepts($value) || $valueCanBeAddedAsStringToList);
 	}
 
 
