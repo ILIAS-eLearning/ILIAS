@@ -748,7 +748,10 @@ class ilExSubmission
 						}
 
 						$filename = $path."/".$storage_id."/".basename($value["filename"]);
-						unlink($filename);
+						if(file_exists($filename))
+						{
+							unlink($filename);
+						}
 					}
 				}
 			}
