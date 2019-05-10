@@ -876,3 +876,15 @@ while ($row = $ilDB->fetchAssoc($res)) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5495>
+<?php
+if($ilDB->tableColumnExists("map_area", "href")) {
+	$field = array(
+		'type' 		=> 'text',
+		'length' 	=> 800,
+		'notnull' 	=> false
+	);
+
+	$ilDB->modifyTableColumn("map_area", "href", $field);
+}
+?>
