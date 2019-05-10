@@ -4061,7 +4061,7 @@ class ilSetupGUI
 	{
 		if ($_POST["form"])
 		{
-			$client = new ilClient($_POST["form"]["default"], $this->setup->db_connections);
+			$client = new ilClient($_POST["form"]["default"]);
 
 			if (!$client->init())
 			{
@@ -4106,7 +4106,7 @@ class ilSetupGUI
 		}
 
 //$this->setup->getClient()->setSetting("zzz", "V");
-		$clientlist = new ilClientList($this->setup->db_connections);
+		$clientlist = new ilClientList();
 //$this->setup->getClient()->setSetting("zzz", "W");
 		$list = $clientlist->getClients();
 //$this->setup->getClient()->setSetting("zzz", "X");
@@ -4264,7 +4264,7 @@ class ilSetupGUI
 		{
 			$this->form->setTitle($this->lng->txt("clone_source"));
 			$clients = array();
-			$clientlist = new ilClientList($this->setup->db_connections);
+			$clientlist = new ilClientList();
 			$list = $clientlist->getClients();
 			$clientlistarray = array();
 
