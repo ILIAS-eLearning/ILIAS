@@ -3235,7 +3235,7 @@ common#:#passwd_not_match#:#Your entries for the new password don’t match! Ple
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#passwd#:#Password
 common#:#password_assistance_info#:#If password assistance is enabled, a link ‘Forgot Password?’ is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
-common#:#password_change_on_first_login_demand#:#You have to change your initial password before you can start using ILIAS services.
+common#:#password_change_on_first_login_demand#:#You have to change your password before you can start using ILIAS services.
 common#:#password_empty#:#The password field must not be empty.
 common#:#password_expired#:#Your password is expired and has to be changed as the last change was %s day(s) ago.
 common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.

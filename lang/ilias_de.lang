@@ -3734,7 +3734,7 @@ common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
 common#:#password_allow_chars#:#Erlaubte Zeichen: %s
 common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmeldeseite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
-common#:#password_change_on_first_login_demand#:#Ihr Erstpasswort muss geändert werden, bevor Sie ILIAS nutzen können.
+common#:#password_change_on_first_login_demand#:#Ihr Passwort muss geändert werden, bevor Sie ILIAS nutzen können.
 common#:#password_contains_invalid_chars#:#Das Passwort enthält ungültige Zeichen.
 common#:#password_empty#:#Das Passwort darf nicht leer sein.
 common#:#password_expired#:#Ihr Passwort ist abgelaufen und muss geändert werden, da es zuletzt vor %s Tag(en) geändert wurde.
