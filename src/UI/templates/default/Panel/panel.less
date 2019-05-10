@@ -6,7 +6,7 @@
 		margin-bottom: 10px;
 	}
 	.panel-heading{
-		height: 34px;
+		min-height: 34px;
 	}
 
 }
@@ -71,24 +71,29 @@
 /* this is currently experimental, could be removed */
 .panel-secondary {
 	.panel-heading {
-		display:flex;
+		display: flex;
 		flex-flow: row wrap;
 	}
 	.panel-secondary-title {
-		flex:99 0;
+		flex-grow: 99;
+		flex-shrink: 0;
 		order: 1;
 	}
 	.panel-heading .dropdown {
-		flex: 1 0;
+		flex-grow: 1;
+		flex-shrink: 0;
 		order: 3;
 	}
 	.il-viewcontrol-sortation {
-		flex: 1 0;
+		flex-grow: 1;
+		flex-shrink: 0;
 		order: 2;
 		margin-right:5px;
 	}
 	.il-viewcontrol-pagination, .il-viewcontrol-section {
-		flex: 1 100%;
+		flex-grow: 1;
+		flex-shrink: 1;
+		flex-basis: 100%;
 		order: 4;
 		background-color:@il-secondary-container-bg;
 		text-align:center;
