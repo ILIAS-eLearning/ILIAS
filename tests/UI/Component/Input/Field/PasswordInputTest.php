@@ -12,7 +12,6 @@ use ILIAS\Data\Password as PWD;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
 use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
 
 class _PWDInputData implements InputData {
 	public function get($name) {
@@ -38,7 +37,6 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 			new SignalGenerator(),
 			$df,
 			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}

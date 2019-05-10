@@ -77,11 +77,6 @@ class ilObjStudyProgrammeSettingsGUI {
 	protected $request;
 
 	/**
-	 * @var ILIAS\Refinery\Transformation\Factory
-	 */
-	protected $trafo_factory;
-
-	/**
 	 * @var \ILIAS\Refinery\Factory
 	 */
 	private $refinery;
@@ -115,7 +110,6 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->input_factory = $DIC->ui()->factory()->input();
 		$this->renderer = $DIC->ui()->renderer();
 		$this->request = $DIC->http()->request();
-		$this->trafo_factory = new \ILIAS\Refinery\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
 		$this->data = new \ILIAS\Data\Factory();
 		$this->validation = new \ILIAS\Refinery\Validation\Factory($this->data, $this->lng);
 		$this->refinery = $refinery;
@@ -226,7 +220,6 @@ class ilObjStudyProgrammeSettingsGUI {
 
 	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
 		$ff = $this->input_factory->field();
-		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
 		$sp_types = ilStudyProgrammeType::getAllTypesArray();
 		$status_options = self::getStatusOptions();

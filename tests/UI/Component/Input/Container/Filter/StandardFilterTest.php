@@ -9,7 +9,6 @@ require_once(__DIR__ . "/FilterTest.php");
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
 use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
 
 class WithNoUIFactories extends NoUIFactory {
 
@@ -74,7 +73,6 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			new SignalGenerator(),
 			$df,
 			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new ILIAS\Refinery\Factory($df, $language)
 		);
 	}

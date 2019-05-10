@@ -7,13 +7,12 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 use ILIAS\Refinery\Validation\Constraint;
 use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -35,10 +34,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @var    ValidationFactory
 	 */
 	protected $validation_factory;
-	/**
-	 * @var TransformationFactory
-	 */
-	protected $transformation_factory;
 	/**
 	 * @var Factory
 	 */

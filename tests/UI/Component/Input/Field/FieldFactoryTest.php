@@ -6,7 +6,6 @@ use \ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
 use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
 
 class FieldFactoryTest extends AbstractFactoryTest {
 
@@ -52,7 +51,6 @@ class FieldFactoryTest extends AbstractFactoryTest {
 			new SignalGenerator(),
 			$df,
 			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}

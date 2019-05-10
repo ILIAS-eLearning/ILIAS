@@ -6,7 +6,6 @@ use \ILIAS\UI\Component\Input\Container\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
 use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
 
 class FilterFactoryTest extends AbstractFactoryTest {
 
@@ -27,7 +26,6 @@ class FilterFactoryTest extends AbstractFactoryTest {
 				new SignalGenerator(),
 				$df,
 				new Validation\Factory($df, $language),
-				new Transformation\Factory(),
 				new ILIAS\Refinery\Factory($df, $language)
 			)
 		);

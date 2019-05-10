@@ -8,7 +8,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Validation\Factory as ValidationFactory;
-use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
 
 /**
  * This implements the numeric input.
@@ -28,13 +27,12 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	public function __construct(
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
 
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
+		parent::__construct($data_factory, $validation_factory, $refinery, $label, $byline);
 
 		//TODO: Is there a better way to do this? Note, that "withConstraint" is not
 		// usable here (clone).

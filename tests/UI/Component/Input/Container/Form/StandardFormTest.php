@@ -43,7 +43,6 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 			new SignalGenerator(),
 			$df,
 			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}

@@ -12,7 +12,6 @@ use ILIAS\UI\Implementation\Component\Input;
 use ILIAS\Refinery\Transformation\Transformation;
 use ILIAS\Data;
 use ILIAS\Refinery\Validation;
-use ILIAS\Refinery\Transformation as T;
 
 use Psr\Http\Message\ServerRequestInterface;
 
