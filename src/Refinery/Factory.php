@@ -84,13 +84,19 @@ class Factory
 		return new Custom\Group($this->dataFactory, $this->language);
 	}
 
+	/**
+	 * Contains constraints for container types (e.g. arrays)
+	 *
+	 * @return Container\Group
+	 */
 	public function container()
 	{
 		return new Container\Group($this->dataFactory);
 	}
 
 	/**
-	 * Contains constraints for passwords
+	 * Contains constraints for password strings
+	 *
 	 * @return Password\Group
 	 */
 	public function password()
