@@ -46,11 +46,6 @@ class ValidationFactoryTest extends TestCase {
 		$this->f = null;
 	}
 
-	public function testIsNumeric() {
-		$is_numeric = $this->f->isNumeric();
-		$this->assertInstanceOf(Validation\Constraint::class, $is_numeric);
-	}
-
 	public function testCustom() {
 		$custom = $this->refinery->custom()->constraint(function ($value) { return "This was fault";}, 5);
 		$this->assertInstanceOf(Validation\Constraint::class, $custom);

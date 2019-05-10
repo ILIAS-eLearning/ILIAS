@@ -35,7 +35,7 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 
 		//TODO: Is there a better way to do this? Note, that "withConstraint" is not
 		// usable here (clone).
-		$this->setAdditionalConstraint($this->validation_factory->isNumeric());
+		$this->setAdditionalConstraint($this->refinery->numeric()->isNumeric());
 	}
 
 
@@ -51,6 +51,6 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		return $this->validation_factory->isNumeric();
+		return $this->refinery->numeric()->isNumeric();
 	}
 }

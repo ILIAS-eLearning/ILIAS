@@ -127,4 +127,14 @@ class Factory
 	{
 		return new Null\Group($this->dataFactory, $this->language);
 	}
+
+	/**
+	 * Contains constraints for numeric data types
+	 *
+	 * @return Numeric\Group
+	 */
+	public function numeric()
+	{
+		return new Numeric\Group($this->dataFactory, $this->language);
+	}
 }

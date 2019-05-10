@@ -33,13 +33,4 @@ class Factory {
 	}
 
 	// SOME RESTRICTIONS
-
-	/**
-	 * Get the constraint that some value is a number
-	 *
-	 * @return  Constraint
-	 */
-	public function isNumeric() {
-		return new Constraints\IsNumeric($this->data_factory, $this->lng);
-	}
 }
