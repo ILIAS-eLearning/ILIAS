@@ -12,7 +12,6 @@ function base() {
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Refinery\Validation\Factory($data, $lng);
     $refinery = $DIC->refinery();
 
     //Step 1: Implement transformation and constraints
@@ -21,7 +20,7 @@ function base() {
         $s = $l + $r;
         return $s;
     });
-    $equal_ten = $validation->custom(function($v) {
+    $equal_ten = $refinery->custom()->constraint(function($v) {
         return $v==10;
     }, "The sum must equal ten.");
 
