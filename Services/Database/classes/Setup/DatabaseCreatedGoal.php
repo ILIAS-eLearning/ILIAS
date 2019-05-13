@@ -4,19 +4,18 @@
 
 use ILIAS\Setup;
 
-class DatabaseServerIsConnectableGoal extends DatabaseGoal {
+class DatabaseCreatedGoal extends DatabaseGoal {
 	public function getHash() : string {
 		return hash("sha256", implode("-", [
 			self::class,
 			$this->config->getHost(),
 			$this->config->getPort(),
-			$this->config->getUser(),
-			$this->config->getPassword()->toString()
+			$this->config->getDatabase()
 		]));
 	}
 
 	public function getLabel() : string {
-		return "The database server is connectable with the supplied configuration.";
+		return "The database is created on the server.";
 	}
 
 	public function isNotable() : bool {
@@ -24,30 +23,28 @@ class DatabaseServerIsConnectableGoal extends DatabaseGoal {
 	}
 
 	public function getPreconditions() : array {
-		return [];
+		return [
+			new \DatabaseServerIsConnectableGoal($this->config)
+		];
 	}
 
 	public function achieve(Setup\Environment $environment) : Setup\Environment {
+		$c = $this->config;
 		$db = ilDBWrapperFactory::getWrapper($this->config->getType());
-		$db->initFromIniFile($this->config->toMockIniFile());
-		try {
-			$connect = $db->connect();
+		$db->initFromIniFile($c->toMockIniFile());
+
+		$connect = $db->connect(true);
+		if ($connect) {
+			// Database seems to exist already.
+			return $environment;
 		}
-		catch (PDOException $e) {
-			// 1049 is "unknown database", which is ok because we propably didn't
-			// install the db yet,.
-			if ($e->getCode() != 1049) {
-				throw $e;
-			}
-			else {
-				$connect = true;
-			}
-		}
-		if (!$connect) {
+
+		if (!$db->createDatabase($c->getDatabase(), "utf8", $c->getCollation())) {
 			throw new \RuntimeException(
-				"Database cannot be reached. Please check the credentials."
+				"Database cannot be created."
 			);
 		}
+
 		return $environment;
 	}
 }

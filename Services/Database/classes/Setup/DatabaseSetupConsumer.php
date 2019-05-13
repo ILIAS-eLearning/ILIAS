@@ -57,7 +57,7 @@ class DatabaseSetupConsumer implements Setup\Consumer {
 				"Expected \\DatabaseSetupConfig, go '".get_class($config)."' instead."
 			);
 		}
-		return new \DatabaseServerIsConnectableGoal($config);
+		return new \DatabaseExistsGoal($config);
 	}
 
 	/**
