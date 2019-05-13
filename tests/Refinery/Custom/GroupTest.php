@@ -8,6 +8,7 @@ use ILIAS\Refinery\Custom\Group;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
+require_once('./tests/Refinery/TestCase.php');
 
 class GroupTest extends TestCase
 {
