@@ -30,10 +30,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	protected $data_factory;
 	/**
-	 * @var    ValidationFactory
-	 */
-	protected $validation_factory;
-	/**
 	 * @var Factory
 	 */
 	protected $refinery;
@@ -88,7 +84,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * Input constructor.
 	 *
 	 * @param DataFactory $data_factory
-	 * @param ValidationFactory $validation_factory
 	 * @param Factory $refinery
 	 * @param                       $label
 	 * @param                       $byline
