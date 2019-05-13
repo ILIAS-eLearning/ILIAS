@@ -4,7 +4,7 @@ function notification_highlighted() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->notification("#")
+	return $renderer->render($f->symbol()->glyph()->notification("#")
 			->withHighlight()
 	);
 }

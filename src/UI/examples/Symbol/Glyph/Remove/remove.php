@@ -4,5 +4,5 @@ function remove() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->remove("#"));
+	return $renderer->render($f->symbol()->glyph()->remove("#"));
 }

@@ -3,9 +3,9 @@
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__."/../../Base.php");
+require_once(__DIR__."/../../../Base.php");
 
-use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Component\Symbol\Glyph as G;
 
 /**
  * Test on glyph implementation.
@@ -20,63 +20,67 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	static $canonical_css_classes = array
-		( C\Glyph\Glyph::SETTINGS			=> "glyphicon glyphicon-cog"
-		, C\Glyph\Glyph::EXPAND				=> "glyphicon glyphicon-triangle-right"
-		, C\Glyph\Glyph::COLLAPSE			=> "glyphicon glyphicon-triangle-bottom"
-		, C\Glyph\Glyph::ADD				=> "glyphicon glyphicon-plus-sign"
-		, C\Glyph\Glyph::REMOVE				=> "glyphicon glyphicon-minus-sign"
-		, C\Glyph\Glyph::UP					=> "glyphicon glyphicon-circle-arrow-up"
-		, C\Glyph\Glyph::DOWN				=> "glyphicon glyphicon-circle-arrow-down"
-		, C\Glyph\Glyph::BACK 				=> "glyphicon glyphicon-chevron-left"
-		, C\Glyph\Glyph::NEXT				=> "glyphicon glyphicon-chevron-right"
-		, C\Glyph\Glyph::SORT_ASCENDING		=> "glyphicon glyphicon-arrow-up"
-		, C\Glyph\Glyph::SORT_DESCENDING	=> "glyphicon glyphicon-arrow-down"
-		, C\Glyph\Glyph::USER				=> "glyphicon glyphicon-user"
-		, C\Glyph\Glyph::MAIL 				=> "glyphicon glyphicon-envelope"
-		, C\Glyph\Glyph::NOTIFICATION		=> "glyphicon glyphicon-bell"
-		, C\Glyph\Glyph::TAG				=> "glyphicon glyphicon-tag"
-		, C\Glyph\Glyph::NOTE				=> "glyphicon glyphicon-pushpin"
-		, C\Glyph\Glyph::COMMENT			=> "glyphicon glyphicon-comment"
-		, C\Glyph\Glyph::LIKE				=> "glyphicon il-glyphicon-like"
-		, C\Glyph\Glyph::LOVE				=> "glyphicon il-glyphicon-love"
-		, C\Glyph\Glyph::DISLIKE			=> "glyphicon il-glyphicon-dislike"
-		, C\Glyph\Glyph::LAUGH				=> "glyphicon il-glyphicon-laugh"
-		, C\Glyph\Glyph::ASTOUNDED			=> "glyphicon il-glyphicon-astounded"
-		, C\Glyph\Glyph::SAD				=> "glyphicon il-glyphicon-sad"
-		, C\Glyph\Glyph::ANGRY				=> "glyphicon il-glyphicon-angry"
-		, C\Glyph\Glyph::ATTACHMENT			=> "glyphicon glyphicon-paperclip"
-		, C\Glyph\Glyph::RESET				=> "glyphicon glyphicon-repeat"
-		, C\Glyph\Glyph::APPLY				=> "glyphicon glyphicon-ok"
+		( G\Glyph::SETTINGS			=> "glyphicon glyphicon-cog"
+		, G\Glyph::EXPAND			=> "glyphicon glyphicon-triangle-right"
+		, G\Glyph::COLLAPSE			=> "glyphicon glyphicon-triangle-bottom"
+		, G\Glyph::ADD				=> "glyphicon glyphicon-plus-sign"
+		, G\Glyph::REMOVE			=> "glyphicon glyphicon-minus-sign"
+		, G\Glyph::UP				=> "glyphicon glyphicon-circle-arrow-up"
+		, G\Glyph::DOWN				=> "glyphicon glyphicon-circle-arrow-down"
+		, G\Glyph::BACK 			=> "glyphicon glyphicon-chevron-left"
+		, G\Glyph::NEXT				=> "glyphicon glyphicon-chevron-right"
+		, G\Glyph::SORT_ASCENDING	=> "glyphicon glyphicon-arrow-up"
+		, G\Glyph::SORT_DESCENDING	=> "glyphicon glyphicon-arrow-down"
+		, G\Glyph::USER				=> "glyphicon glyphicon-user"
+		, G\Glyph::MAIL 			=> "glyphicon glyphicon-envelope"
+		, G\Glyph::NOTIFICATION		=> "glyphicon glyphicon-bell"
+		, G\Glyph::TAG				=> "glyphicon glyphicon-tag"
+		, G\Glyph::NOTE				=> "glyphicon glyphicon-pushpin"
+		, G\Glyph::COMMENT			=> "glyphicon glyphicon-comment"
+		, G\Glyph::LIKE				=> "glyphicon il-glyphicon-like"
+		, G\Glyph::LOVE				=> "glyphicon il-glyphicon-love"
+		, G\Glyph::DISLIKE			=> "glyphicon il-glyphicon-dislike"
+		, G\Glyph::LAUGH			=> "glyphicon il-glyphicon-laugh"
+		, G\Glyph::ASTOUNDED		=> "glyphicon il-glyphicon-astounded"
+		, G\Glyph::SAD				=> "glyphicon il-glyphicon-sad"
+		, G\Glyph::ANGRY			=> "glyphicon il-glyphicon-angry"
+		, G\Glyph::ATTACHMENT		=> "glyphicon glyphicon-paperclip"
+		, G\Glyph::RESET			=> "glyphicon glyphicon-repeat"
+		, G\Glyph::APPLY			=> "glyphicon glyphicon-ok"
+		, G\Glyph::SEARCH			=> "glyphicon glyphicon-search"
+		, G\Glyph::HELP				=> "glyphicon glyphicon-question-sign"
 		);
 
 	static $aria_labels = array(
-		  C\Glyph\Glyph::SETTINGS			=> "settings"
-		, C\Glyph\Glyph::EXPAND				=> "expand_content"
-		, C\Glyph\Glyph::COLLAPSE			=> "collapse_content"
-		, C\Glyph\Glyph::ADD				=> "add"
-		, C\Glyph\Glyph::REMOVE				=> "remove"
-		, C\Glyph\Glyph::UP					=> "up"
-		, C\Glyph\Glyph::DOWN				=> "down"
-		, C\Glyph\Glyph::BACK 				=> "back"
-		, C\Glyph\Glyph::NEXT				=> "next"
-		, C\Glyph\Glyph::SORT_ASCENDING		=> "sort_ascending"
-		, C\Glyph\Glyph::SORT_DESCENDING	=> "sort_descending"
-		, C\Glyph\Glyph::USER				=> "show_who_is_online"
-		, C\Glyph\Glyph::MAIL 				=> "mail"
-		, C\Glyph\Glyph::NOTIFICATION		=> "notifications"
-		, C\Glyph\Glyph::TAG				=> "tags"
-		, C\Glyph\Glyph::NOTE				=> "notes"
-		, C\Glyph\Glyph::COMMENT			=> "comments"
-		, C\Glyph\Glyph::LIKE				=> "like"
-		, C\Glyph\Glyph::LOVE				=> "love"
-		, C\Glyph\Glyph::DISLIKE			=> "dislike"
-		, C\Glyph\Glyph::LAUGH				=> "laugh"
-		, C\Glyph\Glyph::ASTOUNDED			=> "astounded"
-		, C\Glyph\Glyph::SAD				=> "sad"
-		, C\Glyph\Glyph::ANGRY				=> "angry"
-		, C\Glyph\Glyph::ATTACHMENT			=> "attachment"
-		, C\Glyph\Glyph::RESET				=> "reset"
-		, C\Glyph\Glyph::APPLY				=> "apply"
+		  G\Glyph::SETTINGS			=> "settings"
+		, G\Glyph::EXPAND			=> "expand_content"
+		, G\Glyph::COLLAPSE			=> "collapse_content"
+		, G\Glyph::ADD				=> "add"
+		, G\Glyph::REMOVE			=> "remove"
+		, G\Glyph::UP				=> "up"
+		, G\Glyph::DOWN				=> "down"
+		, G\Glyph::BACK 			=> "back"
+		, G\Glyph::NEXT				=> "next"
+		, G\Glyph::SORT_ASCENDING	=> "sort_ascending"
+		, G\Glyph::SORT_DESCENDING	=> "sort_descending"
+		, G\Glyph::USER				=> "show_who_is_online"
+		, G\Glyph::MAIL 			=> "mail"
+		, G\Glyph::NOTIFICATION		=> "notifications"
+		, G\Glyph::TAG				=> "tags"
+		, G\Glyph::NOTE				=> "notes"
+		, G\Glyph::COMMENT			=> "comments"
+		, G\Glyph::LIKE				=> "like"
+		, G\Glyph::LOVE				=> "love"
+		, G\Glyph::DISLIKE			=> "dislike"
+		, G\Glyph::LAUGH			=> "laugh"
+		, G\Glyph::ASTOUNDED		=> "astounded"
+		, G\Glyph::SAD				=> "sad"
+		, G\Glyph::ANGRY			=> "angry"
+		, G\Glyph::ATTACHMENT		=> "attachment"
+		, G\Glyph::RESET			=> "reset"
+		, G\Glyph::APPLY			=> "apply"
+		, G\Glyph::SEARCH			=> "search"
+		, G\Glyph::HELP				=> "help"
 	);
 
 	/**
@@ -85,8 +89,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	public function test_implements_factory_interface($factory_method) {
 		$f = $this->getGlyphFactory();
 
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph\\Factory", $f);
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph\\Glyph", $f->$factory_method("http://www.ilias.de"));
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory", $f);
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph", $f->$factory_method("http://www.ilias.de"));
 	}
 
 	/**
@@ -253,33 +257,35 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 	public function glyph_type_provider() {
 		return array
-			( array(C\Glyph\Glyph::SETTINGS)
-			, array(C\Glyph\Glyph::EXPAND)
-			, array(C\Glyph\Glyph::COLLAPSE)
-			, array(C\Glyph\Glyph::ADD)
-			, array(C\Glyph\Glyph::REMOVE)
-			, array(C\Glyph\Glyph::UP)
-			, array(C\Glyph\Glyph::DOWN)
-			, array(C\Glyph\Glyph::BACK)
-			, array(C\Glyph\Glyph::NEXT)
-			, array(C\Glyph\Glyph::SORT_ASCENDING)
-			, array(C\Glyph\Glyph::SORT_DESCENDING)
-			, array(C\Glyph\Glyph::USER)
-			, array(C\Glyph\Glyph::MAIL)
-			, array(C\Glyph\Glyph::NOTIFICATION)
-			, array(C\Glyph\Glyph::TAG)
-			, array(C\Glyph\Glyph::NOTE)
-			, array(C\Glyph\Glyph::COMMENT)
-			, array(C\Glyph\Glyph::LIKE)
-			, array(C\Glyph\Glyph::LOVE)
-			, array(C\Glyph\Glyph::DISLIKE)
-			, array(C\Glyph\Glyph::LAUGH)
-			, array(C\Glyph\Glyph::ASTOUNDED)
-			, array(C\Glyph\Glyph::SAD)
-			, array(C\Glyph\Glyph::ANGRY)
-			, array(C\Glyph\Glyph::ATTACHMENT)
-			, array(C\Glyph\Glyph::RESET)
-			, array(C\Glyph\Glyph::APPLY)
+			( array(G\Glyph::SETTINGS)
+			, array(G\Glyph::EXPAND)
+			, array(G\Glyph::COLLAPSE)
+			, array(G\Glyph::ADD)
+			, array(G\Glyph::REMOVE)
+			, array(G\Glyph::UP)
+			, array(G\Glyph::DOWN)
+			, array(G\Glyph::BACK)
+			, array(G\Glyph::NEXT)
+			, array(G\Glyph::SORT_ASCENDING)
+			, array(G\Glyph::SORT_DESCENDING)
+			, array(G\Glyph::USER)
+			, array(G\Glyph::MAIL)
+			, array(G\Glyph::NOTIFICATION)
+			, array(G\Glyph::TAG)
+			, array(G\Glyph::NOTE)
+			, array(G\Glyph::COMMENT)
+			, array(G\Glyph::LIKE)
+			, array(G\Glyph::LOVE)
+			, array(G\Glyph::DISLIKE)
+			, array(G\Glyph::LAUGH)
+			, array(G\Glyph::ASTOUNDED)
+			, array(G\Glyph::SAD)
+			, array(G\Glyph::ANGRY)
+			, array(G\Glyph::ATTACHMENT)
+			, array(G\Glyph::RESET)
+			, array(G\Glyph::APPLY)
+			, array(G\Glyph::SEARCH)
+			, array(G\Glyph::HELP)
 			);
 	}
 
@@ -336,8 +342,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($c));
 
-		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
-		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
+		$css_classes = self::$canonical_css_classes[G\Glyph::MAIL];
+		$aria_label = self::$aria_labels[G\Glyph::MAIL];
 
 		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
@@ -357,8 +363,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($c));
 
-		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::MAIL];
-		$aria_label = self::$aria_labels[C\Glyph\Glyph::MAIL];
+		$css_classes = self::$canonical_css_classes[G\Glyph::MAIL];
+		$aria_label = self::$aria_labels[G\Glyph::MAIL];
 		$expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">".
 					"<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".

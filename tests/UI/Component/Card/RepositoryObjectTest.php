@@ -20,7 +20,6 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	public function getFactory() {
 		return new \ILIAS\UI\Implementation\Factory(
 			$this->createMock(C\Counter\Factory::class),
-			$this->createMock(C\Glyph\Factory::class),
 			$this->createMock(C\Button\Factory::class),
 			$this->createMock(C\Listing\Factory::class),
 			$this->createMock(C\Image\Factory::class),
@@ -32,7 +31,6 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 			$this->createMock(C\Link\Factory::class),
 			$this->createMock(C\Dropdown\Factory::class),
 			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
 			$this->createMock(C\ViewControl\Factory::class),
 			$this->createMock(C\Chart\Factory::class),
 			$this->createMock(C\Input\Factory::class),
@@ -42,7 +40,9 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 			$this->createMock(C\Layout\Factory::class),
 			$this->createMock(C\MainControls\Factory::class),
 			$this->createMock(C\Tree\Factory::class),
-			$this->createMock(C\Menu\Factory::class)
+			$this->createMock(C\Menu\Factory::class),
+			$this->createMock(C\Symbol\Factory::class)
+
 		);
 	}
 
@@ -126,12 +126,8 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 </div>
 
 		</div>
-		<div>
-
-		</div>
-		<div class="il-card-repository-dropdown">
-
-		</div>
+		<div>					</div>
+		<div class="il-card-repository-dropdown">					</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
@@ -158,9 +154,7 @@ EOT;
 <div class="il-card thumbnail">
 
 	<div class="il-card-repository-head">
-		<div>
-
-		</div>
+		<div>					</div>
 		<div>
 			<div class="icon cert medium outlined" aria-label="Certificate">
 
@@ -168,9 +162,7 @@ EOT;
 </div>
 
 		</div>
-		<div class="il-card-repository-dropdown">
-
-		</div>
+		<div class="il-card-repository-dropdown">					</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
@@ -244,12 +236,8 @@ EOT;
 <div class="il-card thumbnail">
 
 	<div class="il-card-repository-head">
-		<div>
-
-		</div>
-		<div>
-
-		</div>
+		<div>					</div>
+		<div>					</div>
 		<div class="il-card-repository-dropdown">
 			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">

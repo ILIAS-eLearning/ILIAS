@@ -4,5 +4,5 @@ function expand() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->expand("#"));
+	return $renderer->render($f->symbol()->glyph()->expand("#"));
 }

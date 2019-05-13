@@ -7,7 +7,7 @@ function custom_icon() {
 	$buffer = array();
 
 	$path = './src/UI/examples/Icon/Custom/my_custom_icon.svg';
-	$ico = $f->icon()->custom($path, 'Example');
+	$ico = $f->symbol()->icon()->custom($path, 'Example');
 
 	$buffer[] = $renderer->render($ico)
 		.' Small Custom Icon';
@@ -20,7 +20,7 @@ function custom_icon() {
 
 
 	$path = './templates/default/images/icon_fold.svg';
-	$ico = $f->icon()->custom($path, 'Example')
+	$ico = $f->symbol()->icon()->custom($path, 'Example')
 		->withAbbreviation('FD');
 
 	$buffer[] = $renderer->render($ico)

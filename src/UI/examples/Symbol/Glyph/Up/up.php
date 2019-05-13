@@ -4,5 +4,5 @@ function up() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->up("#"));
+	return $renderer->render($f->symbol()->glyph()->up("#"));
 }

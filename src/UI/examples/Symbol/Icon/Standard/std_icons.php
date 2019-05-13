@@ -5,12 +5,12 @@ function std_icons() {
 	$renderer = $DIC->ui()->renderer();
 	$lng = $DIC->language();
 
-	$i = $f->icon()->standard('NONE', 'DummyIcon');
+	$i = $f->symbol()->icon()->standard('NONE', 'DummyIcon');
 	$default_icons = $i->getAllStandardHandles();
 	$buffer = array();
 
 	foreach ($default_icons as $icon) {
-		$i = $f->icon()->standard($icon, $icon, 'medium');
+		$i = $f->symbol()->icon()->standard($icon, $icon, 'medium');
 		$buffer[] = $renderer->render($i)
 		.' '
 		.$icon

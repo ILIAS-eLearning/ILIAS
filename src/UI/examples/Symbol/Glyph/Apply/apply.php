@@ -4,5 +4,5 @@ function apply() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->apply("#"));
+	return $renderer->render($f->symbol()->glyph()->apply("#"));
 }

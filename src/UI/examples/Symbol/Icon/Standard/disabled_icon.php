@@ -7,7 +7,7 @@ function disabled_icon()
 
 	$buffer = array();
 
-	$ico = $f->icon()->standard('grp', 'Group', 'large', false);
+	$ico = $f->symbol()->icon()->standard('grp', 'Group', 'large', false);
 
 	$buffer[] = $renderer->render($ico).' Large Group Enabled';
 	$buffer[] = $renderer->render($ico->withDisabled(true)).' Large Group Disabled';

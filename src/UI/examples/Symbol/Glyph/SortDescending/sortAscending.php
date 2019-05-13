@@ -4,5 +4,5 @@ function sortAscending() {
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    return $renderer->render($f->glyph()->sortDescending());
+    return $renderer->render($f->symbol()->glyph()->sortDescending());
 }

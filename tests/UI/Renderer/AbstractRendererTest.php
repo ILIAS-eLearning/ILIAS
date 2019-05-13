@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Glyph {
+namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
 	require_once("libs/composer/vendor/autoload.php");
 
 	use \ILIAS\UI\Component\Component;
@@ -15,7 +15,7 @@ namespace ILIAS\UI\Implementation\Component\Glyph {
 			return $this->getTemplate($a, $b, $c);
 		}
 		protected function getComponentInterfaceName() {
-			return "\\ILIAS\\UI\\Component\\Glyph\\Glyph";
+			return "\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph";
 		}
 	}
 
@@ -93,7 +93,7 @@ namespace {
 		public function setUp(): void{
 			parent::setUp();
 			$this->tpl_factory = new TemplateFactoryMock();
-			$this->ui_factory = new NoUIFactory();
+			$this->ui_factory = $this->getUIFactory(); //new NoUIFactory();
 			$this->lng = new ilLanguageMock();
 			$this->js_binding = new LoggingJavaScriptBinding();
 		}
@@ -103,7 +103,7 @@ namespace {
 			$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 			$expected = array
-			( realpath(__DIR__."/../../../src/UI/templates/default/Glyph/tpl.glyph.html")
+			( realpath(__DIR__."/../../../src/UI/templates/default/Symbol/tpl.glyph.html")
 					=> array(true, false)
 			);
 

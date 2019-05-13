@@ -10,7 +10,7 @@ use ILIAS\UI\Component\Clickable;
 /**
  * This describes how a glyph could be modified during construction of UI.
  */
-interface Glyph extends \ILIAS\UI\Component\Component, \ILIAS\UI\Component\JavaScriptBindable, Clickable {
+interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, \ILIAS\UI\Component\JavaScriptBindable, Clickable {
 	// Types of glyphs:
 	const SETTINGS = "settings";
 	const EXPAND = "expand";

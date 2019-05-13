@@ -4,5 +4,5 @@ function next_glyph() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->next("#"));
+	return $renderer->render($f->symbol()->glyph()->next("#"));
 }

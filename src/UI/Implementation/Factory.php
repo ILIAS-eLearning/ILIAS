@@ -385,14 +385,4 @@ class Factory implements \ILIAS\UI\Factory
 	{
 		return $this->symbol_factory;
 	}
-	public function icon()
-	{
-		return $this->symbol()->icon();
-	}
-	public function glyph()
-	{
-		return $this->symbol()->glyph();
-	}
-
-
 }

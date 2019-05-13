@@ -79,7 +79,7 @@ function expandable_async_repo($ref = null) {
 	$environment = [
 		'url' => $DIC->http()->request()->getRequestTarget(),
 		'modal' => $modal,
-		'icon_factory' => $f->icon()
+		'icon_factory' => $f->symbol()->icon()
 	];
 
 	$tree = $f->tree()->expandable($recursion)

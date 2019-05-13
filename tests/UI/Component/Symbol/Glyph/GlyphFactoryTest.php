@@ -21,5 +21,5 @@ class GlyphFactoryTest extends AbstractFactoryTest {
 		, "apply"			=> array("context" => false)
 		);
 
-	public $factory_title = 'ILIAS\\UI\\Component\\Glyph\\Factory';
+	public $factory_title = 'ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory';
 }

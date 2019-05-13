@@ -4,5 +4,5 @@ function love() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->love("#"));
+	return $renderer->render($f->symbol()->glyph()->love("#"));
 }

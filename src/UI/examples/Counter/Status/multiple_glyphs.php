@@ -4,15 +4,15 @@ function multiple_glyphs() {
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $note = $f->glyph()->note("#")
+    $note = $f->symbol()->glyph()->note("#")
         ->withCounter($f->counter()->novelty(100))
         ->withCounter($f->counter()->status(8));
 
-    $tag = $f->glyph()->tag("#")
+    $tag = $f->symbol()->glyph()->tag("#")
         ->withCounter($f->counter()->novelty(1))
         ->withCounter($f->counter()->status(800));
 
-    $comment = $f->glyph()->comment("#")
+    $comment = $f->symbol()->glyph()->comment("#")
         ->withCounter($f->counter()->novelty(1))
         ->withCounter($f->counter()->status(8));
 

@@ -4,5 +4,5 @@ function laugh() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->laugh("#"));
+	return $renderer->render($f->symbol()->glyph()->laugh("#"));
 }

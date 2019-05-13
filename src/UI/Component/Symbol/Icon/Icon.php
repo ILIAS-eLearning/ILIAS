@@ -6,7 +6,7 @@ namespace ILIAS\UI\Component\Symbol\Icon;
 /**
  * This describes how a icon could be modified during construction of UI.
  */
-interface Icon extends \ILIAS\UI\Component\Component {
+interface Icon extends \ILIAS\UI\Component\Symbol\Symbol {
 
 	// sizes of icons
 	const SMALL = 'small';

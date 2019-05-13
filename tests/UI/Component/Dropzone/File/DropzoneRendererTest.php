@@ -154,7 +154,6 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 	public function getUIFactory() {
 		return new \ILIAS\UI\Implementation\Factory(
 			$this->createMock(C\Counter\Factory::class),
-			new I\Component\Symbol\Glyph\Factory(),
 			new I\Component\Button\Factory(),
 			$this->createMock(C\Listing\Factory::class),
 			$this->createMock(C\Image\Factory::class),
@@ -168,7 +167,6 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 			new I\Component\Link\Factory(),
 			new I\Component\Dropdown\Factory(),
 			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
 			$this->createMock(C\ViewControl\Factory::class),
 			$this->createMock(C\Chart\Factory::class),
 			$this->createMock(C\Input\Factory::class),
@@ -178,7 +176,8 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase {
 			$this->createMock(C\Layout\Factory::class),
 			$this->createMock(C\MainControls\Factory::class),
 			$this->createMock(C\Tree\Factory::class),
-			$this->createMock(C\Menu\Factory::class)
+			$this->createMock(C\Menu\Factory::class),
+			$this->createMock(C\Symbol\Factory::class)
 		);
 	}
 

@@ -4,5 +4,5 @@ function attachment() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->attachment("#"));
+	return $renderer->render($f->symbol()->glyph()->attachment("#"));
 }

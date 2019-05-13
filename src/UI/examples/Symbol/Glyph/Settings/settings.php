@@ -4,5 +4,5 @@ function settings() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->settings("#"));
+	return $renderer->render($f->symbol()->glyph()->settings("#"));
 }

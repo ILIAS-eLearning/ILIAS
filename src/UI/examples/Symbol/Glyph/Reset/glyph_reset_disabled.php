@@ -4,5 +4,5 @@ function glyph_reset_disabled() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->reset("#")->withUnavailableAction());
+	return $renderer->render($f->symbol()->glyph()->reset("#")->withUnavailableAction());
 }

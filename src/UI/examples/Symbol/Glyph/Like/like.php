@@ -4,5 +4,5 @@ function like() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->like("#"));
+	return $renderer->render($f->symbol()->glyph()->like("#"));
 }
