@@ -5,8 +5,8 @@ namespace ILIAS\Tests\Refinery\Integer;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Integer\Group;
-use ILIAS\Refinery\Integer\Constraints\GreaterThan;
-use ILIAS\Refinery\Integer\Constraints\LessThan;
+use ILIAS\Refinery\Integer\Constraint\GreaterThan;
+use ILIAS\Refinery\Integer\Constraint\LessThan;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');

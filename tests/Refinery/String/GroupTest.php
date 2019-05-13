@@ -5,8 +5,8 @@ namespace ILIAS\Tests\Refinery\String;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\String\Group;
-use ILIAS\Refinery\String\Constraints\HasMinLength;
-use ILIAS\Refinery\String\Constraints\HasMaxLength;
+use ILIAS\Refinery\String\Constraint\HasMinLength;
+use ILIAS\Refinery\String\Constraint\HasMaxLength;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');

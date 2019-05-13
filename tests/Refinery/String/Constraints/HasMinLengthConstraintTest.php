@@ -3,7 +3,7 @@
 /* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Refinery\String\Constraints\HasMinLength;
+use ILIAS\Refinery\String\Constraint\HasMinLength;
 use ILIAS\Refinery;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;

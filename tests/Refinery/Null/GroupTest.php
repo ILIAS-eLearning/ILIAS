@@ -4,8 +4,8 @@
 namespace ILIAS\Tests\Refinery\Null;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Integer\Constraints\GreaterThan;
-use ILIAS\Refinery\Integer\Constraints\LessThan;
+use ILIAS\Refinery\Integer\Constraint\GreaterThan;
+use ILIAS\Refinery\Integer\Constraint\LessThan;
 use ILIAS\Refinery\Null\Constraint\IsNull;
 use ILIAS\Refinery\Null\Group;
 use ILIAS\Tests\Refinery\TestCase;

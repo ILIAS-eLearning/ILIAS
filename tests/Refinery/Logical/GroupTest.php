@@ -4,8 +4,8 @@
 namespace ILIAS\Tests\Refinery\Logical;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Integer\Constraints\GreaterThan;
-use ILIAS\Refinery\Integer\Constraints\LessThan;
+use ILIAS\Refinery\Integer\Constraint\GreaterThan;
+use ILIAS\Refinery\Integer\Constraint\LessThan;
 use ILIAS\Refinery\Logical\Constraint\LogicalOr;
 use ILIAS\Refinery\Logical\Constraint\Not;
 use ILIAS\Refinery\Logical\Constraint\Parallel;

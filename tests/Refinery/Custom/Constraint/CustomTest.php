@@ -7,7 +7,7 @@ use ILIAS\Refinery\Custom;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
-class MyValidationConstraintsCustom extends Custom\Constraints\Custom {
+class MyValidationConstraintsCustom extends Custom\Constraint\Custom {
 	public function _getLngClosure() {
 		return $this->getLngClosure();
 	}

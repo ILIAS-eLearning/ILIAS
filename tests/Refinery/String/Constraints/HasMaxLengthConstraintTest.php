@@ -34,7 +34,7 @@ class HasMaxLengthConstraintTest extends TestCase {
 
 		$this->max_length = 2;
 
-		$this->c = new \ILIAS\Refinery\String\Constraints\HasMaxLength(
+		$this->c = new \ILIAS\Refinery\String\Constraint\HasMaxLength(
 			$this->max_length,
 			$this->df,
 			$this->lng

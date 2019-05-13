@@ -7,7 +7,7 @@
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Custom\Constraints;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Refinery\Custom\Transformations;
 
 class Group
@@ -31,11 +31,11 @@ class Group
 	/**
 	 * @param callable $callable
 	 * @param $error
-	 * @return Constraints\Custom
+	 * @return Constraint\Custom
 	 */
-	public function constraint(callable $callable, $error) : Constraints\Custom
+	public function constraint(callable $callable, $error) : Constraint\Custom
 	{
-		return new Constraints\Custom(
+		return new Constraint\Custom(
 			$callable,
 			$error,
 			$this->dataFactory,

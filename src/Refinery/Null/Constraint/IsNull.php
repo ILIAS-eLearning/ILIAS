@@ -3,7 +3,7 @@
 
 namespace ILIAS\Refinery\Null\Constraint;
 
-use ILIAS\Refinery\Custom\Constraints\Custom;
+use ILIAS\Refinery\Custom\Constraint\Custom;
 use ILIAS\Data;
 use ILIAS\Refinery\Constraint;
 

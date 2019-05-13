@@ -3,7 +3,7 @@
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Custom\Constraints\Custom;
+use ILIAS\Refinery\Custom\Constraint\Custom;
 
 /**
  * Class ilTermsOfServiceDocumentCriterionAssignmentConstraint

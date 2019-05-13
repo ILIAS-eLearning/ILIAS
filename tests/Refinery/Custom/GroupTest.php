@@ -39,7 +39,7 @@ class GroupTest extends TestCase
 	public function testCustomConstraint()
 	{
 		$instance = $this->group->constraint(function () {}, 'some error');
-		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Constraints\Custom::class, $instance);
+		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Constraint\Custom::class, $instance);
 	}
 
 	public function testCustomTransformation()
