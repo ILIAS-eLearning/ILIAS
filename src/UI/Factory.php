@@ -753,7 +753,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Menus let the user choose from several (navigational) options.
+	 *     Symbols are graphical representations of concepts or contexts
+	 *     quickly comprehensible or generally known to the user.
 	 *
 	 * ---
 	 * @return \ILIAS\UI\Component\Symbol\Factory
