@@ -34,13 +34,6 @@ interface Goal {
 	public function isNotable() : bool;
 
 	/**
-	 * Goals may require resources to be reached.
-	 *
-	 * @throw \RuntimeException if the requested resource is not what the goal expected
-	 */
-	public function withResourcesFrom(Environment $environment) : Goal;
-
-	/**
 	 * Goals might depend on other goals.
 	 *
 	 * @throw UnachievableException if the goal is not achievable
@@ -54,7 +47,8 @@ interface Goal {
 	 * they have been achieved.
 	 *
 	 * @throw \LogicException if there are unfullfilled preconditions.
+	 * @throw \RuntimeException if there are missing resources.
 	 * @return void
 	 */
-	public function achieve(Environment $environment);
+	public function achieve(Environment $environment) : Environment;
 }

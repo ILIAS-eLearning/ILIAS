@@ -44,10 +44,7 @@ class Runner {
 		$reverse_deps = [];
 
 		while(count($stack) > 0) {
-			$cur = $this->initGoal(
-				array_pop($stack)
-			);
-
+			$cur = array_pop($stack);
 			$preconditions = $cur->getPreconditions();
 
 			$hash = $cur->getHash();
@@ -87,10 +84,5 @@ class Runner {
 				}
 			}
 		}
-	}
-
-	protected function initGoal(Goal $goal) : Goal {
-		return $goal
-			->withResourcesFrom($this->environment);
 	}
 }

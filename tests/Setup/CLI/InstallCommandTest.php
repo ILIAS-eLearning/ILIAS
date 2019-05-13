@@ -22,6 +22,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 		$config_file_content = ["config_file"];
 
 		$goal = $this->createMock(Setup\Goal::class);
+		$env = $this->createMock(Setup\Environment::class);
 
 		$command
 			->expects($this->once())
@@ -48,24 +49,20 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 
 		$goal
 			->expects($this->once())
-			->method("withResourcesFrom")
-			->willReturn($goal);
-
-		$goal
-			->expects($this->once())
 			->method("getPreconditions")
 			->willReturn([]);
 
 		$goal
 			->expects($this->once())
-			->method("achieve");
+			->method("achieve")
+			->willReturn($env);
 		
 		$tester->execute([
 			"config" => $config_file
 		]);
 	}
 
-	public function testReadCondigFile() {
+	public function testReadConfigFile() {
 		$filename = tempnam("/tmp", "ILIAS");
 		$expected = [
 			"some" => [

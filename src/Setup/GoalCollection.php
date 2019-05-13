@@ -70,20 +70,6 @@ class GoalCollection implements Goal {
 	/**
 	 * @inheritdocs
 	 */
-	public function withResourcesFrom(Environment $environment) : Goal {
-		return new GoalCollection(
-			$this->label,
-			$this->is_notable,
-			...array_map(
-				function($g) use ($environment) { return $g->withResourcesFrom($environment); },
-				$this->goals
-			)
-		);
-	}
-
-	/**
-	 * @inheritdocs
-	 */
 	public function getPreconditions() : array {
 		$pre = [];
 
@@ -101,9 +87,10 @@ class GoalCollection implements Goal {
 	/**
 	 * @inheritdocs
 	 */
-	public function achieve(Environment $environment) {
+	public function achieve(Environment $environment) : Environment {
 		foreach ($this->goals as $g) {
-			$g->achieve($environment);
-		}	
+			$environment = $g->achieve($environment);
+		}
+		return $environment;
 	}
 }
