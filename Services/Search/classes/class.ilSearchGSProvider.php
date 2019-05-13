@@ -52,7 +52,7 @@ class ilSearchGSProvider extends AbstractStaticMetaBarProvider implements Static
 		$item = $mb
 			->topLegacyItem($this->getId())
 			->withLegacyContent($content())
-			->withGlyph($this->dic->ui()->factory()->glyph()->search())
+			->withGlyph($this->dic->ui()->factory()->symbol()->glyph()->search())
 			->withTitle("Search")
 			->withPosition(1)
 			->withAvailableCallable(
