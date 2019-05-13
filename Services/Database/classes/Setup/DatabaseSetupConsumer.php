@@ -43,6 +43,7 @@ class DatabaseSetupConsumer implements Setup\Consumer {
 			$data["user"] ?? null,
 			$data["password"] ? $this->data_factory->password($data["password"]) : null,
 			$data["create_database"] ?? null,
+			$data["collation"] ?? "utf8_general_ci",
 			$data["port"] ?? null
 		);
 	}

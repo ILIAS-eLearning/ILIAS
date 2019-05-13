@@ -32,6 +32,11 @@ class DatabaseSetupConfig implements Setup\Config {
 	protected $create_database;
 
 	/**
+	 * @var string
+	 */
+	protected $collation;
+
+	/**
 	 * @var	string
 	 */
 	protected $user;
@@ -48,11 +53,17 @@ class DatabaseSetupConfig implements Setup\Config {
 		string $user,
 		Password $password = null,
 		bool $create_database = false,
+		string $collation = "utf8_general_ci",
 		string $port = null
 	) {
 		if (!in_array($type, \ilDBConstants::getInstallableTypes())) {
 			throw new \InvalidArgumentException(
 				"Unknown database type: $type"
+			);
+		}
+		if (!in_array($collation, \ilDBConstants::getAvailableCollations())) {
+			throw new \InvalidArgumentException(
+				"Unknown collation: $collation"
 			);
 		}
 		$this->type = trim($type);
@@ -61,6 +72,7 @@ class DatabaseSetupConfig implements Setup\Config {
 		$this->user = trim($user);
 		$this->password = $password;
 		$this->create_database = trim($create_database);
+		$this->collation = trim($collation);
 		$this->port = $port;
 	}
 
@@ -82,6 +94,10 @@ class DatabaseSetupConfig implements Setup\Config {
 
 	public function getCreateDatabase() : bool {
 		return $this->create_database;
+	}
+
+	public function getCollation() : string {
+		return $this->collation;
 	}
 
 	public function getUser() : string {
