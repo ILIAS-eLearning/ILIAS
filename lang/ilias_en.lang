@@ -13267,7 +13267,7 @@ prg#:#prg_deadline_period_desc#:#The programme must be finished within a given t
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
 prg#:#prg_no_validity_qalification#:#Long-Lasting qualification
-prg#:#prg_validity_of_qualification#:#Study Programme vallidity
+prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
 prg#:#validity_qalification_period#:#Qualification expires individually
 prg#:#validity_qalification_period_desc#:#days after completion
 prg#:#validity_qalification_date#:#Qualification expires at fixed date
