@@ -100,17 +100,17 @@ class Tag extends Input implements C\Input\Field\Tag {
 	protected function getConstraintForRequirement() {
 		$constraint = $this->refinery->custom()->constraint(
 			function ($value) {
-				return (is_array($value) && count($value) > 0);
+				$valueIsAStringArray = $this->refinery
+					->to()
+					->listOf($this->refinery->to()->string())
+					->applyTo(new Ok($value))
+					->isOK();
+
+				return ($valueIsAStringArray);
 			}, "Empty array"
 		);
 
-//		$listTransformation = $this->refinery
-//			->to()
-//			->listOf($this->refinery->to()->string());
-
-		return $this->refinery->logical()->sequential(
-			[$constraint]
-		);
+		return $constraint;
 	}
 
 
