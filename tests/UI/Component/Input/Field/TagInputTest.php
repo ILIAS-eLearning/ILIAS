@@ -154,6 +154,7 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$label = "label";
 		$name = "name_0";
 		$tags = ["lorem", "ipsum", "dolor",];
+		/** @var \ILIAS\UI\Implementation\Component\Input\Field\Tag $tag */
 		$tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 
 		$raw_value1 = ["lorem", "ipsum",];
@@ -162,11 +163,36 @@ class TagInputTest extends ILIAS_UI_TestBase {
 		$this->assertTrue($value1->isOk());
 		$value = $value1->value();
 		$this->assertEquals($raw_value1, $value);
+	}
 
-		$tag2 = $tag->withInput(new DefInputData([$name => []]));
-		$value2 = $tag2->getContent();
-		$this->assertTrue($value2->isError());
+	public function test_empty_array_as_input_lead_to_exception()
+	{
+		$this->expectNotToPerformAssertions();
 
+		$f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$tags = ["lorem", "ipsum", "dolor",];
+		/** @var \ILIAS\UI\Implementation\Component\Input\Field\Tag $tag */
+		$tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
+
+		try {
+			$tag2 = $tag->withInput(new DefInputData([$name => []]));
+		} catch (\Exception $exception) {
+			return;
+		}
+		$this->fail();
+	}
+
+	public function test_null_value_leads_to_exception()
+	{
+
+		$f = $this->buildFactory();
+		$label = "label";
+		$name = "name_0";
+		$tags = ["lorem", "ipsum", "dolor",];
+
+		$tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 		$tag2 = $tag->withInput(new DefInputData([$name => null]));
 		$value2 = $tag2->getContent();
 		$this->assertTrue($value2->isError());

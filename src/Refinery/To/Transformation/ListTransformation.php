@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 
@@ -33,11 +34,26 @@ class ListTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (false === is_array($from)) {
+			throw new ConstraintViolationException(
+				'The input value must be an array',
+				'must_be_array'
+			);
+		}
+		if (array() === $from) {
+			throw new ConstraintViolationException(
+				'Value array is empty',
+				'value_array_is_empty'
+			);
+		}
+
 		$result = array();
 		foreach ($from as $value) {
 			$transformedValue = $this->transformation->transform($value);
 			$result[] = $transformedValue;
 		}
+
+
 
 		return $result;
 	}
