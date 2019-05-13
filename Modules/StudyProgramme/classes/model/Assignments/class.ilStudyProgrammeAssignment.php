@@ -67,7 +67,12 @@ class ilStudyProgrammeAssignment
 	 */
 	protected $restart_date;
 
-
+	/**
+	 * The id of the assignment which was intiated due to expiring
+	 * progress at this assignment.
+	 *
+	 * @var int
+	 */
 	protected $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
 
 
