@@ -38,9 +38,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$goal1
 			->method("getPreconditions")
-			->will(
-				$this->onConsecutiveCalls([$goal11, $goal12], [])
-			);
+			->willReturn([$goal11, $goal12]);
 
 		$goal11
 			->method("getPreconditions")
@@ -48,9 +46,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$goal12
 			->method("getPreconditions")
-			->will(
-				$this->onConsecutiveCalls([$goal121], [])
-			);
+			->willReturn([$goal121]);
 
 		$goal121
 			->method("getPreconditions")
@@ -76,9 +72,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$goal1
 			->method("getPreconditions")
-			->will(
-				$this->onConsecutiveCalls([$goal11, $goal11], [])
-			);
+			->willReturn([$goal11, $goal11]);
 
 		$goal11
 			->method("getPreconditions")

@@ -45,7 +45,12 @@ class Runner {
 
 		while(count($stack) > 0) {
 			$cur = array_pop($stack);
-			$preconditions = $cur->getPreconditions();
+			$preconditions = array_filter(
+				$cur->getPreconditions(),
+				function($p) use ($returned) {
+					return !isset($returned[$p->getHash()]);
+				}
+			);
 
 			$hash = $cur->getHash();
 			if (count($preconditions) === 0) {
