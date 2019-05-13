@@ -287,14 +287,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 			$tableview = ilDclTableView::find($tableview);
 		}
 
-		// check access to tableview's datacollection first
-		$collection = $tableview->getTable()->getCollectionObject();
-		foreach (ilObjDataCollection::_getAllReferences($collection->getId()) as $ref_id) {
-			if (!self::hasReadAccess($ref_id)) {
-				return false;
-			}
-		}
-
 		// check access to table
 		if (!self::hasAccessToTable($tableview->getTableId())) {
 			return false;
