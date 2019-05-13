@@ -243,6 +243,10 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 
 
 	private function restore() {
+
+		echo '<pre>' . print_r(ilGSProviderStorage::getArray(), 1) . '</pre>';
+		exit;
+
 		ilGSProviderStorage::flushDB();
 		ilGSIdentificationStorage::flushDB();
 		ilMMItemStorage::flushDB();
