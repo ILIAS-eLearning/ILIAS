@@ -250,6 +250,9 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 		ilMMItemTranslationStorage::flushDB();
 		ilMMTypeActionStorage::flushDB();
 
+		echo getcwd();
+		exit;
+
 		$r = function ($path, $xml_name) {
 			foreach (new DirectoryIterator($path) as $fileInfo) {
 				$filename = $fileInfo->getPathname() . $xml_name;
