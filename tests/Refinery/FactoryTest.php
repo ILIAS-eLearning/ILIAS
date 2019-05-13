@@ -83,4 +83,11 @@ class FactoryTest extends TestCase
 
 		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Group::class, $group);
 	}
+
+	public function testCreateContainerGroup()
+	{
+		$group = $this->basicFactory->container();
+
+		$this->assertInstanceOf(\ILIAS\Refinery\Container\Group::class, $group);
+	}
 }
