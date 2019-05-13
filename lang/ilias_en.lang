@@ -13286,7 +13286,10 @@ prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_validity#:#Validity
 prg#:#prg_still_valid#:#still valid
 prg#:#prg_renewal_required#:#renewal required
-common#:#obj_prg_duplicate#:#Copy Study Programme
+prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes

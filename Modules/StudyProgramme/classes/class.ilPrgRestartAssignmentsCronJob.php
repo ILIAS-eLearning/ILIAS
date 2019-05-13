@@ -11,6 +11,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 		$this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
 		$this->usr = $DIC['ilUser'];
 		$this->log = $DIC['ilLog'];
+		$this->lng = $DIC['lng'];
 	}
 
 	const ID = 'prg_restart_assignments_temporal_progress';
@@ -22,7 +23,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 	 */
 	public function getTitle()
 	{
-		return 'Study Programme assignments restart';
+		return $this->lng->txt('prg_restart_assignments_temporal_progress_title');
 	}
 	
 	/**
@@ -32,7 +33,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 	 */
 	public function getDescription()
 	{
-		return 'Restarts assignments for failed programmes due to limited validity';
+		return $this->lng->txt('prg_restart_assignments_temporal_progress_desc');
 	}
 	/**
 	 * Get id
@@ -61,7 +62,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 	 */
 	public function hasFlexibleSchedule()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -71,7 +72,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 	 */
 	public function getDefaultScheduleType()
 	{
-		return self::SCHEDULE_TYPE_IN_MINUTES;
+		return self::SCHEDULE_TYPE_IN_DAYS;
 	}
 	
 	/**
@@ -81,7 +82,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 	 */
 	public function getDefaultScheduleValue()
 	{
-		return 5;
+		return 1;
 	}
 		
 	/**

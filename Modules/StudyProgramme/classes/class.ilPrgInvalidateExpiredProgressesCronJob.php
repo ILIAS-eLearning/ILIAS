@@ -13,6 +13,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 		$this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$this->usr = $DIC['ilUser'];
 		$this->log = $DIC['ilLog'];
+		$this->lng = $DIC['lng'];
 	}
 
 	const ID = 'prg_invalidate_expired_progresses';
@@ -24,7 +25,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	 */
 	public function getTitle()
 	{
-		return 'Limited Study Programme validity';
+		return $this->lng->txt('prg_invalidate_expired_progresses_title');
 	}
 	
 	/**
@@ -34,7 +35,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	 */
 	public function getDescription()
 	{
-		return 'Invalidate expired Study Programme progresses';
+		return $this->lng->txt('prg_invalidate_expired_progresses_desc');
 	}
 	/**
 	 * Get id
@@ -63,7 +64,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	 */
 	public function hasFlexibleSchedule()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -73,7 +74,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	 */
 	public function getDefaultScheduleType()
 	{
-		return self::SCHEDULE_TYPE_IN_MINUTES;
+		return self::SCHEDULE_TYPE_IN_DAYS;
 	}
 	
 	/**
@@ -83,7 +84,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	 */
 	public function getDefaultScheduleValue()
 	{
-		return 5;
+		return 1;
 	}
 		
 	/**
@@ -95,9 +96,10 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	{
 		$result = new ilCronJobResult();
 		$result->setStatus(ilCronJobResult::STATUS_OK);
+		$usr_id = $this->usr && $this->usr->getId() ? $this->usr->getId() : SYSTEM_USER_ID;
 		foreach ($this->user_progress_db->getExpiredSuccessfulInstances() as $progress) {
 			try {
-				$progress->markFailed(6);
+				$progress->markFailed($usr_id);
 			} catch (ilException $e) {
 				$this->log->write('an error occured: '.$e->getMessage());
 			}

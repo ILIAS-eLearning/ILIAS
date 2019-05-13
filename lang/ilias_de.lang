@@ -11220,6 +11220,10 @@ prg#:#prg_expiry_date#:#Ablaufdatum der Qualifikation
 prg#:#prg_validity#:#Gültigkeit der Qualifikation
 prg#:#prg_still_valid#:#Qualifikation gültig
 prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
+prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Lernfortschritte im Studineprogramm
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studineprogramme mit ablaufendem Lernfortschritt
+prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studineprogramm
+prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
