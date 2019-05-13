@@ -889,6 +889,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		$ne->setInfo($this->lng->txt("file_suffix_overall_white_info"));
 		$form->addItem($ne);
 
+		// explicit blacklist
+		$ta = new ilTextAreaInputGUI($this->lng->txt("file_suffix_custom_expl_black"), "suffix_custom_expl_black");
+		$ta->setInfo($this->lng->txt("file_suffix_custom_expl_black_info"));
+		$ta->setRows(5);
+		$form->addItem($ta);
+
+
 		// command buttons
 		$form->addCommandButton('saveUploadSettings', $lng->txt('save'));
 		$form->addCommandButton('view', $lng->txt('cancel'));
@@ -926,6 +933,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		$val["concurrent_uploads"] = ilFileUploadSettings::getConcurrentUploads();
 		$val["suffix_repl_additional"] = $ilSetting->get("suffix_repl_additional");
 		$val["suffix_custom_white_list"] = $ilSetting->get("suffix_custom_white_list");
+		$val["suffix_custom_expl_black"] = $ilSetting->get("suffix_custom_expl_black");
 		$form->setValuesByArray($val);
 
 		// set content
@@ -960,6 +968,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 			// file suffic replacements
 			$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
 			$ilSetting->set("suffix_custom_white_list", $_POST["suffix_custom_white_list"]);
+			$ilSetting->set("suffix_custom_expl_black", $_POST["suffix_custom_expl_black"]);
 
 			ilUtil::sendSuccess($lng->txt('settings_saved'), true);
 			$ilCtrl->redirect($this, "editUploadSettings");

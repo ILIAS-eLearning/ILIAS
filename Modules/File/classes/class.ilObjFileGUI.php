@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+
 /**
 * GUI class for file objects.
 *
@@ -1106,7 +1108,7 @@ class ilObjFileGUI extends ilObject2GUI
 		header('Content-type: text/plain');
 
 		foreach ($DIC->upload()->getResults() as $result) {
-			if (!ilFileUtils::hasValidExtension($result->getName())) {
+			if (!ilFileUtils::hasValidExtension($result->getName()) && $result->getStatus()->getCode() == ProcessingStatus::OK) {
 				$this->lng->loadLanguageModule('file');
 				ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
 			}
