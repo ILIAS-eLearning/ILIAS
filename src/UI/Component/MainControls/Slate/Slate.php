@@ -7,8 +7,7 @@ namespace ILIAS\UI\Component\MainControls\Slate;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This describes a Slate
@@ -18,9 +17,9 @@ interface Slate extends Component, JavaScriptBindable
 	public function getName(): string;
 
 	/**
-	 * @return Icon|Glyph
+	 * @return Symbol
 	 */
-	public function getSymbol();
+	public function getSymbol(): Symbol;
 
 	/**
 	 * Signal that toggles the slate when triggered.
