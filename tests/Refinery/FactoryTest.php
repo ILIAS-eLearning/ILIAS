@@ -55,4 +55,32 @@ class FactoryTest extends TestCase
 
 		$this->assertInstanceOf(\ILIAS\Refinery\String\Group::class, $group);
 	}
+
+	public function testCreateNumericGroup()
+	{
+		$group = $this->basicFactory->numeric();
+
+		$this->assertInstanceOf(\ILIAS\Refinery\Numeric\Group::class, $group);
+	}
+
+	public function testCreateLogicalGroup()
+	{
+		$group = $this->basicFactory->logical();
+
+		$this->assertInstanceOf(\ILIAS\Refinery\Logical\Group::class, $group);
+	}
+
+	public function testCreatePasswordGroup()
+	{
+		$group = $this->basicFactory->password();
+
+		$this->assertInstanceOf(\ILIAS\Refinery\Password\Group::class, $group);
+	}
+
+	public function testCreateCustomGroup()
+	{
+		$group = $this->basicFactory->custom();
+
+		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Group::class, $group);
+	}
 }
