@@ -320,13 +320,15 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 		// check access to tableview's datacollection first
 		$collection = $table->getCollectionObject();
+		$has_read_on_dcl = false;
 		foreach (ilObjDataCollection::_getAllReferences($collection->getId()) as $ref_id) {
-			if (!self::hasReadAccess($ref_id)) {
-				return false;
+			if (self::hasReadAccess($ref_id)) {
+				$has_read_on_dcl = true;
+				break;
 			}
 		}
 
-		return $table->getIsVisible() || ($table_id == $collection->getFirstVisibleTableId());
+		return $has_read_on_dcl && ($table->getIsVisible() || ($table_id == $collection->getFirstVisibleTableId()));
 	}
 }
 
