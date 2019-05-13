@@ -29,8 +29,16 @@ function build_container_for_setup() {
 		return new ILIAS\Setup\ConsumerCollection(
 			$c["ui.field_factory"],
 			$c["transformation_factory"],
-			[]
-		);		
+			[
+				"database" => $c["consumer.database"]
+			]
+		);
+	};
+
+	$c["consumer.database"] = function ($c) {
+		return new \DatabaseSetupConsumer(
+			$c["data_factory"]
+		);
 	};
 
 	$c["ui.field_factory"] = function($c) {
@@ -76,6 +84,10 @@ function build_container_for_setup() {
 
 	$c["transformation_factory"] = function($c) {
 		return new ILIAS\Transformation\Factory();
+	};
+
+	$c["data_factory"] = function($c) {
+		return new ILIAS\Data\Factory();
 	};
 
 	return $c;
