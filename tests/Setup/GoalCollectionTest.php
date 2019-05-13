@@ -47,26 +47,6 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertTrue($c2->isNotable());
 	}
 
-	public function testWithResourcesFrom() {
-		$g1 = $this->newGoal();
-		$g2 = $this->newGoal();
-		$g3 = $this->newGoal();
-
-		$c = new Setup\GoalCollection("", false, $g1, $g2, $g3);
-
-		$env = $this->createMock(Setup\Environment::class);
-
-		foreach([$g1,$g2,$g3] as $g) {
-			$g
-				->expects($this->once())
-				->method("withResourcesFrom")
-				->with($env)
-				->willReturn($g);
-		}
-
-		$c->withResourcesFrom($env);
-	}
-
 	public function testGetPreconditions() {
 		$g1 = $this->newGoal();
 		$g2 = $this->newGoal();
@@ -109,10 +89,12 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 			$g
 				->expects($this->once())
 				->method("achieve")
-				->with($env);
+				->with($env)
+				->willReturn($env);
 		}
 
-		$c->achieve($env);
+		$res = $c->achieve($env);
+		$this->assertSame($env, $res);
 	}
 
 	protected function newGoal() {

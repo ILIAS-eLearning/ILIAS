@@ -29,13 +29,14 @@ class ArrayEnvironment implements Environment {
 	/**
 	 * @inheritdocs
 	 */
-	public function setResource(string $id, $resource) {
+	public function withResource(string $id, $resource) : Environment {
 		if (isset($this->resources[$id])) {
 			throw new \RuntimeException(
 				"Resource '$id' is already contained in the environment"
 			);
 		}
-
-		$this->resources[$id] = $resource;	
+		$clone = new ArrayEnvironment($this->resources);
+		$clone->resources[$id] = $resource;
+		return $clone;
 	}
 }

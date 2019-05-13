@@ -20,18 +20,18 @@ class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase {
 		$this->assertNull($this->environment->getResource("baz"));
 	}
 
-	public function testSetResource() {
-		$this->environment->setResource("baz", "BAZ");
+	public function testWithResource() {
+		$env = $this->environment->withResource("baz", "BAZ");
 
-		$this->assertEquals("FOO", $this->environment->getResource("foo"));
-		$this->assertEquals("BAR", $this->environment->getResource("bar"));
-		$this->assertEquals("BAZ", $this->environment->getResource("baz"));
+		$this->assertEquals("FOO", $env->getResource("foo"));
+		$this->assertEquals("BAR", $env->getResource("bar"));
+		$this->assertEquals("BAZ", $env->getResource("baz"));
 	}
 
 	public function testSetResourceRejectsDuplicates() {
 		$this->expectException(\RuntimeException::class);
 
-		$this->environment->setResource("baz", "BAZ");
-		$this->environment->setResource("baz", "BAZ");
+		$env = $this->environment->withResource("baz", "BAZ");
+		$env->withResource("baz", "BAZ");
 	}	
 }

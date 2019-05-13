@@ -24,5 +24,5 @@ interface Environment {
 	/**
 	 * @throw \RuntimeException if this resource is already in the environment.
 	 */
-	public function setResource(string $id, $resource);
+	public function withResource(string $id, $resource) : Environment;
 }

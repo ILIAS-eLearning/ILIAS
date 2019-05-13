@@ -18,12 +18,6 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$goal
 			->expects($this->once())
-			->method("withResourcesFrom")
-			->with($environment)
-			->willReturn($goal);
-
-		$goal
-			->expects($this->once())
 			->method("getPreconditions")
 			->willReturn([]);
 
@@ -31,7 +25,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 			->expects($this->once())
 			->method("achieve")
 			->with($environment)
-			->willReturn(null);	
+			->willReturn($environment);
 
 		$runner->run();
 	}
@@ -67,14 +61,6 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$type = "TYPE";
 
-		foreach([$goal1, $goal11, $goal12, $goal121] as $goal) {
-			$goal
-				->expects($this->atLeastOnce())
-				->method("withResourcesFrom")
-				->with($environment)
-				->willReturn($goal);
-		}
-
 		$runner = new Setup\CLI\Runner($environment, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
@@ -103,14 +89,6 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$type = "TYPE";
 
-		foreach([$goal1, $goal11] as $goal) {
-			$goal
-				->expects($this->atLeastOnce())
-				->method("withResourcesFrom")
-				->with($environment)
-				->willReturn($goal);
-		}
-
 		$runner = new Setup\CLI\Runner($environment, $goal1);
 
 		$f = function($g) { return $g->getHash(); };
@@ -136,14 +114,6 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 		$environment = $this->createMock(Setup\Environment::class);
 
 		$type = "TYPE";
-
-		foreach([$goal1, $goal2] as $goal) {
-			$goal
-				->expects($this->atLeastOnce())
-				->method("withResourcesFrom")
-				->with($environment)
-				->willReturn($goal);
-		}
 
 		$runner = new Setup\CLI\Runner($environment, $goal1);
 

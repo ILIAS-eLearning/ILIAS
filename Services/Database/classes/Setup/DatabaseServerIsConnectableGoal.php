@@ -40,7 +40,7 @@ class DatabaseServerIsConnectableGoal implements Setup\Goal {
 		return [];
 	}
 
-	public function achieve(Setup\Environment $environment) {
+	public function achieve(Setup\Environment $environment) : Setup\Environment {
 		$db = ilDBWrapperFactory::getWrapper($this->config->getType());
 		$db->initFromIniFile($this->config->toMockIniFile());
 		try {
@@ -61,5 +61,6 @@ class DatabaseServerIsConnectableGoal implements Setup\Goal {
 				"Database cannot be reached. Please check the credentials."
 			);
 		}
+		return $environment;
 	}
 }
