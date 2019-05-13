@@ -14,8 +14,20 @@ interface ilStudyProgrammeAssignmentRepository
 	 */
 	public function read(int $id) : ilStudyProgrammeAssignment;
 
+	/**
+	 * Get all assignments of a user.
+	 */
 	public function readByUsrId(int $usr_id) : array;
+
+	/**
+	 * Get all assignments to a prg.
+	 */
 	public function readByPrgId(int $prg_id) : array;
+
+	/**
+	 * Get all assignments due to restart and not restrted yet.
+	 */
+	public function readDueToRestart() : array;
 
 	/**
 	 * Update settings belonging to a SP-Object.

@@ -46,4 +46,8 @@
 		<event type="raise" id="userDeassigned" />
 		<event type="raise" id="userSuccessful" />
 	</events>
+	<crons>
+		<cron id="prg_invalidate_expired_progresses" class="ilPrgInvalidateExpiredProgressesCronJob" />
+		<cron id="prg_restart_assignments_temporal_progress" class="ilPrgRestartAssignmentsCronJob" />
+	</crons>
 </module>

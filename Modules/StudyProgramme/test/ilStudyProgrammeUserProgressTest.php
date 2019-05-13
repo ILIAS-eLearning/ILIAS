@@ -21,7 +21,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		global $DIC;
 		if(!$DIC) {
 			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-			ilUnitUtil::performInitialisation();
+			try {
+				ilUnitUtil::performInitialisation();
+			} catch(Exception $e) {}
 		}
 
 		$this->root = ilObjStudyProgramme::createInstance();
@@ -778,5 +780,210 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		}
 		catch (ilStudyProgrammeNoProgressForAssignmentException $e) {$this->assertTrue(true);}
 
+	}
+
+	public function test_limited_validity_period() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$prg1->setValidityOfQualificationPeriod(100);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress2->isSuccessful());
+		$val_date = new DateTime();
+		$val_date->add(new DateInterval('P100D'));
+		$this->assertEquals(
+			$val_date->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+		$this->assertNull($progress2->getValidityOfQualification());
+	}
+
+	public function test_limited_validity_date() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$val_date_ref = new DateTime();
+		$val_date_ref->add(new DateInterval('P100D'));
+		$prg1->setValidityOfQualificationDate($val_date_ref);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress2->isSuccessful());
+		$this->assertEquals(
+			$val_date_ref->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+	}
+
+
+	public function test_limited_validity_accredited() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->setValidityOfQualificationPeriod(100);
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$progress1->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+
+		$this->assertTrue($progress1->isSuccessful());
+		$val_date = new DateTime();
+		$val_date->add(new DateInterval('P100D'));
+		$this->assertEquals($val_date->format('Ymd'),$progress1->getValidityOfQualification()->format('Ymd'));
+	}
+
+	public function test_set_failed_limited_validity_future() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$val_date_ref = new DateTime();
+		$val_date_ref->add(new DateInterval('P1D'));
+		$prg1->setValidityOfQualificationDate($val_date_ref);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg2->getProgressForAssignment($assignment->getId());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$this->assertEquals(
+			$val_date_ref->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		try {
+			$progress1->markFailed(6);
+			$this->assertFalse('did not throw');
+		} catch(ilException $e) {
+			$this->assertTrue(true);
+		}
+	}
+
+	public function test_set_failed_limited_validity_past() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$val_date_ref = new DateTime();
+		$val_date_ref->sub(new DateInterval('P1D'));
+		$prg1->setValidityOfQualificationDate($val_date_ref);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg2->getProgressForAssignment($assignment->getId());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$this->assertEquals(
+			$val_date_ref->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress1->isSuccessfulExpired());
+		try {
+			$progress1->markFailed(6);
+			$this->assertTrue(true);
+		} catch(ilException $e) {
+			$this->assertFalse('did throw');
+		}
+		$this->assertFalse($progress1->isSuccessful());
+	}
+
+
+	public function test_set_failed_no_limited_validity() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg2->getProgressForAssignment($assignment->getId());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$this->assertNull($progress1->getValidityOfQualification());
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		try {
+			$progress1->markFailed(6);
+			$this->assertFalse('did not throw');
+		} catch(ilException $e) {
+			$this->assertTrue(true);
+		}
 	}
 }
