@@ -9994,7 +9994,7 @@ dcl#:#dcl_std_filter#:#Filtervorbelegung
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 common#:#obj_tool_setting_calendar#:#Kalender
-common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_calendar_info#:#Der Kalender ist aktiviert und der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
 crs#:#crs_copy#:#Kurs kopieren
 cat#:#cat_copy#:#Kategorie kopieren
 grp#:#grp_copy#:#Gruppe kopieren
