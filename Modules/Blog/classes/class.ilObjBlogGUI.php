@@ -555,6 +555,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$tpl->getStandardTemplate();
 				}
 
+				if(!$this->checkPermissionBool("read"))
+				{
+					ilUtil::sendInfo($lng->txt("no_permission"));
+					return;
+				}
+
 				// #9680
 				if ($this->id_type == self::REPOSITORY_NODE_ID)
 				{
@@ -944,7 +950,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilToolbar = $this->toolbar;
 		$ilUser = $this->user;
 		$tree = $this->tree;
-		
+
 		if(!$this->checkPermissionBool("read"))
 		{
 			ilUtil::sendInfo($lng->txt("no_permission"));
