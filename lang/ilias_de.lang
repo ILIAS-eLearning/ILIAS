@@ -3643,6 +3643,17 @@ common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
+<<<<<<< HEAD
+=======
+common#:#obj_tool_setting_calendar#:#Kalender
+common#:#obj_tool_setting_calendar_info#:#Der Kalender ist aktiviert und der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
+common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
+common#:#obj_tool_setting_news#:#Neuigkeiten
+common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tos#:#Nutzungsvereinbarungen
+common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
+>>>>>>> 7c49dbe042... 0023445: Byline misleading: Deactivating Calendar Block deactivates whole Calendar
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
 common#:#obj_trac_desc#:#Statistik- und Lernfortschrittseinstellungen und Übersicht
 common#:#obj_tst#:#Test
