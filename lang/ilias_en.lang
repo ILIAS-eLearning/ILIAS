@@ -14245,3 +14245,4 @@ user#:#msg_spoint_not_modified#:#Starting point not modified
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
 dateplaner#:#cal_usr_info#:#Appointment Information
+content#:#msg_no_page_access#:#You do not have the permission to access this page.
