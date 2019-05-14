@@ -1319,8 +1319,9 @@ class ilLMPresentationGUI
 	 */
 	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
-		global $ilUser, $ilHelp;
+		global $ilUser, $ilHelp, $ilAccess;
 
+		$access = $ilAccess;
 
 		global $ilHelp;
 		$ilHelp->setScreenIdComponent("lm");
@@ -1328,6 +1329,33 @@ class ilLMPresentationGUI
 		$ilHelp->setSubScreenId("content");
 
 		$this->fill_on_load_code = true;
+
+		// check page id
+		$requested_page_lm = ilLMPage::lookupParentId($this->getCurrentPageId(), "lm");
+		if ($requested_page_lm != $this->lm->getId())
+		{
+			if ($_REQUEST["frame"] == "")
+			{
+				$this->showNoPageAccess();
+				return "";
+			}
+			else
+			{
+				$read_access = false;
+				foreach (ilObject::_getAllReferences($requested_page_lm) as $ref_id)
+				{
+					if ($access->checkAccess("read", "", $ref_id))
+					{
+						$read_access = true;
+					}
+				}
+				if (!$read_access)
+				{
+					$this->showNoPageAccess();
+					return "";
+				}
+			}
+		}
 
 		// check if page is (not) visible in public area
 		if($ilUser->getId() == ANONYMOUS_USER_ID && 
@@ -4135,6 +4163,14 @@ class ilLMPresentationGUI
 	function showNoPublicAccess()
 	{
 		$this->showMessageScreen($this->lng->txt("msg_page_no_public_access"));
+	}
+
+	/**
+	 * Show info message, if page is not accessible in public area
+	 */
+	function showNoPageAccess()
+	{
+		$this->showMessageScreen($this->lng->txt("msg_no_page_access"));
 	}
 
 	/**
