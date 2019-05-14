@@ -4454,7 +4454,7 @@ common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_tool_setting_calendar#:#Kalender
-common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_calendar_info#:#Der Kalender ist aktiviert und der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
 common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
 common#:#obj_tool_setting_news#:#Neuigkeiten
