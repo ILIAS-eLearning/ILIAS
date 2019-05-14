@@ -382,6 +382,7 @@ class ilPCQuestion extends ilPageContent
 			$js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
 			$js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
 			$js_files[] = "Modules/TestQuestionPool/js/ilMultipleChoiceQuestion.js";
+			$js_files[] = "Modules/TestQuestionPool/js/ilAssMultipleChoice.js";
 			
 			global $DIC;
 			if( $DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad() )
