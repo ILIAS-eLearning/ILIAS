@@ -18,7 +18,29 @@ require_once("Services/Link/classes/class.ilLink.php");
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  *
  */
-class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
+class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
+{
+	const COLUMNS = [
+		//column, langvar, optional, if_lp_children, if_no_lp_children
+		['name', 'name', false, true, true],
+		['login', 'login', false, true, true],
+		['prg_orgus', 'prg_orgus', true, true, true],
+		['prg_status', 'prg_status', false, true, true],
+		['prg_completion_date', 'prg_completion_date', true, true, true],
+		['prg_completion_by', 'prg_completion_by', true, true, true],
+		['points', 'prg_points_reachable', false, true, false],
+		['points', 'prg_points_required', false, false, true],
+		['points_current', 'prg_points_current', false, false, true],
+		['prg_custom_plan', 'prg_custom_plan', true, true, true],
+		['prg_belongs_to', 'prg_belongs_to', true, true, true],
+		['prg_assign_date', 'prg_assign_date', false, true, true],
+		['prg_assigned_by', 'prg_assigned_by', true, true, true],
+		['prg_expiry_date', 'prg_expiry_date', true, true, true],
+		//['prg_deadline', 'prg_deadline', true, true, true],
+		['prg_validity', 'prg_validity', false, true, true],
+		[null, 'action', false, true, true]
+	];
+
 	protected $prg_obj_id;
 	protected $prg_ref_id;
 	protected $prg_has_lp_children;
@@ -62,20 +84,18 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setEnableAllCommand(true);
 		$this->addMultiCommands();
 
-		if($this->prg_has_lp_children) {
-			$columns = $this->getColumnsLPChildren();
-		} else {
-			$columns = $this->getColumnsChildren();
-		}
+		$selected = $this->getSelectedColumns();
 
-		foreach ($this->getSelectedColumns() as $column) {
-			$columns[$column] = array($column);
-		}
+		foreach (self::COLUMNS as $column) {
+			list($col, $lng_var, $optional, $lp, $no_lp) = $column;
+			$add = true;
+			if($this->prg_has_lp_children && $lp == false) {$add = false;}
+			if($this->prg_has_lp_children == false && $no_lp == false) {$add = false;}
+			if($optional && !array_key_exists($col, $selected)) {$add = false;}
 
-		$columns["action"] = array(null);
-
-		foreach ($columns as $lng_var => $params) {
-			$this->addColumn($this->lng->txt($lng_var), $params[0]);
+			if($add) {
+				$this->addColumn($this->lng->txt($lng_var), $col);
+			}
 		}
 
 		$this->determineLimit();
@@ -88,9 +108,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset(), $this->getOrderField(), $this->getOrderDirection());
 		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
 		$this->setData($members_list);
+
+		//var_dump($members_list);die();
 	}
 
+
 	protected function fillRow($a_set) {
+
 		$this->tpl->setCurrentBlock("checkb");
 		$this->tpl->setVariable("ID", $a_set["prgrs_id"]);
 		$this->tpl->parseCurrentBlock();
@@ -99,8 +123,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
 		$this->tpl->setVariable("STATUS", $this->sp_user_progress_db->statusToRepr($a_set["status"]));
-		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
+		$this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
+		$this->tpl->setVariable("VALIDITY",$a_set['prg_validity']);
 
 		if(!$this->prg_has_lp_children) {
 			$this->tpl->setCurrentBlock("points_current");
@@ -108,39 +133,52 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"]
-												? $this->lng->txt("yes")
-												: $this->lng->txt("no"));
-		$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
-
 
 		foreach ($this->getSelectedColumns() as $column) {
 			switch($column) {
-				case "prg_assign_date":
-					$this->tpl->setCurrentBlock("assign_date");
-					$this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
-					$this->tpl->parseCurrentBlock("assign_date");
+				case "prg_orgus":
+					$this->tpl->setCurrentBlock("orgus");
+					$this->tpl->setVariable("ORGUS", $a_set["orgus"]);
+					$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_completion_date":
-					$this->tpl->setCurrentBlock("prg_completion_date");
+					//$this->tpl->setCurrentBlock("prg_completion_date");
 					$this->tpl->setVariable("COMPLETION_DATE", $a_set["completion_date"]);
-					$this->tpl->parseCurrentBlock("prg_completion_date");
+					//$this->tpl->parseCurrentBlock();
+					break;
+				case "prg_completion_by":
+					if(is_null($a_set["completion_by"])) {
+						$this->tpl->touchBlock("comp_by");
+					}
+					$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
+					//$this->tpl->parseCurrentBlock();
+					break;
+				case "prg_custom_plan":
+					$this->tpl->setVariable("CUSTOM_PLAN",
+						$a_set["last_change_by"] ? $this->lng->txt("yes") : $this->lng->txt("no")
+					);
+					break;
+				case "prg_belongs_to":
+					//$this->tpl->setCurrentBlock("belongs_to");
+					$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
+					//$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_expiry_date":
-					$this->tpl->setCurrentBlock("prg_expiry_date");
+					//$this->tpl->setCurrentBlock("prg_expiry_date");
 					$this->tpl->setVariable("EXPIRY_DATE", $a_set["vq_date"]);
-					$this->tpl->parseCurrentBlock("prg_expiry_date");
-					break;
-				case "prg_validity":
-					$this->tpl->setCurrentBlock("prg_validity");
-					$this->tpl->setVariable("VALIDITY",$a_set['prg_validity']);
-					$this->tpl->parseCurrentBlock("prg_validity");
+					//$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_assigned_by":
-					$this->tpl->setCurrentBlock("assigned_by");
+					//$this->tpl->setCurrentBlock("assigned_by");
 					$this->tpl->setVariable("ASSIGNED_BY", $a_set["prg_assigned_by"]);
-					$this->tpl->parseCurrentBlock("assigned_by");
+					//$this->tpl->parseCurrentBlock();
 					break;
+				case "prg_deadline":
+					//$this->tpl->setCurrentBlock("deadline");
+					$this->tpl->setVariable("DEADLINE", $a_set["prg_deadline"]);
+					//$this->tpl->parseCurrentBlock();
+					break;
+
 			}
 		}
 		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown( $a_set["actions"]
@@ -280,6 +318,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				$rec['prg_validity'] = '';
 				$rec['vq_date'] = '';
 			}
+
+			$rec["orgus"] = '-';
+
 			$members_list[] = $rec;
 		}
 		return $members_list;
@@ -338,57 +379,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	 * @return array[] 	$cols
 	 */
 	public function getSelectableColumns() {
-		// default fields
-		$cols = array();
 
-		$cols["prg_assign_date"] = array(
-				"txt" => $this->lng->txt("prg_assign_date"));
-
-		$cols["prg_assigned_by"] = array(
-				"txt" => $this->lng->txt("prg_assigned_by"));
-
-		$cols["prg_completion_date"] = array(
-				"txt" => $this->lng->txt("prg_completion_date"));
-
-		$cols["prg_expiry_date"] = array(
-				"txt" => $this->lng->txt("prg_expiry_date"));
-
-		$cols["prg_validity"] = array(
-				"txt" => $this->lng->txt("prg_validity"));
+		$cols = [];
+		foreach (self::COLUMNS as $column) {
+			list($col, $lng_var, $optional, $lp, $no_lp) = $column;
+			if($optional) {
+				$cols[$col] = ["txt" => $this->lng->txt($lng_var)];
+			}
+		}
 		return $cols;
-	}
-
-	/**
-	 * Get columns for children if it is a child
-	 *
-	 * @return array<string, string[]>
-	 */
-	protected function getColumnsChildren() {
-		return array( "name" 				=> array("name")
-						, "login" 				=> array("login")
-						, "prg_status" 			=> array("status")
-						, "prg_completion_by"	=> array(null)
-						, "prg_points_required" => array("points")
-						, "prg_points_current"  => array("points_current")
-						, "prg_custom_plan"		=> array("custom_plan")
-						, "prg_belongs_to"		=> array("belongs_to")
-						);
-	}
-
-	/**
-	 * Get columns for children if it is a lp child
-	 *
-	 * @return array<string, string[]>
-	 */
-	protected function getColumnsLPChildren() {
-		return array( "name" 				=> array("name")
-						, "login" 				=> array("login")
-						, "prg_status" 			=> array("status")
-						, "prg_completion_by"	=> array(null)
-						, "prg_points_reachable" => array("points")
-						, "prg_custom_plan"		=> array("custom_plan")
-						, "prg_belongs_to"		=> array("belongs_to")
-						);
 	}
 
 	/**
