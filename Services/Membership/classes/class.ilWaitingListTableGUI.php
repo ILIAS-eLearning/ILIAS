@@ -42,16 +42,15 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
 	protected static $all_columns = null;
 	protected static $has_odf_definitions = FALSE;
-	
-	
+
+
 	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * ilWaitingListTableGUI constructor.
+	 * @param $a_parent_obj
+	 * @param \ilObject $rep_object
+	 * @param \ilWaitingList $waiting_list
 	 */
-	public function __construct($a_parent_obj,ilObject $rep_object, $waiting_list,$show_content = true)
+	public function __construct($a_parent_obj,ilObject $rep_object, $waiting_list)
 	{
 	 	global $DIC;
 
@@ -82,8 +81,8 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			$this->addColumn($all_cols[$col]['txt'], $col);
 		}
 		
-	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"10%");
-	 	$this->addColumn('','mail','10%');
+	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"60%");
+	 	$this->addColumn('','mail','20%');
 		
 		$this->addMultiCommand('confirmAssignFromWaitingList',$this->lng->txt('assign'));
 		$this->addMultiCommand('confirmRefuseFromList',$this->lng->txt('refuse'));
@@ -93,22 +92,11 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->setSelectAllCheckbox('waiting',true);
 		$this->setRowTemplate("tpl.show_waiting_list_row.html","Services/Membership");
 		
-		if($show_content)
-		{
-			$this->enable('sort');
-			$this->enable('header');
-			$this->enable('numinfo');
-			$this->enable('select_all');
-		}
-		else
-		{
-			$this->disable('content');
-			$this->disable('header');
-			$this->disable('footer');
-			$this->disable('numinfo');
-			$this->disable('select_all');
-		}	
-		
+		$this->enable('sort');
+		$this->enable('header');
+		$this->enable('numinfo');
+		$this->enable('select_all');
+
 		$this->waiting_list = $waiting_list;
 		
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
@@ -169,6 +157,17 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		)
 		{
 			unset(self::$all_columns['consultation_hour']);
+		}
+
+		if(
+			!is_array(self::$all_columns) ||
+			!array_key_exists('login',self::$all_columns)
+		)
+		{
+			self::$all_columns['login'] = [
+				'default' => 1,
+				'txt' => $this->lng->txt('login')
+			];
 		}
 		return self::$all_columns;
 	}

@@ -404,7 +404,7 @@ class ilMembershipGUI
 				break;
 		}
 	}
-	
+
 	/**
 	 * Show participant table, subscriber table, wating list table;
 	 */
