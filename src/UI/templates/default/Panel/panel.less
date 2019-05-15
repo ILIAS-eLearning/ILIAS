@@ -58,14 +58,21 @@
 }
 
 /* this is currently experimental, could be removed */
-.il-narrow-content .il-panel-listing-std-container > h3, .il-narrow-content .il-panel-listing-std-container > h4 {
-	display: block;
-	padding: 3px 5px;
-	font-size: 12px;
-	background-color: #f3f3f3;
-	color: #777777;
-	white-space: nowrap;
-	margin:0;
+@media only screen and (min-width: (@grid-float-breakpoint-max + 1)) {
+
+	.panel-secondary .il-panel-listing-std-container > h3, .panel-secondary .il-panel-listing-std-container > h4 {
+		display: block;
+		padding: 3px 5px;
+		font-size: 12px;
+		background-color: #f3f3f3;
+		color: #777777;
+		white-space: nowrap;
+		margin: 0;
+	}
+
+	.panel-secondary .panel-body {
+		padding: 5px;
+	}
 }
 
 /* this is currently experimental, could be removed */
