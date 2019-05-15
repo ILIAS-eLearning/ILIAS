@@ -57,25 +57,23 @@
 	}
 }
 
-/* this is currently experimental, could be removed */
 @media only screen and (min-width: (@grid-float-breakpoint-max + 1)) {
 
 	.panel-secondary .il-panel-listing-std-container > h3, .panel-secondary .il-panel-listing-std-container > h4 {
 		display: block;
-		padding: 3px 5px;
-		font-size: 12px;
-		background-color: #f3f3f3;
-		color: #777777;
+		padding: @padding-small-vertical @padding-small-horizontal;
+		font-size: @font-size-small;
+		background-color: @il-divider-bg;
+		color: @il-light-text-color;
 		white-space: nowrap;
 		margin: 0;
 	}
 
 	.panel-secondary .panel-body {
-		padding: 5px;
+		padding: @padding-base-vertical @padding-base-horizontal;
 	}
 }
 
-/* this is currently experimental, could be removed */
 .panel-secondary {
 	.panel-heading {
 		display: flex;

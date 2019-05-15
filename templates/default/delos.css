@@ -6864,23 +6864,21 @@ button.close {
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
-/* this is currently experimental, could be removed */
 @media only screen and (min-width: 768px) {
   .panel-secondary .il-panel-listing-std-container > h3,
   .panel-secondary .il-panel-listing-std-container > h4 {
     display: block;
-    padding: 3px 5px;
+    padding: 3px 6px;
     font-size: 12px;
-    background-color: #f3f3f3;
-    color: #777777;
+    background-color: #ececec;
+    color: #909090;
     white-space: nowrap;
     margin: 0;
   }
   .panel-secondary .panel-body {
-    padding: 5px;
+    padding: 3px 8px;
   }
 }
-/* this is currently experimental, could be removed */
 .panel-secondary .panel-heading {
   display: flex;
   flex-flow: row wrap;
@@ -7477,9 +7475,6 @@ hr.il-divider-with-label {
 .il-item-marker {
   border-left: 5px solid;
 }
-.il-narrow-content .il-item:hover {
-  background-color: #ffffd0;
-}
 .il-item-group {
   clear: both;
 }
@@ -7495,12 +7490,12 @@ hr.il-divider-with-label {
 /* this is currently experimental, could be removed */
 @media only screen and (min-width: 768px) {
   .panel-secondary .il-item {
-    padding: 3px 6px;
+    padding: 6px 6px;
     display: table;
     width: 100%;
   }
   .panel-secondary .il-item h5 {
-    margin-top: 3px;
+    margin-top: 0;
     font-size: 100%;
     float: none;
     overflow: hidden;
@@ -7508,8 +7503,8 @@ hr.il-divider-with-label {
     white-space: nowrap;
   }
   .panel-secondary .il-item .il-item-description {
-    padding-top: 1px;
-    font-size: 80%;
+    padding-top: 0;
+    font-size: 11px;
   }
   .panel-secondary .il-item .il-item-divider,
   .panel-secondary .il-item .il-item-property-name,
@@ -7533,7 +7528,7 @@ hr.il-divider-with-label {
   .panel-secondary .il-item .col-sm-9 {
     position: static;
     display: table-cell;
-    padding: 0 5px 0 5px;
+    padding: 0 6px;
     overflow: hidden;
     max-width: 0;
     float: none;
@@ -7549,11 +7544,15 @@ hr.il-divider-with-label {
   }
   .panel-secondary .il-item .dropdown-toggle {
     position: absolute;
-    left: 0px;
+    left: 0;
     width: 100%;
     height: 100%;
     margin-top: -20px;
     z-index: 1;
+  }
+  .panel-secondary .il-item .open > .dropdown-toggle.btn-default:hover,
+  .panel-secondary .il-item .open > .dropdown-toggle.btn-default {
+    background-color: transparent;
   }
   .panel-secondary .il-item button.dropdown-toggle {
     background-color: transparent;
@@ -7561,6 +7560,9 @@ hr.il-divider-with-label {
   }
   .panel-secondary .il-item button.dropdown-toggle > span {
     display: none;
+  }
+  .panel-secondary .il-item:hover {
+    background-color: #ffffd0;
   }
 }
 /* otherwise dropdowns in items with icon do not work */
