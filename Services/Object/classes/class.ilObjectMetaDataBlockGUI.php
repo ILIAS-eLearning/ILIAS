@@ -41,7 +41,6 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 		$this->setTitle($this->record->getTitle());		
 		$this->setBlockId("advmd_".$this->record->getRecordId());				
 		$this->setEnableNumInfo(false);
-		// $this->setAvailableDetailLevels(3);		
 		$this->allow_moving = false;
 	}
 

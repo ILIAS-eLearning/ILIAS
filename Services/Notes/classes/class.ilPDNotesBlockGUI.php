@@ -33,7 +33,6 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		
 		$this->setLimit(5);
 		$this->setTitle($lng->txt("notes"));
-		$this->setAvailableDetailLevels(3);
 	}
 
 	/**
@@ -82,18 +81,6 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		return $this->$cmd();
 	}
 
-	function getHTML()
-	{
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
-		else
-		{
-			return parent::getHTML();
-		}
-	}
-	
 	/**
 	* Fill data section
 	*/
@@ -104,7 +91,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$this->notes = ilNote::_getLastNotesOfUser();
 
-		if ($this->getCurrentDetailLevel() > 1 && count($this->notes) > 0)
+		if (count($this->notes) > 0)
 		{
 			$this->setRowTemplate("tpl.pd_notes_overview.html", "Services/Notes");
 			$this->getListRowData();
@@ -114,10 +101,6 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		else
 		{
 			$this->setEnableNumInfo(false);
-			if (count($this->notes) == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -218,33 +201,30 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$ilCtrl->clearParameters($this);
 		
 		// details
-		if ($this->getCurrentDetailLevel() > 2)
+		$this->tpl->setCurrentBlock("details");
+		if (substr($a_set["text"], 0, 40) != substr($a_set["text"], 0, 40))
 		{
-			$this->tpl->setCurrentBlock("details");
-			if (substr($a_set["text"], 0, 40) != substr($a_set["text"], 0, 40))
-			{
-				$this->tpl->setVariable("NOTE_TEXT", $a_set["text"]);
-			}
-			$this->tpl->setVariable("VAL_DATE",
-				ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME)));
-			$this->tpl->parseCurrentBlock();
-				
-			// target objects
-			$note = new ilNote($a_set["id"]);
-			$this->tpl->setVariable("TARGET_OBJECTS",
-				$this->note_gui->renderTargets($note));
-
-			// edit button
-			$this->tpl->setCurrentBlock("edit_note");
-			$this->tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
-			$ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $a_set["rep_obj_id"]);
-			$ilCtrl->setParameterByClass("ilnotegui", "note_id", $a_set["id"]);
-			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
-			$this->tpl->setVariable("LINK_EDIT_NOTE",
-				$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpdnotesgui", "ilnotegui"), "editNoteForm")
-				."#note_edit");
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("NOTE_TEXT", $a_set["text"]);
 		}
+		$this->tpl->setVariable("VAL_DATE",
+			ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME)));
+		$this->tpl->parseCurrentBlock();
+
+		// target objects
+		$note = new ilNote($a_set["id"]);
+		$this->tpl->setVariable("TARGET_OBJECTS",
+			$this->note_gui->renderTargets($note));
+
+		// edit button
+		$this->tpl->setCurrentBlock("edit_note");
+		$this->tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
+		$ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $a_set["rep_obj_id"]);
+		$ilCtrl->setParameterByClass("ilnotegui", "note_id", $a_set["id"]);
+		$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
+		$this->tpl->setVariable("LINK_EDIT_NOTE",
+			$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpdnotesgui", "ilnotegui"), "editNoteForm")
+			."#note_edit");
+		$this->tpl->parseCurrentBlock();
 		$ilCtrl->clearParametersByClass("ilnotegui");
 	}
 

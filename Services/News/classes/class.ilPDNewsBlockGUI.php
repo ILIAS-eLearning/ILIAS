@@ -43,7 +43,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 
 		$this->setLimit(5);
-		$this->setAvailableDetailLevels(3);
 
 		$this->dynamic = false;
 
@@ -62,7 +61,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			$this->dynamic = true;
 			$data = array();
 		}
-		else if ($this->getCurrentDetailLevel() > 0)
+		else
 		{
 			// do not ask two times for the data (e.g. if user displays a 
 			// single item on the personal desktop and the news block is 
@@ -77,11 +76,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 				$data = self::$st_data;
 			}
 		}
-		else
-		{
-			$data = array();
-		}
-		
+
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		
@@ -185,17 +180,13 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			$this->setDataSection($this->getDynamicReload());
 		}
-		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		else if (count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
 		}
 		else
 		{
 			$this->setEnableNumInfo(false);
-			if (count($this->getData()) == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -258,11 +249,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			{
 				$this->setTitle($this->getTitle().' <span style="font-weight:normal;">- '.$per_str."</span>");
 			}
-		}
-
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
 		}
 
 		$en = "";

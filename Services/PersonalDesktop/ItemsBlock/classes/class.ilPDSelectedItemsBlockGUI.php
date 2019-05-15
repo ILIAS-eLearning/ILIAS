@@ -78,7 +78,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setAvailableDetailLevels(3, 1);
 		$this->allow_moving = false;
 
 		$this->initViewSettings();
@@ -116,15 +115,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		return $this->manage;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function fillDetailRow()
-	{
-//		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		parent::fillDetailRow();
-//		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', '');
-	}
 
 	/**
 	 * @inheritdoc
@@ -211,12 +201,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->setTitle($this->view->getTitle());
 		$this->setContent($this->getViewBlockHtml());
 
-		if($this->getContent() == '')
-		{
-			$this->setEnableDetailRow(false);
-		}
 
-//		$this->ctrl->clearParametersByClass('ilpersonaldesktopgui');
 		$this->ctrl->clearParameters($this);
 
 		$DIC->database()->useSlave(false);
@@ -460,9 +445,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$tpl = $this->newBlockTemplate();
 
 		$this->renderGroupedItems(
-			$tpl, $this->view->getItemGroups(),
-			($this->getCurrentDetailLevel() >= $this->view->getMinimumDetailLevelForSection())
-		);
+			$tpl, $this->view->getItemGroups(), true);
 
 		if($this->manage && $this->view->supportsSelectAll())
 		{
@@ -630,8 +613,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$lng = $this->lng;
 		
 		$this->manage = true;
-		$this->setAvailableDetailLevels(1, 1);
-		
+
 		$top_tb = new ilToolbarGUI();
 		$top_tb->setFormAction($ilCtrl->getFormAction($this));
 		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));

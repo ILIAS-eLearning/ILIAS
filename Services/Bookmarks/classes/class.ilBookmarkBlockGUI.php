@@ -35,8 +35,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("my_bms"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setAvailableDetailLevels(3);
-		
+
 		$this->id = (empty($_GET["bmf_id"]))
 			? $bmf_id = 1
 			: $_GET["bmf_id"];
@@ -85,20 +84,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		return $this->$cmd();
 	}
 
-	function getHTML()
-	{
-		// workaround to show details row
-		$this->setData(array("dummy"));
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
-		else
-		{
-			return parent::getHTML();
-		}
-	}
-	
+
 	/**
 	* Fill data section
 	*/
@@ -111,8 +97,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		$this->num_bookmarks = $bm_items["bookmarks"];
 		$this->num_folders = $bm_items["folders"];
 
-		if ($this->getCurrentDetailLevel() > 1 &&
-			($this->num_bookmarks > 0 || $this->num_folders > 0))
+		if (($this->num_bookmarks > 0 || $this->num_folders > 0))
 		{
 			if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 			{
@@ -128,10 +113,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			if ($this->num_bookmarks == 0 && $this->num_folders == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -283,14 +264,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("BM_REL", $a_set['rel']);
 		}
 
-		if ($this->getCurrentDetailLevel() > 2)
-		{
-			$this->tpl->setVariable("BM_DESCRIPTION", ilUtil::prepareFormOutput($a_set["desc"]));
-		}
-		else
-		{
-			$this->tpl->setVariable("BM_TOOLTIP", ilUtil::prepareFormOutput($a_set["desc"]));
-		}
+		$this->tpl->setVariable("BM_DESCRIPTION", ilUtil::prepareFormOutput($a_set["desc"]));
 	}
 
 	/**

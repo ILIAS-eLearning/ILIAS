@@ -36,7 +36,6 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		parent::__construct();
 
 		$this->setLimit(5);
-		$this->setAvailableDetailLevels(2);
 	}
 
 	/**
@@ -99,25 +98,18 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 			return '';
 		}
 
-		if($this->getCurrentDetailLevel() == 0)
-		{
-			return '';
-		}
-		else
-		{
-			include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
-			$this->default_portfolio = ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
+		include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
+		$this->default_portfolio = ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
 
-			$lng->loadLanguageModule("prtf");
-			$this->setTitle($lng->txt('prtf_tab_portfolios'));
-			$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), ""),
-				$lng->txt("prtf_manage_portfolios"));
-			$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create"),
-				$lng->txt("prtf_add_portfolio"));
+		$lng->loadLanguageModule("prtf");
+		$this->setTitle($lng->txt('prtf_tab_portfolios'));
+		$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), ""),
+			$lng->txt("prtf_manage_portfolios"));
+		$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create"),
+			$lng->txt("prtf_add_portfolio"));
 
-			$html = parent::getHTML();
-			return $html;
-		}
+		$html = parent::getHTML();
+		return $html;
 	}
 
 	/**
@@ -131,22 +123,15 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		$data = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
 		$this->setData($data);
 
-		if($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		if(count($this->getData()) > 0)
 		{
 			$this->setRowTemplate("tpl.pd_portf_block_row.html", "Modules/Portfolio");
-			if($this->getCurrentDetailLevel() > 2)
-			{
-				$this->setColSpan(2);
-			}
+			$this->setColSpan(2);
 			parent::fillDataSection();
 		}
 		else
 		{
 			$this->setEnableNumInfo(false);
-			if (count($this->getData()) == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -159,20 +144,17 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
-		if($this->getCurrentDetailLevel() > 1)
+		$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $p["id"]);
+		$this->tpl->setVariable("HREF", $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "preview"));
+		$this->tpl->setVariable("TITLE", trim($p["title"]));
+
+		if ($this->default_portfolio == $p["id"])
 		{
-			$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $p["id"]);
-			$this->tpl->setVariable("HREF", $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "preview"));		
-			$this->tpl->setVariable("TITLE", trim($p["title"]));
-			
-			if ($this->default_portfolio == $p["id"])
-			{
-				// #16490
-				$this->tpl->setVariable("DESC", $lng->txt("prtf_default_portfolio"));
-			}
-			
-			$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
+			// #16490
+			$this->tpl->setVariable("DESC", $lng->txt("prtf_default_portfolio"));
 		}
+
+		$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
 	}
 
 	/**

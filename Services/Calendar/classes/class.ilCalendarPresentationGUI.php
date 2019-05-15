@@ -332,7 +332,6 @@ class ilCalendarPresentationGUI
 
 			case 'ilcalendarblockgui':
 				$side_cal = new ilCalendarBlockGUI();
-				$side_cal->setAvailableDetailLevels(2,2);
 				$side_cal->setRepositoryMode($this->getRepositoryMode());
 				$side_cal->setForceMonthView(true);
 				$this->ctrl->forwardCommand($side_cal);
@@ -341,7 +340,6 @@ class ilCalendarPresentationGUI
 
 			case 'ilpdcalendarblockgui':
 				$side_cal = new ilPDCalendarBlockGUI();
-				$side_cal->setAvailableDetailLevels(2,2);
 				$side_cal->setRepositoryMode($this->getRepositoryMode());
 				$side_cal->setForceMonthView(true);
 				$this->ctrl->forwardCommand($side_cal);
@@ -553,16 +551,6 @@ class ilCalendarPresentationGUI
 
 		$tpl =  new ilTemplate('tpl.cal_side_block.html',true,true,'Services/Calendar');
 
-		/*include_once('./Services/Calendar/classes/class.ilMiniCalendarGUI.php');
-		$mini = new ilMiniCalendarGUI($this->seed, $this);
-		$tpl->setVariable('MINICAL',$mini->getHTML());*/
-
-		/*
-		include_once("./Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php");
-		$block_gui = new ilCalendarSelectionBlockGUI($this->seed);
-		$html = $ilCtrl->getHTML($block_gui);
-		return $html;*/
-
 		if ($this->getRepositoryMode())
 		{
 			include_once("./Services/Calendar/classes/class.ilCalendarBlockGUI.php");
@@ -574,7 +562,6 @@ class ilCalendarPresentationGUI
 			include_once("./Services/Calendar/classes/class.ilPDCalendarBlockGUI.php");
 			$side_cal = new ilPDCalendarBlockGUI();
 		}
-		$side_cal->setAvailableDetailLevels(2,2);
 		$side_cal->setParentGUI("ilCalendarPresentationGUI");
 		$side_cal->setForceMonthView(true);
 		$side_cal->setRepositoryMode($this->getRepositoryMode());

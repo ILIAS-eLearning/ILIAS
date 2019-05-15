@@ -71,7 +71,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$this->setBlockId($ilCtrl->getContextObjId());
 		$this->setLimit(5);
-		$this->setAvailableDetailLevels(3);
 		$this->setEnableNumInfo(true);
 		
 		$this->dynamic = false;
@@ -90,21 +89,17 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->dynamic = true;
 			$data = array();
 		}
-		else if ($this->getCurrentDetailLevel() > 0)
-		{
-				if (!empty(self::$st_data))
-				{
-					$data = self::$st_data;
-				}
-				else
-				{
-					$data = $this->getNewsData();
-					self::$st_data = $data;
-				}
-		}
 		else
 		{
-			$data = array();
+			if (!empty(self::$st_data))
+			{
+				$data = self::$st_data;
+			}
+			else
+			{
+				$data = $this->getNewsData();
+				self::$st_data = $data;
+			}
 		}
 
 		$this->setTitle($lng->txt("news_internal_news"));
@@ -260,7 +255,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$this->setDataSection($this->getDynamicReload());
 		}
-		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		else if (count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
 		}
@@ -451,14 +446,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$lng = $this->lng;
 		$obj_definition = $this->obj_definition;
 
-		if ($this->getCurrentDetailLevel() > 2)
-		{
-			$this->tpl->setCurrentBlock("long");
-			//$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
-				$this->tpl->setVariable("VAL_CREATION_DATE",
-					ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME)));
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setCurrentBlock("long");
+		//$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
+			$this->tpl->setVariable("VAL_CREATION_DATE",
+				ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME)));
+		$this->tpl->parseCurrentBlock();
 
 		// title image type
 		if ($news["ref_id"] > 0)

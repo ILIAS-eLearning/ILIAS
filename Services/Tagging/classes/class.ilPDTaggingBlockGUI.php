@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 
@@ -61,7 +42,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("tagging_my_tags"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setAvailableDetailLevels(1,0);
 	}
 
 	/**
@@ -111,21 +91,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		return $this->$cmd();
 	}
 
-	function getHTML()
-	{
-		// workaround to show details row
-		$this->setData(array("dummy"));
-
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
-		else
-		{
-			return parent::getHTML();
-		}
-	}
-	
 	/**
 	* Fill data section
 	*/
@@ -136,16 +101,12 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
 		$this->tags = ilTagging::getTagsForUser($ilUser->getId(), 1000000);
 
-		if ($this->getCurrentDetailLevel() > 1 && (count($this->tags) > 0))
+		if (count($this->tags) > 0)
 		{
 			$this->setDataSection($this->getTagCloud());
 		}
 		else
 		{
-			if ($this->num_bookmarks == 0 && $this->num_folders == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -157,7 +118,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	{
 		$ilCtrl = $this->ctrl;
 
-		$showdetails = ($this->getCurrentDetailLevel() > 2);
 		$tpl = new ilTemplate("tpl.tag_cloud.html", true, true,
 			"Services/Tagging");
 		$max = 1;

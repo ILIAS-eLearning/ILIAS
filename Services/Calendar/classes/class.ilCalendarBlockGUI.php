@@ -81,8 +81,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$this->setLimit(5);			// @todo: needed?
 		
-		// alex: original detail level 1 did not work anymore
-		$this->setAvailableDetailLevels(1);
 		$this->setEnableNumInfo(false);
 
 		//if(!isset($_GET["bkid"]))
@@ -308,8 +306,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		// alex: changed from > 1 to > 0 - original detail level 1 did not work anymore
-		if ($this->getCurrentDetailLevel() > 0 && $this->display_mode != "mmon")
+		if ($this->display_mode != "mmon")
 		{
 			$this->setColSpan(1);
 			$this->setRowTemplate("tpl.pd_event_list.html", "Services/Calendar");
@@ -318,20 +315,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			// alex: changed from > 1 to > 0 - original detail level 1 did not work anymore
-			if ($this->getCurrentDetailLevel() > 0)
-			{
-				$tpl = new ilTemplate("tpl.calendar_block.html", true, true,
-					"Services/Calendar");
+			$tpl = new ilTemplate("tpl.calendar_block.html", true, true,
+				"Services/Calendar");
 
-				$this->addMiniMonth($tpl);
-				$this->setDataSection($tpl->get());
-			}
-			else
-			{
-				$this->setDataSection($this->getOverview());
-			}
-		}		
+			$this->addMiniMonth($tpl);
+			$this->setDataSection($tpl->get());
+		}
 	}
 
 	/**
@@ -373,7 +362,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
 		$ui = $this->ui;
-
 
 		// weekdays
 		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
@@ -606,14 +594,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$this->initCategories();
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
-		$ilAccess = $this->access;
 		$ilObjDataCache = $this->obj_data_cache;
 		$user = $this->user;
 
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
 
 		$this->addSubscriptionBlockCommand();
 
@@ -789,23 +772,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 
-		//if(!isset($_GET['bkid']))
-		//{
-		if ($this->getForceMonthView())	// in full container calendar presentation (allows selection of other calendars)
-		{
-			//ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$_GET['ref_id'], true);
-		}
-		else							// side block in container content view -> focus on container events only
+		if (!$this->getForceMonthView())	// in full container calendar presentation (allows selection of other calendars)
 		{
 			ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY, (int)$_GET['ref_id'], true);
 		}
-		//}
-		//else
-		//{
-		//	// display consultation hours only (in course/group)
-		//	ilCalendarCategories::_getInstance()->setCHUserId((int) $_GET['bkid']);
-		//	ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['ref_id'],true);
-		//}
 	}
 	
 	/**
@@ -852,65 +822,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	}
 
 
-	/**
-	 * @deprecated ilCalendarSubscriptionGUI should be used
-	 * @return string
-	 */
-	public function showCalendarSubscription()
-	{
-		return;
-		$lng = $this->lng;
-		$ilUser = $this->user;
-
-		$tpl = new ilTemplate('tpl.show_calendar_subscription.html',true,true,'Services/Calendar');
-		
-		$tpl->setVariable('TXT_TITLE',$lng->txt('cal_subscription_header'));
-		$tpl->setVariable('TXT_INFO',$lng->txt('cal_subscription_info'));
-		$tpl->setVariable('TXT_CAL_URL',$lng->txt('cal_subscription_url'));
-		
-		include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.php';
-		
-		switch($this->mode)
-		{
-			case ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS:
-			case ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP:
-				$selection = ilCalendarAuthenticationToken::SELECTION_PD;
-				$calendar = 0;
-				break;
-			
-			default:
-				$selection = ilCalendarAuthenticationToken::SELECTION_CATEGORY;
-				// TODO: calendar id
-				$calendar = ilObject::_lookupObjId((int) $_GET['ref_id']);	
-				break;		 
-		}
-		if($hash = ilCalendarAuthenticationToken::lookupAuthToken($ilUser->getId(), $selection, $calendar))
-		{
-			
-		}
-		else
-		{
-			$token = new ilCalendarAuthenticationToken($ilUser->getId());
-			$token->setSelectionType($selection);
-			$token->setCalendar($calendar);
-			$hash = $token->add();
-		}
-		$url = ILIAS_HTTP_PATH.'/calendar.php?client_id='.CLIENT_ID.'&token='.$hash;
-		
-		$tpl->setVariable('VAL_CAL_URL',$url);
-		$tpl->setVariable('VAL_CAL_URL_TXT',$url);
-		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
-		$content_block->setContent($tpl->get());
-		$content_block->setTitle($lng->txt("calendar"));
-		$content_block->addHeaderCommand($this->ctrl->getParentReturn($this),
-			$lng->txt("selected_items_back"));
-
-		return $content_block->getHTML();
-		
-	}
-	
 	function fillFooter()
 	{
 		// begin-patch ch
@@ -941,12 +852,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
-
-		// alex: changed from < 2 to < 1 - original detail level 1 did not work anymore
-		if ($this->getCurrentDetailLevel() < 1)
-		{
-			return;
-		}
 
 		if (!$this->getForceMonthView())
 		{

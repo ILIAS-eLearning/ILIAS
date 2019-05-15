@@ -34,7 +34,6 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		$this->setLimit(5);
 		$lng->loadLanguageModule("task");
 		$this->setTitle($lng->txt("task_derived_tasks"));
-		$this->setAvailableDetailLevels(2);
 	}
 
 	/**
@@ -78,18 +77,6 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		return $this->$cmd();
 	}
 
-	function getHTML()
-	{
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
-		else
-		{
-			return parent::getHTML();
-		}
-	}
-
 	/**
 	 * Fill data section
 	 */
@@ -101,7 +88,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 
 		$this->tasks = $collector->getEntries($this->user->getId());
 
-		if ($this->getCurrentDetailLevel() > 1 && count($this->tasks) > 0)
+		if (count($this->tasks) > 0)
 		{
 			$this->setRowTemplate("tpl.pd_tasks.html", "Services/Tasks");
 			$this->getListRowData();
@@ -111,10 +98,6 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		else
 		{
 			$this->setEnableNumInfo(false);
-			if (count($this->tasks) == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}

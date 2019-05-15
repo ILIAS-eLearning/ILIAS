@@ -71,7 +71,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath('icon_mail.svg'));
 		$this->setTitle($this->lng->txt('mail'));
-		$this->setAvailableDetailLevels(3);
 	}
 
 	/**
@@ -125,15 +124,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			return '';
 		}
 
-		if($this->getCurrentDetailLevel() == 0)
-		{
-			return '';
-		}
-		else
-		{
-			$html = parent::getHTML();
-			return $html;
-		}
+		return parent::getHTML();
 	}
 
 	/**
@@ -164,22 +155,15 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$this->getMails();
 		$this->setData($this->mails);
 
-		if($this->getCurrentDetailLevel() > 1 && count($this->mails) > 0)
+		if(count($this->mails) > 0)
 		{
 			$this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
-			if($this->getCurrentDetailLevel() > 2)
-			{
-				$this->setColSpan(2);
-			}
+			$this->setColSpan(2);
 			parent::fillDataSection();
 		}
 		else
 		{
 			$this->setEnableNumInfo(false);
-			if(count($this->mails) == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -191,47 +175,29 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	{
 		$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 		
-		if($this->getCurrentDetailLevel() > 2)
+		$this->tpl->touchBlock('usr_image_space');
+		if($user && $user->getId() != ANONYMOUS_USER_ID)
 		{
-			$this->tpl->touchBlock('usr_image_space');
-			if($user && $user->getId() != ANONYMOUS_USER_ID)
-			{
-				$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
-				$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
-				$this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
-			}
-			else if(!$user)
-			{
-				$this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
-				
-				$this->tpl->setCurrentBlock('image_container');
-				$this->tpl->touchBlock('image_container');
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
-				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
-				$this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
-			}
+			$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
+			$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
+			$this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
+		}
+		else if(!$user)
+		{
+			$this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 
-			$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
+			$this->tpl->setCurrentBlock('image_container');
+			$this->tpl->touchBlock('image_container');
+			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			if($user && $user->getId() != ANONYMOUS_USER_ID)
-			{
-				$this->tpl->setVariable('PUBLIC_NAME_SHORT', $user->getPublicName());
-			}
-			else if(!$user)
-			{
-				$this->tpl->setVariable('PUBLIC_NAME_SHORT', $mail['import_name'] . ' (' .  $this->lng->txt('user_deleted') . ')');
-			}
-			else
-			{
-				$this->tpl->setVariable('PUBLIC_NAME_SHORT', ilMail::_getIliasMailerName());
-			}
+			$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
+			$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
+			$this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
 		}
+
+		$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
 
 		$this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8'));
 		$this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
