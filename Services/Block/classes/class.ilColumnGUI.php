@@ -60,7 +60,7 @@ class ilColumnGUI
 	// all blocks that are repository objects
 	protected $rep_block_types = array("feed","poll");
 	protected $block_property = array();
-	protected $admincommands = null;
+	protected $admincommands = false;
 	protected $movementmode = null;
 	protected $enablemovement = false;
 

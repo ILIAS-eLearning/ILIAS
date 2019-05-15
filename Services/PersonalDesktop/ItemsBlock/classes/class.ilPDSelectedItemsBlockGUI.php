@@ -275,7 +275,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function fillFooter()
 	{
 		$this->setFooterLinks();
-		$this->tpl->setVariable('FCOLSPAN', $this->getColSpan());
 		if($this->tpl->blockExists('block_footer'))
 		{
 			$this->tpl->setCurrentBlock('block_footer');

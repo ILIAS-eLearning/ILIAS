@@ -92,7 +92,6 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		{
 			$this->setRowTemplate("tpl.pd_tasks.html", "Services/Tasks");
 			$this->getListRowData();
-			//$this->setColSpan(2);
 			parent::fillDataSection();
 		}
 		else

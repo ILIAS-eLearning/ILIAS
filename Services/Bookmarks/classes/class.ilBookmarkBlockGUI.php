@@ -106,7 +106,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 			{
 				$this->setRowTemplate("tpl.bookmark_pd_list.html", "Services/Bookmarks");
 				$this->getListRowData();
-				$this->setColSpan(2);
 				parent::fillDataSection();
 			}
 		}

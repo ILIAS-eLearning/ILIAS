@@ -156,7 +156,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$tpl = new ilTemplate("tpl.resources_for_tag.html", true, true, "Services/Tagging");
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
-		$content_block->setColSpan(2);
 		$content_block->setTitle(sprintf($lng->txt("tagging_resources_for_tag"),
 			"<i>".$_GET["tag"]."</i>"));
 
@@ -293,7 +292,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function fillFooter()
 	{
-		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
 		if ($this->tpl->blockExists("block_footer"))
 		{
 			$this->tpl->setCurrentBlock("block_footer");

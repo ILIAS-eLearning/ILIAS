@@ -141,10 +141,6 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 		if($this->getCurrentDetailLevel() > 1 && count($this->data) > 0)
 		{
 			$this->setRowTemplate('tpl.pd_frm_posting_drafts_row.html', 'Modules/Forum');
-			if($this->getCurrentDetailLevel() > 2)
-			{
-				$this->setColSpan(2);
-			}
 			parent::fillDataSection();
 		}
 		else

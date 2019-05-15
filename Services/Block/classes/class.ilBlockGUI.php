@@ -28,7 +28,6 @@ abstract class ilBlockGUI
 	abstract protected function isRepositoryObject(): bool;
 
 	protected $data = array();
-	protected $colspan = 1;
 	protected $enablenuminfo = true;
 	protected $footer_links = array();
 	protected $block_id = 0;
@@ -41,6 +40,12 @@ abstract class ilBlockGUI
 	protected $property = false;
 	protected $nav_value = "";
 	protected $css_row = "";
+
+
+	/**
+	 * @var bool
+	 */
+	protected $admincommands = false;
 
 	protected $dropdown;
 
@@ -349,7 +354,7 @@ abstract class ilBlockGUI
 	 *
 	 * @param    boolean $a_admincommands Administration Commmands
 	 */
-	function setAdminCommands($a_admincommands)
+	function setAdminCommands(bool $a_admincommands)
 	{
 		$this->admincommands = $a_admincommands;
 	}
@@ -359,29 +364,9 @@ abstract class ilBlockGUI
 	 *
 	 * @return    boolean    Administration Commmands
 	 */
-	function getAdminCommands()
+	function getAdminCommands(): bool
 	{
 		return $this->admincommands;
-	}
-
-	/**
-	 * Set Columns Span.
-	 *
-	 * @param    int $a_colspan Columns Span
-	 */
-	function setColSpan($a_colspan)
-	{
-		$this->colspan = $a_colspan;
-	}
-
-	/**
-	 * Get Columns Span.
-	 *
-	 * @return    int    Columns Span
-	 */
-	function getColSpan()
-	{
-		return $this->colspan;
 	}
 
 	/**
@@ -550,6 +535,7 @@ abstract class ilBlockGUI
 		if ($this->getRepositoryMode() && $this->isRepositoryObject())
 		{
 			// #10993
+			// @todo: fix this in new presentation somehow
 			if ($this->getAdminCommands())
 			{
 				$this->tpl->setCurrentBlock("block_check");
@@ -626,7 +612,6 @@ abstract class ilBlockGUI
 			$this->fillHeaderTitleBlock();
 		}
 
-		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
 		if ($this->getPresentation() === self::PRES_MAIN_LEG)
 		{
 			$this->tpl->touchBlock("hclassb");
