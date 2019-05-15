@@ -156,11 +156,6 @@ if(!$db->tableColumnExists('prg_usr_assignments','restart_date')) {
 
 <#10>
 <?php
-$ilCtrlStructureReader->getStructure();
-?>
-
-<#11>
-<?php
 global $DIC;
 $db = $DIC['ilDB'];
 if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
@@ -176,7 +171,7 @@ if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
 }
 ?>
 
-<#10>
+<#11>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
