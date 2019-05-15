@@ -34,8 +34,6 @@ abstract class ilBlockGUI
 	protected $block_id = 0;
 	protected $allow_moving = true;
 	protected $move = array("left" => false, "right" => false, "up" => false, "down" => false);
-	protected $footerinfo = false;
-	protected $footerinfo_icon = false;
 	protected $block_commands = array();
 	protected $max_count = false;
 	protected $close_command = false;
@@ -305,37 +303,6 @@ abstract class ilBlockGUI
 		return $this->repositorymode;
 	}
 
-	/**
-	 * Set Footer Info.
-	 *
-	 * @param    string $a_footerinfo Footer Info
-	 */
-	function setFooterInfo($a_footerinfo, $a_hide_and_icon = false)
-	{
-		if ($a_hide_and_icon)
-		{
-			$this->footerinfo_icon = $a_footerinfo;
-		} else
-		{
-			$this->footerinfo = $a_footerinfo;
-		}
-	}
-
-	/**
-	 * Get Footer Info.
-	 *
-	 * @return    string    Footer Info
-	 */
-	function getFooterInfo($a_hide_and_icon = false)
-	{
-		if ($a_hide_and_icon)
-		{
-			return $this->footerinfo_icon;
-		} else
-		{
-			return $this->footerinfo;
-		}
-	}
 
 	/**
 	 * Set Subtitle.
@@ -620,15 +587,6 @@ abstract class ilBlockGUI
 					$copy_cmd,
 					$lng->txt("copy"));
 			}
-		}
-
-		// footer info
-		if ($this->getFooterInfo() != "")
-		{
-			$this->tpl->setCurrentBlock("footer_information");
-			$this->tpl->setVariable("FOOTER_INFO", $this->getFooterInfo());
-			$this->tpl->setVariable("FICOLSPAN", $this->getColSpan());
-			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->dropdown = array();

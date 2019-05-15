@@ -281,10 +281,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		$hide_block = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_block",
 			0, $this->block_id);
-		if ($hide_block)
-		{
-			$this->setFooterInfo($lng->txt("news_hidden_news_block"));
-		}
 
 		if ($this->getProperty("title") != "")
 		{

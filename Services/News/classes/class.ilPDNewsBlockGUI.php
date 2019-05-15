@@ -199,9 +199,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilUser = $this->user;
-		
-		// set footer info
-		$this->setFooterInfo($lng->txt("news_block_information"), true);
+
+		// @todo: find another solution for this
+		//$this->setFooterInfo($lng->txt("news_block_information"), true);
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
