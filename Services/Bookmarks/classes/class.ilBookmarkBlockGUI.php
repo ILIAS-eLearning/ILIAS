@@ -134,21 +134,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	* block footer
-	*/
-	function fillFooter()
-	{
-		$this->setFooterLinks();
-		$this->fillFooterLinks();
-		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
-		if ($this->tpl->blockExists("block_footer"))
-		{
-			$this->tpl->setCurrentBlock("block_footer");
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-
-	/**
 	* Set footer links.
 	*/
 	function setFooterLinks()
@@ -163,21 +148,21 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		
 		// flat
-		$this->addFooterLink( $lng->txt("list"),
+		/* $this->addFooterLink( $lng->txt("list"),
 			$ilCtrl->getLinkTarget($this, "setPdFlatMode"),
 			$ilCtrl->getLinkTarget($this, "setPdFlatMode",
 			"", true),
 			"block_".$this->getBlockType()."_".$this->block_id,
-			false, false, ($ilUser->getPref("il_pd_bkm_mode") != 'tree'));
+			false, false, ($ilUser->getPref("il_pd_bkm_mode") != 'tree')); */
 
 		// as tree
-		$this->addFooterLink($lng->txt("tree"),
+		/* $this->addFooterLink($lng->txt("tree"),
 			$ilCtrl->getLinkTarget($this,
 				"setPdTreeMode"),
 			"",
 			"block_".$this->getBlockType()."_".$this->block_id,
 			false, false, ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
-			);
+			);*/
 	}
 
 	/**

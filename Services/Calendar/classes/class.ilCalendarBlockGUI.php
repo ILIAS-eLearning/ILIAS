@@ -798,6 +798,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 	function fillFooter()
 	{
+		// @todo: check this
+		return;
+
 		// begin-patch ch
 		foreach((array) $this->cal_footer as $link_info)
 		{
@@ -810,8 +813,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		// end-patch ch
 
-		$this->setFooterLinks();
-		$this->fillFooterLinks();
 		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
 		if ($this->tpl->blockExists("block_footer"))
 		{
@@ -821,42 +822,33 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 	}
 	
-	function setFooterLinks()
+	function initCommands()
 	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
-
 		if (!$this->getForceMonthView())
 		{
-			$this->addFooterLink($lng->txt("cal_upcoming_events_header"),
-				$ilCtrl->getLinkTarget($this, "setPdModeEvents"),
-				$ilCtrl->getLinkTarget($this, "setPdModeEvents", "", true),
-				"block_" . $this->getBlockType() . "_" . $this->block_id,
-				false, false, ($this->display_mode != 'mmon'));
+			// @todo: set checked on ($this->display_mode != 'mmon')
+			$this->addBlockCommand($ilCtrl->getLinkTarget($this, "setPdModeEvents"),
+				$lng->txt("cal_upcoming_events_header"),
+				$ilCtrl->getLinkTarget($this, "setPdModeEvents", "", true));
 
-			$this->addFooterLink($lng->txt("app_month"),
-				$ilCtrl->getLinkTarget($this, "setPdModeMonth"),
-				$ilCtrl->getLinkTarget($this, "setPdModeMonth", "", true),
-				"block_" . $this->getBlockType() . "_" . $this->block_id,
-				false, false, ($this->display_mode == 'mmon'));
+			// @todo: set checked on ($this->display_mode == 'mmon')
+			$this->addBlockCommand($ilCtrl->getLinkTarget($this, "setPdModeMonth"),
+				$lng->txt("app_month"),
+				$ilCtrl->getLinkTarget($this, "setPdModeMonth", "", true));
 
 			if ($this->getRepositoryMode())
 			{
 				#23921
 				$ilCtrl->setParameterByClass('ilcalendarpresentationgui','seed', '');
-				$this->addFooterLink($lng->txt("cal_open_calendar"),
-					$ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ""),
-					"",
-					"block_" . $this->getBlockType() . "_" . $this->block_id,
-					false, false);
+				$this->addBlockCommand($ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ""),
+					$lng->txt("cal_open_calendar"));
 
 				$ilCtrl->setParameter($this, "add_mode", "");
-				$this->addFooterLink($lng->txt("add_appointment"),
-					$ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI", "add"),
-					"",
-					"block_" . $this->getBlockType() . "_" . $this->block_id,
-					false, false);
+				$this->addBlockCommand($ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI", "add"),
+					$lng->txt("add_appointment"));
 				$ilCtrl->setParameter($this, "add_mode", "");
 			}
 		}

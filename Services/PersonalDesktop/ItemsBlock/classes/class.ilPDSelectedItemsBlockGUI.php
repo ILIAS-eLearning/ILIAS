@@ -209,19 +209,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		return parent::getHTML();
 	}
 
-	// Overwritten from ilBlockGUI as there seems to be no other possibility to
-	// not show Commands in the HEADER(!!!!) of a block in the VIEW_MY_STUDYPROGRAMME
-	// case... Sigh.
-	public function getFooterLinks()
-	{
-		if($this->viewSettings->isStudyProgrammeViewActive())
-		{
-			return array();
-		}
-
-		return parent::getFooterLinks();
-	}
-	
 	/**
 	 * 
 	 */
@@ -288,7 +275,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function fillFooter()
 	{
 		$this->setFooterLinks();
-		$this->fillFooterLinks();
 		$this->tpl->setVariable('FCOLSPAN', $this->getColSpan());
 		if($this->tpl->blockExists('block_footer'))
 		{
@@ -313,37 +299,35 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			return '';
 		}
 
-		$this->addFooterLink(
-			$this->lng->txt("pd_sort_by_type"),
+		// @todo: set checked on $this->viewSettings->isSortedByType()
+		$this->addBlockCommand(
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByType"),
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByType", "", true),
-			"block_".$this->getBlockType()."_".$this->block_id,
-			false, false, $this->viewSettings->isSortedByType()
+			$this->lng->txt("pd_sort_by_type"),
+			$this->ctrl->getLinkTarget($this, "orderPDItemsByType", "", true)
 		);
 
-		$this->addFooterLink($this->lng->txt("pd_sort_by_location"),
+		// @todo: set checked on $this->viewSettings->isSortedByLocation()
+		$this->addBlockCommand(
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation"),
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation", "", true),
-			"block_".$this->getBlockType()."_".$this->block_id,
-			false, false, $this->viewSettings->isSortedByLocation()
+			$this->lng->txt("pd_sort_by_location"),
+			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation", "", true)
 		);
 
+		// @todo: set checked on $this->viewSettings->isSortedByStartDate()
 		if($this->viewSettings->isMembershipsViewActive())
 		{
-			$this->addFooterLink($this->lng->txt("pd_sort_by_start_date"),
+			$this->addBlockCommand(
 				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate"),
-				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate", "", true),
-				"block_" . $this->getBlockType() . "_" . $this->block_id,
-				false, false, $this->viewSettings->isSortedByStartDate()
+				$this->lng->txt("pd_sort_by_start_date"),
+				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate", "", true)
 			);
 		}
 
-		$this->addFooterLink($this->viewSettings->isSelectedItemsViewActive() ?
-			$this->lng->txt("pd_remove_multiple") :
-			$this->lng->txt("pd_unsubscribe_multiple_memberships"),
+		$this->addBlockCommand(
 			$this->ctrl->getLinkTarget($this, "manage"),
-			null,
-			"block_".$this->getBlockType()."_".$this->block_id
+			$this->viewSettings->isSelectedItemsViewActive() ?
+				$this->lng->txt("pd_remove_multiple") :
+				$this->lng->txt("pd_unsubscribe_multiple_memberships")
 		);
 	}
 

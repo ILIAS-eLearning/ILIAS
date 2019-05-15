@@ -518,12 +518,15 @@ abstract class ilBlockGUI
 	 *
 	 * @param string $a_href
 	 * @param string $a_text
+	 * @param string $a_onclick
 	 */
-	function addBlockCommand(string $a_href, string $a_text): void
+	function addBlockCommand(string $a_href, string $a_text, string $a_onclick = ""): void
 	{
-		$this->block_commands[] =
-			array("href" => $a_href,
-				"text" => $a_text);
+		$this->block_commands[] = [
+			"href" => $a_href,
+			"text" => $a_text,
+			"onclick" => $a_onclick
+		];
 	}
 
 	/**
@@ -537,37 +540,6 @@ abstract class ilBlockGUI
 	}
 
 
-	/**
-	 * Add a footer text/link
-	 */
-	function addFooterLink($a_text, $a_href = "", $a_onclick = "", $a_block_id = "",
-						   $a_top = false, $a_omit_separator = false, $a_checked = false)
-	{
-		$this->footer_links[] = array(
-			"text" => $a_text,
-			"href" => $a_href,
-			"onclick" => $a_onclick,
-			"block_id" => $a_block_id,
-			"top" => $a_top,
-			"omit_separator" => $a_omit_separator,
-			"checked" => $a_checked);
-	}
-
-	/**
-	 * Get footer links.
-	 */
-	function getFooterLinks()
-	{
-		return $this->footer_links;
-	}
-
-	/**
-	 * Clear footer links.
-	 */
-	function clearFooterLinks()
-	{
-		$this->footer_links = array();
-	}
 
 	/**
 	 * Get Screen Mode for current command.
@@ -577,12 +549,21 @@ abstract class ilBlockGUI
 		return IL_SCREEN_SIDE;
 	}
 
+	/**
+	 * Init commands
+	 */
+	protected function initCommands()
+	{
+	}
+
 
 	/**
 	 * Get HTML.
 	 */
 	function getHTML()
 	{
+		$this->initCommands();
+
 		if ($this->new_rendering)
 		{
 			return $this->getHTMLNew();
@@ -666,6 +647,11 @@ abstract class ilBlockGUI
 		{
 			foreach ($this->getBlockCommands() as $command)
 			{
+				if ($command["onclick"])
+				{
+					$command["onclick"] = "ilBlockJSHandler('" . "block_".$this->getBlockType()."_".$this->block_id .
+						"','" . $command["onclick"] . "')";
+				}
 				$this->dropdown[] = $command;
 			}
 		}
@@ -880,7 +866,7 @@ abstract class ilBlockGUI
 		}
 
 		$this->setPreviousNextLinks();
-		$this->fillFooterLinks(true, $numinfo);
+		$this->tpl->setVariable("NUMINFO", $numinfo);
 
 	}
 
@@ -893,6 +879,10 @@ abstract class ilBlockGUI
 	 */
 	function setPreviousNextLinks()
 	{
+		// @todo: fix this
+		return false;
+
+
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
@@ -920,7 +910,7 @@ abstract class ilBlockGUI
 				$href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
 				$text = $lng->txt("previous");
 
-				$this->addFooterLink($text, $href, $onclick, $block_id, true);
+//				$this->addFooterLink($text, $href, $onclick, $block_id, true);
 			}
 
 			// calculate number of pages
@@ -954,7 +944,7 @@ abstract class ilBlockGUI
 				$href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");
 				$text = $lng->txt("next");
 
-				$this->addFooterLink($text, $href, $onclick, $block_id, true);
+//				$this->addFooterLink($text, $href, $onclick, $block_id, true);
 			}
 			$ilCtrl->setParameterByClass("ilcolumngui",
 				$this->getNavParameter(), "");
@@ -964,97 +954,6 @@ abstract class ilBlockGUI
 			return false;
 		}
 	}
-
-	/**
-	 * Fill footer links
-	 *
-	 * @return    array    linkbar or false on error
-	 */
-	function fillFooterLinks($a_top = false, $a_numinfo = "")
-	{
-		$first = true;
-		$flinks = $this->getFooterLinks();
-
-		$prefix = ($a_top) ? "top" : "foot";
-
-		$has_link = false;
-
-		$omit_separator = false;
-		foreach ($flinks as $flink)
-		{
-			if ($flink["top"] != $a_top)
-			{
-				continue;
-			}
-
-			if (!$a_top)
-			{
-				if ($flink["onclick"])
-				{
-					$flink["onclick"] = "ilBlockJSHandler('" . $flink["block_id"] .
-						"','" . $flink["onclick"] . "')";
-				}
-				$this->dropdown[] = $flink;
-				continue;
-			}
-
-			$has_link = true;
-
-			if (!$first && !$omit_separator)
-			{
-				$this->tpl->touchBlock($prefix . "_delim");
-				$this->tpl->touchBlock($prefix . "_item");
-			}
-
-			// ajax link
-			if ($flink["onclick"] != "")
-			{
-				$this->tpl->setCurrentBlock($prefix . "_onclick");
-				$this->tpl->setVariable("OC_BLOCK_ID",
-					$flink["block_id"]);
-				$this->tpl->setVariable("OC_HREF",
-					$flink["onclick"]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// normal link
-			if ($flink["href"] != "")
-			{
-				// normal link
-				$this->tpl->setCurrentBlock($prefix . "_link");
-				$this->tpl->setVariable("FHREF",
-					$flink["href"]);
-				$this->tpl->setVariable("FLINK", $flink["text"]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->touchBlock($prefix . "_item");
-			} else
-			{
-				$this->tpl->setCurrentBlock($prefix . "_text");
-				$this->tpl->setVariable("FTEXT", $flink["text"]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->touchBlock($prefix . "_item");
-			}
-
-			$first = false;
-			$omit_separator = $flink["omit_separator"];
-		}
-
-		if ($a_numinfo != "" && $has_link)
-		{
-			$this->tpl->setVariable("NUMINFO", $a_numinfo);
-			$first = false;
-		}
-
-		/*
-		if (!$first)
-		{
-			$this->tpl->setVariable("PCOLSPAN", $this->getColSpan());
-			$this->tpl->setCurrentBlock($prefix."_row");
-			$this->tpl->parseCurrentBlock();
-		}		 
-		*/
-	}
-
 
 	/**
 	 * Can be overwritten in subclasses. Only the visible part of the complete data was passed so a preload of the visible data is possible.
@@ -1092,7 +991,7 @@ abstract class ilBlockGUI
 
 		$actions = [];
 
-		foreach ($this->getFooterLinks() as $command)
+		foreach ($this->getBlockCommands() as $command)
 		{
 			$href = ($command["onclick"] != "")
 				? ""
@@ -1102,17 +1001,12 @@ abstract class ilBlockGUI
 			{
 				$button = $button->withOnLoadCode(function($id) use ($command) {
 					return
-						"$(\"#$id\").click(function() { ilBlockJSHandler('" . $command["block_id"] .
+						"$(\"#$id\").click(function() { ilBlockJSHandler('" . "block_".$this->getBlockType()."_".$this->block_id .
 						"','" . $command["onclick"] . "');});";
 				});
 			}
 			$actions[] = $button;
 		}
-		foreach ($this->getBlockCommands() as $command)
-		{
-			$actions[] = $factory->button()->shy($command["text"], $command["href"]);
-		}
-
 
 		$actions = $factory->dropdown()->standard($actions);
 

@@ -294,7 +294,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	*/
 	function fillFooter()
 	{
-		$this->fillFooterLinks();
 		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
 		if ($this->tpl->blockExists("block_footer"))
 		{

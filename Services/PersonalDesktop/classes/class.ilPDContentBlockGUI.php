@@ -116,7 +116,6 @@ class ilPDContentBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setVariable("NUMINFO", $numinfo);
 			}
-			$this->fillFooterLinks(true, $numinfo);
 		}
 	}
 	

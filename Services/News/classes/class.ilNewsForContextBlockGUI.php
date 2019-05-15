@@ -853,8 +853,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$ilCtrl->setParameter($this, "news_context", $previous["ref_id"]);
 			}
 			$ilCtrl->setParameter($this, "news_id", $previous["id"]);
-			$content_block->addFooterLink($lng->txt("previous"),
-				$ilCtrl->getLinkTarget($this, "showNews"), "", "", true);
+			// @todo: make this a view control
+			$content_block->addBlockCommand($ilCtrl->getLinkTarget($this, "showNews"), $lng->txt("previous"));
 			$ilCtrl->setParameter($this, "news_context", "");
 		}
 		
@@ -866,8 +866,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$ilCtrl->setParameter($this, "news_context", $c["ref_id"]);
 			}
 			$ilCtrl->setParameter($this, "news_id", $c["id"]);
-			$content_block->addFooterLink($lng->txt("next"),
-				$ilCtrl->getLinkTarget($this, "showNews"), "", "", true);
+			// @todo: make this a view control
+			$content_block->addBlockCommand($ilCtrl->getLinkTarget($this, "showNews"), $lng->txt("next"));
 		}
 		$ilCtrl->setParameter($this, "news_context", "");
 		$ilCtrl->setParameter($this, "news_id", "");
@@ -923,70 +923,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$ilCtrl->returnToParent($this);
 	}
 	
-	/**
-	* block footer
-	*/
-	function fillFooter()
-	{
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
-		$ilUser = $this->user;
 
-		parent::fillFooter();
-		
-		if ($this->show_view_selection)
-		{
-			$this->showViewFooter();
-		}
-	}
-
-	/**
-	* Show additional footer for show/hide notifications
-	*/
-	function showViewFooter()
-	{
-		$ilUser = $this->user;
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-		
-		return;		// notifications always shown
-		
-		$this->clearFooterLinks();
-		$this->addFooterLink("[".$lng->txt("news_first_letter_of_word_notification")."] ".
-			$lng->txt("news_notifications").": ", "", "", "", false, true);
-		if ($this->view == "hide_notifications")
-		{
-			$this->addFooterLink($lng->txt("show"),
-				$ilCtrl->getLinkTarget($this,
-					"showNotifications"),
-				$ilCtrl->getLinkTarget($this,
-					"showNotifications", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id
-				);
-			$this->addFooterLink($lng->txt("hide"));
-		}
-		else
-		{
-			$this->addFooterLink($lng->txt("show"));
-			$this->addFooterLink($lng->txt("hide"),
-				$ilCtrl->getLinkTarget($this,
-					"hideNotifications"),
-				$ilCtrl->getLinkTarget($this,
-					"hideNotifications", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id
-				);
-		}
-
-		$this->fillFooterLinks();
-	}
-	
 	function showNotifications()
 	{
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
 		
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
-		$view = ilBlockSetting::_write($this->getBlockType(), "view", "",
+		ilBlockSetting::_write($this->getBlockType(), "view", "",
 			$ilUser->getId(), $this->block_id);
 
 		// reload data
@@ -1011,7 +955,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$ilUser = $this->user;
 
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
-		$view = ilBlockSetting::_write($this->getBlockType(), "view", "hide_notifications",
+		ilBlockSetting::_write($this->getBlockType(), "view", "hide_notifications",
 			$ilUser->getId(), $this->block_id);
 
 		// reload data
