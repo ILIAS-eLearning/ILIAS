@@ -839,3 +839,15 @@ $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
 ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
 
 ?>
+<#62>
+<?php
+if($ilDB->tableColumnExists("map_area", "href")) {
+	$field = array(
+		'type' 		=> 'text',
+		'length' 	=> 800,
+		'notnull' 	=> false
+	);
+
+	$ilDB->modifyTableColumn("map_area", "href", $field);
+}
+?>

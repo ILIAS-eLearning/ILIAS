@@ -14994,8 +14994,6 @@ skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.###12 03
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.###12 03 2019 new variable
 blog#:#blog_download_submission#:#Download Submission###12 03 2019 new variable
 exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.###12 03 2019 new variable
-lso#:#lso_news_online_title#:#A new learning sequence object is online!###12 03 2019 new variable
-lso#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###12 03 2019 new variable
 user#:#user_profile_info_std#:#Default User Profile Info###12 03 2019 new variable
 lti#:#lti_cron_title#:#LTI Outcome Service###12 03 2019 new variable
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###12 03 2019 new variable
@@ -15043,3 +15041,6 @@ content#:#cont_Interaction#:#Interaction###25 04 2019 new variable
 content#:#cont_Background#:#Background###25 04 2019 new variable
 dateplaner#:#cal_usr_info#:#Appointment Information###25 04 2019 new variable
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s###25 04 2019 new variable
+news#:#lso_news_online_title#:#A new learning sequence object is online!###09 05 2019 new variable
+news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###09 05 2019 new variable
+certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.###09 05 2019 new variable

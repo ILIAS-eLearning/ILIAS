@@ -8,6 +8,7 @@
 class ilMMAbstractItemGUI {
 
 	const IDENTIFIER = 'identifier';
+	const CSS_ID_PREFIX = "mm_";
 	use ilMMHasher;
 	/**
 	 * @var \ILIAS\DI\UIServices

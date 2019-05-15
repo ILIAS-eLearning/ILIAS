@@ -15004,8 +15004,6 @@ skll#:#skll_lhist_skill_self_eval#:#$3$ önértékelés, összesen $4$.
 skll#:#skll_lhist_skill_self_eval_in#:#$3$  önértékelés, összesen $4$, itt: $1$.
 blog#:#blog_download_submission#:#Benyújtás letöltése
 exc#:#exc_down_files_started_bg#:#A beküldött fájlok letöltése megkezdődött. Kérem, ellenőrizze a háttérfolyamatokat a jobb felső sarokban.
-lso#:#lso_news_online_title#:#A tanulási sorban egy új objektum lett online!
-lso#:#lso_news_online_txt#:#A tanulási sor egy új objektumát éppen most tette közzé.
 user#:#user_profile_info_std#:#Alapértelmezett Felhasználói Profil Információ
 lti#:#lti_cron_title#:#LTI-kimeneti Szolgáltatás
 lti#:#lti_cron_title_desc#:#Az LTI-felhasználók tanulási haladási állapotát szinkonizálja egy LTI-eszközfogyasztóval, amennyiben az támogatja a kimeneti szolgáltatást. Erre az ütemezett feladatra csak a tanulási haladás beállításainak módosítása után van szükség.
@@ -15044,3 +15042,5 @@ content#:#cont_Background#:#Háttér
 dateplaner#:#cal_usr_info#:#Kinevezési információk
 certificate#:#certificate_learning_progress_must_be_active#:#Csak tanulási haladású objektumok választhatóak ki. A tanulási haladás ki van kapcsolva a következő objektumoknál: %s
 certificate#:#learning_progress_deactivated#:#A tanulási haladás ki van kapcsolva ennél az objektumnál. Az igazolássablon módosításához és a felhasználók igazolásának legeneráláshoz be kell kapcsolni.
+news#:#lso_news_online_title#:#A new learning sequence object is online!###09 05 2019 new variable
+news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###09 05 2019 new variable

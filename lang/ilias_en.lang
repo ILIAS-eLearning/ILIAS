@@ -11756,7 +11756,7 @@ rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
 obj#:#obj_tool_setting_info_tab_info#:#The ‘Info’ tab will be displayed.
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
-common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block will be displayed inside the ‘Content’ tab.
+common#:#obj_tool_setting_calendar_info#:#A calendar is available and the ‘Calendar’ block is displayed in the ‘Contents’ tab.
 obj#:#obj_presentation#:#Presentation
 mcst#:#mcst_webfeed#:#RSS Web Feed
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
@@ -15044,3 +15044,4 @@ content#:#cont_Background#:#Background
 dateplaner#:#cal_usr_info#:#Appointment Information
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
+content#:#msg_no_page_access#:#You do not have the permission to access this page.
