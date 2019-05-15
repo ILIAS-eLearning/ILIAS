@@ -33,9 +33,7 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 		$this->lng->loadLanguageModule('forum');
 
 		$this->setLimit(5);
-		$this->setImage(ilUtil::getImagePath('icon_frm.svg'));
 		$this->setTitle($this->lng->txt('frm_my_posting_drafts'));
-		$this->setAvailableDetailLevels(3);
 		$this->allow_moving = true;
 	}
 
@@ -143,10 +141,6 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 		if($this->getCurrentDetailLevel() > 1 && count($this->data) > 0)
 		{
 			$this->setRowTemplate('tpl.pd_frm_posting_drafts_row.html', 'Modules/Forum');
-			if($this->getCurrentDetailLevel() > 2)
-			{
-				$this->setColSpan(2);
-			}
 			parent::fillDataSection();
 		}
 		else

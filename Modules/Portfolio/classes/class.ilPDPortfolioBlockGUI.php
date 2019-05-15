@@ -126,7 +126,6 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		if(count($this->getData()) > 0)
 		{
 			$this->setRowTemplate("tpl.pd_portf_block_row.html", "Modules/Portfolio");
-			$this->setColSpan(2);
 			parent::fillDataSection();
 		}
 		else

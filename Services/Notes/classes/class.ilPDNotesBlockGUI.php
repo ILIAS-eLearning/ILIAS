@@ -95,7 +95,6 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		{
 			$this->setRowTemplate("tpl.pd_notes_overview.html", "Services/Notes");
 			$this->getListRowData();
-			//$this->setColSpan(2);
 			parent::fillDataSection();
 		}
 		else
@@ -255,7 +254,6 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($note_gui->getPDNoteHTML($_GET["note_id"]));
 		$content_block->setTitle($lng->txt("note"));
-		$content_block->setColSpan(2);
 
 		return $content_block->getHTML();
 	}

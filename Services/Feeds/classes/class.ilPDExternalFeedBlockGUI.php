@@ -385,7 +385,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($this->getTitle());
-		$content_block->setImage(ilUtil::getImagePath("icon_feed.svg"));
 
 		return $content_block->getHTML();
 	}

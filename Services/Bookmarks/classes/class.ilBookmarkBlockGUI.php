@@ -31,7 +31,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 
 		parent::__construct();
 		
-		$this->setImage(ilUtil::getImagePath("icon_bm.svg"));
 		$this->setTitle($lng->txt("my_bms"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
@@ -107,7 +106,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 			{
 				$this->setRowTemplate("tpl.bookmark_pd_list.html", "Services/Bookmarks");
 				$this->getListRowData();
-				$this->setColSpan(2);
 				parent::fillDataSection();
 			}
 		}

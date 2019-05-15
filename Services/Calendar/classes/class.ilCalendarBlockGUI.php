@@ -299,7 +299,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		if ($this->display_mode != "mmon")
 		{
-			$this->setColSpan(1);
 			$this->setRowTemplate("tpl.pd_event_list.html", "Services/Calendar");
 
 			ilBlockGUI::fillDataSection();
@@ -813,7 +812,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		// end-patch ch
 
-		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
 		if ($this->tpl->blockExists("block_footer"))
 		{
 			$this->tpl->setCurrentBlock("block_footer");

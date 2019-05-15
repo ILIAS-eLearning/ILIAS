@@ -31,9 +31,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 
 		$this->lng->loadLanguageModule('chatroom');
 
-		$this->setImage(ilUtil::getImagePath('icon_chat.svg'));
 		$this->setTitle($this->lng->txt('chat_chatviewer'));
-		$this->setAvailableDetailLevels(1, 0);
 		$this->allow_moving = true;
 	}
 
