@@ -29,7 +29,6 @@ abstract class ilBlockGUI
 	protected $bigmode = false;
 	protected $footer_links = array();
 	protected $block_id = 0;
-	protected $header_commands = array();
 	protected $allow_moving = true;
 	protected $move = array("left" => false, "right" => false, "up" => false, "down" => false);
 	protected $footerinfo = false;
@@ -537,34 +536,6 @@ abstract class ilBlockGUI
 		return $this->block_commands;
 	}
 
-	/**
-	 * Add Header Block Command.
-	 *
-	 * @param    string $a_href command link target
-	 * @param    string $a_text text
-	 */
-	function addHeaderCommand($a_href, $a_text, $a_as_close = false)
-	{
-		if ($a_as_close)
-		{
-			$this->close_command = $a_href;
-		} else
-		{
-			$this->header_commands[] =
-				array("href" => $a_href,
-					"text" => $a_text);
-		}
-	}
-
-	/**
-	 * Get Header Block commands.
-	 *
-	 * @return    array    header block commands
-	 */
-	function getHeaderCommands()
-	{
-		return $this->header_commands;
-	}
 
 	/**
 	 * Add a footer text/link
@@ -747,26 +718,6 @@ abstract class ilBlockGUI
 	 */
 	function fillHeaderCommands()
 	{
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-
-
-		// header commands
-		if (count($this->getHeaderCommands()) > 0)
-		{
-
-			foreach ($this->getHeaderCommands() as $command)
-			{
-				$this->tpl->setCurrentBlock("header_command");
-				$this->tpl->setVariable("HREF_HCOMM", $command["href"]);
-				$this->tpl->setVariable("TXT_HCOMM", $command["text"]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("header_commands");
-			$this->tpl->parseCurrentBlock();
-		}
-
 		// adv selection gui
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 		$dropdown = new ilAdvancedSelectionListGUI();
@@ -1141,10 +1092,6 @@ abstract class ilBlockGUI
 
 		$actions = [];
 
-		foreach ($this->getHeaderCommands() as $command)
-		{
-			$actions[] = $factory->button()->shy($command["text"], $command["href"]);
-		}
 		foreach ($this->getFooterLinks() as $command)
 		{
 			$href = ($command["onclick"] != "")

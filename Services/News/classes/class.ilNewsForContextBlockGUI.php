@@ -844,7 +844,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			$content_block->setTitle($lng->txt("news_internal_news"));
 		}
-		$this->addCloseCommand($content_block);
 
 		// previous
 		if ($previous != "")
@@ -1326,21 +1325,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
-		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("close"), true);
 
 		return $content_block->getHTML();
 	}
 
-	function addCloseCommand($a_content_block)
-	{
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-		
-		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("close"), true);
-	}
-	
+
 	function getDynamic()
 	{
 		$ilCtrl = $this->ctrl;

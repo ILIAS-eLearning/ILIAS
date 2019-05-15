@@ -320,22 +320,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
-		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("selected_items_back"));
 
 		return $content_block->getHTML();
 	}
 
-	function addCloseCommand($a_content_block)
-	{
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-		
-		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("selected_items_back"));
-	}
-
-	
 	/**
 	* show news
 	*/

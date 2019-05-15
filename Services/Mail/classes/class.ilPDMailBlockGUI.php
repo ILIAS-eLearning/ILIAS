@@ -230,8 +230,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$content_block->setTitle($this->lng->txt("message"));
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_mail.svg"));
-		$content_block->addHeaderCommand($this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
-			$this->lng->txt("selected_items_back"));
 
 		if($_GET["mail_mode"] != "system")
 		{

@@ -85,7 +85,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 	// New rendering
 	//
 
-	protected $new_rendering = true;
+	//protected $new_rendering = true;
 	protected $initialized = false;
 
 	/**

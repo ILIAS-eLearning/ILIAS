@@ -733,15 +733,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		return $link.$text.$end_link;
 	}
 
-	function addCloseCommand($a_content_block)
-	{
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-
-		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("close"), true);
-	}
-	
 	/**
 	 * init categories
 	 *
