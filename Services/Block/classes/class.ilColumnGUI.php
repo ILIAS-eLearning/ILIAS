@@ -756,44 +756,8 @@ class ilColumnGUI
 			}
 		}
 
-		$this->addBlockSorting();
 	}
 
-	/**
- 	 *
-	 */
-	protected function addBlockSorting()
-	{
-		global $DIC;
-
-		if($this->getSide() == IL_COL_CENTER && $this->getEnableMovement())
-		{
-			$ilBrowser = $this->browser;
-			$main_tpl = $DIC["tpl"];
-			$ilCtrl = $this->ctrl;
-
-			include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-			iljQueryUtil::initjQuery();
-			iljQueryUtil::initjQueryUI();
-
-			if($ilBrowser->isMobile() || $ilBrowser->isIpad())
-			{
-				$main_tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
-			}
-			$main_tpl->addJavaScript('./Services/Block/js/block_sorting.js');
-
-			// set the col_side parameter to pass the ctrl structure flow
-			$ilCtrl->setParameter($this, 'col_side', IL_COL_CENTER);
-
-			$this->tpl->setVariable('BLOCK_SORTING_STORAGE_URL', $ilCtrl->getLinkTarget($this, 'saveBlockSortingAsynch', '', true, false));
-			$this->tpl->setVariable('BLOCK_COLUMNS', json_encode(array('il_left_col', 'il_right_col')));
-			$this->tpl->setVariable('BLOCK_COLUMNS_SELECTOR', '#il_left_col,#il_right_col');
-			$this->tpl->setVariable('BLOCK_COLUMNS_PARAMETERS', json_encode(array(IL_COL_LEFT, IL_COL_RIGHT)));
-
-			// restore col_side parameter
-			$ilCtrl->setParameter($this, 'col_side', $this->getSide());
- 		}
-	}
 
 	/**
 	* Update Block (asynchronous)

@@ -475,9 +475,9 @@ abstract class ilBlockGUI
 	/**
 	 * Get Block commands.
 	 *
-	 * @return    array    block commands
+	 * @return array
 	 */
-	function getBlockCommands()
+	function getBlockCommands(): array
 	{
 		return $this->block_commands;
 	}
