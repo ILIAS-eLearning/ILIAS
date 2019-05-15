@@ -167,7 +167,11 @@ class ilQuestionExporter
 	}
 	
 	private function assMultipleChoice() {
-		$main_tpl = $GLOBALS['DIC']["tpl"];
+		// do not! use $GLOBALS['DIC']["tpl"]
+		// or $DIC->ui()->mainTemplate()
+		// at this point because LMs does init an own main template
+		// and currently replaces only $GLOBALS["tpl"] with the new one
+		$main_tpl = $GLOBALS["tpl"];
 		$this->q_gui->populateJavascriptFilesRequiredForWorkForm($main_tpl);
 		$main_tpl->addCss('Modules/Test/templates/default/ta.css');
 		
