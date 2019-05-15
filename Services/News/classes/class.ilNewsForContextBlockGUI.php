@@ -93,10 +93,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		{
 			if (!empty(self::$st_data))
 			{
+
 				$data = self::$st_data;
 			}
 			else
 			{
+
 				$data = $this->getNewsData();
 				self::$st_data = $data;
 			}
@@ -107,6 +109,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->setData($data);
 		$this->allow_moving = false;
 		$this->handleView();
+
+		$this->setPresentation(self::PRES_SEC_LIST);
 	}
 	
 	/**
@@ -419,17 +423,50 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	/**
 	* get flat bookmark list for personal desktop
 	*/
-	function fillRow($news)
+	function fillRow($data)
+	{
+		$info = $this->getInfoForData($data);
+
+		$this->tpl->setCurrentBlock("long");
+		$this->tpl->setVariable("VAL_CREATION_DATE", $info["creation_date"]);
+		$this->tpl->parseCurrentBlock();
+
+		if ($info["ref_id"] > 0)
+		{
+			$this->tpl->setCurrentBlock("news_context");
+			$this->tpl->setVariable("TYPE", $info["type_txt"]);
+			$this->tpl->setVariable("IMG_TYPE", $info["type_icon"]);
+			$this->tpl->setVariable("TITLE", $info["obj_title"]);
+			if ($info["user_read"] > 0)
+			{
+				$this->tpl->setVariable("TITLE_CLASS", 'class="light"');
+			}
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// title
+		$this->tpl->setVariable("VAL_TITLE", $info["news_title"]);
+
+		if ($info["user_read"] > 0)
+		{
+			$this->tpl->setVariable("A_CLASS", 'class="light"');
+		}
+
+		$this->tpl->setVariable("HREF_SHOW", $info["url"]);
+	}
+
+	function getInfoForData($news)
 	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$obj_definition = $this->obj_definition;
 
-		$this->tpl->setCurrentBlock("long");
-		//$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
-			$this->tpl->setVariable("VAL_CREATION_DATE",
-				ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME)));
-		$this->tpl->parseCurrentBlock();
+		$info = [];
+
+		$info["ref_id"] = $news["ref_id"];
+		$info["creation_date"] =
+			ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME));
 
 		// title image type
 		if ($news["ref_id"] > 0)
@@ -455,18 +492,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				? ilObjectPlugin::lookupTxtById($news["context_obj_type"], $lang_type)
 				: $lng->txt($lang_type);
 
-			$this->tpl->setCurrentBlock("news_context");
-			$this->tpl->setVariable("TYPE", $type_txt);
-			$this->tpl->setVariable("IMG_TYPE",
-				ilObject::_getIcon($obj_id, "tiny", $type));
-			$this->tpl->setVariable("TITLE",
-				ilUtil::shortenWords(ilObject::_lookupTitle($obj_id)));
-			if ($news["user_read"] > 0)
-			{
-				$this->tpl->setVariable("TITLE_CLASS", 'class="light"');
-			}
-			
-			$this->tpl->parseCurrentBlock();
+
+			$info["type_txt"] = $type_txt;
+			$info["type_icon"] = ilObject::_getIcon($obj_id, "tiny", $type);
+			$info["obj_title"] = ilUtil::shortenWords(ilObject::_lookupTitle($obj_id));
+			$info["user_read"] = $news["user_read"];
+
 			$ilCtrl->setParameter($this, "news_context", $context_ref);
 		}
 		else
@@ -475,21 +506,18 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 
 		// title
-		$this->tpl->setVariable("VAL_TITLE",
+		$info["news_title"] =
 			ilUtil::shortenWords(ilNewsItem::determineNewsTitle
 			($news["context_obj_type"], $news["title"], $news["content_is_lang_var"],
-			$news["agg_ref_id"], $news["aggregation"])));
+			$news["agg_ref_id"], $news["aggregation"]));
 		
-		
-		if ($news["user_read"] > 0)
-		{
-			$this->tpl->setVariable("A_CLASS", 'class="light"');
-		}
-		
+
 		$ilCtrl->setParameter($this, "news_id", $news["id"]);
-		$this->tpl->setVariable("HREF_SHOW",
-			$ilCtrl->getLinkTarget($this, "showNews"));
+		$info["url"] =
+			$ilCtrl->getLinkTarget($this, "showNews");
 		$ilCtrl->clearParameters($this);
+
+		return $info;
 	}
 
 	/**
@@ -1274,7 +1302,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
-		
+
+		// @todo: enable js loading
+		if ($this->new_rendering)
+		{
+			return false;
+		}
+
 		if ($ilCtrl->getCmd() == "hideNotifications" ||
 			$ilCtrl->getCmd() == "showNotifications")
 		{
@@ -1361,6 +1395,37 @@ $ilCtrl->returnToParent($this);
 		$ilUser->writePref("il_feed_js", "y");
 		echo $this->getHTML();
 		exit;
+	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $data): \ILIAS\UI\Component\Item\Item
+	{
+		$info = $this->getInfoForData($data);
+
+
+		$props = [
+			$this->lng->txt("date") => $info["creation_date"]
+		];
+
+		if ($info["ref_id"] > 0)
+		{
+			$props[$info["type_txt"]] = $info["obj_title"];
+		}
+
+		// $info["user_read"]
+
+		$factory = $this->ui->factory();
+		return $factory->item()->standard($factory->button()->shy($info["news_title"], $info["url"]))
+			->withProperties($props);
 	}
 
 }

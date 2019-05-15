@@ -16,6 +16,11 @@ abstract class ilBlockGUI
 	const PRES_SEC_LIST = 2;		// secondary list panel
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	 * @return string
 	 */
 	abstract public function getBlockType(): string;
@@ -107,6 +112,7 @@ abstract class ilBlockGUI
 		$this->lng = $DIC->language();
 		$this->main_tpl = $DIC["tpl"];
 		$this->obj_def = $DIC["objDefinition"];
+		$this->ui = $DIC->ui();
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initConnection();
