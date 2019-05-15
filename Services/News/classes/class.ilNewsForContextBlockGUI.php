@@ -298,30 +298,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			if ($enable_internal_rss)
 			{
 				include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+				// @todo: rss icon HTML: ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS)
 				$this->addBlockCommand(
 					ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
-						"ref_id=".$_GET["ref_id"],
-						$lng->txt("news_feed_url"), "", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS));
+						"ref_id=".$_GET["ref_id"], $lng->txt("news_feed_url"));
 
 			}
 		}
-
-/*	Subscription Concept is abandonded for now (Alex)
-		// subscribe/unsibscribe link
-		include_once("./Services/News/classes/class.ilNewsSubscription.php");
-		if (ilNewsSubscription::_hasSubscribed($_GET["ref_id"], $ilUser->getId()))
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "unsubscribeNews"),
-				$lng->txt("news_unsubscribe"));
-		}
-		else
-		{
-			$this->addBlockCommand(
-				$ilCtrl->getLinkTarget($this, "subscribeNews"),
-				$lng->txt("news_subscribe"));
-		}
-*/
 
 		// add edit commands
 		if ($this->getEnableEdit())

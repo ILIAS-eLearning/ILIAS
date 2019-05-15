@@ -96,7 +96,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 		{
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "editImportantPages"),
-				$lng->txt("edit"), "_top");
+				$lng->txt("edit"));
 		}
 		
 		return parent::getHTML();

@@ -62,18 +62,17 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$sel_type = ilCalendarUserSettings::_getInstance()->getCalendarSelectionType();
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_ITEMS);
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->seed->get(IL_CAL_DATE));
+		// @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui",'switchCalendarMode'),
-			$lng->txt('pd_my_offers'), "", "", false,
-			($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
-			);
+			$lng->txt('pd_my_offers'));
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->seed->get(IL_CAL_DATE));
+
+		// @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui",'switchCalendarMode'),
-			$lng->txt('pd_my_memberships'), "", "", false,
-			($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
-			);
+			$lng->txt('pd_my_memberships'));
 
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',"");
 		$this->addBlockCommand(

@@ -517,16 +517,14 @@ abstract class ilBlockGUI
 	/**
 	 * Add Block Command.
 	 *
-	 * @param    string $a_href command link target
-	 * @param    string $a_text text
+	 * @param string $a_href
+	 * @param string $a_text
 	 */
-	function addBlockCommand($a_href, $a_text, $a_target = "", $a_img = "", $a_right_aligned = false,
-							 $a_checked = false, $a_html = "")
+	function addBlockCommand(string $a_href, string $a_text): void
 	{
-		return $this->block_commands[] =
+		$this->block_commands[] =
 			array("href" => $a_href,
-				"text" => $a_text, "target" => $a_target, "img" => $a_img,
-				"right" => $a_right_aligned, "checked" => $a_checked, "html" => $a_html);
+				"text" => $a_text);
 	}
 
 	/**
@@ -695,66 +693,9 @@ abstract class ilBlockGUI
 		// commands
 		if (count($this->getBlockCommands()) > 0)
 		{
-			$has_block_command = false;
-
 			foreach ($this->getBlockCommands() as $command)
 			{
-				if (!$command["img"] && !$command["html"])
-				{
-					$this->dropdown[] = $command;
-					continue;
-				}
-
-				$has_block_command = true;
-
-				if ($command["target"] != "")
-				{
-					$this->tpl->setCurrentBlock("bc_target");
-					$this->tpl->setVariable("CMD_TARGET", $command["target"]);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				if ($command["img"] != "")
-				{
-					$this->tpl->setCurrentBlock("bc_image");
-					$this->tpl->setVariable("SRC_BC", $command["img"]);
-					$this->tpl->setVariable("ALT_BC", $command["text"]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("block_command");
-				} else if ($command["html"] != "")
-				{
-					if ($command['href'] !== '')
-					{
-						$this->tpl->setCurrentBlock("bc_html");
-						$this->tpl->setVariable("HTML", $command["html"]);
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->setCurrentBlock("block_command");
-					} else
-					{
-						$this->tpl->setCurrentBlock('bc_html_nohref');
-						$this->tpl->setVariable('HTML_NOHREF', $command['html']);
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->setCurrentBlock("block_command");
-					}
-				} else
-				{
-					$this->tpl->setCurrentBlock("block_command");
-					$this->tpl->setVariable("CMD_TEXT", $command["text"]);
-					$this->tpl->setVariable("BC_CLASS", 'class="il_ContainerItemCommand"');
-				}
-
-				if ($command['href'] !== '')
-				{
-					$this->tpl->setVariable("CMD_HREF", $command["href"]);
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			if ($has_block_command)
-			{
-				$this->tpl->setCurrentBlock("block_commands");
-				$this->tpl->setVariable("CCOLSPAN", $this->getColSpan());
-				$this->tpl->parseCurrentBlock();
+				$this->dropdown[] = $command;
 			}
 		}
 

@@ -83,20 +83,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		$this->setEnableNumInfo(false);
 
-		//if(!isset($_GET["bkid"]))
-		//{
-			$title = $lng->txt("calendar");
-		//}
-		//else
-		//{
-		//	$title = $lng->txt("cal_consultation_hours_for")." ".ilObjUser::_lookupFullname($_GET["bkid"]);
-		//}
-				
+		$title = $lng->txt("calendar");
+
 		$this->setTitle($title);
-		//$this->setData($data);
 		$this->allow_moving = false;
-		//$this->handleView();
-		
+
 		include_once('Services/Calendar/classes/class.ilDate.php');
 		include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 		
@@ -575,6 +566,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		];
 
 		$out = $ui_renderer->render($components);
+
+		//@todo render this differently
+		/*
 		$this->addBlockCommand(
 			'',
 			'',
@@ -582,7 +576,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			true,
 			false,
 			'<span class="ilIcalIcon">'.$out.'</span>'
-		);
+		);*/
 	}
 
 
@@ -604,17 +598,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		{
 			if(!isset($_GET["bkid"]))
 			{
-				/*
-				if($ilAccess->checkAccess('edit_event','',(int) $_GET['ref_id']))
-				{
-					$ilCtrl->setParameter($this, "add_mode", "block");
-					$this->addBlockCommand(
-						$ilCtrl->getLinkTargetByClass("ilCalendarAppointmentGUI",
-							"add"),
-						$lng->txt("add_appointment"));
-					$ilCtrl->setParameter($this, "add_mode", "");
-				}*/
-
 				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 				$obj_id = $ilObjDataCache->lookupObjId((int) $_GET['ref_id']);
 				$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
@@ -1051,5 +1034,3 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		exit();
 	}
 }
-
-?>
