@@ -33,9 +33,7 @@ class ilForumPostingDraftsBlockGUI extends ilBlockGUI
 		$this->lng->loadLanguageModule('forum');
 
 		$this->setLimit(5);
-		$this->setImage(ilUtil::getImagePath('icon_frm.svg'));
 		$this->setTitle($this->lng->txt('frm_my_posting_drafts'));
-		$this->setAvailableDetailLevels(3);
 		$this->allow_moving = true;
 	}
 

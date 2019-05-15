@@ -159,7 +159,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$content_block->setColSpan(2);
 		$content_block->setTitle(sprintf($lng->txt("tagging_resources_for_tag"),
 			"<i>".$_GET["tag"]."</i>"));
-		$content_block->setImage(ilUtil::getImagePath("icon_tag.svg"));
 
 		// get resources
 		include_once("./Services/Tagging/classes/class.ilTagging.php");

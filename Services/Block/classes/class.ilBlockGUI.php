@@ -218,26 +218,6 @@ abstract class ilBlockGUI
 	}
 
 	/**
-	 * Set Image.
-	 *
-	 * @param    string $a_image Image
-	 */
-	function setImage($a_image)
-	{
-		$this->image = $a_image;
-	}
-
-	/**
-	 * Get Image.
-	 *
-	 * @return    string    Image
-	 */
-	function getImage()
-	{
-		return $this->image;
-	}
-
-	/**
 	 * Set Offset.
 	 *
 	 * @param    int $a_offset Offset
@@ -751,17 +731,6 @@ abstract class ilBlockGUI
 	{
 		$lng = $this->lng;
 
-		// image
-		if ($this->getImage() != "")
-		{
-			$this->tpl->setCurrentBlock("block_img");
-			$this->tpl->setVariable("IMG_BLOCK", $this->getImage());
-			$this->tpl->setVariable("IMID",
-				"block_" . $this->getBlockType() . "_" . $this->block_id);
-			$this->tpl->setVariable("IMG_ALT",
-				str_replace(array("'", '"'), "", strip_tags($lng->txt("icon") . " " . $this->getTitle())));
-			$this->tpl->parseCurrentBlock();
-		}
 
 		// header title
 		$this->tpl->setCurrentBlock("header_title");

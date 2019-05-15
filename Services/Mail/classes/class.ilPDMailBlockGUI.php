@@ -69,7 +69,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		parent::__construct();
 
 		$this->setLimit(5);
-		$this->setImage(ilUtil::getImagePath('icon_mail.svg'));
 		$this->setTitle($this->lng->txt('mail'));
 	}
 
@@ -229,7 +228,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$_GET["mobj_id"]));
 		$content_block->setTitle($this->lng->txt("message"));
 		$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_mail.svg"));
 
 		if($_GET["mail_mode"] != "system")
 		{
