@@ -234,10 +234,15 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 			{
 				// file download
 				$this->ctrl->setParameter($this, "app_id", $this->appointment['event']->getEntryId());
-				$add_button = $this->ui->factory()->button()->standard($this->lng->txt("cal_download_files"),
-					$this->ctrl->getLinkTarget($this, "downloadFiles"));
+
+				$download_btn = ilLinkButton::getInstance();
+				$download_btn->setCaption($this->lng->txt("cal_download_files"),false);
+				$download_btn->setUrl(
+					$this->ctrl->getLinkTarget($this, 'downloadFiles')
+				);
 				$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-				$toolbar->addComponent($add_button);
+				
+				$toolbar->addButtonInstance($download_btn);
 				$toolbar->addSeparator();
 			}
 
@@ -246,7 +251,8 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 				$btn = ilLinkButton::getInstance();
 				$btn->setCaption($a["txt"], false);
 				$btn->setUrl($a["link"]);
-				$toolbar->addButtonInstance($btn);
+				// all buttons are sticky
+				$toolbar->addStickyItem($btn);
 			}
 		}
 
