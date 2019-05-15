@@ -9,6 +9,7 @@ require_once("Modules/StudyProgramme/classes/model/Assignments/class.ilStudyProg
 require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
 require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+require_once("Services/Link/classes/class.ilLink.php");
 
 /**
  * Class ilObjStudyProgrammeMembersTableGUI
@@ -20,6 +21,11 @@ require_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	protected $prg_obj_id;
 	protected $prg_ref_id;
+	protected $prg_has_lp_children;
+
+	protected $db;
+	protected $ui_factory;
+	protected $ui_renderer;
 
 	/**
 	 * @var ilStudyProgrammeUserProgressDB
@@ -36,12 +42,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->prg_has_lp_children = $a_parent_obj->getStudyProgramme()->hasLPChildren();
 
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilDB = $DIC['ilDB'];
-		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		$this->db = $ilDB;
+		$this->db = $DIC['ilDB'];
+		$this->ui_factory = $DIC['ui.factory'];
+		$this->ui_renderer = $DIC['ui.renderer'];
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
@@ -52,7 +55,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		$this->setShowRowsSelector(false);
 
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
 
 		$this->addColumn("", "", "1", true);
 		$this->setSelectAllCheckbox("prgs_ids[]");
@@ -245,10 +248,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
 			$rec['points_current'] = number_format($rec['points_current']);
 			if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
-				//If the status completet is set by crs reference
+				//If the status completed is set by crs reference
 				//use crs title
 				if($rec["completion_by_type"] == "crsr") {
-					$rec["completion_by"] = ilContainerReference::_lookupTitle($rec["completion_by_id"]);
+					$completion_id = $rec["completion_by_id"];
+					$title = ilContainerReference::_lookupTitle($completion_id);
+					$ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
+					$url = ilLink::_getStaticLink($ref_id, "crs");
+					$lnk = $this->ui_factory->link()->standard($title, $url);
+					$rec["completion_by"] = $this->ui_renderer->render($lnk);
 				}
 
 				// If the status completed and there is a non-null completion_by field
