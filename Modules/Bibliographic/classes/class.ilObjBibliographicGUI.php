@@ -229,7 +229,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $DIC;
 		$forms = parent::initCreationForms($a_new_type);
 		// Add File-Upload
-		$in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
+		$in_file = new ilFileInputGUI($this->lng->txt("bibliography file"), "bibliographic_file");
 		$in_file->setSuffixes(array( "ris", "bib", "bibtex" ));
 		$in_file->setRequired(true);
 		$forms[self::CFORM_NEW]->addItem($in_file);
