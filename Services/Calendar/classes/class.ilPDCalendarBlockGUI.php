@@ -27,7 +27,6 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 	function __construct()
 	{
 		parent::__construct(true);
-		$this->allow_moving = true;
 		$this->setBlockId(0);
 	}
 
@@ -80,25 +79,5 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 		
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}
-
-	//
-	// New rendering
-	//
-
-	//protected $new_rendering = true;
-	protected $initialized = false;
-
-	/**
-	 * Get HTML New
-	 *
-	 * @param
-	 * @return
-	 */
-	public function getHTMLNew()
-	{
-		$this->setFooterLinks();
-		return parent::getHTMLNew();
-	}
-
 
 }

@@ -122,6 +122,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		$mode = $ilUser->getPref("il_pd_cal_mode");
 		$this->display_mode = $mode ? $mode : "mmon";
+
+		if ($this->display_mode !== "mmon")
+		{
+			$this->setPresentation(self::PRES_SEC_LIST);
+		}
 	}
 
 	/**
@@ -183,6 +188,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		if ($a_val)
 		{
 			$this->display_mode = "mmon";
+			$this->setPresentation(self::PRES_SEC_LEG);
 		}
 	}
 	
@@ -308,7 +314,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$tpl = new ilTemplate("tpl.calendar_block.html", true, true,
 				"Services/Calendar");
 
-			$this->addMiniMonth($tpl);
+			$this->addMiniMonth($tpl, true);
 			$this->setDataSection($tpl->get());
 		}
 	}
@@ -346,7 +352,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	* Add mini version of monthly overview
 	* (Maybe extracted to another class, if used in pd calendar tab
 	*/
-	function addMiniMonth($a_tpl)
+	function addMiniMonth($a_tpl, $a_include_view_ctrl = false)
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
@@ -493,11 +499,31 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$a_tpl->setCurrentBlock('mini_month');
 		$a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
 
+
+		if ($a_include_view_ctrl)
+		{
+			$a_tpl->setVariable("VIEW_CTRL_SECTION", $ui->renderer()->render($this->getViewControl()));
+		}
+
+		$a_tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Get view control
+	 *
+	 * @return \ILIAS\UI\Component\ViewControl\Section
+	 */
+	protected function getViewControl(): \ILIAS\UI\Component\ViewControl\Section
+	{
+		$ui = $this->ui;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
 		$myseed = clone($this->seed);
 
 		$myseed->increment(ilDateTime::MONTH, -1);
 		$ilCtrl->setParameter($this,'seed',$myseed->get(IL_CAL_DATE));
-		
+
 		$prev_link = $ilCtrl->getLinkTarget($this, "setSeed", "", true);
 
 		$myseed->increment(ilDateTime::MONTH, 2);
@@ -532,11 +558,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		});
 
 
-		$vc = $ui->factory()->viewControl()->section($b1,$b2,$b3);
-		$a_tpl->setVariable("VIEW_CTRL_SECTION", $ui->renderer()->render($vc));
-
-		$a_tpl->parseCurrentBlock();
+		return $ui->factory()->viewControl()->section($b1,$b2,$b3);
 	}
+	
 
 	/**
 	 * Add subscription block command
@@ -860,6 +884,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$ilUser->writePref("il_pd_cal_mode", "evt");
 		$this->display_mode = "evt";
+		$this->setPresentation(self::PRES_SEC_LIST);
 		if ($ilCtrl->isAsynch())
 		{
 			echo $this->getHTML();
@@ -878,6 +903,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		$ilUser->writePref("il_pd_cal_mode", "mmon");
 		$this->display_mode = "mmon";
+		$this->setPresentation(self::PRES_SEC_LEG);
 		if ($ilCtrl->isAsynch())
 		{
 			echo $this->getHTML();
@@ -1014,4 +1040,54 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		exit();
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getViewControls(): array
+	{
+		if ($this->getPresentation() == self::PRES_SEC_LEG)
+		{
+			return [$this->getViewControl()];
+		}
+		return parent::getViewControls();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
+	{
+		$tpl = new ilTemplate("tpl.calendar_block.html", true, true,
+			"Services/Calendar");
+
+		$this->addMiniMonth($tpl);
+
+		return $tpl->get();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $data): \ILIAS\UI\Component\Item\Item
+	{
+		$factory = $this->ui->factory();
+		if (isset($data["shy_button"]))
+		{
+			return $factory->item()->standard($data["shy_button"])->withDescription($data["date"]);
+		}
+		else
+		{
+			return $factory->item()->standard($data["date"]);
+		}
+	}
+
+
 }
