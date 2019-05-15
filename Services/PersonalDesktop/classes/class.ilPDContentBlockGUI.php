@@ -30,7 +30,7 @@ class ilPDContentBlockGUI extends ilBlockGUI
 		
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setBigMode(true);
+		$this->setPresentation(self::PRES_MAIN_LEG);
 		$this->allow_moving = false;
 	}
 

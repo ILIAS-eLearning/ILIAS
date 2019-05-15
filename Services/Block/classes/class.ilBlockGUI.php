@@ -11,6 +11,10 @@
 */
 abstract class ilBlockGUI
 {
+	const PRES_MAIN_LEG = 0;		// main legacy panel
+	const PRES_SEC_LEG = 1;			// secondary legacy panel
+	const PRES_SEC_LIST = 2;		// secondary list panel
+
 	/**
 	 * @return string
 	 */
@@ -26,7 +30,6 @@ abstract class ilBlockGUI
 	protected $data = array();
 	protected $colspan = 1;
 	protected $enablenuminfo = true;
-	protected $bigmode = false;
 	protected $footer_links = array();
 	protected $block_id = 0;
 	protected $allow_moving = true;
@@ -79,6 +82,11 @@ abstract class ilBlockGUI
 	protected $obj_def;
 
 	/**
+	 * @var int
+	 */
+	protected $presentation;
+
+	/**
 	 * Constructor
 	 *
 	 * @param
@@ -86,6 +94,9 @@ abstract class ilBlockGUI
 	function __construct()
 	{
 		global $DIC;
+
+		// default presentation
+		$this->presentation = self::PRES_SEC_LEG;
 
 		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
@@ -123,23 +134,23 @@ abstract class ilBlockGUI
 	}
 
 	/**
-	 * Set Big Mode.
+	 * Set presentation
 	 *
-	 * @param    boolean $a_bigmode Big Mode
+	 * @param int $type
 	 */
-	function setBigMode($a_bigmode)
+	function setPresentation(int $type)
 	{
-		$this->bigmode = $a_bigmode;
+		$this->presentation = $type;
 	}
 
 	/**
-	 * Get Big Mode.
+	 * Get presentation type
 	 *
-	 * @return    boolean    Big Mode
+	 * @return int
 	 */
-	function getBigMode()
+	function getPresentation(): int
 	{
-		return $this->bigmode;
+		return $this->presentation;
 	}
 
 	/**
@@ -678,7 +689,7 @@ abstract class ilBlockGUI
 		}
 
 		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
-		if ($this->getBigMode())
+		if ($this->getPresentation() === self::PRES_MAIN_LEG)
 		{
 			$this->tpl->touchBlock("hclassb");
 		} else
