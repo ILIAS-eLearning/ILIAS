@@ -380,7 +380,7 @@ class ilUserAutoComplete
 		$result_json['items'] = $result;
 		$result_json['hasMoreResults'] = $more_results;
 		
-		$this->logger->dump($result_json);
+		$this->logger->dump($result_json, ilLogLevel::DEBUG);
 		
 		return ilJsonUtil::encode($result_json);
 	}
