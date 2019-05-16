@@ -230,9 +230,11 @@ class ilCOPageHTMLExport
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
 
-		// matching question
+		// matching / multiple choice - question
 		copy('./Modules/TestQuestionPool/js/ilMatchingQuestion.js',
 			$this->js_dir.'/ilMatchingQuestion.js');
+		copy('./Modules/TestQuestionPool/js/ilAssMultipleChoice.js',
+			$this->js_dir.'/ilAssMultipleChoice.js');
 		copy('./Modules/TestQuestionPool/templates/default/test_javascript.css',
 			$this->css_dir.'/test_javascript.css');
 
@@ -284,7 +286,7 @@ class ilCOPageHTMLExport
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js", "./js/jquery.js",
 			"./js/Basic.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/ilCOPagePres.js",
-			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js",
+			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js", "./js/ilAssMultipleChoice.js",
 			"./js/ilExtLink.js", "./js/linkify.js");
 		$scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
