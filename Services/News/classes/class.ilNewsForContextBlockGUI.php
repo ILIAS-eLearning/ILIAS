@@ -1421,6 +1421,7 @@ $ilCtrl->returnToParent($this);
 			$props[$info["type_txt"]] = $info["obj_title"];
 		}
 
+		// @todo: fix this
 		// $info["user_read"]
 
 		$factory = $this->ui->factory();

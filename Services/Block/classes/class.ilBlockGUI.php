@@ -984,6 +984,7 @@ abstract class ilBlockGUI
 		$this->preloadData($data);
 
 		$items = [];
+
 		foreach ($data as $record)
 		{
 			$item = $this->getListItemForData($record);
