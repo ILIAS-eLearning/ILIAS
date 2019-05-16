@@ -225,6 +225,10 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				$this->group_data['waiting_list_enabled'] = $a_attribs['waitingList'] == 'Yes' ? true : false;
 				break;
 			
+			case 'AccessCode':
+				$this->group_data['registration_access_code_enabled'] = $a_attribs['enabled'] == 'Yes' ? true : false;
+				break;
+
 			case 'period':
 				$this->in_period = true;
 				break;
@@ -264,7 +268,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				break;
 
 			case 'ContainerSetting':
-				$this->current_container_setting = $a_attribs['id'];				
+				$this->current_container_setting = $a_attribs['id'];
 				break;
 
 			case 'Sort':
@@ -354,6 +358,10 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				$this->in_period = false;
 				break;
 
+			case 'AccessCode':
+				$this->group_data['registration_access_code'] = $this->cdata;
+				break;
+
 			case "group":
 				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
 				$this->__save();
@@ -397,7 +405,14 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'mailMembersType':
 				$this->group_data['mail_members_type'] = (int) $this->cdata;
 				break;
-				
+
+			case 'viewMode':
+				if((int) $this->cdata)
+				{
+					$this->group_data['view_mode'] = (int) $this->cdata;
+				}
+				break;
+
 		}
 		$this->cdata = '';
 	}
@@ -513,13 +528,13 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		}
 		$this->group_obj->setRegistrationType($flag);
 		
-		$end = new ilDateTime(time(),IL_CAL_UNIX);
+		$end = NULL;
 		if($this->group_data['expiration_end'])
 		{
 			$end = new ilDateTime($this->group_data['expiration_end'],IL_CAL_UNIX);
 		}
 
-		$start = clone $end;
+		$start = NULL;
 		if($this->group_data['expiration_start'])
 		{
 			$start = new ilDateTime($this->group_data['expiration_start'],IL_CAL_UNIX);
@@ -537,6 +552,9 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
 		$this->group_obj->setMinMembers($this->group_data['min_members']);
 		$this->group_obj->setShowMembers($this->group_data['show_members'] ? $this->group_data['show_members'] : 0);
+		$this->group_obj->enableRegistrationAccessCode($this->group_data['registration_access_code_enabled'] ? $this->group_data['registration_access_code_enabled'] : 0);
+		$this->group_obj->setRegistrationAccessCode($this->group_data['registration_access_code'] ? $this->group_data['registration_access_code'] : '');
+		$this->group_obj->setViewMode($this->group_data['view_mode'] ? $this->group_data['view_mode'] : ilContainer::VIEW_DEFAULT);
 		$this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
 		$this->group_obj->update();
 
