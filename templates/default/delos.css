@@ -7539,7 +7539,7 @@ hr.il-divider-with-label {
   .panel-secondary .il-item .dropdown {
     position: static;
   }
-  .panel-secondary .il-item .dropdown-menu.pull-right {
+  .panel-secondary .il-item .dropdown-menu {
     width: 100%;
   }
   .panel-secondary .il-item .dropdown-toggle {
