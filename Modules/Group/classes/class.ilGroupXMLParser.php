@@ -556,6 +556,16 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		$this->group_obj->setRegistrationAccessCode($this->group_data['registration_access_code'] ? $this->group_data['registration_access_code'] : '');
 		$this->group_obj->setViewMode($this->group_data['view_mode'] ? $this->group_data['view_mode'] : ilContainer::VIEW_DEFAULT);
 		$this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
+
+		// add container settings to group_obj, so they do not get overwritten by the ilContainer::update; see mantis 25426
+		$group_container_settings = ilContainer::_getContainerSettings($this->group_obj->getId());
+		$this->group_obj->setNewsTimeline($group_container_settings["news_timeline"]);
+		$this->group_obj->setNewsTimelineAutoEntries($group_container_settings["news_timeline_incl_auto"]);
+		$this->group_obj->setNewsTimelineLandingPage($group_container_settings["news_timeline_landing_page"]);
+		include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
+		$this->group_obj->setNewsBlockActivated($group_container_settings[ilObjectServiceSettingsGUI::NEWS_VISIBILITY]);
+		$this->group_obj->setUseNews($group_container_settings[ilObjectServiceSettingsGUI::USE_NEWS]);
+
 		$this->group_obj->update();
 
 		// ASSIGN ADMINS/MEMBERS
