@@ -201,7 +201,12 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 		$invalidModes = $this->getInvalidLPModes();
 
 		$titlesOfObjectsWithInvalidModes = array();
-		foreach($formFields['subitems'] as $refId) {
+		$refIds = array();
+		if (isset($formFields['subitems'])) {
+			$refIds = $formFields['subitems'];
+		}
+
+		foreach($refIds as $refId) {
 			$objectId = $this->objectHelper->lookupObjId($refId);
 			$learningProgressObject = $this->lpHelper->getInstance($objectId);
 			$currentMode = $learningProgressObject->getCurrentMode();
