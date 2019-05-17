@@ -664,6 +664,7 @@ class ilCalendarPresentationGUI
 	{
 		global $DIC;
 
+		$access = $DIC->access();
 		$rbacsystem = $DIC->rbac()->system();
 
 		$came_from_pd = $_REQUEST['backpd'];
@@ -696,14 +697,16 @@ class ilCalendarPresentationGUI
 			);
 
 			// settings tab
-			$this->ctrl->setParameterByClass(ilCalendarCategoryGUI::class,'category_id', $category_id);
-			$this->tabs_gui->addTab(
-				'cal_manage',
-				$this->lng->txt('settings'),
-				$this->ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class,'edit')
-			);
-			$this->ctrl->clearParameterByClass(ilCalendarCategoryGUI::class,'category_id');
-
+			if($access->checkAccess('edit_event','',$this->ref_id))
+			{
+				$this->ctrl->setParameterByClass(ilCalendarCategoryGUI::class,'category_id', $category_id);
+				$this->tabs_gui->addTab(
+					'cal_manage',
+					$this->lng->txt('settings'),
+					$this->ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class,'edit')
+				);
+				$this->ctrl->clearParameterByClass(ilCalendarCategoryGUI::class,'category_id');
+			}
 			return true;
 		}
 		else
