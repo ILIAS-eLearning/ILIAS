@@ -23,7 +23,6 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 		parent::__construct();
 
 		$this->setTitle($this->lng->txt("show_system_messages"));
-		$this->setAvailableDetailLevels(3);
 		$this->mail_mode = "system";
 		$this->allow_moving = false;
 	}
@@ -46,10 +45,6 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 
 	function getHTML()
 	{
-		if ($this->getCurrentDetailLevel() < 1)
-		{
-			$this->setCurrentDetailLevel(1);
-		}
 
 		$html = parent::getHTML();
 		

@@ -120,8 +120,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->feed->setUrl($this->feed_block->getFeedUrl());
 		
 		// init details
-		$this->setAvailableDetailLevels(2);
-		
+
 		$ilCtrl->setParameter($this, "block_id", $this->feed_block->getId());
 	}
 
@@ -150,7 +149,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		{
 			$this->setDataSection($this->getDynamicReload());
 		}
-		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		else if (count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
 		}
@@ -169,12 +168,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		$ilAccess = $this->access;
-		$ilSetting = $this->settings;
-		
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
+
 
 		$feed_set = new ilSetting("feed");
 		

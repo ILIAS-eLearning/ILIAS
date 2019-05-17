@@ -16,6 +16,11 @@ abstract class ilBlockGUI
 	const PRES_SEC_LIST = 2;		// secondary list panel
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	 * @return string
 	 */
 	abstract public function getBlockType(): string;
@@ -107,6 +112,7 @@ abstract class ilBlockGUI
 		$this->lng = $DIC->language();
 		$this->main_tpl = $DIC["tpl"];
 		$this->obj_def = $DIC["objDefinition"];
+		$this->ui = $DIC->ui();
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initConnection();
@@ -903,6 +909,133 @@ abstract class ilBlockGUI
 	// temporary flag
 	protected $new_rendering = false;
 
+
+	/**
+	 * Get legacy content
+	 *
+	 * @return string
+	 */
+	protected function getLegacyContent(): string
+	{
+		return "";
+	}
+
+	/**
+	 * Get view controls
+	 *
+	 * @return array
+	 */
+	protected function getViewControls(): array
+	{
+		if ($this->getPresentation() == self::PRES_SEC_LIST)
+		{
+			return [$this->getPaginationViewControl()];
+		}
+		return [];
+	}
+
+	/**
+	 * Get list item for data array
+	 *
+	 * @param array $data
+	 * @return null|\ILIAS\UI\Component\Item\Item
+	 */
+	protected function getListItemForData(array $data): \ILIAS\UI\Component\Item\Item
+	{
+		return null;
+	}
+
+	/**
+	 * Get items
+	 *
+	 * @return \ILIAS\UI\Component\Item\Group[]
+	 */
+	protected function getListItemGroups(): array
+	{
+		global $DIC;
+		$factory = $DIC->ui()->factory();
+
+		$reg_page = $_REQUEST[$this->getNavParameter()."page"];
+		if ($reg_page !== "")
+		{
+			$this->nav_value = "::".($reg_page * $this->getLimit());
+		}
+
+		if ($this->nav_value == "" && isset($_SESSION[$this->getNavParameter()]))
+		{
+			$this->nav_value = $_SESSION[$this->getNavParameter()];
+		}
+
+		$_SESSION[$this->getNavParameter()] = $this->nav_value;
+
+		$nav = explode(":", $this->nav_value);
+		if (isset($nav[2]))
+		{
+			$this->setOffset($nav[2]);
+		} else
+		{
+			$this->setOffset(0);
+		}
+
+		$data = $this->getData();
+		$this->max_count = count($data);
+		$this->correctOffset();
+		$data = array_slice($data, $this->getOffset(), $this->getLimit());
+		$this->preloadData($data);
+
+		$items = [];
+
+		foreach ($data as $record)
+		{
+			$item = $this->getListItemForData($record);
+			if ($item !== null)
+			{
+				$items[] = $item;
+			}
+		}
+
+		$item_group = $factory->item()->group("", $items);
+
+		return [$item_group];
+	}
+
+	/**
+	 * Fill previous/next row
+	 */
+	function getPaginationViewControl()
+	{
+		global $DIC;
+		$factory = $DIC->ui()->factory();
+
+		$ilCtrl = $this->ctrl;
+
+
+		//		$ilCtrl->setParameterByClass("ilcolumngui",
+		//			$this->getNavParameter(), "::" . $prevoffset);
+
+		// ajax link
+		$ilCtrl->setParameterByClass("ilcolumngui",
+			"block_id", "block_" . $this->getBlockType() . "_" . $this->block_id);
+		$block_id = "block_" . $this->getBlockType() . "_" . $this->block_id;
+		$onclick = $ilCtrl->getLinkTargetByClass("ilcolumngui",
+			"updateBlock", "", true);
+		$ilCtrl->setParameterByClass("ilcolumngui",
+			"block_id", "");
+
+		// normal link
+		$href = $ilCtrl->getLinkTargetByClass("ilcolumngui", "", "", false, false);
+
+		//$ilCtrl->setParameterByClass("ilcolumngui",
+		//	$this->getNavParameter(), "");
+
+		return $factory->viewControl()->pagination()
+			->withTargetURL($href, $this->getNavParameter()."page")
+			->withTotalEntries($this->max_count)
+			->withPageSize($this->getLimit())
+			->withCurrentPage((int) $this->getOffset() / $this->getLimit());
+	}
+
+
 	/**
 	 * Get HTML.
 	 */
@@ -911,6 +1044,8 @@ abstract class ilBlockGUI
 		global $DIC;
 		$factory = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
+
+		$ctrl = $this->ctrl;
 
 		$actions = [];
 
@@ -931,18 +1066,52 @@ abstract class ilBlockGUI
 			$actions[] = $button;
 		}
 
-		$actions = $factory->dropdown()->standard($actions);
+		switch ($this->getPresentation())
+		{
+			case self::PRES_SEC_LEG:
+				$panel = $factory->panel()->secondary()->legacy(
+					$this->getTitle(),
+					$factory->legacy($this->getLegacyContent())
+				);
+				break;
 
-		$legacy = $factory->legacy("Legacy content");
+			case self::PRES_SEC_LIST:
+				$panel = $factory->panel()->secondary()->listing(
+					$this->getTitle(),
+					$this->getListItemGroups()
+				);
+				break;
+		}
 
-		$panel = $factory->panel()->secondary()->legacy(
-			$this->getTitle(),
-			$legacy)->withActions($actions);
+		// actions
+		if (count($actions) > 0)
+		{
+			$actions = $factory->dropdown()->standard($actions);
+			$panel = $panel->withActions($actions);
+		}
 
-		$html = $renderer->render($panel);
+		// view controls
+		if (count($this->getViewControls()) > 0)
+		{
+			$panel = $panel->withViewControls($this->getViewControls());
+		}
 
-		$this->new_rendering = false;
-		$html.= $this->getHTML();
+		if ($ctrl->isAsynch())
+		{
+			$html = $renderer->renderAsync($panel);
+			echo $html; exit;
+		}
+		else
+		{
+			$html = $renderer->render($panel);
+
+			// return incl. wrapping div with id
+			$html = '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
+				$html . '</div>';
+		}
+
+		//$this->new_rendering = false;
+		//$html.= $this->getHTML();
 
 		return $html;
 	}
