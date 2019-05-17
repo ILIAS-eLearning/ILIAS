@@ -45,10 +45,6 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 
 	function getHTML()
 	{
-		if ($this->getCurrentDetailLevel() < 1)
-		{
-			$this->setCurrentDetailLevel(1);
-		}
 
 		$html = parent::getHTML();
 		
