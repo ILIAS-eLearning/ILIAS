@@ -241,7 +241,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 					$this->ctrl->getLinkTarget($this, 'downloadFiles')
 				);
 				$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-				
+
 				$toolbar->addButtonInstance($download_btn);
 				$toolbar->addSeparator();
 			}
