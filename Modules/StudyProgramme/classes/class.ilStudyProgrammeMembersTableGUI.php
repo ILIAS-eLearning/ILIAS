@@ -36,7 +36,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		['prg_assign_date', 'prg_assign_date', false, true, true],
 		['prg_assigned_by', 'prg_assigned_by', true, true, true],
 		['prg_expiry_date', 'prg_expiry_date', true, true, true],
-		//['prg_deadline', 'prg_deadline', true, true, true],
+		['prg_deadline', 'prg_deadline', true, true, true],
 		['prg_validity', 'prg_validity', false, true, true],
 		[null, 'action', false, true, true]
 	];
@@ -85,31 +85,25 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		$this->addMultiCommands();
 
 		$selected = $this->getSelectedColumns();
-
 		foreach (self::COLUMNS as $column) {
 			list($col, $lng_var, $optional, $lp, $no_lp) = $column;
-			$add = true;
-			if($this->prg_has_lp_children && $lp == false) {$add = false;}
-			if($this->prg_has_lp_children == false && $no_lp == false) {$add = false;}
-			if($optional && !array_key_exists($col, $selected)) {$add = false;}
 
-			if($add) {
+			$show_by_lp = ($this->prg_has_lp_children && $lp) || (!$this->prg_has_lp_children && $no_lp);
+			$show_optional = !$optional || ($optional && array_key_exists($col, $selected));
+
+			if($show_by_lp && $show_optional) {
 				$this->addColumn($this->lng->txt($lng_var), $col);
 			}
 		}
 
+		$this->sp_user_progress_db = $sp_user_progress_db;
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 		$oder = $this->getOrderField();
 		$dir = $this->getOrderDirection();
-
-		$this->sp_user_progress_db = $sp_user_progress_db;
-
 		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset(), $this->getOrderField(), $this->getOrderDirection());
 		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
 		$this->setData($members_list);
-
-		//var_dump($members_list);die();
 	}
 
 
@@ -133,25 +127,19 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-
 		foreach ($this->getSelectedColumns() as $column) {
 			switch($column) {
 				case "prg_orgus":
-					$this->tpl->setCurrentBlock("orgus");
 					$this->tpl->setVariable("ORGUS", $a_set["orgus"]);
-					$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_completion_date":
-					//$this->tpl->setCurrentBlock("prg_completion_date");
 					$this->tpl->setVariable("COMPLETION_DATE", $a_set["completion_date"]);
-					//$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_completion_by":
 					if(is_null($a_set["completion_by"])) {
 						$this->tpl->touchBlock("comp_by");
 					}
 					$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
-					//$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_custom_plan":
 					$this->tpl->setVariable("CUSTOM_PLAN",
@@ -159,26 +147,20 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 					);
 					break;
 				case "prg_belongs_to":
-					//$this->tpl->setCurrentBlock("belongs_to");
 					$this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
-					//$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_expiry_date":
-					//$this->tpl->setCurrentBlock("prg_expiry_date");
 					$this->tpl->setVariable("EXPIRY_DATE", $a_set["vq_date"]);
-					//$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_assigned_by":
-					//$this->tpl->setCurrentBlock("assigned_by");
 					$this->tpl->setVariable("ASSIGNED_BY", $a_set["prg_assigned_by"]);
-					//$this->tpl->parseCurrentBlock();
 					break;
 				case "prg_deadline":
-					//$this->tpl->setCurrentBlock("deadline");
+					if(is_null($a_set["prg_deadline"])) {
+						$this->tpl->touchBlock("deadline");
+					}
 					$this->tpl->setVariable("DEADLINE", $a_set["prg_deadline"]);
-					//$this->tpl->parseCurrentBlock();
 					break;
-
 			}
 		}
 		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown( $a_set["actions"]
@@ -235,6 +217,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 				   ."     , pcp.firstname"
 				   ."     , pcp.lastname"
 				   ."     , pcp.login"
+				   ."     , pcp.usr_id"
 				   ."     , prgrs.points"
 				   //the following is a replacement for:
 				   //IF(prgrs.status = ".ilStudyProgrammeProgress::STATUS_ACCREDITED.",prgrs.points,prgrs.points_cur)
@@ -273,7 +256,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 				$query .= " $order_direction";
 			}
 		}
-
 
 		if($limit !== null) {
 			$this->db->setLimit($limit, $offset !== null ? $offset : 0);
@@ -319,10 +301,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 				$rec['vq_date'] = '';
 			}
 
-			$rec["orgus"] = '-';
-
+			$usr_id = (int)$rec['usr_id'];
+			$rec["orgus"] = \ilObjUser::lookupOrgUnitsRepresentation($usr_id);
 			$members_list[] = $rec;
 		}
+
 		return $members_list;
 	}
 
