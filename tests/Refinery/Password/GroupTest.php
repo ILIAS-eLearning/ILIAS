@@ -4,11 +4,11 @@
 namespace ILIAS\Tests\Refinery\Password;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Password\Constraint\HasLowerChars;
-use ILIAS\Refinery\Password\Constraint\HasMinLength;
-use ILIAS\Refinery\Password\Constraint\HasNumbers;
-use ILIAS\Refinery\Password\Constraint\HasSpecialChars;
-use ILIAS\Refinery\Password\Constraint\HasUpperChars;
+use ILIAS\Refinery\Password\HasLowerChars;
+use ILIAS\Refinery\Password\HasMinLength;
+use ILIAS\Refinery\Password\HasNumbers;
+use ILIAS\Refinery\Password\HasSpecialChars;
+use ILIAS\Refinery\Password\HasUpperChars;
 use ILIAS\Refinery\Password\Group;
 use ILIAS\Tests\Refinery\TestCase;
 

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\String\Transformation;
+namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;

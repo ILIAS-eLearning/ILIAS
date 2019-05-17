@@ -95,7 +95,7 @@ class Factory
 	 */
 	public function container()
 	{
-		return new Container\Group($this->dataFactory);
+		return new Container\Group($this->dataFactory, $this->language);
 	}
 
 	/**

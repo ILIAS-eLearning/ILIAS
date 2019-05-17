@@ -3,11 +3,11 @@
 
 namespace ILIAS\Refinery\Logical\Constraint;
 
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
-class Not extends Custom implements Constraint {
+class Not extends CustomConstraint implements Constraint {
 	/**
 	 * @var Constraint
 	 */

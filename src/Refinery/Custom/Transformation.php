@@ -4,12 +4,12 @@
 namespace ILIAS\Refinery\Custom\Transformations;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Transformation as TransformationInterface;
 
 /**
  * Transform values according to custom configuration
  */
-class Custom implements Transformation {
+class Transformation implements TransformationInterface {
 	/**
 	 * @var callable
 	 */

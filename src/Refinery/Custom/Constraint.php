@@ -1,12 +1,13 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Refinery\Constraint;
+namespace ILIAS\Refinery\Custom;
+
+use ILIAS\Refinery\Constraint as ConstraintInterface;
 use ILIAS\Data;
 use ILIAS\Data\Result;
 
-class Custom implements Constraint {
+class Constraint implements ConstraintInterface {
 	/**
 	 * @var ILIAS\Data\Factory
 	 */

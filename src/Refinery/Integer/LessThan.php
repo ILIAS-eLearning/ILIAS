@@ -1,13 +1,13 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Integer\Constraint;
+namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class LessThan extends Custom implements Constraint {
+class LessThan extends CustomConstraint implements Constraint {
 	/**
 	 * @var int
 	 */

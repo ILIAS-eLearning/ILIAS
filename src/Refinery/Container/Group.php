@@ -3,7 +3,7 @@
 namespace ILIAS\Refinery\Container;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Container\Transformation\AddLabels;
+use ILIAS\Refinery\Container\AddLabels;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

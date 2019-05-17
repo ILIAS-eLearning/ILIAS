@@ -2,11 +2,11 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Logical\Constraint;
-use ILIAS\Refinery\Custom\Constraint\Custom;
 use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
 
-class Sequential extends Custom implements Constraint {
+class Sequential extends CustomConstraint implements Constraint {
 	/**
 	 * @var Constraint[]
 	 */

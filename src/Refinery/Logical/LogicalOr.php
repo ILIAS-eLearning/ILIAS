@@ -3,7 +3,7 @@
 
 namespace ILIAS\Refinery\Logical\Constraint;
 
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
@@ -12,7 +12,7 @@ use ILIAS\Data;
  * @package ILIAS\Refinery\Validation\Constraints
  * @author  Michael Jansen <mjansen@databay.de>
  */
-class LogicalOr extends Custom implements Constraint
+class LogicalOr extends CustomConstraint implements Constraint
 {
 	/**
 	 * @var Constraint[]

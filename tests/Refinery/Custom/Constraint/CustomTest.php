@@ -7,7 +7,7 @@ use ILIAS\Refinery\Custom;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
-class MyValidationConstraintsCustom extends Custom\Constraint\Custom {
+class MyValidationConstraintsConstraint extends Custom\Constraint {
 	public function _getLngClosure() {
 		return $this->getLngClosure();
 	}
@@ -43,7 +43,7 @@ class ValidationConstraintsCustomTest extends TestCase {
 			return $txt($this->txt_id, $value);
 		};
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->constraint = new MyValidationConstraintsCustom($is_ok, $error, new Data\Factory(), $this->lng);
+		$this->constraint = new MyValidationConstraintsConstraint($is_ok, $error, new Data\Factory(), $this->lng);
 	}
 
 	public function testWithProblemBuilder() {

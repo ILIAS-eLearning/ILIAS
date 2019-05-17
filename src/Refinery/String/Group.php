@@ -7,9 +7,9 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\String\Constraint\HasMaxLength;
-use ILIAS\Refinery\String\Constraint\HasMinLength;
-use ILIAS\Refinery\String\Transformation\SplitString;
+use ILIAS\Refinery\String\HasMaxLength;
+use ILIAS\Refinery\String\HasMinLength;
+use ILIAS\Refinery\String\SplitString;
 
 class Group
 {

@@ -1,12 +1,12 @@
 <?php
 /* Copyright (c) 2017 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\String\Constraint;
+namespace ILIAS\Refinery\String;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class HasMaxLength extends Custom implements Constraint {
+class HasMaxLength extends CustomConstraint implements Constraint {
 	/**
 	 * @var int
 	 */

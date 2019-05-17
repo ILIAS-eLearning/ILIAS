@@ -4,7 +4,7 @@
 namespace ILIAS\Refinery\Null;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Null\Constraint\IsNull;
+use ILIAS\Refinery\Null\IsNull;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

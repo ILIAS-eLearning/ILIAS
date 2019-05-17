@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class LessThanConstraintTest extends TestCase {
 
 	/**
-	 * @var \ILIAS\Refinery\Integer\Constraint\LessThan
+	 * @var \ILIAS\Refinery\Integer\LessThan
 	 */
 	private $c;
 
@@ -39,7 +39,7 @@ class LessThanConstraintTest extends TestCase {
 
 		$this->less_than = 10;
 
-		$this->c = new \ILIAS\Refinery\Integer\Constraint\LessThan(
+		$this->c = new \ILIAS\Refinery\Integer\LessThan(
 			$this->less_than,
 			$this->df,
 			$this->lng

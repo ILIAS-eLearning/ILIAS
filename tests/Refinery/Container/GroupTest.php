@@ -5,7 +5,7 @@ namespace ILIAS\Tests\Refinery\Container;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Container\Group;
-use ILIAS\Refinery\Container\Transformation\AddLabels;
+use ILIAS\Refinery\Container\AddLabels;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -23,9 +23,18 @@ class GroupTest extends TestCase
 	 */
 	private $dataFactory;
 
+	/**
+	 * @var \ilLanguage
+	 */
+	private $language;
+
 	public function setUp() : void
 	{
 		$this->dataFactory = new Factory();
+		$this->language    = $this->getMockBuilder('\ilLanguage')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->group = new Group($this->dataFactory);
 	}
 

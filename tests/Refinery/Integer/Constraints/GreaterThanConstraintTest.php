@@ -33,7 +33,7 @@ class GreaterThanConstraintTest extends TestCase {
 
 		$this->greater_than = 10;
 
-		$this->c = new \ILIAS\Refinery\Integer\Constraint\GreaterThan(
+		$this->c = new \ILIAS\Refinery\Integer\GreaterThan(
 			$this->greater_than,
 			$this->df,
 			$this->lng

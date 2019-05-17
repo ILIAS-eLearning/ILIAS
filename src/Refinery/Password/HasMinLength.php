@@ -1,14 +1,14 @@
 <?php
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Password\Constraint;
+namespace ILIAS\Refinery\Password;
 
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
 
-class HasMinLength extends Custom implements Constraint {
+class HasMinLength extends CustomConstraint implements Constraint {
 	/**
 	 * @var int
 	 */

@@ -1,13 +1,13 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\String\Constraint;
+namespace ILIAS\Refinery\String;
 
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class HasMinLength extends Custom implements Constraint {
+class HasMinLength extends CustomConstraint implements Constraint {
 	/**
 	 * @var int
 	 */

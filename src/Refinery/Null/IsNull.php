@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 2018 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Null\Constraint;
+namespace ILIAS\Refinery\Null;
 
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Constraint;
 
@@ -14,7 +14,7 @@ use ILIAS\Refinery\Constraint;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class IsNull extends Custom implements Constraint {
+class IsNull extends CustomConstraint implements Constraint {
 
 	/**
 	 * IsNull constructor.
