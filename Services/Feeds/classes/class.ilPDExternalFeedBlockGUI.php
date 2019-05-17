@@ -128,8 +128,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->feed->setUrl($this->feed_block->getFeedUrl());
 		
 		// init details
-		$this->setAvailableDetailLevels(2);
-		
+
 		$ilCtrl->setParameter($this, "block_id", $this->feed_block->getId());
 	}
 
