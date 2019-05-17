@@ -3,13 +3,13 @@
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Custom\Constraint\Custom;
+use ILIAS\Refinery\Custom\Constraint;
 
 /**
  * Class ilTermsOfServiceDocumentCriterionAssignmentConstraint
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom implements Constraint
+class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint implements Constraint
 {
 	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
 	protected $criterionTypeFactory;
