@@ -62,7 +62,6 @@ class ilObjExternalFeed extends ilObject
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 	 	$fb = $this->getFeedBlock();
 		
-		include_once("./Services/Block/classes/class.ilExternalFeedBlock.php");
 		$new_feed_block = new ilExternalFeedBlock();
 		$new_feed_block->setContextObjId($new_obj->getId());
 		$new_feed_block->setContextObjType("feed");
@@ -100,7 +99,6 @@ class ilObjExternalFeed extends ilObject
 		$costum_block->setContextObjType($this->getType());
 		$c_blocks = $costum_block->queryBlocksForContext();
 		
-		include_once("./Services/Block/classes/class.ilExternalFeedBlock.php");
 		foreach($c_blocks as $c_block)		// should be usually only one
 		{
 			if ($c_block["type"] == "feed")
@@ -128,7 +126,6 @@ class ilObjExternalFeed extends ilObject
 		$costum_block->setContextObjType($this->getType());
 		$c_blocks = $costum_block->queryBlocksForContext();
 		
-		include_once("./Services/Block/classes/class.ilExternalFeedBlock.php");
 		foreach($c_blocks as $c_block)		// should be usually only one
 		{
 			if ($c_block["type"] == "feed")

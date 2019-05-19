@@ -2,9 +2,10 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Block/classes/class.ilBlockGUI.php");
-include_once("./Services/Block/classes/class.ilExternalFeedBlockGUIGen.php");
-include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
+define("IL_FORM_EDIT", 0);
+define("IL_FORM_CREATE", 1);
+define("IL_FORM_RE_EDIT", 2);
+define("IL_FORM_RE_CREATE", 3);
 
 /**
 * BlockGUI class for external feed block. This is the one that is used
@@ -17,9 +18,12 @@ include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 * @ilCtrl_IsCalledBy ilExternalFeedBlockGUI: ilColumnGUI
 * @ingroup ServicesFeeds
 */
-class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
+class ilExternalFeedBlockGUI extends ilBlockGUI
 {
-	/**
+	protected $gui_object;
+	protected $form_edit_mode;
+
+		/**
 	 * @var ilSetting
 	 */
 	protected $settings;
@@ -57,6 +61,15 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$lng->loadLanguageModule("feed");
 		$this->setLimit(5);
 		$this->setRowTemplate("tpl.block_external_feed_row.html", "Services/Feeds");
+
+		if (isset($_GET["external_feed_block_id"]) && $_GET["external_feed_block_id"] > 0)
+		{
+			$this->external_feed_block = new ilExternalFeedBlock($_GET["external_feed_block_id"]);
+		}
+
+		$this->ctrl->saveParameter($this, array("external_feed_block_id"));
+
+		$this->setPresentation(self::PRES_SEC_LIST);
 	}
 
 	/**
@@ -124,6 +137,147 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$ilCtrl->setParameter($this, "block_id", $this->feed_block->getId());
 	}
 
+
+
+	/**
+	 * Set GuiObject.
+	 *
+	 * @param	object	$a_gui_object	GUI object
+	 */
+	public function setGuiObject(&$a_gui_object)
+	{
+		$this->gui_object = $a_gui_object;
+	}
+
+	/**
+	 * Get GuiObject.
+	 *
+	 * @return	object	GUI object
+	 */
+	public function getGuiObject()
+	{
+		return $this->gui_object;
+	}
+
+	/**
+	 * Set FormEditMode.
+	 *
+	 * @param	int	$a_form_edit_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 */
+	public function setFormEditMode($a_form_edit_mode)
+	{
+		$this->form_edit_mode = $a_form_edit_mode;
+	}
+
+	/**
+	 * Get FormEditMode.
+	 *
+	 * @return	int	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 */
+	public function getFormEditMode()
+	{
+		return $this->form_edit_mode;
+	}
+
+	/**
+	 * FORM FeedBlock: Create ExternalFeedBlock.
+	 *
+	 */
+	public function createFeedBlock()
+	{
+		$this->initFormFeedBlock(IL_FORM_CREATE);
+		return $this->form_gui->getHtml();
+
+	}
+
+	/**
+	 * FORM FeedBlock: Edit form.
+	 *
+	 */
+	public function editFeedBlock()
+	{
+		$this->initFormFeedBlock(IL_FORM_EDIT);
+		$this->getValuesFeedBlock();
+		return $this->form_gui->getHtml();
+
+	}
+
+	/**
+	 * FORM FeedBlock: Save ExternalFeedBlock.
+	 *
+	 */
+	public function saveFeedBlock()
+	{
+		$this->initFormFeedBlock(IL_FORM_CREATE);
+
+		if ($this->form_gui->checkInput())
+		{
+			$this->external_feed_block = new ilExternalFeedBlock();
+			$this->external_feed_block->setTitle($this->form_gui->getInput("block_title"));
+			$this->external_feed_block->setFeedUrl($this->form_gui->getInput("block_feed_url"));
+			$this->prepareSaveFeedBlock($this->external_feed_block);
+			$this->external_feed_block->create();
+			$this->exitSaveFeedBlock();
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
+		}
+
+	}
+
+	/**
+	 * FORM FeedBlock: Update ExternalFeedBlock.
+	 *
+	 */
+	public function updateFeedBlock()
+	{
+		$this->initFormFeedBlock(IL_FORM_EDIT);
+		if ($this->form_gui->checkInput())
+		{
+
+			$this->external_feed_block->setTitle($this->form_gui->getInput("block_title"));
+			$this->external_feed_block->setFeedUrl($this->form_gui->getInput("block_feed_url"));
+			$this->external_feed_block->update();
+			$this->exitUpdateFeedBlock();
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			return $this->form_gui->getHtml();
+		}
+
+	}
+
+
+	/**
+	 * FORM FeedBlock: Get current values for ExternalFeedBlock form.
+	 *
+	 */
+	public function getValuesFeedBlock()
+	{
+		$values = array();
+
+		$values["block_title"] = $this->external_feed_block->getTitle();
+		$values["block_feed_url"] = $this->external_feed_block->getFeedUrl();
+
+		$this->form_gui->setValuesByArray($values);
+
+	}
+
+	/**
+	 * FORM FeedBlock: Cancel save. (Can be overwritten in derived classes)
+	 *
+	 */
+	public function cancelSaveFeedBlock()
+	{
+		$ilCtrl = $this->ctrl;
+
+		$ilCtrl->returnToParent($this);
+	}
+
+
 	/**
 	* execute command
 	*/
@@ -181,11 +335,13 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		if (!$this->getDynamic())
 		{
 			$this->feed->fetch();
-			$this->setData($this->feed->getItems());
+			$this->setData(array_map(function ($i) {
+				return ["item" => $i];
+			}, $this->feed->getItems()));
 		}
 
 		//$this->setTitle($this->feed->getChannelTitle());
-		$this->setData($this->feed->getItems());
+		//$this->setData($this->feed->getItems());
 
 		if ($ilAccess->checkAccess("write", "", $this->getRefId()))
 		{
@@ -215,7 +371,10 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	{
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
-		
+
+		// @todo
+		return false;
+
 		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
 		{
 			if ($_SESSION["il_feed_js"] != "n" &&
@@ -527,8 +686,6 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->form_gui->setTitle($lng->txt("block_feed_block_head"));
 		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 		
-		$this->prepareFormFeedBlock($this->form_gui);
-
 	}
 
 	/**
@@ -568,6 +725,43 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	{
 		$this->getGuiObject()->update($this->external_feed_block);
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	/*
+	protected function getViewControls(): array
+	{
+		return [$this->getViewControl()];
+	}*/
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $data): \ILIAS\UI\Component\Item\Item
+	{
+		$ctrl = $this->ctrl;
+		$f = $this->ui->factory();
+
+		$item = $data["item"];
+
+		//if ($this->isRepositoryObject() && !$ilAccess->checkAccess("read", "", $this->getRefId()))
+		$ctrl->setParameter($this, "feed_item_id", $item->getId());
+		$button = $f->button()->shy($item->getTitle(),
+			$ctrl->getLinkTarget($this, "showFeedItem", "", false, false));
+		$ctrl->setParameter($this, "feed_item_id", "");
+
+		return $f->item()->standard($button);
+	}
+
 }
 
 ?>
