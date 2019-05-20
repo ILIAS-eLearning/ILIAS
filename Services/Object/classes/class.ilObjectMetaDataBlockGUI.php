@@ -91,12 +91,26 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	* Fill data section
-	*/
+	 * Fill data section
+	 */
 	function fillDataSection()
-	{		
-		$lng = $this->lng;
-		
+	{
+		$this->setDataSection($this->getLegacyContent());
+	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
+	{
+
 		$btpl = new ilTemplate("tpl.advmd_block.html", true, true, "Services/Object");		
 		
 		// see ilAdvancedMDRecordGUI::parseInfoPage()
@@ -139,11 +153,11 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 			$btpl->parseCurrentBlock();										
 		}
 					
-		$this->setDataSection($btpl->get());		
+		$html = $btpl->get();
 		
 		ilDatePresentation::setUseRelativeDates($old_dt);
 		
-		return;		
+		return $html;
 	}			
 }
 
