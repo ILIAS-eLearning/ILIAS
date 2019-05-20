@@ -1714,7 +1714,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
 		// subject
 		$oSubjectGUI = new ilTextInputGUI($this->lng->txt('forums_subject'), 'subject');
-		$oSubjectGUI->setMaxLength(64);
+		$oSubjectGUI->setMaxLength(255);
 		$oSubjectGUI->setRequired(true);
 
 		if($this->objProperties->getSubjectSetting() == 'empty_subject')
