@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="QplAClozeCombiRes" table="qpl_a_cloze_combi_res">
+    <id name="combinationId" type="integer" column="combination_id"/>
+    <id name="questionFi" type="integer" column="question_fi"/>
+    <id name="gapFi" type="integer" column="gap_fi"/>
+    <id name="rowId" type="integer" column="row_id"/>
+    <field name="answer" type="string" column="answer" length="1000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="points" type="float" column="points" precision="10" scale="0" nullable="true"/>
+    <field name="bestSolution" type="boolean" column="best_solution" nullable="true"/>
+  </entity>
+</doctrine-mapping>

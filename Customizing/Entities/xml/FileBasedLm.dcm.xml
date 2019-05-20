@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="FileBasedLm" table="file_based_lm">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="isOnline" type="string" column="is_online" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="startfile" type="string" column="startfile" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="showLic" type="boolean" column="show_lic" nullable="true"/>
+    <field name="showBib" type="boolean" column="show_bib" nullable="true"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SvyVariable" table="svy_variable">
+    <indexes>
+      <index name="i1_idx" columns="category_fi"/>
+      <index name="i2_idx" columns="question_fi"/>
+    </indexes>
+    <id name="variableId" type="integer" column="variable_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="categoryFi" type="integer" column="category_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="questionFi" type="integer" column="question_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="value1" type="float" column="value1" precision="10" scale="0" nullable="true"/>
+    <field name="value2" type="float" column="value2" precision="10" scale="0" nullable="true"/>
+    <field name="sequence" type="integer" column="sequence" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tstamp" type="integer" column="tstamp" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="other" type="smallint" column="other" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="scale" type="integer" column="scale" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

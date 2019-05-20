@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WriteEvent" table="write_event">
+    <indexes>
+      <index name="i1_idx" columns="parent_obj_id,ts"/>
+      <index name="i2_idx" columns="obj_id"/>
+    </indexes>
+    <id name="writeId" type="integer" column="write_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objId" type="integer" column="obj_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="parentObjId" type="integer" column="parent_obj_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="usrId" type="integer" column="usr_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="action" type="string" column="action" length="8" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"> </option>
+      </options>
+    </field>
+    <field name="ts" type="datetime" column="ts" nullable="false">
+      <options>
+        <option name="default">1970-01-01 00:00:00</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

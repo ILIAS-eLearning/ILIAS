@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="PreviewData" table="preview_data">
+    <id name="objId" type="integer" column="obj_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="renderDate" type="datetime" column="render_date" nullable="false">
+      <options>
+        <option name="default">1970-01-01 00:00:00</option>
+      </options>
+    </field>
+    <field name="renderStatus" type="string" column="render_status" length="20" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

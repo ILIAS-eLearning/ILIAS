@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="BookingScheduleSlot" table="booking_schedule_slot">
+    <id name="bookingScheduleId" type="integer" column="booking_schedule_id"/>
+    <id name="dayId" type="string" column="day_id" length="2"/>
+    <id name="slotId" type="boolean" column="slot_id"/>
+    <field name="times" type="string" column="times" length="50" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

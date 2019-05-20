@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="LmDataTransl" table="lm_data_transl">
+    <id name="id" type="integer" column="id"/>
+    <id name="lang" type="string" column="lang" length="2"/>
+    <field name="title" type="string" column="title" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="createDate" type="datetime" column="create_date" nullable="true"/>
+    <field name="lastUpdate" type="datetime" column="last_update" nullable="true"/>
+    <field name="shortTitle" type="string" column="short_title" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

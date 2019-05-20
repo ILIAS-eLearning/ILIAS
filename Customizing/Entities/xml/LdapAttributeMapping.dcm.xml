@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="LdapAttributeMapping" table="ldap_attribute_mapping">
+    <indexes>
+      <index name="i1_idx" columns="server_id"/>
+    </indexes>
+    <id name="serverId" type="integer" column="server_id"/>
+    <id name="keyword" type="string" column="keyword" length="32"/>
+    <field name="value" type="string" column="value" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="performUpdate" type="boolean" column="perform_update" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

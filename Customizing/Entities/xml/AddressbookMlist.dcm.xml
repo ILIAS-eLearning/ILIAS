@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AddressbookMlist" table="addressbook_mlist">
+    <indexes>
+      <index name="i1_idx" columns="user_id"/>
+    </indexes>
+    <id name="mlId" type="bigint" column="ml_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="userId" type="bigint" column="user_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="title" type="string" column="title" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="description" type="string" column="description" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="createdate" type="datetime" column="createdate" nullable="true"/>
+    <field name="changedate" type="datetime" column="changedate" nullable="true"/>
+    <field name="lmode" type="boolean" column="lmode" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

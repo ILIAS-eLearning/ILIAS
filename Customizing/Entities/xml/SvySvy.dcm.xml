@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SvySvy" table="svy_svy">
+    <indexes>
+      <index name="i1_idx" columns="obj_fi"/>
+    </indexes>
+    <id name="surveyId" type="integer" column="survey_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objFi" type="integer" column="obj_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="author" type="string" column="author" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="introduction" type="text" column="introduction" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="outro" type="text" column="outro" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="status" type="string" column="status" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="evaluationAccess" type="string" column="evaluation_access" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="invitation" type="string" column="invitation" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="invitationMode" type="string" column="invitation_mode" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="complete" type="string" column="complete" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="anonymize" type="string" column="anonymize" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="showQuestionTitles" type="string" column="show_question_titles" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="tstamp" type="integer" column="tstamp" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="created" type="integer" column="created" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mailnotification" type="boolean" column="mailnotification" nullable="true"/>
+    <field name="startdate" type="string" column="startdate" length="14" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="enddate" type="string" column="enddate" length="14" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="mailaddresses" type="string" column="mailaddresses" length="2000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="mailparticipantdata" type="string" column="mailparticipantdata" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="templateId" type="integer" column="template_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="poolUsage" type="boolean" column="pool_usage" nullable="true"/>
+    <field name="mode" type="boolean" column="mode" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mode360SelfEval" type="boolean" column="mode_360_self_eval" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mode360SelfRate" type="boolean" column="mode_360_self_rate" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mode360SelfAppr" type="boolean" column="mode_360_self_appr" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mode360Results" type="boolean" column="mode_360_results" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="modeSkillService" type="boolean" column="mode_skill_service" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="reminderStatus" type="boolean" column="reminder_status" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="reminderStart" type="datetime" column="reminder_start" nullable="true"/>
+    <field name="reminderEnd" type="datetime" column="reminder_end" nullable="true"/>
+    <field name="reminderFrequency" type="smallint" column="reminder_frequency" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="reminderTarget" type="boolean" column="reminder_target" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tutorNtfStatus" type="boolean" column="tutor_ntf_status" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tutorNtfReci" type="string" column="tutor_ntf_reci" length="2000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="tutorNtfTarget" type="boolean" column="tutor_ntf_target" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="reminderLastSent" type="datetime" column="reminder_last_sent" nullable="true"/>
+    <field name="ownResultsView" type="boolean" column="own_results_view" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="ownResultsMail" type="boolean" column="own_results_mail" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="confirmationMail" type="boolean" column="confirmation_mail" nullable="true"/>
+    <field name="anonUserList" type="boolean" column="anon_user_list" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="reminderTmpl" type="integer" column="reminder_tmpl" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="modeSelfEvalResults" type="boolean" column="mode_self_eval_results" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

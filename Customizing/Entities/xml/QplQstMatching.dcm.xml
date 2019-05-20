@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="QplQstMatching" table="qpl_qst_matching">
+    <id name="questionFi" type="integer" column="question_fi">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="shuffle" type="string" column="shuffle" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="matchingType" type="string" column="matching_type" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="thumbGeometry" type="integer" column="thumb_geometry" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">100</option>
+      </options>
+    </field>
+    <field name="matchingMode" type="string" column="matching_mode" length="3" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

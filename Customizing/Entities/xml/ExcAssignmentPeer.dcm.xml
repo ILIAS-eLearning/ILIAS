@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ExcAssignmentPeer" table="exc_assignment_peer">
+    <id name="assId" type="integer" column="ass_id"/>
+    <id name="giverId" type="integer" column="giver_id"/>
+    <id name="peerId" type="integer" column="peer_id"/>
+    <field name="tstamp" type="datetime" column="tstamp" nullable="true"/>
+    <field name="pcomment" type="text" column="pcomment" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="isValid" type="boolean" column="is_valid" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

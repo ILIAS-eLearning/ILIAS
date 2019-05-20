@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="HelpMap" table="help_map">
+    <indexes>
+      <index name="ch_idx" columns="chap"/>
+      <index name="sc_idx" columns="screen_id"/>
+    </indexes>
+    <id name="chap" type="integer" column="chap"/>
+    <id name="component" type="string" column="component" length="10"/>
+    <id name="screenId" type="string" column="screen_id" length="100"/>
+    <id name="screenSubId" type="string" column="screen_sub_id" length="100"/>
+    <id name="perm" type="string" column="perm" length="20"/>
+    <id name="moduleId" type="integer" column="module_id"/>
+  </entity>
+</doctrine-mapping>

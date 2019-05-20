@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="MediaItem" table="media_item">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="width" type="string" column="width" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="height" type="string" column="height" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="halign" type="string" column="halign" length="10" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">Left</option>
+      </options>
+    </field>
+    <field name="caption" type="string" column="caption" length="3000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="nr" type="integer" column="nr" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="purpose" type="string" column="purpose" length="20" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">Standard</option>
+      </options>
+    </field>
+    <field name="mobId" type="integer" column="mob_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="location" type="string" column="location" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="locationType" type="string" column="location_type" length="10" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">LocalFile</option>
+      </options>
+    </field>
+    <field name="format" type="string" column="format" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="param" type="string" column="param" length="2000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="triedThumb" type="string" column="tried_thumb" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="textRepresentation" type="string" column="text_representation" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="uploadHash" type="string" column="upload_hash" length="100" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

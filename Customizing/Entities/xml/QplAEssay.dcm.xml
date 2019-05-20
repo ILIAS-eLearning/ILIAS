@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="QplAEssay" table="qpl_a_essay">
+    <id name="answerId" type="integer" column="answer_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="questionFi" type="integer" column="question_fi" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="answertext" type="string" column="answertext" length="1000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="points" type="float" column="points" precision="10" scale="0" nullable="true"/>
+  </entity>
+</doctrine-mapping>

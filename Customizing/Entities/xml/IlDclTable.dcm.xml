@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlDclTable" table="il_dcl_table">
+    <indexes>
+      <index name="i1_idx" columns="obj_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objId" type="integer" column="obj_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="title" type="string" column="title" length="256" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="addPerm" type="boolean" column="add_perm" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="editPerm" type="boolean" column="edit_perm" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="deletePerm" type="boolean" column="delete_perm" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="editByOwner" type="boolean" column="edit_by_owner" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="limited" type="boolean" column="limited" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="limitStart" type="datetime" column="limit_start" nullable="true"/>
+    <field name="limitEnd" type="datetime" column="limit_end" nullable="true"/>
+    <field name="isVisible" type="boolean" column="is_visible" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="exportEnabled" type="boolean" column="export_enabled" nullable="true"/>
+    <field name="description" type="string" column="description" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="defaultSortFieldId" type="string" column="default_sort_field_id" length="16" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="defaultSortFieldOrder" type="string" column="default_sort_field_order" length="4" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">asc</option>
+      </options>
+    </field>
+    <field name="publicComments" type="integer" column="public_comments" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="viewOwnRecordsPerm" type="integer" column="view_own_records_perm" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="deleteByOwner" type="boolean" column="delete_by_owner" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="saveConfirmation" type="boolean" column="save_confirmation" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="importEnabled" type="boolean" column="import_enabled" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="tableOrder" type="bigint" column="table_order" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

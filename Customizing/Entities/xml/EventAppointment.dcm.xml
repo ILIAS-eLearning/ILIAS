@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="EventAppointment" table="event_appointment">
+    <id name="appointmentId" type="integer" column="appointment_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="eventId" type="integer" column="event_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="eStart" type="datetime" column="e_start" nullable="true"/>
+    <field name="eEnd" type="datetime" column="e_end" nullable="true"/>
+    <field name="startingTime" type="integer" column="starting_time" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="endingTime" type="integer" column="ending_time" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="fulltime" type="boolean" column="fulltime" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

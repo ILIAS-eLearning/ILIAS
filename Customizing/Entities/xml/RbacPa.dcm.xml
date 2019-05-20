@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="RbacPa" table="rbac_pa">
+    <indexes>
+      <index name="i1_idx" columns="ref_id"/>
+    </indexes>
+    <id name="rolId" type="integer" column="rol_id"/>
+    <id name="refId" type="integer" column="ref_id"/>
+    <field name="opsId" type="string" column="ops_id" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

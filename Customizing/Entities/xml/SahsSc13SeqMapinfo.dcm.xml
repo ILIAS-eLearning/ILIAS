@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SahsSc13SeqMapinfo" table="sahs_sc13_seq_mapinfo">
+    <indexes>
+      <index name="i1_idx" columns="targetobjectiveid"/>
+    </indexes>
+    <id name="seqnodeid" type="integer" column="seqnodeid">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="readnormalizedmeasure" type="boolean" column="readnormalizedmeasure" nullable="true"/>
+    <field name="readsatisfiedstatus" type="boolean" column="readsatisfiedstatus" nullable="true"/>
+    <field name="targetobjectiveid" type="string" column="targetobjectiveid" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="writenormalizedmeasure" type="boolean" column="writenormalizedmeasure" nullable="true"/>
+    <field name="writesatisfiedstatus" type="boolean" column="writesatisfiedstatus" nullable="true"/>
+  </entity>
+</doctrine-mapping>

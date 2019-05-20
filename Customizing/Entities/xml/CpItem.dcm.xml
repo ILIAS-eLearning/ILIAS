@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CpItem" table="cp_item">
+    <indexes>
+      <index name="i1_idx" columns="id"/>
+      <index name="i2_idx" columns="sequencingid"/>
+    </indexes>
+    <id name="cpNodeId" type="integer" column="cp_node_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="completionthreshold" type="string" column="completionthreshold" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1.0</option>
+      </options>
+    </field>
+    <field name="datafromlms" type="string" column="datafromlms" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="id" type="string" column="id" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="isvisible" type="string" column="isvisible" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="parameters" type="string" column="parameters" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="resourceid" type="string" column="resourceid" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="sequencingid" type="string" column="sequencingid" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="timelimitaction" type="string" column="timelimitaction" length="30" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="title" type="string" column="title" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="progressweight" type="string" column="progressweight" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1.0</option>
+      </options>
+    </field>
+    <field name="completedbymeasure" type="boolean" column="completedbymeasure" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

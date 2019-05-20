@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TosAcceptanceTrack" table="tos_acceptance_track">
+    <indexes>
+      <index name="i1_idx" columns="usr_id,ts"/>
+    </indexes>
+    <id name="tosvId" type="integer" column="tosv_id"/>
+    <id name="usrId" type="integer" column="usr_id"/>
+    <id name="ts" type="integer" column="ts"/>
+    <field name="criteria" type="text" column="criteria" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

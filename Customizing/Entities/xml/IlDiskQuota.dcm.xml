@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlDiskQuota" table="il_disk_quota">
+    <id name="ownerId" type="integer" column="owner_id"/>
+    <id name="srcType" type="string" column="src_type" length="50"/>
+    <id name="srcObjId" type="integer" column="src_obj_id"/>
+    <field name="srcSize" type="integer" column="src_size" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

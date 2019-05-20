@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SklUserSkillLevel" table="skl_user_skill_level">
+    <indexes>
+      <index name="isk_idx" columns="skill_id"/>
+      <index name="ius_idx" columns="user_id"/>
+      <index name="ist_idx" columns="status"/>
+      <index name="ivl_idx" columns="valid"/>
+      <index name="ilv_idx" columns="level_id"/>
+      <index name="isd_idx" columns="status_date"/>
+    </indexes>
+    <id name="userId" type="integer" column="user_id"/>
+    <id name="statusDate" type="datetime" column="status_date"/>
+    <id name="skillId" type="integer" column="skill_id"/>
+    <id name="status" type="boolean" column="status"/>
+    <id name="triggerObjId" type="integer" column="trigger_obj_id"/>
+    <id name="trefId" type="integer" column="tref_id"/>
+    <id name="selfEval" type="boolean" column="self_eval"/>
+    <field name="levelId" type="integer" column="level_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="valid" type="boolean" column="valid" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="triggerRefId" type="integer" column="trigger_ref_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="triggerTitle" type="string" column="trigger_title" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="triggerObjType" type="string" column="trigger_obj_type" length="4" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">crs</option>
+      </options>
+    </field>
+    <field name="uniqueIdentifier" type="string" column="unique_identifier" length="80" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

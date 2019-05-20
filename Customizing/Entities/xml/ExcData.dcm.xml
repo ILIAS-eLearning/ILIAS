@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ExcData" table="exc_data">
+    <id name="objId" type="integer" column="obj_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="instruction" type="text" column="instruction" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="timeStamp" type="integer" column="time_stamp" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="passMode" type="string" column="pass_mode" length="8" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">all</option>
+      </options>
+    </field>
+    <field name="passNr" type="integer" column="pass_nr" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="showSubmissions" type="boolean" column="show_submissions" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="complBySubmission" type="boolean" column="compl_by_submission" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="certificateVisibility" type="boolean" column="certificate_visibility" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tfeedback" type="boolean" column="tfeedback" nullable="false">
+      <options>
+        <option name="default">7</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

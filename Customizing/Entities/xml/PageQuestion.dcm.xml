@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="PageQuestion" table="page_question">
+    <indexes>
+      <index name="i2_idx" columns="question_id"/>
+      <index name="i1_idx" columns="page_parent_type,page_id,page_lang"/>
+    </indexes>
+    <id name="pageParentType" type="string" column="page_parent_type" length="4"/>
+    <id name="pageId" type="integer" column="page_id"/>
+    <id name="questionId" type="integer" column="question_id"/>
+    <id name="pageLang" type="string" column="page_lang" length="2"/>
+  </entity>
+</doctrine-mapping>

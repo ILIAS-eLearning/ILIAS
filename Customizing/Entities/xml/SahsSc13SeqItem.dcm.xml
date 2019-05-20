@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SahsSc13SeqItem" table="sahs_sc13_seq_item">
+    <id name="sahsSc13TreeNodeId" type="integer" column="sahs_sc13_tree_node_id"/>
+    <id name="rootlevel" type="boolean" column="rootlevel"/>
+    <field name="importid" type="string" column="importid" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="seqnodeid" type="integer" column="seqnodeid" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="sequencingid" type="string" column="sequencingid" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="nocopy" type="boolean" column="nocopy" nullable="true"/>
+    <field name="nodelete" type="boolean" column="nodelete" nullable="true"/>
+    <field name="nomove" type="boolean" column="nomove" nullable="true"/>
+    <field name="seqxml" type="text" column="seqxml" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="importseqxml" type="text" column="importseqxml" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

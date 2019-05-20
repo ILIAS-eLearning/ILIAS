@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="DavLock" table="dav_lock">
+    <indexes>
+      <index name="i3_idx" columns="expires"/>
+      <index name="i2_idx" columns="obj_id,node_id,token"/>
+      <index name="i1_idx" columns="obj_id,node_id"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="c1_idx" columns="token"/>
+    </unique-constraints>
+    <id name="token" type="string" column="token" length="255">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objId" type="integer" column="obj_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="nodeId" type="integer" column="node_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="iliasOwner" type="integer" column="ilias_owner" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="davOwner" type="string" column="dav_owner" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="expires" type="integer" column="expires" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="depth" type="integer" column="depth" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="type" type="string" column="type" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">w</option>
+      </options>
+    </field>
+    <field name="scope" type="string" column="scope" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">s</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

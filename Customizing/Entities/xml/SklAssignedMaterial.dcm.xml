@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SklAssignedMaterial" table="skl_assigned_material">
+    <id name="userId" type="integer" column="user_id"/>
+    <id name="topSkillId" type="integer" column="top_skill_id"/>
+    <id name="skillId" type="integer" column="skill_id"/>
+    <id name="levelId" type="integer" column="level_id"/>
+    <id name="wspId" type="integer" column="wsp_id"/>
+    <id name="trefId" type="integer" column="tref_id"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CalRecurrenceRules" table="cal_recurrence_rules">
+    <indexes>
+      <index name="i1_idx" columns="cal_id"/>
+    </indexes>
+    <id name="ruleId" type="integer" column="rule_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="calId" type="integer" column="cal_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="calRecurrence" type="integer" column="cal_recurrence" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="freqType" type="string" column="freq_type" length="20" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="freqUntilDate" type="datetime" column="freq_until_date" nullable="true"/>
+    <field name="freqUntilCount" type="integer" column="freq_until_count" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="intervall" type="integer" column="intervall" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="byday" type="string" column="byday" length="64" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="byweekno" type="string" column="byweekno" length="64" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="bymonth" type="string" column="bymonth" length="64" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="bymonthday" type="string" column="bymonthday" length="64" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="byyearday" type="string" column="byyearday" length="64" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="bysetpos" type="string" column="bysetpos" length="64" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="weekstart" type="string" column="weekstart" length="2" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

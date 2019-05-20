@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="FrmPostsDrafts" table="frm_posts_drafts">
+    <indexes>
+      <index name="i1_idx" columns="post_id"/>
+      <index name="i3_idx" columns="forum_id"/>
+      <index name="i2_idx" columns="thread_id"/>
+    </indexes>
+    <id name="draftId" type="integer" column="draft_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="postId" type="bigint" column="post_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="threadId" type="bigint" column="thread_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="forumId" type="bigint" column="forum_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="postAuthorId" type="integer" column="post_author_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="postSubject" type="string" column="post_subject" length="4000" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="postMessage" type="text" column="post_message" length="0" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="postNotify" type="boolean" column="post_notify" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="postDate" type="datetime" column="post_date" nullable="false">
+      <options>
+        <option name="default">1970-01-01 00:00:00</option>
+      </options>
+    </field>
+    <field name="postUpdate" type="datetime" column="post_update" nullable="false">
+      <options>
+        <option name="default">1970-01-01 00:00:00</option>
+      </options>
+    </field>
+    <field name="updateUserId" type="integer" column="update_user_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="postUserAlias" type="string" column="post_user_alias" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="posDisplayUsrId" type="integer" column="pos_display_usr_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="notify" type="boolean" column="notify" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

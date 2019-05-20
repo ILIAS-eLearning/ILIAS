@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TstTimes" table="tst_times">
+    <indexes>
+      <index name="i1_idx" columns="active_fi"/>
+      <index name="i2_idx" columns="pass"/>
+    </indexes>
+    <id name="timesId" type="integer" column="times_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="activeFi" type="integer" column="active_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="started" type="datetime" column="started" nullable="true"/>
+    <field name="finished" type="datetime" column="finished" nullable="true"/>
+    <field name="pass" type="smallint" column="pass" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tstamp" type="integer" column="tstamp" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

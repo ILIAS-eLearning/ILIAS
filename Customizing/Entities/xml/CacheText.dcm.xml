@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CacheText" table="cache_text">
+    <indexes>
+      <index name="et_idx" columns="expire_time"/>
+      <index name="iv_idx" columns="ilias_version"/>
+    </indexes>
+    <id name="component" type="string" column="component" length="50"/>
+    <id name="name" type="string" column="name" length="50"/>
+    <id name="entryId" type="string" column="entry_id" length="50"/>
+    <field name="value" type="string" column="value" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="expireTime" type="integer" column="expire_time" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="iliasVersion" type="string" column="ilias_version" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="intKey1" type="integer" column="int_key_1" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="intKey2" type="integer" column="int_key_2" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="textKey1" type="string" column="text_key_1" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="textKey2" type="string" column="text_key_2" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

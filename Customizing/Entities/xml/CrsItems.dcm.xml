@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrsItems" table="crs_items">
+    <indexes>
+      <index name="ob_idx" columns="obj_id"/>
+    </indexes>
+    <id name="parentId" type="integer" column="parent_id"/>
+    <id name="objId" type="integer" column="obj_id"/>
+    <field name="timingType" type="boolean" column="timing_type" nullable="true"/>
+    <field name="timingStart" type="integer" column="timing_start" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="timingEnd" type="integer" column="timing_end" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="suggestionStart" type="integer" column="suggestion_start" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="suggestionEnd" type="integer" column="suggestion_end" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="changeable" type="boolean" column="changeable" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="visible" type="boolean" column="visible" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="position" type="integer" column="position" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="suggestionStartRel" type="integer" column="suggestion_start_rel" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="suggestionEndRel" type="integer" column="suggestion_end_rel" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

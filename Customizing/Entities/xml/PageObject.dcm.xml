@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="PageObject" table="page_object">
+    <indexes>
+      <index name="i3_idx" columns="parent_id,parent_type,last_change"/>
+    </indexes>
+    <id name="pageId" type="integer" column="page_id"/>
+    <id name="parentType" type="string" column="parent_type" length="4"/>
+    <id name="lang" type="string" column="lang" length="2"/>
+    <field name="parentId" type="integer" column="parent_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="content" type="text" column="content" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastChangeUser" type="integer" column="last_change_user" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="viewCnt" type="integer" column="view_cnt" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="lastChange" type="datetime" column="last_change" nullable="true"/>
+    <field name="created" type="datetime" column="created" nullable="true"/>
+    <field name="createUser" type="integer" column="create_user" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="renderMd5" type="string" column="render_md5" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="renderedContent" type="text" column="rendered_content" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="renderedTime" type="datetime" column="rendered_time" nullable="true"/>
+    <field name="activationStart" type="datetime" column="activation_start" nullable="true"/>
+    <field name="activationEnd" type="datetime" column="activation_end" nullable="true"/>
+    <field name="active" type="boolean" column="active" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="isEmpty" type="boolean" column="is_empty" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="inactiveElements" type="boolean" column="inactive_elements" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="intLinks" type="boolean" column="int_links" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="showActivationInfo" type="boolean" column="show_activation_info" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="editLockUser" type="integer" column="edit_lock_user" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="editLockTs" type="integer" column="edit_lock_ts" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

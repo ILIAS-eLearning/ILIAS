@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CmiComment" table="cmi_comment">
+    <indexes>
+      <index name="i2_idx" columns="cmi_node_id"/>
+    </indexes>
+    <id name="cmiCommentId" type="integer" column="cmi_comment_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="cmiNodeId" type="integer" column="cmi_node_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="cComment" type="text" column="c_comment" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cTimestamp" type="datetime" column="c_timestamp" nullable="true"/>
+    <field name="location" type="string" column="location" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="sourceislms" type="boolean" column="sourceislms" nullable="true"/>
+  </entity>
+</doctrine-mapping>

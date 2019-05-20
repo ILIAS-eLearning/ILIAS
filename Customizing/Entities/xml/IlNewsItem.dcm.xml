@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlNewsItem" table="il_news_item">
+    <indexes>
+      <index name="i1_idx" columns="context_obj_id"/>
+      <index name="mo_idx" columns="mob_id"/>
+      <index name="i2_idx" columns="creation_date"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="priority" type="integer" column="priority" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="title" type="string" column="title" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="content" type="text" column="content" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="contextObjId" type="integer" column="context_obj_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="contextObjType" type="string" column="context_obj_type" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="contextSubObjId" type="integer" column="context_sub_obj_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="contextSubObjType" type="string" column="context_sub_obj_type" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="contentType" type="string" column="content_type" length="5" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">text</option>
+      </options>
+    </field>
+    <field name="creationDate" type="datetime" column="creation_date" nullable="true"/>
+    <field name="updateDate" type="datetime" column="update_date" nullable="true"/>
+    <field name="userId" type="integer" column="user_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="visibility" type="string" column="visibility" length="6" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">users</option>
+      </options>
+    </field>
+    <field name="contentLong" type="text" column="content_long" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="contentIsLangVar" type="boolean" column="content_is_lang_var" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mobId" type="integer" column="mob_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="playtime" type="string" column="playtime" length="8" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="startDate" type="datetime" column="start_date" nullable="true"/>
+    <field name="endDate" type="datetime" column="end_date" nullable="true"/>
+    <field name="contentTextIsLangVar" type="boolean" column="content_text_is_lang_var" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mobCntDownload" type="integer" column="mob_cnt_download" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mobCntPlay" type="integer" column="mob_cnt_play" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="contentHtml" type="boolean" column="content_html" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="updateUserId" type="integer" column="update_user_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

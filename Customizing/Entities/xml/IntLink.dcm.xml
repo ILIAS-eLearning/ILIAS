@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IntLink" table="int_link">
+    <indexes>
+      <index name="so_idx" columns="source_type,source_id"/>
+      <index name="ta_idx" columns="target_type,target_id,target_inst"/>
+    </indexes>
+    <id name="sourceType" type="string" column="source_type" length="10"/>
+    <id name="sourceId" type="integer" column="source_id"/>
+    <id name="targetType" type="string" column="target_type" length="4"/>
+    <id name="targetId" type="integer" column="target_id"/>
+    <id name="targetInst" type="integer" column="target_inst"/>
+    <id name="sourceLang" type="string" column="source_lang" length="2"/>
+  </entity>
+</doctrine-mapping>

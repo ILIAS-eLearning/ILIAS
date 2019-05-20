@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ExcReturned" table="exc_returned">
+    <indexes>
+      <index name="i1_idx" columns="obj_id"/>
+      <index name="i2_idx" columns="user_id"/>
+    </indexes>
+    <id name="returnedId" type="integer" column="returned_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objId" type="integer" column="obj_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="userId" type="integer" column="user_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="filename" type="string" column="filename" length="1000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="filetitle" type="string" column="filetitle" length="1000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="mimetype" type="string" column="mimetype" length="150" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="ts" type="datetime" column="ts" nullable="true"/>
+    <field name="assId" type="integer" column="ass_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="atext" type="text" column="atext" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="late" type="boolean" column="late" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="teamId" type="integer" column="team_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="webDirAccessTime" type="datetime" column="web_dir_access_time" nullable="true"/>
+  </entity>
+</doctrine-mapping>

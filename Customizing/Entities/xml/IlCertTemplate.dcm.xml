@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlCertTemplate" table="il_cert_template">
+    <indexes>
+      <index name="i4_idx" columns="obj_type"/>
+      <index name="i1_idx" columns="obj_id"/>
+      <index name="i3_idx" columns="obj_id,currently_active,deleted"/>
+      <index name="i2_idx" columns="obj_id,deleted"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objId" type="integer" column="obj_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="objType" type="string" column="obj_type" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="certificateContent" type="text" column="certificate_content" length="0" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="certificateHash" type="string" column="certificate_hash" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="templateValues" type="text" column="template_values" length="0" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="backgroundImagePath" type="string" column="background_image_path" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="version" type="string" column="version" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">v1</option>
+      </options>
+    </field>
+    <field name="iliasVersion" type="string" column="ilias_version" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">v5.4.0</option>
+      </options>
+    </field>
+    <field name="createdTimestamp" type="integer" column="created_timestamp" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="currentlyActive" type="boolean" column="currently_active" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="deleted" type="boolean" column="deleted" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="thumbnailImagePath" type="string" column="thumbnail_image_path" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

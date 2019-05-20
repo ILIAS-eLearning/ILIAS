@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="FileUsage" table="file_usage">
+    <id name="id" type="integer" column="id"/>
+    <id name="usageType" type="string" column="usage_type" length="10"/>
+    <id name="usageId" type="integer" column="usage_id"/>
+    <id name="usageHistNr" type="integer" column="usage_hist_nr"/>
+    <id name="usageLang" type="string" column="usage_lang" length="2"/>
+  </entity>
+</doctrine-mapping>

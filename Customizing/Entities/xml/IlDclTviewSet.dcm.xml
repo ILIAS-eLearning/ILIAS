@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlDclTviewSet" table="il_dcl_tview_set">
+    <id name="id" type="bigint" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="tableviewId" type="bigint" column="tableview_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="field" type="string" column="field" length="128" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="visible" type="boolean" column="visible" nullable="true"/>
+    <field name="inFilter" type="boolean" column="in_filter" nullable="true"/>
+    <field name="filterValue" type="text" column="filter_value" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="filterChangeable" type="boolean" column="filter_changeable" nullable="true"/>
+  </entity>
+</doctrine-mapping>

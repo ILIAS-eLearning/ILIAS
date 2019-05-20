@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CmiNode" table="cmi_node">
+    <indexes>
+      <index name="i1_idx" columns="cp_node_id"/>
+      <index name="i3_idx" columns="credit"/>
+      <index name="i5_idx" columns="user_id"/>
+      <index name="i2_idx" columns="completion_status"/>
+    </indexes>
+    <id name="cmiNodeId" type="integer" column="cmi_node_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="accesscount" type="integer" column="accesscount" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="accessduration" type="string" column="accessduration" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="accessed" type="string" column="accessed" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="activityabsduration" type="string" column="activityabsduration" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="activityattemptcount" type="integer" column="activityattemptcount" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="activityexpduration" type="string" column="activityexpduration" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="activityprogstatus" type="boolean" column="activityprogstatus" nullable="true"/>
+    <field name="attemptabsduration" type="string" column="attemptabsduration" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="attemptcomplamount" type="float" column="attemptcomplamount" precision="10" scale="0" nullable="true"/>
+    <field name="attemptcomplstatus" type="boolean" column="attemptcomplstatus" nullable="true"/>
+    <field name="attemptexpduration" type="string" column="attemptexpduration" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="attemptprogstatus" type="boolean" column="attemptprogstatus" nullable="true"/>
+    <field name="audioCaptioning" type="integer" column="audio_captioning" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="audioLevel" type="float" column="audio_level" precision="10" scale="0" nullable="true"/>
+    <field name="availablechildren" type="string" column="availablechildren" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="completion" type="float" column="completion" precision="10" scale="0" nullable="true"/>
+    <field name="completionStatus" type="string" column="completion_status" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="completionThreshold" type="string" column="completion_threshold" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cpNodeId" type="integer" column="cp_node_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="created" type="string" column="created" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="credit" type="string" column="credit" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="deliverySpeed" type="float" column="delivery_speed" precision="10" scale="0" nullable="true"/>
+    <field name="cEntry" type="string" column="c_entry" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cExit" type="string" column="c_exit" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cLanguage" type="string" column="c_language" length="5" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="launchData" type="text" column="launch_data" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="learnerName" type="string" column="learner_name" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="location" type="string" column="location" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cMax" type="float" column="c_max" precision="10" scale="0" nullable="true"/>
+    <field name="cMin" type="float" column="c_min" precision="10" scale="0" nullable="true"/>
+    <field name="cMode" type="string" column="c_mode" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="modified" type="string" column="modified" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="progressMeasure" type="float" column="progress_measure" precision="10" scale="0" nullable="true"/>
+    <field name="cRaw" type="float" column="c_raw" precision="10" scale="0" nullable="true"/>
+    <field name="scaled" type="float" column="scaled" precision="10" scale="0" nullable="true"/>
+    <field name="scaledPassingScore" type="float" column="scaled_passing_score" precision="10" scale="0" nullable="true"/>
+    <field name="sessionTime" type="string" column="session_time" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="successStatus" type="string" column="success_status" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="suspendData" type="text" column="suspend_data" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="totalTime" type="string" column="total_time" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="userId" type="integer" column="user_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="cTimestamp" type="datetime" column="c_timestamp" nullable="true"/>
+    <field name="additionalTables" type="boolean" column="additional_tables" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TstTests" table="tst_tests">
+    <indexes>
+      <index name="i1_idx" columns="obj_fi"/>
+    </indexes>
+    <id name="testId" type="integer" column="test_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objFi" type="integer" column="obj_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="author" type="string" column="author" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="introduction" type="string" column="introduction" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="sequenceSettings" type="boolean" column="sequence_settings" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="scoreReporting" type="boolean" column="score_reporting" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="instantVerification" type="string" column="instant_verification" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="answerFeedback" type="string" column="answer_feedback" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="answerFeedbackPoints" type="string" column="answer_feedback_points" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="fixedParticipants" type="string" column="fixed_participants" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="showCancel" type="string" column="show_cancel" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="anonymity" type="string" column="anonymity" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="nrOfTries" type="smallint" column="nr_of_tries" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="usePreviousAnswers" type="string" column="use_previous_answers" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="titleOutput" type="string" column="title_output" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="processingTime" type="string" column="processing_time" length="8" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="enableProcessingTime" type="string" column="enable_processing_time" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="resetProcessingTime" type="boolean" column="reset_processing_time" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="reportingDate" type="string" column="reporting_date" length="14" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="shuffleQuestions" type="string" column="shuffle_questions" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="ectsOutput" type="string" column="ects_output" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="ectsFx" type="float" column="ects_fx" precision="10" scale="0" nullable="true"/>
+    <field name="complete" type="string" column="complete" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="ectsA" type="float" column="ects_a" precision="10" scale="0" nullable="false">
+      <options>
+        <option name="default">90</option>
+      </options>
+    </field>
+    <field name="ectsB" type="float" column="ects_b" precision="10" scale="0" nullable="false">
+      <options>
+        <option name="default">65</option>
+      </options>
+    </field>
+    <field name="ectsC" type="float" column="ects_c" precision="10" scale="0" nullable="false">
+      <options>
+        <option name="default">35</option>
+      </options>
+    </field>
+    <field name="ectsD" type="float" column="ects_d" precision="10" scale="0" nullable="false">
+      <options>
+        <option name="default">10</option>
+      </options>
+    </field>
+    <field name="ectsE" type="float" column="ects_e" precision="10" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="keepQuestions" type="boolean" column="keep_questions" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="countSystem" type="string" column="count_system" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mcScoring" type="string" column="mc_scoring" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="scoreCutting" type="string" column="score_cutting" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="passScoring" type="string" column="pass_scoring" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="password" type="string" column="password" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="allowedusers" type="integer" column="allowedusers" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="alloweduserstimegap" type="integer" column="alloweduserstimegap" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="resultsPresentation" type="integer" column="results_presentation" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">3</option>
+      </options>
+    </field>
+    <field name="showSummary" type="integer" column="show_summary" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="showQuestionTitles" type="string" column="show_question_titles" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="certificateVisibility" type="string" column="certificate_visibility" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="showMarker" type="boolean" column="show_marker" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="kiosk" type="integer" column="kiosk" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="resultoutput" type="integer" column="resultoutput" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="finalstatement" type="string" column="finalstatement" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="showfinalstatement" type="integer" column="showfinalstatement" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="showinfo" type="integer" column="showinfo" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="forcejs" type="integer" column="forcejs" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="customstyle" type="string" column="customstyle" length="128" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="tstamp" type="integer" column="tstamp" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="created" type="integer" column="created" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mailnotification" type="boolean" column="mailnotification" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="mailnottype" type="smallint" column="mailnottype" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="exportsettings" type="integer" column="exportsettings" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="enabledViewMode" type="string" column="enabled_view_mode" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="templateId" type="integer" column="template_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="poolUsage" type="boolean" column="pool_usage" nullable="true"/>
+    <field name="onlineStatus" type="boolean" column="online_status" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="printBsWithRes" type="boolean" column="print_bs_with_res" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="offerQuestionHints" type="boolean" column="offer_question_hints" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreEnabled" type="integer" column="highscore_enabled" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreAnon" type="integer" column="highscore_anon" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreAchievedTs" type="integer" column="highscore_achieved_ts" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreScore" type="integer" column="highscore_score" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscorePercentage" type="integer" column="highscore_percentage" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreHints" type="integer" column="highscore_hints" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreWtime" type="integer" column="highscore_wtime" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreOwnTable" type="integer" column="highscore_own_table" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreTopTable" type="integer" column="highscore_top_table" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="highscoreTopNum" type="integer" column="highscore_top_num" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="specificFeedback" type="integer" column="specific_feedback" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="obligationsEnabled" type="boolean" column="obligations_enabled" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="autosave" type="boolean" column="autosave" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="autosaveIval" type="integer" column="autosave_ival" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="passDeletionAllowed" type="integer" column="pass_deletion_allowed" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="redirectionMode" type="integer" column="redirection_mode" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="redirectionUrl" type="string" column="redirection_url" length="128" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="examidInTestPass" type="integer" column="examid_in_test_pass" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="examidInTestRes" type="integer" column="examid_in_test_res" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="enableExamview" type="boolean" column="enable_examview" nullable="true"/>
+    <field name="showExamviewHtml" type="boolean" column="show_examview_html" nullable="true"/>
+    <field name="showExamviewPdf" type="boolean" column="show_examview_pdf" nullable="true"/>
+    <field name="enableArchiving" type="boolean" column="enable_archiving" nullable="true"/>
+    <field name="questionSetType" type="string" column="question_set_type" length="32" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">FIXED_QUEST_SET</option>
+      </options>
+    </field>
+    <field name="signSubmission" type="integer" column="sign_submission" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="charSelectorAvailability" type="integer" column="char_selector_availability" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="charSelectorDefinition" type="string" column="char_selector_definition" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="skillService" type="boolean" column="skill_service" nullable="true"/>
+    <field name="resultTaxFilters" type="string" column="result_tax_filters" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="showGradingStatus" type="boolean" column="show_grading_status" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="showGradingMark" type="boolean" column="show_grading_mark" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="instFbAnswerFixation" type="boolean" column="inst_fb_answer_fixation" nullable="true"/>
+    <field name="introEnabled" type="boolean" column="intro_enabled" nullable="true"/>
+    <field name="startingTimeEnabled" type="boolean" column="starting_time_enabled" nullable="true"/>
+    <field name="endingTimeEnabled" type="boolean" column="ending_time_enabled" nullable="true"/>
+    <field name="passwordEnabled" type="boolean" column="password_enabled" nullable="true"/>
+    <field name="limitUsersEnabled" type="boolean" column="limit_users_enabled" nullable="true"/>
+    <field name="broken" type="boolean" column="broken" nullable="true"/>
+    <field name="forceInstFb" type="boolean" column="force_inst_fb" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="startingTime" type="integer" column="starting_time" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="endingTime" type="integer" column="ending_time" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="passWaiting" type="string" column="pass_waiting" length="15" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="followQstAnswerFixation" type="boolean" column="follow_qst_answer_fixation" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="blockAfterPassed" type="boolean" column="block_after_passed" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

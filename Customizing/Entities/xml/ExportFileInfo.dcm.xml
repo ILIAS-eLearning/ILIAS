@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ExportFileInfo" table="export_file_info">
+    <indexes>
+      <index name="i1_idx" columns="create_date"/>
+    </indexes>
+    <id name="objId" type="integer" column="obj_id"/>
+    <id name="exportType" type="string" column="export_type" length="32"/>
+    <id name="filename" type="string" column="filename" length="64"/>
+    <field name="fileName" type="string" column="file_name" length="64" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="version" type="string" column="version" length="16" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="createDate" type="datetime" column="create_date" nullable="false">
+      <options>
+        <option name="default">1970-01-01 00:00:00</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

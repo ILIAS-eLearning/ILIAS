@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="RoleData" table="role_data">
+    <indexes>
+      <index name="i1_idx" columns="auth_mode"/>
+    </indexes>
+    <id name="roleId" type="integer" column="role_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="allowRegister" type="boolean" column="allow_register" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="assignUsers" type="boolean" column="assign_users" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="authMode" type="string" column="auth_mode" length="16" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">default</option>
+      </options>
+    </field>
+    <field name="diskQuota" type="bigint" column="disk_quota" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="wspDiskQuota" type="integer" column="wsp_disk_quota" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

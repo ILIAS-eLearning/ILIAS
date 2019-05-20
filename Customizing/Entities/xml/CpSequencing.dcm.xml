@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CpSequencing" table="cp_sequencing">
+    <indexes>
+      <index name="i1_idx" columns="id"/>
+    </indexes>
+    <id name="cpNodeId" type="integer" column="cp_node_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="activityabsdurlimit" type="string" column="activityabsdurlimit" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="activityexpdurlimit" type="string" column="activityexpdurlimit" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="attemptabsdurlimit" type="string" column="attemptabsdurlimit" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="attemptexpdurlimit" type="string" column="attemptexpdurlimit" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="attemptlimit" type="integer" column="attemptlimit" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="begintimelimit" type="string" column="begintimelimit" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="choice" type="boolean" column="choice" nullable="true"/>
+    <field name="choiceexit" type="boolean" column="choiceexit" nullable="true"/>
+    <field name="completionbycontent" type="boolean" column="completionbycontent" nullable="true"/>
+    <field name="constrainchoice" type="boolean" column="constrainchoice" nullable="true"/>
+    <field name="endtimelimit" type="string" column="endtimelimit" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="flow" type="boolean" column="flow" nullable="true"/>
+    <field name="forwardonly" type="boolean" column="forwardonly" nullable="true"/>
+    <field name="id" type="string" column="id" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="measuresatisfactive" type="boolean" column="measuresatisfactive" nullable="true"/>
+    <field name="objectivemeasweight" type="float" column="objectivemeasweight" precision="10" scale="0" nullable="true"/>
+    <field name="objectivebycontent" type="boolean" column="objectivebycontent" nullable="true"/>
+    <field name="preventactivation" type="boolean" column="preventactivation" nullable="true"/>
+    <field name="randomizationtiming" type="string" column="randomizationtiming" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="reorderchildren" type="boolean" column="reorderchildren" nullable="true"/>
+    <field name="requiredcompleted" type="string" column="requiredcompleted" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="requiredincomplete" type="string" column="requiredincomplete" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="requirednotsatisfied" type="string" column="requirednotsatisfied" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="requiredforsatisfied" type="string" column="requiredforsatisfied" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="rollupobjectivesatis" type="boolean" column="rollupobjectivesatis" nullable="true"/>
+    <field name="rollupprogcompletion" type="boolean" column="rollupprogcompletion" nullable="true"/>
+    <field name="selectcount" type="integer" column="selectcount" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="selectiontiming" type="string" column="selectiontiming" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="sequencingid" type="string" column="sequencingid" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="tracked" type="boolean" column="tracked" nullable="true"/>
+    <field name="usecurattemptobjinfo" type="boolean" column="usecurattemptobjinfo" nullable="true"/>
+    <field name="usecurattemptproginfo" type="boolean" column="usecurattemptproginfo" nullable="true"/>
+  </entity>
+</doctrine-mapping>

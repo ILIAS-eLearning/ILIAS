@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="EcsNodeMappingA" table="ecs_node_mapping_a">
+    <id name="serverId" type="integer" column="server_id"/>
+    <id name="mid" type="integer" column="mid"/>
+    <id name="csRoot" type="integer" column="cs_root"/>
+    <id name="csId" type="integer" column="cs_id"/>
+    <field name="refId" type="integer" column="ref_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="objId" type="integer" column="obj_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="titleUpdate" type="boolean" column="title_update" nullable="true"/>
+    <field name="positionUpdate" type="boolean" column="position_update" nullable="true"/>
+    <field name="treeUpdate" type="boolean" column="tree_update" nullable="true"/>
+  </entity>
+</doctrine-mapping>

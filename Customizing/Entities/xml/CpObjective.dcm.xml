@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CpObjective" table="cp_objective">
+    <id name="cpNodeId" type="integer" column="cp_node_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="minnormalmeasure" type="string" column="minnormalmeasure" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="objectiveid" type="string" column="objectiveid" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cPrimary" type="boolean" column="c_primary" nullable="true"/>
+    <field name="satisfiedbymeasure" type="boolean" column="satisfiedbymeasure" nullable="true"/>
+  </entity>
+</doctrine-mapping>

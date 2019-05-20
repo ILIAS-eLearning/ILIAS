@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Lti2ResourceLink" table="lti2_resource_link">
+    <indexes>
+      <index name="i1_idx" columns="consumer_pk"/>
+      <index name="i2_idx" columns="context_pk"/>
+    </indexes>
+    <id name="resourceLinkPk" type="integer" column="resource_link_pk">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="contextPk" type="integer" column="context_pk" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="consumerPk" type="integer" column="consumer_pk" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="ltiResourceLinkId" type="string" column="lti_resource_link_id" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="settings" type="blob" column="settings" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="primaryResourceLinkPk" type="integer" column="primary_resource_link_pk" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="shareApproved" type="boolean" column="share_approved" nullable="true"/>
+    <field name="created" type="datetime" column="created" nullable="false">
+      <options>
+        <option name="default">1970-01-01 00:00:00</option>
+      </options>
+    </field>
+    <field name="updated" type="datetime" column="updated" nullable="false">
+      <options>
+        <option name="default">1970-01-01 00:00:00</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

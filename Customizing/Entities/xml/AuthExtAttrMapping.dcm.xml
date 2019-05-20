@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AuthExtAttrMapping" table="auth_ext_attr_mapping">
+    <id name="authSrcId" type="integer" column="auth_src_id"/>
+    <id name="attribute" type="string" column="attribute" length="75"/>
+    <id name="authMode" type="string" column="auth_mode" length="50"/>
+    <field name="extAttribute" type="string" column="ext_attribute" length="1000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="updateAutomatically" type="boolean" column="update_automatically" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="LtiExtConsumerOtype" table="lti_ext_consumer_otype">
+    <id name="consumerId" type="integer" column="consumer_id"/>
+    <id name="objectType" type="string" column="object_type" length="255"/>
+  </entity>
+</doctrine-mapping>

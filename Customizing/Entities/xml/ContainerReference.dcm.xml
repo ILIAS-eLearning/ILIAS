@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ContainerReference" table="container_reference">
+    <indexes>
+      <index name="i1_idx" columns="obj_id"/>
+    </indexes>
+    <id name="objId" type="integer" column="obj_id"/>
+    <id name="targetObjId" type="integer" column="target_obj_id"/>
+    <field name="titleType" type="boolean" column="title_type" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

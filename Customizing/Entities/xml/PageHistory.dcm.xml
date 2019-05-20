@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="PageHistory" table="page_history">
+    <indexes>
+      <index name="i2_idx" columns="parent_id,parent_type,hdate"/>
+      <index name="i1_idx" columns="page_id"/>
+    </indexes>
+    <id name="pageId" type="integer" column="page_id"/>
+    <id name="parentType" type="string" column="parent_type" length="4"/>
+    <id name="hdate" type="datetime" column="hdate"/>
+    <id name="lang" type="string" column="lang" length="2"/>
+    <field name="parentId" type="integer" column="parent_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="nr" type="integer" column="nr" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="userId" type="integer" column="user_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="content" type="text" column="content" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="iliasVersion" type="string" column="ilias_version" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

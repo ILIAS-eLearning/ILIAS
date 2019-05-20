@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ObjStat" table="obj_stat">
+    <id name="objId" type="integer" column="obj_id"/>
+    <id name="yyyy" type="smallint" column="yyyy"/>
+    <id name="mm" type="boolean" column="mm"/>
+    <id name="dd" type="boolean" column="dd"/>
+    <id name="hh" type="boolean" column="hh"/>
+    <field name="objType" type="string" column="obj_type" length="10" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+    <field name="readCount" type="integer" column="read_count" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="childsReadCount" type="integer" column="childs_read_count" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="spentSeconds" type="integer" column="spent_seconds" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="childsSpentSeconds" type="integer" column="childs_spent_seconds" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

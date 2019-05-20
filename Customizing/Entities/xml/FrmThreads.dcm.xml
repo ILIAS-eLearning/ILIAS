@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="FrmThreads" table="frm_threads">
+    <indexes>
+      <index name="i2_idx" columns="thr_top_fk"/>
+    </indexes>
+    <id name="thrPk" type="bigint" column="thr_pk">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="thrTopFk" type="bigint" column="thr_top_fk" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="thrSubject" type="string" column="thr_subject" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="thrUsrAlias" type="string" column="thr_usr_alias" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="thrNumPosts" type="integer" column="thr_num_posts" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="thrLastPost" type="string" column="thr_last_post" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="thrDate" type="datetime" column="thr_date" nullable="true"/>
+    <field name="thrUpdate" type="datetime" column="thr_update" nullable="true"/>
+    <field name="visits" type="integer" column="visits" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="importName" type="string" column="import_name" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="isSticky" type="boolean" column="is_sticky" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="isClosed" type="boolean" column="is_closed" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="threadSorting" type="integer" column="thread_sorting" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="avgRating" type="float" column="avg_rating" precision="10" scale="0" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="thrAuthorId" type="integer" column="thr_author_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="thrDisplayUserId" type="integer" column="thr_display_user_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

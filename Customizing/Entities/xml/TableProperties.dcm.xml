@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TableProperties" table="table_properties">
+    <id name="tableId" type="string" column="table_id" length="30"/>
+    <id name="userId" type="integer" column="user_id"/>
+    <id name="property" type="string" column="property" length="20"/>
+    <field name="value" type="string" column="value" length="4000" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"> </option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

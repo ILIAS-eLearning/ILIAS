@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SystStyleCat" table="syst_style_cat">
+    <id name="skinId" type="string" column="skin_id" length="50"/>
+    <id name="styleId" type="string" column="style_id" length="50"/>
+    <id name="substyle" type="string" column="substyle" length="50"/>
+    <id name="categoryRefId" type="integer" column="category_ref_id"/>
+  </entity>
+</doctrine-mapping>

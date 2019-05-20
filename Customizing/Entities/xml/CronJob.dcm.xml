@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CronJob" table="cron_job">
+    <id name="jobId" type="string" column="job_id" length="50">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="component" type="string" column="component" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="scheduleType" type="boolean" column="schedule_type" nullable="true"/>
+    <field name="scheduleValue" type="integer" column="schedule_value" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="jobStatus" type="boolean" column="job_status" nullable="true"/>
+    <field name="jobStatusUserId" type="integer" column="job_status_user_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="jobStatusType" type="boolean" column="job_status_type" nullable="true"/>
+    <field name="jobStatusTs" type="integer" column="job_status_ts" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="jobResultStatus" type="boolean" column="job_result_status" nullable="true"/>
+    <field name="jobResultUserId" type="integer" column="job_result_user_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="jobResultCode" type="string" column="job_result_code" length="64" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="jobResultMessage" type="string" column="job_result_message" length="400" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="jobResultType" type="boolean" column="job_result_type" nullable="true"/>
+    <field name="jobResultTs" type="integer" column="job_result_ts" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="class" type="string" column="class" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="path" type="string" column="path" length="400" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="runningTs" type="integer" column="running_ts" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="jobResultDur" type="integer" column="job_result_dur" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="aliveTs" type="integer" column="alive_ts" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

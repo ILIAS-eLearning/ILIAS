@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CmiObjective" table="cmi_objective">
+    <indexes>
+      <index name="i2_idx" columns="cmi_interaction_id"/>
+      <index name="i4_idx" columns="success_status"/>
+    </indexes>
+    <id name="cmiObjectiveId" type="integer" column="cmi_objective_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="cmiInteractionId" type="integer" column="cmi_interaction_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="cmiNodeId" type="integer" column="cmi_node_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="description" type="text" column="description" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="id" type="string" column="id" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cMax" type="float" column="c_max" precision="10" scale="0" nullable="true"/>
+    <field name="cMin" type="float" column="c_min" precision="10" scale="0" nullable="true"/>
+    <field name="cRaw" type="float" column="c_raw" precision="10" scale="0" nullable="true"/>
+    <field name="scaled" type="float" column="scaled" precision="10" scale="0" nullable="true"/>
+    <field name="progressMeasure" type="float" column="progress_measure" precision="10" scale="0" nullable="true"/>
+    <field name="successStatus" type="string" column="success_status" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="scope" type="string" column="scope" length="16" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="completionStatus" type="string" column="completion_status" length="32" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

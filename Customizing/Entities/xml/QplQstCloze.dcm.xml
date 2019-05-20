@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="QplQstCloze" table="qpl_qst_cloze">
+    <id name="questionFi" type="integer" column="question_fi">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="textgapRating" type="string" column="textgap_rating" length="2" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="identicalScoring" type="string" column="identical_scoring" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="fixedTextlen" type="integer" column="fixed_textlen" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="clozeText" type="text" column="cloze_text" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="feedbackMode" type="string" column="feedback_mode" length="16" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">gapQuestion</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

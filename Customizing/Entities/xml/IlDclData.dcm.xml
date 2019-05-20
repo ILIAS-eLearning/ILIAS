@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlDclData" table="il_dcl_data">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="isOnline" type="boolean" column="is_online" nullable="true"/>
+    <field name="rating" type="boolean" column="rating" nullable="true"/>
+    <field name="publicNotes" type="boolean" column="public_notes" nullable="true"/>
+    <field name="approval" type="boolean" column="approval" nullable="true"/>
+    <field name="notification" type="boolean" column="notification" nullable="true"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="RbacTemplates" table="rbac_templates">
+    <id name="rolId" type="integer" column="rol_id"/>
+    <id name="type" type="string" column="type" length="5"/>
+    <id name="opsId" type="integer" column="ops_id"/>
+    <id name="parent" type="integer" column="parent"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TaxNodeAssignment" table="tax_node_assignment">
+    <indexes>
+      <index name="i1_idx" columns="component,item_type,item_id"/>
+    </indexes>
+    <id name="nodeId" type="integer" column="node_id"/>
+    <id name="component" type="string" column="component" length="10"/>
+    <id name="itemType" type="string" column="item_type" length="20"/>
+    <id name="itemId" type="integer" column="item_id"/>
+    <id name="objId" type="integer" column="obj_id"/>
+    <field name="taxId" type="integer" column="tax_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="orderNr" type="integer" column="order_nr" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

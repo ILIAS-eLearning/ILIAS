@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CalCatAssignments" table="cal_cat_assignments">
+    <indexes>
+      <index name="i2_idx" columns="cat_id"/>
+    </indexes>
+    <id name="calId" type="integer" column="cal_id"/>
+    <id name="catId" type="integer" column="cat_id"/>
+  </entity>
+</doctrine-mapping>

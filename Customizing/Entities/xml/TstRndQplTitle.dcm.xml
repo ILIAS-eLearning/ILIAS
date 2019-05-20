@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TstRndQplTitle" table="tst_rnd_qpl_title">
+    <indexes>
+      <index name="i1_idx" columns="qpl_fi"/>
+      <index name="i2_idx" columns="tst_fi"/>
+    </indexes>
+    <id name="titleId" type="integer" column="title_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="qplFi" type="integer" column="qpl_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tstFi" type="integer" column="tst_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="qplTitle" type="string" column="qpl_title" length="1000" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlBlog" table="il_blog">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="bgColor" type="string" column="bg_color" length="6" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="fontColor" type="string" column="font_color" length="6" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="img" type="string" column="img" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="ppic" type="boolean" column="ppic" nullable="true"/>
+    <field name="rssActive" type="boolean" column="rss_active" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="approval" type="boolean" column="approval" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="absShorten" type="boolean" column="abs_shorten" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="absShortenLen" type="smallint" column="abs_shorten_len" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="absImage" type="boolean" column="abs_image" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="absImgWidth" type="smallint" column="abs_img_width" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="absImgHeight" type="smallint" column="abs_img_height" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="keywords" type="boolean" column="keywords" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="authors" type="boolean" column="authors" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="navMode" type="boolean" column="nav_mode" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="navListPost" type="smallint" column="nav_list_post" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">10</option>
+      </options>
+    </field>
+    <field name="navListMon" type="smallint" column="nav_list_mon" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="ovPost" type="smallint" column="ov_post" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="navOrder" type="string" column="nav_order" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="navListMonWithPost" type="integer" column="nav_list_mon_with_post" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">3</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

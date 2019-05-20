@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ScormTracking" table="scorm_tracking">
+    <indexes>
+      <index name="i2_idx" columns="obj_id,sco_id,lvalue"/>
+    </indexes>
+    <id name="userId" type="integer" column="user_id"/>
+    <id name="scoId" type="integer" column="sco_id"/>
+    <id name="lvalue" type="string" column="lvalue" length="64"/>
+    <id name="objId" type="integer" column="obj_id"/>
+    <field name="cTimestamp" type="datetime" column="c_timestamp" nullable="true"/>
+    <field name="rvalue" type="text" column="rvalue" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

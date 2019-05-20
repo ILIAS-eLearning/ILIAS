@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlOrguOperations" table="il_orgu_operations">
+    <indexes>
+      <index name="i1_idx" columns="operation_string"/>
+      <index name="i4_idx" columns="context_id"/>
+      <index name="i3_idx" columns="list_order"/>
+    </indexes>
+    <id name="operationId" type="bigint" column="operation_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="operationString" type="string" column="operation_string" length="127" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="description" type="string" column="description" length="512" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="listOrder" type="bigint" column="list_order" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="contextId" type="bigint" column="context_id" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

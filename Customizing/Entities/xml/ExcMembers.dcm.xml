@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ExcMembers" table="exc_members">
+    <indexes>
+      <index name="ob_idx" columns="obj_id"/>
+    </indexes>
+    <id name="objId" type="integer" column="obj_id"/>
+    <id name="usrId" type="integer" column="usr_id"/>
+    <field name="notice" type="string" column="notice" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="returned" type="boolean" column="returned" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="solved" type="boolean" column="solved" nullable="true"/>
+    <field name="statusTime" type="datetime" column="status_time" nullable="true"/>
+    <field name="sent" type="boolean" column="sent" nullable="true"/>
+    <field name="sentTime" type="datetime" column="sent_time" nullable="true"/>
+    <field name="feedbackTime" type="datetime" column="feedback_time" nullable="true"/>
+    <field name="feedback" type="boolean" column="feedback" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="status" type="string" column="status" length="9" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">notgraded</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

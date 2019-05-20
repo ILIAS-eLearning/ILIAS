@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="UtLpUserStatus" table="ut_lp_user_status">
+    <indexes>
+      <index name="i2_idx" columns="usr_id"/>
+      <index name="i1_idx" columns="obj_id"/>
+    </indexes>
+    <id name="objId" type="integer" column="obj_id"/>
+    <id name="usrId" type="integer" column="usr_id"/>
+    <field name="status" type="boolean" column="status" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="additionalInfo" type="string" column="additional_info" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

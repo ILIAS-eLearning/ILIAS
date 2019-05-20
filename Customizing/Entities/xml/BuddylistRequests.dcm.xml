@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="BuddylistRequests" table="buddylist_requests">
+    <indexes>
+      <index name="i1_idx" columns="buddy_usr_id,ignored"/>
+    </indexes>
+    <id name="usrId" type="integer" column="usr_id"/>
+    <id name="buddyUsrId" type="integer" column="buddy_usr_id"/>
+    <field name="ignored" type="boolean" column="ignored" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="ts" type="integer" column="ts" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SahsLm" table="sahs_lm">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="cOnline" type="string" column="c_online" length="3" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="apiAdapter" type="string" column="api_adapter" length="80" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">API</option>
+      </options>
+    </field>
+    <field name="apiFuncPrefix" type="string" column="api_func_prefix" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">LMS</option>
+      </options>
+    </field>
+    <field name="credit" type="string" column="credit" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">credit</option>
+      </options>
+    </field>
+    <field name="defaultLessonMode" type="string" column="default_lesson_mode" length="8" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">normal</option>
+      </options>
+    </field>
+    <field name="autoReview" type="string" column="auto_review" length="3" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="cType" type="string" column="c_type" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="maxAttempt" type="integer" column="max_attempt" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="moduleVersion" type="integer" column="module_version" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="editable" type="integer" column="editable" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="stylesheet" type="integer" column="stylesheet" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="glossary" type="integer" column="glossary" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="questionTries" type="integer" column="question_tries" nullable="true">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">3</option>
+      </options>
+    </field>
+    <field name="unlimitedSession" type="string" column="unlimited_session" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="noMenu" type="string" column="no_menu" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="hideNavig" type="string" column="hide_navig" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="debug" type="string" column="debug" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="debugpw" type="string" column="debugpw" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="entryPage" type="integer" column="entry_page" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="seqExpMode" type="boolean" column="seq_exp_mode" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="localization" type="string" column="localization" length="2" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="openMode" type="boolean" column="open_mode" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="width" type="smallint" column="width" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">950</option>
+      </options>
+    </field>
+    <field name="height" type="smallint" column="height" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">650</option>
+      </options>
+    </field>
+    <field name="autoContinue" type="string" column="auto_continue" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="sequencing" type="string" column="sequencing" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="interactions" type="string" column="interactions" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="objectives" type="string" column="objectives" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="timeFromLms" type="string" column="time_from_lms" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="comments" type="string" column="comments" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="autoLastVisited" type="string" column="auto_last_visited" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="checkValues" type="string" column="check_values" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="offlineMode" type="string" column="offline_mode" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="offlineZipCreated" type="datetime" column="offline_zip_created" nullable="true"/>
+    <field name="autoSuspend" type="string" column="auto_suspend" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="fourthEdition" type="string" column="fourth_edition" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="ieCompatibility" type="string" column="ie_compatibility" length="1" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="ieForceRender" type="string" column="ie_force_render" length="1" nullable="false">
+      <options>
+        <option name="fixed"/>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="masteryScore" type="boolean" column="mastery_score" nullable="true"/>
+    <field name="idSetting" type="boolean" column="id_setting" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="nameSetting" type="boolean" column="name_setting" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

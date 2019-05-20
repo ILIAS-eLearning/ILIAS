@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="DavProperty" table="dav_property">
+    <indexes>
+      <index name="i1_idx" columns="obj_id,node_id"/>
+    </indexes>
+    <id name="objId" type="integer" column="obj_id"/>
+    <id name="nodeId" type="integer" column="node_id"/>
+    <id name="ns" type="string" column="ns" length="120"/>
+    <id name="name" type="string" column="name" length="120"/>
+    <field name="value" type="string" column="value" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

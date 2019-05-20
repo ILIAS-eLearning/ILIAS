@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrsLmHistory" table="crs_lm_history">
+    <id name="usrId" type="integer" column="usr_id"/>
+    <id name="crsRefId" type="integer" column="crs_ref_id"/>
+    <id name="lmRefId" type="integer" column="lm_ref_id"/>
+    <field name="lmPageId" type="integer" column="lm_page_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="lastAccess" type="integer" column="last_access" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

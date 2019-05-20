@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="QplQstFlash" table="qpl_qst_flash">
+    <id name="questionFi" type="integer" column="question_fi">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="params" type="string" column="params" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="applet" type="string" column="applet" length="150" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="width" type="integer" column="width" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">550</option>
+      </options>
+    </field>
+    <field name="height" type="integer" column="height" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">400</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TstRndCpy" table="tst_rnd_cpy">
+    <indexes>
+      <index name="i1_idx" columns="qst_fi"/>
+      <index name="i3_idx" columns="tst_fi"/>
+      <index name="i2_idx" columns="qpl_fi"/>
+    </indexes>
+    <id name="copyId" type="integer" column="copy_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="tstFi" type="integer" column="tst_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="qstFi" type="integer" column="qst_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="qplFi" type="integer" column="qpl_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="FrmPosts" table="frm_posts">
+    <indexes>
+      <index name="i1_idx" columns="pos_thr_fk"/>
+      <index name="i3_idx" columns="pos_date"/>
+      <index name="i2_idx" columns="pos_top_fk"/>
+    </indexes>
+    <id name="posPk" type="bigint" column="pos_pk">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="posTopFk" type="bigint" column="pos_top_fk" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="posThrFk" type="bigint" column="pos_thr_fk" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="posUsrAlias" type="string" column="pos_usr_alias" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="posSubject" type="string" column="pos_subject" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="posDate" type="datetime" column="pos_date" nullable="true"/>
+    <field name="posUpdate" type="datetime" column="pos_update" nullable="true"/>
+    <field name="updateUser" type="integer" column="update_user" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="posCens" type="boolean" column="pos_cens" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="posCensCom" type="string" column="pos_cens_com" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="notify" type="boolean" column="notify" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="importName" type="string" column="import_name" length="4000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="posStatus" type="boolean" column="pos_status" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="posMessage" type="text" column="pos_message" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="posAuthorId" type="integer" column="pos_author_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="posDisplayUserId" type="integer" column="pos_display_user_id" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="isAuthorModerator" type="boolean" column="is_author_moderator" nullable="true"/>
+    <field name="posCensDate" type="datetime" column="pos_cens_date" nullable="true"/>
+    <field name="posActivationDate" type="datetime" column="pos_activation_date" nullable="true"/>
+  </entity>
+</doctrine-mapping>

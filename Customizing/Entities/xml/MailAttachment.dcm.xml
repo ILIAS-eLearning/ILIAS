@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="MailAttachment" table="mail_attachment">
+    <indexes>
+      <index name="i1_idx" columns="path"/>
+    </indexes>
+    <id name="mailId" type="integer" column="mail_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="path" type="string" column="path" length="500" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

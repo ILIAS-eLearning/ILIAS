@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="IlBlockSetting" table="il_block_setting">
+    <id name="type" type="string" column="type" length="20"/>
+    <id name="userId" type="integer" column="user_id"/>
+    <id name="blockId" type="integer" column="block_id"/>
+    <id name="setting" type="string" column="setting" length="40"/>
+    <field name="value" type="string" column="value" length="200" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

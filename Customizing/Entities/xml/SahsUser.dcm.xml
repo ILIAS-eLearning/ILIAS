@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SahsUser" table="sahs_user">
+    <id name="objId" type="integer" column="obj_id"/>
+    <id name="userId" type="integer" column="user_id"/>
+    <field name="packageAttempts" type="smallint" column="package_attempts" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="moduleVersion" type="smallint" column="module_version" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="lastVisited" type="string" column="last_visited" length="255" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="hash" type="string" column="hash" length="20" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="hashEnd" type="datetime" column="hash_end" nullable="true"/>
+    <field name="offlineMode" type="string" column="offline_mode" length="8" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastAccess" type="datetime" column="last_access" nullable="true"/>
+    <field name="totalTimeSec" type="integer" column="total_time_sec" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="scoTotalTimeSec" type="integer" column="sco_total_time_sec" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="status" type="boolean" column="status" nullable="true"/>
+    <field name="percentageCompleted" type="boolean" column="percentage_completed" nullable="true"/>
+    <field name="firstAccess" type="datetime" column="first_access" nullable="true"/>
+    <field name="lastStatusChange" type="datetime" column="last_status_change" nullable="true"/>
+  </entity>
+</doctrine-mapping>

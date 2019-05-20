@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AdmSetTemplHideTab" table="adm_set_templ_hide_tab">
+    <id name="templateId" type="integer" column="template_id"/>
+    <id name="tabId" type="string" column="tab_id" length="80"/>
+  </entity>
+</doctrine-mapping>

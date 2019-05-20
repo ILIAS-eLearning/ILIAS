@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="SahsSc13SeqTree" table="sahs_sc13_seq_tree">
+    <indexes>
+      <index name="i1_idx" columns="child"/>
+      <index name="i3_idx" columns="parent"/>
+      <index name="i2_idx" columns="importid"/>
+    </indexes>
+    <id name="child" type="integer" column="child"/>
+    <id name="importid" type="string" column="importid" length="32"/>
+    <id name="parent" type="integer" column="parent"/>
+    <field name="depth" type="smallint" column="depth" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="lft" type="integer" column="lft" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="rgt" type="integer" column="rgt" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

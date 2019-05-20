@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="UsrSessIstorage" table="usr_sess_istorage">
+    <id name="sessionId" type="string" column="session_id" length="80"/>
+    <id name="componentId" type="string" column="component_id" length="30"/>
+    <id name="vkey" type="string" column="vkey" length="50"/>
+    <field name="value" type="string" column="value" length="1000" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

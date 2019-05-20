@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="RbacUa" table="rbac_ua">
+    <indexes>
+      <index name="i2_idx" columns="rol_id"/>
+      <index name="i1_idx" columns="usr_id"/>
+    </indexes>
+    <id name="usrId" type="integer" column="usr_id"/>
+    <id name="rolId" type="integer" column="rol_id"/>
+  </entity>
+</doctrine-mapping>

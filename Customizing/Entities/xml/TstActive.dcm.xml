@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TstActive" table="tst_active">
+    <indexes>
+      <index name="i2_idx" columns="test_fi"/>
+      <index name="i1_idx" columns="user_fi"/>
+      <index name="i3_idx" columns="anonymous_id"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="uc1_idx" columns="user_fi,test_fi,anonymous_id"/>
+    </unique-constraints>
+    <id name="activeId" type="integer" column="active_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="userFi" type="integer" column="user_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="anonymousId" type="string" column="anonymous_id" length="5" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="testFi" type="integer" column="test_fi" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="tries" type="integer" column="tries" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="submitted" type="boolean" column="submitted" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="submittimestamp" type="datetime" column="submittimestamp" nullable="true"/>
+    <field name="tstamp" type="integer" column="tstamp" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="importname" type="string" column="importname" length="400" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="taxfilter" type="string" column="taxfilter" length="1024" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastindex" type="integer" column="lastindex" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="lastFinishedPass" type="integer" column="last_finished_pass" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="answerstatusfilter" type="string" column="answerstatusfilter" length="16" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="objectiveContainer" type="integer" column="objective_container" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="startLock" type="string" column="start_lock" length="128" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastPmode" type="string" column="last_pmode" length="16" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastStartedPass" type="integer" column="last_started_pass" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ContentObject" table="content_object">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="defaultLayout" type="string" column="default_layout" length="100" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">toc2win</option>
+      </options>
+    </field>
+    <field name="stylesheet" type="integer" column="stylesheet" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="pageHeader" type="string" column="page_header" length="8" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">st_title</option>
+      </options>
+    </field>
+    <field name="isOnline" type="string" column="is_online" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="tocActive" type="string" column="toc_active" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="lmMenuActive" type="string" column="lm_menu_active" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="tocMode" type="string" column="toc_mode" length="8" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">chapters</option>
+      </options>
+    </field>
+    <field name="cleanFrames" type="string" column="clean_frames" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="printViewActive" type="string" column="print_view_active" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="numbering" type="string" column="numbering" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="histUserComments" type="string" column="hist_user_comments" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="publicAccessMode" type="string" column="public_access_mode" length="8" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">complete</option>
+      </options>
+    </field>
+    <field name="publicHtmlFile" type="string" column="public_html_file" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="publicXmlFile" type="string" column="public_xml_file" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="downloadsActive" type="string" column="downloads_active" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="downloadsPublicActive" type="string" column="downloads_public_active" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">y</option>
+      </options>
+    </field>
+    <field name="headerPage" type="integer" column="header_page" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="footerPage" type="integer" column="footer_page" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="noGloAppendix" type="string" column="no_glo_appendix" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="layoutPerPage" type="boolean" column="layout_per_page" nullable="true"/>
+    <field name="publicScormFile" type="string" column="public_scorm_file" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="rating" type="boolean" column="rating" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="hideHeadFootPrint" type="boolean" column="hide_head_foot_print" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="disableDefFeedback" type="integer" column="disable_def_feedback" nullable="false">
+      <options>
+        <option name="unsigned"/>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="ratingPages" type="boolean" column="rating_pages" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="progrIcons" type="boolean" column="progr_icons" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="storeTries" type="boolean" column="store_tries" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="restrictForwNav" type="boolean" column="restrict_forw_nav" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="forTranslation" type="boolean" column="for_translation" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>

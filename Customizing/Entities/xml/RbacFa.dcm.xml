@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="RbacFa" table="rbac_fa">
+    <indexes>
+      <index name="i1_idx" columns="parent"/>
+    </indexes>
+    <id name="rolId" type="integer" column="rol_id"/>
+    <id name="parent" type="integer" column="parent"/>
+    <field name="assign" type="string" column="assign" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+      </options>
+    </field>
+    <field name="protected" type="string" column="protected" length="1" nullable="true">
+      <options>
+        <option name="fixed">1</option>
+        <option name="default">n</option>
+      </options>
+    </field>
+    <field name="blocked" type="boolean" column="blocked" nullable="false">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+  </entity>
+</doctrine-mapping>
