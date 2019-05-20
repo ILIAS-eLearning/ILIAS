@@ -36,7 +36,7 @@ function build_container_for_setup() {
 	};
 
 	$c["consumer.database"] = function ($c) {
-		return new \DatabaseSetupConsumer(
+		return new \ilDatabaseSetupConsumer(
 			$c["data_factory"]
 		);
 	};

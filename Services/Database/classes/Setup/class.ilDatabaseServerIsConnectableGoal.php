@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class DatabaseServerIsConnectableGoal extends DatabaseGoal {
+class ilDatabaseServerIsConnectableGoal extends \ilDatabaseGoal {
 	public function getHash() : string {
 		return hash("sha256", implode("-", [
 			self::class,
@@ -28,7 +28,7 @@ class DatabaseServerIsConnectableGoal extends DatabaseGoal {
 	}
 
 	public function achieve(Setup\Environment $environment) : Setup\Environment {
-		$db = ilDBWrapperFactory::getWrapper($this->config->getType());
+		$db = \ilDBWrapperFactory::getWrapper($this->config->getType());
 		$db->initFromIniFile($this->config->toMockIniFile());
 		try {
 			$connect = $db->connect();
