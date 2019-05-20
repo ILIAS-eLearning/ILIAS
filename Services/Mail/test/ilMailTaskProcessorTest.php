@@ -74,8 +74,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects = array(
