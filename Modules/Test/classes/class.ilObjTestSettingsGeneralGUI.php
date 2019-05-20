@@ -255,7 +255,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$qstSetSetting = $form->getItemByPostVar('question_set_type');
 		$qTitleSetting = $form->getItemByPostVar('title_output');
 		
-		if( false && $qstSetSetting->getValue() == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $qTitleSetting->getValue() == 2 )
+		if( $qstSetSetting->getValue() == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $qTitleSetting->getValue() == 2 )
 		{
 			$qstSetSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
 			$qTitleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
