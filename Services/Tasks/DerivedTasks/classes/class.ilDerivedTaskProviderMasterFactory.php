@@ -19,7 +19,8 @@ class ilDerivedTaskProviderMasterFactory
 	 * @var ilDerivedTaskProviderFactory[]
 	 */
 	protected $default_provider_factories = array(
-		ilExerciseDerivedTaskProviderFactory::class
+		ilExerciseDerivedTaskProviderFactory::class,
+		\ilForumDerivedTaskProviderFactory::class,
 	);
 
 	/**

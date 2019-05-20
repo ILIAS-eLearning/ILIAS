@@ -115,6 +115,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		{
 			$data[] = array(
 				"title" => $task->getTitle(),
+				"url" => $task->getUrl(),
 				"ref_id" => $task->getRefId(),
 				"deadline" => $task->getDeadline(),
 				"starting_time" => $task->getStartingTime()
@@ -147,9 +148,18 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		{
 			$obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
 			$obj_type = ilObject::_lookupType($obj_id);
-			$link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), ilLink::_getStaticLink($a_set["ref_id"]));
-			$info_screen->addProperty($lng->txt("obj_".$obj_type),
-				$renderer->render($link));
+			
+			if (0 === $a_set['url']) {
+				$url = ilLink::_getStaticLink($a_set["ref_id"]);
+			} else {
+				$url = $a_set['url'];
+			}
+			$link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
+
+			$info_screen->addProperty(
+				$lng->txt("obj_".$obj_type),
+				$renderer->render($link)
+			);
 		}
 
 		if ($a_set["starting_time"] > 0)

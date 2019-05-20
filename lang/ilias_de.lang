@@ -174,9 +174,6 @@ forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf lös
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#publish#:#Veröffentlichen
-forum#:#frm_my_posting_drafts#:#Meine Beitragsentwürfe
-forum#:#frm_posting_draft#:#Entwurf
-forum#:#frm_posting_drafts#:#Entwürfe
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
 forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
 forum#:#adm_save_drafts#:#Entwürfe speichern
@@ -184,6 +181,7 @@ forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beit
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
+forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
 common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
 itgr#:#itgr_show_title#:#Titel anzeigen

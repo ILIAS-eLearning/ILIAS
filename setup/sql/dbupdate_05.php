@@ -942,3 +942,11 @@ if ($row['ops_id']) {
 	$ilDB->manipulateF('DELETE FROM rbac_operations WHERE ops_id = %s', ['integer'], [$opsId]);
 }
 ?>
+<#5500>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	['text'],
+	['block_activated_pdfrmpostdraft']
+);
+?>
