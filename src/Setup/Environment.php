@@ -11,7 +11,7 @@ namespace ILIAS\Setup;
 interface Environment {
 	// We define some resources that will definitely be requried. We allow for
 	// new identifiers, though, to be open for extensions and the future, though.
-	const RESSOURCE_DATABASE = "resource_database";
+	const RESOURCE_DATABASE = "resource_database";
 
 	/**
 	 * Consumers of this method should check if the result is what they expect,

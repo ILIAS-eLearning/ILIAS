@@ -41,6 +41,6 @@ class DatabaseExistsGoal extends DatabaseGoal {
 				"Database cannot be connected. Please check the credentials."
 			);
 		}
-		return $environment->withResource(Setup\Environment::RESSOURCE_DATABASE, $db);
+		return $environment->withResource(Setup\Environment::RESOURCE_DATABASE, $db);
 	}
 }
