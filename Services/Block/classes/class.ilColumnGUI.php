@@ -88,7 +88,6 @@ class ilColumnGUI
 		"ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
-		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
 		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
@@ -111,7 +110,6 @@ class ilColumnGUI
 		"ilPDSysMessageBlockGUI" => "pdsysmess",
 		"ilPDSelectedItemsBlockGUI" => "pditems",
 		'ilPDTaggingBlockGUI' => 'pdtag',
-		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
 		'ilPDPortfolioBlockGUI' => 'pdportf',
@@ -164,7 +162,6 @@ class ilColumnGUI
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			"ilChatroomBlockGUI" => IL_COL_RIGHT,
 			"ilForumPostingDraftsBlockGUI" => IL_COL_RIGHT
 			)
 		);
@@ -198,7 +195,6 @@ class ilColumnGUI
 			"pdtag" => true,
 			"pdsysmess" => true,
 			"pdnotes" => true,
-			"chatviewer" => true,
 			"pdfrmpostdraft" => true,
 			"tagcld" => true,
 			"pdportf" => true,
