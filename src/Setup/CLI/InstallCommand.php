@@ -5,6 +5,7 @@ namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Consumer;
 use ILIAS\Setup\ArrayEnvironment;
+use ILIAS\Setup\GoalIterator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,9 +45,13 @@ class InstallCommand extends Command {
 		$goal = $this->consumer->getInstallGoal($config);
 		$environment = new ArrayEnvironment([]);
 
-		$runner = new Runner($environment, $goal);
-
-		$runner->run();
+		$goals = new GoalIterator($environment, $goal);
+		while($goals->valid()) {
+			$current = $goals->current();
+			$environment = $current->achieve($environment);
+			$goals->setEnvironment($environment);
+			$goals->next();
+		}
 	}
 
 	protected function readConfigFile(string $name) : array {
