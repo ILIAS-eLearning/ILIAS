@@ -71,28 +71,13 @@ class GoalCollection implements Goal {
 	 * @inheritdocs
 	 */
 	public function getPreconditions(Environment $environment) : array {
-		$pre = [];
-
-		return array_unique(
-			array_merge(
-				...array_map(
-					function ($g) use ($environment) {
-						return $g->getPreconditions($environment);
-					},
-					$this->goals
-				)
-			),
-			SORT_REGULAR
-		);
+		return $this->goals;
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function achieve(Environment $environment) : Environment {
-		foreach ($this->goals as $g) {
-			$environment = $g->achieve($environment);
-		}
 		return $environment;
 	}
 }

@@ -51,31 +51,13 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 		$g1 = $this->newGoal();
 		$g2 = $this->newGoal();
 		$g3 = $this->newGoal();
-		$g4 = $this->newGoal();
-		$g5 = $this->newGoal();
 
 		$c = new Setup\GoalCollection("", false, $g1, $g2, $g3);
 
 		$env = $this->createMock(Setup\Environment::class);
 
-		$g1
-			->expects($this->once())
-			->method("getPreconditions")
-			->with($env)
-			->willReturn([]);
-		$g2
-			->expects($this->once())
-			->method("getPreconditions")
-			->with($env)
-			->willReturn([$g4, $g5]);
-		$g3
-			->expects($this->once())
-			->method("getPreconditions")
-			->with($env)
-			->willReturn([$g4]);
-
 		$pre = $c->getPreconditions($env);
-		$this->assertEquals([$g4,$g5], $pre);	
+		$this->assertEquals([$g1,$g2, $g3], $pre);	
 	}
 
 
@@ -90,10 +72,8 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 
 		foreach([$g1,$g2,$g3] as $g) {
 			$g
-				->expects($this->once())
-				->method("achieve")
-				->with($env)
-				->willReturn($env);
+				->expects($this->never())
+				->method("achieve");
 		}
 
 		$res = $c->achieve($env);
