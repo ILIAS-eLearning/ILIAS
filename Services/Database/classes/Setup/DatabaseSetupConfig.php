@@ -6,6 +6,9 @@ use ILIAS\Setup;
 use ILIAS\Data\Password;
 
 class DatabaseSetupConfig implements Setup\Config {
+	const DEFAULT_COLLATION = "utf8_general_ci";
+	const DEFAULT_PATH_TO_DB_DUMP = "./setup/sql/ilias3.sql";
+
 	/**
 	 * @var	mixed
 	 */
@@ -46,6 +49,11 @@ class DatabaseSetupConfig implements Setup\Config {
 	 */
 	protected $password;
 
+	/**
+	 * @var	string
+	 */
+	protected $path_to_db_dump;
+
 	public function __construct(
 		$type,
 		string $host,
@@ -53,15 +61,16 @@ class DatabaseSetupConfig implements Setup\Config {
 		string $user,
 		Password $password = null,
 		bool $create_database = false,
-		string $collation = "utf8_general_ci",
-		string $port = null
+		string $collation = null,
+		string $port = null,
+		string $path_to_db_dump = null
 	) {
 		if (!in_array($type, \ilDBConstants::getInstallableTypes())) {
 			throw new \InvalidArgumentException(
 				"Unknown database type: $type"
 			);
 		}
-		if (!in_array($collation, \ilDBConstants::getAvailableCollations())) {
+		if ($collation && !in_array(trim($collation), \ilDBConstants::getAvailableCollations())) {
 			throw new \InvalidArgumentException(
 				"Unknown collation: $collation"
 			);
@@ -72,8 +81,9 @@ class DatabaseSetupConfig implements Setup\Config {
 		$this->user = trim($user);
 		$this->password = $password;
 		$this->create_database = trim($create_database);
-		$this->collation = trim($collation);
+		$this->collation = $collation ? trim($collation) : self::DEFAULT_COLLATION;
 		$this->port = $port;
+		$this->path_to_db_dump = $path_to_db_dump ?? self::DEFAULT_PATH_TO_DB_DUMP;
 	}
 
 	public function getType() {
