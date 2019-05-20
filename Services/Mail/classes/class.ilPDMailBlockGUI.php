@@ -140,8 +140,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$this->mails = $umail->getMailsOfFolder(
 			$this->inbox,
 			array(
-				 'status'  => 'unread',
-				 'type'	=> ((int)$this->setting->get('pd_sys_msg_mode')) != ilObjMail::PD_SYS_MSG_MAIL_BLOCK ? 'normal' : ''
+				 'status'  => 'unread'
 			)
 		);
 	}
@@ -200,7 +199,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8'));
 		$this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
 		$this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
-		$this->ctrl->setParameter($this, 'mail_mode', $this->mail_mode);
 		$this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
 		$this->ctrl->clearParameters($this);
 	}
@@ -227,27 +225,15 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$_GET["mobj_id"]));
 		$content_block->setTitle($this->lng->txt("message"));
 
-		if($_GET["mail_mode"] != "system")
-		{
-			$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
-					$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=reply",
-				$this->lng->txt("reply"));
-			$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
-					$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=read",
-				$this->lng->txt("inbox"));
+		$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
+			$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=reply",
+			$this->lng->txt("reply"));
+		$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
+			$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=read",
+			$this->lng->txt("inbox"));
 
-			$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
-			$content_block->addBlockCommand($this->ctrl->getLinkTarget($this, 'deleteMail'), $this->lng->txt('delete'));
-		}
-		else
-		{
-			$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-			$this->ctrl->setParameter($this, "mobj_id", $_GET["mobj_id"]);
-			$content_block->addBlockCommand(
-				$this->ctrl->getLinkTarget($this, "deleteMail"),
-				$this->lng->txt("delete"));
-			$this->ctrl->clearParameters($this);
-		}
+		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+		$content_block->addBlockCommand($this->ctrl->getLinkTarget($this, 'deleteMail'), $this->lng->txt('delete'));
 
 		return $content_block->getHTML();
 	}

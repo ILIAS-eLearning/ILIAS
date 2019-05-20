@@ -81,7 +81,6 @@ class ilColumnGUI
 		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDTasksBlockGUI" => "Services/Tasks/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
-		"ilPDSysMessageBlockGUI" => "Services/Mail/",
 		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/ItemsBlock/",
 		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
 		"ilPDNewsBlockGUI" => "Services/News/",
@@ -107,7 +106,6 @@ class ilColumnGUI
 		"ilPDCalendarBlockGUI" => "pdcal",
 		"ilExternalFeedBlockGUI" => "feed",
 		"ilPDExternalFeedBlockGUI" => "pdfeed",
-		"ilPDSysMessageBlockGUI" => "pdsysmess",
 		"ilPDSelectedItemsBlockGUI" => "pditems",
 		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilPollBlockGUI' => 'poll',
@@ -153,7 +151,6 @@ class ilColumnGUI
 			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
 			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
-			"ilPDSysMessageBlockGUI" => IL_COL_RIGHT,
 			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
 			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
 			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
@@ -193,7 +190,6 @@ class ilColumnGUI
 			"pdfeed" => true,			
 			"pdbookm" => true,
 			"pdtag" => true,
-			"pdsysmess" => true,
 			"pdnotes" => true,
 			"pdfrmpostdraft" => true,
 			"tagcld" => true,
@@ -638,7 +634,7 @@ class ilColumnGUI
 				}
 				
 				// count (moveable) blocks
-				if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb" &&
+				if ($block["type"] != "pdfeedb" &&
 					$block["type"] != "news")
 				{
 					$i++;
@@ -808,7 +804,7 @@ class ilColumnGUI
 			}
 			
 			// count (moveable) blocks
-			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb"
+			if ($block["type"] != "pdfeedb"
 				&& $block["type"] != "news")
 			{
 				$i++;
@@ -908,10 +904,6 @@ class ilColumnGUI
 					if ($type == "cal")
 					{
 						$nr = -8;
-					}
-					if ($type == "pdsysmess")		// always show sys mess first
-					{
-//						$nr = -15;
 					}
 					if ($type == "pdfeedb")		// always show feedback request second
 					{
@@ -1111,11 +1103,6 @@ class ilColumnGUI
 							'cont_show_news',
 							true
 					);
-			}
-			else if($a_type == 'pdsysmess')
-			{
-				require_once 'Services/Mail/classes/class.ilObjMail.php';
-				return ((int)$ilSetting->get('pd_sys_msg_mode')) == ilObjMail::PD_SYS_MSG_OWN_BLOCK;
 			}
 			else if ($ilSetting->get("block_activated_".$a_type))
 			{

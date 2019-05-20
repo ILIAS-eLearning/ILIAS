@@ -767,8 +767,8 @@ class ilWikiUtil
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($user_id),
-					"", "", $subject, $message, array(), array("system"));
+				$mail_obj->enqueue(ilObjUser::_lookupLogin($user_id),
+					"", "", $subject, $message, array());
 			}
 			else
 			{

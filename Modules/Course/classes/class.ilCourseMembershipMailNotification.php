@@ -113,7 +113,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -138,7 +138,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -159,7 +159,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -187,7 +187,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -207,7 +207,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 						sprintf($this->getLanguageText('crs_dismiss_member_body'),$this->getObjectTitle())
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -227,7 +227,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 						sprintf($this->getLanguageText('crs_blocked_member_body'),$this->getObjectTitle())
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -252,7 +252,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -284,7 +284,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('crs_notification_explanation_admin'));
 					
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 
@@ -316,7 +316,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('crs_notification_explanation_admin'));
 					
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -348,7 +348,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('crs_notification_explanation_admin'));
 					
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -368,7 +368,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('crs_unsubscribe_member_explanation'));
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -393,7 +393,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -417,7 +417,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 							)
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 		}

@@ -526,17 +526,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 	}
-	
-	/**
-	* Display system messages.
-	*/
-	function displaySystemMessages()
-	{
-		include_once("Services/Mail/classes/class.ilPDSysMessageBlockGUI.php");
-		$sys_block = new ilPDSysMessageBlockGUI("ilpersonaldesktopgui", "show");
-		return $sys_block->getHTML();
-	}
-	
+
 	/**
 	* Returns the multidimenstional sorted array
 	*

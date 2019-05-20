@@ -445,14 +445,13 @@ class ilObjExercise extends ilObject
 		// send mail
 		include_once "Services/Mail/classes/class.ilMail.php";
 		$tmp_mail_obj = new ilMail($ilUser->getId());
-		$errors = $tmp_mail_obj->validateAndEnqueue(
+		$errors = $tmp_mail_obj->enqueue(
 			$recipients,
 			"",
 			"",
 			$subject, 
 			$body,
-			$file_names,
-			array("normal")
+			$file_names
 		);
 		unset($tmp_mail_obj);
 

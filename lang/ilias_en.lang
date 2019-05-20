@@ -2820,7 +2820,6 @@ common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_settings#:#Mail Settings
 rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
-rbac#:#mail_system_message#:#User can send internal system messages
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
 common#:#mail_z_local#:#User Folders
@@ -3642,7 +3641,6 @@ common#:#svy#:#Survey
 common#:#system_check#:#System Check
 common#:#system_information#:#System Information
 common#:#system_language#:#System Language
-common#:#system_message#:#System Messages
 common#:#system_styles#:#System Styles
 common#:#system#:#System
 common#:#systemcheck_cron#:#Process System Check in Cron Job
@@ -7839,7 +7837,6 @@ common#:#obj_frma#:#Forum
 common#:#obj_frma_desc#:#Global Forum Settings
 administration#:#frm_displayed_infos#:#Displayed Information
 administration#:#frm_disp_info_desc#:#Please select the attributes which should to be shown in the overviews.
-common#:#show_system_messages#:#System Messages
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_table_form#:#In Table Form
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
@@ -10082,7 +10079,6 @@ registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. E.g. "*@ilias.de". Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
-pd#:#block_show_pdsysmess#:#Show System Messages
 pd#:#block_show_pdtag#:#Show My Tags
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
@@ -13500,9 +13496,6 @@ skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
-pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
-pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
-pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
