@@ -53,7 +53,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	/**
 	 * global $tpl object
 	 * 
-	 * @var ilGlobalTemplate
+	 * @var ilGlobalTemplateInterface
 	 */
 	protected $tpl = null;
 	
@@ -91,7 +91,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	/**
 	 * Constructor
 	 */
-	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilGlobalTemplate $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+	public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng, ilGlobalTemplateInterface $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
 		$this->ctrl = $ctrl;
 		$this->access = $access;
