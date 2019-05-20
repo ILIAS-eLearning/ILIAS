@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class DatabaseExistsGoal extends DatabaseGoal {
+class ilDatabaseCreatedGoal extends ilDatabaseGoal {
 	public function getHash() : string {
 		return hash("sha256", implode("-", [
 			self::class,
@@ -15,7 +15,7 @@ class DatabaseExistsGoal extends DatabaseGoal {
 	}
 
 	public function getLabel() : string {
-		return "The database exists on the server.";
+		return "The database is created on the server.";
 	}
 
 	public function isNotable() : bool {
@@ -23,24 +23,28 @@ class DatabaseExistsGoal extends DatabaseGoal {
 	}
 
 	public function getPreconditions(Setup\Environment $environment) : array {
-		$preconditions = [
-			new \DatabaseServerIsConnectableGoal($this->config)
+		return [
+			new \ilDatabaseServerIsConnectableGoal($this->config)
 		];
-		if ($this->config->getCreateDatabase()) {
-			$preconditions[] = new \DatabaseCreatedGoal($this->config);
-		}
-		return $preconditions;
 	}
 
 	public function achieve(Setup\Environment $environment) : Setup\Environment {
-		$db = ilDBWrapperFactory::getWrapper($this->config->getType());
-		$db->initFromIniFile($this->config->toMockIniFile());
+		$c = $this->config;
+		$db = \ilDBWrapperFactory::getWrapper($this->config->getType());
+		$db->initFromIniFile($c->toMockIniFile());
+
 		$connect = $db->connect(true);
-		if (!$connect) {
+		if ($connect) {
+			// Database seems to exist already.
+			return $environment;
+		}
+
+		if (!$db->createDatabase($c->getDatabase(), "utf8", $c->getCollation())) {
 			throw new \RuntimeException(
-				"Database cannot be connected. Please check the credentials."
+				"Database cannot be created."
 			);
 		}
-		return $environment->withResource(Setup\Environment::RESOURCE_DATABASE, $db);
+
+		return $environment;
 	}
 }

@@ -5,7 +5,7 @@
 use ILIAS\Setup;
 use ILIAS\Data\Password;
 
-class DatabaseSetupConfig implements Setup\Config {
+class ilDatabaseSetupConfig implements Setup\Config {
 	const DEFAULT_COLLATION = "utf8_general_ci";
 	const DEFAULT_PATH_TO_DB_DUMP = "./setup/sql/ilias3.sql";
 
@@ -118,6 +118,10 @@ class DatabaseSetupConfig implements Setup\Config {
 		return $this->password;
 	}
 
+	public function getPathToDBDump() : string {
+		return $this->path_to_db_dump;
+	}	
+
 	/**
 	 * Adapter to current database-handling via a mock of \ilIniFile.
 	 */
@@ -156,7 +160,7 @@ class DatabaseSetupConfig implements Setup\Config {
 						);
 				}
 			}
-			function __construct(\DatabaseSetupConfig $config) { $this->config = $config; }
+			function __construct(\ilDatabaseSetupConfig $config) { $this->config = $config; }
 			function read() { throw new \LogicException("Just a mock here..."); }
 			function parse() { throw new \LogicException("Just a mock here..."); }
 			function fixIniFile() { throw new \LogicException("Just a mock here..."); }
