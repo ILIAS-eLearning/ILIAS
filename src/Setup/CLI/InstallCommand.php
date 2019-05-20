@@ -48,6 +48,9 @@ class InstallCommand extends Command {
 		$goals = new GoalIterator($environment, $goal);
 		while($goals->valid()) {
 			$current = $goals->current();
+			if ($current->isNotable() || $output->isVeryVerbose()  || $output->isDebug()) {
+				$output->writeln($current->getLabel());
+			}
 			$environment = $current->achieve($environment);
 			$goals->setEnvironment($environment);
 			$goals->next();
