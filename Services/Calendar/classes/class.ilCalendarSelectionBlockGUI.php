@@ -86,6 +86,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			self::CAL_GRP_PERSONAL => $lng->txt("cal_grp_".self::CAL_GRP_PERSONAL),
 			self::CAL_GRP_OTHERS => $lng->txt("cal_grp_".self::CAL_GRP_OTHERS)
 		);
+
+		$this->setPresentation(self::PRES_SEC_LEG);
 	}
 
 	/**
@@ -319,7 +321,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$tpl->setVariable("FORM_ACTION", $ilCtrl->getFormActionByClass("ilcalendarcategorygui"));
 		$tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
 		
-		$this->setDataSection($tpl->get());
+		return $tpl->get();
 	}
 
 	/**
@@ -464,18 +466,40 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	function getHTML()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilSetting = $DIC['ilSetting'];
-		
 		$this->getCalendars();
-		
 		return parent::getHTML();
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
+	{
+		return $this->fillDataSection();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $data): \ILIAS\UI\Component\Item\Item
+	{
+		$factory = $this->ui->factory();
+		if (isset($data["shy_button"]))
+		{
+			return $factory->item()->standard($data["shy_button"])->withDescription($data["date"]);
+		}
+		else
+		{
+			return $factory->item()->standard($data["date"]);
+		}
+	}
+
 }
 
 ?>
