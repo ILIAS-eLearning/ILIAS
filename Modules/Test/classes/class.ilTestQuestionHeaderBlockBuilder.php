@@ -226,6 +226,11 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 	
 	protected function buildQuestionPositionString()
 	{
+		if( !$this->getQuestionPosition() )
+		{
+			return '';
+		}
+		
 		if( $this->getQuestionCount() )
 		{
 			return sprintf($this->lng->txt("tst_position"), $this->getQuestionPosition(), $this->getQuestionCount());
