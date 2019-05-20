@@ -23,6 +23,31 @@ class ilMMEntryRendererGUI {
 	 * @throws ilTemplateException
 	 */
 	public function getHTML(): string {
+		$html = "";
+
+		// Plugin-Slot
+		$uip = new ilUIHookProcessor(
+			"Services/MainMenu",
+			"main_menu_list_entries",
+			array("main_menu_gui" => $this)
+		);
+
+		if (!$uip->replaced()) {
+			$html = $this->render();
+		}
+
+		$html = $uip->getHTML($html);
+
+		return $html;
+	}
+
+
+	/**
+	 * @return string
+	 * @throws Throwable
+	 * @throws ilTemplateException
+	 */
+	protected function render(): string {
 		global $DIC;
 		$storage = $DIC->globalScreen()->storage();
 
