@@ -159,7 +159,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 			$provider->render($html, $this);
 		}		
 		
-		$this->tpl->setVariable("BLOCK_ROW", "");
+//		$this->tpl->setVariable("BLOCK_ROW", "");
 					
 		$ajax_block_id = "block_".$this->getBlockType()."_0";
 		$ajax_block_url = $ilCtrl->getLinkTarget($this, "getAjax", "", true, false);
@@ -175,7 +175,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		// #15008 - always load regardless of content (because of redraw)
 		$tpl->addOnLoadCode('il.Classification.setAjax("'.$ajax_block_id.'", "'.
 			$ajax_block_url.'", "'.$ajax_content_id.'", "'.$ajax_content_url.'", '.json_encode($tabs_html).');');
-			
+
+		$overall_html = "";
 		if(sizeof($html))
 		{
 			$btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Classification");
@@ -187,9 +188,11 @@ class ilClassificationBlockGUI extends ilBlockGUI
 				$btpl->setVariable("CHUNK", $item["html"]);
 				$btpl->parseCurrentBlock();
 			}
-			
-			$this->tpl->setVariable("DATA", $btpl->get());
+
+			$overall_html.= $btpl->get();
+			//$this->tpl->setVariable("DATA", $btpl->get());
 		}
+		return $overall_html;
 	}
 	
 	protected function validate()
@@ -405,4 +408,22 @@ class ilClassificationBlockGUI extends ilBlockGUI
 			}
 		}
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
+	{
+		return $this->fillDataSection();
+	}
+
+
 }

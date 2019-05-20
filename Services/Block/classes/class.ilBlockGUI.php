@@ -929,7 +929,11 @@ abstract class ilBlockGUI
 	{
 		if ($this->getPresentation() == self::PRES_SEC_LIST)
 		{
-			return [$this->getPaginationViewControl()];
+			$pg_view_control = $this->getPaginationViewControl();
+			if (!is_null($pg_view_control))
+			{
+				return [$pg_view_control];
+			}
 		}
 		return [];
 	}
@@ -1027,6 +1031,11 @@ abstract class ilBlockGUI
 
 		//$ilCtrl->setParameterByClass("ilcolumngui",
 		//	$this->getNavParameter(), "");
+
+		if ($this->max_count <= $this->getLimit())
+		{
+			return null;
+		}
 
 		return $factory->viewControl()->pagination()
 			->withTargetURL($href, $this->getNavParameter()."page")
