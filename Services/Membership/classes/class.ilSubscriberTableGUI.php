@@ -75,21 +75,31 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$this->setFormName('subscribers');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'participants'));
 
-	 	$this->addColumn('','f',"1",true);
+	 	$this->addColumn('','f',"1%",true);
 	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
 
 		$all_cols = $this->getSelectableColumns();
 		foreach($this->getSelectedColumns() as $col)
 		{
-			$this->addColumn($all_cols[$col]['txt'], $col);
+			$this->addColumn(
+				$all_cols[$col]['txt'],
+				$col,
+				array_key_exists('width',$all_cols[$col]) ? $all_cols[$col]['width'] : null
+			);
 		}
 		
-	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"10%");
 
 		if($this->getShowSubject())
-			$this->addColumn($this->lng->txt('subject'),'subject','15%');
+		{
+			$this->addColumn($this->lng->txt('application_date'),'sub_time',"20%");
+			$this->addColumn($this->lng->txt('subject'),'subject','60%');
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt('application_date'),'sub_time',"60%");
+		}
 
-		$this->addColumn('','mail','10%');
+		$this->addColumn('','mail','20%');
 
 		if($this->getRepositoryObject()->getType() == "sess")
 		{
@@ -148,6 +158,17 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		{
 			return self::$all_columns;
 		}
+
+		if($this->getRepositoryObject()->getType() == 'sess')
+		{
+			self::$all_columns['login'] = [
+				'txt' => $this->lng->txt('login'),
+				'width'=> '15%',
+				'default' => 1
+			];
+			return self::$all_columns;
+		}
+
 
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
 		$ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());

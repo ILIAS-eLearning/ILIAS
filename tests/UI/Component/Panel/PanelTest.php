@@ -121,8 +121,6 @@ class PanelTest extends ILIAS_UI_TestBase {
 
 		$this->assertEquals($p->getContent(), array($sub));
 	}
-
-
 	public function test_render_standard() {
 		$f = $this->getPanelFactory();
 		$r = $this->getDefaultRenderer();
@@ -196,6 +194,7 @@ EOT;
 
 		$this->assertHTMLEquals($expected_html, $html);
 	}
+
 	public function test_render_report() {
 		$fp = $this->getPanelFactory();
 		$r = $this->getDefaultRenderer();

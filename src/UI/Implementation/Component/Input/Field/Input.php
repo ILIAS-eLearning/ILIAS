@@ -6,15 +6,16 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
+use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Transformation\Transformation;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Constraint;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -38,6 +39,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @var TransformationFactory
 	 */
 	protected $transformation_factory;
+	/**
+	 * @var Factory
+	 */
+	protected $refinery;
 	/**
 	 * @var string
 	 */
@@ -88,9 +93,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * Input constructor.
 	 *
-	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
+	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
 	 * @param TransformationFactory $transformation_factory
+	 * @param Factory $refinery
 	 * @param                       $label
 	 * @param                       $byline
 	 */
@@ -98,12 +104,14 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
+		Factory $refinery,
 		$label,
 		$byline
 	) {
 		$this->data_factory = $data_factory;
 		$this->validation_factory = $validation_factory;
 		$this->transformation_factory = $transformation_factory;
+		$this->refinery = $refinery;
 		$this->checkStringArg("label", $label);
 		if ($byline !== null) {
 			$this->checkStringArg("byline", $byline);
@@ -344,7 +352,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	protected function setAdditionalConstraint(Constraint $constraint) {
 		$this->operations[] = $constraint;
 		if ($this->content !== null) {
-			$this->content = $constraint->restrict($this->content);
+			$this->content = $constraint->applyTo($this->content);
 			if ($this->content->isError()) {
 				$this->setError("" . $this->content->error());
 			}
@@ -438,7 +446,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($op instanceof Transformation) {
 				$res = $res->map($op);
 			} elseif ($op instanceof Constraint) {
-				$res = $op->restrict($res);
+				$res = $op->applyTo($res);
 			}
 		}
 

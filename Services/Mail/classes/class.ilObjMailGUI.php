@@ -380,15 +380,13 @@ class ilObjMailGUI extends ilObjectGUI
 
 		if ($is_manual_mail) {
 			$mail = new ilMail($GLOBALS['DIC']->user()->getId());
-			$type = array('normal');
 		} else {
 			$mail = new ilMail(ANONYMOUS_USER_ID);
-			$type = array('system');
 		}
 
 		$mail->setSaveInSentbox(false);
 		$mail->appendInstallationSignature(true);
-		$mail->validateAndEnqueue($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array(), $type);
+		$mail->enqueue($GLOBALS['DIC']->user()->getEmail(), '', '', 'Test Subject', 'Test Body', array());
 
 		ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));
 		$this->showExternalSettingsFormObject();

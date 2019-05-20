@@ -52,6 +52,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 		
 		$this->ensureExistingTestSession($this->testSession);
+		$this->checkTestSessionUser($this->testSession);
 		
 		$this->initProcessLocker($this->testSession->getActiveId());
 		

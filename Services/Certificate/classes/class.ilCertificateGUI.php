@@ -481,7 +481,32 @@ class ilCertificateGUI
 	public function certificateEditor()
 	{
 		$form = $this->getEditorForm();
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		$enabledGlobalLearningProgress = \ilObjUserTracking::_enabledLearningProgress();
+
+		$messageBoxHtml = '';
+		if ($enabledGlobalLearningProgress) {
+			$objectLearningProgressSettings = new ilLPObjSettings($this->objectId);
+			$mode = $objectLearningProgressSettings->getMode();
+
+			/** @var ilObject $object */
+			$object = ilObjectFactory::getInstanceByObjId($this->objectId);
+			if (ilLPObjSettings::LP_MODE_DEACTIVATED == $mode && $object->getType() !== 'crs') {
+				global $DIC;
+
+				$renderer = $DIC->ui()->renderer();
+				$messageBox = $DIC->ui()
+					->factory()
+					->messageBox()
+					->info($this->lng->txt('learning_progress_deactivated'));
+
+				$messageBoxHtml = $renderer->render($messageBox);
+				$form->clearCommandButtons();
+			}
+		}
+
+		$formHtml = $form->getHTML();
+
+		$this->tpl->setVariable("ADM_CONTENT", $messageBoxHtml. $formHtml);
 	}
 
 	/**

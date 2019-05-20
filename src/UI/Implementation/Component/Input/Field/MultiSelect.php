@@ -6,8 +6,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 
 /**
  * This implements the multi-select input.
@@ -20,22 +20,24 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	protected $options = [];
 
 	/**
-	 * @param DataFactory 	$data_factory
-	 * @param ValidationFactory 	$validation_factory
+	 * @param DataFactory $data_factory
+	 * @param ValidationFactory $validation_factory
 	 * @param TransformationFactory $transformation_factory
-	 * @param array 	$options
-	 * @param string 	$label
-	 * @param string 	byline
+	 * @param \ILIAS\Refinery\Factory $refinery
+	 * @param string $label
+	 * @param array $options
+	 * @param $byline
 	 */
 	public function __construct(
 		DataFactory $data_factory,
 		ValidationFactory $validation_factory,
 		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$options,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
 		$this->options = $options;
 	}
 

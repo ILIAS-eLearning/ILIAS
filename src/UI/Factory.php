@@ -834,4 +834,17 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Tree\Factory
 	 */
 	public function tree();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Menus let the user choose from several (navigational) options.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Menu\Factory
+	 */
+	public function menu(): Component\Menu\Factory;
+
 }
+

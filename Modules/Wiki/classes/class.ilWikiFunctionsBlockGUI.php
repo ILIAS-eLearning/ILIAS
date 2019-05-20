@@ -38,6 +38,8 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		$this->allow_moving = false;
 
 		$this->ref_id = (int) $_GET["ref_id"];
+
+		$this->setPresentation(self::PRES_SEC_LEG);
 	}
 
 	/**
@@ -117,6 +119,21 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 	* Fill data section
 	*/
 	function fillDataSection()
+	{
+		$this->setDataSection($this->getLegacyContent());
+	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
 	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
@@ -352,9 +369,10 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			$tpl->touchBlock("item");
 		}
 
-
-		$this->setDataSection($tpl->get());
+		return $tpl->get();
 	}
+
+
 }
 
 ?>

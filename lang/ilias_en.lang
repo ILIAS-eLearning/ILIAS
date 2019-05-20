@@ -14,6 +14,16 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+chatroom#:#osc_noti_title#:#New Chat Message
+chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
+chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground. 
+chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
+chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
+chatroom#:#osc_browser_noti_req_permission_error#:#The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system.
+chatroom_adm#:#osc_adm_browser_noti_label#:#Browser Notifications
+chatroom_adm#:#osc_adm_browser_noti_info#:#If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground.
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Time between Browser Notifications
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages..
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
@@ -816,9 +826,10 @@ assessment#:#material_file#:#Material File
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Maximum Number of Characters
 assessment#:#qst_essay_chars_remaining#:#Remaining characters:
+assessment#:#qst_essay_written_words#:#Number of entered words:
 assessment#:#qst_essay_allready_written_words#:#Already entered words:
-assessment#:#qst_essay_wordcounter_enabled#:#Word Counter
-assessment#:#qst_essay_wordcounter_enabled_info#:#A word counter is shown to participants. It provides an orientation of how much text participants allready have written.
+assessment#:#qst_essay_wordcounter_enabled#:#Count Words
+assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
 assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
@@ -1648,8 +1659,6 @@ certificate#:#download_certificate#:#Download Certificate
 certificate#:#cert_form_sec_availability#:#Availability
 certificate#:#cert_form_sec_layout#:#Layout and Text
 certificate#:#cert_form_sec_add_features#:#Additional Features
-common#:#chat_chatviewer#:#Chat Viewer
-chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 cmps#:#cmps_activate#:#Activate
 cmps#:#cmps_active#:#Active
 cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List
@@ -2809,7 +2818,6 @@ common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_settings#:#Mail Settings
 rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
-rbac#:#mail_system_message#:#User can send internal system messages
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
 common#:#mail_z_local#:#User Folders
@@ -3222,7 +3230,7 @@ common#:#passwd_not_match#:#Your entries for the new password don’t match! Ple
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#passwd#:#Password
 common#:#password_assistance_info#:#If password assistance is enabled, a link ‘Forgot Password?’ is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
-common#:#password_change_on_first_login_demand#:#You have to change your initial password before you can start using ILIAS services.
+common#:#password_change_on_first_login_demand#:#You have to change your password before you can start using ILIAS services.
 common#:#password_empty#:#The password field must not be empty.
 common#:#password_expired#:#Your password is expired and has to be changed as the last change was %s day(s) ago.
 common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.
@@ -3242,7 +3250,6 @@ common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
 common#:#path#:#Path
 common#:#pathes#:#Paths
-common#:#pd_enable_chatviewer#:#Enable Chat Viewer
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pdf_export#:#PDF Export
 common#:#perm_settings#:#Permissions
@@ -3632,7 +3639,6 @@ common#:#svy#:#Survey
 common#:#system_check#:#System Check
 common#:#system_information#:#System Information
 common#:#system_language#:#System Language
-common#:#system_message#:#System Messages
 common#:#system_styles#:#System Styles
 common#:#system#:#System
 common#:#systemcheck_cron#:#Process System Check in Cron Job
@@ -5667,7 +5673,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
-chatroom#:#chatviewer_no_rooms#:#No Chat Room available, yet.
 mail#:#back_to_folder#:#Back to Folder
 mail#:#current_folder#:#Current Folder: %s
 mail#:#chat_users_have_been_invited#:#The following users have been invited:
@@ -6516,6 +6521,8 @@ news#:#news_x_postings#:#%s Postings have been added.
 news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
 news#:#priv_feed_disabled#:#Private Newsfeed disabled.
 news#:#priv_feed_settings#:#Private Newsfeed settings
+news#:#lso_news_online_title#:#A new learning sequence object is online!
+news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_all_comments#:#All Comments
@@ -6599,6 +6606,8 @@ ps#:#ps_files_deleted#:#Export Files Deleted
 ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts.
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_not_accepted#:#Not Accepted
+ps#:#ps_passwd_policy_changed_force_user_reset#:#The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?
+ps#:#ps_passwd_policy_change_force_user_reset_succ#:#The changes have been successfully applied.
 ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).
 ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
 ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.
@@ -7826,7 +7835,6 @@ common#:#obj_frma#:#Forum
 common#:#obj_frma_desc#:#Global Forum Settings
 administration#:#frm_displayed_infos#:#Displayed Information
 administration#:#frm_disp_info_desc#:#Please select the attributes which should to be shown in the overviews.
-common#:#show_system_messages#:#System Messages
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_table_form#:#In Table Form
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
@@ -9066,7 +9074,7 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
 chatroom_adm#:#enable_osd#:#Repository Chat: Enable On-Screen Notifications
 chatroom_adm#:#general_settings_title#:#General Chat Settings
-chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
+chatroom_adm#:#osd_intervall#:#Refreshinterval
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
@@ -10069,7 +10077,6 @@ registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. E.g. "*@ilias.de". Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
-pd#:#block_show_pdsysmess#:#Show System Messages
 pd#:#block_show_pdtag#:#Show My Tags
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
@@ -10714,7 +10721,7 @@ bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
 bibl#:#override_entries#:#Override Entries
 bibl#:#bibl_edit#:#Edit Bibliography
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#detail_view#:#Detail View
 bibl#:#bibl_settings_libraries#:#Libraries
@@ -11766,12 +11773,11 @@ rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
 obj#:#obj_tool_setting_info_tab_info#:#The ‘Info’ tab will be displayed.
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
-common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block will be displayed inside the ‘Content’ tab.
+common#:#obj_tool_setting_calendar_info#:#A calendar is available and the ‘Calendar’ block is displayed in the ‘Contents’ tab.
 obj#:#obj_presentation#:#Presentation
 mcst#:#mcst_webfeed#:#RSS Web Feed
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
 news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.
-chatroom#:#room_in_container#:#%s (in: %s)
 common#:#obj_crsv#:#Course Certificate
 wsp#:#wsp_type_crsv#:#Certificate: Course
 wsp#:#wsp_list_crsv#:#Course Certificate
@@ -13488,9 +13494,6 @@ skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
-pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
-pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
-pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
@@ -15023,8 +15026,6 @@ skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
 blog#:#blog_download_submission#:#Download Submission
 exc#:#exc_down_files_started_bg#:#Download of submission files has started. Please check your background tasks in the top right corner.
-lso#:#lso_news_online_title#:#A new learning sequence object is online!
-lso#:#lso_news_online_txt#:#A new object for your learning sequence was just published.
 user#:#user_profile_info_std#:#Default User Profile Info
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
@@ -15074,3 +15075,8 @@ content#:#cont_Interaction#:#Interaction
 content#:#cont_Background#:#Background
 dateplaner#:#cal_usr_info#:#Appointment Information
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
+certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
+exc#:#exc_tbl_action_open_submission#:#Open Submission
+exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
+exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
+content#:#msg_no_page_access#:#You do not have the permission to access this page.

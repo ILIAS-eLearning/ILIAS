@@ -1259,7 +1259,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 *
 	 * @param ilTemplate $a_tpl template
 	 */
-	static function initEditingJS(ilGlobalTemplate $a_tpl)
+	static function initEditingJS(ilGlobalTemplateInterface $a_tpl)
 	{
 		global $DIC;
 

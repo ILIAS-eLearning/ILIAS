@@ -550,8 +550,8 @@ class ilExAssignmentReminder
 			}
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
-			$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($reminder["member_id"]),
-				"", "", $subject, $message, array(), array("system"));
+			$mail_obj->enqueue(ilObjUser::_lookupLogin($reminder["member_id"]),
+				"", "", $subject, $message, array());
 		}
 
 		$this->updateRemindersLastDate($reminders);

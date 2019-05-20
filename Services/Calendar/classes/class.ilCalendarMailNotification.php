@@ -130,7 +130,6 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->sendMail(
 					$this->getRecipients(),
-					array('system'),
 					true
 				);
 				break;
@@ -193,7 +192,7 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->addAttachment();
 										
-				$this->sendMail(array('#il_grp_admin_'.$this->getRefId(),'#il_grp_member_'.$this->getRefId()),array('system'),false);
+				$this->sendMail(array('#il_grp_admin_'.$this->getRefId(),'#il_grp_member_'.$this->getRefId()),false);
 				break;
 
 			case self::TYPE_GRP_NOTIFICATION:
@@ -222,7 +221,7 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->addAttachment();
 										
-				$this->sendMail(array('#il_grp_admin_'.$this->getRefId(),'#il_grp_member_'.$this->getRefId()),array('system'),false);
+				$this->sendMail(array('#il_grp_admin_'.$this->getRefId(),'#il_grp_member_'.$this->getRefId()),false);
 				break;
 
 			case self::TYPE_CRS_NEW_NOTIFICATION:
@@ -250,7 +249,7 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->addAttachment();
 										
-				$this->sendMail(array('#il_crs_admin_'.$this->getRefId(),'#il_crs_tutor_'.$this->getRefId(),'#il_crs_member_'.$this->getRefId()),array('system'),false);
+				$this->sendMail(array('#il_crs_admin_'.$this->getRefId(),'#il_crs_tutor_'.$this->getRefId(),'#il_crs_member_'.$this->getRefId()),false);
 				break;
 
 			case self::TYPE_CRS_NOTIFICATION:
@@ -279,7 +278,7 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->addAttachment();
 										
-				$this->sendMail(array('#il_crs_admin_'.$this->getRefId(),'#il_crs_tutor_'.$this->getRefId(),'#il_crs_member_'.$this->getRefId()),array('system'),false);
+				$this->sendMail(array('#il_crs_admin_'.$this->getRefId(),'#il_crs_tutor_'.$this->getRefId(),'#il_crs_member_'.$this->getRefId()),false);
 				break;
 
 			case self::TYPE_BOOKING_CONFIRMATION:
@@ -313,13 +312,13 @@ class ilCalendarMailNotification extends ilMailNotification
 				 */
 				$this->getMail()->appendInstallationSignature(true);
 
-				$this->sendMail(array($user_id),array('system'),true);
+				$this->sendMail(array($user_id),true);
 
 				$this->appendBody("\n\n");
 				$this->appendBody($this->getLanguageText('cal_booking_confirmation_user')."\n");
 				$this->appendBody(ilObjUser::_lookupFullname($user_id));
 
-				$this->sendMail(array($booking->getObjId()),array('system'),true);
+				$this->sendMail(array($booking->getObjId()),true);
 				break;
 
 			case self::TYPE_BOOKING_CANCELLATION:
@@ -348,13 +347,13 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->getMail()->appendInstallationSignature(true);
 
-				$this->sendMail(array($user_id),array('system'),true);
+				$this->sendMail(array($user_id),true);
 
 				$this->appendBody("\n\n");
 				$this->appendBody($this->getLanguageText('cal_booking_cancellation_user')."\n");
 				$this->appendBody(ilObjUser::_lookupFullname($user_id));
 
-				$this->sendMail(array($booking->getObjId()),array('system'),true);
+				$this->sendMail(array($booking->getObjId()),true);
 				break;
 			
 			case ilCalendarMailNotification::TYPE_BOOKING_REMINDER:
@@ -382,7 +381,7 @@ class ilCalendarMailNotification extends ilMailNotification
 				$this->appendAppointmentDetails($booking);
 
 				$this->getMail()->appendInstallationSignature(true);
-				$this->sendMail(array($user_id),array('system'),true);
+				$this->sendMail(array($user_id),true);
 				break;
 		}
 		

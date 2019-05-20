@@ -14,42 +14,47 @@ use ILIAS\UI\Component\Image\Image;
  * Page
  */
 class Standard implements Page\Standard {
-	use ComponentHelper;
 
+	use ComponentHelper;
 	/**
 	 * @var mixed
 	 */
 	private $content;
-
 	/**
 	 * @var MetaBar
 	 */
 	private $metabar;
-
 	/**
-	 * @var	MainBar
+	 * @var    MainBar
 	 */
 	private $mainbar;
-
 	/**
-	 * @var	Breadcrumbs
+	 * @var    Breadcrumbs
 	 */
 	private $breadcrumbs;
-
 	/**
 	 * @var Image
 	 */
 	private $logo;
-
 	/**
-	 * @var	bool
+	 * @var    bool
 	 */
 	private $with_headers = true;
 
+
+	/**
+	 * Standard constructor.
+	 *
+	 * @param array            $content
+	 * @param MetaBar|null     $metabar
+	 * @param MainBar|null     $mainbar
+	 * @param Breadcrumbs|null $locator
+	 * @param Image|null       $logo
+	 */
 	public function __construct(
-		MetaBar $metabar,
-		MainBar $mainbar,
 		array $content,
+		MetaBar $metabar = null,
+		MainBar $mainbar = null,
 		Breadcrumbs $locator = null,
 		Image $logo = null
 	) {
@@ -63,63 +68,121 @@ class Standard implements Page\Standard {
 		$this->logo = $logo;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getContent()
-	{
-		return $this->content;
-	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function getMetabar(): MetaBar
-	{
-		return $this->metabar;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getMainbar(): MainBar
-	{
-		return $this->mainbar;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getBreadcrumbs()
-	{
-		return $this->breadcrumbs;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getLogo()
-	{
-		return $this->logo;
-	}
-
-	/**
-	 * @param 	bool 	$use_headers
-	 * @return 	Page
-	 */
-	public function withHeaders($use_headers): Page
-	{
+	public function withMetabar(Metabar $meta_bar): Page\Standard {
 		$clone = clone $this;
-		$clone->with_headers = $use_headers;
+		$clone->metabar = $meta_bar;
+
 		return $clone;
 	}
 
+
 	/**
-	 * @return 	bool
+	 * @inheritDoc
 	 */
-	public function getWithHeaders()
-	{
-		return $this->with_headers;
+	public function withMainbar(Mainbar $main_bar): Page\Standard {
+		$clone = clone $this;
+		$clone->mainbar = $main_bar;
+
+		return $clone;
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withLogo(Image $logo): Page\Standard {
+		$clone = clone $this;
+		$clone->logo = $logo;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasMetabar(): bool {
+		return ($this->metabar instanceof MetaBar);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasMainbar(): bool {
+		return ($this->mainbar instanceof MainBar);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasLogo(): bool {
+		return ($this->logo instanceof Image);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getContent() {
+		return $this->content;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getMetabar(): MetaBar {
+		return $this->metabar;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getMainbar(): MainBar {
+		return $this->mainbar;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getBreadcrumbs() {
+		return $this->breadcrumbs;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getLogo() {
+		return $this->logo;
+	}
+
+
+	/**
+	 * @param    bool $use_headers
+	 *
+	 * @return    Page
+	 */
+	public function withHeaders($use_headers): Page {
+		$clone = clone $this;
+		$clone->with_headers = $use_headers;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @return    bool
+	 */
+	public function getWithHeaders() {
+		return $this->with_headers;
+	}
 }

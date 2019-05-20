@@ -3,7 +3,9 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Validation;
+use ILIAS\Refinery\String\Constraints\HasMaxLength;
+use ILIAS\Refinery\String\Constraints\HasMinLength;
+use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -18,9 +20,20 @@ class ValidationFactoryTest extends TestCase {
 	 */
 	protected $f = null;
 
+	/**
+	 * @var \ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var Data\Factory
+	 */
+	private $data_factory;
+
 	protected function setUp(): void{
 		$this->lng = $this->createMock(\ilLanguage::class);
-		$this->f = new Validation\Factory(new Data\Factory(), $this->lng);
+		$this->data_factory = new Data\Factory();
+		$this->f = new Validation\Factory($this->data_factory, $this->lng);
 	}
 
 	protected function tearDown(): void {
@@ -37,21 +50,6 @@ class ValidationFactoryTest extends TestCase {
 		$this->assertInstanceOf(Validation\Constraint::class, $is_int);
 	}
 
-	public function testGreaterThan() {
-		$gt = $this->f->greaterThan(5);
-		$this->assertInstanceOf(Validation\Constraint::class, $gt);
-	}
-
-	public function testLessThan() {
-		$lt = $this->f->lessThan(5);
-		$this->assertInstanceOf(Validation\Constraint::class, $lt);
-	}
-
-	public function testHasMinLength() {
-		$min = $this->f->hasMinLength(1);
-		$this->assertInstanceOf(Validation\Constraint::class, $min);
-	}
-
 	public function testCustom() {
 		$custom = $this->f->custom(function ($value) { return "This was fault";}, 5);
 		$this->assertInstanceOf(Validation\Constraint::class, $custom);
@@ -59,9 +57,9 @@ class ValidationFactoryTest extends TestCase {
 
 	public function testSequential() {
 		$constraints = array(
-				$this->f->greaterThan(5),
-				$this->f->lessThan(15)
-			);
+			new HasMinLength(5, $this->data_factory, $this->lng),
+			new HasMaxLength(15, $this->data_factory, $this->lng)
+		);
 
 		$sequential = $this->f->sequential($constraints);
 		$this->assertInstanceOf(Validation\Constraint::class, $sequential);
@@ -69,16 +67,16 @@ class ValidationFactoryTest extends TestCase {
 
 	public function testParallel() {
 		$constraints = array(
-				$this->f->greaterThan(5),
-				$this->f->lessThan(15)
-			);
+			new HasMinLength(5, $this->data_factory, $this->lng),
+			new HasMaxLength(15, $this->data_factory, $this->lng)
+		);
 
 		$parallel = $this->f->parallel($constraints);
 		$this->assertInstanceOf(Validation\Constraint::class, $parallel);
 	}
 
 	public function testNot() {
-		$constraint = $this->f->greaterThan(5);
+		$constraint = new HasMinLength(5, $this->data_factory, $this->lng);
 		$not = $this->f->not($constraint);
 		$this->assertInstanceOf(Validation\Constraint::class, $not);
 	}

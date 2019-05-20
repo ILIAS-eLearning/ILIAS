@@ -6827,7 +6827,7 @@ button.close {
   margin-bottom: 10px;
 }
 .il-panel-report .panel-heading {
-  height: 34px;
+  min-height: 34px;
 }
 .panel-heading > h3 {
   float: left;
@@ -6864,16 +6864,55 @@ button.close {
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
-/* this is currently experimental, could be removed */
-.il-narrow-content .il-panel-listing-std-container > h3,
-.il-narrow-content .il-panel-listing-std-container > h4 {
-  display: block;
-  padding: 3px 5px;
-  font-size: 12px;
-  background-color: #f3f3f3;
-  color: #777777;
-  white-space: nowrap;
-  margin: 0;
+@media only screen and (min-width: 768px) {
+  .panel-secondary .il-panel-listing-std-container > h3,
+  .panel-secondary .il-panel-listing-std-container > h4 {
+    display: block;
+    padding: 3px 6px;
+    font-size: 12px;
+    background-color: #ececec;
+    color: #909090;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .panel-secondary .panel-body {
+    padding: 3px 8px;
+  }
+}
+.panel-secondary .panel-heading {
+  display: flex;
+  flex-flow: row wrap;
+}
+.panel-secondary .panel-secondary-title {
+  flex-grow: 99;
+  flex-shrink: 0;
+  order: 1;
+}
+.panel-secondary .panel-heading .dropdown {
+  flex-grow: 1;
+  flex-shrink: 0;
+  order: 3;
+}
+.panel-secondary .il-viewcontrol-sortation {
+  flex-grow: 1;
+  flex-shrink: 0;
+  order: 2;
+  margin-right: 5px;
+}
+.panel-secondary .il-viewcontrol-pagination,
+.panel-secondary .il-viewcontrol-section {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 100%;
+  order: 4;
+  background-color: #f9f9f9;
+  text-align: center;
+  padding-top: 8px;
+}
+.panel-secondary .panel-heading.ilHeader {
+  padding-bottom: 0;
+  padding-right: 0;
+  border: none;
 }
 .il-card {
   padding: 0;
@@ -7436,9 +7475,6 @@ hr.il-divider-with-label {
 .il-item-marker {
   border-left: 5px solid;
 }
-.il-narrow-content .il-item:hover {
-  background-color: #ffffd0;
-}
 .il-item-group {
   clear: both;
 }
@@ -7452,73 +7488,82 @@ hr.il-divider-with-label {
   clear: both;
 }
 /* this is currently experimental, could be removed */
-.il-narrow-content .il-item {
-  padding: 0px;
-  display: table;
-  width: 100%;
-}
-.il-narrow-content .il-item h5 {
-  margin-top: 3px;
-  font-size: 100%;
-  float: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.il-narrow-content .il-item .il-item-description {
-  padding-top: 1px;
-  font-size: 80%;
-}
-.il-narrow-content .il-item .il-item-divider,
-.il-narrow-content .il-item .il-item-property-name,
-.il-narrow-content .il-item .il-item-property-value {
-  display: none;
-}
-.il-narrow-content .il-item .row {
-  display: table-row;
-}
-.il-narrow-content .il-item .col-sm-3 {
-  display: table-cell;
-  height: 100%;
-  padding: 0;
-  float: none;
-  vertical-align: top;
-  width: 45px;
-}
-.il-narrow-content .il-item .col-sm-3 img {
-  width: 40px;
-}
-.il-narrow-content .il-item .col-sm-9 {
-  position: static;
-  display: table-cell;
-  padding: 0 5px 0 5px;
-  overflow: hidden;
-  max-width: 0;
-  float: none;
-  zoom: 1;
-  vertical-align: top;
-  width: auto;
-}
-.il-narrow-content .il-item .dropdown {
-  position: static;
-}
-.il-narrow-content .il-item .dropdown-menu.pull-right {
-  width: 100%;
-}
-.il-narrow-content .il-item .dropdown-toggle {
-  position: absolute;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  margin-top: -20px;
-  z-index: 1;
-}
-.il-narrow-content .il-item button.dropdown-toggle {
-  background-color: transparent;
-  border: 0;
-}
-.il-narrow-content .il-item button.dropdown-toggle > span {
-  display: none;
+@media only screen and (min-width: 768px) {
+  .panel-secondary .il-item {
+    padding: 6px 6px;
+    display: table;
+    width: 100%;
+  }
+  .panel-secondary .il-item h5 {
+    margin-top: 0;
+    font-size: 100%;
+    float: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .panel-secondary .il-item .il-item-description {
+    padding-top: 0;
+    font-size: 11px;
+  }
+  .panel-secondary .il-item .il-item-divider,
+  .panel-secondary .il-item .il-item-property-name,
+  .panel-secondary .il-item .il-item-property-value {
+    display: none;
+  }
+  .panel-secondary .il-item .row {
+    display: table-row;
+  }
+  .panel-secondary .il-item .col-sm-3 {
+    display: table-cell;
+    height: 100%;
+    padding: 0;
+    float: none;
+    vertical-align: top;
+    width: 45px;
+  }
+  .panel-secondary .il-item .col-sm-3 img {
+    width: 40px;
+  }
+  .panel-secondary .il-item .col-sm-9 {
+    position: static;
+    display: table-cell;
+    padding: 0 6px;
+    overflow: hidden;
+    max-width: 0;
+    float: none;
+    zoom: 1;
+    vertical-align: top;
+    width: auto;
+  }
+  .panel-secondary .il-item .dropdown {
+    position: static;
+  }
+  .panel-secondary .il-item .dropdown-menu {
+    width: 100%;
+  }
+  .panel-secondary .il-item .dropdown-toggle {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: -20px;
+    z-index: 1;
+  }
+  .panel-secondary .il-item .open > .dropdown-toggle.btn-default:hover,
+  .panel-secondary .il-item .open > .dropdown-toggle.btn-default {
+    background-color: transparent;
+  }
+  .panel-secondary .il-item button.dropdown-toggle {
+    background-color: transparent;
+    border: 0;
+  }
+  .panel-secondary .il-item button.dropdown-toggle > span {
+    display: none;
+  }
+  .panel-secondary .il-item:hover {
+    background-color: #ffffd0;
+  }
 }
 /* otherwise dropdowns in items with icon do not work */
 .il-std-item .media .media-body,
@@ -9149,6 +9194,732 @@ div.alert ul > li:before {
 }
 .il-tree .il-tree-node.highlighted > .node-line {
   background-color: #ffffd0;
+}
+.shadow-right {
+  box-shadow: 1px 3px 4px #ccc;
+}
+.shadow-bottom {
+  box-shadow: 0 1px 4px #ccc;
+}
+* {
+  box-sizing: border-box;
+}
+menu,
+article,
+aside,
+details,
+footer,
+header,
+nav,
+section {
+  display: block;
+}
+/*
+*********************
+grid-based layout
+*********************
+*/
+.il-layout-page {
+  background: #f0f0f0;
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 0px;
+  -ms-grid-columns: 80px 1fr;
+  grid-template-columns: 80px 1fr;
+  -ms-grid-rows: 60px 33px 1fr;
+  grid-template-rows: 60px 33px 1fr;
+  /* // not supported in IE, use track-line instead
+	grid-template-areas:
+    "header header"
+	"breadcrumbs breadcrumbs"
+    "mainbar content"
+    "footer footer";
+	*/
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+.il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
+  display: none;
+}
+.il-layout-page.with-mainbar-slates-engaged {
+  -ms-grid-columns: 480px 1fr;
+  grid-template-columns: 480px 1fr;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
+  width: 480px;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  z-index: 995;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
+  overflow-y: auto;
+}
+.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-close-slates {
+  display: -ms-flexbox;
+  display: flex;
+}
+/* metabar */
+header {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 1;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 1;
+  z-index: 999;
+}
+.header-inner {
+  -ms-flex-align: center;
+  align-items: center;
+  background: #fff;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 60px;
+  padding: 0 15px;
+  position: fixed;
+  width: 100%;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.il-logo {
+  width: 45px;
+  height: 45px;
+  justify-self: start;
+}
+/* breadcrumbs */
+.breadcrumbs {
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 2;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 2;
+  z-index: 998;
+  box-shadow: 0 1px 4px #ccc;
+}
+.breadcrumbs ul.breadcrumb {
+  padding-left: 100px;
+}
+.breadcrumbs ul.breadcrumb > li + li:before {
+  content: " \e606";
+  color: #bbb;
+  font-family: "il-icons";
+}
+/* mainbar */
+nav.il-maincontrols {
+  -ms-grid-column: 1;
+  -ms-grid-row: 3;
+  grid-column: 1;
+  grid-row: 3;
+  z-index: 997;
+}
+.il-maincontrols-mainbar {
+  background-color: #fff;
+  display: -ms-grid;
+  display: grid;
+  height: 100%;
+  -ms-grid-colums: 80px 400px;
+  grid-template-columns: 80px 400px;
+  -ms-grid-rows: 1fr;
+  grid-template-rows: 1fr;
+  width: 80px;
+}
+.il-mainbar {
+  background-color: #4a4a4a;
+  -ms-grid-column: 1;
+  -ms-grid-row: 1;
+  grid-column: 1;
+  grid-row: 1;
+  box-shadow: 1px 3px 4px #ccc;
+  z-index: 996;
+}
+.il-mainbar-tools-button {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+.il-mainbar-tools-button button {
+  height: 80px;
+  width: 80px;
+}
+.il-mainbar-tools-entries button {
+  height: 80px;
+  width: 80px;
+}
+.il-mainbar-tools-entries.engaged {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+.il-mainbar-slates {
+  -ms-grid-column: 2;
+  -ms-grid-row: 1;
+  grid-column: 2;
+  grid-row: 1;
+}
+.il-mainbar-remove-tool {
+  display: none;
+}
+.il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+  display: block;
+}
+/* content */
+main {
+  display: block;
+}
+.il-layout-page-content {
+  -ms-grid-column: 2;
+  -ms-grid-row: 3;
+  grid-column: 2;
+  grid-row: 3;
+  overflow: auto;
+  padding: 20px;
+}
+/* Footer */
+footer {
+  background-color: #4c6586;
+  grid-area: footer;
+  z-index: 2;
+}
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@media only screen and (max-width: 767px) {
+  .il-layout-page {
+    background: #f0f0f0;
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 0px;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 45px 33px 1fr 50px;
+    grid-template-rows: 45px 33px 1fr 50px;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar {
+    display: grid;
+    display: -ms-grid;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 0 50px;
+    grid-template-rows: 0 50px;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
+    display: none;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar {
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .il-layout-page.with-mainbar-slates-engaged {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols {
+    -ms-grid-column: 1;
+    -ms-grid-row: 3;
+    -ms-grid-row-span: 2;
+    grid-column: 1;
+    grid-row: 3;
+    grid-row-end: 4;
+    height: 100%;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    -ms-grid-rows: 1fr 50px;
+    grid-template-rows: 1fr 50px;
+    width: 100%;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    z-index: 995;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
+    overflow-y: auto;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
+    display: -ms-flexbox;
+    display: flex;
+  }
+  /* metabar */
+  header {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 999;
+  }
+  .header-inner {
+    height: 45px;
+    padding: 0;
+    width: 100%;
+  }
+  /* breadcrumbs */
+  .breadcrumbs {
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+    grid-column: 1;
+    grid-row: 2;
+    z-index: 998;
+    box-shadow: 0 1px 4px #ccc;
+  }
+  .breadcrumbs ul.breadcrumb {
+    padding-left: 20px;
+  }
+  .breadcrumbs ul.breadcrumb > li + li:before {
+    content: " \e606";
+    color: #bbb;
+    font-family: "il-icons";
+  }
+  /* mainbar */
+  nav.il-maincontrols {
+    -ms-grid-column: 1;
+    -ms-grid-row: 4;
+    grid-column: 1;
+    grid-row: 4;
+    width: 100%;
+    z-index: 997;
+  }
+  .il-maincontrols-mainbar {
+    display: block;
+    width: 100%;
+  }
+  .il-mainbar {
+    background-color: #4a4a4a;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 996;
+  }
+  .il-mainbar-tools-button {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .il-mainbar-tools-button button {
+    height: 50px;
+    width: 75px;
+  }
+  .il-mainbar-tools-entries button {
+    height: 50px;
+    width: 75px;
+  }
+  .il-mainbar-tools-entries.engaged {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .il-mainbar-slates {
+    -ms-grid-column: 2;
+    -ms-grid-row: 1;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .il-mainbar-remove-tool {
+    display: none;
+  }
+  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+    display: block;
+  }
+  /* content */
+  main {
+    display: block;
+  }
+  .il-layout-page-content {
+    -ms-grid-column: 1;
+    -ms-grid-row: 3;
+    grid-column: 1;
+    grid-row: 3;
+    overflow: auto;
+    padding: 20px;
+  }
+}
+.il-maincontrols-slate.disengaged {
+  display: none;
+}
+.il-maincontrols-slate .btn-bulky {
+  align-items: center;
+  background-color: #f2f2f2;
+  display: flex;
+  margin-bottom: 2px;
+  padding: 10px 20px;
+}
+.il-maincontrols-slate .btn-bulky.disengaged:before {
+  content: " \e606";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky.engaged:before {
+  content: " \e604";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky:hover,
+.il-maincontrols-slate .btn-bulky.engaged {
+  background-color: #d1d8e3;
+  border-color: #e0e0e0;
+  color: inherit;
+}
+.il-maincontrols-slate .btn-bulky .icon {
+  filter: invert(50%);
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky .bulky-label {
+  font-size: 1.5rem;
+}
+.il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
+  background-color: #e3e3e3;
+}
+.il-maincontrols-slate-overflow {
+  min-height: 0;
+}
+.il-maincontrols-slate-content p,
+.il-maincontrols-slate-content h1,
+.il-maincontrols-slate-content h2,
+.il-maincontrols-slate-content h3,
+.il-maincontrols-slate-content h4 {
+  padding: 10px 20px;
+}
+.il-maincontrols-slate-close button,
+.il-maincontrols-slate-back button {
+  background-color: transparent;
+}
+.il-maincontrols-slate-back {
+  display: none;
+}
+.il-maincontrols-slate-back.active {
+  display: block;
+}
+.il-maincontrols-slate-back button {
+  width: 100%;
+  text-align: left;
+  padding: 30px 0 10px 20px;
+}
+.il-maincontrols-slate-close {
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  height: 50px;
+  margin-top: auto;
+  bottom: 0;
+  position: sticky;
+}
+.il-maincontrols-slate-close .bulky-label {
+  display: none;
+}
+.il-maincontrols-slate-close .btn-bulky {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+}
+.il-maincontrols-slate-close .btn-bulky .glyph {
+  padding-right: 20px;
+}
+.il-maincontrols-slate-close .btn-bulky.engaged {
+  background-color: #fff;
+  border: 0;
+}
+.il-maincontrols-slate-close .btn-bulky:active,
+.il-maincontrols-slate-close .btn-bulky:focus {
+  outline: none;
+}
+.il-maincontrols-metabar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.il-maincontrols-metabar .il-metabar-entries {
+  align-items: center;
+  display: flex;
+  height: 60px;
+}
+.il-maincontrols-metabar .il-metabar-entries .il-metabar-entry,
+.il-maincontrols-metabar .il-metabar-entries .il-logout {
+  padding-left: 10px;
+}
+.il-metabar-entry {
+  position: relative;
+}
+.il-metabar-entry .btn .badge {
+  margin-top: -20px;
+}
+.il-metabar-entry .il-counter-status {
+  margin-top: -4px;
+}
+.il-metabar-entry > .btn-bulky > div > .bulky-label {
+  display: none;
+}
+.il-metabar-entry .btn-bulky {
+  background-color: transparent;
+  height: 60px;
+  min-width: 60px;
+}
+.il-metabar-entry .btn-bulky.engaged,
+.il-metabar-entry .btn-bulky.engaged:focus {
+  box-shadow: 1px 3px 4px #ccc;
+  background-color: #fafafa;
+  border: none;
+  color: initial;
+  outline-color: transparent;
+}
+.il-metabar-entry .btn-bulky .glyphicon {
+  color: #aaa;
+  font-size: 2.3rem;
+}
+.il-metabar-entry .glyphicon {
+  font-family: 'il-icons';
+}
+.il-metabar-entry .glyphicon-bell:before {
+  content: "\e027";
+}
+.il-metabar-entry .glyphicon-comment:before {
+  content: "\e04a";
+}
+.il-metabar-entry .glyphicon-envelope:before {
+  content: "\e086";
+}
+.il-metabar-entry .glyphicon-question-sign:before {
+  content: "\e05d";
+}
+.il-metabar-entry .glyphicon-search:before {
+  content: "\e090";
+}
+.il-metabar-entry .glyphicon-user:before {
+  content: "\e005";
+}
+.il-metabar-slates {
+  box-shadow: 1px 3px 4px #ccc;
+  background-color: #fafafa;
+  position: absolute;
+  right: 0;
+}
+.il-maincontrols-mainbar .btn-bulky {
+  font-size: 0.7rem;
+}
+.il-maincontrols-mainbar .bulky-label {
+  white-space: normal;
+  margin-top: 5px;
+  display: block;
+}
+.il-maincontrols-mainbar .btn:focus,
+.il-maincontrols-metabar .btn:focus,
+.il-maincontrols-mainbar .btn:active,
+.il-maincontrols-metabar .btn:active {
+  border: 0;
+  outline: 0;
+}
+.il-mainbar-triggers {
+  background: #4a4a4a;
+  display: flex;
+  position: relative;
+  width: 80px;
+  z-index: 1;
+}
+.il-mainbar-triggers .btn-bulky {
+  height: 80px;
+  width: 80px;
+  justify-content: center;
+  padding: 0;
+  display: inline-flex;
+  flex-flow: column wrap;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  background: #4a4a4a;
+  border-bottom: 1px solid #ddd;
+  color: #fff;
+}
+.il-mainbar-triggers .btn-bulky img {
+  filter: invert(100%);
+}
+.il-mainbar-triggers .btn-bulky.engaged {
+  background-color: #fff;
+  color: #4a4a4a;
+}
+.il-mainbar-triggers .btn-bulky.engaged img {
+  filter: invert(50%);
+}
+.il-mainbar-triggers .btn-bulky:focus {
+  outline: none;
+}
+.il-mainbar-triggers .btn-bulky .bulky-label {
+  white-space: normal;
+  margin-top: 5px;
+  display: block;
+}
+.il-mainbar-triggers.engaged {
+  background: #fff;
+}
+.il-mainbar-slates {
+  box-shadow: 1px 3px 4px #ccc;
+  width: 400px;
+  display: none;
+}
+.il-mainbar-tools-button .btn-bulky,
+.il-mainbar-tools-button .btn-bulky.engaged {
+  background-color: #d2dae5;
+  border: 0;
+  color: #4a4a4a;
+  padding: 0;
+}
+.il-mainbar-tools-button .btn-bulky img,
+.il-mainbar-tools-button .btn-bulky.engaged img {
+  filter: invert(35%);
+}
+.il-mainbar-tools-entries {
+  display: none;
+}
+.il-mainbar-tools-entries.engaged {
+  display: block;
+  flex-shrink: 0;
+}
+.il-mainbar-tools-entries .btn-bulky {
+  background-color: #91a5c1;
+  color: #fff;
+  padding: 0;
+}
+.il-mainbar-tools-entries .btn-bulky .icon {
+  filter: invert(100%);
+}
+.il-mainbar-tools-entries .btn-bulky.engaged {
+  background-color: #fff;
+  border: 0;
+  color: #4a4a4a;
+}
+.il-mainbar-tools-entries .btn-bulky.engaged .icon {
+  filter: invert(60%);
+}
+.il-mainbar-close-slates {
+  align-items: flex-end;
+  display: flex;
+  flex-shrink: 0;
+  height: 45px;
+}
+.il-mainbar-close-slates .btn-bulky {
+  background-color: transparent;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: row;
+  height: 45px;
+  justify-content: flex-end;
+  align-items: center;
+}
+.il-mainbar-close-slates .btn-bulky .bulky-label {
+  display: none;
+}
+.il-mainbar-close-slates .btn-bulky .glyph:before {
+  content: " \e605";
+  display: block;
+  font-family: "il-icons";
+  font-size: 2.1rem;
+}
+.il-mainbar-close-slates .btn-bulky .glyph .glyphicon {
+  display: none;
+}
+.il-mainbar-remove-tool .close {
+  color: #4c6586;
+  font-size: 4.5rem;
+  font-weight: 300;
+  height: auto;
+  padding: 0 30px;
+  width: auto;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
+  height: 0px;
+}
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@media only screen and (max-width: 767px) {
+  .il-mainbar-triggers {
+    background: #4a4a4a;
+    display: flex;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+  .il-mainbar-triggers .btn-bulky {
+    border: 0;
+    height: 50px;
+    width: 75px;
+  }
+}
+.il-drilldown ul {
+  list-style: none;
+  padding: 0;
+}
+.il-drilldown .btn-bulky {
+  align-items: center;
+  display: flex;
+}
+.il-drilldown .il-drilldown-current .btn-bulky {
+  cursor: auto;
+}
+.il-drilldown .il-drilldown-structure,
+.il-drilldown .il-drilldown-current ul,
+.il-drilldown .il-drilldown-backlink ul,
+.il-drilldown .il-drilldown-visible ul {
+  display: none;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;

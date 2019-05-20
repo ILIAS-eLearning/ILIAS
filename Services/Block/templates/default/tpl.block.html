@@ -1,4 +1,4 @@
-<div class="il_Block" datatable="0">
+<div class="il_Block">
 <div <!-- BEGIN hclass -->class="ilBlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="ilBlockHeaderBig"<!-- END hclassb -->>
 <!-- BEGIN hitem -->
 <!-- BEGIN header_commands -->
@@ -39,7 +39,6 @@
 </div>
 <!-- BEGIN top_row -->
 <div class="ilBlockInfo">
-	<!-- colspan="{PCOLSPAN}" -->
 	{NUMINFO}
 	<!-- BEGIN top_item -->
 	<!-- BEGIN top_delim --> | <!-- END top_delim -->
@@ -54,7 +53,6 @@
 <!-- END data_section -->
 <!-- BEGIN detail_setting -->
 <div class="ilBlockInfo">
-	<!-- colspan="{DCOLSPAN}" -->
 	<!-- BEGIN det_info -->
 	<img style="cursor:help;" alt="{ALT_DET_INFO}" src="{IMG_DET_INFO}" border="0" onclick="ilBlockToggleInfo('{DI_BLOCK_ID}');" />
 	<div class="small" style="clear:both; margin-top:2px;">
@@ -68,7 +66,6 @@
 <!-- END detail_setting -->
 <!-- BEGIN foot_row -->
 <div class="tblfooter">
-	<!-- colspan="{PCOLSPAN}" -->
 	<div class="il_BlockInfo ilFloatRight">
 	<!-- BEGIN foot_item -->
 	<!-- BEGIN foot_delim --> | <!-- END foot_delim -->
@@ -80,12 +77,12 @@
 </div>
 <!-- END foot_row -->
 <!-- BEGIN footer_information -->
-<div class="submit"><!-- colspan="{FICOLSPAN}" --><div class="small">
+<div class="submit"><div class="small">
 {FOOTER_INFO}
 </div></div>
 <!-- END footer_information -->
 <!-- BEGIN block_commands -->
-<div class="ilBlockInfo ilLeft"> <!-- colspan="{CCOLSPAN}" -->
+<div class="ilBlockInfo ilLeft">
 <!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->
 <!-- BEGIN block_command -->
 <a {BC_CLASS} href="{CMD_HREF}" <!-- BEGIN bc_target -->target="{CMD_TARGET}"<!-- END bc_target --> ><!-- BEGIN bc_image --><img src="{SRC_BC}" border="0" title="{ALT_BC}" alt="{ALT_BC}" /><!-- END bc_image --><!-- BEGIN bc_html -->{HTML}<!-- END bc_html -->{CMD_TEXT}</a>

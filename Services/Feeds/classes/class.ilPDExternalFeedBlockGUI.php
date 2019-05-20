@@ -128,8 +128,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$this->feed->setUrl($this->feed_block->getFeedUrl());
 		
 		// init details
-		$this->setAvailableDetailLevels(2);
-		
+
 		$ilCtrl->setParameter($this, "block_id", $this->feed_block->getId());
 	}
 
@@ -159,7 +158,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		{
 			$this->setDataSection($this->getDynamicReload());
 		}
-		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		else if (count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
 		}
@@ -185,12 +184,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			return "";
 		}
 
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
 
-		
 		// if no dynamic reload
 		if (!$this->getDynamic())
 		{
@@ -385,9 +379,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($this->getTitle());
-		$content_block->setImage(ilUtil::getImagePath("icon_feed.svg"));
-		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("selected_items_back"));
 
 		return $content_block->getHTML();
 	}

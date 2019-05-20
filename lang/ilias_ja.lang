@@ -1565,7 +1565,7 @@ bibl#:#bibl_new#:#新規著者目録
 bibl#:#bibl_settings_edit#:#ライブラリーを編集
 bibl#:#bibl_settings_libraries#:#ライブラリー
 bibl#:#bibl_settings_new#:#ライブラリーを追加
-bibl#:#bibliography file#:#著者目録ファイル
+bibl#:#bibliography_file#:#著者目録ファイル
 bibl#:#detail_view#:#詳細ビュー
 bibl#:#download_original_file#:#オリジナルファイルをダウンロード
 bibl#:#news_title_created#:#新しい文献リストを追加しました

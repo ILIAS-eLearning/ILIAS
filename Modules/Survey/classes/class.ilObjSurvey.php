@@ -4682,14 +4682,13 @@ class ilObjSurvey extends ilObject
 					}
 					
 					// send mail
-					$mail->validateAndEnqueue(
+					$mail->enqueue(
 						$data['email'], // to
 						"", // cc
 						"", // bcc
 						$subject, // subject
 						$messagetext, // message
-						array(), // attachments
-						array('normal') // type
+						array() // attachments
 					);	
 				}
 			}
@@ -5447,13 +5446,12 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
+		$mail->enqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
-			null,
-			array("system"));
+			[]);
 	}
 
 	/**
@@ -5477,13 +5475,12 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
+		$mail->enqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
-			null,
-			array("system"));
+			[]);
 	}
 
 	/**
@@ -5508,13 +5505,12 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
+		$mail->enqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
-			null,
-			array("system"));
+			[]);
 	}
 
 	public function isAppraisee($a_user_id)
@@ -6291,13 +6287,12 @@ class ilObjSurvey extends ilObject
 
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id),
+		$mail->enqueue(ilObjUser::_lookupLogin($a_user_id),
 			null,
 			null,
 			$subject,
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true),
-			null,
-			array("system"));
+			[]);
 	}
 
 
@@ -6354,8 +6349,8 @@ class ilObjSurvey extends ilObject
 
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
-			$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($user_id),
-				"", "", $subject, $message, array(), array("system"));
+			$mail_obj->enqueue(ilObjUser::_lookupLogin($user_id),
+				"", "", $subject, $message, array());
 		}
 	}
 	
@@ -6525,8 +6520,8 @@ class ilObjSurvey extends ilObject
 
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
-			$mail_obj->validateAndEnqueue(ilObjUser::_lookupLogin($user_id),
-				"", "", $subject, $message, array(), array("system"));
+			$mail_obj->enqueue(ilObjUser::_lookupLogin($user_id),
+				"", "", $subject, $message, array());
 		}					
 	}
 	

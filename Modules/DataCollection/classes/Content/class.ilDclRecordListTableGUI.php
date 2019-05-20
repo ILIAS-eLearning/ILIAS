@@ -219,9 +219,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @return bool|void
 	 */
 	public function fillRow($record_data) {
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
 		$record_obj = $record_data['_record'];
 
 		/**
@@ -291,6 +288,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * init filters with values from tableview
 	 */
 	public function initFilterFromTableView() {
+		$this->filters = [];
+		$this->filter = [];
 		foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
 			$field = $field_set->getFieldObject();
 			ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);

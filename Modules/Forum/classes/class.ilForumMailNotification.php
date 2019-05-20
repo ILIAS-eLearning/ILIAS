@@ -317,7 +317,7 @@ class ilForumMailNotification extends ilMailNotification
 		$this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
 		$this->appendAttachments();
 		$this->addLinkToMail();
-		$this->sendMail(array($userId), array('system'));
+		$this->sendMail(array($userId));
 	}
 
 	/**
@@ -338,7 +338,7 @@ class ilForumMailNotification extends ilMailNotification
 	) {
 		$this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
 		$this->addLinkToMail();
-		$this->sendMail(array($userId), array('system'));
+		$this->sendMail(array($userId));
 	}
 
 	/**
