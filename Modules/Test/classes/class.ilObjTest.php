@@ -3776,6 +3776,12 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->getTitleOutput() == 2)
 		{
+			if( $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC )
+			{
+				// avoid legacy setting combination: ctm without question titles
+				return $title;
+			}
+			else
 			if (isset($nr))
 			{
 				return $this->lng->txt("ass_question"). ' ' . $nr;
