@@ -553,7 +553,11 @@ class ilUserQuery
 
 		// count query
 		$set = $ilDB->query($count_query);
-		$cnt = $ilDB->numRows($set);
+		$cnt = 0;
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt = $rec["cnt"];
+		}
 
 		$offset = (int) $this->offset;
 		$limit = (int) $this->limit;

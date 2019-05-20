@@ -1435,9 +1435,14 @@ class ilPersonalProfileGUI
 			$handler = ilBadgeHandler::getInstance();
 			if($handler->isActive())
 			{
-				if(isset($_POST["bpos"]) && is_array($_POST["bpos"]) && sizeof($_POST["bpos"])) {
+				$badgePositions = [];
+				if (isset($_POST["bpos"]) && is_array($_POST["bpos"])) {
+					$badgePositions = $_POST["bpos"];
+				}
+
+				if (count($badgePositions) > 0) {
 					include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-					ilBadgeAssignment::updatePositions($ilUser->getId(), $_POST["bpos"]);
+					ilBadgeAssignment::updatePositions($ilUser->getId(), $badgePositions);
 				}				
 			}
 			

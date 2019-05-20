@@ -1342,7 +1342,7 @@ bibl#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_copy#:#User can copy bibliography
 bibl#:#bibl_edit#:#Edit Bibliography
 bibl#:#bibl_new#:#New Bibliography
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#detail_view#:#Detail View
 bibl#:#download_original_file#:#Download Original File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography

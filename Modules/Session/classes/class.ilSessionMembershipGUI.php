@@ -75,6 +75,17 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		$table->init();
 		return $table;
 	}
+
+	/**
+	 * @return \ilSubscriberTableGUI
+	 */
+	protected function initSubscriberTable()
+	{
+		$subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(),true, false);
+		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
+		return $subscriber;
+	}
+	
 	
 	/**
 	 * update entries from member table

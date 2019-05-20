@@ -201,9 +201,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				$max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
 			}
 			
-			$act_no_of_chars = $this->object->countLetters($user_solution);
-			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . 
+			$act_no_of_chars = $this->object->countLetters($solution);
+			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' .
 				$this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
+			
+			if( $this->object->isWordCounterEnabled() )
+			{
+				$template->setCurrentBlock('word_count');
+				$template->setVariable('WORD_COUNT', $this->lng->txt('qst_essay_written_words').
+					' <b>' . $this->object->countWords($solution) . '</b>'
+				);
+				$template->parseCurrentBlock();
+			}
 		}
 		if (($active_id > 0) && (!$show_correct_solution))
 		{

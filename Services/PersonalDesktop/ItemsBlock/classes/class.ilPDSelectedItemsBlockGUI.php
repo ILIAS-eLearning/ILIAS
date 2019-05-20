@@ -78,7 +78,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setAvailableDetailLevels(3, 1);
 		$this->allow_moving = false;
 
 		$this->initViewSettings();
@@ -116,15 +115,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		return $this->manage;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function fillDetailRow()
-	{
-//		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		parent::fillDetailRow();
-//		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', '');
-	}
 
 	/**
 	 * @inheritdoc
@@ -211,12 +201,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->setTitle($this->view->getTitle());
 		$this->setContent($this->getViewBlockHtml());
 
-		if($this->getContent() == '')
-		{
-			$this->setEnableDetailRow(false);
-		}
 
-//		$this->ctrl->clearParametersByClass('ilpersonaldesktopgui');
 		$this->ctrl->clearParameters($this);
 
 		$DIC->database()->useSlave(false);
@@ -224,19 +209,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		return parent::getHTML();
 	}
 
-	// Overwritten from ilBlockGUI as there seems to be no other possibility to
-	// not show Commands in the HEADER(!!!!) of a block in the VIEW_MY_STUDYPROGRAMME
-	// case... Sigh.
-	public function getFooterLinks()
-	{
-		if($this->viewSettings->isStudyProgrammeViewActive())
-		{
-			return array();
-		}
-
-		return parent::getFooterLinks();
-	}
-	
 	/**
 	 * 
 	 */
@@ -303,8 +275,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function fillFooter()
 	{
 		$this->setFooterLinks();
-		$this->fillFooterLinks();
-		$this->tpl->setVariable('FCOLSPAN', $this->getColSpan());
 		if($this->tpl->blockExists('block_footer'))
 		{
 			$this->tpl->setCurrentBlock('block_footer');
@@ -328,37 +298,35 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			return '';
 		}
 
-		$this->addFooterLink(
-			$this->lng->txt("pd_sort_by_type"),
+		// @todo: set checked on $this->viewSettings->isSortedByType()
+		$this->addBlockCommand(
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByType"),
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByType", "", true),
-			"block_".$this->getBlockType()."_".$this->block_id,
-			false, false, $this->viewSettings->isSortedByType()
+			$this->lng->txt("pd_sort_by_type"),
+			$this->ctrl->getLinkTarget($this, "orderPDItemsByType", "", true)
 		);
 
-		$this->addFooterLink($this->lng->txt("pd_sort_by_location"),
+		// @todo: set checked on $this->viewSettings->isSortedByLocation()
+		$this->addBlockCommand(
 			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation"),
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation", "", true),
-			"block_".$this->getBlockType()."_".$this->block_id,
-			false, false, $this->viewSettings->isSortedByLocation()
+			$this->lng->txt("pd_sort_by_location"),
+			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation", "", true)
 		);
 
+		// @todo: set checked on $this->viewSettings->isSortedByStartDate()
 		if($this->viewSettings->isMembershipsViewActive())
 		{
-			$this->addFooterLink($this->lng->txt("pd_sort_by_start_date"),
+			$this->addBlockCommand(
 				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate"),
-				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate", "", true),
-				"block_" . $this->getBlockType() . "_" . $this->block_id,
-				false, false, $this->viewSettings->isSortedByStartDate()
+				$this->lng->txt("pd_sort_by_start_date"),
+				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate", "", true)
 			);
 		}
 
-		$this->addFooterLink($this->viewSettings->isSelectedItemsViewActive() ?
-			$this->lng->txt("pd_remove_multiple") :
-			$this->lng->txt("pd_unsubscribe_multiple_memberships"),
+		$this->addBlockCommand(
 			$this->ctrl->getLinkTarget($this, "manage"),
-			null,
-			"block_".$this->getBlockType()."_".$this->block_id
+			$this->viewSettings->isSelectedItemsViewActive() ?
+				$this->lng->txt("pd_remove_multiple") :
+				$this->lng->txt("pd_unsubscribe_multiple_memberships")
 		);
 	}
 
@@ -460,9 +428,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$tpl = $this->newBlockTemplate();
 
 		$this->renderGroupedItems(
-			$tpl, $this->view->getItemGroups(),
-			($this->getCurrentDetailLevel() >= $this->view->getMinimumDetailLevelForSection())
-		);
+			$tpl, $this->view->getItemGroups(), true);
 
 		if($this->manage && $this->view->supportsSelectAll())
 		{
@@ -630,8 +596,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$lng = $this->lng;
 		
 		$this->manage = true;
-		$this->setAvailableDetailLevels(1, 1);
-		
+
 		$top_tb = new ilToolbarGUI();
 		$top_tb->setFormAction($ilCtrl->getFormAction($this));
 		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
@@ -778,7 +743,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					
 					default:
 						// do nothing
-						continue;
+						continue 2;
 				}											
 		
 				include_once './Modules/Forum/classes/class.ilForumNotification.php';

@@ -329,13 +329,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends \ilTerms
 		$ok2 = $dataFavtgory->ok($criterionAssignment3);
 		$error = $dataFavtgory->error('An error occurred');
 
-		$result = $constraint->restrict($ok);
+		$result = $constraint->applyTo($ok);
 		$this->assertTrue($result->isOk());
 
-		$result = $constraint->restrict($ok2);
+		$result = $constraint->applyTo($ok2);
 		$this->assertTrue($result->isError());
 
-		$result = $constraint->restrict($error);
+		$result = $constraint->applyTo($error);
 		$this->assertSame($error, $result);
 	}
 

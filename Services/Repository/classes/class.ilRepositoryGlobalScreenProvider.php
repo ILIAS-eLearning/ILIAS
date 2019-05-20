@@ -109,11 +109,10 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 					|| ($item["ref_id"] != $_GET["ref_id"] || !$first)
 				)            // do not list current item
 				{
-					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
-					$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
 					$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-					$links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $obj_id))
-						->withTitle($icon . " " . $ititle)
+					$links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
+						->withTitle( $ititle)
+						->withIcon($this->dic->ui()->factory()->icon()->standard($item['type'], $item['type']))
 						->withAction($item["link"]);
 				}
 				$first = false;

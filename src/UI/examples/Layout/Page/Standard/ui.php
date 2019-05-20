@@ -26,9 +26,9 @@ if ($_GET['new_ui'] == '1') {
 		->withActive("pws");
 
 	$page = $f->layout()->page()->standard(
+		$content,
 		$metabar,
 		$mainbar,
-		$content,
 		$breadcrumbs,
 		$logo
 	);

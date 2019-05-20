@@ -39,6 +39,7 @@ GetMessageHTML = Functions with name: "getMessageHTML"
 SetOnScreenMessage = Functions with name: "setOnScreenMessage"
 GetSystemMessageHTML = Functions with name: "getSystemMessageHTML"
 GetSpecial = Functions with name: "getSpecial"
+SVGFiles = Files with name:".*[.]svg"
 
 
 /**
@@ -177,3 +178,8 @@ WholeIliasCodebase cannot depend on: GetSystemMessageHTML
  * that at some point this method should vanish completely.
  */
 WholeIliasCodebase cannot depend on: GetSpecial
+
+/**
+ * https://mantis.ilias.de/view.php?id=25040
+ */
+SVGFiles cannot contain text: "<foreignObject"

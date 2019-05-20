@@ -38,6 +38,13 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
+		if ($title != "")
+		{
+			$tpl->setCurrentBlock("title");
+			$tpl->setVariable("TITLE", $title);
+			$tpl->parseCurrentBlock();
+		}
+
 		// actions
 		$actions = $component->getActions();
 		if ($actions !== null)
@@ -46,7 +53,6 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 
-		$tpl->setVariable("TITLE", $title);
 
 		return $tpl->get();
 	}

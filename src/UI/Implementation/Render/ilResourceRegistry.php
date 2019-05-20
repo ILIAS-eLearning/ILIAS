@@ -14,7 +14,7 @@ class ilResourceRegistry implements ResourceRegistry {
 	 */
 	protected $il_template;
 
-	public function __construct(\ilGlobalTemplate $il_template) {
+	public function __construct(\ilGlobalTemplateInterface $il_template) {
 		$this->il_template = $il_template;
 	}
 

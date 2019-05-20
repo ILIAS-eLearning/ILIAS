@@ -5,8 +5,8 @@ require_once 'tests/UI/AbstractFactoryTest.php';
 use \ILIAS\UI\Component\Input\Container\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use \ILIAS\Refinery\Validation;
+use \ILIAS\Refinery\Transformation;
 
 class FilterFactoryTest extends AbstractFactoryTest {
 
@@ -20,13 +20,15 @@ class FilterFactoryTest extends AbstractFactoryTest {
 
 	final public function buildFactory() {
 		$df = new Data\Factory();
+		$language = $this->createMock(\ilLanguage::class);
 		return new \ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
 			new SignalGenerator(),
 			new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
 				new SignalGenerator(),
 				$df,
-				new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
-				new Transformation\Factory()
+				new Validation\Factory($df, $language),
+				new Transformation\Factory(),
+				new ILIAS\Refinery\Factory($df, $language)
 			)
 		);
 	}

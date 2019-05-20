@@ -419,6 +419,23 @@ il.UICore = {
 
 	right_panel_wrapper: "",
 
+	is_page_visible: true,
+
+	/**
+	 * 
+	 * @param {boolean} status
+	 */
+	setPageVisibilityStatus: function(status) {
+		il.UICore.is_page_visible = status
+	},
+
+	/**
+	 * 
+	 * @returns {boolean}
+	 */
+	isPageVisible: function() {
+		return il.UICore.is_page_visible;
+	},
 
 	scrollToHash: function () {
 		var h = self.location.hash;
@@ -678,6 +695,10 @@ il.UICore = {
 	}
 
 };
+
+$(document).on("visibilitychange", function () {
+	il.UICore.setPageVisibilityStatus(!document["hidden"]);
+});
 
 // fixing anchor links presentation, unfortunately there
 // is no event after browsers have scrolled to an anchor hash

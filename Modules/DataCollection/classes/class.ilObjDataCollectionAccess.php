@@ -287,6 +287,21 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 			$tableview = ilDclTableView::find($tableview);
 		}
 
+		// check access to tableview's datacollection first
+		$collection = $tableview->getTable()->getCollectionObject();
+		$has_read_on_dcl = false;
+		foreach (ilObjDataCollection::_getAllReferences($collection->getId()) as $ref_id) {
+			if (self::hasReadAccess($ref_id)) {
+				$has_read_on_dcl = true;
+				break;
+			}
+		}
+
+		// check access to table
+		if (!self::hasAccessToTable($tableview->getTableId()) || !$has_read_on_dcl) {
+			return false;
+		}
+
 		$assigned_roles = $rbacreview->assignedRoles($user_id ? $user_id : $ilUser->getId());
 		$allowed_roles = $tableview->getRoles();
 
@@ -304,9 +319,18 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 */
 	public static function hasAccessToTable($table_id) {
 		$table = ilDclCache::getTableCache($table_id);
-		$collection = $table->getCollectionObject();
 
-		return $table->getIsVisible() || ($table_id == $collection->getFirstVisibleTableId());
+		// check access to tableview's datacollection first
+		$collection = $table->getCollectionObject();
+		$has_read_on_dcl = false;
+		foreach (ilObjDataCollection::_getAllReferences($collection->getId()) as $ref_id) {
+			if (self::hasReadAccess($ref_id)) {
+				$has_read_on_dcl = true;
+				break;
+			}
+		}
+
+		return $has_read_on_dcl && $table->getIsVisible() || ($table_id == $collection->getFirstVisibleTableId());
 	}
 }
 

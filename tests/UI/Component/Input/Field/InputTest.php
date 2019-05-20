@@ -9,8 +9,8 @@ use \ILIAS\UI\Implementation\Component\Input\Field\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\Data\Factory as DataFactory;
-use \ILIAS\Transformation\Factory as TransformationFactory;
-use \ILIAS\Validation\Factory as ValidationFactory;
+use \ILIAS\Refinery\Transformation\Factory as TransformationFactory;
+use \ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use \ILIAS\Data\Result;
 
 class DefInput extends Input {
@@ -86,8 +86,17 @@ class InputTest extends ILIAS_UI_TestBase {
 	public function setUp(): void{
 		$this->data_factory = new DataFactory();
 		$this->transformation_factory = new TransformationFactory();
-		$this->validation_factory = new ValidationFactory($this->data_factory, $this->createMock(\ilLanguage::class));
-		$this->input = new DefInput($this->data_factory, $this->validation_factory, $this->transformation_factory, "label", "byline");
+		$language = $this->createMock(\ilLanguage::class);
+		$this->validation_factory = new ValidationFactory($this->data_factory, $language);
+		$this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $language);
+		$this->input = new DefInput(
+			$this->data_factory,
+			$this->validation_factory,
+			$this->transformation_factory,
+			$this->refinery,
+			"label",
+			"byline"
+		);
 		$this->name_source = new DefNamesource();
 	}
 

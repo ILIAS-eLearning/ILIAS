@@ -13,9 +13,7 @@
 class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 	public function parseValue($value) {
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-
+	    global $DIC;
 		if ($value == -1) //marked for deletion.
 		{
 			return 0;
