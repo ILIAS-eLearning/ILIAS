@@ -23,7 +23,7 @@ class DatabaseServerIsConnectableGoal extends DatabaseGoal {
 		return true;
 	}
 
-	public function getPreconditions() : array {
+	public function getPreconditions(Setup\Environment $environment) : array {
 		return [];
 	}
 

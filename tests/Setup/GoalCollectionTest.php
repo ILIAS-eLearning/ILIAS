@@ -61,17 +61,20 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 		$g1
 			->expects($this->once())
 			->method("getPreconditions")
+			->with($env)
 			->willReturn([]);
 		$g2
 			->expects($this->once())
 			->method("getPreconditions")
+			->with($env)
 			->willReturn([$g4, $g5]);
 		$g3
 			->expects($this->once())
 			->method("getPreconditions")
+			->with($env)
 			->willReturn([$g4]);
 
-		$pre = $c->getPreconditions();
+		$pre = $c->getPreconditions($env);
 		$this->assertEquals([$g4,$g5], $pre);	
 	}
 

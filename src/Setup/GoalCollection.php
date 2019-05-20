@@ -70,13 +70,15 @@ class GoalCollection implements Goal {
 	/**
 	 * @inheritdocs
 	 */
-	public function getPreconditions() : array {
+	public function getPreconditions(Environment $environment) : array {
 		$pre = [];
 
 		return array_unique(
 			array_merge(
 				...array_map(
-					function ($g) { return $g->getPreconditions(); },
+					function ($g) use ($environment) {
+						return $g->getPreconditions($environment);
+					},
 					$this->goals
 				)
 			),

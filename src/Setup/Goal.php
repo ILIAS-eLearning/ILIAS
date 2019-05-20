@@ -40,7 +40,7 @@ interface Goal {
 	 *
 	 * @return Goal[]
 	 */
-	public function getPreconditions() : array;
+	public function getPreconditions(Environment $environment) : array;
 
 	/**
 	 * Goals can be achieved. They might add resources to the environment when

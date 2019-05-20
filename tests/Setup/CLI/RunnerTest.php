@@ -19,6 +19,7 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 		$goal
 			->expects($this->once())
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([]);
 
 		$goal
@@ -31,6 +32,8 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testAllGoals() {
+		$environment = $this->createMock(Setup\Environment::class);
+
 		$goal1 = $this->newGoal();
 		$goal11 = $this->newGoal();
 		$goal12 = $this->newGoal();
@@ -38,18 +41,23 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 
 		$goal1
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([$goal11, $goal12]);
 
 		$goal11
 			->method("getPreconditions")
+			->with($environment)
+
 			->willReturn([]);
 
 		$goal12
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([$goal121]);
 
 		$goal121
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([]);
 
 		$config = $this->createMock(Setup\Config::class);
@@ -67,15 +75,19 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testAllGoalsOnlyReturnsGoalOnce() {
+		$environment = $this->createMock(Setup\Environment::class);
+
 		$goal1 = $this->newGoal();
 		$goal11 = $this->newGoal();
 
 		$goal1
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([$goal11, $goal11]);
 
 		$goal11
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([]);
 
 		$config = $this->createMock(Setup\Config::class);
@@ -93,15 +105,19 @@ class RunnerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testAllGoalsDetectsCycle() {
+		$environment = $this->createMock(Setup\Environment::class);
+
 		$goal1 = $this->newGoal();
 		$goal2 = $this->newGoal();
 
 		$goal1
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([$goal2]);
 
 		$goal2
 			->method("getPreconditions")
+			->with($environment)
 			->willReturn([$goal1]);
 
 		$config = $this->createMock(Setup\Config::class);
