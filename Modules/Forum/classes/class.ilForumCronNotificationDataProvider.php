@@ -493,7 +493,8 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	 */
 	public function getPostUpdateUserName(\ilLanguage $user_lang)
 	{
-		if ($this->update_user_name === null) {
+		if ($this->update_user_name === null) 
+		{
 			$this->update_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
 				$user_lang,
 				$this->getPosAuthorId(),
@@ -501,6 +502,13 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 				$this->getPosUserAlias(),
 				$this->getImportName()
 			));
+		}
+
+		// Possible Fix for #25432
+		if($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() == 0
+			&& $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId())
+		{
+			return (string)$this->objPost->getUserAlias();
 		}
 
 		return (string)$this->update_user_name;
