@@ -862,7 +862,6 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 
 		$ilHelp->setScreenIdComponent("tax");
 
-		$tpl->clearHeader();
 		$tpl->setTitle(ilObject::_lookupTitle($this->getCurrentTaxonomyId()));
 		$tpl->setDescription(ilObject::_lookupDescription($this->getCurrentTaxonomyId()));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_tax.svg"));
