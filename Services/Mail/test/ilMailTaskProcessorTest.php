@@ -144,8 +144,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -155,8 +154,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'Greate',
 			'Steve, Steve, Steve. Wait that is not Steve',
-			null,
-			array()
+			null
 		);
 
 		$userId = 100;
@@ -221,8 +219,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -232,8 +229,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'Greate',
 			'Steve, Steve, Steve. Wait that is not Steve',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -243,8 +239,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Hey Alan! Alan! Alan!',
-			null,
-			array()
+			null
 		);
 
 		$userId = 100;
@@ -312,8 +307,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -323,8 +317,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'Greate',
 			'Steve, Steve, Steve. Wait that is not Steve',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = 'This should fail';
