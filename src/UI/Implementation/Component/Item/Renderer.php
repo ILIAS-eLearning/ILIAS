@@ -51,6 +51,9 @@ class Renderer extends AbstractComponentRenderer {
 		{
 			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
 		}
+		else {
+			$tpl->setVariable("ACTIONS", "");
+		}
 
 
 
