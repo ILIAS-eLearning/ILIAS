@@ -22,7 +22,7 @@ class DatabaseCreatedGoal extends DatabaseGoal {
 		return true;
 	}
 
-	public function getPreconditions() : array {
+	public function getPreconditions(Setup\Environment $environment) : array {
 		return [
 			new \DatabaseServerIsConnectableGoal($this->config)
 		];

@@ -46,7 +46,7 @@ class Runner {
 		while(count($stack) > 0) {
 			$cur = array_pop($stack);
 			$preconditions = array_filter(
-				$cur->getPreconditions(),
+				$cur->getPreconditions($this->environment),
 				function($p) use ($returned) {
 					return !isset($returned[$p->getHash()]);
 				}
