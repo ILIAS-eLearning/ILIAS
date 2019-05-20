@@ -123,22 +123,6 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 	/**
 	 * @inheritDoc
 	 */
-	public function delete() {
-		$serialize = $this->identification->serialize();
-		$gs = ilGSIdentificationStorage::find($serialize);
-		if ($gs instanceof ilGSIdentificationStorage) {
-			$gs->delete();
-		}
-		$mm = ilMMItemStorage::find($serialize);
-		if ($mm instanceof ilMMItemStorage) {
-			$mm->delete();
-		}
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getProviderNameForPresentation(): string {
 		return $this->identification->getProviderNameForPresentation();
 	}

@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileUpload\Location;
+
 define("ILIAS_LANGUAGE_MODULE", "Services/Language");
 
 require_once("./Services/Object/classes/class.ilObjectGUI.php");
@@ -350,6 +353,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		$remarks_array = array();
 		foreach ($_POST as $key => $value)
 		{
+			// mantis #25237
+			// @see https://php.net/manual/en/language.variables.external.php
+			$key = str_replace('_POSTDOT_', '.', $key);
+            $key = str_replace('_POSTSPACE_', ' ', $key);
+
+			// example key of variable: 'common#:#access'
+			// example key of comment: 'common#:#access#:#comment'
 			$keys = explode($this->lng->separator, ilUtil::stripSlashes($key, false));
 
 			if (count($keys) == 2)
@@ -359,6 +369,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		  		$value = ilUtil::stripSlashes($value, false);
 				$save_array[$key] = $value;
 
+				// the comment has the key of the language with the suffix
 				$remarks_array[$key] = $_POST[$key.$this->lng->separator."comment"];
 			}
 		}
@@ -410,24 +421,43 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function uploadObject()
 	{
-        // save form inputs for next display
-        $this->session["import"]["mode_existing"] = ilUtil::stripSlashes($_POST['mode_existing']);
+		global $DIC;
 
-		if ($_POST['cmd']['upload'])
+		// save form inputs for next display
+		$this->session["import"]["mode_existing"] = ilUtil::stripSlashes($_POST['mode_existing']);
+
+		try
 		{
-			$file = ilUtil::ilTempnam();
-			
-			if (ilUtil::moveUploadedFile($_FILES['userfile']['tmp_name'],
-									 	 $_FILES['userfile']['name'],
-									 	 $file))
-			{
-				$this->object->importLanguageFile($file,$_POST['mode_existing']);
-				ilUtil::sendSuccess(sprintf($this->lng->txt("language_file_imported"), $_FILES['userfile']['name']) , true);
+			$upload = $DIC->upload();
+			$upload->process();
+
+			if (!$upload->hasUploads()) {
+				throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
 			}
-			@unlink($file);
+			$UploadResult = $upload->getResults()[$_FILES['userfile']['tmp_name']];
+
+			$ProcessingStatus = $UploadResult->getStatus();
+			if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
+				throw new ilException($ProcessingStatus->getMessage());
+			}
+
+			// todo: refactor when importLanguageFile() is able to work with the new Filesystem service
+			$tempfile = ilUtil::ilTempnam().'.sec';
+			$upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
+			$this->object->importLanguageFile($tempfile, $_POST['mode_existing']);
+
+			$tempfs = $DIC->filesystem()->temp();
+			$tempfs->delete(basename($tempfile));
+
+		}
+		catch (Exception $e)
+		{
+			ilUtil::sendFailure($e->getMessage(), true);
+			$this->ctrl->redirect($this, 'import');
 		}
 
-        $this->ctrl->redirect($this, 'import');
+		ilUtil::sendSuccess(sprintf($this->lng->txt("language_file_imported"), $_FILES['userfile']['name']) , true);
+		$this->ctrl->redirect($this, 'import');
 	}
 
 	

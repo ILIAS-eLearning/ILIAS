@@ -200,12 +200,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$learn_hist->setChecked(($ilSetting->get("enable_learning_history") ? "1" : "0"));
 		$form->addItem($learn_hist);
 
-		// Enable Chatviewer
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_chatviewer"), "block_activated_chatviewer");
-		$cb_prop->setValue("1");
-		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
-		$form->addItem($cb_prop);
-
 		if($ilSetting->get('save_post_drafts', 0))
 		{
 			$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_pdfrmpostdraft'), 'block_activated_pdfrmpostdraft');
@@ -296,7 +290,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
 		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
 
-		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));
 		if($ilSetting->get('save_post_drafts', 0))
 		{
 			$ilSetting->set("block_activated_pdfrmpostdraft", (int)$_POST["block_activated_pdfrmpostdraft"]);

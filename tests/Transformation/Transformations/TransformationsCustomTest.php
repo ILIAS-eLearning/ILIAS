@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Transformation;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +13,12 @@ use PHPUnit\Framework\TestCase;
 class TransformationsCustomTest extends TestCase {
 	const TEST_STRING = "Test";
 
-	protected function setUp(): void{
+	/**
+	 * @var Transformation\Transformations\Custom
+	 */
+	private $custom;
+
+	protected function setUp() : void {
 		$this->f = new Transformation\Factory();
 		$this->custom = $this->f->custom(function($value) {
 			if(!is_string($value)) {
@@ -110,5 +115,15 @@ class TransformationsCustomTest extends TestCase {
 			$raised = true;
 		}
 		$this->assertTrue($raised);
+	}
+
+	public function testApplyToWithValidValueReturnsAnOkResult() {
+		$factory = new \ILIAS\Data\Factory();
+		$valueObject = $factory->ok(self::TEST_STRING);
+
+		$resultObject = $this->custom->applyTo($valueObject);
+
+		$this->assertEquals(self::TEST_STRING, $resultObject->value());
+		$this->assertFalse($resultObject->isError());
 	}
 }

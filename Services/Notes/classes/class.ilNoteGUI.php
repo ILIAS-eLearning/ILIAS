@@ -1668,7 +1668,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilGlobalTemplate $a_main_tpl = null)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 

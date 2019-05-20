@@ -2,8 +2,8 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Data\Factory;
-use ILIAS\Validation\Constraint;
-use ILIAS\Validation\Constraints\Custom;
+use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Validation\Constraints\Custom;
 
 /**
  * Class ilTermsOfServiceDocumentCriterionAssignmentConstraint

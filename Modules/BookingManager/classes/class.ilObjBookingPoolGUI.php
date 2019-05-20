@@ -73,6 +73,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		} else {
 			$this->user_id_to_book = $this->user_id_assigner; // by default user books his own booking objects.
 		}
+
+		if ((int) $_REQUEST['object_id'] > 0 && ilBookingObject::lookupPoolId((int) $_REQUEST['object_id']) != $this->object->getId())
+		{
+			throw new ilException("Booking Object ID does not match Booking Pool.");
+		}
 	}
 
 	/**

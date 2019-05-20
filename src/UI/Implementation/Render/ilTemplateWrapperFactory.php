@@ -13,7 +13,7 @@ class ilTemplateWrapperFactory implements TemplateFactory {
 	 */
 	protected $global_tpl;
 
-	public function __construct(\ilGlobalTemplate $global_tpl) {
+	public function __construct(\ilGlobalTemplateInterface $global_tpl) {
 		$this->global_tpl = $global_tpl;
 	}
 

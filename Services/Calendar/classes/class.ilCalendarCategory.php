@@ -91,7 +91,7 @@ class ilCalendarCategory
 	 * get instance by obj_id 
 	 *
 	 * @param int obj_id 
-	 * @return object
+	 * @return \ilCalendarCategory
 	 * @static
 	 */
 	 public static function _getInstanceByObjId($a_obj_id)

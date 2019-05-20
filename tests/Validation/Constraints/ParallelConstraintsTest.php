@@ -3,7 +3,7 @@
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Validation;
+use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -72,21 +72,21 @@ class ParallelTest extends TestCase {
 	public function testRestrictOk() {
 		$ok = $this->df->ok(2);
 
-		$res = $this->c->restrict($ok);
+		$res = $this->c->applyTo($ok);
 		$this->assertTrue($res->isOk());
 	}
 
 	public function testRestrictNotOk() {
 		$not_ok = $this->df->ok(7);
 
-		$res = $this->c->restrict($not_ok);
+		$res = $this->c->applyTo($not_ok);
 		$this->assertFalse($res->isOk());
 	}
 
 	public function testRestrictError() {
 		$error = $this->df->error("error");
 
-		$res = $this->c->restrict($error);
+		$res = $this->c->applyTo($error);
 		$this->assertSame($error, $res);
 	}
 

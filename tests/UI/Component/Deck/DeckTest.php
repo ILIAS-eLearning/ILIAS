@@ -41,7 +41,8 @@ class DeckTest extends ILIAS_UI_TestBase {
 			new I\Component\Card\Factory(),
 			$this->createMock(C\Layout\Factory::class),
 			$this->createMock(C\MainControls\Factory::class),
-			$this->createMock(C\Tree\Factory::class)
+			$this->createMock(C\Tree\Factory::class),
+			$this->createMock(C\Menu\Factory::class)
 		);
 	}
 

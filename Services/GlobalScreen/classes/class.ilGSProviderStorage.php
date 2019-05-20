@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Provider\DynamicProvider;
 use ILIAS\GlobalScreen\Provider\Provider;
 
 /**
@@ -21,7 +22,7 @@ class ilGSProviderStorage extends CachedActiveRecord {
 	 * @param string $class_name
 	 * @param string $purpose
 	 */
-	public static function registerIdentifications(string $class_name, string $purpose) {
+	public static function register(string $class_name, string $purpose) {
 		if (!class_exists($class_name)) {
 			throw new LogicException("Cannot store unknown provider {$class_name}");
 		}
@@ -36,12 +37,6 @@ class ilGSProviderStorage extends CachedActiveRecord {
 		$gsp->setPurpose($purpose);
 		$gsp->setDynamic(in_array(DynamicProvider::class, class_implements($class_name)));
 		$gsp->update();
-
-		$instance = $gsp->getInstance();
-
-		foreach ($instance->getAllIdentifications() as $identification) {
-			ilGSIdentificationStorage::registerIdentification($identification, $instance);
-		}
 	}
 
 

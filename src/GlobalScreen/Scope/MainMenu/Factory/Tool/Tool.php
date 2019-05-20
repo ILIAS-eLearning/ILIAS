@@ -1,18 +1,24 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Tool;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Icon\Icon;
 
 /**
  * Class Tool
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsyncContent {
+class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsyncContent, hasIcon {
 
+	/**
+	 * @var
+	 */
+	protected $icon;
 	/**
 	 * @var Component
 	 */
@@ -83,5 +89,32 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsync
 	 */
 	public function getContent(): Component {
 		return $this->content;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withIcon(Icon $icon): hasIcon {
+		$clone = clone($this);
+		$clone->icon = $icon;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getIcon(): Icon {
+		return $this->icon;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasIcon(): bool {
+		return ($this->icon instanceof Icon);
 	}
 }

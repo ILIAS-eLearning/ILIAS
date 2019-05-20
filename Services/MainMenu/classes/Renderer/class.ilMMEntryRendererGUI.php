@@ -36,7 +36,9 @@ class ilMMEntryRendererGUI {
 			$components[] = $top_item->getTypeInformation()->getRenderer()->getComponentForItem($top_item);
 		}
 
-		$tpl->setVariable("ENTRIES", $DIC->ui()->renderer()->render($components));
+		$context_stack = "Contexts: " . implode(", ", $DIC->navigationContext()->stack()->getStackAsArray());
+
+		$tpl->setVariable("ENTRIES", $DIC->ui()->renderer()->render($components) . $context_stack);
 
 		$html = $tpl->get();
 

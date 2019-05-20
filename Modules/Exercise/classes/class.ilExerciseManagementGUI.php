@@ -12,7 +12,7 @@ include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
 * @ilCtrl_Calls ilExerciseManagementGUI: ilFileSystemGUI, ilRepositorySearchGUI
 * @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
 * @ilCtrl_Calls ilExerciseManagementGUI: ilExSubmissionTextGUI, ilExPeerReviewGUI
-* 
+*
 * @ingroup ModulesExercise
 */
 class ilExerciseManagementGUI
@@ -60,7 +60,15 @@ class ilExerciseManagementGUI
 	protected $exercise; // [ilObjExercise]
 	protected $assignment; // [ilExAssignment]
 
+	/**
+	 * @var \ILIAS\BackgroundTasks\Task\TaskFactory
+	 */
 	protected $task_factory;
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 
 	/**
 	 * @var ilObjUser
@@ -92,6 +100,7 @@ class ilExerciseManagementGUI
 		$this->ui_renderer = $DIC->ui()->renderer();
 		$this->user = $DIC->user();
 		$this->toolbar = $DIC->toolbar();
+		$this->log = ilLoggerFactory::getLogger("exc");
 
 		$this->ctrl = $DIC->ctrl();
 		$this->tabs_gui = $DIC->tabs();
@@ -419,8 +428,10 @@ class ilExerciseManagementGUI
 					$ilToolbar->addSeparator();
 				}
 			}
-								
-			if(ilExSubmission::hasAnySubmissions($this->assignment->getId()))
+
+			$submission_repository = new ilExcSubmissionRepository($this->db);
+
+			if($submission_repository->hasSubmissions($this->assignment->getId()))
 			{
 				$ass_type = $this->assignment->getType();
 				//todo change addFormButton for addButtonInstance
@@ -1299,9 +1310,16 @@ class ilExerciseManagementGUI
 		foreach(array_keys($members) as $usr_id)
 		{
 			$this->exercise->members_obj->deassignMember((int) $usr_id);
+			$this->removeUserSubmissionFilesFromWebDir((int) $usr_id);
 		}
 		ilUtil::sendSuccess($lng->txt("exc_msg_participants_removed"), true);		
 		$ilCtrl->redirect($this, "members");		
+	}
+
+	function removeUserSubmissionFilesFromWebDir(int $user_id): void
+	{
+		$storage = new ilFSWebStorageExercise($this->exercise->getId(),$this->ass_id);
+		$storage->deleteUserSubmissionDirectory($user_id);
 	}
 
 	function saveCommentsObject() 
@@ -2228,5 +2246,147 @@ class ilExerciseManagementGUI
 		$submit->setCommand("listTextAssignment");
 		$this->toolbar->addButtonInstance($submit);
 	}
-}
 
+	/**
+	 * Open HTML view for portfolio submissions
+	 */
+	public function openSubmissionViewObject()
+	{
+		global $DIC;
+
+		$ass_id = (int)$_GET["ass_id"];
+		$member_id = (int)$_GET["member_id"];
+
+		$submission = new ilExSubmission($this->assignment, $member_id);
+
+		$last_opening = $submission->getLastOpeningHTMLView();
+
+		$submission_time = $submission->getLastSubmission();
+
+		$zip_original_full_path = $this->getSubmissionZipFilePath($submission);
+
+		$zip_internal_path = $this->getWebFilePathFromExternalFilePath($zip_original_full_path);
+
+		list($obj_date, $obj_id) = explode("_", basename($zip_original_full_path));
+
+		$obj_dir = $this->assignment->getAssignmentType()->getStringIdentifier()."_".$obj_id;
+
+		$index_html_file = ILIAS_WEB_DIR.
+			DIRECTORY_SEPARATOR.
+			CLIENT_ID.
+			DIRECTORY_SEPARATOR.
+			dirname($zip_internal_path).
+			DIRECTORY_SEPARATOR.
+			$obj_dir.
+			DIRECTORY_SEPARATOR.
+			"index.html";
+
+		ilWACSignedPath::signFolderOfStartFile($index_html_file);
+
+		$web_filesystem = $DIC->filesystem()->web();
+
+		if($last_opening > $submission_time && $web_filesystem->has($index_html_file))
+		{
+			ilUtil::redirect($index_html_file);
+		}
+		if($zip_original_full_path)
+		{
+			$file_copied = $this->copyFileToWebDir($zip_original_full_path, $zip_internal_path);
+
+			if($file_copied)
+			{
+				ilUtil::unzip($file_copied, true);
+
+				$web_filesystem->delete($zip_internal_path);
+
+				$submission_repository = new ilExcSubmissionRepository();
+				$submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
+
+				ilUtil::redirect($index_html_file);
+			}
+
+			$error_msg = $this->lng->txt("exc_copy_zip_error");
+		}
+
+		if(!$error_msg) {
+			$error_msg = $this->lng->txt("exc_find_zip_error");
+		}
+
+		ilUtil::sendFailure($error_msg);
+	}
+
+	/**
+	 * Returns the ZIP file path from outside web directory
+	 * @param ilExSubmission user who created the submission
+	 * @return string|null
+	 */
+	protected function getSubmissionZipFilePath(ilExSubmission $submission): ?string
+	{
+		$submitted = $submission->getFiles();
+
+		if (count($submitted) > 0)
+		{
+			$submitted = array_pop($submitted);
+
+			return $submitted['filename'];
+		}
+
+		return null;
+	}
+
+	/**
+	 * Generate the directories and copy the file if necessary.
+	 * Returns the copied file path.
+	 * @param string $external_file
+	 * @return null |string
+	 */
+	protected function copyFileToWebDir(string $origin_path_filename, string $internal_file_path): ?string
+	{
+		global $DIC;
+
+		$web_filesystem = $DIC->filesystem()->web();
+		$data_filesystem = $DIC->filesystem()->storage();
+
+		$internal_dirs = dirname($internal_file_path);
+		$zip_file = basename($internal_file_path);
+
+		if($data_filesystem->has($internal_file_path))
+		{
+			if(!$web_filesystem->hasDir($internal_dirs))
+			{
+				$web_filesystem->createDir($internal_dirs);
+			}
+
+			if(!$web_filesystem->has($internal_file_path))
+			{
+				$stream = $data_filesystem->readStream($internal_file_path);
+				$web_filesystem->writeStream($internal_file_path, $stream);
+
+				return ILIAS_ABSOLUTE_PATH.
+					DIRECTORY_SEPARATOR.
+					ILIAS_WEB_DIR.
+					DIRECTORY_SEPARATOR.
+					CLIENT_ID.
+					DIRECTORY_SEPARATOR.
+					$internal_dirs.
+					DIRECTORY_SEPARATOR.
+					$zip_file;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the object specific file path from an external full file path.
+	 * @param string $external_file_path
+	 * @return string
+	 */
+	protected function getWebFilePathFromExternalFilePath(string $external_file_path): string
+	{
+		list($external_path, $internal_file_path) = explode(CLIENT_ID."/",$external_file_path);
+
+		return $internal_file_path;
+	}
+
+}

@@ -3,7 +3,7 @@
 /* Copyright (c) 2017, 2018, Stefan Hecken <stefan.hecken@concepts-and-training.de>, Richard Klees <richard.klees@concepts-and-training.de, Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Validation;
+use ILIAS\Refinery\Validation;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -59,21 +59,21 @@ class NotTest extends TestCase {
 	public function testRestrictOk() {
 		$ok = $this->df->ok(null);
 
-		$res = $this->not_false->restrict($ok);
+		$res = $this->not_false->applyTo($ok);
 		$this->assertTrue($res->isOk());
 	}
 
 	public function testRestrictNotOk() {
 		$not_ok = $this->df->ok(null);
 
-		$res = $this->not_true->restrict($not_ok);
+		$res = $this->not_true->applyTo($not_ok);
 		$this->assertFalse($res->isOk());
 	}
 
 	public function testRestrictError() {
 		$error = $this->df->error("error");
 
-		$res = $this->not_false->restrict($error);
+		$res = $this->not_false->applyTo($error);
 		$this->assertSame($error, $res);
 	}
 

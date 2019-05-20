@@ -52,7 +52,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		
 		$lng->loadLanguageModule("classification");
 		$this->setTitle($lng->txt("clsfct_block_title"));
-		$this->setFooterInfo($lng->txt("clsfct_block_info"));	
+		// @todo: find another solution for this
+		//$this->setFooterInfo($lng->txt("clsfct_block_info"));
 	}
 
 	/**

@@ -695,27 +695,35 @@ if(!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
 ?>
 <#5476>
 <?php
-$ilDB->manipulate(
-	'UPDATE lso_activation'
-	.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
-	.'	WHERE activation_start IS NOT NULL'
-);
+if($ilDB->tableColumnExists('lso_activation', 'activation_start')) {
+	$ilDB->manipulate(
+		'UPDATE lso_activation'
+		.'	SET activation_start_ts = UNIX_TIMESTAMP(activation_start)'
+		.'	WHERE activation_start IS NOT NULL'
+	);
+}
 ?>
 <#5477>
 <?php
-$ilDB->manipulate(
-	'UPDATE lso_activation'
-	.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
-	.'	WHERE activation_end IS NOT NULL'
-);
+if($ilDB->tableColumnExists('lso_activation', 'activation_end')) {
+	$ilDB->manipulate(
+		'UPDATE lso_activation'
+		.'	SET activation_end_ts = UNIX_TIMESTAMP(activation_end)'
+		.'	WHERE activation_end IS NOT NULL'
+	);
+}
 ?>
 <#5478>
 <?php
-$ilDB->dropTableColumn("lso_activation", "activation_start");
+if($ilDB->tableColumnExists('lso_activation', 'activation_start')) {
+	$ilDB->dropTableColumn("lso_activation", "activation_start");
+}
 ?>
 <#5479>
 <?php
-$ilDB->dropTableColumn("lso_activation", "activation_end");
+if($ilDB->tableColumnExists('lso_activation', 'activation_end')) {
+	$ilDB->dropTableColumn("lso_activation", "activation_end");
+}
 ?>
 <#5480>
 <?php
@@ -834,6 +842,79 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#5492>
 <?php
+if(!$ilDB->tableColumnExists('exc_returned', 'web_dir_access_time'))
+{
+	$ilDB->addTableColumn('exc_returned', 'web_dir_access_time', array(
+		'type' => 'timestamp',
+		'notnull' => false,
+		'default' => null
+	));
+}
+$ilCtrlStructureReader->getStructure();
+?>
+<#5493>
+<?php
+$settings = new \ilSetting('chatroom');
+$settings->set('conversation_idle_state_in_minutes', 1);
+
+$res = $ilDB->query("SELECT * FROM chatroom_admconfig");
+while ($row = $ilDB->fetchAssoc($res)) {
+	$settings = json_decode($row['client_settings'], true);
+
+	if (!is_numeric($settings['conversation_idle_state_in_minutes'])) {
+		$settings['conversation_idle_state_in_minutes'] = 1;
+	}
+
+	$ilDB->update('chatroom_admconfig', [
+		'client_settings' => ['text', json_encode($settings)]
+	], [
+		'instance_id' => ['integer', $row['instance_id']]
+	]);
+}
+?>
+<#5494>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5495>
+<?php
+if($ilDB->tableColumnExists("map_area", "href")) {
+	$field = array(
+		'type' 		=> 'text',
+		'length' 	=> 800,
+		'notnull' 	=> false
+	);
+
+	$ilDB->modifyTableColumn("map_area", "href", $field);
+}
+?>
+<#5496>
+<?php
+if (!$ilDB->tableColumnExists('usr_data', 'passwd_policy_reset')) {
+	$ilDB->addTableColumn('usr_data', 'passwd_policy_reset', array(
+		'type' => 'integer',
+		'notnull' => true,
+		'length' => 1,
+		'default' => 0
+	));
+}
+?>
+<#5497>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	['text'],
+	['block_activated_chatviewer']
+);
+
+$ilDB->manipulateF(
+	'DELETE FROM usr_pref WHERE keyword = %s',
+	['text'],
+	['chatviewer_last_selected_room']
+);
+?>
+<#5498>
+<?php
 if ($ilDB->tableColumnExists('mail_saved', 'm_type')) {
 	$ilDB->dropTableColumn('mail_saved', 'm_type');
 }
@@ -848,7 +929,7 @@ $ilDB->manipulateF(
 	['pd_sys_msg_mode']
 );
 ?>
-<#5493>
+<#5499>
 <?php
 $res = $ilDB->queryF('SELECT * FROM rbac_operations WHERE operation = %s', ['text'], ['system_message']);
 $row = $ilDB->fetchAssoc($res);

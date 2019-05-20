@@ -74,6 +74,18 @@ interface ilMMItemFacadeInterface {
 	/**
 	 * @return bool
 	 */
+	public function isEditable(): bool;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isDeletable(): bool;
+
+
+	/**
+	 * @return bool
+	 */
 	public function isAlwaysAvailable(): bool;
 
 

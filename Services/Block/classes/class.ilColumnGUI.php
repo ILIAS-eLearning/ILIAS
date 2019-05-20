@@ -60,7 +60,7 @@ class ilColumnGUI
 	// all blocks that are repository objects
 	protected $rep_block_types = array("feed","poll");
 	protected $block_property = array();
-	protected $admincommands = null;
+	protected $admincommands = false;
 	protected $movementmode = null;
 	protected $enablemovement = false;
 
@@ -84,10 +84,9 @@ class ilColumnGUI
 		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/ItemsBlock/",
 		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
 		"ilPDNewsBlockGUI" => "Services/News/",
-		"ilExternalFeedBlockGUI" => "Services/Block/",
+		"ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
-		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
 		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
@@ -109,7 +108,6 @@ class ilColumnGUI
 		"ilPDExternalFeedBlockGUI" => "pdfeed",
 		"ilPDSelectedItemsBlockGUI" => "pditems",
 		'ilPDTaggingBlockGUI' => 'pdtag',
-		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
 		'ilPDPortfolioBlockGUI' => 'pdportf',
@@ -141,8 +139,19 @@ class ilColumnGUI
 		"pd" => array(
 			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
 			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
+			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
+			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
+			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
+			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
+			"ilPDMailBlockGUI" => IL_COL_RIGHT
+			)
+		);
+	/*
+		"pd" => array(
+			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
+			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
-			"ilPDNewsBlockGUI" => IL_COL_LEFT,
+			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
 			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
 			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
@@ -150,10 +159,10 @@ class ilColumnGUI
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			"ilChatroomBlockGUI" => IL_COL_RIGHT,
 			"ilForumPostingDraftsBlockGUI" => IL_COL_RIGHT
 			)
 		);
+	*/
 
 	// these are only for pd blocks
 	// other blocks are rep objects now
@@ -165,9 +174,12 @@ class ilColumnGUI
 		"root" => array(),
 		"info" => array(),
 		"fold" => array(),
+		"pd" => array()
+	);
+	/*
 		"pd" => array("ilPDExternalFeedBlockGUI")
-		);
-		
+		);*/
+
 	// check global activation for these block types
 	// @todo: add calendar
 	protected $check_global_activation = 
@@ -179,7 +191,6 @@ class ilColumnGUI
 			"pdbookm" => true,
 			"pdtag" => true,
 			"pdnotes" => true,
-			"chatviewer" => true,
 			"pdfrmpostdraft" => true,
 			"tagcld" => true,
 			"pdportf" => true,
@@ -737,44 +748,8 @@ class ilColumnGUI
 			}
 		}
 
-		$this->addBlockSorting();
 	}
 
-	/**
- 	 *
-	 */
-	protected function addBlockSorting()
-	{
-		global $DIC;
-
-		if($this->getSide() == IL_COL_CENTER && $this->getEnableMovement())
-		{
-			$ilBrowser = $this->browser;
-			$main_tpl = $DIC["tpl"];
-			$ilCtrl = $this->ctrl;
-
-			include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-			iljQueryUtil::initjQuery();
-			iljQueryUtil::initjQueryUI();
-
-			if($ilBrowser->isMobile() || $ilBrowser->isIpad())
-			{
-				$main_tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
-			}
-			$main_tpl->addJavaScript('./Services/Block/js/block_sorting.js');
-
-			// set the col_side parameter to pass the ctrl structure flow
-			$ilCtrl->setParameter($this, 'col_side', IL_COL_CENTER);
-
-			$this->tpl->setVariable('BLOCK_SORTING_STORAGE_URL', $ilCtrl->getLinkTarget($this, 'saveBlockSortingAsynch', '', true, false));
-			$this->tpl->setVariable('BLOCK_COLUMNS', json_encode(array('il_left_col', 'il_right_col')));
-			$this->tpl->setVariable('BLOCK_COLUMNS_SELECTOR', '#il_left_col,#il_right_col');
-			$this->tpl->setVariable('BLOCK_COLUMNS_PARAMETERS', json_encode(array(IL_COL_LEFT, IL_COL_RIGHT)));
-
-			// restore col_side parameter
-			$ilCtrl->setParameter($this, 'col_side', $this->getSide());
- 		}
-	}
 
 	/**
 	* Update Block (asynchronous)
@@ -943,6 +918,10 @@ class ilColumnGUI
 					{
 						$side = $def_side;
 					}
+					if ($side == IL_COL_LEFT)
+					{
+						$side = IL_COL_RIGHT;
+					}
 					
 					$this->blocks[$side][] = array(
 						"nr" => $nr,
@@ -1078,6 +1057,11 @@ class ilColumnGUI
 	{
 		$ilSetting = $this->settings;
 		$ilCtrl = $this->ctrl;
+
+		if ($a_type == 'pdfeed')
+		{
+			return false;
+		}
 
 		if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type])
 		{
