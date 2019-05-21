@@ -760,8 +760,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 								// #9737
 								$info[] = $lng->txt("blog_posting_edit_approval_info");
 							}
-							if(sizeof($info) && !$tpl->hasMessage("info")) // #15121
-							{
+							//TODO can we get rid of this conditional? hasMessage belongs to the old ilBlogGlobalTemplate class
+							//if(sizeof($info) && !$tpl->hasMessage("info")) // #15121
+							//{
 								if($public_action)
 								{
 									ilUtil::sendSuccess(implode("<br />", $info));
@@ -770,7 +771,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 								{
 									ilUtil::sendInfo(implode("<br />", $info));
 								}
-							}
+							//}
 							// revert to edit cmd to avoid confusion
 							$this->addHeaderActionForCommand("render");	
 							$tpl->setContent($ret);
@@ -2483,24 +2484,26 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if(sizeof($blocks))
 		{			
-			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
-			
+			global $DIC;
+
+			$ui_factory = $DIC->ui()->factory();
+			$ui_renderer = $DIC->ui()->renderer();
+
 			ksort($blocks);
 			foreach($blocks as $block)
 			{
-				$panel = ilPanelGUI::getInstance();
-				$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-				$panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
-				$panel->setHeading($block[0]);
-				$panel->setBody($block[1]);
-				
+				$title = $block[0];
+
+				$content = $block[1];
 				if(isset($block[2]) && is_array($block[2]))
-				{										
-					$panel->setFooter('<a href="'.$block[2][0].'">'.$block[2][1].'</a>');
+				{
+					$content .= "<a href='".$block[2][0]."'>".$block[2][1]."</a>";
 				}
-				
-				$wtpl->setCurrentBlock("block_bl");		
-				$wtpl->setVariable("BLOCK", $panel->getHTML());
+
+				$secondary_panel = $ui_factory->panel()->secondary()->legacy($title, $ui_factory->legacy($content));
+
+				$wtpl->setCurrentBlock("block_bl");
+				$wtpl->setVariable("BLOCK", $ui_renderer->render($secondary_panel));
 				$wtpl->parseCurrentBlock();
 			}
 		}
