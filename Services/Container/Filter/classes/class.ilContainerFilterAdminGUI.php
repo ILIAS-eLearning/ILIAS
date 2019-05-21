@@ -176,7 +176,7 @@ class ilContainerFilterAdminGUI
 		// Standard filter fields
 		$section1 = $f->input()->field()->section($fields,$lng->txt("cont_filter_fields"), "");
 
-		$form_action = $ctrl->getLinkTarget($this, "saveFields");
+		$form_action = $ctrl->getLinkTarget($this, "saveFields", "", false, false);
 		return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
 	}
 
