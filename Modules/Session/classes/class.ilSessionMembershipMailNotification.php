@@ -253,7 +253,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
 					$this->appendBody("\n\n");
-					$this->appendBody($this->createPermanentLink());
+					$this->appendBody($this->createPermanentLink([], '_part'));
 					$this->getMail()->appendInstallationSignature(true);
 
 					$this->sendMail(array($rcp),array('system'));
@@ -293,7 +293,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
 					$this->appendBody("\n\n");
-					$this->appendBody($this->createPermanentLink());
+					$this->appendBody($this->createPermanentLink([], '_part'));
 					$this->getMail()->appendInstallationSignature(true);
 
 					$this->sendMail(array($rcp),array('system'));
@@ -333,7 +333,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
 					$this->appendBody("\n\n");
-					$this->appendBody($this->createPermanentLink());
+					$this->appendBody($this->createPermanentLink([], '_part'));
 					$this->getMail()->appendInstallationSignature(true);
 
 					$this->sendMail(array($rcp),array('system'));
