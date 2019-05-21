@@ -6,6 +6,15 @@
  */
 class ilCertificateValueReplacement
 {
+	/**
+	 * @var string
+	 */
+	private $clientWebDirectory;
+
+	public function __construct(string $clientWebDirectory = CLIENT_WEB_DIR)
+	{
+		$this->clientWebDirectory = $clientWebDirectory;
+	}
 
 	/**
 	 * Replaces placeholder in the certificate content with actual values
@@ -23,7 +32,7 @@ class ilCertificateValueReplacement
 		}
 
 		$certificateContent = str_replace('[BACKGROUND_IMAGE]',  $backgroundPath, $certificateContent);
-
+		$certificateContent = str_replace('[CLIENT_WEB_DIR]',  $this->clientWebDirectory, $certificateContent);
 
 		$certificateContent = preg_replace("/<\?xml[^>]+?>/", "", $certificateContent);
 		$certificateContent = str_replace("&#xA0;", "<br />", $certificateContent);
