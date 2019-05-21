@@ -7,9 +7,9 @@ namespace ILIAS\Setup;
 use ILIAS\UI;
 
 /**
- * A goal collection is a goal that is achieved once all subgoals are achieved.
+ * A objective collection is a objective that is achieved once all subobjectives are achieved.
  */
-class GoalCollection implements Goal {
+class ObjectiveCollection implements Objective {
 	/**
 	 * @var string 
 	 */
@@ -21,21 +21,21 @@ class GoalCollection implements Goal {
 	protected $is_notable;
 
 	/**
-	 * @var	Goal[]
+	 * @var	Objective[]
 	 */
-	protected $goals;
+	protected $objectives;
 
-	public function __construct(string $label, bool $is_notable, Goal ...$goals) {
+	public function __construct(string $label, bool $is_notable, Objective ...$objectives) {
 		$this->label = $label;
 		$this->is_notable = $is_notable;
-		$this->goals = $goals;
+		$this->objectives = $objectives;
 	}
 
 	/**
-	 * @return Goal[]
+	 * @return Objective[]
 	 */
-	public function getGoals() : array {
-		return $this->goals;
+	public function getObjectives() : array {
+		return $this->objectives;
 	}
 
 	/**
@@ -47,7 +47,7 @@ class GoalCollection implements Goal {
 			implode(
 				array_map(
 					function($g) { return $g->getHash(); },
-					$this->goals
+					$this->objectives
 				)
 			)
 		); 
@@ -71,7 +71,7 @@ class GoalCollection implements Goal {
 	 * @inheritdocs
 	 */
 	public function getPreconditions(Environment $environment) : array {
-		return $this->goals;
+		return $this->objectives;
 	}
 
 	/**

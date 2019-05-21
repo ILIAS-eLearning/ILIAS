@@ -5,34 +5,34 @@
 namespace ILIAS\Setup;
 
 use ILIAS\Setup\Environment;
-use ILIAS\Setup\Goal;
+use ILIAS\Setup\Objective;
 use ILIAS\Setup\ConfigurationLoader;
 use ILIAS\Setup\UnachievableException;
 
 /**
- * Tries to enumerate all preconditions for the given goal, where the ones that
+ * Tries to enumerate all preconditions for the given objective, where the ones that
  * can be achieved (i.e. have no further preconditions on their own) will be
- * returned first. Will also attempt to only return every goal once. This thus 
- * expects, that returned goals will be achieved somehow.
+ * returned first. Will also attempt to only return every objective once. This thus 
+ * expects, that returned objectives will be achieved somehow.
  */
-class GoalIterator implements \Iterator {
+class ObjectiveIterator implements \Iterator {
 	/**
 	 * @var	Environment
 	 */
 	protected $environment;
 
 	/**
-	 * @var Goal
+	 * @var Objective
 	 */
-	protected $goal;
+	protected $objective;
 
 	/**
-	 * @var Goal[]
+	 * @var Objective[]
 	 */
 	protected $stack;
 
 	/**
-	 * @var Goal|null
+	 * @var Objective|null
 	 */
 	protected $current;
 
@@ -47,9 +47,9 @@ class GoalIterator implements \Iterator {
 	protected $reverse_dependencies;
 
 
-	public function __construct(Environment $environment, Goal $goal) {
+	public function __construct(Environment $environment, Objective $objective) {
 		$this->environment = $environment;
-		$this->goal = $goal;
+		$this->objective = $objective;
 		$this->rewind();
 	}
 
@@ -61,7 +61,7 @@ class GoalIterator implements \Iterator {
 	}
 
     public function rewind() {
-		$this->stack = [$this->goal];
+		$this->stack = [$this->objective];
 		$this->current = null; 
 		$this->returned = [];
 		$this->reverse_dependencies = [];
@@ -121,7 +121,7 @@ class GoalIterator implements \Iterator {
 		}
 		if (in_array($cur, $this->reverse_dependencies[$next])) {
 			throw new UnachievableException(
-				"The goals contain a dependency cycle and won't all be achievable."
+				"The objectives contain a dependency cycle and won't all be achievable."
 			);
 		}
 		foreach ($this->reverse_dependencies[$next] as $d) {
@@ -137,11 +137,11 @@ class GoalIterator implements \Iterator {
 	}
 
 	/**
-	 * @return \Traversable<Goal>
+	 * @return \Traversable<Objective>
 	 */
-	public function allGoals() : \Traversable {
+	public function allObjectives() : \Traversable {
 		// TODO: Factor this out in a single class.
-		$stack = [$this->goal];
+		$stack = [$this->objective];
 		$returned = [];
 		$reverse_deps = [];
 
@@ -172,7 +172,7 @@ class GoalIterator implements \Iterator {
 						}
 						if (in_array($cur, $reverse_deps[$next])) {
 							throw new UnachievableException(
-								"The goals contain a dependency cycle and won't all be achievable."
+								"The objectives contain a dependency cycle and won't all be achievable."
 							);
 						}
 						foreach ($reverse_deps[$next] as $d) {

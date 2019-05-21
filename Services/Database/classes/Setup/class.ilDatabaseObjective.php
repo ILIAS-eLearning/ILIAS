@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-abstract class ilDatabaseGoal implements Setup\Goal {
+abstract class ilDatabaseObjective implements Setup\Objective {
 	/**
 	 * @var	ilDatabaseSetupConfig
 	 */

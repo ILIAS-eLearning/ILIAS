@@ -6,22 +6,22 @@ namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
 
-class GoalIteratorTest extends \PHPUnit\Framework\TestCase {
+class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase {
 	public function testBasicAlgorithm() {
 		$hash = "my hash";
-		$goal = $this->newGoal($hash);
+		$objective = $this->newObjective($hash);
 		$environment = $this->createMock(Setup\Environment::class);
 
-		$goal
+		$objective
 			->expects($this->once())
 			->method("getPreconditions")
 			->with($environment)
 			->willReturn([]);
 
-		$iterator = new Setup\GoalIterator($environment, $goal);
+		$iterator = new Setup\ObjectiveIterator($environment, $objective);
 
 		$this->assertTrue($iterator->valid());
-		$this->assertSame($goal, $iterator->current());
+		$this->assertSame($objective, $iterator->current());
 		$this->assertSame($hash, $iterator->key());
 
 		$iterator->next();
@@ -31,12 +31,12 @@ class GoalIteratorTest extends \PHPUnit\Framework\TestCase {
 
 	public function testRewind() {
 		$hash = "my hash";
-		$goal = $this->newGoal($hash);
+		$objective = $this->newObjective($hash);
 		$environment = $this->createMock(Setup\Environment::class);
 
-		$iterator = new Setup\GoalIterator($environment, $goal);
+		$iterator = new Setup\ObjectiveIterator($environment, $objective);
 
-		$goal
+		$objective
 			->expects($this->once())
 			->method("getPreconditions")
 			->with($environment)
@@ -46,94 +46,94 @@ class GoalIteratorTest extends \PHPUnit\Framework\TestCase {
 		$iterator->rewind();
 
 		$this->assertTrue($iterator->valid());
-		$this->assertSame($goal, $iterator->current());
+		$this->assertSame($objective, $iterator->current());
 		$this->assertSame($hash, $iterator->key());
 	}
 
-	public function testAllGoals() {
+	public function testAllObjectives() {
 		$environment = $this->createMock(Setup\Environment::class);
 
-		$goal1 = $this->newGoal();
-		$goal11 = $this->newGoal();
-		$goal12 = $this->newGoal();
-		$goal121 = $this->newGoal();
+		$objective1 = $this->newObjective();
+		$objective11 = $this->newObjective();
+		$objective12 = $this->newObjective();
+		$objective121 = $this->newObjective();
 
-		$goal1
+		$objective1
 			->method("getPreconditions")
 			->with($environment)
-			->willReturn([$goal11, $goal12]);
+			->willReturn([$objective11, $objective12]);
 
-		$goal11
-			->method("getPreconditions")
-			->with($environment)
-			->willReturn([]);
-
-		$goal12
-			->method("getPreconditions")
-			->with($environment)
-			->willReturn([$goal121]);
-
-		$goal121
+		$objective11
 			->method("getPreconditions")
 			->with($environment)
 			->willReturn([]);
 
-		$iterator = new Setup\GoalIterator($environment, $goal1);
+		$objective12
+			->method("getPreconditions")
+			->with($environment)
+			->willReturn([$objective121]);
+
+		$objective121
+			->method("getPreconditions")
+			->with($environment)
+			->willReturn([]);
+
+		$iterator = new Setup\ObjectiveIterator($environment, $objective1);
 
 		$expected = [
-			$goal11->getHash() => $goal11,
-			$goal121->getHash() => $goal121,
-			$goal12->getHash() => $goal12,
-			$goal1->getHash() => $goal1
+			$objective11->getHash() => $objective11,
+			$objective121->getHash() => $objective121,
+			$objective12->getHash() => $objective12,
+			$objective1->getHash() => $objective1
 		];
 
 		$this->assertEquals($expected, iterator_to_array($iterator));
 	}
 
-	public function testAllGoalsOnlyReturnsGoalOnce() {
+	public function testAllObjectivesOnlyReturnsObjectiveOnce() {
 		$environment = $this->createMock(Setup\Environment::class);
 
-		$goal1 = $this->newGoal();
-		$goal11 = $this->newGoal();
+		$objective1 = $this->newObjective();
+		$objective11 = $this->newObjective();
 
-		$goal1
+		$objective1
 			->method("getPreconditions")
 			->with($environment)
-			->willReturn([$goal11, $goal11]);
+			->willReturn([$objective11, $objective11]);
 
-		$goal11
+		$objective11
 			->method("getPreconditions")
 			->with($environment)
 			->willReturn([]);
 
-		$iterator = new Setup\GoalIterator($environment, $goal1);
+		$iterator = new Setup\ObjectiveIterator($environment, $objective1);
 
 		$expected = [
-			$goal11->getHash() => $goal11,
-			$goal1->getHash() => $goal1
+			$objective11->getHash() => $objective11,
+			$objective1->getHash() => $objective1
 		];
 		$this->assertEquals($expected, iterator_to_array($iterator));
 	}
 
-	public function testAllGoalsDetectsCycle() {
+	public function testAllObjectivesDetectsCycle() {
 		$environment = $this->createMock(Setup\Environment::class);
 
-		$goal1 = $this->newGoal();
-		$goal2 = $this->newGoal();
+		$objective1 = $this->newObjective();
+		$objective2 = $this->newObjective();
 
-		$goal1
+		$objective1
 			->method("getPreconditions")
 			->with($environment)
-			->willReturn([$goal2]);
+			->willReturn([$objective2]);
 
-		$goal2
+		$objective2
 			->method("getPreconditions")
 			->with($environment)
-			->willReturn([$goal1]);
+			->willReturn([$objective1]);
 
 		$this->expectException(Setup\UnachievableException::class);		
 
-		$iterator = new Setup\GoalIterator($environment, $goal1);
+		$iterator = new Setup\ObjectiveIterator($environment, $objective1);
 		iterator_to_array($iterator);
 	}
 
@@ -141,40 +141,40 @@ class GoalIteratorTest extends \PHPUnit\Framework\TestCase {
 		$env1 = new Setup\ArrayEnvironment([]);
 		$env2 = new Setup\ArrayEnvironment([]);
 
-		$goal1 = $this->newGoal();
-		$goal2 = $this->newGoal();
+		$objective1 = $this->newObjective();
+		$objective2 = $this->newObjective();
 
-		$goal1
+		$objective1
 			->expects($this->atLeastOnce())
 			->method("getPreconditions")
 			->with($env1)
-			->willReturn([$goal2]);
+			->willReturn([$objective2]);
 
-		$goal2
+		$objective2
 			->expects($this->atLeastOnce())
 			->method("getPreconditions")
 			->with($env2)
 			->willReturn([]);
 
-		$iterator = new Setup\GoalIterator($env1, $goal1);
+		$iterator = new Setup\ObjectiveIterator($env1, $objective1);
 
 		$iterator->setEnvironment($env2);
 		$iterator->next();
 	}
 
-	protected function newGoal($hash = null) {
+	protected function newObjective($hash = null) {
 		static $no = 0;
 
-		$goal = $this
-			->getMockBuilder(Setup\Goal::class)
+		$objective = $this
+			->getMockBuilder(Setup\Objective::class)
 			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
-			->setMockClassName("Mock_GoalNo".($no++))
+			->setMockClassName("Mock_ObjectiveNo".($no++))
 			->getMock();
 
-		$goal
+		$objective
 			->method("getHash")
 			->willReturn($hash ?? "".$no);
 
-		return $goal;
+		return $objective;
 	}
 }

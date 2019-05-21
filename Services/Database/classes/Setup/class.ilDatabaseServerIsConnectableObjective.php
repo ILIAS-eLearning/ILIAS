@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilDatabaseServerIsConnectableGoal extends \ilDatabaseGoal {
+class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective {
 	public function getHash() : string {
 		return hash("sha256", implode("-", [
 			self::class,

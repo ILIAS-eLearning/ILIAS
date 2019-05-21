@@ -5,7 +5,7 @@
 namespace ILIAS\Setup;
 
 /**
- * An environment holds resources to be used in the setup process. Goals might
+ * An environment holds resources to be used in the setup process. Objectives might
  * add resources when they have been achieved.
  */
 interface Environment {

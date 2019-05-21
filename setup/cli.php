@@ -21,22 +21,22 @@ function build_container_for_setup() {
 	};
 	$c["command.install"] = function($c) {
 		return new \ILIAS\Setup\CLI\InstallCommand(
-			$c["consumer"]
+			$c["agent"]
 		);
 	};
 
-	$c["consumer"] = function($c) {
-		return new ILIAS\Setup\ConsumerCollection(
+	$c["agent"] = function($c) {
+		return new ILIAS\Setup\AgentCollection(
 			$c["ui.field_factory"],
 			$c["transformation_factory"],
 			[
-				"database" => $c["consumer.database"]
+				"database" => $c["agent.database"]
 			]
 		);
 	};
 
-	$c["consumer.database"] = function ($c) {
-		return new \ilDatabaseSetupConsumer(
+	$c["agent.database"] = function ($c) {
+		return new \ilDatabaseSetupAgent(
 			$c["data_factory"]
 		);
 	};

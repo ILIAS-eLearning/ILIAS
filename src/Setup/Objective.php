@@ -7,43 +7,43 @@ namespace ILIAS\Setup;
 use ILIAS\UI;
 
 /**
- * A goal is a desired state of the system that is supposed to be created
+ * An objective is a desired state of the system that is supposed to be created
  * by the setup.
  *
  * This interface would benefit from generics, in fact it would be parametrized
  * with a Config-type.
  */
-interface Goal {
+interface Objective {
 	/**
-	 * Get a hash for this goal.
+	 * Get a hash for this objective.
 	 *
-	 * The hash of two goals must be the same, if they are the same goal, with
+	 * The hash of two objectives must be the same, if they are the same objective, with
 	 * the same config on the same environment, i.e. if the one is achieved the
 	 * other is achieved as well because they are the same.
 	 */
 	public function getHash() : string;
 
 	/**
-	 * Get a label that describes this goal.
+	 * Get a label that describes this objective.
 	 */
 	public function getLabel() : string;
 
 	/**
-	 * Get to know if this is an interesting goal for a human.
+	 * Get to know if this is an interesting objective for a human.
 	 */
 	public function isNotable() : bool;
 
 	/**
-	 * Goals might depend on other goals.
+	 * Objectives might depend on other objectives.
 	 *
-	 * @throw UnachievableException if the goal is not achievable
+	 * @throw UnachievableException if the objective is not achievable
 	 *
-	 * @return Goal[]
+	 * @return Objective[]
 	 */
 	public function getPreconditions(Environment $environment) : array;
 
 	/**
-	 * Goals can be achieved. They might add resources to the environment when
+	 * Objectives can be achieved. They might add resources to the environment when
 	 * they have been achieved.
 	 *
 	 * @throw \LogicException if there are unfullfilled preconditions.

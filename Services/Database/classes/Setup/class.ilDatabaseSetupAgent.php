@@ -5,7 +5,7 @@
 use ILIAS\Setup;
 use ILIAS\Data\Factory as DataFactory;
 
-class ilDatabaseSetupConsumer implements Setup\Consumer {
+class ilDatabaseSetupAgent implements Setup\Agent {
 	/**
 	 * @var DataFactory
 	 */
@@ -52,19 +52,19 @@ class ilDatabaseSetupConsumer implements Setup\Consumer {
 	/**
 	 * @inheritdocs
 	 */
-	public function getInstallGoal(Setup\Config $config = null) : Setup\Goal {
+	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
 		if (!($config instanceof \ilDatabaseSetupConfig)) {
 			throw new \InvalidArgumentException(
 				"Expected \\DatabaseSetupConfig, go '".get_class($config)."' instead."
 			);
 		}
-		return new \ilDatabasePopulatedGoal($config);
+		return new \ilDatabasePopulatedObjective($config);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function getUpdateGoal(Setup\Config $config = null) : Setup\Goal {
+	public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective {
 		throw new \LogicException("NYI!");
 	}
 }

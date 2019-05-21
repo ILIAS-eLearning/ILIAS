@@ -9,9 +9,9 @@ use ILIAS\UI\Component\Input\Field\Input as Input;
 use ILIAS\Transformation\Factory as TransformationFactory;
 
 /**
- * A consumer that is a collection of some other consumers.
+ * An agent that is just a collection of some other agents.
  */
-class ConsumerCollection implements Consumer {
+class AgentCollection implements Agent {
 	/**
 	 * @var FieldFactory
 	 */
@@ -23,25 +23,25 @@ class ConsumerCollection implements Consumer {
 	protected $transformation_factory;
 
 	/**
-	 * @var Consumer[]
+	 * @var Agent[]
 	 */
-	protected $consumers;
+	protected $agents;
 
 	public function __construct(
 		FieldFactory $field_factory,
 		TransformationFactory $transformation_factory,
-		array $consumers
+		array $agents
 	) {
 		$this->field_factory = $field_factory;
 		$this->transformation_factory = $transformation_factory;
-		$this->consumers = $consumers;
+		$this->agents = $agents;
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function hasConfig() : bool {
-		foreach ($this->consumers as $c) {
+		foreach ($this->agents as $c) {
 			if ($c->hasConfig()) {
 				return true;
 			}
@@ -59,7 +59,7 @@ class ConsumerCollection implements Consumer {
 
 		$inputs = [];
 		$keys = [];
-		foreach ($this->getConsumersWithConfig() as $k => $c) {
+		foreach ($this->getAgentsWithConfig() as $k => $c) {
 			$keys[] = $k;
 			if ($config) {
 				$inputs[] = $c->getConfigInput($config->getConfig($k));
@@ -88,7 +88,7 @@ class ConsumerCollection implements Consumer {
 	public function getConfigFromArray(array $data) : Config {
 		$configs = [];
 
-		foreach ($this->getConsumersWithConfig() as $k => $c) {
+		foreach ($this->getAgentsWithConfig() as $k => $c) {
 			if (!isset($data[$k]) || !is_array($data[$k])) {
 				throw new \InvalidArgumentException(
 					"Expected array at key '$k' in \$data."
@@ -104,22 +104,22 @@ class ConsumerCollection implements Consumer {
 	/**
 	 * @inheritdocs
 	 */
-	public function getInstallGoal(Config $config = null) : Goal {
-		return $this->getXGoal("getInstallGoal", $config);
+	public function getInstallObjective(Config $config = null) : Objective {
+		return $this->getXObjective("getInstallObjective", $config);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function getUpdateGoal(Config $config = null) : Goal {
-		return $this->getXGoal("getUpdateGoal", $config);
+	public function getUpdateObjective(Config $config = null) : Objective {
+		return $this->getXObjective("getUpdateObjective", $config);
 	}
 
-	protected function getXGoal(string $which, Config $config = null) : Goal {
+	protected function getXObjective(string $which, Config $config = null) : Objective {
 		$this->checkConfig($config);
 
 		$gs = [];
-		foreach ($this->consumers as $k => $c) {
+		foreach ($this->agents as $k => $c) {
 			if ($c->hasConfig()) {
 				$gs[] = call_user_func([$c, $which], $config->getConfig($k));
 			}
@@ -128,7 +128,7 @@ class ConsumerCollection implements Consumer {
 			}
 		}
 
-		return new GoalCollection("Collected Update Goals", false, ...$gs);
+		return new ObjectiveCollection("Collected Update Objectives", false, ...$gs);
 	}
 
 	protected function checkConfig(Config $config) {
@@ -139,8 +139,8 @@ class ConsumerCollection implements Consumer {
 		}
 	}
 
-	protected function getConsumersWithConfig() : \Traversable {
-		foreach ($this->consumers as $k => $c) {
+	protected function getAgentsWithConfig() : \Traversable {
+		foreach ($this->agents as $k => $c) {
 			if ($c->hasConfig()) {
 				yield $k => $c;
 			}

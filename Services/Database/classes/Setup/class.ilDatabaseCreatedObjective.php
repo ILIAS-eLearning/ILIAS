@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilDatabaseCreatedGoal extends ilDatabaseGoal {
+class ilDatabaseCreatedObjective extends ilDatabaseObjective {
 	public function getHash() : string {
 		return hash("sha256", implode("-", [
 			self::class,
@@ -24,7 +24,7 @@ class ilDatabaseCreatedGoal extends ilDatabaseGoal {
 
 	public function getPreconditions(Setup\Environment $environment) : array {
 		return [
-			new \ilDatabaseServerIsConnectableGoal($this->config)
+			new \ilDatabaseServerIsConnectableObjective($this->config)
 		];
 	}
 
