@@ -251,7 +251,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 						)
 					);
 					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('sess_mail_permanent_link'));
+					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
@@ -291,7 +291,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 						)
 					);
 					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('sess_mail_permanent_link'));
+					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
@@ -331,7 +331,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 						)
 					);
 					$this->appendBody("\n\n");
-					$this->appendBody($this->getLanguageText('sess_mail_permanent_link'));
+					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
