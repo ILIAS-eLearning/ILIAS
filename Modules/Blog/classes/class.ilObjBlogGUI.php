@@ -1340,7 +1340,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			
 		// #13564
 		$this->ctrl->setParameter($this, "bmn", "");
-		$tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview")); 
+		//$tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview"));
 		$this->ctrl->setParameter($this, "bmn", $this->month);
 				
 		$this->setContentStyleSheet();		
@@ -1428,18 +1428,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		$a_tpl->resetHeaderBlock(false);
-		// $a_tpl->setBackgroundColor($this->object->getBackgroundColor());
-		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+		// @todo fix
+		//$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($this->object->getTitle());
-		// $a_tpl->setTitleColor($this->object->getFontColor());		
-		$a_tpl->setDescription($name);		
+		$a_tpl->setDescription($name);
 		
 		// to get rid of locator in repository preview
 		$a_tpl->setVariable("LOCATOR", "");
-		
-		// :TODO: obsolete?
-		// $a_tpl->setBodyClass("std ilExternal ilBlog");		
 	}
 	
 	/**
