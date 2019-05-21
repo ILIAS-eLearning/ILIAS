@@ -75,7 +75,7 @@ class ilCalendarCategories
 	 * @param int $a_usr_id user id
 	 * @return
 	 */
-	protected function __construct($a_usr_id = 0)
+	public function __construct($a_usr_id = 0)
 	{
 		global $DIC;
 

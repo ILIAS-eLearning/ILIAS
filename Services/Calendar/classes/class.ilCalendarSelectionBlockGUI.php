@@ -35,6 +35,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	protected $obj_id = 0;
 
+	protected $category_id = 0;
+
 	/**
 	 * Constructor
 	 */
@@ -51,6 +53,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$lng->loadLanguageModule('dateplaner');
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
+
+		$this->category_id = $_GET['category_id'];
 		
 		$this->setLimit(5);
 		$this->allow_moving = false;
@@ -151,10 +155,27 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
 		
 		$hidden_obj = ilCalendarVisibility::_getInstanceByUserId($ilUser->getId(), $this->ref_id);
+
 		$hidden = $hidden_obj->getHidden();
 		$visible = $hidden_obj->getVisible();
 		
-		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+		$cats = new ilCalendarCategories($ilUser->getId());
+		if($this->ref_id > 0)
+		{
+			$cats->initialize(ilCalendarCategories::MODE_REPOSITORY, (int) $this->ref_id, true);
+		}
+		else
+		{
+			if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
+			{
+				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
+			}
+			else
+			{
+				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
+			}
+		}
+
 		$all = $cats->getCategoriesInfo();
 		$tmp_title_counter = array();
 		$categories = array();
@@ -169,14 +190,26 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			$tmp_arr['title'] = $category['title'];
 			$tmp_arr['type'] = $category['type'];
 			$tmp_arr['source_ref_id'] = $category['source_ref_id'];
-			
+
+			$tmp_arr['default_selected'] = true;
+			if($this->category_id)
+			{
+				if($this->category_id == $category['cat_id'])
+				{
+					$tmp_arr['default_selected'] = true;
+				}
+				else
+				{
+					$tmp_arr['default_selected'] = false;
+				}
+			}
+
 			// Append object type to make type sortable
 			$tmp_arr['type_sortable'] = ilCalendarCategory::lookupCategorySortIndex($category['type']);
 			if($category['type'] == ilCalendarCategory::TYPE_OBJ)
 			{
 				$tmp_arr['type_sortable'] .= ('_'.ilObject::_lookupType($category['obj_id']));
 			}
-			
 			$tmp_arr['color'] = $category['color'];
 			$tmp_arr['editable'] = $category['editable'];
 
@@ -347,7 +380,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$a_tpl->setVariable('VAL_ID',$a_set['id']);
 		if($this->obj_id == 0)
 		{
-			if (!$a_set['hidden'])
+			if (!$a_set['hidden'] && $a_set['default_selected'])
 			{
 				$a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
 			}
@@ -372,10 +405,11 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			$a_set['ref_id']
 		)
 		{
-			if(
-				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP ||
-				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS
-			)
+#			if(
+#				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP ||
+#				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS
+#			)
+			if(!$this->ref_id)
 			{
 				$ilCtrl->setParameterByClass('ilcalendarpresentationgui', 'backpd', 1);
 			}
