@@ -470,9 +470,8 @@ class ilDclRecordEditGUI {
 
 		if ($valid) {
 			if (!isset($this->record_id)) {
-				if (!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
+				if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id))) {
 					$this->accessDenied();
-
 					return;
 				}
 

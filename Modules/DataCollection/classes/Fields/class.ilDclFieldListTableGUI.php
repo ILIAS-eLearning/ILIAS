@@ -17,6 +17,11 @@
 class ilDclFieldListTableGUI extends ilTable2GUI {
 
 	/**
+	 * @var ilDclTable
+	 */
+	protected $table;
+
+	/**
 	 * @param ilDclFieldListGUI $a_parent_obj
 	 * @param string            $a_parent_cmd
 	 * @param string            $table_id
@@ -157,7 +162,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 			$alist->setId($a_set->getId());
 			$alist->setListTitle($lng->txt('actions'));
 
-			if ($this->table->hasPermissionToFields($this->parent_obj->getDataCollectionObject()->ref_id)) {
+			if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->ref_id, $this->table->getId())) {
 				$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
 				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete'));
 			}
