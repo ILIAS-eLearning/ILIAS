@@ -1,5 +1,6 @@
 <?php
 
+use Composer\Autoload\ClassLoader;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
@@ -34,21 +35,28 @@ class ilGSProviderFactory extends ProviderFactory {
 	 * @inheritDoc
 	 */
 	public function getMetaBarProvider(): array {
+		// $providers = [];
+		// // Core
+		// foreach (ilGSProviderStorage::where(['purpose' => StaticMetaBarProvider::PURPOSE_MBS])->get() as $provider_storage) {
+		// 	/**
+		// 	 * @var $provider_storage ilGSProviderStorage
+		// 	 */
+		// 	$providers[] = $provider_storage->getInstance();
+		// }
 		//
 		// ATTENTION: This is currently WIP, the Providers will be collected by
 		// the same mechanism as the MainBarProviders (services.xml or modules.xml)
 		//
-		// Core
-		$meta_bar_providers = [
+		$providers = [
 			new ilSearchGSProvider($this->dic),
-			new ilMMCustomProvider($this->dic),
+			new ilMMCustomTopBarProvider($this->dic),
 		];
 		// Plugins
-		$this->appendPlugins($meta_bar_providers, StaticMetaBarProvider::class);
+		$this->appendPlugins($providers, StaticMetaBarProvider::class);
 
-		$this->registerInternal($meta_bar_providers);
+		$this->registerInternal($providers);
 
-		return $meta_bar_providers;
+		return $providers;
 	}
 
 
@@ -56,24 +64,21 @@ class ilGSProviderFactory extends ProviderFactory {
 	 * @inheritDoc
 	 */
 	public function getMainBarProvider(): array {
-		//
-		// ATTENTION: This is currently WIP, the Providers will be collected by
-		// the same mechanism as the MainBarProviders (services.xml or modules.xml)
-		//
-		$main_bar_providers = [];
+		$providers = [];
 		// Core
 		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE_MAINBAR])->get() as $provider_storage) {
 			/**
 			 * @var $provider_storage ilGSProviderStorage
 			 */
-			$main_bar_providers[] = $provider_storage->getInstance();
+			$providers[] = $provider_storage->getInstance();
 		}
+
 		// Plugins
-		$this->appendPlugins($main_bar_providers, StaticMainMenuProvider::class);
+		$this->appendPlugins($providers, StaticMainMenuProvider::class);
 
-		$this->registerInternal($main_bar_providers);
+		$this->registerInternal($providers);
 
-		return $main_bar_providers;
+		return $providers;
 	}
 
 
@@ -81,15 +86,27 @@ class ilGSProviderFactory extends ProviderFactory {
 	 * @inheritDoc
 	 */
 	public function getToolProvider(): array {
-		$tool_providers = [
+		// $providers = [];
+		// // Core
+		// foreach (ilGSProviderStorage::where(['purpose' => DynamicToolProvider::PURPOSE_TOOLS])->get() as $provider_storage) {
+		// 	/**
+		// 	 * @var $provider_storage ilGSProviderStorage
+		// 	 */
+		// 	$providers[] = $provider_storage->getInstance();
+		// }
+
+		// ATTENTION: This is currently WIP, the Providers will be collected by
+		// the same mechanism as the MainBarProviders (services.xml or modules.xml)
+
+		$providers = [
 			new ilStaffGSToolProvider($this->dic),
 		];
 		// Plugins
-		$this->appendPlugins($tool_providers, DynamicToolProvider::class);
+		$this->appendPlugins($providers, DynamicToolProvider::class);
 
-		$this->registerInternal($tool_providers);
+		$this->registerInternal($providers);
 
-		return $tool_providers;
+		return $providers;
 	}
 
 
