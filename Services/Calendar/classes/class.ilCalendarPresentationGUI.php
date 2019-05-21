@@ -843,10 +843,22 @@ class ilCalendarPresentationGUI
 	 */
 	public function initSeed()
 	{
-		include_once('Services/Calendar/classes/class.ilDate.php');
-		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
-		$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
-		$this->ctrl->saveParameter($this,array('seed'));
+		// default to today
+		$this->seed = new ilDate(time(), IL_CAL_UNIX);
+		if(array_key_exists('seed',$_REQUEST))
+		{
+			$this->seed = new ilDate($_GET['seed'],IL_CAL_DATE);
+		}
+		elseif(!$this->getRepositoryMode())
+		{
+			$session_seed = ilSession::get('cal_seed');
+			if($session_seed)
+			{
+				$this->seed = new ilDate($session_seed, IL_CAL_DATE);
+			}
+		}
+		$this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
+		ilSession::set('cal_seed', $this->seed->get(IL_CAL_DATE));
  	}
 	
 	/**
