@@ -70,6 +70,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
 		$this->setLimit(5);
 		$this->setTitle($this->lng->txt('mail'));
+		$this->setPresentation(self::PRES_SEC_LIST);
 	}
 
 	/**
@@ -122,6 +123,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		{
 			return '';
 		}
+
+		$this->getMails();
+		$this->setData($this->mails);
 
 		return parent::getHTML();
 	}
@@ -278,4 +282,59 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
 		ilMailUserCache::preloadUserObjects($usr_ids);
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $mail): \ILIAS\UI\Component\Item\Item
+	{
+		$f = $this->ui->factory();
+
+		$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+
+		if($user && $user->getId() != ANONYMOUS_USER_ID)
+		{
+			$public_name_long = $user->getPublicName();
+			$img_sender = $user->getPersonalPicturePath('xxsmall');
+			$alt_sender = htmlspecialchars($user->getPublicName());
+		}
+		else if(!$user)
+		{
+			$public_name_long = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
+			$img_sender = "";
+			$alt_sender = "";
+		}
+		else
+		{
+			$public_name_long = ilMail::_getIliasMailerName();
+			$img_sender = ilUtil::getImagePath('HeaderIconAvatar.svg');
+			$alt_sender = htmlspecialchars(ilMail::_getIliasMailerName());
+		}
+
+		$new_mail_date = ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE));
+		$new_mail_subj = htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8');
+		$this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
+		$this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
+		$new_mail_link = $this->ctrl->getLinkTarget($this, 'showMail', "", false, false);
+		$this->ctrl->clearParameters($this);
+
+
+		$button = $f->button()->shy($new_mail_subj, $new_mail_link);
+
+		$item = $f->item()->standard($button)->withDescription($new_mail_date);
+		if ($img_sender != "")
+		{
+			$item = $item->withLeadImage($f->image()->standard($img_sender, $alt_sender));
+		}
+
+		return $item;
+	}
+
 }
