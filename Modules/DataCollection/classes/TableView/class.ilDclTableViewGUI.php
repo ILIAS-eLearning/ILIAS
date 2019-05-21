@@ -114,7 +114,7 @@ class ilDclTableViewGUI
      */
     protected function checkAccess()
     {
-        return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getDataCollectionObject()->getRefId());
+        return ilObjDataCollectionAccess::hasAccessToEditTable($this->parent_obj->getDataCollectionObject()->getRefId(), $this->table->getId());
     }
 
     /**
