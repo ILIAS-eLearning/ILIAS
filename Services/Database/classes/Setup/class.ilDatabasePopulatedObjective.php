@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilDatabasePopulatedGoal extends \ilDatabaseGoal {
+class ilDatabasePopulatedObjective extends \ilDatabaseObjective {
 	const MIN_NUMBER_OF_ILIAS_TABLES = 200; // educated guess
 
 	public function getHash() : string {
@@ -29,7 +29,7 @@ class ilDatabasePopulatedGoal extends \ilDatabaseGoal {
 			return [];
 		}
 		return [
-			new \ilDatabaseExistsGoal($this->config)
+			new \ilDatabaseExistsObjective($this->config)
 		];
 	}
 

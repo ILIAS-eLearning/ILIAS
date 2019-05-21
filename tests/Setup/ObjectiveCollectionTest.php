@@ -6,25 +6,25 @@ namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
 
-class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
-	public function testGetGoals() {
-		$g1 = $this->newGoal();
-		$g2 = $this->newGoal();
-		$g3 = $this->newGoal();
+class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase {
+	public function testGetObjectives() {
+		$g1 = $this->newObjective();
+		$g2 = $this->newObjective();
+		$g3 = $this->newObjective();
 
-		$c = new Setup\GoalCollection("", false, $g1, $g2, $g3);
+		$c = new Setup\ObjectiveCollection("", false, $g1, $g2, $g3);
 
-		$this->assertEquals([$g1, $g2, $g3], $c->getGoals());
+		$this->assertEquals([$g1, $g2, $g3], $c->getObjectives());
 	}
 
 	public function testGetHash() {
-		$g1 = $this->newGoal();
-		$g2 = $this->newGoal();
-		$g3 = $this->newGoal();
+		$g1 = $this->newObjective();
+		$g2 = $this->newObjective();
+		$g3 = $this->newObjective();
 
-		$c1 = new Setup\GoalCollection("", false, $g1, $g2, $g3);
-		$c2 = new Setup\GoalCollection("", false, $g1, $g2);
-		$c3 = new Setup\GoalCollection("", false, $g1, $g2, $g3);
+		$c1 = new Setup\ObjectiveCollection("", false, $g1, $g2, $g3);
+		$c2 = new Setup\ObjectiveCollection("", false, $g1, $g2);
+		$c3 = new Setup\ObjectiveCollection("", false, $g1, $g2, $g3);
 
 		$this->assertIsString($c1->getHash());
 		$this->assertIsString($c2->getHash());
@@ -36,23 +36,23 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testGetLabel() {
-		$c = new Setup\GoalCollection("LABEL", false);
+		$c = new Setup\ObjectiveCollection("LABEL", false);
 		$this->assertEquals("LABEL", $c->getLabel());
 	}
 
 	public function testIsNotable() {
-		$c1 = new Setup\GoalCollection("", false);
-		$c2 = new Setup\GoalCollection("", true);
+		$c1 = new Setup\ObjectiveCollection("", false);
+		$c2 = new Setup\ObjectiveCollection("", true);
 		$this->assertFalse($c1->isNotable());
 		$this->assertTrue($c2->isNotable());
 	}
 
 	public function testGetPreconditions() {
-		$g1 = $this->newGoal();
-		$g2 = $this->newGoal();
-		$g3 = $this->newGoal();
+		$g1 = $this->newObjective();
+		$g2 = $this->newObjective();
+		$g3 = $this->newObjective();
 
-		$c = new Setup\GoalCollection("", false, $g1, $g2, $g3);
+		$c = new Setup\ObjectiveCollection("", false, $g1, $g2, $g3);
 
 		$env = $this->createMock(Setup\Environment::class);
 
@@ -62,11 +62,11 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 
 
 	public function testAchieve() {
-		$g1 = $this->newGoal();
-		$g2 = $this->newGoal();
-		$g3 = $this->newGoal();
+		$g1 = $this->newObjective();
+		$g2 = $this->newObjective();
+		$g3 = $this->newObjective();
 
-		$c = new Setup\GoalCollection("", false, $g1, $g2, $g3);
+		$c = new Setup\ObjectiveCollection("", false, $g1, $g2, $g3);
 
 		$env = $this->createMock(Setup\Environment::class);
 
@@ -80,19 +80,19 @@ class GoalCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertSame($env, $res);
 	}
 
-	protected function newGoal() {
+	protected function newObjective() {
 		static $no = 0;
 
-		$goal = $this
-			->getMockBuilder(Setup\Goal::class)
+		$objective = $this
+			->getMockBuilder(Setup\Objective::class)
 			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
-			->setMockClassName("Mock_GoalNo".($no++))
+			->setMockClassName("Mock_ObjectiveNo".($no++))
 			->getMock();
 
-		$goal
+		$objective
 			->method("getHash")
 			->willReturn("".$no);
 
-		return $goal;
+		return $objective;
 	}
 }

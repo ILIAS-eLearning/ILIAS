@@ -10,26 +10,26 @@ use ILIAS\UI\Component\Input\Field\Input as Input;
 use ILIAS\Transformation\Transformation;
 use ILIAS\Transformation\Factory as TransformationFactory;
 
-class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
+class AgentCollectionTest extends \PHPUnit\Framework\TestCase {
 	public function testHasConfig() {
 		$ff = $this->createMock(FieldFactory::class);
 		$tf = new TransformationFactory();
 
-		$c1 = $this->newConsumer();
-		$c2 = $this->newConsumer();
-		$c3 = $this->newConsumer();
-		$c4 = $this->newConsumer();
+		$c1 = $this->newAgent();
+		$c2 = $this->newAgent();
+		$c3 = $this->newAgent();
+		$c4 = $this->newAgent();
 
 		$c1->method("hasConfig")->willReturn(true);
 		$c2->method("hasConfig")->willReturn(true);
 		$c3->method("hasConfig")->willReturn(false);
 		$c4->method("hasConfig")->willReturn(false);
 
-		$col1 = new Setup\ConsumerCollection($ff, $tf, ["c1" => $c1]);
-		$col2 = new Setup\ConsumerCollection($ff, $tf, ["c1" => $c1, "c2" => $c2]);
-		$col3 = new Setup\ConsumerCollection($ff, $tf, ["c1" => $c1, "c3" => $c3]);
-		$col4 = new Setup\ConsumerCollection($ff, $tf, ["c3" => $c3]);
-		$col5 = new Setup\ConsumerCollection($ff, $tf, ["c3" => $c3, "c4" => $c4]);
+		$col1 = new Setup\AgentCollection($ff, $tf, ["c1" => $c1]);
+		$col2 = new Setup\AgentCollection($ff, $tf, ["c1" => $c1, "c2" => $c2]);
+		$col3 = new Setup\AgentCollection($ff, $tf, ["c1" => $c1, "c3" => $c3]);
+		$col4 = new Setup\AgentCollection($ff, $tf, ["c3" => $c3]);
+		$col5 = new Setup\AgentCollection($ff, $tf, ["c3" => $c3, "c4" => $c4]);
 
 		$this->assertTrue($col1->hasConfig());
 		$this->assertTrue($col2->hasConfig());
@@ -42,9 +42,9 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 		$ff = $this->createMock(FieldFactory::class);
 		$tf = new TransformationFactory();
 
-		$c1 = $this->newConsumer();
-		$c2 = $this->newConsumer();
-		$c3 = $this->newConsumer();
+		$c1 = $this->newAgent();
+		$c2 = $this->newAgent();
+		$c3 = $this->newAgent();
 
 		$inp1 = $this->newInput();
 		$inp2 = $this->newInput();
@@ -72,7 +72,7 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 			->method("getConfigInput")
 			->willReturn($inp2);
 
-		$col = new Setup\ConsumerCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+		$col = new Setup\AgentCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
 
 		$ff
 			->expects($this->once())
@@ -104,9 +104,9 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 		$ff = $this->createMock(FieldFactory::class);
 		$tf = new TransformationFactory();
 
-		$c1 = $this->newConsumer();
-		$c2 = $this->newConsumer();
-		$c3 = $this->newConsumer();
+		$c1 = $this->newAgent();
+		$c2 = $this->newAgent();
+		$c3 = $this->newAgent();
 
 		$inp = $this->newInput();
 
@@ -135,7 +135,7 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 			->with($conf3)
 			->willReturn($inp);
 
-		$col = new Setup\ConsumerCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+		$col = new Setup\AgentCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
 
 		$ff
 			->method("group")
@@ -154,9 +154,9 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 		$ff = $this->createMock(FieldFactory::class);
 		$tf = new TransformationFactory();
 
-		$c1 = $this->newConsumer();
-		$c2 = $this->newConsumer();
-		$c3 = $this->newConsumer();
+		$c1 = $this->newAgent();
+		$c2 = $this->newAgent();
+		$c3 = $this->newAgent();
 
 		$conf1 = $this->newConfig();
 		$conf3 = $this->newConfig();
@@ -186,7 +186,7 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 			->with(["c3_data"])
 			->willReturn($conf3);
 
-		$col = new Setup\ConsumerCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+		$col = new Setup\AgentCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
 		$conf = $col->getConfigFromArray($arr);
 
 		$this->assertInstanceOf(Setup\ConfigCollection::class, $conf);
@@ -195,15 +195,15 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($conf3, $conf->getConfig("c3"));
 	}
 
-	public function testGetInstallGoal() {
+	public function testGetInstallObjective() {
 		$ff = $this->createMock(FieldFactory::class);
 		$tf = new TransformationFactory();
 
-		$c1 = $this->newConsumer();
-		$c2 = $this->newConsumer();
+		$c1 = $this->newAgent();
+		$c2 = $this->newAgent();
 
-		$g1 = $this->newGoal();
-		$g2 = $this->newGoal();
+		$g1 = $this->newObjective();
+		$g2 = $this->newObjective();
 
 		$conf1 = $this->newConfig();
 
@@ -218,33 +218,33 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 
 		$c1
 			->expects($this->once())
-			->method("getInstallGoal")
+			->method("getInstallObjective")
 			->with($conf1)
 			->willReturn($g1);
 		$c2
 			->expects($this->once())
-			->method("getInstallGoal")
+			->method("getInstallObjective")
 			->with()
 			->willReturn($g2);
 
-		$col = new Setup\ConsumerCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2]);
+		$col = new Setup\AgentCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2]);
 		$conf = new Setup\ConfigCollection(["c1" => $conf1]);
 
-		$g = $col->getInstallGoal($conf);
+		$g = $col->getInstallObjective($conf);
 
-		$this->assertInstanceOf(Setup\GoalCollection::class, $g);
-		$this->assertEquals([$g1, $g2], $g->getGoals());
+		$this->assertInstanceOf(Setup\ObjectiveCollection::class, $g);
+		$this->assertEquals([$g1, $g2], $g->getObjectives());
 	}
 
-	public function testGetUpdateGoal() {
+	public function testGetUpdateObjective() {
 		$ff = $this->createMock(FieldFactory::class);
 		$tf = new TransformationFactory();
 
-		$c1 = $this->newConsumer();
-		$c2 = $this->newConsumer();
+		$c1 = $this->newAgent();
+		$c2 = $this->newAgent();
 
-		$g1 = $this->newGoal();
-		$g2 = $this->newGoal();
+		$g1 = $this->newObjective();
+		$g2 = $this->newObjective();
 
 		$conf1 = $this->newConfig();
 
@@ -259,43 +259,43 @@ class ConsumerCollectionTest extends \PHPUnit\Framework\TestCase {
 
 		$c1
 			->expects($this->once())
-			->method("getUpdateGoal")
+			->method("getUpdateObjective")
 			->with($conf1)
 			->willReturn($g1);
 		$c2
 			->expects($this->once())
-			->method("getUpdateGoal")
+			->method("getUpdateObjective")
 			->with()
 			->willReturn($g2);
 
-		$col = new Setup\ConsumerCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2]);
+		$col = new Setup\AgentCollection($ff, $tf, ["c1"=>$c1,"c2"=>$c2]);
 		$conf = new Setup\ConfigCollection(["c1" => $conf1]);
 
-		$g = $col->getUpdateGoal($conf);
+		$g = $col->getUpdateObjective($conf);
 
-		$this->assertInstanceOf(Setup\GoalCollection::class, $g);
-		$this->assertEquals([$g1, $g2], $g->getGoals());
+		$this->assertInstanceOf(Setup\ObjectiveCollection::class, $g);
+		$this->assertEquals([$g1, $g2], $g->getObjectives());
 	}
 
-	protected function newConsumer() {
+	protected function newAgent() {
 		static $no = 0;
 
 		$consumer = $this
-			->getMockBuilder(Setup\Consumer::class)
-			->setMethods(["hasConfig", "getDefaultConfig", "getConfigInput", "getConfigFromArray", "getInstallGoal", "getUpdateGoal"])
-			->setMockClassName("Mock_ConsumerNo".($no++))
+			->getMockBuilder(Setup\Agent::class)
+			->setMethods(["hasConfig", "getDefaultConfig", "getConfigInput", "getConfigFromArray", "getInstallObjective", "getUpdateObjective"])
+			->setMockClassName("Mock_AgentNo".($no++))
 			->getMock();
 
 		return $consumer;
 	}
 
-	protected function newGoal() {
+	protected function newObjective() {
 		static $no = 0;
 
 		$goal = $this
-			->getMockBuilder(Setup\Goal::class)
+			->getMockBuilder(Setup\Objective::class)
 			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
-			->setMockClassName("Mock_GoalNo".($no++))
+			->setMockClassName("Mock_ObjectiveNo".($no++))
 			->getMock();
 
 		$goal

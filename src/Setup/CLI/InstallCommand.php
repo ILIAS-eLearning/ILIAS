@@ -3,9 +3,9 @@
 
 namespace ILIAS\Setup\CLI;
 
-use ILIAS\Setup\Consumer;
+use ILIAS\Setup\Agent;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\GoalIterator;
+use ILIAS\Setup\ObjectiveIterator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,13 +18,13 @@ class InstallCommand extends Command {
 	protected static $defaultName = "install";
 
 	/**
-	 * @var Consumer
+	 * @var Agent
 	 */
-	protected $consumer;
+	protected $agent;
 
-	public function __construct(Consumer $consumer) {
+	public function __construct(Agent $agent) {
 		parent::__construct();
-		$this->consumer = $consumer;
+		$this->agent = $agent;
 	}
 
 	public function configure() {
@@ -33,19 +33,19 @@ class InstallCommand extends Command {
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
-		if ($this->consumer->hasConfig()) {
+		if ($this->agent->hasConfig()) {
 			$config_file = $input->getArgument("config");
 			$config_content = $this->readConfigFile($config_file);
-			$config = $this->consumer->getConfigFromArray($config_content);
+			$config = $this->agent->getConfigFromArray($config_content);
 		}
 		else {
 			$config = null;
 		}
 
-		$goal = $this->consumer->getInstallGoal($config);
+		$goal = $this->agent->getInstallObjective($config);
 		$environment = new ArrayEnvironment([]);
 
-		$goals = new GoalIterator($environment, $goal);
+		$goals = new ObjectiveIterator($environment, $goal);
 		while($goals->valid()) {
 			$current = $goals->current();
 			if ($current->isNotable() || $output->isVeryVerbose()  || $output->isDebug()) {

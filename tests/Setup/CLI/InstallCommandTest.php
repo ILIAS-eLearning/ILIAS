@@ -9,7 +9,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 	public function testBasicFunctionality() {
-		$consumer = $this->createMock(Setup\Consumer::class);
+		$consumer = $this->createMock(Setup\Agent::class);
 		$command = $this
 			->getMockBuilder(Setup\CLI\InstallCommand::class)
 			->setMethods(["readConfigFile"])
@@ -21,7 +21,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 		$config_file = "config_file";
 		$config_file_content = ["config_file"];
 
-		$goal = $this->createMock(Setup\Goal::class);
+		$objective = $this->createMock(Setup\Objective::class);
 		$env = $this->createMock(Setup\Environment::class);
 
 		$command
@@ -43,16 +43,16 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 
 		$consumer
 			->expects($this->once())
-			->method("getInstallGoal")
+			->method("getInstallObjective")
 			->with($config)
-			->willReturn($goal);
+			->willReturn($objective);
 
-		$goal
+		$objective
 			->expects($this->once())
 			->method("getPreconditions")
 			->willReturn([]);
 
-		$goal
+		$objective
 			->expects($this->once())
 			->method("achieve")
 			->willReturn($env);
