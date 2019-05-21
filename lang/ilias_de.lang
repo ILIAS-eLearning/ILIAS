@@ -111,7 +111,7 @@ sess#:#sess_notification_option#:#Option
 sess#:#sess_notification_option_inherit#:#Vom übergeordnetem Objekt erben
 sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
 sess#:#sess_notification_option_manual#:#Manuell setzen
-sess#:#sess_notification_option_manual_info#:#Benachrichtigung müssen manuell gesetzt werden.
+sess#:#sess_notification_option_manual_info#:#Empfänger für Benachrichtigungen müssen im Tab 'Sitzungsteilnehmer verwalten' manuell gesetzt werden.
 common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in "%s" für die Sitzung "%s"
 common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in "%s" von der Sitzung "%s"
 common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in "%s" zur Sitzung "%s"

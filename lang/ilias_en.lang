@@ -108,7 +108,7 @@ sess#:#sess_notification_option#:#Option
 sess#:#sess_notification_option_inherit#:#Inherit from Parent
 sess#:#sess_notification_option_inherit_info#:#Use the parent notification settings (e.g. notification settings from course or group) for members of this session
 sess#:#sess_notification_option_manual#:#Set manually
-sess#:#sess_notification_option_manual_info#:#Notification setting for users has to be set manually
+sess#:#sess_notification_option_manual_info#:#Notification setting for users has to be set manually in tab 'Participants'
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
