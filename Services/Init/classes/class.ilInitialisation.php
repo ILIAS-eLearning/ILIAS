@@ -1723,7 +1723,8 @@ class ilInitialisation
 			$_REQUEST["baseClass"] == "ilObjPortfolioGUI" ||
 			$_GET["baseClass"] == "ilObjPortfolioGUI"
 		) {
-			$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
+			//$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["baseClass"] == "ilStartUpGUI" ||
