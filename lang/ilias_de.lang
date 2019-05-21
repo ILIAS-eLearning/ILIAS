@@ -82,6 +82,28 @@ auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
+obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
+obj#:#obj_tool_setting_filter#:#Filter
+obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter "Inhalte" angezeigt.
+obj#:#obj_tool_setting_filter_empty#:#Anzeige bei leerem Filter
+obj#:#obj_tool_setting_filter_empty_info#:#Zeigt alle Elemente, wenn der Filter leer ist.
+cont#:#cont_std_filter_title_1#:#Titel
+cont#:#cont_std_filter_title_2#:#Beschreibung
+cont#:#cont_std_filter_title_3#:#Titel/Beschreibung
+cont#:#cont_std_filter_title_4#:#Schlagwort
+cont#:#cont_std_filter_title_5#:#Autor
+cont#:#cont_std_filter_title_6#:#Copyright
+cont#:#cont_std_filter_title_7#:#Tutorielle Betreuung
+cont#:#cont_std_filter_title_8#:#Objekttyp
+cont#:#cont_filter#:#Filter
+cont#:#cont_select_fields#:#Felder auswählen
+cont#:#cont_std_record_title#:#Standard
+cont#:#cont_filter_record#:#Datensatz
+cont#:#cont_filter_field#:#Feld
+cont#:#cont_filter_fields#:#Filterfelder
+cont#:#cont_show_more#:#Mehr anzeigen
+cont#:#cont_block_limit#:#Einträge per Block begrenzen
+cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
@@ -3638,8 +3660,6 @@ common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
-<<<<<<< HEAD
-=======
 common#:#obj_tool_setting_calendar#:#Kalender
 common#:#obj_tool_setting_calendar_info#:#Der Kalender ist aktiviert und der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
@@ -3648,7 +3668,6 @@ common#:#obj_tool_setting_news#:#Neuigkeiten
 common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_tos#:#Nutzungsvereinbarungen
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
->>>>>>> 7c49dbe042... 0023445: Byline misleading: Deactivating Calendar Block deactivates whole Calendar
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
 common#:#obj_trac_desc#:#Statistik- und Lernfortschrittseinstellungen und Übersicht
 common#:#obj_tst#:#Test
