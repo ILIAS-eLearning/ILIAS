@@ -5,11 +5,11 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 
 /**
- * Class ilSearchGSProvider
+ * Class ilSearchGSMetaBarProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilSearchGSProvider extends AbstractStaticMetaBarProvider implements StaticMetaBarProvider {
+class ilSearchGSMetaBarProvider extends AbstractStaticMetaBarProvider implements StaticMetaBarProvider {
 
 	/**
 	 * @return IdentificationInterface

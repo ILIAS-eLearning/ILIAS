@@ -35,22 +35,14 @@ class ilGSProviderFactory extends ProviderFactory {
 	 * @inheritDoc
 	 */
 	public function getMetaBarProvider(): array {
-		// $providers = [];
-		// // Core
-		// foreach (ilGSProviderStorage::where(['purpose' => StaticMetaBarProvider::PURPOSE_MBS])->get() as $provider_storage) {
-		// 	/**
-		// 	 * @var $provider_storage ilGSProviderStorage
-		// 	 */
-		// 	$providers[] = $provider_storage->getInstance();
-		// }
-		//
-		// ATTENTION: This is currently WIP, the Providers will be collected by
-		// the same mechanism as the MainBarProviders (services.xml or modules.xml)
-		//
-		$providers = [
-			new ilSearchGSProvider($this->dic),
-			new ilMMCustomTopBarProvider($this->dic),
-		];
+		$providers = [];
+		// Core
+		foreach (ilGSProviderStorage::where(['purpose' => StaticMetaBarProvider::PURPOSE_MBS])->get() as $provider_storage) {
+			/**
+			 * @var $provider_storage ilGSProviderStorage
+			 */
+			$providers[] = $provider_storage->getInstance();
+		}
 		// Plugins
 		$this->appendPlugins($providers, StaticMetaBarProvider::class);
 
@@ -86,21 +78,15 @@ class ilGSProviderFactory extends ProviderFactory {
 	 * @inheritDoc
 	 */
 	public function getToolProvider(): array {
-		// $providers = [];
+		$providers = [];
 		// // Core
-		// foreach (ilGSProviderStorage::where(['purpose' => DynamicToolProvider::PURPOSE_TOOLS])->get() as $provider_storage) {
-		// 	/**
-		// 	 * @var $provider_storage ilGSProviderStorage
-		// 	 */
-		// 	$providers[] = $provider_storage->getInstance();
-		// }
+		foreach (ilGSProviderStorage::where(['purpose' => DynamicToolProvider::PURPOSE_TOOLS])->get() as $provider_storage) {
+			/**
+			 * @var $provider_storage ilGSProviderStorage
+			 */
+			$providers[] = $provider_storage->getInstance();
+		}
 
-		// ATTENTION: This is currently WIP, the Providers will be collected by
-		// the same mechanism as the MainBarProviders (services.xml or modules.xml)
-
-		$providers = [
-			new ilStaffGSToolProvider($this->dic),
-		];
 		// Plugins
 		$this->appendPlugins($providers, DynamicToolProvider::class);
 
