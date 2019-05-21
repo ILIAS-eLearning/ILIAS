@@ -566,12 +566,9 @@ class ilCalendarPresentationGUI
 		$side_cal->setRepositoryMode($this->getRepositoryMode());
 		$tpl->setVariable('MINICAL', $ilCtrl->getHTML($side_cal));
 
-		if ($this->category_id == 0)
-		{
-			include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
-			$cat = new ilCalendarCategoryGUI($ilUser->getId(), $this->seed, $this->ref_id);
-			$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
-		}
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
+		$cat = new ilCalendarCategoryGUI($ilUser->getId(), $this->seed, $this->ref_id);
+		$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
 
 		$this->tpl->setRightContent($tpl->get());
 	}
