@@ -75,9 +75,8 @@ class FactoryImplTest extends TestCase {
 				        3 => 'linkList',
 				        4 => 'repositoryLink',
 				        5 => 'separator',
-				        6 => 'tool',
-				        7 => 'topLinkItem',
-				        8 => 'topParentItem',
+				        6 => 'topLinkItem',
+				        7 => 'topParentItem',
 			        ]
 		);
 	}

@@ -12,9 +12,13 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 class ToolFactory {
 
 	/**
+	 * Returns you a Tool which can contain special features in s context
+	 *
 	 * @param IdentificationInterface $identification
 	 *
 	 * @return Tool
+	 *
+	 * @see CalledContexts
 	 */
 	public function tool(IdentificationInterface $identification): Tool {
 		return new Tool($identification);

@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 
 /**
  * Class Services
@@ -62,6 +63,15 @@ class Services {
 	 */
 	public function metaBar(): MetaBarItemFactory {
 		return $this->get(MetaBarItemFactory::class);
+	}
+
+
+	/**
+	 * @return ToolFactory
+	 * @see ToolFactory
+	 */
+	public function tool(): ToolFactory {
+		return $this->get(ToolFactory::class);
 	}
 
 

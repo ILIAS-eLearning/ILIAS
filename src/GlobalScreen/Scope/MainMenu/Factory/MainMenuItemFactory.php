@@ -112,20 +112,6 @@ class MainMenuItemFactory {
 
 
 	/**
-	 * Returns you a Tool which can contain special features in s context
-	 *
-	 * @param IdentificationInterface $identification
-	 *
-	 * @return Tool
-	 *
-	 * @see CalledContexts
-	 */
-	public function tool(IdentificationInterface $identification): Tool {
-		return new Tool($identification);
-	}
-
-
-	/**
 	 * @param string                  $class_name
 	 * @param IdentificationInterface $identification
 	 *

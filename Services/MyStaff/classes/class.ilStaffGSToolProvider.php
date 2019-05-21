@@ -28,7 +28,7 @@ class ilStaffGSToolProvider extends AbstractDynamicToolProvider {
 		$additional_data = $last->getAdditionalData();
 		$iff = function ($id) { return $this->globalScreen()->identification()->fromSerializedIdentification($id); };
 		$l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
-		$factory = $this->globalScreen()->mainBar();
+		$factory = $this->globalScreen()->tool();
 
 		if ($additional_data->exists('mine')) {
 			$tools[] = $factory->tool($iff("providerXY|lorem_tool"))
