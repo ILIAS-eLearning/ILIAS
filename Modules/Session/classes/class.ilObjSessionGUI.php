@@ -420,7 +420,20 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilAccess = $DIC->access();
 		$ilErr = $DIC["ilErr"];
 		$lng = $DIC->language();
+		// thkoeln-patch: begin
+		$ilCtrl = $DIC->ctrl();
+		$parts = explode('_', $a_target);
+		$a_target = $parts[0];
 
+		if ($ilAccess->checkAccess('write', '', $a_target)) {
+			if (isset($parts[1]) && 'part' === $parts[1]) {
+				$ilCtrl->initBaseClass('ilRepositoryGUI');
+				$ilCtrl->setParameterByClass('ilSessionMembershipGUI', 'ref_id', (int) $a_target);
+				$ilCtrl->setTargetScript('ilias.php');
+				$ilCtrl->redirectByClass(array('ilRepositoryGUI', __CLASS__, 'ilSessionMembershipGUI'));
+			}
+		}
+		// thkoeln-patch: end
 		if($ilAccess->checkAccess('visible', "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
