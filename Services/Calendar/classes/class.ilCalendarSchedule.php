@@ -605,7 +605,7 @@ class ilCalendarSchedule
 			case self::TYPE_INBOX:
 				$this->start = $seed;
 				$this->end = clone $this->start;
-				$this->end->increment(IL_CAL_MONTH,3);
+				$this->end->increment(IL_CAL_MONTH,12);
 				break;
 		}
 		
