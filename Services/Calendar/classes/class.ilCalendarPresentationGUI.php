@@ -94,8 +94,7 @@ class ilCalendarPresentationGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->ref_id = $a_ref_id;
 		$this->category_id = $_GET["category_id"];
-		$this->ctrl->saveParameter($this, "category_id");
-
+		$this->ctrl->setParameter($this,'category_id', $_REQUEST['category_id']);
 
 		// show back to pd
 		$this->ctrl->saveParameter($this, 'backpd');
@@ -619,12 +618,21 @@ class ilCalendarPresentationGUI
 		}
 		else
 		{
-			$ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $_REQUEST["category_id"]);
-
 			// no object calendar => back is back to manage view
-			$this->tabs_gui->setBackTarget(
-				$this->lng->txt("back"),
-				$ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, "manage"));
+			if(array_key_exists('backvm',$_REQUEST))
+			{
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt("back"),
+					$ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, 'manage'));
+			}
+			else
+			{
+				$ctrl->clearParameterByClass(ilCalendarPresentationGUI::class,'category_id');
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt("back"),
+					$ctrl->getLinkTargetByClass('ilcalendarpresentationgui', ''));
+			}
+			$ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $_REQUEST["category_id"]);
 		}
 
 		$this->tabs_gui->addTab(
@@ -826,9 +834,7 @@ class ilCalendarPresentationGUI
 			if ($this->actions->checkDeleteCal($this->category_id))
 			{
 				$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-				$ctrl->setParameterByClass("ilcalendarcategorygui", "backv", "1");
 				$this->action_menu->addItem($lng->txt("cal_delete_cal"), "", $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
-				$ctrl->clearParameterByClass('ilcalendarcategorygui','backv');
 			}
 
 			$tpl->setHeaderActionMenu($this->action_menu->getHTML());
