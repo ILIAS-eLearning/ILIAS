@@ -427,8 +427,8 @@ class ilDclDetailedViewGUI {
 	 */
 	protected function checkAccess()
 	{
-		return ((ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
-		&& ilDclDetailedViewDefinition::isActive($this->tableview_id));
+		return ilObjDataCollectionAccess::hasAccessTo(filter_input(INPUT_GET, 'ref_id'), $this->table->getId(), $this->tableview_id)
+			&& ilDclDetailedViewDefinition::isActive($this->tableview_id);
 	}
 }
 

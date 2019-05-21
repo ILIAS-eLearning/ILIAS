@@ -213,7 +213,7 @@ class ilDclFieldListGUI
     protected function checkAccess()
     {
         $ref_id = $this->getDataCollectionObject()->getRefId();
-        return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
+        return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
     }
 
 
