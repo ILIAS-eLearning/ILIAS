@@ -4,6 +4,7 @@ namespace SAML2\XML\md;
 
 use SAML2\Constants;
 use SAML2\Utils;
+use Webmozart\Assert\Assert;
 
 /**
  * Class representing SAML 2 metadata AdditionalMetadataLocation element.
@@ -26,6 +27,7 @@ class AdditionalMetadataLocation
      */
     public $location;
 
+
     /**
      * Initialize an AdditionalMetadataLocation element.
      *
@@ -41,10 +43,55 @@ class AdditionalMetadataLocation
         if (!$xml->hasAttribute('namespace')) {
             throw new \Exception('Missing namespace attribute on AdditionalMetadataLocation element.');
         }
-        $this->namespace = $xml->getAttribute('namespace');
+        $this->setNamespace($xml->getAttribute('namespace'));
 
-        $this->location = $xml->textContent;
+        $this->setLocation($xml->textContent);
     }
+
+
+    /**
+     * Collect the value of the namespace-property
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+
+    /**
+     * Set the value of the namespace-property
+     * @param string $namespace
+     * @return void
+     */
+    public function setNamespace($namespace)
+    {
+        Assert::string($namespace);
+        $this->namespace = $namespace;
+    }
+
+
+    /**
+     * Collect the value of the location-property
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+
+    /**
+     * Set the value of the location-property
+     * @param string $location
+     * @return void
+     */
+    public function setLocation($location)
+    {
+        Assert::string($location);
+        $this->location = $location;
+    }
+
 
     /**
      * Convert this AdditionalMetadataLocation to XML.
@@ -54,11 +101,11 @@ class AdditionalMetadataLocation
      */
     public function toXML(\DOMElement $parent)
     {
-        assert(is_string($this->namespace));
-        assert(is_string($this->location));
+        Assert::string($this->getNamespace());
+        Assert::string($this->getLocation());
 
-        $e = Utils::addString($parent, Constants::NS_MD, 'md:AdditionalMetadataLocation', $this->location);
-        $e->setAttribute('namespace', $this->namespace);
+        $e = Utils::addString($parent, Constants::NS_MD, 'md:AdditionalMetadataLocation', $this->getLocation());
+        $e->setAttribute('namespace', $this->getNamespace());
 
         return $e;
     }

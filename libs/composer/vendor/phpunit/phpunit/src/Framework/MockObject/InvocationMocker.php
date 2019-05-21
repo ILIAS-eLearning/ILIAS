@@ -21,7 +21,7 @@ use PHPUnit\Framework\MockObject\Stub\MatcherCollection;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final class InvocationMocker implements MatcherCollection, Invokable, NamespaceMatch
+final class InvocationMocker implements Invokable, MatcherCollection, NamespaceMatch
 {
     /**
      * @var MatcherInvocation[]
@@ -65,14 +65,13 @@ final class InvocationMocker implements MatcherCollection, Invokable, NamespaceM
         return false;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function lookupId($id)
+    public function lookupId($id): Match
     {
         if (isset($this->builderMap[$id])) {
             return $this->builderMap[$id];
         }
+
+        return null;
     }
 
     /**
@@ -89,10 +88,7 @@ final class InvocationMocker implements MatcherCollection, Invokable, NamespaceM
         $this->builderMap[$id] = $builder;
     }
 
-    /**
-     * @return BuilderInvocationMocker
-     */
-    public function expects(MatcherInvocation $matcher)
+    public function expects(MatcherInvocation $matcher): BuilderInvocationMocker
     {
         return new BuilderInvocationMocker(
             $this,
@@ -133,7 +129,7 @@ final class InvocationMocker implements MatcherCollection, Invokable, NamespaceM
             return $returnValue;
         }
 
-        if ($this->returnValueGeneration === false) {
+        if (!$this->returnValueGeneration) {
             $exception = new ExpectationFailedException(
                 \sprintf(
                     'Return value inference disabled and no expectation set up for %s::%s()',
@@ -154,10 +150,7 @@ final class InvocationMocker implements MatcherCollection, Invokable, NamespaceM
         return $invocation->generateReturnValue();
     }
 
-    /**
-     * @return bool
-     */
-    public function matches(Invocation $invocation)
+    public function matches(Invocation $invocation): bool
     {
         foreach ($this->matchers as $matcher) {
             if (!$matcher->matches($invocation)) {
@@ -170,10 +163,8 @@ final class InvocationMocker implements MatcherCollection, Invokable, NamespaceM
 
     /**
      * @throws \PHPUnit\Framework\ExpectationFailedException
-     *
-     * @return bool
      */
-    public function verify()
+    public function verify(): void
     {
         foreach ($this->matchers as $matcher) {
             $matcher->verify();

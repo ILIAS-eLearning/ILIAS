@@ -9,13 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Twig\Environment;
+use Twig\Extension\ExtensionInterface;
+use Twig\Loader\LoaderInterface;
+
 class CustomExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @requires PHP 5.3
      * @dataProvider provideInvalidExtensions
      */
-    public function testGetInvalidOperators(Twig_ExtensionInterface $extension, $expectedExceptionMessage)
+    public function testGetInvalidOperators(ExtensionInterface $extension, $expectedExceptionMessage)
     {
         if (method_exists($this, 'expectException')) {
             $this->expectException('InvalidArgumentException');
@@ -24,21 +27,21 @@ class CustomExtensionTest extends \PHPUnit\Framework\TestCase
             $this->setExpectedException('InvalidArgumentException', $expectedExceptionMessage);
         }
 
-        $env = new Twig_Environment($this->getMockBuilder('Twig_LoaderInterface')->getMock());
+        $env = new Environment($this->getMockBuilder(LoaderInterface::class)->getMock());
         $env->addExtension($extension);
         $env->getUnaryOperators();
     }
 
     public function provideInvalidExtensions()
     {
-        return array(
-            array(new InvalidOperatorExtension(new stdClass()), '"InvalidOperatorExtension::getOperators()" must return an array with operators, got "stdClass".'),
-            array(new InvalidOperatorExtension(array(1, 2, 3)), '"InvalidOperatorExtension::getOperators()" must return an array of 2 elements, got 3.'),
-        );
+        return [
+            [new InvalidOperatorExtension(new \stdClass()), '"InvalidOperatorExtension::getOperators()" must return an array with operators, got "stdClass".'],
+            [new InvalidOperatorExtension([1, 2, 3]), '"InvalidOperatorExtension::getOperators()" must return an array of 2 elements, got 3.'],
+        ];
     }
 }
 
-class InvalidOperatorExtension implements Twig_ExtensionInterface
+class InvalidOperatorExtension implements ExtensionInterface
 {
     private $operators;
 
@@ -47,47 +50,33 @@ class InvalidOperatorExtension implements Twig_ExtensionInterface
         $this->operators = $operators;
     }
 
-    public function initRuntime(Twig_Environment $environment)
-    {
-    }
-
     public function getTokenParsers()
     {
-        return array();
+        return [];
     }
 
     public function getNodeVisitors()
     {
-        return array();
+        return [];
     }
 
     public function getFilters()
     {
-        return array();
+        return [];
     }
 
     public function getTests()
     {
-        return array();
+        return [];
     }
 
     public function getFunctions()
     {
-        return array();
-    }
-
-    public function getGlobals()
-    {
-        return array();
+        return [];
     }
 
     public function getOperators()
     {
         return $this->operators;
-    }
-
-    public function getName()
-    {
-        return __CLASS__;
     }
 }

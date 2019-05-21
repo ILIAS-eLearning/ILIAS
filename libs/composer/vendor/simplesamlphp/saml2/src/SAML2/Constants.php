@@ -60,8 +60,8 @@ class Constants
     const CM_BEARER = 'urn:oasis:names:tc:SAML:2.0:cm:bearer';
 
     /**
-    * Holder-of-Key subject confirmation method.
-    */
+     * Holder-of-Key subject confirmation method.
+     */
     const CM_HOK = 'urn:oasis:names:tc:SAML:2.0:cm:holder-of-key';
 
     /**

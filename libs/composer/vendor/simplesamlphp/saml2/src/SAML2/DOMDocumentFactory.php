@@ -8,9 +8,14 @@ use SAML2\Exception\UnparseableXmlException;
 
 final class DOMDocumentFactory
 {
+    /**
+     * Constructor for DOMDocumentFactory.
+     * This class should never be instantiated
+     */
     private function __construct()
     {
     }
+
 
     /**
      * @param string $xml
@@ -29,7 +34,7 @@ final class DOMDocumentFactory
 
         $domDocument = self::create();
         $options     = LIBXML_DTDLOAD | LIBXML_DTDATTR | LIBXML_NONET;
-        if (defined(LIBXML_COMPACT)) {
+        if (defined('LIBXML_COMPACT')) {
             $options |= LIBXML_COMPACT;
         }
 
@@ -57,6 +62,7 @@ final class DOMDocumentFactory
 
         return $domDocument;
     }
+
 
     /**
      * @param $file
@@ -93,6 +99,7 @@ final class DOMDocumentFactory
 
         return static::fromString($xml);
     }
+
 
     /**
      * @return \DOMDocument

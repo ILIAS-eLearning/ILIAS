@@ -2,8 +2,85 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com)
+and this project adheres to [Semantic Versioning](https://semver.org).
+
+## [1.6.0] - 2019-01-02
+
+### Added
+
+- Refactored Matrix Functions to use external Matrix library
+- Possibility to specify custom colors of values for pie and donut charts - [#768](https://github.com/PHPOffice/PhpSpreadsheet/pull/768)
+
+### Fixed
+
+- Improve XLSX parsing speed if no readFilter is applied - [#772](https://github.com/PHPOffice/PhpSpreadsheet/issues/772)
+- Fix column names if read filter calls in XLSX reader skip columns - [#777](https://github.com/PHPOffice/PhpSpreadsheet/pull/777)
+- Fix LOOKUP function which was breaking on edge cases - [#796](https://github.com/PHPOffice/PhpSpreadsheet/issues/796)
+- Fix VLOOKUP with exact matches - [#809](https://github.com/PHPOffice/PhpSpreadsheet/pull/809)
+- Support COUNTIFS multiple arguments - [#830](https://github.com/PHPOffice/PhpSpreadsheet/pull/830)
+- Change `libxml_disable_entity_loader()` as shortly as possible - [#819](https://github.com/PHPOffice/PhpSpreadsheet/pull/819)
+- Improved memory usage and performance when loading large spreadsheets - [#822](https://github.com/PHPOffice/PhpSpreadsheet/pull/822)
+- Improved performance when loading large spreadsheets - [#825](https://github.com/PHPOffice/PhpSpreadsheet/pull/825)
+- Improved performance when loading large spreadsheets - [#824](https://github.com/PHPOffice/PhpSpreadsheet/pull/824)
+- Fix color from CSS when reading from HTML - [#831](https://github.com/PHPOffice/PhpSpreadsheet/pull/831) 
+- Fix infinite loop when reading invalid ODS files - [#832](https://github.com/PHPOffice/PhpSpreadsheet/pull/832) 
+- Fix time format for duration is incorrect - [#666](https://github.com/PHPOffice/PhpSpreadsheet/pull/666)
+- Fix iconv unsupported `//IGNORE//TRANSLIT` on IBM i - [#791](https://github.com/PHPOffice/PhpSpreadsheet/issues/791)
+
+### Changed
+
+- `master` is the new default branch, `develop` does not exist anymore
+
+## [1.5.2] - 2018-11-25
+
+### Security
+
+- Improvements to the design of the XML Security Scanner - [#771](https://github.com/PHPOffice/PhpSpreadsheet/issues/771)
+
+## [1.5.1] - 2018-11-20
+
+### Security
+
+- Fix and improve XXE security scanning for XML-based and HTML Readers - [#771](https://github.com/PHPOffice/PhpSpreadsheet/issues/771)
+
+### Added
+
+- Support page margin in mPDF - [#750](https://github.com/PHPOffice/PhpSpreadsheet/issues/750)
+
+### Fixed
+
+- Support numeric condition in SUMIF, SUMIFS, AVERAGEIF, COUNTIF, MAXIF and MINIF - [#683](https://github.com/PHPOffice/PhpSpreadsheet/issues/683)
+- SUMIFS containing multiple conditions - [#704](https://github.com/PHPOffice/PhpSpreadsheet/issues/704)
+- Csv reader avoid notice when the file is empty - [#743](https://github.com/PHPOffice/PhpSpreadsheet/pull/743)
+- Fix print area parser for XLSX reader - [#734](https://github.com/PHPOffice/PhpSpreadsheet/pull/734)
+- Support overriding `DefaultValueBinder::dataTypeForValue()` without overriding `DefaultValueBinder::bindValue()` - [#735](https://github.com/PHPOffice/PhpSpreadsheet/pull/735)
+- Mpdf export can exceed pcre.backtrack_limit - [#637](https://github.com/PHPOffice/PhpSpreadsheet/issues/637)
+- Fix index overflow on data values array - [#748](https://github.com/PHPOffice/PhpSpreadsheet/pull/748)
+
+## [1.5.0] - 2018-10-21
+
+### Added
+
+- PHP 7.3 support
+- Add the DAYS() function - [#594](https://github.com/PHPOffice/PhpSpreadsheet/pull/594)
+
+### Fixed
+
+- Sheet title can contain exclamation mark - [#325](https://github.com/PHPOffice/PhpSpreadsheet/issues/325)
+- Xls file cause the exception during open by Xls reader - [#402](https://github.com/PHPOffice/PhpSpreadsheet/issues/402)
+- Skip non numeric value in SUMIF - [#618](https://github.com/PHPOffice/PhpSpreadsheet/pull/618)
+- OFFSET should allow omitted height and width - [#561](https://github.com/PHPOffice/PhpSpreadsheet/issues/561)
+- Correctly determine delimiter when CSV contains line breaks inside enclosures - [#716](https://github.com/PHPOffice/PhpSpreadsheet/issues/716)
+
+## [1.4.1] - 2018-09-30
+
+### Fixed
+
+- Remove locale from formatting string - [#644](https://github.com/PHPOffice/PhpSpreadsheet/pull/644)
+- Allow iterators to go out of bounds with prev - [#587](https://github.com/PHPOffice/PhpSpreadsheet/issues/587)
+- Fix warning when reading xlsx without styles - [#631](https://github.com/PHPOffice/PhpSpreadsheet/pull/631)
+- Fix broken sample links on windows due to $baseDir having backslash - [#653](https://github.com/PHPOffice/PhpSpreadsheet/pull/653)
 
 ## [1.4.0] - 2018-08-06
 
@@ -205,7 +282,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Start following [SemVer](http://semver.org) properly.
+- Start following [SemVer](https://semver.org) properly.
 
 ### Fixed
 

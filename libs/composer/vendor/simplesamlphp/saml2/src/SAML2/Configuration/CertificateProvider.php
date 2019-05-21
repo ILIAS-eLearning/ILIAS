@@ -16,6 +16,7 @@ interface CertificateProvider extends Queryable
      */
     public function getKeys();
 
+
     /**
      * Returns the contents of an X509 pem certificate, without the '-----BEGIN CERTIFICATE-----' and
      * '-----END CERTIFICATE-----'.
@@ -24,12 +25,14 @@ interface CertificateProvider extends Queryable
      */
     public function getCertificateData();
 
+
     /**
      * Returns the full path to the (local) file that contains the X509 pem certificate.
      *
      * @return null|string
      */
     public function getCertificateFile();
+
 
     /**
      * Returns an array or \Traversable where each element represents a certificate fingerprint. A certificate

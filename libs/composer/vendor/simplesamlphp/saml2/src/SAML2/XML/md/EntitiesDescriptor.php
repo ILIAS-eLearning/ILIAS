@@ -6,6 +6,8 @@ use SAML2\Constants;
 use SAML2\DOMDocumentFactory;
 use SAML2\SignedElementHelper;
 use SAML2\Utils;
+use SAML2\XML\Chunk;
+use Webmozart\Assert\Assert;
 
 /**
  * Class representing SAML 2 EntitiesDescriptor element.
@@ -49,14 +51,15 @@ class EntitiesDescriptor extends SignedElementHelper
      *
      * @var array
      */
-    public $Extensions = array();
+    public $Extensions = [];
 
     /**
      * Child EntityDescriptor and EntitiesDescriptor elements.
      *
      * @var (\SAML2\XML\md\EntityDescriptor|\SAML2\XML\md\EntitiesDescriptor)[]
      */
-    public $children = array();
+    public $children = [];
+
 
     /**
      * Initialize an EntitiesDescriptor.
@@ -72,19 +75,19 @@ class EntitiesDescriptor extends SignedElementHelper
         }
 
         if ($xml->hasAttribute('ID')) {
-            $this->ID = $xml->getAttribute('ID');
+            $this->setID($xml->getAttribute('ID'));
         }
         if ($xml->hasAttribute('validUntil')) {
-            $this->validUntil = Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil'));
+            $this->setValidUntil(Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil')));
         }
         if ($xml->hasAttribute('cacheDuration')) {
-            $this->cacheDuration = $xml->getAttribute('cacheDuration');
+            $this->setCacheDuration($xml->getAttribute('cacheDuration'));
         }
         if ($xml->hasAttribute('Name')) {
-            $this->Name = $xml->getAttribute('Name');
+            $this->setName($xml->getAttribute('Name'));
         }
 
-        $this->Extensions = Extensions::getList($xml);
+        $this->setExtensions(Extensions::getList($xml));
 
         foreach (Utils::xpQuery($xml, './saml_metadata:EntityDescriptor|./saml_metadata:EntitiesDescriptor') as $node) {
             if ($node->localName === 'EntityDescriptor') {
@@ -95,6 +98,161 @@ class EntitiesDescriptor extends SignedElementHelper
         }
     }
 
+
+    /**
+     * Collect the value of the Name-property
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->Name;
+    }
+
+
+    /**
+     * Set the value of the Name-property
+     * @param string|null $name
+     * @return void
+     */
+    public function setName($name = null)
+    {
+        Assert::nullOrString($name);
+        $this->Name = $name;
+    }
+
+
+    /**
+     * Collect the value of the ID-property
+     * @return string|null
+     */
+    public function getID()
+    {
+        return $this->ID;
+    }
+
+
+    /**
+     * Set the value of the ID-property
+     * @param string|null $Id
+     * @return void
+     */
+    public function setID($Id = null)
+    {
+        Assert::nullOrString($Id);
+        $this->ID = $Id;
+    }
+
+
+    /**
+     * Collect the value of the validUntil-property
+     * @return int|null
+     */
+    public function getValidUntil()
+    {
+        return $this->validUntil;
+    }
+
+
+    /**
+     * Set the value of the validUntil-property
+     * @param int|null $validUntil
+     * @return void
+     */
+    public function setValidUntil($validUntil = null)
+    {
+        Assert::nullOrInteger($validUntil);
+        $this->validUntil = $validUntil;
+    }
+
+
+    /**
+     * Collect the value of the cacheDuration-property
+     * @return string|null
+     */
+    public function getCacheDuration()
+    {
+        return $this->cacheDuration;
+    }
+
+
+    /**
+     * Set the value of the cacheDuration-property
+     * @param string|null $cacheDuration
+     * @return void
+     */
+    public function setCacheDuration($cacheDuration = null)
+    {
+        Assert::nullOrString($cacheDuration);
+        $this->cacheDuration = $cacheDuration;
+    }
+
+
+    /**
+     * Collect the value of the Extensions-property
+     * @return \SAML2\XML\Chunk[]
+     */
+    public function getExtensions()
+    {
+        return $this->Extensions;
+    }
+
+
+    /**
+     * Set the value of the Extensions-property
+     * @param array $extensions
+     * @return void
+     */
+    public function setExtensions(array $extensions)
+    {
+        $this->Extensions = $extensions;
+    }
+
+
+    /**
+     * Add an Extension.
+     *
+     * @param \SAML2\XML\Chunk $extensions The Extensions
+     * @return void
+     */
+    public function addExtension(Extensions $extension)
+    {
+        $this->Extensions[] = $extension;
+    }
+
+
+    /**
+     * Collect the value of the children-property
+     * @return (\SAML2\XML\md\EntityDescriptor|\SAML2\XML\md\EntitiesDescriptor)[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+
+    /**
+     * Set the value of the childen-property
+     * @param array $children
+     * @return void
+     */
+    public function setChildren(array $children)
+    {
+        $this->children = $children;
+    }
+
+
+    /**
+     * Add the value to the children-property
+     * @param \SAML2\XML\md\EntityDescriptor|\SAML2\XML\md\EntitiesDescriptor $child
+     * @return void
+     */
+    public function addChildren($child)
+    {
+        Assert::isInstanceOfAny($child, [EntityDescriptor::class, EntitiesDescriptor::class]);
+        $this->children[] = $child;
+    }
+
+
     /**
      * Convert this EntitiesDescriptor to XML.
      *
@@ -103,12 +261,12 @@ class EntitiesDescriptor extends SignedElementHelper
      */
     public function toXML(\DOMElement $parent = null)
     {
-        assert(is_null($this->ID) || is_string($this->ID));
-        assert(is_null($this->validUntil) || is_int($this->validUntil));
-        assert(is_null($this->cacheDuration) || is_string($this->cacheDuration));
-        assert(is_null($this->Name) || is_string($this->Name));
-        assert(is_array($this->Extensions));
-        assert(is_array($this->children));
+        Assert::nullOrString($this->getID());
+        Assert::nullOrInteger($this->getValidUntil());
+        Assert::nullOrString($this->getCacheDuration());
+        Assert::nullOrString($this->getName());
+        Assert::isArray($this->getExtensions());
+        Assert::isArray($this->getChildren());
 
         if ($parent === null) {
             $doc = DOMDocumentFactory::create();
@@ -119,26 +277,26 @@ class EntitiesDescriptor extends SignedElementHelper
             $parent->appendChild($e);
         }
 
-        if (isset($this->ID)) {
-            $e->setAttribute('ID', $this->ID);
+        if ($this->getID() !== null) {
+            $e->setAttribute('ID', $this->getID());
         }
 
-        if (isset($this->validUntil)) {
-            $e->setAttribute('validUntil', gmdate('Y-m-d\TH:i:s\Z', $this->validUntil));
+        if ($this->getValidUntil() !== null) {
+            $e->setAttribute('validUntil', gmdate('Y-m-d\TH:i:s\Z', $this->getValidUntil()));
         }
 
-        if (isset($this->cacheDuration)) {
-            $e->setAttribute('cacheDuration', $this->cacheDuration);
+        if ($this->getCacheDuration() !== null) {
+            $e->setAttribute('cacheDuration', $this->getCacheDuration());
         }
 
-        if (isset($this->Name)) {
-            $e->setAttribute('Name', $this->Name);
+        if ($this->getName() !== null) {
+            $e->setAttribute('Name', $this->getName());
         }
 
-        Extensions::addList($e, $this->Extensions);
+        Extensions::addList($e, $this->getExtensions());
 
         /** @var \SAML2\XML\md\EntityDescriptor|\SAML2\XML\md\EntitiesDescriptor $node */
-        foreach ($this->children as $node) {
+        foreach ($this->getChildren() as $node) {
             $node->toXML($e);
         }
 

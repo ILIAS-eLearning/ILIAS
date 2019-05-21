@@ -10,56 +10,51 @@ use Gettext\Utils\PhpFunctionsScanner;
  */
 class PhpCode extends Extractor implements ExtractorInterface
 {
-    public static $functions = array(
-        'gettext' => '__',
-        '__' => '__',
-        '__e' => '__',
-        'ngettext' => 'n__',
-        'n__' => 'n__',
-        'n__e' => 'n__',
-        'pgettext' => 'p__',
-        'p__' => 'p__',
-        'p__e' => 'p__',
-        'dgettext' => 'd__',
-        'd__' => 'd__',
-        'd__e' => 'd__',
-        'dpgettext' => 'dp__',
-        'dp__' => 'dp__',
-        'dp__e' => 'dp__',
-        'npgettext' => 'np__',
-        'np__' => 'np__',
-        'np__e' => 'np__',
-        'dnpgettext' => 'dnp__',
-        'dnp__' => 'dnp__',
-        'dnp__e' => 'dnp__',
-    );
+    public static $options = [
+         // - false: to not extract comments
+         // - empty string: to extract all comments
+         // - non-empty string: to extract comments that start with that string
+         // - array with strings to extract comments format.
+        'extractComments' => false,
 
-    /**
-     * Set to:
-     * - false to not extract comments
-     * - empty string to extract all comments
-     * - non-empty string to extract comments that start with that string.
-     *
-     * @var string|false
-     */
-    public static $extractComments = false;
+        'constants' => [],
+
+        'functions' => [
+            'gettext' => 'gettext',
+            '__' => 'gettext',
+            'ngettext' => 'ngettext',
+            'n__' => 'ngettext',
+            'pgettext' => 'pgettext',
+            'p__' => 'pgettext',
+            'dgettext' => 'dgettext',
+            'd__' => 'dgettext',
+            'dngettext' => 'dngettext',
+            'dn__' => 'dngettext',
+            'dpgettext' => 'dpgettext',
+            'dp__' => 'dpgettext',
+            'npgettext' => 'npgettext',
+            'np__' => 'npgettext',
+            'dnpgettext' => 'dnpgettext',
+            'dnp__' => 'dnpgettext',
+            'noop' => 'noop',
+            'noop__' => 'noop',
+        ],
+    ];
 
     /**
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        if ($translations === null) {
-            $translations = new Translations();
-        }
+        $options += static::$options;
 
         $functions = new PhpFunctionsScanner($string);
-        if (self::$extractComments !== false) {
-            $functions->enableCommentsExtraction(self::$extractComments);
-        }
-        $functions->saveGettextFunctions(self::$functions, $translations, $file);
 
-        return $translations;
+        if ($options['extractComments'] !== false) {
+            $functions->enableCommentsExtraction($options['extractComments']);
+        }
+
+        $functions->saveGettextFunctions($translations, $options);
     }
 
     /**
@@ -76,39 +71,43 @@ class PhpCode extends Extractor implements ExtractorInterface
         }
 
         if ($value[0] === "'") {
-            return strtr(substr($value, 1, -1), array('\\\\' => '\\', '\\\'' => '\''));
+            return strtr(substr($value, 1, -1), ['\\\\' => '\\', '\\\'' => '\'']);
         }
 
         $value = substr($value, 1, -1);
 
-        return preg_replace_callback('/\\\(n|r|t|v|e|f|\$|"|\\\|x[0-9A-Fa-f]{1,2}|u{[0-9a-f]{1,6}}|[0-7]{1,3})/', function ($match) {
-            switch ($match[1][0]) {
-                case 'n':
-                    return "\n";
-                case 'r':
-                    return "\r";
-                case 't':
-                    return "\t";
-                case 'v':
-                    return "\v";
-                case 'e':
-                    return "\e";
-                case 'f':
-                    return "\f";
-                case '$':
-                    return '$';
-                case '"':
-                    return '"';
-                case '\\':
-                    return '\\';
-                case 'x':
-                    return chr(hexdec(substr($match[0], 1)));
-                case 'u':
-                    return self::unicodeChar(hexdec(substr($match[0], 1)));
-                default:
-                    return chr(octdec($match[0]));
-            }
-        }, $value);
+        return preg_replace_callback(
+            '/\\\(n|r|t|v|e|f|\$|"|\\\|x[0-9A-Fa-f]{1,2}|u{[0-9a-f]{1,6}}|[0-7]{1,3})/',
+            function ($match) {
+                switch ($match[1][0]) {
+                    case 'n':
+                        return "\n";
+                    case 'r':
+                        return "\r";
+                    case 't':
+                        return "\t";
+                    case 'v':
+                        return "\v";
+                    case 'e':
+                        return "\e";
+                    case 'f':
+                        return "\f";
+                    case '$':
+                        return '$';
+                    case '"':
+                        return '"';
+                    case '\\':
+                        return '\\';
+                    case 'x':
+                        return chr(hexdec(substr($match[0], 1)));
+                    case 'u':
+                        return self::unicodeChar(hexdec(substr($match[0], 1)));
+                    default:
+                        return chr(octdec($match[0]));
+                }
+            },
+            $value
+        );
     }
 
     //http://php.net/manual/en/function.chr.php#118804

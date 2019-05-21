@@ -3,76 +3,38 @@
 namespace Gettext\Generators;
 
 use Gettext\Translations;
+use Gettext\Utils\MultidimensionalArrayTrait;
 
 class PhpArray extends Generator implements GeneratorInterface
 {
+    use MultidimensionalArrayTrait;
+
+    public static $options = [
+        'includeHeaders' => true,
+    ];
+
     /**
      * {@inheritdoc}
      */
-    public static function toString(Translations $translations)
+    public static function toString(Translations $translations, array $options = [])
     {
-        $array = self::toArray($translations);
+        $array = self::generate($translations, $options);
 
-        return '<?php return '.var_export($array, true).'; ?>';
+        return '<?php return '.var_export($array, true).';';
     }
 
     /**
      * Generates an array with the translations.
      *
      * @param Translations $translations
+     * @param array        $options
      *
      * @return array
      */
-    public static function toArray(Translations $translations)
+    public static function generate(Translations $translations, array $options = [])
     {
-        $array = static::buildArray($translations);
+        $options += static::$options;
 
-        $domain = $translations->getDomain() ?: 'messages';
-        $lang = $translations->getLanguage() ?: 'en';
-
-        $fullArray = array(
-            $domain => array(
-                '' => array(
-                    'domain' => $domain,
-                    'lang' => $lang,
-                    'plural-forms' => 'nplurals=2; plural=(n != 1);',
-                ),
-            ),
-        );
-
-        if ($translations->getHeader('Plural-Forms') !== null) {
-            $fullArray[$domain]['']['plural-forms'] = $translations->getHeader('Plural-Forms');
-        }
-
-        $fullArray[$domain] = array_merge($fullArray[$domain], $array);
-
-        return $fullArray;
-    }
-
-    /**
-     * Generates an array with all translations.
-     * 
-     * @param Translations $translations
-     *
-     * @return array
-     */
-    protected static function buildArray(Translations $translations)
-    {
-        $array = array();
-
-        $context_glue = "\004";
-
-        foreach ($translations as $translation) {
-            $key = ($translation->hasContext() ? $translation->getContext().$context_glue : '').$translation->getOriginal();
-            $entry = array($translation->getPlural(), $translation->getTranslation());
-
-            if ($translation->hasPluralTranslation()) {
-                $entry = array_merge($entry, $translation->getPluralTranslation());
-            }
-
-            $array[$key] = $entry;
-        }
-
-        return $array;
+        return self::toArray($translations, $options['includeHeaders'], true);
     }
 }

@@ -10,17 +10,13 @@
 {% autoescape false %}
 {{ var }}<br />
 {% endautoescape %}
-{% autoescape true %}
-{{ var }}<br />
-{% endautoescape %}
 {% autoescape false %}
 {{ var }}<br />
 {% endautoescape %}
 --DATA--
-return array('var' => '<br />')
+return ['var' => '<br />']
 --EXPECT--
 &lt;br /&gt;<br />
 &lt;br /&gt;<br />
 <br /><br />
-&lt;br /&gt;<br />
 <br /><br />

@@ -5,7 +5,7 @@ namespace Gettext\Utils;
 class JsFunctionsScanner extends FunctionsScanner
 {
     protected $code;
-    protected $status = array();
+    protected $status = [];
 
     /**
      * Constructor.
@@ -14,27 +14,35 @@ class JsFunctionsScanner extends FunctionsScanner
      */
     public function __construct($code)
     {
-        $this->code = $code;
+        // Normalize newline characters
+        $this->code = str_replace(["\r\n", "\n\r", "\r"], "\n", $code);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(array $constants = [])
     {
         $length = strlen($this->code);
         $line = 1;
         $buffer = '';
-        $functions = array();
-        $bufferFunctions = array();
+        $functions = [];
+        $bufferFunctions = [];
         $char = null;
 
         for ($pos = 0; $pos < $length; ++$pos) {
             $prev = $char;
             $char = $this->code[$pos];
-            $next = isset($this->code[$pos]) ? $this->code[$pos] : null;
+            $next = isset($this->code[$pos + 1]) ? $this->code[$pos + 1] : null;
 
             switch ($char) {
+                case '\\':
+                    $prev = $char;
+                    $char = $next;
+                    $pos++;
+                    $next = isset($this->code[$pos]) ? $this->code[$pos] : null;
+                    break;
+
                 case "\n":
                     ++$line;
 
@@ -102,6 +110,7 @@ class JsFunctionsScanner extends FunctionsScanner
 
                 case '(':
                     switch ($this->status()) {
+                        case 'simple-quote':
                         case 'double-quote':
                         case 'line-comment':
                         case 'block-comment':
@@ -111,7 +120,7 @@ class JsFunctionsScanner extends FunctionsScanner
                         default:
                             if ($buffer && preg_match('/(\w+)$/', $buffer, $matches)) {
                                 $this->downStatus('function');
-                                array_unshift($bufferFunctions, array($matches[1], $line, array()));
+                                array_unshift($bufferFunctions, [$matches[1], $line, []]);
                                 $buffer = '';
                                 continue 3;
                             }
@@ -130,9 +139,11 @@ class JsFunctionsScanner extends FunctionsScanner
                                 $functions[] = array_shift($bufferFunctions);
                             }
 
+                            $this->upStatus();
                             $buffer = '';
                             continue 3;
                     }
+                    break;
 
                 case ',':
                     switch ($this->status()) {
@@ -144,6 +155,20 @@ class JsFunctionsScanner extends FunctionsScanner
                             $buffer = '';
                             continue 3;
                     }
+                    break;
+
+                case ' ':
+                case '\t':
+                    switch ($this->status()) {
+                        case 'double-quote':
+                        case 'simple-quote':
+                            break;
+
+                        default:
+                            $buffer = '';
+                            continue 3;
+                    }
+                    break;
             }
 
             switch ($this->status()) {
@@ -208,12 +233,6 @@ class JsFunctionsScanner extends FunctionsScanner
     protected static function prepareArgument($argument)
     {
         if ($argument && ($argument[0] === '"' || $argument[0] === "'")) {
-            if ($argument[0] === '"') {
-                $argument = str_replace('\\"', '"', $argument);
-            } else {
-                $argument = str_replace("\\'", "'", $argument);
-            }
-
             return substr($argument, 1, -1);
         }
     }

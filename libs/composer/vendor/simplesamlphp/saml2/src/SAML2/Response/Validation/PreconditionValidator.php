@@ -11,6 +11,11 @@ use SAML2\Response\Validation\ConstraintValidator\IsSuccessful;
  */
 class PreconditionValidator extends Validator
 {
+    /**
+     * Constructor for PreconditionValidator
+     *
+     * @param Destination $destination
+     */
     public function __construct(Destination $destination)
     {
         // move to DI

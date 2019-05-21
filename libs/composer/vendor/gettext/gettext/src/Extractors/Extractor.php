@@ -6,27 +6,17 @@ use Exception;
 use InvalidArgumentException;
 use Gettext\Translations;
 
-abstract class Extractor
+abstract class Extractor implements ExtractorInterface
 {
     /**
-     * Extract the translations from a file.
-     *
-     * @param array|string      $file         A path of a file or files
-     * @param null|Translations $translations The translations instance to append the new translations.
-     *
-     * @return Translations
+     * {@inheritdoc}
      */
-    public static function fromFile($file, Translations $translations = null)
+    public static function fromFile($file, Translations $translations, array $options = [])
     {
-        if ($translations === null) {
-            $translations = new Translations();
-        }
-
         foreach (self::getFiles($file) as $file) {
-            static::fromString(self::readFile($file), $translations, $file);
+            $options['file'] = $file;
+            static::fromString(self::readFile($file), $translations, $options);
         }
-
-        return $translations;
     }
 
     /**
@@ -51,11 +41,11 @@ abstract class Extractor
                 throw new InvalidArgumentException("'$file' is not a readable file");
             }
 
-            return array($file);
+            return [$file];
         }
 
         if (is_array($file)) {
-            $files = array();
+            $files = [];
 
             foreach ($file as $f) {
                 $files = array_merge($files, self::getFiles($f));
@@ -64,7 +54,7 @@ abstract class Extractor
             return $files;
         }
 
-        throw new InvalidArgumentException('The first argumet must be string or array');
+        throw new InvalidArgumentException('The first argument must be string or array');
     }
 
     /**

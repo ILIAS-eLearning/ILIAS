@@ -2,6 +2,8 @@
 
 namespace SAML2\XML\mdui;
 
+use Webmozart\Assert\Assert;
+
 /**
  * Class for handling the Logo metadata extensions for login and discovery user interface
  *
@@ -38,6 +40,7 @@ class Logo
      */
     public $lang;
 
+
     /**
      * Initialize a Logo.
      *
@@ -59,11 +62,104 @@ class Logo
         if (!is_string($xml->textContent) || !strlen($xml->textContent)) {
             throw new \Exception('Missing url value for Logo.');
         }
-        $this->url = $xml->textContent;
-        $this->width = (int) $xml->getAttribute('width');
-        $this->height = (int) $xml->getAttribute('height');
-        $this->lang = $xml->hasAttribute('xml:lang') ? $xml->getAttribute('xml:lang') : null;
+        $this->setUrl($xml->textContent);
+        $this->setWidth(intval($xml->getAttribute('width')));
+        $this->setHeight(intval($xml->getAttribute('height')));
+        if ($xml->hasAttribute('xml:lang')) {
+            $this->setLanguage($xml->getAttribute('xml:lang'));
+        }
     }
+
+
+    /**
+     * Collect the value of the url-property
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+
+    /**
+     * Set the value of the url-property
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        Assert::string($url);
+        if (!filter_var(trim($url), FILTER_VALIDATE_URL) && substr(trim($url), 0, 5) !== 'data:') {
+            throw new \InvalidArgumentException('mdui:Logo is not a valid URL.');
+        }
+        $this->url = $url;
+    }
+
+
+    /**
+     * Collect the value of the lang-property
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->lang;
+    }
+
+
+    /**
+     * Set the value of the lang-property
+     * @param string $lang
+     * @return void
+     */
+    public function setLanguage($lang)
+    {
+        Assert::string($lang);
+        $this->lang = $lang;
+    }
+
+
+    /**
+     * Collect the value of the height-property
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+
+    /**
+     * Set the value of the height-property
+     * @param int $height
+     * @return void
+     */
+    public function setHeight($height)
+    {
+        Assert::integer($height);
+        $this->height = $height;
+    }
+
+
+    /**
+     * Collect the value of the width-property
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+
+    /**
+     * Set the value of the width-property
+     * @param int $width
+     * @return void
+     */
+    public function setWidth($width)
+    {
+        Assert::integer($width);
+        $this->width = $width;
+    }
+
 
     /**
      * Convert this Logo to XML.
@@ -73,18 +169,18 @@ class Logo
      */
     public function toXML(\DOMElement $parent)
     {
-        assert(is_int($this->width));
-        assert(is_int($this->height));
-        assert(is_string($this->url));
+        Assert::integer($this->getWidth());
+        Assert::integer($this->getHeight());
+        Assert::string($this->getUrl());
 
         $doc = $parent->ownerDocument;
 
         $e = $doc->createElementNS(Common::NS, 'mdui:Logo');
-        $e->appendChild($doc->createTextNode($this->url));
-        $e->setAttribute('width', (int) $this->width);
-        $e->setAttribute('height', (int) $this->height);
-        if (isset($this->lang)) {
-            $e->setAttribute('xml:lang', $this->lang);
+        $e->appendChild($doc->createTextNode($this->getUrl()));
+        $e->setAttribute('width', intval($this->getWidth()));
+        $e->setAttribute('height', intval($this->getHeight()));
+        if ($this->getLanguage() !== null) {
+            $e->setAttribute('xml:lang', $this->getLanguage());
         }
         $parent->appendChild($e);
 

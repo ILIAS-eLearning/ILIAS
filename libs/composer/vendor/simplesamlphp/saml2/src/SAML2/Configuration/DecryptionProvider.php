@@ -9,10 +9,12 @@ interface DecryptionProvider
      */
     public function isAssertionEncryptionRequired();
 
+
     /**
      * @return null|string
      */
     public function getSharedKey();
+
 
     /**
      * @param string  $name     the name of the private key
@@ -21,6 +23,7 @@ interface DecryptionProvider
      * @return mixed
      */
     public function getPrivateKey($name, $required = false);
+
 
     /**
      * @return array

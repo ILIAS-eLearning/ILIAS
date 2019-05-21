@@ -3,27 +3,24 @@
 namespace Gettext\Extractors;
 
 use Gettext\Translations;
+use Gettext\Utils\DictionaryTrait;
 
 /**
  * Class to get gettext strings from plain json.
  */
 class JsonDictionary extends Extractor implements ExtractorInterface
 {
+    use DictionaryTrait;
+
     /**
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        if ($translations === null) {
-            $translations = new Translations();
-        }
+        $messages = json_decode($string, true);
 
-        if (($entries = json_decode($string, true))) {
-            foreach ($entries as $original => $translation) {
-                $translations->insert(null, $original)->setTranslation($translation);
-            }
+        if (is_array($messages)) {
+            self::fromArray($messages, $translations);
         }
-
-        return $translations;
     }
 }

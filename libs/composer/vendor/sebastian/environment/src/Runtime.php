@@ -203,8 +203,6 @@ final class Runtime
     /**
      * Returns true when the runtime used is PHP with the PHPDBG SAPI
      * and the phpdbg_*_oplog() functions are available (PHP >= 7.0).
-     *
-     * @codeCoverageIgnore
      */
     public function hasPHPDBGCodeCoverage(): bool
     {
@@ -217,5 +215,51 @@ final class Runtime
     public function hasPCOV(): bool
     {
         return $this->isPHP() && \extension_loaded('pcov') && \ini_get('pcov.enabled');
+    }
+
+    /**
+     * Parses the loaded php.ini file (if any) as well as all
+     * additional php.ini files from the additional ini dir for
+     * a list of all configuration settings loaded from files
+     * at startup. Then checks for each php.ini setting passed
+     * via the `$values` parameter whether this setting has
+     * been changed at runtime. Returns an array of strings
+     * where each string has the format `key=value` denoting
+     * the name of a changed php.ini setting with its new value.
+     *
+     * @return string[]
+     */
+    public function getCurrentSettings(array $values): array
+    {
+        $diff  = [];
+        $files = [];
+
+        if ($file = \php_ini_loaded_file()) {
+            $files[] = $file;
+        }
+
+        if ($scanned = \php_ini_scanned_files()) {
+            $files = \array_merge(
+                $files,
+                \array_map(
+                    'trim',
+                    \explode(",\n", $scanned)
+                )
+            );
+        }
+
+        foreach ($files as $ini) {
+            $config = \parse_ini_file($ini, true);
+
+            foreach ($values as $value) {
+                $set = \ini_get($value);
+
+                if (isset($config[$value]) && $set != $config[$value]) {
+                    $diff[] = \sprintf('%s=%s', $value, $set);
+                }
+            }
+        }
+
+        return $diff;
     }
 }

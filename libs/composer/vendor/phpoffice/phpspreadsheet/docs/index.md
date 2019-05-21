@@ -38,14 +38,11 @@ Support for PHP versions will only be maintained for a period of six months beyo
 
 ## Installation
 
-Use [composer](https://getcomposer.org/) to install PhpSpreadsheet into your project:
+Use [composer](https://getcomposer.org) to install PhpSpreadsheet into your project:
 
 ```sh
 composer require phpoffice/phpspreadsheet
 ```
-
-**Note:** If you want the unreleased, unstable development version use
-`phpoffice/phpspreadsheet:dev-develop` instead.
 
 ## Hello World
 

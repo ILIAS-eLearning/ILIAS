@@ -36,6 +36,7 @@ class SignedElementHelper implements SignedElement
      */
     private $validators;
 
+
     /**
      * Initialize the helper class.
      *
@@ -43,8 +44,8 @@ class SignedElementHelper implements SignedElement
      */
     protected function __construct(\DOMElement $xml = null)
     {
-        $this->certificates = array();
-        $this->validators = array();
+        $this->certificates = [];
+        $this->validators = [];
 
         if ($xml === null) {
             return;
@@ -56,15 +57,16 @@ class SignedElementHelper implements SignedElement
 
             if ($sig !== false) {
                 $this->certificates = $sig['Certificates'];
-                $this->validators[] = array(
-                    'Function' => array('\SAML2\Utils', 'validateSignature'),
+                $this->validators[] = [
+                    'Function' => ['\SAML2\Utils', 'validateSignature'],
                     'Data' => $sig,
-                );
+                ];
             }
         } catch (\Exception $e) {
             /* Ignore signature validation errors. */
         }
     }
+
 
     /**
      * Add a method for validating this element.
@@ -73,16 +75,16 @@ class SignedElementHelper implements SignedElement
      *
      * @param callback $function The function which should be called.
      * @param mixed    $data     The data that should be included as the first parameter to the function.
+     * @return void
      */
-    public function addValidator($function, $data)
+    public function addValidator(callable $function, $data)
     {
-        assert(is_callable($function));
-
-        $this->validators[] = array(
+        $this->validators[] = [
             'Function' => $function,
             'Data' => $data,
-        );
+        ];
     }
+
 
     /**
      * Validate this element against a public key.
@@ -92,8 +94,8 @@ class SignedElementHelper implements SignedElement
      * validation fails.
      *
      * @param  XMLSecurityKey $key The key we should check against.
-     * @return boolean        true on success, false when we don't have a signature.
      * @throws \Exception
+     * @return boolean        true on success, false when we don't have a signature.
      */
     public function validate(XMLSecurityKey $key)
     {
@@ -101,7 +103,7 @@ class SignedElementHelper implements SignedElement
             return false;
         }
 
-        $exceptions = array();
+        $exceptions = [];
 
         foreach ($this->validators as $validator) {
             $function = $validator['Function'];
@@ -121,6 +123,7 @@ class SignedElementHelper implements SignedElement
         throw $exceptions[0];
     }
 
+
     /**
      * Retrieve the private key we should use to sign the message.
      *
@@ -131,17 +134,20 @@ class SignedElementHelper implements SignedElement
         return $this->signatureKey;
     }
 
+
     /**
      * Set the private key we should use to sign the message.
      *
      * If the key is null, the message will be sent unsigned.
      *
      * @param XMLSecurityKey|null $signatureKey
+     * @return void
      */
     public function setSignatureKey(XMLSecurityKey $signatureKey = null)
     {
         $this->signatureKey = $signatureKey;
     }
+
 
     /**
      * Set the certificates that should be included in the message.
@@ -149,11 +155,13 @@ class SignedElementHelper implements SignedElement
      * The certificates should be strings with the PEM encoded data.
      *
      * @param array $certificates An array of certificates.
+     * @return void
      */
     public function setCertificates(array $certificates)
     {
         $this->certificates = $certificates;
     }
+
 
     /**
      * Retrieve the certificates that are included in the message.
@@ -165,6 +173,7 @@ class SignedElementHelper implements SignedElement
         return $this->certificates;
     }
 
+
     /**
      * Retrieve certificates that sign this element.
      *
@@ -172,16 +181,15 @@ class SignedElementHelper implements SignedElement
      */
     public function getValidatingCertificates()
     {
-        $ret = array();
+        $ret = [];
         foreach ($this->certificates as $cert) {
-
             /* Construct a PEM formatted certificate */
-            $pemCert = "-----BEGIN CERTIFICATE-----\n" .
-                chunk_split($cert, 64) .
+            $pemCert = "-----BEGIN CERTIFICATE-----\n".
+                chunk_split($cert, 64).
                 "-----END CERTIFICATE-----\n";
 
             /* Extract the public key from the certificate for validation. */
-            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type'=>'public'));
+            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type'=>'public']);
             $key->loadKey($pemCert);
 
             try {
@@ -197,6 +205,7 @@ class SignedElementHelper implements SignedElement
         return $ret;
     }
 
+
     /**
      * Sign the given XML element.
      *
@@ -208,7 +217,6 @@ class SignedElementHelper implements SignedElement
     {
         if ($this->signatureKey === null) {
             /* We cannot sign this element. */
-
             return null;
         }
 

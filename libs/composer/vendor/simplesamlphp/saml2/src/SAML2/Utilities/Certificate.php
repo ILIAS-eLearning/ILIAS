@@ -12,6 +12,7 @@ class Certificate
      */
     const CERTIFICATE_PATTERN = '/^-----BEGIN CERTIFICATE-----([^-]*)^-----END CERTIFICATE-----/m';
 
+
     /**
      * @param  $certificate
      *
@@ -21,6 +22,7 @@ class Certificate
     {
         return !!preg_match(self::CERTIFICATE_PATTERN, $certificate);
     }
+
 
     /**
      * @param string $X509CertificateContents

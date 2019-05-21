@@ -3,6 +3,7 @@
 namespace SAML2\Configuration;
 
 use SAML2\Exception\InvalidArgumentException;
+use SAML2\Exception\RuntimeException;
 
 /**
  * Configuration of a private key.
@@ -15,7 +16,7 @@ class PrivateKey extends ArrayAdapter
     /**
      * @var string
      */
-    private $filePath;
+    private $filePathOrContents;
 
     /**
      * @var string
@@ -27,10 +28,24 @@ class PrivateKey extends ArrayAdapter
      */
     private $name;
 
-    public function __construct($filePath, $name, $passphrase = null)
+    /**
+     * @var bool
+     */
+    private $isFile;
+
+    /**
+     * Constructor for PrivateKey.
+     *
+     * @param string $filePathOrContents
+     * @param string $name
+     * @param string|null $passphrase
+     * @param bool $isFile
+     * @throws \Exception
+     */
+    public function __construct($filePathOrContents, $name, $passphrase = null, $isFile = true)
     {
-        if (!is_string($filePath)) {
-            throw InvalidArgumentException::invalidType('string', $filePath);
+        if (!is_string($filePathOrContents)) {
+            throw InvalidArgumentException::invalidType('string', $filePathOrContents);
         }
 
         if (!is_string($name)) {
@@ -41,18 +56,25 @@ class PrivateKey extends ArrayAdapter
             throw InvalidArgumentException::invalidType('string', $passphrase);
         }
 
-        $this->filePath = $filePath;
+        $this->filePathOrContents = $filePathOrContents;
         $this->passphrase = $passphrase;
         $this->name = $name;
+        $this->isFile = $isFile;
     }
+
 
     /**
      * @return string
      */
     public function getFilePath()
     {
-        return $this->filePath;
+        if (!$this->isFile()) {
+            throw new RuntimeException('No path provided.');
+        }
+
+        return $this->filePathOrContents;
     }
+
 
     /**
      * @return bool
@@ -62,6 +84,7 @@ class PrivateKey extends ArrayAdapter
         return (bool) $this->passphrase;
     }
 
+
     /**
      * @return string
      */
@@ -70,11 +93,32 @@ class PrivateKey extends ArrayAdapter
         return $this->passphrase;
     }
 
+
     /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContents()
+    {
+        if ($this->isFile()) {
+            throw new RuntimeException('No contents provided');
+        }
+
+        return $this->filePathOrContents;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFile()
+    {
+        return $this->isFile;
     }
 }

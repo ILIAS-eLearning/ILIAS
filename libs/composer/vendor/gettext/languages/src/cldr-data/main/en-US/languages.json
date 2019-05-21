@@ -3,8 +3,8 @@
     "en-US": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13133 $",
-          "_cldrVersion": "31"
+          "_number": "$Revision: 13869 $",
+          "_cldrVersion": "34"
         },
         "language": "en",
         "territory": "US"
@@ -99,6 +99,7 @@
           "car": "Carib",
           "cay": "Cayuga",
           "cch": "Atsam",
+          "ccp": "Chakma",
           "ce": "Chechen",
           "ceb": "Cebuano",
           "cgg": "Chiga",
@@ -334,6 +335,7 @@
           "ln": "Lingala",
           "lo": "Lao",
           "lol": "Mongo",
+          "lou": "Louisiana Creole",
           "loz": "Lozi",
           "lrc": "Northern Luri",
           "lt": "Lithuanian",
@@ -525,6 +527,7 @@
           "sog": "Sogdien",
           "sq": "Albanian",
           "sr": "Serbian",
+          "sr-ME": "Montenegrin",
           "srn": "Sranan Tongo",
           "srr": "Serer",
           "ss": "Swati",

@@ -3,7 +3,6 @@ Gettext
 
 [![Build Status](https://travis-ci.org/oscarotero/Gettext.png?branch=master)](https://travis-ci.org/oscarotero/Gettext)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/oscarotero/Gettext/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/oscarotero/Gettext/?branch=master)
-[![Reference Status](https://www.versioneye.com/php/gettext:gettext/reference_badge.svg?style=flat)](https://www.versioneye.com/php/gettext:gettext/references)
 [![Latest Stable Version](https://poser.pugx.org/gettext/gettext/v/stable.svg)](https://packagist.org/packages/gettext/gettext)
 [![Total Downloads](https://poser.pugx.org/gettext/gettext/downloads.svg)](https://packagist.org/packages/gettext/gettext)
 [![Monthly Downloads](https://poser.pugx.org/gettext/gettext/d/monthly.png)](https://packagist.org/packages/gettext/gettext)
@@ -13,7 +12,7 @@ Gettext
 
 Created by Oscar Otero <http://oscarotero.com> <oom@oscarotero.com> (MIT License)
 
-Gettext is a PHP (5.3) library to import/export/edit gettext from PO, MO, PHP, JS files, etc.
+Gettext is a PHP (>=5.4) library to import/export/edit gettext from PO, MO, PHP, JS files, etc.
 
 ## Installation
 
@@ -81,8 +80,6 @@ echo $t->gettext('apple'); // "Mazá"
 $t->register();
 
 echo __('apple'); // "Mazá"
-
-__e('apple'); // "Mazá"
 ```
 
 To use this translations with the gettext extension:
@@ -107,12 +104,17 @@ echo gettext('apple'); // "Mazá"
 $t->register();
 
 echo __('apple'); // "Mazá"
+
+//And use sprintf/strtr placeholders
+echo __('Hello %s', 'world'); //Hello world
+echo __('Hello {name}', ['{name}' => 'world']); //Hello world
 ```
 
 The benefits of using the functions provided by this library (`__()` instead `_()` or `gettext()`) are:
 
-* You are using the same functions, no matter whether the translations are provided by gettext extension or any other method
-* You can use variables easier because you have sprintf functionality. For example: `__('Hello %s', 'world')` instead `sprintf(_('Hello %s'), 'world')`.
+* You are using the same functions, no matter whether the translations are provided by gettext extension or any other method.
+* You can use variables easier because `sprintf` functionality is included. For example: `__('Hello %s', 'world')` instead `sprintf(_('Hello %s'), 'world')`.
+* You can also use named placeholders if the second argument is an array. For example: `__('Hello %name%', ['%name%' => 'world'])` instead of `strtr(_('Hello %name%'), ['%name%' => 'world'])`.
 
 ## Translation
 
@@ -158,31 +160,49 @@ $translations->setDomain('my-blog');
 
 ## Extractors
 
-The extrators are classes that extract the gettext values from any source and return a `Gettext\Translations` instance with them. For example, to scan a .po file:
+The extrators allows to fetch gettext values from any source. For example, to scan a .po file:
 
 ```php
+$translations = new Gettext\Translations();
+
 //From a file
-$translations = Gettext\Extractors\Po::fromFile('locales/en.po');
+Gettext\Extractors\Po::fromFile('locales/en.po', $translations);
 
 //From a string
-$string = file_get_contents('locales/en.po');
-$translations = Gettext\Extractors\Po::fromString($string);
+$string = file_get_contents('locales2/en.po');
+Gettext\Extractors\Po::fromString($string, $translations);
+```
+
+The better way to use extractors is using the magic methods of `Gettext\Translations`:
+
+```php
+//Create a Translations instance using a po file
+$translations = Gettext\Translations::fromPoFile('locales/en.po');
+
+//Add more messages from other files
+$translations->addFromPoFile('locales2/en.po');
 ```
 
 The available extractors are the following:
 
-* `Gettext\Extractors\Po` - Gets the strings from PO
-* `Gettext\Extractors\Mo` - Gets the strings from MO
-* `Gettext\Extractors\PhpCode` - To scan a php file looking for all gettext functions (see `translator_functions.php`)
-* `Gettext\Extractors\JsCode` - To scan a javascript file looking for all gettext functions (the same than PhpCode but for javascript)
-* `Gettext\Extractors\PhpArray` - To get the translations from a php file that returns an array
-* `Gettext\Extractors\Jed` - To scan a json file compatible with the [Jed library](http://slexaxton.github.com/Jed/)
-* `Gettext\Extractors\Blade` - To scan a Blade template (For laravel users. Thanks [@eusonlito](https://github.com/eusonlito))
-* `Gettext\Extractors\Twig` - To scan a Twig template (Thanks [@exnor](https://github.com/exnor))
-* `Gettext\Extractors\JsonDictionary` - To get translations from a plain json file with the format `{"original": "translation"}`
-* `Gettext\Extractors\YamlDictionary` - To get translations from a plain yaml file with the format `"original": translation`
-* `Gettext\Extractors\CsvDictionary` - Gets the strings from plain CSV with the format `"original", "translation"`
-
+Name | Description | Example
+---- | ----------- | --------
+**Blade**          | Scans a Blade template (For laravel users). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/blade/input.php)
+**Csv**            | Gets the messages from csv. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Csv.csv)
+**CsvDictionary**  | Gets the messages from csv (without plurals and context). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/CsvDictionary.csv)
+**Jed**            | Gets the messages from a json compatible with [Jed](http://slexaxton.github.com/Jed/). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Jed.json)
+**JsCode**         | Scans javascript code looking for all gettext functions (the same than PhpCode but for javascript). You can use [the javascript gettext-translator library](https://github.com/oscarotero/gettext-translator) | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/jscode/input.js)
+**Json**           | Gets the messages from json compatible with [gettext-translator](https://github.com/oscarotero/gettext-translator). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Json.json)
+**JsonDictionary** | Gets the messages from a json (without plurals and context). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/JsonDictionary.json)
+**Mo**             | Gets the messages from MO. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Mo.mo)
+**PhpArray**       | Gets the messages from a php file that returns an array. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/PhpArray.php)
+**PhpCode**        | Scans php code looking for all gettext functions (see `translator_functions.php`). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/phpcode/input.php)
+**Po**             | Gets the messages from PO. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Po.po)
+**Twig**           | To scan a Twig template. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/twig/input.php)
+**Xliff**          | Gets the messages from [xliff (2.0)](http://docs.oasis-open.org/xliff/xliff-core/v2.0/os/xliff-core-v2.0-os.html). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Xliff.xlf)
+**Yaml**           | Gets the messages from yaml. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Yaml.yml)
+**YamlDictionary** | Gets the messages from a yaml (without plurals and context). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/YamlDictionary.yml)
+**VueJs**          | Gets the messages from a VueJs template. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/vuejs/input.vue)
 
 ## Generators
 
@@ -194,35 +214,38 @@ Gettext\Generators\Po::toFile($translations, 'locales/en.po');
 
 //Return as a string
 $content = Gettext\Generators\Po::toString($translations);
-$string = file_put_contents('locales/en.po', $content);
+file_put_contents('locales/en.po', $content);
 ```
 
-The available generators are:
-
-* `Gettext\Generators\Mo` - Exports to Mo format
-* `Gettext\Generators\Po` - Exports to Po format
-* `Gettext\Generators\PhpArray` - Exports to php code that returns an array with all values
-* `Gettext\Generators\Jed` - Exports to json format compatible with [Jed library](http://slexaxton.github.com/Jed/)
-* `Gettext\Generators\JsonDictionary` - Export to plain json with the format `{"original": "translation"}` (thanks, [@gator92](https://github.com/Gator92))
-* `Gettext\Generators\YamlDictionary` - Export to plain yaml with the format `"original": translation` (thanks, [@sourcerer-mike](https://github.com/sourcerer-mike))
-* `Gettext\Generators\CsvDictionary` - Exports to CSV format with the format `"original","translation"` (thanks, [@sourcerer-mike](https://github.com/sourcerer-mike))
-
-To ease the work with generators and extractors you can use the magic methods availables in `Gettext\Translations` that import and export the translations in all these formats:
+Like extractors, the better way to use generators is using the magic methods of `Gettext\Translations`:
 
 ```php
-use Gettext\Translations;
+//Extract messages from a php code file
+$translations = Gettext\Translations::fromPhpCodeFile('templates/index.php');
 
-//Import the translations from a .po file
-$translations = Translations::fromPoFile('locales/en.po');
+//Export to a po file
+$translations->toPoFile('locales/en.po');
 
-//Add more translations from another .po file
-$translations->addFromPoFile('locales/more-en.po');
-
-//Export to .mo
-$translations->toMoFile('locales/en.mo');
+//Export to a po string
+$content = $translatons->toPoString();
+file_put_contents('locales/en.po', $content);
 ```
 
-To import translations, the methods are static and named `from + [Extractor] + [File/String]`, for example `fromPhpArrayFile` or `fromJsCodeString`. To export or add more translations use the methods named `addFrom + [Generator] + [File/String]` (to add) or  `to + [Generator] + [File/String]` (to export) for example `addFromPhpCodeFile`, `toPhpArrayFile` or `toPoString`.
+The available generators are the following:
+
+Name | Description | Example
+---- | ----------- | --------
+**Csv**            | Exports to csv. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Csv.csv)
+**CsvDictionary**  | Exports to csv (without plurals and context). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/CsvDictionary.csv)
+**Json**           | Exports to json, compatible with [gettext-translator](https://github.com/oscarotero/gettext-translator). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Json.json)
+**JsonDictionary** | Exports to json (without plurals and context). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/JsonDictionary.json)
+**Mo**             | Exports to Mo. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Mo.mo)
+**PhpArray**       | Exports to php code that returns an array. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/PhpArray.php)
+**Po**             | Exports to Po. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Po.po)
+**Jed**            | Exports to json format compatible with [Jed](http://slexaxton.github.com/Jed/). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Jed.json)
+**Xliff**          | Exports to [xliff (2.0)](http://docs.oasis-open.org/xliff/xliff-core/v2.0/os/xliff-core-v2.0-os.html). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Xliff.xlf)
+**Yaml**           | Exports to yaml. | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/Yaml.yml)
+**YamlDictionary** | Exports to yaml (without plurals and context). | [example](https://github.com/oscarotero/Gettext/blob/master/tests/assets/po/YamlDictionary.yml)
 
 ## Translator
 
@@ -281,8 +304,6 @@ To ease the use of translations in your php templates, you can use the provided 
 $t->register();
 
 echo __('apple'); // it's the same than $t->gettext('apple');
-
-__e('apple'); // it's the same than echo $t->gettext('apple');
 ```
 
 You can scan the php files containing these functions and extract the values with the PhpCode extractor:
@@ -291,13 +312,13 @@ You can scan the php files containing these functions and extract the values wit
 <!-- index.php -->
 <html>
 	<body>
-		<?php echo __('Hello world'); ?>
+		<?= __('Hello world'); ?>
 	</body>
 </html>
 ```
 
 
-# Merge translations
+## Merge translations
 
 To work with different translations you may want merge them in an unique file. There are two ways to do this:
 
@@ -326,48 +347,79 @@ $translations1->mergeWith($translations2);
 //Now translations1 has all values
 ```
 
-The second argument of `mergeWith` defines how the merge will be done. You can pass one or various of the following predefined constants:
+The second argument of `mergeWith` defines how the merge will be done. Use the `Gettext\Merge` constants to configure the merging:
 
-* MERGE_ADD: Adds the translations from translations2 to translations1 if they not exists
-* MERGE_REMOVE: Removes the translations in translations1 if they are not in translations2
-* MERGE_OVERRIDE: Overrides the translations in translations1 if they are in translations2
-* MERGE_HEADERS: Merges the headers from translations2 to translations 1
-* MERGE_REFERENCES: Merges the references from translations2 to translations1
-* MERGE_COMMENTS: Merges the comments from translations2 to translations1
-* MERGE_LANGUAGE: Applies the language and plural forms of translations2 to translation1
-* MERGE_PLURAL: Translations with the same id but one with plurals and other singular will be merged
+Constant | Description
+--------- | -----------
+`Merge::ADD` | Adds the translations from `$translations2` that are missing
+`Merge::REMOVE` | Removes the translations missing in `$translations2`
+`Merge::HEADERS_ADD` | Adds the headers from `$translations2` that are missing
+`Merge::HEADERS_REMOVE` | Removes the headers missing in `$translations2`
+`Merge::HEADERS_OVERRIDE` | Overrides the headers with the values of `$translations2`
+`Merge::LANGUAGE_OVERRIDE` | Set the language defined in `$translations2`
+`Merge::DOMAIN_OVERRIDE` | Set the domain defined in `$translations2`
+`Merge::TRANSLATION_OVERRIDE` | Override the translation and plural translations with the value of `$translation2`
+`Merge::COMMENTS_OURS` | Use only the comments of `$translation1`
+`Merge::COMMENTS_THEIRS` | Use only the comments of `$translation2`
+`Merge::EXTRACTED_COMMENTS_OURS` | Use only the extracted comments of `$translation1`
+`Merge::EXTRACTED_COMMENTS_THEIRS` | Use only the extracted comments of `$translation2`
+`Merge::FLAGS_OURS` | Use only the flags of `$translation1`
+`Merge::FLAGS_THEIRS` | Use only the flags of `$translation2`
+`Merge::REFERENCES_OURS` | Use only the references of `$translation1`
+`Merge::REFERENCES_THEIRS` | Use only the references of `$translation2`
 
 Example:
 
 ```php
 use Gettext\Translations;
+use Gettext\Merge;
 
 //Scan the php code to find the latest gettext translations
-$translations = Translations::fromPhpCodeFile('my-templates.php');
+$phpTranslations = Translations::fromPhpCodeFile('my-templates.php');
 
 //Get the translations of the code that are stored in a po file
 $poTranslations = Translations::fromPoFile('locale.po');
 
-//Apply the translations from the po file to the translations, and merges header and comments but not references and without add or remove translations:
-$translations->mergeWith($poTranslations, Translations::MERGE_HEADERS | Translations::MERGE_COMMENTS);
+//Merge the translations from the po file using the references from `$phpTranslations`:
+$translations->mergeWith($poTranslations, Merge::REFERENCES_OURS);
 
 //Now save a po file with the result
 $translations->toPoFile('locale.po');
 ```
 
-Note, if the second argument is not defined, the default is `self::MERGE_ADD | self::MERGE_HEADERS | self::MERGE_COMMENTS | self::MERGE_REFERENCES | self::MERGE_PLURAL`
+Note, if the second argument is not defined, the default value is `Merge::DEFAULTS` that's equivalent to `Merge::ADD | Merge::HEADERS_ADD`.
 
 ## Use from CLI
 
 There's a Robo task to use this library from the command line interface: https://github.com/oscarotero/GettextRobo
 
+## Use in the browser
+
+If you want to use your translations in the browser, there's a javascript translator: https://github.com/oscarotero/gettext-translator
+
+## Third party packages
+
+Twig integration:
+
+* [jaimeperez/twig-configurable-i18n](https://packagist.org/packages/jaimeperez/twig-configurable-i18n)
+* [cemerson/translator-twig-extension](https://packagist.org/packages/cemerson/translator-twig-extension)
+
+Framework integration:
+
+* [Laravel 5](https://packagist.org/packages/eusonlito/laravel-gettext)
+* [CakePHP 3](https://packagist.org/packages/k1low/po)
+* [Symfony 2](https://packagist.org/packages/mablae/gettext-bundle)
+
+[add your package](https://github.com/oscarotero/Gettext/issues/new)
+
 ## Contributors
 
-* [@oscarotero](https://github.com/oscarotero) (Creator and maintainer)
-* [@mlocati](https://github.com/mlocati) (Mo generator/extractor, languages, etc)
-* [@esnoeijs](https://github.com/esnoeijs) (plural parser)
-* [@leom](https://github.com/leom) (Jed fixes)
-* [@eusonlito](https://github.com/eusonlito) (Blade extractor)
-* [@exnor](https://github.com/exnor) (Twig extractor)
-* [@vvh-empora](https://github.com/vvh-empora) (fixes)
-* [and many more...](https://github.com/oscarotero/Gettext/graphs/contributors)
+Thanks to all [contributors](https://github.com/oscarotero/Gettext/graphs/contributors) specially to [@mlocati](https://github.com/mlocati).
+
+## Donations
+
+If this library is useful for you, consider to donate to the author.
+
+[Buy me a beer :beer:](https://www.paypal.me/oscarotero)
+
+Thanks in advance!

@@ -161,26 +161,60 @@ final class XmlResultPrinter extends Printer implements TestListener
             }
         );
 
-        $node = $this->document->createElement('test');
+        $testNode = $this->document->createElement('test');
 
-        $node->setAttribute('className', \get_class($test));
-        $node->setAttribute('methodName', $test->getName());
-        $node->setAttribute('prettifiedClassName', $this->prettifier->prettifyTestClass(\get_class($test)));
-        $node->setAttribute('prettifiedMethodName', $this->prettifier->prettifyTestCase($test));
-        $node->setAttribute('status', (string) $test->getStatus());
-        $node->setAttribute('time', (string) $time);
-        $node->setAttribute('size', (string) $test->getSize());
-        $node->setAttribute('groups', \implode(',', $groups));
+        $testNode->setAttribute('className', \get_class($test));
+        $testNode->setAttribute('methodName', $test->getName());
+        $testNode->setAttribute('prettifiedClassName', $this->prettifier->prettifyTestClass(\get_class($test)));
+        $testNode->setAttribute('prettifiedMethodName', $this->prettifier->prettifyTestCase($test));
+        $testNode->setAttribute('status', (string) $test->getStatus());
+        $testNode->setAttribute('time', (string) $time);
+        $testNode->setAttribute('size', (string) $test->getSize());
+        $testNode->setAttribute('groups', \implode(',', $groups));
+
+        foreach ($groups as $group) {
+            $groupNode = $this->document->createElement('group');
+
+            $groupNode->setAttribute('name', $group);
+
+            $testNode->appendChild($groupNode);
+        }
+
+        $annotations = $test->getAnnotations();
+
+        foreach (['class', 'method'] as $type) {
+            foreach ($annotations[$type] as $annotation => $values) {
+                if ($annotation !== 'covers' && $annotation !== 'uses') {
+                    continue;
+                }
+
+                foreach ($values as $value) {
+                    $coversNode = $this->document->createElement($annotation);
+
+                    $coversNode->setAttribute('target', $value);
+
+                    $testNode->appendChild($coversNode);
+                }
+            }
+        }
+
+        foreach ($test->doubledTypes() as $doubledType) {
+            $testDoubleNode = $this->document->createElement('testDouble');
+
+            $testDoubleNode->setAttribute('type', $doubledType);
+
+            $testNode->appendChild($testDoubleNode);
+        }
 
         $inlineAnnotations = \PHPUnit\Util\Test::getInlineAnnotations(\get_class($test), $test->getName());
 
         if (isset($inlineAnnotations['given'], $inlineAnnotations['when'], $inlineAnnotations['then'])) {
-            $node->setAttribute('given', $inlineAnnotations['given']['value']);
-            $node->setAttribute('givenStartLine', (string) $inlineAnnotations['given']['line']);
-            $node->setAttribute('when', $inlineAnnotations['when']['value']);
-            $node->setAttribute('whenStartLine', (string) $inlineAnnotations['when']['line']);
-            $node->setAttribute('then', $inlineAnnotations['then']['value']);
-            $node->setAttribute('thenStartLine', (string) $inlineAnnotations['then']['line']);
+            $testNode->setAttribute('given', $inlineAnnotations['given']['value']);
+            $testNode->setAttribute('givenStartLine', (string) $inlineAnnotations['given']['line']);
+            $testNode->setAttribute('when', $inlineAnnotations['when']['value']);
+            $testNode->setAttribute('whenStartLine', (string) $inlineAnnotations['when']['line']);
+            $testNode->setAttribute('then', $inlineAnnotations['then']['value']);
+            $testNode->setAttribute('thenStartLine', (string) $inlineAnnotations['then']['line']);
         }
 
         if ($this->exception !== null) {
@@ -190,20 +224,19 @@ final class XmlResultPrinter extends Printer implements TestListener
                 $steps = $this->exception->getTrace();
             }
 
-            $class = new ReflectionClass($test);
-            $file  = $class->getFileName();
+            $file  = (new ReflectionClass($test))->getFileName();
 
             foreach ($steps as $step) {
                 if (isset($step['file']) && $step['file'] === $file) {
-                    $node->setAttribute('exceptionLine', (string) $step['line']);
+                    $testNode->setAttribute('exceptionLine', (string) $step['line']);
 
                     break;
                 }
             }
 
-            $node->setAttribute('exceptionMessage', $this->exception->getMessage());
+            $testNode->setAttribute('exceptionMessage', $this->exception->getMessage());
         }
 
-        $this->root->appendChild($node);
+        $this->root->appendChild($testNode);
     }
 }

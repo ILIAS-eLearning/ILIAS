@@ -3,37 +3,30 @@
 namespace Gettext\Generators;
 
 use Gettext\Translations;
-use Symfony\Component\Yaml\Dumper;
+use Gettext\Utils\DictionaryTrait;
+use Symfony\Component\Yaml\Yaml as YamlDumper;
 
 class YamlDictionary extends Generator implements GeneratorInterface
 {
+    use DictionaryTrait;
+
+    public static $options = [
+        'includeHeaders' => false,
+        'indent' => 2,
+        'inline' => 3,
+    ];
+
     /**
-     * {@parentDoc}.
+     * {@inheritdoc}
      */
-    public static function toString(Translations $translations)
+    public static function toString(Translations $translations, array $options = [])
     {
-        $array = PhpArray::toArray($translations);
+        $options += static::$options;
 
-        //for a simple json translation dictionary, one domain is supported
-        $values = current($array);
-
-        // remove meta / header data
-        if (array_key_exists('', $values)) {
-            unset($values['']);
-        }
-
-        //map to a simple yml dictionary (no plurals)
-        $yml = new Dumper();
-        $output = $yml->dump(
-                array_map(
-                    function ($val) {
-                        return isset($val[1]) ? $val[1] : null;
-                    },
-                    $values
-                ),
-            1
+        return YamlDumper::dump(
+            self::toArray($translations, $options['includeHeaders']),
+            $options['inline'],
+            $options['indent']
         );
-
-        return $output;
     }
 }

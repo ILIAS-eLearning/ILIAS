@@ -1,12 +1,9 @@
 ``flush``
 =========
 
-.. versionadded:: 1.5
-    The flush tag was added in Twig 1.5.
-
 The ``flush`` tag tells Twig to flush the output buffer:
 
-.. code-block:: jinja
+.. code-block:: twig
 
     {% flush %}
 
@@ -14,4 +11,4 @@ The ``flush`` tag tells Twig to flush the output buffer:
 
     Internally, Twig uses the PHP `flush`_ function.
 
-.. _`flush`: http://php.net/flush
+.. _`flush`: https://secure.php.net/flush

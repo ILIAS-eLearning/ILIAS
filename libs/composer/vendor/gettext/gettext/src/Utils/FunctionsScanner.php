@@ -10,123 +10,129 @@ abstract class FunctionsScanner
     /**
      * Scan and returns the functions and the arguments.
      *
+     * @param array $constants Constants used in the code to replace
+     *
      * @return array
      */
-    abstract public function getFunctions();
+    abstract public function getFunctions(array $constants = []);
 
     /**
      * Search for specific functions and create translations.
      *
-     * @param array        $functions    The gettext functions to search
      * @param Translations $translations The translations instance where save the values
-     * @param string       $file         The filename used to the reference
+     * @param array $options The extractor options
+     * @throws Exception
      */
-    public function saveGettextFunctions(array $functions, Translations $translations, $file = '')
+    public function saveGettextFunctions(Translations $translations, array $options)
     {
-        foreach ($this->getFunctions() as $function) {
+        $functions = $options['functions'];
+        $file = $options['file'];
+
+        foreach ($this->getFunctions($options['constants']) as $function) {
             list($name, $line, $args) = $function;
+
+            if (isset($options['lineOffset'])) {
+                $line += $options['lineOffset'];
+            }
 
             if (!isset($functions[$name])) {
                 continue;
             }
 
-            $translation = null;
+            $domain = $context = $original = $plural = null;
 
             switch ($functions[$name]) {
-                case '__':
+                case 'noop':
+                case 'gettext':
                     if (!isset($args[0])) {
                         continue 2;
                     }
 
                     $original = $args[0];
-
-                    if ($original !== '') {
-                        $translation = $translations->insert('', $original);
-                    }
                     break;
 
-                case 'n__':
+                case 'ngettext':
                     if (!isset($args[1])) {
                         continue 2;
                     }
 
                     list($original, $plural) = $args;
-
-                    if ($original !== '') {
-                        $translation = $translations->insert('', $original, $plural);
-                    }
                     break;
 
-                case 'p__':
+                case 'pgettext':
                     if (!isset($args[1])) {
                         continue 2;
                     }
 
                     list($context, $original) = $args;
-
-                    if ($original !== '') {
-                        $translation = $translations->insert($context, $original);
-                    }
                     break;
 
-                case 'd__':
+                case 'dgettext':
                     if (!isset($args[1])) {
                         continue 2;
                     }
 
                     list($domain, $original) = $args;
-
-                    if ($original !== '' && $domain === $translations->getDomain()) {
-                        $translation = $translations->insert('', $original);
-                    }
                     break;
 
-                case 'dp__':
+                case 'dpgettext':
                     if (!isset($args[2])) {
                         continue 2;
                     }
 
                     list($domain, $context, $original) = $args;
-
-                    if ($original !== '' && $domain === $translations->getDomain()) {
-                        $translation = $translations->insert($context, $original);
-                    }
                     break;
 
-                case 'np__':
+                case 'npgettext':
                     if (!isset($args[2])) {
                         continue 2;
                     }
 
                     list($context, $original, $plural) = $args;
-
-                    if ($original !== '') {
-                        $translation = $translations->insert($context, $original, $plural);
-                    }
                     break;
 
-                case 'dnp__':
-                    if (!isset($args[4])) {
+                case 'dnpgettext':
+                    if (!isset($args[3])) {
                         continue 2;
                     }
 
                     list($domain, $context, $original, $plural) = $args;
+                    break;
 
-                    if ($original !== '' && $domain === $translations->getDomain()) {
-                        $translation = $translations->insert($context, $original, $plural);
+                case 'dngettext':
+                    if (!isset($args[2])) {
+                        continue 2;
                     }
+
+                    list($domain, $original, $plural) = $args;
                     break;
 
                 default:
-                    throw new Exception('Not valid functions');
+                    throw new Exception(sprintf('Not valid function %s', $functions[$name]));
             }
 
-            if (isset($translation)) {
-                $translation->addReference($file, $line);
-                if (isset($function[3])) {
-                    foreach ($function[3] as $extractedComment) {
-                        $translation->addExtractedComment($extractedComment);
-                    }
+            if ((string)$original === '') {
+                continue;
+            }
+
+            $isDefaultDomain = $domain === null;
+            $isMatchingDomain = $domain === $translations->getDomain();
+
+            if (!empty($options['domainOnly']) && $isDefaultDomain) {
+                // If we want to find translations for a specific domain, skip default domain messages
+                continue;
+            }
+
+            if (!$isDefaultDomain && !$isMatchingDomain) {
+                continue;
+            }
+
+            $translation = $translations->insert($context, $original, $plural);
+            $translation->addReference($file, $line);
+
+            if (isset($function[3])) {
+                foreach ($function[3] as $extractedComment) {
+                    $translation->addExtractedComment($extractedComment);
                 }
             }
         }

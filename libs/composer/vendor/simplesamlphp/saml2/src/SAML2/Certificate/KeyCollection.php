@@ -14,10 +14,11 @@ class KeyCollection extends ArrayCollection
      * Add a key to the collection
      *
      * @param \SAML2\Certificate\Key $key
+     * @return void
      */
     public function add($key)
     {
-        if (!$key instanceof Key) {
+        if (!($key instanceof Key)) {
             throw InvalidArgumentException::invalidType(
                 'SAML2\Certificate\Key',
                 $key

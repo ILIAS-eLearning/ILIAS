@@ -11,11 +11,21 @@ class Validator
      */
     protected $constraints;
 
+
+    /**
+     * @param ConstraintValidator $constraint
+     * @return void
+     */
     public function addConstraintValidator(ConstraintValidator $constraint)
     {
         $this->constraints[] = $constraint;
     }
 
+
+    /**
+     * @param Response $response
+     * @return Result
+     */
     public function validate(Response $response)
     {
         $result = new Result();

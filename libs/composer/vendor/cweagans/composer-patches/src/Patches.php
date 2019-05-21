@@ -20,7 +20,7 @@ use Composer\Plugin\PluginInterface;
 use Composer\Installer\PackageEvents;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use Composer\Script\PackageEvent;
+use Composer\Installer\PackageEvent;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\RemoteFilesystem;
 use Symfony\Component\Process\Process;
@@ -60,6 +60,7 @@ class Patches implements PluginInterface, EventSubscriberInterface {
     $this->eventDispatcher = $composer->getEventDispatcher();
     $this->executor = new ProcessExecutor($this->io);
     $this->patches = array();
+    $this->installedPatches = array();
   }
 
   /**
@@ -67,12 +68,18 @@ class Patches implements PluginInterface, EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return array(
-      ScriptEvents::PRE_INSTALL_CMD => "checkPatches",
-      ScriptEvents::PRE_UPDATE_CMD => "checkPatches",
-      PackageEvents::PRE_PACKAGE_INSTALL => "gatherPatches",
-      PackageEvents::PRE_PACKAGE_UPDATE => "gatherPatches",
-      PackageEvents::POST_PACKAGE_INSTALL => "postInstall",
-      PackageEvents::POST_PACKAGE_UPDATE => "postInstall",
+      ScriptEvents::PRE_INSTALL_CMD => array('checkPatches'),
+      ScriptEvents::PRE_UPDATE_CMD => array('checkPatches'),
+      PackageEvents::PRE_PACKAGE_INSTALL => array('gatherPatches'),
+      PackageEvents::PRE_PACKAGE_UPDATE => array('gatherPatches'),
+      // The following is a higher weight for compatibility with
+      // https://github.com/AydinHassan/magento-core-composer-installer and more generally for compatibility with
+      // every Composer plugin which deploys downloaded packages to other locations.
+      // In such cases you want that those plugins deploy patched files so they have to run after
+      // the "composer-patches" plugin.
+      // @see: https://github.com/cweagans/composer-patches/pull/153
+      PackageEvents::POST_PACKAGE_INSTALL => array('postInstall', 10),
+      PackageEvents::POST_PACKAGE_UPDATE => array('postInstall', 10),
     );
   }
 
@@ -91,16 +98,29 @@ class Patches implements PluginInterface, EventSubscriberInterface {
       $installationManager = $this->composer->getInstallationManager();
       $packages = $localRepository->getPackages();
 
+      $extra = $this->composer->getPackage()->getExtra();
+      $patches_ignore = isset($extra['patches-ignore']) ? $extra['patches-ignore'] : array();
+
       $tmp_patches = $this->grabPatches();
+      foreach ($packages as $package) {
+        $extra = $package->getExtra();
+        if (isset($extra['patches'])) {
+          if (isset($patches_ignore[$package->getName()])) {
+            foreach ($patches_ignore[$package->getName()] as $package_name => $patches) {
+              if (isset($extra['patches'][$package_name])) {
+                $extra['patches'][$package_name] = array_diff($extra['patches'][$package_name], $patches);
+              }
+            }
+          }
+          $this->installedPatches[$package->getName()] = $extra['patches'];
+        }
+        $patches = isset($extra['patches']) ? $extra['patches'] : array();
+        $tmp_patches = array_merge_recursive($tmp_patches, $patches);
+      }
+
       if ($tmp_patches == FALSE) {
         $this->io->write('<info>No patches supplied.</info>');
         return;
-      }
-
-      foreach ($packages as $package) {
-        $extra = $package->getExtra();
-        $patches = isset($extra['patches']) ? $extra['patches'] : array();
-        $tmp_patches = array_merge_recursive($tmp_patches, $patches);
       }
 
       // Remove packages for which the patch set has changed.
@@ -120,8 +140,8 @@ class Patches implements PluginInterface, EventSubscriberInterface {
         }
       }
     }
-      // If the Locker isn't available, then we don't need to do this.
-      // It's the first time packages have been installed.
+    // If the Locker isn't available, then we don't need to do this.
+    // It's the first time packages have been installed.
     catch (\LogicException $e) {
       return;
     }
@@ -135,10 +155,12 @@ class Patches implements PluginInterface, EventSubscriberInterface {
   public function gatherPatches(PackageEvent $event) {
     // If we've already done this, then don't do it again.
     if (isset($this->patches['_patchesGathered'])) {
+      $this->io->write('<info>Patches already gathered. Skipping</info>', TRUE, IOInterface::VERBOSE);
       return;
     }
     // If patching has been disabled, bail out here.
     elseif (!$this->isPatchingEnabled()) {
+      $this->io->write('<info>Patching is disabled. Skipping.</info>', TRUE, IOInterface::VERBOSE);
       return;
     }
 
@@ -146,6 +168,9 @@ class Patches implements PluginInterface, EventSubscriberInterface {
     if (empty($this->patches)) {
       $this->io->write('<info>No patches supplied.</info>');
     }
+
+    $extra = $this->composer->getPackage()->getExtra();
+    $patches_ignore = isset($extra['patches-ignore']) ? $extra['patches-ignore'] : array();
 
     // Now add all the patches from dependencies that will be installed.
     $operations = $event->getOperations();
@@ -155,9 +180,25 @@ class Patches implements PluginInterface, EventSubscriberInterface {
         $package = $this->getPackageFromOperation($operation);
         $extra = $package->getExtra();
         if (isset($extra['patches'])) {
-          $this->patches = array_merge_recursive($this->patches, $extra['patches']);
+          if (isset($patches_ignore[$package->getName()])) {
+            foreach ($patches_ignore[$package->getName()] as $package_name => $patches) {
+              if (isset($extra['patches'][$package_name])) {
+                $extra['patches'][$package_name] = array_diff($extra['patches'][$package_name], $patches);
+              }
+            }
+          }
+          $this->patches = $this->arrayMergeRecursiveDistinct($this->patches, $extra['patches']);
+        }
+        // Unset installed patches for this package
+        if(isset($this->installedPatches[$package->getName()])) {
+          unset($this->installedPatches[$package->getName()]);
         }
       }
+    }
+
+    // Merge installed patches from dependencies that did not receive an update.
+    foreach ($this->installedPatches as $patches) {
+      $this->patches = array_merge_recursive($this->patches, $patches);
     }
 
     // If we're in verbose mode, list the projects we're going to patch.
@@ -233,6 +274,11 @@ class Patches implements PluginInterface, EventSubscriberInterface {
    * @throws \Exception
    */
   public function postInstall(PackageEvent $event) {
+
+    // Check if we should exit in failure.
+    $extra = $this->composer->getPackage()->getExtra();
+    $exitOnFailure = getenv('COMPOSER_EXIT_ON_PATCH_FAILURE') || !empty($extra['composer-exit-on-patch-failure']);
+
     // Get the package object for the current operation.
     $operation = $event->getOperation();
     /** @var PackageInterface $package */
@@ -264,13 +310,13 @@ class Patches implements PluginInterface, EventSubscriberInterface {
       $this->io->write('    <info>' . $url . '</info> (<comment>' . $description. '</comment>)');
       try {
         $this->eventDispatcher->dispatch(NULL, new PatchEvent(PatchEvents::PRE_PATCH_APPLY, $package, $url, $description));
-        $this->getAndApplyPatch($downloader, $install_path, $url);
+        $this->getAndApplyPatch($downloader, $install_path, $url, $package);
         $this->eventDispatcher->dispatch(NULL, new PatchEvent(PatchEvents::POST_PATCH_APPLY, $package, $url, $description));
         $extra['patches_applied'][$description] = $url;
       }
       catch (\Exception $e) {
-        $this->io->write('   <error>Could not apply patch! Skipping.</error>');
-        if (getenv('COMPOSER_EXIT_ON_PATCH_FAILURE')) {
+        $this->io->write('   <error>Could not apply patch! Skipping. The error was: ' . $e->getMessage() . '</error>');
+        if ($exitOnFailure) {
           throw new \Exception("Cannot apply patch $description ($url)!");
         }
       }
@@ -308,37 +354,35 @@ class Patches implements PluginInterface, EventSubscriberInterface {
    * @param RemoteFilesystem $downloader
    * @param $install_path
    * @param $patch_url
+   * @param PackageInterface $package
    * @throws \Exception
    */
-  protected function getAndApplyPatch(RemoteFilesystem $downloader, $install_path, $patch_url) {
+  protected function getAndApplyPatch(RemoteFilesystem $downloader, $install_path, $patch_url, PackageInterface $package) {
 
     // Local patch file.
     if (file_exists($patch_url)) {
-      $filename = $patch_url;
+      $filename = realpath($patch_url);
     }
     else {
       // Generate random (but not cryptographically so) filename.
-      $filename = uniqid("/tmp/") . ".patch";
+      $filename = uniqid(sys_get_temp_dir().'/') . ".patch";
 
       // Download file from remote filesystem to this location.
       $hostname = parse_url($patch_url, PHP_URL_HOST);
       $downloader->copy($hostname, $patch_url, $filename, FALSE);
     }
 
-    // Modified from drush6:make.project.inc
-    $patched = FALSE;
     // The order here is intentional. p1 is most likely to apply with git apply.
     // p0 is next likely. p2 is extremely unlikely, but for some special cases,
-    // it might be useful.
-    $patch_levels = array('-p1', '-p0', '-p2');
-    foreach ($patch_levels as $patch_level) {
-      $checked = $this->executeCommand('cd %s && GIT_DIR=. git apply --check %s %s', $install_path, $patch_level, $filename);
-      if ($checked) {
-        // Apply the first successful style.
-        $patched = $this->executeCommand('cd %s && GIT_DIR=. git apply %s %s', $install_path, $patch_level, $filename);
-        break;
-      }
+    // it might be useful. p4 is useful for Magento 2 patches
+    $patch_levels = array('-p1', '-p0', '-p2', '-p4');
+
+    // Check for specified patch level for this package.
+    if (!empty($this->composer->getPackage()->getExtra()['patchLevel'][$package->getName()])){
+      $patch_levels = array($this->composer->getPackage()->getExtra()['patchLevel'][$package->getName()]);
     }
+    // Attempt to apply with git apply.
+    $patched = $this->applyPatchWithGit($install_path, $patch_levels, $filename);
 
     // In some rare cases, git will fail to apply a patch, fallback to using
     // the 'patch' command.
@@ -372,7 +416,7 @@ class Patches implements PluginInterface, EventSubscriberInterface {
   protected function isPatchingEnabled() {
     $extra = $this->composer->getPackage()->getExtra();
 
-    if (empty($extra['patches'])) {
+    if (empty($extra['patches']) && empty($extra['patches-ignore']) && !isset($extra['patches-file'])) {
       // The root package has no patches of its own, so only allow patching if
       // it has specifically opted in.
       return isset($extra['enable-patching']) ? $extra['enable-patching'] : FALSE;
@@ -430,4 +474,77 @@ class Patches implements PluginInterface, EventSubscriberInterface {
     }
     return ($this->executor->execute($command, $output) == 0);
   }
+
+  /**
+   * Recursively merge arrays without changing data types of values.
+   *
+   * Does not change the data types of the values in the arrays. Matching keys'
+   * values in the second array overwrite those in the first array, as is the
+   * case with array_merge.
+   *
+   * @param array $array1
+   *   The first array.
+   * @param array $array2
+   *   The second array.
+   * @return array
+   *   The merged array.
+   *
+   * @see http://php.net/manual/en/function.array-merge-recursive.php#92195
+   */
+  protected function arrayMergeRecursiveDistinct(array $array1, array $array2) {
+    $merged = $array1;
+
+    foreach ($array2 as $key => &$value) {
+      if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+        $merged[$key] = $this->arrayMergeRecursiveDistinct($merged[$key], $value);
+      }
+      else {
+        $merged[$key] = $value;
+      }
+    }
+
+    return $merged;
+  }
+
+  /**
+   * Attempts to apply a patch with git apply.
+   *
+   * @param $install_path
+   * @param $patch_levels
+   * @param $filename
+   *
+   * @return bool
+   *   TRUE if patch was applied, FALSE otherwise.
+   */
+  protected function applyPatchWithGit($install_path, $patch_levels, $filename) {
+    // Do not use git apply unless the install path is itself a git repo
+    // @see https://stackoverflow.com/a/27283285
+    if (!is_dir($install_path . '/.git')) {
+      return FALSE;
+    }
+
+    $patched = FALSE;
+    foreach ($patch_levels as $patch_level) {
+      if ($this->io->isVerbose()) {
+        $comment = 'Testing ability to patch with git apply.';
+        $comment .= ' This command may produce errors that can be safely ignored.';
+        $this->io->write('<comment>' . $comment . '</comment>');
+      }
+      $checked = $this->executeCommand('git -C %s apply --check -v %s %s', $install_path, $patch_level, $filename);
+      $output = $this->executor->getErrorOutput();
+      if (substr($output, 0, 7) == 'Skipped') {
+        // Git will indicate success but silently skip patches in some scenarios.
+        //
+        // @see https://github.com/cweagans/composer-patches/pull/165
+        $checked = FALSE;
+      }
+      if ($checked) {
+        // Apply the first successful style.
+        $patched = $this->executeCommand('git -C %s apply %s %s', $install_path, $patch_level, $filename);
+        break;
+      }
+    }
+    return $patched;
+  }
+
 }

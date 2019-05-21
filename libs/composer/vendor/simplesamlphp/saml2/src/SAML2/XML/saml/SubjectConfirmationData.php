@@ -7,6 +7,7 @@ use SAML2\Constants;
 use SAML2\Utils;
 use SAML2\XML\Chunk;
 use SAML2\XML\ds\KeyInfo;
+use Webmozart\Assert\Assert;
 
 /**
  * Class representing SAML 2 SubjectConfirmationData element.
@@ -58,7 +59,154 @@ class SubjectConfirmationData
      *
      * @var (\SAML2\XML\ds\KeyInfo|\SAML2\XML\Chunk)[]
      */
-    public $info = array();
+    public $info = [];
+
+
+    /**
+     * Collect the value of the NotBefore-property
+     * @return int|null
+     */
+    public function getNotBefore()
+    {
+        return $this->NotBefore;
+    }
+
+
+    /**
+     * Set the value of the NotBefore-property
+     * @param int|null $notBefore
+     * @return void
+     */
+    public function setNotBefore($notBefore = null)
+    {
+        Assert::nullOrInteger($notBefore);
+        $this->NotBefore = $notBefore;
+    }
+
+
+    /**
+     * Collect the value of the NotOnOrAfter-property
+     * @return int|null
+     */
+    public function getNotOnOrAfter()
+    {
+        return $this->NotOnOrAfter;
+    }
+
+
+    /**
+     * Set the value of the NotOnOrAfter-property
+     * @param int|null $notOnOrAfter
+     * @return void
+     */
+    public function setNotOnOrAfter($notOnOrAfter = null)
+    {
+        Assert::nullOrInteger($notOnOrAfter);
+        $this->NotOnOrAfter = $notOnOrAfter;
+    }
+
+
+    /**
+     * Collect the value of the Recipient-property
+     * @return string|null
+     */
+    public function getRecipient()
+    {
+        return $this->Recipient;
+    }
+
+
+    /**
+     * Set the value of the Recipient-property
+     * @param string|null $recipient
+     * @return void
+     */
+    public function setRecipient($recipient = null)
+    {
+        Assert::nullOrString($recipient);
+        $this->Recipient = $recipient;
+    }
+
+
+    /**
+     * Collect the value of the InResponseTo-property
+     * @return string|null
+     */
+    public function getInResponseTo()
+    {
+        return $this->InResponseTo;
+    }
+
+
+    /**
+     * Set the value of the InResponseTo-property
+     * @param string|null $inResponseTo
+     * @return void
+     */
+    public function setInResponseTo($inResponseTo = null)
+    {
+        Assert::nullOrString($inResponseTo);
+        $this->InResponseTo = $inResponseTo;
+    }
+
+
+    /**
+     * Collect the value of the Address-property
+     * @return string|null
+     */
+    public function getAddress()
+    {
+        return $this->Address;
+    }
+
+
+    /**
+     * Set the value of the Address-property
+     * @param string|null $address
+     * @return void
+     */
+    public function setAddress($address = null)
+    {
+        Assert::nullOrstring($address);
+        if (!is_null($address) && !filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6)) {
+            Utils::getContainer()->getLogger()->warning(sprintf('Provided argument (%s) is not a valid IP address.', $address));
+        }
+        $this->Address = $address;
+    }
+
+
+    /**
+     * Collect the value of the info-property
+     * @return (\SAML2\XML\ds\KeyInfo|\SAML2\XML\Chunk)[]
+     */
+    public function getInfo()
+    {
+        return $this->info;
+    }
+
+
+    /**
+     * Set the value of the info-property
+     * @param (\SAML2\XML\ds\KeyInfo|\SAML2\XML\Chunk)[] $info
+     * @return void
+     */
+    public function setInfo(array $info)
+    {
+        $this->info = $info;
+    }
+
+
+    /**
+     * Add the value to the info-property
+     * @param \SAML2\XML\Chunk|\SAML2\XML\ds\KeyInfo $info
+     * @return void
+     */
+    public function addInfo($info)
+    {
+        Assert::isInstanceOfAny($info, [Chunk::class, KeyInfo::class]);
+        $this->info[] = $info;
+    }
+
 
     /**
      * Initialize (and parse) a SubjectConfirmationData element.
@@ -72,38 +220,39 @@ class SubjectConfirmationData
         }
 
         if ($xml->hasAttribute('NotBefore')) {
-            $this->NotBefore = Utils::xsDateTimeToTimestamp($xml->getAttribute('NotBefore'));
+            $this->setNotBefore(Utils::xsDateTimeToTimestamp($xml->getAttribute('NotBefore')));
         }
         if ($xml->hasAttribute('NotOnOrAfter')) {
-            $this->NotOnOrAfter = Utils::xsDateTimeToTimestamp($xml->getAttribute('NotOnOrAfter'));
+            $this->setNotOnOrAfter(Utils::xsDateTimeToTimestamp($xml->getAttribute('NotOnOrAfter')));
         }
         if ($xml->hasAttribute('Recipient')) {
-            $this->Recipient = $xml->getAttribute('Recipient');
+            $this->setRecipient($xml->getAttribute('Recipient'));
         }
         if ($xml->hasAttribute('InResponseTo')) {
-            $this->InResponseTo = $xml->getAttribute('InResponseTo');
+            $this->setInResponseTo($xml->getAttribute('InResponseTo'));
         }
         if ($xml->hasAttribute('Address')) {
-            $this->Address = $xml->getAttribute('Address');
+            $this->setAddress($xml->getAttribute('Address'));
         }
         for ($n = $xml->firstChild; $n !== null; $n = $n->nextSibling) {
             if (!($n instanceof \DOMElement)) {
                 continue;
             }
             if ($n->namespaceURI !== XMLSecurityDSig::XMLDSIGNS) {
-                $this->info[] = new Chunk($n);
+                $this->addInfo(new Chunk($n));
                 continue;
             }
             switch ($n->localName) {
                 case 'KeyInfo':
-                    $this->info[] = new KeyInfo($n);
+                    $this->addInfo(new KeyInfo($n));
                     break;
                 default:
-                    $this->info[] = new Chunk($n);
+                    $this->addInfo(new Chunk($n));
                     break;
             }
         }
     }
+
 
     /**
      * Convert this element to XML.
@@ -113,32 +262,32 @@ class SubjectConfirmationData
      */
     public function toXML(\DOMElement $parent)
     {
-        assert(is_null($this->NotBefore) || is_int($this->NotBefore));
-        assert(is_null($this->NotOnOrAfter) || is_int($this->NotOnOrAfter));
-        assert(is_null($this->Recipient) || is_string($this->Recipient));
-        assert(is_null($this->InResponseTo) || is_string($this->InResponseTo));
-        assert(is_null($this->Address) || is_string($this->Address));
+        Assert::nullOrInteger($this->getNotBefore());
+        Assert::nullOrInteger($this->getNotOnOrAfter());
+        Assert::nullOrString($this->getRecipient());
+        Assert::nullOrString($this->getInResponseTo());
+        Assert::nullOrString($this->getAddress());
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_SAML, 'saml:SubjectConfirmationData');
         $parent->appendChild($e);
 
-        if (isset($this->NotBefore)) {
-            $e->setAttribute('NotBefore', gmdate('Y-m-d\TH:i:s\Z', $this->NotBefore));
+        if ($this->getNotBefore() !== null) {
+            $e->setAttribute('NotBefore', gmdate('Y-m-d\TH:i:s\Z', $this->getNotBefore()));
         }
-        if (isset($this->NotOnOrAfter)) {
-            $e->setAttribute('NotOnOrAfter', gmdate('Y-m-d\TH:i:s\Z', $this->NotOnOrAfter));
+        if ($this->getNotOnOrAfter() !== null) {
+            $e->setAttribute('NotOnOrAfter', gmdate('Y-m-d\TH:i:s\Z', $this->getNotOnOrAfter()));
         }
-        if (isset($this->Recipient)) {
-            $e->setAttribute('Recipient', $this->Recipient);
+        if ($this->getRecipient() !== null) {
+            $e->setAttribute('Recipient', $this->getRecipient());
         }
-        if (isset($this->InResponseTo)) {
-            $e->setAttribute('InResponseTo', $this->InResponseTo);
+        if ($this->getInResponseTo() !== null) {
+            $e->setAttribute('InResponseTo', $this->getInResponseTo());
         }
-        if (isset($this->Address)) {
-            $e->setAttribute('Address', $this->Address);
+        if ($this->getAddress() !== null) {
+            $e->setAttribute('Address', $this->getAddress());
         }
         /** @var \SAML2\XML\ds\KeyInfo|\SAML2\XML\Chunk $n */
-        foreach ($this->info as $n) {
+        foreach ($this->getInfo() as $n) {
             $n->toXML($e);
         }
 

@@ -10,6 +10,11 @@ use SAML2\XML\saml\SubjectConfirmation;
 class SubjectConfirmationMethod implements
     SubjectConfirmationConstraintValidator
 {
+    /**
+     * @param SubjectConfirmation $subjectConfirmation
+     * @param Result $result
+     * @return void
+     */
     public function validate(
         SubjectConfirmation $subjectConfirmation,
         Result $result

@@ -53,12 +53,7 @@ class CliTestDoxPrinter extends TestDoxPrinter
         " \e[36m◒\e[0m running tests",
     ];
 
-    /**
-     * @var int[]
-     */
-    private $nonSuccessfulTestResults = [];
-
-    private $statusStyles = [
+    private const STATUS_STYLES = [
         BaseTestRunner::STATUS_PASSED     => [
             'symbol' => '✔',
             'color'  => 'fg-green',
@@ -99,6 +94,11 @@ class CliTestDoxPrinter extends TestDoxPrinter
             'message' => 'fg-white,bg-blue',
         ],
     ];
+
+    /**
+     * @var int[]
+     */
+    private $nonSuccessfulTestResults = [];
 
     /**
      * @throws \SebastianBergmann\Timer\RuntimeException
@@ -160,12 +160,12 @@ class CliTestDoxPrinter extends TestDoxPrinter
         // spacer line for new suite headers and after verbose messages
         if ($prevResult['testName'] !== '' &&
             (!empty($prevResult['message']) || $prevResult['className'] !== $result['className'])) {
-            $this->write("\n");
+            $this->write(\PHP_EOL);
         }
 
         // suite header
         if ($prevResult['className'] !== $result['className']) {
-            $this->write($this->colorizeTextBox('underlined', $result['className']) . "\n");
+            $this->write($this->colorizeTextBox('underlined', $result['className']) . \PHP_EOL);
         }
 
         // test result line
@@ -174,13 +174,15 @@ class CliTestDoxPrinter extends TestDoxPrinter
         } else {
             $testName = $result['testMethod'];
         }
-        $style = $this->statusStyles[$result['status']];
+
+        $style = self::STATUS_STYLES[$result['status']];
         $line  = \sprintf(
-            " %s %s%s\n",
+            ' %s %s%s' . \PHP_EOL,
             $this->colorizeTextBox($style['color'], $style['symbol']),
             $testName,
             $this->verbose ? ' ' . $this->formatRuntime($result['time'], $style['color']) : ''
         );
+
         $this->write($line);
 
         // additional information when verbose
@@ -207,9 +209,9 @@ class CliTestDoxPrinter extends TestDoxPrinter
             if (!$insideDiff) {
                 $message[] = $line;
             } else {
-                if (\substr($line, 0, 1) === '-') {
+                if (\strpos($line, '-') === 0) {
                     $line = Color::colorize('fg-red', Color::visualizeWhitespace($line, true));
-                } elseif (\substr($line, 0, 1) === '+') {
+                } elseif (\strpos($line, '+') === 0) {
                     $line = Color::colorize('fg-green', Color::visualizeWhitespace($line, true));
                 } elseif ($line === '@@ @@') {
                     $line = Color::colorize('fg-cyan', $line);
@@ -264,15 +266,13 @@ class CliTestDoxPrinter extends TestDoxPrinter
         $message = $this->formatThrowable($t, $result['status']);
         $diff    = '';
 
-        if ($message) {
-            if ($this->colors) {
-                $style            = $this->statusStyles[$result['status']]['message'] ?? '';
-                [$message, $diff] = $this->colorizeMessageAndDiff($style, $message);
-            }
-        }
-
         if (!($this->verbose || $result['verbose'])) {
             return '';
+        }
+
+        if ($message && $this->colors) {
+            $style            = self::STATUS_STYLES[$result['status']]['message'] ?? '';
+            [$message, $diff] = $this->colorizeMessageAndDiff($style, $message);
         }
 
         if ($prefix === null || !$this->colors) {
@@ -280,7 +280,7 @@ class CliTestDoxPrinter extends TestDoxPrinter
         }
 
         if ($this->colors) {
-            $color  = $this->statusStyles[$result['status']]['color'] ?? '';
+            $color  = self::STATUS_STYLES[$result['status']]['color'] ?? '';
             $prefix = \array_map(function ($p) use ($color) {
                 return Color::colorize($color, $p);
             }, self::PREFIX_DECORATED);

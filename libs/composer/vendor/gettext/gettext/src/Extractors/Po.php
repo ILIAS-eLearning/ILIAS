@@ -4,23 +4,22 @@ namespace Gettext\Extractors;
 
 use Gettext\Translations;
 use Gettext\Translation;
+use Gettext\Utils\HeadersExtractorTrait;
 
 /**
  * Class to get gettext strings from php files returning arrays.
  */
 class Po extends Extractor implements ExtractorInterface
 {
+    use HeadersExtractorTrait;
+
     /**
      * Parses a .po file and append the translations found in the Translations instance.
      *
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        if ($translations === null) {
-            $translations = new Translations();
-        }
-
         $lines = explode("\n", $string);
         $i = 0;
 
@@ -28,12 +27,11 @@ class Po extends Extractor implements ExtractorInterface
 
         for ($n = count($lines); $i < $n; ++$i) {
             $line = trim($lines[$i]);
-
             $line = self::fixMultiLines($line, $lines, $i);
 
             if ($line === '') {
                 if ($translation->is('', '')) {
-                    self::parseHeaders($translation->getTranslation(), $translations);
+                    self::extractHeaders($translation->getTranslation(), $translations);
                 } elseif ($translation->hasOriginal()) {
                     $translations[] = $translation;
                 }
@@ -45,6 +43,14 @@ class Po extends Extractor implements ExtractorInterface
             $splitLine = preg_split('/\s+/', $line, 2);
             $key = $splitLine[0];
             $data = isset($splitLine[1]) ? $splitLine[1] : '';
+
+            if ($key === '#~') {
+                $translation->setDisabled(true);
+
+                $splitLine = preg_split('/\s+/', $data, 2);
+                $key = $splitLine[0];
+                $data = isset($splitLine[1]) ? $splitLine[1] : '';
+            }
 
             switch ($key) {
                 case '#':
@@ -95,31 +101,39 @@ class Po extends Extractor implements ExtractorInterface
                     break;
 
                 case 'msgstr[1]':
-                    $translation->setPluralTranslation(self::convertString($data), 0);
+                    $translation->setPluralTranslations([self::convertString($data)]);
                     $append = 'PluralTranslation';
                     break;
 
                 default:
                     if (strpos($key, 'msgstr[') === 0) {
-                        $translation->setPluralTranslation(self::convertString($data), intval(substr($key, 7, -1)) - 1);
+                        $p = $translation->getPluralTranslations();
+                        $p[] = self::convertString($data);
+
+                        $translation->setPluralTranslations($p);
                         $append = 'PluralTranslation';
                         break;
                     }
 
                     if (isset($append)) {
                         if ($append === 'Context') {
-                            $translation = $translation->getClone($translation->getContext()."\n".self::convertString($data));
+                            $translation = $translation->getClone($translation->getContext()
+                                ."\n"
+                                .self::convertString($data));
                             break;
                         }
 
                         if ($append === 'Original') {
-                            $translation = $translation->getClone(null, $translation->getOriginal()."\n".self::convertString($data));
+                            $translation = $translation->getClone(null, $translation->getOriginal()
+                                ."\n"
+                                .self::convertString($data));
                             break;
                         }
 
                         if ($append === 'PluralTranslation') {
-                            $key = count($translation->getPluralTranslation()) - 1;
-                            $translation->setPluralTranslation($translation->getPluralTranslation($key)."\n".self::convertString($data), $key);
+                            $p = $translation->getPluralTranslations();
+                            $p[] = array_pop($p)."\n".self::convertString($data);
+                            $translation->setPluralTranslations($p);
                             break;
                         }
 
@@ -133,46 +147,6 @@ class Po extends Extractor implements ExtractorInterface
 
         if ($translation->hasOriginal() && !in_array($translation, iterator_to_array($translations))) {
             $translations[] = $translation;
-        }
-
-        return $translations;
-    }
-
-    /**
-     * Checks if it is a header definition line. Useful for distguishing between header definitions
-     * and possible continuations of a header entry.
-     *
-     * @param string $line Line to parse
-     *
-     * @return bool
-     */
-    private static function isHeaderDefinition($line)
-    {
-        return (bool) preg_match('/^[\w-]+:/', $line);
-    }
-
-    /**
-     * Parse the po headers.
-     *
-     * @param string       $headers
-     * @param Translations $translations
-     */
-    private static function parseHeaders($headers, Translations $translations)
-    {
-        $headers = explode("\n", $headers);
-        $currentHeader = null;
-
-        foreach ($headers as $line) {
-            $line = self::convertString($line);
-
-            if (self::isHeaderDefinition($line)) {
-                $header = array_map('trim', explode(':', $line, 2));
-                $currentHeader = $header[0];
-                $translations->setHeader($currentHeader, $header[1]);
-            } else {
-                $entry = $translations->getHeader($currentHeader);
-                $translations->setHeader($currentHeader, $entry.$line);
-            }
         }
     }
 
@@ -221,7 +195,7 @@ class Po extends Extractor implements ExtractorInterface
 
         return strtr(
             $value,
-            array(
+            [
                 '\\\\' => '\\',
                 '\\a' => "\x07",
                 '\\b' => "\x08",
@@ -231,7 +205,7 @@ class Po extends Extractor implements ExtractorInterface
                 '\\f' => "\x0c",
                 '\\r' => "\r",
                 '\\"' => '"',
-            )
+            ]
         );
     }
 }

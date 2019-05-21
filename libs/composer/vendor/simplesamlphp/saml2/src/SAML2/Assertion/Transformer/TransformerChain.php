@@ -13,7 +13,7 @@ class TransformerChain implements Transformer
     /**
      * @var \SAML2\Assertion\Transformer\Transformer[]
      */
-    private $transformers = array();
+    private $transformers = [];
 
     /**
      * @var \SAML2\Configuration\IdentityProvider
@@ -25,6 +25,13 @@ class TransformerChain implements Transformer
      */
     private $serviceProvider;
 
+
+    /**
+     * Constructor for TransformerChain
+     *
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     */
     public function __construct(
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider
@@ -33,6 +40,11 @@ class TransformerChain implements Transformer
         $this->serviceProvider  = $serviceProvider;
     }
 
+
+    /**
+     * @param Transformer $transformer
+     * @return void
+     */
     public function addTransformerStep(Transformer $transformer)
     {
         if ($transformer instanceof IdentityProviderAware) {
@@ -45,6 +57,7 @@ class TransformerChain implements Transformer
 
         $this->transformers[] = $transformer;
     }
+
 
     /**
      * @param \SAML2\Assertion $assertion

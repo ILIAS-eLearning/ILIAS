@@ -26,6 +26,6 @@ class Trans extends Twig_Extensions_TokenParser_Trans
         $plural = ($parsed->hasNode('plural')) ? $parsed->getNode('plural') : null;
         $count = ($parsed->hasNode('count')) ? $parsed->getNode('count') : null;
         $notes = ($parsed->hasNode('notes')) ? $parsed->getNode('notes') : null;
-        return new NodeTrans($body, $plural, $count, $notes, $parsed->getLine(), $parsed->getNodeTag());
+        return new NodeTrans($body, $plural, $count, $notes, $parsed->getTemplateLine(), $parsed->getNodeTag());
     }
 }

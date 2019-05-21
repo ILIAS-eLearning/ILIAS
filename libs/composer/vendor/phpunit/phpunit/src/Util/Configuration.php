@@ -15,6 +15,7 @@ use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\TestSuiteSorter;
 use PHPUnit\TextUI\ResultPrinter;
+use PHPUnit\Util\TestDox\CliTestDoxPrinter;
 use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 
 /**
@@ -470,7 +471,7 @@ final class Configuration
                 $_ENV[$name] = $value;
             }
 
-            if ($force === true) {
+            if ($force) {
                 $_ENV[$name] = $value;
             }
         }
@@ -781,6 +782,21 @@ final class Configuration
             );
         }
 
+        if ($root->hasAttribute('testdox')) {
+            $testdox = $this->getBoolean(
+                (string) $root->getAttribute('testdox'),
+                false
+            );
+
+            if ($testdox) {
+                if (isset($result['printerClass'])) {
+                    $result['conflictBetweenPrinterClassAndTestdox'] = true;
+                } else {
+                    $result['printerClass'] = CliTestDoxPrinter::class;
+                }
+            }
+        }
+
         if ($root->hasAttribute('registerMockObjectsFromTestArgumentsRecursively')) {
             $result['registerMockObjectsFromTestArgumentsRecursively'] = $this->getBoolean(
                 (string) $root->getAttribute('registerMockObjectsFromTestArgumentsRecursively'),
@@ -845,6 +861,13 @@ final class Configuration
         if ($root->hasAttribute('resolveDependencies')) {
             $result['resolveDependencies'] = $this->getBoolean(
                 (string) $root->getAttribute('resolveDependencies'),
+                false
+            );
+        }
+
+        if ($root->hasAttribute('noInteraction')) {
+            $result['noInteraction'] = $this->getBoolean(
+                (string) $root->getAttribute('noInteraction'),
                 false
             );
         }
@@ -1155,7 +1178,7 @@ final class Configuration
     {
         $path = \trim($path);
 
-        if ($path[0] === '/') {
+        if (\strpos($path, '/') === 0) {
             return $path;
         }
 

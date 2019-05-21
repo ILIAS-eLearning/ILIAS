@@ -55,6 +55,16 @@ class Processor
      */
     private $logger;
 
+
+    /**
+     * @param Decrypter $decrypter
+     * @param Validator $signatureValidator
+     * @param AssertionValidator $assertionValidator
+     * @param SubjectConfirmationValidator $subjectConfirmationValidator
+     * @param Transformer $transformer
+     * @param IdentityProvider $identityProviderConfiguration
+     * @param LoggerInterface $logger
+     */
     public function __construct(
         Decrypter $decrypter,
         Validator $signatureValidator,
@@ -73,9 +83,9 @@ class Processor
         $this->logger                        = $logger;
     }
 
+
     /**
      * @param \SAML2\Utilities\ArrayCollection $assertions
-     *
      * @return \SAML2\Assertion[] Collection (\SAML2\Utilities\ArrayCollection) of processed assertions
      */
     public function processAssertions($assertions)
@@ -88,9 +98,9 @@ class Processor
         return $processed;
     }
 
+
     /**
      * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
-     *
      * @return \SAML2\Assertion
      */
     public function process($assertion)
@@ -117,9 +127,9 @@ class Processor
         return $assertion;
     }
 
+
     /**
      * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
-     *
      * @return \SAML2\Assertion
      */
     private function decryptAssertion($assertion)
@@ -135,8 +145,10 @@ class Processor
         return $this->decrypter->decrypt($assertion);
     }
 
+
     /**
      * @param \SAML2\Assertion $assertion
+     * @return void
      */
     public function validateAssertion(Assertion $assertion)
     {
@@ -161,9 +173,9 @@ class Processor
         }
     }
 
+
     /**
      * @param \SAML2\Assertion $assertion
-     *
      * @return \SAML2\Assertion
      */
     private function transformAssertion(Assertion $assertion)

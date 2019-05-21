@@ -15,7 +15,7 @@ interface ChainedValidator extends ValidatorInterface
     /**
      * Test whether or not this link in the chain can validate the signedElement signature.
      *
-     * @param \SAML2\SignedElement             $signedElement
+     * @param \SAML2\SignedElement $signedElement
      * @param \SAML2\Configuration\CertificateProvider $configuration
      *
      * @return bool

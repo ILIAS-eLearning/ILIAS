@@ -95,7 +95,7 @@ final class NamePrettifier
             $result = $this->prettifyTestMethod($test->getName(false));
         }
 
-        if ($test->usesDataProvider() && !$annotationWithPlaceholders) {
+        if (!$annotationWithPlaceholders && $test->usesDataProvider()) {
             $result .= $this->prettifyDataSet($test);
         }
 
@@ -124,11 +124,11 @@ final class NamePrettifier
     {
         $buffer = '';
 
-        if (!\is_string($name) || $name === '') {
+        if ($name === '') {
             return $buffer;
         }
 
-        $string = \preg_replace('#\d+$#', '', $name, -1, $count);
+        $string = (string) \preg_replace('#\d+$#', '', $name, -1, $count);
 
         if (\in_array($string, $this->strings)) {
             $name = $string;
@@ -212,9 +212,7 @@ final class NamePrettifier
             }
 
             if (\is_bool($value) || \is_int($value) || \is_float($value)) {
-                $exporter = new Exporter;
-
-                $value = $exporter->export($value);
+                $value = (new Exporter)->export($value);
             }
 
             if (\is_string($value) && $value === '') {

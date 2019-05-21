@@ -16,7 +16,7 @@ class ParsedFunction
 
     /**
      * The line where the function starts.
-     * 
+     *
      * @var int
      */
     protected $line;
@@ -59,7 +59,7 @@ class ParsedFunction
     {
         $this->name = $name;
         $this->line = $line;
-        $this->arguments = array();
+        $this->arguments = [];
         $this->argumentIndex = -1;
         $this->argumentStopped = false;
         $this->comments = null;
@@ -93,7 +93,7 @@ class ParsedFunction
     /**
      * Add a string to the current argument.
      *
-     * @param string $chunk
+     * @param string|null $chunk
      */
     public function addArgumentChunk($chunk)
     {
@@ -117,33 +117,43 @@ class ParsedFunction
     public function addComment($comment)
     {
         if ($this->comments === null) {
-            $this->comments = array();
+            $this->comments = [];
         }
         $this->comments[] = $comment;
     }
+
+    /**
+     * Return the line the function starts.
+     *
+     * @return int Line number.
+     */
+    public function getLine()
+    {
+        return $this->line;
+    }
+
     /**
      * A closing parenthesis was found: return the final data.
+     * The array returned has the following values:
+     *  0 => string The function name.
+     *  1 => int The line where the function starts.
+     *  2 => string[] the strings extracted from the function arguments.
+     *  3 => string[] the comments associated to the function.
      *
-     * @return array{
-     *
-     *   @var string The function name.
-     *   @var int The line where the function starts.
-     *   @var string[] the strings extracted from the function arguments.
-     *   @var string[] the comments associated to the function.
-     * }
+     * @return array
      */
     public function close()
     {
-        $arguments = array();
+        $arguments = [];
         for ($i = 0; $i <= $this->argumentIndex; ++$i) {
-            $arguments[$i] = isset($this->arguments[$i]) ? $this->arguments[$i] : '';
+            $arguments[$i] = isset($this->arguments[$i]) ? $this->arguments[$i] : null;
         }
 
-        return array(
+        return [
             $this->name,
             $this->line,
             $arguments,
             $this->comments,
-        );
+        ];
     }
 }

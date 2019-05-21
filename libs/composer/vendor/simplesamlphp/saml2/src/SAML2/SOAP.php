@@ -3,7 +3,6 @@
 namespace SAML2;
 
 use DOMDocument;
-
 use SAML2\XML\ecp\Response as ECPResponse;
 
 /**
@@ -13,6 +12,10 @@ use SAML2\XML\ecp\Response as ECPResponse;
  */
 class SOAP extends Binding
 {
+    /**
+     * @param Message $message
+     * @return string|bool The XML or false on error
+     */
     public function getOutputToSend(Message $message)
     {
         $envelope = <<<SOAP
@@ -34,7 +37,7 @@ SOAP;
             $header = $doc->getElementsByTagNameNS(Constants::NS_SOAP, 'Header')->item(0);
 
             $response = new ECPResponse;
-            $response->AssertionConsumerServiceURL = $this->getDestination() ?: $message->getDestination();
+            $response->setAssertionConsumerServiceURL($this->getDestination() ?: $message->getDestination());
 
             $response->toXML($header);
 
@@ -54,12 +57,14 @@ SOAP;
         return $doc->saveXML();
     }
 
+
     /**
      * Send a SAML 2 message using the SOAP binding.
      *
      * Note: This function never returns.
      *
      * @param \SAML2\Message $message The message we should send.
+     * @return void
      *
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
@@ -74,13 +79,12 @@ SOAP;
         exit(0);
     }
 
+
     /**
      * Receive a SAML 2 message sent using the HTTP-POST binding.
      *
-     * Throws an exception if it is unable receive the message.
-     *
+     * @throws \Exception If unable to receive the message
      * @return \SAML2\Message The received message.
-     * @throws \Exception
      */
     public function receive()
     {
@@ -98,6 +102,9 @@ SOAP;
         return Message::fromXML($results[0]);
     }
 
+    /**
+     * @return string|bool
+     */
     protected function getInputStream()
     {
         return file_get_contents('php://input');

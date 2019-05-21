@@ -16,6 +16,7 @@ class Fingerprint
      */
     private $contents;
 
+
     /**
      * @param string $fingerPrint
      *
@@ -30,6 +31,7 @@ class Fingerprint
         $this->contents = $fingerPrint;
     }
 
+
     /**
      * Get the raw, unmodified fingerprint value.
      *
@@ -40,6 +42,7 @@ class Fingerprint
         return $this->contents;
     }
 
+
     /**
      * @return string
      */
@@ -48,9 +51,9 @@ class Fingerprint
         return strtolower(str_replace(':', '', $this->contents));
     }
 
+
     /**
      * @param \SAML2\Certificate\Fingerprint $fingerprint
-     *
      * @return bool
      */
     public function equals(Fingerprint $fingerprint)

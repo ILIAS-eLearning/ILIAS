@@ -14,7 +14,6 @@ class FingerprintLoader
      * Static method mainly for BC, should be replaced with DI.
      *
      * @param \SAML2\Configuration\CertificateProvider $configuration
-     *
      * @return \SAML2\Certificate\FingerprintCollection
      *
      * @deprecated
@@ -26,11 +25,11 @@ class FingerprintLoader
         return $loader->loadFingerprints($configuration);
     }
 
+
     /**
      * Loads the fingerprints from a configurationValue
      *
      * @param \SAML2\Configuration\CertificateProvider $configuration
-     *
      * @return \SAML2\Certificate\FingerprintCollection
      *
      * @deprecated

@@ -4,7 +4,7 @@
 Whether automatic escaping is enabled or not, you can mark a section of a
 template to be escaped or not by using the ``autoescape`` tag:
 
-.. code-block:: jinja
+.. code-block:: twig
 
     {% autoescape %}
         Everything will be automatically escaped in this block
@@ -25,31 +25,11 @@ template to be escaped or not by using the ``autoescape`` tag:
         Everything will be outputted as is in this block
     {% endautoescape %}
 
-.. note::
-
-    Before Twig 1.8, the syntax was different:
-
-    .. code-block:: jinja
-
-        {% autoescape true %}
-            Everything will be automatically escaped in this block
-            using the HTML strategy
-        {% endautoescape %}
-
-        {% autoescape false %}
-            Everything will be outputted as is in this block
-        {% endautoescape %}
-
-        {% autoescape true js %}
-            Everything will be automatically escaped in this block
-            using the js escaping strategy
-        {% endautoescape %}
-
 When automatic escaping is enabled everything is escaped by default except for
 values explicitly marked as safe. Those can be marked in the template by using
 the :doc:`raw<../filters/raw>` filter:
 
-.. code-block:: jinja
+.. code-block:: twig
 
     {% autoescape %}
         {{ safe_value|raw }}
@@ -67,7 +47,7 @@ Functions returning template data (like :doc:`macros<macro>` and
 
     Twig does not escape static expressions:
 
-    .. code-block:: jinja
+    .. code-block:: twig
 
         {% set hello = "<strong>Hello</strong>" %}
         {{ hello }}

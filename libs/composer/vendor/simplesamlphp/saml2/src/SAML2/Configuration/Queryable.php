@@ -15,6 +15,7 @@ interface Queryable
      */
     public function has($key);
 
+
     /**
      * Query to get the value in the configuration for the given key. If no value is present the default value is
      * returned

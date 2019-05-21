@@ -21,7 +21,7 @@ class Extensions
      */
     public static function getList(\DOMElement $parent)
     {
-        $ret = array();
+        $ret = [];
         foreach (Utils::xpQuery($parent, './saml_protocol:Extensions/*') as $node) {
             $ret[] = new Chunk($node);
         }
@@ -29,11 +29,13 @@ class Extensions
         return $ret;
     }
 
+
     /**
      * Add a list of Extensions to the given element.
      *
      * @param \DOMElement        $parent     The element we should add the extensions to.
      * @param \SAML2\XML\Chunk[] $extensions List of extension objects.
+     * @return void
      */
     public static function addList(\DOMElement $parent, array $extensions)
     {

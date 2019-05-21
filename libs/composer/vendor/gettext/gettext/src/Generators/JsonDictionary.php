@@ -3,34 +3,24 @@
 namespace Gettext\Generators;
 
 use Gettext\Translations;
+use Gettext\Utils\DictionaryTrait;
 
 class JsonDictionary extends Generator implements GeneratorInterface
 {
-    public static $options = 0;
+    use DictionaryTrait;
+
+    public static $options = [
+        'json' => 0,
+        'includeHeaders' => false,
+    ];
 
     /**
      * {@parentDoc}.
      */
-    public static function toString(Translations $translations)
+    public static function toString(Translations $translations, array $options = [])
     {
-        $array = PhpArray::toArray($translations);
+        $options += static::$options;
 
-        //for a simple json translation dictionary, one domain is supported
-        $values = current($array);
-
-        // remove meta / header data
-        if (array_key_exists('', $values)) {
-            unset($values['']);
-        }
-
-        //map to a simple json dictionary (no plurals)
-        return json_encode(
-            array_filter(
-                array_map(function ($val) {
-                    return isset($val[1]) ? $val[1] : null;
-                }, $values)
-            ),
-            self::$options
-        );
+        return json_encode(self::toArray($translations, $options['includeHeaders']), $options['json']);
     }
 }

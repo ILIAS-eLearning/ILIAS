@@ -19,6 +19,7 @@ class EncryptedAssertion
      */
     private $encryptedData;
 
+
     /**
      * Constructor for SAML 2 encrypted assertions.
      *
@@ -40,12 +41,14 @@ class EncryptedAssertion
         $this->encryptedData = $data[0];
     }
 
+
     /**
      * Set the assertion.
      *
      * @param \SAML2\Assertion $assertion The assertion.
      * @param XMLSecurityKey  $key       The key we should use to encrypt the assertion.
      * @throws \Exception
+     * @return void
      */
     public function setAssertion(Assertion $assertion, XMLSecurityKey $key)
     {
@@ -75,11 +78,12 @@ class EncryptedAssertion
                 break;
 
             default:
-                throw new \Exception('Unknown key type for encryption: ' . $key->type);
+                throw new \Exception('Unknown key type for encryption: '.$key->type);
         }
 
         $this->encryptedData = $enc->encryptNode($symmetricKey);
     }
+
 
     /**
      * Retrieve the assertion.
@@ -88,7 +92,7 @@ class EncryptedAssertion
      * @param  array           $blacklist Blacklisted decryption algorithms.
      * @return \SAML2\Assertion The decrypted assertion.
      */
-    public function getAssertion(XMLSecurityKey $inputKey, array $blacklist = array())
+    public function getAssertion(XMLSecurityKey $inputKey, array $blacklist = [])
     {
         $assertionXML = Utils::decryptElement($this->encryptedData, $inputKey, $blacklist);
 
@@ -96,6 +100,7 @@ class EncryptedAssertion
 
         return new Assertion($assertionXML);
     }
+
 
     /**
      * Convert this encrypted assertion to an XML element.
@@ -112,7 +117,7 @@ class EncryptedAssertion
             $document = $parentElement->ownerDocument;
         }
 
-        $root = $document->createElementNS(Constants::NS_SAML, 'saml:' . 'EncryptedAssertion');
+        $root = $document->createElementNS(Constants::NS_SAML, 'saml:'.'EncryptedAssertion');
         $parentElement->appendChild($root);
 
         $root->appendChild($document->importNode($this->encryptedData, true));

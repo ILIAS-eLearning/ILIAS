@@ -3,30 +3,25 @@
 namespace Gettext\Extractors;
 
 use Gettext\Translations;
-use Symfony\Component\Yaml\Parser;
+use Gettext\Utils\DictionaryTrait;
+use Symfony\Component\Yaml\Yaml as YamlParser;
 
 /**
- * Class to get gettext strings from plain json.
+ * Class to get gettext strings from yaml.
  */
 class YamlDictionary extends Extractor implements ExtractorInterface
 {
+    use DictionaryTrait;
+
     /**
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        if ($translations === null) {
-            $translations = new Translations();
+        $messages = YamlParser::parse($string);
+
+        if (is_array($messages)) {
+            self::fromArray($messages, $translations);
         }
-
-        $yml = new Parser();
-
-        if (($entries = $yml->parse($string))) {
-            foreach ($entries as $original => $translation) {
-                $translations->insert(null, $original)->setTranslation($translation);
-            }
-        }
-
-        return $translations;
     }
 }

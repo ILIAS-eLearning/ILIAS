@@ -8,15 +8,11 @@ abstract class BaseTranslator implements TranslatorInterface
     public static $current;
 
     /**
-     * Set a translation instance as global, to use it with the gettext functions.
-     *
-     * @param TranslatorInterface $translator
+     * @see TranslatorInterface
      */
-    public static function initGettextFunctions(TranslatorInterface $translator)
+    public function noop($original)
     {
-        self::$current = $translator;
-
-        include_once __DIR__.'/translator_functions.php';
+        return $original;
     }
 
     /**
@@ -24,6 +20,20 @@ abstract class BaseTranslator implements TranslatorInterface
      */
     public function register()
     {
-        self::initGettextFunctions($this);
+        $previous = self::$current;
+
+        self::$current = $this;
+
+        static::includeFunctions();
+
+        return $previous;
+    }
+
+    /**
+     * Include the gettext functions
+     */
+    public static function includeFunctions()
+    {
+        include_once __DIR__.'/translator_functions.php';
     }
 }

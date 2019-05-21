@@ -15,11 +15,21 @@ class DestinationMatches implements
      */
     private $expectedDestination;
 
+    /**
+     * Constructor for DestinationMatches
+     * @param Destination $destination
+     */
     public function __construct(Destination $destination)
     {
         $this->expectedDestination = $destination;
     }
 
+
+    /**
+     * @param Response $response
+     * @param Result $result
+     * @return void
+     */
     public function validate(Response $response, Result $result)
     {
         $destination = $response->getDestination();

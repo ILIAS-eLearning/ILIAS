@@ -3,73 +3,43 @@
 namespace Gettext\Extractors;
 
 use Gettext\Translations;
-use Twig_Loader_String;
+use Twig_Loader_Array;
 use Twig_Environment;
+use Twig_Source;
+use Twig_Extensions_Extension_I18n;
 
 /**
  * Class to get gettext strings from twig files returning arrays.
  */
 class Twig extends Extractor implements ExtractorInterface
 {
-    /**
-     * Twig instance.
-     *
-     * @var Twig_Environment
-     */
-    protected static $twig;
+    public static $options = [
+        'extractComments' => 'notes:',
+        'twig' => null,
+    ];
 
     /**
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        self::addExtension('Twig_Extensions_Extension_I18n');
+        $options += static::$options;
 
-        $string = self::$twig->compileSource($string);
+        $twig = $options['twig'] ?: self::createTwig();
 
-        // add default global php gettext functions
-        PhpCode::$functions['gettext'] = '__';
-        PhpCode::$functions['ngettext'] = '__';
-        PhpCode::$functions['_'] = '__';
-
-        return PhpCode::fromString($string, $translations, $file);
+        PhpCode::fromString($twig->compileSource(new Twig_Source($string, '')), $translations, $options);
     }
 
     /**
-     * Initialise Twig if it isn't already, and add a given Twig extension.
-     * This must be called before calling fromString().
+     * Returns a Twig instance.
      *
-     * @param mixed $extension Already initialised extension to add
+     * @return Twig_Environment
      */
-    public static function addExtension($extension)
+    private static function createTwig()
     {
-        // initialise twig
-        if (!isset(self::$twig)) {
-            $twigCompiler = new Twig_Loader_String();
+        $twig = new Twig_Environment(new Twig_Loader_Array(['' => '']));
+        $twig->addExtension(new Twig_Extensions_Extension_I18n());
 
-            self::$twig = new Twig_Environment($twigCompiler);
-        }
-
-        if (!self::checkHasExtensionByClassName($extension)) {
-            self::$twig->addExtension(new $extension());
-        }
-    }
-
-    /**
-     * Checks if a given Twig extension is already registered or not.
-     *
-     * @param  string   Name of Twig extension to check
-     *
-     * @return bool Whether it has been registered already or not
-     */
-    protected static function checkHasExtensionByClassName($className)
-    {
-        foreach (self::$twig->getExtensions() as $extension) {
-            if ($className == get_class($extension)) {
-                return true;
-            }
-        }
-
-        return false;
+        return static::$options['twig'] = $twig;
     }
 }

@@ -361,7 +361,7 @@ final class TeamCity extends ResultPrinter
         }
 
         if (\is_bool($value)) {
-            return $value === true ? 'true' : 'false';
+            return $value ? 'true' : 'false';
         }
 
         if (\is_scalar($value)) {
@@ -387,9 +387,7 @@ final class TeamCity extends ResultPrinter
      */
     private static function getFileName($className): string
     {
-        $reflectionClass = new ReflectionClass($className);
-
-        return $reflectionClass->getFileName();
+        return (new ReflectionClass($className))->getFileName();
     }
 
     /**

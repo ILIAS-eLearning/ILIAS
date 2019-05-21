@@ -38,7 +38,7 @@ final class FileLoader
 
         $localFile = __DIR__ . \DIRECTORY_SEPARATOR . $filename;
 
-        if (!self::isReadable($includePathFilename) || $includePathFilename === $localFile) {
+        if ($includePathFilename === $localFile || !self::isReadable($includePathFilename)) {
             throw new Exception(
                 \sprintf('Cannot open file "%s".' . "\n", $filename)
             );
@@ -59,9 +59,8 @@ final class FileLoader
         include_once $filename;
 
         $newVariables     = \get_defined_vars();
-        $newVariableNames = \array_diff(\array_keys($newVariables), $oldVariableNames);
 
-        foreach ($newVariableNames as $variableName) {
+        foreach (\array_diff(\array_keys($newVariables), $oldVariableNames) as $variableName) {
             if ($variableName !== 'oldVariableNames') {
                 $GLOBALS[$variableName] = $newVariables[$variableName];
             }

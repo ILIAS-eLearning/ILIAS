@@ -26,27 +26,27 @@ class Extensions
      */
     public static function getList(\DOMElement $parent)
     {
-        $ret = array();
-        $supported = array(
-            Scope::NS => array(
+        $ret = [];
+        $supported = [
+            Scope::NS => [
                 'Scope' => '\SAML2\XML\shibmd\Scope',
-            ),
-            EntityAttributes::NS => array(
+            ],
+            EntityAttributes::NS => [
                 'EntityAttributes' => '\SAML2\XML\mdattr\EntityAttributes',
-            ),
-            MDRPI::NS_MDRPI => array(
+            ],
+            MDRPI::NS_MDRPI => [
                 'RegistrationInfo' => '\SAML2\XML\mdrpi\RegistrationInfo',
                 'PublicationInfo' => '\SAML2\XML\mdrpi\PublicationInfo',
-            ),
-            MDUI::NS => array(
+            ],
+            MDUI::NS => [
                 'UIInfo' => '\SAML2\XML\mdui\UIInfo',
                 'DiscoHints' => '\SAML2\XML\mdui\DiscoHints',
-            ),
-            ALG::NS => array(
+            ],
+            ALG::NS => [
                 'DigestMethod' => '\SAML2\XML\alg\DigestMethod',
                 'SigningMethod' => '\SAML2\XML\alg\SigningMethod',
-            ),
-        );
+            ],
+        ];
 
         foreach (Utils::xpQuery($parent, './saml_metadata:Extensions/*') as $node) {
             if (array_key_exists($node->namespaceURI, $supported) &&
@@ -61,11 +61,13 @@ class Extensions
         return $ret;
     }
 
+
     /**
      * Add a list of Extensions to the given element.
      *
      * @param \DOMElement        $parent     The element we should add the extensions to.
      * @param \SAML2\XML\Chunk[] $extensions List of extension objects.
+     * @return void
      */
     public static function addList(\DOMElement $parent, array $extensions)
     {

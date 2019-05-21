@@ -6,18 +6,23 @@ use Gettext\Translations;
 
 class Po extends Generator implements GeneratorInterface
 {
+    public static $options = [
+        'noLocation' => false,
+    ];
+
     /**
      * {@parentDoc}.
      */
-    public static function toString(Translations $translations)
+    public static function toString(Translations $translations, array $options = [])
     {
-        $lines = array('msgid ""', 'msgstr ""');
+        $options += static::$options;
 
-        $headers = $translations->getHeaders();
-        $headers['PO-Revision-Date'] = date('c');
+        $pluralForm = $translations->getPluralForms();
+        $pluralSize = is_array($pluralForm) ? ($pluralForm[0] - 1) : null;
+        $lines = ['msgid ""', 'msgstr ""'];
 
-        foreach ($headers as $name => $value) {
-            $lines[] = '"'.$name.': '.$value.'\\n"';
+        foreach ($translations->getHeaders() as $name => $value) {
+            $lines[] = sprintf('"%s: %s\\n"', $name, $value);
         }
 
         $lines[] = '';
@@ -36,7 +41,7 @@ class Po extends Generator implements GeneratorInterface
                 }
             }
 
-            if ($translation->hasReferences()) {
+            if (!$options['noLocation'] && $translation->hasReferences()) {
                 foreach ($translation->getReferences() as $reference) {
                     $lines[] = '#: '.$reference[0].(!is_null($reference[1]) ? ':'.$reference[1] : null);
                 }
@@ -46,20 +51,23 @@ class Po extends Generator implements GeneratorInterface
                 $lines[] = '#, '.implode(',', $translation->getFlags());
             }
 
+            $prefix = $translation->isDisabled() ? '#~ ' : '';
+
             if ($translation->hasContext()) {
-                $lines[] = 'msgctxt '.self::convertString($translation->getContext());
+                $lines[] = $prefix.'msgctxt '.self::convertString($translation->getContext());
             }
 
-            self::addLines($lines, 'msgid', $translation->getOriginal());
-            if ($translation->hasPlural()) {
-                self::addLines($lines, 'msgid_plural', $translation->getPlural());
-                self::addLines($lines, 'msgstr[0]', $translation->getTranslation());
+            self::addLines($lines, $prefix.'msgid', $translation->getOriginal());
 
-                foreach ($translation->getPluralTranslation() as $k => $v) {
-                    self::addLines($lines, 'msgstr['.($k + 1).']', $v);
+            if ($translation->hasPlural()) {
+                self::addLines($lines, $prefix.'msgid_plural', $translation->getPlural());
+                self::addLines($lines, $prefix.'msgstr[0]', $translation->getTranslation());
+
+                foreach ($translation->getPluralTranslations($pluralSize) as $k => $v) {
+                    self::addLines($lines, $prefix.'msgstr['.($k + 1).']', $v);
                 }
             } else {
-                self::addLines($lines, 'msgstr', $translation->getTranslation());
+                self::addLines($lines, $prefix.'msgstr', $translation->getTranslation());
             }
 
             $lines[] = '';
@@ -124,13 +132,13 @@ class Po extends Generator implements GeneratorInterface
     {
         return '"'.strtr(
             $value,
-            array(
+            [
                 "\x00" => '',
                 '\\' => '\\\\',
                 "\t" => '\t',
                 "\n" => '\n',
                 '"' => '\\"',
-            )
+            ]
         ).'"';
     }
 }

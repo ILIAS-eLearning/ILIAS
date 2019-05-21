@@ -5,6 +5,8 @@ namespace SAML2\XML\md;
 use SAML2\Constants;
 use SAML2\SignedElementHelper;
 use SAML2\Utils;
+use SAML2\XML\Chunk;
+use Webmozart\Assert\Assert;
 
 /**
  * Class representing SAML 2 RoleDescriptor element.
@@ -46,7 +48,7 @@ class RoleDescriptor extends SignedElementHelper
      *
      * @var array
      */
-    public $protocolSupportEnumeration = array();
+    public $protocolSupportEnumeration = [];
 
     /**
      * Error URL for this role.
@@ -62,7 +64,7 @@ class RoleDescriptor extends SignedElementHelper
      *
      * @var array
      */
-    public $Extensions = array();
+    public $Extensions = [];
 
     /**
      * KeyDescriptor elements.
@@ -71,7 +73,7 @@ class RoleDescriptor extends SignedElementHelper
      *
      * @var \SAML2\XML\md\KeyDescriptor[]
      */
-    public $KeyDescriptor = array();
+    public $KeyDescriptor = [];
 
     /**
      * Organization of this role.
@@ -87,7 +89,8 @@ class RoleDescriptor extends SignedElementHelper
      *
      * @var \SAML2\XML\md\ContactPerson[]
      */
-    public $ContactPerson = array();
+    public $ContactPerson = [];
+
 
     /**
      * Initialize a RoleDescriptor.
@@ -98,7 +101,7 @@ class RoleDescriptor extends SignedElementHelper
      */
     protected function __construct($elementName, \DOMElement $xml = null)
     {
-        assert(is_string($elementName));
+        Assert::string($elementName);
 
         parent::__construct($xml);
         $this->elementName = $elementName;
@@ -108,41 +111,283 @@ class RoleDescriptor extends SignedElementHelper
         }
 
         if ($xml->hasAttribute('ID')) {
-            $this->ID = $xml->getAttribute('ID');
+            $this->setID($xml->getAttribute('ID'));
         }
         if ($xml->hasAttribute('validUntil')) {
-            $this->validUntil = Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil'));
+            $this->setValidUntil(Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil')));
         }
         if ($xml->hasAttribute('cacheDuration')) {
-            $this->cacheDuration = $xml->getAttribute('cacheDuration');
+            $this->setCacheDuration($xml->getAttribute('cacheDuration'));
         }
 
         if (!$xml->hasAttribute('protocolSupportEnumeration')) {
-            throw new \Exception('Missing protocolSupportEnumeration attribute on ' . $xml->localName);
+            throw new \Exception('Missing protocolSupportEnumeration attribute on '.$xml->localName);
         }
-        $this->protocolSupportEnumeration = preg_split('/[\s]+/', $xml->getAttribute('protocolSupportEnumeration'));
+        $this->setProtocolSupportEnumeration(preg_split('/[\s]+/', $xml->getAttribute('protocolSupportEnumeration')));
 
         if ($xml->hasAttribute('errorURL')) {
-            $this->errorURL = $xml->getAttribute('errorURL');
+            $this->setErrorURL($xml->getAttribute('errorURL'));
         }
 
-        $this->Extensions = Extensions::getList($xml);
+        $this->setExtensions(Extensions::getList($xml));
 
         foreach (Utils::xpQuery($xml, './saml_metadata:KeyDescriptor') as $kd) {
-            $this->KeyDescriptor[] = new KeyDescriptor($kd);
+            $this->addKeyDescriptor(new KeyDescriptor($kd));
         }
 
         $organization = Utils::xpQuery($xml, './saml_metadata:Organization');
         if (count($organization) > 1) {
             throw new \Exception('More than one Organization in the entity.');
         } elseif (!empty($organization)) {
-            $this->Organization = new Organization($organization[0]);
+            $this->setOrganization(new Organization($organization[0]));
         }
 
         foreach (Utils::xpQuery($xml, './saml_metadata:ContactPerson') as $cp) {
-            $this->contactPersons[] = new ContactPerson($cp);
+            $this->addContactPerson(new ContactPerson($cp));
         }
     }
+
+
+    /**
+     * Collect the value of the ID-property
+     * @return string|null
+     */
+    public function getID()
+    {
+        return $this->ID;
+    }
+
+
+    /**
+     * Set the value of the ID-property
+     * @param string|null $Id
+     * @return void
+     */
+    public function setID($Id = null)
+    {
+        Assert::nullOrString($Id);
+        $this->ID = $Id;
+    }
+
+
+    /**
+     * Collect the value of the validUntil-property
+     * @return int|null
+     */
+    public function getValidUntil()
+    {
+        return $this->validUntil;
+    }
+
+
+    /**
+     * Set the value of the validUntil-property
+     * @param int|null $validUntil
+     * @return void
+     */
+    public function setValidUntil($validUntil = null)
+    {
+        Assert::nullOrInteger($validUntil);
+        $this->validUntil = $validUntil;
+    }
+
+
+    /**
+     * Collect the value of the cacheDuration-property
+     * @return string|null
+     */
+    public function getCacheDuration()
+    {
+        return $this->cacheDuration;
+    }
+
+
+    /**
+     * Set the value of the cacheDuration-property
+     * @param string|null $cacheDuration
+     * @return void
+     */
+    public function setCacheDuration($cacheDuration = null)
+    {
+        Assert::nullOrString($cacheDuration);
+        $this->cacheDuration = $cacheDuration;
+    }
+
+
+    /**
+     * Collect the value of the Extensions-property
+     * @return \SAML2\XML\Chunk[]
+     */
+    public function getExtensions()
+    {
+        return $this->Extensions;
+    }
+
+
+    /**
+     * Set the value of the Extensions-property
+     * @param array $extensions
+     * @return void
+     */
+    public function setExtensions(array $extensions)
+    {
+        $this->Extensions = $extensions;
+    }
+
+
+    /**
+     * Add an Extension.
+     *
+     * @param \SAML2\XML\Chunk $extensions The Extensions
+     * @return void
+     */
+    public function addExtension(Extensions $extension)
+    {
+        $this->Extensions[] = $extension;
+    }
+
+
+    /**
+     * Set the value of the errorURL-property
+     * @param string|null $errorURL
+     * @return void
+     */
+    public function setErrorURL($errorURL = null)
+    {
+        Assert::nullOrString($errorURL);
+        if (!is_null($errorURL) && !filter_var($errorURL, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('RoleDescriptor errorURL is not a valid URL.');
+        }
+        $this->errorURL = $errorURL;
+    }
+
+
+    /**
+     * Collect the value of the errorURL-property
+     * @return string|null
+     */
+    public function getErrorURL()
+    {
+        return $this->errorURL;
+    }
+
+
+    /**
+     * Collect the value of the ProtocolSupportEnumeration-property
+     * @return string[]
+     */
+    public function getProtocolSupportEnumeration()
+    {
+        return $this->protocolSupportEnumeration;
+    }
+
+
+    /**
+     * Set the value of the ProtocolSupportEnumeration-property
+     * @param array $protocols
+     * @return void
+     */
+    public function setProtocolSupportEnumeration(array $protocols)
+    {
+        $this->protocolSupportEnumeration = $protocols;
+    }
+
+
+    /**
+     * Add the value to the ProtocolSupportEnumeration-property
+     * @param string $protocol
+     * @return void
+     */
+    public function addProtocolSupportEnumeration($protocol)
+    {
+        $this->protocolSupportEnumeration[] = $protocol;
+    }
+
+
+    /**
+     * Collect the value of the Organization-property
+     * @return \SAML2\XML\md\Organization
+     */
+    public function getOrganization()
+    {
+        return $this->Organization;
+    }
+
+
+    /**
+     * Set the value of the Organization-property
+     * @param \SAML2\XML\md\Organization|null $organization
+     * @return void
+     */
+    public function setOrganization(Organization $organization = null)
+    {
+        $this->Organization = $organization;
+    }
+
+
+    /**
+     * Collect the value of the ContactPerson-property
+     * @return \SAML2\XML\md\ContactPerson[]
+     */
+    public function getContactPerson()
+    {
+        return $this->ContactPerson;
+    }
+
+
+    /**
+     * Set the value of the ContactPerson-property
+     * @param array $contactPerson
+     * @return void
+     */
+    public function setContactPerson(array $contactPerson)
+    {
+        $this->ContactPerson = $contactPerson;
+    }
+
+
+    /**
+     * Add the value to the ContactPerson-property
+     * @param \SAML2\XML\md\ContactPerson $contactPerson
+     * @return void
+     */
+    public function addContactPerson(ContactPerson $contactPerson)
+    {
+        $this->ContactPerson[] = $contactPerson;
+    }
+
+
+    /**
+     * Collect the value of the KeyDescriptor-property
+     * @return \SAML2\XML\md\KeyDescriptor[]
+     */
+    public function getKeyDescriptor()
+    {
+        return $this->KeyDescriptor;
+    }
+
+
+    /**
+     * Set the value of the KeyDescriptor-property
+     * @param array $keyDescriptor
+     * @return void
+     */
+    public function setKeyDescriptor(array $keyDescriptor)
+    {
+        $this->KeyDescriptor = $keyDescriptor;
+    }
+
+
+    /**
+     * Add the value to the KeyDescriptor-property
+     * @param \SAML2\XML\md\KeyDescriptor $keyDescriptor
+     * @return void
+     */
+    public function addKeyDescriptor(KeyDescriptor $keyDescriptor)
+    {
+        $this->KeyDescriptor[] = $keyDescriptor;
+    }
+
 
     /**
      * Add this RoleDescriptor to an EntityDescriptor.
@@ -152,48 +397,48 @@ class RoleDescriptor extends SignedElementHelper
      */
     protected function toXML(\DOMElement $parent)
     {
-        assert(is_null($this->ID) || is_string($this->ID));
-        assert(is_null($this->validUntil) || is_int($this->validUntil));
-        assert(is_null($this->cacheDuration) || is_string($this->cacheDuration));
-        assert(is_array($this->protocolSupportEnumeration));
-        assert(is_null($this->errorURL) || is_string($this->errorURL));
-        assert(is_array($this->Extensions));
-        assert(is_array($this->KeyDescriptor));
-        assert(is_null($this->Organization) || $this->Organization instanceof Organization);
-        assert(is_array($this->ContactPerson));
+        Assert::nullOrString($this->getID());
+        Assert::nullOrInteger($this->getValidUntil());
+        Assert::nullOrString($this->getCacheDuration());
+        Assert::isArray($this->getProtocolSupportEnumeration());
+        Assert::nullOrString($this->getErrorURL());
+        Assert::isArray($this->getExtensions());
+        Assert::isArray($this->getKeyDescriptor());
+        Assert::nullOrIsInstanceOf($this->getOrganization(), Organization::class);
+        Assert::isArray($this->getContactPerson());
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, $this->elementName);
         $parent->appendChild($e);
 
-        if (isset($this->ID)) {
-            $e->setAttribute('ID', $this->ID);
+        if ($this->getID() !== null) {
+            $e->setAttribute('ID', $this->getID());
         }
 
-        if (isset($this->validUntil)) {
-            $e->setAttribute('validUntil', gmdate('Y-m-d\TH:i:s\Z', $this->validUntil));
+        if ($this->getValidUntil() !== null) {
+            $e->setAttribute('validUntil', gmdate('Y-m-d\TH:i:s\Z', $this->getValidUntil()));
         }
 
-        if (isset($this->cacheDuration)) {
-            $e->setAttribute('cacheDuration', $this->cacheDuration);
+        if ($this->getCacheDuration() !== null) {
+            $e->setAttribute('cacheDuration', $this->getCacheDuration());
         }
 
-        $e->setAttribute('protocolSupportEnumeration', implode(' ', $this->protocolSupportEnumeration));
+        $e->setAttribute('protocolSupportEnumeration', implode(' ', $this->getProtocolSupportEnumeration()));
 
-        if (isset($this->errorURL)) {
-            $e->setAttribute('errorURL', $this->errorURL);
+        if ($this->getErrorURL() !== null) {
+            $e->setAttribute('errorURL', $this->getErrorURL());
         }
 
-        Extensions::addList($e, $this->Extensions);
+        Extensions::addList($e, $this->getExtensions());
 
-        foreach ($this->KeyDescriptor as $kd) {
+        foreach ($this->getKeyDescriptor() as $kd) {
             $kd->toXML($e);
         }
 
-        if (isset($this->Organization)) {
-            $this->Organization->toXML($e);
+        if ($this->getOrganization() !== null) {
+            $this->getOrganization()->toXML($e);
         }
 
-        foreach ($this->ContactPerson as $cp) {
+        foreach ($this->getContactPerson() as $cp) {
             $cp->toXML($e);
         }
 

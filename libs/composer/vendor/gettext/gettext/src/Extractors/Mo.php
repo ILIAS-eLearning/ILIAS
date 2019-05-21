@@ -18,12 +18,8 @@ class Mo extends Extractor implements ExtractorInterface
     /**
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        if ($translations === null) {
-            $translations = new Translations();
-        }
-
         $stream = new StringReader($string);
         $magic = self::readInt($stream, 'V');
 
@@ -99,16 +95,10 @@ class Mo extends Extractor implements ExtractorInterface
                 continue;
             }
 
-            foreach (explode("\x00", $translated) as $pluralIndex => $pluralValue) {
-                if ($pluralIndex === 0) {
-                    $translation->setTranslation($pluralValue);
-                } else {
-                    $translation->setPluralTranslation($pluralValue, $pluralIndex - 1);
-                }
-            }
+            $v = explode("\x00", $translated);
+            $translation->setTranslation(array_shift($v));
+            $translation->setPluralTranslations($v);
         }
-
-        return $translations;
     }
 
     /**

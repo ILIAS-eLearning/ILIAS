@@ -11,6 +11,7 @@ use SAML2\XML\ds\KeyInfo;
 use SAML2\XML\ds\X509Certificate;
 use SAML2\XML\ds\X509Data;
 use SAML2\XML\md\KeyDescriptor;
+use Webmozart\Assert\Assert;
 
 /**
  * Helper functions for the SAML2 library.
@@ -35,8 +36,8 @@ class Utils
      * check the signature against a public key.
      *
      * @param  \DOMElement  $root The element which should be validated.
-     * @return array|bool An array with information about the Signature-element.
      * @throws \Exception
+     * @return array|bool An array with information about the Signature-element.
      */
     public static function validateElement(\DOMElement $root)
     {
@@ -84,17 +85,17 @@ class Utils
         }
 
         /* Now we extract all available X509 certificates in the signature element. */
-        $certificates = array();
+        $certificates = [];
         foreach (self::xpQuery($signatureElement, './ds:KeyInfo/ds:X509Data/ds:X509Certificate') as $certNode) {
             $certData = trim($certNode->textContent);
-            $certData = str_replace(array("\r", "\n", "\t", ' '), '', $certData);
+            $certData = str_replace(["\r", "\n", "\t", ' '], '', $certData);
             $certificates[] = $certData;
         }
 
-        $ret = array(
+        $ret = [
             'Signature' => $objXMLSecDSig,
             'Certificates' => $certificates,
-            );
+        ];
 
         return $ret;
     }
@@ -106,26 +107,26 @@ class Utils
      * @param  XMLSecurityKey $key       The key.
      * @param  string         $algorithm The desired algorithm.
      * @param  string         $type      Public or private key, defaults to public.
-     * @return XMLSecurityKey The new key.
      * @throws \Exception
+     * @return XMLSecurityKey The new key.
      */
     public static function castKey(XMLSecurityKey $key, $algorithm, $type = 'public')
     {
-        assert(is_string($algorithm));
-        assert($type === "public" || $type === "private");
+        Assert::string($algorithm);
+        Assert::oneOf($type, ["public", "private"]);
 
         // do nothing if algorithm is already the type of the key
         if ($key->type === $algorithm) {
             return $key;
         }
 
-        if (!in_array($algorithm, array(
+        if (!in_array($algorithm, [
             XMLSecurityKey::RSA_1_5,
             XMLSecurityKey::RSA_SHA1,
             XMLSecurityKey::RSA_SHA256,
             XMLSecurityKey::RSA_SHA384,
             XMLSecurityKey::RSA_SHA512
-        ), true)) {
+        ], true)) {
             throw new \Exception('Unsupported signing algorithm.');
         }
 
@@ -137,7 +138,7 @@ class Utils
             throw new \Exception('Missing key in public key details.');
         }
 
-        $newKey = new XMLSecurityKey($algorithm, array('type'=>$type));
+        $newKey = new XMLSecurityKey($algorithm, ['type' => $type]);
         $newKey->loadKey($keyInfo['key']);
 
         return $newKey;
@@ -152,10 +153,11 @@ class Utils
      * @param array          $info The information returned by the validateElement()-function.
      * @param XMLSecurityKey $key  The publickey that should validate the Signature object.
      * @throws \Exception
+     * @return void
      */
     public static function validateSignature(array $info, XMLSecurityKey $key)
     {
-        assert(array_key_exists("Signature", $info));
+        Assert::keyExists($info, "Signature");
 
         /** @var XMLSecurityDSig $objXMLSecDSig */
         $objXMLSecDSig = $info['Signature'];
@@ -190,7 +192,7 @@ class Utils
      */
     public static function xpQuery(\DOMNode $node, $query)
     {
-        assert(is_string($query));
+        Assert::string($query);
         static $xpCache = null;
 
         if ($node instanceof \DOMDocument) {
@@ -210,7 +212,7 @@ class Utils
         }
 
         $results = $xpCache->query($query, $node);
-        $ret = array();
+        $ret = [];
         for ($i = 0; $i < $results->length; $i++) {
             $ret[$i] = $results->item($i);
         }
@@ -234,7 +236,7 @@ class Utils
             $document = $parent->ownerDocument;
         }
 
-        $namespaces = array();
+        $namespaces = [];
         for ($e = $element; $e !== null; $e = $e->parentNode) {
             foreach (Utils::xpQuery($e, './namespace::*') as $ns) {
                 $prefix = $ns->localName;
@@ -256,7 +258,7 @@ class Utils
         }
 
         foreach ($namespaces as $prefix => $uri) {
-            $newElement->setAttributeNS($uri, $prefix . ':__ns_workaround__', 'tmp');
+            $newElement->setAttributeNS($uri, $prefix.':__ns_workaround__', 'tmp');
             $newElement->removeAttributeNS($uri, '__ns_workaround__');
         }
 
@@ -270,12 +272,12 @@ class Utils
      * @param  \DOMElement $node          The element we should fetch the attribute from.
      * @param  string     $attributeName The name of the attribute.
      * @param  mixed      $default       The value that should be returned if the attribute doesn't exist.
-     * @return bool|mixed The value of the attribute, or $default if the attribute doesn't exist.
      * @throws \Exception
+     * @return bool|mixed The value of the attribute, or $default if the attribute doesn't exist.
      */
     public static function parseBoolean(\DOMElement $node, $attributeName, $default = null)
     {
-        assert(is_string($attributeName));
+        Assert::string($attributeName);
 
         if (!$node->hasAttribute($attributeName)) {
             return $default;
@@ -289,7 +291,7 @@ class Utils
             case 'true':
                 return true;
             default:
-                throw new \Exception('Invalid value of boolean attribute ' . var_export($attributeName, true) . ': ' . var_export($value, true));
+                throw new \Exception('Invalid value of boolean attribute '.var_export($attributeName, true).': '.var_export($value, true));
         }
     }
 
@@ -304,6 +306,7 @@ class Utils
      *
      * @param \DOMElement $node   The DOM node we should append the NameId to.
      * @param array      $nameId The name identifier.
+     * @return void
      *
      * @deprecated Please use \SAML2\XML\saml\NameID objects instead:
      *   $nameId = new \SAML2\XML\saml\NameID();
@@ -313,24 +316,25 @@ class Utils
      */
     public static function addNameId(\DOMElement $node, array $nameId)
     {
-        assert(array_key_exists("Value", $nameId));
+        Assert::keyExists($nameId, "Value");
 
         $nid = new XML\saml\NameID();
 
         $nid->value = $nameId['Value'];
 
         if (array_key_exists('NameQualifier', $nameId) && $nameId['NameQualifier'] !== null) {
-            $nid->NameQualifier = $nameId['NameQualifier'];
+            $nid->setNameQualifier($nameId['NameQualifier']);
         }
         if (array_key_exists('SPNameQualifier', $nameId) && $nameId['SPNameQualifier'] !== null) {
-            $nid->SPNameQualifier = $nameId['SPNameQualifier'];
+            $nid->setSPNameQualifier($nameId['SPNameQualifier']);
         }
         if (array_key_exists('Format', $nameId) && $nameId['Format'] !== null) {
-            $nid->Format = $nameId['Format'];
+            $nid->setFormat($nameId['Format']);
         }
 
         $nid->toXML($node);
     }
+
 
     /**
      * Parse a NameID element.
@@ -342,9 +346,9 @@ class Utils
      */
     public static function parseNameId(\DOMElement $xml)
     {
-        $ret = array('Value' => trim($xml->textContent));
+        $ret = ['Value' => trim($xml->textContent)];
 
-        foreach (array('NameQualifier', 'SPNameQualifier', 'SPProvidedID', 'Format') as $attr) {
+        foreach (['NameQualifier', 'SPNameQualifier', 'SPProvidedID', 'Format'] as $attr) {
             if ($xml->hasAttribute($attr)) {
                 $ret[$attr] = $xml->getAttribute($attr);
             }
@@ -353,6 +357,7 @@ class Utils
         return $ret;
     }
 
+
     /**
      * Insert a Signature-node.
      *
@@ -360,6 +365,7 @@ class Utils
      * @param array          $certificates  The certificates we should add to the signature node.
      * @param \DOMElement     $root          The XML node we should sign.
      * @param \DOMNode        $insertBefore  The XML element we should insert the signature element before.
+     * @return void
      */
     public static function insertSignature(
         XMLSecurityKey $key,
@@ -385,10 +391,10 @@ class Utils
         }
 
         $objXMLSecDSig->addReferenceList(
-            array($root),
+            [$root],
             $type,
-            array('http://www.w3.org/2000/09/xmldsig#enveloped-signature', XMLSecurityDSig::EXC_C14N),
-            array('id_name' => 'ID', 'overwrite' => false)
+            ['http://www.w3.org/2000/09/xmldsig#enveloped-signature', XMLSecurityDSig::EXC_C14N],
+            ['id_name' => 'ID', 'overwrite' => false]
         );
 
         $objXMLSecDSig->sign($key);
@@ -400,6 +406,7 @@ class Utils
         $objXMLSecDSig->insertSignature($root, $insertBefore);
     }
 
+
     /**
      * Decrypt an encrypted element.
      *
@@ -408,8 +415,8 @@ class Utils
      * @param  \DOMElement     $encryptedData The encrypted data.
      * @param  XMLSecurityKey $inputKey      The decryption key.
      * @param  array          &$blacklist    Blacklisted decryption algorithms.
-     * @return \DOMElement     The decrypted element.
      * @throws \Exception
+     * @return \DOMElement     The decrypted element.
      */
     private static function doDecryptElement(\DOMElement $encryptedData, XMLSecurityKey $inputKey, array &$blacklist)
     {
@@ -433,7 +440,7 @@ class Utils
             $symKeyInfoAlgo = $symmetricKeyInfo->getAlgorithm();
 
             if (in_array($symKeyInfoAlgo, $blacklist, true)) {
-                throw new \Exception('Algorithm disabled: ' . var_export($symKeyInfoAlgo, true));
+                throw new \Exception('Algorithm disabled: '.var_export($symKeyInfoAlgo, true));
             }
 
             if ($symKeyInfoAlgo === XMLSecurityKey::RSA_OAEP_MGF1P && $inputKeyAlgo === XMLSecurityKey::RSA_1_5) {
@@ -449,9 +456,9 @@ class Utils
             /* Make sure that the input key format is the same as the one used to encrypt the key. */
             if ($inputKeyAlgo !== $symKeyInfoAlgo) {
                 throw new \Exception(
-                    'Algorithm mismatch between input key and key used to encrypt ' .
-                    ' the symmetric key for the message. Key was: ' .
-                    var_export($inputKeyAlgo, true) . '; message was: ' .
+                    'Algorithm mismatch between input key and key used to encrypt '.
+                    ' the symmetric key for the message. Key was: '.
+                    var_export($inputKeyAlgo, true).'; message was: '.
                     var_export($symKeyInfoAlgo, true)
                 );
             }
@@ -465,20 +472,20 @@ class Utils
                 /* To protect against "key oracle" attacks, we need to be able to create a
                  * symmetric key, and for that we need to know the key size.
                  */
-                throw new \Exception('Unknown key size for encryption algorithm: ' . var_export($symmetricKey->type, true));
+                throw new \Exception('Unknown key size for encryption algorithm: '.var_export($symmetricKey->type, true));
             }
 
             try {
                 $key = $encKey->decryptKey($symmetricKeyInfo);
                 if (strlen($key) != $keySize) {
                     throw new \Exception(
-                        'Unexpected key size (' . strlen($key) * 8 . 'bits) for encryption algorithm: ' .
+                        'Unexpected key size ('.strval(strlen($key)*8).'bits) for encryption algorithm: '.
                         var_export($symmetricKey->type, true)
                     );
                 }
             } catch (\Exception $e) {
                 /* We failed to decrypt this key. Log it, and substitute a "random" key. */
-                Utils::getContainer()->getLogger()->error('Failed to decrypt symmetric key: ' . $e->getMessage());
+                Utils::getContainer()->getLogger()->error('Failed to decrypt symmetric key: '.$e->getMessage());
                 /* Create a replacement key, so that it looks like we fail in the same way as if the key was correctly padded. */
 
                 /* We base the symmetric key on the encrypted key and private key, so that we always behave the
@@ -487,7 +494,7 @@ class Utils
                 $encryptedKey = $encKey->getCipherValue();
                 $pkey = openssl_pkey_get_details($symmetricKeyInfo->key);
                 $pkey = sha1(serialize($pkey), true);
-                $key = sha1($encryptedKey . $pkey, true);
+                $key = sha1($encryptedKey.$pkey, true);
 
                 /* Make sure that the key has the correct length. */
                 if (strlen($key) > $keySize) {
@@ -502,8 +509,8 @@ class Utils
             /* Make sure that the input key has the correct format. */
             if ($inputKeyAlgo !== $symKeyAlgo) {
                 throw new \Exception(
-                    'Algorithm mismatch between input key and key in message. ' .
-                    'Key was: ' . var_export($inputKeyAlgo, true) . '; message was: ' .
+                    'Algorithm mismatch between input key and key in message. '.
+                    'Key was: '.var_export($inputKeyAlgo, true).'; message was: '.
                     var_export($symKeyAlgo, true)
                 );
             }
@@ -512,7 +519,7 @@ class Utils
 
         $algorithm = $symmetricKey->getAlgorithm();
         if (in_array($algorithm, $blacklist, true)) {
-            throw new \Exception('Algorithm disabled: ' . var_export($algorithm, true));
+            throw new \Exception('Algorithm disabled: '.var_export($algorithm, true));
         }
 
         /** @var string $decrypted */
@@ -524,8 +531,8 @@ class Utils
          * namespaces needed to parse the XML.
          */
         $xml = '<root xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" '.
-                     'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' .
-            $decrypted .
+                        'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'.
+            $decrypted.
             '</root>';
 
         try {
@@ -546,16 +553,17 @@ class Utils
         return $decryptedElement;
     }
 
+
     /**
      * Decrypt an encrypted element.
      *
      * @param  \DOMElement     $encryptedData The encrypted data.
      * @param  XMLSecurityKey $inputKey      The decryption key.
      * @param  array          $blacklist     Blacklisted decryption algorithms.
-     * @return \DOMElement     The decrypted element.
      * @throws \Exception
+     * @return \DOMElement     The decrypted element.
      */
-    public static function decryptElement(\DOMElement $encryptedData, XMLSecurityKey $inputKey, array $blacklist = array())
+    public static function decryptElement(\DOMElement $encryptedData, XMLSecurityKey $inputKey, array $blacklist = [])
     {
         try {
             return self::doDecryptElement($encryptedData, $inputKey, $blacklist);
@@ -564,10 +572,11 @@ class Utils
              * Something went wrong during decryption, but for security
              * reasons we cannot tell the user what failed.
              */
-            Utils::getContainer()->getLogger()->error('Decryption failed: ' . $e->getMessage());
+            Utils::getContainer()->getLogger()->error('Decryption failed: '.$e->getMessage());
             throw new \Exception('Failed to decrypt XML element.', 0, $e);
         }
     }
+
 
     /**
      * Extract localized strings from a set of nodes.
@@ -579,10 +588,10 @@ class Utils
      */
     public static function extractLocalizedStrings(\DOMElement $parent, $namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        Assert::string($namespaceURI);
+        Assert::string($localName);
 
-        $ret = array();
+        $ret = [];
         for ($node = $parent->firstChild; $node !== null; $node = $node->nextSibling) {
             if ($node->namespaceURI !== $namespaceURI || $node->localName !== $localName) {
                 continue;
@@ -599,6 +608,7 @@ class Utils
         return $ret;
     }
 
+
     /**
      * Extract strings from a set of nodes.
      *
@@ -609,10 +619,10 @@ class Utils
      */
     public static function extractStrings(\DOMElement $parent, $namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        Assert::string($namespaceURI);
+        Assert::string($localName);
 
-        $ret = array();
+        $ret = [];
         for ($node = $parent->firstChild; $node !== null; $node = $node->nextSibling) {
             if ($node->namespaceURI !== $namespaceURI || $node->localName !== $localName) {
                 continue;
@@ -622,6 +632,7 @@ class Utils
 
         return $ret;
     }
+
 
     /**
      * Append string element.
@@ -634,9 +645,9 @@ class Utils
      */
     public static function addString(\DOMElement $parent, $namespace, $name, $value)
     {
-        assert(is_string($namespace));
-        assert(is_string($name));
-        assert(is_string($value));
+        Assert::string($namespace);
+        Assert::string($name);
+        Assert::string($value);
 
         $doc = $parent->ownerDocument;
 
@@ -647,6 +658,7 @@ class Utils
         return $n;
     }
 
+
     /**
      * Append string elements.
      *
@@ -655,12 +667,13 @@ class Utils
      * @param string     $name      The name of the created elements
      * @param bool       $localized Whether the strings are localized, and should include the xml:lang attribute.
      * @param array      $values    The values we should create the elements from.
+     * @return void
      */
     public static function addStrings(\DOMElement $parent, $namespace, $name, $localized, array $values)
     {
-        assert(is_string($namespace));
-        assert(is_string($name));
-        assert(is_bool($localized));
+        Assert::string($namespace);
+        Assert::string($name);
+        Assert::boolean($localized);
 
         $doc = $parent->ownerDocument;
 
@@ -674,6 +687,7 @@ class Utils
         }
     }
 
+
     /**
      * Create a KeyDescriptor with the given certificate.
      *
@@ -682,22 +696,23 @@ class Utils
      */
     public static function createKeyDescriptor($x509Data)
     {
-        assert(is_string($x509Data));
+        Assert::string($x509Data);
 
         $x509Certificate = new X509Certificate();
-        $x509Certificate->certificate = $x509Data;
+        $x509Certificate->setCertificate($x509Data);
 
         $x509Data = new X509Data();
-        $x509Data->data[] = $x509Certificate;
+        $x509Data->addData($x509Certificate);
 
         $keyInfo = new KeyInfo();
-        $keyInfo->info[] = $x509Data;
+        $keyInfo->addInfo($x509Data);
 
         $keyDescriptor = new KeyDescriptor();
         $keyDescriptor->KeyInfo = $keyInfo;
 
         return $keyDescriptor;
     }
+
 
     /**
      * This function converts a SAML2 timestamp on the form
@@ -715,18 +730,18 @@ class Utils
      * background.
      *
      * @param string $time The time we should convert.
-     * @return int Converted to a unix timestamp.
      * @throws \Exception
+     * @return int Converted to a unix timestamp.
      */
     public static function xsDateTimeToTimestamp($time)
     {
-        $matches = array();
+        $matches = [];
 
         // We use a very strict regex to parse the timestamp.
         $regex = '/^(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)T(\\d\\d):(\\d\\d):(\\d\\d)(?:\\.\\d{1,9})?Z$/D';
         if (preg_match($regex, $time, $matches) == 0) {
             throw new \Exception(
-                'Invalid SAML2 timestamp passed to xsDateTimeToTimestamp: ' . $time
+                'Invalid SAML2 timestamp passed to xsDateTimeToTimestamp: '.$time
             );
         }
 
@@ -745,6 +760,7 @@ class Utils
 
         return $ts;
     }
+
 
     /**
      * @return \SAML2\Compat\Ssp\Container

@@ -25,7 +25,10 @@ class FingerprintValidator extends AbstractChainedValidator
      */
     private $fingerprintLoader;
 
+
     /**
+     * @param LoggerInterface $logger
+     * @param FingerprintLoader $fingerprintLoader
      * @deprecated Please use full certificates instead.
      */
     public function __construct(
@@ -33,10 +36,16 @@ class FingerprintValidator extends AbstractChainedValidator
         FingerprintLoader $fingerprintLoader
     ) {
         $this->fingerprintLoader = $fingerprintLoader;
-
         parent::__construct($logger);
     }
 
+
+    /**
+     * @param SignedElement $signedElement
+     * @param CertificateProvider $configuration
+     *
+     * @return bool
+     */
     public function canValidate(
         SignedElement $signedElement,
         CertificateProvider $configuration
@@ -60,6 +69,7 @@ class FingerprintValidator extends AbstractChainedValidator
         return true;
     }
 
+
     /**
      * @param \SAML2\SignedElement             $signedElement
      * @param \SAML2\Configuration\CertificateProvider $configuration
@@ -76,7 +86,7 @@ class FingerprintValidator extends AbstractChainedValidator
 
         $fingerprintCollection = $this->fingerprintLoader->loadFromConfiguration($configuration);
 
-        $pemCandidates = array();
+        $pemCandidates = [];
         foreach ($this->certificates as $certificate) {
             /** @var \SAML2\Certificate\X509 $certificate */
             $certificateFingerprint = $certificate->getFingerprint();

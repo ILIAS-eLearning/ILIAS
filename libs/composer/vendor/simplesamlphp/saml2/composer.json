@@ -14,15 +14,16 @@
         "ext-dom": "*",
         "ext-zlib": "*",
 
+        "psr/log": "~1.0",
         "robrichards/xmlseclibs": "^3.0",
-        "psr/log": "~1.0"
+        "webmozart/assert": "^1.4"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "~1.4",
-        "phpmd/phpmd": "~1.5",
-        "sensiolabs/security-checker": "~1.1",
+        "squizlabs/php_codesniffer": "~3.2",
+        "phpmd/phpmd": "~2.6",
+        "sensiolabs/security-checker": "~4.1",
         "phpunit/phpunit": "~4",
-        "sebastian/phpcpd": "~1.4",
+        "sebastian/phpcpd": "~2.0",
         "mockery/mockery": "~0.9"
     },
     "autoload": {

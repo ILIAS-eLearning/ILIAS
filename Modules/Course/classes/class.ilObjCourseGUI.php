@@ -2149,6 +2149,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$membership_gui = new ilCourseMembershipGUI($this, $this->object);
 		$membership_gui->addMemberTab($this->tabs_gui, $is_participant);
 
+		////
+		$this->tabs_gui->addTab(
+			'members_src',
+			'membersSrcDoctrine',
+			$this->ctrl->getLinkTarget($membership_gui, "membersSrcDoctrine")
+		);
+
 		// badges
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{

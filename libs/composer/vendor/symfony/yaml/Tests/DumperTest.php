@@ -11,30 +11,31 @@
 
 namespace Symfony\Component\Yaml\Tests;
 
-use Symfony\Component\Yaml\Parser;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
 
-class DumperTest extends \PHPUnit_Framework_TestCase
+class DumperTest extends TestCase
 {
     protected $parser;
     protected $dumper;
     protected $path;
 
-    protected $array = array(
+    protected $array = [
         '' => 'bar',
         'foo' => '#bar',
-        'foo\'bar' => array(),
-        'bar' => array(1, 'foo'),
-        'foobar' => array(
+        'foo\'bar' => [],
+        'bar' => [1, 'foo'],
+        'foobar' => [
             'foo' => 'bar',
-            'bar' => array(1, 'foo'),
-            'foobar' => array(
+            'bar' => [1, 'foo'],
+            'foobar' => [
                 'foo' => 'bar',
-                'bar' => array(1, 'foo'),
-            ),
-        ),
-    );
+                'bar' => [1, 'foo'],
+            ],
+        ],
+    ];
 
     protected function setUp()
     {
@@ -207,9 +208,9 @@ EOF;
 
     public function testObjectSupportEnabled()
     {
-        $dump = $this->dumper->dump(array('foo' => new A(), 'bar' => 1), 0, 0, Yaml::DUMP_OBJECT);
+        $dump = $this->dumper->dump(['foo' => new A(), 'bar' => 1], 0, 0, Yaml::DUMP_OBJECT);
 
-        $this->assertEquals('{ foo: !php/object:O:30:"Symfony\Component\Yaml\Tests\A":1:{s:1:"a";s:3:"foo";}, bar: 1 }', $dump, '->dump() is able to dump objects');
+        $this->assertEquals('{ foo: !php/object \'O:30:"Symfony\Component\Yaml\Tests\A":1:{s:1:"a";s:3:"foo";}\', bar: 1 }', $dump, '->dump() is able to dump objects');
     }
 
     /**
@@ -217,14 +218,14 @@ EOF;
      */
     public function testObjectSupportEnabledPassingTrue()
     {
-        $dump = $this->dumper->dump(array('foo' => new A(), 'bar' => 1), 0, 0, false, true);
+        $dump = $this->dumper->dump(['foo' => new A(), 'bar' => 1], 0, 0, false, true);
 
-        $this->assertEquals('{ foo: !php/object:O:30:"Symfony\Component\Yaml\Tests\A":1:{s:1:"a";s:3:"foo";}, bar: 1 }', $dump, '->dump() is able to dump objects');
+        $this->assertEquals('{ foo: !php/object \'O:30:"Symfony\Component\Yaml\Tests\A":1:{s:1:"a";s:3:"foo";}\', bar: 1 }', $dump, '->dump() is able to dump objects');
     }
 
     public function testObjectSupportDisabledButNoExceptions()
     {
-        $dump = $this->dumper->dump(array('foo' => new A(), 'bar' => 1));
+        $dump = $this->dumper->dump(['foo' => new A(), 'bar' => 1]);
 
         $this->assertEquals('{ foo: null, bar: 1 }', $dump, '->dump() does not dump objects when disabled');
     }
@@ -234,7 +235,7 @@ EOF;
      */
     public function testObjectSupportDisabledWithExceptions()
     {
-        $this->dumper->dump(array('foo' => new A(), 'bar' => 1), 0, 0, Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE);
+        $this->dumper->dump(['foo' => new A(), 'bar' => 1], 0, 0, Yaml::DUMP_EXCEPTION_ON_INVALID_TYPE);
     }
 
     /**
@@ -243,7 +244,25 @@ EOF;
      */
     public function testObjectSupportDisabledWithExceptionsPassingTrue()
     {
-        $this->dumper->dump(array('foo' => new A(), 'bar' => 1), 0, 0, true);
+        $this->dumper->dump(['foo' => new A(), 'bar' => 1], 0, 0, true);
+    }
+
+    public function testEmptyArray()
+    {
+        $dump = $this->dumper->dump([]);
+        $this->assertEquals('{  }', $dump);
+
+        $dump = $this->dumper->dump([], 0, 0, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE);
+        $this->assertEquals('[]', $dump);
+
+        $dump = $this->dumper->dump([], 9, 0, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE);
+        $this->assertEquals('[]', $dump);
+
+        $dump = $this->dumper->dump(new \ArrayObject(), 0, 0, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE | Yaml::DUMP_OBJECT_AS_MAP);
+        $this->assertEquals('{  }', $dump);
+
+        $dump = $this->dumper->dump(new \stdClass(), 0, 0, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE | Yaml::DUMP_OBJECT_AS_MAP);
+        $this->assertEquals('{  }', $dump);
     }
 
     /**
@@ -256,25 +275,27 @@ EOF;
 
     public function getEscapeSequences()
     {
-        return array(
-            'null' => array("\t\\0", '"\t\\\\0"'),
-            'bell' => array("\t\\a", '"\t\\\\a"'),
-            'backspace' => array("\t\\b", '"\t\\\\b"'),
-            'horizontal-tab' => array("\t\\t", '"\t\\\\t"'),
-            'line-feed' => array("\t\\n", '"\t\\\\n"'),
-            'vertical-tab' => array("\t\\v", '"\t\\\\v"'),
-            'form-feed' => array("\t\\f", '"\t\\\\f"'),
-            'carriage-return' => array("\t\\r", '"\t\\\\r"'),
-            'escape' => array("\t\\e", '"\t\\\\e"'),
-            'space' => array("\t\\ ", '"\t\\\\ "'),
-            'double-quote' => array("\t\\\"", '"\t\\\\\\""'),
-            'slash' => array("\t\\/", '"\t\\\\/"'),
-            'backslash' => array("\t\\\\", '"\t\\\\\\\\"'),
-            'next-line' => array("\t\\N", '"\t\\\\N"'),
-            'non-breaking-space' => array("\t\\�", '"\t\\\\�"'),
-            'line-separator' => array("\t\\L", '"\t\\\\L"'),
-            'paragraph-separator' => array("\t\\P", '"\t\\\\P"'),
-        );
+        return [
+            'empty string' => ['', "''"],
+            'null' => ["\x0", '"\\0"'],
+            'bell' => ["\x7", '"\\a"'],
+            'backspace' => ["\x8", '"\\b"'],
+            'horizontal-tab' => ["\t", '"\\t"'],
+            'line-feed' => ["\n", '"\\n"'],
+            'vertical-tab' => ["\v", '"\\v"'],
+            'form-feed' => ["\xC", '"\\f"'],
+            'carriage-return' => ["\r", '"\\r"'],
+            'escape' => ["\x1B", '"\\e"'],
+            'space' => [' ', "' '"],
+            'double-quote' => ['"', "'\"'"],
+            'slash' => ['/', '/'],
+            'backslash' => ['\\', '\\'],
+            'next-line' => ["\xC2\x85", '"\\N"'],
+            'non-breaking-space' => ["\xc2\xa0", '"\\_"'],
+            'line-separator' => ["\xE2\x80\xA8", '"\\L"'],
+            'paragraph-separator' => ["\xE2\x80\xA9", '"\\P"'],
+            'colon' => [':', "':'"],
+        ];
     }
 
     public function testBinaryDataIsDumpedBase64Encoded()
@@ -282,7 +303,7 @@ EOF;
         $binaryData = file_get_contents(__DIR__.'/Fixtures/arrow.gif');
         $expected = '{ data: !!binary '.base64_encode($binaryData).' }';
 
-        $this->assertSame($expected, $this->dumper->dump(array('data' => $binaryData)));
+        $this->assertSame($expected, $this->dumper->dump(['data' => $binaryData]));
     }
 
     public function testNonUtf8DataIsDumpedBase64Encoded()
@@ -303,18 +324,18 @@ EOF;
 
     public function objectAsMapProvider()
     {
-        $tests = array();
+        $tests = [];
 
         $bar = new \stdClass();
         $bar->class = 'classBar';
-        $bar->args = array('bar');
+        $bar->args = ['bar'];
         $zar = new \stdClass();
         $foo = new \stdClass();
         $foo->bar = $bar;
         $foo->zar = $zar;
         $object = new \stdClass();
         $object->foo = $foo;
-        $tests['stdClass'] = array($object, $object);
+        $tests['stdClass'] = [$object, $object];
 
         $arrayObject = new \ArrayObject();
         $arrayObject['foo'] = 'bar';
@@ -322,27 +343,131 @@ EOF;
         $parsedArrayObject = new \stdClass();
         $parsedArrayObject->foo = 'bar';
         $parsedArrayObject->baz = 'foobar';
-        $tests['ArrayObject'] = array($arrayObject, $parsedArrayObject);
+        $tests['ArrayObject'] = [$arrayObject, $parsedArrayObject];
 
         $a = new A();
-        $tests['arbitrary-object'] = array($a, null);
+        $tests['arbitrary-object'] = [$a, null];
 
         return $tests;
     }
 
+    public function testDumpingArrayObjectInstancesRespectsInlineLevel()
+    {
+        $deep = new \ArrayObject(['deep1' => 'd', 'deep2' => 'e']);
+        $inner = new \ArrayObject(['inner1' => 'b', 'inner2' => 'c', 'inner3' => $deep]);
+        $outer = new \ArrayObject(['outer1' => 'a', 'outer2' => $inner]);
+
+        $yaml = $this->dumper->dump($outer, 2, 0, Yaml::DUMP_OBJECT_AS_MAP);
+
+        $expected = <<<YAML
+outer1: a
+outer2:
+    inner1: b
+    inner2: c
+    inner3: { deep1: d, deep2: e }
+
+YAML;
+        $this->assertSame($expected, $yaml);
+    }
+
+    public function testDumpingArrayObjectInstancesWithNumericKeysInlined()
+    {
+        $deep = new \ArrayObject(['d', 'e']);
+        $inner = new \ArrayObject(['b', 'c', $deep]);
+        $outer = new \ArrayObject(['a', $inner]);
+
+        $yaml = $this->dumper->dump($outer, 0, 0, Yaml::DUMP_OBJECT_AS_MAP);
+        $expected = <<<YAML
+{ 0: a, 1: { 0: b, 1: c, 2: { 0: d, 1: e } } }
+YAML;
+        $this->assertSame($expected, $yaml);
+    }
+
+    public function testDumpingArrayObjectInstancesWithNumericKeysRespectsInlineLevel()
+    {
+        $deep = new \ArrayObject(['d', 'e']);
+        $inner = new \ArrayObject(['b', 'c', $deep]);
+        $outer = new \ArrayObject(['a', $inner]);
+        $yaml = $this->dumper->dump($outer, 2, 0, Yaml::DUMP_OBJECT_AS_MAP);
+        $expected = <<<YAML
+0: a
+1:
+    0: b
+    1: c
+    2: { 0: d, 1: e }
+
+YAML;
+        $this->assertEquals($expected, $yaml);
+    }
+
+    public function testDumpEmptyArrayObjectInstanceAsMap()
+    {
+        $this->assertSame('{  }', $this->dumper->dump(new \ArrayObject(), 2, 0, Yaml::DUMP_OBJECT_AS_MAP));
+    }
+
+    public function testDumpEmptyStdClassInstanceAsMap()
+    {
+        $this->assertSame('{  }', $this->dumper->dump(new \stdClass(), 2, 0, Yaml::DUMP_OBJECT_AS_MAP));
+    }
+
+    public function testDumpingStdClassInstancesRespectsInlineLevel()
+    {
+        $deep = new \stdClass();
+        $deep->deep1 = 'd';
+        $deep->deep2 = 'e';
+
+        $inner = new \stdClass();
+        $inner->inner1 = 'b';
+        $inner->inner2 = 'c';
+        $inner->inner3 = $deep;
+
+        $outer = new \stdClass();
+        $outer->outer1 = 'a';
+        $outer->outer2 = $inner;
+
+        $yaml = $this->dumper->dump($outer, 2, 0, Yaml::DUMP_OBJECT_AS_MAP);
+
+        $expected = <<<YAML
+outer1: a
+outer2:
+    inner1: b
+    inner2: c
+    inner3: { deep1: d, deep2: e }
+
+YAML;
+        $this->assertSame($expected, $yaml);
+    }
+
     public function testDumpMultiLineStringAsScalarBlock()
     {
-        $data = array(
-            'data' => array(
+        $data = [
+            'data' => [
                 'single_line' => 'foo bar baz',
-                'multi_line' => "foo\nline with trailing spaces:\n  \nbar\r\ninteger like line:\n123456789\nempty line:\n\nbaz",
-                'nested_inlined_multi_line_string' => array(
+                'multi_line' => "foo\nline with trailing spaces:\n  \nbar\ninteger like line:\n123456789\nempty line:\n\nbaz",
+                'multi_line_with_carriage_return' => "foo\nbar\r\nbaz",
+                'nested_inlined_multi_line_string' => [
                     'inlined_multi_line' => "foo\nbar\r\nempty line:\n\nbaz",
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
-        $this->assertSame(file_get_contents(__DIR__.'/Fixtures/multiple_lines_as_literal_block.yml'), $this->dumper->dump($data, 3, 0, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
+        $this->assertSame(file_get_contents(__DIR__.'/Fixtures/multiple_lines_as_literal_block.yml'), $this->dumper->dump($data, 2, 0, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
+    }
+
+    public function testDumpMultiLineStringAsScalarBlockWhenFirstLineHasLeadingSpace()
+    {
+        $data = [
+            'data' => [
+                'multi_line' => "    the first line has leading spaces\nThe second line does not.",
+            ],
+        ];
+
+        $this->assertSame(file_get_contents(__DIR__.'/Fixtures/multiple_lines_as_literal_block_leading_space_in_first_line.yml'), $this->dumper->dump($data, 2, 0, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
+    }
+
+    public function testCarriageReturnIsMaintainedWhenDumpingAsMultiLineLiteralBlock()
+    {
+        $this->assertSame("- \"a\\r\\nb\\nc\"\n", $this->dumper->dump(["a\r\nb\nc"], 2, 0, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
     }
 
     /**
