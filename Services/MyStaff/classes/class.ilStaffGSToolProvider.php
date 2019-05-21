@@ -49,7 +49,7 @@ class ilStaffGSToolProvider extends AbstractDynamicToolProvider {
 		$content .= "</pre>";
 
 		$tools[] = $factory->tool($iff("providerXY|stack_tool"))
-			->withTitle("Stack")
+			->withTitle("POC")
 			->withContent($l($content));
 
 		return $tools;
