@@ -131,7 +131,7 @@ class ilPersonalDesktopGUI
 		global $DIC;
 
 		$context = $DIC->navigationContext();
-		$context->claim()->desktop();
+		$context->stack()->desktop();
 
 		$ilSetting = $this->settings;
 		$rbacsystem = $this->rbacsystem;

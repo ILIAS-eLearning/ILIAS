@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Content;
 
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
@@ -119,8 +118,7 @@ class LayoutContent {
 		$f = $this->ui->factory();
 		$main_bar = $f->mainControls()->mainBar();
 
-		$ilMMItemRepository = new \ilMMItemRepository();
-		foreach ($ilMMItemRepository->getStackedTopItemsForPresentation() as $item) {
+		foreach ($this->gs->collector()->mainmenu()->getStackedTopItemsForPresentation() as $item) {
 			/**
 			 * @var $slate Combined
 			 */
@@ -132,6 +130,16 @@ class LayoutContent {
 		$main_bar = $main_bar->withMoreButton(
 			$f->button()->bulky($f->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#")
 		);
+
+		// Tools
+		if ($this->gs->collector()->tool()->hasTools()) {
+			$main_bar = $main_bar->withToolsButton($f->button()->bulky($f->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
+			foreach ($this->gs->collector()->tool()->getTools() as $tool) {
+				$slate = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
+				$id = $tool->getProviderIdentification()->getInternalIdentifier();
+				$main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $slate);
+			}
+		}
 
 		return $main_bar;
 	}

@@ -3,17 +3,20 @@
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\DynamicMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
+use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 use ILIAS\NavigationContext\ContextInterface;
+use ILIAS\NavigationContext\Stack\CalledContexts;
 use ILIAS\NavigationContext\Stack\ContextCollection;
 use ILIAS\NavigationContext\Stack\ContextStack;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Class ilStaffGlobalScreenProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider implements DynamicMainMenuProvider {
+class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider implements DynamicToolProvider {
 
 	/**
 	 * @var IdentificationInterface
@@ -77,23 +80,34 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider impleme
 	/**
 	 * @inheritDoc
 	 */
-	public function enrichContextWithCurrentSituation(ContextInterface $context): ContextInterface {
-		return $context;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
 	public function isInterestedInContexts(): ContextCollection {
-		return (new ContextCollection())->main();
+		return $this->dic->navigationContext()->collection()->desktop();
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getToolsForContextStack(ContextStack $called_contexts): array {
-		return array();
+	public function getToolsForContextStack(CalledContexts $called_contexts): array {
+		$tools = [];
+		$last = $called_contexts->getLast();
+		$additional_data = $last->getAdditionalData();
+		$iff = function ($id) { return $this->globalScreen()->identification()->fromSerializedIdentification($id); };
+		$l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+
+		if ($additional_data->exists('mine')) {
+			$tools[] = $this->mainmenu->tool($iff("providerXY|lorem_tool"))
+				->withTitle("A Tool")
+				->withContent($l("LOREM {$called_contexts->current()->getReferenceId()->toInt()}"));
+			$tools[] = $this->mainmenu->tool($iff("providerXY|ipsum_tool"))
+				->withTitle("A Second Tool")
+				->withContent($l("IPSUM"));
+		}
+
+		$tools[] = $this->mainmenu->tool($iff("providerXY|stack_tool"))
+			->withTitle("Stack")
+			->withContent($l('<pre>' . print_r($called_contexts->getStackAsArray(), 1) . '</pre>'));
+
+		return $tools;
 	}
 }
