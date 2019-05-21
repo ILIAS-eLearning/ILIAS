@@ -1710,8 +1710,8 @@ class ilInitialisation
 			$_REQUEST["cmdClass"] == "ilblogpostinggui" ||
 			$_GET["cmdClass"] == "ilblogpostinggui"
 		) {
-			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
-			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+			//$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
