@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -13,9 +14,16 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class ilGSProviderFactory extends ProviderFactory {
 
 	/**
+	 * @var Container
+	 */
+	private $dic;
+
+
+	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
+	public function __construct(Container $dic) {
+		$this->dic = $dic;
 		parent::__construct(
 			[], [], [], new ilMMItemInformation()
 		);
@@ -30,11 +38,10 @@ class ilGSProviderFactory extends ProviderFactory {
 		// ATTENTION: This is currently WIP, the Providers will be collected by
 		// the same mechanism as the MainBarProviders (services.xml or modules.xml)
 		//
-		global $DIC;
 		// Core
 		$meta_bar_providers = [
-			new ilSearchGSProvider($DIC),
-			new ilMMCustomProvider($DIC),
+			new ilSearchGSProvider($this->dic),
+			new ilMMCustomProvider($this->dic),
 		];
 		// Plugins
 		$this->appendPlugins($meta_bar_providers, StaticMetaBarProvider::class);
@@ -74,9 +81,8 @@ class ilGSProviderFactory extends ProviderFactory {
 	 * @inheritDoc
 	 */
 	public function getToolProvider(): array {
-		global $DIC;
 		$tool_providers = [
-			new ilStaffGlobalScreenProvider($DIC),
+			new ilStaffGSToolProvider($this->dic),
 		];
 		// Plugins
 		$this->appendPlugins($tool_providers, DynamicToolProvider::class);
@@ -87,9 +93,17 @@ class ilGSProviderFactory extends ProviderFactory {
 	}
 
 
-	private function appendPlugins(array &$array_of_core_providers, string $interface) {
+	/**
+	 * @param array  $array_of_core_providers
+	 * @param string $interface
+	 */
+	private function appendPlugins(array &$array_of_core_providers, string $interface): void {
 		// Plugins
-		foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
+		static $plugin_providers;
+
+		$plugin_providers = $plugin_providers ?? ilPluginAdmin::getAllGlobalScreenProviders();
+
+		foreach ($plugin_providers as $provider) {
 			if (is_a($provider, $interface)) {
 				$array_of_core_providers[] = $provider;
 			}
