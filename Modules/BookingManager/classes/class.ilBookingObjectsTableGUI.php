@@ -317,6 +317,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("NOT_YET", $a_set["full_up"]);
 			$booking_possible = false;
+			$assign_possible = false;
 		}
 		else if($a_set["not_yet"])
 		{
