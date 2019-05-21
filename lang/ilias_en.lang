@@ -109,10 +109,10 @@ sess#:#sess_notification_option_inherit#:#Inherit from Parent
 sess#:#sess_notification_option_inherit_info#:#Use the parent notification settings (e.g. notification settings from course or group) for members of this session
 sess#:#sess_notification_option_manual#:#Set manually
 sess#:#sess_notification_option_manual_info#:#Notification setting for users has to be set manually
-common#:#session_mail_subject_registered#:#Register of user "%s" for session "%s"
+common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
 common#:#session_mail_subject_deletion#:#Unregister of user "%s" for session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
-common#:#register_notification#:#"%s" has registered for session "%s".
+common#:#register_notification#:#"%s" has applied for session "%s".
 common#:#deletion_notification#:#"%s" has unregistered from session "%s".
 common#:#entered_notification#:#"%s" has joined the session "%s".
 news#:#news_show_more#:#Show more
