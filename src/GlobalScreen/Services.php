@@ -1,12 +1,10 @@
 <?php namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
-use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
 
 /**
@@ -21,14 +19,28 @@ class Services {
 	 * @var array
 	 */
 	private static $services = [];
+	/**
+	 * @var ProviderFactoryInterface
+	 */
+	private $provider_factory;
 
 
 	/**
+	 * Services constructor.
+	 *
+	 * @param ProviderFactoryInterface $provider_factory
+	 */
+	public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
+
+
+	/**
+	 * @param ProviderFactoryInterface $provider_factory
+	 *
 	 * @return Services
 	 */
-	public static function getInstance() {
+	public static function getInstance(ProviderFactoryInterface $provider_factory) {
 		if (!isset(self::$instance)) {
-			self::$instance = new self();
+			self::$instance = new self($provider_factory);
 		}
 
 		return self::$instance;
@@ -36,9 +48,9 @@ class Services {
 
 
 	/**
+	 * @return MainMenuItemFactory
 	 * @see MainMenuItemFactory
 	 *
-	 * @return MainMenuItemFactory
 	 */
 	public function mainBar(): MainMenuItemFactory {
 		return $this->get(MainMenuItemFactory::class);
@@ -65,17 +77,17 @@ class Services {
 	 * @return CollectorFactory
 	 */
 	public function collector(): CollectorFactory {
-		return $this->get(CollectorFactory::class);
+		return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
 	}
 
 
 	/**
+	 * @return IdentificationFactory
 	 * @see IdentificationFactory
 	 *
-	 * @return IdentificationFactory
 	 */
 	public function identification(): IdentificationFactory {
-		return $this->get(IdentificationFactory::class);
+		return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
 	}
 
 
@@ -87,6 +99,20 @@ class Services {
 	private function get(string $class_name) {
 		if (!isset(self::$services[$class_name])) {
 			self::$services[$class_name] = new $class_name();
+		}
+
+		return self::$services[$class_name];
+	}
+
+
+	/**
+	 * @param string $class_name
+	 *
+	 * @return mixed
+	 */
+	private function getWithArgument(string $class_name, $argument) {
+		if (!isset(self::$services[$class_name])) {
+			self::$services[$class_name] = new $class_name($argument);
 		}
 
 		return self::$services[$class_name];

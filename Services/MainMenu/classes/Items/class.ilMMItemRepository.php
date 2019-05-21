@@ -58,7 +58,7 @@ class ilMMItemRepository {
 		global $DIC;
 		$this->storage = new CoreStorageFacade();
 		$this->gs = new ilGSRepository();
-		$this->information = new ilMMItemInformation($this->storage);
+		$this->information = new ilMMItemInformation();
 		$this->providers = $this->initProviders();
 		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
 		$this->services = $DIC->globalScreen();
@@ -119,7 +119,7 @@ class ilMMItemRepository {
 	private function initProviders(): array {
 		$providers = [];
 		// Core
-		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE])->get() as $provider_storage) {
+		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE_MAINBAR])->get() as $provider_storage) {
 			/**
 			 * @var $provider_storage ilGSProviderStorage
 			 */

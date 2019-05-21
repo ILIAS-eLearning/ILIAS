@@ -189,6 +189,11 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 			->withLegacyContent($f->legacy("NOT PROVIDED"))
 			->withGlyph($f->glyph()->notification()->withCounter($f->counter()->novelty(3)))
 			->withTitle("Notifications")
+			->withVisibilityCallable(
+				function () {
+					return !$this->dic->user()->isAnonymous();
+				}
+			)
 			->withPosition(3);
 
 		$children = array();
@@ -211,10 +216,15 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 			->withGlyph($f->glyph()->remove());
 
 		$item[] = $mb
-			->topParentItem($this->if->identifier('user'))
+			->topParentItem($id('user'))
 			->withGlyph($f->glyph()->user())
 			->withTitle("User")
 			->withPosition(4)
+			->withVisibilityCallable(
+				function () {
+					return !$this->dic->user()->isAnonymous();
+				}
+			)
 			->withChildren($children);
 
 		return $item;

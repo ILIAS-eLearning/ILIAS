@@ -74,11 +74,11 @@ Whether a component has GlobalScreen providers is determined by entries in
 As many providers as desired can be registered. These can implement one or more
 of the available provider interfaces, e.g..:
 ```php
-use ILIAS\GlobalScreen\Provider\DynamicProvider\DynamicMainMenuProvider;
+use ILIAS\GlobalScreen\Provider\DynamicProvider\DynamicToolProvider;
 use ILIAS\GlobalScreen\Provider\StaticProvider\StaticMainMenuProvider;
 
 class ilBadgeGlobalScreenProvider implements StaticMainMenuProvider,
-DynamicMainMenuProvider {
+DynamicToolProvider {
 ...
 }
 ```

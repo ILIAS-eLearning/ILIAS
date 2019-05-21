@@ -18,8 +18,16 @@ class LayoutDefinitionFactory {
 	/**
 	 * @return LayoutDefinition
 	 */
-	public function standardView(): LayoutDefinition {
+	public function standardLayout(): LayoutDefinition {
 		return $this->get(StandardLayoutDefinition::class);
+	}
+
+
+	/**
+	 * @return LayoutDefinition
+	 */
+	public function publicLayout(): LayoutDefinition {
+		return $this->get(PublicLayoutDefinition::class);
 	}
 
 
@@ -27,7 +35,7 @@ class LayoutDefinitionFactory {
 	 * @return LayoutDefinition
 	 * @throws NotImplementedException
 	 */
-	public function printView(): LayoutDefinition {
+	public function printLayout(): LayoutDefinition {
 		throw new NotImplementedException();
 	}
 
