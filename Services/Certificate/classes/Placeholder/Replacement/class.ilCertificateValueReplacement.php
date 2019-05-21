@@ -18,7 +18,7 @@ class ilCertificateValueReplacement
 	 */
 	public function __construct(string $clientWebDirectory = '')
 	{
-		if ('' === $clientWebDirectory && true === defined(CLIENT_WEB_DIR)) {
+		if ('' === $clientWebDirectory && true === defined('CLIENT_WEB_DIR')) {
 			$clientWebDirectory = CLIENT_WEB_DIR;
 		}
 		$this->clientWebDirectory = $clientWebDirectory;
