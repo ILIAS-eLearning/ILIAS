@@ -475,6 +475,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		global $DIC;
 
 		$ilUser = $DIC['ilUser'];
+		$access = $DIC->access();
 
 		// Caching
 		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]))
@@ -513,8 +514,17 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$ilUser->writePref('crs_sess_show_next_'.$this->getId(), (string) (int) $_GET['crs_next_sess']);
 		}
-		
-		$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
+
+		$session_rbac_checked = [];
+		foreach($this->items['sess'] as $session_tree_info)
+		{
+			if($access->checkAccess('visible','',$session_tree_info['ref_id']))
+			{
+				$session_rbac_checked[] = $session_tree_info;
+			}
+		}
+		$sessions = ilUtil::sortArray($session_rbac_checked, 'start','ASC',true,false);
+		//$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
 		$today = new ilDate(date('Ymd',time()),IL_CAL_DATE);
 		$previous = $current = $next = array();
 		foreach($sessions as $key => $item)
