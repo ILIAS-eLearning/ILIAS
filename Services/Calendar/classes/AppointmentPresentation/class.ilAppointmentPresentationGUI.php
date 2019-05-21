@@ -405,9 +405,10 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	/**
 	 * Add object link
 	 *
-	 * @param int $ojb_id
+	 * @param int $obj_id
+	 * @param array $a_appointment
 	 */
-	function addObjectLinks($obj_id)
+	function addObjectLinks($obj_id, $a_appointment)
 	{
 		$refs = $this->getReadableRefIds($obj_id);
 		reset($refs);
@@ -421,8 +422,11 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 				$par_ref = $this->tree->getParentId($ref_id);
 				$link_title.= " (".ilObject::_lookupTitle(ilObject::_lookupObjId($par_ref)).")";
 			}
+
+			$link = $this->buildDirectLinkForAppointment($ref_id, $a_appointment);
+
 			$buttons[] = $this->ui->renderer()->render(
-				$this->ui->factory()->button()->shy($link_title, ilLink::_getStaticLink($ref_id)));
+				$this->ui->factory()->button()->shy($link_title, $link));
 		}
 		if ($refs == 0)
 		{
@@ -437,6 +441,17 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 			$this->addInfoProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
 			$this->addListItemProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
 		}
+	}
+
+	/**
+	 * Build direct link for appointment
+	 * @param int $a_ref_id
+	 * @param array $a_appointment
+	 * @return string
+	 */
+	protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment)
+	{
+		return ilLink::_getStaticLink($a_ref_id);
 	}
 
 	/**
@@ -534,7 +549,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		// course title (linked of accessible)
 		if ($a_obj_id > 0)
 		{
-			$this->addObjectLinks($a_obj_id);
+			$this->addObjectLinks($a_obj_id, $a_app);
 		}
 
 		// container info (course groups)
