@@ -9,17 +9,13 @@ use Doctrine\ORM\EntityManager;
 $isDevMode = true;
 //$config = Setup::createAnnotationMetadataConfiguration(array("/home/mstuder/Develop/ILIAS/core_trunk/ilias/src/Modules/Course/Domain/Entity"), $isDevMode);
 // or if you prefer yaml or XML
-$config = Setup::createXMLMetadataConfiguration(["/var/www/ilias/src/Modules/Course/Infrastructure/Resources/Config/Doctrine/Entity",
-	"/var/www/ilias/src/Modules/User/Infrastructure/Resources/Config/Doctrine/Entity"], $isDevMode);
+$config = Setup::createXMLMetadataConfiguration(["/var/www/ilias/src/App/CoreApp/Course/Infrastructure/Resources/Config/Doctrine/Entity",
+	"/var/www/ilias/src/App/CoreApp/User/Infrastructure/Resources/Config/Doctrine/Entity"], $isDevMode);
 //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
-
-$config->addEntityNamespace("ILIAS","ILIAS\Modules\Course\Domain\Entity");
-$config->addEntityNamespace("ILIAS","ILIAS\Modules\User\Domain\Entity");
-$config->addFilter("coursemember", "ILIAS\Modules\Course\Infrastructure\Repository\Doctrine\CourseMemberBaseFilter");
-
-//$config
-
-//$config->addEntityNamespace('', 'ILIAS\Modules\Domain\Entity');
+/*
+$config->addEntityNamespace("Course","ILIAS\App\CoreApp\Course\Domain\Entity");
+$config->addEntityNamespace("User","ILIAS\App\CoreApp\User\Domain\Entity");
+*/
 
 // database configuration parameters
 $connectionParams = array(
@@ -31,6 +27,8 @@ $connectionParams = array(
 	'dbname' => 'ilias',
 	'charset' => 'utf8',
 );
+
+
 
 // obtaining the entity manager
 $entityManager = EntityManager::create($connectionParams, $config);

@@ -1,3 +1,7 @@
+#Beispielumsetzung
+Services/Membership/classes/class.ilMembershipGUI.php
+
+
 # Bibliography
 * https://de.slideshare.net/_leopro_/clean-architecture-with-ddd-layering-in-php-35793127
 * https://stefanoalletti.wordpress.com/2018/08/10/cqrs-is-easy-with-symfony-4-and-his-messanger-component/
@@ -31,7 +35,9 @@ https://www.rabbitmq.com/tutorials/tutorial-one-php.html
 ###Readme pro App
 ###Einfaches REST?
 ###CourseRepository->getMembers()
-Funktioniert nicht: 
+
+
+
 $crs_entity_repository = new CourseEntityRepository($entityManager);
 $crs_repository = new CourseRepository($crs_entity_repository);
 $crs_object = $crs_repository->find(ilObject::_lookupObjectId($_GET['ref_id']));

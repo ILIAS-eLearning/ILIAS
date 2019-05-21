@@ -2,6 +2,7 @@
 namespace ILIAS\App\CoreApp\Member\Infrastructure\Repository\Doctrine;
 
 use ILIAS\App\CoreApp\Member\Domain\Repository\MemberReadonlyRepository;
+use ILIAS\App\CoreApp\Member\Domain\Repository\MemberReadonlyRepositoryInterface;
 use ILIAS\App\CoreApp\Member\Domain\Repository\MemberWriteonlyRepository;
 use ILIAS\App\Infrasctrutre\Persistence\Doctrine\AbstractDoctrineRepository;
 use ILIAS\App\Infrasctrutre\Persistence\Doctrine\DoctrineEntityManager;
@@ -28,9 +29,9 @@ class MemberEntityRepository extends AbstractDoctrineRepository {
 
 
 	/**
-	 * @return mixed
+	 * @return MemberReadonlyRepositoryInterface
 	 */
-	public function getReadonlyRepository() {
+	public function getReadonlyRepository():MemberReadonlyRepositoryInterface {
 		return new MemberReadonlyRepository($this);
 	}
 
@@ -48,9 +49,9 @@ class MemberEntityRepository extends AbstractDoctrineRepository {
 	 * @return array
 	 */
 	public function getRepositoryXmlMetaDataConfiguration():array {
-		return ['/var/www/ilias/src/App/CoreApp/Course/Infrastructure/Resources/Config/Doctrine/Entity',
+		return ['/var/www/ilias/src/App/CoreApp/Course/Infrastructure/Resources/Doctrine/Entity',
 			'/var/www/ilias/src/App/CoreApp/User/Infrastructure/Resources/Doctrine/Entity',
-			'/var/www/ilias/src/App/CoreApp/Member/Infrastructure/Resources/Config/Doctrine/Entity'];
+			'/var/www/ilias/src/App/CoreApp/Member/Infrastructure/Resources/Doctrine/Entity'];
 	}
 
 }

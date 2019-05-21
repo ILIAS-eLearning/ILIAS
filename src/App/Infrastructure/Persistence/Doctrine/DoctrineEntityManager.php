@@ -16,6 +16,8 @@ class DoctrineEntityManager
 
 	private static $instance;
 
+	private $dev_mode = TRUE;
+
 	public static function getInstance()
 	{
 		if(!self::$instance) {
@@ -37,7 +39,7 @@ class DoctrineEntityManager
 		foreach($xml_meta_data_configurations as $xml_meta_data_configuration) {
 			if(!in_array($xml_meta_data_configuration,$this->xml_meta_data_configuration)) {
 				$this->addXmlMetaDataConfiguration($xml_meta_data_configuration);
-				$config = Setup::createXMLMetadataConfiguration($this->xml_meta_data_configuration);
+				$config = Setup::createXMLMetadataConfiguration($this->xml_meta_data_configuration,$this->dev_mode);
 
 
 				// database configuration parameters

@@ -30,10 +30,7 @@
 		"jumbojett/openid-connect-php": "^0.7.0",
 		"sabre/dav": "~3.2.2",
 		"slim/slim": "^3.11",
-		"doctrine/orm": "^2.6",
-		"php-amqplib/php-amqplib": ">=2.6.1",
-		"symfony/serializer": ">=4.2",
-		"symfony/property-access": ">=4.2"
+		"doctrine/orm": "^2.6"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",

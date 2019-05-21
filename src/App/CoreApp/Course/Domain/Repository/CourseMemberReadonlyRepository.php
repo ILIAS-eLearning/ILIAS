@@ -1,10 +1,11 @@
 <?php
-namespace ILIAS\App\CoreApp\Member\Domain\Repository;
+namespace ILIAS\App\CoreApp\Course\Domain\Repository;
 
-use ILIAS\App\CoreApp\Member\Domain\Entity\Member;
+use ILIAS\App\CoreApp\Course\Domain\Entity\CourseMember;
+use ILIAS\App\CoreApp\User\Domain\Entity\User;
 use ILIAS\App\Infrasctrutre\Repository\Repository;
 
-class MemberReadonlyRepository implements MemberReadonlyRepositoryInterface
+class CourseMemberReadonlyRepository
 {
 	/**
 	 * @var Repository
@@ -15,7 +16,7 @@ class MemberReadonlyRepository implements MemberReadonlyRepositoryInterface
 		$this->repository = $repository;
 	}
 
-	public function find(): Member
+	public function find(): CourseMember
 	{
 		//TODO
 	}
@@ -24,7 +25,7 @@ class MemberReadonlyRepository implements MemberReadonlyRepositoryInterface
 	/**
 	 * @param int $obj_id
 	 *
-	 * @return Member[]
+	 * @return CourseMember[]
 	 */
 	public function findAllByObjId(int $obj_id): array
 	{

@@ -1,10 +1,11 @@
 <?php
 namespace ILIAS\App\CoreApp\Course\Infrastructure\Repository\Doctrine;
 
+use ILIAS\App\CoreApp\Course\Domain\Repository\CourseMemberReadonlyRepository;
 use ILIAS\App\Infrasctrutre\Persistence\Doctrine\AbstractDoctrineRepository;
 use ILIAS\App\Infrasctrutre\Persistence\Doctrine\DoctrineEntityManager;
 
-class MemberEntityRepository extends AbstractDoctrineRepository {
+class CourseMemberEntityRepository extends AbstractDoctrineRepository {
 
 	/**
 	 * CourseMemberEntityRepository constructor.
@@ -26,8 +27,18 @@ class MemberEntityRepository extends AbstractDoctrineRepository {
 	 * @return array
 	 */
 	public function getRepositoryXmlMetaDataConfiguration():array {
-		return ['/var/www/ilias/src/App/CoreApp/Course/Infrastructure/Resources/Config/Doctrine/Entity',
+		return [
+			'/var/www/ilias/src/App/CoreApp/Course/Infrastructure/Resources/Doctrine/Entity',
 			'/var/www/ilias/src/App/CoreApp/User/Infrastructure/Resources/Doctrine/Entity'];
 	}
+
+	/**
+	 * @return CourseMemberReadonlyRepository
+	 */
+	public function getReadonlyRepository():CourseMemberReadonlyRepository {
+		return new CourseMemberReadonlyRepository($this);
+	}
+
+
 
 }
