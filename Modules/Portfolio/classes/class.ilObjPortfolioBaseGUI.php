@@ -789,7 +789,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		// #13564
 		$this->ctrl->setParameter($this, "user_page", "");
-		$this->tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview")); 
+		//$this->tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview"));
 		$this->ctrl->setParameter($this, "user_page", $this->page_id);
 		
 		// blog pages do their own (page) style handling
@@ -865,7 +865,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		$a_tpl->resetHeaderBlock(false);
 		// $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
-		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+		// @todo fix this
+		//$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($a_portfolio->getTitle());
 		// $a_tpl->setTitleColor($a_portfolio->getFontColor());		

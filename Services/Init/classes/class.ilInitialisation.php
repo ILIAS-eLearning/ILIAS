@@ -12,6 +12,9 @@ use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use ILIAS\GlobalScreen\Services;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -69,7 +72,7 @@ class ilInitialisation
 			)
 		);
 	}
-
+	
 	/**
 	 * get common include code files
 	 */
@@ -79,21 +82,21 @@ class ilInitialisation
 		if(ilContext::usesTemplate())
 		{
 			require_once "./Services/UICore/classes/class.ilTemplate.php";
-		}
-
+		}		
+				
 		// really always required?
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
-		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";			
+		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
 		require_once "include/inc.ilias_version.php";
-
+		
 		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-
-		self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
+		
+		self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");				
 	}
-
+	
 	/**
 	 * This is a hack for  authentication.
-	 *
+	 * 
 	 * Since the phpCAS lib ships with its own compliance functions.
 	 */
 	protected static function includePhp5Compliance()
@@ -114,9 +117,9 @@ class ilInitialisation
 	 * the ilias.ini.php file.
 	 */
 	protected static function initIliasIniFile()
-	{
+	{		
 		require_once("./Services/Init/classes/class.ilIniFile.php");
-		$ilIliasIniFile = new ilIniFile("./ilias.ini.php");
+		$ilIliasIniFile = new ilIniFile("./ilias.ini.php");				
 		$ilIliasIniFile->read();
 		self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
 
@@ -750,27 +753,23 @@ class ilInitialisation
 	/**
 	 * Init user with current account id
 	 */
-	public static function initUserAccount()
-	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
+	public static function initUserAccount() {
+		global $DIC;
 
 		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
-		if($uid)
-		{
-			$ilUser->setId($uid);
-			$ilUser->read();
+		if ($uid) {
+			$DIC->user()->setId($uid);
+			$DIC->user()->read();
 
+			if ($DIC->user()->isAnonymous()) {
+				$DIC->navigationContext()->claim()->external();
+			} else {
+				$DIC->navigationContext()->claim()->internal();
+			}
 			// init console log handler
-			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
-		}
-		else
-		{
-			if(is_object($GLOBALS['ilLog']))
-			{
+			ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
+		} else {
+			if (is_object($GLOBALS['ilLog'])) {
 				$GLOBALS['ilLog']->logStack();
 			}
 			self::abortAndDie("Init user account failed");
@@ -1273,6 +1272,9 @@ class ilInitialisation
 				"./Services/UICore/classes/class.ilCtrl.php");
 
 		self::setSessionCookieParams();
+
+		// Init GlobalScreen
+		self::initGlobalScreen($DIC);
 	}
 
 	/**
@@ -1296,32 +1298,31 @@ class ilInitialisation
 	/**
 	 * Resume an existing user session
 	 */
-	public static function resumeUserSession()
-	{
-		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-		if(ilAuthUtils::isAuthenticationForced())
-		{
+	public static function resumeUserSession() {
+		global $DIC;
+		if (ilAuthUtils::isAuthenticationForced()) {
 			ilAuthUtils::handleForcedAuthentication();
 		}
 
 		if(
 			!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
 			$GLOBALS['DIC']['ilAuthSession']->isExpired()
-		)
-		{
+		) {
 			ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
 			if(self::blockedAuthentication($current_script))
 			{
 				ilLoggerFactory::getLogger('init')->debug('Authentication is started in current script.');
+				$DIC->navigationContext()->claim()->external();
 				// nothing todo: authentication is done in current script
 				return;
 			}
+
 			return self::handleAuthenticationFail();
 		}
 		// valid session
-		return self::initUserAccount();
 
+		return self::initUserAccount();
 	}
 
 	/**
@@ -1420,36 +1421,48 @@ class ilInitialisation
 		return self::goToLogin();
 	}
 
-    /**
-     * @param \ILIAS\DI\Container $container
-     */
-    protected static function initHTTPServices(\ILIAS\DI\Container $container) {
 
-        $container['http.request_factory'] = function ($c) {
-            return new \ILIAS\HTTP\Request\RequestFactoryImpl();
-        };
+	/**
+	 * @param \ILIAS\DI\Container $container
+	 */
+	protected static function initHTTPServices(\ILIAS\DI\Container $container) {
 
-        $container['http.response_factory'] = function ($c) {
-            return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
-        };
+		$container['http.request_factory'] = function ($c) {
+			return new \ILIAS\HTTP\Request\RequestFactoryImpl();
+		};
 
-        $container['http.cookie_jar_factory'] = function ($c) {
-            return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
-        };
+		$container['http.response_factory'] = function ($c) {
+			return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
+		};
 
-        $container['http.response_sender_strategy'] = function ($c) {
-            return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
-        };
+		$container['http.cookie_jar_factory'] = function ($c) {
+			return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
+		};
 
-        $container['http'] = function ($c) {
-            return new \ILIAS\DI\HTTPServices(
-                $c['http.response_sender_strategy'],
-                $c['http.cookie_jar_factory'],
-                $c['http.request_factory'],
-                $c['http.response_factory']
-            );
-        };
-    }
+		$container['http.response_sender_strategy'] = function ($c) {
+			return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
+		};
+
+		$container['http'] = function ($c) {
+			return new \ILIAS\DI\HTTPServices(
+				$c['http.response_sender_strategy'],
+				$c['http.cookie_jar_factory'],
+				$c['http.request_factory'],
+				$c['http.response_factory']
+			);
+		};
+	}
+
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	private static function initGlobalScreen(\ILIAS\DI\Container $c) {
+		$c['global_screen'] = function () use ($c) {
+			return new Services(new ilGSProviderFactory($c));
+		};
+		$c->navigationContext()->stack()->main();
+	}
 
 	/**
 	 * init the ILIAS UI framework.
@@ -1692,8 +1705,6 @@ class ilInitialisation
 
 		self::initUIFramework($GLOBALS["DIC"]);
 
-		$DIC->navigationContext()->claim()->main();
-
 		// LTI
 		if ($lti->isActive())
 		{
@@ -1707,7 +1718,6 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilLMEditorGUI"
 		) {
 			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
-			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
@@ -1715,8 +1725,8 @@ class ilInitialisation
 			$_REQUEST["cmdClass"] == "ilblogpostinggui" ||
 			$_GET["cmdClass"] == "ilblogpostinggui"
 		) {
-			$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
-			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+			//$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
@@ -1728,7 +1738,8 @@ class ilInitialisation
 			$_REQUEST["baseClass"] == "ilObjPortfolioGUI" ||
 			$_GET["baseClass"] == "ilObjPortfolioGUI"
 		) {
-			$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
+			//$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["baseClass"] == "ilStartUpGUI" ||

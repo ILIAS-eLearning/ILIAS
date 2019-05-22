@@ -94,8 +94,7 @@ class ilCalendarPresentationGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->ref_id = $a_ref_id;
 		$this->category_id = $_GET["category_id"];
-		$this->ctrl->saveParameter($this, "category_id");
-
+		$this->ctrl->setParameter($this,'category_id', $_REQUEST['category_id']);
 
 		// show back to pd
 		$this->ctrl->saveParameter($this, 'backpd');
@@ -323,7 +322,7 @@ class ilCalendarPresentationGUI
 				{
 					if ($this->getRepositoryMode())
 					{
-						$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
+						#$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
 					}
 					//$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
 					$this->showSideBlocks();
@@ -332,7 +331,6 @@ class ilCalendarPresentationGUI
 
 			case 'ilcalendarblockgui':
 				$side_cal = new ilCalendarBlockGUI();
-				$side_cal->setAvailableDetailLevels(2,2);
 				$side_cal->setRepositoryMode($this->getRepositoryMode());
 				$side_cal->setForceMonthView(true);
 				$this->ctrl->forwardCommand($side_cal);
@@ -341,7 +339,6 @@ class ilCalendarPresentationGUI
 
 			case 'ilpdcalendarblockgui':
 				$side_cal = new ilPDCalendarBlockGUI();
-				$side_cal->setAvailableDetailLevels(2,2);
 				$side_cal->setRepositoryMode($this->getRepositoryMode());
 				$side_cal->setForceMonthView(true);
 				$this->ctrl->forwardCommand($side_cal);
@@ -552,17 +549,6 @@ class ilCalendarPresentationGUI
 		$ilCtrl = $this->ctrl;
 
 		$tpl =  new ilTemplate('tpl.cal_side_block.html',true,true,'Services/Calendar');
-
-		/*include_once('./Services/Calendar/classes/class.ilMiniCalendarGUI.php');
-		$mini = new ilMiniCalendarGUI($this->seed, $this);
-		$tpl->setVariable('MINICAL',$mini->getHTML());*/
-
-		/*
-		include_once("./Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php");
-		$block_gui = new ilCalendarSelectionBlockGUI($this->seed);
-		$html = $ilCtrl->getHTML($block_gui);
-		return $html;*/
-
 		if ($this->getRepositoryMode())
 		{
 			include_once("./Services/Calendar/classes/class.ilCalendarBlockGUI.php");
@@ -574,18 +560,14 @@ class ilCalendarPresentationGUI
 			include_once("./Services/Calendar/classes/class.ilPDCalendarBlockGUI.php");
 			$side_cal = new ilPDCalendarBlockGUI();
 		}
-		$side_cal->setAvailableDetailLevels(2,2);
 		$side_cal->setParentGUI("ilCalendarPresentationGUI");
 		$side_cal->setForceMonthView(true);
 		$side_cal->setRepositoryMode($this->getRepositoryMode());
 		$tpl->setVariable('MINICAL', $ilCtrl->getHTML($side_cal));
 
-		if ($this->category_id == 0)
-		{
-			include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
-			$cat = new ilCalendarCategoryGUI($ilUser->getId(), $this->seed, $this->ref_id);
-			$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
-		}
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
+		$cat = new ilCalendarCategoryGUI($ilUser->getId(), $this->seed, $this->ref_id);
+		$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
 
 		$this->tpl->setRightContent($tpl->get());
 	}
@@ -602,68 +584,193 @@ class ilCalendarPresentationGUI
 	{
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 	}
-	
-	
+
 	/**
-	 * get tabs
+	 * Add tabs for ilCategoryGUI context This cannot be done there since many views (Day Week Agenda)
+	 * are initiated from ths view
+	 */
+	protected function addCategoryTabs()
+	{
+		global $DIC;
+
+		$ctrl = $DIC->ctrl();
+
+		$this->tabs_gui->clearTargets();
+		$ctrl->setParameterByClass(ilCalendarCategoryGUI::class, "category_id", $_REQUEST["category_id"]);
+		if($this->getRepositoryMode())
+		{
+			$came_from_pd = $_REQUEST['backpd'];
+			if($came_from_pd)
+			{
+				$this->tabs_gui->setBack2Target(
+					$this->lng->txt('back_to_pd'),
+					$this->ctrl->getLinkTargetByClass(ilPersonalDesktopGUI::class, 'jumpToCalendar')
+				);
+			}
+			$label = $this->lng->txt('back_to_' . ilObject::_lookupType($this->ref_id,true));
+			$this->tabs_gui->setBackTarget(
+				$label,
+				$this->ctrl->getParentReturn($this)
+			);
+		}
+		else
+		{
+			// no object calendar => back is back to manage view
+			if(array_key_exists('backvm',$_REQUEST))
+			{
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt("back"),
+					$ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, 'manage'));
+			}
+			else
+			{
+				$ctrl->clearParameterByClass(ilCalendarPresentationGUI::class,'category_id');
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt("back"),
+					$ctrl->getLinkTargetByClass('ilcalendarpresentationgui', ''));
+			}
+			$ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $_REQUEST["category_id"]);
+		}
+
+		$this->tabs_gui->addTab(
+			"cal_agenda",
+			$this->lng->txt("cal_agenda"),
+			$ctrl->getLinkTargetByClass(ilCalendarPresentationGUI::class, "")
+		);
+
+		if($this->actions->checkShareCal($this->category_id))
+		{
+			$this->tabs_gui->addTab(
+				"share",
+				$this->lng->txt("cal_share"),
+				$ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, "shareSearch")
+			);
+		}
+		if($this->actions->checkSettingsCal($this->category_id))
+		{
+			$this->tabs_gui->addTab(
+				"edit",
+				$this->lng->txt("settings"),
+				$ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, "edit")
+			);
+		}
+
+		$this->tabs_gui->activateTab('cal_agenda');
+		return true;
+	}
+
+	/**
+	 * add standard tabs
+	 */
+	protected function addStandardTabs()
+	{
+		global $DIC;
+
+		$access = $DIC->access();
+		$rbacsystem = $DIC->rbac()->system();
+
+		$came_from_pd = $_REQUEST['backpd'];
+
+		$this->tabs_gui->clearTargets();
+		if($this->getRepositoryMode())
+		{
+			if($came_from_pd)
+			{
+				$this->tabs_gui->setBack2Target(
+					$this->lng->txt('back_to_pd'),
+					$this->ctrl->getLinkTargetByClass(ilPersonalDesktopGUI::class, 'jumpToCalendar')
+				);
+			}
+			$label = $this->lng->txt('back_to_' . ilObject::_lookupType($this->ref_id,true));
+			$this->tabs_gui->setBackTarget(
+				$label,
+				$this->ctrl->getParentReturn($this)
+			);
+
+			$obj_id = ilObject::_lookupObjId($this->ref_id);
+			$category = ilCalendarCategory::_getInstanceByObjId($obj_id);
+			$category_id = $category->getCategoryID();
+
+			// agenda tab
+			$this->tabs_gui->addTab(
+				'cal_agenda',
+				$this->lng->txt('cal_agenda'),
+				$this->ctrl->getLinkTarget($this, '')
+			);
+
+			// settings tab
+			if($access->checkAccess('edit_event','',$this->ref_id))
+			{
+				$this->ctrl->setParameterByClass(ilCalendarCategoryGUI::class,'category_id', $category_id);
+				$this->tabs_gui->addTab(
+					'cal_manage',
+					$this->lng->txt('settings'),
+					$this->ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class,'edit')
+				);
+				$this->ctrl->clearParameterByClass(ilCalendarCategoryGUI::class,'category_id');
+			}
+			return true;
+		}
+		else
+		{
+			$this->tabs_gui->addTab(
+				'cal_agenda',
+				$this->lng->txt("cal_agenda"),
+				$this->ctrl->getLinkTarget($this, '')
+			);
+
+			if (
+				$rbacsystem->checkAccess(
+					'add_consultation_hours',
+					ilCalendarSettings::_getInstance()->getCalendarSettingsId()
+				) &&
+				ilCalendarSettings::_getInstance()->areConsultationHoursEnabled()
+			)
+			{
+				$this->tabs_gui->addTab(
+					'app_consultation_hours',
+					$this->lng->txt('app_consultation_hours'),
+					$this->ctrl->getLinkTargetByClass(ilConsultationHoursGUI::class,'')
+				);
+
+			}
+			/*
+			$this->tabs_gui->addTab(
+				'cal_manage',
+				$this->lng->txt('cal_manage'),
+				$this->ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class,'manage')
+			);
+			$this->tabs_gui->addTab(
+				'settings',
+				$this->lng->txt('settings'),
+				$this->ctrl->getLinkTargetByClass(ilCalendarUserSettings::class,'')
+			);
+			*/
+			$this->tabs_gui->addTarget('cal_manage', $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage'));
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI', ''));
+		}
+	}
+
+
+	/**
 	 *
-	 * @access public
 	 */
 	protected function prepareOutput()
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-		//$tpl->setHeaderActionMenu(null);
-
-		$rbacsystem = $this->rbacsystem;
+		$tpl = $DIC->ui()->mainTemplate();
 		$ilHelp = $this->help;
 
 		$ilHelp->setScreenIdComponent("cal");
 
-		if ($this->getRepositoryMode())
+		if($this->category_id)
 		{
-			$this->tabs_gui->clearTargets();
-
-			$this->lng->loadLanguageModule('dateplaner');
-			if($_REQUEST['backpd'])
-			{
-				$this->tabs_gui->setBackTarget(
-					$this->lng->txt('back_to_pd'),
-					$this->ctrl->getLinkTargetByClass(ilPersonalDesktopGUI::class, 'jumpToCalendar')
-				);
-				switch(ilObject::_lookupType($this->ref_id, true))
-				{
-					case 'crs':
-					case 'grp':
-						$label = $this->lng->txt('back_to_'. ilObject::_lookupType($this->ref_id,true));
-						break;
-					default:
-						$label = $this->lng->txt('back');
-				}
-				$this->tabs_gui->setBack2Target($label, $this->ctrl->getParentReturn($this));
-			}
-			else
-			{
-				$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getParentReturn($this));
-			}
+			$this->addCategoryTabs();
 		}
 		else
 		{
-			$this->tabs_gui->addTab('cal_agenda',
-				$this->lng->txt("cal_agenda"),
-				$this->ctrl->getLinkTarget($this, ''));
-			//$this->tabs_gui->addTarget('cal_upcoming_events_header',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
-
-			if (
-				$rbacsystem->checkAccess('add_consultation_hours', ilCalendarSettings::_getInstance()->getCalendarSettingsId()) and
-				ilCalendarSettings::_getInstance()->areConsultationHoursEnabled()
-			)
-			{
-				$this->tabs_gui->addTarget('app_consultation_hours', $this->ctrl->getLinkTargetByClass('ilConsultationHoursGUI', ''));
-			}
-			$this->tabs_gui->addTarget('cal_manage', $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage'));
-			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI', ''));
+			$this->addStandardTabs();
 		}
 
 		// if we are in single calendar view
@@ -724,44 +831,10 @@ class ilCalendarPresentationGUI
 			if ($this->actions->checkDeleteCal($this->category_id))
 			{
 				$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-				$ctrl->setParameterByClass("ilcalendarcategorygui", "backv", "1");
 				$this->action_menu->addItem($lng->txt("cal_delete_cal"), "", $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
-				$ctrl->clearParameterByClass('ilcalendarcategorygui','backv');
 			}
 
 			$tpl->setHeaderActionMenu($this->action_menu->getHTML());
-
-
-			$tabs->clearTargets();
-			$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", "");
-			$ctrl->setParameterByClass("ilcalendarpresentationgui", "category_id", "");
-
-			if ($this->ref_id > 0)
-			{
-				$tabs->setBackTarget($lng->txt("back"), $ctrl->getLinkTargetByClass("ilcalendarpresentationgui", ""));
-			}
-			else
-			{
-				$tabs->setBackTarget($lng->txt("back"), $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "manage"));
-			}
-			$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $_GET["category_id"]);
-			$ctrl->setParameterByClass("ilcalendarpresentationgui", "category_id", $_GET["category_id"]);
-
-			// agenda
-			$tabs->addTab("cal_agenda", $lng->txt("cal_agenda"), $ctrl->getLinkTargetByClass("ilcalendarpresentationgui", ""));
-
-			// share
-			if ($this->actions->checkShareCal($this->category_id))
-			{
-				$tabs->addTab("share", $lng->txt("cal_share"), $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "shareSearch"));
-			}
-
-			// edit settings
-			if ($this->actions->checkSettingsCal($this->category_id))
-			{
-				$tabs->addTab("edit", $lng->txt("settings"), $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "edit"));
-			}
-			$tabs->activateTab("cal_agenda");
 		}
 
 	}
@@ -773,10 +846,22 @@ class ilCalendarPresentationGUI
 	 */
 	public function initSeed()
 	{
-		include_once('Services/Calendar/classes/class.ilDate.php');
-		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
-		$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
-		$this->ctrl->saveParameter($this,array('seed'));
+		// default to today
+		$this->seed = new ilDate(time(), IL_CAL_UNIX);
+		if(array_key_exists('seed',$_REQUEST))
+		{
+			$this->seed = new ilDate($_GET['seed'],IL_CAL_DATE);
+		}
+		elseif(!$this->getRepositoryMode())
+		{
+			$session_seed = ilSession::get('cal_seed');
+			if($session_seed)
+			{
+				$this->seed = new ilDate($session_seed, IL_CAL_DATE);
+			}
+		}
+		$this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
+		ilSession::set('cal_seed', $this->seed->get(IL_CAL_DATE));
  	}
 	
 	/**

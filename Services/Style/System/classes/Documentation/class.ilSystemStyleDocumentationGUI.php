@@ -102,7 +102,7 @@ class ilSystemStyleDocumentationGUI
 			$entries
 		);
 
-		$content = $entry_gui->renderEntry();
+		$content.= $entry_gui->renderEntry();
 		$this->tpl->setContent($content);
 	}
 

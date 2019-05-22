@@ -154,7 +154,7 @@ class ilDclRecordListGUI {
 
 		$this->createSwitchers();
 
-		$permission_to_add_or_import = $this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) AND $this->table_obj->hasCustomFields();
+		$permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id) AND $this->table_obj->hasCustomFields();
 		if ($permission_to_add_or_import) {
 			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
 
@@ -175,10 +175,8 @@ class ilDclRecordListGUI {
 		}
 
 		if (count($this->table_obj->getRecordFields()) == 0) {
-			ilUtil::sendInfo(
-				$this->lng->txt("dcl_no_fields_yet") . " "
-				. ($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id) ? $this->lng->txt("dcl_create_fields") : "")
-			);
+			ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
+				. (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->ref_id, $this->table_id) ? $this->lng->txt("dcl_create_fields") : ""));
 		}
 
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
@@ -237,7 +235,7 @@ class ilDclRecordListGUI {
 	 * Import Data from Excel sheet
 	 */
 	public function importExcel() {
-		if (!($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id)) || !$this->table_obj->getImportEnabled()) {
+		if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id)) || !$this->table_obj->getImportEnabled()) {
 			throw new ilDclException($this->lng->txt("access_denied"));
 		}
 		$form = $this->initImportForm();
@@ -298,7 +296,8 @@ class ilDclRecordListGUI {
 	 */
 	public function doTableSwitch() {
 		$this->ctrl->clearParameters($this);
-		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
+		$this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $_POST['table_id']);
+		$this->ctrl->clearParameterByClass(ilObjDataCollectionGUI::class, 'tableview_id');
 		$this->ctrl->redirect($this, self::CMD_SHOW);
 	}
 
@@ -594,9 +593,9 @@ class ilDclRecordListGUI {
 	/**
 	 * @return bool
 	 */
-	protected function checkAccess() {
-		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)
-			|| (ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) && ilObjDataCollectionAccess::hasAccessToTable($this->table_id));
+	protected function checkAccess()
+	{
+		return ilObjDataCollectionAccess::hasAccessTo($this->parent_obj->ref_id, $this->table_id, $this->tableview_id);
 	}
 }
 

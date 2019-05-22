@@ -404,7 +404,7 @@ class ilMembershipGUI
 				break;
 		}
 	}
-	
+
 	/**
 	 * Show participant table, subscriber table, wating list table;
 	 */
@@ -1219,11 +1219,20 @@ class ilMembershipGUI
 		{
 			return null;
 		}
-		$subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(),true);
-		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
+		$subscriber = $this->initSubscriberTable();
 		$subscriber->readSubscriberData(
 			$filtered_subscribers
 		);
+		return $subscriber;
+	}
+
+	/**
+	 * @return \ilSubscriberTableGUI
+	 */
+	protected function initSubscriberTable()
+	{
+		$subscriber = new \ilSubscriberTableGUI($this, $this->getParentObject(),true, true);
+		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
 		return $subscriber;
 	}
 	

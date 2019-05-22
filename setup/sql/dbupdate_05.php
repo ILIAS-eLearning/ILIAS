@@ -899,3 +899,170 @@ if (!$ilDB->tableColumnExists('usr_data', 'passwd_policy_reset')) {
 	));
 }
 ?>
+<#5497>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	['text'],
+	['block_activated_chatviewer']
+);
+
+$ilDB->manipulateF(
+	'DELETE FROM usr_pref WHERE keyword = %s',
+	['text'],
+	['chatviewer_last_selected_room']
+);
+?>
+<#5498>
+<?php
+if ($ilDB->tableColumnExists('mail_saved', 'm_type')) {
+	$ilDB->dropTableColumn('mail_saved', 'm_type');
+}
+
+if ($ilDB->tableColumnExists('mail', 'm_type')) {
+	$ilDB->dropTableColumn('mail', 'm_type');
+}
+
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	['text'],
+	['pd_sys_msg_mode']
+);
+?>
+<#5499>
+<?php
+$res = $ilDB->queryF('SELECT * FROM rbac_operations WHERE operation = %s', ['text'], ['system_message']);
+$row = $ilDB->fetchAssoc($res);
+
+if ($row['ops_id']) {
+	$opsId = $row['ops_id'];
+
+	$ilDB->manipulateF('DELETE FROM rbac_templates WHERE ops_id = %s', ['integer'], [$opsId]);
+	$ilDB->manipulateF('DELETE FROM rbac_ta WHERE ops_id = %s', ['integer'], [$opsId]);
+	$ilDB->manipulateF('DELETE FROM rbac_operations WHERE ops_id = %s', ['integer'], [$opsId]);
+}
+?>
+<#5500>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	['text'],
+	['block_activated_pdfrmpostdraft']
+);
+?>
+<#5501>
+<?php
+
+$tempTableName = 'tmp_tst_qst_fixparent';
+
+$tempTableFields = array(
+        'qst_id' => array(
+			'type' => 'integer',
+			'notnull' => true,
+			'length' => 4,
+			'default' => 0
+		),
+        'tst_obj_id' => array(
+			'type' => 'integer',
+			'notnull' => true,
+			'length' => 4,
+			'default' => 0
+		),
+        'qpl_obj_id' => array(
+			'type' => 'integer',
+			'notnull' => true,
+			'length' => 4,
+			'default' => 0
+		)
+);
+
+$brokenFixedTestQuestionsQuery = "
+    SELECT qq.question_id qst_id, t.obj_fi tst_obj_id, qq.obj_fi qpl_obj_id
+    FROM tst_tests t
+    INNER JOIN tst_test_question tq
+    ON t.test_id = tq.test_fi
+    INNER JOIN qpl_questions qq
+    ON qq.question_id = tq.question_fi
+    WHERE t.question_set_type = 'FIXED_QUEST_SET'
+    AND t.obj_fi != qq.obj_fi
+";
+
+$brokenRandomTestQuestionsQuery = "
+    SELECT qq.question_id qst_id, t.obj_fi tst_obj_id, qq.obj_fi qpl_obj_id
+    FROM tst_tests t
+    INNER JOIN tst_rnd_cpy tq
+    ON t.test_id = tq.tst_fi
+    INNER JOIN qpl_questions qq
+    ON qq.question_id = tq.qst_fi
+    WHERE t.question_set_type = 'RANDOM_QUEST_SET'
+    AND t.obj_fi != qq.obj_fi
+";
+
+$brokenQuestionCountQuery = "
+    SELECT COUNT(broken.qst_id) cnt FROM (
+        SELECT q1.qst_id FROM ( {$brokenFixedTestQuestionsQuery} ) q1
+        UNION
+        SELECT q2.qst_id FROM ( {$brokenRandomTestQuestionsQuery} ) q2
+    ) broken
+";
+
+$brokenQuestionSelectQuery = "
+    SELECT q1.qst_id, q1.tst_obj_id, q1.qpl_obj_id FROM ( {$brokenFixedTestQuestionsQuery} ) q1
+    UNION
+    SELECT q2.qst_id, q2.tst_obj_id, q2.qpl_obj_id FROM ( {$brokenRandomTestQuestionsQuery} ) q2
+";
+
+$res = $ilDB->query($brokenQuestionCountQuery);
+$row = $ilDB->fetchAssoc($res);
+
+if( $ilDB->tableExists($tempTableName) )
+{
+	$ilDB->dropTable($tempTableName);
+}
+
+if( $row['cnt'] > 0 )
+{
+	$ilDB->createTable($tempTableName, $tempTableFields);
+ 
+    $ilDB->manipulate("
+        INSERT INTO {$tempTableName} (qst_id, tst_obj_id, qpl_obj_id) {$brokenQuestionSelectQuery}
+    ");
+}
+
+?>
+<#5502>
+<?php
+
+$tempTableName = 'tmp_tst_qst_fixparent';
+
+if( $ilDB->tableExists($tempTableName) )
+{
+	$updateStatement = $ilDB->prepareManip("
+        UPDATE qpl_questions SET obj_fi = ? WHERE question_id IN(
+            SELECT qst_id FROM {$tempTableName} WHERE tst_obj_id = ?
+        )
+    ", array('integer', 'integer')
+	);
+	
+	$deleteStatement = $ilDB->prepareManip("
+        DELETE FROM {$tempTableName} WHERE tst_obj_id = ?
+    ", array('integer')
+	);
+	
+	$res = $ilDB->query("SELECT DISTINCT tst_obj_id FROM {$tempTableName}");
+    
+    while( $row = $ilDB->fetchAssoc($res) )
+    {
+        $ilDB->execute($updateStatement, array(
+                $row['tst_obj_id'], $row['tst_obj_id']
+        ));
+        
+		$ilDB->execute($deleteStatement, array(
+		        $row['tst_obj_id']
+        ));
+    }
+    
+	$ilDB->dropTable($tempTableName);
+}
+
+?>

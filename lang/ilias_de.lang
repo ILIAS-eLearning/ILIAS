@@ -174,9 +174,6 @@ forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf lös
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#publish#:#Veröffentlichen
-forum#:#frm_my_posting_drafts#:#Meine Beitragsentwürfe
-forum#:#frm_posting_draft#:#Entwurf
-forum#:#frm_posting_drafts#:#Entwürfe
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
 forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
 forum#:#adm_save_drafts#:#Entwürfe speichern
@@ -184,6 +181,7 @@ forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beit
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
+forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
 common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
 itgr#:#itgr_show_title#:#Titel anzeigen
@@ -1940,8 +1938,6 @@ certificate#:#download_certificate#:#Zertifikat herunterladen
 certificate#:#cert_form_sec_availability#:#Verfügbarkeit
 certificate#:#cert_form_sec_layout#:#Layout und Text
 certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
-common#:#chat_chatviewer#:#Chatviewer
-chatroom#:#chat_enable_autoscroll#:#Automatisches Scrollen aktivieren
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
@@ -3306,7 +3302,6 @@ common#:#mail_send_error#:#Fehler beim Verschicken der Mail
 common#:#mail_sent#:#Ihre Mail wurde versandt
 common#:#mail_settings#:#Mail-Einstellungen
 rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen senden
-rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
 common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt)
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
@@ -3643,6 +3638,17 @@ common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
+<<<<<<< HEAD
+=======
+common#:#obj_tool_setting_calendar#:#Kalender
+common#:#obj_tool_setting_calendar_info#:#Der Kalender ist aktiviert und der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
+common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
+common#:#obj_tool_setting_news#:#Neuigkeiten
+common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tos#:#Nutzungsvereinbarungen
+common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
+>>>>>>> 7c49dbe042... 0023445: Byline misleading: Deactivating Calendar Block deactivates whole Calendar
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
 common#:#obj_trac_desc#:#Statistik- und Lernfortschrittseinstellungen und Übersicht
 common#:#obj_tst#:#Test
@@ -3755,7 +3761,6 @@ common#:#path_to_java#:#JAVA-Befehlszeile
 common#:#path_to_unzip#:#UNZIP-Befehlszeile
 common#:#path_to_zip#:#ZIP-Befehlszeile
 common#:#pathes#:#Pfade
-common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pdf_export#:#PDF-Export
 common#:#perm_settings#:#Rechte
@@ -4097,7 +4102,6 @@ common#:#show_filter#:#Filter anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
-common#:#show_system_messages#:#Systemnachrichten
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#side_frame#:#Rahmen Baumansicht
 common#:#signature#:#Signatur
@@ -4177,7 +4181,6 @@ common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_information#:#Systeminformation
 common#:#system_language#:#Systemsprache
-common#:#system_message#:#Systemnachrichten
 common#:#system_styles#:#System-Styles
 common#:#systemcheck_cron#:#System Check per Cron-Job
 common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cron-Job
@@ -6637,7 +6640,6 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
-chatroom#:#chatviewer_no_rooms#:#Noch kein Chatraum auswählbar.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
@@ -9968,7 +9970,6 @@ registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
 registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Zum Beispiel "*@ilias.de".  Registrierungscodes heben diese Prüfung auf.
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
-pd#:#block_show_pdsysmess#:#Systemnachrichten anzeigen
 pd#:#block_show_pdtag#:#Tags anzeigen
 pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
@@ -11735,7 +11736,6 @@ obj#:#obj_presentation#:#Darstellung
 mcst#:#mcst_webfeed#:#RSS-Webfeed
 news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur authentifizierten Benutzern zugänglich.
 news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
-chatroom#:#room_in_container#:#%s (in: %s)
 common#:#obj_crsv#:#Kurszertifikat
 wsp#:#wsp_type_crsv#:#Zertifikat: Kurs
 wsp#:#wsp_list_crsv#:#Kurszertifikat
@@ -13523,9 +13523,6 @@ skmg#:#skmg_input_file#:#Importdatei
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 form#:#form_no_link#:#Kein Link
 copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
-pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
-pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
-pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
 logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code "%s" identifiziert werden kann.
 logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Dateipfad
@@ -15099,3 +15096,4 @@ certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Ob
 exc#:#exc_tbl_action_open_submission#:#Open Submission
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
+content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.

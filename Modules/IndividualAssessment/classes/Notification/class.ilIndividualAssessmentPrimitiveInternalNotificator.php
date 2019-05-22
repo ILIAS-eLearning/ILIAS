@@ -72,6 +72,6 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
 		$this->appendBody("\n\n");
 		$this->appendBody($this->createPermanentLink());
 		$this->getMail()->appendInstallationSignature(true);
-		$this->sendMail(array($this->reciever->id()),array('system'));
+		$this->sendMail(array($this->reciever->id()));
 	}
 }

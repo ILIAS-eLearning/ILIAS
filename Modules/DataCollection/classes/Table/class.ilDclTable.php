@@ -707,54 +707,15 @@ class ilDclTable {
 
 
 	/**
-	 * @param int $ref_id
-	 *
-	 * @return bool
-	 */
-	public function hasPermissionToFields($ref_id) {
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * @param int $ref_id
-	 *
-	 * @return bool
-	 */
-	public function hasPermissionToAddTable($ref_id) {
-		return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
-	}
-
-
-	/**
-	 * @param int $ref_id
-	 *y
-	 *
-	 * @return bool
-	 */
-	public function hasPermissionToAddRecord($ref_id) {
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
-			return true;
-		}
-		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
-			return false;
-		}
-
-		return ($this->getAddPerm() AND $this->checkLimit());
-	}
-
-
-	/**
 	 * @param $ref_id int the reference id of the current datacollection object
 	 * @param $record ilDclBaseRecordModel the record which will be edited
 	 *
 	 * @return bool
 	 */
 	public function hasPermissionToEditRecord($ref_id, ilDclBaseRecordModel $record) {
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
 			return true;
 		}
@@ -782,6 +743,9 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecord($ref_id, ilDclBaseRecordModel $record) {
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
 			return true;
 		}
@@ -808,6 +772,9 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecords($ref_id) {
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
 		return ((ilObjDataCollectionAccess::hasAddRecordAccess($ref_id) && $this->getDeletePerm())
 			|| ilObjDataCollectionAccess::hasWriteAccess($ref_id));
 	}
@@ -823,6 +790,9 @@ class ilDclTable {
 	public function hasPermissionToViewRecord($ref_id, $record, $user_id = 0) {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id, $user_id)) {
 			return true;
 		}
@@ -855,7 +825,7 @@ class ilDclTable {
 	/**
 	 * @return bool
 	 */
-	protected function checkLimit() {
+	public function checkLimit() {
 		if ($this->getLimited()) {
 			$now = new ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATE);
 			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);

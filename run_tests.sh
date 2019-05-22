@@ -34,7 +34,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 		JOB_ID=`echo $TRAVIS_JOB_NUMBER`
 		JOB_URL=`echo $TRAVIS_JOB_WEB_URL`
 		FAILURE=false
-		declare -A RESULTS=([Tests]=0 [Assertions]=0 [Errors]=0 [Warnings]=0 [Skipped]=0 [Incomplete]=0 [Risky]=0);
+		declare -A RESULTS=([Tests]=0 [Assertions]=0 [Errors]=0 [Warnings]=0 [Skipped]=0 [Incomplete]=0 [Risky]=0 [Failures]=0);
 
 		for TYPE in "${!RESULTS[@]}"; 
 			do 
@@ -48,7 +48,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 					done 
 			done
 
-		if [ ${RESULTS[Errors]} -gt 0 ]
+		if [ ${RESULTS[Errors]} -gt 0 ] || [ ${RESULTS[Failures]} -gt 0 ]
 			then
 				FAILURE=true
 		fi

@@ -133,6 +133,11 @@ class ilCalendarCategoryGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this,'category_id');
 		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
+
+		if(array_key_exists('backvm', $_REQUEST))
+		{
+			$this->ctrl->setParameter($this, 'backvm',1);
+		}
 		switch($next_class)
 		{
 			case 'ilcalendarappointmentgui':
@@ -162,7 +167,14 @@ class ilCalendarCategoryGUI
 	 */
 	protected function cancel()
 	{
+		if(array_key_exists('backvm',$_REQUEST))
+		{
+			$this->ctrl->redirect($this,'manage');
+			return true;
+		}
+
 		$this->ctrl->returnToParent($this);
+		return true;
 	}
 
 	
@@ -180,17 +192,7 @@ class ilCalendarCategoryGUI
 		$ilTabs = $DIC['ilTabs'];
 
 		$ilTabs->clearTargets();
-		
-		if($_REQUEST['backv'] == self::VIEW_MANAGE)
-		{
-			$back = 'manage';
-		}
-		else
-		{
-			$back = 'cancel';
-		}
-		
-		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, $back));
+		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, 'cancel'));
 		
 		$ed_tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
 		
@@ -1046,14 +1048,7 @@ class ilCalendarCategoryGUI
 				break;
 		}
 
-		if($_REQUEST['backv'] == self::VIEW_MANAGE)
-		{
-			$this->form->addCommandButton('manage',$this->lng->txt('cancel'));
-		}
-		else
-		{
-			$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
-		}
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		// Calendar name
 		$title = new ilTextInputGUI($this->lng->txt('cal_calendar_name'),'title');
@@ -1528,7 +1523,7 @@ class ilCalendarCategoryGUI
 
 		include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
 		$toolbar = new ilToolbarGui();
-		$ilCtrl->setParameter($this,'backv',self::VIEW_MANAGE);
+		$ilCtrl->setParameter($this,'backvm',1);
 		$toolbar->addButton($lng->txt("cal_add_calendar"), $ilCtrl->getLinkTarget($this, "add"));
 
 		$tpl->setContent($toolbar->getHTML().$table_gui->getHTML());
@@ -1549,11 +1544,6 @@ class ilCalendarCategoryGUI
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
-		if(array_key_exists('backv',$_REQUEST))
-		{
-			$this->ctrl->setParameter($this,'backv',(int) $_REQUEST['backv']);
-		}
-		
 		$this->ctrl->setParameter($this,'category_id',$this->category_id);
 
 		// Check permissions
@@ -1603,14 +1593,6 @@ class ilCalendarCategoryGUI
 	 */
 	protected function uploadAppointments()
 	{
-		if($_REQUEST['backv'] == self::VIEW_MANAGE)
-		{
-			$back = 'manage';
-		}
-		else
-		{
-			$back = 'cancel';
-		}
 		$form = $this->initImportForm();
 		if($form->checkInput())
 		{
@@ -1622,7 +1604,7 @@ class ilCalendarCategoryGUI
 			$num = $this->doImportFile($tmp, (int) $_REQUEST['category_id']);
 			
 			ilUtil::sendSuccess(sprintf($this->lng->txt('cal_imported_success'), (int) $num),true);
-			$this->ctrl->redirect($this,$back);
+			$this->ctrl->redirect($this,'cancel');
 		}
 		
 		ilUtil::sendFailure($this->lng->txt('cal_err_file_upload'),true);

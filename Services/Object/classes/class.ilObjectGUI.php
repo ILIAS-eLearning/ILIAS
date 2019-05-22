@@ -365,17 +365,7 @@ class ilObjectGUI
 			// set tabs
 			$this->setTabs();
 
-			// BEGIN WebDAV: Display Mount Webfolder icon.
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-				if (ilDAVActivationChecker::_isActive())
-				{			
-					$this->showMountWebfolderIcon();
-				}
-			}
-			// END WebDAV: Display Mount Webfolder icon.
-			
+
 			// fileupload support
 			require_once './Services/FileUpload/classes/class.ilFileUploadUtil.php';
 			if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType()))
@@ -519,21 +509,6 @@ class ilObjectGUI
 		exit;
 	}
 	
-	// BEGIN WebDAV: Show Mount Webfolder Icon.
-	protected function showMountWebfolderIcon()
-	{
-		$tree = $this->tree;
-		$tpl = $this->tpl;
-		$objDefinition = $this->objDefinition;
-
-		if ($this->object->getRefId() == "")
-		{
-			return;
-		}
-
-		$tpl->setMountWebfolderIcon($this->object->getRefId());
-	}
-	// END WebDAV: Show Mount Webfolder Icon.
 
 
 	/**

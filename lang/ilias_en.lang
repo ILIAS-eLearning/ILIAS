@@ -176,9 +176,6 @@ forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
 forum#:#delete_draft_successfully#:#The draft was deleted successfully.
 forum#:#forums_edit_draft#:#Edit draft
 forum#:#publish#:#Publish
-forum#:#frm_my_posting_drafts#:#My Posting Drafts
-forum#:#frm_posting_draft#:#Draft
-forum#:#frm_posting_drafts#:#Drafts
 forum#:#enable_send_attachments#:#Send attachments with forum notifications
 forum#:#enable_send_attachments_desc#:#Please note that file attachments must be stored separately for each notified user. This can cause a high usage of server disk space.
 forum#:#adm_save_drafts#:#Save drafts
@@ -186,6 +183,7 @@ forum#:#adm_save_drafts_desc#:#If enabled, registered users are able to save for
 forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
+forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
 common#:#pwsp_recalculate_disk_quota#:#Personal Workspace: Recalculation of Disk Quota
 common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal workspace.
 itgr#:#itgr_show_title#:#Show Title
@@ -1661,8 +1659,6 @@ certificate#:#download_certificate#:#Download Certificate
 certificate#:#cert_form_sec_availability#:#Availability
 certificate#:#cert_form_sec_layout#:#Layout and Text
 certificate#:#cert_form_sec_add_features#:#Additional Features
-common#:#chat_chatviewer#:#Chat Viewer
-chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 cmps#:#cmps_activate#:#Activate
 cmps#:#cmps_active#:#Active
 cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List
@@ -2822,7 +2818,6 @@ common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_settings#:#Mail Settings
 rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
-rbac#:#mail_system_message#:#User can send internal system messages
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
 common#:#mail_z_local#:#User Folders
@@ -3255,7 +3250,6 @@ common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
 common#:#path#:#Path
 common#:#pathes#:#Paths
-common#:#pd_enable_chatviewer#:#Enable Chat Viewer
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pdf_export#:#PDF Export
 common#:#perm_settings#:#Permissions
@@ -3645,7 +3639,6 @@ common#:#svy#:#Survey
 common#:#system_check#:#System Check
 common#:#system_information#:#System Information
 common#:#system_language#:#System Language
-common#:#system_message#:#System Messages
 common#:#system_styles#:#System Styles
 common#:#system#:#System
 common#:#systemcheck_cron#:#Process System Check in Cron Job
@@ -5680,7 +5673,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
-chatroom#:#chatviewer_no_rooms#:#No Chat Room available, yet.
 mail#:#back_to_folder#:#Back to Folder
 mail#:#current_folder#:#Current Folder: %s
 mail#:#chat_users_have_been_invited#:#The following users have been invited:
@@ -7845,7 +7837,6 @@ common#:#obj_frma#:#Forum
 common#:#obj_frma_desc#:#Global Forum Settings
 administration#:#frm_displayed_infos#:#Displayed Information
 administration#:#frm_disp_info_desc#:#Please select the attributes which should to be shown in the overviews.
-common#:#show_system_messages#:#System Messages
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_table_form#:#In Table Form
 content#:#glo_table_form_info#:#Terms and definition are first shown in a two-column overview. Clicking the term opens the full content of a term on a separate screen.
@@ -10088,7 +10079,6 @@ registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. E.g. "*@ilias.de". Registration codes override these rules.
 pd#:#block_show_pdcal#:#Show Calendar
 pd#:#block_show_pdmail#:#Show Mail
-pd#:#block_show_pdsysmess#:#Show System Messages
 pd#:#block_show_pdtag#:#Show My Tags
 pd#:#block_show_pdnews#:#Show News
 pd#:#block_show_pdnotes#:#Show Notes
@@ -11785,12 +11775,11 @@ rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
 obj#:#obj_tool_setting_info_tab_info#:#The ‘Info’ tab will be displayed.
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
-common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block will be displayed inside the ‘Content’ tab.
+common#:#obj_tool_setting_calendar_info#:#A calendar is available and the ‘Calendar’ block is displayed in the ‘Contents’ tab.
 obj#:#obj_presentation#:#Presentation
 mcst#:#mcst_webfeed#:#RSS Web Feed
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
 news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.
-chatroom#:#room_in_container#:#%s (in: %s)
 common#:#obj_crsv#:#Course Certificate
 wsp#:#wsp_type_crsv#:#Certificate: Course
 wsp#:#wsp_list_crsv#:#Course Certificate
@@ -13507,9 +13496,6 @@ skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
-pd#:#pd_sys_msg_own_block#:#Show system messages in an own block
-pd#:#pd_sys_msg_mail_block#:#Show system messages in the "Mail" block
-pd#:#pd_sys_msg_no_block#:#Don't show any system messages on the personal desktop
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
@@ -15098,3 +15084,4 @@ certificate#:#learning_progress_deactivated#:#The Learning Progress for this obj
 exc#:#exc_tbl_action_open_submission#:#Open Submission
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
+content#:#msg_no_page_access#:#You do not have the permission to access this page.

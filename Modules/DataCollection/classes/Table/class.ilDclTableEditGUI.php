@@ -71,7 +71,7 @@ class ilDclTableEditGUI {
 		$locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTarget($this, 'edit'));
 		$this->tpl->setLocator();
 
-		if (!$this->checkPermission()) {
+		if (!$this->checkAccess()) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
 		}
@@ -461,10 +461,9 @@ class ilDclTableEditGUI {
 	/**
 	 * @return bool
 	 */
-	protected function checkPermission() {
+	protected function checkAccess() {
 		$ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
-
-		return ilObjDataCollection::_hasWriteAccess($ref_id);
+		return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
 	}
 
 
@@ -478,7 +477,7 @@ class ilDclTableEditGUI {
 		$tables = $this->parent_object->getDataCollectionObject()->getTables();
 
 		foreach ($tables as $table) {
-			$options[$table->getId()] = $table->getTitle(); //TODO order tables
+			$options[$table->getId()] = $table->getTitle();
 		}
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$table_selection = new ilSelectInputGUI('', 'table_id');
