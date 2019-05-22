@@ -1023,6 +1023,8 @@ if( $ilDB->tableExists($tempTableName) )
 if( $row['cnt'] > 0 )
 {
 	$ilDB->createTable($tempTableName, $tempTableFields);
+	$ilDB->addPrimaryKey($tempTableName, array('qst_id'));
+	$ilDB->addIndex($tempTableName, array('tst_obj_id', 'qpl_obj_id'), 'i1');
  
     $ilDB->manipulate("
         INSERT INTO {$tempTableName} (qst_id, tst_obj_id, qpl_obj_id) {$brokenQuestionSelectQuery}
@@ -1038,27 +1040,27 @@ $tempTableName = 'tmp_tst_qst_fixparent';
 if( $ilDB->tableExists($tempTableName) )
 {
 	$updateStatement = $ilDB->prepareManip("
-        UPDATE qpl_questions SET obj_fi = ? WHERE question_id IN(
-            SELECT qst_id FROM {$tempTableName} WHERE tst_obj_id = ?
+        UPDATE qpl_questions SET obj_fi = ? WHERE obj_fi = ? AND question_id IN(
+            SELECT qst_id FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
         )
-    ", array('integer', 'integer')
+    ", array('integer', 'integer', 'integer', 'integer')
 	);
 	
 	$deleteStatement = $ilDB->prepareManip("
-        DELETE FROM {$tempTableName} WHERE tst_obj_id = ?
-    ", array('integer')
+        DELETE FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
+    ", array('integer', 'integer')
 	);
 	
-	$res = $ilDB->query("SELECT DISTINCT tst_obj_id FROM {$tempTableName}");
+	$res = $ilDB->query("SELECT DISTINCT tst_obj_id, qpl_obj_id FROM {$tempTableName}");
     
     while( $row = $ilDB->fetchAssoc($res) )
     {
         $ilDB->execute($updateStatement, array(
-                $row['tst_obj_id'], $row['tst_obj_id']
+			$row['tst_obj_id'], $row['qpl_obj_id'], $row['tst_obj_id'], $row['qpl_obj_id']
         ));
         
 		$ilDB->execute($deleteStatement, array(
-		        $row['tst_obj_id']
+			$row['tst_obj_id'], $row['qpl_obj_id']
         ));
     }
     
