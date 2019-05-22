@@ -77,7 +77,7 @@ composer dump-autoload
 To populate the vendor-directory for a development environment, use
 
 ```bash
-composer install --no-dev
+composer install --dev
 composer dump-autoload
 ```
 
