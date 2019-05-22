@@ -21,7 +21,6 @@
     "Yamm3": "yamm3#1.1.0",
     "jquery-ui": "1.12.1",
     "maphilight": "kemayo/maphilight#1.4.0",
-    "nestable": "*",
     "jqueryui-touch-punch": "*",
     "jquery-outside-events": "*",
     "yui2": "https://github.com/yui/yui2.git#067c9f82ecc90e4b392b7cb06a4a4f7fe3f6136e",
@@ -94,13 +93,6 @@
       "purpose": "Image Maps",
       "last-update-for-ilias": "5.3.0",
       "note": "This is linked direclty to the git repo of kemayo/maphilight, since the bower package is out of date."
-    },
-    "nestable": {
-      "introduction-date": null,
-      "approved-by": "Jour Fixe",
-      "developer": null,
-      "purpose": "",
-      "last-update-for-ilias": null
     },
     "jqueryui-touch-punch": {
       "introduction-date": null,
@@ -227,8 +219,8 @@
       "last-update-for-ilias": "5.3.4"
     },
     "nestable2": {
-      "introduction-date": "2018-11-26",
-      "approved-by": "",
+      "introduction-date": "2018-05-22",
+      "approved-by": "Jour Fixe",
       "developer": "bheyser",
       "purpose": "Assessment Nested Ordering",
       "last-update-for-ilias": "6.0.0"
