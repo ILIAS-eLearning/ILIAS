@@ -88,7 +88,7 @@ class ilMMItemInformation implements ItemInformation {
 			return (int)$this->items[$item->getProviderIdentification()->serialize()]['position'];
 		}
 
-		return 99;
+		return $item->getPosition();
 	}
 
 
@@ -101,7 +101,7 @@ class ilMMItemInformation implements ItemInformation {
 			return $this->items[$serialize]['active'] === "1";
 		}
 
-		return false;
+		return $item->isActive();
 	}
 
 

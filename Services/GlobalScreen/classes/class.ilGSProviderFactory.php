@@ -37,12 +37,8 @@ class ilGSProviderFactory extends ProviderFactory {
 	public function getMetaBarProvider(): array {
 		$providers = [];
 		// Core
-		foreach (ilGSProviderStorage::where(['purpose' => StaticMetaBarProvider::PURPOSE_MBS])->get() as $provider_storage) {
-			/**
-			 * @var $provider_storage ilGSProviderStorage
-			 */
-			$providers[] = $provider_storage->getInstance();
-		}
+		$this->appendCore($providers, StaticMetaBarProvider::PURPOSE_MBS);
+
 		// Plugins
 		$this->appendPlugins($providers, StaticMetaBarProvider::class);
 
@@ -58,12 +54,7 @@ class ilGSProviderFactory extends ProviderFactory {
 	public function getMainBarProvider(): array {
 		$providers = [];
 		// Core
-		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE_MAINBAR])->get() as $provider_storage) {
-			/**
-			 * @var $provider_storage ilGSProviderStorage
-			 */
-			$providers[] = $provider_storage->getInstance();
-		}
+		$this->appendCore($providers, StaticMainMenuProvider::PURPOSE_MAINBAR);
 
 		// Plugins
 		$this->appendPlugins($providers, StaticMainMenuProvider::class);
@@ -79,13 +70,8 @@ class ilGSProviderFactory extends ProviderFactory {
 	 */
 	public function getToolProvider(): array {
 		$providers = [];
-		// // Core
-		foreach (ilGSProviderStorage::where(['purpose' => DynamicToolProvider::PURPOSE_TOOLS])->get() as $provider_storage) {
-			/**
-			 * @var $provider_storage ilGSProviderStorage
-			 */
-			$providers[] = $provider_storage->getInstance();
-		}
+		// Core
+		$this->appendCore($providers, DynamicToolProvider::PURPOSE_TOOLS);
 
 		// Plugins
 		$this->appendPlugins($providers, DynamicToolProvider::class);
@@ -109,6 +95,23 @@ class ilGSProviderFactory extends ProviderFactory {
 		foreach ($plugin_providers as $provider) {
 			if (is_a($provider, $interface)) {
 				$array_of_core_providers[] = $provider;
+			}
+		}
+	}
+
+
+	/**
+	 * @param array  $array_of_providers
+	 * @param string $purpose
+	 */
+	private function appendCore(array &$array_of_providers, string $purpose): void {
+		// // Core
+		foreach (ilGSProviderStorage::where(['purpose' => $purpose])->get() as $provider_storage) {
+			/**
+			 * @var $provider_storage ilGSProviderStorage
+			 */
+			if ($this->isInstanceCreationPossible($provider_storage->getProviderClass())) {
+				$array_of_providers[] = $provider_storage->getInstance();
 			}
 		}
 	}

@@ -169,6 +169,11 @@ class LayoutContent {
 		}
 		if ($definition->hasMetaBar()) {
 			$meta_bar = $this->getMetaBar();
+			try {
+				$meta_bar->getEntries();
+			} catch (\TypeError $e) { // There are no entries
+				$meta_bar = null;
+			}
 		}
 		if ($definition->hasBreadCrumbs()) {
 			$bread_crumbs = $this->getBreadCrumbs();
