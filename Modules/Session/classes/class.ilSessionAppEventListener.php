@@ -136,32 +136,23 @@ class ilSessionAppEventListener implements ilAppEventListener
 
 	private function handleRegisterEvent()
 	{
-		$recipients = $this->fetchRecipientParticipants();
-		if (array() !== $recipients) {
-			$type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
+		$type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
 
-			$this->sendMail($recipients, $type);
-		}
+		$this->sendMail($type);
 	}
 
 	private function handleEnteredEvent()
 	{
-		$recipients = $this->fetchRecipientParticipants();
-		if (array() !== $recipients) {
-			$type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
+		$type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
 
-			$this->sendMail($recipients, $type);
-		}
+		$this->sendMail($type);
 	}
 
 	private function handleUnregisterEvent()
 	{
-		$recipients = $this->fetchRecipientParticipants();
-		if (array() !== $recipients) {
-			$type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
+		$type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
 
-			$this->sendMail($recipients, $type);
-		}
+		$this->sendMail($type);
 	}
 
 	private function fetchRecipientParticipants()
@@ -182,15 +173,19 @@ class ilSessionAppEventListener implements ilAppEventListener
 	/**
 	 * @param array $recipients
 	 * @param $type
+	 * @throws ilException
 	 */
-	private function sendMail(array $recipients, $type)
+	private function sendMail($type)
 	{
-		$notification = new ilSessionMembershipMailNotification();
-		$notification->setRecipients($recipients);
-		$notification->setType($type);
-		$notification->setRefId($this->parameters['ref_id']);
+		$recipients = $this->fetchRecipientParticipants();
+		if (array() !== $recipients) {
+			$notification = new ilSessionMembershipMailNotification();
+			$notification->setRecipients($recipients);
+			$notification->setType($type);
+			$notification->setRefId($this->parameters['ref_id']);
 
-		$notification->send($this->parameters['usr_id']);
+			$notification->send($this->parameters['usr_id']);
+		}
 	}
 }
 // thkoeln-patch: end
