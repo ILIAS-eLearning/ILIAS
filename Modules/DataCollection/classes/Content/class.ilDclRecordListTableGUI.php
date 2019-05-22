@@ -230,9 +230,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @return bool|void
 	 */
 	public function fillRow($record_data) {
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
 		$record_obj = $record_data['_record'];
 
 		/**
