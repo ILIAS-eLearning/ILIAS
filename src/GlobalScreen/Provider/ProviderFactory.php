@@ -110,6 +110,6 @@ class ProviderFactory implements ProviderFactoryInterface {
 	 * @inheritDoc
 	 */
 	public function isInstanceCreationPossible(string $class_name): bool {
-		return class_exists($class_name) && isset($this->all_providers[$class_name]);
+		return class_exists($class_name); // && isset($this->all_providers[$class_name])
 	}
 }

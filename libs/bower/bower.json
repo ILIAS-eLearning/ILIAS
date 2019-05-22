@@ -40,7 +40,8 @@
     "typeahead.js": "^0.11.1",
     "pouchdb": "^6.3.4",
     "openlayers": "^4.6.4",
-    "owl.carousel": "^2.3.3"
+    "owl.carousel": "^2.3.3",
+    "nestable2": "^1.6.0"
   },
   "extra": {
     "pouchdb": {
@@ -224,6 +225,13 @@
       "developer": "akill",
       "purpose": "Accordion Service",
       "last-update-for-ilias": "5.3.4"
+    },
+    "nestable2": {
+      "introduction-date": "2018-11-26",
+      "approved-by": "",
+      "developer": "bheyser",
+      "purpose": "Assessment Nested Ordering",
+      "last-update-for-ilias": "6.0.0"
     }
   }
 }
