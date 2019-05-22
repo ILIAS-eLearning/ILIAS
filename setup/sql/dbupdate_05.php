@@ -1066,3 +1066,15 @@ if( $ilDB->tableExists($tempTableName) )
 }
 
 ?>
+<#5503>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('upload_blacklisted_files', "Upload Blacklisted Files", "object", 1);
+if ($tgt_ops_id) {
+	$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('facs');
+	if ($lp_type_id) {
+		ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);
+	}
+}
+?>
+
