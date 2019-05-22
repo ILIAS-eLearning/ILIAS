@@ -96,6 +96,16 @@ class BasicContext implements ContextInterface {
 	/**
 	 * @inheritDoc
 	 */
+	public function addAdditionalData(string $key, $value): ContextInterface {
+		$this->additional_data->add($key, $value);
+
+		return $this;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getUniqueContextIdentifier(): string {
 		return $this->context_identifier;
 	}

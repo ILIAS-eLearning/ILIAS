@@ -4,6 +4,7 @@ namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Provider\NullProviderFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
@@ -48,7 +49,7 @@ class FactoryImplTest extends TestCase {
 	protected function setUp(): void{
 		parent::setUp();
 
-		$this->identification = new IdentificationFactory();
+		$this->identification = new IdentificationFactory(new NullProviderFactory());
 		$this->provider = \Mockery::mock(StaticMainMenuProvider::class);
 		$this->provider->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
 
@@ -74,9 +75,8 @@ class FactoryImplTest extends TestCase {
 				        3 => 'linkList',
 				        4 => 'repositoryLink',
 				        5 => 'separator',
-				        6 => 'tool',
-				        7 => 'topLinkItem',
-				        8 => 'topParentItem',
+				        6 => 'topLinkItem',
+				        7 => 'topParentItem',
 			        ]
 		);
 	}

@@ -204,6 +204,7 @@ class ilMainMenuGUI {
 	/**
 	 * @param bool $a_in_topbar
 	 *
+	 * @deprecated
 	 * @return string
 	 */
 	public static function getLanguageSelection($a_in_topbar = false): string {

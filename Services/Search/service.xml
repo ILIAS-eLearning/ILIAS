@@ -4,7 +4,7 @@
 		<baseclass name="ilSearchController" dir="classes" />
 	</baseclasses>
 	<gsproviders>
-		<gsprovider purpose="meta_bar_static" class_name="ilSearchGSProvider" />
+		<gsprovider purpose="meta_bar_static" class_name="ilSearchGSMetaBarProvider" />
 	</gsproviders>
 	<objects>
 		<object id="seas" class_name="SearchSettings" dir="classes"
