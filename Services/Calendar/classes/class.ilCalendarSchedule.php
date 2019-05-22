@@ -63,7 +63,12 @@ class ilCalendarSchedule
 	 * @var bool strict_period true if no extra range of days are needed. (e.g. month view needs days before and after)
 	 */
 	protected $strict_period;
-	
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger;
+
 	/**
 	 * Constructor
 	 *
@@ -80,6 +85,8 @@ class ilCalendarSchedule
 
 	 	$ilUser = $DIC['ilUser'];
 	 	$ilDB = $DIC['ilDB'];
+
+	 	$this->logger = $DIC->logger()->cal();
 	 	
 	 	$this->db = $ilDB;
 
@@ -393,16 +400,12 @@ class ilCalendarSchedule
 	
 	protected function modifyEventByFilters(ilCalendarEntry $event)
 	{
-		global $DIC;
-
-		$logger = $DIC->logger()->cal();
-
 		foreach($this->filters as $filter)
 		{
 			$res = $filter->modifyEvent($event);
 			if(!$res)
 			{
-				$logger->info('filtering failed for ' . get_class($filter));
+				$this->logger->info('filtering failed for ' . get_class($filter));
 				return FALSE;
 			}
 			$event = $res;
@@ -594,15 +597,53 @@ class ilCalendarSchedule
 				}
 				else
 				{
-					//todo: previous implementation still taking more days than represented in the view.
 					$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
 					list($year,$month) = explode('-',$year_month);
 
+					#21716
 					$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);
-					$this->start->increment(IL_CAL_DAY,-6);
 
+					$start_unix_time = $this->start->getUnixTime();
+
+					$start_day_of_week = (int)date('w', $start_unix_time);
+
+					$number_days_previous_month = 0;
+
+					if($start_day_of_week === 0 && $this->weekstart === ilCalendarSettings::WEEK_START_MONDAY)
+					{
+						$number_days_previous_month = 6;
+					}
+					else if($start_day_of_week > 0)
+					{
+						$number_days_previous_month = $start_day_of_week;
+
+						if($this->weekstart === ilCalendarSettings::WEEK_START_MONDAY) {
+							$number_days_previous_month = $start_day_of_week - 1;
+						}
+					}
+
+					$this->start->increment(IL_CAL_DAY, -$number_days_previous_month);
+
+					#21716
 					$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
-					$this->end->increment(IL_CAL_DAY,6);
+
+					$end_unix_time = $this->end->getUnixTime();
+
+					$end_day_of_week = (int)date('w', $end_unix_time);
+
+					if($end_day_of_week > 0)
+					{
+						$number_days_next_month = 7 - $end_day_of_week;
+
+						if($this->weekstart == ilCalendarSettings::WEEK_START_SUNDAY) {
+							$number_days_next_month = $number_days_next_month - 1;
+						}
+
+						$this->end->increment(IL_CAL_DAY, $number_days_next_month);
+					}
+
+					$this->logger->debug("* Month Calendar starts on = ".$this->start);
+					$this->logger->debug("* Month Calendar ends on = ".$this->end);
 				}
 
 				break;
