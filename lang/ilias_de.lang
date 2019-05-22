@@ -14931,7 +14931,7 @@ crs#:#crs_lobj_pm_score#:#Ihr Ergebnis
 crs#:#crs_lobj_pm_min_goal#:#Benötigter Wert
 dateplaner#:#back_to_crs#:#Kursinhalt
 dateplaner#:#back_to_grp#:#Gruppeninhalt
-dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
+dateplaner#:#back_to_pd#:#zurück
 crs#:#crs_timings_short_start_end#:#Startdatum
 common#:#il_lso_admin#:#Lernsequenzadministrator
 common#:#il_lso_member#:#Lernsequenzmitglied
