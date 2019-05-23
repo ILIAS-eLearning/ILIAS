@@ -466,25 +466,23 @@ class ilEventParticipants
 		/** @var ilObject $session */
 		$session = ilObjectFactory::getInstanceByObjId($this->event_id);
 		$refIdArray = array_values(ilObject::_getAllReferences($this->event_id));
-		if ($session instanceof ilObjSession) {
-			if (true === $session->isRegistrationNotificationEnabled()) {
-				if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
-					$parentRefId = $tree->getParentId($refIdArray[0]);
-					/** @var ilObjCourse|ilObjGroup $parentObject */
-					$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
+		if (true === $session->isRegistrationNotificationEnabled()) {
+			if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+				$parentRefId = $tree->getParentId($refIdArray[0]);
+				/** @var ilObjCourse|ilObjGroup $parentObject */
+				$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
 
-					if ($parentObject instanceof ilObjCourse || $parentObject instanceof ilObjGroup) {
-						$memberRolesObject = $parentObject->getMembersObject();
-						$parentRecipients = $memberRolesObject->getNotificationRecipients();
-						if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
-							$admins = $memberRolesObject->getAdmins();
+				if ($parentObject instanceof ilObjCourse || $parentObject instanceof ilObjGroup) {
+					$memberRolesObject = $parentObject->getMembersObject();
+					$parentRecipients = $memberRolesObject->getNotificationRecipients();
+					if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+						$admins = $memberRolesObject->getAdmins();
 
-							foreach ($admins as $adminUserId) {
-								$this->participants[$adminUserId]['notification_enabled'] = true;
-							}
+						foreach ($admins as $adminUserId) {
+							$this->participants[$adminUserId]['notification_enabled'] = true;
 						}
-
 					}
+
 				}
 			}
 		}
