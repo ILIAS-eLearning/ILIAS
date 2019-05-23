@@ -12291,7 +12291,7 @@ mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 crs#:#crs_mem_tbl_header#:#Course Participants
 grp#:#grp_mem_tbl_header#:#Group Participants
-sess#:#sess_mail_permanent_link_participants#:#Wählen Sie folgenden Link um auf die Sitzungsteilnehmer zuzugreifen:
+sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
