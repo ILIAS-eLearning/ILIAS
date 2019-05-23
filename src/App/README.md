@@ -131,18 +131,19 @@ Software Structure
 - src
 	- App
 		- CoreApp
-			- Application
-			- Domain
-				- Course
-					- Entity
-					- Events
-					- Repository
-					- Service
-					- ValueObject
-				- Member
-					- Entity
-                    ...
-			- Infrastructure
+			- Course
+				- Application
+				- Domain
+					- Course
+						- Entity
+						- Events
+						- Repository
+						- Service
+						- ValueObject
+					- Member
+						- Entity
+	                    ...
+				- Infrastructure
 				
 					
 
@@ -150,7 +151,7 @@ Software Structure
 https://medium.com/@drozzy/long-running-processes-event-sourcing-cqrs-c87fbb2ca644
 ### wir brauchen
 https://webmozart.io/blog/2015/09/09/value-objects-in-symfony-forms/
-### zu PRüfen
+### zu Prüfen
 Das deckt sich mit dem Entwurfsmuster CQS (Command Query Separation), das von Bertrand Meijer erdacht wurde. Es besagt, dass jede Funktion eines Objekts entweder als Command oder als Query entworfen sein soll.
 ### Validation Folder
 https://medium.com/@developeruldeserviciu/ddd-usually-means-at-least-3-layers-application-services-domain-service-and-infrastructure-967e80403615
