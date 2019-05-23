@@ -37,6 +37,8 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
 		$this->setOrderField("title");
+
+		$this->setNodeOpen($this->tree->readRootId());
 	}
 
 	/**
