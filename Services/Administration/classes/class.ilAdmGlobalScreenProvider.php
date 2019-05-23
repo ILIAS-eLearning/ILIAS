@@ -84,7 +84,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 						->link($identification)
 						->withTitle($titems[$group_item]["title"])
 						->withAction($action)
-						->withIcon($icon);
+						->withSymbol($icon);
 				}
 
 				// Main entry

@@ -1,11 +1,13 @@
 <?php
 
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
+
 /**
- * Class ilMMHasher
+ * Class Hasher
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-trait ilMMHasher {
+trait Hasher {
 
 	/**
 	 * @param $string
