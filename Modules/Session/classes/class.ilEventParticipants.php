@@ -463,19 +463,32 @@ class ilEventParticipants
 		$tree = $DIC->repositoryTree();
 
 		$parentRecipients = array();
+		/** @var ilObject $session */
 		$session = ilObjectFactory::getInstanceByObjId($this->event_id);
 		$refIdArray = array_values(ilObject::_getAllReferences($this->event_id));
-		if (true === $session->isRegistrationNotificationEnabled()) {
-			if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
-				$parentRefId = $tree->getParentId($refIdArray[0]);
-				/** @var ilObjCourse|ilObjGroup $parentObject */
-				$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
+		if ($session instanceof ilObjSession) {
+			if (true === $session->isRegistrationNotificationEnabled()) {
+				if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+					$parentRefId = $tree->getParentId($refIdArray[0]);
+					/** @var ilObjCourse|ilObjGroup $parentObject */
+					$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
 
-				if ($parentObject instanceof ilObjCourse || $parentObject instanceof ilObjGroup) {
-					$parentRecipients = $parentObject->getMembersObject()->getNotificationRecipients();
+					if ($parentObject instanceof ilObjCourse || $parentObject instanceof ilObjGroup) {
+						$memberRolesObject = $parentObject->getMembersObject();
+						$parentRecipients = $memberRolesObject->getNotificationRecipients();
+						if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+							$admins = $memberRolesObject->getAdmins();
+
+							foreach ($admins as $adminUserId) {
+								$this->participants[$adminUserId]['notification_enabled'] = true;
+							}
+						}
+
+					}
 				}
 			}
 		}
+
 
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -491,12 +504,14 @@ class ilEventParticipants
 			$this->participants[$row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
 			/** @var ilObjSession $session */
 			if (true === $session->isRegistrationNotificationEnabled()) {
-				$this->participants[$row->usr_id]['notification_enabled'] = false;
+				if (false === isset($this->participants[$row->usr_id]['notification_enabled'])) {
+					$this->participants[$row->usr_id]['notification_enabled'] = false;
+				}
 				if (ilSessionConstants::NOTIFICATION_MANUAL_OPTION === $session->getRegistrationNotificationOption()) {
 					$this->participants[$row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
 				} elseif (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
-					foreach ($parentRecipients as $recipient) {
-						if ($recipient == $row->usr_id) {
+					foreach ($parentRecipients as $parentRecipientUserId) {
+						if ($parentRecipientUserId == $row->usr_id) {
 							$this->participants[$row->usr_id]['notification_enabled'] = true;
 						}
 					}
