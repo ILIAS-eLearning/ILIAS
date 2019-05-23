@@ -309,7 +309,7 @@ Just the `transform` method needs to be created in the new transformation class.
 ##### Error Handling
 
 Exceptions thrown inside the `transformation` method will be
-catched and added to new
+caught and added to new
 [error result object (`Result\Error`)](/src/Data/README.md#result).
 
 The origin exception can be accessed through this error object.
@@ -322,7 +322,7 @@ Just the `applyTo` method needs to be created in the new transformation class.
 ##### Error Handling
 
 Exceptions thrown inside the `applyTo` method will be
-**not be** catched.
+**not be** caught.
 On return of an [error result object (`Result\Error`)](/src/Data/README.md#result)
 the `transform` method will throw an exception.
 
