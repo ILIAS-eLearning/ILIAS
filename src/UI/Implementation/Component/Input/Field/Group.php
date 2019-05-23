@@ -41,7 +41,7 @@ class Group extends Input implements C\Input\Field\Group {
 		\ILIAS\Refinery\Factory $refinery,
 		array $inputs,
 		string $label,
-		string $byline
+		$byline
 	) {
 		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
 		$this->checkArgListElements("inputs", $inputs, InputInternal::class);

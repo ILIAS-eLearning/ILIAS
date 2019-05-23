@@ -61,21 +61,99 @@ class FieldFactoryTest extends AbstractFactoryTest {
 	public function test_implements_factory_interface() {
 		$f = $this->buildFactory();
 
-		$text = $f->text("label", "byline");
-		$this->assertInstanceOf(Field\Input::class, $text);
-		$this->assertInstanceOf(Field\Text::class, $text);
+		$input = $f->text("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Text::class, $input);
 
-		$text = $f->numeric("label", "byline");
-		$this->assertInstanceOf(Field\Input::class, $text);
-		$this->assertInstanceOf(Field\Numeric::class, $text);
+		$input = $f->numeric("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Numeric::class, $input);
 
-		$text = $f->section([], "label", "byline");
-		$this->assertInstanceOf(Field\Input::class, $text);
-		$this->assertInstanceOf(Field\Group::class, $text);
-		$this->assertInstanceOf(Field\Section::class, $text);
+		$input = $f->section([], "label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Group::class, $input);
+		$this->assertInstanceOf(Field\Section::class, $input);
 
-		$text = $f->group([]);
-		$this->assertInstanceOf(Field\Input::class, $text);
-		$this->assertInstanceOf(Field\Group::class, $text);
+		$input = $f->group([]);
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Group::class, $input);
+
+		$input = $f->dependantGroup([]);
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Group::class, $input);
+		$this->assertInstanceOf(Field\DependantGroup::class, $input);
+
+		$input = $f->checkbox("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Checkbox::class, $input);
+
+		$input = $f->tag( "label", [],"byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Tag::class, $input);
+
+		$input = $f->password("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Password::class, $input);
+
+		$input = $f->select("label",[],  "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Select::class, $input);
+
+		$input = $f->textarea( "label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Textarea::class, $input);
+
+		$input = $f->radio("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Radio::class, $input);
+
+		$input = $f->multiSelect("label", [], "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\MultiSelect::class, $input);
+	}
+
+	public function test_implements_factory_no_by_line() {
+		$f = $this->buildFactory();
+
+		$input = $f->text("label");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Text::class, $input);
+
+		$input = $f->numeric("label");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Numeric::class, $input);
+
+		$input = $f->section([], "label");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Group::class, $input);
+		$this->assertInstanceOf(Field\Section::class, $input);
+
+		$input = $f->checkbox("label");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Checkbox::class, $input);
+
+		$input = $f->tag( "label", []);
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Tag::class, $input);
+
+		$input = $f->password("label");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Password::class, $input);
+
+		$input = $f->select("label",[]);
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Select::class, $input);
+
+		$input = $f->textarea( "label");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Textarea::class, $input);
+
+		$input = $f->radio("label");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Radio::class, $input);
+
+		$input = $f->multiSelect("label", []);
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\MultiSelect::class, $input);
 	}
 }
