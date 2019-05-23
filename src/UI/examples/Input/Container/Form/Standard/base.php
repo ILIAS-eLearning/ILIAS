@@ -17,7 +17,7 @@ function base() {
     $section1 = $ui->input()->field()->section([$text_input],"Section 1","Description of Section 1");
 
     //Step 3: Define the form and attach the section.
-    $form = $ui->input()->container()->form()->standard("#", [$section1]);
+    $form = $ui->input()->container()->form()->standard("", [$section1]);
 
     //Step 4: Render the form
     return $renderer->render($form);

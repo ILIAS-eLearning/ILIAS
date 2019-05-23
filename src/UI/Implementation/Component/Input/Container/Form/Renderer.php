@@ -27,7 +27,11 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandard(Component\Input\Container\Form\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard.html", true, true);
 
-		$tpl->setVariable("URL", $component->getPostURL());
+		if($component->getPostURL()!= ""){
+			$tpl->setCurrentBlock("action");
+			$tpl->setVariable("URL", $component->getPostURL());
+			$tpl->parseCurrentBlock();
+		}
 
 		$f = $this->getUIFactory();
 		$submit_button = $f->button()->standard($this->txt("save"), "#")// TODO: replace this with proper 'submit'-signal of form.
