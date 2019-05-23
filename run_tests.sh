@@ -13,7 +13,7 @@ PHPUNIT_PATH_TMP="/tmp/phpunit_changed.csv"
 PHPUNIT_RESULTS_PATH="/tmp/phpunit_results"
 DICTO_PATH="/tmp/dicto_latest.csv"
 TRAVIS_RESULTS_DIRECTORY="/tmp/CI-Results/"
-DATE=`date '+%Y-%m-%d-%H:%M:%S'`
+DATE=`date '+%Y-%m-%d %H:%M:%S'`
 
 libs/composer/vendor/phpunit/phpunit/phpunit --bootstrap ./libs/composer/vendor/autoload.php --configuration ./Services/PHPUnit/config/PhpUnitConfig.xml --exclude-group needsInstalledILIAS --verbose $@ | tee "$PHPUNIT_RESULTS_PATH"
 
