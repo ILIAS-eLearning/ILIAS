@@ -113,9 +113,6 @@ class ilCalendarSchedule
 	 					
 		
 		// category / event filters
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		
 		// portfolio does custom filter handling (booking group ids)		
 		if(ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
 		{
@@ -123,14 +120,19 @@ class ilCalendarSchedule
 			if(ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_CONSULTATION)
 			{
 				// this is the "default" filter which handles currently hidden categories for the user
-				include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterHidden.php');
-				$this->addFilter(new ilCalendarScheduleFilterHidden($this->user->getId()));		
+				$this->addFilter(new ilCalendarScheduleFilterHidden($this->user->getId()));
 			}
 			else
 			{
 				// handle booking visibility (target object, booked out)
-				include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
-				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));		
+				//this filter deals with consultation hours
+				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));
+			}
+
+			if(ilCalendarCategories::_getInstance()->getMode() === ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
+			{
+				//this filter deals with booking pool reservations
+				$this->addFilter(new ilCalendarScheduleFilterBookingPool($this->user->getId()));
 			}
 			
 			$this->addFilter(new ilCalendarScheduleFilterExercise($this->user->getId()));
