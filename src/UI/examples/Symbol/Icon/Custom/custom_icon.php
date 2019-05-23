@@ -6,7 +6,7 @@ function custom_icon() {
 
 	$buffer = array();
 
-	$path = './src/UI/examples/Icon/Custom/my_custom_icon.svg';
+	$path = './src/UI/examples/Symbol/Icon/Custom/my_custom_icon.svg';
 	$ico = $f->symbol()->icon()->custom($path, 'Example');
 
 	$buffer[] = $renderer->render($ico)
