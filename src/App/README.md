@@ -131,131 +131,20 @@ Software Structure
 - src
 	- App
 		- CoreApp
-			- Course
-				TODO
+			- Application
+			- Domain
+				- Course
+					- Entity
+					- Events
+					- Repository
+					- Service
+					- ValueObject
+				- Member
+					- Entity
+                    ...
+			- Infrastructure
+				
 					
-						
-### Course
-#### Domain
-
-#### Entity
-```
-<?php
-
-namespace //TODO
-
-/**
- * Course
- */
-class Course
-{
-    /**
-     * @var CourseAdmin[]
-     */
-    private $admins = [];
-
-    /**
-     * @var CourseMember[]
-     */
-    private $members = [];
-
-    /**
-     * @var int
-     */
-     private $objId;
-
-    /**
-     * @var string|null
-     */
-    private $title;
-    
-    //TODO construct
-```
-
-```
-<?php
-   
-  //TODO
-   
-   /**
-    * CourseMember
-    */
-   class CourseMember
-   {
-   	/**
-   	 * @var Course
-   	 */
-   	protected $course;
-   
-   	/**
-   	 * @var User
-   	 */
-   	protected $user;
-   	/**
-   	 * @var int
-   	 */
-   	private $objId;
-``` 
-  	
-#####Repository
-```  
-<?php
-//TODO
-class CourseReadonlyRepository implements ReadOnlyRepository
-{
-	/**
-	 * @var Repository
-	 */
-	protected $repository;
-	
-	public function __construct(Repository $repository) {
-    		$this->repository = $repository;
-    	}
-	...
-``` 
-
-```  
-<?php
-// TODO
-
-class CourseMemberReadonlyRepository implements ReadOnlyRepository
-{
-	/**
-	 * @var Repository
-	 */
-	protected $repository;
-
-	public function __construct(Repository $repository) {
-		$this->repository = $repository;
-	}
-
-	public function find(): CourseMember
-	{
-		//TODO
-	}
-
-	/**
-	 * @param int $obj_id
-	 *
-	 * @return CourseMember[]
-	 */
-	public function findAllByObjId(int $obj_id): array
-	{
-		return $this->repository->doFindByFields(['objId' => $obj_id]);
-	}
-}
-``` 
-
-##### Service
-//TODO
-
-#### Application
-
-
-##### Infrastructure
-
-##### Repository
-###### Doctrine
 
 # ToDo
 https://medium.com/@drozzy/long-running-processes-event-sourcing-cqrs-c87fbb2ca644
