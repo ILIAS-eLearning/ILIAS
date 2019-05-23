@@ -23,4 +23,16 @@ interface LayoutDefinition {
 	 * @return bool
 	 */
 	public function hasBreadCrumbs(): bool;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasFooter(): bool;
+
+
+	/**
+	 * @return bool
+	 */
+	public function hasLeaveFunction(): bool;
 }

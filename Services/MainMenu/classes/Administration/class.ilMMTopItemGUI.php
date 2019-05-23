@@ -262,7 +262,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI {
 									$attributes = $provider->attributes();
 									if ($attributes->purpose == 'mainmenu') {
 										$classname = $attributes->class_name[0];
-										ilGSProviderStorage::registerIdentifications($classname, 'mainmenu');
+										ilGSProviderStorage::register($classname, 'mainmenu');
 									}
 								}
 							}

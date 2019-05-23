@@ -30,6 +30,9 @@
 */
 
 // remove notices from error reporting
+use ILIAS\GlobalScreen\Provider\NullProviderFactory;
+use ILIAS\GlobalScreen\Services;
+
 error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 
 require_once __DIR__."/../../libs/composer/vendor/autoload.php";
@@ -377,6 +380,11 @@ $c["ui.resource_registry"] = function($c) {
 };
 $c["ui.javascript_binding"] = function($c) {
 	return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
+};
+
+// Global Screen
+$c['global_screen'] = function () use ($c) {
+	return new Services(new NullProviderFactory());
 };
 
 

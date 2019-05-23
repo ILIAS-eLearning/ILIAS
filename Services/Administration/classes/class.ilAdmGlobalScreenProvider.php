@@ -118,7 +118,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 */
 	private function getGroups(): array {
 		if (!$this->dic->offsetExists('tree')) { // isDependencyAvailable does not work, Fatal error: Uncaught Error: Call to undefined method ILIAS\DI\Container::tree() in /var/www/html/src/DI/Container.php on line 294
-			return [];
+			return [[], []];
 		}
 		$tree = $this->dic->repositoryTree();
 		$rbacsystem = $this->dic->rbac()->system();

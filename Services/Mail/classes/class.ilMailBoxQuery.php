@@ -185,7 +185,6 @@ class ilMailBoxQuery
 		);
 		while($row = $DIC->database()->fetchAssoc($res)) {
 			$row['attachments'] = unserialize(stripslashes($row['attachments']));
-			$row['m_type'] = unserialize(stripslashes($row['m_type']));
 			$mails['set'][] = $row;
 		}
 

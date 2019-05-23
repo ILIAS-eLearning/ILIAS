@@ -7,9 +7,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Tool\Tool;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
+use ILIAS\NavigationContext\Stack\CalledContexts;
 
 /**
  * Class MainMenuItemFactory
@@ -107,16 +108,6 @@ class MainMenuItemFactory {
 	 */
 	public function linkList(IdentificationInterface $identification): LinkList {
 		return new LinkList($identification);
-	}
-
-
-	/**
-	 * @param IdentificationInterface $identification
-	 *
-	 * @return Tool
-	 */
-	public function tool(IdentificationInterface $identification): Tool {
-		return new Tool($identification);
 	}
 
 

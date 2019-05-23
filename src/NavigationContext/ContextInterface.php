@@ -46,6 +46,15 @@ interface ContextInterface {
 
 
 	/**
+	 * @param string $key
+	 * @param        $value
+	 *
+	 * @return ContextInterface
+	 */
+	public function addAdditionalData(string $key, $value): ContextInterface;
+
+
+	/**
 	 * @return Collection
 	 */
 	public function getAdditionalData(): Collection;

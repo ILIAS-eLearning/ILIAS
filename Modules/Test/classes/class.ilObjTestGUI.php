@@ -894,16 +894,6 @@ class ilObjTestGUI extends ilObjectGUI
 		// set title and description and title icon
 		$this->setTitleAndDescription();
 
-		// BEGIN WebDAV: Display Mount Webfolder icon.
-		if ($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-			if (ilDAVActivationChecker::_isActive())
-			{
-				$this->showMountWebfolderIcon();
-			}
-		}
-		// END WebDAV: Display Mount Webfolder icon.
 	}
 
 	function runObject()

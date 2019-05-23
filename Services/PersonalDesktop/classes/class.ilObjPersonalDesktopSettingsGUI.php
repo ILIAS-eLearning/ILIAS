@@ -200,35 +200,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$learn_hist->setChecked(($ilSetting->get("enable_learning_history") ? "1" : "0"));
 		$form->addItem($learn_hist);
 
-		// Enable Chatviewer
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_chatviewer"), "block_activated_chatviewer");
-		$cb_prop->setValue("1");
-		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
-		$form->addItem($cb_prop);
-
-		require_once 'Services/Mail/classes/class.ilObjMail.php';
-		$pd_sys_msg = new ilRadioGroupInputGUI($lng->txt('show_system_messages'), 'pd_sys_msg_mode');
-
-		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_own_block'), ilObjMail::PD_SYS_MSG_OWN_BLOCK);
-		$pd_sys_msg->addOption($sys_msg_own_block);
-
-		$sys_msg_mail_block = new ilRadioOption($lng->txt('pd_sys_msg_mail_block'), ilObjMail::PD_SYS_MSG_MAIL_BLOCK);
-		$pd_sys_msg->addOption($sys_msg_mail_block);
-
-		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_no_block'), ilObjMail::PD_SYS_MSG_NO_BLOCK);
-		$pd_sys_msg->addOption($sys_msg_own_block);
-
-		$pd_sys_msg->setValue((int)($ilSetting->get('pd_sys_msg_mode')));
-		$form->addItem($pd_sys_msg);
-		
-		if($ilSetting->get('save_post_drafts', 0))
-		{
-			$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_pdfrmpostdraft'), 'block_activated_pdfrmpostdraft');
-			$cb_prop->setInfo($lng->txt('pd_enable_pdfrmpostdraft_info'));
-			$cb_prop->setValue(1);
-			$cb_prop->setChecked($ilSetting->get('block_activated_pdfrmpostdraft', 0));
-			$form->addItem($cb_prop);
-		}
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
 			"enable_block_moving");
@@ -311,12 +282,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
 		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
 
-		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));
-		$ilSetting->set("pd_sys_msg_mode", (int) ($_POST["pd_sys_msg_mode"]));
-		if($ilSetting->get('save_post_drafts', 0))
-		{
-			$ilSetting->set("block_activated_pdfrmpostdraft", (int)$_POST["block_activated_pdfrmpostdraft"]);
-		}
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 //		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
 

@@ -38,15 +38,24 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
+		if ($title != "")
+		{
+			$tpl->setCurrentBlock("title");
+			$tpl->setVariable("TITLE", $title);
+			$tpl->parseCurrentBlock();
+		}
+
 		// actions
 		$actions = $component->getActions();
 		if ($actions !== null)
 		{
 			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
 		}
+		else {
+			$tpl->setVariable("ACTIONS", "");
+		}
 
 
-		$tpl->setVariable("TITLE", $title);
 
 		return $tpl->get();
 	}

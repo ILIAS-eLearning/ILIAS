@@ -47,11 +47,10 @@ function with_lead_image_in_narrow_container() {
 		))
 	));
 
-	return "<h3>List in il-narrow-content container</h3>".
-		"This concept is currently under discussion and not implemented by any container."
-		."<div class='il-narrow-content' style='max-width:300px;'>"
+	return "<h3>List in narrow container (here panel-secondary)</h3>"
+		."<div class='panel-secondary' style='max-width:300px;'>"
 		.$renderer->render($std_list)
 		."</div>"
-		."<h3>Same list without il-narrow-content container</h3>"
+		."<h3>Same list without narrow container</h3>"
 		.$renderer->render($std_list);
 }

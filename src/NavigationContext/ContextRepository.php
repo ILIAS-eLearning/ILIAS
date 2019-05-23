@@ -1,5 +1,6 @@
 <?php namespace ILIAS\NavigationContext;
 
+use ILIAS\Data\ReferenceId;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
 
@@ -38,7 +39,23 @@ class ContextRepository {
 	 * @return ContextInterface
 	 */
 	public function main(): ContextInterface {
-		return $this->get(BasicContext::class, self::C_MAIN, $this->view_factory->standardView());
+		return $this->get(BasicContext::class, self::C_MAIN, $this->view_factory->standardLayout());
+	}
+
+
+	/**
+	 * @return ContextInterface
+	 */
+	public function internal(): ContextInterface {
+		return $this->get(BasicContext::class, 'internal', $this->view_factory->standardLayout());
+	}
+
+
+	/**
+	 * @return ContextInterface
+	 */
+	public function external(): ContextInterface {
+		return $this->get(BasicContext::class, 'external', $this->view_factory->publicLayout());
 	}
 
 
@@ -46,7 +63,7 @@ class ContextRepository {
 	 * @return ContextInterface
 	 */
 	public function desktop(): ContextInterface {
-		return $this->get(BasicContext::class, self::C_DESKTOP, $this->view_factory->standardView());
+		return $this->get(BasicContext::class, self::C_DESKTOP, $this->view_factory->standardLayout());
 	}
 
 
@@ -54,7 +71,10 @@ class ContextRepository {
 	 * @return ContextInterface
 	 */
 	public function repository(): ContextInterface {
-		return $this->get(BasicContext::class, self::C_REPO, $this->view_factory->standardView());
+		$context = $this->get(BasicContext::class, self::C_REPO, $this->view_factory->standardLayout());
+		$context = $context->withReferenceId(new ReferenceId($_GET['ref_id']));
+
+		return $context;
 	}
 
 
@@ -62,7 +82,7 @@ class ContextRepository {
 	 * @return ContextInterface
 	 */
 	public function administration(): ContextInterface {
-		return $this->get(BasicContext::class, self::C_ADMINISTRATION, $this->view_factory->standardView());
+		return $this->get(BasicContext::class, self::C_ADMINISTRATION, $this->view_factory->standardLayout());
 	}
 
 

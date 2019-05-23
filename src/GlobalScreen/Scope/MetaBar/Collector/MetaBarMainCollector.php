@@ -41,6 +41,8 @@ class MetaBarMainCollector {
 
 		array_walk($items, $this->getChildSorter());
 
+		$items = array_filter($items, $this->getVisibleFilter());
+
 		return $items;
 	}
 
@@ -73,6 +75,16 @@ class MetaBarMainCollector {
 				$this->sortItems($children);
 				$item = $item->withChildren($children);
 			}
+		};
+	}
+
+
+	/**
+	 * @return Closure
+	 */
+	protected function getVisibleFilter(): Closure {
+		return function (isItem $item) {
+			return ($item->isAvailable() && $item->isVisible());
 		};
 	}
 }

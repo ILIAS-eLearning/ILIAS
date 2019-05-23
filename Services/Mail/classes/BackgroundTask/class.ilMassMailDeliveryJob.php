@@ -74,7 +74,6 @@ class ilMassMailDeliveryJob extends AbstractJob
 				(string)$mailValueObject->getSubject(),
 				(string)$mailValueObject->getBody(),
 				(array)$mailValueObject->getAttachment(),
-				(array)$mailValueObject->getTypes(),
 				(bool)$mailValueObject->isUsingPlaceholders()
 			);
 		}

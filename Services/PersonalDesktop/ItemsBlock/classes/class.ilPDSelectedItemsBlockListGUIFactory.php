@@ -72,18 +72,12 @@ class ilPDSelectedItemsBlockListGUIFactory
 			$item_list_gui->enableInfoScreen(true);
 			$item_list_gui->enableSubscribe($this->block->getViewSettings()->enabledSelectedItems());
 
-			if($this->block->getCurrentDetailLevel() < 3 || $this->block->isManagedView())
-			{
-				$item_list_gui->enableDescription(false);
-				$item_list_gui->enableProperties(false);
-				$item_list_gui->enablePreconditions(false);
-				$item_list_gui->enableNoticeProperties(false);
-			}
+			//$item_list_gui->enableDescription(false);
+			//$item_list_gui->enableProperties(false);
+			//$item_list_gui->enablePreconditions(false);
+			//$item_list_gui->enableNoticeProperties(false);
 
-			if($this->block->getCurrentDetailLevel() < 2 || $this->block->isManagedView())
-			{
-				$item_list_gui->enableCommands(true, true);
-			}
+			$item_list_gui->enableCommands(true, true);
 
 			self::$list_by_type[$a_type] = $item_list_gui;
 		}

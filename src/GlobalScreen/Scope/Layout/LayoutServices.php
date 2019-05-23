@@ -2,8 +2,6 @@
 
 use ILIAS\GlobalScreen\Scope\Layout\Content\LayoutContent;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
-use ILIAS\NavigationContext\ContextInterface;
-use ILIAS\UI\Component\Layout\Page\Factory;
 
 /**
  * Class LayoutServices

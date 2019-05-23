@@ -64,7 +64,7 @@ class ilTestRandomQuestionSetConfigGUI
 	public $lng = null;
 	
 	/**
-	 * @var ilGlobalTemplate
+	 * @var ilGlobalTemplateInterface
 	 */
 	public $tpl = null;
 	
@@ -120,7 +120,7 @@ class ilTestRandomQuestionSetConfigGUI
 	
 	public function __construct(
 		ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng,
-		ilGlobalTemplate $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
+		ilGlobalTemplateInterface $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
 	)
 	{
 		$this->ctrl = $ctrl;

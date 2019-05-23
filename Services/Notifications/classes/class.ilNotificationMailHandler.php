@@ -11,14 +11,13 @@ class ilNotificationMailHandler extends ilNotificationHandler {
 		include_once 'Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($sender_id);
 		$mail->appendInstallationSignature(true);
-        $mail->validateAndEnqueue(
+        $mail->enqueue(
                 $notification->user->getLogin(),
                 '',
                 '',
                 $notification->title,
                 $notification->longDescription,
-                false,
-                array('normal')
+                []
         );
 
         //mail($notification->user->getEmail(), $notification->title, $notification->longDescription);
