@@ -6,6 +6,11 @@
 	"config": {
 		"optimize-autoloader": true
 	},
+	"scripts": {
+		"post-autoload-dump": [
+			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
+		]
+	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",

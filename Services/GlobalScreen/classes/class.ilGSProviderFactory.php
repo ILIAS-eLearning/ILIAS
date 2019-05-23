@@ -15,6 +15,10 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class ilGSProviderFactory extends ProviderFactory {
 
 	/**
+	 * @var array
+	 */
+	private $class_loader;
+	/**
 	 * @var Container
 	 */
 	private $dic;
@@ -28,6 +32,7 @@ class ilGSProviderFactory extends ProviderFactory {
 		parent::__construct(
 			[], [], [], new ilMMItemInformation()
 		);
+		$this->class_loader = include "libs/ilias/Artifacts/ClassLoader/global_screen_bootloader.php";
 	}
 
 
@@ -37,7 +42,7 @@ class ilGSProviderFactory extends ProviderFactory {
 	public function getMetaBarProvider(): array {
 		$providers = [];
 		// Core
-		$this->appendCore($providers, StaticMetaBarProvider::PURPOSE_MBS);
+		$this->appendCore($providers, StaticMetaBarProvider::class);
 
 		// Plugins
 		$this->appendPlugins($providers, StaticMetaBarProvider::class);
@@ -54,7 +59,7 @@ class ilGSProviderFactory extends ProviderFactory {
 	public function getMainBarProvider(): array {
 		$providers = [];
 		// Core
-		$this->appendCore($providers, StaticMainMenuProvider::PURPOSE_MAINBAR);
+		$this->appendCore($providers, StaticMainMenuProvider::class);
 
 		// Plugins
 		$this->appendPlugins($providers, StaticMainMenuProvider::class);
@@ -71,7 +76,7 @@ class ilGSProviderFactory extends ProviderFactory {
 	public function getToolProvider(): array {
 		$providers = [];
 		// Core
-		$this->appendCore($providers, DynamicToolProvider::PURPOSE_TOOLS);
+		$this->appendCore($providers, DynamicToolProvider::class);
 
 		// Plugins
 		$this->appendPlugins($providers, DynamicToolProvider::class);
@@ -102,16 +107,12 @@ class ilGSProviderFactory extends ProviderFactory {
 
 	/**
 	 * @param array  $array_of_providers
-	 * @param string $purpose
+	 * @param string $interface
 	 */
-	private function appendCore(array &$array_of_providers, string $purpose): void {
-		// // Core
-		foreach (ilGSProviderStorage::where(['purpose' => $purpose])->get() as $provider_storage) {
-			/**
-			 * @var $provider_storage ilGSProviderStorage
-			 */
-			if ($this->isInstanceCreationPossible($provider_storage->getProviderClass())) {
-				$array_of_providers[] = $provider_storage->getInstance();
+	private function appendCore(array &$array_of_providers, string $interface): void {
+		foreach ($this->class_loader[$interface] as $class_name) {
+			if ($this->isInstanceCreationPossible($class_name)) {
+				$array_of_providers[] = new $class_name($this->dic);
 			}
 		}
 	}
