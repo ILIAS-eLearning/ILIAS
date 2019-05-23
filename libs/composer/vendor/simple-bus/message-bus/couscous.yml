@@ -1,0 +1,35 @@
+title: SimpleBus/MessageBus
+subTitle: Generic classes and interfaces for command and event buses
+baseUrl: //simplebus.github.io/MessageBus
+menu:
+    items:
+        home:
+            itemId: home
+            text: Home
+            relativeUrl: ""
+        getting_started:
+            itemId: getting_started
+            text: Getting started
+            relativeUrl: doc/getting_started.html
+        command_bus:
+            itemId: command_bus
+            text: Command bus
+            relativeUrl: doc/command_bus.html
+        event_bus:
+            itemId: event_bus
+            text: Event bus
+            relativeUrl: doc/event_bus.html
+        message_recorder:
+            itemId: message_recorder
+            text: Recording events
+            relativeUrl: doc/message_recorder.html
+        upgrade_guide:
+            itemId: upgrade_guide
+            text: Upgrade guide
+            relativeUrl: doc/upgrade_guide.html
+        doctrine_orm_integration:
+            text: Doctrine ORM integration
+            absoluteUrl: http://simplebus.github.io/DoctrineORMBridge/
+        symfony_integration:
+            text: Symfony integration
+            absoluteUrl: http://simplebus.github.io/SymfonyBridge/

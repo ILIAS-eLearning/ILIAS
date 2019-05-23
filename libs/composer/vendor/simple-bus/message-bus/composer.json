@@ -1,0 +1,45 @@
+{
+    "name": "simple-bus/message-bus",
+    "type": "library",
+    "description": "Generic classes and interfaces for messages and message buses",
+    "keywords": [
+        "message",
+        "message bus",
+        "event bus",
+        "command bus"
+    ],
+    "homepage": "http://github.com/SimpleBus/MessageBus",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cliff Odijk",
+            "email": "cliff@jcid.nl"
+        },
+        {
+            "name": "Matthias Noback",
+            "email": "matthiasnoback@gmail.com",
+            "homepage": "http://php-and-symfony.matthiasnoback.nl"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "beberlei/assert": "~2.0 || ~3.0",
+        "psr/log": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7 || ^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SimpleBus\\Message\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SimpleBus\\Message\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
