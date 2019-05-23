@@ -59,6 +59,8 @@ https://en.wikipedia.org/wiki/Domain-driven_design
 
 There’s a good rule for working with aggregates that says that we should not update more than one aggregate per transaction.
 
+This layer should act like a micro service.
+
 
 #####Domain Model
 For a Domain Model I propose the following folder structure:
@@ -130,30 +132,7 @@ Software Structure
 	- App
 		- CoreApp
 			- Course
-				- Domain
-					- Comand
-					- Entity
-					- Repository
-					- Service
-				- Infrastrucure
-					- Command Handler
-					- Repository
-						- Doctrine
-						- SQL
-						- ...
-					- Resources
-						- Doctrine
-							- Entity
-			- Big ILIAS Modul
-				- Part 1
-					- Domain
-						- Comand
-						- ...
-					- Infrastrucure
-						- Command Handler
-						- ...	
-				- Part 2
-					- Domain
+				TODO
 					
 						
 ###Course
@@ -163,7 +142,7 @@ Software Structure
 ```
 <?php
 
-namespace ILIAS\App\CoreApp\Course\Domain\Entity;
+namespace //TODO
 
 /**
  * Course
@@ -196,9 +175,7 @@ class Course
 ```
 <?php
    
-   namespace ILIAS\App\CoreApp\Course\Domain\Entity;
-   
-   use ILIAS\App\CoreApp\User\Domain\Entity\User;
+  //TODO
    
    /**
     * CourseMember
@@ -223,11 +200,7 @@ class Course
 #####Repository
 ```  
 <?php
-namespace ILIAS\App\CoreApp\Course\Domain\Repository;
-
-use ILIAS\App\CoreApp\Course\Domain\Entity\CourseMember;
-use ILIAS\App\Infrasctrutre\Repository\Repository;
-
+//TODO
 class CourseReadonlyRepository implements ReadOnlyRepository
 {
 	/**
@@ -243,10 +216,7 @@ class CourseReadonlyRepository implements ReadOnlyRepository
 
 ```  
 <?php
-namespace ILIAS\App\CoreApp\Course\Domain\Repository;
-
-use ILIAS\App\CoreApp\Course\Domain\Entity\CourseMember;
-use ILIAS\App\Infrasctrutre\Repository\Repository;
+// TODO
 
 class CourseMemberReadonlyRepository implements ReadOnlyRepository
 {
@@ -277,186 +247,15 @@ class CourseMemberReadonlyRepository implements ReadOnlyRepository
 ``` 
 
 #####Service
-Example see Member
+//TODO
 
-####Infrastructure
-#####CommandHandler
-Example see Member
+####Application
+
+
+#####Infrastructure
+
 #####Repository
 ######Doctrine
-```
-<?php
-namespace ILIAS\App\CoreApp\Course\Infrastructure\Repository\Doctrine;
-
-use ILIAS\App\CoreApp\Course\Domain\Repository\CourseMemberReadonlyRepository;
-use ILIAS\App\Infrasctrutre\Persistence\Doctrine\AbstractDoctrineRepository;
-use ILIAS\App\Infrasctrutre\Persistence\Doctrine\DoctrineEntityManager;
-
-class CourseMemberEntityRepository extends AbstractDoctrineRepository {
-
-	/**
-	 * CourseMemberEntityRepository constructor.
-	 *
-	 * @param DoctrineEntityManager $em
-	 */
-	public function __construct($em)
-	{
-		/**
-		 * @var DoctrineEntityManager
-		 */
-		$doc = $em->visit($this->getRepositoryXmlMetaDataConfiguration());
-
-		parent::__construct($doc->getEntityManager(), 'ILIAS\App\CoreApp\Course\Domain\Entity\CourseMember');
-	}
-```
-
-#Beispielumsetzung
-Services/Membership/classes/class.ilMembershipGUI.php
-#####Resources
-######Entity
-```
-<?xml version="1.0" encoding="utf-8"?>
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="ILIAS\App\CoreApp\Course\Domain\Entity\CourseAdmin" table="obj_members" inheritance-type="SINGLE_TABLE">
-
-    <id name="objId" type="integer" column="obj_id"/>
-    <id name="usrId" type="integer" column="usr_id"/>
-
-    <discriminator-column name="admin" type="smallint"/>
-    <discriminator-map>
-      <discriminator-mapping value="1" class="ILIAS\App\CoreApp\Course\Domain\Entity\CourseAdmin" />
-    </discriminator-map>
-
-    <many-to-one field="course" target-entity="Course">
-      <join-column name="obj_id" referenced-column-name="obj_id" />
-    </many-to-one>
-
-    <one-to-one field="user" target-entity="ILIAS\App\CoreApp\User\Domain\Entity\User">
-      <join-column name="usr_id" referenced-column-name="usr_id" />
-    </one-to-one>
-
-    <field name="blocked" type="boolean" column="blocked" nullable="false">
-      <options>
-        <option name="default">0</option>
-      </options>
-    </field>
-    <field name="notification" type="boolean" column="notification" nullable="false">
-      <options>
-        <option name="default">0</option>
-      </options>
-    </field>
-```    
-###Member
-####Domain
-#####Command
-```
-<?php
-
-namespace ILIAS\App\CoreApp\Member\Domain\Command;
-
-class AddCourseMemberToCourseCommand {
-
-	/**
-	 * @var int
-	 */
-	private $obj_id;
-	/**
-	 * @var int
-	 */
-	private $user_id;
-
-
-	public function __construct(int $obj_id, int $user_id) {
-		$this->obj_id = $obj_id;
-		$this->user_id = $user_id;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getObjId(): int {
-		return $this->obj_id;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getUserId(): int {
-		return $this->user_id;
-	}
-}
-```
-#####Entity
-Example see course
-#####Repository
-Example see course
-#####Service
-```
-<?php
-
-namespace ILIAS\App\CoreApp\Course\Domain\Service;
-use ILIAS\App\Domain\Service\WriteonlyService;
-use ILIAS\App\CoreApp\Course\Domain\Command\AddMemberCommand;
-use Symfony\Component\Messenger\MessageBusInterface;
-
-class CourseWriteonlyService implements WriteonlyService
-{
-	/** @var MessageBusInterface  */
-	private $messageBus;
-
-	public function __construct(
-		MessageBusInterface $messageBus
-	) {
-		$this->messageBus = $messageBus;
-	}
-
-	public function addMember(int $obj_id,int $user_id)
-	{
-		$this->messageBus->dispatch(
-			new AddMemberCommand($obj_id,$user_id)
-		);
-	}
-}
-```
-####Infrastructure
-####CommandHandler
-```
-<?php
-
-namespace ILIAS\App\CoreApp\Member\Infrastructure\CommandHandler;
-
-use ILIAS\App\CoreApp\Member\Domain\Repository\MemberWriteonlyRepository;
-use ILIAS\App\CoreApp\Member\Domain\Command\AddCourseMemberToCourseCommand;
-
-class AddCourseMemberToCourseCommandHandler
-{
-	/**
-	 * @var  MemberWriteonlyRepository
-	 */
-	private $course_repository;
-
-	public function __construct(MemberWriteonlyRepository $member_writeonly_repository)
-	{
-		$this->member_writeonly_repository = $member_writeonly_repository;
-	}
-
-	/**
-	 * @param AddCourseMemberToCourseCommand $add_course_member_to_course_command
-	 *
-	 */
-	public function __invoke(AddCourseMemberToCourseCommand $add_member_command)
-	{
-		$this->member_writeonly_repository->addParticipant($add_member_command->getObjId(),$add_member_command->getUserId());
-	}
-}
-```
-####Repository
-Example see course
-####Resources
-Example see course
-
 
 #ToDo
 https://medium.com/@drozzy/long-running-processes-event-sourcing-cqrs-c87fbb2ca644
