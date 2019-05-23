@@ -11,7 +11,7 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.p
  *
  * @ingroup ServicesUIComponent
  */
-abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
+abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI\Component\Tree\TreeRecursion
 {
 	/**
 	 * @var ilLanguage
@@ -28,6 +28,11 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	protected $preload_childs = false;
 	protected $root_node_data = null;
 	protected $all_childs = array();
+
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
 	
 	/**
 	 * Constructor
@@ -36,6 +41,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	{
 		global $DIC;
 
+		$this->ui = $DIC->ui();
 		$this->lng = $DIC->language();
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
 		$this->tree = $a_tree;
@@ -355,14 +361,94 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	 *
 	 * @return string html
 	 */
-	function getHTML()
+	function getHTML($new = false)
 	{
 		if ($this->getPreloadChilds())
 		{
 			$this->preloadChilds();
 		}
-		return parent::getHTML();
+		if (!$new)
+		{
+			return parent::getHTML();
+		}
+		return $this->render();
 	}
+
+	// New implementation
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getChildren($node, $environment = null): array
+	{
+		return $this->getChildsOfNode($node["child"]);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function build(\ILIAS\UI\Component\Tree\Node\Factory $factory,
+						  $a_node, $environment = null ) : \ILIAS\UI\Component\Tree\Node\Node
+	{
+		$node = $factory->simple($this->getNodeContent($a_node));
+
+		$href = $this->getNodeHref($a_node);
+		if ($href)
+		{
+			$node = $node->withOnLoadCode( function($id) use ($href) {
+				//var_dump($id);
+				//var_dump($href); exit;
+				return "$('#$id').on('doubleclick', function(event) {
+							window.location = '{$href}';
+							return false;
+					});";
+			});
+		}
+
+		if ($this->isNodeOpen($a_node["child"]))
+		{
+			$node = $node->withExpanded(true);
+		}
+		//$node = $node->withHighlighted(true);
+
+		return $node;
+	}
+
+	/**
+	 * Get Tree UI
+	 *
+	 * @return \ILIAS\UI\Component\Tree\Tree|object
+	 */
+	public function getTreeComponent()
+	{
+		$f = $this->ui->factory();
+		$tree = $this->getTree();
+
+		$data = array(
+			$tree->getNodeData($tree->readRootId())
+		);
+
+		$tree = $f->tree()->expandable($this)
+			->withData($data)
+			->withHighlightOnNodeClick(true);
+
+		return $tree;
+	}
+
+	/**
+	 * Render tree
+	 *
+	 * @return string
+	 */
+	protected function render()
+	{
+		$r = $this->ui->renderer();
+
+		return $r->render([
+			$this->getTreeComponent()
+		]);
+	}
+
 
 
 }

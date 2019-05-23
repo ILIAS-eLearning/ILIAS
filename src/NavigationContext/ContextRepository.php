@@ -72,7 +72,7 @@ class ContextRepository {
 	 */
 	public function repository(): ContextInterface {
 		$context = $this->get(BasicContext::class, self::C_REPO, $this->view_factory->standardLayout());
-		$context = $context->withReferenceId(new ReferenceId($_GET['ref_id']));
+		$context = $context->withReferenceId(new ReferenceId((int) $_GET['ref_id']));
 
 		return $context;
 	}
