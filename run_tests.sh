@@ -79,9 +79,9 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 					rm "$PHPUNIT_RESULTS_PATH"
 			fi
 
-			#printLn "Switching directory and run results handling."
-			#cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
-			#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
+			printLn "Switching directory and run results handling."
+			cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
+			cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 
 	fi		
 	if [ "$FAILURE" == "true" ]
