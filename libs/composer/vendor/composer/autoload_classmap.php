@@ -3506,7 +3506,7 @@ return array(
     'ilCalendarRemoteReader' => $baseDir . '/../../Services/Calendar/classes/class.ilCalendarRemoteReader.php',
     'ilCalendarSchedule' => $baseDir . '/../../Services/Calendar/classes/class.ilCalendarSchedule.php',
     'ilCalendarScheduleFilter' => $baseDir . '/../../Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php',
-    'ilCalendarScheduleFilterBookingPool' => $baseDir . '/../../Services/Calendar/classes/ilCalendarScheduleFilterBookingPool.php',
+    'ilCalendarScheduleFilterBookingPool' => $baseDir . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterBookingPool.php',
     'ilCalendarScheduleFilterBookings' => $baseDir . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php',
     'ilCalendarScheduleFilterExercise' => $baseDir . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterExercise.php',
     'ilCalendarScheduleFilterHidden' => $baseDir . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterHidden.php',
