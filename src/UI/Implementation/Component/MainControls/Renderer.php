@@ -18,7 +18,6 @@ class Renderer extends AbstractComponentRenderer {
 	const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
 	const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
 	const BLOCK_METABAR_ENTRIES = 'meta_element';
-	const NUMBER_OF_TOOLENTRIES = 5;
 
 	/**
 	 * @inheritdoc
@@ -36,10 +35,8 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function renderMainbar(MainBar $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.mainbar.html", true, true);
-
 		$active =  $component->getActive();
 		$tools = $component->getToolEntries();
-
 		$signals = [
 			'entry' => $component->getEntryClickSignal(),
 			'tools' => $component->getToolsClickSignal(),
@@ -47,7 +44,6 @@ class Renderer extends AbstractComponentRenderer {
 			'tools_removal' => $component->getToolsRemovalSignal()
 		];
 
-		$this->addCloseSlateButton($tpl, $default_renderer, $signals);
 
 		$this->renderTriggerButtonsAndSlates(
 			$tpl, $default_renderer, $signals['entry'],
@@ -62,8 +58,8 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$more_button = $component->getMoreButton();
-		$this->addMoreSlate($tpl, $default_renderer, $more_button, $signals, $active);
-
+		$this->addMoreSlate($tpl, $default_renderer, static::BLOCK_MAINBAR_ENTRIES, $more_button, $signals, $active);
+		$this->addCloseSlateButton($tpl, $default_renderer, $signals);
 		$this->addMainbarJS($tpl, $component, $signals, $active);
 
 		return $tpl->get();
@@ -71,24 +67,34 @@ class Renderer extends AbstractComponentRenderer {
 
 	protected function renderMetabar(MetaBar $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.metabar.html", true, true);
+		$active = '';
+		$signals = [
+			'entry' => $component->getEntryClickSignal(),
+			'close_slates' => $component->getDisengageAllSignal()
+		];
 
-		$entry_signal = $component->getEntryClickSignal();
-		$active ='';
 		$this->renderTriggerButtonsAndSlates(
-			$tpl, $default_renderer, $entry_signal,
+			$tpl, $default_renderer, $signals['entry'],
 			static::BLOCK_METABAR_ENTRIES,
 			$component->getEntries(),
-			$active,
-			true
+			$active
 		);
 
+		$more_button = $component->getMoreButton();
+		$this->addMoreSlate($tpl, $default_renderer, static::BLOCK_METABAR_ENTRIES, $more_button, $signals, $active);
+
 		$component = $component->withOnLoadCode(
-			function($id) use ($entry_signal) {
+			function($id) use ($signals) {
+				$entry_signal = $signals['entry'];
+				$close_slates_signal = $signals['close_slates'];
 				return "
 					il.UI.maincontrols.metabar.registerSignals(
 						'{$id}',
-						'{$entry_signal}'
+						'{$entry_signal}',
+						'{$close_slates_signal}',
 					);
+					il.UI.maincontrols.metabar.init();
+					$(window).resize(il.UI.maincontrols.metabar.init);
 				";
 			}
 		);
@@ -104,8 +110,7 @@ class Renderer extends AbstractComponentRenderer {
 		Signal $entry_signal,
 		string $block,
 		array $entries,
-		string $active = null,
-		bool $slate_is_contained_in_entry = false
+		string $active = null
 	) {
 		foreach ($entries as $id=>$entry) {
 
@@ -132,12 +137,9 @@ class Renderer extends AbstractComponentRenderer {
 
 			$tpl->setCurrentBlock($block);
 			$tpl->setVariable("BUTTON", $default_renderer->render($button));
-			if($slate && $slate_is_contained_in_entry) {
-				$tpl->setVariable("SLATE", $default_renderer->render($slate));
-			}
 			$tpl->parseCurrentBlock();
 
-			if($slate && $slate_is_contained_in_entry === false) {
+			if($slate) {
 				$tpl->setCurrentBlock("slate_item");
 				$tpl->setVariable("SLATE", $default_renderer->render($slate));
 				$tpl->parseCurrentBlock();
@@ -187,17 +189,12 @@ class Renderer extends AbstractComponentRenderer {
 			$tools,
 			$active
 		);
-
-		if(count($tools) < static::NUMBER_OF_TOOLENTRIES) {
-			foreach (range(count($tools) + 1, static::NUMBER_OF_TOOLENTRIES) as $blank) {
-				$tpl->touchBlock("tool_trigger_item_blank");
-			}
-		}
 	}
 
 	protected function addMoreSlate(
 		UITemplateWrapper $tpl,
 		RendererInterface $default_renderer,
+		string $block,
 		Component\Button\Bulky $more_button,
 		array $signals,
 		string $active = null
@@ -205,10 +202,10 @@ class Renderer extends AbstractComponentRenderer {
 		$f = $this->getUIFactory();
 		$more_label = $more_button->getLabel();
 		$more_symbol = $more_button->getIconOrGlyph();
-		$more_slate = $f->maincontrols()->slate()->legacy($more_label, $more_symbol, $f->legacy(''));
+		$more_slate = $f->maincontrols()->slate()->combined($more_label, $more_symbol, $f->legacy(''));
 		$this->renderTriggerButtonsAndSlates(
 			$tpl, $default_renderer, $signals['entry'],
-			static::BLOCK_MAINBAR_ENTRIES,
+			$block,
 			[$more_slate],
 			$active
 		);
