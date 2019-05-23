@@ -95,7 +95,7 @@ class FilterTest extends ILIAS_UI_TestBase
 	}
 
 	protected function buildGlyphFactory() {
-		return new ILIAS\UI\Implementation\Component\Glyph\Factory;
+		return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory;
 	}
 
 	protected function buildPopoverFactory() {

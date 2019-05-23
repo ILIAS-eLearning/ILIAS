@@ -19,7 +19,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 	{
 		$sig_gen = 	new I\Component\SignalGenerator();
 		$this->button_factory = new I\Component\Button\Factory($sig_gen);
-		$this->icon_factory = new I\Component\Icon\Factory();
+		$this->icon_factory = new I\Component\Symbol\Icon\Factory();
 		$counter_factory = new I\Component\Counter\Factory();
 		$slate_factory = new I\Component\MainControls\Slate\Factory($sig_gen, $counter_factory);
 		$this->factory = new I\Component\MainControls\Factory($sig_gen, $slate_factory);

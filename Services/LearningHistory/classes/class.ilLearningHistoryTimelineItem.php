@@ -75,7 +75,7 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 		$f = $this->ui->factory();
 		$r = $this->ui->renderer();
 
-		$ico = $f->icon()->custom($this->lh_entry->getIconPath(), '')->withSize(\ILIAS\UI\Component\Icon\Custom::MEDIUM);
+		$ico = $f->symbol()->icon()->custom($this->lh_entry->getIconPath(), '')->withSize(\ILIAS\UI\Component\Icon\Custom::MEDIUM);
 
 		$obj_id = $this->lh_entry->getObjId();
 		$title = ilObject::_lookupTitle($obj_id);

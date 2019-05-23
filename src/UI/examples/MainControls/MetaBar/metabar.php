@@ -10,13 +10,13 @@ function metabar()
 
 function buildMetabar($f)
 {
-	$help = $f->button()->bulky($f->glyph()->help(),'Help', '#');
-	$search = $f->button()->bulky($f->glyph()->search(),'Search', '#');
-	$user = $f->button()->bulky($f->glyph()->user(),'User', '#');
+	$help = $f->button()->bulky($f->symbol()->glyph()->help(),'Help', '#');
+	$search = $f->button()->bulky($f->symbol()->glyph()->search(),'Search', '#');
+	$user = $f->button()->bulky($f->symbol()->glyph()->user(),'User', '#');
 
 	$notes = $f->maincontrols()->slate()->legacy(
 		'Notification',
-		$f->glyph()->notification(),
+		$f->symbol()->glyph()->notification(),
 		$f->legacy('some content')
 	);
 

@@ -95,9 +95,9 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
 		if ($input->isDisabled()) {
-			$remove_glyph = $f->glyph()->remove()->withUnavailableAction();
+			$remove_glyph = $f->symbol()->glyph()->remove()->withUnavailableAction();
 		} else {
-			$remove_glyph = $f->glyph()->remove("")->withAdditionalOnLoadCode(function ($id) {
+			$remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(function ($id) {
 				$code = "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
@@ -259,7 +259,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$list = $f->legacy($add_tpl->get());
 		$popover = $f->popover()->standard($list)->withVerticalPosition();
 		$tpl->setVariable("POPOVER", $default_renderer->render($popover));
-		$add = $f->button()->bulky($f->glyph()->add(), "", "")->withOnClick($popover->getShowSignal());
+		$add = $f->button()->bulky($f->symbol()->glyph()->add(), "", "")->withOnClick($popover->getShowSignal());
 
 		$tpl->setCurrentBlock("filter_field");
 		$tpl->setVariable("FILTER_FIELD", $default_renderer->render($add));

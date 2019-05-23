@@ -16,8 +16,11 @@ class PaginationTest extends ILIAS_UI_TestBase {
 	public function getUIFactory() {
 		$factory = new class extends NoUIFactory
 		{
-			public function glyph() {
-				return new IC\Glyph\Factory(new SignalGenerator());
+			public function symbol(): C\Symbol\Factory {
+				return new IC\Symbol\Factory(
+					new IC\Symbol\Icon\Factory(),
+					new IC\Symbol\Glyph\Factory()
+				);
 			}
 			public function button() {
 				return new IC\Button\Factory(new SignalGenerator());

@@ -6,7 +6,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Class Tool

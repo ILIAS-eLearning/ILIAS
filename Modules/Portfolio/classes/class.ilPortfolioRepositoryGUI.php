@@ -229,7 +229,7 @@ class ilPortfolioRepositoryGUI
 		foreach (ilObjPortfolio::getPortfoliosOfUser($this->user_id) as $port)
 		{
 			// icon
-			$icon = $f->icon()->custom(ilUtil::getImagePath("icon_prtf.svg"),
+			$icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("icon_prtf.svg"),
 				$lng->txt("obj_portfolio"), "medium");
 			if (!$port["is_online"] || !in_array($port["id"], $shared_objects))
 			{
