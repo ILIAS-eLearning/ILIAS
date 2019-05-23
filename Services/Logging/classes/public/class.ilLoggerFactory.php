@@ -169,15 +169,20 @@ class ilLoggerFactory
 		{
 			return $this->loggers[$a_component_id];
 		}
-		
+
+		$loggerNamePrefix = '';
+		if (defined('CLIENT_ID')) {
+			$loggerNamePrefix = CLIENT_ID . '_';
+		}
+
 		switch($a_component_id)
 		{
 			case 'root':
-				$logger = new Logger(CLIENT_ID.'_root');
+				$logger = new Logger($loggerNamePrefix . 'root');
 				break;
 				
 			default:
-				$logger = new Logger(CLIENT_ID.'_'.$a_component_id);
+				$logger = new Logger($loggerNamePrefix . $a_component_id);
 				break;
 				
 		}
