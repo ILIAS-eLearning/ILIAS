@@ -108,7 +108,7 @@ sess#:#notification#:#Benachrichtigung
 sess#:#sess_registration_notification#:#Benachrichtigung
 sess#:#sess_registration_notification_info#:#Zeigt im Tab 'Sitzungsteilnehmer verwalten' eine Spalte an, um Benutzer auszuwählen, die über neue oder ausscheidende Teilnehmer benachrichtigt werden.
 sess#:#sess_notification_option#:#Option
-sess#:#sess_notification_option_inherit#:#Vom übergeordnetem Objekt erben
+sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
 sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
 sess#:#sess_notification_option_manual#:#Manuell setzen
 sess#:#sess_notification_option_manual_info#:#Empfänger für Benachrichtigungen müssen im Tab 'Sitzungsteilnehmer verwalten' manuell gesetzt werden.
