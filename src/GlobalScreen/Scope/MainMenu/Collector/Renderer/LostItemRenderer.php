@@ -1,15 +1,16 @@
 <?php
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
 
 /**
- * Class ilMMLostItemRenderer
+ * Class LostItemRenderer
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMLostItemRenderer extends BaseTypeRenderer {
+class LostItemRenderer extends BaseTypeRenderer {
 
 	/**
 	 * @param isItem $item
@@ -21,11 +22,11 @@ class ilMMLostItemRenderer extends BaseTypeRenderer {
 		 * @var $item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost
 		 */
 		if ($item->hasChildren()) {
-			$r = new ilMMTopParentItemRenderer();
+			$r = new TopParentItemRenderer();
 
 			return $r->getComponentForItem($item);
 		}
 
-		return $this->ui_factory->button()->bulky($this->getStandardIcon($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");
+		return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");
 	}
 }

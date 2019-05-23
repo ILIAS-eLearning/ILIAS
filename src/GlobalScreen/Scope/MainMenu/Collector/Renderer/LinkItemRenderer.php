@@ -1,16 +1,17 @@
 <?php
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\UI\Component\Component;
 
 /**
- * Class ilMMLinkItemRenderer
+ * Class LinkItemRenderer
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMLinkItemRenderer extends BaseTypeRenderer {
+class LinkItemRenderer extends BaseTypeRenderer {
 
 	/**
 	 * @param Link $item
@@ -18,6 +19,6 @@ class ilMMLinkItemRenderer extends BaseTypeRenderer {
 	 * @return Component
 	 */
 	public function getComponentForItem(isItem $item): Component {
-		return $this->ui_factory->button()->bulky($this->getStandardIcon($item), $item->getTitle(), $item->getAction());
+		return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), $item->getTitle(), $item->getAction());
 	}
 }

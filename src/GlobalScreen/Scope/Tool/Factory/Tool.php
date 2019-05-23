@@ -2,17 +2,18 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Tool
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentItem implements isTopItem, hasContent, hasIcon {
+class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbol {
 
 	/**
 	 * @var
@@ -52,24 +53,6 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasIcon 
 		return $this->title;
 	}
 
-	//
-	// /**
-	//  * @inheritDoc
-	//  */
-	// public function getAsyncContentURL(): string {
-	// 	return $this->async_content_url;
-	// }
-	//
-	//
-	// /**
-	//  * @inheritDoc
-	//  */
-	// public function withAsyncContentURL(string $async_content_url): hasAsyncContent {
-	// 	$clone = clone($this);
-	// 	$clone->async_content_url = $async_content_url;
-	//
-	// 	return $clone;
-	// }
 
 	/**
 	 * @inheritDoc
@@ -93,9 +76,9 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasIcon 
 	/**
 	 * @inheritDoc
 	 */
-	public function withIcon(Icon $icon): hasIcon {
+	public function withSymbol(Symbol $symbol): hasSymbol {
 		$clone = clone($this);
-		$clone->icon = $icon;
+		$clone->icon = $symbol;
 
 		return $clone;
 	}
@@ -104,7 +87,7 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasIcon 
 	/**
 	 * @inheritDoc
 	 */
-	public function getIcon(): Icon {
+	public function getSymbol(): Symbol {
 		return $this->icon;
 	}
 
@@ -112,7 +95,7 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasIcon 
 	/**
 	 * @inheritDoc
 	 */
-	public function hasIcon(): bool {
-		return ($this->icon instanceof Icon);
+	public function hasSymbol(): bool {
+		return ($this->icon instanceof Symbol);
 	}
 }

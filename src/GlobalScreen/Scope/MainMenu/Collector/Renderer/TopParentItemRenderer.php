@@ -1,28 +1,22 @@
 <?php
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
- * Class ilMMTopParentItemRenderer
+ * Class TopParentItemRenderer
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTopParentItemRenderer extends BaseTypeRenderer {
+class TopParentItemRenderer extends BaseTypeRenderer {
 
-	use ilMMSlateSessionStateCode;
+	use SlateSessionStateCode;
 
 
 	/**
@@ -31,7 +25,7 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer {
 	public function getComponentForItem(isItem $item): Component {
 		$f = $this->ui_factory;
 
-		$slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardIcon($item));
+		$slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
 		if ($item instanceof isParent) {
 			foreach ($item->getChildren() as $child) {
 

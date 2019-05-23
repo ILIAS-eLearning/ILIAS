@@ -3,17 +3,17 @@
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Tool
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsyncContent, hasIcon {
+class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsyncContent, hasSymbol {
 
 	/**
 	 * @var
@@ -95,9 +95,9 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsync
 	/**
 	 * @inheritDoc
 	 */
-	public function withIcon(Icon $icon): hasIcon {
+	public function withSymbol(Symbol $symbol): hasSymbol {
 		$clone = clone($this);
-		$clone->icon = $icon;
+		$clone->icon = $symbol;
 
 		return $clone;
 	}
@@ -106,7 +106,7 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsync
 	/**
 	 * @inheritDoc
 	 */
-	public function getIcon(): Icon {
+	public function getSymbol(): Symbol {
 		return $this->icon;
 	}
 
@@ -114,7 +114,7 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsync
 	/**
 	 * @inheritDoc
 	 */
-	public function hasIcon(): bool {
-		return ($this->icon instanceof Icon);
+	public function hasSymbol(): bool {
+		return ($this->icon instanceof Symbol);
 	}
 }

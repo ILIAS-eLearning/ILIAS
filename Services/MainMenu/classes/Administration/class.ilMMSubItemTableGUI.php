@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+
 /**
  * Class ilMMSubItemTableGUI
  *
@@ -7,7 +9,7 @@
  */
 class ilMMSubItemTableGUI extends ilTable2GUI {
 
-	use ilMMHasher;
+	use Hasher;
 	const IDENTIFIER = 'identifier';
 	const F_TABLE_SHOW_INACTIVE = 'table_show_inactive';
 	const F_TABLE_ENTRY_STATUS = 'entry_status';

@@ -1,5 +1,7 @@
 <?php
 
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
 
@@ -8,9 +10,9 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-trait ilMMSlateSessionStateCode {
+trait SlateSessionStateCode {
 
-	use ilMMHasher;
+	use Hasher;
 
 
 	/**
@@ -22,7 +24,7 @@ trait ilMMSlateSessionStateCode {
 		$show_signal = $slate->getToggleSignal();
 		$identification = $this->hash($item->getProviderIdentification()->serialize());
 
-		if(isset($_COOKIE[$identification])) {
+		if (isset($_COOKIE[$identification])) {
 			$slate = $slate->withEngaged(true);
 		}
 
