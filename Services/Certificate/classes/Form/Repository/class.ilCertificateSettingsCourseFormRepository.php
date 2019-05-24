@@ -170,7 +170,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 if (null === $id) {
                     return '';
                 }
-                $obj_id = $objectHelper->lookupObjId($id);
+                $obj_id = $objectHelper->lookupObjId((int) $id);
                 $olp = $lpHelper->getInstance($obj_id);
 
                 $invalid_modes = $this->getInvalidLPModes();
@@ -180,7 +180,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 if (in_array($olp->getCurrentMode(), $invalid_modes)) {
                     $mode = '<strong>' . $mode . '</strong>';
                 }
-                return $objectHelper->lookupTitle($objectHelper->lookupObjId($id)) . ' (' . $mode . ')';
+                return $objectHelper->lookupTitle($objectHelper->lookupObjId((int) $id)) . ' (' . $mode . ')';
             });
 
             $subitems->setRequired(true);
@@ -204,7 +204,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         }
 
         foreach ($refIds as $refId) {
-            $objectId = $this->objectHelper->lookupObjId($refId);
+            $objectId = $this->objectHelper->lookupObjId((int) $refId);
             $learningProgressObject = $this->lpHelper->getInstance($objectId);
             $currentMode = $learningProgressObject->getCurrentMode();
             if (in_array($currentMode, $invalidModes)) {
