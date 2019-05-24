@@ -164,7 +164,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 
     /**
      * @inheritDoc
-     */
+     */time
     public function getName() : string
     {
         return 'bcrypt';
