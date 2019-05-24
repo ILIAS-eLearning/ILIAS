@@ -10,46 +10,46 @@
  */
 class ilCertificateDownloadValidator
 {
-	/**
-	 * @var ilUserCertificateRepository
-	 */
-	private $userCertificateAccessValidator;
+    /**
+     * @var ilUserCertificateRepository
+     */
+    private $userCertificateAccessValidator;
 
-	/**
-	 * @var ilCertificateActiveValidator|null
-	 */
-	private $activeValidator;
+    /**
+     * @var ilCertificateActiveValidator|null
+     */
+    private $activeValidator;
 
-	/**
-	 * @param ilCertificateUserCertificateAccessValidator|null $userCertificateAccessValidator
-	 * @param ilCertificateActiveValidator|null $activeValidator
-	 */
-	public function __construct(
-		ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,
-		ilCertificateActiveValidator $activeValidator = null
-	) {
-		if (null === $userCertificateAccessValidator) {
-			$userCertificateAccessValidator = new ilCertificateUserCertificateAccessValidator();
-		}
-		$this->userCertificateAccessValidator = $userCertificateAccessValidator;
+    /**
+     * @param ilCertificateUserCertificateAccessValidator|null $userCertificateAccessValidator
+     * @param ilCertificateActiveValidator|null $activeValidator
+     */
+    public function __construct(
+        ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,
+        ilCertificateActiveValidator $activeValidator = null
+    ) {
+        if (null === $userCertificateAccessValidator) {
+            $userCertificateAccessValidator = new ilCertificateUserCertificateAccessValidator();
+        }
+        $this->userCertificateAccessValidator = $userCertificateAccessValidator;
 
-		if (null === $activeValidator) {
-			$activeValidator = new ilCertificateActiveValidator();
-		}
-		$this->activeValidator = $activeValidator;
-	}
+        if (null === $activeValidator) {
+            $activeValidator = new ilCertificateActiveValidator();
+        }
+        $this->activeValidator = $activeValidator;
+    }
 
-	/**
-	 * @param int $userId
-	 * @param int $objId
-	 * @return bool
-	 */
-	public function isCertificateDownloadable(int $userId, int $objId)
-	{
-		if (false === $this->activeValidator->validate()) {
-			return false;
-		}
+    /**
+     * @param int $userId
+     * @param int $objId
+     * @return bool
+     */
+    public function isCertificateDownloadable(int $userId, int $objId)
+    {
+        if (false === $this->activeValidator->validate()) {
+            return false;
+        }
 
-		return $this->userCertificateAccessValidator->validate($userId, $objId);
-	}
+        return $this->userCertificateAccessValidator->validate($userId, $objId);
+    }
 }
