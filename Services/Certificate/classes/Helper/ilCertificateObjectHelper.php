@@ -41,6 +41,6 @@ class ilCertificateObjectHelper
      */
     public function lookupTitle(int $objectId) : string
     {
-        return ilObject::_lookupTitle($objectId);
+        return (string) ilObject::_lookupTitle($objectId);
     }
 }
