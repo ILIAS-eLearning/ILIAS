@@ -15,6 +15,7 @@ use Throwable;
 class InterfaceFinder
 {
 
+    const DEBUG = false;
     /**
      * @var string
      */
@@ -136,6 +137,9 @@ class InterfaceFinder
                 if (preg_match('/class\.(il.+)\.php$/i', $file->getFileName(), $matches)) {
                     $class_name = $matches[1];
                     try {
+                        if (self::DEBUG === true) {
+                            echo $class_name . PHP_EOL;
+                        }
                         $r = new ReflectionClass($class_name);
                         if ($r->isInstantiable() && !$r->isAbstract()) {
                             if ($r->implementsInterface($interface)) {
