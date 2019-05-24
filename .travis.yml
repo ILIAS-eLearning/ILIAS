@@ -4,7 +4,7 @@ matrix:
   - php: 7.2
   - php: 7.3
 script:
-- "./run_tests.sh;"
+- "./run_tests_with_reporting.sh;"
 - if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then ./run_dicto.sh; fi
 addons:
   apt:
