@@ -163,7 +163,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function getName() : string
     {
@@ -179,7 +179,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function requiresReencoding(string $encoded) : bool
     {

@@ -49,7 +49,7 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function isSupportedByRuntime() : bool
     {
@@ -57,7 +57,7 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function requiresSalt() : bool
     {
@@ -65,7 +65,7 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function requiresReencoding(string $encoded) : bool
     {
