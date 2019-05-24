@@ -1,11 +1,11 @@
 <?php namespace ILIAS\GlobalScreen\BootLoader;
 
 use Composer\Script\Event;
-use ILIAS\Collector\AbstractComposerEventHandler;
-use ILIAS\Collector\AbstractComposerScript;
-use ILIAS\Collector\Artifacts\ClassNameCollectionArtifact;
-use ILIAS\Collector\Artifacts\Artifact;
-use ILIAS\Collector\EventHandler;
+use ILIAS\ArtifactBuilder\AbstractComposerEventHandler;
+use ILIAS\ArtifactBuilder\AbstractComposerScript;
+use ILIAS\ArtifactBuilder\Artifacts\ClassNameCollectionArtifact;
+use ILIAS\ArtifactBuilder\Artifacts\Artifact;
+use ILIAS\ArtifactBuilder\EventHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;

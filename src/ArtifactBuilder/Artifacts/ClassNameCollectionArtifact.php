@@ -1,4 +1,4 @@
-<?php namespace ILIAS\Collector\Artifacts;
+<?php namespace ILIAS\ArtifactBuilder\Artifacts;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
