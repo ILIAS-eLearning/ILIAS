@@ -473,7 +473,7 @@ class ilEventParticipants
 					$parentRefId = $tree->checkForParentType($refIdArray[0], 'grp');
 				}
 
-				if (!$parentRefId) {
+				if ($parentRefId) {
 					/** @var ilObjCourse|ilObjGroup $parentObject */
 					$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
 
