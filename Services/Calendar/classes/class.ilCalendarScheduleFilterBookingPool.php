@@ -81,7 +81,7 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
 	 * @param $a_cat_id
 	 * @return null|ilCalendarCategory
 	 */
-	protected function isBookingPoolCategory($a_cat_id) : ?ilCalendarCategory
+	protected function isBookingPoolCategory($a_cat_id)
 	{
 		$category = ilCalendarCategory::getInstanceByCategoryId($a_cat_id);
 
