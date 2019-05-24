@@ -473,22 +473,24 @@ class ilEventParticipants
 					$parentRefId = $tree->checkForParentType($refIdArray[0], 'grp');
 				}
 
-				/** @var ilObjCourse|ilObjGroup $parentObject */
-				$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
+				if (!$parentRefId) {
+					/** @var ilObjCourse|ilObjGroup $parentObject */
+					$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
 
-				if ($parentObject instanceof ilObjCourse || $parentObject instanceof ilObjGroup) {
-					$memberRolesObject = $parentObject->getMembersObject();
-					$parentRecipients = $memberRolesObject->getNotificationRecipients();
-					if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
-						$admins = $memberRolesObject->getAdmins();
+					if ($parentObject instanceof ilObjCourse || $parentObject instanceof ilObjGroup) {
+						$memberRolesObject = $parentObject->getMembersObject();
+						$parentRecipients = $memberRolesObject->getNotificationRecipients();
+						if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+							$admins = $memberRolesObject->getAdmins();
 
-						foreach ($admins as $adminUserId) {
-							if (in_array($adminUserId, $parentRecipients)) {
-								$this->participants[$adminUserId]['notification_enabled'] = true;
+							foreach ($admins as $adminUserId) {
+								if (in_array($adminUserId, $parentRecipients)) {
+									$this->participants[$adminUserId]['notification_enabled'] = true;
+								}
 							}
 						}
-					}
 
+					}
 				}
 			}
 		}
