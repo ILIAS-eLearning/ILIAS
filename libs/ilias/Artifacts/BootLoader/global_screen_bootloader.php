@@ -29,5 +29,6 @@
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
     0 => 'ilStaffGSToolProvider',
+    1 => 'ilMediaPoolGSToolProvider',
   ),
 );
