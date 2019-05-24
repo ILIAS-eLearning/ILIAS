@@ -151,7 +151,7 @@ class Renderer extends AbstractComponentRenderer {
 		array $signals
 	) {
 		$f = $this->getUIFactory();
-		$btn_disengage = $f->button()->bulky($f->glyph()->back("#"), "close", "#")
+		$btn_disengage = $f->button()->bulky($f->symbol()->glyph()->back("#"), "close", "#")
 			->withOnClick($signals['close_slates']);
 		$tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
 	}

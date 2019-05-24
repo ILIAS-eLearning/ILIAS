@@ -1865,7 +1865,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		if ($cnt > 0)
 		{
 			$c = $f->counter()->status((int) $cnt);
-			$comps[] = $f->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function($id) use ($hash, $update_url, $widget_el_id) {
+			$comps[] = $f->symbol()->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function($id) use ($hash, $update_url, $widget_el_id) {
 				return "$(\"#$id\").click(function(event) { ".self::getListCommentsJSCall($hash, "ilNotes.updateWidget(\"".$widget_el_id."\",\"".$update_url."\");")."});";
 			});
 			$comps[] = $f->divider()->vertical();

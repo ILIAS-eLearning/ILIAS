@@ -87,7 +87,7 @@ class ItemTest extends ILIAS_UI_TestBase {
 	public function test_with_lead_icon() {
 		$f = $this->getFactory();
 
-		$icon = new I\Component\Icon\Standard("name", "aria_label", "small", false);
+		$icon = new I\Component\Symbol\Icon\Standard("name", "aria_label", "small", false);
 
 		$c = $f->standard("title")->withLeadIcon($icon);
 
@@ -204,7 +204,7 @@ EOT;
 		$f = $this->getFactory();
 		$r = $this->getDefaultRenderer();
 
-		$icon = new I\Component\Icon\Standard("name", "aria_label", "small", false);
+		$icon = new I\Component\Symbol\Icon\Standard("name", "aria_label", "small", false);
 
 		$c = $f->standard("title")->withLeadIcon($icon);
 
@@ -214,7 +214,7 @@ EOT;
 	<div class="media">
 		<div class="media-left">
 			<div class="icon name small" aria-label="aria_label"></div></div>
-		<div class="media-body">		
+		<div class="media-body">
 			<h5>title</h5>
 		</div>
 	</div>

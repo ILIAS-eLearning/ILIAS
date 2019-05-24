@@ -28,8 +28,8 @@ class DrilldownTest extends ILIAS_UI_TestBase
 
 	public function setUp(): void
 	{
-		$icon_factory = new I\Icon\Factory();
-		$glyph_factory = new I\Glyph\Factory();
+		$icon_factory = new I\Symbol\Icon\Factory();
+		$glyph_factory = new I\Symbol\Glyph\Factory();
 		$button_factory = new I\Button\Factory();
 		$divider_factory = new I\Divider\Factory();
 		$this->icon = $icon_factory->standard('', '');

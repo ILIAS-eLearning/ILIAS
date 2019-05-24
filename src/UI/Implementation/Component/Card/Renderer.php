@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Card;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Icon\Standard as StandardIcon;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
 
 class Renderer extends AbstractComponentRenderer {
 	/**

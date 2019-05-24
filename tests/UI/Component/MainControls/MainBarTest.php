@@ -19,7 +19,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 	{
 		$sig_gen = 	new I\SignalGenerator();
 		$this->button_factory = new I\Button\Factory($sig_gen);
-		$this->icon_factory = new I\Icon\Factory();
+		$this->icon_factory = new I\Symbol\Icon\Factory();
 		$counter_factory = new I\Counter\Factory();
 		$slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory);
 		$this->factory = new I\MainControls\Factory($sig_gen, $slate_factory);
@@ -137,8 +137,11 @@ class MainBarTest extends ILIAS_UI_TestBase
 			public function button() {
 				return $this->button_factory;
 			}
-			public function glyph() {
-				return new I\Glyph\Factory();
+			public function symbol(): C\Symbol\Factory
+			{
+				$f_icon = new I\Symbol\Icon\Factory();
+				$f_glyph = new I\Symbol\Glyph\Factory();
+				return new I\Symbol\Factory($f_icon, $f_glyph);
 			}
 			public function mainControls(): C\MainControls\Factory
 			{

@@ -5,7 +5,7 @@ function legacy() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->glyph()->comment();
+	$icon = $f->symbol()->glyph()->comment();
 	$contents = $f->legacy("some <i>html</i>.");
 
 	$slate = $f->maincontrols()->slate()->legacy('legacy_example', $icon, $contents);

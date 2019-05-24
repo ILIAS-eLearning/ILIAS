@@ -128,12 +128,12 @@ class LayoutContent {
 		}
 
 		$main_bar = $main_bar->withMoreButton(
-			$f->button()->bulky($f->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#")
+			$f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#")
 		);
 
 		// Tools
 		if ($this->gs->collector()->tool()->hasTools()) {
-			$main_bar = $main_bar->withToolsButton($f->button()->bulky($f->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
+			$main_bar = $main_bar->withToolsButton($f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
 			foreach ($this->gs->collector()->tool()->getTools() as $tool) {
 				$slate = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
 				$id = $tool->getProviderIdentification()->getInternalIdentifier();

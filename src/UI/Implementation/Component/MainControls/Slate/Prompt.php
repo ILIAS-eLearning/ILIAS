@@ -6,7 +6,7 @@ namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Factory;
-use ILIAS\UI\Component\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Component\Counter\Factory as CounterFactory;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;

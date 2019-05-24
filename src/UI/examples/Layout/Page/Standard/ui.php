@@ -75,13 +75,13 @@ function pagedemoContent($f)
 
 function pagedemoMetabar($f)
 {
-	$help = $f->button()->bulky($f->glyph()->help(),'Help', '#');
-	$search = $f->button()->bulky($f->glyph()->search(),'Search', '#');
-	$user = $f->button()->bulky($f->glyph()->user(),'User', '#');
+	$help = $f->button()->bulky($f->symbol()->glyph()->help(),'Help', '#');
+	$search = $f->button()->bulky($f->symbol()->glyph()->search(),'Search', '#');
+	$user = $f->button()->bulky($f->symbol()->glyph()->user(),'User', '#');
 
 	$notes = $f->maincontrols()->slate()->legacy(
 		'Notification',
-		$f->glyph()->notification(),
+		$f->symbol()->glyph()->notification(),
 		$f->legacy('some content')
 	);
 
@@ -98,12 +98,12 @@ function pagedemoMetabar($f)
 function pagedemoMainbar($f, $r)
 {
 	$tools_btn = $f->button()->bulky(
-		$f->icon()->custom('./src/UI/examples/Layout/Page/Standard/grid.svg', ''),
+		$f->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/grid.svg', ''),
 		'Tools',
 		'#'
 	);
 	$more_btn = $f->button()->bulky(
-		$f->icon()->standard('', ''),
+		$f->symbol()->icon()->standard('', ''),
 		'more',
 		'#'
 	);
@@ -134,12 +134,12 @@ function pagedemoMainbar($f, $r)
 
 function getDemoEntryRepository($f)
 {
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/layers.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->combined('Repository', $symbol, '');
 
-	$icon = $f->icon()
+	$icon = $f->symbol()->icon()
 		->standard('', '')
 		->withSize('small')
 		->withAbbreviation('X');
@@ -165,7 +165,7 @@ function getDemoEntryRepository($f)
 
 function getDemoEntryPersonalWorkspace($f, $r)
 {
-	$icon = $f->icon()
+	$icon = $f->symbol()->icon()
 		->standard('', '')
 		->withSize('small')
 		->withAbbreviation('X');
@@ -176,14 +176,14 @@ function getDemoEntryPersonalWorkspace($f, $r)
 		'./src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1'
 	);
 
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/user.svg', '')
 		->withSize('small');
 
 	$slate = $f->maincontrols()->slate()
 		->combined('Personal Workspace', $symbol, '');
 
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/bookmarks.svg', '')
 		->withSize('small');
 
@@ -211,7 +211,7 @@ function getDemoEntryPersonalWorkspace($f, $r)
 
 function getDemoEntryAchievements($f)
 {
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/achievements.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->legacy(
@@ -224,7 +224,7 @@ function getDemoEntryAchievements($f)
 
 function getDemoEntryCommunication($f)
 {
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/communication.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->legacy(
@@ -237,7 +237,7 @@ function getDemoEntryCommunication($f)
 
 function getDemoEntryOrganisation($f)
 {
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/organisation.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->legacy(
@@ -250,7 +250,7 @@ function getDemoEntryOrganisation($f)
 
 function getDemoEntryAdministration($f)
 {
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/administration.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->legacy(
@@ -265,7 +265,7 @@ function getDemoEntryTools($f)
 {
 	$tools = [];
 
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/question.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->legacy(
@@ -274,7 +274,7 @@ function getDemoEntryTools($f)
 		$f->legacy('<h2>tool 1</h2><p>Some Text for Tool 1 entry</p>')
 	);
 	$tools['tool1'] = $slate;
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/pencil.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->legacy(
@@ -283,7 +283,7 @@ function getDemoEntryTools($f)
 		$f->legacy('<h2>tool 2</h2><p>Some Text for Tool 1 entry</p>')
 	);
 	$tools['tool2'] = $slate;
-	$symbol = $f->icon()
+	$symbol = $f->symbol()->icon()
 		->custom('./src/UI/examples/Layout/Page/Standard/notebook.svg', '')
 		->withSize('small');
 	$slate = $f->maincontrols()->slate()->legacy(

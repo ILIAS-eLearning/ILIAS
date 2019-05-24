@@ -112,7 +112,7 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 					$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
 					$links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
 						->withTitle( $ititle)
-						->withIcon($this->dic->ui()->factory()->icon()->standard($item['type'], $item['type']))
+						->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard($item['type'], $item['type']))
 						->withAction($item["link"]);
 				}
 				$first = false;

@@ -1881,7 +1881,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		$logger = $DIC->logger()->ac();
 
 		// creation of roles
-		if(!$this->object->getId())
+		if(
+			!$this->object->getId() ||
+			$this->object->getId() == ROLE_FOLDER_ID
+		)
 		{
 			return true;
 		}

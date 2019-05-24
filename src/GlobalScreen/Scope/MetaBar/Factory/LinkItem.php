@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
-use ILIAS\UI\Component\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 /**
  * Class LinkItem

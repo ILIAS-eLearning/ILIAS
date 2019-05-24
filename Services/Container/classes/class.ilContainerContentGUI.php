@@ -801,7 +801,7 @@ abstract class ilContainerContentGUI
 			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
 		}
 
-		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
+		$icon = $f->symbol()->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
 			->withIsOutlined(true);
 		$card = $f->card()->repositoryObject(
 			$title."<span data-list-item-id='".$item_list_gui->getUniqueItemId(true)."'></span>",

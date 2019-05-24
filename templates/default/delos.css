@@ -6762,64 +6762,6 @@ button.close {
   margin-top: 10px;
   background-color: #a9a9a9;
 }
-.glyph {
-  color: #557196;
-}
-.glyph.highlighted {
-  color: #fa8228;
-}
-.glyph.highlighted:hover {
-  color: #d15c05;
-}
-.glyph.disabled {
-  color: #e0e0e0;
-  pointer-events: none;
-}
-.glyph:hover,
-.glyph:focus {
-  color: #3a4c65;
-  text-decoration: none;
-}
-.glyph .il-counter-spacer {
-  margin-left: -4px;
-  font-size: 9px;
-  padding: 2px 4px;
-  visibility: hidden;
-}
-.glyphicon.glyphicon-chevron-left,
-.glyphicon.glyphicon-chevron-right {
-  font-weight: 100;
-}
-.il-glyphicon-like,
-.il-glyphicon-love,
-.il-glyphicon-dislike:before,
-.il-glyphicon-laugh:before,
-.il-glyphicon-astounded:before,
-.il-glyphicon-sad:before,
-.il-glyphicon-angry:before {
-  font-family: "Open Sans Emoji";
-}
-.il-glyphicon-like:before {
-  content: "\1f44d";
-}
-.il-glyphicon-love:before {
-  content: "\2764";
-}
-.il-glyphicon-dislike:before {
-  content: "\1f44e";
-}
-.il-glyphicon-laugh:before {
-  content: "\1f604";
-}
-.il-glyphicon-astounded:before {
-  content: "\1f62e";
-}
-.il-glyphicon-sad:before {
-  content: "\1f625";
-}
-.il-glyphicon-angry:before {
-  content: "\1f620";
-}
 .il-panel-report .thumbnail {
   margin-bottom: 0;
 }
@@ -7583,835 +7525,6 @@ hr.il-divider-with-label {
     margin: 0;
     border-bottom: 0;
   }
-}
-.icon {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("images/icon_default.svg");
-  display: inline-block;
-  text-align: center;
-  /* the custom-icon is rendered with an image contained in the div */
-  /* add known standard classes here */
-}
-.icon .abbreviation {
-  font-weight: bold;
-  position: absolute;
-}
-.icon img {
-  float: left;
-}
-.icon.small {
-  height: 20px;
-  width: 20px;
-  line-height: 20px;
-}
-.icon.small .abbreviation {
-  font-size: 8px;
-  width: 20px;
-}
-.icon.small img {
-  width: 20px;
-  height: 20px;
-}
-.icon.medium {
-  height: 35px;
-  width: 35px;
-  line-height: 35px;
-}
-.icon.medium .abbreviation {
-  font-size: 14px;
-  width: 35px;
-}
-.icon.medium img {
-  width: 35px;
-  height: 35px;
-}
-.icon.large {
-  height: 45px;
-  width: 45px;
-  line-height: 45px;
-}
-.icon.large .abbreviation {
-  font-size: 18px;
-  width: 45px;
-}
-.icon.large img {
-  width: 45px;
-  height: 45px;
-}
-.icon.responsive {
-  width: 100%;
-  line-height: 35px;
-}
-.icon.responsive .abbreviation {
-  font-size: 14px;
-  width: 35px;
-}
-.icon.responsive img {
-  width: 100%;
-  height: auto;
-}
-.icon.disabled {
-  -webkit-filter: grayscale(100%);
-  /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%);
-}
-.icon.custom {
-  background-image: none;
-}
-.icon.grp .abbreviation,
-.icon.cat .abbreviation,
-.icon.crs .abbreviation,
-.icon.mob .abbreviation,
-.icon.mail .abbreviation,
-.icon.sahs .abbreviation,
-.icon.adm .abbreviation,
-.icon.usrf .abbreviation,
-.icon.rolf .abbreviation,
-.icon.objf .abbreviation,
-.icon.usr .abbreviation,
-.icon.typ .abbreviation,
-.icon.rolt .abbreviation,
-.icon.lngf .abbreviation,
-.icon.lng .abbreviation,
-.icon.role .abbreviation,
-.icon.dbk .abbreviation,
-.icon.glo .abbreviation,
-.icon.root .abbreviation,
-.icon.lm .abbreviation,
-.icon.notf .abbreviation,
-.icon.note .abbreviation,
-.icon.frm .abbreviation,
-.icon.exc .abbreviation,
-.icon.auth .abbreviation,
-.icon.fold .abbreviation,
-.icon.file .abbreviation,
-.icon.tst .abbreviation,
-.icon.qpl .abbreviation,
-.icon.recf .abbreviation,
-.icon.mep .abbreviation,
-.icon.htlm .abbreviation,
-.icon.svy .abbreviation,
-.icon.spl .abbreviation,
-.icon.cals .abbreviation,
-.icon.trac .abbreviation,
-.icon.assf .abbreviation,
-.icon.stys .abbreviation,
-.icon.crsg .abbreviation,
-.icon.webr .abbreviation,
-.icon.seas .abbreviation,
-.icon.extt .abbreviation,
-.icon.adve .abbreviation,
-.icon.ps .abbreviation,
-.icon.nwss .abbreviation,
-.icon.feed .abbreviation,
-.icon.mcst .abbreviation,
-.icon.pdts .abbreviation,
-.icon.rcrs .abbreviation,
-.icon.mds .abbreviation,
-.icon.cmps .abbreviation,
-.icon.facs .abbreviation,
-.icon.svyf .abbreviation,
-.icon.sess .abbreviation,
-.icon.mcts .abbreviation,
-.icon.wiki .abbreviation,
-.icon.crsr .abbreviation,
-.icon.catr .abbreviation,
-.icon.tags .abbreviation,
-.icon.cert .abbreviation,
-.icon.lrss .abbreviation,
-.icon.accs .abbreviation,
-.icon.mobs .abbreviation,
-.icon.frma .abbreviation,
-.icon.book .abbreviation,
-.icon.skmg .abbreviation,
-.icon.blga .abbreviation,
-.icon.prfa .abbreviation,
-.icon.chtr .abbreviation,
-.icon.chta .abbreviation,
-.icon.otpl .abbreviation,
-.icon.blog .abbreviation,
-.icon.dcl .abbreviation,
-.icon.poll .abbreviation,
-.icon.hlps .abbreviation,
-.icon.itgr .abbreviation,
-.icon.rcat .abbreviation,
-.icon.rwik .abbreviation,
-.icon.rlm .abbreviation,
-.icon.rglo .abbreviation,
-.icon.rfil .abbreviation,
-.icon.rgrp .abbreviation,
-.icon.rtst .abbreviation,
-.icon.ecss .abbreviation,
-.icon.tos .abbreviation,
-.icon.bibl .abbreviation,
-.icon.sysc .abbreviation,
-.icon.cld .abbreviation,
-.icon.reps .abbreviation,
-.icon.crss .abbreviation,
-.icon.grps .abbreviation,
-.icon.wbrs .abbreviation,
-.icon.prtt .abbreviation,
-.icon.orgu .abbreviation,
-.icon.wiks .abbreviation,
-.icon.excs .abbreviation,
-.icon.taxs .abbreviation,
-.icon.bibs .abbreviation,
-.icon.awra .abbreviation,
-.icon.logs .abbreviation,
-.icon.prg .abbreviation,
-.icon.prgs .abbreviation,
-.icon.cadm .abbreviation,
-.icon.grpr .abbreviation,
-.icon.bdga .abbreviation,
-.icon.wfe .abbreviation,
-.icon.iass .abbreviation {
-  display: none;
-}
-.icon.grp {
-  background-image: url("images/icon_grp.svg");
-}
-.icon.cat {
-  background-image: url("images/icon_cat.svg");
-}
-.icon.crs {
-  background-image: url("images/icon_crs.svg");
-}
-.icon.mob {
-  background-image: url("images/icon_mob.svg");
-}
-.icon.mail {
-  background-image: url("images/icon_mail.svg");
-}
-.icon.sahs {
-  background-image: url("images/icon_sahs.svg");
-}
-.icon.adm {
-  background-image: url("images/icon_adm.svg");
-}
-.icon.usrf {
-  background-image: url("images/icon_usrf.svg");
-}
-.icon.rolf {
-  background-image: url("images/icon_rolf.svg");
-}
-.icon.objf {
-  background-image: url("images/icon_objf.svg");
-}
-.icon.usr {
-  background-image: url("images/icon_usr.svg");
-}
-.icon.rolt {
-  background-image: url("images/icon_rolt.svg");
-}
-.icon.lngf {
-  background-image: url("images/icon_lngf.svg");
-}
-.icon.lng {
-  background-image: url("images/icon_lng.svg");
-}
-.icon.role {
-  background-image: url("images/icon_role.svg");
-}
-.icon.dbk {
-  background-image: url("images/icon_dbk.svg");
-}
-.icon.glo {
-  background-image: url("images/icon_glo.svg");
-}
-.icon.root {
-  background-image: url("images/icon_root.svg");
-}
-.icon.lm {
-  background-image: url("images/icon_lm.svg");
-}
-.icon.notf {
-  background-image: url("images/icon_notf.svg");
-}
-.icon.note {
-  background-image: url("images/icon_note.svg");
-}
-.icon.frm {
-  background-image: url("images/icon_frm.svg");
-}
-.icon.exc {
-  background-image: url("images/icon_exc.svg");
-}
-.icon.auth {
-  background-image: url("images/icon_auth.svg");
-}
-.icon.fold {
-  background-image: url("images/icon_fold.svg");
-}
-.icon.file {
-  background-image: url("images/icon_file.svg");
-}
-.icon.tst {
-  background-image: url("images/icon_tst.svg");
-}
-.icon.qpl {
-  background-image: url("images/icon_qpl.svg");
-}
-.icon.recf {
-  background-image: url("images/icon_recf.svg");
-}
-.icon.mep {
-  background-image: url("images/icon_mep.svg");
-}
-.icon.htlm {
-  background-image: url("images/icon_htlm.svg");
-}
-.icon.svy {
-  background-image: url("images/icon_svy.svg");
-}
-.icon.spl {
-  background-image: url("images/icon_spl.svg");
-}
-.icon.cals {
-  background-image: url("images/icon_cals.svg");
-}
-.icon.trac {
-  background-image: url("images/icon_trac.svg");
-}
-.icon.assf {
-  background-image: url("images/icon_assf.svg");
-}
-.icon.stys {
-  background-image: url("images/icon_stys.svg");
-}
-.icon.crsg {
-  background-image: url("images/icon_crsg.svg");
-}
-.icon.webr {
-  background-image: url("images/icon_webr.svg");
-}
-.icon.seas {
-  background-image: url("images/icon_seas.svg");
-}
-.icon.extt {
-  background-image: url("images/icon_extt.svg");
-}
-.icon.adve {
-  background-image: url("images/icon_adve.svg");
-}
-.icon.ps {
-  background-image: url("images/icon_ps.svg");
-}
-.icon.nwss {
-  background-image: url("images/icon_nwss.svg");
-}
-.icon.feed {
-  background-image: url("images/icon_feed.svg");
-}
-.icon.mcst {
-  background-image: url("images/icon_mcst.svg");
-}
-.icon.pdts {
-  background-image: url("images/icon_pdts.svg");
-}
-.icon.rcrs {
-  background-image: url("images/icon_rcrs.svg");
-}
-.icon.mds {
-  background-image: url("images/icon_mds.svg");
-}
-.icon.cmps {
-  background-image: url("images/icon_cmps.svg");
-}
-.icon.facs {
-  background-image: url("images/icon_facs.svg");
-}
-.icon.svyf {
-  background-image: url("images/icon_svyf.svg");
-}
-.icon.sess {
-  background-image: url("images/icon_sess.svg");
-}
-.icon.mcts {
-  background-image: url("images/icon_mcts.svg");
-}
-.icon.wiki {
-  background-image: url("images/icon_wiki.svg");
-}
-.icon.crsr {
-  background-image: url("images/icon_crsr.svg");
-}
-.icon.catr {
-  background-image: url("images/icon_catr.svg");
-}
-.icon.tags {
-  background-image: url("images/icon_tags.svg");
-}
-.icon.cert {
-  background-image: url("images/icon_cert.svg");
-}
-.icon.lrss {
-  background-image: url("images/icon_lrss.svg");
-}
-.icon.accs {
-  background-image: url("images/icon_accs.svg");
-}
-.icon.mobs {
-  background-image: url("images/icon_mobs.svg");
-}
-.icon.frma {
-  background-image: url("images/icon_frma.svg");
-}
-.icon.book {
-  background-image: url("images/icon_book.svg");
-}
-.icon.skmg {
-  background-image: url("images/icon_skmg.svg");
-}
-.icon.blga {
-  background-image: url("images/icon_blga.svg");
-}
-.icon.prfa {
-  background-image: url("images/icon_prfa.svg");
-}
-.icon.chtr {
-  background-image: url("images/icon_chtr.svg");
-}
-.icon.chta {
-  background-image: url("images/icon_chta.svg");
-}
-.icon.otpl {
-  background-image: url("images/icon_otpl.svg");
-}
-.icon.blog {
-  background-image: url("images/icon_blog.svg");
-}
-.icon.dcl {
-  background-image: url("images/icon_dcl.svg");
-}
-.icon.poll {
-  background-image: url("images/icon_poll.svg");
-}
-.icon.hlps {
-  background-image: url("images/icon_hlps.svg");
-}
-.icon.itgr {
-  background-image: url("images/icon_itgr.svg");
-}
-.icon.rcat {
-  background-image: url("images/icon_rcat.svg");
-}
-.icon.rwik {
-  background-image: url("images/icon_rwik.svg");
-}
-.icon.rlm {
-  background-image: url("images/icon_rlm.svg");
-}
-.icon.rglo {
-  background-image: url("images/icon_rglo.svg");
-}
-.icon.rfil {
-  background-image: url("images/icon_rfil.svg");
-}
-.icon.rgrp {
-  background-image: url("images/icon_rgrp.svg");
-}
-.icon.rtst {
-  background-image: url("images/icon_rtst.svg");
-}
-.icon.ecss {
-  background-image: url("images/icon_ecss.svg");
-}
-.icon.tos {
-  background-image: url("images/icon_tos.svg");
-}
-.icon.bibl {
-  background-image: url("images/icon_bibl.svg");
-}
-.icon.sysc {
-  background-image: url("images/icon_sysc.svg");
-}
-.icon.cld {
-  background-image: url("images/icon_cld.svg");
-}
-.icon.reps {
-  background-image: url("images/icon_reps.svg");
-}
-.icon.crss {
-  background-image: url("images/icon_crss.svg");
-}
-.icon.grps {
-  background-image: url("images/icon_grps.svg");
-}
-.icon.wbrs {
-  background-image: url("images/icon_wbrs.svg");
-}
-.icon.prtt {
-  background-image: url("images/icon_prtt.svg");
-}
-.icon.orgu {
-  background-image: url("images/icon_orgu.svg");
-}
-.icon.wiks {
-  background-image: url("images/icon_wiks.svg");
-}
-.icon.excs {
-  background-image: url("images/icon_excs.svg");
-}
-.icon.taxs {
-  background-image: url("images/icon_taxs.svg");
-}
-.icon.bibs {
-  background-image: url("images/icon_bibs.svg");
-}
-.icon.awra {
-  background-image: url("images/icon_awra.svg");
-}
-.icon.logs {
-  background-image: url("images/icon_logs.svg");
-}
-.icon.prg {
-  background-image: url("images/icon_prg.svg");
-}
-.icon.prgs {
-  background-image: url("images/icon_prgs.svg");
-}
-.icon.cadm {
-  background-image: url("images/icon_cadm.svg");
-}
-.icon.grpr {
-  background-image: url("images/icon_grpr.svg");
-}
-.icon.bdga {
-  background-image: url("images/icon_bdga.svg");
-}
-.icon.wfe {
-  background-image: url("images/icon_wfe.svg");
-}
-.icon.iass {
-  background-image: url("images/icon_iass.svg");
-}
-.icon.outlined {
-  filter: brightness(0);
-}
-.icon.outlined.disabled {
-  filter: brightness(0.3);
-}
-.icon.outlined.grp {
-  background-image: url("images/outlined/icon_grp.svg");
-}
-.icon.outlined.cat {
-  background-image: url("images/outlined/icon_cat.svg");
-}
-.icon.outlined.crs {
-  background-image: url("images/outlined/icon_crs.svg");
-}
-.icon.outlined.mob {
-  background-image: url("images/outlined/icon_mob.svg");
-}
-.icon.outlined.mail {
-  background-image: url("images/outlined/icon_mail.svg");
-}
-.icon.outlined.sahs {
-  background-image: url("images/outlined/icon_sahs.svg");
-}
-.icon.outlined.adm {
-  background-image: url("images/outlined/icon_adm.svg");
-}
-.icon.outlined.usrf {
-  background-image: url("images/outlined/icon_usrf.svg");
-}
-.icon.outlined.rolf {
-  background-image: url("images/outlined/icon_rolf.svg");
-}
-.icon.outlined.objf {
-  background-image: url("images/outlined/icon_objf.svg");
-}
-.icon.outlined.usr {
-  background-image: url("images/outlined/icon_usr.svg");
-}
-.icon.outlined.rolt {
-  background-image: url("images/outlined/icon_rolt.svg");
-}
-.icon.outlined.lngf {
-  background-image: url("images/outlined/icon_lngf.svg");
-}
-.icon.outlined.lng {
-  background-image: url("images/outlined/icon_lng.svg");
-}
-.icon.outlined.role {
-  background-image: url("images/outlined/icon_role.svg");
-}
-.icon.outlined.dbk {
-  background-image: url("images/outlined/icon_dbk.svg");
-}
-.icon.outlined.glo {
-  background-image: url("images/outlined/icon_glo.svg");
-}
-.icon.outlined.root {
-  background-image: url("images/outlined/icon_root.svg");
-}
-.icon.outlined.lm {
-  background-image: url("images/outlined/icon_lm.svg");
-}
-.icon.outlined.notf {
-  background-image: url("images/outlined/icon_notf.svg");
-}
-.icon.outlined.note {
-  background-image: url("images/outlined/icon_note.svg");
-}
-.icon.outlined.frm {
-  background-image: url("images/outlined/icon_frm.svg");
-}
-.icon.outlined.exc {
-  background-image: url("images/outlined/icon_exc.svg");
-}
-.icon.outlined.auth {
-  background-image: url("images/outlined/icon_auth.svg");
-}
-.icon.outlined.fold {
-  background-image: url("images/outlined/icon_fold.svg");
-}
-.icon.outlined.file {
-  background-image: url("images/outlined/icon_file.svg");
-}
-.icon.outlined.tst {
-  background-image: url("images/outlined/icon_tst.svg");
-}
-.icon.outlined.qpl {
-  background-image: url("images/outlined/icon_qpl.svg");
-}
-.icon.outlined.recf {
-  background-image: url("images/outlined/icon_recf.svg");
-}
-.icon.outlined.mep {
-  background-image: url("images/outlined/icon_mep.svg");
-}
-.icon.outlined.htlm {
-  background-image: url("images/outlined/icon_htlm.svg");
-}
-.icon.outlined.svy {
-  background-image: url("images/outlined/icon_svy.svg");
-}
-.icon.outlined.spl {
-  background-image: url("images/outlined/icon_spl.svg");
-}
-.icon.outlined.cals {
-  background-image: url("images/outlined/icon_cals.svg");
-}
-.icon.outlined.trac {
-  background-image: url("images/outlined/icon_trac.svg");
-}
-.icon.outlined.assf {
-  background-image: url("images/outlined/icon_assf.svg");
-}
-.icon.outlined.stys {
-  background-image: url("images/outlined/icon_stys.svg");
-}
-.icon.outlined.crsg {
-  background-image: url("images/outlined/icon_crsg.svg");
-}
-.icon.outlined.webr {
-  background-image: url("images/outlined/icon_webr.svg");
-}
-.icon.outlined.seas {
-  background-image: url("images/outlined/icon_seas.svg");
-}
-.icon.outlined.extt {
-  background-image: url("images/outlined/icon_extt.svg");
-}
-.icon.outlined.adve {
-  background-image: url("images/outlined/icon_adve.svg");
-}
-.icon.outlined.ps {
-  background-image: url("images/outlined/icon_ps.svg");
-}
-.icon.outlined.nwss {
-  background-image: url("images/outlined/icon_nwss.svg");
-}
-.icon.outlined.feed {
-  background-image: url("images/outlined/icon_feed.svg");
-}
-.icon.outlined.mcst {
-  background-image: url("images/outlined/icon_mcst.svg");
-}
-.icon.outlined.pdts {
-  background-image: url("images/outlined/icon_pdts.svg");
-}
-.icon.outlined.rcrs {
-  background-image: url("images/outlined/icon_rcrs.svg");
-}
-.icon.outlined.mds {
-  background-image: url("images/outlined/icon_mds.svg");
-}
-.icon.outlined.cmps {
-  background-image: url("images/outlined/icon_cmps.svg");
-}
-.icon.outlined.facs {
-  background-image: url("images/outlined/icon_facs.svg");
-}
-.icon.outlined.svyf {
-  background-image: url("images/outlined/icon_svyf.svg");
-}
-.icon.outlined.sess {
-  background-image: url("images/outlined/icon_sess.svg");
-}
-.icon.outlined.mcts {
-  background-image: url("images/outlined/icon_mcts.svg");
-}
-.icon.outlined.wiki {
-  background-image: url("images/outlined/icon_wiki.svg");
-}
-.icon.outlined.crsr {
-  background-image: url("images/outlined/icon_crsr.svg");
-}
-.icon.outlined.catr {
-  background-image: url("images/outlined/icon_catr.svg");
-}
-.icon.outlined.tags {
-  background-image: url("images/outlined/icon_tags.svg");
-}
-.icon.outlined.cert {
-  background-image: url("images/outlined/icon_cert.svg");
-}
-.icon.outlined.lrss {
-  background-image: url("images/outlined/icon_lrss.svg");
-}
-.icon.outlined.accs {
-  background-image: url("images/outlined/icon_accs.svg");
-}
-.icon.outlined.mobs {
-  background-image: url("images/outlined/icon_mobs.svg");
-}
-.icon.outlined.frma {
-  background-image: url("images/outlined/icon_frma.svg");
-}
-.icon.outlined.book {
-  background-image: url("images/outlined/icon_book.svg");
-}
-.icon.outlined.skmg {
-  background-image: url("images/outlined/icon_skmg.svg");
-}
-.icon.outlined.blga {
-  background-image: url("images/outlined/icon_blga.svg");
-}
-.icon.outlined.prfa {
-  background-image: url("images/outlined/icon_prfa.svg");
-}
-.icon.outlined.chtr {
-  background-image: url("images/outlined/icon_chtr.svg");
-}
-.icon.outlined.chta {
-  background-image: url("images/outlined/icon_chta.svg");
-}
-.icon.outlined.otpl {
-  background-image: url("images/outlined/icon_otpl.svg");
-}
-.icon.outlined.blog {
-  background-image: url("images/outlined/icon_blog.svg");
-}
-.icon.outlined.dcl {
-  background-image: url("images/outlined/icon_dcl.svg");
-}
-.icon.outlined.poll {
-  background-image: url("images/outlined/icon_poll.svg");
-}
-.icon.outlined.hlps {
-  background-image: url("images/outlined/icon_hlps.svg");
-}
-.icon.outlined.itgr {
-  background-image: url("images/outlined/icon_itgr.svg");
-}
-.icon.outlined.rcat {
-  background-image: url("images/outlined/icon_rcat.svg");
-}
-.icon.outlined.rwik {
-  background-image: url("images/outlined/icon_rwik.svg");
-}
-.icon.outlined.rlm {
-  background-image: url("images/outlined/icon_rlm.svg");
-}
-.icon.outlined.rglo {
-  background-image: url("images/outlined/icon_rglo.svg");
-}
-.icon.outlined.rfil {
-  background-image: url("images/outlined/icon_rfil.svg");
-}
-.icon.outlined.rgrp {
-  background-image: url("images/outlined/icon_rgrp.svg");
-}
-.icon.outlined.rtst {
-  background-image: url("images/outlined/icon_rtst.svg");
-}
-.icon.outlined.ecss {
-  background-image: url("images/outlined/icon_ecss.svg");
-}
-.icon.outlined.tos {
-  background-image: url("images/outlined/icon_tos.svg");
-}
-.icon.outlined.bibl {
-  background-image: url("images/outlined/icon_bibl.svg");
-}
-.icon.outlined.sysc {
-  background-image: url("images/outlined/icon_sysc.svg");
-}
-.icon.outlined.cld {
-  background-image: url("images/outlined/icon_cld.svg");
-}
-.icon.outlined.reps {
-  background-image: url("images/outlined/icon_reps.svg");
-}
-.icon.outlined.crss {
-  background-image: url("images/outlined/icon_crss.svg");
-}
-.icon.outlined.grps {
-  background-image: url("images/outlined/icon_grps.svg");
-}
-.icon.outlined.wbrs {
-  background-image: url("images/outlined/icon_wbrs.svg");
-}
-.icon.outlined.prtt {
-  background-image: url("images/outlined/icon_prtt.svg");
-}
-.icon.outlined.orgu {
-  background-image: url("images/outlined/icon_orgu.svg");
-}
-.icon.outlined.wiks {
-  background-image: url("images/outlined/icon_wiks.svg");
-}
-.icon.outlined.excs {
-  background-image: url("images/outlined/icon_excs.svg");
-}
-.icon.outlined.taxs {
-  background-image: url("images/outlined/icon_taxs.svg");
-}
-.icon.outlined.bibs {
-  background-image: url("images/outlined/icon_bibs.svg");
-}
-.icon.outlined.awra {
-  background-image: url("images/outlined/icon_awra.svg");
-}
-.icon.outlined.logs {
-  background-image: url("images/outlined/icon_logs.svg");
-}
-.icon.outlined.prg {
-  background-image: url("images/outlined/icon_prg.svg");
-}
-.icon.outlined.prgs {
-  background-image: url("images/outlined/icon_prgs.svg");
-}
-.icon.outlined.cadm {
-  background-image: url("images/outlined/icon_cadm.svg");
-}
-.icon.outlined.grpr {
-  background-image: url("images/outlined/icon_grpr.svg");
-}
-.icon.outlined.bdga {
-  background-image: url("images/outlined/icon_bdga.svg");
-}
-.icon.outlined.wfe {
-  background-image: url("images/outlined/icon_wfe.svg");
-}
-.icon.outlined.iass {
-  background-image: url("images/outlined/icon_iass.svg");
-}
-.icon.copa {
-  background-image: url("images/icon_copa.svg");
 }
 .il-viewcontrol-mode .ilSubmitInactive,
 .il-viewcontrol-mode .ilSubmitInactive:hover {
@@ -9920,6 +9033,893 @@ footer {
 .il-drilldown .il-drilldown-backlink ul,
 .il-drilldown .il-drilldown-visible ul {
   display: none;
+}
+.icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("images/icon_default.svg");
+  display: inline-block;
+  text-align: center;
+  /* the custom-icon is rendered with an image contained in the div */
+  /* add known standard classes here */
+}
+.icon .abbreviation {
+  font-weight: bold;
+  position: absolute;
+}
+.icon img {
+  float: left;
+}
+.icon.small {
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+}
+.icon.small .abbreviation {
+  font-size: 8px;
+  width: 20px;
+}
+.icon.small img {
+  width: 20px;
+  height: 20px;
+}
+.icon.medium {
+  height: 35px;
+  width: 35px;
+  line-height: 35px;
+}
+.icon.medium .abbreviation {
+  font-size: 14px;
+  width: 35px;
+}
+.icon.medium img {
+  width: 35px;
+  height: 35px;
+}
+.icon.large {
+  height: 45px;
+  width: 45px;
+  line-height: 45px;
+}
+.icon.large .abbreviation {
+  font-size: 18px;
+  width: 45px;
+}
+.icon.large img {
+  width: 45px;
+  height: 45px;
+}
+.icon.responsive {
+  width: 100%;
+  line-height: 35px;
+}
+.icon.responsive .abbreviation {
+  font-size: 14px;
+  width: 35px;
+}
+.icon.responsive img {
+  width: 100%;
+  height: auto;
+}
+.icon.disabled {
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+.icon.custom {
+  background-image: none;
+}
+.icon.grp .abbreviation,
+.icon.cat .abbreviation,
+.icon.crs .abbreviation,
+.icon.mob .abbreviation,
+.icon.mail .abbreviation,
+.icon.sahs .abbreviation,
+.icon.adm .abbreviation,
+.icon.usrf .abbreviation,
+.icon.rolf .abbreviation,
+.icon.objf .abbreviation,
+.icon.usr .abbreviation,
+.icon.typ .abbreviation,
+.icon.rolt .abbreviation,
+.icon.lngf .abbreviation,
+.icon.lng .abbreviation,
+.icon.role .abbreviation,
+.icon.dbk .abbreviation,
+.icon.glo .abbreviation,
+.icon.root .abbreviation,
+.icon.lm .abbreviation,
+.icon.notf .abbreviation,
+.icon.note .abbreviation,
+.icon.frm .abbreviation,
+.icon.exc .abbreviation,
+.icon.auth .abbreviation,
+.icon.fold .abbreviation,
+.icon.file .abbreviation,
+.icon.tst .abbreviation,
+.icon.qpl .abbreviation,
+.icon.recf .abbreviation,
+.icon.mep .abbreviation,
+.icon.htlm .abbreviation,
+.icon.svy .abbreviation,
+.icon.spl .abbreviation,
+.icon.cals .abbreviation,
+.icon.trac .abbreviation,
+.icon.assf .abbreviation,
+.icon.stys .abbreviation,
+.icon.crsg .abbreviation,
+.icon.webr .abbreviation,
+.icon.seas .abbreviation,
+.icon.extt .abbreviation,
+.icon.adve .abbreviation,
+.icon.ps .abbreviation,
+.icon.nwss .abbreviation,
+.icon.feed .abbreviation,
+.icon.mcst .abbreviation,
+.icon.pdts .abbreviation,
+.icon.rcrs .abbreviation,
+.icon.mds .abbreviation,
+.icon.cmps .abbreviation,
+.icon.facs .abbreviation,
+.icon.svyf .abbreviation,
+.icon.sess .abbreviation,
+.icon.mcts .abbreviation,
+.icon.wiki .abbreviation,
+.icon.crsr .abbreviation,
+.icon.catr .abbreviation,
+.icon.tags .abbreviation,
+.icon.cert .abbreviation,
+.icon.lrss .abbreviation,
+.icon.accs .abbreviation,
+.icon.mobs .abbreviation,
+.icon.frma .abbreviation,
+.icon.book .abbreviation,
+.icon.skmg .abbreviation,
+.icon.blga .abbreviation,
+.icon.prfa .abbreviation,
+.icon.chtr .abbreviation,
+.icon.chta .abbreviation,
+.icon.otpl .abbreviation,
+.icon.blog .abbreviation,
+.icon.dcl .abbreviation,
+.icon.poll .abbreviation,
+.icon.hlps .abbreviation,
+.icon.itgr .abbreviation,
+.icon.rcat .abbreviation,
+.icon.rwik .abbreviation,
+.icon.rlm .abbreviation,
+.icon.rglo .abbreviation,
+.icon.rfil .abbreviation,
+.icon.rgrp .abbreviation,
+.icon.rtst .abbreviation,
+.icon.ecss .abbreviation,
+.icon.tos .abbreviation,
+.icon.bibl .abbreviation,
+.icon.sysc .abbreviation,
+.icon.cld .abbreviation,
+.icon.reps .abbreviation,
+.icon.crss .abbreviation,
+.icon.grps .abbreviation,
+.icon.wbrs .abbreviation,
+.icon.prtt .abbreviation,
+.icon.orgu .abbreviation,
+.icon.wiks .abbreviation,
+.icon.excs .abbreviation,
+.icon.taxs .abbreviation,
+.icon.bibs .abbreviation,
+.icon.awra .abbreviation,
+.icon.logs .abbreviation,
+.icon.prg .abbreviation,
+.icon.prgs .abbreviation,
+.icon.cadm .abbreviation,
+.icon.grpr .abbreviation,
+.icon.bdga .abbreviation,
+.icon.wfe .abbreviation,
+.icon.iass .abbreviation {
+  display: none;
+}
+.icon.grp {
+  background-image: url("images/icon_grp.svg");
+}
+.icon.cat {
+  background-image: url("images/icon_cat.svg");
+}
+.icon.crs {
+  background-image: url("images/icon_crs.svg");
+}
+.icon.mob {
+  background-image: url("images/icon_mob.svg");
+}
+.icon.mail {
+  background-image: url("images/icon_mail.svg");
+}
+.icon.sahs {
+  background-image: url("images/icon_sahs.svg");
+}
+.icon.adm {
+  background-image: url("images/icon_adm.svg");
+}
+.icon.usrf {
+  background-image: url("images/icon_usrf.svg");
+}
+.icon.rolf {
+  background-image: url("images/icon_rolf.svg");
+}
+.icon.objf {
+  background-image: url("images/icon_objf.svg");
+}
+.icon.usr {
+  background-image: url("images/icon_usr.svg");
+}
+.icon.rolt {
+  background-image: url("images/icon_rolt.svg");
+}
+.icon.lngf {
+  background-image: url("images/icon_lngf.svg");
+}
+.icon.lng {
+  background-image: url("images/icon_lng.svg");
+}
+.icon.role {
+  background-image: url("images/icon_role.svg");
+}
+.icon.dbk {
+  background-image: url("images/icon_dbk.svg");
+}
+.icon.glo {
+  background-image: url("images/icon_glo.svg");
+}
+.icon.root {
+  background-image: url("images/icon_root.svg");
+}
+.icon.lm {
+  background-image: url("images/icon_lm.svg");
+}
+.icon.notf {
+  background-image: url("images/icon_notf.svg");
+}
+.icon.note {
+  background-image: url("images/icon_note.svg");
+}
+.icon.frm {
+  background-image: url("images/icon_frm.svg");
+}
+.icon.exc {
+  background-image: url("images/icon_exc.svg");
+}
+.icon.auth {
+  background-image: url("images/icon_auth.svg");
+}
+.icon.fold {
+  background-image: url("images/icon_fold.svg");
+}
+.icon.file {
+  background-image: url("images/icon_file.svg");
+}
+.icon.tst {
+  background-image: url("images/icon_tst.svg");
+}
+.icon.qpl {
+  background-image: url("images/icon_qpl.svg");
+}
+.icon.recf {
+  background-image: url("images/icon_recf.svg");
+}
+.icon.mep {
+  background-image: url("images/icon_mep.svg");
+}
+.icon.htlm {
+  background-image: url("images/icon_htlm.svg");
+}
+.icon.svy {
+  background-image: url("images/icon_svy.svg");
+}
+.icon.spl {
+  background-image: url("images/icon_spl.svg");
+}
+.icon.cals {
+  background-image: url("images/icon_cals.svg");
+}
+.icon.trac {
+  background-image: url("images/icon_trac.svg");
+}
+.icon.assf {
+  background-image: url("images/icon_assf.svg");
+}
+.icon.stys {
+  background-image: url("images/icon_stys.svg");
+}
+.icon.crsg {
+  background-image: url("images/icon_crsg.svg");
+}
+.icon.webr {
+  background-image: url("images/icon_webr.svg");
+}
+.icon.seas {
+  background-image: url("images/icon_seas.svg");
+}
+.icon.extt {
+  background-image: url("images/icon_extt.svg");
+}
+.icon.adve {
+  background-image: url("images/icon_adve.svg");
+}
+.icon.ps {
+  background-image: url("images/icon_ps.svg");
+}
+.icon.nwss {
+  background-image: url("images/icon_nwss.svg");
+}
+.icon.feed {
+  background-image: url("images/icon_feed.svg");
+}
+.icon.mcst {
+  background-image: url("images/icon_mcst.svg");
+}
+.icon.pdts {
+  background-image: url("images/icon_pdts.svg");
+}
+.icon.rcrs {
+  background-image: url("images/icon_rcrs.svg");
+}
+.icon.mds {
+  background-image: url("images/icon_mds.svg");
+}
+.icon.cmps {
+  background-image: url("images/icon_cmps.svg");
+}
+.icon.facs {
+  background-image: url("images/icon_facs.svg");
+}
+.icon.svyf {
+  background-image: url("images/icon_svyf.svg");
+}
+.icon.sess {
+  background-image: url("images/icon_sess.svg");
+}
+.icon.mcts {
+  background-image: url("images/icon_mcts.svg");
+}
+.icon.wiki {
+  background-image: url("images/icon_wiki.svg");
+}
+.icon.crsr {
+  background-image: url("images/icon_crsr.svg");
+}
+.icon.catr {
+  background-image: url("images/icon_catr.svg");
+}
+.icon.tags {
+  background-image: url("images/icon_tags.svg");
+}
+.icon.cert {
+  background-image: url("images/icon_cert.svg");
+}
+.icon.lrss {
+  background-image: url("images/icon_lrss.svg");
+}
+.icon.accs {
+  background-image: url("images/icon_accs.svg");
+}
+.icon.mobs {
+  background-image: url("images/icon_mobs.svg");
+}
+.icon.frma {
+  background-image: url("images/icon_frma.svg");
+}
+.icon.book {
+  background-image: url("images/icon_book.svg");
+}
+.icon.skmg {
+  background-image: url("images/icon_skmg.svg");
+}
+.icon.blga {
+  background-image: url("images/icon_blga.svg");
+}
+.icon.prfa {
+  background-image: url("images/icon_prfa.svg");
+}
+.icon.chtr {
+  background-image: url("images/icon_chtr.svg");
+}
+.icon.chta {
+  background-image: url("images/icon_chta.svg");
+}
+.icon.otpl {
+  background-image: url("images/icon_otpl.svg");
+}
+.icon.blog {
+  background-image: url("images/icon_blog.svg");
+}
+.icon.dcl {
+  background-image: url("images/icon_dcl.svg");
+}
+.icon.poll {
+  background-image: url("images/icon_poll.svg");
+}
+.icon.hlps {
+  background-image: url("images/icon_hlps.svg");
+}
+.icon.itgr {
+  background-image: url("images/icon_itgr.svg");
+}
+.icon.rcat {
+  background-image: url("images/icon_rcat.svg");
+}
+.icon.rwik {
+  background-image: url("images/icon_rwik.svg");
+}
+.icon.rlm {
+  background-image: url("images/icon_rlm.svg");
+}
+.icon.rglo {
+  background-image: url("images/icon_rglo.svg");
+}
+.icon.rfil {
+  background-image: url("images/icon_rfil.svg");
+}
+.icon.rgrp {
+  background-image: url("images/icon_rgrp.svg");
+}
+.icon.rtst {
+  background-image: url("images/icon_rtst.svg");
+}
+.icon.ecss {
+  background-image: url("images/icon_ecss.svg");
+}
+.icon.tos {
+  background-image: url("images/icon_tos.svg");
+}
+.icon.bibl {
+  background-image: url("images/icon_bibl.svg");
+}
+.icon.sysc {
+  background-image: url("images/icon_sysc.svg");
+}
+.icon.cld {
+  background-image: url("images/icon_cld.svg");
+}
+.icon.reps {
+  background-image: url("images/icon_reps.svg");
+}
+.icon.crss {
+  background-image: url("images/icon_crss.svg");
+}
+.icon.grps {
+  background-image: url("images/icon_grps.svg");
+}
+.icon.wbrs {
+  background-image: url("images/icon_wbrs.svg");
+}
+.icon.prtt {
+  background-image: url("images/icon_prtt.svg");
+}
+.icon.orgu {
+  background-image: url("images/icon_orgu.svg");
+}
+.icon.wiks {
+  background-image: url("images/icon_wiks.svg");
+}
+.icon.excs {
+  background-image: url("images/icon_excs.svg");
+}
+.icon.taxs {
+  background-image: url("images/icon_taxs.svg");
+}
+.icon.bibs {
+  background-image: url("images/icon_bibs.svg");
+}
+.icon.awra {
+  background-image: url("images/icon_awra.svg");
+}
+.icon.logs {
+  background-image: url("images/icon_logs.svg");
+}
+.icon.prg {
+  background-image: url("images/icon_prg.svg");
+}
+.icon.prgs {
+  background-image: url("images/icon_prgs.svg");
+}
+.icon.cadm {
+  background-image: url("images/icon_cadm.svg");
+}
+.icon.grpr {
+  background-image: url("images/icon_grpr.svg");
+}
+.icon.bdga {
+  background-image: url("images/icon_bdga.svg");
+}
+.icon.wfe {
+  background-image: url("images/icon_wfe.svg");
+}
+.icon.iass {
+  background-image: url("images/icon_iass.svg");
+}
+.icon.outlined {
+  filter: brightness(0);
+}
+.icon.outlined.disabled {
+  filter: brightness(0.3);
+}
+.icon.outlined.grp {
+  background-image: url("images/outlined/icon_grp.svg");
+}
+.icon.outlined.cat {
+  background-image: url("images/outlined/icon_cat.svg");
+}
+.icon.outlined.crs {
+  background-image: url("images/outlined/icon_crs.svg");
+}
+.icon.outlined.mob {
+  background-image: url("images/outlined/icon_mob.svg");
+}
+.icon.outlined.mail {
+  background-image: url("images/outlined/icon_mail.svg");
+}
+.icon.outlined.sahs {
+  background-image: url("images/outlined/icon_sahs.svg");
+}
+.icon.outlined.adm {
+  background-image: url("images/outlined/icon_adm.svg");
+}
+.icon.outlined.usrf {
+  background-image: url("images/outlined/icon_usrf.svg");
+}
+.icon.outlined.rolf {
+  background-image: url("images/outlined/icon_rolf.svg");
+}
+.icon.outlined.objf {
+  background-image: url("images/outlined/icon_objf.svg");
+}
+.icon.outlined.usr {
+  background-image: url("images/outlined/icon_usr.svg");
+}
+.icon.outlined.rolt {
+  background-image: url("images/outlined/icon_rolt.svg");
+}
+.icon.outlined.lngf {
+  background-image: url("images/outlined/icon_lngf.svg");
+}
+.icon.outlined.lng {
+  background-image: url("images/outlined/icon_lng.svg");
+}
+.icon.outlined.role {
+  background-image: url("images/outlined/icon_role.svg");
+}
+.icon.outlined.dbk {
+  background-image: url("images/outlined/icon_dbk.svg");
+}
+.icon.outlined.glo {
+  background-image: url("images/outlined/icon_glo.svg");
+}
+.icon.outlined.root {
+  background-image: url("images/outlined/icon_root.svg");
+}
+.icon.outlined.lm {
+  background-image: url("images/outlined/icon_lm.svg");
+}
+.icon.outlined.notf {
+  background-image: url("images/outlined/icon_notf.svg");
+}
+.icon.outlined.note {
+  background-image: url("images/outlined/icon_note.svg");
+}
+.icon.outlined.frm {
+  background-image: url("images/outlined/icon_frm.svg");
+}
+.icon.outlined.exc {
+  background-image: url("images/outlined/icon_exc.svg");
+}
+.icon.outlined.auth {
+  background-image: url("images/outlined/icon_auth.svg");
+}
+.icon.outlined.fold {
+  background-image: url("images/outlined/icon_fold.svg");
+}
+.icon.outlined.file {
+  background-image: url("images/outlined/icon_file.svg");
+}
+.icon.outlined.tst {
+  background-image: url("images/outlined/icon_tst.svg");
+}
+.icon.outlined.qpl {
+  background-image: url("images/outlined/icon_qpl.svg");
+}
+.icon.outlined.recf {
+  background-image: url("images/outlined/icon_recf.svg");
+}
+.icon.outlined.mep {
+  background-image: url("images/outlined/icon_mep.svg");
+}
+.icon.outlined.htlm {
+  background-image: url("images/outlined/icon_htlm.svg");
+}
+.icon.outlined.svy {
+  background-image: url("images/outlined/icon_svy.svg");
+}
+.icon.outlined.spl {
+  background-image: url("images/outlined/icon_spl.svg");
+}
+.icon.outlined.cals {
+  background-image: url("images/outlined/icon_cals.svg");
+}
+.icon.outlined.trac {
+  background-image: url("images/outlined/icon_trac.svg");
+}
+.icon.outlined.assf {
+  background-image: url("images/outlined/icon_assf.svg");
+}
+.icon.outlined.stys {
+  background-image: url("images/outlined/icon_stys.svg");
+}
+.icon.outlined.crsg {
+  background-image: url("images/outlined/icon_crsg.svg");
+}
+.icon.outlined.webr {
+  background-image: url("images/outlined/icon_webr.svg");
+}
+.icon.outlined.seas {
+  background-image: url("images/outlined/icon_seas.svg");
+}
+.icon.outlined.extt {
+  background-image: url("images/outlined/icon_extt.svg");
+}
+.icon.outlined.adve {
+  background-image: url("images/outlined/icon_adve.svg");
+}
+.icon.outlined.ps {
+  background-image: url("images/outlined/icon_ps.svg");
+}
+.icon.outlined.nwss {
+  background-image: url("images/outlined/icon_nwss.svg");
+}
+.icon.outlined.feed {
+  background-image: url("images/outlined/icon_feed.svg");
+}
+.icon.outlined.mcst {
+  background-image: url("images/outlined/icon_mcst.svg");
+}
+.icon.outlined.pdts {
+  background-image: url("images/outlined/icon_pdts.svg");
+}
+.icon.outlined.rcrs {
+  background-image: url("images/outlined/icon_rcrs.svg");
+}
+.icon.outlined.mds {
+  background-image: url("images/outlined/icon_mds.svg");
+}
+.icon.outlined.cmps {
+  background-image: url("images/outlined/icon_cmps.svg");
+}
+.icon.outlined.facs {
+  background-image: url("images/outlined/icon_facs.svg");
+}
+.icon.outlined.svyf {
+  background-image: url("images/outlined/icon_svyf.svg");
+}
+.icon.outlined.sess {
+  background-image: url("images/outlined/icon_sess.svg");
+}
+.icon.outlined.mcts {
+  background-image: url("images/outlined/icon_mcts.svg");
+}
+.icon.outlined.wiki {
+  background-image: url("images/outlined/icon_wiki.svg");
+}
+.icon.outlined.crsr {
+  background-image: url("images/outlined/icon_crsr.svg");
+}
+.icon.outlined.catr {
+  background-image: url("images/outlined/icon_catr.svg");
+}
+.icon.outlined.tags {
+  background-image: url("images/outlined/icon_tags.svg");
+}
+.icon.outlined.cert {
+  background-image: url("images/outlined/icon_cert.svg");
+}
+.icon.outlined.lrss {
+  background-image: url("images/outlined/icon_lrss.svg");
+}
+.icon.outlined.accs {
+  background-image: url("images/outlined/icon_accs.svg");
+}
+.icon.outlined.mobs {
+  background-image: url("images/outlined/icon_mobs.svg");
+}
+.icon.outlined.frma {
+  background-image: url("images/outlined/icon_frma.svg");
+}
+.icon.outlined.book {
+  background-image: url("images/outlined/icon_book.svg");
+}
+.icon.outlined.skmg {
+  background-image: url("images/outlined/icon_skmg.svg");
+}
+.icon.outlined.blga {
+  background-image: url("images/outlined/icon_blga.svg");
+}
+.icon.outlined.prfa {
+  background-image: url("images/outlined/icon_prfa.svg");
+}
+.icon.outlined.chtr {
+  background-image: url("images/outlined/icon_chtr.svg");
+}
+.icon.outlined.chta {
+  background-image: url("images/outlined/icon_chta.svg");
+}
+.icon.outlined.otpl {
+  background-image: url("images/outlined/icon_otpl.svg");
+}
+.icon.outlined.blog {
+  background-image: url("images/outlined/icon_blog.svg");
+}
+.icon.outlined.dcl {
+  background-image: url("images/outlined/icon_dcl.svg");
+}
+.icon.outlined.poll {
+  background-image: url("images/outlined/icon_poll.svg");
+}
+.icon.outlined.hlps {
+  background-image: url("images/outlined/icon_hlps.svg");
+}
+.icon.outlined.itgr {
+  background-image: url("images/outlined/icon_itgr.svg");
+}
+.icon.outlined.rcat {
+  background-image: url("images/outlined/icon_rcat.svg");
+}
+.icon.outlined.rwik {
+  background-image: url("images/outlined/icon_rwik.svg");
+}
+.icon.outlined.rlm {
+  background-image: url("images/outlined/icon_rlm.svg");
+}
+.icon.outlined.rglo {
+  background-image: url("images/outlined/icon_rglo.svg");
+}
+.icon.outlined.rfil {
+  background-image: url("images/outlined/icon_rfil.svg");
+}
+.icon.outlined.rgrp {
+  background-image: url("images/outlined/icon_rgrp.svg");
+}
+.icon.outlined.rtst {
+  background-image: url("images/outlined/icon_rtst.svg");
+}
+.icon.outlined.ecss {
+  background-image: url("images/outlined/icon_ecss.svg");
+}
+.icon.outlined.tos {
+  background-image: url("images/outlined/icon_tos.svg");
+}
+.icon.outlined.bibl {
+  background-image: url("images/outlined/icon_bibl.svg");
+}
+.icon.outlined.sysc {
+  background-image: url("images/outlined/icon_sysc.svg");
+}
+.icon.outlined.cld {
+  background-image: url("images/outlined/icon_cld.svg");
+}
+.icon.outlined.reps {
+  background-image: url("images/outlined/icon_reps.svg");
+}
+.icon.outlined.crss {
+  background-image: url("images/outlined/icon_crss.svg");
+}
+.icon.outlined.grps {
+  background-image: url("images/outlined/icon_grps.svg");
+}
+.icon.outlined.wbrs {
+  background-image: url("images/outlined/icon_wbrs.svg");
+}
+.icon.outlined.prtt {
+  background-image: url("images/outlined/icon_prtt.svg");
+}
+.icon.outlined.orgu {
+  background-image: url("images/outlined/icon_orgu.svg");
+}
+.icon.outlined.wiks {
+  background-image: url("images/outlined/icon_wiks.svg");
+}
+.icon.outlined.excs {
+  background-image: url("images/outlined/icon_excs.svg");
+}
+.icon.outlined.taxs {
+  background-image: url("images/outlined/icon_taxs.svg");
+}
+.icon.outlined.bibs {
+  background-image: url("images/outlined/icon_bibs.svg");
+}
+.icon.outlined.awra {
+  background-image: url("images/outlined/icon_awra.svg");
+}
+.icon.outlined.logs {
+  background-image: url("images/outlined/icon_logs.svg");
+}
+.icon.outlined.prg {
+  background-image: url("images/outlined/icon_prg.svg");
+}
+.icon.outlined.prgs {
+  background-image: url("images/outlined/icon_prgs.svg");
+}
+.icon.outlined.cadm {
+  background-image: url("images/outlined/icon_cadm.svg");
+}
+.icon.outlined.grpr {
+  background-image: url("images/outlined/icon_grpr.svg");
+}
+.icon.outlined.bdga {
+  background-image: url("images/outlined/icon_bdga.svg");
+}
+.icon.outlined.wfe {
+  background-image: url("images/outlined/icon_wfe.svg");
+}
+.icon.outlined.iass {
+  background-image: url("images/outlined/icon_iass.svg");
+}
+.icon.copa {
+  background-image: url("images/icon_copa.svg");
+}
+.glyph {
+  color: #557196;
+}
+.glyph.highlighted {
+  color: #fa8228;
+}
+.glyph.highlighted:hover {
+  color: #d15c05;
+}
+.glyph.disabled {
+  color: #e0e0e0;
+  pointer-events: none;
+}
+.glyph:hover,
+.glyph:focus {
+  color: #3a4c65;
+  text-decoration: none;
+}
+.glyph .il-counter-spacer {
+  margin-left: -4px;
+  font-size: 9px;
+  padding: 2px 4px;
+  visibility: hidden;
+}
+.glyphicon.glyphicon-chevron-left,
+.glyphicon.glyphicon-chevron-right {
+  font-weight: 100;
+}
+.il-glyphicon-like,
+.il-glyphicon-love,
+.il-glyphicon-dislike:before,
+.il-glyphicon-laugh:before,
+.il-glyphicon-astounded:before,
+.il-glyphicon-sad:before,
+.il-glyphicon-angry:before {
+  font-family: "Open Sans Emoji";
+}
+.il-glyphicon-like:before {
+  content: "\1f44d";
+}
+.il-glyphicon-love:before {
+  content: "\2764";
+}
+.il-glyphicon-dislike:before {
+  content: "\1f44e";
+}
+.il-glyphicon-laugh:before {
+  content: "\1f604";
+}
+.il-glyphicon-astounded:before {
+  content: "\1f62e";
+}
+.il-glyphicon-sad:before {
+  content: "\1f625";
+}
+.il-glyphicon-angry:before {
+  content: "\1f620";
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
