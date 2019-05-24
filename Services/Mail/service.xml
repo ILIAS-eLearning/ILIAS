@@ -4,6 +4,10 @@
 	<baseclasses>
 		<baseclass name="ilMailGUI" dir="classes" />
 	</baseclasses>
+	<gsproviders>
+		<gsprovider purpose="mainmenu" class_name="ilMailGlobalScreenProvider" />
+		<gsprovider purpose="tools" class_name="ilMailGlobalScreenToolProvider" />
+	</gsproviders>
 	<objects>
 		<object id="mail" class_name="Mail" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" administration="1">

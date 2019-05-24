@@ -61,6 +61,18 @@ class ilMailGUI
         }
 
         $this->initFolder();
+
+
+        $toolContext = $DIC->globalScreen()
+                           ->tool()
+                           ->context()
+                           ->current();
+
+        $additionalDataExists = $toolContext->getAdditionalData()->exists(ilMailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL);
+        if (false === $additionalDataExists) {
+            $toolContext->addAdditionalData(ilMailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL, true);
+        }
+
     }
 
     /**
@@ -153,10 +165,6 @@ class ilMailGUI
 
         $this->forwardClass = (string) $this->ctrl->getNextClass($this);
         $this->showHeader();
-
-        if ($this->ctrl->getCmd() !== 'showExplorer') {
-            $this->handleFolderExplorerCommands();
-        }
 
         switch (strtolower($this->forwardClass)) {
             case 'ilmailformgui':
@@ -271,14 +279,5 @@ class ilMailGUI
         if (isset($this->httpRequest->getQueryParams()['message_sent'])) {
             $DIC->tabs()->setTabActive('fold');
         }
-    }
-
-    /**
-     *
-     */
-    private function handleFolderExplorerCommands() : void
-    {
-        $exp = new ilMailExplorer($this, 'showExplorer', $this->user->getId());
-        $exp->handleCommand();
     }
 }
