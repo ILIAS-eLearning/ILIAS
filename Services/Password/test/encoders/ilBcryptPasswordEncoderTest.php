@@ -29,25 +29,25 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     const PASSWORD_SALT = 'salt';
 
     /** @var vfs\vfsStreamDirectory */
-    protected $test_directory;
+    protected $testDirectory;
 
     /** @var string */
-    protected $test_directory_url;
+    protected $testDirectoryUrl;
 
     /**
      * @return vfs\vfsStreamDirectory
      */
     public function getTestDirectory() : vfs\vfsStreamDirectory
     {
-        return $this->test_directory;
+        return $this->testDirectory;
     }
 
     /**
-     * @param vfs\vfsStreamDirectory $test_directory
+     * @param vfs\vfsStreamDirectory $testDirectory
      */
-    public function setTestDirectory(vfs\vfsStreamDirectory $test_directory) : void
+    public function setTestDirectory(vfs\vfsStreamDirectory $testDirectory) : void
     {
-        $this->test_directory = $test_directory;
+        $this->testDirectory = $testDirectory;
     }
 
     /**
@@ -55,15 +55,15 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
      */
     public function getTestDirectoryUrl() : string
     {
-        return $this->test_directory_url;
+        return $this->testDirectoryUrl;
     }
 
     /**
-     * @param string $test_directory_url
+     * @param string $testDirectoryUrl
      */
-    public function setTestDirectoryUrl(string $test_directory_url) : void
+    public function setTestDirectoryUrl(string $testDirectoryUrl) : void
     {
-        $this->test_directory_url = $test_directory_url;
+        $this->testDirectoryUrl = $testDirectoryUrl;
     }
 
     /**
