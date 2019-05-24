@@ -468,7 +468,11 @@ class ilEventParticipants
 		$refIdArray = array_values(ilObject::_getAllReferences($this->event_id));
 		if (true === $session->isRegistrationNotificationEnabled()) {
 			if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
-				$parentRefId = $tree->getParentId($refIdArray[0]);
+				$parentRefId = $tree->checkForParentType($refIdArray[0], 'crs');
+				if (!$parentRefId) {
+					$parentRefId = $tree->checkForParentType($refIdArray[0], 'grp');
+				}
+
 				/** @var ilObjCourse|ilObjGroup $parentObject */
 				$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
 
