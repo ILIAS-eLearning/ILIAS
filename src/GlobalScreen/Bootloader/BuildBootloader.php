@@ -3,95 +3,71 @@
 use Composer\Script\Event;
 use ILIAS\Collector\AbstractComposerEventHandler;
 use ILIAS\Collector\AbstractComposerScript;
-use ILIAS\Collector\Artifacts\AbstractClassNameCollectionArtifact;
+use ILIAS\Collector\Artifacts\ClassNameCollectionArtifact;
 use ILIAS\Collector\Artifacts\Artifact;
 use ILIAS\Collector\EventHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Class BuildBootLoader
  *
  * @package ILIAS\GlobalScreen\BootLoader
  */
-class BuildBootLoader extends AbstractComposerScript {
+class BuildBootLoader extends AbstractComposerScript
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	protected static function getEventHandler(Event $event): EventHandler {
+    /**
+     * @inheritDoc
+     */
+    protected static function getEventHandler(Event $event) : EventHandler
+    {
 
-		return new class($event) extends AbstractComposerEventHandler implements EventHandler {
+        return new class($event) extends AbstractComposerEventHandler implements EventHandler
+        {
 
-			/**
-			 * @var array
-			 */
-			protected $class_names = [];
-
-
-			/**
-			 * @inheritDoc
-			 */
-			public function run(): void {
-				chdir(getcwd() . "/../../");
-				require_once('./libs/composer/vendor/autoload.php');
-
-				$i = [
-					StaticMainMenuProvider::class,
-					StaticMetaBarProvider::class,
-					DynamicToolProvider::class,
-				];
-
-				foreach ($i as $interface) {
-					$this->runForInterface($interface);
-				}
-			}
+            /**
+             * @var array
+             */
+            protected $class_names = [];
 
 
-			private function runForInterface(string $interface): void {
-				$this->IO()->write("Collecting all {$interface} in ILIAS");
+            /**
+             * @inheritDoc
+             */
+            public function run() : void
+            {
+                $i = [
+                    StaticMainMenuProvider::class,
+                    StaticMetaBarProvider::class,
+                    DynamicToolProvider::class,
+                ];
 
-				$i = new InterfaceFinder($interface, '/.+\/class\.(il.+)\.php/i', "Services");
-				foreach ($i->getFiles() as $file) {
-					$this->class_names[$interface][] = $file;
-				}
-			}
-
-
-			/**
-			 * @inheritDoc
-			 */
-			public function getArtifact(): Artifact {
-				return new class("global_screen_bootloader", $this->class_names) extends AbstractClassNameCollectionArtifact implements Artifact {
-
-					/**
-					 * @var array
-					 */
-					private $class_names = [];
-
-
-					/**
-					 *  constructor.
-					 *
-					 * @param array $instances
-					 */
-					public function __construct(string $filename, array $instances) {
-						parent::__construct($filename);
-						$this->class_names = $instances;
-					}
+                foreach ($i as $interface) {
+                    $services = new InterfaceFinder($interface, "./Services");
+                    $modules = new InterfaceFinder($interface, "./Modules");
+                    $src = new InterfaceFinder($interface, "./src");
+                    $this->class_names[$interface] = array_merge(
+                        $services->getMatchingClassNames(),
+                        $modules->getMatchingClassNames(),
+                        $src->getMatchingClassNames()
+                    );
+                }
+            }
 
 
-					/**
-					 * @inheritDoc
-					 */
-					protected function getClassNames(): array {
-						return $this->class_names;
-					}
-				};
-			}
-		};
-	}
+            /**
+             * @inheritDoc
+             */
+            public function getArtifact() : Artifact
+            {
+                return new ClassNameCollectionArtifact("global_screen_bootloader", $this->class_names);
+            }
+        };
+    }
 }
 
 

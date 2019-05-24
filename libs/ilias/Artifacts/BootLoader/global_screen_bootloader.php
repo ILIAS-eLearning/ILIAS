@@ -19,6 +19,7 @@
     15 => 'ilAdmGlobalScreenProvider',
     16 => 'ilMMCustomProvider',
     17 => 'ilBadgeGlobalScreenProvider',
+    18 => 'ilPrtfGlobalScreenProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\StaticMetaBarProvider' => 
   array (

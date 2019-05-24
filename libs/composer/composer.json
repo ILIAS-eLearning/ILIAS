@@ -9,6 +9,9 @@
 	"scripts": {
 		"post-autoload-dump": [
 			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
+		],
+		"gs-bootloader": [
+			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
 		]
 	},
 	"require": {

@@ -1,48 +1,154 @@
 <?php namespace ILIAS\GlobalScreen\BootLoader;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ReflectionClass;
+use Throwable;
+
 /**
  * Class InterfaceFinder
  *
- * @package ILIAS\Collector
+ * @package ILIAS\GlobalScreen\BootLoader
+ *
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class InterfaceFinder extends RegexFinder {
+class InterfaceFinder
+{
 
-	/**
-	 * @var string
-	 */
-	protected $interface = "";
-
-
-	/**
-	 * InterfaceFinder constructor.
-	 *
-	 * @param string $interface
-	 */
-	public function __construct(string $interface, string $regex, string $path) {
-		parent::__construct($regex, $path);
-		$this->interface = $interface;
-	}
+    /**
+     * @var string
+     */
+    private $current_dir;
+    /**
+     * @var string
+     */
+    private $interface = "string";
+    /**
+     * @var string
+     */
+    private $path = "";
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getFiles(): array {
-		return array_filter(
-			parent::getFiles(), function ($class_name) {
-			try {
-				$implements_interface = false;
-				$r = new \ReflectionClass($class_name);
-				if ($r->isInstantiable() && !$r->isAbstract()) {
-					$implements_interface = $r->implementsInterface($this->interface);
-				}
-				unset($r);
+    /**
+     * InterfaceFinder constructor.
+     *
+     * @param string $interface
+     * @param string $path
+     */
+    public function __construct(string $interface, string $path)
+    {
+        $this->interface = $interface;
+        $this->path = $path;
+    }
 
-				return $implements_interface;
-			} catch (\Throwable $e) {
-				return false;
-			}
-		}
-		);
-	}
+
+    /**
+     * @return string[]
+     */
+    public function getMatchingClassNames() : array
+    {
+        $interface = $this->interface;
+        $directory = $this->path;
+        $root = $this->initRootDirectory();
+        require_once('./libs/composer/vendor/autoload.php');
+
+        $directory_iterator = $this->getRecursiveDirectoryIterator($root . "/" . $directory);
+        $filter = $this->getPHPFileFilter($directory_iterator);
+
+        $iterator = new RecursiveIteratorIterator($filter);
+        $f = $this->getInteraceGenerator($interface);
+
+        $class_names = [];
+
+        foreach ($f($iterator) as $class_name) {
+            if ($class_name) {
+                $class_names[] = $class_name;
+            }
+        }
+
+        $this->restoreDirectory();
+
+        return $class_names;
+    }
+
+
+    /**
+     * @return bool|string
+     */
+    private function initRootDirectory()
+    {
+        $this->current_dir = getcwd();
+        $root = substr(__FILE__, 0, strpos(__FILE__, "/src"));
+        chdir($root);
+
+        return $root;
+    }
+
+
+    private function restoreDirectory()
+    {
+        chdir($this->current_dir);
+    }
+
+
+    /**
+     * @param string $directory
+     *
+     * @return RecursiveDirectoryIterator
+     */
+    private function getRecursiveDirectoryIterator(string $directory) : RecursiveDirectoryIterator
+    {
+        $directory_iterator = new RecursiveDirectoryIterator($directory);
+
+        return $directory_iterator;
+    }
+
+
+    /**
+     * @param RecursiveDirectoryIterator $directory_iterator
+     *
+     * @return \RecursiveCallbackFilterIterator
+     */
+    private function getPHPFileFilter(RecursiveDirectoryIterator $directory_iterator) : \RecursiveCallbackFilterIterator
+    {
+        $filter = new \RecursiveCallbackFilterIterator(
+            $directory_iterator, function (\SplFileInfo $current, string $key, RecursiveDirectoryIterator $iterator) {
+            if (strtolower($current->getExtension()) === "php" || $current->isDir() && !in_array($current->getFilename(), [".", ".."])) {
+                return true;
+            }
+
+            return false;
+        });
+
+        return $filter;
+    }
+
+
+    /**
+     * @param string $interface
+     *
+     * @return \Closure
+     */
+    private function getInteraceGenerator(string $interface) : \Closure
+    {
+        $f = function (RecursiveIteratorIterator $iterator) use ($interface) {
+            foreach ($iterator as $file) {
+                if (preg_match('/class\.(il.+)\.php$/i', $file->getFileName(), $matches)) {
+                    $class_name = $matches[1];
+                    try {
+                        $r = new ReflectionClass($class_name);
+                        if ($r->isInstantiable() && !$r->isAbstract()) {
+                            if ($r->implementsInterface($interface)) {
+                                yield $class_name;
+                            }
+                        }
+                    } catch (Throwable $e) {
+                        // nothing to do here
+                    }
+                }
+            }
+        };
+
+        return $f;
+    }
 }
