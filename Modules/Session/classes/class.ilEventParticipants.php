@@ -479,7 +479,9 @@ class ilEventParticipants
 						$admins = $memberRolesObject->getAdmins();
 
 						foreach ($admins as $adminUserId) {
-							$this->participants[$adminUserId]['notification_enabled'] = true;
+							if (in_array($adminUserId, $parentRecipients)) {
+								$this->participants[$adminUserId]['notification_enabled'] = true;
+							}
 						}
 					}
 
