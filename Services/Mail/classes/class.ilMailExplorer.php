@@ -37,8 +37,8 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
         parent::__construct('mail_exp', $a_parent_obj, $a_parent_cmd, $this->tree);
 
-        $this->setSkipRootNode(false);
-        $this->setAjax(true);
+        $this->setSkipRootNode(true);
+        $this->setAjax(false);
         $this->setOrderField('title,m_type');
     }
 
