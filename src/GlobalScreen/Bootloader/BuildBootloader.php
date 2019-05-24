@@ -3,14 +3,12 @@
 use Composer\Script\Event;
 use ILIAS\ArtifactBuilder\AbstractComposerEventHandler;
 use ILIAS\ArtifactBuilder\AbstractComposerScript;
-use ILIAS\ArtifactBuilder\Artifacts\ClassNameCollectionArtifact;
 use ILIAS\ArtifactBuilder\Artifacts\Artifact;
+use ILIAS\ArtifactBuilder\Artifacts\ClassNameCollectionArtifact;
 use ILIAS\ArtifactBuilder\EventHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 
 /**
  * Class BuildBootLoader
@@ -47,8 +45,11 @@ class BuildBootLoader extends AbstractComposerScript
                 ];
 
                 foreach ($i as $interface) {
+                    $this->io()->write("Check ./Services for Interface {$interface}");
                     $services = new InterfaceFinder($interface, "./Services");
+                    $this->io()->write("Check ./Modules for Interface {$interface}");
                     $modules = new InterfaceFinder($interface, "./Modules");
+                    $this->io()->write("Check ./src for Interface {$interface}");
                     $src = new InterfaceFinder($interface, "./src");
                     $this->class_names[$interface] = array_merge(
                         $services->getMatchingClassNames(),
@@ -64,6 +65,8 @@ class BuildBootLoader extends AbstractComposerScript
              */
             public function getArtifact() : Artifact
             {
+                $this->io()->write("Storing classnames to global_screen_bootloader.php");
+
                 return new ClassNameCollectionArtifact("global_screen_bootloader", $this->class_names);
             }
         };

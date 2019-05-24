@@ -32,7 +32,7 @@ class ilGSProviderFactory extends ProviderFactory {
 		parent::__construct(
 			[], [], [], new ilMMItemInformation()
 		);
-		$this->class_loader = include "libs/ilias/Artifacts/ClassLoader/global_screen_bootloader.php";
+		$this->class_loader = include "libs/ilias/Artifacts/BootLoader/global_screen_bootloader.php";
 	}
 
 

@@ -1,8 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\BootLoader;
 
+use Closure;
+use Iterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use ReflectionClass;
 use Throwable;
 
 /**
@@ -34,12 +35,12 @@ class InterfaceFinder
      * InterfaceFinder constructor.
      *
      * @param string $interface
-     * @param string $path
+     * @param string $in_path
      */
-    public function __construct(string $interface, string $path)
+    public function __construct(string $interface, string $in_path)
     {
         $this->interface = $interface;
-        $this->path = $path;
+        $this->path = $in_path;
     }
 
 
@@ -53,15 +54,18 @@ class InterfaceFinder
         $root = $this->initRootDirectory();
         require_once('./libs/composer/vendor/autoload.php');
 
-        $directory_iterator = $this->getRecursiveDirectoryIterator($root . "/" . $directory);
-        $filter = $this->getPHPFileFilter($directory_iterator);
+        $directory_iterator = new RecursiveDirectoryIterator($root . "/" . $directory);
+        $iterator_iterator = new RecursiveIteratorIterator($directory_iterator);
 
-        $iterator = new RecursiveIteratorIterator($filter);
-        $f = $this->getInteraceGenerator($interface);
+        $file_endings = $this->getFileEndingGenerator('php');
+        $filtered_php_files = $file_endings($iterator_iterator);
+
+        $implements_interface = $this->getInterfaceGenerator($interface);
+        $classes_which_implement_interface = $implements_interface($filtered_php_files);
 
         $class_names = [];
 
-        foreach ($f($iterator) as $class_name) {
+        foreach ($classes_which_implement_interface as $class_name) {
             if ($class_name) {
                 $class_names[] = $class_name;
             }
@@ -93,66 +97,42 @@ class InterfaceFinder
 
 
     /**
-     * @param string $directory
+     * @param string $file_ending
      *
-     * @return RecursiveDirectoryIterator
+     * @return \Generator
      */
-    private function getRecursiveDirectoryIterator(string $directory) : RecursiveDirectoryIterator
+    private function getFileEndingGenerator(string $file_ending) : Closure
     {
-        $directory_iterator = new RecursiveDirectoryIterator($directory);
-
-        return $directory_iterator;
-    }
-
-
-    /**
-     * @param RecursiveDirectoryIterator $directory_iterator
-     *
-     * @return \RecursiveCallbackFilterIterator
-     */
-    private function getPHPFileFilter(RecursiveDirectoryIterator $directory_iterator) : \RecursiveCallbackFilterIterator
-    {
-        $filter = new \RecursiveCallbackFilterIterator(
-            $directory_iterator, function (\SplFileInfo $current, string $key, RecursiveDirectoryIterator $iterator) {
-            if (strtolower($current->getExtension()) === "php" || $current->isDir() && !in_array($current->getFilename(), [".", ".."])) {
-                return true;
+        return function (Iterator $iterator) use ($file_ending): Iterator {
+            foreach ($iterator as $file) {
+                if (strtolower($file->getExtension()) === $file_ending || $file->isDir() && !in_array($file->getFilename(), [".", ".."])) {
+                    yield $file;
+                }
             }
-
-            return false;
-        });
-
-        return $filter;
+        };
     }
 
 
     /**
      * @param string $interface
      *
-     * @return \Closure
+     * @return Closure
      */
-    private function getInteraceGenerator(string $interface) : \Closure
+    private function getInterfaceGenerator(string $interface) : Closure
     {
-        $f = function (RecursiveIteratorIterator $iterator) use ($interface) {
-            foreach ($iterator as $file) {
+        return function (Iterator $generator) use ($interface): Iterator {
+            foreach ($generator as $file) {
                 if (preg_match('/class\.(il.+)\.php$/i', $file->getFileName(), $matches)) {
                     $class_name = $matches[1];
                     try {
-                        if (self::DEBUG === true) {
-                            echo $class_name . PHP_EOL;
-                        }
-                        $r = new ReflectionClass($class_name);
-                        if ($r->isInstantiable() && !$r->isAbstract()) {
-                            if ($r->implementsInterface($interface)) {
-                                yield $class_name;
-                            }
+                        if (in_array($interface, class_implements($class_name))) {
+                            yield $class_name;
                         }
                     } catch (Throwable $e) {
-                        // nothing to do here
+                        // noting to do here
                     }
                 }
             }
         };
-
-        return $f;
     }
 }
