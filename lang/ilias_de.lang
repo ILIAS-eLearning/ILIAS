@@ -14725,7 +14725,7 @@ user#:#usr_public_profile_disabled#:#Profil deaktiviert
 user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für Systemadministratoren einsehbar.
 user#:#usr_public_profile_global#:#WWW / Für alle Benutzer des Internets sichtbar
 user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
-usr#:#user_action#:#Benuzteraktion
+usr#:#user_action#:#Benutzeraktion
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
 validation#:#not_a_null#:#Wert vom Typ '%s' ist keine Null.
