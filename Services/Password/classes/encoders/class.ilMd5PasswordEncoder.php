@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
@@ -13,41 +13,40 @@ require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
  */
 class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
-	/**
-	 * @param array $config
-	 */
-	public function __construct(array $config = array())
-	{
-	}
+    /**
+     * @param array $config
+     */
+    public function __construct(array $config = [])
+    {
+    }
 
-	/**
-	 * {@inheritdoc}
-	 * @throws ilPasswordException
-	 */
-	public function encodePassword($raw, $salt)
-	{
-		if($this->isPasswordTooLong($raw))
-		{
-			require_once 'Services/Password/exceptions/class.ilPasswordException.php';
-			throw new ilPasswordException('Invalid password.');
-		}
+    /**
+     * @inheritDoc
+     * @throws ilPasswordException
+     */
+    public function encodePassword(string $raw, string $salt) : string
+    {
+        if ($this->isPasswordTooLong($raw)) {
+            throw new ilPasswordException('Invalid password.');
+        }
 
-		return md5($raw);
-	}
+        return md5($raw);
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isPasswordValid($encoded, $raw, $salt)
-	{
-		return !$this->isPasswordTooLong($raw) && $this->comparePasswords($encoded, $this->encodePassword($raw, $salt));
-	}
+    /**
+     * @inheritDoc
+     * @throws ilPasswordException
+     */
+    public function isPasswordValid(string $encoded, string $raw, string $salt) : bool
+    {
+        return !$this->isPasswordTooLong($raw) && $this->comparePasswords($encoded, $this->encodePassword($raw, $salt));
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getName()
-	{
-		return 'md5';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getName() : string
+    {
+        return 'md5';
+    }
 }

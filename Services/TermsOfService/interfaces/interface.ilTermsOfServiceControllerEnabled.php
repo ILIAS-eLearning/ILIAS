@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,8 +7,8 @@
  */
 interface ilTermsOfServiceControllerEnabled
 {
-	/**
-	 * The implemented class should be \ilCtrl enabled and execute or forward the given command 
-	 */
-	public function executeCommand();
+    /**
+     * The implemented class should be ilCtrl enabled and execute or forward the given command
+     */
+    public function executeCommand() : void;
 }
