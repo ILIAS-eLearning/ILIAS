@@ -31,7 +31,7 @@ class Group
 	 * @param $error
 	 * @return Custom\Constraint
 	 */
-	public function constraint(callable $callable, $error) : Custom\Constraint
+	public function constraint(callable $callable, $error) : Constraint
 	{
 		return new Constraint(
 			$callable,
@@ -45,7 +45,7 @@ class Group
 	 * @param callable $transform
 	 * @return Transformations\Transformation
 	 */
-	public function transformation(callable $transform) : Transformations\Transformation
+	public function transformation(callable $transform) : Transformation
 	{
 		return new Transformation($transform, $this->dataFactory);
 	}
