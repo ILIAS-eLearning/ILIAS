@@ -36,7 +36,8 @@ class InstallCommand extends Command {
 		if ($this->agent->hasConfig()) {
 			$config_file = $input->getArgument("config");
 			$config_content = $this->readConfigFile($config_file);
-			$config = $this->agent->getConfigFromArray($config_content);
+			$trafo = $this->agent->getArrayToConfigTransformation();
+			$config = $trafo->transform($config_content);
 		}
 		else {
 			$config = null;

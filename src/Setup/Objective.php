@@ -46,6 +46,11 @@ interface Objective {
 	 * Objectives can be achieved. They might add resources to the environment when
 	 * they have been achieved.
 	 *
+	 * This method needs to be idempotent for a given environment. That means: if
+	 * this is executed a second time, nothing new should happen. Or the other way
+	 * round: if the environment already looks like desired, the objective should
+	 * not take any further actions when this is called.
+	 *
 	 * @throw \LogicException if there are unfullfilled preconditions.
 	 * @throw \RuntimeException if there are missing resources.
 	 * @return void

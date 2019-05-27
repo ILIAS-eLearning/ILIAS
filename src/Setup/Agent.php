@@ -5,6 +5,7 @@
 namespace ILIAS\Setup;
 
 use ILIAS\UI;
+use ILIAS\Refinery\Transformation;
 
 /**
  * A agent is some component that performs part of the setup process.
@@ -25,12 +26,12 @@ interface Agent {
 	public function getConfigInput(Config $config = null) : UI\Component\Input\Field\Input;
 
 	/**
-	 * Agents must be able to create a configuration from a nested array.
+	 * Agents must be able to tell how to create a configuration from a
+	 * nested array.
 	 *
-	 * @throw InvalidArgumentException if array does not match the Agent 
 	 * @throw LogicException if Agent has no Config
 	 */
-	public function getConfigFromArray(array $data) : Config; 
+	public function getArrayToConfigTransformation() : Transformation;
 
 	/**
 	 * Get the goals the consumer wants to achieve on setup.
