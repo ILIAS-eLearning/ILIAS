@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -53,8 +53,8 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
             $this->log->debug(sprintf(
                 'Criterion of type "%s", configured with %s evaluated: %s',
                 $criterionType->getTypeIdent(),
-                var_export($criterionAssignment->getCriterionValue()->toJson(), 1),
-                var_export($result, 1)
+                var_export($criterionAssignment->getCriterionValue()->toJson(), true),
+                var_export($result, true)
             ));
 
             if (!$result) {

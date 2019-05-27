@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -118,7 +118,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      */
     public function id() : int
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /**
@@ -225,7 +225,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
             if ($currentAssignment->equals($criterionAssignment)) {
                 throw new ilTermsOfServiceDuplicateCriterionAssignmentException(sprintf(
                     "Cannot attach duplicate criterion with criterion typeIdent %s and value: %s",
-                    $criterionAssignment->getCriterionId(), var_export($criterionAssignment->getCriterionValue(), 1)
+                    $criterionAssignment->getCriterionId(), var_export($criterionAssignment->getCriterionValue(), true)
                 ));
             }
         }
@@ -251,7 +251,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         if ($numCriteriaAfterRemoval === $numCriteriaBeforeRemoval) {
             throw new OutOfBoundsException(sprintf(
                 "Could not find any criterion with criterion typeIdent %s and value: %s",
-                $criterionAssignment->getCriterionId(), var_export($criterionAssignment->getCriterionValue(), 1)
+                $criterionAssignment->getCriterionId(), var_export($criterionAssignment->getCriterionValue(), true)
             ));
         }
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -48,7 +48,7 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
         }
 
         throw new ilTermsOfServiceCriterionTypeNotFoundException(sprintf(
-            "Did not find criterion type by ident: %s", var_export($typeIdent, 1)
+            "Did not find criterion type by ident: %s", var_export($typeIdent, true)
         ));
     }
 }

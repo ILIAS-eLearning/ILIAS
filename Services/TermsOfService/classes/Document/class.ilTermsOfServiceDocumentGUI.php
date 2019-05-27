@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystems;
@@ -127,21 +127,16 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
      */
     public function executeCommand() : void
     {
-        $nextClass = $this->ctrl->getNextClass($this);
-        $cmd       = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         if (!$this->rbacsystem->checkAccess('read', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        switch (strtolower($nextClass)) {
-            default:
-                if ($cmd == '' || !method_exists($this, $cmd)) {
-                    $cmd = 'showDocuments';
-                }
-                $this->$cmd();
-                break;
+        if ($cmd == '' || !method_exists($this, $cmd)) {
+            $cmd = 'showDocuments';
         }
+        $this->$cmd();
     }
 
     /**

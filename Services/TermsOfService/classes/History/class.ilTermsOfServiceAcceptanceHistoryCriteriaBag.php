@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -43,7 +43,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
             if (!($value instanceof ilTermsOfServiceEvaluableCriterion)) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                     "Unexpected element found, given %s, expected instanceof '%s'",
-                    var_export($value, 1), ilTermsOfServiceEvaluableCriterion::class
+                    var_export($value, true), ilTermsOfServiceEvaluableCriterion::class
                 ));
             }
         });
@@ -58,14 +58,14 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
             if (!is_array($value)) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                     "Unexpected element found, given %s, expected array",
-                    var_export($value, 1)
+                    var_export($value, true)
                 ));
             }
 
             if (count($value) !== 2 || !array_key_exists('id', $value) || !array_key_exists('value', $value)) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                     "Unexpected element found, given %s, expected array with keys 'id' and 'value'",
-                    var_export($value, 1)
+                    var_export($value, true)
                 ));
             }
         });
@@ -92,7 +92,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
         if (!is_array($data)) {
             throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                 "Unexpected element found, given %s, expected array",
-                var_export($data, 1)
+                var_export($data, true)
             ));
         }
 
