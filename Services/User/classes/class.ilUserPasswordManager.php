@@ -187,11 +187,11 @@ class ilUserPasswordManager
     {
         $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
         if ($this->getEncoderName() != $encoder->getName()) {
-            if ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, $user->getPasswordSalt())) {
+            if ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);
                 return true;
             }
-        } elseif ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, $user->getPasswordSalt())) {
+        } elseif ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
             if ($encoder->requiresReencoding((string) $user->getPasswd())) {
                 $user->resetPassword($raw, $raw);
             }
