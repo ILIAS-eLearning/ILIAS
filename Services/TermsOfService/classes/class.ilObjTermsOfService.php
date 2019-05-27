@@ -7,14 +7,10 @@
  */
 class ilObjTermsOfService extends ilObject2
 {
-    /**
-     * @var ilDBInterface
-     */
+    /** @var ilDBInterface */
     protected $db;
 
-    /**
-     * @var ilSetting
-     */
+    /** @var ilSetting */
     protected $settings;
 
     /**

@@ -26,8 +26,8 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
     {
         $res = $this->db->queryF(
             'SELECT id FROM tos_versions WHERE hash = %s AND doc_id = %s',
-            array('text', 'integer'),
-            array($entity->getHash(), $entity->getDocumentId())
+            ['text', 'integer'],
+            [$entity->getHash(), $entity->getDocumentId()]
         );
 
         if ($this->db->numRows($res)) {
@@ -105,8 +105,8 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 			FROM tos_versions
 			WHERE id = %s
 			',
-            array('integer'),
-            array($entity->getId())
+            ['integer'],
+            [$entity->getId()]
         );
         $row = $this->db->fetchAssoc($res);
 

@@ -3,299 +3,310 @@
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Legacy\Legacy;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilTermsOfServiceUserHasGlobalRoleCriterionTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends \ilTermsOfServiceCriterionBaseTest
+class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-	/** @var PHPUnit_Framework_MockObject_MockObject|\ilRbacReview */
-	protected $rbacReview;
+    /** @var MockObject|ilRbacReview */
+    protected $rbacReview;
 
-	/** @var PHPUnit_Framework_MockObject_MockObject|\ilLanguage */
-	protected $lng;
+    /** @var MockObject|ilLanguage */
+    protected $lng;
 
-	/** @var int */
-	protected $expectedInitialValue = 2;
+    /** @var int */
+    protected $expectedInitialValue = 2;
 
-	/** @var int */
-	protected $expectedAfterFormSubmitValue = 4;
+    /** @var int */
+    protected $expectedAfterFormSubmitValue = 4;
 
-	/** @var string */
-	protected $userRoleTitle = 'User';
-	
-	/** @var string */
-	protected $adminRoleTitle = 'Administrator';
+    /** @var string */
+    protected $userRoleTitle = 'User';
 
-	/**
-	 * @inheritDoc
-	 */
-	public function setUp(): void
-	{
-		parent::setUp();
+    /** @var string */
+    protected $adminRoleTitle = 'Administrator';
 
-		$this->lng = $this->getLanguageMock();
+    /**
+     * @inheritDoc
+     */
+    public function setUp() : void
+    {
+        parent::setUp();
 
-		$this->lng
-			->expects($this->any())
-			->method('txt')
-			->willReturn('dummy');
-	}
+        $this->lng = $this->getLanguageMock();
 
-	/**
-	 * @return \ilTermsOfServiceUserHasGlobalRoleCriterion
-	 */
-	protected function getInstance(): \ilTermsOfServiceUserHasGlobalRoleCriterion
-	{
-		$this->rbacReview = $this->getRbacReviewMock();
+        $this->lng
+            ->expects($this->any())
+            ->method('txt')
+            ->willReturn('dummy');
+    }
 
-		$criterion = new \ilTermsOfServiceUserHasGlobalRoleCriterion(
-			$this->rbacReview, $this->getObjectDataCacheMock()
-		);
+    /**
+     * @return ilTermsOfServiceUserHasGlobalRoleCriterion
+     * @throws ReflectionException
+     */
+    protected function getInstance() : ilTermsOfServiceUserHasGlobalRoleCriterion
+    {
+        $this->rbacReview = $this->getRbacReviewMock();
 
-		return $criterion;
-	}
+        $criterion = new ilTermsOfServiceUserHasGlobalRoleCriterion(
+            $this->rbacReview, $this->getObjectDataCacheMock()
+        );
 
-	/**
-	 * @return \ilTermsOfServiceUserHasGlobalRoleCriterion
-	 */
-	public function testInstanceCanBeCreated(): \ilTermsOfServiceUserHasGlobalRoleCriterion
-	{
-		$criterion = $this->getInstance();
+        return $criterion;
+    }
 
-		$this->assertEquals('usr_global_role', $criterion->getTypeIdent());
-		$this->assertEquals(false, $criterion->hasUniqueNature());
+    /**
+     * @return ilTermsOfServiceUserHasGlobalRoleCriterion
+     * @throws ReflectionException
+     */
+    public function testInstanceCanBeCreated() : ilTermsOfServiceUserHasGlobalRoleCriterion
+    {
+        $criterion = $this->getInstance();
 
-		return $criterion;
-	}
+        $this->assertEquals('usr_global_role', $criterion->getTypeIdent());
+        $this->assertEquals(false, $criterion->hasUniqueNature());
 
-	/**
-	 * @param \ilTermsOfServiceCriterionTypeGUI $gui
-	 * @param string $httpCriterionSelectionBodyParameter
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilPropertyFormGUI
-	 */
-	protected function buildForm(
-		\ilTermsOfServiceCriterionTypeGUI $gui,
-		string $httpCriterionSelectionBodyParameter
-	): \ilPropertyFormGUI {
-		$form = $this->getFormMock();
+        return $criterion;
+    }
 
-		$radioGroup = $this->getRadioGroupMock();
+    /**
+     * @param ilTermsOfServiceCriterionTypeGUI $gui
+     * @param string                           $httpCriterionSelectionBodyParameter
+     * @return MockObject|ilPropertyFormGUI
+     * @throws ReflectionException
+     */
+    protected function buildForm(
+        ilTermsOfServiceCriterionTypeGUI $gui,
+        string $httpCriterionSelectionBodyParameter
+    ) : ilPropertyFormGUI {
+        $form = $this->getFormMock();
 
-		$radioGroup
-			->expects($this->any())
-			->method('getPostVar')
-			->willReturn($httpCriterionSelectionBodyParameter);
+        $radioGroup = $this->getRadioGroupMock();
 
-		$form->addItem($radioGroup);
+        $radioGroup
+            ->expects($this->any())
+            ->method('getPostVar')
+            ->willReturn($httpCriterionSelectionBodyParameter);
 
-		$gui->appendOption($radioGroup,
-			new \ilTermsOfServiceCriterionConfig(['role_id' => $this->expectedInitialValue]));
+        $form->addItem($radioGroup);
 
-		return $form;
-	}
+        $gui->appendOption($radioGroup,
+            new ilTermsOfServiceCriterionConfig(['role_id' => $this->expectedInitialValue]));
 
-	/**
-	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-	 * @depends testInstanceCanBeCreated
-	 * @return \ilTermsOfServiceUserHasGlobalRoleCriterion
-	 */
-	public function testFormUserInterfaceElementsAreProperlyBuilt(\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-	) {
-		$httpCriterionSelectionBodyParameter = 'criterion';
-		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
+        return $form;
+    }
 
-		$gui = $criterion->ui($this->lng);
+    /**
+     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+     * @depends testInstanceCanBeCreated
+     * @return ilTermsOfServiceUserHasGlobalRoleCriterion
+     * @throws ReflectionException
+     */
+    public function testFormUserInterfaceElementsAreProperlyBuilt(
+        ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+    ) : ilTermsOfServiceUserHasGlobalRoleCriterion {
+        $httpCriterionSelectionBodyParameter = 'criterion';
+        $httpCriterionConfigBodyParameter    = $criterion->getTypeIdent() . '_role_id';
 
-		$this->assertInstanceOf(\ilTermsOfServiceUserHasGlobalRoleCriterionGUI::class, $gui);
+        $gui = $criterion->ui($this->lng);
 
-		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter);
+        $this->assertInstanceOf(ilTermsOfServiceUserHasGlobalRoleCriterionGUI::class, $gui);
 
-		$roleSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
-		$this->assertInstanceOf(\ilSelectInputGUI::class, $roleSelection);
-		$this->assertEquals($roleSelection->getValue(), $this->expectedInitialValue);
+        $form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter);
 
-		return $criterion;
-	}
+        $roleSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
+        $this->assertInstanceOf(ilSelectInputGUI::class, $roleSelection);
+        $this->assertEquals($roleSelection->getValue(), $this->expectedInitialValue);
 
-	/**
-	 * @depends testFormUserInterfaceElementsAreProperlyBuilt
-	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-	 */
-	public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(
-		\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-	) {
-		$httpCriterionSelectionBodyParameter = 'criterion';
-		$httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
+        return $criterion;
+    }
 
-		$gui = $criterion->ui($this->lng);
+    /**
+     * @depends testFormUserInterfaceElementsAreProperlyBuilt
+     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+     * @throws ReflectionException
+     */
+    public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(
+        ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+    ) : void {
+        $httpCriterionSelectionBodyParameter = 'criterion';
+        $httpCriterionConfigBodyParameter    = $criterion->getTypeIdent() . '_role_id';
 
-		$form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter);
+        $gui = $criterion->ui($this->lng);
 
-		$form
-			->expects($this->once())
-			->method('getInput')
-			->with($httpCriterionConfigBodyParameter)
-			->will($this->returnCallback(function () {
-				return $this->expectedAfterFormSubmitValue;
-			}));
+        $form = $this->buildForm($gui, $httpCriterionSelectionBodyParameter);
 
-		$value = $gui->getConfigByForm($form);
+        $form
+            ->expects($this->once())
+            ->method('getInput')
+            ->with($httpCriterionConfigBodyParameter)
+            ->will($this->returnCallback(function () {
+                return $this->expectedAfterFormSubmitValue;
+            }));
 
-		$this->assertInstanceOf(\ilTermsOfServiceCriterionConfig::class, $value);
-		$this->assertEquals($this->expectedAfterFormSubmitValue, $value['role_id']);
-		$this->assertEquals($this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]), $value);
-	}
+        $value = $gui->getConfigByForm($form);
 
-	/**
-	 * @depends testFormUserInterfaceElementsAreProperlyBuilt
-	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-	 */
-	public function testTypeIdentPresentationIsANonEmptyString(\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion)
-	{
-		$gui = $criterion->ui($this->lng);
+        $this->assertInstanceOf(ilTermsOfServiceCriterionConfig::class, $value);
+        $this->assertEquals($this->expectedAfterFormSubmitValue, $value['role_id']);
+        $this->assertEquals($this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]), $value);
+    }
 
-		$actual = $gui->getIdentPresentation();
+    /**
+     * @depends testFormUserInterfaceElementsAreProperlyBuilt
+     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+     */
+    public function testTypeIdentPresentationIsANonEmptyString(
+        ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+    ) : void {
+        $gui = $criterion->ui($this->lng);
 
-		$this->assertIsString($actual);
-		$this->assertNotEmpty($actual);
-	}
+        $actual = $gui->getIdentPresentation();
 
-	/**
-	 * @return array
-	 */
-	public function objectCacheProvider(): array
-	{
-		return [
-			[$this->expectedInitialValue, $this->adminRoleTitle],
-			[$this->expectedAfterFormSubmitValue, $this->userRoleTitle],
-			[-1, ''],
-		];
-	}
+        $this->assertIsString($actual);
+        $this->assertNotEmpty($actual);
+    }
 
-	/**
-	 * @param int $roleId
-	 * @param string $roleTitle
-	 * @dataProvider objectCacheProvider
-	 */
-	public function testValuePresentationMatchesExpectation(int $roleId, string $roleTitle)
-	{
-		$rbacReview = $this->getRbacReviewMock();
-		$objectDataCache = $this->getObjectDataCacheMock();
+    /**
+     * @return array
+     */
+    public function objectCacheProvider() : array
+    {
+        return [
+            [$this->expectedInitialValue, $this->adminRoleTitle],
+            [$this->expectedAfterFormSubmitValue, $this->userRoleTitle],
+            [-1, ''],
+        ];
+    }
 
-		$objectDataCache
-			->expects($this->any())
-			->method('lookupTitle')
-			->with($roleId)
-			->willReturn($roleTitle);
+    /**
+     * @param int    $roleId
+     * @param string $roleTitle
+     * @dataProvider objectCacheProvider
+     * @throws ReflectionException
+     */
+    public function testValuePresentationMatchesExpectation(int $roleId, string $roleTitle) : void
+    {
+        $rbacReview      = $this->getRbacReviewMock();
+        $objectDataCache = $this->getObjectDataCacheMock();
 
-		$criterion = new \ilTermsOfServiceUserHasGlobalRoleCriterion($rbacReview, $objectDataCache);
-		$gui = $criterion->ui($this->lng);
+        $objectDataCache
+            ->expects($this->any())
+            ->method('lookupTitle')
+            ->with($roleId)
+            ->willReturn($roleTitle);
 
-		/** @var Legacy $actual */
-		$actual = $gui->getValuePresentation(
-			$this->getCriterionConfig(['role_id' => $roleId]),
-			$this->dic->ui()->factory()
-		);
+        $criterion = new ilTermsOfServiceUserHasGlobalRoleCriterion($rbacReview, $objectDataCache);
+        $gui       = $criterion->ui($this->lng);
 
-		$this->assertInstanceOf(Component::class, $actual);
-		$this->assertInstanceOf(Legacy::class, $actual);
-		$this->assertEquals($roleTitle, $actual->getContent());
-	}
+        /** @var Legacy $actual */
+        $actual = $gui->getValuePresentation(
+            $this->getCriterionConfig(['role_id' => $roleId]),
+            $this->dic->ui()->factory()
+        );
 
-	/**
-	 * @return array
-	 */
-	public function failingConfigProvider(): array
-	{
-		$criterion = $this->getInstance();
+        $this->assertInstanceOf(Component::class, $actual);
+        $this->assertInstanceOf(Legacy::class, $actual);
+        $this->assertEquals($roleTitle, $actual->getContent());
+    }
 
-		return [
-			[$criterion, $this->getCriterionConfig(['role_id' => []])],
-			[$criterion, $this->getCriterionConfig(['role_id' => new stdClass()])],
-			[$criterion, $this->getCriterionConfig(['role_id' => 1.424])],
-			[$criterion, $this->getCriterionConfig(['role_id' => 'phpunit'])],
-			[$criterion, $this->getCriterionConfig(['another_config_key' => true])],
-			[$criterion, $this->getCriterionConfig()],
-		];
-	}
+    /**
+     * @return array
+     * @throws ReflectionException
+     */
+    public function failingConfigProvider() : array
+    {
+        $criterion = $this->getInstance();
 
-	/**
-	 * @param \ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-	 * @param \ilTermsOfServiceCriterionConfig $config
-	 * @dataProvider failingConfigProvider
-	 */
-	public function testEvaluationFailsIfConfiguredRoleDoesNotMatchTheExpectedFormat(
-		\ilTermsOfServiceUserHasGlobalRoleCriterion $criterion,
-		\ilTermsOfServiceCriterionConfig $config
-	) {
-		$user = $this->getUserMock();
+        return [
+            [$criterion, $this->getCriterionConfig(['role_id' => []])],
+            [$criterion, $this->getCriterionConfig(['role_id' => new stdClass()])],
+            [$criterion, $this->getCriterionConfig(['role_id' => 1.424])],
+            [$criterion, $this->getCriterionConfig(['role_id' => 'phpunit'])],
+            [$criterion, $this->getCriterionConfig(['another_config_key' => true])],
+            [$criterion, $this->getCriterionConfig()],
+        ];
+    }
 
-		$this->assertFalse($criterion->evaluate($user, $config));
-	}
+    /**
+     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
+     * @param ilTermsOfServiceCriterionConfig            $config
+     * @dataProvider failingConfigProvider
+     * @throws ReflectionException
+     */
+    public function testEvaluationFailsIfConfiguredRoleDoesNotMatchTheExpectedFormat(
+        ilTermsOfServiceUserHasGlobalRoleCriterion $criterion,
+        ilTermsOfServiceCriterionConfig $config
+    ) : void {
+        $user = $this->getUserMock();
 
-	/**
-	 *
-	 */
-	public function testEvaluationFailsIfConfiguredRoleIsNotAGlobalRole()
-	{
-		$user = $this->getUserMock();
-		$criterion = $this->getInstance();
+        $this->assertFalse($criterion->evaluate($user, $config));
+    }
 
-		$this->rbacReview
-			->expects($this->once())
-			->method('isGlobalRole')
-			->willReturn(false);
+    /**
+     * @throws ReflectionException
+     */
+    public function testEvaluationFailsIfConfiguredRoleIsNotAGlobalRole() : void
+    {
+        $user      = $this->getUserMock();
+        $criterion = $this->getInstance();
 
-		$this->assertFalse(
-			$criterion->evaluate($user, $this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]))
-		);
-	}
+        $this->rbacReview
+            ->expects($this->once())
+            ->method('isGlobalRole')
+            ->willReturn(false);
 
-	/**
-	 *
-	 */
-	public function testEvaluationFailsIfUserIsNotAssignedToConfiguredGlobalRole()
-	{
-		$user = $this->getUserMock();
-		$criterion = $this->getInstance();
+        $this->assertFalse(
+            $criterion->evaluate($user, $this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]))
+        );
+    }
 
-		$this->rbacReview
-			->expects($this->once())
-			->method('isGlobalRole')
-			->willReturn(true);
+    /**
+     * @throws ReflectionException
+     */
+    public function testEvaluationFailsIfUserIsNotAssignedToConfiguredGlobalRole() : void
+    {
+        $user      = $this->getUserMock();
+        $criterion = $this->getInstance();
 
-		$this->rbacReview
-			->expects($this->once())
-			->method('isAssigned')
-			->willReturn(false);
+        $this->rbacReview
+            ->expects($this->once())
+            ->method('isGlobalRole')
+            ->willReturn(true);
 
-		$this->assertFalse(
-			$criterion->evaluate($user, $this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]))
-		);
-	}
+        $this->rbacReview
+            ->expects($this->once())
+            ->method('isAssigned')
+            ->willReturn(false);
 
-	/**
-	 *
-	 */
-	public function testEvaluationSucceedsIfUserIsAssignedToDefinedGlobalRole()
-	{
-		$user = $this->getUserMock();
-		$criterion = $this->getInstance();
+        $this->assertFalse(
+            $criterion->evaluate($user, $this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]))
+        );
+    }
 
-		$this->rbacReview
-			->expects($this->once())
-			->method('isGlobalRole')
-			->willReturn(true);
+    /**
+     * @throws ReflectionException
+     */
+    public function testEvaluationSucceedsIfUserIsAssignedToDefinedGlobalRole() : void
+    {
+        $user      = $this->getUserMock();
+        $criterion = $this->getInstance();
 
-		$this->rbacReview
-			->expects($this->once())
-			->method('isAssigned')
-			->willReturn(true);
+        $this->rbacReview
+            ->expects($this->once())
+            ->method('isGlobalRole')
+            ->willReturn(true);
 
-		$this->assertTrue(
-			$criterion->evaluate($user, $this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]))
-		);
-	}
+        $this->rbacReview
+            ->expects($this->once())
+            ->method('isAssigned')
+            ->willReturn(true);
+
+        $this->assertTrue(
+            $criterion->evaluate($user, $this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]))
+        );
+    }
 }

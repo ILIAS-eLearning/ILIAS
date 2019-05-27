@@ -70,10 +70,10 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
      */
     public function getList(array $params, array $filter) : array
     {
-        $data = array(
-            'items' => array(),
+        $data = [
+            'items' => [],
             'cnt'   => 0
-        );
+        ];
 
         $select = $this->getSelectPart($params, $filter);
         $where  = $this->getWherePart($params, $filter);

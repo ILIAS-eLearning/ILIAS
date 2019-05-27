@@ -103,7 +103,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
             return isset($column['optional']) && $column['optional'];
         });
 
-        $columns = array();
+        $columns = [];
         foreach ($optionalColumns as $index => $column) {
             $columns[$column['field']] = $column;
         }

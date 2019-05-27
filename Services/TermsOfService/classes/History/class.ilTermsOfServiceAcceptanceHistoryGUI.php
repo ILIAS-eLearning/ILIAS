@@ -170,7 +170,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
     protected function addUserAutoComplete() : void
     {
         $auto = new ilUserAutoComplete();
-        $auto->setSearchFields(array('login', 'firstname', 'lastname', 'email'));
+        $auto->setSearchFields(['login', 'firstname', 'lastname', 'email']);
         $auto->enableFieldSearchableCheck(false);
         $auto->setMoreLinkAvailable(true);
 

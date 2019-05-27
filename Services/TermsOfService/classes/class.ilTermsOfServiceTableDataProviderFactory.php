@@ -7,11 +7,11 @@
  */
 class ilTermsOfServiceTableDataProviderFactory
 {
-    /** @var ilDBInterface|null */
-    protected $db;
-
     const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
     const CONTEXT_DOCUMENTS = 'documents';
+
+    /** @var ilDBInterface|null */
+    protected $db;
 
     /**
      * @param string $context
@@ -23,7 +23,7 @@ class ilTermsOfServiceTableDataProviderFactory
     {
         switch ($context) {
             case self::CONTEXT_ACCEPTANCE_HISTORY:
-                $this->validateConfiguration(array('db'));
+                $this->validateConfiguration(['db']);
                 return new ilTermsOfServiceAcceptanceHistoryProvider($this->getDatabaseAdapter());
 
             case self::CONTEXT_DOCUMENTS:
@@ -38,7 +38,7 @@ class ilTermsOfServiceTableDataProviderFactory
      * @param array $mandatoryMemberVariables
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    protected function validateConfiguration(array $mandatoryMemberVariables)
+    protected function validateConfiguration(array $mandatoryMemberVariables) : void
     {
         foreach ($mandatoryMemberVariables as $member) {
             if (null === $this->{$member}) {
@@ -69,7 +69,7 @@ class ilTermsOfServiceTableDataProviderFactory
     /**
      * @param ilDBInterface|null $db
      */
-    public function setDatabaseAdapter($db)
+    public function setDatabaseAdapter(?ilDBInterface $db)
     {
         $this->db = $db;
     }
@@ -77,7 +77,7 @@ class ilTermsOfServiceTableDataProviderFactory
     /**
      * @return ilDBInterface|null
      */
-    public function getDatabaseAdapter()
+    public function getDatabaseAdapter() : ?ilDBInterface
     {
         return $this->db;
     }
