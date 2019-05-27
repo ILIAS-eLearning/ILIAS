@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\BootLoader;
 
 use Closure;
+use ILIAS\ArtifactBuilder\Generators\GeneratorFactory;
 use Iterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -52,15 +53,18 @@ class InterfaceFinder
         $interface = $this->interface;
         $directory = $this->path;
         $root = $this->initRootDirectory();
+
         require_once('./libs/composer/vendor/autoload.php');
+
+        $f = new GeneratorFactory();
 
         $directory_iterator = new RecursiveDirectoryIterator($root . "/" . $directory);
         $iterator_iterator = new RecursiveIteratorIterator($directory_iterator);
 
-        $file_endings = $this->getFileEndingGenerator('php');
+        $file_endings = $f->splFileInfoByFileEnding('php');
         $filtered_php_files = $file_endings($iterator_iterator);
 
-        $implements_interface = $this->getInterfaceGenerator($interface);
+        $implements_interface = $f->classNamesWhichImplementInterface($interface);
         $classes_which_implement_interface = $implements_interface($filtered_php_files);
 
         $class_names = [];
@@ -95,44 +99,4 @@ class InterfaceFinder
         chdir($this->current_dir);
     }
 
-
-    /**
-     * @param string $file_ending
-     *
-     * @return \Generator
-     */
-    private function getFileEndingGenerator(string $file_ending) : Closure
-    {
-        return function (Iterator $iterator) use ($file_ending): Iterator {
-            foreach ($iterator as $file) {
-                if (strtolower($file->getExtension()) === $file_ending || $file->isDir() && !in_array($file->getFilename(), [".", ".."])) {
-                    yield $file;
-                }
-            }
-        };
-    }
-
-
-    /**
-     * @param string $interface
-     *
-     * @return Closure
-     */
-    private function getInterfaceGenerator(string $interface) : Closure
-    {
-        return function (Iterator $generator) use ($interface): Iterator {
-            foreach ($generator as $file) {
-                if (preg_match('/class\.(il.+)\.php$/i', $file->getFileName(), $matches)) {
-                    $class_name = $matches[1];
-                    try {
-                        if (in_array($interface, class_implements($class_name))) {
-                            yield $class_name;
-                        }
-                    } catch (Throwable $e) {
-                        // noting to do here
-                    }
-                }
-            }
-        };
-    }
 }
