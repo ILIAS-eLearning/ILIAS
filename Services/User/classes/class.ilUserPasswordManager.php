@@ -72,6 +72,7 @@ class ilUserPasswordManager
      * Single method to reduce footprint (included files, created instances)
      * @return self
      * @throws ilUserException
+     * @throws ilPasswordException
      */
     public static function getInstance() : self
     {
@@ -117,9 +118,9 @@ class ilUserPasswordManager
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEncoderName() :? string
+    public function getEncoderName() : ?string
     {
         return $this->encoderName;
     }
@@ -133,9 +134,9 @@ class ilUserPasswordManager
     }
 
     /**
-     * @return ilUserPasswordEncoderFactory
+     * @return ilUserPasswordEncoderFactory|null
      */
-    public function getEncoderFactory() :? ilUserPasswordEncoderFactory
+    public function getEncoderFactory() : ?ilUserPasswordEncoderFactory
     {
         return $this->encoderFactory;
     }

@@ -14,7 +14,7 @@ class ilUserPasswordEncoderFactory
     protected $defaultEncoder;
 
     /**
-     * @var \ilPasswordEncoder[] Array of supported encoders
+     * @var ilPasswordEncoder[] Array of supported encoders
      */
     protected $encoders = array();
 
@@ -39,15 +39,15 @@ class ilUserPasswordEncoderFactory
 
     /**
      * @param array $config
-     * @return \ilPasswordEncoder[]
+     * @return ilPasswordEncoder[]
      * @throws ilPasswordException
      */
     protected function getValidEncoders($config) : array
     {
         return [
-            new \ilBcryptPhpPasswordEncoder($config),
-            new \ilBcryptPasswordEncoder($config),
-            new \ilMd5PasswordEncoder($config),
+            new ilBcryptPhpPasswordEncoder($config),
+            new ilBcryptPasswordEncoder($config),
+            new ilMd5PasswordEncoder($config),
         ];
     }
 
@@ -71,7 +71,7 @@ class ilUserPasswordEncoderFactory
     /**
      * @return string
      */
-    public function getDefaultEncoder() :? string
+    public function getDefaultEncoder() : ?string
     {
         return $this->defaultEncoder;
     }
@@ -85,7 +85,7 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @return \ilPasswordEncoder[]
+     * @return ilPasswordEncoder[]
      */
     public function getEncoders() : array
     {
@@ -93,15 +93,15 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param \ilPasswordEncoder[] $encoders
-     * @throws \ilUserException
+     * @param ilPasswordEncoder[] $encoders
+     * @throws ilUserException
      */
     public function setEncoders(array $encoders) : void
     {
         $this->encoders = array();
         foreach ($encoders as $encoder) {
-            if (!($encoder instanceof \ilPasswordEncoder)) {
-                throw new \ilUserException(sprintf(
+            if (!($encoder instanceof ilPasswordEncoder)) {
+                throw new ilUserException(sprintf(
                     'One of the passed encoders is not valid: %s.',
                     json_encode($encoder)
                 ));
@@ -121,18 +121,18 @@ class ilUserPasswordEncoderFactory
     /**
      * @param string $name
      * @param bool   $get_default_on_mismatch
-     * @return \ilPasswordEncoder
-     * @throws \ilUserException
+     * @return ilPasswordEncoder
+     * @throws ilUserException
      */
-    public function getEncoderByName($name, $get_default_on_mismatch = false) : \ilPasswordEncoder
+    public function getEncoderByName($name, $get_default_on_mismatch = false) : ilPasswordEncoder
     {
         if (!isset($this->encoders[$name])) {
             if (!$get_default_on_mismatch) {
-                throw new \ilUserException(sprintf('The encoder "%s" was not configured.', $name));
+                throw new ilUserException(sprintf('The encoder "%s" was not configured.', $name));
             } elseif (!$this->getDefaultEncoder()) {
-                throw new \ilUserException('No default encoder specified, fallback not possible.');
+                throw new ilUserException('No default encoder specified, fallback not possible.');
             } elseif (!isset($this->encoders[$this->getDefaultEncoder()])) {
-                throw new \ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
+                throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
             }
 
             return $this->encoders[$this->getDefaultEncoder()];
@@ -144,10 +144,10 @@ class ilUserPasswordEncoderFactory
     /**
      * @param string $encoded
      * @param array  $matchers An key/value pair callback functions (accepting the encoded password) assigned to the respective encoder name
-     * @return \ilPasswordEncoder
-     * @throws \ilUserException
+     * @return ilPasswordEncoder
+     * @throws ilUserException
      */
-    public function getFirstEncoderForEncodedPasswordAndMatchers(string $encoded, array $matchers) : \ilPasswordEncoder
+    public function getFirstEncoderForEncodedPasswordAndMatchers(string $encoded, array $matchers) : ilPasswordEncoder
     {
         foreach ($this->getEncoders() as $encoder) {
             foreach ($matchers as $encoderName => $callback) {
