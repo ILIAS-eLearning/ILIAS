@@ -7,8 +7,6 @@
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Custom;
-use ILIAS\Refinery\Custom\Transformations;
 
 class Group
 {
@@ -35,7 +33,7 @@ class Group
 	 */
 	public function constraint(callable $callable, $error) : Custom\Constraint
 	{
-		return new Custom\Constraint(
+		return new Constraint(
 			$callable,
 			$error,
 			$this->dataFactory,
@@ -49,6 +47,6 @@ class Group
 	 */
 	public function transformation(callable $transform) : Transformations\Transformation
 	{
-		return new Transformations\Transformation($transform, $this->dataFactory);
+		return new Transformation($transform, $this->dataFactory);
 	}
 }
