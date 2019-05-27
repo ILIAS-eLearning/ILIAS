@@ -1,11 +1,11 @@
 <?php namespace ILIAS\ArtifactBuilder\IO;
 
 /**
- * Interface IOInterface
+ * Interface IO
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface IOInterface
+interface IO
 {
 
     /**

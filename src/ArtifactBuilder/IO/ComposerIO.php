@@ -5,7 +5,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ComposerIO implements IOInterface
+class ComposerIO implements IO
 {
 
     /**

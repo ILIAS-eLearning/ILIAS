@@ -5,7 +5,7 @@ use ILIAS\ArtifactBuilder\AbstractComposerEventHandler;
 use ILIAS\ArtifactBuilder\AbstractComposerScript;
 use ILIAS\ArtifactBuilder\Artifacts\Artifact;
 use ILIAS\ArtifactBuilder\Artifacts\ClassNameCollectionArtifact;
-use ILIAS\ArtifactBuilder\EventHandler;
+use ILIAS\ArtifactBuilder\Event\EventHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;

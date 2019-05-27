@@ -1,6 +1,7 @@
 <?php namespace ILIAS\ArtifactBuilder;
 
 use Composer\Script\Event;
+use ILIAS\ArtifactBuilder\Event\EventHandler;
 
 /**
  * Class AbstractComposerScript

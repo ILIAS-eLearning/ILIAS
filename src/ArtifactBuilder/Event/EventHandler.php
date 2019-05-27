@@ -1,7 +1,8 @@
-<?php namespace ILIAS\ArtifactBuilder;
+<?php namespace ILIAS\ArtifactBuilder\Event;
 
 use ILIAS\ArtifactBuilder\Artifacts\Artifact;
-use ILIAS\ArtifactBuilder\IO\IOInterface;
+use ILIAS\ArtifactBuilder\Caller\EventWrapper;
+use ILIAS\ArtifactBuilder\IO\IO;
 
 /**
  * Interface EventHandler
@@ -15,9 +16,15 @@ interface EventHandler
 
 
     /**
-     * @return IOInterface
+     * @return EventWrapper
      */
-    public function io() : IOInterface;
+    public function getEvent() : EventWrapper;
+
+
+    /**
+     * @return IO
+     */
+    public function io() : IO;
 
 
     /**

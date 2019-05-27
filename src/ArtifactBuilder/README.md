@@ -1,0 +1,88 @@
+ArtifactBuilder
+===============
+
+## What's the point?
+Information that ILIAS needs in order to offer certain services is based on information statically specified by the source code. For example, which GlobalScreen providers are there in the (core) source code? Which WebAccessChecker checking instances are there that can be requested? Or which command and base classes are there? This information is directly linked to the status of the source code and is therefore static rather than dynamic.
+
+Such information has often been collected in a structure reload in the ILIAS setup and stored in the database. This led to the fact that this information had to be read in the database again for practically every request in ILIAS. With the introduction of GlobalCache at least some such queries could be cached. Nevertheless, it is not necessary for many of the information to be cached or even stored in the database, since it only changes due to the further development of ILIAS.
+
+## An example
+The GlobalScreen service needs the information which GlobalScreen providers exist for which scope (e.g. MainBar or MetaBar) in the core. Instead of loading this information from the database with each request, an array of class names implementing the respective provider interface is sufficient. Therefore, the GlobalScreen provider now collects all class names in a BootLoader and can request them directly in the source code. The collection of the class names is done automatically during the development, what is stored is a so called artifact:
+
+```php
+// libs/ilias/Artifacts/BootLoader/global_screen_bootloader.php
+
+<?php return array (
+  'ILIAS\\GlobalScreen\\Scope\\MainMenu\\Provider\\StaticMainMenuProvider' => 
+  array (
+    0 => 'ilLearningHistoryGlobalScreenProvider',
+
+	//...
+
+    18 => 'ilPrtfGlobalScreenProvider',
+  ),
+  'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\StaticMetaBarProvider' => 
+  array (
+    0 => 'ilSearchGSMetaBarProvider',
+    1 => 'ilMMCustomTopBarProvider',
+  ),
+  'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
+  array (
+    0 => 'ilStaffGSToolProvider',
+    1 => 'ilMediaPoolGSToolProvider',
+  ),
+);
+
+```
+
+The GlobalScreen service can now easily load and use this artifact:
+
+```php
+	/**
+	 * @inheritDoc
+	 */
+	public function __construct(Container $dic) {
+		 ... 
+		$this->class_loader = include "libs/ilias/Artifacts/BootLoader/global_screen_bootloader.php";
+	}
+
+```
+
+## Advantages
+Performance. Such a BootLoader will cause the information to be practically in-memory, especially in newer PHP versions. In addition, the - unnecessary - queries to the database will be reduced. Every installation benefits from this because no additional (caching) components have to be installed to use this.
+
+## Why just now?
+The generation of such artifacts should be placed close to the development process. By eliminating Composer dependencies as part of the repository, development is even more dependent on updating the Composer class map for autoloading, for example (see EXAMPLE). Composer offers the possibility to connect own scripts to certain events. 
+However, in order not to bind the generation of artifacts to Composer per se, the call of such scripts is abstracted a little, so that e.g. in the future such scripts could be bound to an ILIAS-CLI.
+And Generators! We still use them very little. Generators are brutally fast, especially to quickly go through and minimize large lists. https://www.php.net/manual/en/language.generators.syntax.php
+
+## How do I use it?
+Currently scripts are called by Composer. These are registered in composer.json:
+
+```
+// libs/composer/composer.json
+...
+	"scripts": {
+		"post-autoload-dump": [
+			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
+		],
+		"gs-bootloader": [
+			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
+		]
+	},
+...
+```
+
+the above example now means that my script is called after a `composer dump-autoload` as well as after a `composer gs-bootloader`.
+
+For your own script you can use `AbstractComposerScript` and only return an `EventHandler`. EventHandlers are called (`run()`) and then on its `artifact` a `save()` is called. An example here: 
+
+`src/GlobalScreen/Bootloader/BuildBootloader.php`
+
+## Plugins
+The above statements are in favor of information provided by the Core. Of course, ILIAS plugins often also contribute information. Due to the current plugin slots these data would have to be added to the information provided by the core (see e.g. `ilGSProviderFactory`). For later adjustments of the PluginsSlots it should be considered that such information can be requested through the slot at the Plugins.
+
+## Outlook
+This PR implements the generation of a boot loader for the GlobalScreen service. In another PR, we also provide the readout and integration of the entire core iLCtrl structure. The implementation has already shown that this readout of the ilCtrl structure for the code takes just 1 second.
+
+Further scripts can follow, for my components I would like to use the service e.g. with WebAccessChecker. Further places that could be mapped by artifacts probably result from the analysis of the ilObjDefReader.
