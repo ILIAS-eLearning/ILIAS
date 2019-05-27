@@ -10,8 +10,7 @@ namespace ILIAS\Tests\Refinery\To\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
-use ILIAS\Refinery\Validation\Factory;
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -29,6 +28,49 @@ class ListTransformationTest extends TestCase
 
 		$this->assertEquals(array('hello', 'world'), $result);
 	}
+
+	public function testTransformOnEmptyArrayFails()
+	{
+		$this->expectNotToPerformAssertions();
+
+		$listTransformation = new ListTransformation(new StringTransformation());
+		try {
+			$result = $listTransformation->transform(array());
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
+
+		$this->fail();
+	}
+
+	public function testApplyToOnEmptyArrayFails()
+	{
+		$listTransformation = new ListTransformation(new StringTransformation());
+		$result = $listTransformation->applyTo(new Ok(array()));
+		$this->assertTrue($result->isError());
+	}
+
+	public function testTransformOnNullFails()
+	{
+		$this->expectNotToPerformAssertions();
+
+		$listTransformation = new ListTransformation(new StringTransformation());
+		try {
+			$result = $listTransformation->transform(null);
+		} catch (ConstraintViolationException $exception) {
+			return;
+		}
+
+		$this->fail();
+	}
+
+	public function testApplyToOnNullFails()
+	{
+		$listTransformation = new ListTransformation(new StringTransformation());
+		$result = $listTransformation->applyTo(new Ok(null));
+		$this->assertTrue($result->isError());
+	}
+
 
 	public function testListTransformationIsInvalid()
 	{

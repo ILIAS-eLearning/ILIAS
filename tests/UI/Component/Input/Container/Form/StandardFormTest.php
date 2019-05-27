@@ -8,8 +8,6 @@ require_once(__DIR__ . "/FormTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
 
 class WithButtonNoUIFactory extends NoUIFactory {
 
@@ -42,8 +40,6 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}
