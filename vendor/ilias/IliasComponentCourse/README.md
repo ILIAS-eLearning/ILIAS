@@ -130,32 +130,6 @@ Use Case:
 3. Reset Password of User
 
 				
-					
-
-# ToDo
-https://medium.com/@drozzy/long-running-processes-event-sourcing-cqrs-c87fbb2ca644
-### wir brauchen
-https://webmozart.io/blog/2015/09/09/value-objects-in-symfony-forms/
-### zu Prüfen
-Das deckt sich mit dem Entwurfsmuster CQS (Command Query Separation), das von Bertrand Meijer erdacht wurde. Es besagt, dass jede Funktion eines Objekts entweder als Command oder als Query entworfen sein soll.
-### Validation Folder
-https://medium.com/@developeruldeserviciu/ddd-usually-means-at-least-3-layers-application-services-domain-service-and-infrastructure-967e80403615
-Event-Folder
-Exception filder
-### Kursrepositories aufteilen in Read und Write (siehe Member)
-### folgendes ist zu kompliziert:
-'$member_entity_repository = new MemberEntityRepository(DoctrineEntityManage'
-'$bus = new MessageBus([                                                    
-'		new CommandHandlerMessageMiddleware(new HandlersLocator($member_entity_repository)'                                                                      
-'	$course_service = new MemberWriteonlyService($bus);'                       
-' 	$course_service->addMember(ilObject::_lookupObjectId($_GET['ref_id']),292);'
-
-### zusätzliches Beispiel mit MySQL-Repositories umsetzen.
-### Events im Sinne von Erfolgsmeldungen ebenfalls im cqrs stil?
-### Readme pro App
-### Einfaches REST?
-### CourseRepository->getMembers()
-### Aggregates
 
 
 # Bibliography
@@ -207,6 +181,10 @@ database changes
 * https://foreverframe.net/cqrses-2-domain-objects/
 * http://udidahan.com/2009/06/29/dont-create-aggregate-roots/
 * https://scalified.com/2018/11/01/java-ee-cqrs-setup-axon-framework/
+* https://medium.com/@drozzy/long-running-processes-event-sourcing-cqrs-c87fbb2ca644
+* https://webmozart.io/blog/2015/09/09/value-objects-in-symfony-forms/
+* https://medium.com/@developeruldeserviciu/ddd-usually-means-at-least-3-layers-application-services-domain-service-and-infrastructure-967e80403615
+
 
 ### Usage
 
