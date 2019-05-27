@@ -52,7 +52,7 @@ The GlobalScreen service can now easily load and use this artifact:
 Performance. Such a BootLoader will cause the information to be practically in-memory, especially in newer PHP versions. In addition, the - unnecessary - queries to the database will be reduced. Every installation benefits from this because no additional (caching) components have to be installed to use this.
 
 ## Why just now?
-The generation of such artifacts should be placed close to the development process. By eliminating Composer dependencies as part of the repository, development is even more dependent on updating the Composer class map for autoloading, for example (see EXAMPLE). Composer offers the possibility to connect own scripts to certain events. 
+The generation of such artifacts should be placed close to the development process. By eliminating Composer dependencies as part of the repository, development is even more dependent on updating the Composer class map for autoloading, for example. Composer offers the possibility to connect own scripts to certain events. 
 However, in order not to bind the generation of artifacts to Composer per se, the call of such scripts is abstracted a little, so that e.g. in the future such scripts could be bound to an ILIAS-CLI.
 And Generators! We still use them very little. Generators are brutally fast, especially to quickly go through and minimize large lists. https://www.php.net/manual/en/language.generators.syntax.php
 
@@ -83,6 +83,6 @@ For your own script you can use `AbstractComposerScript` and only return an `Eve
 The above statements are in favor of information provided by the Core. Of course, ILIAS plugins often also contribute information. Due to the current plugin slots these data would have to be added to the information provided by the core (see e.g. `ilGSProviderFactory`). For later adjustments of the PluginsSlots it should be considered that such information can be requested through the slot at the Plugins.
 
 ## Outlook
-This PR implements the generation of a boot loader for the GlobalScreen service. In another PR, we also provide the readout and integration of the entire core iLCtrl structure. The implementation has already shown that this readout of the ilCtrl structure for the code takes just 1 second.
+This PR implements the generation of a boot loader for the GlobalScreen service. In another PR, we also provide the readout and integration of the entire core ilCtrl structure. The implementation has already shown that this readout of the ilCtrl structure for the code takes just 1 second.
 
 Further scripts can follow, for my components I would like to use the service e.g. with WebAccessChecker. Further places that could be mapped by artifacts probably result from the analysis of the ilObjDefReader.
