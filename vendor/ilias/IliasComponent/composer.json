@@ -1,0 +1,38 @@
+{
+  "name": "srag/iliascomponent",
+  "description": "ILIAS 6.0 Ilias Component",
+  "type": "library",
+  "keywords": [
+    "ILIAS",
+    "Component"
+  ],
+  "homepage": "https://github.com/studer-raimann/IliasComponent",
+  "license": "GPL-3.0-only",
+  "authors": [
+    {
+      "name": "studer + raimann ag - Team Custom 1",
+      "email": "support-custom1@studer-raimann.ch",
+      "homepage": "https://studer-raimann.ch",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LILCOMP"
+  },
+  "require": {
+    "php": ">=7.2",
+    "doctrine/orm": "^2.6",
+    "simple-bus/message-bus": "^3.0",
+    "srag/dic": ">=0.1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "srag\\IliasComponent\\": "src/"
+    }
+  },
+  "config": {
+    "classmap-authoritative": true,
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}
