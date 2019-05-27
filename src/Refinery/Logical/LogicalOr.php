@@ -1,10 +1,9 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Logical\Constraint;
+namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
-use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 
 /**
@@ -12,7 +11,7 @@ use ILIAS\Data;
  * @package ILIAS\Refinery\Validation\Constraints
  * @author  Michael Jansen <mjansen@databay.de>
  */
-class LogicalOr extends CustomConstraint implements Constraint
+class LogicalOr extends Constraint
 {
 	/**
 	 * @var Constraint[]

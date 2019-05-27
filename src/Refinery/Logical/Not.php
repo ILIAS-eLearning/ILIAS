@@ -1,13 +1,12 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Logical\Constraint;
+namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
-use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 
-class Not extends CustomConstraint implements Constraint {
+class Not extends Constraint {
 	/**
 	 * @var Constraint
 	 */

@@ -7,8 +7,8 @@
 
 namespace ILIAS\Tests\Refinery\In;
 
-use ILIAS\Refinery\Parallel;
-use ILIAS\Refinery\Series;
+use ILIAS\Refinery\In\Parallel;
+use ILIAS\Refinery\In\Series;
 use ILIAS\Refinery\In\Group;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;

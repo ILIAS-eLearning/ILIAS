@@ -5,10 +5,10 @@ namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Logical\Constraint\LogicalOr;
-use ILIAS\Refinery\Logical\Constraint\Not;
-use ILIAS\Refinery\Logical\Constraint\Parallel;
-use ILIAS\Refinery\Logical\Constraint\Sequential;
+use ILIAS\Refinery\Logical\LogicalOr;
+use ILIAS\Refinery\Logical\Not;
+use ILIAS\Refinery\Logical\Parallel;
+use ILIAS\Refinery\Logical\Sequential;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>

@@ -9,7 +9,7 @@ namespace ILIAS\Tests\Refinery\In\Transformation;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\Data\Result\Ok;
-use ILIAS\Refinery\Parallel;
+use ILIAS\Refinery\In\Parallel;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;

@@ -4,7 +4,7 @@
 require_once 'libs/composer/vendor/autoload.php';
 
 use ILIAS\Data;
-use ILIAS\Refinery\Logical\Constraint\LogicalOr;
+use ILIAS\Refinery\Logical\LogicalOr;
 use PHPUnit\Framework\TestCase;
 
 /**

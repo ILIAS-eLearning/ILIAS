@@ -6,9 +6,10 @@ declare(strict_types=1);
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\Refinery;
+namespace ILIAS\Refinery\In;
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class Parallel implements Transformation

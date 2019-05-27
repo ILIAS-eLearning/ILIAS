@@ -1,12 +1,12 @@
 <?php
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Logical\Constraint;
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
-use ILIAS\Refinery\Constraint;
+namespace ILIAS\Refinery\Logical;
+
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
 
-class Parallel extends CustomConstraint implements Constraint {
+class Parallel extends Constraint {
 	/**
 	 * @var Constraint[]
 	 */

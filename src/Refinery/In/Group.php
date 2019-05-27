@@ -9,9 +9,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\In;
 
-
-use ILIAS\Refinery\Parallel;
-use ILIAS\Refinery\Series;
 use ILIAS\Refinery\Transformation;
 
 class Group

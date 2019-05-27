@@ -46,6 +46,6 @@ class GroupTest extends TestCase
 	public function testCustomTransformation()
 	{
 		$instance = $this->group->transformation(function () {});
-		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Transformations\Transformation::class, $instance);
+		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Transformation::class, $instance);
 	}
 }
