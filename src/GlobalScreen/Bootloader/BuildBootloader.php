@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\BootLoader;
 
 use Composer\Script\Event;
-use ILIAS\ArtifactBuilder\AbstractComposerEventHandler;
+use ILIAS\ArtifactBuilder\Event\AbstractComposerEventHandler;
 use ILIAS\ArtifactBuilder\AbstractComposerScript;
 use ILIAS\ArtifactBuilder\Artifacts\Artifact;
 use ILIAS\ArtifactBuilder\Artifacts\ClassNameCollectionArtifact;

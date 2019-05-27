@@ -1,8 +1,6 @@
-<?php namespace ILIAS\ArtifactBuilder;
+<?php namespace ILIAS\ArtifactBuilder\Event;
 
 use Composer\Script\Event as ComposerEvent;
-use ILIAS\ArtifactBuilder\Event\ComposerEventWrapper;
-use ILIAS\ArtifactBuilder\Event\EventHandler;
 use ILIAS\ArtifactBuilder\Caller\EventWrapper;
 use ILIAS\ArtifactBuilder\IO\ComposerIO;
 use ILIAS\ArtifactBuilder\IO\IO;
