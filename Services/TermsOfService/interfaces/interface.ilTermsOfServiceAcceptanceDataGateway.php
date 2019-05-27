@@ -7,25 +7,27 @@
  */
 interface ilTermsOfServiceAcceptanceDataGateway
 {
-	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
-	 */
-	public function trackAcceptance(\ilTermsOfServiceAcceptanceEntity $entity);
+    /**
+     * @param ilTermsOfServiceAcceptanceEntity $entity
+     */
+    public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity) : void;
 
-	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function loadCurrentAcceptanceOfUser(\ilTermsOfServiceAcceptanceEntity $entity):  \ilTermsOfServiceAcceptanceEntity;
+    /**
+     * @param ilTermsOfServiceAcceptanceEntity $entity
+     * @return ilTermsOfServiceAcceptanceEntity
+     */
+    public function loadCurrentAcceptanceOfUser(
+        ilTermsOfServiceAcceptanceEntity $entity
+    ) : ilTermsOfServiceAcceptanceEntity;
 
-	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
-	 * @return mixed
-	 */
-	public function loadById(\ilTermsOfServiceAcceptanceEntity $entity):  \ilTermsOfServiceAcceptanceEntity;
+    /**
+     * @param ilTermsOfServiceAcceptanceEntity $entity
+     * @return ilTermsOfServiceAcceptanceEntity
+     */
+    public function loadById(ilTermsOfServiceAcceptanceEntity $entity) : ilTermsOfServiceAcceptanceEntity;
 
-	/**
-	 * @param \ilTermsOfServiceAcceptanceEntity $entity
-	 */
-	public function deleteAcceptanceHistoryByUser(\ilTermsOfServiceAcceptanceEntity $entity);
+    /**
+     * @param ilTermsOfServiceAcceptanceEntity $entity
+     */
+    public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity) : void;
 }

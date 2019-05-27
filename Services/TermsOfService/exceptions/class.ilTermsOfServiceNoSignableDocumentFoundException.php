@@ -5,6 +5,6 @@
  * Class ilTermsOfServiceNoSignableDocumentFoundException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceNoSignableDocumentFoundException extends \ilTermsOfServiceException
+class ilTermsOfServiceNoSignableDocumentFoundException extends ilTermsOfServiceException
 {
 }

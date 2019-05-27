@@ -5,6 +5,6 @@
  * Class ilTermsOfServiceDuplicateCriterionAssignmentException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDuplicateCriterionAssignmentException extends \ilTermsOfServiceException
+class ilTermsOfServiceDuplicateCriterionAssignmentException extends ilTermsOfServiceException
 {
 }

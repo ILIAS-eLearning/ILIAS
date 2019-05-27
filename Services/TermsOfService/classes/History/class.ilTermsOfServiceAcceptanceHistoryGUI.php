@@ -9,179 +9,178 @@ use Psr\Http\Message\ServerRequestInterface;
  * Class ilTermsOfServiceAcceptanceHistoryGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControllerEnabled
+class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceControllerEnabled
 {
-	/** @var \ilTermsOfServiceTableDataProviderFactory */
-	protected $tableDataProviderFactory;
+    /** @var ilTermsOfServiceTableDataProviderFactory */
+    protected $tableDataProviderFactory;
 
-	/** @var \ilObjTermsOfService */
-	protected $tos;
+    /** @var ilObjTermsOfService */
+    protected $tos;
 
-	/** @var \ilGlobalTemplate */
-	protected $tpl;
+    /** @var ilGlobalTemplate */
+    protected $tpl;
 
-	/** @var \ilCtrl */
-	protected $ctrl;
+    /** @var ilCtrl */
+    protected $ctrl;
 
-	/** @var \ilLanguage */
-	protected $lng;
+    /** @var ilLanguage */
+    protected $lng;
 
-	/** @var \ilRbacSystem */
-	protected $rbacsystem;
+    /** @var ilRbacSystem */
+    protected $rbacsystem;
 
-	/** @var \ilErrorHandling */
-	protected $error;
+    /** @var ilErrorHandling */
+    protected $error;
 
-	/** @var Factory */
-	protected $uiFactory;
-	
-	/** @var Renderer */
-	protected $uiRenderer;
+    /** @var Factory */
+    protected $uiFactory;
 
-	/** @var ServerRequestInterface */
-	protected $request;
+    /** @var Renderer */
+    protected $uiRenderer;
 
-	/** @var \ilTermsOfServiceCriterionTypeFactoryInterface */
-	protected $criterionTypeFactory;
+    /** @var ServerRequestInterface */
+    protected $request;
 
-	/**
-	 * ilTermsOfServiceDocumentGUI constructor.
-	 * @param \ilObjTermsOfService $tos
-	 * @param \ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-	 * @param \ilGlobalTemplate $tpl
-	 * @param \ilCtrl $ctrl
-	 * @param \ilLanguage $lng
-	 * @param \ilRbacSystem $rbacsystem
-	 * @param \ilErrorHandling $error
-	 * @param ServerRequestInterface $request
-	 * @param Factory $uiFactory
-	 * @param Renderer $uiRenderer
-	 * @param \ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
-	 */
-	public function __construct(
-		\ilObjTermsOfService $tos,
-		\ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-		\ilGlobalTemplate $tpl,
-		\ilCtrl $ctrl,
-		\ilLanguage $lng,
-		\ilRbacSystem $rbacsystem,
-		\ilErrorHandling $error,
-		ServerRequestInterface $request,
-		Factory $uiFactory,
-		Renderer $uiRenderer,
-		ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
-	) {
-		$this->tos                      = $tos;
-		$this->criterionTypeFactory     = $criterionTypeFactory;
-		$this->tpl                      = $tpl;
-		$this->ctrl                     = $ctrl;
-		$this->lng                      = $lng;
-		$this->rbacsystem               = $rbacsystem;
-		$this->error                    = $error;
-		$this->request                  = $request;
-		$this->uiFactory                = $uiFactory;
-		$this->uiRenderer               = $uiRenderer;
-		$this->tableDataProviderFactory = $tableDataProviderFactory;
-	}
+    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
+    protected $criterionTypeFactory;
 
-	/**
-	 *
-	 */
-	public function executeCommand()
-	{
-		$nextClass = $this->ctrl->getNextClass($this);
-		$cmd       = $this->ctrl->getCmd();
+    /**
+     * ilTermsOfServiceDocumentGUI constructor.
+     * @param ilObjTermsOfService                           $tos
+     * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
+     * @param ilGlobalTemplate                              $tpl
+     * @param ilCtrl                                        $ctrl
+     * @param ilLanguage                                    $lng
+     * @param ilRbacSystem                                  $rbacsystem
+     * @param ilErrorHandling                               $error
+     * @param ServerRequestInterface                        $request
+     * @param Factory                                       $uiFactory
+     * @param Renderer                                      $uiRenderer
+     * @param ilTermsOfServiceTableDataProviderFactory      $tableDataProviderFactory
+     */
+    public function __construct(
+        ilObjTermsOfService $tos,
+        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        ilGlobalTemplate $tpl,
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilRbacSystem $rbacsystem,
+        ilErrorHandling $error,
+        ServerRequestInterface $request,
+        Factory $uiFactory,
+        Renderer $uiRenderer,
+        ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
+    ) {
+        $this->tos                      = $tos;
+        $this->criterionTypeFactory     = $criterionTypeFactory;
+        $this->tpl                      = $tpl;
+        $this->ctrl                     = $ctrl;
+        $this->lng                      = $lng;
+        $this->rbacsystem               = $rbacsystem;
+        $this->error                    = $error;
+        $this->request                  = $request;
+        $this->uiFactory                = $uiFactory;
+        $this->uiRenderer               = $uiRenderer;
+        $this->tableDataProviderFactory = $tableDataProviderFactory;
+    }
 
-		if (
-			!$this->rbacsystem->checkAccess('read', $this->tos->getRefId()) ||
-			!$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
-		) {
-			$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-		}
+    /**
+     *
+     */
+    public function executeCommand() : void
+    {
+        $nextClass = $this->ctrl->getNextClass($this);
+        $cmd       = $this->ctrl->getCmd();
 
-		switch (strtolower($nextClass)) {
-			default:
-				if ($cmd == '' || !method_exists($this, $cmd)) {
-					$cmd = 'showAcceptanceHistory';
-				}
-				$this->$cmd();
-				break;
-		}
-	}
+        if (
+            !$this->rbacsystem->checkAccess('read', $this->tos->getRefId()) ||
+            !$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
+        ) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
 
-	/**
-	 * @return ilTermsOfServiceAcceptanceHistoryTableGUI
-	 * @throws ilTermsOfServiceMissingDatabaseAdapterException
-	 */
-	protected function getAcceptanceHistoryTable(): \ilTermsOfServiceAcceptanceHistoryTableGUI
-	{
-		$table = new \ilTermsOfServiceAcceptanceHistoryTableGUI(
-			$this,
-			'showAcceptanceHistory',
-			$this->criterionTypeFactory,
-			$this->uiFactory,
-			$this->uiRenderer,
-			$this->tpl
-		);
-		$table->setProvider($this->tableDataProviderFactory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
+        switch (strtolower($nextClass)) {
+            default:
+                if ($cmd == '' || !method_exists($this, $cmd)) {
+                    $cmd = 'showAcceptanceHistory';
+                }
+                $this->$cmd();
+                break;
+        }
+    }
 
-		return $table;
-	}
+    /**
+     * @return ilTermsOfServiceAcceptanceHistoryTableGUI
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    protected function getAcceptanceHistoryTable() : ilTermsOfServiceAcceptanceHistoryTableGUI
+    {
+        $table = new ilTermsOfServiceAcceptanceHistoryTableGUI(
+            $this,
+            'showAcceptanceHistory',
+            $this->criterionTypeFactory,
+            $this->uiFactory,
+            $this->uiRenderer,
+            $this->tpl
+        );
+        $table->setProvider($this->tableDataProviderFactory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
 
-	/**
-	 * 
-	 */
-	protected function showAcceptanceHistory()
-	{
-		$table = $this->getAcceptanceHistoryTable();
+        return $table;
+    }
 
-		$table->populate();
+    /**
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    protected function showAcceptanceHistory() : void
+    {
+        $table = $this->getAcceptanceHistoryTable();
 
-		$this->tpl->setContent($table->getHTML());
-	}
+        $table->populate();
 
+        $this->tpl->setContent($table->getHTML());
+    }
 
-	/**
-	 *
-	 */
-	protected function applyAcceptanceHistoryFilter()
-	{
-		$table = $this->getAcceptanceHistoryTable();
-		$table->resetOffset();
-		$table->writeFilterToSession();
+    /**
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    protected function applyAcceptanceHistoryFilter() : void
+    {
+        $table = $this->getAcceptanceHistoryTable();
+        $table->resetOffset();
+        $table->writeFilterToSession();
 
-		$this->showAcceptanceHistory();
-	}
+        $this->showAcceptanceHistory();
+    }
 
-	/**
-	 *
-	 */
-	protected function resetAcceptanceHistoryFilter()
-	{
-		$table = $this->getAcceptanceHistoryTable();
-		$table->resetOffset();
-		$table->resetFilter();
+    /**
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    protected function resetAcceptanceHistoryFilter() : void
+    {
+        $table = $this->getAcceptanceHistoryTable();
+        $table->resetOffset();
+        $table->resetFilter();
 
-		$this->showAcceptanceHistory();
-	}
+        $this->showAcceptanceHistory();
+    }
 
-	/**
-	 * Show auto complete results
-	 */
-	protected function addUserAutoComplete()
-	{
-		$auto = new \ilUserAutoComplete();
-		$auto->setSearchFields(array('login', 'firstname', 'lastname', 'email'));
-		$auto->enableFieldSearchableCheck(false);
-		$auto->setMoreLinkAvailable(true);
+    /**
+     * Show auto complete results
+     */
+    protected function addUserAutoComplete() : void
+    {
+        $auto = new ilUserAutoComplete();
+        $auto->setSearchFields(array('login', 'firstname', 'lastname', 'email'));
+        $auto->enableFieldSearchableCheck(false);
+        $auto->setMoreLinkAvailable(true);
 
-		$isFetchAllRequest = $this->request->getQueryParams()['fetchall'] ?? false;
-		if ((bool)$isFetchAllRequest) {
-			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-		}
+        $isFetchAllRequest = $this->request->getQueryParams()['fetchall'] ?? false;
+        if ((bool) $isFetchAllRequest) {
+            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+        }
 
-		$query = \ilUtil::stripSlashes($this->request->getQueryParams()['term'] ?? '');
-		echo $auto->getList($query);
-		exit();
-	}
+        $query = ilUtil::stripSlashes($this->request->getQueryParams()['term'] ?? '');
+        echo $auto->getList($query);
+        exit();
+    }
 }

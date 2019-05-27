@@ -5,6 +5,6 @@
  * Class ilTermsOfServiceCriterionTypeNotFoundException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceCriterionTypeNotFoundException extends \ilTermsOfServiceException
+class ilTermsOfServiceCriterionTypeNotFoundException extends ilTermsOfServiceException
 {
 }

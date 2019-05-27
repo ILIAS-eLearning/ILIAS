@@ -11,252 +11,252 @@ use ILIAS\FileUpload\Location;
  * Class ilTermsOfServiceDocumentFormGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentFormGUI extends \ilPropertyFormGUI
+class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
 {
-	/** @var \ilTermsOfServiceDocument */
-	protected $document;
+    /** @var ilTermsOfServiceDocument */
+    protected $document;
 
-	/** @var \ilObjUser */
-	protected $actor;
+    /** @var ilObjUser */
+    protected $actor;
 
-	/** @var FileUpload */
-	protected $fileUpload;
-	
-	/** @var Filesystem */
-	protected $tmpFileSystem;
+    /** @var FileUpload */
+    protected $fileUpload;
 
-	/** @var string */
-	protected $formAction;
+    /** @var Filesystem */
+    protected $tmpFileSystem;
 
-	/** @var string */
-	protected $saveCommand;
+    /** @var string */
+    protected $formAction;
 
-	/** @var string */
-	protected $cancelCommand;
+    /** @var string */
+    protected $saveCommand;
 
-	/** @var $bool */
-	protected $isEditable = false;
+    /** @var string */
+    protected $cancelCommand;
 
-	/** @var string */
-	protected $translatedError = '';
+    /** @var $bool */
+    protected $isEditable = false;
 
-	/** @var string */
-	protected $translatedInfo = '';
+    /** @var string */
+    protected $translatedError = '';
 
-	/** @var \ilHtmlPurifierInterface */
-	protected $documentPurifier;
+    /** @var string */
+    protected $translatedInfo = '';
 
-	/**
-	 * ilTermsOfServiceDocumentFormGUI constructor.
-	 * @param \ilTermsOfServiceDocument $document
-	 * @param \ilHtmlPurifierInterface $documentPurifier
-	 * @param \ilObjUser $actor
-	 * @param Filesystem $tmpFileSystem
-	 * @param FileUpload $fileUpload
-	 * @param string $formAction
-	 * @param string $saveCommand
-	 * @param string $cancelCommand
-	 * @param bool $isEditable
-	 */
-	public function __construct(
-		\ilTermsOfServiceDocument $document,
-		\ilHtmlPurifierInterface $documentPurifier,
-		\ilObjUser $actor,
-		Filesystem $tmpFileSystem,
-		FileUpload $fileUpload,
-		string $formAction = '',
-		string $saveCommand = 'saveDocument',
-		string $cancelCommand = 'showDocuments',
-		bool $isEditable = false
-	) {
-		$this->document = $document;
-		$this->documentPurifier = $documentPurifier;
-		$this->actor = $actor;
-		$this->tmpFileSystem = $tmpFileSystem;
-		$this->fileUpload = $fileUpload;
-		$this->formAction = $formAction;
-		$this->saveCommand = $saveCommand;
-		$this->cancelCommand = $cancelCommand;
-		$this->isEditable = $isEditable;
+    /** @var ilHtmlPurifierInterface */
+    protected $documentPurifier;
 
-		parent::__construct();
+    /**
+     * ilTermsOfServiceDocumentFormGUI constructor.
+     * @param ilTermsOfServiceDocument $document
+     * @param ilHtmlPurifierInterface  $documentPurifier
+     * @param ilObjUser                $actor
+     * @param Filesystem               $tmpFileSystem
+     * @param FileUpload               $fileUpload
+     * @param string                   $formAction
+     * @param string                   $saveCommand
+     * @param string                   $cancelCommand
+     * @param bool                     $isEditable
+     */
+    public function __construct(
+        ilTermsOfServiceDocument $document,
+        ilHtmlPurifierInterface $documentPurifier,
+        ilObjUser $actor,
+        Filesystem $tmpFileSystem,
+        FileUpload $fileUpload,
+        string $formAction = '',
+        string $saveCommand = 'saveDocument',
+        string $cancelCommand = 'showDocuments',
+        bool $isEditable = false
+    ) {
+        $this->document         = $document;
+        $this->documentPurifier = $documentPurifier;
+        $this->actor            = $actor;
+        $this->tmpFileSystem    = $tmpFileSystem;
+        $this->fileUpload       = $fileUpload;
+        $this->formAction       = $formAction;
+        $this->saveCommand      = $saveCommand;
+        $this->cancelCommand    = $cancelCommand;
+        $this->isEditable       = $isEditable;
 
-		$this->initForm();
-	}
+        parent::__construct();
 
-	/**
-	 * @param bool $status
-	 */
-	public function setCheckInputCalled(bool $status)
-	{
-		$this->check_input_called = $status;
-	}
+        $this->initForm();
+    }
 
-	/**
-	 *
-	 */
-	protected function initForm()
-	{
-		if ($this->document->getId() > 0) {
-			$this->setTitle($this->lng->txt('tos_form_edit_doc_head'));
-		} else {
-			$this->setTitle($this->lng->txt('tos_form_new_doc_head'));
-		}
+    /**
+     * @param bool $status
+     */
+    public function setCheckInputCalled(bool $status) : void 
+    {
+        $this->check_input_called = $status;
+    }
 
-		$this->setFormAction($this->formAction);
+    /**
+     *
+     */
+    protected function initForm() : void
+    {
+        if ($this->document->getId() > 0) {
+            $this->setTitle($this->lng->txt('tos_form_edit_doc_head'));
+        } else {
+            $this->setTitle($this->lng->txt('tos_form_new_doc_head'));
+        }
 
-		$title = new \ilTextInputGUI($this->lng->txt('tos_form_document_title'), 'title');
-		$title->setInfo($this->lng->txt('tos_form_document_title_info'));
-		$title->setRequired(true);
-		$title->setDisabled(!$this->isEditable);
-		$title->setValue($this->document->getTitle());
-		$title->setMaxLength(255);
-		$this->addItem($title);
+        $this->setFormAction($this->formAction);
 
-		$documentLabel = $this->lng->txt('tos_form_document');
-		$documentByline = $this->lng->txt('tos_form_document_info');
-		if ($this->document->getId() > 0) {
-			$documentLabel = $this->lng->txt('tos_form_document_new');
-			$documentByline = $this->lng->txt('tos_form_document_new_info');
-		}
+        $title = new ilTextInputGUI($this->lng->txt('tos_form_document_title'), 'title');
+        $title->setInfo($this->lng->txt('tos_form_document_title_info'));
+        $title->setRequired(true);
+        $title->setDisabled(!$this->isEditable);
+        $title->setValue($this->document->getTitle());
+        $title->setMaxLength(255);
+        $this->addItem($title);
 
-		$document = new \ilFileStandardDropzoneInputGUI($documentLabel, 'document');
-		$document->setInfo($documentByline);
-		if (!$this->document->getId()) {
-			$document->setRequired(true);
-		}
-		$document->setDisabled(!$this->isEditable);
-		$document->setMaxFiles(1);
-		$document->setSuffixes(['html', 'txt']);
-		$this->addItem($document);
+        $documentLabel  = $this->lng->txt('tos_form_document');
+        $documentByline = $this->lng->txt('tos_form_document_info');
+        if ($this->document->getId() > 0) {
+            $documentLabel  = $this->lng->txt('tos_form_document_new');
+            $documentByline = $this->lng->txt('tos_form_document_new_info');
+        }
 
-		if ($this->isEditable) {
-			$this->addCommandButton($this->saveCommand, $this->lng->txt('save'));
-		}
+        $document = new ilFileStandardDropzoneInputGUI($documentLabel, 'document');
+        $document->setInfo($documentByline);
+        if (!$this->document->getId()) {
+            $document->setRequired(true);
+        }
+        $document->setDisabled(!$this->isEditable);
+        $document->setMaxFiles(1);
+        $document->setSuffixes(['html', 'txt']);
+        $this->addItem($document);
 
-		$this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
-	}
+        if ($this->isEditable) {
+            $this->addCommandButton($this->saveCommand, $this->lng->txt('save'));
+        }
 
-	/**
-	 * @return bool
-	 */
-	public function hasTranslatedError(): bool 
-	{
-		return strlen($this->translatedError);
-	}
+        $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTranslatedError(): string 
-	{
-		return $this->translatedError;
-	}
+    /**
+     * @return bool
+     */
+    public function hasTranslatedError() : bool
+    {
+        return strlen($this->translatedError) > 0;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function hasTranslatedInfo(): bool
-	{
-		return strlen($this->translatedInfo);
-	}
+    /**
+     * @return string
+     */
+    public function getTranslatedError() : string
+    {
+        return $this->translatedError;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTranslatedInfo(): string
-	{
-		return $this->translatedInfo;
-	}
+    /**
+     * @return bool
+     */
+    public function hasTranslatedInfo() : bool
+    {
+        return strlen($this->translatedInfo) > 0;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function saveObject() :bool 
-	{
-		if (!$this->fillObject()) {
-			$this->setValuesByPost();
-			return false;
-		}
+    /**
+     * @return string
+     */
+    public function getTranslatedInfo() : string
+    {
+        return $this->translatedInfo;
+    }
 
-		$this->document->save();
+    /**
+     * @return bool
+     */
+    public function saveObject() : bool
+    {
+        if (!$this->fillObject()) {
+            $this->setValuesByPost();
+            return false;
+        }
 
-		return true;
-	}
+        $this->document->save();
 
-	/**
-	 *
-	 */
-	protected function fillObject(): bool 
-	{
-		if (!$this->checkInput()) {
-			return false;
-		}
+        return true;
+    }
 
-		if ($this->fileUpload->hasUploads() && !$this->fileUpload->hasBeenProcessed()) {
-			try {
-				$this->fileUpload->process();
+    /**
+     *
+     */
+    protected function fillObject() : bool
+    {
+        if (!$this->checkInput()) {
+            return false;
+        }
 
-				/** @var UploadResult $uploadResult */
-				$uploadResult = array_values($this->fileUpload->getResults())[0];
-				if (!$uploadResult) {
-					$this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
-					throw new \ilException($this->lng->txt('form_input_not_valid'));
-				}
+        if ($this->fileUpload->hasUploads() && !$this->fileUpload->hasBeenProcessed()) {
+            try {
+                $this->fileUpload->process();
 
-				if (!$this->document->getId() || $uploadResult->getName() !== '') {
-					if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
-						$this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
-						throw new \ilException($this->lng->txt('form_input_not_valid'));
-					}
+                /** @var UploadResult $uploadResult */
+                $uploadResult = array_values($this->fileUpload->getResults())[0];
+                if (!$uploadResult) {
+                    $this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
+                    throw new ilException($this->lng->txt('form_input_not_valid'));
+                }
 
-					$this->fileUpload->moveOneFileTo(
-						$uploadResult, '/agreements', Location::TEMPORARY, '', true
-					);
+                if (!$this->document->getId() || $uploadResult->getName() !== '') {
+                    if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
+                        $this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
+                        throw new ilException($this->lng->txt('form_input_not_valid'));
+                    }
 
-					$pathToFile = '/agreements/' . $uploadResult->getName();
-					if (!$this->tmpFileSystem->has($pathToFile)) {
-						$this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
-						throw new \ilException($this->lng->txt('form_input_not_valid'));
-					}
+                    $this->fileUpload->moveOneFileTo(
+                        $uploadResult, '/agreements', Location::TEMPORARY, '', true
+                    );
 
-					$originalContent = $content = $this->tmpFileSystem->read($pathToFile);
+                    $pathToFile = '/agreements/' . $uploadResult->getName();
+                    if (!$this->tmpFileSystem->has($pathToFile)) {
+                        $this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
+                        throw new ilException($this->lng->txt('form_input_not_valid'));
+                    }
 
-					$purifiedHtmlContent = $this->documentPurifier->purify($content);
+                    $originalContent = $content = $this->tmpFileSystem->read($pathToFile);
 
-					$htmlValidator = new ilTermsOfServiceDocumentsContainsHtmlValidator($purifiedHtmlContent);
-					if (!$htmlValidator->isValid()) {
-						$purifiedHtmlContent = nl2br($purifiedHtmlContent);
-					}
+                    $purifiedHtmlContent = $this->documentPurifier->purify($content);
 
-					if (trim($purifiedHtmlContent) !== trim($originalContent)) {
-						$this->translatedInfo = $this->lng->txt('tos_form_document_content_changed');
-					}
+                    $htmlValidator = new ilTermsOfServiceDocumentsContainsHtmlValidator($purifiedHtmlContent);
+                    if (!$htmlValidator->isValid()) {
+                        $purifiedHtmlContent = nl2br($purifiedHtmlContent);
+                    }
 
-					$this->document->setText($purifiedHtmlContent);
-					$this->tmpFileSystem->delete($pathToFile);
-				}
-			} catch (Exception $e) {
-				$this->translatedError = $e->getMessage();
-				return false;
-			}
-		}
+                    if (trim($purifiedHtmlContent) !== trim($originalContent)) {
+                        $this->translatedInfo = $this->lng->txt('tos_form_document_content_changed');
+                    }
 
-		$this->document->setTitle($this->getInput('title'));
+                    $this->document->setText($purifiedHtmlContent);
+                    $this->tmpFileSystem->delete($pathToFile);
+                }
+            } catch (Exception $e) {
+                $this->translatedError = $e->getMessage();
+                return false;
+            }
+        }
 
-		if ($this->document->getId() > 0) {
-			$this->document->setLastModifiedUsrId($this->actor->getId());
-		} else {
-			$this->document->setOwnerUsrId($this->actor->getId());
+        $this->document->setTitle($this->getInput('title'));
 
-			$documentWithMaxSorting = \ilTermsOfServiceDocument::orderBy('sorting', 'DESC')->limit(0, 1)->first();
-			if ($documentWithMaxSorting instanceof \ilTermsOfServiceDocument) {
-				$this->document->setSorting((int)$documentWithMaxSorting->getSorting() + 1);
-			} else {
-				$this->document->setSorting(1);
-			}
-		}
+        if ($this->document->getId() > 0) {
+            $this->document->setLastModifiedUsrId($this->actor->getId());
+        } else {
+            $this->document->setOwnerUsrId($this->actor->getId());
 
-		return true;
-	}
+            $documentWithMaxSorting = ilTermsOfServiceDocument::orderBy('sorting', 'DESC')->limit(0, 1)->first();
+            if ($documentWithMaxSorting instanceof ilTermsOfServiceDocument) {
+                $this->document->setSorting((int) $documentWithMaxSorting->getSorting() + 1);
+            } else {
+                $this->document->setSorting(1);
+            }
+        }
+
+        return true;
+    }
 }

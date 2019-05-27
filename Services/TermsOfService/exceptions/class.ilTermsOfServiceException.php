@@ -5,6 +5,6 @@
  * Class ilTermsOfServiceMissingDatabaseAdapterException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceException extends \ilException
+class ilTermsOfServiceException extends ilException
 {
 }

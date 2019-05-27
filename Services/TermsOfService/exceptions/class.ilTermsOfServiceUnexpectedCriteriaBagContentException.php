@@ -5,6 +5,6 @@
  * Class ilTermsOfServiceCriterionTypeNotFoundException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceUnexpectedCriteriaBagContentException extends \ilTermsOfServiceException
+class ilTermsOfServiceUnexpectedCriteriaBagContentException extends ilTermsOfServiceException
 {
 }

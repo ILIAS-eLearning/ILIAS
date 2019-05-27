@@ -5,6 +5,6 @@
  * Interface ilTermsOfServiceJsonSerializable
  * @author Michael Jansen <mjansen@databay.de>
  */
-interface ilTermsOfServiceJsonSerializable extends \ilTermsOfServiceJsonSerialization, \ilTermsOfServiceJsonDeserialization, \JsonSerializable
+interface ilTermsOfServiceJsonSerializable extends ilTermsOfServiceJsonSerialization, ilTermsOfServiceJsonDeserialization, JsonSerializable
 {
 }

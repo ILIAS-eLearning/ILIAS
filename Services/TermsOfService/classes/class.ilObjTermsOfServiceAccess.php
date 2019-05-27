@@ -5,6 +5,6 @@
  * Class ilObjTermsOfServiceAccess
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilObjTermsOfServiceAccess extends \ilObjectAccess
+class ilObjTermsOfServiceAccess extends ilObjectAccess
 {
 }
