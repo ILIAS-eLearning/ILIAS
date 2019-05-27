@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2018 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Null;
+namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;

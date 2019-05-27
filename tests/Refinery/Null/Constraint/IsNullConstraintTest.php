@@ -13,7 +13,7 @@ class IsNullConstraintTest extends TestCase {
 		$this->lng = $this->createMock(\ilLanguage::class);
 		$this->f = new Factory($this->df, $this->lng);
 
-		$this->c = $this->f->null()->isNull();
+		$this->c = $this->f->null();
 	}
 
 	public function testAccepts() {

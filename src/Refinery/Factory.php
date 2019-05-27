@@ -121,11 +121,11 @@ class Factory
 	/**
 	 * Contains constraints for null types
 	 *
-	 * @return Null\Group
+	 * @return IsNull
 	 */
 	public function null()
 	{
-		return new Null\Group($this->dataFactory, $this->language);
+		return new IsNull($this->dataFactory, $this->language);
 	}
 
 	/**

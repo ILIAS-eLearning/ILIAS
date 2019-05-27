@@ -41,9 +41,6 @@ additional libraries.
 
 ## Quickstart example
 
-This is an example to transform a float value to a string value and
-will create a data type from the result of this transformation:
-
 ```php
 global $DIC;
 
@@ -141,7 +138,6 @@ To avoid exception handling the `applyTo` method can be used instead.
 Find out more about the `applyTo` method of instances of the `Transformation`
 interface in the
 [README about Transformations](/src/Refinery/Transformation/README.md).
-
 
 ###### Natives
 
@@ -245,6 +241,31 @@ The result will be an array of results of each transformation.
 In this case this is an array with an `integer` and a `string`
 value.
 
+##### Custom
+
+The `Custom` group contains of `Transformations` and `Constraints`
+that can be used to create individual transformations and constraints.
+
+##### Logical
+
+The `Logical` group contains of `Constraints` that can be used to create
+different logical operation that can be used on concrete `Constraints`-
+
+##### Null
+
+`Null` group contains of constraints that can be used to identify the
+`null` value via a `Constraint`.
+
+##### Numeric
+
+`Numeric` group consists of a constraints that can be used to identify a
+numeric value via a `Constraint`.
+
+##### Password
+
+`Password` consists of a contains that can be used to create constraints
+for validating password.
+
 ### Custom Transformation
 
 Sometimes the default transformations of this library are not enough, so a
@@ -338,10 +359,6 @@ which have their own descriptions.
 
 ### Transformation
 
-This service abstracts transformations between types and structure of data and
-provides some basic transformations to be reused throughout the system. These
-transformations SHOULD be added to the Factory in this library.
-
 A transformation is a function from one type or structure of data to another.
 It MUST NOT perform any sideeffects, i.e. it must be morally impossible to observe
 how often the transformation was actually performed. It MUST NOT touch the provided
@@ -396,9 +413,6 @@ assert($str === "5");
 assert($str !== 5);
 ```
 ### Validation
-
-This service abstracts validations of values and provides some basic validations
-that could be reused throughout the system.
 
 A validation checks some supplied value for compliance with some constraints.
 Validations MUST NOT modify the supplied value.
