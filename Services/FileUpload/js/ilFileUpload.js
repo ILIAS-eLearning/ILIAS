@@ -1693,7 +1693,10 @@
             e.preventDefault();
 
             showDropZoneOverlays();
-            setDropEffect(e, "none");
+
+            if(!$(e.target).parents(".il-dropzone")){
+                setDropEffect(e, "none");
+            }
         },
         dragleave: function (e)
         {
