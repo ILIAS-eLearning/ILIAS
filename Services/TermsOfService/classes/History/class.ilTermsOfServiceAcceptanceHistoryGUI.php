@@ -17,7 +17,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
     /** @var ilObjTermsOfService */
     protected $tos;
 
-    /** @var ilGlobalTemplate */
+    /** @var ilGlobalPageTemplate */
     protected $tpl;
 
     /** @var ilCtrl */
@@ -48,7 +48,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
      * ilTermsOfServiceDocumentGUI constructor.
      * @param ilObjTermsOfService                           $tos
      * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilGlobalTemplate                              $tpl
+     * @param ilGlobalPageTemplate                          $tpl
      * @param ilCtrl                                        $ctrl
      * @param ilLanguage                                    $lng
      * @param ilRbacSystem                                  $rbacsystem
@@ -61,7 +61,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
     public function __construct(
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilGlobalTemplate $tpl,
+        ilGlobalPageTemplate $tpl,
         ilCtrl $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,

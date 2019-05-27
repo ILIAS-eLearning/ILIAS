@@ -19,7 +19,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     /** @var ilObjTermsOfService */
     protected $tos;
 
-    /** @var ilGlobalTemplate */
+    /** @var ilGlobalPageTemplate */
     protected $tpl;
 
     /** @var ilCtrl */
@@ -68,7 +68,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
      * ilTermsOfServiceDocumentGUI constructor.
      * @param ilObjTermsOfService                           $tos
      * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilGlobalTemplate                              $tpl
+     * @param ilGlobalPageTemplate                          $tpl
      * @param ilObjUser                                     $user
      * @param ilCtrl                                        $ctrl
      * @param ilLanguage                                    $lng
@@ -87,7 +87,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     public function __construct(
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilGlobalTemplate $tpl,
+        ilGlobalPageTemplate $tpl,
         ilObjUser $user,
         ilCtrl $ctrl,
         ilLanguage $lng,

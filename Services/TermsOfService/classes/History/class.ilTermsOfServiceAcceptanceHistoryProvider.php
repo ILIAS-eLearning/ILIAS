@@ -48,7 +48,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
     {
         $where = [];
 
-        if (isset($filter['query']) && strlen($filter['query'])) {
+        if (isset($filter['query']) && is_string($filter['query']) && strlen($filter['query']) > 0) {
             $where[] = '(' . implode(' OR ', [
                     $this->db->like('ud.login', 'text', '%' . $filter['query'] . '%'),
                     $this->db->like('ud.firstname', 'text', '%' . $filter['query'] . '%'),

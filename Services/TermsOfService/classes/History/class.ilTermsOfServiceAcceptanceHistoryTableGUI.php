@@ -29,7 +29,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
      * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
      * @param Factory                                       $uiFactory
      * @param Renderer                                      $uiRenderer
-     * @param ilGlobalTemplate                              $globalTemplate
+     * @param ilGlobalPageTemplate                          $globalTemplate
      */
     public function __construct(
         ilTermsOfServiceControllerEnabled $controller,
@@ -37,7 +37,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         Factory $uiFactory,
         Renderer $uiRenderer,
-        ilGlobalTemplate $globalTemplate
+        ilGlobalPageTemplate $globalTemplate
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
         $this->uiFactory            = $uiFactory;
