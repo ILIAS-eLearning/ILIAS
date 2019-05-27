@@ -75,7 +75,7 @@ For a Domain Model I propose the following folder structure:
     A delete operation must remove everything within the Aggregate boundary all at once
     When a change to any object within the Aggregate boundary is committed, all invariants of the whole Aggregate must be satisfied.
     
-   [vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/Course.php](./vendor/srag/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/Course.php)
+   [vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/Course.php](./vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/Course.php)
 
 ##### Entity
 1. Entities are domain classes that are uniquely defined by a unique identifier - but are not the root entity. 
@@ -85,7 +85,7 @@ For a Domain Model I propose the following folder structure:
 2. The concept of identifier equality refers to entities, whereas the concept of structural equality – to value objects.
 3. Martin Fowler (https://martinfowler.com/bliki/ValueObject.html) describes them like this: You can usually tell them because their notion of equality isn't based on identity, instead two value objects are equal if all their fields are equal.
 
-[/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/CourseMember.php](./vendor/srag/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/CourseMember.php)
+[/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/CourseMember.php](./vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Aggregate/Course/CourseMember.php)
 
 
 ##### Commands via Command Bus
@@ -97,7 +97,7 @@ A command is a strictly defined message. The Command is not more than a Data Tra
 2. Commands are handled by exactly one command handler
 3. In the middleware may run things before or after handling the command. AND that's realy great:-)
 
-[/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommand.php](./vendor/srag/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommand.php)
+[/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommand.php](./vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommand.php)
 
 ##### Command Bus
 The Command Bus is used to dispatch a given Command into the Bus and maps a Command to a Command Handler.
@@ -110,12 +110,12 @@ Retrieves the corresponding Command Handler from the Map
 
 ##### Command Handler
 The Command Handler component is the place where the request is being dispatched and handled.
-[/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommandHandler.php](./libs/composer/vendor/srag/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommandHandler.php)
+[/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommandHandler.php](./libs/composer/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Command/AddCourseMemberToCourseCommandHandler.php)
 
 ##### Events via via Event Bus
 An Event inform zero or more event subscribers of the occurance of an event. In the middleware may run things before or after handling an event.
 
-[/vendor/srag/iliascomponentcourse/src/Course/DomainModel/Event/CourseMemberWasAdded.phpt](./libs/composer/vendor/srag/iliascomponentcourse/src/Course/DomainModel/Event/CourseMemberWasAdded.php);
+[/vendor/srag/iliascomponentcourse/src/Course/DomainModel/Event/CourseMemberWasAdded.phpt](./libs/composer/vendor/ilias/iliascomponentcourse/src/Course/DomainModel/Event/CourseMemberWasAdded.php);
 
 #### Infrastructure
 The infrastructure layer contains any code that is needed to expose the use cases to the world and make the application communicate with real users and external services.
