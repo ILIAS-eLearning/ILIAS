@@ -6,9 +6,13 @@ namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
 use Symfony\Component\Console\Tester\CommandTester;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
 
 class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 	public function testBasicFunctionality() {
+		$refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+
 		$consumer = $this->createMock(Setup\Agent::class);
 		$command = $this
 			->getMockBuilder(Setup\CLI\InstallCommand::class)
@@ -37,9 +41,12 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 
 		$consumer
 			->expects($this->once())
-			->method("getConfigFromArray")
-			->with($config_file_content)
-			->willReturn($config);
+			->method("getArrayToConfigTransformation")
+			->with()
+			->willReturn($refinery->custom()->transformation(function($v) use ($config_file_content, $config) {
+				$this->assertEquals($v, $config_file_content);
+				return $config;
+			}));
 
 		$consumer
 			->expects($this->once())

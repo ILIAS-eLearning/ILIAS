@@ -2,6 +2,8 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+require_once(__DIR__."/classes/class.ilLanguage.php");
+
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -28,7 +30,7 @@ function build_container_for_setup() {
 	$c["agent"] = function($c) {
 		return new ILIAS\Setup\AgentCollection(
 			$c["ui.field_factory"],
-			$c["transformation_factory"],
+			$c["refinery"],
 			[
 				"database" => $c["agent.database"]
 			]
@@ -37,7 +39,7 @@ function build_container_for_setup() {
 
 	$c["agent.database"] = function ($c) {
 		return new \ilDatabaseSetupAgent(
-			$c["data_factory"]
+			$c["refinery"]
 		);
 	};
 
@@ -82,12 +84,19 @@ function build_container_for_setup() {
 		};
 	};
 
-	$c["transformation_factory"] = function($c) {
-		return new ILIAS\Transformation\Factory();
+	$c["refinery"] = function($c) {
+		return new ILIAS\Refinery\Factory(
+			$c["data_factory"],
+			$c["lng"]
+		);
 	};
 
 	$c["data_factory"] = function($c) {
 		return new ILIAS\Data\Factory();
+	};
+
+	$c["lng"] = function ($c) {
+		return new \ilLanguage("en");
 	};
 
 	return $c;

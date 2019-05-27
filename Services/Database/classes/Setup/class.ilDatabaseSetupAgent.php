@@ -4,15 +4,17 @@
 
 use ILIAS\Setup;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 class ilDatabaseSetupAgent implements Setup\Agent {
 	/**
-	 * @var DataFactory
+	 * @var Refinery
 	 */
-	protected $data_factory;
+	protected $refinery;
 
-	public function __construct(DataFactory $data_factory) {
-		$this->data_factory = $data_factory;
+	public function __construct(Refinery $refinery) {
+		$this->refinery = $refinery;
 	}
 
 	/**
@@ -35,18 +37,22 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 	 * TODO: Use \DatabaseSetupConfig as return type once variance is implemented
 	 * in PHP.
 	 */
-	public function getConfigFromArray(array $data) : Setup\Config {
-		return new \ilDatabaseSetupConfig(
-			$data["type"] ?? null,
-			$data["host"] ?? null,
-			$data["database"] ?? null,
-			$data["user"] ?? null,
-			$data["password"] ? $this->data_factory->password($data["password"]) : null,
-			$data["create_database"] ?? null,
-			$data["collation"] ?? null,
-			$data["port"] ?? null,
-			$data["path_to_db_dump"] ?? null
-		);
+	public function getArrayToConfigTransformation() : Transformation {
+		// TODO: Migrate this to refinery-methods once possible.
+		return $this->refinery->custom()->transformation(function($data) {
+			$password = $this->refinery->to()->data("password");
+			return new \ilDatabaseSetupConfig(
+				$data["type"] ?? null,
+				$data["host"] ?? null,
+				$data["database"] ?? null,
+				$data["user"] ?? null,
+				$data["password"] ? $password->transform($data["password"]) : null,
+				$data["create_database"] ?? null,
+				$data["collation"] ?? null,
+				$data["port"] ?? null,
+				$data["path_to_db_dump"] ?? null
+			);
+		});
 	}
 
 	/**

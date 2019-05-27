@@ -6,7 +6,8 @@ namespace ILIAS\Setup;
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Input as Input;
-use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 /**
  * An agent that is just a collection of some other agents.
@@ -18,9 +19,9 @@ class AgentCollection implements Agent {
 	protected $field_factory;
 
 	/**
-	 * @var TransformationFactory
+	 * @var Refinery
 	 */
-	protected $transformation_factory;
+	protected $refinery;
 
 	/**
 	 * @var Agent[]
@@ -29,11 +30,11 @@ class AgentCollection implements Agent {
 
 	public function __construct(
 		FieldFactory $field_factory,
-		TransformationFactory $transformation_factory,
+		Refinery $refinery,
 		array $agents
 	) {
 		$this->field_factory = $field_factory;
-		$this->transformation_factory = $transformation_factory;
+		$this->refinery = $refinery;
 		$this->agents = $agents;
 	}
 
@@ -58,47 +59,47 @@ class AgentCollection implements Agent {
 		}
 
 		$inputs = [];
-		$keys = [];
 		foreach ($this->getAgentsWithConfig() as $k => $c) {
-			$keys[] = $k;
 			if ($config) {
-				$inputs[] = $c->getConfigInput($config->getConfig($k));
+				$inputs[$k] = $c->getConfigInput($config->getConfig($k));
 			}
 			else {
-				$inputs[] = $c->getConfigInput();
+				$inputs[$k] = $c->getConfigInput();
 			}	
 		}
 
 		return $this->field_factory->group($inputs)
 			->withAdditionalTransformation(
-				$this->transformation_factory->custom(function($v) use ($keys) {
-					if (count($v) !== count($keys)) {
-						throw new \LogicException(
-							"Expected to get as many configs as there are keys."
-						);
-					}
-					return new ConfigCollection(array_combine($keys, $v));
-				})
+				$this->refinery->in()->series([
+					$this->refinery->custom()->transformation(function($v) {
+						return [$v];
+					}),
+					$this->refinery->to()->toNew(ConfigCollection::class)
+				])
 			);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function getConfigFromArray(array $data) : Config {
-		$configs = [];
-
-		foreach ($this->getAgentsWithConfig() as $k => $c) {
-			if (!isset($data[$k]) || !is_array($data[$k])) {
-				throw new \InvalidArgumentException(
-					"Expected array at key '$k' in \$data."
-				);
-			}
-
-			$configs[$k] = $c->getConfigFromArray($data[$k]);
-		}
-
-		return new ConfigCollection($configs);
+	public function getArrayToConfigTransformation() : Transformation {
+		return $this->refinery->in()->series([
+			$this->refinery->to()->recordOf(array_map(
+				function($a) {
+					return $a->getArrayToConfigTransformation();
+				},
+				array_filter(
+					$this->agents,
+					function($a) {
+						return $a->hasConfig();
+					}
+				)
+			)),
+			$this->refinery->custom()->transformation(function($v) {
+				return [$v];
+			}),
+			$this->refinery->to()->toNew(ConfigCollection::class)
+		]);
 	}
 
 	/**
