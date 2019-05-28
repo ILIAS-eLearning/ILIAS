@@ -110,6 +110,18 @@ base class and removed on `Field\Select` and `Field\Text`.
 
 New inputs must already implement the methods.
 
+### Remove `MainControl\MainBar::withMoreButton` and `::getMoreButton` (beginner, ~2h)
+
+Currently these two methods offer the possibility for a customization where none
+is required. The more button might be styled via css or exchange of images, but
+we do not need to exchange it programmatically.
+
+### Add symbol for more and use it in the More-Button (beginner, ~2h)
+
+Currently the symbol for the more button is pulled from the examples directory of
+the UI-framework. The image-file should be moved to a proper location and possibly
+become part of the UI-framework as a proper glyph.
+
 ## Long Term
 
 ### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`

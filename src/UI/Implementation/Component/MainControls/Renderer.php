@@ -80,7 +80,12 @@ class Renderer extends AbstractComponentRenderer {
 			$active
 		);
 
-		$more_button = $component->getMoreButton();
+		$more_button = $this->getUIFactory()->button()->bulky(
+			$this->getUIFactory()->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/options-vertical.svg', ''),
+			'more',
+			'#'
+		);
+
 		$this->addMoreSlate($tpl, $default_renderer, static::BLOCK_METABAR_ENTRIES, $more_button, $signals, $active);
 
 		$component = $component->withOnLoadCode(

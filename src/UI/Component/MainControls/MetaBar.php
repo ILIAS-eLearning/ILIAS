@@ -36,14 +36,4 @@ interface MetaBar extends Component, JavaScriptBindable
 	 * This signal disengages all slates when triggered.
 	 */
 	public function getDisengageAllSignal(): Signal;
-
-	/**
-	 * Set collection-button for condensed mode
-	 */
-	public function withMoreButton(Button\Bulky $button): MetaBar;
-
-	/**
-	 * Returns the collection-button for entries in condensed mode.
-	 */
-	public function getMoreButton(): Button\Bulky;
 }

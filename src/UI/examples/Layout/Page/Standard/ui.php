@@ -77,13 +77,8 @@ function pagedemoContent($f)
 
 function pagedemoMetabar($f)
 {
-<<<<<<< HEAD
 	$help = $f->button()->bulky($f->symbol()->glyph()->help(),'Help', '#');
-	$search = $f->button()->bulky($f->symbol()->glyph()->search(),'Search', '#');
 	$user = $f->button()->bulky($f->symbol()->glyph()->user(),'User', '#');
-
-	$help = $f->button()->bulky($f->glyph()->help(),'Help', '#');
-	$user = $f->button()->bulky($f->glyph()->user(),'User', '#');
 	$search = $f->maincontrols()->slate()->legacy(
 		'Search',
 		$f->symbol()->glyph()->search()->withCounter($f->counter()->status(1)),
@@ -93,12 +88,6 @@ function pagedemoMetabar($f)
 		'Notification',
 		$f->symbol()->glyph()->notification()->withCounter($f->counter()->novelty(3)),
 		$f->legacy('<p>some content</p>')
-	);
-
-	$more_btn = $f->button()->bulky(
-		$f->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/options-vertical.svg', ''),
-		'more',
-		'#'
 	);
 
 	$metabar = $f->mainControls()->metabar()
@@ -119,11 +108,7 @@ function pagedemoMainbar($f, $r)
 		'#'
 	);
 	$more_btn = $f->button()->bulky(
-<<<<<<< HEAD
 		$f->symbol()->icon()->standard('', ''),
-=======
-		$f->icon()->custom('./src/UI/examples/Layout/Page/Standard/options.svg', ''),
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 		'more',
 		'#'
 	);

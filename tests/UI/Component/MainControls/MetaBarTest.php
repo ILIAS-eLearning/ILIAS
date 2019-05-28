@@ -103,10 +103,8 @@ class MetaBarTest extends ILIAS_UI_TestBase
 	{
 		$r = $this->getDefaultRenderer();
 
-		$button = $this->getButton();
 		$slate = $this->getSlate();
 		$mb = $this->metabar
-			->withMoreButton($button)
 			->withAdditionalEntry('button', $button)
 			->withAdditionalEntry('button2', $button);
 
