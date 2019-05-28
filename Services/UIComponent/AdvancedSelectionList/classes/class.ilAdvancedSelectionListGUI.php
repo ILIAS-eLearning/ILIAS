@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Data\CapitalizeHelper;
 
 /**
 * User interface class for advanced drop-down selection lists
@@ -10,6 +11,7 @@
 */
 class ilAdvancedSelectionListGUI
 {
+	use CapitalizeHelper;
 	private $items = array();
 	private $id = "asl";
 	private $asynch = false;
@@ -124,7 +126,7 @@ class ilAdvancedSelectionListGUI
 		$a_html = "", $a_prevent_background_click = false, $a_onclick = "", $a_ttip = "",
 		$a_tt_my = "right center", $a_tt_at = "left center", $a_tt_use_htmlspecialchars = true, $a_data = array())
 	{
-		$this->items[] = array("title" => $a_title, "value" => $a_value,
+		$this->items[] = array("title" => $this->capitalizeFirstLetterOfWord($a_title ?? ""), "value" => $a_value,
 			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
 			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click,
 			"onclick" => $a_onclick, "ttip" => $a_ttip, "tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
@@ -838,7 +840,7 @@ class ilAdvancedSelectionListGUI
 		 
 		//echo htmlentities(ilJsonUtil::encode($cfg));	
 		
-		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
+		$tpl->setVariable("TXT_SEL_TOP", $this->capitalizeFirstLetterOfWord($this->getListTitle()));
 		$tpl->setVariable("ID", $this->getId());
 		
 		//$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
