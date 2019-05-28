@@ -72,6 +72,12 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 			$value = $this->getValue();
 			$clone = $this;
 		}
+
+		$clone->content = $this->applyOperationsTo($clone->getValue());
+		if ($clone->content->isError()) {
+			return $clone->withError("" . $clone->content->error());
+		}
+
 		return $clone;
 	}
 }
