@@ -1668,9 +1668,9 @@ class ilInitialisation
 
 	}
 
-    /**
-     * @param \ILIAS\DI\Container $container
-     */
+	/**
+	 * @param \ILIAS\DI\Container $container
+	 */
 	protected static function initRefinery(\ILIAS\DI\Container $container)
 	{
 		$container['refinery'] = function ($container) {
