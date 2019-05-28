@@ -86,6 +86,12 @@ class MetaBarTest extends ILIAS_UI_TestBase
 			{
 				return $this->mc_factory;
 			}
+			public function symbol(): C\Symbol\Factory {
+				return new I\Component\Symbol\Factory(
+					new I\Component\Symbol\Icon\Factory(),
+					new I\Component\Symbol\Glyph\Factory()
+				);
+			}
 		};
 		$factory->button_factory = $this->button_factory;
 		$factory->mc_factory = $this->factory;
@@ -103,6 +109,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 	{
 		$r = $this->getDefaultRenderer();
 
+		$button = $this->getButton();
 		$slate = $this->getSlate();
 		$mb = $this->metabar
 			->withAdditionalEntry('button', $button)
@@ -122,8 +129,8 @@ class MetaBarTest extends ILIAS_UI_TestBase
 					<div><span class="bulky-label">TestEntry</span></div>
 				</button>
 				<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
-					<div class="icon custom small" aria-label=""><img src="" /></div>
-					<div><span class="bulky-label">TestEntry</span></div>
+					<div class="icon custom small" aria-label=""><img src="./src/UI/examples/Layout/Page/Standard/options-vertical.svg" /></div>
+					<div><span class="bulky-label">more</span></div>
 				</button>
 			</div>
 			<div class="il-metabar-slates">
