@@ -65,6 +65,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 
 		$this->ensureExistingTestSession($this->testSession);
+		$this->checkTestSessionUser($this->testSession);
 		$this->initProcessLocker($this->testSession->getActiveId());
 		
 		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
@@ -553,13 +554,18 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 			require_once 'Modules/Test/classes/class.ilTestQuestionHeaderBlockBuilder.php';
 			$headerBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
-			$headerBlockBuilder->setHeaderMode($this->object->getTitleOutput());
+			$headerBlockBuilder->setHeaderMode(
+				// avoid legacy setting combination: ctm without question titles
+				$this->object->getTitleOutput() == 2 ? 1 : $this->object->getTitleOutput()
+			);
 			$headerBlockBuilder->setQuestionTitle($questionGui->object->getTitle());
 			$headerBlockBuilder->setQuestionPoints($questionGui->object->getPoints());
+			/* avoid showing Qst X of Y within CTMs
 			$headerBlockBuilder->setQuestionPosition(
 				$this->testSequence->getCurrentPositionIndex($this->testSession->getCurrentQuestionId())
 			);
 			$headerBlockBuilder->setQuestionCount($this->testSequence->getLastPositionIndex());
+			*/
 			$headerBlockBuilder->setQuestionPostponed($this->testSequence->isPostponedQuestion(
 				$this->testSession->getCurrentQuestionId())
 			);

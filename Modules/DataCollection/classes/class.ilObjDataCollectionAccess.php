@@ -60,6 +60,22 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 
 	/**
+	 * @param ilDclTable $table
+	 * @param            $ref_id
+	 *
+	 * @return bool
+	 */
+	protected static function isTableInDataCollection($table, $ref_id) {
+		foreach (ilObjDataCollection::_getAllReferences($table->getObjId()) as $reference) {
+			if ($reference == $ref_id) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	/**
 	 * checks wether a user may invoke a command or not
 	 * (this method is called by ilAccessHandler::checkAccess)
 	 *
@@ -263,6 +279,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	}
 
 	/**
+	 * This only checks access to the tableview - if the full access check is required, use hasAccessTo($ref_id, $table_id, $tableview_id)
+	 *
 	 * @param integer|ilDclTableView $tableview can be object or id
 	 * @param int $user_id
 	 * @return bool
@@ -296,13 +314,86 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 *
 	 * @return bool
 	 */
-	public static function hasAccessToTable($table_id) {
+	protected static function hasAccessToTable($table_id) {
 		$table = ilDclCache::getTableCache($table_id);
-		$collection = $table->getCollectionObject();
-		return $table->getIsVisible() || ($table_id == $collection->getFirstVisibleTableId());
+		return $table->getIsVisible() || ($table_id == $table->getCollectionObject()->getFirstVisibleTableId());
 	}
-	
-	
+
+
+	/**
+	 * @param $ref_id
+	 * @param $table_id
+	 * @param $tableview_id
+	 *
+	 * @return bool
+	 */
+	public static function hasAccessTo($ref_id, $table_id, $tableview_id) {
+		/** @var ilDclTableView $tableview */
+		$tableview = ilDclTableView::find($tableview_id);
+		$table = ilDclCache::getTableCache($table_id);
+
+		// is tableview in table and is table in datacollection
+		if (($tableview->getTableId() != $table_id)
+			|| !self::isTableInDataCollection($table, $ref_id)) {
+			return false;
+		}
+
+		// check access
+		return self::hasWriteAccess($ref_id) || (
+			self::hasReadAccess($ref_id) && self::hasAccessToTable($table_id) && self::hasAccessToTableView($tableview));
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $table_id
+	 *
+	 * @return bool
+	 */
+	public static function hasAccessToFields($ref_id, $table_id) {
+		return self::isTableInDataCollection(ilDclCache::getTableCache($table_id), $ref_id)
+			&& (self::hasWriteAccess($ref_id));
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $table_id
+	 *
+	 * @return bool
+	 */
+	public static function hasAccessToEditTable($ref_id, $table_id) {
+		return self::hasAccessToFields($ref_id, $table_id);
+	}
+
+
+	/**
+	 * @param $ref_id
+	 * @param $table_id
+	 * @param $field_id
+	 *
+	 * @return bool
+	 */
+	public static function hasAccessToField($ref_id, $table_id, $field_id) {
+		$table = ilDclCache::getTableCache($table_id);
+		return in_array($field_id, $table->getFieldIds()) && self::hasAccessToFields($ref_id, $table_id);
+	}
+
+	/**
+	 * @param int $ref_id
+	 *
+	 *
+	 * @return bool
+	 */
+	public static function hasPermissionToAddRecord($ref_id, $table_id) {
+		$table = ilDclCache::getTableCache($table_id);
+		if (!self::isTableInDataCollection($table, $ref_id)){
+			return false;
+		}
+
+		return ilObjDataCollectionAccess::hasWriteAccess($ref_id)
+			|| (ilObjDataCollectionAccess::hasAddRecordAccess($ref_id) && $table->getAddPerm() && $table->checkLimit());
+	}
 }
 
 ?>

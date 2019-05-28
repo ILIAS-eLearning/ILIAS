@@ -25,12 +25,15 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 
 		$html = "";
 
-		foreach ($value as $v) {
+		foreach ($value as $k => $v) {
 			$ref_record = ilDclCache::getRecordCache($v);
 			if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
 				//the referenced record_field does not seem to exist.
-				$record_field->setValue(NULL);
+				unset($value[$k]);
+				$value = array_values($value); // resets the keys
+				$record_field->setValue($value);
 				$record_field->doUpdate();
+				continue;
 			} else {
 				$field = $this->getRecordField()->getField();
 				if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
@@ -73,12 +76,12 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 		if (!$link_name) {
 			$link_name = $ref_record->getRecordFieldHTML($record_field->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 		}
-		$ilCtrl->clearParametersByClass("ilDclDetailedViewGUI");
-		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $ref_record->getId());
+		$ilCtrl->clearParametersByClass(ilDclDetailedViewGUI::class);
+		$ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $ref_record->getId());
 		$ilDCLTableView = ilDCLTableView::createOrGetStandardView($ref_record->getTableId());
-		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $ilDCLTableView->getId());
-		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "back_tableview_id", $_GET['tableview_id']);
-		$html = "<a href='" . $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
+		$ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $ilDCLTableView->getId());
+		$ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $_GET['tableview_id']);
+		$html = "<a href='" . $ilCtrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 
 		return $html;
 	}

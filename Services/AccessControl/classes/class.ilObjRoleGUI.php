@@ -47,7 +47,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	function __construct($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
 	{
 		global $tree,$lng;
-		
+
 		$lng->loadLanguageModule('rbac');
 
 		//TODO: move this to class.ilias.php
@@ -80,6 +80,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		$this->ensureRoleAccessForContext();
 
 		switch($next_class)
 		{
@@ -1780,5 +1782,48 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	}
 
+	/*
+	 * Ensure access to role for ref_id
+	 * @throws ilObjectException
+	 */
+	protected function ensureRoleAccessForContext()
+	{
+		global $DIC;
+
+		$review = $DIC->rbac()->review();
+		$logger = $DIC->logger()->ac();
+
+		// creation of roles
+		if(
+			!$this->object->getId() ||
+			$this->object->getId() == ROLE_FOLDER_ID
+		)
+		{
+			return true;
+		}
+
+
+		$possible_roles = [];
+		try {
+			$possible_roles = $review->getRolesOfObject(
+				$this->obj_ref_id,
+				false
+			);
+		}
+		catch(\InvalidArgumentException $e) {
+			$logger->warning('Role access check failed: ' . $e);
+
+			include_once "Services/Object/exceptions/class.ilObjectException.php";
+			throw new \ilObjectException($this->lng->txt('permission_denied'));
+		}
+
+		if(!in_array($this->object->getId(), $possible_roles))
+		{
+			$logger->warning('Object id: ' . $this->object->getId() .' is not accessible for ref_id: ' . $this->obj_ref_id);
+			include_once "Services/Object/exceptions/class.ilObjectException.php";
+			throw new \ilObjectException($this->lng->txt('permission_denied'));
+		}
+		return true;
+	}
 } // END class.ilObjRoleGUI
 ?>

@@ -81,6 +81,9 @@ class ilDclTableViewEditGUI
 	    $this->ctrl->saveParameter($this, 'tableview_id');
 	    $locator->addItem($this->tableview->getTitle(), $this->ctrl->getLinkTarget($this, 'show'));
 	    $this->tpl->setLocator();
+	    if (!$this->checkAccess()) {
+	    	$this->permissionDenied();
+	    }
     }
 
 
@@ -269,5 +272,26 @@ class ilDclTableViewEditGUI
         ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_deleted'), true);
         $this->cancel();
     }
+
+
+	/**
+	 *
+	 */
+	public function permissionDenied() {
+		ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+		$this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function checkAccess()
+	{
+		return ilObjDataCollectionAccess::hasAccessTo(
+			$this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+			$this->table->getId(),
+			$this->tableview->getId()
+		);
+	}
 
 }

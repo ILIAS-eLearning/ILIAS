@@ -230,6 +230,20 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			return $this->showFormCmd($form);
 		}
 
+		// avoid settings conflict "ctm" and "do not show question titles"
+		
+		$qstSetSetting = $form->getItemByPostVar('question_set_type');
+		$qTitleSetting = $form->getItemByPostVar('title_output');
+		
+		if( $qstSetSetting->getValue() == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $qTitleSetting->getValue() == 2 )
+		{
+			$qstSetSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			$qTitleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
+			
+			ilUtil::sendFailure($this->lng->txt('tst_settings_conflict_message'));
+			return $this->showFormCmd($form);
+		}
+		
 		$infoMsg = array();
 
 		// solve conflicts with question set type setting with confirmation screen if required

@@ -78,8 +78,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		
-	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
-		
+	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+
+
+		if ($_REQUEST["blpg"] > 0 && ilBlogPosting::lookupBlogId($_REQUEST["blpg"]) != $this->object->getId())
+		{
+			throw new ilException("Posting ID does not match blog.");
+		}
+
+
 		if($this->object)
 		{
 			$this->month = (string) ilUtil::stripSlashes($_REQUEST["bmn"]);
@@ -548,6 +555,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$tpl->getStandardTemplate();
 				}
 
+				if(!$this->checkPermissionBool("read"))
+				{
+					ilUtil::sendInfo($lng->txt("no_permission"));
+					return;
+				}
+
 				// #9680
 				if ($this->id_type == self::REPOSITORY_NODE_ID)
 				{
@@ -937,7 +950,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilToolbar = $this->toolbar;
 		$ilUser = $this->user;
 		$tree = $this->tree;
-		
+
 		if(!$this->checkPermissionBool("read"))
 		{
 			ilUtil::sendInfo($lng->txt("no_permission"));

@@ -102,6 +102,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 	
+	protected function checkTestSessionUser(ilTestSession $testSession)
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		if( $testSession->getUserId() != $DIC->user()->getId() )
+		{
+			throw new ilTestException('active id given does not relate to current user!');
+		}
+	}
+	
 	protected function ensureExistingTestSession(ilTestSession $testSession)
 	{
 		if( $testSession->getActiveId() )
@@ -176,7 +186,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	public function removeIntermediateSolution()
 	{
 		$questionId = $this->getCurrentQuestionId();
-		return $this->getQuestionInstance($questionId)->removeIntermediateSolution(
+		
+		$this->getQuestionInstance($questionId)->removeIntermediateSolution(
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 	}

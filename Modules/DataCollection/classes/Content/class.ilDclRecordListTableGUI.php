@@ -119,7 +119,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->setDefaultOrderField($default_sort_title);
 		}
 
-		if (($this->table->getExportEnabled() || $this->table->hasPermissionToFields($this->parent_obj->parent_obj->object->getRefId()))) {
+		if (($this->table->getExportEnabled() || ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->parent_obj->object->getRefId(), $this->table->getId()))) {
 			$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
 		}
 
@@ -221,9 +221,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @return bool|void
 	 */
 	public function fillRow($record_data) {
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
 		$record_obj = $record_data['_record'];
 
 		/**
@@ -299,6 +296,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * init filters with values from tableview
 	 */
 	public function initFilterFromTableView() {
+		$this->filters = [];
+		$this->filter = [];
 		foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
 			$field = $field_set->getFieldObject();
 			ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);

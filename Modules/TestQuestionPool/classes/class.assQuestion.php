@@ -4926,7 +4926,9 @@ abstract class assQuestion
 	 */
 	public function removeIntermediateSolution($active_id, $pass)
 	{
-		return $this->removeCurrentSolution($active_id, $pass, false);
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use ($active_id, $pass) {
+			$this->removeCurrentSolution($active_id, $pass, false);
+		});
 	}
 
 	/**

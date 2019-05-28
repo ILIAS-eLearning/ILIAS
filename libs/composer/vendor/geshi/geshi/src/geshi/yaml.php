@@ -4,7 +4,7 @@
  * --------
  * Author: Josh Ventura (JoshV10@gmail.com)
  * Copyright: (c) 2010 Josh Ventura
- * Release Version: 1.0.8.12
+ * Release Version: 1.0.9.0
  * Date Started: 2010/12/14
  *
  * YAML language file for GeSHi.

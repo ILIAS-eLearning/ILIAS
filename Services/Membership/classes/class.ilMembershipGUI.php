@@ -1637,27 +1637,17 @@ class ilMembershipGUI
 	 */
 	protected function printMembers()
 	{
-		global $ilTabs;
+		global $DIC;
+
+		$ilTabs = $DIC->tabs();
 		
-		#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
 		$this->checkPermission('read');
 		
 		$ilTabs->clearTargets();
-		
-		if($GLOBALS['ilAccess']->checkAccess('manage_members','',$this->getParentObject()->getId()))
-		{
-			$ilTabs->setBackTarget(
-				$this->lng->txt('back'),
-				$this->ctrl->getLinkTarget($this, 'participants'));
-		}
-		else
-		{
-			$ilTabs->setBackTarget(
-				$this->lng->txt('back'),
-				$this->ctrl->getLinkTarget($this, 'jump2UsersGallery'));
-		}
-		
-		
+		$ilTabs->setBackTarget(
+			$this->lng->txt('back'),
+			$this->ctrl->getLinkTarget($this, 'participants'));
+
 		$list = $this->initAttendanceList();
 		$form = $list->initForm('printMembersOutput');
 		$this->tpl->setContent($form->getHTML());	
