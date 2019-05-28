@@ -4,7 +4,7 @@ This library contains interfaces, base classes and utilities for the setup.
 
 The setup is build around four main concepts:
 
-** [**Config**](./Config.php) - Some options or configuration for the setup process
+* [**Config**](./Config.php) - Some options or configuration for the setup process
 that a user can or must set.
 * [**Objective**](./Objective.php) - Some desired state of the system that should
 be achieved via the setup process, maybe depending on other objectives as preconditions.
