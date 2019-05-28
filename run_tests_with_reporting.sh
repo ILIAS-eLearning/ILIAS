@@ -97,6 +97,6 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 			exit 0
 	fi
 else
-	printLn "Mo result file found, stopping!"
+	printLn "No result file found, stopping!"
 	exit 99
 fi		
