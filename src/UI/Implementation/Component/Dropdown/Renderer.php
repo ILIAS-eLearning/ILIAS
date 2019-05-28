@@ -4,14 +4,12 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropdown;
 
-use ILIAS\Data\CapitalizeHelper;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer {
-	use CapitalizeHelper;
 	/**
 	 * @inheritdoc
 	 */
@@ -22,6 +20,9 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderDropdown(Component\Dropdown\Dropdown $component, RendererInterface $default_renderer) {
+		global $DIC;
+
+		$transform_label = $DIC->refinery()->string()->titleCapitalization();
 
 		// get template
 		$tpl_name = "tpl.standard.html";
@@ -37,7 +38,7 @@ class Renderer extends AbstractComponentRenderer {
 		// render trigger button
 		$label = $component->getLabel();
 		if ($label !== null) {
-			$tpl->setVariable("LABEL", $this->capitalizeFirstLetterOfWord($label));
+			$tpl->setVariable("LABEL", $transform_label($label));
 		}
 		else {
 			$tpl->setVariable("LABEL", "");

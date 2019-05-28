@@ -4,14 +4,12 @@
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
-use ILIAS\Data\CapitalizeHelper;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer {
-	use CapitalizeHelper;
 	/**
 	 * @inheritdoc
 	 */
@@ -37,6 +35,10 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
+		global $DIC;
+
+		$transform_label = $DIC->refinery()->string()->titleCapitalization();
+
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
 		}
@@ -66,7 +68,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$label = $component->getLabel();
 		if ($label !== null) {
-			$tpl->setVariable("LABEL", $this->capitalizeFirstLetterOfWord($label));
+			$tpl->setVariable("LABEL", $transform_label($label));
 		}
 		if ($component->isActive()) {
 			// The actions might also be a list of signals, these will be appended by

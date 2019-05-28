@@ -1,0 +1,1578 @@
+ILIAS PHPUnit-Tests need installed dev-requirements, please install using 'composer install' in ./libs/composer 
+
+Adding Suite: ilServicesTrackingSuite
+Adding Suite: ilServicesContactSuite
+Adding Suite: ilServicesInitSuite
+Adding Suite: ilServicesTermsOfServiceSuite
+Adding Suite: ilServicesAuthenticationSuite
+Adding Suite: ilServicesContextSuite
+Adding Suite: ilServicesAuthApacheSuite
+Adding Suite: ilServicesUtilitiesSuite
+Adding Suite: ilServicesDatabaseSuite
+Adding Suite: ilServicesAccessControlSuite
+Adding Suite: ilServicesUserSuite
+Adding Suite: ilServicesStyleSuite
+Adding Suite: ilServicesTreeSuite
+Adding Suite: ilServicesCacheSuite
+Adding Suite: ilServicesMembershipSuite
+Adding Suite: ilServicesPasswordSuite
+Adding Suite: ilServicesUICoreSuite
+Adding Suite: ilServicesFileDeliverySuite
+Adding Suite: ilServicesPDFGenerationSuite
+Adding Suite: ilServicesObjectSuite
+Adding Suite: ilServicesXHTMLPageSuite
+Adding Suite: ilServicesCertificateSuite
+Adding Suite: ilServicesMailSuite
+Adding Suite: ilServicesWorkflowEngineSuite
+Adding Suite: ilServicesAdministrationSuite
+Adding Suite: ilServicesWebAccessCheckerSuite
+Adding Suite: ilServicesMathSuite
+Adding Suite: ilServicesTasksSuite
+Adding Suite: ilServicesMetaDataSuite
+Adding Suite: ilModulesTestQuestionPoolSuite
+Adding Suite: ilModulesTestSuite
+Adding Suite: ilModulesIndividualAssessmentSuite
+Adding Suite: ilModulesDataCollectionSuite
+Adding Suite: ilModulesCourseSuite
+Adding Suite: ilModulesStudyProgrammeSuite
+Adding Suite: ilModulesWebResourceSuite
+Adding Test-Suite: ILIAS\DI\HTTPServicesTest
+Adding Test-Suite: ILIAS\DI\DIContainerTest
+Adding Test-Suite: TaskTest
+Adding Test-Suite: ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistenceTest
+Adding Test-Suite: ValueTest
+Adding Test-Suite: ILIAS\FileUpload\FileUploadImplTest
+Adding Test-Suite: ILIAS\FileUpload\ScalarTypeCheckAwareTest
+Adding Test-Suite: MainFactoryTest
+Adding Test-Suite: TypeTest
+Adding Test-Suite: DataReadmeTest
+Adding Test-Suite: URITest
+Adding Test-Suite: ColorTest
+Adding Test-Suite: ILIAS\Data\PositiveIntegerTest
+Adding Test-Suite: ClientIdTest
+Adding Test-Suite: PasswordTest
+Adding Test-Suite: ILIAS\Data\OpenedFloatIntervalTest
+Adding Test-Suite: DataSizeTest
+Adding Test-Suite: ILIAS\Data\ClosedFloatIntervalTest
+Adding Test-Suite: ILIAS\Data\ClosedIntegerIntervalTest
+Adding Test-Suite: ResultTest
+Adding Test-Suite: ILIAS\Data\OpenedIntegerIntervalTest
+Adding Test-Suite: DataFactoryTest
+Adding Test-Suite: ILIAS\Data\AlphanumericTest
+Adding Test-Suite: ILIAS\Tests\Refinery\TestCase
+Adding Test-Suite: ILIAS\Tests\Refinery\FactoryTest
+Adding Test-Suite: ConstraintViolationExceptionTest
+Adding Test-Suite: BackgroundTasks\Implementation\BasicTaskManagerTest
+Adding Test-Suite: ILIAS\FileUpload\Collection\EntryLockingStringMapTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\VirusScannerPreProcessorTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\PreProcessorManagerImplTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\FilenameOverridePreProcessorTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\WhitelistMimeTypePreProcessorTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\WhitelistFileHeaderPreProcessorTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessorTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\BlacklistFileHeaderPreProcessorTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\WhitelistExtensionPreProcessorTest
+Adding Test-Suite: ILIAS\FileUpload\Processor\BlacklistMimeTypePreProcessorTest
+Adding Test-Suite: ILIAS\GlobalScreen\MainMenu\FactoryImplTest
+Adding Test-Suite: ILIAS\GlobalScreen\MainMenu\IdentificationTest
+Adding Test-Suite: ILIAS\GlobalScreen\MainMenu\IdentificationFactoryTest
+Adding Test-Suite: DefaultRendererTest
+Adding Test-Suite: AbstractRendererTest
+Adding Test-Suite: ComponentRendererLoaderCachingWrapperTest
+Adding Test-Suite: ComponentRendererLoaderResourceRegistryWrapperTest
+Adding Test-Suite: ComponentRendererLoaderHelperTest
+Adding Test-Suite: DefaultRendererFactoryTest
+Adding Test-Suite: ComponentRendererFSLoaderTest
+Adding Test-Suite: CrawlerTest
+Adding Test-Suite: FactoriesCrawlerTest
+Adding Test-Suite: UIComponentsTest
+Adding Test-Suite: ComponentHelperTest
+Adding Test-Suite: ILIAS_UI_Component_TriggererTest
+Adding Test-Suite: JavaScriptBindableTest
+Adding Test-Suite: ILIAS\Filesystem\Stream\StreamTest
+Adding Test-Suite: ILIAS\Filesystem\Util\LegacyPathHelperTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Container\GroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\In\BasicGroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\String\GroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Numeric\GroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\GroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Password\GroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Custom\GroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Integer\GroupTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Logical\GroupTest
+Adding Test-Suite: ILIAS\HTTP\Cookies\CookieWrapperTest
+Adding Test-Suite: ILIAS\HTTP\Cookies\CookieJarWrapperTest
+Adding Test-Suite: BackgroundTasks\Implementation\Observer\BasicObserverTest
+Adding Test-Suite: BackgroundTasks\Implementation\Tasks\BasicTaskFactoryTest
+Adding Test-Suite: ComponentEntryDescriptionTest
+Adding Test-Suite: ComponentEntryRulesTest
+Adding Test-Suite: DeckTest
+Adding Test-Suite: LayoutFactoryTest
+Adding Test-Suite: CounterTest
+Adding Test-Suite: CounterFactoryTest
+Adding Test-Suite: PopoverTest
+Adding Test-Suite: PresentationTest
+Adding Test-Suite: TableFactoryTest
+Adding Test-Suite: CardTest
+Adding Test-Suite: RepositoryObjectTest
+Adding Test-Suite: LegacyTest
+Adding Test-Suite: ImageTest
+Adding Test-Suite: ImageFactoryTest
+Adding Test-Suite: ItemGroupTest
+Adding Test-Suite: ItemTest
+Adding Test-Suite: TreeTest
+Adding Test-Suite: ExpandableTreeTest
+Adding Test-Suite: BreadcrumbsTest
+Adding Test-Suite: ModalTest
+Adding Test-Suite: LightboxTest
+Adding Test-Suite: InterruptiveTest
+Adding Test-Suite: RoundTripTest
+Adding Test-Suite: ModalFactoryTest
+Adding Test-Suite: PaginationTest
+Adding Test-Suite: ViewControlTest
+Adding Test-Suite: SortationTest
+Adding Test-Suite: InputFactoryTest
+Adding Test-Suite: LinkTest
+Adding Test-Suite: ChartScaleBarTest
+Adding Test-Suite: BulkyButtonTest
+Adding Test-Suite: ButtonMonthTest
+Adding Test-Suite: ToggleButtonTest
+Adding Test-Suite: ButtonTest
+Adding Test-Suite: ButtonFactoryTest
+Adding Test-Suite: DropdownTest
+Adding Test-Suite: PanelListingTest
+Adding Test-Suite: PanelFactoryTest
+Adding Test-Suite: PanelTest
+Adding Test-Suite: PanelSecodaryLegacyTest
+Adding Test-Suite: PanelSecodaryListingTest
+Adding Test-Suite: DividerTest
+Adding Test-Suite: MessageBoxTest
+Adding Test-Suite: MainBarTest
+Adding Test-Suite: MainControlsFactoryTest
+Adding Test-Suite: MetaBarTest
+Adding Test-Suite: ListingFactoryTest
+Adding Test-Suite: ListingTest
+Adding Test-Suite: ILIAS\Filesystem\Provider\FlySystem\FlySystemLocalFilesystemFactoryTest
+Adding Test-Suite: ILIAS\Filesystem\Provider\FlySystem\FlySystemDirectoryAccessTest
+Adding Test-Suite: Filesystem\Provider\FlySystem\FlySystemFileStreamAccessTest
+Adding Test-Suite: ILIAS\Filesystem\Provider\FlySystem\FlySystemFileAccessTest
+Adding Test-Suite: AddLabelTest
+Adding Test-Suite: ILIAS\Tests\Refinery\In\Transformation\ParallelTest
+Adding Test-Suite: ILIAS\Tests\Refinery\In\Transformation\SeriesTest
+Adding Test-Suite: SplitStringTest
+Adding Test-Suite: TitleCapitalizationTest
+Adding Test-Suite: HasMaxLengthConstraintTest
+Adding Test-Suite: HasMinLengthConstraintTest
+Adding Test-Suite: IsNumericConstraintTest
+Adding Test-Suite: IsNullConstraintTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\IntegerTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\NewObjectTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\ListTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\BooleanTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\StringTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\RecordTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\TupleTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\FloatTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\DictionaryTransformationTest
+Adding Test-Suite: ILIAS\Tests\Refinery\To\Transformation\NewMethodTransformationTest
+Adding Test-Suite: PasswordContraintsTest
+Adding Test-Suite: TransformationsCustomTest
+Adding Test-Suite: ValidationConstraintsCustomTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Integer\Constraints\LessThanConstraintTest
+Adding Test-Suite: ILIAS\Tests\Refinery\Integer\Constraints\GreaterThanConstraintTest
+Adding Test-Suite: NotTest
+Adding Test-Suite: ParallelTest
+Adding Test-Suite: SequentialTest
+Adding Test-Suite: LogicalOrTest
+Adding Test-Suite: IconTest
+Adding Test-Suite: GlyphTest
+Adding Test-Suite: GlyphFactoryTest
+Adding Test-Suite: StandardPageTest
+Adding Test-Suite: DrilldownTest
+Adding Test-Suite: NodeTest
+Adding Test-Suite: SimpleNodeTest
+Adding Test-Suite: TagInputTest
+Adding Test-Suite: InputTest
+Adding Test-Suite: TextareaTest
+Adding Test-Suite: TextInputTest
+Adding Test-Suite: PasswordInputTest
+Adding Test-Suite: NumericInputTest
+Adding Test-Suite: RadioInputTest
+Adding Test-Suite: GroupInputTest
+Adding Test-Suite: SelectInputTest
+Adding Test-Suite: FieldFactoryTest
+Adding Test-Suite: MultiSelectInputTest
+Adding Test-Suite: CheckboxInputTest
+Adding Test-Suite: ChartProgressMeterTest
+Adding Test-Suite: DropzoneRendererTest
+Adding Test-Suite: SlateTest
+Adding Test-Suite: CombinedSlateTest
+Adding Test-Suite: SlateFactoryTest
+Adding Test-Suite: LinearWorkflowTest
+Adding Test-Suite: WorkflowStepTest
+Adding Test-Suite: WorkflowFactoryTest
+Adding Test-Suite: PostDataFromServerRequestTest
+Adding Test-Suite: FormFactoryTest
+Adding Test-Suite: FormTest
+Adding Test-Suite: StandardFormTest
+Adding Test-Suite: StandardFilterTest
+Adding Test-Suite: FilterTest
+Adding Test-Suite: FilterFactoryTest
+
+Removing tests requiring an installed ILIAS.
+PHPUnit 8.0.6 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 7.3.5-1+ubuntu18.04.1+deb.sury.org+1
+Configuration: /home/fwyss/dev/ilias-trunk/ilias/Services/PHPUnit/config/PhpUnitConfig.xml
+
+.............................................................   61 / 4080 (  1%)
+.............................................................  122 / 4080 (  2%)
+.............................................................  183 / 4080 (  4%)
+.............................................................  244 / 4080 (  5%)
+.............................................................  305 / 4080 (  7%)
+.............................................................  366 / 4080 (  8%)
+.............................................................  427 / 4080 ( 10%)
+.............................................................  488 / 4080 ( 11%)
+.............................................................  549 / 4080 ( 13%)
+.............................................................  610 / 4080 ( 14%)
+.............................................................  671 / 4080 ( 16%)
+...................EEEEEEEE..................................  732 / 4080 ( 17%)
+.............................................................  793 / 4080 ( 19%)
+.............................................................  854 / 4080 ( 20%)
+.............................................................  915 / 4080 ( 22%)
+...........III.........S.....................................  976 / 4080 ( 23%)
+......SSSSSSSSSSSSSSSSSSSSSSSSSS.........II.................. 1037 / 4080 ( 25%)
+...................................................I......... 1098 / 4080 ( 26%)
+............................................................. 1159 / 4080 ( 28%)
+.......I..I.I.III............................................ 1220 / 4080 ( 29%)
+.............................I............................... 1281 / 4080 ( 31%)
+............................................................. 1342 / 4080 ( 32%)
+............................................................. 1403 / 4080 ( 34%)
+............................................................. 1464 / 4080 ( 35%)
+............................................................. 1525 / 4080 ( 37%)
+............................................................. 1586 / 4080 ( 38%)
+............................................................. 1647 / 4080 ( 40%)
+............................................................. 1708 / 4080 ( 41%)
+.........................................................W... 1769 / 4080 ( 43%)
+............................................................. 1830 / 4080 ( 44%)
+............................................................. 1891 / 4080 ( 46%)
+............................................................. 1952 / 4080 ( 47%)
+............................................................. 2013 / 4080 ( 49%)
+............................................................. 2074 / 4080 ( 50%)
+....................................E........................ 2135 / 4080 ( 52%)
+.......................E..........E...E...................... 2196 / 4080 ( 53%)
+...........E...EEEEEE...E..E..E.............................. 2257 / 4080 ( 55%)
+.......EEE..........................................EEEEEEEE. 2318 / 4080 ( 56%)
+EEEE..EEE............EEEEEE..........EEEEE................... 2379 / 4080 ( 58%)
+............................................................. 2440 / 4080 ( 59%)
+.................EEEE....E................................... 2501 / 4080 ( 61%)
+..............................EE.........EEEE....EEEE........ 2562 / 4080 ( 62%)
+.........................EEEE....EEEE...........E............ 2623 / 4080 ( 64%)
+...........................E................................. 2684 / 4080 ( 65%)
+............................................................. 2745 / 4080 ( 67%)
+.........................................................Fiamateststringforthetitlecapitalizationandihopethatworksevenifitiscomplicated.Fiamateststringforthetitlecapitalizationandihopethatworksevenifitiscomplicated. 2806 / 4080 ( 68%)
+Fiamateststringforthetitlecapitalizationandihopethatworksevenifitiscomplicated............................................................ 2867 / 4080 ( 70%)
+............................................................. 2928 / 4080 ( 71%)
+............................................................. 2989 / 4080 ( 73%)
+............................................................. 3050 / 4080 ( 74%)
+............................................................. 3111 / 4080 ( 76%)
+............................................................. 3172 / 4080 ( 77%)
+............................................................. 3233 / 4080 ( 79%)
+............................................................. 3294 / 4080 ( 80%)
+............................................................. 3355 / 4080 ( 82%)
+............................................................. 3416 / 4080 ( 83%)
+............................................................. 3477 / 4080 ( 85%)
+............................................................. 3538 / 4080 ( 86%)
+............................................................. 3599 / 4080 ( 88%)
+............................................................. 3660 / 4080 ( 89%)
+................................E............................ 3721 / 4080 ( 91%)
+............................................................. 3782 / 4080 ( 92%)
+............................................................. 3843 / 4080 ( 94%)
+............................................................. 3904 / 4080 ( 95%)
+....................................................EEEEE.... 3965 / 4080 ( 97%)
+E............................................................ 4026 / 4080 ( 98%)
+..........................EEEEEE......................        4080 / 4080 (100%)
+
+Time: 16.36 seconds, Memory: 122.50 MB
+
+There were 89 errors:
+
+1) ilMailAddressParserTest::testBuiltInAddressParser with data set #0 ('phpunit@ilias,phpunit', array(ilMailAddress Object (...), ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+2) ilMailAddressParserTest::testBuiltInAddressParser with data set #1 ('phpunit@ilias.de', array(ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+3) ilMailAddressParserTest::testBuiltInAddressParser with data set #2 ('#il_ml_4711', array(ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+4) ilMailAddressParserTest::testBuiltInAddressParser with data set #3 ('#il_role_1000', array(ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+5) ilMailAddressParserTest::testBuiltInAddressParser with data set #4 ('#il_crs_member_998', array(ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+6) ilMailAddressParserTest::testBuiltInAddressParser with data set #5 ('#member@[French Course]', array(ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+7) ilMailAddressParserTest::testBuiltInAddressParser with data set #6 ('Course Administrator <#admin@...urse]>', array(ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+8) ilMailAddressParserTest::testBuiltInAddressParser with data set #7 ('Course Administrator <#il_crs..._2581>', array(ilMailAddress Object (...)))
+Error: Call to undefined function imap_rfc822_parse_adrlist()
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilMailImapRfc822AddressParser.php:15
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822AddressParser.php:56
+/home/fwyss/dev/ilias-trunk/ilias/Services/Mail/test/ilMailAddressParserTest.php:54
+
+9) RepositoryObjectTest::test_render_with_actions
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Card/Renderer.php:86
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Card/RepositoryObjectTest.php:243
+
+10) ItemGroupTest::test_render_with_actions
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Item/Renderer.php:52
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Item/Renderer.php:20
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Item/ItemGroupTest.php:118
+
+11) ItemTest::test_render_base
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Item/Renderer.php:121
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Item/Renderer.php:24
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Item/ItemTest.php:129
+
+12) ItemTest::test_shy_title_and_property
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Item/Renderer.php:133
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Item/Renderer.php:24
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Item/ItemTest.php:264
+
+13) RoundTripTest::test_simple_rendering
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Modal/Renderer.php:155
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Modal/Renderer.php:31
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Modal/RoundTripTest.php:56
+
+14) PaginationTest::testRenderUnlimited
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:201
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/PaginationTest.php:106
+
+15) PaginationTest::testRenderWithCurrentPage
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:201
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/PaginationTest.php:137
+
+16) PaginationTest::testRenderLimited
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:201
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/PaginationTest.php:171
+
+17) PaginationTest::testRenderLimitedWithCurrentPage
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:201
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/PaginationTest.php:210
+
+18) PaginationTest::testRenderLimitedWithCurrentPage2
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:201
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/PaginationTest.php:244
+
+19) PaginationTest::testRenderDropdown
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:221
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/PaginationTest.php:280
+
+20) ViewControlTest::test_render_viewcontrol_section
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:83
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:30
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/ViewControlTest.php:84
+
+21) ViewControlTest::test_render_viewcontrol_mode
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:69
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:27
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/ViewControlTest.php:119
+
+22) SortationTest::testRendering
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:161
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:33
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/ViewControl/SortationTest.php:66
+
+23) BulkyButtonTest::test_render_with_glyph_in_context
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/BulkyButtonTest.php:81
+
+24) BulkyButtonTest::test_render_with_glyph_in_context_and_engaged
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/BulkyButtonTest.php:99
+
+25) BulkyButtonTest::test_render_with_icon
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/BulkyButtonTest.php:115
+
+26) ButtonTest::test_render_button_label with data set #0 ('standard')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:158
+
+27) ButtonTest::test_render_button_label with data set #1 ('primary')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:158
+
+28) ButtonTest::test_render_button_label with data set #2 ('shy')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:158
+
+29) ButtonTest::test_render_button_label with data set #3 ('tag')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:158
+
+30) ButtonTest::test_render_button_disabled with data set #0 ('standard')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:177
+
+31) ButtonTest::test_render_button_disabled with data set #1 ('primary')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:177
+
+32) ButtonTest::test_render_button_disabled with data set #2 ('shy')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:177
+
+33) ButtonTest::test_render_button_disabled with data set #3 ('tag')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:177
+
+34) ButtonTest::test_render_button_with_on_load_code with data set #0 ('standard')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:215
+
+35) ButtonTest::test_render_button_with_on_load_code with data set #1 ('primary')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:215
+
+36) ButtonTest::test_render_button_with_on_load_code with data set #2 ('shy')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:215
+
+37) ButtonTest::test_render_button_with_on_load_code with data set #3 ('tag')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:215
+
+38) ButtonTest::test_render_btn_tag_relevance
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:289
+
+39) ButtonTest::test_render_btn_tag_colors
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:305
+
+40) ButtonTest::test_render_btn_tag_classes
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:326
+
+41) ButtonTest::test_render_button_with_aria_label with data set #0 ('standard')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:380
+
+42) ButtonTest::test_render_button_with_aria_label with data set #1 ('primary')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:380
+
+43) ButtonTest::test_render_button_with_aria_label with data set #2 ('shy')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:380
+
+44) ButtonTest::test_render_button_with_aria_label with data set #3 ('tag')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:380
+
+45) ButtonTest::test_render_button_with_aria_pressed with data set #0 ('standard')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:399
+
+46) ButtonTest::test_render_button_with_aria_pressed with data set #1 ('primary')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:399
+
+47) ButtonTest::test_render_button_with_signal with data set #0 ('standard')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:453
+
+48) ButtonTest::test_render_button_with_signal with data set #1 ('primary')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:453
+
+49) ButtonTest::test_render_button_with_signal with data set #2 ('shy')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:453
+
+50) ButtonTest::test_render_button_with_signal with data set #3 ('tag')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:453
+
+51) ButtonTest::test_render_button_with_on_click_animation
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Button/ButtonTest.php:474
+
+52) DropdownTest::test_render_empty
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropdown/DropdownTest.php:58
+
+53) DropdownTest::test_render_items
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropdown/DropdownTest.php:74
+
+54) DropdownTest::test_render_items_with_label
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropdown/DropdownTest.php:102
+
+55) DropdownTest::test_render_with_link_new_viewport
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropdown/DropdownTest.php:127
+
+56) PanelListingTest::test_render_with_actions
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Listing/Renderer.php:48
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Listing/Renderer.php:20
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelListingTest.php:132
+
+57) PanelTest::test_render_standard
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Renderer.php:68
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Renderer.php:29
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelTest.php:135
+
+58) PanelTest::test_render_sub
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Renderer.php:94
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Renderer.php:34
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelTest.php:166
+
+59) PanelSecodaryLegacyTest::test_render_with_actions
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:83
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryLegacyTest.php:151
+
+60) PanelSecodaryLegacyTest::test_render_with_sortation
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:161
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:33
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:91
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryLegacyTest.php:185
+
+61) PanelSecodaryLegacyTest::test_render_with_pagination
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:201
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:91
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryLegacyTest.php:226
+
+62) PanelSecodaryLegacyTest::test_render_with_section
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:83
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:30
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:91
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryLegacyTest.php:271
+
+63) PanelSecodaryListingTest::test_render_with_actions
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:44
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:22
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryListingTest.php:119
+
+64) PanelSecodaryListingTest::test_render_with_sortation
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:161
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:33
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:52
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:22
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryListingTest.php:151
+
+65) PanelSecodaryListingTest::test_render_with_pagination
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:201
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:36
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:52
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:22
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryListingTest.php:189
+
+66) PanelSecodaryListingTest::test_render_with_section
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:83
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/ViewControl/Renderer.php:30
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:52
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Panel/Secondary/Renderer.php:22
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Panel/PanelSecondaryListingTest.php:232
+
+67) MessageBoxTest::test_render_with_buttons with data set #0 ('failure')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:164
+
+68) MessageBoxTest::test_render_with_buttons with data set #1 ('success')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:164
+
+69) MessageBoxTest::test_render_with_buttons with data set #2 ('info')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:164
+
+70) MessageBoxTest::test_render_with_buttons with data set #3 ('confirmation')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:164
+
+71) MessageBoxTest::test_render_with_buttons_and_links with data set #0 ('failure')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:217
+
+72) MessageBoxTest::test_render_with_buttons_and_links with data set #1 ('success')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:217
+
+73) MessageBoxTest::test_render_with_buttons_and_links with data set #2 ('info')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:217
+
+74) MessageBoxTest::test_render_with_buttons_and_links with data set #3 ('confirmation')
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MessageBox/Renderer.php:32
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MessageBox/MessageBoxTest.php:217
+
+75) MainBarTest::testRendering
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Renderer.php:156
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Renderer.php:50
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Renderer.php:30
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MainControls/MainBarTest.php:181
+
+76) MetaBarTest::testRendering
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Renderer.php:134
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Renderer.php:82
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Renderer.php:33
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MainControls/MetaBarTest.php:112
+
+77) DrilldownTest::testRendering
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Menu/Renderer.php:54
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Menu/Renderer.php:21
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Menu/Drilldown/DrilldownTest.php:153
+
+78) DropzoneRendererTest::testRenderStandardDropzone
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:206
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:102
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:51
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropzone/File/DropzoneRendererTest.php:42
+
+79) DropzoneRendererTest::testRenderStandardDropzoneWithMessage
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:206
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:102
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:51
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropzone/File/DropzoneRendererTest.php:60
+
+80) DropzoneRendererTest::testRenderWrapperDropzone
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:206
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:116
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:48
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropzone/File/DropzoneRendererTest.php:86
+
+81) DropzoneRendererTest::testRenderMetadata
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:25
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropdown/Renderer.php:19
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:206
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:102
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:51
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropzone/File/DropzoneRendererTest.php:97
+
+82) DropzoneRendererTest::testWithButton
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:99
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Dropzone/File/Renderer.php:51
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Dropzone/File/DropzoneRendererTest.php:123
+
+83) CombinedSlateTest::testRenderingWithSubslateAndButton
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Slate/Renderer.php:60
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/MainControls/Slate/Renderer.php:24
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/MainControls/Slate/CombinedSlateTest.php:80
+
+84) StandardFormTest::test_render
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Form/Renderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Form/Renderer.php:20
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Input/Container/Form/StandardFormTest.php:76
+
+85) StandardFormTest::test_render_no_url
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Form/Renderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Form/Renderer.php:20
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Input/Container/Form/StandardFormTest.php:92
+
+86) StandardFilterTest::test_render_activated_collapsed
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:113
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:45
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:23
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Input/Container/Filter/StandardFilterTest.php:118
+
+87) StandardFilterTest::test_render_deactivated_collapsed
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:113
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:45
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:23
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Input/Container/Filter/StandardFilterTest.php:208
+
+88) StandardFilterTest::test_render_activated_expanded
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:119
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:45
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:23
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Input/Container/Filter/StandardFilterTest.php:285
+
+89) StandardFilterTest::test_render_deactivated_expanded
+InvalidArgumentException: Identifier "refinery" is not defined.
+
+/home/fwyss/dev/ilias-trunk/ilias/libs/composer/vendor/pimple/pimple/src/Pimple/Container.php:96
+/home/fwyss/dev/ilias-trunk/ilias/src/DI/Container.php:277
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:40
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Button/Renderer.php:26
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:38
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:119
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:45
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/Component/Input/Container/Filter/Renderer.php:23
+/home/fwyss/dev/ilias-trunk/ilias/src/UI/Implementation/DefaultRenderer.php:42
+/home/fwyss/dev/ilias-trunk/ilias/tests/UI/Component/Input/Container/Filter/StandardFilterTest.php:372
+
+--
+
+There was 1 warning:
+
+1) Warning
+No tests found in class "ILIAS\Tests\Refinery\TestCase".
+
+--
+
+There were 3 failures:
+
+1) TitleCapitalizationTest::testTransform
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'I Am a Test String for the Title Capitalization and I Hope that Works even if It Is Complicated :)'
++'I Am a Test String for the Title Capitalization and I Hope that Works Even if It Is Complicated :)'
+
+/home/fwyss/dev/ilias-trunk/ilias/tests/Refinery/String/Transformation/TitleCapitalizationTest.php:46
+
+2) TitleCapitalizationTest::testInvoke
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'I Am a Test String for the Title Capitalization and I Hope that Works even if It Is Complicated :)'
++'I Am a Test String for the Title Capitalization and I Hope that Works Even if It Is Complicated :)'
+
+/home/fwyss/dev/ilias-trunk/ilias/tests/Refinery/String/Transformation/TitleCapitalizationTest.php:85
+
+3) TitleCapitalizationTest::testApplyToWithValidValueReturnsAnOkResult
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'I Am a Test String for the Title Capitalization and I Hope that Works even if It Is Complicated :)'
++'I Am a Test String for the Title Capitalization and I Hope that Works Even if It Is Complicated :)'
+
+/home/fwyss/dev/ilias-trunk/ilias/tests/Refinery/String/Transformation/TitleCapitalizationTest.php:128
+
+--
+
+There were 13 incomplete tests:
+
+1) test_007_IntermediateCatchEvent::test_WorkflowWithSimpleIntermediateMessageEventShouldOutputAccordingly
+$ilDB throws notices during test.
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/WorkflowEngine/test/parser/007_IntermediateCatchEvent/class.test_007_IntermediateCatchEvent.php:46
+
+2) test_007_IntermediateCatchEvent::test_WorkflowWithSimpleIntermediateSignalEventShouldOutputAccordingly
+$ilDB throws notices during test.
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/WorkflowEngine/test/parser/007_IntermediateCatchEvent/class.test_007_IntermediateCatchEvent.php:146
+
+3) test_007_IntermediateCatchEvent::test_WorkflowWithSimpleIntermediateTimerEventShouldOutputAccordingly
+$ilDB throws notices during test.
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/WorkflowEngine/test/parser/007_IntermediateCatchEvent/class.test_007_IntermediateCatchEvent.php:246
+
+4) assQuestionTest::test_instantiateObject_shouldReturnInstance
+Abstract class - needs fixture class for tests.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/assQuestionTest.php:48
+
+5) assQuestionGUITest::test_instantiateObject_shouldReturnInstance
+Abstract class - needs fixture class for tests.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/assQuestionGUITest.php:48
+
+6) assImagemapQuestionGUITest::test_instantiateObject_shouldReturnInstance
+ilSetting / ilDBInterface -> more mocks needed.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/assImagemapQuestionGUITest.php:48
+
+7) ilAnswerWizardInputGUITest::test_instantiateObject_shouldReturnInstance
+Needs mocks.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/ilAnswerWizardInputGUITest.php:41
+
+8) ilAssQuestionHintGUITest::test_instantiateObject_shouldReturnInstance
+Needs question mock.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/ilAssQuestionHintGUITest.php:31
+
+9) ilAssQuestionHintRequestGUITest::test_instantiateObject_shouldReturnInstance
+Needs question mock.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/ilAssQuestionHintRequestGUITest.php:31
+
+10) ilAssQuestionHintsGUITest::test_instantiateObject_shouldReturnInstance
+Needs mock.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/ilAssQuestionHintsGUITest.php:31
+
+11) ilAssQuestionHintsOrderingClipboardTest::test_instantiateObject_shouldReturnInstance
+Needs mock.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/ilAssQuestionHintsOrderingClipboardTest.php:31
+
+12) ilAssQuestionHintsTableGUITest::test_instantiateObject_shouldReturnInstance
+Needs mock.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/ilAssQuestionHintsTableGUITest.php:31
+
+13) assAnswerTrueFalseTest::test_setFalseGetCorrectness_shouldReturnFalse
+Bug detected, fix not applied yet due to poor coverage.
+
+/home/fwyss/dev/ilias-trunk/ilias/Modules/TestQuestionPool/test/assAnswerTrueFalseTest.php:90
+
+--
+
+There were 27 skipped tests:
+
+1) test_013_DataOutput::test_WorkflowWithSimpleEndEventShouldOutputAccordingly
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/WorkflowEngine/test/parser/013_DataOutput/class.test_013_DataOutput.php:45
+
+2) ilMathBCAdapterTest::testAdd with data set #0 ('1', '2', '3', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+3) ilMathBCAdapterTest::testSub with data set #0 ('1', '2', '-1', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+4) ilMathBCAdapterTest::testMul with data set #0 ('1', '2', '2', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+5) ilMathBCAdapterTest::testDiv with data set #0 ('1', '2', '0.5', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+6) ilMathBCAdapterTest::testSqrt with data set #0 ('9', '3', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+7) ilMathBCAdapterTest::testSqrt with data set #1 ('4294967296', '65536', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+8) ilMathBCAdapterTest::testSqrt with data set #2 ('12345678901234567890', '3513641828', null)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+9) ilMathBCAdapterTest::testSqrt with data set #3 ('12345678901234567890', '3513641828.82', 2)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+10) ilMathBCAdapterTest::testPow with data set #0 ('2', '64', '18446744073709551616', null)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+11) ilMathBCAdapterTest::testPow with data set #1 ('3', '2', '9', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+12) ilMathBCAdapterTest::testMod with data set #0 ('1', '2', '1')
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+13) ilMathBCAdapterTest::testEquals with data set #0 ('3', '3', true, null)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+14) ilMathBCAdapterTest::testEquals with data set #1 ('27.424', '27.424', true, 5)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+15) ilMathBCAdapterTest::testCalculation with data set #0 ('3+5', '8', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+16) ilMathBCAdapterTest::testCalculation with data set #1 ('-3+5', '2', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+17) ilMathBCAdapterTest::testCalculation with data set #2 ('3*6+5', '23', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+18) ilMathBCAdapterTest::testCalculation with data set #3 ('10/2', '5', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+19) ilMathBCAdapterTest::testCalculation with data set #4 ('13/60', '0.2166666666666', 13)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+20) ilMathBCAdapterTest::testCalculation with data set #5 ('(-(-8)-sqrt((-8)^2-4*(7)))/(2)', '1', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+21) ilMathBCAdapterTest::testCalculation with data set #6 ('(-(-8)+sqrt((-8)^2-4*(7)))/(2)', '7', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+22) ilMathBCAdapterTest::testCalculation with data set #7 ('(-(-41)-sqrt((-41)^2-4*(1)*(5...2*(1))', '0.122', 3)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+23) ilMathBCAdapterTest::testCalculation with data set #8 ('(-(-41)+sqrt((-41)^2-4*(1)*(5...2*(1))', '40.877', 3)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+24) ilMathBCAdapterTest::testCalculation with data set #9 ('4^2-2*4+0.5*-16', '0', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+25) ilMathBCAdapterTest::testCalculation with data set #10 ('-2^2-2*-2+0.5*-16', '-8', 50)
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+26) ilMathBCAdapterTest::testDivisionsByZero
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+27) ilMathBCAdapterTest::testModuloByZero
+Could not execute test due to missing bcmath extension!
+
+/home/fwyss/dev/ilias-trunk/ilias/Services/Math/test/ilMathBCAdapterTest.php:19
+
+ERRORS!
+Tests: 4080, Assertions: 8963, Errors: 89, Failures: 3, Warnings: 1, Skipped: 27, Incomplete: 13.

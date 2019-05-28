@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Data\CapitalizeHelper;
-
 /**
 * User interface class for advanced drop-down selection lists
 *
@@ -11,7 +9,6 @@ use ILIAS\Data\CapitalizeHelper;
 */
 class ilAdvancedSelectionListGUI
 {
-	use CapitalizeHelper;
 	private $items = array();
 	private $id = "asl";
 	private $asynch = false;
@@ -126,7 +123,7 @@ class ilAdvancedSelectionListGUI
 		$a_html = "", $a_prevent_background_click = false, $a_onclick = "", $a_ttip = "",
 		$a_tt_my = "right center", $a_tt_at = "left center", $a_tt_use_htmlspecialchars = true, $a_data = array())
 	{
-		$this->items[] = array("title" => $this->capitalizeFirstLetterOfWord($a_title ?? ""), "value" => $a_value,
+		$this->items[] = array("title" => $a_title, "value" => $a_value,
 			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
 			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click,
 			"onclick" => $a_onclick, "ttip" => $a_ttip, "tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
@@ -557,6 +554,10 @@ class ilAdvancedSelectionListGUI
 	*/
 	public function getHTML($a_only_cmd_list_asynch = false)
 	{
+		global $DIC;
+
+		$transform_label = $DIC->refinery()->string()->titleCapitalization();
+
 		$items = $this->getItems();
 
 		// do not show list, if no item is in list
@@ -595,11 +596,11 @@ class ilAdvancedSelectionListGUI
 			{
 				foreach($items as $item)
 				{
+					$title = $transform_label($item["title"] ?? "");
+
 					if (isset($item["ref_id"]))
 					{
-						$sel_arr[$item["ref_id"]] = (isset($item["title"]))
-							? $item["title"]
-							: "";
+						$sel_arr[$item["ref_id"]] = $title;
 					}
 					$this->css_row = ($this->css_row != "tblrow1_mo")
 						? "tblrow1_mo"
@@ -695,7 +696,7 @@ class ilAdvancedSelectionListGUI
 						$tpl->setVariable("ONCLICK_ITEM",
 							'onclick="return il.AdvancedSelectionList.selectForm(\''.$this->getId().'\''.
 								", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-								"'".$item["title"]."');\"");
+								"'".$title."');\"");
 					}
 					else if ($this->getOnClickMode() ==
 						ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP)
@@ -703,13 +704,13 @@ class ilAdvancedSelectionListGUI
 						$tpl->setVariable("ONCLICK_ITEM",
 							'onclick="il.AdvancedSelectionList.clickNop(\''.$this->getId().'\''.
 								", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-								"'".$item["title"]."');\"");
+								"'".$title."');\"");
 					}
 
 					$tpl->setVariable("CSS_ROW", $this->css_row);
 					if ($item["html"] == "")
 					{
-						$tpl->setVariable("TXT_ITEM", $item["title"]);
+						$tpl->setVariable("TXT_ITEM", $title);
 					}
 					else
 					{
@@ -731,7 +732,7 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("IT_ID", $this->getId());
 					$tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
 					$tpl->setVariable("IT_HID_VAL", $item["value"]);
-					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
+					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $title));
 					$tpl->parseCurrentBlock();					 					
 				}
 
@@ -840,7 +841,7 @@ class ilAdvancedSelectionListGUI
 		 
 		//echo htmlentities(ilJsonUtil::encode($cfg));	
 		
-		$tpl->setVariable("TXT_SEL_TOP", $this->capitalizeFirstLetterOfWord($this->getListTitle()));
+		$tpl->setVariable("TXT_SEL_TOP", $transform_label($this->getListTitle()));
 		$tpl->setVariable("ID", $this->getId());
 		
 		//$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
