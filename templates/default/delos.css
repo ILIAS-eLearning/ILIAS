@@ -7364,6 +7364,10 @@ hr.il-divider-with-label {
   color: #5d5d5d;
   white-space: nowrap;
 }
+.dropdown-menu li > a,
+.dropdown-menu li > .btn {
+  text-transform: capitalize;
+}
 .dropdown-menu li > .btn:hover,
 .dropdown-menu li > .btn:focus {
   text-decoration: none;
