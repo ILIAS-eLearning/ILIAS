@@ -114,7 +114,7 @@ class Group extends Input implements C\Input\Field\Group {
 	 *
 	 * @inheritdoc
 	 */
-	public function withInput(PostData $post_input) {
+	public function withInput(InputData $post_input) {
 		/**
 		 * @var $clone Group
 		 */
