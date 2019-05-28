@@ -7,15 +7,16 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use ILIAS\Refinery;
+use ILIAS\Refinery\Factory as Refinery;
 
 class CheckboxInputTest extends ILIAS_UI_TestBase {
 
 	public function setUp(): void{
 		$this->name_source = new DefNamesource();
-		$this->transformation_factory = new Transformation\Factory();
+		$this->refinery = new Refinery($this->createMock(Data\Factory::class), $this->createMock(\ilLanguage::class));
 	}
 
 
@@ -86,7 +87,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 	public function testRenderValue() {
 		$f = $this->buildFactory();
 		$label = "label";
-		$value = "checked";
+		$value = true;
 		$checkbox = $f->checkbox($label)->withValue($value)->withNameFrom($this->name_source);
 
 		$r = $this->getDefaultRenderer();
@@ -140,9 +141,16 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 		$label = "label";
 		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
 
-		$checkbox_true = $checkbox->withInput(new DefPostData(["name_0" => "checked"]));
+		$input_data = $this->createMock(InputData::class);
+		$input_data
+			->expects($this->atLeastOnce())
+			->method("getOr")
+			->with("name_0", "")
+			->willReturn("checked");
 
-		$this->assertInternalType("bool", $checkbox_true->getContent()->value());
+		$checkbox_true = $checkbox->withInput($input_data);
+
+		$this->assertIsBool($checkbox_true->getContent()->value());
 		$this->assertTrue($checkbox_true->getContent()->value());
 	}
 
@@ -151,9 +159,16 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 		$label = "label";
 		$checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
 
-		$checkbox_false = $checkbox->withInput(new DefPostData(["name_0" => ""]));
+		$input_data = $this->createMock(InputData::class);
+		$input_data
+			->expects($this->atLeastOnce())
+			->method("getOr")
+			->with("name_0", "")
+			->willReturn("");
 
-		$this->assertInternalType("bool", $checkbox_false->getContent()->value());
+		$checkbox_false = $checkbox->withInput($input_data);
+
+		$this->assertIsBool($checkbox_false->getContent()->value());
 		$this->assertFalse($checkbox_false->getContent()->value());
 	}
 
@@ -164,10 +179,10 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 			->withNameFrom($this->name_source)
 			->withDisabled(true)
 			->withValue(true)
-			->withInput(new DefPostData([]))
+			->withInput($this->createMock(InputData::class))
 			;
 
-		$this->assertInternalType("bool", $checkbox->getContent()->value());
+		$this->assertIsBool($checkbox->getContent()->value());
 		$this->assertTrue($checkbox->getContent()->value());
 	}
 
@@ -180,14 +195,14 @@ class CheckboxInputTest extends ILIAS_UI_TestBase {
 			->withNameFrom($this->name_source)
 			->withDisabled(true)
 			->withValue(true)
-			->withAdditionalTransformation($this->transformation_factory->custom(function($v) use (&$called, $new_value) {
+			->withAdditionalTransformation($this->refinery->custom()->transformation(function($v) use (&$called, $new_value) {
 				$called = $v;
 				return $new_value;
 			}))
-			->withInput(new DefPostData([]))
+			->withInput($this->createMock(InputData::class))
 			;
 
-		$this->assertInternalType("string", $checkbox->getContent()->value());
+		$this->assertIsString($checkbox->getContent()->value());
 		$this->assertEquals($new_value, $checkbox->getContent()->value());
 	}
 }

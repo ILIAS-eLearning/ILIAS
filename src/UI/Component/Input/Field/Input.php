@@ -174,6 +174,4 @@ interface Input extends Component, JavaScriptBindable, OnUpdateable {
 	 * @return string
 	 */
 	public function getUpdateOnLoadCode(): \Closure;
-
-
 }
