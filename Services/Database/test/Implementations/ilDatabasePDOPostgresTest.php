@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDatabaseImplementationBaseTest.php');
-
 /**
  * TestCase for the ilDatabasePDOMyISAMTest
  *
@@ -44,8 +42,6 @@ class ilDatabasePDOPostgresTest extends ilDatabaseImplementationBaseTest {
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoPostgreSQL.php');
-
 		return new ilDBPdoPostgreSQL();
 	}
 

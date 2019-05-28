@@ -18233,7 +18233,6 @@ $ilDB->modifyTableColumn(
 
 	if( !$ilDB->tableColumnExists('qpl_a_mdef', 'ident') )
 	{
-		require_once 'Services/Database/classes/class.ilDBAnalyzer.php';
 		$ilDB->renameTableColumn('qpl_a_mdef', 'morder', 'ident');
 	}
 
@@ -18580,7 +18579,6 @@ while ($rec = $ilDB->fetchAssoc($set))
 <#5086>
 <?php
 	// fix 20706 (and 22921)
-	require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 	$analyzer = new ilDBAnalyzer();
 	$cons = $analyzer->getPrimaryKeyInformation('page_question');
 	if (is_array($cons["fields"]) && count($cons["fields"]) > 0)

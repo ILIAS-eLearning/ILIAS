@@ -11,9 +11,7 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 		PHPUnit_Framework_Error_Notice::$enabled = false;
 		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 		parent::setUp();
-		require_once('./Services/Database/classes/class.ilDBConstants.php');
 		global $ilDB, $DIC;
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 		$ilDB = new ilDBPdoMySQLInnoDB();
 		$DIC['ilDB'] = $ilDB;
 	}
@@ -26,7 +24,6 @@ class ilDatabaseReservedWordsTest extends PHPUnit_Framework_TestCase {
 	 * @param $is_reserved
 	 */
 	public function testReservedPDO($word, $is_reserved) {
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 		$this->assertEquals($is_reserved, ilDBPdoMySQLInnoDB::isReservedWord($word));
 	}
 

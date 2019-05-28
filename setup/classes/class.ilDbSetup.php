@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
-require_once('./Services/Database/classes/class.ilDBConstants.php');
 
 /**
  * Class ilDbSetup

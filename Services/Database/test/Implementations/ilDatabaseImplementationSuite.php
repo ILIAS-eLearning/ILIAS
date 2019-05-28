@@ -38,16 +38,12 @@ class ilDatabaseImplementationSuite extends TestSuite {
 		$suite = new self();
 
 		// Tests for different DB-Implementations. All based on the same base test
-		require_once("./Services/Database/test/Implementations/ilDatabasePDOMyISAMTest.php");
 		$suite->addTestSuite("ilDatabasePDOMyISAMTest");
 
-		require_once("./Services/Database/test/Implementations/ilDatabasePDOInnodbTest.php");
 		$suite->addTestSuite("ilDatabasePDOInnodbTest");
 
-		require_once("./Services/Database/test/Implementations/ilDatabasePDOGaleraTest.php");
 		$suite->addTestSuite("ilDatabasePDOGaleraTest");
 
-		require_once("./Services/Database/test/Implementations/ilDatabasePDOPostgresTest.php");
 		$suite->addTestSuite("ilDatabasePDOPostgresTest");
 
 		return $suite;

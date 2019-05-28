@@ -82,11 +82,9 @@ abstract class ilDatabaseImplementationBaseTest extends TestCase {
 		PHPUnit\Framework\Error\Notice::$enabled = false;
 		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
-		require_once('./libs/composer/vendor/autoload.php');
 		if (!defined('DEVMODE')) {
 			define('DEVMODE', true);
 		}
-		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 		$this->db = $this->getDBInstance();
 		global $DIC, $ilDB;
 		$DIC['ilDB'] = $this->db;
@@ -95,15 +93,11 @@ abstract class ilDatabaseImplementationBaseTest extends TestCase {
 
 		switch ($this->type) {
 			default:
-				require_once('./Services/Database/test/Implementations/data/MySQL/class.ilDatabaseMySQLTestMockData.php');
-				require_once('./Services/Database/test/Implementations/data/MySQL/class.ilDatabaseMySQLTestsDataOutputs.php');
 				$this->mock = new ilDatabaseMySQLTestMockData();
 				$this->outputs = new ilDatabaseMySQLTestsDataOutputs();
 				break;
 			case ilDBConstants::TYPE_POSTGRES:
 			case ilDBConstants::TYPE_PDO_POSTGRE:
-				require_once('./Services/Database/test/Implementations/data/Postgres/class.ilDatabasePostgresTestMockData.php');
-				require_once('./Services/Database/test/Implementations/data/Postgres/class.ilDatabasePostgresTestsDataOutputs.php');
 				$this->mock = new ilDatabasePostgresTestMockData();
 				$this->outputs = new ilDatabasePostgresTestsDataOutputs();
 				break;
@@ -125,8 +119,6 @@ abstract class ilDatabaseImplementationBaseTest extends TestCase {
 	 * @return bool
 	 */
 	protected final function connect(ilDBInterface $ilDBInterface, $missing_ini = false) {
-		require_once('./Services/Init/classes/class.ilIniFile.php');
-		require_once('./Services/Init/classes/class.ilErrorHandling.php');
 		$ilClientIniFile = new ilIniFile($this->getIniFile());
 		$ilClientIniFile->read();
 		$this->type = $ilClientIniFile->readVariable("db", "type");
@@ -427,7 +419,6 @@ abstract class ilDatabaseImplementationBaseTest extends TestCase {
 	 * @depends testConnection
 	 */
 	public function testDBAnalyser() {
-		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer($this->db);
 
 		// Field info

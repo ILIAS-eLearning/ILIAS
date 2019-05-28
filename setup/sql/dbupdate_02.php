@@ -7622,7 +7622,6 @@ if ($res->numRows() == 1)
 ?>
 <#1572>
 <?php
-	include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 	$analyzer = new ilDBAnalyzer();
 	$pk = $analyzer->getPrimaryKeyInformation("il_object_def");
 	$fields = $analyzer->getFieldInformation("il_object_def");
