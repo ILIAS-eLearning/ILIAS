@@ -501,14 +501,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 				$this->getPosUserAlias(),
 				$this->getImportName()
 			));
-		}
 
-		// Possible Fix for #25432
-		if (
-			$this->getPosUserAlias() && $this->getPosDisplayUserId() == 0 &&
-			$this->getPosAuthorId() == $this->getPostUpdateUserId()
-		) {
-			return (string) $this->getPosUserAlias();
+			// Possible Fix for #25432
+			if (
+				$this->getPosUserAlias() && $this->getPosDisplayUserId() == 0 &&
+				$this->getPosAuthorId() == $this->getPostUpdateUserId()
+			) {
+				$this->update_user_name = (string) $this->getPosUserAlias();
+			}
 		}
 
 		return (string) $this->update_user_name;
