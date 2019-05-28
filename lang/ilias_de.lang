@@ -9296,7 +9296,7 @@ lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
 lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
 lhist#:#lhist_all#:#All
 lhist#:#lhist_cont_placeholder_text#:#Dieses Element zeigt den Lernverlauf in der Präsentationsansicht des Portfolios.
-lhist#:#lhist_first_login#:#First Login
+lhist#:#lhist_first_login#:#Erstes Login
 lhist#:#lhist_learning_history#:#Lernverlauf
 lhist#:#lhist_lhist#:#Lernverlauf
 lhist#:#lhist_manual#:#Manual
