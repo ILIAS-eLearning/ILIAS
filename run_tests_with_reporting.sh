@@ -80,7 +80,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 			if [ -e "$PHPUNIT_PATH_TMP" ]
 				then
 					mv "$PHPUNIT_PATH_TMP" "$PHPUNIT_PATH"
-					#rm "$PHPUNIT_RESULTS_PATH"
+					rm "$PHPUNIT_RESULTS_PATH"
 			fi
 
 			printLn "Switching directory and run results handling."
