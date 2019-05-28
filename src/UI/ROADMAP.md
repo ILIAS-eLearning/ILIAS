@@ -112,6 +112,18 @@ New inputs must already implement the methods.
 
 ## Long Term
 
+### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`
+
+Currently `Implement\Layout\Page\Renderer::setHeaderVars` contains a special
+case for if it is used in the context of the Kitchen Sink. This is due to the
+fact, that the demo for the complete page provides its own entry point, which
+requires adjustments in the paths to javascript files. A special case like
+this, however, is clunky and should be removed if possible. This seems to require
+adjustments in the way that javascript is included and a base paths for the
+current script is set. It might also be advisable to build the complete page
+demo in another way.
+
+
 ### Balance or Unify Cards and Items
 
 The Cards were introduced as one of the first elements in the UI-framework to
