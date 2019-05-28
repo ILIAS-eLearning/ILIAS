@@ -17,6 +17,10 @@ DATE=`date '+%Y-%m-%d %H:%M:%S'`
 
 ./run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
 
+PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
+
+printLn "Command exited with code: $PIPE_EXIT_CODE"
+
 printLn "Travis: event type ($TRAVIS_EVENT_TYPE), job number ($TRAVIS_JOB_NUMBER), pull request ($TRAVIS_PULL_REQUEST), commit ($TRAVIS_COMMIT) "
 
 if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
@@ -76,7 +80,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 			if [ -e "$PHPUNIT_PATH_TMP" ]
 				then
 					mv "$PHPUNIT_PATH_TMP" "$PHPUNIT_PATH"
-					rm "$PHPUNIT_RESULTS_PATH"
+					#rm "$PHPUNIT_RESULTS_PATH"
 			fi
 
 			printLn "Switching directory and run results handling."
@@ -84,7 +88,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 			cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 
 	fi		
-	if [ "$FAILURE" == "true" ]
+	if [[ "$FAILURE" == "true" || $PIPE_EXIT_CODE -gt 0 ]]
 		then
 			printLn "Errors were found, exiting with error code."
 			exit 99
@@ -93,6 +97,6 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 			exit 0
 	fi
 else
-	printLn "No result file found, stopping!"
+	printLn "Mo result file found, stopping!"
 	exit 99
 fi		
