@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/Database/classes/QueryUtils/class.ilQueryUtils.php');
+require_once('./Services/Database/classes/QueryUtils/class.ilQueryUtilsInterface.php');
 
 /**
  * Class ilPostgresQueryUtils
