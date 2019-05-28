@@ -295,6 +295,7 @@ class ilPasswordAssistanceGUI
 		// Check if we need to create a new session
 		$pwassist_session = db_pwassist_session_find($userObj->getId());
 		if(
+			!is_array($pwassist_session) ||
 			count($pwassist_session) == 0 ||
 			$pwassist_session['expires'] < time() ||
 			true // comment by mjansen: wtf? :-)
@@ -415,6 +416,7 @@ class ilPasswordAssistanceGUI
 		// Retrieve the session, and check if it is valid
 		$pwassist_session = db_pwassist_session_read($pwassist_id);
 		if(
+			!is_array($pwassist_session) ||
 			count($pwassist_session) == 0 ||
 			$pwassist_session['expires'] < time()
 		)
@@ -480,6 +482,7 @@ class ilPasswordAssistanceGUI
 		$pwassist_session = db_pwassist_session_read($pwassist_id);
 
 		if(
+			!is_array($pwassist_session) ||
 			count($pwassist_session) == 0 ||
 			$pwassist_session['expires'] < time()
 		)
