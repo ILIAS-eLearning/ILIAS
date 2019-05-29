@@ -10,7 +10,7 @@ Such information has often been collected in a structure reload in the ILIAS set
 The GlobalScreen service needs the information which GlobalScreen providers exist for which scope (e.g. MainBar or MetaBar) in the core. Instead of loading this information from the database with each request, an array of class names implementing the respective provider interface is sufficient. Therefore, the GlobalScreen provider now collects all class names in a BootLoader and can request them directly in the source code. The collection of the class names is done automatically during the development, what is stored is a so called artifact:
 
 ```php
-// libs/ilias/Artifacts/BootLoader/global_screen_bootloader.php
+// libs/ilias/Artifacts/global_screen_providers.php
 
 <?php return array (
   'ILIAS\\GlobalScreen\\Scope\\MainMenu\\Provider\\StaticMainMenuProvider' => 
@@ -43,7 +43,7 @@ The GlobalScreen service can now easily load and use this artifact:
 	 */
 	public function __construct(Container $dic) {
 		 ... 
-		$this->class_loader = include "libs/ilias/Artifacts/BootLoader/global_screen_bootloader.php";
+		$this->class_loader = include "libs/ilias/Artifacts/global_screen_providers.php";
 	}
 
 ```
@@ -53,31 +53,28 @@ Performance. Such a BootLoader will cause the information to be practically in-m
 
 ## Why just now?
 The generation of such artifacts should be placed close to the development process. By eliminating Composer dependencies as part of the repository, development is even more dependent on updating the Composer class map for autoloading, for example. Composer offers the possibility to connect own scripts to certain events. 
-However, in order not to bind the generation of artifacts to Composer per se, the call of such scripts is abstracted a little, so that e.g. in the future such scripts could be bound to an ILIAS-CLI.
 And Generators! We still use them very little. Generators are brutally fast, especially to quickly go through and minimize large lists. https://www.php.net/manual/en/language.generators.syntax.php
 
 ## How do I use it?
-Currently scripts are called by Composer. These are registered in composer.json:
+In composer.json there is a new script registered which is called in two ways:
 
 ```
 // libs/composer/composer.json
 ...
 	"scripts": {
-		"post-autoload-dump": [
-			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
-		],
-		"gs-bootloader": [
-			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
-		]
-	},
+    		"post-autoload-dump": [
+    			"\\ILIAS\\ArtifactBuilder\\ComposerArtifactBuilder::run"
+    		],
+    		"artifacts": [
+    			"\\ILIAS\\ArtifactBuilder\\ComposerArtifactBuilder::run"
+    		]
+    	},
 ...
 ```
 
-the above example now means that my script is called after a `composer dump-autoload` as well as after a `composer gs-bootloader`.
+the above example now means that the building of artifacts is called after a `composer dump-autoload` as well as after a `composer artifacts`.
 
-For your own script you can use `AbstractComposerScript` and only return an `EventHandler`. EventHandlers are called (`run()`) and then on its `artifact` a `save()` is called. An example here: 
-
-`src/GlobalScreen/Bootloader/BuildBootloader.php`
+For your own artifact-builder you can implement the interface `ArtifactBuilder` or extend from `AbstractArtifactBuilder`. In your `ArtifactBuilder` you return a `Artifact` which then will be `save()`ed. There is currently on implemented Artifact called `ClassNameCollectionArtifact`.
 
 ## Plugins
 The above statements are in favor of information provided by the Core. Of course, ILIAS plugins often also contribute information. Due to the current plugin slots these data would have to be added to the information provided by the core (see e.g. `ilGSProviderFactory`). For later adjustments of the PluginsSlots it should be considered that such information can be requested through the slot at the Plugins.
