@@ -428,6 +428,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 				$res = $res->map($op);
 			} elseif ($op instanceof Constraint) {
 				$res = $op->applyTo($res);
+			} else {
+				throw new \LogicException(
+					"Do not know what to do with this: ".$op
+				);
 			}
 		}
 
