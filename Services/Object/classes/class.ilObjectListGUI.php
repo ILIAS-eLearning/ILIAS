@@ -3066,7 +3066,7 @@ class ilObjectListGUI
 					count($tags));*/
 
 				$f = $this->ui->factory();
-				$this->addHeaderGlyph("tags", $f->glyph()->tag("#")
+				$this->addHeaderGlyph("tags", $f->symbol()->glyph()->tag("#")
 					->withCounter($f->counter()->status((int) count($tags))),
 					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js));
 
