@@ -88,11 +88,20 @@ class ilCopyWizardOptions
 
 	/**
 	 * Get required steps
-	 * @return type
+	 * @return int
 	 */
 	public function getRequiredSteps()
 	{
-		return count($this->options[0]) + count($this->options[-1]);
+		$steps = 0;
+		if(is_array($this->options) && array_key_exists(0,$this->options))
+		{
+			$steps += $this->options[0];
+		}
+		if(is_array($this->options) && array_key_exists(-1,$this->options))
+		{
+			$steps += $this->options[-1];
+		}
+		return $steps;
 	}
 	
 	
