@@ -7529,7 +7529,7 @@ hr.il-divider-with-label {
 .il-viewcontrol-mode .ilSubmitInactive,
 .il-viewcontrol-mode .ilSubmitInactive:hover {
   background-color: #557196;
-  color: white;
+  color: #ffffff;
   border-color: transparent;
 }
 .il-viewcontrol-sortation .dropdown-toggle .caret {
@@ -7596,7 +7596,7 @@ ul.breadcrumb li:hover {
   overflow: hidden;
 }
 .il-chart-scale-bar-active {
-  color: white;
+  color: #ffffff;
   background-color: #4c6586;
 }
 /*****************/
@@ -7724,7 +7724,7 @@ ul.breadcrumb li:hover {
   min-width: 60px;
   vertical-align: top;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .il-standard-form .il-standard-form-cmd .btn {
     min-width: 0;
   }
@@ -7802,7 +7802,7 @@ ul.breadcrumb li:hover {
   background-color: #4c6586;
 }
 .il-input-tag.disabled {
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   cursor: not-allowed;
 }
 .il-input-tag.disabled input {
@@ -7913,7 +7913,7 @@ ul.breadcrumb li:hover {
   margin: 3px 8px 3px 0;
   padding: 0 8px;
   float: left;
-  background-color: white;
+  background-color: #ffffff;
   font-size: 0.8em;
 }
 .il-filter-input-section {
@@ -7951,7 +7951,7 @@ ul.breadcrumb li:hover {
   }
 }
 .il-filter.disabled .input-group-addon {
-  background-color: white;
+  background-color: #ffffff;
   color: #b0b0b0;
 }
 .il-filter.disabled .input-group span.form-control {
@@ -7978,7 +7978,7 @@ ul.breadcrumb li:hover {
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled) {
   color: #4c6586;
-  background-color: white;
+  background-color: #ffffff;
   border-color: #708bae;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
@@ -8026,11 +8026,11 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled.focus,
 .il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled].focus,
 fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
-  background-color: white;
+  background-color: #ffffff;
   border-color: #708bae;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled) .badge {
-  color: white;
+  color: #ffffff;
   background-color: #4c6586;
 }
 .il-table-presentation-viewcontrols .il-viewcontrol-pagination {
@@ -8045,10 +8045,10 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-row {
   white-space: nowrap;
   margin: 0;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   padding-top: 6px;
   padding-bottom: 6px;
-  background-color: white;
+  background-color: #ffffff;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
 .il-table-presentation-row .il-table-presentation-row-contents {
@@ -8146,10 +8146,10 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
   padding: 0;
 }
 .il-workflow-container .il-workflow-step:before {
-  background-color: white;
+  background-color: #ffffff;
   border: 1px solid #4c6586;
   border-radius: 50%;
-  color: white;
+  color: #ffffff;
   content: "";
   font-family: Glyphicons Halflings;
   font-size: 10px;
@@ -8167,14 +8167,14 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-workflow-container .not-available:before,
 .il-workflow-container .no-longer-available:before {
   content: "\e033";
-  color: #ddd;
+  color: #dddddd;
   background-color: #f5f5f5;
   border: none;
 }
 .il-workflow-container .not-available.in-progress:before,
 .il-workflow-container .no-longer-available.in-progress:before {
   background-color: #a1b3ca;
-  color: white;
+  color: #ffffff;
 }
 .il-workflow-container .not-available.in-progress .text span,
 .il-workflow-container .no-longer-available.in-progress .text span {
@@ -8183,15 +8183,15 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 }
 .il-workflow-container .not-available .text,
 .il-workflow-container .no-longer-available .text {
-  color: #ddd;
+  color: #dddddd;
 }
 .il-workflow-container .no-longer-available:before {
   content: "\e023";
 }
 .il-workflow-container .completed-successfully:before,
 .il-workflow-container .completed-unsuccessfully:before {
-  background-color: #ddd;
-  color: white;
+  background-color: #dddddd;
+  color: #ffffff;
 }
 .il-workflow-container .completed-successfully:before {
   content: "\e013";
@@ -8235,7 +8235,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 }
 .il-workflow-container .available .il-workflow-step-label,
 .il-workflow-container .available .il-workflow-step-label .btn.btn-link {
-  color: #333;
+  color: #333333;
   font-size: 14px;
   font-weight: 600;
 }
@@ -8244,7 +8244,7 @@ div.alert div {
 }
 div.alert ul {
   margin-top: 15px;
-  background-color: white;
+  background-color: #ffffff;
   padding: 6px 12px;
   font-size: 12px;
   color: #909090;
@@ -8309,10 +8309,13 @@ div.alert ul > li:before {
   background-color: #ffffd0;
 }
 .shadow-right {
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
 }
 .shadow-bottom {
-  box-shadow: 0 1px 4px #ccc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.shadow-top {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 * {
   box-sizing: border-box;
@@ -8341,13 +8344,6 @@ grid-based layout
   grid-template-columns: 80px 1fr;
   -ms-grid-rows: 60px 33px 1fr;
   grid-template-rows: 60px 33px 1fr;
-  /* // not supported in IE, use track-line instead
-	grid-template-areas:
-    "header header"
-	"breadcrumbs breadcrumbs"
-    "mainbar content"
-    "footer footer";
-	*/
   height: 100%;
   overflow: hidden;
   width: 100%;
@@ -8371,6 +8367,8 @@ grid-based layout
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: -ms-flexbox;
@@ -8389,7 +8387,7 @@ header {
 .header-inner {
   -ms-flex-align: center;
   align-items: center;
-  background: #fff;
+  background: #ffffff;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
@@ -8410,8 +8408,8 @@ header {
 .breadcrumbs {
   -ms-flex-align: center;
   align-items: center;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
+  background-color: #ffffff;
+  border-top: 1px solid #dddddd;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row;
@@ -8423,14 +8421,14 @@ header {
   grid-column-end: 3;
   grid-row: 2;
   z-index: 998;
-  box-shadow: 0 1px 4px #ccc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 .breadcrumbs ul.breadcrumb {
   padding-left: 100px;
 }
 .breadcrumbs ul.breadcrumb > li + li:before {
   content: " \e606";
-  color: #bbb;
+  color: #bbbbbb;
   font-family: "il-icons";
 }
 /* mainbar */
@@ -8442,7 +8440,7 @@ nav.il-maincontrols {
   z-index: 997;
 }
 .il-maincontrols-mainbar {
-  background-color: #fff;
+  background-color: #ffffff;
   display: -ms-grid;
   display: grid;
   height: 100%;
@@ -8458,7 +8456,7 @@ nav.il-maincontrols {
   -ms-grid-row: 1;
   grid-column: 1;
   grid-row: 1;
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   z-index: 996;
 }
 .il-mainbar-tools-button {
@@ -8466,12 +8464,6 @@ nav.il-maincontrols {
   display: flex;
   -ms-flex-direction: row;
   flex-direction: row;
-}
-.il-viewcontrol-mode .ilSubmitInactive,
-.il-viewcontrol-mode .ilSubmitInactive:hover {
-  background-color: #557196;
-  color: #ffffff;
-  border-color: transparent;
 }
 .il-mainbar-tools-button button {
   height: 80px;
@@ -8493,12 +8485,6 @@ nav.il-maincontrols {
   grid-column: 2;
   grid-row: 1;
 }
-.il-mainbar-remove-tool {
-  display: none;
-}
-.il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
-  display: block;
-}
 /* content */
 main {
   display: block;
@@ -8517,1321 +8503,6 @@ footer {
   grid-area: footer;
   z-index: 2;
 }
-/*
-**************************************************************
-       mobile Layout
-**************************************************************
-*/
-@media only screen and (max-width: 767px) {
-  .il-layout-page {
-    background: #f0f0f0;
-    display: -ms-grid;
-    display: grid;
-    grid-gap: 0px;
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-    -ms-grid-rows: 45px 33px 1fr 50px;
-    grid-template-rows: 45px 33px 1fr 50px;
-    height: 100%;
-    overflow: hidden;
-    width: 100%;
-  }
-  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar {
-    display: grid;
-    display: -ms-grid;
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-    -ms-grid-rows: 0 50px;
-    grid-template-rows: 0 50px;
-  }
-  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
-    display: none;
-  }
-  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar {
-    -ms-grid-column: 1;
-    -ms-grid-row: 2;
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
-    -ms-grid-column: 1;
-    -ms-grid-row: 1;
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .il-layout-page.with-mainbar-slates-engaged {
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-  }
-  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols {
-    -ms-grid-column: 1;
-    -ms-grid-row: 3;
-    -ms-grid-row-span: 2;
-    grid-column: 1;
-    grid-row: 3;
-    grid-row-end: 4;
-    height: 100%;
-  }
-  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
-    -ms-grid-columns: 1fr;
-    grid-template-columns: 1fr;
-    -ms-grid-rows: 1fr 50px;
-    grid-template-rows: 1fr 50px;
-    width: 100%;
-  }
-  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
-    -ms-grid-column: 1;
-    -ms-grid-row: 1;
-    grid-column: 1;
-    grid-row: 1;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    width: 100%;
-    z-index: 995;
-  }
-  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
-    overflow-y: auto;
-  }
-  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
-    display: -ms-flexbox;
-    display: flex;
-  }
-  /* metabar */
-  header {
-    -ms-grid-column: 1;
-    -ms-grid-row: 1;
-    grid-column: 1;
-    grid-row: 1;
-    z-index: 999;
-  }
-  .header-inner {
-    height: 45px;
-    padding: 0;
-    width: 100%;
-  }
-  /* breadcrumbs */
-  .breadcrumbs {
-    -ms-flex-align: center;
-    align-items: center;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -ms-grid-column: 1;
-    -ms-grid-row: 2;
-    grid-column: 1;
-    grid-row: 2;
-    z-index: 998;
-    box-shadow: 0 1px 4px #ccc;
-  }
-  .breadcrumbs ul.breadcrumb {
-    padding-left: 20px;
-  }
-  .breadcrumbs ul.breadcrumb > li + li:before {
-    content: " \e606";
-    color: #bbb;
-    font-family: "il-icons";
-  }
-  /* mainbar */
-  nav.il-maincontrols {
-    -ms-grid-column: 1;
-    -ms-grid-row: 4;
-    grid-column: 1;
-    grid-row: 4;
-    width: 100%;
-    z-index: 997;
-  }
-  .il-maincontrols-mainbar {
-    display: block;
-    width: 100%;
-  }
-  .il-mainbar {
-    background-color: #4a4a4a;
-    display: -ms-flexbox;
-    display: flex;
-    z-index: 996;
-  }
-  .il-mainbar-tools-button {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: row;
-    flex-direction: row;
-  }
-  .il-mainbar-tools-button button {
-    height: 50px;
-    width: 75px;
-  }
-  .il-mainbar-tools-entries button {
-    height: 50px;
-    width: 75px;
-  }
-  .il-mainbar-tools-entries.engaged {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: row;
-    flex-direction: row;
-  }
-  .il-mainbar-slates {
-    -ms-grid-column: 2;
-    -ms-grid-row: 1;
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .il-mainbar-remove-tool {
-    display: none;
-  }
-  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
-    display: block;
-  }
-  /* content */
-  main {
-    display: block;
-  }
-  .il-layout-page-content {
-    -ms-grid-column: 1;
-    -ms-grid-row: 3;
-    grid-column: 1;
-    grid-row: 3;
-    overflow: auto;
-    padding: 20px;
-  }
-}
-.il-maincontrols-slate.disengaged {
-  display: none;
-}
-.il-maincontrols-slate .btn-bulky {
-  align-items: center;
-  background-color: #f2f2f2;
-  display: flex;
-  margin-bottom: 2px;
-  padding: 10px 20px;
-}
-.il-maincontrols-slate .btn-bulky.disengaged:before {
-  content: " \e606";
-  font-family: "il-icons";
-  font-size: 2.1rem;
-  margin-right: 10px;
-}
-.il-maincontrols-slate .btn-bulky.engaged:before {
-  content: " \e604";
-  font-family: "il-icons";
-  font-size: 2.1rem;
-  margin-right: 10px;
-}
-.il-maincontrols-slate .btn-bulky:hover,
-.il-maincontrols-slate .btn-bulky.engaged {
-  background-color: #d1d8e3;
-  border-color: #e0e0e0;
-  color: inherit;
-}
-.il-maincontrols-slate .btn-bulky .icon {
-  filter: invert(50%);
-  margin-right: 10px;
-}
-.il-maincontrols-slate .btn-bulky .bulky-label {
-  font-size: 1.5rem;
-}
-.il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
-  background-color: #e3e3e3;
-}
-.il-maincontrols-slate-overflow {
-  min-height: 0;
-}
-.il-maincontrols-slate-content p,
-.il-maincontrols-slate-content h1,
-.il-maincontrols-slate-content h2,
-.il-maincontrols-slate-content h3,
-.il-maincontrols-slate-content h4 {
-  padding: 10px 20px;
-}
-.il-maincontrols-slate-close button,
-.il-maincontrols-slate-back button {
-  background-color: transparent;
-}
-.il-maincontrols-slate-back {
-  display: none;
-}
-.il-maincontrols-slate-back.active {
-  display: block;
-}
-.il-maincontrols-slate-back button {
-  width: 100%;
-  text-align: left;
-  padding: 30px 0 10px 20px;
-}
-.il-maincontrols-slate-close {
-  width: 100%;
-  border-bottom: 1px solid #eee;
-  border-top: 1px solid #eee;
-  height: 50px;
-  margin-top: auto;
-  bottom: 0;
-  position: sticky;
-}
-.il-maincontrols-slate-close .bulky-label {
-  display: none;
-}
-.il-maincontrols-slate-close .btn-bulky {
-  background-color: #fff;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  text-align: right;
-}
-.il-maincontrols-slate-close .btn-bulky .glyph {
-  padding-right: 20px;
-}
-.il-maincontrols-slate-close .btn-bulky.engaged {
-  background-color: #fff;
-  border: 0;
-}
-.il-maincontrols-slate-close .btn-bulky:active,
-.il-maincontrols-slate-close .btn-bulky:focus {
-  outline: none;
-}
-.il-maincontrols-metabar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.il-maincontrols-metabar .il-metabar-entries {
-  align-items: center;
-  display: flex;
-  height: 60px;
-}
-.il-maincontrols-metabar .il-metabar-entries .il-metabar-entry,
-.il-maincontrols-metabar .il-metabar-entries .il-logout {
-  padding-left: 10px;
-}
-.il-metabar-entry {
-  position: relative;
-}
-.il-metabar-entry .btn .badge {
-  margin-top: -20px;
-}
-.il-metabar-entry .il-counter-status {
-  margin-top: -4px;
-}
-.il-metabar-entry > .btn-bulky > div > .bulky-label {
-  display: none;
-}
-.il-metabar-entry .btn-bulky {
-  background-color: transparent;
-  height: 60px;
-  min-width: 60px;
-}
-.il-metabar-entry .btn-bulky.engaged,
-.il-metabar-entry .btn-bulky.engaged:focus {
-  box-shadow: 1px 3px 4px #ccc;
-  background-color: #fafafa;
-  border: none;
-  color: initial;
-  outline-color: transparent;
-}
-.il-metabar-entry .btn-bulky .glyphicon {
-  color: #aaa;
-  font-size: 2.3rem;
-}
-.il-metabar-entry .glyphicon {
-  font-family: 'il-icons';
-}
-.il-chart-scale-bar-active {
-  color: #ffffff;
-  background-color: #4c6586;
-}
-.il-metabar-entry .glyphicon-bell:before {
-  content: "\e027";
-}
-.il-metabar-entry .glyphicon-comment:before {
-  content: "\e04a";
-}
-.il-metabar-entry .glyphicon-envelope:before {
-  content: "\e086";
-}
-.il-metabar-entry .glyphicon-question-sign:before {
-  content: "\e05d";
-}
-.il-metabar-entry .glyphicon-search:before {
-  content: "\e090";
-}
-.il-metabar-entry .glyphicon-user:before {
-  content: "\e005";
-}
-.il-metabar-slates {
-  box-shadow: 1px 3px 4px #ccc;
-  background-color: #fafafa;
-  position: absolute;
-  right: 0;
-}
-.il-maincontrols-mainbar .btn-bulky {
-  font-size: 0.7rem;
-}
-.il-maincontrols-mainbar .bulky-label {
-  white-space: normal;
-  margin-top: 5px;
-  display: block;
-}
-.il-maincontrols-mainbar .btn:focus,
-.il-maincontrols-metabar .btn:focus,
-.il-maincontrols-mainbar .btn:active,
-.il-maincontrols-metabar .btn:active {
-  border: 0;
-  outline: 0;
-}
-.il-mainbar-triggers {
-  background: #4a4a4a;
-  display: flex;
-  position: relative;
-  width: 80px;
-  z-index: 1;
-}
-.il-mainbar-triggers .btn-bulky {
-  height: 80px;
-  width: 80px;
-  justify-content: center;
-  padding: 0;
-  display: inline-flex;
-  flex-flow: column wrap;
-  align-items: center;
-  width: 100%;
-  border: 0;
-  background: #4a4a4a;
-  border-bottom: 1px solid #ddd;
-  color: #fff;
-}
-.il-mainbar-triggers .btn-bulky img {
-  filter: invert(100%);
-}
-.il-mainbar-triggers .btn-bulky.engaged {
-  background-color: #fff;
-  color: #4a4a4a;
-}
-.il-mainbar-triggers .btn-bulky.engaged img {
-  filter: invert(50%);
-}
-.il-mainbar-triggers .btn-bulky:focus {
-  outline: none;
-}
-.il-mainbar-triggers .btn-bulky .bulky-label {
-  white-space: normal;
-  margin-top: 5px;
-  display: block;
-}
-.il-mainbar-triggers.engaged {
-  background: #fff;
-}
-.il-mainbar-slates {
-  box-shadow: 1px 3px 4px #ccc;
-  width: 400px;
-  display: none;
-}
-.il-mainbar-tools-button .btn-bulky,
-.il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: #d2dae5;
-  border: 0;
-  color: #4a4a4a;
-  padding: 0;
-}
-.il-mainbar-tools-button .btn-bulky img,
-.il-mainbar-tools-button .btn-bulky.engaged img {
-  filter: invert(35%);
-}
-.il-mainbar-tools-entries {
-  display: none;
-}
-.il-mainbar-tools-entries.engaged {
-  display: block;
-  flex-shrink: 0;
-}
-.il-mainbar-tools-entries .btn-bulky {
-  background-color: #91a5c1;
-  color: #fff;
-  padding: 0;
-}
-.il-mainbar-tools-entries .btn-bulky .icon {
-  filter: invert(100%);
-}
-.il-mainbar-tools-entries .btn-bulky.engaged {
-  background-color: #fff;
-  border: 0;
-  color: #4a4a4a;
-}
-.il-mainbar-tools-entries .btn-bulky.engaged .icon {
-  filter: invert(60%);
-}
-.il-mainbar-close-slates {
-  align-items: flex-end;
-  display: flex;
-  flex-shrink: 0;
-  height: 45px;
-}
-.il-mainbar-close-slates .btn-bulky {
-  background-color: transparent;
-  border-top: 1px solid #ddd;
-  display: flex;
-  flex-direction: row;
-  height: 45px;
-  justify-content: flex-end;
-  align-items: center;
-}
-.il-mainbar-close-slates .btn-bulky .bulky-label {
-  display: none;
-}
-.il-mainbar-close-slates .btn-bulky .glyph:before {
-  content: " \e605";
-  display: block;
-  font-family: "il-icons";
-  font-size: 2.1rem;
-}
-.il-mainbar-close-slates .btn-bulky .glyph .glyphicon {
-  display: none;
-}
-.il-mainbar-remove-tool .close {
-  color: #4c6586;
-  font-size: 4.5rem;
-  font-weight: 300;
-  height: auto;
-  padding: 0 30px;
-  width: auto;
-}
-.il-mainbar-slates > .il-maincontrols-slate.engaged {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative;
-}
-.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
-  height: 0px;
-}
-@media (max-width: 768px) {
-  .il-standard-form .il-standard-form-cmd .btn {
-    min-width: 0;
-  }
-}
-/*
-**************************************************************
-       mobile Layout
-**************************************************************
-*/
-@media only screen and (max-width: 767px) {
-  .il-mainbar-triggers {
-    background: #4a4a4a;
-    display: flex;
-    position: relative;
-    width: 100%;
-    z-index: 1;
-  }
-  .il-mainbar-triggers .btn-bulky {
-    border: 0;
-    height: 50px;
-    width: 75px;
-  }
-}
-.il-drilldown ul {
-  list-style: none;
-  padding: 0;
-}
-.il-drilldown .btn-bulky {
-  align-items: center;
-  display: flex;
-}
-.il-drilldown .il-drilldown-current .btn-bulky {
-  cursor: auto;
-}
-.il-drilldown .il-drilldown-structure,
-.il-drilldown .il-drilldown-current ul,
-.il-drilldown .il-drilldown-backlink ul,
-.il-drilldown .il-drilldown-visible ul {
-  display: none;
-}
-.icon {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("images/icon_default.svg");
-  display: inline-block;
-  text-align: center;
-  /* the custom-icon is rendered with an image contained in the div */
-  /* add known standard classes here */
-}
-.icon .abbreviation {
-  font-weight: bold;
-  position: absolute;
-}
-.icon img {
-  float: left;
-}
-.icon.small {
-  height: 20px;
-  width: 20px;
-  line-height: 20px;
-}
-.icon.small .abbreviation {
-  font-size: 8px;
-  width: 20px;
-}
-.icon.small img {
-  width: 20px;
-  height: 20px;
-}
-.icon.medium {
-  height: 35px;
-  width: 35px;
-  line-height: 35px;
-}
-.icon.medium .abbreviation {
-  font-size: 14px;
-  width: 35px;
-}
-.icon.medium img {
-  width: 35px;
-  height: 35px;
-}
-.icon.large {
-  height: 45px;
-  width: 45px;
-  line-height: 45px;
-}
-.icon.large .abbreviation {
-  font-size: 18px;
-  width: 45px;
-}
-.il-input-tag.disabled {
-  background-color: #eeeeee;
-  cursor: not-allowed;
-}
-.icon.large img {
-  width: 45px;
-  height: 45px;
-}
-.icon.responsive {
-  width: 100%;
-  line-height: 35px;
-}
-.icon.responsive .abbreviation {
-  font-size: 14px;
-  width: 35px;
-}
-.icon.responsive img {
-  width: 100%;
-  height: auto;
-}
-.icon.disabled {
-  -webkit-filter: grayscale(100%);
-  /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%);
-}
-.icon.custom {
-  background-image: none;
-}
-.icon.grp .abbreviation,
-.icon.cat .abbreviation,
-.icon.crs .abbreviation,
-.icon.mob .abbreviation,
-.icon.mail .abbreviation,
-.icon.sahs .abbreviation,
-.icon.adm .abbreviation,
-.icon.usrf .abbreviation,
-.icon.rolf .abbreviation,
-.icon.objf .abbreviation,
-.icon.usr .abbreviation,
-.icon.typ .abbreviation,
-.icon.rolt .abbreviation,
-.icon.lngf .abbreviation,
-.icon.lng .abbreviation,
-.icon.role .abbreviation,
-.icon.dbk .abbreviation,
-.icon.glo .abbreviation,
-.icon.root .abbreviation,
-.icon.lm .abbreviation,
-.icon.notf .abbreviation,
-.icon.note .abbreviation,
-.icon.frm .abbreviation,
-.icon.exc .abbreviation,
-.icon.auth .abbreviation,
-.icon.fold .abbreviation,
-.icon.file .abbreviation,
-.icon.tst .abbreviation,
-.icon.qpl .abbreviation,
-.icon.recf .abbreviation,
-.icon.mep .abbreviation,
-.icon.htlm .abbreviation,
-.icon.svy .abbreviation,
-.icon.spl .abbreviation,
-.icon.cals .abbreviation,
-.icon.trac .abbreviation,
-.icon.assf .abbreviation,
-.icon.stys .abbreviation,
-.icon.crsg .abbreviation,
-.icon.webr .abbreviation,
-.icon.seas .abbreviation,
-.icon.extt .abbreviation,
-.icon.adve .abbreviation,
-.icon.ps .abbreviation,
-.icon.nwss .abbreviation,
-.icon.feed .abbreviation,
-.icon.mcst .abbreviation,
-.icon.pdts .abbreviation,
-.icon.rcrs .abbreviation,
-.icon.mds .abbreviation,
-.icon.cmps .abbreviation,
-.icon.facs .abbreviation,
-.icon.svyf .abbreviation,
-.icon.sess .abbreviation,
-.icon.mcts .abbreviation,
-.icon.wiki .abbreviation,
-.icon.crsr .abbreviation,
-.icon.catr .abbreviation,
-.icon.tags .abbreviation,
-.icon.cert .abbreviation,
-.icon.lrss .abbreviation,
-.icon.accs .abbreviation,
-.icon.mobs .abbreviation,
-.icon.frma .abbreviation,
-.icon.book .abbreviation,
-.icon.skmg .abbreviation,
-.icon.blga .abbreviation,
-.icon.prfa .abbreviation,
-.icon.chtr .abbreviation,
-.icon.chta .abbreviation,
-.icon.otpl .abbreviation,
-.icon.blog .abbreviation,
-.icon.dcl .abbreviation,
-.icon.poll .abbreviation,
-.icon.hlps .abbreviation,
-.icon.itgr .abbreviation,
-.icon.rcat .abbreviation,
-.icon.rwik .abbreviation,
-.icon.rlm .abbreviation,
-.icon.rglo .abbreviation,
-.icon.rfil .abbreviation,
-.icon.rgrp .abbreviation,
-.icon.rtst .abbreviation,
-.icon.ecss .abbreviation,
-.icon.tos .abbreviation,
-.icon.bibl .abbreviation,
-.icon.sysc .abbreviation,
-.icon.cld .abbreviation,
-.icon.reps .abbreviation,
-.icon.crss .abbreviation,
-.icon.grps .abbreviation,
-.icon.wbrs .abbreviation,
-.icon.prtt .abbreviation,
-.icon.orgu .abbreviation,
-.icon.wiks .abbreviation,
-.icon.excs .abbreviation,
-.icon.taxs .abbreviation,
-.icon.bibs .abbreviation,
-.icon.awra .abbreviation,
-.icon.logs .abbreviation,
-.icon.prg .abbreviation,
-.icon.prgs .abbreviation,
-.icon.cadm .abbreviation,
-.icon.grpr .abbreviation,
-.icon.bdga .abbreviation,
-.icon.wfe .abbreviation,
-.icon.iass .abbreviation {
-  display: none;
-}
-.icon.grp {
-  background-image: url("images/icon_grp.svg");
-}
-.icon.cat {
-  background-image: url("images/icon_cat.svg");
-}
-.icon.crs {
-  background-image: url("images/icon_crs.svg");
-}
-.icon.mob {
-  background-image: url("images/icon_mob.svg");
-}
-.icon.mail {
-  background-image: url("images/icon_mail.svg");
-}
-.icon.sahs {
-  background-image: url("images/icon_sahs.svg");
-}
-.icon.adm {
-  background-image: url("images/icon_adm.svg");
-}
-.icon.usrf {
-  background-image: url("images/icon_usrf.svg");
-}
-.icon.rolf {
-  background-image: url("images/icon_rolf.svg");
-}
-.icon.objf {
-  background-image: url("images/icon_objf.svg");
-}
-.icon.usr {
-  background-image: url("images/icon_usr.svg");
-}
-.icon.rolt {
-  background-image: url("images/icon_rolt.svg");
-}
-.icon.lngf {
-  background-image: url("images/icon_lngf.svg");
-}
-.icon.lng {
-  background-image: url("images/icon_lng.svg");
-}
-.icon.role {
-  background-image: url("images/icon_role.svg");
-}
-.icon.dbk {
-  background-image: url("images/icon_dbk.svg");
-}
-.icon.glo {
-  background-image: url("images/icon_glo.svg");
-}
-.icon.root {
-  background-image: url("images/icon_root.svg");
-}
-.icon.lm {
-  background-image: url("images/icon_lm.svg");
-}
-.il-filter-inputs-active span {
-  display: inline-block;
-  margin: 3px 8px 3px 0;
-  padding: 0 8px;
-  float: left;
-  background-color: #ffffff;
-  font-size: 0.8em;
-}
-.icon.notf {
-  background-image: url("images/icon_notf.svg");
-}
-.icon.note {
-  background-image: url("images/icon_note.svg");
-}
-.icon.frm {
-  background-image: url("images/icon_frm.svg");
-}
-.icon.exc {
-  background-image: url("images/icon_exc.svg");
-}
-.icon.auth {
-  background-image: url("images/icon_auth.svg");
-}
-.il-filter.disabled .input-group-addon {
-  background-color: #ffffff;
-  color: #b0b0b0;
-}
-.icon.fold {
-  background-image: url("images/icon_fold.svg");
-}
-.icon.file {
-  background-image: url("images/icon_file.svg");
-}
-.icon.tst {
-  background-image: url("images/icon_tst.svg");
-}
-.icon.qpl {
-  background-image: url("images/icon_qpl.svg");
-}
-.icon.recf {
-  background-image: url("images/icon_recf.svg");
-}
-.icon.mep {
-  background-image: url("images/icon_mep.svg");
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
-  color: #4c6586;
-  background-color: #ffffff;
-  border-color: #708bae;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.htlm {
-  background-image: url("images/icon_htlm.svg");
-}
-.icon.svy {
-  background-image: url("images/icon_svy.svg");
-}
-.icon.spl {
-  background-image: url("images/icon_spl.svg");
-}
-.icon.cals {
-  background-image: url("images/icon_cals.svg");
-}
-.icon.trac {
-  background-image: url("images/icon_trac.svg");
-}
-.icon.assf {
-  background-image: url("images/icon_assf.svg");
-}
-.icon.stys {
-  background-image: url("images/icon_stys.svg");
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:hover,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:hover,
-fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):hover,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled:focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled]:focus,
-fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled).disabled.focus,
-.il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled].focus,
-fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
-  background-color: #ffffff;
-  border-color: #708bae;
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled) .badge {
-  color: #ffffff;
-  background-color: #4c6586;
-}
-.icon.crsg {
-  background-image: url("images/icon_crsg.svg");
-}
-.icon.webr {
-  background-image: url("images/icon_webr.svg");
-}
-.icon.seas {
-  background-image: url("images/icon_seas.svg");
-}
-.icon.extt {
-  background-image: url("images/icon_extt.svg");
-}
-.il-table-presentation-row {
-  white-space: nowrap;
-  margin: 0;
-  border-top: 1px solid #dddddd;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  background-color: #ffffff;
-}
-.icon.adve {
-  background-image: url("images/icon_adve.svg");
-}
-.icon.ps {
-  background-image: url("images/icon_ps.svg");
-}
-.icon.nwss {
-  background-image: url("images/icon_nwss.svg");
-}
-.icon.feed {
-  background-image: url("images/icon_feed.svg");
-}
-.icon.mcst {
-  background-image: url("images/icon_mcst.svg");
-}
-.icon.pdts {
-  background-image: url("images/icon_pdts.svg");
-}
-.icon.rcrs {
-  background-image: url("images/icon_rcrs.svg");
-}
-.icon.mds {
-  background-image: url("images/icon_mds.svg");
-}
-.icon.cmps {
-  background-image: url("images/icon_cmps.svg");
-}
-.icon.facs {
-  background-image: url("images/icon_facs.svg");
-}
-.icon.svyf {
-  background-image: url("images/icon_svyf.svg");
-}
-.icon.sess {
-  background-image: url("images/icon_sess.svg");
-}
-.icon.mcts {
-  background-image: url("images/icon_mcts.svg");
-}
-.icon.wiki {
-  background-image: url("images/icon_wiki.svg");
-}
-.icon.crsr {
-  background-image: url("images/icon_crsr.svg");
-}
-.icon.catr {
-  background-image: url("images/icon_catr.svg");
-}
-.icon.tags {
-  background-image: url("images/icon_tags.svg");
-}
-.icon.cert {
-  background-image: url("images/icon_cert.svg");
-}
-.icon.lrss {
-  background-image: url("images/icon_lrss.svg");
-}
-.il-workflow-container .il-workflow-step:before {
-  background-color: #ffffff;
-  border: 1px solid #4c6586;
-  border-radius: 50%;
-  color: #ffffff;
-  content: "";
-  font-family: Glyphicons Halflings;
-  font-size: 10px;
-  height: 20px;
-  line-height: 18px;
-  margin-left: 5px;
-  padding-left: 1px;
-  position: absolute;
-  text-align: center;
-  width: 20px;
-}
-.icon.accs {
-  background-image: url("images/icon_accs.svg");
-}
-.icon.mobs {
-  background-image: url("images/icon_mobs.svg");
-}
-.icon.frma {
-  background-image: url("images/icon_frma.svg");
-}
-.il-workflow-container .not-available:before,
-.il-workflow-container .no-longer-available:before {
-  content: "\e033";
-  color: #dddddd;
-  background-color: #f5f5f5;
-  border: none;
-}
-.il-workflow-container .not-available.in-progress:before,
-.il-workflow-container .no-longer-available.in-progress:before {
-  background-color: #a1b3ca;
-  color: #ffffff;
-}
-.icon.book {
-  background-image: url("images/icon_book.svg");
-}
-.icon.skmg {
-  background-image: url("images/icon_skmg.svg");
-}
-.il-workflow-container .not-available .text,
-.il-workflow-container .no-longer-available .text {
-  color: #dddddd;
-}
-.icon.blga {
-  background-image: url("images/icon_blga.svg");
-}
-.icon.prfa {
-  background-image: url("images/icon_prfa.svg");
-}
-.il-workflow-container .completed-successfully:before,
-.il-workflow-container .completed-unsuccessfully:before {
-  background-color: #dddddd;
-  color: #ffffff;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.chtr {
-  background-image: url("images/icon_chtr.svg");
-}
-.icon.chta {
-  background-image: url("images/icon_chta.svg");
-}
-.icon.otpl {
-  background-image: url("images/icon_otpl.svg");
-}
-.icon.blog {
-  background-image: url("images/icon_blog.svg");
-}
-.icon.dcl {
-  background-image: url("images/icon_dcl.svg");
-}
-.icon.poll {
-  background-image: url("images/icon_poll.svg");
-}
-.icon.hlps {
-  background-image: url("images/icon_hlps.svg");
-}
-.icon.itgr {
-  background-image: url("images/icon_itgr.svg");
-}
-.icon.rcat {
-  background-image: url("images/icon_rcat.svg");
-}
-.icon.rwik {
-  background-image: url("images/icon_rwik.svg");
-}
-.icon.rlm {
-  background-image: url("images/icon_rlm.svg");
-}
-.il-workflow-container .available .il-workflow-step-label,
-.il-workflow-container .available .il-workflow-step-label .btn.btn-link {
-  color: #333333;
-  font-size: 14px;
-  font-weight: 600;
-}
-.icon.rglo {
-  background-image: url("images/icon_rglo.svg");
-}
-.icon.rfil {
-  background-image: url("images/icon_rfil.svg");
-}
-div.alert ul {
-  margin-top: 15px;
-  background-color: #ffffff;
-  padding: 6px 12px;
-  font-size: 12px;
-  color: #909090;
-  list-style-type: none;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.rgrp {
-  background-image: url("images/icon_rgrp.svg");
-}
-.icon.rtst {
-  background-image: url("images/icon_rtst.svg");
-}
-.icon.ecss {
-  background-image: url("images/icon_ecss.svg");
-}
-.icon.tos {
-  background-image: url("images/icon_tos.svg");
-}
-.icon.bibl {
-  background-image: url("images/icon_bibl.svg");
-}
-.icon.sysc {
-  background-image: url("images/icon_sysc.svg");
-}
-.icon.cld {
-  background-image: url("images/icon_cld.svg");
-}
-.icon.reps {
-  background-image: url("images/icon_reps.svg");
-}
-.icon.crss {
-  background-image: url("images/icon_crss.svg");
-}
-.icon.grps {
-  background-image: url("images/icon_grps.svg");
-}
-.icon.wbrs {
-  background-image: url("images/icon_wbrs.svg");
-}
-.icon.prtt {
-  background-image: url("images/icon_prtt.svg");
-}
-.icon.orgu {
-  background-image: url("images/icon_orgu.svg");
-}
-.icon.wiks {
-  background-image: url("images/icon_wiks.svg");
-}
-.icon.excs {
-  background-image: url("images/icon_excs.svg");
-}
-.icon.taxs {
-  background-image: url("images/icon_taxs.svg");
-}
-.icon.bibs {
-  background-image: url("images/icon_bibs.svg");
-}
-.icon.awra {
-  background-image: url("images/icon_awra.svg");
-}
-.shadow-right {
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
-}
-.shadow-bottom {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-.shadow-top {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.logs {
-  background-image: url("images/icon_logs.svg");
-}
-.icon.prg {
-  background-image: url("images/icon_prg.svg");
-}
-.icon.prgs {
-  background-image: url("images/icon_prgs.svg");
-}
-/*
-*********************
-grid-based layout
-*********************
-*/
-.il-layout-page {
-  background: #f0f0f0;
-  display: -ms-grid;
-  display: grid;
-  grid-gap: 0px;
-  -ms-grid-columns: 80px 1fr;
-  grid-template-columns: 80px 1fr;
-  -ms-grid-rows: 60px 33px 1fr;
-  grid-template-rows: 60px 33px 1fr;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.cadm {
-  background-image: url("images/icon_cadm.svg");
-}
-.icon.grpr {
-  background-image: url("images/icon_grpr.svg");
-}
-.icon.bdga {
-  background-image: url("images/icon_bdga.svg");
-}
-.icon.wfe {
-  background-image: url("images/icon_wfe.svg");
-}
-<<<<<<< HEAD
-.icon.iass {
-  background-image: url("images/icon_iass.svg");
-=======
-.il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  min-height: 0;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.outlined {
-  filter: brightness(0);
-}
-.icon.outlined.disabled {
-  filter: brightness(0.3);
-}
-<<<<<<< HEAD
-.icon.outlined.grp {
-  background-image: url("images/outlined/icon_grp.svg");
-=======
-.header-inner {
-  -ms-flex-align: center;
-  align-items: center;
-  background: #ffffff;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  height: 60px;
-  padding: 0 15px;
-  position: fixed;
-  width: 100%;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.outlined.cat {
-  background-image: url("images/outlined/icon_cat.svg");
-}
-<<<<<<< HEAD
-.icon.outlined.crs {
-  background-image: url("images/outlined/icon_crs.svg");
-=======
-/* breadcrumbs */
-.breadcrumbs {
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: #ffffff;
-  border-top: 1px solid #dddddd;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
-  -ms-grid-row: 2;
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row: 2;
-  z-index: 998;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.outlined.mob {
-  background-image: url("images/outlined/icon_mob.svg");
-}
-<<<<<<< HEAD
-.icon.outlined.mail {
-  background-image: url("images/outlined/icon_mail.svg");
-=======
-.breadcrumbs ul.breadcrumb > li + li:before {
-  content: " \e606";
-  color: #bbbbbb;
-  font-family: "il-icons";
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.outlined.sahs {
-  background-image: url("images/outlined/icon_sahs.svg");
-}
-<<<<<<< HEAD
-.icon.outlined.adm {
-  background-image: url("images/outlined/icon_adm.svg");
-}
-.icon.outlined.usrf {
-  background-image: url("images/outlined/icon_usrf.svg");
-}
-.icon.outlined.rolf {
-  background-image: url("images/outlined/icon_rolf.svg");
-}
-.icon.outlined.objf {
-  background-image: url("images/outlined/icon_objf.svg");
-=======
-.il-maincontrols-mainbar {
-  background-color: #ffffff;
-  display: -ms-grid;
-  display: grid;
-  height: 100%;
-  -ms-grid-colums: 80px 400px;
-  grid-template-columns: 80px 400px;
-  -ms-grid-rows: 1fr;
-  grid-template-rows: 1fr;
-  width: 80px;
-}
-.il-mainbar {
-  background-color: #4a4a4a;
-  -ms-grid-column: 1;
-  -ms-grid-row: 1;
-  grid-column: 1;
-  grid-row: 1;
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
-  z-index: 996;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.outlined.usr {
-  background-image: url("images/outlined/icon_usr.svg");
-}
-.icon.outlined.rolt {
-  background-image: url("images/outlined/icon_rolt.svg");
-}
-.icon.outlined.lngf {
-  background-image: url("images/outlined/icon_lngf.svg");
-}
-.icon.outlined.lng {
-  background-image: url("images/outlined/icon_lng.svg");
-}
-.icon.outlined.role {
-  background-image: url("images/outlined/icon_role.svg");
-}
-<<<<<<< HEAD
-.icon.outlined.dbk {
-  background-image: url("images/outlined/icon_dbk.svg");
-}
-.icon.outlined.glo {
-  background-image: url("images/outlined/icon_glo.svg");
-}
-.icon.outlined.root {
-  background-image: url("images/outlined/icon_root.svg");
-=======
-/* content */
-main {
-  display: block;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
-}
-.icon.outlined.lm {
-  background-image: url("images/outlined/icon_lm.svg");
-}
-.icon.outlined.notf {
-  background-image: url("images/outlined/icon_notf.svg");
-}
-<<<<<<< HEAD
-.icon.outlined.note {
-  background-image: url("images/outlined/icon_note.svg");
-}
-.icon.outlined.frm {
-  background-image: url("images/outlined/icon_frm.svg");
-=======
 /*
 **************************************************************
        mobile Layout
@@ -10041,7 +8712,1042 @@ main {
     overflow: auto;
     padding: 20px;
   }
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
+}
+.il-maincontrols-slate.disengaged {
+  display: none;
+}
+.il-maincontrols-slate .btn-bulky {
+  align-items: center;
+  background-color: #f2f2f2;
+  display: flex;
+  margin-bottom: 2px;
+  padding: 10px 20px;
+}
+.il-maincontrols-slate .btn-bulky.disengaged:before {
+  content: " \e606";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky.engaged:before {
+  content: " \e604";
+  font-family: "il-icons";
+  font-size: 2.1rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky:hover,
+.il-maincontrols-slate .btn-bulky.engaged {
+  background-color: #d1d8e3;
+  border-color: #e0e0e0;
+  color: inherit;
+}
+.il-maincontrols-slate .btn-bulky .icon {
+  filter: invert(50%);
+  margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky .bulky-label {
+  font-size: 1.5rem;
+}
+.il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
+  background-color: #e3e3e3;
+}
+.il-maincontrols-slate-content p,
+.il-maincontrols-slate-content h1,
+.il-maincontrols-slate-content h2,
+.il-maincontrols-slate-content h3,
+.il-maincontrols-slate-content h4 {
+  padding: 10px 20px;
+}
+.il-maincontrols-slate-close button,
+.il-maincontrols-slate-back button {
+  background-color: transparent;
+}
+.il-maincontrols-slate-back {
+  display: none;
+}
+.il-maincontrols-slate-back.active {
+  display: block;
+}
+.il-maincontrols-slate-back button {
+  width: 100%;
+  text-align: left;
+  padding: 30px 0 10px 20px;
+}
+.il-maincontrols-slate-close {
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+  height: 50px;
+  margin-top: auto;
+  bottom: 0;
+  position: sticky;
+}
+.il-maincontrols-slate-close .bulky-label {
+  display: none;
+}
+.il-maincontrols-slate-close .btn-bulky {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+}
+.il-maincontrols-slate-close .btn-bulky .glyph {
+  padding-right: 20px;
+}
+.il-maincontrols-slate-close .btn-bulky.engaged {
+  background-color: #fff;
+  border: 0;
+}
+.il-maincontrols-slate-close .btn-bulky:active,
+.il-maincontrols-slate-close .btn-bulky:focus {
+  outline: none;
+}
+.il-maincontrols-metabar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.il-maincontrols-metabar .il-metabar-entries {
+  align-items: center;
+  display: flex;
+  height: 60px;
+}
+.il-maincontrols-metabar .il-metabar-entries .il-metabar-entry,
+.il-maincontrols-metabar .il-metabar-entries .il-logout {
+  padding-left: 10px;
+}
+.il-metabar-entries .btn {
+  position: relative;
+}
+.il-metabar-entries .btn .badge {
+  margin-top: -20px;
+}
+.il-metabar-entries .il-counter-status {
+  margin-top: -4px;
+}
+.il-metabar-entries > .btn-bulky > div > .bulky-label {
+  display: none;
+}
+.il-metabar-entries .btn-bulky {
+  background-color: transparent;
+  height: 60px;
+  min-width: 60px;
+}
+@media only screen and (max-width: 768px) {
+  .il-metabar-entries .btn-bulky {
+    height: 45px;
+    min-width: 45px;
+  }
+}
+.il-metabar-entries .btn-bulky.engaged,
+.il-metabar-entries .btn-bulky.engaged:focus {
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+  border: none;
+  color: initial;
+  outline-color: transparent;
+}
+.il-metabar-entries .btn-bulky .glyphicon {
+  color: #aaaaaa;
+  font-size: 2.3rem;
+}
+@media only screen and (max-width: 768px) {
+  .il-metabar-entries .il-metabar-more-button {
+    padding-right: 20px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom {
+    position: relative;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom img {
+    margin-right: 5px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom .badge {
+    position: absolute;
+    margin-right: 3px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
+    margin-top: -5px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-status {
+    margin-top: 10px;
+  }
+}
+.glyphicon {
+  font-family: 'il-icons';
+}
+.glyphicon-bell:before {
+  content: "\e027";
+}
+.glyphicon-comment:before {
+  content: "\e04a";
+}
+.glyphicon-envelope:before {
+  content: "\e086";
+}
+.glyphicon-question-sign:before {
+  content: "\e05d";
+}
+.glyphicon-search:before {
+  content: "\e090";
+}
+.glyphicon-user:before {
+  content: "\e005";
+}
+.il-metabar-slates {
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+  position: absolute;
+  right: 20px;
+  top: 60px;
+  /*TODO: remove hack*/
+  /*end of hack*/
+}
+@media only screen and (max-width: 768px) {
+  .il-metabar-slates {
+    width: 100%;
+    top: 45px;
+    right: 0;
+  }
+}
+.il-metabar-slates .il-maincontrols-slate {
+  min-width: 500px;
+}
+@media only screen and (max-width: 768px) {
+  .il-metabar-slates .il-maincontrols-slate {
+    min-width: 260px;
+  }
+}
+.il-header-locator {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .il-header-locator {
+    display: block;
+  }
+  .il-metabar-slates .glyphicon {
+    color: #aaaaaa;
+    font-size: 2rem;
+  }
+  .il-metabar-slates .il-counter-status,
+  .il-metabar-slates .il-counter-novelty {
+    margin-top: -20px;
+  }
+  .il-metabar-slates .bulky-label {
+    margin-left: 10px;
+  }
+  .il-metabar-slates .il-counter-spacer {
+    margin-left: -18px;
+  }
+}
+/*end of hack*/
+.il-maincontrols-mainbar .btn-bulky {
+  font-size: 0.9rem;
+  line-height: 1rem;
+}
+.il-maincontrols-mainbar .bulky-label {
+  white-space: normal;
+  margin-top: 5px;
+  display: block;
+}
+.il-maincontrols-mainbar .btn:focus,
+.il-maincontrols-metabar .btn:focus,
+.il-maincontrols-mainbar .btn:active,
+.il-maincontrols-metabar .btn:active {
+  border: 0;
+  outline: 0;
+}
+.il-maincontrols-mainbar > .il-metabar-slate-auxillary,
+.il-maincontrols-metabar > .il-metabar-slate-auxillary {
+  display: none;
+}
+.il-mainbar-triggers {
+  background: #4a4a4a;
+  display: flex;
+  position: relative;
+  width: 80px;
+  z-index: 1;
+}
+.il-mainbar-triggers .btn-bulky {
+  height: 80px;
+  width: 80px;
+  justify-content: center;
+  padding: 0;
+  display: inline-flex;
+  flex-flow: column wrap;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  background: #4a4a4a;
+  border-bottom: 1px solid #dddddd;
+  color: #ffffff;
+}
+.il-mainbar-triggers .btn-bulky img {
+  filter: invert(100%);
+}
+.il-mainbar-triggers .btn-bulky.engaged {
+  background-color: #ffffff;
+  color: #4a4a4a;
+}
+.il-mainbar-triggers .btn-bulky.engaged img {
+  filter: invert(50%);
+}
+.il-mainbar-triggers .btn-bulky:focus {
+  outline: none;
+}
+.il-mainbar-triggers .btn-bulky .bulky-label {
+  display: -webkit-box;
+  margin-top: 5px;
+  white-space: normal;
+  word-break: break-word;
+  padding: 0 2px;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.il-mainbar-triggers.engaged {
+  background: #ffffff;
+}
+.il-mainbar-slates {
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+  display: none;
+  position: relative;
+  width: 400px;
+}
+.il-mainbar-tools-button .btn-bulky,
+.il-mainbar-tools-button .btn-bulky.engaged {
+  background-color: #607ea5;
+  border: 0;
+  color: #ffffff;
+  padding: 0;
+}
+.il-mainbar-tools-button .btn-bulky img,
+.il-mainbar-tools-button .btn-bulky.engaged img {
+  filter: invert(100%);
+}
+.il-mainbar-tools-button .btn-bulky.engaged {
+  background-color: #d2dae5;
+  color: #4a4a4a;
+}
+.il-mainbar-tools-button .btn-bulky.engaged img {
+  filter: invert(35%);
+}
+.il-mainbar-tools-entries {
+  display: none;
+}
+.il-mainbar-tools-entries.engaged {
+  display: flex;
+  height: 80px;
+  flex-shrink: 0;
+}
+.il-mainbar-tools-entries .btn-bulky {
+  background-color: #91a5c1;
+  color: #ffffff;
+  padding: 0;
+}
+.il-mainbar-tools-entries .btn-bulky .icon {
+  filter: invert(100%);
+}
+.il-mainbar-tools-entries .btn-bulky.engaged {
+  background-color: #ffffff;
+  border: 0;
+  color: #4a4a4a;
+}
+.il-mainbar-tools-entries .btn-bulky.engaged .icon {
+  filter: invert(60%);
+}
+.il-mainbar-tools-entries-bg {
+  height: 80px;
+  width: 100%;
+  background: #f0f0f0;
+}
+.il-mainbar-remove-tool {
+  display: none;
+}
+.il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.il-mainbar-remove-tool .close {
+  color: #4c6586;
+  font-size: 4.5rem;
+  font-weight: 300;
+  height: 80px;
+  padding: 0 20px;
+  width: auto;
+}
+.il-mainbar-remove-tool .close:focus {
+  outline: none;
+}
+.il-mainbar-close-slates {
+  align-items: flex-end;
+  display: flex;
+  flex-shrink: 0;
+  height: 45px;
+}
+.il-mainbar-close-slates .btn-bulky {
+  background-color: transparent;
+  border-top: 1px solid #dddddd;
+  display: flex;
+  flex-direction: row;
+  height: 45px;
+  justify-content: flex-end;
+  align-items: center;
+}
+.il-mainbar-close-slates .btn-bulky .bulky-label {
+  display: none;
+}
+.il-mainbar-close-slates .btn-bulky .glyph:before {
+  content: " \e605";
+  display: block;
+  font-family: "il-icons";
+  font-size: 2.1rem;
+}
+.il-mainbar-close-slates .btn-bulky .glyph .glyphicon {
+  display: none;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
+  height: 0px;
+}
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+@media only screen and (max-width: 768px) {
+  .il-mainbar-entries {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-flow: row wrap;
+  }
+  .il-mainbar-triggers {
+    background: #4a4a4a;
+    display: flex;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+  .il-mainbar-triggers .btn-bulky {
+    flex-shrink: 0;
+    border: 0;
+    height: 50px;
+    width: 75px;
+  }
+  .il-mainbar-triggers .btn-bulky .icon.small {
+    height: 17px;
+    width: 17px;
+  }
+  .il-mainbar-tools-entries.engaged {
+    height: 50px;
+  }
+  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+    top: 0;
+  }
+  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
+    font-size: 4rem;
+    height: 50px;
+  }
+}
+.il-drilldown ul {
+  list-style: none;
+  padding: 0;
+}
+.il-drilldown .btn-bulky {
+  align-items: center;
+  display: flex;
+}
+.il-drilldown .il-drilldown-current .btn-bulky {
+  cursor: auto;
+}
+.il-drilldown .il-drilldown-structure,
+.il-drilldown .il-drilldown-current ul,
+.il-drilldown .il-drilldown-backlink ul,
+.il-drilldown .il-drilldown-visible ul {
+  display: none;
+}
+.icon {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("images/icon_default.svg");
+  display: inline-block;
+  text-align: center;
+  /* the custom-icon is rendered with an image contained in the div */
+  /* add known standard classes here */
+}
+.icon .abbreviation {
+  font-weight: bold;
+  position: absolute;
+}
+.icon img {
+  float: left;
+}
+.icon.small {
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+}
+.icon.small .abbreviation {
+  font-size: 8px;
+  width: 20px;
+}
+.icon.small img {
+  width: 20px;
+  height: 20px;
+}
+.icon.medium {
+  height: 35px;
+  width: 35px;
+  line-height: 35px;
+}
+.icon.medium .abbreviation {
+  font-size: 14px;
+  width: 35px;
+}
+.icon.medium img {
+  width: 35px;
+  height: 35px;
+}
+.icon.large {
+  height: 45px;
+  width: 45px;
+  line-height: 45px;
+}
+.icon.large .abbreviation {
+  font-size: 18px;
+  width: 45px;
+}
+.icon.large img {
+  width: 45px;
+  height: 45px;
+}
+.icon.responsive {
+  width: 100%;
+  line-height: 35px;
+}
+.icon.responsive .abbreviation {
+  font-size: 14px;
+  width: 35px;
+}
+.icon.responsive img {
+  width: 100%;
+  height: auto;
+}
+.icon.disabled {
+  -webkit-filter: grayscale(100%);
+  /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+.icon.custom {
+  background-image: none;
+}
+.icon.grp .abbreviation,
+.icon.cat .abbreviation,
+.icon.crs .abbreviation,
+.icon.mob .abbreviation,
+.icon.mail .abbreviation,
+.icon.sahs .abbreviation,
+.icon.adm .abbreviation,
+.icon.usrf .abbreviation,
+.icon.rolf .abbreviation,
+.icon.objf .abbreviation,
+.icon.usr .abbreviation,
+.icon.typ .abbreviation,
+.icon.rolt .abbreviation,
+.icon.lngf .abbreviation,
+.icon.lng .abbreviation,
+.icon.role .abbreviation,
+.icon.dbk .abbreviation,
+.icon.glo .abbreviation,
+.icon.root .abbreviation,
+.icon.lm .abbreviation,
+.icon.notf .abbreviation,
+.icon.note .abbreviation,
+.icon.frm .abbreviation,
+.icon.exc .abbreviation,
+.icon.auth .abbreviation,
+.icon.fold .abbreviation,
+.icon.file .abbreviation,
+.icon.tst .abbreviation,
+.icon.qpl .abbreviation,
+.icon.recf .abbreviation,
+.icon.mep .abbreviation,
+.icon.htlm .abbreviation,
+.icon.svy .abbreviation,
+.icon.spl .abbreviation,
+.icon.cals .abbreviation,
+.icon.trac .abbreviation,
+.icon.assf .abbreviation,
+.icon.stys .abbreviation,
+.icon.crsg .abbreviation,
+.icon.webr .abbreviation,
+.icon.seas .abbreviation,
+.icon.extt .abbreviation,
+.icon.adve .abbreviation,
+.icon.ps .abbreviation,
+.icon.nwss .abbreviation,
+.icon.feed .abbreviation,
+.icon.mcst .abbreviation,
+.icon.pdts .abbreviation,
+.icon.rcrs .abbreviation,
+.icon.mds .abbreviation,
+.icon.cmps .abbreviation,
+.icon.facs .abbreviation,
+.icon.svyf .abbreviation,
+.icon.sess .abbreviation,
+.icon.mcts .abbreviation,
+.icon.wiki .abbreviation,
+.icon.crsr .abbreviation,
+.icon.catr .abbreviation,
+.icon.tags .abbreviation,
+.icon.cert .abbreviation,
+.icon.lrss .abbreviation,
+.icon.accs .abbreviation,
+.icon.mobs .abbreviation,
+.icon.frma .abbreviation,
+.icon.book .abbreviation,
+.icon.skmg .abbreviation,
+.icon.blga .abbreviation,
+.icon.prfa .abbreviation,
+.icon.chtr .abbreviation,
+.icon.chta .abbreviation,
+.icon.otpl .abbreviation,
+.icon.blog .abbreviation,
+.icon.dcl .abbreviation,
+.icon.poll .abbreviation,
+.icon.hlps .abbreviation,
+.icon.itgr .abbreviation,
+.icon.rcat .abbreviation,
+.icon.rwik .abbreviation,
+.icon.rlm .abbreviation,
+.icon.rglo .abbreviation,
+.icon.rfil .abbreviation,
+.icon.rgrp .abbreviation,
+.icon.rtst .abbreviation,
+.icon.ecss .abbreviation,
+.icon.tos .abbreviation,
+.icon.bibl .abbreviation,
+.icon.sysc .abbreviation,
+.icon.cld .abbreviation,
+.icon.reps .abbreviation,
+.icon.crss .abbreviation,
+.icon.grps .abbreviation,
+.icon.wbrs .abbreviation,
+.icon.prtt .abbreviation,
+.icon.orgu .abbreviation,
+.icon.wiks .abbreviation,
+.icon.excs .abbreviation,
+.icon.taxs .abbreviation,
+.icon.bibs .abbreviation,
+.icon.awra .abbreviation,
+.icon.logs .abbreviation,
+.icon.prg .abbreviation,
+.icon.prgs .abbreviation,
+.icon.cadm .abbreviation,
+.icon.grpr .abbreviation,
+.icon.bdga .abbreviation,
+.icon.wfe .abbreviation,
+.icon.iass .abbreviation {
+  display: none;
+}
+.icon.grp {
+  background-image: url("images/icon_grp.svg");
+}
+.icon.cat {
+  background-image: url("images/icon_cat.svg");
+}
+.icon.crs {
+  background-image: url("images/icon_crs.svg");
+}
+.icon.mob {
+  background-image: url("images/icon_mob.svg");
+}
+.icon.mail {
+  background-image: url("images/icon_mail.svg");
+}
+.icon.sahs {
+  background-image: url("images/icon_sahs.svg");
+}
+.icon.adm {
+  background-image: url("images/icon_adm.svg");
+}
+.icon.usrf {
+  background-image: url("images/icon_usrf.svg");
+}
+.icon.rolf {
+  background-image: url("images/icon_rolf.svg");
+}
+.icon.objf {
+  background-image: url("images/icon_objf.svg");
+}
+.icon.usr {
+  background-image: url("images/icon_usr.svg");
+}
+.icon.rolt {
+  background-image: url("images/icon_rolt.svg");
+}
+.icon.lngf {
+  background-image: url("images/icon_lngf.svg");
+}
+.icon.lng {
+  background-image: url("images/icon_lng.svg");
+}
+.icon.role {
+  background-image: url("images/icon_role.svg");
+}
+.icon.dbk {
+  background-image: url("images/icon_dbk.svg");
+}
+.icon.glo {
+  background-image: url("images/icon_glo.svg");
+}
+.icon.root {
+  background-image: url("images/icon_root.svg");
+}
+.icon.lm {
+  background-image: url("images/icon_lm.svg");
+}
+.icon.notf {
+  background-image: url("images/icon_notf.svg");
+}
+.icon.note {
+  background-image: url("images/icon_note.svg");
+}
+.icon.frm {
+  background-image: url("images/icon_frm.svg");
+}
+.icon.exc {
+  background-image: url("images/icon_exc.svg");
+}
+.icon.auth {
+  background-image: url("images/icon_auth.svg");
+}
+.icon.fold {
+  background-image: url("images/icon_fold.svg");
+}
+.icon.file {
+  background-image: url("images/icon_file.svg");
+}
+.icon.tst {
+  background-image: url("images/icon_tst.svg");
+}
+.icon.qpl {
+  background-image: url("images/icon_qpl.svg");
+}
+.icon.recf {
+  background-image: url("images/icon_recf.svg");
+}
+.icon.mep {
+  background-image: url("images/icon_mep.svg");
+}
+.icon.htlm {
+  background-image: url("images/icon_htlm.svg");
+}
+.icon.svy {
+  background-image: url("images/icon_svy.svg");
+}
+.icon.spl {
+  background-image: url("images/icon_spl.svg");
+}
+.icon.cals {
+  background-image: url("images/icon_cals.svg");
+}
+.icon.trac {
+  background-image: url("images/icon_trac.svg");
+}
+.icon.assf {
+  background-image: url("images/icon_assf.svg");
+}
+.icon.stys {
+  background-image: url("images/icon_stys.svg");
+}
+.icon.crsg {
+  background-image: url("images/icon_crsg.svg");
+}
+.icon.webr {
+  background-image: url("images/icon_webr.svg");
+}
+.icon.seas {
+  background-image: url("images/icon_seas.svg");
+}
+.icon.extt {
+  background-image: url("images/icon_extt.svg");
+}
+.icon.adve {
+  background-image: url("images/icon_adve.svg");
+}
+.icon.ps {
+  background-image: url("images/icon_ps.svg");
+}
+.icon.nwss {
+  background-image: url("images/icon_nwss.svg");
+}
+.icon.feed {
+  background-image: url("images/icon_feed.svg");
+}
+.icon.mcst {
+  background-image: url("images/icon_mcst.svg");
+}
+.icon.pdts {
+  background-image: url("images/icon_pdts.svg");
+}
+.icon.rcrs {
+  background-image: url("images/icon_rcrs.svg");
+}
+.icon.mds {
+  background-image: url("images/icon_mds.svg");
+}
+.icon.cmps {
+  background-image: url("images/icon_cmps.svg");
+}
+.icon.facs {
+  background-image: url("images/icon_facs.svg");
+}
+.icon.svyf {
+  background-image: url("images/icon_svyf.svg");
+}
+.icon.sess {
+  background-image: url("images/icon_sess.svg");
+}
+.icon.mcts {
+  background-image: url("images/icon_mcts.svg");
+}
+.icon.wiki {
+  background-image: url("images/icon_wiki.svg");
+}
+.icon.crsr {
+  background-image: url("images/icon_crsr.svg");
+}
+.icon.catr {
+  background-image: url("images/icon_catr.svg");
+}
+.icon.tags {
+  background-image: url("images/icon_tags.svg");
+}
+.icon.cert {
+  background-image: url("images/icon_cert.svg");
+}
+.icon.lrss {
+  background-image: url("images/icon_lrss.svg");
+}
+.icon.accs {
+  background-image: url("images/icon_accs.svg");
+}
+.icon.mobs {
+  background-image: url("images/icon_mobs.svg");
+}
+.icon.frma {
+  background-image: url("images/icon_frma.svg");
+}
+.icon.book {
+  background-image: url("images/icon_book.svg");
+}
+.icon.skmg {
+  background-image: url("images/icon_skmg.svg");
+}
+.icon.blga {
+  background-image: url("images/icon_blga.svg");
+}
+.icon.prfa {
+  background-image: url("images/icon_prfa.svg");
+}
+.icon.chtr {
+  background-image: url("images/icon_chtr.svg");
+}
+.icon.chta {
+  background-image: url("images/icon_chta.svg");
+}
+.icon.otpl {
+  background-image: url("images/icon_otpl.svg");
+}
+.icon.blog {
+  background-image: url("images/icon_blog.svg");
+}
+.icon.dcl {
+  background-image: url("images/icon_dcl.svg");
+}
+.icon.poll {
+  background-image: url("images/icon_poll.svg");
+}
+.icon.hlps {
+  background-image: url("images/icon_hlps.svg");
+}
+.icon.itgr {
+  background-image: url("images/icon_itgr.svg");
+}
+.icon.rcat {
+  background-image: url("images/icon_rcat.svg");
+}
+.icon.rwik {
+  background-image: url("images/icon_rwik.svg");
+}
+.icon.rlm {
+  background-image: url("images/icon_rlm.svg");
+}
+.icon.rglo {
+  background-image: url("images/icon_rglo.svg");
+}
+.icon.rfil {
+  background-image: url("images/icon_rfil.svg");
+}
+.icon.rgrp {
+  background-image: url("images/icon_rgrp.svg");
+}
+.icon.rtst {
+  background-image: url("images/icon_rtst.svg");
+}
+.icon.ecss {
+  background-image: url("images/icon_ecss.svg");
+}
+.icon.tos {
+  background-image: url("images/icon_tos.svg");
+}
+.icon.bibl {
+  background-image: url("images/icon_bibl.svg");
+}
+.icon.sysc {
+  background-image: url("images/icon_sysc.svg");
+}
+.icon.cld {
+  background-image: url("images/icon_cld.svg");
+}
+.icon.reps {
+  background-image: url("images/icon_reps.svg");
+}
+.icon.crss {
+  background-image: url("images/icon_crss.svg");
+}
+.icon.grps {
+  background-image: url("images/icon_grps.svg");
+}
+.icon.wbrs {
+  background-image: url("images/icon_wbrs.svg");
+}
+.icon.prtt {
+  background-image: url("images/icon_prtt.svg");
+}
+.icon.orgu {
+  background-image: url("images/icon_orgu.svg");
+}
+.icon.wiks {
+  background-image: url("images/icon_wiks.svg");
+}
+.icon.excs {
+  background-image: url("images/icon_excs.svg");
+}
+.icon.taxs {
+  background-image: url("images/icon_taxs.svg");
+}
+.icon.bibs {
+  background-image: url("images/icon_bibs.svg");
+}
+.icon.awra {
+  background-image: url("images/icon_awra.svg");
+}
+.icon.logs {
+  background-image: url("images/icon_logs.svg");
+}
+.icon.prg {
+  background-image: url("images/icon_prg.svg");
+}
+.icon.prgs {
+  background-image: url("images/icon_prgs.svg");
+}
+.icon.cadm {
+  background-image: url("images/icon_cadm.svg");
+}
+.icon.grpr {
+  background-image: url("images/icon_grpr.svg");
+}
+.icon.bdga {
+  background-image: url("images/icon_bdga.svg");
+}
+.icon.wfe {
+  background-image: url("images/icon_wfe.svg");
+}
+.icon.iass {
+  background-image: url("images/icon_iass.svg");
+}
+.icon.outlined {
+  filter: brightness(0);
+}
+.icon.outlined.disabled {
+  filter: brightness(0.3);
+}
+.icon.outlined.grp {
+  background-image: url("images/outlined/icon_grp.svg");
+}
+.icon.outlined.cat {
+  background-image: url("images/outlined/icon_cat.svg");
+}
+.icon.outlined.crs {
+  background-image: url("images/outlined/icon_crs.svg");
+}
+.icon.outlined.mob {
+  background-image: url("images/outlined/icon_mob.svg");
+}
+.icon.outlined.mail {
+  background-image: url("images/outlined/icon_mail.svg");
+}
+.icon.outlined.sahs {
+  background-image: url("images/outlined/icon_sahs.svg");
+}
+.icon.outlined.adm {
+  background-image: url("images/outlined/icon_adm.svg");
+}
+.icon.outlined.usrf {
+  background-image: url("images/outlined/icon_usrf.svg");
+}
+.icon.outlined.rolf {
+  background-image: url("images/outlined/icon_rolf.svg");
+}
+.icon.outlined.objf {
+  background-image: url("images/outlined/icon_objf.svg");
+}
+.icon.outlined.usr {
+  background-image: url("images/outlined/icon_usr.svg");
+}
+.icon.outlined.rolt {
+  background-image: url("images/outlined/icon_rolt.svg");
+}
+.icon.outlined.lngf {
+  background-image: url("images/outlined/icon_lngf.svg");
+}
+.icon.outlined.lng {
+  background-image: url("images/outlined/icon_lng.svg");
+}
+.icon.outlined.role {
+  background-image: url("images/outlined/icon_role.svg");
+}
+.icon.outlined.dbk {
+  background-image: url("images/outlined/icon_dbk.svg");
+}
+.icon.outlined.glo {
+  background-image: url("images/outlined/icon_glo.svg");
+}
+.icon.outlined.root {
+  background-image: url("images/outlined/icon_root.svg");
+}
+.icon.outlined.lm {
+  background-image: url("images/outlined/icon_lm.svg");
+}
+.icon.outlined.notf {
+  background-image: url("images/outlined/icon_notf.svg");
+}
+.icon.outlined.note {
+  background-image: url("images/outlined/icon_note.svg");
+}
+.icon.outlined.frm {
+  background-image: url("images/outlined/icon_frm.svg");
 }
 .icon.outlined.exc {
   background-image: url("images/outlined/icon_exc.svg");
@@ -10067,20 +9773,11 @@ main {
 .icon.outlined.mep {
   background-image: url("images/outlined/icon_mep.svg");
 }
-<<<<<<< HEAD
 .icon.outlined.htlm {
   background-image: url("images/outlined/icon_htlm.svg");
 }
 .icon.outlined.svy {
   background-image: url("images/outlined/icon_svy.svg");
-=======
-.il-maincontrols-slate-content p,
-.il-maincontrols-slate-content h1,
-.il-maincontrols-slate-content h2,
-.il-maincontrols-slate-content h3,
-.il-maincontrols-slate-content h4 {
-  padding: 10px 20px;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .icon.outlined.spl {
   background-image: url("images/outlined/icon_spl.svg");
@@ -10121,7 +9818,6 @@ main {
 .icon.outlined.feed {
   background-image: url("images/outlined/icon_feed.svg");
 }
-<<<<<<< HEAD
 .icon.outlined.mcst {
   background-image: url("images/outlined/icon_mcst.svg");
 }
@@ -10253,135 +9949,6 @@ main {
 }
 .icon.outlined.crss {
   background-image: url("images/outlined/icon_crss.svg");
-=======
-.il-metabar-entries .btn {
-  position: relative;
-}
-.il-metabar-entries .btn .badge {
-  margin-top: -20px;
-}
-.il-metabar-entries .il-counter-status {
-  margin-top: -4px;
-}
-.il-metabar-entries > .btn-bulky > div > .bulky-label {
-  display: none;
-}
-.il-metabar-entries .btn-bulky {
-  background-color: transparent;
-  height: 60px;
-  min-width: 60px;
-}
-@media only screen and (max-width: 768px) {
-  .il-metabar-entries .btn-bulky {
-    height: 45px;
-    min-width: 45px;
-  }
-}
-.il-metabar-entries .btn-bulky.engaged,
-.il-metabar-entries .btn-bulky.engaged:focus {
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fafafa;
-  border: none;
-  color: initial;
-  outline-color: transparent;
-}
-.il-metabar-entries .btn-bulky .glyphicon {
-  color: #aaaaaa;
-  font-size: 2.3rem;
-}
-@media only screen and (max-width: 768px) {
-  .il-metabar-entries .il-metabar-more-button {
-    padding-right: 20px;
-  }
-  .il-metabar-entries .il-metabar-more-button .icon.custom {
-    position: relative;
-  }
-  .il-metabar-entries .il-metabar-more-button .icon.custom img {
-    margin-right: 5px;
-  }
-  .il-metabar-entries .il-metabar-more-button .icon.custom .badge {
-    position: absolute;
-    margin-right: 3px;
-  }
-  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
-    margin-top: -5px;
-  }
-  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-status {
-    margin-top: 10px;
-  }
-}
-.glyphicon {
-  font-family: 'il-icons';
-}
-.glyphicon-bell:before {
-  content: "\e027";
-}
-.glyphicon-comment:before {
-  content: "\e04a";
-}
-.glyphicon-envelope:before {
-  content: "\e086";
-}
-.glyphicon-question-sign:before {
-  content: "\e05d";
-}
-.glyphicon-search:before {
-  content: "\e090";
-}
-.glyphicon-user:before {
-  content: "\e005";
-}
-.il-metabar-slates {
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fafafa;
-  position: absolute;
-  right: 20px;
-  top: 60px;
-  /*TODO: remove hack*/
-  /*end of hack*/
-}
-@media only screen and (max-width: 768px) {
-  .il-metabar-slates {
-    width: 100%;
-    top: 45px;
-    right: 0;
-  }
-}
-.il-metabar-slates .il-maincontrols-slate {
-  min-width: 500px;
-}
-@media only screen and (max-width: 768px) {
-  .il-metabar-slates .il-maincontrols-slate {
-    min-width: 260px;
-  }
-}
-.il-header-locator {
-  display: none;
-}
-@media only screen and (max-width: 768px) {
-  .il-header-locator {
-    display: block;
-  }
-  .il-metabar-slates .glyphicon {
-    color: #aaaaaa;
-    font-size: 2rem;
-  }
-  .il-metabar-slates .il-counter-status,
-  .il-metabar-slates .il-counter-novelty {
-    margin-top: -20px;
-  }
-  .il-metabar-slates .bulky-label {
-    margin-left: 10px;
-  }
-  .il-metabar-slates .il-counter-spacer {
-    margin-left: -18px;
-  }
-}
-/*end of hack*/
-.il-maincontrols-mainbar .btn-bulky {
-  font-size: 0.9rem;
-  line-height: 1rem;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .icon.outlined.grps {
   background-image: url("images/outlined/icon_grps.svg");
@@ -10389,50 +9956,17 @@ main {
 .icon.outlined.wbrs {
   background-image: url("images/outlined/icon_wbrs.svg");
 }
-<<<<<<< HEAD
 .icon.outlined.prtt {
   background-image: url("images/outlined/icon_prtt.svg");
 }
 .icon.outlined.orgu {
   background-image: url("images/outlined/icon_orgu.svg");
-=======
-.il-maincontrols-mainbar > .il-metabar-slate-auxillary,
-.il-maincontrols-metabar > .il-metabar-slate-auxillary {
-  display: none;
-}
-.il-mainbar-triggers {
-  background: #4a4a4a;
-  display: flex;
-  position: relative;
-  width: 80px;
-  z-index: 1;
-}
-.il-mainbar-triggers .btn-bulky {
-  height: 80px;
-  width: 80px;
-  justify-content: center;
-  padding: 0;
-  display: inline-flex;
-  flex-flow: column wrap;
-  align-items: center;
-  width: 100%;
-  border: 0;
-  background: #4a4a4a;
-  border-bottom: 1px solid #dddddd;
-  color: #ffffff;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .icon.outlined.wiks {
   background-image: url("images/outlined/icon_wiks.svg");
 }
-<<<<<<< HEAD
 .icon.outlined.excs {
   background-image: url("images/outlined/icon_excs.svg");
-=======
-.il-mainbar-triggers .btn-bulky.engaged {
-  background-color: #ffffff;
-  color: #4a4a4a;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .icon.outlined.taxs {
   background-image: url("images/outlined/icon_taxs.svg");
@@ -10440,7 +9974,6 @@ main {
 .icon.outlined.bibs {
   background-image: url("images/outlined/icon_bibs.svg");
 }
-<<<<<<< HEAD
 .icon.outlined.awra {
   background-image: url("images/outlined/icon_awra.svg");
 }
@@ -10455,129 +9988,30 @@ main {
 }
 .icon.outlined.cadm {
   background-image: url("images/outlined/icon_cadm.svg");
-=======
-.il-mainbar-triggers .btn-bulky .bulky-label {
-  display: -webkit-box;
-  margin-top: 5px;
-  white-space: normal;
-  word-break: break-word;
-  padding: 0 2px;
-  overflow: hidden;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-.il-mainbar-triggers.engaged {
-  background: #ffffff;
-}
-.il-mainbar-slates {
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
-  display: none;
-  position: relative;
-  width: 400px;
-}
-.il-mainbar-tools-button .btn-bulky,
-.il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: #607ea5;
-  border: 0;
-  color: #ffffff;
-  padding: 0;
-}
-.il-mainbar-tools-button .btn-bulky img,
-.il-mainbar-tools-button .btn-bulky.engaged img {
-  filter: invert(100%);
-}
-.il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: #d2dae5;
-  color: #4a4a4a;
-}
-.il-mainbar-tools-button .btn-bulky.engaged img {
-  filter: invert(35%);
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .icon.outlined.grpr {
   background-image: url("images/outlined/icon_grpr.svg");
 }
-<<<<<<< HEAD
 .icon.outlined.bdga {
   background-image: url("images/outlined/icon_bdga.svg");
 }
 .icon.outlined.wfe {
   background-image: url("images/outlined/icon_wfe.svg");
-=======
-.il-mainbar-tools-entries.engaged {
-  display: flex;
-  height: 80px;
-  flex-shrink: 0;
-}
-.il-mainbar-tools-entries .btn-bulky {
-  background-color: #91a5c1;
-  color: #ffffff;
-  padding: 0;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .icon.outlined.iass {
   background-image: url("images/outlined/icon_iass.svg");
 }
-<<<<<<< HEAD
 .icon.copa {
   background-image: url("images/icon_copa.svg");
-=======
-.il-mainbar-tools-entries .btn-bulky.engaged {
-  background-color: #ffffff;
-  border: 0;
-  color: #4a4a4a;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .glyph {
   color: #557196;
 }
-<<<<<<< HEAD
 .glyph.highlighted {
   color: #fa8228;
 }
 .glyph.highlighted:hover {
   color: #d15c05;
-=======
-.il-mainbar-tools-entries-bg {
-  height: 80px;
-  width: 100%;
-  background: #f0f0f0;
-}
-.il-mainbar-remove-tool {
-  display: none;
-}
-.il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.il-mainbar-remove-tool .close {
-  color: #4c6586;
-  font-size: 4.5rem;
-  font-weight: 300;
-  height: 80px;
-  padding: 0 20px;
-  width: auto;
-}
-.il-mainbar-remove-tool .close:focus {
-  outline: none;
-}
-.il-mainbar-close-slates {
-  align-items: flex-end;
-  display: flex;
-  flex-shrink: 0;
-  height: 45px;
-}
-.il-mainbar-close-slates .btn-bulky {
-  background-color: transparent;
-  border-top: 1px solid #dddddd;
-  display: flex;
-  flex-direction: row;
-  height: 45px;
-  justify-content: flex-end;
-  align-items: center;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .glyph.disabled {
   color: #e0e0e0;
@@ -10594,7 +10028,6 @@ main {
   padding: 2px 4px;
   visibility: hidden;
 }
-<<<<<<< HEAD
 .glyphicon.glyphicon-chevron-left,
 .glyphicon.glyphicon-chevron-right {
   font-weight: 100;
@@ -10607,61 +10040,12 @@ main {
 .il-glyphicon-sad:before,
 .il-glyphicon-angry:before {
   font-family: "Open Sans Emoji";
-=======
-.il-mainbar-slates > .il-maincontrols-slate.engaged {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative;
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .il-glyphicon-like:before {
   content: "\1f44d";
 }
-<<<<<<< HEAD
 .il-glyphicon-love:before {
   content: "\2764";
-=======
-/*
-**************************************************************
-       mobile Layout
-**************************************************************
-*/
-@media only screen and (max-width: 768px) {
-  .il-mainbar-entries {
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
-    flex-flow: row wrap;
-  }
-  .il-mainbar-triggers {
-    background: #4a4a4a;
-    display: flex;
-    position: relative;
-    width: 100%;
-    z-index: 1;
-  }
-  .il-mainbar-triggers .btn-bulky {
-    flex-shrink: 0;
-    border: 0;
-    height: 50px;
-    width: 75px;
-  }
-  .il-mainbar-triggers .btn-bulky .icon.small {
-    height: 17px;
-    width: 17px;
-  }
-  .il-mainbar-tools-entries.engaged {
-    height: 50px;
-  }
-  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
-    top: 0;
-  }
-  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
-    font-size: 4rem;
-    height: 50px;
-  }
->>>>>>> this fixes the latest findings of PLR Tests: (ao)
 }
 .il-glyphicon-dislike:before {
   content: "\1f44e";
