@@ -387,6 +387,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($res->isError()) {
 				return $res;
 			}
+
 			$res = $op->applyTo($res);
 		}
 
