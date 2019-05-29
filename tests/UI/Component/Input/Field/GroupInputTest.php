@@ -190,4 +190,40 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->group, $new_group);
 		$this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
 	}
+
+	public function testWithInputDoesNotApplyOperationsOnError() {
+		$this->assertNotSame($this->child1, $this->child2);
+
+		$input_data = $this->createMock(InputData::class);
+
+		$this->child1
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($this->child2);
+		$this->child1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($this->data_factory->error(""));
+		$this->child2
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($this->child1);
+		$this->child2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($this->data_factory->ok("two"));
+
+		$new_group = $this->group
+			->withAdditionalTransformation($this->refinery->custom()->transformation(function($v){
+				$this->assertFalse(true, "This should not happen.");
+			}))
+			->withInput($input_data);
+
+		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
+		$this->assertInstanceOf(Group::class, $new_group);
+		$this->assertNotSame($this->group, $new_group);
+		$this->assertTrue($new_group->getContent()->isError());
+	}
 }
