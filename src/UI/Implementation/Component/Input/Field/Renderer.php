@@ -66,13 +66,6 @@ class Renderer extends AbstractComponentRenderer {
 		$id = null;
 		$dependant_group_html = null;
 
-		if($input instanceof Component\Input\Field\CanHaveDependantGroup) {
-			if ($input->getDependantGroup()) {
-				$dependant_group_html = $default_renderer->render($input->getDependantGroup());
-				$id = $this->bindJavaScript($input);
-			}
-		}
-
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
