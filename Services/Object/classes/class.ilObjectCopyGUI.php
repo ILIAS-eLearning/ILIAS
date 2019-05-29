@@ -602,7 +602,7 @@ class ilObjectCopyGUI
 			}
 		}
 		
-		if(is_array($this->getSource()) && count($this->getSource()) == 1 && $objDefinition->isContainer($this->getType()))
+		if(count($this->getSources()) == 1 && $objDefinition->isContainer($this->getType()))
 		{
 			// check, if object should be copied into itself
 			// begin-patch mc
@@ -712,7 +712,7 @@ class ilObjectCopyGUI
 	
 	/**
 	 * Get sources
-	 * @return type
+	 * @return array
 	 */
 	public function getSources()
 	{
