@@ -478,18 +478,20 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	{
 		$ilCtrl = $this->ctrl;
 
+		$delivered_id = $_REQUEST["delivered"];
+
 		if(!$this->submission->canView())
 		{
 			$this->returnToParentObject();
 		}
-		
-		if (count($_REQUEST["delivered"]))
+
+		if(!is_array($delivered_id) && $delivered_id > 0)
 		{
-			if(!is_array($_REQUEST["delivered"]))
-			{
-				$_REQUEST["delivered"] = array($_REQUEST["delivered"]);
-			}
-			$this->submission->downloadFiles($_REQUEST["delivered"]);
+			$delivered_id = [$delivered_id];
+		}
+		if (is_array($delivered_id) && count($delivered_id) > 0)
+		{
+			$this->submission->downloadFiles($delivered_id);
 			exit;
 		}
 		else

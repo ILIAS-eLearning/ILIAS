@@ -34,6 +34,10 @@ il.Awareness = {
 			title: " "
 		});
 
+		$('#awareness_trigger > a').on('click', function (e) {
+			e.preventDefault();
+		});
+
 		$('#awareness_trigger a').on('show.bs.popover', function () {
 			//$("#awareness-content").html();
 //		console.log(this);

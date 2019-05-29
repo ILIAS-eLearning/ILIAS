@@ -715,7 +715,7 @@ class ilUtil
 		$layout_next = "&gt;&gt;";
 
 		// layout options
-		if (count($ALayout > 0))
+		if ((is_array($ALayout) && (count($ALayout) > 0)))
 		{
 			if ($ALayout["link"])
 			{
