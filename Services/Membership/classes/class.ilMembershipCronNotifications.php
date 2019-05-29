@@ -174,6 +174,8 @@ class ilMembershipCronNotifications extends ilCronJob
 	protected function parseNewsItem($a_parent_ref_id, array &$a_filter_map, array $a_item, $a_is_sub = false)
 	{
 		global $lng;
+
+		$lng->loadLanguageModule("news");
 		
 		$wrong_parent = (array_key_exists($a_item["id"], $a_filter_map) &&
 				$a_parent_ref_id != $a_filter_map[$a_item["id"]]);	
