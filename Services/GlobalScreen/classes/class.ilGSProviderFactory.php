@@ -1,6 +1,5 @@
 <?php
 
-use Composer\Autoload\ClassLoader;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
