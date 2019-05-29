@@ -35,7 +35,6 @@ class Group extends Input implements C\Input\Field\Group {
 	 * Group constructor.
 	 *
 	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
 	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param InputInternal[]       $inputs
 	 * @param                       $label
@@ -55,23 +54,18 @@ class Group extends Input implements C\Input\Field\Group {
 
 	public function withDisabled($is_disabled) {
 		$clone = parent::withDisabled($is_disabled);
-		$inputs = [];
-		foreach ($this->inputs as $key => $input)
-		{
-			$inputs[$key] = $input->withDisabled($is_disabled);
-		}
-		$clone->inputs = $inputs;
+		$clone->inputs = array_map(function($i) use ($is_disabled) {
+			return $i->withDisabled($is_disabled);
+		}, $this->inputs);
 		return $clone;
 	}
 
 	public function withRequired($is_required) {
 		$clone = parent::withRequired($is_required);
 		$inputs = [];
-		foreach ($this->inputs as $key => $input)
-		{
-			$inputs[$key] = $input->withRequired($is_required);
-		}
-		$clone->inputs = $inputs;
+		$clone->inputs = array_map(function($i) use ($is_required) {
+			return $i->withRequired($is_required);
+		}, $this->inputs);
 		return $clone;
 	}
 
@@ -79,11 +73,9 @@ class Group extends Input implements C\Input\Field\Group {
 		//TODO: use $clone = parent::withOnUpdate($signal); once the exception there
 		//is solved.
 		$clone = $this->withTriggeredSignal($signal, 'update');
-		$inputs = [];
-		foreach ($this->inputs as $key => $input) {
-			$inputs[$key] = $input->withOnUpdate($signal);
-		}
-		$clone->inputs = $inputs;
+		$clone->inputs = array_map(function($i) use ($signal) {
+			return $i->withOnUpdate($signal);
+		}, $this->inputs);	
 		return $clone;
 	}
 
@@ -109,20 +101,50 @@ class Group extends Input implements C\Input\Field\Group {
 	}
 
 	/**
+	 * Get the value that is displayed in the input client side.
+	 *
+	 * @return    mixed
+	 */
+	public function getValue() {
+		return array_map(function($i) {
+			return $i->getValue();
+		}, $this->inputs);
+	}
+
+
+	/**
+	 * Get an input like this with another value displayed on the
+	 * client side.
+	 *
+	 * @param    mixed
+	 *
+	 * @throws  \InvalidArgumentException    if value does not fit client side input
+	 * @return Input
+	 */
+	public function withValue($value) {
+		$this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
+		$clone = clone $this;
+		$clone->inputs = array_map(function($k, $i) use ($value) {
+			return $i->withValue($value[$k]);
+		}, array_keys($this->inputs), $this->inputs);
+		return $clone;
+	}
+
+	/**
 	 * Collects the input, applies trafos and forwards the input to its children and returns
 	 * a new input group reflecting the inputs with data that was putted in.
 	 *
 	 * @inheritdoc
 	 */
 	public function withInput(InputData $post_input) {
+		if (sizeof($this->getInputs()) === 0) {
+			return $this;
+		}
+
 		/**
 		 * @var $clone Group
 		 */
-		$clone = $this;
-
-		if (sizeof($this->getInputs()) === 0) {
-			return $clone;
-		}
+		$clone = clone $this;
 
 		$inputs = [];
 		$contents = [];

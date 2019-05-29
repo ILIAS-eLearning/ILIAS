@@ -6,11 +6,13 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
+use ILIAS\UI\Implementation\Component\Input\Field\Input;
 use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\Data;
 
-interface Input1 extends InputInternal {};
-interface Input2 extends InputInternal {};
+abstract class Input1 extends Input {};
+abstract class Input2 extends Input {};
 
 class GroupInputTest extends ILIAS_UI_TestBase {
 	/**
@@ -21,8 +23,8 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 	public function setUp(): void{
 		$this->child1 = $this->createMock(Input1::class);
 		$this->child2 = $this->createMock(Input2::class);
-		$this->data_factory = $this->createMock(Data\Factory::class);
-		$this->refinery = $this->createMock(\ILIAS\Refinery\Factory::class);
+		$this->data_factory = new Data\Factory;
+		$this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $this->createMock(\ilLanguage::class));
 
 		$this->group = new Group(
 			$this->data_factory,
@@ -50,6 +52,8 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 		$new_group = $this->group->withDisabled(true);
 
 		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
+		$this->assertInstanceOf(Group::class, $new_group);
+		$this->assertNotSame($this->group, $new_group);
 	}
 
 	public function testWithRequiredRequiresChildren() {
@@ -69,6 +73,8 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 		$new_group = $this->group->withRequired(true);
 
 		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
+		$this->assertInstanceOf(Group::class, $new_group);
+		$this->assertNotSame($this->group, $new_group);
 	}
 
 	public function testGroupMayOnlyHaveInputChildren() {
@@ -81,5 +87,107 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 			"LABEL",
 			"BYLINE"
 		);
+	}
+
+	public function testGroupForwardsValuesOnWithValue() {
+		$this->assertNotSame($this->child1, $this->child2);
+
+		$this->child1
+			->expects($this->once())
+			->method("withValue")
+			->with(1)
+			->willReturn($this->child2);
+		$this->child1
+			->expects($this->once())
+			->method("isClientSideValueOk")
+			->with(1)
+			->willReturn(true);
+		$this->child2
+			->expects($this->once())
+			->method("withValue")
+			->with(2)
+			->willReturn($this->child1);
+		$this->child2
+			->expects($this->once())
+			->method("isClientSideValueOk")
+			->with(2)
+			->willReturn(true);
+
+		$new_group = $this->group->withValue([1,2]);
+
+		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
+		$this->assertInstanceOf(Group::class, $new_group);
+		$this->assertNotSame($this->group, $new_group);
+	}
+
+	public function testGroupOnlyDoesNoAcceptNonArrayValue() {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$new_group = $this->group->withValue(1);
+	}
+
+	public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength() {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$new_group = $this->group->withValue([1]);
+	}
+
+	public function testGroupForwardsValuesOnGetValue() {
+		$this->assertNotSame($this->child1, $this->child2);
+
+		$this->child1
+			->expects($this->once())
+			->method("getValue")
+			->with()
+			->willReturn("one");
+		$this->child2
+			->expects($this->once())
+			->method("getValue")
+			->with()
+			->willReturn("two");
+
+		$vals = $this->group->getValue();
+
+		$this->assertEquals(["one", "two"], $vals);
+	}
+
+	public function testWithInputCallsChildrenAndAppliesOperations() {
+		$this->assertNotSame($this->child1, $this->child2);
+
+		$input_data = $this->createMock(InputData::class);
+
+		$this->child1
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($this->child2);
+		$this->child1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($this->data_factory->ok("one"));
+		$this->child2
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($this->child1);
+		$this->child2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($this->data_factory->ok("two"));
+
+		$called = false;
+		$new_group = $this->group
+			->withAdditionalTransformation($this->refinery->custom()->transformation(function($v) use (&$called) {
+				$called = true;
+				$this->assertEquals(["two", "one"], $v);
+				return "result";
+			}))
+			->withInput($input_data);
+
+		$this->assertTrue($called);
+		$this->assertEquals([$this->child2, $this->child1], $new_group->getInputs());
+		$this->assertInstanceOf(Group::class, $new_group);
+		$this->assertNotSame($this->group, $new_group);
+		$this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
 	}
 }
