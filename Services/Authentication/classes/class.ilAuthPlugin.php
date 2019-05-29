@@ -8,7 +8,7 @@ include_once './Services/Component/classes/class.ilPlugin.php';
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-abstract class ilAuthPlugin extends ilPlugin
+abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
 {
 
 
@@ -43,6 +43,14 @@ abstract class ilAuthPlugin extends ilPlugin
 	public function getSlotId()
 	{
 		return 'authhk';
+	}
+
+	/**
+	 * Object initialization done by slot.
+	 */
+	protected final function slotInit()
+	{
+		// nothing to do here
 	}
 }
 ?>
