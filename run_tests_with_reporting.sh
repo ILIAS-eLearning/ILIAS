@@ -14,8 +14,13 @@ PHPUNIT_RESULTS_PATH="/tmp/phpunit_results"
 DICTO_PATH="/tmp/dicto_latest.csv"
 TRAVIS_RESULTS_DIRECTORY="/tmp/CI-Results/"
 DATE=`date '+%Y-%m-%d %H:%M:%S'`
+UNIXDATE=`date '+%s'`
 
 ./run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
+
+PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
+
+printLn "Command exited with code: $PIPE_EXIT_CODE"
 
 printLn "Travis: event type ($TRAVIS_EVENT_TYPE), job number ($TRAVIS_JOB_NUMBER), pull request ($TRAVIS_PULL_REQUEST), commit ($TRAVIS_COMMIT) "
 
@@ -67,7 +72,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 			printLn "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"
 			grep -v "$ILIAS_VERSION.*php_$PHP_VERSION" $PHPUNIT_PATH > $PHPUNIT_PATH_TMP 
 
-			NEW_LINE="$JOB_URL,$JOB_ID,$ILIAS_VERSION,php_$PHP_VERSION,PHP $PHP_VERSION,${RESULTS[Warnings]},${RESULTS[Skipped]},${RESULTS[Incomplete]},${RESULTS[Tests]},${RESULTS[Errors]},${RESULTS[Risky]},$FAILURE,$DATE";
+			NEW_LINE="$JOB_URL,$JOB_ID,$ILIAS_VERSION,php_$PHP_VERSION,PHP $PHP_VERSION,${RESULTS[Warnings]},${RESULTS[Skipped]},${RESULTS[Incomplete]},${RESULTS[Tests]},${RESULTS[Errors]},${RESULTS[Risky]},$FAILURE,$DATE,$UNIXDATE";
 			printLn "Writing line: $NEW_LINE"
 			echo "$NEW_LINE" >> "$PHPUNIT_PATH_TMP";
 
@@ -84,7 +89,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 			cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 
 	fi		
-	if [ "$FAILURE" == "true" ]
+	if [[ "$FAILURE" == "true" || $PIPE_EXIT_CODE -gt 0 ]]
 		then
 			printLn "Errors were found, exiting with error code."
 			exit 99

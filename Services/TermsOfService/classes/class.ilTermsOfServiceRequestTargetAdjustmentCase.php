@@ -10,7 +10,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
     /**
      * @inheritdoc
      */
-    public function shouldStoreRequestTarget()
+    public function shouldStoreRequestTarget() : bool
     {
         return true;
     }
@@ -18,18 +18,18 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
     /**
      * @inheritdoc
      */
-    public function isInFulfillment()
+    public function isInFulfillment() : bool
     {
         return (
-            strtolower($this->ctrl->getCmdClass()) == 'ilstartupgui' &&
-            strtolower($this->ctrl->getCmd()) == 'getacceptance'
+            strtolower($this->ctrl->getCmdClass()) === 'ilstartupgui' &&
+            strtolower($this->ctrl->getCmd()) === 'getacceptance'
         );
     }
 
     /**
      * @inheritdoc
      */
-    public function shouldAdjustRequest()
+    public function shouldAdjustRequest() : bool
     {
         if ($this->isInFulfillment()) {
             return false;
@@ -49,7 +49,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
     /**
      * @inheritdoc
      */
-    public function adjust()
+    public function adjust() : void
     {
         $this->ctrl->redirectToURL('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
     }

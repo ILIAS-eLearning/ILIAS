@@ -1103,7 +1103,7 @@ class ilInitialisation
 
 				self::initHTML();
 			}
-			self::initRefinery();
+			self::initRefinery($GLOBALS['DIC']);
 		}
 	}
 
@@ -1589,15 +1589,11 @@ class ilInitialisation
 		};
 		$c["ui.factory.input.field"] = function($c) {
 			$data_factory = new ILIAS\Data\Factory();
-			$validation_factory = new ILIAS\Refinery\Validation\Factory($data_factory, $c["lng"]);
-			$transformation_factory = new ILIAS\Refinery\Transformation\Factory();
 			$refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
 
 			return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 				$c["ui.signal_generator"],
 				$data_factory,
-				$validation_factory,
-				$transformation_factory,
 				$refinery
 			);
 		};
@@ -1673,9 +1669,9 @@ class ilInitialisation
 	}
 
 	/**
-	 *
+	 * @param \ILIAS\DI\Container $container
 	 */
-	protected static function initRefinery()
+	protected static function initRefinery(\ILIAS\DI\Container $container)
 	{
 		$container['refinery'] = function ($container) {
 			$dataFactory = new \ILIAS\Data\Factory();
@@ -1759,8 +1755,11 @@ class ilInitialisation
 		self::initGlobal("tpl", $tpl);
 
 		if (ilContext::hasUser()) {
-			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
-			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $GLOBALS['DIC']['ilCtrl']);
+			$request_adjuster = new ilUserRequestTargetAdjustment(
+			    $ilUser,
+                $GLOBALS['DIC']['ilCtrl'],
+                $GLOBALS['DIC']->http()->request()
+            );
 			$request_adjuster->adjust();
 		}
 

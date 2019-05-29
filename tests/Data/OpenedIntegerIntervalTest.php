@@ -5,7 +5,7 @@
 namespace ILIAS\Data;
 
 use ILIAS\Data\Interval\OpenedIntegerInterval;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 use PHPUnit\Framework\TestCase;
 
 

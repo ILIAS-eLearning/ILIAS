@@ -5,7 +5,6 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Factory;
-use \ILIAS\Refinery\Transformation\Factory as TrafoFactory;
 use ILIAS\UI\Renderer;
 
 /**
@@ -49,11 +48,11 @@ class ilPersonalChatSettingsFormGUI
 	/** @var Renderer */
 	private $uiRenderer;
 
-	/** @var TrafoFactory */
-	private $transformationFactory;
-
 	/** @var ServerRequestInterface */
 	private $httpRequest;
+
+	/** @var \ILIAS\Refinery\Factory */
+	private $refinery;
 
 	/**
 	 * ilPersonalChatSettingsFormGUI constructor.
@@ -71,7 +70,7 @@ class ilPersonalChatSettingsFormGUI
 		$this->uiFactory = $DIC->ui()->factory();
 		$this->uiRenderer = $DIC->ui()->renderer();
 		$this->httpRequest = $DIC->http()->request();
-		$this->transformationFactory = new TrafoFactory();
+		$this->refinery = $DIC->refinery();
 
 		$this->lng->loadLanguageModule('chatroom');
 		$this->lng->loadLanguageModule('chatroom_adm');
@@ -138,7 +137,7 @@ class ilPersonalChatSettingsFormGUI
 
 		$fields = [];
 
-		$checkboxStateToBooleanTrafo = $this->transformationFactory->custom(function($v) {
+		$checkboxStateToBooleanTrafo = $this->refinery->custom()->transformation(function($v) {
 			if (is_array($v)) {
 				return $v;
 			}
@@ -196,7 +195,7 @@ class ilPersonalChatSettingsFormGUI
 			[
 				$fieldFactory->section($fields, $this->lng->txt('chat_settings'), '')
 			]
-		)->withAdditionalTransformation($this->transformationFactory->custom(function($values) {
+		)->withAdditionalTransformation($this->refinery->custom()->transformation(function($values) {
 			return call_user_func_array("array_merge", $values);
 		}));
 	}

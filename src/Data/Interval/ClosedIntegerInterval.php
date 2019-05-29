@@ -7,7 +7,7 @@
 
 namespace ILIAS\Data\Interval;
 
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class ClosedIntegerInterval
 {

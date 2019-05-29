@@ -36,8 +36,11 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$breadcrumbs = $component->getBreadcrumbs();
-		if ($breadcrumbs) {
+		if ($breadcrumbs && $breadcrumbs->getItems()) {
 			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+
+			$dropdown = $this->convertBreadcrumbsToDropdownLocator($breadcrumbs);
+			$tpl->setVariable('HEADER_BREADCRUMBS', $default_renderer->render($dropdown));
 		}
 		if ($component->hasLogo()) {
 			$logo = $component->getLogo();
@@ -48,13 +51,40 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
+		$component = $component->withOnLoadCode(
+			function($id) {
+				return "$(document).ready(function() {
+					il.UI.page.init();
+				});";
+			}
+		);
+		$id = $this->bindJavaScript($component);
+		$tpl->setVariable('ID', $id);
+
 		if ($component->getWithHeaders()) {
-			$tpl = $this->setHeaderVars($tpl);
+			$tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
 		}
 
 		return $tpl->get();
 	}
 
+	protected function convertBreadcrumbsToDropdownLocator(
+		Component\Breadcrumbs\Breadcrumbs $breadcrumbs
+	): Component\Dropdown\Dropdown
+	{
+		$f = $this->getUIFactory();
+		$buttons = [];
+		$items = array_reverse($breadcrumbs->getItems());
+		$current = array_shift($items);
+		foreach ($items as $item) {
+			$button = $f->button()->shy(
+				$item->getLabel(),
+				$item->getAction()
+			);
+			$buttons[] = $button;
+		}
+		return $f->dropdown()->standard($buttons)->withLabel($current->getLabel());
+	}
 
 	/**
 	 * When rendering the whole page, all resources must be included.
@@ -67,7 +97,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return \ilGlobalPageTemplate
 	 * @throws \ILIAS\UI\NotImplementedException
 	 */
-	protected function setHeaderVars($tpl) {
+	protected function setHeaderVars($tpl, bool $for_ui_demo = false) {
 		global $DIC;
 		$il_tpl = $DIC["tpl"];
 
@@ -75,7 +105,6 @@ class Renderer extends AbstractComponentRenderer {
 		$js_inline = [];
 		$css_files = [];
 		$css_inline = [];
-		$base_url = '../../../../../../';
 
 		if ($il_tpl instanceof \ilGlobalPageTemplate) {
 			$view = $DIC->globalScreen()->layout()->content();
@@ -93,6 +122,22 @@ class Renderer extends AbstractComponentRenderer {
 			}
 
 			$base_url = $view->metaContent()->getBaseURL();
+		}
+
+		if($for_ui_demo) {
+			$base_url = '../../../../../../';
+
+			array_unshift($js_files, './Services/JavaScript/js/Basic.js');
+
+			include_once("./Services/UICore/classes/class.ilUIFramework.php");
+			foreach(\ilUIFramework::getJSFiles() as $il_js_file) {
+				array_unshift($js_files, $il_js_file);
+			}
+
+			include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+			array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
+			array_unshift($js_files, \iljQueryUtil::getLocaljQueryPath());
+
 		}
 
 		foreach ($js_files as $js_file) {
@@ -115,13 +160,20 @@ class Renderer extends AbstractComponentRenderer {
 		return $tpl;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Page/stdpage.js');
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
 		return array(
-			Component\Layout\Page\Standard::class,
+			Component\Layout\Page\Standard::class
 		);
 	}
 }
