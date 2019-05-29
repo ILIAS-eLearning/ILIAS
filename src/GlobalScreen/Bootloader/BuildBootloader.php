@@ -1,11 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\BootLoader;
 
-use Composer\Script\Event;
-use ILIAS\ArtifactBuilder\Event\AbstractComposerEventHandler;
-use ILIAS\ArtifactBuilder\AbstractComposerScript;
+use ILIAS\ArtifactBuilder\AbstractArtifactBuilder;
+use ILIAS\ArtifactBuilder\ArtifactBuilder;
 use ILIAS\ArtifactBuilder\Artifacts\Artifact;
 use ILIAS\ArtifactBuilder\Artifacts\ClassNameCollectionArtifact;
-use ILIAS\ArtifactBuilder\Event\EventHandler;
+use ILIAS\ArtifactBuilder\Generators\InterfaceFinder;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
@@ -15,61 +14,40 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  *
  * @package ILIAS\GlobalScreen\BootLoader
  */
-class BuildBootLoader extends AbstractComposerScript
+class BuildBootLoader extends AbstractArtifactBuilder implements ArtifactBuilder
 {
+
+    /**
+     * @var array
+     */
+    protected $class_names = [];
+
+
+    public function run() : void
+    {
+        $i = [
+            StaticMainMenuProvider::class,
+            StaticMetaBarProvider::class,
+            DynamicToolProvider::class,
+        ];
+
+        foreach ($i as $interface) {
+            $this->io()->write("Checking Interface $interface");
+
+            $i = new InterfaceFinder($interface);
+            $this->class_names[$interface] = iterator_to_array($i->getMatchingClassNames());
+        }
+    }
+
 
     /**
      * @inheritDoc
      */
-    protected static function getEventHandler(Event $event) : EventHandler
+    public function getArtifact() : Artifact
     {
+        $this->io()->write("Storing classnames to global_screen_providers.php");
 
-        return new class($event) extends AbstractComposerEventHandler implements EventHandler
-        {
-
-            /**
-             * @var array
-             */
-            protected $class_names = [];
-
-
-            /**
-             * @inheritDoc
-             */
-            public function run() : void
-            {
-                $i = [
-                    StaticMainMenuProvider::class,
-                    StaticMetaBarProvider::class,
-                    DynamicToolProvider::class,
-                ];
-
-                foreach ($i as $interface) {
-                    $this->io()->write("Check ./Services for Interface {$interface}");
-                    $services = new InterfaceFinder($interface, "./Services");
-                    $this->io()->write("Check ./Modules for Interface {$interface}");
-                    $modules = new InterfaceFinder($interface, "./Modules");
-                    $this->io()->write("Check ./src for Interface {$interface}");
-                    $src = new InterfaceFinder($interface, "./src");
-                    $this->class_names[$interface] = array_merge(
-                        $services->getMatchingClassNames(),
-                        $modules->getMatchingClassNames(),
-                        $src->getMatchingClassNames()
-                    );
-                }
-            }
-
-
-            /**
-             * @inheritDoc
-             */
-            public function getArtifact() : Artifact
-            {
-                $this->io()->write("Storing classnames to global_screen_bootloader.php");
-
-                return new ClassNameCollectionArtifact("global_screen_bootloader", $this->class_names);
-            }
-        };
+        return new ClassNameCollectionArtifact("global_screen_providers", $this->class_names);
     }
 }
 

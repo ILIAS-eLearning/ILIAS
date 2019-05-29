@@ -22,7 +22,7 @@ class ClassNameCollectionArtifact implements Artifact
     /**
      * @var string
      */
-    private $base = "libs/ilias/Artifacts/BootLoader";
+    private $base = "libs/ilias/Artifacts";
 
 
     /**

@@ -8,10 +8,10 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
+			"\\ILIAS\\ArtifactBuilder\\ComposerArtifactBuilder::run"
 		],
-		"gs-bootloader": [
-			"ILIAS\\GlobalScreen\\BootLoader\\BuildBootLoader::handleEvent"
+		"artifacts": [
+			"\\ILIAS\\ArtifactBuilder\\ComposerArtifactBuilder::run"
 		]
 	},
 	"require": {

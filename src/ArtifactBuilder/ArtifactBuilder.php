@@ -1,24 +1,29 @@
-<?php namespace ILIAS\ArtifactBuilder\Event;
+<?php namespace ILIAS\ArtifactBuilder;
 
 use ILIAS\ArtifactBuilder\Artifacts\Artifact;
-use ILIAS\ArtifactBuilder\Caller\EventWrapper;
 use ILIAS\ArtifactBuilder\IO\IO;
 
 /**
- * Interface EventHandler
+ * Interface ArtifactBuilder
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @package ILIAS\ArtifactBuilder
  */
-interface EventHandler
+interface ArtifactBuilder
 {
+
+    /**
+     * @return ArtifactBuilder
+     */
+    public static function getInstance() : ArtifactBuilder;
+
 
     public function run() : void;
 
 
     /**
-     * @return EventWrapper
+     * @param IO $IO
      */
-    public function getEvent() : EventWrapper;
+    public function injectIO(IO $IO) : void;
 
 
     /**
