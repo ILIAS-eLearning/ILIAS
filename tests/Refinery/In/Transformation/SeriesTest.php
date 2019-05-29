@@ -8,10 +8,10 @@
 namespace ILIAS\Tests\Refinery\In\Transformation;
 
 use ILIAS\Data\Result\Ok;
-use ILIAS\In\Transformation\Series;
+use ILIAS\Refinery\In\Series;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 
 require_once('./libs/composer/vendor/autoload.php');

@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-
 use ILIAS\Refinery\In;
-use ILIAS\Refinery\String\Group;
 use ILIAS\Refinery\To;
 
 class Factory
@@ -78,5 +76,65 @@ class Factory
 	public function string(): String\Group
 	{
 		return new String\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints and transformations for custom functions.
+	 *
+	 * @return Custom\Group
+	 */
+	public function custom(): Custom\Group
+	{
+		return new Custom\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for container types (e.g. arrays)
+	 *
+	 * @return Container\Group
+	 */
+	public function container()
+	{
+		return new Container\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for password strings
+	 *
+	 * @return Password\Group
+	 */
+	public function password()
+	{
+		return new Password\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for logical compositions with other constraints
+	 *
+	 * @return Logical\Group
+	 */
+	public function logical()
+	{
+		return new Logical\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for null types
+	 *
+	 * @return IsNull
+	 */
+	public function null()
+	{
+		return new IsNull($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for numeric data types
+	 *
+	 * @return Numeric\Group
+	 */
+	public function numeric()
+	{
+		return new Numeric\Group($this->dataFactory, $this->language);
 	}
 }

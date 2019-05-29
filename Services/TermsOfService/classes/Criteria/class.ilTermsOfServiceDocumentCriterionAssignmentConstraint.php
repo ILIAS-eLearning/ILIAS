@@ -2,14 +2,13 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Validation\Constraint;
-use ILIAS\Refinery\Validation\Constraints\Custom;
+use ILIAS\Refinery\Custom\Constraint;
 
 /**
  * Class ilTermsOfServiceDocumentCriterionAssignmentConstraint
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Custom implements Constraint
+class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
 {
     /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
     protected $criterionTypeFactory;

@@ -1,5 +1,8 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilTermsOfServiceRequestTargetAdjustmentCaseTest
@@ -53,7 +56,12 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
 
-        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($user, $ctrl);
+        $request = $this
+            ->getMockBuilder(ServerRequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($user, $ctrl, $request);
 
         $this->assertTrue($requestInterceptor->shouldAdjustRequest());
         $this->assertTrue($requestInterceptor->shouldStoreRequestTarget());
@@ -102,7 +110,12 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
 
-        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($user, $ctrl);
+        $request = $this
+            ->getMockBuilder(ServerRequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($user, $ctrl, $request);
 
         $this->assertFalse($requestInterceptor->shouldAdjustRequest());
     }
@@ -206,7 +219,12 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->method('getCmd')
             ->willReturn('');
 
-        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($user, $ctrl);
+        $request = $this
+            ->getMockBuilder(ServerRequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($user, $ctrl, $request);
 
         $this->assertFalse($requestInterceptor->shouldAdjustRequest());
     }

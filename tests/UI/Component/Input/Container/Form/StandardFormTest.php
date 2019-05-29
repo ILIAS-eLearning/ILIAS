@@ -8,8 +8,6 @@ require_once(__DIR__ . "/FormTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
 
 class WithButtonNoUIFactory extends NoUIFactory {
 
@@ -42,8 +40,6 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}
@@ -79,7 +75,7 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $r->render($form);
 
-		$expected = "<form role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/formdata\" action=\"MY_URL\" method=\"post\" novalidate=\"novalidate\">        <div class=\"il-standard-form-header clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"#\" id=\"id_1\">save</button></div>        </div>  <div class=\"form-group row\">     <label for=\"form_input_1\" class=\"control-label col-sm-3\">label</label>  <div class=\"col-sm-9\">          <input type=\"text\" name=\"form_input_1\" class=\"form-control form-control-sm\" />          <div class=\"help-block\">byline</div>                    </div></div>    <div class=\"il-standard-form-footer clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">save</button></div> </div></form>";
+		$expected = "<form role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/formdata\" action=\"MY_URL\" method=\"post\" novalidate=\"novalidate\">        <div class=\"il-standard-form-header clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"\">save</button></div>        </div>  <div class=\"form-group row\">     <label for=\"form_input_1\" class=\"control-label col-sm-3\">label</label>  <div class=\"col-sm-9\">          <input type=\"text\" name=\"form_input_1\" class=\"form-control form-control-sm\" />          <div class=\"help-block\">byline</div>                    </div></div>    <div class=\"il-standard-form-footer clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"\">save</button></div> </div></form>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 
@@ -95,7 +91,7 @@ class StandardFormTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$html = $r->render($form);
 
-		$expected = "<form role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/formdata\" method=\"post\" novalidate=\"novalidate\">        <div class=\"il-standard-form-header clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"#\" id=\"id_1\">save</button></div>        </div>  <div class=\"form-group row\">     <label for=\"form_input_1\" class=\"control-label col-sm-3\">label</label>  <div class=\"col-sm-9\">          <input type=\"text\" name=\"form_input_1\" class=\"form-control form-control-sm\" />          <div class=\"help-block\">byline</div>                    </div></div>    <div class=\"il-standard-form-footer clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">save</button></div> </div></form>";
+		$expected = "<form role=\"form\" class=\"il-standard-form form-horizontal\" enctype=\"multipart/formdata\" method=\"post\" novalidate=\"novalidate\">        <div class=\"il-standard-form-header clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"\">save</button></div>        </div>  <div class=\"form-group row\">     <label for=\"form_input_1\" class=\"control-label col-sm-3\">label</label>  <div class=\"col-sm-9\">          <input type=\"text\" name=\"form_input_1\" class=\"form-control form-control-sm\" />          <div class=\"help-block\">byline</div>                    </div></div>    <div class=\"il-standard-form-footer clearfix\">          <div class=\"il-standard-form-cmd\"><button class=\"btn btn-default\" data-action=\"\">save</button></div> </div></form>";
 		$this->assertHTMLEquals($expected, $html);
 	}
 }
