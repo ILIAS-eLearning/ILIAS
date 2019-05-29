@@ -310,7 +310,7 @@ class ilQTIItem
 					break;
 				case "material":
 					$material = $this->presentation->material[$entry["index"]];
-					if (count($material->matapplet) > 0) return QT_JAVAAPPLET;
+					if (count((array)$material->matapplet) > 0) return QT_JAVAAPPLET;
 					break;
 			}
 		}

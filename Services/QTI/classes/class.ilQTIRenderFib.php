@@ -31,6 +31,9 @@ define ("FIBTYPE_INTEGER", "2");
 define ("FIBTYPE_DECIMAL", "3");
 define ("FIBTYPE_SCIENTIFIC", "4");
 
+define ("SHOWDRAW_NO", "1");
+define ("SHOWDRAW_YES", "2");
+
 /**
 * QTI render fib class
 *

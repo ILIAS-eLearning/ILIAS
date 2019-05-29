@@ -1302,7 +1302,7 @@ class ilSurveyParticipantsGUI
 	{
 		$ilTabs = $this->tabs;
 		
-		if(!sizeof($_POST["appr_id"]))
+		if(!sizeof((array)$_POST["appr_id"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$this->ctrl->redirect($this, "listAppraisees");

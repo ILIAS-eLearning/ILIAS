@@ -3,6 +3,7 @@
 
 define ("IL_LIST_AS_TRIGGER", "trigger");
 define ("IL_LIST_FULL", "full");
+define("IL_NO_LICENSE",'no_license');
 require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**

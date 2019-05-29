@@ -1210,7 +1210,7 @@ case "InteractiveImage":
 
 				unset($this->page_object);
 				unset($this->lm_page_object);
-				unset ($this->container[count($this->container) - 1]);
+				unset ($this->container[count((array)$this->container) - 1]);
 				break;
 
 			case "MediaObject":

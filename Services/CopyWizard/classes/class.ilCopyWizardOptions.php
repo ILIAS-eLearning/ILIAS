@@ -67,7 +67,7 @@ class ilCopyWizardOptions
 			$this->read();
 		}	
 	}
-	
+
 	/**
 	 * Get instance of copy wizard options
 	 *
@@ -92,7 +92,7 @@ class ilCopyWizardOptions
 	 */
 	public function getRequiredSteps()
 	{
-		return count($this->options[0]) + count($this->options[-1]);
+		return count((array)$this->options[0]) + count((array)$this->options[-1]);
 	}
 	
 	
