@@ -31,7 +31,9 @@ if ($_GET['new_ui'] == '1') {
 		$mainbar,
 		$breadcrumbs,
 		$logo
-	);
+	)
+	->withUIDemo(true);
+	;
 
 	echo $renderer->render($page);
 }
@@ -76,13 +78,16 @@ function pagedemoContent($f)
 function pagedemoMetabar($f)
 {
 	$help = $f->button()->bulky($f->symbol()->glyph()->help(),'Help', '#');
-	$search = $f->button()->bulky($f->symbol()->glyph()->search(),'Search', '#');
 	$user = $f->button()->bulky($f->symbol()->glyph()->user(),'User', '#');
-
+	$search = $f->maincontrols()->slate()->legacy(
+		'Search',
+		$f->symbol()->glyph()->search()->withCounter($f->counter()->status(1)),
+		$f->legacy(substr(loremIpsum(), 0, 180))
+	);
 	$notes = $f->maincontrols()->slate()->legacy(
 		'Notification',
-		$f->symbol()->glyph()->notification(),
-		$f->legacy('some content')
+		$f->symbol()->glyph()->notification()->withCounter($f->counter()->novelty(3)),
+		$f->legacy('<p>some content</p>')
 	);
 
 	$metabar = $f->mainControls()->metabar()
@@ -160,6 +165,12 @@ function getDemoEntryRepository($f)
 		->withAdditionalEntry($button->withLabel('Study Programme'))
 		->withAdditionalEntry($button->withLabel('Own Repository-Objects'))
 		;
+
+	foreach (range(1, 20) as $cnt) {
+		$slate = $slate
+			->withAdditionalEntry($button->withLabel('fillup ' .$cnt));
+	}
+
 	return $slate;
 }
 
@@ -205,6 +216,7 @@ function getDemoEntryPersonalWorkspace($f, $r)
 		->withAdditionalEntry($button->withLabel('Notes'))
 		->withAdditionalEntry($button->withLabel('News'))
 		->withAdditionalEntry($button->withLabel('Background Tasks'))
+		->withAdditionalEntry($slate_bookmarks)
 		;
 	return $slate;
 }

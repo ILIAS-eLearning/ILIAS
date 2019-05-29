@@ -10,7 +10,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			,_cls_page_active_slates = 'with-mainbar-slates-engaged' //set on _page_div
 			,_cls_entries_wrapper = 'il-mainbar-entries' //encapsulating div of all entries
 			,_cls_toolentries_wrapper = 'il-mainbar-tools-entries' //tools (within  _cls_entries_wrapper)
-			,_cls_tools_wrapper = 'il-mainbar-tools-entries' //encapsulating div of all tool-entries
+			,_cls_tools_wrapper = 'il-mainbar-tools-entries-bg' //encapsulating div of all tool-entries
 			,_cls_tools_btn = 'il-mainbar-tools-button' //encapsulating div of the tools-button
 			,_cls_page_div = 'il-layout-page' //encapsulating div of the page
 			,_cls_slates_wrapper = 'il-mainbar-slates' //encapsulating div of mainbar's slates
@@ -44,6 +44,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			});
 			$(document).on(tools_removal_signal, function(event, signalData) {
 				onClickToolRemoval(event, signalData);
+				initMore();
 				return false;
 			});
 		};
@@ -53,7 +54,11 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			var btn = _getAllButtons()
 				.filter('.' + _cls_btn_engaged);
 			_disengageButton(btn);
-			btn.click();
+
+			if(!il.UI.page.isSmallScreen()) {
+				btn.click();
+			}
+
 		}
 
 		var onClickEntry = function(event, signalData) {
@@ -235,9 +240,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				btn_offset_left = $(btn).offset().left,
 				btn_height = $(btn).height(),
 				btn_width = $(btn).width(),
-				vertically_visible = (btn_offset_top + btn_height) < window_height,
-				horizontally_visible = (btn_offset_left + btn_width) < window_width;
-
+				vertically_visible = (btn_offset_top + btn_height) <= window_height,
+				horizontally_visible = (btn_offset_left + btn_width) <= window_width;
 			return (vertically_visible && horizontally_visible);
 		};
 
