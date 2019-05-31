@@ -4,7 +4,7 @@
     $.fn.extend({
         study_programme_tree: function (options) {
             var settings = $.extend({
-                button_selectors: {all: ".tree_button", create: "a.cmd_create", info: "a.cmd_view", delete: "a.cmd_delete"},
+                button_selectors: {all: ".tree_button", create: "button.cmd_create", info: "button.cmd_view", delete: "button.cmd_delete"},
                 current_node_selector: ".current_node",
                 save_tree_url: '',
                 save_button_id: '',
@@ -80,6 +80,8 @@
              * Defines drag & drop rules for tree-elements
              */
             var initDndTargetChecking = function () {
+                return;// DOES NOT WORK ANYMORE IN ILIAS >= 5.4.x
+                
                 var js_tree_settings = $(element).jstree("get_settings");
 
                 js_tree_settings.crrm.move.check_move = function (data) {

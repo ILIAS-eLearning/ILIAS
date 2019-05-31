@@ -148,6 +148,15 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		// TODO: find way to remove a-tag around the content, to create valid html
 		$tpl = $this->getNodeTemplateInstance();
 
+		// add the tree buttons
+		if($this->checkAccess('write', $node->getRefId())) {
+			if($is_study_programme) {
+				$this->parseStudyProgrammeNodeButtons($node, $node_config, $tpl);
+			} else {
+				$this->parseLeafNodeButtons($node, $node_config, $tpl);
+			}
+		}
+
 		$tpl->setCurrentBlock('node-content-block');
 		$tpl->setVariable('NODE_TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($node_config)));
 		$tpl->setVariable('NODE_TITLE', $node->getTitle());
@@ -158,15 +167,6 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		}
 
 		$tpl->parseCurrentBlock('node-content-block');
-
-		// add the tree buttons
-		if($this->checkAccess('write', $node->getRefId())) {
-			if($is_study_programme) {
-				$this->parseStudyProgrammeNodeButtons($node, $node_config, $tpl);
-			} else {
-				$this->parseLeafNodeButtons($node, $node_config, $tpl);
-			}
-		}
 
 		return $tpl->get();
 	}
@@ -201,7 +201,6 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 */
 	protected function parseStudyProgrammeNodeButtons($node, $node_config, $tpl) {
 		$tpl->setCurrentBlock('enable-tree-buttons');
-		$tpl->touchBlock('enable-tree-buttons');
 
 		// show info button only when it not the current node		
 		$info_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId(), 'currentNode'=>$node_config['is_current_node']), ilGlyphGUI::get(ilGlyphGUI::INFO));
@@ -231,7 +230,6 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 	 */
 	protected function parseLeafNodeButtons($node, $node_config, $tpl) {
 		$tpl->setCurrentBlock('enable-tree-buttons');
-		$tpl->touchBlock('enable-tree-buttons');
 
 		// only show delete button when its not the current node
 		if($node_config['is_delete_enabled']) {
