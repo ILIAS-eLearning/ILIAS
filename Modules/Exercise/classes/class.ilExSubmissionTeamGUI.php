@@ -84,9 +84,11 @@ class ilExSubmissionTeamGUI
 			$team = array();						
 			foreach($team_members as $member_id)
 			{
-				$team[] = ilObjUser::_lookupFullname($member_id);
+				//$team[] = ilObjUser::_lookupFullname($member_id);
+				include_once("./Services/User/classes/class.ilUserUtil.php");
+				$team[] = ilUserUtil::getNamePresentation($member_id, false, false, "", false);
 			}						
-			$team = implode(", ", $team);
+			$team = implode("; ", $team);
 			
 			// any team member upload?
 			if(!$a_submission->getLastSubmission())
