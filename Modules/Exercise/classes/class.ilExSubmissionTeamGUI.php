@@ -56,7 +56,8 @@ class ilExSubmissionTeamGUI
 			case 'ilrepositorysearchgui':					
 				$this->ctrl->setReturn($this,'submissionScreenTeam');	
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search = new ilRepositorySearchGUI();		
+				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
 				$rep_search->setTitle($this->lng->txt("exc_team_member_add"));
 				$rep_search->setCallback($this,'addTeamMemberActionObject');
 				$this->ctrl->forwardCommand($rep_search);
