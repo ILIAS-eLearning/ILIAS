@@ -50,11 +50,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
     private $userCertificateRepository;
 
     /**
-     * @var ilCertificateMigrationRepository
-     */
-    private $migrationRepository;
-
-    /**
      * ilCertificateAppEventListener constructor.
      * @param \ilDBInterface $db
      * @param \ilObjectDataCache $objectDataCache
@@ -72,7 +67,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $this->certificateClassMap = new \ilCertificateTypeClassMap();
         $this->templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
         $this->userCertificateRepository = new \ilUserCertificateRepository($this->db, $this->logger);
-        $this->migrationRepository = new ilCertificateMigrationRepository($this->db, $this->logger);
     }
 
     /**
@@ -359,8 +353,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $this->userCertificateRepository->deleteUserCertificates((int)$userId);
 
         $this->certificateQueueRepository->removeFromQueueByUserId((int)$userId);
-
-        $this->migrationRepository->deleteFromMigrationJob((int)$userId);
 
         $portfolioFileService->deleteUserDirectory($userId);
 
