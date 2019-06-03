@@ -12,15 +12,12 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 
 /**
- * This implements the checkbox input, note that this uses GroupHelper to manage potentially
- * attached dependant groups.
+ * This implements the checkbox input.
  */
 class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
 
 	use JavaScriptBindable;
 	use Triggerer;
-	use DependantGroupHelper;
-
 
 	/**
 	 * @inheritdoc
@@ -79,5 +76,33 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 		}
 
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnLoad(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'load');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnChange(C\Signal $signal) {
+		return $this->withTriggeredSignal($signal, 'change');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnChange(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'change');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnLoad(C\Signal $signal) {
+		return $this->withTriggeredSignal($signal, 'load');
 	}
 }

@@ -76,6 +76,14 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritdoc
 	 */
+	public function optionalGroup(array $inputs, string $label, string $byline = null) : Field\OptionalGroup {
+		return new OptionalGroup($this->data_factory, $this->refinery, $inputs, $label, $byline);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	public function section(array $inputs, $label, $byline = null) {
 		return new Section($this->data_factory, $this->refinery, $inputs, $label, $byline);
 	}

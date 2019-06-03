@@ -5,10 +5,8 @@ docs/LICENSE */
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Component\Component;
-
 /**
- * This describes checkbox inputs.
+ * This describes optional group inputs.
  */
-interface Checkbox extends Component {
+interface OptionalGroup extends Group {
 }

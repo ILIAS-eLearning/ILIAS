@@ -29,14 +29,44 @@ class Renderer extends AbstractComponentRenderer {
 		 */
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Input\Field\Group) {
-			/**
-			 * @var $component Group
-			 */
+		$input_tpl = null;
+		$id = null;
+		$dependant_group_html = null;
+
+		if ($component instanceof Component\Input\Field\Text) {
+			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\Numeric) {
+			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\Checkbox) {
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\OptionalGroup) {
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+			$component = $component->withAdditionalOnLoadCode(function($id) {
+				return $this->getOptionalGroupOnLoadCode($id);
+			});
+			$dependant_group_html = $this->renderFieldGroups($component, $default_renderer);
+			$id = $this->bindJavaScript($component);
+			return $this->renderInputFieldWithContext($input_tpl, $component, $id, $dependant_group_html);
+		} elseif ($component instanceof Component\Input\Field\Tag) {
+			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
+		} elseif ($component instanceof Password) {
+			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
+		} else if ($component instanceof Select) {
+			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} else if ($component instanceof Component\Input\Field\Textarea) {
+			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\Radio) {
+			return $this->renderRadioField($component, $default_renderer);
+		} else if ($component instanceof MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
+		} else if ($component instanceof Component\Input\Field\Group) {
 			return $this->renderFieldGroups($component, $default_renderer);
 		}
+		else {
+			throw new \LogicException("Cannot render '" . get_class($component) . "'");
+		}
 
-		return $this->renderNoneGroupInput($component, $default_renderer);
+		return $this->renderInputFieldWithContext($input_tpl, $component, $id);
 	}
 
 
@@ -53,48 +83,6 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
-	}
-
-
-	/**
-	 * @param Component\Input\Field\Input $input
-	 *
-	 * @return string
-	 */
-	protected function renderNoneGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer) {
-		$input_tpl = null;
-		$id = null;
-		$dependant_group_html = null;
-
-		if ($input instanceof Component\Input\Field\Text) {
-			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Numeric) {
-			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Checkbox) {
-			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			$dependant_group = $input->getDependantGroup();
-			if (!is_null($dependant_group)) {
-				$dependant_group_html = $default_renderer->render($dependant_group);
-				$id = $this->bindJavaScript($input);
-			}
-		} elseif ($input instanceof Component\Input\Field\Tag) {
-			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
-		} elseif ($input instanceof Password) {
-			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
-		} else if ($input instanceof Select) {
-			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
-		} else if ($input instanceof Component\Input\Field\Textarea) {
-			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Radio) {
-			return $this->renderRadioField($input, $default_renderer);
-		} else if ($input instanceof MultiSelect) {
-			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-		} else {
-			throw new \LogicException("Cannot render '" . get_class($input) . "'");
-		}
-
-		$html = $this->renderInputFieldWithContext($input_tpl, $input, $id, $dependant_group_html);
-		return $html;
 	}
 
 
@@ -219,7 +207,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
-
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
 		 * TODO: should we throw an error in case for no name or render without name?
@@ -271,7 +258,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
-
 		if($input instanceof Component\Input\Field\Password) {
 			$id = $this->additionalRenderPassword($tpl, $input);
 		}
@@ -283,7 +269,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("NAME", $input->getName());
 
 		switch (true) {
-			case ($input instanceof Checkbox):
+			case ($input instanceof Checkbox || $input instanceof OptionalGroup):
 				if ($input->getValue()) {
 					$tpl->touchBlock("value");
 				}
@@ -556,6 +542,23 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl->get();
+	}
+
+	protected function getOptionalGroupOnLoadCode($id) {
+		return <<<JS
+var $id = $("#$id");
+var {$id}_group = $id.siblings(".form-group").show();
+var {$id}_adjust = function() {
+	if ({$id}[0].checked) {
+		{$id}_group.show();
+	}
+	else {
+		{$id}_group.hide()
+	}
+}
+$id.change({$id}_adjust);
+{$id}_adjust();
+JS;
 	}
 
 	/**
