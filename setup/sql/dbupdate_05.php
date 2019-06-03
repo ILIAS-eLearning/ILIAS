@@ -1025,7 +1025,7 @@ if( $row['cnt'] > 0 )
 	$ilDB->createTable($tempTableName, $tempTableFields);
 	$ilDB->addPrimaryKey($tempTableName, array('qst_id'));
 	$ilDB->addIndex($tempTableName, array('tst_obj_id', 'qpl_obj_id'), 'i1');
- 
+
     $ilDB->manipulate("
         INSERT INTO {$tempTableName} (qst_id, tst_obj_id, qpl_obj_id) {$brokenQuestionSelectQuery}
     ");
@@ -1045,26 +1045,52 @@ if( $ilDB->tableExists($tempTableName) )
         )
     ", array('integer', 'integer', 'integer', 'integer')
 	);
-	
+
 	$deleteStatement = $ilDB->prepareManip("
         DELETE FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
     ", array('integer', 'integer')
 	);
-	
+
 	$res = $ilDB->query("SELECT DISTINCT tst_obj_id, qpl_obj_id FROM {$tempTableName}");
-    
+
     while( $row = $ilDB->fetchAssoc($res) )
     {
         $ilDB->execute($updateStatement, array(
 			$row['tst_obj_id'], $row['qpl_obj_id'], $row['tst_obj_id'], $row['qpl_obj_id']
         ));
-        
+
 		$ilDB->execute($deleteStatement, array(
 			$row['tst_obj_id'], $row['qpl_obj_id']
         ));
     }
-    
+
 	$ilDB->dropTable($tempTableName);
 }
 
+?>
+<#5503>
+<?php
+if( !$ilDB->tableExists('cont_filter_field') )
+{
+	$ilDB->createTable('cont_filter_field', array(
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'record_set_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+}
 ?>
