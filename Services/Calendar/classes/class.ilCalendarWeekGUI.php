@@ -367,7 +367,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 				case ilCalendarSettings::TIME_FORMAT_12:
 					if ($morning_aggr > 0 && $i == $morning_aggr)
 					{
-						$hours[$i][$num_day]['txt'] = date('H a',mktime(0,0,0,1,1,2000)) .
+						$hours[$i][$num_day]['txt'] = date('H',mktime(0,0,0,1,1,2000)) .
 						"-" .
 						date('h a',mktime($this->user_settings->getDayStart(),0,0,1,1,2000));
 					}
@@ -377,7 +377,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 					}
 					if ($evening_aggr < 23 && $i == $evening_aggr)
 					{
-						$hours[$i][$num_day]['txt'].= "-".date('h a',mktime(24,0,0,1,1,2000));
+						$hours[$i][$num_day]['txt'].= "-".date('h a',mktime(12,0,0,1,1,2000));
 					}
 					break; 					
 			}
