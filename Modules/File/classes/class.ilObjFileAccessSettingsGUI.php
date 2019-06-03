@@ -317,11 +317,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	    $form->setFormAction($DIC->ctrl()->getFormAction($this));
 	    $form->setTitle($lng->txt("settings"));
 	    
-	    // Enable webdav
-	    $cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
-	    $cb_prop->setValue('1');
-	    $cb_prop->setChecked($this->object->isWebdavEnabled());
-	    $form->addItem($cb_prop);
+		// Enable webdav
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($this->object->isWebdavEnabled());
+		$form->addItem($cb_prop);
+
+		// Enable versioning
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_versioning_webdav"), "enable_versioning_webdav");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
+		$form->addItem($cb_prop);
 	    
 	    $rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
 	    $rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
@@ -384,6 +390,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		if($form->checkInput())
 		{
 		    $this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
+		    $this->object->setWebdavVersioningEnabled($_POST['enable_versioning_webdav'] == '1');
 		    //		$this->object->setWebdavActionsVisible($_POST['webdav_actions_visible'] == '1');
 		    $this->object->setCustomWebfolderInstructionsEnabled($_POST['custom_webfolder_instructions_choice'] == 'custom');
 		    $this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions'], false));

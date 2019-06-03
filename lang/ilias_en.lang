@@ -82,6 +82,25 @@ auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
+obj#:#cont_filter_empty#:#Please use the filter to see any objects.
+obj#:#obj_tool_setting_filter#:#Filter
+obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
+obj#:#obj_tool_setting_filter_empty#:#Show on Empty Filter
+obj#:#obj_tool_setting_filter_empty_info#:#Show all items while filter is empty.
+cont#:#cont_std_filter_title_1#:#Title
+cont#:#cont_std_filter_title_2#:#Description
+cont#:#cont_std_filter_title_3#:#Title/Description
+cont#:#cont_std_filter_title_4#:#Keyword
+cont#:#cont_std_filter_title_5#:#Author
+cont#:#cont_std_filter_title_6#:#Copyright
+cont#:#cont_std_filter_title_7#:#Tutorial Support
+cont#:#cont_std_filter_title_8#:#Object Type
+cont#:#cont_filter#:#Filter
+cont#:#cont_select_fields#:#Select Fields
+cont#:#cont_std_record_title#:#Standard
+cont#:#cont_filter_record#:#Record
+cont#:#cont_filter_field#:#Field
+cont#:#cont_filter_fields#:#Filter Fields
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung

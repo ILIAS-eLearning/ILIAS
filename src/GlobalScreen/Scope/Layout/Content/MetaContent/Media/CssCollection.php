@@ -11,6 +11,12 @@ class CssCollection extends AbstractCollection {
 	 * @param Css $item
 	 */
 	public function addItem(Css $item) {
+		$basename = basename(parse_url($item->getContent(), PHP_URL_PATH));
+		foreach ($this->getItems() as $css) {
+			if (basename(parse_url($css->getContent(), PHP_URL_PATH)) === $basename) {
+				return;
+			}
+		}
 		$this->items[] = $item;
 	}
 

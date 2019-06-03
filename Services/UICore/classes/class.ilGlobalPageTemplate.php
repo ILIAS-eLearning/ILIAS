@@ -165,6 +165,17 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 		$this->legacy_content_template->setRightContent($a_html);
 	}
 
+	// Filter section
+
+	/**
+	 * @param string $filter
+	 */
+	public function setFilter(string $filter)
+	{
+		$this->legacy_content_template->setFilter($filter);
+	}
+
+
 	// MAIN INFOS
 
 
