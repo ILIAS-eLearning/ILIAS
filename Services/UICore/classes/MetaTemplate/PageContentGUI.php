@@ -73,6 +73,7 @@ class PageContentGUI {
 	private $icon_path;
 	private $icon_desc;
 	private $enable_fileupload;
+	private $filter;
 	//
 	// Needed Methods for communication from the outside
 	//
@@ -264,6 +265,21 @@ class PageContentGUI {
 		$this->left_content = $left_content;
 	}
 
+	/**
+	 * @param string $filter
+	 */
+	public function setFilter(string $filter)
+	{
+		$this->filter = $filter;
+	}
+
+	private function fillFilter() {
+		if (trim($this->filter) != "") {
+			$this->template_file->setCurrentBlock("filter");
+			$this->template_file->setVariable("FILTER", $this->filter);
+			$this->template_file->parseCurrentBlock();
+		}
+	}
 
 	/**
 	 * @param mixed $icon_path
@@ -377,6 +393,7 @@ class PageContentGUI {
 			$this->fillRightContent();
 			$this->fillAdminPanel();
 			$this->fillToolbar();
+			$this->fillFilter();
 			// $this->fillPermanentLink(); //TODO
 
 			$this->setCenterColumnClass();
