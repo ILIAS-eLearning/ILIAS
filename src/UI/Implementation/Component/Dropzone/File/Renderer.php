@@ -191,7 +191,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tplUploadFileList->setVariable("REMOVE", $r->render([$f->button()->close()]));
 
 		if ($this->renderMetaData($dropzone)) {
-			$tplUploadFileList->setVariable("TOGGLE", $r->render([$f->glyph()->collapse(), $f->glyph()->expand()]));
+			$tplUploadFileList->setVariable("TOGGLE", $r->render([$f->symbol()->glyph()->collapse(), $f->symbol()->glyph()->expand()]));
 			$tplUploadFileList->setCurrentBlock("with_metadata");
 			$items[] = $f->button()->shy($this->txt("edit_metadata"), "")->withAriaLabel("edit_metadata");
 			if ($dropzone->allowsUserDefinedFileNames()) {

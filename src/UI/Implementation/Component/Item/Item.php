@@ -138,7 +138,7 @@ abstract class Item implements C\Item\Item {
 	/**
 	 * @inheritdoc
 	 */
-	public function withLeadIcon(\ILIAS\UI\Component\Icon\Icon $icon) {
+	public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon) {
 		$clone = clone $this;
 		$clone->lead = $icon;
 		return $clone;

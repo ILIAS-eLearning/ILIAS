@@ -6158,6 +6158,27 @@ exc#:#exc_portfolio_returned#:#Portfolio zur Übungseinheit
 exc#:#exc_portfolio_selected#:#Das Portfolio wurde zugeordnet.
 exc#:#exc_presentation_order#:#Reihenfolge
 exc#:#exc_public_submission#:#Öffentliche Lösungsabgaben
+exc#:#exc_reminder_cron_ok#:#Erinnerungen wurden verschickt
+exc#:#exc_reminder_end#:#Ende
+exc#:#exc_reminder_feedback_setting#:#Teilnehmer an Peer-Feedbacks erinnern
+exc#:#exc_reminder_feedback_start#:#Start vor Peer-Feedback-Termin
+exc#:#exc_reminder_frequency#:#Frequenz
+exc#:#exc_reminder_grade_body#:#Die folgende Übungseinheit wurde noch nicht bewertet
+exc#:#exc_reminder_grade_setting#:#Erinnerung an notwendige Bewertung
+exc#:#exc_reminder_grade_subject#:#Übungseinheit "%s" wurde nicht berwertet
+exc#:#exc_reminder_mail_no_tpl#:#Keine Mail-Vorlage verwenden
+exc#:#exc_reminder_mail_template#:#Mail-Vorlage
+exc#:#exc_reminder_peer_body#:#Zur folgenden Übungseinheit fehlen noch Rückmeldungen
+exc#:#exc_reminder_peer_subject#:#Zur Übungseinheit "%s" fehlen Rückmeldungen
+exc#:#exc_reminder_salutation#:#Hallo %s,
+exc#:#exc_reminder_start#:#Start vor Abgabetermin
+exc#:#exc_reminder_start_info#:#Alle Mitglieder der übergeordneten Gruppe oder des übergeordneten Kurses werden benachrichtigt.<br>Ohne Kurs oder Gruppe wird niemand benachrichtigt.
+exc#:#exc_reminder_submit_body#:#die folgenden Übungseinheiten wurden von Ihnen noch nicht abgegeben
+exc#:#exc_reminder_submit_setting#:#Teilnehmer an Abgaben erinnern
+exc#:#exc_reminder_submit_subject#:#Übungseinheit "%s" wurde noch nicht abgegeben
+exc#:#exc_reminders_cron#:#Erinnerungen für Übungseinheiten
+exc#:#exc_reminders_cron_info#:#Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks
+exc#:#exc_save_all#:#Alle speichern
 exc#:#exc_save_order#:#Reihenfolge speichern
 exc#:#exc_saved_order#:#Reihenfolge gespeichert
 exc#:#exc_select_ass#:#Übungseinheit auswählen
@@ -10610,7 +10631,7 @@ tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekr
 tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
 tos#:#tos_crit_type_usr_global_role#:#Globale Rolle
 tos#:#tos_crit_type_usr_global_role_info#:#Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments.
-tos#:#tos_crit_type_usr_language#:#Bbenutzersprache
+tos#:#tos_crit_type_usr_language#:#Benutzersprache
 tos#:#tos_crit_type_usr_language_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
@@ -14013,7 +14034,7 @@ chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversatio
 chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
 usr#:#user_actions#:#Benutzeraktionen
-usr#:#user_action#:#Benuzteraktion
+usr#:#user_action#:#Benutzeraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
 chatroom#:#chtr_server_status#:#Server-Status
@@ -14552,32 +14573,7 @@ exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
 exc#:#exc_reminder_start#:#Start Reminders before Deadline
 exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
-exc#:#exc_reminder_frequency#:#Frequency
-exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade
-exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback
-exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
-exc#:#exc_reminders_cron#:#Reminders for Assignments
-exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
-exc#:#exc_reminder_end#:#Reminder ends
-exc#:#exc_reminder_mail_template#:#Mail Template
-exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
-exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
-exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
-exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
-exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
-exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
-exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
-exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
-exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
-exc#:#exc_reminder_salutation#:#Hello %s,
-exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
-exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded
-exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
-exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
-exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet
-exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
 exc#:#exc_reminder_link#:#URL
-exc#:#exc_reminder_cron_ok#:#Reminders sent:
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
 badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
@@ -14736,7 +14732,7 @@ user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer au
 user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
-lhist#:#lhist_first_login#:#First Login
+lhist#:#lhist_first_login#:#Erstes Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
@@ -14957,7 +14953,7 @@ crs#:#crs_lobj_pm_score#:#Ihr Ergebnis
 crs#:#crs_lobj_pm_min_goal#:#Benötigter Wert
 dateplaner#:#back_to_crs#:#Kursinhalt
 dateplaner#:#back_to_grp#:#Gruppeninhalt
-dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
+dateplaner#:#back_to_pd#:#zurück
 crs#:#crs_timings_short_start_end#:#Startdatum
 common#:#il_lso_admin#:#Lernsequenzadministrator
 common#:#il_lso_member#:#Lernsequenzmitglied
@@ -15111,3 +15107,21 @@ exc#:#exc_tbl_action_open_submission#:#Open Submission
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
+exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
+exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
+wiki#:#wiki_notification_comment_subject#:#A comment was added to %s: %s
+wiki#:#wiki_notification_comment#:#the following Wiki Page has been commented.
+wiki#:#wiki_commented_by#:#Commented by
+content#:#cont_notification_activated#:#Notification Activated (Whole LM)
+content#:#cont_page_notification_activated#:#Notification Activated (Single Page)
+content#:#cont_notification_deactivate_lm#:#Deactivate Notification for Learning Module
+content#:#cont_notification_deactivate_page#:#Deactivate Notification for Page
+content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module
+content#:#cont_notification_activate_page#:#Activate Notification for Page
+content#:#cont_notification_deactivated#:#Notification Deactivated
+content#:#cont_notification_comment_subject_lm#:#A comment was added to %s: %s
+content#:#cont_change_notification_salutation#:#Hello %s,
+content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented
+content#:#cont_notification_update_lm#:#the following Learning Module has been updated
+content#:#cont_commented_by#:#Commented by
+content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s

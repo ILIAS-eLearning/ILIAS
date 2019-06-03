@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/User/classes/class.ilUserRequestTargetAdjustmentCase.php';
@@ -16,7 +16,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 	/**
 	 * @return boolean
 	 */
-	public function shouldStoreRequestTarget()
+	public function shouldStoreRequestTarget() : bool
 	{
 		return true;
 	}
@@ -24,7 +24,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 	/**
 	 * @return boolean
 	 */
-	public function isInFulfillment()
+	public function isInFulfillment() : bool
 	{
 		if(!isset($_GET['baseClass']) || strtolower($_GET['baseClass']) != 'ilpersonaldesktopgui')
 		{
@@ -40,7 +40,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 	/**
 	 * @return boolean
 	 */
-	public function shouldAdjustRequest()
+	public function shouldAdjustRequest() : bool
 	{
 		$user_log = ilLoggerFactory::getLogger("user");
 
@@ -114,7 +114,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 	/**
 	 * @return void
 	 */
-	public function adjust()
+	public function adjust() : void
 	{
 		$user_log = ilLoggerFactory::getLogger("user");
 

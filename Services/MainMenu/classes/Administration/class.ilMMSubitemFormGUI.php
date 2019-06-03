@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Factory;
@@ -12,7 +13,7 @@ use ILIAS\UI\Renderer;
  */
 class ilMMSubitemFormGUI {
 
-	use ilMMHasher;
+	use Hasher;
 	const F_TITLE = "title";
 	const F_TYPE = "type";
 	const F_PARENT = "parent";

@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+
 /**
  * Class ilMMTopItemTableGUI
  *
@@ -7,7 +9,7 @@
  */
 class ilMMTopItemTableGUI extends ilTable2GUI {
 
-	use ilMMHasher;
+	use Hasher;
 	/**
 	 * @var ilMMCustomProvider
 	 */

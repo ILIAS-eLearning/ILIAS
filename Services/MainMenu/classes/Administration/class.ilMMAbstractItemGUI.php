@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
  * Class ilMMAbstractItemGUI
@@ -10,7 +11,7 @@ use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 class ilMMAbstractItemGUI {
 
 	const IDENTIFIER = 'identifier';
-	use ilMMHasher;
+	use Hasher;
 	/**
 	 * @var \ILIAS\DI\UIServices
 	 */

@@ -306,8 +306,8 @@ class Renderer extends AbstractComponentRenderer
 		$f = $this->getUIFactory();
 
 		if($component->getTriggeredSignals()) {
-			$back = $f->glyph()->back('')->withOnClick($component->getInternalSignal());
-			$forward = $f->glyph()->next('')->withOnClick($component->getInternalSignal());
+			$back = $f->symbol()->glyph()->back('')->withOnClick($component->getInternalSignal());
+			$forward = $f->symbol()->glyph()->next('')->withOnClick($component->getInternalSignal());
 		} else {
 			$url = $component->getTargetURL();
 			if(strpos($url, '?') === false) {
@@ -324,8 +324,8 @@ class Renderer extends AbstractComponentRenderer
 				$url_next = $base .http_build_query($params);
 			}
 
-			$back = $f->glyph()->back($url_prev);
-			$forward = $f->glyph()->next($url_next);
+			$back = $f->symbol()->glyph()->back($url_prev);
+			$forward = $f->symbol()->glyph()->next($url_next);
 		}
 
 		//2do: unavailable action for glyphs

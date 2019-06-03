@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Data\Interval;
 
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class OpenedFloatInterval
 {

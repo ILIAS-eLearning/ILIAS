@@ -58,7 +58,7 @@ class ilMMItemRepository {
 		global $DIC;
 		$this->storage = new CoreStorageFacade();
 		$this->gs = new ilGSRepository();
-		$this->information = new ilMMItemInformation($this->storage);
+		$this->information = new ilMMItemInformation();
 		$this->providers = $this->initProviders();
 		$this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
 		$this->services = $DIC->globalScreen();
@@ -119,7 +119,7 @@ class ilMMItemRepository {
 	private function initProviders(): array {
 		$providers = [];
 		// Core
-		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE])->get() as $provider_storage) {
+		foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE_MAINBAR])->get() as $provider_storage) {
 			/**
 			 * @var $provider_storage ilGSProviderStorage
 			 */
@@ -207,15 +207,20 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
 	private function sync(): bool {
 		if ($this->synced === false || $this->synced === null) {
-			foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
+			global $DIC;
+			$i = new ilGSProviderFactory($DIC);
+			/**
+			 * @var $provider StaticMainMenuProvider
+			 */
+			foreach ($i->getMainBarProvider() as $provider) {
 				foreach ($provider->getAllIdentifications() as $identification) {
 					ilGSIdentificationStorage::registerIdentification($identification, $provider);
 				}
 			}
 
 			$this->storage->db()->manipulate(
-				"DELETE il_mm_items FROM il_mm_items 
-  						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification 
+				"DELETE il_mm_items FROM il_mm_items
+  						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification
       					WHERE il_gs_identifications.identification IS NULL"
 			);
 			foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {

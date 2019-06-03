@@ -7,8 +7,9 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\String\Constraints\HasMaxLength;
-use ILIAS\Refinery\String\Constraints\HasMinLength;
+use ILIAS\Refinery\String\HasMaxLength;
+use ILIAS\Refinery\String\HasMinLength;
+use ILIAS\Refinery\String\SplitString;
 
 class Group
 {
@@ -52,5 +53,17 @@ class Group
 	public function hasMaxLength(int $maximum) : HasMaxLength
 	{
 		return new HasMaxLength($maximum, $this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Creates a transformation that can be used to split a given
+	 * string by given delimiter.
+	 *
+	 * @param string $delimiter
+	 * @return SplitString
+	 */
+	public function splitString(string $delimiter) : SplitString
+	{
+		return new SplitString($delimiter, $this->dataFactory);
 	}
 }

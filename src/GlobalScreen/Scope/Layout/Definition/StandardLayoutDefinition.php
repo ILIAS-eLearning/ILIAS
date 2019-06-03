@@ -5,7 +5,7 @@
  *
  * @package ILIAS\GlobalScreen\Scope\LayoutDefinition
  */
-class StandardLayoutDefinition implements LayoutDefinition {
+class StandardLayoutDefinition extends AbstractLayoutDefinition implements LayoutDefinition {
 
 	/**
 	 * @inheritDoc

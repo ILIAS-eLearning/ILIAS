@@ -18,14 +18,6 @@ class Combined extends Slate implements ISlate\Combined
 	 */
 	protected $contents = [];
 
-	public function __construct(
-		SignalGeneratorInterface $signal_generator,
-		string $name,
-		$symbol
-	) {
-		parent::__construct($signal_generator, $name, $symbol);
-	}
-
 	/**
 	 * @inheritdoc
 	 */

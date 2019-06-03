@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
@@ -24,10 +25,6 @@ class ilMMItemInformation implements ItemInformation {
 	 * @var array
 	 */
 	private $items = [];
-	/**
-	 * @var StorageFacade
-	 */
-	private $storage;
 
 
 	/**
@@ -35,8 +32,7 @@ class ilMMItemInformation implements ItemInformation {
 	 *
 	 * @param StorageFacade $storage
 	 */
-	public function __construct(StorageFacade $storage) {
-		$this->storage = $storage;
+	public function __construct() {
 		$this->items = ilMMItemStorage::getArray('identification');
 		$this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
 	}
@@ -92,7 +88,7 @@ class ilMMItemInformation implements ItemInformation {
 			return (int)$this->items[$item->getProviderIdentification()->serialize()]['position'];
 		}
 
-		return 99;
+		return $item->getPosition();
 	}
 
 
@@ -105,7 +101,7 @@ class ilMMItemInformation implements ItemInformation {
 			return $this->items[$serialize]['active'] === "1";
 		}
 
-		return false;
+		return $item->isActive();
 	}
 
 

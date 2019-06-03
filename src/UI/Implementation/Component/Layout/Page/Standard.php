@@ -5,6 +5,7 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -16,6 +17,8 @@ use ILIAS\UI\Component\Image\Image;
 class Standard implements Page\Standard {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
+
 	/**
 	 * @var mixed
 	 */
@@ -25,11 +28,11 @@ class Standard implements Page\Standard {
 	 */
 	private $metabar;
 	/**
-	 * @var    MainBar
+	 * @var	MainBar
 	 */
 	private $mainbar;
 	/**
-	 * @var    Breadcrumbs
+	 * @var	Breadcrumbs
 	 */
 	private $breadcrumbs;
 	/**
@@ -37,9 +40,13 @@ class Standard implements Page\Standard {
 	 */
 	private $logo;
 	/**
-	 * @var    bool
+	 * @var	bool
 	 */
 	private $with_headers = true;
+	/**
+	 * @var    bool
+	 */
+	private $ui_demo = false;
 
 
 	/**
@@ -129,7 +136,8 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getContent() {
+	public function getContent()
+	{
 		return $this->content;
 	}
 
@@ -137,7 +145,8 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMetabar(): MetaBar {
+	public function getMetabar(): MetaBar
+	{
 		return $this->metabar;
 	}
 
@@ -145,7 +154,8 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMainbar(): MainBar {
+	public function getMainbar(): MainBar
+	{
 		return $this->mainbar;
 	}
 
@@ -153,7 +163,8 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getBreadcrumbs() {
+	public function getBreadcrumbs()
+	{
 		return $this->breadcrumbs;
 	}
 
@@ -161,7 +172,8 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getLogo() {
+	public function getLogo()
+	{
 		return $this->logo;
 	}
 
@@ -171,10 +183,10 @@ class Standard implements Page\Standard {
 	 *
 	 * @return    Page
 	 */
-	public function withHeaders($use_headers): Page {
+	public function withHeaders($use_headers): Page
+	{
 		$clone = clone $this;
 		$clone->with_headers = $use_headers;
-
 		return $clone;
 	}
 
@@ -182,7 +194,26 @@ class Standard implements Page\Standard {
 	/**
 	 * @return    bool
 	 */
-	public function getWithHeaders() {
+	public function getWithHeaders()
+	{
 		return $this->with_headers;
+	}
+
+	/**
+	 * @return    bool
+	 */
+	public function getIsUIDemo(): bool
+	{
+		return $this->ui_demo;
+	}
+
+	/**
+	 * @return    bool
+	 */
+	public function withUIDemo(bool $switch=true): Standard
+	{
+		$clone = clone $this;
+		$clone->ui_demo = $switch;
+		return $clone;
 	}
 }

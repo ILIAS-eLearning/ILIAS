@@ -427,10 +427,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->getCurrentSequenceElement()
 			);
 
-			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
-				$this->testSession->getActiveId(), $this->testSession->getPass()
-			);
-			
+			$this->removeIntermediateSolution();
+
 			$nextSequenceElement = $this->testSequence->getNextSequence($this->getCurrentSequenceElement());
 
 			if(!$this->isValidSequenceElement($nextSequenceElement))
@@ -455,10 +453,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$questionId = $this->testSequence->getQuestionForSequence(
 				$this->getCurrentSequenceElement()
 			);
-			
-			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
-				$this->testSession->getActiveId(), $this->testSession->getPass()
-			);
+
+			$this->removeIntermediateSolution();
 
 			if( $this->object->isForceInstantFeedbackEnabled() )
 			{

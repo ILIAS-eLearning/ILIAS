@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Provider;
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
@@ -48,5 +49,18 @@ abstract class AbstractStaticMetaBarProvider extends AbstractProvider implements
 		preg_match($re, $reflector->getFileName(), $matches);
 
 		return $matches[1];
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getAllIdentifications(): array {
+		$identifications = [];
+		foreach ($this->getMetaBarItems() as $meta_bar_item) {
+			$identifications[] = $meta_bar_item->getProviderIdentification();
+		}
+
+		return $identifications;
 	}
 }

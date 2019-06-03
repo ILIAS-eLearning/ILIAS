@@ -204,6 +204,7 @@ class ilMainMenuGUI {
 	/**
 	 * @param bool $a_in_topbar
 	 *
+	 * @deprecated
 	 * @return string
 	 */
 	public static function getLanguageSelection($a_in_topbar = false): string {
@@ -415,7 +416,7 @@ class ilMainMenuGUI {
 
 			$a_tpl->setCurrentBlock('status_box');
 
-			$glyph = $ui_factory->glyph()->mail("ilias.php?baseClass=ilMailGUI");
+			$glyph = $ui_factory->symbol()->glyph()->mail("ilias.php?baseClass=ilMailGUI");
 
 			if ($new_mails > 0) {
 				$glyph = $glyph->withCounter($ui_factory->counter()->novelty($new_mails));
@@ -691,7 +692,7 @@ class ilMainMenuGUI {
 		$url = $DIC->ctrl()->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_GET_POPOVER_CONTENT, "", true);
 		$popover = $popover->withAsyncContentUrl($url);
 
-		$glyph = $factory->glyph()
+		$glyph = $factory->symbol()->glyph()
 			->briefcase()
 			->withOnClick($popover->getShowSignal())
 			->withCounter($factory->counter()->novelty($numberOfUserInteractions))

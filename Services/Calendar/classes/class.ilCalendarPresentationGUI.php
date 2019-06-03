@@ -94,8 +94,7 @@ class ilCalendarPresentationGUI
 		$this->toolbar = $DIC->toolbar();
 		$this->ref_id = $a_ref_id;
 		$this->category_id = $_GET["category_id"];
-		$this->ctrl->saveParameter($this, "category_id");
-
+		$this->ctrl->setParameter($this,'category_id', $_REQUEST['category_id']);
 
 		// show back to pd
 		$this->ctrl->saveParameter($this, 'backpd');
@@ -566,12 +565,9 @@ class ilCalendarPresentationGUI
 		$side_cal->setRepositoryMode($this->getRepositoryMode());
 		$tpl->setVariable('MINICAL', $ilCtrl->getHTML($side_cal));
 
-		if ($this->category_id == 0)
-		{
-			include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
-			$cat = new ilCalendarCategoryGUI($ilUser->getId(), $this->seed, $this->ref_id);
-			$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
-		}
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
+		$cat = new ilCalendarCategoryGUI($ilUser->getId(), $this->seed, $this->ref_id);
+		$tpl->setVariable('CATEGORIES', $ilCtrl->getHTML($cat));
 
 		$this->tpl->setRightContent($tpl->get());
 	}
@@ -619,12 +615,21 @@ class ilCalendarPresentationGUI
 		}
 		else
 		{
-			$ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $_REQUEST["category_id"]);
-
 			// no object calendar => back is back to manage view
-			$this->tabs_gui->setBackTarget(
-				$this->lng->txt("back"),
-				$ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, "manage"));
+			if(array_key_exists('backvm',$_REQUEST))
+			{
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt("back"),
+					$ctrl->getLinkTargetByClass(ilCalendarCategoryGUI::class, 'manage'));
+			}
+			else
+			{
+				$ctrl->clearParameterByClass(ilCalendarPresentationGUI::class,'category_id');
+				$this->tabs_gui->setBackTarget(
+					$this->lng->txt("back"),
+					$ctrl->getLinkTargetByClass('ilcalendarpresentationgui', ''));
+			}
+			$ctrl->setParameterByClass(ilCalendarPresentationGUI::class, "category_id", $_REQUEST["category_id"]);
 		}
 
 		$this->tabs_gui->addTab(
@@ -826,9 +831,7 @@ class ilCalendarPresentationGUI
 			if ($this->actions->checkDeleteCal($this->category_id))
 			{
 				$ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-				$ctrl->setParameterByClass("ilcalendarcategorygui", "backv", "1");
 				$this->action_menu->addItem($lng->txt("cal_delete_cal"), "", $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
-				$ctrl->clearParameterByClass('ilcalendarcategorygui','backv');
 			}
 
 			$tpl->setHeaderActionMenu($this->action_menu->getHTML());
@@ -843,10 +846,22 @@ class ilCalendarPresentationGUI
 	 */
 	public function initSeed()
 	{
-		include_once('Services/Calendar/classes/class.ilDate.php');
-		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
-		$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
-		$this->ctrl->saveParameter($this,array('seed'));
+		// default to today
+		$this->seed = new ilDate(time(), IL_CAL_UNIX);
+		if(array_key_exists('seed',$_REQUEST))
+		{
+			$this->seed = new ilDate($_GET['seed'],IL_CAL_DATE);
+		}
+		elseif(!$this->getRepositoryMode())
+		{
+			$session_seed = ilSession::get('cal_seed');
+			if($session_seed)
+			{
+				$this->seed = new ilDate($session_seed, IL_CAL_DATE);
+			}
+		}
+		$this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
+		ilSession::set('cal_seed', $this->seed->get(IL_CAL_DATE));
  	}
 	
 	/**

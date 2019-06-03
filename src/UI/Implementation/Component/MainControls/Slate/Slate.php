@@ -6,8 +6,7 @@ namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Icon\Icon;
-use ILIAS\UI\Component\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -26,7 +25,7 @@ abstract class Slate implements ISlate\Slate
 	protected $name;
 
 	/**
-	 * @var Icon|Glyph
+	 * @var Symbol
 	 */
 	protected $symbol;
 
@@ -47,17 +46,13 @@ abstract class Slate implements ISlate\Slate
 
 	/**
 	 * @param string 	$name 	name of the slate, also used as label
-	 * @param Icon|Glyph 	$symbol
+	 * @param Symbol	$symbol
 	 */
 	public function __construct(
 		SignalGeneratorInterface $signal_generator,
 		string $name,
-		$symbol
+		Symbol $symbol
 	) {
-		$classes = [Icon::class, Glyph::class];
-		$check = [$symbol];
-		$this->checkArgListElements("Icon or Glyph", $check, $classes);
-
 		$this->signal_generator = $signal_generator;
 		$this->name = $name;
 		$this->symbol = $symbol;
@@ -85,7 +80,7 @@ abstract class Slate implements ISlate\Slate
 	/**
 	 * @inheritdoc
 	 */
-	public function getSymbol()
+	public function getSymbol(): Symbol
 	{
 		return $this->symbol;
 	}

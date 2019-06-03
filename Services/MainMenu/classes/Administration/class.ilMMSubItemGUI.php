@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+
 /**
  * Class ilMMTopItemGUI
  *
@@ -10,7 +12,7 @@
  */
 class ilMMSubItemGUI extends ilMMAbstractItemGUI {
 
-	use ilMMHasher;
+	use Hasher;
 	const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
 	const CMD_ADD = 'subitem_add';
 	const CMD_CREATE = 'subitem_create';

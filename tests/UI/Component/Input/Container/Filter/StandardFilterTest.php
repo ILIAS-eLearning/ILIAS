@@ -8,21 +8,20 @@ require_once(__DIR__ . "/FilterTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
+use ILIAS\Refinery;
 
 class WithNoUIFactories extends NoUIFactory {
 
 	protected $button_factory;
-	protected $glyph_factory;
+	protected $symbol_factory;
 	protected $popover_factory;
 	protected $legacy_factory;
 	protected $listing_factory;
 
 
-	public function __construct($button_factory, $glyph_factory, $popover_factory, $legacy_factory, $listing_factory) {
+	public function __construct($button_factory, $symbol_factory, $popover_factory, $legacy_factory, $listing_factory) {
 		$this->button_factory = $button_factory;
-		$this->glyph_factory = $glyph_factory;
+		$this->symbol_factory = $symbol_factory;
 		$this->popover_factory = $popover_factory;
 		$this->legacy_factory = $legacy_factory;
 		$this->listing_factory = $listing_factory;
@@ -33,8 +32,9 @@ class WithNoUIFactories extends NoUIFactory {
 		return $this->button_factory;
 	}
 
-	public function glyph() {
-		return $this->glyph_factory;
+	public function symbol(): \ILIAS\UI\Component\Symbol\Factory
+	{
+		return $this->symbol_factory;
 	}
 
 	public function popover()
@@ -72,8 +72,6 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new ILIAS\Refinery\Factory($df, $language)
 		);
 	}
@@ -82,8 +80,11 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 		return new ILIAS\UI\Implementation\Component\Button\Factory;
 	}
 
-	protected function buildGlyphFactory() {
-		return new ILIAS\UI\Implementation\Component\Glyph\Factory;
+	protected function buildSymbolFactory() {
+		return new ILIAS\UI\Implementation\Component\Symbol\Factory(
+			 new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory,
+			 new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory
+		);
 	}
 
 	protected function buildPopoverFactory() {
@@ -99,7 +100,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 	}
 
 	public function getUIFactory() {
-		return new WithNoUIFactories($this->buildButtonFactory(), $this->buildGlyphFactory(), $this->buildPopoverFactory(),
+		return new WithNoUIFactories($this->buildButtonFactory(), $this->buildSymbolFactory(), $this->buildPopoverFactory(),
 			$this->buildLegacyFactory(), $this->buildListingFactory());
 	}
 
@@ -168,7 +169,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
 						</a>
 					</span>
-				</div> 
+				</div>
 			</div>
 			<div class="col-md-4 il-popover-container">
     			<div class="input-group">
@@ -179,7 +180,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 						<div>
 							<span class="bulky-label"></span>
 						</div>
-					</button>    
+					</button>
     			</div>
     			<div class="il-standard-popover-content" style="display:none;" id="id_17"></div>
 			</div>
@@ -328,7 +329,7 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Selection</span>
-                    <span role="button" tabindex="0" class="form-control il-filter-field" id="id_13" data-placement="bottom"></span> 
+                    <span role="button" tabindex="0" class="form-control il-filter-field" id="id_13" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon"><a class="glyph" href="" aria-label="remove" id="id_14">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -402,7 +403,7 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Title</span>
-                    <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span> 
+                    <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_6"></div>
                     <span class="input-group-addon rightaddon"><a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -413,7 +414,7 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Selection</span>
-                    <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span> 
+                    <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_8"></div>
                     <span class="input-group-addon rightaddon"><a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>

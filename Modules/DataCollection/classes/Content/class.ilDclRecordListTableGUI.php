@@ -116,7 +116,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->setDefaultOrderField($default_sort_title);
 		}
 
-		if (($this->table->getExportEnabled() || $this->table->hasPermissionToFields($this->parent_obj->parent_obj->object->getRefId()))) {
+		if (($this->table->getExportEnabled() || ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->parent_obj->object->getRefId(), $this->table->getId()))) {
 			$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
 		}
 

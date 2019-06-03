@@ -8,6 +8,9 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use ILIAS\GlobalScreen\Services;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -65,7 +68,7 @@ class ilInitialisation
 			)
 		);
 	}
-
+	
 	/**
 	 * get common include code files
 	 */
@@ -75,21 +78,21 @@ class ilInitialisation
 		if(ilContext::usesTemplate())
 		{
 			require_once "./Services/UICore/classes/class.ilTemplate.php";
-		}
-
+		}		
+				
 		// really always required?
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
-		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";			
+		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
 		require_once "include/inc.ilias_version.php";
-
+		
 		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-
-		self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
+		
+		self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");				
 	}
-
+	
 	/**
 	 * This is a hack for  authentication.
-	 *
+	 * 
 	 * Since the phpCAS lib ships with its own compliance functions.
 	 */
 	protected static function includePhp5Compliance()
@@ -110,9 +113,9 @@ class ilInitialisation
 	 * the ilias.ini.php file.
 	 */
 	protected static function initIliasIniFile()
-	{
+	{		
 		require_once("./Services/Init/classes/class.ilIniFile.php");
-		$ilIliasIniFile = new ilIniFile("./ilias.ini.php");
+		$ilIliasIniFile = new ilIniFile("./ilias.ini.php");				
 		$ilIliasIniFile->read();
 		self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
 
@@ -745,27 +748,23 @@ class ilInitialisation
 	/**
 	 * Init user with current account id
 	 */
-	public static function initUserAccount()
-	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
+	public static function initUserAccount() {
+		global $DIC;
 
 		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
-		if($uid)
-		{
-			$ilUser->setId($uid);
-			$ilUser->read();
+		if ($uid) {
+			$DIC->user()->setId($uid);
+			$DIC->user()->read();
 
+			if ($DIC->user()->isAnonymous()) {
+				$DIC->navigationContext()->claim()->external();
+			} else {
+				$DIC->navigationContext()->claim()->internal();
+			}
 			// init console log handler
-			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
-		}
-		else
-		{
-			if(is_object($GLOBALS['ilLog']))
-			{
+			ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
+		} else {
+			if (is_object($GLOBALS['ilLog'])) {
 				$GLOBALS['ilLog']->logStack();
 			}
 			self::abortAndDie("Init user account failed");
@@ -1104,7 +1103,7 @@ class ilInitialisation
 
 				self::initHTML();
 			}
-			self::initRefinery();
+			self::initRefinery($GLOBALS['DIC']);
 		}
 	}
 
@@ -1268,6 +1267,9 @@ class ilInitialisation
 				"./Services/UICore/classes/class.ilCtrl.php");
 
 		self::setSessionCookieParams();
+
+		// Init GlobalScreen
+		self::initGlobalScreen($DIC);
 	}
 
 	/**
@@ -1291,32 +1293,31 @@ class ilInitialisation
 	/**
 	 * Resume an existing user session
 	 */
-	public static function resumeUserSession()
-	{
-		include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-		if(ilAuthUtils::isAuthenticationForced())
-		{
+	public static function resumeUserSession() {
+		global $DIC;
+		if (ilAuthUtils::isAuthenticationForced()) {
 			ilAuthUtils::handleForcedAuthentication();
 		}
 
 		if(
 			!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
 			$GLOBALS['DIC']['ilAuthSession']->isExpired()
-		)
-		{
+		) {
 			ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
 			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
 			if(self::blockedAuthentication($current_script))
 			{
 				ilLoggerFactory::getLogger('init')->debug('Authentication is started in current script.');
+				$DIC->navigationContext()->claim()->external();
 				// nothing todo: authentication is done in current script
 				return;
 			}
+
 			return self::handleAuthenticationFail();
 		}
 		// valid session
-		return self::initUserAccount();
 
+		return self::initUserAccount();
 	}
 
 	/**
@@ -1415,36 +1416,48 @@ class ilInitialisation
 		return self::goToLogin();
 	}
 
-    /**
-     * @param \ILIAS\DI\Container $container
-     */
-    protected static function initHTTPServices(\ILIAS\DI\Container $container) {
 
-        $container['http.request_factory'] = function ($c) {
-            return new \ILIAS\HTTP\Request\RequestFactoryImpl();
-        };
+	/**
+	 * @param \ILIAS\DI\Container $container
+	 */
+	protected static function initHTTPServices(\ILIAS\DI\Container $container) {
 
-        $container['http.response_factory'] = function ($c) {
-            return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
-        };
+		$container['http.request_factory'] = function ($c) {
+			return new \ILIAS\HTTP\Request\RequestFactoryImpl();
+		};
 
-        $container['http.cookie_jar_factory'] = function ($c) {
-            return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
-        };
+		$container['http.response_factory'] = function ($c) {
+			return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
+		};
 
-        $container['http.response_sender_strategy'] = function ($c) {
-            return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
-        };
+		$container['http.cookie_jar_factory'] = function ($c) {
+			return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
+		};
 
-        $container['http'] = function ($c) {
-            return new \ILIAS\DI\HTTPServices(
-                $c['http.response_sender_strategy'],
-                $c['http.cookie_jar_factory'],
-                $c['http.request_factory'],
-                $c['http.response_factory']
-            );
-        };
-    }
+		$container['http.response_sender_strategy'] = function ($c) {
+			return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
+		};
+
+		$container['http'] = function ($c) {
+			return new \ILIAS\DI\HTTPServices(
+				$c['http.response_sender_strategy'],
+				$c['http.cookie_jar_factory'],
+				$c['http.request_factory'],
+				$c['http.response_factory']
+			);
+		};
+	}
+
+
+	/**
+	 * @param \ILIAS\DI\Container $c
+	 */
+	private static function initGlobalScreen(\ILIAS\DI\Container $c) {
+		$c['global_screen'] = function () use ($c) {
+			return new Services(new ilGSProviderFactory($c));
+		};
+		$c->navigationContext()->stack()->main();
+	}
 
 	/**
 	 * init the ILIAS UI framework.
@@ -1453,7 +1466,6 @@ class ilInitialisation
 		$c["ui.factory"] = function ($c) {
 			return new ILIAS\UI\Implementation\Factory(
 				$c["ui.factory.counter"],
-				$c["ui.factory.glyph"],
 				$c["ui.factory.button"],
 				$c["ui.factory.listing"],
 				$c["ui.factory.image"],
@@ -1465,7 +1477,6 @@ class ilInitialisation
 				$c["ui.factory.link"],
 				$c["ui.factory.dropdown"],
 				$c["ui.factory.item"],
-				$c["ui.factory.icon"],
 				$c["ui.factory.viewcontrol"],
 				$c["ui.factory.chart"],
 				$c["ui.factory.input"],
@@ -1475,7 +1486,8 @@ class ilInitialisation
 				$c["ui.factory.layout"],
 				$c["ui.factory.maincontrols"],
 				$c["ui.factory.tree"],
-				$c["ui.factory.menu"]
+				$c["ui.factory.menu"],
+				$c["ui.factory.symbol"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1483,9 +1495,6 @@ class ilInitialisation
 		};
 		$c["ui.factory.counter"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Counter\Factory();
-		};
-		$c["ui.factory.glyph"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Glyph\Factory();
 		};
 		$c["ui.factory.button"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Button\Factory();
@@ -1519,9 +1528,6 @@ class ilInitialisation
 		};
 		$c["ui.factory.item"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Item\Factory();
-		};
-		$c["ui.factory.icon"] = function($c) {
-			return new ILIAS\UI\Implementation\Component\Icon\Factory();
 		};
 		$c["ui.factory.viewcontrol"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
@@ -1563,6 +1569,18 @@ class ilInitialisation
 		$c["ui.factory.menu"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Menu\Factory();
 		};
+		$c["ui.factory.symbol.glyph"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
+		};
+		$c["ui.factory.symbol.icon"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
+		};
+		$c["ui.factory.symbol"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Symbol\Factory(
+				$c["ui.factory.symbol.icon"],
+				$c["ui.factory.symbol.glyph"]
+			);
+		};
 		$c["ui.factory.progressmeter"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
 		};
@@ -1571,15 +1589,11 @@ class ilInitialisation
 		};
 		$c["ui.factory.input.field"] = function($c) {
 			$data_factory = new ILIAS\Data\Factory();
-			$validation_factory = new ILIAS\Refinery\Validation\Factory($data_factory, $c["lng"]);
-			$transformation_factory = new ILIAS\Refinery\Transformation\Factory();
 			$refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
 
 			return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 				$c["ui.signal_generator"],
 				$data_factory,
-				$validation_factory,
-				$transformation_factory,
 				$refinery
 			);
 		};
@@ -1620,7 +1634,7 @@ class ilInitialisation
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
 							),
-						  new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
+						  new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory
 							($c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["lng"]
@@ -1655,9 +1669,9 @@ class ilInitialisation
 	}
 
 	/**
-	 *
+	 * @param \ILIAS\DI\Container $container
 	 */
-	protected static function initRefinery()
+	protected static function initRefinery(\ILIAS\DI\Container $container)
 	{
 		$container['refinery'] = function ($container) {
 			$dataFactory = new \ILIAS\Data\Factory();
@@ -1687,8 +1701,6 @@ class ilInitialisation
 
 		self::initUIFramework($GLOBALS["DIC"]);
 
-		$DIC->navigationContext()->claim()->main();
-
 		// LTI
 		if ($lti->isActive())
 		{
@@ -1702,7 +1714,6 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilLMEditorGUI"
 		) {
 			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
-			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
@@ -1744,8 +1755,11 @@ class ilInitialisation
 		self::initGlobal("tpl", $tpl);
 
 		if (ilContext::hasUser()) {
-			require_once 'Services/User/classes/class.ilUserRequestTargetAdjustment.php';
-			$request_adjuster = new ilUserRequestTargetAdjustment($ilUser, $GLOBALS['DIC']['ilCtrl']);
+			$request_adjuster = new ilUserRequestTargetAdjustment(
+			    $ilUser,
+                $GLOBALS['DIC']['ilCtrl'],
+                $GLOBALS['DIC']->http()->request()
+            );
 			$request_adjuster->adjust();
 		}
 
