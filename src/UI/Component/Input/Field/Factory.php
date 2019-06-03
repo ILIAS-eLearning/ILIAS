@@ -101,6 +101,28 @@ interface Factory {
 	 */
 	public function group(array $inputs);
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      An optional group is a collection of input where the user needs to make
+	 *      a conscious decision to use or not use the provided inputs.
+	 *   composition: >
+	 *      An optional group is composed of a checkbox that bears the label and
+	 *      the byline of the group and the contained inputs that are arranged in
+	 *      a way to make them visually belong to the checkbox.
+	 *   effect: >
+	 *      If the checkbox is checked, the contained inputs are revealed, while
+	 *      they are hidden when the checkbox is not checked.
+	 *
+	 * rules: []
+	 *
+	 * ---
+	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+	 * @return	\ILIAS\UI\Component\Input\Field\OptionalGroup
+	 */
+	public function optionalGroup(array $inputs, string $label, string $byline = null) : OptionalGroup;
+
 
 	/**
 	 * ---
