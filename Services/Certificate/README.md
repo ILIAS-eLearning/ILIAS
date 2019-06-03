@@ -32,7 +32,6 @@ for 'Certificates' to their component.
     * [Preview](#preview)
   * [Events](#events)
     * [updateStatus](#updatestatus)
-    * [migrateUserCertificate](#migrateusercertificate)
 * [Migration](#migration)
   * [Certificate Templates](#certificate-templates)
   * [User Certificates](#user-certificates)
