@@ -122,17 +122,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
     /**
      * @return bool
      */
-    protected function isMigratingCertificateEvent(): bool
-    {
-        return (
-            'Services/Certificate' === $this->component &&
-            'migrateUserCertificate' === $this->event
-        );
-    }
-
-    /**
-     * @return bool
-     */
     protected function isUserDeletedEvent() : bool
     {
         return (
@@ -149,8 +138,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
         try {
             if ($this->isLearningAchievementEvent()) {
                 $this->handleLPUpdate();
-            } elseif ($this->isMigratingCertificateEvent()) {
-                $this->handleNewMigratedUserCertificate();
             } elseif ($this->isUserDeletedEvent()) {
                 $this->handleDeletedUser();
             }
@@ -233,105 +220,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 }
             }
         }
-    }
-
-    /**
-     * @throws \ilDatabaseException
-     * @throws \ilException
-     */
-    private function handleNewMigratedUserCertificate()
-    {
-        $this->logger->info('Try to create new certificates based on event');
-
-        if (false === array_key_exists('obj_id', $this->parameters)) {
-            $this->logger->error('Object ID is not added to the event. Abort.');
-            return;
-        }
-
-        if (false === array_key_exists('user_id', $this->parameters)) {
-            $this->logger->error('User ID is not added to the event. Abort.');
-            return;
-        }
-
-        if (false === array_key_exists('background_image_path', $this->parameters)) {
-            $this->logger->error('Background Image Path is not added to the event. Abort.');
-            return;
-        }
-
-        if (false === array_key_exists('acquired_timestamp', $this->parameters)) {
-            $this->logger->error('Acquired Timestamp is not added to the event. Abort.');
-            return;
-        }
-
-        if (false === array_key_exists('ilias_version', $this->parameters)) {
-            $this->logger->error('ILIAS version is not added to the event. Abort.');
-            return;
-        }
-
-        if (false === array_key_exists('certificate_content', $this->parameters)) {
-            $this->logger->error('Certificate content is not added to the event. Abort.');
-            return;
-        }
-
-        $objId = $this->parameters['obj_id'] ?? 0;
-        $userId = $this->parameters['user_id'] ?? 0;
-        $backgroundImagePath = $this->parameters['background_image_path'] ?? '';
-        $acquiredTimestamp = $this->parameters['acquired_timestamp'] ?? '';
-        $iliasVersion = $this->parameters['ilias_version'] ?? '';
-        $certificateContent = $this->parameters['certificate_content'] ?? '';
-
-        if ('' === $certificateContent) {
-            $this->logger->error('Certificate content is empty. Abort.');
-            return;
-        }
-
-        if ('' === $acquiredTimestamp || $acquiredTimestamp <= 0) {
-            $this->logger->error('Acquired Timestamp is empty. Abort.');
-            return;
-        }
-
-        $templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
-        $template = $templateRepository->fetchFirstCreatedTemplate($objId);
-
-        try {
-            $certificate = $this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
-            $this->logger->error(sprintf('There are already certificates generated for user_id "%s" and object_id "%s". Abort.', $userId, $objId));
-            return;
-        } catch (ilException $exception) {
-            $this->logger->info('No active user certificate found. Resume migration.');
-        }
-
-        $type = $this->objectDataCache->lookupType($objId);
-
-        $classMap = new ilCertificateTypeClassMap();
-        if (!$classMap->typeExistsInMap($type)) {
-            $this->logger->error(sprintf('Migrations for type "%s" not supported. Abort.', $type));
-            return;
-        }
-
-        $user = \ilObjectFactory::getInstanceByObjId($userId, false);
-        if (!$user || !($user instanceof \ilObjUser)) {
-            throw new \ilException(sprintf('The given user ID("%s") is not a user', $userId));
-        }
-
-        $userCertificate = new \ilUserCertificate(
-            $template->getId(),
-            $objId,
-            $type,
-            $userId,
-            $user->getFullname(),
-            $acquiredTimestamp,
-            $certificateContent,
-            '',
-            null,
-            1,
-            $iliasVersion,
-            true,
-            $backgroundImagePath,
-            ''
-        );
-
-        $this->userCertificateRepository->save($userCertificate);
     }
 
     /**
