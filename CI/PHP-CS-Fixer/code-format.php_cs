@@ -4,8 +4,11 @@ require_once __DIR__ . '/libs/composer/vendor/autoload.php';
 
 $finder = PhpCsFixer\Finder::create()
 	->in(array(
-		__DIR__ . '/Services',
+		__DIR__ . '/cron',
+		__DIR__ . '/include',
 		__DIR__ . '/Modules',
+		__DIR__ . '/Services',
+		__DIR__ . '/setup',
 		__DIR__ . '/src',
 		__DIR__ . '/tests'
 	))
