@@ -93,7 +93,8 @@ class ilExSubmissionTeamGUI
 			case 'ilrepositorysearchgui':					
 				$this->ctrl->setReturn($this,'submissionScreenTeam');	
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search = new ilRepositorySearchGUI();		
+				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
 				$rep_search->setTitle($this->lng->txt("exc_team_member_add"));
 				$rep_search->setCallback($this,'addTeamMemberActionObject');
 				$this->ctrl->forwardCommand($rep_search);
@@ -125,9 +126,11 @@ class ilExSubmissionTeamGUI
 			$team = array();						
 			foreach($team_members as $member_id)
 			{
-				$team[] = ilObjUser::_lookupFullname($member_id);
+				//$team[] = ilObjUser::_lookupFullname($member_id);
+				include_once("./Services/User/classes/class.ilUserUtil.php");
+				$team[] = ilUserUtil::getNamePresentation($member_id, false, false, "", false);
 			}						
-			$team = implode(", ", $team);
+			$team = implode("; ", $team);
 			
 			if(!$a_submission->getAssignment()->getTeamTutor())
 			{
