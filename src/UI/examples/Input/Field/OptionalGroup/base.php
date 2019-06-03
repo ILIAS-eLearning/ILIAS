@@ -2,20 +2,22 @@
 /**
  * Example showing how a dependant group (aka sub form) might be attached to a checkbox.
  */
-function with_dependant_group() {
+function base() {
 	//Step 0: Declare dependencies
 	global $DIC;
 	$ui = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
 
-	//Step 1: Define the dependent group (aka sub section)
+	//Step 1: Define the field in the group
 	$dependant_field = $ui->input()->field()->text("Item 1", "Just some dependent group field");
-	$dependant_group = $ui->input()->field()->dependantGroup(["dependant_field"=>$dependant_field]);
 
 	//Step 2: define the checkbox and attach the dependant group
-	$checkbox_input = $ui->input()->field()->checkbox("Checkbox", "Check to display dependant field.")
-			->withDependantGroup($dependant_group);
+	$checkbox_input = $ui->input()->field()->optionalGroup(
+		["dependant_field"=>$dependant_field],
+		"Optional Group",
+		"Check to display group field."
+	);
 
 	//Step 3: define form and form actions
 	$DIC->ctrl()->setParameterByClass(

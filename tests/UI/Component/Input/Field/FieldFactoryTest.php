@@ -25,6 +25,9 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		"dependantGroup" => array(
 			"context" => false,
 		),
+		"optionalGroup" => array(
+			"context" => false,
+		),
 		"checkbox"       => array(
 			"context" => false,
 		),
