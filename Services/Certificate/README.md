@@ -410,8 +410,6 @@ listening to:
 | Event            | Component            | Explanation                                           |
 |------------------|----------------------|-------------------------------------------------------|
 | updateStatus     | Services/Tracking    | This event will be thrown by the Learning Progress    |
-| migrateUserCertificate | Services/Certificate | These are custom events to add a new user certificate |
-
 
 #### updateStatus
 
@@ -425,49 +423,12 @@ can be added via the certificates template settings UI.
 Completing all of the selected events will add the user
 into the [queue](#cron-queue-classes).
 
-#### migrateUserCertificate
-
-The `migrateUserCertificate` event can be used to add a complete
-user certificate directly to the database.
-The certificates that come via this event will use the first
-certificate template as reference in the database.
-The reason for this is that this event is supposed to be used
-by the migration service.
-The template for this event will always be the first template
-in the database.
-
-Example to use this event:
-
-```php
-global $DIC;
-$ilAppEventHandler = $DIC['ilAppEventHandler'];
-
-$ilAppEventHandler->raise(
-   'Services/Certificate',
-   'migrateUserCertificate',
-   array(
-      'obj_id'                => $object->getId(),
-      'user_id'               => $user->getId(),
-      'background_image_path' => $backgroundImagePath,
-      'acquired_timestamp'    => $acquiredTimestamp,
-      'ilias_version'         => ILIAS_VERSION_NUMERIC
-   )
-);
-
-// 'obj_id' - MUST be the object ID the certificate creator(e.g. course, test, ...)
-// 'user_id' - MUST be the user ID of the actual user
-// 'background_image_path' - relative path to the background image (without the web 
-//                           directories eg. 'course/certificates/282/background.jpg')
-// 'aquired_timestamp' - Timestamp at the time of achieving the certificate,
-//                       could be creation date of the file
-// ilias_version - ILIAS version at the time this event will be emitted
-```
-
 ## Migration
 
-Because persisting certificates where not available until
-ILIAS 5.4.0 the old user certificates and templates MUST
-be migrated to the above described behaviour.
+The migration was a feature in the previous ILIAS version 5.4.x, and is no
+longer supported.
+If the migration step is needed for your system, please install a 5.4.x version
+first and let the users migrate their user certificates.
 
 ### Certificate Templates
 
