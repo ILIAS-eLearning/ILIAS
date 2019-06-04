@@ -114,7 +114,7 @@ class ilICalParser
 		
 		$lines = $this->tokenize($this->ical,ilICalUtils::ICAL_EOL);
 		
-		if(count(lines) == 1)
+		if(count($lines) == 1)
 		{
 			$lines = $this->tokenize($this->ical, ilICalUtils::ICAL_EOL_FB);
 		}
