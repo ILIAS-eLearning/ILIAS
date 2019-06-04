@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../libs/composer/vendor/autoload.php';
 
 $finder = PhpCsFixer\Finder::create()
-	->exclude(__DIR__ . '/setup/sql')
+	->exclude(__DIR__ . '/../../setup/sql')
 	->in(array(
 		__DIR__ .  '/../../cron',
 		__DIR__ .  '/../../include',
