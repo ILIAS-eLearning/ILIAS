@@ -585,7 +585,7 @@ class ilExcel
 	 * @param int $pRow
 	 * @return string
 	 */
-	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
+	function getCoordByColumnAndRow($pColumn = 1, $pRow = 1)
 	{
 		$columnLetter = Coordinate::stringFromColumnIndex($pColumn + 1);
 		return $columnLetter . $pRow;
