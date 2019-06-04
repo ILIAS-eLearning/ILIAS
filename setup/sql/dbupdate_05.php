@@ -1096,6 +1096,6 @@ if( !$ilDB->tableExists('cont_filter_field') )
 ?>
 <#5504>
 <?php
-if(!$ilDB->tableExists('bgtask_cert_migration')) {
-	$ilDB->dropTable('bgtask_cert_migration');
+if(!$ilDB->tableExists('il_cert_bgtask_migr')) {
+	$ilDB->dropTable('il_cert_bgtask_migr');
 }
