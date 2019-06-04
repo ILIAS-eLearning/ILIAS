@@ -15852,3 +15852,10 @@ prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme as
 prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
 prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#prg_orgus#:#Organisational Units
+prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
+prg#:#content_automation#:#Content Automation
+prg#:#last_edited_by#:#Last Editor
+prg#:#last_edited#:#Last edited
+prg#:#add_category#:#Add Category
+prg#:#modal_categories_title#:#Category to be monitored
+prg#:#category#:#Category RefId

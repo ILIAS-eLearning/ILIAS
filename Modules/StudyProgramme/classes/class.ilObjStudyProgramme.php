@@ -50,6 +50,8 @@ class ilObjStudyProgramme extends ilContainer {
 			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
 		$this->progress_repository =
 			ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
+		$this->auto_categories_repository =
+			ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
 
 		$this->progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$this->assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -245,9 +247,12 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->deleteSettings();
 		try {
 			$this->deleteAssignments();
+			$this->auto_categories_repository->deleteFor((int)$this->getId());
 		} catch(ilStudyProgrammeTreeException $e) {
 	        // This would be the case when SP is in trash (#17797)
 		}
+
+		$this->deleteAllAutomaticContentCategories();
 
 		return true;
 	}
@@ -1222,6 +1227,89 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		return array_unique($returns);
 	}
+
+
+	////////////////////////////////////
+	// AUTOMATIC CONTENT CATEGORIES
+	////////////////////////////////////
+
+	/**
+	 * Get configuration of categories with auto-content for this StudyProgramme;
+	 * @return ilStudyProgrammeAutoCategory[]
+	 */
+	public function getAutomaticContentCategories(): array
+	{
+		return $this->auto_categories_repository->readFor($this->getId());
+	}
+
+	/**
+	 * Store a Category with auto-content for this StudyProgramme;
+	 * a category can only be referenced once (per programme).
+	 * @param string $title
+	 * @param int $category_ref_id
+	 */
+	public function storeAutomaticContentCategory(
+		string $title,
+		int $category_ref_id
+	) {
+		$ac = $this->auto_categories_repository->create(
+				$this->getId(),
+				$category_ref_id,
+				$title
+		);
+		$this->auto_categories_repository->update($ac);
+	}
+
+	/**
+	 * Delete configuration of categories with auto-content for this StudyProgramme;
+	 * @param int[] $category_ids
+	 */
+	public function deleteAutomaticContentCategories(array $category_ids=[])
+	{
+		return $this->auto_categories_repository->delete($this->getId(), $category_ids);
+	}
+
+	/**
+	 * Delete all configuration of categories with auto-content for this StudyProgramme;
+	 */
+	public function deleteAllAutomaticContentCategories()
+	{
+		return $this->auto_categories_repository->deleteFor($this->getId());
+	}
+
+	/**
+	 * Check, if a category is under surveilllance and automatically remove the deleted course
+	 * @param int $crs_ref_id
+	 * @param int $cat_ref_id
+	 */
+	public static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		foreach (self::getProgrammesMonitoringCategory($cat_ref_id) as $prg) {
+			foreach ($prg->getLPChildren() as $child) {
+				if((int)$child->getTargetRefId() === $crs_ref_id) {
+					$child->delete();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get all StudyProgrammes monitoring this category.
+	 * @param int $crs_ref_id
+	 * @return ilObjStudyProgramme[]
+	 */
+	protected static function getProgrammesMonitoringCategory(int $cat_ref_id): array
+	{
+		$db = ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
+		$programmes = array_map(function($rec) {
+				$prg_ref_id = (int)array_shift(array_values($rec));
+				return self::getInstanceByRefId($prg_ref_id);
+			},
+			$db::getProgrammesFor($cat_ref_id)
+		);
+		return $programmes;
+	}
+
 
 	////////////////////////////////////
 	// HELPERS
