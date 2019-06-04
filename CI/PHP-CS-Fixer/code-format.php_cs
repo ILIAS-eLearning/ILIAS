@@ -17,10 +17,14 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
 	->setRules([
-        '@PSR2'                   => true,
-        'strict_param'            => false,
-        'array_syntax'            => ['syntax' => 'short'],
-        'cast_spaces'             => ['space' => 'single'],
+        '@PSR2' => true,
+        'strict_param' => false,
+        'cast_spaces' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'binary_operator_spaces' => true,
+        'unary_operator_spaces' => true,
+        'function_typehint_space' => true,
         'return_type_declaration' => ['space_before' => 'one'],
+        'whitespace_after_comma_in_array' => true,
 	])
 	->setFinder($finder);
