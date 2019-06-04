@@ -16,7 +16,7 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
 	public function setUp(): void
 	{
 		$this->node_factory = new I\Tree\Node\Factory();
-		$icon_factory = new I\Icon\Factory();
+		$icon_factory = new I\Symbol\Icon\Factory();
 		$this->icon = $icon_factory->standard("", '');
 	}
 

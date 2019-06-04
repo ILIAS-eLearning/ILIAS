@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 use Psr\Http\Message\ServerRequestInterface;
 

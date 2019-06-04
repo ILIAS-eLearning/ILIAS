@@ -2898,8 +2898,16 @@ class ilObjSurvey extends ilObject
 			" WHERE survey_fi = %s AND finished_id = %s",
 			array('text','integer','integer','integer'),
 			array(1, time(), $this->getSurveyId(), $finished_id)
-		);			
-		
+		);
+
+		// self eval writes skills on finishing
+		if ($this->getMode() == ilObjSurvey::MODE_SELF_EVAL)
+		{
+			$user = $this->getUserDataFromActiveId($finished_id);
+			$sskill = new ilSurveySkill($this);
+			$sskill->writeSelfEvalSkills($user['usr_id']);
+		}
+
 		$this->checkTutorNotification();
 	}
 

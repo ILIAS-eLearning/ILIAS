@@ -9,8 +9,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 //use ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use \ILIAS\Refinery\Validation;
-use \ILIAS\Refinery\Transformation;
+use ILIAS\Refinery;
 
 class MultiSelectInputTest extends ILIAS_UI_TestBase {
 
@@ -24,8 +23,6 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase {
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $language),
-			new Transformation\Factory(),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}

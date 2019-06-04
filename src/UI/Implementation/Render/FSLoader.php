@@ -58,7 +58,7 @@ class FSLoader implements Loader {
 	 * @inheritdocs
 	 */
 	public function getRendererFactoryFor(Component $component) {
-		if($component instanceof \ILIAS\UI\Implementation\Component\Glyph\Glyph) {
+		if($component instanceof \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph) {
 			return $this->glyph_renderer_factory;
 		}
 		if($component instanceof \ILIAS\UI\Implementation\Component\Input\Field\Input) {

@@ -147,7 +147,7 @@ class ilAwarenessGUI
 			$f = $this->ui->factory();
 			$renderer = $this->ui->renderer();
 
-			$glyph = $f->glyph()->user("#");
+			$glyph = $f->symbol()->glyph()->user("#");
 			if ($cnt > 0)
 			{
 				$glyph = $glyph->withCounter($f->counter()->status((int) $cnt));

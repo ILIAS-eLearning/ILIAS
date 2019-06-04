@@ -7,11 +7,12 @@ use ILIAS\UI\Component\MainControls\Metabar;
 use ILIAS\UI\Component\MainControls\Mainbar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes the Page.
  */
-interface Standard extends Page {
+interface Standard extends Page, JavaScriptBindable {
 
 	/**
 	 * @param Metabar $meta_bar

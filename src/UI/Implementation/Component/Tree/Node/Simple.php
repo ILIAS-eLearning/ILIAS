@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\UI\Component\Tree\Node\Simple as ISimple;
-use ILIAS\UI\Component\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * A very simple Tree-Node

@@ -2,9 +2,10 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasIcon;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
-use ILIAS\UI\Component\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Link
@@ -14,12 +15,12 @@ use ILIAS\UI\Component\Icon\Icon;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildItem implements hasTitle, hasAction, hasIcon {
+class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol {
 
 	/**
-	 * @var Icon
+	 * @var Symbol
 	 */
-	protected $icon;
+	protected $symbol;
 	/**
 	 * @var bool
 	 */
@@ -125,9 +126,9 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasIcon {
 	/**
 	 * @inheritDoc
 	 */
-	public function withIcon(Icon $icon): hasIcon {
+	public function withSymbol(Symbol $symbol): hasSymbol {
 		$clone = clone $this;
-		$clone->icon = $icon;
+		$clone->symbol = $symbol;
 
 		return $clone;
 	}
@@ -136,15 +137,15 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasIcon {
 	/**
 	 * @inheritDoc
 	 */
-	public function getIcon(): Icon {
-		return $this->icon;
+	public function getSymbol(): Symbol {
+		return $this->symbol;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function hasIcon(): bool {
-		return ($this->icon instanceof Icon);
+	public function hasSymbol(): bool {
+		return ($this->symbol instanceof Symbol);
 	}
 }

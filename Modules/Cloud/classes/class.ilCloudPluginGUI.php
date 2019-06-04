@@ -1,24 +1,24 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("class.ilCloudConnector.php");
-
 /**
  * Class ilCloudPluginGUI
  *
  * Abstract base class for all GUI classes that can be extended by the plugin.
  *
- * @author Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  *
  * @ingroup ModulesCloud
  */
 abstract class ilCloudPluginGUI
 {
+
     /**
      * @var ilCloudPluginService $service
      */
     protected $service = null;
+
 
     /**
      * @param $service_name
@@ -29,6 +29,7 @@ abstract class ilCloudPluginGUI
         $this->service = $plugin_service_class;
     }
 
+
     /**
      * @return ilCloudPlugin
      */
@@ -36,6 +37,7 @@ abstract class ilCloudPluginGUI
     {
         return $this->service->getPluginObject();
     }
+
 
     /**
      * @return ilCloudHookPlugin
@@ -45,10 +47,12 @@ abstract class ilCloudPluginGUI
         return $this->getPluginObject()->getPluginHookObject();
     }
 
+
     public function getAdminConfigObject()
     {
         return $this->getPluginObject()->getAdminConfigObject();
     }
+
 
     /**
      * @return ilCloudPluginService
@@ -58,6 +62,7 @@ abstract class ilCloudPluginGUI
         return $this->service;
     }
 
+
     /**
      * @param string $var
      */
@@ -66,6 +71,7 @@ abstract class ilCloudPluginGUI
         return $this->getPluginHookObject()->txt($var);
     }
 
+
     public function executeCommand()
     {
         global $DIC;
@@ -73,8 +79,7 @@ abstract class ilCloudPluginGUI
 
         $cmd = $ilCtrl->getCmd();
 
-        switch ($cmd)
-        {
+        switch ($cmd) {
             default:
                 $this->$cmd();
                 break;

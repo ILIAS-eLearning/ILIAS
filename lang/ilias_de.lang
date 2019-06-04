@@ -82,6 +82,28 @@ auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
+obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
+obj#:#obj_tool_setting_filter#:#Filter
+obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter "Inhalte" angezeigt.
+obj#:#obj_tool_setting_filter_empty#:#Anzeige bei leerem Filter
+obj#:#obj_tool_setting_filter_empty_info#:#Zeigt alle Elemente, wenn der Filter leer ist.
+cont#:#cont_std_filter_title_1#:#Titel
+cont#:#cont_std_filter_title_2#:#Beschreibung
+cont#:#cont_std_filter_title_3#:#Titel/Beschreibung
+cont#:#cont_std_filter_title_4#:#Schlagwort
+cont#:#cont_std_filter_title_5#:#Autor
+cont#:#cont_std_filter_title_6#:#Copyright
+cont#:#cont_std_filter_title_7#:#Tutorielle Betreuung
+cont#:#cont_std_filter_title_8#:#Objekttyp
+cont#:#cont_filter#:#Filter
+cont#:#cont_select_fields#:#Felder auswählen
+cont#:#cont_std_record_title#:#Standard
+cont#:#cont_filter_record#:#Datensatz
+cont#:#cont_filter_field#:#Feld
+cont#:#cont_filter_fields#:#Filterfelder
+cont#:#cont_show_more#:#Mehr anzeigen
+cont#:#cont_block_limit#:#Einträge per Block begrenzen
+cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
@@ -10609,7 +10631,7 @@ tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekr
 tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
 tos#:#tos_crit_type_usr_global_role#:#Globale Rolle
 tos#:#tos_crit_type_usr_global_role_info#:#Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments.
-tos#:#tos_crit_type_usr_language#:#Bbenutzersprache
+tos#:#tos_crit_type_usr_language#:#Benutzersprache
 tos#:#tos_crit_type_usr_language_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
@@ -14012,7 +14034,7 @@ chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversatio
 chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
 usr#:#user_actions#:#Benutzeraktionen
-usr#:#user_action#:#Benuzteraktion
+usr#:#user_action#:#Benutzeraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
 chatroom#:#chtr_server_status#:#Server-Status
@@ -14710,7 +14732,7 @@ user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer au
 user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
-lhist#:#lhist_first_login#:#First Login
+lhist#:#lhist_first_login#:#Erstes Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
@@ -15085,3 +15107,21 @@ exc#:#exc_tbl_action_open_submission#:#Open Submission
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
+exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
+exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
+wiki#:#wiki_notification_comment_subject#:#A comment was added to %s: %s
+wiki#:#wiki_notification_comment#:#the following Wiki Page has been commented.
+wiki#:#wiki_commented_by#:#Commented by
+content#:#cont_notification_activated#:#Notification Activated (Whole LM)
+content#:#cont_page_notification_activated#:#Notification Activated (Single Page)
+content#:#cont_notification_deactivate_lm#:#Deactivate Notification for Learning Module
+content#:#cont_notification_deactivate_page#:#Deactivate Notification for Page
+content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module
+content#:#cont_notification_activate_page#:#Activate Notification for Page
+content#:#cont_notification_deactivated#:#Notification Deactivated
+content#:#cont_notification_comment_subject_lm#:#A comment was added to %s: %s
+content#:#cont_change_notification_salutation#:#Hello %s,
+content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented
+content#:#cont_notification_update_lm#:#the following Learning Module has been updated
+content#:#cont_commented_by#:#Commented by
+content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s

@@ -67,7 +67,7 @@ class Renderer extends AbstractComponentRenderer
 
 		$toggle_signal = $component->getToggleSignal();
 		$show_signal = $component->getShowSignal();
-		$component = $component->withAdditionalOnLoadCode(function($id) use ($toggle_signal, $show_signal) {
+		$component = $component->withOnLoadCode(function($id) use ($toggle_signal, $show_signal) {
 			return "
 				$(document).on('{$toggle_signal}', function(event, signalData) {
 					il.UI.maincontrols.slate.onToggleSignal(event, signalData, '{$id}');

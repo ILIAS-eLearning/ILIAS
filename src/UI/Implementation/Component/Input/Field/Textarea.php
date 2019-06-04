@@ -7,8 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 
 /**
  * This implements the textarea input.
@@ -24,14 +22,12 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
-		$this->setAdditionalTransformation($transformation_factory->custom(function($v) {
+		parent::__construct($data_factory, $refinery, $label, $byline);
+		$this->setAdditionalTransformation($refinery->custom()->transformation(function($v) {
 			return strip_tags($v);
 		}));
 	}

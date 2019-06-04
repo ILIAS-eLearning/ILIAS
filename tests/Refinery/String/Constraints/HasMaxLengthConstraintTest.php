@@ -3,7 +3,7 @@
 /* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ class HasMaxLengthConstraintTest extends TestCase {
 	private $max_length;
 
 	/**
-	 * @var Validation\Constraint
+	 * @var Refinery\Constraint
 	 */
 	private $c;
 
@@ -34,7 +34,7 @@ class HasMaxLengthConstraintTest extends TestCase {
 
 		$this->max_length = 2;
 
-		$this->c = new \ILIAS\Refinery\String\Constraints\HasMaxLength(
+		$this->c = new \ILIAS\Refinery\String\HasMaxLength(
 			$this->max_length,
 			$this->df,
 			$this->lng

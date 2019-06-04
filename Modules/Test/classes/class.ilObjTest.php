@@ -7549,6 +7549,9 @@ function getAnswerFeedbackPoints()
 		$newObj->setAutosaveIval($this->getAutosaveIval());
 		$newObj->setOfferingQuestionHintsEnabled($this->isOfferingQuestionHintsEnabled());
 		$newObj->setSpecificAnswerFeedback($this->getSpecificAnswerFeedback());
+		if ($this->isPassWaitingEnabled()) {
+			$newObj->setPassWaiting($this->getPassWaiting());
+		}
 		$newObj->setObligationsEnabled($this->areObligationsEnabled());
 		$newObj->saveToDb();
 		
