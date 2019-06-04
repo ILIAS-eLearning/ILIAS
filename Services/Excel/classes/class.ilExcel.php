@@ -364,8 +364,11 @@ class ilExcel
 	 *
 	 * @return mixed
 	 */
-	public function getCell($a_row, $a_col) {
-		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($a_col, $a_row)->getValue();
+	public function getCell($a_row, $a_col)
+	{
+		$col = $this->columnIndexAdjustment($a_col);
+
+		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($col, $a_row)->getValue();
 	}
 
 
@@ -598,7 +601,9 @@ class ilExcel
 	 */
 	function addLink($a_row, $a_column, $a_path)
 	{
-		$this->workbook->getActiveSheet()->getCellByColumnAndRow($a_column,$a_row)->getHyperlink()->setUrl($a_path);
+		$column = $this->columnIndexAdjustment($a_column);
+
+		$this->workbook->getActiveSheet()->getCellByColumnAndRow($column,$a_row)->getHyperlink()->setUrl($a_path);
 	}
 
 }
