@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../libs/composer/vendor/autoload.php';
 
 $finder = PhpCsFixer\Finder::create()
-	#->exclude(__DIR__ . '/setup/sql')
+	->exclude(__DIR__ . '/setup/sql')
 	->in(array(
 		__DIR__ .  '/../../cron',
 		__DIR__ .  '/../../include',
@@ -17,11 +17,10 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
 	->setRules([
-		'@PSR2'                   => true,
-		'strict_param'            => false,
-		'array_syntax'            => ['syntax' => 'short'],
-		'cast_spaces'             => ['space' => 'single'],
+        '@PSR2'                   => true,
+        'strict_param'            => false,
+        'array_syntax'            => ['syntax' => 'short'],
+        'cast_spaces'             => ['space' => 'single'],
         'return_type_declaration' => ['space_before' => 'one'],
-
 	])
 	->setFinder($finder);
