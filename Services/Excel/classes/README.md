@@ -32,6 +32,9 @@ ilRatingCategoryGUI starting from non-existent 0 column position
     $excel->setCell($row, 0, $this->export_subobj_title." (".$lng->txt("id").")");
     $excel->setCell($row, 1, $this->export_subobj_title);
 
+The column index adjustment is done by the method "columnIndexAdjustment". If any other adjustment is needed for this matter, it must
+be there.
+
 # External documentation
 
 ## PHPSpreadsheet documentation
