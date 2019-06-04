@@ -463,7 +463,7 @@ class ilDclTableEditGUI {
 	 */
 	protected function checkAccess() {
 		$ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
-		return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
+		return $this->table_id ? ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id) : ilObjDataCollectionAccess::hasWriteAccess($ref_id);
 	}
 
 
