@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\Messaging\Example\ExampleCourse\Command;
+namespace ILIAS\Messaging\Example\ExampleCourse\Domainmodel\Command;
 
 use ILIAS\Messaging\Contract\Command\Command;
 
