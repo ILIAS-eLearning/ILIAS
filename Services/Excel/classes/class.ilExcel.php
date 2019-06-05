@@ -618,4 +618,12 @@ class ilExcel
 		return $column++;
 	}
 
+	/**
+	 * @param string $coordinates
+	 * @throws \PhpOffice\PhpSpreadsheet\Exception
+	 */
+	public function mergeCells(string $coordinates) : void
+	{
+		$this->workbook->getActiveSheet()->mergeCells($coordinates);
+	}
 }
