@@ -108,6 +108,14 @@ class ilStudyProgrammeDIC
 				$dic['ilStudyProgrammeUserAssignmentDB']
 			);
 		};
+		$dic['ilObjStudyProgrammeAutoCategoriesGUI'] = function($dic) use ($DIC) {
+			return new ilObjStudyProgrammeAutoCategoriesGUI(
+				$DIC['tpl'],
+				$DIC['ilCtrl'],
+				$DIC['ilToolbar'],
+				$DIC['lng']
+			);
+		};
 		$dic['TransformationFactory'] = function($dic) use ($DIC) {
 			return new \ILIAS\Transformation\Factory();
 		};

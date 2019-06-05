@@ -30,6 +30,7 @@ require_once("./Services/Repository/classes/class.ilRepUtil.php");
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -113,6 +114,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 */
 	protected $type_repository;
 
+	/**
+	 * @var ilObjStudyProgrammeAutoCategoriesGUI
+	 */
+	protected $autocategories_gui;
+
 
 	public function __construct() {
 		global $DIC;
@@ -148,6 +154,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->members_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
 		$this->tree_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeTreeGUI'];
 		$this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
+		$this->autocategories_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoCategoriesGUI'];
 
 		$this->type_repository = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository'];
 	}
@@ -197,7 +204,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				break;
 			case "ilobjstudyprogrammesettingsgui":
 				$this->denyAccessIfNot("write");
-
 				$this->getSubTabs('settings');
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				$this->tabs_gui->setSubTabActive('settings');
@@ -206,6 +212,23 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->settings_gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($this->settings_gui);
 				break;
+
+			case "ilobjstudyprogrammeautocategoriesgui":
+				$this->denyAccessIfNot("write");
+				$this->getSubTabs('settings');
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->setSubTabActive('auto_content');
+
+				/*
+				$this->autocategories_gui->setParentGUI($this);
+				$this->autocategories_gui->setRefId($this->ref_id);
+				$this->ctrl->forwardCommand($this->autocategories_gui);
+				*/
+
+				//auto_content
+				break;
+
+
 			/*case 'iltranslationgui':
 				$this->denyAccessIfNot("write");
 
@@ -630,8 +653,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case 'settings':
 			case 'editAdvancedSettings':
 				$this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
+				$this->tabs_gui->addSubTab("auto_content", $this->lng->txt("content_automation"), $this->getLinkTarget("auto_content"));
 				$this->tabs_gui->addSubTab("settings_trans",$this->lng->txt("obj_multilinguality"),$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
+
 				$sub_type_id = $this->object->getSubtypeId();
 				if($sub_type_id) {
 					$type = $this->type_repository->readType($sub_type_id);
@@ -682,6 +707,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		if ($a_cmd == "settings") {
 			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammesettingsgui", "view");
 		}
+		if ($a_cmd == "auto_content") {
+			return $this->ctrl->getLinkTargetByClass("ilObjStudyProgrammeAutoCategoriesGUI", "view");
+		}
+
 		if($a_cmd == self::SUBTAB_VIEW_TREE) {
 			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammetreegui", "view");
 		}
