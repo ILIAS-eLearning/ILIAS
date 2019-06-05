@@ -209,6 +209,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->tabs_gui->setSubTabActive('settings');
 
 				$this->settings_gui->setParentGUI($this);
+				$this->settings_gui->setParentGUI($this);
 				$this->settings_gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($this->settings_gui);
 				break;
@@ -218,14 +219,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->getSubTabs('settings');
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				$this->tabs_gui->setSubTabActive('auto_content');
-
-				/*
-				$this->autocategories_gui->setParentGUI($this);
 				$this->autocategories_gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($this->autocategories_gui);
-				*/
-
-				//auto_content
 				break;
 
 

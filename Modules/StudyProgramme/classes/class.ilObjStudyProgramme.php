@@ -50,6 +50,8 @@ class ilObjStudyProgramme extends ilContainer {
 			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
 		$this->progress_repository =
 			ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
+		$this->auto_categories_repository =
+			ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
 
 		$this->progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$this->assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -245,6 +247,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->deleteSettings();
 		try {
 			$this->deleteAssignments();
+			$this->auto_categories_repository->deleteFor((int)$this->getId());
 		} catch(ilStudyProgrammeTreeException $e) {
 	        // This would be the case when SP is in trash (#17797)
 		}
@@ -1222,6 +1225,23 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		return array_unique($returns);
 	}
+
+	////////////////////////////////////
+	// AUTOMATIC CONTENT CATEGORIES
+	////////////////////////////////////
+	public function storeAutomaticContentCategory(
+		string $title,
+		int $category_ref_id
+	) {
+
+		$ac = $this->auto_categories_repository->create(
+				$this->getId(),
+				$title,
+				$category_ref_id
+		);
+		$this->auto_categories_repository->update($ac);
+	}
+
 
 	////////////////////////////////////
 	// HELPERS

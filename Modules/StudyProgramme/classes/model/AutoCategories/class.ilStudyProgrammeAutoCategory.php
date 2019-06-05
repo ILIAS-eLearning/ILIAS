@@ -49,7 +49,6 @@ class ilStudyProgrammeAutoCategory
 		$this->last_edited = $last_edited;
 	}
 
-
 	public function getObjId(): int
 	{
 		return $this->prg_obj_id;
