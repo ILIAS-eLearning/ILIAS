@@ -619,11 +619,11 @@ class ilExcel
 	}
 
 	/**
-	 * @param string $coordinates A coordinates string like 'A1:B5'
+	 * @param string $coordinatesRange A coordinates range string like 'A1:B5'
 	 * @throws \PhpOffice\PhpSpreadsheet\Exception
 	 */
-	public function mergeCells(string $coordinates) : void
+	public function mergeCells(string $coordinatesRange) : void
 	{
-		$this->workbook->getActiveSheet()->mergeCells($coordinates);
+		$this->workbook->getActiveSheet()->mergeCells($coordinatesRange);
 	}
 }
