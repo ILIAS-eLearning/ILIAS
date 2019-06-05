@@ -354,12 +354,16 @@ class ilInitialisation
 				$uri = dirname($uri);
 			}
 		}
-		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
-		{
-			return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators(dirname($protocol.$host.$uri)));
 
+		$iliasHttpPath = implode('', [$protocol, $host, $uri]);
+		if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
+			$iliasHttpPath = dirname($iliasHttpPath);
 		}
-		return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators($protocol.$host.$uri));
+
+		$f = new \ILIAS\Data\Factory();
+		$uri = $f->uri(ilUtil::removeTrailingPathSeparators($iliasHttpPath));
+
+		return define('ILIAS_HTTP_PATH', $uri->getBaseURI());
 	}
 
 	/**
