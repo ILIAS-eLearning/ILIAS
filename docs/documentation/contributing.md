@@ -82,9 +82,9 @@ Only open these if you strictly want some feedback from the greater developer
 community for a concrete proposal of some code or some guideline. Do not use PRs
 to the ILIAS-repository as a general working space for incomplete features or ideas.
 Prefer other measures like workshops or VCs for discussion about ideas or approaches.
-If you are positive that you definitely need to open a PR as a draft, use the
-"Draft"-status of GitHub for these kind of PRs to prevent them from being merged
-accidentially. This status can only be set when the PR is created!
+If you are positive that you definitely need to open a PR as a draft, prefix the
+summary with "WIP -"" for these kind of PRs to prevent them from being merged
+accidentially.
 
 <a name="list-of-labels"></a>
 ## List of Labels
