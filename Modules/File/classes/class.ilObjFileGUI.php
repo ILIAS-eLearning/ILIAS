@@ -1306,8 +1306,15 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		// get ids either from GET (if single item was clicked) or 
 		// from POST (if multiple items were selected)
-		$version_ids = isset($_GET["hist_id"]) ? array($_GET["hist_id"]) : $_POST["hist_id"];
-		
+		$request = $DIC->http()->request();
+
+		$version_ids = [];
+		if (isset($request->getQueryParams()['hist_id'])) {
+			$version_ids = [$request->getQueryParams()['hist_id']];
+		} elseif (isset($request->getParsedBody()['hist_id'])) {
+			$version_ids = (array)$request->getParsedBody()['hist_id'];
+		} 
+
 		if (count($version_ids) < 1)
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);

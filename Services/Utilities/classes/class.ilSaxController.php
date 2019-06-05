@@ -158,7 +158,7 @@ class ilSaxController
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
-		return $this->current_handler->handlerCharacterData(a_xml_parser,$a_data);
+		return $this->current_handler->handlerCharacterData($a_xml_parser,$a_data);
 	}
 	
 }

@@ -3347,6 +3347,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCalendarRemoteReader' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarRemoteReader.php',
         'ilCalendarSchedule' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarSchedule.php',
         'ilCalendarScheduleFilter' => __DIR__ . '/../..' . '/../../Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php',
+        'ilCalendarScheduleFilterBookingPool' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterBookingPool.php',
         'ilCalendarScheduleFilterBookings' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php',
         'ilCalendarScheduleFilterExercise' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterExercise.php',
         'ilCalendarScheduleFilterHidden' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterHidden.php',

@@ -13735,7 +13735,7 @@ chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversatio
 chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
 usr#:#user_actions#:#Benutzeraktionen
-usr#:#user_action#:#Benuzteraktion
+usr#:#user_action#:#Benutzeraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
 chatroom#:#chtr_server_status#:#Server-Status

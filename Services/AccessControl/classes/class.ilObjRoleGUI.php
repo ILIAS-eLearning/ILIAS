@@ -47,7 +47,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	function __construct($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
 	{
 		global $tree,$lng;
-		
+
 		$lng->loadLanguageModule('rbac');
 
 		//TODO: move this to class.ilias.php
@@ -1794,7 +1794,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		$logger = $DIC->logger()->ac();
 
 		// creation of roles
-		if(!$this->object->getId())
+		if(
+			!$this->object->getId() ||
+			$this->object->getId() == ROLE_FOLDER_ID
+		)
 		{
 			return true;
 		}
