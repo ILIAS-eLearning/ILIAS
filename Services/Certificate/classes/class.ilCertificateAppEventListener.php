@@ -261,7 +261,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 		if (false === array_key_exists('background_image_path', $this->parameters)) {
 			$this->logger->error('Background Image Path is not added to the event. Abort.');
-			return; 
+			return;
 		}
 
 		if (false === array_key_exists('acquired_timestamp', $this->parameters)) {
@@ -390,7 +390,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 			time()
 		);
 
-		$mode = $settings->get('persistent_certificate_mode', '');
+		$mode = $settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
 		if ($mode === 'persistent_certificate_mode_instant') {
 			$cronjob = new ilCertificateCron();
 			$cronjob->init();
