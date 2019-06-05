@@ -2,7 +2,7 @@
 
 namespace ILIAS\Messaging;
 use ILIAS\Messaging\Contract\Command;
-use ILIAS\Messaging\Adapter\Bus\CommandBusAdapter;
+use ILIAS\Messaging\Adapter\Command\CommandBusAdapter;
 use ILIAS\Messaging\Adapter\Command\CommandHandlerMiddlewareAdapter;
 
 
