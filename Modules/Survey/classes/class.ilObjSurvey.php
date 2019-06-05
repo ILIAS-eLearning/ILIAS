@@ -448,10 +448,6 @@ class ilObjSurvey extends ilObject
 				array($active_fi)
 			);
 		}
-		
-		include_once "Services/Object/classes/class.ilObjectLP.php";
-		$lp_obj = ilObjectLP::getInstance($this->getId());
-		$lp_obj->resetLPDataForCompleteObject();
 	}
 	
 	/**
