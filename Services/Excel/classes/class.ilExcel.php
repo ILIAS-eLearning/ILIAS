@@ -619,7 +619,7 @@ class ilExcel
 	}
 
 	/**
-	 * @param string $coordinates
+	 * @param string $coordinates A coordinates string like 'A1:B5'
 	 * @throws \PhpOffice\PhpSpreadsheet\Exception
 	 */
 	public function mergeCells(string $coordinates) : void
