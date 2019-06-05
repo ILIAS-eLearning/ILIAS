@@ -103,6 +103,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		$this->sp_user_progress_db = $sp_user_progress_db;
 
 		$this->initFilter();
+		$filter_values = $this->getFilterValues();
 
 		$this->determineOffsetAndOrder();
 		$this->determineLimit();
@@ -113,10 +114,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 			$this->getOffset(),
 			$this->getOrderField(),
 			$this->getOrderDirection(),
-			$this->getFilterValues()
+			$filter_values
 		);
 
-		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
+		$this->setMaxCount($this->countFetchData($a_prg_obj_id, $filter_values));
 		$this->setData($members_list);
 	}
 
@@ -337,15 +338,17 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 	 * Get maximum number of rows the table could have
 	 *
 	 * @param int 	$a_prg_id
+	 * @param array	$filter
 	 *
 	 * @return int
 	 */
-	protected function countFetchData($a_prg_id) {
+	protected function countFetchData(int $a_prg_id, array $filter = []) {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
 		$query = "SELECT count(prgrs.id) as cnt";
 		$query .= $this->getFrom();
 		$query .= $this->getWhere($a_prg_id);
+		$query .= $this->getFilterWhere($filter);
 
 		$res = $this->db->query($query);
 		$rec = $this->db->fetchAssoc($res);
@@ -379,6 +382,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 	protected function getWhere($a_prg_id) {
 		return " WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
 	}
+
 
 	/**
 	 * Get selectable columns
