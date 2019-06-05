@@ -1,5 +1,7 @@
 <?php
 
+namespace ILIAS\Messaging\Example\ExampleCourse\Domainmodel\Aggregate;
+
 use ILIAS\Data\Domain\RecordsEvents;
 
 interface CourseRepository {
@@ -21,5 +23,7 @@ interface CourseRepository {
 
 
 	public function remove(Course $course);
+
+
 	public function removeAll(array $courses);
 }

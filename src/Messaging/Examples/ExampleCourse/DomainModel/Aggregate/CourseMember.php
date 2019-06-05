@@ -1,5 +1,7 @@
 <?php
 
+namespace ILIAS\Messaging\Example\ExampleCourse\Domainmodel\Aggregate;
+
 class CourseMember {
 
 	/**
@@ -23,9 +25,11 @@ class CourseMember {
 		$this->usr_id = $usr_id;
 	}
 
+
 	public function usr_id() {
 		return $this->usr_id;
 	}
+
 
 	public function course() {
 		return $this->course;

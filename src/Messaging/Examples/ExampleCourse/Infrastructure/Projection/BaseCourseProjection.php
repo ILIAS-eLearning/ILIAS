@@ -1,7 +1,6 @@
-
 <?php
 
-
+namespace ILIAS\Messaging\Example\ExampleCourse\Infrastructure\Projection;
 
 class BaseCourseProjection {
 

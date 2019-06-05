@@ -1,7 +1,5 @@
 <?php
-
-
-require __DIR__ . '/../../../libs/composer/vendor/autoload.php';
+namespace ILIAS\Messaging\Example\ExampleCourse\Infrastructure\Projection;
 
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\Messaging\Contract\Command\Command;

@@ -1,6 +1,6 @@
 <?php
 
-
+require __DIR__ . '/../../../libs/composer/vendor/autoload.php';
 //TODO
 $mongo_manager = new  MongoDB\Driver\Manager("mongodb://localhost:27017");
 $collection = new \MongoDB\Collection($mongo_manager, "ilias", "course", array());
@@ -13,11 +13,13 @@ use ILIAS\Messaging\CommandBusBuilder;
 use MongoDB\Driver\Manager;
 
 $command_bus = new CommandBusBuilder();
+
 $command_bus->handle(new AddCourseMemberToCourseCommand(2,56));
+
+
+
+
 $test = new CourseRepository(new InMemoryEventStore(),new CourseProjection($collection));
-
-
-
 
 print_r($test->get(3)->getRecordedEvents());
 print_r($test->get(3)->hasChanges());

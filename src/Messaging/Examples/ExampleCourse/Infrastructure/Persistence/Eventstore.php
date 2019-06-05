@@ -1,5 +1,5 @@
 <?php
-
+namespace ILIAS\Messaging\Example\ExampleCourse\Infrastructure\Persistence\InMemory;
 use ILIAS\Data\Domain\DomainEvents;
 use ILIAS\Data\Domain\IdentifiesAggregate;
 

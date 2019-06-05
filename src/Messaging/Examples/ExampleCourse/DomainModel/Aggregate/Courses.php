@@ -1,13 +1,22 @@
 <?php
 
-class Course implements AggregateRoot {
+namespace ILIAS\Messaging\Example\ExampleCourse\Domainmodel\Aggregate;
 
+use ilException;
+use ILIAS\Data\Domain\AggregateRoot;
+use ILIAS\Data\Domain\DomainEvent;
+use ILIAS\Messaging\Example\ExampleCourse\Command\Events\CourseMemberWasAdded;
+use ILIAS\Data\Domain\RecordsEvents;
+use ILIAS\Data\Domain\AggregateHistory;
+use ILIAS\Data\Domain\DomainEvents;
+use ILIAS\Data\Domain\IdentifiesAggregate;
+
+class Course implements AggregateRoot {
 
 	/** @var DomainEvent[] */
 	private $recorded_events = [];
-
 	/**
-	 * @var int
+	 * @var IdentifiesAggregate
 	 */
 	private $course_id;
 	/**
@@ -16,7 +25,7 @@ class Course implements AggregateRoot {
 	private $course_members;
 
 
-	public function __construct(int $course_id, array $course_members = []) {
+	public function __construct(IdentifiesAggregate $course_id, array $course_members = []) {
 		$this->course_id = $course_id;
 		$this->course_members = $course_members;
 	}
@@ -28,14 +37,12 @@ class Course implements AggregateRoot {
 	public function addCourseMember($usr_id) {
 		if (!$this->hasManageMemberPermission()) {
 			//TODO
-			throw new RuntimeException('No Permission');
+			new ilException('No Permission');
 		}
 
 		$this->course_members[] = new CourseMember($this, $usr_id);
 
-		$this->recordThat(
-			new CourseMemberWasAdded($this->course_id, $usr_id)
-		);
+		$this->recordThat(new CourseMemberWasAdded($this->course_id, $usr_id));
 	}
 
 
@@ -54,48 +61,46 @@ class Course implements AggregateRoot {
 	}
 
 
-	public static function reconstituteFrom(\ILIAS\Data\Domain\AggregateHistory $aggregate_history): RecordsEvents {
+	public static function reconstituteFrom(AggregateHistory $aggregate_history): RecordsEvents {
 		$aggregate = static::createInstanceForGivenHistory($aggregate_history);
-		foreach($aggregate_history as $event) {
+		foreach ($aggregate_history as $event) {
 			$aggregate->apply($event);
 		}
+
 		return $aggregate;
 	}
 
 
-	private function apply($anEvent)
-	{
+	private function apply($anEvent) {
 		$method = 'apply' . short($anEvent);
 		$this->$method($anEvent);
 	}
 
-	private function applyCourseMemberWasAdded(CourseMemberWasAdded $event)
-	{
+
+	private function applyCourseMemberWasAdded(CourseMemberWasAdded $event) {
 		$this->course_id = $event->getAggregateId();
 		//$this->course_members[] = $event->getUsrId();
 	}
 
+
 	// ---------------------------------------------------------------------
 
-	protected static function createInstanceForGivenHistory(AggregateHistory $aggregate_history)
-	{
-		return new static($aggregate_history->getAggregateId());
+	protected static function createInstanceForGivenHistory(AggregateHistory $aggregate_history) {
+		return new static($aggregate_history->getAggregateId(), array());
 	}
 
 
-	public function getRecordedEvents(): DomainEvents
-	{
+	public function getRecordedEvents(): DomainEvents {
 		return new DomainEvents($this->recorded_events);
 	}
 
 
-	public function clearRecordedEvents(): void
-	{
+	public function clearRecordedEvents(): void {
 		$this->recorded_events = [];
 	}
 
-	protected function recordThat(DomainEvent $domainEvent): void
-	{
+
+	protected function recordThat(DomainEvent $domainEvent): void {
 		$this->recorded_events[] = $domainEvent;
 		$this->apply($domainEvent);
 	}

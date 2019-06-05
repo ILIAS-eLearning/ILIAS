@@ -1,10 +1,13 @@
 <?php
 
+namespace ILIAS\Messaging\Example\ExampleCourse\Command;
+
 use ILIAS\Messaging\Contract\Command\Command;
 
 class addCourseMemberToCourseCommand implements Command {
 
 	//TODO - should be IdentifiesAggregate
+
 	/**
 	 * @var int
 	 */

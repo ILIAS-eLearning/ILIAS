@@ -1,4 +1,5 @@
 <?php
+namespace ILIAS\Messaging\Example\ExampleCourse\Infrastructure\Persistence\InMemory;
 
 class InMemoryEventStore implements EventStore {
 

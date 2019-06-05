@@ -21,14 +21,12 @@ class Middleware extends CommandBusMiddlewareAdapter implements CommandHandlerMi
 	public function handle($command, callable $next) {
 
 
-
 		/*$handler = get_class($message).'Handler';
 		$handler = new $handler;*/
 		//TODO
 		$handler = new addCourseMemberToCourseCommandHandler();
 
 		$handler->handle($command);
-
 
 		$next($command);
 	}

@@ -1,5 +1,7 @@
 <?php
 
+namespace ILIAS\Messaging\Example\ExampleCourse\Domainmodel\Aggregate;
+
 use ILIAS\Data\Domain\IdentifiesAggregate;
 
 class CourseId implements IdentifiesAggregate {
