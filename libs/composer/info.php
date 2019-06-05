@@ -27,21 +27,23 @@ function vendor_hash() {
 	if(!file_exists(VENDOR_PATH)) {
 		return "vendor directory does not exist";
 	}
-	return hash_directory(HASH_ALGO, VENDOR_PATH);
+	return hash_directory(HASH_ALGO, VENDOR_PATH, [VENDOR_PATH."/autoload.php", VENDOR_PATH."/composer"]);
 }
 
-function hash_directory($algo, $path) {
+function hash_directory($algo, $path, $exclude = []) {
+	$content = scandir($path);
+	sort($content);
 	return hash(
 		HASH_ALGO,
 		implode(
 			"",
 			array_map(
-				function($o) use ($algo, $path) {
-					if ($o === "." || $o === "..") {
+				function($o) use ($algo, $path, $exclude) {
+					if ($o === "." || $o === ".." || $o === ".git") {
 						return "";
 					}
 					$o = "$path/$o";
-					if (is_link($o)) {
+					if (is_link($o) || in_array($o, $exclude)) {
 						return "";
 					}
 					if (is_dir($o)) {
@@ -49,7 +51,7 @@ function hash_directory($algo, $path) {
 					}
 					return hash_file($algo, $o);
 				},
-				scandir($path)
+				$content
 			)
 		)
 	);
