@@ -230,7 +230,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form_settings = new ilSetting("certificate");
 
         $mode = $_POST["persistent_certificate_mode"];
-        $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_instant');
+        $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($mode !== $previousMode && $mode === 'persistent_certificate_mode_instant') {
             $cron = new ilCertificateCron();
             $cron->init();
