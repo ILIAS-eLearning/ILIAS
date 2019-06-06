@@ -618,4 +618,12 @@ class ilExcel
 		return $column++;
 	}
 
+	/**
+	 * @param string $coordinatesRange A coordinates range string like 'A1:B5'
+	 * @throws \PhpOffice\PhpSpreadsheet\Exception
+	 */
+	public function mergeCells(string $coordinatesRange) : void
+	{
+		$this->workbook->getActiveSheet()->mergeCells($coordinatesRange);
+	}
 }
