@@ -26,4 +26,17 @@ interface Secondary extends C\Component
 	 */
 	public function getViewControls(): ?array;
 
+	/**
+	 * Sets a Component being displayed below the content
+	 * @param \ILIAS\UI\Component\Component $component
+	 * @return \ILIAS\UI\Component\Panel\Secondary\Secondary
+	 */
+	public function withFooter(C\Component $component) : Secondary;
+
+	/**
+	 * Gets the Component being displayed below the content
+	 * @return \ILIAS\UI\Component\Component | null
+	 */
+	public function getFooter() : ?C\Component;
+
 }

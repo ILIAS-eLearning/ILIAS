@@ -31,6 +31,11 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 	protected $view_controls;
 
 	/**
+	 * @var null \ILIAS\UI\Component\Component
+	 */
+	protected $footer_component = null;
+
+	/**
 	 * Gets the secondary panel title
 	 *
 	 * @return string
@@ -78,6 +83,24 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 	public function getViewControls(): ?array
 	{
 		return $this->view_controls;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withFooter(C\Component $component) : C\Panel\Secondary\Secondary
+	{
+		$clone = clone $this;
+		$clone->footer_component = $component;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getFooter(): ?C\Component
+	{
+		return $this->footer_component;
 	}
 }
 ?>
