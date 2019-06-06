@@ -721,13 +721,14 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		);
 
 		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
-																			   ) . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)",
-							array( "integer", "text", "text", "integer" ),
+																			   ) . " (question_fi, shuffle, allow_images, thumb_size, feedback_setting) VALUES (%s, %s, %s, %s, %s)",
+							array( "integer", "text", "text", "integer", 'integer' ),
 							array(
 								$this->getId(),
 								$this->getShuffle(),
 								($this->isSingleline) ? "0" : "1",
-								(strlen( $this->getThumbSize() ) == 0) ? null : $this->getThumbSize()
+								(strlen( $this->getThumbSize() ) == 0) ? null : $this->getThumbSize(),
+								(int)$this->getSpecificFeedbackSetting()
 							)
 		);
 	}
