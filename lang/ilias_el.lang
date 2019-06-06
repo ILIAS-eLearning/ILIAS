@@ -15983,3 +15983,4 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###10 01 2019 new variable
 common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.###14 02 2019 new variable
 dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###14 02 2019 new variable
+content#:#msg_no_page_access#:#You do not have the permission to access this page.###06 06 2019 new variable
