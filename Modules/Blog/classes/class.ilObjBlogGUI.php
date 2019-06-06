@@ -2495,12 +2495,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$title = $block[0];
 
 				$content = $block[1];
-				if(isset($block[2]) && is_array($block[2]))
-				{
-					$content .= "<a href='".$block[2][0]."'>".$block[2][1]."</a>";
-				}
 
 				$secondary_panel = $ui_factory->panel()->secondary()->legacy($title, $ui_factory->legacy($content));
+
+				if(isset($block[2]) && is_array($block[2]))
+				{
+					$link = $ui_factory->link()->standard($block[2][1], $block[2][0]);
+					$secondary_panel = $secondary_panel->withFooter($link);
+				}
 
 				$wtpl->setCurrentBlock("block_bl");
 				$wtpl->setVariable("BLOCK", $ui_renderer->render($secondary_panel));
