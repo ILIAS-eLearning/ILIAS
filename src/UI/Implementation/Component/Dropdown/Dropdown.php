@@ -29,6 +29,11 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	protected $items;
 
 	/**
+	 * @var bool
+	 */
+	protected $title_capitalization = true;
+
+	/**
 	 * Dropdown constructor.
 	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard> $items
 	 */
@@ -86,5 +91,25 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	 */
 	public function appendOnHover(Signal $signal) {
 		return $this->appendTriggeredSignal($signal, 'hover');
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isTitleCapitalization(): bool {
+		return $this->title_capitalization;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withTitleCapitalization(bool $title_capitalization = true): C\Dropdown\Dropdown {
+		$this->checkBoolArg("title_capitalization", $title_capitalization);
+		$clone = clone $this;
+		$clone->title_capitalization = $title_capitalization;
+
+		return $clone;
 	}
 }

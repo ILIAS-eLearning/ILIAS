@@ -20,6 +20,9 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderDropdown(Component\Dropdown\Dropdown $component, RendererInterface $default_renderer) {
+		global $DIC;
+
+		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
 
 		// get template
 		$tpl_name = "tpl.standard.html";
@@ -35,7 +38,10 @@ class Renderer extends AbstractComponentRenderer {
 		// render trigger button
 		$label = $component->getLabel();
 		if ($label !== null) {
-			$tpl->setVariable("LABEL", $component->getLabel());
+			if ($component->isTitleCapitalization())  {
+				$label = $transform_title_capitalization($label);
+			}
+			$tpl->setVariable("LABEL", $label);
 		}
 		else {
 			$tpl->setVariable("LABEL", "");
