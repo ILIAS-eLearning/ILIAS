@@ -34,7 +34,7 @@ interface ilStudyProgrammeAutoCategoryRepository
 	/**
 	 * Delete a single category-surveillance.
 	 */
-	public function delete(int $prg_obj_id, int $cat_ref_id);
+	public function delete(int $prg_obj_id, array $cat_ref_ids);
 
 	/**
 	 * Delete all category-surveillance settings for a StudyProgramme.

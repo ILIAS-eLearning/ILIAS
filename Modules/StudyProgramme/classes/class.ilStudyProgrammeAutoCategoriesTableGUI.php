@@ -29,16 +29,31 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
 
 		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt(''), 'title');
-		$this->addColumn($this->lng->txt(''), 'editor');
-		$this->addColumn($this->lng->txt(''), 'last');
+		$this->addColumn($this->lng->txt('title'), 'title');
+		$this->addColumn($this->lng->txt('last_edited_by'), 'editor');
+		$this->addColumn($this->lng->txt('last_edited'), 'last');
 		$this->addColumn($this->lng->txt(''), 'actions');
 
 
-		$this->setSelectAllCheckbox("cat_ids[]");
+		$this->setSelectAllCheckbox(ilObjStudyProgrammeAutoCategoriesGUI::CHECKBOX_CATEGORY_REF_IDS.'[]');
 		$this->setEnableAllCommand(true);
-		$this->addMultiCommand('delete', "txt('delete')");
+		$this->addMultiCommand('delete', $this->lng->txt('delete'));
 
 	}
 
+	protected function fillRow($set) {
+		list($ac, $actions) = $set;
+		$username = ilObjUser::_lookupName($ac->getLastEditorId());
+		$editor = implode(' ', [
+			$username['firstname'],
+			$username['lastname'],
+			'('.$username['login'] .')'
+		]);
+
+		$this->tpl->setVariable("ID", $ac->getCategoryRefId());
+		$this->tpl->setVariable("TITLE", $ac->getTitle());
+		$this->tpl->setVariable("EDITOR", $editor);
+		$this->tpl->setVariable("LAST_EDITED", $ac->getLastEdited()->format('Y/m/d H:i:s'));
+		$this->tpl->setVariable("ACTIONS", $actions);
+	}
 }

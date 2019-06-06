@@ -25143,8 +25143,8 @@ if(!in_array("primary", $const)) {
 $const = $manager->listTableConstraints("il_mm_actions");
 if(!in_array("primary", $const)) {
 	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
-}	
-	
+}
+
 ?>
 <#5424>
 <?php
@@ -25213,7 +25213,7 @@ if ($media_cont_mig == 0)
 	   restore old values anymore and skip this step.
 	   If you would like to skip this step you need to modify the file setup/sql/dbupdate_04.php
 	   Search for 'RUN_CONTENT_STYLE_MIGRATION' (around line 25205) and follow the instructions.
-	
+
 	=> To proceed the update process you now need to refresh the page (F5)
 
 	Mantis Bug Report: https://ilias.de/mantis/view.php?id=23299
@@ -25273,5 +25273,39 @@ if ($media_cont_mig == 1)
 		}
 	}
 	$setting->set('sty_media_cont_mig', 2);
+}
+?>
+
+<#5428>
+<?php
+if (!$ilDB->tableExists('prg_auto_content'))
+{
+	$ilDB->createTable('prg_auto_content', array(
+		'prg_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'cat_ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'last_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_edited' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('prg_auto_content', ['prg_obj_id', 'cat_ref_id']);
 }
 ?>

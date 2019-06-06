@@ -11,6 +11,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 {
 	const F_TITLE = 'f_t';
 	const F_CATEGORY_REF = 'f_cr';
+	const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
 
 	/**
 	 * @var ilTemplate
@@ -87,7 +88,9 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 				break;
 
 			case "save":
-				$this->save();
+			case "delete":
+			case "delete_single":
+				$this->$cmd();
 				$this->ctrl->redirect($this, 'view');
 				break;
 
@@ -102,12 +105,35 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	 */
 	protected function view()
 	{
-		$table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
-		$modal = $this->getModal();
+		$collected_modals = [];
+
+		$form = $this->getModalForm();
+		$modal = $this->getModal($form);
 		$this->getToolbar($modal->getShowSignal());
+		$collected_modals[] = $modal;
+
+
+		$table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
+		$data = [];
+		foreach($this->getObject()->getAutomaticContentCategories() as $ac) {
+			$form = $this->getModalForm($ac->getCategoryRefId());
+			$modal = $this->getModal($form);
+			$collected_modals[] = $modal;
+
+			$signal = $modal->getShowSignal();
+			$actions = $this->getItemAction(
+				$ac->getCategoryRefId(),
+				$modal->getShowSignal()
+			);
+			$data[] = [
+				$ac,
+				$this->ui_renderer->render($actions)
+			];
+		}
+		$table->setData($data);
 
 		$this->tpl->setContent(
-			$this->ui_renderer->render($modal)
+			$this->ui_renderer->render($collected_modals)
 			.$table->getHTML()
 		);
 	}
@@ -126,6 +152,32 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 			(int)$result[self::F_CATEGORY_REF]
 		);
 	}
+
+	/**
+	 * Delete entries.
+	 */
+	protected function delete()
+	{
+		$post = $_POST;
+		$field = self::CHECKBOX_CATEGORY_REF_IDS;
+		if(array_key_exists($field, $post)) {
+			$ids = array_map('intval', $post[$field]);
+			$this->getObject()->deleteAutomaticContentCategories($ids);
+		}
+	}
+	/**
+	 * Delete single entry.
+	 */
+	protected function delete_single()
+	{
+		$get = $_GET;
+		$field = self::CHECKBOX_CATEGORY_REF_IDS;
+		if(array_key_exists($field, $get)) {
+			$ids = [(int)$get[$field]];
+			$this->getObject()->deleteAutomaticContentCategories($ids);
+		}
+	}
+
 
 	/**
 	 * Set ref-id of StudyProgramme before using this GUI.
@@ -153,7 +205,9 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	/**
 	 * Build a modal to add/edit a category.
 	 */
-	protected function getModal(): \ILIAS\UI\Component\Modal\Modal
+	protected function getModal(
+		ILIAS\UI\Component\Input\Container\Form\Form $form
+	): \ILIAS\UI\Component\Modal\Modal
 	{
 		$submit_action = "";
 		$submit = $this->ui_factory->button()->primary(
@@ -163,10 +217,9 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
 		$modal = $this->ui_factory->modal()->roundtrip(
 			$this->lng->txt('modal_categories_title'),
-			$this->getModalForm()
-		)
-		//->withActionButtons([$submit])
-		;
+			$form
+		);
+
 		return $modal;
 	}
 
@@ -174,13 +227,16 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	/**
 	 * Build the modal's form.
 	 */
-	protected function getModalForm(): ILIAS\UI\Component\Input\Container\Form\Form
+	protected function getModalForm(int $category_ref_id = null): ILIAS\UI\Component\Input\Container\Form\Form
 	{
 		$factory = $this->ui_factory->input();
 		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
 
 		$f_title = $factory->field()->text($this->lng->txt('title'));
 		$f_cat_ref = $factory->field()->numeric($this->lng->txt('Category'));
+		if(! is_null($category_ref_id)) {
+			$f_cat_ref = $f_cat_ref->withValue($category_ref_id);
+		}
 		$form = $factory->container()->form()->standard(
 			$url,
 			[
@@ -199,6 +255,27 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		$btn = $this->ui_factory->button()->primary($this->lng->txt('add_category'),'')
 			->withOnClick($add_cat_signal);
 		$this->toolbar->addComponent($btn);
+
+	}
+
+	protected function getItemAction(
+		int $cat_ref_id,
+		\ILIAS\UI\Component\Signal $signal
+	): \ILIAS\UI\Component\Dropdown\Standard {
+
+		$items = [];
+		$items[] =  $this->ui_factory->button()->shy($this->lng->txt('edit'), '')
+			->withOnClick($signal);
+
+		$this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, $cat_ref_id);
+		$items[] =  $this->ui_factory->button()->shy(
+			$this->lng->txt('delete'),
+			$this->ctrl->getLinkTarget($this, 'delete_single')
+		);
+
+
+		$dd = $this->ui_factory->dropdown()->standard($items);
+		return $dd;
 
 	}
 }

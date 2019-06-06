@@ -17,6 +17,11 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 	const FIELD_LAST_EDITED = 'last_edited';
 
 	/**
+	 * @var ilDBInterface
+	 */
+	protected $db;
+
+	/**
 	 * @var int
 	 */
 	protected $current_usr_id;
@@ -25,7 +30,8 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 		ilDBInterface $db,
 		int $current_usr_id
 	) {
-
+		$this->db = $db;
+		$this->current_usr_id = $current_usr_id;
 	}
 
 	/**
@@ -41,29 +47,37 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 			.self::FIELD_LAST_EDITED
 			.PHP_EOL.'FROM '.self::TABLE
 			.PHP_EOL.'WHERE '.self::FIELD_PRG_OBJ_ID .' = '
-			.$this->db->quote('integer', $prg_obj_id);
+			.$this->db->quote($prg_obj_id, 'integer');
 
-		$res = $this->db->query($q);
+		$res = $this->db->query($query);
 		$ret = [];
 		while($rec = $this->db->fetchAssoc($res)) {
 			$ret[] = $this->create(
-				$rec[self::FIELD_PRG_OBJ_ID],
-				$rec[self::FIELD_CAT_REF_ID],
-				$rec[self::FIELD_TITLE],
-				$rec[self::FIELD_EDITOR_ID],
-				$rec[self::FIELD_LAST_EDITED]
+				(int)$rec[self::FIELD_PRG_OBJ_ID],
+				(int)$rec[self::FIELD_CAT_REF_ID],
+				(string)$rec[self::FIELD_TITLE],
+				(int)$rec[self::FIELD_EDITOR_ID],
+				new \DateTimeImmutable($rec[self::FIELD_LAST_EDITED])
 			);
 		}
 		return $ret;
 	}
 
-	protected function create(
+	public function create(
 		int $prg_obj_id,
 		int $category_ref_id,
 		string $title,
-		int $last_edited_usr_id,
-		\DateTimeImmutable $last_edited
+		int $last_edited_usr_id = null,
+		\DateTimeImmutable $last_edited = null
 	): ilStudyProgrammeAutoCategory	{
+
+		if(is_null($last_edited_usr_id)) {
+			$last_edited_usr_id = $this->current_usr_id;
+		}
+		if(is_null($last_edited)) {
+			$last_edited = new \DateTimeImmutable();
+		}
+
 		return new ilStudyProgrammeAutoCategory(
 			$prg_obj_id,
 			$category_ref_id,
@@ -78,7 +92,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 	 */
 	public function update(ilStudyProgrammeAutoCategory $ac)
 	{
-		$ilAtomQuery = $ilDB->buildAtomQuery();
+		$ilAtomQuery = $this->db->buildAtomQuery();
 		$ilAtomQuery->addTableLock(self::TABLE);
 
 		$current_usr_id = $this->current_usr_id;
@@ -87,9 +101,10 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 				$query = 'DELETE FROM ' .self::TABLE
 					.PHP_EOL.'WHERE prg_obj_id = ' .$ac->getObjId()
 					.PHP_EOL.'AND cat_ref_id = ' .$ac->getCategoryRefId();
-				$db->query($query);
+				$db->manipulate($query);
 
 				$now = new \DateTimeImmutable();
+				$now = $now->format('Y-m-d H:i:s');
 				$db->insert(
 					self::TABLE,
 					[
@@ -109,9 +124,19 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 	/**
 	 * @inheritdoc
 	 */
-	public function delete(int $prg_obj_id, int $cat_ref_id)
+	public function delete(int $prg_obj_id, array $cat_ref_ids)
 	{
+		$ids = array_map(function($id){
+				return $this->db->quote($id, 'integer');
+			},
+			$cat_ref_ids
+		);
+		$ids = implode(',', $ids);
 
+		$query = 'DELETE FROM ' .self::TABLE
+			.PHP_EOL.'WHERE prg_obj_id = ' .$this->db->quote($prg_obj_id, 'integer')
+			.PHP_EOL.'AND cat_ref_id IN (' .$ids .')';
+		$this->db->manipulate($query);
 	}
 
 	/**
@@ -119,7 +144,9 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 	 */
 	public function deleteFor(int $prg_obj_id)
 	{
-
+		$query = 'DELETE FROM ' .self::TABLE
+			.PHP_EOL.'WHERE prg_obj_id = ' .$this->db->quote($prg_obj_id, 'integer');
+		$this->db->manipulate($query);
 	}
 
 }

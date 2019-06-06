@@ -252,6 +252,8 @@ class ilObjStudyProgramme extends ilContainer {
 	        // This would be the case when SP is in trash (#17797)
 		}
 
+		$this->deleteAllAutomaticContentCategories();
+
 		return true;
 	}
 
@@ -1226,21 +1228,55 @@ class ilObjStudyProgramme extends ilContainer {
 		return array_unique($returns);
 	}
 
+
 	////////////////////////////////////
 	// AUTOMATIC CONTENT CATEGORIES
 	////////////////////////////////////
+
+	/**
+	 * Get configuration of categories with auto-content for this StudyProgramme;
+	 * @return ilStudyProgrammeAutoCategory[]
+	 */
+	public function getAutomaticContentCategories(): array
+	{
+		return $this->auto_categories_repository->readFor($this->getId());
+	}
+
+	/**
+	 * Store a Category with auto-content for this StudyProgramme;
+	 * a category can only be referenced once (per programme).
+	 * @param string $title
+	 * @param int $category_ref_id
+	 */
 	public function storeAutomaticContentCategory(
 		string $title,
 		int $category_ref_id
 	) {
-
 		$ac = $this->auto_categories_repository->create(
 				$this->getId(),
-				$title,
-				$category_ref_id
+				$category_ref_id,
+				$title
 		);
 		$this->auto_categories_repository->update($ac);
 	}
+
+	/**
+	 * Delete configuration of categories with auto-content for this StudyProgramme;
+	 * @param int[] $category_ids
+	 */
+	public function deleteAutomaticContentCategories(array $category_ids=[])
+	{
+		return $this->auto_categories_repository->delete($this->getId(), $category_ids);
+	}
+
+	/**
+	 * Delete all configuration of categories with auto-content for this StudyProgramme;
+	 */
+	public function deleteAllAutomaticContentCategories()
+	{
+		return $this->auto_categories_repository->deleteFor($this->getId());
+	}
+
 
 
 	////////////////////////////////////
