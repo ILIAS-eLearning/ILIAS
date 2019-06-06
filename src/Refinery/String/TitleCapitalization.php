@@ -184,7 +184,14 @@ class TitleCapitalization implements Transformation {
 			throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
 		}
 
-		$to = preg_replace_callback("/[\w]+/", [ $this, "replaceHelper" ], $from);
+		// First write the first letter of each word to uppercase
+		$to = ucwords(strtolower($from));
+
+		// Then replace all special words and write it again to lowercase
+		$to = preg_replace_callback_array($this->buildPatterns($this->not_capitalize), $to);
+
+		// Finally the first letter of the whole string muss be always uppercase
+		$to = ucfirst($to);
 
 		return $to;
 	}
@@ -215,17 +222,38 @@ class TitleCapitalization implements Transformation {
 
 
 	/**
+	 * @param array $words
+	 *
+	 * @return array
+	 */
+	protected function buildPatterns(array $words): array {
+		return array_reduce($words, function (array $patterns, string $word): array {
+			$patterns[$this->buildPattern($word)] = [ $this, "replaceHelper" ];
+
+			return $patterns;
+		}, []);
+	}
+
+
+	/**
+	 * @param string $word
+	 *
+	 * @return string
+	 */
+	protected function buildPattern(string $word): string {
+		// Before the word muss be the start of the string or a space
+		// After the word muss be the end of the string or a space
+		// Ignore case to include the uppercase in the first step before
+		return "/(\s|^)" . preg_quote($word) . "(\s|$)/i";
+	}
+
+
+	/**
 	 * @param array $result
 	 *
 	 * @return string
 	 */
 	protected function replaceHelper(array $result): string {
-		$word = strtolower($result[0] ?? "");
-echo $word;
-		if (!in_array($word, $this->not_capitalize)) {
-			return ucwords($word);
-		} else {
-			return $word;
-		}
+		return strtolower($result[0] ?? "");
 	}
 }
