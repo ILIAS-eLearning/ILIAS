@@ -95,13 +95,13 @@ class ilCopyWizardOptions
 	public function getRequiredSteps()
 	{
 		$steps = 0;
-		if(is_array($this->options) && array_key_exists(0,$this->options))
+		if(is_array($this->options) && array_key_exists(0,$this->options) && is_array($this->options[0]))
 		{
-			$steps += $this->options[0];
+			$steps += count($this->options[0]);
 		}
-		if(is_array($this->options) && array_key_exists(-1,$this->options))
+		if(is_array($this->options) && array_key_exists(-1,$this->options) && is_array($this->options[-1]))
 		{
-			$steps += $this->options[-1];
+			$steps += count($this->options[-1]);
 		}
 		return $steps;
 	}
