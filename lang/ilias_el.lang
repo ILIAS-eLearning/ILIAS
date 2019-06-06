@@ -14246,3 +14246,4 @@ skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###09 05 2019 new variable
 buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###09 05 2019 new variable
 dateplaner#:#cal_usr_info#:#Appointment Information###09 05 2019 new variable
+content#:#msg_no_page_access#:#You do not have the permission to access this page.###06 06 2019 new variable
