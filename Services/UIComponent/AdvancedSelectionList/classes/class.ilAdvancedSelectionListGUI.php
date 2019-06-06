@@ -42,6 +42,11 @@ class ilAdvancedSelectionListGUI
 	protected $grouped_list = null;
 	protected $style = 0;
 	private $dd_pullright = true;
+
+	/**
+	 * @var bool
+	 */
+	protected $title_capitalization = true;
 	
 	/*
 	
@@ -555,6 +560,10 @@ class ilAdvancedSelectionListGUI
 	*/
 	public function getHTML($a_only_cmd_list_asynch = false)
 	{
+		global $DIC;
+
+		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+
 		$items = $this->getItems();
 
 		// do not show list, if no item is in list
@@ -593,11 +602,14 @@ class ilAdvancedSelectionListGUI
 			{
 				foreach($items as $item)
 				{
+					$title = $item["title"] ?? "";
+					if ($this->isTitleCapitalization()) {
+						$title = $transform_title_capitalization($title);
+					}
+
 					if (isset($item["ref_id"]))
 					{
-						$sel_arr[$item["ref_id"]] = (isset($item["title"]))
-							? $item["title"]
-							: "";
+						$sel_arr[$item["ref_id"]] = $title;
 					}
 					$this->css_row = ($this->css_row != "tblrow1_mo")
 						? "tblrow1_mo"
@@ -693,7 +705,7 @@ class ilAdvancedSelectionListGUI
 						$tpl->setVariable("ONCLICK_ITEM",
 							'onclick="return il.AdvancedSelectionList.selectForm(\''.$this->getId().'\''.
 								", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-								"'".$item["title"]."');\"");
+								"'".$title."');\"");
 					}
 					else if ($this->getOnClickMode() ==
 						ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP)
@@ -701,13 +713,13 @@ class ilAdvancedSelectionListGUI
 						$tpl->setVariable("ONCLICK_ITEM",
 							'onclick="il.AdvancedSelectionList.clickNop(\''.$this->getId().'\''.
 								", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-								"'".$item["title"]."');\"");
+								"'".$title."');\"");
 					}
 
 					$tpl->setVariable("CSS_ROW", $this->css_row);
 					if ($item["html"] == "")
 					{
-						$tpl->setVariable("TXT_ITEM", $item["title"]);
+						$tpl->setVariable("TXT_ITEM", $title);
 					}
 					else
 					{
@@ -729,7 +741,7 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("IT_ID", $this->getId());
 					$tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
 					$tpl->setVariable("IT_HID_VAL", $item["value"]);
-					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
+					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $title));
 					$tpl->parseCurrentBlock();					 					
 				}
 
@@ -837,8 +849,12 @@ class ilAdvancedSelectionListGUI
 		$tpl->setVariable("CFG", ilJsonUtil::encode($cfg));		 
 		 
 		//echo htmlentities(ilJsonUtil::encode($cfg));	
-		
-		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
+
+		$list_title = $this->getListTitle();
+		if ($this->isTitleCapitalization()) {
+			$list_title = $transform_title_capitalization($list_title);
+		}
+		$tpl->setVariable("TXT_SEL_TOP", $list_title);
 		$tpl->setVariable("ID", $this->getId());
 		
 		//$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
@@ -879,6 +895,22 @@ class ilAdvancedSelectionListGUI
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isTitleCapitalization(): bool {
+		return $this->title_capitalization;
+	}
+
+
+	/**
+	 * @param bool $title_capitalization
+	 */
+	public function setTitleCapitalization(bool $title_capitalization = true): void {
+		$this->title_capitalization = $title_capitalization;
 	}
 }
 ?>

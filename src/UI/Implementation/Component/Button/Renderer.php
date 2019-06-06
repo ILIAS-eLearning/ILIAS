@@ -35,6 +35,10 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
+		global $DIC;
+
+		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
 		}
@@ -64,7 +68,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		$label = $component->getLabel();
 		if ($label !== null) {
-			$tpl->setVariable("LABEL", $component->getLabel());
+			if ($component->isTitleCapitalization())  {
+				$label = $transform_title_capitalization($label);
+			}
+			$tpl->setVariable("LABEL", $label);
 		}
 		if ($component->isActive()) {
 			// The actions might also be a list of signals, these will be appended by
@@ -90,6 +97,9 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		$aria_label = $component->getAriaLabel();
 		if($aria_label != null){
+			if ($component->isTitleCapitalization())  {
+				$aria_label = $transform_title_capitalization($aria_label);
+			}
 			$tpl->setCurrentBlock("with_aria_label");
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
 			$tpl->parseCurrentBlock();
@@ -142,6 +152,10 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderToggle(Component\Button\Toggle $component) {
+		global $DIC;
+
+		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+
 		$tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
 		$on_action = $component->getActionOn();
@@ -189,12 +203,18 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		$label = $component->getLabel();
 		if (!empty($label)) {
+			if ($component->isTitleCapitalization())  {
+				$label = $transform_title_capitalization($label);
+			}
 			$tpl->setCurrentBlock("with_label");
 			$tpl->setVariable("LABEL", $label);
 			$tpl->parseCurrentBlock();
 		}
 		$aria_label = $component->getAriaLabel();
 		if($aria_label != null){
+			if ($component->isTitleCapitalization())  {
+				$aria_label = $transform_title_capitalization($aria_label);
+			}
 			$tpl->setCurrentBlock("with_aria_label");
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
 			$tpl->parseCurrentBlock();
@@ -267,10 +287,17 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function additionalRenderBulky(Component\Button\Button $component, RendererInterface $default_renderer, $tpl) {
+		global $DIC;
+
+		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
 		$label = $component->getLabel();
 		if ($label !== null) {
+			if ($component->isTitleCapitalization())  {
+				$label = $transform_title_capitalization($label);
+			}
 			$tpl->setVariable("LABEL", $label);
 		}
 	}

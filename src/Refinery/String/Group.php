@@ -66,4 +66,14 @@ class Group
 	{
 		return new SplitString($delimiter, $this->dataFactory);
 	}
+
+	/**
+	 * Creates a transformation that can be used to format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
+	 *
+	 * @return TitleCapitalization
+	 */
+	public function titleCapitalization() : TitleCapitalization
+	{
+		return new TitleCapitalization($this->dataFactory);
+	}
 }
