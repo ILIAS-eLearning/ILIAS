@@ -45,12 +45,17 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	protected $force_details;
 
 	protected $block_limit;
+
+	/**
+	 * @var ilContainerUserFilter
+	 */
+	protected $container_user_filter;
 	
 	/**
 	* Constructor
 	*
 	*/
-	function __construct($container_gui_obj)
+	function __construct($container_gui_obj, \ilContainerUserFilter $container_user_filter = null)
 	{
 		global $DIC;
 
@@ -59,6 +64,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		parent::__construct($container_gui_obj);
 		$this->initDetails();
 		$this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->object->getId(), "block_limit");
+		$this->container_user_filter = $container_user_filter;
 	}
 	
 	/**
@@ -101,7 +107,11 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		
 		// get all sub items
 		$this->items = $this->getContainerObject()->getSubItems(
-			$this->getContainerGUI()->isActiveAdministrationPanel());
+			$this->getContainerGUI()->isActiveAdministrationPanel(), false, 0,
+			$this->container_user_filter
+		);
+
+		//$this->items = $this->applyFilterToItems($this->items);
 
 		// Show introduction, if repository is empty
 		// @todo: maybe we move this
@@ -222,7 +232,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 			}
 		}
 	}
-	
 
+	
 } // END class.ilContainerSimpleContentGUI
 ?>

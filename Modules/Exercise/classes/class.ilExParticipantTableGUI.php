@@ -62,11 +62,11 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 			$this->setDescription('<span class="warning">'.$info[0]['text'].'</span>');
 		}		
 	
-		$data = array();		
+		$data = array();
+		/** @var ilExAssignment $ass */
 		foreach(ilExAssignment::getInstancesByExercise($this->exc->getId()) as $ass)
 		{				
 			// ilExAssignment::getMemberListData()
-			
 			$member_status = $ass->getMemberStatus($this->user->getId());
 							
 			// filter
@@ -104,7 +104,8 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 				"feedback_time" => $member_status->getFeedbackTime(),
 				"submission" => $submission->getLastSubmission(),				
 				"notice" => $member_status->getNotice(),
-				"comment" => $member_status->getComment()				
+				"comment" => $member_status->getComment(),
+				"order_nr" => $ass->getOrderNr()
 			);
 			
 			if($ass->hasTeam())
@@ -146,7 +147,7 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 	{
 		$cols = array();
 				
-		$cols["name"] = array($this->lng->txt("exc_assignment"), "name");	
+		$cols["name"] = array($this->lng->txt("exc_assignment"), "order_nr");
 		$cols["team_members"] = array($this->lng->txt("exc_tbl_team"));			
 		$cols["idl"] = array($this->lng->txt("exc_tbl_individual_deadline"), "idl");	
 		
@@ -156,7 +157,6 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 	protected function fillRow($a_item)
 	{
 		$ilCtrl = $this->ctrl;
-		
 		$ilCtrl->setParameter($this->parent_obj, "member_id", $this->user->getId());
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", $a_item["ass"]->getId());
 				
@@ -168,5 +168,17 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
 			
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
 		$ilCtrl->setParameter($this->parent_obj, "member_id", $this->user->getId());			
-	}	
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function numericOrdering($a_field)
+	{
+		if (in_array($a_field, ["order_nr"]))
+		{
+			return true;
+		}
+		return false;
+	}
 }

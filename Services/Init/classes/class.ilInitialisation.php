@@ -1103,7 +1103,7 @@ class ilInitialisation
 
 				self::initHTML();
 			}
-			self::initRefinery();
+			self::initRefinery($GLOBALS['DIC']);
 		}
 	}
 
@@ -1669,9 +1669,9 @@ class ilInitialisation
 	}
 
 	/**
-	 *
+	 * @param \ILIAS\DI\Container $container
 	 */
-	protected static function initRefinery()
+	protected static function initRefinery(\ILIAS\DI\Container $container)
 	{
 		$container['refinery'] = function ($container) {
 			$dataFactory = new \ILIAS\Data\Factory();

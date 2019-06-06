@@ -384,7 +384,7 @@ class ilObjSurvey extends ilObject
 			array('integer'),
 			array($this->getSurveyId())
 		);
-		$this->deleteAllUserData();
+		$this->deleteAllUserData(false);
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_anonymous WHERE survey_fi = %s",
 			array('integer'),
@@ -412,13 +412,14 @@ class ilObjSurvey extends ilObject
 			$mob_obj->delete();
 		}
 	}
-	
+
 	/**
-	* Deletes all user data of a survey
-	* 
-	* @access	public
-	*/
-	function deleteAllUserData()
+	 * Deletes all user data of a survey
+	 *
+	 * @access    public
+	 * @param bool $reset_LP	notice that the LP can only be reset it the determining components still exist
+	 */
+	function deleteAllUserData($reset_LP = true)
 	{
 		$ilDB = $this->db;
 		
@@ -448,10 +449,12 @@ class ilObjSurvey extends ilObject
 				array($active_fi)
 			);
 		}
-		
-		include_once "Services/Object/classes/class.ilObjectLP.php";
-		$lp_obj = ilObjectLP::getInstance($this->getId());
-		$lp_obj->resetLPDataForCompleteObject();
+
+		if ($reset_LP) {
+			include_once "Services/Object/classes/class.ilObjectLP.php";
+			$lp_obj = ilObjectLP::getInstance($this->getId());
+			$lp_obj->resetLPDataForCompleteObject();
+		}
 	}
 	
 	/**
@@ -2898,8 +2901,16 @@ class ilObjSurvey extends ilObject
 			" WHERE survey_fi = %s AND finished_id = %s",
 			array('text','integer','integer','integer'),
 			array(1, time(), $this->getSurveyId(), $finished_id)
-		);			
-		
+		);
+
+		// self eval writes skills on finishing
+		if ($this->getMode() == ilObjSurvey::MODE_SELF_EVAL)
+		{
+			$user = $this->getUserDataFromActiveId($finished_id);
+			$sskill = new ilSurveySkill($this);
+			$sskill->writeSelfEvalSkills($user['usr_id']);
+		}
+
 		$this->checkTutorNotification();
 	}
 

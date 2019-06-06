@@ -390,7 +390,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             time()
         );
 
-        $mode = $settings->get('persistent_certificate_mode', '');
+        $mode = $settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($mode === 'persistent_certificate_mode_instant') {
             $cronjob = new ilCertificateCron();
             $cronjob->init();

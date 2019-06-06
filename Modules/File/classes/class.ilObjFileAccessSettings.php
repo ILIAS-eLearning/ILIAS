@@ -46,6 +46,12 @@ class ilObjFileAccessSettings extends ilObject
 	private $webdavEnabled;
 
 	/**
+	 * Boolean property. Set this to true, to enable versioning for existing files uploaded with WebDAV.
+	 * Set this to false, to overwrite existing file version on file upload
+	 */
+	private $webdavVersioningEnabled;
+
+	/**
 	 * Boolean property. Set this to true, to make WebDAV item actions visible for repository items.
 	 */
 	private $webdavActionsVisible;
@@ -109,6 +115,17 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		return $this->webdavEnabled;
 	}
+
+	public function setWebdavVersioningEnabled($newValue)
+	{
+		$this->webdavVersioningEnabled = $newValue;
+	}
+
+	public function isWebdavVersioningEnabled()
+	{
+		return $this->webdavVersioningEnabled;
+	}
+
 	/**
 	* Sets the webdavActionsVisible property.
 	* 
@@ -257,19 +274,21 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		global $DIC;
 		$ilClientIniFile = $DIC['ilClientIniFile'];
+		$settings = new ilSetting('file_access');
 
 		// Clear any old error messages
 		$ilClientIniFile->error(null);
-		
+
 		if (! $ilClientIniFile->groupExists('file_access'))
 		{
 			$ilClientIniFile->addGroup('file_access');
 		}
 		$ilClientIniFile->setVariable('file_access', 'webdav_enabled', $this->webdavEnabled ? '1' : '0');
+		$settings->set('webdav_versioning_enabled', $this->webdavVersioningEnabled ? '1' : '0');
 		$ilClientIniFile->setVariable('file_access', 'webdav_actions_visible', $this->webdavActionsVisible ? '1' : '0');
 		$ilClientIniFile->setVariable('file_access', 'download_with_uploaded_filename', $this->downloadWithUploadedFilename ? '1' : '0');
 		$ilClientIniFile->write();
-		
+
         if ($ilClientIniFile->getError()) {
             global $DIC;
             $ilErr = $DIC['ilErr'];
@@ -277,7 +296,6 @@ class ilObjFileAccessSettings extends ilObject
         }
 
 		require_once 'Services/Administration/classes/class.ilSetting.php';
-		$settings = new ilSetting('file_access');
 		$settings->set('inline_file_extensions', $this->inlineFileExtensions);
 		$settings->set('custom_webfolder_instructions_enabled', $this->customWebfolderInstructionsEnabled ? '1' : '0');
 		$settings->set('custom_webfolder_instructions', $this->customWebfolderInstructions);
@@ -290,14 +308,15 @@ class ilObjFileAccessSettings extends ilObject
 		parent::read();
 
 		global $DIC;
+		$settings = new ilSetting('file_access');
 		$ilClientIniFile = $DIC['ilClientIniFile'];
 		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
+		$this->webdavVersioningEnabled = $settings->get('webdav_versioning_enabled', '0') == '1';
 		$this->webdavActionsVisible = $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
 		$this->downloadWithUploadedFilename = $ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') == '1';
 		$ilClientIniFile->ERROR = false;
 
 		require_once 'Services/Administration/classes/class.ilSetting.php';
-		$settings = new ilSetting('file_access');
 		$this->inlineFileExtensions = $settings->get('inline_file_extensions','');
 		$this->customWebfolderInstructionsEnabled = $settings->get('custom_webfolder_instructions_enabled', '0') == '1';
 		//$this->webdavSpecialCharsHandling = $settings->get('');

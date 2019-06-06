@@ -34,10 +34,7 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		$f = $this->getUIFactory();
-		$submit_button = $f->button()->standard($this->txt("save"), "#")// TODO: replace this with proper 'submit'-signal of form.
-		                   ->withOnLoadCode(function ($id) {
-				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').submit();" . "   ev.preventDefault();" . "});";
-			});
+		$submit_button = $f->button()->standard($this->txt("save"), "");
 
 		$tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
 		$tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));

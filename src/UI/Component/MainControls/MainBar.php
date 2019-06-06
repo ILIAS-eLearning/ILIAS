@@ -71,7 +71,7 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
 	public function withMoreButton(Button\Bulky $button): MainBar;
 
 	/**
-	 * Returns the button for further entrie.
+	 * Returns the button for further entries.
 	 */
 	public function getMoreButton(): Button\Bulky;
 
