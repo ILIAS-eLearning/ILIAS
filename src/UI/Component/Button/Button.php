@@ -75,4 +75,18 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * This will also remove a string action if there currently is one.
 	 */
 	public function withOnClick(Signal $signal);
+
+
+	/**
+	 * @return bool
+	 */
+	public function isTitleCapitalization(): bool;
+
+
+	/**
+	 * @param bool $title_capitalization
+	 *
+	 * @return self
+	 */
+	public function withTitleCapitalization(bool $title_capitalization = true): self;
 }

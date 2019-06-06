@@ -43,6 +43,11 @@ abstract class Button implements C\Button\Button {
 	 */
 	protected $aria_checked = false;
 
+	/**
+	 * @var bool
+	 */
+	protected $title_capitalization = true;
+
 
 	public function __construct($label, $action) {
 		$this->checkStringArg("label", $label);
@@ -152,4 +157,23 @@ abstract class Button implements C\Button\Button {
 		return $this->aria_label;
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isTitleCapitalization(): bool {
+		return $this->title_capitalization;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withTitleCapitalization(bool $title_capitalization = true): C\Button\Button {
+		$this->checkBoolArg("title_capitalization", $title_capitalization);
+		$clone = clone $this;
+		$clone->title_capitalization = $title_capitalization;
+
+		return $clone;
+	}
 }

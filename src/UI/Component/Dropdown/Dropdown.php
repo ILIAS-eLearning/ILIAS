@@ -36,4 +36,17 @@ interface Dropdown extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 */
 	public function withLabel($label);
 
+
+	/**
+	 * @return bool
+	 */
+	public function isTitleCapitalization(): bool;
+
+
+	/**
+	 * @param bool $title_capitalization
+	 *
+	 * @return self
+	 */
+	public function withTitleCapitalization(bool $title_capitalization = true): self;
 }
