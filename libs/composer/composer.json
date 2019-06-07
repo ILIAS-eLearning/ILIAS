@@ -37,6 +37,8 @@
 		"jumbojett/openid-connect-php": "^0.7.0",
 		"sabre/dav": "~3.2.2",
 		"slim/slim": "^3.11",
+		"friendsofphp/php-cs-fixer": "^2.15"
+		"slim/slim": "^3.11",
 		"symfony/console" : "^4.2"
 	},
 	"require-dev": {
