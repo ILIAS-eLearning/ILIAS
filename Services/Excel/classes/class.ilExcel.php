@@ -589,7 +589,7 @@ class ilExcel
 	 * @param int $pRow
 	 * @return string
 	 */
-	function getCoordByColumnAndRow($pColumn = 1, $pRow = 1)
+	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
 	{
 		$col = $this->columnIndexAdjustment($pColumn);
 		$columnLetter = Coordinate::stringFromColumnIndex($col);
