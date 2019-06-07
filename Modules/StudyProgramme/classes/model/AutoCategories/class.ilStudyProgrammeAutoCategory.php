@@ -37,7 +37,6 @@ class ilStudyProgrammeAutoCategory
 	public function __construct(
 		int $prg_obj_id,
 		int $category_ref_id,
-		string $title,
 		int $last_edited_usr_id,
 		\DateTimeImmutable $last_edited
 	) {
@@ -57,11 +56,6 @@ class ilStudyProgrammeAutoCategory
 	public function getCategoryRefId(): int
 	{
 		return $this->category_ref_id;
-	}
-
-	public function getTitle(): string
-	{
-		return $this->title;
 	}
 
 	public function getLastEditorId(): int

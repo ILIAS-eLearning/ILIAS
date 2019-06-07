@@ -9,8 +9,8 @@ declare(strict_types=1);
  */
 class ilObjStudyProgrammeAutoCategoriesGUI
 {
-	const F_TITLE = 'f_t';
 	const F_CATEGORY_REF = 'f_cr';
+	const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
 	const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
 
 	/**
@@ -66,7 +66,8 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		ilLanguage $lng,
 		\ILIAS\UI\Factory $ui_factory,
 		\ILIAS\UI\Renderer $ui_renderer,
-		\GuzzleHttp\Psr7\ServerRequest $request
+		\GuzzleHttp\Psr7\ServerRequest $request,
+		ilTree $tree
 	) {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -75,6 +76,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		$this->ui_factory = $ui_factory;
 		$this->ui_renderer = $ui_renderer;
 		$this->request = $request;
+		$this->tree = $tree;
 	}
 
 	public function executeCommand()
@@ -116,17 +118,21 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		$table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
 		$data = [];
 		foreach($this->getObject()->getAutomaticContentCategories() as $ac) {
+			$title = $this->getItemPath($ac->getCategoryRefId());
+			$usr = $this->getUserRepresentation($ac->getLastEditorId());
 			$form = $this->getModalForm($ac->getCategoryRefId());
 			$modal = $this->getModal($form);
 			$collected_modals[] = $modal;
-
 			$signal = $modal->getShowSignal();
 			$actions = $this->getItemAction(
 				$ac->getCategoryRefId(),
 				$modal->getShowSignal()
 			);
+
 			$data[] = [
 				$ac,
+				$this->ui_renderer->render($title),
+				$this->ui_renderer->render($usr),
 				$this->ui_renderer->render($actions)
 			];
 		}
@@ -147,8 +153,15 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		$form = $this->getModalForm()->withRequest($this->request);
 		$result = $form->getData();
 
+		if(
+			array_key_exists(self::F_CATEGORY_ORIGINAL_REF, $_GET)
+			&& $_GET[self::F_CATEGORY_ORIGINAL_REF] !== $result[self::F_CATEGORY_REF]
+		) {
+			$ids = [(int)$_GET[self::F_CATEGORY_ORIGINAL_REF]];
+			$this->getObject()->deleteAutomaticContentCategories($ids);
+		}
+
 		$this->getObject()->storeAutomaticContentCategory(
-			(string)$result[self::F_TITLE],
 			(int)$result[self::F_CATEGORY_REF]
 		);
 	}
@@ -230,20 +243,15 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	protected function getModalForm(int $category_ref_id = null): ILIAS\UI\Component\Input\Container\Form\Form
 	{
 		$factory = $this->ui_factory->input();
-		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
-
-		$f_title = $factory->field()->text($this->lng->txt('title'));
 		$f_cat_ref = $factory->field()->numeric($this->lng->txt('Category'));
+
 		if(! is_null($category_ref_id)) {
 			$f_cat_ref = $f_cat_ref->withValue($category_ref_id);
+			$this->ctrl->setParameter($this, self::F_CATEGORY_ORIGINAL_REF, $category_ref_id);
 		}
-		$form = $factory->container()->form()->standard(
-			$url,
-			[
-				self::F_TITLE => $f_title,
-				self::F_CATEGORY_REF => $f_cat_ref
-			]
-		);
+
+		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
+		$form = $factory->container()->form()->standard($url, [self::F_CATEGORY_REF => $f_cat_ref]);
 		return $form;
 	}
 
@@ -273,9 +281,35 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 			$this->ctrl->getLinkTarget($this, 'delete_single')
 		);
 
-
 		$dd = $this->ui_factory->dropdown()->standard($items);
 		return $dd;
-
 	}
+
+	protected function getUserRepresentation(int $usr_id): \ILIAS\UI\Component\Button\Shy
+	{
+		$username = ilObjUser::_lookupName($usr_id);
+		$editor = implode(' ', [
+			$username['firstname'],
+			$username['lastname'],
+			'('.$username['login'] .')'
+		]);
+		$url = ''; //ilLink::_getStaticLink($usr_id, 'usrf');
+		return $this->ui_factory->button()->shy($editor, $url);
+	}
+
+	protected function getItemPath(int $cat_ref_id): \ILIAS\UI\Component\Button\Shy
+	{
+	$url = ilLink::_getStaticLink($cat_ref_id, 'cat');
+
+
+	$hops = array_map(function($c) {
+			return ilObject::_lookupTitle($c["obj_id"]);
+		},
+		$this->tree->getPathFull($cat_ref_id)
+	);
+	$path = implode(' > ', $hops);
+	return $this->ui_factory->button()->shy($path, $url);
+	}
+
+
 }

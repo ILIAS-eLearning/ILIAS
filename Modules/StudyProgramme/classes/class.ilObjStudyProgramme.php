@@ -1248,14 +1248,10 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @param string $title
 	 * @param int $category_ref_id
 	 */
-	public function storeAutomaticContentCategory(
-		string $title,
-		int $category_ref_id
-	) {
+	public function storeAutomaticContentCategory(int $category_ref_id) {
 		$ac = $this->auto_categories_repository->create(
 				$this->getId(),
-				$category_ref_id,
-				$title
+				$category_ref_id
 		);
 		$this->auto_categories_repository->update($ac);
 	}

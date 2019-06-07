@@ -25291,11 +25291,6 @@ if (!$ilDB->tableExists('prg_auto_content'))
 			'length' => 4,
 			'notnull' => true
 		),
-		'title' => array(
-			'type' => 'text',
-			'length' => 255,
-			'notnull' => true
-		),
 		'last_usr_id' => array(
 			'type' => 'integer',
 			'length' => 4,

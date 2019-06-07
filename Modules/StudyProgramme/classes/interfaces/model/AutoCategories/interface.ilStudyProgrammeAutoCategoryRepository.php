@@ -20,7 +20,6 @@ interface ilStudyProgrammeAutoCategoryRepository
 	public function create(
 		int $prg_obj_id,
 		int $category_ref_id,
-		string $title,
 		int $last_edited_usr_id = null,
 		\DateTimeImmutable $last_edited = null
 	): ilStudyProgrammeAutoCategory;

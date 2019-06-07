@@ -12,7 +12,6 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 	const TABLE = 'prg_auto_content';
 	const FIELD_PRG_OBJ_ID = 'prg_obj_id';
 	const FIELD_CAT_REF_ID = 'cat_ref_id';
-	const FIELD_TITLE = 'title';
 	const FIELD_EDITOR_ID = 'last_usr_id';
 	const FIELD_LAST_EDITED = 'last_edited';
 
@@ -42,7 +41,6 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 		$query = 'SELECT '
 			.self::FIELD_PRG_OBJ_ID .','
 			.self::FIELD_CAT_REF_ID .','
-			.self::FIELD_TITLE .','
 			.self::FIELD_EDITOR_ID .','
 			.self::FIELD_LAST_EDITED
 			.PHP_EOL.'FROM '.self::TABLE
@@ -55,7 +53,6 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 			$ret[] = $this->create(
 				(int)$rec[self::FIELD_PRG_OBJ_ID],
 				(int)$rec[self::FIELD_CAT_REF_ID],
-				(string)$rec[self::FIELD_TITLE],
 				(int)$rec[self::FIELD_EDITOR_ID],
 				new \DateTimeImmutable($rec[self::FIELD_LAST_EDITED])
 			);
@@ -66,7 +63,6 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 	public function create(
 		int $prg_obj_id,
 		int $category_ref_id,
-		string $title,
 		int $last_edited_usr_id = null,
 		\DateTimeImmutable $last_edited = null
 	): ilStudyProgrammeAutoCategory	{
@@ -81,7 +77,6 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 		return new ilStudyProgrammeAutoCategory(
 			$prg_obj_id,
 			$category_ref_id,
-			$title,
 			$last_edited_usr_id,
 			$last_edited
 		);
@@ -110,7 +105,6 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 					[
 						self::FIELD_PRG_OBJ_ID => ['integer', $ac->getObjId()],
 						self::FIELD_CAT_REF_ID => ['integer', $ac->getCategoryRefId()],
-						self::FIELD_TITLE => ['text', $ac->getTitle()],
 						self::FIELD_EDITOR_ID => ['integer', $current_usr_id],
 						self::FIELD_LAST_EDITED => ['timestamp', $now]
 					]

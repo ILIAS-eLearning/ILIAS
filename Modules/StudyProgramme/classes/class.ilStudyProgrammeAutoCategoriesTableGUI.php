@@ -42,7 +42,7 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 	}
 
 	protected function fillRow($set) {
-		list($ac, $actions) = $set;
+		list($ac, $title, $usr, $actions) = $set;
 		$username = ilObjUser::_lookupName($ac->getLastEditorId());
 		$editor = implode(' ', [
 			$username['firstname'],
@@ -51,8 +51,8 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 		]);
 
 		$this->tpl->setVariable("ID", $ac->getCategoryRefId());
-		$this->tpl->setVariable("TITLE", $ac->getTitle());
-		$this->tpl->setVariable("EDITOR", $editor);
+		$this->tpl->setVariable("TITLE", $title);
+		$this->tpl->setVariable("EDITOR", $usr);
 		$this->tpl->setVariable("LAST_EDITED", $ac->getLastEdited()->format('Y/m/d H:i:s'));
 		$this->tpl->setVariable("ACTIONS", $actions);
 	}
