@@ -450,7 +450,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @param  int $a_ref_id
 	 * @return [ilObjStudyProgramme]
 	 */
-	static public function getAllChildren($a_ref_id) {
+	static public function getAllChildren($a_ref_id, $include_references = false) {
 		$ret = array();
 		$root = self::getInstanceByRefId($a_ref_id);
 		$root_id = $root->getId();
@@ -472,7 +472,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 *
 	 * @return [ilObjStudyProgramme]
 	 */
-	public function getChildren() {
+	public function getChildren($include_references = false) {
 		$this->throwIfNotInTree();
 
 		if ($this->children === null) {
@@ -487,8 +487,24 @@ class ilObjStudyProgramme extends ilContainer {
 				return ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
 			}, $ref_ids);
 		}
+		if($include_references && $this->reference_children === null) {
+			$this->reference_children = [];
+			$ref_child_ref_ids = [];
+			foreach ($this->children as $prg) {
+				$ref_child_ref_ids =
+					array_merge(
+						$this->tree->getChildsByType($this->getRefId(), "prgr"),
+						$ref_child_ref_ids
+					);
+			}
+			foreach(array_unique($ref_child_ref_ids) as $prg_ref_id) {
+				$this->reference_children
+			}
 
-		return $this->children;
+		}
+		return $include_references ?
+			array_merge($this->children,$this->reference_children) :
+			$this->children;
 	}
 
 	/**
@@ -513,21 +529,45 @@ class ilObjStudyProgramme extends ilContainer {
 		return $this->parent;
 	}
 
+
+	protected function getReferencesTo(ilObjStudyProgramme $prg)
+	{
+		return array_map(
+			function($id) {
+				return new ilObjStuyProgrammeReference(
+						array_shift(
+							ilObject::_getAllReferences($id)
+						)
+					);
+			},
+			ilContainerReference::_lookupSourceIds($prg->getId())
+		);
+	}
+
 	/**
 	 * Get all parents of the node, where the root of the program comes first.
 	 *
 	 * @return [ilObjStudyProgramme]
 	 */
-	public function getParents() {
+	public function getParents($include_references = false) {
 		$current = $this;
-		$parents = array();
-		while(true) {
-			$current = $current->getParent();
-			if ($current === null) {
-				return array_reverse($parents);
+		$parents = [];
+		$queque = [$current];
+
+		while($element = array_shift($queque)) {
+			$parent = $element->getParent();
+			if ($parent === null || $include_references) {
+				foreach ($this->getReferencesTo($element) as $reference) {
+					$r_parent = $reference->getParent();
+					array_push($queque,$r_parent);
+					$parents[] = $r_parent;
+				}
+				continue;
 			}
-			$parents[] = $current;
+			array_push($queque,$parent);
+			$parents[] = $parent;
 		}
+		return array_reverse($parents);
 	}
 
 	/**
@@ -673,11 +713,11 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @param Closure $fun - An anonymus function taking an ilObjStudyProgramme
 	 *                       as parameter.
 	 */
-	public function applyToSubTreeNodes(Closure $fun) {
+	public function applyToSubTreeNodes(Closure $fun, $include_references = false) {
 		$this->throwIfNotInTree();
 
 		if ($fun($this) !== false) {
-			foreach($this->getChildren() as $child) {
+			foreach($this->getChildren($include_references) as $child) {
 				$child->applyToSubTreeNodes($fun);
 			}
 		}
@@ -747,7 +787,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Clears child chache and adds progress for new node.
 	 */
-	protected function nodeInserted(ilObjStudyProgramme $a_prg) {
+	protected function nodeInserted($a_prg) {
 		if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
@@ -1242,10 +1282,10 @@ class ilObjStudyProgramme extends ilContainer {
 	 * Get the ids from the nodes in the path leading from the root node of this
 	 * program to this node, including the id of this node.
 	 */
-	protected function getIdsFromNodesOnPathFromRootToHere() {
+	protected function getIdsFromNodesOnPathFromRootToHere($include_references = false) {
 		$prg_ids =array_map(function($par) {
 			return $par->getId();
-		}, $this->getParents());
+		}, $this->getParents($include_references));
 		$prg_ids[] = $this->getId();
 		return $prg_ids;
 	}
