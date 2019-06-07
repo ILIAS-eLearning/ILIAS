@@ -32,6 +32,7 @@ class Foo extends Bar implements FooInterface
 
 /** thx to https://mlocati.github.io/php-cs-fixer-configurator for the examples **/
 // cast_spaces
+$a = 0; $b = 0; $c = 0; $d=0; $e= 0 ; $f =0;
 $bar = ( string )  $a;
 $foo = (int)$b;
 // concat_space
@@ -39,6 +40,7 @@ $foo = 'bar' . 3 . 'baz'.'qux';
 // binary_operator_spaces
 $a= 1  + $b^ $d !==  $e or   $f;
 // unary_operator_spaces
+$sample = 0;
 $sample ++;
 -- $sample;
 $sample = ! ! $a;
@@ -48,6 +50,6 @@ function & foo(){}
 function sample(array$a)
 {}
 // return_type_declaration
-function foo(int $a):string {};
+function bar(int $a):string {};
 // whitespace_after_comma_in_array
 $sample = array(1,'a',$b,);
