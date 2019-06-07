@@ -1239,7 +1239,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function getAutomaticContentCategories(): array
 	{
-		return $this->auto_categories_repository->readFor($this->getId());
+		return $this->auto_categories_repository->readFor($this->getRefId());
 	}
 
 	/**
@@ -1250,7 +1250,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function storeAutomaticContentCategory(int $category_ref_id) {
 		$ac = $this->auto_categories_repository->create(
-				$this->getId(),
+				$this->getRefId(),
 				$category_ref_id
 		);
 		$this->auto_categories_repository->update($ac);
@@ -1262,7 +1262,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function deleteAutomaticContentCategories(array $category_ids=[])
 	{
-		return $this->auto_categories_repository->delete($this->getId(), $category_ids);
+		return $this->auto_categories_repository->delete($this->getRefId(), $category_ids);
 	}
 
 	/**
@@ -1270,9 +1270,62 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function deleteAllAutomaticContentCategories()
 	{
-		return $this->auto_categories_repository->deleteFor($this->getId());
+		return $this->auto_categories_repository->deleteFor($this->getRefId());
 	}
 
+	/**
+	 * Check, if a category is under surveilllance and automatically add the course
+	 * @param int $crs_ref_id
+	 * @param int $cat_ref_id
+	 */
+	public static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		foreach (self::getProgrammesMonitoringCategory($cat_ref_id) as $prg) {
+			$course_ref = new ilObjCourseReference();
+			$course_ref->setTitleType(ilObjCourseReference::TITLE_TYPE_REUSE);
+			$course_ref->setTargetRefId($crs_ref_id);
+			$course_ref->create();
+			$course_ref->createReference();
+			$course_ref->putInTree($prg->getRefId());
+			$course_ref->setTargetId(ilObject::_lookupObjectId($crs_ref_id));
+			$course_ref->update();
+		}
+	}
+
+	/**
+	 * Check, if a category is under surveilllance and automatically remove the deleted course
+	 * @param int $crs_ref_id
+	 * @param int $cat_ref_id
+	 */
+	public static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		foreach (self::getProgrammesMonitoringCategory($cat_ref_id) as $prg) {
+			foreach ($prg->getLPChildren() as $child) {
+				if((int)$child->getTargetRefId() === $crs_ref_id) {
+					$child->delete();
+					var_dump("delete $crs_ref_id from " .$prg->getTitle());
+				}
+			}
+
+		}
+	}
+
+	/**
+	 * Get all StudyProgrammes monitoring this category.
+	 * @param int $crs_ref_id
+	 * @return ilObjStudyProgramme[]
+	 */
+	protected static function getProgrammesMonitoringCategory(int $cat_ref_id): array
+	{
+		$db = ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
+		$programmes = array_map(function($rec) {
+				$prg_ref_id = (int)array_shift(array_values($rec));
+				return self::getInstanceByRefId($prg_ref_id);
+			},
+			$db::getProgrammesFor($cat_ref_id)
+		);
+		return $programmes;
+	}
 
 
 	////////////////////////////////////

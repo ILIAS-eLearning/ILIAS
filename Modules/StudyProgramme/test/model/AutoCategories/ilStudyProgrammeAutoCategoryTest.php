@@ -7,9 +7,8 @@ class ilStudyProgrammeAutoCategoryTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
-		$this->obj_id = 123;
+		$this->prg_ref_id = 123;
 		$this->cat_ref_id = 666;
-		$this->title = 'some title';
 		$this->usr_id = 6;
 		$this->dat = new DateTimeImmutable('2019-06-05 15:25:12');
 	}
@@ -17,9 +16,8 @@ class ilStudyProgrammeAutoCategoryTest extends PHPUnit_Framework_TestCase
 	public function testConstruction()
 	{
 		$ac = new ilStudyProgrammeAutoCategory(
-			$this->obj_id,
+			$this->prg_ref_id,
 			$this->cat_ref_id,
-			$this->title,
 			$this->usr_id,
 			$this->dat
 		);
@@ -33,11 +31,11 @@ class ilStudyProgrammeAutoCategoryTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @depends testConstruction
 	 */
-	public function testGetObjId($ac)
+	public function testGetPrgRefId($ac)
 	{
 		$this->assertEquals(
-			$this->obj_id,
-			$ac->getObjId()
+			$this->prg_ref_id,
+			$ac->getPrgRefId()
 		);
 	}
 

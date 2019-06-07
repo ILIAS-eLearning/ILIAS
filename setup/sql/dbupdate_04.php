@@ -25281,7 +25281,7 @@ if ($media_cont_mig == 1)
 if (!$ilDB->tableExists('prg_auto_content'))
 {
 	$ilDB->createTable('prg_auto_content', array(
-		'prg_obj_id' => array(
+		'prg_ref_id' => array(
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => true
@@ -25301,6 +25301,6 @@ if (!$ilDB->tableExists('prg_auto_content'))
 			'notnull' => false
 		)
 	));
-	$ilDB->addPrimaryKey('prg_auto_content', ['prg_obj_id', 'cat_ref_id']);
+	$ilDB->addPrimaryKey('prg_auto_content', ['prg_ref_id', 'cat_ref_id']);
 }
 ?>
