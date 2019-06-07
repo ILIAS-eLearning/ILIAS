@@ -7274,8 +7274,8 @@ dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs "%s" a
 dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs "%s"
 dateplaner#:#cal_crs_notification_body#:#es erfolgte eine Terminänderung im Kurs "%s".
 dateplaner#:#cal_crs_notification_sub#:#Terminänderung in Kurs "%s"
-dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende
-dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
+dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
+dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
 dateplaner#:#cal_daily#:#Täglich
 dateplaner#:#cal_date_booked#:#gebucht
 dateplaner#:#cal_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
