@@ -179,6 +179,12 @@ class ilRepositoryExplorer extends ilExplorer
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
 				return $link;
 
+			case 'prg':
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
+
 			default:
 				include_once('./Services/Link/classes/class.ilLink.php');
 				return ilLink::_getStaticLink($a_node_id, $a_type, true);
@@ -226,6 +232,9 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'prg':
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent",'prg');
+				return $t_frame;
+			case "prgr":
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "prgr");
 				return $t_frame;
 
 			default:

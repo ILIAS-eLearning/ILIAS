@@ -254,6 +254,7 @@ class ilObjStudyProgramme extends ilContainer {
 
 		$this->deleteAllAutomaticContentCategories();
 
+		$this->events->raise('delete',['object' => $this,'obj_id' => $this->getId()]);
 		return true;
 	}
 
@@ -316,7 +317,7 @@ class ilObjStudyProgramme extends ilContainer {
 			);
 		}
 		else {
-			if ($this->getAmountOfChildren() > 0) {
+			if ($this->getAmountOfChildren(true) > 0) {
 				$this->settings_repository->update(
 					$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
 				);
@@ -389,7 +390,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getSubType() {
 		if(!in_array($this->getSubtypeId(), array("-", "0"))) {
 			$subtype_id = $this->getSubtypeId();
-			return$this->type_repository->readType($subtype_id);
+			return $this->type_repository->readType($subtype_id);
 		}
 
 		return null;
@@ -455,7 +456,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @param  int $a_ref_id
 	 * @return [ilObjStudyProgramme]
 	 */
-	static public function getAllChildren($a_ref_id) {
+	static public function getAllChildren($a_ref_id, $include_references = false) {
 		$ret = array();
 		$root = self::getInstanceByRefId($a_ref_id);
 		$root_id = $root->getId();
@@ -465,7 +466,7 @@ class ilObjStudyProgramme extends ilContainer {
 				return;
 			}
 			$ret[] = $prg;
-		});
+		}, $include_references);
 		return $ret;
 	}
 
@@ -477,7 +478,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 *
 	 * @return [ilObjStudyProgramme]
 	 */
-	public function getChildren() {
+	public function getChildren($include_references = false) {
 		$this->throwIfNotInTree();
 
 		if ($this->children === null) {
@@ -492,8 +493,29 @@ class ilObjStudyProgramme extends ilContainer {
 				return ilObjStudyProgramme::getInstanceByRefId($node_data["child"]);
 			}, $ref_ids);
 		}
+		if($include_references && $this->reference_children === null) {
+			$this->reference_children = [];
+			$ref_child_ref_ids = $this->tree->getChildsByType($this->getRefId(), "prgr");
+			foreach ($this->children as $prg) {
+				$ref_child_ref_ids =
+					array_merge(
+						$this->tree->getChildsByType($prg->getRefId(), "prgr"),
+						$ref_child_ref_ids
+					);
+			}
+			foreach(
+				array_map(function($data) {return $data['child'];},
+					array_unique($ref_child_ref_ids)
+				) as $prg_ref_id
+			) {
+				$this->reference_children[] =
+					(new ilObjStudyProgrammeReference($prg_ref_id))->getReferencedObject();
+			}
 
-		return $this->children;
+		}
+		return $include_references ?
+			array_merge($this->children,$this->reference_children) :
+			$this->children;
 	}
 
 	/**
@@ -518,21 +540,50 @@ class ilObjStudyProgramme extends ilContainer {
 		return $this->parent;
 	}
 
+
+	protected function getReferencesTo(ilObjStudyProgramme $prg)
+	{
+		return array_map(
+			function($id) {
+				return new ilObjStudyProgrammeReference(
+						array_shift(
+							ilObject::_getAllReferences($id)
+						)
+					);
+			},
+			ilContainerReference::_lookupSourceIds($prg->getId())
+		);
+	}
+
+	public function getReferencesToSelf()
+	{
+		return $this->getReferencesTo($this);
+	}
+
 	/**
 	 * Get all parents of the node, where the root of the program comes first.
 	 *
 	 * @return [ilObjStudyProgramme]
 	 */
-	public function getParents() {
+	public function getParents($include_references = false) {
 		$current = $this;
-		$parents = array();
-		while(true) {
-			$current = $current->getParent();
-			if ($current === null) {
-				return array_reverse($parents);
+		$parents = [];
+		$queque = [$current];
+
+		while($element = array_shift($queque)) {
+			$parent = $element->getParent();
+			if ($parent === null || $include_references) {
+				foreach ($this->getReferencesTo($element) as $reference) {
+					$r_parent = $reference->getParent();
+					array_push($queque,$r_parent);
+					$parents[] = $r_parent;
+				}
+				continue;
 			}
-			$parents[] = $current;
+			array_push($queque,$parent);
+			$parents[] = $parent;
 		}
+		return array_reverse($parents);
 	}
 
 	/**
@@ -542,8 +593,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 *
 	 * @return bool
 	 */
-	public function hasChildren() {
-		return $this->getAmountOfChildren() > 0;
+	public function hasChildren($include_references = false) {
+		return $this->getAmountOfChildren($include_references) > 0;
 	}
 
 	/**
@@ -554,8 +605,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 *
 	 * @return int
 	 */
-	public function getAmountOfChildren() {
-		return count($this->getChildren());
+	public function getAmountOfChildren($include_references = false) {
+		return count($this->getChildren($include_references));
 	}
 
 	/**
@@ -678,12 +729,12 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @param Closure $fun - An anonymus function taking an ilObjStudyProgramme
 	 *                       as parameter.
 	 */
-	public function applyToSubTreeNodes(Closure $fun) {
+	public function applyToSubTreeNodes(Closure $fun, $include_references = false) {
 		$this->throwIfNotInTree();
 
 		if ($fun($this) !== false) {
-			foreach($this->getChildren() as $child) {
-				$child->applyToSubTreeNodes($fun);
+			foreach($this->getChildren($include_references) as $child) {
+				$child->applyToSubTreeNodes($fun, $include_references);
 			}
 		}
 	}
@@ -752,7 +803,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Clears child chache and adds progress for new node.
 	 */
-	protected function nodeInserted(ilObjStudyProgramme $a_prg) {
+	public function nodeInserted($a_prg) {
 		if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
@@ -973,7 +1024,7 @@ class ilObjStudyProgramme extends ilContainer {
 					$this->progress_db->getInstanceById($progress->getId())->recalculateFailedToDeadline();
 				}
 			}
-		});
+		},true);
 
 		$this->events->userAssigned($ass);
 
@@ -1248,14 +1299,10 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @param string $title
 	 * @param int $category_ref_id
 	 */
-	public function storeAutomaticContentCategory(
-		string $title,
-		int $category_ref_id
-	) {
+	public function storeAutomaticContentCategory(int $category_ref_id) {
 		$ac = $this->auto_categories_repository->create(
 				$this->getId(),
-				$category_ref_id,
-				$title
+				$category_ref_id
 		);
 		$this->auto_categories_repository->update($ac);
 	}
@@ -1275,6 +1322,25 @@ class ilObjStudyProgramme extends ilContainer {
 	public function deleteAllAutomaticContentCategories()
 	{
 		return $this->auto_categories_repository->deleteFor($this->getId());
+	}
+
+	/**
+	 * Check, if a category is under surveilllance and automatically add the course
+	 * @param int $crs_ref_id
+	 * @param int $cat_ref_id
+	 */
+	public static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		foreach (self::getProgrammesMonitoringCategory($cat_ref_id) as $prg) {
+			$course_ref = new ilObjCourseReference();
+			$course_ref->setTitleType(ilObjCourseReference::TITLE_TYPE_REUSE);
+			$course_ref->setTargetRefId($crs_ref_id);
+			$course_ref->create();
+			$course_ref->createReference();
+			$course_ref->putInTree($prg->getRefId());
+			$course_ref->setTargetId(ilObject::_lookupObjectId($crs_ref_id));
+			$course_ref->update();
+		}
 	}
 
 	/**
@@ -1302,13 +1368,41 @@ class ilObjStudyProgramme extends ilContainer {
 	{
 		$db = ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
 		$programmes = array_map(function($rec) {
-				$prg_ref_id = (int)array_shift(array_values($rec));
-				return self::getInstanceByRefId($prg_ref_id);
+				$prg_obj_id = (int)array_shift(array_values($rec));
+				$prg_ref_id = (int)array_shift(ilObject::_getAllReferences($prg_obj_id));
+				$prg = self::getInstanceByRefId($prg_ref_id);
+				if($prg->isAutoContentApplicable()) {
+					return $prg;
+				}
 			},
 			$db::getProgrammesFor($cat_ref_id)
 		);
 		return $programmes;
 	}
+
+	/**
+	 * AutoContent should only be available in active- or draft-mode,
+	 * and only, if there is no sub-programme.
+	 * @return bool
+	 */
+	public function isAutoContentApplicable() : bool
+	{
+		$valid_status = in_array(
+			$this->getStatus(),
+			[
+				ilStudyProgrammeSettings::STATUS_DRAFT,
+				ilStudyProgrammeSettings::STATUS_ACTIVE
+			]
+		);
+
+		$crslnk_allowed = (
+			$this->hasLPChildren()
+			|| $this->getAmountOfChildren() === 0
+		);
+
+		return $valid_status && $crslnk_allowed;
+	}
+
 
 
 	////////////////////////////////////
@@ -1330,10 +1424,10 @@ class ilObjStudyProgramme extends ilContainer {
 	 * Get the ids from the nodes in the path leading from the root node of this
 	 * program to this node, including the id of this node.
 	 */
-	protected function getIdsFromNodesOnPathFromRootToHere() {
+	protected function getIdsFromNodesOnPathFromRootToHere($include_references = false) {
 		$prg_ids =array_map(function($par) {
 			return $par->getId();
-		}, $this->getParents());
+		}, $this->getParents($include_references));
 		$prg_ids[] = $this->getId();
 		return $prg_ids;
 	}
@@ -1343,7 +1437,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	protected function getAssignmentsRaw() {
 		$assignments = [];
-		foreach($this->getIdsFromNodesOnPathFromRootToHere() as $prg_id) {
+		foreach($this->getIdsFromNodesOnPathFromRootToHere(true) as $prg_id) {
 			$assignments = array_merge($this->assignment_repository->readByPrgId($prg_id),$assignments);
 		}
 		usort($assignments, function($a_one,$a_other) {
@@ -1478,10 +1572,12 @@ class ilObjStudyProgramme extends ilContainer {
 			case ilStudyProgrammeSettings::MODE_UNDEFINED:
 				return $a_subobjects;
 			case ilStudyProgrammeSettings::MODE_POINTS:
-				return array("prg" => $a_subobjects["prg"]);
+				return [
+					"prg" => $a_subobjects["prg"],
+					"prgr" => $a_subobjects["prgr"]
+				];
 			case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
-				unset($a_subobjects["prg"]);
-				return $a_subobjects;
+				return ['crsr' => $a_subobjects['crsr']];
 		}
 
 		throw new ilException("Undefined mode for study programme: '$mode'");

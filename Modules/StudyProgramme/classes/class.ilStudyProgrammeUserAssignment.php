@@ -152,7 +152,7 @@ class ilStudyProgrammeUserAssignment {
 			 */
 			$progress = $node->getProgressForAssignment($id);
 			return $progress->updateFromProgramNode();
-		});
+		}, true);
 
 		return $this;
 	}
@@ -187,7 +187,8 @@ class ilStudyProgrammeUserAssignment {
 							)
 						);
 					}
-				}
+				},
+				true
 		);
 
 		return $this;

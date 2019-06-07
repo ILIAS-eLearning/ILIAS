@@ -123,7 +123,8 @@ class ilStudyProgrammeDIC
 				$DIC['lng'],
 				$DIC->ui()->factory(),
 				$DIC->ui()->renderer(),
-				$DIC->http()->request()
+				$DIC->http()->request(),
+				$DIC['tree']
 			);
 		};
 		$dic['TransformationFactory'] = function($dic) use ($DIC) {
