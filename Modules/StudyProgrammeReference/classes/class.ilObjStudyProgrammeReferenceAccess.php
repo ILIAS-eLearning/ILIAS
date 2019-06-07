@@ -49,10 +49,12 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
 
 		if($ilAccess->checkAccess('write','',$a_ref_id)) {
 			// Only local (reference specific commands)
-			$commands = array();
-			$commands[] = array('permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true);
-			$commands[] = array('permission' => 'write', 'cmd' => 'view', 'lang_var' => 'edit_content');
-			$commands[] = array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'settings');
+			$commands = [
+				["permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true]
+				,["permission" => "write", "cmd" => "view", "lang_var" => "edit_content"]
+				,["permission" => "write", "cmd" => "edit", "lang_var" => "settings"]
+				,["permission" => "write", "cmd" => "editReference", "lang_var" => "edit"]
+			];
 		}
 		else {
 			$commands = ilObjStudyProgrammeAccess::_getCommands();
