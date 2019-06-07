@@ -20,7 +20,7 @@ class ilStudyProgrammeEvents {
 	const COMPONENT = "Modules/StudyProgramme";
 	public $app_event_handler;
 
-	protected function raise($a_event, $a_parameter) {
+	public function raise($a_event, $a_parameter) {
 		$this->app_event_handler->raise(self::COMPONENT, $a_event, $a_parameter);
 	}
 	
