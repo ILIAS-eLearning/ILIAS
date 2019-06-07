@@ -53,7 +53,7 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
 			return false;	
 		}
 		if($this->tryingToCreateCircularReference((int)$_REQUEST['target_id'],(int)$_REQUEST['ref_id'])) {
-			ilUtil::sendFailure($this->lng->txt('may_not_create_circular_reference'));
+			ilUtil::sendFailure($this->lng->txt('prgr_may_not_create_circular_reference'));
 			$this->createObject();
 			return false;
 		}
