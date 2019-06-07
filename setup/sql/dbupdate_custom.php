@@ -156,7 +156,7 @@ if(!$db->tableColumnExists('prg_usr_assignments','restart_date')) {
 
 <#10>
 <?php
-$ilCtrlStructureReader->getStructure();
+;
 ?>
 
 <#11>

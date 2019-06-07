@@ -701,17 +701,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 *
 	 * @param $a_info_screen
 	 */
-	protected function fillInfoScreen($a_info_screen) {
-		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		require_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		require_once('./Services/ADT/classes/class.ilADTFactory.php');
-
-		$type = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']->readType($this->object->getSubtypeId());
-		if (!$type) {
+	protected function fillInfoScreen($a_info_screen)
+	{
+		if(!$this->object->getSubtypeId() ||
+			!ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']
+				->readType($this->object->getSubtypeId())
+		) {
 			return;
 		}
-
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
 		$record_gui->setInfoObject($a_info_screen);
 		$record_gui->parse();
