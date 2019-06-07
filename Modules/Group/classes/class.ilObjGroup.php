@@ -85,7 +85,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	private $reg_access_code = '';
 	private $reg_access_code_enabled = false;
 
-	private $view_mode = NULL;
+	private $view_mode = ilContainer::VIEW_DEFAULT;
 	
 	private $mail_members = self::MAIL_ALLOWED_ALL;
 	
@@ -720,7 +720,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			$ilDB->quote($this->getViewMode(),'integer').', '.
+			$ilDB->quote($this->view_mode,'integer').', '.
 			$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			$ilDB->quote($this->getMinMembers(),'integer').', '.
@@ -773,7 +773,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			'view_mode = '.$ilDB->quote($this->getViewMode(),'integer').', '.
+			'view_mode = '.$ilDB->quote($this->view_mode,'integer').', '.
 			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
@@ -924,7 +924,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
 
-		$new_obj->setViewMode($this->getViewMode());
+		$new_obj->setViewMode($this->view_mode);
 		$new_obj->setMailToMembersType($this->getMailToMembersType());
 		
 		$new_obj->setCancellationEnd($this->getCancellationEnd());
@@ -1817,21 +1817,36 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
-	 * get view mode
-	 *
-	 * @access public
-	 * @return int view mode
+	 * Get effective container view mode
+	 * @return int
 	 */
-	public function getViewMode($a_translate_inherit = true)
-	{		
-		$view = (int) $this->view_mode;
-		
-		if(!$view)
-		{
-			$view = ilContainer::VIEW_DEFAULT;
+	public function getViewMode()
+	{
+		$tree = $this->tree;
+
+		// default: by type
+		$view = self::lookupViewMode($this->getId());
+
+		if($view != ilContainer::VIEW_INHERIT) {
+			return $view;
 		}
-		return $view;
+
+		$container_ref_id = $tree->checkForParentType($this->ref_id, 'crs');
+		if($container_ref_id)
+		{
+			$view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($container_ref_id));
+			// these three are available...
+			if (
+				$view_mode == ilContainer::VIEW_SESSIONS ||
+				$view_mode == ilContainer::VIEW_BY_TYPE ||
+				$view_mode == ilContainer::VIEW_SIMPLE)
+			{
+				return $view_mode;
+			}
+		}
+		return ilContainer::VIEW_DEFAULT;
 	}
+
 
 	/**
 	 * Set group view mode
@@ -1861,7 +1876,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$view_mode = $row->view_mode;
 		}
-		return self::translateViewMode($a_obj_id,$view_mode);
+		return $view_mode;
 	}
 	
 	/**
