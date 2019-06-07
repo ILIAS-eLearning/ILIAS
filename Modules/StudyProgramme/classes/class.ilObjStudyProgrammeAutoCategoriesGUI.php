@@ -293,7 +293,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 			$username['lastname'],
 			'('.$username['login'] .')'
 		]);
-		$url = ''; //ilLink::_getStaticLink($usr_id, 'usrf');
+		$url = ilLink::_getStaticLink($usr_id, 'usr');
 		return $this->ui_factory->button()->shy($editor, $url);
 	}
 
@@ -310,6 +310,4 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	$path = implode(' > ', $hops);
 	return $this->ui_factory->button()->shy($path, $url);
 	}
-
-
 }
