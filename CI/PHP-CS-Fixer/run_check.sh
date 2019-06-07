@@ -8,9 +8,9 @@ function printLn() {
 	echo -e "$PRE $1"
 }
 
-if [[ -e $PHP-CS-FIXER ]]
+if [[ -x "$PHP_CS_FIXER" ]]
   then
-  	$PHP-CS-FIXER fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --dry-run --format=json > "$PHPFIX_RESULTS_PATH"
+  	$PHP_CS_FIXER fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --dry-run --format=json > "$PHPFIX_RESULTS_PATH"
 	
 	PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
 	
