@@ -1,0 +1,12 @@
+<svg viewBox="0 0 63 32" overflow="auto">
+	<!-- BEGIN section -->
+	<circle class="il-chart-pie-chart-section" r="12.5%" cx="25%" cy="50%" style="stroke-dasharray: {STROKE_LENGTH} 100; stroke: {SECTION_COLOR}; stroke-dashoffset: -{OFFSET}"></circle>
+	<rect fill="{SECTION_COLOR}" height="{RECT_SIZE}" width="{RECT_SIZE}" x="50%" y="{LEGEND_Y_PERCENTAGE}%"></rect>
+	<text x="55%" y="{LEGEND_TEXT_Y_PERCENTAGE}%" font-size="{LEGEND_FONT_SIZE}">{SECTION_NAME}</text>
+	<!-- END section -->
+	<circle class="il-chart-pie-chart-total-circle" r="9%" cx="25%" cy="50%"></circle>
+	<!-- BEGIN section_text -->
+	<text text-anchor="middle" dominant-baseline="central" font-size="{VALUE_FONT_SIZE}" x="{VALUE_X_PERCENTAGE}%" y="{VALUE_Y_PERCENTAGE}%" fill="{TEXT_COLOR}">{SECTION_VALUE}</text>
+	<!-- END section_text -->
+	<text x="25%" y="50%" text-anchor="middle" dominant-baseline="central" fill="black" font-size="4">{TOTAL_VALUE}</text>
+</svg>
