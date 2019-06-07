@@ -1303,10 +1303,8 @@ class ilObjStudyProgramme extends ilContainer {
 			foreach ($prg->getLPChildren() as $child) {
 				if((int)$child->getTargetRefId() === $crs_ref_id) {
 					$child->delete();
-					var_dump("delete $crs_ref_id from " .$prg->getTitle());
 				}
 			}
-
 		}
 	}
 

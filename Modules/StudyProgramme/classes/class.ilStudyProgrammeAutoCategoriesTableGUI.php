@@ -19,21 +19,22 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 		$this->setId("sp_ac_list");
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
+		$this->setTitle($this->lng->txt('content_automation_title'));
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
-		$this->setExternalSorting(true);
+		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.autocats_table_row.html", "Modules/StudyProgramme");
 		$this->setShowRowsSelector(false);
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "view"));
+		$this->disable('sort');
 
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt('title'), 'title');
 		$this->addColumn($this->lng->txt('last_edited_by'), 'editor');
 		$this->addColumn($this->lng->txt('last_edited'), 'last');
 		$this->addColumn($this->lng->txt(''), 'actions');
-
 
 		$this->setSelectAllCheckbox(ilObjStudyProgrammeAutoCategoriesGUI::CHECKBOX_CATEGORY_REF_IDS.'[]');
 		$this->setEnableAllCommand(true);

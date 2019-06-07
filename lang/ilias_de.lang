@@ -15076,3 +15076,10 @@ certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit ein
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###25 04 2019 new variable
 certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 prg#:#prg_orgus#:#Organisationseinheit(en)
+prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
+prg#:#content_automation#:#Inhaltsautomatisierung
+prg#:#last_edited_by#:#Zuletzt bearbeitet von
+prg#:#last_edited#:#Zuletzt bearbeitet
+prg#:#add_category#:#Kategorie hinzufügen
+prg#:#modal_categories_title#:#Zu überwachende Kategorie
+prg#:#category#:#Kategorie (RefId)

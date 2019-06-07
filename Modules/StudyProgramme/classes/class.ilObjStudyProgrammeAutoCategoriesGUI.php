@@ -18,7 +18,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	 */
 	public $tpl;
 
-	/**
+	/**c
 	 * @var ilCtrl
 	 */
 	public $ctrl;
@@ -81,7 +81,6 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
 	public function executeCommand()
 	{
-
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($cmd) {
@@ -114,8 +113,6 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		$this->getToolbar($modal->getShowSignal());
 		$collected_modals[] = $modal;
 
-
-		$table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
 		$data = [];
 		foreach($this->getObject()->getAutomaticContentCategories() as $ac) {
 			$title = $this->getItemPath($ac->getCategoryRefId());
@@ -136,6 +133,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 				$this->ui_renderer->render($actions)
 			];
 		}
+		$table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
 		$table->setData($data);
 
 		$this->tpl->setContent(
@@ -178,6 +176,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 			$this->getObject()->deleteAutomaticContentCategories($ids);
 		}
 	}
+
 	/**
 	 * Delete single entry.
 	 */
@@ -190,7 +189,6 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 			$this->getObject()->deleteAutomaticContentCategories($ids);
 		}
 	}
-
 
 	/**
 	 * Set ref-id of StudyProgramme before using this GUI.
@@ -222,12 +220,6 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		ILIAS\UI\Component\Input\Container\Form\Form $form
 	): \ILIAS\UI\Component\Modal\Modal
 	{
-		$submit_action = "";
-		$submit = $this->ui_factory->button()->primary(
-			$this->lng->txt('modal_categories_submit'),
-			$submit_action
-		);
-
 		$modal = $this->ui_factory->modal()->roundtrip(
 			$this->lng->txt('modal_categories_title'),
 			$form
@@ -236,14 +228,13 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		return $modal;
 	}
 
-
 	/**
 	 * Build the modal's form.
 	 */
 	protected function getModalForm(int $category_ref_id = null): ILIAS\UI\Component\Input\Container\Form\Form
 	{
 		$factory = $this->ui_factory->input();
-		$f_cat_ref = $factory->field()->numeric($this->lng->txt('Category'));
+		$f_cat_ref = $factory->field()->numeric($this->lng->txt('category'));
 
 		if(! is_null($category_ref_id)) {
 			$f_cat_ref = $f_cat_ref->withValue($category_ref_id);
@@ -299,15 +290,15 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
 	protected function getItemPath(int $cat_ref_id): \ILIAS\UI\Component\Button\Shy
 	{
-	$url = ilLink::_getStaticLink($cat_ref_id, 'cat');
+		$url = ilLink::_getStaticLink($cat_ref_id, 'cat');
 
+		$hops = array_map(function($c) {
+				return ilObject::_lookupTitle($c["obj_id"]);
+			},
+			$this->tree->getPathFull($cat_ref_id)
+		);
+		$path = implode(' > ', $hops);
 
-	$hops = array_map(function($c) {
-			return ilObject::_lookupTitle($c["obj_id"]);
-		},
-		$this->tree->getPathFull($cat_ref_id)
-	);
-	$path = implode(' > ', $hops);
-	return $this->ui_factory->button()->shy($path, $url);
+		return $this->ui_factory->button()->shy($path, $url);
 	}
 }

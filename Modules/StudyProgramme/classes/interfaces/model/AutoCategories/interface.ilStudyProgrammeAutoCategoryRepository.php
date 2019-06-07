@@ -40,13 +40,9 @@ interface ilStudyProgrammeAutoCategoryRepository
 	 */
 	public function deleteFor(int $prg_ref_id);
 
-
 	/**
 	 * Get all programmes' ref_ids monitoring the given category.
 	 * @return int[]
 	 */
 	public static function getProgrammesFor(int $cat_ref_id): array;
-
-
-
 }

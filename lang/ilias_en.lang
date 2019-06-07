@@ -15075,3 +15075,10 @@ dateplaner#:#cal_usr_info#:#Appointment Information
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
 prg#:#prg_orgus#:#Organisational Units
+prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
+prg#:#content_automation#:#Content Automation
+prg#:#last_edited_by#:#Last Editor
+prg#:#last_edited#:#Last edited
+prg#:#add_category#:#Add Category
+prg#:#modal_categories_title#:#Category to be monitored
+prg#:#category#:#Category RefId
