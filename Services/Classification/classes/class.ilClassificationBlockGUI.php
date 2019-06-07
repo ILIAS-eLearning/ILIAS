@@ -315,7 +315,11 @@ class ilClassificationBlockGUI extends ilBlockGUI
 								include_once($location . "/class." . $full_class . ".php");
 								$this->item_list_gui[$type] = new $full_class();
 								$this->item_list_gui[$type]->enableDelete(false);
-								$this->item_list_gui[$type]->enablePath(true, $this->parent_ref_id); // relative path
+								$this->item_list_gui[$type]->enablePath(
+									true,
+									$this->parent_ref_id,
+									new \ilSessionClassificationPathGUI()
+								);
 								$this->item_list_gui[$type]->enableLinkedPath(true);
 								$this->item_list_gui[$type]->enableCut(false);
 								$this->item_list_gui[$type]->enableCopy(false);

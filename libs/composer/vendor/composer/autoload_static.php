@@ -6837,6 +6837,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilServicesUserTasks' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/tasks/class.ilServicesUserTasks.php',
         'ilSession' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/class.ilSession.php',
         'ilSessionAppointment' => __DIR__ . '/../..' . '/../../Modules/Session/classes/class.ilSessionAppointment.php',
+        'ilSessionClassificationPathGUI' => __DIR__ . '/../..' . '/../../Modules/Session/classes/class.ilSessionClassificationPathGUI.php',
         'ilSessionControl' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/class.ilSessionControl.php',
         'ilSessionDBHandler' => __DIR__ . '/../..' . '/../../Services/Authentication/classes/class.ilSessionDBHandler.php',
         'ilSessionDataSet' => __DIR__ . '/../..' . '/../../Modules/Session/classes/class.ilSessionDataSet.php',

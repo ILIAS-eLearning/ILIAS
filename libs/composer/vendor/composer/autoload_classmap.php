@@ -6500,6 +6500,7 @@ return array(
     'ilServicesUserTasks' => $baseDir . '/../../Services/WorkflowEngine/classes/tasks/class.ilServicesUserTasks.php',
     'ilSession' => $baseDir . '/../../Services/Authentication/classes/class.ilSession.php',
     'ilSessionAppointment' => $baseDir . '/../../Modules/Session/classes/class.ilSessionAppointment.php',
+    'ilSessionClassificationPathGUI' => $baseDir . '/../../Modules/Session/classes/class.ilSessionClassificationPathGUI.php',
     'ilSessionControl' => $baseDir . '/../../Services/Authentication/classes/class.ilSessionControl.php',
     'ilSessionDBHandler' => $baseDir . '/../../Services/Authentication/classes/class.ilSessionDBHandler.php',
     'ilSessionDataSet' => $baseDir . '/../../Modules/Session/classes/class.ilSessionDataSet.php',
