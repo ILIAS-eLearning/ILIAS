@@ -311,7 +311,7 @@ class ilObjStudyProgramme extends ilContainer {
 			);
 		}
 		else {
-			if ($this->getAmountOfChildren() > 0) {
+			if ($this->getAmountOfChildren(true) > 0) {
 				$this->settings_repository->update(
 					$this->settings->setLPMode(ilStudyProgrammeSettings::MODE_POINTS)
 				);
@@ -460,7 +460,7 @@ class ilObjStudyProgramme extends ilContainer {
 				return;
 			}
 			$ret[] = $prg;
-		});
+		}, $include_references);
 		return $ret;
 	}
 
@@ -489,16 +489,21 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		if($include_references && $this->reference_children === null) {
 			$this->reference_children = [];
-			$ref_child_ref_ids = [];
+			$ref_child_ref_ids = $this->tree->getChildsByType($this->getRefId(), "prgr");
 			foreach ($this->children as $prg) {
 				$ref_child_ref_ids =
 					array_merge(
-						$this->tree->getChildsByType($this->getRefId(), "prgr"),
+						$this->tree->getChildsByType($prg->getRefId(), "prgr"),
 						$ref_child_ref_ids
 					);
 			}
-			foreach(array_unique($ref_child_ref_ids) as $prg_ref_id) {
-				$this->reference_children
+			foreach(
+				array_map(function($data) {return $data['child'];},
+					array_unique($ref_child_ref_ids)
+				) as $prg_ref_id
+			) {
+				$this->reference_children[] =
+					(new ilObjStudyProgrammeReference($prg_ref_id))->getReferencedObject();
 			}
 
 		}
@@ -534,7 +539,7 @@ class ilObjStudyProgramme extends ilContainer {
 	{
 		return array_map(
 			function($id) {
-				return new ilObjStuyProgrammeReference(
+				return new ilObjStudyProgrammeReference(
 						array_shift(
 							ilObject::_getAllReferences($id)
 						)
@@ -542,6 +547,11 @@ class ilObjStudyProgramme extends ilContainer {
 			},
 			ilContainerReference::_lookupSourceIds($prg->getId())
 		);
+	}
+
+	public function getReferencesToSelf()
+	{
+		return $this->getReferencesTo($this);
 	}
 
 	/**
@@ -577,8 +587,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 *
 	 * @return bool
 	 */
-	public function hasChildren() {
-		return $this->getAmountOfChildren() > 0;
+	public function hasChildren($include_references = false) {
+		return $this->getAmountOfChildren($include_references) > 0;
 	}
 
 	/**
@@ -589,8 +599,8 @@ class ilObjStudyProgramme extends ilContainer {
 	 *
 	 * @return int
 	 */
-	public function getAmountOfChildren() {
-		return count($this->getChildren());
+	public function getAmountOfChildren($include_references = false) {
+		return count($this->getChildren($include_references));
 	}
 
 	/**
@@ -718,7 +728,7 @@ class ilObjStudyProgramme extends ilContainer {
 
 		if ($fun($this) !== false) {
 			foreach($this->getChildren($include_references) as $child) {
-				$child->applyToSubTreeNodes($fun);
+				$child->applyToSubTreeNodes($fun, $include_references);
 			}
 		}
 	}
@@ -787,7 +797,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Clears child chache and adds progress for new node.
 	 */
-	protected function nodeInserted($a_prg) {
+	public function nodeInserted($a_prg) {
 		if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
 			throw new ilStudyProgrammeTreeException("Program already contains leafs.");
 		}
@@ -1008,7 +1018,7 @@ class ilObjStudyProgramme extends ilContainer {
 					$this->progress_db->getInstanceById($progress->getId())->recalculateFailedToDeadline();
 				}
 			}
-		});
+		},true);
 
 		$this->events->userAssigned($ass);
 
@@ -1295,7 +1305,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	protected function getAssignmentsRaw() {
 		$assignments = [];
-		foreach($this->getIdsFromNodesOnPathFromRootToHere() as $prg_id) {
+		foreach($this->getIdsFromNodesOnPathFromRootToHere(true) as $prg_id) {
 			$assignments = array_merge($this->assignment_repository->readByPrgId($prg_id),$assignments);
 		}
 		usort($assignments, function($a_one,$a_other) {
@@ -1430,10 +1440,12 @@ class ilObjStudyProgramme extends ilContainer {
 			case ilStudyProgrammeSettings::MODE_UNDEFINED:
 				return $a_subobjects;
 			case ilStudyProgrammeSettings::MODE_POINTS:
-				return array("prg" => $a_subobjects["prg"]);
+				return [
+					"prg" => $a_subobjects["prg"],
+					"prgr" => $a_subobjects["prgr"]
+				];
 			case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
-				unset($a_subobjects["prg"]);
-				return $a_subobjects;
+				return ['crsr' => $a_subobjects['crsr']];
 		}
 
 		throw new ilException("Undefined mode for study programme: '$mode'");

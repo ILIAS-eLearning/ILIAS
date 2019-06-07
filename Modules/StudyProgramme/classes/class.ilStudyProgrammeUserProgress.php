@@ -633,8 +633,7 @@ class ilStudyProgrammeUserProgress {
 	 * Update the status of the parent of this node.
 	 */
 	protected function updateParentStatus() {
-		$parent = $this->getParentProgress();
-		if ($parent) {
+		foreach($this->getParentProgresses() as $parent) {
 			$parent->updateStatus();
 		}
 	}
@@ -711,18 +710,27 @@ class ilStudyProgrammeUserProgress {
 	 * Get the progress on the parent node for the same assignment this progress
 	 * belongs to.
 	 */
-	protected function getParentProgress() {
+	protected function getParentProgresses() {
+		if($this->getStudyProgramme()->getId() == $this->assignment_repository->read($this->getAssignmentId())->getRootId()) {
+			return [];
+		}
+		$overall_parents = [];
 		$prg = $this->getStudyProgramme();
 		$parent = $prg->getParent();
-		if (!$parent) {
-			return null;
+		if ($parent) {
+			$overall_parents[] = $parent;
+		}
+		foreach ($prg->getReferencesToSelf() as $ref) {
+			$overall_parents[] = $ref->getParent();
 		}
 
-		if($this->getStudyProgramme()->getId() == $this->assignment_repository->read($this->getAssignmentId())->getRootId()) {
-			return null;
-		}
 
-		return $parent->getProgressForAssignment($this->progress->getAssignmentId());
+		return array_map(
+			function($parent) {
+				return $parent->getProgressForAssignment($this->progress->getAssignmentId());
+			},
+			$overall_parents
+		);
 	}
 
 	/**
@@ -743,7 +751,7 @@ class ilStudyProgrammeUserProgress {
 		$ass_id = $this->progress->getAssignmentId();
 		return array_map(function($child) use ($ass_id) {
 			return $child->getProgressForAssignment($ass_id);
-		}, $prg->getChildren());
+		}, $prg->getChildren(true));
 	}
 
 	/**
@@ -755,7 +763,7 @@ class ilStudyProgrammeUserProgress {
 	 */
 	public function getNamesOfCompletedOrAccreditedChildren() {
 		$prg = $this->getStudyProgramme();
-		$children = $prg->getChildren();
+		$children = $prg->getChildren(true);
 		$ass_id = $this->progress->getAssignmentId();
 		$names = array();
 		foreach ($children as $child) {
