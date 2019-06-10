@@ -1104,6 +1104,14 @@ class ilInitialisation
 				self::initHTML();
 			}
 			self::initRefinery($GLOBALS['DIC']);
+
+			$plugins = ilPluginAdmin::getActivePlugins();
+			foreach ($plugins as $plugin_data){
+				$plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"],$plugin_data["component_name"]
+					,$plugin_data["slot_id"],$plugin_data["name"]);
+				$GLOBALS['DIC'] = $plugin->afterClientInitialization($GLOBALS['DIC']);
+			}
+
 		}
 	}
 

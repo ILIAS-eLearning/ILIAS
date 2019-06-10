@@ -1235,4 +1235,19 @@ abstract class ilPlugin {
 	public function promoteGlobalScreenProvider(): AbstractStaticPluginMainMenuProvider {
 		return new ilPluginGlobalScreenNullProvider();
 	}
+
+	/**
+	 * This methods allows to extend the dependency injection container of ILIAS after initialization. One could
+	 * replace the container completely, extend it, or replace several parts of it.
+	 *
+	 * Note: Note that plugins might conflict by extending the $DIC if they try to extend the same component in
+	 * the same context. Therefore it might by wise to be as specific as possible in context and in the component
+	 * one is overwriting.
+	 *
+	 * @param \ILIAS\DI\Container $DIC
+	 * @return \ILIAS\DI\Container
+	 */
+	public function afterClientInitialization(\ILIAS\DI\Container $DIC): \ILIAS\DI\Container {
+		return $DIC;
+	}
 }
