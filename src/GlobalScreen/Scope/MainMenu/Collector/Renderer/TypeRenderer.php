@@ -14,6 +14,8 @@ use ILIAS\UI\Component\Component;
 interface TypeRenderer {
 
 	/**
+	 * Enables to Exchange the given UI Component $item with a custom one
+	 *
 	 * @param isItem $item
 	 *
 	 * @return Component

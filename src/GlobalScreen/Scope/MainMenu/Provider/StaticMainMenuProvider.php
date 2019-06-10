@@ -31,6 +31,14 @@ interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterfa
 
 
 	/**
+	 * This method can be used to add new types of Main Menu entries.
+	 * E.g.:
+	 * $c = new TypeInformationCollection();
+	 * $c->add(new TypeInformation(ilExampleType::class, "Example Description",new ilExampleRenderer(),
+	 * 		new ilExampleTypeHandler($this->if->identifier("parent_role_entry")))
+	 * );
+	 * Adds an new Example Type the list of available Main menu entries in the admistration.
+	 *
 	 * @return TypeInformationCollection
 	 */
 	public function provideTypeInformation(): TypeInformationCollection;
