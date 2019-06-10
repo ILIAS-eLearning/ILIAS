@@ -438,6 +438,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 		$this->excel->addLink($a_row, $a_col, $filepath);
 	}
 
+	//TODO: Refactoring needed, long method...
 	protected function collectAssignmentData($assignment_id)
 	{
 		$ass_has_feedback = false;

@@ -314,6 +314,7 @@ class ilUserCertificateGUI
                 \ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
                 $objectTypeIcon = $this->uiFactory
+                    ->symbol()
                     ->icon()
                     ->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
 
