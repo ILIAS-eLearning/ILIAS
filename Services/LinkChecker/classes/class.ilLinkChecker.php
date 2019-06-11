@@ -539,12 +539,13 @@ class ilLinkChecker
 					continue;
 				}
 
+				$curl = null;
 				$http_code = 0;
 				$c_error_no = 0;
 
-				$curl = new ilCurlConnection($link['complete']);
 				try
 				{
+					$curl = new ilCurlConnection($link['complete']);
 					$curl->init();
 
 					if(ilProxySettings::_getInstance()->isActive())
@@ -570,7 +571,10 @@ class ilLinkChecker
 				}
 				finally
 				{
-					$curl->close();
+					if ($curl != null)
+					{
+						$curl->close();
+					}
 				}
 
 				switch($http_code)
