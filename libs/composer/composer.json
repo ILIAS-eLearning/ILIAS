@@ -31,11 +31,11 @@
 		"slim/slim": "^3.11",
 		"simple-bus/message-bus": "^v3.0.2",
 		"simple-bus/serialization":  "^v3.0.1",
-		"simple-bus/asynchronous": "^v3.0.1"
+		"simple-bus/asynchronous": "^v3.0.1",
+		"phpunit/phpunit": "8.1"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
-		"phpunit/phpunit": "^8.0",
 		"phpunit/php-code-coverage": "^7.0",
 		"mockery/mockery": "^1.2",
 		"phpunit/php-token-stream": "^3.0",

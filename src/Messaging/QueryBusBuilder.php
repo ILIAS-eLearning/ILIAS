@@ -3,10 +3,10 @@
 namespace ILIAS\Messaging;
 
 use ILIAS\Messaging\Contract\Command;
-use ILIAS\Messaging\Adapter\CommandBus;
 
-class CommandBusBuilder {
 
+class QueryBusBuilder {
+/*
 	private $command_bus;
 
 
@@ -19,5 +19,5 @@ class CommandBusBuilder {
 
 	public function handle($command) {
 		$this->command_bus->handle($command);
-	}
+	}*/
 }

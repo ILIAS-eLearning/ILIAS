@@ -22,7 +22,6 @@ class Middleware extends CommandHandlerMiddleware implements CommandHandlerMiddl
 	public function handle($command, callable $next) {
 
 		$handler_name = get_class($command).'Handler';
-
 		/**
 		 * @var CommandHandlerContract $handler
 		 */
