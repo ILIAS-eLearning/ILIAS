@@ -135,7 +135,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface {
 	 * @inheritDoc
 	 */
 	public function addInlineCss($a_css, $media = "screen") {
-		$this->layout_content->metaContent()->addInlineCss(new InlineCss($a_css, $media));
+		$this->layout_content->metaContent()->addInlineCss($a_css, $media);
 	}
 
 
