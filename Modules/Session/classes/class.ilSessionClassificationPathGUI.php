@@ -9,6 +9,20 @@
  */
 class ilSessionClassificationPathGUI extends ilPathGUI
 {
+
+	/**
+	 * @param $a_obj_id
+	 * @return string|void
+	 */
+	protected function buildTitle($a_obj_id)
+	{
+		if(ilObject::_lookupType($a_obj_id) !== 'sess') {
+			return ilObject::_lookupTitle($a_obj_id);
+		}
+		$sess = new \ilObjSession($a_obj_id, false);
+		return $sess->getPresentationTitleAppointmentPeriod();
+	}
+
 	/**
 	 * @inheritdoc
 	 */
