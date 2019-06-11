@@ -341,7 +341,7 @@ class ilDclStandardField extends ilDclBaseFieldModel {
 		if ($this->getId() == 'comments') {
 			return 'n_comments';
 		} else {
-			return $this->getId();
+			return $this->getTitle();
 		}
 	}
 
