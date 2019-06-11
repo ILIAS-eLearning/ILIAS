@@ -30,9 +30,15 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
 			case 'visible':
 			case 'read':
 				$target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
-				
 				if(!$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $target_ref_id))
 				{
+					return false;
+				}
+				break;
+			case "delete":
+				$target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
+				$prg = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
+				if ($prg->hasRelevantProgresses() || !$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id)) {
 					return false;
 				}
 				break;

@@ -103,8 +103,6 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
-
-		
 		$this->reference_ref_id = $a_ref_id;
 		$this->reference_obj_id = $a_obj_id;
 
@@ -167,13 +165,8 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 		switch($a_permission)
 		{
 			case 'copy':
-			case 'delete':
-				// check against target ref_id
 				return parent::checkCommandAccess($a_permission, $a_cmd, $target_ref_id, 'prg', $target_obj_id);
-
 			default:
-
-				// check against reference
 				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
 		}
 	}
