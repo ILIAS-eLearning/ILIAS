@@ -166,7 +166,7 @@ class ilPathGUI
 			foreach($this->getPathIds() as $ref_id)
 			{
 				$obj_id = ilObject::_lookupObjId($ref_id);
-				$title = ilObject::_lookupTitle($obj_id);
+				$title = $this->buildTitle($obj_id);
 				
 				if($first)
 				{
@@ -209,7 +209,7 @@ class ilPathGUI
 			foreach($this->getPathIds() as $ref_id)
 			{
 				$obj_id = ilObject::_lookupObjId($ref_id);
-				$title = ilObject::_lookupTitle($obj_id);
+				$title = $this->buildTitle($obj_id);
 				$type = ilObject::_lookupType($obj_id);
 				
 				if($first)
@@ -238,6 +238,15 @@ class ilPathGUI
 			}
 			return $tpl->get();
 		}
+	}
+
+	/**
+	 * @param $a_obj_id
+	 * @return string
+	 */
+	protected function buildTitle($a_obj_id)
+	{
+		return ilObject::_lookupTitle($a_obj_id);
 	}
 	
 	/**
