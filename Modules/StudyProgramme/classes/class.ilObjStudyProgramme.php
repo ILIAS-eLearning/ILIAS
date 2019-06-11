@@ -389,7 +389,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getSubType() {
 		if(!in_array($this->getSubtypeId(), array("-", "0"))) {
 			$subtype_id = $this->getSubtypeId();
-			return$this->type_repository->readType($subtype_id);
+			return $this->type_repository->readType($subtype_id);
 		}
 
 		return null;
@@ -1319,12 +1319,39 @@ class ilObjStudyProgramme extends ilContainer {
 		$programmes = array_map(function($rec) {
 				$prg_obj_id = (int)array_shift(array_values($rec));
 				$prg_ref_id = (int)array_shift(ilObject::_getAllReferences($prg_obj_id));
-				return self::getInstanceByRefId($prg_ref_id);
+				$prg = self::getInstanceByRefId($prg_ref_id);
+				if($prg->isAutoContentApplicable()) {
+					return $prg;
+				}
 			},
 			$db::getProgrammesFor($cat_ref_id)
 		);
 		return $programmes;
 	}
+
+	/**
+	 * AutoContent should only be available in active- or draft-mode,
+	 * and only, if there is no sub-programme.
+	 * @return bool
+	 */
+	public function isAutoContentApplicable() : bool
+	{
+		$valid_status = in_array(
+			$this->getStatus(),
+			[
+				ilStudyProgrammeSettings::STATUS_DRAFT,
+				ilStudyProgrammeSettings::STATUS_ACTIVE
+			]
+		);
+
+		$crslnk_allowed = (
+			$this->hasLPChildren()
+			|| $this->getAmountOfChildren() === 0
+		);
+
+		return $valid_status && $crslnk_allowed;
+	}
+
 
 
 	////////////////////////////////////

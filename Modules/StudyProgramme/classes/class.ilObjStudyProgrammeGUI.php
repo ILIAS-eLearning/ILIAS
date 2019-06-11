@@ -648,7 +648,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case 'settings':
 			case 'editAdvancedSettings':
 				$this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
-				$this->tabs_gui->addSubTab("auto_content", $this->lng->txt("content_automation"), $this->getLinkTarget("auto_content"));
+
+				if($this->object->isAutoContentApplicable()) {
+					$this->tabs_gui->addSubTab("auto_content", $this->lng->txt("content_automation"), $this->getLinkTarget("auto_content"));
+				}
+
 				$this->tabs_gui->addSubTab("settings_trans",$this->lng->txt("obj_multilinguality"),$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 
