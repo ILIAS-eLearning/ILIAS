@@ -1094,3 +1094,41 @@ if( !$ilDB->tableExists('cont_filter_field') )
 	));
 }
 ?>
+<#5504>
+<?php
+if(!$ilDB->tableExists('il_cert_bgtask_migr')) {
+	$ilDB->dropTable('il_cert_bgtask_migr');
+}
+?>
+<#5505>
+<?php
+if ($ilDB->tableExists('il_bt_task')) {
+    if ($ilDB->tableExists('il_bt_value_to_task')) {
+        if ($ilDB->tableExists('il_bt_value')) {
+            $deleteBucketValuesSql = '
+DELETE FROM il_bt_value WHERE id IN (
+    SELECT value_id FROM il_bt_value_to_task WHERE task_id IN (
+        SELECT id FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%') . '
+    )
+)';
+            $ilDB->manipulate($deleteBucketValuesSql);
+        }
+
+        $deleteValueToTask = '
+DELETE FROM il_bt_value_to_task
+WHERE task_id IN (
+    SELECT id FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%') . '
+)';
+
+        $ilDB->manipulate($deleteValueToTask);
+    }
+    $deleteBackgroundTasksSql = 'DELETE FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%');
+    $ilDB->manipulate($deleteBackgroundTasksSql);
+}
+
+if ($ilDB->tableExists('il_bt_bucket')) {
+    $deleteBucketsSql = 'DELETE FROM il_bt_bucket WHERE title = ' . $ilDB->quote('Certificate Migration', 'text') ;
+    $ilDB->manipulate($deleteBucketsSql);
+}
+
+?>
