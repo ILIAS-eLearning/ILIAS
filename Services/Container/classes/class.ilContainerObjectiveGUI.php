@@ -1410,13 +1410,16 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			}
 		}
 		
-		// link to test statistics
-		$relevant_test_id = $a_lo_result["qtest"]
-			? $a_lo_result["qtest"]
-			: $a_lo_result["itest"];
-		if($relevant_test_id)
+		// link to test results
+		// - first try to fetch a link for qualifying test results
+		if($a_lo_result["qtest"])
 		{
-			$test_url = ilLOUtils::getTestResultLinkForUser($relevant_test_id, $a_lo_result["user_id"]);					
+			$test_url = ilLOUtils::getTestResultLinkForUser($a_lo_result["qtest"], $a_lo_result["user_id"]);
+		}
+		// - when no qualifiying test results link was fetched, try for initial test
+		if(!$test_url && $a_lo_result["itest"])
+		{
+			$test_url = ilLOUtils::getTestResultLinkForUser($a_lo_result["itest"], $a_lo_result["user_id"]);
 		}
 
 		$main_text = $lng->txt('crs_loc_itest_info');
