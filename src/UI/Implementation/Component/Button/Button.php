@@ -46,7 +46,7 @@ abstract class Button implements C\Button\Button {
 	/**
 	 * @var bool
 	 */
-	protected $title_capitalization = true;
+	protected $check_case_of_label_if_possible = true;
 
 
 	public function __construct($label, $action) {
@@ -161,18 +161,18 @@ abstract class Button implements C\Button\Button {
 	/**
 	 * @inheritDoc
 	 */
-	public function isTitleCapitalization(): bool {
-		return $this->title_capitalization;
+	public function isCheckCaseOfLabelIfPossible(): bool {
+		return $this->check_case_of_label_if_possible;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withTitleCapitalization(bool $title_capitalization = true): C\Button\Button {
-		$this->checkBoolArg("title_capitalization", $title_capitalization);
+	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = true): C\Button\Button {
+		$this->checkBoolArg("check_case_of_label_if_possible", $check_case_of_label_if_possible);
 		$clone = clone $this;
-		$clone->title_capitalization = $title_capitalization;
+		$clone->check_case_of_label_if_possible = $check_case_of_label_if_possible;
 
 		return $clone;
 	}

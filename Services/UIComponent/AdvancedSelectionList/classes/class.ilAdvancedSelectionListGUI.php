@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\String\LanguageNotSupportedException;
 
 /**
 * User interface class for advanced drop-down selection lists
@@ -46,7 +47,7 @@ class ilAdvancedSelectionListGUI
 	/**
 	 * @var bool
 	 */
-	protected $title_capitalization = true;
+	protected $check_case_of_label_if_possible = true;
 	
 	/*
 	
@@ -562,7 +563,7 @@ class ilAdvancedSelectionListGUI
 	{
 		global $DIC;
 
-		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($DIC->language()->getLangKey());
 
 		$items = $this->getItems();
 
@@ -603,8 +604,12 @@ class ilAdvancedSelectionListGUI
 				foreach($items as $item)
 				{
 					$title = $item["title"] ?? "";
-					if ($this->isTitleCapitalization()) {
-						$title = $transform_title_capitalization($title);
+					if ($this->isCheckCaseOfLabelIfPossible()) {
+						try {
+							$title = $transform_case_of_label_if_possible($title);
+						} catch (LanguageNotSupportedException $ex) {
+
+						}
 					}
 
 					if (isset($item["ref_id"]))
@@ -851,8 +856,12 @@ class ilAdvancedSelectionListGUI
 		//echo htmlentities(ilJsonUtil::encode($cfg));	
 
 		$list_title = $this->getListTitle();
-		if ($this->isTitleCapitalization()) {
-			$list_title = $transform_title_capitalization($list_title);
+		if ($this->isCheckCaseOfLabelIfPossible()) {
+			try {
+				$list_title = $transform_case_of_label_if_possible($list_title);
+			} catch (LanguageNotSupportedException $ex) {
+
+			}
 		}
 		$tpl->setVariable("TXT_SEL_TOP", $list_title);
 		$tpl->setVariable("ID", $this->getId());
@@ -901,16 +910,16 @@ class ilAdvancedSelectionListGUI
 	/**
 	 * @return bool
 	 */
-	public function isTitleCapitalization(): bool {
-		return $this->title_capitalization;
+	public function isCheckCaseOfLabelIfPossible(): bool {
+		return $this->check_case_of_label_if_possible;
 	}
 
 
 	/**
-	 * @param bool $title_capitalization
+	 * @param bool $check_case_of_label_if_possible
 	 */
-	public function setTitleCapitalization(bool $title_capitalization = true): void {
-		$this->title_capitalization = $title_capitalization;
+	public function setCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = true): void {
+		$this->check_case_of_label_if_possible = $check_case_of_label_if_possible;
 	}
 }
 ?>

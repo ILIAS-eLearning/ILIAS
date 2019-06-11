@@ -2,16 +2,19 @@
 
 use ILIAS\Data;
 use ILIAS\Refinery;
-use ILIAS\Refinery\String\TitleCapitalization;
+use ILIAS\Refinery\String\LanguageNotSupportedException;
+use ILIAS\Refinery\String\CaseOfLabelIfPossible;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class TitleCapitalizationTest
+ * Class CaseOfLabelIfPossibleTest
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TitleCapitalizationTest extends TestCase {
+class CaseOfLabelIfPossibleTest extends TestCase {
 
+	const LANGUAGE_KEY = "en";
+	const SENSELESS_LANGUAGE_KEY = "this_language_key_will_never_exist";
 	const TEST_STRING_1 = "I am a test string for the title capitalization and I hope that works even if it is complicated :)";
 	const TEST_STRING_2 = "I switch the computer on and go online";
 	const TEST_STRING_3 = "Now it is working";
@@ -19,9 +22,9 @@ class TitleCapitalizationTest extends TestCase {
 	const EXPECTED_RESULT_TEST_STRING_2 = "I Switch the Computer on and Go Online";
 	const EXPECTED_RESULT_TEST_STRING_3 = "Now It Is Working";
 	/**
-	 * @var TitleCapitalization
+	 * @var CaseOfLabelIfPossible
 	 */
-	private $title_capitalization;
+	protected $case_of_label_if_possible;
 	/**
 	 * @var Refinery\Factory
 	 */
@@ -37,7 +40,7 @@ class TitleCapitalizationTest extends TestCase {
 		$language = $this->createMock('\\' . ilLanguage::class);
 
 		$this->f = new Refinery\Factory($dataFactory, $language);
-		$this->title_capitalization = $this->f->string()->titleCapitalization();
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::LANGUAGE_KEY);
 	}
 
 
@@ -46,7 +49,7 @@ class TitleCapitalizationTest extends TestCase {
 	 */
 	protected function tearDown(): void {
 		$this->f = null;
-		$this->title_capitalization = null;
+		$this->case_of_label_if_possible = null;
 	}
 
 
@@ -54,7 +57,7 @@ class TitleCapitalizationTest extends TestCase {
 	 *
 	 */
 	public function testTransform1(): void {
-		$str = $this->title_capitalization->transform(self::TEST_STRING_1);
+		$str = $this->case_of_label_if_possible->transform(self::TEST_STRING_1);
 
 		$this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $str);
 	}
@@ -64,7 +67,7 @@ class TitleCapitalizationTest extends TestCase {
 	 *
 	 */
 	public function testTransform2(): void {
-		$str = $this->title_capitalization->transform(self::TEST_STRING_2);
+		$str = $this->case_of_label_if_possible->transform(self::TEST_STRING_2);
 
 		$this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_2, $str);
 	}
@@ -74,7 +77,7 @@ class TitleCapitalizationTest extends TestCase {
 	 *
 	 */
 	public function testTransform3(): void {
-		$str = $this->title_capitalization->transform(self::TEST_STRING_3);
+		$str = $this->case_of_label_if_possible->transform(self::TEST_STRING_3);
 
 		$this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_3, $str);
 	}
@@ -87,7 +90,7 @@ class TitleCapitalizationTest extends TestCase {
 		$raised = false;
 		try {
 			$arr = [];
-			$next_str = $this->title_capitalization->transform($arr);
+			$next_str = $this->case_of_label_if_possible->transform($arr);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -96,7 +99,7 @@ class TitleCapitalizationTest extends TestCase {
 		$raised = false;
 		try {
 			$int = 1001;
-			$next_str = $this->title_capitalization->transform($int);
+			$next_str = $this->case_of_label_if_possible->transform($int);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -105,7 +108,7 @@ class TitleCapitalizationTest extends TestCase {
 		$raised = false;
 		try {
 			$std_class = new stdClass();
-			$next_str = $this->title_capitalization->transform($std_class);
+			$next_str = $this->case_of_label_if_possible->transform($std_class);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -117,9 +120,9 @@ class TitleCapitalizationTest extends TestCase {
 	 *
 	 */
 	public function testInvoke(): void {
-		$title_capitalization = $this->f->string()->titleCapitalization();
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::LANGUAGE_KEY);
 
-		$str = $title_capitalization(self::TEST_STRING_1);
+		$str = $this->case_of_label_if_possible(self::TEST_STRING_1);
 
 		$this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $str);
 	}
@@ -129,12 +132,12 @@ class TitleCapitalizationTest extends TestCase {
 	 *
 	 */
 	public function testInvokeFails(): void {
-		$title_capitalization = $this->f->string()->titleCapitalization();
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::LANGUAGE_KEY);
 
 		$raised = false;
 		try {
 			$arr = [];
-			$next_str = $title_capitalization($arr);
+			$next_str = $this->case_of_label_if_possible($arr);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -143,7 +146,7 @@ class TitleCapitalizationTest extends TestCase {
 		$raised = false;
 		try {
 			$int = 1001;
-			$next_str = $title_capitalization($int);
+			$next_str = $this->case_of_label_if_possible($int);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -152,7 +155,7 @@ class TitleCapitalizationTest extends TestCase {
 		$raised = false;
 		try {
 			$std_class = new stdClass();
-			$next_str = $title_capitalization($std_class);
+			$next_str = $this->case_of_label_if_possible($std_class);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -168,7 +171,7 @@ class TitleCapitalizationTest extends TestCase {
 
 		$valueObject = $factory->ok(self::TEST_STRING_1);
 
-		$resultObject = $this->title_capitalization->applyTo($valueObject);
+		$resultObject = $this->case_of_label_if_possible->applyTo($valueObject);
 
 		$this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $resultObject->value());
 		$this->assertFalse($resultObject->isError());
@@ -183,8 +186,24 @@ class TitleCapitalizationTest extends TestCase {
 
 		$valueObject = $factory->ok(42);
 
-		$resultObject = $this->title_capitalization->applyTo($valueObject);
+		$resultObject = $this->case_of_label_if_possible->applyTo($valueObject);
 
 		$this->assertTrue($resultObject->isError());
+	}
+
+
+	/**
+	 *
+	 */
+	public function testUnknownLanguageKey(): void {
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::SENSELESS_LANGUAGE_KEY);
+
+		$raised = false;
+		try {
+			$str = $this->case_of_label_if_possible->transform(self::TEST_STRING_1);
+		} catch (LanguageNotSupportedException $e) {
+			$raised = true;
+		}
+		$this->assertTrue($raised);
 	}
 }

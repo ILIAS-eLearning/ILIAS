@@ -70,10 +70,14 @@ class Group
 	/**
 	 * Creates a transformation that can be used to format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
 	 *
-	 * @return TitleCapitalization
+	 * Throws a LanguageNotSupportedException in the transform method, if a not supported language is passed
+	 *
+	 * @param string $language_key
+	 *
+	 * @return CaseOfLabelIfPossible
 	 */
-	public function titleCapitalization() : TitleCapitalization
+	public function caseOfLabelIfPossible(string $language_key) : CaseOfLabelIfPossible
 	{
-		return new TitleCapitalization($this->dataFactory);
+		return new CaseOfLabelIfPossible($language_key, $this->dataFactory);
 	}
 }

@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
+use ILIAS\Refinery\String\LanguageNotSupportedException;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -37,7 +38,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
 		global $DIC;
 
-		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($this->getLangKey());
 
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
@@ -68,8 +69,12 @@ class Renderer extends AbstractComponentRenderer {
 
 		$label = $component->getLabel();
 		if ($label !== null) {
-			if ($component->isTitleCapitalization())  {
-				$label = $transform_title_capitalization($label);
+			if ($component->isCheckCaseOfLabelIfPossible())  {
+				try {
+					$label = $transform_case_of_label_if_possible($label);
+				} catch (LanguageNotSupportedException $ex) {
+
+				}
 			}
 			$tpl->setVariable("LABEL", $label);
 		}
@@ -97,8 +102,12 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		$aria_label = $component->getAriaLabel();
 		if($aria_label != null){
-			if ($component->isTitleCapitalization())  {
-				$aria_label = $transform_title_capitalization($aria_label);
+			if ($component->isCheckCaseOfLabelIfPossible())  {
+				try {
+					$aria_label = $transform_case_of_label_if_possible($aria_label);
+				} catch (LanguageNotSupportedException $ex) {
+
+				}
 			}
 			$tpl->setCurrentBlock("with_aria_label");
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
@@ -154,7 +163,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderToggle(Component\Button\Toggle $component) {
 		global $DIC;
 
-		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($this->getLangKey());
 
 		$tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
@@ -203,8 +212,12 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		$label = $component->getLabel();
 		if (!empty($label)) {
-			if ($component->isTitleCapitalization())  {
-				$label = $transform_title_capitalization($label);
+			if ($component->isCheckCaseOfLabelIfPossible())  {
+				try {
+					$label = $transform_case_of_label_if_possible($label);
+				} catch (LanguageNotSupportedException $ex) {
+
+				}
 			}
 			$tpl->setCurrentBlock("with_label");
 			$tpl->setVariable("LABEL", $label);
@@ -212,8 +225,12 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		$aria_label = $component->getAriaLabel();
 		if($aria_label != null){
-			if ($component->isTitleCapitalization())  {
-				$aria_label = $transform_title_capitalization($aria_label);
+			if ($component->isCheckCaseOfLabelIfPossible())  {
+				try {
+					$aria_label = $transform_case_of_label_if_possible($aria_label);
+				} catch (LanguageNotSupportedException $ex) {
+
+				}
 			}
 			$tpl->setCurrentBlock("with_aria_label");
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
@@ -289,14 +306,18 @@ class Renderer extends AbstractComponentRenderer {
 	protected function additionalRenderBulky(Component\Button\Button $component, RendererInterface $default_renderer, $tpl) {
 		global $DIC;
 
-		$transform_title_capitalization = $DIC->refinery()->string()->titleCapitalization();
+		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($this->getLangKey());
 
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
 		$label = $component->getLabel();
 		if ($label !== null) {
-			if ($component->isTitleCapitalization())  {
-				$label = $transform_title_capitalization($label);
+			if ($component->isCheckCaseOfLabelIfPossible())  {
+				try {
+					$label = $transform_case_of_label_if_possible($label);
+				} catch (LanguageNotSupportedException $ex) {
+
+				}
 			}
 			$tpl->setVariable("LABEL", $label);
 		}
