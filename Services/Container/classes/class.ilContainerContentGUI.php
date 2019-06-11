@@ -756,6 +756,11 @@ abstract class ilContainerContentGUI
 		$user = $DIC->user();
 
 		$item_list_gui = $this->getItemGUI($a_item_data);
+		$item_list_gui->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash(
+			ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
+			$a_item_data['ref_id'],
+			$a_item_data['type'],
+			$a_item_data['obj_id']));
 		$item_list_gui->initItem($a_item_data['ref_id'], $a_item_data['obj_id'],
 			$a_item_data['title'], $a_item_data['description']);
 
@@ -764,9 +769,20 @@ abstract class ilContainerContentGUI
 		$actions = [];
 		foreach ($item_list_gui->current_selection_list->getItems() as $item)
 		{
-			//var_dump($item); exit;
-			$actions[] =
-				$f->button()->shy($item["title"], $item["link"]);
+			if (!isset($item["onclick"]) || $item["onclick"] == "")
+			{
+				$button =
+					$f->button()->shy($item["title"], $item["link"]);
+			}
+			else
+			{
+				$button =
+					$f->button()->shy($item["title"], "")->withAdditionalOnLoadCode(function($id) use ($item){
+						return
+							"$('#$id').click(function(e) { ".$item["onclick"]."});";
+					});
+			}
+			$actions[] = $button;
 
 		}
 		$dropdown = $f->dropdown()->standard($actions);
