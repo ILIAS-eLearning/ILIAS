@@ -541,9 +541,10 @@ class ilLinkChecker
 
 				$http_code = 0;
 				$c_error_no = 0;
+
+				$curl = new ilCurlConnection($link['complete']);
 				try
 				{
-					$curl = new ilCurlConnection($link['complete']);
 					$curl->init();
 
 					if(ilProxySettings::_getInstance()->isActive())
@@ -566,6 +567,9 @@ class ilLinkChecker
 				{
 					$c_error_no = $e->getCode();
 					ilLoggerFactory::getLogger('lchk')->error('LinkChecker: No valid http code received. Curl error ('.$e->getCode().'): ' . $e->getMessage());
+				}
+				finally {
+					$curl->close();
 				}
 
 				switch($http_code)
