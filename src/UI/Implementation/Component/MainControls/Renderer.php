@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
 
 class Renderer extends AbstractComponentRenderer {
@@ -31,6 +32,10 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof MetaBar) {
 			return $this->renderMetabar($component, $default_renderer);
 		}
+		if ($component instanceof Footer) {
+			return $this->renderFooter($component, $default_renderer);
+		}
+
 	}
 
 	protected function renderMainbar(MainBar $component, RendererInterface $default_renderer) {
@@ -254,6 +259,13 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('ID', $id);
 	}
 
+	protected function renderFooter(Footer $component, RendererInterface $default_renderer) {
+		$tpl = $this->getTemplate("tpl.footer.html", true, true);
+		$links = $this->getUIFactory()->listing()->unordered($component->getLinks());
+		$tpl->setVariable('LINKS', $default_renderer->render($links));
+		$tpl->setVariable('TEXT', $component->getText());
+		return $tpl->get();
+	}
 
 	/**
 	 * @inheritdoc
@@ -270,7 +282,8 @@ class Renderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return array(
 			MetaBar::class,
-			MainBar::class
+			MainBar::class,
+			Footer::class
 		);
 	}
 

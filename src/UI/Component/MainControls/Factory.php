@@ -4,8 +4,6 @@
 
 namespace ILIAS\UI\Component\MainControls;
 
-use \ILIAS\UI\Component\Image\Image;
-
 /**
  * This is what a factory for main controls looks like.
  */
@@ -284,4 +282,33 @@ interface Factory {
 	 */
 	public function slate(): Slate\Factory;
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     The Footer is a unique page section to accomodate links that
+	 *     are not being used on a regular basis, such as links to the pages's
+	 *     imprint or a privacy policy document.
+	 *
+	 *   composition: >
+	 *     The Footer is composed of a list of links and an optional text-part.
+	 *
+	 * context:
+	 *   - The Footer is used with the Standard Page.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: The Footer is unique for the page - there MUST be not more than one.
+	 *     2: Elements in the Footer SHOULD NOT vary according to context, but MAY
+	 *        vary according to the user's role or state (logged in/not logged in/...).
+	 *
+	 *   style:
+	 *     1: The Footer SHOULD be kept visually unobstrusive.
+	 * ----
+	 *
+	 * @param  \ILIAS\UI\Component\Link\Standard[] $links
+	 * @param  string $text
+	 * @return  \ILIAS\UI\Component\MainControls\Footer
+	 */
+	public function footer(array $links, string $text=''): Footer;
 }
