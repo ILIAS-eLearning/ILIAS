@@ -12,6 +12,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	const F_CATEGORY_REF = 'f_cr';
 	const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
 	const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
+	const CMD_DELETE_SINGLE = 'deleteSingle';
 
 	/**
 	 * @var ilTemplate
@@ -90,11 +91,10 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
 			case "save":
 			case "delete":
-			case "delete_single":
+			case self::CMD_DELETE_SINGLE:
 				$this->$cmd();
 				$this->ctrl->redirect($this, 'view');
 				break;
-
 			default:
 				throw new ilException("ilObjStudyProgrammeAutoCategoriesGUI: ".
 									  "Command not supported: $cmd");
@@ -180,7 +180,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	/**
 	 * Delete single entry.
 	 */
-	protected function delete_single()
+	protected function deleteSingle()
 	{
 		$get = $_GET;
 		$field = self::CHECKBOX_CATEGORY_REF_IDS;
@@ -269,7 +269,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		$this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, $cat_ref_id);
 		$items[] =  $this->ui_factory->button()->shy(
 			$this->lng->txt('delete'),
-			$this->ctrl->getLinkTarget($this, 'delete_single')
+			$this->ctrl->getLinkTarget($this, self::CMD_DELETE_SINGLE)
 		);
 
 		$dd = $this->ui_factory->dropdown()->standard($items);

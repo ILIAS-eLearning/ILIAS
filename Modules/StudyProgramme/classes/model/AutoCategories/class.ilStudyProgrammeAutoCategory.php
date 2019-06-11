@@ -12,7 +12,7 @@ class ilStudyProgrammeAutoCategory
 	/**
 	 * @var int
 	 */
-	protected $prg_ref_id;
+	protected $prg_obj_id;
 
 	/**
 	 * @var int
@@ -35,20 +35,20 @@ class ilStudyProgrammeAutoCategory
 	protected $last_edited;
 
 	public function __construct(
-		int $prg_ref_id,
+		int $prg_obj_id,
 		int $category_ref_id,
 		int $last_edited_usr_id,
 		\DateTimeImmutable $last_edited
 	) {
-		$this->prg_ref_id = $prg_ref_id;
+		$this->prg_obj_id = $prg_obj_id;
 		$this->category_ref_id = $category_ref_id;
 		$this->last_edited_usr_id = $last_edited_usr_id;
 		$this->last_edited = $last_edited;
 	}
 
-	public function getPrgRefId(): int
+	public function getPrgObjId(): int
 	{
-		return $this->prg_ref_id;
+		return $this->prg_obj_id;
 	}
 
 	public function getCategoryRefId(): int

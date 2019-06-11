@@ -1239,7 +1239,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function getAutomaticContentCategories(): array
 	{
-		return $this->auto_categories_repository->readFor($this->getRefId());
+		return $this->auto_categories_repository->readFor($this->getId());
 	}
 
 	/**
@@ -1250,7 +1250,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function storeAutomaticContentCategory(int $category_ref_id) {
 		$ac = $this->auto_categories_repository->create(
-				$this->getRefId(),
+				$this->getId(),
 				$category_ref_id
 		);
 		$this->auto_categories_repository->update($ac);
@@ -1262,7 +1262,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function deleteAutomaticContentCategories(array $category_ids=[])
 	{
-		return $this->auto_categories_repository->delete($this->getRefId(), $category_ids);
+		return $this->auto_categories_repository->delete($this->getId(), $category_ids);
 	}
 
 	/**
@@ -1270,7 +1270,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function deleteAllAutomaticContentCategories()
 	{
-		return $this->auto_categories_repository->deleteFor($this->getRefId());
+		return $this->auto_categories_repository->deleteFor($this->getId());
 	}
 
 	/**
@@ -1317,7 +1317,8 @@ class ilObjStudyProgramme extends ilContainer {
 	{
 		$db = ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
 		$programmes = array_map(function($rec) {
-				$prg_ref_id = (int)array_shift(array_values($rec));
+				$prg_obj_id = (int)array_shift(array_values($rec));
+				$prg_ref_id = (int)array_shift(ilObject::_getAllReferences($prg_obj_id));
 				return self::getInstanceByRefId($prg_ref_id);
 			},
 			$db::getProgrammesFor($cat_ref_id)

@@ -25275,32 +25275,3 @@ if ($media_cont_mig == 1)
 	$setting->set('sty_media_cont_mig', 2);
 }
 ?>
-
-<#5428>
-<?php
-if (!$ilDB->tableExists('prg_auto_content'))
-{
-	$ilDB->createTable('prg_auto_content', array(
-		'prg_ref_id' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true
-		),
-		'cat_ref_id' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true
-		),
-		'last_usr_id' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true
-		),
-		'last_edited' => array(
-			'type' => 'timestamp',
-			'notnull' => false
-		)
-	));
-	$ilDB->addPrimaryKey('prg_auto_content', ['prg_ref_id', 'cat_ref_id']);
-}
-?>
