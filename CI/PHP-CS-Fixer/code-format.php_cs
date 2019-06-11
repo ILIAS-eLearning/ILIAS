@@ -21,10 +21,8 @@ return PhpCsFixer\Config::create()
         'strict_param' => false,
         'cast_spaces' => true,
         'concat_space' => ['spacing' => 'one'],
-        'binary_operator_spaces' => true,
         'unary_operator_spaces' => true,
         'function_typehint_space' => true,
         'return_type_declaration' => ['space_before' => 'one'],
-        'whitespace_after_comma_in_array' => true,
 	])
 	->setFinder($finder);
