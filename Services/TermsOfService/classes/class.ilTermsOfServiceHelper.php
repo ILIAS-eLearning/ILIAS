@@ -106,12 +106,12 @@ class ilTermsOfServiceHelper
 		$databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
 		$entity = $entity
-			->withUserId($user->getId())
+			->withUserId((int) $user->getId())
 			->withTimestamp(time())
-			->withText($document->content())
+			->withText((string) $document->content())
 			->withHash(md5($document->content()))
-			->withDocumentId($document->id())
-			->withTitle($document->title());
+			->withDocumentId((int) $document->id())
+			->withTitle((string) $document->title());
 
 		$criteriaBag = new \ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->criteria());
 		$entity = $entity->withSerializedCriteria($criteriaBag->toJson());
