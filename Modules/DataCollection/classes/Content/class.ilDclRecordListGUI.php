@@ -209,7 +209,6 @@ class ilDclRecordListGUI {
 	 * @return ilPropertyFormGUI
 	 */
 	public function initImportForm() {
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 
 		$item = new ilCustomInputGUI();
@@ -552,8 +551,6 @@ class ilDclRecordListGUI {
 		//table switcher
 		$options = $this->getAvailableTables();
 		if (count($options) > 1) {
-
-			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$table_selection = new ilSelectInputGUI('', 'table_id');
 			$table_selection->setOptions($options);
 			$table_selection->setValue($this->table_id);

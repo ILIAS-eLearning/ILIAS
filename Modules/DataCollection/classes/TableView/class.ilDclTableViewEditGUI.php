@@ -253,7 +253,6 @@ class ilDclTableViewEditGUI
         //at least one view must exist
         $this->parent_obj->checkViewsLeft(1);
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_tableview_confirm_delete'));
