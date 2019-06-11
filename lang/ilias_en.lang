@@ -10004,6 +10004,7 @@ dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
 dcl#:#dcl_all_entries#:#All entries
+dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_own_entries#:#Only own entries
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_tableviews#:#Views

@@ -10133,6 +10133,7 @@ dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_all_entries#:#Alle Einträge
+dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
 dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
