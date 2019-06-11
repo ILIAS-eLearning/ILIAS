@@ -42,6 +42,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 	];
 
 
+	const OPTION_ALL = -1;
 	const VALIDITY_OPTION_VALID = 1;
 	const VALIDITY_OPTION_RENEWAL_REQUIRED = 3;
 
@@ -466,13 +467,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 	{
 		$item = $this->addFilterItemByMetaType('prg_validity', self::FILTER_SELECT);
 		$item->setOptions(
-			["" => $this->lng->txt("all")]
+			[self::OPTION_ALL => $this->lng->txt("all")]
 			+ $this->getValidityOptions()
 		);
 
 		$item = $this->addFilterItemByMetaType('prg_status', self::FILTER_SELECT);
 		$item->setOptions(
-			["" => $this->lng->txt("all")]
+			[self::OPTION_ALL => $this->lng->txt("all")]
 			+ $this->getStatusOptions()
 		);
 
@@ -514,12 +515,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 			$buf[] = $name_filter;
 		}
 
-		if($filter['prg_status']) {
+		if($filter['prg_status'] && (int)$filter['prg_status'] !== self::OPTION_ALL) {
 			$buf[] = 'AND prgrs.status = '
 				.$this->db->quote($filter['prg_status'], "integer");
 		}
 
-		if($filter['prg_validity']) {
+		if($filter['prg_validity'] && (int)$filter['prg_validity'] !== self::OPTION_ALL) {
 			$operator = '<='; //self::VALIDITY_OPTION_RENEWAL_REQUIRED
 			if($filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
 				$operator = '>';
