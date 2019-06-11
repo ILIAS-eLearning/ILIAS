@@ -568,7 +568,8 @@ class ilLinkChecker
 					$c_error_no = $e->getCode();
 					ilLoggerFactory::getLogger('lchk')->error('LinkChecker: No valid http code received. Curl error ('.$e->getCode().'): ' . $e->getMessage());
 				}
-				finally {
+				finally
+				{
 					$curl->close();
 				}
 
