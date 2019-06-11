@@ -174,7 +174,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 						{
 							$stat = $this->lng->txt("svy_not_started");
 						}
-						$props[] = array("alert" => false, "property" => $lng->txt("participation"),
+						$props[] = array("alert" => false, "property" => $lng->txt("svy_participation"),
 							"value" => $stat, 'propertyNameVisible' => false);
 					}
 					else

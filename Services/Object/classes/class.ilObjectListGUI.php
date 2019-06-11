@@ -160,6 +160,11 @@ class ilObjectListGUI
 	static protected $tpl_component = "Services/Container";
 
 	/**
+	 * @var ilPathGUI|null
+	 */
+	protected $path_gui = null;
+
+	/**
 	 * @var \ILIAS\DI\UIServices
 	 */
 	protected $ui;
@@ -609,10 +614,11 @@ class ilObjectListGUI
 	* @param int
 	* @return void
 	*/
-	function enablePath($a_path, $a_start_node = null)
+	function enablePath($a_path, $a_start_node = null, \ilPathGUI $path_gui = null)
 	{
 		$this->path_enabled = $a_path;
 		$this->path_start_node = (int)$a_start_node;
+		$this->path_gui = $path_gui;
 	}
 
 	/**
@@ -3313,8 +3319,12 @@ class ilObjectListGUI
 		
 		if($this->getPathStatus() != false)
 		{
-			include_once 'Services/Tree/classes/class.ilPathGUI.php';
-			$path_gui = new ilPathGUI();
+			if(!$this->path_gui instanceof \ilPathGUI) {
+				$path_gui = new \ilPathGUI();
+			} else {
+				$path_gui = $this->path_gui;
+			}
+
 			$path_gui->enableTextOnly(!$this->path_linked);
 			$path_gui->setUseImages(false);
 			

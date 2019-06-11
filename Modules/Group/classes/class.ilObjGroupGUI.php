@@ -1690,10 +1690,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 
 			// Group presentation
+			$parent_membership_ref_id = 0;
 			$hasParentMembership = 
 				(
-					$tree->checkForParentType($this->object->getRefId(),'crs',true) ||
-					$tree->checkForParentType($this->object->getRefId(),'grp',true)
+					$parent_membership_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs',true)
 				);
 			
 			$pres = new ilFormSectionHeaderGUI();
@@ -1719,8 +1719,10 @@ class ilObjGroupGUI extends ilContainerGUI
 			// presentation type							
 			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');		
 			if($hasParentMembership)
-			{								
-				switch($this->object->getViewMode())
+			{
+				$parent_view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($parent_membership_ref_id));
+				$course_view_mode = '';
+				switch($parent_view_mode)
 				{
 					case ilContainer::VIEW_SESSIONS:							
 						$course_view_mode = ': '.$this->lng->txt('cntr_view_sessions');
@@ -1733,28 +1735,27 @@ class ilObjGroupGUI extends ilContainerGUI
 					case ilContainer::VIEW_BY_TYPE:
 						$course_view_mode = ': '.$this->lng->txt('cntr_view_by_type');
 						break;
-				}																		
-				
-				$opt = new ilRadioOption($this->lng->txt('grp_view_inherit').$course_view_mode,ilContainer::VIEW_INHERIT);
-				$opt->setInfo($this->lng->txt('grp_view_inherit_info'));
-				$view_type->addOption($opt);
-			}	
-			
-			if($hasParentMembership &&
-				$this->object->getViewMode() == ilContainer::VIEW_INHERIT)
+				}
+				if($course_view_mode)
+				{
+					$opt = new ilRadioOption($this->lng->txt('grp_view_inherit').$course_view_mode,ilContainer::VIEW_INHERIT);
+					$opt->setInfo($this->lng->txt('grp_view_inherit_info'));
+					$view_type->addOption($opt);
+				}
+			}
+
+			if($hasParentMembership && ilObjGroup::lookupViewMode($this->object->getId()) == ilContainer::VIEW_INHERIT)
 			{
 				$view_type->setValue(ilContainer::VIEW_INHERIT);
 			}
 			else
 			{
-				$view_type->setValue(
-					ilObjGroup::translateViewMode(
-						$this->object->getId(),
-						$this->object->getViewMode(),
-						$this->object->getRefId()
-					)
-				);
+				$view_type->setValue(ilObjGroup::lookupViewMode($this->object->getId()));
 			}
+
+			$opt = new ilRadioOption($this->lng->txt('cntr_view_sessions'), ilContainer::VIEW_SESSIONS);
+			$opt->setInfo($this->lng->txt('cntr_view_info_sessions'));
+			$view_type->addOption($opt);
 			
 			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
 			$opt->setInfo($this->lng->txt('grp_view_info_simple'));
