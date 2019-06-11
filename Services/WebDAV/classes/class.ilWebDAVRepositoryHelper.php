@@ -106,7 +106,7 @@ class ilWebDAVRepositoryHelper
             $title = ilObject::_lookupTitle($a_obj_id);
         }
 
-        return $title;
+        return $title === NULL ? '' : $title;
     }
 
     /**
@@ -117,7 +117,8 @@ class ilWebDAVRepositoryHelper
      */
     public function getObjectTypeFromObjId(int $a_obj_id) : string
     {
-        return ilObject::_lookupType($a_obj_id, false);
+    	$type = ilObject::_lookupType($a_obj_id, false);
+        return $type === NULL ? '' : $type;
     }
 
 
@@ -142,7 +143,8 @@ class ilWebDAVRepositoryHelper
      */
     public function getObjectTypeFromRefId(int $a_ref_id) : string
     {
-        return ilObject::_lookupType($a_ref_id, true);
+    	$type = ilObject::_lookupType($a_ref_id, true);
+        return $type === NULL ? '' : $type;
     }
 
     /**
