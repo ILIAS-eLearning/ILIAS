@@ -122,7 +122,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 	public function testInvoke(): void {
 		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::LANGUAGE_KEY);
 
-		$str = $this->case_of_label_if_possible(self::TEST_STRING_1);
+		$str = ($this->case_of_label_if_possible)(self::TEST_STRING_1);
 
 		$this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $str);
 	}
@@ -137,7 +137,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 		$raised = false;
 		try {
 			$arr = [];
-			$next_str = $this->case_of_label_if_possible($arr);
+			$next_str = ($this->case_of_label_if_possible)($arr);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -146,7 +146,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 		$raised = false;
 		try {
 			$int = 1001;
-			$next_str = $this->case_of_label_if_possible($int);
+			$next_str = ($this->case_of_label_if_possible)($int);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
@@ -155,7 +155,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 		$raised = false;
 		try {
 			$std_class = new stdClass();
-			$next_str = $this->case_of_label_if_possible($std_class);
+			$next_str = ($this->case_of_label_if_possible)($std_class);
 		} catch (InvalidArgumentException $e) {
 			$raised = true;
 		}
