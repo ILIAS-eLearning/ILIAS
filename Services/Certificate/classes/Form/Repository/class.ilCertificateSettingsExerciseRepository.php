@@ -34,6 +34,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
     public function __construct(
         ilObject $object,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
         ilAccessHandler $access,
@@ -48,6 +49,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
             $settingsFormFactory = new ilCertificateSettingsFormRepository(
                 $object->getId(),
                 $certificatePath,
+                $hasAdditionalElements,
                 $language,
                 $controller,
                 $access,

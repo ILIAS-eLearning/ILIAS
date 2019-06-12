@@ -70,6 +70,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     public function __construct(
         \ilObject $object,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
         ilAccess $access,
@@ -91,6 +92,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             $settingsFromFactory = new ilCertificateSettingsFormRepository(
                 $object->getId(),
                 $certificatePath,
+                $hasAdditionalElements,
                 $language,
                 $controller,
                 $access,

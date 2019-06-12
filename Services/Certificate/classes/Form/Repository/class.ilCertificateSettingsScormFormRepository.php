@@ -40,6 +40,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
     public function __construct(
         ilObject $object,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
         ilAccess $access,
@@ -56,6 +57,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
                 $object->getId(),
                 $certificatePath,
+                $hasAdditionalElements,
                 $language,
                 $controller,
                 $access,
