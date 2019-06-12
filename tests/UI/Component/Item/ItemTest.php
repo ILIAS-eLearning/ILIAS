@@ -145,13 +145,13 @@ class ItemTest extends ILIAS_UI_TestBase {
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 il-item-property-name">Origin</div>
-						<div class="col-sm-7 il-item-property-value">Course Title 1</div>
+						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">Course Title 1</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 il-item-property-name">Last Update</div>
-						<div class="col-sm-7 il-item-property-value">24.11.2011</div>
+						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">24.11.2011</div>
 					</div>
 				</div>
 			</div>
@@ -159,13 +159,13 @@ class ItemTest extends ILIAS_UI_TestBase {
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 il-item-property-name">Location</div>
-						<div class="col-sm-7 il-item-property-value">Room 123, Main Street 44, 3012 Bern</div>
+						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">Room 123, Main Street 44, 3012 Bern</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 il-item-property-name"></div>
-						<div class="col-sm-7 il-item-property-value"></div>
+						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"></div>
 					</div>
 				</div>
 			</div>
@@ -271,14 +271,13 @@ EOT;
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 il-item-property-name">test</div>
-						<div class="col-sm-7 il-item-property-value"><button class="btn btn-link" data-action="https://www.github.com" id="id_1"  >GitHub</button>
-</div>
+						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_1"  >GitHub</button></div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 il-item-property-name"></div>
-						<div class="col-sm-7 il-item-property-value"></div>
+						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"></div>
 					</div>
 				</div>
 			</div>
