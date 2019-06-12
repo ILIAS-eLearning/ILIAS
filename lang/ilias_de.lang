@@ -11224,6 +11224,7 @@ prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender 
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
 prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
+prg#:#no_manual_status#:#Kein manueller Status
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
