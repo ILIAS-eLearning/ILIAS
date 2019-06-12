@@ -144,9 +144,9 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject, string $certificatePath)
+    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
     {
-        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject, $certificatePath);
+        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
         $objectLearningProgressSettings = new ilLPObjSettings($this->object->getId());
 

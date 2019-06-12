@@ -84,9 +84,9 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject, string $certificatePath)
+    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
     {
-        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject, $certificatePath);
+        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
         $short_name = new ilTextInputGUI($this->language->txt('certificate_short_name'), 'short_name');
         $short_name->setRequired(true);

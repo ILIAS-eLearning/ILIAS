@@ -57,6 +57,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private $templateRepository;
 
     /**
+     * @var string
+     */
+    private $certificatePath;
+
+    /**
      * @param integer $objectId
      * @param string $certificatePath
      * @param ilLanguage $language
@@ -92,6 +97,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->access                       = $access;
         $this->toolbar                      = $toolbar;
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
+        $this->certificatePath              = $certificatePath;
 
         $database                           = $DIC->database();
 
@@ -141,8 +147,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      */
     public function createForm(
         ilCertificateGUI $certificateGUI,
-        ilCertificate $certificateObject,
-        string $certificatePath
+        ilCertificate $certificateObject
     ) {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -383,9 +388,9 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @param string $certificatePath
      * @return string The filesystem path of the background image thumbnail
      */
-    private function getBackgroundImageThumbPath(string $certificatePath)
+    private function getBackgroundImageThumbPath()
     {
-        return CLIENT_WEB_DIR . $certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
+        return CLIENT_WEB_DIR . $this->certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
     }
 
     /**

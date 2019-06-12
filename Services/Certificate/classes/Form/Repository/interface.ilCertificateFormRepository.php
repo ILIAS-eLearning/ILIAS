@@ -11,7 +11,7 @@ interface ilCertificateFormRepository
      * @param ilCertificate $certificateObject
      * @return ilPropertyFormGUI
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject, string $certificatePath);
+    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject);
 
     /**
      * @param array $formFields
