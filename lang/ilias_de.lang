@@ -15885,3 +15885,16 @@ prg#:#no_manual_status#:#Kein manueller Status
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
+prg#:#edit_participants#:#Mitglieder bearbeiten
+prg#:#auto_memberships#:#Automatische Zuweisung
+prg#:#orgu#:#Organisationseinheit
+prg#:#rol#:#Rolle
+prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
+prg#:#add_automembership_source#:#Automatismus hinzufügen
+prg#:#auto_membership_src_type#:#Typ
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
+prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Quelle
+prg#:#prg_autoassignment#:#(automatisch)

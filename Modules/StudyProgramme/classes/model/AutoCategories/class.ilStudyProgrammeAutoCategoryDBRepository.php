@@ -60,6 +60,9 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
 		return $ret;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function create(
 		int $prg_obj_id,
 		int $category_ref_id,
