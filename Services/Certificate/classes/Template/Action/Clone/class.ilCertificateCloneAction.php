@@ -113,7 +113,7 @@ class ilCertificateCloneAction
             $backgroundImageThumbnail = dirname($backgroundImagePath) . '/background.jpg.thumb.jpg';
 
             $newBackgroundImage = $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
-            $newBackgroundImageThumbnail = str_replace($webDir, '', $newCertificate->getBackgroundImageThumbPath());
+            $newBackgroundImageThumbnail = str_replace($webDir, '', $this->getBackgroundImageThumbPath());
 
             if ($this->fileSystem->has($backgroundImagePath)) {
                 if ($this->fileSystem->has($newBackgroundImage)) {
@@ -174,5 +174,25 @@ class ilCertificateCloneAction
         $query = $this->database->query($sql);
 
         return $this->database->numRows($query);
+    }
+
+    /**
+     * Returns the filename of the background image
+     *
+     * @return string The filename of the background image
+     */
+    private function getBackgroundImageName()
+    {
+        return "background.jpg";
+    }
+
+    /**
+     * Returns the filesystem path of the background image thumbnail
+     *
+     * @return string The filesystem path of the background image thumbnail
+     */
+    private function getBackgroundImageThumbPath()
+    {
+        return CLIENT_WEB_DIR . $this->certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
     }
 }

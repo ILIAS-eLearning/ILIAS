@@ -170,26 +170,6 @@ class ilCertificate
     }
 
     /**
-    * Returns the filename of the background image
-    *
-    * @return string The filename of the background image
-    */
-    public function getBackgroundImageName()
-    {
-        return "background.jpg";
-    }
-
-    /**
-    * Returns the filesystem path of the background image thumbnail
-    *
-    * @return string The filesystem path of the background image thumbnail
-    */
-    public function getBackgroundImageThumbPath()
-    {
-        return CLIENT_WEB_DIR . $this->certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
-    }
-
-    /**
     * Checks the status of the certificate
     *
     * @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
