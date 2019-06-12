@@ -1,11 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Application\UserInterface\Web\Form;
-//chdir("../../");
-require_once "libs/composer/vendor/autoload.php";
-require_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-require_once "Services/AssessmentQuestion/src/Application/UserInterface/Web/Controller/CreateQuestion.php";
-
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 use \ilPropertyFormGUI;
 use \ilTextInputGUI;
 
@@ -28,7 +23,6 @@ class CreateQuestionFormGUI extends ilPropertyFormGUI {
 	private function initForm() {
 		global $DIC;
 
-		$this->setFormAction($DIC->ctrl()->getFormActionByClass(CreateQuestion::class));
 		$title = new ilTextInputGUI('title', 'title');
 		$this->addCommandButton('create', '');
 		$this->addCommandButton('cancel','');
