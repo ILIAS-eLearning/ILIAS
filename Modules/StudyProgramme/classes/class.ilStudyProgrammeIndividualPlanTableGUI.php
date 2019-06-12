@@ -19,6 +19,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	const SEL_COLUMN_DEADLINE = "prg_deadline";
 	const SEL_COLUMN_ASSIGNMENT_DATE = "assignment_date";
 
+
 	protected $assignment;
 	/**
 	 * @var ilStudyProgrammeUserProgressDB
@@ -183,12 +184,16 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	}
 
 	protected function getManualStatusSelect($a_progress_id, $a_status) {
-		if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
-			return "";
-		}
-
 		$parent = $this->getParentObject();
 		$status_title = $parent->getManualStatusPostVarTitle();
+		if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+			$inv_select = new ilNonEditableValueGUI("", $status_title."[$a_progress_id]");
+			$inv_select->setValue($this->lng->txt('no_manual_status'));
+			return $inv_select->render();
+		}
+
+
+
 		$manual_status_none = $parent->getManualStatusNone();
 		$manual_status_not_relevant = $parent->getManualStatusNotRelevant();
 		$manual_status_accredited = $parent->getManualStatusAccredited();

@@ -15881,3 +15881,4 @@ common#:#obj_prgrs#:#Links zu Studienprogrammen
 prg#:#prgr_new#:#Neuer Link zum Studienprogramm
 prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
+prg#:#no_manual_status#:#Kein manueller Status
