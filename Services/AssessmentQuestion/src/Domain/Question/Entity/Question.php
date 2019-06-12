@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
 use ilException;
 use ILIAS\Data\Domain\AggregateRoot;
 use ILIAS\Data\Domain\DomainEvent;
+use ILIAS\Data\Domain\IsEventSourced;
 use ILIAS\Messaging\Example\ExampleCourse\Command\Events\CourseMemberWasAdded;
 use ILIAS\Data\Domain\RecordsEvents;
 use ILIAS\Data\Domain\AggregateHistory;
@@ -12,12 +13,10 @@ use ILIAS\Data\Domain\DomainEvents;
 use ILIAS\Data\Domain\IdentifiesAggregate;
 use ILIAS\AssessmentQuestion\Domainmodel\Event\QuestionWasCreated;
 
-class Question implements AggregateRoot {
+class Question extends AggregateRoot implements isEventSourced {
 
 	const STATE_DRAFT = 10;
-
-	/** @var DomainEvent[] */
-	private $recorded_events = [];
+	
 	/**
 	 * @var IdentifiesAggregate
 	 */
@@ -108,22 +107,6 @@ class Question implements AggregateRoot {
 
 	protected static function createInstanceForGivenHistory(AggregateHistory $aggregate_history) {
 		return new static($aggregate_history->getAggregateId(), array());
-	}
-
-
-	public function getRecordedEvents(): DomainEvents {
-		return new DomainEvents($this->recorded_events);
-	}
-
-
-	public function clearRecordedEvents(): void {
-		$this->recorded_events = [];
-	}
-
-
-	protected function recordThat(DomainEvent $domainEvent): void {
-		$this->recorded_events[] = $domainEvent;
-		$this->apply($domainEvent);
 	}
 
 
