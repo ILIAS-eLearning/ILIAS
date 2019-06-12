@@ -254,7 +254,7 @@ class ilAuthUtils
 				break;	
 		}
 	}
-	
+
 	public static function _getAuthModeName($a_auth_key)
 	{
 		global $ilias;
@@ -835,13 +835,14 @@ class ilAuthUtils
 		return $pl_objs;
 	}
 	// end-patch auth_plugins
-	
+
 	/**
 	 * @param string $a_auth_key
+	 * @param string $auth_name
 	 *
 	 * @return string
 	 */
-	public static function getAuthModeTranslation($a_auth_key)
+	public static function getAuthModeTranslation($a_auth_key, $auth_name = "")
 	{
 		global $lng;
 		
@@ -866,7 +867,11 @@ class ilAuthUtils
 				return $idp->getEntityId();
 
 			default:
-				return $lng->txt('auth_'.self::_getAuthModeName($a_auth_key));
+				if (!empty($auth_name)) {
+					return $lng->txt('auth_' . $auth_name);
+				} else {
+					return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
+				}
 		}
 	}
 }
