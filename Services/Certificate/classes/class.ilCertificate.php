@@ -220,23 +220,6 @@ class ilCertificate
     }
 
     /**
-    * Returns the web path of the background image
-    *
-    * @return string The web path of the background image
-    */
-    public function getBackgroundImagePathWeb()
-    {
-        // TODO: this is generic now -> provide better solution
-        $webdir = $this->certificatePath . $this->getBackgroundImageName();
-
-        return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            $webdir
-        );
-    }
-
-    /**
     * Deletes the background image of a certificate
     *
     * @return boolean TRUE if the process succeeds
