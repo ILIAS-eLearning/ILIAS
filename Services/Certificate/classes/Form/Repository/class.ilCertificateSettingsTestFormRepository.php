@@ -74,10 +74,9 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
      */
     public function createForm(
         ilCertificateGUI $certificateGUI,
-        ilCertificate $certificateObject,
-        string $certificatePath
+        ilCertificate $certificateObject
     ) {
-        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject, $certificatePath);
+        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
         return $form;
     }
