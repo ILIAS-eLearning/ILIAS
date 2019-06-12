@@ -190,40 +190,6 @@ class ilCertificate
     }
 
     /**
-    * Returns the filesystem path of the background image temp file during upload
-    *
-    * @return string The filesystem path of the background image temp file
-    */
-    public function getBackgroundImageTempfilePath()
-    {
-        return CLIENT_WEB_DIR . $this->certificatePath . "background_upload.tmp";
-    }
-
-    /**
-    * Deletes the background image of a certificate
-    *
-    * @return boolean TRUE if the process succeeds
-    */
-    public function deleteBackgroundImage($version)
-    {
-        $result = true;
-        if (file_exists($this->getBackgroundImageThumbPath())) {
-            $result = $result & unlink($this->getBackgroundImageThumbPath());
-        }
-
-        $filename = $this->getBackgroundImageDirectory() . 'background_' . $version . '.jpg';
-        if (file_exists($filename)) {
-            $result = $result & unlink($filename);
-        }
-
-        if (file_exists($this->getBackgroundImageTempfilePath())) {
-            $result = $result & unlink($this->getBackgroundImageTempfilePath());
-        }
-
-        return $result;
-    }
-
-    /**
     * Checks the status of the certificate
     *
     * @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
@@ -239,16 +205,6 @@ class ilCertificate
         }
 
         return false;
-    }
-
-    /**
-    * Gets the adapter
-    *
-    * @return ilCertificateAdapter Adapter
-    */
-    public function getAdapter()
-    {
-        return $this->adapter;
     }
 
     /***************************************
