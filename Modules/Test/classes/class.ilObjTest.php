@@ -10928,11 +10928,14 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->canShowTestResults($testSession))
 		{
-			$factory = new ilCertificateFactory(new ilCertificatePathFactory());
+			$isComplete = false;
+			$userCertificateRepository = new ilUserCertificateRepository($this->db, $this->log);
+			try {
+				$userCertificateRepository->fetchActiveCertificate($user_id, $this->getId());
+				$isComplete = true;
+			} catch (ilException $e) {}
 
-			$cert = $factory->create($this);
-
-			if ($cert->isComplete())
+			if ($isComplete)
 			{
 				$vis = $this->getCertificateVisibility();
 				$showcert = FALSE;
