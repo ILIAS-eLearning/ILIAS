@@ -129,7 +129,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate $certificateObject
+     * @param ilCertificate    $certificateObject
+     * @param string           $certificatePath
      * @return ilPropertyFormGUI
      * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
@@ -138,8 +139,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
-    {
+    public function createForm(
+        ilCertificateGUI $certificateGUI,
+        ilCertificate $certificateObject,
+        string $certificatePath
+    ) {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
         $command = $this->controller->getCmd();
@@ -224,7 +228,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         } else {
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
 
-            $thumbnailPath = $certificateObject->getBackgroundImageThumbPath();
+            $thumbnailPath = $this->getBackgroundImageThumbPath($certificatePath);
 
             if (!file_exists($thumbnailPath)) {
                 $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
@@ -355,7 +359,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
      * @throws ilException
      */
-    public function hasBackgroundImage()
+    private function hasBackgroundImage()
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -372,5 +376,25 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns the filesystem path of the background image thumbnail
+     * @param string $certificatePath
+     * @return string The filesystem path of the background image thumbnail
+     */
+    private function getBackgroundImageThumbPath(string $certificatePath)
+    {
+        return CLIENT_WEB_DIR . $certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
+    }
+
+    /**
+     * Returns the filename of the background image
+     *
+     * @return string The filename of the background image
+     */
+    private function getBackgroundImageName()
+    {
+        return "background.jpg";
     }
 }

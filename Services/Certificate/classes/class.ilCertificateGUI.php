@@ -436,7 +436,8 @@ class ilCertificateGUI
 
         $form = $this->settingsFormFactory->createForm(
             $this,
-            $this->certifcateObject
+            $this->certifcateObject,
+            $this->certificatePath
         );
 
         $form->setValuesByPost();
@@ -473,7 +474,8 @@ class ilCertificateGUI
 
         $form = $this->settingsFormFactory->createForm(
             $this,
-            $this->certifcateObject
+            $this->certifcateObject,
+            $this->certificatePath
         );
 
         $formFields = $this->createFormatArray($certificateTemplate);
