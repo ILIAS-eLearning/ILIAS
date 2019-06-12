@@ -1124,16 +1124,11 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			else
 			{
-				if ($auth_key >= 100) {
-					// TODO: Workaround fix plugins
-					$name = $this->lng->txt('auth_'.$auth_name);
-				} else {
-					// begin-patch ldap_multiple
-					#$name = $this->lng->txt('auth_'.$auth_name);
-					include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-					$name = ilAuthUtils::getAuthModeTranslation($auth_key);
-					// end-patch ldap_multiple
-				}
+				// begin-patch ldap_multiple
+				#$name = $this->lng->txt('auth_'.$auth_name);
+				include_once './Services/Authentication/classes/class.ilAuthUtils.php';
+				$name = ilAuthUtils::getAuthModeTranslation($auth_key, $auth_name);
+				// end-patch ldap_multiple
 			}
 			$option[$auth_name] = $name;
 		}
