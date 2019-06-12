@@ -882,7 +882,7 @@ class ilAuthUtils
 		return $pl_objs;
 	}
 	// end-patch auth_plugins
-	
+
 	/**
 	 * @param string $a_auth_key
 	 * @param string $auth_name
