@@ -179,7 +179,8 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 		}
 		
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if (ilCertificate::isActive())
+		$validator = new ilCertificateActiveValidator()
+		if (true === $validator->validate())
 		{
 			$obj_active = ilCertificate::areObjectsActive($a_obj_ids);
 		
