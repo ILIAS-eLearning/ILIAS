@@ -58,6 +58,73 @@ class ilStudyProgrammeAppEventListener {
 						break;
 				}
 				break;
+
+			case "Modules/Course":
+				switch ($a_event) {
+					case "addParticipant":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+							$a_parameter
+						);
+						break;
+					case "deleteParticipant":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+			case "Modules/Group":
+				switch ($a_event) {
+					case "addParticipant":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_GROUP,
+							$a_parameter
+						);
+						break;
+					case "deleteParticipant":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_GROUP,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+			case "Services/AccessControl":
+				switch ($a_event) {
+					case "assignUser":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ROLE ,
+							$a_parameter
+						);
+						break;
+					case "deassignUser":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ROLE,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+			case "Modules/OrgUnit":
+				switch ($a_event) {
+					case "assignUserToPosition":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
+							$a_parameter
+						);
+						break;
+					case "deassignUserFromPosition":
+					//case "delete":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+
 			default:
 				throw new ilException("ilStudyProgrammeAppEventListener::handleEvent: "
 									 ."Won't handle events of '$a_component'.");
@@ -173,6 +240,28 @@ class ilStudyProgrammeAppEventListener {
 	private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id)
 	{
 		ilObjStudyProgramme::removeCrsFromProgrammes($crs_ref_id, $cat_ref_id);
+	}
+
+	private static function addMemberToProgrammes(string $src_type, array $params)
+	{
+		$usr_id = $params['usr_id'];
+		$obj_id = $params['obj_id'];
+		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
+			$obj_id = $params['role_id'];
+		}
+
+		ilObjStudyProgramme::addMemberToProgrammes($src_type, $obj_id, $usr_id);
+	}
+
+	private static function removeMemberFromProgrammes(string $src_type, array $params)
+	{
+		$usr_id = $params['usr_id'];
+		$obj_id = $params['obj_id'];
+		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
+			$obj_id = $params['role_id'];
+		}
+
+		ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $obj_id, $usr_id);
 	}
 
 }

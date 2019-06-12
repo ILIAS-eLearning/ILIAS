@@ -9,13 +9,11 @@ declare(strict_types=1);
  */
 class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 {
-
 	public function __construct(
 		$a_parent_obj,
 		$a_parent_cmd="",
 		$a_template_context=""
 	) {
-
 		$this->setId("sp_ac_list");
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
@@ -39,10 +37,10 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 		$this->setSelectAllCheckbox(ilObjStudyProgrammeAutoCategoriesGUI::CHECKBOX_CATEGORY_REF_IDS.'[]');
 		$this->setEnableAllCommand(true);
 		$this->addMultiCommand('delete', $this->lng->txt('delete'));
-
 	}
 
-	protected function fillRow($set) {
+	protected function fillRow($set)
+	{
 		list($ac, $title, $usr, $actions) = $set;
 		$username = ilObjUser::_lookupName($ac->getLastEditorId());
 		$editor = implode(' ', [

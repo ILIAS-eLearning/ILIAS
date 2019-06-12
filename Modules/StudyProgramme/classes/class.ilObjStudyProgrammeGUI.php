@@ -27,6 +27,7 @@ require_once("./Services/Repository/classes/class.ilRepUtil.php");
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
@@ -100,6 +101,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	protected $members_gui;
 
 	/**
+	 * @var ilObjStudyProgrammeAutoMembershipsGUI
+	 */
+	protected $memberships_gui;
+
+	/**
 	 * @var ilObjStudyProgrammeTreeGUI
 	 */
 	protected $tree_gui;
@@ -152,6 +158,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		$this->settings_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeSettingsGUI'];
 		$this->members_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
+		$this->memberships_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoMembershipsGUI'];
 		$this->tree_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeTreeGUI'];
 		$this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
 		$this->autocategories_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoCategoriesGUI'];
@@ -235,11 +242,31 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				break;*/
 			case "ilobjstudyprogrammemembersgui":
 				$this->denyAccessIfNot("manage_members");
+				$this->getSubTabs('members');
+
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+				$this->tabs_gui->setSubTabActive('edit_participants');
+
 				$this->members_gui->setParentGUI($this);
 				$this->members_gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($this->members_gui);
+
 				break;
+
+			case "ilobjstudyprogrammeautomembershipsgui":
+				$this->denyAccessIfNot("manage_members");
+				$this->getSubTabs('members');
+
+				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+				$this->tabs_gui->setSubTabActive('auto_memberships');
+
+				$this->memberships_gui->setParentGUI($this);
+				$this->memberships_gui->setRefId($this->ref_id);
+				$this->ctrl->forwardCommand($this->memberships_gui);
+
+				break;
+
+
 			case "ilobjstudyprogrammetreegui":
 				$this->denyAccessIfNot("write");
 
@@ -680,6 +707,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						"", "ilcertificategui");
 				}
 				break;
+
+			case 'members':
+				$this->tabs_gui->addSubTab('edit_participants', $this->lng->txt('edit_participants'), $this->getLinkTarget('members'));
+				$this->tabs_gui->addSubTab('auto_memberships', $this->lng->txt('auto_memberships'), $this->getLinkTarget('memberships'));
+				break;
 		}
 
 	}
@@ -716,6 +748,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		}
 		if ($a_cmd == "members") {
 			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammemembersgui", "view");
+		}
+		if ($a_cmd == "memberships") {
+			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammeautomembershipsgui", "view");
 		}
 		if($a_cmd == "subtypes") {
 			return $this->ctrl->getLinkTargetByClass("ilstudyprogrammetypegui", "listTypes");
