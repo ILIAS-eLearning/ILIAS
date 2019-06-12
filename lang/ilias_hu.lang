@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.4.x 2019-04-28
+* @version	5.4.x 2019-06-12
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -6503,6 +6503,8 @@ news#:#news_x_postings#:#%s új hozzászólás érkezett.
 news#:#passwd_equals_ilpasswd#:#Adjon meg egy, az ILIAS-jelszavától különböző jelszót!
 news#:#priv_feed_disabled#:#Személyes hírforrás letiltva.
 news#:#priv_feed_settings#:#Személyes hírforrás beállításai
+news#:#lso_news_online_title#:#A tanulási sorban egy új online objektum!
+news#:#lso_news_online_txt#:#A tanulási sorban egy új objektumot tettek elérhetővé.
 notes#:#notes_activate_comments#:#Nyilvános megjegyzések engedélyezése
 notes#:#notes_add_comment#:#Megjegyzés létrehozása
 notes#:#notes_all_comments#:#Összes megjegyzés
@@ -11754,7 +11756,7 @@ rbac#:#il_orgu_employee#:#Szervezeti egység beosztottja
 rbac#:#il_orgu_superior#:#Szervezeti egység felettese
 obj#:#obj_tool_setting_info_tab_info#:#Az 'Információ' fül látszódjon.
 common#:#obj_tool_setting_news_info#:#'Hír' blokk megjelenik a 'Tartalom' fül alatt.
-common#:#obj_tool_setting_calendar_info#:#'Naptár' blokk megjelenik a 'Tartalom' fül alatt.
+common#:#obj_tool_setting_calendar_info#:#Egy naptár elérhető és a 'Naptár' blokk megjelenik a 'Tartalom' fül alatt.
 obj#:#obj_presentation#:#Megjelenítés
 mcst#:#mcst_webfeed#:#RSS Web hírcsatorna
 news#:#news_news_item_def_visibility_users_info#:#Csak hitelesített felhasználóknak van hozzáférése az aktuális hírekhez.
@@ -14963,7 +14965,7 @@ crs#:#crs_lobj_pm_score#:#Eredményei
 crs#:#crs_lobj_pm_min_goal#:#Elvárt pontszám
 dateplaner#:#back_to_crs#:#Ugrás a kurzushoz
 dateplaner#:#back_to_grp#:#Ugrás a csoporthoz
-dateplaner#:#back_to_pd#:#Vissza a Munkaasztalhoz
+dateplaner#:#back_to_pd#:#Vissza
 common#:#il_lso_admin#:#Tanulás sor vezetője
 common#:#il_lso_member#:#Tanulási sor tagja
 lso#:#entries_updated#:#A bejegyzéseket sikeresen mentette
@@ -15042,6 +15044,4 @@ content#:#cont_Background#:#Háttér
 dateplaner#:#cal_usr_info#:#Kinevezési információk
 certificate#:#certificate_learning_progress_must_be_active#:#Csak tanulási haladású objektumok választhatóak ki. A tanulási haladás ki van kapcsolva a következő objektumoknál: %s
 certificate#:#learning_progress_deactivated#:#A tanulási haladás ki van kapcsolva ennél az objektumnál. Az igazolássablon módosításához és a felhasználók igazolásának legeneráláshoz be kell kapcsolni.
-news#:#lso_news_online_title#:#A new learning sequence object is online!###09 05 2019 new variable
-news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###09 05 2019 new variable
-content#:#msg_no_page_access#:#You do not have the permission to access this page.###06 06 2019 new variable
+content#:#msg_no_page_access#:#Nincs jogosultsága az oldal eléréséhez.
