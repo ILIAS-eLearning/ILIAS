@@ -265,7 +265,7 @@ class ilAuthUtils
 				break;	
 		}
 	}
-
+	
 	public static function _getAuthModeName($a_auth_key)
 	{
 		global $DIC;
