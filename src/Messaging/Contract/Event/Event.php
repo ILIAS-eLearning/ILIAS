@@ -14,6 +14,6 @@ namespace ILIAS\Messaging\Contract\Command;
  *
  * Commands are handled by exactly one CommandHandler
  */
-interface Command {
+interface Event {
 
 }

@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\Messaging\Example\ExampleAsq\Infrastructure\Persistence;
+namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence;
 
 use ILIAS\AssessmentQuestion\Example\Config\SQLiteDB;
 use ILIAS\Data\Domain\AggregateHistory;

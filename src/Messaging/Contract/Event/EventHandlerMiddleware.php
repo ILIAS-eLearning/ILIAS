@@ -1,10 +1,10 @@
 <?php
 /* Copyright (c) 2019 - Martin Studer <ms@studer-raimann.ch> - Extended GPL, see LICENSE */
 
-namespace ILIAS\Messaging\Contract\Command;
+namespace ILIAS\Messaging\Contract\Event;
 
 
-interface CommandHandlerMiddleware {
+interface EventHandlerMiddleware {
 	/**
 	 * A middleware may run things before or after handling a command
 	 *

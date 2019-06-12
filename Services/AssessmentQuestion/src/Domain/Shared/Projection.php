@@ -1,5 +1,5 @@
 <?php
-namespace  ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Common;
+namespace  ILIAS\AssessmentQuestion\Domainmodel\Common;
 use ILIAS\Data\Domain\DomainEvents;
 interface Projection
 {

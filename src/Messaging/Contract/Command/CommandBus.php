@@ -3,7 +3,7 @@
 
 namespace ILIAS\Messaging\Contract\Command;
 
-use ILIAS\Messaging\Contract\Handler\CommandHandlerMiddleware as CommandHandlerMiddlewareContract;
+use ILIAS\Messaging\Contract\Command\CommandHandlerMiddleware as CommandHandlerMiddlewareContract;
 
 /**
  * Interface CommandBus

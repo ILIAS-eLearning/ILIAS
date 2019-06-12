@@ -35,6 +35,9 @@ class ilTestTabsManager
 	const SUBTAB_ID_HIGHSCORE = 'highscore';
 	const SUBTAB_ID_SKILL_RESULTS = 'skillresults';
 	const SUBTAB_ID_MY_SOLUTIONS = 'mysolutions';
+
+	//TODO to remove
+	const DEMO_TAB_ID = 'asq';
 	
 	/**
 	 * @var ilTabsGUI
@@ -103,6 +106,8 @@ class ilTestTabsManager
 		$this->tabs = $DIC['ilTabs'];
 		$this->access = $DIC['ilAccess'];
 		$this->lng = $DIC['lng'];
+
+		$this->tabs->addTab(self::DEMO_TAB_ID,'DEMO','/Services/AssessmentQuestion/');
 	}
 	
 	/**
@@ -752,7 +757,7 @@ class ilTestTabsManager
 	public function getQuestionsSubTabs()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
+
 		$this->tabs->activateTab('assQuestions');
 		$a_cmd = $DIC->ctrl()->getCmd();
 		

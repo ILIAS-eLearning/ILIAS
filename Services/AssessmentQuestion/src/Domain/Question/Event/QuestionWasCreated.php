@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Event;
+namespace ILIAS\AssessmentQuestion\Domainmodel\Event;
 
 use ILIAS\Data\Domain\DomainEvent;
 use ILIAS\Data\Domain\IdentifiesAggregate;

@@ -7,6 +7,9 @@
 		"optimize-autoloader": true
 	},
 	"require": {
+		"psr/http-message": "^1.7.2",
+		"php-di/php-di": "^6.0.2",
+		"php-di/slim-bridge": "^2.0.0",
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.23.0",

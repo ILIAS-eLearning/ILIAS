@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\Messaging\Example\ExampleAsq\Infrastructure\Persistence;
+namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence;
 use ILIAS\Data\Domain\DomainEvents;
 use ILIAS\Data\Domain\IdentifiesAggregate;
 use ILIAS\Data\Domain\AggregateHistory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Question;
+namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
 
 use ilException;
 use ILIAS\Data\Domain\AggregateRoot;
@@ -10,7 +10,7 @@ use ILIAS\Data\Domain\RecordsEvents;
 use ILIAS\Data\Domain\AggregateHistory;
 use ILIAS\Data\Domain\DomainEvents;
 use ILIAS\Data\Domain\IdentifiesAggregate;
-use ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Event\QuestionWasCreated;
+use ILIAS\AssessmentQuestion\Domainmodel\Event\QuestionWasCreated;
 
 class Question implements AggregateRoot {
 

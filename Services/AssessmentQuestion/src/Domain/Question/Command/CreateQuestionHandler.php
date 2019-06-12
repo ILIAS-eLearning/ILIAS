@@ -1,9 +1,9 @@
 <?php
 
-namespace ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Question;
+namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
 
-use ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Common\QuestionId;
-use ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Question\QuestionRepository;
+use ILIAS\AssessmentQuestion\Domainmodel\Common\QuestionId;
+use ILIAS\AssessmentQuestion\Domainmodel\Question\QuestionRepository;
 
 class CreateQuestionHandler {
 

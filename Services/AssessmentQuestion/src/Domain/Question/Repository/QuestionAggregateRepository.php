@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Question;
+namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
 
 use ILIAS\Data\Domain\AggregateRepository;
 

@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 2019 - Martin Studer <ms@studer-raimann.ch> - Extended GPL, see LICENSE */
 
-namespace ILIAS\Messaging\Contract\Command;
+namespace ILIAS\Messaging\Contract\Event;
 
-use ILIAS\Messaging\Contract\Handler\CommandHandlerMiddleware as CommandHandlerMiddlewareContract;
+use ILIAS\Messaging\Contract\Event\EventHandlerMiddleware as CommandHandlerMiddlewareContract;
 
 /**
  * Interface CommandBus
@@ -12,7 +12,7 @@ use ILIAS\Messaging\Contract\Handler\CommandHandlerMiddleware as CommandHandlerM
  * and maps a Command to a Command Handler.
  *
  */
-interface CommandBus {
+interface EventBus {
 
 	/**
 	 * @param Command $command

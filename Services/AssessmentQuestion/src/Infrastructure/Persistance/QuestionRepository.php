@@ -1,11 +1,11 @@
 <?php
-namespace  ILIAS\Messaging\Example\ExampleAsq\Infrastructure\Persistence;
+namespace  ILIAS\AssessmentQuestion\Infrastructure\Persistence;
 use ILIAS\Data\Domain\IdentifiesAggregate;
 use ILIAS\Data\Domain\IsEventSourced;
 use ILIAS\Data\Domain\RecordsEvents;
-use ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Question\Question;
-use ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Question\QuestionProjection;
-use ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Question\QuestionAggregateRepositoryRepository;
+use ILIAS\AssessmentQuestion\Domainmodel\Question\Question;
+use ILIAS\AssessmentQuestion\Domainmodel\Question\QuestionProjection;
+use ILIAS\AssessmentQuestion\Domainmodel\Question\QuestionAggregateRepositoryRepository;
 
 class QuestionRepository implements QuestionAggregateRepositoryRepository
 {

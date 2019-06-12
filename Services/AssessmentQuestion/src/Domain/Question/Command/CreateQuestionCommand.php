@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\Messaging\Example\ExampleAsq\Domainmodel\Command;
+namespace ILIAS\AssessmentQuestion\Domainmodel\Command;
 
 class CreateQuestionCommand
 {
