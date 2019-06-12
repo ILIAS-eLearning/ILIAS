@@ -2,10 +2,11 @@
 
 namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
 
+use ILIAS\Messaging\Contract\Command\Command;
+use ILIAS\Messaging\Contract\Command\CommandHandler;
 use ILIAS\AssessmentQuestion\Domainmodel\Common\QuestionId;
-use ILIAS\AssessmentQuestion\Domainmodel\Question\QuestionRepository;
 
-class CreateQuestionHandler {
+class CreateQuestionHandler implements CommandHandler {
 
 	/**
 	 * @var QuestionRepository
@@ -18,7 +19,7 @@ class CreateQuestionHandler {
 	}
 
 
-	public function handle(CreateQuestionCommand $command) {
+	public function handle(Command $command) {
 
 		$question = Question::create(
 			QuestionId::generate(),

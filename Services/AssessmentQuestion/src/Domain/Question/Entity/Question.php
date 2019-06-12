@@ -16,7 +16,7 @@ use ILIAS\AssessmentQuestion\Domainmodel\Event\QuestionWasCreated;
 class Question extends AggregateRoot implements isEventSourced {
 
 	const STATE_DRAFT = 10;
-	
+
 	/**
 	 * @var IdentifiesAggregate
 	 */

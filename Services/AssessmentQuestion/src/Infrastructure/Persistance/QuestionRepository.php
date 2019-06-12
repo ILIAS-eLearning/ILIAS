@@ -5,9 +5,9 @@ use ILIAS\Data\Domain\IsEventSourced;
 use ILIAS\Data\Domain\RecordsEvents;
 use ILIAS\AssessmentQuestion\Domainmodel\Question\Question;
 use ILIAS\AssessmentQuestion\Domainmodel\Question\QuestionProjection;
-use ILIAS\AssessmentQuestion\Domainmodel\Question\QuestionAggregateRepositoryRepository;
+use ILIAS\AssessmentQuestion\Domainmodel\Question\QuestionEventSourcedAggregateRepositoryRepository;
 
-class QuestionRepository implements QuestionAggregateRepositoryRepository
+class QuestionRepository implements QuestionEventSourcedAggregateRepositoryRepository
 {
 	/**
 	 * @var EventStore

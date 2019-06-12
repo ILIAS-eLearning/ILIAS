@@ -1,8 +1,10 @@
 <?php
 namespace ILIAS\AssessmentQuestion\Domainmodel\Command;
 
-class CreateQuestionCommand
-{
+
+use ILIAS\Messaging\Contract\Command\Command;
+
+class CreateQuestionCommand implements Command {
 
 	/**
 	 * @var string
