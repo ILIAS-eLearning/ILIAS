@@ -71,6 +71,21 @@ class ilStudyProgrammeDIC
 				$dic['ilObjStudyProgrammeIndividualPlanGUI']
 			);
 		};
+
+		$dic['ilObjStudyProgrammeMembershipsGUI'] = function($dic) use ($DIC) {
+			return new ilObjStudyProgrammeMembershipsGUI(
+				$DIC['tpl'],
+				$DIC['ilCtrl'],
+				$DIC['ilToolbar'],
+				$DIC['lng'],
+				$DIC['ilUser'],
+				$dic['ilStudyProgrammeUserProgressDB'],
+				$dic['ilStudyProgrammeUserAssignmentDB'],
+				$dic['ilStudyProgrammeRepositorySearchGUI'],
+				$dic['ilObjStudyProgrammeIndividualPlanGUI']
+			);
+		};
+
 		$dic['ilObjStudyProgrammeTreeGUI'] = function($dic) use ($DIC) {
 			return new ilObjStudyProgrammeTreeGUI(
 				$DIC['tpl'],
