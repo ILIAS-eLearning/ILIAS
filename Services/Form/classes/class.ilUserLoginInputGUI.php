@@ -150,7 +150,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
 		$a_tpl->setVariable("SIZE", $this->size);
-		$a_tpl->setVariable("MAXLENGTH", $this->maxlength);
+		$a_tpl->setVariable("MAXLENGTH", $this->max_length);
 		if ($this->getDisabled())
 		{
 			$a_tpl->setVariable("DISABLED",
