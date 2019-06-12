@@ -97,17 +97,52 @@ class ilWebDAVRepositoryHelper
      */
     public function getObjectTitleFromObjId(int $a_obj_id, bool $escape_forbidden_fileextension = false) : string
     {
-        if($escape_forbidden_fileextension && ilObject::_lookupType($a_obj_id))
+        if($escape_forbidden_fileextension && ilObject::_lookupType($a_obj_id) == 'file')
         {
-            $title = ilFileUtils::getValidFilename(ilObject::_lookupTitle($a_obj_id));
+            $title = $this->getFilenameWithSanitizedFileExtension($a_obj_id);
         }
         else
         {
-            $title = ilObject::_lookupTitle($a_obj_id);
+            $title = $this->getRawObjectTitleFromObjId($a_obj_id);
         }
 
-        return $title === NULL ? '' : $title;
+        return is_string($title)? $title : '';
     }
+    /**
+ 	 * Wraps the static call to ilObject::_lookupTitle. This is on one hand necessary to create unit tests. And on the
+ 	 * other hand, it guarantees the return of a string, which ilObject::_lookupTitle() doesn't.
+	 *
+	 * @param int $a_obj_id
+	 * @return string
+	 * @throws ilFileUtilsException
+	 */
+    public function getFilenameWithSanitizedFileExtension(int $a_obj_id) : string
+	{
+		$unescaped_title = $this->getRawObjectTitleFromObjId($a_obj_id);
+
+		try
+		{
+			$escaped_title = ilFileUtils::getValidFilename($unescaped_title);
+		} catch(ilFileUtilsException $e)
+		{
+			$escaped_title = "";
+		}
+
+		return is_string($escaped_title) ? $escaped_title : '';
+	}
+
+	/**
+	 * Wraps the static call to ilObject::_lookupTitle. This is on one hand necessary to create unit tests. And on the
+	 * other hand, it guarantees the return of a string, which ilObject::_lookupTitle() doesn't.
+	 *
+	 * @param int $a_obj_id
+	 * @return string
+	 */
+	protected function getRawObjectTitleFromObjId(int $a_obj_id) : string
+	{
+		$title = ilObject::_lookupTitle($a_obj_id);
+		return is_string($title) ? $title : '';
+	}
 
     /**
      * Just a redirect to the ilObject::_lookupType function
@@ -144,7 +179,7 @@ class ilWebDAVRepositoryHelper
     public function getObjectTypeFromRefId(int $a_ref_id) : string
     {
     	$type = ilObject::_lookupType($a_ref_id, true);
-        return $type === NULL ? '' : $type;
+        return is_string($type) ? $type : '';
     }
 
     /**
