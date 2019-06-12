@@ -15864,3 +15864,4 @@ common#:#obj_prgrs#:#Links to Study Programmes
 prg#:#prgr_new#:#Create Study Programme Link
 prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
+prg#:#no_manual_status#:#No manual status
