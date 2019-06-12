@@ -3,6 +3,8 @@
 
 namespace ILIAS\Messaging\Contract\Command;
 
+use DateTime;
+
 /**
  * Interface for commands.
  *
@@ -14,6 +16,14 @@ namespace ILIAS\Messaging\Contract\Command;
  *
  * Commands are handled by exactly one CommandHandler
  */
-interface Command {
+abstract class Command {
+	/**
+	 * @var int
+	 */
+	protected $creator_id;
 
+	/**
+	 * @var DateTime
+	 */
+	protected $creation_time;
 }

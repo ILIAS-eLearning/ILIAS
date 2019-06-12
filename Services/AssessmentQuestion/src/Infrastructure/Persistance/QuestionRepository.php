@@ -17,7 +17,8 @@ class QuestionRepository implements QuestionAggregateRepositoryRepository
 	 * @var QuestionProjection
 	 */
 	private $projection;
-	public function __construct($event_store, $projection)
+
+	public function __construct()
 	{
 		$this->event_store = $event_store;
 		$this->projection = $projection;

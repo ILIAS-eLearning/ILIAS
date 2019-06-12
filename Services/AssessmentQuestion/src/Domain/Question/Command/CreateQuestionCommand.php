@@ -1,7 +1,10 @@
 <?php
-namespace ILIAS\AssessmentQuestion\Domainmodel\Command;
 
-class CreateQuestionCommand
+namespace ILIAS\AssessmentQuestion\Domain\Question\Command;
+
+use ILIAS\Messaging\Contract\Command\Command;
+
+class CreateQuestionCommand extends Command
 {
 
 	/**
@@ -13,10 +16,11 @@ class CreateQuestionCommand
 	 */
 	private $description;
 
-	public function __construct(string $title,string $description)
+	public function __construct(string $title, string $description, int $creator_id)
 	{
 		$this->title = $title;
 		$this->description = $description;
+		$this->creator_id = $creator_id;
 	}
 
 	/**

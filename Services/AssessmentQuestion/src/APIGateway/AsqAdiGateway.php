@@ -2,6 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\APIGateway;
 
+use ILIAS\AssessmentQuestion\Domain\Question\Command\CreateQuestionCommand;
+use ILIAS\AssessmentQuestion\Infrastructure\QuestionDIC;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\CreateQuestionFormGUI;
 
 class AsqAdiGateway {
@@ -11,6 +13,11 @@ class AsqAdiGateway {
 	}
 
 	public static function CreateQuestion(string $title, string $description, int $creator_id) : CreateQuestionResult {
+		/** @var QuestionDIC $dic */
+		$dic = QuestionDIC::getInstance();
+
+		$dic->getCommandBus()->handle(new CreateQuestionCommand($title, $description, $creator_id));
+
 		if ($description === 'fail') {
 			return new CreateQuestionResult(
 				false,

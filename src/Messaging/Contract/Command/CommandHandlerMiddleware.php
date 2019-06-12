@@ -5,18 +5,18 @@ namespace ILIAS\Messaging\Contract\Command;
 
 
 interface CommandHandlerMiddleware {
+
 	/**
-	 * A middleware may run things before or after handling a command
+	 * A middleware may run things before handling a command
 	 *
-	 * The provided $next callable should be called whenever a next middleware
-	 * should start handling the command.
-	 * Its only argument should be a Command object
+	 * Its only argument is the current Command object
+	 *
+	 * The return object is a command of the same type
 	 * (usually the same as the originally provided command).
 	 *
 	 * @param Command $command
-	 * @param callable $next
 	 *
-	 * @return void
+	 * @return Command
 	 */
-	public function handle(Command $command, callable $next);
+	public function handle(Command $command) : Command;
 }
