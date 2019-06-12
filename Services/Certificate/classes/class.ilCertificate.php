@@ -224,31 +224,6 @@ class ilCertificate
     }
 
     /**
-     * Checks for the background image of the certificate
-     *
-     * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
-     * @throws ilException
-     */
-    public function hasBackgroundImage()
-    {
-        $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
-
-        $backgroundImagePath = $template->getBackgroundImagePath();
-        if ($backgroundImagePath === '') {
-            return false;
-        }
-
-        $absolutePath = CLIENT_WEB_DIR . $backgroundImagePath;
-        
-        if (file_exists($absolutePath)
-            && (filesize($absolutePath) > 0)
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
     * Checks the status of the certificate
     *
     * @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
