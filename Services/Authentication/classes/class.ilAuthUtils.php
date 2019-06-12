@@ -838,11 +838,10 @@ class ilAuthUtils
 	
 	/**
 	 * @param string $a_auth_key
-	 * @param string $auth_name
 	 *
 	 * @return string
 	 */
-	public static function getAuthModeTranslation($a_auth_key, $auth_name)
+	public static function getAuthModeTranslation($a_auth_key)
 	{
 		global $lng;
 		
@@ -867,7 +866,7 @@ class ilAuthUtils
 				return $idp->getEntityId();
 
 			default:
-				return $lng->txt('auth_'.self::_getAuthModeName($a_auth_key, $auth_name));
+				return $lng->txt('auth_'.self::_getAuthModeName($a_auth_key));
 		}
 	}
 }
