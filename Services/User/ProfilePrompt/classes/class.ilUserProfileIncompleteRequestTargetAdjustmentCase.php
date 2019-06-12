@@ -122,7 +122,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 		{
 			$user_log->debug("Update last prompt date for user :".$this->user->getId());
 			$user_prompt_service = new ilUserProfilePromptService();
-			$user_prompt_service->data()->saveLastUserPrompt($this->user->getId());
+			$user_prompt_service->data()->saveLastUserPrompt((int) $this->user->getId());
 		}
 
 		$_GET['baseClass'] = 'ilpersonaldesktopgui';
