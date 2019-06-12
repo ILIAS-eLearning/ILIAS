@@ -210,16 +210,6 @@ class ilCertificate
     }
 
     /**
-    * Returns the filename of the XSL-FO file
-    *
-    * @return string The filename of the XSL-FO file
-    */
-    public static function _getXSLName()
-    {
-        return "certificate.xml";
-    }
-
-    /**
     * Deletes the background image of a certificate
     *
     * @return boolean TRUE if the process succeeds
