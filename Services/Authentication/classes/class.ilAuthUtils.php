@@ -254,7 +254,7 @@ class ilAuthUtils
 				break;	
 		}
 	}
-
+	
 	public static function _getAuthModeName($a_auth_key)
 	{
 		global $ilias;
@@ -835,7 +835,7 @@ class ilAuthUtils
 		return $pl_objs;
 	}
 	// end-patch auth_plugins
-
+	
 	/**
 	 * @param string $a_auth_key
 	 * @param string $auth_name
