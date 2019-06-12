@@ -164,7 +164,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 	
 	protected function buildAddAnswerAction($data)
 	{
-		$uid = md5($data['answer']);
+		$uid = md5($this->getQuestionIndex().$data['answer']);
 		
 		$modal = $this->buildAddAnswerModalGui($uid, $data);
 	
