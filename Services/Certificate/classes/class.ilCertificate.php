@@ -434,13 +434,4 @@ class ilCertificate
 
         return $all;
     }
-
-    /**
-     * @return int
-     */
-    public function readActive()
-    {
-        $set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
-        return $this->db->numRows($set);
-    }
 }
