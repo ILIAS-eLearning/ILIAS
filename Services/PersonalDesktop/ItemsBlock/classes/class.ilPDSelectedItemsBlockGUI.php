@@ -57,6 +57,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected $user;
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+	/**
 	 * ilPDSelectedItemsBlockGUI constructor.
 	 */
 	public function __construct()
@@ -66,6 +71,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->settings = $DIC->settings();
 		$this->obj_definition = $DIC["objDefinition"];
 		$this->access = $DIC->access();
+		$this->ui = $DIC->ui();
 
 		parent::__construct();
 
@@ -82,6 +88,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$this->initViewSettings();
 	}
+
+	/**
+	 * Is tile view
+	 *
+	 * @return bool
+	 */
+	protected function isTileView()
+	{
+		return true;
+	}
+
 
 	/**
 	 *
@@ -185,6 +202,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function getHTML()
 	{
 		global $DIC;
+
+		if ($this->isTileView())
+		{
+			return $this->getTileHTML();
+		}
 
 		$DIC->database()->useSlave(true);
 
@@ -756,4 +778,206 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}
+
+
+	/**
+	 * Get tile html
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function getTileHTML()
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+		$ilAccess = $this->access;
+		$ilUser = $this->user;
+		$objDefinition = $this->obj_def;
+		$f = $this->ui->factory();
+		$r = $this->ui->renderer();
+
+		$this->tpl = new ilTemplate("tpl.block_tiles.html", true, true, "Services/PersonalDesktop");
+
+		
+		$this->dropdown = array();
+
+		// commands
+		if (count($this->getBlockCommands()) > 0)
+		{
+			$has_block_command = false;
+
+			foreach($this->getBlockCommands() as $command)
+			{
+				// to do see getHTML in ilBlockGUI
+			}
+		}
+
+
+		// fill row for setting details
+		$this->fillDetailRow();
+
+		// header links
+		if(count($this->getHeaderLinks()))
+		{
+			// to do see getHTML in ilBlockGUI
+		}
+
+		require_once 'Services/Object/classes/class.ilObjectActivation.php';
+		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockListGUIFactory.php';
+		$list_factory = new ilPDSelectedItemsBlockListGUIFactory($this);
+
+		$groups = $this->view->getItemGroups();
+
+		foreach ($groups as $group)
+		{
+			$items = $group->getItems();
+			if (count($items) > 0)
+			{
+				$cards = [];
+				foreach ($group->getItems() as $item)
+				{
+					$cards[] = $this->getCard($item, $list_factory);
+				}
+
+				$this->tpl->setCurrentBlock("head");
+				$this->tpl->setVariable("HEAD", $group->getLabel());
+				$this->tpl->parseCurrentBlock();
+
+				$deck = $f->deck($cards)->withNormalCardsSize();
+				$this->tpl->setCurrentBlock("tiles");
+				$this->tpl->setVariable("TILES", $r->render($deck));
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("grouped_tiles");
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+
+
+		if ($ilCtrl->isAsynch())
+		{
+			// return without div wrapper
+			echo $this->tpl->getAsynch();
+		}
+		else
+		{
+			// return incl. wrapping div with id
+			return '<div id="'."block_".$this->getBlockType()."_".$this->block_id.'">'.
+				$this->tpl->get().'</div>';
+		}
+	}
+
+	/**
+	 * Render card
+	 * @param $item
+	 * @param $list_factory
+	 * @return \ILIAS\UI\Component\Card\RepositoryObject|\ILIAS\UI\Component\Card\Standard
+	 */
+	function getCard($item, $list_factory)
+	{
+		global $DIC;
+
+		$f = $DIC->ui()->factory();
+
+		$item_list_gui = $list_factory->byType($item['type']);
+		ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);
+
+		$user = $DIC->user();
+
+		$item_list_gui->initItem($item['ref_id'], $item['obj_id'],
+			$item['title'], $item['description']);
+
+		// actions
+		$item_list_gui->insertCommands();
+		$actions = [];
+		foreach ($item_list_gui->current_selection_list->getItems() as $action_item)
+		{
+			$actions[] =
+				$f->button()->shy($action_item["title"], $action_item["link"]);
+
+		}
+		$dropdown = $f->dropdown()->standard($actions);
+
+		$def_command = $item_list_gui->getDefaultCommand();
+
+		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($item['obj_id']);
+
+		if ($img->exists())
+		{
+			$path = $img->getFullPath();
+		}
+		else
+		{
+			$path = ilUtil::getImagePath("cont_tile/cont_tile_default_".$item['type'].".svg");
+			if (!is_file($path))
+			{
+				$path = ilUtil::getImagePath("cont_tile/cont_tile_default.svg");
+			}
+		}
+
+		$image = $f->image()->responsive($path, "");
+		if ($def_command["link"] != "")	// #24256
+		{
+			$image = $image->withAction($def_command["link"]);
+		}
+
+		// card
+		$title = $item["title"];
+
+		if ($item["type"] == "sess" && $item["title"] == "")
+		{
+			$app_info = ilSessionAppointment::_lookupAppointment($item['obj_id']);
+			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+		}
+
+		$icon = $f->icon()->standard($item["type"], $this->lng->txt("obj_".$item["type"]))
+			->withIsOutlined(true);
+		$card = $f->card()->repositoryObject(
+			$title."<span data-list-item-id='".$item_list_gui->getUniqueItemId(true)."'></span>",
+			$image
+		)->withObjectIcon(
+			$icon
+		)->withActions($dropdown
+		);
+
+		if ($def_command["link"] != "")	// #24256
+		{
+			$card = $card->withTitleAction($def_command["link"]);
+		}
+
+		// properties
+		$l = [];
+		foreach ($item_list_gui->determineProperties() as $p)
+		{
+			if ($p["property"] != $this->lng->txt("learning_progress"))
+			{
+				$l[(string) $p["property"]] = (string) $p["value"];
+			}
+		}
+		if (count($l) > 0)
+		{
+			$prop_list = $f->listing()->descriptive($l);
+			$card = $card->withSections([$prop_list]);
+		}
+
+		// learning progress
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		$lp = ilLPStatus::getListGUIStatus($item["obj_id"], false);
+		if ($lp)
+		{
+			$percentage = (int) ilLPStatus::_lookupPercentage($item["obj_id"], $user->getId());
+			if ($lp["status"] == ilLPStatus::LP_STATUS_COMPLETED_NUM)
+			{
+				$percentage = 100;
+			}
+			//var_dump(ilLPStatus::_lookupPercentage($a_item_data["obj_id"], $user->getId())); exit;
+			$progressmeter = $f->chart()->progressMeter()->mini(100, $percentage);
+			$card = $card->withProgress($progressmeter);
+		}
+
+		return $card;
+	}
+
+
 }
