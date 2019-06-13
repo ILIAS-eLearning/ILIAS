@@ -101,9 +101,6 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Datensatz
 cont#:#cont_filter_field#:#Feld
 cont#:#cont_filter_fields#:#Filterfelder
-cont#:#cont_show_more#:#Mehr anzeigen
-cont#:#cont_block_limit#:#Einträge per Block begrenzen
-cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 sess#:#notification#:#Benachrichtigung
 sess#:#sess_registration_notification#:#Benachrichtigung
 sess#:#sess_registration_notification_info#:#Zeigt im Tab 'Sitzungsteilnehmer verwalten' eine Spalte an, um Benutzer auszuwählen, die über neue oder ausscheidende Teilnehmer benachrichtigt werden.
@@ -3678,14 +3675,6 @@ common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
-common#:#obj_tool_setting_calendar#:#Kalender
-common#:#obj_tool_setting_calendar_info#:#Der Kalender ist aktiviert und der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
-common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
-common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
-common#:#obj_tool_setting_news#:#Neuigkeiten
-common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
-common#:#obj_tos#:#Nutzungsvereinbarungen
-common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
 common#:#obj_trac_desc#:#Statistik- und Lernfortschrittseinstellungen und Übersicht
 common#:#obj_tst#:#Test
@@ -6189,10 +6178,7 @@ exc#:#exc_reminder_mail_template#:#Mail-Vorlage
 exc#:#exc_reminder_peer_body#:#Zur folgenden Übungseinheit fehlen noch Rückmeldungen
 exc#:#exc_reminder_peer_subject#:#Zur Übungseinheit "%s" fehlen Rückmeldungen
 exc#:#exc_reminder_salutation#:#Hallo %s,
-exc#:#exc_reminder_start#:#Start vor Abgabetermin
-exc#:#exc_reminder_start_info#:#Alle Mitglieder der übergeordneten Gruppe oder des übergeordneten Kurses werden benachrichtigt.<br>Ohne Kurs oder Gruppe wird niemand benachrichtigt.
 exc#:#exc_reminder_submit_body#:#die folgenden Übungseinheiten wurden von Ihnen noch nicht abgegeben
-exc#:#exc_reminder_submit_setting#:#Teilnehmer an Abgaben erinnern
 exc#:#exc_reminder_submit_subject#:#Übungseinheit "%s" wurde noch nicht abgegeben
 exc#:#exc_reminders_cron#:#Erinnerungen für Übungseinheiten
 exc#:#exc_reminders_cron_info#:#Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks
