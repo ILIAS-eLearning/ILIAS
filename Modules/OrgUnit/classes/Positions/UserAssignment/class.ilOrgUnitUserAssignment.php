@@ -29,7 +29,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord {
 	/**
 	 * @var int
 	 *
-	 * @con_has_field true
+	 * @con_has_field  true
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
@@ -50,31 +50,6 @@ class ilOrgUnitUserAssignment extends \ActiveRecord {
 	 * @con_length     8
 	 */
 	protected $orgu_id = 0;
-
-
-	/**
-	 * @param $user_id
-	 * @param $position_id
-	 * @param $orgu_id
-	 *
-	 * @return \ilOrgUnitUserAssignment
-	 */
-	public static function findOrCreateAssignment($user_id, $position_id, $orgu_id) {
-		$inst = self::where(array(
-			'user_id'     => $user_id,
-			'position_id' => $position_id,
-			'orgu_id'     => $orgu_id,
-		))->first();
-		if (!$inst) {
-			$inst = new self();
-			$inst->setPositionId($position_id);
-			$inst->setUserId($user_id);
-			$inst->setOrguId($orgu_id);
-			$inst->create();
-		}
-
-		return $inst;
-	}
 
 
 	/**

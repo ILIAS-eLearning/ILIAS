@@ -76,7 +76,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 	protected function delete() {
 		$r = $this->http()->request();
-		$ua = ilOrgUnitUserAssignmentQueries::getInstance()
+		$ua = ilOrgUnitUserAssignmentRepository::getInstance()
 			->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'], $this->getParentRefId());
 		$ua->delete();
 		ilUtil::sendSuccess($this->txt('remove_successful'), true);
@@ -116,7 +116,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 			$this->ctrl()->redirect($this, self::CMD_INDEX);
 		}
 		foreach ($user_ids as $user_id) {
-			ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getParentRefId());
+			$repository = new ilOrgUnitUserAssignmentRepository();
+			$repository->findOrCreateAssignment($user_id, $position_id, $this->getParentRefId());
 		}
 
 		ilUtil::sendSuccess($this->txt("users_successfuly_added"), true);

@@ -1,11 +1,7 @@
 <?php
-/**
- * Class ilOrgUnitUserQueriesInterface
- *
- * @author: Benjamin Seglias   <bs@studer-raimann.ch>
- */
+namespace OrgUnit\interfaces;
 
-interface ilOrgUnitUserQueriesInterface {
+interface ilOrgUnitUserRepositoryInterface {
 
 	/**
 	 * @param array $user_ids
@@ -13,13 +9,5 @@ interface ilOrgUnitUserQueriesInterface {
 	 * @return array $users
 	 */
 	public function findAllUsersByUserIds($user_ids);
-
-
-	/**
-	 * @param array $users
-	 *
-	 * @return array $user_names
-	 */
-	public function getAllUserNames($users);
 
 }

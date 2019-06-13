@@ -1,4 +1,5 @@
 <?php
+namespace OrgUnit\interfaces;
 
 /**
  * Interface ilOrgUnitPositionAndRBACAccessHandler

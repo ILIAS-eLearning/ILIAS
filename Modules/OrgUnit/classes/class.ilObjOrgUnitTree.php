@@ -134,45 +134,6 @@ class ilObjOrgUnitTree {
 
 
 	/**
-	 * @param $title   "employee" or "superior"
-	 * @param $ref_ids int[] array of orgu object ref ids.
-	 *
-	 * @return int[] user_ids
-	 */
-	private function loadArrayOfStaff($title, $ref_ids) {
-		$this->loadRoles($title);
-		$all_refs = $ref_ids;
-		//take away ref_ids that are already loaded.
-		foreach ($ref_ids as $id => $ref_id) {
-			if (isset($this->staff[$title][$ref_id])) {
-				unset($ref_ids[$id]);
-			} else {
-				$this->staff[$title][$ref_id] = array();
-				$ref_ids[$id] = $this->roles[$title][$ref_id];
-			}
-		}
-
-		//if there are still refs that need to be loaded, then do so.
-		if (count($ref_ids)) {
-			$q = "SELECT usr_id, rol_id FROM rbac_ua WHERE " . $this->db->in("rol_id", $ref_ids, false, "integer");
-			$set = $this->db->query($q);
-			while ($res = $this->db->fetchAssoc($set)) {
-				$orgu_ref = $this->role_to_orgu[$title][$res["rol_id"]];
-				$this->staff[$title][$orgu_ref][] = $res["usr_id"];
-			}
-		}
-
-		//collect * users.
-		$all_users = array();
-		foreach ($all_refs as $ref) {
-			$all_users = array_merge($all_users, $this->staff[$title][$ref]);
-		}
-
-		return $all_users;
-	}
-
-
-	/**
 	 * @param $ref_id
 	 *
 	 * @return array
@@ -323,131 +284,6 @@ class ilObjOrgUnitTree {
 
 
 	/**
-	 * @param $user_id   int
-	 * @param $recursive bool if this is true subsequent orgunits of this users superior role get
-	 *                   searched as well.
-	 *
-	 * @return int[] returns an array of user_ids of the users which have an employee role in an
-	 *               orgunit of which this user's id has a superior role.
-	 */
-	public function getEmployeesUnderUser($user_id, $recursive = true) {
-		//querry for all orgu where user_id is superior.
-		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
-                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu'";
-		$set = $this->db->query($q);
-		$orgu_ref_ids = array();
-		while ($res = $this->db->fetchAssoc($set)) {
-			$orgu_ref_ids[] = $res['ref_id'];
-		}
-		$employees = array();
-		foreach ($orgu_ref_ids as $orgu_ref_id) {
-			$employees = array_merge($employees, $this->getEmployees($orgu_ref_id, $recursive));
-		}
-
-		return $employees;
-	}
-
-
-	/**
-	 * @param $user_id   int
-	 * @param $recursive bool if this is true subsequent orgunits of this users superior role get
-	 *                   searched as well.
-	 *
-	 * @return int[] returns an array of user_ids of the users which have an employee role in an
-	 *               orgunit of which this user's id has a superior role.
-	 */
-	public function getSuperiorsOfUser($user_id, $recursive = true) {
-		//querry for all orgu where user_id is superior.
-		$q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
-                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu'";
-		$set = $this->db->query($q);
-		$orgu_ref_ids = array();
-		while ($res = $this->db->fetchAssoc($set)) {
-			$orgu_ref_ids[] = $res['ref_id'];
-		}
-		$superiors = array();
-		foreach ($orgu_ref_ids as $orgu_ref_id) {
-			$superiors = array_merge($superiors, $this->getSuperiors($orgu_ref_id, $recursive));
-		}
-
-		return $superiors;
-	}
-
-
-	/**
-	 * for additional info see the other getLevelX method.
-	 *
-	 * @param $user_id
-	 * @param $level
-	 *
-	 * @return int[]
-	 */
-	public function getLevelXOfUser($user_id, $level) {
-		$q = "SELECT object_reference.ref_id FROM rbac_ua
-				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
-				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
-				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";
-
-		$set = $this->db->query($q);
-		$orgu_ref_ids = array();
-		while ($res = $this->db->fetchAssoc($set)) {
-			$orgu_ref_ids[] = $res['ref_id'];
-		}
-		$orgus_on_level_x = array();
-		foreach ($orgu_ref_ids as $orgu_ref_id) {
-			try {
-				$orgus_on_level_x[] = $this->getLevelXOfTreenode($orgu_ref_id, $level);
-			} catch (Exception $e) {
-				// this means the user is assigned to a orgu above the given level. just dont add it to the list.
-			}
-		}
-
-		return array_unique($orgus_on_level_x);
-	}
-
-
-	/**
-	 * getOrgUnitOfUser
-	 *
-	 * @param     $user_id
-	 * @param int $ref_id if given, only OrgUnits under this ID are returned (including $ref_id)
-	 *
-	 * @return int[]
-	 */
-	public function getOrgUnitOfUser($user_id, $ref_id = 0) {
-		$q = "SELECT object_reference.ref_id FROM rbac_ua
-				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
-				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
-				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu'";
-
-		$set = $this->db->query($q);
-		$orgu_ref_ids = array();
-		while ($res = $this->db->fetchAssoc($set)) {
-			$orgu_ref_ids[] = $res['ref_id'];
-		}
-		$orgu_ref_ids = array_unique($orgu_ref_ids);
-		if ($ref_id) {
-			$childernOrgIds = $this->getAllChildren($ref_id);
-			foreach ($orgu_ref_ids as $k => $refId) {
-				if (!in_array($refId, $childernOrgIds)) {
-					unset($orgu_ref_ids[$k]);
-				}
-			}
-		}
-
-		return $orgu_ref_ids;
-	}
-
-
-	/**
 	 * Creates a temporary table with all orgu/user assignements. there will be three columns in
 	 * the table orgu_usr_assignements (or specified table-name): ref_id: Reference-IDs of OrgUnits
 	 * user_id: Assigned User-IDs path: Path-representation of the OrgUnit
@@ -522,34 +358,7 @@ class ilObjOrgUnitTree {
 	}
 
 
-	/**
-	 * @return int[] returns an array of role_ids. orgu_ref => role_id
-	 */
-	public function getEmployeeRoles() {
-		$this->loadRoles("employee");
 
-		return $this->roles["employee"];
-	}
-
-
-	/**
-	 * @return \int[]
-	 */
-	public function getSuperiorRoles() {
-		$this->loadRoles("superior");
-
-		return $this->roles["superior"];
-	}
-
-
-	/**
-	 * @param $role
-	 */
-	private function loadRoles($role) {
-		if ($this->roles[$role] == NULL) {
-			$this->loadRolesQuery($role);
-		}
-	}
 
 
 	public function flushCache() {
@@ -557,31 +366,6 @@ class ilObjOrgUnitTree {
 	}
 
 
-	/**
-	 * @param $role
-	 */
-	private function loadRolesQuery($role) {
-		$this->roles[$role] = array();
-		$q = "SELECT obj_id, title FROM object_data WHERE type = 'role' AND title LIKE 'il_orgu_" . $role . "%'";
-		$set = $this->db->query($q);
-		while ($res = $this->db->fetchAssoc($set)) {
-			$orgu_ref = $this->getRefIdFromRoleTitle($res["title"]);
-			$this->roles[$role][$orgu_ref] = $res["obj_id"];
-			$this->role_to_orgu[$role][$res["obj_id"]] = $orgu_ref;
-		}
-	}
-
-
-	/**
-	 * @param $role_title
-	 *
-	 * @return int
-	 */
-	private function getRefIdFromRoleTitle($role_title) {
-		$array = explode("_", $role_title);
-
-		return $array[count($array) - 1];
-	}
 
 
 	/**
@@ -640,4 +424,26 @@ class ilObjOrgUnitTree {
 
 		return $this->parent[$orgu_ref];
 	}
+
+	/**
+	 * @param int[] $user_ids
+	 *
+	 * @return int[]
+	 */
+	public function getSuperiorsOfUsers(array $user_ids): array {
+		$user_ids = array_reduce($user_ids, function (array $user_ids, int $user_id): array {
+			$org_units = $this->getMemberOrgIdsOfUser($user_id);
+
+			foreach ($org_units as $org_unit_ref_id) {
+				foreach ($this->getSuperiorsOfOrgUnit($org_unit_ref_id) as $user_id) {
+					$users[] = $user_id;
+				}
+			}
+
+			return $user_ids;
+		}, []);
+
+		return $user_ids;
+	}
+
 }
