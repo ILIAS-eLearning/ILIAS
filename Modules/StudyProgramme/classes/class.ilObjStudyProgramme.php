@@ -50,6 +50,8 @@ class ilObjStudyProgramme extends ilContainer {
 			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
 		$this->progress_repository =
 			ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
+		$this->auto_memberships_repository =
+			ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
 
 		$this->progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$this->assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -1222,6 +1224,50 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 		return array_unique($returns);
 	}
+
+	////////////////////////////////////
+	// AUTOMATIC MEMBERSHIPS
+	////////////////////////////////////
+
+	/**
+	 * Get sources for auto-memberships.
+	 * @return ilStudyProgrammeAutoMembershipSource[]
+	 */
+	public function getAutomaticMembershipSources(): array
+	{
+		return $this->auto_memberships_repository->readFor($this->getId());
+	}
+
+	/**
+	 * Store a source to be monitored for automatic memberships.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function storeAutomaticMembershipSource(string $type, int $src_id) {
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
+		$this->auto_memberships_repository->update($ams);
+	}
+
+	/**
+	 * Delete a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function deleteAutomaticMembershipSource(string $type, int $src_id)
+	{
+		return $this->auto_memberships_repository->delete($this->getId(), $type, $src_id);
+	}
+
+	/**
+	 * Delete all membership sources of this StudyProgramme;
+	 */
+	public function deleteAllAutomaticMembershipSource()
+	{
+		return $this->auto_memberships_repository->deleteFor($this->getId());
+	}
+
+
+
 
 	////////////////////////////////////
 	// HELPERS

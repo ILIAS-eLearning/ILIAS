@@ -34,6 +34,12 @@ class ilStudyProgrammeDIC
 		$dic['model.Assignment.ilStudyProgrammeAssignmentRepository'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeAssignmentDBRepository($DIC['ilDB']);
 		};
+		$dic['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeAutoMembershipsDBRepository(
+				$DIC['ilDB'],
+				(int)$DIC['ilUser']->getId()
+			);
+		};
 		$dic['model.Type.ilStudyProgrammeTypeRepository'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeTypeDBRepository(
 				$DIC['ilDB'],

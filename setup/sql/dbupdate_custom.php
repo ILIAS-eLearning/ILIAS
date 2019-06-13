@@ -178,5 +178,51 @@ if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
 
 <#12>
 <?php
+;
+?>
+
+
+<#13>
+<?php
+if (!$ilDB->tableExists('prg_auto_membership'))
+{
+	$ilDB->createTable('prg_auto_membership', array(
+		'prg_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'source_type' => array(
+			'type' => 'text',
+			'length' => 8,
+			'notnull' => true
+		),
+		'source_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'enabled' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'last_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_edited' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('prg_auto_membership', ['prg_obj_id', 'source_type', 'source_id']);
+}
+?>
+
+<#14>
+<?php
 $ilCtrlStructureReader->getStructure();
 ?>

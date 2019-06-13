@@ -244,8 +244,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
 				$this->tabs_gui->setSubTabActive('auto_memberships');
 
-				$this->members_gui->setParentGUI($this);
-				$this->members_gui->setRefId($this->ref_id);
+				$this->memberships_gui->setParentGUI($this);
+				$this->memberships_gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($this->memberships_gui);
 
 				break;

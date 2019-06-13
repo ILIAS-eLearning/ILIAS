@@ -10,10 +10,14 @@ declare(strict_types = 1);
  */
 class ilObjStudyProgrammeAutoMembershipsGUI
 {
-	const F_CATEGORY_REF = 'f_cr';
-	const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
-	const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
+	const CHECKBOX_SOURCE_IDS = 'c_amsids';
+
+	const F_SOURCE_TYPE = 'f_st';
+	const F_SOURCE_ID = 'f_sid';
+	const F_ORIGINAL_SOURCE_TYPE = 'f_st_org';
+	const F_ORIGINAL_SOURCE_ID = 'f_sid_org';
 	const CMD_DELETE_SINGLE = 'deleteSingle';
+
  	/**
 	 * @var ilTemplate
 	 */
@@ -77,6 +81,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 				$this->view();
 				break;
 			case "delete":
+			case "save":
 			case self::CMD_DELETE_SINGLE:
 				$this->$cmd();
 				$this->ctrl->redirect($this, 'view');
@@ -91,34 +96,34 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	 */
 	protected function view()
 	{
-		$this->tpl->setContent('ilObjStudyProgrammeAutoMembershipsGUI');
-		return;
-
 		$collected_modals = [];
  		$form = $this->getModalForm();
 		$modal = $this->getModal($form);
 		$this->getToolbar($modal->getShowSignal());
 		$collected_modals[] = $modal;
  		$data = [];
-		foreach($this->getObject()->getAutomaticContentCategories() as $ac) {
-			$title = $this->getItemPath($ac->getCategoryRefId());
-			$usr = $this->getUserRepresentation($ac->getLastEditorId());
-			$form = $this->getModalForm($ac->getCategoryRefId());
+		foreach($this->getObject()->getAutomaticMembershipSources() as $ams) {
+
+			//$title = $this->getItemPath($ams->getCategoryRefId());
+			$title = 'title';
+
+			$usr = $this->getUserRepresentation($ams->getLastEditorId());
+			$form = $this->getModalForm($ams->getSourceType(), $ams->getSourceId());
 			$modal = $this->getModal($form);
 			$collected_modals[] = $modal;
 			$signal = $modal->getShowSignal();
-			$actions = $this->getItemAction(
-				$ac->getCategoryRefId(),
-				$modal->getShowSignal()
-			);
+
+			$src_id = $ams->getSourceType() .'-' .$ams->getSourceId();
+			$actions = $this->getItemAction($src_id, $modal->getShowSignal());
  			$data[] = [
-				$ac,
-				$this->ui_renderer->render($title),
+				$ams,
+				//$this->ui_renderer->render($title),
+				$title,
 				$this->ui_renderer->render($usr),
 				$this->ui_renderer->render($actions)
 			];
 		}
-		$table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
+		$table = new ilStudyProgrammeAutoMembershipsTableGUI($this, "view", "");
 		$table->setData($data);
  		$this->tpl->setContent(
 			$this->ui_renderer->render($collected_modals)
@@ -126,28 +131,59 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		);
 	}
 
+
+	/**
+	 * Store data from (modal-)form.
+	 * @return string
+	 */
+	protected function save()
+	{
+		$form = $this->getModalForm()->withRequest($this->request);
+		$result = $form->getData();
+
+		list($src_type, $sub_values) = array_values($result[self::F_SOURCE_TYPE]);
+		$src_id = (int)$sub_values[self::F_SOURCE_ID];
+
+ 		if(
+			array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $_GET)
+			&& array_key_exists(self::F_ORIGINAL_SOURCE_ID, $_GET)
+		) {
+			$this->getObject()->deleteAutomaticMembershipSource(
+				(string)$_GET[self::F_ORIGINAL_SOURCE_TYPE],
+				(int)$_GET[self::F_ORIGINAL_SOURCE_ID]
+			);
+		}
+
+ 		$this->getObject()->storeAutomaticMembershipSource($src_type, $src_id);
+
+	}
+
+
  	/**
 	 * Delete entries.
 	 */
 	protected function delete()
 	{
 		$post = $_POST;
-		$field = self::CHECKBOX_CATEGORY_REF_IDS;
+		$field = self::CHECKBOX_SOURCE_IDS;
 		if(array_key_exists($field, $post)) {
-			$ids = array_map('intval', $post[$field]);
-			$this->getObject()->deleteAutomaticContentCategories($ids);
+			foreach ($post[$field] as $src_id) {
+				list($type, $id) = explode('-', $src_id);
+				$this->getObject()->deleteAutomaticMembershipSource((string)$type, (int)$id);
+			}
 		}
 	}
+
  	/**
 	 * Delete single entry.
 	 */
 	protected function deleteSingle()
 	{
 		$get = $_GET;
-		$field = self::CHECKBOX_CATEGORY_REF_IDS;
+		$field = self::CHECKBOX_SOURCE_IDS;
 		if(array_key_exists($field, $get)) {
-			$ids = [(int)$get[$field]];
-			$this->getObject()->deleteAutomaticContentCategories($ids);
+			list($type, $id) = explode('-', $get[$field]);
+			$this->getObject()->deleteAutomaticMembershipSource((string)$type, (int)$id);
 		}
 	}
 
@@ -158,6 +194,14 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	public function setRefId(int $prg_ref_id)
 	{
 		$this->prg_ref_id = $prg_ref_id;
+	}
+ 	/**
+	 * Set this GUI's parent gui.
+	 * @param ilContainerGUI $a_parent_gui
+	 */
+	public function setParentGUI(ilContainerGUI $a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
 	}
 
  	/**
@@ -188,19 +232,52 @@ class ilObjStudyProgrammeAutoMembershipsGUI
  		return $modal;
 	}
 
+	protected function addTypeOption(
+		ILIAS\UI\Component\Input\Field\Radio $radio,
+		ILIAS\UI\Component\Input\Field\Numeric $f_id,
+		string $type
+	): ILIAS\UI\Component\Input\Field\Radio {
+
+		return $radio->withOption(
+			$type,
+			$this->lng->txt($type),
+			'',
+			[self::F_SOURCE_ID => $f_id]
+		);
+	}
+
  	/**
 	 * Build the modal's form.
 	 */
-	protected function getModalForm(int $category_ref_id = null): ILIAS\UI\Component\Input\Container\Form\Form
+	protected function getModalForm(
+		string $source_type = null,
+		int $source_id = null
+	): ILIAS\UI\Component\Input\Container\Form\Form
 	{
 		$factory = $this->ui_factory->input();
-		$f_cat_ref = $factory->field()->numeric($this->lng->txt('category'));
- 		if(! is_null($category_ref_id)) {
-			$f_cat_ref = $f_cat_ref->withValue($category_ref_id);
-			$this->ctrl->setParameter($this, self::F_CATEGORY_ORIGINAL_REF, $category_ref_id);
+
+		$f_id = $factory->field()->numeric($this->lng->txt('membership_source_id'));
+ 		if(! is_null($source_id)) {
+			$f_id = $f_id->withValue($source_id);
+ 		}
+
+		$f_type = $factory->field()->radio($this->lng->txt('membership_source_type'));
+		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_ROLE);
+		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_GROUP);
+		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_COURSE);
+		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_ORGU);
+
+ 		if(! is_null($source_type)) {
+			$f_type = $f_type->withValue($source_type);
 		}
+
+ 		if(!is_null($source_type) && !is_null($source_id)) {
+			$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, $source_id);
+			$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $source_type);
+		}
+
  		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
-		$form = $factory->container()->form()->standard($url, [self::F_CATEGORY_REF => $f_cat_ref]);
+		$form = $factory->container()->form()->standard($url, [self::F_SOURCE_TYPE => $f_type]);
 		return $form;
 	}
 
@@ -209,19 +286,21 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	 */
 	protected function getToolbar(\ILIAS\UI\Component\Signal $add_cat_signal)
 	{
-		$btn = $this->ui_factory->button()->primary($this->lng->txt('add_category'),'')
+		$btn = $this->ui_factory->button()->primary($this->lng->txt('add_automembership_source'),'')
 			->withOnClick($add_cat_signal);
 		$this->toolbar->addComponent($btn);
  	}
 
+
+
  	protected function getItemAction(
-		int $cat_ref_id,
+		string $src_id,
 		\ILIAS\UI\Component\Signal $signal
 	): \ILIAS\UI\Component\Dropdown\Standard {
  		$items = [];
 		$items[] =  $this->ui_factory->button()->shy($this->lng->txt('edit'), '')
 			->withOnClick($signal);
- 		$this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, $cat_ref_id);
+ 		$this->ctrl->setParameter($this, self::CHECKBOX_SOURCE_IDS, $src_id);
 		$items[] =  $this->ui_factory->button()->shy(
 			$this->lng->txt('delete'),
 			$this->ctrl->getLinkTarget($this, self::CMD_DELETE_SINGLE)
@@ -242,6 +321,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		return $this->ui_factory->button()->shy($editor, $url);
 	}
 
+ 	/*
  	protected function getItemPath(int $cat_ref_id): \ILIAS\UI\Component\Button\Shy
 	{
 		$url = ilLink::_getStaticLink($cat_ref_id, 'cat');
@@ -253,4 +333,5 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		$path = implode(' > ', $hops);
  		return $this->ui_factory->button()->shy($path, $url);
 	}
+	*/
 }
