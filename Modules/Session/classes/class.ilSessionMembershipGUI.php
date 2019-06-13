@@ -129,9 +129,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 			$event_part->setUserId($part_id);
 			$event_part->setMark(ilUtil::stripSlashes($_POST['mark'][$part_id]));
 			$event_part->setComment(ilUtil::stripSlashes($_POST['comment'][$part_id]));
-			// thkoeln-patch: begin
 			$event_part->setNotificationEnabled($_POST['notification'][$part_id]);
-			// thkoeln-patch: end
 			$event_part->setParticipated($participated);
 			$event_part->setRegistered($registered);
 			$event_part->setContact($contact);

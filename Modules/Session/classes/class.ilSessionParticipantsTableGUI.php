@@ -427,13 +427,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
-
-		if (true === $a_set['show_notification']) {
-			$this->tpl->setCurrentBlock('notification_column');
-			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['notification_checked'] ? 'checked="checked"' : '');
-			$this->tpl->setVariable('NOTIFICATION_ENABLED',$a_set['notification_enabled'] ? '' : 'disabled');
-			$this->tpl->parseCurrentBlock();
-		}
 	}
 	
 	/**

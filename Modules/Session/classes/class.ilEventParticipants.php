@@ -146,7 +146,6 @@ class ilEventParticipants
 			$ilDB->quote($this->getRegistered() ,'integer').", ".
 			$ilDB->quote($this->getParticipated() ,'integer'). ', '.
 			$ilDB->quote($this->getContact(),'integer').', '.
-			$ilDB->quote($this->getParticipated() ,'integer'). ", ".
 			$ilDB->quote($this->isNotificationEnabled() ,'integer') .
 			")";
 		$res = $ilDB->manipulate($query);
