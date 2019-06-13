@@ -6,7 +6,7 @@ namespace ILIAS\Data\Domain;
 /**
  * A collection-oriented Repository for eventsourced Aggregates.
  */
-interface AggregateRepository {
+interface EventSourcedAggregateRepository {
 
 	/**
 	 * @param IdentifiesAggregate $aggregate_Id

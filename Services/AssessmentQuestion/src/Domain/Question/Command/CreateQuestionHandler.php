@@ -20,12 +20,14 @@ class CreateQuestionHandler implements CommandHandler {
 
 
 	public function handle(Command $command) {
-		$blah = 4;
-		//$question = Question::create(
-		//	QuestionId::generate(),
-		//	$command->getTitle(),
-		//	$command->getDescription()
-		//);
-		//$this->repository->add($question);
+
+		$question = Question::create(
+			QuestionId::generate(),
+			$command->getTitle(),
+			$command->getDescription()
+		);
+		$this->repository->add($question);
+
+
 	}
 }

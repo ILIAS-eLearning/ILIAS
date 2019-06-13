@@ -2,8 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
 
-use ILIAS\Data\Domain\AggregateRepository;
+use ILIAS\Data\Domain\EventSourcedAggregateRepository;
 
-interface QuestionAggregateRepositoryRepository extends AggregateRepository {
+interface QuestionEventSourcedAggregateRepositoryRepository extends EventSourcedAggregateRepository {
 
 }

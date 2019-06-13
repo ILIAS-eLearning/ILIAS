@@ -35,7 +35,8 @@
 		"simple-bus/message-bus": "^v3.0.2",
 		"simple-bus/serialization":  "^v3.0.1",
 		"simple-bus/asynchronous": "^v3.0.1",
-		"phpunit/phpunit": "8.1"
+		"phpunit/phpunit": "8.1",
+		"ramsey/uuid": "^3.8"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -311,6 +312,16 @@
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-12-03"
+		},
+		"ramsey/uuid": {
+			"source": "https://github.com/ramsey/uuid",
+			"used_version": "v3.8",
+			"added_by": "Theodor Truffer <tt@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2019-06-12",
+			"last_update_by": "Theodor Truffer <tt@studer-raimann.ch>",
+			"approved-by": "Not yet",
+			"approved-date": "Not yet"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

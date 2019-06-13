@@ -4,7 +4,7 @@ namespace ILIAS\Messaging\Example\ExampleCourse\Infrastructure\Projection;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\Messaging\Contract\Command\Command;
 use ILIAS\Messaging\Contract\Command\CommandHandler;
-use ILIAS\Data\Domain\AggregateRepository;
+use ILIAS\Data\Domain\EventSourcedAggregateRepository;
 use ILIAS\Data\Domain\IdentifiesAggregate;
 use ILIAS\Data\Domain\AggregateRoot;
 use ILIAS\Data\Domain\RecordsEvents;
