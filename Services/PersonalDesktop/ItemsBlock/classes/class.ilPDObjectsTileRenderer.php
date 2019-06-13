@@ -127,6 +127,7 @@ class ilPDObjectsTileRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
 		}
 
 		$icon = $this->uiFactory
+			->symbol()
 			->icon()
 			->standard($item['type'], $this->lng->txt('obj_' . $item['type']))
 			->withIsOutlined(true);
