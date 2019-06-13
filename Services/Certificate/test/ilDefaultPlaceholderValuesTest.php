@@ -97,7 +97,7 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 		$dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
 			->getMock();
 
-		$dateHelper->expects($this->once())
+		$dateHelper->expects($this->exactly(2))
 			->method('formatDate')
 			->willReturn('2018-09-10');
 
