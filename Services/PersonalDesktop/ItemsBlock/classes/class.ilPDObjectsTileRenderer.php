@@ -15,6 +15,8 @@ class ilPDObjectsTileRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
 	{
 		$tpl = new ilTemplate('tpl.block_tiles.html', true, true, 'Services/PersonalDesktop');
 
+		$itemRendered = false;
+
 		foreach ($groupedItems as $group) {
 			$items = $group->getItems();
 			if (count($items) > 0) {
@@ -41,7 +43,13 @@ class ilPDObjectsTileRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
 
 				$tpl->setCurrentBlock('grouped_tiles');
 				$tpl->parseCurrentBlock();
+
+				$itemRendered = true;
 			}
+		}
+
+		if (!$itemRendered) {
+			return '';
 		}
 
 		$html = $tpl->get();

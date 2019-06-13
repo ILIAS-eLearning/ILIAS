@@ -284,7 +284,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/**
 	 * @return array
 	 */
-	protected function getViewCommandGroups() : array
+	protected function getGroupedCommandsForView() : array
 	{
 		$commandGroups = [];
 
@@ -358,8 +358,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 
 		// @todo: handle $command['active']
-		$commandGroups = $this->getViewCommandGroups();
-		foreach ($commandGroups as $group) {
+		$groupedCommands = $this->getGroupedCommandsForView();
+		foreach ($groupedCommands as $group) {
 			foreach ($group as $command) {
 				$this->addBlockCommand(
 					$command['url'],

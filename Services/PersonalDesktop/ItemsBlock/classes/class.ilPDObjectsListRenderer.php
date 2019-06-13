@@ -11,6 +11,8 @@ class ilPDObjectsListRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
 	 */
 	public function render(array $groupedItems, bool $showHeader) : string
 	{
+		$itemRendered = false;
+
 		foreach ($groupedItems as $group) {
 			$itemHtml = [];
 
@@ -64,9 +66,14 @@ class ilPDObjectsListRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
 					$item['item_icon_image_type'],
 					'th_' . md5($group->getLabel())
 				);
+
+				$itemRendered = true;
 			}
 		}
 
+		if (!$itemRendered) {
+			return '';
+		}
 
 		if ($this->blockView->isInManageMode() && $this->blockView->supportsSelectAll()) {
 			// #11355 - see ContainerContentGUI::renderSelectAllBlock()
