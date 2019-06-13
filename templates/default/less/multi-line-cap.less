@@ -1,0 +1,76 @@
+
+/*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives @height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
+.il-multi-line-cap-mixin(@height-in-rows;){
+	& {
+		position: relative;
+		max-height: @height-in-rows * @line-height-small * 1em;
+		overflow: hidden;
+		line-height: @line-height-small;
+	}
+
+	&:after {
+		content: "";
+		text-align: right;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		width: 30%;
+		height: @line-height-small * 1em;
+		background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 80%);
+	}
+
+	/* edge, chrome, safari go here... */
+	@supports (-webkit-line-clamp: 2) {
+		& {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: @height-in-rows;
+			-webkit-box-orient: vertical;
+		}
+
+		&:after {
+			display: none;
+		}
+	}
+
+	/* may come with next firefox 68, https://caniuse.com/#search=clamp */
+	@supports (-moz-line-clamp: 2) {
+		& {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -moz-box;
+			-moz-line-clamp: @height-in-rows;
+			-moz-box-orient: vertical;
+		}
+
+		&:after {
+			display: none;
+		}
+	}
+
+}
+
+.il-multi-line-cap-2 {
+	.il-multi-line-cap-mixin(2);
+}
+
+.il-multi-line-cap-3 {
+	.il-multi-line-cap-mixin(3);
+}
+
+.il-multi-line-cap-5 {
+	.il-multi-line-cap-mixin(5);
+}
+
+.il-multi-line-cap-10 {
+	.il-multi-line-cap-mixin(10);
+}
