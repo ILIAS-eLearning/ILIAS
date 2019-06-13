@@ -97,21 +97,15 @@ class ilCertificateTemplateExportAction
 
         $backgroundImagePath = $template->getBackgroundImagePath();
         if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-            try {
+            if (true === $this->filesystem->has($backgroundImagePath)) {
                 $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
-            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
-            } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-            } catch (\ILIAS\Filesystem\Exception\IOException $e) {
             }
         }
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
         if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
-            try {
+            if (true === $this->filesystem->has($backgroundImagePath)) {
                 $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
-            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
-            } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-            } catch (\ILIAS\Filesystem\Exception\IOException $e) {
             }
         }
 
