@@ -83,6 +83,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->allow_moving = false;
 
 		$this->initViewSettings();
+
+		$this->setPresentation(self::PRES_MAIN_LIST);
+		$this->main_content = true;
 	}
 
 	/**
@@ -190,7 +193,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$DIC->database()->useSlave(true);
 
 		// workaround to show details row
-		$this->setData(['dummy']);
+		$this->setData([['dummy']]);
 
 		ilObjectListGUI::prepareJSLinks('',
 			$this->ctrl->getLinkTargetByClass(['ilcommonactiondispatchergui', 'ilnotegui'], '', '', true, false),
@@ -199,11 +202,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$DIC['ilHelp']->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, $this->blockView->getScreenId());
 
-		$this->setContent($this->getViewBlockHtml());
+//		$this->setContent($this->getViewBlockHtml());
 
-		if ('' === $this->getContent()) {
-			$this->setEnableDetailRow(false);
-		}
+//		if ('' === $this->getContent()) {
+//			$this->setEnableDetailRow(false);
+//		}
 
 		$this->ctrl->clearParameters($this);
 
@@ -605,4 +608,107 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
 		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * Get items
+	 *
+	 * @return \ILIAS\UI\Component\Item\Group[]
+	 */
+	protected function getListItemGroups(): array
+	{
+		global $DIC;
+		$factory = $DIC->ui()->factory();
+
+//		$data = $this->loadData();
+
+		$this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
+
+		$groupedItems = $this->blockView->getItemGroups();
+
+		$groupedCommands = $this->getGroupedCommandsForView();
+		foreach ($groupedCommands as $group) {
+			foreach ($group as $command) {
+				$this->addBlockCommand(
+					(string) $command['url'],
+					(string) $command['txt'],
+					(string) $command['asyncUrl']
+				);
+			}
+		}
+
+		////
+		///
+
+
+		$item_groups = [];
+
+		foreach ($groupedItems as $group) {
+			$list_items = [];
+
+			foreach ($group->getItems() as $item) {
+				try {
+					$itemListGUI = $this->list_factory->byType($item['type']);
+					ilObjectActivation::addListGUIActivationProperty($itemListGUI, $item);
+
+					$list_items[] = $this->getListItemForData($item);
+
+				} catch (ilException $e) {
+					continue;
+				}
+			}
+
+			if (count($list_items) > 0) {
+				$item_groups[] = $factory->item()->group($group->getLabel(), $list_items);
+			}
+		}
+
+		/* @todo: checkboxes
+		if ($this->blockView->isInManageMode() && $this->blockView->supportsSelectAll()) {
+			// #11355 - see ContainerContentGUI::renderSelectAllBlock()
+			$this->tpl->setCurrentBlock('select_all_row');
+			$this->tpl->setVariable('CHECKBOXNAME', 'ilToolbarSelectAll');
+			$this->tpl->setVariable('SEL_ALL_PARENT', 'ilToolbar');
+			$this->tpl->setVariable('SEL_ALL_CB_NAME', 'id');
+			$this->tpl->setVariable('TXT_SELECT_ALL', $this->lng->txt('select_all'));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		return $this->tpl->get();
+		*/
+
+		$item_groups[] = $factory->item()->group("", $list_items);
+
+		return $item_groups;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $item): \ILIAS\UI\Component\Item\Item
+	{
+		$listFactory = $this->list_factory;
+
+		/** @var ilObjectListGUI $itemListGui */
+		$itemListGui = $listFactory->byType($item['type']);
+		ilObjectActivation::addListGUIActivationProperty($itemListGui, $item);
+
+		$list_item = $itemListGui->getAsListItem(
+			$item['ref_id'],
+			$item['obj_id'],
+			$item['type'],
+			$item['title'],
+			$item['description']
+		);
+
+		return $list_item;
+	}
+
 }

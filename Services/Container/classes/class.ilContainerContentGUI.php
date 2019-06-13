@@ -759,7 +759,7 @@ abstract class ilContainerContentGUI
 			$a_item_data['ref_id'],
 			$a_item_data['type'],
 			$a_item_data['obj_id']));
-		$item_list_gui->initItem($a_item_data['ref_id'], $a_item_data['obj_id'],
+		$item_list_gui->initItem($a_item_data['ref_id'], $a_item_data['obj_id'], $a_item_data['type'],
 			$a_item_data['title'], $a_item_data['description']);
 
 		// actions

@@ -80,6 +80,7 @@ class ilPDObjectsTileRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
 		$itemListGui->initItem(
 			$item['ref_id'],
 			$item['obj_id'],
+			$item['type'],
 			$item['title'],
 			$item['description']
 		);

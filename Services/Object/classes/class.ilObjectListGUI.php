@@ -1021,7 +1021,7 @@ class ilObjectListGUI
 	* @param	string		$a_description	description
 	* @param	int			$a_context		tree/workspace
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
 	{
 		$this->offline_mode = false;		
 		if ($this->type == "sahs") {
@@ -1038,6 +1038,18 @@ class ilObjectListGUI
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
 		$this->prevent_access_caching = false;
+
+		// prepare ajax calls
+		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+		if($this->context == self::CONTEXT_REPOSITORY)
+		{
+			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
+		}
+		else
+		{
+			$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
+		}
+		$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));
 
 	}
 
@@ -3547,20 +3559,8 @@ class ilObjectListGUI
 		$type = ilObject::_lookupType($a_obj_id);
 
 		// initialization
-		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		$this->initItem($a_ref_id, $a_obj_id, $type, $a_title, $a_description);
 
-		// prepare ajax calls
-		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-		if($this->context == self::CONTEXT_REPOSITORY)
-		{
-			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
-		}
-		else
-		{
-			$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
-		}
-		$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));		
-				
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
 			return $this->insertCommands(true, true);
@@ -3953,6 +3953,104 @@ class ilObjectListGUI
 		$this->tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * Get list item ui object
+	 * @param int $ref_id
+	 * @param int $obj_id
+	 * @param string $type
+	 * @param string $title
+	 * @param string $description
+	 * @return \ILIAS\UI\Component\Item\Item|null
+	 */
+	public function getAsListItem(int $ref_id, int $obj_id, string $type,
+		string $title,
+		string $description): ?\ILIAS\UI\Component\Item\Item
+	{
+		$ui = $this->ui;
+
+		$this->initItem($ref_id, $obj_id, $type,
+			$title,
+			$description);
+
+		$this->enableCommands(true);
+
+		// actions
+		$this->insertCommands();
+		$actions = [];
+		foreach ($this->current_selection_list->getItems() as $action_item) {
+			$actions[] = $ui->factory()
+				->button()
+				->shy($action_item['title'], $action_item['link']);
+		}
+
+		$dropdown = $ui->factory()
+			->dropdown()
+			->standard($actions);
+
+		$def_command = $this->getDefaultCommand();
+
+		if ($type == 'sess' && $title == '') {
+			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
+			$title = ilSessionAppointment::_appointmentToString(
+				$app_info['start'],
+				$app_info['end'],
+				$app_info['fullday']
+			);
+		}
+
+		$icon = $this->ui->factory()
+			->symbol()
+			->icon()
+			->standard($type, $this->lng->txt('obj_' . $type))
+			->withSize('medium');
+
+
+		if ($def_command['link'])
+		{
+			$list_item = $ui->factory()->item()->standard($this->ui->factory()->button()->shy($title, $def_command['link']));
+		}
+		else
+		{
+			$list_item = $ui->factory()->item()->standard($title);
+		}
+
+		$list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
+
+
+		$l = [];
+		foreach ($this->determineProperties() as $p) {
+			if ($p['property'] !== $this->lng->txt('learning_progress')) {
+				$l[(string)$p['property']] = (string)$p['value'];
+			}
+		}
+		if (count($l) > 0) {
+			$list_item = $list_item->withProperties($l);
+		}
+
+		// @todo: learning progress
+
+
+		/*
+		$lp = ilLPStatus::getListGUIStatus($item['obj_id'], false);
+		if (is_array($lp) && array_key_exists('status', $lp)) {
+			$percentage = (int)ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
+			if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+				$percentage = 100;
+			}
+
+			$card = $card->withProgress(
+				$this->uiFactory
+					->chart()
+					->progressMeter()
+					->mini(100, $percentage)
+			);
+		}*/
+
+		return $list_item;
+	}
+
+
 }
 
 ?>
