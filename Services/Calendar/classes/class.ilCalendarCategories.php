@@ -1153,16 +1153,12 @@ class ilCalendarCategories
 		$course_sessions = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			if(!$access->checkAccessOfUser(
-				$this->user_id,
-				'read',
-				'',
-				$row->sess_ref_id
-			)) {
+			if(
+				!$access->checkAccessOfUser($this->user_id,'read','',$row->sess_ref_id) ||
+				!$access->checkAccessOfUser($this->user_id,'visible','',$row->sess_ref_id)
+			) {
 				continue;
 			}
-
-
 			$cat_ids[] = $row->cat_id;
 			$course_sessions[$row->crs_id][$row->sess_id] = $row->cat_id;
 			$this->subitem_categories[] = $row->cat_id;
