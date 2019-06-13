@@ -149,7 +149,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'USER_LASTNAME'      => 'Theen',
                 'USER_TITLE'         => '',
                 'USER_SALUTATION'    => 'Something',
-                'USER_BIRTHDAY'      => '2018-10-10',
+                'USER_BIRTHDAY'      => '2018-09-10',
                 'USER_INSTITUTION'   => '',
                 'USER_DEPARTMENT'    => '',
                 'USER_STREET'        => '',
