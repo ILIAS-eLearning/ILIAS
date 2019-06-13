@@ -403,27 +403,38 @@ class ilObjSession extends ilObject
 		return (bool) $this->show_members;
 	}
 
-	// thkoeln-patch: begin
+	/**
+	 * @return bool
+	 */
 	public function isRegistrationNotificationEnabled()
 	{
 		return (bool) $this->registrationNotificationEnabled;
 	}
 
+	/**
+	 * @param $value
+	 * @return mixed
+	 */
 	public function setRegistrationNotificationEnabled($value)
 	{
 		return $this->registrationNotificationEnabled = $value;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getRegistrationNotificationOption()
 	{
 		return $this->notificationOption;
 	}
 
+	/**
+	 * @param $value
+	 */
 	public function setRegistrationNotificationOption($value)
 	{
 		$this->notificationOption = $value;
 	}
-	// thkoeln-patch: end
 
 	/**
 	 * is registration enabled
