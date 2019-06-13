@@ -28,11 +28,9 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 	const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
 	const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
 
-	// thkoeln-patch: begin
 	const TYPE_ENTER_NOTIFICATION = 100;
 	const TYPE_REGISTER_NOTIFICATION = 101;
 	const TYPE_UNREGISTER_NOTIFICATION = 102;
-	// thkoeln-patch: end
 
 	/**
 	 *
