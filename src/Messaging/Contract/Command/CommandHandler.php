@@ -11,6 +11,5 @@ namespace ILIAS\Messaging\Contract\Command;
  */
 Interface CommandHandler {
 
-	//public function __construct(Command $command);
 	public function handle(Command $command);
 }

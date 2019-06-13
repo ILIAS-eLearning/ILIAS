@@ -1,10 +1,11 @@
 <?php
-namespace ILIAS\AssessmentQuestion\Domainmodel\Command;
 
+namespace ILIAS\AssessmentQuestion\Domain\Question\Command;
 
 use ILIAS\Messaging\Contract\Command\Command;
 
-class CreateQuestionCommand implements Command {
+class CreateQuestionCommand extends Command
+{
 
 	/**
 	 * @var string
@@ -15,10 +16,11 @@ class CreateQuestionCommand implements Command {
 	 */
 	private $description;
 
-	public function __construct(string $title,string $description)
+	public function __construct(string $title, string $description, int $creator_id)
 	{
 		$this->title = $title;
 		$this->description = $description;
+		$this->creator_id = $creator_id;
 	}
 
 	/**

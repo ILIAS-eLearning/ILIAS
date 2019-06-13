@@ -107,7 +107,7 @@ class ilTestTabsManager
 		$this->access = $DIC['ilAccess'];
 		$this->lng = $DIC['lng'];
 
-		$this->tabs->addTab(self::DEMO_TAB_ID,'DEMO','/Services/AssessmentQuestion/');
+		$this->tabs->addTab(self::DEMO_TAB_ID,'DEMO', $DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI', 'createQuestionByAPI'));
 	}
 	
 	/**

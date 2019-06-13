@@ -743,7 +743,37 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->printToStdout();
 		}
 	}
-	
+
+	protected function createQuestionByAPIObject() {
+		require_once 'Services/AssessmentQuestion/src/APIGateway/AsqAdiGateway.php';
+		global $DIC;
+
+		$form = \ILIAS\AssessmentQuestion\APIGateway\AsqAdiGateway::GetCreationForm();
+
+		switch ($_SERVER['REQUEST_METHOD']) {
+			case 'GET':
+				$this->tpl->setContent($form->getHTML());
+				break;
+			case 'POST':
+				$form->setValuesByPost();
+
+				$response = \ILIAS\AssessmentQuestion\APIGateway\AsqAdiGateway::CreateQuestion(
+					$form->getQuestionTitle(),
+					$form->getQuestionDescription(),
+					$DIC->user()->getId());
+
+				if ($response->isSuccessful()) {
+					ilutil::sendSuccess($response->getMessage());
+					//TODO proceed
+				} else {
+					ilUtil::sendFailure($response->getMessage());
+					$this->tpl->setContent($form->getHTML());
+				}
+
+				break;
+		}
+	}
+
 	protected function trackTestObjectReadEvent()
 	{
 		/* @var ILIAS\DI\Container $DIC */ global $DIC;

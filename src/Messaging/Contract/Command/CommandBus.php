@@ -3,8 +3,6 @@
 
 namespace ILIAS\Messaging\Contract\Command;
 
-use ILIAS\Messaging\Contract\Command\CommandHandlerMiddleware as CommandHandlerMiddlewareContract;
-
 /**
  * Interface CommandBus
  *
@@ -28,5 +26,14 @@ interface CommandBus {
 	 *
 	 * @return void
 	 */
-	public function appendMiddleware(CommandHandlerMiddlewareContract $middleware): void;
+	public function appendMiddleware(CommandHandlerMiddleware $middleware): void;
+
+
+	/**
+	 * Appends handler to bus for corresponding command class
+	 *
+	 * @param string         $command_class
+	 * @param CommandHandler $handler
+	 */
+	public function appendHandler(string $command_class, CommandHandler $handler) : void;
 }
