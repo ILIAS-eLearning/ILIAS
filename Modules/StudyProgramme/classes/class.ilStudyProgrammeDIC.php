@@ -72,17 +72,16 @@ class ilStudyProgrammeDIC
 			);
 		};
 
-		$dic['ilObjStudyProgrammeMembershipsGUI'] = function($dic) use ($DIC) {
-			return new ilObjStudyProgrammeMembershipsGUI(
+		$dic['ilObjStudyProgrammeAutoMembershipsGUI'] = function($dic) use ($DIC) {
+			return new ilObjStudyProgrammeAutoMembershipsGUI(
 				$DIC['tpl'],
 				$DIC['ilCtrl'],
 				$DIC['ilToolbar'],
 				$DIC['lng'],
-				$DIC['ilUser'],
-				$dic['ilStudyProgrammeUserProgressDB'],
-				$dic['ilStudyProgrammeUserAssignmentDB'],
-				$dic['ilStudyProgrammeRepositorySearchGUI'],
-				$dic['ilObjStudyProgrammeIndividualPlanGUI']
+				$DIC->ui()->factory(),
+				$DIC->ui()->renderer(),
+				$DIC->http()->request(),
+				$DIC['tree']
 			);
 		};
 
