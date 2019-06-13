@@ -457,7 +457,6 @@ class ilEventParticipants
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 		$res = $this->db->query($query);
 
-		// thkoeln: begin
 		global $DIC;
 		$tree = $DIC->repositoryTree();
 
