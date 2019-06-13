@@ -532,8 +532,13 @@ class ilCertificateGUI
                 $backgroundImagePath = $previousCertificateTemplate->getBackgroundImagePath();
 
                 if ($backgroundImagePath === '' && $backgroundImagePath !== null) {
-                    $backgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
-                    $backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $backgroundImagePath);
+                    $globalRelativeBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
+                    $globalRelativeBackgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalRelativeBackgroundImagePath);
+                    $backgroundImagePath = $globalRelativeBackgroundImagePath;
+                }
+
+                if (!file_exists(CLIENT_WEB_DIR . $backgroundImagePath)) {
+                    $backgroundImagePath = '';
                 }
 
                 $cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();

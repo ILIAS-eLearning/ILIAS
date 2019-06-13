@@ -97,19 +97,27 @@ class ilCertificateTemplateExportAction
 
         $backgroundImagePath = $template->getBackgroundImagePath();
         if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-            $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
+            try {
+                $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
+            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+            } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+            } catch (\ILIAS\Filesystem\Exception\IOException $e) {
+            }
         }
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
         if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
-            $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+            try {
+                $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+            } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+            } catch (\ILIAS\Filesystem\Exception\IOException $e) {
+            }
         }
-
 
         $objectType = $this->objectHelper->lookupType($this->objectId);
 
         $zipFileName = $time . '__' . $installationId . '__' . $objectType . '__' . $this->objectId . '__certificate.zip';
-
 
         $zipPath = $rootDir . $this->certificatePath . $zipFileName;
         $this->utilHelper->zip($exportPath, $zipPath);
