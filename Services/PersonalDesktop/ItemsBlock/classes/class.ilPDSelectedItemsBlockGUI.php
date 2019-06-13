@@ -293,47 +293,49 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	 */
 	protected function setFooterLinks()
 	{
-		if($this->getContent() == '')
-		{
+		if ('' === $this->getContent()) {
 			$this->setEnableNumInfo(false);
 			return '';
 		}
 
-		if($this->manage)
-		{
+		if ($this->manage) {
 			return '';
 		}
 
-		// @todo: set checked on $this->viewSettings->isSortedByType()
-		$this->addBlockCommand(
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByType"),
-			$this->lng->txt("pd_sort_by_type"),
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByType", "", true)
-		);
-
-		// @todo: set checked on $this->viewSettings->isSortedByLocation()
-		$this->addBlockCommand(
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation"),
-			$this->lng->txt("pd_sort_by_location"),
-			$this->ctrl->getLinkTarget($this, "orderPDItemsByLocation", "", true)
-		);
-
-		// @todo: set checked on $this->viewSettings->isSortedByStartDate()
-		if($this->viewSettings->isMembershipsViewActive())
-		{
+		$sortings = $this->viewSettings->getActiveSortingsByView($this->viewSettings->getCurrentView());
+		$effectiveSorting = $this->viewSettings->getEffectiveSortingMode();
+		// @todo: set checked on $sorting === $effectiveSorting
+		foreach ($sortings as $sorting) {
+			$this->ctrl->setParameter($this, 'sorting', $sorting);
 			$this->addBlockCommand(
-				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate"),
-				$this->lng->txt("pd_sort_by_start_date"),
-				$this->ctrl->getLinkTarget($this, "orderPDItemsByStartDate", "", true)
+				$this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
+				$this->lng->txt('pd_sort_by_' . $sorting),
+				$this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true)
 			);
+			$this->ctrl->setParameter($this, 'sorting', null);
 		}
 
+		$presentations = $this->viewSettings->getActivePresentationsByView($this->viewSettings->getCurrentView());
+		$effectivePresentation = $this->viewSettings->getEffectivePresentationMode();
+		// @todo: set checked on $presentation === $effectivePresentation
+		foreach ($presentations as $presentation) {
+			$this->ctrl->setParameter($this, 'presentation', $presentation);
+			$this->addBlockCommand(
+				$this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
+				$this->lng->txt('pd_presentation_mode_' . $presentation),
+				$this->ctrl->getLinkTarget($this, 'changePDItemPresentation')
+			);
+			$this->ctrl->setParameter($this, 'presentation', null);
+		}
+
+		if (!$this->viewSettings->isTilePresentation()) {
 		$this->addBlockCommand(
 			$this->ctrl->getLinkTarget($this, "manage"),
 			$this->viewSettings->isSelectedItemsViewActive() ?
 				$this->lng->txt("pd_remove_multiple") :
 				$this->lng->txt("pd_unsubscribe_multiple_memberships")
 		);
+		}
 	}
 
 	/**
@@ -555,15 +557,37 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	}
 
 	/**
-	 * @param string $sort_type
+	 * Called if the user interacted with the provided sorting options
 	 */
-	protected function changeSortMode($sort_type)
+	public function changePDItemPresentation()
 	{
-		$this->user->writePref('pd_order_items', $sort_type);
+		$this->user->writePref(
+			'pd_view_pres_' . $this->viewSettings->getCurrentView(),
+			\ilUtil::stripSlashes($this->http->request()->getQueryParams()['presentation'])
+		);
+		$this->initAndShow();
+	}
+
+	/**
+	 * Called if the user interacted with the provided presentation options
+	 */
+	public function changePDItemSorting()
+	{
+		$this->user->writePref(
+			'pd_order_items_' . $this->viewSettings->getCurrentView(),
+			\ilUtil::stripSlashes($this->http->request()->getQueryParams()['sorting'])
+		);
+		$this->initAndShow();
+	}
+
+	/**
+	 * 
+	 */
+	protected function initAndShow()
+	{
 		$this->initViewSettings();
 
-		if($this->ctrl->isAsynch())
-		{
+		if ($this->ctrl->isAsynch()) {
 			echo $this->getHTML();
 			exit;
 		}
@@ -572,181 +596,134 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
 
-	/**
-	 * Sort desktop items by location
-	 */
-	public function orderPDItemsByLocation()
-	{
-		$this->changeSortMode($this->viewSettings->getSortByLocationMode());
-	}
-	
-	/**
-	 * Sort desktop items by Type
-	 */
-	public function orderPDItemsByType()
-	{
-		$this->changeSortMode($this->viewSettings->getSortByTypeMode());
-	}
-
-	/**
-	 * Sort desktop items by start date
-	 */
-	public function orderPDItemsByStartDate()
-	{
-		$this->changeSortMode($this->viewSettings->getSortByStartDateMode());
-	}
-
 	function manageObject()
 	{
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
-		
 		$this->manage = true;
 
 		$top_tb = new ilToolbarGUI();
-		$top_tb->setFormAction($ilCtrl->getFormAction($this));
-		$top_tb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
+		$top_tb->setFormAction($this->ctrl->getFormAction($this));
+		$top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
 
 		$button = ilSubmitButton::getInstance();
-		if($this->viewSettings->isSelectedItemsViewActive())
-		{
-			$button->setCaption("remove");
+		if ($this->viewSettings->isSelectedItemsViewActive()) {
+			$button->setCaption('remove');
+		} else {
+			$button->setCaption('pd_unsubscribe_memberships');
 		}
-		else
-		{
-			$button->setCaption("pd_unsubscribe_memberships");
-		}
-		$button->setCommand("confirmRemove");
+		$button->setCommand('confirmRemove');
 		$top_tb->addStickyItem($button);
 
 		$button2 = ilSubmitButton::getInstance();
-		$button2->setCaption("cancel");
-		$button2->setCommand("getHTML");
+		$button2->setCaption('cancel');
+		$button2->setCommand('getHTML');
 		$top_tb->addStickyItem($button2);
 
 		$top_tb->setCloseFormTag(false);
 
 		$bot_tb = new ilToolbarGUI();
-		$bot_tb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
+		$bot_tb->setLeadingImage(ilUtil::getImagePath('arrow_downright.svg'), $this->lng->txt('actions'));
 		$bot_tb->addStickyItem($button);
 		$bot_tb->addStickyItem($button2);
 		$bot_tb->setOpenFormTag(false);
-		return $top_tb->getHTML().$this->getHTML().$bot_tb->getHTML();
+
+		return $top_tb->getHTML() . $this->getHTML() . $bot_tb->getHTML();
 	}
 	
 	public function confirmRemoveObject()
 	{
-		$ilCtrl = $this->ctrl;
+		$this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
 
-		$ilCtrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
-		if(!sizeof($_POST["id"]))
-		{
-			ilUtil::sendFailure($this->lng->txt("select_one"), true);
-			$ilCtrl->redirect($this, "manage");
+		$refIds = (array)($this->http->request()->getParsedBody()['id'] ?? []);
+		if (0 === count($refIds)) {
+			ilUtil::sendFailure($this->lng->txt('select_one'), true);
+			$this->ctrl->redirect($this, 'manage');
 		}
-		
-		if($this->viewSettings->isSelectedItemsViewActive())
-		{
-			$question = $this->lng->txt("pd_info_delete_sure_remove");
-			$cmd = "confirmedRemove";
+
+		if ($this->viewSettings->isSelectedItemsViewActive()) {
+			$question = $this->lng->txt('pd_info_delete_sure_remove');
+			$cmd = 'confirmedRemove';
+		} else {
+			$question = $this->lng->txt('pd_info_delete_sure_unsubscribe');
+			$cmd = 'confirmedUnsubscribe';
 		}
-		else
-		{
-			$question = $this->lng->txt("pd_info_delete_sure_unsubscribe");
-			$cmd = "confirmedUnsubscribe";
-		}
-		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($question);
 
-		$cgui->setFormAction($ilCtrl->getFormAction($this));
-		$cgui->setCancel($this->lng->txt("cancel"), "manage");
-		$cgui->setConfirm($this->lng->txt("confirm"), $cmd);
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt('cancel'), 'manage');
+		$cgui->setConfirm($this->lng->txt('confirm'), $cmd);
 
-		foreach ($_POST["id"] as $ref_id)
-		{
-			$obj_id = ilObject::_lookupObjectId($ref_id);
+		foreach ($refIds as $ref_id) {
+			$obj_id = ilObject::_lookupObjectId((int) $ref_id);
 			$title = ilObject::_lookupTitle($obj_id);
 			$type = ilObject::_lookupType($obj_id);
-			
-			$cgui->addItem("ref_id[]", $ref_id, $title,
-				ilObject::_getIcon($obj_id, "small", $type),
-				$this->lng->txt("icon")." ".$this->lng->txt("obj_".$type));			
+
+			$cgui->addItem('ref_id[]', $ref_id, $title,
+				ilObject::_getIcon($obj_id, 'small', $type),
+				$this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type)
+			);
 		}
-		
+
 		return $cgui->getHTML();
 	}
 		
 	public function confirmedRemove()
 	{
-		$ilCtrl = $this->ctrl;
-		$ilUser = $this->user;
-		
-		if(!sizeof($_POST["ref_id"]))
-		{
-			$ilCtrl->redirect($this, "manage");
+		$refIds = (array)($this->http->request()->getParsedBody()['ref_id'] ?? []);
+		if (0 === count($refIds)) {
+			$this->ctrl->redirect($this, 'manage');
 		}
-		
-		foreach($_POST["ref_id"] as $ref_id)
-		{
-			$type = ilObject::_lookupType($ref_id, true);
-			ilObjUser::_dropDesktopItem($ilUser->getId(), $ref_id, $type);			
-		}		
-		
+
+		foreach ($refIds as $ref_id) {
+			$type = ilObject::_lookupType((int) $ref_id, true);
+			ilObjUser::_dropDesktopItem($this->user->getId(), (int) $ref_id, $type);
+		}
+
 		// #12909
-		ilUtil::sendSuccess($this->lng->txt("pd_remove_multi_confirm"), true);
-		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		ilUtil::sendSuccess($this->lng->txt('pd_remove_multi_confirm'), true);
+		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
+		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
 	
 	public function confirmedUnsubscribe()
 	{
-		$ilCtrl = $this->ctrl;
-		$ilAccess = $this->access;
-		$ilUser = $this->user;
-		
-		if(!sizeof($_POST["ref_id"]))
-		{
-			$ilCtrl->redirect($this, "manage");
-		}		
-		
-		foreach($_POST["ref_id"] as $ref_id)
-		{
-			if($ilAccess->checkAccess("leave", "", $ref_id))
-			{
-				switch(ilObject::_lookupType($ref_id, true))
-				{
-					case "crs":
-						// see ilObjCourseGUI:performUnsubscribeObject()		
-						include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-						$members = new ilCourseParticipants(ilObject::_lookupObjId($ref_id));
-						$members->delete($ilUser->getId());
-						
-						$members->sendUnsubscribeNotificationToAdmins($ilUser->getId());
+		$refIds = (array)($this->http->request()->getParsedBody()['ref_id'] ?? []);
+		if (0 === count($refIds)) {
+			$this->ctrl->redirect($this, 'manage');
+		}
+
+		foreach ($refIds as $ref_id) {
+			if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
+				switch (ilObject::_lookupType($ref_id, true)) {
+					case 'crs':
+						// see ilObjCourseGUI:performUnsubscribeObject()
+						$members = new ilCourseParticipants(ilObject::_lookupObjId((int) $ref_id));
+						$members->delete($this->user->getId());
+
+						$members->sendUnsubscribeNotificationToAdmins($this->user->getId());
 						$members->sendNotification(
 							$members->NOTIFY_UNSUBSCRIBE,
-							$ilUser->getId()
+							$this->user->getId()
 						);
 						break;
-					
-					case "grp":
-						// see ilObjGroupGUI:performUnsubscribeObject()		
-						include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-						$members = new ilGroupParticipants(ilObject::_lookupObjId($ref_id));
-						$members->delete($ilUser->getId());		
-						
-						include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+
+					case 'grp':
+						// see ilObjGroupGUI:performUnsubscribeObject()
+						$members = new ilGroupParticipants(ilObject::_lookupObjId((int) $ref_id));
+						$members->delete($this->user->getId());
+
 						$members->sendNotification(
 							ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
-							$ilUser->getId()
+							$this->user->getId()
 						);
 						$members->sendNotification(
 							ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
-							$ilUser->getId()
+							$this->user->getId()
 						);
 						break;
-					
+
 					default:
 						// do nothing
 						continue 2;
@@ -756,11 +733,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				ilForumNotification::checkForumsExistsDelete($ref_id, $ilUser->getId());				
 			}
 		}
-		
-		
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		$ilCtrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
+		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
 
 

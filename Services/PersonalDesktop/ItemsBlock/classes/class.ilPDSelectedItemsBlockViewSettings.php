@@ -435,18 +435,45 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 			$this->currentView = $this->getDefaultView();
 		}
 
-		$this->currentSortOption = $this->actor->getPref('pd_order_items');
-		if (!in_array($this->currentSortOption, $this->getAvailableSortOptionsByView($this->currentView))) {
-			$this->currentSortOption = $this->getDefaultSortingByView($this->currentView);
+		$this->currentSortOption = $this->getEffectiveSortingMode();
+		$this->currentPresentationOption = $this->getEffectivePresentationMode();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEffectivePresentationMode() : string 
+	{
+		$mode = $this->actor->getPref('pd_view_pres_' . $this->currentView);
+
+		if (!in_array($mode, $this->getAvailablePresentationsByView($this->currentView))) {
+			$mode = $this->getDefaultPresentationByView($this->currentView);
 		}
 
-		$this->currentPresentationOption = $this->actor->getPref('pd_view_pres_' . $this->currentView);
-		if (!in_array($this->currentSortOption, $this->getAvailablePresentationsByView($this->currentView))) {
-			$this->currentSortOption = $this->getDefaultPresentationByView($this->currentView);
+		if (!in_array($mode, $this->getActivePresentationsByView($this->currentView))) {
+			$mode = $this->getDefaultPresentationByView($this->currentView);
 		}
-		if (!in_array($this->currentSortOption, $this->getActivePresentationsByView($this->currentView))) {
-			$this->currentSortOption = $this->getDefaultPresentationByView($this->currentView);
+		
+		return $mode;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getEffectiveSortingMode() : string
+	{
+		$mode = $this->actor->getPref('pd_order_items_' . $this->currentView);
+
+		if (!in_array($mode, $this->getAvailableSortOptionsByView($this->currentView))) {
+			$mode = $this->getDefaultSortingByView($this->currentView);
 		}
+
+		if (!in_array($mode, $this->getActiveSortingsByView($this->currentView))) {
+			$mode = $this->getDefaultSortingByView($this->currentView);
+		}
+
+		return $mode;
 	}
 
 	/**

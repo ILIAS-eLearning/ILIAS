@@ -1996,6 +1996,8 @@ common#:#btn_undelete#:#Restore
 pd#:#pd_sort_by_location#:#Sort by Location
 pd#:#pd_sort_by_type#:#Sort by Type
 pd#:#pd_sort_by_start_date#:#Sort by Start Date
+pd#:#pd_presentation_mode_list#:#Item List Presentation
+pd#:#pd_presentation_mode_tile#:#Tile Presentation
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
 pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_ongoing#:#Ongoing
