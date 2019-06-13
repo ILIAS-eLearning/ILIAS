@@ -227,27 +227,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($enable_block_moving);
 		$form->addItem($cb_prop);		
 
-		// Enable 'My Offers' (default personal items)
-		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_offers'), 'enable_my_offers');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($lng->txt('pd_enable_my_offers_info'));
-		$cb_prop->setChecked($this->viewSettings->enabledSelectedItems());
-		$form->addItem($cb_prop);
-		
-		// Enable 'My Memberships'
-		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_memberships'), 'enable_my_memberships');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($lng->txt('pd_enable_my_memberships_info'));
-		$cb_prop->setChecked($this->viewSettings->enabledMemberships());
-		$form->addItem($cb_prop);
-
-		$memberships_sort_defaults = new ilRadioGroupInputGUI($lng->txt('pd_my_memberships_sort_default'), 'my_memberships_sort_default');
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_location'), $this->viewSettings->getSortByLocationMode()));
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_type'), $this->viewSettings->getSortByTypeMode()));
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_start_date'), $this->viewSettings->getSortByStartDateMode()));
-		$memberships_sort_defaults->setRequired(true);
-		$memberships_sort_defaults->setValue($this->viewSettings->getDefaultSortType());
-		$cb_prop->addSubItem($memberships_sort_defaults);
 
 		#22357
 		$this->ctrl->setParameterByClass("iluserstartingpointgui", "ref_id", USER_FOLDER_ID);
@@ -304,32 +283,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 //		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
 
-		// Validate personal desktop view
-		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
-		{
-			ilUtil::sendFailure($this->lng->txt('pd_view_select_at_least_one'), true);
-			$ilCtrl->redirect($this, 'view');
-		}
 
-		$this->viewSettings->enableSelectedItems((int)($_POST['enable_my_offers'] ? 1 : 0));
-		$this->viewSettings->enableMemberships((int)($_POST['enable_my_memberships'] ? 1 : 0));
-
-		if((int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
-		{
-			$this->viewSettings->storeDefaultView($this->viewSettings->getSelectedItemsView());
-		}
-		else if(!(int)$_POST['enable_my_offers'] && (int)$_POST['enable_my_memberships'])
-		{
-			$this->viewSettings->storeDefaultView($this->viewSettings->getMembershipsView());
-		}
-		else if(isset($_POST['personal_items_default_view']))
-		{
-			$this->viewSettings->storeDefaultView((int)$_POST['personal_items_default_view']);
-		}
-
-		$this->viewSettings->storeDefaultSortType(ilUtil::stripSlashes($_POST['my_memberships_sort_default']));
-	
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "view");
 	}
 	
@@ -511,7 +466,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$tabs->activateTab("pd_settings");
 		$this->setSettingsSubTabs("view_courses_groups");
 
-		$form = $this->getViewSettingsForm(false);
+		$form = $this->getViewSettingsForm($this->viewSettings->getMembershipsView());
 
 		$main_tpl->setContent($ui_renderer->render($form));
 	}
@@ -521,32 +476,23 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 *
 	 * @return \ILIAS\UI\Component\Input\Container\Form\Standard
 	 */
-	protected function getViewSettingsForm($favourites = true)
+	protected function getViewSettingsForm(int $view)
 	{
 		$ctrl = $this->ctrl;
 		$lng = $this->lng;
 		$ui_factory = $this->ui_factory;
 
-		if ($favourites)
+		if ($view == $this->viewSettings->getSelectedItemsView())
 		{
 			$activation_text = $lng->txt("pd_enable_my_offers");
 			$activation_value = $this->viewSettings->enabledSelectedItems();
-			$sortation_options = array(
-				"location" => $lng->txt("pd_sort_by_location"),
-				"type" => $lng->txt("pd_sort_by_type")
-			);
-			$default_sortation_value = (string) $this->viewSettings->getDefaultSortType();
+			$save_cmd = "saveViewFavourites";
 		}
 		else
 		{
 			$activation_text = $lng->txt("pd_enable_my_memberships");
 			$activation_value = $this->viewSettings->enabledMemberships();
-			$sortation_options = array(
-				"location" => $lng->txt("pd_sort_by_location"),
-				"type" => $lng->txt("pd_sort_by_type"),
-				"start_date" => $lng->txt("pd_sort_by_start_date"),
-			);
-			$default_sortation_value = (string) $this->viewSettings->getDefaultSortType();
+			$save_cmd = "saveViewCoursesGroups";
 		}
 
 		// activation
@@ -557,34 +503,38 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$lng->txt("pd_activation"));
 
 		// presentation
-		$options = array(
-			"list" => $lng->txt("pd_list"),
-			"tile" => $lng->txt("pd_tile")
-		);
-		$avail_pres = $ui_factory->input()->field()->multiselect($lng->txt("pd_avail_presentation"), $options);
+		$ops = $this->viewSettings->getAvailablePresentationsByView($view);
+		$pres_options = array_column(array_map(function ($k, $v) use ($lng) {
+			return [$v, $lng->txt("pd_".$v)];
+		}, array_keys($ops), $ops), 1, 0);
+		$avail_pres = $ui_factory->input()->field()->multiselect($lng->txt("pd_avail_presentation"), $pres_options)
+			->withValue($this->viewSettings->getActivePresentationsByView($view));
 		$default_pres = $ui_factory->input()->field()->radio($lng->txt("pd_default_presentation"))
 			->withOption('list', $lng->txt("pd_list"))
 			->withOption('tile', $lng->txt("pd_tile"));
+		$default_pres = $default_pres->withValue((string) $this->viewSettings->getDefaultPresentationByView($view));
 		$sec_presentation = $ui_factory->input()->field()->section(
 			["avail_pres" => $avail_pres, "default_pres" => $default_pres],
 			$lng->txt("pd_presentation"));
 
 		// sortation
-		$avail_sort = $ui_factory->input()->field()->multiselect($lng->txt("pd_avail_sortation"), $sortation_options);
-		$default_sort = $ui_factory->input()->field()->radio($lng->txt("pd_default_sortation"))
-			->withOption($this->viewSettings->getSortByLocationMode(), $lng->txt("pd_sort_by_location"))
-			->withOption($this->viewSettings->getSortByTypeMode(), $lng->txt("pd_sort_by_type"));
-		if (isset($sortation_options["start_date"]))
+		$ops = $this->viewSettings->getAvailableSortOptionsByView($view);
+		$sortation_options = array_column(array_map(function ($k, $v) use ($lng) {
+				return [$v, $lng->txt("pd_sort_by_".$v)];
+			}, array_keys($ops), $ops), 1, 0);
+		$avail_sort = $ui_factory->input()->field()->multiselect($lng->txt("pd_avail_sortation"), $sortation_options)
+			->withValue($this->viewSettings->getActiveSortingsByView($view));
+		$default_sort = $ui_factory->input()->field()->radio($lng->txt("pd_default_sortation"));
+		foreach ($sortation_options as $k => $text)
 		{
-			$default_sort = $default_sort->withOption($this->viewSettings->getSortByStartDateMode(), $lng->txt("pd_sort_by_start_date"));
+			$default_sort = $default_sort->withOption($k, $text);
 		}
-		$default_sort = $default_sort->withValue($default_sortation_value);
+		$default_sort = $default_sort->withValue((string) $this->viewSettings->getDefaultSortingByView($view));
 		$sec_sortation = $ui_factory->input()->field()->section(
 			["avail_sort" => $avail_sort, "default_sort" => $default_sort],
 			$lng->txt("pd_sortation"));
 
-
-		$form = $ui_factory->input()->container()->form()->standard($ctrl->getFormAction($this, "saveViewCoursesGroups"),
+		$form = $ui_factory->input()->container()->form()->standard($ctrl->getFormAction($this, $save_cmd),
 			["activation" => $sec_activation, "presentation" => $sec_presentation, "sortation" => $sec_sortation]);
 
 		return $form;
@@ -593,22 +543,11 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 
 	/**
 	 * Save settings of courses and groups overview
-	 *
 	 */
 	protected function saveViewCoursesGroups()
 	{
-		$request = $this->request;
-		$lng = $this->lng;
-		$ctrl = $this->ctrl;
-
-		$form = $this->getViewCoursesGroupsForm();
-		$form = $form->withRequest($request);
-		$form_data = $form->getData();
-		$this->viewSettings->enableMemberships((int) ($form_data['activation']['active'] != ""));
-		$this->viewSettings->storeDefaultSortType($form_data['sortation']['default_sort']);
-
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
-		$ctrl->redirect($this, "editViewCoursesGroups");
+		$this->saveViewSettings($this->viewSettings->getMembershipsView(),
+			"editViewCoursesGroups");
 	}
 
 	/**
@@ -623,11 +562,52 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$tabs->activateTab("pd_settings");
 		$this->setSettingsSubTabs("view_favourites");
 
-		$form = $this->getViewSettingsForm();
+		$view = $this->viewSettings->getSelectedItemsView();
+
+		$form = $this->getViewSettingsForm($view);
 
 		$main_tpl->setContent($ui_renderer->render($form));
 	}
 
+	/**
+	 * Save settings of favourites overview
+	 */
+	protected function saveViewFavourites()
+	{
+		$this->saveViewSettings($this->viewSettings->getSelectedItemsView(),
+			"editViewFavourites");
+	}
+
+	/**
+	 * Save settings of favourites overview
+	 */
+	protected function saveViewSettings(int $view, string $redirect_cmd)
+	{
+		$request = $this->request;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		$form = $this->getViewSettingsForm($view);
+		$form = $form->withRequest($request);
+		$form_data = $form->getData();
+		if ($view == $this->viewSettings->getSelectedItemsView())
+		{
+			$this->viewSettings->enableSelectedItems((int)($form_data['activation']['active'] != ""));
+		}
+		else
+		{
+			$this->viewSettings->enableMemberships((int)($form_data['activation']['active'] != ""));
+		}
+		$this->viewSettings->storeViewSorting($view,
+			$form_data['sortation']['default_sort'],
+			$form_data['sortation']['avail_sort'] ?: []);
+		$this->viewSettings->storeViewPresentation($view,
+			$form_data['presentation']['default_pres'],
+			$form_data['presentation']['avail_pres'] ?: []);
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ctrl->redirect($this, $redirect_cmd);
+	}
 
 }
 

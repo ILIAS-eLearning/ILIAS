@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockGroup.php';
-
 /**
  * Class ilPDSelectedItemsBlockViewGUI
  */
@@ -123,15 +121,11 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	{
 		if($viewSettings->isMembershipsViewActive())
 		{
-			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockMembershipsViewGUI.php';
-			require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockMembershipsProvider.php';
 			return new ilPDSelectedItemsBlockMembershipsViewGUI(
 				$viewSettings, new ilPDSelectedItemsBlockMembershipsProvider($viewSettings->getActor())
 			);
 		}
 
-		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockSelectedItemsViewGUI.php';
-		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockSelectedItemsProvider.php';
 		return new ilPDSelectedItemsBlockSelectedItemsViewGUI(
 			$viewSettings, new ilPDSelectedItemsBlockSelectedItemsProvider($viewSettings->getActor())
 		);

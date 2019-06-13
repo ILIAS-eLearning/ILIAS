@@ -35,6 +35,8 @@ pd#:#pd_tile#:#Tile
 pd#:#pd_activation#:#activation
 pd#:#pd_view_courses_groups#:#View ‘Courses and Groups’
 pd#:#pd_view_favourites#:#View ‘Selected Items’
+rbac#:#pdts_change_presentation#:#Change presentation of personal desktop view
+rbac#:#change_presentation#:#Change Presentation
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
