@@ -95,16 +95,25 @@ class ilCertificateTemplateExportAction
 
 		$this->filesystem->put($exportPath . 'certificate.xml', $xslContent);
 
-		$backgroundImagePath = $template->getBackgroundImagePath();
-		if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-			$this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
-		}
+        $backgroundImagePath = $template->getBackgroundImagePath();
+        if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
+            try {
+                $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
+            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+            } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+            } catch (\ILIAS\Filesystem\Exception\IOException $e) {
+            }
+        }
 
-		$thumbnailImagePath = $template->getThumbnailImagePath();
-		if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
-			$this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
-		}
-
+        $thumbnailImagePath = $template->getThumbnailImagePath();
+        if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
+            try {
+                $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+            } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+            } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
+            } catch (\ILIAS\Filesystem\Exception\IOException $e) {
+            }
+        }
 
 		$objectType = $this->objectHelper->lookupType($this->objectId);
 

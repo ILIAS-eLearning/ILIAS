@@ -29,7 +29,7 @@ include_once("./Services/Certificate/classes/class.ilCertificate.php");
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup Services
-* @ilCtrl_Calls: ilCertificateGUI: ilPropertyFormGUI          
+* @ilCtrl_Calls: ilCertificateGUI: ilPropertyFormGUI
 */
 class ilCertificateGUI
 {
@@ -73,7 +73,7 @@ class ilCertificateGUI
 	* @var object
 	*/
 	protected $lng;
-	
+
 	/**
 	* The reference ID of the object
 	*
@@ -147,12 +147,12 @@ class ilCertificateGUI
 	private $previewAction;
 
 	/**
-	 * @var ilCertificateThumbnailImageUpload|null 
+	 * @var ilCertificateThumbnailImageUpload|null
 	 */
 	private $thumbnailImageUpload;
 
 	/**
-	 * @var \ILIAS\FileUpload\FileUpload|null 
+	 * @var \ILIAS\FileUpload\FileUpload|null
 	 */
 	private $fileUpload;
 
@@ -351,7 +351,7 @@ class ilCertificateGUI
 	{
 		return $cmd;
 	}
-	
+
 	/**
 	* Import a certificate from a ZIP archive
 	*/
@@ -359,7 +359,7 @@ class ilCertificateGUI
 	{
 		$this->certificateEditor();
 	}
-	
+
 	/**
 	* Creates a certificate preview
 	*/
@@ -389,22 +389,22 @@ class ilCertificateGUI
 		$this->certifcateObject->deleteBackgroundImage();
 		$this->certificateEditor();
 	}
-	
+
 	/**
 	* Deletes the certificate and all its data
 	*/
 	public function certificateDelete()
-	{		
+	{
 		// display confirmation message
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($this->ctrl->getFormAction($this, "certificateEditor"));
 		$cgui->setHeaderText($this->lng->txt("certificate_confirm_deletion_text"));
 		$cgui->setCancel($this->lng->txt("no"), "certificateEditor");
 		$cgui->setConfirm($this->lng->txt("yes"), "certificateDeleteConfirm");
-		
+
 		$this->tpl->setContent($cgui->getHTML());
 	}
-	
+
 	/**
 	* Deletes the certificate and all its data
 	*/
@@ -416,7 +416,7 @@ class ilCertificateGUI
 		$this->deleteAction->delete($templateId, $this->objectId);
 		$this->ctrl->redirect($this, "certificateEditor");
 	}
-	
+
 	/**
 	* Saves the certificate
 	*/
@@ -533,8 +533,13 @@ class ilCertificateGUI
 				$backgroundImagePath = $previousCertificateTemplate->getBackgroundImagePath();
 
 				if ($backgroundImagePath === '' && $backgroundImagePath !== null) {
-					$backgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
-					$backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $backgroundImagePath);
+					$globalRelativeBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
+					$globalRelativeBackgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalRelativeBackgroundImagePath);
+					$backgroundImagePath = $globalRelativeBackgroundImagePath;
+				}
+
+				if (!file_exists(CLIENT_WEB_DIR . $backgroundImagePath)) {
+					$backgroundImagePath = '';
 				}
 
 				$cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
