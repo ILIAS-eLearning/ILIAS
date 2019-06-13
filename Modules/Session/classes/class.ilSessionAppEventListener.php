@@ -1,5 +1,4 @@
 <?php
-// thkoeln-patch: begin
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -188,4 +187,3 @@ class ilSessionAppEventListener implements ilAppEventListener
 		}
 	}
 }
-// thkoeln-patch: end

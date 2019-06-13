@@ -283,7 +283,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			case ilMembershipRegistrationSettings::TYPE_DIRECT:
 				$part->register($ilUser->getId());
 				ilUtil::sendSuccess($this->lng->txt('event_registered'),true);
-				// thkoeln-patch: begin
+
 				$ilAppEventHandler->raise(
 					"Modules/Session",
 					'enter',
@@ -293,14 +293,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 						'usr_id' => $ilUser->getId()
 					)
 				);
-				// thkoeln-patch: end
+
 				$this->ctrl->redirect($this,'infoScreen');
 				break;
 			
 			case ilMembershipRegistrationSettings::TYPE_REQUEST:
 				ilUtil::sendSuccess($this->lng->txt('sess_registered_confirm'),true);
 				$part->addSubscriber($ilUser->getId());
-				// thkoeln-patch: begin
+
 				$ilAppEventHandler->raise(
 					"Modules/Session",
 					'register',
@@ -310,7 +310,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 						'usr_id' => $ilUser->getId()
 					)
 				);
-				// thkoeln-patch: end
+
 				$this->ctrl->redirect($this,'infoScreen');
 				break;
 		}
@@ -420,7 +420,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilAccess = $DIC->access();
 		$ilErr = $DIC["ilErr"];
 		$lng = $DIC->language();
-		// thkoeln-patch: begin
+
 		$ilCtrl = $DIC->ctrl();
 		$parts = explode('_', $a_target);
 		$a_target = $parts[0];
@@ -433,7 +433,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$ilCtrl->redirectByClass(array('ilRepositoryGUI', __CLASS__, 'ilSessionMembershipGUI'));
 			}
 		}
-		// thkoeln-patch: end
+
 		if($ilAccess->checkAccess('visible', "", $a_target))
 		{
 			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");

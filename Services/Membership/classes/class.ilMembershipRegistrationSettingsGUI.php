@@ -155,7 +155,6 @@ abstract class ilMembershipRegistrationSettingsGUI
 			$form->addItem($lim);
 		}
 
-		// thkoeln-patch: begin
 		$notificationCheckbox = new ilCheckboxInputGUI($this->txt('registration_notification'), 'registration_notification');
 		$notificationCheckbox->setInfo($this->txt('registration_notification_info'));
 
@@ -172,7 +171,6 @@ abstract class ilMembershipRegistrationSettingsGUI
 
 		$notificationCheckbox->addSubItem($notificationOption);
 		$form->addItem($notificationCheckbox);
-		// thkoeln-patch: end
 
 		$this->setFormValues($form);
 	}

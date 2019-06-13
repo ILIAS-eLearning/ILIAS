@@ -46,9 +46,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 	 * Send notifications
 	 * @return 
 	 */
-	// thkoeln-patch: begin
 	public function send($userId = '')
-	// thkoeln-patch: end
 	{
 		global $DIC;
 
@@ -219,7 +217,6 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 				}
 				break;
 
-			// thkoeln-patch: begin
 			case self::TYPE_ENTER_NOTIFICATION:
 				if ('' === $userId) {
 					throw new ilException('No user id given');
@@ -339,7 +336,6 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 					$this->sendMail(array($rcp),array('system'));
 				}
 				break;
-			// thkoeln-patch: end
 		}
 		return true;
 	}
