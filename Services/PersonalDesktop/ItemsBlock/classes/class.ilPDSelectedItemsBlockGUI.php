@@ -274,11 +274,13 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	 */
 	public function fillFooter()
 	{
+		/*
 		$this->tpl->setVariable('FCOLSPAN', $this->getColSpan());
 		if ($this->tpl->blockExists('block_footer')) {
 			$this->tpl->setCurrentBlock('block_footer');
 			$this->tpl->parseCurrentBlock();
 		}
+		*/
 	}
 
 	/**
@@ -375,7 +377,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	 * @param bool $showHeader
 	 * @return string
 	 */
-	protected function renderGroupedItems(array $grouped_items, $showHeader = false) : string 
+	protected function renderGroupedItems(array $grouped_items, $showHeader = true) : string
 	{
 		if (0 === count($grouped_items)) {
 			return '';
@@ -418,8 +420,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected function getViewBlockHtml() : string 
 	{
 		return $this->renderGroupedItems(
-			$this->blockView->getItemGroups(),
-			($this->getCurrentDetailLevel() >= $this->blockView->getMinimumDetailLevelForSection())
+			$this->blockView->getItemGroups()
 		);
 	}
 

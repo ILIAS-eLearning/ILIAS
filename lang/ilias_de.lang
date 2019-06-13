@@ -7623,9 +7623,6 @@ pd#:#pd_my_offers#:#Ausgewählte Angebote
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.
 pd#:#pd_settings#:#Einstellungen
-pd#:#pd_sort_by_location#:#Nach Ort sortieren
-pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
-pd#:#pd_sort_by_type#:#Nach Typ sortieren
 pd#:#pd_presentation_mode_list#:#Listenansicht
 pd#:#pd_presentation_mode_tile#:#Kachelansicht
 pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
@@ -7633,7 +7630,6 @@ pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
 pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
 pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
 pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
-pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bm_num_bookmark_folders#:#Ordner
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
