@@ -1,11 +1,15 @@
 <?php
-namespace ilOrgUnitUserRepository;
+
+namespace OrgUnit\User;
+
 use OrgUnit\Positions;
 
 use OrgUnit\Positions\ilOrgUnitPosition;
 use OrgUnit\_PublicApi\OrgUnitUserSpecification;
-use OrgUnit\Interfaces\ilOrgUnitUserRepositoryInterface;
-use OrgUnit\UserilOrgUnitUser;
+
+use OrgUnit\Positions\UserAssignment\ilOrgUnitUserAssignmentRepository;
+use \ilOrgUnitUserRepositoryInterface;
+
 
 /**
  * Class ilOrgUnitUserRepository
@@ -22,6 +26,10 @@ class ilOrgUnitUserRepository implements ilOrgUnitUserRepositoryInterface {
 	 * @var \ILIAS\DI\Container
 	 */
 	protected $dic;
+	/**
+	 * @var self[]
+	 */
+	protected static $instance;
 
 
 	/**
@@ -30,11 +38,11 @@ class ilOrgUnitUserRepository implements ilOrgUnitUserRepositoryInterface {
 	 * @return ilOrgUnitUserRepository
 	 */
 	public static function getInstance(OrgUnitUserSpecification $org_unit_user_specification): self {
-		if (null === static::$instance) {
-			static::$instance = new static($org_unit_user_specification);
+		if (null === static::$instance[serialize($org_unit_user_specification->getUserIdsToConsider())]) {
+			static::$instance[serialize($org_unit_user_specification->getUserIdsToConsider())] = new static($org_unit_user_specification);
 		}
 
-		return static::$instance;
+		return static::$instance[serialize($org_unit_user_specification->getUserIdsToConsider())];
 	}
 
 
@@ -56,16 +64,18 @@ class ilOrgUnitUserRepository implements ilOrgUnitUserRepositoryInterface {
 	public function findAllUsersByUserIds($user_ids): array {
 		$users = array();
 
-		$q = "SELECT * FROM usr_data WHERE usr_id = " . $this->dic->database()->quote($user_ids, "in");
 
-		$usr_set = $this->dic->database()->query($q);
+		$q = "SELECT * FROM usr_data WHERE " . $this->dic->database()->in('usr_id', $user_ids, false, 'int');
 
-		foreach ($this->dic->database()->fetchAssoc($usr_set) as $arr_usr) {
-			$users[] = ilOrgUnitUser::getInstance($arr_usr['usr_id'], $arr_usr['login'], $arr_usr['email'], ilOrgUnitUserAssignmentRepository::getInstance());
+		$set = $this->dic->database()->query($q);
+
+		while ($row = $this->dic->database()->fetchAssoc($set)) {
+			$users[] = new ilOrgUnitUser($row['usr_id'],
+				$row['login'],
+				$row['email'],
+				$this->org_unit_user_specification
+			);
 		}
-
-
-
 		return $users;
 	}
 }

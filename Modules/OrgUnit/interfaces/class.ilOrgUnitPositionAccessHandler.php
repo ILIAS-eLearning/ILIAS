@@ -1,7 +1,4 @@
 <?php
-namespace OrgUnit\interfaces;
-
-use OrgUnit\User;
 
 /**
  * Interface  ilOrgUnitPositionAccessHandler

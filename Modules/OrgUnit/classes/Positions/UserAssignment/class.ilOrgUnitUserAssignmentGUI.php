@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use  OrgUnit\Positions\ilOrgUnitPosition;
 
 /**
  * Class ilOrgUnitUserAssignmentGUI

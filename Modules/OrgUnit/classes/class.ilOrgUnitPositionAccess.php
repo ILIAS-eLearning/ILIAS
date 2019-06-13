@@ -1,5 +1,5 @@
 <?php
-
+use OrgUnit\Positions\UserAssignment\ilOrgUnitUserAssignmentRepository;
 /**
  * Class ilOrgUnitPositionAccess
  *
@@ -8,7 +8,7 @@
 class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler {
 
 	/**
-	 * @var \ilOrgUnitUserAssignmentRepository
+	 * @var ilOrgUnitUserAssignmentRepository
 	 */
 	protected $ua;
 	/**

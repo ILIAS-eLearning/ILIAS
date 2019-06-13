@@ -1,15 +1,21 @@
 <?php
+namespace OrgUnit\Positions\UserAssignment;
+
+use \ilOrgUnitUserAssignment;
+use \ilException;
+use \ilObjOrgUnitTree;
+use OrgUnit\Positions\ilOrgUnitPosition;
 
 class ilOrgUnitUserAssignmentRepository {
 
 	/**
-	 * @var \ilOrgUnitUserAssignmentRepository
+	 * @var self
 	 */
 	protected static $instance;
 
 
 	/**
-	 * @return \ilOrgUnitUserAssignmentRepository
+	 * @return ilOrgUnitUserAssignmentRepository
 	 */
 	public static function getInstance() {
 		if (!isset(self::$instance)) {
@@ -93,8 +99,8 @@ class ilOrgUnitUserAssignmentRepository {
 				orgu_ua.orgu_id = orgu_ua2.orgu_id 
 				and orgu_ua.user_id <> orgu_ua2.user_id 
 				and orgu_ua.position_id = " . ilOrgUnitPosition::CORE_POSITION_EMPLOYEE . "
-				and orgu_ua2.position_id = " . ilOrgUnitPosition::CORE_POSITION_SUPERIOR . "
-				WHERE " . $DIC->database()->in(orgu_ua . user_id, $arr_empl_user_ids);
+				and orgu_ua2.position_id = " . ilOrgUnitPosition::CORE_POSITION_SUPERIOR . " 
+				AND " . $DIC->database()->in('orgu_ua.user_id', $arr_empl_user_ids, false, 'integer');
 
 		$st = $DIC->database()->query($sql);
 

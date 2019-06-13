@@ -23,6 +23,11 @@
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPropertyFormGUI
  */
+
+require_once "./Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionGUI.php";
+require_once "./Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionTableGUI.php";
+
+
 class ilObjOrgUnitGUI extends ilContainerGUI {
 
 	const TAB_POSITIONS = 'positions';

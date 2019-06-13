@@ -1,5 +1,6 @@
 <?php
-namespace OrgUnit\interfaces;
+
+
 
 interface ilOrgUnitUserRepositoryInterface {
 

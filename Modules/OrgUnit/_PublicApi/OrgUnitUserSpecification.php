@@ -1,16 +1,14 @@
 <?php
-
 namespace OrgUnit\_PublicApi;
-
 
 use \ilException;
 
 class OrgUnitUserSpecification {
 
 	/**
-	 * @var OrgUnitUserSpecification
+	 * @var array
 	 */
-	protected $org_unit_user_specification;
+	protected $user_ids_to_consider;
 	/**
 	 * @var bool
 	 */
@@ -46,10 +44,14 @@ class OrgUnitUserSpecification {
 	/**
 	 * @return array|int[]
 	 */
-	public function areUserIdsToConsiderLoaded() {
+	public function getUserIdsToConsider() {
 		return $this->user_ids_to_consider;
 	}
 
+
+	public function setAssignedPositionsLoaded($bool) {
+		$this->assigned_positions_loaded = $bool;
+	}
 
 
 	/**
@@ -65,5 +67,9 @@ class OrgUnitUserSpecification {
 	 */
 	public function areCorrespondingSuperiorsLoaded(): bool {
 		return $this->corresponding_superiors_loaded;
+	}
+
+	public function setCorrespondingSuperiorsLoaded($bool) {
+		$this->corresponding_superiors_loaded = $bool;
 	}
 }
