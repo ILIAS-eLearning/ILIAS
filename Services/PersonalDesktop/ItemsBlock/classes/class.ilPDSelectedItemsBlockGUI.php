@@ -28,7 +28,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	protected $viewSettings;
 
 	/** @var ilPDSelectedItemsBlockViewGUI */
-	protected $view;
+	protected $blockView;
 
 	/** @var bool */
 	protected $manage = false;
@@ -51,6 +51,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/** @var \ILIAS\HTTP\GlobalHttpState */
 	protected $http;
 
+	/** @var \ilObjectService */
+	protected $objectService;
+
 	/**
 	 * ilPDSelectedItemsBlockGUI constructor.
 	 */
@@ -64,6 +67,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->access = $DIC->access();
 		$this->ui = $DIC->ui();
 		$this->http = $DIC->http();
+		$this->objectService = $DIC->object();
 
 		parent::__construct();
 
@@ -91,7 +95,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, $view);
 		$this->viewSettings->parse();
 
-		$this->view = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
+		$this->blockView = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
 
 		$this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
 	}
@@ -102,14 +106,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function getViewSettings() : ilPDSelectedItemsBlockViewSettings
 	{
 		return $this->viewSettings;
-	}
-
-	/**
-	 *
-	 */
-	public function isManagedView() : bool
-	{
-		return $this->manage;
 	}
 
 	/**
@@ -189,11 +185,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		global $DIC;
 
-		$this->setTitle($this->view->getTitle());
-
-		if ($this->viewSettings->isTilePresentation()) {
-			return $this->getTileHTML();
-		}
+		$this->setTitle($this->blockView->getTitle());
 
 		$DIC->database()->useSlave(true);
 
@@ -205,7 +197,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$this->ctrl->getLinkTargetByClass(['ilcommonactiondispatchergui', 'iltagginggui'], '', '', true, false)
 		);
 
-		$DIC['ilHelp']->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, $this->view->getScreenId());
+		$DIC['ilHelp']->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, $this->blockView->getScreenId());
 
 		$this->setContent($this->getViewBlockHtml());
 
@@ -270,7 +262,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	public function fillDataSection()
 	{
 		if ($this->getContent() == '') {
-			$this->setDataSection($this->view->getIntroductionHtml());
+			$this->setDataSection($this->blockView->getIntroductionHtml());
 		} else {
 			$this->tpl->setVariable('BLOCK_ROW', $this->getContent());
 		}
@@ -358,11 +350,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		if ('' === $this->getContent()) {
 			$this->setEnableNumInfo(false);
-			return '';
+			return;
 		}
 
-		if ($this->manage) {
-			return '';
+		if ($this->blockView->isInManageMode()) {
+			return;
 		}
 
 		// @todo: handle $command['active']
@@ -379,220 +371,56 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	}
 
 	/**
-	 * @param ilTemplate $tpl
 	 * @param ilPDSelectedItemsBlockGroup[] $grouped_items
-	 * @param bool $show_header
-	 * @return bool
+	 * @param bool $showHeader
+	 * @return string
 	 */
-	protected function renderGroupedItems(ilTemplate $tpl, array $grouped_items, $show_header = false)
+	protected function renderGroupedItems(array $grouped_items, $showHeader = false) : string 
 	{
-		/** @var $rbacsystem ilRbacSystem */
-		$rbacsystem = $this->rbacsystem;
-
-		if(0 == count($grouped_items))
-		{
-			return false;
+		if (0 === count($grouped_items)) {
+			return '';
 		}
 
-		$output = false;
+		$listFactory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
 
-		require_once 'Services/Object/classes/class.ilObjectActivation.php';
-		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockListGUIFactory.php';
-		$list_factory = new ilPDSelectedItemsBlockListGUIFactory($this);
-
-		foreach($grouped_items as $group)
-		{
-			$item_html = array();
-
-			foreach($group->getItems() as $item)
-			{
-				try
-				{
-					$item_list_gui = $list_factory->byType($item['type']);
-					ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);
-
-					// #15232
-					if($this->manage)
-					{
-						if($this->view->mayRemoveItem((int)$item['ref_id']))
-						{
-							$item_list_gui->enableCheckbox(true);
-						}
-						else
-						{
-							$item_list_gui->enableCheckbox(false);
-						}
-					}
-
-					$html = $item_list_gui->getListItemHTML($item['ref_id'], $item['obj_id'], $item['title'], $item['description']);
-					if($html != '')
-					{
-						$item_html[] = array(
-							'html'                 => $html,
-							'item_ref_id'          => $item['ref_id'],
-							'item_obj_id'          => $item['obj_id'],
-							'parent_ref'           => $item['parent_ref'],
-							'type'                 => $item['type'],
-							'item_icon_image_type' => $item_list_gui->getIconImageType()
-						);
-					}
-				}
-				catch(ilException $e)
-				{
-					continue;
-				}
-			}
-
-			if(0 == count($item_html))
-			{
-				continue;
-			}
-
-			if($show_header)
-			{
-				$this->addSectionHeader($tpl, $group);
-				$this->resetRowType() ;
-			}
-
-			foreach($item_html as $item)
-			{
-				$this->addStandardRow(
-					$tpl,$item['html'], $item['item_ref_id'],$item['item_obj_id'],
-					$item['item_icon_image_type'],
-					'th_' . md5($group->getLabel())
-				);
-				$output = true;
-			}
+		if ($this->viewSettings->isTilePresentation()) {
+			$renderer = new ilPDObjectsTileRenderer(
+				$this->blockView,
+				$this->ui->factory(),
+				$this->ui->renderer(),
+				$listFactory,
+				$this->user,
+				$this->lng,
+				$this->objectService,
+				$this->ctrl
+			);
+			
+			return $renderer->render($grouped_items, $showHeader);
 		}
 
-		return $output;
+		$renderer = new ilPDObjectsListRenderer(
+			$this->blockView,
+			$this->ui->factory(),
+			$this->ui->renderer(),
+			$listFactory,
+			$this->user,
+			$this->lng,
+			$this->objectService,
+			$this->ctrl
+		);
+
+		return $renderer->render($grouped_items, $showHeader);
 	}
 
 	/**
-	* get selected item block
-	*/
-	protected function getViewBlockHtml()
-	{
-		$tpl = $this->newBlockTemplate();
-
-		$this->renderGroupedItems(
-			$tpl, $this->view->getItemGroups(), true);
-
-		if ($this->manage && $this->view->supportsSelectAll()) {
-			// #11355 - see ContainerContentGUI::renderSelectAllBlock()
-			$tpl->setCurrentBlock('select_all_row');
-			$tpl->setVariable('CHECKBOXNAME', 'ilToolbarSelectAll');
-			$tpl->setVariable('SEL_ALL_PARENT', 'ilToolbar');
-			$tpl->setVariable('SEL_ALL_CB_NAME', 'id');
-			$tpl->setVariable('TXT_SELECT_ALL', $this->lng->txt('select_all'));
-			$tpl->parseCurrentBlock();
-		}
-
-		return $tpl->get();
-	}
-
-	protected function resetRowType()
-	{
-		$this->cur_row_type = "";
-	}
-	
-	/**
-	* returns a new list block template
-	*
-	* @access	private
-	* @return	object		block template
-	*/
-	function newBlockTemplate()
-	{
-		$tpl = new ilTemplate("tpl.pd_list_block.html", true, true, "Services/PersonalDesktop");
-		$this->cur_row_type = "";
-		return $tpl;
-	}
-
-	/**
-	 * @param ilTemplate                  $a_tpl
-	 * @param ilPDSelectedItemsBlockGroup $group
+	 * @return string
 	 */
-	protected function addSectionHeader(ilTemplate $a_tpl, ilPDSelectedItemsBlockGroup $group)
+	protected function getViewBlockHtml() : string 
 	{
-		if($group->hasIcon())
-		{
-			$a_tpl->setCurrentBlock('container_header_row_image');
-			$a_tpl->setVariable('HEADER_IMG', $group->getIconPath());
-			$a_tpl->setVariable('HEADER_ALT', $group->getLabel());
-		}
-		else
-		{
-			$a_tpl->setCurrentBlock('container_header_row');
-		}
-
-		$a_tpl->setVariable('BLOCK_HEADER_CONTENT', $group->getLabel());
-		$a_tpl->setVariable('BLOCK_HEADER_ID', 'th_' . md5($group->getLabel()));
-		$a_tpl->parseCurrentBlock();
-
-		$a_tpl->touchBlock('container_row');
-
-		$this->resetRowType();
-	}
-
-	/**
-	* adds a standard row to a block template
-	*
-	* @param	object		$a_tpl		block template
-	* @param	string		$a_html		html code
-	* @access	private
-	*/
-	function addStandardRow(&$a_tpl, $a_html, $a_item_ref_id = "", $a_item_obj_id = "",
-		$a_image_type = "", $a_related_header = "")
-	{
-		$ilSetting = $this->settings;
-		
-		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
-		? "row_type_2"
-		: "row_type_1";
-		$a_tpl->touchBlock($this->cur_row_type);
-		
-		if ($a_image_type != "")
-		{
-			if (!is_array($a_image_type) && !in_array($a_image_type, array("lm", "htlm", "sahs")))
-			{
-				$icon = ilUtil::getImagePath("icon_".$a_image_type.".svg");
-				$title = $this->lng->txt("obj_".$a_image_type);
-			}
-			else
-			{
-				$icon = ilUtil::getImagePath("icon_lm.svg");
-				$title = $this->lng->txt("learning_module");
-			}
-
-			if ($ilSetting->get('custom_icons')) {
-				global $DIC;
-				/** @var \ilObjectCustomIconFactory  $customIconFactory */
-				$customIconFactory = $DIC['object.customicons.factory'];
-				$customIcon        = $customIconFactory->getByObjId($a_item_obj_id, $a_image_type);
-
-				if ($customIcon->exists()) {
-					$icon = $customIcon->getFullPath();
-				}
-			}
-
-			$a_tpl->setCurrentBlock("block_row_image");
-			$a_tpl->setVariable("ROW_IMG", $icon);
-			$a_tpl->setVariable("ROW_ALT", $title);
-			$a_tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$a_tpl->setVariable("ROW_NBSP", "&nbsp;");
-		}
-		$a_tpl->setCurrentBlock("container_standard_row");
-		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
-		$rel_headers = ($a_related_header != "")
-		? "th_selected_items ".$a_related_header
-		: "th_selected_items";
-		$a_tpl->setVariable("BLOCK_ROW_HEADERS", $rel_headers);
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("container_row");
+		return $this->renderGroupedItems(
+			$this->blockView->getItemGroups(),
+			($this->getCurrentDetailLevel() >= $this->blockView->getMinimumDetailLevelForSection())
+		);
 	}
 
 	/**
@@ -636,7 +464,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 	function manageObject()
 	{
-		$this->manage = true;
+		$this->blockView->setIsInManageMode(true);
 
 		$top_tb = new ilToolbarGUI();
 		$top_tb->setFormAction($this->ctrl->getFormAction($this));
@@ -776,200 +604,4 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
 		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
-
-
-	/**
-	 * @return string
-	 * @throws ilTemplateException
-	 */
-	protected function getTileHTML()
-	{
-		$f = $this->ui->factory();
-		$r = $this->ui->renderer();
-
-		$this->tpl = new ilTemplate('tpl.block_tiles.html', true, true, 'Services/PersonalDesktop');
-
-		// commands
-		if (count($this->getBlockCommands()) > 0) {
-			$has_block_command = false;
-
-			foreach ($this->getBlockCommands() as $command) {
-				// to do see getHTML in ilBlockGUI
-			}
-		}
-
-
-		// fill row for setting details
-		$this->fillDetailRow();
-
-		// header links
-		if (count($this->getHeaderLinks())) {
-			// to do see getHTML in ilBlockGUI
-		}
-
-		$list_factory = new ilPDSelectedItemsBlockListGUIFactory($this);
-
-		$groups = $this->view->getItemGroups();
-
-		foreach ($groups as $group) {
-			$items = $group->getItems();
-			if (count($items) > 0) {
-				$cards = [];
-				foreach ($group->getItems() as $item) {
-					$cards[] = $this->getCard($item, $list_factory);
-				}
-
-				$this->tpl->setCurrentBlock('head');
-				$this->tpl->setVariable('HEAD', $group->getLabel());
-				$this->tpl->parseCurrentBlock();
-
-				$deck = $f->deck($cards)->withNormalCardsSize();
-				$this->tpl->setCurrentBlock('tiles');
-				$this->tpl->setVariable('TILES', $r->render($deck));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock('grouped_tiles');
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		// Needs to be called to generate relevant block actions
-		$this->setContent(' ');
-		$this->setFooterLinks();
-
-		$dropdownItems = [];
-		$commandGroups = $this->getViewCommandGroups();
-		foreach ($commandGroups as $group) {
-			if (count($dropdownItems) > 0) {
-				$dropdownItems[] = $f->divider()->horizontal();
-			}
-			foreach ($group as $command) {
-				$dropdownItems[] = $f->button()->shy($command['txt'], $command['url']);
-			}
-		}
-		$dd = $f->dropdown()->standard($dropdownItems);
-		$this->tpl->setVariable('BLOCK_COMMANDS', $r->render($dd));
-
-		if ($this->ctrl->isAsynch()) {
-			// return without div wrapper
-			echo $this->tpl->getAsynch();
-		} else {
-			// return incl. wrapping div with id
-			return '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
-				$this->tpl->get() . '</div>';
-		}
-	}
-
-	/**
-	 * Render card
-	 * @param $item
-	 * @param $list_factory
-	 * @return \ILIAS\UI\Component\Card\Card
-	 */
-	protected function getCard($item, $list_factory) : \ILIAS\UI\Component\Card\Card
-	{
-		global $DIC;
-
-		$f = $DIC->ui()->factory();
-
-		$item_list_gui = $list_factory->byType($item['type']);
-		ilObjectActivation::addListGUIActivationProperty($item_list_gui, $item);
-
-		$user = $DIC->user();
-
-		$item_list_gui->initItem($item['ref_id'], $item['obj_id'],
-			$item['title'], $item['description']);
-
-		// actions
-		$item_list_gui->insertCommands();
-		$actions = [];
-		foreach ($item_list_gui->current_selection_list->getItems() as $action_item)
-		{
-			$actions[] =
-				$f->button()->shy($action_item["title"], $action_item["link"]);
-
-		}
-		$dropdown = $f->dropdown()->standard($actions);
-
-		$def_command = $item_list_gui->getDefaultCommand();
-
-		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($item['obj_id']);
-
-		if ($img->exists())
-		{
-			$path = $img->getFullPath();
-		}
-		else
-		{
-			$path = ilUtil::getImagePath("cont_tile/cont_tile_default_".$item['type'].".svg");
-			if (!is_file($path))
-			{
-				$path = ilUtil::getImagePath("cont_tile/cont_tile_default.svg");
-			}
-		}
-
-		$image = $f->image()->responsive($path, "");
-		if ($def_command["link"] != "")	// #24256
-		{
-			$image = $image->withAction($def_command["link"]);
-		}
-
-		// card
-		$title = $item["title"];
-
-		if ($item["type"] == "sess" && $item["title"] == "")
-		{
-			$app_info = ilSessionAppointment::_lookupAppointment($item['obj_id']);
-			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
-		}
-
-		$icon = $f->icon()->standard($item["type"], $this->lng->txt("obj_".$item["type"]))
-			->withIsOutlined(true);
-		$card = $f->card()->repositoryObject(
-			$title."<span data-list-item-id='".$item_list_gui->getUniqueItemId(true)."'></span>",
-			$image
-		)->withObjectIcon(
-			$icon
-		)->withActions($dropdown
-		);
-
-		if ($def_command["link"] != "")	// #24256
-		{
-			$card = $card->withTitleAction($def_command["link"]);
-		}
-
-		// properties
-		$l = [];
-		foreach ($item_list_gui->determineProperties() as $p)
-		{
-			if ($p["property"] != $this->lng->txt("learning_progress"))
-			{
-				$l[(string) $p["property"]] = (string) $p["value"];
-			}
-		}
-		if (count($l) > 0)
-		{
-			$prop_list = $f->listing()->descriptive($l);
-			$card = $card->withSections([$prop_list]);
-		}
-
-		// learning progress
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
-		$lp = ilLPStatus::getListGUIStatus($item["obj_id"], false);
-		if ($lp)
-		{
-			$percentage = (int) ilLPStatus::_lookupPercentage($item["obj_id"], $user->getId());
-			if ($lp["status"] == ilLPStatus::LP_STATUS_COMPLETED_NUM)
-			{
-				$percentage = 100;
-			}
-			//var_dump(ilLPStatus::_lookupPercentage($a_item_data["obj_id"], $user->getId())); exit;
-			$progressmeter = $f->chart()->progressMeter()->mini(100, $percentage);
-			$card = $card->withProgress($progressmeter);
-		}
-
-		return $card;
-	}
-
-
 }

@@ -36,6 +36,9 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	 */
 	protected $accessHandler;
 
+	/** @var bool */
+	protected $isInManageMode = false;
+
 	/**
 	 * ilPDSelectedItemsBlockViewGUI constructor.
 	 * @param ilPDSelectedItemsBlockViewSettings $viewSettings
@@ -99,6 +102,22 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	public function mayRemoveItem($refId)
 	{
 		return true;
+	}
+
+	/**
+	 * @param bool $isInManageMode
+	 */
+	public function setIsInManageMode(bool $isInManageMode)
+	{
+		$this->isInManageMode = $isInManageMode;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isInManageMode() : bool
+	{
+		return $this->isInManageMode;
 	}
 
 	/**
