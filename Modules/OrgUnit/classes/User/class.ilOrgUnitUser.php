@@ -8,9 +8,9 @@ use OrgUnit\_PublicApi\OrgUnitUserSpecification;
 class ilOrgUnitUser {
 
 	/**
-	 * @var self
+	 * @var self[]
 	 */
-	protected static $instance;
+	protected static $instances;
 	/**
 	 * @var int
 	 */
@@ -47,11 +47,11 @@ class ilOrgUnitUser {
 	 */
 	public static function getInstance(int $user_id, string $login, string $email, OrgUnitUserSpecification $orgu_user_spec): self {
 
-		if (null === static::$instance) {
-			static::$instance = new static($user_id, $login, $email, $orgu_user_spec);
+		if (null === static::$instances[$user_id]) {
+			static::$instances[$user_id] = new static($user_id, $login, $email, $orgu_user_spec);
 		}
 
-		return static::$instance;
+		return static::$instances[$user_id];
 	}
 
 
@@ -85,9 +85,6 @@ class ilOrgUnitUser {
 	 * @var array ilOrgUnitUser
 	 */
 	public function loadSuperiors() {
-
-		//The Instance which created this object here.
-
 		$user_assignment_repository = new ilOrgUnitUserAssignmentRepository();
 		$empl_superior = $user_assignment_repository->getEmplSuperiorList($this->orgu_user_spec->getUserIdsToConsider());
 
@@ -99,6 +96,8 @@ class ilOrgUnitUser {
 		}
 		$spec = new OrgUnitUserSpecification($arr_sup);
 		$rep = ilOrgUnitUserRepository::getInstance($spec);
+
+
 		$this->orgu_user_spec->setCorrespondingSuperiorsLoaded(true);
 
 		$this->superiors =  $rep->findAllUsersByUserIds($arr_sup);

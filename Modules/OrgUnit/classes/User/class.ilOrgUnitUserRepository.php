@@ -2,12 +2,7 @@
 
 namespace OrgUnit\User;
 
-use OrgUnit\Positions;
-
-use OrgUnit\Positions\ilOrgUnitPosition;
 use OrgUnit\_PublicApi\OrgUnitUserSpecification;
-
-use OrgUnit\Positions\UserAssignment\ilOrgUnitUserAssignmentRepository;
 use \ilOrgUnitUserRepositoryInterface;
 
 
@@ -30,6 +25,10 @@ class ilOrgUnitUserRepository implements ilOrgUnitUserRepositoryInterface {
 	 * @var self[]
 	 */
 	protected static $instance;
+	/**
+	 * @var ilOrgUnitUser[]
+	 */
+	protected $orgu_users;
 
 
 	/**
@@ -48,6 +47,8 @@ class ilOrgUnitUserRepository implements ilOrgUnitUserRepositoryInterface {
 
 	/**
 	 * ilOrgUnitUserRepository constructor.
+	 *
+	 * @param OrgUnitUserSpecification $org_unit_user_specification
 	 */
 	private function __construct($org_unit_user_specification) {
 		global $DIC;
@@ -62,6 +63,18 @@ class ilOrgUnitUserRepository implements ilOrgUnitUserRepositoryInterface {
 	 * @return array ilOrgUnitUser
 	 */
 	public function findAllUsersByUserIds($user_ids): array {
+
+		$this->orgu_users = $this->loadAllUsersByUserIds($org_unit_user_specification->getUserIdsToConsider());
+
+		return $this->orgu_users;
+	}
+
+	/**
+	 * @param array $user_ids
+	 *
+	 * @return array ilOrgUnitUser
+	 */
+	private function loadAllUsersByUserIds($user_ids): array {
 		$users = array();
 
 
