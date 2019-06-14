@@ -95,19 +95,19 @@ class ilCertificateTemplateExportAction
 
 		$this->filesystem->put($exportPath . 'certificate.xml', $xslContent);
 
-        $backgroundImagePath = $template->getBackgroundImagePath();
-        if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-            if (true === $this->filesystem->has($backgroundImagePath)) {
-                $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
-            }
-        }
+		$backgroundImagePath = $template->getBackgroundImagePath();
+		if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
+			if (true === $this->filesystem->has($backgroundImagePath)) {
+				$this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
+			}
+		}
 
-        $thumbnailImagePath = $template->getThumbnailImagePath();
-        if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
-            if (true === $this->filesystem->has($backgroundImagePath)) {
-                $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
-            }
-        }
+		$thumbnailImagePath = $template->getThumbnailImagePath();
+		if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
+			if (true === $this->filesystem->has($backgroundImagePath)) {
+				$this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+			}
+		}
 
 		$objectType = $this->objectHelper->lookupType($this->objectId);
 
