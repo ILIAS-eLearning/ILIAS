@@ -62,6 +62,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private $certificatePath;
 
     /**
+     * @var ilCertificateBackgroundImageFileService
+     */
+    private $backGroundImageFileService;
+
+    /**
      * @param integer $objectId
      * @param string $certificatePath
      * @param ilLanguage $language
@@ -87,7 +92,9 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ilFormFieldParser $formFieldParser = null,
         ilCertificateTemplateImportAction $importAction = null,
         ilLogger $logger = null,
-        ilCertificateTemplateRepository $templateRepository = null
+        ilCertificateTemplateRepository $templateRepository = null,
+        \ILIAS\Filesystem\Filesystem $filesystem = null,
+        ilCertificateBackgroundImageFileService $backgroundImageFileService = null
     ) {
         global $DIC;
 
@@ -131,6 +138,15 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $templateRepository = new ilCertificateTemplateRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
+
+        if (null === $filesystem) {
+            $filesystem = $DIC->filesystem()->web();
+        }
+
+        if (null === $backgroundImageFileService) {
+            $backgroundImageFileService = new ilCertificateBackgroundImageFileService($certificatePath, $filesystem);
+        }
+        $this->backGroundImageFileService = $backgroundImageFileService;
     }
 
     /**
@@ -223,7 +239,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $bgimage->setUseCache(false);
 
         $bgimage->setALlowDeletion(true);
-        if (!$this->hasBackgroundImage()) {
+        if (!$this->backGroundImageFileService->hasBackgroundImage($certificateTemplate)) {
             if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
                 ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
                 $imagePath = ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
@@ -233,7 +249,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         } else {
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
 
-            $thumbnailPath = $this->getBackgroundImageThumbPath($certificatePath);
+            $thumbnailPath = $this->backGroundImageFileService->getBackgroundImageThumbPath();
 
             if (!file_exists($thumbnailPath)) {
                 $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
@@ -279,7 +295,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $certificate->setRequired(true);
         $certificate->setRows(20);
         $certificate->setCols(80);
-
 
         $placeholderHtmlDescription = $this->placeholderDescriptionObject->createPlaceholderHtmlDescription();
 
@@ -356,50 +371,5 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     public function fetchFormFieldData(string $content)
     {
         return $this->formFieldParser->fetchDefaultFormFields($content);
-    }
-
-    /**
-     * Checks for the background image of the certificate
-     *
-     * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
-     * @throws ilException
-     */
-    private function hasBackgroundImage()
-    {
-        $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
-
-        $backgroundImagePath = $template->getBackgroundImagePath();
-        if ($backgroundImagePath === '') {
-            return false;
-        }
-
-        $absolutePath = CLIENT_WEB_DIR . $backgroundImagePath;
-
-        if (file_exists($absolutePath)
-            && (filesize($absolutePath) > 0)
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns the filesystem path of the background image thumbnail
-     * @param string $certificatePath
-     * @return string The filesystem path of the background image thumbnail
-     */
-    private function getBackgroundImageThumbPath()
-    {
-        return CLIENT_WEB_DIR . $this->certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
-    }
-
-    /**
-     * Returns the filename of the background image
-     *
-     * @return string The filename of the background image
-     */
-    private function getBackgroundImageName()
-    {
-        return "background.jpg";
     }
 }
