@@ -121,7 +121,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 
 		$this->commands = ilObjStudyProgrammeReferenceAccess::_getCommands($this->reference_ref_id);
 		
-		if($this->ilAccess->checkAccess('write','',$this->reference_ref_id) or $this->deleted)
+		if($this->ilAccess->checkAccess('write','',$this->reference_ref_id) || $this->deleted)
 		{
 			$this->info_screen_enabled = false;
 		}
@@ -154,8 +154,6 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
 	{
 		// Check edit reference against reference edit permission
-		$target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
-		$target_ref_id = current(ilObject::_getAllReferences($target_obj_id));
 		switch($a_cmd)
 		{
 			case 'editReference':
@@ -165,9 +163,9 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 		switch($a_permission)
 		{
 			case 'copy':
-				return parent::checkCommandAccess($a_permission, $a_cmd, $target_ref_id, 'prg', $target_obj_id);
+				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, 'prg', $a_obj_id);
 			default:
-				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), 'prgr', "");
 		}
 	}
 	

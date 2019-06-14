@@ -22,13 +22,12 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
 		global $DIC;
-
 		$ilAccess = $DIC['ilAccess'];
-		
 		switch($a_permission)
 		{
 			case 'visible':
 			case 'read':
+
 				$target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
 				if(!$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $target_ref_id))
 				{
@@ -36,11 +35,35 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
 				}
 				break;
 			case "delete":
-				$target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
-				$prg = ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
-				if ($prg->hasRelevantProgresses() || !$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id)) {
+
+				if (!$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id)) {
 					return false;
 				}
+				$tree = $DIC['tree'];
+				$assignment_ids = [];
+
+				$target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
+				$prg = ilObjStudyProgramme::getInstanceByRefId($target_ref_id);
+				$target_id = $prg->getId();
+				$progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
+				foreach(ilObjStudyProgramme::getInstanceByRefId(
+					$tree->getParentId($a_ref_id)
+					)->getProgresses() as $parent_progress
+				) {
+					try{
+						$progress =
+							$progress_db->getInstanceForAssignment(
+								$target_id,
+								$parent_progress->getAssignmentId()
+							);
+					} catch(ilStudyProgrammeNoProgressForAssignmentException $e) {
+						continue;
+					}
+					if($progress->isRelevant()) {
+						return false;
+					}
+				}
+
 				break;
 		}
 
