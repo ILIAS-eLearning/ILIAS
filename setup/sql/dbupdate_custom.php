@@ -178,5 +178,40 @@ if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
 
 <#12>
 <?php
+;
+?>
+
+
+<#13>
+<?php
+if (!$ilDB->tableExists('prg_auto_content'))
+{
+	$ilDB->createTable('prg_auto_content', array(
+		'prg_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'cat_ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_edited' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('prg_auto_content', ['prg_obj_id', 'cat_ref_id']);
+}
+?>
+
+<#14>
+<?php
 $ilCtrlStructureReader->getStructure();
 ?>

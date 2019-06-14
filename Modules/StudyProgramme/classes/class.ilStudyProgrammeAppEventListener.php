@@ -8,6 +8,8 @@
  *  * Remove all assignments of a user on all study programms when the
  *    user is removed.
  *
+ *  * Add/Remove courses to/trom study programms, if upper category is under surveillance
+ *
  * @author  Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
@@ -19,7 +21,7 @@ class ilStudyProgrammeAppEventListener {
 		switch ($a_component) {
 			case "Services/User":
 				switch ($a_event){
-					case "deleteUser": 
+					case "deleteUser":
 						self::onServiceUserDeleteUser($a_parameter);
 						break;
 				}
@@ -85,6 +87,9 @@ class ilStudyProgrammeAppEventListener {
 		if ($node_type == "prg" && $parent_type == "prg") {
 			self::addMissingProgresses($parent_ref_id);
 		}
+		if ($node_type == "crs" && $parent_type == "cat") {
+			self::addCrsToProgrammes($node_ref_id, $parent_ref_id);
+		}
 	}
 
 	private static function onServiceTreeMoveTree($a_parameter) {
@@ -95,9 +100,22 @@ class ilStudyProgrammeAppEventListener {
 		$node_type = ilObject::_lookupType($node_ref_id, true);
 		$new_parent_type = ilObject::_lookupType($new_parent_ref_id, true);
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
-		
-		if ($node_type != "crsr" || ($new_parent_type != "prg" && $old_parent_type != "prg")) {
+
+		if (! in_array($node_type, ["crsr","crs"])
+			|| (
+				($new_parent_type != "prg" && $old_parent_type != "prg")
+				&&
+				$old_parent_type != "cat"
+			)
+		) {
 			return;
+		}
+
+		if ($node_type === 'crs') {
+			self::removeCrsFromProgrammes($node_ref_id, $old_parent_ref_id);
+			if($new_parent_type === 'cat') {
+				self::addCrsToProgrammes($node_ref_id, $new_parent_ref_id);
+			}
 		}
 
 		if ($new_parent_type == "prg") {
@@ -111,11 +129,11 @@ class ilStudyProgrammeAppEventListener {
 	private static function onServiceObjectDeleteOrToTrash($a_parameter) {
 		$node_ref_id = $a_parameter["ref_id"];
 		$old_parent_ref_id = $a_parameter["old_parent_ref_id"];
-		
+
 		$node_type = $a_parameter["type"];
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
 
-		if ($old_parent_type != "prg") {
+		if ($old_parent_type !== "prg") {
 			return;
 		}
 
@@ -136,4 +154,15 @@ class ilStudyProgrammeAppEventListener {
 		$obj = self::getStudyProgramme($a_ref_id);
 		$obj->addMissingProgresses();
 	}
+
+	private static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		ilObjStudyProgramme::addCrsToProgrammes($crs_ref_id, $cat_ref_id);
+	}
+
+	private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		ilObjStudyProgramme::removeCrsFromProgrammes($crs_ref_id, $cat_ref_id);
+	}
+
 }
