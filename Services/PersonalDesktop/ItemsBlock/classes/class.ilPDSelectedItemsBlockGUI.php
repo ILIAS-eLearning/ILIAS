@@ -84,7 +84,12 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$this->initViewSettings();
 
-		$this->setPresentation(self::PRES_MAIN_LIST);
+		if ($this->viewSettings->isTilePresentation()) {
+			$this->setPresentation(self::PRES_MAIN_LEG);
+		}
+		else {
+			$this->setPresentation(self::PRES_MAIN_LIST);
+		}
 		$this->main_content = true;
 	}
 
@@ -302,7 +307,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$sortingCommands[] = [
 				'txt' => $this->lng->txt('pd_sort_by_' . $sorting),
 				'url' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
-				'asyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true),
+				'xxxasyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true),
 				'active' => $sorting === $effectiveSorting,
 			];
 			$this->ctrl->setParameter($this, 'sorting', null);
@@ -321,7 +326,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$presentationCommands[] = [
 				'txt' => $this->lng->txt('pd_presentation_mode_' . $presentation),
 				'url' => $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
-				'asyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemPresentation', '', true),
+				'xxxasyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemPresentation', '', true),
 				'active' => $presentation === $effectivePresentation,
 			];
 			$this->ctrl->setParameter($this, 'presentation', null);
@@ -709,6 +714,40 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		);
 
 		return $list_item;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
+	{
+		$listFactory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
+
+		$groupedCommands = $this->getGroupedCommandsForView();
+		foreach ($groupedCommands as $group) {
+			foreach ($group as $command) {
+				$this->addBlockCommand(
+					(string) $command['url'],
+					(string) $command['txt'],
+					(string) $command['asyncUrl']
+				);
+			}
+		}
+
+		$grouped_items = $this->blockView->getItemGroups();
+
+		$renderer = new ilPDObjectsTileRenderer(
+			$this->blockView,
+			$this->ui->factory(),
+			$this->ui->renderer(),
+			$listFactory,
+			$this->user,
+			$this->lng,
+			$this->objectService,
+			$this->ctrl
+		);
+
+		return $renderer->render($grouped_items, false);
 	}
 
 }

@@ -168,7 +168,12 @@ class ilObjectListGUI
 	 * @var \ILIAS\DI\UIServices
 	 */
 	protected $ui;
-	
+
+	/**
+	 * @var ilObjectService
+	 */
+	protected $object_service;
+
 	/**
 	* constructor
 	*
@@ -189,6 +194,8 @@ class ilObjectListGUI
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
 		$this->context = $a_context;
+
+		$this->object_service = $DIC->object();
 		
 		$this->enableComments(false);
 		$this->enableNotes(false);
@@ -4050,6 +4057,107 @@ class ilObjectListGUI
 		return $list_item;
 	}
 
+	public function getAsCard(int $ref_id, int $obj_id, string $type,
+		string $title,
+		string $description): ?\ILIAS\UI\Component\Card\Card
+	{
+		$ui = $this->ui;
+
+		$this->initItem($ref_id, $obj_id, $type,
+			$title,
+			$description);
+
+		$this->enableCommands(true);
+
+		$this->insertCommands();
+		$actions = [];
+		foreach ($this->current_selection_list->getItems() as $action_item) {
+			$actions[] = $ui->factory()
+				->button()
+				->shy($action_item['title'], $action_item['link']);
+		}
+		$dropdown = $ui->factory()
+			->dropdown()
+			->standard($actions);
+
+		$def_command = $this->getDefaultCommand();
+
+		$img = $this->object_service->commonSettings()->tileImage()->getByObjId((int) $obj_id);
+		if ($img->exists()) {
+			$path = $img->getFullPath();
+		} else {
+			$path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $type . '.svg');
+			if (!is_file($path)) {
+				$path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
+			}
+		}
+
+		$image = $this->ui->factory()
+			->image()
+			->responsive($path, '');
+		if ($def_command['link'] != '')    // #24256
+		{
+			$image = $image->withAction($def_command['link']);
+		}
+
+		if ($type == 'sess' && $title == '') {
+			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
+			$title = ilSessionAppointment::_appointmentToString(
+				$app_info['start'],
+				$app_info['end'],
+				$app_info['fullday']
+			);
+		}
+
+		$icon = $this->ui->factory()
+			->symbol()
+			->icon()
+			->standard($type, $this->lng->txt('obj_' . $type))
+			->withIsOutlined(true);
+		$card = $ui->factory()->card()->repositoryObject(
+			$title . '<span data-list-item-id="' . $this->getUniqueItemId(true) . '"></span>',
+			$image
+		)->withObjectIcon(
+			$icon
+		)->withActions(
+			$dropdown
+		);
+
+		// #24256
+		if ($def_command['link']) {
+			$card = $card->withTitleAction($def_command['link']);
+		}
+
+		$l = [];
+		foreach ($this->determineProperties() as $p) {
+			if ($p['property'] !== $this->lng->txt('learning_progress')) {
+				$l[(string)$p['property']] = (string)$p['value'];
+			}
+		}
+		if (count($l) > 0) {
+			$prop_list = $ui->factory()
+				->listing()
+				->descriptive($l);
+			$card = $card->withSections([$prop_list]);
+		}
+
+		$lp = ilLPStatus::getListGUIStatus($obj_id, false);
+		if (is_array($lp) && array_key_exists('status', $lp)) {
+			$percentage = (int)ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
+			if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+				$percentage = 100;
+			}
+
+			$card = $card->withProgress(
+				$ui->factory()
+					->chart()
+					->progressMeter()
+					->mini(100, $percentage)
+			);
+		}
+
+		return $card;
+	}
 
 }
 

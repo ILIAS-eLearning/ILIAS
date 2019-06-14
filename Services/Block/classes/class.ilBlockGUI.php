@@ -1087,7 +1087,10 @@ abstract class ilBlockGUI
 				break;
 
 			case self::PRES_MAIN_LEG:
-				// todo
+				$panel = $factory->panel()->standard(
+					$this->getTitle(),
+					$factory->legacy($this->getLegacyContent())
+				);
 				break;
 
 			case self::PRES_SEC_LIST:
