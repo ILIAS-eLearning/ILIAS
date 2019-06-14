@@ -44,6 +44,13 @@ class ilStudyProgrammeDIC
 				$DIC['lng']
 			);
 		};
+		$dic['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeAutoCategoryDBRepository(
+				$DIC['ilDB'],
+				(int)$DIC['ilUser']->getId()
+			);
+		};
+
 		$dic['ilObjStudyProgrammeSettingsGUI'] = function($dic) use ($DIC) {
 			return new ilObjStudyProgrammeSettingsGUI(
 				$DIC['tpl'],
@@ -106,6 +113,18 @@ class ilStudyProgrammeDIC
 				$DIC['ilUser'],
 				$dic['ilStudyProgrammeUserProgressDB'],
 				$dic['ilStudyProgrammeUserAssignmentDB']
+			);
+		};
+		$dic['ilObjStudyProgrammeAutoCategoriesGUI'] = function($dic) use ($DIC) {
+			return new ilObjStudyProgrammeAutoCategoriesGUI(
+				$DIC['tpl'],
+				$DIC['ilCtrl'],
+				$DIC['ilToolbar'],
+				$DIC['lng'],
+				$DIC->ui()->factory(),
+				$DIC->ui()->renderer(),
+				$DIC->http()->request(),
+				$DIC['tree']
 			);
 		};
 		$dic['TransformationFactory'] = function($dic) use ($DIC) {
