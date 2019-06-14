@@ -87,13 +87,11 @@ class ilStudyProgrammeAppEventListener {
 		if ($node_type == "prg" && $parent_type == "prg") {
 			self::addMissingProgresses($parent_ref_id);
 		}
-<<<<<<< HEAD
 		if ($node_type == "prgr" && $parent_type == "prg") {
 			self::addMissingProgresses($parent_ref_id);
-=======
+		}
 		if ($node_type == "crs" && $parent_type == "cat") {
 			self::addCrsToProgrammes($node_ref_id, $parent_ref_id);
->>>>>>> 31faaf677471c403d6ee41ab39340581058c34b3
 		}
 	}
 
