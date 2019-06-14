@@ -542,7 +542,7 @@ class ilCertificateGUI
 
                 $backgroundImagePath = $previousCertificateTemplate->getBackgroundImagePath();
 
-                if ($backgroundImagePath === '' && $backgroundImagePath !== null) {
+                if ($backgroundImagePath === '') {
                     $globalRelativeBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
                     $globalRelativeBackgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalRelativeBackgroundImagePath);
                     $backgroundImagePath = $globalRelativeBackgroundImagePath;
