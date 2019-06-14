@@ -35,8 +35,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		['prg_belongs_to', 'prg_belongs_to', true, true, true],
 		['prg_assign_date', 'prg_assign_date', false, true, true],
 		['prg_assigned_by', 'prg_assigned_by', true, true, true],
-		['prg_expiry_date', 'prg_expiry_date', true, true, true],
 		['prg_deadline', 'prg_deadline', true, true, true],
+		['prg_expiry_date', 'prg_expiry_date', true, true, true],
 		['prg_validity', 'prg_validity', false, true, true],
 		[null, 'action', false, true, true]
 	];
@@ -238,6 +238,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 				   ."     , prgrs.assignment_id assignment_id"
 				   ."     , prgrs.completion_date"
 				   ."     , prgrs.vq_date"
+				   ."     , prgrs.deadline prg_deadline"
 				   ."     , ass.root_prg_id root_prg_id"
 				   ."     , ass.last_change prg_assign_date"
 				   ."     , ass_usr.login prg_assigned_by"

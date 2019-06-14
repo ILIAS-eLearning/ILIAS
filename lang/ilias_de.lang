@@ -11205,7 +11205,7 @@ prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
 prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums abgeschlossen werden.
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
-prg#:#prg_validity_of_qualification#:#Gültigkeit des einer erreichten Qualifikation
+prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
 prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
 prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
 prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
@@ -11229,6 +11229,7 @@ prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender 
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
 prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
+prg#:#no_manual_status#:#Kein manueller Status
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
