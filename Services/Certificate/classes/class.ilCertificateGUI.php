@@ -213,8 +213,8 @@ class ilCertificateGUI
 		ilCertificateTemplatePreviewAction $previewAction = null,
 		\ILIAS\FileUpload\FileUpload $fileUpload = null,
 		ilSetting $settings = null,
-        \ILIAS\Filesystem\Filesystem $fileSystem = null
-    ) {
+		\ILIAS\Filesystem\Filesystem $fileSystem = null
+	) {
 		global $DIC;
 
 
@@ -326,10 +326,10 @@ class ilCertificateGUI
 		}
 		$this->settings = $settings;
 
-        if (null === $fileSystem) {
-            $fileSystem = $DIC->filesystem()->web();
-        }
-        $this->fileSystem = $fileSystem;
+		if (null === $fileSystem) {
+			$fileSystem = $DIC->filesystem()->web();
+		}
+		$this->fileSystem = $fileSystem;
 	}
 
 	/**
