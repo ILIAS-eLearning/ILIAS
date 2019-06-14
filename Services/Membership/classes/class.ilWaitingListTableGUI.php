@@ -69,10 +69,11 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setId('crs_wait_'. $this->getRepositoryObject()->getId());
+		$this->setFormName('waiting');
+		$this->setPrefix('waiting');
 
 		parent::__construct($a_parent_obj,'participants');
 
-		$this->setFormName('waiting');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'participants'));
 
 	 	$this->addColumn('','f',"1",true);
@@ -94,6 +95,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField('sub_time');
 		$this->setPrefix('waiting');
 		$this->setSelectAllCheckbox('waiting',true);
+		
 		$this->setRowTemplate("tpl.show_waiting_list_row.html","Services/Membership");
 		
 		$this->enable('sort');
@@ -289,6 +291,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			$usr_data_fields[] = $field;
 		}
 
+		$l = $this->getLimit();
 		$usr_data = ilUserQuery::getUserListData(
 			$this->getOrderField(),
 			$this->getOrderDirection(),
