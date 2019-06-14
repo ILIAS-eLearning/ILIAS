@@ -309,7 +309,7 @@ class ilMembershipCronNotifications extends ilCronJob
 			? "- ".$res
 			: "# ".$res;		
 		
-		if(sizeof($sub))
+		if(is_array($sub) && sizeof($sub))
 		{		
 			$res .= "\n".implode("\n", $sub);						
 		}
