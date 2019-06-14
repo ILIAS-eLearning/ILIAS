@@ -97,19 +97,21 @@ class ilCertificateTemplateExportAction
 
         $backgroundImagePath = $template->getBackgroundImagePath();
         if ($backgroundImagePath !== null && $backgroundImagePath !== '') {
-            $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
+            if (true === $this->filesystem->has($backgroundImagePath)) {
+                $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
+            }
         }
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
         if ($thumbnailImagePath !== null && $thumbnailImagePath !== '') {
-            $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+            if (true === $this->filesystem->has($backgroundImagePath)) {
+                $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
+            }
         }
-
 
         $objectType = $this->objectHelper->lookupType($this->objectId);
 
         $zipFileName = $time . '__' . $installationId . '__' . $objectType . '__' . $this->objectId . '__certificate.zip';
-
 
         $zipPath = $rootDir . $this->certificatePath . $zipFileName;
         $this->utilHelper->zip($exportPath, $zipPath);
