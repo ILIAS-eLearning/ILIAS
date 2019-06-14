@@ -4400,6 +4400,8 @@ common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prgs#:#Studienprogramme
 common#:#obj_prgs_desc#:#Studienprogramm Administration
+common#:#obj_prgr#:#Link zum Studienprogramm
+common#:#obj_prgrs#:#Links zu Studienprogrammen
 common#:#obj_prtf#:#Portfolio
 common#:#obj_prtt#:#Portfoliovorlage
 common#:#obj_prtt_duplicate#:#Portfoliovorlage kopieren
@@ -11134,6 +11136,9 @@ prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_multi_unmark_relevant#:#Als irrelevant markieren
 prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_new#:#Neues Studienprogramm
+prg#:#prgr_new#:#Neuer Link zum Studienprogramm
+prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
 prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_not_allowed_node_to_delete#:#Sie dürfen dieses Studienprogramm nicht löschen.

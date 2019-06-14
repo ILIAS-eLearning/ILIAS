@@ -13175,6 +13175,9 @@ mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Noti
 mail#:#mail_notification_membership_section#:#Membership
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
+prg#:#prgr_new#:#Create Study Programme Link
+prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_add#:#Add Study Programme
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_type#:#Study Programme Type
@@ -13295,6 +13298,8 @@ common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
+common#:#obj_prgr#:#Link to Study Programme
+common#:#obj_prgrs#:#Links to Study Programmes
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.

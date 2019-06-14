@@ -179,7 +179,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						   , "deadline" => $progress->getDeadline()
 						   , "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
 						   );
-		});
+		}, true);
 		return $plan;
 	}
 
