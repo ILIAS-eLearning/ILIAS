@@ -66,6 +66,10 @@ before creating a commit.
 
 Adapt your existing `pre-commit` hook.
 
+The following hook won't adapt any code for the committed files,
+the hook will just check if the coding style following the standard ILIAS code
+style.
+
 ```bash
 #!/bin/sh
 
