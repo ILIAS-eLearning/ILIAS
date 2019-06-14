@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__."/../../../Base.php");
+
 use ILIAS\UI\Implementation\Component\Chart\PieChart\SectionValue;
 
 /**

@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__."/../../../Base.php");
+
 use ILIAS\Data\Color;
 use ILIAS\UI\Implementation\Component\Chart\PieChart\LegendEntry;
 use ILIAS\UI\Implementation\Component\Chart\PieChart\PieChartItem;
