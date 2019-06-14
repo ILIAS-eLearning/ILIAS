@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Domainmodel\Common;
+namespace ILIAS\AssessmentQuestion\Domain\Question\Shared;
 
 use ILIAS\Data\Domain\IdentifiesAggregate;
 

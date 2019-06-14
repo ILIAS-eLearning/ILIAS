@@ -2,9 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\Domain\Question\Command;
 
+use ILIAS\Messaging\Contract\Command\AbstractCommand;
 use ILIAS\Messaging\Contract\Command\Command;
 
-class CreateQuestionCommand extends Command
+class CreateQuestionCommand extends AbstractCommand implements Command
 {
 
 	/**

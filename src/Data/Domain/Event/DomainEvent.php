@@ -3,6 +3,8 @@
 
 namespace ILIAS\Data\Domain;
 
+use DateTime;
+
 /**
  * Something that happened in the past, that is of importance to the business.
  */
@@ -14,4 +16,12 @@ interface DomainEvent {
 	 * @return IdentifiesAggregate
 	 */
 	public function getAggregateId(): IdentifiesAggregate;
+
+	public function getEventName(): string;
+
+	public function getOccuredOn(): DateTime;
+
+	public function getInitiatingUserId(): int;
+
+	public function getEventBody(): string;
 }

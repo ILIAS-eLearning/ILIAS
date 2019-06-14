@@ -14,3 +14,11 @@ http://172.28.128.3/ilias.php?cmdClass=ilias\assessmentquestion\example\ilasqexa
 //UNDO Memento
 
 //https://github.com/topdeveloppement/DDD-Symfony/blob/bd58f3533c0c46bf0dea01ca7ba03090cb686ac2/src/DDD/UserInterface/WEB/Action/Security/ConfirmationAction.php
+
+
+JMS Serializer
+serialize/unserialize native PHP strategies have a problem when dealing with class and
+namespace refactoring. One alternative is use your own serialization mechanism, for example,
+concatenating the amount, a one character separator such as “|” and the currency ISO code. However,
+there is another better favored approach, using an open-source serializer library such as JMS
+Serializer14. Let’s see an example of applying it for serializing a Money object.

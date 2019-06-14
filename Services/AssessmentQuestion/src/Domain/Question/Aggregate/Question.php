@@ -1,17 +1,14 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
+namespace ILIAS\AssessmentQuestion\Domain\Question\Aggregate;
 
-use ilException;
 use ILIAS\Data\Domain\AggregateRoot;
-use ILIAS\Data\Domain\DomainEvent;
 use ILIAS\Data\Domain\IsEventSourced;
-use ILIAS\Messaging\Example\ExampleCourse\Command\Events\CourseMemberWasAdded;
 use ILIAS\Data\Domain\RecordsEvents;
 use ILIAS\Data\Domain\AggregateHistory;
-use ILIAS\Data\Domain\DomainEvents;
 use ILIAS\Data\Domain\IdentifiesAggregate;
-use ILIAS\AssessmentQuestion\Domainmodel\Event\QuestionWasCreated;
+use ILIAS\AssessmentQuestion\Domain\Question\Event\QuestionCreatedEvent;
+
 
 class Question extends AggregateRoot implements isEventSourced {
 
@@ -49,7 +46,7 @@ class Question extends AggregateRoot implements isEventSourced {
 	{
 		$question = new Question($question_id, $title, $description, static::STATE_DRAFT);
 		$question->recordThat(
-			new QuestionWasCreated($question_id, $title, $description, static::STATE_DRAFT)
+			new QuestionCreatedEvent($question_id, $title, $description, static::STATE_DRAFT)
 		);
 		return $question;
 	}

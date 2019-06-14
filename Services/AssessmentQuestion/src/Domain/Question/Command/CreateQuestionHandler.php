@@ -5,6 +5,8 @@ namespace ILIAS\AssessmentQuestion\Domain\Question\Command;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\QuestionRepository;
 use ILIAS\Messaging\Contract\Command\Command;
 use ILIAS\Messaging\Contract\Command\CommandHandler;
+use ILIAS\AssessmentQuestion\Domain\Question\Aggregate\Question;
+use ILIAS\AssessmentQuestion\Domain\Question\Shared\QuestionId;
 
 class CreateQuestionHandler implements CommandHandler {
 
@@ -26,8 +28,6 @@ class CreateQuestionHandler implements CommandHandler {
 			$command->getTitle(),
 			$command->getDescription()
 		);
-		$this->repository->add($question);
-
 
 	}
 }

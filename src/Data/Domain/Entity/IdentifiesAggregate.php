@@ -4,8 +4,7 @@
 namespace ILIAS\Data\Domain;
 
 /**
- * An object that identifies an Aggregate. Typically a UUID, but any kind of id will do, as long as it is unique within
- * the system.
+ * An object that identifies an Aggregate. Typically a UUID, but any kind of id will do, as long as it is unique within the system.
  */
 interface IdentifiesAggregate {
 

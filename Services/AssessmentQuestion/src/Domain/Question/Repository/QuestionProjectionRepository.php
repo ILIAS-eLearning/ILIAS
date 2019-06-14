@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
+namespace  ILIAS\AssessmentQuestion\Domain\Question\Repository;
 use  ILIAS\AssessmentQuestion\Domainmodel\Common\Projection;
 use ILIAS\AssessmentQuestion\Domainmodel\Event\QuestionWasCreated;
 

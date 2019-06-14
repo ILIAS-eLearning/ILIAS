@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\In;
+use ILIAS\Refinery\Numeric\Group;
 use ILIAS\Refinery\To;
 
 class Factory
@@ -136,5 +137,15 @@ class Factory
 	public function numeric()
 	{
 		return new Numeric\Group($this->dataFactory, $this->language);
+	}
+
+	/**
+	 * Contains constraints for object data types
+	 *
+	 * @return Object\Group
+	 */
+	public function object()
+	{
+		return new Object\Group($this->dataFactory);
 	}
 }

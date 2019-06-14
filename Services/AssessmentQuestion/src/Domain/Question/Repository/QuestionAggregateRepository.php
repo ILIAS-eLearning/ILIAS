@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Domainmodel\Question;
+namespace ILIAS\AssessmentQuestion\Domain\Question\Repository;
 
 use ILIAS\Data\Domain\EventSourcedAggregateRepository;
 

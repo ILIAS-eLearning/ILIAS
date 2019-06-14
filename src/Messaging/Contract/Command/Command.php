@@ -16,14 +16,6 @@ use DateTime;
  *
  * Commands are handled by exactly one CommandHandler
  */
-abstract class Command {
-	/**
-	 * @var int
-	 */
-	protected $creator_id;
+interface Command {
 
-	/**
-	 * @var DateTime
-	 */
-	protected $creation_time;
 }
