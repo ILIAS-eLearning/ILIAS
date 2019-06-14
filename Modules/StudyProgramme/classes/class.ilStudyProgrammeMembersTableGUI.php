@@ -41,6 +41,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		[null, 'action', false, true, true]
 	];
 
+
+	const OPTION_ALL = -1;
+	const VALIDITY_OPTION_VALID = 1;
+	const VALIDITY_OPTION_RENEWAL_REQUIRED = 3;
+
 	protected $prg_obj_id;
 	protected $prg_ref_id;
 	protected $prg_has_lp_children;
@@ -97,12 +102,23 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		}
 
 		$this->sp_user_progress_db = $sp_user_progress_db;
-		$this->determineLimit();
+
+		$this->initFilter();
+		$filter_values = $this->getFilterValues();
+
 		$this->determineOffsetAndOrder();
-		$oder = $this->getOrderField();
-		$dir = $this->getOrderDirection();
-		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset(), $this->getOrderField(), $this->getOrderDirection());
-		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
+		$this->determineLimit();
+
+		$members_list = $this->fetchData(
+			$a_prg_obj_id,
+			$this->getLimit(),
+			$this->getOffset(),
+			$this->getOrderField(),
+			$this->getOrderDirection(),
+			$filter_values
+		);
+
+		$this->setMaxCount($this->countFetchData($a_prg_obj_id, $filter_values));
 		$this->setData($members_list);
 	}
 
@@ -206,11 +222,19 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 	 * @param int | null 	$limit
 	 * @param int | null 	$offset
 	 * @param string | null 	$order_column
-	 * @param string | null 	$order_directon
+	 * @param string | null 	$order_direction
+	 * @param array 	$filter
 	 *
 	 * @return string[]
 	 */
-	protected function fetchData($a_prg_id, $limit = null, $offset = null, $order_coloumn = null, $order_direction = null) {
+	protected function fetchData(
+		int $a_prg_id,
+		int $limit = null,
+		int $offset = null,
+		string $order_column = null,
+		string $order_direction = null,
+		array $filter = []
+	): array {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
 		$query = "SELECT prgrs.id prgrs_id"
@@ -249,9 +273,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
 		$query .= $this->getFrom();
 		$query .= $this->getWhere($a_prg_id);
+		$query .= $this->getFilterWhere($filter);
 
-		if($order_coloumn !== null) {
-			$query .= " ORDER BY $order_coloumn";
+		if($order_column !== null) {
+			$query .= " ORDER BY $order_column";
 
 			if($order_direction !== null) {
 				$query .= " $order_direction";
@@ -261,6 +286,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		if($limit !== null) {
 			$this->db->setLimit($limit, $offset !== null ? $offset : 0);
 		}
+
 		$res = $this->db->query($query);
 		$now = (new DateTime())->format('Y-m-d H:i:s');
 		$members_list = array();
@@ -314,15 +340,17 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 	 * Get maximum number of rows the table could have
 	 *
 	 * @param int 	$a_prg_id
+	 * @param array	$filter
 	 *
 	 * @return int
 	 */
-	protected function countFetchData($a_prg_id) {
+	protected function countFetchData(int $a_prg_id, array $filter = []) {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
 		$query = "SELECT count(prgrs.id) as cnt";
 		$query .= $this->getFrom();
 		$query .= $this->getWhere($a_prg_id);
+		$query .= $this->getFilterWhere($filter);
 
 		$res = $this->db->query($query);
 		$rec = $this->db->fetchAssoc($res);
@@ -356,6 +384,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 	protected function getWhere($a_prg_id) {
 		return " WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
 	}
+
 
 	/**
 	 * Get selectable columns
@@ -402,4 +431,118 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 			'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan')
 		);
 	}
+
+	/**
+	 * Get options of filter "validity".
+	 *
+	 * @return array
+	 */
+	protected function getValidityOptions(): array
+	{
+		return [
+			self::VALIDITY_OPTION_VALID => $this->lng->txt("prg_still_valid"),
+			self::VALIDITY_OPTION_RENEWAL_REQUIRED => $this->lng->txt("prg_renewal_required")
+		];
+	}
+
+	/**
+	 * Get options of filter "status".
+	 *
+	 * @return array
+	 */
+	protected function getStatusOptions(): array
+	{
+		return [
+			ilStudyProgrammeProgress::STATUS_IN_PROGRESS => $this->lng->txt("prg_status_in_progress"),
+			ilStudyProgrammeProgress::STATUS_COMPLETED => $this->lng->txt("prg_status_completed"),
+			ilStudyProgrammeProgress::STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited"),
+			ilStudyProgrammeProgress::STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant"),
+			ilStudyProgrammeProgress::STATUS_FAILED => $this->lng->txt("prg_status_failed")
+		];
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function initFilter()
+	{
+		$item = $this->addFilterItemByMetaType('prg_validity', self::FILTER_SELECT);
+		$item->setOptions(
+			[self::OPTION_ALL => $this->lng->txt("all")]
+			+ $this->getValidityOptions()
+		);
+
+		$item = $this->addFilterItemByMetaType('prg_status', self::FILTER_SELECT);
+		$item->setOptions(
+			[self::OPTION_ALL => $this->lng->txt("all")]
+			+ $this->getStatusOptions()
+		);
+
+		$this->addFilterItemByMetaType('name', self::FILTER_TEXT);
+		$this->addFilterItemByMetaType('prg_expiry_date', self::FILTER_DATE_RANGE);
+	}
+
+	/**
+	 * Get filter-values by field id.
+	 *
+	 * @return array
+	 */
+	protected function getFilterValues(): array
+	{
+		$f = [];
+		foreach($this->filters as $item) {
+			$f[$item->getFieldId()] = $this->getFilterValue($item);
+		}
+		return $f;
+	}
+
+	/**
+	 * Get the additional sql WHERE-part for filters.
+	 *
+	 * @param array $filter
+	 * @return string
+	 */
+	protected function getFilterWhere(array $filter): string
+	{
+		$buf = [''];
+
+		if(strlen($filter['name']) > 0) {
+			$name = substr($this->db->quote($filter['name'], "text"),1,-1);
+			$name_filter = 'AND ('.PHP_EOL
+				.'pcp.firstname LIKE \'%' .$name .'%\' OR' .PHP_EOL
+				.'pcp.lastname LIKE \'%' .$name .'%\' OR' .PHP_EOL
+				.'pcp.login LIKE \'%' .$name .'%\''.PHP_EOL
+			.')';
+			$buf[] = $name_filter;
+		}
+
+		if($filter['prg_status'] && (int)$filter['prg_status'] !== self::OPTION_ALL) {
+			$buf[] = 'AND prgrs.status = '
+				.$this->db->quote($filter['prg_status'], "integer");
+		}
+
+		if($filter['prg_validity'] && (int)$filter['prg_validity'] !== self::OPTION_ALL) {
+			$operator = '<='; //self::VALIDITY_OPTION_RENEWAL_REQUIRED
+			if($filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
+				$operator = '>';
+			}
+			$buf[] = 'AND prgrs.vq_date ' .$operator .' NOW()';
+		}
+
+		$exp_from = $filter['prg_expiry_date']['from'];
+		if(! is_null($exp_from)) {
+			$dat = $exp_from->get(IL_CAL_DATETIME);
+			$buf[] = 'AND prgrs.vq_date >= \'' .$dat .'\'';
+		}
+
+		$exp_to = $filter['prg_expiry_date']['to'];
+		if(! is_null($exp_to)) {
+			$dat = $exp_to->get(IL_CAL_DATETIME);
+			$buf[] = 'AND prgrs.vq_date <= \'' .$dat .'\'';
+		}
+
+		$conditions = implode(PHP_EOL, $buf);
+		return $conditions;
+	}
+
 }

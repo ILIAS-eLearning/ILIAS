@@ -91,7 +91,7 @@ implements ilStudyProgrammeSettingsRepository
 
 	/**
 	 * @inheritdoc
-	 */	
+	 */
 	public function delete(ilStudyProgrammeSettings $settings)
 	{
 		unset(self::$cache[$settings->getObjId()]);
@@ -123,7 +123,7 @@ implements ilStudyProgrammeSettingsRepository
 		}
 		return $return;
 	}
-	
+
 
 	public function loadIdsByType(int $type_id) : array
 	{
@@ -234,7 +234,7 @@ implements ilStudyProgrammeSettingsRepository
 	)
 	{
 		if(!$this->checkExists($obj_id)) {
-			throw new \LogicException('invaid obj_id to update: '.$obj_id);
+			throw new \LogicException('invalid obj_id to update: '.$obj_id);
 		}
 		$this->db->manipulate(
 			'UPDATE '.self::TABLE.' SET'

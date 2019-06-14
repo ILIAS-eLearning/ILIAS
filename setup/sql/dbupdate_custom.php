@@ -181,8 +181,61 @@ if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
 ;
 ?>
 
-
 <#13>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$type_id  = ilDBUpdateNewObjectType::addNewType('prgr', 'Study Programme Reference');
+
+ilDBUpdateNewObjectType::addRBACOperations($type_id, [
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY
+]);
+
+ilDBUpdateNewObjectType::addRBACCreate('create_prgr', 'Create Study Programme Reference', [
+	'prg'
+]);
+?>
+
+<#14>
+<?php
+if (!$ilDB->tableExists('prg_auto_content'))
+{
+	$ilDB->createTable('prg_auto_content', array(
+		'prg_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'cat_ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_edited' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('prg_auto_content', ['prg_obj_id', 'cat_ref_id']);
+}
+?>
+
+<#15>
+<?php
+;
+?>
+
+<#16>
 <?php
 if (!$ilDB->tableExists('prg_auto_membership'))
 {
@@ -222,7 +275,7 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 }
 ?>
 
-<#14>
+<#17>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>

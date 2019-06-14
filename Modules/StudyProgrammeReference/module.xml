@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 2019-061-06 13:08:30Z dkloefper $"
+	id="prgr">
+	<baseclasses>
+		<baseclass name="ilObjStudyProgrammeReferenceGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="prgr" class_name="StudyProgrammeReference" dir="classes" default_pos="25" default_pres_pos="20"
+			checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0" group="prg" export="0">
+			<parent id="prg">prgr</parent>
+		</object>
+	</objects>
+</module>

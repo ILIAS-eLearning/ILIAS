@@ -128,6 +128,8 @@ class ilObjStudyProgrammeMembersGUI {
 					case "markNotRelevantMulti":
 					case "markRelevantMulti":
 					case "updateFromCurrentPlanMulti":
+					case "applyFilter":
+					case "resetFilter":
 						$cont = $this->$cmd();
 						break;
 					default:
@@ -142,13 +144,22 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->tpl->setContent($cont);
 	}
 
+
+
+	protected function getMembersTableGUI(): ilStudyProgrammeMembersTableGUI
+	{
+		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php");
+		$prg_id = ilObject::_lookupObjId($this->ref_id);
+		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this, "view", "", $this->sp_user_progress_db);
+		return $table;
+	}
+
 	/**
 	 * Shows table with all members of the SP
 	 *
 	 * @return string
 	 */
 	protected function view() {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php");
 
 		if ($this->getStudyProgramme()->isActive()) {
 			$this->initSearchGUI();
@@ -157,11 +168,26 @@ class ilObjStudyProgrammeMembersGUI {
 		if (!$this->getStudyProgramme()->isActive()) {
 			ilUtil::sendInfo($this->lng->txt("prg_no_members_not_active"));
 		}
-
-		$prg_id = ilObject::_lookupObjId($this->ref_id);
-		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this, "view", "", $this->sp_user_progress_db);
+		$table = $this->getMembersTableGUI();
 		return $table->getHTML();
 	}
+
+	function applyFilter()
+	{
+		$table = $this->getMembersTableGUI();
+		$table->resetOffset();
+		$table->writeFilterToSession();
+		$this->ctrl->redirect($this, "view");
+	}
+
+	function resetFilter()
+	{
+		$table = $this->getMembersTableGUI();
+		$table->resetOffset();
+		$table->resetFilter();
+		$this->ctrl->redirect($this, "view");
+	}
+
 
 	/**
 	 * Assigns a users to SP
