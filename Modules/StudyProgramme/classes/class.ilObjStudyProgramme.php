@@ -1245,7 +1245,6 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Store a Category with auto-content for this StudyProgramme;
 	 * a category can only be referenced once (per programme).
-	 * @param string $title
 	 * @param int $category_ref_id
 	 */
 	public function storeAutomaticContentCategory(int $category_ref_id) {
@@ -1310,7 +1309,7 @@ class ilObjStudyProgramme extends ilContainer {
 
 	/**
 	 * Get all StudyProgrammes monitoring this category.
-	 * @param int $crs_ref_id
+	 * @param int $cat_ref_id
 	 * @return ilObjStudyProgramme[]
 	 */
 	protected static function getProgrammesMonitoringCategory(int $cat_ref_id): array

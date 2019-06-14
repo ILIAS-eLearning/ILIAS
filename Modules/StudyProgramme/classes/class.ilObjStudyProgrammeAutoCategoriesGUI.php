@@ -19,7 +19,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	 */
 	public $tpl;
 
-	/**c
+	/**
 	 * @var ilCtrl
 	 */
 	public $ctrl;
@@ -144,7 +144,6 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
 	/**
 	 * Store data from (modal-)form.
-	 * @return string
 	 */
 	protected function save()
 	{
@@ -203,7 +202,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	 * Get current StudyProgramme-object.
 	 * @return ilObjStudyProgramme
 	 */
-	protected function getObject()
+	protected function getObject(): ilObjStudyProgramme
 	{
 		if ($this->object === null ||
 			(int)$this->object->getRefId() !== $this->prg_ref_id

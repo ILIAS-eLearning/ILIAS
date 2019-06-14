@@ -31,7 +31,7 @@ class ilStudyProgrammeAutoCategoryTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @depends testConstruction
 	 */
-	public function testgetPrgObjId($ac)
+	public function testGetPrgObjId($ac)
 	{
 		$this->assertEquals(
 			$this->prg_obj_id,
@@ -47,17 +47,6 @@ class ilStudyProgrammeAutoCategoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$this->cat_ref_id,
 			$ac->getCategoryRefId()
-		);
-	}
-
-	/**
-	 * @depends testConstruction
-	 */
-	public function testGetTitle($ac)
-	{
-		$this->assertEquals(
-			$this->title,
-			$ac->getTitle()
 		);
 	}
 
