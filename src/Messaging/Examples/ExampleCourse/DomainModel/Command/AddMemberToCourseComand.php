@@ -6,7 +6,7 @@ use ILIAS\Messaging\Contract\Command\Command;
 
 class addCourseMemberToCourseCommand implements Command {
 
-	//TODO - should be IdentifiesAggregate
+	//TODO - should be AggregateId
 
 	/**
 	 * @var int

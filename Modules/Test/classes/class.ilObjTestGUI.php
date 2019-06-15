@@ -10,6 +10,10 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
 require_once 'Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperation.php';
 require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
 
+
+use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringService;
+use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringSpec;
+
 /**
  * Class ilObjTestGUI
  *
@@ -744,11 +748,34 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+
 	protected function createQuestionByAPIObject() {
-		require_once 'Services/AssessmentQuestion/src/APIGateway/AsqAdiGateway.php';
 		global $DIC;
 
-		$form = \ILIAS\AssessmentQuestion\APIGateway\AsqAdiGateway::GetCreationForm();
+		$authoring_spec = new AsqAuthoringSpec($DIC->ui()->mainTemplate(),
+												$DIC->language());
+
+		$authoring_service = new AsqAuthoringService($authoring_spec);
+
+		$form =  $authoring_service->GetCreationForm();
+		switch ($_SERVER['REQUEST_METHOD']) {
+			case 'GET':
+				$this->tpl->setContent($form->getHTML());
+				break;
+			case 'POST':
+				$form->setValuesByPost();
+				$authoring_service->CreateQuestion(
+					$form->getQuestionTitle(),
+					$form->getQuestionDescription(),
+					$DIC->user()->getId());
+				break;
+		}
+
+		/*
+		require_once 'Services/AssessmentQuestion/src/Authoring/APIGateway/AsqAdiGateway.php';
+		global $DIC;
+
+		$form =  AsqAdiGateway::GetCreationForm();
 
 		switch ($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
@@ -757,7 +784,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'POST':
 				$form->setValuesByPost();
 
-				$response = \ILIAS\AssessmentQuestion\APIGateway\AsqAdiGateway::CreateQuestion(
+				$response =AsqAdiGateway::CreateQuestion(
 					$form->getQuestionTitle(),
 					$form->getQuestionDescription(),
 					$DIC->user()->getId());
@@ -771,7 +798,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 
 				break;
-		}
+		}*/
 	}
 
 	protected function trackTestObjectReadEvent()

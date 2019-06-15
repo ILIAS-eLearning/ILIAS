@@ -23,10 +23,10 @@ class AddCourseMemberServiceTest extends \PHPUnit_Framework_TestCase
 $mongo_manager = new  MongoDB\Driver\Manager("mongodb://localhost:27017");
 $collection = new \MongoDB\Collection($mongo_manager, "ilias", "course", array());
 */
-use ILIAS\Messaging\CommandBusBuilder;
+use ILIAS\Messaging\CommandBusAdapter;
 use ILIAS\Messaging\Example\ExampleCourse\Domainmodel\Command\addCourseMemberToCourseCommand;
 
-$command_bus = new CommandBusBuilder();
+$command_bus = new CommandBusAdapter();
 
 $command_bus->handle(new addCourseMemberToCourseCommand(2,56));
 

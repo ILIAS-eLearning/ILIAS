@@ -1,7 +1,7 @@
 <?php
 namespace ILIAS\Messaging\Example\ExampleCourse\Infrastructure\Projection;
 
-use ILIAS\Messaging\CommandBusBuilder;
+use ILIAS\Messaging\CommandBusAdapter;
 use ILIAS\Messaging\Contract\Command\Command;
 use ILIAS\Messaging\Contract\Command\CommandHandler;
 use ILIAS\Data\Domain\EventSourcedAggregateRepository;

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2019 Martin Studer <ms@studer-raimann.ch> Extended GPL, see docs/LICENSE - inspired by https://github.com/buttercup-php/protects */
 
-namespace ILIAS\Data\Domain;
+namespace ILIAS\Data\Domain\Entity;
 
 /**
  * An object that records the events that happened to it since the last time it was cleared, or since it was

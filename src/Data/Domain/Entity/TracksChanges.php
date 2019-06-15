@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2019 Martin Studer <ms@studer-raimann.ch> Extended GPL, see docs/LICENSE - inspired by https://github.com/buttercup-php/protects */
 
-namespace ILIAS\Data\Domain;
+namespace ILIAS\Data\Domain\Entity;
 
 /**
  * An AggregateRoot that exposes whether it was changed.
@@ -9,9 +9,9 @@ namespace ILIAS\Data\Domain;
 interface TracksChanges {
 
 	/**
-	 * @return IdentifiesAggregate
+	 * @return AggregateId
 	 */
-	public function getAggregateId(): IdentifiesAggregate;
+	public function getAggregateId(): AggregateId;
 
 
 	/**

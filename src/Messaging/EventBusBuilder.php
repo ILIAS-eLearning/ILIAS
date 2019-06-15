@@ -12,8 +12,8 @@ class EventBusBuilder {
 
 	public function __construct() {
 
-		$middleware = new Middleware();
-		$this->command_bus = new CommandBus([ $middleware ]);
+		$middleware = new MiddlewareHandelsCommands();
+		$this->command_bus = new CommandBusAdapter([ $middleware ]);
 	}
 
 

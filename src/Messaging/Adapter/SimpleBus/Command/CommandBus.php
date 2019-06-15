@@ -7,7 +7,7 @@ use ILIAS\Messaging\Contract\Command\Command;
 use ILIAS\Messaging\Contract\Command\CommandBus as CommandBusContract;
 use ILIAS\Messaging\Contract\Command\CommandHandlerMiddleware as CommandHandlerMiddlewareContract;
 
-class CommandBus implements CommandBusContract {
+abstract class CommandBus implements CommandBusContract {
 
 	/**
 	 * @var CommandBus
@@ -18,17 +18,9 @@ class CommandBus implements CommandBusContract {
 	/**
 	 * CommandBusAdapter constructor.
 	 *
-	 * @param CommandHandlerMiddlewareContract[] $middlewares
 	 */
-	public function __construct(array $middlewares) {
+	public function __construct() {
 		$this->command_bus_adapter = new CommandBusWithMiddlewareSupportAdapter();
-
-		foreach ($middlewares as $middleware) {
-			/**
-			 * @var CommandHandlerMiddlewareContract $middleware
-			 */
-			$this->appendMiddleware($middleware);
-		}
 	}
 
 
@@ -40,7 +32,7 @@ class CommandBus implements CommandBusContract {
 	 *
 	 * @return void
 	 */
-	public function appendMiddleware($middleware): void {
+	public function appendMiddleware(CommandHandlerMiddlewareContract $middleware): void {
 		$this->command_bus_adapter->appendMiddleware($middleware);
 	}
 

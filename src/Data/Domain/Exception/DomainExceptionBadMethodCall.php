@@ -1,6 +1,6 @@
 <?
 
-namespace ILIAS\Data\Domain;
+namespace ILIAS\Data\Domain\Exception;
 
 class DomainExceptionBadMethodCall extends DomainException {
 

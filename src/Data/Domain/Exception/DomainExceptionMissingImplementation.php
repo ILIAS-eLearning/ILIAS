@@ -3,7 +3,7 @@
 
 /* Copyright (c) 2019 Martin Studer <ms@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Data\Domain;
+namespace ILIAS\Data\Domain\Exception;
 
 /**
  * Signals that a result contains no value.

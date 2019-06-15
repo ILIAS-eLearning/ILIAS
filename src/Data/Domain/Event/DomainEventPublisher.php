@@ -1,57 +1,30 @@
 <?php
 
-namespace ILIAS\Data\Domain;
-
+namespace ILIAS\Data\Domain\Event;
 
 /**
- * Class DomainEventPublisher
- * @package ILIAS\Data\Domain
+ * Interface DomainEventPublisher
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @package ILIAS\Data\Domain\Event
  */
-class DomainEventPublisher {
+interface DomainEventPublisher {
 
 	/**
-	 * @var array
+	 * @return DomainEventPublisher.php
 	 */
-	private $subscribers;
-	/**
-	 * @var DomainEventPublisher
-	 */
-	private static $instance = null;
-
-	/**
-	 * @return DomainEventPublisher
-	 */
-	public static function getInstance(): DomainEventPublisher {
-		if (!isset(static::$instance)) {
-			static::$instance = new DomainEventPublisher();
-		}
-		return static::$instance;
-	}
+	public static function getInstance();
 
 	/**
 	 * DomainEventPublisher constructor.
 	 */
-	private function __construct() {
-		$this->subscribers = [];
-	}
-
+	public function __construct();
 	/**
 	 * @param DomainEventSubscriber $aDomainEventSubscriber
 	 */
-	public function subscribe(DomainEventSubscriber $aDomainEventSubscriber) {
-		$this->subscribers[] = $aDomainEventSubscriber;
-	}
+	public function subscribe(DomainEventSubscriber $aDomainEventSubscriber);
 
 	/**
 	 * @param DomainEvent $anEvent
 	 */
-	public function publish(DomainEvent $anEvent) {
-		foreach ($this->subscribers as $aSubscriber) {
-			if ($aSubscriber->isSubscribedTo($anEvent)) {
-				$aSubscriber->handle($anEvent);
-			}
-		}
-	}
+	public function publish(DomainEvent $anEvent);
 }

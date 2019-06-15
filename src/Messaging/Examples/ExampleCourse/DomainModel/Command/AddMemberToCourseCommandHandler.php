@@ -71,7 +71,7 @@ class addCourseMemberToCourseCommandHandler implements CommandHandler {
 		foreach ($documents as $document) {
 			/** @var $document Document */
 			echo '<h2>' . htmlspecialchars($document->getInternalId()) . '</h2>';
-			echo "<div><b>Revision:</b> {$document->getRevision()}</b>";
+			//echo "<div><b>Revision:</b> {$document->getRevision()}</b>";
 			echo '<pre>' . json_encode($document->getAll(), JSON_PRETTY_PRINT) . '</pre>';
 		}
 

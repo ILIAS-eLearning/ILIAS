@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\Data\Domain;
+namespace ILIAS\Data\Domain\Event;
 use ActiveRecord;
 use \ilException;
 

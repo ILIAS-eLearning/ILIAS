@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2019 - Martin Studer <ms@studer-raimann.ch> - Extended GPL, see LICENSE */
 
-namespace ILIAS\Messaging\Contract\Command;
+namespace ILIAS\Messaging\Contract\Event;
 
 /**
  * Interface for commands.

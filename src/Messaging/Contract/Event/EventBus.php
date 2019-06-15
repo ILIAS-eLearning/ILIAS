@@ -6,7 +6,7 @@ namespace ILIAS\Messaging\Contract\Event;
 use ILIAS\Messaging\Contract\Event\EventHandlerMiddleware as CommandHandlerMiddlewareContract;
 
 /**
- * Interface CommandBus
+ * Interface CommandBusAdapter
  *
  * The Command Bus is used to dispatch a given Command into the Bus
  * and maps a Command to a Command Handler.

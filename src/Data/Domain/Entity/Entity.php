@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ILIAS\Data\Domain;
+namespace ILIAS\Data\Domain\Entity;
 
 
 interface Entity {

@@ -2,22 +2,36 @@
 
 namespace ILIAS\Messaging;
 
-use ILIAS\Messaging\Contract\Command;
-use ILIAS\Messaging\Adapter\CommandBus;
+use ILIAS\Messaging\Adapter\CommandBusAdapter;
+use ILIAS\Messaging\Contract\Command\CommandBus;
+use ILIAS\Messaging\FinishHandlingMessageBefordeHandlingNext;
 
 class CommandBusBuilder {
 
-	private $command_bus;
+	/**
+	 * @var CommandBus
+	 */
+	protected $command_bus;
 
 
+	/**
+	 * CommandBusBuilder constructor.
+	 */
 	public function __construct() {
-
-		$middleware = new Middleware();
-		$this->command_bus = new CommandBus([ $middleware ]);
+		$this->command_bus = new CommandBusAdapter();
+		//$this->command_bus->appendMiddleware(new FinishHandlingMessageBefordeHandlingNextMiddleware());
 	}
 
 
-	public function handle($command) {
-		$this->command_bus->handle($command);
+	/**
+	 * @return CommandBusAdapter|CommandBus
+	 */
+	public function getCommandBus() {
+		return $this->command_bus;
+	}
+
+
+	public function appendMiddlware($middleware) {
+		$this->command_bus->appendMiddleware($middleware);
 	}
 }
