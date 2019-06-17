@@ -105,4 +105,14 @@ class AsqAuthoringService {
 		// saves display options
 		//EditQuestionPresentation.png
 	}
+
+	public function ImportQuestion($question) {
+		// imports the question
+		// TODO support what
+	}
+
+	public function ExportQuestion(string $question_id) {
+		// exports the question
+		// TODO support what
+	}
 }
