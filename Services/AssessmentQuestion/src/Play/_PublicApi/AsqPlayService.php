@@ -15,11 +15,6 @@ const MSG_SUCCESS = "success";
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
 class AsqPlayService {
-	public function GetQuestionForm(string $question_id) {
-		//returns test form for question
-		//GetQuestionForm.png
-	}
-
 	public function AnswerQuestion(string $question_id, int $user_id, $answer) {
 		// answers the question
 	}

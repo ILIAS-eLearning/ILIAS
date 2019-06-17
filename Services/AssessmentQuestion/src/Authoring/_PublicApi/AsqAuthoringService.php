@@ -42,27 +42,6 @@ class AsqAuthoringService {
 		$this->lng = $asq_authoring_service_spec->lng;
 	}
 
-
-	public function GetCreationForm(): CreateQuestionFormGUI {
-		//CreateQuestion.png
-		return new CreateQuestionFormGUI();
-	}
-
-	public function GetQuestionList() {
-		//returns question list object
-		//GetQuestionlist.png
-	}
-
-	public function GetPrintView(string $parent_id) {
-		//returns print view
-		//GetPrintView.png
-	}
-
-	public function GetPresentationForm(string $question_id) {
-		//returns presentation form
-		//EditQuestionPresentation.png
-	}
-
 	public function CreateQuestion(string $title, string $description, int $creator_id): void {
 		//CreateQuestion.png
 		try {
