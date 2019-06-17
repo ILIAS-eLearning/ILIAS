@@ -1338,7 +1338,7 @@ class ilObjSAHSLearningModule extends ilObject
 		}
 
 		// copy properties
-		$new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
+		// $new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setSubType($this->getSubType());
 		$new_obj->setAPIAdapterName($this->getAPIAdapterName());
