@@ -58,6 +58,11 @@ class AsqAuthoringService {
 		//GetPrintView.png
 	}
 
+	public function GetPresentationForm(string $question_id) {
+		//returns presentation form
+		//EditQuestionPresentation.png
+	}
+
 	public function CreateQuestion(string $title, string $description, int $creator_id): void {
 		//CreateQuestion.png
 		try {
@@ -93,6 +98,7 @@ class AsqAuthoringService {
 
 	public function GetAvilableQuestionTypes() {
 		// returns all know question type
+		// GetAvilableQuestionTypes
 	}
 
 	public function SaveQuestionPresentation(string $question_id, $presentation) {
