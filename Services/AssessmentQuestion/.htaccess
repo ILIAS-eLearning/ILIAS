@@ -1,5 +1,0 @@
-RewriteEngine On
-RewriteCond %{REQUEST_URI} !^/Services/AssessmentQuestion/src/Infrastructure
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ AsqApiGateway.php [QSA,L]

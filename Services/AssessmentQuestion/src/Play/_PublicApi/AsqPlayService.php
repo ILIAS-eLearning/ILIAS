@@ -15,15 +15,15 @@ const MSG_SUCCESS = "success";
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
 class AsqPlayService {
-	public function AnswerQuestion(string $question_id, int $user_id, $answer) {
+	public function AnswerQuestion(string $question_id, int $user_id, string $test_id, $answer) {
 		// answers the question
 	}
 
-	public function ClearAnswer(string $question_id, int $user_id) {
+	public function ClearAnswer(string $question_id, int $user_id, string $test_id) {
 		// clears the answer of the question from the user
 	}
 
-	public function GetPointsByUser (string $question_id, int $user_id) : float {
+	public function GetPointsByUser (string $question_id, int $user_id, string $test_id) : float {
 		// gets the result of the user
 	}
 }

@@ -2,7 +2,7 @@
 use ILIAS\AssessmentQuestion\AuthoringInfrastructure\Setup\sql\SetupDatabase;
 //only for development usage!
 
-chdir("../../../../../");
+chdir("../../../../../../");
 global $DIC;
 
 if (!file_exists(getcwd() . '/ilias.ini.php')) {
@@ -16,7 +16,7 @@ ilContext::init(ilContext::CONTEXT_WEB);
 require_once 'Services/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
-require_once 'Services/AssessmentQuestion/src/Infrastructure/Setup/sql/SetupDatabase.php';
+require_once 'Services/AssessmentQuestion/src/Authoring/Infrastructure/Setup/sql/SetupDatabase.php';
 $setup_database = new SetupDatabase();
 $setup_database->run();
 
