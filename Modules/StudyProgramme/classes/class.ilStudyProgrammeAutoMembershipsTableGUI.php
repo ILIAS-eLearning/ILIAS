@@ -40,7 +40,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 
  	protected function fillRow($set)
  	{
-		list($ams, $title, $usr, $actions) = $set;
+		list($ams, $type, $title, $usr, $actions) = $set;
 
 		$username = ilObjUser::_lookupName($ams->getLastEditorId());
 		$editor = implode(' ', [
@@ -52,7 +52,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 		$id = $ams->getSourceType() .'-' .$ams->getSourceId();
 
  		$this->tpl->setVariable("ID", $id);
-		$this->tpl->setVariable("TYPE", $ams->getSourceType());
+		$this->tpl->setVariable("TYPE", $this->lng->txt($ams->getSourceType()));
 		$this->tpl->setVariable("TITLE", $title);
 		$this->tpl->setVariable("EDITOR", $usr);
 		$this->tpl->setVariable("LAST_EDITED", $ams->getLastEdited()->format('Y/m/d H:i:s'));

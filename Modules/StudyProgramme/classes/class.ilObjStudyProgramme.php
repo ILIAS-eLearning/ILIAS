@@ -253,6 +253,7 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		$this->deleteAllAutomaticContentCategories();
+		$this->deleteAllAutomaticMembershipSources();
 
 		return true;
 	}
@@ -1439,7 +1440,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Delete all membership sources of this StudyProgramme;
 	 */
-	public function deleteAllAutomaticMembershipSource()
+	public function deleteAllAutomaticMembershipSources()
 	{
 		return $this->auto_memberships_repository->deleteFor($this->getId());
 	}
