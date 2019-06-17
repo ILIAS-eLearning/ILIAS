@@ -94,4 +94,9 @@ class AsqAuthoringService {
 	public function GetAvilableQuestionTypes() {
 		// returns all know question type
 	}
+
+	public function SaveQuestionPresentation(string $question_id, $presentation) {
+		// saves display options
+		//EditQuestionPresentation.png
+	}
 }
