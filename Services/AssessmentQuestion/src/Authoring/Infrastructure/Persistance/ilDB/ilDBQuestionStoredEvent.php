@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\AuthoringInfrastructure\Persistence\ilDB;
+namespace ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB;
 use ILIAS\Data\Domain\Event\AbstractStoredEvent;
 
 /**

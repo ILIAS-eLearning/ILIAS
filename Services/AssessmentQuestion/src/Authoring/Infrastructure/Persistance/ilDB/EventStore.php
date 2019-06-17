@@ -1,8 +1,7 @@
 <?php
-namespace ILIAS\AssessmentQuestion\AuthoringInfrastructure\Persistence;
-use ILIAS\Data\Domain\DomainEvents;
-use ILIAS\Data\Domain\IdentifiesAggregate;
-use ILIAS\Data\Domain\AggregateHistory;
+namespace ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence;
+use ILIAS\Data\Domain\Entity\AggregateId;
+use ILIAS\Data\Domain\Event\DomainEvents;
 
 interface EventStore
 {
@@ -17,5 +16,5 @@ interface EventStore
 	 *
 	 * @return AggregateHistory
 	 */
-	public function getAggregateHistoryFor(IdentifiesAggregate $id);
+	public function getAggregateHistoryFor(AggregateId $id);
 }

@@ -1,6 +1,7 @@
 <?php
 namespace ILIAS\Data\Domain\Event;
 use ActiveRecord;
+use DateTime;
 use \ilException;
 
 /**
@@ -22,7 +23,7 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	 */
 	protected $event_id;
 	/**
-	 * @var int
+	 * @var string
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  text
@@ -71,32 +72,26 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 
 
 	/**
-	 * ilDBQuestionEventStore constructor.
+	 * Store event data.
 	 *
 	 * @param string $aggregate_id
 	 * @param string $event_name
-	 * @param \DateTime $occured_on
+	 * @param DateTime $occured_on
 	 * @param int $initiating_user_id
-	 * @param string $event_body
-	 */
-	//TODO FIND a way for the Default constructor. Meanmwile the Install-Table
-	// process doesn't work with a constructor.
-	/*
-	public function __construct(
-		int $aggregate_id,
+	 * @param string $event_body */
+	public function setEventData(
+		string $aggregate_id,
 		string $event_name,
-		\DateTime $occured_on,
+		int $occured_on,
 		int $initiating_user_id,
 		string $event_body)
 	{
-		parent::__construct();
-
 		$this->aggregate_id = $aggregate_id;
 		$this->event_name = $event_name;
 		$this->occured_on = $occured_on;
 		$this->initiating_user_id = $initiating_user_id;
 		$this->event_body = $event_body;
-	}*/
+	}
 
 	/**
 	 * @return string
@@ -114,10 +109,12 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	}
 
 
-	public function getAggregateId(): IdentifiesAggregate {
-		// TODO: Implement getAggregateId() method.
+	/**
+	 * @return string
+	 */
+	public function getAggregateId(): string {
+		return $this->aggregate_id;
 	}
-
 
 	/**
 	 * @return string

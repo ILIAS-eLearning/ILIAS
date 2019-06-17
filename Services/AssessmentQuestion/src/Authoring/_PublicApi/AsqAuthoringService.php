@@ -16,32 +16,6 @@ const MSG_SUCCESS = "success";
  */
 class AsqAuthoringService {
 
-	/**
-	 * @var self
-	 */
-	protected static $instance;
-	/**
-	 * @var AsqAuthoringSpec
-	 */
-	protected $asq_authoring_service_spec;
-
-
-	/**
-	 * AsqAuthoringService constructor.
-	 *
-	 * @param AsqAuthoringSpec $asq_authoring_service_spec
-	 */
-	public function __construct($asq_authoring_service_spec) {
-		/**
-		 * \ilGlobalPageTemplate
-		 */
-		$this->tpl = $asq_authoring_service_spec->tpl;
-		/**
-		 * \ilLanguage
-		 */
-		$this->lng = $asq_authoring_service_spec->lng;
-	}
-
 	public function CreateQuestion(string $title, string $description, int $creator_id): void {
 		//CreateQuestion.png
 		try {

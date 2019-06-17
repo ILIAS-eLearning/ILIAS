@@ -13,6 +13,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
 
 use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringService;
 use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringSpec;
+use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\AsqGUIElementFactory;
 
 /**
  * Class ilObjTestGUI
@@ -752,12 +753,9 @@ class ilObjTestGUI extends ilObjectGUI
 	protected function createQuestionByAPIObject() {
 		global $DIC;
 
-		$authoring_spec = new AsqAuthoringSpec($DIC->ui()->mainTemplate(),
-												$DIC->language());
+		$authoring_service = new AsqAuthoringService();
 
-		$authoring_service = new AsqAuthoringService($authoring_spec);
-
-		$form =  $authoring_service->GetCreationForm();
+		$form =  AsqGUIElementFactory::CreateQuestionCreationForm();
 		switch ($_SERVER['REQUEST_METHOD']) {
 			case 'GET':
 				$this->tpl->setContent($form->getHTML());
@@ -768,6 +766,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$form->getQuestionTitle(),
 					$form->getQuestionDescription(),
 					$DIC->user()->getId());
+				ilutil::sendSuccess("Question Created");
 				break;
 		}
 

@@ -1,13 +1,16 @@
 <?php
-namespace  ILIAS\AssessmentQuestion\AuthoringInfrastructure\Persistence;
+namespace  ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
+use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\Data\Domain\Entity\AggregateId;
+use ILIAS\Data\Domain\Entity\AggregateRevision;
 use ILIAS\Data\Domain\Event\IsEventSourced;
 use ILIAS\Data\Domain\Event\RecordsEvents;
 use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionProjection;
 use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionEventSourcedAggregateRepositoryRepository;
 
-class QuestionRepository implements QuestionEventSourcedAggregateRepositoryRepository
+class QuestionRepository implements \ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository
 {
 	/**
 	 * @var EventStore
@@ -20,28 +23,20 @@ class QuestionRepository implements QuestionEventSourcedAggregateRepositoryRepos
 
 	public function __construct()
 	{
-		$this->event_store = $event_store;
-		$this->projection = $projection;
+		$this->event_store = new ilDBQuestionEventStore();
+		// TODO projection
+		//$this->projection = $projection;
 	}
 
-	/**
-	 * @param IdentifiesAggregate $aggregateId
-	 * @return IsEventSourced
-	 */
-	public function get(IdentifiesAggregate $aggregate_id)
-	{
-		$aggregate_history = $this->eventStore->getAggregateHistoryFor($aggregate_id);
-		return Question::reconstituteFrom($aggregate_history);
-	}
-	/**
-	 * @param RecordsEvents $aggregate
-	 * @return void
-	 */
-	public function add(RecordsEvents $aggregate)
-	{
-		$events = $aggregate->getRecordedEvents();
+	public function save(Question $question) {
+		$events = $question->getRecordedEvents();
 		$this->event_store->commit($events);
-		$this->projection->project($events);
-		$aggregate->clearRecordedEvents();
+		//$this->projection->project($events);
+		$question->clearRecordedEvents();
+	}
+
+
+	public function byAggregateAndRevisionId(QuestionId $aggregate_id, AggregateRevision $aggregate_revision) {
+		// TODO: Implement byAggregateAndRevisionId() method.
 	}
 }

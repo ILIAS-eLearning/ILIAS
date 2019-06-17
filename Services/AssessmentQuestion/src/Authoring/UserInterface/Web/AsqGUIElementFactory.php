@@ -12,27 +12,27 @@ const MSG_SUCCESS = "success";
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
 class AsqGUIElementFactory {
-	public function CreateQuestionCreationForm(): CreateQuestionFormGUI {
+	public static function CreateQuestionCreationForm(): CreateQuestionFormGUI {
 		//CreateQuestion.png
 		return new CreateQuestionFormGUI();
 	}
 
-	public function CreateQuestionListControl(array $questions) {
+	public static function CreateQuestionListControl(array $questions) {
 		//returns question list object
 		//GetQuestionlist.png
 	}
 
-	public function CreatePrintViewControl(string $question_id) {
+	public static function CreatePrintViewControl(string $question_id) {
 		//returns print view
 		//GetPrintView.png
 	}
 
-	public function CreatePresentationForm(string $question_id) {
+	public static function CreatePresentationForm(string $question_id) {
 		//returns presentation form
 		//EditQuestionPresentation.png
 	}
 
-	public function CreateQuestionForm(string $question_id) {
+	public static function CreateQuestionForm(string $question_id) {
 		//returns test form for question
 		//GetQuestionForm.png
 	}

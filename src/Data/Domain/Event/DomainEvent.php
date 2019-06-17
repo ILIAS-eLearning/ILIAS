@@ -19,13 +19,6 @@ interface DomainEvent {
 	 */
 	public function getAggregateId(): AggregateId;
 
-
-	/**
-	 * @return AggregateRevision
-	 */
-	//public function getRevision(): AggregateRevision;
-
-
 	/**
 	 * @return string
 	 */
@@ -35,7 +28,7 @@ interface DomainEvent {
 	/**
 	 * @return DateTime
 	 */
-	public function getOccuredOn();
+	public function getOccurredOn() : int;
 
 
 	/**
