@@ -44,12 +44,22 @@ class AsqAuthoringService {
 
 
 	public function GetCreationForm(): CreateQuestionFormGUI {
+		//CreateQuestion.png
 		return new CreateQuestionFormGUI();
 	}
 
+	public function GetQuestionList() {
+		//returns question list object
+		//GetQuestionlist.png
+	}
+
+	public function GetPrintView(string $parent_id) {
+		//returns print view
+		//GetPrintView.png
+	}
 
 	public function CreateQuestion(string $title, string $description, int $creator_id): void {
-
+		//CreateQuestion.png
 		try {
 			$command_busbuilder = new CommandBusBuilder();
 			$command_bus = $command_busbuilder->getCommandBus();
@@ -58,5 +68,30 @@ class AsqAuthoringService {
 			//TODO Failure Message
 			//$this->tpl->
 		}
+	}
+
+	public function CreateNewVersionOfQuestion(string $title, string $description, int $creator_id, string $old_id) {
+		// creates new version of a question ('edit question' but with immutable domain object)
+		// CreateQuestion.png
+	}
+
+	public function DeleteQuestion(string $question_id) {
+		// deletes question
+		// no image
+	}
+
+	public function GetQuestions(string $parent_id) {
+		// returns all questions of parent
+		// GetQuestionList.png
+		// TODO ev getquestionsofpool, getquestionsoftest methode pro object
+	}
+
+	public function SearchQuestions(array $parameters) {
+		// searches questions by query parameters
+		// GetQuestionList.png
+	}
+
+	public function GetAvilableQuestionTypes() {
+		// returns all know question type
 	}
 }
