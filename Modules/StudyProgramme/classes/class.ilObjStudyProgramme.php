@@ -1445,7 +1445,26 @@ class ilObjStudyProgramme extends ilContainer {
 		return $this->auto_memberships_repository->deleteFor($this->getId());
 	}
 
-
+	/**
+	 * Disable a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function disableAutomaticMembershipSource(string $type, int $src_id)
+	{
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
+		$this->auto_memberships_repository->update($ams);
+	}
+	/**
+	 * Enable a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function enableAutomaticMembershipSource(string $type, int $src_id)
+	{
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, true);
+		$this->auto_memberships_repository->update($ams);
+	}
 
 
 	////////////////////////////////////

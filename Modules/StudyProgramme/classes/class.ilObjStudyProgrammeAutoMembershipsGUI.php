@@ -18,6 +18,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	const F_ORIGINAL_SOURCE_TYPE = 'f_st_org';
 	const F_ORIGINAL_SOURCE_ID = 'f_sid_org';
 	const CMD_DELETE_SINGLE = 'deleteSingle';
+	const CMD_ENABLE = 'enable';
+	const CMD_DISABLE = 'disable';
 
 	/**
 	 * @var ilTemplate
@@ -84,6 +86,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 			case "delete":
 			case "save":
 			case self::CMD_DELETE_SINGLE:
+			case self::CMD_DISABLE:
+			case self::CMD_ENABLE:
 				$this->$cmd();
 				$this->ctrl->redirect($this, 'view');
 				break;
@@ -113,7 +117,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 			$signal = $modal->getShowSignal();
 
 			$src_id = $ams->getSourceType() .'-' .$ams->getSourceId();
-			$actions = $this->getItemAction($src_id, $modal->getShowSignal());
+			$actions = $this->getItemAction(
+				$src_id,
+				$modal->getShowSignal(),
+				$ams->isEnabled()
+			);
+
 			$data[] = [
 				$ams,
 				$this->ui_renderer->render($title),
@@ -153,7 +162,6 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		}
 
 		$this->getObject()->storeAutomaticMembershipSource($src_type, $src_id);
-
 	}
 
 
@@ -182,6 +190,32 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		if(array_key_exists($field, $get)) {
 			list($type, $id) = explode('-', $get[$field]);
 			$this->getObject()->deleteAutomaticMembershipSource((string)$type, (int)$id);
+		}
+	}
+
+	/**
+	 * Enable single entry.
+	 */
+	protected function enable()
+	{
+		$get = $_GET;
+		$field = self::CHECKBOX_SOURCE_IDS;
+		if(array_key_exists($field, $get)) {
+			list($type, $id) = explode('-', $get[$field]);
+			$this->getObject()->enableAutomaticMembershipSource((string)$type, (int)$id);
+		}
+	}
+
+	/**
+	 * Disable single entry.
+	 */
+	protected function disable()
+	{
+		$get = $_GET;
+		$field = self::CHECKBOX_SOURCE_IDS;
+		if(array_key_exists($field, $get)) {
+			list($type, $id) = explode('-', $get[$field]);
+			$this->getObject()->disableAutomaticMembershipSource((string)$type, (int)$id);
 		}
 	}
 
@@ -293,16 +327,35 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
 	protected function getItemAction(
 		string $src_id,
-		\ILIAS\UI\Component\Signal $signal
+		\ILIAS\UI\Component\Signal $signal,
+		bool $is_enabled
 	): \ILIAS\UI\Component\Dropdown\Standard {
 		$items = [];
+
 		$items[] =  $this->ui_factory->button()->shy($this->lng->txt('edit'), '')
 			->withOnClick($signal);
+
 		$this->ctrl->setParameter($this, self::CHECKBOX_SOURCE_IDS, $src_id);
+
+		if($is_enabled) {
+			$items[] =  $this->ui_factory->button()->shy(
+				$this->lng->txt('disable'),
+				$this->ctrl->getLinkTarget($this, self::CMD_DISABLE)
+			);
+		} else {
+			$items[] =  $this->ui_factory->button()->shy(
+				$this->lng->txt('enable'),
+				$this->ctrl->getLinkTarget($this, self::CMD_ENABLE)
+			);
+		}
+
 		$items[] =  $this->ui_factory->button()->shy(
 			$this->lng->txt('delete'),
 			$this->ctrl->getLinkTarget($this, self::CMD_DELETE_SINGLE)
 		);
+
+		$this->ctrl->clearParameters($this);
+
 		$dd = $this->ui_factory->dropdown()->standard($items);
 		return $dd;
 	}
