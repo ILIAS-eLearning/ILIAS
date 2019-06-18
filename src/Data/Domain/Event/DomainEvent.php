@@ -5,6 +5,7 @@ namespace ILIAS\Data\Domain\Event;
 
 use AggregateRevision;
 use DateTime;
+use ilDateTime;
 use ILIAS\Data\Domain\Entity\AggregateId;
 
 /**
@@ -28,7 +29,7 @@ interface DomainEvent {
 	/**
 	 * @return DateTime
 	 */
-	public function getOccurredOn() : int;
+	public function getOccurredOn() : ilDateTime;
 
 
 	/**
