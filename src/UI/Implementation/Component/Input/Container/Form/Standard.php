@@ -6,7 +6,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * This implements a standard form.
@@ -19,8 +18,8 @@ class Standard extends Form implements C\Input\Container\Form\Standard {
 	protected $post_url;
 
 
-	public function __construct(SignalGeneratorInterface $signal_generator, Input\Field\Factory $input_factory, $post_url, array $inputs) {
-		parent::__construct($signal_generator, $input_factory, $inputs);
+	public function __construct(Input\Field\Factory $input_factory, $post_url, array $inputs) {
+		parent::__construct($input_factory, $inputs);
 		$this->checkStringArg("post_url", $post_url);
 		$this->post_url = $post_url;
 	}
