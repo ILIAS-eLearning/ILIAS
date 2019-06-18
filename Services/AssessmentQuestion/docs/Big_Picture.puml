@@ -4,128 +4,52 @@ Title Authoring
 
 package DomainModel {
 package "Question Aggregate" {
-	class "**QuestionId (AggregateId Value Object)**" {
-		**Attributes**
-		id = "jlfwoiudsfkjhd" //UUID Universal Unique Identifier//
-		created_by_cons_creator_string = "John Doe" //Actor Name - defined by the Consumer
-		created_by_cons_creator_id = "90" //Actor Id - defined by the Consumer
-		created_on_cons_plattform = "ilias.example.com"
-		created_at = "2019-01-31"
-	}
-
-
-	class "**QuestionRevision (AggregateRevision Value Object)**" {
-		**Attributes**
-		revision = "2019-06-17_1_ilias.example.com"
-		created_by_cons_creator_string = "Eva Doe" //Actor Name - defined by the Consumer// -> Author in GUI
-		created_by_cons_creator_id = "98" //Actor Id - defined by the Consumer//
-		created_on_cons_plattform = "ilias.example.com"
-		//[question_id]//
-	}
-
-
 	Class "**Question (Aggregate Root)**" {
 		**Attributes**
 		title =  "The Ultimate Question"
 		description = "Towel Day"
 		question = "The answer to life, the universe, and everything"
-		//[question_id]//
-		//[revision]//
-		//[working_time]//
-		//[Answer]//
+		id = //UUID Universal Unique Identifier//
+		revision = //UUID Universal Unique Identifier//
+		revision_key = //cryptographic key proving integrity of question//
+		type = single_choice, multiple_choice...
 	}
 
-	Class "**Working Time Value Object)**" {
-		**Attributes**
-		working_time
+	Class "**PossibleAnswer (Entity Object)**" {
+	    **Attributes**
+		id = //UUID Universal Unique Identifier//
+        revision = //UUID Universal Unique Identifier//
 	}
 
-	"**Question (Aggregate Root)**" "n"*--"1" "**QuestionId (AggregateId Value Object)**"
-    "**Question (Aggregate Root)**" "1"*--"1" "**QuestionRevision (AggregateRevision Value Object)**"
-    "**Question (Aggregate Root)**" "0"*--"n"  "**Working Time Value Object)**"
-
-
-    "**Question (Aggregate Root)**" "1" o-- "1" "**Answer (Entity Object)**"
-
-
-
-	Class "**Answer (Entity Object)**" {
-		[mode_answer_specific_feedback]
-		//[common_feedback]//
-		//[answer_id]//
-		//[answer_revision_id]//
-	}
-
-	Class "**AnswerId (EntityId Value Object)**" {
-		**Attributes**
-		id = "khiuhlkhkh" //UUID Universal Unique Identifier//
-		created_by_cons_creator_string = "John Doe" //Actor Name - defined by the Consumer
-		created_by_cons_creator_id = "90" //Actor Id - defined by the Consumer
-		created_on_cons_plattform = "ilias.example.com"
-		created_at = "2019-01-31"
-	}
-
-	class "**AnswerRevision (EntityRevision Value Object)**" {
-		**Attributes**
-		revision_id = "2019-06-18_1_ilias.example.com"
-		created_by_cons_creator_string = "Eva Doe" //Actor Name - defined by the Consumer// -> Author in GUI
-		created_by_cons_creator_id = "98" //Actor Id - defined by the Consumer//
-		created_on_cons_plattform = "ilias.example.com"
-		//[answer_id]//
-	}
-
-	Class "**Single Choice Answer (Entity Object)**" {
-		**Attributes**
-
-		//[possible_answers]//
-		//[answer_id]//
-        //[answer_revision_id]//
-	}
-
-	Class "**Multiple Choice Answer (Entity Object)**" {
-    		**Attributes**
-
-    		//[possible_answers]//
-    		//[answer_id]//
-            //[answer_revision_id]//
-    }
-
-	Class "**PossibleSingleChoiceAnswer (Value Object)**" {
+	Class "**PossibleSingleChoiceAnswer (Entity Object)**" {
 			**Attributes**
             answer_text = "42"
             answer_image_store_location =
-            answer_points =
+            answer_points = 4
             answer_specific_feedback =
     }
 
-	Class "**PossibleMultipleChoiceAnswer (Value Object)**" {
+	Class "**PossibleMultipleChoiceAnswer (Entity Object)**" {
     		**Attributes**
 			answer_text = "42"
 	        answer_image_store_location =
-	        answer_points_checked =
-	        answer_points_unchecked =
+	        answer_points_checked = 4
+	        answer_points_unchecked = -1
 	        answer_specific_feedback =
     }
 
-    Class "**//Concrete Answer Type// Answer (Entity Object)**" {
-           **Attributes**
+	Class "**Answer (Value Object)**" {
+    		**Attributes**
+			answer_text = "42"
+	        answer_image_store_location =
+	        answer_points_checked = 4
+	        answer_points_unchecked = -1
+	        answer_specific_feedback =
     }
 
-
-
-
-	 "**Answer (Entity Object)**" "n"*-- "**AnswerId (EntityId Value Object)**"
-     "**Answer (Entity Object)**" "1"*-- "**AnswerRevision (EntityRevision Value Object)**"
-
-     "**Answer (Entity Object)**" "1"*-- "0" "**Single Choice Answer (Entity Object)**"
-        "**Single Choice Answer (Entity Object)**" "1"*-- "n" "**PossibleSingleChoiceAnswer (Value Object)**"
-
-     "**Answer (Entity Object)**" "1"*-- "0" "**Multiple Choice Answer (Entity Object)**"
-         "**Multiple Choice Answer (Entity Object)**" "1"*-- "n" "**PossibleMultipleChoiceAnswer (Value Object)**"
-
-     "**Answer (Entity Object)**" "1"*-- "0" "**//Concrete Answer Type// Answer (Entity Object)**"
-
-
+    "**Question (Aggregate Root)**" "1" o-- "n" "**PossibleAnswer (Entity Object)**"
+     "**PossibleAnswer (Entity Object)**" "1"*-- "0" "**PossibleSingleChoiceAnswer (Entity Object)**"
+     "**PossibleAnswer (Entity Object)**" "1"*-- "0" "**PossibleMultipleChoiceAnswer (Entity Object)**"
 
 	Class "**CommonFeedback (Value Object)**" {
 		**Attributes**
@@ -133,7 +57,7 @@ package "Question Aggregate" {
     	At least one answer is not correct
     }
 
-     "**Answer (Entity Object)**" "n"*-- "**CommonFeedback (Value Object)**"
+     "**Question (Aggregate Root)**" "n"*-- "**CommonFeedback (Value Object)**"
 
 
 
