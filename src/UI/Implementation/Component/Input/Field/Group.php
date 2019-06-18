@@ -66,14 +66,25 @@ class Group extends Input implements C\Input\Field\Group {
 	}
 
 	public function withOnUpdate(Signal $signal) {
-		//TODO: use $clone = parent::withOnUpdate($signal); once the exception there
-		//is solved.
-		$clone = $this->withTriggeredSignal($signal, 'update');
+		$clone = parent::withOnUpdate($signal);
 		$inputs = [];
 		foreach ($this->inputs as $key => $input) {
 			$inputs[$key] = $input->withOnUpdate($signal);
 		}
 		$clone->inputs = $inputs;
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function () {
+			/*
+			 * Currently, there is no use case for Group here. The single Inputs
+			 * within the Group are responsible for handling getUpdateOnLoadCode().
+			 */
+		};
 	}
 }
