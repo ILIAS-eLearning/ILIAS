@@ -49,8 +49,14 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Numeric) {
+			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Tag) {
+			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -158,6 +164,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 		switch (true) {
 			case ($input instanceof Text):
+			case ($input instanceof Numeric):
 				$tpl->setVariable("NAME", $input->getName());
 
 				if ($input->getValue() !== null) {
@@ -177,6 +184,43 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 				$tpl = $this->renderSelectInput($tpl, $input);
 				break;
 
+			case ($input instanceof MultiSelect):
+				$tpl = $this->renderMultiSelectInput($tpl, $input);
+				break;
+
+			case ($input instanceof Tag):
+				$configuration = $input->getConfiguration();
+				$input = $input->withAdditionalOnLoadCode(
+					function ($id) use ($configuration) {
+						$encoded = json_encode($configuration);
+
+						return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
+					}
+				);
+				$id = $this->bindJavaScript($input);
+				/**
+				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Tag
+				 */
+				$tpl->setVariable("ID", $id);
+				$tpl->setVariable("NAME", $input->getName());
+				if ($input->isDisabled()) {
+					$tpl->setCurrentBlock("disabled");
+					$tpl->setVariable("DISABLED", "disabled");
+					$tpl->parseCurrentBlock();
+				}
+				if ($input->getValue()) {
+					$value = $input->getValue();
+					$tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
+					foreach ($value as $tag) {
+						$tpl->setCurrentBlock('existing_tags');
+						$tpl->setVariable("FIELD_ID", $id);
+						$tpl->setVariable("FIELD_NAME", $input->getName());
+						$tpl->setVariable("TAG_NAME", $tag);
+						$tpl->parseCurrentBlock();
+					}
+				}
+				break;
+
 		}
 
 		foreach ($input->getTriggeredSignals() as $s)
@@ -194,11 +238,42 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 			return $code;
 		});
 		$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
-		$this->maybeRenderId($input, $tpl);
+		$id = $this->bindJavaScript($input);
+		if ($id !== null) {
+			$tpl->setVariable("ID", $id);
+		}
 
 		return $tpl->get();
 	}
 
+
+	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
+		$value = $input->getValue();
+		$name = $input->getName();
+
+		foreach ($input->getOptions() as $opt_value => $opt_label) {
+			$tpl->setCurrentBlock("option");
+			$tpl->setVariable("NAME", $name);
+			$tpl->setVariable("VALUE", $opt_value);
+			$tpl->setVariable("LABEL", $opt_label);
+
+			if($value && in_array($opt_value, $value)) {
+				$tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+			if ($input->isDisabled()) {
+				$tpl->setVariable("DISABLED", 'disabled="disabled"');
+			}
+
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
+	}
+
+	/**
+	 * @param Template $tpl
+	 * @param Select $input
+	 * @return Template
+	 */
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
 		if ($input->isDisabled()) {
@@ -289,6 +364,11 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Container/filter.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
+		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
+		$registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
+		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
+		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
+		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 	}
 
 
@@ -298,8 +378,11 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return [
 			Component\Input\Field\Text::class,
+			Component\Input\Field\Numeric::class,
+			Component\Input\Field\Group::class,
+			Component\Input\Field\Tag::class,
 			Component\Input\Field\Select::class,
-			Component\Input\Field\Group::class
+			Component\Input\Field\MultiSelect::class
 		];
 	}
 }
