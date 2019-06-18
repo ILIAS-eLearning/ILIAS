@@ -7,12 +7,15 @@ namespace ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Component;
 use ILIAS\Refinery\Transformation;
 
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Triggerable;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * This describes commonalities between all forms.
  */
-interface Form extends Component {
+interface Form extends Component, JavaScriptBindable, Triggerable {
 
 	/**
 	 * Get the inputs contained in the form.
@@ -52,5 +55,12 @@ interface Form extends Component {
 	/**
 	 * TODO: there should be a further method to attach the different submit buttons
 	 */
+
+	/**
+	 * Get the signal to update this form
+	 *
+	 * @return Signal
+	 */
+	public function getUpdateSignal();
 
 }
