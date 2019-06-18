@@ -4,8 +4,9 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\Data\Domain\Entity\AggregateRevision;
+use ILIAS\Data\Domain\Entity\IsRevisable;
 use ILIAS\Data\Domain\Entity\AggregateRoot;
+use ILIAS\Data\Domain\Entity\RevisionId;
 
 /**
  * Class Question
@@ -13,12 +14,20 @@ use ILIAS\Data\Domain\Entity\AggregateRoot;
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class Question extends AggregateRoot {
+class Question extends AggregateRoot implements IsRevisable {
 
 	/**
 	 * @var QuestionId
 	 */
 	private $id;
+	/**
+	 * @var RevisionId
+	 */
+	private $revision_id;
+	/**
+	 * @var string
+	 */
+	private $revision_name;
 	/**
 	 * @var string
 	 */
@@ -97,15 +106,6 @@ class Question extends AggregateRoot {
 		$this->title = $event->title();
 	}
 
-	// TODO intressiert mich revision hier wirklich, schlussendlich projektion mit id -> wenn bereits projektion mit id dann revision += 1 sonst revision = 1 change revision würde implizieren das ich nach revision 4 plötzlich revision 2 erstellen möchte
-	public function changeRevision($revision) {
-		$this->recordApplyAndPublishThat(new RevisionWasChanged($this->id, $revision));
-	}
-
-	protected function applyRevisionWasChanged(RevisionWasChanged $event) {
-		$this->revision = $event->revision();
-	}
-
 	/**
 	 * @return string
 	 */
@@ -150,5 +150,51 @@ class Question extends AggregateRoot {
 
 	public function getId() : QuestionId {
 		return $this->id;
+	}
+
+
+	/**
+	 * @return RevisionId revision id of object
+	 */
+	public function getRevisionId(): RevisionId {
+		return $this->revision_id;
+	}
+
+
+	/**
+	 * @param RevisionId $id
+	 *
+	 * Revision id is only to be set by the RevisionFactory when generating a
+	 * revision or by the persistance layer when loading an object
+	 *
+	 * @return mixed
+	 */
+	public function setRevisionId(RevisionId $id) {
+		$this->revision_id = $id;
+	}
+
+
+	/**
+	 * @return string
+	 *
+	 * Name of the revision used by the RevisionFactory when generating a revision
+	 * Using of Creation Date and or an increasing Number are encouraged
+	 *
+	 */
+	public function getRevisionName(): string {
+		return $this->revision_name;
+	}
+
+
+	/**
+	 * @return array
+	 *
+	 * Data used for signing the revision, so this method needs to to collect all
+	 * Domain specific data of an object and return it as an array
+	 */
+	public function getRevisionData(): array {
+		$data['title'] = $this->getTitle();
+		$data['description'] = $this->getDescription();
+		$data['creator'] = $this->getCreator();
 	}
 }

@@ -6,7 +6,7 @@ namespace ILIAS\Data\Domain\Event;
 use DateTime;
 use ilDateTime;
 use ILIAS\Data\Domain\Entity\AggregateId;
-use ILIAS\Data\Domain\Entity\AggregateRevision;
+use ILIAS\Data\Domain\Entity\IsRevisable;
 
 /**
  * Class AbstractDomainEvent
@@ -30,7 +30,7 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	protected $initating_user_id;
 
 //todo revision einarbeiten
-//AggregateRevision $aggregate_revision,
+//IsRevisionable $aggregate_revision,
 	public function __construct(AggregateId $aggregate_id, int $initating_user_id) {
 
 		$this->aggregate_id = $aggregate_id;
