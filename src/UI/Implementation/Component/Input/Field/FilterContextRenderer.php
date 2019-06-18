@@ -51,8 +51,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Tag) {
-			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\MultiSelect) {
@@ -186,39 +184,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 			case ($input instanceof MultiSelect):
 				$tpl = $this->renderMultiSelectInput($tpl, $input);
-				break;
-
-			case ($input instanceof Tag):
-				$configuration = $input->getConfiguration();
-				$input = $input->withAdditionalOnLoadCode(
-					function ($id) use ($configuration) {
-						$encoded = json_encode($configuration);
-
-						return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
-					}
-				);
-				$id = $this->bindJavaScript($input);
-				/**
-				 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Tag
-				 */
-				$tpl->setVariable("ID", $id);
-				$tpl->setVariable("NAME", $input->getName());
-				if ($input->isDisabled()) {
-					$tpl->setCurrentBlock("disabled");
-					$tpl->setVariable("DISABLED", "disabled");
-					$tpl->parseCurrentBlock();
-				}
-				if ($input->getValue()) {
-					$value = $input->getValue();
-					$tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
-					foreach ($value as $tag) {
-						$tpl->setCurrentBlock('existing_tags');
-						$tpl->setVariable("FIELD_ID", $id);
-						$tpl->setVariable("FIELD_NAME", $input->getName());
-						$tpl->setVariable("TAG_NAME", $tag);
-						$tpl->parseCurrentBlock();
-					}
-				}
 				break;
 
 		}
@@ -365,10 +330,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Container/filter.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
-		$registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
-		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
-		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
-		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 	}
 
 
@@ -380,7 +341,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 			Component\Input\Field\Text::class,
 			Component\Input\Field\Numeric::class,
 			Component\Input\Field\Group::class,
-			Component\Input\Field\Tag::class,
 			Component\Input\Field\Select::class,
 			Component\Input\Field\MultiSelect::class
 		];
