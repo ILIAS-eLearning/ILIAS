@@ -38,13 +38,18 @@ class AsqAuthoringService {
 		// no image
 	}
 
-	public function AddAnswerToQuestion(string $question_id, int $creator_id, $answer) {
-		// add answer to question
+
+	/**
+	 * @param Answer $answer -> vgl Services/AssessmentQuestion/docs/Big_Picture.puml -> AnswerEntity
+	 */
+	public function SaveAnswer(array $answer) {
+		// Save Answers
 	}
 
+	/* Ich würde die Answers immer als Ganzes behandeln
 	public function RemoveAnswerFromQuestion(string $question_id, $answer) {
 		// remove answer from question
-	}
+	}*/
 
 	public function GetQuestions(string $parent_id) {
 		// returns all questions of parent
