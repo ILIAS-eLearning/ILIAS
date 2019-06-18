@@ -332,7 +332,6 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		parent::registerResources($registry);
 		$registry->register('./src/UI/templates/js/Input/Container/filter.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
-		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 	}
 
 
