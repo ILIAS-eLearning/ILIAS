@@ -1025,7 +1025,7 @@ if( $row['cnt'] > 0 )
 	$ilDB->createTable($tempTableName, $tempTableFields);
 	$ilDB->addPrimaryKey($tempTableName, array('qst_id'));
 	$ilDB->addIndex($tempTableName, array('tst_obj_id', 'qpl_obj_id'), 'i1');
- 
+
     $ilDB->manipulate("
         INSERT INTO {$tempTableName} (qst_id, tst_obj_id, qpl_obj_id) {$brokenQuestionSelectQuery}
     ");
@@ -1045,26 +1045,127 @@ if( $ilDB->tableExists($tempTableName) )
         )
     ", array('integer', 'integer', 'integer', 'integer')
 	);
-	
+
 	$deleteStatement = $ilDB->prepareManip("
         DELETE FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
     ", array('integer', 'integer')
 	);
-	
+
 	$res = $ilDB->query("SELECT DISTINCT tst_obj_id, qpl_obj_id FROM {$tempTableName}");
-    
+
     while( $row = $ilDB->fetchAssoc($res) )
     {
         $ilDB->execute($updateStatement, array(
 			$row['tst_obj_id'], $row['qpl_obj_id'], $row['tst_obj_id'], $row['qpl_obj_id']
         ));
-        
+
 		$ilDB->execute($deleteStatement, array(
 			$row['tst_obj_id'], $row['qpl_obj_id']
         ));
     }
-    
+
 	$ilDB->dropTable($tempTableName);
 }
 
+?>
+<#5503>
+<?php
+if( !$ilDB->tableExists('cont_filter_field') )
+{
+	$ilDB->createTable('cont_filter_field', array(
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'record_set_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+}
+?>
+<#5504>
+<?php
+if(!$ilDB->tableExists('il_cert_bgtask_migr')) {
+	$ilDB->dropTable('il_cert_bgtask_migr');
+}
+?>
+<#5505>
+<?php
+if ($ilDB->tableExists('il_bt_task')) {
+    if ($ilDB->tableExists('il_bt_value_to_task')) {
+        if ($ilDB->tableExists('il_bt_value')) {
+            $deleteBucketValuesSql = '
+DELETE FROM il_bt_value WHERE id IN (
+    SELECT value_id FROM il_bt_value_to_task WHERE task_id IN (
+        SELECT id FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%') . '
+    )
+)';
+            $ilDB->manipulate($deleteBucketValuesSql);
+        }
+
+        $deleteValueToTask = '
+DELETE FROM il_bt_value_to_task
+WHERE task_id IN (
+    SELECT id FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%') . '
+)';
+
+        $ilDB->manipulate($deleteValueToTask);
+    }
+    $deleteBackgroundTasksSql = 'DELETE FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%');
+    $ilDB->manipulate($deleteBackgroundTasksSql);
+}
+
+if ($ilDB->tableExists('il_bt_bucket')) {
+    $deleteBucketsSql = 'DELETE FROM il_bt_bucket WHERE title = ' . $ilDB->quote('Certificate Migration', 'text') ;
+    $ilDB->manipulate($deleteBucketsSql);
+}
+
+?>
+<#5506>
+<?php
+
+// get pdts type id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'), array('typ', 'pdts')
+));
+$pdts_id = $row['obj_id'];
+
+// register new 'object' rbac operation for tst
+$op_id = $ilDB->nextId('rbac_operations');
+$ilDB->insert('rbac_operations', array(
+	'ops_id' => array('integer', $op_id),
+	'operation' => array('text', 'change_presentation'),
+	'description' => array('text', 'change presentation of a view'),
+	'class' => array('text', 'object'),
+	'op_order' => array('integer', 200)
+));
+$ilDB->insert('rbac_ta', array(
+	'typ_id' => array('integer', $pdts_id),
+	'ops_id' => array('integer', $op_id)
+));
+
+?>
+<#5507>
+<?php
+// We should ensure that settings are set for new installations and ILIAS version upgrades
+$setting = new ilSetting();
+
+$setting->set('pd_active_sort_view_0', serialize(['location', 'type']));
+$setting->set('pd_active_sort_view_1', serialize(['location', 'type', 'start_date']));
+$setting->set('pd_active_pres_view_0', serialize(['list', 'tile']));
+$setting->set('pd_active_pres_view_1', serialize(['list', 'tile']));
+$setting->set('pd_def_pres_view_0', 'list');
+$setting->set('pd_def_pres_view_1', 'list');
 ?>

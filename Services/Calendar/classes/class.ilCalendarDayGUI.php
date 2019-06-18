@@ -220,7 +220,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 				
 				$this->tpl->setCurrentBlock("new_ms");
 				$this->tpl->setVariable('DD_ID', $this->seed->get(IL_CAL_UNIX));
-				$this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->glyph()->add()));
+				$this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->symbol()->glyph()->add()));
 				$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);					
 				$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));					
 				$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);					
@@ -230,7 +230,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 			else
 			{
 				$this->tpl->setCurrentBlock("new_app1");
-				$this->tpl->setVariable('H_NEW_APP_GLYPH',$renderer->render($ui_factory->glyph()->add($new_app_url)));
+				$this->tpl->setVariable('H_NEW_APP_GLYPH',$renderer->render($ui_factory->symbol()->glyph()->add($new_app_url)));
 				$this->tpl->parseCurrentBlock();
 			}
 			
@@ -272,7 +272,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->seed->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',floor($numeric/60));
 					$this->tpl->setVariable('NEW_APP_GLYPH', $renderer->render(
-							$ui_factory->glyph()->add(
+							$ui_factory->symbol()->glyph()->add(
 									$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add')
 							)
 					));

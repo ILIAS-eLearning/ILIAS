@@ -316,7 +316,7 @@ class ilCommonActionDispatcherGUI
 		$this->header_action->enableTimings(false);
 		$this->header_action->enableSubscribe($this->node_type == self::TYPE_REPOSITORY);
 		
-		$this->header_action->initItem($this->node_id, $this->obj_id);				
+		$this->header_action->initItem($this->node_id, $this->obj_id, $this->obj_type);
 		$this->header_action->setHeaderSubObject($this->sub_type, $this->sub_id);		
 		$this->header_action->setAjaxHash($this->getAjaxHash());
 		

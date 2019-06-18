@@ -517,12 +517,29 @@ All the other files and directories should be owned by ```root```, but readable 
 It is highly RECOMMENDED to place your data directory outside of the web server docroot, as pointed out by the ILIAS Installation Wizard.
 
 <a name="secure-installation-files"></a>
-### Secure Installation Files
+### Secure Installation Files and Dependencies
 
 The access to the ILIAS Installation Wizard (```/setup/setup.php```) MAY be restricted:
 
 ```
 <Location /setup>
+  <IfVersion < 2.3>
+    Order Deny,Allow
+    Deny From All
+    Allow from 127.0.0.1
+  </IfVersion>
+
+  <IfVersion > 2.3>
+    Require all denied
+    Require ip 127.0.0.1
+  </IfVersion>
+</Location>
+```
+
+The access to the dependencies folder MAY be restricted:
+
+```
+<Location /libs>
   <IfVersion < 2.3>
     Order Deny,Allow
     Deny From All

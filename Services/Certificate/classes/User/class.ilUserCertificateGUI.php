@@ -63,11 +63,6 @@ class ilUserCertificateGUI
     private $filesystem;
 
     /**
-     * @var ilCertificateMigrationValidator|null
-     */
-    private $migrationVisibleValidator;
-
-    /**
      * @param ilTemplate|null $template
      * @param ilCtrl|null $controller
      * @param ilLanguage|null $language
@@ -80,7 +75,6 @@ class ilUserCertificateGUI
      * @param Renderer|null $uiRenderer
      * @param \ilAccessHandler|null $access
      * @param \ILIAS\Filesystem\Filesystem|null $filesystem
-     * @param ilCertificateMigrationValidator|null $migrationVisibleValidator
      */
     public function __construct(
         ilTemplate $template = null,
@@ -94,8 +88,7 @@ class ilUserCertificateGUI
         Factory $uiFactory = null,
         Renderer $uiRenderer = null,
         \ilAccessHandler $access = null,
-        \ILIAS\Filesystem\Filesystem $filesystem = null,
-        ilCertificateMigrationValidator $migrationVisibleValidator = null
+        \ILIAS\Filesystem\Filesystem $filesystem = null
     ) {
         global $DIC;
 
@@ -115,11 +108,6 @@ class ilUserCertificateGUI
             $language = $DIC->language();
         }
         $this->language = $language;
-
-        if ($userCertificateRepository === null) {
-            $userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $logger);
-        }
-        $this->userCertificateRepository = $userCertificateRepository;
 
         if ($user === null) {
             $user = $DIC->user();
@@ -161,11 +149,7 @@ class ilUserCertificateGUI
         }
         $this->filesystem = $filesystem;
 
-        if (null === $migrationVisibleValidator) {
-            $migrationVisibleValidator = new ilCertificateMigrationValidator($this->certificateSettings);
-        }
-        $this->migrationVisibleValidator = $migrationVisibleValidator;
-
+        $this->language->loadLanguageModule('cert');
         $this->language->loadLanguageModule('cert');
     }
 
@@ -194,13 +178,6 @@ class ilUserCertificateGUI
         $this->template->setTitle($this->language->txt('obj_cert'));
 
         switch ($nextClass) {
-            case 'ilcertificatemigrationgui':
-                $migrationGui = new \ilCertificateMigrationGUI();
-                $resultMessageString = $this->controller->forwardCommand($migrationGui);
-                $this->template->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $resultMessageString, true);
-                $this->listCertificates(true);
-                break;
-
             default:
                 if (!method_exists($this, $cmd)) {
                     $cmd = $this->getDefaultCommand();
@@ -212,37 +189,16 @@ class ilUserCertificateGUI
     }
 
     /**
-     * @param bool $migrationWasStarted
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function listCertificates(bool $migrationWasStarted = false)
+    public function listCertificates()
     {
         global $DIC;
 
         if (!$this->certificateSettings->get('active')) {
             $this->controller->redirect($this);
             return;
-        }
-
-        $showMigrationBox = $this->migrationVisibleValidator->isMigrationAvailable(
-            $this->user,
-            new \ilCertificateMigration($this->user->getId())
-        );
-        if (!$migrationWasStarted && true === $showMigrationBox) {
-            $migrationUiEl = new \ilCertificateMigrationUIElements();
-            $startMigrationCommand = $this->controller->getLinkTargetByClass(
-                ['ilCertificateMigrationGUI'],
-                'startMigrationAndReturnMessage',
-                false,
-                true,
-                false
-            );
-            $messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);
-
-            $this->template->setCurrentBlock('mess');
-            $this->template->setVariable('MESSAGE', $messageBoxHtml);
-            $this->template->parseCurrentBlock('mess');
         }
 
         $provider = new ilUserCertificateTableProvider(
@@ -314,6 +270,7 @@ class ilUserCertificateGUI
                 \ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
                 $objectTypeIcon = $this->uiFactory
+                    ->symbol()
                     ->icon()
                     ->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
 

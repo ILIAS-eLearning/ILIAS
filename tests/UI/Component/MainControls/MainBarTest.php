@@ -185,6 +185,15 @@ class MainBarTest extends ILIAS_UI_TestBase
 			<div class="il-mainbar">
 				<div class="il-mainbar-triggers">
 					<div class="il-mainbar-entries">
+						<button class="btn btn-bulky" data-action="#" id="id_1" >
+							<div class="icon custom small" aria-label="">
+								<img src="" />
+							</div>
+							<div>
+								<span class="bulky-label">TestEntry</span>
+							</div>
+						</button>
+
 						<button class="btn btn-bulky" data-action="#" id="id_2" >
 							<div class="icon custom small" aria-label="">
 								<img src="" />
@@ -194,16 +203,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							</div>
 						</button>
 
-						<button class="btn btn-bulky" data-action="#" id="id_3" >
-							<div class="icon custom small" aria-label="">
-								<img src="" />
-							</div>
-							<div>
-								<span class="bulky-label">TestEntry</span>
-							</div>
-						</button>
-
-						<button class="btn btn-bulky" id="id_4" aria-pressed="false" >
+						<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
 							<div class="icon custom small" aria-label="">
 								<img src="" />
 							</div>
@@ -216,13 +216,15 @@ class MainBarTest extends ILIAS_UI_TestBase
 			</div>
 
 			<div class="il-mainbar-slates">
-				<div class="il-mainbar-tools-entries"></div>
-				<div class="il-maincontrols-slate disengaged" id="id_5">
+				<div class="il-mainbar-tools-entries">
+					<div class="il-mainbar-tools-entries-bg"></div>
+				</div>
+				<div class="il-maincontrols-slate disengaged" id="id_4">
 					<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
 				</div>
 
 				<div class="il-mainbar-close-slates">
-					<button class="btn btn-bulky" id="id_1" >
+					<button class="btn btn-bulky" id="id_5" >
 						<span class="glyph" href="#" aria-label="back">
 							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 						</span>

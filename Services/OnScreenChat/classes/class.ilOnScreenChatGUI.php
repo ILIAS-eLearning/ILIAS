@@ -191,7 +191,7 @@ class ilOnScreenChatGUI
 				$factory->button()->standard($DIC->language()->txt('chat_osc_send'), 'onscreenchat-submit')
 			));
 			$chatWindowTemplate->setVariable('ADD_ACTION', $renderer ->render(
-				$factory->glyph()->add('addUser')
+				$factory->symbol()->glyph()->add('addUser')
 			));
 			$chatWindowTemplate->setVariable('CLOSE_ACTION', $renderer ->render(
 				$factory->button()->close()

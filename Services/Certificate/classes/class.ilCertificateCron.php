@@ -143,10 +143,14 @@ class ilCertificateCron extends \ilCronJob
     {
         $this->init();
 
-        $currentMode = $this->settings->get('persistent_certificate_mode', 'persistent_certificate_mode_instant');
+        $result = new ilCronJobResult();
+        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+
+        $currentMode = $this->settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($currentMode !== 'persistent_certificate_mode_cron') {
-            $this->logger->warning(sprintf('Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"', $currentMode));
-            return;
+            $this->logger->warning(sprintf('Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"',
+                $currentMode));
+            return $result;
         }
 
         $this->logger->info('START - Begin with cron job to create user certificates from templates');
@@ -183,7 +187,6 @@ class ilCertificateCron extends \ilCronJob
             }
         }
 
-        $result = new ilCronJobResult();
         $result->setStatus($status);
         if (count($succeededGenerations) > 0) {
             $result->setMessage(sprintf(
@@ -279,7 +282,8 @@ class ilCertificateCron extends \ilCronJob
 
         $object = $this->objectHelper->getInstanceByObjId($objId, false);
         if (!$object instanceof ilObject) {
-            throw new ilException(sprintf('The given object id: "%s"  could not be referred to an actual object', $objId));
+            throw new ilException(sprintf('The given object id: "%s"  could not be referred to an actual object',
+                $objId));
         }
 
         $type = $object->getType();
