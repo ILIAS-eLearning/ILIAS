@@ -125,7 +125,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param Template $tpl
+	 * @param Template $input_tpl
 	 * @param Input    $input
 	 * @param RendererInterface    $default_renderer
 	 *
@@ -153,9 +153,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 	/**
 	 * @param Template $tpl
-	 * @param Input    $input
-	 * @param RendererInterface    $default_renderer
-	 *
+	 * @param Input $input
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input) {
@@ -211,7 +209,11 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 		return $tpl->get();
 	}
 
-
+	/**
+	 * @param Template $tpl
+	 * @param MultiSelect $input
+	 * @return Template
+	 */
 	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
 		$value = $input->getValue();
 		$name = $input->getName();
@@ -275,6 +277,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	}
 
 	/**
+	 * @param array $input_labels
 	 * @param RendererInterface $default_renderer
 	 *
 	 * @return string
