@@ -830,10 +830,8 @@ class ilPersonalProfileGUI
 				$this->input["udf_".$definition['field_id']]->setDisabled(true);
 			}
 			
-			// add "please select" if no current value
 			if($definition['field_type'] == UDF_TYPE_SELECT && !$value)
 			{
-				$options = array(""=>$lng->txt("please_select")) + $options;
 				$this->input["udf_".$definition['field_id']]->setOptions($options);
 			}
 		}
