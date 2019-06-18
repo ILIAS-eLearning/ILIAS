@@ -24,7 +24,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = $this->getTemplate($tpl_file, true, true);
 
 		$action = $component->getAction();
-		if ($action !== null) {
+		if ($component->isActive() && $action !== null) {
 			$tpl->setCurrentBlock("with_action");
 			$tpl->setVariable("ACTION", $component->getAction());
 			$tpl->parseCurrentBlock();
