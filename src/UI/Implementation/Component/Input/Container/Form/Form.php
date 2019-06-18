@@ -13,6 +13,9 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data;
 use ILIAS\Refinery;
 
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Signal;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -21,6 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
 abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
 	/**
 	 * @var    C\Input\Field\Group
 	 */
@@ -35,12 +39,21 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 	 * @var    int
 	 */
 	private $count = 0;
+	/**
+	 * @var SignalGeneratorInterface
+	 */
+	protected $signal_generator;
+
+	/**
+	 * @var Signal
+	 */
+	protected $update_signal;
 
 
 	/**
 	 * @param array $inputs
 	 */
-	public function __construct(Input\Field\Factory $field_factory, array $inputs) {
+	public function __construct(SignalGeneratorInterface $signal_generator, Input\Field\Factory $field_factory, array $inputs) {
 		$classes = [CI\Input\Field\Input::class];
 		$this->checkArgListElements("input", $inputs, $classes);
 		// TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
@@ -50,6 +63,8 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 			""
 		)->withNameFrom($this);
 		$this->transformation = null;
+		$this->signal_generator = $signal_generator;
+		$this->initSignals();
 	}
 
 
@@ -142,5 +157,28 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 		$this->count++;
 
 		return $name;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateSignal() {
+		return $this->update_signal;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withResetSignals() {
+		$clone = clone $this;
+		$clone->initSignals();
+		return $clone;
+	}
+
+	/**
+	 * Set the update signal for this input
+	 */
+	protected function initSignals() {
+		$this->update_signal = $this->signal_generator->create();
 	}
 }

@@ -53,6 +53,32 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
+		$registry->register('./src/UI/templates/js/Input/Container/form.js');
+	}
+
+
+	/**
+	 * @param Input $input
+	 * @return Input|\ILIAS\UI\Implementation\Component\JavaScriptBindable
+	 */
+	protected function setSignals(Input $input) {
+		foreach ($input->getTriggeredSignals() as $s)
+		{
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+		}
+		$signals = json_encode($signals);
+
+		$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
+			$code = "il.UI.input.setSignalsForId('$id', $signals);";
+			return $code;
+		});
+		$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
+
+		return $input;
 	}
 
 
@@ -127,19 +153,6 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		return $inputs;
-	}
-
-	/**
-	 * @param Component\JavascriptBindable $component
-	 * @param                              $tpl
-	 */
-	protected function maybeRenderId(Component\JavascriptBindable $component, Template $tpl) {
-		$id = $this->bindJavaScript($component);
-		if ($id !== null) {
-			$tpl->setCurrentBlock("with_id");
-			$tpl->setVariable("ID", $id);
-			$tpl->parseCurrentBlock();
-		}
 	}
 
 
@@ -302,11 +315,6 @@ class Renderer extends AbstractComponentRenderer {
 					$tpl->setVariable("DISABLED", 'disabled="disabled"');
 					$tpl->parseCurrentBlock();
 				}
-				if ($id) {
-					$tpl->setCurrentBlock("id");
-					$tpl->setVariable("ID", $id);
-					$tpl->parseCurrentBlock();
-				}
 				break;
 			case ($input instanceof Select):
 				$tpl = $this->renderSelectInput($tpl, $input);
@@ -347,6 +355,12 @@ class Renderer extends AbstractComponentRenderer {
 					}
 				}
 				break;
+		}
+
+		$input = $this->setSignals($input);
+		$id = $this->bindJavaScript($input);
+		if ($id !== null) {
+			$tpl->setVariable("ID", $id);
 		}
 
 		return $tpl->get();
@@ -492,6 +506,7 @@ class Renderer extends AbstractComponentRenderer {
 		$input = $input->withAdditionalOnLoadCode(function ($id) {
 			return "il.UI.Input.radio.init('$id');";
 		});
+		$input = $this->setSignals($input);
 		$id = $this->bindJavaScript($input);
 		$input_tpl->setVariable("ID", $id);
 
