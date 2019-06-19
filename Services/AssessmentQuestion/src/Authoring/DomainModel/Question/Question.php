@@ -9,6 +9,7 @@ use ILIAS\Data\Domain\Entity\IsRevisable;
 use ILIAS\Data\Domain\Entity\AggregateRoot;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
 use ILIAS\Data\Domain\Entity\RevisionId;
+use ILIAS\Data\Domain\Event\DomainEvent;
 
 /**
  * Class Question
@@ -252,5 +253,15 @@ class Question extends AggregateRoot implements IsRevisable {
 		$data['title'] = $this->getTitle();
 		$data['description'] = $this->getDescription();
 		$data['creator'] = $this->getCreator();
+	}
+
+
+	/**
+	 * Publish the event with a DomainEventPublisher
+	 *
+	 * @param DomainEvent $domainEvent
+	 */
+	protected function publishThat(DomainEvent $domainEvent) {
+		// TODO: Implement publishThat() method.
 	}
 }
