@@ -277,5 +277,10 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 
 <#17>
 <?php
+;
+?>
+
+<#18>
+<?php
 $ilCtrlStructureReader->getStructure();
 ?>

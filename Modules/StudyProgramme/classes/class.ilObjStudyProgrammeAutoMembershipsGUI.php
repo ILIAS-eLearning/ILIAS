@@ -21,6 +21,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	const CMD_ENABLE = 'enable';
 	const CMD_DISABLE = 'disable';
 
+	//input is always ref-id;
+	//these are stored with their respective obj_id
+	const CONVERT_FROM_REF_TO_OBJ_ID_FOR_TYPES = [
+		ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+		ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
+	];
+
 	/**
 	 * @var ilTemplate
 	 */
@@ -150,6 +157,10 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
 		list($src_type, $sub_values) = array_values($result[self::F_SOURCE_TYPE]);
 		$src_id = (int)$sub_values[self::F_SOURCE_ID];
+
+		if(in_array($src_type, self::CONVERT_FROM_REF_TO_OBJ_ID_FOR_TYPES)) {
+			$src_id = \ilObject::_lookupObjId($src_id);
+		}
 
 		if(
 			array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $_GET)
@@ -377,12 +388,18 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		ilStudyProgrammeAutoMembershipSource $ams
 	): \ILIAS\UI\Component\Button\Shy {
 
-		$url = ilLink::_getStaticLink($ams->getSourceId(), $ams->getSourceType());
+		$src_type = $ams->getSourceType();
+		$src_id = $ams->getSourceId();
+
+		if(in_array($src_type, self::CONVERT_FROM_REF_TO_OBJ_ID_FOR_TYPES)) {
+			$src_ref = array_shift(ilObject::_getAllReferences($src_id));
+			$url = ilLink::_getStaticLink($src_ref, $ams->getSourceType());
+		}
 
 		switch ($ams->getSourceType()) {
 			case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
-				$title = ilObject::_lookupTitle($ams->getSourceId());
-				$this->ctrl->setParameterByClass('ilObjRoleGUI', 'obj_id', $ams->getSourceId());
+				$title = ilObject::_lookupTitle($src_id);
+				$this->ctrl->setParameterByClass('ilObjRoleGUI', 'obj_id', $src_id);
 				$this->ctrl->setParameterByClass('ilObjRoleGUI', 'ref_id', self::ROLEFOLDER_REF_ID);
 				$this->ctrl->setParameterByClass('ilObjRoleGUI', 'admin_mode', 'settings');
 				$url = $this->ctrl->getLinkTargetByClass(['ilAdministrationGUI', 'ilObjRoleGUI'], 'userassignment' );
@@ -394,7 +411,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 				$hops = array_map(function($c) {
 						return ilObject::_lookupTitle($c["obj_id"]);
 					},
-					$this->tree->getPathFull($ams->getSourceId())
+					$this->tree->getPathFull($src_ref)
 				);
 				$hops = array_slice($hops, 1);
 				$title = implode(' > ', $hops);
@@ -404,10 +421,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 				$hops = array_map(function($c) {
 						return ilObject::_lookupTitle($c["obj_id"]);
 					},
-					$this->tree->getPathFull($ams->getSourceId())
+					$this->tree->getPathFull($src_id)
 				);
 				$hops = array_slice($hops, 3);
 				$title = implode(' > ', $hops);
+				$url = ilLink::_getStaticLink($src_id, $ams->getSourceType());
 				break;
 		}
 

@@ -1466,6 +1466,52 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 
 
+	/**
+	 * Get all StudyProgrammes monitoring this membership-source.
+	 * @param int $cat_ref_id
+	 * @return ilObjStudyProgramme[]
+	 */
+	protected static function getProgrammesMonitoringMemberSource(string $src_type, int $src_id): array
+	{
+		$db = ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
+		$programmes = array_map(function($rec) {
+				$prg_obj_id = (int)array_shift(array_values($rec));
+				$prg_ref_id = (int)array_shift(ilObject::_getAllReferences($prg_obj_id));
+				$prg = self::getInstanceByRefId($prg_ref_id);
+				return $prg;
+			},
+			$db::getProgrammesFor($src_type, $src_id)
+		);
+		return $programmes;
+	}
+
+	public static function addMemberToProgrammes(string $src_type, int $src_id, int $usr_id)
+	{
+		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
+			//assigned_by should be a conversion of src_type
+			//$assigned_by = -1;
+			if (!$prg->hasAssignmentOf($usr_id)) {
+				//$prg->assignUser($usr_id, $assigned_by);
+				$prg->assignUser($usr_id);
+			}
+		}
+	}
+
+	public static function removeMemberFromProgrammes(string $src_type, int $src_id, int $usr_id)
+	{
+		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
+			foreach ($prg->getProgressesOf($usr_id) as $progress) {
+				if($progress->getStatus() !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+					continue;
+				}
+				$assignments = $prg->getAssignmentsOf($usr_id);
+				foreach ($assignments as $assignment) {
+					$prg->removeAssignment($assignment);
+				}
+			}
+		}
+	}
+
 	////////////////////////////////////
 	// HELPERS
 	////////////////////////////////////

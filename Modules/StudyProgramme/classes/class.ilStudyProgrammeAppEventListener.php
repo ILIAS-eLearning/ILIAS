@@ -18,10 +18,6 @@ class ilStudyProgrammeAppEventListener {
 
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
-
-global $DIC;
-$DIC->logger()->root()->log($a_component.' - '.$a_event);
-
 		switch ($a_component) {
 			case "Services/User":
 				switch ($a_event){
@@ -59,41 +55,65 @@ $DIC->logger()->root()->log($a_component.' - '.$a_event);
 			case "Modules/Course":
 				switch ($a_event) {
 					case "addParticipant":
-						self::addMemberToProgrammes('crs', $a_parameter);
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+							$a_parameter
+						);
 						break;
 					case "deleteParticipant":
-						self::removeMemberFromProgrammes('crs', $a_parameter);
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+							$a_parameter
+						);
 						break;
 				}
 				break;
 			case "Modules/Group":
 				switch ($a_event) {
 					case "addParticipant":
-						self::addMemberToProgrammes('grp', $a_parameter);
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_GROUP,
+							$a_parameter
+						);
 						break;
 					case "deleteParticipant":
-						self::removeMemberFromProgrammes('grp', $a_parameter);
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_GROUP,
+							$a_parameter
+						);
 						break;
 				}
 				break;
 			case "Services/AccessControl":
 				switch ($a_event) {
 					case "assignUser":
-						self::addMemberToProgrammes('rol', $a_parameter);
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ROLE ,
+							$a_parameter
+						);
 						break;
 					case "deassignUser":
-						self::removeMemberFromProgrammes('rol', $a_parameter);
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ROLE,
+							$a_parameter
+						);
 						break;
 				}
 				break;
 			case "Modules/OrgUnit":
 				switch ($a_event) {
 					case "assignUserToPosition":
-						self::addMemberToProgrammes('orgu', $a_parameter);
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
+							$a_parameter
+						);
 						break;
 					case "deassignUserFromPosition":
 					//case "delete":
-						self::removeMemberFromProgrammes('orgu', $a_parameter);
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
+							$a_parameter
+						);
 						break;
 				}
 				break;
@@ -214,31 +234,26 @@ $DIC->logger()->root()->log($a_component.' - '.$a_event);
 
 	private static function addMemberToProgrammes(string $src_type, array $params)
 	{
-		global $DIC;
-		$DIC->logger()->root()->dump($params);
-
 		$obj_id = $params['obj_id'];
 		$usr_id = $params['usr_id'];
-
-		if(in_array($src_type, ['grp', 'rol'])) {
-			$rol_id = $params['role_id'];
+		$obj_id = $params['obj_id'];
+		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
+			$obj_id = $params['role_id'];
 		}
 
-		//ilObjStudyProgramme::addMemberToProgrammes($src_type, $src_id, $usr_id);
+		ilObjStudyProgramme::addMemberToProgrammes($src_type, $obj_id, $usr_id);
 	}
 
 	private static function removeMemberFromProgrammes(string $src_type, array $params)
 	{
-		global $DIC;
-		$DIC->logger()->root()->dump($params);
-
 		$obj_id = $params['obj_id'];
 		$usr_id = $params['usr_id'];
-		if(in_array($src_type, ['rol'])) {
-			$rol_id = $params['role_id'];
+		$obj_id = $params['obj_id'];
+		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
+			$obj_id = $params['role_id'];
 		}
 
-		//ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $src_id, $usr_id);
+		ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $obj_id, $usr_id);
 	}
 
 }
