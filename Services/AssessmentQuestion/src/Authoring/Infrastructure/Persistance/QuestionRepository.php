@@ -1,9 +1,11 @@
 <?php
 namespace  ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence;
+
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\Data\Domain\Entity\AggregateId;
-use ILIAS\Data\Domain\Entity\AggregateRevision;
+use ILIAS\Data\Domain\Entity\IsRevisable;
+use ILIAS\Data\Domain\Entity\RevisionId;
 use ILIAS\Data\Domain\Event\IsEventSourced;
 use ILIAS\Data\Domain\Event\RecordsEvents;
 use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\Question;
@@ -43,8 +45,10 @@ class QuestionRepository
 		);
 	}
 
+
 /*
-	public function byAggregateAndRevisionId(QuestionId $aggregate_id, AggregateRevision $aggregate_revision) {
+	public function byAggregateAndRevisionId(QuestionId $aggregate_id, RevisionId $aggregate_revision) {
+
 		// TODO: Implement byAggregateAndRevisionId() method.
 	}*/
 }

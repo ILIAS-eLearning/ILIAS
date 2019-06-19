@@ -51,14 +51,9 @@ class AsqAuthoringService {
 
 	public function CreateQuestion(string $title, string $description, int $creator_id): void {
 		//CreateQuestion.png
-		try {
-			$command_busbuilder = new CommandBusBuilder();
-			$command_bus = $command_busbuilder->getCommandBus();
-			$command_bus->handle(new CreateQuestionCommand($title, $description, $creator_id));
-		} catch (\Exception $e) {
-			//TODO Failure Message
-			//$this->tpl->
-		}
+		$command_busbuilder = new CommandBusBuilder();
+		$command_bus = $command_busbuilder->getCommandBus();
+		$command_bus->handle(new CreateQuestionCommand($title, $description, $creator_id));
 	}
 
 	public function CreateNewVersionOfQuestion(string $title, string $description, int $creator_id, string $old_id) {

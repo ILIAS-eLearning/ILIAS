@@ -2,6 +2,8 @@
 //TODO wird verwendet um von der History wieder den aktallen Stand herzustellen. prüfen wie dies andere tun!
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
+use DateTime;
+use ilDateTime;
 use ILIAS\Data\Domain\Entity\AggregateId;
 use ILIAS\Data\Domain\Event\AbstractDomainEvent;
 
@@ -27,19 +29,13 @@ class GenericEvent extends AbstractDomainEvent {
 
 
 	/**
-	 * @return int
+	 * @return DateTime
 	 */
-	public function getOccurredOn(): int {
-		return $this->occurred_on;
+	public function setOccurredOn($occurred_on) {
+		return $this->occurred_on = $occurred_on;
 	}
 
 
-	/**
-	 * @param int $occurred_on
-	 */
-	public function setOccurredOn(int $occurred_on): void {
-		$this->occurred_on = $occurred_on;
-	}
 
 
 	/**

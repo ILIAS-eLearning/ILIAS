@@ -2,6 +2,7 @@
 namespace ILIAS\Data\Domain\Event;
 use ActiveRecord;
 use DateTime;
+use ilDateTime;
 use \ilException;
 
 /**
@@ -43,14 +44,14 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	 */
 	protected $event_name;
 	/**
-	 * @var int
+	 * @var ilDateTime
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  timestamp
 	 * @con_index      true
 	 * @con_is_notnull true
 	 */
-	protected $occured_on;
+	protected $occurred_on;
 	/**
 	 * @var int
 	 *
@@ -76,19 +77,19 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	 *
 	 * @param string $aggregate_id
 	 * @param string $event_name
-	 * @param DateTime $occured_on
+	 * @param ilDateTime $occurred_on
 	 * @param int $initiating_user_id
 	 * @param string $event_body */
 	public function setEventData(
 		string $aggregate_id,
 		string $event_name,
-		int $occured_on,
+		ilDateTime $occurred_on,
 		int $initiating_user_id,
 		string $event_body)
 	{
 		$this->aggregate_id = $aggregate_id;
 		$this->event_name = $event_name;
-		$this->occured_on = $occured_on;
+		$this->occurred_on = $occurred_on;
 		$this->initiating_user_id = $initiating_user_id;
 		$this->event_body = $event_body;
 	}
@@ -127,8 +128,8 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	/**
 	 * @return int
 	 */
-	public function getOccuredOn(): int {
-		return $this->occured_on;
+	public function getOccurredOn(): ilDateTime {
+		return $this->occurred_on;
 	}
 
 
