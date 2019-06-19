@@ -53,7 +53,7 @@ class ilContainerReferenceAppEventListener  implements ilAppEventListener
 		{
 			case 'Modules/Course':
 			case 'Modules/Category':
-			
+			case 'Modules/StudyProgramme':
 				switch($a_event)
 				{
 					case 'delete':
