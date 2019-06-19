@@ -14,40 +14,42 @@ use ILIAS\UI\Component\MainControls\Slate\Slate;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopParentItemRenderer extends BaseTypeRenderer {
+class TopParentItemRenderer extends BaseTypeRenderer
+{
 
-	use SlateSessionStateCode;
+    use SlateSessionStateCode;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getComponentForItem(isItem $item): Component {
-		$f = $this->ui_factory;
+    /**
+     * @inheritDoc
+     */
+    public function getComponentForItem(isItem $item) : Component
+    {
+        $f = $this->ui_factory;
 
-		$slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
-		if ($item instanceof isParent) {
-			foreach ($item->getChildren() as $child) {
+        $slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
+        if ($item instanceof isParent) {
+            foreach ($item->getChildren() as $child) {
 
-				switch (true) {
-					case ($child instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex):
-						// throw new ilException("Rendering not yet implemented: ".get_class($child));
-						break;
-					case ($child instanceof Separator):
-						// throw new ilException("Rendering not yet implemented: ".get_class($child));
-						break;
-					default:
-						$com = $child->getTypeInformation()->getRenderer()->getComponentForItem($child);
-						if ($com instanceof Bulky || $com instanceof Slate) {
-							$slate = $slate->withAdditionalEntry($com);
-						}
-						break;
-				}
-			}
-		}
+                switch (true) {
+                    case ($child instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex):
+                        // throw new ilException("Rendering not yet implemented: ".get_class($child));
+                        break;
+                    case ($child instanceof Separator):
+                        // throw new ilException("Rendering not yet implemented: ".get_class($child));
+                        break;
+                    default:
+                        $com = $child->getTypeInformation()->getRenderer()->getComponentForItem($child);
+                        if ($com instanceof Bulky || $com instanceof Slate) {
+                            $slate = $slate->withAdditionalEntry($com);
+                        }
+                        break;
+                }
+            }
+        }
 
-		$slate = $this->addOnloadCode($slate, $item);
+        $slate = $this->addOnloadCode($slate, $item);
 
-		return $slate;
-	}
+        return $slate;
+    }
 }

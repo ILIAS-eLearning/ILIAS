@@ -10,23 +10,25 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class LostItemRenderer extends BaseTypeRenderer {
+class LostItemRenderer extends BaseTypeRenderer
+{
 
-	/**
-	 * @param isItem $item
-	 *
-	 * @return Component
-	 */
-	public function getComponentForItem(isItem $item): Component {
-		/**
-		 * @var $item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost
-		 */
-		if ($item->hasChildren()) {
-			$r = new TopParentItemRenderer();
+    /**
+     * @param isItem $item
+     *
+     * @return Component
+     */
+    public function getComponentForItem(isItem $item) : Component
+    {
+        /**
+         * @var $item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost
+         */
+        if ($item->hasChildren()) {
+            $r = new TopParentItemRenderer();
 
-			return $r->getComponentForItem($item);
-		}
+            return $r->getComponentForItem($item);
+        }
 
-		return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");
-	}
+        return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");
+    }
 }
