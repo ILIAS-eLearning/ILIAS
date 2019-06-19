@@ -6762,6 +6762,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilSCTask' => __DIR__ . '/../..' . '/../../Services/SystemCheck/classes/class.ilSCTask.php',
         'ilSCTaskTableGUI' => __DIR__ . '/../..' . '/../../Services/SystemCheck/classes/class.ilSCTaskTableGUI.php',
         'ilSCTasks' => __DIR__ . '/../..' . '/../../Services/SystemCheck/classes/class.ilSCTasks.php',
+        'ilSCTreeDumpTask' => __DIR__ . '/../..' . '/../../Services/Tree/classes/class.ilSCTreeDumpTask.php',
         'ilSCTreeDuplicatesTableGUI' => __DIR__ . '/../..' . '/../../Services/Tree/classes/class.ilSCTreeDuplicatesTableGUI.php',
         'ilSCTreeTasks' => __DIR__ . '/../..' . '/../../Services/Tree/classes/class.ilSCTreeTasks.php',
         'ilSCTreeTasksGUI' => __DIR__ . '/../..' . '/../../Services/Tree/classes/class.ilSCTreeTasksGUI.php',

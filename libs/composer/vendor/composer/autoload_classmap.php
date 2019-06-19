@@ -6425,6 +6425,7 @@ return array(
     'ilSCTask' => $baseDir . '/../../Services/SystemCheck/classes/class.ilSCTask.php',
     'ilSCTaskTableGUI' => $baseDir . '/../../Services/SystemCheck/classes/class.ilSCTaskTableGUI.php',
     'ilSCTasks' => $baseDir . '/../../Services/SystemCheck/classes/class.ilSCTasks.php',
+    'ilSCTreeDumpTask' => $baseDir . '/../../Services/Tree/classes/class.ilSCTreeDumpTask.php',
     'ilSCTreeDuplicatesTableGUI' => $baseDir . '/../../Services/Tree/classes/class.ilSCTreeDuplicatesTableGUI.php',
     'ilSCTreeTasks' => $baseDir . '/../../Services/Tree/classes/class.ilSCTreeTasks.php',
     'ilSCTreeTasksGUI' => $baseDir . '/../../Services/Tree/classes/class.ilSCTreeTasksGUI.php',
