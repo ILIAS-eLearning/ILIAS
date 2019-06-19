@@ -11119,6 +11119,7 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_custom_plan#:#Individueller Plan
 prg#:#prg_deadline#:#Stichtag
+prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_deleted_safely#:#Knoten wurde sicher entfernt.
 prg#:#prg_edit#:#Studienprogramm bearbeiten
 prg#:#prg_manage#:#Verwalten
@@ -11202,9 +11203,11 @@ prg#:#assignment_date#:#Beitrittsdatum
 prg#:#completion_date#:#Abschlussdatum
 prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
 prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
-prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums abgeschlossen werden.
+prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
+prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
 prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
 prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
 prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
@@ -11221,8 +11224,8 @@ prg#:#sp_certificate_points#:#Anzahl erworbener Punkte
 prg#:#sp_certificate_completion_date#:#Abschlußdatum
 prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
 prg#:#prg_completion_date#:#Abschlußdatum
-prg#:#prg_expiry_date#:#Ablaufdatum der Qualifikation
-prg#:#prg_validity#:#Gültigkeit der Qualifikation
+prg#:#prg_expiry_date#:#Ablauf Qualifikation
+prg#:#prg_validity#:#Gültigkeit Qualifikation
 prg#:#prg_still_valid#:#Qualifikation gültig
 prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
 prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qulifikationen im Studienprogramm
