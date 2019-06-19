@@ -9,67 +9,68 @@ use ILIAS\NavigationContext\AdditionalData\Collection;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ContextInterface {
+interface ContextInterface
+{
 
-	/**
-	 * @return string
-	 */
-	public function getUniqueContextIdentifier(): string;
-
-
-	/**
-	 * @return bool
-	 */
-	public function hasReferenceId(): bool;
+    /**
+     * @return string
+     */
+    public function getUniqueContextIdentifier() : string;
 
 
-	/**
-	 * @return ReferenceId
-	 */
-	public function getReferenceId(): ReferenceId;
+    /**
+     * @return bool
+     */
+    public function hasReferenceId() : bool;
 
 
-	/**
-	 * @param ReferenceId $reference_id
-	 *
-	 * @return ContextInterface
-	 */
-	public function withReferenceId(ReferenceId $reference_id): ContextInterface;
+    /**
+     * @return ReferenceId
+     */
+    public function getReferenceId() : ReferenceId;
 
 
-	/**
-	 * @param Collection $collection
-	 *
-	 * @return ContextInterface
-	 */
-	public function withAdditionalData(Collection $collection): ContextInterface;
+    /**
+     * @param ReferenceId $reference_id
+     *
+     * @return ContextInterface
+     */
+    public function withReferenceId(ReferenceId $reference_id) : ContextInterface;
 
 
-	/**
-	 * @param string $key
-	 * @param        $value
-	 *
-	 * @return ContextInterface
-	 */
-	public function addAdditionalData(string $key, $value): ContextInterface;
+    /**
+     * @param Collection $collection
+     *
+     * @return ContextInterface
+     */
+    public function withAdditionalData(Collection $collection) : ContextInterface;
 
 
-	/**
-	 * @return Collection
-	 */
-	public function getAdditionalData(): Collection;
+    /**
+     * @param string $key
+     * @param        $value
+     *
+     * @return ContextInterface
+     */
+    public function addAdditionalData(string $key, $value) : ContextInterface;
 
 
-	/**
-	 * @return LayoutDefinition
-	 */
-	public function getLayoutDefinition(): LayoutDefinition;
+    /**
+     * @return Collection
+     */
+    public function getAdditionalData() : Collection;
 
 
-	/**
-	 * @param LayoutDefinition $view
-	 *
-	 * @return mixed
-	 */
-	public function replaceLayoutDefinition(LayoutDefinition $view);
+    /**
+     * @return LayoutDefinition
+     */
+    public function getLayoutDefinition() : LayoutDefinition;
+
+
+    /**
+     * @param LayoutDefinition $view
+     *
+     * @return mixed
+     */
+    public function replaceLayoutDefinition(LayoutDefinition $view);
 }

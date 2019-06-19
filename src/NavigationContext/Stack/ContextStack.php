@@ -7,50 +7,55 @@ use ILIAS\NavigationContext\ContextInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ContextStack {
+class ContextStack
+{
 
-	/**
-	 * @var ContextInterface[]
-	 */
-	protected $stack = [];
-
-
-	/**
-	 * @param ContextInterface $context
-	 */
-	public function push(ContextInterface $context) {
-		if (in_array($context, $this->stack)) {
-			throw new \LogicException("A context can only be claimed once");
-		}
-		if (end($this->stack) instanceof ContextInterface) {
-			$context->replaceLayoutDefinition($this->getLast()->getLayoutDefinition());
-		}
-		array_push($this->stack, $context);
-	}
+    /**
+     * @var ContextInterface[]
+     */
+    protected $stack = [];
 
 
-	/**
-	 * @return ContextInterface
-	 */
-	public function getLast(): ContextInterface {
-		return end($this->stack);
-	}
+    /**
+     * @param ContextInterface $context
+     */
+    public function push(ContextInterface $context)
+    {
+        if (in_array($context, $this->stack)) {
+            throw new \LogicException("A context can only be claimed once");
+        }
+        if (end($this->stack) instanceof ContextInterface) {
+            $context->replaceLayoutDefinition($this->getLast()->getLayoutDefinition());
+        }
+        array_push($this->stack, $context);
+    }
 
 
-	/**
-	 * @return ContextInterface[]
-	 */
-	public function getStack(): array {
-		return $this->stack;
-	}
+    /**
+     * @return ContextInterface
+     */
+    public function getLast() : ContextInterface
+    {
+        return end($this->stack);
+    }
 
 
-	public function getStackAsArray(): array {
-		$return = [];
-		foreach ($this->stack as $item) {
-			$return[] = $item->getUniqueContextIdentifier();
-		}
+    /**
+     * @return ContextInterface[]
+     */
+    public function getStack() : array
+    {
+        return $this->stack;
+    }
 
-		return $return;
-	}
+
+    public function getStackAsArray() : array
+    {
+        $return = [];
+        foreach ($this->stack as $item) {
+            $return[] = $item->getUniqueContextIdentifier();
+        }
+
+        return $return;
+    }
 }
