@@ -11,8 +11,9 @@ use ILIAS\Data\Domain\Event\RecordsEvents;
 use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionProjection;
 use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionEventSourcedAggregateRepositoryRepository;
+use  ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
-class QuestionRepository implements \ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository
+class QuestionRepository
 {
 	/**
 	 * @var EventStore
@@ -37,8 +38,17 @@ class QuestionRepository implements \ILIAS\AssessmentQuestion\Authoring\DomainMo
 		$question->clearRecordedEvents();
 	}
 
-
-	public function byAggregateAndRevisionId(QuestionId $aggregate_id, RevisionId $aggregate_revision) {
-		// TODO: Implement byAggregateAndRevisionId() method.
+	public function byId(QuestionId $id)
+	{
+		return Question::reconstitute(
+			$this->event_store->getEventsFor($id)
+		);
 	}
+
+
+/*
+	public function byAggregateAndRevisionId(QuestionId $aggregate_id, RevisionId $aggregate_revision) {
+
+		// TODO: Implement byAggregateAndRevisionId() method.
+	}*/
 }

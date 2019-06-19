@@ -2,7 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\CreateQuestionFormGUI;
+use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\QuestionFormGUI;
+
 const MSG_SUCCESS = "success";
 
 /**
@@ -32,8 +35,8 @@ class AsqGUIElementFactory {
 		//EditQuestionPresentation.png
 	}
 
-	public static function CreateQuestionForm(string $question_id) {
-		//returns test form for question
-		//GetQuestionForm.png
+	public static function CreateQuestionForm(Question $question):QuestionFormGUI {
+		//CreateQuestion.png
+		return new QuestionFormGUI($question);
 	}
 }

@@ -19,36 +19,17 @@ class AsqAuthoringSpec {
 	 * @var  \ilLanguage $lng
 	 */
 	public $lng;
+	/**
+	 * @var int;
+	 */
+	public $container_id;
 
 	/**
 	 * AsqAuthoringSpec
 	 */
-	public function __construct(\ilGlobalPageTemplate $tpl, ilLanguage $lng) {
-		$this->withIlTemplate($tpl);
-		$this->withLanguage($lng);
-	}
-
-
-	/**
-	 * @param $tpl
-	 */
-	protected function withIlTemplate($tpl) {
+	public function __construct(\ilGlobalPageTemplate $tpl, ilLanguage $lng,$container_id) {
 		$this->tpl = $tpl;
-	}
-
-	/**
-	 * ilLanguage
-	 */
-	protected function withLanguage(\ilLanguage $lng) {
 		$this->lng = $lng;
-	}
-
-
-	/**
-	 * AggregateWithRevisionId[]
-	 * $arr_aggregate_with_revision_id
-	 */
-	public function withFilterAggregateWithRevisionId($arr_aggregate_with_revision_id) {
-
+		$this->container_id = $container_id;
 	}
 }
