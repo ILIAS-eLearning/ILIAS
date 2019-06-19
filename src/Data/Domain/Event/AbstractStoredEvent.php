@@ -35,8 +35,8 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	/**
 	 * @var string
 	 *
-	 * @con_has_field  text
-	 * @con_fieldtype  integer
+	 * @con_has_field  true
+	 * @con_fieldtype  text
 	 * @con_length     200
 	 * @con_index      true
 	 * @con_is_notnull true

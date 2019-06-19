@@ -1,6 +1,6 @@
 <?php
 namespace ILIAS\AssessmentQuestion\AuthoringInfrastructure\Setup\sql;
-use  ILIAS\AssessmentQuestion\AuthoringInfrastructure\Persistence\ilDB\ilDBQuestionStoredEvent;
+use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionStoredEvent;
 
 /**
  * Class SetupDatabase

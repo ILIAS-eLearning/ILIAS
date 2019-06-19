@@ -2,10 +2,12 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\GenericEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
 use ILIAS\Data\Domain\Entity\AggregateRevision;
 use ILIAS\Data\Domain\Entity\AggregateRoot;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
 
 /**
  * Class Question
@@ -40,115 +42,155 @@ class Question extends AggregateRoot {
 	 */
 	private $possible_answers;
 
-	public function __construct(QuestionId $id)
-	{
+
+	public function __construct(QuestionId $id) {
 		parent::__construct();
 		$this->id = $id;
 	}
 
 
-	/**
-	 * @param $title
-	 * @param $description
-	 */
-	public static function createFrom(string $title, string $description, int $creator) {
-		$question = new Question(new QuestionId());
-		$question->recordApplyAndPublishThat(new QuestionCreatedEvent($question->getId(), $creator, $title, $description));
+	public static function reconstitute(EventStream $history) {
+		$question = new static($history->getAggregate());
+
+		foreach ($history->getEvents() as $event) {
+			$question->applyThat($event);;
+		}
+
 		return $question;
 	}
 
-	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
-		$this->id = $event->getAggregateId();
-		$this->creator = $event->getInitiatingUserId();
-		$this->description = $event->getDescription();
-		$this->title = $event->getTitle();
-	}
 
+/**
+ * @param $title
+ * @param $description
+ */
+public
+static function createFrom(string $title, string $description, int $creator) {
+	$question = new Question(new QuestionId());
+	$question->recordApplyAndPublishThat(new QuestionCreatedEvent($question->getId(), $creator, $title, $description));
 
-	public function setOnline() {
-		$this->recordApplyAndPublishThat(new QuestionStatusHasChangedToOnline($this->id));
-	}
+	return $question;
+}
 
-	protected function applyQuestionStatusHasChangedToOnline(QuestionStatusHasChangedToOnline $event) {
-		$this->online = true;
-	}
+//TODO!! -> via history-objekt lösten?
+function applyGenericEvent(GenericEvent $event) {
+	$this->id = $event->getAggregateId();
+	$this->creator = $event->getInitiatingUserId();
 
-	public function setOffline() {
-		$this->recordApplyAndPublishThat(new QuestionStatusHasChangedToOffline($this->id));
-	}
+	$event_body = json_decode($event->getEventBody());
 
-	protected function applyQuestionStatusHasChangedToOffline(QuestionStatusHasChangedToOffline $event) {
-		$this->online = false;
-	}
+	$this->description = $event_body->description;
+	$this->title = $event_body->title;
+}
 
-	public function changeSettingsFor($settings) {
-		$this->recordApplyAndPublishThat(new QuestionSettingsWereChanged($this->id, $settings));
-	}
+protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
+	$this->id = $event->getAggregateId();
+	$this->creator = $event->getInitiatingUserId();
+	$this->description = $event->getDescription();
+	$this->title = $event->getTitle();
+}
 
-	protected function applyQuestionSettingsWereChanged(QuestionSettingsWereChanged $event) {
-		$this->settings = $event->settings();
-	}
+public
+function setOnline() {
+	$this->recordApplyAndPublishThat(new QuestionStatusHasChangedToOnline($this->id));
+}
 
-	public function changeTitleFor($title) {
-		$this->recordApplyAndPublishThat(new QuestionTitleWasChanged($this->id, $title));
-	}
+protected
+function applyQuestionStatusHasChangedToOnline(QuestionStatusHasChangedToOnline $event) {
+	$this->online = true;
+}
 
-	protected function applyQuestionTitleWasChanged(QuestionTitleWasChanged $event) {
-		$this->title = $event->title();
-	}
+public
+function setOffline() {
+	$this->recordApplyAndPublishThat(new QuestionStatusHasChangedToOffline($this->id));
+}
 
-	// TODO intressiert mich revision hier wirklich, schlussendlich projektion mit id -> wenn bereits projektion mit id dann revision += 1 sonst revision = 1 change revision würde implizieren das ich nach revision 4 plötzlich revision 2 erstellen möchte
-	public function changeRevision($revision) {
-		$this->recordApplyAndPublishThat(new RevisionWasChanged($this->id, $revision));
-	}
+protected
+function applyQuestionStatusHasChangedToOffline(QuestionStatusHasChangedToOffline $event) {
+	$this->online = false;
+}
 
-	protected function applyRevisionWasChanged(RevisionWasChanged $event) {
-		$this->revision = $event->revision();
-	}
+public
+function changeSettingsFor($settings) {
+	$this->recordApplyAndPublishThat(new QuestionSettingsWereChanged($this->id, $settings));
+}
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string {
-		return $this->title;
-	}
+protected
+function applyQuestionSettingsWereChanged(QuestionSettingsWereChanged $event) {
+	$this->settings = $event->settings();
+}
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle(string $title): void {
-		$this->title = $title;
-	}
+public
+function changeTitleFor($title) {
+	$this->recordApplyAndPublishThat(new QuestionTitleWasChanged($this->id, $title));
+}
 
-	/**
-	 * @return string
-	 */
-	public function getDescription(): string {
-		return $this->description;
-	}
+protected
+function applyQuestionTitleWasChanged(QuestionTitleWasChanged $event) {
+	$this->title = $event->title();
+}
 
-	/**
-	 * @param string $description
-	 */
-	public function setDescription(string $description): void {
-		$this->description = $description;
-	}
+// TODO intressiert mich revision hier wirklich, schlussendlich projektion mit id -> wenn bereits projektion mit id dann revision += 1 sonst revision = 1 change revision würde implizieren das ich nach revision 4 plötzlich revision 2 erstellen möchte
+public
+function changeRevision($revision) {
+	$this->recordApplyAndPublishThat(new RevisionWasChanged($this->id, $revision));
+}
 
-	/**
-	 * @return int
-	 */
-	public function getCreator(): int {
-		return $this->creator;
-	}
+protected
+function applyRevisionWasChanged(RevisionWasChanged $event) {
+	$this->revision = $event->revision();
+}
 
-	/**
-	 * @param int $creator
-	 */
-	public function setCreator(int $creator): void {
-		$this->creator = $creator;
-	}
+/**
+ * @return string
+ */
+public
+function getTitle(): string {
+	return $this->title;
+}
 
-	public function getId() : QuestionId {
-		return $this->id;
-	}
+/**
+ * @param string $title
+ */
+public
+function setTitle(string $title): void {
+	$this->title = $title;
+}
+
+/**
+ * @return string
+ */
+public
+function getDescription(): string {
+	return $this->description;
+}
+
+/**
+ * @param string $description
+ */
+public
+function setDescription(string $description): void {
+	$this->description = $description;
+}
+
+/**
+ * @return int
+ */
+public
+function getCreator(): int {
+	return $this->creator;
+}
+
+/**
+ * @param int $creator
+ */
+public
+function setCreator(int $creator): void {
+	$this->creator = $creator;
+}
+
+public
+function getId(): QuestionId {
+	return $this->id;
+}
 }

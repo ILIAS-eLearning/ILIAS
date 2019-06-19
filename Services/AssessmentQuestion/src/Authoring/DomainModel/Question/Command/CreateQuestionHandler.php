@@ -24,6 +24,10 @@ class CreateQuestionCommandHandler implements CommandHandler {
 		$this->repository = new QuestionRepository();
 	}
 
+
+	/**
+	 * @param CreateQuestionCommand $command
+	 */
 	public function handle(Command $command) {
 
 		$question = Question::createFrom(

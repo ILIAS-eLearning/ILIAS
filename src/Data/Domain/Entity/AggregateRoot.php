@@ -39,6 +39,9 @@ abstract class AggregateRoot {
 
 	protected function applyThat(DomainEvent $domainEvent) {
 		$event_class_without_namespace = join('', array_slice(explode('\\', get_class($domainEvent)), -1));
+
+
+
 		$modifier = 'apply' . $event_class_without_namespace;
 		$this->$modifier($domainEvent);
 	}

@@ -2,6 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
+use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\CreateQuestionFormGUI;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
@@ -16,6 +19,36 @@ const MSG_SUCCESS = "success";
  */
 class AsqAuthoringService {
 
+	/**
+	 * @var AsqAuthoringSpec
+	 */
+	protected $asq_question_spec;
+
+	/**
+	 * AsqAuthoringService constructor.
+	 *
+	 * @param $asq_question_spec
+	 */
+	public function __construct($asq_question_spec) {
+		$this->asq_question_spec = $asq_question_spec;
+	}
+
+
+	/**
+	 * @param string $aggregate_id
+	 *
+	 * @return Question
+	 */
+	public function getEventsFor($aggregate_id) {
+		$event_store = new ilDBQuestionEventStore();
+
+
+		return Question::reconstitute(
+				$event_store->getEventsFor(new QuestionId($aggregate_id))
+		);
+
+	}
+
 	public function CreateQuestion(string $title, string $description, int $creator_id): void {
 		//CreateQuestion.png
 		try {
@@ -29,6 +62,7 @@ class AsqAuthoringService {
 	}
 
 	public function CreateNewVersionOfQuestion(string $title, string $description, int $creator_id, string $old_id) {
+
 		// creates new version of a question ('edit question' but with immutable domain object)
 		// CreateQuestion.png
 	}
@@ -51,10 +85,15 @@ class AsqAuthoringService {
 		// remove answer from question
 	}*/
 
-	public function GetQuestions(string $parent_id) {
+	public function GetQuestions():array {
 		// returns all questions of parent
 		// GetQuestionList.png
-		// TODO ev getquestionsofpool, getquestionsoftest methode pro object
+		//TODO - use the Query Bus
+		$event_store = new ilDBQuestionEventStore();
+		return $event_store->allStoredQuestionsForParentSince($this->asq_question_spec->container_id,0);
+
+
+		// TODO ev getquestionsofpool, getquestionsoftest methode pro object -> Denke nicht, die ParentIds in ILIAS sind eindeutig. Somit ruft man einfach jene Fragen ab, welche einem in seinem Parent zur Verfügung stehen, resp. welche man bereitgestellt hat.
 	}
 
 	public function SearchQuestions(array $parameters) {
