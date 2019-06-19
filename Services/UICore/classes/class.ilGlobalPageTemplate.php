@@ -2,10 +2,12 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
-use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\InlineCss;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\StandardPagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\NotImplementedException;
 
 /**
@@ -66,7 +68,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->http->saveResponse($response->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
 
         if (defined("ILIAS_HTTP_PATH")) {
-            $this->gs->layout()->metaContent()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
+            $this->gs->layout()->getMetaContent()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
         }
     }
 
@@ -75,15 +77,15 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         \iljQueryUtil::initjQuery($this);
         \iljQueryUtil::initjQueryUI($this);
-        $this->gs->layout()->metaContent()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
+        $this->gs->layout()->getMetaContent()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
     }
 
 
     private function prepareBasicCSS()
     {
-        $this->gs->layout()->metaContent()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
-        $this->gs->layout()->metaContent()->addCss(\ilUtil::getNewContentStyleSheetLocation());
+        $this->gs->layout()->getMetaContent()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
+        $this->gs->layout()->getMetaContent()->addCss(\ilUtil::getNewContentStyleSheetLocation());
     }
 
 
@@ -96,9 +98,18 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
 
-        $content = $this->legacy_content_template->renderPage($part, $a_fill_tabs, $a_skip_main_menu);
+        $this->gs->layout()->modifyIcon(function (Image $current) : Image {
+            return $this->ui->factory()->image()->standard(ilUtil::getImagePath("icon_auth.svg"), "ILIAS");
+        });
 
-        print $this->ui->renderer()->render($this->gs->layout()->builder()->build(new StandardPagePartProvider($this->ui->factory()->legacy($content))));
+        $this->gs->layout()->modifyMainBar(function (MainBar $current) : MainBar {
+
+            $f = $this->ui->factory();
+
+            return $current->withAdditionalEntry('lorem', $f->mainControls()->slate()->legacy('test', $f->symbol()->glyph()->user(), $f->legacy('testerei')));
+        });
+
+        print $this->ui->renderer()->render($this->gs->layout()->getFinalPage());
     }
 
 
@@ -112,7 +123,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
     {
-        $this->gs->layout()->metaContent()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
+        $this->gs->layout()->getMetaContent()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
     }
 
 
@@ -121,7 +132,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addCss($a_css_file, $media = "screen")
     {
-        $this->gs->layout()->metaContent()->addCss($a_css_file, $media);
+        $this->gs->layout()->getMetaContent()->addCss($a_css_file, $media);
     }
 
 
@@ -130,7 +141,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addOnLoadCode($a_code, $a_batch = 2)
     {
-        $this->gs->layout()->metaContent()->addOnloadCode($a_code, $a_batch);
+        $this->gs->layout()->getMetaContent()->addOnloadCode($a_code, $a_batch);
     }
 
 
@@ -139,7 +150,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addInlineCss($a_css, $media = "screen")
     {
-        $this->gs->layout()->metaContent()->addInlineCss(new InlineCss($a_css, $media));
+        $this->gs->layout()->getMetaContent()->addInlineCss(new InlineCss($a_css, $media));
     }
 
 
@@ -152,6 +163,10 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     public function setContent($a_html)
     {
         $this->legacy_content_template->setMainContent($a_html);
+
+        $this->gs->layout()->modifyContent(function (Legacy $original_content) : Legacy {
+            return $this->ui->factory()->legacy($this->legacy_content_template->renderPage("DEFAULT", true, false));
+        });
     }
 
 
@@ -319,7 +334,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function resetJavascript()
     {
-        $this->gs->layout()->metaContent()->getJs()->clear();
+        $this->gs->layout()->getMetaContent()->getJs()->clear();
     }
 
 

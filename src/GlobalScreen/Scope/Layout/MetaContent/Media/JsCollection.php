@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
 /**
  * Class JsCollection

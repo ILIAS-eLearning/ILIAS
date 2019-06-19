@@ -10,10 +10,13 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy as LegacyImplementation;
 use ilUtil;
 
 /**
  * Class StandardPagePartProvider
+ *
+ * @internal
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -23,26 +26,25 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @var Legacy
      */
-    private $content;
+    protected $content;
     /**
      * @var \ILIAS\GlobalScreen\Services
      */
-    private $gs;
+    protected $gs;
     /**
      * @var \ILIAS\DI\UIServices
      */
-    private $ui;
+    protected $ui;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(Legacy $content)
+    public function __construct()
     {
-        global $DIC; // Inject that?
+        global $DIC;
         $this->ui = $DIC->ui();
         $this->gs = $DIC->globalScreen();
-        $this->content = $content;
     }
 
 
@@ -51,16 +53,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getContent() : Legacy
     {
-        return $this->content;
-    }
-
-
-    /**
-     * @param Legacy $content
-     */
-    public function setContent(Legacy $content)
-    {
-        $this->content = $content;
+        return $this->content ?? new LegacyImplementation("");
     }
 
 

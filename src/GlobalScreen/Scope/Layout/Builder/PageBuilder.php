@@ -1,4 +1,4 @@
-<?php namespace ILIAS\UI\Component\Layout\Builder;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePartProvider;
 use ILIAS\UI\Component\Layout\Page\Page;
