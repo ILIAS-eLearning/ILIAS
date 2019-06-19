@@ -109,12 +109,12 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
 			}
 		);
 		$type = $object->getSubType();
-		$placeholders['SP_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
-		$placeholders['SP_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
-		$placeholders['SP_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
-		$placeholders['POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
-		$placeholders['COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate()->format('d.m.Y'));
-		$placeholders['EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() !== null ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : null);
+		$placeholders['PRG_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
+		$placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
+		$placeholders['PRG_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
+		$placeholders['PRG_POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
+		$placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof \DateTime ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
+		$placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof \DateTime ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
 		return $placeholders;
 	}
 
@@ -134,12 +134,12 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
 		$object = $this->objectHelper->getInstanceByObjId($objId);
 		$type = $object->getSubType();
 		$today = ilUtil::prepareFormOutput((new DateTime())->format('d.m.Y'));
-		$placeholders['SP_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
-		$placeholders['SP_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
-		$placeholders['SP_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
-		$placeholders['POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
-		$placeholders['COMPLETION_DATE'] = $today;
-		$placeholders['EXPIRES_AT'] = $today;
+		$placeholders['PRG_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
+		$placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
+		$placeholders['PRG_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
+		$placeholders['PRG_POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
+		$placeholders['PRG_COMPLETION_DATE'] = $today;
+		$placeholders['PRG_EXPIRES_AT'] = $today;
 		return $placeholders;
 	}
 }
