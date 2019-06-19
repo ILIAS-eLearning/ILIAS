@@ -18,6 +18,10 @@ class ilStudyProgrammeAppEventListener {
 
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
+
+global $DIC;
+$DIC->logger()->root()->log($a_component.' - '.$a_event);
+
 		switch ($a_component) {
 			case "Services/User":
 				switch ($a_event){
@@ -51,6 +55,49 @@ class ilStudyProgrammeAppEventListener {
 						break;
 				}
 				break;
+
+			case "Modules/Course":
+				switch ($a_event) {
+					case "addParticipant":
+						self::addMemberToProgrammes('crs', $a_parameter);
+						break;
+					case "deleteParticipant":
+						self::removeMemberFromProgrammes('crs', $a_parameter);
+						break;
+				}
+				break;
+			case "Modules/Group":
+				switch ($a_event) {
+					case "addParticipant":
+						self::addMemberToProgrammes('grp', $a_parameter);
+						break;
+					case "deleteParticipant":
+						self::removeMemberFromProgrammes('grp', $a_parameter);
+						break;
+				}
+				break;
+			case "Services/AccessControl":
+				switch ($a_event) {
+					case "assignUser":
+						self::addMemberToProgrammes('rol', $a_parameter);
+						break;
+					case "deassignUser":
+						self::removeMemberFromProgrammes('rol', $a_parameter);
+						break;
+				}
+				break;
+			case "Modules/OrgUnit":
+				switch ($a_event) {
+					case "assignUserToPosition":
+						self::addMemberToProgrammes('orgu', $a_parameter);
+						break;
+					case "deassignUserFromPosition":
+					//case "delete":
+						self::removeMemberFromProgrammes('orgu', $a_parameter);
+						break;
+				}
+				break;
+
 			default:
 				throw new ilException("ilStudyProgrammeAppEventListener::handleEvent: "
 									 ."Won't handle events of '$a_component'.");
@@ -85,9 +132,6 @@ class ilStudyProgrammeAppEventListener {
 			self::adjustProgrammeLPMode($parent_ref_id);
 		}
 		if ($node_type == "prg" && $parent_type == "prg") {
-			self::addMissingProgresses($parent_ref_id);
-		}
-		if ($node_type == "prgr" && $parent_type == "prg") {
 			self::addMissingProgresses($parent_ref_id);
 		}
 		if ($node_type == "crs" && $parent_type == "cat") {
@@ -166,6 +210,35 @@ class ilStudyProgrammeAppEventListener {
 	private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id)
 	{
 		ilObjStudyProgramme::removeCrsFromProgrammes($crs_ref_id, $cat_ref_id);
+	}
+
+	private static function addMemberToProgrammes(string $src_type, array $params)
+	{
+		global $DIC;
+		$DIC->logger()->root()->dump($params);
+
+		$obj_id = $params['obj_id'];
+		$usr_id = $params['usr_id'];
+
+		if(in_array($src_type, ['grp', 'rol'])) {
+			$rol_id = $params['role_id'];
+		}
+
+		//ilObjStudyProgramme::addMemberToProgrammes($src_type, $src_id, $usr_id);
+	}
+
+	private static function removeMemberFromProgrammes(string $src_type, array $params)
+	{
+		global $DIC;
+		$DIC->logger()->root()->dump($params);
+
+		$obj_id = $params['obj_id'];
+		$usr_id = $params['usr_id'];
+		if(in_array($src_type, ['rol'])) {
+			$rol_id = $params['role_id'];
+		}
+
+		//ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $src_id, $usr_id);
 	}
 
 }

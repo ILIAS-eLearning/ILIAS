@@ -1403,7 +1403,6 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 
 
-
 	////////////////////////////////////
 	// AUTOMATIC MEMBERSHIPS
 	////////////////////////////////////
