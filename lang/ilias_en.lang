@@ -13269,6 +13269,8 @@ prg#:#prg_deadline_period#:#Processing time is determined inividually
 prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
+prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
+prg#:#prg_validity_of_qualification_restart#:#Restart
 prg#:#prg_no_validity_qalification#:#Long-Lasting qualification
 prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
 prg#:#validity_qalification_period#:#Qualification expires individually
@@ -14383,6 +14385,7 @@ obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
 grp#:#grp_user_already_in_group#:#The selected user is already member of the group.
 prg#:#prg_deadline#:#Deadline
+prg#:#prg_deadline_settings#:#Processing Period
 prg#:#prg_status_failed#:#failed
 common#:#edit_page_meta#:#Edit Page Metadata
 rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
