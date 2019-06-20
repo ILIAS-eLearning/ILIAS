@@ -20,8 +20,8 @@ Currently the following components can be modified:
 - MetaBar
 - MainBar
 - BreadCrumbs
-- icon
-- content
+- Icon
+- Content
 
 All these components can be modified in two ways, either as `Closure` or as a class of a certain interface.
 
