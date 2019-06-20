@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
@@ -22,6 +23,10 @@ class Services
      */
     private static $services = [];
     /**
+     * @var FinalModificationProvider[]
+     */
+    private $final_modification_provider;
+    /**
      * @var ProviderFactoryInterface
      */
     private $provider_factory;
@@ -32,7 +37,11 @@ class Services
      *
      * @param ProviderFactoryInterface $provider_factory
      */
-    public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
+    public function __construct(ProviderFactoryInterface $provider_factory)
+    {
+        $this->provider_factory = $provider_factory;
+        $this->final_modification_provider = $provider_factory->getFinalModificationProvider();
+    }
 
 
     /**
@@ -85,7 +94,7 @@ class Services
      */
     public function layout() : LayoutServices
     {
-        return $this->getWithArgument(LayoutServices::class, $this->provider_factory->getFinalModificationProvider());
+        return $this->getWithArgument(LayoutServices::class, $this->final_modification_provider);
     }
 
 
