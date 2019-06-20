@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use ILIAS\GlobalScreen\Scope\Layout\Modifier\BreadCrumbsModifier;
 use ILIAS\GlobalScreen\Scope\Layout\Modifier\ContentModifier;
@@ -53,7 +53,7 @@ class InstancePagePartProvider implements PagePartProvider
     public function __construct(PagePartProvider $original)
     {
         $this->original = $original;
-        $this->content_provider = new class($original) extends AbstractOriginalProvider implements ContentModifier
+        $this->content_provider = new class($original) extends AbstractOriginalPagePartProvider implements ContentModifier
         {
 
             /**
@@ -64,7 +64,7 @@ class InstancePagePartProvider implements PagePartProvider
                 return $this->original->getContent();
             }
         };
-        $this->meta_bar_provider = new class($original) extends AbstractOriginalProvider implements MetaBarModifier
+        $this->meta_bar_provider = new class($original) extends AbstractOriginalPagePartProvider implements MetaBarModifier
         {
 
             /**
@@ -75,7 +75,7 @@ class InstancePagePartProvider implements PagePartProvider
                 return $this->original->getMetaBar();
             }
         };
-        $this->main_bar_provider = new class($original) extends AbstractOriginalProvider implements MainBarModifier
+        $this->main_bar_provider = new class($original) extends AbstractOriginalPagePartProvider implements MainBarModifier
         {
 
             /**
@@ -86,7 +86,7 @@ class InstancePagePartProvider implements PagePartProvider
                 return $this->original->getMainBar();
             }
         };
-        $this->bread_crumbs_provider = new class($original) extends AbstractOriginalProvider implements BreadCrumbsModifier
+        $this->bread_crumbs_provider = new class($original) extends AbstractOriginalPagePartProvider implements BreadCrumbsModifier
         {
 
             /**
@@ -97,7 +97,7 @@ class InstancePagePartProvider implements PagePartProvider
                 return $this->original->getBreadCrumbs();
             }
         };
-        $this->logo_provider = new class($original) extends AbstractOriginalProvider implements LogoModifier
+        $this->logo_provider = new class($original) extends AbstractOriginalPagePartProvider implements LogoModifier
         {
 
             /**

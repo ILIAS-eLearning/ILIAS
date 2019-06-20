@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
-use ILIAS\GlobalScreen\Scope\Layout\FinalPageHandler;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -15,9 +15,9 @@ interface ProviderFactoryInterface
 {
 
     /**
-     * @return FinalPageHandler[]
+     * @return FinalModificationProvider[]
      */
-    public function getFinalPageHandlers() : array;
+    public function getFinalModificationProvider() : array;
 
 
     /**

@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;

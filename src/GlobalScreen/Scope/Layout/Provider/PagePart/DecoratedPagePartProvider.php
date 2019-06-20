@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use Closure;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;

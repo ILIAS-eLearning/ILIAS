@@ -13,7 +13,7 @@ class NullProviderFactory implements ProviderFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getFinalPageHandlers() : array
+    public function getFinalModificationProvider() : array
     {
         return [];
     }

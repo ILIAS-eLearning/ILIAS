@@ -85,7 +85,7 @@ class Services
      */
     public function layout() : LayoutServices
     {
-        return $this->get(LayoutServices::class);
+        return $this->getWithArgument(LayoutServices::class, $this->provider_factory->getFinalModificationProvider());
     }
 
 

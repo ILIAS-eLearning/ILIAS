@@ -9,10 +9,10 @@ use ILIAS\GlobalScreen\Scope\Layout\Modifier\ContentModifier;
 use ILIAS\GlobalScreen\Scope\Layout\Modifier\LogoModifier;
 use ILIAS\GlobalScreen\Scope\Layout\Modifier\MainBarModifier;
 use ILIAS\GlobalScreen\Scope\Layout\Modifier\MetaBarModifier;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\DecoratedPagePartProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\InstancePagePartProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePartProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\StandardPagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\DecoratedPagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\InstancePagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\StandardPagePartProvider;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page\Page;
@@ -208,7 +208,7 @@ class ModifierServices
     /**
      * @return Page
      */
-    public function getFinalPage() : Page
+    public function getPageWithPagePartProviders() : Page
     {
         return $this->current_page_builder->build($this->current_page_part_provider);
     }

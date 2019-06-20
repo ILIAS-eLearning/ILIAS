@@ -2,6 +2,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
@@ -35,9 +36,13 @@ class ilGSProviderFactory extends ProviderFactory
     /**
      * @inheritDoc
      */
-    public function getFinalPageHandlers() : array
+    public function getFinalModificationProvider() : array
     {
-        return [new ilUIHookPluginsFinalPageHandler()];
+        $providers = [];
+        $this->appendPlugins($providers, FinalModificationProvider::class);
+        $this->registerInternal($providers);
+
+        return $providers;
     }
 
 

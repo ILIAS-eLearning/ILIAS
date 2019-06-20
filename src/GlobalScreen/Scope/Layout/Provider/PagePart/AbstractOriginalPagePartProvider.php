@@ -1,11 +1,11 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 /**
- * Class AbstractOriginalProvider
+ * Class AbstractOriginalPagePartProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractOriginalProvider
+abstract class AbstractOriginalPagePartProvider
 {
 
     /**
@@ -15,7 +15,7 @@ abstract class AbstractOriginalProvider
 
 
     /**
-     * AbstractOriginalProvider constructor.
+     * AbstractOriginalPagePartProvider constructor.
      *
      * @param PagePartProvider $original
      */

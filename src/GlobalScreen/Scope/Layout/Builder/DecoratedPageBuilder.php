@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
 
 use Closure;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePartProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\UI\Component\Layout\Page\Page;
 
 /**
