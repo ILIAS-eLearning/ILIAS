@@ -46,11 +46,12 @@ abstract class AggregateRoot {
 		$this->$modifier($domainEvent);
 	}
 
-
-	protected function publishThat(DomainEvent $domainEvent) {
-		//TODO publish event, so that happy middlewares may munch on it
-		//DomainEventPublisher::getInstance()->publish($domainEvent);
-	}
+	/**
+	 * Publish the event with a DomainEventPublisher
+	 *
+	 * @param DomainEvent $domainEvent
+	 */
+	abstract protected function publishThat(DomainEvent $domainEvent);
 
 
 	/**

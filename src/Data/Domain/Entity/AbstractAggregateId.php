@@ -18,14 +18,28 @@ class AbstractAggregateId
 	 */
 
 	private $id;
+
+	/**
+	 * AbstractAggregateId constructor.
+	 * @param null $id
+	 */
 	public function __construct($id = null)
 	{
 		$this->id = $id ?: uniqid();
 	}
+
+	/**
+	 * @return string
+	 */
 	public function id()
 	{
 		return $this->id;
 	}
+
+	/**
+	 * @param AggregateId $anId
+	 * @return bool
+	 */
 	public function equals(AggregateId $anId)
 	{
 		return $this->id === $anId->id();

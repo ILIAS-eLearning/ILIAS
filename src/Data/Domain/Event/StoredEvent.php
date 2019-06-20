@@ -2,6 +2,8 @@
 
 namespace ILIAS\Data\Domain\Event;
 
+use ILIAS\Data\Domain\Entity\AggregateId;
+
 /**
  * Class StoredEvent
  *
@@ -21,7 +23,7 @@ interface StoredEvent {
 	public function getEventId(): int;
 
 
-	public function getAggregateId(): IdentifiesAggregate;
+	public function getAggregateId(): AggregateId;
 
 
 	/**

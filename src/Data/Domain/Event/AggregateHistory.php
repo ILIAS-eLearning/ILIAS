@@ -3,10 +3,14 @@
 
 namespace ILIAS\Data\Domain\Event;
 
+use ILIAS\Data\Domain\Entity\AggregateId;
+use ILIAS\Data\Domain\Exception\DomainExceptionCorruptAggregateHistory;
+use ILIAS\Data\Domain\Exception\DomainExceptionMissingImplementation;
+
 final class AggregateHistory extends DomainEvents {
 
 	/**
-	 * @var IdentifiesAggregate
+	 * @var AggregateId
 	 */
 	private $aggregate_Id;
 
@@ -14,12 +18,12 @@ final class AggregateHistory extends DomainEvents {
 	/**
 	 * AggregateHistory constructor.
 	 *
-	 * @param IdentifiesAggregate $aggregate_Id
+	 * @param AggregateId $aggregate_Id
 	 * @param DomainEvent[]       $events
 	 *
 	 * @throws DomainExceptionCorruptAggregateHistory
 	 */
-	public function __construct(IdentifiesAggregate $aggregate_Id, array $events) {
+	public function __construct(AggregateId $aggregate_Id, array $events) {
 		/** @var $event DomainEvent */
 		foreach ($events as $event) {
 			if (!$event->getAggregateId()->equals($aggregate_Id)) {
@@ -32,9 +36,9 @@ final class AggregateHistory extends DomainEvents {
 
 
 	/**
-	 * @return IdentifiesAggregate
+	 * @return AggregateId
 	 */
-	public function getAggregateId(): IdentifiesAggregate {
+	public function getAggregateId(): AggregateId {
 		return $this->aggregate_Id;
 	}
 
