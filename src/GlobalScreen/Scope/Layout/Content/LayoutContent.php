@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Content;
 
-use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;
@@ -26,10 +25,6 @@ class LayoutContent
      */
     private $content;
     /**
-     * @var MetaContent
-     */
-    private $meta_content;
-    /**
      * @var \ILIAS\GlobalScreen\Services
      */
     private $gs;
@@ -51,16 +46,6 @@ class LayoutContent
         global $DIC;
         $this->ui = $DIC->ui();
         $this->gs = $DIC->globalScreen();
-        $this->meta_content = new MetaContent();
-    }
-
-
-    /**
-     * @return MetaContent
-     */
-    public function metaContent() : MetaContent
-    {
-        return $this->meta_content;
     }
 
 
@@ -165,27 +150,20 @@ class LayoutContent
      */
     public function getPageForLayoutDefinition() : Page
     {
-        global $DIC;
-        $definition = $DIC->navigationContext()->stack()->getLast()->getLayoutDefinition();
         $main_bar = null;
         $meta_bar = null;
         $bread_crumbs = null;
         $header_image = $this->ui->factory()->image()->standard(\ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS");
 
-        if ($definition->hasMainBar()) {
-            $main_bar = $this->getMainBar();
+        $main_bar = $this->getMainBar();
+        $meta_bar = $this->getMetaBar();
+        try {
+            $meta_bar->getEntries();
+        } catch (\TypeError $e) { // There are no entries
+            $meta_bar = null;
         }
-        if ($definition->hasMetaBar()) {
-            $meta_bar = $this->getMetaBar();
-            try {
-                $meta_bar->getEntries();
-            } catch (\TypeError $e) { // There are no entries
-                $meta_bar = null;
-            }
-        }
-        if ($definition->hasBreadCrumbs()) {
-            $bread_crumbs = $this->getBreadCrumbs();
-        }
+
+        $bread_crumbs = $this->getBreadCrumbs();
 
         return $this->ui->factory()->layout()->page()->standard([$this->content], $meta_bar, $main_bar, $bread_crumbs, $header_image);
     }

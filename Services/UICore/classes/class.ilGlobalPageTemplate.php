@@ -71,7 +71,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->http->saveResponse($response->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
 
         if (defined("ILIAS_HTTP_PATH")) {
-            $this->layout_content->metaContent()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
+            $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
         }
     }
 
@@ -80,15 +80,15 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         \iljQueryUtil::initjQuery($this);
         \iljQueryUtil::initjQueryUI($this);
-        $this->layout_content->metaContent()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
+        $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
     }
 
 
     private function prepareBasicCSS()
     {
-        $this->layout_content->metaContent()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
-        $this->layout_content->metaContent()->addCss(\ilUtil::getNewContentStyleSheetLocation());
+        $this->gs->layout()->meta()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
+        $this->gs->layout()->meta()->addCss(\ilUtil::getNewContentStyleSheetLocation());
     }
 
 
@@ -118,7 +118,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
     {
-        $this->layout_content->metaContent()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
+        $this->gs->layout()->meta()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
     }
 
 
@@ -127,7 +127,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addCss($a_css_file, $media = "screen")
     {
-        $this->layout_content->metaContent()->addCss($a_css_file, $media);
+        $this->gs->layout()->meta()->addCss($a_css_file, $media);
     }
 
 
@@ -136,7 +136,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addOnLoadCode($a_code, $a_batch = 2)
     {
-        $this->layout_content->metaContent()->addOnloadCode($a_code, $a_batch);
+        $this->gs->layout()->meta()->addOnloadCode($a_code, $a_batch);
     }
 
 
@@ -145,7 +145,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addInlineCss($a_css, $media = "screen")
     {
-        $this->layout_content->metaContent()->addInlineCss(new InlineCss($a_css, $media));
+        $this->gs->layout()->meta()->addInlineCss(new InlineCss($a_css, $media));
     }
 
 
@@ -325,7 +325,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function resetJavascript()
     {
-        $this->layout_content->metaContent()->getJs()->clear();
+        $this->gs->layout()->meta()->getJs()->clear();
     }
 
 

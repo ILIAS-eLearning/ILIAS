@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use ILIAS\GlobalScreen\Scope\Layout\Content\LayoutContent;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
+use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
 
 /**
  * Class LayoutServices
@@ -18,20 +18,20 @@ class LayoutServices
 
 
     /**
-     * @return LayoutDefinitionFactory
-     */
-    public function definition() : LayoutDefinitionFactory
-    {
-        return $this->get(LayoutDefinitionFactory::class);
-    }
-
-
-    /**
      * @return LayoutContent
      */
     public function content() : LayoutContent
     {
         return $this->get(LayoutContent::class);
+    }
+
+
+    /**
+     * @return MetaContent
+     */
+    public function meta() : MetaContent
+    {
+        return $this->get(MetaContent::class);
     }
 
 

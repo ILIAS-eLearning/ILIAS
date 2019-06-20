@@ -1,7 +1,6 @@
 <?php namespace ILIAS\NavigationContext;
 
 use ILIAS\Data\ReferenceId;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinition;
 use ILIAS\NavigationContext\AdditionalData\Collection;
 
 /**
@@ -59,18 +58,4 @@ interface ContextInterface
      * @return Collection
      */
     public function getAdditionalData() : Collection;
-
-
-    /**
-     * @return LayoutDefinition
-     */
-    public function getLayoutDefinition() : LayoutDefinition;
-
-
-    /**
-     * @param LayoutDefinition $view
-     *
-     * @return mixed
-     */
-    public function replaceLayoutDefinition(LayoutDefinition $view);
 }

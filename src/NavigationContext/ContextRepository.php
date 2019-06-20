@@ -20,29 +20,13 @@ class ContextRepository
     const C_DESKTOP = 'desktop';
     const C_REPO = 'repo';
     const C_ADMINISTRATION = 'administration';
-    /**
-     * @var LayoutDefinitionFactory
-     */
-    private $view_factory;
-
-
-    /**
-     * ContextRepository constructor.
-     *
-     * @param LayoutDefinitionFactory $view_factory
-     */
-    public function __construct(LayoutDefinitionFactory $view_factory)
-    {
-        $this->view_factory = $view_factory;
-    }
-
 
     /**
      * @return ContextInterface
      */
     public function main() : ContextInterface
     {
-        return $this->get(BasicContext::class, self::C_MAIN, $this->view_factory->standardLayout());
+        return $this->get(BasicContext::class, self::C_MAIN);
     }
 
 
@@ -51,7 +35,7 @@ class ContextRepository
      */
     public function internal() : ContextInterface
     {
-        return $this->get(BasicContext::class, 'internal', $this->view_factory->standardLayout());
+        return $this->get(BasicContext::class, 'internal');
     }
 
 
@@ -60,7 +44,7 @@ class ContextRepository
      */
     public function external() : ContextInterface
     {
-        return $this->get(BasicContext::class, 'external', $this->view_factory->publicLayout());
+        return $this->get(BasicContext::class, 'external');
     }
 
 
@@ -69,7 +53,7 @@ class ContextRepository
      */
     public function desktop() : ContextInterface
     {
-        return $this->get(BasicContext::class, self::C_DESKTOP, $this->view_factory->standardLayout());
+        return $this->get(BasicContext::class, self::C_DESKTOP);
     }
 
 
@@ -78,7 +62,7 @@ class ContextRepository
      */
     public function repository() : ContextInterface
     {
-        $context = $this->get(BasicContext::class, self::C_REPO, $this->view_factory->standardLayout());
+        $context = $this->get(BasicContext::class, self::C_REPO);
         $context = $context->withReferenceId(new ReferenceId((int) $_GET['ref_id']));
 
         return $context;
@@ -90,7 +74,7 @@ class ContextRepository
      */
     public function administration() : ContextInterface
     {
-        return $this->get(BasicContext::class, self::C_ADMINISTRATION, $this->view_factory->standardLayout());
+        return $this->get(BasicContext::class, self::C_ADMINISTRATION);
     }
 
 
@@ -100,10 +84,10 @@ class ContextRepository
      *
      * @return ContextInterface
      */
-    private function get(string $class_name, string $identifier, LayoutDefinition $view)
+    private function get(string $class_name, string $identifier)
     {
         if (!isset(self::$contexts[$identifier])) {
-            self::$contexts[$identifier] = new $class_name($identifier, $view);
+            self::$contexts[$identifier] = new $class_name($identifier);
         }
 
         return self::$contexts[$identifier];
