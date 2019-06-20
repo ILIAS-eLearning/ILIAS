@@ -35,7 +35,7 @@ interface PagePartProvider
     /**
      * @return Breadcrumbs
      */
-    public function getBreadcrumbs() : Breadcrumbs;
+    public function getBreadCrumbs() : Breadcrumbs;
 
 
     /**

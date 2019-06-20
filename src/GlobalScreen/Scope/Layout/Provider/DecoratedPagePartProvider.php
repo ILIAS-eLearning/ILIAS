@@ -94,9 +94,9 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadcrumbs() : Breadcrumbs
+    public function getBreadCrumbs() : Breadcrumbs
     {
-        return $this->getDecoratedOrOriginal(Breadcrumbs::class, $this->original->getBreadcrumbs());
+        return $this->getDecoratedOrOriginal(Breadcrumbs::class, $this->original->getBreadCrumbs());
     }
 
 

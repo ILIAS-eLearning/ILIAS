@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Scope\Layout\FinalPageHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -13,6 +14,10 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class ProviderFactory implements ProviderFactoryInterface
 {
 
+    /**
+     * @var FinalPageHandler[]
+     */
+    private $page_handlers = [];
     /**
      * @var StaticMainMenuProvider[]
      */
@@ -66,6 +71,15 @@ class ProviderFactory implements ProviderFactoryInterface
             $this->all_providers[get_class($item)] = $item;
         }
         );
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getFinalPageHandlers() : array
+    {
+        return $this->page_handlers;
     }
 
 

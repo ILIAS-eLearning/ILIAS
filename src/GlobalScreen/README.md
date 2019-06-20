@@ -21,8 +21,8 @@ service.
 There are several scopes that the GlobalScreen service serves. Currently these are:
 - MainBar (MainMenu)
 - MetaBar
-- tool
-- layout
+- Tool
+- Layout
 
 A scope addresses one area in the global layout. The components and plug-ins can 
 contribute "content" via these scopes.
@@ -40,6 +40,9 @@ come from this scope.
 The Scope Tools has a lot in common with the Scope MainBar, because the items are 
 rendered in almost the same place. The items as well as the providers as such are 
 very different from the Scope MainBar.
+
+## Scope Layout
+This scope is the parent and responsible for the entire composition of a page. It offers the possibility to replace or modify parts of a page before rendering it. This scope does not work according to the collector/provider principle but is explicitly called by the components, see `Scope/Layout/README.md`.
 
 # How to use it
 

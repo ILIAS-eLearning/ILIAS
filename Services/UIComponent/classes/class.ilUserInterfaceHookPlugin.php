@@ -61,16 +61,17 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
 		// nothing to do here
 	}
 
-	/**
-	 * Get UI plugin class
-	 */
-	function getUIClassInstance()
-	{
-		$class = "il".$this->getPluginName()."UIHookGUI";
-		$this->includeClass("class.".$class.".php");
-		$obj = new $class();
-		$obj->setPluginObject($this);
-		return $obj;
-	}
+
+    /**
+     * Get UI plugin class
+     */
+    public function getUIClassInstance() : ilUIHookPluginGUI
+    {
+        $class = "il" . $this->getPluginName() . "UIHookGUI";
+        $this->includeClass("class." . $class . ".php");
+        $obj = new $class();
+        $obj->setPluginObject($this);
+
+        return $obj;
+    }
 }
-?>

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\GlobalScreen\Scope\Layout\ModifierServices;
+
 /**
  * User interface hook class
  *
@@ -59,6 +61,15 @@ class ilUIHookPluginGUI
 	function modifyGUI($a_comp, $a_part, $a_par = array())
 	{
 	}
+
+
+    /**
+     * @param ModifierServices $modifier_services
+     */
+    public function modifyGlobalLayout(ModifierServices $modifier_services) : void
+    {
+
+    }
 
 	/**
 	 * Modify HTML based on default html and plugin response
