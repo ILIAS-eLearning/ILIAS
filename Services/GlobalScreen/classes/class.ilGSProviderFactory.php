@@ -36,6 +36,7 @@ class ilGSProviderFactory extends ProviderFactory
     /**
      * @inheritDoc
      */
+
     public function getFinalModificationProvider() : array
     {
         $providers = [];

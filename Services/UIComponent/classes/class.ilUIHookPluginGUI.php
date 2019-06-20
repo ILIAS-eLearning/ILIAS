@@ -123,6 +123,7 @@ class ilUIHookPluginGUI implements FinalModificationProvider
      *
      * Can be used to interfere with the goto script behaviour
      */
+
     public function gotoHook()
     {
     }
