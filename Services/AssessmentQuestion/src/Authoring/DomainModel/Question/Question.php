@@ -76,8 +76,8 @@ class Question extends AggregateRoot implements IsRevisable {
 	 */
 	public static function createFrom(string $title, string $description, int $creator) {
 		$question = new Question(new QuestionId());
-		$question->recordThat(new QuestionCreatedEvent($question->getId(), $creator, $title, $description));
 
+		$question->recordApplyAndPublishThat(new QuestionCreatedEvent($question->getId(), $creator, $title, $description));
 		return $question;
 	}
 
