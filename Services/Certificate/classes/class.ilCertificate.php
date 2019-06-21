@@ -200,58 +200,6 @@ class ilCertificate
     }
 
     /**
-    * Returns the filename of the XSL-FO file
-    *
-    * @return string The filename of the XSL-FO file
-    */
-    public function getXSLName()
-    {
-        return "certificate.xml";
-    }
-
-    /**
-    * Returns the filename of the XSL-FO file
-    *
-    * @return string The filename of the XSL-FO file
-    */
-    public static function _getXSLName()
-    {
-        return "certificate.xml";
-    }
-
-    /**
-    * Returns the web path of the background image
-    *
-    * @return string The web path of the background image
-    */
-    public function getBackgroundImagePathWeb()
-    {
-        // TODO: this is generic now -> provide better solution
-        $webdir = $this->certificatePath . $this->getBackgroundImageName();
-
-        return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            $webdir
-        );
-    }
-
-    /**
-    * Returns the web path of the background image thumbnail
-    *
-    * @return string The web path of the background image thumbnail
-    */
-    public function getBackgroundImageThumbPathWeb()
-    {
-        // TODO: this is generic now -> provide better solution
-        return str_replace(
-            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            $this->getBackgroundImageThumbPath()
-        );
-    }
-
-    /**
     * Deletes the background image of a certificate
     *
     * @return boolean TRUE if the process succeeds
@@ -433,14 +381,5 @@ class ilCertificate
         }
 
         return $all;
-    }
-
-    /**
-     * @return int
-     */
-    public function readActive()
-    {
-        $set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
-        return $this->db->numRows($set);
     }
 }

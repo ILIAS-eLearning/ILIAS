@@ -102,8 +102,6 @@ cont#:#cont_filter_record#:#Datensatz
 cont#:#cont_filter_field#:#Feld
 cont#:#cont_filter_fields#:#Filterfelder
 cont#:#cont_show_more#:#Mehr anzeigen
-cont#:#cont_block_limit#:#Einträge per Block begrenzen
-cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
@@ -6178,7 +6176,6 @@ exc#:#exc_reminder_submit_setting#:#Teilnehmer an Abgaben erinnern
 exc#:#exc_reminder_submit_subject#:#Übungseinheit "%s" wurde noch nicht abgegeben
 exc#:#exc_reminders_cron#:#Erinnerungen für Übungseinheiten
 exc#:#exc_reminders_cron_info#:#Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks
-exc#:#exc_save_all#:#Alle speichern
 exc#:#exc_save_order#:#Reihenfolge speichern
 exc#:#exc_saved_order#:#Reihenfolge gespeichert
 exc#:#exc_select_ass#:#Übungseinheit auswählen
@@ -10133,6 +10130,7 @@ dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_all_entries#:#Alle Einträge
+dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
 dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
@@ -10194,8 +10192,6 @@ dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_std_filter#:#Filtervorbelegung
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
 dcl#:#dcl_filter_changeable#:#Filter änderbar
-common#:#obj_tool_setting_calendar#:#Kalender
-common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
 crs#:#crs_copy#:#Kurs kopieren
 cat#:#cat_copy#:#Kategorie kopieren
 grp#:#grp_copy#:#Gruppe kopieren
@@ -10474,8 +10470,6 @@ ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
 webr#:#invalid_links_tbl#:#Ungültige Links
-common#:#obj_tool_setting_news#:#Neuigkeiten
-common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
 rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
@@ -10561,8 +10555,6 @@ content#:#cont_anonymous_user_missing_perm#:#Nicht angemeldete Benutzer haben ak
 rbac#:#itgr_visible#:#Objektblock ist sichtbar
 content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgeführt werden, welche innerhalb dieses Glossares definiert wurden.
 common#:#edited_on#:#Bearbeitet am
-common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
-common#:#obj_tos#:#Nutzungsvereinbarungen
 tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
@@ -11021,8 +11013,6 @@ file#:#repository_disk_quota#:#Disk-Quota für Magazin
 file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
 file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
-pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
-pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
 blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
@@ -12950,8 +12940,6 @@ blog#:#blog_contributors#:#Mitwirkende
 meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
-common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
-common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
 meta#:#meta_section#:#Bereich
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
@@ -14570,9 +14558,6 @@ exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
 exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
-exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
-exc#:#exc_reminder_start#:#Start Reminders before Deadline
-exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
 exc#:#exc_reminder_link#:#URL
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
@@ -14946,7 +14931,6 @@ rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
 rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
 rep#:#rep_tree_limit_number#:#Maximale Anzahl
 rep#:#rep_tree_limit_number_info#:#Maximale Anzahl an Kindelementen, die initial für einen Knoten angezeigt wird. Falls mehr Kindelemente existieren, wird ein Sucheingabefeld angezeigt, mit dem die Kindelemente nach Titeln gefiltert werden können.
-cont#:#cont_show_more#:#Mehr anzeigen
 cont#:#cont_block_limit#:#Einträge per Block begrenzen
 cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 crs#:#crs_lobj_pm_score#:#Ihr Ergebnis
@@ -15058,8 +15042,8 @@ lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
-dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
-dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende
+dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
+dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
 crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
 crs#:#crs_timings_short_start_end_rel#:#Empfohlener Start (Tage nach Kursbeitritt)
 crs#:#crs_tile_and_objective_view_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Lernziel-orientierter Ansicht wird nicht unterstützt.
@@ -15125,3 +15109,18 @@ content#:#cont_notification_comment_lm#:#the following Learning Module Page has 
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated
 content#:#cont_commented_by#:#Commented by
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
+pd#:#pd_avail_sortation#:#Verfügbare Sortierungen
+pd#:#pd_default_sortation#:#Standardsortierung
+pd#:#pd_sortation#:#Sortierung
+pd#:#pd_presentation#:#Präsentation
+pd#:#pd_avail_presentation#:#Verfügbare Präsentationen
+pd#:#pd_default_presentation#:#Standardpräsentation
+pd#:#pd_list#:#Liste
+pd#:#pd_tile#:#Kacheln
+pd#:#pd_activation#:#Aktivierung
+pd#:#pd_view_courses_groups#:#Ansicht ‘Meine Mitgliedschaften’
+pd#:#pd_view_favourites#:#Ansicht ‘Ausgewählte Angebote’
+rbac#:#pdts_change_presentation#:#Schreibtisch-Präsentation ändern (Liste/Kacheln)
+rbac#:#change_presentation#:#Präsentation ändern
+pd#:#pd_presentation_mode_list#:#Listenansicht
+pd#:#pd_presentation_mode_tile#:#Kachelansicht

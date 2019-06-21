@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\Provider\AbstractProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractDynamicToolProvider extends AbstractProvider implements DynamicToolProvider {
+abstract class AbstractDynamicToolProvider extends AbstractProvider implements DynamicToolProvider
+{
 
 }

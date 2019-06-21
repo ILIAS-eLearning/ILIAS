@@ -10004,6 +10004,7 @@ dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
 dcl#:#dcl_all_entries#:#All entries
+dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_own_entries#:#Only own entries
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_tableviews#:#Views
@@ -15117,3 +15118,18 @@ content#:#cont_notification_comment_lm#:#the following Learning Module Page has 
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated
 content#:#cont_commented_by#:#Commented by
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
+pd#:#pd_avail_sortation#:#Available Sortations
+pd#:#pd_default_sortation#:#Default Sortation
+pd#:#pd_sortation#:#Sortation
+pd#:#pd_presentation#:#Presentation
+pd#:#pd_avail_presentation#:#Available Presentations
+pd#:#pd_default_presentation#:#Default Presentation
+pd#:#pd_list#:#List
+pd#:#pd_tile#:#Tile
+pd#:#pd_activation#:#activation
+pd#:#pd_view_courses_groups#:#View ‘Courses and Groups’
+pd#:#pd_view_favourites#:#View ‘Selected Items’
+rbac#:#pdts_change_presentation#:#Change presentation of personal desktop view
+rbac#:#change_presentation#:#Change Presentation
+pd#:#pd_presentation_mode_list#:#Item List Presentation
+pd#:#pd_presentation_mode_tile#:#Tile Presentation

@@ -79,8 +79,6 @@ class ilDclDetailedViewGUI {
 		}
 
 		// content style (using system defaults)
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
@@ -92,7 +90,6 @@ class ilDclDetailedViewGUI {
 		$this->table = $this->record_obj->getTable();
 
 		// Comments
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$repId = $this->dcl_gui_object->getDataCollectionObject()->getId();
 		$objId = (int)$this->record_id;
 		$this->notesGUI = new ilNoteGUI($repId, $objId);
@@ -186,9 +183,7 @@ class ilDclDetailedViewGUI {
 		}
 
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
-		include_once("class.ilDclDetailedViewDefinitionGUI.php");
 		$pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
 
 		$html = $pageObj->getHTML();

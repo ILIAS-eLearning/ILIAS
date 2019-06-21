@@ -88,7 +88,6 @@ class ilDclTableListGUI {
 				} else {
 					$this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'listTables'));
 				}
-				require_once 'Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php';
 				$ilDclTableEditGUI = new ilDclTableEditGUI($this);
 				$this->ctrl->forwardCommand($ilDclTableEditGUI);
 				break;
@@ -96,7 +95,6 @@ class ilDclTableListGUI {
 			case 'ildclfieldlistgui' :
 				$this->tabs->clearTargets();
 				$this->setTabs('fields');
-				require_once 'Modules/DataCollection/classes/Fields/class.ilDclFieldListGUI.php';
 				$ilDclFieldListGUI = new ilDclFieldListGUI($this);
 				$this->ctrl->forwardCommand($ilDclFieldListGUI);
 				break;
@@ -104,7 +102,6 @@ class ilDclTableListGUI {
 			case "ildclfieldeditgui":
 				$this->tabs->clearTargets();
 				$this->setTabs("fields");
-				require_once "Modules/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php";
 				$ilDclFieldEditGUI = new ilDclFieldEditGUI($this);
 				$this->ctrl->forwardCommand($ilDclFieldEditGUI);
 				break;
@@ -112,7 +109,6 @@ class ilDclTableListGUI {
 			case 'ildcltableviewgui' :
 				$this->tabs->clearTargets();
 				$this->setTabs('tableviews');
-				require_once 'Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php';
 				$ilDclTableViewGUI = new ilDclTableViewGUI($this);
 				$this->ctrl->forwardCommand($ilDclTableViewGUI);
 				break;

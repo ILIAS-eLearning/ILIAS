@@ -153,7 +153,6 @@ class ilDclFieldEditGUI {
 		$lng = $DIC['lng'];
 		$tpl = $DIC['tpl'];
 
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($ilCtrl->getFormAction($this));
 		$conf->setHeaderText($lng->txt('dcl_confirm_delete_field'));
@@ -210,7 +209,6 @@ class ilDclFieldEditGUI {
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
 		if ($a_mode == "edit") {

@@ -34,6 +34,11 @@ include_once("./Services/Certificate/classes/class.ilCertificate.php");
 class ilCertificateGUI
 {
     /**
+     * @var \ILIAS\Filesystem\Filesystem
+     */
+    private $fileSystem;
+
+    /**
      * ilCertificate object reference
      * @var ilCertificate
      */
@@ -207,7 +212,8 @@ class ilCertificateGUI
         ilCertificateBackgroundImageUpload $upload = null,
         ilCertificateTemplatePreviewAction $previewAction = null,
         \ILIAS\FileUpload\FileUpload $fileUpload = null,
-        ilSetting $settings = null
+        ilSetting $settings = null,
+        \ILIAS\Filesystem\Filesystem $fileSystem = null
     ) {
         global $DIC;
 
@@ -319,6 +325,11 @@ class ilCertificateGUI
             $settings = new ilSetting('certificate');
         }
         $this->settings = $settings;
+
+        if (null === $fileSystem) {
+            $fileSystem = $DIC->filesystem()->web();
+        }
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -531,9 +542,14 @@ class ilCertificateGUI
 
                 $backgroundImagePath = $previousCertificateTemplate->getBackgroundImagePath();
 
-                if ($backgroundImagePath === '' && $backgroundImagePath !== null) {
-                    $backgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
-                    $backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $backgroundImagePath);
+                if ($backgroundImagePath === '') {
+                    $globalRelativeBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
+                    $globalRelativeBackgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalRelativeBackgroundImagePath);
+                    $backgroundImagePath = $globalRelativeBackgroundImagePath;
+                }
+
+                if (false === $this->fileSystem->has($backgroundImagePath)) {
+                    $backgroundImagePath = '';
                 }
 
                 $cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();

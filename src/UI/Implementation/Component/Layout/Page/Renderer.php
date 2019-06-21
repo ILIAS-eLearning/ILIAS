@@ -107,21 +107,21 @@ class Renderer extends AbstractComponentRenderer {
 		$css_inline = [];
 
 		if ($il_tpl instanceof \ilGlobalPageTemplate) {
-			$view = $DIC->globalScreen()->layout()->content();
-			foreach ($view->metaContent()->getJs()->getItemsInOrderOfDelivery() as $js) {
+			$layout = $DIC->globalScreen()->layout();
+			foreach ($layout->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
 				$js_files[] = $js->getContent();
 			}
-			foreach ($view->metaContent()->getCss()->getItemsInOrderOfDelivery() as $css) {
+			foreach ($layout->meta()->getCss()->getItemsInOrderOfDelivery() as $css) {
 				$css_files[] = ['file' => $css->getContent(), 'media' => $css->getMedia()];
 			}
-			foreach ($view->metaContent()->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
+			foreach ($layout->meta()->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
 				$css_inline[] = $inline_css->getContent();
 			}
-			foreach ($view->metaContent()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
+			foreach ($layout->meta()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
 				$js_inline[] = $on_load_code->getContent();
 			}
 
-			$base_url = $view->metaContent()->getBaseURL();
+			$base_url = $layout->meta()->getBaseURL();
 		}
 
 		if($for_ui_demo) {

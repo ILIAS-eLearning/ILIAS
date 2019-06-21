@@ -210,6 +210,30 @@ class ilEventItems
 
 		return $res->numRows() ? true : false;
 	}
+
+	/**
+	 * @param int $item_ref_id
+	 * @return int[]
+	 */
+	public static function getEventsForItemOrderedByStartingTime($item_ref_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$query = 'SELECT e.event_id,e_start FROM event_items e '.
+			'JOIN event_appointment ea ON e.event_id = ea.event_id '.
+			'WHERE item_id = '. $db->quote($item_ref_id,'integer').' '.
+			'ORDER BY (e_start)';
+		$res = $db->query($query);
+
+		$events = [];
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+			$dt = new ilDateTime($row->e_start, IL_CAL_DATETIME);
+			$events[$row->event_id] = $dt->getUnixTime();
+		}
+		return $events;
+	}
+
 	
 	/**
 	 * Clone items
