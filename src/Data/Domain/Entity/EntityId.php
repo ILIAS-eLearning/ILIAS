@@ -13,10 +13,10 @@ namespace ILIAS\Data\Domain\Entity;
  *
  * @param string $string
  *
- * @return EntitiyId
+ * @return EntityId
  */
-interface EntitiyId
+interface EntityId
 {
 	public function id();
-	public function equals(EntitiyId $entitiyId);
+	public function equals(EntityId $entitiyId);
 }

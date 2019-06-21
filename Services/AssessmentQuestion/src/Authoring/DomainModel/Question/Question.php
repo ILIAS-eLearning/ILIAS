@@ -5,11 +5,13 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\GenericEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
+use ILIAS\Data\Domain\Entity\EntitiyId;
 use ILIAS\Data\Domain\Entity\IsRevisable;
 use ILIAS\Data\Domain\Entity\AggregateRoot;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
 use ILIAS\Data\Domain\Entity\RevisionId;
 use ILIAS\Data\Domain\Event\DomainEvent;
+use SAML2\Configuration\EntityIdProvider;
 
 /**
  * Class Question
@@ -53,7 +55,7 @@ class Question extends AggregateRoot implements IsRevisable {
 	private $possible_answers;
 
 
-	public function __construct(QuestionId $id) {
+	public function __construct() {
 		parent::__construct();
 		$this->id = $id;
 	}
@@ -75,9 +77,8 @@ class Question extends AggregateRoot implements IsRevisable {
 	 * @param $description
 	 */
 	public static function createFrom(string $title, string $description, int $creator) {
-		$question = new Question(new QuestionId());
-
-		$question->recordApplyAndPublishThat(new QuestionCreatedEvent($question->getId(), $creator, $title, $description));
+		$question = new Question();
+		$question->recordApplyAndPublishThat(new QuestionCreatedEvent(new QuestionId(), $creator, $title, $description));
 		return $question;
 	}
 
