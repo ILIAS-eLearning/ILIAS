@@ -1,0 +1,58 @@
+@startuml
+create AsqAuthoringSpec
+"Consumer (e.G. ILIAS Test)" as Consumer -> AsqAuthoringSpec: <<construct>>(ilDB)
+AsqAuthoringSpec --> Consumer:AsqAuthoringSpec
+create AsqAuthoringService
+Consumer -> AsqAuthoringService: <<construct>>(:AsqAuthoringSpec)
+AsqAuthoringService --> Consumer:AsqAuthoringService
+Consumer->AsqAuthoringService: CreateQuestion(\n  question_title,\n  question_description,\n  creator_user_id,\n  creator_object_id \n)
+create CommandBusBuilder
+AsqAuthoringService -> CommandBusBuilder: <<construct>>()
+create CommandBus
+CommandBusBuilder -> CommandBus:<<construct>>()
+CommandBus --> CommandBusBuilder:CommandBus
+CommandBusBuilder --> AsqAuthoringService:CommandBusBuilder
+AsqAuthoringService -> CommandBusBuilder:getComandBus()
+CommandBusBuilder --> AsqAuthoringService:CommandBus
+create CreateQuestionCommand
+AsqAuthoringService -> CreateQuestionCommand:<<construct>>(\n  question_title,\n  question_description,\n  creator_user_id,\n  creator_object_id \n)
+CreateQuestionCommand --> AsqAuthoringService:CreateQuestionCommand
+AsqAuthoringService -> CommandBus:handle(CreateQuestionCommand)
+create CreateQuestionHandler
+CommandBus -> CreateQuestionHandler:<<construct>>
+create QuestionRepository
+CreateQuestionHandler -> QuestionRepository:<<construct>>
+create ilDBQuestionEventStore
+QuestionRepository-->ilDBQuestionEventStore:<<construct>>()
+QuestionRepository --> CreateQuestionHandler:QuestionRepository
+CreateQuestionHandler --> CommandBus:CreateQuestionHandler
+CommandBus->CreateQuestionHandler:handle(CreateQuestionCommand)
+CreateQuestionHandler->Question::createFrom(\n  question_title,\n  question_description,\n  creator_user_id,\n  creator_object_id \n)
+create QuestionId
+Question -> QuestionId:<<construct>>()
+QuestionId --> Question:QuestionId
+Question->Question:<<construct>>(QuestionId)
+create DomainEvents
+Question->DomainEvents:<<construct>>()
+DomainEvents-->Question:DomainEvents
+create QuestionCreatedEvent
+Question->QuestionCreatedEvent:<<construct>>(  \n  QuestionId->getId(),\n  creator_user_id,\n  creator_object_id\n  title\n)
+QuestionCreatedEvent-->Question:QuestionCreatedEvent
+Question->Question:recordThat(QuestionCreatedEvent)
+Question->DomainEvents:addEvent(QuestionCreatedEvent)
+Question-->CreateQuestionHandler:Question
+CreateQuestionHandler->QuestionRepository:save(Question)
+QuestionRepository->Question:getRecordedEvents()
+Question-->QuestionRepository:DomainEvents
+QuestionRepository->ilDBQuestionEventStore:commit(DomainEvents)
+ilDBQuestionEventStore->ilDBQuestionEventStore:foreach(DomainEvents as DomainEvent)
+create ilDBQuestionStoredEvent
+ilDBQuestionEventStore->ilDBQuestionStoredEvent:<<construct>>
+ilDBQuestionStoredEvent-->ilDBQuestionEventStore:ilDBQuestionStoredEvent
+ilDBQuestionEventStore->ilDBQuestionStoredEvent::setEventData(\n $event->getAggregateId()->id(),\n  $event->getEventName(),\n  $event->getOccurredOn(),\n  $event->getInitiatingUserId(),\n  $event->getContainerObjId(),\n  $event->getEventBody()\n)
+ilDBQuestionEventStore->ilDBQuestionStoredEvent:create()
+QuestionRepository->Question:clearRecordedEvents
+
+
+
+@enduml
