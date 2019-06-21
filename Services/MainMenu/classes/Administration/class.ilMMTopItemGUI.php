@@ -143,7 +143,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $b = ilLinkButton::getInstance();
         $b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
         $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_RESTORE));
-        // $this->toolbar->addButtonInstance($b);
+        $this->toolbar->addButtonInstance($b);
 
         // TABLE
         $table = new ilMMTopItemTableGUI($this, new ilMMItemRepository(), $this->access);
