@@ -74,7 +74,7 @@ In composer.json there is a new script registered which is called in two ways:
 
 the above example now means that the building of artifacts is called after a `composer dump-autoload` as well as after a `composer artifacts`.
 
-For your own artifact-builder you can implement the interface `ArtifactBuilder` or extend from `AbstractArtifactBuilder`. In your `ArtifactBuilder` you return a `Artifact` which then will be `save()`ed. There is currently on implemented Artifact called `ClassNameCollectionArtifact`.
+For your own artifact-builder you can implement the interface `ArtifactBuilder` or extend from `AbstractArtifactBuilder`. In your `ArtifactBuilder` you return a `Artifact` which then will be `save()`ed. There is currently on implemented Artifact called `ArrayToFileArtifact`.
 
 ## Plugins
 The above statements are in favor of information provided by the Core. Of course, ILIAS plugins often also contribute information. Due to the current plugin slots these data would have to be added to the information provided by the core (see e.g. `ilGSProviderFactory`). For later adjustments of the PluginsSlots it should be considered that such information can be requested through the slot at the Plugins.

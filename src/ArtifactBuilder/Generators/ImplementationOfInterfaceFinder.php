@@ -4,11 +4,11 @@ use Iterator;
 use Throwable;
 
 /**
- * Class InterfaceFinder
+ * Class ImplementationOfInterfaceFinder
  *
  * @package ILIAS\ArtifactBuilder\Generators
  */
-class InterfaceFinder
+class ImplementationOfInterfaceFinder
 {
 
     /**
@@ -18,7 +18,7 @@ class InterfaceFinder
 
 
     /**
-     * InterfaceFinder constructor.
+     * ImplementationOfInterfaceFinder constructor.
      *
      * @param string $interface
      */

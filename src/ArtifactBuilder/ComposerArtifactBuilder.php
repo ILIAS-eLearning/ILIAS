@@ -1,9 +1,8 @@
 <?php namespace ILIAS\ArtifactBuilder;
 
 use Composer\Script\Event;
-use ILIAS\ArtifactBuilder\Artifacts\ClassNameCollectionArtifact;
-use ILIAS\ArtifactBuilder\Generators\InterfaceFinder;
-use ILIAS\ArtifactBuilder\IO\ComposerIO;
+use ILIAS\ArtifactBuilder\Artifact\ArrayToFileArtifact;
+use ILIAS\ArtifactBuilder\Generators\ImplementationOfInterfaceFinder;
 
 /**
  * Interface ArtifactBuilder
@@ -24,16 +23,14 @@ class ComposerArtifactBuilder
         chdir($root);
         require_once('./libs/composer/vendor/autoload.php');
 
-        //
-        $i = new InterfaceFinder(ArtifactBuilder::class);
+        // Find all ArtifactBuilders
+        $i = new ImplementationOfInterfaceFinder(ArtifactBuilder::class);
         /**
          * @var $instance   ArtifactBuilder
          * @var $class_name ArtifactBuilder
          */
         foreach ($i->getMatchingClassNames() as $class_name) {
-            $event->getIO()->write("running $class_name");
-            $instance = $class_name::getInstance();
-            $instance->injectIO(new ComposerIO($event->getIO()));
+            $instance = new $class_name();
             $instance->run();
             $instance->getArtifact()->save();
         }
@@ -41,10 +38,8 @@ class ComposerArtifactBuilder
         /**
          * @var $class_name ArtifactBuilder
          */
-        $a = new ClassNameCollectionArtifact('artifact_builders', iterator_to_array($i->getMatchingClassNames()));
-        $a->save();
-
-        $event->getIO()->write('finished');
+        $a = new ArrayToFileArtifact("src/ArtifactBuilder", 'artifact_builders', iterator_to_array($i->getMatchingClassNames()));
+        // $a->save();
 
         chdir($current_dir);
     }

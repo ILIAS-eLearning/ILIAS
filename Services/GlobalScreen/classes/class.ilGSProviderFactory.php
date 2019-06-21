@@ -33,7 +33,7 @@ class ilGSProviderFactory extends ProviderFactory
         parent::__construct(
             [], [], [], new ilMMItemInformation()
         );
-        $this->class_loader = include "libs/ilias/Artifacts/global_screen_providers.php";
+        $this->class_loader = include "Services/GlobalScreen/artifacts/global_screen_providers.php";
     }
 
 
@@ -44,7 +44,7 @@ class ilGSProviderFactory extends ProviderFactory
     {
         $providers = [];
         // Core
-        $this->appendCore($providers, StaticMetaBarProvider::PURPOSE_MBS);
+        $this->appendCore($providers, StaticMetaBarProvider::class);
 
         // Plugins
         $this->appendPlugins($providers, StaticMetaBarProvider::class);
