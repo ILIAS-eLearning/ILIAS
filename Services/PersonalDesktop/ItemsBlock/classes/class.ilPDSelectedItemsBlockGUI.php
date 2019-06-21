@@ -653,6 +653,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 
 		$item_groups = [];
+		$list_items = [];
 
 		foreach ($groupedItems as $group) {
 			$list_items = [];
