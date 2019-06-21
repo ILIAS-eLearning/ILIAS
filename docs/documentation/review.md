@@ -27,8 +27,7 @@ Please answer the following questions:
 - [ ] [question2]? [optional: reasoning behind the question]
 - ...
 
-Please consider the following suggestions. You do not need to follow those, but but please indicate shortly
-why you prefer to do otherwise:
+Please consider the following suggestions. You do not need to follow those, but but please indicate shortly why you prefer to do otherwise:
 - [ ] [suggestion1] [optional: reasoning behind the suggestion]
 - [ ] [suggestion2] [optional: reasoning behind the suggestion]
 - ...

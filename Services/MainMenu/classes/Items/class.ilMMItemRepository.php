@@ -218,8 +218,8 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
             $this->storage->db()->manipulate(
                 "DELETE il_mm_items FROM il_mm_items
-  						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification
-      					WHERE il_gs_identifications.identification IS NULL"
+            			LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification
+            			WHERE il_gs_identifications.identification IS NULL"
             );
             foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {
                 $this->getItemFacadeForIdentificationString($identification->serialize());

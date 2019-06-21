@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\MainMenuProviderInterface;
 
 /**
  * Class ilMMTopItemGUI
@@ -26,6 +27,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_SAVE_TABLE = 'save_table';
     const CMD_CANCEL = 'cancel';
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
+    const CMD_CONFIRM_RESTORE = 'confirmRestore';
 
 
     private function dispatchCommand($cmd)
@@ -73,9 +75,13 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             case self::CMD_CANCEL:
                 $this->cancel();
                 break;
+            case self::CMD_CONFIRM_RESTORE:
+                return $this->confirmRestore();
+                break;
             case self::CMD_RESTORE:
                 $this->access->checkAccessAndThrowException("write");
-                $this->restore();
+
+                return $this->restore();
                 break;
             case self::CMD_RENDER_INTERRUPTIVE:
                 $this->access->checkAccessAndThrowException("write");
@@ -131,6 +137,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      */
     private function index(\ILIAS\DI\Container $DIC) : string
     {
+        ilGlobalCache::flushAll();
         // ADD NEW
         if ($this->access->hasUserPermissionTo('write')) {
             $b = ilLinkButton::getInstance();
@@ -142,8 +149,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         // RESTORE
         $b = ilLinkButton::getInstance();
         $b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
-        $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_RESTORE));
-        // $this->toolbar->addButtonInstance($b);
+        $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_CONFIRM_RESTORE));
+        $this->toolbar->addButtonInstance($b);
 
         // TABLE
         $table = new ilMMTopItemTableGUI($this, new ilMMItemRepository(), $this->access);
@@ -156,6 +163,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     private function cancel()
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
+    }
+
+
+    private function doubleCancel()
+    {
+        $this->ctrl->redirectByClass(self::class, self::CMD_CANCEL);
     }
 
 
@@ -256,6 +269,18 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     }
 
 
+    private function confirmRestore() : string
+    {
+        $c = new ilConfirmationGUI();
+        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
+        $c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_RESTORE);
+        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+        $c->setHeaderText($this->lng->txt('msg_restore_confirm'));
+
+        return $c->getHTML();
+    }
+
+
     private function restore()
     {
         ilGSProviderStorage::flushDB();
@@ -264,21 +289,29 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         ilMMCustomItemStorage::flushDB();
         ilMMItemTranslationStorage::flushDB();
         ilMMTypeActionStorage::flushDB();
+        // ilGlobalCache::flushAll();
 
-        $r = function ($path, $xml_name) {
-            foreach (new DirectoryIterator($path) as $fileInfo) {
-                $filename = $fileInfo->getPathname() . $xml_name;
-                if ($fileInfo->isDir() && !$fileInfo->isDot() && file_exists($filename)) {
-                    $xml = simplexml_load_file($filename);
+        arObjectCache::flush(ilGSProviderStorage::class);
+        arObjectCache::flush(ilGSIdentificationStorage::class);
+
+        $gen = function () {
+            $arr = ["./Services" => '/service\.xml$/i', "./Modules" => '/module\.xml$/i'];
+            foreach ($arr as $path => $regexp) {
+                $directory = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::CURRENT_AS_PATHNAME);
+                $iterator = new RecursiveIteratorIterator($directory);
+                $regex = new RegexIterator($iterator, $regexp, RecursiveRegexIterator::MATCH);
+                foreach ($regex as $xml_path) {
+                    $xml = simplexml_load_file($xml_path);
                     if (isset($xml->gsproviders)) {
                         foreach ($xml->gsproviders as $item) {
                             if (isset($item->gsprovider)) {
                                 foreach ($item->gsprovider as $provider) {
                                     $attributes = $provider->attributes();
-                                    if ($attributes->purpose == 'mainmenu') {
-                                        $classname = $attributes->class_name[0];
-                                        ilGSProviderStorage::register($classname, 'mainmenu');
-                                    }
+
+                                    $classname = $attributes['class_name'];
+                                    $purpose = $attributes['purpose'];
+
+                                    yield (string) $classname[0] => (string) $purpose[0];
                                 }
                             }
                         }
@@ -286,10 +319,25 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 }
             }
         };
-        $r("./Services", "/service.xml");
-        $r("./Modules", "/module.xml");
+        $data = [];
+        foreach ($gen() as $classname => $purpose) {
+            if (!$classname || !$purpose) {
+                continue;
+            }
+            $data[$classname] = $purpose;
+            ilGSProviderStorage::register($classname, $purpose);
+            $ilGSProviderStorage = ilGSProviderStorage::find($classname);
+            if ($ilGSProviderStorage instanceof ilGSProviderStorage) {
+                $i = $ilGSProviderStorage->getInstance();
+                if ($i instanceof MainMenuProviderInterface) {
+                    foreach ($i->getAllIdentifications() as $identification) {
+                        ilGSIdentificationStorage::registerIdentification($identification, $i);
+                    }
+                }
+            }
+        };
 
-        ilGlobalCache::flushAll();
+        ilUtil::sendSuccess($this->lng->txt('msg_restored'), true);
 
         $this->cancel();
     }

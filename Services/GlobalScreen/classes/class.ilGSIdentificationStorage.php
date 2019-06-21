@@ -5,7 +5,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGSIdentificationStorage extends CachedActiveRecord
+class ilGSIdentificationStorage extends ActiveRecord
 {
 
     /**
