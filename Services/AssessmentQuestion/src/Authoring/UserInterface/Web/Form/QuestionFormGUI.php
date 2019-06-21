@@ -47,7 +47,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$this->addItem($title);
 
 		$description = new ilTextInputGUI('description',self::QuestionVAR_DESCRIPTION);
-		$title->setValue($question->getDescription());
+		$description->setValue($question->getDescription());
 		$this->addItem($description);
 
 
