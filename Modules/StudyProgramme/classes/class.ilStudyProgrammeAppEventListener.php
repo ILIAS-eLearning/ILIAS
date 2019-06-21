@@ -234,7 +234,10 @@ class ilStudyProgrammeAppEventListener {
 
 	private static function addMemberToProgrammes(string $src_type, array $params)
 	{
-		$obj_id = $params['obj_id'];
+		global $DIC;
+		$DIC->logger()->root()->log("ADD MEMBERS: $src_type");
+		$DIC->logger()->root()->dump($params);
+
 		$usr_id = $params['usr_id'];
 		$obj_id = $params['obj_id'];
 		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
@@ -246,7 +249,10 @@ class ilStudyProgrammeAppEventListener {
 
 	private static function removeMemberFromProgrammes(string $src_type, array $params)
 	{
-		$obj_id = $params['obj_id'];
+		global $DIC;
+		$DIC->logger()->root()->log("REMOVE MEMBERS: $src_type");
+		$DIC->logger()->root()->dump($params);
+
 		$usr_id = $params['usr_id'];
 		$obj_id = $params['obj_id'];
 		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {

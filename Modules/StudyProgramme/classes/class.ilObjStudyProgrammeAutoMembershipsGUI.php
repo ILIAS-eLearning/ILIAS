@@ -152,6 +152,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	 */
 	protected function save()
 	{
+
 		$form = $this->getModalForm()->withRequest($this->request);
 		$result = $form->getData();
 
@@ -327,6 +328,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
 		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
 		$form = $factory->container()->form()->standard($url, [self::F_SOURCE_TYPE => $f_type]);
+
+		//TODO: add validation: is type correct?
 		return $form;
 	}
 

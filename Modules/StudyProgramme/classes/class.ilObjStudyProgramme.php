@@ -1466,10 +1466,10 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->auto_memberships_repository->update($ams);
 
 		//TODO: add all members of source
+		$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$type];
 		foreach ($this->getMembersOfMembershipSource() as $usr_id) {
 			if (!$this->hasAssignmentOf($usr_id)) {
-				//TODO: $prg->assignUser($usr_id, $assigned_by);
-				$this->assignUser($usr_id);
+				$prg->assignUser($usr_id, $assigned_by);
 			}
 		}
 	}
@@ -1505,11 +1505,16 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	protected static function getProgrammesMonitoringMemberSource(string $src_type, int $src_id): array
 	{
+		global $DIC;
+		$DIC->logger()->root()->log('getProgrammesMonitoringMemberSource: ' .$src_type . '/' . $src_id);
+
 		$db = ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
 		$programmes = array_map(function($rec) {
 				$prg_obj_id = (int)array_shift(array_values($rec));
 				$prg_ref_id = (int)array_shift(ilObject::_getAllReferences($prg_obj_id));
 				$prg = self::getInstanceByRefId($prg_ref_id);
+				global $DIC;
+				$DIC->logger()->root()->log('found prg ref  ' .$prg_ref_id);
 				return $prg;
 			},
 			$db::getProgrammesFor($src_type, $src_id)
@@ -1519,6 +1524,9 @@ class ilObjStudyProgramme extends ilContainer {
 
 	public static function addMemberToProgrammes(string $src_type, int $src_id, int $usr_id)
 	{
+		global $DIC;
+		$DIC->logger()->root()->log('addMemberToProgrammes: ' .$src_type . '/' . $src_id .' --> user ' .$usr_id);
+
 		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
 			if (!$prg->hasAssignmentOf($usr_id)) {
 				$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$src_type];
@@ -1529,6 +1537,8 @@ class ilObjStudyProgramme extends ilContainer {
 
 	public static function removeMemberFromProgrammes(string $src_type, int $src_id, int $usr_id)
 	{
+		global $DIC;
+		$DIC->logger()->root()->log('removeMemberFromProgrammes: ' .$src_type . '/' . $src_id .' --> user ' .$usr_id);
 		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
 			foreach ($prg->getProgressesOf($usr_id) as $progress) {
 				if($progress->getStatus() !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
