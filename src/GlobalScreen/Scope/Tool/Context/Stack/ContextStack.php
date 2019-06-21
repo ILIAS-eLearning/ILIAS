@@ -1,6 +1,6 @@
-<?php namespace ILIAS\NavigationContext\Stack;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context\Stack;
 
-use ILIAS\NavigationContext\ContextInterface;
+use ILIAS\GlobalScreen\Scope\Tool\Context\ToolContext;
 
 /**
  * Class ContextStack
@@ -10,15 +10,15 @@ use ILIAS\NavigationContext\ContextInterface;
 class ContextStack {
 
 	/**
-	 * @var ContextInterface[]
+	 * @var ToolContext[]
 	 */
 	protected $stack = [];
 
 
 	/**
-	 * @param ContextInterface $context
+	 * @param ToolContext $context
 	 */
-	public function push(ContextInterface $context) {
+	public function push(ToolContext $context) {
 		if (in_array($context, $this->stack)) {
 			throw new \LogicException("A context can only be claimed once");
 		}
@@ -27,15 +27,15 @@ class ContextStack {
 
 
 	/**
-	 * @return ContextInterface
+	 * @return ToolContext
 	 */
-	public function getLast(): ContextInterface {
+	public function getLast(): ToolContext {
 		return end($this->stack);
 	}
 
 
 	/**
-	 * @return ContextInterface[]
+	 * @return ToolContext[]
 	 */
 	public function getStack(): array {
 		return $this->stack;

@@ -41,6 +41,8 @@ The Scope Tools has a lot in common with the Scope MainBar, because the items ar
 rendered in almost the same place. The items as well as the providers as such are 
 very different from the Scope MainBar.
 
+See `Scope/Tools/README.md` for more information.
+
 # How to use it
 
 ## Providers

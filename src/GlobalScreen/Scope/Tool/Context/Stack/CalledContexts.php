@@ -1,6 +1,6 @@
-<?php namespace ILIAS\NavigationContext\Stack;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context\Stack;
 
-use ILIAS\NavigationContext\ContextInterface;
+use ILIAS\GlobalScreen\Scope\Tool\Context\ToolContext;
 use LogicException;
 
 /**
@@ -18,34 +18,34 @@ final class CalledContexts extends ContextCollection
 
 
     /**
-     * @return ContextInterface
+     * @return ToolContext
      */
-    public function current() : ContextInterface
+    public function current() : ToolContext
     {
         return $this->getLast();
     }
 
 
     /**
-     * @param ContextInterface $context
+     * @param ToolContext $context
      */
-    public function push(ContextInterface $context)
+    public function push(ToolContext $context)
     {
         $this->claim($context);
     }
 
 
     /**
-     * @param ContextInterface $context
+     * @param ToolContext $context
      */
-    public function claim(ContextInterface $context)
+    public function claim(ToolContext $context)
     {
         $this->checkCallLocation($context);
 
         if (in_array($context, $this->stack)) {
             throw new LogicException("A context can only be claimed once");
         }
-        if (end($this->stack) instanceof ContextInterface) {
+        if (end($this->stack) instanceof ToolContext) {
             // $context->replaceLayoutDefinition($this->getLast()->getLayoutDefinition());
             $context = $context->withAdditionalData($this->getLast()->getAdditionalData());
         }
@@ -55,9 +55,9 @@ final class CalledContexts extends ContextCollection
 
 
     /**
-     * @param ContextInterface $context
+     * @param ToolContext $context
      */
-    private function checkCallLocation(ContextInterface $context)
+    private function checkCallLocation(ToolContext $context)
     {
         $called_classes = array_filter(
             debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), function ($item) {

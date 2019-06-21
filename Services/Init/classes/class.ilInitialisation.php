@@ -757,9 +757,9 @@ class ilInitialisation
 			$DIC->user()->read();
 
 			if ($DIC->user()->isAnonymous()) {
-				$DIC->navigationContext()->claim()->external();
+				$DIC->globalScreen()->tool()->context()->claim()->external();
 			} else {
-				$DIC->navigationContext()->claim()->internal();
+				$DIC->globalScreen()->tool()->context()->claim()->internal();
 			}
 			// init console log handler
 			ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
@@ -1308,7 +1308,7 @@ class ilInitialisation
 			if(self::blockedAuthentication($current_script))
 			{
 				ilLoggerFactory::getLogger('init')->debug('Authentication is started in current script.');
-				$DIC->navigationContext()->claim()->external();
+				$DIC->globalScreen()->tool()->context()->claim()->external();
 				// nothing todo: authentication is done in current script
 				return;
 			}
@@ -1456,7 +1456,7 @@ class ilInitialisation
 		$c['global_screen'] = function () use ($c) {
 			return new Services(new ilGSProviderFactory($c));
 		};
-		$c->navigationContext()->stack()->main();
+		$c->globalScreen()->tool()->context()->stack()->main();
 	}
 
 	/**
