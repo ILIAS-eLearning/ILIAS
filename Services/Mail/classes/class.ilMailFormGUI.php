@@ -535,7 +535,7 @@ class ilMailFormGUI
 				$mailData["rcp_to"] = $mailData["rcp_cc"] = $mailData["rcp_bcc"] = '';
 				$mailData["m_subject"] = $this->umail->formatForwardSubject();
 				$mailData["m_message"] = $this->umail->prependSignature();
-				if(count($mailData["attachments"]))
+				if(is_array($mailData["attachments"]) && count($mailData["attachments"]))
 				{
 					if($error = $this->mfile->adoptAttachments($mailData["attachments"],$_GET["mail_id"]))
 					{
