@@ -9,7 +9,7 @@ use ilNumberInputGUI;
 use \ilPropertyFormGUI;
 use \ilTextInputGUI;
 use ilUtil;
-use srag\CustomInputGUIs\MultiLineInputGUI\MultiLineInputGUI;
+use srag\CustomInputGUIs\SrAssessment\MultiLineInputGUI\MultiLineInputGUI;
 
 //JUST A DEMO
 

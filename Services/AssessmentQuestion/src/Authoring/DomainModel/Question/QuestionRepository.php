@@ -11,7 +11,6 @@ use ILIAS\Data\Domain\Entity\RevisionId;
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question
  */
 interface QuestionRepository {
-
 	public function save(Question $question);
 
 

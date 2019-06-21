@@ -62,7 +62,7 @@ class Question extends AggregateRoot implements IsRevisable {
 
 
 	public static function reconstitute(EventStream $history) {
-		$question = new static($history->getAggregate());
+		$question = new Question();
 
 		foreach ($history->getEvents() as $event) {
 			$question->applyThat($event);;
@@ -76,24 +76,11 @@ class Question extends AggregateRoot implements IsRevisable {
 	 * @param $title
 	 * @param $description
 	 */
-	public static function createFrom(string $title, string $description, int $creator) {
+	public static function createNewQuestion(string $title, string $description, int $creator) {
 		$question = new Question();
 		$question->recordApplyAndPublishThat(new QuestionCreatedEvent(new QuestionId(), $creator, $title, $description));
 		return $question;
 	}
-
-
-	//TODO!! -> via history-objekt lösten?
-	function applyGenericEvent(GenericEvent $event) {
-		$this->id = $event->getAggregateId();
-		$this->creator = $event->getInitiatingUserId();
-
-		$event_body = json_decode($event->getEventBody());
-
-		$this->description = $event_body->description;
-		$this->title = $event_body->title;
-	}
-
 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
