@@ -299,13 +299,19 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	{
 		$factory = $this->ui_factory->input();
 
-		$f_id = $factory->field()->numeric($this->lng->txt('membership_source_id'));
+		$f_id = $factory->field()->numeric(
+			$this->lng->txt('membership_source_id'),
+			$this->lng->txt('membership_source_id_byline_refid')
+		);
 		if(! is_null($source_id)) {
 			$f_id = $f_id->withValue($source_id);
 		}
 
 		$f_type = $factory->field()->radio($this->lng->txt('membership_source_type'));
-		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_ROLE);
+		$f_type = $this->addTypeOption(
+			$f_type,
+			$f_id->withByline($this->lng->txt('membership_source_id_byline_objid')),
+			ilStudyProgrammeAutoMembershipSource::TYPE_ROLE);
 		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_GROUP);
 		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_COURSE);
 		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_ORGU);

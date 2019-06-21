@@ -14,6 +14,14 @@ class ilStudyProgrammeAutoMembershipSource
 	const TYPE_COURSE = 'crs';
 	const TYPE_ORGU = 'orgu';
 
+	const SOURCE_MAPPING = [
+		self::TYPE_ROLE => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_ROLE,
+		self::TYPE_GROUP => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_GROUP,
+		self::TYPE_COURSE => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_COURSE,
+		self::TYPE_ORGU => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_ORGU
+	];
+
+
 	/**
 	 * @var int
 	 */

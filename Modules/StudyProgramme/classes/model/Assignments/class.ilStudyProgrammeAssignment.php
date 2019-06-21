@@ -22,6 +22,11 @@ class ilStudyProgrammeAssignment
 	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 	const DATE_FORMAT = 'Y-m-d';
 
+	const AUTO_ASSIGNED_BY_ROLE = -1;
+	const AUTO_ASSIGNED_BY_ORGU = -2;
+	const AUTO_ASSIGNED_BY_COURSE = -3;
+	const AUTO_ASSIGNED_BY_GROUP = -4;
+
 	/**
 	 * Id of this assignment.
 	 *
@@ -141,19 +146,21 @@ class ilStudyProgrammeAssignment
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChangeBy(int $usr_id) : ilStudyProgrammeAssignment
+	public function setLastChangeBy(int $assingned_by_id) : ilStudyProgrammeAssignment
 	{
-		//TODO:: LAST CHANGE
-		if ($usr_id < 0) {
-			$this->last_change_by = 6;
-			return $this;
-		}
 
-		if (ilObject::_lookupType($usr_id) != "usr") {
-			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$usr_id' "
-								 ."is no id of a user.");
+		if (ilObject::_lookupType($assingned_by_id) != "usr" &&
+			! in_array($assingned_by_id, [
+				AUTO_ASSIGNED_BY_ROLE,
+				AUTO_ASSIGNED_BY_ORGU,
+				AUTO_ASSIGNED_BY_COURSE,
+				AUTO_ASSIGNED_BY_GROUP
+			])
+		) {
+			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assingned_by_id' "
+								 ."is neither a user's id nor a valid membership source.");
 		}
-		$this->last_change_by = $usr_id;
+		$this->last_change_by = $assingned_by_id;
 		return $this;
 	}
 
