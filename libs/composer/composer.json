@@ -8,10 +8,10 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"\\ILIAS\\ArtifactBuilder\\ComposerArtifactBuilder::run"
+          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
 		],
 		"artifacts": [
-			"\\ILIAS\\ArtifactBuilder\\ComposerArtifactBuilder::run"
+          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
 		]
 	},
 	"require": {

@@ -1,6 +1,5 @@
 <?php
 
-use ILIAS\ArtifactBuilder\AbstractArtifactBuilder;
 use ILIAS\ArtifactBuilder\Artifact\ArrayToFileArtifact;
 use ILIAS\ArtifactBuilder\Artifact\Artifact;
 use ILIAS\ArtifactBuilder\ArtifactBuilder;
@@ -14,7 +13,7 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  *
  * @package ILIAS\GlobalScreen\BootLoader
  */
-class ilGSBootLoaderBuilder extends AbstractArtifactBuilder implements ArtifactBuilder
+class ilGSBootLoaderBuilder implements ArtifactBuilder
 {
 
     /**
