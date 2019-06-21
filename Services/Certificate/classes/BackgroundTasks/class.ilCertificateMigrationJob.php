@@ -381,6 +381,7 @@ class ilCertificateMigrationJob extends AbstractJob
 
 		if (\ilCertificate::isActive())
 		{
+			$lp_active = ilObjUserTracking::_enabledLearningProgress();
 			$obj_ids = array();
 			$root = $this->tree->getNodeData($this->tree->getRootId());
 			foreach($this->tree->getSubTree($root, true, "sahs") as $node)
@@ -389,7 +390,6 @@ class ilCertificateMigrationJob extends AbstractJob
 			}
 			if ($obj_ids)
 			{
-
 				foreach(\ilCertificate::areObjectsActive($obj_ids) as $objectId => $active)
 				{
 					if ($active)
@@ -402,6 +402,43 @@ class ilCertificateMigrationJob extends AbstractJob
 							continue;
 						}
 						$object->setSubType($type);
+
+						$lpdata = $completed = false;
+						if ($lp_active) {
+							$completed = ilLPStatus::_hasUserCompleted($objectId, $this->user_id);
+							$lpdata = true;
+						}
+
+						if (!$lpdata) {
+							switch ($type) {
+								case 'scorm':
+									$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser(
+										$objectId,
+										$this->user_id
+									);
+									break;
+
+								case 'scorm2004':
+									$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser(
+										$objectId,
+										$this->user_id
+									);
+									break;
+							}
+						}
+
+						if (!$completed) {
+							$this->logger->info(sprintf(
+								'User did not complete SCORM object with obj_id %s, ignoring object for migration ...',
+								$objectId
+							));
+							continue;
+						}
+
+						$this->logger->info(sprintf(
+							'User completed SCORM object with obj_id %s, considering object for migration ...',
+							$objectId
+						));
 
 						$adapter = new \ilSCORMCertificateAdapter($object);
 						$data = $this->createCertificateData($objectId, $adapter, $object, $data);
