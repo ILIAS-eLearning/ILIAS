@@ -20,10 +20,6 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderDropdown(Component\Dropdown\Dropdown $component, RendererInterface $default_renderer) {
-		global $DIC;
-
-		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($this->getLangKey());
-
 		// get template
 		$tpl_name = "tpl.standard.html";
 		$tpl = $this->getTemplate($tpl_name, true, true);

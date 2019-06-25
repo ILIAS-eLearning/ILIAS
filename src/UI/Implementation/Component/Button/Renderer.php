@@ -35,10 +35,6 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) {
-		global $DIC;
-
-		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($this->getLangKey());
-
 		if ($component instanceof Component\Button\Primary) {
 			$tpl_name = "tpl.primary.html";
 		}
@@ -146,10 +142,6 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderToggle(Component\Button\Toggle $component) {
-		global $DIC;
-
-		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($this->getLangKey());
-
 		$tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
 		$on_action = $component->getActionOn();
@@ -275,10 +267,6 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function additionalRenderBulky(Component\Button\Button $component, RendererInterface $default_renderer, $tpl) {
-		global $DIC;
-
-		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($this->getLangKey());
-
 		$renderer = $default_renderer->withAdditionalContext($component);
 		$tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
 		$label = $component->getLabel();

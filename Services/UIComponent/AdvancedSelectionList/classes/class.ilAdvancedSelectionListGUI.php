@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+
 /**
 * User interface class for advanced drop-down selection lists
 *
@@ -554,10 +555,6 @@ class ilAdvancedSelectionListGUI
 	*/
 	public function getHTML($a_only_cmd_list_asynch = false)
 	{
-		global $DIC;
-
-		$transform_case_of_label_if_possible = $DIC->refinery()->string()->caseOfLabelIfPossible($DIC->language()->getLangKey());
-
 		$items = $this->getItems();
 
 		// do not show list, if no item is in list
