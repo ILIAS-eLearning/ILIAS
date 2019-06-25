@@ -34,7 +34,7 @@
  * @package ilias-setup
  */
 if (false === file_exists(__DIR__ . '/../libs/composer/vendor/autoload.php')) {
-	echo'Could not find composers "autoload.php". Try to run "composer install" in the directory ".libs/composer"';
+	echo 'Could not find composers "autoload.php". Try to run "composer install" in the directory ".libs/composer"';
 	exit;
 }
 
