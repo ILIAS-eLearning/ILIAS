@@ -593,11 +593,11 @@ class ilAdvancedSelectionListGUI
 			{
 				foreach($items as $item)
 				{
-					$title = $item["title"] ?? "";
-
 					if (isset($item["ref_id"]))
 					{
-						$sel_arr[$item["ref_id"]] = $title;
+						$sel_arr[$item["ref_id"]] = (isset($item["title"]))
+							? $item["title"]
+							: "";
 					}
 					$this->css_row = ($this->css_row != "tblrow1_mo")
 						? "tblrow1_mo"
@@ -693,7 +693,7 @@ class ilAdvancedSelectionListGUI
 						$tpl->setVariable("ONCLICK_ITEM",
 							'onclick="return il.AdvancedSelectionList.selectForm(\''.$this->getId().'\''.
 								", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-								"'".$title."');\"");
+								"'".$item["title"]."');\"");
 					}
 					else if ($this->getOnClickMode() ==
 						ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP)
@@ -701,13 +701,13 @@ class ilAdvancedSelectionListGUI
 						$tpl->setVariable("ONCLICK_ITEM",
 							'onclick="il.AdvancedSelectionList.clickNop(\''.$this->getId().'\''.
 								", '".$this->form_mode["select_name"]."','".$item["value"]."',".
-								"'".$title."');\"");
+								"'".$item["title"]."');\"");
 					}
 
 					$tpl->setVariable("CSS_ROW", $this->css_row);
 					if ($item["html"] == "")
 					{
-						$tpl->setVariable("TXT_ITEM", $title);
+						$tpl->setVariable("TXT_ITEM", $item["title"]);
 					}
 					else
 					{
@@ -729,7 +729,7 @@ class ilAdvancedSelectionListGUI
 					$tpl->setVariable("IT_ID", $this->getId());
 					$tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
 					$tpl->setVariable("IT_HID_VAL", $item["value"]);
-					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $title));
+					$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
 					$tpl->parseCurrentBlock();					 					
 				}
 
@@ -838,8 +838,7 @@ class ilAdvancedSelectionListGUI
 		 
 		//echo htmlentities(ilJsonUtil::encode($cfg));	
 
-		$list_title = $this->getListTitle();
-		$tpl->setVariable("TXT_SEL_TOP", $list_title);
+		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
 		$tpl->setVariable("ID", $this->getId());
 		
 		//$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
