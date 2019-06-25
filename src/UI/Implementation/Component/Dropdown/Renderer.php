@@ -20,6 +20,7 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	protected function renderDropdown(Component\Dropdown\Dropdown $component, RendererInterface $default_renderer) {
+
 		// get template
 		$tpl_name = "tpl.standard.html";
 		$tpl = $this->getTemplate($tpl_name, true, true);
@@ -34,7 +35,7 @@ class Renderer extends AbstractComponentRenderer {
 		// render trigger button
 		$label = $component->getLabel();
 		if ($label !== null) {
-			$tpl->setVariable("LABEL", $label);
+			$tpl->setVariable("LABEL", $component->getLabel());
 		}
 		else {
 			$tpl->setVariable("LABEL", "");

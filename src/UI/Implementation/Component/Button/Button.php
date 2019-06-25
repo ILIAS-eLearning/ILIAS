@@ -151,4 +151,5 @@ abstract class Button implements C\Button\Button {
 	{
 		return $this->aria_label;
 	}
+
 }

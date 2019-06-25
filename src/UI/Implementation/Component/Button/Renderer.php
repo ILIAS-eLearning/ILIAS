@@ -64,7 +64,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$label = $component->getLabel();
 		if ($label !== null) {
-			$tpl->setVariable("LABEL", $label);
+			$tpl->setVariable("LABEL", $component->getLabel());
 		}
 		if ($component->isActive()) {
 			// The actions might also be a list of signals, these will be appended by

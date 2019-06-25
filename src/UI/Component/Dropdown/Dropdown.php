@@ -35,4 +35,5 @@ interface Dropdown extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * @return	Dropdown
 	 */
 	public function withLabel($label);
+
 }
