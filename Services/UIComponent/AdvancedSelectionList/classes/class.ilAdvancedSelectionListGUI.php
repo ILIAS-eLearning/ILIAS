@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Refinery\String\LanguageNotSupportedException;
-
 /**
 * User interface class for advanced drop-down selection lists
 *
@@ -43,11 +41,6 @@ class ilAdvancedSelectionListGUI
 	protected $grouped_list = null;
 	protected $style = 0;
 	private $dd_pullright = true;
-
-	/**
-	 * @var bool
-	 */
-	protected $check_case_of_label_if_possible = false;
 	
 	/*
 	
@@ -604,13 +597,6 @@ class ilAdvancedSelectionListGUI
 				foreach($items as $item)
 				{
 					$title = $item["title"] ?? "";
-					if ($this->isCheckCaseOfLabelIfPossible()) {
-						try {
-							$title = $transform_case_of_label_if_possible($title);
-						} catch (LanguageNotSupportedException $ex) {
-
-						}
-					}
 
 					if (isset($item["ref_id"]))
 					{
@@ -856,13 +842,6 @@ class ilAdvancedSelectionListGUI
 		//echo htmlentities(ilJsonUtil::encode($cfg));	
 
 		$list_title = $this->getListTitle();
-		if ($this->isCheckCaseOfLabelIfPossible()) {
-			try {
-				$list_title = $transform_case_of_label_if_possible($list_title);
-			} catch (LanguageNotSupportedException $ex) {
-
-			}
-		}
 		$tpl->setVariable("TXT_SEL_TOP", $list_title);
 		$tpl->setVariable("ID", $this->getId());
 		
@@ -904,22 +883,6 @@ class ilAdvancedSelectionListGUI
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isCheckCaseOfLabelIfPossible(): bool {
-		return $this->check_case_of_label_if_possible;
-	}
-
-
-	/**
-	 * @param bool $check_case_of_label_if_possible
-	 */
-	public function setCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): void {
-		$this->check_case_of_label_if_possible = $check_case_of_label_if_possible;
 	}
 }
 ?>

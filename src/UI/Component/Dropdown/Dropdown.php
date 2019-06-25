@@ -35,18 +35,4 @@ interface Dropdown extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * @return	Dropdown
 	 */
 	public function withLabel($label);
-
-
-	/**
-	 * @return bool
-	 */
-	public function isCheckCaseOfLabelIfPossible(): bool;
-
-
-	/**
-	 * @param bool $check_case_of_label_if_possible
-	 *
-	 * @return self
-	 */
-	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): self;
 }

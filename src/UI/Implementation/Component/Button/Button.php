@@ -43,11 +43,6 @@ abstract class Button implements C\Button\Button {
 	 */
 	protected $aria_checked = false;
 
-	/**
-	 * @var bool
-	 */
-	protected $check_case_of_label_if_possible = false;
-
 
 	public function __construct($label, $action) {
 		$this->checkStringArg("label", $label);
@@ -155,25 +150,5 @@ abstract class Button implements C\Button\Button {
 	public function getAriaLabel()
 	{
 		return $this->aria_label;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function isCheckCaseOfLabelIfPossible(): bool {
-		return $this->check_case_of_label_if_possible;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): C\Button\Button {
-		$this->checkBoolArg("check_case_of_label_if_possible", $check_case_of_label_if_possible);
-		$clone = clone $this;
-		$clone->check_case_of_label_if_possible = $check_case_of_label_if_possible;
-
-		return $clone;
 	}
 }

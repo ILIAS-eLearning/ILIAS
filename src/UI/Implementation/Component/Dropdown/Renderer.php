@@ -4,7 +4,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropdown;
 
-use ILIAS\Refinery\String\LanguageNotSupportedException;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -39,13 +38,6 @@ class Renderer extends AbstractComponentRenderer {
 		// render trigger button
 		$label = $component->getLabel();
 		if ($label !== null) {
-			if ($component->isCheckCaseOfLabelIfPossible())  {
-				try {
-					$label = $transform_case_of_label_if_possible($label);
-				} catch (LanguageNotSupportedException $ex) {
-
-				}
-			}
 			$tpl->setVariable("LABEL", $label);
 		}
 		else {

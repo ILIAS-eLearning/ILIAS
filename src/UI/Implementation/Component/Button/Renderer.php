@@ -4,7 +4,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
-use ILIAS\Refinery\String\LanguageNotSupportedException;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -69,13 +68,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		$label = $component->getLabel();
 		if ($label !== null) {
-			if ($component->isCheckCaseOfLabelIfPossible())  {
-				try {
-					$label = $transform_case_of_label_if_possible($label);
-				} catch (LanguageNotSupportedException $ex) {
-
-				}
-			}
 			$tpl->setVariable("LABEL", $label);
 		}
 		if ($component->isActive()) {
@@ -102,13 +94,6 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		$aria_label = $component->getAriaLabel();
 		if($aria_label != null){
-			if ($component->isCheckCaseOfLabelIfPossible())  {
-				try {
-					$aria_label = $transform_case_of_label_if_possible($aria_label);
-				} catch (LanguageNotSupportedException $ex) {
-
-				}
-			}
 			$tpl->setCurrentBlock("with_aria_label");
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
 			$tpl->parseCurrentBlock();
@@ -212,26 +197,12 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		$label = $component->getLabel();
 		if (!empty($label)) {
-			if ($component->isCheckCaseOfLabelIfPossible())  {
-				try {
-					$label = $transform_case_of_label_if_possible($label);
-				} catch (LanguageNotSupportedException $ex) {
-
-				}
-			}
 			$tpl->setCurrentBlock("with_label");
 			$tpl->setVariable("LABEL", $label);
 			$tpl->parseCurrentBlock();
 		}
 		$aria_label = $component->getAriaLabel();
 		if($aria_label != null){
-			if ($component->isCheckCaseOfLabelIfPossible())  {
-				try {
-					$aria_label = $transform_case_of_label_if_possible($aria_label);
-				} catch (LanguageNotSupportedException $ex) {
-
-				}
-			}
 			$tpl->setCurrentBlock("with_aria_label");
 			$tpl->setVariable("ARIA_LABEL", $aria_label);
 			$tpl->parseCurrentBlock();
@@ -312,13 +283,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
 		$label = $component->getLabel();
 		if ($label !== null) {
-			if ($component->isCheckCaseOfLabelIfPossible())  {
-				try {
-					$label = $transform_case_of_label_if_possible($label);
-				} catch (LanguageNotSupportedException $ex) {
-
-				}
-			}
 			$tpl->setVariable("LABEL", $label);
 		}
 	}

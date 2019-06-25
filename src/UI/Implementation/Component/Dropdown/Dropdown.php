@@ -29,11 +29,6 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	protected $items;
 
 	/**
-	 * @var bool
-	 */
-	protected $check_case_of_label_if_possible = false;
-
-	/**
 	 * Dropdown constructor.
 	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard> $items
 	 */
@@ -91,25 +86,5 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	 */
 	public function appendOnHover(Signal $signal) {
 		return $this->appendTriggeredSignal($signal, 'hover');
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function isCheckCaseOfLabelIfPossible(): bool {
-		return $this->check_case_of_label_if_possible;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): C\Dropdown\Dropdown {
-		$this->checkBoolArg("check_case_of_label_if_possible", $check_case_of_label_if_possible);
-		$clone = clone $this;
-		$clone->check_case_of_label_if_possible = $check_case_of_label_if_possible;
-
-		return $clone;
 	}
 }

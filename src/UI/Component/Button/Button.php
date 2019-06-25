@@ -75,18 +75,4 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
 	 * This will also remove a string action if there currently is one.
 	 */
 	public function withOnClick(Signal $signal);
-
-
-	/**
-	 * @return bool
-	 */
-	public function isCheckCaseOfLabelIfPossible(): bool;
-
-
-	/**
-	 * @param bool $check_case_of_label_if_possible
-	 *
-	 * @return self
-	 */
-	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): self;
 }
