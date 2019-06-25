@@ -33,6 +33,10 @@
  *
  * @package ilias-setup
  */
+if (false === file_exists(__DIR__ . '/../libs/composer/vendor/autoload.php')) {
+	echo'Could not find composers "autoload.php". Try to run "composer install" in the directory ".libs/composer"';
+	exit;
+}
 
 if (ini_get('session.save_handler') != 'files') {
 	throw new Exception("session.save_handler in php.ini must be configured to 'files'.");
