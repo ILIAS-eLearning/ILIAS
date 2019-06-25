@@ -837,7 +837,7 @@ class ilAdvancedSelectionListGUI
 		$tpl->setVariable("CFG", ilJsonUtil::encode($cfg));		 
 		 
 		//echo htmlentities(ilJsonUtil::encode($cfg));	
-
+		
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
 		$tpl->setVariable("ID", $this->getId());
 		
