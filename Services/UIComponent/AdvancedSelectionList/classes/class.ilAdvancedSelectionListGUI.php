@@ -47,7 +47,7 @@ class ilAdvancedSelectionListGUI
 	/**
 	 * @var bool
 	 */
-	protected $check_case_of_label_if_possible = true;
+	protected $check_case_of_label_if_possible = false;
 	
 	/*
 	
@@ -918,7 +918,7 @@ class ilAdvancedSelectionListGUI
 	/**
 	 * @param bool $check_case_of_label_if_possible
 	 */
-	public function setCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = true): void {
+	public function setCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): void {
 		$this->check_case_of_label_if_possible = $check_case_of_label_if_possible;
 	}
 }

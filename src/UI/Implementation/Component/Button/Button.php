@@ -46,7 +46,7 @@ abstract class Button implements C\Button\Button {
 	/**
 	 * @var bool
 	 */
-	protected $check_case_of_label_if_possible = true;
+	protected $check_case_of_label_if_possible = false;
 
 
 	public function __construct($label, $action) {
@@ -169,7 +169,7 @@ abstract class Button implements C\Button\Button {
 	/**
 	 * @inheritDoc
 	 */
-	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = true): C\Button\Button {
+	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): C\Button\Button {
 		$this->checkBoolArg("check_case_of_label_if_possible", $check_case_of_label_if_possible);
 		$clone = clone $this;
 		$clone->check_case_of_label_if_possible = $check_case_of_label_if_possible;

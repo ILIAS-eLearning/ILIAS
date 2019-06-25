@@ -31,7 +31,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	/**
 	 * @var bool
 	 */
-	protected $check_case_of_label_if_possible = true;
+	protected $check_case_of_label_if_possible = false;
 
 	/**
 	 * Dropdown constructor.
@@ -105,7 +105,7 @@ abstract class Dropdown implements C\Dropdown\Dropdown {
 	/**
 	 * @inheritDoc
 	 */
-	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = true): C\Dropdown\Dropdown {
+	public function withCheckCaseOfLabelIfPossible(bool $check_case_of_label_if_possible = false): C\Dropdown\Dropdown {
 		$this->checkBoolArg("check_case_of_label_if_possible", $check_case_of_label_if_possible);
 		$clone = clone $this;
 		$clone->check_case_of_label_if_possible = $check_case_of_label_if_possible;
