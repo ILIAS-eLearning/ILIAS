@@ -9,7 +9,7 @@ use ilNumberInputGUI;
 use \ilPropertyFormGUI;
 use \ilTextInputGUI;
 use ilUtil;
-use srag\CustomInputGUIs\MultiLineInputGUI\MultiLineInputGUI;
+use srag\CustomInputGUIs\SrAssessment\MultiLineInputGUI\MultiLineInputGUI;
 
 //JUST A DEMO
 
@@ -47,7 +47,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$this->addItem($title);
 
 		$description = new ilTextInputGUI('description',self::QuestionVAR_DESCRIPTION);
-		$title->setValue($question->getDescription());
+		$description->setValue($question->getDescription());
 		$this->addItem($description);
 
 

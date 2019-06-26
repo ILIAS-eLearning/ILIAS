@@ -80,4 +80,6 @@ abstract class AbstractDomainEvent implements DomainEvent {
 		// TODO nice and happy serializer also dont serialize id, creator to data
 		return json_encode($this);
 	}
+
+	public abstract function restoreEventBody(string $json_data);
 }

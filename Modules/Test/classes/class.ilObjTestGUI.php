@@ -753,7 +753,7 @@ class ilObjTestGUI extends ilObjectGUI
 	protected function createQuestionByAPIObject() {
 		global $DIC;
 
-		$authoring_service = new AsqAuthoringService();
+		$authoring_service = new AsqAuthoringService(null);
 
 		$form =  AsqGUIElementFactory::CreateQuestionCreationForm();
 		switch ($_SERVER['REQUEST_METHOD']) {

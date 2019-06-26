@@ -13,46 +13,46 @@ use ILIAS\Data\Domain\Event\DomainEvents;
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
 abstract class AggregateRoot {
+	const APPLY_PREFIX = 'apply';
 
 	/**
 	 * @var DomainEvents
 	 */
 	private $recordedEvents;
 
-	public function __construct()
+	protected function __construct()
 	{
 		$this->recordedEvents = new DomainEvents();
 	}
 
 
-	protected function recordApplyAndPublishThat(DomainEvent $domainEvent) {
-		$this->recordThat($domainEvent);
-		$this->applyThat($domainEvent);
-		$this->publishThat($domainEvent);
+	protected function ExecuteEvent(DomainEvent $event) {
+		// apply results of event to class, most events should result in some changes
+		$this->applyEvent($event);
+
+		// always record that the event has happened
+		$this->recordEvent($event);
 	}
 
 
-	protected function recordThat(DomainEvent $domainEvent) {
-		$this->recordedEvents->addEvent($domainEvent);
+	protected function recordEvent(DomainEvent $event) {
+		$this->recordedEvents->addEvent($event);
 	}
 
 
-	protected function applyThat(DomainEvent $domainEvent) {
-		$event_class_without_namespace = join('', array_slice(explode('\\', get_class($domainEvent)), -1));
+	protected function applyEvent(DomainEvent $event) {
+		$action_handler = $this->getHandlerName($event);
 
-
-
-		$modifier = 'apply' . $event_class_without_namespace;
-		$this->$modifier($domainEvent);
+		if (method_exists($this, $action_handler)) {
+		   $this->$action_handler($event);
+		}
 	}
 
-	/**
-	 * Publish the event with a DomainEventPublisher
-	 *
-	 * @param DomainEvent $domainEvent
-	 */
-	abstract protected function publishThat(DomainEvent $domainEvent);
-
+	private function getHandlerName(DomainEvent $event) {
+		return self::APPLY_PREFIX . join('',
+							array_slice(
+								explode('\\', get_class($event)), -1));
+	}
 
 	/**
 	 * @return DomainEvents
@@ -65,4 +65,6 @@ abstract class AggregateRoot {
 	public function clearRecordedEvents() {
 		$this->recordedEvents = new DomainEvents();
 	}
+
+	abstract function getAggregateId() : AggregateId;
 }

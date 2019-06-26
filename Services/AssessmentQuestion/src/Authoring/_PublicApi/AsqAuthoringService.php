@@ -39,7 +39,7 @@ class AsqAuthoringService {
 	 *
 	 * @return Question
 	 */
-	public function getEventsFor($aggregate_id) {
+	public function GetQuestion($aggregate_id) {
 		$event_store = new ilDBQuestionEventStore();
 
 

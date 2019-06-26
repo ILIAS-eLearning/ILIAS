@@ -30,7 +30,7 @@ class CreateQuestionCommandHandler implements CommandHandler {
 	 */
 	public function handle(Command $command) {
 
-		$question = Question::createFrom(
+		$question = Question::createNewQuestion(
 			$command->getTitle(),
 			$command->getDescription(),
 			$command->getCreator()
