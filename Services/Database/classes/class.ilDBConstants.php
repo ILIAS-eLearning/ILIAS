@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
-require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');
 
 /**
  * Class ilDBConstants

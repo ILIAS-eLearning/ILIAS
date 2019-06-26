@@ -1560,7 +1560,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public static function isReservedWord($a_word) {
-		require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoMySQLFieldDefinition.php');
 		global $DIC;
 		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC->database());
 
@@ -1827,8 +1826,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return \ilAtomQuery
 	 */
 	public function buildAtomQuery() {
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
-
 		return new ilAtomQueryLock($this);
 	}
 
@@ -1839,7 +1836,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function uniqueConstraintExists($table, array $fields) {
-		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer();
 		$cons = $analyzer->getConstraintsInformation($table);
 		foreach ($cons as $c) {

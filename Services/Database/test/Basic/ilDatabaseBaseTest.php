@@ -22,7 +22,6 @@
 */
 
 use PHPUnit\Framework\TestCase;
-// require_once(__DIR__."/mocks.php");
 
 /**
  * TestCase for the ilDatabaseCommonTest
@@ -57,11 +56,9 @@ class ilDatabaseBaseTest extends TestCase {
 		PHPUnit\Framework\Error\Notice::$enabled = false;
 		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
-		require_once('./libs/composer/vendor/autoload.php');
 		if (!defined('DEVMODE')) {
 			define('DEVMODE', true);
 		}
-		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 		$this->db = $this->getDBInstance();
 		$this->connect($this->db);
 	}
@@ -89,8 +86,6 @@ class ilDatabaseBaseTest extends TestCase {
 	 * @return bool
 	 */
 	protected function connect(ilDBInterface $ilDBInterface) {
-		require_once('./Services/Init/classes/class.ilIniFile.php');
-		require_once('./Services/Init/classes/class.ilErrorHandling.php');
 		$ilClientIniFile = new ilIniFile($this->getIniFile());
 		$ilClientIniFile->read();
 		$this->type = $ilClientIniFile->readVariable("db", "type");

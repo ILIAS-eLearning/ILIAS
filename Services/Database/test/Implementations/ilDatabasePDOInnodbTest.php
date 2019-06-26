@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDatabaseImplementationBaseTest.php');
-
 /**
  * TestCase for the ilDatabasePDOInnodbTest
  *
@@ -38,8 +36,6 @@ class ilDatabasePDOInnodbTest extends ilDatabaseImplementationBaseTest {
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
-
 		return new ilDBPdoMySQLInnoDB();
 	}
 

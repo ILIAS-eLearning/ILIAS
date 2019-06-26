@@ -894,7 +894,6 @@ class ilSetup
 		// TODO: move this to client class!!
 		$client->setup_ok = (bool)$client->getSetting("setup_ok");
 
-		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		$this->lng->setDbHandler($client->db);
 		$dbupdate = new ilDBUpdate($client->db);
 

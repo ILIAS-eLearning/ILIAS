@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDatabaseImplementationBaseTest.php');
-
 /**
  * TestCase for the ilDatabasePDOMyISAMTest
  *
@@ -38,8 +36,6 @@ class ilDatabasePDOMyISAMTest extends ilDatabaseImplementationBaseTest {
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLMyISAM.php');
-
 		return new ilDBPdoMySQLMyISAM();
 	}
 

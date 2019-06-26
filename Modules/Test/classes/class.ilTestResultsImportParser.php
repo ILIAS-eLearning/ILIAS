@@ -107,7 +107,6 @@ class ilTestResultsImportParser extends ilSaxParser
 							$this->user_criteria_checked = true;
 							if ($ilDB->tableColumnExists('usr_data', $a_attribs['user_criteria']))
 							{
-								include_once './Services/Database/classes/class.ilDBAnalyzer.php';
 								$analyzer = new ilDBAnalyzer();
 								$info = $analyzer->getFieldInformation('usr_data');
 								$this->user_criteria_field = $a_attribs['user_criteria'];
