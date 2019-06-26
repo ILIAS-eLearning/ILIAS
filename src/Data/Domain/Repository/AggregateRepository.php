@@ -51,6 +51,8 @@ abstract class AggregateRepository {
 		{
 			self::$cache->set($aggregate->getAggregateId()->getId(), $aggregate);
 		}
+
+		$this->notifyAboutNewEvents();
 	}
 
 	public function get(AggregateId $aggregate_id)
@@ -74,6 +76,14 @@ abstract class AggregateRepository {
 			return $aggregate;
 		}
 		return self::$cache->get($cache_key);
+	}
+
+
+	/**
+	 * Method called to alert known consumers to a new event
+	 */
+	public function notifyAboutNewEvents() {
+		//Virtual Method
 	}
 
 	protected abstract function getEventStore() : EventStore;
