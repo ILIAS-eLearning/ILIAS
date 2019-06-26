@@ -7,7 +7,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilCertificateMigrationGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
  */
 class ilPersonalProfileGUI
 {
@@ -88,15 +88,6 @@ class ilPersonalProfileGUI
 				$tpl->printToStdout();
 				break;
 
-			case 'ilcertificatemigrationgui':
-				$migrationGui = new \ilCertificateMigrationGUI();
-				$resultMessageString = $ilCtrl->forwardCommand($migrationGui);
-				/** @var ilTemplate $tpl */
-				$tpl->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $resultMessageString, true);
-				$this->setTabs();
-				$this->showPersonalData(false, true);
-				break;
-			
 			default:
 				$this->setTabs();
 				$cmd = $this->ctrl->getCmd("showPersonalData");							
@@ -833,8 +824,6 @@ class ilPersonalProfileGUI
 				ilUtil::sendInfo($lng->txt("profile_incomplete"));
 			}
 		}
-
-		$this->renderCertificateMigration($ilUser, $a_migration_started);
 
 		$this->tpl->setContent($this->form->getHTML());
 
@@ -1641,33 +1630,6 @@ class ilPersonalProfileGUI
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHtml());
 			$tpl->printToStdout();
-		}
-	}
-
-	/**
-	 * @param \ilObjUser
-	 * @param bool $migrationIsStartedInRequest
-	 */
-	protected function renderCertificateMigration(\ilObjUser $user, bool $migrationIsStartedInRequest)
-	{
-		$migrationVisibleValidator = new ilCertificateMigrationValidator(new \ilSetting('certificate'));
-
-		$showMigrationBox = $migrationVisibleValidator->isMigrationAvailable(
-			$user,
-			new \ilCertificateMigration($user->getId())
-		);
-		if (!$migrationIsStartedInRequest && true === $showMigrationBox) {
-			$migrationUiEl = new \ilCertificateMigrationUIElements();
-
-			$startMigrationCommand = $this->ctrl->getLinkTargetByClass(
-				['ilCertificateMigrationGUI'], 'startMigrationAndReturnMessage',
-				false,true, false
-			);
-			$messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);
-
-			$this->tpl->setCurrentBlock('mess');
-			$this->tpl->setVariable('MESSAGE', $messageBoxHtml);
-			$this->tpl->parseCurrentBlock('mess');
 		}
 	}
 }

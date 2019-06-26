@@ -9,24 +9,25 @@ use ILIAS\UI\Component\Symbol\Symbol;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface hasSymbol {
+interface hasSymbol
+{
 
-	/**
-	 * @param Symbol $symbol
-	 *
-	 * @return hasSymbol
-	 */
-	public function withSymbol(Symbol $symbol): hasSymbol;
-
-
-	/**
-	 * @return Symbol
-	 */
-	public function getSymbol(): Symbol;
+    /**
+     * @param Symbol $symbol
+     *
+     * @return hasSymbol
+     */
+    public function withSymbol(Symbol $symbol) : hasSymbol;
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasSymbol(): bool;
+    /**
+     * @return Symbol
+     */
+    public function getSymbol() : Symbol;
+
+
+    /**
+     * @return bool
+     */
+    public function hasSymbol() : bool;
 }

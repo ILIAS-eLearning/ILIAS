@@ -60,13 +60,13 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
 		{
 			foreach ($completions[$this->getUserId()] as $c)
 			{
-
+				$txt = ($c["trigger_obj_id"] > 0)
+					? $lng->txt("skll_lhist_skill_self_eval_in")
+					: $lng->txt("skll_lhist_skill_self_eval");
 				$ts = new ilDateTime($c["status_date"], IL_CAL_DATETIME);
-				$text1 = str_replace("$3$", $this->getEmphasizedTitle(ilBasicSkill::_lookupTitle($c["skill_id"], $c["tref_id"])), $lng->txt("skll_lhist_skill_self_eval"));
+				$text1 = str_replace("$3$", $this->getEmphasizedTitle(ilBasicSkill::_lookupTitle($c["skill_id"], $c["tref_id"])), $txt);
 				$text1 = str_replace("$4$", $this->getEmphasizedTitle(ilBasicSkill::lookupLevelTitle($c["level_id"])), $text1);
-				$text2 = str_replace("$3$", $this->getEmphasizedTitle(ilBasicSkill::_lookupTitle($c["skill_id"], $c["tref_id"])), $lng->txt("skll_lhist_skill_self_eval"));
-				$text2 = str_replace("$4$", $this->getEmphasizedTitle(ilBasicSkill::lookupLevelTitle($c["level_id"])), $text2);
-				$entries[] = $this->getFactory()->entry($text1, $text2,
+				$entries[] = $this->getFactory()->entry($text1, $text1,
 					ilUtil::getImagePath("icon_skmg.svg"),
 					$ts->get(IL_CAL_UNIX),
 					$c["trigger_obj_id"]);

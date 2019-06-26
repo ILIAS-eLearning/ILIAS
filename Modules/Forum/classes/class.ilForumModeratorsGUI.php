@@ -180,7 +180,14 @@ class ilForumModeratorsGUI
 			/**
 			 * @var $user ilObjUser
 			 */
-			$user = ilObjectFactory::getInstanceByObjId($usr_id);
+			$user = ilObjectFactory::getInstanceByObjId($usr_id, false);
+			// Bugfix/Fallback for #25640
+			if(!$user)
+			{
+				$this->oForumModerators->detachModeratorRole((int)$usr_id);
+				continue;
+			}
+
 			if($num > 1)
 			{
 				$result[$i]['check'] = ilUtil::formCheckbox(false, 'usr_id[]', $user->getId());

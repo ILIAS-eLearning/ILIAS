@@ -130,8 +130,11 @@ class ilSCTaskTableGUI extends ilTable2GUI
 		{
 			include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
 			$task_handler =  ilSCComponentTaskFactory::getComponentTask($task->getId());
-			
-			
+
+			if(!$task->isActive()) {
+				continue;
+			}
+
 			$item = array();
 			$item['id'] = $task->getId();
 			$item['title'] = $task_handler->getTitle();

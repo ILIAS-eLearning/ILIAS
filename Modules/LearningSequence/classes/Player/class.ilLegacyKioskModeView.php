@@ -96,7 +96,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 				$obj_id = $this->object->getId();
 				$ref_id = $this->object->getRefId();
 				$item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
-				$item_list_gui->initItem($ref_id, $obj_id);
+				$item_list_gui->initItem($ref_id, $obj_id, $type);
 				$view_lnk = $item_list_gui->getCommandLink('view');
 				$view_lnk = str_replace('&amp;', '&', $view_lnk);
 				$view_lnk = ILIAS_HTTP_PATH.'/'.$view_lnk;

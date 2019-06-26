@@ -110,7 +110,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
 			
 			
 			include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
-			$task_gui = ilSCComponentTaskFactory::getComponentTaskByForGroup($group->getId());
+			$task_gui = ilSCComponentTaskFactory::getComponentTaskGUIForGroup($group->getId());
 			
 			
 			$item['title'] = $task_gui->getGroupTitle();

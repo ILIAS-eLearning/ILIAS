@@ -321,7 +321,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinition
 		$condition = $a_adt_search->getSQLCondition(
 			ilADTActiveRecordByType::SINGLE_COLUMN_NAME, 			
 			ilADTTextSearchBridgeSingle::SQL_LIKE, 
-			$a_parser->getQuotedWords());		
+			$a_parser->getQuotedWords());
 		if($condition)
 		{					
 			$objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition, $a_locate);

@@ -19,7 +19,12 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	protected $mode; // [int]
 	protected $team; // [ilExAssignmentTeam]	
 	protected $read_only; // [bool]	
-	protected $parent_ref_id; // [int]	
+	protected $parent_ref_id; // [int]
+
+	/**
+	 * @var bool
+	 */
+	protected $edit_permission;
 	
 	const MODE_ADD = 1;
 	const MODE_EDIT = 2;
@@ -43,7 +48,11 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 		$this->ctrl = $DIC->ctrl();
 		$this->access = $DIC->access();
 		$ilCtrl = $DIC->ctrl();
-				
+
+		$access = $this->access;
+		$user = $DIC->user();
+		$this->edit_permission = (bool) $access->checkAccessOfUser($user->getId(), "edit", "", $a_parent_ref_id);
+
 		$this->mode = $a_mode;
 		$this->team = $a_team;
 		$this->read_only = (bool)$a_read_only;
@@ -102,7 +111,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 			if(!in_array($id, $assigned))
 			{
 				$data[] = array("id" => $id,
-					"name" => ilUserUtil::getNamePresentation($id, false, false, "", true));		
+					"name" => ilUserUtil::getNamePresentation($id, false, false, "", $this->edit_permission));
 			}
 		}
 		

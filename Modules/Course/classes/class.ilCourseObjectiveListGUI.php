@@ -94,7 +94,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	{
 		$this->tpl = new ilTemplate("tpl.container_list_item.html", true, true,
 			"Services/Container");
-		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		$this->initItem($a_ref_id, $a_obj_id, ilObject::_lookupType($a_obj_id), $a_title, $a_description);
 
 		$this->insertIconsAndCheckboxes();
 		$this->insertTitle();

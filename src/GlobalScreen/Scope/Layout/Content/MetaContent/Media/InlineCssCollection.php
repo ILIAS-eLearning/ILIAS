@@ -5,28 +5,32 @@
  *
  * @package ILIAS\Services\UICore\Page\Media
  */
-class InlineCssCollection extends AbstractCollection {
+class InlineCssCollection extends AbstractCollection
+{
 
-	/**
-	 * @param InlineCss $item
-	 */
-	public function addItem(InlineCss $item) {
-		$this->items[] = $item;
-	}
-
-
-	/**
-	 * @return InlineCss[]
-	 */
-	public function getItems(): array {
-		return parent::getItems();
-	}
+    /**
+     * @param InlineCss $item
+     */
+    public function addItem(InlineCss $item)
+    {
+        $this->items[] = $item;
+    }
 
 
-	/**
-	 * @return InlineCss[]
-	 */
-	public function getItemsInOrderOfDelivery(): array {
-		return parent::getItemsInOrderOfDelivery();
-	}
+    /**
+     * @return InlineCss[]
+     */
+    public function getItems() : array
+    {
+        return parent::getItems();
+    }
+
+
+    /**
+     * @return InlineCss[]
+     */
+    public function getItemsInOrderOfDelivery() : array
+    {
+        return parent::getItemsInOrderOfDelivery();
+    }
 }

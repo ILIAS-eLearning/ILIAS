@@ -5,32 +5,33 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface hasAction {
+interface hasAction
+{
 
-	/**
-	 * @param string $action
-	 *
-	 * @return hasAction
-	 */
-	public function withAction(string $action): hasAction;
-
-
-	/**
-	 * @return string
-	 */
-	public function getAction(): string;
+    /**
+     * @param string $action
+     *
+     * @return hasAction
+     */
+    public function withAction(string $action) : hasAction;
 
 
-	/**
-	 * @param bool $is_external
-	 *
-	 * @return hasAction
-	 */
-	public function withIsLinkToExternalAction(bool $is_external): hasAction;
+    /**
+     * @return string
+     */
+    public function getAction() : string;
 
 
-	/**
-	 * @return bool
-	 */
-	public function isLinkWithExternalAction(): bool;
+    /**
+     * @param bool $is_external
+     *
+     * @return hasAction
+     */
+    public function withIsLinkToExternalAction(bool $is_external) : hasAction;
+
+
+    /**
+     * @return bool
+     */
+    public function isLinkWithExternalAction() : bool;
 }

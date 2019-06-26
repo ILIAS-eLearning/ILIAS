@@ -1318,7 +1318,7 @@ small,
 mark,
 .mark {
   background-color: #fcf8e3;
-  padding: .2em;
+  padding: 0.2em;
 }
 .text-left {
   text-align: left;
@@ -1621,13 +1621,71 @@ pre code {
   margin-left: -15px;
   margin-right: -15px;
 }
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
 }
-.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+.col-xs-1,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12 {
   float: left;
 }
 .col-xs-12 {
@@ -1784,7 +1842,18 @@ pre code {
   margin-left: 0%;
 }
 @media (min-width: 768px) {
-  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+  .col-sm-1,
+  .col-sm-2,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12 {
     float: left;
   }
   .col-sm-12 {
@@ -1942,7 +2011,18 @@ pre code {
   }
 }
 @media (min-width: 992px) {
-  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+  .col-md-1,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12 {
     float: left;
   }
   .col-md-12 {
@@ -2100,7 +2180,18 @@ pre code {
   }
 }
 @media (min-width: 1200px) {
-  .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
+  .col-lg-1,
+  .col-lg-2,
+  .col-lg-3,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-6,
+  .col-lg-7,
+  .col-lg-8,
+  .col-lg-9,
+  .col-lg-10,
+  .col-lg-11,
+  .col-lg-12 {
     float: left;
   }
   .col-lg-12 {
@@ -4331,7 +4422,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   padding-bottom: 10px;
   line-height: 20px;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .navbar-nav .open .dropdown-menu {
     position: static;
     float: none;
@@ -4427,7 +4518,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     top: 0;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .navbar-form .form-group {
     margin-bottom: 5px;
   }
@@ -4549,7 +4640,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: #e7e7e7;
   color: #555;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #777;
   }
@@ -4645,7 +4736,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   background-color: #080808;
   color: white;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
     border-color: #080808;
   }
@@ -4846,7 +4937,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .label {
   display: inline;
-  padding: .2em .6em .3em;
+  padding: 0.2em 0.6em 0.3em;
   font-size: 75%;
   font-weight: bold;
   line-height: 1;
@@ -4854,7 +4945,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }
 a.label:hover,
 a.label:focus {
@@ -6806,7 +6897,7 @@ button.close {
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 769px) {
   .panel-secondary .il-panel-listing-std-container > h3,
   .panel-secondary .il-panel-listing-std-container > h4 {
     display: block;
@@ -7054,7 +7145,7 @@ input.btn {
   min-width: 60px;
   vertical-align: top;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   input.btn {
     min-width: 0;
   }
@@ -7430,7 +7521,7 @@ hr.il-divider-with-label {
   clear: both;
 }
 /* this is currently experimental, could be removed */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
     padding: 6px 6px;
     display: table;
@@ -7512,7 +7603,7 @@ hr.il-divider-with-label {
 .il-std-item .media {
   overflow: visible;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .il-item div.col-sm-3 > h5 {
     font-size: 14px;
     float: none;
@@ -7724,7 +7815,7 @@ ul.breadcrumb li:hover {
   min-width: 60px;
   vertical-align: top;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .il-standard-form .il-standard-form-cmd .btn {
     min-width: 0;
   }
@@ -8179,7 +8270,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-workflow-container .not-available.in-progress .text span,
 .il-workflow-container .no-longer-available.in-progress .text span {
   color: #434343;
-  opacity: .5;
+  opacity: 0.5;
 }
 .il-workflow-container .not-available .text,
 .il-workflow-container .no-longer-available .text {
@@ -8309,10 +8400,13 @@ div.alert ul > li:before {
   background-color: #ffffd0;
 }
 .shadow-right {
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
 }
 .shadow-bottom {
-  box-shadow: 0 1px 4px #ccc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.shadow-top {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 * {
   box-sizing: border-box;
@@ -8341,13 +8435,6 @@ grid-based layout
   grid-template-columns: 80px 1fr;
   -ms-grid-rows: 60px 33px 1fr;
   grid-template-rows: 60px 33px 1fr;
-  /* // not supported in IE, use track-line instead
-	grid-template-areas:
-    "header header"
-	"breadcrumbs breadcrumbs"
-    "mainbar content"
-    "footer footer";
-	*/
   height: 100%;
   overflow: hidden;
   width: 100%;
@@ -8371,6 +8458,8 @@ grid-based layout
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates .il-maincontrols-slate {
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: -ms-flexbox;
@@ -8423,7 +8512,7 @@ header {
   grid-column-end: 3;
   grid-row: 2;
   z-index: 998;
-  box-shadow: 0 1px 4px #ccc;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 .breadcrumbs ul.breadcrumb {
   padding-left: 100px;
@@ -8458,7 +8547,7 @@ nav.il-maincontrols {
   -ms-grid-row: 1;
   grid-column: 1;
   grid-row: 1;
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   z-index: 996;
 }
 .il-mainbar-tools-button {
@@ -8487,12 +8576,6 @@ nav.il-maincontrols {
   grid-column: 2;
   grid-row: 1;
 }
-.il-mainbar-remove-tool {
-  display: none;
-}
-.il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
-  display: block;
-}
 /* content */
 main {
   display: block;
@@ -8516,7 +8599,7 @@ footer {
        mobile Layout
 **************************************************************
 */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .il-layout-page {
     background: #f0f0f0;
     display: -ms-grid;
@@ -8524,8 +8607,8 @@ footer {
     grid-gap: 0px;
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 45px 33px 1fr 50px;
-    grid-template-rows: 45px 33px 1fr 50px;
+    -ms-grid-rows: 45px 1fr;
+    grid-template-rows: 45px 1fr;
     height: 100%;
     overflow: hidden;
     width: 100%;
@@ -8546,6 +8629,7 @@ footer {
     -ms-grid-row: 2;
     grid-column: 1;
     grid-row: 2;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   }
   .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
     -ms-grid-column: 1;
@@ -8559,11 +8643,9 @@ footer {
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols {
     -ms-grid-column: 1;
-    -ms-grid-row: 3;
-    -ms-grid-row-span: 2;
+    -ms-grid-row: 2;
     grid-column: 1;
-    grid-row: 3;
-    grid-row-end: 4;
+    grid-row: 2;
     height: 100%;
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
@@ -8572,6 +8654,9 @@ footer {
     -ms-grid-rows: 1fr 50px;
     grid-template-rows: 1fr 50px;
     width: 100%;
+  }
+  .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-slates {
     -ms-grid-column: 1;
@@ -8589,8 +8674,7 @@ footer {
     overflow-y: auto;
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
-    display: -ms-flexbox;
-    display: flex;
+    display: none;
   }
   /* metabar */
   header {
@@ -8604,38 +8688,58 @@ footer {
     height: 45px;
     padding: 0;
     width: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
   /* breadcrumbs */
   .breadcrumbs {
-    -ms-flex-align: center;
-    align-items: center;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -ms-grid-column: 1;
-    -ms-grid-row: 2;
-    grid-column: 1;
-    grid-row: 2;
-    z-index: 998;
-    box-shadow: 0 1px 4px #ccc;
+    display: none;
   }
-  .breadcrumbs ul.breadcrumb {
-    padding-left: 20px;
+  .il-header-locator .dropdown {
+    position: static;
   }
-  .breadcrumbs ul.breadcrumb > li + li:before {
+  .il-header-locator .open > .dropdown-menu {
+    top: 44px;
+    width: 100%;
+  }
+  .il-header-locator .dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    color: #555555;
+    font-size: 1.5rem;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .il-header-locator .dropdown-toggle:before {
     content: " \e606";
-    color: #bbb;
     font-family: "il-icons";
+    font-size: 1.8rem;
+    margin-right: 10px;
+  }
+  .il-header-locator .open .dropdown-toggle:before {
+    content: " \e604";
+  }
+  .il-header-locator .btn-default:active:hover,
+  .il-header-locator .btn-default:active:focus,
+  .il-header-locator .open > .dropdown-toggle.btn-default,
+  .il-header-locator .open > .dropdown-toggle.btn-default:hover .open > .dropdown-toggle.btn-default:active,
+  .il-header-locator .open > .dropdown-toggle.btn-default:active:hover,
+  .il-header-locator .open > .dropdown-toggle.btn-default:active:focus {
+    background: #fff;
+    border-color: #fff;
+    color: #555555;
+    outline: none;
+  }
+  .il-header-locator span.caret {
+    display: none;
   }
   /* mainbar */
   nav.il-maincontrols {
     -ms-grid-column: 1;
-    -ms-grid-row: 4;
+    -ms-grid-row: 3;
     grid-column: 1;
-    grid-row: 4;
+    grid-row: 3;
     width: 100%;
     z-index: 997;
   }
@@ -8645,8 +8749,11 @@ footer {
   }
   .il-mainbar {
     background-color: #4a4a4a;
+    box-shadow: none;
     display: -ms-flexbox;
     display: flex;
+    max-height: 50px;
+    overflow: hidden;
     z-index: 996;
   }
   .il-mainbar-tools-button {
@@ -8669,6 +8776,9 @@ footer {
     -ms-flex-direction: row;
     flex-direction: row;
   }
+  .il-mainbar-tools-entries .il-mainbar-tools-entries-bg {
+    height: 50px;
+  }
   .il-mainbar-slates {
     -ms-grid-column: 2;
     -ms-grid-row: 1;
@@ -8687,9 +8797,9 @@ footer {
   }
   .il-layout-page-content {
     -ms-grid-column: 1;
-    -ms-grid-row: 3;
+    -ms-grid-row: 2;
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 2;
     overflow: auto;
     padding: 20px;
   }
@@ -8731,9 +8841,6 @@ footer {
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
   background-color: #e3e3e3;
-}
-.il-maincontrols-slate-overflow {
-  min-height: 0;
 }
 .il-maincontrols-slate-content p,
 .il-maincontrols-slate-content h1,
@@ -8802,64 +8909,133 @@ footer {
 .il-maincontrols-metabar .il-metabar-entries .il-logout {
   padding-left: 10px;
 }
-.il-metabar-entry {
+.il-metabar-entries .glyphicon {
+  font-family: 'il-icons';
+}
+.il-metabar-entries .glyphicon-bell:before {
+  content: "\e027";
+}
+.il-metabar-entries .glyphicon-comment:before {
+  content: "\e04a";
+}
+.il-metabar-entries .glyphicon-envelope:before {
+  content: "\e086";
+}
+.il-metabar-entries .glyphicon-question-sign:before {
+  content: "\e05d";
+}
+.il-metabar-entries .glyphicon-search:before {
+  content: "\e090";
+}
+.il-metabar-entries .glyphicon-user:before {
+  content: "\e005";
+}
+.il-metabar-entries .btn {
   position: relative;
 }
-.il-metabar-entry .btn .badge {
+.il-metabar-entries .btn .badge {
   margin-top: -20px;
 }
-.il-metabar-entry .il-counter-status {
+.il-metabar-entries .il-counter-status {
   margin-top: -4px;
 }
-.il-metabar-entry > .btn-bulky > div > .bulky-label {
+.il-metabar-entries > .btn-bulky > div > .bulky-label {
   display: none;
 }
-.il-metabar-entry .btn-bulky {
+.il-metabar-entries .btn-bulky {
   background-color: transparent;
   height: 60px;
   min-width: 60px;
 }
-.il-metabar-entry .btn-bulky.engaged,
-.il-metabar-entry .btn-bulky.engaged:focus {
-  box-shadow: 1px 3px 4px #ccc;
+@media only screen and (max-width: 768px) {
+  .il-metabar-entries .btn-bulky {
+    height: 45px;
+    min-width: 45px;
+  }
+}
+.il-metabar-entries .btn-bulky.engaged,
+.il-metabar-entries .btn-bulky.engaged:focus {
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   border: none;
   color: initial;
   outline-color: transparent;
 }
-.il-metabar-entry .btn-bulky .glyphicon {
+.il-metabar-entries .btn-bulky .glyphicon {
   color: #aaa;
   font-size: 2.3rem;
 }
-.il-metabar-entry .glyphicon {
-  font-family: 'il-icons';
-}
-.il-metabar-entry .glyphicon-bell:before {
-  content: "\e027";
-}
-.il-metabar-entry .glyphicon-comment:before {
-  content: "\e04a";
-}
-.il-metabar-entry .glyphicon-envelope:before {
-  content: "\e086";
-}
-.il-metabar-entry .glyphicon-question-sign:before {
-  content: "\e05d";
-}
-.il-metabar-entry .glyphicon-search:before {
-  content: "\e090";
-}
-.il-metabar-entry .glyphicon-user:before {
-  content: "\e005";
+@media only screen and (max-width: 768px) {
+  .il-metabar-entries .il-metabar-more-button {
+    padding-right: 20px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom {
+    position: relative;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom img {
+    margin-right: 5px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom .badge {
+    position: absolute;
+    margin-right: 3px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
+    margin-top: -5px;
+  }
+  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-status {
+    margin-top: 10px;
+  }
 }
 .il-metabar-slates {
-  box-shadow: 1px 3px 4px #ccc;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   position: absolute;
-  right: 0;
+  right: 20px;
+  top: 60px;
+  /*TODO: remove hack*/
+  /*end of hack*/
 }
+@media only screen and (max-width: 768px) {
+  .il-metabar-slates {
+    width: 100%;
+    top: 45px;
+    right: 0;
+  }
+}
+.il-metabar-slates .il-maincontrols-slate {
+  min-width: 500px;
+}
+@media only screen and (max-width: 768px) {
+  .il-metabar-slates .il-maincontrols-slate {
+    min-width: 260px;
+  }
+}
+.il-header-locator {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .il-header-locator {
+    display: block;
+  }
+  .il-metabar-slates .glyphicon {
+    color: #aaa;
+    font-size: 2rem;
+  }
+  .il-metabar-slates .il-counter-status,
+  .il-metabar-slates .il-counter-novelty {
+    margin-top: -20px;
+  }
+  .il-metabar-slates .bulky-label {
+    margin-left: 10px;
+  }
+  .il-metabar-slates .il-counter-spacer {
+    margin-left: -18px;
+  }
+}
+/*end of hack*/
 .il-maincontrols-mainbar .btn-bulky {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1rem;
 }
 .il-maincontrols-mainbar .bulky-label {
   white-space: normal;
@@ -8872,6 +9048,10 @@ footer {
 .il-maincontrols-metabar .btn:active {
   border: 0;
   outline: 0;
+}
+.il-maincontrols-mainbar > .il-metabar-slate-auxillary,
+.il-maincontrols-metabar > .il-metabar-slate-auxillary {
+  display: none;
 }
 .il-mainbar-triggers {
   background: #4a4a4a;
@@ -8908,26 +9088,39 @@ footer {
   outline: none;
 }
 .il-mainbar-triggers .btn-bulky .bulky-label {
-  white-space: normal;
+  display: -webkit-box;
   margin-top: 5px;
-  display: block;
+  white-space: normal;
+  word-break: break-word;
+  padding: 0 2px;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .il-mainbar-triggers.engaged {
   background: #fff;
 }
 .il-mainbar-slates {
-  box-shadow: 1px 3px 4px #ccc;
-  width: 400px;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   display: none;
+  position: relative;
+  width: 400px;
 }
 .il-mainbar-tools-button .btn-bulky,
 .il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: #d2dae5;
+  background-color: #607ea5;
   border: 0;
-  color: #4a4a4a;
+  color: #fff;
   padding: 0;
 }
 .il-mainbar-tools-button .btn-bulky img,
+.il-mainbar-tools-button .btn-bulky.engaged img {
+  filter: invert(100%);
+}
+.il-mainbar-tools-button .btn-bulky.engaged {
+  background-color: #d2dae5;
+  color: #4a4a4a;
+}
 .il-mainbar-tools-button .btn-bulky.engaged img {
   filter: invert(35%);
 }
@@ -8935,7 +9128,8 @@ footer {
   display: none;
 }
 .il-mainbar-tools-entries.engaged {
-  display: block;
+  display: flex;
+  height: 80px;
   flex-shrink: 0;
 }
 .il-mainbar-tools-entries .btn-bulky {
@@ -8953,6 +9147,31 @@ footer {
 }
 .il-mainbar-tools-entries .btn-bulky.engaged .icon {
   filter: invert(60%);
+}
+.il-mainbar-tools-entries-bg {
+  height: 80px;
+  width: 100%;
+  background: #f0f0f0;
+}
+.il-mainbar-remove-tool {
+  display: none;
+}
+.il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.il-mainbar-remove-tool .close {
+  color: #4c6586;
+  font-size: 4.5rem;
+  font-weight: 300;
+  height: 80px;
+  padding: 0 20px;
+  width: auto;
+}
+.il-mainbar-remove-tool .close:focus {
+  outline: none;
 }
 .il-mainbar-close-slates {
   align-items: flex-end;
@@ -8981,14 +9200,6 @@ footer {
 .il-mainbar-close-slates .btn-bulky .glyph .glyphicon {
   display: none;
 }
-.il-mainbar-remove-tool .close {
-  color: #4c6586;
-  font-size: 4.5rem;
-  font-weight: 300;
-  height: auto;
-  padding: 0 30px;
-  width: auto;
-}
 .il-mainbar-slates > .il-maincontrols-slate.engaged {
   display: flex;
   flex-direction: column;
@@ -9003,7 +9214,13 @@ footer {
        mobile Layout
 **************************************************************
 */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
+  .il-mainbar-entries {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-flow: row wrap;
+  }
   .il-mainbar-triggers {
     background: #4a4a4a;
     display: flex;
@@ -9012,9 +9229,24 @@ footer {
     z-index: 1;
   }
   .il-mainbar-triggers .btn-bulky {
+    flex-shrink: 0;
     border: 0;
     height: 50px;
     width: 75px;
+  }
+  .il-mainbar-triggers .btn-bulky .icon.small {
+    height: 17px;
+    width: 17px;
+  }
+  .il-mainbar-tools-entries.engaged {
+    height: 50px;
+  }
+  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
+    top: 0;
+  }
+  .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
+    font-size: 4rem;
+    height: 50px;
   }
 }
 .il-drilldown ul {
@@ -10492,6 +10724,183 @@ footer {
 .bg-primary {
   color: white;
 }
+/*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives @height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
+.il-multi-line-cap-2 {
+  position: relative;
+  max-height: 3em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-2:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  .il-multi-line-cap-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .il-multi-line-cap-2:after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  .il-multi-line-cap-2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-line-clamp: 2;
+    -moz-box-orient: vertical;
+  }
+  .il-multi-line-cap-2:after {
+    display: none;
+  }
+}
+.il-multi-line-cap-3 {
+  position: relative;
+  max-height: 4.5em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-3:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  .il-multi-line-cap-3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .il-multi-line-cap-3:after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  .il-multi-line-cap-3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-line-clamp: 3;
+    -moz-box-orient: vertical;
+  }
+  .il-multi-line-cap-3:after {
+    display: none;
+  }
+}
+.il-multi-line-cap-5 {
+  position: relative;
+  max-height: 7.5em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-5:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  .il-multi-line-cap-5 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  }
+  .il-multi-line-cap-5:after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  .il-multi-line-cap-5 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-line-clamp: 5;
+    -moz-box-orient: vertical;
+  }
+  .il-multi-line-cap-5:after {
+    display: none;
+  }
+}
+.il-multi-line-cap-10 {
+  position: relative;
+  max-height: 15em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-10:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  .il-multi-line-cap-10 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+  }
+  .il-multi-line-cap-10:after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  .il-multi-line-cap-10 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-line-clamp: 10;
+    -moz-box-orient: vertical;
+  }
+  .il-multi-line-cap-10:after {
+    display: none;
+  }
+}
 /* flex grid support start, see http://www.bootply.com/126437 */
 /* deactivated flex grid, since grids in grids will not work correctly width:100%; and flex:1 1 auto; seem to be problems
 
@@ -10567,7 +10976,7 @@ footer {
   margin-right: 0;
   margin-left: 15px;
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   [dir="rtl"] .navbar-nav .open .dropdown-menu > li > a,
   [dir="rtl"] .navbar-nav .open .dropdown-menu .dropdown-header {
     padding: 5px 25px 5px 15px;
@@ -10634,7 +11043,7 @@ span.ilAlert {
   margin: 0.8em 0 20px 0;
   font-size: 90%;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .breadcrumb {
     margin: 0 0 0 0;
     padding: 0 5px;
@@ -10699,7 +11108,7 @@ html,
 body {
   height: 100%;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   html {
     -webkit-text-size-adjust: none;
   }
@@ -10729,7 +11138,7 @@ div.ilFrame {
   background-color: #f9f9f9;
   min-height: 100%;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilFrame {
     margin: 0;
     width: 100%;
@@ -10739,7 +11148,7 @@ div.ilFrame {
   max-width: 1400px;
   padding: 0 30px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilContainerWidth {
     padding: 0 15px;
   }
@@ -10800,7 +11209,7 @@ div.ilFrame {
 ul,
 ol,
 p {
-  margin: .8em 0;
+  margin: 0.8em 0;
 }
 ol,
 ul {
@@ -10822,7 +11231,7 @@ ol ol {
 small,
 sub,
 sup {
-  font-size: .8em;
+  font-size: 0.8em;
 }
 em,
 i {
@@ -10861,7 +11270,7 @@ a:hover {
   text-decoration: underline;
 }
 hr {
-  margin-bottom: .8em;
+  margin-bottom: 0.8em;
   border: none;
   border-top: 1px solid #ddd;
 }
@@ -10871,13 +11280,13 @@ table {
 img {
   vertical-align: middle;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   img {
     /* height: auto; messes e.g. survey progress bar */
     max-width: 100%;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   img.olTileImage {
     max-width: none;
   }
@@ -10899,18 +11308,18 @@ code {
 ::-moz-selection {
   background: #dce2eb;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   textarea {
     max-width: 100%;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   input,
   select {
     max-width: 100%;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilc_Mob img {
     height: auto !important;
   }
@@ -11016,13 +11425,13 @@ div.input:focus {
 input[type=text].numeric {
   text-align: right;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilTableOuter {
     max-width: 100%;
     overflow: auto;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .table-responsive .dropdown-menu {
     position: relative;
   }
@@ -11283,7 +11692,7 @@ a#il_mhead_t_focus {
   font-size: 26px;
   cursor: default;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   a#il_mhead_t_focus {
     font-size: 20px;
   }
@@ -11294,7 +11703,7 @@ a#il_mhead_t_focus[href] {
 h1.ilHeader {
   padding: 10px 0 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   h1.ilHeader {
     padding-top: 5px;
   }
@@ -11315,7 +11724,7 @@ h3.ilHeader {
   margin-right: 10px;
   float: left;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #headerimage {
     width: 35px;
     height: 35px;
@@ -11363,7 +11772,7 @@ div.il_HeaderInner {
   margin-bottom: 5px;
   overflow: visible;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.il_HeaderInner {
     color: #222;
   }
@@ -11397,7 +11806,7 @@ div.ilPermanentLinkWrapper {
   display: inline-block;
   width: 100%;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilPermanentLinkWrapper a.permalink_label > span.glyphicon {
     display: inline;
   }
@@ -11406,7 +11815,7 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer {
   table-layout: fixed;
   line-height: 22px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilPermanentLinkWrapper .ilPermalinkContainer {
     padding-right: 0;
   }
@@ -11416,7 +11825,7 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
   display: table-cell;
   vertical-align: middle;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilPermanentLinkWrapper .ilPermalinkContainer > label {
     padding-right: 0;
     width: 24px;
@@ -11448,7 +11857,7 @@ footer.ilFooter {
   background-color: #4c6586;
   color: white;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   footer.ilFooter {
     height: auto;
   }
@@ -11467,7 +11876,7 @@ footer.ilFooter a.permalink_label:hover,
 footer.ilFooter div.ilFooterContainer > a:hover {
   color: white;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   footer.ilFooter a.permalink_label > span.glyphicon {
     display: inline;
   }
@@ -11482,13 +11891,13 @@ footer.ilFooter .ilPermalinkContainer > label {
   vertical-align: middle;
   padding-right: 5px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   footer.ilFooter .ilPermalinkContainer > label {
     padding-right: 0;
     width: 24px;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   footer.ilFooter .ilPermalinkContainer {
     padding-right: 0;
   }
@@ -11503,12 +11912,12 @@ footer.ilFooter .ilPermalinkContainer > label {
   padding: 10px;
   margin-top: 25px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #devmodeBlock {
     position: absolute;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #devmodeBlock table {
     table-layout: fixed;
     width: 100%;
@@ -11744,7 +12153,7 @@ div.ilFrameFixedWidthHeader {
   overflow: hidden;
   padding: 0 15px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilFrameFixedWidthHeader div.ilHeaderBanner {
     max-width: 100%;
     height: 40px !important;
@@ -11923,6 +12332,7 @@ img.ilSmallIcon {
 }
 span.ilIcalIcon {
   text-align: initial;
+  font-size: 133%;
 }
 /* Component Imports */
 /* Services/Accordion */
@@ -12048,7 +12458,7 @@ select.form-control {
   min-width: 13px;
   vertical-align: top;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .radio input[type="radio"],
   .radio-inline input[type="radio"],
   .checkbox input[type="checkbox"],
@@ -12597,7 +13007,7 @@ div.ilForumQuoteHead {
   margin-top: 15px;
   font-size: 120%;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilFrmPostTitle {
     margin-top: 5px;
     font-size: 100%;
@@ -12611,7 +13021,7 @@ div.ilFrmPostHeader span.small {
   width: 80%;
   float: left;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilFrmPostContentContainer {
     width: 100%;
   }
@@ -12639,14 +13049,14 @@ div.ilFrmPostHeader span.small {
 .ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilFrmPostRow div.ilForm,
   .ilFrmPostRow div.ilForm input[type=text],
   .ilFrmPostRow div.ilForm textarea {
     width: 100%;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilFrmPostRow img.ilUserIcon {
     width: 50px;
     height: 50px;
@@ -12871,7 +13281,7 @@ div.ilTinyMenuSection {
   padding: 0 10px 4px 0;
   margin-right: 10px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilTinyMenuSection {
     height: 28px;
     margin: 3px 3px 3px 0px;
@@ -12891,7 +13301,7 @@ div.ilTinyMenuSection {
   padding-bottom: 15px;
   zoom: 1;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTinyMenuButtons {
     height: 28px;
     margin: 3px 3px 3px 0;
@@ -13170,7 +13580,7 @@ div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
 div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
   padding-right: 10px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTinyInfo {
     display: none;
   }
@@ -13595,7 +14005,7 @@ li.ilWikiBlockItem {
 #ilTopNav {
   margin: -38px 0 0 65px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav {
     min-height: 0;
     display: block;
@@ -13608,7 +14018,7 @@ li.ilWikiBlockItem {
   padding-bottom: 1px;
   min-height: 33px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav.navbar {
     min-height: 0;
     padding-top: 0;
@@ -13619,7 +14029,7 @@ li.ilWikiBlockItem {
   margin: 0;
   padding: 0 0 0 5px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav.navbar > .navbar-collapse:empty + div.navbar-header button.navbar-toggle {
     display: none;
   }
@@ -13629,7 +14039,7 @@ li.ilWikiBlockItem {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   border: 0 none;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav.navbar-default {
     background-color: #f9f9f9;
   }
@@ -13649,7 +14059,7 @@ li.ilWikiBlockItem {
   background-color: #ecf0f4;
   color: #262626;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav .dropdown-menu {
     float: none;
     left: auto;
@@ -13660,7 +14070,7 @@ li.ilWikiBlockItem {
   float: left;
   margin-left: 5px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav .navbar-nav {
     float: none;
     margin-left: 0;
@@ -13678,7 +14088,7 @@ li.ilWikiBlockItem {
   background-color: transparent;
   color: #808080;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav .navbar-nav > li > a {
     margin: 0 10px 0 0;
     padding: 5px 10px 6px;
@@ -13707,7 +14117,7 @@ li.ilWikiBlockItem {
   -webkit-box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
   box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav .navbar-nav > .active > a,
   #ilTopNav .navbar-nav > .open > a,
   #ilTopNav .navbar-nav > .active > a:hover,
@@ -13722,7 +14132,7 @@ li.ilWikiBlockItem {
     box-shadow: none;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav button.navbar-toggle {
     position: fixed;
     top: 0;
@@ -13735,17 +14145,17 @@ li.ilWikiBlockItem {
     margin: 0;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav button.navbar-toggle .icon-bar {
     background-color: #f5f5f5;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav button.navbar-toggle:hover {
     background-color: #aeaeae;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopNav button.navbar-toggle:hover .icon-bar {
     background-color: white;
   }
@@ -13762,7 +14172,7 @@ li.ilWikiBlockItem {
   margin-left: 0;
   margin-right: 70px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   [dir="rtl"] #ilTopNav .navbar-nav {
     margin-right: 0;
     padding-right: 0;
@@ -13771,7 +14181,7 @@ li.ilWikiBlockItem {
 [dir="rtl"] #ilTopNav .navbar-nav > li {
   margin: 0 10px 0 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   [dir="rtl"] #ilTopNav .navbar-nav > li > a {
     float: right;
     width: 100%;
@@ -13781,7 +14191,7 @@ li.ilWikiBlockItem {
 [dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
   padding: 0 5px 0 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   [dir="rtl"] #ilTopNav button.navbar-toggle {
     left: auto;
     right: 40px;
@@ -13795,7 +14205,7 @@ li.ilWikiBlockItem {
   white-space: nowrap;
   line-height: 40px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTopTitle {
     display: none;
   }
@@ -13804,7 +14214,7 @@ li.ilWikiBlockItem {
   float: right;
   padding: 0 15px 0 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTopTitleVisible {
     display: block;
   }
@@ -13824,7 +14234,7 @@ input.ilOpenIDBox {
   top: 0;
   z-index: 1040;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopBar.ilTopBar {
     z-index: 1030;
   }
@@ -13844,7 +14254,7 @@ input.ilOpenIDBox {
   margin-right: 14px;
   list-style: none outside none;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilTopBarNav {
     margin-right: 0;
   }
@@ -13947,7 +14357,7 @@ input.ilOpenIDBox {
   height: 80px;
   border-bottom: 3px solid #f0f0f0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilMainHeader {
     height: auto;
     border-bottom: 0 none;
@@ -13956,7 +14366,7 @@ input.ilOpenIDBox {
 .ilMainHeader.ilTopFixed {
   top: 40px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilMainHeader.ilTopFixed {
     height: 0;
   }
@@ -13967,7 +14377,7 @@ input.ilOpenIDBox {
   padding: 0;
   margin: 15px 15px 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilMainHeader > header > .row > a.navbar-brand {
     height: 0;
     padding: 0;
@@ -13979,7 +14389,7 @@ input.ilOpenIDBox {
   height: 50px;
   width: 50px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilMainHeader > header > .row > a.navbar-brand > img {
     position: fixed;
     top: 0;
@@ -13988,7 +14398,7 @@ input.ilOpenIDBox {
     width: 40px;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   [dir="rtl"] .ilMainHeader > header > .row > a.navbar-brand > img {
     left: auto;
     right: 0;
@@ -14000,7 +14410,7 @@ input.ilOpenIDBox {
 .ilMainMenu.ilTopFixed {
   top: 110px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilMainMenu.ilTopFixed {
     position: fixed;
     top: 40px;
@@ -14022,7 +14432,7 @@ div.ilTopMemberView h3 {
   margin: 0;
   line-height: 40px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilTopMemberView {
     display: none;
   }
@@ -14030,7 +14440,7 @@ div.ilTopMemberView h3 {
 .ilFixedTopSpacer {
   padding-top: 117px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilFixedTopSpacer {
     margin-top: 40px;
     padding-top: 0;
@@ -14039,7 +14449,7 @@ div.ilTopMemberView h3 {
 .ilFixedTopSpacerBarOnly {
   padding-top: 40px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilFixedTopSpacerBarOnly {
     margin-top: 40px;
     padding-top: 0;
@@ -14522,7 +14932,7 @@ table.ilSkill {
 }
 td.ilSkill,
 th.ilSkill {
-  font-size: .8em;
+  font-size: 0.8em;
   padding: 4px;
   min-width: 50px;
 }
@@ -14773,7 +15183,7 @@ a#ilHelpClose {
   position: fixed;
   right: 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #il_screen_id {
     display: none;
   }
@@ -15823,7 +16233,7 @@ div.ilInfoScreenSec h3.ilHeader {
   line-height: normal;
 }
 /* Services/Init */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilStartupFrame {
     width: 100%;
   }
@@ -15831,7 +16241,7 @@ div.ilInfoScreenSec h3.ilHeader {
 .ilStartupSection {
   padding-top: 25px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilStartupSection {
     padding-top: 15px;
   }
@@ -15840,7 +16250,7 @@ div.ilStartupSection form.form-horizontal {
   text-align: left;
   width: 40em;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilStartupSection form.form-horizontal {
     width: auto;
   }
@@ -15850,7 +16260,7 @@ div#il_startup_logo img {
   width: 50px;
   margin: 15px 15px 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div#il_startup_logo img {
     margin: 10px;
     max-width: 100%;
@@ -15949,7 +16359,7 @@ div#il_startup_logo img {
   border: 0 none;
   margin-right: 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilToolbar .container-fluid {
     padding-left: 15px;
   }
@@ -16070,7 +16480,7 @@ span.ilNewsRssIcon:hover {
   left: 50%;
   margin-left: -1.5px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline:before {
     left: 90%;
   }
@@ -16084,7 +16494,7 @@ span.ilNewsRssIcon:hover {
   margin-left: 50%;
   margin-right: 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline > li:nth-child(even) {
     margin-left: 0;
   }
@@ -16095,7 +16505,7 @@ span.ilNewsRssIcon:hover {
   right: auto;
   margin-right: 0;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline > li {
     margin-right: 0;
   }
@@ -16115,7 +16525,7 @@ span.ilNewsRssIcon:hover {
   position: relative;
   background: white;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelinePanel {
     width: 80%;
   }
@@ -16147,7 +16557,7 @@ span.ilNewsRssIcon:hover {
   right: 0;
   margin-right: -25px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelineBadge {
     left: 90%;
   }
@@ -16165,7 +16575,7 @@ span.ilNewsRssIcon:hover {
 .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
   float: right;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel {
     float: left;
   }
@@ -16176,7 +16586,7 @@ span.ilNewsRssIcon:hover {
   left: -15px;
   right: auto;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel:before {
     border-left-width: 15px;
     border-right-width: 0;
@@ -16190,7 +16600,7 @@ span.ilNewsRssIcon:hover {
   left: -14px;
   right: auto;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilTimeline > li:nth-child(even) > .ilTimelinePanel:after {
     border-left-width: 14px;
     border-right-width: 0;
@@ -16220,7 +16630,7 @@ span.ilNewsRssIcon:hover {
   overflow: hidden;
   width: 100px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilNewsTimelineUserImage {
     width: 50px;
   }
@@ -16229,7 +16639,7 @@ span.ilNewsRssIcon:hover {
   width: 75px;
   height: 75px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilNewsTimelineUserImage img {
     width: 40px;
     height: 40px;
@@ -16238,7 +16648,7 @@ span.ilNewsRssIcon:hover {
 .ilNewsTimelineContentSection {
   padding-left: 100px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .ilNewsTimelineContentSection {
     padding-left: 50px;
   }
@@ -16600,7 +17010,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   cursor: pointer;
 }
 [data-onscreenchat-inact-userid] {
-  opacity: .3 !important;
+  opacity: 0.3 !important;
 }
 .ilOnScreenChatWindowHeaderTooltip ul {
   text-align: left;
@@ -16696,7 +17106,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   position: absolute;
   z-index: 0;
   border: 0 none !important;
-  opacity: .5;
+  opacity: 0.5;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessage {
   background-color: transparent;
@@ -16761,12 +17171,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   border-bottom: 1px dotted #b3a9a9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
-  font-size: .8em;
+  font-size: 0.8em;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
   margin: 0;
   color: #777;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 #onscreenchat-container .chat-window-wrapper .panel .slidedown .glyphicon,
 #onscreenchat-container .chat-window-wrapper .chat .glyphicon {
@@ -16805,7 +17215,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   display: inline-block;
 }
 .ilOnScreenChatMenuDropDown .iosOnScreenChatDropDownTriggerInactive {
-  opacity: .3;
+  opacity: 0.3;
 }
 .ilOnScreenChatMenuDropDown .iosOnScreenChatHidden {
   visibility: hidden !important;
@@ -17250,7 +17660,7 @@ span.ilProfileBadge a {
   width: 54px;
 }
 .bootstrap-datetimepicker-widget table td.cw {
-  font-size: .8em;
+  font-size: 0.8em;
   height: 20px;
   line-height: 20px;
   color: #777777;
@@ -17641,7 +18051,7 @@ table.mceToolbar td {
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
   width: 750px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
   #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
@@ -17650,12 +18060,12 @@ table.mceToolbar td {
     margin: 0;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   div.ilGoogleMap {
     max-width: 100%;
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
   .navbar-nav {
     margin: 7.5px 0px;
   }
@@ -17784,7 +18194,7 @@ table.mceToolbar td {
   opacity: 0;
   max-height: 0;
   font-size: 0;
-  transition: .25s ease;
+  transition: 0.25s ease;
 }
 .read-more-state:checked ~ .read-more-wrap .read-more-target {
   opacity: 1;
@@ -17800,10 +18210,10 @@ table.mceToolbar td {
 .read-more-trigger {
   cursor: pointer;
   display: inline-block;
-  padding: 0 .5em;
+  padding: 0 0.5em;
   color: #666;
-  font-size: .9em;
+  font-size: 0.9em;
   line-height: 2;
   border: 1px solid #ddd;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }

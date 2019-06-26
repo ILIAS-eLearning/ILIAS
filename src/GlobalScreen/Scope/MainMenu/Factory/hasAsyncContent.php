@@ -5,18 +5,19 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface hasAsyncContent {
+interface hasAsyncContent
+{
 
-	/**
-	 * @return string
-	 */
-	public function getAsyncContentURL(): string;
+    /**
+     * @return string
+     */
+    public function getAsyncContentURL() : string;
 
 
-	/**
-	 * @param string $async_content_url
-	 *
-	 * @return hasAsyncContent
-	 */
-	public function withAsyncContentURL(string $async_content_url): hasAsyncContent;
+    /**
+     * @param string $async_content_url
+     *
+     * @return hasAsyncContent
+     */
+    public function withAsyncContentURL(string $async_content_url) : hasAsyncContent;
 }

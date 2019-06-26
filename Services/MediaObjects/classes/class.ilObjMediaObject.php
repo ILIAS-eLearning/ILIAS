@@ -671,7 +671,11 @@ class ilObjMediaObject extends ilObject
 	 */
 	function createDirectory()
 	{
-		ilUtil::createDirectory(ilObjMediaObject::_getDirectory($this->getId()));
+		$path = ilObjMediaObject::_getDirectory($this->getId());
+		ilUtil::createDirectory($path);
+		if (!is_dir($path)) {
+			$this->ilias->raiseError("Failed to create directory $path.", $this->ilias->error_obj->FATAL);
+		}
 	}
 
 	/**

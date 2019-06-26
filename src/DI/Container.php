@@ -167,7 +167,7 @@ class Container extends \Pimple\Container {
 	public function navigationContext(): ContextServices {
 		static $context_services;
 		if ($context_services === null) {
-			$context_services = new ContextServices($this->globalScreen()->layout()->definition());
+			$context_services = new ContextServices();
 		}
 
 		return $context_services;

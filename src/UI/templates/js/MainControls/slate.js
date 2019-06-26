@@ -10,8 +10,23 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		;
 
 		var onToggleSignal = function(event, signalData, id) {
-			var slate = $('#' + id);
+			var slate = $('#' + id),
+				is_in_metabar_more = signalData.triggerer.parents('.il-metabar-more-slate').length > 0;
+
+			//special case for metabar-more
+			if(signalData.triggerer.attr('id') === il.UI.maincontrols.metabar._getMoreButton().attr('id')) {
+				if(il.UI.maincontrols.metabar.getEngagedSlates().length > 0){
+					il.UI.maincontrols.metabar._disengageAllSlates();
+				} else {
+					toggle(slate);
+				}
+				return;
+			}
+
 			toggle(slate);
+			if(is_in_metabar_more) {
+				return;
+			}
 			if(_isEngaged(slate)) {
 				signalData.triggerer.addClass(_cls_engaged);
 				signalData.triggerer.removeClass(_cls_disengaged);

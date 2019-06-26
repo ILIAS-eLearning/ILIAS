@@ -5,28 +5,32 @@
  *
  * @package ILIAS\GlobalScreen\Scope\LayoutDefinition
  */
-class StandardLayoutDefinition extends AbstractLayoutDefinition implements LayoutDefinition {
+class StandardLayoutDefinition extends AbstractLayoutDefinition implements LayoutDefinition
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function hasMainBar(): bool {
-		return true;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function hasMetaBar(): bool {
-		return true;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function hasMainBar() : bool
+    {
+        return true;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function hasBreadCrumbs(): bool {
-		return true;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function hasMetaBar() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasBreadCrumbs() : bool
+    {
+        return true;
+    }
 }

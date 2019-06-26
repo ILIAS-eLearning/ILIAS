@@ -89,7 +89,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI {
 		$field_representation = ilDclFieldFactory::getFieldRepresentationInstance($field);
 		$field_representation->addFilterInputFieldToTable($this);
 		$filter = end($this->filters);
-		$this->filters = null;
+		$this->filters = array();
 		$filter->setValueByArray($value);
 
 		return $filter->render();
