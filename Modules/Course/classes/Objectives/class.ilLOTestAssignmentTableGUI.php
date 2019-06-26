@@ -194,7 +194,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_TTYPE',$type);
 		$this->tpl->setVariable('VAL_QST_QPL',$set['qst_info']);
 		
-		if(count($set['qpls']))
+		if(isset($set['qpls']) && is_array($set['qpls']) && count($set['qpls']) > 0)
 		{
 			foreach($set['qpls'] as $title)
 			{

@@ -13,9 +13,30 @@
 	}
 }
 
-.il-metabar-entry {
-	position: relative;
+.il-metabar-entries {
+	.glyphicon {
+		font-family: 'il-icons';
+	}
+	.glyphicon-bell:before {
+		content: "\e027";
+	}
+	.glyphicon-comment:before {
+		content: "\e04a";
+	}
+	.glyphicon-envelope:before {
+		content: "\e086";
+	}
+	.glyphicon-question-sign:before {
+		content: "\e05d";
+	}
+	.glyphicon-search:before {
+		content: "\e090";
+	}
+	.glyphicon-user:before {
+		content: "\e005";
+	}
 	.btn {
+		position: relative;
 		.badge {
 	    	margin-top: -20px;
 		}
@@ -31,6 +52,12 @@
 		background-color: transparent;
 		height: @il-metabar-entry-height;
 		min-width: @il-metabar-entry-width;
+
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			height: @il-metabar-small-entry-height;
+			min-width: @il-metabar-small-entry-width;
+		}
+
 		&.engaged,
 		&.engaged:focus {
 			.shadow-right;
@@ -44,26 +71,28 @@
 			font-size: @il-metabar-glyph-size;
 		}
 	}
-	.glyphicon {
-	    font-family: 'il-icons';
-	}
-	.glyphicon-bell:before {
-	    content: "\e027";
-	}
-	.glyphicon-comment:before {
-	    content: "\e04a";
-	}
-	.glyphicon-envelope:before {
-	    content: "\e086";
-	}
-	.glyphicon-question-sign:before {
-	    content: "\e05d";
-	}
-	.glyphicon-search:before {
-	    content: "\e090";
-	}
-	.glyphicon-user:before {
-	    content: "\e005";
+
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+
+		.il-metabar-more-button {
+			padding-right: 20px;
+			.icon.custom {
+				position: relative;
+				img {
+					margin-right: 5px;
+				}
+				.badge {
+					position: absolute;
+					margin-right: 3px;
+					&.il-counter-novelty {
+						margin-top: -5px;
+					}
+					&.il-counter-status {
+						margin-top: 10px;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -71,5 +100,52 @@
 	.shadow-right;
     background-color: @il-metabar-slates-bg-color;
 	position: absolute;
-	right: 0;
+	right: 20px;
+	top: @il-metabar-entry-height;
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		width: 100%;
+		top: @il-metabar-small-entry-height;
+		right: 0;
+	}
+	/*TODO: remove hack*/
+	.il-maincontrols-slate {
+		min-width: 500px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			min-width: 260px;
+		}
+	}
+	/*end of hack*/
+
+	.il-maincontrols-slate-content {
+		// padding: 10px;
+	}
 }
+
+
+.il-header-locator {
+	display: none;
+}
+
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+	.il-header-locator {
+		display: block;
+	}
+
+	.il-metabar-slates {
+		.glyphicon {
+			color: @il-metabar-glyph-color;
+			font-size: @il-metabar-small-glyph-size;
+		}
+		.il-counter-status,
+		.il-counter-novelty {
+			margin-top: -20px;
+		}
+		.bulky-label {
+			margin-left: 10px;
+		}
+		.il-counter-spacer {
+			margin-left: -18px;
+		}
+	}
+}
+/*end of hack*/

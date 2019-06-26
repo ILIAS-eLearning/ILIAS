@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilCustomInputGUI.php");
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-include_once('./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php');
-
 /**
  * Class ilDclDatatype
  *
@@ -87,7 +83,6 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI {
 	 */
 	public function setValueByArray($value) {
 		parent::setValueByArray($value);
-		include_once './Services/Tree/classes/class.ilPathGUI.php';
 		$path = new ilPathGUI();
 		$reference = $value[$this->getPostVar()];
 		if ($reference) {

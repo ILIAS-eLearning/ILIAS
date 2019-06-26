@@ -7,8 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Password as PWD;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -39,17 +37,15 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline,
 		$signal_generator
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
+		parent::__construct($data_factory, $refinery, $label, $byline);
 
 		$this->signal_generator = $signal_generator;
-		$trafo = $transformation_factory->toData('password');
+		$trafo = $this->refinery->to()->data('password');
 		$this->setAdditionalTransformation($trafo);
 		$this->initSignals();
 	}
@@ -85,9 +81,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		$this->checkBoolArg('numbers', $numbers);
 		$this->checkBoolArg('special', $special);
 
-		$data = $this->data_factory;
-		$validation = $this->validation_factory;
-		$pw_validation = $validation->password();
+		$pw_validation = $this->refinery->password();
 		$constraints = [
 			$this->refinery->string()->hasMinLength($min_length),
 		];
@@ -104,7 +98,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		if($special) {
 			$constraints[] = $pw_validation->hasSpecialChars();
 		}
-		return $this->withAdditionalConstraint($validation->parallel($constraints));
+		return $this->withAdditionalConstraint($this->refinery->logical()->parallel($constraints));
 	}
 
 	/**

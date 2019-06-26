@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
@@ -9,14 +9,14 @@ require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
  */
 class ilSetupPasswordEncoderFactory extends \ilUserPasswordEncoderFactory
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function getValidEncoders($config): array
-	{
-		return [
-			new ilBcryptPhpPasswordEncoder($config),
-			new ilMd5PasswordEncoder($config),
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getValidEncoders($config) : array
+    {
+        return [
+            new ilBcryptPhpPasswordEncoder($config),
+            new ilMd5PasswordEncoder($config),
+        ];
+    }
 }

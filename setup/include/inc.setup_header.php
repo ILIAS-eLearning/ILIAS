@@ -178,7 +178,6 @@ $c = $DIC;
 $c["ui.factory"] = function ($c) {
 	return new ILIAS\UI\Implementation\Factory(
 		$c["ui.factory.counter"],
-		$c["ui.factory.glyph"],
 		$c["ui.factory.button"],
 		$c["ui.factory.listing"],
 		$c["ui.factory.image"],
@@ -190,7 +189,6 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.link"],
 		$c["ui.factory.dropdown"],
 		$c["ui.factory.item"],
-		$c["ui.factory.icon"],
 		$c["ui.factory.viewcontrol"],
 		$c["ui.factory.chart"],
 		$c["ui.factory.input"],
@@ -200,7 +198,8 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.layout"],
 		$c["ui.factory.maincontrols"],
 		$c["ui.factory.tree"],
-		$c["ui.factory.menu"]
+		$c["ui.factory.menu"],
+		$c["ui.factory.symbol"]
 	);
 };
 $c["ui.signal_generator"] = function($c) {
@@ -209,8 +208,17 @@ $c["ui.signal_generator"] = function($c) {
 $c["ui.factory.counter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Counter\Factory();
 };
-$c["ui.factory.glyph"] = function($c) {
-	return new ILIAS\UI\Implementation\Component\Glyph\Factory();
+$c["ui.factory.symbol.glyph"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
+};
+$c["ui.factory.symbol.icon"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
+};
+$c["ui.factory.symbol"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Symbol\Factory(
+		$c["ui.factory.symbol.icon"],
+		$c["ui.factory.symbol.glyph"]
+	);
 };
 $c["ui.factory.button"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Button\Factory();
@@ -245,9 +253,7 @@ $c["ui.factory.dropdown"] = function($c) {
 $c["ui.factory.item"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Item\Factory();
 };
-$c["ui.factory.icon"] = function($c) {
-	return new ILIAS\UI\Implementation\Component\Icon\Factory();
-};
+
 $c["ui.factory.viewcontrol"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
 };
@@ -288,6 +294,7 @@ $c["ui.factory.maincontrols"] = function($c) {
 $c["ui.factory.menu"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Menu\Factory();
 };
+
 $c["ui.factory.tree"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
 };
@@ -299,14 +306,10 @@ $c["ui.factory.dropzone.file"] = function($c) {
 };
 $c["ui.factory.input.field"] = function($c) {
 	$data_factory = new ILIAS\Data\Factory();
-	$validation_factory = new ILIAS\Refinery\Validation\Factory($data_factory, $c["lng"]);
-	$transformation_factory = new ILIAS\Refinery\Transformation\Factory();
 	$refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
 	return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 		$c["ui.signal_generator"],
 		$data_factory,
-		$validation_factory,
-		$transformation_factory,
 		$refinery
 	);
 };
@@ -347,7 +350,7 @@ $c["ui.component_renderer_loader"] = function($c) {
 					$c["lng"],
 					$c["ui.javascript_binding"]
 				),
-				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
+				new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
 					$c["ui.factory"],
 					$c["ui.template_factory"],
 					$c["lng"],

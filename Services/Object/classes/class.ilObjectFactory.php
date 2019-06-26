@@ -159,7 +159,7 @@ class ilObjectFactory
 			if ($stop_on_error === true)
 			{
 				$message = "ilObjectFactory::getInstanceByRefId(): No ref_id given!";
-				$ilErr->raiseError($message, $ilErr->WARNING);
+				$ilErr->raiseError($message, $ilErr->FATAL);
 				exit();
 			}
 			
@@ -179,7 +179,7 @@ class ilObjectFactory
 			if ($stop_on_error === true)
 			{
 				$message = "ilObjectFactory::getInstanceByRefId(): Object with ref_id ".$a_ref_id." not found!";
-				$ilErr->raiseError($message, $ilErr->WARNING);
+				$ilErr->raiseError($message, $ilErr->FATAL);
 				exit();
 			}
 			

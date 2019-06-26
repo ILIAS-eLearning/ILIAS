@@ -82,6 +82,25 @@ auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
+obj#:#cont_filter_empty#:#Please use the filter to see any objects.
+obj#:#obj_tool_setting_filter#:#Filter
+obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
+obj#:#obj_tool_setting_filter_empty#:#Show on Empty Filter
+obj#:#obj_tool_setting_filter_empty_info#:#Show all items while filter is empty.
+cont#:#cont_std_filter_title_1#:#Title
+cont#:#cont_std_filter_title_2#:#Description
+cont#:#cont_std_filter_title_3#:#Title/Description
+cont#:#cont_std_filter_title_4#:#Keyword
+cont#:#cont_std_filter_title_5#:#Author
+cont#:#cont_std_filter_title_6#:#Copyright
+cont#:#cont_std_filter_title_7#:#Tutorial Support
+cont#:#cont_std_filter_title_8#:#Object Type
+cont#:#cont_filter#:#Filter
+cont#:#cont_select_fields#:#Select Fields
+cont#:#cont_std_record_title#:#Standard
+cont#:#cont_filter_record#:#Record
+cont#:#cont_filter_field#:#Field
+cont#:#cont_filter_fields#:#Filter Fields
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -9987,6 +10006,7 @@ dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
 dcl#:#dcl_all_entries#:#All entries
+dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_own_entries#:#Only own entries
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_tableviews#:#Views
@@ -14576,6 +14596,9 @@ mme#:#subtab_topitems#:#Top Items
 mme#:#subtab_subitems#:#Items
 mme#:#tab_back#:#Back
 mme#:#topitem_add#:#Add Top Item
+mme#:#restore#:#Reset Main Menu
+mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.
+mme#:#msg_restored#:#Main Menu completely reset
 mme#:#topitem_edit#:#Edit
 mme#:#topitem_delete#:#Delete
 mme#:#topitem_translate#:#Translate
@@ -14989,7 +15012,7 @@ crs#:#crs_lobj_pm_score#:#Your Result
 crs#:#crs_lobj_pm_min_goal#:#Required Score
 dateplaner#:#back_to_crs#:#Go to Course
 dateplaner#:#back_to_grp#:#Go to Group
-dateplaner#:#back_to_pd#:#Back to Personal Desktop
+dateplaner#:#back_to_pd#:#Back
 common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
 lso#:#entries_updated#:#Entries saved
@@ -15085,3 +15108,36 @@ exc#:#exc_tbl_action_open_submission#:#Open Submission
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
 content#:#msg_no_page_access#:#You do not have the permission to access this page.
+exc#:#exc_compare_submissions#:#Compare submissions
+exc#:#exc_compare_selected_submissions#:#Compare selected submissions
+wiki#:#wiki_notification_comment_subject#:#A comment was added to %s: %s
+wiki#:#wiki_notification_comment#:#the following Wiki Page has been commented.
+wiki#:#wiki_commented_by#:#Commented by
+content#:#cont_notification_activated#:#Notification Activated (Whole LM)
+content#:#cont_page_notification_activated#:#Notification Activated (Single Page)
+content#:#cont_notification_deactivate_lm#:#Deactivate Notification for Learning Module
+content#:#cont_notification_deactivate_page#:#Deactivate Notification for Page
+content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module
+content#:#cont_notification_activate_page#:#Activate Notification for Page
+content#:#cont_notification_deactivated#:#Notification Deactivated
+content#:#cont_notification_comment_subject_lm#:#A comment was added to %s: %s
+content#:#cont_change_notification_salutation#:#Hello %s,
+content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented
+content#:#cont_notification_update_lm#:#the following Learning Module has been updated
+content#:#cont_commented_by#:#Commented by
+content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
+pd#:#pd_avail_sortation#:#Available Sortations
+pd#:#pd_default_sortation#:#Default Sortation
+pd#:#pd_sortation#:#Sortation
+pd#:#pd_presentation#:#Presentation
+pd#:#pd_avail_presentation#:#Available Presentations
+pd#:#pd_default_presentation#:#Default Presentation
+pd#:#pd_list#:#List
+pd#:#pd_tile#:#Tile
+pd#:#pd_activation#:#activation
+pd#:#pd_view_courses_groups#:#View ‘Courses and Groups’
+pd#:#pd_view_favourites#:#View ‘Selected Items’
+rbac#:#pdts_change_presentation#:#Change presentation of personal desktop view
+rbac#:#change_presentation#:#Change Presentation
+pd#:#pd_presentation_mode_list#:#Item List Presentation
+pd#:#pd_presentation_mode_tile#:#Tile Presentation

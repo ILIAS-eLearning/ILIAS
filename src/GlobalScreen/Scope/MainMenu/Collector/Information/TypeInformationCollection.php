@@ -5,50 +5,55 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-final class TypeInformationCollection {
+final class TypeInformationCollection
+{
 
-	/**
-	 * @var TypeInformation[]
-	 */
-	protected $type_informations = [];
-
-
-	/**
-	 * @param TypeInformation $information
-	 */
-	public function add(TypeInformation $information) {
-		$this->type_informations[$information->getType()] = $information;
-	}
+    /**
+     * @var TypeInformation[]
+     */
+    protected $type_informations = [];
 
 
-	/**
-	 * @param string $type
-	 *
-	 * @return TypeInformation
-	 */
-	public function get(string $type) {
-		if (isset($this->type_informations[$type]) && $this->type_informations[$type] instanceof TypeInformation) {
-			return $this->type_informations[$type];
-		}
-
-		return new TypeInformation($type, $type, null);
-	}
+    /**
+     * @param TypeInformation $information
+     */
+    public function add(TypeInformation $information)
+    {
+        $this->type_informations[$information->getType()] = $information;
+    }
 
 
-	/**
-	 * @return TypeInformation[]
-	 */
-	public function getAll(): array {
-		return $this->type_informations;
-	}
+    /**
+     * @param string $type
+     *
+     * @return TypeInformation
+     */
+    public function get(string $type)
+    {
+        if (isset($this->type_informations[$type]) && $this->type_informations[$type] instanceof TypeInformation) {
+            return $this->type_informations[$type];
+        }
+
+        return new TypeInformation($type, $type, null);
+    }
 
 
-	/**
-	 * @param TypeInformationCollection $collection
-	 */
-	public function append(TypeInformationCollection $collection) {
-		foreach ($collection->getAll() as $type_information) {
-			$this->add($type_information);
-		}
-	}
+    /**
+     * @return TypeInformation[]
+     */
+    public function getAll() : array
+    {
+        return $this->type_informations;
+    }
+
+
+    /**
+     * @param TypeInformationCollection $collection
+     */
+    public function append(TypeInformationCollection $collection)
+    {
+        foreach ($collection->getAll() as $type_information) {
+            $this->add($type_information);
+        }
+    }
 }

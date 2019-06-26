@@ -470,7 +470,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param bool $a_include_side_block[optional]
 	 * @return array 
 	 */
-	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0,
+		\ilContainerUserFilter $container_user_filter = null)
 	{
 		global $DIC;
 

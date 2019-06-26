@@ -69,7 +69,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 					}
 
 					$path = ilObject::_getIcon("", "tiny", $titems[$group_item]["type"]);
-					$icon = $this->dic->ui()->factory()->icon()->custom($path, $titems[$group_item]["type"]);
+					$icon = $this->dic->ui()->factory()->symbol()->icon()->custom($path, $titems[$group_item]["type"]);
 
 					if ($_GET["admin_mode"] == "settings" && $titems[$group_item]["ref_id"] == ROOT_FOLDER_ID) {
 						$identification = $this->if->identifier('mm_adm_rep');
@@ -84,7 +84,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 						->link($identification)
 						->withTitle($titems[$group_item]["title"])
 						->withAction($action)
-						->withIcon($icon);
+						->withSymbol($icon);
 				}
 
 				// Main entry

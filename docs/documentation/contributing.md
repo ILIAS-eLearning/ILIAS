@@ -77,6 +77,15 @@ label the ticket with `bugfix`. You may make one PR per affected branch.
 
 Please label non-bugfix PRs as `improvement`.
 
+Please be prudent with PRs that are work in progress or are request for comments.
+Only open these if you strictly want some feedback from the greater developer
+community for a concrete proposal of some code or some guideline. Do not use PRs
+to the ILIAS-repository as a general working space for incomplete features or ideas.
+Prefer other measures like workshops or VCs for discussion about ideas or approaches.
+If you are positive that you definitely need to open a PR as a draft, prefix the
+summary with "WIP -"" for these kind of PRs to prevent them from being merged
+accidentially.
+
 <a name="list-of-labels"></a>
 ## List of Labels
 

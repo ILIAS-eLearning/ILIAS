@@ -6,24 +6,24 @@
  */
 class ilCertificateFactoryTest extends ilCertificateBaseTestCase
 {
-	/**
-	 * 
-	 */
-	public function testTypeIsNotSupportedAndWillThrowAnException()
-	{
-		$this->expectException(\ilException::class);
+    /**
+     *
+     */
+    public function testTypeIsNotSupportedAndWillThrowAnException()
+    {
+        $this->expectException(\ilException::class);
 
-		$object = $this->getMockBuilder('ilObject')
-			->disableOriginalConstructor()
-			->getMock();
+        $object = $this->getMockBuilder('ilObject')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$object->method('getType')
-			->willReturn('something');
+        $object->method('getType')
+            ->willReturn('something');
 
-		$factory = new ilCertificateFactory();
+        $factory = new ilCertificateFactory();
 
-		$factory->create($object);
+        $factory->create($object);
 
-		$this->fail('Should never happen');
-	}
+        $this->fail('Should never happen');
+    }
 }

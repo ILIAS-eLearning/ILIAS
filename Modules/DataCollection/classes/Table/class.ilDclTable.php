@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/DataCollection/classes/Fields/Base/class.ilDclStandardField.php';
-include_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php';
-include_once './Modules/DataCollection/classes/TableView/class.ilDclTableView.php';
-
 /**
  * Class ilDclBaseFieldModel
  *

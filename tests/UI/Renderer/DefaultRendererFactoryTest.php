@@ -16,8 +16,8 @@ class DefaultRendererFactoryTest extends TestCase {
 	public function test_getRendererNameFor() {
 		$f = new DefaultRendererFactoryForTest;
 
-		$renderer_class = $f->_getRendererNameFor(new \ILIAS\UI\Implementation\Component\Glyph\Glyph("up", "up"));
-		$expected = \ILIAS\UI\Implementation\Component\Glyph\Renderer::class;
+		$renderer_class = $f->_getRendererNameFor(new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph("up", "up"));
+		$expected = \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer::class;
 		$this->assertEquals($expected, $renderer_class);
 	}
 }

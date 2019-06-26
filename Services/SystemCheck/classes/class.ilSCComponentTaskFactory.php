@@ -17,7 +17,7 @@ class ilSCComponentTaskFactory
 	 * @param type $a_group_id
 	 * @return \ilSCTreeTasksGUI
 	 */
-	public static function getComponentTaskByForGroup($a_group_id, $a_task_id = null)
+	public static function getComponentTaskGUIForGroup($a_group_id, $a_task_id = null)
 	{
 		include_once './Services/SystemCheck/classes/class.ilSCGroup.php';
 		$component_id = ilSCGroup::lookupComponent($a_group_id);
@@ -25,7 +25,7 @@ class ilSCComponentTaskFactory
 		$task = null;
 		if($a_task_id)
 		{
-			$task = new ilSCTask($a_task_id);
+			$task = self::getTask($a_group_id, $a_task_id);
 		}
 		
 		// this switch should not be used
@@ -37,6 +37,23 @@ class ilSCComponentTaskFactory
 				include_once './Services/SystemCheck/classes/class.ilSCTask.php';
 				return new ilSCTreeTasksGUI($task);
 		}
+	}
+
+	/**
+	 * @param int $a_group_id
+	 * @param string $a_task_id
+	 */
+	public static function getTask($a_group_id, $a_task_id)
+	{
+		$component_id = ilSCGroup::lookupComponent($a_group_id);
+		switch($component_id)
+		{
+			case 'tree':
+				if(ilSCTasks::lookupIdentifierForTask($a_task_id) == ilSCTreeTasksGUI::TYPE_DUMP) {
+					return new \ilSCTreeDumpTask($a_task_id);
+				}
+		}
+		return new \ilSCTask($a_task_id);
 	}
 
 
@@ -52,7 +69,7 @@ class ilSCComponentTaskFactory
 		include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
 		$group_id = ilSCTasks::lookupGroupId($a_task_id);
 		
-		return self::getComponentTaskByForGroup($group_id, $a_task_id);
+		return self::getComponentTaskGUIForGroup($group_id, $a_task_id);
 	}
 }
 ?>

@@ -517,6 +517,13 @@ class ilPropertyFormGUI extends ilFormGUI
 
 			foreach($_FILES as $field => $data)
 			{
+				// only try to keep files that are ok
+				// see 25484: Wrong error handling when uploading icon instead of tile
+				$item = $this->getItemByPostVar($field);
+				if (!$item->checkInput())
+				{
+					continue;
+				}
 				// we support up to 2 nesting levels (see test/assesment)				
 				if(is_array($data["tmp_name"]))
 				{

@@ -129,12 +129,12 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 			ilLoggerFactory::getLogger('auth')->debug(sprintf('Trying to find ext_account "%s" for auth_mode "%s".', $this->uid, $fallback_auth_mode));
 			$internal_account = ilObjUser::_checkExternalAuthAccount($fallback_auth_mode, $this->uid, false);
 
-			if(!defined('AUTH_DEFAULT'))
-			{
-				define('AUTH_DEFAULT', $GLOBALS['DIC']['ilSetting']->get('auth_mode') ? $GLOBALS['DIC']['ilSetting']->get('auth_mode') : AUTH_LOCAL);
+			$defaultAuth = AUTH_LOCAL;
+			if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
+				$defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
 			}
 
-			if(strlen($internal_account) == 0 && (AUTH_DEFAULT == AUTH_LOCAL || AUTH_DEFAULT == $this->getTriggerAuthMode()))
+			if(strlen($internal_account) == 0 && ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode()))
 			{
 				ilLoggerFactory::getLogger('auth')->debug(sprintf('Could not find ext_account "%s" for auth_mode "%s".', $this->uid, $fallback_auth_mode));
 

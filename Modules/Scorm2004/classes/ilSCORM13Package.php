@@ -73,7 +73,7 @@ class ilSCORM13Package
 
 	public function __construct($packageId = null)
 	{
-		$this->packagesFolder = IL_OP_PACKAGES_FOLDER;
+		$this->packagesFolder = ''; // #25372
 		$this->load($packageId);
 		// $this->userId = $GLOBALS['DIC']['USER']['usr_id'];	  	
 	}

@@ -7,8 +7,8 @@
 namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Integer\Constraints\GreaterThan;
-use ILIAS\Refinery\Integer\Constraints\LessThan;
+use ILIAS\Refinery\Integer\GreaterThan;
+use ILIAS\Refinery\Integer\LessThan;
 
 class Group
 {

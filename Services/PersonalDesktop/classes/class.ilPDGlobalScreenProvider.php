@@ -105,7 +105,7 @@ class ilPDGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			->withTitle($this->dic->language()->txt("pd_achievements"))
 			->withAction($dic->ctrl()->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI"], ""))
 			->withParent($this->getTopItem())
-			->withIcon($this->dic->ui()->factory()->icon()->standard("bdga", ""))
+			->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("bdga", ""))
 			->withPosition(7)
 			->withAvailableCallable(
 				function () use ($dic) {

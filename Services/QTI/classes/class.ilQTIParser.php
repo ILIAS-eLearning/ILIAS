@@ -1751,6 +1751,18 @@ class ilQTIParser extends ilSaxParser
 						$this->setQuestionSetType($metaField['entry']);
 						break;
 					}
+					elseif( $metaField['label'] == 'random_test' )
+					{
+						if( $metaField['entry'] == 1 )
+						{
+							$this->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
+						}
+						else
+						{
+							$this->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
+						}
+						break;
+					}
 				}
 				$this->in_assessment = FALSE;
 				break;

@@ -11,9 +11,9 @@ class ComponentRendererLoaderHelperTest extends TestCase {
 
 	public function test_getContextNames() {
 		$c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
-		$c2 = new \ILIAS\UI\Implementation\Component\Glyph\Glyph("up", "up");
+		$c2 = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph("up", "up");
 		$names = $this->getContextNames([$c1, $c2]);
-		$expected = ["TestComponentTest", "GlyphGlyph"];
+		$expected = ["TestComponentTest", "GlyphGlyphSymbol"];
 		$this->assertEquals($expected, $names);
 	}
 }

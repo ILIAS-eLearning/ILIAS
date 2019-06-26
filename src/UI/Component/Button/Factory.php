@@ -282,7 +282,7 @@ interface Factory {
 	 *        aria-attribute SHOULD be omitted.
 	 *
 	 * ---
-	 * @param	\ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph		$icon_or_glyph
+	 * @param	\ILIAS\UI\Component\Symbol\Icon\Icon | \ILIAS\UI\Component\Symbol\Glyph\Glyph		$icon_or_glyph
 	 * @param	string		$label
 	 * @param	string		$action
 	 * @return  \ILIAS\UI\Component\Button\Bulky
