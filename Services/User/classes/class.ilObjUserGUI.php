@@ -1201,9 +1201,8 @@ class ilObjUserGUI extends ilObjectGUI
 				// begin-patch ldap_multiple
 				#$name = $this->lng->txt('auth_'.$auth_name);
 				include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-				$name = ilAuthUtils::getAuthModeTranslation($auth_key);
+				$name = ilAuthUtils::getAuthModeTranslation($auth_key, $auth_name);
 				// end-patch ldap_multiple
-				
 			}
 			$option[$auth_name] = $name;
 		}

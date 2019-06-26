@@ -6,7 +6,8 @@
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-abstract class ilAuthPlugin extends ilPlugin {
+abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
+{
 
 	/**
 	 * @return string Component-name
@@ -55,9 +56,12 @@ abstract class ilAuthPlugin extends ilPlugin {
 
 	/**
 	 * Does your AuthProvider needs "ext_account"? return true, false otherwise.
+	 *
+	 * @param string $a_auth_id
+	 *
 	 * @return bool
 	 */
-	abstract public function isExternalAccountNameRequired();
+	abstract public function isExternalAccountNameRequired($a_auth_id);
 
 
 	/**
@@ -73,17 +77,21 @@ abstract class ilAuthPlugin extends ilPlugin {
 
 
 	/**
+	 * @param string $a_auth_id
+	 *
 	 * @return string Text-Representation of your Auth-mode.
 	 */
-	abstract public function getAuthName();
+	abstract public function getAuthName($a_auth_id);
 
 
 	/**
+	 * @param $a_auth_id
+	 *
 	 * @return array return an array with all your sub-modes (options) if you have some.
 	 *               The array comes as ['subid1' => 'Name of the Sub-Mode One', ...]
 	 *               you can return an empty array if you have just a "Main"-Mode.
 	 */
-	abstract public function getMultipleAuthModeOptions();
+	abstract public function getMultipleAuthModeOptions($a_auth_id);
 
 
 	/**
