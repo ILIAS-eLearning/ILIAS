@@ -587,7 +587,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 		$values = implode(",", $real);
 		$fields = implode(",", $fields);
-		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
+		$query = "INSERT INTO " . $this->quoteIdentifier($table_name) . " (" . $fields . ") VALUES (" . $values . ")";
 
 		$query = $this->sanitizeMB4StringIfNotSupported($query);
 
@@ -652,7 +652,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 
 		if ($lobs) {
-			$q = "UPDATE " . $table_name . " SET ";
+			$q = "UPDATE " . $this->quoteIdentifier($table_name) . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
 				$q .= $lim . $field . " = " . $placeholders_full[$k];
@@ -674,7 +674,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 				$values[] = $col[1];
 				$field_values[$k] = $col;
 			}
-			$q = "UPDATE " . $table_name . " SET ";
+			$q = "UPDATE " . $this->quoteIdentifier($table_name) . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
 				$q .= $lim . $this->quoteIdentifier($field) . " = " . $placeholders[$k];
