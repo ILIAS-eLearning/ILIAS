@@ -81,16 +81,6 @@ class ilCertificateBackgroundImageFileService
      */
     public function getBackgroundImageThumbPath()
     {
-        return $this->webDirectory . $this->certificatePath . $this->getBackgroundImageName() . '.thumb.jpg';
-    }
-
-    /**
-     * Returns the filename of the background image
-     *
-     * @return string The filename of the background image
-     */
-    public function getBackgroundImageName()
-    {
-        return self::BACKGROUND_IMAGE_NAME;
+        return $this->webDirectory . $this->certificatePath . self::BACKGROUND_IMAGE_NAME . '.thumb.jpg';
     }
 }
