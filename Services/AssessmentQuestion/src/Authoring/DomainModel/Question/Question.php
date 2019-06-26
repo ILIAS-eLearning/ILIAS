@@ -5,12 +5,14 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\GenericEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
+use ILIAS\Data\Domain\Entity\AggregateId;
 use ILIAS\Data\Domain\Entity\EntitiyId;
 use ILIAS\Data\Domain\Entity\IsRevisable;
 use ILIAS\Data\Domain\Entity\AggregateRoot;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
 use ILIAS\Data\Domain\Entity\RevisionId;
 use ILIAS\Data\Domain\Event\DomainEvent;
+use ILIAS\Data\Domain\Event\DomainEvents;
 use SAML2\Configuration\EntityIdProvider;
 
 /**
@@ -20,7 +22,6 @@ use SAML2\Configuration\EntityIdProvider;
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
 class Question extends AggregateRoot implements IsRevisable {
-
 	/**
 	 * @var QuestionId
 	 */
@@ -32,7 +33,7 @@ class Question extends AggregateRoot implements IsRevisable {
 	/**
 	 * @var string
 	 */
-	private $revision_name;
+	private $revision_name = "";
 	/**
 	 * @var string
 	 */
@@ -55,17 +56,15 @@ class Question extends AggregateRoot implements IsRevisable {
 	private $possible_answers;
 
 
-	public function __construct() {
+	protected function __construct() {
 		parent::__construct();
-		$this->id = $id;
 	}
 
-
-	public static function reconstitute(EventStream $history) {
+	public static function reconstitute(DomainEvents $history) {
 		$question = new Question();
 
 		foreach ($history->getEvents() as $event) {
-			$question->applyThat($event);;
+			$question->applyEvent($event);;
 		}
 
 		return $question;
@@ -73,12 +72,16 @@ class Question extends AggregateRoot implements IsRevisable {
 
 
 	/**
-	 * @param $title
-	 * @param $description
+	 * @param string $title
+	 * @param string $description
+	 *
+	 * @param int    $creator
+	 *
+	 * @return Question
 	 */
 	public static function createNewQuestion(string $title, string $description, int $creator) {
 		$question = new Question();
-		$question->recordApplyAndPublishThat(new QuestionCreatedEvent(new QuestionId(), $creator, $title, $description));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator, $title, $description));
 		return $question;
 	}
 
@@ -91,46 +94,37 @@ class Question extends AggregateRoot implements IsRevisable {
 
 
 	public function setOnline() {
-		$this->recordApplyAndPublishThat(new QuestionStatusHasChangedToOnline($this->id));
+		$this->ExecuteEvent(new QuestionStatusHasChangedToOnlineEvent($this->id));
 	}
 
 
-	protected function applyQuestionStatusHasChangedToOnline(QuestionStatusHasChangedToOnline $event) {
+	protected function applyQuestionStatusHasChangedToOnline(QuestionStatusHasChangedToOnlineEvent $event) {
 		$this->online = true;
 	}
 
 
 	public function setOffline() {
-		$this->recordApplyAndPublishThat(new QuestionStatusHasChangedToOffline($this->id));
+		$this->ExecuteEvent(new QuestionStatusHasChangedToOfflineEvent($this->id));
 	}
 
 
-	protected function applyQuestionStatusHasChangedToOffline(QuestionStatusHasChangedToOffline $event) {
+	protected function applyQuestionStatusHasChangedToOffline(QuestionStatusHasChangedToOfflineEvent $event) {
 		$this->online = false;
 	}
 
-
-
-
-
-	protected function applyQuestionTitleWasChanged(QuestionTitleWasChanged $event) {
-		$this->title = $event->title();
-	}
-
-
 	// TODO intressiert mich revision hier wirklich, schlussendlich projektion mit id -> wenn bereits projektion mit id dann revision += 1 sonst revision = 1 change revision würde implizieren das ich nach revision 4 plötzlich revision 2 erstellen möchte
-	public function changeRevision($revision) {
-		$this->recordApplyAndPublishThat(new RevisionWasChanged($this->id, $revision));
+	public function createRevision($revision) {
+		$this->ExecuteEvent(new RevisionWasCreated($this->id, $revision));
 	}
 
 
-	protected function applyRevisionWasChanged(RevisionWasChanged $event) {
-		$this->revision = $event->revision();
+	protected function applyRevisionWasCreated(RevisionWasCreated $event) {
+		//TODO implement me
 	}
 
 
 	public function changeSettingsFor($settings) {
-		$this->recordApplyAndPublishThat(new QuestionSettingsWereChanged($this->id, $settings));
+		$this->ExecuteEvent(new QuestionSettingsWereChanged($this->id, $settings));
 	}
 
 
@@ -138,12 +132,9 @@ class Question extends AggregateRoot implements IsRevisable {
 		$this->settings = $event->settings();
 	}
 
-
-	public function changeTitleFor($title) {
-		$this->recordApplyAndPublishThat(new QuestionTitleWasChanged($this->id, $title));
+	function getAggregateId(): AggregateId {
+		return $this->id;
 	}
-
-
 
 	/**
 	 * @return string
@@ -176,7 +167,6 @@ class Question extends AggregateRoot implements IsRevisable {
 		$this->description = $description;
 	}
 
-
 	/**
 	 * @return int
 	 */
@@ -192,19 +182,12 @@ class Question extends AggregateRoot implements IsRevisable {
 		$this->creator = $creator;
 	}
 
-
-	public function getId(): QuestionId {
-		return $this->id;
-	}
-
-
 	/**
 	 * @return RevisionId revision id of object
 	 */
 	public function getRevisionId(): RevisionId {
 		return $this->revision_id;
 	}
-
 
 	/**
 	 * @param RevisionId $id
@@ -218,7 +201,6 @@ class Question extends AggregateRoot implements IsRevisable {
 		$this->revision_id = $id;
 	}
 
-
 	/**
 	 * @return string
 	 *
@@ -230,7 +212,6 @@ class Question extends AggregateRoot implements IsRevisable {
 		return $this->revision_name;
 	}
 
-
 	/**
 	 * @return array
 	 *
@@ -241,15 +222,5 @@ class Question extends AggregateRoot implements IsRevisable {
 		$data['title'] = $this->getTitle();
 		$data['description'] = $this->getDescription();
 		$data['creator'] = $this->getCreator();
-	}
-
-
-	/**
-	 * Publish the event with a DomainEventPublisher
-	 *
-	 * @param DomainEvent $domainEvent
-	 */
-	protected function publishThat(DomainEvent $domainEvent) {
-		// TODO: Implement publishThat() method.
 	}
 }

@@ -1,18 +1,41 @@
 <?php
+namespace  ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence;
 
-namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
+use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
+use ILIAS\Data\Domain\Entity\AggregateRoot;
+use ILIAS\Data\Domain\Event\{DomainEvents, EventStore, IsEventSourced, RecordsEvents};
+use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionProjection;
+use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionEventSourcedAggregateRepositoryRepository;
+use ILIAS\Data\Domain\Repository\AggregateRepository;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
-use ILIAS\Data\Domain\Entity\RevisionId;
+class QuestionRepository extends AggregateRepository
+{
+	/**
+	 * @var EventStore
+	 */
+	private $event_store;
 
-/**
- * Interface QuestionRepository
- *
- * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question
- */
-interface QuestionRepository {
-	public function save(Question $question);
+	public function __construct()
+	{
+		parent::__construct();
+		$this->event_store = new ilDBQuestionEventStore();
+	}
+
+	/**
+	 * @return EventStore
+	 */
+	protected function getEventStore(): EventStore {
+		return $this->event_store;
+	}
 
 
-	public function byAggregateAndRevisionId(QuestionId $aggregate_id, RevisionId $aggregate_revision);
+	/**
+	 * @param DomainEvents $event_history
+	 *
+	 * @return AggregateRoot
+	 */
+	protected function reconstituteAggregate(DomainEvents $event_history): AggregateRoot {
+		return Question::reconstitute($event_history);
+	}
 }

@@ -1,23 +1,24 @@
 <?php
 namespace ILIAS\Data\Domain\Event;
 
+use ilDateTime;
+use ILIAS\Data\Domain\Entity\AggregateId;
+
 /**
  * Interface EventStore
  *
  * @package ILIAS\Data\Domain
  */
 interface EventStore {
+	/**
+	 * @param DomainEvents $domain_events
+	 */
+	public function commit(DomainEvents $domain_events) : void;
 
 	/**
-	 * @param DomainEvent $domain_event
-	 * @return mixed
+	 * @param AggregateId $id
+	 *
+	 * @return DomainEvents
 	 */
-	public function append(DomainEvent $domain_event);
-
-
-	/**
-	 * @param $event_id
-	 * @return mixed
-	 */
-	public function allStoredEventsSince($event_id);
+	public function getAggregateHistoryFor(AggregateId $id) : DomainEvents;
 }

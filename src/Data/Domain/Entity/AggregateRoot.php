@@ -13,46 +13,53 @@ use ILIAS\Data\Domain\Event\DomainEvents;
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
 abstract class AggregateRoot {
+	const APPLY_PREFIX = 'apply';
+	const PUSH_PREFIX = 'push';
 
 	/**
 	 * @var DomainEvents
 	 */
 	private $recordedEvents;
 
-	public function __construct()
+	protected function __construct()
 	{
 		$this->recordedEvents = new DomainEvents();
 	}
 
 
-	protected function recordApplyAndPublishThat(DomainEvent $domainEvent) {
-		$this->recordThat($domainEvent);
-		$this->applyThat($domainEvent);
-		$this->publishThat($domainEvent);
+	protected function ExecuteEvent(DomainEvent $event) {
+		//TODO @mst transaction around push and apply and only record if transaction successful?
+
+		//trigger push event listeners/event queues
+		//TODO @mst wäre potentiell patterniger wenn alle event konsumenten pullen würden / drop if not needed
+		$this->doEventAction($event, self::PUSH_PREFIX);
+
+		// apply results of event to class, most events should result in some changes
+		$this->doEventAction($event, self::APPLY_PREFIX);
+
+		// always record that the event has happened
+		$this->recordEvent($event);
 	}
 
 
-	protected function recordThat(DomainEvent $domainEvent) {
-		$this->recordedEvents->addEvent($domainEvent);
+	protected function recordEvent(DomainEvent $event) {
+		$this->recordedEvents->addEvent($event);
 	}
 
 
-	protected function applyThat(DomainEvent $domainEvent) {
-		$event_class_without_namespace = join('', array_slice(explode('\\', get_class($domainEvent)), -1));
+	protected function doEventAction(DomainEvent $event, string $prefix) {
+		$action_handler = $this->getHandlerName($event, $prefix);
 
-
-
-		$modifier = 'apply' . $event_class_without_namespace;
-		$this->$modifier($domainEvent);
+		if (method_exists($this, $action_handler)) {
+		   $this->$action_handler($event);
+		}
 	}
 
-	/**
-	 * Publish the event with a DomainEventPublisher
-	 *
-	 * @param DomainEvent $domainEvent
-	 */
-	abstract protected function publishThat(DomainEvent $domainEvent);
-
+	private function getHandlerName(DomainEvent $event, string $prefix) {
+		return $prefix . join('',
+							array_slice(
+								explode('\\', get_class($event)), -1));
+	}
 
 	/**
 	 * @return DomainEvents
@@ -65,4 +72,6 @@ abstract class AggregateRoot {
 	public function clearRecordedEvents() {
 		$this->recordedEvents = new DomainEvents();
 	}
+
+	abstract function getAggregateId() : AggregateId;
 }
