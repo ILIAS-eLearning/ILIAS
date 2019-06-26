@@ -38,11 +38,11 @@ class ilServicesDatabaseSuite extends TestSuite {
 		$suite = new self();
 
 		// Some basic tests such as every table has a primary
-		$suite->addTestSuite("ilDatabaseBaseTest");
+		// $suite->addTestSuite("ilDatabaseBaseTest");
 
-		$suite->addTestSuite('ilDatabaseAtomSuite');
+		$suite->addTestSuite(new ilDatabaseAtomSuite());
 
-		$suite->addTestSuite("ilDatabaseImplementationSuite");
+		// $suite->addTestSuite("ilDatabaseImplementationSuite");
 
 		//$suite->addTestSuite("ilDatabaseReservedWordsTest");
 
