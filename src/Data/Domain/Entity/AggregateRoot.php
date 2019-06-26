@@ -14,7 +14,6 @@ use ILIAS\Data\Domain\Event\DomainEvents;
  */
 abstract class AggregateRoot {
 	const APPLY_PREFIX = 'apply';
-	const PUSH_PREFIX = 'push';
 
 	/**
 	 * @var DomainEvents
@@ -28,14 +27,8 @@ abstract class AggregateRoot {
 
 
 	protected function ExecuteEvent(DomainEvent $event) {
-		//TODO @mst transaction around push and apply and only record if transaction successful?
-
-		//trigger push event listeners/event queues
-		//TODO @mst wäre potentiell patterniger wenn alle event konsumenten pullen würden / drop if not needed
-		$this->doEventAction($event, self::PUSH_PREFIX);
-
 		// apply results of event to class, most events should result in some changes
-		$this->doEventAction($event, self::APPLY_PREFIX);
+		$this->applyEvent($event);
 
 		// always record that the event has happened
 		$this->recordEvent($event);
@@ -47,16 +40,16 @@ abstract class AggregateRoot {
 	}
 
 
-	protected function doEventAction(DomainEvent $event, string $prefix) {
-		$action_handler = $this->getHandlerName($event, $prefix);
+	protected function applyEvent(DomainEvent $event) {
+		$action_handler = $this->getHandlerName($event);
 
 		if (method_exists($this, $action_handler)) {
 		   $this->$action_handler($event);
 		}
 	}
 
-	private function getHandlerName(DomainEvent $event, string $prefix) {
-		return $prefix . join('',
+	private function getHandlerName(DomainEvent $event) {
+		return self::APPLY_PREFIX . join('',
 							array_slice(
 								explode('\\', get_class($event)), -1));
 	}
