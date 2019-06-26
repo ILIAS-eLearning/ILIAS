@@ -1,27 +1,24 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Component/classes/class.ilPlugin.php';
-
 /**
  * Authentication plugin
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-abstract class ilAuthPlugin extends ilPlugin
-{
-
+abstract class ilAuthPlugin extends ilPlugin {
 
 	/**
-	 * Get component name
+	 * @return string Component-name
 	 */
 	public function getComponentName()
 	{
 		return 'Authentication';
 	}
 
+
 	/**
-	 * Get service
+	 * @return string
 	 */
 	public function getComponentType()
 	{
@@ -30,19 +27,75 @@ abstract class ilAuthPlugin extends ilPlugin
 
 
 	/**
-	 * Get slot
+	 * @return string Slot-Name
 	 */
 	public function getSlot()
 	{
 		return 'AuthenticationHook';
 	}
 
+
 	/**
-	 * Get slot id
+	 * @return string Slot-ID
 	 */
 	public function getSlotId()
 	{
 		return 'authhk';
 	}
+
+
+	/**
+	 * Special alot Init, currently nothing to do here
+	 */
+	public final function slotInit()
+	{
+		//
+	}
+
+
+	/**
+	 * Does your AuthProvider needs "ext_account"? return true, false otherwise.
+	 * @return bool
+	 */
+	abstract public function isExternalAccountNameRequired();
+
+
+	/**
+	 * @param ilAuthCredentials $credentials
+	 * @param string            $a_auth_mode
+	 *
+	 * @return ilAuthProviderInterface Your special instance of
+	 *                                 ilAuthProviderInterface where all the magic
+	 *                                 happens. You get the ilAuthCredentials and
+	 *                                 the user-selected (Sub-)-Mode as well.
+	 */
+	abstract public function getProvider(ilAuthCredentials $credentials, $a_auth_mode);
+
+
+	/**
+	 * @return string Text-Representation of your Auth-mode.
+	 */
+	abstract public function getAuthName();
+
+
+	/**
+	 * @return array return an array with all your sub-modes (options) if you have some.
+	 *               The array comes as ['subid1' => 'Name of the Sub-Mode One', ...]
+	 *               you can return an empty array if you have just a "Main"-Mode.
+	 */
+	abstract public function getMultipleAuthModeOptions();
+
+
+	/**
+	 * @param string $id (can be your Mode or – if you have any – a Sub-mode.
+	 *
+	 * @return bool
+	 */
+	abstract public function isAuthActive($id);
+
+
+	/**
+	 * @return array IDs of your Auth-Modes and Sub-Modes.
+	 */
+	abstract public function getAuthIds();
 }
-?>
