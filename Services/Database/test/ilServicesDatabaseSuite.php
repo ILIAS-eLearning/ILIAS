@@ -29,23 +29,21 @@ use PHPUnit\Framework\TestSuite;
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilServicesDatabaseSuite extends TestSuite {
+class ilServicesDatabaseSuite extends TestSuite
+{
 
-	/**
-	 * @return \ilServicesDatabaseSuite
-	 */
-	public static function suite() {
-		$suite = new self();
+    /**
+     * @return ilServicesDatabaseSuite
+     *
+     * @throws ReflectionException
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		// Some basic tests such as every table has a primary
-		// $suite->addTestSuite("ilDatabaseBaseTest");
+        require_once('./Services/Database/test/Atom/ilDatabaseAtomSuite.php'); // This seems to be needed in UnitTests
+        $suite->addTestSuite(new ilDatabaseAtomSuite());
 
-		$suite->addTestSuite(new ilDatabaseAtomSuite());
-
-		// $suite->addTestSuite("ilDatabaseImplementationSuite");
-
-		//$suite->addTestSuite("ilDatabaseReservedWordsTest");
-
-		return $suite;
-	}
+        return $suite;
+    }
 }
