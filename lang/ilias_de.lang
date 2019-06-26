@@ -7776,12 +7776,12 @@ rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
 rating#:#rating_your_rating#:#Ihre Bewertung
 rbac#:#upload_blacklisted_files#:#Blacklist umgehen
-rbac#:#facs:upload_blacklisted_files#:#Dateien mit indexierten Endungen hochladen
+rbac#:#facs_upload_blacklisted_files#:#Dateien mit indexierten Endungen hochladen
 rbac#:#active_preconditions#:#Definierte Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
-rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändern
+rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändernilStaffGSToolProvider
 rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
 rbac#:#blga_visible#:#Blog-Administration ist sichtbar
 rbac#:#blga_write#:#Einstellungen in Blog-Administration bearbeiten
@@ -14512,8 +14512,8 @@ content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
 common#:#obj_fold_duplicate#:#Ordner kopieren
 common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
-file#:#file_suffix_custom_expl_black#:#Explicit Blacklist
-file#:#file_suffix_custom_expl_black_info#:#Files with this suffix won't by accepted by the system.
+file#:#file_suffix_custom_expl_black#:#Verbotene Dateiendungen
+file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
 file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
 file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
 file#:#file_suffix_custom_black#:#Dateiendungen: Negativliste (Anpassungen)
