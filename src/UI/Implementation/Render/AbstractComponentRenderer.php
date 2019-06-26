@@ -150,6 +150,22 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	}
 
 	/**
+	 * Get a fresh unique id.
+	 *
+	 * ATTENTION: This does not take care about any usage scenario of the provided
+	 * id. If you want to use it to bind JS-code to a component, you most probably
+	 * would want to use bindJavaScript instead, which returns an id that is used
+	 * to bind js to a component.
+	 *
+	 * However, there are cases (e.g radio-input) where an id is required even if
+	 * there is no javascript involved (e.g. to connect a label with an option),
+	 * this is where this method could come in handy.
+	 */
+	final protected function createId() : string {
+		return $this->js_binding->createId();
+	}
+
+	/**
 	 * Bind the JavaScript onload-code.
 	 *
 	 * @param	JavaScriptBindable	$component
