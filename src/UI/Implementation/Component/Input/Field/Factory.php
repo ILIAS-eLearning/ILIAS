@@ -78,19 +78,18 @@ class Factory implements Field\Factory {
 		return new OptionalGroup($this->data_factory, $this->refinery, $inputs, $label, $byline);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function switchableGroup(array $inputs, string $label, string $byline = null) : Field\SwitchableGroup {
+		return new SwitchableGroup($this->data_factory, $this->refinery, $inputs, $label, $byline);
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function section(array $inputs, $label, $byline = null) {
 		return new Section($this->data_factory, $this->refinery, $inputs, $label, $byline);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function dependantGroup(array $inputs) {
-		return new DependantGroup($this->data_factory, $this->refinery, $this->signal_generator, $inputs);
 	}
 
 	/**
