@@ -74,9 +74,9 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		$this->assertInstanceOf(Field\Group::class, $input);
 		$this->assertInstanceOf(Field\Section::class, $input);
 
-		$text = $f->group([]);
-		$this->assertInstanceOf(Field\Input::class, $text);
-		$this->assertInstanceOf(Field\Group::class, $text);
+		$input = $f->group([]);
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Group::class, $input);
 
 		$input = $f->checkbox("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
