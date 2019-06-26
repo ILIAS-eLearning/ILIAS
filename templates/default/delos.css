@@ -7714,7 +7714,9 @@ hr.il-divider-with-label {
 .icon.grpr .abbreviation,
 .icon.bdga .abbreviation,
 .icon.wfe .abbreviation,
-.icon.iass .abbreviation {
+.icon.iass .abbreviation,
+.icon.copa .abbreviation,
+.icon.lso .abbreviation {
   display: none;
 }
 .icon.grp {
@@ -8034,6 +8036,12 @@ hr.il-divider-with-label {
 }
 .icon.iass {
   background-image: url("images/icon_iass.svg");
+}
+.icon.copa {
+  background-image: url("images/icon_copa.svg");
+}
+.icon.lso {
+  background-image: url("images/icon_lso.svg");
 }
 .icon.outlined {
   filter: brightness(0);
@@ -8359,8 +8367,11 @@ hr.il-divider-with-label {
 .icon.outlined.iass {
   background-image: url("images/outlined/icon_iass.svg");
 }
-.icon.copa {
-  background-image: url("images/icon_copa.svg");
+.icon.outlined.copa {
+  background-image: url("images/outlined/icon_copa.svg");
+}
+.icon.outlined.lso {
+  background-image: url("images/outlined/icon_lso.svg");
 }
 .il-viewcontrol-mode .ilSubmitInactive,
 .il-viewcontrol-section .ilSubmitInactive,
