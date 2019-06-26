@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
 
-
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
@@ -8,16 +7,17 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface MainMenuProviderInterface {
+interface MainMenuProviderInterface
+{
 
-	/**
-	 * @return IdentificationInterface[]
-	 */
-	public function getAllIdentifications(): array;
+    /**
+     * @return IdentificationInterface[]
+     */
+    public function getAllIdentifications() : array;
 
 
-	/**
-	 * @return string
-	 */
-	public function getProviderNameForPresentation(): string;
+    /**
+     * @return string
+     */
+    public function getProviderNameForPresentation() : string;
 }

@@ -99,7 +99,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 		}
 		// Sort by values ASC
 		asort($options);
-		$options = array('' => $this->lng->txt('dcl_any')) + $options;
+		$options = array('' => $this->lng->txt('dcl_all_entries'))
+			+ $options
+			+ array('none' => $this->lng->txt('dcl_no_entry'));
 		$input->setOptions($options);
 
 		$this->setupFilterInputField($input);

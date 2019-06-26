@@ -404,7 +404,7 @@ class ilPersonalDesktopGUI
 				else
 				{
 					$html = "";
-				
+
 					// user interface plugin slot + default rendering
 					include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
 					$uip = new ilUIHookProcessor("Services/PersonalDesktop", "center_column",
@@ -591,7 +591,8 @@ class ilPersonalDesktopGUI
 			$_GET['view'] = $viewSettings->getMembershipsView();
 			$this->ctrl->setParameter($this, "view", $viewSettings->getMembershipsView());
 		}
-		$this->show();
+		//$this->show();
+		$this->ctrl->redirect($this, "show");
 	}
 
 	/**

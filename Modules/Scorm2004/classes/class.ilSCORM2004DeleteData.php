@@ -23,7 +23,8 @@ class ilSCORM2004DeleteData
 			WHERE cp_node.slm_id = %s AND cmi_node.cp_node_id = cp_node.cp_node_id',
 			array('integer'),
 			array($packageId)
-		);		
+		);
+		$cmi_node_values = [];				
 		while($data = $ilDB->fetchAssoc($res)) 
 		{
 			$cmi_node_values[] = $data['cmi_node_id'];
@@ -66,8 +67,9 @@ class ilSCORM2004DeleteData
 			WHERE cmi_node.user_id = %s AND cmi_node.cp_node_id = cp_node.cp_node_id',
 			array('integer'),
 			array($user_id)
-		);		
+		);
 		
+		$cmi_node_values = [];
 		while($data = $ilDB->fetchAssoc($res)) 
 		{
 			$cmi_node_values[] = $data['cmi_node_id'];
@@ -111,7 +113,8 @@ class ilSCORM2004DeleteData
 			WHERE cmi_node.user_id = %s AND cmi_node.cp_node_id = cp_node.cp_node_id AND cp_node.slm_id = %s',
 			array('integer','integer'),
 			array($user_id,$packageId)
-		);		
+		);
+		$cmi_node_values = [];
 		while($data = $ilDB->fetchAssoc($res)) 
 		{
 			$cmi_node_values[] = $data['cmi_node_id'];
@@ -150,7 +153,10 @@ class ilSCORM2004DeleteData
 		}
 	}
 	
-	public static function removeCMIDataForNodes($cmi_node_values)
+	/**
+	 * @param array $cmi_node_values
+	 */
+	public static function removeCMIDataForNodes(array $cmi_node_values)
 	{
 		global $DIC;
 

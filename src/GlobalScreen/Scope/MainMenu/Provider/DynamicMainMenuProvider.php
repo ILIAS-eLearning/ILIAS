@@ -11,21 +11,22 @@ use ILIAS\NavigationContext\Stack\ContextStack;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface DynamicMainMenuProvider extends ContextAwareDynamicProvider {
+interface DynamicMainMenuProvider extends ContextAwareDynamicProvider
+{
 
-	/**
-	 * @return ContextCollection
-	 */
-	public function isInterestedInContexts(): ContextCollection;
+    /**
+     * @return ContextCollection
+     */
+    public function isInterestedInContexts() : ContextCollection;
 
 
-	/**
-	 * @see DynamicProvider
-	 *
-	 * @param ContextStack $called_contexts
-	 *
-	 * @return Tool[] These Slates
-	 * can be passed to the MainMenu dynamic for a specific location/context.
-	 */
-	public function getToolsForContextStack(ContextStack $called_contexts): array;
+    /**
+     * @param ContextStack $called_contexts
+     *
+     * @return Tool[] These Slates
+     * can be passed to the MainMenu dynamic for a specific location/context.
+     * @see DynamicProvider
+     *
+     */
+    public function getToolsForContextStack(ContextStack $called_contexts) : array;
 }
