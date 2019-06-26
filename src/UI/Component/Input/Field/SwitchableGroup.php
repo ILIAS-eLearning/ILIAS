@@ -6,8 +6,7 @@ docs/LICENSE */
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
- * This describes dependant group inputs.
+ * This describes switchable group inputs.
  */
-interface DependantGroup extends Group {
-
+interface SwitchableGroup extends Group {
 }

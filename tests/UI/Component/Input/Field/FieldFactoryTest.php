@@ -22,10 +22,10 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		"section"        => array(
 			"context" => false,
 		),
-		"dependantGroup" => array(
+		"optionalGroup" => array(
 			"context" => false,
 		),
-		"optionalGroup" => array(
+		"switchableGroup" => array(
 			"context" => false,
 		),
 		"checkbox"       => array(
@@ -77,11 +77,6 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		$input = $f->group([]);
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Group::class, $input);
-
-		$input = $f->dependantGroup([]);
-		$this->assertInstanceOf(Field\Input::class, $input);
-		$this->assertInstanceOf(Field\Group::class, $input);
-		$this->assertInstanceOf(Field\DependantGroup::class, $input);
 
 		$input = $f->checkbox("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
