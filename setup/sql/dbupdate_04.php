@@ -23505,6 +23505,13 @@ if (!$ilDB->tableColumnExists('media_item', 'upload_hash'))
 ?>
 <#5336>
 <?php
+
+if($ilDB->indexExistsByFields('read_event',array('usr_id')))
+{
+	$ilDB->dropIndexByFields('read_event',array('usr_id'));
+}
+$ilDB->addIndex('read_event', array('usr_id'), 'i1');
+
 if (!$ilDB->tableColumnExists('usr_data', 'first_login'))
 {
 	$ilDB->addTableColumn('usr_data', 'first_login', array(
