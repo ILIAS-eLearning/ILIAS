@@ -4,7 +4,7 @@ matrix:
   - php: 7.2
   - php: 7.3
 script:
-- "./run_tests.sh;"
+- "./run_tests_with_reporting.sh;"
 - if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then ./run_dicto.sh; fi
 addons:
   apt:
@@ -14,4 +14,4 @@ install:
 - cd ./libs/composer && composer install && cd ../..
 env:
   global:
-  - secure: C6xIKZPxv6CwEK5YOOX8lwM+Q1nFEF6+k9zZnnyckaA+lIgqvVOiUdhT7JV5GAM3S2Tabb67BA3VN/bJ0hykhIiRsS1UO67MJIxD8qI0atoflN7SUGiDne7nAFZYj8yhDstmj38NR27TpUcGJh/khQ+4Iu0jgJKpDqMOiCExRX8YY+3CDtXr1f2AenLvXqulnlQqpD5fnEoOFw9kMtmLET2okswotguTu6rxWcUMuumA1u0YCy9MfgRqnijz4PiV1evX/QJeWtTZLkRVVz3n21XIlHBv8Qj32Nus/yLoclbmMPvJpzqrNrehE9IYgNP97nhXLjZqy9+a+zdN1bvNTP+NAGbbT8KzjBaWUKZfZ5f+G9CBzh7CL/1xz366l2b+b2oxiOexaY2JwL0CdpSnsBVsC/SizJF7uFbGKuYDl/IZwp1Ece37dBzbTHYrfUwwQZb45tvU5UDRiiLT5HJSw/ZEifJ6usxR94k6D2d/ZZ9wYQb1nbNzkmfaKgA3EZ4TQyHA5lFzc8ANdf7lZq4Qlq0sznMmrvMfCjsTmB2Wd0z80W/m4azFdEsK5hBNX/hJ7f57TnPKr+zTpZ/7gx5Hx5fQ6RpEF+sxM0Lwh0hCJxkXC8r4EwmKiCHPAILrF4dGxCo05OZKQxSrsHjoIjkZWUqxUlnLFTPDIwjYRmco7EY=
+    secure: c43mDcrMbH53mAGZdASJ8HkVpjxbEi388HTegyFGFhVLWk6/srrWUGJtYPkVGvhv2/5s5VQiHelXpjT9vi9iKi9wQCZcudBALjvywPY+OuMdDSs8priMpedRWYcR+l8DGNxfubgp8hb2tcZJh2IwzlOlPRvYhOPoCZZHp9i2AoEHEMmpIMagtBSg7jg7kchQSDcnMB9BUplmDJsQwWY46Yom+8G0KQM84Hcn24SwYq6qGjFCwwdFVLhIDmKGubkKBdYpF06kOftZ8hOBwpYgjzhGhCDSIT6qj/RSgH9i4Bn2b/QzzoxlSJFW5pldiYUXWiwf4qBBisG8EnHSc/pCpTbEeXnCr9fJ8aWyakK4Fm8EjBR5Ll8hmIKR9sAboS13btr2fRMpoS1VrdbjGbFmuSNgL6rrnlbPvRSMR6smmHPRQJ7iLP8/q8jBxiPnhVG/yGeZm8Oe38ONfRAlJwfa0bfxh8ifRHSK9e9yyi2HYPejoFpIUHRzr6j/4WevQShlwaGOzEFbrCawKPJkcFuyVY2gd0sYSJQLXnefMwAGSjhtOAS4YSypL2bX75WcKXodALZRyzU6OSFlGYfPT0rdbz7scV6US0zA/T1ltlsjO6yzqlc0WuVBkZPdF270sldOluGGrwEj+9nVqsRftgC9ZdlecxeE4blCzT1cx8eUSUU=

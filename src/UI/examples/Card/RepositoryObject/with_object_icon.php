@@ -8,7 +8,7 @@ function with_object_icon() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->standard("crs", 'Course')->withIsOutlined(true);
+	$icon = $f->symbol()->icon()->standard("crs", 'Course')->withIsOutlined(true);
 
 	$image = $f->image()->responsive(
 		"./templates/default/images/HeaderIcon.svg",

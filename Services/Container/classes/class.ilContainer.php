@@ -746,7 +746,8 @@ class ilContainer extends ilObject
 	*
 	* @return	array
 	*/
-	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0,
+		\ilContainerUserFilter $container_user_filter = null)
 	{
 		$objDefinition = $this->obj_definition;
 		$tree = $this->tree;
@@ -760,7 +761,7 @@ class ilContainer extends ilObject
 		
 		$type_grps = $this->getGroupedObjTypes();
 		$objects = $tree->getChilds($this->getRefId(), "title");
-
+		$objects = $this->applyContainerUserFilter($objects, $container_user_filter);
 		$objects = self::getCompleteDescriptions($objects);
 
 		$found = false;
@@ -1199,4 +1200,188 @@ class ilContainer extends ilObject
 
 		return true;
 	}
-}
+
+	/**
+	 * Apply container user filter on objects
+	 *
+	 * @todo this deserces a decentralized general concept (consumers provide object filter types)
+	 * @todo move selects to respective components
+	 *
+	 * @param $objects
+	 * @param ilContainerUserFilter|null $container_user_filter
+	 * @return array
+	 * @throws ilException
+	 */
+	protected function applyContainerUserFilter($objects, ilContainerUserFilter $container_user_filter = null)
+	{
+		global $DIC;
+		$db = $DIC->database();
+
+		if (is_null($container_user_filter))
+		{
+			return $objects;
+		}
+
+		if ($container_user_filter->isEmpty() && !ilContainer::_lookupContainerSetting($this->getId(), "filter_show_empty", false))
+		{
+			return [];
+		}
+
+
+		$obj_ids = array_map(function($i) {
+			return $i["obj_id"];
+			},$objects);
+		$filter_data = $container_user_filter->getData();
+
+		foreach($filter_data as $key => $val)
+		{
+			if (count($obj_ids) == 0)    // stop if no object ids are left
+			{
+				continue;
+			}
+			if (!in_array(substr($key, 0, 4), ["adv_", "std_"]))
+			{
+				continue;
+			}
+			if ($val == "")
+			{
+				continue;
+			}
+			$field_id = substr($key, 4);
+			$val = ilUtil::stripSlashes($val);
+			$query_parser = new ilQueryParser($val);
+			if (substr($key, 0, 4) == "std_")
+			{
+				// object type
+				if ($field_id == ilContainerFilterField::STD_FIELD_OBJECT_TYPE)
+				{
+					$result = null;
+					$set = $db->queryF("SELECT obj_id FROM object_data ".
+						" WHERE  ".$db->in("obj_id", $obj_ids, false, "integer").
+						" AND type = %s",
+						array("text"),
+						array($val)
+						);
+					$result_obj_ids = [];
+					while ($rec = $db->fetchAssoc($set))
+					{
+						$result_obj_ids[] = $rec["obj_id"];
+					}
+					$obj_ids = array_intersect($obj_ids, $result_obj_ids);
+				}
+				else if ($field_id == ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT)
+				{
+					$result = null;
+					$set = $db->queryF("SELECT DISTINCT(obj_id) FROM obj_members m JOIN usr_data u ON (u.usr_id = m.usr_id) ".
+						" WHERE  ".$db->in("m.obj_id", $obj_ids, false, "integer").
+						" AND ".$db->like("u.lastname", "text", $val).
+						" AND m.contact = %s",
+						array("integer"),
+						array(1)
+						);
+					$result_obj_ids = [];
+					while ($rec = $db->fetchAssoc($set))
+					{
+						$result_obj_ids[] = $rec["obj_id"];
+					}
+					$obj_ids = array_intersect($obj_ids, $result_obj_ids);
+				}
+				else if ($field_id == ilContainerFilterField::STD_FIELD_COPYRIGHT)
+				{
+					$result = null;
+					$set = $db->queryF("SELECT DISTINCT(rbac_id) FROM il_meta_rights ".
+						" WHERE  ".$db->in("rbac_id", $obj_ids, false, "integer").
+						" AND description = %s ",
+						array("text"),
+						array('il_copyright_entry__'.IL_INST_ID.'__'.$val)
+						);
+					$result_obj_ids = [];
+					while ($rec = $db->fetchAssoc($set))
+					{
+						$result_obj_ids[] = $rec["rbac_id"];
+					}
+					$obj_ids = array_intersect($obj_ids, $result_obj_ids);
+				}
+				else
+				{
+					include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+					include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+					#$query_parser->setCombination($this->options['title_ao']);
+					$query_parser->setCombination(QP_COMBINATION_OR);
+					$query_parser->parse();
+					$meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+
+					//$meta_search->setFilter($this->filter);		// object types ['lm', ...]
+					switch ($field_id)
+					{
+						case ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION:
+						case ilContainerFilterField::STD_FIELD_DESCRIPTION:
+						case ilContainerFilterField::STD_FIELD_TITLE:
+							$meta_search->setMode('title_description');
+							break;
+						case ilContainerFilterField::STD_FIELD_KEYWORD:
+							$meta_search->setMode('keyword_all');
+							break;
+						case ilContainerFilterField::STD_FIELD_AUTHOR:
+							$meta_search->setMode('contribute');
+							break;
+
+					}
+					//$meta_search->setOptions($this->options);
+					$result = $meta_search->performSearch();
+				}
+			}
+			else		// advanced metadata search
+			{
+				$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+
+				$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
+				$field_form->setElementId("query[" . $key . "]");
+				$field_form->validate();
+
+				/**
+				 * Workaround:
+				 *
+				 * Only text fields take care of $parser_value being passed through
+				 * new ilQueryParser($parser_value), thus other fields pass values by setting
+				 * directly in the ADT objects. This could go to a new bridge.
+				 */
+				if ($field instanceof ilAdvancedMDFieldDefinitionSelectMulti)
+				{
+					$field_form->getADT()->setSelections([$val]);
+				}
+				if ($field instanceof ilAdvancedMDFieldDefinitionSelect)
+				{
+					$field_form->getADT()->setSelection($val);
+				}
+
+				include_once 'Services/Search/classes/class.ilQueryParser.php';
+				include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+				$adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance($query_parser);
+				//$adv_md_search->setFilter($this->filter);	// this could be set to an array of object types
+				$adv_md_search->setDefinition($field);            // e.g. ilAdvancedMDFieldDefinitionSelectMulti
+				$adv_md_search->setIdFilter(array(0));
+				$adv_md_search->setSearchElement($field_form);    // e.g. ilADTEnumSearchBridgeMulti
+				$result = $adv_md_search->performSearch();
+			}
+
+			// intersect results
+			if ($result instanceof ilSearchResult)
+			{
+				$result_obj_ids = array_map(function ($i) {
+					return $i["obj_id"];
+				},
+					$result->getEntries());
+				$obj_ids = array_intersect($obj_ids, $result_obj_ids);
+			}
+		}
+		$objects = array_filter($objects, function ($o) use ($obj_ids) {
+			return in_array($o["obj_id"], $obj_ids);
+		});
+
+		return $objects;
+	}
+
+} // END class ilContainer
+?>

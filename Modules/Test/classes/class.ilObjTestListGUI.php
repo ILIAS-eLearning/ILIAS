@@ -50,19 +50,6 @@ class ilObjTestListGUI extends ilObjectListGUI
 	}
 
 
-	/**
-	* inititialize new item
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	int			$a_obj_id		object id
-	* @param	string		$a_title		title
-	* @param	string		$a_description	description
-	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
-	{
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
-	}
-
 
 	/**
 	* Get command target frame

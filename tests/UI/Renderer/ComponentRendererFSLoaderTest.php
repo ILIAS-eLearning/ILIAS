@@ -36,7 +36,7 @@ class ComponentRendererFSLoaderTest extends TestCase {
 	public function test_getRenderer_successfully_extra() {
 		// There should be a renderer for Glyph...
 		$f = $this->getComponentRendererFSLoader();
-		$component = new I\Component\Glyph\Glyph("up", "up");
+		$component = new I\Component\Symbol\Glyph\Glyph("up", "up");
 		$context = $this->createMock(\ILIAS\UI\Component\Component::class);
 		$renderer = $this->createMock(I\Render\ComponentRenderer::class);
 

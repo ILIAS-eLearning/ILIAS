@@ -1,77 +1,73 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilObjTermsOfService
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilObjTermsOfService extends \ilObject2
+class ilObjTermsOfService extends ilObject2
 {
-	/**
-	 * @var \ilDBInterface
-	 */
-	protected $db;
+    /** @var ilDBInterface */
+    protected $db;
 
-	/**
-	 * @var \ilSetting
-	 */
-	protected $settings;
-	
-	/**
-	 * @param int  $a_id
-	 * @param bool $a_reference
-	 */
-	public function __construct($a_id = 0, $a_reference = true)
-	{
-		global $DIC;
+    /** @var ilSetting */
+    protected $settings;
 
-		parent::__construct($a_id, $a_reference);
+    /**
+     * @param int  $a_id
+     * @param bool $a_reference
+     */
+    public function __construct($a_id = 0, $a_reference = true)
+    {
+        global $DIC;
 
-		$this->db       = $DIC['ilDB'];
-		$this->settings = $DIC['ilSetting'];
-	}
+        parent::__construct($a_id, $a_reference);
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function initType()
-	{
-		$this->type = 'tos';
-	}
+        $this->db       = $DIC['ilDB'];
+        $this->settings = $DIC['ilSetting'];
+    }
 
-	/**
-	 *
-	 */
-	public function resetAll()
-	{
-		$in = $this->db->in('usr_id', array(ANONYMOUS_USER_ID, SYSTEM_USER_ID), true, 'integer');
-		$this->db->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
+    /**
+     * @inheritdoc
+     */
+    protected function initType()
+    {
+        $this->type = 'tos';
+    }
 
-		$this->settings->set('tos_last_reset', time());
-	}
+    /**
+     *
+     */
+    public function resetAll() : void
+    {
+        $in = $this->db->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, 'integer');
+        $this->db->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
 
-	/**
-	 * @return \ilDateTime
-	 * @throws ilDateTimeException
-	 */
-	public function getLastResetDate(): \ilDateTime
-	{
-		return new \ilDateTime($this->settings->get('tos_last_reset'), IL_CAL_UNIX);
-	}
+        $this->settings->set('tos_last_reset', time());
+    }
 
-	/**
-	 * @param bool $status
-	 */
-	public function saveStatus(bool $status)
-	{
-		\ilTermsOfServiceHelper::setStatus((bool)$status);
-	}
+    /**
+     * @return ilDateTime
+     * @throws ilDateTimeException
+     */
+    public function getLastResetDate() : ilDateTime
+    {
+        return new ilDateTime($this->settings->get('tos_last_reset'), IL_CAL_UNIX);
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function getStatus(): bool 
-	{
-		return \ilTermsOfServiceHelper::isEnabled();
-	}
+    /**
+     * @param bool $status
+     */
+    public function saveStatus(bool $status) : void
+    {
+        ilTermsOfServiceHelper::setStatus((bool) $status);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStatus() : bool
+    {
+        return ilTermsOfServiceHelper::isEnabled();
+    }
 }

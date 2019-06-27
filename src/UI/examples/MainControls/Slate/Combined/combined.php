@@ -5,16 +5,16 @@ function combined() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->glyph()->comment();
+	$icon = $f->symbol()->glyph()->comment();
 	$contents = $f->legacy("some contents.");
 	$slate1 = $f->maincontrols()->slate()->legacy('legacy1', $icon, $contents);
 	$slate2 = $f->maincontrols()->slate()->legacy('legacy2', $icon, $contents);
 
-	$glyph = $f->glyph()->briefcase();
+	$glyph = $f->symbol()->glyph()->briefcase();
 	$button = $f->button()->bulky($glyph, 'Button', '#');
 
 	$slate = $f->maincontrols()->slate()
-		->combined('combined_example', $f->glyph()->briefcase())
+		->combined('combined_example', $f->symbol()->glyph()->briefcase())
 		->withAdditionalEntry($slate1)
 		->withAdditionalEntry($button)
 		->withAdditionalEntry($slate2);

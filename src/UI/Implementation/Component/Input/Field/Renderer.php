@@ -471,9 +471,9 @@ class Renderer extends AbstractComponentRenderer
 				});
 			$id = $this->bindJavaScript($input);
 
-			$glyph_reveal = $f->glyph()->eyeopen("#")
+			$glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
 				->withOnClick($sig_reveal);
-			$glyph_mask = $f->glyph()->eyeclosed("#")
+			$glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
 				->withOnClick($sig_mask);
 			$tpl->setCurrentBlock('revelation');
 			$tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));

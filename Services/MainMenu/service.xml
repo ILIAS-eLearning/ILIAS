@@ -3,6 +3,7 @@
 	<baseclasses />
 	<gsproviders>
 		<gsprovider purpose="mainmenu" class_name="ilMMCustomProvider" />
+		<gsprovider purpose="meta_bar_static" class_name="ilMMCustomTopBarProvider" />
 	</gsproviders>
 	<logging />
 	<objects>

@@ -2,6 +2,7 @@
 .il-maincontrols-mainbar {
 	.btn-bulky {
 		font-size: @il-mainbar-btn-label-size;
+		line-height: @il-mainbar-btn-label-size * 1.11111111;
 	}
 	.bulky-label {
 		white-space: normal;
@@ -18,6 +19,10 @@
 		  border: 0;
 		  outline: 0;
 	  }
+	}
+
+	> .il-metabar-slate-auxillary {
+		display: none;
 	}
 }
 
@@ -55,9 +60,14 @@
 			outline: none;
 		}
 		.bulky-label {
-			white-space: normal;
+			display: -webkit-box;
 			margin-top: @il-mainbar-bulky-label-margin-top;
-    		display: block;
+			white-space: normal;
+			word-break: break-word;
+    		padding: 0 2px;
+			overflow: hidden;
+			-webkit-line-clamp: 2;
+		    -webkit-box-orient: vertical;
 		}
 	}
 	&.engaged {
@@ -68,17 +78,25 @@
 // mainbar slates
 .il-mainbar-slates {
 	.shadow-right;
-	width: @il-standard-page-slate-width;
 	display: none;
+	position: relative;
+	width: @il-standard-page-slate-width;
 }
 
 .il-mainbar-tools-button {
 	.btn-bulky,
 	.btn-bulky.engaged {
-		background-color: lighten(@brand-primary, 45%);
+		background-color: lighten(@brand-primary, 10%);
 		border: 0;
-		color: @il-mainbar-btn-color-engaged;
+		color: @il-mainbar-btn-color;
 		padding: 0;
+		img {
+			filter: invert(100%);
+		}
+	}
+	.btn-bulky.engaged {
+		background-color: lighten(@brand-primary, 45%);
+		color: @il-mainbar-btn-color-engaged;
 		img {
 			filter: invert(35%);
 		}
@@ -86,9 +104,10 @@
 }
 
 .il-mainbar-tools-entries {
-	display:none;
+	display: none;
 	&.engaged {
-		display: block;
+		display: flex;
+		height: @il-mainbar-btn-height;
 		flex-shrink: 0;
 	}
 	.btn-bulky {
@@ -105,6 +124,34 @@
 			.icon {
 				filter: invert(60%);
 			}
+		}
+	}
+}
+
+.il-mainbar-tools-entries-bg {
+	height: @il-mainbar-btn-height;
+	width: 100%;
+	background: @il-mainbar-tools-bg;
+}
+
+// remove tools
+.il-mainbar-remove-tool {
+	display: none;
+	.il-mainbar-tools-entries.engaged & {
+		display: block;
+		position: absolute;
+	    top: 0;
+	    right: 0;
+	}
+	.close {
+		color: @brand-primary;
+	    font-size: 4.5rem;
+	    font-weight: 300;
+		height: @il-mainbar-btn-height;
+		padding: 0 20px;
+		width: auto;
+		&:focus {
+			outline: none;
 		}
 	}
 }
@@ -139,17 +186,6 @@
 	}
 }
 
-.il-mainbar-remove-tool {
-	.close {
-		color: @brand-primary;
-	    font-size: 4.5rem;
-	    font-weight: 300;
-		height: auto;
-		padding: 0 30px;
-		width: auto;
-	}
-}
-
 .il-mainbar-slates > .il-maincontrols-slate.engaged {
 	display: flex;
 	flex-direction: column;
@@ -168,6 +204,17 @@
 
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
+	.il-mainbar-entries {
+	    display: flex;
+	    justify-content: space-evenly;
+	    width: 100%;
+	    flex-flow: row wrap;
+	}
+
+	.il-mainbar-tools-entries-bg {
+		// .shadow-bottom();
+	}
+
 	.il-mainbar-triggers {
 	   background: @il-mainbar-btn-bg-color;
 	   display: flex;
@@ -175,9 +222,27 @@
 	   width: 100%;
 	   z-index: 1;
 	   .btn-bulky {
+	   	   flex-shrink: 0;
 		   border: 0;
 		   height: @il-mainbar-small-btn-height;
 		   width: @il-mainbar-small-btn-width;
+		   .icon.small {
+			   height: @icon-size-xsmall;
+			   width: @icon-size-xsmall;
+		   }
 	   }
+	}
+
+	.il-mainbar-tools-entries {
+		&.engaged {
+			height: @il-mainbar-small-btn-height;
+			.il-mainbar-remove-tool {
+				top: 0;
+				.close {
+					font-size: 4rem;
+					height: @il-mainbar-small-btn-height;
+				}
+			}
+		}
 	}
 }

@@ -122,7 +122,7 @@ class ilBlockSetting
 		if (!self::$pd_preloaded)
 		{
 			$blocks = array("pdbookm", "pdcal", "pdfeedb", "pditems",
-				"pdmail", "pdnews", "pdnotes", "pdsysmess", "pdtag");
+				"pdmail", "pdnews", "pdnotes", "pdtag");
 			$settings = array("detail", "nr", "side");
 			$user_id = $ilUser->getId();
 

@@ -219,7 +219,6 @@ class ilClient
 			return false;
 		}
 
-		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$this->db = ilDBWrapperFactory::getWrapper($this->getdbType());
 		$this->db->setDBUser($this->getdbUser());
 		$this->db->setDBPort($this->getdbPort());

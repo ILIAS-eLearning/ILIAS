@@ -59,6 +59,6 @@ class ilWorkflowEngineMailNotification extends ilMailNotification
 		$this->setBody($this->body_text);
 		$this->getMail()->appendInstallationSignature(true);
 
-		$this->sendMail(array($rcp),array('system'), false);
+		$this->sendMail(array($rcp), false);
 	}
 }

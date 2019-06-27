@@ -1844,14 +1844,13 @@ class ilSurveyParticipantsGUI
 					$mytxt = str_replace("[code]", $user["code"], $mytxt); 		
 					
 					$mail = new ilMail($sender_id);					
-					$mail->validateAndEnqueue(
+					$mail->enqueue(
 						$rcp, // to
 						"", // cc
 						"", // bcc
 						$subj, // subject
 						$mytxt, // message
-						array(), // attachments
-						array('normal') // type
+						array() // attachments
 					);			
 					
 					$this->object->set360RaterSent($appr_id,

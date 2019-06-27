@@ -85,7 +85,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ACTION", $component->getExpandAction());
 		$tpl->parseCurrentBlock();
 
-		$opener_expand = $f->button()->bulky($f->glyph()->expand(), $this->txt("filter"), "")
+		$opener_expand = $f->button()->bulky($f->symbol()->glyph()->expand(), $this->txt("filter"), "")
 			->withAdditionalOnLoadCode(function ($id) {
 				$code = "$('#$id').on('click', function(event) {
 					il.UI.filter.onAjaxCmd(event, '$id', 'expand');
@@ -99,7 +99,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("ACTION", $component->getCollapseAction());
 		$tpl->parseCurrentBlock();
 
-		$opener_collapse = $f->button()->bulky($f->glyph()->collapse(), $this->txt("filter"), "")
+		$opener_collapse = $f->button()->bulky($f->symbol()->glyph()->collapse(), $this->txt("filter"), "")
 			->withAdditionalOnLoadCode(function ($id) {
 				$code = "$('#$id').on('click', function(event) {
 					il.UI.filter.onAjaxCmd(event, '$id', 'collapse');
@@ -139,11 +139,11 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->parseCurrentBlock();
 
 		// render apply and reset buttons
-		$apply = $f->button()->bulky($f->glyph()->apply(), $this->txt("apply"), "");
+		$apply = $f->button()->bulky($f->symbol()->glyph()->apply(), $this->txt("apply"), "");
 
 		if (!$component->isActivated()) {
 			$apply = $apply->withUnavailableAction();
-			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), "")
+			$reset = $f->button()->bulky($f->symbol()->glyph()->reset(), $this->txt("reset"), "")
 			->withUnavailableAction();
 		} else {
 
@@ -155,7 +155,7 @@ class Renderer extends AbstractComponentRenderer {
 				return $code;
 			});
 
-			$reset = $f->button()->bulky($f->glyph()->reset(), $this->txt("reset"), $component->getResetAction());
+			$reset = $f->button()->bulky($f->symbol()->glyph()->reset(), $this->txt("reset"), $component->getResetAction());
 		}
 		$tpl->setVariable("APPLY", $default_renderer->render($apply));
 		$tpl->setVariable("RESET", $default_renderer->render($reset));

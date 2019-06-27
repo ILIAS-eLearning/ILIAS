@@ -1,71 +1,73 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTermsOfServiceDocumentTableDataProviderTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDocumentTableDataProviderTest extends \ilTermsOfServiceBaseTest
+class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBaseTest
 {
-	/**
-	 * @return \ilTermsOfServiceDocumentTableDataProvider
-	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
-	 */
-	public function testDocumentProviderCanBeCreatedByFactory()
-	{
-		$factory = new \ilTermsOfServiceTableDataProviderFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
+    /**
+     * @return ilTermsOfServiceDocumentTableDataProvider
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     * @throws ReflectionException
+     */
+    public function testDocumentProviderCanBeCreatedByFactory() : ilTermsOfServiceDocumentTableDataProvider
+    {
+        $factory = new ilTermsOfServiceTableDataProviderFactory();
+        $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
 
-		$provider = $factory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_DOCUMENTS);
+        $provider = $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_DOCUMENTS);
 
-		$this->assertInstanceOf(\ilTermsOfServiceDocumentTableDataProvider::class, $provider);
-		$this->assertInstanceOf(\ilTermsOfServiceTableDataProvider::class, $provider);
+        $this->assertInstanceOf(ilTermsOfServiceDocumentTableDataProvider::class, $provider);
+        $this->assertInstanceOf(ilTermsOfServiceTableDataProvider::class, $provider);
 
-		return $provider;
-	}
+        return $provider;
+    }
 
-	/**
-	 * @depends testDocumentProviderCanBeCreatedByFactory
-	 * @param ilTermsOfServiceDocumentTableDataProvider $provider
-	 */
-	public function testListOfDocumentsCanBeRetrieved(\ilTermsOfServiceDocumentTableDataProvider $provider)
-	{
-		$documentConnector = $this->getMockBuilder(\arConnector::class)->getMock();
-		$criterionConnector = $this->getMockBuilder(\arConnector::class)->getMock();
+    /**
+     * @depends testDocumentProviderCanBeCreatedByFactory
+     * @param ilTermsOfServiceDocumentTableDataProvider $provider
+     * @throws ReflectionException
+     */
+    public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider) : void
+    {
+        $documentConnector  = $this->getMockBuilder(arConnector::class)->getMock();
+        $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
-		$documentData = [
-			[
-				'id' => 1,
-			],
-			[
-				'id' => 2,
-			],
-			[
-				'id' => 3,
-			]
-		];
+        $documentData = [
+            [
+                'id' => 1,
+            ],
+            [
+                'id' => 2,
+            ],
+            [
+                'id' => 3,
+            ]
+        ];
 
-		$documentConnector
-			->expects($this->once())
-			->method('readSet')
-			->willReturn($documentData);
+        $documentConnector
+            ->expects($this->once())
+            ->method('readSet')
+            ->willReturn($documentData);
 
-		$criterionConnector
-			->expects($this->exactly(count($documentData)))
-			->method('readSet')
-			->willReturnCallback(function() {
+        $criterionConnector
+            ->expects($this->exactly(count($documentData)))
+            ->method('readSet')
+            ->willReturnCallback(function () {
 
-				return [];
-			});
+                return [];
+            });
 
-		\arConnectorMap::register(new \ilTermsOfServiceDocument(), $documentConnector);
-		\arConnectorMap::register(new \ilTermsOfServiceDocumentCriterionAssignment(), $criterionConnector);
+        arConnectorMap::register(new ilTermsOfServiceDocument(), $documentConnector);
+        arConnectorMap::register(new ilTermsOfServiceDocumentCriterionAssignment(), $criterionConnector);
 
-		$data = $provider->getList([], []);
+        $data = $provider->getList([], []);
 
-		$this->assertArrayHasKey('items', $data);
-		$this->assertArrayHasKey('cnt', $data);
-		$this->assertCount(3, $data['items']);
-		$this->assertEquals(3, $data['cnt']);
-	}
+        $this->assertArrayHasKey('items', $data);
+        $this->assertArrayHasKey('cnt', $data);
+        $this->assertCount(3, $data['items']);
+        $this->assertEquals(3, $data['cnt']);
+    }
 }

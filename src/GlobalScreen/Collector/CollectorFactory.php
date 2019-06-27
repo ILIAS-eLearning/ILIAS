@@ -1,51 +1,80 @@
 <?php namespace ILIAS\GlobalScreen\Collector;
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
+use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 
 /**
  * Class CollectorFactory
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class CollectorFactory {
+class CollectorFactory
+{
 
-	const SCOPE_MAINBAR = 'mainbar';
-	/**
-	 * @var array
-	 */
-	protected static $instances = [];
-
-
-	/**
-	 * @param array                $providers
-	 * @param ItemInformation|null $information
-	 *
-	 * @return MainMenuMainCollector
-	 * @throws \Throwable
-	 */
-	public function mainmenu(array $providers, ItemInformation $information = null): MainMenuMainCollector {
-		if (!isset(self::$instances[self::SCOPE_MAINBAR])) {
-			self::$instances[self::SCOPE_MAINBAR] = new MainMenuMainCollector($providers, $information);
-		}
-
-		return self::$instances[self::SCOPE_MAINBAR];
-	}
+    /**
+     * @var array
+     */
+    protected static $instances = [];
+    /**
+     * @var ProviderFactoryInterface
+     */
+    private $provider_factory;
 
 
-	/**
-	 * @return MetaBarMainCollector
-	 */
-	public function metaBar(): MetaBarMainCollector {
-		if (!isset(self::$instances[StaticMetaBarProvider::PURPOSE_MBS])) {
-			global $DIC;
-			$providers = [new \ilSearchGSProvider($DIC), new \ilMMCustomProvider($DIC)];
+    /**
+     * CollectorFactory constructor.
+     *
+     * @param ProviderFactoryInterface $provider_factory
+     */
+    public function __construct(ProviderFactoryInterface $provider_factory)
+    {
+        $this->provider_factory = $provider_factory;
+    }
 
-			self::$instances[StaticMetaBarProvider::PURPOSE_MBS] = new MetaBarMainCollector($providers);
-		}
 
-		return self::$instances[StaticMetaBarProvider::PURPOSE_MBS];
-	}
+    /**
+     * @return MainMenuMainCollector
+     * @throws \Throwable
+     */
+    public function mainmenu() : MainMenuMainCollector
+    {
+        if (!isset(self::$instances[StaticMainMenuProvider::PURPOSE_MAINBAR])) {
+            $providers = $this->provider_factory->getMainBarProvider();
+            $information = $this->provider_factory->getMainBarItemInformation();
+            self::$instances[StaticMainMenuProvider::PURPOSE_MAINBAR] = new MainMenuMainCollector($providers, $information);
+        }
+
+        return self::$instances[StaticMainMenuProvider::PURPOSE_MAINBAR];
+    }
+
+
+    /**
+     * @return MetaBarMainCollector
+     */
+    public function metaBar() : MetaBarMainCollector
+    {
+        if (!isset(self::$instances[StaticMetaBarProvider::PURPOSE_MBS])) {
+            self::$instances[StaticMetaBarProvider::PURPOSE_MBS] = new MetaBarMainCollector($this->provider_factory->getMetaBarProvider());
+        }
+
+        return self::$instances[StaticMetaBarProvider::PURPOSE_MBS];
+    }
+
+
+    /**
+     * @return MainToolCollector
+     */
+    public function tool() : MainToolCollector
+    {
+        if (!isset(self::$instances[DynamicToolProvider::PURPOSE_TOOLS])) {
+            self::$instances[DynamicToolProvider::PURPOSE_TOOLS] = new MainToolCollector($this->provider_factory->getToolProvider());
+        }
+
+        return self::$instances[DynamicToolProvider::PURPOSE_TOOLS];
+    }
 }

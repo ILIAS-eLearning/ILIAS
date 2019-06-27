@@ -280,6 +280,13 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 			$this->update_user_name = $this->getPublicUserInformation($authorinfo);
 		}
 
+		// Possible Fix for #25432
+		if($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() == 0 
+			&& $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId())
+		{
+			return (string)$this->objPost->getUserAlias();
+		}
+		
 		return (string)$this->update_user_name;
 	}
 	

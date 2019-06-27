@@ -102,7 +102,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -121,7 +121,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 						sprintf($this->getLanguageText('grp_mail_dismiss_bod'),$this->getObjectTitle())
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -154,7 +154,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('grp_notification_explanation_admin'));
 					
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -173,7 +173,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 						sprintf($this->getLanguageText('grp_mail_unsubscribe_member_bod'),$this->getObjectTitle())
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -205,7 +205,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('grp_notification_explanation_admin'));
 					
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -231,7 +231,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -264,7 +264,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('grp_notification_explanation_admin'));
 					
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 
@@ -285,7 +285,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 
@@ -309,7 +309,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -333,7 +333,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 							)
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -362,7 +362,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 

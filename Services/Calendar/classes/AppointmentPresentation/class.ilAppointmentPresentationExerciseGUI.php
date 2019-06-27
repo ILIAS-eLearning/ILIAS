@@ -94,4 +94,22 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 		$this->addAction($this->lng->txt("cal_exc_open"),
 			"goto.php?target=exc_".$exc_ref."_".$ass_id."&client_id=".CLIENT_ID);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment)
+	{
+		$ass_id = $a_appointment["event"]->getContextId() / 10;
+		if(!$ass_id)
+		{
+			return parent::buildDirectLinkForAppointment($a_ref_id, $a_appointment);
+		}
+		return ilLink::_getLink(
+			$a_ref_id,
+			'exc',
+			[],
+			'_'.$ass_id
+		);
+	}
 }

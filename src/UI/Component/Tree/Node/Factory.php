@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Tree\Node;
 
-use ILIAS\UI\Component\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Nodes factory
@@ -35,7 +35,7 @@ interface Factory
 	 *
 	 * ---
 	 * @param string $label
-	 * @param \ILIAS\UI\Component\Icon\Icon|null $icon
+	 * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
 	 *
 	 * @return \ILIAS\UI\Component\Tree\Node\Simple
 	 */

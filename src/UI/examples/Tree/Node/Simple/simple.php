@@ -5,7 +5,7 @@ function simple() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon=$f->icon()->standard("crs", 'Example');
+	$icon=$f->symbol()->icon()->standard("crs", 'Example');
 
 	$node = $f->tree()->node()->simple('label');
 	$node2 = $f->tree()->node()->simple('label', $icon);

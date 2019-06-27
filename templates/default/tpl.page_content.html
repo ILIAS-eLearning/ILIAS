@@ -66,12 +66,13 @@
 				{SUB_TABS}
 				<span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
 				<!-- BEGIN tabs_inner_start --><!-- END tabs_inner_start -->
+				<!-- BEGIN mess --><div class="ilAdminRow">{MESSAGE}</div><!-- END mess -->
+				<!-- BEGIN filter --><div class="container-fluid">{FILTER}</div><!-- END filter -->
 				<!-- BEGIN page_form_start -->
 				<form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post">
 					<!-- END page_form_start -->
 
 					<div>
-						<!-- BEGIN mess --><div class="ilAdminRow">{MESSAGE}</div><!-- END mess -->
 						<!-- BEGIN adm_view_components -->
 						<div class="ilAdminRow">{ADM_PANEL1}</div>
 						<!-- END adm_view_components -->
@@ -89,6 +90,7 @@
 								<!-- BEGIN toolbar_buttons -->{BUTTONS}<!-- END toolbar_buttons -->
 								{RTE_SWITCH}
 								{ADM_CONTENT}
+								{CONTENT}
 								{OBJECTS}
 								{SYSTEMSETTINGS}
 								<!-- BEGIN adm_view_components2 -->

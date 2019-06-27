@@ -87,7 +87,22 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 	/**
 	 * Fill data section
 	 */
-	public function fillDataSection()
+	function fillDataSection()
+	{
+		$this->setDataSection($this->getLegacyContent());
+	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
 	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
@@ -99,7 +114,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 		$tpl->setVariable("FORMACTION", $ilCtrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
 		$tpl->setVariable("SEARCH_TERM", ilUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"])));
 
-		$this->setDataSection($tpl->get());
+		return $tpl->get();
 	}
 
 }

@@ -103,6 +103,7 @@ class ilObjUser extends ilObject
 	var $loc_zoom;
 
 	var $last_password_change_ts;
+	protected $passwd_policy_reset = false;
 	var $login_attempts;
 
 	var $user_defined_data = array();
@@ -258,6 +259,7 @@ class ilObjUser extends ilObject
 			// would set this values to 0, because they arent posted from form
 			$this->setLastPasswordChangeTS( $data['last_password_change'] );
 			$this->setLoginAttempts( $data['login_attempts'] );
+			$this->setPasswordPolicyResetStatus( (bool)$data['passwd_policy_reset'] );
 
 
 			// fill member vars in one shot
@@ -537,6 +539,7 @@ class ilObjUser extends ilObject
 			"longitude" => array("text", $this->longitude),
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
+			"passwd_policy_reset" => array("integer", (int) $this->passwd_policy_reset),
 			'inactivation_date' => array('timestamp', $this->inactivation_date),
 			'is_self_registered' => array('integer', (int)$this->is_self_registered),
 			);
@@ -632,6 +635,7 @@ class ilObjUser extends ilObject
 			"longitude" => array("text", $this->longitude),
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", $this->last_password_change_ts),
+			"passwd_policy_reset" => array("integer", $this->passwd_policy_reset),
 			"last_update" => array("timestamp", ilUtil::now()),
 			'inactivation_date' => array('timestamp', $this->inactivation_date)
 			);
@@ -2080,6 +2084,21 @@ class ilObjUser extends ilObject
 		return $this->last_password_change_ts;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getPasswordPolicyResetStatus(): bool
+	{
+		return (bool)$this->passwd_policy_reset;
+	}
+
+	/**
+	 * @param int $passwd_policy_reset
+	 */
+	public function setPasswordPolicyResetStatus(bool $status)
+	{
+		$this->passwd_policy_reset = $status;
+	}
 
 	public static function _lookupLanguage($a_usr_id)
 	{
@@ -2467,7 +2486,6 @@ class ilObjUser extends ilObject
 		}
 
 		if ($this->id == SYSTEM_USER_ID) {
-			require_once './Services/User/classes/class.ilUserPasswordManager.php';
 			if (
 				\ilUserPasswordManager::getInstance()->verifyPassword($this, base64_decode('aG9tZXI=')) &&
 				!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))
@@ -2478,19 +2496,16 @@ class ilObjUser extends ilObject
 			}
 		}
 
-		require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
 
-		if (
-			!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true)) &&
+		$authModeAllowsPasswordChange = !ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true));
+		$passwordResetOnFirstLogin = (
 			$security->isPasswordChangeOnFirstLoginEnabled() &&
-			$this->getLastPasswordChangeTS() == 0 &&
-			$this->is_self_registered == false
-		) {
-			return true;
-		}
+			$this->getLastPasswordChangeTS() == 0 && $this->is_self_registered == false
+		);
+		$passwordResetOnChangedPolicy = $this->getPasswordPolicyResetStatus();
 
-		return false;
+		return ($authModeAllowsPasswordChange && ($passwordResetOnFirstLogin || $passwordResetOnChangedPolicy));
 	}
 
 	public function isPasswordExpired()
@@ -6117,8 +6132,5 @@ class ilObjUser extends ilObject
 
 		return $r;
 	}
-
-
-
 } // END class ilObjUser
 ?>

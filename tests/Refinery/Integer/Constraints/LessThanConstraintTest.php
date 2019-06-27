@@ -5,14 +5,14 @@ namespace ILIAS\Tests\Refinery\Integer\Constraints;
 /* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 require_once("libs/composer/vendor/autoload.php");
 
-use ILIAS\Refinery\Validation;
+use ILIAS\Refinery;
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
 class LessThanConstraintTest extends TestCase {
 
 	/**
-	 * @var \ILIAS\Refinery\Integer\Constraints\LessThan
+	 * @var \ILIAS\Refinery\Integer\LessThan
 	 */
 	private $c;
 
@@ -39,7 +39,7 @@ class LessThanConstraintTest extends TestCase {
 
 		$this->less_than = 10;
 
-		$this->c = new \ILIAS\Refinery\Integer\Constraints\LessThan(
+		$this->c = new \ILIAS\Refinery\Integer\LessThan(
 			$this->less_than,
 			$this->df,
 			$this->lng

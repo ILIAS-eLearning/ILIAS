@@ -209,7 +209,6 @@ class ilAdministrationGUI
 				if ($next_class != "" && $next_class != "iladministrationgui")
 				{
 					// check db update
-					include_once ("./Services/Database/classes/class.ilDBUpdate.php");
 					$dbupdate = new ilDBUpdate($ilDB);
 					if (!$dbupdate->getDBVersionStatus())
 					{

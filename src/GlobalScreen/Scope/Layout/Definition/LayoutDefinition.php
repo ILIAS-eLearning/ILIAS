@@ -5,22 +5,35 @@
  *
  * @package ILIAS\GlobalScreen\Scope\LayoutDefinition
  */
-interface LayoutDefinition {
+interface LayoutDefinition
+{
 
-	/**
-	 * @return bool
-	 */
-	public function hasMainBar(): bool;
-
-
-	/**
-	 * @return bool
-	 */
-	public function hasMetaBar(): bool;
+    /**
+     * @return bool
+     */
+    public function hasMainBar() : bool;
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasBreadCrumbs(): bool;
+    /**
+     * @return bool
+     */
+    public function hasMetaBar() : bool;
+
+
+    /**
+     * @return bool
+     */
+    public function hasBreadCrumbs() : bool;
+
+
+    /**
+     * @return bool
+     */
+    public function hasFooter() : bool;
+
+
+    /**
+     * @return bool
+     */
+    public function hasLeaveFunction() : bool;
 }

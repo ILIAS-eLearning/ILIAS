@@ -10,43 +10,60 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractStaticMetaBarProvider extends AbstractProvider implements StaticMetaBarProvider {
+abstract class AbstractStaticMetaBarProvider extends AbstractProvider implements StaticMetaBarProvider
+{
 
-	/**
-	 * @var Container
-	 */
-	protected $dic;
-	/**
-	 * @var IdentificationProviderInterface
-	 */
-	protected $if;
-	/**
-	 * @var MetaBarItemFactory
-	 */
-	protected $meta_bar;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic) {
-		parent::__construct($dic);
-		$this->meta_bar = $this->globalScreen()->metaBar();
-		$this->if = $this->globalScreen()->identification()->core($this);
-	}
+    /**
+     * @var Container
+     */
+    protected $dic;
+    /**
+     * @var IdentificationProviderInterface
+     */
+    protected $if;
+    /**
+     * @var MetaBarItemFactory
+     */
+    protected $meta_bar;
 
 
-	/**
-	 * @return string
-	 * @throws \ReflectionException
-	 */
-	public function getProviderNameForPresentation(): string {
-		$reflector = new \ReflectionClass($this);
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        $this->meta_bar = $this->globalScreen()->metaBar();
+        $this->if = $this->globalScreen()->identification()->core($this);
+    }
 
-		$re = '/.*\/(?P<provider>(Services|Modules)\/.*)\/classes/m';
 
-		preg_match($re, $reflector->getFileName(), $matches);
+    /**
+     * @return string
+     * @throws \ReflectionException
+     */
+    public function getProviderNameForPresentation() : string
+    {
+        $reflector = new \ReflectionClass($this);
 
-		return $matches[1];
-	}
+        $re = '/.*\/(?P<provider>(Services|Modules)\/.*)\/classes/m';
+
+        preg_match($re, $reflector->getFileName(), $matches);
+
+        return $matches[1];
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllIdentifications() : array
+    {
+        $identifications = [];
+        foreach ($this->getMetaBarItems() as $meta_bar_item) {
+            $identifications[] = $meta_bar_item->getProviderIdentification();
+        }
+
+        return $identifications;
+    }
 }

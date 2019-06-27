@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Data;
 
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class Alphanumeric
 {

@@ -394,8 +394,7 @@ class ilSurveySkill
 	/**
 	 * Write appraisee skills
 	 *
-	 * @param
-	 * @return
+	 * @param int $user_id
 	 */
 	function writeAppraiseeSkills($a_app_id)
 	{
@@ -411,17 +410,30 @@ class ilSurveySkill
 		}
 
 		// write self evaluation
-		$new_levels = $this->determineSkillLevelsForAppraisee($a_app_id, true);
-		foreach ($new_levels as $nl)
+		$this->writeSelfEvalSkills($a_app_id);
+	}
+
+	/**
+	 * Write skills on self evaluation
+	 *
+	 * @param int $user_id
+	 */
+	public function writeSelfEvalSkills(int $user_id)
+	{
+		if ($user_id > 0 && in_array($this->survey->getMode(), [ilObjSurvey::MODE_SELF_EVAL, ilObjSurvey::MODE_360]))
 		{
-			if ($nl["new_level_id"] > 0)
+			$new_levels = $this->determineSkillLevelsForAppraisee($user_id, true);
+			foreach ($new_levels as $nl)
 			{
-				ilBasicSkill::writeUserSkillLevelStatus($nl["new_level_id"],
-					$a_app_id, $this->survey->getRefId(), $nl["tref_id"], ilBasicSkill::ACHIEVED, true, 1);
+				if ($nl["new_level_id"] > 0)
+				{
+					ilBasicSkill::writeUserSkillLevelStatus($nl["new_level_id"],
+						$user_id, $this->survey->getRefId(), $nl["tref_id"], ilBasicSkill::ACHIEVED, true, 1);
+				}
 			}
 		}
 	}
-	
+
 }
 
 ?>
