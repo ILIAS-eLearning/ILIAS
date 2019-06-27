@@ -1180,3 +1180,13 @@ if ($tgt_ops_id) {
     }
 }
 ?>
+<#5509>
+<?php
+
+if($ilDB->indexExistsByFields('read_event',array('usr_id')))
+{
+	$ilDB->dropIndexByFields('read_event',array('usr_id'));
+}
+$ilDB->addIndex('read_event', array('usr_id'), 'i1');
+
+?>
