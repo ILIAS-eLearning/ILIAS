@@ -16,16 +16,6 @@ use ILIAS\Messaging\Contract\Command\CommandHandler;;
 class CreateQuestionCommandHandler implements CommandHandler {
 
 	/**
-	 * @var QuestionRepository
-	 */
-	private $repository;
-
-	public function __construct() {
-		$this->repository = new QuestionRepository();
-	}
-
-
-	/**
 	 * @param CreateQuestionCommand $command
 	 */
 	public function handle(Command $command) {
@@ -36,6 +26,6 @@ class CreateQuestionCommandHandler implements CommandHandler {
 			$command->getCreator()
 		);
 
-		$this->repository->save($question);
+		QuestionRepository::getInstance()->save($question);
 	}
 }
