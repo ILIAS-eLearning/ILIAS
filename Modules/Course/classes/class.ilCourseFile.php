@@ -41,7 +41,10 @@ class ilCourseFile
 
 	var $course_id = null;
 	var $file_id = null;
-	
+
+	/**
+	 * @var \ilFSStorageCourse|null
+	 */
 	private $fss_storage = null;
 
 	/**
@@ -150,12 +153,23 @@ class ilCourseFile
 	{
 		return $this->error_code;
 	}
-	
+
+	/**
+	 * @return bool|string
+	 */
 	function getAbsolutePath()
 	{
-		if(is_object($this->fss_storage))
-		{
-			return $this->fss_storage->getInfoDirectory().'/'.$this->getFileId();
+		// workaround for "secured" files.
+		if(!$this->fss_storage instanceof \ilFSStorageCourse) {
+			return false;
+		}
+
+		$file = $this->fss_storage->getInfoDirectory().'/'.$this->getFileId();
+		if(!file_exists($file)) {
+			$file = $this->fss_storage->getInfoDirectory().'/'.$this->getFileId().'.sec';
+		}
+		if(file_exists($file)) {
+			return $file;
 		}
 		return false;
 	}

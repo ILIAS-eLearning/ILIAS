@@ -297,6 +297,7 @@ class ilDclRecordListGUI {
 	public function doTableSwitch() {
 		$this->ctrl->clearParameters($this);
 		$this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $_POST['table_id']);
+		$this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
 		$this->ctrl->clearParametersByClass(ilObjDataCollectionGUI::class, 'tableview_id');
 		$this->ctrl->redirect($this, self::CMD_SHOW);
 	}

@@ -88,6 +88,8 @@ class ilCalendarHeaderNavigationGUI
 		$ui = $this->ui;
 		$toolbar = $this->toolbar;
 
+		$today = new ilDateTime(time(),IL_CAL_UNIX, $this->user->getTimeZone());
+
 		$tpl = new ilTemplate("tpl.navigation_header.html", true, true, "Services/Calendar");
 
 		// previous button
@@ -131,11 +133,21 @@ class ilCalendarHeaderNavigationGUI
 				break;
 		}
 		ilDatePresentation::setUseRelativeDates(true);
-		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
+		$this->ctrl->setParameterByClass(
+			get_class($this->cmdClass),
+			'seed',
+			$today->get(IL_CAL_DATE)
+		);
 		if($contains_today){
-			$b2 = $ui->factory()->button()->standard($lng->txt("today"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd))->withUnavailableAction();
+			$b2 = $ui->factory()->button()->standard(
+				$lng->txt("today"),
+				$this->ctrl->getLinkTarget($this->cmdClass,$this->cmd)
+			)->withUnavailableAction();
 		} else {
-			$b2 = $ui->factory()->button()->standard($lng->txt("today"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
+			$b2 = $ui->factory()->button()->standard(
+				$lng->txt("today"),
+				$this->ctrl->getLinkTarget($this->cmdClass,$this->cmd)
+			);
 		}
 
 		// next button

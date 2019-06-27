@@ -114,7 +114,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2.4 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.6 and 5.7 and Galera (experimental), PostgreSQL 9.x
-  * PHP: Version 7.0, 7.1 and 7.2 are supported
+  * PHP: Version 7.0, 7.1, 7.2 and 7.3 are supported
   * zip: 3.0+
   * unzip: 6.0+
   * Imagemagick: 6.8.9-9+

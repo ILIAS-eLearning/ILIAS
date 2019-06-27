@@ -97,7 +97,11 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction {
 
 		$this->logger->info("Delivering File.");
 
-		ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name->getValue());
+		ilFileDelivery::deliverFileAttached(
+			$download_name->getValue(),
+			$zip_name->getValue(),
+			ilMimeTypeUtil::APPLICATION__ZIP
+		);
 
 		return $input;
 	}

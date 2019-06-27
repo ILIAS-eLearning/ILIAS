@@ -317,12 +317,11 @@ class Renderer extends AbstractComponentRenderer
 			$forward = $f->glyph()->next($url_next);
 		}
 
-		//2do: unavailable action for glyphs
 		if($component->getCurrentPage() === 0) {
-			//$back = $back->WithUnavailableAction();
+			$back = $back->withUnavailableAction();
 		}
 		if($component->getCurrentPage() >= $component->getNumberOfPages()-1) {
-			//$forward = $forward->WithUnavailableAction();
+			$forward = $forward->withUnavailableAction();
 		}
 
 		$tpl->setVariable('PREVIOUS', $default_renderer->render($back));

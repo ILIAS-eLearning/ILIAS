@@ -41,7 +41,27 @@ class ilSCTasks
 		}
 		return self::$instances[$a_group_id];
 	}
-	
+
+	/**
+	 * @param int $a_task_id
+	 * @return string
+	 * @throws \ilDatabaseException
+	 */
+	public static function lookupIdentifierForTask($a_task_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$query = 'select identifier from sysc_tasks '.
+			'where id = '.$db->quote($a_task_id,'integer');
+		$res = $db->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+			return $row->identifier;
+		}
+		return '';
+	}
+
+
 	/**
 	 * Update from module/service reader
 	 * @param type $a_identifier
@@ -90,45 +110,42 @@ class ilSCTasks
 	}
 	
 	/**
-	 * 
-	 * @global type $ilDB
 	 */
 	public static function lookupCompleted($a_grp_id)
 	{
-		global $DIC;
+		$tasks = self::getInstanceByGroupId($a_grp_id);
 
-		$ilDB = $DIC['ilDB'];
-		
-		$query = 'SELECT count(id) num FROM sysc_tasks '.
-				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_COMPLETED,'integer').' '.
-				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			return $row->num;
+		$num_completed = 0;
+		foreach ($tasks->getTasks() as $task) {
+
+			if(!$task->isActive()) {
+				continue;
+			}
+			if($task->getStatus() == ilSCTask::STATUS_COMPLETED) {
+				$num_completed++;
+			}
 		}
-		return 0;
+		return $num_completed;
 	}
 	
 	/**
-	 * 
-	 * @global type $ilDB
 	 */
 	public static function lookupFailed($a_grp_id)
 	{
-		global $DIC;
+		$tasks = self::getInstanceByGroupId($a_grp_id);
 
-		$ilDB = $DIC['ilDB'];
-		
-		$query = 'SELECT count(id) num FROM sysc_tasks '.
-				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_FAILED,'integer').' '.
-				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			return $row->num;
+		$num_failed = 0;
+		foreach ($tasks->getTasks() as $task) {
+
+			if(!$task->isActive()) {
+				continue;
+			}
+
+			if($task->getStatus() == ilSCTask::STATUS_FAILED) {
+				$num_failed++;
+			}
 		}
-		return 0;
+		return $num_failed;
 	}
 	
 	/**
@@ -178,14 +195,14 @@ class ilSCTasks
 
 		$ilDB = $DIC['ilDB'];
 		
-		$query = 'SELECT id FROM sysc_tasks '.
+		$query = 'SELECT id, grp_id FROM sysc_tasks '.
 				'ORDER BY id ';
 		$res = $ilDB->query($query);
 		
 		$this->tasks = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$this->tasks[] = new ilSCTask($row->id);
+			$this->tasks[] = ilSCComponentTaskFactory::getTask($row->grp_id, $row->id);
 		}
 	}
 }

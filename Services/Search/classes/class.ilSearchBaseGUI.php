@@ -359,6 +359,14 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$_SESSION["il_cont_admin_panel"] = false;
 		$this->ctrl->redirect($this);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function keepObjectsInClipboardObject()
+	{
+		$this->ctrl->redirect($this);
+	}
 	
 	
 	/**
