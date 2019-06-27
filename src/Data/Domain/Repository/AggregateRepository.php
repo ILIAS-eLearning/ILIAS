@@ -30,7 +30,7 @@ abstract class AggregateRepository {
 	 */
 	private $has_cache = false;
 
-	public function __construct() {
+	protected function __construct() {
 		if (self::$cache === null)
 		{
 			self::$cache = ilGlobalCache::getInstance(self::CACHE_NAME);
@@ -85,6 +85,8 @@ abstract class AggregateRepository {
 	public function notifyAboutNewEvents() {
 		//Virtual Method
 	}
+
+	public abstract static function getInstance();
 
 	protected abstract function getEventStore() : EventStore;
 
