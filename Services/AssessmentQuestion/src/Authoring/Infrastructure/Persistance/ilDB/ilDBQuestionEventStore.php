@@ -3,14 +3,9 @@
 namespace ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\Data\Domain\Entity\AggregateId;
-use ILIAS\Data\Domain\Event\AbstractDomainEvent;
-use ILIAS\Data\Domain\Event\DomainEvent;
-use ILIAS\Data\Domain\Event\DomainEvents;
-use ILIAS\Data\Domain\Event\EventStore;
-
+use ILIAS\Data\Domain\Event\{AbstractDomainEvent, DomainEvent, DomainEvents, EventStore};
 
 class ilDBQuestionEventStore implements EventStore {
 
@@ -44,7 +39,7 @@ class ilDBQuestionEventStore implements EventStore {
 	public function getAggregateHistoryFor(AggregateId $id): DomainEvents {
 		global $DIC;
 
-		$sql = "SELECT * FROM " . ilDBQuestionStoredEvent::STORAGE_NAME . " where aggregate_id = " . $DIC->database()->quote($id->id());
+		$sql = "SELECT * FROM " . ilDBQuestionStoredEvent::STORAGE_NAME . " where aggregate_id = " . $DIC->database()->quote($id->getId());
 		$res = $DIC->database()->query($sql);
 
 		$event_stream = new DomainEvents();
