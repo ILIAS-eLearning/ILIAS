@@ -67,7 +67,7 @@ class ilCalendarRecurrenceCalculator
 	 	$this->log = $GLOBALS['DIC']->logger()->cal();
 	 	$this->event = $entry;
 	 	$this->recurrence = $rec;
-		
+
 		$this->duration = $entry->getEnd()->get(IL_CAL_UNIX) - $entry->getStart()->get(IL_CAL_UNIX);
 	}
 	
@@ -210,7 +210,8 @@ class ilCalendarRecurrenceCalculator
 	 */
 	protected function applyDurationPeriod(ilDateList $list, ilDateTime $start, ilDateTime $end)
 	{
-		foreach($list as $start_date)
+		$list_copy = clone $list;
+		foreach($list_copy as $start_date)
 		{
 			$end_date = clone $start_date;
 			$end_date->increment(ilDateTime::MINUTE, $this->getDuration() / 60);
