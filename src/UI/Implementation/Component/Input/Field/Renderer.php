@@ -508,7 +508,6 @@ class Renderer extends AbstractComponentRenderer
 		$input_tpl->setVariable("ID", $id);
 
 		foreach ($input->getOptions() as $value => $label) {
-			$group_id = $id .'_' .$value .'_group';
 			$opt_id = $id .'_' .$value .'_opt';
 
 			$input_tpl->setCurrentBlock('optionblock');
@@ -563,7 +562,9 @@ class Renderer extends AbstractComponentRenderer
 	protected function renderSwitchableGroupField(Component\Input\Field\SwitchableGroup $input, RendererInterface $default_renderer) {
 		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
 
-		//monitor change-events
+		$input = $input->withAdditionalOnLoadCode(function($id) {
+			return $this->getSwitchableGroupOnLoadCode($id);
+		});
 		$id = $this->bindJavaScript($input);
 		$input_tpl->setVariable("ID", $id);
 
@@ -571,38 +572,23 @@ class Renderer extends AbstractComponentRenderer
 			$opt_id = $id .'_' .$key.'_opt';
 
 			$input_tpl->setCurrentBlock('optionblock');
-			$input_tpl->setVariable("NAME", $group->getName());
+			$input_tpl->setVariable("NAME", $input->getName());
 			$input_tpl->setVariable("OPTIONID", $opt_id);
 			$input_tpl->setVariable("VALUE", $key);
-			$input_tpl->setVariable("LABEL", $label);
+			$input_tpl->setVariable("LABEL", $group->getLabel());
 
-			if ($input->getValue() !== null && $input->getValue()[0] === $key) {
-				$input_tpl->setVariable("CHECKED", 'checked="checked"');
+			if ($input->getValue() !== null) {
+				list($index, $subvalues) = $input->getValue();
+				if((int)$index === $key) {
+					$input_tpl->setVariable("CHECKED", 'checked="checked"');
+				}
 			}
 			if ($input->isDisabled()) {
 				$input_tpl->setVariable("DISABLED", 'disabled="disabled"');
 			}
 
-			$byline = $input->getBylineFor($value);
-			if (!empty($byline)) {
-				$input_tpl->setVariable("BYLINE", $byline);
-			}
-
-			//dependant fields
-			$dependant_group_html = $this->renderFieldGroups($group);
-			$dep_fields = $input->getDependantFieldsFor($value);
-			if(! is_null($dep_fields)) {
-				$inputs_html = '';
-				$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
-				foreach ($dep_fields as $key => $inpt) {
-					$inputs_html .= $default_renderer->render($inpt);
-				}
-				$dependant_group_tpl->setVariable("CONTENT", $inputs_html);
-				$dependant_group_tpl->setVariable("ID", $group_id);
-				$dependant_group_html = $dependant_group_tpl->get();
-			}
+			$dependant_group_html = $this->renderFieldGroups($group, $default_renderer);
 			$input_tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
-
 			$input_tpl->parseCurrentBlock();
 		}
 		$options_html = $input_tpl->get();
@@ -643,6 +629,27 @@ var {$id}_adjust = function() {
 }
 $id.change({$id}_adjust);
 {$id}_adjust();
+JS;
+	}
+
+	protected function getSwitchableGroupOnLoadCode($id) {
+		return <<<JS
+var radio = $("#$id");
+radio.change(function(event){
+	var r = $(this),
+		options = r.children('.il-input-radiooption').children('input');
+
+	options.each(function(index, opt) {
+		var group = $(opt).siblings('.form-group');
+		if(opt.checked) {
+			group.show();
+		} else {
+			group.hide();
+		}
+	});
+});
+radio.trigger('change');
+
 JS;
 	}
 
