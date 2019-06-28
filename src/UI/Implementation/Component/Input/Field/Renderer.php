@@ -795,6 +795,8 @@ JS;
 			Component\Input\Field\Text::class,
 			Component\Input\Field\Numeric::class,
 			Component\Input\Field\Group::class,
+			Component\Input\Field\OptionalGroup::class,
+			Component\Input\Field\SwitchableGroup::class,
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
 			Component\Input\Field\Tag::class,
