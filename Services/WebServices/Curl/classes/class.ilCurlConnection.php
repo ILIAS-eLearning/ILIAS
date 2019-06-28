@@ -135,7 +135,7 @@ class ilCurlConnection
 				if (!empty($proxy->getHost())) {
 					$this->setOpt(CURLOPT_PROXY, $proxy->getHost());
 				} else {
-					throw new ilCurlConnectionException("Proxy host is empty");
+					throw new ilCurlConnectionException("Proxy host is not set on activated proxy");
 				}
 
 				if (!empty($proxy->getPort())) {
