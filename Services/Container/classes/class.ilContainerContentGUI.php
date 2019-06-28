@@ -813,10 +813,14 @@ abstract class ilContainerContentGUI
 		// card
 		$title = $a_item_data["title"];
 
-		if ($a_item_data["type"] == "sess" && $a_item_data["title"] == "")
+		if ($a_item_data["type"] == "sess")
 		{
 			$app_info = ilSessionAppointment::_lookupAppointment($a_item_data['obj_id']);
-			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+			if ($title != "") {
+				$title = ": ".$title;
+			}
+			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']).
+				$title;
 		}
 
 		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
