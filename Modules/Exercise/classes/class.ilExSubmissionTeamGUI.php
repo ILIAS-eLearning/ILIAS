@@ -153,7 +153,7 @@ class ilExSubmissionTeamGUI
 				$button->setCaption("exc_team_log");
 				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "submissionScreenTeamLog"));
 			}
-			$team .= " ".$button->render();				
+			$team .= "<br><br>".$button->render();
 
 			$a_info->addProperty($lng->txt("exc_team_members"), $team);	
 		}
