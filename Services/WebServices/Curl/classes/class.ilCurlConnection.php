@@ -129,13 +129,19 @@ class ilCurlConnection
 		if ($proxy->isActive()) {
 			$this->setOpt(CURLOPT_HTTPPROXYTUNNEL, true);
 
-			$proxy_option = $proxy->getHost();
-			if (!empty($proxy->getPort())) {
-				$proxy_option .= ":" . $proxy->getPort();
-			}
-			$this->setOpt(CURLOPT_PROXY, $proxy_option);
+			if (!empty($proxy->getHost())) {
+				$proxy_option = $proxy->getHost();
 
-			$this->setOpt(CURLOPT_PROXYPORT, $proxy->getPort());
+				if (!empty($proxy->getPort())) {
+					$proxy_option .= ":" . $proxy->getPort();
+				}
+
+				$this->setOpt(CURLOPT_PROXY, $proxy_option);
+			}
+
+			if (!empty($proxy->getPort())) {
+				$this->setOpt(CURLOPT_PROXYPORT, $proxy->getPort());
+			}
 		}
 
 		return true;
