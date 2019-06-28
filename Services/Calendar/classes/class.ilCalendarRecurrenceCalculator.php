@@ -481,7 +481,7 @@ class ilCalendarRecurrenceCalculator
 						break;
 					case ilCalendarRecurrence::FREQ_YEARLY:
 						// Simply add
-						$day_list->add($new_day);
+						$days_list->add($new_day);
 						break;
 				}
 			}
