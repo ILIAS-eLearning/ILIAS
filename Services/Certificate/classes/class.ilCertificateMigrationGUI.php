@@ -144,7 +144,7 @@ class ilCertificateMigrationGUI
 			$this->user, new \ilCertificateMigration($this->user->getId())
 		);
 		if (false === $isMigrationAvailable) {
-			$this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+			return '';
 		}
 
 		$factory = $this->backgroundTasks->taskFactory();
