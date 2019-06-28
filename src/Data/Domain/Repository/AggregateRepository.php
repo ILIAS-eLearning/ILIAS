@@ -70,12 +70,12 @@ abstract class AggregateRepository {
 	private function getFromCache(AggregateId $aggregate_id)
 	{
 		$cache_key = $aggregate_id->getId();
-		if (self::$cache->exists($cache_key)) {
+		$aggregate = self::$cache->get($cache_key);
+		if ($aggregate === null) {
 			$aggregate = $this->reconstituteAggregate($this->getEventStore()->getAggregateHistoryFor($aggregate_id));
 			self::$cache->set($cache_key, $aggregate);
-			return $aggregate;
 		}
-		return self::$cache->get($cache_key);
+		return $aggregate;
 	}
 
 
