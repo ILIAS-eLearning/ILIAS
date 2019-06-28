@@ -4100,13 +4100,16 @@ class ilObjectListGUI
 			$image = $image->withAction($def_command['link']);
 		}
 
-		if ($type == 'sess' && $title == '') {
+		if ($type == 'sess') {
+			if ($title != "") {
+				$title = ": ".$title;
+			}
 			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
 			$title = ilSessionAppointment::_appointmentToString(
 				$app_info['start'],
 				$app_info['end'],
 				$app_info['fullday']
-			);
+			).$title;
 		}
 
 		$icon = $this->ui->factory()
