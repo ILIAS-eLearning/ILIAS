@@ -96,10 +96,11 @@ interface Factory {
 	 * ---
 	 *
 	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+	 * @param    string    $label
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\Group
 	 */
-	public function group(array $inputs);
+	public function group(array $inputs, string $label='');
 
 	/**
 	 * ---
