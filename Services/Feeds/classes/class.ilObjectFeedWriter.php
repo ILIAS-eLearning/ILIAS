@@ -113,7 +113,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 			
 			if ($a_purpose != false && $obj_type == "mcst") 
 			{
-    			$mob = ilMediaItem::_getMediaItemsOfMObId($item[mob_id], $a_purpose);
+    			$mob = ilMediaItem::_getMediaItemsOfMObId($item["mob_id"], $a_purpose);
 
 				if ($mob == false) 
 				{
