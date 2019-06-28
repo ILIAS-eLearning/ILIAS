@@ -124,6 +124,20 @@ class ilCurlConnection
 			throw new ilCurlConnectionException(curl_error($this->ch), curl_errno($this->ch));
 		}
 
+		// use a proxy, if configured by ILIAS
+		$proxy = ilProxySettings::_getInstance();
+		if ($proxy->isActive()) {
+			$this->setOpt(CURLOPT_HTTPPROXYTUNNEL, true);
+
+			$proxy_option = $proxy->getHost();
+			if (!empty($proxy->getPort())) {
+				$proxy_option .= ":" . $proxy->getPort();
+			}
+			$this->setOpt(CURLOPT_PROXY, $proxy_option);
+
+			$this->setOpt(CURLOPT_PROXYPORT, $proxy->getPort());
+		}
+
 		return true;
 	}
 
