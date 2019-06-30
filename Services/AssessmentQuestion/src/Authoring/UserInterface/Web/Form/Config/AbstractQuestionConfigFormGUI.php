@@ -136,24 +136,26 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	 */
 	protected function addQuestionGenericProperties()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
 		// title
-		$title = new \ilTextInputGUI($this->lng->txt("title"), "title");
+		$title = new \ilTextInputGUI($DIC->language()->txt("title"), "title");
 		$title->setMaxLength(100);
-		$title->setValue($this->question->getQuestionData()->getTitle());
+		$title->setValue($this->getQuestion()->getQuestionData()->getTitle());
 		$title->setRequired(TRUE);
 		$this->addItem($title);
 		
 		if( !$this->isLearningModuleContext() )
 		{
 			// author
-			$author = new \ilTextInputGUI($this->lng->txt("author"), "author");
-			$author->setValue($this->question->getQuestionData()->getAuthor());
+			$author = new \ilTextInputGUI($DIC->language()->txt("author"), "author");
+			$author->setValue($this->getQuestion()->getQuestionData()->getAuthor());
 			$author->setRequired(TRUE);
 			$this->addItem($author);
 			
 			// description
-			$description = new \ilTextInputGUI($this->lng->txt("description"), "comment");
-			$description->setValue($this->question->getQuestionData()->getDescription());
+			$description = new \ilTextInputGUI($DIC->language()->txt("description"), "comment");
+			$description->setValue($this->getQuestion()->getQuestionData()->getDescription());
 			$description->setRequired(FALSE);
 			$this->addItem($description);
 		}
@@ -161,7 +163,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		{
 			// author as hidden field
 			$hi = new \ilHiddenInputGUI("author");
-			$author = ilUtil::prepareFormOutput($this->question->getQuestionData()->getAuthor());
+			$author = ilUtil::prepareFormOutput($this->getQuestion()->getQuestionData()->getAuthor());
 			if (trim($author) == "")
 			{
 				$author = "-";
@@ -172,14 +174,14 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		}
 		
 		// lifecycle
-		$lifecycle = new \ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
-		$lifecycle->setOptions($this->question->getQuestionData()->getLifecycle()->getSelectOptions($this->lng));
-		$lifecycle->setValue($this->question->getQuestionData()->getLifecycle()->getIdentifier());
+		$lifecycle = new \ilSelectInputGUI($DIC->language()->txt('qst_lifecycle'), 'lifecycle');
+		$lifecycle->setOptions($this->getQuestion()->getQuestionData()->getLifecycle()->getSelectOptions($DIC->language()));
+		$lifecycle->setValue($this->getQuestion()->getQuestionData()->getLifecycle()->getIdentifier());
 		$this->addItem($lifecycle);
 		
 		// questiontext
-		$question = new \ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->question->getQuestionData()->getQuestionText());
+		$question = new \ilTextAreaInputGUI($DIC->language()->txt("question"), "question");
+		$question->setValue($this->getQuestion()->getQuestionData()->getQuestionText());
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
@@ -199,19 +201,19 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 			$question->addPlugin("latex");
 			$question->addButton("latex");
 			$question->addButton("pastelatex");
-			$question->setRTESupport($this->question->getQuestionData()->getQuestionId(), "qpl", "assessment");
+			$question->setRTESupport($this->getQuestion()->getQuestionData()->getQuestionId(), "qpl", "assessment");
 		}
 		$this->addItem($question);
 		
 		if( !$this->isLearningModuleContext() )
 		{
 			// duration
-			$duration = new \ilDurationInputGUI($this->lng->txt("working_time"), "estimated");
+			$duration = new \ilDurationInputGUI($DIC->language()->txt("working_time"), "estimated");
 			$duration->setShowHours(TRUE);
 			$duration->setShowMinutes(TRUE);
 			$duration->setShowSeconds(TRUE);
 			list($ewtH, $ewtM, $ewtS) = explode(
-				':', $this->question->getQuestionData()->getWorkingTime()
+				':', $this->getQuestion()->getQuestionData()->getWorkingTime()
 			);
 			$duration->setHours($ewtH);
 			$duration->setMinutes($ewtM);
@@ -223,9 +225,9 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		{
 			$nr_tries = 0;
 			// number of tries
-			if (strlen($this->question->getQuestionData()->getNrOfTries()))
+			if (strlen($this->getQuestion()->getQuestionData()->getNrOfTries()))
 			{
-				$nr_tries = $this->question->getQuestionData()->getNrOfTries();
+				$nr_tries = $this->getQuestion()->getQuestionData()->getNrOfTries();
 			}
 			
 			if ($nr_tries < 1)
@@ -233,7 +235,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 				$nr_tries = "";
 			}
 			
-			$ni = new \ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
+			$ni = new \ilNumberInputGUI($DIC->language()->txt("qst_nr_of_tries"), "nr_of_tries");
 			$ni->setValue($nr_tries);
 			$ni->setMinValue(0);
 			$ni->setSize(5);
@@ -259,25 +261,27 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	 */
 	protected function addTaxonomyFormSection()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
 		if( count($this->getTaxonomies()) )
 		{
 			$sectHeader = new \ilFormSectionHeaderGUI();
-			$sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
+			$sectHeader->setTitle($DIC->language()->txt('qpl_qst_edit_form_taxonomy_section'));
 			$this->addItem($sectHeader);
 			
 			foreach($this->getTaxonomies() as $taxonomyId)
 			{
 				$taxonomy = new \ilObjTaxonomy($taxonomyId);
-				$label = sprintf($this->lng->txt('qpl_qst_edit_form_taxonomy'), $taxonomy->getTitle());
+				$label = sprintf($DIC->language()->txt('qpl_qst_edit_form_taxonomy'), $taxonomy->getTitle());
 				$postvar = "tax_node_assign_$taxonomyId";
 				
 				$taxSelect = new \ilTaxSelectInputGUI($taxonomy->getId(), $postvar, true);
 				$taxSelect->setTitle($label);
 				
-				$taxNodeAssignments = new \ilTaxNodeAssignment(ilObject::_lookupType($this->question->getQuestionData()->getQuestionId()),
+				$taxNodeAssignments = new \ilTaxNodeAssignment(ilObject::_lookupType($this->getQuestion()->getQuestionData()->getQuestionId()),
 					$this->getQuestion()->getQuestionData()->getQuestionId(), 'quest', $taxonomyId
 				);
-				$assignedNodes = $taxNodeAssignments->getAssignmentsOfItem($this->question->getId());
+				$assignedNodes = $taxNodeAssignments->getAssignmentsOfItem($this->getQuestion()->getId());
 				
 				$taxSelect->setValue(array_map(function($assignedNode) {
 					return $assignedNode['node_id'];
@@ -290,12 +294,14 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	
 	public function addCommandButtons()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
 		if( !$this->isLearningModuleContext() )
 		{
-			$this->addCommandButton('saveReturn', $this->lng->txt('save_return'));
+			$this->addCommandButton('saveReturn', $DIC->language()->txt('save_return'));
 		}
 		
-		$this->addCommandButton('save', $this->lng->txt('save'));
+		$this->addCommandButton('save', $DIC->language()->txt('save'));
 	}
 	
 	public function fillObject() {
@@ -306,23 +312,23 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		
 		$success = true;
 		try {
-			$this->question->getQuestionData()->setTitle($this->getInput("title"));
-			$this->question->getQuestionData()->setAuthor($this->getInput("author"));
-			$this->question->getQuestionData()->setLifecycle(ilAsqQuestionLifecycle::getInstance($this->getInput("lifecycle")));
-			$this->question->getQuestionData()->setQuestionText($this->getInput("question"));
+			$this->getQuestion()->getQuestionData()->setTitle($this->getInput("title"));
+			$this->getQuestion()->getQuestionData()->setAuthor($this->getInput("author"));
+			$this->getQuestion()->getQuestionData()->setLifecycle(ilAsqQuestionLifecycle::getInstance($this->getInput("lifecycle")));
+			$this->getQuestion()->getQuestionData()->setQuestionText($this->getInput("question"));
 			
 			
 			if( $this->isLearningModuleContext() )
 			{
-				$this->question->getQuestionData()->setNrOfTries($this->getInput("nr_of_tries"));
+				$this->getQuestion()->getQuestionData()->setNrOfTries($this->getInput("nr_of_tries"));
 			}
 			else
 			{
-				$this->question->getQuestionData()->setDescription($this->getInput("comment"));
+				$this->getQuestion()->getQuestionData()->setDescription($this->getInput("comment"));
 				/** @var ilDurationInputGUI $durationItem */
 				$durationItem = $this->getItemByPostVar("estimated");
 				$duration = sprintf("%02d:%02d:%02d", $durationItem->getHours(), $durationItem->getMinutes(), $durationItem->getSeconds());
-				$this->question->getQuestionData()->setWorkingTime($duration);
+				$this->getQuestion()->getQuestionData()->setWorkingTime($duration);
 			}
 			
 			$this->fillQuestionSpecificProperties();

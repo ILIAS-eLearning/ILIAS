@@ -25,8 +25,10 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	 */
 	protected function addQuestionSpecificProperties()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
 		// shuffle
-		$shuffle = new \ilCheckboxInputGUI($this->lng->txt( "shuffle_answers" ), "shuffle");
+		$shuffle = new \ilCheckboxInputGUI($DIC->language()->txt( "shuffle_answers" ), "shuffle");
 		$shuffle->setValue( 1 );
 		$shuffle->setChecked( $this->getQuestion()->isShuffle() );
 		$shuffle->setRequired( false );
@@ -35,12 +37,12 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		if( !$this->isLearningModuleContext() )
 		{
 			// Answer types
-			$types = new \ilSelectInputGUI($this->lng->txt( "answer_types" ), "types");
+			$types = new \ilSelectInputGUI($DIC->language()->txt( "answer_types" ), "types");
 			$types->setRequired( false );
 			$types->setValue( ($this->getQuestion()->isAllowImages()) ? 0 : 1 );
 			$types->setOptions( array(
-					0 => $this->lng->txt( 'answers_singleline' ),
-					1 => $this->lng->txt( 'answers_multiline' ),
+					0 => $DIC->language()->txt( 'answers_singleline' ),
+					1 => $DIC->language()->txt( 'answers_multiline' ),
 				)
 			);
 			$this->addItem( $types );
@@ -49,12 +51,12 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		if( $this->getQuestion()->isAllowImages() )
 		{
 			// thumb size
-			$thumb_size = new \ilNumberInputGUI($this->lng->txt( "thumb_size" ), "thumb_size");
-			$thumb_size->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
+			$thumb_size = new \ilNumberInputGUI($DIC->language()->txt( "thumb_size" ), "thumb_size");
+			$thumb_size->setSuffix($DIC->language()->txt("thumb_size_unit_pixel"));
 			$thumb_size->setMinValue( 20 );
 			$thumb_size->setDecimals( 0 );
 			$thumb_size->setSize( 6 );
-			$thumb_size->setInfo( $this->lng->txt( 'thumb_size_info' ) );
+			$thumb_size->setInfo( $DIC->language()->txt( 'thumb_size_info' ) );
 			$thumb_size->setValue( $this->getQuestion()->getThumbSize() ? $this->getQuestion()->getThumbSize() : '' );
 			$thumb_size->setRequired( false );
 			$this->addItem( $thumb_size );
@@ -67,8 +69,10 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	 */
 	protected function addAnswerSpecificProperties()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
 		// Choices
-		$choices = new \ilSingleChoiceWizardInputGUI($this->lng->txt( "answers" ), "choice");
+		$choices = new \ilSingleChoiceWizardInputGUI($DIC->language()->txt( "answers" ), "choice");
 		$choices->setRequired( true );
 		$choices->setQuestionObject( $this->getQuestion() );
 		$choices->setSingleline( $this->getQuestion()->isAllowImages() );
@@ -93,21 +97,21 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	}
 	
 	protected function fillQuestionSpecificProperties() {
-		$this->question->setShuffle($this->getInput("shuffle"));
+		$this->getQuestion()->setShuffle($this->getInput("shuffle"));
 		
-		if ($this->question->isAllowImages()) {
-			$this->question->setThumbSize((int)$this->getInput("thumb_size"));
+		if ($this->getQuestion()->isAllowImages()) {
+			$this->getQuestion()->setThumbSize((int)$this->getInput("thumb_size"));
 		}
 		
 		if( !$this->isLearningModuleContext() )
 		{
-			$this->question->setAllowImages($this->getInput("types"));
+			$this->getQuestion()->setAllowImages($this->getInput("types"));
 		}
 	}
 	
 	protected function fillAnswerSpecificProperties() {
 		/** @var \ilSingleChoiceWizardInputGUI $choices */
 		$choices = $this->getItemByPostVar("choice");
-		$this->question->setAnswersFromBinaryState($choices->getValues());
+		$this->getQuestion()->setAnswersFromBinaryState($choices->getValues());
 	}
 }
