@@ -578,21 +578,26 @@ class ilSAHSPresentationGUI
 	function setInfoTabs($a_active)
 	{		
 		global $DIC;
-		$ilTabs = $DIC['ilTabs'];
-		$ilLocator = $DIC['ilLocator'];
-		$ilAccess = $DIC['ilAccess'];
+
+		if(
+			!$DIC->access()->checkAccess('visible', '', (int) $_GET["ref_id"]) &&
+			!$DIC->access()->checkAccess('read', '', (int) $_GET["ref_id"])
+		) {
+			$DIC['ilErr']->raiseError($this->lng->txt('msg_no_perm_read'), $DIC['ilErr']->MESSAGE);
+		}
+		
 		// $ilTabs->clearTargets();
 		// #9658 / #11753
 		include_once "Services/Tracking/classes/class.ilLearningProgressAccess.php";
 		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]))
 		{
-			$ilTabs->addTab("info_short", $this->lng->txt("info_short"), 
+			$DIC->tabs()->addTab("info_short", $this->lng->txt("info_short"), 
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
-						
-			$ilTabs->addTab("learning_progress", $this->lng->txt("learning_progress"), 
+
+			$DIC->tabs()->addTab("learning_progress", $this->lng->txt("learning_progress"), 
 				$this->ctrl->getLinkTargetByClass('illearningprogressgui',''));
 		}
-		if($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"]) || $ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"]))
+		if($DIC->access()->checkAccess("edit_learning_progress", "", $_GET["ref_id"]) || $DIC->access()->checkAccess("read_learning_progress", "", $_GET["ref_id"]))
 		{
 			include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 			$privacy = ilPrivacySettings::_getInstance();
@@ -601,21 +606,21 @@ class ilSAHSPresentationGUI
 				$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 				$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 				if($type == "scorm2004") {
-					$ilTabs->addTab("cont_tracking_data", $this->lng->txt("cont_tracking_data"), 
+					$DIC->tabs()->addTab("cont_tracking_data", $this->lng->txt("cont_tracking_data"), 
 							$this->ctrl->getLinkTargetByClass('ilobjscorm2004learningmodulegui','showTrackingItems'));
 				}
 				else if($type == "scorm") {
-					$ilTabs->addTab("cont_tracking_data", $this->lng->txt("cont_tracking_data"), 
+					$DIC->tabs()->addTab("cont_tracking_data", $this->lng->txt("cont_tracking_data"), 
 							$this->ctrl->getLinkTargetByClass('ilobjscormlearningmodulegui','showTrackingItems'));
 				}
 			}
-		}	
-		$ilTabs->activateTab($a_active);
+		}
+		$DIC->tabs()->activateTab($a_active);
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->slm_gui->object->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
-		$ilLocator->addRepositoryItems();
-		$ilLocator->addItem($this->slm_gui->object->getTitle(),
+		$DIC['ilLocator']->addRepositoryItems();
+		$DIC['ilLocator']->addItem($this->slm_gui->object->getTitle(),
 			$this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 		$this->tpl->setLocator();
 	}
