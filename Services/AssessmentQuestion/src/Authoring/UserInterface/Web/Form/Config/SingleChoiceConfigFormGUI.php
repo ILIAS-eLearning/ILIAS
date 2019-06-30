@@ -68,7 +68,7 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	protected function addAnswerSpecificProperties()
 	{
 		// Choices
-		$choices = new \ilAsqSingleChoiceWizardInputGUI($this->lng->txt( "answers" ), "choice");
+		$choices = new \ilSingleChoiceWizardInputGUI($this->lng->txt( "answers" ), "choice");
 		$choices->setRequired( true );
 		$choices->setQuestionObject( $this->getQuestion() );
 		$choices->setSingleline( $this->getQuestion()->isAllowImages() );
@@ -86,7 +86,7 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		}
 		else
 		{
-			$choices->setValues([new \ilAsqSingleChoiceQuestionAnswer()]);
+			$choices->setValues([new \ASS_AnswerBinaryStateImage()]);
 		}
 		
 		$this->addItem( $choices );
