@@ -22,16 +22,18 @@ class KprimChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	
 	protected function addQuestionSpecificProperties()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
 		// shuffle answers
-		$shuffleAnswers = new \ilCheckboxInputGUI($this->lng->txt( "shuffle_answers" ), "shuffle_answers_enabled");
+		$shuffleAnswers = new \ilCheckboxInputGUI($DIC->language()->txt( "shuffle_answers" ), "shuffle_answers_enabled");
 		$shuffleAnswers->setChecked( $this->getQuestion()->isShuffleAnswersEnabled() );
 		$this->addItem($shuffleAnswers);
 		
 		if( !$this->isLearningModuleContext() )
 		{
 			// answer mode (single-/multi-line)
-			$answerType = new ilSelectInputGUI($this->lng->txt('answer_types'), 'answer_type');
-			$answerType->setOptions($this->getQuestion()->getAnswerTypeSelectOptions($this->lng));
+			$answerType = new \ilSelectInputGUI($DIC->language()->txt('answer_types'), 'answer_type');
+			$answerType->setOptions($this->getQuestion()->getAnswerTypeSelectOptions($DIC->language()));
 			$answerType->setValue( $this->getQuestion()->getAnswerType() );
 			$this->addItem($answerType);
 		}
@@ -39,9 +41,9 @@ class KprimChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		if( !$this->isLearningModuleContext() && $this->getQuestion()->isSingleLineAnswerType($this->getQuestion()->getAnswerType()) )
 		{
 			// thumb size
-			$thumbSize = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_size');
-			$thumbSize->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
-			$thumbSize->setInfo( $this->lng->txt('thumb_size_info') );
+			$thumbSize = new \ilNumberInputGUI($DIC->language()->txt('thumb_size'), 'thumb_size');
+			$thumbSize->setSuffix($DIC->language()->txt("thumb_size_unit_pixel"));
+			$thumbSize->setInfo( $DIC->language()->txt('thumb_size_info') );
 			$thumbSize->setDecimals(false);
 			$thumbSize->setMinValue(20);
 			$thumbSize->setSize(6);
@@ -53,25 +55,25 @@ class KprimChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		}
 		
 		// option label
-		$optionLabel = new ilRadioGroupInputGUI($this->lng->txt('option_label'), 'option_label');
-		$optionLabel->setInfo($this->lng->txt('option_label_info'));
+		$optionLabel = new \ilRadioGroupInputGUI($DIC->language()->txt('option_label'), 'option_label');
+		$optionLabel->setInfo($DIC->language()->txt('option_label_info'));
 		$optionLabel->setRequired(true);
 		$optionLabel->setValue($this->getQuestion()->getOptionLabel());
-		foreach($this->getQuestion()->getValidOptionLabelsTranslated($this->lng) as $labelValue => $labelText)
+		foreach($this->getQuestion()->getValidOptionLabelsTranslated($DIC->language()) as $labelValue => $labelText)
 		{
-			$option = new ilRadioOption($labelText, $labelValue);
+			$option = new \ilRadioOption($labelText, $labelValue);
 			$optionLabel->addOption($option);
 			
 			if( $this->getQuestion()->isCustomOptionLabel($labelValue) )
 			{
-				$customLabelTrue = new ilTextInputGUI(
-					$this->lng->txt('option_label_custom_true'), 'option_label_custom_true'
+				$customLabelTrue = new \ilTextInputGUI(
+					$DIC->language()->txt('option_label_custom_true'), 'option_label_custom_true'
 				);
 				$customLabelTrue->setValue($this->getQuestion()->getCustomTrueOptionLabel());
 				$option->addSubItem($customLabelTrue);
 				
-				$customLabelFalse = new ilTextInputGUI(
-					$this->lng->txt('option_label_custom_false'), 'option_label_custom_false'
+				$customLabelFalse = new \ilTextInputGUI(
+					$DIC->language()->txt('option_label_custom_false'), 'option_label_custom_false'
 				);
 				$customLabelFalse->setValue($this->getQuestion()->getCustomFalseOptionLabel());
 				$option->addSubItem($customLabelFalse);
@@ -80,7 +82,7 @@ class KprimChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		$this->addItem($optionLabel);
 		
 		// points
-		$points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
+		$points = new \ilNumberInputGUI($DIC->language()->txt('points'), 'points');
 		$points->setRequired(true);
 		$points->setSize(3);
 		$points->allowDecimals(true);
@@ -90,19 +92,18 @@ class KprimChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		$this->addItem($points);
 		
 		// score partial solution
-		$scorePartialSolution = new ilCheckboxInputGUI($this->lng->txt('score_partsol_enabled'), 'score_partsol_enabled');
-		$scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
+		$scorePartialSolution = new \ilCheckboxInputGUI($DIC->language()->txt('score_partsol_enabled'), 'score_partsol_enabled');
+		$scorePartialSolution->setInfo($DIC->language()->txt('score_partsol_enabled_info'));
 		$scorePartialSolution->setChecked( $this->getQuestion()->isScorePartialSolutionEnabled() );
 		$this->addItem($scorePartialSolution);
-		
-		return $form;
 	}
 	
 	protected function addAnswerSpecificProperties()
 	{
-		require_once 'Modules/TestQuestionPool/classes/class.ilKprimChoiceWizardInputGUI.php';
-		$kprimAnswers = new ilKprimChoiceWizardInputGUI($this->lng->txt('answers'), 'kprim_answers');
-		$kprimAnswers->setInfo($this->lng->txt('kprim_answers_info'));
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$kprimAnswers = new \ilKprimChoiceWizardInputGUI($DIC->language()->txt('answers'), 'kprim_answers');
+		$kprimAnswers->setInfo($DIC->language()->txt('kprim_answers_info'));
 		$kprimAnswers->setSize(64);
 		$kprimAnswers->setMaxLength(1000);
 		$kprimAnswers->setRequired(true);
@@ -118,18 +119,53 @@ class KprimChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		}
 		$kprimAnswers->setValues($this->getQuestion()->getAnswers());
 		$this->addItem($kprimAnswers);
-		
-		return $form;
 	}
 	
 	protected function fillQuestionSpecificProperties()
 	{
-		// TODO: Implement fillQuestionSpecificProperties() method.
+		$oldAnswerType = $this->getQuestion()->getAnswerType();
+		
+		$this->getQuestion()->setShuffleAnswersEnabled($this->getItemByPostVar('shuffle_answers_enabled')->getChecked());
+		
+		if( !$this->getQuestion()->getSelfAssessmentEditingMode() )
+		{
+			$this->getQuestion()->setAnswerType($this->getItemByPostVar('answer_type')->getValue());
+		}
+		else
+		{
+			$this->getQuestion()->setAnswerType(assKprimChoice::ANSWER_TYPE_MULTI_LINE);
+		}
+		
+		if( !$this->getQuestion()->getSelfAssessmentEditingMode() && $this->getQuestion()->isSingleLineAnswerType($oldAnswerType) )
+		{
+			$this->getQuestion()->setThumbSize($this->getItemByPostVar('thumb_size')->getValue());
+		}
+		
+		$this->getQuestion()->setOptionLabel($this->getItemByPostVar('option_label')->getValue());
+		
+		if( $this->getQuestion()->isCustomOptionLabel($this->getQuestion()->getOptionLabel()) )
+		{
+			$this->getQuestion()->setCustomTrueOptionLabel( strip_tags(
+				$this->getItemByPostVar('option_label_custom_true')->getValue()
+			));
+			$this->getQuestion()->setCustomFalseOptionLabel( strip_tags(
+				$this->getItemByPostVar('option_label_custom_false')->getValue()
+			));
+		}
+		
+		$this->getQuestion()->setPoints($this->getItemByPostVar('points')->getValue());
+		
+		$this->getQuestion()->setScorePartialSolutionEnabled($this->getItemByPostVar('score_partsol_enabled')->getChecked());
 	}
 	
 	protected function fillAnswerSpecificProperties()
 	{
-		// TODO: Implement fillAnswerSpecificProperties() method.
+		$answers = $this->getItemByPostVar('kprim_answers')->getValues();
+		$answers = $this->handleAnswerTextsSubmit($answers);
+		$files = $this->getItemByPostVar('kprim_answers')->getFiles();
+		
+		$this->getQuestion()->handleFileUploads($answers, $files);
+		$this->getQuestion()->setAnswers($answers);
 	}
 	
 }

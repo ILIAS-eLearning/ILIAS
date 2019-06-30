@@ -31,7 +31,6 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		$shuffle->setRequired( FALSE );
 		$this->addItem( $shuffle );
 		
-		require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
 		$selLim = new \ilNumberInputGUI($DIC->language()->txt('ass_mc_sel_lim_setting'), 'selection_limit');
 		$selLim->setInfo($DIC->language()->txt('ass_mc_sel_lim_setting_desc'));
 		$selLim->setSize(2);

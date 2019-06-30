@@ -163,7 +163,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		{
 			// author as hidden field
 			$hi = new \ilHiddenInputGUI("author");
-			$author = ilUtil::prepareFormOutput($this->getQuestion()->getQuestionData()->getAuthor());
+			$author = \ilUtil::prepareFormOutput($this->getQuestion()->getQuestionData()->getAuthor());
 			if (trim($author) == "")
 			{
 				$author = "-";
@@ -188,16 +188,14 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		
 		if( $this->isLearningModuleContext() )
 		{
-			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
-			$question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
+			$question->setRteTags(\ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$question->setUseTagsForRteOnly(false);
 			
 		}
 		elseif( $this->isRteEnabled() )
 		{
 			$question->setUseRte(TRUE);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+			$question->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 			$question->addPlugin("latex");
 			$question->addButton("latex");
 			$question->addButton("pastelatex");
@@ -278,7 +276,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 				$taxSelect = new \ilTaxSelectInputGUI($taxonomy->getId(), $postvar, true);
 				$taxSelect->setTitle($label);
 				
-				$taxNodeAssignments = new \ilTaxNodeAssignment(ilObject::_lookupType($this->getQuestion()->getQuestionData()->getQuestionId()),
+				$taxNodeAssignments = new \ilTaxNodeAssignment(\ilObject::_lookupType($this->getQuestion()->getQuestionData()->getQuestionId()),
 					$this->getQuestion()->getQuestionData()->getQuestionId(), 'quest', $taxonomyId
 				);
 				$assignedNodes = $taxNodeAssignments->getAssignmentsOfItem($this->getQuestion()->getId());
@@ -314,7 +312,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		try {
 			$this->getQuestion()->getQuestionData()->setTitle($this->getInput("title"));
 			$this->getQuestion()->getQuestionData()->setAuthor($this->getInput("author"));
-			$this->getQuestion()->getQuestionData()->setLifecycle(ilAsqQuestionLifecycle::getInstance($this->getInput("lifecycle")));
+			$this->getQuestion()->getQuestionData()->setLifecycle(\ilAsqQuestionLifecycle::getInstance($this->getInput("lifecycle")));
 			$this->getQuestion()->getQuestionData()->setQuestionText($this->getInput("question"));
 			
 			
@@ -325,7 +323,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 			else
 			{
 				$this->getQuestion()->getQuestionData()->setDescription($this->getInput("comment"));
-				/** @var ilDurationInputGUI $durationItem */
+				/** @var \ilDurationInputGUI $durationItem */
 				$durationItem = $this->getItemByPostVar("estimated");
 				$duration = sprintf("%02d:%02d:%02d", $durationItem->getHours(), $durationItem->getMinutes(), $durationItem->getSeconds());
 				$this->getQuestion()->getQuestionData()->setWorkingTime($duration);
