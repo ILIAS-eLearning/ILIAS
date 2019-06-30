@@ -16,7 +16,7 @@ namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form;
 class ImagemapQuestionConfigFormGUI extends AbstractQuestionConfigFormGUI
 {
 	/**
-	 * @var \ilAsqErrorTextQuestion
+	 * @var \ilAsqImagemapQuestion
 	 */
 	protected $question;
 	
