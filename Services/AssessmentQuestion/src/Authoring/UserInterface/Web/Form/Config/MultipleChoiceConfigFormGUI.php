@@ -25,14 +25,14 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
 		// shuffle
-		$shuffle = new ilCheckboxInputGUI($DIC->language()->txt( "shuffle_answers" ), "shuffle");
+		$shuffle = new \ilCheckboxInputGUI($DIC->language()->txt( "shuffle_answers" ), "shuffle");
 		$shuffle->setValue( 1 );
 		$shuffle->setChecked( $this->getQuestion()->getShuffle() );
 		$shuffle->setRequired( FALSE );
 		$this->addItem( $shuffle );
 		
 		require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
-		$selLim = new ilNumberInputGUI($DIC->language()->txt('ass_mc_sel_lim_setting'), 'selection_limit');
+		$selLim = new \ilNumberInputGUI($DIC->language()->txt('ass_mc_sel_lim_setting'), 'selection_limit');
 		$selLim->setInfo($DIC->language()->txt('ass_mc_sel_lim_setting_desc'));
 		$selLim->setSize(2);
 		$selLim->setRequired(false);
@@ -46,7 +46,7 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		
 		if ($this->getQuestion()->getId())
 		{
-			$hidden = new ilHiddenInputGUI("", "ID");
+			$hidden = new \ilHiddenInputGUI("", "ID");
 			$hidden->setValue( $this->getQuestion()->getId() );
 			$this->addItem( $hidden );
 		}
@@ -56,7 +56,7 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		if (!$this->getQuestion()->getSelfAssessmentEditingMode())
 		{
 			// Answer types
-			$types = new ilSelectInputGUI($DIC->language()->txt( "answer_types" ), "types");
+			$types = new \ilSelectInputGUI($DIC->language()->txt( "answer_types" ), "types");
 			$types->setRequired( false );
 			$types->setValue( ($isSingleline) ? 0 : 1 );
 			$types->setOptions( array(
@@ -70,7 +70,7 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		if ($isSingleline)
 		{
 			// thumb size
-			$thumb_size = new ilNumberInputGUI($DIC->language()->txt( "thumb_size" ), "thumb_size");
+			$thumb_size = new \ilNumberInputGUI($DIC->language()->txt( "thumb_size" ), "thumb_size");
 			$thumb_size->setSuffix($DIC->language()->txt("thumb_size_unit_pixel"));
 			$thumb_size->setMinValue( 20 );
 			$thumb_size->setDecimals( 0 );
@@ -90,7 +90,7 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		
 		// Choices
 		include_once "./Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php";
-		$choices = new ilMultipleChoiceWizardInputGUI($DIC->language()->txt( "answers" ), "choice");
+		$choices = new \ilMultipleChoiceWizardInputGUI($DIC->language()->txt( "answers" ), "choice");
 		$choices->setRequired( true );
 		$choices->setQuestionObject( $this->getQuestion() );
 		$isSingleline = $this->getEditAnswersSingleLine();
