@@ -109,11 +109,75 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	
 	protected function fillQuestionSpecificProperties()
 	{
-		// TODO: Implement fillQuestionSpecificProperties() method.
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$this->getQuestion()->setShuffle( $_POST["shuffle"] );
+		
+		$selectionLimit = (int)$this->getItemByPostVar('selection_limit')->getValue();
+		$this->getQuestion()->setSelectionLimit($selectionLimit > 0 ? $selectionLimit : null);
+		
+		$this->getQuestion()->setSpecificFeedbackSetting( $_POST['feedback_setting'] );
+		
+		$this->getQuestion()->setMultilineAnswerSetting( $_POST["types"] );
+		if (is_array( $_POST['choice']['imagename'] ) && $_POST["types"] == 1)
+		{
+			$this->getQuestion()->isSingleline = true;
+			\ilUtil::sendInfo( $DIC->language()->txt( 'info_answer_type_change' ), true );
+		}
+		else
+		{
+			$this->getQuestion()->isSingleline = ($_POST["types"] == 0) ? true : false;
+		}
+		$this->getQuestion()->setThumbSize( (strlen( $_POST["thumb_size"] )) ? $_POST["thumb_size"] : "" );
 	}
 	
 	protected function fillAnswerSpecificProperties()
 	{
-		// TODO: Implement fillAnswerSpecificProperties() method.
+		// Delete all existing answers and create new answers from the form data
+		$this->getQuestion()->flushAnswers();
+		if ($this->getQuestion()->isSingleline)
+		{
+			foreach ($_POST['choice']['answer'] as $index => $answertext)
+			{
+				$answertext = \ilUtil::secureString($answertext);
+				
+				$picturefile    = $_POST['choice']['imagename'][$index];
+				$file_org_name  = $_FILES['choice']['name']['image'][$index];
+				$file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
+				
+				if (strlen( $file_temp_name ))
+				{
+					// check suffix						
+					$suffix = strtolower( array_pop( explode( ".", $file_org_name ) ) );
+					if (in_array( $suffix, array( "jpg", "jpeg", "png", "gif" ) ))
+					{
+						// upload image
+						$filename = $this->getQuestion()->buildHashedImageFilename( $file_org_name );
+						if ($this->getQuestion()->setImageFile( $filename, $file_temp_name ) == 0)
+						{
+							$picturefile = $filename;
+						}
+					}
+				}
+				$this->getQuestion()->addAnswer( $answertext,
+					$_POST['choice']['points'][$index],
+					$_POST['choice']['points_unchecked'][$index],
+					$index,
+					$picturefile
+				);
+			}
+		}
+		else
+		{
+			foreach ($_POST['choice']['answer'] as $index => $answer)
+			{
+				$answertext = $answer;
+				$this->getQuestion()->addAnswer( $answertext,
+					$_POST['choice']['points'][$index],
+					$_POST['choice']['points_unchecked'][$index],
+					$index
+				);
+			}
+		}
 	}
 }
