@@ -53,7 +53,7 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		
 		$isSingleline = $this->getEditAnswersSingleLine();
 		
-		if (!$this->getQuestion()->getSelfAssessmentEditingMode())
+		if (!$this->isLearningModuleContext())
 		{
 			// Answer types
 			$types = new \ilSelectInputGUI($DIC->language()->txt( "answer_types" ), "types");
@@ -96,7 +96,7 @@ class MultipleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 		$isSingleline = $this->getEditAnswersSingleLine();
 		$choices->setSingleline( $isSingleline );
 		$choices->setAllowMove( false );
-		if ($this->getQuestion()->getSelfAssessmentEditingMode())
+		if ($this->isLearningModuleContext())
 		{
 			$choices->setSize( 40 );
 			$choices->setMaxLength( 800 );
