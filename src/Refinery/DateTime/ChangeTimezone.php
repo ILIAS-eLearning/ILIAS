@@ -1,16 +1,16 @@
 <?php
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Transformation\Transformations;
+namespace ILIAS\Refinery\DateTime;
 
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 /**
  * change the timezone of php's \DateTimeImmutable
  */
-class DateTimeWithTimezone implements Transformation
+class ChangeTimezone implements Transformation
 {
 	/**
 	 * @var \DateTimeZone

@@ -25,14 +25,10 @@ class DurationInputTest extends ILIAS_UI_TestBase {
 	protected function buildFactory() {
 		$df = new Data\Factory();
 		$language = $this->createMock(\ilLanguage::class);
+
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$this->data_factory,
-			new Validation\Factory(
-				$this->data_factory,
-				$language
-			),
-			new Transformation\Factory(),
 			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}

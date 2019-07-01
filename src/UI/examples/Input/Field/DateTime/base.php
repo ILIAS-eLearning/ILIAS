@@ -16,7 +16,7 @@ function base() {
 	//Step 1: define the inputs
 	$date = $ui->input()->field()->dateTime("Pick a date/time", "This is the byline text");
 	$formatted = $date
-		->withMinValue(new DateTime())
+		->withMinValue(new DateTimeImmutable())
 		->withFormat($data->dateFormat()->germanShort());
 	$time = $date->withTimeOnly(true);
 	$both = $date->withUseTime(true);

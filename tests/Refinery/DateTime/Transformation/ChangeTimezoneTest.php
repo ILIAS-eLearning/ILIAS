@@ -2,34 +2,21 @@
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Factory;
+use ILIAS\Refinery\DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
- * TestCase for timezone transformation
+ * Testcase for timezone transformation
  */
-class DateTimeWithTimezoneTest extends TestCase
+class ChangeTimezoneTest extends TestCase
 {
 	protected function setUp(): void
 	{
-		$this->tf = new Transformation\Factory();
+		$df = new Factory();
+		$this->dt = new DateTime\Group($df);
 	}
 
-	public function testConstruction()
-	{
-		$tz = 'America/El_Salvador';
-		$trans = $this->tf->toDateTimeWithTimezone($tz);
-		$this->assertInstanceOf(
-			Transformation\Transformations\DateTimeWithTimezone::class,
-			$trans
-		);
-	}
-	public function testWrongConstruction()
-	{
-		$this->expectException(\InvalidArgumentException::class);
-		$tz = 'MiddleEarth/Minas_Morgul';
-		$trans = $this->tf->toDateTimeWithTimezone($tz);
-	}
 
 	public function testTransform()
 	{
@@ -38,7 +25,7 @@ class DateTimeWithTimezoneTest extends TestCase
 		$target_tz = 'Europe/London';
 		$origin = new \DateTimeImmutable($dat, new \DateTimeZone($origin_tz));
 		$expected = new \DateTimeImmutable($dat, new \DateTimeZone($target_tz));
-		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
+		$trans = $this->dt->changeTimezone($target_tz);
 
 		$this->assertEquals(
 			$expected,
@@ -52,7 +39,7 @@ class DateTimeWithTimezoneTest extends TestCase
 		$origin_tz = 'Europe/Berlin';
 		$target_tz = 'America/El_Salvador';
 		$origin = new \DateTimeImmutable($dat, new \DateTimeZone($origin_tz));
-		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
+		$trans = $this->dt->changeTimezone($target_tz);
 		$this->assertEquals(
 			$dat,
 			date_format($trans->transform($origin), 'Y-m-d H:i:s')
@@ -61,14 +48,14 @@ class DateTimeWithTimezoneTest extends TestCase
 
 	public function testNullTransform()
 	{
-		$trans = $this->tf->toDateTimeWithTimezone('Europe/Berlin');
+		$trans = $this->dt->changeTimezone('Europe/Berlin');
 		$this->assertNull($trans->transform(null));
 	}
 
 	public function testInvalidTransform()
 	{
 		$this->expectException(\InvalidArgumentException::class);
-		$trans = $this->tf->toDateTimeWithTimezone('Europe/Berlin');
+		$trans = $this->dt->changeTimezone('Europe/Berlin');
 		$trans->transform('erroneous');
 	}
 
@@ -79,13 +66,13 @@ class DateTimeWithTimezoneTest extends TestCase
 		$target_tz = 'Europe/London';
 		$origin = new \DateTimeImmutable($dat, new \DateTimeZone($origin_tz));
 		$expected = new \DateTimeImmutable($dat, new \DateTimeZone($target_tz));
-		$trans = $this->tf->toDateTimeWithTimezone($target_tz);
+		$trans = $this->dt->changeTimezone($target_tz);
 		$this->assertEquals($expected, $trans($origin));
 	}
 
 	public function testApplyToOK()
 	{
-		$trans = $this->tf->toDateTimeWithTimezone('Europe/London');
+		$trans = $this->dt->changeTimezone('Europe/London');
 		$value = '2019/05/26';
 		$origin = new \DateTimeImmutable($value);
 		$expected = new \DateTimeImmutable($value, new \DateTimeZone('Europe/London'));
@@ -100,7 +87,7 @@ class DateTimeWithTimezoneTest extends TestCase
 
 	public function testApplyToFail()
 	{
-		$trans = $this->tf->toDateTimeWithTimezone('Europe/London');
+		$trans = $this->dt->changeTimezone('Europe/London');
 		$df = new \ILIAS\Data\Factory();
 		$ok = $df->ok('not_a_date');
 

@@ -7,8 +7,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat as DateFormat;
-use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
+
+
 use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -66,25 +66,22 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 
 	/**
 	 * @param DataFactory $data_factory
-	 * @param ValidationFactory $validation_factory
-	 * @param TransformationFactory $transformation_factory
-	 * @param Component\Input\Field\Factory $field_factory
+	 * @param \ILIAS\Refinery\Factory
 	 * @param string $label
 	 * @param string $byline
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $label, $byline);
+		parent::__construct($data_factory, $refinery, $label, $byline);
 
-		$this->transformation_factory = $transformation_factory;
+		/*
 		$trafo = $transformation_factory->toDateTime();
 		$this->setAdditionalTransformation($trafo);
+		*/
 		$this->format = $data_factory->dateFormat()->standard();
 	}
 
@@ -111,7 +108,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 */
 	public function withTimezone(string $tz): C\Input\Field\DateTime
 	{
-		$trafo = $this->transformation_factory->toDateTimeWithTimezone($tz);
+		$trafo = $this->refinery->dateTime()->changeTimezone($tz);
 		$clone = clone $this;
 		$clone->timezone = $tz;
 		return $clone->withAdditionalTransformation($trafo);

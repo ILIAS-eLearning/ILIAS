@@ -138,13 +138,13 @@ class Factory implements Field\Factory {
 	 * @inheritdoc
 	 */
 	public function dateTime($label, $byline = null) {
-		return new DateTime($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $label, $byline);
+		return new DateTime($this->data_factory, $this->refinery, $label, $byline);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function duration($label, $byline = null) {
-		return new Duration($this->data_factory, $this->validation_factory, $this->transformation_factory, $this->refinery, $this, $label, $byline);
+		return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
 	}
 }

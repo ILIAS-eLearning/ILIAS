@@ -160,6 +160,5 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		$input = $f->multiSelect("label", []);
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\MultiSelect::class, $input);
->>>>>>> 6f694d2c8f2d0f277df88c916ffc47bae4f3be7e
 	}
 }

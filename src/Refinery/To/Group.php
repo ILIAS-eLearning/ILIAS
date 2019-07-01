@@ -180,4 +180,11 @@ class Group
 	{
 		return $this->toNew(array($this->dataFactory, $dataType));
 	}
+
+
+	public function dateTime(): DateTimeTransformation
+	{
+		return new DateTimeTransformation($this->dataFactory);
+
+	}
 }

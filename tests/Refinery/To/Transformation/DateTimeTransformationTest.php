@@ -2,22 +2,28 @@
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Refinery\Transformation;
-use PHPUnit\Framework\TestCase;
+namespace ILIAS\Tests\Refinery\To\Transformation;
 
+require_once('./libs/composer/vendor/autoload.php');
+
+use ILIAS\Refinery\To\Transformation\DateTimeTransformation;
+use PHPUnit\Framework\TestCase as TestCase;
+use ILIAS\Data\Factory;
+use ILIAS\Data\Result;
 /**
  * TestCase for DateTime transformations
  */
-class DateTimeTest extends TestCase {
+class DateTimeTransformationTest extends TestCase
+{
 	/**
-	 * @var Transformation\Transformations\Date
+	 * @var Refinery\To\Transformations\DateTimeTransformation
 	 */
 	private $trans;
 
 	protected function setUp(): void
 	{
-		$f = new Transformation\Factory();
-		$this->trans = $f->toDateTime();
+		$df = new Factory();
+		$this->trans = new DateTimeTransformation($df);
 	}
 
 	public function testTransform()

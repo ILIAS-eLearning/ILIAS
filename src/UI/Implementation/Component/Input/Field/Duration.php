@@ -59,16 +59,12 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 
 	/**
 	 * @param DataFactory $data_factory
-	 * @param ValidationFactory $validation_factory
-	 * @param TransformationFactory $transformation_factory
-	 * @param Component\Input\Field\Factory $field_factory
+	 * @param Refinery\Factory $field_factory
 	 * @param string $label
 	 * @param string $byline
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
 		\ILIAS\Refinery\Factory $refinery,
 		Factory $field_factory,
 		$label,
@@ -79,11 +75,13 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 			$field_factory->dateTime('end')
 		];
 
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $refinery, $inputs, $label, $byline);
+		parent::__construct($data_factory, $refinery, $inputs, $label, $byline);
+		/*
 		$this->addTransformation($transformation_factory);
 		$this->addValidation($validation_factory);
 		$this->validation_factory = $validation_factory;
 		$this->transformation_factory = $transformation_factory;
+		*/
 	}
 
 	/**
@@ -286,7 +284,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 	 */
 	public function withTimezone(string $tz): C\Input\Field\Duration
 	{
-		$trafo = $this->transformation_factory->toDateTimeWithTimezone($tz);
+		$trafo = $this->refinery->dateTime()->changeTimezone($tz);
 		$clone = clone $this;
 		$clone->timezone = $tz;
 

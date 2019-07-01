@@ -621,10 +621,10 @@ class Renderer extends AbstractComponentRenderer
 		$f = $this->getUIFactory();
 		$renderer = $DIC->ui()->renderer()->withAdditionalContext($input);
 		if($input->getTimeOnly() === true) {
-			$cal_glyph = $f->glyph()->time("#");
+			$cal_glyph = $f->symbol()->glyph()->time("#");
 			$format = $input::TIME_FORMAT;
 		} else {
-			$cal_glyph = $f->glyph()->calendar("#");
+			$cal_glyph = $f->symbol()->glyph()->calendar("#");
 
 			$format = $this->getTransformedDateFormat(
 				$input->getFormat(),

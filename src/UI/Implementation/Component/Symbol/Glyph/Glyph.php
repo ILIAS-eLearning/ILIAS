@@ -80,6 +80,8 @@ class Glyph implements C\Symbol\Glyph\Glyph {
 		, self::APPLY
 		, self::SEARCH
 		, self::HELP
+		, self::CALENDAR
+		, self::TIME
 		);
 
 

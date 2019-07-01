@@ -1,16 +1,16 @@
 <?php
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Refinery\Transformation\Transformations;
+namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 
 /**
  * Transform value to php \DateTimeImmutable
  */
-class DateTime implements Transformation {
+class DateTimeTransformation implements Transformation {
 
 	/**
 	 * @var DataFactory
@@ -40,7 +40,7 @@ class DateTime implements Transformation {
 	}
 
 	/**
-	 * Try to execute the tranformation and return a Result.
+	 * Try to execute the transformation and return a Result.
 	 * @param mixed $value
 	 * @return Result
 	 */
