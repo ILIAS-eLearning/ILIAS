@@ -8,6 +8,10 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
+use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
+use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
+use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Services;
@@ -285,16 +289,17 @@ class ilInitialisation
 	 */
 	public static function initFileUploadService(\ILIAS\DI\Container $dic) {
 		$dic['upload.processor-manager'] = function ($c) {
-			return new \ILIAS\FileUpload\Processor\PreProcessorManagerImpl();
+			return new PreProcessorManagerImpl();
 		};
 
-		$dic['upload'] = function ($c) {
+		$dic['upload'] = function (\ILIAS\DI\Container $c) {
 			$fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
 			if (IL_VIRUS_SCANNER != "None") {
-				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
+				$fileUploadImpl->register(new VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
 
-			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor());
+			$fileUploadImpl->register(new FilenameSanitizerPreProcessor());
+			$fileUploadImpl->register(new BlacklistExtensionPreProcessor(ilFileUtils::getExplicitlyBlockedFiles(), $c->language()->txt("msg_info_blacklisted")));
 
 			return $fileUploadImpl;
 		};
@@ -528,7 +533,6 @@ class ilInitialisation
 	protected static function initDatabase()
 	{
 		// build dsn of database connection and connect
-		require_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$ilDB = ilDBWrapperFactory::getWrapper(IL_DB_TYPE);
 		$ilDB->initFromIniFile();
 		$ilDB->connect();

@@ -6,6 +6,14 @@
 	"config": {
 		"optimize-autoloader": true
 	},
+	"scripts": {
+		"post-autoload-dump": [
+          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
+		],
+		"artifacts": [
+          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
+		]
+	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",

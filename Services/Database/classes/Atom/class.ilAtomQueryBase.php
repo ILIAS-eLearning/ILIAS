@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
-require_once('./Services/Database/classes/Atom/class.ilTableLock.php');
 
 /**
  * Class ilAtomQuery

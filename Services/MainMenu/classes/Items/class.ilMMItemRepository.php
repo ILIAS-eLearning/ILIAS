@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
@@ -37,10 +36,6 @@ class ilMMItemRepository
      */
     private $main_collector;
     /**
-     * @var \ILIAS\GlobalScreen\Provider\Provider[]
-     */
-    private $providers = [];
-    /**
      * @var ilMMItemInformation
      */
     private $information;
@@ -60,20 +55,9 @@ class ilMMItemRepository
         global $DIC;
         $this->storage = new CoreStorageFacade();
         $this->gs = new ilGSRepository();
-        $this->information = new ilMMItemInformation();
-        $this->providers = $this->initProviders();
-        $this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
+        $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->services = $DIC->globalScreen();
         $this->sync();
-    }
-
-
-    /**
-     * @return ItemInformation
-     */
-    public function information() : ItemInformation
-    {
-        return $this->information;
     }
 
 
@@ -234,8 +218,8 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
 
             $this->storage->db()->manipulate(
                 "DELETE il_mm_items FROM il_mm_items
-  						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification
-      					WHERE il_gs_identifications.identification IS NULL"
+            			LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification
+            			WHERE il_gs_identifications.identification IS NULL"
             );
             foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {
                 $this->getItemFacadeForIdentificationString($identification->serialize());

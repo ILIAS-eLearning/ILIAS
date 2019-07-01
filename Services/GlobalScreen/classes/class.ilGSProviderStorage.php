@@ -8,7 +8,7 @@ use ILIAS\GlobalScreen\Provider\Provider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGSProviderStorage extends CachedActiveRecord
+class ilGSProviderStorage extends ActiveRecord
 {
 
     /**

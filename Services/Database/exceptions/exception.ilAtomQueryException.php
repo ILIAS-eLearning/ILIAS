@@ -1,5 +1,4 @@
 <?php
-require_once('exception.ilDatabaseException.php');
 
 /**
  * Class ilAtomQueryException
