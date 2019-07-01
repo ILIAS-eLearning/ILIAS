@@ -26,12 +26,17 @@ Services provide general functionalities used in the modules or in other service
 
 **Persistence**
 
-- [ActiveRecord](../../Services/ActiveRecord/README.md): Active Record
 - [Database](../../Services/Database/README.md): Database Access
+- [ActiveRecord](../../Services/ActiveRecord/README.md): Active Record
 
 **Processing**
 
 - [Cron](../../Services/Cron/README.md): Cron Job Management
+
+**Objects and Repository**
+
+- [Object](../../Services/Object/README.md): Objects Service
+- [Conditions](../../Services/Conditions/README.md): Pre-Conditions for Repository Objects
 
 **Content and Output**
 
@@ -41,21 +46,16 @@ Services provide general functionalities used in the modules or in other service
 - [AdvancedMetadata](../../Services/AdvancedMetaData/README.md): Advanced Metadata
 - [Excel](../../Services/Excel/README.md): Spreadsheet Service
 
-**Learning Outcomes**
-
-- [Certificate](../../Services/Certificate/README.md): Certificate Management
-- [LearningHistory](../../Services/LearningHistory/README.md): Learning History
-
-**Objects and Repository**
-
-- [Object](../../Services/Object/README.md): Objects Service
-- [Conditions](../../Services/Conditions/README.md): Pre-Conditions for Repository Objects
-
 **Communication and Information**
 
 - [Mail](../../Services/Mail/README.md): Mail Service
 - [News](../../Services/News/README.md): News Service
 - [Task](../../Services/Tasks/README.md): (Derived) Tasks Service
+
+**Learning Outcomes**
+
+- [Certificate](../../Services/Certificate/README.md): Certificate Management
+- [LearningHistory](../../Services/LearningHistory/README.md): Learning History
 
 
 ## Domain APIs
