@@ -1,6 +1,6 @@
 # Schedule 
 
-##Workshops zu DDD / EventBus / CQRS
+## Workshops zu DDD / EventBus / CQRS
 **Ziele**
 * KnowHow Transfer
 * Klärung ob die erstellten Interfaces / Klassen der ILIAS Allgemeinheit zur Verüfgung gestellt werden dürfen.
