@@ -908,7 +908,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Calendar'.
 	 * ---
 	 * @param string|null	$action
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function calendar($action = null);
 
@@ -931,7 +931,7 @@ interface Factory {
 	 *          The aria-label MUST be 'Time'.
 	 * ---
 	 * @param string|null	$action
-	 * @return \ILIAS\UI\Component\Glyph\Glyph
+	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	public function time($action = null);
 }
