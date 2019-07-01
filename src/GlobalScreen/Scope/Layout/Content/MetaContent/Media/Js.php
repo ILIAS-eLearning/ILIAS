@@ -5,44 +5,48 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Js extends AbstractMedia {
+class Js extends AbstractMedia
+{
 
-	/**
-	 * @var bool
-	 */
-	private $add_version_number = true;
-	/**
-	 * @var int
-	 */
-	private $batch = 2;
-
-
-	/**
-	 * Js constructor.
-	 *
-	 * @param string $content
-	 * @param bool   $add_version_number
-	 * @param int    $batch
-	 */
-	public function __construct(string $content, bool $add_version_number = true, int $batch = 2) {
-		parent::__construct($content);
-		$this->add_version_number = $add_version_number;
-		$this->batch = $batch;
-	}
+    /**
+     * @var bool
+     */
+    private $add_version_number = true;
+    /**
+     * @var int
+     */
+    private $batch = 2;
 
 
-	/**
-	 * @return bool
-	 */
-	public function addVersionNumber(): bool {
-		return $this->add_version_number;
-	}
+    /**
+     * Js constructor.
+     *
+     * @param string $content
+     * @param bool   $add_version_number
+     * @param int    $batch
+     */
+    public function __construct(string $content, bool $add_version_number = true, int $batch = 2)
+    {
+        parent::__construct($content);
+        $this->add_version_number = $add_version_number;
+        $this->batch = $batch;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getBatch(): int {
-		return $this->batch;
-	}
+    /**
+     * @return bool
+     */
+    public function addVersionNumber() : bool
+    {
+        return $this->add_version_number;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getBatch() : int
+    {
+        return $this->batch;
+    }
 }

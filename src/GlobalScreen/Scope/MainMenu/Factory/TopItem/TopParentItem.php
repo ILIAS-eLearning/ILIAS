@@ -9,35 +9,38 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle {
+class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle
+{
 
-	/**
-	 * @var string
-	 */
-	protected $title;
-	/**
-	 * @var string
-	 */
-	protected $icon_path = "";
-
-
-	/**
-	 * @param string $title
-	 *
-	 * @return TopParentItem
-	 */
-	public function withTitle(string $title): hasTitle {
-		$clone = clone($this);
-		$clone->title = $title;
-
-		return $clone;
-	}
+    /**
+     * @var string
+     */
+    protected $title;
+    /**
+     * @var string
+     */
+    protected $icon_path = "";
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getTitle(): string {
-		return $this->title;
-	}
+    /**
+     * @param string $title
+     *
+     * @return TopParentItem
+     */
+    public function withTitle(string $title) : hasTitle
+    {
+        $clone = clone($this);
+        $clone->title = $title;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
 }

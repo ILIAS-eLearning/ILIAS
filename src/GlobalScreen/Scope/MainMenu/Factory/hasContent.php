@@ -7,18 +7,19 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface hasContent {
+interface hasContent
+{
 
-	/**
-	 * @param \ILIAS\UI\Component\Component $ui_component
-	 *
-	 * @return hasContent
-	 */
-	public function withContent(Component $ui_component): hasContent;
+    /**
+     * @param \ILIAS\UI\Component\Component $ui_component
+     *
+     * @return hasContent
+     */
+    public function withContent(Component $ui_component) : hasContent;
 
 
-	/**
-	 * @return Component
-	 */
-	public function getContent(): Component;
+    /**
+     * @return Component
+     */
+    public function getContent() : Component;
 }

@@ -7,10 +7,11 @@ use ILIAS\NavigationContext\ContextInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractContextAwareDynamicProvider implements ContextAwareDynamicProvider {
+abstract class AbstractContextAwareDynamicProvider implements ContextAwareDynamicProvider
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	abstract public function enrichContextWithCurrentSituation(ContextInterface $context): ContextInterface;
+    /**
+     * @inheritdoc
+     */
+    abstract public function enrichContextWithCurrentSituation(ContextInterface $context) : ContextInterface;
 }

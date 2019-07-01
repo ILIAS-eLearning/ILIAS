@@ -299,8 +299,16 @@ class ilParticipantsTestResultsGUI
 		
 		foreach( $participantData->getActiveIds() as $activeId )
 		{
-			$cgui->addItem(
-				"chbUser[]", $activeId, $participantData->getFormatedFullnameByActiveId($activeId),
+			if( $this->testObj->getAnonymity() )
+			{
+				$username = $DIC->language()->txt('anonymous');
+			}
+			else
+			{
+				$username = $participantData->getFormatedFullnameByActiveId($activeId);
+			}
+			
+			$cgui->addItem("chbUser[]", $activeId, $username,
 				ilUtil::getImagePath("icon_usr.svg"), $DIC->language()->txt("usr")
 			);
 		}

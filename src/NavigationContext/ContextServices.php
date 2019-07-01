@@ -1,9 +1,7 @@
 <?php namespace ILIAS\NavigationContext;
 
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
 use ILIAS\NavigationContext\Stack\CalledContexts;
 use ILIAS\NavigationContext\Stack\ContextCollection;
-use ILIAS\NavigationContext\Stack\ContextStack;
 
 /**
  * Class ContextServices
@@ -22,13 +20,11 @@ class ContextServices {
 	private $collection;
 
 
-	/**
-	 * ContextServices constructor.
-	 *
-	 * @param LayoutDefinitionFactory $layout_definition_factory
-	 */
-	public function __construct(LayoutDefinitionFactory $layout_definition_factory) {
-		$this->context_repository = new ContextRepository($layout_definition_factory);
+    /**
+     * ContextServices constructor.
+     */
+	public function __construct() {
+        $this->context_repository = new ContextRepository();
 		$this->collection = new CalledContexts($this->context_repository);
 	}
 

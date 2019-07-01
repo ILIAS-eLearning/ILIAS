@@ -121,6 +121,22 @@ class ilLPStatusSCORM extends ilLPStatus
 		return array_unique($users);
 	}
 
+    static function _getNotAttempted($a_obj_id)
+    {
+        $users = array();
+
+        $members = ilObjectLP::getInstance($a_obj_id)->getMembers();
+        if($members)
+        {
+            // diff in progress and completed (use stored result in LPStatusWrapper)
+            $users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+            $users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+            $users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
+        }
+
+        return $users;
+    }
+
 	
 	static function _getStatusInfo($a_obj_id)
 	{				

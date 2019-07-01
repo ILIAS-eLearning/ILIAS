@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/Database/exceptions/exception.ilAtomQueryException.php');
 
 /**
  * Interface ilAtomQuery

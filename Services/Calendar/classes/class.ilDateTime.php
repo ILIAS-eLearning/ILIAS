@@ -19,6 +19,7 @@ define('IL_CAL_MONTH','month');
 define('IL_CAL_WEEK','week');
 define('IL_CAL_DAY','day');
 define('IL_CAL_HOUR','hour');
+define('IL_CAL_SECOND','second');
 
 
 /** 
@@ -37,6 +38,7 @@ class ilDateTime
 	const DAY = 'day';
 	const HOUR = 'hour';
 	const MINUTE = 'minute';
+	const SECOND = 'second';
 
 	/**
 	 * @var \ilLogger
@@ -315,7 +317,11 @@ class ilDateTime
 				
 			case self::MINUTE:				
 				$count_str .= 'minute';				
-				break;				
+				break;
+
+			case self::SECOND:
+				$count_str .= 'second';
+				break;
 		}
 		
 		$interval = date_interval_create_from_date_string($count_str);			

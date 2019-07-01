@@ -101,7 +101,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 					$button = ilLinkButton::getInstance();								
 					$button->setCaption("already_delivered_files");
 					$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "submissionScreen"));											
-					$files_str.= "<br>".$button->render();
+					$files_str.= "<br><br>".$button->render();
 				}
 			}
 		}

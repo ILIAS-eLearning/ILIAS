@@ -56,7 +56,6 @@ class ilDatabaseAtomRunTest extends TestCase {
 
 
 	protected function setUp(): void {
-		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 
 		global $ilClientIniFile;
