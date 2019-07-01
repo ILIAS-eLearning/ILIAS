@@ -9,6 +9,6 @@ interface ilOrgUnitUserRepositoryInterface {
 	 *
 	 * @return array $users
 	 */
-	public function findAllUsersByUserIds($user_ids);
+	public function getUsers(array $user_ids);
 
 }

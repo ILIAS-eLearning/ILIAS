@@ -1,9 +1,8 @@
 <?php
 
 namespace OrgUnit\User;
+
 use OrgUnit\Positions\ilOrgUnitPosition;
-use OrgUnit\Positions\UserAssignment\ilOrgUnitUserAssignmentRepository;
-use OrgUnit\_PublicApi\OrgUnitUserSpecification;
 
 class ilOrgUnitUser {
 
@@ -26,40 +25,65 @@ class ilOrgUnitUser {
 	/**
 	 * @var ilOrgUnitPosition[]
 	 */
-	protected $org_unit_positions;
+	protected $org_unit_positions = [];
 	/**
 	 * @var ilOrgUnitUser[]
 	 */
-	protected $superiors;
-	/**
-	 * @var OrgUnitUserSpecification
-	 */
-	protected $orgu_user_spec;
+	protected $superiors = [];
 
 
 	/**
-	 * @param int                               $user_id
-	 * @param string                            $login
-	 * @param string                            $email
-	 * @param OrgUnitUserSpecification $orgu_user_spec
+	 * @param int $user_id
 	 *
 	 * @return ilOrgUnitUser
 	 */
-	public static function getInstance(int $user_id, string $login, string $email, OrgUnitUserSpecification $orgu_user_spec): self {
+	public static function getInstanceById(int $user_id): self {
 
 		if (null === static::$instances[$user_id]) {
-			static::$instances[$user_id] = new static($user_id, $login, $email, $orgu_user_spec);
+			$org_unit_user_repository = new ilOrgUnitUserRepository();
+			static::$instances[$user_id] = $org_unit_user_repository->getOrgUnitUser($user_id);
 		}
 
 		return static::$instances[$user_id];
 	}
 
 
-	public function __construct(int $user_id, string $login, string $email, $orgu_user_spec) {
+	/**
+	 * @param int    $user_id
+	 * @param string $login
+	 * @param string $email
+	 *
+	 * @return ilOrgUnitUser
+	 */
+	public static function getInstance(int $user_id, string $login, string $email): self {
+		if (null === static::$instances[$user_id]) {
+			static::$instances[$user_id] = new static($user_id, $login, $email);
+		}
+
+		return static::$instances[$user_id];
+	}
+
+
+	private function __construct(int $user_id, string $login, string $email) {
 		$this->user_id = $user_id;
 		$this->login = $login;
 		$this->email = $email;
-		$this->orgu_user_spec = $orgu_user_spec;
+	}
+
+
+	/**
+	 * @param ilOrgUnitUser $org_unit_user
+	 */
+	public function addSuperior($org_unit_user) {
+		$this->superiors[] = $org_unit_user;
+	}
+
+
+	/**
+	 * @param ilOrgUnitPosition $org_unit_position
+	 */
+	public function addPositions($org_unit_position) {
+		$this->org_unit_positions[] = $org_unit_position;
 	}
 
 
@@ -71,38 +95,17 @@ class ilOrgUnitUser {
 	 */
 	public function getSuperiors() {
 
-		if ($this->orgu_user_spec->areCorrespondingSuperiorsLoaded() === true) {
-			return $this->superiors;
+		if (count($this->superiors) == 0) {
+			$this->loadSuperiors();
 		}
-
-		return $this->loadSuperiors();
-	}
-
-	/**
-	 * @return ilOrgUnitUser[]
-	 *
-	 * eager loading
-	 * @var array ilOrgUnitUser
-	 */
-	public function loadSuperiors() {
-		$user_assignment_repository = new ilOrgUnitUserAssignmentRepository();
-		$empl_superior = $user_assignment_repository->getEmplSuperiorList($this->orgu_user_spec->getUserIdsToConsider());
-
-		$arr_sup = [];
-		foreach($empl_superior as $empl => $sup) {
-			foreach($sup as $user_id) {
-				$arr_sup[] = $user_id;
-			}
-		}
-		$spec = new OrgUnitUserSpecification($arr_sup);
-		$rep = ilOrgUnitUserRepository::getInstance($spec);
-
-
-		$this->orgu_user_spec->setCorrespondingSuperiorsLoaded(true);
-
-		$this->superiors =  $rep->findAllUsersByUserIds($arr_sup);
 
 		return $this->superiors;
+	}
+
+
+	public function loadSuperiors() {
+		$org_unit_user_repository = new ilOrgUnitUserRepository();
+		$org_unit_user_repository->loadSuperiors([ $this->user_id ]);
 	}
 
 
@@ -113,13 +116,12 @@ class ilOrgUnitUser {
 	 */
 	public function getOrgUnitPositions(): array {
 
-		if ($this->orgu_user_spec->areAssignedPositionsLoaded() === true) {
-			return $this->org_unit_positions;
+
+		if (count($this->org_unit_positions) == 0) {
+			$this->loadOrgUnitPositions();
 		}
 
-		return $this->loadOrgUnitPositions();
-
-
+		return $this->org_unit_positions;
 	}
 
 
@@ -129,11 +131,8 @@ class ilOrgUnitUser {
 	 * eager loading
 	 */
 	protected function loadOrgUnitPositions(): array {
-
-		$user_assignment_repository = new ilOrgUnitUserAssignmentRepository();
-		$this->org_unit_positions = $user_assignment_repository->findAllUserAssingmentsByUserIds($this->orgu_user_spec->getUserIdsToConsider());
-
-		return $this->org_unit_positions;
+		$org_unit_user_repository = new ilOrgUnitUserRepository();
+		$org_unit_user_repository->loadPositions([ $this->user_id ]);
 	}
 
 

@@ -1,33 +1,34 @@
 <?php
 namespace OrgUnit\_PublicApi;
+use OrgUnit\User\ilOrgUnitUser;
 use OrgUnit\User\ilOrgUnitUserRepository;
 
 
 class OrgUnitUserService {
 
-	/**
-	 * @var self
-	 */
-	protected static $instance;
+	public function __construct() {
 
-	/**
-	 * @var OrgUnitUserSpecification
-	 */
-	protected $org_unit_user_specification;
-
-	/**
-	 * OrgUnitUserFactory constructor.
-	 *
-	 * @param OrgUnitUserSpecification
-	 */
-	public function __construct($org_unit_user_specification) {
-		$this->org_unit_user_specification = $org_unit_user_specification;
 	}
 
-	public function getUsers() {
-		$org_unit_user_repository = ilOrgUnitUserRepository::getInstance($this->org_unit_user_specification);
 
-		return $org_unit_user_repository->findAllUsersByUserIds($this->org_unit_user_specification->getUserIdsToConsider());
+	/**
+	 * @param array $user_ids
+	 * @param bool  $with_superios
+	 * @param bool  $with_positions
+	 *
+	 * @return ilOrgUnitUser[]
+	 */
+	public function getUsers(array $user_ids, $with_superios = false, $with_positions = false) {
+		$org_unit_user_repository = new ilOrgUnitUserRepository();
+
+		if($with_superios) {
+			$org_unit_user_repository->withSuperiors();
+		}
+		if($with_positions) {
+			$org_unit_user_repository->withPositions();
+		}
+
+		return $org_unit_user_repository->getOrgUnitUsers($user_ids);
 	}
 
 	/*

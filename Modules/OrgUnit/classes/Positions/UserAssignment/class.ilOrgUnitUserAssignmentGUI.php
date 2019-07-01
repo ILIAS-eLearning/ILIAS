@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
+use OrgUnit\_PublicApi\OrgUnitUserService;
 use  OrgUnit\Positions\ilOrgUnitPosition;
 
 /**
@@ -37,6 +38,14 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 
 	protected function index() {
+
+		$orgunit = new OrgUnitUserService();
+		$users = $orgunit->getUsers([292,291],true, true);
+		//$superiors = $users[0]->getSuperiors();
+	//	print_r($superiors);
+		print_r($users);exit;
+		exit;
+
 		// Header
 		$types = ilOrgUnitPosition::getArray('id', 'title');
 		//$types = array();
