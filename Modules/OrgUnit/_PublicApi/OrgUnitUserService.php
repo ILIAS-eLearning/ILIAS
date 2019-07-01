@@ -31,6 +31,13 @@ class OrgUnitUserService {
 		return $org_unit_user_repository->getOrgUnitUsers($user_ids);
 	}
 
+	public function getEnailAdressesOfSuperiors(array $user_ids):array {
+		$org_unit_user_repository = new ilOrgUnitUserRepository();
+		$org_unit_user_repository->withSuperiors();
+
+		return $org_unit_user_repository->getEmailAdressesOfSuperiors($user_ids);
+	}
+
 	/*
 	public function getOnlyUsersEmailAddress() {
 

@@ -38,7 +38,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands {
 
 
 	protected function index() {
-
+		
 		// Header
 		$types = ilOrgUnitPosition::getArray('id', 'title');
 		//$types = array();

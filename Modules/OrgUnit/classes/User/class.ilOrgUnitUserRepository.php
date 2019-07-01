@@ -44,14 +44,20 @@ class ilOrgUnitUserRepository {
 	}
 
 
-	public function withSuperiors() {
+	/**
+	 * @return ilOrgUnitUserRepository
+	 */
+	public function withSuperiors():ilOrgUnitUserRepository {
 		$this->with_superiors = true;
 
 		return $this;
 	}
 
 
-	public function withPositions() {
+	/**
+	 * @return ilOrgUnitUserRepository
+	 */
+	public function withPositions():ilOrgUnitUserRepository {
 		$this->with_positions = true;
 
 		return $this;
@@ -59,9 +65,9 @@ class ilOrgUnitUserRepository {
 
 
 	/**
-	 * @param array $user_ids
+	 * @param array $arr_user_id
 	 *
-	 * @return ilOrgUnitUser[]
+	 * @return array
 	 */
 	public function getOrgUnitUsers(array $arr_user_id): array {
 
@@ -80,9 +86,9 @@ class ilOrgUnitUserRepository {
 
 
 	/**
-	 * @param array $user_ids
+	 * @param $user_id
 	 *
-	 * @return ilOrgUnitUser|
+	 * @return ilOrgUnitUser|null
 	 */
 	public function getOrgUnitUser($user_id): ?ilOrgUnitUser {
 
@@ -101,13 +107,49 @@ class ilOrgUnitUserRepository {
 
 
 	/**
-	 * @return ilOrgUnitUser[]
-	 *
-	 * eager loading
-	 * @var array ilOrgUnitUser
+	 * @param array $user_ids
 	 */
 	public function loadSuperiors(array $user_ids): void {
 
+		global $DIC;
+
+		$st = $DIC->database()->query($this->getSuperiorsSql($user_ids));
+
+		$empl_id_sup_ids = [];
+		while ($data = $DIC->database()->fetchAssoc($st)) {
+			$org_unit_user = ilOrgUnitUser::getInstanceById($data['empl_usr_id']);
+			$superior = ilOrgUnitUser::getInstance($data['sup_usr_id'], $data['sup_login'], $data['sup_email']);
+			$org_unit_user->addSuperior($superior);
+		}
+	}
+
+
+	/**
+	 * @param array $user_ids
+	 *
+	 * @return array
+	 */
+	public function getEmailAdressesOfSuperiors(array $user_ids): array {
+
+		global $DIC;
+
+		$st = $DIC->database()->query($this->getSuperiorsSql($user_ids));
+
+		$arr_email_sup = [];
+		while ($data = $DIC->database()->fetchAssoc($st)) {
+			$arr_email_sup[] = $data['sup_email'];
+		}
+
+		return $arr_email_sup;
+	}
+
+
+	/**
+	 * @param array $user_ids
+	 *
+	 * @return string
+	 */
+	protected function getSuperiorsSql(array $user_ids):string {
 		global $DIC;
 
 		$sql = "SELECT 
@@ -127,21 +169,14 @@ class ilOrgUnitUserRepository {
 				and orgu_ua2.position_id = " . ilOrgUnitPosition::CORE_POSITION_SUPERIOR . " 
 				AND " . $DIC->database()->in('orgu_ua.user_id', $user_ids, false, 'integer');
 
-		$st = $DIC->database()->query($sql);
-
-		$empl_id_sup_ids = [];
-		while ($data = $DIC->database()->fetchAssoc($st)) {
-			$org_unit_user = ilOrgUnitUser::getInstanceById($data['empl_usr_id']);
-			$superior = ilOrgUnitUser::getInstance($data['sup_usr_id'], $data['sup_login'], $data['sup_email']);
-			$org_unit_user->addSuperior($superior);
-		}
+		return $sql;
 	}
 
 
 	/**
-	 * @param $user_ids
+	 * @param array $user_ids
 	 *
-	 * @return ilOrgUnitPosition[]
+	 * @return array
 	 */
 	public function loadPositions(array $user_ids): array {
 		/**
@@ -160,9 +195,9 @@ class ilOrgUnitUserRepository {
 
 
 	/**
-	 * @param array $user_ids
+	 * @param $user_ids
 	 *
-	 * @return array ilOrgUnitUser
+	 * @return array
 	 */
 	private function loadUsersByUserIds($user_ids): array {
 		$users = array();
