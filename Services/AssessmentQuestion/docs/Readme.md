@@ -1,55 +1,113 @@
-# Decisions
+# Schedule 
 
-## Zeitplan (WIP)
-
-
-CQRS / DDD
-** Community-Workshops einberufen für je 90 Minuten für die Fragen, welche offen sind
-*** EventBus
-*** DDD Objekte / Interfaces / Abstract Classes
-*** ...!
--> Freitags vor Weekly 09:15 - 10:45
-
-* TA - 6.0 - Servicestruktur
-	* Entscheid Ein Service / mehrere Services
-	* ILIAS - TA - 6.0 - Schnittstelle ASQ-Auhtoring nach Aussen definiert
-		* Public Service um Authoring-Umgebung zu initialisieren
-		* Internal Service für die Verwendung der eigenenen ASQ-Authoring-Umgebung
-	* ILIAS - TA - 6.0 - Schnittstelle ASQ-Consumer nach Aussen definiert / Public Service(s) für Consuming (alles was nicht Authoring ist)
-		* Fragen anzeigen
-		* Abspielen von Fragen
-		* Statistiken
-	* ILIAS - TA - 6.0 - die von den Services benötigten Command-Klassen sind implementiert
-		*  Gliederbar!
-
-* ILIAS - TA - 6.0 - Eventverteiler
-Message Bus als Library nutzbar (Entscheidung gefällt ob Eigen-Implementierung oder Aufsetzen auf eine bestehende Library)
-	* Externe Library?
-	* Überhaupt eine Library / Eigenbau?
-	* ILIAS Global / Komponenten Lokal
+##Workshops zu DDD / EventBus / CQRS
+**Ziele**
+* KnowHow Transfer
+* Klärung ob die erstellten Interfaces / Klassen der ILIAS Allgemeinheit zur Verüfgung gestellt werden dürfen.
+* Alternativen: 
+	* Innerhalb ASQ platzieren
+	* Als Packagist bereitstellen
+	
+**Verantwortlich / Durchführung bis**
+* mstuder, 31.07.2019
+	
+**Tasks**
+* [x] 01.07.2017: Organisation der Workshops
+* [ ] 01.07.2017 - 31.07.2019: Bereitstellung dezidierter Readmes für die jeweiligen Bereiche
+* [ ] 01.07.2017 - 31.07.2019: Aufräumen / kleinere übersichtleriche Pullrequests erstellen
+* [ ] 01.07.2017 - 31.07.2019: Durchführen der Workshops
 
 
-* ILIAS - TA - 6.0 - DDD Abstract AggregateRepository (Implmentiert und enschieden ob lokal oder global)
-	* ILIAS Global / Komponenten Lokal?
+## Service Klassen sowohl nach Aussen als auch interne sind angelegt.
+**Ziele**
+* Services nach Aussen sind definiert
+* Entscheid Ein Service / mehrere Services ist getroffen.
+* Internal Service für die Verwendung der eigenenen ASQ-Authoring-Umgebung ist abschliessend erstellt
+* Api Alignment wird - sofern kompatibel - eingearbeitet sobald dieses freigegeben wurde.
+
+**Verantwortlich / Durchführung bis**
+* mstuder & bheyser, 18.07.2019
+
+**Tasks**
+* [ ] 01.07.2019 - 18.07.2019: Entscheid eine oder mehrere Serviceklassen gefällt.
+* [ ] 01.07.2019 - 18.07.2019: Erstimplementierung Service abgeschlossen.
+* [ ] 01.07.2019 - 18.07.2019: Command-Klassen sind angelegt.
 
 
-* ILIAS - TA - 6.0 - Restliche Objekte (Interfaces / Abstract-Classes) für DDD-Konzept (restliche Interfaces und Abstract-Classes für DDD) (Implmentiert und enschieden ob lokal oder global)
-** ILIAS Global / Komponenten Lokal?
+## Event und Commandbus
+**Ziele**
+* Bereitstellung von Even & Commandbus. Hierbei die derzeitige Library entfernen, damit wir unabhängig sind und an dieser Stelle keine zusätzliche Library-Diskussion führen müssen.
+
+**Verantwortlich / Durchführung bis**
+* aluethi, 05.07.2019
+
+**Tasks**
+* [ ] 01.07.2019 - 05.07.2019: Entfernung library, Ergänung unserer bestehenden Klassen
+* [ ] 01.07.2019 - 05.07.2019: Readme erstellen, welche beschreibt wie der Commandbus, Eventbus sowie die Middlewares genutzt werden können. Dies auch unhabhängig von CQRS / Eventsourcing.7
+* [ ] 01.07.2019 - 05.07.2019: Entscheid bezüglich Platzierung _Workshops zu DDD / EventBus / CQRS_ sobald getroffen umsetzen.
 
 
-* ILIAS - TA - 6.0 - Sämtliche Value Object / Entities und Repositories implementiert
-	* Fortlaufender Entscheidungs-/Änderungsprozess ob Value Objet / Entity
-	* Entscheid unterteilbar in AggregateQuestion und (?)AggregateSolution / AggregateTest (?)
-
-* ILIAS - TA - 6.0 - Sämtliche Formulare implementiert
-	* Anzahl xyz
-
-
-* (ILIAS - TA - 6.0 - Business-Logik Question)
+## Konzept Validierung ist geklärt
+**Ziele**
+* Notwendige Validierungen sind geklärt.
+* Welche Art der Validierung wo vorgenommen wird, ist abschliessend geklärt
+* Es existiert ein Readme
 
 
-* (ILIAS - TA - 6.0 - Business-Logik Test)
+**Verantwortlich / Durchführung bis**
+* aluethi, 12.07.2019
 
+**Tasks**
+* [ ] 01.07.2019 - 12.07.2019: Klärung und Beschreibung Validierung
+
+## Interfaces und Abstrakte Klassen für DDD
+**Ziele**
+* Bereitstellung der notwendigen DDD Intrefaces und Klassen.
+
+**Verantwortlich / Durchführung bis**
+* aluethi, 05.07.2019
+
+**Tasks**
+* [ ] 01.07.2019 - 05.07.2019: Bestehende Klassen prüfen und eränzen (aus Konsistenzgründen Intreface ValueObject)
+* [ ] 01.07.2019 - 05.07.2019: Readme erstellen, welche beschreibt wie diese Klassen genutzt werden können sowohl EventSourced als auch ohne EventSourced
+* [ ] 01.07.2019 - 05.07.2019: Entscheid bezüglich Platzierung _Workshops zu DDD / EventBus / CQRS_ sobald getroffen umsetzen.
+
+
+## Sämtliche Value Object / Entities und Repositories implementiert
+**Ziele**
+* Sämtliche Value Objects & Entities sind angelegt.
+* Entscheid ob ein oder zwei Repositories AggregateQuestion und (?)AggregateSolution / AggregateTest(?) ist abschliessend gefällt.
+
+## Sämtliche Formulare sind implementiert
+**Verantwortlich / Durchführung bis**
+* bheyser, 31.07.2019
+
+**Tasks**
+* [ ] 01.07.2019 - 31.07.2019: Value Objects anlegen
+* [ ] 01.07.2019 - 31.07.2019: Entscheid Repositories fällen.
+
+## FormBuilder für Authoring-Umgebung
+**Ziele**
+* Formbuilder inkl. Navigationskonzept ist erstellt.
+
+**Verantwortlich / Durchführung bis**
+* mstuder, 19.07.2019
+
+**Tasks**
+* [ ] 01.07.2019 - 19.07.2019: Formbuilder für ist erstellt.
+
+## Business-Logik
+**Ziele**
+* Formbuilder inkl. Navigationskonzept ist erstellt.
+
+**Verantwortlich / Durchführung bis**
+* bheyser & mstuder, 15.08.2019
+
+**Tasks**
+* [ ] 15.07.2019 - 18.08.2019: Business-Logik erstellt.
+
+
+# Decisions (WIP)
 ## MessageBus
 * Wird eigenimplementiert -> keine Verwendung einer Library, da ein relativ einfaches Konzept
 
