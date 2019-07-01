@@ -112,18 +112,3 @@ Multi language support depends always on the parent repository object.
 * new table `copg_multilang`: defines default language per repository obj id (-> "-" records)
 * all `page_object` records with "-" in `lang` field represent the default language (value is not set in page_object -> no dependent tables need to be updated)
 * table `copg_multilang_lang` contains all other languages supported by the repository object
-
-**(Potential) Issues**
-
-* remove copg_multilang_lang (use object_translation instead) and rename copy_multilang to obj_copg_master_lang (only contain obj_id and master_lang)
-* lookupParentId/_writeParentId: parent_id into copg_page_properties?
-	* page_object.parent_id is accessed directly in Modules/Glossary/classes/class.ilGlossaryTerm.php
-    * page_object.parent_id is accessed directly by Services/LinkChecker/classes/class.ilLinkChecker.php
-* what happens in current callUpdateListeners()?
-* import/export
-* search (page_object is accessed in Lucene.xml files; multilinguality?)
-	* page_object accessed in Services/Search/classes/class.ilLMContentSearch.php
-    * page_object accessed in Services/Search/classes/class.ilWikiContentSearch.php
-* page copy/move procedures
-* intlinks on page/chapter copies
-* check if adopted ilInternalLink methods are used in other services than COPage
