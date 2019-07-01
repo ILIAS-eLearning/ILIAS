@@ -55,7 +55,7 @@ Services provide general functionalities used in the modules or in other service
 
 - [Mail](../../Services/Mail/README.md): Mail Service
 - [News](../../Services/News/README.md): News Service
-- [Task](../../Services/Task/README.md): (Derived) Tasks Service
+- [Task](../../Services/Tasks/README.md): (Derived) Tasks Service
 
 
 ## Domain APIs
