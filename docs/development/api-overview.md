@@ -1,4 +1,4 @@
-# API Overview
+# API and Services Overview
 We are currently revising lots of libraries, services and APIs in ILIAS. This overview contains also links to legacy or deprecated services if the are still being used in the core ILIAS code and subject to ongoing refactorings.
 
 This list does not contain information on third party libraries being used. You will find these in the [libs directory](../../../libs/README.md).
