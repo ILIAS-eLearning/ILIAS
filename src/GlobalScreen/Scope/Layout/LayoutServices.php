@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\Layout\Content\LayoutContent;
 use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
+use ILIAS\GlobalScreen\SingletonTrait;
 
 /**
  * Class LayoutServices
@@ -11,10 +12,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
 class LayoutServices
 {
 
-    /**
-     * @var array
-     */
-    private static $services = [];
+    use SingletonTrait;
 
 
     /**
@@ -32,20 +30,5 @@ class LayoutServices
     public function meta() : MetaContent
     {
         return $this->get(MetaContent::class);
-    }
-
-
-    /**
-     * @param string $class_name
-     *
-     * @return mixed
-     */
-    private function get(string $class_name)
-    {
-        if (!isset(self::$services[$class_name])) {
-            self::$services[$class_name] = new $class_name();
-        }
-
-        return self::$services[$class_name];
     }
 }

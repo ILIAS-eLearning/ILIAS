@@ -1,7 +1,7 @@
-<?php namespace ILIAS\NavigationContext;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context;
 
-use ILIAS\NavigationContext\Stack\CalledContexts;
-use ILIAS\NavigationContext\Stack\ContextCollection;
+use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\CalledContexts;
+use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\ContextCollection;
 
 /**
  * Class ContextServices
@@ -38,9 +38,9 @@ class ContextServices {
 
 
 	/**
-	 * @return ContextInterface
+	 * @return ToolContext
 	 */
-	public function current(): ContextInterface {
+	public function current(): ToolContext {
 		return $this->collection->current();
 	}
 

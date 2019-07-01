@@ -37,7 +37,7 @@ class MainToolCollector
     private function initTools()
     {
         global $DIC;
-        $called_contexts = $DIC->navigationContext()->stack();
+        $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();

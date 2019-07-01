@@ -1,12 +1,12 @@
-<?php namespace ILIAS\NavigationContext\Stack;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context\Stack;
 
-use ILIAS\NavigationContext\ContextInterface;
-use ILIAS\NavigationContext\ContextRepository;
+use ILIAS\GlobalScreen\Scope\Tool\Context\ToolContext;
+use ILIAS\GlobalScreen\Scope\Tool\Context\ContextRepository;
 
 /**
  * Class ContextCollection
  *
- * @package ILIAS\NavigationContext\Stack
+ * @package ILIAS\GlobalScreen\Scope\Tool\ToolContext\Stack
  */
 class ContextCollection
 {
@@ -21,7 +21,7 @@ class ContextCollection
      */
     protected $repo;
     /**
-     * @var ContextInterface[]
+     * @var ToolContext[]
      */
     protected $stack = [];
 
@@ -38,25 +38,25 @@ class ContextCollection
 
 
     /**
-     * @param ContextInterface $context
+     * @param ToolContext $context
      */
-    public function push(ContextInterface $context)
+    public function push(ToolContext $context)
     {
         array_push($this->stack, $context);
     }
 
 
     /**
-     * @return ContextInterface
+     * @return ToolContext
      */
-    public function getLast() : ContextInterface
+    public function getLast() : ToolContext
     {
         return end($this->stack);
     }
 
 
     /**
-     * @return ContextInterface[]
+     * @return ToolContext[]
      */
     public function getStack() : array
     {
@@ -85,7 +85,7 @@ class ContextCollection
      */
     public function hasMatch(ContextCollection $other_collection) : bool
     {
-        $mapper = function (ContextInterface $c) {
+        $mapper = function (ToolContext $c) {
             return $c->getUniqueContextIdentifier();
         };
         $mine = array_map($mapper, $this->getStack());

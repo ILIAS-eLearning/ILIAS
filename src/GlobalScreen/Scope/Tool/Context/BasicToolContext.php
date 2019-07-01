@@ -1,14 +1,14 @@
-<?php namespace ILIAS\NavigationContext;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context;
 
 use ILIAS\Data\ReferenceId;
-use ILIAS\NavigationContext\AdditionalData\Collection;
+use ILIAS\GlobalScreen\Scope\Tool\Context\AdditionalData\Collection;
 
 /**
- * Class BasicContext
+ * Class BasicToolContext
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BasicContext implements ContextInterface
+class BasicToolContext implements ToolContext
 {
 
     /**
@@ -26,7 +26,7 @@ class BasicContext implements ContextInterface
 
 
     /**
-     * BasicContext constructor.
+     * BasicToolContext constructor.
      *
      * @param string $context_identifier
      */
@@ -63,7 +63,7 @@ class BasicContext implements ContextInterface
     /**
      * @inheritDoc
      */
-    public function withReferenceId(ReferenceId $reference_id) : ContextInterface
+    public function withReferenceId(ReferenceId $reference_id) : ToolContext
     {
         $clone = clone $this;
         $clone->reference_id = $reference_id;
@@ -75,7 +75,7 @@ class BasicContext implements ContextInterface
     /**
      * @inheritDoc
      */
-    public function withAdditionalData(Collection $collection) : ContextInterface
+    public function withAdditionalData(Collection $collection) : ToolContext
     {
         $clone = clone $this;
         $clone->additional_data = $collection;
@@ -96,7 +96,7 @@ class BasicContext implements ContextInterface
     /**
      * @inheritDoc
      */
-    public function addAdditionalData(string $key, $value) : ContextInterface
+    public function addAdditionalData(string $key, $value) : ToolContext
     {
         $this->additional_data->add($key, $value);
 

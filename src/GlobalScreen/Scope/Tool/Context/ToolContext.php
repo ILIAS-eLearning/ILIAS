@@ -1,14 +1,14 @@
-<?php namespace ILIAS\NavigationContext;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context;
 
 use ILIAS\Data\ReferenceId;
-use ILIAS\NavigationContext\AdditionalData\Collection;
+use ILIAS\GlobalScreen\Scope\Tool\Context\AdditionalData\Collection;
 
 /**
- * Interface ContextInterface
+ * Interface ToolContext
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ContextInterface
+interface ToolContext
 {
 
     /**
@@ -32,26 +32,26 @@ interface ContextInterface
     /**
      * @param ReferenceId $reference_id
      *
-     * @return ContextInterface
+     * @return ToolContext
      */
-    public function withReferenceId(ReferenceId $reference_id) : ContextInterface;
+    public function withReferenceId(ReferenceId $reference_id) : ToolContext;
 
 
     /**
      * @param Collection $collection
      *
-     * @return ContextInterface
+     * @return ToolContext
      */
-    public function withAdditionalData(Collection $collection) : ContextInterface;
+    public function withAdditionalData(Collection $collection) : ToolContext;
 
 
     /**
      * @param string $key
      * @param        $value
      *
-     * @return ContextInterface
+     * @return ToolContext
      */
-    public function addAdditionalData(string $key, $value) : ContextInterface;
+    public function addAdditionalData(string $key, $value) : ToolContext;
 
 
     /**

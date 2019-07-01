@@ -42,4 +42,13 @@ abstract class AbstractProvider implements Provider
     {
         return self::class;
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getProviderNameForPresentation() : string
+    {
+        return self::class;
+    }
 }

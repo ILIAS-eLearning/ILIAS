@@ -1,6 +1,6 @@
-<?php namespace ILIAS\NavigationContext\Provider;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context\Provider;
 
-use ILIAS\NavigationContext\ContextInterface;
+use ILIAS\GlobalScreen\Scope\Tool\Context\ToolContext;
 
 /**
  * Class ContextAwareDynamicProvider
@@ -15,9 +15,9 @@ interface ContextAwareDynamicProvider
      * current situation. We will need to pass some specific data to the context
      * which you need while providing a specific global screen item.
      *
-     * @param ContextInterface $context
+     * @param ToolContext $context
      *
-     * @return ContextInterface
+     * @return ToolContext
      */
-    public function enrichContextWithCurrentSituation(ContextInterface $context) : ContextInterface;
+    public function enrichContextWithCurrentSituation(ToolContext $context) : ToolContext;
 }
