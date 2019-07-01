@@ -1,5 +1,7 @@
 # Development
 
+A general overview on our processes can be found in the [development guide](https://docu.ilias.de/goto_docu_pg_211_42.html) and the [community FAQs](https://docu.ilias.de/goto_docu_wiki_wpage_4276_5307.html).
+
 ## Contributing
 
 - [Contributing](contributing.md): How to contribute to ILIAS with pull requests, bug reports, features requests, testing and more
