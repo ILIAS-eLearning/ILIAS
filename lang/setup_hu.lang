@@ -107,7 +107,7 @@ database_version#:#Jelenlegi adatbázis-változat
 database#:#Adatbázis
 datadir_path_comment1#:#Kötelező
 datadir_path_comment2#:#Ez ebben a setup-változatban nem változtatható meg.
-datadir_path#:#Elérési út az adatkmappához
+datadir_path#:#Elérési út az adatmappához
 datadir_webspacedir_match#:#Adatmappája elérési útja ugyanarra a mappára mutat, ahol a webhely mappája is van. Válasszon másik mappát.
 date#:#dátum
 db_conn#:#Adatbázis-kapcsolódás
