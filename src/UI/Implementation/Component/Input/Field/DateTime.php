@@ -78,10 +78,9 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	) {
 		parent::__construct($data_factory, $refinery, $label, $byline);
 
-		/*
-		$trafo = $transformation_factory->toDateTime();
+		$trafo = $refinery->to()->dateTime();
 		$this->setAdditionalTransformation($trafo);
-		*/
+
 		$this->format = $data_factory->dateFormat()->standard();
 	}
 
@@ -207,7 +206,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 */
 	protected function getConstraintForRequirement()
 	{
-		return $this->validation_factory->hasMinLength(1);
+		return $this->refinery->string()->hasMinLength(1);
 	}
 
 	/**

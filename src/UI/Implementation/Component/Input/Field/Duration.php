@@ -76,21 +76,17 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		];
 
 		parent::__construct($data_factory, $refinery, $inputs, $label, $byline);
-		/*
-		$this->addTransformation($transformation_factory);
-		$this->addValidation($validation_factory);
-		$this->validation_factory = $validation_factory;
-		$this->transformation_factory = $transformation_factory;
-		*/
+
+		$this->addTransformation();
+		$this->addValidation();
 	}
 
 	/**
 	 * Return-value of Duration is an assoc array with start, end and interval.
-	 * @param TransformationFactory $transformation_factory
 	 */
-	protected function addTransformation(TransformationFactory $transformation_factory)
+	protected function addTransformation()
 	{
-		$duration = $transformation_factory->custom(function($v) {
+		$duration = $this->refinery->custom()->transformation(function($v) {
 			list($from, $until) = $v;
 			if($from && $until) {
 				return ['start'=>$from, 'end'=>$until, 'interval'=>$from->diff($until)];
@@ -102,9 +98,8 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 
 	/**
 	 * Input is valid, if start is before end.
-	 * @param ValidationFactory $validation_factory
 	 */
-	protected function addValidation(ValidationFactory $validation_factory)
+	protected function addValidation()
 	{
 		$txt_id = 'duration_end_must_not_be_earlier_than_start';
 		$error = function (callable $txt, $value) use ($txt_id) {
@@ -117,7 +112,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 			return $v['start'] < $v['end'];
 		};
 
-		$from_before_until = $validation_factory->custom($is_ok, $error);
+		$from_before_until = $this->refinery->custom()->constraint($is_ok, $error);
 		$this->setAdditionalConstraint($from_before_until);
 	}
 
