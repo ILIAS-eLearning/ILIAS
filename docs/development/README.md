@@ -15,6 +15,8 @@ A general overview on our processes can be found in the [development guide](http
 ## Coding
 
 - [Coding Guidelines](http://www.ilias.de/docu/goto_docu_pg_202_42.html) (WIP): We are on the way to adapt PSR-2
+- [Basic Architecture](https://docu.ilias.de/goto_docu_pg_199_42.html): Slightly outdated, but still relevant. Additionally code is going into our core libraries in the [src directory](../../src/README.md).
+- [GIT introduction](https://docu.ilias.de/goto_docu_pg_15604_42.html)
 - [Accessibility Guidelines](accessibility.md): Foster an accessible user interface
 - [Input Processing](input-processing.md): Securely process user input
 - [API overview](api-overview.md): Overview on APIs and services
