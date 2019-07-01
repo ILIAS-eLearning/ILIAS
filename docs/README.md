@@ -7,7 +7,7 @@ found in the [configuration](configuration/README.md) section.
 
 ## Development
 
-The [development](development/README.md) section contains information on several ways of **contributing** to ILIAS, **maintenance** processes and general rules for **coding** and **documentation**.
+The [development](development/README.md) section contains information on several ways of **contributing** to ILIAS, **maintenance** processes and general rules for **coding**, **testing** and **documentation**.
 
 ## API
 
