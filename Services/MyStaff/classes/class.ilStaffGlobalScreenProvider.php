@@ -3,8 +3,6 @@
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
-use ILIAS\NavigationContext\Stack\CalledContexts;
-use ILIAS\NavigationContext\Stack\ContextCollection;
 
 /**
  * Class ilStaffGlobalScreenProvider

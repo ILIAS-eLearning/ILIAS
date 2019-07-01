@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
+use LogicException;
+
 /**
  * Class Css
  *
@@ -8,7 +10,10 @@
 class Css extends AbstractMedia
 {
 
+    const MEDIA_ALL = "all";
     const MEDIA_SCREEN = "screen";
+    const MEDIA_PRINT = "print";
+    const MEDIA_SPEECH = "speech";
     /**
      * @var string
      */
@@ -23,6 +28,9 @@ class Css extends AbstractMedia
      */
     public function __construct(string $content, string $media = self::MEDIA_SCREEN)
     {
+        if (!in_array($media, [self::MEDIA_ALL, self::MEDIA_PRINT, self::MEDIA_SCREEN, self::MEDIA_SPEECH])) {
+            throw new LogicException("Invalid media type for CSS");
+        }
         parent::__construct($content);
         $this->media = $media;
     }

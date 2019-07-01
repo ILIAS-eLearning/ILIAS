@@ -9447,7 +9447,9 @@ footer {
 .icon.grpr .abbreviation,
 .icon.bdga .abbreviation,
 .icon.wfe .abbreviation,
-.icon.iass .abbreviation {
+.icon.iass .abbreviation,
+.icon.copa .abbreviation,
+.icon.lso .abbreviation {
   display: none;
 }
 .icon.grp {
@@ -9767,6 +9769,12 @@ footer {
 }
 .icon.iass {
   background-image: url("images/icon_iass.svg");
+}
+.icon.copa {
+  background-image: url("images/icon_copa.svg");
+}
+.icon.lso {
+  background-image: url("images/icon_lso.svg");
 }
 .icon.outlined {
   filter: brightness(0);
@@ -10092,8 +10100,11 @@ footer {
 .icon.outlined.iass {
   background-image: url("images/outlined/icon_iass.svg");
 }
-.icon.copa {
-  background-image: url("images/icon_copa.svg");
+.icon.outlined.copa {
+  background-image: url("images/outlined/icon_copa.svg");
+}
+.icon.outlined.lso {
+  background-image: url("images/outlined/icon_lso.svg");
 }
 .glyph {
   color: #557196;

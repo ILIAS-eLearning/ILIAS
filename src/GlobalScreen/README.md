@@ -41,6 +41,8 @@ The Scope Tools has a lot in common with the Scope MainBar, because the items ar
 rendered in almost the same place. The items as well as the providers as such are 
 very different from the Scope MainBar.
 
+See `Scope/Tools/README.md` for more information.
+
 ## Scope Layout
 This scope is the parent and responsible for the entire composition of a page. It offers the possibility to replace or modify parts of a page before rendering it. This scope does not work according to the collector/provider principle but is explicitly called by the components, see `Scope/Layout/README.md`.
 
@@ -90,12 +92,7 @@ available at a certain point in time, such as the Tools that are displayed
 context-dependently. 
 
 ### How to implement your provider
-Whether a component has GlobalScreen providers is determined by entries in
-`service.xml` or `module.xml`. The following entry is added, e.g.:
-```xml
-<gsproviders>
-   <mainmenu class_name="ilBadgeGlobalScreenProvider" purpose="mainmenu"/>
-</gsproviders>
+All providers for all Scopes will be collected whenever you perform a `composer install` or a `composer dump-autoload` (which is already needed for the autoloading). This is done by the ArtifactBuilder-Service. 
 
 ```
 As many providers as desired can be registered. These can implement one 
@@ -107,7 +104,6 @@ class ilBadgeGlobalScreenProvider implements StaticMainMenuProvider {
 ...
 }
 ```
-
 
 ## Collectors
 In most cases, you won't need to implement a collector. For the

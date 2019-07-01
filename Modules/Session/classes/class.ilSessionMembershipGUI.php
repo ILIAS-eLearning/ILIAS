@@ -95,15 +95,21 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 		$this->checkPermission('manage_members');
 		
 		$part = ilParticipants::getInstance($this->getParentObject()->getRefId());
-		
+
+
+		$wait = new ilSessionWaitingList($this->getParentObject()->getId());
+		$waiting = $wait->getUserIds();
+
 		foreach((array) $_REQUEST['visible_participants'] as $part_id)
 		{
+			if(in_array($part_id, $waiting)) {
+				// so not update users on waiting list
+				continue;
+			}
+
 			$participated = (bool) $_POST['participated'][$part_id];
 			$registered = (bool) $_POST['registered'][$part_id];
 			$contact = (bool) $_POST['contact'][$part_id];
-			
-			$this->getLogger()->debug('Participated: ' . (int) $participated);
-			$this->getLogger()->debug('Registered: ' . (int) $registered);
 			
 			if($part->isAssigned($part_id))
 			{

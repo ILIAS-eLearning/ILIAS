@@ -20,9 +20,12 @@ class ilExportFileInfo
 	private $export_type = '';
 	private $file_name = '';
 	private $create_date = null;
-	
+
 	/**
-	 * Constructor
+	 * ilExportFileInfo constructor.
+	 * @param int $a_obj_id
+	 * @param string $a_export_type
+	 * @param string $a_filename
 	 */
 	public function __construct($a_obj_id, $a_export_type = '',$a_filename = '')
 	{
@@ -182,25 +185,32 @@ class ilExportFileInfo
 	
 	/**
 	 * Create new export entry
-	 * @return 
 	 */
 	public function create()
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
-		
-		$query = "INSERT INTO export_file_info (obj_id, export_type, filename, version, create_date) ".
-			"VALUES ( ".
-			$ilDB->quote($this->getObjId(),'integer').', '.
-			$ilDB->quote($this->getExportType(),'text').', '.
-			$ilDB->quote($this->getFilename(),'text').', '.
-			$ilDB->quote($this->getVersion(),'text').', '.
-			$ilDB->quote($this->getCreationDate()->get(IL_CAL_DATETIME,'',ilTimeZone::UTC),'timestamp').' '.
-			")";
-		$ilDB->manipulate($query);
+		$db = $DIC->database();
+
+		$exists_query = 'select * from export_file_info ' .
+			'where obj_id = ' . $db->quote($this->obj_id,'integer'). ' '.
+			'and export_type = ' . $db->quote($this->getExportType(),'text').' '.
+			'and filename = ' . $db->quote($this->getFilename(),'text');
+		$exists_res = $db->query($exists_query);
+
+		if(!$exists_res->numRows()) {
+			$query = "INSERT INTO export_file_info (obj_id, export_type, filename, version, create_date) ".
+				"VALUES ( ".
+				$db->quote($this->getObjId(),'integer').', '.
+				$db->quote($this->getExportType(),'text').', '.
+				$db->quote($this->getFilename(),'text').', '.
+				$db->quote($this->getVersion(),'text').', '.
+				$db->quote($this->getCreationDate()->get(IL_CAL_DATETIME,'',ilTimeZone::UTC),'timestamp').' '.
+				")";
+			$db->manipulate($query);
+		}
 	}
-	
+
 	/**
 	 * Delete one export entry
 	 * @return 

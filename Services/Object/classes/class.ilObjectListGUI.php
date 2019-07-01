@@ -3963,6 +3963,7 @@ class ilObjectListGUI
 
 	/**
 	 * Get list item ui object
+	 *
 	 * @param int $ref_id
 	 * @param int $obj_id
 	 * @param string $type
@@ -4057,6 +4058,16 @@ class ilObjectListGUI
 		return $list_item;
 	}
 
+	/**
+	 * Get card object
+	 *
+	 * @param int $ref_id
+	 * @param int $obj_id
+	 * @param string $type
+	 * @param string $title
+	 * @param string $description
+	 * @return \ILIAS\UI\Component\Card\Card|null
+	 */
 	public function getAsCard(int $ref_id, int $obj_id, string $type,
 		string $title,
 		string $description): ?\ILIAS\UI\Component\Card\Card
@@ -4100,13 +4111,16 @@ class ilObjectListGUI
 			$image = $image->withAction($def_command['link']);
 		}
 
-		if ($type == 'sess' && $title == '') {
+		if ($type == 'sess') {
+			if ($title != "") {
+				$title = ": ".$title;
+			}
 			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
 			$title = ilSessionAppointment::_appointmentToString(
 				$app_info['start'],
 				$app_info['end'],
 				$app_info['fullday']
-			);
+			).$title;
 		}
 
 		$icon = $this->ui->factory()

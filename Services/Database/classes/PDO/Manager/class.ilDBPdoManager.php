@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/Database/interfaces/interface.ilDBManager.php');
 
 /**
  * Class ilDBPdoManager

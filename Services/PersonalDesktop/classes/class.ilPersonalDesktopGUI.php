@@ -130,7 +130,7 @@ class ilPersonalDesktopGUI
 	{
 		global $DIC;
 
-		$context = $DIC->navigationContext();
+		$context = $DIC->globalScreen()->tool()->context();
 		$context->stack()->desktop();
 
 		$ilSetting = $this->settings;
