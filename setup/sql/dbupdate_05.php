@@ -507,7 +507,7 @@ ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 /**
  * @var $ilDB ilDBInterface
  */
-$ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
+// $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
 ?>
 <#5461>
@@ -1189,4 +1189,15 @@ if($ilDB->indexExistsByFields('read_event',array('usr_id')))
 }
 $ilDB->addIndex('read_event', array('usr_id'), 'i1');
 
+?>
+<#5510>
+<?php
+
+if ($ilDB->tableExists('il_gs_identifications')) {
+    $ilDB->dropTable('il_gs_identifications');
+}
+
+if ($ilDB->tableExists('il_gs_providers')) {
+    $ilDB->dropTable('il_gs_providers');
+}
 ?>

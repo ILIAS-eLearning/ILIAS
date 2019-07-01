@@ -7,9 +7,9 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilMMItemRepository
@@ -35,14 +35,6 @@ class ilMMItemRepository
      * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector
      */
     private $main_collector;
-    /**
-     * @var ilMMItemInformation
-     */
-    private $information;
-    /**
-     * @var ilGSRepository
-     */
-    private $gs;
 
 
     /**
@@ -54,10 +46,17 @@ class ilMMItemRepository
     {
         global $DIC;
         $this->storage = new CoreStorageFacade();
-        $this->gs = new ilGSRepository();
         $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->services = $DIC->globalScreen();
-        $this->sync();
+
+        foreach ($this->main_collector->getStackedTopItemsForPresentation() as $top_item) {
+            ilMMItemStorage::register($top_item);
+            if ($top_item instanceof isParent) {
+                foreach ($top_item->getChildren() as $child) {
+                    ilMMItemStorage::register($child);
+                }
+            }
+        }
     }
 
 
@@ -84,8 +83,6 @@ class ilMMItemRepository
      */
     public function getStackedTopItemsForPresentation() : array
     {
-        $this->sync();
-
         $top_items = $this->main_collector->getStackedTopItemsForPresentation();
 
         return $top_items;
@@ -105,27 +102,6 @@ class ilMMItemRepository
 
 
     /**
-     * @return array
-     */
-    private function initProviders() : array
-    {
-        $providers = [];
-        // Core
-        foreach (ilGSProviderStorage::where(['purpose' => StaticMainMenuProvider::PURPOSE_MAINBAR])->get() as $provider_storage) {
-            /**
-             * @var $provider_storage ilGSProviderStorage
-             */
-            $providers[] = $provider_storage->getInstance();
-        }
-        foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
-            $providers[] = $provider;
-        }
-
-        return $providers;
-    }
-
-
-    /**
      * @return ilMMItemRepository
      */
     public function repository() : ilMMItemRepository
@@ -140,9 +116,6 @@ class ilMMItemRepository
      */
     public function getTopItems() : array
     {
-        // sync
-        $this->sync();
-
         return ilMMItemStorage::where(" parent_identification = '' OR parent_identification IS NULL ")->orderBy('position')->getArray();
     }
 
@@ -152,8 +125,6 @@ class ilMMItemRepository
      */
     public function getSubItemsForTable() : array
     {
-        // sync
-        $this->sync();
         $r = $this->storage->db()->query(
             "SELECT sub_items.*, top_items.position AS parent_position 
 FROM il_mm_items AS sub_items 
@@ -199,35 +170,6 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         $id = $this->services->identification()->fromSerializedIdentification($identification);
 
         return $this->getItemFacade($id);
-    }
-
-
-    private function sync() : bool
-    {
-        if ($this->synced === false || $this->synced === null) {
-            global $DIC;
-            $i = new ilGSProviderFactory($DIC);
-            /**
-             * @var $provider StaticMainMenuProvider
-             */
-            foreach ($i->getMainBarProvider() as $provider) {
-                foreach ($provider->getAllIdentifications() as $identification) {
-                    ilGSIdentificationStorage::registerIdentification($identification, $provider);
-                }
-            }
-
-            $this->storage->db()->manipulate(
-                "DELETE il_mm_items FROM il_mm_items
-            			LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification
-            			WHERE il_gs_identifications.identification IS NULL"
-            );
-            foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {
-                $this->getItemFacadeForIdentificationString($identification->serialize());
-            }
-            $this->synced = true;
-        }
-
-        return $this->synced;
     }
 
 
