@@ -51,10 +51,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
     {
         $this->addColumn($this->lng->txt('topitem_position'), '', '30px');
         $this->addColumn($this->lng->txt('topitem_title'));
-        // $this->addColumn($this->lng->txt('topitem_icon'));
         $this->addColumn($this->lng->txt('topitem_active'));
-        // $this->addColumn($this->lng->txt('topitem_sticky'));
-        // $this->addColumn($this->lng->txt('topitem_mobile'));
         $this->addColumn($this->lng->txt('topitem_subentries'));
         $this->addColumn($this->lng->txt('topitem_css_id'));
         $this->addColumn($this->lng->txt('topitem_type'));

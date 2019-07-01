@@ -507,7 +507,7 @@ ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 /**
  * @var $ilDB ilDBInterface
  */
-$ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
+// $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
 ?>
 <#5461>
@@ -1168,4 +1168,36 @@ $setting->set('pd_active_pres_view_0', serialize(['list', 'tile']));
 $setting->set('pd_active_pres_view_1', serialize(['list', 'tile']));
 $setting->set('pd_def_pres_view_0', 'list');
 $setting->set('pd_def_pres_view_1', 'list');
+?>
+<#5508>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('upload_blacklisted_files', "Upload Blacklisted Files", "object", 1);
+if ($tgt_ops_id) {
+    $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('facs');
+    if ($lp_type_id) {
+        ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);
+    }
+}
+?>
+<#5509>
+<?php
+
+if($ilDB->indexExistsByFields('read_event',array('usr_id')))
+{
+	$ilDB->dropIndexByFields('read_event',array('usr_id'));
+}
+$ilDB->addIndex('read_event', array('usr_id'), 'i1');
+
+?>
+<#5510>
+<?php
+
+if ($ilDB->tableExists('il_gs_identifications')) {
+    $ilDB->dropTable('il_gs_identifications');
+}
+
+if ($ilDB->tableExists('il_gs_providers')) {
+    $ilDB->dropTable('il_gs_providers');
+}
 ?>

@@ -6674,6 +6674,8 @@ pwassist#:#pwassist_username_mail_body#:#These are the active username found for
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_your_rating#:#Your Rating
+rbac#:#upload_blacklisted_files#:#Bypass blacklist
+rbac#:#facs_upload_blacklisted_files#:#Upload indexed file types despite blacklist
 rbac#:#cals_edit_event#:#User can create and edit public calendars and events in ILIAS
 rbac#:#cals_edit_permission#:#User can change permission settings for Calendar administration
 rbac#:#cals_read#:#User has read access to Calendar Administration
@@ -14492,6 +14494,8 @@ content#:#cont_lpe_user_agreement_link#:#User Agreement Link
 common#:#obj_fold_duplicate#:#Copy Folder
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
+file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
+file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
 file#:#file_suffix_default_white#:#Default Suffix Whitelist
 file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
 file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
@@ -14521,6 +14525,7 @@ copa#:#obj_copa_duplicate#:#Duplicate Content Page
 copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
 adve#:#adve_grp_copa#:#Content Pages
+common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
@@ -14591,6 +14596,9 @@ mme#:#subtab_topitems#:#Top Items
 mme#:#subtab_subitems#:#Items
 mme#:#tab_back#:#Back
 mme#:#topitem_add#:#Add Top Item
+mme#:#restore#:#Reset Main Menu
+mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.
+mme#:#msg_restored#:#Main Menu completely reset
 mme#:#topitem_edit#:#Edit
 mme#:#topitem_delete#:#Delete
 mme#:#topitem_translate#:#Translate
