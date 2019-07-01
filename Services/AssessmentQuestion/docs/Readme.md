@@ -43,11 +43,11 @@
 
 **Tasks**
 * [ ] 01.07.2019 - 05.07.2019: Entfernung library, Ergänung unserer bestehenden Klassen
-* [ ] 01.07.2019 - 05.07.2019: Readme erstellen, welche beschreibt wie der Commandbus, Eventbus sowie die Middlewares genutzt werden können. Dies auch unhabhängig von CQRS / Eventsourcing.7
+* [ ] 01.07.2019 - 05.07.2019: Readme erstellen, welche beschreibt wie der Commandbus, Eventbus sowie die Middlewares genutzt werden können. Dies auch unhabhängig von CQRS / Eventsourcing.
 * [ ] 01.07.2019 - 05.07.2019: Entscheid bezüglich Platzierung _Workshops zu DDD / EventBus / CQRS_ sobald getroffen umsetzen.
 
 
-## Konzept Validierung ist geklärt
+## Konzept Objekt-Zustands-Validierung ist geklärt
 **Ziele**
 * Notwendige Validierungen sind geklärt.
 * Welche Art der Validierung wo vorgenommen wird, ist abschliessend geklärt
@@ -62,7 +62,7 @@
 
 ## Interfaces und Abstrakte Klassen für DDD
 **Ziele**
-* Bereitstellung der notwendigen DDD Intrefaces und Klassen.
+* Bereitstellung der notwendigen DDD Interfaces und Klassen.
 
 **Verantwortlich / Durchführung bis**
 * aluethi, 05.07.2019
@@ -73,18 +73,22 @@
 * [ ] 01.07.2019 - 05.07.2019: Entscheid bezüglich Platzierung _Workshops zu DDD / EventBus / CQRS_ sobald getroffen umsetzen.
 
 
-## Sämtliche Value Object / Entities und Repositories implementiert
+## Sämtliche Value Object / Entities und (Repositories) implementiert
 **Ziele**
 * Sämtliche Value Objects & Entities sind angelegt.
 * Entscheid ob ein oder zwei Repositories AggregateQuestion und (?)AggregateSolution / AggregateTest(?) ist abschliessend gefällt.
 
 ## Sämtliche Formulare sind implementiert
+**Ziele**
+* Es werden die bestehenden (legacy) Formulare in FormGUIs überführt. Wir erstellen die Formulare bewusst nicht neut.
+
 **Verantwortlich / Durchführung bis**
 * bheyser, 31.07.2019
 
 **Tasks**
 * [ ] 01.07.2019 - 31.07.2019: Value Objects anlegen
 * [ ] 01.07.2019 - 31.07.2019: Entscheid Repositories fällen.
+* [ ] 15.08.2019: Repositories umgesetzt.
 
 ## FormBuilder für Authoring-Umgebung
 **Ziele**
@@ -98,13 +102,72 @@
 
 ## Business-Logik
 **Ziele**
-* Formbuilder inkl. Navigationskonzept ist erstellt.
+* Business-Logik erstellt
 
 **Verantwortlich / Durchführung bis**
 * bheyser & mstuder, 15.08.2019
 
 **Tasks**
 * [ ] 15.07.2019 - 18.08.2019: Business-Logik erstellt.
+
+## Services in Test und Fragenpool eingebaut
+**Ziele**
+* Service im Test und Fragenpool eingebaut.
+**Verantwortlich / Durchführung bis**
+* bheyser 31.07.2019
+
+**Tasks**
+* [ ] 08.07.2019 - 31.07.2019: Service im Test und Fragenpool eingebaut.
+
+## ASQ Formbuilder in Test und Fragenpool eingebaut
+**Ziele**
+* Service im Test und Fragenpool eingebaut.
+**Verantwortlich / Durchführung bis**
+* bheyser / mstuder 15.08.2019
+
+**Tasks**
+* [ ] 01.08.2019 - 15.08.2019: Service im Test und Fragenpool eingebaut.
+
+## Performance Tests
+**Ziele**
+* Es können Aussagen über die Performance der Authoring und der Testdurchführung getroffen werden.
+
+**Verantwortlich / Durchführung bis**
+* sschneider, Marburg 30.09.2019
+
+**Tasks**
+* [ ] 15.09.2019 - 30.09.2019: Performance Tests.
+
+## Feature Implementierungen
+**Ziele**
+* Bauftragte Features implementieren.
+	* Versionierung
+	* Statistiken
+
+**Verantwortlich / Durchführung bis**
+* bheyser / mstuder / alüethi
+
+**Tasks**
+* [ ] 01.09.2019 - 15.10.2019: Feature Implementierung
+
+
+.
+
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+
+
 
 
 # Decisions (WIP)
