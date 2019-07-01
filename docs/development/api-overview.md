@@ -41,7 +41,7 @@ Services provide general functionalities used in the modules or in other service
 **Content and Output**
 
 - [Template Engine](../../Services/UICore/template-engine.md): Core Template Engine
-- [UI Controller](https://docu.ilias.de/goto_docu_pg_42470_42.html): User Interface Control Flow Management
+- [UI Controller](../../Services/UICore/ilctrl.md): User Interface Control Flow Management
 - [Legacy UI](https://docu.ilias.de/goto_docu_st_64268_42.html): Beside the current [UI framework](../../src/UI/README.md) you will still find some legacy UI components in ILIAS code. Their documentation is still available in the development guide.
 - [COPage](../../Services/COPage/README.md): Page Content Editor
 - [AdvancedMetadata](../../Services/AdvancedMetaData/README.md): Advanced Metadata
