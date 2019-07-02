@@ -109,7 +109,7 @@ else
     exit 1
 fi
 
-echo "Could Style is OK."
+echo "Code Style is OK."
 ```
 
 The hook will execute a `dry-run` on the committed PHP files and will be
@@ -148,5 +148,5 @@ else
     exit 1
 fi
 
-echo "Could Style is OK."
+echo "Code Style is OK."
 ```
