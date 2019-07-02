@@ -21,20 +21,24 @@ class CreateQuestionCommand extends AbstractCommand implements Command
 	 * @var string
 	 */
 	private $description;
-
-
+	/**
+	 * @var string
+	 */
+	private $text;
 	/**
 	 * CreateQuestionCommand constructor.
 	 *
 	 * @param string $title
 	 * @param string $description
+	 * @param string $text
 	 * @param int    $creator_id
 	 */
-	public function __construct(string $title, string $description, int $creator_id)
+	public function __construct(string $title, string $description, string $text, int $creator_id)
 	{
 		$this->title = $title;
 		$this->description = $description;
 		$this->creator_id = $creator_id;
+		$this->text = $text;
 	}
 
 	/**
@@ -55,5 +59,10 @@ class CreateQuestionCommand extends AbstractCommand implements Command
 	public function getCreator()
 	{
 		return $this->creator_id;
+	}
+
+	public function getText()
+	{
+		return $this->text;
 	}
 }

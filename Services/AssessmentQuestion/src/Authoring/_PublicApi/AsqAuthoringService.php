@@ -44,11 +44,11 @@ class AsqAuthoringService {
 		return QuestionRepository::getInstance()->get(new QuestionId($aggregate_id));
 	}
 
-	public function CreateQuestion(string $title, string $description, int $creator_id): void {
+	public function CreateQuestion(string $title, string $description, string $text, int $creator_id): void {
 		//CreateQuestion.png
 		$command_busbuilder = new CommandBusBuilder();
 		$command_bus = $command_busbuilder->getCommandBus();
-		$command_bus->handle(new CreateQuestionCommand($title, $description, $creator_id));
+		$command_bus->handle(new CreateQuestionCommand($title, $description, $text, $creator_id));
 	}
 
 	public function CreateNewVersionOfQuestion(string $title, string $description, int $creator_id, string $old_id) {

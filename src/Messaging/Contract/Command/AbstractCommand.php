@@ -10,9 +10,4 @@ abstract class AbstractCommand implements Command {
 	 * @var int
 	 */
 	protected $creator_id;
-
-	/**
-	 * @var DateTime
-	 */
-	protected $creation_time;
 }

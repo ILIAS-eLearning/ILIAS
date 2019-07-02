@@ -7,6 +7,7 @@ use \ilTextInputGUI;
 class CreateQuestionFormGUI extends ilPropertyFormGUI {
 	const QuestionVAR_TITLE = 'title';
 	const QuestionVAR_DESCRIPTION = 'description';
+	const QuestionVAR_TEXT = 'text';
 
 	public function __construct( ) {
 		$this->initForm();
@@ -27,6 +28,9 @@ class CreateQuestionFormGUI extends ilPropertyFormGUI {
 		$description = new ilTextInputGUI('description',self::QuestionVAR_DESCRIPTION);
 		$this->addItem($description);
 
+		$text = new ilTextInputGUI('text',self::QuestionVAR_TEXT);
+		$this->addItem($text);
+
 		$this->addCommandButton('create', 'Create');
 	}
 
@@ -36,5 +40,9 @@ class CreateQuestionFormGUI extends ilPropertyFormGUI {
 
 	public function getQuestionDescription() : string {
 		return $_POST[self::QuestionVAR_DESCRIPTION];
+	}
+
+	public function getQuestionText() : string {
+		return $_POST[self::QuestionVAR_TEXT];
 	}
 }

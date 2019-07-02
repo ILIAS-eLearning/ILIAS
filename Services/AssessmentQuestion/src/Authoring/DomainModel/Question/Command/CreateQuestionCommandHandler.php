@@ -5,7 +5,10 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\QuestionRepository;
 use ILIAS\Messaging\Contract\Command\Command;
-use ILIAS\Messaging\Contract\Command\CommandHandler;;
+use ILIAS\Messaging\Contract\Command\CommandHandler;
+use QuestionData;
+
+;
 
 /**
  * Class CreateQuestionCommandHandler
@@ -20,12 +23,8 @@ class CreateQuestionCommandHandler implements CommandHandler {
 	 */
 	public function handle(Command $command) {
 
-		$question = Question::createNewQuestion(
-			$command->getTitle(),
-			$command->getDescription(),
-			$command->getCreator()
-		);
-
+		$question = Question::createNewQuestion($command->getCreator());
+		$question->setData(new QuestionData($command->getTitle(), $command->getDescription(), $command->getText()), $command->getCreator());
 		QuestionRepository::getInstance()->save($question);
 	}
 }

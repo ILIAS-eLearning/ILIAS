@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\GenericEvent;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
 use ILIAS\Data\Domain\Entity\AggregateId;
@@ -13,6 +14,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
 use ILIAS\Data\Domain\Entity\RevisionId;
 use ILIAS\Data\Domain\Event\DomainEvent;
 use ILIAS\Data\Domain\Event\DomainEvents;
+use QuestionData;
 use SAML2\Configuration\EntityIdProvider;
 
 /**
@@ -35,14 +37,6 @@ class Question extends AggregateRoot implements IsRevisable {
 	 */
 	private $revision_name = "";
 	/**
-	 * @var string
-	 */
-	private $title;
-	/**
-	 * @var string
-	 */
-	private $description;
-	/**
 	 * @var int
 	 */
 	private $creator;
@@ -50,6 +44,10 @@ class Question extends AggregateRoot implements IsRevisable {
 	 * @var bool
 	 */
 	private $online = false;
+	/**
+	 * @var QuestionData
+	 */
+	private $data;
 	/**
 	 * @var
 	 */
@@ -79,19 +77,20 @@ class Question extends AggregateRoot implements IsRevisable {
 	 *
 	 * @return Question
 	 */
-	public static function createNewQuestion(string $title, string $description, int $creator) {
+	public static function createNewQuestion(int $creator) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator, $title, $description));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator));
 		return $question;
 	}
 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
 		$this->creator = $event->getInitiatingUserId();
-		$this->description = $event->getDescription();
-		$this->title = $event->getTitle();
 	}
 
+	protected function applyQuestionDataSetEvent(QuestionDataSetEvent $event) {
+		$this->data = $event->data;
+	}
 
 	public function setOnline() {
 		$this->ExecuteEvent(new QuestionStatusHasChangedToOnlineEvent($this->id));
@@ -136,35 +135,21 @@ class Question extends AggregateRoot implements IsRevisable {
 		return $this->id;
 	}
 
+
 	/**
-	 * @return string
+	 * @return QuestionData
 	 */
-	public function getTitle(): string {
-		return $this->title;
+	public function getData(): QuestionData {
+		return $this->data;
 	}
 
 
 	/**
-	 * @param string $title
+	 * @param QuestionData $data
+	 * @param int          $creator_id
 	 */
-	public function setTitle(string $title): void {
-		$this->title = $title;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getDescription(): string {
-		return $this->description;
-	}
-
-
-	/**
-	 * @param string $description
-	 */
-	public function setDescription(string $description): void {
-		$this->description = $description;
+	public function setData(QuestionData $data, int $creator_id): void {
+		$this->ExecuteEvent(new QuestionDataSetEvent($this->getAggregateId(), $creator_id, $data));
 	}
 
 	/**
@@ -219,8 +204,6 @@ class Question extends AggregateRoot implements IsRevisable {
 	 * Domain specific data of an object and return it as an array
 	 */
 	public function getRevisionData(): array {
-		$data['title'] = $this->getTitle();
-		$data['description'] = $this->getDescription();
-		$data['creator'] = $this->getCreator();
+		//TODO when implementing revisions
 	}
 }

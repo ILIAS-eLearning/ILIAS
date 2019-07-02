@@ -5,6 +5,8 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
+
 /**
  * Class AbstractQuestionFormGUI
  *
@@ -15,7 +17,7 @@ namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form;
 abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 {
 	/**
-	 * @var \ilAsqQuestionAbstract
+	 * @var Question
 	 */
 	protected $question;
 	
@@ -37,7 +39,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	/**
 	 * AbstractQuestionConfigFormGUI constructor.
 	 */
-	public function __construct(\ilAsqQuestionAuthoringAbstract $qstAuthoring)
+	public function __construct(Question $qstAuthoring)
 	{
 		parent::__construct();
 		$this->question = $qstAuthoring->getQuestion();
@@ -45,17 +47,17 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	}
 	
 	/**
-	 * @return \ilAsqQuestionAbstract
+	 * @return Question
 	 */
-	public function getQuestion(): \ilAsqQuestionAbstract
+	public function getQuestion(): Question
 	{
 		return $this->question;
 	}
 	
 	/**
-	 * @param \ilAsqQuestionAbstract $question
+	 * @param Question $question
 	 */
-	public function setQuestion(\ilAsqQuestionAbstract $question)
+	public function setQuestion(Question $question)
 	{
 		$this->question = $question;
 	}
@@ -112,15 +114,15 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	 * this method does build the form with its properties.
 	 * @throws \ilTaxonomyException
 	 */
-	final protected function init(\ilAsqQuestionAuthoring $qstAuthoring)
+	final protected function init(Question $qstAuthoring)
 	{
 		$this->setFormAction($this->ctrl->getFormAction($qstAuthoring));
 		
 		$this->setTableWidth('100%');
 		$this->setMultipart(true);
 		
-		$this->setId($this->getQuestion()->getQuestionData()->getQuestionType()->getQuestionTypeId());
-		$this->setTitle($this->getQuestion()->getQuestionData()->getQuestionType()->getTypeTag());
+		$this->setId($this->getQuestion()->getAggregateId()->getId());
+		$this->setTitle($this->getQuestion()->getTitle());
 
 		$this->addQuestionGenericProperties();
 		$this->addQuestionSpecificProperties();
@@ -141,52 +143,30 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		// title
 		$title = new \ilTextInputGUI($DIC->language()->txt("title"), "title");
 		$title->setMaxLength(100);
-		$title->setValue($this->getQuestion()->getQuestionData()->getTitle());
+		$title->setValue($this->getQuestion()->getTitle());
 		$title->setRequired(TRUE);
 		$this->addItem($title);
-		
-		if( !$this->isLearningModuleContext() )
-		{
-			// author
-			$author = new \ilTextInputGUI($DIC->language()->txt("author"), "author");
-			$author->setValue($this->getQuestion()->getQuestionData()->getAuthor());
-			$author->setRequired(TRUE);
-			$this->addItem($author);
-			
-			// description
-			$description = new \ilTextInputGUI($DIC->language()->txt("description"), "comment");
-			$description->setValue($this->getQuestion()->getQuestionData()->getDescription());
-			$description->setRequired(FALSE);
-			$this->addItem($description);
-		}
-		else
-		{
-			// author as hidden field
-			$hi = new \ilHiddenInputGUI("author");
-			$author = \ilUtil::prepareFormOutput($this->getQuestion()->getQuestionData()->getAuthor());
-			if (trim($author) == "")
-			{
-				$author = "-";
-			}
-			$hi->setValue($author);
-			$this->addItem($hi);
-			
-		}
-		
-		// lifecycle
-		$lifecycle = new \ilSelectInputGUI($DIC->language()->txt('qst_lifecycle'), 'lifecycle');
-		$lifecycle->setOptions($this->getQuestion()->getQuestionData()->getLifecycle()->getSelectOptions($DIC->language()));
-		$lifecycle->setValue($this->getQuestion()->getQuestionData()->getLifecycle()->getIdentifier());
-		$this->addItem($lifecycle);
+
+		// author
+		$author = new \ilTextInputGUI($DIC->language()->txt("author"), "author");
+		$author->setValue($this->getQuestion()->getCreator());
+		$author->setRequired(TRUE);
+		$this->addItem($author);
+
+		// description
+		$description = new \ilTextInputGUI($DIC->language()->txt("description"), "comment");
+		$description->setValue($this->getQuestion()->getDescription());
+		$description->setRequired(FALSE);
+		$this->addItem($description);
 		
 		// questiontext
 		$question = new \ilTextAreaInputGUI($DIC->language()->txt("question"), "question");
-		$question->setValue($this->getQuestion()->getQuestionData()->getQuestionText());
+		$question->setValue($this->getQuestion()->getQuestionText());
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
 		
-		if( $this->isLearningModuleContext() )
+		/*if( $this->isLearningModuleContext() )
 		{
 			$question->setRteTags(\ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
 			$question->setUseTagsForRteOnly(false);
@@ -239,7 +219,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 			$ni->setSize(5);
 			$ni->setMaxLength(5);
 			$this->addItem($ni);
-		}
+		}*/
 	}
 	
 	/**

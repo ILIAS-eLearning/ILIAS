@@ -26,7 +26,7 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	protected function addQuestionSpecificProperties()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
+		return;
 		// shuffle
 		$shuffle = new \ilCheckboxInputGUI($DIC->language()->txt( "shuffle_answers" ), "shuffle");
 		$shuffle->setValue( 1 );
@@ -69,6 +69,7 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	 */
 	protected function addAnswerSpecificProperties()
 	{
+		return;
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
 		// Choices
