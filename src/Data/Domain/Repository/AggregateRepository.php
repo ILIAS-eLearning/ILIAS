@@ -30,7 +30,7 @@ abstract class AggregateRepository {
 	 */
 	private $has_cache = false;
 
-	public function __construct() {
+	protected function __construct() {
 		if (self::$cache === null)
 		{
 			self::$cache = ilGlobalCache::getInstance(self::CACHE_NAME);
@@ -70,12 +70,12 @@ abstract class AggregateRepository {
 	private function getFromCache(AggregateId $aggregate_id)
 	{
 		$cache_key = $aggregate_id->getId();
-		if (self::$cache->exists($cache_key)) {
+		$aggregate = self::$cache->get($cache_key);
+		if ($aggregate === null) {
 			$aggregate = $this->reconstituteAggregate($this->getEventStore()->getAggregateHistoryFor($aggregate_id));
 			self::$cache->set($cache_key, $aggregate);
-			return $aggregate;
 		}
-		return self::$cache->get($cache_key);
+		return $aggregate;
 	}
 
 
@@ -85,6 +85,8 @@ abstract class AggregateRepository {
 	public function notifyAboutNewEvents() {
 		//Virtual Method
 	}
+
+	public abstract static function getInstance();
 
 	protected abstract function getEventStore() : EventStore;
 

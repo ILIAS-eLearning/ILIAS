@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
+use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\QuestionRepository;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\CreateQuestionFormGUI;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
@@ -39,14 +40,8 @@ class AsqAuthoringService {
 	 *
 	 * @return Question
 	 */
-	public function GetQuestion($aggregate_id) {
-		$event_store = new ilDBQuestionEventStore();
-
-
-		return Question::reconstitute(
-				$event_store->getEventsFor(new QuestionId($aggregate_id))
-		);
-
+	public function GetQuestion(string $aggregate_id) {
+		return QuestionRepository::getInstance()->get(new QuestionId($aggregate_id));
 	}
 
 	public function CreateQuestion(string $title, string $description, int $creator_id): void {
