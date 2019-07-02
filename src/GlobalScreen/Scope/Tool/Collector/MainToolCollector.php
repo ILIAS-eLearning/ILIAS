@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
+use Closure;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 
@@ -37,7 +39,7 @@ class MainToolCollector
     private function initTools()
     {
         global $DIC;
-        $called_contexts = $DIC->navigationContext()->stack();
+        $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
@@ -45,6 +47,8 @@ class MainToolCollector
                 $this->tools = array_merge($this->tools, $provider->getToolsForContextStack($called_contexts));
             }
         }
+
+        $this->tools = array_filter($this->tools, $this->getVisibleFilter());
     }
 
 
@@ -59,6 +63,17 @@ class MainToolCollector
 
     public function hasTools() : bool
     {
-        return true;
+        return count($this->tools) > 0;
+    }
+
+
+    /**
+     * @return Closure
+     */
+    private function getVisibleFilter() : Closure
+    {
+        return function (isItem $tool) {
+            return ($tool->isAvailable() && $tool->isVisible());
+        };
     }
 }

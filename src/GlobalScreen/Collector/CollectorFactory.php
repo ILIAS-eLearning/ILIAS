@@ -43,13 +43,13 @@ class CollectorFactory
      */
     public function mainmenu() : MainMenuMainCollector
     {
-        if (!isset(self::$instances[StaticMainMenuProvider::PURPOSE_MAINBAR])) {
+        if (!isset(self::$instances[StaticMainMenuProvider::class])) {
             $providers = $this->provider_factory->getMainBarProvider();
             $information = $this->provider_factory->getMainBarItemInformation();
-            self::$instances[StaticMainMenuProvider::PURPOSE_MAINBAR] = new MainMenuMainCollector($providers, $information);
+            self::$instances[StaticMainMenuProvider::class] = new MainMenuMainCollector($providers, $information);
         }
 
-        return self::$instances[StaticMainMenuProvider::PURPOSE_MAINBAR];
+        return self::$instances[StaticMainMenuProvider::class];
     }
 
 
@@ -58,11 +58,11 @@ class CollectorFactory
      */
     public function metaBar() : MetaBarMainCollector
     {
-        if (!isset(self::$instances[StaticMetaBarProvider::PURPOSE_MBS])) {
-            self::$instances[StaticMetaBarProvider::PURPOSE_MBS] = new MetaBarMainCollector($this->provider_factory->getMetaBarProvider());
+        if (!isset(self::$instances[StaticMetaBarProvider::class])) {
+            self::$instances[StaticMetaBarProvider::class] = new MetaBarMainCollector($this->provider_factory->getMetaBarProvider());
         }
 
-        return self::$instances[StaticMetaBarProvider::PURPOSE_MBS];
+        return self::$instances[StaticMetaBarProvider::class];
     }
 
 
@@ -71,10 +71,10 @@ class CollectorFactory
      */
     public function tool() : MainToolCollector
     {
-        if (!isset(self::$instances[DynamicToolProvider::PURPOSE_TOOLS])) {
-            self::$instances[DynamicToolProvider::PURPOSE_TOOLS] = new MainToolCollector($this->provider_factory->getToolProvider());
+        if (!isset(self::$instances[DynamicToolProvider::class])) {
+            self::$instances[DynamicToolProvider::class] = new MainToolCollector($this->provider_factory->getToolProvider());
         }
 
-        return self::$instances[DynamicToolProvider::PURPOSE_TOOLS];
+        return self::$instances[DynamicToolProvider::class];
     }
 }

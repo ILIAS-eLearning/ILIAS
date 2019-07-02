@@ -2,9 +2,9 @@
 
 use ILIAS\GlobalScreen\Provider\DynamicProvider;
 use ILIAS\GlobalScreen\Provider\Provider;
+use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\CalledContexts;
+use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
-use ILIAS\NavigationContext\Stack\CalledContexts;
-use ILIAS\NavigationContext\Stack\ContextCollection;
 
 /**
  * Interface DynamicToolProvider

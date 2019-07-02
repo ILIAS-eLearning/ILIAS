@@ -1,4 +1,4 @@
-<?php namespace ILIAS\NavigationContext\AdditionalData;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context\AdditionalData;
 
 use LogicException;
 

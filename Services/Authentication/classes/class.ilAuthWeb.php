@@ -28,7 +28,7 @@
  * 
  *  @ingroup ServicesAuthentication
  */
-class ilAuthWeb extends Auth
+class ilAuthWeb
 {
 	/**
 	 * Returns true, if the current auth mode allows redirection to e.g 

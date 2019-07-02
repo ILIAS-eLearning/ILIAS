@@ -78,7 +78,8 @@ with a delay.
 ## Settings
 
 The feature to create certificate templates and therefore creating
-certificates MUST be activated via `Administration -> Certificates`.
+certificates MUST be activated via `Administration -> Certificates`
+and the [Java Server](#java-server) must be configured.
 
 A default background image can be added that will be used as default
 image for every certificate authority.

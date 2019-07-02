@@ -3,7 +3,4 @@
 	<baseclasses>
 		<baseclass name="ilDerivedTasksGUI" dir="DerivedTasks/classes" />
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilDerivedTaskGlobalScreenProvider" />
-	</gsproviders>
 </service>

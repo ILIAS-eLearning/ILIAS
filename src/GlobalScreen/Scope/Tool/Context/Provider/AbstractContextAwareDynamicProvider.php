@@ -1,6 +1,6 @@
-<?php namespace ILIAS\NavigationContext\Provider;
+<?php namespace ILIAS\GlobalScreen\Scope\Tool\Context\Provider;
 
-use ILIAS\NavigationContext\ContextInterface;
+use ILIAS\GlobalScreen\Scope\Tool\Context\ToolContext;
 
 /**
  * Class ContextAwareDynamicProvider
@@ -13,5 +13,5 @@ abstract class AbstractContextAwareDynamicProvider implements ContextAwareDynami
     /**
      * @inheritdoc
      */
-    abstract public function enrichContextWithCurrentSituation(ContextInterface $context) : ContextInterface;
+    abstract public function enrichContextWithCurrentSituation(ToolContext $context) : ToolContext;
 }

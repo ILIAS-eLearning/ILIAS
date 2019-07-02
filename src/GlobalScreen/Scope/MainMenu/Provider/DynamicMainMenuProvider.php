@@ -2,9 +2,9 @@
 
 use ILIAS\GlobalScreen\Provider\DynamicProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Tool\Tool;
-use ILIAS\NavigationContext\Provider\ContextAwareDynamicProvider;
-use ILIAS\NavigationContext\Stack\ContextCollection;
-use ILIAS\NavigationContext\Stack\ContextStack;
+use ILIAS\GlobalScreen\Scope\Tool\Context\Provider\ContextAwareDynamicProvider;
+use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\ContextCollection;
+use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\ContextStack;
 
 /**
  * Interface DynamicMainMenuProvider
