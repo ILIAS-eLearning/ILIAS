@@ -1,11 +1,18 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Common\Entity;
+namespace ILIAS\AssessmentQuestion\Common;
 
 /**
  * Interface IsRevisable
  *
- * @package ILIAS\AssessmentQuestion\Common\Entity
+ * Generates Revision safe Revision id for IsRevisable object
+ *
+ * @package ILIAS\AssessmentQuestion\Common
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 interface IsRevisable
 {

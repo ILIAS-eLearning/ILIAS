@@ -3,7 +3,6 @@
 
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
-use DateTime;
 use ilDateTime;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
 
@@ -61,7 +60,7 @@ abstract class AbstractDomainEvent implements DomainEvent {
 
 
 	/**
-	 * @return DateTime
+	 * @return ilDateTime
 	 */
 	public function getOccurredOn(): ilDateTime {
 		return $this->occurred_on;
