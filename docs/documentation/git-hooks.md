@@ -1,6 +1,6 @@
 ##  Git Hooks
 
-This document will list some useful git hooks to create a better development
+This document will list some useful Git hooks to create a better development
 experience for a contributor of the ILIAS project.
 
 **Table of Contents**
@@ -12,7 +12,7 @@ experience for a contributor of the ILIAS project.
 
 ### General
 
-Git Hooks are powerful tools that can be used on dedicated events during the
+Git hooks are powerful tools that can be used on dedicated events during the
 development workflow.
 Check out the [documentation about Git Hooks](https://git-scm.com/docs/githooks)
 for more information.
@@ -29,7 +29,7 @@ only, and may not be used in actual environments__
 
 #### Install Development Dependencies
 
-To use the following Git Hooks, the composer development dependencies need to
+To use the following Git hooks, the composer development dependencies need to
 be installed.
 
 Move to the directory with the `composer.json`
@@ -46,7 +46,7 @@ $ composer install --dev
 
 #### Creating Git Hooks
 
-Move to directory where git hooks are stored.
+Move to directory where Git hooks are stored.
 
 ```
 $ cd .git/hooks
