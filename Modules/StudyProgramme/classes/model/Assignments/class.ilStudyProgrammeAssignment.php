@@ -151,10 +151,10 @@ class ilStudyProgrammeAssignment
 
 		if (ilObject::_lookupType($assingned_by_id) != "usr" &&
 			! in_array($assingned_by_id, [
-				AUTO_ASSIGNED_BY_ROLE,
-				AUTO_ASSIGNED_BY_ORGU,
-				AUTO_ASSIGNED_BY_COURSE,
-				AUTO_ASSIGNED_BY_GROUP
+				self::AUTO_ASSIGNED_BY_ROLE,
+				self::AUTO_ASSIGNED_BY_ORGU,
+				self::AUTO_ASSIGNED_BY_COURSE,
+				self::AUTO_ASSIGNED_BY_GROUP
 			])
 		) {
 			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assingned_by_id' "

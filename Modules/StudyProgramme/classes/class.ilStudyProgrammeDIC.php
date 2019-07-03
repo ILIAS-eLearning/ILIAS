@@ -40,6 +40,10 @@ class ilStudyProgrammeDIC
 				(int)$DIC['ilUser']->getId()
 			);
 		};
+		$dic['model.AutoMemberships.ilStudyProgrammeMembershipSourceReaderFactory'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeMembershipSourceReaderFactory($DIC);
+		};
+
 		$dic['model.Type.ilStudyProgrammeTypeRepository'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeTypeDBRepository(
 				$DIC['ilDB'],

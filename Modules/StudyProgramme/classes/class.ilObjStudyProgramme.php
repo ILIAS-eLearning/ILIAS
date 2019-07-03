@@ -54,6 +54,10 @@ class ilObjStudyProgramme extends ilContainer {
 			ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
 		$this->auto_memberships_repository =
 			ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
+		$this->membersourcereader_factory =
+			ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeMembershipSourceReaderFactory'];
+
+
 
 		$this->progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$this->assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -1462,39 +1466,29 @@ class ilObjStudyProgramme extends ilContainer {
 	 */
 	public function enableAutomaticMembershipSource(string $type, int $src_id)
 	{
-		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, true);
-		$this->auto_memberships_repository->update($ams);
-
-		//TODO: add all members of source
 		$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$type];
-		foreach ($this->getMembersOfMembershipSource() as $usr_id) {
+		$member_ids = $this->getMembersOfMembershipSource($type, $src_id);
+
+		foreach ($member_ids as $usr_id) {
 			if (!$this->hasAssignmentOf($usr_id)) {
-				$prg->assignUser($usr_id, $assigned_by);
+				$this->assignUser($usr_id, $assigned_by);
 			}
 		}
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, true);
+		$this->auto_memberships_repository->update($ams);
 	}
 
 	/**
 	 * Get member-ids of a certain source.
 	 * @param string $type
 	 * @param int $src_id
+	 * @throws InvalidArgumentException if $src_type is not in AutoMembershipSource-types
 	 * @return int[]
 	 */
 	protected function getMembersOfMembershipSource(string $src_type, int $src_id): array
 	{
-		//TODO: getMembersOfMembershipSource
-		$usr_ids = [];
-		switch ($src_type) {
-			case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
-				break;
-			case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
-			case ilStudyProgrammeAutoMembershipSource::TYPE_COURSE:
-				break;
-			case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
-				break;
-
-		}
-		return $usr_ids;
+		$source_reader = $this->membersourcereader_factory->getReaderFor($src_type, $src_id);
+		return $source_reader->getMemberIds();
 	}
 
 
