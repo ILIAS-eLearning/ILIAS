@@ -4,15 +4,16 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
 /**
- * Interface Entity
+ * Class AbstractAggregateRoot
  *
- * @package ILIAS\AssessmentQuestion\Common\Model\Entity
+ * @package ILIAS\Data\Domain\Entity
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface Entity {
+abstract class AbstractAggregateRoot implements AggregateRoot {
 
+	abstract public function getAggregateId(): AggregateId;
 }
