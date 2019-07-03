@@ -3,7 +3,7 @@
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared;
 
 use ILIAS\Data\Domain\Entity\AggregateId;
-use ILIAS\Data\Domain\Guid;
+use ILIAS\Data\Domain\Uuid;
 
 /**
  * Class QuestionId
@@ -20,7 +20,7 @@ class QuestionId implements AggregateId {
 
 	public function __construct(string $id = null)
 	{
-		$this->id = $id ?: Guid::createGuid();
+		$this->id = $id ?: Uuid::createGuid();
 	}
 
 	public function getId(): string {
