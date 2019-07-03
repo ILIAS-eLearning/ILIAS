@@ -2,10 +2,8 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
-use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\NotImplementedException;
 
 /**
@@ -96,7 +94,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
 
-        print $this->ui->renderer()->render($this->gs->layout()->final());
+        ilPageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+
+        print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
 
@@ -150,10 +150,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     public function setContent($a_html)
     {
         $this->legacy_content_template->setMainContent($a_html);
-
-        $this->gs->layout()->modifiers()->modifyContentWithClosure(function (Legacy $original_content) : Legacy {
-            return $this->ui->factory()->legacy($this->legacy_content_template->renderPage("DEFAULT", true, false));
-        });
     }
 
 

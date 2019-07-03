@@ -13,7 +13,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
  *
  * @ingroup ServicesUIComponent
  */
-class ilUIHookPluginGUI implements FinalModificationProvider
+class ilUIHookPluginGUI // implements FinalModificationProvider
 {
 
     /**
@@ -86,9 +86,18 @@ class ilUIHookPluginGUI implements FinalModificationProvider
     /**
      * @inheritDoc
      */
-    public final function getFullyQualifiedClassName() : string
+    public final function getProviderNameForPresentation() : string
     {
         return $this->getPluginObject()->getPluginName();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public final function getFullyQualifiedClassName() : string
+    {
+        return get_class($this);
     }
 
 

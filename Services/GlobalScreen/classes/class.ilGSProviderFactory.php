@@ -44,24 +44,9 @@ class ilGSProviderFactory extends ProviderFactory
 
     public function getFinalModificationProvider() : array
     {
-        static $providers;
-        if (!isset($providers)) {
-            $providers = [];
-
-            foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk") as $plugin) {
-                /**
-                 * @var $pl ilUserInterfaceHookPlugin
-                 */
-                $pl = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $plugin);
-                $gui_class = $pl->getUIClassInstance();
-
-                if (is_a($gui_class, FinalModificationProvider::class)) {
-                    $providers[] = $gui_class;
-                }
-            }
-
-            $this->registerInternal($providers);
-        }
+        $providers = [];
+        // Core
+        $this->appendCore($providers, FinalModificationProvider::class);
 
         return $providers;
     }

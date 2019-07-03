@@ -29,4 +29,8 @@
   array (
     0 => 'ilMediaPoolGSToolProvider',
   ),
+  'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\FinalModificationProvider' => 
+  array (
+    0 => 'ilPageContentProvider',
+  ),
 );
