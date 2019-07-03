@@ -214,7 +214,7 @@ class ilDclContentImporter {
 				}
 			}
 			if (in_array($value, $not_importable_titles)) {
-				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key + 1) . ") \"" . $value . "\" " . $this->lng->txt("dcl_std_field_not_importable");
+				$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key) . ") \"" . $value . "\" " . $this->lng->txt("dcl_std_field_not_importable");
 			} else {
 				if (!isset($import_fields[$key])) {
 					$this->warnings[] = "(1, " . ilDataCollectionImporter::getExcelCharForInteger($key + 1) . ") \"" . $value . "\" " . $this->lng->txt("dcl_row_not_found");
@@ -222,12 +222,7 @@ class ilDclContentImporter {
 			}
 		}
 
-		// 24486: increase each key by 1 to match the excel columns (which start at 1 instead of 0)
-		$return = [];
-        foreach ($import_fields as $key => $field) {
-            $return[$key + 1] = $field;
-		}
-		return $return;
+		return $import_fields;
 	}
 }
 

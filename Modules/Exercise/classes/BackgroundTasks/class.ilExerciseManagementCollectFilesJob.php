@@ -360,10 +360,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 						$extra_crit_column++;
 						$this->copyFileToSubDirectory(self::FBK_DIRECTORY,$file);
 						$this->excel->setCell($row,$col, "./".self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
-						// col 11 because ilExcel setCell adds
-						$current_col = $col+1;
-						$this->excel->addLink($row, $current_col, './'.self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
-						$this->excel->setColors($this->excel->getCoordByColumnAndRow($current_col,$row), self::BG_COLOR,self::LINK_COLOR);
+						$this->excel->addLink($row, $col, './'.self::FBK_DIRECTORY.DIRECTORY_SEPARATOR.basename($file));
+						$this->excel->setColors($this->excel->getCoordByColumnAndRow($col,$row), self::BG_COLOR,self::LINK_COLOR);
 					}
 					break;
 			}
@@ -590,7 +588,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 								$current_review_row++;
 								if($current_review_row > 1)
 								{
-									for($i=1;$i<$first_excel_column_for_review;$i++)
+									for($i = 0; $i < $first_excel_column_for_review; $i++)
 									{
 										$cell_to_copy = $this->excel->getCell($row,$i);
 										// $i-1 because ilExcel setCell increments the column by 1
