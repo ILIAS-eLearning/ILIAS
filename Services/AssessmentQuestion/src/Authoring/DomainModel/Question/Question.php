@@ -8,7 +8,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreate
 use ILIAS\Data\Domain\Entity\AggregateId;
 use ILIAS\Data\Domain\Entity\EntitiyId;
 use ILIAS\Data\Domain\Entity\IsRevisable;
-use ILIAS\Data\Domain\Entity\AggregateRoot;
+use ILIAS\Data\Domain\Entity\AbstractAggregateRoot;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
 use ILIAS\Data\Domain\Entity\RevisionId;
 use ILIAS\Data\Domain\Event\DomainEvent;
@@ -21,7 +21,7 @@ use SAML2\Configuration\EntityIdProvider;
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class Question extends AggregateRoot implements IsRevisable {
+class Question extends AbstractAggregateRoot implements IsRevisable {
 	/**
 	 * @var QuestionId
 	 */
