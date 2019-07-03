@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\AssessmentQuestion\Common\Model;
+namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
 /**
  * An object that identifies an Aggregate. Typically a UUID, but any kind of id will do, as long as it is unique within the system.
