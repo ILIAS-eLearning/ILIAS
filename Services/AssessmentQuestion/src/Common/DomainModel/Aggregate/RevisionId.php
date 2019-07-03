@@ -18,17 +18,17 @@ namespace ILIAS\AssessmentQuestion\Common;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class RevisionId {
+
 	/** @var string */
 	private $key;
 
-	public function __construct(string $key)
-	{
+
+	public function __construct(string $key) {
 		$this->key = $key;
 	}
 
 
-	public function GetKey() : string
-	{
+	public function GetKey(): string {
 		return $this->key;
 	}
 }

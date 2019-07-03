@@ -2,7 +2,6 @@
 
 namespace ILIAS\AssessmentQuestion\Common\examples\EventSourcedDDD\DomainModel\Aggregate;
 
-
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
@@ -63,7 +62,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 *
 	 * @return AggregateRoot
 	 */
-	public function reconstitute(DomainEvents $history):AggregateRoot {
+	public function reconstitute(DomainEvents $history): AggregateRoot {
 		$question = new Question();
 
 		foreach ($history->getEvents() as $event) {

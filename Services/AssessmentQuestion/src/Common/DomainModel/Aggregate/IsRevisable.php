@@ -14,8 +14,7 @@ namespace ILIAS\AssessmentQuestion\Common;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface IsRevisable
-{
+interface IsRevisable {
 
 	/**
 	 * @return RevisionId revision id of object

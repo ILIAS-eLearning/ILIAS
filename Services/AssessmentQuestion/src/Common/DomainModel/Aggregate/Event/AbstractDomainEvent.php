@@ -30,7 +30,6 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	 * @var int
 	 */
 	protected $initating_user_id;
-
 	//todo revision einarbeiten
 	//IsRevisionable $aggregate_revision,
 	public function __construct(AggregateId $aggregate_id, int $initating_user_id) {
@@ -49,6 +48,7 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	public function getAggregateId(): AggregateId {
 		return $this->aggregate_id;
 	}
+
 
 	/**
 	 * @return string
@@ -82,6 +82,7 @@ abstract class AbstractDomainEvent implements DomainEvent {
 		// TODO nice and happy serializer also dont serialize id, creator to data
 		return json_encode($this);
 	}
+
 
 	public abstract function restoreEventBody(string $json_data);
 }

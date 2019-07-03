@@ -15,6 +15,7 @@ namespace ILIAS\AssessmentQuestion\Common;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class RevisionFactory {
+
 	const NAME_KEY = "revision_factory_revision_name_key";
 	const NAME_SEPERATOR = "#:#";
 
@@ -40,7 +41,7 @@ class RevisionFactory {
 	 *
 	 * @return bool
 	 */
-	public static function ValidateRevision(IsRevisable $entity) : bool {
+	public static function ValidateRevision(IsRevisable $entity): bool {
 		return $entity->getRevisionId()->GetKey() === self::GenerateRevisionKey($entity);
 	}
 
@@ -58,7 +59,7 @@ class RevisionFactory {
 	 *
 	 * @return string
 	 */
-	private static function GenerateRevisionKey(IsRevisable $entity) : string {
+	private static function GenerateRevisionKey(IsRevisable $entity): string {
 		$data = $entity->getRevisionData();
 		$data[self::NAME_KEY] = $entity->getRevisionName();
 

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
-namespace  ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
+namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
 /**
  * Class DomainEvents
@@ -15,34 +15,34 @@ namespace  ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class DomainEvents
-{
+class DomainEvents {
+
 	/**
 	 * @var array
 	 */
 	private $events;
 
+
 	/**
 	 * DomainEvents constructor.
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$events = [];
 	}
+
 
 	/**
 	 * @param DomainEvent $event
 	 */
-	public function addEvent(DomainEvent $event)
-	{
+	public function addEvent(DomainEvent $event) {
 		$this->events[] = $event;
 	}
+
 
 	/**
 	 * @return array
 	 */
-	public function getEvents() : array
-	{
+	public function getEvents(): array {
 		return $this->events;
 	}
 }

@@ -23,8 +23,10 @@ class AbstractPersistDomainEventSubscriber implements DomainEventSubscriber {
 	 */
 	private $event_store;
 
+
 	/**
 	 * AbstractPersistDomainEventSubscriber constructor.
+	 *
 	 * @param EventStore $event_store
 	 */
 	public function __construct(EventStore $event_store) {
@@ -42,6 +44,7 @@ class AbstractPersistDomainEventSubscriber implements DomainEventSubscriber {
 
 	/**
 	 * @param DomainEvent $domain_event
+	 *
 	 * @return bool
 	 */
 	public function isSubscribedTo($domain_event) {
