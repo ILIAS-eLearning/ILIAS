@@ -1,14 +1,22 @@
 <?php
-/* Copyright (c) 2019 Martin Studer <ms@studer-raimann.ch> Extended GPL, see docs/LICENSE - inspired by https://github.com/buttercup-php/protects */
+/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
-namespace  ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
+namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
-use AggregateRevision;
 use \ilDateTime;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
 
 /**
+ * Interface DomainEvent
+ *
  * Something that happened in the past, that is of importance to the business.
+ *
+ * @package ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 interface DomainEvent {
 
@@ -19,6 +27,7 @@ interface DomainEvent {
 	 */
 	public function getAggregateId(): AggregateId;
 
+
 	/**
 	 * @return string
 	 */
@@ -28,7 +37,7 @@ interface DomainEvent {
 	/**
 	 * @return ilDateTime
 	 */
-	public function getOccurredOn() : ilDateTime;
+	public function getOccurredOn(): ilDateTime;
 
 
 	/**

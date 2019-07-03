@@ -1,11 +1,19 @@
 <?php
-/* Copyright (c) 2019 Martin Studer <ms@studer-raimann.ch> Extended GPL, see docs/LICENSE - inspired by https://github.com/buttercup-php/protects */
+/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
 namespace  ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
-
 /**
+ * Class DomainEvents
+ *
  * List of domain events
+ *
+ * @package ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class DomainEvents
 {

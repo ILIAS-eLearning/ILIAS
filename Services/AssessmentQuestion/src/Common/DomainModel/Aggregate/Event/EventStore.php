@@ -1,4 +1,6 @@
 <?php
+/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
+
 namespace  ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
 use ilDateTime;
