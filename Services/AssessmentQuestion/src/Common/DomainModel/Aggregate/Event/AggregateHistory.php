@@ -3,7 +3,6 @@
 
 namespace ILIAS\AssessmentQuestion\Common\Event;
 
-
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvent;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
@@ -31,7 +30,7 @@ final class AggregateHistory extends DomainEvents {
 	/**
 	 * AggregateHistory constructor.
 	 *
-	 * @param AggregateId $aggregate_Id
+	 * @param AggregateId   $aggregate_Id
 	 * @param DomainEvent[] $events
 	 *
 	 * @throws DomainExceptionCorruptAggregateHistory

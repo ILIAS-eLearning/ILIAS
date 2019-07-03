@@ -4,6 +4,8 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
 use ilGlobalCache;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
 
 /**
  * Class AbstractAggregateRepository
@@ -84,4 +86,12 @@ abstract class AbstractEventSourcedAggregateRepository {
 
 
 	protected abstract function getEventStore(): EventStore;
+
+
+	/**
+	 * @param DomainEvents $event_history
+	 *
+	 * @return AggregateRoot
+	 */
+	protected abstract function reconstituteAggregate(DomainEvents $event_history): AggregateRoot;
 }

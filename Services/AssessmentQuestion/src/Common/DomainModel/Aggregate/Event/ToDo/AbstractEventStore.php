@@ -12,7 +12,6 @@ use ActiveRecord;
  */
 abstract class AbstractEventStore implements EventStore {
 
-
 	/**
 	 * @return ActiveRecord
 	 */
@@ -56,7 +55,7 @@ abstract class AbstractEventStore implements EventStore {
 	/**
 	 * @return string
 	 */
-	private function serialize($domain_event):string {
+	private function serialize($domain_event): string {
 		global $DIC;
 
 		return $DIC->refinery()->object()->JsonSerializedObject()->transform($domain_event);

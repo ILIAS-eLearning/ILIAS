@@ -10,6 +10,6 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
  */
 interface IsEventSourced {
 
-	function reconstitute(DomainEvents $event_history): AggregateRoot;
+	public static function reconstitute(DomainEvents $event_history): AggregateRoot;
 }
  

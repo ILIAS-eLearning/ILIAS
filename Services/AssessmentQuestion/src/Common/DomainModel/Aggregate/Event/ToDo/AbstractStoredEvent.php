@@ -1,5 +1,7 @@
 <?php
+
 namespace ILIAS\AssessmentQuestion\Common\Event;
+
 use ActiveRecord;
 use DateTime;
 use ilDateTime;
@@ -10,7 +12,7 @@ use \ilException;
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-abstract class AbstractStoredEvent extends ActiveRecord  {
+abstract class AbstractStoredEvent extends ActiveRecord {
 
 	/**
 	 * @var int
@@ -75,24 +77,20 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	/**
 	 * Store event data.
 	 *
-	 * @param string $aggregate_id
-	 * @param string $event_name
+	 * @param string     $aggregate_id
+	 * @param string     $event_name
 	 * @param ilDateTime $occurred_on
-	 * @param int $initiating_user_id
-	 * @param string $event_body */
-	public function setEventData(
-		string $aggregate_id,
-		string $event_name,
-		ilDateTime $occurred_on,
-		int $initiating_user_id,
-		string $event_body)
-	{
+	 * @param int        $initiating_user_id
+	 * @param string     $event_body
+	 */
+	public function setEventData(string $aggregate_id, string $event_name, ilDateTime $occurred_on, int $initiating_user_id, string $event_body) {
 		$this->aggregate_id = $aggregate_id;
 		$this->event_name = $event_name;
 		$this->occurred_on = $occurred_on;
 		$this->initiating_user_id = $initiating_user_id;
 		$this->event_body = $event_body;
 	}
+
 
 	/**
 	 * @return string
@@ -116,6 +114,7 @@ abstract class AbstractStoredEvent extends ActiveRecord  {
 	public function getAggregateId(): string {
 		return $this->aggregate_id;
 	}
+
 
 	/**
 	 * @return string

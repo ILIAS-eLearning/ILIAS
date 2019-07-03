@@ -2,12 +2,12 @@
 
 namespace ILIAS\AssessmentQuestion\Common\Event;
 
-
 /**
  * Class DomainEventPublisher
+ *
  * @package ILIAS\Data\Domain
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class AbstractDomainEventPublisher implements DomainEventPublisher {
 
@@ -20,6 +20,7 @@ class AbstractDomainEventPublisher implements DomainEventPublisher {
 	 */
 	private static $instance = null;
 
+
 	/**
 	 * @return DomainEventPublisher
 	 */
@@ -27,8 +28,10 @@ class AbstractDomainEventPublisher implements DomainEventPublisher {
 		if (!isset(static::$instance)) {
 			static::$instance = new AbstractDomainEventPublisher();
 		}
+
 		return static::$instance;
 	}
+
 
 	/**
 	 * DomainEventPublisher constructor.
@@ -37,12 +40,14 @@ class AbstractDomainEventPublisher implements DomainEventPublisher {
 		$this->subscribers = [];
 	}
 
+
 	/**
 	 * @param DomainEventSubscriber $aDomainEventSubscriber
 	 */
 	public function subscribe(DomainEventSubscriber $aDomainEventSubscriber) {
 		$this->subscribers[] = $aDomainEventSubscriber;
 	}
+
 
 	/**
 	 * @param DomainEvent $anEvent

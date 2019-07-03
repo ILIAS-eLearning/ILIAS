@@ -14,14 +14,18 @@ interface DomainEventPublisher {
 	 */
 	public static function getInstance();
 
+
 	/**
 	 * DomainEventPublisher constructor.
 	 */
 	public function __construct();
+
+
 	/**
 	 * @param DomainEventSubscriber $aDomainEventSubscriber
 	 */
 	public function subscribe(DomainEventSubscriber $aDomainEventSubscriber);
+
 
 	/**
 	 * @param DomainEvent $anEvent

@@ -105,3 +105,9 @@ class Question extends AbstractAggregateRoot {
 //TODO
 
 ### Entity
+Entities are domain classes that are uniquely defined by a unique identifier - but are not the root entity.
+
+#### Implementation
+//TODO
+
+### Repository

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
-namespace  ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
+namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
 use ilDateTime;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
@@ -17,15 +17,17 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 interface EventStore {
+
 	/**
 	 * @param DomainEvents $domain_events
 	 */
-	public function commit(DomainEvents $domain_events) : void;
+	public function commit(DomainEvents $domain_events): void;
+
 
 	/**
 	 * @param AggregateId $id
 	 *
 	 * @return DomainEvents
 	 */
-	public function getAggregateHistoryFor(AggregateId $id) : DomainEvents;
+	public function getAggregateHistoryFor(AggregateId $id): DomainEvents;
 }
