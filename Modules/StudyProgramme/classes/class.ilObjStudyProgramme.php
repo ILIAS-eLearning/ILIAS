@@ -1139,6 +1139,26 @@ class ilObjStudyProgramme extends ilContainer {
 		return $this;
 	}
 
+	/**
+	 * Get assignments of user to this program-node only.
+	 *
+	 * @return ilStudyProgrammeUserAssignment[]
+	 */
+	public function getAssignmentsOfSingleProgramForUser(int $usr_id): array
+	{
+		return $this->assignment_repository->readByUsrIdAndPrgId($usr_id, $this->getId());
+	}
+	/**
+	 * Get assignments of user to this program-node only.
+	 *
+	 * @return ilStudyProgrammeUserAssignment[]
+	 */
+	public function hasAssignmentsOfSingleProgramForUser(int $usr_id): bool
+	{
+		return count($this->getAssignmentsOfSingleProgramForUser($usr_id)) > 0;
+	}
+
+
 	////////////////////////////////////
 	// USER PROGRESS
 	////////////////////////////////////
@@ -1522,7 +1542,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$DIC->logger()->root()->log('addMemberToProgrammes: ' .$src_type . '/' . $src_id .' --> user ' .$usr_id);
 
 		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
-			if (!$prg->hasAssignmentOf($usr_id)) {
+			if (!$prg->hasAssignmentsOfSingleProgramForUser($usr_id)) {
 				$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$src_type];
 				$prg->assignUser($usr_id, $assigned_by);
 			}
@@ -1538,13 +1558,38 @@ class ilObjStudyProgramme extends ilContainer {
 				if($progress->getStatus() !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 					continue;
 				}
-				$assignments = $prg->getAssignmentsOf($usr_id);
+				$assignments = $prg->getAssignmentsOfSingleProgramForUser($usr_id);
+				$next_membership_source = $prg->getApplicableMembershipSourceForUser($usr_id, $src_type);
+
 				foreach ($assignments as $assignment) {
-					//TODO: check other criteria, update "assigned by"
-					$prg->removeAssignment($assignment);
+					if(!is_null($next_membership_source)) {
+						$new_src_type = $next_membership_source->getSourceType();
+						$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$new_src_type];
+						$assignment = $assignment->setLastChangeBy($assigned_by);
+						$prg->assignment_repository->update($assignment);
+						break;
+					} else {
+						$assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+						$user_assignment = $assignment_db->getInstanceByModel($assignment);
+						$prg->removeAssignment($user_assignment);
+					}
 				}
 			}
 		}
+	}
+
+	public function getApplicableMembershipSourceForUser(int $usr_id, string $exclude_type): ?ilStudyProgrammeAutoMembershipSource
+	{
+		foreach ($this->getAutomaticMembershipSources() as $ams) {
+			$src_type = $ams->getSourceType();
+			if($src_type !== $exclude_type) {
+				$source_members = $this->getMembersOfMembershipSource($src_type, $ams->getSourceId());
+				if(in_array($usr_id, $source_members)) {
+					return $ams;
+				}
+			}
+		}
+		return null;
 	}
 
 	////////////////////////////////////
