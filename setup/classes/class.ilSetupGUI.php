@@ -5,7 +5,6 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
 
 require_once "./setup/classes/class.ilSetup.php";
-require_once('./Services/Database/classes/class.ilDBConstants.php');
 
 /**
  * Setup GUI class
@@ -1669,7 +1668,6 @@ class ilSetupGUI
 		global $lng;
 
 		require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		require_once('./Services/Database/classes/class.ilDBConstants.php');
 		$this->form = new ilPropertyFormGUI();
 
 		// db type
@@ -1767,7 +1765,6 @@ class ilSetupGUI
 		$this->form->addItem($ti);
 
 		// db name
-		require_once('./Services/Database/classes/class.ilDBConstants.php');
 		$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
 		$ti->setRequired(true);
 		$ti->setMaxLength(40);
@@ -2170,7 +2167,6 @@ class ilSetupGUI
 
 			$ilDB = $this->setup->getClient()->getDB();
 			$this->lng->setDbHandler($ilDB);
-			include_once "./Services/Database/classes/class.ilDBUpdate.php";
 			$dbupdate = new ilDBUpdate($ilDB);
 			$db_status = $dbupdate->getDBVersionStatus();
 			$hotfix_available = $dbupdate->hotfixAvailable();
@@ -2825,7 +2821,6 @@ class ilSetupGUI
 	{
 		global $ilCtrlStructureReader;
 
-		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
@@ -2939,7 +2934,6 @@ class ilSetupGUI
 
 		$ilCtrlStructureReader->setIniFile($this->setup->getClient()->ini);
 
-		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
@@ -4067,7 +4061,7 @@ class ilSetupGUI
 	{
 		if ($_POST["form"])
 		{
-			$client = new ilClient($_POST["form"]["default"], $this->setup->db_connections);
+			$client = new ilClient($_POST["form"]["default"]);
 
 			if (!$client->init())
 			{
@@ -4112,7 +4106,7 @@ class ilSetupGUI
 		}
 
 //$this->setup->getClient()->setSetting("zzz", "V");
-		$clientlist = new ilClientList($this->setup->db_connections);
+		$clientlist = new ilClientList();
 //$this->setup->getClient()->setSetting("zzz", "W");
 		$list = $clientlist->getClients();
 //$this->setup->getClient()->setSetting("zzz", "X");
@@ -4206,7 +4200,6 @@ class ilSetupGUI
 
 		$ilCtrlStructureReader->setIniFile($this->setup->getClient()->ini);
 
-		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
 		include_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
@@ -4271,7 +4264,7 @@ class ilSetupGUI
 		{
 			$this->form->setTitle($this->lng->txt("clone_source"));
 			$clients = array();
-			$clientlist = new ilClientList($this->setup->db_connections);
+			$clientlist = new ilClientList();
 			$list = $clientlist->getClients();
 			$clientlistarray = array();
 

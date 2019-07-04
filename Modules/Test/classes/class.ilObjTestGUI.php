@@ -473,22 +473,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$incompleteQuestionPurger->setOwnerId($ilUser->getId());
 				$incompleteQuestionPurger->purge();
 				
-				$qid = $_REQUEST['q_id'];
-
-				if(!$qid || $qid == 'Array')
+				try
 				{
-					$questions = $this->object->getQuestionTitlesAndIndexes();
-					if(!is_array($questions))
-						$questions = array();
-
-					$keys = array_keys($questions);
-					$qid  = $keys[0];
-
-					$_REQUEST['q_id'] = $qid;
-					$_GET['q_id']     = $qid;
-					$_POST['q_id']    = $qid;
+					$qid = $this->fetchAuthoringQuestionIdParameter();
 				}
-
+				catch(ilTestException $e)
+				{
+					$qid = 0;
+				}
+				
 				$this->prepareOutput();
 				if(!in_array($cmd, array('addQuestion', 'browseForQuestions')))
 				{
@@ -579,7 +572,7 @@ class ilObjTestGUI extends ilObjectGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
 				$gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
 
-				$gui->initQuestion((int)$_GET['q_id'], $this->object->getId());
+				$gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
 				$gui->initPreviewSettings($this->object->getRefId());
 				$gui->initPreviewSession($ilUser->getId(), (int)$_GET['q_id']);
 				$gui->initHintTracking();
@@ -590,6 +583,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case 'ilassquestionpagegui':
+				$_GET['q_id'] = $this->fetchAuthoringQuestionIdParameter();
 				$this->prepareOutput();
 				require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
 				$forwarder = new ilAssQuestionPageCommandForwarder();
@@ -617,7 +611,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI = assQuestionGUI::_getQuestionGUI('', $_GET['q_id']);
+				$questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 
@@ -644,7 +638,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParameter());
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 
@@ -669,7 +663,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI = assQuestionGUI::_getQuestionGUI('', $_GET['q_id']);
+				$questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 
@@ -718,7 +712,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->ctrl->setReturn($this, "questions");
 				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-				$q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $_GET["q_id"]);
+				$q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $this->fetchAuthoringQuestionIdParameter());
 				$q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
 				$q_gui->object->setObjId($this->object->getId());
 				if(!$_GET['sel_question_types'])
@@ -771,7 +765,36 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$DIC->ctrl()->redirectByClass('ilTestExportGUI');
 	}
-
+	
+	/**
+	 * @return mixed
+	 */
+	protected function fetchAuthoringQuestionIdParameter()
+	{
+		$qid = $_REQUEST['q_id'];
+		
+		if (!$qid || $qid == 'Array')
+		{
+			$questions = $this->object->getQuestionTitlesAndIndexes();
+			if (!is_array($questions))
+				$questions = array();
+			
+			$keys = array_keys($questions);
+			$qid = $keys[0];
+			
+			$_REQUEST['q_id'] = $qid;
+			$_GET['q_id'] = $qid;
+			$_POST['q_id'] = $qid;
+		}
+		
+		if( $this->object->checkQuestionParent($qid) )
+		{
+			return $qid;
+		}
+		
+		throw new ilTestException('question id does not relate to parent object!');
+	}
+	
 	private function questionsTabGatewayObject()
 	{
 		switch( $this->object->getQuestionSetType() )
@@ -871,16 +894,6 @@ class ilObjTestGUI extends ilObjectGUI
 		// set title and description and title icon
 		$this->setTitleAndDescription();
 
-		// BEGIN WebDAV: Display Mount Webfolder icon.
-		if ($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-			if (ilDAVActivationChecker::_isActive())
-			{
-				$this->showMountWebfolderIcon();
-			}
-		}
-		// END WebDAV: Display Mount Webfolder icon.
 	}
 
 	function runObject()

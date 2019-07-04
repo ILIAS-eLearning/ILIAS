@@ -6,9 +6,6 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilContactGlobalScreenProvider" />
-	</gsproviders>
 	<events>
 		<event type="listen" id="Services/User" />
 		<event type="listen" id="Services/Contact" />

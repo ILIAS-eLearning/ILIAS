@@ -5,9 +5,9 @@ require_once("libs/composer/vendor/autoload.php");
 include_once("tests/UI/Crawler/Fixture/Fixture.php");
 
 use ILIAS\UI\Implementation\Crawler as Crawler;
+use PHPUnit\Framework\TestCase;
 
-
-class CrawlerTest extends PHPUnit_Framework_TestCase {
+class CrawlerTest extends TestCase {
 
 
 	/**
@@ -20,8 +20,7 @@ class CrawlerTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected $proper_entry;
 
-	protected function setUp()
-	{
+	protected function setUp(): void	{
 		$this->parser = new Crawler\EntriesYamlParser();
 		$this->proper_entry = new ProperEntryFixture();
 	}

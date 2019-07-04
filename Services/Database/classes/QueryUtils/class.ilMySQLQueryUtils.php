@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/Database/classes/QueryUtils/class.ilQueryUtils.php');
 
 /**
  * Class ilMySQLQueryUtils

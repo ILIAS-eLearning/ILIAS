@@ -5,8 +5,10 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\Transformation\Transformation;
-use ILIAS\Validation\Constraint;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Constraint;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\OnUpdateable;
 
 /**
  * This describes commonalities between all inputs.
@@ -27,7 +29,7 @@ use ILIAS\Validation\Constraint;
  * into other types of data. This means, that e.g. the value of an input could
  * be some id, while the content could be some object referenced by that id.
  */
-interface Input extends Component {
+interface Input extends Component, JavaScriptBindable, OnUpdateable {
 
 	/**
 	 * Get the label of the input.
@@ -157,4 +159,21 @@ interface Input extends Component {
 	 * @return    Input
 	 */
 	public function withAdditionalConstraint(Constraint $constraint);
+
+
+	/**
+	 * Get update code
+	 *
+	 * This method has to return JS code that calls
+	 * il.UI.filter.onFieldUpdate(event, '$id', string_value);
+	 * - initially "onload" and
+	 * - on every input change.
+	 * It must pass a readable string representation of its value in parameter 'string_value'.
+	 *
+	 * @param \Closure $binder
+	 * @return string
+	 */
+	public function getUpdateOnLoadCode(): \Closure;
+
+
 }

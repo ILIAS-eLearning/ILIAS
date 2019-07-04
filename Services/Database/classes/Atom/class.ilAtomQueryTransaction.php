@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Database/exceptions/exception.ilAtomQueryException.php');
-require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
 
 /**
  * Class ilAtomQueryTransaction

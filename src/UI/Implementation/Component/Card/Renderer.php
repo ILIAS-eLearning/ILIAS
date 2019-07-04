@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Card;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Icon\Standard as StandardIcon;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
@@ -31,15 +31,23 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("no_highlight");
 		}
 
-		if($component->getTitleAction()) {
-			$tpl->setCurrentBlock("title_action_begin");
-			$tpl->setVariable("HREF",$component->getTitleAction());
-			$tpl->parseCurrentBlock();
+		$id = $this->bindJavaScript($component);
+		if (!empty($component->getTitleAction())) {
+			if (is_string($component->getTitleAction())) {
+				$tpl->setCurrentBlock("title_action_begin");
+				$tpl->setVariable("HREF", $component->getTitleAction());
+				$tpl->parseCurrentBlock();
+			}
+			if (is_array($component->getTitleAction())) {
+				$tpl->setCurrentBlock("title_action_begin");
+				$tpl->setVariable("ID", $id);
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		$tpl->setVariable("TITLE",$component->getTitle());
 
-		if($component->getTitleAction()) {
+		if(!empty($component->getTitleAction())) {
 			$tpl->touchBlock("title_action_end");
 		}
 

@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
@@ -13,7 +13,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 /**
  * This implements the radio input.
  */
-class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
+class Radio extends Input implements C\Input\Field\Radio {
 
 	use JavaScriptBindable;
 	use Triggerer;
@@ -107,7 +107,7 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 	/**
 	 * @inheritdoc
 	 */
-	public function withInput(PostData $post_input) {
+	public function withInput(InputData $post_input) {
 		if ($this->getName() === null) {
 			throw new \LogicException("Can only collect if input has a name.");
 		}
@@ -122,7 +122,7 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 
 		$clone->content = $this->applyOperationsTo($value);
 		if ($clone->content->isError()) {
-			return $clone->withError("" . $clone->content->error());
+			return $clone->withError("" .$clone->content->error());
 		}
 
 		if (is_null($value)) {
@@ -146,8 +146,6 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable{
 
 				if ($content->isOk()) {
 					$values['group_values'][$name] = $content->value();
-				} else {
-					$clone = $clone->withError($name .' - '. $content->error());
 				}
 
 				$clone->dependant_fields[$value][$name] = $filled;

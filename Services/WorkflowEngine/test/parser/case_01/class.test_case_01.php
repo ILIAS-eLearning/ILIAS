@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
  * @ingroup Services/WorkflowEngine
  */
-class test_case_01 extends PHPUnit_Framework_TestCase
+class test_case_01 extends TestCase
 {
 	#region Helper
 	public $base_path = './Services/WorkflowEngine/test/parser/';
@@ -28,7 +30,7 @@ class test_case_01 extends PHPUnit_Framework_TestCase
 		return $this->base_path . $this->suite_path  . $test_name . '_goldsample.php';
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../../../' );

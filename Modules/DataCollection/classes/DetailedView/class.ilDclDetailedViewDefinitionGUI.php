@@ -22,10 +22,14 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	 * @var ilCtrl
 	 */
 	public $ctrl;
+	/**
+	 * @var int
+	 */
+	protected $tableview_id;
 
 
 	/**
-	 * @param     $table_id
+	 * @param $tableview_id
 	 * @param int $a_definition_id
 	 */
 	public function __construct($tableview_id, $a_definition_id = 0) {
@@ -37,7 +41,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		 */
 		$this->ctrl = $ilCtrl;
 		$this->tableview_id = $tableview_id;
-		//TODO Permission-Check
 
 		// we always need a page object - create on demand
 		if (!ilPageObject::_exists('dclf', $tableview_id)) {
@@ -51,8 +54,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		parent::__construct("dclf", $tableview_id);
 
 		// content style (using system defaults)
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
@@ -93,13 +94,15 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	}
 
 
+	/**
+	 * @return mixed|string|string[]|null
+	 */
 	public function showPage() {
 		global $DIC;
 		$ilToolbar = $DIC['ilToolbar'];
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		// :TODO: temporary legend of available placeholders
 		if ($this->getOutputMode() == IL_PAGE_EDIT) {
 			$delete_button = ilLinkButton::getInstance();
 			$delete_button->setCaption('dcl_empty_detailed_view');
@@ -130,6 +133,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	protected function activate() {
 		$page = $this->getPageObject();
 		$page->setActive(true);
@@ -138,6 +144,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	protected function deactivate() {
 		$page = $this->getPageObject();
 		$page->setActive(false);
@@ -155,7 +164,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		$lng = $DIC['lng'];
 		$tpl = $DIC['tpl'];
 
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($ilCtrl->getFormAction($this));
 		$conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
@@ -180,13 +188,15 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	}
 
 
+	/**
+	 *
+	 */
 	public function deleteView() {
 		global $DIC;
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 
 		if ($this->tableview_id && ilDclDetailedViewDefinition::exists($this->tableview_id)) {
-			include_once("class.ilDclDetailedViewDefinition.php");
 			$pageObject = new ilDclDetailedViewDefinition($this->tableview_id);
 			$pageObject->delete();
 		}
@@ -227,7 +237,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 		if ($this->getOutputMode() == IL_PAGE_PREVIEW) {
 			//page preview is not being used inside DataCollections - if you are here, something's probably wrong
 
-			//			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			//
 			//			// :TODO: find a suitable presentation for matched placeholders
 			//			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);

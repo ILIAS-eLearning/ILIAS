@@ -11,7 +11,10 @@ use \ILIAS\UI\Implementation\Component\Signal;
 /**
  * Test on button implementation.
  */
-class ButtonTest extends ILIAS_UI_TestBase {
+class ButtonTest extends ILIAS_UI_TestBase
+{
+	const NOT_APPLICABLE = true;
+
 	public function getButtonFactory() {
 		return new \ILIAS\UI\Implementation\Component\Button\Factory();
 	}
@@ -58,24 +61,18 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	 * @dataProvider button_type_provider
 	 */
 	public function test_button_label_or_glyph_only($factory_method) {
+		$this->expectException(\InvalidArgumentException::class);
 		$f = $this->getButtonFactory();
-		try {
-			$f->$factory_method($this, "http://www.ilias.de");
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {}
+		$f->$factory_method($this, "http://www.ilias.de");
 	}
 
 	/**
 	 * @dataProvider button_type_provider
 	 */
 	public function test_button_string_action_only($factory_method) {
+		$this->expectException(\InvalidArgumentException::class);
 		$f = $this->getButtonFactory();
-		try {
-			$f->$factory_method("label", $this);
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {}
+		$f->$factory_method("label", $this);
 	}
 
 	/**
@@ -349,6 +346,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			$this->assertEquals(false, $b->isEngageable());
 			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(false);
 			$this->assertEquals(true,$b2->isEngageable());
+		} else {
+			$this->assertTrue(self::NOT_APPLICABLE);
 		}
 	}
 
@@ -363,6 +362,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 			$this->assertEquals(false, $b->isEngaged());
 			$b2 = $f->$factory_method("label", "http://www.ilias.de")->withEngagedState(true);
 			$this->assertEquals(true,$b2->isEngaged());
+		} else {
+			$this->assertTrue(self::NOT_APPLICABLE);
 		}
 	}
 
@@ -370,37 +371,30 @@ class ButtonTest extends ILIAS_UI_TestBase {
 	 * @dataProvider button_type_provider
 	 */
 	public function test_render_button_with_aria_label($factory_method) {
-		//only standard buttons have aria labels in the template. Should the others accept aria stuff?
-		//if yes, remove this conditional
-		if($factory_method == "standard")
-		{
-			$ln = "http://www.ilias.de";
-			$f = $this->getButtonFactory();
-			$r = $this->getDefaultRenderer();
-			$b = $f->$factory_method("label", $ln)->withAriaLabel("aria label text");
-			$aria_label = $b->getAriaLabel();
+		$ln = "http://www.ilias.de";
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$b = $f->$factory_method("label", $ln)->withAriaLabel("aria label text");
+		$aria_label = $b->getAriaLabel();
 
-			$html = $this->normalizeHTML($r->render($b));
-			$css_classes = self::$canonical_css_classes[$factory_method];
-			$expected = "<button class=\"$css_classes\" aria-label=\"$aria_label\" data-action=\"$ln\" id=\"id_1\">".
-				"label".
-				"</button>";
-			$this->assertHTMLEquals($expected, $html);
-		}
+		$html = $this->normalizeHTML($r->render($b));
+		$css_classes = self::$canonical_css_classes[$factory_method];
+		$expected = "<button class=\"$css_classes\" aria-label=\"$aria_label\" data-action=\"$ln\" id=\"id_1\">".
+			"label".
+			"</button>";
+		$this->assertHTMLEquals($expected, $html);
 	}
 
 	/**
 	 * @dataProvider button_type_provider
 	 */
-	public function test_render_button_with_aria_checked($factory_method) {
-		//only standard buttons have aria labels in the template. Should the others accept aria stuff?
-		//if yes, remove this conditional
-		if($factory_method == "standard")
-		{
-			$ln = "http://www.ilias.de";
-			$f = $this->getButtonFactory();
-			$r = $this->getDefaultRenderer();
-			$b = $f->$factory_method("label", $ln)->withEngagedState(true);
+	public function test_render_button_with_aria_pressed($factory_method) {
+		$ln = "http://www.ilias.de";
+		$f = $this->getButtonFactory();
+		$r = $this->getDefaultRenderer();
+		$b = $f->$factory_method("label", $ln);
+		if ($b instanceof C\Button\Engageable) {
+			$b = $b->withEngagedState(true);
 
 			$html = $this->normalizeHTML($r->render($b));
 			$css_classes = self::$canonical_css_classes[$factory_method];
@@ -409,6 +403,8 @@ class ButtonTest extends ILIAS_UI_TestBase {
 				"label".
 				"</button>";
 			$this->assertHTMLEquals($expected, $html);
+		} else {
+			$this->assertTrue(self::NOT_APPLICABLE);
 		}
 	}
 

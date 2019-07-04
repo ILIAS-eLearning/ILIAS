@@ -1,5 +1,4 @@
 <?php
-require_once('class.ilDBPdoFieldDefinition.php');
 
 /**
  * Class ilDBPdoPostgresFieldDefinition

@@ -83,6 +83,25 @@ class InterruptiveTest extends ModalBase {
 EOT;
 		return $expected;
 	}
+
+
+	public function testLabels()
+	{
+		$action_label = 'actionlabel';
+		$cancel_label = 'cancellabel';
+		$interruptive = $this->getModalFactory()->interruptive('Title', 'Message', 'someaction')
+			->withActionButtonLabel($action_label)
+			->withCancelButtonLabel($cancel_label);
+
+		$this->assertEquals(
+			$action_label,
+			$interruptive->getActionButtonLabel()
+		);
+		$this->assertEquals(
+			$cancel_label,
+			$interruptive->getCancelButtonLabel()
+		);
+	}
 }
 
 class InterruptiveItemMock implements C\Modal\InterruptiveItem {

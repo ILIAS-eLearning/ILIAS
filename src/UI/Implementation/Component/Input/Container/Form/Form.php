@@ -9,10 +9,9 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component as CI;
 use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\Transformation\Transformation;
+use ILIAS\Refinery\Transformation;
 use ILIAS\Data;
-use ILIAS\Validation;
-use ILIAS\Transformation as T;
+use ILIAS\Refinery;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -129,7 +128,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource 
 	 *
 	 * @param    ServerRequestInterface $request
 	 *
-	 * @return    PostData
+	 * @return    Input\InputData
 	 */
 	protected function extractPostData(ServerRequestInterface $request) {
 		return new PostDataFromServerRequest($request);

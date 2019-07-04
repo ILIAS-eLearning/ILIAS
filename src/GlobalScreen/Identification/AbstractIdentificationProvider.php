@@ -9,57 +9,60 @@ use ILIAS\GlobalScreen\Provider\Provider;
  *
  * @package ILIAS\GlobalScreen\Identification
  */
-abstract class AbstractIdentificationProvider implements IdentificationProviderInterface {
+abstract class AbstractIdentificationProvider implements IdentificationProviderInterface
+{
 
-	/**
-	 * @var IdentificationMap
-	 */
-	protected $map;
-	/**
-	 * @var Provider
-	 */
-	protected $provider;
-	/**
-	 * @var Serializer\SerializerInterface
-	 */
-	protected $serializer;
-	/**
-	 * @var string
-	 */
-	protected $class_name = '';
-	/**
-	 * @var array
-	 */
-	protected static $instances = [];
-
-
-	/**
-	 * CoreIdentificationProvider constructor.
-	 *
-	 * @param Provider            $provider
-	 * @param SerializerInterface $serializer
-	 * @param IdentificationMap   $map
-	 */
-	public function __construct(Provider $provider, SerializerInterface $serializer, IdentificationMap $map) {
-		$this->map = $map;
-		$this->provider = $provider;
-		$this->class_name = get_class($provider);
-		$this->serializer = $serializer;;
-	}
+    /**
+     * @var IdentificationMap
+     */
+    protected $map;
+    /**
+     * @var Provider
+     */
+    protected $provider;
+    /**
+     * @var Serializer\SerializerInterface
+     */
+    protected $serializer;
+    /**
+     * @var string
+     */
+    protected $class_name = '';
+    /**
+     * @var array
+     */
+    protected static $instances = [];
 
 
-	/**
-	 * @param string $serialized_string
-	 *
-	 * @return IdentificationInterface
-	 */
-	public function fromSerializedString(string $serialized_string): IdentificationInterface {
-		if ($this->map->isInMap($serialized_string)) {
-			return $this->map->getFromMap($serialized_string);
-		}
-		$identification = $this->serializer->unserialize($serialized_string);
-		$this->map->addToMap($identification);
+    /**
+     * CoreIdentificationProvider constructor.
+     *
+     * @param Provider            $provider
+     * @param SerializerInterface $serializer
+     * @param IdentificationMap   $map
+     */
+    public function __construct(Provider $provider, SerializerInterface $serializer, IdentificationMap $map)
+    {
+        $this->map = $map;
+        $this->provider = $provider;
+        $this->class_name = get_class($provider);
+        $this->serializer = $serializer;;
+    }
 
-		return $identification;
-	}
+
+    /**
+     * @param string $serialized_string
+     *
+     * @return IdentificationInterface
+     */
+    public function fromSerializedString(string $serialized_string) : IdentificationInterface
+    {
+        if ($this->map->isInMap($serialized_string)) {
+            return $this->map->getFromMap($serialized_string);
+        }
+        $identification = $this->serializer->unserialize($serialized_string);
+        $this->map->addToMap($identification);
+
+        return $identification;
+    }
 }

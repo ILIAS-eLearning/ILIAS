@@ -130,7 +130,7 @@ if(!empty($errors))
 	$error_messages .= '</span>';
 }
 $tpl->setVariable('ERROR_MESSAGES', $error_messages);
-$tpl->printToStdout();
+$tpl->printToStdout("DEFAULT", false, true);
 
 function outMobImages()
 {

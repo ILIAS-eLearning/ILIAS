@@ -90,7 +90,7 @@ class ilGroupParticipants extends ilParticipants
 			{
 				case 'il_grp_a':
 				case 'il_grp_m':
-					continue;
+					continue 2;
 
 				default:
 					$roles[$role] = $role;

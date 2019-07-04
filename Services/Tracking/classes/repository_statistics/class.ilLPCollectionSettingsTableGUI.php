@@ -215,8 +215,12 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		}
 
 		// show num obligatory info
-		if(count($a_set['grouped']))
-		{					
+		if(
+			is_array($a_set) &&
+			array_key_exists('grouped',$a_set) &&
+			count($a_set['grouped'])
+		)
+		{
 			$this->tpl->setCurrentBlock('num_passed_items');
 			$this->tpl->setVariable('MIN_PASSED_TXT', $this->lng->txt('trac_min_passed'));
 			$this->tpl->setVariable('NUM_OBLIGATORY', $a_set['num_obligatory']);

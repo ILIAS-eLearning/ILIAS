@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 /** 
 * Unit tests
 * 
@@ -8,11 +7,11 @@ require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 *
 * @ingroup ModulesTestQuestionPool
 */
-class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
+class assAnswerOrderingTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{

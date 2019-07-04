@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,9 +7,9 @@
  */
 interface ilTermsOfServiceDocumentCriteriaEvaluation
 {
-	/**
-	 * @param \ilTermsOfServiceSignableDocument $document
-	 * @return bool
-	 */
-	public function evaluate(\ilTermsOfServiceSignableDocument $document): bool;
+    /**
+     * @param ilTermsOfServiceSignableDocument $document
+     * @return bool
+     */
+    public function evaluate(ilTermsOfServiceSignableDocument $document) : bool;
 }

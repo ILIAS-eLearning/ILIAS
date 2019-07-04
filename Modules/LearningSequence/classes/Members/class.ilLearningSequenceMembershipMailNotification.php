@@ -86,7 +86,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_DISMISS_MEMBER:
@@ -107,7 +107,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 						$this->getObjectTitle()
 					));
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_NOTIFICATION_REGISTRATION:
@@ -142,7 +142,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 						'lso_notification_explanation_admin'
 					));
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_UNSUBSCRIBE_MEMBER:
@@ -163,7 +163,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 						$this->getObjectTitle()
 					));
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_NOTIFICATION_UNSUBSCRIBE:
@@ -199,7 +199,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 						'lso_notification_explanation_admin')
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_SUBSCRIBE_MEMBER:
@@ -226,7 +226,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_NOTIFICATION_REGISTRATION_REQUEST:
@@ -259,7 +259,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 						$this->getLanguageText('grp_notification_explanation_admin')
 					);
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_REFUSED_SUBSCRIPTION_MEMBER:
@@ -280,7 +280,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 						$this->getObjectTitle()
 					));
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER:
@@ -304,7 +304,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_WAITING_LIST_MEMBER:
@@ -327,7 +327,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 						$info['position']
 					));
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 			case self::TYPE_STATUS_CHANGED:
@@ -357,7 +357,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody($this->createPermanentLink());
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 		}

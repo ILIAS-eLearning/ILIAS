@@ -35,7 +35,7 @@ class XAccelTest extends TestCase {
 	private $httpServiceMock;
 
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 

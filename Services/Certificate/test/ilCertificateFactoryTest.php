@@ -4,24 +4,26 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateFactoryTest extends PHPUnit_Framework_TestCase
+class ilCertificateFactoryTest extends ilCertificateBaseTestCase
 {
-	/**
-	 * @expectedException  ilException
-	 */
-	public function testTypeIsNotSupportedAndWillThrowAnException()
-	{
-		$object = $this->getMockBuilder('ilObject')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     *
+     */
+    public function testTypeIsNotSupportedAndWillThrowAnException()
+    {
+        $this->expectException(\ilException::class);
 
-		$object->method('getType')
-			->willReturn('something');
+        $object = $this->getMockBuilder('ilObject')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$factory = new ilCertificateFactory();
+        $object->method('getType')
+            ->willReturn('something');
 
-		$factory->create($object);
+        $factory = new ilCertificateFactory();
 
-		$this->fail('Should never happen');
-	}
+        $factory->create($object);
+
+        $this->fail('Should never happen');
+    }
 }

@@ -20,7 +20,6 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	public function getFactory() {
 		return new \ILIAS\UI\Implementation\Factory(
 			$this->createMock(C\Counter\Factory::class),
-			$this->createMock(C\Glyph\Factory::class),
 			$this->createMock(C\Button\Factory::class),
 			$this->createMock(C\Listing\Factory::class),
 			$this->createMock(C\Image\Factory::class),
@@ -32,13 +31,20 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 			$this->createMock(C\Link\Factory::class),
 			$this->createMock(C\Dropdown\Factory::class),
 			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
 			$this->createMock(C\ViewControl\Factory::class),
 			$this->createMock(C\Chart\Factory::class),
 			$this->createMock(C\Input\Factory::class),
 			$this->createMock(C\Table\Factory::class),
 			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
+			$this->createMock(C\Card\Factory::class),
+			$this->createMock(C\Layout\Factory::class),
+			$this->createMock(C\MainControls\Factory::class),
+			$this->createMock(C\Tree\Factory::class),
+			$this->createMock(C\Menu\Factory::class),
+			new I\Component\Symbol\Factory(
+			    new I\Component\Symbol\Icon\Factory(),
+			    new I\Component\Symbol\Glyph\Factory()
+			)
 		);
 	}
 
@@ -58,7 +64,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_with_object_icon() {
-		$icon = new I\Component\Icon\Standard("crs", 'Course', 'medium', false);
+		$icon = new I\Component\Symbol\Icon\Standard("crs", 'Course', 'medium', false);
 		$card = $this->getBaseCard();
 		$card = $card->withObjectIcon($icon);
 
@@ -105,7 +111,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase {
 	public function test_render_with_object_icon() {
 		$r = $this->getDefaultRenderer();
 
-		$icon = new I\Component\Icon\Standard("crs", 'Course', 'medium', false);
+		$icon = new I\Component\Symbol\Icon\Standard("crs", 'Course', 'medium', false);
 		$c = $this->getBaseCard();
 		$c = $c->withObjectIcon($icon);
 

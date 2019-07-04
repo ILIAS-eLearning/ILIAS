@@ -933,7 +933,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			{
 				continue;
 			}
-					
+
 			$field_id = substr($key,4);			
 			$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 		
@@ -946,7 +946,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$field_form->validate();
 												
 			$parser_value = $field->getSearchQueryParserValue($field_form);
-		
+
 			include_once 'Services/Search/classes/class.ilQueryParser.php';	
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';		
 			$adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance(new ilQueryParser($parser_value));

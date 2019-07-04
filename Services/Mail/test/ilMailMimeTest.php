@@ -12,7 +12,7 @@ class ilMailMimeTest extends \ilMailBaseTest
 	/**
 	 * @inheritdoc
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (!defined('ANONYMOUS_USER_ID')) {
 			define('ANONYMOUS_USER_ID', 13);

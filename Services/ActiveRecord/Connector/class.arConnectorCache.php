@@ -29,11 +29,9 @@ class arConnectorCache extends arConnector {
 	 * @param int         $ttl
 	 */
 	public function __construct(arConnector $arConnectorDB, int $ttl = self::CACHE_TTL_SECONDS) {
-		global $DIC;
-		$facade = $DIC->globalScreen()->storage(); // FSX other namespaces
 		$this->ttl = $ttl;
 		$this->arConnectorDB = $arConnectorDB;
-		$this->cache = $facade->cache();
+		$this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
 	}
 
 

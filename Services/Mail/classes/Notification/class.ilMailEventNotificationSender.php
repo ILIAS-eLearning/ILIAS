@@ -393,8 +393,6 @@ class ilMailEventNotificationSender extends ilMailNotification
 		$attachmentText = $this->createAttachmentLinkText();
 		$bodyText .= $attachmentText;
 
-		$types = array('system');
-
 		$mailObject = new ilMailValueObject(
 			'',
 			ilObjUser::_lookupLogin($recipientUserId),
@@ -403,7 +401,6 @@ class ilMailEventNotificationSender extends ilMailNotification
 			$subjectText,
 			$bodyText,
 			$this->provider->getAttachments(),
-			$types,
 			false,
 			false
 		);
@@ -438,8 +435,6 @@ class ilMailEventNotificationSender extends ilMailNotification
 			$date
 		);
 
-		$types = array('system');
-
 		$mailObject = new ilMailValueObject(
 			'',
 			ilObjUser::_lookupLogin($recipientUserId),
@@ -448,7 +443,6 @@ class ilMailEventNotificationSender extends ilMailNotification
 			$subjectText,
 			$bodyText,
 			'',
-			$types,
 			false,
 			false
 		);

@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes select field.
  */
-interface Select extends Input{
+interface Select extends FilterInput {
 
 	/**
 	 * @return array<string,string> of key=>value options.

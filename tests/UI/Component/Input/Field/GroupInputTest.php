@@ -7,25 +7,26 @@ require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
-use ILIAS\UI\Component\Input\Field\Input;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
 
 interface Input1 extends InputInternal {};
 interface Input2 extends InputInternal {};
 
 class GroupInputTest extends ILIAS_UI_TestBase {
-	public function setUp() {
+	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
+	public function setUp(): void{
 		$this->child1 = $this->createMock(Input1::class);
 		$this->child2 = $this->createMock(Input2::class);
 		$this->data_factory = $this->createMock(Data\Factory::class);
-		$this->validation_factory = $this->createMock(Validation\Factory::class);
-		$this->transformation_factory = $this->createMock(Transformation\Factory::class);
+		$this->refinery = $this->createMock(\ILIAS\Refinery\Factory::class);
+
 		$this->group = new Group(
 			$this->data_factory,
-			$this->validation_factory,
-			$this->transformation_factory,
+			$this->refinery,
 			[$this->child1, $this->child2],
 			"LABEL",
 			"BYLINE"
@@ -75,8 +76,7 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 
 		$this->group = new Group(
 			$this->data_factory,
-			$this->validation_factory,
-			$this->transformation_factory,
+			$this->refinery,
 			["foo", "bar"],
 			"LABEL",
 			"BYLINE"

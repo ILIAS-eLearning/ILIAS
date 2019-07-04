@@ -23,7 +23,7 @@ class ilWACPathTest extends MockeryTestCase {
 	/**
 	 * Setup
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
 		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');

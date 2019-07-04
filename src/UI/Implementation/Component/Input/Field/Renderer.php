@@ -52,6 +52,7 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
+		$registry->register('./src/UI/templates/js/Input/Field/input.js');
 	}
 
 
@@ -220,6 +221,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
+
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
 		 * TODO: should we throw an error in case for no name or render without name?
@@ -440,9 +442,9 @@ class Renderer extends AbstractComponentRenderer {
 				});
 			$id = $this->bindJavaScript($input);
 
-			$glyph_reveal = $f->glyph()->eyeopen("#")
+			$glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
 				->withOnClick($sig_reveal);
-			$glyph_mask = $f->glyph()->eyeclosed("#")
+			$glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
 				->withOnClick($sig_mask);
 			$tpl->setCurrentBlock('revelation');
 			$tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));

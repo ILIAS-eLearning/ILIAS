@@ -5,12 +5,15 @@
 namespace ILIAS\UI\Component\Card;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\Signal;
 
 /**
  * Interface Card
  * @package ILIAS\UI\Component\Card
  */
-interface Card extends Component {
+interface Card extends Component, JavaScriptBindable, Clickable {
 
 	/**
 	 * Sets the title in the heading section of the card
@@ -27,14 +30,14 @@ interface Card extends Component {
 
 	/**
 	 * Get a Card like this with a title action
-	 * @param string $url
+	 * @param string|Signal[] $action
 	 * @return Standard
 	 */
-	public function withTitleAction($url);
+	public function withTitleAction($action);
 
 	/**
 	 * Returns the title action if given, otherwise null
-	 * @return string|null
+	 * @return string|Signal[]|null
 	 */
 	public function getTitleAction();
 

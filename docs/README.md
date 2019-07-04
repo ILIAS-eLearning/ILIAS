@@ -1,8 +1,14 @@
-# Docs
+# Documentation
 
-Docs contains information about the ILIAS license as well as useful help for installing
-and configuring ILIAS ([configuration](configuration)) and for understanding the code
-base of ILIAS for contributing and extending it ([documentation](documentation)).
+## Installation and Configuration
 
-If you intend to add addition information or documentation here, please consult the
-[docs-guideline](documentation/docs-guidelines.md) first.
+Information on ILIAS **installation**, **updating** and **configuration** can be
+found in the [configuration](configuration/README.md) section.
+
+## Development
+
+The [development](development/README.md) section contains information on several ways of **contributing** to ILIAS, **maintenance** processes and general rules for **coding**, **testing** and **documentation**.
+
+## API
+
+We are providing APIs for different purposes. If you are familiar with the general development guidelines and want to implement new **features**, **plugins** or **front-ends** for ILIAS visit our [API overview](development/api-overview.md).

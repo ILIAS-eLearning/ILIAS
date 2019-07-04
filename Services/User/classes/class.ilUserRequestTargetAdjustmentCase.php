@@ -1,47 +1,52 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilUserRequestTargetAdjustmentCase
  */
 abstract class ilUserRequestTargetAdjustmentCase
 {
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+    /** @var ilObjUser */
+    protected $user;
 
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+    /** @var ilCtrl */
+    protected $ctrl;
 
-	/**
-	 * @param ilObjUser $user
-	 * @param ilCtrl    $ctrl
-	 */
-	public function __construct(ilObjUser $user, ilCtrl $ctrl)
-	{
-		$this->user = $user;
-		$this->ctrl = $ctrl;
-	}
-	/**
-	 * @return boolean
-	 */
-	abstract public function shouldStoreRequestTarget();
+    /** @var ServerRequestInterface */
+    protected $request;
 
-	/**
-	 * @return boolean
-	 */
-	abstract public function shouldAdjustRequest();
+    /**
+     * @param ilObjUser              $user
+     * @param ilCtrl                 $ctrl
+     * @param ServerRequestInterface $request
+     */
+    public function __construct(ilObjUser $user, ilCtrl $ctrl, ServerRequestInterface $request)
+    {
+        $this->user    = $user;
+        $this->ctrl    = $ctrl;
+        $this->request = $request;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	abstract public function isInFulfillment();
+    /**
+     * @return bool
+     */
+    abstract public function shouldStoreRequestTarget() : bool;
 
-	/**
-	 * @return void
-	 */
-	abstract public function adjust();
+    /**
+     * @return bool
+     */
+    abstract public function shouldAdjustRequest() : bool;
+
+    /**
+     * @return bool
+     */
+    abstract public function isInFulfillment() : bool;
+
+    /**
+     * @return void
+     */
+    abstract public function adjust() : void;
 }

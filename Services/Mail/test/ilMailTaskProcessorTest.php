@@ -11,7 +11,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 	private $dicMock;
 	private $loggerMock;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->languageMock = $this->getMockBuilder('ilLanguage')
 			->disableOriginalConstructor()
@@ -74,8 +74,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects = array(
@@ -144,8 +143,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -155,8 +153,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'Greate',
 			'Steve, Steve, Steve. Wait that is not Steve',
-			null,
-			array()
+			null
 		);
 
 		$userId = 100;
@@ -221,8 +218,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -232,8 +228,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'Greate',
 			'Steve, Steve, Steve. Wait that is not Steve',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -243,8 +238,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Hey Alan! Alan! Alan!',
-			null,
-			array()
+			null
 		);
 
 		$userId = 100;
@@ -261,10 +255,12 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 	}
 
 	/**
-	 * @expectedException \ilException
+	 * 
 	 */
 	public function testRunHasWrongTypeAndWillResultInException()
 	{
+		$this->expectException(\ilException::class);
+
 		$taskManager = $this->getMockBuilder('\ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager')
 			->setMethods(array('run'))
 			->disableOriginalConstructor()
@@ -310,8 +306,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'That is awesome!',
 			'Dear Steve, great!',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = new ilMailValueObject(
@@ -321,8 +316,7 @@ class ilMailTaskProcessorTest extends \ilMailBaseTest
 			'',
 			'Greate',
 			'Steve, Steve, Steve. Wait that is not Steve',
-			null,
-			array()
+			null
 		);
 
 		$mailValueObjects[] = 'This should fail';

@@ -12,12 +12,11 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilSimpleDetectorTest extends PHPUnit_Framework_TestCase
+class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
 {
-	public function setUp()
+	public function setUp(): void
 	{
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		//ilUnitUtil::performInitialisation();
+		parent::__construct();
 		
 		// Empty workflow.
 		require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
@@ -33,13 +32,13 @@ class ilSimpleDetectorTest extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
-		global $ilSetting;
-		if ($ilSetting !=  NULL)
-		{
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_TIME' );
-			$ilSetting->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
+		global $DIC;
+
+		if (isset($DIC['ilSetting'])) {
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_TIME' );
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
 		}
 	}
 	

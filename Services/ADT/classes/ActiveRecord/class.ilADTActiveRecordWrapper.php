@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/ActiveRecord/classes/class.ActiveRecord.php";
-
 /**
  * ADT Active Record service wrapper class
  * 

@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Class ilServicesFileDeliverySuite
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  */
-class ilServicesFileDeliverySuite extends PHPUnit_Framework_TestSuite {
+class ilServicesFileDeliverySuite extends TestSuite {
 
 	/**
 	 * @return \ilServicesFileDeliverySuite

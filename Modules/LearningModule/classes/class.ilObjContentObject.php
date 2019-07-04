@@ -66,8 +66,15 @@ class ilObjContentObject extends ilObject
 		$this->tree = $DIC->repositoryTree();
 		$this->lng = $DIC->language();
 		$this->error = $DIC["ilErr"];
-		$this->tpl = $DIC["tpl"];
-		$this->locator = $DIC["ilLocator"];
+		if (isset($DIC["tpl"]))
+		{
+			$this->tpl = $DIC["tpl"];
+		}
+		if (isset($DIC["ilLocator"]))
+		{
+			$this->locator = $DIC["ilLocator"];
+		}
+
 		// this also calls read() method! (if $a_id is set)
 		parent::__construct($a_id,$a_call_by_reference);
 

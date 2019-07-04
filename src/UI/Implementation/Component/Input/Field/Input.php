@@ -6,14 +6,16 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
+use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Transformation\Transformation;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Constraint;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Constraint;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * This implements commonalities between inputs.
@@ -21,18 +23,16 @@ use ILIAS\Validation\Factory as ValidationFactory;
 abstract class Input implements C\Input\Field\Input, InputInternal {
 
 	use ComponentHelper;
+	use JavaScriptBindable;
+	use Triggerer;
 	/**
 	 * @var DataFactory
 	 */
 	protected $data_factory;
 	/**
-	 * @var    ValidationFactory
+	 * @var Factory
 	 */
-	protected $validation_factory;
-	/**
-	 * @var TransformationFactory
-	 */
-	protected $transformation_factory;
+	protected $refinery;
 	/**
 	 * @var string
 	 */
@@ -83,22 +83,19 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * Input constructor.
 	 *
-	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
-	 * @param TransformationFactory $transformation_factory
+	 * @param DataFactory $data_factory
+	 * @param Factory $refinery
 	 * @param                       $label
 	 * @param                       $byline
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
+		Factory $refinery,
 		$label,
 		$byline
 	) {
 		$this->data_factory = $data_factory;
-		$this->validation_factory = $validation_factory;
-		$this->transformation_factory = $transformation_factory;
+		$this->refinery = $refinery;
 		$this->checkStringArg("label", $label);
 		if ($byline !== null) {
 			$this->checkStringArg("byline", $byline);
@@ -339,7 +336,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	protected function setAdditionalConstraint(Constraint $constraint) {
 		$this->operations[] = $constraint;
 		if ($this->content !== null) {
-			$this->content = $constraint->restrict($this->content);
+			$this->content = $constraint->applyTo($this->content);
 			if ($this->content->isError()) {
 				$this->setError("" . $this->content->error());
 			}
@@ -377,7 +374,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 *
 	 * @inheritdoc
 	 */
-	public function withInput(PostData $input) {
+	public function withInput(InputData $input) {
 		//TODO: What should happen if input has not name? Throw exception or return null?
 		/**
 		 * if ($this->getName() === null) {
@@ -388,7 +385,13 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 		//We assign null. Note that unset checkboxes are not contained in POST.
 		if (!$this->isDisabled()) {
 			$value = $input->getOr($this->getName(), null);
-			$clone = $this->withValue($value);
+			//This is necessary when putting a Filter from off to on.
+			if (!is_null($value)) {
+				$clone = $this->withValue($value);
+			} else {
+				$value = $this->getValue();
+				$clone = $this;
+			}
 		}
 		else {
 			$value = $this->getValue();
@@ -427,7 +430,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($op instanceof Transformation) {
 				$res = $res->map($op);
 			} elseif ($op instanceof Constraint) {
-				$res = $op->restrict($res);
+				$res = $op->applyTo($res);
 			}
 		}
 
@@ -462,5 +465,52 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			throw new \LogicException("No content of this field has been evaluated yet. Seems withInput was not called.");
 		}
 		return $this->content;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		throw new \Exception(
+			"This is not implemented yet. Every Input needs to implement ".
+			"this, but to be able to move on currently this is broken. ".
+			"If you see this message, please file a bug at mantis.ilias.de. ".
+			"Also have a look into the roadmap: \"Implement `Input::getUpdateOnLoadCode`, ".
+			"`Input::withOnUpdate` and `Input::appendOnUpdate` for every Input"
+		);
+		// TODO: This method will need to be removed.
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnUpdate(Signal $signal)
+	{
+		// TODO: This exception will need to be removed.
+		throw new \Exception(
+			"This is not implemented yet. Every Input needs to implement ".
+			"this, but to be able to move on currently this is broken. ".
+			"If you see this message, please file a bug at mantis.ilias.de. ".
+			"Also have a look into the roadmap: \"Implement `Input::getUpdateOnLoadCode`, ".
+			"`Input::withOnUpdate` and `Input::appendOnUpdate` for every Input"
+		);
+		return $this->withTriggeredSignal($signal, 'update');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnUpdate(Signal $signal)
+	{
+		// TODO: This exception will need to be removed.
+		throw new \Exception(
+			"This is not implemented yet. Every Input needs to implement ".
+			"this, but to be able to move on currently this is broken. ".
+			"If you see this message, please file a bug at mantis.ilias.de. ".
+			"Also have a look into the roadmap: \"Implement `Input::getUpdateOnLoadCode`, ".
+			"`Input::withOnUpdate` and `Input::appendOnUpdate` for every Input"
+		);
+		return $this->appendTriggeredSignal($signal, 'update');
 	}
 }

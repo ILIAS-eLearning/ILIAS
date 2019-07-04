@@ -180,13 +180,12 @@ class ilMembershipCronMinMembers extends ilCronJob
 
 		$mail = new ilMail(ANONYMOUS_USER_ID);
 		$mail->enableSOAP(false); // #10410
-		$mail->validateAndEnqueue(
+		$mail->enqueue(
 			ilObjUser::_lookupLogin($a_reci_id),
 			null,
 			null,
 			$lng->txt("mem_cron_min_members_subject"), 
 			$ntf->composeAndGetMessage($a_reci_id, null, "read", true), 
-			null, 
-			array("system"));
+			[]);
 	}
 }

@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php';
-
 /**
  * Class ilOnScreenChatAppEventListener
  */
@@ -15,7 +13,7 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
 	{
 		switch($a_component)
 		{
-			case 'Services/User':
+			case 'Modules/Chatroom':
 				switch($a_event)
 				{
 					case 'chatSettingsChanged':
@@ -26,9 +24,6 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
 								'acceptsMessages' => (bool)ilUtil::yn2tf($a_parameter['user']->getPref('chat_osc_accept_msg')),
 							]
 						];
-
-						require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
-						require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 
 						$settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
 						$connector = new ilChatroomServerConnector($settings);
