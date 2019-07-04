@@ -1,64 +1,98 @@
-# AssessmentQuestion /  Fundamental Work for a auditable and stable system
+# Entwicklung innerhalb AssessmentQuestion
 
-With this pullrequest I like to give a continuus prereview on our Work for the AssessmentQuestion Service and at the fundamentals work which is necsessary for us, to cover the future requirements.
+## Einfluss TB auf unsere Entwicklung
+Björn und ich hatten am 2. Juli ein Meeting mit den Mitgliedern des Technical Boards vom ILIAS open source e-Learning e.V. Die Mitglieder des TBs haben den Anspruch zu verstehen, was wir hier im AssessmenQuestion Service tun und wollen die Konzepte entsprechend verstehen und kommentieren können. 
 
-This will be the branch which we will like to merge
+Unser derzeitiger Entwicklungsfluss liess dies nicht zu und wir sind angehalten die einzelnen Konzepte als einzelne Pullrequests inkl. entsprechender Readmes zu stellen. Eine Abnahmegarantie gibt es nicht(!) Diese Pullrequests werde ich jeweils erstellen indem ich die entsprechenden Files rauskopiere.
 
-## @Technical Board 
+Gerne würde ich ASAP den Common-Ordner als Pullrequest stellen.
 
-Would it be possible that have a look at it and give me a feedback if it is OK when we the services provide for all developers and what the work has to fullfill.
+Gleichzeitig ist ein Api Alignment-Projekt im Gange, bei welcher eine Grundlage für die Entwicklung für ILIAS gelegt werden soll. Genaue Details hierzu sind noch nicht bekannt.
 
-Following Libaries / Services ar new:
-## Command / Event and Query Buss
-Path: src/Messaging - our Work; third party service at composer/vendor/simple-bus
-Third party library can be exchanged as needed. The coupling is extremly loose
+Dies zwingt uns, wenn wir nun nicht das ganze KnowHow, welches wir nun aufgebaut haben, wegschmeissen wollen, zu noch mehr Effizienz in der Umsetzung und fortlaufender Kommunikation mit dem TB. Daher nun folgende Richtlinen fürs weitere Vorgehen.
 
-Use
+## Branching
+Unser derzeitiger Branch feature/6-0/MessageBus bleibt der Hauptentwicklungsbranch. Es wird nicht mehr direkt in diesen Branch committet. Es erfolgen jeweils Pullrequests. Sobald sämtliche innvolvierten (AL, TT, BH, MST) ihr OK zum Pullrequest gegeben haben wird dieser gemerged. Damit wissen wir alle immer was derzeit im Gang ist.
 
-```
-$command_busbuilder = new CommandBusBuilder();
-  
-$command_bus = $command_busbuilder->getCommandBus();
-  			
-$command_bus->handle(new CreateQuestionCommand($title, $description, $creator_id)``
-```
+## DDD / CQRS / EventSourcing
+Wir müssen DDD und EventSourcing ausfsplitten und beide Uses Cases unter Common beschreiben. Somit werden wir wo notwenig Abstrakte Klassen haben, welche den reinen DDD Weg aufzeigen und Klassen, welche den erweiterten Weg aufzeigen.
 
-Documentation:
-http://docs.simplebus.io/en/latest/
+## Beschreibung der Common-Klassen
+Die Verwendung der Common Klassen muss im Readme entsprechend verständlich erläutert werden: vgl. Services/AssessmentQuestion/src/Common/DomainModel/Aggregate/docs/documentation/Readme.md
 
-## src / Data / Domain
-Standard Data Types for the CQRS and DDD Patterns
+## CHANGELOG
+Bitte füllt vor dem Pullrequest kurz das Changelog mit Infos, was ihr gemacht habt. Hier geht es mehr um die Grundsätze / Stand der Arbeit.
 
-## Refinery Object to Json
-src/Refinery/Object
+## ToDo Folder
+Auf sämtlichen Ebenen dürfen ToDo Folder angelegt werden. In diesen Folder können Legacy Klassen abgelegt werden, welche gegebenfalls noch besprochen werden müssen, bei welchen man nicht sicher ist, ob es diese noch braucht oder welche noch ins neue Konzept überführt werden müssen.
 
-Hint: Domain-Driven Design in PHP, 2014 - 2016 Carlos Buenosvinos,Christian Soronellas and Keyvan Akbary, Chapter: 3.7.1.4.1:  <<...serialize/unserialize native PHP strategies have a problem when dealing with class and namespace refactoring. One alternative is use your own serialization mechanism for example, concatenating the amount, a one character separator such as “|” an the currency ISO code.>>
+## Zeitplan_ToDos.md
+Hier führen wir die ToDos auf, welche nächstens anstehen, bitte jeweils abhaken sobald erledigt.
 
-# New concept proposals for the Assessment Question Service
-We will use the Pattern DDD, CQRS (incl. Event Sourcing)
+## Mitarbeit restliche srag
+Alle MA, welche hier mitlesen, dürfen gerne entsprechende Pullrequests stellen und uns bei der Sicherstellung der Qualität helfen!! Wir sind dankbar um jede Hilfe.
 
-## Advantages
- 1. It's a concept, in which the software processes is realy near to our language.
- 2. It's "not" possible that there were super classes with business logik with 800 and more lines. The core of the software - the business processes are always clear and maintainable.
- 3. It is possible that more than one devloper can develop here becauese the code is until the maximum decapsulated.
- 4. Each change of a state of an object will be separtly like in the Database. 
- 5. Requirements like a Worldwide Unique ID are state of the art for those patterns.
- 6. For a developer it is a good way to develop step by step - because the separation. It's - after a learning cure - a easy but lovely way to develop.
- 7. Because of the Hexagonal structure it is a good possibility for unit tests: https://herbertograca.files.wordpress.com/2018/11/100-explicit-architecture-svg.png?w=1200
+## Wir schaffen das :-)
+Aus meiner Sicht - 14 Jahre ILIAS Erfahrung - ist's einer der grössten Meilensteine für ILIAS. Wenn wir dies hier im Team schaffen, dann dürfen wir uns echt freuen darüber! -> Weiter geht's - nun in doppelter Taktung ;-)
 
-# Concepts to discuss
-1. I d'like to have a Unique ID and a Revisions ID per Testquestion.
-2. I d'like to have the possibilitychange questions asslo the are allreadyy in a test. The Questions Service counts per question and revision.
-3. I propose that the question service will have a data storage with external IDs of his consuments. Primary because of the data. IT ist no possible an one of the key feature the date for reporting parrallel in addition to write.
-4... 
+Wir müssen nun extrem Gas geben. Ich möchte vor allem auch für Björn das Risiko minimieren. Scheitern wir, so müsste Björn im Schnelldurchlauf das alte Konzept fahren und Test und Fragenservice aufsplitten, damit für 6.0 ein Ergebnis vorhanden ist, auf welchem er aufbauen kann und er somit nicht in eine komplette wirtschaftliche Blockade fällt.
+
+## Literatur:
+*Verständlich erläutert für Nicht-Entwickler*
+Domain-driven Design erklärt
+https://www.heise.de/developer/artikel/Domain-driven-Design-erklaert-3130720.html?seite=all
+
+Podcast zu CQRS und Event Sourcing
+https://www.innoq.com/de/podcast/028-event-sourcing-und-cqrs/
+
+Umgang mit komplexen Geschäftsabläufen in einem Microservice
+https://docs.microsoft.com/de-de/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/
+
+CQRS erläutert von Martin Fowler (eine kleine Berümtheit innerhalb von Softwarearchitektur-Fragen) 
+https://martinfowler.com/bliki/CQRS.html
 
 
-Final Schedule and a presentation with technical details at wednesday.
+*Erläuterung für Entwickler*
+CQRS im Original - Artikel von Greg Young
+https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf
 
-We will inroduce zwo API (Author / Student)
-* Services/AssessmentQuestion/src/Authoring/_PublicApi/AsqAuthoringService.php
-* CreateQuestionHandler.php
+Eine Zusammenfassung von DDD und CQRS für die Umsetzung in PHP
+http://xeroxmobileprint.net/DiscoveryTable/test/folder1/Domain-Driven_Design_in_PHP.pdf
 
-The architecture is theoreticaly also already redy for offline tests and to 100% fit for REST.
- 
- I you have any questions don't hesistade to ask!
+CodeBeispiele der Autoren vom obigen Buch
+https://github.com/dddinphp
+
+
+# Decisions (WIP)
+Hier notieren wir Entscheide, welche wir fällen und welche entsprechend noch eingearbeitet werden müssen.
+## MessageBus
+* Wird eigenimplementiert -> keine Verwendung einer Library, da ein relativ einfaches Konzept
+
+## Caching
+Domain schaut, dass diese jeweils einen aktuellen Cache seines Objekts hat, damit nicht immer der gesamte Eventstore durchgearbeitet werden muss.
+
+Hierbei müssen wir beachten, dass ILIAS ebenfalls auf mehreren Webservern betrieben werden kann. Somit sollte immer wenn aus dem Cache gelesen wird, sich der Cache beim Evenstore zurückversichern, ob der Cache noch aktuell ist. Eventstore anfragen, gib mir alles seit meinem letzten Cache update.
+
+## ValueObjects
+Constructor alles Attribute
+& Getter (keine Setter).
+
+## Zuständigkeit Fragenservice
+Liefert eine gesamte Authoring-Umgebung inkl. Navigation zwischen den Fragenservice-Formularen.
+
+## Abgrenzung
+ASQ-Service
+* Domainlogik / CQRS Interface
+* Abläufe / Logik / Flow etc.
+
+Authoring-Umgebung / Formular-Umgebung
+* via Builder ähnlich zu Kitchen-Sink-Objekte (src/ui)
+
+# Serialization
+* wir verwenden PHP Standard-Funktionen json_decode / json_encode
+
+
+#Libraries
+* Ramsey/UUID - Verwendung da gemäss definiertem RFC umgesetzt.
+** https://packagist.org/packages/ramsey/uuid
+

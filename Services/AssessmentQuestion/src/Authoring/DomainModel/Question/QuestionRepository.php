@@ -3,13 +3,13 @@ namespace  ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
-use ILIAS\Data\Domain\Entity\AggregateRoot;
-use ILIAS\Data\Domain\Event\{DomainEvents, EventStore, IsEventSourced, RecordsEvents};
-use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionProjection;
-use ILIAS\AssessmentQuestion\Authoring\Domainmodel\Question\QuestionEventSourcedAggregateRepositoryRepository;
-use ILIAS\Data\Domain\Repository\AggregateRepository;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractAggregateRoot;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRepository;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
 
-class QuestionRepository extends AggregateRepository
+class QuestionRepository extends AbstractEventSourcedAggregateRepository
 {
 	/**
 	 * @var EventStore
@@ -46,7 +46,7 @@ class QuestionRepository extends AggregateRepository
 	/**
 	 * @param DomainEvents $event_history
 	 *
-	 * @return AggregateRoot
+	 * @return \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot
 	 */
 	protected function reconstituteAggregate(DomainEvents $event_history): AggregateRoot {
 		return Question::reconstitute($event_history);

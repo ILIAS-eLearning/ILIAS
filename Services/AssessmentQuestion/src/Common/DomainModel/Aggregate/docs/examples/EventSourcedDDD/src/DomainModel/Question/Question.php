@@ -1,19 +1,14 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
+namespace ILIAS\AssessmentQuestion\Common\examples\EventSourcedDDD\DomainModel\Aggregate;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\GenericEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\IsRevisable;
 use ILIAS\AssessmentQuestion\Common\RevisionId;
-use QuestionData;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRoot;
 
 /**
  * Class Question
@@ -36,6 +31,14 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	private $revision_name = "";
 	/**
+	 * @var string
+	 */
+	private $title;
+	/**
+	 * @var string
+	 */
+	private $description;
+	/**
 	 * @var int
 	 */
 	private $creator;
@@ -43,10 +46,6 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @var bool
 	 */
 	private $online = false;
-	/**
-	 * @var QuestionData
-	 */
-	private $data;
 	/**
 	 * @var
 	 */
@@ -59,6 +58,22 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 
 
 	/**
+	 * @param DomainEvents $history
+	 *
+	 * @return AggregateRoot
+	 */
+	public function reconstitute(DomainEvents $history): AggregateRoot {
+		$question = new Question();
+
+		foreach ($history->getEvents() as $event) {
+			$question->applyEvent($event);;
+		}
+
+		return $question;
+	}
+
+
+	/**
 	 * @param string $title
 	 * @param string $description
 	 *
@@ -66,9 +81,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 *
 	 * @return Question
 	 */
-	public static function createNewQuestion(int $creator) {
+	public static function createNewQuestion(string $title, string $description, int $creator) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator, $title, $description));
+
 		return $question;
 	}
 
@@ -76,11 +92,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
 		$this->creator = $event->getInitiatingUserId();
+		$this->description = $event->getDescription();
+		$this->title = $event->getTitle();
 	}
 
-	protected function applyQuestionDataSetEvent(QuestionDataSetEvent $event) {
-		$this->data = $event->data;
-	}
 
 	public function setOnline() {
 		$this->ExecuteEvent(new QuestionStatusHasChangedToOnlineEvent($this->id));
@@ -122,26 +137,41 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->settings = $event->settings();
 	}
 
+
+	function getAggregateId(): AggregateId {
+		return $this->id;
+	}
+
+
 	/**
 	 * @return string
 	 */
 	public function getTitle(): string {
 		return $this->title;
 	}
+
+
 	/**
-	 * @return QuestionData
+	 * @param string $title
 	 */
-	public function getData(): QuestionData {
-		return $this->data;
+	public function setTitle(string $title): void {
+		$this->title = $title;
 	}
 
 
 	/**
-	 * @param QuestionData $data
-	 * @param int          $creator_id
+	 * @return string
 	 */
-	public function setData(QuestionData $data, int $creator_id): void {
-		$this->ExecuteEvent(new QuestionDataSetEvent($this->getAggregateId(), $creator_id, $data));
+	public function getDescription(): string {
+		return $this->description;
+	}
+
+
+	/**
+	 * @param string $description
+	 */
+	public function setDescription(string $description): void {
+		$this->description = $description;
 	}
 
 
@@ -201,16 +231,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * Domain specific data of an object and return it as an array
 	 */
 	public function getRevisionData(): array {
-		//TODO when implementing revisions
-	}
-
-
-	public static function reconstitute(DomainEvents $event_history): AggregateRoot {
-		// TODO: Implement reconstitute() method.
-	}
-
-
-	function getAggregateId(): AggregateId {
-		return $this->id;
+		$data['title'] = $this->getTitle();
+		$data['description'] = $this->getDescription();
+		$data['creator'] = $this->getCreator();
 	}
 }
