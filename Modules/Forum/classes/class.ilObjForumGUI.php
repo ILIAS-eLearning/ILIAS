@@ -140,14 +140,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     }
 
     /**
-     * @param array $subtree_nodes
-     * @param array $pagedPostings
-     * @param int   $pageSize
+     * @param array       $subtree_nodes
+     * @param array       $pagedPostings
+     * @param int         $pageSize
+     * @param ilForumPost $firstForumPost
      */
     protected function ensureValidPageForCurrentPosting(
         array $subtree_nodes,
         array $pagedPostings,
-        int $pageSize
+        int $pageSize,
+        ilForumPost $firstForumPost
     ) {
         if (count($subtree_nodes) > 0 && $this->objCurrentPost->getId() > 0) {
             $isCurrentPostingInPage = array_filter($pagedPostings, function (ilForumPost $posting) {
@@ -158,6 +160,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $pageOfCurrentPosting = 0;
                 $i                    = 0;
                 foreach ($subtree_nodes as $node) {
+                    $currentId = $this->objCurrentPost->getId();
+                    if ($firstForumPost->getId() == $currentId) {
+                        return;
+                    }
                     if ($i > 0 && 0 === $i % $pageSize) {
                         ++$pageOfCurrentPosting;
                     }
@@ -2751,7 +2757,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             $pagedPostings = array_slice($subtree_nodes, $pageIndex * $pageSize, $pageSize);
 
-            $this->ensureValidPageForCurrentPosting($subtree_nodes, $pagedPostings, $pageSize);
+            $this->ensureValidPageForCurrentPosting($subtree_nodes, $pagedPostings, $pageSize, $first_node);
 
             foreach ($pagedPostings as $node) {
                 /** @var $node ilForumPost */
