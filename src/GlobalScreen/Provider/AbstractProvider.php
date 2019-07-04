@@ -15,6 +15,10 @@ abstract class AbstractProvider implements Provider
      * @var Container
      */
     protected $dic;
+    /**
+     * @var string
+     */
+    private $provider_name_cache = "";
 
 
     /**
@@ -45,10 +49,22 @@ abstract class AbstractProvider implements Provider
 
 
     /**
-     * @inheritDoc
+     * @return string
+     * @throws \ReflectionException
      */
     public function getProviderNameForPresentation() : string
     {
-        return self::class;
+        if ($this->provider_name_cache !== "" && is_string($this->provider_name_cache)) {
+            return $this->provider_name_cache;
+        }
+        $reflector = new \ReflectionClass($this);
+
+        $re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
+
+        preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
+
+        $this->provider_name_cache = isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : self::class : self::class;
+
+        return $this->provider_name_cache;
     }
 }
