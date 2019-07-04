@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\IsRevisable;
@@ -21,7 +21,7 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAg
 class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable {
 
 	/**
-	 * @var AggregateId
+	 * @var DomainObjectId
 	 */
 	private $id;
 	/**
@@ -65,7 +65,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	public static function createNewQuestion(int $creator) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new AggregateId(), $creator));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new DomainObjectId(), $creator));
 		return $question;
 	}
 
@@ -205,7 +205,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	}
 
 
-	function getAggregateId(): AggregateId {
+	function getAggregateId(): DomainObjectId {
 		return $this->id;
 	}
 }

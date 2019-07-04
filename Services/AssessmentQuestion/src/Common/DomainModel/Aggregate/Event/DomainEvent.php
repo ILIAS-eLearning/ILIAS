@@ -4,7 +4,7 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
 use \ilDateTime;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 
 /**
  * Interface DomainEvent
@@ -23,9 +23,9 @@ interface DomainEvent {
 	/**
 	 * The Aggregate this event belongs to.
 	 *
-	 * @return AggregateId
+	 * @return DomainObjectId
 	 */
-	public function getAggregateId(): AggregateId;
+	public function getAggregateId(): DomainObjectId;
 
 
 	/**

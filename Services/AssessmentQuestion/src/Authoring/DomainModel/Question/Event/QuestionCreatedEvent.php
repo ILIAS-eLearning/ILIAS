@@ -2,7 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\AbstractDomainEvent;
 
 /**
@@ -15,7 +15,7 @@ class QuestionCreatedEvent extends AbstractDomainEvent {
 
 	public const NAME = 'QuestionCreatedEvent';
 
-	public function __construct(AggregateId $id, int $creator_id)
+	public function __construct(DomainObjectId $id, int $creator_id)
 	{
 		parent::__construct($id, $creator_id);
 	}

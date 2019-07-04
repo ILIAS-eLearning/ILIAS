@@ -4,7 +4,7 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
 use ilDateTime;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 
 /**
  * Interface EventStore
@@ -25,9 +25,9 @@ interface EventStore {
 
 
 	/**
-	 * @param AggregateId $id
+	 * @param DomainObjectId $id
 	 *
 	 * @return DomainEvents
 	 */
-	public function getAggregateHistoryFor(AggregateId $id): DomainEvents;
+	public function getAggregateHistoryFor(DomainObjectId $id): DomainEvents;
 }

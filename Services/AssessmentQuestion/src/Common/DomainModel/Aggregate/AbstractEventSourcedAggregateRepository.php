@@ -4,7 +4,7 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
 use ilGlobalCache;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
 
@@ -54,7 +54,7 @@ abstract class AbstractEventSourcedAggregateRepository {
 	}
 
 
-	public function get(AggregateId $aggregate_id) {
+	public function get(DomainObjectId $aggregate_id) {
 		if (false && $this->has_cache) {
 			return $this->getFromCache($aggregate_id);
 		} else {
@@ -63,7 +63,7 @@ abstract class AbstractEventSourcedAggregateRepository {
 	}
 
 
-	private function getFromCache(AggregateId $aggregate_id) {
+	private function getFromCache(DomainObjectId $aggregate_id) {
 		$cache_key = $aggregate_id->getId();
 		$aggregate = self::$cache->get($cache_key);
 		if ($aggregate === null) {

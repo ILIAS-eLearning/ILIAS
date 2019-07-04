@@ -3,6 +3,8 @@
 
 namespace ILIAS\AssessmentQuestion\Common\Entity;
 
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
+
 /**
  * An object that records the events that happened to it since the last time it was cleared, or since it was
  * restored from persistence.

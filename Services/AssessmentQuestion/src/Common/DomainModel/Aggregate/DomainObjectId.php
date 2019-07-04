@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class AggregateId {
+class DomainObjectId {
 	/**
 	 * @var string
 	 */
@@ -27,7 +27,7 @@ class AggregateId {
 	}
 
 
-	public function equals(AggregateId $anId) : bool{
+	public function equals(DomainObjectId $anId) : bool{
 		return $this->getId() === $anId->getId();
 	}
 }

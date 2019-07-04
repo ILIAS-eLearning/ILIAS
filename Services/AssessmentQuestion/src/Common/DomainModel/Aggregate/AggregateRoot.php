@@ -3,7 +3,7 @@
 
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 
 /**
  * Interface AggregateRoot
@@ -16,5 +16,5 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
  */
 interface AggregateRoot {
 
-	public function getAggregateId(): AggregateId;
+	public function getAggregateId(): DomainObjectId;
 }

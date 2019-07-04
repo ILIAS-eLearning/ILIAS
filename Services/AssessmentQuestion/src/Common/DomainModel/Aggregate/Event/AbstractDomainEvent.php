@@ -4,7 +4,7 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
 use ilDateTime;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 
 /**
  * Class AbstractDomainEvent
@@ -19,7 +19,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
 abstract class AbstractDomainEvent implements DomainEvent {
 
 	/**
-	 * @var AggregateId
+	 * @var DomainObjectId
 	 */
 	protected $aggregate_id;
 	/**
@@ -32,7 +32,7 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	protected $initating_user_id;
 	//todo revision einarbeiten
 	//IsRevisionable $aggregate_revision,
-	public function __construct(AggregateId $aggregate_id, int $initating_user_id) {
+	public function __construct(DomainObjectId $aggregate_id, int $initating_user_id) {
 
 		$this->aggregate_id = $aggregate_id;
 		$this->occurred_on = new ilDateTime(time(), IL_CAL_UNIX);
@@ -43,9 +43,9 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	/**
 	 * The Aggregate this event belongs to.
 	 *
-	 * @return AggregateId
+	 * @return DomainObjectId
 	 */
-	public function getAggregateId(): AggregateId {
+	public function getAggregateId(): DomainObjectId {
 		return $this->aggregate_id;
 	}
 

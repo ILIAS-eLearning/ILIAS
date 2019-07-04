@@ -2,7 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvent;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
@@ -32,11 +32,11 @@ class ilDBQuestionEventStore implements EventStore {
 	}
 
 	/**
-	 * @param AggregateId $id
+	 * @param DomainObjectId $id
 	 *
 	 * @return DomainEvents
 	 */
-	public function getAggregateHistoryFor(AggregateId $id): DomainEvents {
+	public function getAggregateHistoryFor(DomainObjectId $id): DomainEvents {
 		global $DIC;
 
 		$sql = "SELECT * FROM " . ilDBQuestionStoredEvent::STORAGE_NAME . " where aggregate_id = " . $DIC->database()->quote($id->getId());
@@ -47,7 +47,7 @@ class ilDBQuestionEventStore implements EventStore {
 			/**@var AbstractDomainEvent $event */
 			//TODO namespaces in db oder fix?
 			$event_name = "ILIAS\\AssessmentQuestion\\Authoring\\DomainModel\\Question\\Event\\".utf8_encode(trim($row['event_name']));
-			$event = new $event_name(new AggregateId($row['aggregate_id']), $row['initiating_user_id']);
+			$event = new $event_name(new DomainObjectId($row['aggregate_id']), $row['initiating_user_id']);
 			$event->restoreEventBody($row['event_body']);
 			$event_stream->addEvent($event);
 		}
