@@ -18,7 +18,7 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class AbstractEventSourcedAggregateRepository {
+abstract class AbstractEventSourcedAggregateRepository implements AggregateRepository {
 
 	const CACHE_NAME = "CQRS_REPOSITORY_CACHE";
 	/**

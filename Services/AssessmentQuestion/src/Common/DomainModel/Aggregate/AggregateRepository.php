@@ -16,9 +16,9 @@ namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 interface AggregateRepository {
 
 	/**
-	 * @param AggregateId $aggregate_id
+	 * @param DomainObjectId $aggregate_id
 	 *
 	 * @return AggregateRoot
 	 */
-	public function findById(AggregateId $aggregate_id): AggregateRoot;
+	public function getAggregateRootById(DomainObjectId $aggregate_id): AggregateRoot;
 }
