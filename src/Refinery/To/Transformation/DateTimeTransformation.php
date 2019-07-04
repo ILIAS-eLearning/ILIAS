@@ -29,14 +29,11 @@ class DateTimeTransformation implements Transformation {
 	 * @inheritdoc
 	 */
 	public function transform($from) {
-		if($from) {
-			$result = $this->attemptTransformation($from);
-			if($result->isError()) {
-				throw new \InvalidArgumentException($result->error(), 1);
-			}
-			return $result->value();
+		$result = $this->attemptTransformation($from);
+		if($result->isError()) {
+			throw new \InvalidArgumentException($result->error(), 1);
 		}
-		return null;
+		return $result->value();
 	}
 
 	/**

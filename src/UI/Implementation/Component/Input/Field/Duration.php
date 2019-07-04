@@ -83,6 +83,9 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 
 	/**
 	 * Return-value of Duration is an assoc array with start, end and interval.
+	 * If one or the other of start/end is omitted, there is no possible calculation
+	 * of a duration - in this case, null is being returned.
+	 *
 	 */
 	protected function addTransformation()
 	{

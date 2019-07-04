@@ -718,7 +718,7 @@ class Renderer extends AbstractComponentRenderer
 		$inpt = array_shift($inputs); //from
 		$input_html .= $default_renderer->render($inpt);
 
-		$inpt = array_shift($inputs)->withAdditionalPickerConfig([ //until
+		$inpt = array_shift($inputs)->withAdditionalPickerconfig([ //until
 			'useCurrent' => false
 		]);
 		$input_html .= $default_renderer->render($inpt);

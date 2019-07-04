@@ -37,11 +37,6 @@ class DateTimeTransformationTest extends TestCase
 		);
 	}
 
-	public function testNullTransform()
-	{
-		$this->assertNull($this->trans->transform(null));
-	}
-
 	public function testInvalidTransform()
 	{
 		$this->expectException(\InvalidArgumentException::class);

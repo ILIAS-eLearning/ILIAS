@@ -3,7 +3,7 @@
 
 namespace ILIAS\Refinery\DateTime;
 
-use ILIAS\Data\Factory;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 
@@ -12,6 +12,8 @@ use ILIAS\Refinery\Transformation;
  */
 class ChangeTimezone implements Transformation
 {
+	use DeriveApplyToFromTransform;
+
 	/**
 	 * @var \DateTimeZone
 	 */
@@ -21,13 +23,12 @@ class ChangeTimezone implements Transformation
 	 * @param string $timezone
 	 * @param Factory $factory
 	 */
-	public function __construct(string $timezone, Factory $factory)
+	public function __construct(string $timezone)
 	{
 		if(!in_array($timezone, timezone_identifiers_list())) {
 			throw new \InvalidArgumentException("$timezone is not a valid timezone identifier", 1);
 		}
 		$this->timezone = new \DateTimeZone($timezone);
-		$this->factory = $factory;
 	}
 
 	/**
@@ -80,19 +81,4 @@ class ChangeTimezone implements Transformation
 	public function __invoke($from) {
 		return $this->transform($from);
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$value = $data->value();
-		if (! $value instanceof \DateTimeImmutable) {
-			$exception = new \InvalidArgumentException("$value is not a DateTime-object", 1);
-			return $this->factory->error($exception);
-		}
-		$value = $this->performTransformation($value);
-		return $this->factory->ok($value);
-	}
-
 }

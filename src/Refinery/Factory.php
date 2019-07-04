@@ -145,6 +145,6 @@ class Factory
 	 */
 	public function dateTime()
 	{
-		return new DateTime\Group($this->dataFactory);
+		return new DateTime\Group();
 	}
 }
