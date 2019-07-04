@@ -36,7 +36,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * @var int
 	 */
-	private $creator;
+	private $creator_id;
 	/**
 	 * @var bool
 	 */
@@ -50,7 +50,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	private $possible_answers;
 
-
+	//TODO Sollten wir nicht darauf achten, dass ein Objekt immer einen korrekten
+	//Status hat? So hätten wir Fragen ohne Titel. Titel ist m.E. die Mindestanforderung einer Frage!
 	protected function __construct() {
 		parent::__construct();
 	}
@@ -73,7 +74,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
-		$this->creator = $event->getInitiatingUserId();
+		$this->creator_id = $event->getInitiatingUserId();
 	}
 
 	protected function applyQuestionDataSetEvent(QuestionDataSetEvent $event) {
@@ -140,16 +141,16 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * @return int
 	 */
-	public function getCreator(): int {
-		return $this->creator;
+	public function getCreatorId(): int {
+		return $this->creator_id;
 	}
 
 
 	/**
-	 * @param int $creator
+	 * @param int $creator_id
 	 */
-	public function setCreator(int $creator): void {
-		$this->creator = $creator;
+	public function setCreatorId(int $creator_id): void {
+		$this->creator_id = $creator_id;
 	}
 
 
