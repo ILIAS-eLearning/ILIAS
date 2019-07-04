@@ -51,26 +51,4 @@ class DateTimeTransformationTest extends TestCase
 
 		$this->assertEquals($expected, $t($value));
 	}
-
-	public function testApplyToOK()
-	{
-		$value = '2019/05/26';
-		$expected = new \DateTimeImmutable($value);
-
-		$df = new \ILIAS\Data\Factory();
-		$ok = $df->ok($expected);
-
-		$result = $this->trans->applyTo($ok);
-		$this->assertEquals($expected, $result->value());
-		$this->assertFalse($result->isError());
-	}
-
-	public function testApplyToFail()
-	{
-		$df = new \ILIAS\Data\Factory();
-		$ok = $df->ok('not_a_date');
-
-		$result = $this->trans->applyTo($ok);
-		$this->assertTrue($result->isError());
-	}
 }

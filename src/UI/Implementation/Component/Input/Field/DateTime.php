@@ -78,10 +78,24 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	) {
 		parent::__construct($data_factory, $refinery, $label, $byline);
 
-		$trafo = $refinery->to()->dateTime();
-		$this->setAdditionalTransformation($trafo);
-
 		$this->format = $data_factory->dateFormat()->standard();
+
+		$datetime_trafo = $refinery->to()->dateTime();
+		$trafo = $this->getOptionalNullTransformation($datetime_trafo);
+		$this->setAdditionalTransformation($trafo);
+	}
+
+
+	protected function getOptionalNullTransformation($or_trafo)
+	{
+		return $this->refinery->custom()->transformation(
+			function($v) use ($or_trafo){
+				if(! $v) {
+					return null;
+				}
+				return $or_trafo->transform($v);
+			}
+		);
 	}
 
 	/**
@@ -107,9 +121,11 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale {
 	 */
 	public function withTimezone(string $tz): C\Input\Field\DateTime
 	{
-		$trafo = $this->refinery->dateTime()->changeTimezone($tz);
+		$timezone_trafo = $this->refinery->dateTime()->changeTimezone($tz);
 		$clone = clone $this;
 		$clone->timezone = $tz;
+
+		$trafo = $this->getOptionalNullTransformation($timezone_trafo);
 		return $clone->withAdditionalTransformation($trafo);
 	}
 

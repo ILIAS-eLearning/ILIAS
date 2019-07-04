@@ -1,16 +1,20 @@
 <?php
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
 
 /**
- * Transform value to php \DateTimeImmutable
+ * Transform a string representing a datetime-value to php's DateTimeImmutable
+ * see https://www.php.net/manual/de/datetime.formats.php
  */
 class DateTimeTransformation implements Transformation {
+
+	use DeriveApplyToFromTransform;
 
 	/**
 	 * @var DataFactory
@@ -29,26 +33,11 @@ class DateTimeTransformation implements Transformation {
 	 * @inheritdoc
 	 */
 	public function transform($from) {
-		$result = $this->attemptTransformation($from);
-		if($result->isError()) {
-			throw new \InvalidArgumentException($result->error(), 1);
-		}
-		return $result->value();
-	}
-
-	/**
-	 * Try to execute the transformation and return a Result.
-	 * @param mixed $value
-	 * @return Result
-	 */
-	protected function attemptTransformation($value): Result
-	{
 		try {
-			$value = new \DateTimeImmutable($value);
+			return new \DateTimeImmutable($from);
 		} catch (\Exception $e) {
-			return $this->factory->error($e->getMessage());
+			throw new \InvalidArgumentException($e->getMessage(), 1);
 		}
-		return $this->factory->ok($value);
 	}
 
 	/**
@@ -57,17 +46,4 @@ class DateTimeTransformation implements Transformation {
 	public function __invoke($from) {
 		return $this->transform($from);
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$value = $data->value();
-		if($value instanceof \DateTimeImmutable) {
-			return $this->factory->ok($value);
-		}
-		return $this->attemptTransformation($value);
-	}
-
 }

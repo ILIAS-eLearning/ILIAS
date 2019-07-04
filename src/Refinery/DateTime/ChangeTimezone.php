@@ -47,22 +47,10 @@ class ChangeTimezone implements Transformation
 	 */
 	public function transform($from)
 	{
-		if (!$from) {
-			return null;
-		}
 		if (! $from instanceof \DateTimeImmutable) {
-			throw new \InvalidArgumentException("$from is not a DateTime-object", 1);
+			throw new \InvalidArgumentException("$from is not a DateTimeImmutable-object", 1);
 		}
-		return $this->performTransformation($from);
-	}
 
-	/**
-	 * Do tranformation.
-	 * @param \DateTimeImmutable $from
-	 * @return \DateTimeImmutable
-	 */
-	protected function performTransformation(\DateTimeImmutable $from): \DateTimeImmutable
-	{
 		$offset = $this->getTimezoneDelta(
 			$from->getTimezone(),
 			$this->timezone

@@ -49,7 +49,8 @@ class ChangeTimezoneTest extends TestCase
 	public function testNullTransform()
 	{
 		$trans = $this->dt->changeTimezone('Europe/Berlin');
-		$this->assertNull($trans->transform(null));
+		$this->expectException(\InvalidArgumentException::class);
+		$trans->transform(null);
 	}
 
 	public function testInvalidTransform()

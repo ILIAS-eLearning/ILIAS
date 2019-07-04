@@ -77,6 +77,4 @@ interface DateTime extends Input
 	 * @return  DateTime
 	 */
 	public function getTimeOnly(): bool;
-
-
 }
