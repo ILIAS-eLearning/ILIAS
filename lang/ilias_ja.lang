@@ -191,7 +191,7 @@ administration#:#language_merge_local_changes_info#:#全てのローカル変更
 administration#:#language_merged_global#:#ローカル変更はグローバル言語ファイルへ統合されました。
 administration#:#language_mode_existing#:#既存のエントリー
 administration#:#language_mode_existing_delete#:#既存エントリーを削除
-administration#:#language_mode_existing_delete_info#:#ファイルをインポートする前にデータベースのエントリーを削除します。<br /> WARNING: インポートされる言語ファイルは完了しそうでないものは未定義の言語変数になります。そのような場合は"保守"タブに切り替えて"データベースのローカル変更をクリヤ"を選択します。
+administration#:#language_mode_existing_delete_info#:#ファイルをインポートする前にデータベースのエントリーを削除します。<br /> WARNING: インポートされる言語ファイルを完了しますが未定義の言語変数が発生します。そのような場合は"保守"タブに切り替えて"データベースのローカル変更をクリヤ"を選択します。
 administration#:#language_mode_existing_keepall#:#全ての既存エントリーを保持
 administration#:#language_mode_existing_keepall_info#:#データベースにまだ存在しない新しいエントリーのみをインポートする。
 administration#:#language_mode_existing_keepnew#:#全ての変更を保持
@@ -218,9 +218,9 @@ administration#:#language_scope_equal#:#比較言語と一致
 administration#:#language_scope_global#:#全てのエントリー
 administration#:#language_scope_global_info#:#この言語の全てのデータベースエントリーをエクスポートします。これはバックアップ目的で利用できます。
 administration#:#language_scope_local#:#ローカル変更のみ
-administration#:#language_scope_local_info#:#データベース内へ追加または変更された全てのエントリーをエクスポートします。これは"保守"タブの言語ファイルの保存と類似しています。
+administration#:#language_scope_local_info#:#データベース内のローカルに追加または変更された全てのエントリーをエクスポートします。
 administration#:#language_scope_merged#:#ローカル変更をグローバル言語ファイルへ統合しました
-administration#:#language_scope_merged_info#:#モジュールと識別子でアルファベット順にマージされた全てのローカル変更の標準ILIAS言語ファイルをエクスポートします。ILIAS SVNサーバのグローバル言語更新に使用することができます。
+administration#:#language_scope_merged_info#:#モジュールと識別子でアルファベット順にマージされた全てのローカル変更の標準ILIAS言語ファイルをエクスポートします。ILIAS gitリポジトリ上の標準言語更新に使用することができます。
 administration#:#language_scope_unchanged#:#未変更のエントリーのみ
 administration#:#language_scope_unchanged_info#:#データベース内の変更されていない全ての既定の言語をエクスポートします。"ローカル変更のみ"と逆です。両者共にデータベース内の現在の言語の完全なバックアップです。
 administration#:#language_settings#:#言語設定
@@ -852,13 +852,13 @@ assessment#:#part_received_a_of_b_points#:#受験者は%s中の%s得点しまし
 assessment#:#participants#:#受験者
 assessment#:#participants_invitation#:#手動選択受験者
 assessment#:#participants_invitation_description#:#このテストは"受験者"タブで手動追加したユーザのみアクセスする事ができます。
-assessment#:#pass#:#合格
-assessment#:#pass_finished#:#%s合格
+assessment#:#pass#:#回数
+assessment#:#pass_finished#:#%s 回終了
 assessment#:#passed_official#:#合格です
 assessment#:#passed_only#:#テストのみ合格です
 assessment#:#passed_short#:#合格
 assessment#:#passed_status#:#受験状況
-assessment#:#passes_finished#:#合格数%s
+assessment#:#passes_finished#:#%s 回終了
 assessment#:#percentage#:#パーセント
 assessment#:#percentile#:#パーセンタイル(百分位数)
 assessment#:#picture#:#図
@@ -921,6 +921,8 @@ assessment#:#qpl_lac_legend_label_operators#:#オペレーター
 assessment#:#qpl_maxchars_info_numeric_question#:#値を入力すると数字解答用のフィールドがこの値の固定長で作成されますので許容文字数以上の入力はできなくなります。数字穴埋め用には十進数セパレーターが通常の文字としてカウントされることに注意願います。
 assessment#:#qpl_move_insert_clipboard#:#選択した問題は移動用としてマークされています
 assessment#:#qpl_move_select_none#:#移動するには最低一つ問題にチェックしてください
+assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#下限値は上限値以下の有効数値にする必要があります。
+assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#上限値は下限値以上の有効数値にする必要があります。
 assessment#:#qpl_paste_error#:#問題集の中に問題が一つも貼り付けられていない可能性があります。考えられる原因: 同じ問題集へ問題を移動しようとしていた。
 assessment#:#qpl_paste_no_objects#:#クリップボードに問題がありません。クリップボードに問題をコピーまたは移動してください。
 assessment#:#qpl_paste_success#:#問題は問題集に貼り付けられました
@@ -1164,7 +1166,7 @@ assessment#:#tst_answer_details#:#解答詳細
 assessment#:#tst_answer_status_answered#:#回答済み
 assessment#:#tst_answer_status_editing#:# (編集中 ... )
 assessment#:#tst_answer_status_not_answered#:#未回答
-assessment#:#tst_answered_questions#:#回答問題
+assessment#:#tst_answered_questions#:#回答した問題数
 assessment#:#tst_answered_questions_test#:#このテストへの解答結果
 assessment#:#tst_attached_xls_file#:#添付のExcelファイルにこの受験者のテスト結果があります。
 assessment#:#tst_attempt#:#試み
@@ -1226,9 +1228,9 @@ assessment#:#tst_edit_scoring#:#点数を編集
 assessment#:#tst_ending_time#:#終了時間
 assessment#:#tst_ending_time_desc#:#テスト終了時点の点数: 受験者はこれ以降回答できません、ILIASはテストを終了します。
 assessment#:#tst_enter_questionpool#:#新規問題の保存場所の問題集名
-assessment#:#tst_eval_question_points#:#完了%sの答案結果
-assessment#:#tst_eval_results_by_pass#:#完了%sの答案一覧
-assessment#:#tst_eval_results_by_pass_lo#:#試み%sの回答リスト
+assessment#:#tst_eval_question_points#:#%s 回目の問題結果
+assessment#:#tst_eval_results_by_pass#:#%s 回目の解答一覧
+assessment#:#tst_eval_results_by_pass_lo#:#%s 回目の解答リスト
 assessment#:#tst_eval_results_lo#:#回答リスト
 assessment#:#tst_eval_show_answer#:#答案を表示
 assessment#:#tst_eval_total_finished#:#終了テスト数合計 (全問解答したと思われる者)
@@ -1424,7 +1426,7 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#次のテストには�
 assessment#:#tst_nr_of_passes#:#試験数
 assessment#:#tst_nr_of_tries#:#最大受験回数
 assessment#:#tst_nr_of_tries_desc#:#受験者が可能な最大受験回数
-assessment#:#tst_nr_of_tries_of_user#:#完了している合格
+assessment#:#tst_nr_of_tries_of_user#:#完了回数
 assessment#:#tst_num_all_questions#:#全問題数
 assessment#:#tst_num_correct_answered_questions#:#正解問題
 assessment#:#tst_num_non_answered_questions_notseen#:#まだ未表示です。
@@ -1585,7 +1587,7 @@ assessment#:#tst_reset_processing_time_desc#:#受験時間はテストごとに�
 assessment#:#tst_result#:#テスト結果
 assessment#:#tst_result_pass#:#テスト合格結果
 assessment#:#tst_result_user_name#:#%sのテスト結果
-assessment#:#tst_result_user_name_pass#:#%s中%sの受験結果
+assessment#:#tst_result_user_name_pass#:#%s 回中の%s 回目のテスト結果
 assessment#:#tst_results#:#テスト結果
 assessment#:#tst_results_access_always#:#すぐに
 assessment#:#tst_results_access_always_desc#:#受験者は受験開始後とテスト受験中はすぐに"Info"タブの結果へアクセスできます。さらにテスト終了後すぐにILIASはテスト結果を表示します。
@@ -1630,8 +1632,8 @@ assessment#:#tst_score_cut_test_desc#:#受験者は負の点数になるかも�
 assessment#:#tst_score_cutting#:#負の点数
 assessment#:#tst_score_mcmr_questions#:#未解答の多肢選択問題
 assessment#:#tst_score_mcmr_use_scoring_system#:#定義問題の未解答問題得点
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#多肢選択問題が未解答にもかかわらず問題で定義された回答オプションを選択または未選択のものを採点します。この設定ごく限られた場合にのみ適用します。
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#未チェック問題を0点で採点
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#追加オプション”いずれにも該当しない"は空欄の解答採点を可能にします。未チェックオプションは問題で定義した採点を行います。この設定は現状のテストにのみ適用されますが次のILIASバージョンでは廃止されます。
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#空欄解答を保存しない fau: testNav
 assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#受験者の採点はどの解答オプションにもチェックしていない多肢選択問題を0点で採点します。この設定は大部分のテストへ適用されます。
 assessment#:#tst_score_reporting#:#採点報告
 assessment#:#tst_score_reporting_date#:#採点報告日
@@ -2283,7 +2285,7 @@ buddysystem#:#buddy_view_gallery#:#ギャラリー
 buddysystem#:#buddy_view_table#:#リスト
 cat#:#cat_copy#:#カテゴリをコピー
 cat#:#cat_import#:#カテゴリをインポート
-cat#:#cat_more_translations#:#翻訳継続
+cat#:#cat_more_translations#:#続けて翻訳
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
@@ -2434,6 +2436,7 @@ chatroom#:#chat_osc_conversations#:#会話
 chatroom#:#chat_osc_doesnt_accept_msg#:#会話不可能
 chatroom#:#chat_osc_dont_accept_msg#:#会話へ招待できません。変更するには<a href="%s">'Personal Settings'</a>.
 chatroom#:#chat_osc_emoticons#:#顔文字
+chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#会話へ追加
 chatroom#:#chat_osc_leave_grp_conv#:#会話を外れる
 chatroom#:#chat_osc_no_conv#:#会話がありません
@@ -2790,7 +2793,7 @@ common#:#advanced_editing_rep_page_editing_desc#:#text/mediaをカテゴリ、�
 common#:#advanced_editing_required_tags#:#次のHTMLタグは必須:%s
 common#:#advanced_editing_survey_settings#:#ILIAS調査ツール用の許可されたHTMLタグ
 common#:#adve_assessment_settings#:#テストとアセスメント設定
-common#:#adve_frm_post_settings#:#フォーラム投稿
+common#:#adve_frm_post_settings#:#掲示板投稿
 common#:#adve_general_settings#:#全体設定
 common#:#adve_survey_settings#:#サーベイ設定
 common#:#agree_date#:#Agreed on
@@ -3100,9 +3103,9 @@ common#:#create_date#:#作成日
 common#:#create_export_file#:#エクスポートファイルを作成
 common#:#create_stylesheet#:#作成スタイル
 common#:#created#:#作成日
-common#:#cron_forum_notification#:#フォーラム通知を送る
+common#:#cron_forum_notification#:#掲示板通知を送る
 common#:#cron_forum_notification_crob_desc#:#有効にすると掲示板通知を有効にしている全てのユーザは不急に関わらず各投稿に対して新規投稿の全メール通知を毎日受領します。
-common#:#cron_forum_notification_desc#:#有効にすると、特定のフォーラムトピックスの新規投稿を知りたがっている全ユーザへメール通知されます。
+common#:#cron_forum_notification_desc#:#有効にすると、特定の掲示板スレッド新規投稿を知りたがっている全ユーザへメール通知されます。
 common#:#cron_jobs#:#Cronジョブ
 common#:#cron_lucene_index#:#ライセンス検索インデックスを更新
 common#:#cron_lucene_index_info#:#有効にすると、ライセンス検索インデックスが更新されます。ライセンスサーバーを '管理 -> 検索'.から設定してください。
@@ -3220,7 +3223,7 @@ common#:#disk_quota_is_unlimited_by_1#:#有効ディスク クォータはメン
 common#:#disk_quota_last_reminder_sent#:#クォータ 警告の最終送付
 common#:#disk_quota_last_reminder_sent_desc#:#ディスク クォータ を超えた警告メールをユーザが最後に受領した日付です。
 common#:#disk_quota_on_role_desc#:#役割で指定されたディスク クォータ は、この役割に割り当てられるすべてのユーザアカウントに影響します。
-common#:#disk_quota_reminder_mail#:#注意メール
+common#:#disk_quota_reminder_mail#:#注意喚起メール
 common#:#disk_quota_reminder_mail_desc#:#ディスク クォータ 警告メールは、ディスク クォータ を超えたアクティグユーザへ送られます。このｅｍａｉｌは毎日ILIAS cronジョブが稼働する時にユーザへ毎日送信されます。既に警告メールを受領したユーザもディスク クォータ を超えている限りは７日毎に受信します。
 common#:#disk_quota_report#:#ディスク クォータ レポート
 common#:#disk_quota_report_not_run_yet#:#ディスク クォータ レポートは利用できません。ディスク使用状況を決定する日々のcronジョブは最初に実行される必要があります。
@@ -3267,7 +3270,7 @@ common#:#enable_course_group_notifications#:#グループとコースニュー�
 common#:#enable_course_group_notifications_desc#:#有効にすると受講者は毎日のニュースサマリーを購読できます。
 common#:#enable_custom_icons#:#カスタムアイコンを有効
 common#:#enable_custom_icons_info#:#シングルのカテゴリ、コースやグループ用のカスタムアイコンを定義できます。カテゴリ、コースやグループのプロパティセクションがイメージアップロードダイアログで提供されます。
-common#:#enable_disk_quota_reminder_mail#:#ディスク クォータ 注意メールを送る
+common#:#enable_disk_quota_reminder_mail#:#ディスク クォータ 注意喚起メールを送る
 common#:#enable_disk_quota_summary_mail#:#ディスククォータサマリーを送信
 common#:#enable_disk_quota_summary_mail_desc#:#ディスククォータのサマリーはディスククォータを超えたすべてのユーザへの毎日の通知が含まれます
 common#:#enable_dnd_upload#:#ドラッグアンドドロップアップロードを有効にする
@@ -3275,8 +3278,8 @@ common#:#enable_dnd_upload_info#:#有効にするとローカルコンピュー�
 common#:#enable_download_folder#:#ダウンロード用のフォルダを有効
 common#:#enable_download_folder_info#:#zipファイル形式でサブ構造を含むフォルダのダウンロードを許可
 common#:#enable_export_scorm_desc#:#SCORMラーニングモジュールのユーザデータのエクスポートを許可
-common#:#enable_fora_statistics#:#フォーラムの統計を有効にする
-common#:#enable_fora_statistics_desc#:#無効にするとフォーラム統計へ誰もアクセスできなくなります。
+common#:#enable_fora_statistics#:#掲示板の統計を有効にする
+common#:#enable_fora_statistics_desc#:#無効にすると掲示板統計へ誰もアクセスできなくなります。
 common#:#enable_hide_user_toggle#:#メンバーは利用解除できません
 common#:#enable_hist_user_comments#:#履歴のユーザコメントを可能にする
 common#:#enable_hist_user_comments_desc#:#著者へページのログ履歴へコメント追加の機会を提供する。
@@ -3448,30 +3451,30 @@ common#:#force_accept_usr_agreement#:#利用条件を承諾する必要があり
 common#:#forgot_password#:#パスワードを忘れた場合は?
 common#:#forgot_username#:#ユーザIDを忘れた場合は?
 common#:#form_input_not_valid#:#データの一部が未入力もしくは間違っています。フォーム入力を訂正してください。
-common#:#forum#:#フォーラム
+common#:#forum#:#掲示板
 common#:#forum_direct_notification#:#直接通知
 common#:#forum_notify_me#:#返信が投稿されたら通知する
-common#:#forum_post_replied#:#フォーラムのエントリーが返信されました。
-common#:#forums#:#フォーラム
-common#:#forums_anonymized#:#匿名化フォーラム
+common#:#forum_post_replied#:#掲示板のエントリーが返信されました。
+common#:#forums#:#掲示板
+common#:#forums_anonymized#:#掲示板を匿名化
 common#:#forums_anonymous#:#匿名者
 common#:#forums_articles#:#記事
-common#:#forums_disable_forum_notification#:#このフォーラムの通知を無効
-common#:#forums_enable_forum_notification#:#このフォーラムの通知を有効
-common#:#forums_forum_notification_enabled#:#このフォーラムへの新規メッセージが通知されます。
+common#:#forums_disable_forum_notification#:#この掲示板の通知を無効
+common#:#forums_enable_forum_notification#:#この掲示板の通知を有効
+common#:#forums_forum_notification_enabled#:#この掲示板への新規メッセージが通知されます。
 common#:#forums_last_post#:#最新記事
 common#:#forums_new_articles#:#新規記事
-common#:#forums_notification_settings#:#フォーラム通知設定
-common#:#forums_threads#:#トピックス
+common#:#forums_notification_settings#:#掲示板通知設定
+common#:#forums_threads#:#スレッド
 common#:#forums_use_alias#:#投稿にペンネームを使う事ができます。この欄を空欄にすると投稿は'匿名者'と記入されます。
 common#:#forums_your_name#:#名前
-common#:#frm#:#フォーラム
-common#:#frm_add#:#フォーラムを追加
-common#:#frm_added#:#フォーラムの追加
-common#:#frm_edit#:#フォーラムを編集
+common#:#frm#:#掲示板
+common#:#frm_add#:#掲示板を追加
+common#:#frm_added#:#掲示板を追加しました
+common#:#frm_edit#:#掲示板を編集
 common#:#frm_import#:#掲示板をインポート
 common#:#frm_latest_postings#:#最新記事
-common#:#frm_new#:#新規フォーラム
+common#:#frm_new#:#新規掲示板
 common#:#frm_statistics_ranking#:#ランキング
 common#:#from#:#From
 common#:#fullname#:#フルネーム
@@ -3734,7 +3737,7 @@ common#:#last_change#:#最終変更
 common#:#last_edited_on#:#最終編集
 common#:#last_login#:#前回ログイン
 common#:#last_refresh#:#前回リフレッシュ
-common#:#last_reminder#:#前回リマインダー
+common#:#last_reminder#:#前回注意喚起
 common#:#last_update#:#前回更新
 common#:#last_visited#:#前回訪問
 common#:#lastname#:#姓
@@ -4006,6 +4009,7 @@ common#:#msg_unit_is_required#:#単位にはこの入力が必須です。正し
 common#:#msg_user_last_role1#:#次のユーザはこの役割のみに割当てられます
 common#:#msg_user_last_role2#:#ユーザを削除するかこの役割を削除するために別の役割へ割当ててください。
 common#:#msg_userassignment_changed#:#ユーザ割り当ての変更
+common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#msg_wrong_format#:#入力した値は有効形式ではありません。
 common#:#my_bms#:#ブックマーク
 common#:#my_contacts#:#マイコンタクト
@@ -4118,8 +4122,8 @@ common#:#obj_file_duplicate#:#重複ファイル
 common#:#obj_file_inline#:#ラーニングモジュール ファイル
 common#:#obj_fold#:#フォルダ
 common#:#obj_fold_duplicate#:#フォルダをコピー
-common#:#obj_frm#:#フォーラム
-common#:#obj_frm_duplicate#:#フォーラムをコピー
+common#:#obj_frm#:#掲示板
+common#:#obj_frm_duplicate#:#掲示板をコピー
 common#:#obj_frma#:#掲示板
 common#:#obj_frma_desc#:#グローバル掲示板設定
 common#:#obj_glo#:#用語集
@@ -4284,7 +4288,7 @@ common#:#objs_exc#:#演習問題
 common#:#objs_feed#:#Webフィード
 common#:#objs_file#:#ファイル
 common#:#objs_fold#:#フォルダ
-common#:#objs_frm#:#フォーラム
+common#:#objs_frm#:#掲示板
 common#:#objs_glo#:#用語集
 common#:#objs_grp#:#グループ
 common#:#objs_grpr#:#Group References
@@ -4356,6 +4360,7 @@ common#:#page_layouts#:#ページレイアウト
 common#:#pages#:#ページ
 common#:#parameter#:#パラメーター
 common#:#parse#:#文関係説明
+common#:#participate#:#申込み
 common#:#passed#:#Passed(通過)
 common#:#passwd#:#パスワード
 common#:#passwd_generation#:#パスワード生成
@@ -4523,7 +4528,7 @@ common#:#reg_mail_body_forgot_password_info#:#パスワードを入手するに�
 common#:#reg_mail_body_salutation#:#こんにちは
 common#:#reg_mail_body_text1#:#学習管理システムILIASのご利用ありがとうございます。
 common#:#reg_mail_body_text2#:#LIASへアクセスするには次のURIを使用します:
-common#:#reg_mail_body_text3#:#詳細情報
+common#:#reg_mail_body_text3#:#個人情報の詳細:
 common#:#reg_mail_subject#:#ILIAS eLearning - アクセス情報
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - リンク 確認用
 common#:#reg_passwd_via_mail#:#パスワードは以下のemailアドレスへ送信されます。
@@ -4616,6 +4621,7 @@ common#:#sahs_insert_sco_from_clip#:#クリップボードのSCOを貼付ける
 common#:#salutation#:#挨拶
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
+common#:#salutation_n#:#未適用
 common#:#saml_log_in#:#ダイレクトログイン
 common#:#saml_login_form_info_txt#:#ユーザ名やパスワードの入力なしでダイレクトログインボタン使ってログインすることができます。
 common#:#saml_login_form_txt#:#SAML経由でILIASへログインする
@@ -4668,6 +4674,7 @@ common#:#select_files_from_computer#:#コンピュータのファイルを選択
 common#:#select_max_one_item#:#アイテムを一つだけ選択してください
 common#:#select_object_to_link#:#リンクしたいオブジェクトを選択してください
 common#:#select_one#:#一つ選択してください。
+common#:#select_question_pool_info#:#インポートファイルが問題を含む以上は、それらの問題が選択の問題集ヘ同様にインポートされます。
 common#:#select_questionpool#:#問題を挿入
 common#:#selected#:#選択
 common#:#selected_files#:#ファイルを選択
@@ -4917,11 +4924,12 @@ common#:#ums_explanation_2#:#これがアカウントではない場合は、'�
 common#:#ums_explanation_3#:#外部アカウントはILIASアカウントへマップできなかった可能性がありますが、ILIASには複数のアカウントのemailアドレスがありました。その中の一つでもあなたのアカウントであればILIASのパスワードでログインしてください。
 common#:#ums_explanation_4#:#どれもあなたのアカウントではない場合は'新規アカウントを作成'を押してください。
 common#:#unambiguousness#:#識別マーク
-common#:#uncheck_all#:#全てを未チェック
+common#:#uncheck_all#:#すべてをチェックしない
 common#:#unchecked#:#全てをチェック済
 common#:#uninstall#:#アンインストール
 common#:#uninstalled#:#アンインストール済
 common#:#unknown#:#不明
+common#:#unparticipate#:#加入取り消し
 common#:#unread#:#未読
 common#:#unsubscribe#:#デスクトップから削除
 common#:#unzip#:#Unzip
@@ -5046,6 +5054,7 @@ common#:#visitors#:#ビジター
 common#:#visits#:#訪問
 common#:#web_resources#:#Webリンク
 common#:#webdav#:#WebDAV
+common#:#webdav_additional_information#:#WindowsエクスプローラはWebDAV接続で追加できることを確認するにはインストール手順を読む<a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"
 common#:#webdav_pwd_instruction#:#Webフォルダ用のリポジトリを開くためのローカルパスワードの作成をお勧めします。<br />パスワードはWebフォルダ機能の利用に必要です。
 common#:#webdav_pwd_instruction_success#:#新しいローカルパスワードが作成されました。Webフォルダのリポジトリを開くことができます。
 common#:#webfolder_dir_info#:#ブラウザがWebフォルダを開く事ができません。<a href="%1$s">Webフォルダを開くに関する説明</a>を読んでください。
@@ -5151,6 +5160,7 @@ content#:#cont_add_file#:#ファイルを追加
 content#:#cont_add_images#:#画像を追加
 content#:#cont_add_popup#:#ポップアップを追加
 content#:#cont_add_tab#:#パネルを追加
+content#:#cont_added_cell#:#列が追加されました
 content#:#cont_added_comment#:#コメントが履歴に追加されました。
 content#:#cont_added_tab#:#パネルを追加しました。
 content#:#cont_added_term#:#用語を追加しました
@@ -5199,9 +5209,9 @@ content#:#cont_bottom#:#下
 content#:#cont_bullet_list#:#箇条書き
 content#:#cont_cach_mode#:#モード
 content#:#cont_cach_mode_automatic#:#自動
-content#:#cont_cach_mode_automatic_info#:#全ての相談時間が公表されます
+content#:#cont_cach_mode_automatic_info#:#全ての会議時間が公表されます
 content#:#cont_cach_mode_manual#:#手動
-content#:#cont_cach_mode_manual_info#:#次のグループの相談時間のみ公表されます。
+content#:#cont_cach_mode_manual_info#:#次のグループの会議時間のみ公表されます。
 content#:#cont_cant_copy_folders#:#フォルダはクリップボードへコピーできません。
 content#:#cont_cant_del_full#:#全画面の削除は不可能です。
 content#:#cont_cant_del_std#:#標準ビューファイルの削除は不可能です。
@@ -5362,7 +5372,7 @@ content#:#cont_ed_insert_amd_page_list#:#ページリストを挿入
 content#:#cont_ed_insert_atable#:#詳細表を挿入
 content#:#cont_ed_insert_blog#:#ブログを挿入
 content#:#cont_ed_insert_code#:#コードを挿入
-content#:#cont_ed_insert_consultation_hours#:#相談時間を挿入
+content#:#cont_ed_insert_consultation_hours#:#会議時間を挿入
 content#:#cont_ed_insert_dtable#:#データ表を挿入
 content#:#cont_ed_insert_filelist#:#ファイルリストを挿入
 content#:#cont_ed_insert_grid#:#列レイアウトを挿入
@@ -5533,7 +5543,7 @@ content#:#cont_insert_as_subchapter#:#サブチャプターとして挿入
 content#:#cont_insert_blog#:#ブログを追加
 content#:#cont_insert_chapter#:#章を挿入
 content#:#cont_insert_chapter_from_clip#:#クリップボードから章を貼付け
-content#:#cont_insert_consultation_hours#:#相談時間を挿入
+content#:#cont_insert_consultation_hours#:#会議時間を挿入
 content#:#cont_insert_file_item#:#ファイル アイテムを挿入
 content#:#cont_insert_file_list#:#ファイルリストを挿入
 content#:#cont_insert_list#:#詳細リストを挿入
@@ -5665,7 +5675,7 @@ content#:#cont_mob_from_media_pool#:#メディア集から選択する
 content#:#cont_mob_inst_prop#:#実体のプロパティ
 content#:#cont_mob_usages#:#使用
 content#:#cont_more_character_styles#:#…他の文字スタイル
-content#:#cont_more_functions#:#詳細
+content#:#cont_more_functions#:#続けて読む
 content#:#cont_moved_srt_files#:#サブタイトルファイルをメディアオブジェクトへ移動しました。
 content#:#cont_multi_srt_files#:#SRTファイル
 content#:#cont_mycourses_sortorder#:#既定の並び替え
@@ -6069,7 +6079,7 @@ content#:#cont_unlock_allow_continue#:#解除/継続許可
 content#:#cont_unlocked#:#未指示
 content#:#cont_update_amd_page_list#:#ページリストを編集
 content#:#cont_update_blog#:#投稿ブログを編集
-content#:#cont_update_consultation_hours#:#相談時間を編集
+content#:#cont_update_consultation_hours#:#会議時間を編集
 content#:#cont_update_login_page#:#ログインページ要素を編集
 content#:#cont_update_map#:#マップを編集
 content#:#cont_update_my_courses#:#マイコースを編集
@@ -6674,7 +6684,7 @@ crs#:#crs_status_determination_lp_info#:#学習進捗を"完了"にするとコ�
 crs#:#crs_status_determination_manual#:#個別学習進捗
 crs#:#crs_status_determination_sync#:#全メンバの学習進捗の入った合格状況をすぐに同期する
 crs#:#crs_structure#:#コース構造
-crs#:#crs_subject_course_group_notification#:#%sの一日のメール
+crs#:#crs_subject_course_group_notification#:#%sの日刊メール
 crs#:#crs_subscribe_member#:#コース "%s" の登録
 crs#:#crs_subscribe_member_body#:#コース "%s"への登録が確認された事をご案内します。
 crs#:#crs_subscribe_wl#:#コース "%s"の登録
@@ -6811,6 +6821,7 @@ crs#:#event_user_selection_include_waiting_list#:#待ちリストの全てのユ
 crs#:#events#:#セッション
 crs#:#export_members#:#受講者をエクスポート
 crs#:#grouping_change_assignment#:#割当て変更
+crs#:#grp_grp_already_assigned#:#すでにグループのグループ化メンバーです。
 crs#:#mem_cron_min_members_intro#:#次のコースとグループは(まだ)最小メンバー数に達していません。
 crs#:#mem_cron_min_members_reason#:#メンバータブ内の通知をアクティブにしているのでこのメッセージを受領します。
 crs#:#mem_cron_min_members_subject#:#コース/グループ: 最小メンバ数ーチェック
@@ -6846,7 +6857,7 @@ crs#:#user_fields#:#ユーザ欄
 crsv#:#crsv_create#:#コース証明書を作成
 crsv#:#crsv_create_info#:#証明書を作成するには完了済みコースを選択
 dateplaner#:#add_appointment#:#予定を追加
-dateplaner#:#app_consultation_hours#:#相談時間
+dateplaner#:#app_consultation_hours#:#会議時間
 dateplaner#:#app_day#:#1日表示
 dateplaner#:#app_month#:#月表示
 dateplaner#:#app_week#:#週表示
@@ -6860,7 +6871,7 @@ dateplaner#:#cal_add_category#:#新規カレンダーを作成
 dateplaner#:#cal_add_milestone#:#マイルストーンを追加
 dateplaner#:#cal_adm_notification_info#:#選択するとコースとグループ受講者へ予定変更に関するメール通知を行います。
 dateplaner#:#cal_adm_notification_user_info#:#選択したユーザへオプションのメール通知を送るにはこのオプションを選択。
-dateplaner#:#cal_agenda#:#議題
+dateplaner#:#cal_agenda#:#予定表
 dateplaner#:#cal_all_day#:#終日
 dateplaner#:#cal_app_info#:#アポイントインフォメーション
 dateplaner#:#cal_appointments#:#予定(複数)
@@ -6903,11 +6914,11 @@ dateplaner#:#cal_category_selection#:#カレンダー選択
 dateplaner#:#cal_cg_notification#:#コース・グループ通知
 dateplaner#:#cal_cg_registration_info#:#コースとグループ予定のユーザ登録が可能になります。
 dateplaner#:#cal_cg_registrations#:#コースとグループ予定用登録
-dateplaner#:#cal_ch_add_grp#:#新しい相談時間グループを作成
-dateplaner#:#cal_ch_add_sequence#:#相談時間の追加
+dateplaner#:#cal_ch_add_grp#:#新しい会議時間グループを作成
+dateplaner#:#cal_ch_add_sequence#:#会議時間の追加
 dateplaner#:#cal_ch_app_bookings#:#予約
-dateplaner#:#cal_ch_app_grp#:#相談時間グループ
-dateplaner#:#cal_ch_app_list#:#相談時間予約
+dateplaner#:#cal_ch_app_grp#:#会議時間グループ
+dateplaner#:#cal_ch_app_list#:#会議時間予約
 dateplaner#:#cal_ch_assign_participants#:#ユーザを割り当て
 dateplaner#:#cal_ch_assigned_apps#:#予約数
 dateplaner#:#cal_ch_book#:#予定を予約します
@@ -6915,17 +6926,17 @@ dateplaner#:#cal_ch_booking#:#予約のリソース
 dateplaner#:#cal_ch_booking_message_tbl#:#コメント
 dateplaner#:#cal_ch_booking_owner#:#オーナー
 dateplaner#:#cal_ch_booking_reminder_body#:#%sの予約まもなく開始します。
-dateplaner#:#cal_ch_booking_reminder_subject#:#%sの催促
+dateplaner#:#cal_ch_booking_reminder_subject#:#%sの注意喚起
 dateplaner#:#cal_ch_bookings#:#参加者
 dateplaner#:#cal_ch_bookings_tbl#:#予約済み日程
 dateplaner#:#cal_ch_cancel_booking#:#予約をキャンセルします
 dateplaner#:#cal_ch_cancel_booking_info#:#予約キャンセルするとユーザへメール通知を送ります。ユーザ通知をしたくない場合は"予約削除"オプションを選択します。
 dateplaner#:#cal_ch_cancel_booking_sure#:#本当に次の予約をキャンセルしますか?
 dateplaner#:#cal_ch_canceled_bookings#:#選択された予約は削除されました。
-dateplaner#:#cal_ch_ch#:#相談時間
-dateplaner#:#cal_ch_cron_reminder#:#相談時間催促を送信
+dateplaner#:#cal_ch_ch#:#会議時間
+dateplaner#:#cal_ch_cron_reminder#:#会議時間注意喚起を送信
 dateplaner#:#cal_ch_cron_reminder_days#:#日数
-dateplaner#:#cal_ch_cron_reminder_info#:#有効にすると予定されている相談時間イベントに関するメール通知が送信されます。
+dateplaner#:#cal_ch_cron_reminder_info#:#有効にすると予定されている会議時間イベントに関する注意喚起メールが送信されます。
 dateplaner#:#cal_ch_current_bookings#:#現在の予約
 dateplaner#:#cal_ch_deadline#:#最新登録
 dateplaner#:#cal_ch_deadline_info#:#登録がブロックされるまでの時間を設定してください。
@@ -6936,28 +6947,28 @@ dateplaner#:#cal_ch_delete_booking_sure#:#本当に次の予約を削除しま�
 dateplaner#:#cal_ch_deleted_bookings#:#選択された予約はキャンセルされました。
 dateplaner#:#cal_ch_duration#:#各所要時間
 dateplaner#:#cal_ch_export_apps#:#予約済みの日程
-dateplaner#:#cal_ch_field_ch#:#相談時間日程
-dateplaner#:#cal_ch_form#:#相談時間をオンにする
-dateplaner#:#cal_ch_form_header#:#相談時間
-dateplaner#:#cal_ch_form_info#:#オンにすると個人相談時間がカレンダーで管理されます。
-dateplaner#:#cal_ch_grp_add_tbl#:#新規相談時間グループを作成
-dateplaner#:#cal_ch_grp_delete_sure#:#本当に次の相談時間グループを削除しますか?
-dateplaner#:#cal_ch_grp_header#:#相談時間グループ
+dateplaner#:#cal_ch_field_ch#:#会議時間日程
+dateplaner#:#cal_ch_form#:#会議時間をオンにする
+dateplaner#:#cal_ch_form_header#:#会議時間
+dateplaner#:#cal_ch_form_info#:#オンにするとパーソナル会議時間がカレンダーで管理されます。
+dateplaner#:#cal_ch_grp_add_tbl#:#新規会議時間グループを作成
+dateplaner#:#cal_ch_grp_delete_sure#:#本当に次の会議時間グループを削除しますか?
+dateplaner#:#cal_ch_grp_header#:#会議時間グループ
 dateplaner#:#cal_ch_grp_multiple#:#ユーザ当たりの予約
 dateplaner#:#cal_ch_grp_multiple_info#:#ユーザ当たりの最大予約数を定義できます。
 dateplaner#:#cal_ch_grp_no_assignment#:#-- 割り当てがありません --
-dateplaner#:#cal_ch_grp_selection#:#相談時間グループの割り当て
-dateplaner#:#cal_ch_grp_update_tbl#:#相談時間グループを編集
-dateplaner#:#cal_ch_grps#:#相談時間グループ
-dateplaner#:#cal_ch_manager#:#相談時間管理者
-dateplaner#:#cal_ch_manager_info#:#相談時間を管理するユーザのログインです。
+dateplaner#:#cal_ch_grp_selection#:#会議時間グループの割り当て
+dateplaner#:#cal_ch_grp_update_tbl#:#会議時間グループを編集
+dateplaner#:#cal_ch_grps#:#会議時間グループ
+dateplaner#:#cal_ch_manager#:#会議時間管理者
+dateplaner#:#cal_ch_manager_info#:#会議時間を管理するユーザのログインです。
 dateplaner#:#cal_ch_max_books#:#ユーザ当たりの予約
 dateplaner#:#cal_ch_multi_edit_sequence#:#複数の予定を編集します
 dateplaner#:#cal_ch_num_appointments#:#予定回数
 dateplaner#:#cal_ch_num_appointments_info#:#繰返し予定数を設定してください。
 dateplaner#:#cal_ch_num_bookings#:#予定に対する予約
-dateplaner#:#cal_ch_personal_book#:#個人予約
-dateplaner#:#cal_ch_personal_ch#:#個人相談時間
+dateplaner#:#cal_ch_personal_book#:#パーソナル予約
+dateplaner#:#cal_ch_personal_ch#:#パーソナル会議時間
 dateplaner#:#cal_ch_reject_booking#:#予約をキャンセル
 dateplaner#:#cal_ch_target_object#:#リポジトリオブジェクト
 dateplaner#:#cal_ch_target_object_info#:#既知のリポジトリオブジェクトに対する予定登録を制限します。
@@ -6970,8 +6981,8 @@ dateplaner#:#cal_confirm_booking#:#予約を確認します
 dateplaner#:#cal_confirm_booking_info#:#この予定の予約を確認してください。
 dateplaner#:#cal_confirm_reg_info#:#予定の登録を確認してください。
 dateplaner#:#cal_confirm_unreg_info#:#登録のキャンセルを確認してください。
-dateplaner#:#cal_consultation_hours_for#:#相談時間
-dateplaner#:#cal_consultation_hours_for_user#:#%1の相談時間
+dateplaner#:#cal_consultation_hours_for#:#会議時間
+dateplaner#:#cal_consultation_hours_for_user#:#%1の会議時間
 dateplaner#:#cal_contained_in#:#包含
 dateplaner#:#cal_create#:#作成
 dateplaner#:#cal_created_appointment#:#新規予定を作成しました。
@@ -7043,7 +7054,7 @@ dateplaner#:#cal_fullday#:#日付/時間
 dateplaner#:#cal_fullday_title#:#終日イベント
 dateplaner#:#cal_global_settings#:#グローバル設定
 dateplaner#:#cal_grp_curr_crs#:#現在のコース
-dateplaner#:#cal_grp_curr_crs_cons#:#相談時間
+dateplaner#:#cal_grp_curr_crs_cons#:#会議時間
 dateplaner#:#cal_grp_curr_grp#:#現在のグループ
 dateplaner#:#cal_grp_info#:#グループ情報
 dateplaner#:#cal_grp_new_notification_body#:#グループ"%s"へ新しい予定が作成されました。
@@ -7205,7 +7216,7 @@ dateplaner#:#last_change#:#最終変更
 dateplaner#:#Mo_long#:#月曜日
 dateplaner#:#Mo_short#:#月
 dateplaner#:#month#:#月
-dateplaner#:#more#:#さらに
+dateplaner#:#more#:#続きを読む
 dateplaner#:#of#:#of
 dateplaner#:#properties#:#プロパティ
 dateplaner#:#r_14#:#14日ごと
@@ -7348,6 +7359,7 @@ dcl#:#dcl_limited#:#追加・編集・削除限定期間
 dcl#:#dcl_limited_desc#:#ユーザは指定する期間内に限りエントリーを編集できます。
 dcl#:#dcl_link_detail_page#:#詳細ページへのリンクエントリー
 dcl#:#dcl_list_fields#:#フィールドを一覧表示
+dcl#:#dcl_list_visibility_and_filter#:#表示とフィルター
 dcl#:#dcl_locked#:#ロックする
 dcl#:#dcl_locked_tooltip#:#ユーザ編集用のこのフィールドを無効にします。'編集設定'のアクセス権役割は含みません。
 dcl#:#dcl_manage#:#管理
@@ -7386,7 +7398,7 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#表のどのスタンダード�
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
 dcl#:#dcl_no_such_reference#:#レファレンステーブル中に次の値はありません:
 dcl#:#dcl_no_warnings#:#警告無しにインポートを完了しました。
-dcl#:#dcl_not_checked#:#未チェック
+dcl#:#dcl_not_checked#:#チェックされていません。
 dcl#:#dcl_not_supported_in_import#:#このタイプのフィールドはインポートではサポートされません。
 dcl#:#dcl_notification_activate_dcl#:#データ収集用の通知を有効にする
 dcl#:#dcl_notification_activated#:#通知が有効化されました
@@ -7531,7 +7543,7 @@ didactic#:#dtpl_obj_type_info#:#この教則テンプレートはこのオブジ
 didactic#:#effective_form#:#テンプレートの有効開始
 didactic#:#grp_closed#:#限定グループ
 didactic#:#grp_closed_info#:#グループは非メンバーには表示されません。
-didactic#:#more_translations#:#もっと翻訳
+didactic#:#more_translations#:#続けて翻訳
 didactic#:#sess_closed#:#非公開セッション
 didactic#:#sess_closed_info#:#非参加者にはセッションは表示されません。
 ecs#:#cert_serial#:#シシアル番号を証明
@@ -8198,6 +8210,7 @@ form#:#form_min_value#:#最小値
 form#:#form_minutes#:#分
 form#:#form_months#:#ヶ月
 form#:#form_msg_file_cannot_write_to_disk#:#ディスクへ書込みできません。
+form#:#form_msg_file_missing_file_ext#:#uploadされたファイルはファイルタイプ拡張しがありません。
 form#:#form_msg_file_missing_tmp_dir#:#ファイル アップロード用のテンポラリーディレクトリがありません。
 form#:#form_msg_file_no_upload#:#入力必須項目です。アップロード用のファイルを選択してください。
 form#:#form_msg_file_partially_uploaded#:#ファイルはアップロードを完了できませんでした。
@@ -8259,32 +8272,32 @@ forum#:#file_upload_option_allow#:#全ての掲示板内へ添付を許可
 forum#:#file_upload_option_disallow#:#選択した掲示板へ添付を許可
 forum#:#fmr_copy_threads_info#:#シングルスレッドをコピーする可能性があります。選択したスレッドの最初だけが複製されます。
 forum#:#forum_add_quote#:#引用追加
-forum#:#forums_all_threads_marked_read#:#全てのトピックスは既読としてマークされました。
+forum#:#forums_all_threads_marked_read#:#全てのスレッドは既読としてマークされました。
 forum#:#forums_attachments#:#添付ファイル
 forum#:#forums_attachments_add#:#添付ファイルを追加
 forum#:#forums_censor_comment#:#検閲者のコメント
 forum#:#forums_count_art#:#記事の数
 forum#:#forums_created_by#:#作成者
 forum#:#forums_delete_file#:#添付を削除
-forum#:#forums_disable_notification#:#このトピックの通知を無効
+forum#:#forums_disable_notification#:#このスレッドの通知を無効
 forum#:#forums_download_attachment#:#ファイルをダウンロード
 forum#:#forums_edit_draft#:#ドラフトを編集
 forum#:#forums_edit_post#:#記事を編集
-forum#:#forums_enable_notification#:#このトピックの通知を有効
+forum#:#forums_enable_notification#:#このスレッドの通知を有効
 forum#:#forums_forum_notification_disabled#:#この掲示板の新規メッセージは今後通知されません。
 forum#:#forums_info_censor_post#:#本当にこの記事を非表示にしますか?
 forum#:#forums_info_censor2_post#:#検閲を取り消しますか?
 forum#:#forums_info_delete_draft#:#このドラフトを本当に削除しますか?
 forum#:#forums_info_delete_post#:#本当に応答を含むこの記事を削除しますか?
 forum#:#forums_mark_read#:#既読として全てマーク
-forum#:#forums_new_thread#:#新しいトピック
-forum#:#forums_no_posts_available#:#このトピックにはまだ未投稿かモデレータが最初の投稿をアクティブ解除しています。
+forum#:#forums_new_thread#:#新しいスレッド
+forum#:#forums_no_posts_available#:#このスレッドにはまだ未投稿かモデレータが最初の投稿をアクティブ解除しています。
 forum#:#forums_notification_disabled#:#通知しない
 forum#:#forums_notification_enabled#:#通知する
 forum#:#forums_notification_intro#:#このメールはILIASシステム%sから自動的に送信されたものです。
 forum#:#forums_notification_show_frm#:#掲示板:%sを表示
 forum#:#forums_notification_show_post#:#投稿:%sを表示
-forum#:#forums_post_activation_mail#:#次の投稿がアクティブにならないとフォーラムのユーザは表示されません。モデレータ役なので投稿を有効にする役割としてemailを受信します。
+forum#:#forums_post_activation_mail#:#次の投稿がアクティブにならないと掲示板のユーザは表示されません。モデレータ役なので投稿を有効にする役割としてemailを受信します。
 forum#:#forums_post_deleted#:#記事が削除されました。
 forum#:#forums_post_modified#:#記事が修正されました。
 forum#:#forums_post_needs_to_be_activated#:#新しい投稿が作成されましたが、モデレータによるアクティブ化が必要です。
@@ -8292,20 +8305,23 @@ forum#:#forums_post_new_entry#:#新しい投稿が作成されました
 forum#:#forums_post_was_activated#:#投稿が使用可能になりました。
 forum#:#forums_posts#:#全ての投稿
 forum#:#forums_posts_not_available#:#投稿は利用できません
-forum#:#forums_print_thread#:#トピックを印刷
+forum#:#forums_print_thread#:#スレッドを印刷
 forum#:#forums_subject#:#件名
 forum#:#forums_the_post#:#記事
-forum#:#forums_thread#:#トピック
+forum#:#forums_thread#:#スレッド
 forum#:#forums_thread_create_from#:#作成者
 forum#:#forums_thread_deleted#:#全ての投稿を含む選択されたスレッドは削除されました。
 forum#:#forums_thread_drafts_deleted#:#全ての投稿とドラフトを含む選択されたスレッドは削除されました。
-forum#:#forums_thread_marked#:#トピックは既読としてマークされました。
-forum#:#forums_thread_new_entry#:#新しいトピックが作成されました
+forum#:#forums_thread_marked#:#スレッドは既読としてマークされました。
+forum#:#forums_thread_new_entry#:#新しいスレッドが作成されました
 forum#:#forums_threads_deleted#:#全ての投稿を含む選択されたスレッドは削除されました。
 forum#:#forums_threads_drafts_deleted#:#全ての投稿とドラフトを含む選択したスレッドは削除されました。
 forum#:#forums_your_reply#:#返信
+forum#:#frm_action_not_possible_parent_deleted#:#親の投稿が削除されたのでアクション不可。
+forum#:#frm_action_not_possible_thr_closed#:#スレッドがクローズされたのでアクション不可。
+forum#:#frm_action_not_possible_thr_deleted#:#スレッドが削除されたのでアクション不可。
 forum#:#frm_anonymous_posting#:#ペンネームで投稿
-forum#:#frm_anonymous_posting_desc#:#有効にすると登録済ユーザはペンネームのみかまたは無記名でこのフォーラムへ投稿する事ができます。
+forum#:#frm_anonymous_posting_desc#:#有効にすると登録済ユーザはペンネームのみかまたは無記名でこの掲示板へ投稿する事ができます。
 forum#:#frm_at_least_one_moderator#:#モデレータが一人は必須です。
 forum#:#frm_censorship#:#検閲
 forum#:#frm_censorship_applied#:#検閲権が正しく適用されました
@@ -8323,6 +8339,7 @@ forum#:#frm_merge_src#:#選択のスレッド: %s
 forum#:#frm_merge_target#:#ターゲット: %s
 forum#:#frm_moderator_f#:#モデレータ
 forum#:#frm_moderator_m#:#モデレータ
+forum#:#frm_moderator_n#:#Moderation
 forum#:#frm_moderator_role_added_successfully#:#モデレータ役が正しく追加されました。
 forum#:#frm_moderators#:#モデレータ
 forum#:#frm_moderators_detached_role_successfully#:#モデレータの役割が選択した全てのユーザから正しく外されました。
@@ -8352,26 +8369,26 @@ forum#:#frm_revoke_censorship#:#検閲権破棄
 forum#:#frm_search#:#検索
 forum#:#frm_selected_merge_src#:#マージする選択したスレッド: %s
 forum#:#frm_statistics#:#統計
-forum#:#frm_statistics_disabled_for_participants#:#フォーラム メンバーには統計は機能しません。
+forum#:#frm_statistics_disabled_for_participants#:#掲示板 メンバーには統計は機能しません。
 forum#:#frm_statistics_enabled#:#統計を可能にする
 forum#:#frm_statistics_enabled_desc#:#受講者用の投稿の統計を可能にする
 forum#:#frm_statistics_ranking#:#投稿数
 forum#:#frm_subject_setting#:#Subject設定
 forum#:#frm_sure_delete_threads#:#本当に次のスレッドを削除しますか?
 forum#:#frm_sure_merge_threads#:#本当にこれらのスレッドをマージしますか?　警告: これは後戻りできません。ソーススレッドの最初の投稿がターゲットスレッドの最初の投稿以前に行われると最終的にILIASはソースとターゲットのスレッドをスワップします。
-forum#:#frm_wizard_page#:#フォーラムをコピー (Step 2/2)
+forum#:#frm_wizard_page#:#掲示板をコピー (Step 2/2)
 forum#:#is_read#:#既読としてマーク
-forum#:#make_topics_non_sticky#:#トピックを付箋しない
-forum#:#make_topics_sticky#:#トピックを付箋
+forum#:#make_topics_non_sticky#:#スレッドを付箋しない
+forum#:#make_topics_sticky#:#スレッドを付箋
 forum#:#mark_moderator_posts#:#モデレータのポストをマーク
 forum#:#mark_moderator_posts_desc#:#有効にするとモデレータの投稿がハイライトされます。
 forum#:#merge#:#マージ
 forum#:#merge_posts_into_thread#:#投稿を他のスレッドへ統合
 forum#:#merged_threads_successfully#:#選択されたスレッドは正しくマージされました。
-forum#:#move_chosen_topics#:#選択したトピックを移動
-forum#:#move_thread_to_forum#:#ヅレッドを他の掲示板へ移動
+forum#:#move_chosen_topics#:#選択したスレッドを移動
+forum#:#move_thread_to_forum#:#スレッドを他の掲示板へ移動
 forum#:#new_post#:#新しい投稿
-forum#:#no_forum_selected#:#移動するトピックスのフォーラムが選択されていません
+forum#:#no_forum_selected#:#選択のスレッドの移動先の掲示板が選択されていません
 forum#:#not_allowed_to_merge_into_another_forum#:#他の掲示板のスレッドをマージできません。
 forum#:#number_of_threads#:#ページあたりのスレッド表示数
 forum#:#please_choose_target#:#マージターゲットとしてスレッドを選択してください。
@@ -8394,7 +8411,7 @@ forum#:#sel_threads_already_sticky#:#選択されたスレッドが一つはす�
 forum#:#sel_threads_already_unsticky#:#選択されたスレッドが一つはすでにはがされています。
 forum#:#sel_threads_make_sticky#:#選択されたスレッドは貼り付けとしてマークされています。
 forum#:#sel_threads_make_unsticky#:#選択されたスレッドは貼り付けとしてもうマークされていません。
-forum#:#select_at_least_one_thread#:#トピックを一つは選択してください。
+forum#:#select_at_least_one_thread#:#スレッドを一つは選択してください。
 forum#:#select_max_one_thread#:#1スレッドのみ選択してください!
 forum#:#selected_threads_closed#:#選択されたスレッドは閉鎖されました。
 forum#:#selected_threads_reopened#:#選択されたスレッドは再開しました。
@@ -8625,7 +8642,7 @@ iass#:#iass_added#:#個別アセスメントを追加しました
 iass#:#iass_amend_saved#:#修正された記録が保存されました。
 iass#:#iass_assessment_not_completed#:#アセスメントは完了していません
 iass#:#iass_changed_by#:#ファイナライズ後に変更されました
-iass#:#iass_consultation_hours#:#相談時間
+iass#:#iass_consultation_hours#:#会議時間
 iass#:#iass_contact#:#名前
 iass#:#iass_contact_info#:#コンタクト情報
 iass#:#iass_content#:#アセスメントコンテンツ説明
@@ -8911,7 +8928,7 @@ log#:#log_cache_level#:#キャッシングーレベル
 log#:#log_component_btn_reset#:#リセット設定
 log#:#log_component_col_component#:#コンポーネント
 log#:#log_component_col_level#:#ログ-レベル
-log#:#log_component_root_desc#:#どのコンポーネントにも割り当てられていないメッセージ用のLeg-Level
+log#:#log_component_root_desc#:#どのコンポーネントにも割り当てられていないメッセージ用のLog-Level
 log#:#log_components#:#コンポーネント
 log#:#log_general_settings#:#ロギング設定
 log#:#log_level_alert#:#ALERT
@@ -8952,6 +8969,8 @@ lti#:#lti_consumer_set_active#:#Consumerを有効にしました
 lti#:#lti_consumer_set_inactive#:#Consumerを解除しました
 lti#:#lti_consumer_updated#:#Consumerを更新しました
 lti#:#lti_create_consumer#:#Consumerを作成
+lti#:#lti_cron_title#:#LTI結果サービス
+lti#:#lti_cron_title_desc#:#結果サービスをサポートする場合は、LTI consumer有のLTIユーザの学習進捗を同期する。このクローンジョブは学習進捗設定更新後のステータス更新を送信するためにだけに必要です。
 lti#:#lti_edit_consumer#:#LTI Consumerを編集
 lti#:#lti_exit#:#LTI Sessionをクローズ
 lti#:#lti_exited#:#LTI セッションをクローズしました
@@ -8997,7 +9016,7 @@ mail#:#mail_allow_external_info#:#無効にすると外部email(SMTP経由)の�
 mail#:#mail_assign_entry_to_mailing_list#:#メーリングリストに連絡先のエントリーを割当てます
 mail#:#mail_attachment_file_not_exist#:#次の添付のいずれかがありません: %1$s
 mail#:#mail_attachments#:#添付
-mail#:#mail_auto_generated_info#:#このメールはIIASシステム%s,%sが自動送信したものです。
+mail#:#mail_auto_generated_info#:#これはシステムからの自動送信メールです。 %s,%s
 mail#:#mail_both_email#:#両方のemailアドレス
 mail#:#mail_change_to_folder#:#フォルダ切替
 mail#:#mail_create_tpl#:#Textテンプレートを作成
@@ -9352,7 +9371,7 @@ mep#:#mobs_activate_pages#:#コンテンツスニペット管理を使用
 mep#:#mobs_activate_pages_info#:#メディア集へコンテンツスニペットの作成を許可します。スニペットはラーニングモジュール等において再利用(編集不可）する事ができます。
 mep#:#mobs_always_show_file_manager#:#ファイルマネージャーを常時表示
 mep#:#mobs_always_show_file_manager_info#:#アクティブを解除するとメディアオブジェクト用のファイルマネージャーのシンプルMIMEタイプ(例　イメージ)を非表示にします。
-mep#:#mobs_black_list_file_types#:#:禁止ファイルタイプ
+mep#:#mobs_black_list_file_types#:#禁止ファイルタイプ
 mep#:#mobs_black_list_file_types_info#:#ファイル拡張子のコンマ区切りリストを入力します。このリストは利用可能ファイルタイプのセットに制限があります。過去のリストが空の場合は通常これが必要です。
 mep#:#mobs_restrict_file_types#:#制限ファイルタイプ
 mep#:#mobs_restrict_file_types_info#:#メディアオブジェクトに対してアップロードするファイル拡張子のコンマ区切りリスト(例、jpg、gif)を入力します。未入力の場合は全てのファイル形式が許可されます。
@@ -10296,6 +10315,7 @@ pd#:#block_create_pdfeed#:#新規Webフィードを追加
 pd#:#block_show_chatviewer#:#チャットビューワ表示
 pd#:#block_show_pdbookm#:#ブックマーク表示
 pd#:#block_show_pdcal#:#カレンダ表示
+pd#:#block_show_pdfrmpostdraft#:#投稿ドラフトを表示
 pd#:#block_show_pdmail#:#メールを表示
 pd#:#block_show_pdnews#:#ニュースを表示
 pd#:#block_show_pdnotes#:#ノートを表示
@@ -10596,7 +10616,7 @@ prtf#:#prtf_page_created#:#ページが作成されました。
 prtf#:#prtf_page_element_my_courses_info#:#現在オンラインの全てのマイコースとどのメンバーシップかを示すリストです。
 prtf#:#prtf_page_element_my_courses_title#:#コースメンバーシップ
 prtf#:#prtf_page_element_teaser_blog_template#:#ポートフォリオはパーソナルワークスペースのブログをここに表示します。
-prtf#:#prtf_page_element_teaser_consultation_hours#:#ポートフォリオは相談時間をここに表示します。
+prtf#:#prtf_page_element_teaser_consultation_hours#:#ポートフォリオは会議時間をここに表示します。
 prtf#:#prtf_page_element_teaser_my_courses#:#ポートフォリオには現状のコースのリストが表示されます。
 prtf#:#prtf_page_element_teaser_settings#:#設定
 prtf#:#prtf_page_element_teaser_skills#:#ポートフォリは能力レベルをここに表示します。
@@ -10793,7 +10813,7 @@ rbac#:#accs_visible#:#アクセス権設定を管理に表示します。
 rbac#:#accs_write#:#ユーザは管理のアクセス権設定を編集できます。
 rbac#:#activate_wiki_protection#:#読み取り専用を設定
 rbac#:#active_preconditions#:#前提条件を起動
-rbac#:#add_consultation_hours#:#カレンダーに相談時間を追加
+rbac#:#add_consultation_hours#:#カレンダーに会議時間を追加
 rbac#:#add_reply#:#返信を追加
 rbac#:#add_thread#:#スレッド追加
 rbac#:#adm_edit_permission#:#ユーザは管理の全般設定のアクセス権を変更できます。
@@ -10856,7 +10876,7 @@ rbac#:#cadm_edit_permission#:#ユーザはアクセス権設定を変更でき�
 rbac#:#cadm_read#:#ユーザはユーザ接続管理への読み込みアクセス権があります。
 rbac#:#cadm_visible#:#ユーザ接続管理が表示されます。
 rbac#:#cadm_write#:#ユーザはユーザ接続管理への書き込みアクセス権があります。
-rbac#:#cals_add_consultation_hours#:#相談時間をカレンダーに追加
+rbac#:#cals_add_consultation_hours#:#会議時間をカレンダーに追加
 rbac#:#cals_edit_event#:#パブリックカレンダーを作成管理
 rbac#:#cals_edit_permission#:#アクセス権限設定を変更
 rbac#:#cals_read#:#カレンダー設定の読み込み
@@ -11012,7 +11032,7 @@ rbac#:#fold_write#:#ユーザはフォルダ設定の編集と内容管理がで
 rbac#:#folders_create#:#フォルダを作成
 rbac#:#folders_visible#:#フォルダ表示
 rbac#:#frm_add_reply#:#ユーザは投稿へ返信する事ができます
-rbac#:#frm_add_thread#:#ユーザは新しいトピックを追加できます
+rbac#:#frm_add_thread#:#ユーザは新しいスレッドを追加できます
 rbac#:#frm_copy#:#ユーザは掲示板をコピーできます
 rbac#:#frm_delete#:#ユーザは掲示板を移動または削除できます
 rbac#:#frm_edit_permission#:#ユーザはアクセス権設定を変更できます
@@ -11066,6 +11086,7 @@ rbac#:#htlm_read#:#ユーザはHTMLラーニングモジュールを読込む事
 rbac#:#htlm_read_learning_progress#:#ユーザは他のユーザの学習進捗を表示できます
 rbac#:#htlm_visible#:#HTMLラーニングモジュールを表示
 rbac#:#htlm_write#:#ユーザはHTMLラーニングモジュールの設定と内容編集ができます
+rbac#:#iass_amend_grading#:#個別アセスメントの評価を修正
 rbac#:#iass_copy#:#個別アセスメントをコピー
 rbac#:#iass_delete#:#個別アセスメントを削除
 rbac#:#iass_edit_learning_progress#:#個別アセスメントの進捗情報を編集
@@ -11112,6 +11133,12 @@ rbac#:#lrss_edit_permission#:#ユーザは学習リソース管理のアクセ�
 rbac#:#lrss_read#:#学習リソース管理を読込む
 rbac#:#lrss_visible#:#学習リソース管理を表示
 rbac#:#lrss_write#:#ユーザは学習リソース管理の設定を編集できます
+rbac#:#lso_edit_learning_progress#:#ユーザは学習進捗設定を編集できます。
+rbac#:#lso_edit_permission#:#ユーザは学習シーケンスのアクセス権設定を変更できます
+rbac#:#lso_manage_members#:#学習シーケンスのメンバーを管理
+rbac#:#lso_participate#:#ユーザは学習シーケンスへ申込みできます
+rbac#:#lso_read#:#ユーザは学習シーケンスをアクセスできます
+rbac#:#lso_unparticipate#:#ユーザは学習シーケンスから解除できます
 rbac#:#ltis_edit_permission#:#ユーザはLTI管理者内のアクセス権設定を変更できます。
 rbac#:#ltis_read#:#ユーザはLTI管理者の読込みアクセス権があります。
 rbac#:#ltis_release_objects#:#LTI管理者を表示します。
@@ -11127,6 +11154,7 @@ rbac#:#mail_visible#:#メール管理を表示
 rbac#:#mail_write#:#ユーザはメール管理の設定を編集できます
 rbac#:#mcst_copy#:#ユーザはメディアキャストをコピーできます
 rbac#:#mcst_delete#:#ユーザはメディアキャストを移動または削除できます
+rbac#:#mcst_edit_learning_progress#:#ユーザは学習進捗設定を編集できます
 rbac#:#mcst_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#mcst_read#:#ユーザはメディアキャストを読込む事ができます
 rbac#:#mcst_read_learning_progress#:#ユーザは他のユーザの学習進捗を表示できます。
@@ -11140,7 +11168,7 @@ rbac#:#mds_edit_permission#:#アクセス権限設定を変更
 rbac#:#mds_read#:#メタデータ設定を読込む
 rbac#:#mds_visible#:#メタデータ設定を表示
 rbac#:#mds_write#:#メタデータ設定を編集
-rbac#:#mep_copy#:#ユーザはメディアプールをコピーできます
+rbac#:#mep_copy#:#ユーザはメディア集をコピーできます
 rbac#:#mep_delete#:#ユーザはメディア集を移動または削除できます
 rbac#:#mep_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#mep_read#:#ユーザはメディア集の読込アクセス権がありメディアオブジェクトの再利用ができます
@@ -11271,7 +11299,7 @@ rbac#:#rbac_create_exc#:#演習問題を作成
 rbac#:#rbac_create_feed#:#Webフィードを作成
 rbac#:#rbac_create_file#:#ファイルをアップロード
 rbac#:#rbac_create_fold#:#フォルダ作成
-rbac#:#rbac_create_frm#:#フォーラムを作成
+rbac#:#rbac_create_frm#:#掲示板を作成
 rbac#:#rbac_create_glo#:#用語集を作成
 rbac#:#rbac_create_grp#:#グループを作成
 rbac#:#rbac_create_grpr#:#グループリンクを作成
@@ -11873,7 +11901,7 @@ scormdebug#:#GetErrorString#:#現在のエラー状態のテキスト説明を�
 scormdebug#:#GetLastError#:#現在のエラー状態のエラーコードを要求する
 scormdebug#:#GetValue#:#データ取得
 scormdebug#:#hide#:#非表示
-scormdebug#:#i_fuchsia#:#フクシア: 送った値が拒否されない場合の許容値
+scormdebug#:#i_fuchsia#:#fuchsia: 送った値が拒否されない場合の許容値
 scormdebug#:#i_gray#:#gray: ILIASによるエラー修正
 scormdebug#:#i_green#:#green: OK
 scormdebug#:#i_orange#:#orange: 注意!
@@ -12141,11 +12169,13 @@ sess#:#sess_mail_sub_acc_bod#:#セッション "%s"に登録済みです
 sess#:#sess_mail_sub_acc_sub#:#セッション"%s"の登録
 sess#:#sess_mail_sub_dec_bod#:#申し訳ありませんがセッション"%s"への登録が拒否されました。
 sess#:#sess_mail_sub_dec_sub#:#セッション"%s"の登録拒否
+sess#:#sess_material_assigned#:#割当済(Assigned)
+sess#:#sess_material_not_assigned#:#未割当(Not Assigned)
 sess#:#sess_max_members_needed#:#最大メンバー数が待ちリスト機能用に必要です。
 sess#:#sess_mem_tbl_header#:#セッション参加者
 sess#:#sess_members_print_title#:#セッション参加者
 sess#:#sess_msg_applicants_assigned#:#応募者はセッションを登録しました。
-sess#:#sess_msg_applicants_removed#:#応募者はリストから削除しました。
+sess#:#sess_msg_applicants_removed#:#応募者をリストから削除しました。
 sess#:#sess_new_registrations#:#リクエストへ参加
 sess#:#sess_open#:#セッションを開く
 sess#:#sess_part_filter_participated#:#出席者のみ
@@ -12347,6 +12377,7 @@ skmg#:#skmg_usage_type_info_mat#:#パーソナルワークスペースからユ�
 skmg#:#skmg_usage_type_info_pers#:#パーソナルスキルとしてユーザにより選択済み
 skmg#:#skmg_usage_type_info_prof#:#スキルプロファイル内で使用済み
 skmg#:#skmg_usage_type_info_res#:#推奨リソースとして割当てられたリポジトリオブジェクト
+skmg#:#skmg_usage_type_info_seval#:#自己評価
 skmg#:#skmg_usage_type_info_user#:#ユーザへ割当て済み
 skmg#:#skmg_your_self_evaluation#:#あなたの自己評価
 sop#:#sop_already_exported#:#ラーニングモジュールはエクスポート済みです。SCORMプレーヤアドオンをインストールしたFirefoxでこのページの再読込みをしてください。
@@ -12367,6 +12398,8 @@ sop#:#sop_push_tracking#:#追跡データをインポート
 sop#:#sop_reload_page#:#ページの再読込み
 sop#:#sop_start_som#:#SOM開始
 sop#:#sop_start_sop#:#学習モジュールオフラインを開始
+sop#:#sop_system_check_error#:#ブラウザーは必須のHTML5機能をサポートしていません。
+sop#:#sop_system_check_https#:#必須のHTML5機能用としてhttpではなくhttpsを使用しなければなりません。
 sop#:#sop_text_export#:#オフラインモード用のSCORMラーニングモジュールをエクスポート
 sop#:#sop_text_push_tracking#:#オフライン追跡データをILIASへインポートしてオンラインモードへ切り替える
 sop#:#sop_text_start_offline#:#オフラインモードのラーニングモジュールを開始
@@ -12428,6 +12461,8 @@ style#:#less_compile_failed#:#lessファイルのコンパイル中に何か間�
 style#:#less_file_reset#:#Lessはリセットされました。表示が変わるまでにはキャッシングの影響があるかもしれない事に注意願います。ブラウザーキャッシュのクリアが必要なことがあります。
 style#:#less_file_updated#:#less変数が更新されました。
 style#:#less_less_installation_detected#:#Lessインストールを確認した位置:
+style#:#less_variable_empty#:#この変数は空でした。Variables.lessファイルからデフォルが設定されました。コンパイル前にこれが正しいかどうか確認してください。
+style#:#less_variables_empty_might_have_changed#:#フォームは空の変数です。フォームを読込んでからvariables.lessを変更した可能性があります。Variables.lessファイルからデフォルトが空フィールドへ設定されました。コンパイルしてvariables.lessファイルへ値を保存する前にそれらのマークされた空のフィールドを確認してください。
 style#:#less_variables_file_not_included#:#less変数ファイル:
 style#:#manage_system_styles#:#システムスタイルを管理
 style#:#msg_sub_style_created#:#サブスタイルが作成されました。
@@ -13139,7 +13174,7 @@ survey#:#select_value#:#値を選択
 survey#:#selection#:#選択
 survey#:#send_to_all#:#全員へ
 survey#:#send_to_answered#:#サーベイが完了していない全員へ
-survey#:#send_to_unanswered#:#サーベイが完了していない全員へ(留意)
+survey#:#send_to_unanswered#:#サーベイが完了していない全員へ(注意喚起)
 survey#:#show_questiontext#:#質問テキストを表示
 survey#:#show_questiontext_description#:#チェックボックスを選択すると質問ブロック内全ての質問でテキストが表示されます。 このチェック ボックスが選択されていない場合は、質問ブロック内のすべての質問のテキストが非表示になります。
 survey#:#skipped#:#スキップしました
@@ -13269,7 +13304,7 @@ survey#:#survey_notification_target_group#:#ターゲットグループ
 survey#:#survey_notification_target_group_invited#:#全ての招待ユーザ
 survey#:#survey_notification_target_group_invited_info#:#現在の招待ユーザ: %s
 survey#:#survey_notification_target_group_parent_course#:#親コース/グループの全メンバ
-survey#:#survey_notification_target_group_parent_course_inactive#:#親コース/グループなしの者 - 催促通知はありません!
+survey#:#survey_notification_target_group_parent_course_inactive#:#親コース/グループなしの者 -注意喚起はありません!
 survey#:#survey_notification_tutor_body#:#次のサーベイは参加者により終了されました。
 survey#:#survey_notification_tutor_link#:#サーベイへリンク
 survey#:#survey_notification_tutor_recipients#:#指導教員(Login[s])
@@ -13301,13 +13336,13 @@ survey#:#survey_questions_to_clipboard_copy#:#質問がクリップボードに�
 survey#:#survey_questions_to_clipboard_cut#:#質問がクリップボードにコピーされました。ターゲットまたは空のクリップボードを選択してください。
 survey#:#survey_reached_level#:#達成レベル
 survey#:#survey_reminder_body#:#次のサーベイはまだ終了していません。
-survey#:#survey_reminder_cron_info#:#有効にするとユーザはサーベイへの参加を通知されます。
+survey#:#survey_reminder_cron_info#:#有効にするとユーザはサーベイへの参加を注意喚起されます。
 survey#:#survey_reminder_end#:#終わり
 survey#:#survey_reminder_frequency#:#間隔
 survey#:#survey_reminder_frequency_days#:#日数
 survey#:#survey_reminder_link#:#URL
 survey#:#survey_reminder_salutation#:#こんにちは %sさん
-survey#:#survey_reminder_setting#:#ユーザへ参加を催促
+survey#:#survey_reminder_setting#:#ユーザへ参加を注意喚起
 survey#:#survey_reminder_start#:#開始
 survey#:#survey_reminder_subject#:#サーベイ"%s"は終了していません。
 survey#:#survey_remove_competence#:#能力を削除
@@ -13356,6 +13391,8 @@ survey#:#svy_anonymous_participants_min#:#最小受験者
 survey#:#svy_anonymous_participants_min_info#:#最小受験者の場合はこのリストのみ利用可能になります。
 survey#:#svy_anonymous_participants_svy#:#受験者リスト
 survey#:#svy_anonymous_participants_svy_info#:#受験者リストが有効の場合は、終了日以降利用可能です。
+survey#:#svy_answer_too_long#:#現在の回答は長すぎます (%s 文字). 回答を短くしてください。
+survey#:#svy_appraisses_cannot_be_raters#:#ユーザは後で追加できません。代わりにサーベイ設定の自己評価オプションを使用します。
 survey#:#svy_back#:#戻る
 survey#:#svy_check_evaluation_access_introduction#:#このサーベイ評価はサーベイ参加者によるアクセスのみなので、評価を開くためのサーベイアクセスコードを入力する必要があります。
 survey#:#svy_check_evaluation_authentication_needed#:#認証が必要
@@ -13393,9 +13430,9 @@ survey#:#svy_import_codes#:#インポートコード
 survey#:#svy_import_codes_info#:#このインポートには"%s"エクスポートファイルが必要です。
 survey#:#svy_invite_action#:#パーソナルデスクトップへ置く
 survey#:#svy_mail_confirmation_subject#:#サーベイ"%s" - 参加確認
-survey#:#svy_mail_context_reminder_info#:#サーベイへの参加をユーザへ催促します
+survey#:#svy_mail_context_reminder_info#:#サーベイへの参加をユーザへ注意喚起します
 survey#:#svy_mail_context_reminder_survey_title#:#サーベイスタイル
-survey#:#svy_mail_context_reminder_title#:#サーベイ催促
+survey#:#svy_mail_context_reminder_title#:#サーベイ注意喚起
 survey#:#svy_mail_own_results#:#メールによる回答
 survey#:#svy_mail_own_results_body#:#以下はサーベイ参加の完了サマリーです。
 survey#:#svy_mail_own_results_subject#:#サーベイ"%s" - あなたの回答
@@ -13425,7 +13462,7 @@ survey#:#svy_settings_section_access#:#サーベイ管理: アクセス
 survey#:#svy_settings_section_before_start#:#サーベイ開始前情報
 survey#:#svy_settings_section_finishing#:#サーベイ終了
 survey#:#svy_settings_section_question_behaviour#:#サーベイ管理: 質問のふるまい
-survey#:#svy_settings_section_reminders#:#注意
+survey#:#svy_settings_section_reminders#:#注意喚起
 survey#:#svy_settings_template#:#テンプレート
 survey#:#svy_show_questiontitles#:#質問タイトルを表示
 survey#:#svy_skl_comp_assignm_not_supported#:#能力割当てはこの質問タイプをサポートしていません。
@@ -13831,13 +13868,15 @@ user#:#interests#:#興味
 user#:#interests_general#:#一般的な興味
 user#:#interests_help_looking#:#ヘルプを探す
 user#:#interests_help_offered#:#ヘルプを提案
+user#:#msg_spoint_not_modified#:#開始点が修正されていません
+user#:#obj_ref_id_not_exist#:#入力されたレファレンスIDは存在しません
 user#:#restrict_user_access#:#ユーザアカウントへの限定アクセス
 user#:#restrict_user_access_info#:#有効にするとユーザアカウントへのアクセスが制限されます。アクセス権は"ユーザアカウント"と"カテゴリ"の"ローカルユーザアカウントの読み込み”に依存します。
 user#:#roles_without_starting_point#:#開始位置の定義されていない役割
 user#:#save_order#:#順番を保存
-user#:#send_mail_reminder_window_too_small#:#この催促値の間隔設定は大きすぎます。
+user#:#send_mail_reminder_window_too_small#:#この注意喚起値の間隔設定は大きすぎます。
 user#:#send_mail_to_inactive_users#:#警告メール
-user#:#send_mail_to_inactive_users_desc#:#アカウント削除が迫っている事に関して注意催促メールがユーザのe-mailアドレスへ送信されます。
+user#:#send_mail_to_inactive_users_desc#:#アカウント削除が迫っている事に関して注意喚起メールがユーザのe-mailアドレスへ送信されます。
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#この値は'最終ログインから経過した日数'よりも小さくする必要があります。
 user#:#send_mail_to_inactive_users_numbers_only#:#整数以外の正の数字のみ受付ます。
 user#:#send_mail_to_inactive_users_suffix#:#削除前の日数
@@ -13988,6 +14027,8 @@ wiki#:#wiki_all_pages#:#全ページ
 wiki#:#wiki_block_page#:#読み込み権のみに設定
 wiki#:#wiki_change_notification_body_new#:#次のwikiページが作成されました。
 wiki#:#wiki_change_notification_link#:#URL
+wiki#:#wiki_change_notification_page_body_comment#:#コメントが次のwiliページへ追加されました。
+wiki#:#wiki_change_notification_page_body_delete#:#次のwikiページは削除されました。
 wiki#:#wiki_change_notification_page_body_update#:#次のwikiページがアップロードされました
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#こんにちは%sさん
@@ -14201,48 +14242,7 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#qpl_numeric_lower_needs_valid_lower_alert#:#The lower bound needs to be valid numerical value lower than the upper bound.###14 02 2019 new variable
-assessment#:#qpl_numeric_upper_needs_valid_upper_alert#:#The upper bound needs to be valid numerical value greater than the lower bound.###14 02 2019 new variable
-common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.###14 02 2019 new variable
-common#:#salutation_n#:#Not Applicable###14 02 2019 new variable
-form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exension.###14 02 2019 new variable
-forum#:#frm_moderator_n#:#Moderation###14 02 2019 new variable
-wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page###14 02 2019 new variable
-wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###14 02 2019 new variable
-dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter###14 02 2019 new variable
-pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts###14 02 2019 new variable
-sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.###14 02 2019 new variable
-sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.###14 02 2019 new variable
-forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.###14 02 2019 new variable
-forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.###14 02 2019 new variable
-forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent posting has been deleted.###14 02 2019 new variable
-style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.###14 02 2019 new variable
-style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.###14 02 2019 new variable
-chatroom#:#chat_osc_head_grp_x_persons#:#%s Users###14 02 2019 new variable
-content#:#cont_added_cell#:#Column added###14 02 2019 new variable
-survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.###14 02 2019 new variable
-survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###14 02 2019 new variable
-sess#:#sess_material_assigned#:#Assigned###14 02 2019 new variable
-sess#:#sess_material_not_assigned#:#Not Assigned###14 02 2019 new variable
-rbac#:#iass_amend_grading#:#Amend gradings in an Individual Assessment###14 02 2019 new variable
-rbac#:#lso_read#:#Users can access the Learning Sequence###14 02 2019 new variable
-rbac#:#lso_manage_members#:#Manage members of Learning Sequence###14 02 2019 new variable
-rbac#:#lso_edit_permission#:#User can change permission settings of Learning Sequence###14 02 2019 new variable
-common#:#unparticipate#:#Unsubscribe###14 02 2019 new variable
-common#:#participate#:#Subscribe###14 02 2019 new variable
-rbac#:#lso_participate#:#User can subscribe to a Learning Sequence###14 02 2019 new variable
-rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence###14 02 2019 new variable
-rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
-rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings###14 02 2019 new variable
-user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist###14 02 2019 new variable
-user#:#msg_spoint_not_modified#:#Starting point not modified###14 02 2019 new variable
-lti#:#lti_cron_title#:#LTI Outcome Service###14 02 2019 new variable
-lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.###14 02 2019 new variable
-common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
-crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
-common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
-skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable
-grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###09 05 2019 new variable
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###09 05 2019 new variable
-dateplaner#:#cal_usr_info#:#Appointment Information###09 05 2019 new variable
-content#:#msg_no_page_access#:#You do not have the permission to access this page.###06 06 2019 new variable
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###04 07 2019 new variable
+buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###04 07 2019 new variable
+dateplaner#:#cal_usr_info#:#Appointment Information###04 07 2019 new variable
+content#:#msg_no_page_access#:#You do not have the permission to access this page.###04 07 2019 new variable
