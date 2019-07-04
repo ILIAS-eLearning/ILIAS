@@ -250,6 +250,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			
 			if(false == $skipParticipant[$pass][$active_id]){
 				foreach((array)$questions as $qst_id => $reached_points){
+					$this->saveFeedback($active_id, $qst_id, $pass, $ajax);
 					$update_participant = assQuestion::_setReachedPoints(
 						$active_id, $qst_id, $reached_points, $maxPointsByQuestionId[$qst_id], $pass, 1, $this->object->areObligationsEnabled()
 					);
@@ -309,7 +310,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 				$correction_feedback['feedback'] = [];
 			}
 
-			echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points]);
+			echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points, "translation" => ['yes' => $this->lng->txt('yes'), 'no' => $this->lng->txt('no')]]);
 			exit();
 		}else{
 			$this->showManScoringByQuestionParticipantsTable();
@@ -561,8 +562,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	 * @param $active_id
 	 * @param $qst_id
 	 * @param $pass
+	 * @param $is_single_feedback
 	 */
-	protected function saveFeedback($active_id, $qst_id, $pass)
+	protected function saveFeedback($active_id, $qst_id, $pass, $is_single_feedback)
 	{
 		$feedback = null;
 		if($this->doesValueExistsInPostArray('feedback',$active_id, $qst_id, $pass)){
@@ -570,7 +572,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		}elseif($this->doesValueExistsInPostArray('m_feedback',$active_id, $qst_id, $pass)){
 			$feedback = ilUtil::stripSlashes($_POST['m_feedback'][$pass][$active_id][$qst_id]);
 		}
-		$this->saveFinalization($active_id, $qst_id, $pass, $feedback);
+		$this->saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback);
 	}
 
 	/**
@@ -579,7 +581,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 	 * @param $pass
 	 * @param $feedback
 	 */
-	protected function saveFinalization($active_id, $qst_id, $pass, $feedback)
+	protected function saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback)
 	{
 		$evaluated = false;
 		if($this->doesValueExistsInPostArray('evaluated', $active_id, $qst_id, $pass)){
@@ -588,7 +590,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 				$evaluated = true;
 			}
 		}
-		$this->object->saveManualFeedback($active_id, $qst_id, $pass, $feedback, $evaluated);
+		$this->object->saveManualFeedback($active_id, $qst_id, $pass, $feedback, $evaluated, $is_single_feedback);
 	}
 	/**
 	 * @param $post_value

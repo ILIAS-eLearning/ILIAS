@@ -10634,29 +10634,34 @@ function getAnswerFeedbackPoints()
 	
 	/**
 	* Saves the manual feedback for a question in a test
-	*
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
 	* @param string $feedback The feedback text
-	 * @param boolean $finalized In Feedback is final
+	* @param boolean $finalized In Feedback is final
+	* @param boolean $is_single_feedback
 	* @return boolean TRUE if the operation succeeds, FALSE otherwise
 	* @access public
 	*/
-	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false)
+	function saveManualFeedback($active_id, $question_id, $pass, $feedback, $finalized = false, $is_single_feedback = false)
 	{
 		global $DIC;
 
-		$DIC->database()->manipulateF(
-			"DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer', 'integer', 'integer'),
-			array($active_id, $question_id, $pass)
-		);
+		$feedback_old   = $this->getSingleManualFeedback($active_id, $question_id, $pass);
 
-		$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized);
+		$finalized_record = (int) $feedback_old['finalized_evaluation'];
+		if( $finalized_record === 0 || ($is_single_feedback && $finalized_record === 1)) {
+			$DIC->database()->manipulateF(
+				"DELETE FROM tst_manual_fb WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer', 'integer', 'integer'),
+				array($active_id, $question_id, $pass)
+			);
 
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-			$this->logManualFeedback($active_id, $question_id, $feedback);
+			$this->insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized, $feedback_old);
+
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+				$this->logManualFeedback($active_id, $question_id, $feedback);
+			}
 		}
 
 		return TRUE;
@@ -10669,17 +10674,18 @@ function getAnswerFeedbackPoints()
 	 * @param integer $question_id Question ID
 	 * @param integer $pass Pass number
 	 * @param string  $feedback The feedback text
+	 * @param array  $feedback_old The feedback before update
 	 * @param boolean $finalized In Feedback is final
 	 */
-	private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized){
+	private function insertManualFeedback($active_id, $question_id, $pass, $feedback, $finalized, $feedback_old){
 		global $DIC;
 
 		$ilDB           = $DIC->database();
 		$ilUser         = $DIC->user();
-			$next_id = $ilDB->nextId('tst_manual_fb');
+		$next_id = $ilDB->nextId('tst_manual_fb');
 		$user           = $ilUser->getId();
 		$finalized_time = time();
-		$feedback_old   = $this->getSingleManualFeedback($active_id, $question_id, $pass);
+
 		$update_default = [
 			'manual_feedback_id' => [ 'integer', $next_id],
 			'active_fi'	         => [ 'integer', $active_id],
@@ -10694,10 +10700,18 @@ function getAnswerFeedbackPoints()
 			$finalized_time = $feedback_old['finalized_tstamp'];
 		}
 
-		if($finalized === true) {
-			$update_default['finalized_evaluation'] = ['integer', 1];
-			$update_default['finalized_by_usr_id']  = ['integer', $user];
-			$update_default['finalized_tstamp']     = ['integer', $finalized_time];
+		if($finalized === true || $feedback_old['finalized_evaluation'] == 1) {
+			if(! array_key_exists('evaluated', $_POST)) {
+				$update_default['finalized_evaluation'] = ['integer', 0];
+				$update_default['finalized_by_usr_id']  = ['integer', 0];
+				$update_default['finalized_tstamp']     = ['integer', 0];
+			}
+			else{
+				$update_default['finalized_evaluation'] = ['integer', 1];
+				$update_default['finalized_by_usr_id']  = ['integer', $user];
+				$update_default['finalized_tstamp']     = ['integer', $finalized_time];
+			}
+			
 		}
 
 		$ilDB->insert('tst_manual_fb', $update_default);

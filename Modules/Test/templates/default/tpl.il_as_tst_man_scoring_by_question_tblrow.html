@@ -65,11 +65,29 @@
 							var $finalized_by 	= $('.finalized_by' + sub_string);
 							var $finalized_on 	= $('.finalized_on' + sub_string);
 
+							var $evaluated    = $finalized_by.prev();
+							
 							$scoring.html(data.points);
 							$feedback.html(data.feedback.feedback);
 							$finalized.html(data.feedback.finalized_evaluation);
 							$finalized_by.html(data.feedback.finalized_by);
 							$finalized_on.html(data.feedback.finalized_on_date);
+
+							if(data.feedback.finalized_evaluation == "1")
+							{
+								$evaluated.prop('checked', true);
+								$evaluated.html(data.translation.yes);
+								$scoring.prop('disabled', true);
+								$scoring_d.prop('disabled', true);
+								$feedback.prop('disabled', true);
+							}
+							else {
+								$evaluated.prop('checked', false);
+								$evaluated.html(data.translation.no)
+								$scoring.prop('disabled', false);
+								$scoring_d.prop('disabled', false);
+								$feedback.prop('disabled', false);
+							}
 						};
 
 						pub.protect = pro;
