@@ -2,15 +2,16 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\DomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\IsRevisable;
 use ILIAS\AssessmentQuestion\Common\RevisionId;
 use QuestionData;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRoot;
+use QuestionId;
 
 /**
  * Class Question
@@ -65,7 +66,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	public static function createNewQuestion(int $creator) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new DomainObjectId(), $creator));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator));
 		return $question;
 	}
 

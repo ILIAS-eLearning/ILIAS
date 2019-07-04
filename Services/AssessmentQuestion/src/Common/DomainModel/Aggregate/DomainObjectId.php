@@ -1,8 +1,7 @@
 <?php
+/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared;
-
-use Ramsey\Uuid\Uuid;
+namespace ILIAS\AssessmentQuestion\Authoring\DomainModel;
 
 /**
  * Class QuestionId
@@ -10,24 +9,10 @@ use Ramsey\Uuid\Uuid;
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class DomainObjectId {
-	/**
-	 * @var string
-	 */
-	private $id;
+interface DomainObjectId {
+
+	public function getId(): string;
 
 
-	public function __construct(string $id = null)
-	{
-		$this->id = $id ?: Uuid::uuid4();
-	}
-
-	public function getId(): string {
-		return $this->id;
-	}
-
-
-	public function equals(DomainObjectId $anId) : bool{
-		return $this->getId() === $anId->getId();
-	}
+	public function equals(DomainObjectId $anId): bool;
 }

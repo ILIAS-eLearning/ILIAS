@@ -1,12 +1,9 @@
 <?php
-/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
-
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\DomainObjectId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\AbstractDomainObjectId;
 
 /**
- * Interface AggregateRoot
+ * Class QuestionId
  *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author Adrian Lüthi <al@studer-raimann.ch>
@@ -14,7 +11,6 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\DomainObjectId;
  * @author Martin Studer <ms@studer-raimann.ch>
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AggregateRoot {
+class QuestionId extends AbstractDomainObjectId {
 
-	public function getAggregateId(): DomainObjectId;
 }

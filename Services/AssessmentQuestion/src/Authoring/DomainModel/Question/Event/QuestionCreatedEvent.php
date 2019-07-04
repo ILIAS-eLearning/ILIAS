@@ -2,7 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\DomainObjectId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AbstractDomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\AbstractDomainEvent;
 
 /**
