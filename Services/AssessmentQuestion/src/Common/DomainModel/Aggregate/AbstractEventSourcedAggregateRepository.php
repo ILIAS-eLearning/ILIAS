@@ -4,7 +4,7 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
 use ilGlobalCache;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\DomainObjectId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
 

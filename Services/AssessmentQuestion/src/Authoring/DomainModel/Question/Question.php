@@ -2,7 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\DomainObjectId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
