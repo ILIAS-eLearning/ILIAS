@@ -1,5 +1,4 @@
 <?php
-/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\AssessmentQuestion\Common;
 
@@ -18,7 +17,18 @@ namespace ILIAS\AssessmentQuestion\Common;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface RevisionId {
+abstract class AbstractRevisionId implements RevisionId {
 
-	public function GetKey(): string;
+	/** @var string */
+	private $key;
+
+
+	public function __construct(string $key) {
+		$this->key = $key;
+	}
+
+
+	public function GetKey(): string {
+		return $this->key;
+	}
 }

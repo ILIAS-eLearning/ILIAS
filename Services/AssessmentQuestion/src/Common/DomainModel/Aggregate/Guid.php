@@ -15,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Guid {
+abstract class Guid {
 
 	/**
 	 * @return string

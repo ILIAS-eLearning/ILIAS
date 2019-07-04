@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\IsRevisable;
+use ILIAS\AssessmentQuestion\Common\AbstractRevisionId;
 use ILIAS\AssessmentQuestion\Common\RevisionId;
 
 /**

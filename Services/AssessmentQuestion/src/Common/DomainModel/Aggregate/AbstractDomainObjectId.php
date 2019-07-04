@@ -1,16 +1,20 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Authoring\DomainModel;
+namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class QuestionId
+ * Class AbstractDomainObjectId
  *
- * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared
+ * @package ILIAS\AssessmentQuestion\Authoring\DomainModel
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AbstractDomainObjectId implements DomainObjectId {
+abstract class AbstractDomainObjectId implements DomainObjectId {
 	/**
 	 * @var string
 	 */
