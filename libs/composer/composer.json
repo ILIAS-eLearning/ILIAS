@@ -321,8 +321,8 @@
 			"added_by": "Richard Klees <richard.klees@concepts-and-training.de>",
 			"last_update": "2019-04-29",
 			"last_update_by": "Richard Klees <richard.klees@concepts-and-training.de>",
-			"approved-by": "",
-			"approved-date": ""
+			"approved-by": "Jour Fixe",
+			"approved-date": "2019-07-01"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
