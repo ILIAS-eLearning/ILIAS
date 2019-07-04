@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\AbstractDomainObjectId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractDomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 
 /**
