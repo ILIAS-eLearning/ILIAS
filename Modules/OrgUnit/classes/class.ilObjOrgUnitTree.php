@@ -69,14 +69,25 @@ class ilObjOrgUnitTree {
 
 
 	/**
-	 * @param $ref_id    int the reference id of the organisational unit.
-	 * @param $recursive bool if true you get the ids of the subsequent orgunits employees too
-	 *
-	 * @return int[] array of user ids.
-	 */
+	* @param $ref_id    int the reference id of the organisational unit.
+	* @param $recursive bool if true you get the ids of the subsequent orgunits employees too
+	*
+	* @return int[] array of user ids.
+	*/
 	public function getEmployees($ref_id, $recursive = false) {
-		// return $this->getAssignements($ref_id, new ilOrgUnitPosition(1));
-		return array_unique(($recursive ? $this->loadStaffRecursive("employee", $ref_id) : $this->loadStaff("employee", $ref_id)));
+		$arr_usr_ids = [];
+		switch ($recursive) {
+			case false:
+				$arr_usr_ids = $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
+			break;
+			case true:
+				foreach ($this->getAllChildren($ref_id) as $ref_id) {
+				    $arr_usr_ids = $arr_usr_ids
+					+ $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
+			}
+			break;
+		}
+		return $arr_usr_ids;
 	}
 
 
