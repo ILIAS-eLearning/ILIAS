@@ -219,7 +219,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 			}
 			
 			foreach((array)$questions as $qst_id => $reached_points){
-				$this->saveFeedback($active_id, $qst_id, $pass);
+				$this->saveFeedback($active_id, $qst_id, $pass, $ajax);
 
 				if( false == isset($manPointsPost[$pass]) ){
 					$manPointsPost[$pass] = [];
