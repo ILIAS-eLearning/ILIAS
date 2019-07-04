@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\AbstractDomainObjectId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 
 /**
  * Class QuestionId
@@ -11,6 +12,6 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\AbstractDomainObjectId;
  * @author Martin Studer <ms@studer-raimann.ch>
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionId extends AbstractDomainObjectId {
+class QuestionId extends AbstractDomainObjectId implements DomainObjectId {
 
 }

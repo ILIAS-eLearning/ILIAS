@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\Common\examples\CommonDDD\DomainModel\Aggrega
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractAggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 
-class Question extends AbstractAggregateRoot {
+class ExampleQuestion extends AbstractAggregateRoot {
 
 	/**
 	 * @var DomainObjectId

@@ -1,8 +1,6 @@
 <?php
-namespace  ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence;
+namespace ILIAS\AssessmentQuestion\Common\examples\EventSourcedDDD\DomainModel\Aggregate;;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
-use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRepository;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
@@ -18,14 +16,14 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionRepository extends AbstractEventSourcedAggregateRepository
+class ExampleQuestionRepository extends AbstractEventSourcedAggregateRepository
 {
 	/**
 	 * @var EventStore
 	 */
 	private $event_store;
 	/**
-	 * @var QuestionRepository
+	 * @var ExampleQuestionRepository
 	 */
 	private static $instance;
 
@@ -39,7 +37,7 @@ class QuestionRepository extends AbstractEventSourcedAggregateRepository
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = new QuestionRepository();
+			self::$instance = new ExampleQuestionRepository();
 		}
 
 		return self::$instance;
@@ -55,7 +53,7 @@ class QuestionRepository extends AbstractEventSourcedAggregateRepository
 	/**
 	 * @param DomainEvents $event_history
 	 *
-	 * @return \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot
+	 * @return AggregateRoot
 	 */
 	protected function reconstituteAggregate(DomainEvents $event_history): AggregateRoot {
 		return Question::reconstitute($event_history);

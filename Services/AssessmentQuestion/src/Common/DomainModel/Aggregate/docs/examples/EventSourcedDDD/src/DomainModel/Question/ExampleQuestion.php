@@ -19,7 +19,7 @@ use ILIAS\AssessmentQuestion\Common\RevisionId;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable {
+class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRevisable {
 
 	/**
 	 * @var DomainObjectId
