@@ -1,6 +1,6 @@
 ##  Git Hooks
 
-This document will list some useful Git hooks to create a better development
+This document lists some useful Git hooks to create a better development
 experience for a contributor of the ILIAS project.
 
 **Table of Contents**
@@ -17,6 +17,10 @@ development workflow.
 Check out the [documentation about Git Hooks](https://git-scm.com/docs/githooks)
 for more information.
 
+All the following hooks can be found in the
+[ILIAS Developer Tools](https://github.com/ILIAS-eLearning/DeveloperTools)
+as seperated files.
+
 ### Usage
 
 Preconditions:
@@ -25,7 +29,7 @@ Preconditions:
   the development environment
 
 __Please be aware that these recommendations are for a development environment
-only, and may not be used in actual environments__
+only, and may not be used in production environments__
 
 #### Install Development Dependencies
 
