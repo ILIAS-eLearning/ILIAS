@@ -23,7 +23,8 @@ function build_container_for_setup() {
 	};
 	$c["command.install"] = function($c) {
 		return new \ILIAS\Setup\CLI\InstallCommand(
-			$c["agent"]
+			$c["agent"],
+			$c["config_reader"]
 		);
 	};
 
@@ -97,6 +98,10 @@ function build_container_for_setup() {
 
 	$c["lng"] = function ($c) {
 		return new \ilLanguage("en");
+	};
+
+	$c["config_reader"] = function($c) {
+		return new \ILIAS\Setup\CLI\ConfigReader();
 	};
 
 	return $c;
