@@ -2,7 +2,6 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared;
 
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use Ramsey\Uuid\Uuid;
 
 /**

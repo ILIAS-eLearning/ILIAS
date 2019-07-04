@@ -3,6 +3,8 @@
 
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+
 /**
  * Interface AggregateRoot
  *
