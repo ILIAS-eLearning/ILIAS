@@ -61,13 +61,13 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @param string $title
 	 * @param string $description
 	 *
-	 * @param int    $creator
+	 * @param int    $creator_id
 	 *
 	 * @return Question
 	 */
-	public static function createNewQuestion(int $creator) {
+	public static function createNewQuestion(int $creator_id) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator_id));
 		return $question;
 	}
 
