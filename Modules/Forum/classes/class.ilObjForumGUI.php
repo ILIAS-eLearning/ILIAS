@@ -151,6 +151,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         int $pageSize,
         ilForumPost $firstForumPost
     ) {
+        if ($firstForumPost->getId() == $this->objCurrentPost->getId()) {
+            return;
+        }
+
         if (count($subtree_nodes) > 0 && $this->objCurrentPost->getId() > 0) {
             $isCurrentPostingInPage = array_filter($pagedPostings, function (ilForumPost $posting) {
                 return $posting->getId() == $this->objCurrentPost->getId();
@@ -160,10 +164,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $pageOfCurrentPosting = 0;
                 $i                    = 0;
                 foreach ($subtree_nodes as $node) {
-                    $currentId = $this->objCurrentPost->getId();
-                    if ($firstForumPost->getId() == $currentId) {
-                        return;
-                    }
                     if ($i > 0 && 0 === $i % $pageSize) {
                         ++$pageOfCurrentPosting;
                     }
