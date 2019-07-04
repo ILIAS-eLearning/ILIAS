@@ -4,7 +4,7 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
 use ilDateTime;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
 
 /**
  * Class AbstractDomainEvent

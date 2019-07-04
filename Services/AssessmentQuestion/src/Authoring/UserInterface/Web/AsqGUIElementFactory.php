@@ -5,7 +5,6 @@ namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\AbstractQuestionConfigFormGUI;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\CreateQuestionFormGUI;
-use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\SingleChoiceConfigFormGUI;
 
 const MSG_SUCCESS = "success";

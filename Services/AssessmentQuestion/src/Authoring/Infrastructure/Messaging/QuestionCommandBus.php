@@ -2,7 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\Infrastructure;
 
-use ILIAS\Data\Domain\Exception\DomainException;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Exception\DomainException;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\Messaging\Contract\Command\CommandHandlerMiddleware;
 use ILIAS\Messaging\Contract\Command\Command;

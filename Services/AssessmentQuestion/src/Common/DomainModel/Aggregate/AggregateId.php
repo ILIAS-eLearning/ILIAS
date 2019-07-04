@@ -1,18 +1,34 @@
 <?php
-/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
+namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared;
+
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
+use Ramsey\Uuid\Uuid;
 
 /**
- * Interface AggregateId
+ * Class QuestionId
  *
- * @package ILIAS\AssessmentQuestion\Common\Model
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author  Adrian Lüthi <al@studer-raimann.ch>
- * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared
  * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AggregateId extends DomainObjectId {
+class AggregateId {
+	/**
+	 * @var string
+	 */
+	private $id;
 
+
+	public function __construct(string $id = null)
+	{
+		$this->id = $id ?: Uuid::uuid4();
+	}
+
+	public function getId(): string {
+		return $this->id;
+	}
+
+
+	public function equals(AggregateId $anId) : bool{
+		return $this->getId() === $anId->getId();
+	}
 }

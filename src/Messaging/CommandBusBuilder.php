@@ -8,30 +8,19 @@ use ILIAS\Messaging\FinishHandlingMessageBefordeHandlingNext;
 
 class CommandBusBuilder {
 
-	/**
-	 * @var CommandBus
-	 */
-	protected $command_bus;
-
-
-	/**
-	 * CommandBusBuilder constructor.
-	 */
-	public function __construct() {
-		$this->command_bus = new CommandBusAdapter();
-		//$this->command_bus->appendMiddleware(new FinishHandlingMessageBefordeHandlingNextMiddleware());
-	}
-
-
-	/**
+	private static $current_bus;
+	/*
 	 * @return CommandBusAdapter|CommandBus
 	 */
-	public function getCommandBus() {
-		return $this->command_bus;
-	}
+	public static function getCommandBus() {
+		if (self::$current_bus === null) {
+			$current_bus = new CommandBusAdapter();
 
+			//here could middlewares be added
 
-	public function appendMiddlware($middleware) {
-		$this->command_bus->appendMiddleware($middleware);
+			self::$current_bus = $current_bus;
+		}
+
+		return self::$current_bus;
 	}
 }

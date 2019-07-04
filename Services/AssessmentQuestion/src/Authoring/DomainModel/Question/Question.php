@@ -2,12 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\GenericEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\EventStream;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\IsRevisable;
@@ -68,7 +65,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	public static function createNewQuestion(int $creator) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new AggregateId(), $creator));
 		return $question;
 	}
 
@@ -123,12 +120,6 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getTitle(): string {
-		return $this->title;
-	}
-	/**
 	 * @return QuestionData
 	 */
 	public function getData(): QuestionData {
@@ -140,7 +131,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @param QuestionData $data
 	 * @param int          $creator_id
 	 */
-	public function setData(QuestionData $data, int $creator_id): void {
+	public function setData(QuestionData $data, int $creator_id = 3): void {
 		$this->ExecuteEvent(new QuestionDataSetEvent($this->getAggregateId(), $creator_id, $data));
 	}
 
@@ -206,7 +197,11 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 
 
 	public static function reconstitute(DomainEvents $event_history): AggregateRoot {
-		// TODO: Implement reconstitute() method.
+		$question = new Question();
+		foreach ($event_history->getEvents() as $event) {
+			$question->applyEvent($event);
+		}
+		return $question;
 	}
 
 

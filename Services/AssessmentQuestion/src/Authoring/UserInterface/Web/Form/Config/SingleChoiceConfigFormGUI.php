@@ -98,6 +98,7 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	}
 	
 	protected function fillQuestionSpecificProperties() {
+		return;
 		$this->getQuestion()->setShuffle($this->getInput("shuffle"));
 		
 		if ($this->getQuestion()->isAllowImages()) {
@@ -111,6 +112,7 @@ class SingleChoiceConfigFormGUI extends AbstractQuestionConfigFormGUI
 	}
 	
 	protected function fillAnswerSpecificProperties() {
+		return;
 		/** @var \ilSingleChoiceWizardInputGUI $choices */
 		$choices = $this->getItemByPostVar("choice");
 		$this->getQuestion()->setAnswersFromBinaryState($choices->getValues());

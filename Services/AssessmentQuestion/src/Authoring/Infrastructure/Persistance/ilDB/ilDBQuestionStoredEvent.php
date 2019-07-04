@@ -1,7 +1,7 @@
 <?php
 
 namespace ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB;
-use ILIAS\Data\Domain\Event\AbstractStoredEvent;
+use ILIAS\AssessmentQuestion\Common\Event\AbstractStoredEvent;
 
 /**
  * Class ilDBEventStore
@@ -18,5 +18,4 @@ class ilDBQuestionStoredEvent extends AbstractStoredEvent {
 	static function returnDbTableName() {
 		return self::STORAGE_NAME;
 	}
-
 }

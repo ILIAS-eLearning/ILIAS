@@ -2,11 +2,11 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\QuestionRepository;
-use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\CreateQuestionFormGUI;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
 
@@ -41,20 +41,17 @@ class AsqAuthoringService {
 	 * @return Question
 	 */
 	public function GetQuestion(string $aggregate_id) {
-		return QuestionRepository::getInstance()->get(new QuestionId($aggregate_id));
+		return QuestionRepository::getInstance()->get(new AggregateId($aggregate_id));
 	}
 
 	public function CreateQuestion(string $title, string $description, string $text, int $creator_id): void {
 		//CreateQuestion.png
-		$command_busbuilder = new CommandBusBuilder();
-		$command_bus = $command_busbuilder->getCommandBus();
-		$command_bus->handle(new CreateQuestionCommand($title, $description, $text, $creator_id));
+		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionCommand($title, $description, $text, $creator_id));
 	}
 
-	public function CreateNewVersionOfQuestion(string $title, string $description, int $creator_id, string $old_id) {
-
+	public function SaveQuestion(Question $question) {
 		// creates new version of a question ('edit question' but with immutable domain object)
-		// CreateQuestion.png
+		CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question));
 	}
 
 	public function DeleteQuestion(string $question_id) {

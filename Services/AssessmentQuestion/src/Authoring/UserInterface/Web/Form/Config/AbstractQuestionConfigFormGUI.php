@@ -6,6 +6,7 @@
 namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
+use QuestionData;
 
 /**
  * Class AbstractQuestionFormGUI
@@ -39,11 +40,11 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	/**
 	 * AbstractQuestionConfigFormGUI constructor.
 	 */
-	public function __construct(Question $qstAuthoring)
+	public function __construct(Question $question)
 	{
 		parent::__construct();
-		$this->question = $qstAuthoring->getQuestion();
-		$this->init($qstAuthoring);
+		$this->question = $question;
+		$this->init($question);
 	}
 	
 	/**
@@ -114,15 +115,15 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	 * this method does build the form with its properties.
 	 * @throws \ilTaxonomyException
 	 */
-	final protected function init(Question $qstAuthoring)
+	final protected function init(Question $question)
 	{
-		$this->setFormAction($this->ctrl->getFormAction($qstAuthoring));
+		//$this->setFormAction($this->ctrl->getFormAction($question));
 		
 		$this->setTableWidth('100%');
 		$this->setMultipart(true);
 		
 		$this->setId($this->getQuestion()->getAggregateId()->getId());
-		$this->setTitle($this->getQuestion()->getTitle());
+		$this->setTitle($this->getQuestion()->getData()->getTitle());
 
 		$this->addQuestionGenericProperties();
 		$this->addQuestionSpecificProperties();
@@ -143,28 +144,23 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		// title
 		$title = new \ilTextInputGUI($DIC->language()->txt("title"), "title");
 		$title->setMaxLength(100);
-		$title->setValue($this->getQuestion()->getTitle());
+		$title->setValue($this->getQuestion()->getData()->getTitle());
 		$title->setRequired(TRUE);
 		$this->addItem($title);
 
-		// author
-		$author = new \ilTextInputGUI($DIC->language()->txt("author"), "author");
-		$author->setValue($this->getQuestion()->getCreator());
-		$author->setRequired(TRUE);
-		$this->addItem($author);
-
 		// description
-		$description = new \ilTextInputGUI($DIC->language()->txt("description"), "comment");
-		$description->setValue($this->getQuestion()->getDescription());
+		$description = new \ilTextInputGUI($DIC->language()->txt("description"), "description");
+		$description->setValue($this->getQuestion()->getData()->getDescription());
 		$description->setRequired(FALSE);
 		$this->addItem($description);
 		
 		// questiontext
 		$question = new \ilTextAreaInputGUI($DIC->language()->txt("question"), "question");
-		$question->setValue($this->getQuestion()->getQuestionText());
+		$question->setValue($this->getQuestion()->getData()->getQuestionText());
 		$question->setRequired(TRUE);
 		$question->setRows(10);
 		$question->setCols(80);
+		$this->addItem($question);
 		
 		/*if( $this->isLearningModuleContext() )
 		{
@@ -239,6 +235,8 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	 */
 	protected function addTaxonomyFormSection()
 	{
+		return;
+		//TODO show taxonomys
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
 		if( count($this->getTaxonomies()) )
@@ -273,12 +271,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	public function addCommandButtons()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		if( !$this->isLearningModuleContext() )
-		{
-			$this->addCommandButton('saveReturn', $DIC->language()->txt('save_return'));
-		}
-		
+
 		$this->addCommandButton('save', $DIC->language()->txt('save'));
 	}
 	
@@ -290,24 +283,22 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		
 		$success = true;
 		try {
-			$this->getQuestion()->getQuestionData()->setTitle($this->getInput("title"));
-			$this->getQuestion()->getQuestionData()->setAuthor($this->getInput("author"));
-			$this->getQuestion()->getQuestionData()->setLifecycle(\ilAsqQuestionLifecycle::getInstance($this->getInput("lifecycle")));
-			$this->getQuestion()->getQuestionData()->setQuestionText($this->getInput("question"));
+			$this->getQuestion()->setData(new QuestionData($this->getInput("title"),
+			                                               $this->getInput('description'),
+			                                               $this->getInput('question')));
 			
-			
-			if( $this->isLearningModuleContext() )
+			/*if( $this->isLearningModuleContext() )
 			{
 				$this->getQuestion()->getQuestionData()->setNrOfTries($this->getInput("nr_of_tries"));
 			}
 			else
 			{
-				$this->getQuestion()->getQuestionData()->setDescription($this->getInput("comment"));
+				$this->getQuestion()->getQuestionData()->setDescription($this->getInput("comment"));*/
 				/** @var \ilDurationInputGUI $durationItem */
-				$durationItem = $this->getItemByPostVar("estimated");
+				/*$durationItem = $this->getItemByPostVar("estimated");
 				$duration = sprintf("%02d:%02d:%02d", $durationItem->getHours(), $durationItem->getMinutes(), $durationItem->getSeconds());
 				$this->getQuestion()->getQuestionData()->setWorkingTime($duration);
-			}
+			}*/
 			
 			$this->fillQuestionSpecificProperties();
 			$this->fillAnswerSpecificProperties();

@@ -16,19 +16,13 @@ use QuestionData;
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
- * @author  Björn Heyser <bh@bjoernheyser.de>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class CreateQuestionCommandHandler implements CommandHandler {
+class SaveQuestionCommandHandler implements CommandHandler {
 
 	/**
-	 * @param CreateQuestionCommand $command
+	 * @param SaveQuestionCommand $command
 	 */
 	public function handle(Command $command) {
-
-		$question = Question::createNewQuestion($command->getCreator());
-		$question->setData(new QuestionData($command->getTitle(), $command->getDescription(), $command->getText()), $command->getCreator());
-		QuestionRepository::getInstance()->save($question);
+		QuestionRepository::getInstance()->save($command->GetQuestion());
 	}
 }

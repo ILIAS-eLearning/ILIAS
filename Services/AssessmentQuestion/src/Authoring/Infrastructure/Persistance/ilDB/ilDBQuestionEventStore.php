@@ -2,10 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\QuestionId;
-use ILIAS\Data\Domain\Entity\AggregateId;
-use ILIAS\Data\Domain\Event\{AbstractDomainEvent, DomainEvent, DomainEvents, EventStore};
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvent;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
 
 class ilDBQuestionEventStore implements EventStore {
 
@@ -47,7 +47,7 @@ class ilDBQuestionEventStore implements EventStore {
 			/**@var AbstractDomainEvent $event */
 			//TODO namespaces in db oder fix?
 			$event_name = "ILIAS\\AssessmentQuestion\\Authoring\\DomainModel\\Question\\Event\\".utf8_encode(trim($row['event_name']));
-			$event = new $event_name(new QuestionId($row['event_id']), $row['initiating_user_id']);
+			$event = new $event_name(new AggregateId($row['aggregate_id']), $row['initiating_user_id']);
 			$event->restoreEventBody($row['event_body']);
 			$event_stream->addEvent($event);
 		}
@@ -69,7 +69,7 @@ class ilDBQuestionEventStore implements EventStore {
 
 	   //TODO Parent! $parent_id
 
-	   $sql = "SELECT * FROM " . ilDBQuestionStoredEvent::STORAGE_NAME . " where event_id > " . $DIC->database()->quote($anEventId);
+	   $sql = "SELECT * FROM " . ilDBQuestionStoredEvent::STORAGE_NAME . " where event_name = 'QuestionCreatedEvent' and event_id > " . $DIC->database()->quote($anEventId);
 	   $res = $DIC->database()->query($sql);
 
 	   $arr_data = [];

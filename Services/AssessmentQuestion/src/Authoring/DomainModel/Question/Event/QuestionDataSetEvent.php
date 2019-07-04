@@ -2,9 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
-use ILIAS\Data\Domain\Entity\AggregateId;
-use ILIAS\Data\Domain\Event\AbstractDomainEvent;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AggregateId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\AbstractDomainEvent;
 use QuestionData;
 
 /**
@@ -21,7 +20,7 @@ class QuestionDataSetEvent extends AbstractDomainEvent {
 	 */
 	public $data;
 
-	public function __construct(AggregateId $id, int $creator_id, QuestionData $data)
+	public function __construct(AggregateId $id, int $creator_id, QuestionData $data = null)
 	{
 		parent::__construct($id, $creator_id);
 		$this->data = $data;
@@ -56,6 +55,6 @@ class QuestionDataSetEvent extends AbstractDomainEvent {
 		$data = json_decode($json_data);
 		$this->data = new QuestionData($data->title,
 		                               $data->description,
-		                               $data->text);
+		                               $data->question_text);
 	}
 }
