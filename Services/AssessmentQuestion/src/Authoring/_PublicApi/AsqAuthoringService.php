@@ -4,11 +4,12 @@ namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\AbstractDomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\QuestionRepository;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
+use QuestionDto;
 
 const MSG_SUCCESS = "success";
 
@@ -38,10 +39,11 @@ class AsqAuthoringService {
 	/**
 	 * @param string $aggregate_id
 	 *
-	 * @return Question
+	 * @return QuestionDto
 	 */
-	public function GetQuestion(string $aggregate_id) {
-		return QuestionRepository::getInstance()->get(new AbstractDomainObjectId($aggregate_id));
+	public function GetQuestion(string $aggregate_id) : QuestionDto {
+		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($aggregate_id));
+		return QuestionDto::CreateFromQuestion($question);
 	}
 
 	public function CreateQuestion(string $title, string $description, string $text, int $creator_id): void {
@@ -49,9 +51,19 @@ class AsqAuthoringService {
 		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionCommand($title, $description, $text, $creator_id));
 	}
 
-	public function SaveQuestion(Question $question) {
-		// creates new version of a question ('edit question' but with immutable domain object)
-		CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question));
+	public function SaveQuestion(QuestionDto $question_dto) {
+		// check changes and trigger them on question if there are any
+		/** @var Question $question */
+		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
+
+		if ($question_dto->getData() !== $question->getData()) {
+			$question->setData($question_dto->getData());
+		}
+
+		if(count($question->getRecordedEvents()->getEvents()) > 0) {
+			// save changes if there are any
+			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question));
+		}
 	}
 
 	public function DeleteQuestion(string $question_id) {

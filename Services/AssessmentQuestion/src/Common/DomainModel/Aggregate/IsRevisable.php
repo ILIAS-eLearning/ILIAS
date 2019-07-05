@@ -19,7 +19,7 @@ interface IsRevisable {
 	/**
 	 * @return RevisionId revision id of object
 	 */
-	public function getRevisionId(): RevisionId;
+	public function getRevisionId(): ?RevisionId;
 
 
 	/**
@@ -40,7 +40,7 @@ interface IsRevisable {
 	 * Using of Creation Date and or an increasing Number are encouraged
 	 *
 	 */
-	public function getRevisionName(): string;
+	public function getRevisionName(): ?string;
 
 
 	/**

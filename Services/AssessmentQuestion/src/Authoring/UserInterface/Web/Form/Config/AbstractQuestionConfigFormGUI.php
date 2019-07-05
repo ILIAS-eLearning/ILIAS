@@ -7,6 +7,7 @@ namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use QuestionData;
+use QuestionDto;
 
 /**
  * Class AbstractQuestionFormGUI
@@ -40,7 +41,7 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	/**
 	 * AbstractQuestionConfigFormGUI constructor.
 	 */
-	public function __construct(Question $question)
+	public function __construct(QuestionDto $question)
 	{
 		parent::__construct();
 		$this->question = $question;
@@ -48,17 +49,17 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	}
 	
 	/**
-	 * @return Question
+	 * @return QuestionDto
 	 */
-	public function getQuestion(): Question
+	public function getQuestion(): QuestionDto
 	{
 		return $this->question;
 	}
 	
 	/**
-	 * @param Question $question
+	 * @param QuestionDto $question
 	 */
-	public function setQuestion(Question $question)
+	public function setQuestion(QuestionDto $question)
 	{
 		$this->question = $question;
 	}
@@ -110,19 +111,23 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 	{
 		$this->learningModuleContext = $learningModuleContext;
 	}
-	
+
+
 	/**
 	 * this method does build the form with its properties.
+	 *
+	 * @param QuestionDto $question
+	 *
 	 * @throws \ilTaxonomyException
 	 */
-	final protected function init(Question $question)
+	final protected function init(QuestionDto $question)
 	{
 		//$this->setFormAction($this->ctrl->getFormAction($question));
 		
 		$this->setTableWidth('100%');
 		$this->setMultipart(true);
 		
-		$this->setId($this->getQuestion()->getAggregateId()->getId());
+		$this->setId($this->getQuestion()->getId());
 		$this->setTitle($this->getQuestion()->getData()->getTitle());
 
 		$this->addQuestionGenericProperties();

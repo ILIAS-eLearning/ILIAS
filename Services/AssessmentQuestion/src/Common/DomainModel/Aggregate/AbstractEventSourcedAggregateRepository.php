@@ -54,7 +54,7 @@ abstract class AbstractEventSourcedAggregateRepository implements AggregateRepos
 	}
 
 
-	public function get(DomainObjectId $aggregate_id) {
+	public function getAggregateRootById(DomainObjectId $aggregate_id) : AggregateRoot {
 		if (false && $this->has_cache) {
 			return $this->getFromCache($aggregate_id);
 		} else {

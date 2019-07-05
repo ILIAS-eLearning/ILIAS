@@ -5,6 +5,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRepository;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
 
@@ -18,8 +19,8 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\EventStore;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionRepository extends AbstractEventSourcedAggregateRepository
-{
+class QuestionRepository extends AbstractEventSourcedAggregateRepository {
+
 	/**
 	 * @var EventStore
 	 */
@@ -29,21 +30,21 @@ class QuestionRepository extends AbstractEventSourcedAggregateRepository
 	 */
 	private static $instance;
 
-	protected function __construct()
-	{
+
+	protected function __construct() {
 		parent::__construct();
 		$this->event_store = new ilDBQuestionEventStore();
 	}
 
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
+
+	public static function getInstance() {
+		if (self::$instance === null) {
 			self::$instance = new QuestionRepository();
 		}
 
 		return self::$instance;
 	}
+
 
 	/**
 	 * @return EventStore
@@ -51,6 +52,7 @@ class QuestionRepository extends AbstractEventSourcedAggregateRepository
 	protected function getEventStore(): EventStore {
 		return $this->event_store;
 	}
+
 
 	/**
 	 * @param DomainEvents $event_history

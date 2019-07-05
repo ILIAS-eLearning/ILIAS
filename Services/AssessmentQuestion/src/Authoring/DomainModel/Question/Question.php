@@ -32,7 +32,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * @var string
 	 */
-	private $revision_name = "";
+	private $revision_name;
 	/**
 	 * @var int
 	 */
@@ -95,9 +95,12 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->ExecuteEvent(new QuestionStatusHasChangedToOfflineEvent($this->id));
 	}
 
-
 	protected function applyQuestionStatusHasChangedToOffline(QuestionStatusHasChangedToOfflineEvent $event) {
 		$this->online = false;
+	}
+
+	public function getOnlineState() : bool {
+		return $this->online;
 	}
 
 
@@ -157,7 +160,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * @return RevisionId revision id of object
 	 */
-	public function getRevisionId(): RevisionId {
+	public function getRevisionId(): ?RevisionId {
 		return $this->revision_id;
 	}
 
@@ -182,7 +185,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * Using of Creation Date and or an increasing Number are encouraged
 	 *
 	 */
-	public function getRevisionName(): string {
+	public function getRevisionName(): ?string {
 		return $this->revision_name;
 	}
 
