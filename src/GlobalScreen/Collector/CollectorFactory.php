@@ -8,27 +8,29 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class CollectorFactory {
-	
-	const SCOPE_MAINBAR = 'mainmenu';
-	/**
-	 * @var array
-	 */
-	protected static $instances = [];
+class CollectorFactory
+{
+
+    const SCOPE_MAINBAR = 'mainmenu';
+    /**
+     * @var array
+     */
+    protected static $instances = [];
 
 
-	/**
-	 * @param array                $providers
-	 * @param ItemInformation|null $information
-	 *
-	 * @return MainMenuMainCollector
-	 * @throws \Throwable
-	 */
-	public function mainmenu(array $providers, ItemInformation $information = null): MainMenuMainCollector {
-		if (!isset(self::$instances[self::SCOPE_MAINBAR])) {
-			self::$instances[self::SCOPE_MAINBAR] = new MainMenuMainCollector($providers, $information);
-		}
+    /**
+     * @param array                $providers
+     * @param ItemInformation|null $information
+     *
+     * @return MainMenuMainCollector
+     * @throws \Throwable
+     */
+    public function mainmenu(array $providers, ItemInformation $information = null) : MainMenuMainCollector
+    {
+        if (!isset(self::$instances[self::SCOPE_MAINBAR])) {
+            self::$instances[self::SCOPE_MAINBAR] = new MainMenuMainCollector($providers, $information);
+        }
 
-		return self::$instances[self::SCOPE_MAINBAR];
-	}
+        return self::$instances[self::SCOPE_MAINBAR];
+    }
 }

@@ -11,57 +11,63 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Services {
+class Services
+{
 
-	/**
-	 * @var bool
-	 */
-	protected static $constructed = false;
-
-
-	/**
-	 * Services constructor.
-	 */
-	public function __construct() {
-		if (self::$constructed === true) {
-			// throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
-		}
-		self::$constructed = true;
-	}
+    /**
+     * @var bool
+     */
+    protected static $constructed = false;
 
 
-	/**
-	 * @see MainMenuItemFactory
-	 *
-	 * @return MainMenuItemFactory
-	 */
-	public function mainmenu(): MainMenuItemFactory {
-		return new MainMenuItemFactory();
-	}
+    /**
+     * Services constructor.
+     */
+    public function __construct()
+    {
+        if (self::$constructed === true) {
+            // throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
+        }
+        self::$constructed = true;
+    }
 
 
-	/**
-	 * @return CollectorFactory
-	 */
-	public function collector(): CollectorFactory {
-		return new CollectorFactory();
-	}
+    /**
+     * @return MainMenuItemFactory
+     * @see MainMenuItemFactory
+     *
+     */
+    public function mainmenu() : MainMenuItemFactory
+    {
+        return new MainMenuItemFactory();
+    }
 
 
-	/**
-	 * @return StorageFacade
-	 */
-	public function storage(): StorageFacade {
-		return new CoreStorageFacade();
-	}
+    /**
+     * @return CollectorFactory
+     */
+    public function collector() : CollectorFactory
+    {
+        return new CollectorFactory();
+    }
 
 
-	/**
-	 * @see IdentificationFactory
-	 *
-	 * @return IdentificationFactory
-	 */
-	public function identification(): IdentificationFactory {
-		return new IdentificationFactory();
-	}
+    /**
+     * @return StorageFacade
+     */
+    public function storage() : StorageFacade
+    {
+        return new CoreStorageFacade();
+    }
+
+
+    /**
+     * @return IdentificationFactory
+     * @see IdentificationFactory
+     *
+     */
+    public function identification() : IdentificationFactory
+    {
+        return new IdentificationFactory();
+    }
 }

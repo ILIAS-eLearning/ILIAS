@@ -10,25 +10,26 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterface {
+interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterface
+{
 
-	/**
-	 * @return TopParentItem[] These are Slates which will be
-	 * available for configuration and will be collected once during a
-	 * StructureReload.
-	 */
-	public function getStaticTopItems(): array;
-
-
-	/**
-	 * @return isItem[] These are Entries which will be available for
-	 * configuration and will be collected once during a StructureReload
-	 */
-	public function getStaticSubItems(): array;
+    /**
+     * @return TopParentItem[] These are Slates which will be
+     * available for configuration and will be collected once during a
+     * StructureReload.
+     */
+    public function getStaticTopItems() : array;
 
 
-	/**
-	 * @return TypeInformationCollection
-	 */
-	public function provideTypeInformation(): TypeInformationCollection;
+    /**
+     * @return isItem[] These are Entries which will be available for
+     * configuration and will be collected once during a StructureReload
+     */
+    public function getStaticSubItems() : array;
+
+
+    /**
+     * @return TypeInformationCollection
+     */
+    public function provideTypeInformation() : TypeInformationCollection;
 }

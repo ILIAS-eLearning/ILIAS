@@ -8,34 +8,38 @@ use ILIAS\GlobalScreen\Services;
  *
  * @package ILIAS\GlobalScreen\Provider
  */
-abstract class AbstractProvider implements Provider {
+abstract class AbstractProvider implements Provider
+{
 
-	/**
-	 * @var Container
-	 */
-	protected $dic;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic) {
-		$this->dic = $dic;
-	}
+    /**
+     * @var Container
+     */
+    protected $dic;
 
 
-	/**
-	 * @return Services
-	 */
-	protected function globalScreen(): Services {
-		return $this->dic->globalScreen();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Container $dic)
+    {
+        $this->dic = $dic;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	final public function getFullyQualifiedClassName(): string {
-		return self::class;
-	}
+    /**
+     * @return Services
+     */
+    protected function globalScreen() : Services
+    {
+        return $this->dic->globalScreen();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    final public function getFullyQualifiedClassName() : string
+    {
+        return self::class;
+    }
 }
