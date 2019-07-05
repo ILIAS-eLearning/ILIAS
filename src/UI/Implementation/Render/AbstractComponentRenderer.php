@@ -113,9 +113,19 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @return	\ILIAS\UI\Implementation\Render\Template
 	 */
 	final protected function getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks) {
-		$component = $this->getMyComponent();
-		$path = "src/UI/templates/default/$component/$name";
+		$path = $this->getTemplatePath($name);
 		return $this->tpl_factory->getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
+	}
+
+	/**
+	 * Get the path to the template of this component.
+	 *
+	 * @param	string	$name
+	 * @return	string
+	 */
+	protected function getTemplatePath($name) {
+		$component = $this->getMyComponent();
+		return "src/UI/templates/default/$component/$name";
 	}
 
 	/**
