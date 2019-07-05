@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionRevisionCreatedEvent;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
@@ -67,7 +68,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	public static function createNewQuestion(int $creator_id) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator_id));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new DomainObjectId(), $creator_id));
 		return $question;
 	}
 
@@ -78,7 +79,11 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	}
 
 	protected function applyQuestionDataSetEvent(QuestionDataSetEvent $event) {
-		$this->data = $event->data;
+		$this->data = $event->getData();
+	}
+
+	protected function applyQuestionRevisionCreatedEvent(QuestionRevisionCreatedEvent $event) {
+		$this->revision_id = new RevisionId($event->getRevisionKey());
 	}
 
 	public function setOnline() {
@@ -174,9 +179,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @return mixed
 	 */
 	public function setRevisionId(RevisionId $id) {
-		$this->revision_id = $id;
+		$this->ExecuteEvent(new QuestionRevisionCreatedEvent($this->getAggregateId(), $this->creator_id, $id->GetKey()));
 	}
-
 
 	/**
 	 * @return string
@@ -186,7 +190,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 *
 	 */
 	public function getRevisionName(): ?string {
-		return $this->revision_name;
+		return time();
 	}
 
 
@@ -197,7 +201,9 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * Domain specific data of an object and return it as an array
 	 */
 	public function getRevisionData(): array {
-		//TODO when implementing revisions
+		$data[] = $this->getAggregateId()->getId();
+		$data[] = $this->getData()->jsonSerialize();
+		return $data;
 	}
 
 

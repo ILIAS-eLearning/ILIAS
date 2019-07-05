@@ -7,8 +7,10 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\QuestionRepository;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
+use ILIAS\AssessmentQuestion\Common\RevisionFactory;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
+use ProjectQuestionsToListDb;
 use QuestionDto;
 
 const MSG_SUCCESS = "success";
@@ -64,6 +66,14 @@ class AsqAuthoringService {
 			// save changes if there are any
 			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question));
 		}
+	}
+
+	public function projectQuestion(string $question_id) {
+		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_id));
+		RevisionFactory::setRevisionId($question);
+		QuestionRepository::getInstance()->save($question);
+		$projector = new ProjectQuestionsToListDb();
+		$projector->project($question);
 	}
 
 	public function DeleteQuestion(string $question_id) {

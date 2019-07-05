@@ -3,6 +3,8 @@
 
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
+
 /**
  * Interface Projection
  *
@@ -16,9 +18,9 @@ namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 interface Projection {
 
 	/**
-	 * @param DomainEvents $event_stream
+	 * @param AggregateRoot $projectee
 	 *
 	 * @return mixed
 	 */
-	public function project(DomainEvents $event_stream);
+	public function project(AggregateRoot $projectee);
 }

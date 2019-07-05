@@ -19,7 +19,7 @@ class QuestionDataSetEvent extends AbstractDomainEvent {
 	/**
 	 * @var QuestionData
 	 */
-	public $data;
+	protected $data;
 
 	public function __construct(DomainObjectId $id, int $creator_id, QuestionData $data = null)
 	{
@@ -38,9 +38,9 @@ class QuestionDataSetEvent extends AbstractDomainEvent {
 	}
 
 	/**
-	 * @return string
+	 * @return QuestionData
 	 */
-	public function getData(): string {
+	public function getData(): QuestionData {
 		return $this->data;
 	}
 
