@@ -3,7 +3,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\GlobalScreen\Scope\Layout\ModifierServices;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
 
 /**
  * User interface hook class
@@ -88,24 +87,6 @@ class ilUIHookPluginGUI // implements FinalModificationProvider
 
 
     /**
-     * @inheritDoc
-     */
-    public final function getProviderNameForPresentation() : string
-    {
-        return $this->getPluginObject()->getPluginName();
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public final function getFullyQualifiedClassName() : string
-    {
-        return get_class($this);
-    }
-
-
-    /**
      * Modify HTML based on default html and plugin response
      *
      * @param string    default html
@@ -168,5 +149,14 @@ class ilUIHookPluginGUI // implements FinalModificationProvider
         }
 
         return $this->provider_name_cache;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public final function getFullyQualifiedClassName() : string
+    {
+        return get_class($this);
     }
 }
