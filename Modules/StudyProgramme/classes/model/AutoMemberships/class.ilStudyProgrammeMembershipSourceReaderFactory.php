@@ -29,7 +29,7 @@ class ilStudyProgrammeMembershipSourceReaderFactory
 			case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
 			case ilStudyProgrammeAutoMembershipSource::TYPE_COURSE:
 				return new ilStudyProgrammeMembershipSourceReaderParticipants(
-					ilParticipants::getInstance($src_id)
+					ilParticipants::getInstanceByObjId($src_id)
 				);
 			case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
 				return new ilStudyProgrammeMembershipSourceReaderOrgu(

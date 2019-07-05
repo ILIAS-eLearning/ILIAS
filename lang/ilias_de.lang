@@ -15089,3 +15089,16 @@ prg#:#last_edited#:#Zuletzt bearbeitet
 prg#:#add_category#:#Kategorie hinzufügen
 prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#category#:#Kategorie (RefId)
+prg#:#edit_participants#:#Mitglieder bearbeiten
+prg#:#auto_memberships#:#Automatische Zuweisung
+prg#:#orgu#:#Organisationseinheit
+prg#:#rol#:#Rolle
+prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
+prg#:#add_automembership_source#:#Automatismus hinzufügen
+prg#:#auto_membership_src_type#:#Typ
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
+prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Quelle
+prg#:#prg_autoassingment#:#(automatisch)

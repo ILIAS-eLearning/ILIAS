@@ -1490,7 +1490,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$member_ids = $this->getMembersOfMembershipSource($type, $src_id);
 
 		foreach ($member_ids as $usr_id) {
-			if (!$this->hasAssignmentOf($usr_id)) {
+			if (!$this->getAssignmentsOfSingleProgramForUser($usr_id)) {
 				$this->assignUser($usr_id, $assigned_by);
 			}
 		}
