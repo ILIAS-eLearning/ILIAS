@@ -8,7 +8,7 @@ use ILIAS\Changelog\EventHandler;
 use ILIAS\Changelog\Membership\Exception\EventHandlerNotFoundException;
 use ILIAS\Changelog\Membership\Exception\UnknownEventTypeException;
 use ILIAS\Changelog\Membership\MembershipEvent;
-use ILIAS\Changelog\Membership\Repository\ilDBMembershipRepository;
+use ILIAS\Changelog\Membership\Repository\ilDBMembershipEventRepository;
 use ILIAS\Changelog\Repository;
 
 /**
@@ -26,7 +26,7 @@ class ilDBLogger extends Logger {
 	 */
 	protected function getRepositoryForEvent(Event $event): Repository {
 		if (is_subclass_of($event, MembershipEvent::class)) {
-			return new ilDBMembershipRepository();
+			return new ilDBMembershipEventRepository();
 		} else {
 			throw new UnknownEventTypeException("couldn't find event type for event: " . get_class($event));
 		}

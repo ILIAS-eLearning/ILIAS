@@ -13,19 +13,4 @@ use ILIAS\Changelog\Event;
  */
 abstract class MembershipEvent implements Event {
 
-	protected $obj_type;
-
-	protected $obj_id;
-
-	protected $obj_ref_id;
-
-	protected $ilias_component;
-
-	protected $initiating_user;
-
-	protected $affected_user;
-
-	protected $timestamp;
-
-	abstract public function getTitle(): String;
 }

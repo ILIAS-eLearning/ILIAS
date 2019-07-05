@@ -3,9 +3,9 @@
 namespace ILIAS\Changelog;
 
 
+use ILIAS\Changelog\Logger\ilDBLogger;
 use ILIAS\Changelog\Logger\Logger;
 use ILIAS\Changelog\Membership\Exception\EventHandlerNotFoundException;
-use ILIAS\Changelog\Membership\Repository\ilDBMembershipRepository;
 
 /**
  * Class ChangelogService
@@ -16,25 +16,34 @@ use ILIAS\Changelog\Membership\Repository\ilDBMembershipRepository;
 class ChangelogService {
 
 	/**
-	 * @var Logger
+	 * @var Logger[]
 	 */
-	protected $logger;
+	protected $loggers;
 
 	/**
 	 * ChangelogService constructor.
-	 * @param Logger|null $logger
 	 */
-	public function __construct(Logger $logger = null) {
-		$this->logger = $logger ?: new ilDBLogger();
+	public function __construct() {
+		$this->registerLogger(new ilDBLogger());
 	}
 
+	/**
+	 * Use to add additional loggers to store the event. Default is the ilDBLogger.
+	 *
+	 * @param Logger $logger
+	 */
+	public function registerLogger(Logger $logger): void {
+		$this->loggers[] = $logger;
+	}
 
 	/**
 	 * @param Event $event
 	 * @throws EventHandlerNotFoundException
 	 */
 	public function logEvent(Event $event): void {
-		$this->logger->logEvent($event);
+		foreach ($this->loggers as $logger) {
+			$logger->logEvent($event);
+		}
 	}
 
 
