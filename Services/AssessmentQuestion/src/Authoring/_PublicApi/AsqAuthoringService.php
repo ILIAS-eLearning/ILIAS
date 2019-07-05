@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
@@ -48,9 +49,9 @@ class AsqAuthoringService {
 		return QuestionDto::CreateFromQuestion($question);
 	}
 
-	public function CreateQuestion(string $title, string $description, string $text, int $creator_id): void {
+	public function CreateQuestion(string $title, string $description, string $text): void {
 		//CreateQuestion.png
-		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionCommand($title, $description, $text, $creator_id));
+		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionCommand($title, $description, $text, $this->asq_question_spec->user_id));
 	}
 
 	public function SaveQuestion(QuestionDto $question_dto) {
@@ -64,16 +65,12 @@ class AsqAuthoringService {
 
 		if(count($question->getRecordedEvents()->getEvents()) > 0) {
 			// save changes if there are any
-			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question));
+			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->asq_question_spec->user_id));
 		}
 	}
 
 	public function projectQuestion(string $question_id) {
-		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_id));
-		RevisionFactory::setRevisionId($question);
-		QuestionRepository::getInstance()->save($question);
-		$projector = new ProjectQuestionsToListDb();
-		$projector->project($question);
+		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->asq_question_spec->user_id));
 	}
 
 	public function DeleteQuestion(string $question_id) {
