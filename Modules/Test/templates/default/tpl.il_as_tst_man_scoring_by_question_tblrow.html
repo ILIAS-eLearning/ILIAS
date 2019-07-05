@@ -7,7 +7,7 @@
 	<td class="finalized_by_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_BY}</td>
 	<td class="finalized_on_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_ON}</td>
 	<td class="std">
-		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" href="#">{VAL_TXT_ANSWER}</a>
+		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" data-answer-title="{ANSWER_TITLE}" href="#">{VAL_TXT_ANSWER}</a>
 		<!-- BEGIN row_js -->
 		<script type="text/javascript">
 			(function($) {
@@ -15,7 +15,7 @@
 
 					$(".iosAssAnswerModalTrigger").off("click");
 					$(".iosAssAnswerModalTrigger").on("click", function(e) {
-
+						
 						var $this = $(this),
 							modal = $this.data("modal");
 
@@ -29,7 +29,7 @@
 								success: function(data) {
 									modal = il.Modal.dialogue({
 										show:    false,
-										header:  il.Language.txt('answer'),
+										header:  $this.data("answer-title"),
 										body:    data,
 										buttons: {}
 									});

@@ -374,6 +374,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		);
 		$this->appendFormToModal($tmp_tpl, $pass, $active_id, $question_id, $max_points);
 		$tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') .' '. $participant->getName());
+		$suggested_solution = assQuestion::_getSuggestedSolutionOutput($question_id);
+		if($this->object->getShowSolutionSuggested() && strlen($suggested_solution) > 0){
+			$tmp_tpl->setVariable('TEXT_SOLUTION_HINT', $this->lng->txt("solution_hint"));
+			$tmp_tpl->setVariable("SOLUTION_HINT", assQuestion::_getSuggestedSolutionOutput($question_id));
+		}
+
+		$tmp_tpl->setVariable('TEXT_SOLUTION_OUTPUT', $this->lng->txt('question'));
+		$tmp_tpl->setVariable('TEXT_RECEIVED_POINTS', $this->lng->txt('scoring'));
 		$add_title      = ' ['. $this->lng->txt('question_id_short') . ': ' . $question_id  . ']';
 		$question_title = $this->object->getQuestionTitle($question_gui->object->getTitle());
 		$lng            = $this->lng->txt('points');

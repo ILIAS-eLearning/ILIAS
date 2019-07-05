@@ -5,20 +5,29 @@
 				<table border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
 						<td>
-							<div class="ilc_PageTitle">{QUESTION_TITLE}</div>
-							<!-- BEGIN objectives -->
+							<h1 class="ilc_PageTitle">{QUESTION_TITLE}</h1>
+<!-- BEGIN objectives -->
 							<div>{OBJECTIVES}</div>
-							<!-- END objectives -->
-							<p>{TEXT_YOUR_SOLUTION}:</p>
+<!-- END objectives -->
+							<h2>{TEXT_SOLUTION_OUTPUT}:</h2>
 							{SOLUTION_OUTPUT}
+							<hr>
+							<h2>{TEXT_RECEIVED_POINTS}:</h2>
+							<p>{RECEIVED_POINTS}</p>
+							<hr>
+<!-- BEGIN best_solution -->
+							<h2>{TEXT_BEST_SOLUTION}:</h2>
+							{BEST_OUTPUT}
+							<hr>
+<!-- END best_solution -->
+<!-- BEGIN solution_hint -->
+							<h2>{TEXT_SOLUTION_HINT}:</h2>
+							{SOLUTION_HINT}
+							<hr>
+<!-- END solution_hint -->
 <!-- BEGIN outline_specific_feedback -->
 							<p>{OUTLINE_SPECIFIC_FEEDBACK}</p>
 <!-- END outline_specific_feedback -->
-<!-- BEGIN best_solution -->
-							<p>{TEXT_BEST_SOLUTION}:</p>
-							{BEST_OUTPUT}
-<!-- END best_solution -->
-							<p>{RECEIVED_POINTS}</p>
 						</td>
 					</tr>
 				</table>

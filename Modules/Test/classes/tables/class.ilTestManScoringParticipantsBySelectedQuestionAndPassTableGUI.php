@@ -199,6 +199,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		$ilCtrl->setParameter($this->getParentObject(), 'active_id', '');
 		$ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
 		$this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
+		$this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of').': '.$row['participant']->getName());
 	}
 	
 	public function setManualScoringPointsPostData($manPointsPostData)
