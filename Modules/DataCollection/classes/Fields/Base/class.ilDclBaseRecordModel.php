@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php';
-require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php';
-require_once './Services/Exceptions/classes/class.ilException.php';
-require_once './Services/User/classes/class.ilUserUtil.php';
-
 /**
  * Class ilDclBaseRecordModel
  *

@@ -1,87 +1,110 @@
 <?php namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
-use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
+use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
  * Class Services
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Services {
+class Services
+{
 
-	const MAINBAR_SERVICES = 'mainbar_services';
-	const COLLECTOR_SERVICES = 'collector_services';
-	const STORAGE_FACADE = 'storage_facade';
-	const IDENTIFICATION_SERVICES = 'identification_services';
-	private static $instance = null;
-	/**
-	 * @var array
-	 */
-	private static $instances = [];
-
-
-	/**
-	 * @return Services
-	 */
-	public static function getInstance() {
-		if (!isset(self::$instance)) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    use SingletonTrait;
+    /**
+     * @var Services
+     */
+    private static $instance = null;
+    /**
+     * @var ProviderFactoryInterface
+     */
+    private $provider_factory;
 
 
-	/**
-	 * @see MainMenuItemFactory
-	 *
-	 * @return MainMenuItemFactory
-	 */
-	public function mainmenu(): MainMenuItemFactory {
-		return $this->get(MainMenuItemFactory::class);
-	}
+    /**
+     * Services constructor.
+     *
+     * @param ProviderFactoryInterface $provider_factory
+     */
+    public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
 
 
-	/**
-	 * @return CollectorFactory
-	 */
-	public function collector(): CollectorFactory {
-		return $this->get(CollectorFactory::class);
-	}
+    /**
+     * @param ProviderFactoryInterface $provider_factory
+     *
+     * @return Services
+     */
+    public static function getInstance(ProviderFactoryInterface $provider_factory)
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($provider_factory);
+        }
+
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return StorageFacade
-	 */
-	public function storage(): StorageFacade {
-		return $this->get(CoreStorageFacade::class);
-	}
+    /**
+     * @return MainMenuItemFactory
+     * @see MainMenuItemFactory
+     *
+     */
+    public function mainBar() : MainMenuItemFactory
+    {
+        return $this->get(MainMenuItemFactory::class);
+    }
 
 
-	/**
-	 * @see IdentificationFactory
-	 *
-	 * @return IdentificationFactory
-	 */
-	public function identification(): IdentificationFactory {
-		return $this->get(IdentificationFactory::class);
-	}
+    /**
+     * @return MetaBarItemFactory
+     */
+    public function metaBar() : MetaBarItemFactory
+    {
+        return $this->get(MetaBarItemFactory::class);
+    }
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return mixed
-	 */
-	private function get(string $class_name) {
-		if (!isset(self::$instances[$class_name])) {
-			self::$instances[$class_name] = new $class_name();
-		}
+    /**
+     * @return ToolServices
+     * @see ToolServices
+     */
+    public function tool() : ToolServices
+    {
+        return $this->get(ToolServices::class);
+    }
 
-		return self::$instances[$class_name];
-	}
+
+    /**
+     * @return LayoutServices
+     */
+    public function layout() : LayoutServices
+    {
+        return $this->get(LayoutServices::class);
+    }
+
+
+    /**
+     * @return CollectorFactory
+     */
+    public function collector() : CollectorFactory
+    {
+        return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
+    }
+
+
+    /**
+     * @return IdentificationFactory
+     * @see IdentificationFactory
+     *
+     */
+    public function identification() : IdentificationFactory
+    {
+        return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
+    }
 }

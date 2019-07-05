@@ -1,23 +1,21 @@
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW} <!-- BEGIN tst_manual_scoring --> tst_manual_scoring_feedback_finalized <!-- END tst_manual_scoring --> table_row_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">
 	<td class="std">{VAL_NAME}</td>
-	<td class="std">
-		{VAL_REACHED_POINTS}
-		<!-- BEGIN reached_points_alert -->
-		<div class="ilFormInfo">
-				<img border="0" alt="{REACHED_POINTS_ALT_ALERT}" src="{REACHED_POINTS_IMG_ALERT}">
-				{REACHED_POINTS_TXT_ALERT}
-		</div>
-		<!-- END reached_points_alert -->
-	</td>
+	<td class="reached_points_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_REACHED_POINTS}</td>
+	<td>{VAL_MAX_POINTS}</td>
+	<td class="feedback_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_MODAL_CORRECTION}</td>
+	<td class="finalized_evaluation_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_EVALUATED}</td>
+	<td class="finalized_by_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_BY}</td>
+	<td class="finalized_on_{VAL_PASS}_{VAL_ACTIVE_ID}_{VAL_QUESTION_ID}">{VAL_FINALIZED_ON}</td>
 	<td class="std">
 		<a class="il_ContainerItemCommand iosAssAnswerModalTrigger" data-answer-href="{VAL_LINK_ANSWER}" data-answer-title="{ANSWER_TITLE}" href="#">{VAL_TXT_ANSWER}</a>
 		<!-- BEGIN row_js -->
 		<script type="text/javascript">
 			(function($) {
 				$().ready(function() {
+
+					$(".iosAssAnswerModalTrigger").off("click");
 					$(".iosAssAnswerModalTrigger").on("click", function(e) {
-
-
+						
 						var $this = $(this),
 							modal = $this.data("modal");
 
@@ -49,6 +47,35 @@
 							modal.show();
 						}
 					});
+					<!-- BEGIN scoring_by_question_refresher -->
+					il.TestScoringByQuestion  = (function (scope) {
+						'use strict';
+
+						var pub = {};
+						var pro = {};
+
+						pub.correctTableData = function(data)
+						{
+							data = JSON.parse(data);
+							console.log(data);
+							var sub_string 		= '_' + data.feedback.pass +'_' + data.feedback.active_fi +'_' + data.feedback.question_fi;
+							var $scoring 		= $('.reached_points' + sub_string);
+							var $feedback 		= $('.feedback' + sub_string);
+							var $finalized 		= $('.finalized_evaluation' + sub_string);
+							var $finalized_by 	= $('.finalized_by' + sub_string);
+							var $finalized_on 	= $('.finalized_on' + sub_string);
+							
+							$scoring.html(data.points);
+							$feedback.html(data.feedback.feedback);
+							$finalized.html(data.feedback.finalized_evaluation);
+							$finalized_by.html(data.feedback.finalized_by);
+							$finalized_on.html(data.feedback.finalized_on_date);
+						};
+
+						pub.protect = pro;
+						return pub;
+					}(il));
+					<!-- END scoring_by_question_refresher -->
 				});
 			}(jQuery));
 		</script>

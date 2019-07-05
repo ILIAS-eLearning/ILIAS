@@ -8,7 +8,7 @@ function with_object_icon_and_actions() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$icon = $f->icon()->standard("crs", 'Course')->withIsOutlined(true);
+	$icon = $f->symbol()->icon()->standard("crs", 'Course')->withIsOutlined(true);
 
 	$items = array(
 		$f->button()->shy("Go to Course", "#"),

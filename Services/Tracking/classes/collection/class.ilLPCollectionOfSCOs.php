@@ -113,6 +113,65 @@ class ilLPCollectionOfSCOs extends ilLPCollection
 		
 		return array("raw" => null, "max" => null, "scaled" => null);
 	}
+
+    /**
+     * Scorm items are not copied, they are newly created by reading the manifest.
+     * Therefore, they do not have a mapping. So we need to map them via the import_id/identifierref
+     *
+     * @param $a_target_id
+     * @param $a_copy_id
+     */
+    public function cloneCollection($a_target_id, $a_copy_id)
+    {
+        global $DIC;
+
+        $target_obj_id = ilObject::_lookupObjId($a_target_id);
+        $new_collection = new static($target_obj_id, $this->mode);
+        $possible_items = $new_collection->getPossibleItems();
+        foreach($this->items as $item_id)
+        {
+            foreach ($possible_items as $pos_item_id => $pos_item) {
+                if ($this->itemsAreEqual($item_id, $pos_item_id)) {
+                    $new_collection->addEntry($pos_item_id);
+                }
+            }
+        }
+
+        $DIC->logger()->root()->write(__METHOD__.': cloned learning progress collection.');
+    }
+
+
+    /**
+     * @param $item_a_id
+     * @param $item_b_id
+     *
+     * @return bool
+     */
+    protected function itemsAreEqual($item_a_id, $item_b_id) {
+        global $DIC;
+        switch(ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
+            case 'scorm':
+                $res_a = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_a_id, 'integer'))->fetchAssoc();
+                $res_b = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_b_id, 'integer'))->fetchAssoc();
+                return (
+                    $res_a
+                    && $res_b
+                    && ($res_a['import_id'] == $res_b['import_id'])
+                    && ($res_a['identifierref'] == $res_b['identifierref'])
+                );
+            case 'scorm2004':
+                $res_a = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_a_id, 'integer'))->fetchAssoc();
+                $res_b = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_b_id, 'integer'))->fetchAssoc();
+                return (
+                    $res_a
+                    && $res_b
+                    && ($res_a['import_id'] == $res_b['import_id'])
+                    && ($res_a['identifierref'] == $res_b['identifierref'])
+                );
+            default:
+                return false;
+        }
+    }
 }
 
 ?>

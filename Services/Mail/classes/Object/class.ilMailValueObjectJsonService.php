@@ -21,7 +21,6 @@ class ilMailValueObjectJsonService
 			$array['recipients']              = $mailValueObject->getRecipients();
 			$array['recipients_cc']           = $mailValueObject->getRecipientsCC();
 			$array['recipients_bcc']          = $mailValueObject->getRecipientsBCC();
-			$array['types']                   = $mailValueObject->getTypes();
 			$array['attachments']             = $mailValueObject->getAttachment();
 			$array['body']                    = $mailValueObject->getBody();
 			$array['subject']                 = $mailValueObject->getSubject();
@@ -52,7 +51,6 @@ class ilMailValueObjectJsonService
 				$objectValues['subject'],
 				$objectValues['body'],
 				$objectValues['attachments'],
-				$objectValues['types'],
 				$objectValues['is_using_placholders'],
 				$objectValues['should_save_in_sent_box']
 			);

@@ -11,7 +11,7 @@ interface Bulky extends Button, Engageable
 	/**
 	 * Get the icon or glyph the button was created with.
 	 *
-	 * @return ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph
+	 * @return ILIAS\UI\Component\Symbol\Symbol
 	 */
 	public function getIconOrGlyph();
 }

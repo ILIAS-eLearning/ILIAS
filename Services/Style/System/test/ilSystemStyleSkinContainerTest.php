@@ -9,12 +9,14 @@ include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
 include_once("Services/Utilities/classes/class.ilUtil.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
+class ilSystemStyleSkinContainerTest extends TestCase {
 
 
 	/**
@@ -39,7 +41,7 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 
 	protected $save_dic = null;
 
-	protected function setUp(){
+	protected function setUp(): void{
 		global $DIC;
 
 		$this->save_dic = $DIC;
@@ -74,7 +76,7 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase {
 		ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path,$this->system_style_config->test_skin_temp_path);
 	}
 
-	protected function tearDown(){
+	protected function tearDown(): void {
 		global $DIC;
 		$DIC = $this->save_dic;
 

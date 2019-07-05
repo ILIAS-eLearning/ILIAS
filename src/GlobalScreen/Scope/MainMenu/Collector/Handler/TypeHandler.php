@@ -9,35 +9,36 @@ use ILIAS\UI\Component\Input\Field\Input;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface TypeHandler {
+interface TypeHandler
+{
 
-	/**
-	 * @return string Classname of matching Type this TypeHandler can handle
-	 */
-	public function matchesForType(): string;
-
-
-	/**
-	 * @param isItem $item
-	 *
-	 * @return isItem
-	 */
-	public function enrichItem(isItem $item): isItem;
+    /**
+     * @return string Classname of matching Type this TypeHandler can handle
+     */
+    public function matchesForType() : string;
 
 
-	/**
-	 * @param IdentificationInterface $identification
-	 *
-	 * @return Input[]
-	 */
-	public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array;
+    /**
+     * @param isItem $item
+     *
+     * @return isItem
+     */
+    public function enrichItem(isItem $item) : isItem;
 
 
-	/**
-	 * @param IdentificationInterface $identification
-	 * @param array                   $data
-	 *
-	 * @return bool
-	 */
-	public function saveFormFields(IdentificationInterface $identification, array $data): bool;
+    /**
+     * @param IdentificationInterface $identification
+     *
+     * @return Input[]
+     */
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array;
+
+
+    /**
+     * @param IdentificationInterface $identification
+     * @param array                   $data
+     *
+     * @return bool
+     */
+    public function saveFormFields(IdentificationInterface $identification, array $data) : bool;
 }

@@ -46,7 +46,7 @@ class BasicPersistenceTest extends TestCase {
 	/** @var  BasicPersistence */
 	protected $persistence;
 
-	public function setUp() {
+	public function setUp(): void{
 		$dic = new Container();
 		$dic[Bucket::class] = function ($c) {
 			return new BasicBucket();
@@ -180,7 +180,7 @@ class BasicPersistenceTest extends TestCase {
 
 
 	public function testUserInteraction() {
-		$this->setExpectedException(UserInteractionRequiredException::class);
+		$this->expectException(UserInteractionRequiredException::class);
 		/** @var IntegerValue $finalValue */
 		$taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
 		/** @var IntegerValue $finalValue */

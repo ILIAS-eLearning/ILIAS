@@ -21,15 +21,17 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilSessionTest
  * @group needsInstalledILIAS
  */
-class ilSessionTest extends PHPUnit_Framework_TestCase
+class ilSessionTest extends TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void 
 	{
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();

@@ -9,6 +9,12 @@ if ( !class_exists( 'UtfNormal' ) ) {
 	require_once( 'include/Unicode/UtfNormal.php' );
 }
 
+
+// patched: alex, 30.4.2019: Added missing defines
+
+define ( 'NS_MAIN', "nsmain");
+define ( 'NS_SPECIAL', "nsspecial");
+
 define ( 'GAID_FOR_UPDATE', 1 );
 
 # Title::newFromTitle maintains a cache to avoid

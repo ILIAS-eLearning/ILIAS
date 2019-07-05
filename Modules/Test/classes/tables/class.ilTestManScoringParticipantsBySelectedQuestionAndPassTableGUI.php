@@ -26,30 +26,27 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 	 */
 	protected $first_row_rendered = false;
 
+	/**
+	 * @var bool
+	 */
+	protected $first_row = true;
+
 	public function __construct($parentObj)
 	{
 		$this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
 		$this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
-
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
 
+		$ilCtrl = $DIC->ctrl();
+		$tpl = $DIC->ui()->mainTemplate();
+		$tpl->addJavaScript('./Services/RTE/tiny_mce_3_5_11/tiny_mce.js');
 		$this->setId('man_scor_by_qst_' . $parentObj->object->getId());
 
 		parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
 
-		$this->disable('sort');
-
 		$this->setFormAction($ilCtrl->getFormAction($parentObj, self::PARENT_DEFAULT_CMD));
-
 		$this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
-
 		$this->setShowRowsSelector(true);
-
-		$this->addCommandButton(self::PARENT_SAVE_SCORING_CMD, $this->lng->txt('save'));
 
 		$this->initColumns();
 		$this->initFilter();
@@ -57,9 +54,14 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
 	private function initColumns()
 	{
-		$this->addColumn($this->lng->txt('name'), 'lastname', '40%');
-		$this->addColumn($this->lng->txt('tst_reached_points'), 'lastname', '40%');
-		$this->addColumn('', '', '20%');
+		$this->addColumn($this->lng->txt('name'), 'lastname');
+		$this->addColumn($this->lng->txt('tst_reached_points'), 'reached_points');
+		$this->addColumn($this->lng->txt('tst_maximum_points'), 'max_points');
+		$this->addColumn($this->lng->txt('tst_feedback'), 'feedback', '30%');
+		$this->addColumn($this->lng->txt('finalized_evaluation'), 'finalized_evaluation');
+		$this->addColumn($this->lng->txt('finalized_by'), 'finalized_by');
+		$this->addColumn($this->lng->txt('finalized_on'), 'finalized_on');
+		$this->addColumn('', '');
 	}
 
 	public function initFilter()
@@ -117,21 +119,41 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		$pass->setOptions($passes);
 		$this->addFilterItem($pass);
 		$pass->readFromSession();
-		$this->filter['pass'] = $pass->getValue();
+		$this->filter['pass'] 	= $pass->getValue();
+		$correction 			= new ilSelectInputGUI(
+			$this->lng->txt('finalized_evaluation'),
+			'finalize_evaluation'
+		);
+		$evaluated 				= array(
+			$this->lng->txt('all_users'),
+			$this->lng->txt('evaluated_users'),
+			$this->lng->txt('not_evaluated_users')
+		);
+		$correction->setOptions($evaluated);
+		$this->addFilterItem($correction);
+		$correction->readFromSession();
+		$this->filter['finalize_evaluation'] = $correction->getValue();
 	}
 
 	/**
-	 * @global    ilCtrl     $ilCtrl
-	 * @global    ilLanguage $lng
-	 * @param    array       $row
+	 * @param array $row
 	 */
 	public function fillRow($row)
 	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
+		$ilCtrl = $DIC->ctrl();
+		$ilAccess = $DIC->access();
+
+		$this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
+		if (
+			$this->getParentObject()->object->anonymity == 1  ||
+			(
+				$this->getParentObject()->object->getAnonymity() == 2 &&
+				false == $ilAccess->checkAccess('write','',$this->getParentObject()->object->getRefId())
+			)
+		){
+			$this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
+		}
 
 		if(!$this->first_row_rendered)
 		{
@@ -140,31 +162,34 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		}
 
 		$this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
-		$reached_points = new ilNumberInputGUI('', 'scoring[' . $row['pass_id'] . '][' . $row['active_id'] . '][' . $row['qst_id'] . ']');
-		$reached_points->allowDecimals(true);
-		$reached_points->setSize(5);
-		if( count($this->manPointsPostData) )
-		{
-			if( $this->isMaxPointsExceededByPostValue($row['pass_id'], $row['active_id'], $row['qst_id']) )
-			{
-				$reached_points->setAlert( sprintf(
-						$this->lng->txt('tst_manscoring_maxpoints_exceeded_input_alert'), $row['maximum_points']
-				));
-				
-				$this->tpl->setCurrentBlock("reached_points_alert");
-				$this->tpl->setVariable("REACHED_POINTS_IMG_ALERT", ilUtil::getImagePath("icon_alert.svg"));
-				$this->tpl->setVariable("REACHED_POINTS_ALT_ALERT", $this->lng->txt("alert"));
-				$this->tpl->setVariable("REACHED_POINTS_TXT_ALERT", $reached_points->getAlert());
-				$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable('VAL_REACHED_POINTS', $row['reached_points']);
+		$this->tpl->setVariable('VAL_MAX_POINTS', $row['maximum_points']);
+		$finalized = (isset($row['feedback']['finalized_evaluation']) && $row['feedback']['finalized_evaluation'] == 1);
+		$this->tpl->setVariable(
+			'VAL_EVALUATED', 
+			($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
+		);
+		$fin_usr_id = $row['feedback']['finalized_by_usr_id'];
+
+			$this->tpl->setVariable('VAL_MODAL_CORRECTION', $row['feedback']['feedback']);
+			if($fin_usr_id > 0){
+				$this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
 			}
-			
-			$reached_points->setValue($this->manPointsPostData[$row['pass_id']][$row['active_id']][$row['qst_id']]);
+			$fin_timestamp = $row['feedback']['finalized_tstamp'];
+			if($fin_timestamp > 0){
+				$time = new ilDateTime($fin_timestamp, 3);
+				$this->tpl->setVariable('VAL_FINALIZED_ON', \ilDatePresentation::formatDate($time));
+			}
+
+		$this->tpl->setVariable('VAL_PASS', $row['pass_id']);
+		$this->tpl->setVariable('VAL_ACTIVE_ID',  $row['active_id']);
+		$this->tpl->setVariable('VAL_QUESTION_ID', $row['qst_id']);
+
+		if($this->first_row){
+			$this->tpl->touchBlock('scoring_by_question_refresher');
+			$this->tpl->parseCurrentBlock();
+			$this->first_row = false;
 		}
-		else
-		{
-			$reached_points->setValue($row['reached_points']);
-		}
-		$this->tpl->setVariable('VAL_REACHED_POINTS', $reached_points->render());
 
 		$ilCtrl->setParameter($this->getParentObject(), 'qst_id', $row['qst_id']);
 		$ilCtrl->setParameter($this->getParentObject(), 'active_id', $row['active_id']);
@@ -175,28 +200,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 		$ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
 		$this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
 		$this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of').': '.$row['participant']->getName());
-	}
-	
-	private function isMaxPointsExceededByPostValue($pass_id, $active_id, $qst_id)
-	{
-		if( !isset($this->manPointsPostData[$pass_id]) )
-		{
-			return false;
-		}
-		
-		if( !isset($this->manPointsPostData[$pass_id][$active_id]) )
-		{
-			return false;
-		}
-		
-		if( !isset($this->manPointsPostData[$pass_id][$active_id][$qst_id]) )
-		{
-			return false;
-		}
-		
-		$submittedPoints = $this->manPointsPostData[$pass_id][$active_id][$qst_id];
-		
-		return $submittedPoints > $this->getCurQuestionMaxPoints();
 	}
 	
 	public function setManualScoringPointsPostData($manPointsPostData)

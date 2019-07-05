@@ -66,15 +66,15 @@ class ilSoapAdministration
 		define('NUSOAP',1);
 		define('PHP5',2);
 
-		if(IL_SOAPMODE == IL_SOAPMODE_NUSOAP)
-		{
+		if (
+			defined('IL_SOAPMODE') && defined('IL_SOAPMODE_NUSOAP') &&
+			IL_SOAPMODE == IL_SOAPMODE_NUSOAP
+		) {
 			$this->error_method = NUSOAP;
-		} 
-		else
-		{ 
+		} else { 
 			$this->error_method = PHP5;
 		}
-		#echo ("SOAP: using soap mode ".IL_SOAPMODE == IL_SOAPMODE_NUSOAP ? "NUSOAP": "PHP5");
+
 		$this->__initAuthenticationObject();
 	}
 
@@ -467,7 +467,6 @@ class ilSoapAdministration
 		}
 
 		// build dsn of database connection and connect
-		require_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$ilDB = ilDBWrapperFactory::getWrapper($ilClientIniFile->readVariable("db","type"),
 			$ilClientIniFile->readVariable("db","inactive_mysqli"));
 		$ilDB->initFromIniFile($ilClientIniFile);			

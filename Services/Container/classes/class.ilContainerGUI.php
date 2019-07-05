@@ -108,7 +108,22 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @var \ILIAS\DI\UIServices
 	 */
 	protected $ui;
-	
+
+	/**
+	 * @var ilContainerFilterService
+	 */
+	protected $container_filter_service;
+
+	/**
+	 * @var ilContainerUserFilter
+	 */
+	protected $container_user_filter = null;
+
+	/**
+	 * @var
+	 */
+	protected $ui_filter;
+
 	/**
 	* Constructor
 	* @access public
@@ -148,6 +163,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// prepare output things should generally be made in executeCommand
 		// method (maybe dependent on current class/command
 		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+
+		$this->container_filter_service = new ilContainerFilterService();
+		$this->initFilter();
 	}
 
 	/**
@@ -319,12 +337,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng->loadLanguageModule("content");
 		
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		// $this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+		// $this->tpl->parseCurrentBlock();
 
 		if (!ilContainerPage::_exists("cont",
 			$this->object->getId()))
@@ -514,7 +530,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
-			$lgui->initItem($this->object->getRefId(), $this->object->getId());
+			$lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
 			$this->tpl->setAlertProperties($lgui->getAlertProperties());			
 		}
 	}
@@ -561,10 +577,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			case ilContainer::VIEW_BY_TYPE:
 			default:
 				include_once("./Services/Container/classes/class.ilContainerByTypeContentGUI.php");
-				$container_view = new ilContainerByTypeContentGUI($this);
+				$container_view = new ilContainerByTypeContentGUI($this, $this->container_user_filter);
 				break;
 		}
-
 		return $container_view;
 	}
 	
@@ -580,7 +595,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilTabs = $this->tabs;
 		$ilCtrl = $this->ctrl;
 		$ilSetting = $this->settings;
-		
+
 		$container_view = $this->getContentGUI();
 		
 		$this->setContentSubTabs();
@@ -604,7 +619,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->showAdministrationPanel();
 			$this->showPossibleSubObjects();
 		}
-		
+
+		$this->showContainerFilter();
+
 		$this->showPermanentLink();
 
 		// add tree updater javascript
@@ -1523,7 +1540,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$_POST["id"] = array($_GET["item_ref_id"]);
 		}
 
-		//$ilErr->raiseError("move operation does not work at the moment and is disabled", $ilErr->MESSAGE);
+		$no_cut = [];
 
 		if (!isset($_POST["id"]))
 		{
@@ -1590,6 +1607,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$objDefinition = $this->obj_definition;
 		$ilErr = $this->error;
 
+		$no_copy = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1639,7 +1658,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
-		if (count($no_copy))
+		if (is_array($no_copy) && count($no_copy))
 		{
 			$titles = array();
 			foreach((array) $no_copy as $copy_id)
@@ -1676,7 +1695,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
-		
+
+		$no_download = [];
+		$no_perm = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1840,6 +1862,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		$ilErr = $this->error;
 
+		$no_cut = [];
+		$no_link = [];
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1936,6 +1961,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$ctrl = $this->ctrl;
 		$ui = $this->ui;
+
+		$exists = [];
+		$is_child = [];
+		$not_allowed_subobject = [];
+		$no_paste = [];
 
 		$command = $_SESSION['clipboard']['cmd'];
 		if(!in_array($command, array('cut', 'link', 'copy')))
@@ -3948,6 +3978,69 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$this->ctrl->setReturn($this, "");
 	}
+
+	/**
+	 * Init filter
+	 */
+	protected function initFilter()
+	{
+		global $DIC;
+
+
+		if (!$this->object || !ilContainer::_lookupContainerSetting($this->object->getId(), "filter", false))
+		{
+			return;
+		}
+
+		$filter_service = $this->container_filter_service;
+		$request = $DIC->http()->request();
+
+		$filter = $filter_service->util()->getFilterForRefId($this->ref_id,
+			$DIC->ctrl()->getLinkTarget($this, "render", "", true));
+
+
+		$filter_data = [];
+
+		// @todo: this is something we need to do better
+		if ($request->getMethod() == "POST" && $_GET["cmd"] == "render") {
+			$filter_data = $DIC->uiService()->filter()->getData($filter);
+		}
+		else {
+			/** @var \ILIAS\UI\Implementation\Component\Input\Field\Input $i */
+			foreach ($filter->getInputs() as $k => $i)
+			{
+				$filter_data[$k] = $i->getValue();
+			}
+		}
+
+
+		$this->container_user_filter = $filter_service->userFilter($filter_data);
+		$this->ui_filter = $filter;
+	}
+
+
+	/**
+	 * Show container filter
+	 */
+	protected function showContainerFilter()
+	{
+		global $DIC;
+
+		if (!is_null($this->ui_filter))
+		{
+			$renderer = $DIC->ui()->renderer();
+
+			/** @var ilTemplate $main_tpl */
+			$main_tpl = $this->tpl;
+			$main_tpl->setFilter($renderer->render($this->ui_filter));
+			
+			if ($this->container_user_filter->isEmpty() && !ilContainer::_lookupContainerSetting($this->object->getId(), "filter_show_empty", false))
+			{
+				ilUtil::sendInfo($this->lng->txt("cont_filter_empty"));
+			}
+		}
+	}
+
 
 }
 ?>

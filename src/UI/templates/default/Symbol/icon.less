@@ -1,0 +1,852 @@
+.icon {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-image: url("@{background-images-path}icon_default.svg");
+	display: inline-block;
+	text-align: center;
+
+	.abbreviation {
+		font-weight: bold;
+		position: absolute;
+	}
+	img {
+		float:left;
+	}
+
+	&.small {
+		height: @icon-size-small;
+		width: @icon-size-small;
+		line-height: @icon-size-small;
+		.abbreviation {
+			font-size: ceil(@icon-size-small / 2.5);
+			width: @icon-size-small;
+		}
+		img {
+			width: @icon-size-small;
+			height: @icon-size-small;
+		}
+	}
+	&.medium {
+		height: @icon-size-medium;
+		width: @icon-size-medium;
+		line-height: @icon-size-medium;
+		.abbreviation {
+			font-size: ceil(@icon-size-medium / 2.5);
+			width: @icon-size-medium;
+		}
+		img {
+			width: @icon-size-medium;
+			height: @icon-size-medium;
+		}
+	}
+	&.large {
+		height: @icon-size-large;
+		width: @icon-size-large;
+		line-height: @icon-size-large;
+		.abbreviation {
+			font-size: ceil(@icon-size-large / 2.5);
+			width: @icon-size-large;
+		}
+		img {
+			width: @icon-size-large;
+			height: @icon-size-large;
+		}
+	}
+	&.responsive {
+		width: 100%;
+		line-height: @icon-size-medium;
+		.abbreviation {
+			font-size: ceil(@icon-size-medium / 2.5);
+			width: @icon-size-medium;
+		}
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	&.disabled {
+		-webkit-filter: @il-standard-disabled-icon-filter; /* Safari 6.0 - 9.0 */
+		filter: @il-standard-disabled-icon-filter;
+	}
+
+	/* the custom-icon is rendered with an image contained in the div */
+	&.custom {
+		background-image: none;
+	}
+
+	/* add known standard classes here */
+	&.grp,
+	&.cat,
+	&.crs,
+	&.mob,
+	&.mail,
+	&.sahs,
+	&.adm,
+	&.usrf,
+	&.rolf,
+	&.objf,
+	&.usr,
+	&.typ,
+	&.rolt,
+	&.lngf,
+	&.lng,
+	&.role,
+	&.dbk,
+	&.glo,
+	&.root,
+	&.lm,
+	&.notf,
+	&.note,
+	&.frm,
+	&.exc,
+	&.auth,
+	&.fold,
+	&.file,
+	&.tst,
+	&.qpl,
+	&.recf,
+	&.mep,
+	&.htlm,
+	&.svy,
+	&.spl,
+	&.cals,
+	&.trac,
+	&.assf,
+	&.stys,
+	&.crsg,
+	&.webr,
+	&.seas,
+	&.extt,
+	&.adve,
+	&.ps,
+	&.nwss,
+	&.feed,
+	&.mcst,
+	&.pdts,
+	&.rcrs,
+	&.mds,
+	&.cmps,
+	&.facs,
+	&.svyf,
+	&.sess,
+	&.mcts,
+	&.wiki,
+	&.crsr,
+	&.catr,
+	&.tags,
+	&.cert,
+	&.lrss,
+	&.accs,
+	&.mobs,
+	&.frma,
+	&.book,
+	&.skmg,
+	&.blga,
+	&.prfa,
+	&.chtr,
+	&.chta,
+	&.otpl,
+	&.blog,
+	&.dcl,
+	&.poll,
+	&.hlps,
+	&.itgr,
+	&.rcat,
+	&.rwik,
+	&.rlm,
+	&.rglo,
+	&.rfil,
+	&.rgrp,
+	&.rtst,
+	&.ecss,
+	&.tos,
+	&.bibl,
+	&.sysc,
+	&.cld,
+	&.reps,
+	&.crss,
+	&.grps,
+	&.wbrs,
+	&.prtt,
+	&.orgu,
+	&.wiks,
+	&.excs,
+	&.taxs,
+	&.bibs,
+	&.awra,
+	&.logs,
+	&.prg,
+	&.prgs,
+	&.cadm,
+	&.grpr,
+	&.bdga,
+	&.wfe,
+	&.iass,
+	&.copa,
+	&.lso
+	{
+		.abbreviation {
+			display: none;
+		}
+	}
+
+
+	&.grp{
+		background-image: url("@{il-standard-icon-path}icon_grp.svg");
+	}
+	&.cat{
+		background-image: url("@{il-standard-icon-path}icon_cat.svg");
+	}
+	&.crs{
+		background-image: url("@{il-standard-icon-path}icon_crs.svg");
+	}
+	&.mob {
+		background-image: url("@{il-standard-icon-path}icon_mob.svg");
+	}
+	&.mail {
+		background-image: url("@{il-standard-icon-path}icon_mail.svg");
+	}
+	&.sahs{
+		background-image: url("@{il-standard-icon-path}icon_sahs.svg");
+	}
+	&.adm {
+		background-image: url("@{il-standard-icon-path}icon_adm.svg");
+	}
+	&.usrf{
+		background-image: url("@{il-standard-icon-path}icon_usrf.svg");
+	}
+	&.rolf{
+		background-image: url("@{il-standard-icon-path}icon_rolf.svg");
+	}
+	&.objf{
+		background-image: url("@{il-standard-icon-path}icon_objf.svg");
+	}
+	&.usr{
+		background-image: url("@{il-standard-icon-path}icon_usr.svg");
+	}
+	&.rolt{
+		background-image: url("@{il-standard-icon-path}icon_rolt.svg");
+	}
+	&.lngf{
+		background-image: url("@{il-standard-icon-path}icon_lngf.svg");
+	}
+	&.lng{
+		background-image: url("@{il-standard-icon-path}icon_lng.svg");
+	}
+	&.role{
+		background-image: url("@{il-standard-icon-path}icon_role.svg");
+	}
+	&.dbk{
+		background-image: url("@{il-standard-icon-path}icon_dbk.svg");
+	}
+	&.glo{
+		background-image: url("@{il-standard-icon-path}icon_glo.svg");
+	}
+	&.root{
+		background-image: url("@{il-standard-icon-path}icon_root.svg");
+	}
+	&.lm{
+		background-image: url("@{il-standard-icon-path}icon_lm.svg");
+	}
+	&.notf{
+		background-image: url("@{il-standard-icon-path}icon_notf.svg");
+	}
+	&.note{
+		background-image: url("@{il-standard-icon-path}icon_note.svg");
+	}
+	&.frm{
+		background-image: url("@{il-standard-icon-path}icon_frm.svg");
+	}
+	&.exc{
+		background-image: url("@{il-standard-icon-path}icon_exc.svg");
+	}
+	&.auth{
+		background-image: url("@{il-standard-icon-path}icon_auth.svg");
+	}
+	&.fold{
+		background-image: url("@{il-standard-icon-path}icon_fold.svg");
+	}
+	&.file{
+		background-image: url("@{il-standard-icon-path}icon_file.svg");
+	}
+	&.tst{
+		background-image: url("@{il-standard-icon-path}icon_tst.svg");
+	}
+	&.qpl{
+		background-image: url("@{il-standard-icon-path}icon_qpl.svg");
+	}
+	&.recf{
+		background-image: url("@{il-standard-icon-path}icon_recf.svg");
+	}
+	&.mep{
+		background-image: url("@{il-standard-icon-path}icon_mep.svg");
+	}
+	&.htlm{
+		background-image: url("@{il-standard-icon-path}icon_htlm.svg");
+	}
+	&.svy{
+		background-image: url("@{il-standard-icon-path}icon_svy.svg");
+	}
+	&.spl{
+		background-image: url("@{il-standard-icon-path}icon_spl.svg");
+	}
+	&.cals{
+		background-image: url("@{il-standard-icon-path}icon_cals.svg");
+	}
+	&.trac{
+		background-image: url("@{il-standard-icon-path}icon_trac.svg");
+	}
+	&.assf{
+		background-image: url("@{il-standard-icon-path}icon_assf.svg");
+	}
+	&.stys{
+		background-image: url("@{il-standard-icon-path}icon_stys.svg");
+	}
+	&.crsg{
+		background-image: url("@{il-standard-icon-path}icon_crsg.svg");
+	}
+	&.webr{
+		background-image: url("@{il-standard-icon-path}icon_webr.svg");
+	}
+	&.seas{
+		background-image: url("@{il-standard-icon-path}icon_seas.svg");
+	}
+	&.extt{
+		background-image: url("@{il-standard-icon-path}icon_extt.svg");
+	}
+	&.adve{
+		background-image: url("@{il-standard-icon-path}icon_adve.svg");
+	}
+	&.ps{
+		background-image: url("@{il-standard-icon-path}icon_ps.svg");
+	}
+	&.nwss{
+		background-image: url("@{il-standard-icon-path}icon_nwss.svg");
+	}
+	&.feed{
+		background-image: url("@{il-standard-icon-path}icon_feed.svg");
+	}
+	&.mcst{
+		background-image: url("@{il-standard-icon-path}icon_mcst.svg");
+	}
+	&.pdts{
+		background-image: url("@{il-standard-icon-path}icon_pdts.svg");
+	}
+	&.rcrs{
+		background-image: url("@{il-standard-icon-path}icon_rcrs.svg");
+	}
+	&.mds{
+		background-image: url("@{il-standard-icon-path}icon_mds.svg");
+	}
+	&.cmps{
+		background-image: url("@{il-standard-icon-path}icon_cmps.svg");
+	}
+	&.facs{
+		background-image: url("@{il-standard-icon-path}icon_facs.svg");
+	}
+	&.svyf{
+		background-image: url("@{il-standard-icon-path}icon_svyf.svg");
+	}
+	&.sess{
+		background-image: url("@{il-standard-icon-path}icon_sess.svg");
+	}
+	&.mcts{
+		background-image: url("@{il-standard-icon-path}icon_mcts.svg");
+	}
+	&.wiki{
+		background-image: url("@{il-standard-icon-path}icon_wiki.svg");
+	}
+	&.crsr{
+		background-image: url("@{il-standard-icon-path}icon_crsr.svg");
+	}
+	&.catr{
+		background-image: url("@{il-standard-icon-path}icon_catr.svg");
+	}
+	&.tags{
+		background-image: url("@{il-standard-icon-path}icon_tags.svg");
+	}
+	&.cert{
+		background-image: url("@{il-standard-icon-path}icon_cert.svg");
+	}
+	&.lrss{
+		background-image: url("@{il-standard-icon-path}icon_lrss.svg");
+	}
+	&.accs{
+		background-image: url("@{il-standard-icon-path}icon_accs.svg");
+	}
+	&.mobs{
+		background-image: url("@{il-standard-icon-path}icon_mobs.svg");
+	}
+	&.frma{
+		background-image: url("@{il-standard-icon-path}icon_frma.svg");
+	}
+	&.book{
+		background-image: url("@{il-standard-icon-path}icon_book.svg");
+	}
+	&.skmg{
+		background-image: url("@{il-standard-icon-path}icon_skmg.svg");
+	}
+	&.blga{
+		background-image: url("@{il-standard-icon-path}icon_blga.svg");
+	}
+	&.prfa{
+		background-image: url("@{il-standard-icon-path}icon_prfa.svg");
+	}
+	&.chtr{
+		background-image: url("@{il-standard-icon-path}icon_chtr.svg");
+	}
+	&.chta{
+		background-image: url("@{il-standard-icon-path}icon_chta.svg");
+	}
+	&.otpl{
+		background-image: url("@{il-standard-icon-path}icon_otpl.svg");
+	}
+	&.blog{
+		background-image: url("@{il-standard-icon-path}icon_blog.svg");
+	}
+	&.dcl{
+		background-image: url("@{il-standard-icon-path}icon_dcl.svg");
+	}
+	&.poll{
+		background-image: url("@{il-standard-icon-path}icon_poll.svg");
+	}
+	&.hlps{
+		background-image: url("@{il-standard-icon-path}icon_hlps.svg");
+	}
+	&.itgr{
+		background-image: url("@{il-standard-icon-path}icon_itgr.svg");
+	}
+	&.rcat{
+		background-image: url("@{il-standard-icon-path}icon_rcat.svg");
+	}
+	&.rwik{
+		background-image: url("@{il-standard-icon-path}icon_rwik.svg");
+	}
+	&.rlm{
+		background-image: url("@{il-standard-icon-path}icon_rlm.svg");
+	}
+	&.rglo{
+		background-image: url("@{il-standard-icon-path}icon_rglo.svg");
+	}
+	&.rfil{
+		background-image: url("@{il-standard-icon-path}icon_rfil.svg");
+	}
+	&.rgrp{
+		background-image: url("@{il-standard-icon-path}icon_rgrp.svg");
+	}
+	&.rtst{
+		background-image: url("@{il-standard-icon-path}icon_rtst.svg");
+	}
+	&.ecss{
+		background-image: url("@{il-standard-icon-path}icon_ecss.svg");
+	}
+	&.tos{
+		background-image: url("@{il-standard-icon-path}icon_tos.svg");
+	}
+	&.bibl{
+		background-image: url("@{il-standard-icon-path}icon_bibl.svg");
+	}
+	&.sysc{
+		background-image: url("@{il-standard-icon-path}icon_sysc.svg");
+	}
+	&.cld{
+		background-image: url("@{il-standard-icon-path}icon_cld.svg");
+	}
+	&.reps{
+		background-image: url("@{il-standard-icon-path}icon_reps.svg");
+	}
+	&.crss{
+		background-image: url("@{il-standard-icon-path}icon_crss.svg");
+	}
+	&.grps{
+		background-image: url("@{il-standard-icon-path}icon_grps.svg");
+	}
+	&.wbrs{
+		background-image: url("@{il-standard-icon-path}icon_wbrs.svg");
+	}
+	&.prtt{
+		background-image: url("@{il-standard-icon-path}icon_prtt.svg");
+	}
+	&.orgu{
+		background-image: url("@{il-standard-icon-path}icon_orgu.svg");
+	}
+	&.wiks{
+		background-image: url("@{il-standard-icon-path}icon_wiks.svg");
+	}
+	&.excs{
+		background-image: url("@{il-standard-icon-path}icon_excs.svg");
+	}
+	&.taxs{
+		background-image: url("@{il-standard-icon-path}icon_taxs.svg");
+	}
+	&.bibs{
+		background-image: url("@{il-standard-icon-path}icon_bibs.svg");
+	}
+	&.awra{
+		background-image: url("@{il-standard-icon-path}icon_awra.svg");
+	}
+	&.logs{
+		background-image: url("@{il-standard-icon-path}icon_logs.svg");
+	}
+	&.prg{
+		background-image: url("@{il-standard-icon-path}icon_prg.svg");
+	}
+	&.prgs{
+		background-image: url("@{il-standard-icon-path}icon_prgs.svg");
+	}
+	&.cadm{
+		background-image: url("@{il-standard-icon-path}icon_cadm.svg");
+	}
+	&.grpr{
+		background-image: url("@{il-standard-icon-path}icon_grpr.svg");
+	}
+	&.bdga{
+		background-image: url("@{il-standard-icon-path}icon_bdga.svg");
+	}
+	&.wfe{
+		background-image: url("@{il-standard-icon-path}icon_wfe.svg");
+	}
+	&.iass{
+		background-image: url("@{il-standard-icon-path}icon_iass.svg");
+	}
+	&.copa{
+		background-image: url("@{background-images-path}icon_copa.svg");
+	}
+	&.lso{
+		background-image: url("@{background-images-path}icon_lso.svg");
+	}
+
+	&.outlined{
+		filter: @il-standard-outlined-icon-filter;
+
+		&.disabled {
+			filter: @il-standard-outlined-disabled-icon-filter;
+		}
+
+		&.grp{
+			background-image: url("@{il-standard-outlined-icon-path}icon_grp.svg");
+		}
+		&.cat{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cat.svg");
+		}
+		&.crs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crs.svg");
+		}
+		&.mob {
+			background-image: url("@{il-standard-outlined-icon-path}icon_mob.svg");
+		}
+		&.mail {
+			background-image: url("@{il-standard-outlined-icon-path}icon_mail.svg");
+		}
+		&.sahs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_sahs.svg");
+		}
+		&.adm {
+			background-image: url("@{il-standard-outlined-icon-path}icon_adm.svg");
+		}
+		&.usrf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_usrf.svg");
+		}
+		&.rolf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rolf.svg");
+		}
+		&.objf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_objf.svg");
+		}
+		&.usr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_usr.svg");
+		}
+		&.rolt{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rolt.svg");
+		}
+		&.lngf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lngf.svg");
+		}
+		&.lng{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lng.svg");
+		}
+		&.role{
+			background-image: url("@{il-standard-outlined-icon-path}icon_role.svg");
+		}
+		&.dbk{
+			background-image: url("@{il-standard-outlined-icon-path}icon_dbk.svg");
+		}
+		&.glo{
+			background-image: url("@{il-standard-outlined-icon-path}icon_glo.svg");
+		}
+		&.root{
+			background-image: url("@{il-standard-outlined-icon-path}icon_root.svg");
+		}
+		&.lm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lm.svg");
+		}
+		&.notf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_notf.svg");
+		}
+		&.note{
+			background-image: url("@{il-standard-outlined-icon-path}icon_note.svg");
+		}
+		&.frm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_frm.svg");
+		}
+		&.exc{
+			background-image: url("@{il-standard-outlined-icon-path}icon_exc.svg");
+		}
+		&.auth{
+			background-image: url("@{il-standard-outlined-icon-path}icon_auth.svg");
+		}
+		&.fold{
+			background-image: url("@{il-standard-outlined-icon-path}icon_fold.svg");
+		}
+		&.file{
+			background-image: url("@{il-standard-outlined-icon-path}icon_file.svg");
+		}
+		&.tst{
+			background-image: url("@{il-standard-outlined-icon-path}icon_tst.svg");
+		}
+		&.qpl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_qpl.svg");
+		}
+		&.recf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_recf.svg");
+		}
+		&.mep{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mep.svg");
+		}
+		&.htlm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_htlm.svg");
+		}
+		&.svy{
+			background-image: url("@{il-standard-outlined-icon-path}icon_svy.svg");
+		}
+		&.spl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_spl.svg");
+		}
+		&.cals{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cals.svg");
+		}
+		&.trac{
+			background-image: url("@{il-standard-outlined-icon-path}icon_trac.svg");
+		}
+		&.assf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_assf.svg");
+		}
+		&.stys{
+			background-image: url("@{il-standard-outlined-icon-path}icon_stys.svg");
+		}
+		&.crsg{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crsg.svg");
+		}
+		&.webr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_webr.svg");
+		}
+		&.seas{
+			background-image: url("@{il-standard-outlined-icon-path}icon_seas.svg");
+		}
+		&.extt{
+			background-image: url("@{il-standard-outlined-icon-path}icon_extt.svg");
+		}
+		&.adve{
+			background-image: url("@{il-standard-outlined-icon-path}icon_adve.svg");
+		}
+		&.ps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_ps.svg");
+		}
+		&.nwss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_nwss.svg");
+		}
+		&.feed{
+			background-image: url("@{il-standard-outlined-icon-path}icon_feed.svg");
+		}
+		&.mcst{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mcst.svg");
+		}
+		&.pdts{
+			background-image: url("@{il-standard-outlined-icon-path}icon_pdts.svg");
+		}
+		&.rcrs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rcrs.svg");
+		}
+		&.mds{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mds.svg");
+		}
+		&.cmps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cmps.svg");
+		}
+		&.facs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_facs.svg");
+		}
+		&.svyf{
+			background-image: url("@{il-standard-outlined-icon-path}icon_svyf.svg");
+		}
+		&.sess{
+			background-image: url("@{il-standard-outlined-icon-path}icon_sess.svg");
+		}
+		&.mcts{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mcts.svg");
+		}
+		&.wiki{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wiki.svg");
+		}
+		&.crsr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crsr.svg");
+		}
+		&.catr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_catr.svg");
+		}
+		&.tags{
+			background-image: url("@{il-standard-outlined-icon-path}icon_tags.svg");
+		}
+		&.cert{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cert.svg");
+		}
+		&.lrss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lrss.svg");
+		}
+		&.accs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_accs.svg");
+		}
+		&.mobs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_mobs.svg");
+		}
+		&.frma{
+			background-image: url("@{il-standard-outlined-icon-path}icon_frma.svg");
+		}
+		&.book{
+			background-image: url("@{il-standard-outlined-icon-path}icon_book.svg");
+		}
+		&.skmg{
+			background-image: url("@{il-standard-outlined-icon-path}icon_skmg.svg");
+		}
+		&.blga{
+			background-image: url("@{il-standard-outlined-icon-path}icon_blga.svg");
+		}
+		&.prfa{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prfa.svg");
+		}
+		&.chtr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_chtr.svg");
+		}
+		&.chta{
+			background-image: url("@{il-standard-outlined-icon-path}icon_chta.svg");
+		}
+		&.otpl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_otpl.svg");
+		}
+		&.blog{
+			background-image: url("@{il-standard-outlined-icon-path}icon_blog.svg");
+		}
+		&.dcl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_dcl.svg");
+		}
+		&.poll{
+			background-image: url("@{il-standard-outlined-icon-path}icon_poll.svg");
+		}
+		&.hlps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_hlps.svg");
+		}
+		&.itgr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_itgr.svg");
+		}
+		&.rcat{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rcat.svg");
+		}
+		&.rwik{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rwik.svg");
+		}
+		&.rlm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rlm.svg");
+		}
+		&.rglo{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rglo.svg");
+		}
+		&.rfil{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rfil.svg");
+		}
+		&.rgrp{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rgrp.svg");
+		}
+		&.rtst{
+			background-image: url("@{il-standard-outlined-icon-path}icon_rtst.svg");
+		}
+		&.ecss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_ecss.svg");
+		}
+		&.tos{
+			background-image: url("@{il-standard-outlined-icon-path}icon_tos.svg");
+		}
+		&.bibl{
+			background-image: url("@{il-standard-outlined-icon-path}icon_bibl.svg");
+		}
+		&.sysc{
+			background-image: url("@{il-standard-outlined-icon-path}icon_sysc.svg");
+		}
+		&.cld{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cld.svg");
+		}
+		&.reps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_reps.svg");
+		}
+		&.crss{
+			background-image: url("@{il-standard-outlined-icon-path}icon_crss.svg");
+		}
+		&.grps{
+			background-image: url("@{il-standard-outlined-icon-path}icon_grps.svg");
+		}
+		&.wbrs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wbrs.svg");
+		}
+		&.prtt{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prtt.svg");
+		}
+		&.orgu{
+			background-image: url("@{il-standard-outlined-icon-path}icon_orgu.svg");
+		}
+		&.wiks{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wiks.svg");
+		}
+		&.excs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_excs.svg");
+		}
+		&.taxs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_taxs.svg");
+		}
+		&.bibs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_bibs.svg");
+		}
+		&.awra{
+			background-image: url("@{il-standard-outlined-icon-path}icon_awra.svg");
+		}
+		&.logs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_logs.svg");
+		}
+		&.prg{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prg.svg");
+		}
+		&.prgs{
+			background-image: url("@{il-standard-outlined-icon-path}icon_prgs.svg");
+		}
+		&.cadm{
+			background-image: url("@{il-standard-outlined-icon-path}icon_cadm.svg");
+		}
+		&.grpr{
+			background-image: url("@{il-standard-outlined-icon-path}icon_grpr.svg");
+		}
+		&.bdga{
+			background-image: url("@{il-standard-outlined-icon-path}icon_bdga.svg");
+		}
+		&.wfe{
+			background-image: url("@{il-standard-outlined-icon-path}icon_wfe.svg");
+		}
+		&.iass{
+			background-image: url("@{il-standard-outlined-icon-path}icon_iass.svg");
+		}
+		&.copa{
+			background-image: url("@{il-standard-outlined-icon-path}icon_copa.svg");
+		}
+		&.lso{
+			background-image: url("@{il-standard-outlined-icon-path}icon_lso.svg");
+		}
+	}
+}

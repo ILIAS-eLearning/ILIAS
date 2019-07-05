@@ -10,7 +10,7 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilBlogGlobalTemplate
+class ilBlogGlobalTemplate implements ilGlobalTemplateInterface
 {
 	
 
@@ -66,6 +66,11 @@ class ilBlogGlobalTemplate
 	public function hideFooter()
 	{
 		$this->show_footer = false;
+	}
+
+
+	public function hasMessage() {
+		return isset($this->message);
 	}
 	
 	/**

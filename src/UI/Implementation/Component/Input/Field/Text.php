@@ -6,8 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
+use ILIAS\UI\Component\Signal;
 
 /**
  * This implements the text input.
@@ -18,13 +17,12 @@ class Text extends Input implements C\Input\Field\Text {
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
-		$this->setAdditionalTransformation($transformation_factory->custom(function($v) {
+		parent::__construct($data_factory, $refinery, $label, $byline);
+		$this->setAdditionalTransformation($refinery->custom()->transformation(function($v) {
 			return strip_tags($v);
 		}));
 	}
@@ -41,6 +39,40 @@ class Text extends Input implements C\Input\Field\Text {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		return $this->validation_factory->hasMinLength(1);
+		return $this->refinery->string()->hasMinLength(1);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+			return $code;
+		};
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->withTriggeredSignal($signal, 'update');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->appendTriggeredSignal($signal, 'update');
 	}
 }

@@ -61,13 +61,13 @@ class ilForumMailNotification extends ilMailNotification
 	/**
 	 * @inheritdoc
 	 */
-	public function sendMail(array $a_rcp, $a_type, $a_parse_recipients = true)
+	public function sendMail(array $a_rcp, $a_parse_recipients = true)
 	{
 		$this->logger->debug(sprintf(
 			'Delegating notification transport to mail service for recipient "%s" ...',
 			$a_rcp
 		));
-		parent::sendMail($a_rcp, $a_type, $a_parse_recipients);
+		parent::sendMail($a_rcp, $a_parse_recipients);
 		$this->logger->debug('Notification transport delegated');
 	}
 
@@ -317,7 +317,7 @@ class ilForumMailNotification extends ilMailNotification
 		$this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
 		$this->appendAttachments();
 		$this->addLinkToMail();
-		$this->sendMail(array($userId), array('system'));
+		$this->sendMail(array($userId));
 	}
 
 	/**
@@ -338,7 +338,7 @@ class ilForumMailNotification extends ilMailNotification
 	) {
 		$this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
 		$this->addLinkToMail();
-		$this->sendMail(array($userId), array('system'));
+		$this->sendMail(array($userId));
 	}
 
 	/**

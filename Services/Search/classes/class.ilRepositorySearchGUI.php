@@ -36,6 +36,7 @@ include_once 'Services/Search/classes/class.ilSearchResult.php';
 include_once 'Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/User/classes/class.ilUserAccountSettings.php';
 include_once 'Services/Search/classes/class.ilQueryParser.php';
+include_once("./Services/User/classes/class.ilUserAutoComplete.php");
 
 
 class ilRepositorySearchGUI
@@ -56,6 +57,12 @@ class ilRepositorySearchGUI
 	 */
 	protected $user_filter = null;
 	
+	/**
+	 * @var int
+	 */
+	private $privacy_mode = ilUserAutoComplete::PRIVACY_MODE_IGNORE_USER_SETTING;
+
+
 	/**
 	* Constructor
 	* @access public
@@ -133,6 +140,22 @@ class ilRepositorySearchGUI
 	public function isSearchableCheckEnabled()
 	{
 		return $this->searchable_check;
+	}
+
+	/**
+	 * @param int $privacy_mode
+	 */
+	public function setPrivacyMode($privacy_mode)
+	{
+		$this->privacy_mode = $privacy_mode;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPrivacyMode()
+	{
+		return $this->privacy_mode;
 	}
 
 
@@ -336,6 +359,7 @@ class ilRepositorySearchGUI
 
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
+		$auto->setPrivacyMode($this->getPrivacyMode());
 
 		if(($_REQUEST['fetchall']))
 		{

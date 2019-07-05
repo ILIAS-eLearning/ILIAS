@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+
 require_once 'libs/composer/vendor/autoload.php';
 $GLOBALS["DIC"] = new \ILIAS\DI\Container();
 
@@ -15,7 +17,7 @@ $GLOBALS["DIC"] = new \ILIAS\DI\Container();
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
+class ilServicesWorkflowEngineSuite extends TestSuite
 {
 	public static function suite()
 	{
@@ -25,6 +27,8 @@ class ilServicesWorkflowEngineSuite extends PHPUnit_Framework_TestSuite
 		chdir( '../../../' );
 
 		$suite = new ilServicesWorkflowEngineSuite();
+
+		require_once './Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 
 		//
 		// ---------------------------------------------------------------------

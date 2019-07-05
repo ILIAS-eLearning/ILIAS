@@ -164,8 +164,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 				$av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
 					? strtotime($schedule->getAvailabilityTo()->get(IL_CAL_DATE)." 23:59:59")
 					: null;
-				if(($av_from && $av_from > $limit) ||
-					($av_to && $av_to < $now))
+				if(($av_from && $av_from > $limit))
 				{
 					unset($data[$idx]);
 				}
@@ -318,6 +317,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("NOT_YET", $a_set["full_up"]);
 			$booking_possible = false;
+			$assign_possible = false;
 		}
 		else if($a_set["not_yet"])
 		{

@@ -19,19 +19,23 @@ use ILIAS\DI\Container;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\EmptyDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\TestCase;
 
-class BasicTaskManagerTest extends \PHPUnit_Framework_TestCase {
+class BasicTaskManagerTest extends TestCase {
 
 	use MockeryPHPUnitIntegration;
 
 	protected $taskManager;
 	protected $bucket;
 
-	public function setUp() {
+	public function setUp(): void{
 		$persistence = \Mockery::mock(BasicPersistence::class);
 		$this->taskManager = new SyncTaskManager($persistence);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function testBasicTaskManager() {
 		$dic = new Container();
 

@@ -86,6 +86,11 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	protected $has_files = false;
 
 	/**
+	 * @var int
+	 */
+	protected $obj_id = 0;
+
+	/**
 	 * 
 	 *
 	 * @param
@@ -105,6 +110,26 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		$this->access = $DIC->access();
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->user = $DIC->user();
+
+		$this->readObjIdForAppointment();
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getObjIdForAppointment()
+	{
+		return $this->obj_id;
+	}
+
+	/**
+	 * read obj_id for appointment
+	 */
+	protected function readObjIdForAppointment()
+	{
+		$cat_id = $this->getCatId($this->appointment['event']->getEntryId());
+		$category = ilCalendarCategory::getInstanceByCategoryId($cat_id);
+		$this->obj_id = $category->getObjId();
 	}
 	
 	
@@ -149,54 +174,13 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		return ilCalendarCategoryAssignments::_lookupCategory($a_entry_id);
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getCatInfo()
 	{
 		$cat_id = $this->getCatId($this->appointment['event']->getEntryId());
-		//$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-
-		$cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);
-		$cat_info = array();
-		$cat_info["type"] = $cat->getType();
-		$cat_info["obj_id"] = $cat->getObjId();
-		$cat_info["title"] = $cat->getTitle();
-		$cat_info["cat_id"] = $cat_id;
-		$cat_info["editable"] = false;
-
-		switch ($cat_info["type"])
-		{
-			case ilCalendarCategory::TYPE_USR:
-				if ($cat_info["obj_id"] == $this->user->getId())
-				{
-					$cat_info["editable"] = true;
-				}
-				break;
-
-			case ilCalendarCategory::TYPE_OBJ:
-				$obj_type = ilObject::_lookupType($cat_info["obj_id"]);
-				if ($obj_type == 'crs' or $obj_type == 'grp')
-				{
-					if (ilCalendarSettings::_getInstance()->lookupCalendarActivated($cat_info["obj_id"]))
-					{
-						foreach (ilObject::_getAllReferences($cat_info["obj_id"]) as $ref_id)
-						{
-							if ($this->access->checkAccess('edit_event', '', $ref_id))
-							{
-								$cat_info["editable"] = true;
-							}
-						}
-					}
-				}
-				break;
-
-			case ilCalendarCategory::TYPE_GLOBAL:
-				if ($this->rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId()))
-				{
-					$cat_info["editable"] = true;
-				}
-				break;
-		}
-
-		return $cat_info;
+		return ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 	}
 
 	function executeCommand()
@@ -250,10 +234,15 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 			{
 				// file download
 				$this->ctrl->setParameter($this, "app_id", $this->appointment['event']->getEntryId());
-				$add_button = $this->ui->factory()->button()->standard($this->lng->txt("cal_download_files"),
-					$this->ctrl->getLinkTarget($this, "downloadFiles"));
+
+				$download_btn = ilLinkButton::getInstance();
+				$download_btn->setCaption($this->lng->txt("cal_download_files"),false);
+				$download_btn->setUrl(
+					$this->ctrl->getLinkTarget($this, 'downloadFiles')
+				);
 				$this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-				$toolbar->addComponent($add_button);
+
+				$toolbar->addButtonInstance($download_btn);
 				$toolbar->addSeparator();
 			}
 
@@ -262,7 +251,8 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 				$btn = ilLinkButton::getInstance();
 				$btn->setCaption($a["txt"], false);
 				$btn->setUrl($a["link"]);
-				$toolbar->addButtonInstance($btn);
+				// all buttons are sticky
+				$toolbar->addStickyItem($btn);
 			}
 		}
 
@@ -415,9 +405,10 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	/**
 	 * Add object link
 	 *
-	 * @param int $ojb_id
+	 * @param int $obj_id
+	 * @param array $a_appointment
 	 */
-	function addObjectLinks($obj_id)
+	function addObjectLinks($obj_id, $a_appointment)
 	{
 		$refs = $this->getReadableRefIds($obj_id);
 		reset($refs);
@@ -431,8 +422,11 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 				$par_ref = $this->tree->getParentId($ref_id);
 				$link_title.= " (".ilObject::_lookupTitle(ilObject::_lookupObjId($par_ref)).")";
 			}
+
+			$link = $this->buildDirectLinkForAppointment($ref_id, $a_appointment);
+
 			$buttons[] = $this->ui->renderer()->render(
-				$this->ui->factory()->button()->shy($link_title, ilLink::_getStaticLink($ref_id)));
+				$this->ui->factory()->button()->shy($link_title, $link));
 		}
 		if ($refs == 0)
 		{
@@ -447,6 +441,17 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 			$this->addInfoProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
 			$this->addListItemProperty($this->lng->txt("obj_".ilObject::_lookupType($obj_id)), $prop_value);
 		}
+	}
+
+	/**
+	 * Build direct link for appointment
+	 * @param int $a_ref_id
+	 * @param array $a_appointment
+	 * @return string
+	 */
+	protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment)
+	{
+		return ilLink::_getStaticLink($a_ref_id);
 	}
 
 	/**
@@ -536,7 +541,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	function addCommonSection($a_app, $a_obj_id = 0, $cat_info = null, $a_container_info = false)
 	{
 		// event title
-		$this->addInfoSection($a_app["event"]->getPresentationTitle());
+		$this->addInfoSection($a_app["event"]->getPresentationTitle(false));
 
 		// event description
 		$this->addEventDescription($a_app);
@@ -544,7 +549,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		// course title (linked of accessible)
 		if ($a_obj_id > 0)
 		{
-			$this->addObjectLinks($a_obj_id);
+			$this->addObjectLinks($a_obj_id, $a_app);
 		}
 
 		// container info (course groups)

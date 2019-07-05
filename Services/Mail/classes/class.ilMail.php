@@ -355,11 +355,6 @@ class ilMail
 			$query .= ' AND m_status = ' . $this->db->quote($filter['status'], 'text');
 		}
 
-		if(isset($filter['type']) && strlen($filter['type']) > 0)
-		{
-			$query .= ' AND ' . $this->db->like('m_type', 'text', '%%:"' . $filter['type'] . '"%%', false);
-		}
-
 		$query .= " ORDER BY send_time DESC";
 
 		$res = $this->db->queryF($query,
@@ -575,7 +570,6 @@ class ilMail
 		}
 
 		$a_row['attachments']    = unserialize(stripslashes($a_row['attachments']));
-		$a_row['m_type']         = unserialize(stripslashes($a_row['m_type']));
 		$a_row['tpl_ctx_params'] = (array)(@json_decode($a_row['tpl_ctx_params'], true));
 
 		return $a_row;
@@ -601,7 +595,7 @@ class ilMail
 
 	public function updateDraft(
 		$a_folder_id, $a_attachments, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc,
-		$a_m_type, $a_m_email, $a_m_subject,  $a_m_message, $a_draft_id = 0,
+		$a_m_email, $a_m_subject,  $a_m_message, $a_draft_id = 0,
 		$a_use_placeholders = 0, $a_tpl_context_id = null, $a_tpl_context_params = array()
 	)
 	{
@@ -614,7 +608,6 @@ class ilMail
 				'rcp_cc'           => array('clob', $a_rcp_cc),
 				'rcp_bcc'          => array('clob', $a_rcp_bcc),
 				'm_status'         => array('text', 'read'),
-				'm_type'           => array('text', serialize($a_m_type)),
 				'm_email'          => array('integer', $a_m_email),
 				'm_subject'        => array('text', $a_m_subject),
 				'm_message'        => array('clob', $a_m_message),
@@ -640,7 +633,6 @@ class ilMail
 	* @param    string $a_rcp_cc
 	* @param    string $a_rcp_bcc
 	* @param    string $a_status
-	* @param    array  $a_m_type
 	* @param    integer $a_m_email
 	* @param    string $a_m_subject
 	* @param    string $a_m_message
@@ -652,7 +644,7 @@ class ilMail
 	*/
 	private function sendInternalMail(
 		$a_folder_id, $a_sender_id, $a_attachments, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc,
-		$a_status, $a_m_type, $a_m_email, $a_m_subject, $a_m_message, $a_user_id = 0,
+		$a_status, $a_m_email, $a_m_subject, $a_m_message, $a_user_id = 0,
 		$a_use_placeholders = 0, $a_tpl_context_id = null, $a_tpl_context_params = array()
 	)
 	{
@@ -672,7 +664,6 @@ class ilMail
 		if(!$a_rcp_cc)		$a_rcp_cc = NULL;
 		if(!$a_rcp_bcc)		$a_rcp_bcc = NULL;
 		if(!$a_status)		$a_status = NULL;
-		if(!$a_m_type)		$a_m_type = NULL;
 		if(!$a_m_email)		$a_m_email = NULL;
 		if(!$a_m_subject)	$a_m_subject = NULL;
 		if(!$a_m_message)	$a_m_message = NULL;
@@ -689,7 +680,6 @@ class ilMail
 			'rcp_cc'         => array('clob', $a_rcp_cc),
 			'rcp_bcc'        => array('clob', $a_rcp_bcc),
 			'm_status'       => array('text', $a_status),
-			'm_type'         => array('text', serialize($a_m_type)),
 			'm_email'        => array('integer', $a_m_email),
 			'm_subject'      => array('text', $a_m_subject),
 			'm_message'      => array('clob', $a_m_message),
@@ -752,7 +742,6 @@ class ilMail
 	 * @param string $message
 	 * @param array $attachments
 	 * @param int $sentMailId
-	 * @param array $type
 	 * @param bool $usePlaceholders
 	 * @return bool
 	 */
@@ -764,7 +753,6 @@ class ilMail
 		string $message,
 		array $attachments,
 		int $sentMailId,
-		array $type,
 		bool $usePlaceholders = false
 	)
 	{
@@ -775,7 +763,7 @@ class ilMail
 			));
 
 			$this->sendChanneledMails(
-				$to, $cc, $bcc, $toUsrIds, $subject, $message, $attachments, $sentMailId, $type, true
+				$to, $cc, $bcc, $toUsrIds, $subject, $message, $attachments, $sentMailId, true
 			);
 
 			$otherUsrIds = $this->getUserIds([$cc, $bcc]);
@@ -784,7 +772,7 @@ class ilMail
 			));
 
 			$this->sendChanneledMails(
-				$to, $cc, $bcc, $otherUsrIds, $subject, $this->replacePlaceholders($message, 0, false), $attachments, $sentMailId, $type, false
+				$to, $cc, $bcc, $otherUsrIds, $subject, $this->replacePlaceholders($message, 0, false), $attachments, $sentMailId, false
 			);
 		} else {
 			$usrIds = $this->getUserIds([$to, $cc, $bcc]);
@@ -793,7 +781,7 @@ class ilMail
 			));
 
 			$this->sendChanneledMails(
-				$to, $cc, $bcc, $usrIds, $subject, $message, $attachments, $sentMailId, $type, false
+				$to, $cc, $bcc, $usrIds, $subject, $message, $attachments, $sentMailId, false
 			);
 		}
 
@@ -809,7 +797,6 @@ class ilMail
 	 * @param string $message
 	 * @param array $attachments
 	 * @param int $sentMailId
-	 * @param array $type
 	 * @param bool $usePlaceholders
 	 */
 	protected function sendChanneledMails(
@@ -821,7 +808,6 @@ class ilMail
 		string $message,
 		array $attachments,
 		int $sentMailId,
-		array $type,
 		bool $usePlaceholders = false
 	) {
 		$usrIdToExternalEmailAddressesMap = [];
@@ -832,16 +818,6 @@ class ilMail
 			$mailOptions = $this->getMailOptionsByUserId($user->getId());
 
 			$canReadInternalMails = !$user->hasToAcceptTermsOfService() && $user->checkTimeLimit();
-
-			if (in_array('system', $type) && !$canReadInternalMails) {
-				$this->logger->debug(sprintf(
-					"Message is marked as 'system', skipped recipient with id %s (Accepted User Agreement:%s|Expired Account:%s)",
-					$user->getId(),
-					var_export(!$user->hasToAcceptTermsOfService(), 1),
-					var_export(!$user->checkTimeLimit(), 1)
-				));
-				continue;
-			}
 
 			$individualMessage = $message;
 			if ($usePlaceholders) {
@@ -882,7 +858,7 @@ class ilMail
 
 			$internalMailId = $this->sendInternalMail(
 				$recipientInboxId, $this->user_id, $attachments, $to, $cc, '',
-				'unread', $type, 0, $subject, $individualMessage, $user->getId(), 0
+				'unread', 0, $subject, $individualMessage, $user->getId(), 0
 			);
 
 			if (count($attachments) > 0) {
@@ -1054,7 +1030,6 @@ class ilMail
 	* @param    string $a_rcp_to
 	* @param    string $a_rcp_cc
 	* @param    string $a_rcp_bcc
-	* @param    array $a_m_type
 	* @param    int $a_m_email
 	* @param    string $a_m_subject
 	* @param    string $a_m_message
@@ -1065,7 +1040,7 @@ class ilMail
 	*/
 	public function savePostData(
 		$a_user_id, $a_attachments, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc,
-		$a_m_type, $a_m_email, $a_m_subject, $a_m_message,
+		$a_m_email, $a_m_subject, $a_m_message,
 		$a_use_placeholders, $a_tpl_context_id = null, $a_tpl_ctx_params = array()
 	)
 	{
@@ -1073,7 +1048,6 @@ class ilMail
 		if(!$a_rcp_to) $a_rcp_to = NULL;
 		if(!$a_rcp_cc) $a_rcp_cc = NULL;
 		if(!$a_rcp_bcc) $a_rcp_bcc = NULL;
-		if(!$a_m_type) $a_m_type = NULL;
 		if(!$a_m_email) $a_m_email = NULL;
 		if(!$a_m_message) $a_m_message = NULL;
 		if(!$a_use_placeholders) $a_use_placeholders = '0';
@@ -1088,7 +1062,6 @@ class ilMail
 				'rcp_to'           => array('clob', $a_rcp_to),
 				'rcp_cc'           => array('clob', $a_rcp_cc),
 				'rcp_bcc'          => array('clob', $a_rcp_bcc),
-				'm_type'           => array('text', serialize($a_m_type)),
 				'm_email'          => array('integer', $a_m_email),
 				'm_subject'        => array('text', $a_m_subject),
 				'm_message'        => array('clob', $a_m_message),
@@ -1127,11 +1100,10 @@ class ilMail
 	 * @param string   $a_m_subject
 	 * @param string   $a_m_message
 	 * @param array    $a_attachment
-	 * @param array    $a_type (normal and/or system and/or email)
 	 * @param bool|int $a_use_placeholders
 	 * @return \ilMailError[] 
 	 */
-	public function validateAndEnqueue($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0): array
+	public function enqueue($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_attachment, $a_use_placeholders = 0): array
 	{
 		global $DIC;
 
@@ -1142,10 +1114,6 @@ class ilMail
 			" | BCC: " . $a_rcp_bcc .
 			" | Subject: " . $a_m_subject
 		);
-
-		if (in_array('system', $a_type)) {
-			$a_type = array('system');
-		}
 
 		if ($a_attachment && !$this->mfile->checkFilesExist($a_attachment)) {
 			return [new \ilMailError('mail_attachment_file_not_exist', [$a_attachment])];
@@ -1194,7 +1162,6 @@ class ilMail
 				(string)$a_m_subject,
 				(string)$a_m_message,
 				(array)$a_attachment,
-				(array)$a_type,
 				(bool)$a_use_placeholders
 			);
 		}
@@ -1216,8 +1183,7 @@ class ilMail
 			(bool)$a_use_placeholders,
 			(bool)$this->getSaveInSentbox(),
 			(string)$this->contextId,
-			serialize($this->contextParameters),
-			serialize($a_type),
+			serialize($this->contextParameters)
 		]);
 		$interaction = $taskFactory->createTask(\ilMailDeliveryJobUserInteraction::class, [
 			$task,
@@ -1236,17 +1202,16 @@ class ilMail
 
 	/**
 	 * This method is used to finally send internal messages and external emails
-	 * To use the mail system as a consumer, please use \ilMail::validateAndEnqueue
-	 * @see \ilMail::validateAndEnqueue()
+	 * To use the mail system as a consumer, please use \ilMail::enqueue
 	 * @param string $to
 	 * @param string $cc
 	 * @param string $bcc
 	 * @param string $subject
 	 * @param string $message
 	 * @param array $attachments
-	 * @param array $types
 	 * @param bool $usePlaceholders
 	 * @return \ilMailError[]
+	 * @see \ilMail::enqueue()
 	 * @internal 
 	 */
 	public function sendMail(
@@ -1256,7 +1221,6 @@ class ilMail
 		string $subject,
 		string $message,
 		array $attachments,
-		array $types,
 		bool $usePlaceholders
 	) {
 		$internalMessageId = $this->saveInSentbox(
@@ -1264,7 +1228,6 @@ class ilMail
 			$to,
 			$cc,
 			$bcc,
-			$types,
 			$subject,
 			$message
 		);
@@ -1305,21 +1268,18 @@ class ilMail
 
 		$errors = [];
 
-		foreach (array_intersect($types, ['system', 'normal']) as $type) {
-			if (!$this->distributeMail(
-				$to,
-				$cc,
-				$bcc,
-				$subject,
-				$message,
-				$attachments,
-				$internalMessageId,
-				[$type],
-				$usePlaceholders
-			)) {
-				$errors['mail_send_error'] = new \ilMailError('mail_send_error');
-			}
-		} 
+		if (!$this->distributeMail(
+			$to,
+			$cc,
+			$bcc,
+			$subject,
+			$message,
+			$attachments,
+			$internalMessageId,
+			$usePlaceholders
+		)) {
+			$errors['mail_send_error'] = new \ilMailError('mail_send_error');
+		}
 
 		if (!$this->getSaveInSentbox()) {
 			$this->deleteMails([$internalMessageId]);
@@ -1358,17 +1318,16 @@ class ilMail
 	 * @param string $a_rcp_to
 	 * @param string $a_rcp_cc
 	 * @param string $a_rcp_bcc
-	 * @param array  $a_type
 	 * @param string $a_m_subject
 	 * @param string $a_m_message
 	 * @return int mail id
 	 */
-	protected function saveInSentbox($a_attachment, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_type, $a_m_subject, $a_m_message)
+	protected function saveInSentbox($a_attachment, $a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message)
 	{
 		return $this->sendInternalMail(
 			$this->mailbox->getSentFolder(), $this->user_id, $a_attachment, 
 			$a_rcp_to,$a_rcp_cc, $a_rcp_bcc,
-			'read', $a_type, 0,
+			'read', 0,
 			$a_m_subject, $a_m_message, $this->user_id, 0
 		);
 	}

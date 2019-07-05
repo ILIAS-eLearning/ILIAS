@@ -43,7 +43,7 @@ class ilWACCheckingInstanceTest extends MockeryTestCase {
 	/**
 	 * Setup
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		//error_reporting(E_ALL);
 		parent::setUp();

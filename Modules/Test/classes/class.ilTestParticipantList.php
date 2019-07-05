@@ -160,14 +160,16 @@ class ilTestParticipantList implements Iterator
 		$usrIds = call_user_func_array($userAccessFilter, [$this->getAllUserIds()]);
 		
 		$accessFilteredList = new self($this->getTestObj());
-		
-		foreach($usrIds as $usrId)
+
+		foreach($this as $participant)
 		{
-			$participant = $this->getParticipantByUsrId($usrId);
-			$participant = clone $participant;
-			$accessFilteredList->addParticipant($participant);
+			if( in_array($participant->getUsrId(), $usrIds) )
+			{
+				$participant = clone $participant;
+				$accessFilteredList->addParticipant($participant);
+			}
 		}
-		
+
 		return $accessFilteredList;
 	}
 

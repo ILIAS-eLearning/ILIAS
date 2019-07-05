@@ -132,7 +132,7 @@ class ilOnScreenChatMenuGUI
 		$f        = $this->ui->factory();
 		$renderer = $this->ui->renderer();
 
-		$glyph = $f->glyph()->comment();
+		$glyph = $f->symbol()->glyph()->comment();
 		$glyph = $glyph->withCounter($f->counter()->status(0))->withCounter($f->counter()->novelty(0))->withOnLoadCode(function($id) use (&$glyph_id) {
 			$glyph_id = $id;
 			return '';

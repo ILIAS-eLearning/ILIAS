@@ -2,8 +2,9 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
 
-class ComponentRendererLoaderResourceRegistryWrapperTest extends PHPUnit_Framework_TestCase {
+class ComponentRendererLoaderResourceRegistryWrapperTest extends TestCase {
 	public function test_forwards_from_underlying() {
 		$underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
 			->setMethods(["getRendererFor", "getRendererFactoryFor"])

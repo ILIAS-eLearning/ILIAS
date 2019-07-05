@@ -27,15 +27,35 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 	protected $comment_modals = array(); // [array]
 	
 	const MODE_BY_ASSIGNMENT = 1;
-	const MODE_BY_USER = 2;	
-	
-	// needs PH P5.6 for array support
+	const MODE_BY_USER = 2;
+
 	protected $cols_mandatory = array("name", "status");
 	protected $cols_default = array("login", "submission_date", "idl", "calc_deadline");
  	protected $cols_order = array("image", "name", "login", "team_members",
 			"sent_time", "submission", "calc_deadline", "idl", "status", "mark", "status_time",
 			"feedback_time", "comment", "notice");
-	
+
+	/**
+	 * @var ilExAssignmentTypes
+	 */
+	protected $ass_types;
+
+	/**
+	 * ilExAssignment type.
+	 * @var integer
+	 */
+	protected $ass_type;
+
+	/**
+	 * @var \ILIAS\UI\Factory
+	 */
+	protected $ui_factory;
+
+	/**
+	 * @var \ILIAS\UI\Renderer
+	 */
+	protected $ui_renderer;
+
 	/**
 	 * Constructor
 	 * 
@@ -49,16 +69,22 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 	{
 		global $DIC;
 
+		$this->ui_factory = $DIC->ui()->factory();
+		$this->ui_renderer = $DIC->ui()->renderer();
+
 		$this->ctrl = $DIC->ctrl();
 		$this->access = $DIC->access();
 		$this->tpl = $DIC["tpl"];
 		$this->lng = $DIC->language();
 
-
 		$ilCtrl = $DIC->ctrl();
 		
 		$this->exc = $a_exc;
-		
+
+		$this->ass_types = ilExAssignmentTypes::getInstance();
+
+		$this->ass_type = 	$this->ass_types->getById(ilExAssignment::lookupType($a_item_id));
+
 		$this->initMode($a_item_id);		
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);		
@@ -66,10 +92,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$this->setShowTemplates(true);
 				
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));	
-		$this->setRowTemplate("tpl.exc_members_row.html", "Modules/Exercise");		
-		
-		$this->setDefaultOrderField("name");
-		$this->setDefaultOrderDirection("asc");		
+		$this->setRowTemplate("tpl.exc_members_row.html", "Modules/Exercise");
+
+		#25100
+		if($this->mode == self::MODE_BY_ASSIGNMENT) {
+			$this->setDefaultOrderField("name");
+			$this->setDefaultOrderDirection("asc");
+		}
 		
 		
 		// columns
@@ -97,6 +126,12 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		// multi actions
 		
 		$this->addMultiCommand("saveStatusSelected", $this->lng->txt("exc_save_selected"));
+
+		// TODO get rid of the constant from ilExAssignment. Get this value from ilExAssignmentTypes
+		if($this->mode == self::MODE_BY_ASSIGNMENT && $this->ass->getType() == ilExAssignment::TYPE_TEXT)
+		{
+			$this->addMultiCommand("compareTextAssignments",$this->lng->txt("exc_compare_submissions"));
+		}
 			
 		$this->setFormName("ilExcIDlForm");
 
@@ -473,12 +508,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		
 		
 		// actions
-		
-		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
-		$actions = new ilAdvancedSelectionListGUI();
-		$actions->setId($a_ass->getId()."_".$a_user_id);
-		$actions->setListTitle($this->lng->txt("actions"));
-				
+
+		$items = array();
+
 		$file_info = $a_row["submission_obj"]->getDownloadedFilesInfoForTableGUIS($this->getParentObject(), $this->getParentCmd());		
 		
 		$counter = $file_info["files"]["count"];
@@ -486,23 +518,28 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		{
 			if($file_info["files"]["download_url"])
 			{
-				$actions->addItem(
+				$items[] = $this->ui_factory->button()->shy(
 					$file_info["files"]["download_txt"]." (".$counter.")",
-					"",
 					$file_info["files"]["download_url"]
 				);
 			}
 			
 			if($file_info["files"]["download_new_url"])
 			{
-				$actions->addItem(
+				$items[] = $this->ui_factory->button()->shy(
 					$file_info["files"]["download_new_txt"],
-					"",
 					$file_info["files"]["download_new_url"]
-				);				
+				);
+
 			}
 		}
-		
+
+		if($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmitted())
+		{
+			$url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
+			$items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
+		}
+
 		if(!$has_no_team_yet &&
 			$a_ass->hasActiveIDl() &&
 			!$a_ass->hasReadOnlyIDl())
@@ -512,60 +549,45 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 				: $a_user_id;		
 			
 			$this->tpl->setVariable("VAL_IDL_ID", $a_ass->getId()."_".$idl_id);
-			
-			$actions->addItem(
-				$this->lng->txt("exc_individual_deadline_action"),
-				"",
-				"#",
-				"",
-				"",
-				"",
-				"",
-				false,
-				"il.ExcIDl.trigger('".$idl_id."',".$a_ass->getId().")"
-			);		
+
+			$assignment_id = $a_ass->getId();
+			$items[] = $this->ui_factory->button()->shy($this->lng->txt("exc_individual_deadline_action"), "#")
+				->withOnLoadCode(function ($id) use ($idl_id, $assignment_id){
+					return "$('#$id').on('click', function() {il.ExcIDl.trigger('$idl_id', '$assignment_id'); return false;})";
+				});
 		}
 		
 		// feedback mail
-		if($this->exc->hasTutorFeedbackMail() && $a_row['submission_obj']->hasSubmitted())
+		if($this->exc->hasTutorFeedbackMail())
 		{
-			$actions->addItem(
+			$items[] = $this->ui_factory->button()->shy(
 				$this->lng->txt("exc_tbl_action_feedback_mail"),
-				"",
 				$ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail")
-			);	
+			);
 		}
 		
 		// feedback files	
-		if($this->exc->hasTutorFeedbackFile() && $a_row['submission_obj']->hasSubmitted())
+		if($this->exc->hasTutorFeedbackFile())
 		{
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
 			$counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());				
 			$counter = $counter
 				? " (".$counter.")"
-				: "";		
-			$actions->addItem(
+				: "";
+
+			$items[] = $this->ui_factory->button()->shy(
 				$this->lng->txt("exc_tbl_action_feedback_file").$counter,
-				"",
 				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
-			);		
+			);
 		}
 
 		// comment (modal - see above)
-		if($this->exc->hasTutorFeedbackText() && $a_row['submission_obj']->hasSubmitted())
+		if($this->exc->hasTutorFeedbackText())
 		{
-			$actions->addItem(
-				$this->lng->txt("exc_tbl_action_feedback_text"),
-				"",
-				"#",
-				"",
-				"",
-				"",
-				"",
-				false,
-				"il.ExcManagement.showComment('".$comment_id."')"	
-			);		
+			$items[] = $this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_text"), "#")
+				->withOnLoadCode(function ($id) use ($comment_id){
+					return "$('#$id').on('click', function() {il.ExcManagement.showComment('$comment_id'); return false;})";
+				});
 		}
 		
 		// peer review 
@@ -574,43 +596,42 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 			$counter = $peer_review->countGivenFeedback(true, $a_user_id);
 			$counter = $counter
 				? " (".$counter.")"
-				: "";	
-			$actions->addItem(
+				: "";
+			$items[] = $this->ui_factory->button()->shy(
 				$this->lng->txt("exc_tbl_action_peer_review_given").$counter,
-				"",
 				$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showGivenPeerReview")
-			);	
+			);
 			
 			$counter = sizeof($peer_review->getPeerReviewsByPeerId($a_user_id, true));
 			$counter = $counter
 				? " (".$counter.")"
-				: "";	
-			$actions->addItem(
+				: "";
+
+			$items[] = $this->ui_factory->button()->shy(
 				$this->lng->txt("exc_tbl_action_peer_review_received").$counter,
-				"",
 				$ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showReceivedPeerReview")
-			);	
+			);
 		}
 		
 		// team
 		if($has_no_team_yet)
 		{
-			$actions->addItem(
+			$items[] = $this->ui_factory->button()->shy(
 				$this->lng->txt("exc_create_team"),
-				"",
 				$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "createSingleMemberTeam")
-			);				
+			);
 		}		
 		else if($a_ass->hasTeam())					
-		{						
-			$actions->addItem(
+		{
+			$items[] = $this->ui_factory->button()->shy(
 				$this->lng->txt("exc_tbl_action_team_log"),
-				"",
 				$ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "showTeamLog")
-			);	
-		}									
-		
-		$this->tpl->setVariable("ACTIONS", $actions->getHTML());
+			);
+		}
+
+		$actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("actions"));
+
+		$this->tpl->setVariable("ACTIONS", $this->ui_renderer->render($actions));
 	}
 		
 	public function render()

@@ -232,4 +232,4 @@ else if($uploadedFile && $mob_details[$uploadedFile])
 	$tpl->setVariable('UPLOADED_FILE_SRC', $mob_details[$uploadedFile]['http_dir'] . $mob_details[$uploadedFile]['file_name']);
 }
 
-$tpl->printToStdout();
+$tpl->printToStdout("DEFAULT", false, true);

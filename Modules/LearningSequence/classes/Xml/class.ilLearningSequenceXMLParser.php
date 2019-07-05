@@ -125,9 +125,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
 
 	public function handleCharacterData($parser, $data)
 	{
-		if (!empty($data)) {
-			$this->cdata = $data ?? "";
-		}
+		$this->cdata = $data ?? "";
 		$this->storeData();
 	}
 

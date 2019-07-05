@@ -95,10 +95,14 @@ class ilSystemStyleDocumentationGUI
 		}
 
 		$explorer = new ilKSDocumentationExplorerGUI($this, "entries", $entries, $_GET["node_id"]);
-		$this->tpl->setLeftNavContent($explorer->getHTML());
-		$entry_gui = new ilKSDocumentationEntryGUI($this,$explorer->getCurrentOpenedNode(), $entries);
-		$content .= $entry_gui->renderEntry();
 
+		$entry_gui = new ilKSDocumentationEntryGUI(
+			$this,
+			$explorer,
+			$entries
+		);
+
+		$content.= $entry_gui->renderEntry();
 		$this->tpl->setContent($content);
 	}
 

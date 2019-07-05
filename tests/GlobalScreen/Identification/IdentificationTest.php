@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\Serializer\CoreSerializer;
@@ -49,7 +49,7 @@ class IdentificationTest extends TestCase {
 	/**
 	 * @inheritDoc
 	 */
-	protected function setUp() {
+	protected function setUp(): void{
 		parent::setUp();
 
 		$this->plugin_mock = Mockery::mock(ilPlugin::class);

@@ -5,7 +5,6 @@ namespace ILIAS\FileUpload\Processor;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use Psr\Http\Message\StreamInterface;
 
 /**
  * Class BlacklistExtensionPreProcessor
@@ -13,15 +12,20 @@ use Psr\Http\Message\StreamInterface;
  * PreProcessor which denies all blacklisted file extensions.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
  */
 final class BlacklistExtensionPreProcessor implements PreProcessor {
 
 	/**
+	 * @var string
+	 */
+	private $reason;
+	/**
 	 * @var string[]
 	 */
 	private $blacklist;
+
 
 	/**
 	 * BlacklistExtensionPreProcessor constructor.
@@ -41,16 +45,21 @@ final class BlacklistExtensionPreProcessor implements PreProcessor {
 	 * ...
 	 *
 	 * @param \string[] $blacklist The file extensions which should be blacklisted.
+	 * @param string    $reason
 	 */
-	public function __construct(array $blacklist) { $this->blacklist = $blacklist; }
+	public function __construct(array $blacklist, $reason = 'Extension is blacklisted.') {
+		$this->blacklist = $blacklist;
+		$this->reason = $reason;
+	}
 
 
 	/**
 	 * @inheritDoc
 	 */
 	public function process(FileStream $stream, Metadata $metadata) {
-		if($this->isBlacklisted($metadata->getFilename()))
-			return new ProcessingStatus(ProcessingStatus::REJECTED, 'Extension is blacklisted.');
+		if ($this->isBlacklisted($metadata, $stream)) {
+			return new ProcessingStatus(ProcessingStatus::REJECTED, $this->reason);
+		}
 
 		return new ProcessingStatus(ProcessingStatus::OK, 'Extension is not blacklisted.');
 	}
@@ -59,19 +68,51 @@ final class BlacklistExtensionPreProcessor implements PreProcessor {
 	/**
 	 * Checks if the current filename has a listed extension. (*.png, *.mp4 etc ...)
 	 *
-	 * @param string $filename The filename which should be checked.
+	 * @param Metadata   $metadata
+	 *
+	 * @param FileStream $stream
 	 *
 	 * @return bool True if the extension is listed, otherwise false.
 	 */
-	private function isBlacklisted($filename) {
-		$extensions = explode('.', $filename);
-		$extension = NULL;
+	private function isBlacklisted(Metadata $metadata, FileStream $stream) {
+		$filename = $metadata->getFilename();
+		$extension = $this->getExtensionForFilename($filename);
 
-		if(count($extensions) <= 1)
-			$extension = '';
-		else
-			$extension = end($extensions);
+		if (strtolower($extension) === 'zip') {
+			$zip_file_path = $stream->getMetadata('uri');
+			$zip = new \ZipArchive();
+			$zip->open($zip_file_path);
+
+			for ($i = 0; $i < $zip->numFiles; $i++) {
+				$original_path = $zip->getNameIndex($i);
+				if (in_array($this->getExtensionForFilename($original_path), $this->blacklist)) {
+					$zip->close();
+
+					return true;
+				}
+			}
+			$zip->close();
+		}
 
 		return in_array($extension, $this->blacklist);
+	}
+
+
+	/**
+	 * @param $filename
+	 *
+	 * @return null|string
+	 */
+	private function getExtensionForFilename($filename) {
+		$extensions = explode('.', $filename);
+		$extension = null;
+
+		if (count($extensions) <= 1) {
+			$extension = '';
+		} else {
+			$extension = strtolower(end($extensions));
+		}
+
+		return $extension;
 	}
 }

@@ -71,7 +71,7 @@ class ilDclTableEditGUI {
 		$locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTarget($this, 'edit'));
 		$this->tpl->setLocator();
 
-		if (!$this->checkPermission()) {
+		if (!$this->checkAccess()) {
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
 		}
@@ -192,7 +192,6 @@ class ilDclTableEditGUI {
 	 * @param string $a_mode
 	 */
 	public function initForm($a_mode = "create") {
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
 		$item = new ilTextInputGUI($this->lng->txt('title'), 'title');
@@ -421,7 +420,6 @@ class ilDclTableEditGUI {
 	 * confirmDelete
 	 */
 	public function confirmDelete() {
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($this->ctrl->getFormAction($this));
 		$conf->setHeaderText($this->lng->txt('dcl_confirm_delete_table'));
@@ -461,10 +459,9 @@ class ilDclTableEditGUI {
 	/**
 	 * @return bool
 	 */
-	protected function checkPermission() {
+	protected function checkAccess() {
 		$ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
-
-		return ilObjDataCollection::_hasWriteAccess($ref_id);
+		return $this->table_id ? ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id) : ilObjDataCollectionAccess::hasWriteAccess($ref_id);
 	}
 
 
@@ -478,9 +475,8 @@ class ilDclTableEditGUI {
 		$tables = $this->parent_object->getDataCollectionObject()->getTables();
 
 		foreach ($tables as $table) {
-			$options[$table->getId()] = $table->getTitle(); //TODO order tables
+			$options[$table->getId()] = $table->getTitle();
 		}
-		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$table_selection = new ilSelectInputGUI('', 'table_id');
 		$table_selection->setOptions($options);
 		$table_selection->setValue($this->table->getId());

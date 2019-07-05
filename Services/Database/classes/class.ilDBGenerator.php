@@ -44,7 +44,6 @@ class ilDBGenerator {
 		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
 		$this->reverse = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
 		$this->il_db = $ilDB;
-		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 		$this->analyzer = new ilDBAnalyzer();
 
 		$this->allowed_attributes = $ilDB->getAllowedAttributes();
@@ -238,11 +237,9 @@ class ilDBGenerator {
 
 
 	protected function openFile($a_path) {
-		global $DIC;
-		$ilDB = $DIC->database();
 		if (1) {
 			$file = fopen($a_path, "w");
-			$start .= "\t" . $ilDB . "\n\n";
+			$start .= "\t" . 'global $ilDB;' . "\n\n";
 			fwrite($file, $start);
 
 			return $file;
@@ -250,7 +247,7 @@ class ilDBGenerator {
 
 		$file = fopen($a_path, "w");
 		$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-		$start .= "\t" . $ilDB . "\n\n";
+		$start .= "\t" . 'global $ilDB;' . "\n\n";
 		fwrite($file, $start);
 
 		return $file;
@@ -290,9 +287,7 @@ class ilDBGenerator {
 			$file = fopen($a_filename, "w");
 
 			$start = '<?php' . "\n" . 'function setupILIASDatabase()' . "\n{\n";
-			global $DIC;
-			$ilDB = $DIC->database();
-			$start .= "\t" . $ilDB . "\n\n";
+			$start .= "\t" . 'global $ilDB;' . "\n\n";
 			fwrite($file, $start);
 		} elseif ($isDirectory) {
 			;
@@ -623,8 +618,6 @@ class ilDBGenerator {
 	 * @return
 	 */
 	public function buildInsertStatementsXML($a_table, $a_basedir) {
-
-		include_once './Services/Xml/classes/class.ilXmlWriter.php';
 		$w = new ilXmlWriter();
 		$w->xmlStartTag('Table', array( 'name' => $a_table ));
 
@@ -880,7 +873,6 @@ class ilDBGenerator {
 		// Convert to target encoding
 		$shortened = mb_convert_encoding($a_value, $this->getTargetEncoding(), 'UTF-8');
 		// Shorten
-		include_once './Services/Utilities/classes/class.ilStr.php';
 		$shortened = ilStr::shortenText($shortened, 0, $a_size, $this->getTargetEncoding());
 		// Convert back to UTF-8
 		$shortened = mb_convert_encoding($shortened, 'UTF-8', $this->getTargetEncoding());

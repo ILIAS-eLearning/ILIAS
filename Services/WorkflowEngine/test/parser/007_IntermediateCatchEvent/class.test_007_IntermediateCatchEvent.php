@@ -30,7 +30,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 		return $this->base_path . $this->suite_path  . $test_name . '_goldsample.php';
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		chdir( dirname( __FILE__ ) );
 		chdir( '../../../../../' );
@@ -59,7 +59,6 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		require_once './Services/Database/classes/class.ilDB.php';
 		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
 		$i = 0;
@@ -159,7 +158,6 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		require_once './Services/Database/classes/class.ilDB.php';
 		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
 		$id = 0;
@@ -258,7 +256,6 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		require_once './Services/Database/classes/class.ilDB.php';
 		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
 		$id = 0;
