@@ -380,7 +380,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		return $dd;
 	}
 
-	protected function getUserRepresentation(int $usr_id): \ILIAS\UI\Component\Button\Shy
+	protected function getUserRepresentation(int $usr_id): \ILIAS\UI\Component\Link\Standard
 	{
 		$username = ilObjUser::_lookupName($usr_id);
 		$editor = implode(' ', [
@@ -389,13 +389,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 			'('.$username['login'] .')'
 		]);
 		$url = ilLink::_getStaticLink($usr_id, 'usr');
-		return $this->ui_factory->button()->shy($editor, $url);
+		return $this->ui_factory->link()->standard($editor, $url);
 	}
 
 
 	protected function getTitleRepresentation(
 		ilStudyProgrammeAutoMembershipSource $ams
-	): \ILIAS\UI\Component\Button\Shy {
+	): \ILIAS\UI\Component\Link\Standard {
 
 		$src_type = $ams->getSourceType();
 		$src_id = $ams->getSourceId();
@@ -438,6 +438,6 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 				break;
 		}
 
-		return $this->ui_factory->button()->shy($title, $url);
+		return $this->ui_factory->link()->standard($title, $url);
 	}
 }
