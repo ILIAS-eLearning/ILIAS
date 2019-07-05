@@ -598,7 +598,9 @@ class ilPluginAdmin
         // return array(); // current fix
         foreach (self::getActivePlugins() as $plugin) {
             $pl = self::getPluginObjectById($plugin['plugin_id']);
-            array_push($providers, $pl->promoteGlobalScreenProvider());
+            if ($pl->isActive()) {
+                array_push($providers, $pl->promoteGlobalScreenProvider());
+            }
         }
 
         return $providers;
