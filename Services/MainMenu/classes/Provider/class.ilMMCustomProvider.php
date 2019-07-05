@@ -77,9 +77,6 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
     public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false) : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
-        if ($register) {
-            ilGSIdentificationStorage::registerIdentification($identification, $this);
-        }
 
         $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification);
 

@@ -1,5 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/Xml/classes/class.ilSaxParser.php');
+require_once('./setup/classes/class.ilObjDefReader.php');
+require_once('./setup/classes/class.ilModuleReader.php');
+require_once('./setup/classes/class.ilServiceReader.php');
+require_once('./setup/classes/class.ilCtrlStructureReader.php');
 
 /**
  * Database Update class

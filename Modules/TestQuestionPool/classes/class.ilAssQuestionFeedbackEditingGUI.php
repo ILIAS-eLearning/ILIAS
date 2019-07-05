@@ -65,7 +65,7 @@ class ilAssQuestionFeedbackEditingGUI
 	 * global $tpl
 	 *
 	 * @access protected
-	 * @var ilGlobalTemplate
+	 * @var ilGlobalTemplateInterface
 	 */
 	protected $tpl = null;
 
@@ -96,7 +96,7 @@ class ilAssQuestionFeedbackEditingGUI
 	 * @param ilTabsGUI $tabs
 	 * @param ilLanguage $lng
 	 */
-	public function __construct(assQuestionGUI $questionGUI, ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplate $tpl, ilTabsGUI $tabs, ilLanguage $lng)
+	public function __construct(assQuestionGUI $questionGUI, ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplateInterface $tpl, ilTabsGUI $tabs, ilLanguage $lng)
 	{
 		$this->questionGUI = $questionGUI;
 		$this->questionOBJ = $questionGUI->object;

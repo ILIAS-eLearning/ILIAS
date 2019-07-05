@@ -22,20 +22,15 @@ class ilDBWrapperFactory {
 	 * @throws ilDatabaseException
 	 */
 	static public function getWrapper($a_type) {
-		global $DIC;
-		$ilClientIniFile = null;
-		if ($DIC->offsetExists('ilClientIniFile')) {
-			/**
-			 * @var $ilClientIniFile ilIniFile
-			 */
-			$ilClientIniFile = $DIC['ilClientIniFile'];
-		}
-
-		if ($a_type == "" && $ilClientIniFile instanceof ilIniFile) {
-			$a_type = $ilClientIniFile->readVariable("db", "type");
-		}
 		if ($a_type == "") {
-			$a_type = ilDBConstants::TYPE_INNODB;
+			if (isset($GLOBALS["DIC"])
+			&& $GLOBALS["DIC"]->offsetExists("ilClientIniFile")
+			&& $GLOBALS["DIC"]["ilClientIniFile"] instanceof \ilIniFile) {
+				$a_type = $GLOBALS["DIC"]["ilClientIniFile"]->readVariable("db", "type");
+			}
+			else {
+				$a_type = ilDBConstants::TYPE_INNODB;
+			}
 		}
 
 		switch ($a_type) {

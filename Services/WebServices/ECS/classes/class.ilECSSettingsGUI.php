@@ -488,8 +488,14 @@ class ilECSSettingsGUI
 		
 		if($this->settings->getImportId())
 		{
-			$tpl->setVariable('COMPLETE_PATH',$this->buildPath($this->settings->getImportId()));
-		}		
+			$path = $this->buildPath($this->settings->getImportId());
+			if($path == '') {
+				$imp->setAlert($this->lng->txt('err_check_input'));
+			}
+			else {
+				$tpl->setVariable('COMPLETE_PATH',$this->buildPath($this->settings->getImportId()));
+			}
+		}
 		
 		$imp->setHTML($tpl->get());
 		$imp->setInfo($this->lng->txt('ecs_import_id_info'));
@@ -2023,9 +2029,21 @@ class ilECSSettingsGUI
 		}
 		return $select;
 	}
-	
+
+	/**
+	 * @param int $a_ref_id
+	 * @return string
+	 */
 	private function buildPath($a_ref_id)
 	{
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+
+		if(!$tree->isInTree($a_ref_id) || $tree->isDeleted($a_ref_id))
+		{
+			return '';
+		}
 		$loc = new ilLocatorGUI();
 		$loc->setTextOnly(false);
 		$loc->addContextItems($a_ref_id);

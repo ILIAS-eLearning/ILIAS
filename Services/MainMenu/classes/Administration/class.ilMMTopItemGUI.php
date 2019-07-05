@@ -1,7 +1,6 @@
 <?php
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\MainMenuProviderInterface;
 
 /**
  * Class ilMMTopItemGUI
@@ -131,13 +130,10 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 
 
     /**
-     * @param $DIC
-     *
      * @return string
      */
-    private function index(\ILIAS\DI\Container $DIC) : string
+    private function index() : string
     {
-        ilGlobalCache::flushAll();
         // ADD NEW
         if ($this->access->hasUserPermissionTo('write')) {
             $b = ilLinkButton::getInstance();
@@ -283,59 +279,10 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 
     private function restore()
     {
-        ilGSProviderStorage::flushDB();
-        ilGSIdentificationStorage::flushDB();
         ilMMItemStorage::flushDB();
         ilMMCustomItemStorage::flushDB();
         ilMMItemTranslationStorage::flushDB();
         ilMMTypeActionStorage::flushDB();
-        // ilGlobalCache::flushAll();
-
-        arObjectCache::flush(ilGSProviderStorage::class);
-        arObjectCache::flush(ilGSIdentificationStorage::class);
-
-        $gen = function () {
-            $arr = ["./Services" => '/service\.xml$/i', "./Modules" => '/module\.xml$/i'];
-            foreach ($arr as $path => $regexp) {
-                $directory = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::CURRENT_AS_PATHNAME);
-                $iterator = new RecursiveIteratorIterator($directory);
-                $regex = new RegexIterator($iterator, $regexp, RecursiveRegexIterator::MATCH);
-                foreach ($regex as $xml_path) {
-                    $xml = simplexml_load_file($xml_path);
-                    if (isset($xml->gsproviders)) {
-                        foreach ($xml->gsproviders as $item) {
-                            if (isset($item->gsprovider)) {
-                                foreach ($item->gsprovider as $provider) {
-                                    $attributes = $provider->attributes();
-
-                                    $classname = $attributes['class_name'];
-                                    $purpose = $attributes['purpose'];
-
-                                    yield (string) $classname[0] => (string) $purpose[0];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
-        $data = [];
-        foreach ($gen() as $classname => $purpose) {
-            if (!$classname || !$purpose) {
-                continue;
-            }
-            $data[$classname] = $purpose;
-            ilGSProviderStorage::register($classname, $purpose);
-            $ilGSProviderStorage = ilGSProviderStorage::find($classname);
-            if ($ilGSProviderStorage instanceof ilGSProviderStorage) {
-                $i = $ilGSProviderStorage->getInstance();
-                if ($i instanceof MainMenuProviderInterface) {
-                    foreach ($i->getAllIdentifications() as $identification) {
-                        ilGSIdentificationStorage::registerIdentification($identification, $i);
-                    }
-                }
-            }
-        };
 
         ilUtil::sendSuccess($this->lng->txt('msg_restored'), true);
 

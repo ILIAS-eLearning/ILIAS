@@ -6,6 +6,14 @@
 	"config": {
 		"optimize-autoloader": true
 	},
+	"scripts": {
+		"post-autoload-dump": [
+          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
+		],
+		"artifacts": [
+          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
+		]
+	},
 	"require": {
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",
@@ -28,7 +36,8 @@
 		"phpoffice/phpspreadsheet": "^1.3.1",
 		"jumbojett/openid-connect-php": "^0.7.0",
 		"sabre/dav": "~3.2.2",
-		"slim/slim": "^3.11"
+		"slim/slim": "^3.11",
+		"symfony/console" : "^4.2"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -40,7 +49,7 @@
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" },
-		"classmap": ["../../Services/", "../../Modules", "../ilias"],
+		"classmap": ["../../Services/", "../../Modules", "../ilias", "../../setup"],
 		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
 	},
 	"extra": {
@@ -305,6 +314,15 @@
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-12-03"
+		},
+		"symfony/console": {
+			"source": "https://github.com/symfony/console",
+			"used_version": "v4.2",
+			"added_by": "Richard Klees <richard.klees@concepts-and-training.de>",
+			"last_update": "2019-04-29",
+			"last_update_by": "Richard Klees <richard.klees@concepts-and-training.de>",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2019-07-01"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
