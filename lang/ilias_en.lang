@@ -15061,6 +15061,11 @@ crs#:#crs_timings_short_end#:#End Date
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
 dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_crs_timing_end#:#Suggested End
+assessment#:#finalized_evaluation#:#Scoring completed
+assessment#:#evaluated_users#:#Evaluated Users
+assessment#:#not_evaluated_users#:#Not Yet Evaluated User
+assessment#:#finalized_by#:#Completed by
+assessment#:#finalized_on#:#Completed at
 crs#:#crs_timings_edit_personal#:#Edit Personal Timings
 crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
 crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
