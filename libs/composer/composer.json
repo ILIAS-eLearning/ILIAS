@@ -137,7 +137,7 @@
 		},
 		"tecnickcom/tcpdf" : {
 			"source" : "https://github.com/tecnickcom/TCPDF",
-			"used_version" : "v6.2.12",
+			"used_version" : "v6.2.26",
 			"wrapped_by" : "Services/PDFGeneration",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
 			"last_update" : "2016-06-02",
