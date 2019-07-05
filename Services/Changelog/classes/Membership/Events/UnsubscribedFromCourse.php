@@ -6,14 +6,14 @@ namespace ILIAS\Changelog\Membership\Events;
 use ILIAS\Changelog\Membership\MembershipEvent;
 
 /**
- * Class MembershipRequested
+ * Class UnsubscribedFromCourse
  * @package ILIAS\Changelog\Membership\Events
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class MembershipRequested extends MembershipEvent {
+class UnsubscribedFromCourse extends MembershipEvent {
 
-	const TYPE_ID = 1;
+	const TYPE_ID = 4;
 
 	/**
 	 * @var int
@@ -22,16 +22,16 @@ class MembershipRequested extends MembershipEvent {
 	/**
 	 * @var int
 	 */
-	protected $requesting_user_id;
+	protected $unsubscribing_user_id;
 
 	/**
 	 * MembershipRequested constructor.
 	 * @param int $crs_obj_id
-	 * @param int $requesting_user_id
+	 * @param int $unsubscribing_user_id
 	 */
-	public function __construct(int $crs_obj_id, int $requesting_user_id) {
+	public function __construct(int $crs_obj_id, int $unsubscribing_user_id) {
 		$this->crs_obj_id = $crs_obj_id;
-		$this->requesting_user_id = $requesting_user_id;
+		$this->unsubscribing_user_id = $unsubscribing_user_id;
 	}
 
 
@@ -49,11 +49,7 @@ class MembershipRequested extends MembershipEvent {
 	/**
 	 * @return int
 	 */
-	public function getRequestingUserId(): int {
-		return $this->requesting_user_id;
+	public function getUnsubscribingUserId(): int {
+		return $this->unsubscribing_user_id;
 	}
-
-
-
-
 }

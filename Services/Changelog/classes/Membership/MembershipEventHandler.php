@@ -12,7 +12,7 @@ use ILIAS\Changelog\EventHandler;
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class MembershipEventHandler implements EventHandler {
+abstract class MembershipEventHandler implements EventHandler {
 
 	/**
 	 * @var MembershipRepository
@@ -27,9 +27,9 @@ class MembershipEventHandler implements EventHandler {
 		$this->repository = $repository;
 	}
 
-	public function handle(Event $changelogEvent): void {
-		// TODO: Implement handle() method.
-	}
-
+	/**
+	 * @param Event $changelogEvent
+	 */
+	abstract public function handle(Event $changelogEvent): void;
 
 }
