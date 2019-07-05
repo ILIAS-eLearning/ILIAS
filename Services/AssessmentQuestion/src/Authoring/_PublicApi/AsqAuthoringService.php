@@ -56,7 +56,7 @@ class AsqAuthoringService {
 		/** @var Question $question */
 		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
 
-		if ($question_dto->getData() !== $question->getData()) {
+		if ($question_dto->getData() != $question->getData()) {
 			$question->setData($question_dto->getData());
 		}
 
