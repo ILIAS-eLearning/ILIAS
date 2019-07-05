@@ -12,8 +12,8 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
  * Transform a string representing a datetime-value to php's DateTimeImmutable
  * see https://www.php.net/manual/de/datetime.formats.php
  */
-class DateTimeTransformation implements Transformation {
-
+class DateTimeTransformation implements Transformation
+{
 	use DeriveApplyToFromTransform;
 
 	/**
@@ -32,7 +32,8 @@ class DateTimeTransformation implements Transformation {
 	/**
 	 * @inheritdoc
 	 */
-	public function transform($from) {
+	public function transform($from)
+	{
 		try {
 			return new \DateTimeImmutable($from);
 		} catch (\Exception $e) {
@@ -43,7 +44,8 @@ class DateTimeTransformation implements Transformation {
 	/**
 	 * @inheritdoc
 	 */
-	public function __invoke($from) {
+	public function __invoke($from)
+	{
 		return $this->transform($from);
 	}
 }

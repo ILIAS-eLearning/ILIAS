@@ -66,7 +66,8 @@ class ChangeTimezone implements Transformation
 	/**
 	 * @inheritdoc
 	 */
-	public function __invoke($from) {
+	public function __invoke($from)
+	{
 		return $this->transform($from);
 	}
 }
