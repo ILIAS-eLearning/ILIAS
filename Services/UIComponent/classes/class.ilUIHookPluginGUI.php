@@ -20,6 +20,10 @@ class ilUIHookPluginGUI implements FinalModificationProvider
      * @var ilPlugin
      */
     protected $plugin_object = null;
+    /**
+     * @var string
+     */
+    private $provider_name_cache = "";
     const UNSPECIFIED = "";
     const KEEP = "";
     const REPLACE = "r";
@@ -137,5 +141,23 @@ class ilUIHookPluginGUI implements FinalModificationProvider
     public function checkGotoHook($a_target)
     {
         return array("target" => false);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getProviderNameForPresentation() : string
+    {
+        if ($this->provider_name_cache !== "") {
+            return $this->provider_name_cache;
+        }
+        if ($this->plugin_object instanceof ilPlugin) {
+            $this->provider_name_cache = $this->plugin_object->getPluginName();
+        } else {
+            $this->provider_name_cache = get_class($this);
+        }
+
+        return $this->provider_name_cache;
     }
 }
