@@ -889,4 +889,49 @@ interface Factory {
 	 */
 	public function help(string $action = null): Glyph;
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Calendar glyph is used to symbolize date-related actions or alerts.
+	 *   composition: >
+	 *      The Calendar Glyph uses the glyphicon-calendar.
+	 *   effect: >
+	 *       Clicking the calendar glyph will usually open a date-picker.
+	 *
+	 * context:
+	 *    - Use in conjunction with Date-Inputs.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Calendar'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+	 */
+	public function calendar($action = null);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      The Time glyph is used to symbolize time-related actions or alerts.
+	 *   composition: >
+	 *      The Time Glyph uses the glyphicon-time.
+	 *   effect: >
+	 *       Clicking the time glyph will usually open a time-picker.
+	 *
+	 * context:
+	 *    - Use in conjunction with Date-Inputs.
+	 *
+	 * rules:
+	 *   accessibility:
+	 *       1: >
+	 *          The aria-label MUST be 'Time'.
+	 * ---
+	 * @param string|null	$action
+	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+	 */
+	public function time($action = null);
 }

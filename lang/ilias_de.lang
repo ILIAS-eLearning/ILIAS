@@ -15132,3 +15132,4 @@ rbac#:#pdts_change_presentation#:#Schreibtisch-Präsentation ändern (Liste/Kach
 rbac#:#change_presentation#:#Präsentation ändern
 pd#:#pd_presentation_mode_list#:#Listenansicht
 pd#:#pd_presentation_mode_tile#:#Kachelansicht
+forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
