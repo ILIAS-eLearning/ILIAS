@@ -32,19 +32,25 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
     private $ilUtilHelper;
 
     /**
-     * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
+     * @var ilCertificateDateHelper|null
+     */
+    private $dateHelper;
+
+    /**
+     * @param ilDefaultPlaceholderValues           $defaultPlaceholderValues
+     * @param ilLanguage|null                      $language
+     * @param ilCertificateObjectHelper|null       $objectHelper
      * @param ilCertificateParticipantsHelper|null $participantsHelper
-     * @param ilCertificateUtilHelper $ilUtilHelper
-     * @param ilCertificateDateHelper|null $ilDateHelper
+     * @param ilCertificateUtilHelper              $ilUtilHelper
+     * @param ilCertificateDateHelper|null         $ilDateHelper
      */
     public function __construct(
         ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
         ilLanguage $language = null,
         ilCertificateObjectHelper $objectHelper = null,
         ilCertificateParticipantsHelper $participantsHelper = null,
-        ilCertificateUtilHelper $ilUtilHelper = null
+        ilCertificateUtilHelper $ilUtilHelper = null,
+        ilCertificateDateHelper $dateHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -72,16 +78,21 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         $this->ilUtilHelper = $ilUtilHelper;
 
         $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+
+        if (null === $dateHelper) {
+            $dateHelper = new ilCertificateDateHelper();
+        }
+        $this->dateHelper = $dateHelper;
+
+        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
     }
 
     /**
      * This method MUST return an array that contains the
      * actual data for the given user of the given object.
-     *
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     *
      * @param $userId
      * @param $objId
      * @return mixed - [PLACEHOLDER] => 'actual value'
@@ -93,7 +104,18 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
-        $placeholders['COURSE_TITLE']  = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
+        $placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
+        $completionDate               = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
+
+        if ($completionDate !== false &&
+            $completionDate !== null &&
+            $completionDate !== ''
+        ) {
+            $placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+            $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+        }
+
+        $placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
 
         return $placeholders;
     }
@@ -102,14 +124,13 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * @param int $userId
      * @param int $objId
      * @return mixed
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId)
     {
-        $placeholders =  $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 

@@ -56,23 +56,25 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         $ilDateHelper->method('formatDateTime')
             ->willReturn('2018-09-10 10:32:00');
 
-        $valuesObject = new ilCoursePlaceholderValues(
-            $defaultPlaceholderValues,
-            $language,
-            $objectHelper,
-            $participantsHelper,
-            $ilUtilHelper
-        );
+		$valuesObject = new ilCoursePlaceholderValues(
+			$defaultPlaceholderValues,
+			$language,
+			$objectHelper,
+			$participantsHelper,
+			$ilUtilHelper,
+			$ilDateHelper
+		);
 
         $placeholderValues = $valuesObject->getPlaceholderValues(100, 200);
 
-        $this->assertEquals(
-            array(
-                'COURSE_TITLE'       => 'Some Title'
-            ),
-            $placeholderValues
-        );
-    }
+		$this->assertEquals(
+			array(
+				'COURSE_TITLE'       => 'Some Title',
+				'DATE_COMPLETED'     => '2018-09-10',
+				'DATETIME_COMPLETED' => '2018-09-10 10:32:00'
+			),
+			$placeholderValues);
+	}
 
     public function testGetPreviewPlaceholderValues()
     {
