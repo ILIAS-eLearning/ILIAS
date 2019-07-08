@@ -324,6 +324,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case 'confirmRemoveFromSystem':
 					case 'removeFromSystem':
 					case 'deliverCertificate':
+					case 'addToDesk':
+					case 'removeFromDesk':
 						$cmd .= "Object";
 						$this->$cmd();
 						break;
