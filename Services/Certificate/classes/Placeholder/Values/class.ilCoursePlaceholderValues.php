@@ -31,26 +31,32 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      */
     private $ilUtilHelper;
 
-    /**
-     * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateParticipantsHelper|null $participantsHelper
-     * @param ilCertificateUtilHelper $ilUtilHelper
-     * @param ilCertificateDateHelper|null $ilDateHelper
-     */
-    public function __construct(
-        ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ilLanguage $language = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateParticipantsHelper $participantsHelper = null,
-        ilCertificateUtilHelper $ilUtilHelper = null
-    ) {
-        if (null === $language) {
-            global $DIC;
-            $language = $DIC->language();
-        }
-        $this->language = $language;
+	/**
+	 * @var ilCertificateDateHelper|null
+	 */
+	private $dateHelper;
+
+	/**
+	 * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
+	 * @param ilLanguage|null $language
+	 * @param ilCertificateObjectHelper|null $objectHelper
+	 * @param ilCertificateParticipantsHelper|null $participantsHelper
+	 * @param ilCertificateUtilHelper $ilUtilHelper
+	 * @param ilCertificateDateHelper|null $ilDateHelper
+	 */
+	public function __construct(
+		ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+		ilLanguage $language = null,
+		ilCertificateObjectHelper $objectHelper = null,
+		ilCertificateParticipantsHelper $participantsHelper = null,
+		ilCertificateUtilHelper $ilUtilHelper = null,
+		ilCertificateDateHelper $dateHelper = null
+	) {
+		if (null === $language) {
+			global $DIC;
+			$language = $DIC->language();
+		}
+		$this->language = $language;
 
         if (null === $defaultPlaceholderValues) {
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
@@ -72,7 +78,14 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         $this->ilUtilHelper = $ilUtilHelper;
 
         $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
-    }
+
+		if (null === $dateHelper) {
+            $dateHelper = new ilCertificateDateHelper();
+        }
+		$this->dateHelper = $dateHelper;
+
+		$this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+	}
 
     /**
      * This method MUST return an array that contains the
@@ -94,6 +107,17 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeholders['COURSE_TITLE']  = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
+		$completionDate = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
+
+		if ($completionDate !== false &&
+			$completionDate !== null &&
+			$completionDate !== ''
+		) {
+			$placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+			$placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+		}
+
+		$placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
 
         return $placeholders;
     }
