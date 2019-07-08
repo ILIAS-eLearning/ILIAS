@@ -14,6 +14,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 		$this->usr = $DIC['ilUser'];
 		$this->log = $DIC['ilLog'];
 		$this->lng = $DIC['lng'];
+		$this->lng->loadLanguageModule('prg');
 	}
 
 	const ID = 'prg_invalidate_expired_progresses';
