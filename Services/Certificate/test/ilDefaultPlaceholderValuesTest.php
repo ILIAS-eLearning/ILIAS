@@ -130,45 +130,45 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
             ->willReturn(array());
 
-		$placeHolderObject = new ilDefaultPlaceholderValues(
-			$objectHelper,
-			$dateHelper,
-			1,
-			$language,
-			$utilHelper,
-			$userDefinePlaceholderMock,
-			1
-		);
+        $placeHolderObject = new ilDefaultPlaceholderValues(
+            $objectHelper,
+            $dateHelper,
+            1,
+            $language,
+            $utilHelper,
+            $userDefinePlaceholderMock,
+            1
+        );
 
         $result = $placeHolderObject->getPlaceholderValues(100, 200);
 
-		$this->assertEquals(
-			array(
-				'USER_LOGIN'         => 'a_login',
-				'USER_FULLNAME'      => 'Niels Theen',
-				'USER_FIRSTNAME'     => 'Niels',
-				'USER_LASTNAME'      => 'Theen',
-				'USER_TITLE'         => '',
-				'USER_SALUTATION'    => 'Something',
-				'USER_BIRTHDAY'      => '2018-09-10',
-				'USER_INSTITUTION'   => '',
-				'USER_DEPARTMENT'    => '',
-				'USER_STREET'        => '',
-				'USER_CITY'          => '',
-				'USER_ZIPCODE'       => '',
-				'USER_COUNTRY'       => '',
-				'USER_MATRICULATION' => '',
-				'DATE'               => '',
-				'DATETIME'           => '',
-				'DATE_COMPLETED'     => '',
-				'DATETIME_COMPLETED' => '',
-				'CLIENT_WEB_DIR'     => '',
-				'DATE'               => '2018-09-10',
-				'DATETIME'           => '2018-09-10 12:01:33'
-			),
-			$result
-		);
-	}
+        $this->assertEquals(
+            array(
+                'USER_LOGIN'         => 'a_login',
+                'USER_FULLNAME'      => 'Niels Theen',
+                'USER_FIRSTNAME'     => 'Niels',
+                'USER_LASTNAME'      => 'Theen',
+                'USER_TITLE'         => '',
+                'USER_SALUTATION'    => 'Something',
+                'USER_BIRTHDAY'      => '2018-09-10',
+                'USER_INSTITUTION'   => '',
+                'USER_DEPARTMENT'    => '',
+                'USER_STREET'        => '',
+                'USER_CITY'          => '',
+                'USER_ZIPCODE'       => '',
+                'USER_COUNTRY'       => '',
+                'USER_MATRICULATION' => '',
+                'DATE'               => '',
+                'DATETIME'           => '',
+                'DATE_COMPLETED'     => '',
+                'DATETIME_COMPLETED' => '',
+                'CLIENT_WEB_DIR'     => '',
+                'DATE'               => '2018-09-10',
+                'DATETIME'           => '2018-09-10 12:01:33'
+            ),
+            $result
+        );
+    }
 
     public function testGetPlaceholderValuesForPreview()
     {
@@ -209,15 +209,15 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
             ->willReturn(array());
 
-		$placeHolderObject = new ilDefaultPlaceholderValues(
-			$objectHelper,
-			$dateHelper,
-			1,
-			$language,
-			$utilHelper,
-			$userDefinePlaceholderMock,
-			1
-		);
+        $placeHolderObject = new ilDefaultPlaceholderValues(
+            $objectHelper,
+            $dateHelper,
+            1,
+            $language,
+            $utilHelper,
+            $userDefinePlaceholderMock,
+            1
+        );
 
         $result = $placeHolderObject->getPlaceholderValuesForPreview(
             100,
