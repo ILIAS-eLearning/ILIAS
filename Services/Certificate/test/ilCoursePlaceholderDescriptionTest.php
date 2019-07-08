@@ -67,7 +67,9 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             array(
                 'COURSE_TITLE'   => 'Something translated',
                 'SOMETHING'      => 'SOMEWHAT',
-                'SOMETHING_ELSE' => 'ANYTHING'
+                'SOMETHING_ELSE' => 'ANYTHING',
+                'DATE_COMPLETED' => 'Something translated',
+                'DATETIME_COMPLETED' => 'Something translated'
             ),
             $placeHolders
         );
