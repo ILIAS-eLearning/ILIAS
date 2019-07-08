@@ -42,21 +42,28 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      */
     private $userDefinedFieldsPlaceholderValues;
 
-    /**
-     * @param ilCertificateObjectHelper $objectHelper
-     * @param ilCertificateDateHelper $dateHelper
-     * @param int $dateFormat
-     * @param ilLanguage|null $language
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilUserDefinedFieldsPlaceholderValues|null $userDefinedFieldsPlaceholderValues
-     */
+	/**
+	 * @var int
+	 */
+	private $birthdayDateFormat;
+
+	/**
+	 * @param ilCertificateObjectHelper                 $objectHelper
+	 * @param ilCertificateDateHelper                   $dateHelper
+	 * @param int                                       $dateFormat
+	 * @param ilLanguage|null                           $language
+	 * @param ilCertificateUtilHelper|null              $utilHelper
+	 * @param ilUserDefinedFieldsPlaceholderValues|null $userDefinedFieldsPlaceholderValues
+	 * @param int                                       $birthdayDateFormat
+	 */
     public function __construct(
         ilCertificateObjectHelper $objectHelper = null,
         ilCertificateDateHelper $dateHelper = null,
         int $dateFormat = null,
         ilLanguage $language = null,
         ilCertificateUtilHelper $utilHelper = null,
-        ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null
+        ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
+	    $birthdayDateFormat = IL_CAL_DATE
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -89,28 +96,30 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->userDefinedFieldsPlaceholderValues = $userDefinedFieldsPlaceholderValues;
 
-        $this->placeholder = array(
-            'USER_LOGIN'         => '',
-            'USER_FULLNAME'      => '',
-            'USER_FIRSTNAME'     => '',
-            'USER_LASTNAME'      => '',
-            'USER_TITLE'         => '',
-            'USER_SALUTATION'    => '',
-            'USER_BIRTHDAY'      => '',
-            'USER_INSTITUTION'   => '',
-            'USER_DEPARTMENT'    => '',
-            'USER_STREET'        => '',
-            'USER_CITY'          => '',
-            'USER_ZIPCODE'       => '',
-            'USER_COUNTRY'       => '',
-            'USER_MATRICULATION' => '',
-            'DATE'               => '',
-            'DATETIME'           => '',
-            'DATE_COMPLETED'     => '',
-            'DATETIME_COMPLETED' => '',
-            'CLIENT_WEB_DIR'     => ''
-        );
-    }
+	    $this->birthdayDateFormat = $birthdayDateFormat;
+
+	    $this->placeholder = array(
+		    'USER_LOGIN'         => '',
+		    'USER_FULLNAME'      => '',
+		    'USER_FIRSTNAME'     => '',
+		    'USER_LASTNAME'      => '',
+		    'USER_TITLE'         => '',
+		    'USER_SALUTATION'    => '',
+		    'USER_BIRTHDAY'      => '',
+		    'USER_INSTITUTION'   => '',
+		    'USER_DEPARTMENT'    => '',
+		    'USER_STREET'        => '',
+		    'USER_CITY'          => '',
+		    'USER_ZIPCODE'       => '',
+		    'USER_COUNTRY'       => '',
+		    'USER_MATRICULATION' => '',
+		    'DATE'               => '',
+		    'DATETIME'           => '',
+		    'DATE_COMPLETED'     => '',
+		    'DATETIME_COMPLETED' => '',
+		    'CLIENT_WEB_DIR'     => ''
+	    );
+	}
 
     /**
      * @param $userId
@@ -135,11 +144,11 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholder['USER_TITLE']         = $this->utilHelper->prepareFormOutput((trim($user->getUTitle())));
         $placeholder['USER_SALUTATION']    = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($user->getGender())));
 
-        $birthday = '';
-        $dateObject = $user->getBirthday();
-        if (null !== $dateObject) {
-            $birthday = $this->dateHelper->formatDate($dateObject, IL_CAL_DATE);
-        }
+	    $birthday = '';
+	    $dateObject = $user->getBirthday();
+	    if (null !== $dateObject) {
+		    $birthday   = $this->dateHelper->formatDate($dateObject, $this->birthdayDateFormat);
+	    }
 
         $placeholder['USER_BIRTHDAY']      = $this->utilHelper->prepareFormOutput((trim($birthday)));
         $placeholder['USER_INSTITUTION']   = $this->utilHelper->prepareFormOutput((trim($user->getInstitution())));
