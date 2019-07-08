@@ -299,7 +299,8 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *     1: The Footer is unique for the page - there MUST be not more than one.
-	 *     2: Elements in the Footer SHOULD NOT vary according to context, but MAY
+	 *     2: >
+	 *        Elements in the Footer SHOULD NOT vary according to context, but MAY
 	 *        vary according to the user's role or state (logged in/not logged in/...).
 	 *
 	 *   style:
@@ -310,5 +311,5 @@ interface Factory {
 	 * @param  string $text
 	 * @return  \ILIAS\UI\Component\MainControls\Footer
 	 */
-	public function footer(array $links, string $text=''): Footer;
+	public function footer(array $links, string $text = ''): Footer;
 }

@@ -25,12 +25,15 @@ if ($_GET['new_ui'] == '1') {
 	$mainbar = pagedemoMainbar($f, $renderer)
 		->withActive("pws");
 
+	$footer = pagedemoFooter($f);
+
 	$page = $f->layout()->page()->standard(
 		$content,
 		$metabar,
 		$mainbar,
 		$breadcrumbs,
-		$logo
+		$logo,
+		$footer
 	)
 	->withUIDemo(true);
 	;
@@ -73,6 +76,19 @@ function pagedemoContent($f)
 		$f->panel()->standard('Demo Content 4',
 			$f->legacy("some content<br>some content<br>some content<br>x."))
 	);
+}
+
+
+
+function pagedemoFooter($f)
+{
+	$text = 'Additional info:';
+	$links = [];
+	$links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
+	$links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
+
+	$footer = $f->mainControls()->footer($links, $text);
+	return $footer;
 }
 
 function pagedemoMetabar($f)
