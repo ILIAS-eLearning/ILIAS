@@ -136,7 +136,8 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			1,
 			$language,
 			$utilHelper,
-			$userDefinePlaceholderMock
+			$userDefinePlaceholderMock,
+			1
 		);
 
 		$result = $placeHolderObject->getPlaceholderValues(100, 200);
@@ -163,7 +164,7 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 				'DATETIME_COMPLETED' => '',
 				'CLIENT_WEB_DIR'     => '',
 				'DATE'               => '2018-09-10',
-				'DATETIME'          => '2018-09-10 12:01:33'
+				'DATETIME'           => '2018-09-10 12:01:33'
 			),
 			$result
 		);
@@ -214,7 +215,8 @@ class ilDefaultPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			1,
 			$language,
 			$utilHelper,
-			$userDefinePlaceholderMock
+			$userDefinePlaceholderMock,
+			1
 		);
 
 		$result = $placeHolderObject->getPlaceholderValuesForPreview(
