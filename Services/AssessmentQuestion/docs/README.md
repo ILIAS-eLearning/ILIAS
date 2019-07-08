@@ -1,0 +1,1 @@
+[see](../src/Common/DomainModel/Aggregate/docs/documentation/Readme.md)

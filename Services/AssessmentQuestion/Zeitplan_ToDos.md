@@ -1,16 +1,8 @@
-## Entscheidungsprozess zu DDD / EventBus / CQRS
-
-[ ] 03.07.2019 - @al Könntest du dir bitte die Klassen unter Common ansehen und gegebenfalls noch korrigieren / fertigstellen und unsere derzeitige Entwicklung nun auf diese Klassen zeigen lassen?
-
-[ ] 04.07.2019 ZIEL: mst macht ein dezidierter Commit an das TB mit dem CommonFolder mit den DDD & Eventsourcing-Klassen
-
-
 ## Service Klassen sowohl nach Aussen als auch interne sind angelegt.
 **Ziele**
 * Services nach Aussen sind definiert
 * Entscheid Ein Service / mehrere Services ist getroffen.
 * Internal Service für die Verwendung der eigenenen ASQ-Authoring-Umgebung ist abschliessend erstellt
-* Api Alignment wird - sofern kompatibel - eingearbeitet sobald dieses freigegeben wurde.
 
 **Verantwortlich / Durchführung bis**
 * mstuder & bheyser, 18.07.2019
@@ -26,12 +18,11 @@
 * Bereitstellung von Even & Commandbus. Hierbei die derzeitige Library entfernen, damit wir unabhängig sind und an dieser Stelle keine zusätzliche Library-Diskussion führen müssen. Bereistellung im Common-Folder
 
 **Verantwortlich / Durchführung bis**
-* aluethi, 05.07.2019
+* aluethi, 12.07.2019
 
 **Tasks**
-* [ ] 01.07.2019 - 05.07.2019: Entfernung library, Ergänung unserer bestehenden Klassen
-* [ ] 01.07.2019 - 05.07.2019: Readme erstellen, welche beschreibt wie der Commandbus, Eventbus sowie die Middlewares genutzt werden können. Dies auch unhabhängig von CQRS / Eventsourcing.
-* [ ] 01.07.2019 - 05.07.2019: Entscheid bezüglich Platzierung _Workshops zu DDD / EventBus / CQRS_ sobald getroffen umsetzen.
+* [ ] 01.07.2019 - 12.07.2019: Entfernung library, Ergänung unserer bestehenden Klassen
+* [ ] 01.07.2019 - 12.07.2019: Readme erstellen, welche beschreibt wie der Commandbus, Eventbus sowie die Middlewares genutzt werden können.
 
 
 ## Konzept Objekt-Zustands-Validierung ist geklärt
@@ -52,12 +43,11 @@
 * Bereitstellung der notwendigen DDD Interfaces und Klassen.
 
 **Verantwortlich / Durchführung bis**
-* aluethi, 05.07.2019
+* aluethi, 12.07.2019
 
 **Tasks**
-* [ ] 01.07.2019 - 05.07.2019: Bestehende Klassen prüfen und eränzen (aus Konsistenzgründen Intreface ValueObject)
-* [ ] 01.07.2019 - 05.07.2019: Readme erstellen, welche beschreibt wie diese Klassen genutzt werden können sowohl EventSourced als auch ohne EventSourced
-* [ ] 01.07.2019 - 05.07.2019: Entscheid bezüglich Platzierung _Workshops zu DDD / EventBus / CQRS_ sobald getroffen umsetzen.
+* [ ] 01.07.2019 - 12.07.2019: Bestehende Klassen prüfen und eränzen (aus Konsistenzgründen Intreface ValueObject)
+* [ ] 01.07.2019 - 12.07.2019: Readme erstellen
 
 
 ## Sämtliche Value Object / Entities und (Repositories) implementiert
@@ -82,10 +72,10 @@
 * Formbuilder inkl. Navigationskonzept ist erstellt.
 
 **Verantwortlich / Durchführung bis**
-* mstuder, 19.07.2019
+* mstuder, 31.07.2019
 
 **Tasks**
-* [ ] 01.07.2019 - 19.07.2019: Formbuilder für ist erstellt.
+* [ ] 01.07.2019 - 31.07.2019: Formbuilder ist erstellt.
 
 ## Business-Logik
 **Ziele**

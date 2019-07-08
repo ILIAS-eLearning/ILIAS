@@ -7,18 +7,12 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\IsRevisable;
-use ILIAS\AssessmentQuestion\Common\AbstractRevisionId;
 use ILIAS\AssessmentQuestion\Common\RevisionId;
+use QuestionData;
 
 /**
  * Class Question
  *
- * @package ILIAS\AssessmentQuestion\Common\examples\EventSourcedDDD\DomainModel\Aggregate
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author  Adrian Lüthi <al@studer-raimann.ch>
- * @author  Björn Heyser <bh@bjoernheyser.de>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRevisable {
 
@@ -33,11 +27,11 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 	/**
 	 * @var string
 	 */
-	private $revision_name = "";
+	private $revision_name;
 	/**
 	 * @var int
 	 */
-	private $creator;
+	private $creator_id;
 	/**
 	 * @var bool
 	 */
@@ -51,7 +45,6 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 	 */
 	private $possible_answers;
 
-
 	protected function __construct() {
 		parent::__construct();
 	}
@@ -61,24 +54,28 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 	 * @param string $title
 	 * @param string $description
 	 *
-	 * @param int    $creator
+	 * @param int    $creator_id
 	 *
-	 * @return Question
+	 * @return \ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question
 	 */
-	public static function createNewQuestion(int $creator) {
+	public static function createNewQuestion(int $creator_id) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new QuestionId(), $creator));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new DomainObjectId(), $creator_id));
 		return $question;
 	}
 
 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
-		$this->creator = $event->getInitiatingUserId();
+		$this->creator_id = $event->getInitiatingUserId();
 	}
 
 	protected function applyQuestionDataSetEvent(QuestionDataSetEvent $event) {
-		$this->data = $event->data;
+		$this->data = $event->getData();
+	}
+
+	protected function applyQuestionRevisionCreatedEvent(QuestionRevisionCreatedEvent $event) {
+		$this->revision_id = new RevisionId($event->getRevisionKey());
 	}
 
 	public function setOnline() {
@@ -95,14 +92,19 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 		$this->ExecuteEvent(new QuestionStatusHasChangedToOfflineEvent($this->id));
 	}
 
-
 	protected function applyQuestionStatusHasChangedToOffline(QuestionStatusHasChangedToOfflineEvent $event) {
 		$this->online = false;
 	}
 
+	public function getOnlineState() : bool {
+		return $this->online;
+	}
+
+
 	public function createRevision() {
 		$this->ExecuteEvent(new RevisionWasCreated($this->id));
 	}
+
 
 	protected function applyRevisionWasCreated(RevisionWasCreated $event) {
 		//TODO implement me
@@ -138,23 +140,23 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 	/**
 	 * @return int
 	 */
-	public function getCreator(): int {
-		return $this->creator;
+	public function getCreatorId(): int {
+		return $this->creator_id;
 	}
 
 
 	/**
-	 * @param int $creator
+	 * @param int $creator_id
 	 */
-	public function setCreator(int $creator): void {
-		$this->creator = $creator;
+	public function setCreatorId(int $creator_id): void {
+		$this->creator_id = $creator_id;
 	}
 
 
 	/**
 	 * @return RevisionId revision id of object
 	 */
-	public function getRevisionId(): RevisionId {
+	public function getRevisionId(): ?RevisionId {
 		return $this->revision_id;
 	}
 
@@ -168,9 +170,8 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 	 * @return mixed
 	 */
 	public function setRevisionId(RevisionId $id) {
-		$this->revision_id = $id;
+		$this->ExecuteEvent(new QuestionRevisionCreatedEvent($this->getAggregateId(), $this->creator_id, $id->GetKey()));
 	}
-
 
 	/**
 	 * @return string
@@ -179,8 +180,8 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 	 * Using of Creation Date and or an increasing Number are encouraged
 	 *
 	 */
-	public function getRevisionName(): string {
-		return $this->revision_name;
+	public function getRevisionName(): ?string {
+		return time();
 	}
 
 
@@ -191,7 +192,9 @@ class ExampleQuestion extends AbstractEventSourcedAggregateRoot implements IsRev
 	 * Domain specific data of an object and return it as an array
 	 */
 	public function getRevisionData(): array {
-		//TODO when implementing revisions
+		$data[] = $this->getAggregateId()->getId();
+		$data[] = $this->getData()->jsonSerialize();
+		return $data;
 	}
 
 

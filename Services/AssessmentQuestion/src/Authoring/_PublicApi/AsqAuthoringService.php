@@ -99,7 +99,7 @@ class AsqAuthoringService {
 		return $event_store->allStoredQuestionsForParentSince($this->asq_question_spec->container_id,0);
 
 
-		// TODO ev getquestionsofpool, getquestionsoftest methode pro object -> Denke nicht, die ParentIds in ILIAS sind eindeutig. Somit ruft man einfach jene Fragen ab, welche einem in seinem Parent zur Verfügung stehen, resp. welche man bereitgestellt hat.
+		// TODO die ParentIds in ILIAS sind eindeutig. Somit ruft man einfach jene Fragen ab, welche einem in seinem Parent zur Verfügung stehen, resp. welche man bereitgestellt hat.
 	}
 
 	public function SearchQuestions(array $parameters) {
