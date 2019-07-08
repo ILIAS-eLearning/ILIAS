@@ -2,13 +2,17 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\QuestionRepository;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
+use ILIAS\AssessmentQuestion\Common\RevisionFactory;
 use ILIAS\Messaging\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
+use ProjectQuestionsToListDb;
+use QuestionDto;
 
 const MSG_SUCCESS = "success";
 
@@ -38,20 +42,35 @@ class AsqAuthoringService {
 	/**
 	 * @param string $aggregate_id
 	 *
-	 * @return Question
+	 * @return QuestionDto
 	 */
-	public function GetQuestion(string $aggregate_id) {
-		return QuestionRepository::getInstance()->get(new DomainObjectId($aggregate_id));
+	public function GetQuestion(string $aggregate_id) : QuestionDto {
+		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($aggregate_id));
+		return QuestionDto::CreateFromQuestion($question);
 	}
 
-	public function CreateQuestion(string $title, string $description, string $text, int $creator_id): void {
+	public function CreateQuestion(string $title, string $description, string $text): void {
 		//CreateQuestion.png
-		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionCommand($title, $description, $text, $creator_id));
+		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionCommand($title, $description, $text, $this->asq_question_spec->user_id));
 	}
 
-	public function SaveQuestion(Question $question) {
-		// creates new version of a question ('edit question' but with immutable domain object)
-		CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question));
+	public function SaveQuestion(QuestionDto $question_dto) {
+		// check changes and trigger them on question if there are any
+		/** @var Question $question */
+		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
+
+		if ($question_dto->getData() != $question->getData()) {
+			$question->setData($question_dto->getData());
+		}
+
+		if(count($question->getRecordedEvents()->getEvents()) > 0) {
+			// save changes if there are any
+			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->asq_question_spec->user_id));
+		}
+	}
+
+	public function projectQuestion(string $question_id) {
+		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->asq_question_spec->user_id));
 	}
 
 	public function DeleteQuestion(string $question_id) {

@@ -2,15 +2,17 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionRevisionCreatedEvent;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionCreatedEvent;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Shared\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\Common\IsRevisable;
 use ILIAS\AssessmentQuestion\Common\RevisionId;
 use QuestionData;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractEventSourcedAggregateRoot;
+use QuestionId;
 
 /**
  * Class Question
@@ -31,11 +33,11 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * @var string
 	 */
-	private $revision_name = "";
+	private $revision_name;
 	/**
 	 * @var int
 	 */
-	private $creator;
+	private $creator_id;
 	/**
 	 * @var bool
 	 */
@@ -49,7 +51,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	private $possible_answers;
 
-
+	//TODO Sollten wir nicht darauf achten, dass ein Objekt immer einen korrekten
+	//Status hat? So hätten wir Fragen ohne Titel. Titel ist m.E. die Mindestanforderung einer Frage!
 	protected function __construct() {
 		parent::__construct();
 	}
@@ -59,24 +62,28 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @param string $title
 	 * @param string $description
 	 *
-	 * @param int    $creator
+	 * @param int    $creator_id
 	 *
 	 * @return Question
 	 */
-	public static function createNewQuestion(int $creator) {
+	public static function createNewQuestion(int $creator_id) {
 		$question = new Question();
-		$question->ExecuteEvent(new QuestionCreatedEvent(new DomainObjectId(), $creator));
+		$question->ExecuteEvent(new QuestionCreatedEvent(new DomainObjectId(), $creator_id));
 		return $question;
 	}
 
 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
-		$this->creator = $event->getInitiatingUserId();
+		$this->creator_id = $event->getInitiatingUserId();
 	}
 
 	protected function applyQuestionDataSetEvent(QuestionDataSetEvent $event) {
-		$this->data = $event->data;
+		$this->data = $event->getData();
+	}
+
+	protected function applyQuestionRevisionCreatedEvent(QuestionRevisionCreatedEvent $event) {
+		$this->revision_id = new RevisionId($event->getRevisionKey());
 	}
 
 	public function setOnline() {
@@ -93,9 +100,12 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->ExecuteEvent(new QuestionStatusHasChangedToOfflineEvent($this->id));
 	}
 
-
 	protected function applyQuestionStatusHasChangedToOffline(QuestionStatusHasChangedToOfflineEvent $event) {
 		$this->online = false;
+	}
+
+	public function getOnlineState() : bool {
+		return $this->online;
 	}
 
 
@@ -139,23 +149,23 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * @return int
 	 */
-	public function getCreator(): int {
-		return $this->creator;
+	public function getCreatorId(): int {
+		return $this->creator_id;
 	}
 
 
 	/**
-	 * @param int $creator
+	 * @param int $creator_id
 	 */
-	public function setCreator(int $creator): void {
-		$this->creator = $creator;
+	public function setCreatorId(int $creator_id): void {
+		$this->creator_id = $creator_id;
 	}
 
 
 	/**
 	 * @return RevisionId revision id of object
 	 */
-	public function getRevisionId(): RevisionId {
+	public function getRevisionId(): ?RevisionId {
 		return $this->revision_id;
 	}
 
@@ -169,9 +179,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @return mixed
 	 */
 	public function setRevisionId(RevisionId $id) {
-		$this->revision_id = $id;
+		$this->ExecuteEvent(new QuestionRevisionCreatedEvent($this->getAggregateId(), $this->creator_id, $id->GetKey()));
 	}
-
 
 	/**
 	 * @return string
@@ -180,8 +189,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * Using of Creation Date and or an increasing Number are encouraged
 	 *
 	 */
-	public function getRevisionName(): string {
-		return $this->revision_name;
+	public function getRevisionName(): ?string {
+		return time();
 	}
 
 
@@ -192,7 +201,9 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * Domain specific data of an object and return it as an array
 	 */
 	public function getRevisionData(): array {
-		//TODO when implementing revisions
+		$data[] = $this->getAggregateId()->getId();
+		$data[] = $this->getData()->jsonSerialize();
+		return $data;
 	}
 
 

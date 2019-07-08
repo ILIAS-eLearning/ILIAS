@@ -37,7 +37,7 @@ class CreateQuestionCommand extends AbstractCommand implements Command
 	{
 		$this->title = $title;
 		$this->description = $description;
-		$this->creator_id = $creator_id;
+		$this->issuing_user_id = $creator_id;
 		$this->text = $text;
 	}
 
@@ -58,7 +58,7 @@ class CreateQuestionCommand extends AbstractCommand implements Command
 
 	public function getCreator()
 	{
-		return $this->creator_id;
+		return $this->issuing_user_id;
 	}
 
 	public function getText()

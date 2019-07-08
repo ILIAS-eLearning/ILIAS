@@ -2,12 +2,12 @@
 namespace ILIAS\AssessmentQuestion\Common\examples\CommonDDD\DomainModel\Aggregate;
 
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractAggregateRoot;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 
-class Question extends AbstractAggregateRoot {
+class ExampleQuestion extends AbstractAggregateRoot {
 
 	/**
-	 * @var AggregateId
+	 * @var DomainObjectId
 	 */
 	private $id;
 	/**
@@ -24,7 +24,7 @@ class Question extends AbstractAggregateRoot {
 	private $creator_id;
 
 
-	private function __construct(AggregateId $id, string $title, string $description, int $creator_id) {
+	private function __construct(DomainObjectId $id, string $title, string $description, int $creator_id) {
 		$this->id = $id;
 		$this->title = $title;
 		$this->description = $description;
@@ -42,7 +42,7 @@ class Question extends AbstractAggregateRoot {
 	}
 
 
-	function getAggregateId(): AggregateId {
+	function getAggregateId(): DomainObjectId {
 		return $this->id;
 	}
 

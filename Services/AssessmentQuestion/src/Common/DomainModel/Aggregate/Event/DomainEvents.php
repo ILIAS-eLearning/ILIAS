@@ -27,7 +27,7 @@ class DomainEvents {
 	 * DomainEvents constructor.
 	 */
 	public function __construct() {
-		$events = [];
+		$this->events = [];
 	}
 
 

@@ -1,6 +1,7 @@
 <?php
 namespace ILIAS\AssessmentQuestion\AuthoringInfrastructure\Setup\sql;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionStoredEvent;
+use QuestionListItem;
 
 /**
  * Class SetupDatabase
@@ -14,5 +15,6 @@ class SetupDatabase {
 
 	public function run():void {
 		ilDBQuestionStoredEvent::updateDB();
+		QuestionListItem::updateDB();
 	}
 }

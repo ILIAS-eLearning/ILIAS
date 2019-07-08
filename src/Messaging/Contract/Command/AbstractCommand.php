@@ -9,5 +9,5 @@ abstract class AbstractCommand implements Command {
 	/**
 	 * @var int
 	 */
-	protected $creator_id;
+	protected $issuing_user_id;
 }

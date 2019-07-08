@@ -43,14 +43,6 @@ class QuestionData implements JsonSerializable {
 	}
 
 	/**
-	 * @param string $question_text
-	 */
-	public function setQuestionText(string $question_text): void {
-		$this->question_text = $question_text;
-	}
-
-
-	/**
 	 * Specify data which should be serialized to JSON
 	 *
 	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
