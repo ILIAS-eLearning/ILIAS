@@ -26,4 +26,9 @@ class StripTagsTest extends TestCase {
 		$res = $this->strip_tags->transform(self::STRING_TO_STRIP);
 		$this->assertEquals(self::EXPECTED_RESULT, $res);
 	}
+
+	public function testNoString() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->strip_tags->transform(0);
+	}
 }
