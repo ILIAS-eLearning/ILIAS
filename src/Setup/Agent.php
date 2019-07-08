@@ -12,7 +12,7 @@ use ILIAS\Refinery\Transformation;
  */
 interface Agent {
 	/**
-	 * Does this consumer require a configuration?
+	 * Does this agent require a configuration?
 	 */
 	public function hasConfig() : bool;
 
@@ -34,16 +34,23 @@ interface Agent {
 	public function getArrayToConfigTransformation() : Transformation;
 
 	/**
-	 * Get the goals the consumer wants to achieve on setup.
+	 * Get the goals the agent wants to achieve on setup.
 	 *
 	 * @throw InvalidArgumentException if Config does not match the Agent.. 
 	 */
 	public function getInstallObjective(Config $config = null) : Objective;
 
 	/**
-	 * Get the goal the consumer wants to achieve on update.
+	 * Get the goal the agent wants to achieve on update.
 	 *
 	 * @throw InvalidArgumentException if Config does not match the Agent.. 
 	 */
 	public function getUpdateObjective(Config $config = null) : Objective;
+
+	/**
+	 * Get the goal the agent wants to achieve to build artifacts.
+	 *
+	 * @throw InvalidArgumentException if Config does not match the Agent.
+	 */
+	public function getBuildArtifactObjective(Config $config = null) : Objective;
 }

@@ -116,6 +116,13 @@ class AgentCollection implements Agent {
 		return $this->getXObjective("getUpdateObjective", $config);
 	}
 
+	/**
+	 * @inheritdocs
+	 */
+	public function getBuildArtifactObjective(Config $config = null) : Objective {
+		return $this->getXObjective("getBuildArtifactObjective", $config);
+	}
+
 	protected function getXObjective(string $which, Config $config = null) : Objective {
 		$this->checkConfig($config);
 
