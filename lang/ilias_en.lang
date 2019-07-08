@@ -15148,3 +15148,13 @@ rbac#:#change_presentation#:#Change Presentation
 pd#:#pd_presentation_mode_list#:#Item List Presentation
 pd#:#pd_presentation_mode_tile#:#Tile Presentation
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+datatable#:#datatable_add_columns#:#Add columns
+datatable#:#datatable_count#:#(%1$s of %2$s)
+datatable#:#datatable_export#:#Export
+datatable#:#datatable_export_csv#:#CSV
+datatable#:#datatable_export_excel#:#Excel
+datatable#:#datatable_export_pdf#:#PDF
+datatable#:#datatable_multiple_actions#:#Multiple actions
+datatable#:#datatable_pages#:#Pages (%1$s of %2$s)
+datatable#:#datatable_rows_per_page#:#Rows per page (%s)
+datatable#:#datatable_select_all#:#Select all

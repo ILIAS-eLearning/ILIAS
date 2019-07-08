@@ -4,6 +4,9 @@
 
 namespace ILIAS\UI\Component\Table;
 
+use ILIAS\DI\Container;
+use ILIAS\UI\Component\Table\Data\Factory\Factory as DataTableFactory;
+
 /**
  * Table factory
  */
@@ -91,5 +94,31 @@ interface Factory {
 	 *
 	 */
 	public function presentation($title, array $view_controls, \Closure $row_mapping);
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: TODO
+	 *   composition: TODO
+	 *   rivals:
+	 *     Rival 1: TODO
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: TODO
+	 *     2: TODO
+	 *     3: TODO
+	 *     4: TODO
+	 *     5: TODO
+	 *     6: TODO
+	 *   responsiveness:
+	 *     7: TODO
+	 *
+	 * ---
+	 * @param Container $dic
+	 *
+	 * @return \ILIAS\UI\Component\Table\Data\Factory\Factory
+	 */
+	public function data(Container $dic): DataTableFactory;
 
 }

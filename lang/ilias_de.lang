@@ -15139,3 +15139,13 @@ rbac#:#change_presentation#:#Präsentation ändern
 pd#:#pd_presentation_mode_list#:#Listenansicht
 pd#:#pd_presentation_mode_tile#:#Kachelansicht
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
+datatable#:#datatable_add_columns#:#Spalten hinzufügen
+datatable#:#datatable_count#:#(%1$s von %2$s)
+datatable#:#datatable_export#:#Exportieren
+datatable#:#datatable_export_csv#:#CSV
+datatable#:#datatable_export_excel#:#Excel
+datatable#:#datatable_export_pdf#:#PDF
+datatable#:#datatable_multiple_actions#:#Mehrfache Aktionen
+datatable#:#datatable_pages#:#Seiten (%1$s von %2$s)
+datatable#:#datatable_rows_per_page#:#Zeilen pro Seite (%s)
+datatable#:#datatable_select_all#:#Alle auswählen

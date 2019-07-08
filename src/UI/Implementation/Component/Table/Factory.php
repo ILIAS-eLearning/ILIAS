@@ -1,8 +1,11 @@
 <?php
 namespace ILIAS\UI\Implementation\Component\Table;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Table\Data\Factory\Factory as DataTableFactory;
+use ILIAS\UI\Component\Table\Data\Factory\Factory as DataTableFactoryInterface;
 
 /**
  * Implementation of factory for tables
@@ -30,4 +33,11 @@ class Factory implements T\Factory {
 		return new Presentation($title, $view_controls, $row_mapping, $this->signal_generator);
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function data(Container $dic): DataTableFactoryInterface {
+		return new DataTableFactory($dic);
+	}
 }

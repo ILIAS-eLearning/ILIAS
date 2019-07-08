@@ -1,0 +1,29 @@
+.datatable {
+  // Actions
+  .panel-body {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	> * {
+	  margin: 0 5px;
+
+	  &:first-child + * {
+		margin-left: auto;
+	  }
+	}
+  }
+
+  // Fix icon in dropdown
+  .glyph {
+	display: inline-block !important;
+  }
+
+  .dropdown-menu .glyph {
+	background-color: transparent !important;
+	color: inherit;
+	cursor: inherit;
+	padding-left: 5px;
+	padding-right: 5px;
+  }
+}
