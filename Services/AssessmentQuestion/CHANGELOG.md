@@ -12,3 +12,8 @@
 - Variablen sollen expliziter benannt werden. z.B. creator -> creator_id
 - Interface Aggregation Repository eingeführt
 - AbstractAggregateRoot eingeführt für die nicht EventSourced Beispiele / Anwendungen. Brauchen wir für TB Besprechung / Allenfalls für andere Entwicklungen
+
+## 08.07.2019
+Moddeling Answer-Entity
+Usage see
+-> Services/AssessmentQuestion/src/Authoring/DomainModel/Question/Answer/Option/AnswerOptionFactory.php
