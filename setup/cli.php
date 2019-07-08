@@ -18,11 +18,18 @@ function build_container_for_setup() {
 
 	$c["app"] =  function($c) {
 		return new \ILIAS\Setup\CLI\App(
-			$c["command.install"]
+			$c["command.install"],
+			$c["command.build-artifacts"]
 		);
 	};
 	$c["command.install"] = function($c) {
 		return new \ILIAS\Setup\CLI\InstallCommand(
+			$c["agent"],
+			$c["config_reader"]
+		);
+	};
+	$c["command.build-artifacts"] = function($c) {
+		return new \ILIAS\Setup\CLI\BuildArtifactsCommand(
 			$c["agent"],
 			$c["config_reader"]
 		);
