@@ -15,5 +15,5 @@ interface Artifact
      * This method will be called from the source, which wants to save the artifact.
      * The artifact itself is responsible to save its data.
      */
-    public function save() : void;
+    public function save();
 }

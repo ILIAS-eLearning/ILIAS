@@ -37,7 +37,7 @@ class ArrayToFileArtifact implements Artifact
     }
 
 
-    public final function save() : void
+    public final function save()
     {
         $root = substr(__FILE__, 0, strpos(__FILE__, "/src"));
 
