@@ -20,7 +20,7 @@ interface ArtifactBuilder
      * have as an Artifact. Please note that there are NONE of the ILIAS
      * dependencies available at the moment. Create light-weight run methods.
      */
-    public function run() : void;
+    public function run();
 
 
     /**

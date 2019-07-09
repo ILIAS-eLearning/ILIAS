@@ -24,7 +24,7 @@ class ilGSBootLoaderBuilder implements ArtifactBuilder
     protected $class_names = [];
 
 
-    public function run() : void
+    public function run()
     {
         $i = [
             StaticMainMenuProvider::class,
