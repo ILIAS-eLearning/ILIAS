@@ -1,7 +1,6 @@
-<?php namespace ILIAS\ArtifactBuilder\Generators;
+<?php 
 
-use Iterator;
-use Throwable;
+namespace ILIAS\Setup;
 
 /**
  * Class ImplementationOfInterfaceFinder
@@ -10,7 +9,6 @@ use Throwable;
  */
 class ImplementationOfInterfaceFinder
 {
-
     /**
      * @var string
      */
@@ -26,11 +24,6 @@ class ImplementationOfInterfaceFinder
     ];
 
 
-    /**
-     * ImplementationOfInterfaceFinder constructor.
-     *
-     * @param string $interface
-     */
     public function __construct(string $interface)
     {
         $this->interface = $interface;
@@ -38,10 +31,7 @@ class ImplementationOfInterfaceFinder
     }
 
 
-    /**
-     * @return Iterator
-     */
-    private function getAllClassNames() : Iterator
+    private function getAllClassNames() : \Iterator
     {
         // We use the composer classmap ATM
         $composer_classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
@@ -59,11 +49,7 @@ class ImplementationOfInterfaceFinder
         }
     }
 
-
-    /**
-     * @return Iterator
-     */
-    public function getMatchingClassNames() : Iterator
+    public function getMatchingClassNames() : \Iterator
     {
         foreach ($this->getAllClassNames() as $class_name) {
             try {
@@ -71,7 +57,7 @@ class ImplementationOfInterfaceFinder
                 if ($r->isInstantiable() && $r->implementsInterface($this->interface)) {
                     yield $class_name;
                 }
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 // noting to do here
             }
         }
