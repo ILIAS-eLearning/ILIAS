@@ -5,6 +5,7 @@ use ILIAS\ArtifactBuilder\Artifact\Artifact;
 use ILIAS\ArtifactBuilder\ArtifactBuilder;
 use ILIAS\ArtifactBuilder\Generators\ImplementationOfInterfaceFinder;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
@@ -29,7 +30,7 @@ class ilGSBootLoaderBuilder implements ArtifactBuilder
             StaticMainMenuProvider::class,
             StaticMetaBarProvider::class,
             DynamicToolProvider::class,
-            FinalModificationProvider::class,
+            ModificationProvider::class,
         ];
 
         foreach ($i as $interface) {

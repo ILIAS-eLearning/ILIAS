@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 
 /**
@@ -9,11 +10,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
  */
 class NullProviderFactory implements ProviderFactoryInterface
 {
-
     /**
      * @inheritDoc
      */
-    public function getFinalModificationProvider() : array
+    public function getModificationProvider() : array
     {
         return [];
     }

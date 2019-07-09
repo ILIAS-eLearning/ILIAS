@@ -77,6 +77,6 @@ class CollectorFactory
      */
     public function layout() : MainLayoutCollector
     {
-        return $this->getWithArgument(MainLayoutCollector::class, $this->provider_factory->getFinalModificationProvider());
+        return $this->getWithArgument(MainLayoutCollector::class, $this->provider_factory->getModificationProvider());
     }
 }

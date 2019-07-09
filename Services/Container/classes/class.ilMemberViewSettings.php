@@ -59,12 +59,12 @@ class ilMemberViewSettings
 		$this->settings = $DIC->settings();
 		$this->read();
 	}
-	
-	/**
-	 * Get instance
-	 * @return object ilMemberViewSettings
-	 */
-	public static function getInstance()
+
+
+    /**
+     * @return ilMemberViewSettings
+     */
+	public static function getInstance(): ilMemberViewSettings
 	{
 		if(self::$instance != null)
 		{
