@@ -93,6 +93,24 @@ class ilTestScoring
 	}
 
 	/**
+	 * Updates passed status of the Test
+	 *
+	 * @param $active_id
+	 * @param $pass
+	 */
+	public function recalculateSolution($active_id, $pass)
+	{
+		$user_data = $this
+			->test
+			->getCompleteEvaluationData(false)
+			->getParticipant($active_id)
+			->getPass($pass);
+
+		$this->recalculatePass( $user_data, $active_id , $pass);
+		assQuestion::_updateTestResultCache($active_id);
+	}
+
+	/**
 	 * @param $userdata
 	 * @param $active_id
 	 */

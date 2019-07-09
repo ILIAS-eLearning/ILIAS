@@ -20,6 +20,7 @@ use ILIAS\Refinery\To\Transformation\NewObjectTransformation;
 use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
+use ILIAS\Refinery\To\Transformation\DateTimeTransformation;
 use ILIAS\Refinery\Transformation;
 
 class Group
@@ -179,5 +180,12 @@ class Group
 	public function data(string $dataType): Transformation
 	{
 		return $this->toNew(array($this->dataFactory, $dataType));
+	}
+
+
+	public function dateTime(): DateTimeTransformation
+	{
+		return new DateTimeTransformation($this->dataFactory);
+
 	}
 }

@@ -39,22 +39,6 @@ abstract class AbstractStaticMetaBarProvider extends AbstractProvider implements
 
 
     /**
-     * @return string
-     * @throws \ReflectionException
-     */
-    public function getProviderNameForPresentation() : string
-    {
-        $reflector = new \ReflectionClass($this);
-
-        $re = '/.*\/(?P<provider>(Services|Modules)\/.*)\/classes/m';
-
-        preg_match($re, $reflector->getFileName(), $matches);
-
-        return $matches[1];
-    }
-
-
-    /**
      * @inheritDoc
      */
     public function getAllIdentifications() : array
