@@ -9169,11 +9169,13 @@ footer {
   list-style: none;
   padding: 0;
 }
-.il-drilldown .btn-bulky {
+.il-drilldown .btn-bulky,
+.il-drilldown .link-bulky {
   align-items: center;
   display: flex;
 }
-.il-drilldown .il-drilldown-current .btn-bulky {
+.il-drilldown .il-drilldown-current .btn-bulky,
+.il-drilldown .il-drilldown-current .link-bulky {
   cursor: auto;
 }
 .il-drilldown .il-drilldown-structure,
