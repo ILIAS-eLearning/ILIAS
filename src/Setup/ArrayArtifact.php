@@ -1,56 +1,44 @@
-<?php namespace ILIAS\ArtifactBuilder\Artifact;
+<?php
+
+/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
+namespace ILIAS\Setup;
 
 /**
- * Class ArrayToFileArtifact
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * An array as an artifact.
  */
-class ArrayToFileArtifact implements Artifact
-{
+class ArrayArtifact implements Artifact {
+	/**
+	 * @var array
+	 */
+	private $data = [];
 
-    /**
-     * @var array
-     */
-    private $array_data = [];
-    /**
-     * @var string
-     */
-    private $file_name = "";
-    /**
-     * @var string
-     */
-    private $base_path = "";
+	/**
+	 * @param array  $data - may only contain primitive data
+	 */
+	public function __construct(array $data) {
+		$this->check($data);
+		$this->data = $data;
+	}
 
 
-    /**
-     * ArrayToFileArtifact constructor.
-     *
-     * @param string $base_path
-     * @param string $file_name
-     * @param array  $class_names
-     */
-    public function __construct(string $base_path, string $file_name, array $class_names)
-    {
-        $this->base_path = $base_path;
-        $this->file_name = $file_name;
-        $this->array_data = $class_names;
-    }
+	public final function serialize() : string {
+		return "<?"."php return " . var_export($this->data, true) . ";";
+	}
 
-
-    public final function save() : void
-    {
-        $root = substr(__FILE__, 0, strpos(__FILE__, "/src"));
-
-        $full_file_path = rtrim($root . "/" . $this->base_path, "/") . "/" . $this->file_name . ".php";
-        file_put_contents($full_file_path, "<?php return " . var_export($this->getArrayData(), true) . ";");
-    }
-
-
-    /**
-     * @return string[]
-     */
-    protected function getArrayData() : array
-    {
-        return $this->array_data;
-    }
+	private function check(array $a) {
+		foreach ($a as $item) {
+			if (is_string($item) || is_int($item) || is_float($item) || is_bool($item)) {
+				continue;
+			}
+			if (is_array($item)) {
+				$this->check($item);
+				continue;
+			}
+			throw new \InvalidArgumentException(
+				"Array data for artifact may only contain ints, strings, floats, bools or ".
+				"other arrays with this content. Found: ".gettype($item)
+			);
+		}
+	}
 }
