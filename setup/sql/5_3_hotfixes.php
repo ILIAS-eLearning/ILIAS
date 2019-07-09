@@ -649,3 +649,7 @@ if( $ilDB->tableExists($tempTableName) )
 }
 
 ?>
+<#47>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
