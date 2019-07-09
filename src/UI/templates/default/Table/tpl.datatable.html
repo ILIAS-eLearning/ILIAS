@@ -1,8 +1,14 @@
 <div class="datatable" id="{ID}">
 	<h3 class="ilHeader ilTableHeaderTitle">{TITLE}</h3><br>
+	<!-- BEGIN filter_top -->
 	<div class="hidden-print">{FILTER_FORM_TOP}</div>
+	<!-- END filter_top -->
+	<!-- BEGIN actions -->
 	<div class="hidden-print">{ACTIONS}</div>
-	<div class="datatable_multiple_actions">{MULTIPLE_ACTIONS_TOP}</div>
+	<!-- END actions -->
+	<!-- BEGIN multiple_actions_top -->
+	<div class="datatable_multiple_actions hidden-print">{MULTIPLE_ACTIONS_TOP}</div>
+	<!-- END multiple_actions_top -->
 	<span class="ilTableFootLight">{COUNT}</span>
 	<table class="table table-striped fullwidth">
 		<thead>
@@ -25,7 +31,14 @@
 		</tr>
 		</tfoot>
 	</table>
+	<!-- BEGIN no_data -->
+	<div class="ilCenter">{NO_DATA_TEXT}</div>
+	<!-- END no_data -->
 	<span class="ilTableFootLight">{COUNT}</span>
-	<div class="datatable_multiple_actions">{MULTIPLE_ACTIONS_BOTTOM}</div>
+	<!-- BEGIN multiple_actions_bottom -->
+	<div class="datatable_multiple_actions hidden-print">{MULTIPLE_ACTIONS_BOTTOM}</div>
+	<!-- END multiple_actions_bottom -->
+	<!-- BEGIN filter_bottom -->
 	<div class="hidden-print">{FILTER_FORM_BOTTOM}</div>
+	<!-- END filter_bottom -->
 </div>

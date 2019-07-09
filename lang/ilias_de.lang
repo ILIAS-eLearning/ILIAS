@@ -15146,6 +15146,7 @@ datatable#:#datatable_export_csv#:#CSV
 datatable#:#datatable_export_excel#:#Excel
 datatable#:#datatable_export_pdf#:#PDF
 datatable#:#datatable_multiple_actions#:#Mehrfache Aktionen
+datatable#:#datatable_no_data#:#Keine Daten
 datatable#:#datatable_pages#:#Seiten (%1$s von %2$s)
 datatable#:#datatable_rows_per_page#:#Zeilen pro Seite (%s)
 datatable#:#datatable_select_all#:#Alle auswählen

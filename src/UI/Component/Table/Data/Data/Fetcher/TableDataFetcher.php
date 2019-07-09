@@ -31,4 +31,10 @@ interface TableDataFetcher {
 	 * @return TableData
 	 */
 	public function fetchData(TableFilter $filter, Factory $factory): TableData;
+
+
+	/**
+	 * @return string
+	 */
+	public function getNoDataText(): string;
 }

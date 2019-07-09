@@ -37,7 +37,7 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 	 */
 	public function export(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): void {
 		$tpl = new ilTemplate(__DIR__
-			. "/../../../../../templates/default/Table/Data/table.html", true, true); // TODO: Somehow access `getTemplate` of renderer
+			. "/../../../../../templates/default/Table/tpl.datatable.html", true, true); // TODO: Somehow access `getTemplate` of renderer
 
 		$tpl->setVariable("TITLE", $title);
 
@@ -51,7 +51,7 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 		$tpl->setCurrentBlock("body");
 		foreach ($rows as $row) {
 			$tpl_row = new ilTemplate(__DIR__
-				. "/../../../../../templates/default/Table/Data/row.html", true, true); // TODO: Somehow access `getTemplate` of renderer
+				. "/../../../../../templates/default/Table/tpl.datatablerow.html", true, true); // TODO: Somehow access `getTemplate` of renderer
 
 			$tpl_row->setCurrentBlock("row");
 

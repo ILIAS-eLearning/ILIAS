@@ -49,6 +49,8 @@ class Renderer extends AbstractComponentRenderer {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @param DataTable $component
 	 */
 	public function render(Component $component, RendererInterface $default_renderer): string {
 		global $DIC;
@@ -59,7 +61,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->checkComponent($component);
 
-		return $this->renderStandard($component, $default_renderer);
+		return $this->renderDataTable($component, $default_renderer);
 	}
 
 
@@ -69,7 +71,7 @@ class Renderer extends AbstractComponentRenderer {
 	 *
 	 * @return string
 	 */
-	protected function renderStandard(DataTable $component, RendererInterface $renderer): string {
+	protected function renderDataTable(DataTable $component, RendererInterface $renderer): string {
 		$filter = $component->getFilterStorage()->read($component->getTableId(), $this->dic->user()->getId(), $component->getFactory());
 
 		$filter = $this->handleFilterInput($component, $filter);
@@ -84,7 +86,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->handleExport($component, $columns, $data, $renderer);
 
-		$tpl = $this->getTemplate("Data/table.html", true, true);
+		$tpl = $this->getTemplate("tpl.datatable.html", true, true);
 
 		$tpl->setVariable("ID", $component->getTableId());
 
@@ -97,6 +99,8 @@ class Renderer extends AbstractComponentRenderer {
 		$this->handleColumns($tpl, $component, $columns, $filter, $renderer);
 
 		$this->handleRows($tpl, $component, $columns, $data, $renderer);
+
+		$this->handleNoDataText($tpl, $data, $component);
 
 		$this->handleDisplayCount($tpl, $filter, $data);
 
@@ -116,7 +120,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry): void {
 		parent::registerResources($registry);
 
-		$registry->register('./src/UI/templates/js/Table/Data/datatable.min.js');
+		$registry->register("./src/UI/templates/js/Table/datatable.min.js");
 	}
 
 
@@ -224,12 +228,16 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param RendererInterface $renderer
 	 */
 	protected function handleActionsPanel(Template $tpl, DataTable $component, TableFilter $filter, TableData $data, RendererInterface $renderer): void {
+		$tpl->setCurrentBlock("actions");
+
 		$tpl->setVariable("ACTIONS", $renderer->render($this->dic->ui()->factory()->panel()->standard("", [
 			$this->getPagesSelector($component, $filter, $data, $renderer),
 			$this->getColumnsSelector($component, $filter, $renderer),
 			$this->getRowsPerPageSelector($component, $filter, $renderer),
 			$this->getExportsSelector($component)
 		])));
+
+		$tpl->parseCurrentBlock();
 	}
 
 
@@ -431,12 +439,20 @@ class Renderer extends AbstractComponentRenderer {
 
 		switch ($component->getFilterPosition()) {
 			case TableFilter::FILTER_POSITION_BOTTOM:
+				$tpl->setCurrentBlock("filter_bottom");
+
 				$tpl->setVariable("FILTER_FORM_BOTTOM", $filter_form);
+
+				$tpl->parseCurrentBlock();
 				break;
 
 			case TableFilter::FILTER_POSITION_TOP:
 			default:
+				$tpl->setCurrentBlock("filter_top");
+
 				$tpl->setVariable("FILTER_FORM_TOP", $filter_form);
+
+				$tpl->parseCurrentBlock();
 				break;
 		}
 	}
@@ -522,7 +538,7 @@ class Renderer extends AbstractComponentRenderer {
 			return;
 		}
 
-		$tpl_checkbox = $this->getTemplate("Data/checkbox.html", true, true);
+		$tpl_checkbox = $this->getTemplate("tpl.datatablecheckbox.html", true, true);
 
 		$tpl_checkbox->setVariable("TXT", $this->dic->language()->txt(DataTable::LANG_MODULE . "_select_all"));
 
@@ -534,8 +550,29 @@ class Renderer extends AbstractComponentRenderer {
 				->txt(DataTable::LANG_MODULE . "_multiple_actions"))
 		];
 
+		$tpl->setCurrentBlock("multiple_actions_top");
 		$tpl->setVariable("MULTIPLE_ACTIONS_TOP", $renderer->render($multiple_actions));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("multiple_actions_bottom");
 		$tpl->setVariable("MULTIPLE_ACTIONS_BOTTOM", $renderer->render($multiple_actions));
+		$tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	 * @param Template  $tpl
+	 * @param TableData $data
+	 * @param DataTable $component
+	 */
+	protected function handleNoDataText(Template $tpl, TableData $data, DataTable $component): void {
+		if ($data->getDataCount() === 0) {
+			$tpl->setCurrentBlock("no_data");
+
+			$tpl->setVariable("NO_DATA_TEXT", $component->getDataFetcher()->getNoDataText());
+
+			$tpl->parseCurrentBlock();
+		}
 	}
 
 
@@ -550,12 +587,12 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setCurrentBlock("body");
 
 		foreach ($data->getData() as $row) {
-			$tpl_row = $this->getTemplate("Data/row.html", true, true);
+			$tpl_row = $this->getTemplate("tpl.datatablerow.html", true, true);
 
 			$tpl_row->setCurrentBlock("row");
 
 			if (count($component->getMultipleActions()) > 0) {
-				$tpl_checkbox = $this->getTemplate("Data/checkbox.html", true, true);
+				$tpl_checkbox = $this->getTemplate("tpl.datatablecheckbox.html", true, true);
 
 				$tpl_checkbox->setVariable("POST_VAR", self::actionParameter(DataTable::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]");
 

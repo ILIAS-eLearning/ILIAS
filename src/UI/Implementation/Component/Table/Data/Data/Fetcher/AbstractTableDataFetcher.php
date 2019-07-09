@@ -4,6 +4,7 @@ namespace ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\Component\Table\Data\DataTable;
 
 /**
  * Class AbstractTableDataFetcher
@@ -25,5 +26,13 @@ abstract class AbstractTableDataFetcher implements TableDataFetcher {
 	 */
 	public function __construct(Container $dic) {
 		$this->dic = $dic;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getNoDataText(): string {
+		return $this->dic->language()->txt(DataTable::LANG_MODULE . "_no_data");
 	}
 }
