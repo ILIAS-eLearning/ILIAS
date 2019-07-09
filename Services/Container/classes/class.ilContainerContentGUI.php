@@ -804,6 +804,8 @@ abstract class ilContainerContentGUI
 			}
 		}
 
+		$sections = [];
+
 		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
 		{
@@ -812,6 +814,11 @@ abstract class ilContainerContentGUI
 
 		// card
 		$title = $a_item_data["title"];
+
+		// description, @todo: move to new ks element
+		if ($a_item_data["description"] != "") {
+			$sections[] = $f->legacy("<div class='il_info il-multi-line-cap-3'>".$a_item_data["description"]."</div>");
+		}
 
 		if ($a_item_data["type"] == "sess")
 		{
@@ -847,10 +854,12 @@ abstract class ilContainerContentGUI
 				$l[(string) $p["property"]] = (string) $p["value"];
 			}
 		}
+
 		if (count($l) > 0)
 		{
 			$prop_list = $f->listing()->descriptive($l);
-			$card = $card->withSections([$prop_list]);
+			$sections[] = $prop_list;
+			$card = $card->withSections($sections);
 		}
 
 		// learning progress
