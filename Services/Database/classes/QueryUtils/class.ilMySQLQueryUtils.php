@@ -200,17 +200,17 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 		}
 		if ($value == "?") {
 			if ($case_insensitive) {
-				return "UPPER(" . $column . ") LIKE(UPPER(?))";
+				return "UPPER(" . $this->quoteIdentifier($column) . ") LIKE(UPPER(?))";
 			} else {
-				return $column . " LIKE(?)";
+				return $this->quoteIdentifier($column) . " LIKE(?)";
 			}
 		} else {
 			if ($case_insensitive) {
 				// Always quote as text
-				return " UPPER(" . $column . ") LIKE(UPPER(" . $this->quote($value, 'text') . "))";
+				return " UPPER(" . $this->quoteIdentifier($column) . ") LIKE(UPPER(" . $this->quote($value, 'text') . "))";
 			} else {
 				// Always quote as text
-				return " " . $column . " LIKE(" . $this->quote($value, 'text') . ")";
+				return " " . $this->quoteIdentifier($column) . " LIKE(" . $this->quote($value, 'text') . ")";
 			}
 		}
 	}
