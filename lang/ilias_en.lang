@@ -1120,7 +1120,7 @@ assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_anonymity#:#Privacy
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
-assessment#:#tst_best_solution_is#:#The best solution is:
+assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_change_points_for_question#:#Points for the Answer
@@ -15061,6 +15061,11 @@ crs#:#crs_timings_short_end#:#End Date
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
 dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_crs_timing_end#:#Suggested End
+assessment#:#finalized_evaluation#:#Scoring completed
+assessment#:#evaluated_users#:#Evaluated Users
+assessment#:#not_evaluated_users#:#Not Yet Evaluated User
+assessment#:#finalized_by#:#Completed by
+assessment#:#finalized_on#:#Completed at
 crs#:#crs_timings_edit_personal#:#Edit Personal Timings
 crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
 crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
@@ -15069,6 +15074,7 @@ content#:#cont_choose_file_source#:#Source
 content#:#cont_choose_local#:#Local directory
 content#:#cont_choose_upload_dir#:#Upload directory
 sess#:#sess_assign#:#Assign
+assessment#:#answer_of#:#Answer of
 common#:#certificate_selection#:#Origin of Certificates
 common#:#certificate_persistent_option#:#Certificates of Achievements
 common#:#certificate_workspace_option#:#Certificates of Workspace

@@ -277,7 +277,16 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				break;
 
 			case 'ilcontentpagepagegui':
-				if (!$this->checkPermissionBool('write') || $this->user->isAnonymous()) {
+				if (in_array(strtolower($cmd), array_map('strtolower', [
+					self::UI_CMD_COPAGE_DOWNLOAD_FILE,
+					self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN,
+					self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH,
+				]))
+				) {
+					if (!$this->checkPermissionBool('read')) {
+						$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+					}
+				} elseif (!$this->checkPermissionBool('write') || $this->user->isAnonymous()) {
 					$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
 				}
 

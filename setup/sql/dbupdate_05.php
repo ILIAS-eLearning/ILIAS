@@ -1201,3 +1201,30 @@ if ($ilDB->tableExists('il_gs_providers')) {
     $ilDB->dropTable('il_gs_providers');
 }
 ?>
+<#5511>
+<?php
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_tstamp')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_tstamp', array(
+		"type"   => "integer",
+		"length" => 8,
+	));
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_evaluation')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_evaluation', array(
+		"type"   => "integer",
+		"length" => 1,
+	));
+	$ilDB->manipulateF(
+		'UPDATE tst_manual_fb SET finalized_evaluation = %s WHERE feedback IS NOT NULL',
+		['integer'],
+		[1]
+	);
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_by_usr_id', array(
+		"type"   => "integer",
+		"length" => 8,
+	));
+}
+?>
+
