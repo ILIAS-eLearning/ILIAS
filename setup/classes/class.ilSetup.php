@@ -80,8 +80,6 @@ class ilSetup
 
 		$this->lng = $lng;
 
-		$this->db_connections = new ilDBConnections();
-
 		define("ILIAS_MODULE","setup");
 
 		$this->auth = ($this->checkAuth()) ? true : false;
@@ -744,7 +742,7 @@ class ilSetup
 			return false;
 		}
 
-		$this->client = new ilClient($a_client_id, $this->db_connections);
+		$this->client = new ilClient($a_client_id);
 
 		if (!$this->client->init())
 		{
@@ -774,7 +772,7 @@ class ilSetup
 			}
 			else
 			{
-				$client = new ilClient(0, $this->db_connections);
+				$client = new ilClient(0);
 			}
 		}
 
@@ -1986,7 +1984,7 @@ class ilSetup
 	function cloneFromSource($source_id)
 	{
 		// Getting source and targets
-		$source = new ilClient($source_id, $this->db_connections);
+		$source = new ilClient($source_id);
 		$source->init();
 		$target = $this->client;
 

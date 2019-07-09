@@ -156,58 +156,6 @@ class ilDbSetup {
 		return $result;
 	}
 
-
-	/**
-	 * @description legacy version of readdump
-	 * @deprecated  use readDumpUltraSmall
-	 * @return bool
-	 */
-	protected function readDump() {
-		$fp = fopen($this->getSqlDumpFile(), 'r');
-		$q = '';
-		while (!feof($fp)) {
-			$line = trim($this->getline($fp, "\n"));
-
-			if ($line != "" && substr($line, 0, 1) != "#" && substr($line, 0, 1) != "-") {
-				if (substr($line, - 1) == ";") {
-					//query is complete
-					$q .= " " . substr($line, 0, - 1);
-					try {
-						$r = $this->ilDBInterface->query($q);
-					} catch (ilDatabaseException $e) {
-						return false;
-					}
-
-					unset($q);
-					unset($line);
-				} else {
-					$q .= " " . $line;
-				}
-			}
-		}
-
-		fclose($fp);
-	}
-
-
-	/**
-	 * @description legacy version of readdump
-	 * @deprecated  use readDumpUltraSmall
-	 * @return bool
-	 */
-	protected function readDumpSmall() {
-		$sql = file_get_contents($this->getSqlDumpFile());
-		$lines = explode(';', $sql);
-		foreach ($lines as $line) {
-			if (strlen($line) > 0) {
-				$this->ilDBInterface->manipulate($line);
-			}
-		}
-
-		return true;
-	}
-
-
 	/**
 	 * @return bool
 	 */
@@ -231,7 +179,6 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_MYSQL:
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
-					//$this->readDump();
 					$this->readDumpUltraSmall();
 					$this->getClient()->db_installed = true;
 

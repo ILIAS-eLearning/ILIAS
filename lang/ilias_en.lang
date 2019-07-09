@@ -16,7 +16,7 @@
 <!-- language file start -->
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
-chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground. 
+chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
 chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
 chatroom#:#osc_browser_noti_req_permission_error#:#The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system.
@@ -1120,7 +1120,7 @@ assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_anonymity#:#Privacy
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
-assessment#:#tst_best_solution_is#:#The best solution is:
+assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_change_points_for_question#:#Points for the Answer
@@ -15061,6 +15061,11 @@ crs#:#crs_timings_short_end#:#End Date
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
 dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_crs_timing_end#:#Suggested End
+assessment#:#finalized_evaluation#:#Scoring completed
+assessment#:#evaluated_users#:#Evaluated Users
+assessment#:#not_evaluated_users#:#Not Yet Evaluated User
+assessment#:#finalized_by#:#Completed by
+assessment#:#finalized_on#:#Completed at
 crs#:#crs_timings_edit_personal#:#Edit Personal Timings
 crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
 crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
@@ -15069,6 +15074,7 @@ content#:#cont_choose_file_source#:#Source
 content#:#cont_choose_local#:#Local directory
 content#:#cont_choose_upload_dir#:#Upload directory
 sess#:#sess_assign#:#Assign
+assessment#:#answer_of#:#Answer of
 common#:#certificate_selection#:#Origin of Certificates
 common#:#certificate_persistent_option#:#Certificates of Achievements
 common#:#certificate_workspace_option#:#Certificates of Workspace
@@ -15141,3 +15147,4 @@ rbac#:#pdts_change_presentation#:#Change presentation of personal desktop view
 rbac#:#change_presentation#:#Change Presentation
 pd#:#pd_presentation_mode_list#:#Item List Presentation
 pd#:#pd_presentation_mode_tile#:#Tile Presentation
+forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.

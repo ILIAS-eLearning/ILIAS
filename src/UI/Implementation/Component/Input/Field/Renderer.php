@@ -12,13 +12,31 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Component;
 use \ILIAS\UI\Implementation\Render\Template;
+use ILIAS\Data\DateFormat as DateFormat;
 
 /**
  * Class Renderer
  *
  * @package ILIAS\UI\Implementation\Component\Input
  */
-class Renderer extends AbstractComponentRenderer {
+class Renderer extends AbstractComponentRenderer
+{
+	const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
+
+	const DATEPICKER_FORMAT_MAPPING = [
+		'd' => 'DD',
+		'jS' => 'Do',
+		'l' => 'dddd',
+		'D' => 'dd',
+		'S' => 'o',
+		'W' => '',
+		'm' => 'MM',
+		'F' => 'MMMM',
+		'M' => 'MMM',
+		'Y' => 'YYYY',
+		'y' => 'YY'
+	];
+
 
 	/**
 	 * @inheritdoc
@@ -53,6 +71,7 @@ class Renderer extends AbstractComponentRenderer {
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
+		$registry->register('./src/UI/templates/js/Input/Field/duration.js');
 		$registry->register('./src/UI/templates/js/Input/Container/form.js');
 	}
 
@@ -117,6 +136,8 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->renderRadioField($input, $default_renderer);
 		} else if ($input instanceof MultiSelect) {
 			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
+		} else if ($input instanceof DateTime) {
+			$input_tpl = $this->getTemplate("tpl.datetime.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -139,14 +160,19 @@ class Renderer extends AbstractComponentRenderer {
 			 */
 			return $this->renderDependantGroup($group, $default_renderer);
 
-		} else {
-			if ($group instanceof Component\Input\Field\Section) {
-				/**
-				 * @var $group Section
-				 */
-				return $this->renderSection($group, $default_renderer);
-			}
+		} elseif ($group instanceof Component\Input\Field\Section) {
+			/**
+			 * @var $group Section
+			 */
+			return $this->renderSection($group, $default_renderer);
+
+		} elseif ($group instanceof Component\Input\Field\Duration) {
+			/**
+			 * @var $group Duration
+			 */
+			return $this->renderDurationInput($group, $default_renderer);
 		}
+
 		$inputs = "";
 		foreach ($group->getInputs() as $input) {
 			$inputs .= $default_renderer->render($input);
@@ -355,6 +381,9 @@ class Renderer extends AbstractComponentRenderer {
 					}
 				}
 				break;
+			case ($input instanceof DateTime):
+				return $this->renderDateTimeInput($tpl, $input);
+				break;
 		}
 
 		$input = $this->setSignals($input);
@@ -424,7 +453,7 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 
-	/*
+	/**
 	 * Render revelation-glyphs for password and register signals/functions
 	 * @param Template $tpl
 	 * @param Password $input
@@ -467,6 +496,7 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		return $id;
 	}
+
 
 	protected function renderTextareaField(Template $tpl, Textarea $input)
 	{
@@ -573,6 +603,147 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 	/**
+	 * Return the datetime format in a form fit for the JS-component of this input.
+	 * Currently, this means transforming the elements of DateFormat to momentjs.
+	 *
+	 * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
+	 * http://momentjs.com/docs/#/displaying/format/
+	*/
+	protected function getTransformedDateFormat(
+		DateFormat\DateFormat $origin,
+		array $mapping
+	): string {
+		$ret = '';
+		foreach ($origin->toArray() as $element) {
+			if(array_key_exists($element, $mapping)) {
+				$ret .= $mapping[$element];
+			} else {
+				$ret .= $element;
+			}
+		}
+		return $ret;
+	}
+
+	/**
+	 * @param Template $tpl
+	 * @param DateTime $input
+	 *
+	 * @return string
+	 */
+	protected function renderDateTimeInput(Template $tpl, DateTime $input): string
+	{
+		global $DIC;
+		$f = $this->getUIFactory();
+		$renderer = $DIC->ui()->renderer()->withAdditionalContext($input);
+		if($input->getTimeOnly() === true) {
+			$cal_glyph = $f->symbol()->glyph()->time("#");
+			$format = $input::TIME_FORMAT;
+		} else {
+			$cal_glyph = $f->symbol()->glyph()->calendar("#");
+
+			$format = $this->getTransformedDateFormat(
+				$input->getFormat(),
+				self::DATEPICKER_FORMAT_MAPPING
+			);
+
+			if($input->getUseTime() === true) {
+				$format .= ' ' .$input::TIME_FORMAT;
+			}
+		}
+
+		$tpl->setVariable("CALENDAR_GLYPH", $renderer->render($cal_glyph));
+
+		$config = [
+			'showClear' => true,
+			'sideBySide' => true,
+			'format' => $format,
+		];
+		$config = array_merge($config, $input->getAdditionalPickerConfig());
+
+		$min_date = $input->getMinValue();
+		if(! is_null($min_date)) {
+			$config['minDate'] = date_format($min_date, self::DATEPICKER_MINMAX_FORMAT);
+		}
+		$max_date = $input->getMaxValue();
+		if(! is_null($max_date)) {
+			$config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
+		}
+		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
+		\ilCalendarUtil::initDateTimePicker();
+		$input = $input->withAdditionalOnLoadCode(function($id) use ($config) {
+			return '$("#'.$id.'").datetimepicker('.json_encode($config).')';
+		});
+		$id = $this->bindJavaScript($input);
+		$tpl->setVariable("ID", $id);
+
+		$tpl->setVariable("NAME", $input->getName());
+		$tpl->setVariable("PLACEHOLDER", $format);
+
+		if ($input->getValue() !== null) {
+			$tpl->setCurrentBlock("value");
+			$tpl->setVariable("VALUE", $input->getValue());
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
+	}
+
+
+	protected function renderDurationInput(Duration $input, RendererInterface $default_renderer) :string {
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
+		$tpl_duration = $this->getTemplate("tpl.duration.html", true, true);
+
+		if ($input->getName()) {
+			$tpl->setVariable("NAME", $input->getName());
+		} else {
+			$tpl->setVariable("NAME", "");
+		}
+
+		$tpl->setVariable("LABEL", $input->getLabel());
+
+		if ($input->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $input->getByline());
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($input->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+
+		if ($input->getError() !== null) {
+			$tpl->setCurrentBlock("error");
+			$tpl->setVariable("ERROR", $input->getError());
+			$tpl->parseCurrentBlock();
+		}
+
+		$input = $input->withAdditionalOnLoadCode(
+			function($id) {
+				return "$(document).ready(function() {
+					il.UI.Input.duration.init('$id');
+				});";
+			}
+		);
+		$id = $this->bindJavaScript($input);
+		$tpl_duration->setVariable("ID", $id);
+
+		$input_html = '';
+		$inputs = $input->getInputs();
+
+		$inpt = array_shift($inputs); //from
+		$input_html .= $default_renderer->render($inpt);
+
+		$inpt = array_shift($inputs)->withAdditionalPickerconfig([ //until
+			'useCurrent' => false
+		]);
+		$input_html .= $default_renderer->render($inpt);
+
+		$tpl_duration->setVariable('DURATION', $input_html);
+		$tpl->setVariable("INPUT", $tpl_duration->get());
+		return $tpl->get();
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	protected function getComponentInterfaceName() {
@@ -588,7 +759,9 @@ class Renderer extends AbstractComponentRenderer {
 			Component\Input\Field\Select::class,
 			Component\Input\Field\Radio::class,
 			Component\Input\Field\Textarea::class,
-			Component\Input\Field\MultiSelect::class
+			Component\Input\Field\MultiSelect::class,
+			Component\Input\Field\DateTime::class,
+			Component\Input\Field\Duration::class
 		];
 	}
 }

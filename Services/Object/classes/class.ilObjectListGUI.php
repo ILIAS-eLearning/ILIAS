@@ -4080,8 +4080,16 @@ class ilObjectListGUI
 
 		$this->enableCommands(true);
 
+		$sections = [];
+
+		// description, @todo: move to new ks element
+		if ($description != "") {
+			$sections[] = $ui->factory()->legacy("<div class='il_info il-multi-line-cap-3'>".$description."</div>");
+		}
+
 		$this->insertCommands();
 		$actions = [];
+
 		foreach ($this->current_selection_list->getItems() as $action_item) {
 			$actions[] = $ui->factory()
 				->button()
@@ -4148,11 +4156,13 @@ class ilObjectListGUI
 				$l[(string)$p['property']] = (string)$p['value'];
 			}
 		}
-		if (count($l) > 0) {
-			$prop_list = $ui->factory()
-				->listing()
-				->descriptive($l);
-			$card = $card->withSections([$prop_list]);
+		if (count($l) > 0)
+		{
+			$prop_list = $ui->factory()->listing()->descriptive($l);
+			$sections[] = $prop_list;
+		}
+		if (count($sections) > 0) {
+			$card = $card->withSections($sections);
 		}
 
 		$lp = ilLPStatus::getListGUIStatus($obj_id, false);

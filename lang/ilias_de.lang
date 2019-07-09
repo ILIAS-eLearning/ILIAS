@@ -15050,6 +15050,11 @@ lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
+assessment#:#finalized_evaluation#:#Endgültig bewertet
+assessment#:#evaluated_users#:#Bewertete Benutzer
+assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
+assessment#:#finalized_by#:#Bewertung abgeschlossen von
+assessment#:#finalized_on#:#Bewertung abgeschlossen am
 dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
 dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
 crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
@@ -15060,6 +15065,7 @@ content#:#cont_choose_file_source#:#Quelle
 content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
 sess#:#sess_assign#:#Zuordnen
+assessment#:#answer_of#:#Antwort von
 common#:#certificate_selection#:#Ursprung der Zertifikate
 common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
 common#:#certificate_workspace_option#:#Zertifikate aus dem Arbeitsraum
@@ -15132,3 +15138,4 @@ rbac#:#pdts_change_presentation#:#Schreibtisch-Präsentation ändern (Liste/Kach
 rbac#:#change_presentation#:#Präsentation ändern
 pd#:#pd_presentation_mode_list#:#Listenansicht
 pd#:#pd_presentation_mode_tile#:#Kachelansicht
+forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
