@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(__DIR__."/classes/class.ilLanguage.php");
+require_once(__DIR__."/classes/class.ilSetupLanguage.php");
 
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
 
@@ -104,7 +104,7 @@ function build_container_for_setup() {
 	};
 
 	$c["lng"] = function ($c) {
-		return new \ilLanguage("en");
+		return new \ilSetupLanguage("en");
 	};
 
 	$c["config_reader"] = function($c) {

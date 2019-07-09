@@ -41,7 +41,7 @@
  *  The format functions do not belong in class.Language. Those are also applicable elsewhere.
  *  Therefore, they would be better placed in class.Format
  */
-class ilLanguage
+class ilSetupLanguage
 {
 	/**
 	 * text elements
@@ -500,7 +500,7 @@ class ilLanguage
 	{
 		$ilDB = $this->db;
 		
-		ilLanguage::_deleteLangData($a_lang_key, ($a_mode == 'keep_local'));
+		ilSetupLanguage::_deleteLangData($a_lang_key, ($a_mode == 'keep_local'));
 
 		if ($a_mode == 'all')
 		{
@@ -651,7 +651,7 @@ class ilLanguage
 						{
 							// insert a new value if no local value exists
 							// reset local_change if the values are equal
-							ilLanguage::replaceLangEntry($separated[0], $separated[1],
+							ilSetupLanguage::replaceLangEntry($separated[0], $separated[1],
 								$lang_key, $separated[2]);
 
 							$lang_array[$separated[0]][$separated[1]] = $separated[2];
@@ -667,7 +667,7 @@ class ilLanguage
 						else
 						{
 							// UPDATE because the global values have already been INSERTed
-							ilLanguage::updateLangEntry($separated[0], $separated[1],
+							ilSetupLanguage::updateLangEntry($separated[0], $separated[1],
 								$lang_key, $separated[2], $change_date);
 							$lang_array[$separated[0]][$separated[1]] = $separated[2];
 						}
@@ -690,7 +690,7 @@ class ilLanguage
 						$lang_arr = array_merge($arr2, $lang_arr);
 					}
 				}
-				ilLanguage::replaceLangModule($lang_key, $module, $lang_arr);
+				ilSetupLanguage::replaceLangModule($lang_key, $module, $lang_arr);
 			}
 		}
 
@@ -831,5 +831,5 @@ class ilLanguage
 	function loadLanguageModule()
 	{
 	}
-} // END class.ilLanguage
+} // END class.ilSetupLanguage
 ?>
