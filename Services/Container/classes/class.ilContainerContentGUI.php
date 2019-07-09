@@ -859,9 +859,10 @@ abstract class ilContainerContentGUI
 		{
 			$prop_list = $f->listing()->descriptive($l);
 			$sections[] = $prop_list;
+		}
+		if (count($sections) > 0) {
 			$card = $card->withSections($sections);
 		}
-
 		// learning progress
 		include_once "Services/Tracking/classes/class.ilLPStatus.php";
 		$lp = ilLPStatus::getListGUIStatus($a_item_data["obj_id"], false);
