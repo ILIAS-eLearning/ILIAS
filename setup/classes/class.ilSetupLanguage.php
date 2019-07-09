@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
+
 
 /**
  * language handling for setup
@@ -41,7 +43,7 @@
  *  The format functions do not belong in class.Language. Those are also applicable elsewhere.
  *  Therefore, they would be better placed in class.Format
  */
-class ilSetupLanguage
+class ilSetupLanguage extends ilLanguage
 {
 	/**
 	 * text elements
