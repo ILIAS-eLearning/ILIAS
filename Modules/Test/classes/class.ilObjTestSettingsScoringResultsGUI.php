@@ -217,7 +217,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			{
 				case 'section_header':
 					
-					continue;
+					break;
 					
 				case 'datetime':
 
