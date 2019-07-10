@@ -2,7 +2,9 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
-
+use OrgUnit\Positions\ilOrgUnitPosition;
+use OrgUnit\_PublicApi\OrgUnitUserSpecification;
+use OrgUnit\_PublicApi\OrgUnitUserService;
 /**
  * Class ilOrgUnitUserAssignmentTableGUI
  */
@@ -27,7 +29,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI {
 	 *
 	 * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_obj
 	 * @param string                                       $parent_cmd
-	 * @param \ilOrgUnitPosition                           $position
+	 * @param ilOrgUnitPosition                           $position
 	 */
 	public function __construct(BaseCommands $parent_obj, $parent_cmd, ilOrgUnitPosition $position) {
 		$this->parent_obj = $parent_obj;
