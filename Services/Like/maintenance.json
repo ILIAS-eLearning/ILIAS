@@ -1,0 +1,12 @@
+{
+  "maintenance_model": "Classic",
+  "first_maintainer": "akill(149)",
+  "second_maintainer": "",
+  "implicit_maintainers": [],
+  "coordinator": "",
+  "tester": "",
+  "testcase_writer": "",
+  "path": "Services/Like",
+  "belong_to_component": "Like",
+  "used_in_components": ["News"]
+}
