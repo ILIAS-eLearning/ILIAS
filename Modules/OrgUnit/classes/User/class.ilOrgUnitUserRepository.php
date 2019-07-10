@@ -3,7 +3,6 @@
 namespace OrgUnit\User;
 
 use ilOrgUnitUserAssignment;
-use OrgUnit\Positions\ilOrgUnitPosition;
 
 /**
  * Class ilOrgUnitUserRepository
@@ -166,8 +165,8 @@ class ilOrgUnitUserRepository {
 				WHERE
 				orgu_ua.orgu_id = orgu_ua2.orgu_id 
 				and orgu_ua.user_id <> orgu_ua2.user_id 
-				and orgu_ua.position_id = " . ilOrgUnitPosition::CORE_POSITION_EMPLOYEE . "
-				and orgu_ua2.position_id = " . ilOrgUnitPosition::CORE_POSITION_SUPERIOR . " 
+				and orgu_ua.position_id = " . \ilOrgUnitPosition::CORE_POSITION_EMPLOYEE . "
+				and orgu_ua2.position_id = " . \ilOrgUnitPosition::CORE_POSITION_SUPERIOR . " 
 				AND " . $DIC->database()->in('orgu_ua.user_id', $user_ids, false, 'integer');
 
 		return $sql;
