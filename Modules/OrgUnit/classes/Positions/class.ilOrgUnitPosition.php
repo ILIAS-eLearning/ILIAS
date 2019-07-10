@@ -1,8 +1,5 @@
 <?php
-namespace OrgUnit\Positions;
 
-use \ilOrgUnitAuthority;
-use \arObjectCache;
 /**
  * Class ilOrgUnitPosition
  *

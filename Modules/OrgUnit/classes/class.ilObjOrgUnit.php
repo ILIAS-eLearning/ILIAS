@@ -242,10 +242,8 @@ class ilObjOrgUnit extends ilContainer {
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
 		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
-		$repository = new ilOrgUnitUserAssignmentRepository();
-
 		foreach ($user_ids as $user_id) {
-			$repository->findOrCreateAssignment($user_id, $position_id, $this->getRefId());
+			ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToEmployeeRole', array(
 				'object' => $this,
@@ -269,8 +267,7 @@ class ilObjOrgUnit extends ilContainer {
 		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 
 		foreach ($user_ids as $user_id) {
-			$repository = new ilOrgUnitUserAssignmentRepository();
-			$repository->findOrCreateAssignment($user_id, $position_id, $this->getRefId());
+			ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId());
 
 			$ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToSuperiorRole', array(
 				'object' => $this,
@@ -288,9 +285,7 @@ class ilObjOrgUnit extends ilContainer {
 		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-
-		$repository = new ilOrgUnitUserAssignmentRepository();
-		$repository->findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
+		ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
 			'object' => $this,
@@ -307,8 +302,7 @@ class ilObjOrgUnit extends ilContainer {
 		$position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$repository = new ilOrgUnitUserAssignmentRepository();
-		$repository->findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
+		ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
 
 		$ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
 			'object' => $this,
