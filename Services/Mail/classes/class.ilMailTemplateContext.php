@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use OrgUnit\PublicApi\OrgUnitUserService;
+
 require_once './Services/Language/classes/class.ilLanguageFactory.php';
 
 /**
@@ -191,8 +193,22 @@ abstract class ilMailTemplateContext
                 $resolved = CLIENT_NAME;
                 break;
 
-            case 'firstname_last_name_superior' == $placeholder_id:
-                $resolved = 'TODO ORGU API'; // TODO
+            case 'firstname_last_name_superior' == $placeholder_id && $recipient !== null:
+                $ouService = new OrgUnitUserService();
+                $ouUsers = $ouService->getUsers([$recipient->getId()]);
+                foreach ($ouUsers as $ouUser) {
+                    $superiors = $ouUser->getSuperiors();
+
+                    $firstAndLastNames = \ilUserUtil::getNamePresentation(
+                      array_map(function(OrgUnit\User\ilOrgUnitUser $ouUser) {
+                          return $ouUser->getUserId();
+                      }, $superiors),
+                      false, false, '', false, true, false
+                    );
+
+                    $resolved = implode(', ', $firstAndLastNames);
+                    break;
+                }
                 break;
 
             case !in_array($placeholder_id, array_keys(self::getGenericPlaceholders())):
