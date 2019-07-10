@@ -14,6 +14,22 @@ abstract class ilMailTemplateContext
 {
     /** @var ilLanguage|null */
     protected $language;
+    
+    /** @var OrgUnitUserService */
+    protected $orgUnitUserService;
+
+    /**
+     * ilMailTemplateContext constructor.
+     * @param OrgUnitUserService|null $orgUnitUserService
+     */
+    public function __construct(
+         OrgUnitUserService $orgUnitUserService = null
+    ) {
+        if (null === $orgUnitUserService) {
+            $orgUnitUserService = new OrgUnitUserService();
+        }
+        $this->orgUnitUserService = $orgUnitUserService;
+    }
 
     /**
      * @return ilLanguage|null
@@ -56,41 +72,39 @@ abstract class ilMailTemplateContext
      */
     final private function getGenericPlaceholders() : array
     {
-        global $DIC;
-
         return [
             'mail_salutation' => [
                 'placeholder' => 'MAIL_SALUTATION',
-                'label' => $DIC->language()->txt('mail_nacc_salutation')
+                'label' => $this->getLanguage()->txt('mail_nacc_salutation')
             ],
             'first_name' => [
                 'placeholder' => 'FIRST_NAME',
-                'label' => $DIC->language()->txt('firstname')
+                'label' => $this->getLanguage()->txt('firstname')
             ],
             'last_name' => [
                 'placeholder' => 'LAST_NAME',
-                'label' => $DIC->language()->txt('lastname')
+                'label' => $this->getLanguage()->txt('lastname')
             ],
             'login' => [
                 'placeholder' => 'LOGIN',
-                'label' => $DIC->language()->txt('mail_nacc_login')
+                'label' => $this->getLanguage()->txt('mail_nacc_login')
             ],
             'title' => [
                 'placeholder' => 'TITLE',
-                'label' => $DIC->language()->txt('mail_nacc_title'),
+                'label' => $this->getLanguage()->txt('mail_nacc_title'),
                 'supportsCondition' => true
             ],
             'firstname_last_name_superior' => [
                 'placeholder' => 'FIRSTNAME_LASTNAME_SUPERIOR',
-                'label' => $DIC->language()->txt('mail_firstname_last_name_superior')
+                'label' => $this->getLanguage()->txt('mail_firstname_last_name_superior')
             ],
             'ilias_url' => [
                 'placeholder' => 'ILIAS_URL',
-                'label' => $DIC->language()->txt('mail_nacc_ilias_url')
+                'label' => $this->getLanguage()->txt('mail_nacc_ilias_url')
             ],
             'client_name' => [
                 'placeholder' => 'CLIENT_NAME',
-                'label' => $DIC->language()->txt('mail_nacc_client_name')
+                'label' => $this->getLanguage()->txt('mail_nacc_client_name')
             ],
         ];
     }
@@ -192,8 +206,7 @@ abstract class ilMailTemplateContext
                 break;
 
             case 'firstname_last_name_superior' == $placeholder_id && $recipient !== null:
-                $ouService = new OrgUnitUserService();
-                $ouUsers = $ouService->getUsers([$recipient->getId()], true);
+                $ouUsers = $this->orgUnitUserService->getUsers([$recipient->getId()], true);
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
 
