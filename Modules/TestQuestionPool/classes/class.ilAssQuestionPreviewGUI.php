@@ -83,7 +83,7 @@ class ilAssQuestionPreviewGUI
 	 */
 	protected $hintTracking;
 	
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplate $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;

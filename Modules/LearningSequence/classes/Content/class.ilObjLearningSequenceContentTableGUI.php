@@ -101,7 +101,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 	{
 		$item_obj_id = $this->getObjIdFor($ref_id);
 		$item_list_gui = $this->getListGuiFor($type);
-		$item_list_gui->initItem($ref_id, $item_obj_id);
+		$item_list_gui->initItem($ref_id, $item_obj_id, $type);
 
 		$item_list_gui->enableCut(true);
 		$item_list_gui->enableDelete(true);
@@ -118,7 +118,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 	{
 		$item_obj_id = $this->getObjIdFor($ref_id);
 		$item_list_gui = $this->getListGuiFor($type);
-		$item_list_gui->initItem($ref_id, $item_obj_id);
+		$item_list_gui->initItem($ref_id, $item_obj_id, $type);
 		return $item_list_gui->getCommands();
 	}
 

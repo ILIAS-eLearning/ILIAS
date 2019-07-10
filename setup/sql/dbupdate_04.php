@@ -24200,53 +24200,53 @@ if (! $ilDB->tableExists('il_mm_translation')) {
 ?>
 <#5369>
 <?php
-$fields = array(
-	'provider_class' => array(
-		'type'   => 'text',
-		'length' => '255',
-
-	),
-	'purpose'        => array(
-		'type'   => 'text',
-		'length' => '255',
-
-	),
-	'dynamic'        => array(
-		'type'   => 'integer',
-		'length' => '1',
-
-	),
-
-);
-if (!$ilDB->tableExists('il_gs_providers')) {
-	$ilDB->createTable('il_gs_providers', $fields);
-	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
-}
+// $fields = array(
+// 	'provider_class' => array(
+// 		'type'   => 'text',
+// 		'length' => '255',
+//
+// 	),
+// 	'purpose'        => array(
+// 		'type'   => 'text',
+// 		'length' => '255',
+//
+// 	),
+// 	'dynamic'        => array(
+// 		'type'   => 'integer',
+// 		'length' => '1',
+//
+// 	),
+//
+// );
+// if (!$ilDB->tableExists('il_gs_providers')) {
+// 	$ilDB->createTable('il_gs_providers', $fields);
+// 	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
+// }
 ?>
 <#5370>
 <?php
-$fields = array(
-	'identification' => array(
-		'type'   => 'text',
-		'length' => '64',
-
-	),
-	'provider_class' => array(
-		'type'   => 'text',
-		'length' => '255',
-
-	),
-	'active'         => array(
-		'type'   => 'integer',
-		'length' => '1',
-
-	),
-
-);
-if (!$ilDB->tableExists('il_gs_identifications')) {
-	$ilDB->createTable('il_gs_identifications', $fields);
-	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
-}
+// $fields = array(
+// 	'identification' => array(
+// 		'type'   => 'text',
+// 		'length' => '64',
+//
+// 	),
+// 	'provider_class' => array(
+// 		'type'   => 'text',
+// 		'length' => '255',
+//
+// 	),
+// 	'active'         => array(
+// 		'type'   => 'integer',
+// 		'length' => '1',
+//
+// 	),
+//
+// );
+// if (!$ilDB->tableExists('il_gs_identifications')) {
+// 	$ilDB->createTable('il_gs_identifications', $fields);
+// 	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
+// }
 ?>
 <#5371>
 <?php
@@ -25097,54 +25097,54 @@ ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
 <#5423>
 <?php
 // Possibly missing primaries
-$ilDB->modifyTableColumn('il_mm_translation', 'identification', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_gs_providers', 'provider_class', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_gs_providers', 'purpose', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_gs_identifications', 'provider_class', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_mm_custom_items', 'identifier', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_mm_actions', 'identification', array(
-	'length'  => 255
-));
-
-
-$manager = $ilDB->loadModule('Manager');
-
-$const = $manager->listTableConstraints("il_mm_translation");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_mm_translation', array( 'id' ));
-}
-$const = $manager->listTableConstraints("il_gs_providers");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
-}
-$const = $manager->listTableConstraints("il_gs_identifications");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
-}
-$const = $manager->listTableConstraints("il_mm_custom_items");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_mm_custom_items', array( 'identifier' ));
-}
-$const = $manager->listTableConstraints("il_mm_actions");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
-}	
-	
+// $ilDB->modifyTableColumn('il_mm_translation', 'identification', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_gs_providers', 'provider_class', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_gs_providers', 'purpose', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_gs_identifications', 'provider_class', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_mm_custom_items', 'identifier', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_mm_actions', 'identification', array(
+// 	'length'  => 255
+// ));
+//
+//
+// $manager = $ilDB->loadModule('Manager');
+//
+// $const = $manager->listTableConstraints("il_mm_translation");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_mm_translation', array( 'id' ));
+// }
+// $const = $manager->listTableConstraints("il_gs_providers");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
+// }
+// $const = $manager->listTableConstraints("il_gs_identifications");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
+// }
+// $const = $manager->listTableConstraints("il_mm_custom_items");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_mm_custom_items', array( 'identifier' ));
+// }
+// $const = $manager->listTableConstraints("il_mm_actions");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
+// }
+//
 ?>
 <#5424>
 <?php

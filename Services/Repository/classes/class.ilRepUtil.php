@@ -99,7 +99,7 @@ class ilRepUtil
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
-		if (count($not_deletable) > 0)
+		if (is_array($not_deletable) && count($not_deletable) > 0)
 		{
 			$not_deletable_titles = array();
 			foreach ($not_deletable as $key => $ref_id) {

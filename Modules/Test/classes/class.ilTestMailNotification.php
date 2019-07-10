@@ -48,7 +48,7 @@ class ilTestMailNotification extends ilMailNotification
 		$this->appendBody("\n");
 		$this->getMail()->appendInstallationSignature(true);
 
-		$this->sendMail(array($owner_id),array('system'));
+		$this->sendMail(array($owner_id));
 	}
 
 	/**
@@ -88,6 +88,6 @@ class ilTestMailNotification extends ilMailNotification
 		$this->setAttachments($file_names);
 		$this->getMail()->appendInstallationSignature(true);
 
-		$this->sendMail(array($owner_id),array('system'));
+		$this->sendMail(array($owner_id));
 	}
 } 

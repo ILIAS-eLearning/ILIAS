@@ -591,7 +591,7 @@ class ilObjectMetaDataGUI
 			{
 				foreach($a_cmds as $caption => $url)
 				{
-					$block->addBlockCommand($url, $lng->txt($caption), "_top");		
+					$block->addBlockCommand($url, $lng->txt($caption));
 				}
 			}
 			$html.= $block->getHTML();

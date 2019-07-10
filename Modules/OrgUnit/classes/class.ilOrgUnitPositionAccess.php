@@ -1,5 +1,5 @@
 <?php
-
+use OrgUnit\Positions\UserAssignment\ilOrgUnitUserAssignmentRepository;
 /**
  * Class ilOrgUnitPositionAccess
  *
@@ -8,7 +8,7 @@
 class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler {
 
 	/**
-	 * @var \ilOrgUnitUserAssignmentQueries
+	 * @var ilOrgUnitUserAssignmentRepository
 	 */
 	protected $ua;
 	/**
@@ -26,7 +26,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
 	 */
 	public function __construct() {
 		$this->set = ilOrgUnitGlobalSettings::getInstance();
-		$this->ua = ilOrgUnitUserAssignmentQueries::getInstance();
+		$this->ua = ilOrgUnitUserAssignmentRepository::getInstance();
 	}
 
 

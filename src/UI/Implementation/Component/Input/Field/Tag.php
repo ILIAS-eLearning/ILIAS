@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\Result\Ok;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
  * Class TagInput
@@ -55,14 +55,19 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * TagInput constructor.
 	 *
 	 * @param \ILIAS\Data\Factory           $data_factory
-	 * @param \ILIAS\Validation\Factory     $validation_factory
-	 * @param \ILIAS\Transformation\Factory $transformation_factory
+	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param string                        $label
 	 * @param string                        $byline
 	 * @param array                         $tags
 	 */
-	public function __construct(DataFactory $data_factory, ValidationFactory $validation_factory, \ILIAS\Transformation\Factory $transformation_factory, $label, $byline, array $tags) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+	public function __construct(
+		DataFactory $data_factory,
+		\ILIAS\Refinery\Factory $refinery,
+		$label,
+		$byline,
+		array $tags
+	) {
+		parent::__construct($data_factory, $refinery, $label, $byline);
 		$this->tags = $tags;
 	}
 
@@ -93,15 +98,19 @@ class Tag extends Input implements C\Input\Field\Tag {
 	 * @inheritDoc
 	 */
 	protected function getConstraintForRequirement() {
-		$constraint = $this->validation_factory->custom(
+		$constraint = $this->refinery->custom()->constraint(
 			function ($value) {
-				return (is_array($value) && count($value) > 0);
+				$valueIsAStringArray = $this->refinery
+					->to()
+					->listOf($this->refinery->to()->string())
+					->applyTo(new Ok($value))
+					->isOK();
+
+				return ($valueIsAStringArray);
 			}, "Empty array"
 		);
 
-		return $this->validation_factory->sequential(
-			[$constraint, $this->validation_factory->isArrayOf($this->validation_factory->isString()),]
-		);
+		return $constraint;
 	}
 
 
@@ -111,7 +120,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 	protected function isClientSideValueOk($value) {
 		if ($this->getMaxTags() > 0) {
 			$max_tags = $this->getMaxTags();
-			$max_tags_ok = $this->validation_factory->custom(
+			$max_tags_ok = $this->refinery->custom()->constraint(
 				function ($value) use ($max_tags) {
 					return (is_array($value) && count($value) <= $max_tags);
 				}, 'Too many Tags'
@@ -123,7 +132,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 
 		if ($this->getTagMaxLength() > 0) {
 			$tag_max_length = $this->getTagMaxLength();
-			$tag_max_length_ok = $this->validation_factory->custom(
+			$tag_max_length_ok = $this->refinery->custom()->constraint(
 				function ($value) use ($tag_max_length) {
 					if (!is_array($value)) {
 						return false;
@@ -142,7 +151,13 @@ class Tag extends Input implements C\Input\Field\Tag {
 			}
 		}
 
-		return ($this->validation_factory->isNull()->accepts($value) || $this->validation_factory->isArrayOf($this->validation_factory->isString())->accepts($value));
+		$valueCanBeAddedAsStringToList = $this->refinery
+			->to()
+			->listOf($this->refinery->to()->string())
+			->applyTo(new Ok($value))
+			->isOK();
+
+		return ($this->refinery->null()->accepts($value) || $valueCanBeAddedAsStringToList);
 	}
 
 
@@ -164,7 +179,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 		 * @var $with_constraint C\Input\Field\Tag
 		 */
 		$with_constraint = $clone->withAdditionalConstraint(
-			$this->validation_factory->custom(
+			$this->refinery->custom()->constraint(
 				function ($value) use ($clone) {
 					return (0 == count(array_diff($value, $clone->getTags())));
 				}, function ($txt, $value) use ($clone) {

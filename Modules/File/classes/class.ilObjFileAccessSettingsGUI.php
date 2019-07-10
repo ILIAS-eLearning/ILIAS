@@ -317,11 +317,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 	    $form->setFormAction($DIC->ctrl()->getFormAction($this));
 	    $form->setTitle($lng->txt("settings"));
 	    
-	    // Enable webdav
-	    $cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
-	    $cb_prop->setValue('1');
-	    $cb_prop->setChecked($this->object->isWebdavEnabled());
-	    $form->addItem($cb_prop);
+		// Enable webdav
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($this->object->isWebdavEnabled());
+		$form->addItem($cb_prop);
+
+		// Enable versioning
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_versioning_webdav"), "enable_versioning_webdav");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
+		$form->addItem($cb_prop);
 	    
 	    $rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
 	    $rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
@@ -384,6 +390,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		if($form->checkInput())
 		{
 		    $this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
+		    $this->object->setWebdavVersioningEnabled($_POST['enable_versioning_webdav'] == '1');
 		    //		$this->object->setWebdavActionsVisible($_POST['webdav_actions_visible'] == '1');
 		    $this->object->setCustomWebfolderInstructionsEnabled($_POST['custom_webfolder_instructions_choice'] == 'custom');
 		    $this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions'], false));
@@ -889,6 +896,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		$ne->setInfo($this->lng->txt("file_suffix_overall_white_info"));
 		$form->addItem($ne);
 
+		// explicit blacklist
+		$ta = new ilTextAreaInputGUI($this->lng->txt("file_suffix_custom_expl_black"), "suffix_custom_expl_black");
+		$ta->setInfo($this->lng->txt("file_suffix_custom_expl_black_info"));
+		$ta->setRows(5);
+		$form->addItem($ta);
+
+
 		// command buttons
 		$form->addCommandButton('saveUploadSettings', $lng->txt('save'));
 		$form->addCommandButton('view', $lng->txt('cancel'));
@@ -926,6 +940,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 		$val["concurrent_uploads"] = ilFileUploadSettings::getConcurrentUploads();
 		$val["suffix_repl_additional"] = $ilSetting->get("suffix_repl_additional");
 		$val["suffix_custom_white_list"] = $ilSetting->get("suffix_custom_white_list");
+		$val["suffix_custom_expl_black"] = $ilSetting->get("suffix_custom_expl_black");
 		$form->setValuesByArray($val);
 
 		// set content
@@ -960,6 +975,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI {
 			// file suffic replacements
 			$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
 			$ilSetting->set("suffix_custom_white_list", $_POST["suffix_custom_white_list"]);
+			$ilSetting->set("suffix_custom_expl_black", $_POST["suffix_custom_expl_black"]);
 
 			ilUtil::sendSuccess($lng->txt('settings_saved'), true);
 			$ilCtrl->redirect($this, "editUploadSettings");

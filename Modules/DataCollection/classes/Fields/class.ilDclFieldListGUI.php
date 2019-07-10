@@ -167,7 +167,6 @@ class ilDclFieldListGUI {
 		foreach ($tables as $table) {
 			$options[$table->getId()] = $table->getTitle();
 		}
-		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$table_selection = new ilSelectInputGUI('', 'table_id');
 		$table_selection->setOptions($options);
 		$table_selection->setValue($this->table_id);
@@ -191,15 +190,14 @@ class ilDclFieldListGUI {
 		$this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
 	}
 
-
-	/**
-	 * @return bool
-	 */
-	protected function checkAccess() {
-		$ref_id = $this->getDataCollectionObject()->getRefId();
-
-		return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
-	}
+    /**
+     * @return bool
+     */
+    protected function checkAccess()
+    {
+        $ref_id = $this->getDataCollectionObject()->getRefId();
+        return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
+    }
 
 
 	/**

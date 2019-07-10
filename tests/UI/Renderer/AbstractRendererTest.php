@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Glyph {
+namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
 	require_once("libs/composer/vendor/autoload.php");
 
 	use \ILIAS\UI\Component\Component;
@@ -15,7 +15,7 @@ namespace ILIAS\UI\Implementation\Component\Glyph {
 			return $this->getTemplate($a, $b, $c);
 		}
 		protected function getComponentInterfaceName() {
-			return "\\ILIAS\\UI\\Component\\Glyph\\Glyph";
+			return "\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph";
 		}
 	}
 
@@ -93,17 +93,17 @@ namespace {
 		public function setUp(): void{
 			parent::setUp();
 			$this->tpl_factory = new TemplateFactoryMock();
-			$this->ui_factory = new NoUIFactory();
+			$this->ui_factory = $this->getUIFactory(); //new NoUIFactory();
 			$this->lng = new ilLanguageMock();
 			$this->js_binding = new LoggingJavaScriptBinding();
 		}
 
 		public function test_getTemplate_successfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 			$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 			$expected = array
-			( realpath(__DIR__."/../../../src/UI/templates/default/Glyph/tpl.glyph.html")
+			( realpath(__DIR__."/../../../src/UI/templates/default/Symbol/tpl.glyph.html")
 					=> array(true, false)
 			);
 
@@ -126,9 +126,9 @@ namespace {
 		}
 
 		public function test_bindJavaScript_successfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 
-			$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
+			$g = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph(\ILIAS\UI\Component\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
 
 			$ids = array();
 			$g = $g->withOnLoadCode(function($id) use (&$ids) {
@@ -143,9 +143,9 @@ namespace {
 		}
 
 		public function test_bindJavaScript_no_string() {
-			$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
 
-			$g = new \ILIAS\UI\Implementation\Component\Glyph\Glyph(\ILIAS\UI\Component\Glyph\Glyph::SETTINGS, "aria_label");
+			$g = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph(\ILIAS\UI\Component\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
 
 			$g = $g->withOnLoadCode(function($id) {
 				return null;

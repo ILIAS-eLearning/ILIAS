@@ -5,6 +5,7 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -14,42 +15,53 @@ use ILIAS\UI\Component\Image\Image;
  * Page
  */
 class Standard implements Page\Standard {
+
 	use ComponentHelper;
+	use JavaScriptBindable;
 
 	/**
 	 * @var mixed
 	 */
 	private $content;
-
 	/**
 	 * @var MetaBar
 	 */
 	private $metabar;
-
 	/**
 	 * @var	MainBar
 	 */
 	private $mainbar;
-
 	/**
 	 * @var	Breadcrumbs
 	 */
 	private $breadcrumbs;
-
 	/**
 	 * @var Image
 	 */
 	private $logo;
-
 	/**
 	 * @var	bool
 	 */
 	private $with_headers = true;
+	/**
+	 * @var    bool
+	 */
+	private $ui_demo = false;
 
+
+	/**
+	 * Standard constructor.
+	 *
+	 * @param array            $content
+	 * @param MetaBar|null     $metabar
+	 * @param MainBar|null     $mainbar
+	 * @param Breadcrumbs|null $locator
+	 * @param Image|null       $logo
+	 */
 	public function __construct(
-		MetaBar $metabar,
-		MainBar $mainbar,
 		array $content,
+		MetaBar $metabar = null,
+		MainBar $mainbar = null,
 		Breadcrumbs $locator = null,
 		Image $logo = null
 	) {
@@ -63,6 +75,64 @@ class Standard implements Page\Standard {
 		$this->logo = $logo;
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withMetabar(Metabar $meta_bar): Page\Standard {
+		$clone = clone $this;
+		$clone->metabar = $meta_bar;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withMainbar(Mainbar $main_bar): Page\Standard {
+		$clone = clone $this;
+		$clone->mainbar = $main_bar;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withLogo(Image $logo): Page\Standard {
+		$clone = clone $this;
+		$clone->logo = $logo;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasMetabar(): bool {
+		return ($this->metabar instanceof MetaBar);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasMainbar(): bool {
+		return ($this->mainbar instanceof MainBar);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasLogo(): bool {
+		return ($this->logo instanceof Image);
+	}
+
+
 	/**
 	 * @inheritdoc
 	 */
@@ -70,6 +140,7 @@ class Standard implements Page\Standard {
 	{
 		return $this->content;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -79,6 +150,7 @@ class Standard implements Page\Standard {
 		return $this->metabar;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -86,6 +158,7 @@ class Standard implements Page\Standard {
 	{
 		return $this->mainbar;
 	}
+
 
 	/**
 	 * @inheritdoc
@@ -95,6 +168,7 @@ class Standard implements Page\Standard {
 		return $this->breadcrumbs;
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -103,9 +177,11 @@ class Standard implements Page\Standard {
 		return $this->logo;
 	}
 
+
 	/**
-	 * @param 	bool 	$use_headers
-	 * @return 	Page
+	 * @param    bool $use_headers
+	 *
+	 * @return    Page
 	 */
 	public function withHeaders($use_headers): Page
 	{
@@ -114,12 +190,30 @@ class Standard implements Page\Standard {
 		return $clone;
 	}
 
+
 	/**
-	 * @return 	bool
+	 * @return    bool
 	 */
 	public function getWithHeaders()
 	{
 		return $this->with_headers;
 	}
 
+	/**
+	 * @return    bool
+	 */
+	public function getIsUIDemo(): bool
+	{
+		return $this->ui_demo;
+	}
+
+	/**
+	 * @return    bool
+	 */
+	public function withUIDemo(bool $switch=true): Standard
+	{
+		$clone = clone $this;
+		$clone->ui_demo = $switch;
+		return $clone;
+	}
 }

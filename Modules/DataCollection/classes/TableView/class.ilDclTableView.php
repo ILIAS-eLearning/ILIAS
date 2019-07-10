@@ -249,9 +249,12 @@ class ilDclTableView extends ActiveRecord {
 		return ilDclTableViewFieldSetting::where(
 			array(
 				"tableview_id" => $this->id,
-				'in_filter'    => 1,
+				'in_filter' => 1,
+				'il_dcl_tfield_set.table_id' => $this->getTableId(),
 			)
-		)->get();
+		)->innerjoin('il_dcl_tfield_set', 'field', 'field', array())
+			->orderBy('il_dcl_tfield_set.field_order')
+			->get();
 	}
 
 

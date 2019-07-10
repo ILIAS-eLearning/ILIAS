@@ -160,7 +160,6 @@ class ilMailTest extends \ilMailBaseTest
 			'Subject',
 			'Message',
 			[],
-			['normal'],
 			false
 		);
 

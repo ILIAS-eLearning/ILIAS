@@ -1,9 +1,13 @@
 <?php
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Provider\NullProviderFactory;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
@@ -16,11 +20,7 @@ require_once('./libs/composer/vendor/autoload.php');
  * Class FactoryImplTest
  *
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
- *
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
+
  */
 class FactoryImplTest extends TestCase {
 
@@ -49,7 +49,7 @@ class FactoryImplTest extends TestCase {
 	protected function setUp(): void{
 		parent::setUp();
 
-		$this->identification = new IdentificationFactory();
+		$this->identification = new IdentificationFactory(new NullProviderFactory());
 		$this->provider = \Mockery::mock(StaticMainMenuProvider::class);
 		$this->provider->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
 

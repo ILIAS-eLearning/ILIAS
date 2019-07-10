@@ -53,6 +53,7 @@ class ilMailGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withAction("ilias.php?baseClass=ilMailGUI")
 			        ->withParent($this->getTopItem())
 			        ->withPosition(8)
+			        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("mail", ""))
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {

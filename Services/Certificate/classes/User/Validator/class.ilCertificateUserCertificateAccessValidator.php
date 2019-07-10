@@ -6,40 +6,40 @@
  */
 class ilCertificateUserCertificateAccessValidator
 {
-	/**
-	 * @var ilUserCertificateRepository
-	 */
-	private $userCertificateRepository;
+    /**
+     * @var ilUserCertificateRepository
+     */
+    private $userCertificateRepository;
 
-	/**
-	 * ilCertificateHasUserCertificateValidator constructor.
-	 * @param ilUserCertificateRepository|null $userCertificateRepository
-	 */
-	public function __construct(ilUserCertificateRepository $userCertificateRepository = null)
-	{
-		if (null === $userCertificateRepository) {
-			global $DIC;
-			$database = $DIC->database();
-			$logger = $DIC->logger()->cert();
+    /**
+     * ilCertificateHasUserCertificateValidator constructor.
+     * @param ilUserCertificateRepository|null $userCertificateRepository
+     */
+    public function __construct(ilUserCertificateRepository $userCertificateRepository = null)
+    {
+        if (null === $userCertificateRepository) {
+            global $DIC;
+            $database = $DIC->database();
+            $logger = $DIC->logger()->cert();
 
-			$userCertificateRepository = new ilUserCertificateRepository($database, $logger);
-		}
-		$this->userCertificateRepository = $userCertificateRepository;
-	}
+            $userCertificateRepository = new ilUserCertificateRepository($database, $logger);
+        }
+        $this->userCertificateRepository = $userCertificateRepository;
+    }
 
-	/**
-	 * @param int $userId
-	 * @param int $objId
-	 * @return bool
-	 */
-	public function validate(int $userId, int $objId)
-	{
-		try {
-			$this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
-		} catch (ilException $exception) {
-			return false;
-		}
+    /**
+     * @param int $userId
+     * @param int $objId
+     * @return bool
+     */
+    public function validate(int $userId, int $objId)
+    {
+        try {
+            $this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
+        } catch (ilException $exception) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

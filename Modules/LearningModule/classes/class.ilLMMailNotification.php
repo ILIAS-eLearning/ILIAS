@@ -95,7 +95,7 @@ class ilLMMailNotification extends ilMailNotification
 					$this->appendBody("\n");
 					$this->appendBody($this->createPermanentLink(array(), ""));
 					$this->getMail()->appendInstallationSignature(true);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 

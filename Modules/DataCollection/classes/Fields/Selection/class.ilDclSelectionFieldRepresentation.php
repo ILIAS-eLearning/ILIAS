@@ -109,10 +109,12 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 		$input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
 
 		$options = ilDclSelectionOption::getAllForField($this->getField()->getId());
-		$array = array('' => $this->lng->txt('dcl_any'));
+		$array = array('' => $this->lng->txt('dcl_all_entries'));
 		foreach ($options as $opt) {
 			$array[$opt->getOptId()] = $opt->getValue();
 		}
+
+		$array['none'] = $this->lng->txt('dcl_no_entry');
 
 		$input->setOptions($array);
 

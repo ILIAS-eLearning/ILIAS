@@ -12,8 +12,6 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
 
 /**
  * This implements the group input.
@@ -28,20 +26,19 @@ class Group extends Input implements C\Input\Field\Group {
 	 *
 	 * @param DataFactory           $data_factory
 	 * @param ValidationFactory     $validation_factory
-	 * @param TransformationFactory $transformation_factory
+	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param InputInternal[]       $inputs
 	 * @param                       $label
 	 * @param                       $byline
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		array $inputs,
 		string $label,
-		string $byline
+		string $byline = null
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		parent::__construct($data_factory, $refinery, $label, $byline);
 		$this->checkArgListElements("inputs", $inputs, InputInternal::class);
 		$this->inputs = $inputs;
 	}

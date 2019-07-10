@@ -18,11 +18,6 @@ class Factory implements \ILIAS\UI\Factory
 	protected $counter_factory;
 
 	/**
-	 * @var C\Glyph\Factory
-	 */
-	protected $glyph_factory;
-
-	/**
 	 * @var C\Button\Factory
 	 */
 	protected $button_factory;
@@ -78,11 +73,6 @@ class Factory implements \ILIAS\UI\Factory
 	protected $item_factory;
 
 	/**
-	 * @var C\Icon\Factory
-	 */
-	protected $icon_factory;
-
-	/**
 	 * @var C\ViewControl\Factory
 	 */
 	protected $viewcontrol_factory;
@@ -103,33 +93,42 @@ class Factory implements \ILIAS\UI\Factory
 	protected $table_factory;
 
 	/**
+	 * @var Component\MessageBox\Factory
+	 */
+	protected $messagebox_factory;
+
+	/**
 	 * @var C\Card\Factory
 	 */
 	protected $card_factory;
 
-    /**
-     * @var Component\MessageBox\Factory
-     */
-    protected $messagebox_factory;
+	/**
+	 * @var C\Menu\Factory
+	 */
+	protected $menu_factory;
 
-    /**
-     * @var Component\Layout\Factory
-     */
-    protected $layout_factory;
+	/**
+	 * @var Component\Layout\Factory
+	 */
+	protected $layout_factory;
 
-    /**
-     * @var Component\MainControls\Factory
-     */
-    protected $maincontrols_factory;
+	/**
+	 * @var Component\MainControls\Factory
+	 */
+	protected $maincontrols_factory;
 
 	/**
 	 * @var C\Tree\Factory
 	 */
 	protected $tree_factory;
 
+	/**
+	 * @var C\Symbol\Factory
+	 */
+	protected $symbol_factory;
+
 	public function __construct(
 		C\Counter\Factory $counter_factory,
-		C\Glyph\Factory $glyph_factory,
 		C\Button\Factory $button_factory,
 		C\Listing\Factory $listing_factory,
 		C\Image\Factory	$image_factory,
@@ -141,7 +140,6 @@ class Factory implements \ILIAS\UI\Factory
 		C\Link\Factory $link_factory,
 		C\Dropdown\Factory $dropdown_factory,
 		C\Item\Factory $item_factory,
-		C\Icon\Factory $icon_factory,
 		C\ViewControl\Factory $viewcontrol_factory,
 		C\Chart\Factory $chart_factory,
 		C\Input\Factory $input_factory,
@@ -150,10 +148,11 @@ class Factory implements \ILIAS\UI\Factory
 		C\Card\Factory $card_factory,
 		C\Layout\Factory $layout_factory,
 		C\MainControls\Factory $maincontrols_factory,
-		C\Tree\Factory $tree_factory
+		C\Tree\Factory $tree_factory,
+		C\Menu\Factory $menu_factory,
+		C\Symbol\Factory $symbol_factory
 	) {
 		$this->counter_factory = $counter_factory;
-		$this->glyph_factory = $glyph_factory;
 		$this->button_factory = $button_factory;
 		$this->listing_factory = $listing_factory;
 		$this->image_factory = $image_factory;
@@ -165,7 +164,6 @@ class Factory implements \ILIAS\UI\Factory
 		$this->link_factory = $link_factory;
 		$this->dropdown_factory = $dropdown_factory;
 		$this->item_factory = $item_factory;
-		$this->icon_factory = $icon_factory;
 		$this->viewcontrol_factory = $viewcontrol_factory;
 		$this->chart_factory = $chart_factory;
 		$this->input_factory = $input_factory;
@@ -175,6 +173,8 @@ class Factory implements \ILIAS\UI\Factory
 		$this->layout_factory = $layout_factory;
 		$this->maincontrols_factory = $maincontrols_factory;
 		$this->tree_factory = $tree_factory;
+		$this->menu_factory = $menu_factory;
+		$this->symbol_factory = $symbol_factory;
 	}
 
 	/**
@@ -183,14 +183,6 @@ class Factory implements \ILIAS\UI\Factory
 	public function counter()
 	{
 		return $this->counter_factory;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function glyph()
-	{
-		return $this->glyph_factory;
 	}
 
 	/**
@@ -305,13 +297,6 @@ class Factory implements \ILIAS\UI\Factory
 		return $this->item_factory;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function icon()
-	{
-		return $this->icon_factory;
-	}
 
 	/**
 	 * @inheritdoc
@@ -383,5 +368,21 @@ class Factory implements \ILIAS\UI\Factory
 	public function tree()
 	{
 		return $this->tree_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function menu(): C\Menu\Factory
+	{
+		return $this->menu_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function symbol(): C\Symbol\Factory
+	{
+		return $this->symbol_factory;
 	}
 }

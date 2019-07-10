@@ -34,7 +34,8 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		$this->setLimit(5);
 		$lng->loadLanguageModule("task");
 		$this->setTitle($lng->txt("task_derived_tasks"));
-		$this->setAvailableDetailLevels(2);
+
+		$this->setPresentation(self::PRES_SEC_LIST);
 	}
 
 	/**
@@ -78,43 +79,25 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		return $this->$cmd();
 	}
 
-	function getHTML()
-	{
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
-		}
-		else
-		{
-			return parent::getHTML();
-		}
-	}
-
 	/**
 	 * Fill data section
 	 */
 	function fillDataSection()
 	{
 		global $DIC;
-
 		$collector = $DIC->task()->derived()->factory()->collector();
 
 		$this->tasks = $collector->getEntries($this->user->getId());
 
-		if ($this->getCurrentDetailLevel() > 1 && count($this->tasks) > 0)
+		if (count($this->tasks) > 0)
 		{
 			$this->setRowTemplate("tpl.pd_tasks.html", "Services/Tasks");
 			$this->getListRowData();
-			//$this->setColSpan(2);
 			parent::fillDataSection();
 		}
 		else
 		{
 			$this->setEnableNumInfo(false);
-			if (count($this->tasks) == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -132,6 +115,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		{
 			$data[] = array(
 				"title" => $task->getTitle(),
+				"url" => $task->getUrl(),
 				"ref_id" => $task->getRefId(),
 				"deadline" => $task->getDeadline(),
 				"starting_time" => $task->getStartingTime()
@@ -164,9 +148,18 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		{
 			$obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
 			$obj_type = ilObject::_lookupType($obj_id);
-			$link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), ilLink::_getStaticLink($a_set["ref_id"]));
-			$info_screen->addProperty($lng->txt("obj_".$obj_type),
-				$renderer->render($link));
+			
+			if (0 === $a_set['url']) {
+				$url = ilLink::_getStaticLink($a_set["ref_id"]);
+			} else {
+				$url = $a_set['url'];
+			}
+			$link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
+
+			$info_screen->addProperty(
+				$lng->txt("obj_".$obj_type),
+				$renderer->render($link)
+			);
 		}
 
 		if ($a_set["starting_time"] > 0)
@@ -201,6 +194,72 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 
 		return '<div class="small">'.((int) count($this->tasks))." ".$lng->txt("task_derived_tasks")."</div>";
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getHTMLNew(): string
+	{
+		global $DIC;
+		$collector = $DIC->task()->derived()->factory()->collector();
+
+		$this->tasks = $collector->getEntries($this->user->getId());
+
+		$this->getListRowData();
+
+		return parent::getHTMLNew();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $data): \ILIAS\UI\Component\Item\Item
+	{
+		$factory = $this->ui->factory();
+		$lng = $this->lng;
+
+		$title = $data["title"];
+		if ($data["ref_id"] > 0)
+		{
+			$link = ilLink::_getStaticLink($data["ref_id"]);
+			$title = $factory->button()->shy($data["title"], $link);
+		}
+
+		$props = [];
+
+		if ($data["ref_id"] > 0)
+		{
+			$obj_id = ilObject::_lookupObjId($data["ref_id"]);
+			$obj_type = ilObject::_lookupType($obj_id);
+			$link = ilLink::_getStaticLink($data["ref_id"]);
+			$title = $factory->button()->shy($data["title"], $link);
+			$props[$lng->txt("obj_".$obj_type)] = ilObject::_lookupTitle($obj_id);
+		}
+
+		if ($data["starting_time"] > 0)
+		{
+			$start = new ilDateTime($data["starting_time"], IL_CAL_UNIX);
+			$props[$lng->txt("task_start")] = ilDatePresentation::formatDate($start);
+		}
+
+		if ($data["deadline"] > 0)
+		{
+			$end = new ilDateTime($data["deadline"], IL_CAL_UNIX);
+			$props[$lng->txt("task_deadline")] =
+				ilDatePresentation::formatDate($end);
+		}
+
+		$factory = $this->ui->factory();
+		return $factory->item()->standard($title)
+			->withProperties($props);
+	}
+
 }
 
 ?>

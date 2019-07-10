@@ -95,6 +95,13 @@ interface ilAdministrationCommandHandling
 	 * Cancel move/link
 	 */
 	public function cancelMoveLinkObject();
+
+	/**
+	 * cancel action but keep objects in clipboard
+	 * @return void
+	 */
+	public function keepObjectsInClipboardObject();
+
 	
 }
 ?>

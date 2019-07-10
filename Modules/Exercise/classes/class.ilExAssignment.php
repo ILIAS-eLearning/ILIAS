@@ -1325,8 +1325,26 @@ class ilExAssignment
 		
 		return $res->numRows() ? true : false;
 	}
-	
-	
+
+	/**
+	 * Lookup excercise id for assignment id
+	 *
+	 * @param int $a_ass_id
+	 * @return int
+	 */
+	public static function lookupExerciseId($a_ass_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = "SELECT exc_id FROM exc_assignment ".
+			"WHERE id = ".$ilDB->quote($a_ass_id,'integer');
+		$res = $ilDB->fetchAssoc($ilDB->query($query));
+
+		return (int) $res["exc_id"];
+	}
+
 	/**
 	 * Private lookup
 	 */
@@ -1890,14 +1908,17 @@ class ilExAssignment
 		if($a_event != "delete")
 		{										
 			include_once "Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php";
-			
-			if($this->getDeadline())
+
+			// deadline or relative deadline given
+			if($this->getDeadline() || $this->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE)
 			{					
 				$app = new ilCalendarAppointmentTemplate($dl_id);
 				$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 				$app->setSubtitle("cal_exc_deadline");
 				$app->setTitle($this->getTitle());				
 				$app->setFullday(false);
+				// note: in the case of a relative deadline this will be set to 0 / 1970...)
+				// see ilCalendarScheduleFilterExercise for appointment modification
 				$app->setStart(new ilDateTime($this->getDeadline(), IL_CAL_UNIX));			
 				
 				$apps[] = $app;

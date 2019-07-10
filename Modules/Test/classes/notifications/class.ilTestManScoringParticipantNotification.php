@@ -30,7 +30,7 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
 		$this->buildBody();
 
 		$this->sendMail(
-				$this->getRecipients(), array('system')
+				$this->getRecipients()
 		);
 	}
 	

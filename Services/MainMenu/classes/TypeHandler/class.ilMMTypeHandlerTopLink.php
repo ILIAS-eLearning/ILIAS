@@ -9,43 +9,48 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
+class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler
+{
 
-	public function matchesForType(): string {
-		return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem::class;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function enrichItem(isItem $item): isItem {
-		if ($item instanceof hasAction && isset($this->links[$item->getProviderIdentification()->serialize()])) {
-			$action = (string)$this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
-			$is_external = (bool)$this->links[$item->getProviderIdentification()->serialize()][self::F_EXTERNAL];
-			$item = $item->withAction($action)->withIsLinkToExternalAction($is_external);
-		}
-
-		return $item;
-	}
+    public function matchesForType() : string
+    {
+        return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem::class;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getFieldTranslation(): string {
-		global $DIC;
+    /**
+     * @inheritdoc
+     */
+    public function enrichItem(isItem $item) : isItem
+    {
+        if ($item instanceof hasAction && isset($this->links[$item->getProviderIdentification()->serialize()])) {
+            $action = (string) $this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
+            $is_external = (bool) $this->links[$item->getProviderIdentification()->serialize()][self::F_EXTERNAL];
+            $item = $item->withAction($action)->withIsLinkToExternalAction($is_external);
+        }
 
-		return $DIC->language()->txt("field_url");
-	}
+        return $item;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getFieldInfoTranslation(): string {
-		global $DIC;
+    /**
+     * @inheritDoc
+     */
+    protected function getFieldTranslation() : string
+    {
+        global $DIC;
 
-		return $DIC->language()->txt("field_url_info");
-	}
+        return $DIC->language()->txt("field_url");
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getFieldInfoTranslation() : string
+    {
+        global $DIC;
+
+        return $DIC->language()->txt("field_url_info");
+    }
 }

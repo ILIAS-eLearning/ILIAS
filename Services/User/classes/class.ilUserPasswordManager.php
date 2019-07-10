@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/User/exceptions/class.ilUserException.php';
 
 /**
  * Class ilUserPasswordManager
@@ -10,184 +8,217 @@ require_once 'Services/User/exceptions/class.ilUserException.php';
  */
 class ilUserPasswordManager
 {
-	/**
-	 * @var int
-	 */
-	const MIN_SALT_SIZE = 16;
+    /** @var int */
+    const MIN_SALT_SIZE = 16;
 
-	/**
-	 * @var self
-	 */
-	private static $instance;
+    /** @var self */
+    private static $instance;
 
-	/**
-	 * @var ilUserPasswordEncoderFactory
-	 */
-	protected $encoder_factory;
+    /** @var ilUserPasswordEncoderFactory */
+    protected $encoderFactory;
 
-	/**
-	 * @var string
-	 */
-	protected $encoder_name;
+    /** @var string */
+    protected $encoderName;
 
-	/**
-	 * @var array
-	 */
-	protected $config = array();
+    /** @var array */
+    protected $config = [];
 
-	/**
-	 * Please use the singleton method for instance creation
-	 * The constructor is still public because of the unit tests
-	 * @param array $config
-	 * @throws ilUserException
-	 */
-	public function __construct(array $config = array())
-	{
-		if(!empty($config))
-		{
-			foreach($config as $key => $value)
-			{
-				switch(strtolower($key))
-				{
-					case 'password_encoder':
-						$this->setEncoderName($value);
-						break;
-					case 'encoder_factory':
-						$this->setEncoderFactory($value);
-						break;
-				}
-			}
-		}
+    /** @var ilSetting|null */
+    protected $settings;
 
-		if(!$this->getEncoderName())
-		{
-			throw new ilUserException(sprintf('"password_encoder" must be set in %s.', json_encode($config)));
-		}
+    /** @var ilDBInterface */
+    protected $db;
 
-		if(!($this->getEncoderFactory() instanceof ilUserPasswordEncoderFactory))
-		{
-			throw new ilUserException(sprintf('"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.', json_encode($config)));
-		}
-	}
+    /**
+     * Please use the singleton method for instance creation
+     * The constructor is still public because of the unit tests
+     * @param array $config
+     * @throws ilUserException
+     */
+    public function __construct(array $config = [])
+    {
+        if (!empty($config)) {
+            foreach ($config as $key => $value) {
+                switch (strtolower($key)) {
+                    case 'settings':
+                        $this->setSettings($value);
+                        break;
+                    case 'db':
+                        $this->setDb($value);
+                        break;
+                    case 'password_encoder':
+                        $this->setEncoderName($value);
+                        break;
+                    case 'encoder_factory':
+                        $this->setEncoderFactory($value);
+                        break;
+                }
+            }
+        }
 
-	/**
-	 * Single method to reduce footprint (included files, created instances)
-	 * @return self
-	 */
-	public static function getInstance()
-	{
-		if(self::$instance instanceof self)
-		{
-			return self::$instance;
-		}
+        if (!$this->getEncoderName()) {
+            throw new ilUserException(sprintf('"password_encoder" must be set in %s.', json_encode($config)));
+        }
 
-		require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
-		$password_manager = new ilUserPasswordManager(
-			array(
-				'encoder_factory' => new ilUserPasswordEncoderFactory(
-					array(
-						'default_password_encoder' => 'bcryptphp',
-						'ignore_security_flaw'     => true,
-						'data_directory'           => ilUtil::getDataDir()
-					)
-				),
-				'password_encoder' => 'bcryptphp'
-			)
-		);
+        if (!($this->getEncoderFactory() instanceof ilUserPasswordEncoderFactory)) {
+            throw new ilUserException(sprintf(
+                '"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.',
+                json_encode($config)
+            ));
+        }
+    }
 
-		self::$instance = $password_manager;
-		return self::$instance;
-	}
+    /**
+     * Single method to reduce footprint (included files, created instances)
+     * @return self
+     * @throws ilUserException
+     * @throws ilPasswordException
+     */
+    public static function getInstance() : self
+    {
+        global $DIC;
 
-	/**
-	 * @return string
-	 */
-	public function getEncoderName()
-	{
-		return $this->encoder_name;
-	}
+        if (self::$instance instanceof self) {
+            return self::$instance;
+        }
 
-	/**
-	 * @param string $encoder_name
-	 */
-	public function setEncoderName($encoder_name)
-	{
-		$this->encoder_name = $encoder_name;
-	}
+        $password_manager = new ilUserPasswordManager(
+            [
+                'encoder_factory'  => new ilUserPasswordEncoderFactory(
+                    [
+                        'default_password_encoder' => 'bcryptphp',
+                        'ignore_security_flaw'     => true,
+                        'data_directory'           => ilUtil::getDataDir()
+                    ]
+                ),
+                'password_encoder' => 'bcryptphp',
+                'settings'         => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
+                'db'               => $DIC->database(),
+            ]
+        );
 
-	/**
-	 * @return ilUserPasswordEncoderFactory
-	 */
-	public function getEncoderFactory()
-	{
-		return $this->encoder_factory;
-	}
+        self::$instance = $password_manager;
+        return self::$instance;
+    }
 
-	/**
-	 * @param ilUserPasswordEncoderFactory $encoder_factory
-	 */
-	public function setEncoderFactory(ilUserPasswordEncoderFactory $encoder_factory)
-	{
-		$this->encoder_factory = $encoder_factory;
-	}
-	
-	/**
-	 * @param ilObjUser $user
-	 * @param string $raw The raw password
-	 */
-	public function encodePassword(ilObjUser $user, $raw)
-	{
-		$encoder = $this->getEncoderFactory()->getEncoderByName($this->getEncoderName());
-		$user->setPasswordEncodingType($encoder->getName());
-		if($encoder->requiresSalt())
-		{
-			require_once 'Services/Password/classes/class.ilPasswordUtils.php';
-			$user->setPasswordSalt(
-				substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(self::MIN_SALT_SIZE))), 0, 22)
-			);
-		}
-		else
-		{
-			$user->setPasswordSalt(null);
-		}
-		$user->setPasswd($encoder->encodePassword($raw, $user->getPasswordSalt()), IL_PASSWD_CRYPTED);
-	}
+    /**
+     * @param ilSetting|null $settings
+     */
+    public function setSettings(?ilSetting $settings) : void
+    {
+        $this->settings = $settings;
+    }
 
-	/**
-	 * @param string $name
-	 * @return bool
-	 */
-	public function isEncodingTypeSupported($name)
-	{
-		return in_array($name, $this->getEncoderFactory()->getSupportedEncoderNames());
-	}
+    /**
+     * @param ilDBInterface $db
+     */
+    public function setDb(ilDBInterface $db) : void
+    {
+        $this->db = $db;
+    }
 
-	/**
-	 * @param  ilObjUser $user
-	 * @param  string    $raw
-	 * @return bool
-	 */
-	public function verifyPassword(ilObjUser $user, $raw)
-	{
-		$encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
-		if($this->getEncoderName() != $encoder->getName())
-		{
-			if($encoder->isPasswordValid($user->getPasswd(), $raw, $user->getPasswordSalt()))
-			{
-				$user->resetPassword($raw, $raw);
-				return true;
-			}
-		}
-		else if($encoder->isPasswordValid($user->getPasswd(), $raw, $user->getPasswordSalt()))
-		{
-			if($encoder->requiresReencoding($user->getPasswd()))
-			{
-				$user->resetPassword($raw, $raw);
-			}
+    /**
+     * @return string|null
+     */
+    public function getEncoderName() : ?string
+    {
+        return $this->encoderName;
+    }
 
-			return true;
-		}
+    /**
+     * @param string $encoderName
+     */
+    public function setEncoderName(string $encoderName) : void
+    {
+        $this->encoderName = $encoderName;
+    }
 
-		return false;
-	}
+    /**
+     * @return ilUserPasswordEncoderFactory|null
+     */
+    public function getEncoderFactory() : ?ilUserPasswordEncoderFactory
+    {
+        return $this->encoderFactory;
+    }
+
+    /**
+     * @param ilUserPasswordEncoderFactory $encoderFactory
+     */
+    public function setEncoderFactory(ilUserPasswordEncoderFactory $encoderFactory) : void
+    {
+        $this->encoderFactory = $encoderFactory;
+    }
+
+    /**
+     * @param ilObjUser $user
+     * @param string    $raw The raw password
+     * @throws ilUserException
+     */
+    public function encodePassword(ilObjUser $user, string $raw) : void
+    {
+        $encoder = $this->getEncoderFactory()->getEncoderByName($this->getEncoderName());
+        $user->setPasswordEncodingType($encoder->getName());
+        if ($encoder->requiresSalt()) {
+            $user->setPasswordSalt(
+                substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(self::MIN_SALT_SIZE))), 0, 22)
+            );
+        } else {
+            $user->setPasswordSalt(null);
+        }
+        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), IL_PASSWD_CRYPTED);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function isEncodingTypeSupported(string $name) : bool
+    {
+        return in_array($name, $this->getEncoderFactory()->getSupportedEncoderNames());
+    }
+
+    /**
+     * @param ilObjUser $user
+     * @param string    $raw
+     * @return bool
+     * @throws ilUserException
+     */
+    public function verifyPassword(ilObjUser $user, string $raw) : bool
+    {
+        $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
+        if ($this->getEncoderName() != $encoder->getName()) {
+            if ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+                $user->resetPassword($raw, $raw);
+                return true;
+            }
+        } elseif ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+            if ($encoder->requiresReencoding((string) $user->getPasswd())) {
+                $user->resetPassword($raw, $raw);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     *
+     */
+    public function resetLastPasswordChangeForLocalUsers() : void
+    {
+        $defaultAuthMode          = $this->settings->get('auth_mode');
+        $defaultAuthModeCondition = '';
+        if ((int) $defaultAuthMode === (int) AUTH_LOCAL) {
+            $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');
+        }
+
+        $this->db->manipulateF("
+			UPDATE usr_data
+			SET passwd_policy_reset = %s
+			WHERE (auth_mode = %s $defaultAuthModeCondition)",
+            ['integer', 'text'],
+            [1, 'local']
+        );
+    }
 } 

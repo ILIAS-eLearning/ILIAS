@@ -11,44 +11,45 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ItemInformation {
+interface ItemInformation
+{
 
-	/**
-	 * @param isItem $item
-	 *
-	 * @return bool
-	 */
-	public function isItemActive(isItem $item): bool;
-
-
-	/**
-	 * @param isChild $child
-	 *
-	 * @return int
-	 */
-	public function getPositionOfSubItem(isChild $child): int;
+    /**
+     * @param isItem $item
+     *
+     * @return bool
+     */
+    public function isItemActive(isItem $item) : bool;
 
 
-	/**
-	 * @param isTopItem $top_item
-	 *
-	 * @return int
-	 */
-	public function getPositionOfTopItem(isTopItem $top_item): int;
+    /**
+     * @param isChild $child
+     *
+     * @return int
+     */
+    public function getPositionOfSubItem(isChild $child) : int;
 
 
-	/**
-	 * @param hasTitle $item
-	 *
-	 * @return hasTitle
-	 */
-	public function translateItemForUser(hasTitle $item): hasTitle;
+    /**
+     * @param isTopItem $top_item
+     *
+     * @return int
+     */
+    public function getPositionOfTopItem(isTopItem $top_item) : int;
 
 
-	/**
-	 * @param isChild $item
-	 *
-	 * @return IdentificationInterface
-	 */
-	public function getParent(isChild $item): IdentificationInterface;
+    /**
+     * @param hasTitle $item
+     *
+     * @return hasTitle
+     */
+    public function translateItemForUser(hasTitle $item) : hasTitle;
+
+
+    /**
+     * @param isChild $item
+     *
+     * @return IdentificationInterface
+     */
+    public function getParent(isChild $item) : IdentificationInterface;
 }

@@ -8,16 +8,17 @@ use ilGlobalCache;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface StorageFacade {
+interface StorageFacade
+{
 
-	/**
-	 * @return ilGlobalCache
-	 */
-	public function cache(): ilGlobalCache;
+    /**
+     * @return ilGlobalCache
+     */
+    public function cache() : ilGlobalCache;
 
 
-	/**
-	 * @return ilDBInterface
-	 */
-	public function db(): ilDBInterface;
+    /**
+     * @return ilDBInterface
+     */
+    public function db() : ilDBInterface;
 }

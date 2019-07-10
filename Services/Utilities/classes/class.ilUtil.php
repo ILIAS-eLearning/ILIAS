@@ -715,7 +715,7 @@ class ilUtil
 		$layout_next = "&gt;&gt;";
 
 		// layout options
-		if (count($ALayout > 0))
+		if ((is_array($ALayout) && (count($ALayout) > 0)))
 		{
 			if ($ALayout["link"])
 			{
@@ -2838,18 +2838,15 @@ class ilUtil
 			$numberOfMatches = preg_match_all('/(?:(?:http|https|ftp|ftps|mailto):|www\.)(?:[a-zA-Z0-9]|[;\/?:|&=+$,]|[\\-_.!~*\'()]|%[0-9a-fA-F]{2}|#|[;?:@&=+$,])+/',$a_str, $matches, PREG_OFFSET_CAPTURE);
 			$pos1 = 0;
 			$encoded = "";
-			foreach ($matches as $match)
-			{
-			}
+
 			foreach ($matches[0] as $match)
 			{
 				$matched_text = $match[0];
 				$pos2 = $match[1];
-				if ($matched_offset != previous_offset)
-				{
-					// encode plain text
-					$encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1, $pos2 - $pos1)));
-				}
+
+				// encode plain text
+				$encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1, $pos2 - $pos1)));
+
 				// encode URI
 				$encoded .= ilUtil::makeClickable($matched_text, $a_detect_goto_links);
 

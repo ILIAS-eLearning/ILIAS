@@ -77,9 +77,9 @@ class ilObjStudyProgrammeSettingsGUI {
 	protected $request;
 
 	/**
-	 * @var ILIAS\Transformation\Factory
+	 * @var \ILIAS\Refinery\Factory
 	 */
-	protected $trafo_factory;
+	private $refinery;
 
 	public function __construct($a_parent_gui, $a_ref_id) {
 		global $DIC;
@@ -92,6 +92,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$lng = $DIC['lng'];
 		$ilLog = $DIC['ilLog'];
 		$ilias = $DIC['ilias'];
+		$refinery = $DIC->refinery();
 
 		$this->parent_gui = $a_parent_gui;
 		$this->ref_id = $a_ref_id;
@@ -109,9 +110,8 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->input_factory = $DIC->ui()->factory()->input();
 		$this->renderer = $DIC->ui()->renderer();
 		$this->request = $DIC->http()->request();
-		$this->trafo_factory = new \ILIAS\Transformation\Factory(); // TODO: replace this with the version from the DIC once available
 		$this->data = new \ILIAS\Data\Factory();
-		$this->validation = new \ILIAS\Validation\Factory($this->data, $this->lng);
+		$this->refinery = $refinery;
 		
 		$this->object = null;
 
@@ -219,7 +219,6 @@ class ilObjStudyProgrammeSettingsGUI {
 
 	protected function buildForm(\ilObjStudyProgramme $prg, string $submit_action) : ILIAS\UI\Component\Input\Container\Form\Standard {
 		$ff = $this->input_factory->field();
-		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
 		$sp_types = ilStudyProgrammeType::getAllTypesArray();
 		$status_options = self::getStatusOptions();
@@ -244,7 +243,7 @@ class ilObjStudyProgrammeSettingsGUI {
 						self::PROP_TYPE =>
 							$ff->select($txt("type"), $sp_types)
 								->withValue($prg->getSubtypeId() == 0 ? "" : $prg->getSubtypeId())
-								->withAdditionalTransformation($tf->custom(function($v) {
+								->withAdditionalTransformation($this->refinery->custom()->transformation(function($v) {
 									if ($v == "") {
 										return 0;
 									}
@@ -259,7 +258,7 @@ class ilObjStudyProgrammeSettingsGUI {
 						self::PROP_POINTS =>
 							$ff->numeric($txt("prg_points"))
 								->withValue((string)$prg->getPoints())
-								->withAdditionalConstraint($this->validation->greaterThan(-1)),
+								->withAdditionalConstraint($this->refinery->int()->isGreaterThan(-1)),
 						self::PROP_STATUS =>
 							$ff->select($txt("prg_status"), $status_options)
 								->withValue((string)$prg->getStatus())
@@ -270,7 +269,7 @@ class ilObjStudyProgrammeSettingsGUI {
 				)
 			]
 		)
-		->withAdditionalTransformation($tf->custom(function($values) {
+		->withAdditionalTransformation($this->refinery->custom()->transformation(function($values) {
 			// values now contains the results of the single sections,
 			// i.e. a list of arrays that each contains keys according
 			// to the section they originated from.

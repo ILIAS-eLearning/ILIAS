@@ -29,9 +29,9 @@ class StandardPageTest extends ILIAS_UI_TestBase
 
 		$this->factory = new Page\Factory();
 		$this->stdpage = $this->factory->standard(
+			$this->contents,
 			$this->metabar,
 			$this->mainbar,
-			$this->contents,
 			$this->crumbs,
 			$this->logo
 		);

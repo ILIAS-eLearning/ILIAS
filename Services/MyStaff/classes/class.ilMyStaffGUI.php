@@ -22,7 +22,7 @@ class ilMyStaffGUI {
 		$DIC->language()->loadLanguageModule('trac');
 
 		// get the standard template
-		$DIC->ui()->mainTemplate()->getStandardTemplate();
+		$DIC->ui()->mainTemplate()->loadStandardTemplate();
 		$DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_my_staff'));
 	}
 
@@ -53,7 +53,7 @@ class ilMyStaffGUI {
 				break;
 		}
 
-		$DIC->ui()->mainTemplate()->show();
+		$DIC->ui()->mainTemplate()->printToStdout();
 	}
 
 

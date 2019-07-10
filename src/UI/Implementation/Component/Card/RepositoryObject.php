@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component\Card as C;
-use ILIAS\UI\Component\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use ILIAS\UI\Component\Dropdown\Dropdown;
 

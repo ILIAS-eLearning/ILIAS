@@ -12,10 +12,8 @@ use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
-use \ILIAS\Transformation\Factory as TransformationFactory;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use ILIAS\Refinery;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -74,11 +72,11 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	protected function buildInputFactory() {
 		$df = new Data\Factory();
+		$language = $this->createMock(\ilLanguage::class);
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
-			new Transformation\Factory()
+			new \ILIAS\Refinery\Factory($df, $language)
 		);
 	}
 
@@ -89,9 +87,11 @@ class FormTest extends ILIAS_UI_TestBase {
 
 
 	protected function buildTransformation(\Closure $trafo) {
-		$f = new TransformationFactory();
+		$dataFactory = new Data\Factory();
+		$language = $this->createMock(\ilLanguage::class);
+		$refinery = new \ILIAS\Refinery\Factory($dataFactory, $language);
 
-		return $f->custom($trafo);
+		return $refinery->custom()->transformation($trafo);
 	}
 
 

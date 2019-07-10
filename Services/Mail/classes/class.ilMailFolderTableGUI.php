@@ -594,7 +594,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 				}
 				$this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
 				$mail['attachment_indicator'] = $this->uiRenderer->render(
-					$this->uiFactory->glyph()->attachment(
+					$this->uiFactory->symbol()->glyph()->attachment(
 						$this->ctrl->getLinkTarget($this->getParentObject(), 'deliverAttachments')
 					)
 				);

@@ -12,6 +12,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Image\Image;
 
 class Renderer extends AbstractComponentRenderer {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -23,28 +24,66 @@ class Renderer extends AbstractComponentRenderer {
 		}
 	}
 
+
 	protected function renderStandardPage(Component\Layout\Page\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
-		$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
-		$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
-
-		$breadcrumbs = $component->getBreadcrumbs();
-		if($breadcrumbs) {
-			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+		if ($component->hasMetabar()) {
+			$tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
+		}
+		if ($component->hasMainbar()) {
+			$tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
 		}
 
-		$logo = $component->getLogo();
-		if($logo) {
-			$tpl->setVariable("LOGO", $default_renderer->render($logo));
+		$breadcrumbs = $component->getBreadcrumbs();
+		if ($breadcrumbs && $breadcrumbs->getItems()) {
+			$tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
+
+			$dropdown = $this->convertBreadcrumbsToDropdownLocator($breadcrumbs);
+			$tpl->setVariable('HEADER_BREADCRUMBS', $default_renderer->render($dropdown));
+		}
+		if ($component->hasLogo()) {
+			$logo = $component->getLogo();
+			if ($logo) {
+				$tpl->setVariable("LOGO", $default_renderer->render($logo));
+			}
 		}
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
-		if($component->getWithHeaders()) {
-			$tpl = $this->setHeaderVars($tpl);
+		$component = $component->withOnLoadCode(
+			function($id) {
+				return "$(document).ready(function() {
+					il.UI.page.init();
+				});";
+			}
+		);
+		$id = $this->bindJavaScript($component);
+		$tpl->setVariable('ID', $id);
+
+		if ($component->getWithHeaders()) {
+			$tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
 		}
+
 		return $tpl->get();
+	}
+
+	protected function convertBreadcrumbsToDropdownLocator(
+		Component\Breadcrumbs\Breadcrumbs $breadcrumbs
+	): Component\Dropdown\Dropdown
+	{
+		$f = $this->getUIFactory();
+		$buttons = [];
+		$items = array_reverse($breadcrumbs->getItems());
+		$current = array_shift($items);
+		foreach ($items as $item) {
+			$button = $f->button()->shy(
+				$item->getLabel(),
+				$item->getAction()
+			);
+			$buttons[] = $button;
+		}
+		return $f->dropdown()->standard($buttons)->withLabel($current->getLabel());
 	}
 
 	/**
@@ -52,45 +91,55 @@ class Renderer extends AbstractComponentRenderer {
 	 * This is for now and the page-demo to work, lateron this must be replaced
 	 * with resources set as properties at the page or similar mechanisms.
 	 * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
+	 *
+	 * @param \ilGlobalPageTemplate $tpl
+	 *
+	 * @return \ilGlobalPageTemplate
+	 * @throws \ILIAS\UI\NotImplementedException
 	 */
-	protected function setHeaderVars($tpl) {
-
+	protected function setHeaderVars($tpl, bool $for_ui_demo = false) {
 		global $DIC;
 		$il_tpl = $DIC["tpl"];
 
-		$base_url = '../../../../../../';
+		$js_files = [];
+		$js_inline = [];
+		$css_files = [];
+		$css_inline = [];
 
-		// always load jQuery
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		\iljQueryUtil::initjQuery($il_tpl);
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
-		\ilUIFramework::init($il_tpl);
+		if ($il_tpl instanceof \ilGlobalPageTemplate) {
+			$layout = $DIC->globalScreen()->layout();
+			foreach ($layout->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
+				$js_files[] = $js->getContent();
+			}
+			foreach ($layout->meta()->getCss()->getItemsInOrderOfDelivery() as $css) {
+				$css_files[] = ['file' => $css->getContent(), 'media' => $css->getMedia()];
+			}
+			foreach ($layout->meta()->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
+				$css_inline[] = $inline_css->getContent();
+			}
+			foreach ($layout->meta()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
+				$js_inline[] = $on_load_code->getContent();
+			}
 
-		$il_js_files = $il_tpl->getJSFiles();
-		asort($il_js_files);
-
-		$js_files = array();
-		foreach($il_js_files as $il_js_file=>$batch) {
-			$js_files[] = $il_js_file;
+			$base_url = $layout->meta()->getBaseURL();
 		}
 
-		$css_files = array();
-		foreach($il_tpl->getCSSFiles() as $il_css_file) {
-			$css_files[] = $il_css_file['file'];
+		if($for_ui_demo) {
+			$base_url = '../../../../../../';
+
+			array_unshift($js_files, './Services/JavaScript/js/Basic.js');
+
+			include_once("./Services/UICore/classes/class.ilUIFramework.php");
+			foreach(\ilUIFramework::getJSFiles() as $il_js_file) {
+				array_unshift($js_files, $il_js_file);
+			}
+
+			include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+			array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
+			array_unshift($js_files, \iljQueryUtil::getLocaljQueryPath());
+
 		}
-		$css_files[] = \ilUtil::getStyleSheetLocation("filesystem", "delos.css");
-		$css_files[] = \ilUtil::getNewContentStyleSheetLocation();
 
-		$css_inline = $il_tpl->getInlineCSS();
-
-		$olc = '';
-		if($il_tpl->on_load_code) {
-			foreach ($il_tpl->on_load_code as $key => $value) {
-				$olc .= implode(PHP_EOL, $value);
-			 }
-		}
-
-		 //fill
 		foreach ($js_files as $js_file) {
 			$tpl->setCurrentBlock("js_file");
 			$tpl->setVariable("JS_FILE", $js_file);
@@ -98,14 +147,25 @@ class Renderer extends AbstractComponentRenderer {
 		}
 		foreach ($css_files as $css_file) {
 			$tpl->setCurrentBlock("css_file");
-			$tpl->setVariable("CSS_FILE", $css_file);
+			$tpl->setVariable("CSS_FILE", $css_file['file']);
+			$tpl->setVariable("CSS_MEDIA", $css_file['media']);
 			$tpl->parseCurrentBlock();
 		}
+
 		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
-		$tpl->setVariable("OLCODE", $olc);
+		$tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
 
 		$tpl->setVariable("BASE", $base_url);
+
 		return $tpl;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) {
+		parent::registerResources($registry);
+		$registry->register('./src/UI/templates/js/Page/stdpage.js');
 	}
 
 	/**

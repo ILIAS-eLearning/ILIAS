@@ -21,7 +21,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 	public function setUp(): void  {
 		$this->sig_gen = new I\SignalGenerator();
 		$this->button_factory = new I\Button\Factory($this->sig_gen);
-		$this->icon_factory = new I\Icon\Factory();
+		$this->icon_factory = new I\Symbol\Icon\Factory();
 	}
 
 	public function getUIFactory() {
@@ -30,7 +30,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 				return $this->button_factory;
 			}
 			public function glyph() {
-				return new I\Glyph\Factory();
+				return new I\Symbol\Glyph\Factory();
 			}
 			public function mainControls(): C\MainControls\Factory
 			{

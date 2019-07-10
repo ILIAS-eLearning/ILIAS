@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="de" dir="ltr">
+<html lang="de" dir="ltr" id="{ID}">
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,7 +12,7 @@
 	</style>
 
 	<!-- BEGIN css_file -->
-	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" />
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
 	<!-- END css_file -->
 
 	<!-- BEGIN js_file -->
@@ -30,6 +29,11 @@
 				<div class="il-logo">
 					{LOGO}
 				</div>
+				<!-- BEGIN header_locator -->
+				<nav class="il-header-locator">
+					{HEADER_BREADCRUMBS}
+				</nav>
+				<!-- END header_locator -->
 				{METABAR}
 			</div>
 		</header>
