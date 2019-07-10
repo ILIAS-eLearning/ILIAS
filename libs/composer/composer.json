@@ -37,7 +37,8 @@
 		"jumbojett/openid-connect-php": "^0.7.0",
 		"sabre/dav": "~3.2.2",
 		"slim/slim": "^3.11",
-		"symfony/console" : "^4.2"
+		"symfony/console" : "^4.2",
+		"ramsey/uuid": "^3.8"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -324,6 +325,17 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "2019-07-01"
 		},
+		"ramsey/uuid": {
+			"source": "https://github.com/ramsey/uuid",
+			"used_version": "v3.8",
+			"added_by": "Theodor Truffer <tt@studer-raimann.ch>",
+			"wrapped_by": null,
+			"last_update": "2019-07-10",
+			"last_update_by": "Theodor Truffer <tt@studer-raimann.ch>",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2019-07-15"
+		},
+
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
