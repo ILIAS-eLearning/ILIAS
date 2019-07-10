@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/class.ilMailTemplateContext.php';
@@ -9,47 +9,51 @@ require_once 'Services/Mail/classes/class.ilMailTemplateContext.php';
  */
 class ilMailTemplateGenericContext extends ilMailTemplateContext
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getId()
-	{
-		return 'mail_template_generic';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getId() : string
+    {
+        return 'mail_template_generic';
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getTitle()
-	{
-		global $DIC;
+    /**
+     * @inheritDoc
+     */
+    public function getTitle() : string
+    {
+        global $DIC;
 
-		return $DIC->language()->txt('please_choose');
-	}
+        return $DIC->language()->txt('please_choose');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getDescription()
-	{
-		global $DIC;
+    /**
+     * @inheritDoc
+     */
+    public function getDescription() : string
+    {
+        global $DIC;
 
-		return $DIC->language()->txt('please_choose');
-	}
+        return $DIC->language()->txt('please_choose');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getSpecificPlaceholders()
-	{
-		return array();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getSpecificPlaceholders() : array
+    {
+        return [];
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
-	{
-		return '';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function resolveSpecificPlaceholder(
+        string $placeholder_id,
+        array $context_parameters,
+        ilObjUser $recipient = null,
+        bool $html_markup = false
+    ) : string {
+        return '';
+    }
 }
