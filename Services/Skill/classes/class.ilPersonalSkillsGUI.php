@@ -24,6 +24,7 @@ class ilPersonalSkillsGUI
 	protected $gap_self_eval_levels = array();
 	protected $mode = "";
 	protected $history_view = false;
+	protected $trigger_objects_filter = array();
 	protected $intro_text = "";
 	protected $hidden_skills = array();
 
@@ -212,6 +213,22 @@ class ilPersonalSkillsGUI
 	function getHistoryView()
 	{
 		return $this->history_view;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getTriggerObjectsFilter()
+	{
+		return $this->trigger_objects_filter;
+	}
+	
+	/**
+	 * @param array $trigger_objects_filter
+	 */
+	public function setTriggerObjectsFilter($trigger_objects_filter)
+	{
+		$this->trigger_objects_filter = $trigger_objects_filter;
 	}
 	
 	/**
@@ -553,6 +570,11 @@ class ilPersonalSkillsGUI
 				// get all object triggered entries and render them
 				foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"] , $user->getId(), ilBasicSkill::EVAL_BY_ALL) as $level_entry)
 				{
+					if( count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter()) )
+					{
+						continue;
+					}
+					
 					// render the self evaluation at the correct position within the list of object triggered entries
 					if ($se_date > $level_entry["status_date"] && !$se_rendered)
 					{
