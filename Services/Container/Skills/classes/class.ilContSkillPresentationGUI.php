@@ -143,14 +143,10 @@ class ilContSkillPresentationGUI
 		
 		foreach($nodes as $node)
 		{
-			if( $node['child'] == $this->container->getRefId() )
-			{
-				continue; // @smeyer: or is any container able to provide competence records itself?
-			}
-
-			$objects[] = ilObject::_lookupObjectId($node['child']);
+			$objects[] = $node['obj_id'];
 		}
-		
+
+
 		return $objects;
 	}
 
