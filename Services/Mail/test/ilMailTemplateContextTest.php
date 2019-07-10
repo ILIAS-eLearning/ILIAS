@@ -72,12 +72,22 @@ class ilMailTemplateContextTest extends \ilMailBaseTest
             ->setMethods(['getUsers',])
             ->getMock();
 
+        $lng = $this
+            ->getMockBuilder(ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['txt',])
+            ->getMock();
+
         $ouSuperiorUser->expects($this->atLeastOnce())->method('getUserId')->willReturn(4712);
         $ouUser->expects($this->atLeastOnce())->method('getSuperiors')->willReturn([$ouSuperiorUser]);
         $ouUser->expects($this->atLeastOnce())->method('getUserId')->willReturn(4711);
         $ouService->expects($this->atLeastOnce())->method('getUsers')->willReturn([$ouUser]);
         
         $context = $this->getAnonymousTemplateContext($ouService);
+        $lng->expects($this->atLeastOnce())->method('txt')->willReturn($this->returnArgument(0));
+
+        $context->setLanguage($lng);
+        $this->setGlobalVariable('lng', $lng);
         
         $placeholderResolver = new ilMailTemplatePlaceholderResolver($context, implode('', [
             '[MAIL_SALUTATION]',
