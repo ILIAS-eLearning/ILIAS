@@ -54,7 +54,7 @@ abstract class ilMailTemplateContext
     /**
      * @return array
      */
-    final private static function getGenericPlaceholders() : array
+    final private function getGenericPlaceholders() : array
     {
         global $DIC;
 
@@ -101,7 +101,7 @@ abstract class ilMailTemplateContext
      */
     final public function getPlaceholders() : array
     {
-        $placeholders = self::getGenericPlaceholders();
+        $placeholders = $this->getGenericPlaceholders();
         $specific = $this->getSpecificPlaceholders();
 
         return $placeholders + $specific;
@@ -151,6 +151,7 @@ abstract class ilMailTemplateContext
 
         switch (true) {
             case ('mail_salutation' == $placeholder_id && $recipient !== null):
+                $resolved = $this->getLanguage()->txt('mail_salutation_n');
                 switch ($recipient->getGender()) {
                     case 'f':
                         $resolved = $this->getLanguage()->txt('mail_salutation_f');
@@ -163,9 +164,6 @@ abstract class ilMailTemplateContext
                     case 'n':
                         $resolved = $this->getLanguage()->txt('mail_salutation_n');
                         break;
-
-                    default:
-                        $resolved = $this->getLanguage()->txt('mail_salutation_n');
                 }
                 break;
 
@@ -211,9 +209,13 @@ abstract class ilMailTemplateContext
                 }
                 break;
 
-            case !in_array($placeholder_id, array_keys(self::getGenericPlaceholders())):
-                $resolved = $this->resolveSpecificPlaceholder($placeholder_id, $context_parameters, $recipient,
-                    $html_markup);
+            case !in_array($placeholder_id, array_keys($this->getGenericPlaceholders())):
+                $resolved = $this->resolveSpecificPlaceholder(
+                    $placeholder_id,
+                    $context_parameters,
+                    $recipient,
+                    $html_markup
+                );
                 break;
         }
 
@@ -231,12 +233,11 @@ abstract class ilMailTemplateContext
     }
 
     /**
-     * Init language by ISO2 code
-     * @param string $a_code
+     * @param string $languageCode
      */
-    protected function initLanguageByIso2Code(string $a_code) : void
+    protected function initLanguageByIso2Code(string $languageCode) : void
     {
-        $this->language = ilLanguageFactory::_getLanguage($a_code);
+        $this->language = ilLanguageFactory::_getLanguage($languageCode);
         $this->language->loadLanguageModule('mail');
     }
 }
