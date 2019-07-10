@@ -195,7 +195,7 @@ abstract class ilMailTemplateContext
 
             case 'firstname_last_name_superior' == $placeholder_id && $recipient !== null:
                 $ouService = new OrgUnitUserService();
-                $ouUsers = $ouService->getUsers([$recipient->getId()]);
+                $ouUsers = $ouService->getUsers([$recipient->getId()], true);
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
 
