@@ -38,14 +38,14 @@ class EventAR extends ActiveRecord {
 	protected $type_id;
 
 	/**
-	 * @var int
+	 * @var string
 	 *
 	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
+	 * @con_fieldtype   text
+	 * @con_length      128
 	 * @con_is_notnull  true
 	 */
-	protected $user_id;
+	protected $actor_login;
 
 	/**
 	 * @var int
@@ -77,19 +77,6 @@ class EventAR extends ActiveRecord {
 		$this->type_id = $type_id;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getUserId(): int {
-		return $this->user_id;
-	}
-
-	/**
-	 * @param int $user_id
-	 */
-	public function setUserId(int $user_id) {
-		$this->user_id = $user_id;
-	}
 
 	/**
 	 * @return int
@@ -105,5 +92,18 @@ class EventAR extends ActiveRecord {
 		$this->timestamp = $timestamp;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getActorLogin(): string {
+		return $this->actor_login;
+	}
+
+	/**
+	 * @param string $actor_login
+	 */
+	public function setActorLogin(string $actor_login) {
+		$this->actor_login = $actor_login;
+	}
 
 }

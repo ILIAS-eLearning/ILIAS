@@ -32,7 +32,17 @@ class MembershipEventAR extends ActiveRecord {
 	 * @con_length      4
 	 * @con_is_notnull  true
 	 */
-	protected $user_id;
+	protected $member_user_id;
+
+	/**
+	 * @var string
+	 *
+	 * @con_has_field   true
+	 * @con_fieldtype   text
+	 * @con_length      128
+	 * @con_is_notnull  true
+	 */
+	protected $member_login;
 
 	/**
 	 * @var int
@@ -61,15 +71,29 @@ class MembershipEventAR extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getUserId(): int {
-		return $this->user_id;
+	public function getMemberUserId(): int {
+		return $this->member_user_id;
 	}
 
 	/**
-	 * @param int $user_id
+	 * @param int $member_user_id
 	 */
-	public function setUserId(int $user_id) {
-		$this->user_id = $user_id;
+	public function setMemberUserId(int $member_user_id) {
+		$this->member_user_id = $member_user_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMemberLogin(): string {
+		return $this->member_login;
+	}
+
+	/**
+	 * @param string $member_login
+	 */
+	public function setMemberLogin(string $member_login) {
+		$this->member_login = $member_login;
 	}
 
 	/**

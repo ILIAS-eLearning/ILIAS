@@ -3,6 +3,9 @@
 namespace ILIAS\Changelog\Infrastructure\Repository;
 
 
+use getLogsOfUserRequest;
+use getLogsOfUserResponse;
+use ilDateTime;
 use ilDBInterface;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
 use ILIAS\Changelog\Events\Membership\MembershipRequestDenied;
@@ -10,6 +13,9 @@ use ILIAS\Changelog\Events\Membership\MembershipRequested;
 use ILIAS\Changelog\Events\Membership\SubscribedToCourse;
 use ILIAS\Changelog\Events\Membership\UnsubscribedFromCourse;
 use ILIAS\Changelog\Infrastructure\AR\EventAR;
+use ILIAS\Changelog\Infrastructure\AR\MembershipEventAR;
+use ILIAS\Changelog\Query\Responses\LogOfUser;
+use ilObjUser;
 
 /**
  * Class ilDBMembershipRepository
@@ -32,22 +38,37 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 		$this->database = $DIC->database();
 	}
 
+	/**
+	 * @param int $type_id
+	 * @param int $course_obj_id
+	 * @param int $agent_user_id
+	 * @param int $affected_user_id
+	 */
+	protected function saveMembershipEvent(int $type_id, int $course_obj_id, int $agent_user_id, int $affected_user_id) {
+		$event_ar = new EventAR();
+		$event_ar->setActorLogin(ilObjUser::_lookupLogin($agent_user_id));
+		$event_ar->setTypeId($type_id);
+		$event_ar->setTimestamp(time());
+		$event_ar->create();
+
+		$membership_event_ar = new MembershipEventAR();
+		$membership_event_ar->setMemberUserId($affected_user_id);
+		$membership_event_ar->setMemberLogin(ilObjUser::_lookupLogin($affected_user_id));
+		$membership_event_ar->setObjId($course_obj_id);
+		$membership_event_ar->setEventId($event_ar->getId());
+		$membership_event_ar->create();
+	}
 
 	/**
 	 * @param MembershipRequested $membershipRequested
 	 */
 	public function saveMembershipRequested(MembershipRequested $membershipRequested) {
-		$event_ar = new EventAR();
-		$event_ar->setUserId($membershipRequested->getRequestingUserId());
-		$event_ar->setTypeId($membershipRequested->getTypeId());
-		$event_ar->setTimestamp(time());
-		$event_ar->create();
-
-		$membership_event_ar = new MembershipEventAR();
-		$membership_event_ar->setUserId($membershipRequested->getRequestingUserId());
-		$membership_event_ar->setObjId($membershipRequested->getCrsObjId());
-		$membership_event_ar->setEventId($event_ar->getId());
-		$membership_event_ar->create();
+		$this->saveMembershipEvent(
+			$membershipRequested->getTypeId(),
+			$membershipRequested->getCrsObjId(),
+			$membershipRequested->getRequestingUserId(),
+			$membershipRequested->getRequestingUserId()
+		);
 	}
 
 
@@ -55,67 +76,83 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	 * @param MembershipRequestAccepted $membershipRequestAccepted
 	 */
 	public function saveMembershipRequestAccepted(MembershipRequestAccepted $membershipRequestAccepted) {
-		$event_ar = new EventAR();
-		$event_ar->setUserId($membershipRequestAccepted->getAcceptingUserId());
-		$event_ar->setTypeId($membershipRequestAccepted->getTypeId());
-		$event_ar->setTimestamp(time());
-		$event_ar->create();
-
-		$membership_event_ar = new MembershipEventAR();
-		$membership_event_ar->setUserId($membershipRequestAccepted->getRequestingUserId());
-		$membership_event_ar->setObjId($membershipRequestAccepted->getCrsObjId());
-		$membership_event_ar->setEventId($event_ar->getId());
-		$membership_event_ar->create();
+		$this->saveMembershipEvent(
+			$membershipRequestAccepted->getTypeId(),
+			$membershipRequestAccepted->getCrsObjId(),
+			$membershipRequestAccepted->getAcceptingUserId(),
+			$membershipRequestAccepted->getRequestingUserId()
+		);
 	}
 
 	/**
 	 * @param MembershipRequestDenied $membershipRequestDenied
 	 */
 	public function saveMembershipRequestDenied(MembershipRequestDenied $membershipRequestDenied) {
-		$event_ar = new EventAR();
-		$event_ar->setUserId($membershipRequestDenied->getDenyingUserId());
-		$event_ar->setTypeId($membershipRequestDenied->getTypeId());
-		$event_ar->setTimestamp(time());
-		$event_ar->create();
-
-		$membership_event_ar = new MembershipEventAR();
-		$membership_event_ar->setUserId($membershipRequestDenied->getRequestingUserId());
-		$membership_event_ar->setObjId($membershipRequestDenied->getCrsObjId());
-		$membership_event_ar->setEventId($event_ar->getId());
-		$membership_event_ar->create();
+		$this->saveMembershipEvent(
+			$membershipRequestDenied->getTypeId(),
+			$membershipRequestDenied->getCrsObjId(),
+			$membershipRequestDenied->getDenyingUserId(),
+			$membershipRequestDenied->getRequestingUserId()
+		);
 	}
 
 	/**
 	 * @param SubscribedToCourse $subscribedToCourse
 	 */
 	public function saveSubscribedToCourse(SubscribedToCourse $subscribedToCourse) {
-		$event_ar = new EventAR();
-		$event_ar->setUserId($subscribedToCourse->getSubscribingUserId());
-		$event_ar->setTypeId($subscribedToCourse->getTypeId());
-		$event_ar->setTimestamp(time());
-		$event_ar->create();
-
-		$membership_event_ar = new MembershipEventAR();
-		$membership_event_ar->setUserId($subscribedToCourse->getSubscribingUserId());
-		$membership_event_ar->setObjId($subscribedToCourse->getCrsObjId());
-		$membership_event_ar->setEventId($event_ar->getId());
-		$membership_event_ar->create();
+		$this->saveMembershipEvent(
+			$subscribedToCourse->getTypeId(),
+			$subscribedToCourse->getCrsObjId(),
+			$subscribedToCourse->getSubscribingUserId(),
+			$subscribedToCourse->getSubscribingUserId()
+		);
 	}
 
 	/**
 	 * @param UnsubscribedFromCourse $unsubscribedFromCourse
 	 */
 	public function saveUnsubscribedFromCourse(UnsubscribedFromCourse $unsubscribedFromCourse) {
-		$event_ar = new EventAR();
-		$event_ar->setUserId($unsubscribedFromCourse->getUnsubscribingUserId());
-		$event_ar->setTypeId($unsubscribedFromCourse->getTypeId());
-		$event_ar->setTimestamp(time());
-		$event_ar->create();
-
-		$membership_event_ar = new MembershipEventAR();
-		$membership_event_ar->setUserId($unsubscribedFromCourse->getUnsubscribingUserId());
-		$membership_event_ar->setObjId($unsubscribedFromCourse->getCrsObjId());
-		$membership_event_ar->setEventId($event_ar->getId());
-		$membership_event_ar->create();
+		$this->saveMembershipEvent(
+			$unsubscribedFromCourse->getTypeId(),
+			$unsubscribedFromCourse->getCrsObjId(),
+			$unsubscribedFromCourse->getUnsubscribingUserId(),
+			$unsubscribedFromCourse->getUnsubscribingUserId()
+		);
 	}
+
+	/**
+	 * @param getLogsOfUserRequest $getLogsOfUserRequest
+	 * @return getLogsOfUserResponse
+	 */
+	public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUserRequest): getLogsOfUserResponse {
+		$AR = EventAR::innerjoin(MembershipEventAR::TABLE_NAME, 'id', 'event_id');
+		if ($date_from = $getLogsOfUserRequest->getFilter()->getDateFrom()) {
+			$AR->where(['timestamp' => $date_from->getUnixTime()], ['timestamp' => '>=']);
+		}
+		if ($date_to = $getLogsOfUserRequest->getFilter()->getDateTo()) {
+			$AR->where(['timestamp' => $date_to->getUnixTime()], ['timestamp' => '<=']);
+		}
+		if ($event_type = $getLogsOfUserRequest->getFilter()->getEventType()) {
+			$AR->where(['type_id' => $event_type]);
+		}
+		if ($orderBy = $getLogsOfUserRequest->getOrderBy()) {
+			$AR->orderBy($orderBy, $getLogsOfUserRequest->getOrderDirection());
+		}
+		if ($limit = $getLogsOfUserRequest->getLimit()) {
+			$AR->limit($getLogsOfUserRequest->getOffset(), $limit);
+		}
+
+		$getLogsOfUserResponse = new getLogsOfUserResponse();
+		foreach ($AR->get() as $record) {
+			$LogOfUser = new LogOfUser();
+			$LogOfUser->acting_user_login = $record->actor_login;
+			$LogOfUser->date = new ilDateTime($record->timestamp, IL_CAL_UNIX);
+			$LogOfUser->event_type_title = 'test';
+			$getLogsOfUserResponse->logsOfUser[] = $LogOfUser;
+		}
+
+		return $getLogsOfUserResponse;
+	}
+
+
 }

@@ -7,6 +7,7 @@ use ILIAS\Changelog\Exception\EventHandlerNotFoundException;
 use ILIAS\Changelog\Interfaces\Event;
 use ILIAS\Changelog\Logger\ilDBLogger;
 use ILIAS\Changelog\Logger\Logger;
+use ILIAS\Changelog\Query\QueryService;
 
 /**
  * Class ChangelogService
@@ -47,5 +48,11 @@ class ChangelogService {
 		}
 	}
 
+	/**
+	 * @return QueryService
+	 */
+	public function query(): QueryService {
+
+	}
 
 }

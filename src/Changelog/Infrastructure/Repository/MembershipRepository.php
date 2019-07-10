@@ -3,6 +3,8 @@
 namespace ILIAS\Changelog\Infrastructure\Repository;
 
 
+use getLogsOfUserRequest;
+use getLogsOfUserResponse;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
 use ILIAS\Changelog\Events\Membership\MembershipRequestDenied;
 use ILIAS\Changelog\Events\Membership\MembershipRequested;
@@ -42,4 +44,10 @@ abstract class MembershipRepository implements Repository {
 	 * @param UnsubscribedFromCourse $unsubscribedFromCourse
 	 */
 	abstract public function saveUnsubscribedFromCourse(UnsubscribedFromCourse $unsubscribedFromCourse);
+
+	/**
+	 * @param getLogsOfUserRequest $getLogsOfUserRequest
+	 * @return getLogsOfUserResponse
+	 */
+	abstract public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUserRequest): getLogsOfUserResponse;
 }
