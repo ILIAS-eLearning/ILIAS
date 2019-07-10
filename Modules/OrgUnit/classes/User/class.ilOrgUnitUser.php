@@ -23,6 +23,10 @@ class ilOrgUnitUser {
 	 */
 	protected $email;
 	/**
+	 * @var string
+	 */
+	protected $second_email;
+	/**
 	 * @var ilOrgUnitPosition[]
 	 */
 	protected $org_unit_positions = [];
@@ -55,26 +59,27 @@ class ilOrgUnitUser {
 	 *
 	 * @return ilOrgUnitUser
 	 */
-	public static function getInstance(int $user_id, string $login, string $email): self {
+	public static function getInstance(int $user_id, string $login, string $email,string $second_email): self {
 		if (null === static::$instances[$user_id]) {
-			static::$instances[$user_id] = new static($user_id, $login, $email);
+			static::$instances[$user_id] = new static($user_id, $login, $email,$second_email);
 		}
 
 		return static::$instances[$user_id];
 	}
 
 
-	private function __construct(int $user_id, string $login, string $email) {
+	private function __construct(int $user_id, string $login, string $email,string $second_email) {
 		$this->user_id = $user_id;
 		$this->login = $login;
 		$this->email = $email;
+		$this->second_email = $second_email;
 	}
 
 
 	/**
 	 * @param ilOrgUnitUser $org_unit_user
 	 */
-	public function addSuperior($org_unit_user) {
+	public function addSuperior(ilOrgUnitUser $org_unit_user) {
 		$this->superiors[] = $org_unit_user;
 	}
 
@@ -82,7 +87,7 @@ class ilOrgUnitUser {
 	/**
 	 * @param ilOrgUnitPosition $org_unit_position
 	 */
-	public function addPositions($org_unit_position) {
+	public function addPositions(ilOrgUnitPosition $org_unit_position) {
 		$this->org_unit_positions[] = $org_unit_position;
 	}
 
@@ -93,7 +98,7 @@ class ilOrgUnitUser {
 	 * eager loading
 	 * @var array ilOrgUnitUser
 	 */
-	public function getSuperiors() {
+	public function getSuperiors():array {
 
 		if (count($this->superiors) == 0) {
 			$this->loadSuperiors();
@@ -103,7 +108,7 @@ class ilOrgUnitUser {
 	}
 
 
-	public function loadSuperiors() {
+	public function loadSuperiors():void {
 		$org_unit_user_repository = new ilOrgUnitUserRepository();
 		$org_unit_user_repository->loadSuperiors([ $this->user_id ]);
 	}
@@ -158,4 +163,22 @@ class ilOrgUnitUser {
 	public function getEmail(): string {
 		return $this->email;
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getSecondEmail(): string {
+		return $this->second_email;
+	}
+
+
+	/**
+	 * @param string $second_email
+	 */
+	public function setSecondEmail(string $second_email): void {
+		$this->second_email = $second_email;
+	}
+
+
 }

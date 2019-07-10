@@ -118,7 +118,7 @@ class ilOrgUnitUserRepository {
 		$empl_id_sup_ids = [];
 		while ($data = $DIC->database()->fetchAssoc($st)) {
 			$org_unit_user = ilOrgUnitUser::getInstanceById($data['empl_usr_id']);
-			$superior = ilOrgUnitUser::getInstance($data['sup_usr_id'], $data['sup_login'], $data['sup_email']);
+			$superior = ilOrgUnitUser::getInstance($data['sup_usr_id'], $data['sup_login'], $data['sup_email'],$data['sup_second_email']);
 			$org_unit_user->addSuperior($superior);
 		}
 	}
@@ -157,6 +157,7 @@ class ilOrgUnitUserRepository {
 				orgu_ua.user_id AS empl_usr_id,
 				orgu_ua2.user_id as sup_usr_id,
 				superior.email as sup_email,
+				superior.second_email as sup_second_email,
 				superior.login as sup_login
 				FROM
 				il_orgu_ua as orgu_ua,
@@ -183,8 +184,10 @@ class ilOrgUnitUserRepository {
 		 * @var $assignment ilOrgUnitUserAssignment
 		 */
 		$positions = [];
-		if (count(ilOrgUnitUserAssignment::where([ 'user_id' => $user_ids ])->get()) > 0) {
-			foreach (ilOrgUnitUserAssignment::where([ 'user_id' => $user_ids ])->get() as $assignment) {
+
+		$assignments = ilOrgUnitUserAssignment::where([ 'user_id' => $user_ids ])->get();
+		if (count($assignments) > 0) {
+			foreach ($assignments as $assignment) {
 				$org_unit_user = ilOrgUnitUser::getInstanceById($assignment->getUserId());
 				$org_unit_user->addPositions(ilOrgUnitPosition::find($assignment->getPositionId()));
 			}
@@ -199,7 +202,7 @@ class ilOrgUnitUserRepository {
 	 *
 	 * @return array
 	 */
-	private function loadUsersByUserIds($user_ids): array {
+	private function loadUsersByUserIds(array $user_ids): array {
 		$users = array();
 
 		$q = "SELECT * FROM usr_data WHERE " . $this->dic->database()->in('usr_id', $user_ids, false, 'int');
@@ -207,7 +210,7 @@ class ilOrgUnitUserRepository {
 		$set = $this->dic->database()->query($q);
 
 		while ($row = $this->dic->database()->fetchAssoc($set)) {
-			$users[] = ilOrgUnitUser::getInstance($row['usr_id'], $row['login'], $row['email']);
+			$users[] = ilOrgUnitUser::getInstance($row['usr_id'], $row['login'], $row['email'],$row['second_email']);
 		}
 
 		return $users;
