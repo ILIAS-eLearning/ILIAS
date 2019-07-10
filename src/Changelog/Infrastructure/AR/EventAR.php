@@ -15,6 +15,11 @@ class EventAR extends ActiveRecord {
 
 	const TABLE_NAME = 'changelog_events';
 
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+
 	/**
 	 * @var int
 	 *
@@ -26,6 +31,16 @@ class EventAR extends ActiveRecord {
 	 * @con_length      8
 	 */
 	protected $id;
+
+	/**
+	 * @var int
+	 *
+	 * @con_is_unique   true
+	 * @con_has_field   true
+	 * @con_fieldtype   integer
+	 * @con_length      8
+	 */
+	protected $event_id;
 
 	/**
 	 * @var int

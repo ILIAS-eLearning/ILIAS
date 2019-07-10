@@ -15,6 +15,22 @@ class MembershipEventAR extends ActiveRecord {
 
 	const TABLE_NAME = 'changelog_membership';
 
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+	/**
+	 * @var int
+	 *
+	 * @con_is_primary  true
+	 * @con_sequence    true
+	 * @con_is_unique   true
+	 * @con_has_field   true
+	 * @con_fieldtype   integer
+	 * @con_length      8
+	 */
+	protected $id;
+
 	/**
 	 * @var int
 	 *
