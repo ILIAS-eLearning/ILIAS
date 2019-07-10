@@ -1,11 +1,13 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
+use ilDBConstants;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
 use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ilPlugin;
 
 /**
  * Class PluginSerializer
@@ -43,15 +45,28 @@ class PluginSerializer implements SerializerInterface
      */
     public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactoryInterface $provider_factory) : IdentificationInterface
     {
-        list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
+	    global $DIC;
 
-        if (!$provider_factory->isInstanceCreationPossible($class_name)) {
-            return new NullPluginIdentification($plugin_id, $serialized_string, $internal_identifier);
-        }
+	    list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-        $f = new PluginIdentificationProvider($provider_factory->getProviderByClassName($class_name), $plugin_id, $this, $map);
+	    if (!$provider_factory->isInstanceCreationPossible($class_name)) {
+		    return new NullPluginIdentification($plugin_id, $serialized_string, $internal_identifier);
+	    }
 
-        return $f->identifier($internal_identifier);
+	    $result = $DIC->database()
+		    ->queryF('SELECT component_type, component_name, slot_id, name FROM il_plugin WHERE plugin_id=%s', [ ilDBConstants::T_TEXT ], [ $plugin_id ]);
+
+	    $plugin_data = $result->fetchAssoc();
+
+	    if (!$plugin_data) {
+		    return new NullPluginIdentification($plugin_id, $serialized_string, $internal_identifier);
+	    }
+
+	    $plugin = ilPlugin::getPluginObject($plugin_data["component_type"], $plugin_data["component_name"], $plugin_data["slot_id"], $plugin_data["name"]);
+
+	    $f = new PluginIdentificationProvider($provider_factory->getProviderByClassName($class_name, [ $plugin ]), $plugin_id, $this, $map);
+
+	    return $f->identifier($internal_identifier);
     }
 
 

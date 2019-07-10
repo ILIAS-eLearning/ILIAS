@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ReflectionException;
+
 /**
  * Interface ProviderFactoryInterface
  *
@@ -10,10 +12,13 @@ interface ProviderFactoryInterface
 
     /**
      * @param string $class_name
+     * @param array  $args
      *
      * @return Provider
+     *
+     * @throws ReflectionException
      */
-    public function getProviderByClassName(string $class_name) : Provider;
+    public function getProviderByClassName(string $class_name, array $args = []) : Provider;
 
 
     /**
