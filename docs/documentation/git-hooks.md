@@ -65,92 +65,12 @@ $ mv pre-commit.sample pre-commit
 
 ##### Code Style Hooks
 
-The following hooks can be used to check or even fix the code style
-before creating a commit.
+The ILIAS project serves several Git Hooks stored in the official
+[Developer Tools Repository](https://github.com/ILIAS-eLearning/DeveloperTools)
+Check the
+[git_hooks code style folder](https://github.com/ILIAS-eLearning/DeveloperTools/tree/master/git_hooks/code-style/)
+to create specific git hook adapted to the needs of the development process.
 
-Adapt your existing `pre-commit` hook.
-
-The following hook won't adapt any code for the committed files,
-the hook will just check if the coding style following the standard ILIAS code
-style.
-
-```bash
-#!/bin/sh
-
-if [ -x libs/composer/vendor/bin/php-cs-fixer ]; then
-    echo "PHP CS Fixer is installed begin to check PHP files"
-    CONFIGURATION_FILE="./CI/PHP-CS-Fixer/code-format.php_cs"
-    if [ ! -f $CONFIGURATION_FILE ]; then
-        echo "The configuration file is not found under ${CONFIGURATION_FILE}"
-        exit 1
-    fi
-
-    CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.php')
-
-    return_code=0
-    result=""
-    for FILE in $CHANGED_FILES
-    do
-        echo "Checking file: ${FILE}"
-        partial_result=$(libs/composer/vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no --config=$CONFIGURATION_FILE --diff $FILE)
-        partial_return_code=$?
-        result="${result} \n\n ${partial_result}"
-        if [ $partial_return_code -ne 0 ]; then
-           return_code=$partial_return_code
-        fi
-    done
-
-    if [ $return_code -ne 0 ]; then
-       echo "Error in the Code Style"
-       echo "${result}"
-       echo "\nPlease fix the marked lines. Before commiting"
-       exit 1
-    fi
-
-    echo "End of checking PHP files"
-else
-    echo "Couldn't find 'libs/composer/vendor/bin/php-cs-fixer'. Make sure it is installed, for more information check the local '/docs/coding-style.md'"
-    exit 1
-fi
-
-echo "Code Style is OK."
-```
-
-The hook will execute a `dry-run` on the committed PHP files and will be
-displayed the differences if the PHP-CS-FIXER returns with an error code.
-
-Alternatively the code can be fixed immediately before creating the commit:
-
-```bash
-#!/bin/sh
-
-if [ -x libs/composer/vendor/bin/php-cs-fixer ]; then
-    echo "PHP CS Fixer is installed begin to check PHP files"
-    CONFIGURATION_FILE="./CI/PHP-CS-Fixer/code-format.php_cs"
-    if [ -f $CONFIGURATION_FILE]; then
-        echo "The configuration file is not found under ${CONFIGURATION_FILE}"
-    fi
-
-    CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.php')
-
-    return_code=0
-    result=""
-    for FILE in $CHANGED_FILES
-    do
-        echo "Fix file: ${FILE}"
-        partial_result=$(libs/composer/vendor/bin/php-cs-fixer fix --stop-on-violation --using-cache=no --diff --config=$CONFIGURATION_FILE $FILE)
-        partial_return_code=$?
-        if [ $partial_return_code -ne 0 ]; then
-           return_code=$partial_return_code
-           exit 1
-        fi
-    done
-
-    echo "End of fixing PHP files"
-else
-    echo "Couldn't find 'libs/composer/vendor/bin/php-cs-fixer'. Make sure it is installed, for more information check the local '/docs/coding-style.md'"
-    exit 1
-fi
-
-echo "Code Style is OK."
-```
+The offical [ILIAS pre-commit](https://github.com/ILIAS-eLearning/DeveloperTools/blob/master/git_hooks/hooks/pre-commit)
+uses a dry-run the check you code style and returns
+the line that needs to change according to the defined code style.
