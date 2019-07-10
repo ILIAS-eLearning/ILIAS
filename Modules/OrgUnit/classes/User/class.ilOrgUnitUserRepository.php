@@ -86,11 +86,11 @@ class ilOrgUnitUserRepository {
 
 
 	/**
-	 * @param $user_id
+	 * @param int $user_id
 	 *
 	 * @return ilOrgUnitUser|null
 	 */
-	public function getOrgUnitUser($user_id): ?ilOrgUnitUser {
+	public function getOrgUnitUser(int $user_id): ?ilOrgUnitUser {
 
 		$this->orgu_users = $this->loadUsersByUserIds([ $user_id ]);
 
