@@ -116,7 +116,13 @@ interface Factory {
 	 *      If the checkbox is checked, the contained inputs are revealed, while
 	 *      they are hidden when the checkbox is not checked.
 	 *
-	 * rules: []
+	 * rules:
+	 *  usage:
+	 *    1: >
+     *      There MUST NOT be a nesting of more than one optional and/or switchable
+	 *      group. The only exception to this rule is the required quantification
+	 *      of a subsetting by a date or number. These exceptions MUST individually
+	 *      accepted by the Jour Fixe.
 	 *
 	 * ---
 	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
@@ -138,7 +144,13 @@ interface Factory {
 	 *      If a radiobutton is selected, the according inputs are revealed and the
 	 *      other groups are hidden.
 	 *
-	 * rules: []
+	 * rules:
+	 *  usage:
+	 *    1: >
+     *      There MUST NOT be a nesting of more than one optional and/or switchable
+	 *      group. The only exception to this rule is the required quantification
+	 *      of a subsetting by a date or number. These exceptions MUST individually
+	 *      accepted by the Jour Fixe.
 	 *
 	 * ---
 	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input\Group>    $inputs
