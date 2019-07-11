@@ -13,10 +13,6 @@ class ilGSProviderFactory extends ProviderFactory
 {
 
     /**
-     * @var array
-     */
-    private $class_loader;
-    /**
      * @var Container
      */
     private $dic;
@@ -28,6 +24,7 @@ class ilGSProviderFactory extends ProviderFactory
     public function __construct(Container $dic)
     {
         $this->dic = $dic;
+
         parent::__construct(
             [], new ilMMItemInformation()
         );
