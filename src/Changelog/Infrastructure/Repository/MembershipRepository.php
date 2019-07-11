@@ -3,14 +3,14 @@
 namespace ILIAS\Changelog\Infrastructure\Repository;
 
 
-use getLogsOfUserRequest;
-use getLogsOfUserResponse;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
 use ILIAS\Changelog\Events\Membership\MembershipRequestDenied;
 use ILIAS\Changelog\Events\Membership\MembershipRequested;
 use ILIAS\Changelog\Events\Membership\SubscribedToCourse;
 use ILIAS\Changelog\Events\Membership\UnsubscribedFromCourse;
 use ILIAS\Changelog\Interfaces\Repository;
+use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
+use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 
 /**
  * Class MembershipRepository

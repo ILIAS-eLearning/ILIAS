@@ -1,5 +1,9 @@
 <?php
 
+namespace ILIAS\Changelog\Query\Requests;
+
+use ILIAS\Changelog\Query\Requests\Filters\getLogsOfUserFilter;
+
 /**
  * Class getLogsOfUsersRequest
  *

@@ -33,12 +33,12 @@ class EventAR extends ActiveRecord {
 	protected $id;
 
 	/**
-	 * @var int
+	 * @var EventID
 	 *
 	 * @con_is_unique   true
 	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      8
+	 * @con_fieldtype   text
+	 * @con_length      128
 	 */
 	protected $event_id;
 
@@ -53,14 +53,15 @@ class EventAR extends ActiveRecord {
 	protected $type_id;
 
 	/**
-	 * @var string
+	 * @var int
 	 *
 	 * @con_has_field   true
-	 * @con_fieldtype   text
-	 * @con_length      128
+	 * @con_fieldtype   integer
 	 * @con_is_notnull  true
+	 * @con_length      8
 	 */
-	protected $actor_login;
+	protected $actor_user_id;
+
 
 	/**
 	 * @var int
@@ -70,6 +71,20 @@ class EventAR extends ActiveRecord {
 	 * @con_is_notnull  true
 	 */
 	protected $timestamp;
+
+	/**
+	 * @return EventID
+	 */
+	public function getEventId(): EventID {
+		return $this->event_id;
+	}
+
+	/**
+	 * @param EventID $event_id
+	 */
+	public function setEventId(EventID $event_id) {
+		$this->event_id = $event_id;
+	}
 
 	/**
 	 * @return int
@@ -108,17 +123,51 @@ class EventAR extends ActiveRecord {
 	}
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getActorLogin(): string {
-		return $this->actor_login;
+	public function getActorUserId(): int {
+		return $this->actor_user_id;
 	}
 
 	/**
-	 * @param string $actor_login
+	 * @param int $actor_user_id
 	 */
-	public function setActorLogin(string $actor_login) {
-		$this->actor_login = $actor_login;
+	public function setActorUserId(int $actor_user_id) {
+		$this->actor_user_id = $actor_user_id;
 	}
+
+
+	/**
+	 * @param $field_name
+	 * @return string|null
+	 */
+	public function sleep($field_name) {
+		switch ($field_name) {
+			case 'event_id':
+				return $this->event_id->getId();
+			case 'timestamp':
+				return date('Y-m-d H:i:s', $this->timestamp);
+			default:
+				return null;
+		}
+	}
+
+	/**
+	 * @param $field_name
+	 * @param $field_value
+	 * @return EventID|null
+	 * @throws \Exception
+	 */
+	public function wakeUp($field_name, $field_value) {
+		switch ($field_name) {
+			case 'event_id':
+				return new EventID($field_value);
+			case 'timestamp':
+				return strtotime($field_value);
+			default:
+				return null;
+		}
+	}
+
 
 }

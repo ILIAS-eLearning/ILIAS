@@ -32,11 +32,11 @@ class MembershipEventAR extends ActiveRecord {
 	protected $id;
 
 	/**
-	 * @var int
+	 * @var EventID
 	 *
 	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      8
+	 * @con_fieldtype   text
+	 * @con_length      128
 	 */
 	protected $event_id;
 
@@ -51,16 +51,6 @@ class MembershipEventAR extends ActiveRecord {
 	protected $member_user_id;
 
 	/**
-	 * @var string
-	 *
-	 * @con_has_field   true
-	 * @con_fieldtype   text
-	 * @con_length      128
-	 * @con_is_notnull  true
-	 */
-	protected $member_login;
-
-	/**
 	 * @var int
 	 *
 	 * @con_has_field   true
@@ -71,16 +61,16 @@ class MembershipEventAR extends ActiveRecord {
 	protected $obj_id;
 
 	/**
-	 * @return int
+	 * @return EventID
 	 */
-	public function getEventId(): int {
+	public function getEventId(): EventID {
 		return $this->event_id;
 	}
 
 	/**
-	 * @param int $event_id
+	 * @param EventID $event_id
 	 */
-	public function setEventId(int $event_id) {
+	public function setEventId(EventID $event_id) {
 		$this->event_id = $event_id;
 	}
 
@@ -99,20 +89,6 @@ class MembershipEventAR extends ActiveRecord {
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getMemberLogin(): string {
-		return $this->member_login;
-	}
-
-	/**
-	 * @param string $member_login
-	 */
-	public function setMemberLogin(string $member_login) {
-		$this->member_login = $member_login;
-	}
-
-	/**
 	 * @return int
 	 */
 	public function getObjId(): int {
@@ -125,4 +101,32 @@ class MembershipEventAR extends ActiveRecord {
 	public function setObjId(int $obj_id) {
 		$this->obj_id = $obj_id;
 	}
+
+	/**
+	 * @param $field_name
+	 * @return string|null
+	 */
+	public function sleep($field_name) {
+		switch ($field_name) {
+			case 'event_id':
+				return $this->event_id->getId();
+			default:
+				return null;
+		}
+	}
+
+	/**
+	 * @param $field_name
+	 * @param $field_value
+	 * @return EventID|null
+	 */
+	public function wakeUp($field_name, $field_value) {
+		switch ($field_name) {
+			case 'event_id':
+				return new EventID($field_value);
+			default:
+				return null;
+		}
+	}
+
 }

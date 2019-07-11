@@ -1,6 +1,7 @@
 <?php
 
-use ILIAS\Changelog\Query\Responses\LogOfUser;
+namespace ILIAS\Changelog\Query\Responses;
+
 
 /**
  * Class getLogsOfUsersResponse

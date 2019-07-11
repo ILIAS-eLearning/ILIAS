@@ -1,5 +1,10 @@
 <?php
 
+namespace ILIAS\Changelog\Query\Requests\Filters;
+
+
+use ilDateTime;
+
 /**
  * Class getLogsOfUsersFilter
  *
@@ -21,9 +26,9 @@ class getLogsOfUserFilter {
 	protected $event_type = null;
 
 	/**
-	 * @return ilDateTime
+	 * @return ilDateTime|null
 	 */
-	public function getDateFrom(): ilDateTime {
+	public function getDateFrom() {
 		return $this->date_from;
 	}
 
@@ -35,9 +40,9 @@ class getLogsOfUserFilter {
 	}
 
 	/**
-	 * @return ilDateTime
+	 * @return ilDateTime|null
 	 */
-	public function getDateTo(): ilDateTime {
+	public function getDateTo() {
 		return $this->date_to;
 	}
 

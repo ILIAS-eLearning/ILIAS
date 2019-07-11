@@ -3,6 +3,11 @@
 namespace ILIAS\Changelog\Events\Membership;
 
 
+use ILIAS\Changelog\Exception\CourseNotFoundException;
+use ILIAS\Changelog\Exception\UserNotFoundException;
+use ilObjCourse;
+use ilObjUser;
+
 /**
  * Class SubscribedToCourse
  * @package ILIAS\Changelog\Membership\Events
@@ -27,8 +32,16 @@ class SubscribedToCourse extends MembershipEvent {
 	 * MembershipRequested constructor.
 	 * @param int $crs_obj_id
 	 * @param int $subscribing_user_id
+	 * @throws CourseNotFoundException
+	 * @throws UserNotFoundException
 	 */
 	public function __construct(int $crs_obj_id, int $subscribing_user_id) {
+		if (!ilObjCourse::_exists($crs_obj_id)) {
+			throw new CourseNotFoundException("couldn't find course with obj_id " . $crs_obj_id);
+		}
+		if (!ilObjUser::_exists($subscribing_user_id)) {
+			throw new UserNotFoundException("couldn't find user with id " . $subscribing_user_id);
+		}
 		$this->crs_obj_id = $crs_obj_id;
 		$this->subscribing_user_id = $subscribing_user_id;
 	}

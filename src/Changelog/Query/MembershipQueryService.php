@@ -3,9 +3,9 @@
 namespace ILIAS\Changelog\Query;
 
 
-use getLogsOfUserRequest;
-use getLogsOfUserResponse;
 use ILIAS\Changelog\Infrastructure\Repository\MembershipRepository;
+use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
+use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 
 /**
  * Class MembershipQueryService

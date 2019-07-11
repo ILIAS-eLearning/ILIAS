@@ -3,8 +3,6 @@
 namespace ILIAS\Changelog\Infrastructure\Repository;
 
 
-use getLogsOfUserRequest;
-use getLogsOfUserResponse;
 use ilDateTime;
 use ilDBInterface;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
@@ -13,7 +11,10 @@ use ILIAS\Changelog\Events\Membership\MembershipRequested;
 use ILIAS\Changelog\Events\Membership\SubscribedToCourse;
 use ILIAS\Changelog\Events\Membership\UnsubscribedFromCourse;
 use ILIAS\Changelog\Infrastructure\AR\EventAR;
+use ILIAS\Changelog\Infrastructure\AR\EventID;
 use ILIAS\Changelog\Infrastructure\AR\MembershipEventAR;
+use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
+use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 use ILIAS\Changelog\Query\Responses\LogOfUser;
 use ilObjUser;
 
@@ -41,21 +42,23 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	/**
 	 * @param int $type_id
 	 * @param int $course_obj_id
-	 * @param int $agent_user_id
+	 * @param int $actor_user_id
 	 * @param int $affected_user_id
 	 */
-	protected function saveMembershipEvent(int $type_id, int $course_obj_id, int $agent_user_id, int $affected_user_id) {
+	protected function saveMembershipEvent(int $type_id, int $course_obj_id, int $actor_user_id, int $affected_user_id) {
+		$event_id = new EventID();
+
 		$event_ar = new EventAR();
-		$event_ar->setActorLogin(ilObjUser::_lookupLogin($agent_user_id));
+		$event_ar->setEventId($event_id);
 		$event_ar->setTypeId($type_id);
+		$event_ar->setActorUserId($actor_user_id);
 		$event_ar->setTimestamp(time());
 		$event_ar->create();
 
 		$membership_event_ar = new MembershipEventAR();
 		$membership_event_ar->setMemberUserId($affected_user_id);
-		$membership_event_ar->setMemberLogin(ilObjUser::_lookupLogin($affected_user_id));
 		$membership_event_ar->setObjId($course_obj_id);
-		$membership_event_ar->setEventId($event_ar->getId());
+		$membership_event_ar->setEventId($event_id);
 		$membership_event_ar->create();
 	}
 

@@ -52,7 +52,7 @@ class ChangelogService {
 	 * @return QueryService
 	 */
 	public function query(): QueryService {
-
+		return new QueryService();
 	}
 
 }
