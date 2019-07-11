@@ -14,6 +14,7 @@ class ilOrgUnitOperationContext extends ActiveRecord {
 	const CONTEXT_TST = "tst";
 	const CONTEXT_EXC = "exc";
 	const CONTEXT_SVY = "svy";
+	const CONTEXT_PRG = "prg";
 
 
 	/**
