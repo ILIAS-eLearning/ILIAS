@@ -25,6 +25,11 @@ class ilObjStudyProgramme extends ilContainer {
 
 	// Wrapped static ilObjectFactory of ILIAS.
 	public $object_factory;
+
+	/**
+	 * @var ilOrgUnitObjectTypePositionSetting
+	 */
+	protected $ps;
 	// Cache for study programmes
 	static public $study_programme_cache = null;
 
@@ -74,8 +79,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->lng = $DIC['lng'];
 
 		$this->object_factory = ilObjectFactoryWrapper::singleton();
-
-
+		$this->ps = ilStudyProgrammeDIC::dic()['ilOrgUnitObjectTypePositionSetting'];
 
 		self::initStudyProgrammeCache();
 	}
@@ -441,7 +445,29 @@ class ilObjStudyProgramme extends ilContainer {
 	{
 		return $this->settings->getRestartPeriod();
 	}
-
+	public function setAccessControlByOrguPositions(bool $access_ctrl_positions)
+	{
+		$this->settings->setAccessControlByOrguPositions($access_ctrl_positions);
+	}
+	public function getAccessControlByOrguPositions() : bool
+	{
+		return $this->settings->getAccessControlByOrguPositions();
+	}
+	public function getAccessControlByOrguPositionsGlobal() : bool
+	{
+		return $this->getPositionSettingsIsActiveForPrg()
+			&& ($this->settings->getAccessControlByOrguPositions()
+				|| !$this->getPositionSettingsIsChangeableForPrg()
+			);
+	}
+	public function getPositionSettingsIsActiveForPrg() : bool
+	{
+		return $this->ps->isActive();
+	}
+	public function getPositionSettingsIsChangeableForPrg() : bool
+	{
+		return $this->ps->isChangeableForObject();
+	}
 	////////////////////////////////////
 	// TREE NAVIGATION
 	////////////////////////////////////
@@ -984,7 +1010,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
-
+		$this->members_cache = null;
 		if ($this->settings === null) {
 			throw new ilException("ilObjStudyProgramme::assignUser: Program was not properly created.'");
 		}
@@ -1039,7 +1065,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) {
-
+		$this->members_cache = null;
 		if ($a_assignment->getStudyProgramme()->getId() != $this->getId()) {
 			throw new ilException("ilObjStudyProgramme::removeAssignment: Assignment '"
 								 .$a_assignment->getId()."' does not belong to study "
@@ -1112,6 +1138,21 @@ class ilObjStudyProgramme extends ilContainer {
 		}, array_values($this->getAssignmentsRaw())); // use array values since we want keys 0...
 	}
 
+	protected $members_cache;
+
+	public function getMembers()
+	{
+		if(!$this->members_cache) {
+			$this->members_cache = array_map(
+				function($assignemnt) {
+					return $assignemnt->getUserId();
+				},
+				$this->assignment_repository->readByPrgId($this->getId())
+			);
+		}
+		return $this->members_cache;
+	}
+
 	/**
 	 * Are there any assignments on this node or any node above?
 	 *
@@ -1127,6 +1168,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function updateAllAssignments() {
+		$this->members_cache = null;
 		$assignments = $this->assignment_db->getInstancesForProgram((int)$this->getId());
 		foreach ($assignments as $ass) {
 			$ass->updateFromProgram();

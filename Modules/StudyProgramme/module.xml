@@ -7,7 +7,7 @@
 		<objectgroup id="prg" name="StudyProgramme" default_pres_pos="30"/>
 	</objectgroups>
 	<objects>
-		<object id="prg" class_name="StudyProgramme" dir="classes" default_pos="30" default_pres_pos="30" checkbox="1" inherit="1" translate="db" allow_link="0" allow_copy="1" rbac="1" export="0" workspace="0" repository="1">
+		<object id="prg" class_name="StudyProgramme" dir="classes" default_pos="30" default_pres_pos="30" checkbox="1" inherit="1" translate="db" allow_link="0" allow_copy="1" rbac="1" export="0" workspace="0" repository="1" orgunit_permissions="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<subobj id="crsr" max="1">crsr</subobj>
 
