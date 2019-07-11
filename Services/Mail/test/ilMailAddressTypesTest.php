@@ -28,7 +28,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
     {
         return $this->getMockBuilder(ilGroupNameAsMailValidator::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('validate'))
+            ->setMethods(['validate'])
             ->getMock();
     }
 

@@ -7,8 +7,9 @@ use OrgUnit\User\ilOrgUnitUser;
 
 /**
  * Class ilMailTemplateContextTest
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailTemplateContextTest extends \ilMailBaseTest
+class ilMailTemplateContextTest extends ilMailBaseTest
 {
     /**
      * @param OrgUnitUserService $orgUnitUserService
@@ -50,9 +51,9 @@ class ilMailTemplateContextTest extends \ilMailBaseTest
     }
 
     /**
-     *
+     * @throws ReflectionException
      */
-    public function testGenericContextPlaceholders()
+    public function testGenericContextPlaceholders() : void
     {
         $ouSuperiorUser = $this
             ->getMockBuilder(ilOrgUnitUser::class)
@@ -101,7 +102,7 @@ class ilMailTemplateContextTest extends \ilMailBaseTest
         ]));
 
         $user = $this
-            ->getMockBuilder(\ilObjUser::class)
+            ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->setMethods([
                 'getLanguage',

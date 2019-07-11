@@ -21,7 +21,7 @@ class ilMailOptionsTest extends ilMailBaseTest
             ->getMock();
         $queryMock = $this->getMockBuilder(ilPDOStatement::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('fetchRow'))
+            ->setMethods(['fetchRow'])
             ->getMock();
 
         $object = $this->getMockBuilder(stdClass::class)->getMock();
@@ -40,10 +40,10 @@ class ilMailOptionsTest extends ilMailBaseTest
 
         $this->setGlobalVariable('ilDB', $database);
 
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods(array(
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
             'set',
             'get'
-        ))->getMock();
+        ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 
         $mailOptions = new ilMailOptions($userId);
