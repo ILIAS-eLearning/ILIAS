@@ -9,6 +9,7 @@ require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
  *
  * @package     Modules/Test
  *
+ * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilTestResultsToolbarGUI
  */
 class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
@@ -19,6 +20,13 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 		
 		switch( $this->ctrl->getNextClass($this) )
 		{
+			case 'ilassquestionpagegui':
+				require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
+				$forwarder = new ilAssQuestionPageCommandForwarder();
+				$forwarder->setTestObj($this->object);
+				$forwarder->forward();
+				break;
+			
 			default:
 				$cmd = $this->ctrl->getCmd('showVirtualPass').'Cmd';
 				$this->$cmd();
