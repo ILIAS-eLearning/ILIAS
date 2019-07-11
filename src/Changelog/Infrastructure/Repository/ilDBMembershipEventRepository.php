@@ -5,6 +5,7 @@ namespace ILIAS\Changelog\Infrastructure\Repository;
 
 use ilDateTime;
 use ilDBInterface;
+use ILIAS\Changelog\Events\Membership\AddedToCourse;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
 use ILIAS\Changelog\Events\Membership\MembershipRequestDenied;
 use ILIAS\Changelog\Events\Membership\MembershipRequested;
@@ -139,6 +140,17 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 			$RemovedFromCourse->getCrsObjId(),
 			$RemovedFromCourse->getRemovingUserId(),
 			$RemovedFromCourse->getMemberUserId()
+		);
+	}
+	/**
+	 * @param AddedToCourse $AddedToCourse
+	 */
+	public function saveAddedToCourse(AddedToCourse $AddedToCourse) {
+		$this->saveMembershipEvent(
+			$AddedToCourse->getTypeId(),
+			$AddedToCourse->getCrsObjId(),
+			$AddedToCourse->getAddingUserId(),
+			$AddedToCourse->getMemberUserId()
 		);
 	}
 

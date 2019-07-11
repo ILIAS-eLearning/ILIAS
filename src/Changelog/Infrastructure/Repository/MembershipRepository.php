@@ -3,9 +3,11 @@
 namespace ILIAS\Changelog\Infrastructure\Repository;
 
 
+use ILIAS\Changelog\Events\Membership\AddedToCourse;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
 use ILIAS\Changelog\Events\Membership\MembershipRequestDenied;
 use ILIAS\Changelog\Events\Membership\MembershipRequested;
+use ILIAS\Changelog\Events\Membership\RemovedFromCourse;
 use ILIAS\Changelog\Events\Membership\SubscribedToCourse;
 use ILIAS\Changelog\Events\Membership\UnsubscribedFromCourse;
 use ILIAS\Changelog\Interfaces\Repository;
@@ -46,6 +48,18 @@ abstract class MembershipRepository implements Repository {
 	 * @param UnsubscribedFromCourse $unsubscribedFromCourse
 	 */
 	abstract public function saveUnsubscribedFromCourse(UnsubscribedFromCourse $unsubscribedFromCourse);
+
+	/**
+	 * @param RemovedFromCourse $removedFromCourse
+	 * @return mixed
+	 */
+	abstract public function saveRemovedFromCourse(RemovedFromCourse $removedFromCourse);
+
+	/**
+	 * @param AddedToCourse $addedToCourse
+	 * @return mixed
+	 */
+	abstract public function saveAddedToCourse(AddedToCourse $addedToCourse);
 
 	/**
 	 * @param getLogsOfUserRequest $getLogsOfUserRequest
