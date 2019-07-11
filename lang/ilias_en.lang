@@ -14,6 +14,13 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+changelog#:#event_type_1#:Membership requested
+changelog#:#event_type_2#:Membership request accepted
+changelog#:#event_type_3#:Membership request denied
+changelog#:#event_type_4#:Unsubscribed from course
+changelog#:#event_type_5#:Subscribed to course
+changelog#:#event_type_6#:Removed from course
+changelog#:#event_type_7#:Added to course
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
