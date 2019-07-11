@@ -6,12 +6,12 @@ namespace ILIAS\Changelog\Query\Responses;
 use ilDateTime;
 
 /**
- * Class LogOfUser
+ * Class LogOfCourse
  * @package ILIAS\Changelog\Query\Responses
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class LogOfUser {
+class LogOfCourse {
 
 	/**
 	 * @var ilDateTime
@@ -67,6 +67,4 @@ class LogOfUser {
 	 * @var int
 	 */
 	public $event_type_id;
-
-
 }

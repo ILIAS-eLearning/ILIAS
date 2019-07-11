@@ -4,7 +4,9 @@ namespace ILIAS\Changelog\Query;
 
 
 use ILIAS\Changelog\Infrastructure\Repository\MembershipRepository;
+use ILIAS\Changelog\Query\Requests\getLogsOfCourseRequest;
 use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
+use ILIAS\Changelog\Query\Responses\getLogsOfCourseResponse;
 use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 
 /**
@@ -35,5 +37,13 @@ class MembershipQueryService {
 	 */
 	public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUsersRequest): getLogsOfUserResponse {
 		return $this->repository->getLogsOfUser($getLogsOfUsersRequest);
+	}
+
+	/**
+	 * @param getLogsOfCourseRequest $getLogsOfCourseRequest
+	 * @return getLogsOfCourseResponse
+	 */
+	public function getLogsOfCourse(getLogsOfCourseRequest $getLogsOfCourseRequest): getLogsOfCourseResponse {
+		return $this->repository->getLogsOfCourse($getLogsOfCourseRequest);
 	}
 }

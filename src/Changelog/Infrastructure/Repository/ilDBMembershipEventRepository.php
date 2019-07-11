@@ -13,8 +13,11 @@ use ILIAS\Changelog\Events\Membership\UnsubscribedFromCourse;
 use ILIAS\Changelog\Infrastructure\AR\EventAR;
 use ILIAS\Changelog\Infrastructure\AR\EventID;
 use ILIAS\Changelog\Infrastructure\AR\MembershipEventAR;
+use ILIAS\Changelog\Query\Requests\getLogsOfCourseRequest;
 use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
+use ILIAS\Changelog\Query\Responses\getLogsOfCourseResponse;
 use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
+use ILIAS\Changelog\Query\Responses\LogOfCourse;
 use ILIAS\Changelog\Query\Responses\LogOfUser;
 use ilObjCourse;
 use ilObjUser;
@@ -129,13 +132,13 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	/**
 	 * @param getLogsOfUserRequest $getLogsOfUserRequest
 	 * @return getLogsOfUserResponse
+	 * @throws \ilDateTimeException
 	 */
 	public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUserRequest): getLogsOfUserResponse {
-		$query = 'SELECT even.type_id, event.actor_user_id, event.timestamp, member.member_user_id, member.crs_obj_id, member.hist_crs_title, acting_usr.login as acting_user_login, acting_usr.firstname as acting_user_login, acting_usr.lastname as acting_user_lastname' .
+		$query = 'SELECT event.type_id, event.actor_user_id as acting_user_id, event.timestamp, member.crs_obj_id, member.hist_crs_title, acting_usr.login as acting_user_login, acting_usr.firstname as acting_user_firstname, acting_usr.lastname as acting_user_lastname' .
 			' FROM ' . EventAR::TABLE_NAME . ' event ' .
 			'INNER JOIN ' . MembershipEventAR::TABLE_NAME . ' member ON event.event_id = member.event_id ' .
-			'INNER JOIN usr_data acting_usr ON acting_usr.usr_id = event.actor_user_id ' .
-			'INNER JOIN usr_data member_usr ON member_usr.usr_id = member.member_user_id ';
+			'INNER JOIN usr_data acting_usr ON acting_usr.usr_id = event.actor_user_id ';
 
 		$where = [];
 		if ($date_from = $getLogsOfUserRequest->getFilter()->getDateFrom()) {
@@ -162,18 +165,86 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 			$query .= ' LIMIT ' . $limit . ',' . $getLogsOfUserRequest->getOffset();
 		}
 
+		$member_user = new ilObjUser($getLogsOfUserRequest->getUserId());
 		$getLogsOfUserResponse = new getLogsOfUserResponse();
 		$res = $this->database->query($query);
-		while ($record = $this->database->fetchAssoc($res)) {
+		while ($record = $this->database->fetchObject($res)) {
 			$LogOfUser = new LogOfUser();
-			$LogOfUser->acting_user_login = $record->actor_login;
-			$LogOfUser->date = new ilDateTime($record->timestamp, IL_CAL_UNIX);
-			$LogOfUser->event_type_title = 'test';
+			$LogOfUser->acting_user_id = $record->acting_user_id;
+			$LogOfUser->acting_user_login = $record->acting_user_login;
+			$LogOfUser->event_title_lang_var = 'changelog_event_type_' . $record->type_id;
+			$LogOfUser->event_type_id = $record->type_id;
+			$LogOfUser->crs_obj_id = $record->crs_obj_id;
+			$LogOfUser->hist_crs_title = $record->hist_crs_title;
+			$LogOfUser->date = new ilDateTime($record->timestamp, IL_CAL_DATETIME);
+			$LogOfUser->member_user_id = $member_user->getId();
+			$LogOfUser->member_login = $member_user->getLogin();
+			$LogOfUser->member_firstname = $member_user->getFirstname();
+			$LogOfUser->member_lastname = $member_user->getLastname();
+
 			$getLogsOfUserResponse->logsOfUser[] = $LogOfUser;
 		}
 
 		return $getLogsOfUserResponse;
 	}
 
+	/**
+	 * @param getLogsOfCourseRequest $getLogsOfCourseRequest
+	 * @return getLogsOfCourseResponse
+	 * @throws \ilDateTimeException
+	 */
+	public function getLogsOfCourse(getLogsOfCourseRequest $getLogsOfCourseRequest): getLogsOfCourseResponse {
+		$query = 'SELECT event.type_id, event.actor_user_id as acting_user_id, event.timestamp, member.crs_obj_id, member.hist_crs_title, acting_usr.login as acting_user_login, acting_usr.firstname as acting_user_firstname, acting_usr.lastname as acting_user_lastname' .
+			' FROM ' . EventAR::TABLE_NAME . ' event ' .
+			'INNER JOIN ' . MembershipEventAR::TABLE_NAME . ' member ON event.event_id = member.event_id ' .
+			'INNER JOIN usr_data acting_usr ON acting_usr.usr_id = event.actor_user_id ';
+
+		$where = [];
+		if ($date_from = $getLogsOfCourseRequest->getFilter()->getDateFrom()) {
+			$where[] = 'timestamp >= ' . $this->database->quote($date_from->get(IL_CAL_DATETIME, 'Y-m-d'), 'timestamp');
+		}
+		if ($date_to = $getLogsOfCourseRequest->getFilter()->getDateTo()) {
+			$where[] = 'timestamp <= ' . $date_to->get(IL_CAL_DATETIME, 'Y-m-d');
+		}
+		if ($event_type = $getLogsOfCourseRequest->getFilter()->getEventType()) {
+			$where[] = 'event.type_id = ' . $this->database->quote($event_type, 'integer');
+		}
+
+		$query .= 'WHERE member.crs_obj_id = ' . $this->database->quote($getLogsOfCourseRequest->getCrsObjId(), 'integer');
+
+		if (!empty($where)) {
+			$query .= ' AND ' . implode(' AND ', $where);
+		}
+
+		$query .= ' ORDER BY ' . $getLogsOfCourseRequest->getOrderBy() . ' ' . $getLogsOfCourseRequest->getOrderDirection();
+
+
+
+		if ($limit = $getLogsOfCourseRequest->getLimit()) {
+			$query .= ' LIMIT ' . $limit . ',' . $getLogsOfCourseRequest->getOffset();
+		}
+
+		$member_user = new ilObjUser($getLogsOfCourseRequest->getUserId());
+		$getLogsOfCourseResponse = new getLogsOfCourseResponse();
+		$res = $this->database->query($query);
+		while ($record = $this->database->fetchObject($res)) {
+			$LogOfCourse = new LogOfCourse();
+			$LogOfCourse->acting_user_id = $record->acting_user_id;
+			$LogOfCourse->acting_user_login = $record->acting_user_login;
+			$LogOfCourse->event_title_lang_var = 'changelog_event_type_' . $record->type_id;
+			$LogOfCourse->event_type_id = $record->type_id;
+			$LogOfCourse->crs_obj_id = $record->crs_obj_id;
+			$LogOfCourse->hist_crs_title = $record->hist_crs_title;
+			$LogOfCourse->date = new ilDateTime($record->timestamp, IL_CAL_DATETIME);
+			$LogOfCourse->member_user_id = $member_user->getId();
+			$LogOfCourse->member_login = $member_user->getLogin();
+			$LogOfCourse->member_firstname = $member_user->getFirstname();
+			$LogOfCourse->member_lastname = $member_user->getLastname();
+
+			$getLogsOfCourseResponse->logsOfCourse[] = $LogOfCourse;
+		}
+
+		return $getLogsOfCourseResponse;
+	}
 
 }
