@@ -2104,7 +2104,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$form->addCommandButton("executeCreateQuestion", $lng->txt("create"));
 		$form->addCommandButton("questions", $lng->txt("cancel"));
-
+		
+		$DIC->tabs()->activateTab('assQuestions');
 		$ilHelp->setScreenId('assQuestions');
 		$ilHelp->setSubScreenId(implode('_', $subScreenId));
 		
