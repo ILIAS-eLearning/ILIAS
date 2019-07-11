@@ -54,9 +54,9 @@ class getLogsOfUserFilter {
 	}
 
 	/**
-	 * @return int
+	 * @return int|null
 	 */
-	public function getEventType(): int {
+	public function getEventType() {
 		return $this->event_type;
 	}
 

@@ -32,7 +32,7 @@ class getLogsOfUserRequest {
 	/**
 	 * @var string
 	 */
-	protected $orderBy = null;
+	protected $orderBy = 'timestamp';
 
 	/**
 	 * @var string

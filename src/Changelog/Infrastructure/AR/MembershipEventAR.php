@@ -58,7 +58,32 @@ class MembershipEventAR extends ActiveRecord {
 	 * @con_length      4
 	 * @con_is_notnull  true
 	 */
-	protected $obj_id;
+	protected $crs_obj_id;
+
+	/**
+	 * @var string
+	 *
+	 * @con_has_field   true
+	 * @con_fieldtype   text
+	 * @con_length      256
+	 * @con_is_notnull  true
+	 */
+	protected $hist_crs_title;
+
+	/**
+	 * @return string
+	 */
+	public function getHistCrsTitle(): string {
+		return $this->hist_crs_title;
+	}
+
+	/**
+	 * @param string $hist_crs_title
+	 */
+	public function setHistCrsTitle(string $hist_crs_title) {
+		$this->hist_crs_title = $hist_crs_title;
+	}
+
 
 	/**
 	 * @return EventID
@@ -91,15 +116,15 @@ class MembershipEventAR extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getObjId(): int {
-		return $this->obj_id;
+	public function getCrsObjId(): int {
+		return $this->crs_obj_id;
 	}
 
 	/**
-	 * @param int $obj_id
+	 * @param int $crs_obj_id
 	 */
-	public function setObjId(int $obj_id) {
-		$this->obj_id = $obj_id;
+	public function setCrsObjId(int $crs_obj_id) {
+		$this->crs_obj_id = $crs_obj_id;
 	}
 
 	/**

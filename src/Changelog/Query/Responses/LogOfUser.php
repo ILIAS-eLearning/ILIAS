@@ -21,7 +21,17 @@ class LogOfUser {
 	/**
 	 * @var string
 	 */
+	public $acting_user_id;
+
+	/**
+	 * @var string
+	 */
 	public $acting_user_login;
+
+	/**
+	 * @var int
+	 */
+	public $member_user_id;
 
 	/**
 	 * @var string
@@ -31,7 +41,22 @@ class LogOfUser {
 	/**
 	 * @var string
 	 */
-	public $event_type_title;
+	public $member_firstname;
+
+	/**
+	 * @var string
+	 */
+	public $member_lastname;
+
+	/**
+	 * @var string
+	 */
+	public $event_title;
+
+	/**
+	 * @var int
+	 */
+	public $event_type_id;
 
 
 }

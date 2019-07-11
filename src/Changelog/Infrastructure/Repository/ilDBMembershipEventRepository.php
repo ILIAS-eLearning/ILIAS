@@ -16,6 +16,7 @@ use ILIAS\Changelog\Infrastructure\AR\MembershipEventAR;
 use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
 use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 use ILIAS\Changelog\Query\Responses\LogOfUser;
+use ilObjCourse;
 use ilObjUser;
 
 /**
@@ -44,6 +45,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	 * @param int $course_obj_id
 	 * @param int $actor_user_id
 	 * @param int $affected_user_id
+	 * @throws \Exception
 	 */
 	protected function saveMembershipEvent(int $type_id, int $course_obj_id, int $actor_user_id, int $affected_user_id) {
 		$event_id = new EventID();
@@ -57,7 +59,8 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 		$membership_event_ar = new MembershipEventAR();
 		$membership_event_ar->setMemberUserId($affected_user_id);
-		$membership_event_ar->setObjId($course_obj_id);
+		$membership_event_ar->setCrsObjId($course_obj_id);
+		$membership_event_ar->setHistCrsTitle(ilObjCourse::_lookupTitle($course_obj_id));
 		$membership_event_ar->setEventId($event_id);
 		$membership_event_ar->create();
 	}
@@ -128,25 +131,40 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	 * @return getLogsOfUserResponse
 	 */
 	public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUserRequest): getLogsOfUserResponse {
-		$AR = EventAR::innerjoin(MembershipEventAR::TABLE_NAME, 'id', 'event_id');
+		$query = 'SELECT even.type_id, event.actor_user_id, event.timestamp, member.member_user_id, member.crs_obj_id, member.hist_crs_title, acting_usr.login as acting_user_login, acting_usr.firstname as acting_user_login, acting_usr.lastname as acting_user_lastname' .
+			' FROM ' . EventAR::TABLE_NAME . ' event ' .
+			'INNER JOIN ' . MembershipEventAR::TABLE_NAME . ' member ON event.event_id = member.event_id ' .
+			'INNER JOIN usr_data acting_usr ON acting_usr.usr_id = event.actor_user_id ' .
+			'INNER JOIN usr_data member_usr ON member_usr.usr_id = member.member_user_id ';
+
+		$where = [];
 		if ($date_from = $getLogsOfUserRequest->getFilter()->getDateFrom()) {
-			$AR->where(['timestamp' => $date_from->getUnixTime()], ['timestamp' => '>=']);
+			$where[] = 'timestamp >= ' . $this->database->quote($date_from->get(IL_CAL_DATETIME, 'Y-m-d'), 'timestamp');
 		}
 		if ($date_to = $getLogsOfUserRequest->getFilter()->getDateTo()) {
-			$AR->where(['timestamp' => $date_to->getUnixTime()], ['timestamp' => '<=']);
+			$where[] = 'timestamp <= ' . $date_to->get(IL_CAL_DATETIME, 'Y-m-d');
 		}
 		if ($event_type = $getLogsOfUserRequest->getFilter()->getEventType()) {
-			$AR->where(['type_id' => $event_type]);
+			$where[] = 'event.type_id = ' . $this->database->quote($event_type, 'integer');
 		}
-		if ($orderBy = $getLogsOfUserRequest->getOrderBy()) {
-			$AR->orderBy($orderBy, $getLogsOfUserRequest->getOrderDirection());
+
+		$query .= 'WHERE member.member_user_id = ' . $this->database->quote($getLogsOfUserRequest->getUserId(), 'integer');
+
+		if (!empty($where)) {
+			$query .= ' AND ' . implode(' AND ', $where);
 		}
+
+		$query .= ' ORDER BY ' . $getLogsOfUserRequest->getOrderBy() . ' ' . $getLogsOfUserRequest->getOrderDirection();
+
+
+
 		if ($limit = $getLogsOfUserRequest->getLimit()) {
-			$AR->limit($getLogsOfUserRequest->getOffset(), $limit);
+			$query .= ' LIMIT ' . $limit . ',' . $getLogsOfUserRequest->getOffset();
 		}
 
 		$getLogsOfUserResponse = new getLogsOfUserResponse();
-		foreach ($AR->get() as $record) {
+		$res = $this->database->query($query);
+		while ($record = $this->database->fetchAssoc($res)) {
 			$LogOfUser = new LogOfUser();
 			$LogOfUser->acting_user_login = $record->actor_login;
 			$LogOfUser->date = new ilDateTime($record->timestamp, IL_CAL_UNIX);
