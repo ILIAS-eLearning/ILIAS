@@ -357,6 +357,9 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$tpl = $DIC['tpl'];
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenId('createQuestion');
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
