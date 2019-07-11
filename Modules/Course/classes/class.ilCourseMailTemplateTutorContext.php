@@ -159,7 +159,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         if (!in_array($placeholder_id, array(
             'crs_title',
             'crs_period_start',
-            'crs_period_start',
+            'crs_period_end',
             'crs_link',
             'crs_status',
             'crs_mark',
