@@ -4,8 +4,8 @@ namespace ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\Filter\Filter;
 use ilTablePropertiesStorage;
 
 /**
@@ -15,7 +15,7 @@ use ilTablePropertiesStorage;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TableFilterStorage extends AbstractTableFilterStorage {
+class TableFilterStorage extends AbstractFilterStorage {
 
 	/**
 	 * @var ilTablePropertiesStorage
@@ -42,7 +42,7 @@ class TableFilterStorage extends AbstractTableFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function read(string $table_id, int $user_id, Factory $factory): TableFilter {
+	public function read(string $table_id, int $user_id, Factory $factory): Filter {
 		$filter = $factory->filter($table_id, $user_id);
 
 		foreach (self::VARS as $property) {
@@ -51,7 +51,7 @@ class TableFilterStorage extends AbstractTableFilterStorage {
 			if (!empty($value)) {
 				switch ($property) {
 					case self::VAR_SORT_FIELDS:
-						$filter = $filter->withSortFields(array_map(function (array $sort_field) use ($factory): TableFilterSortField {
+						$filter = $filter->withSortFields(array_map(function (array $sort_field) use ($factory): FilterSortField {
 							return $factory->filterSortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
 						}, $value));
 						break;
@@ -71,7 +71,7 @@ class TableFilterStorage extends AbstractTableFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function store(TableFilter $filter): void {
+	public function store(Filter $filter): void {
 		foreach (self::VARS as $property) {
 			$value = "";
 			if (method_exists($filter, $method = "get" . $this->strToCamelCase($property))) {

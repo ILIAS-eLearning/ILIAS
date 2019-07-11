@@ -3,17 +3,17 @@
 namespace ILIAS\UI\Component\Table\Data\Factory;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Data\TableData;
-use ILIAS\UI\Component\Table\Data\DataTable;
-use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Column\Formater\ColumnFormater;
+use ILIAS\UI\Component\Table\Data\Column\Column;
+use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
+use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
+use ILIAS\UI\Component\Table\Data\Data\Data;
+use ILIAS\UI\Component\Table\Data\Table;
+use ILIAS\UI\Component\Table\Data\Export\Formater\ExportFormater;
+use ILIAS\UI\Component\Table\Data\Export\ExportFormat;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\Filter\Filter;
 
 /**
  * Interface Factory
@@ -33,27 +33,27 @@ interface Factory {
 
 
 	/**
-	 * @param string             $id
-	 * @param string             $action_url
-	 * @param string             $title
-	 * @param TableColumn[]      $columns
-	 * @param TableDataFetcher   $data_fetcher
-	 * @param TableFilterStorage $filter_storage
+	 * @param string        $id
+	 * @param string        $action_url
+	 * @param string        $title
+	 * @param Column[]      $columns
+	 * @param DataFetcher   $data_fetcher
+	 * @param FilterStorage $filter_storage
 	 *
-	 * @return DataTable
+	 * @return Table
 	 */
-	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage): DataTable;
+	public function table(string $id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher, FilterStorage $filter_storage): Table;
 
 
 	/**
-	 * @param string              $key
-	 * @param string              $title
-	 * @param TableColumnFormater $column_formater
-	 * @param TableExportFormater $export_formater
+	 * @param string         $key
+	 * @param string         $title
+	 * @param ColumnFormater $column_formater
+	 * @param ExportFormater $export_formater
 	 *
-	 * @return TableColumn
+	 * @return Column
 	 */
-	public function column(string $key, string $title, TableColumnFormater $column_formater, TableExportFormater $export_formater): TableColumn;
+	public function column(string $key, string $title, ColumnFormater $column_formater, ExportFormater $export_formater): Column;
 
 
 	/**
@@ -61,61 +61,61 @@ interface Factory {
 	 * @param string   $title
 	 * @param string[] $actions
 	 *
-	 * @return TableColumn
+	 * @return Column
 	 */
-	public function actionColumn(string $key, string $title, array $actions): TableColumn;
+	public function actionColumn(string $key, string $title, array $actions): Column;
 
 
 	/**
-	 * @param TableRowData[] $data
-	 * @param int            $max_count
+	 * @param RowData[] $data
+	 * @param int       $max_count
 	 *
-	 * @return TableData
+	 * @return Data
 	 */
-	public function data(array $data, int $max_count): TableData;
+	public function data(array $data, int $max_count): Data;
 
 
 	/**
 	 * @param string $table_id
 	 * @param int    $user_id
 	 *
-	 * @return TableFilter
+	 * @return Filter
 	 */
-	public function filter(string $table_id, int $user_id): TableFilter;
+	public function filter(string $table_id, int $user_id): Filter;
 
 
 	/**
 	 * @param string $sort_field
 	 * @param int    $sort_field_direction
 	 *
-	 * @return TableFilterSortField
+	 * @return FilterSortField
 	 */
-	public function filterSortField(string $sort_field, int $sort_field_direction): TableFilterSortField;
+	public function filterSortField(string $sort_field, int $sort_field_direction): FilterSortField;
 
 
 	/**
 	 * @param string $row_id
 	 * @param object $original_data
 	 *
-	 * @return TableRowData
+	 * @return RowData
 	 */
-	public function rowData(string $row_id, object $original_data): TableRowData;
+	public function rowData(string $row_id, object $original_data): RowData;
 
 
 	/**
-	 * @return TableExportFormat
+	 * @return ExportFormat
 	 */
-	public function exportFormatCSV(): TableExportFormat;
+	public function exportFormatCSV(): ExportFormat;
 
 
 	/**
-	 * @return TableExportFormat
+	 * @return ExportFormat
 	 */
-	public function exportFormatExcel(): TableExportFormat;
+	public function exportFormatExcel(): ExportFormat;
 
 
 	/**
-	 * @return TableExportFormat
+	 * @return ExportFormat
 	 */
-	public function exportFormatPDF(): TableExportFormat;
+	public function exportFormatPDF(): ExportFormat;
 }

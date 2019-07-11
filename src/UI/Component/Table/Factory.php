@@ -120,5 +120,4 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Table\Data\Factory\Factory
 	 */
 	public function data(Container $dic): DataTableFactory;
-
 }

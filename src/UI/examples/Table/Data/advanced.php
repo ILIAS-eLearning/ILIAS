@@ -1,16 +1,16 @@
 <?php
 
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Data\TableData as TableDataInterface;
+use ILIAS\UI\Component\Table\Data\Column\Column;
+use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
+use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
 use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyTableColumnFormater;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyTableExportFormater;
-use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractTableDataFetcher;
-use ILIAS\UI\Implementation\Component\Table\Data\Data\TableData;
-use ILIAS\UI\Implementation\Component\Table\Data\Export\Formater\AbstractTableColumnFormater;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyColumnFormater;
+use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyExportFormater;
+use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
+use ILIAS\UI\Implementation\Component\Table\Data\Data\Data;
+use ILIAS\UI\Implementation\Component\Table\Data\Export\Formater\AbstractColumnFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\TableFilterStorage;
 use ILIAS\UI\Renderer;
 
@@ -25,16 +25,16 @@ function advanced(): string {
 	$factory = $DIC->ui()->factory()->table()->data($DIC);
 
 	$table = $factory->table("example_datatable_advanced", $action_url, "Advanced example data table", [
-		$factory->column("obj_id", "Id", new SimplePropertyTableColumnFormater($DIC), new SimplePropertyTableExportFormater($DIC))
+		$factory->column("obj_id", "Id", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
 			->withDefaultSelected(false),
-		$factory->column("title", "Title", new SimplePropertyTableColumnFormater($DIC), new SimplePropertyTableExportFormater($DIC))
+		$factory->column("title", "Title", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
 			->withDefaultSort(true),
-		$factory->column("type", "Type", new class($DIC) extends AbstractTableColumnFormater {
+		$factory->column("type", "Type", new class($DIC) extends AbstractColumnFormater {
 
 			/**
 			 * @inheritDoc
 			 */
-			public function formatHeader(TableColumn $column, string $table_id, Renderer $renderer): string {
+			public function formatHeader(Column $column, string $table_id, Renderer $renderer): string {
 				return $column->getTitle();
 			}
 
@@ -42,7 +42,7 @@ function advanced(): string {
 			/**
 			 * @inheritDoc
 			 */
-			public function formatRow(TableColumn $column, TableRowData $row, string $table_id, Renderer $renderer): string {
+			public function formatRow(Column $column, RowData $row, string $table_id, Renderer $renderer): string {
 				$type = $row->getOriginalData()->{$column->getKey()};
 
 				return $renderer->render([
@@ -50,18 +50,18 @@ function advanced(): string {
 					$this->dic->ui()->factory()->legacy($type)
 				]);
 			}
-		}, new SimplePropertyTableExportFormater($DIC)),
-		$factory->column("description", "Description", new SimplePropertyTableColumnFormater($DIC), new SimplePropertyTableExportFormater($DIC))
+		}, new SimplePropertyExportFormater($DIC)),
+		$factory->column("description", "Description", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
 			->withDefaultSelected(false)->withSortable(false),
 		$factory->actionColumn("actions", "Actions", [
 			"Action" => $action_url
 		])
-	], new class($DIC) extends AbstractTableDataFetcher {
+	], new class($DIC) extends AbstractDataFetcher {
 
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(TableFilter $filter, Factory $factory): TableDataInterface {
+		public function fetchData(Filter $filter, Factory $factory): DataInterface {
 			$sql = 'SELECT *' . $this->getQuery($filter);
 
 			$result = $this->dic->database()->query($sql);
@@ -77,17 +77,17 @@ function advanced(): string {
 
 			$max_count = intval($result->fetchAssoc()["count"]);
 
-			return new TableData($rows, $max_count);
+			return new Data($rows, $max_count);
 		}
 
 
 		/**
-		 * @param TableFilter $filter
-		 * @param bool        $max_count
+		 * @param Filter $filter
+		 * @param bool   $max_count
 		 *
 		 * @return string
 		 */
-		protected function getQuery(TableFilter $filter, $max_count = false): string {
+		protected function getQuery(Filter $filter, $max_count = false): string {
 			$sql = ' FROM object_data';
 
 			$field_values = array_filter($filter->getFieldValues());
@@ -100,9 +100,9 @@ function advanced(): string {
 
 			if (!$max_count) {
 				if (!empty($filter->getSortFields())) {
-					$sql .= ' ORDER BY ' . implode(", ", array_map(function (TableFilterSortField $sort_field): string {
+					$sql .= ' ORDER BY ' . implode(", ", array_map(function (FilterSortField $sort_field): string {
 							return $this->dic->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
-								=== TableFilterSortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
+								=== FilterSortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
 						}, $filter->getSortFields()));
 				}
 
