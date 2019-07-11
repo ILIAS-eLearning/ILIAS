@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
-
 /**
  * Handles course mail placeholders
  *
@@ -174,7 +172,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 
         $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
 
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
 
         $this->getLanguage()->loadLanguageModule('trac');
@@ -211,7 +208,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 return '';
 
             case 'crs_link':
-                require_once './Services/Link/classes/class.ilLink.php';
                 return ilLink::_getLink($context_parameters['ref_id'], 'crs');
 
             case 'crs_status':
@@ -219,8 +215,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                     return '';
                 }
 
-                include_once './Services/Tracking/classes/class.ilLPStatus.php';
-                include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
                 $status = ilLPStatus::_lookupStatus($obj_id, $recipient->getId());
                 if (!$status) {
                     $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -232,9 +226,8 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                     return '';
                 }
 
-                include_once './Services/Tracking/classes/class.ilLPMarks.php';
                 $mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
-                return strlen(trim($mark)) ? $mark : '-';
+                return (is_string($mark) && strlen(trim($mark))) ? $mark : '-';
 
             case 'crs_time_spent':
                 if ($recipient === null) {
@@ -242,7 +235,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 }
 
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['spent_seconds'])) {
                         return ilDatePresentation::secondsToString($progress['spent_seconds'], false,
@@ -257,7 +249,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 }
 
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time_min'])) {
                         return ilDatePresentation::formatDate(new ilDateTime($progress['access_time_min'],
@@ -272,7 +263,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 }
 
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
-                    include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time'])) {
                         return ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX));
