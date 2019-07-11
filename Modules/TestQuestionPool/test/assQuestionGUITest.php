@@ -42,16 +42,4 @@ class assQuestionGUITest extends assBaseTestCase
 			$this->setGlobalVariable('ilDB', $this->getDatabaseMock());
 		}
 	}
-
-	public function test_instantiateObject_shouldReturnInstance()
-	{
-		$this->markTestIncomplete('Abstract class - needs fixture class for tests.');
-		// Arrange
-		require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-
-		// Act
-		//$instance = new assQuestionGUI();
-
-		//$this->assertInstanceOf('assQuestionGUI', $instance);
-	}
 }
