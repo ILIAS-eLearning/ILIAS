@@ -2,7 +2,8 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilMailTemplaceProcessor
+ * Class ilMailTemplatePlaceholderResolver
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailTemplatePlaceholderResolver
 {
@@ -10,7 +11,7 @@ class ilMailTemplatePlaceholderResolver
     protected $context;
 
     /** @var string */
-    protected $message;
+    protected $message = '';
 
     /**
      * ilMailTemplateProcessor constructor.
@@ -25,17 +26,20 @@ class ilMailTemplatePlaceholderResolver
 
     /**
      * @param ilObjUser|null $user
-     * @param array $a_context_params
-     * @param $replace_empty boolean
+     * @param array $contextParameters
+     * @param $replaceEmptyPlaceholders boolean
      * @return string
      */
-    public function resolve(ilObjUser $user = null, $a_context_params = array(), bool $replace_empty = true) : string
-    {
+    public function resolve(
+        ilObjUser $user = null,
+        array $contextParameters = [],
+        bool $replaceEmptyPlaceholders = true
+    ) : string {
         $message = $this->message;
 
         foreach ($this->context->getPlaceholders() as $key => $ph_definition) {
-            $result = $this->context->resolvePlaceholder($key, $a_context_params, $user);
-            if (!$replace_empty && strlen($result) == 0) {
+            $result = $this->context->resolvePlaceholder($key, $contextParameters, $user);
+            if (!$replaceEmptyPlaceholders && 0 === strlen($result)) {
                 continue;
             }
 

@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use OrgUnit\PublicApi\OrgUnitUserService;
+use OrgUnit\User\ilOrgUnitUser;
 
 require_once './Services/Language/classes/class.ilLanguageFactory.php';
 
@@ -14,39 +16,59 @@ abstract class ilMailTemplateContext
 {
     /** @var ilLanguage|null */
     protected $language;
-    
+
+    /** @var ilMailEnvironmentHelper */
+    protected $envHelper;
+
+    /** @var ilMailLanguageHelper */
+    protected $languageHelper;
+
+    /** @var ilMailUserHelper */
+    protected $userHelper;
+
     /** @var OrgUnitUserService */
     protected $orgUnitUserService;
 
     /**
      * ilMailTemplateContext constructor.
      * @param OrgUnitUserService|null $orgUnitUserService
+     * @param ilMailEnvironmentHelper|null $envHelper
+     * @param ilMailUserHelper|null $usernameHelper
+     * @param ilMailLanguageHelper|null $languageHelper
      */
     public function __construct(
-         OrgUnitUserService $orgUnitUserService = null
+        OrgUnitUserService $orgUnitUserService = null,
+        ilMailEnvironmentHelper $envHelper = null,
+        ilMailUserHelper $usernameHelper = null,
+        ilMailLanguageHelper $languageHelper = null
     ) {
         if (null === $orgUnitUserService) {
             $orgUnitUserService = new OrgUnitUserService();
         }
         $this->orgUnitUserService = $orgUnitUserService;
+
+        if (null === $envHelper) {
+            $envHelper = new ilMailEnvironmentHelper();
+        }
+        $this->envHelper = $envHelper;
+
+        if (null === $usernameHelper) {
+            $usernameHelper = new ilMailUserHelper();
+        }
+        $this->userHelper = $usernameHelper;
+
+        if (null === $languageHelper) {
+            $languageHelper = new ilMailLanguageHelper();
+        }
+        $this->languageHelper = $languageHelper;
     }
 
     /**
-     * @return ilLanguage|null
+     * @return ilLanguage
      */
-    public function getLanguage() : ?ilLanguage
+    public function getLanguage() : ilLanguage
     {
-        global $DIC;
-
-        return $this->language ? $this->language : $DIC->language();
-    }
-
-    /**
-     * @param ilLanguage|null $language
-     */
-    public function setLanguage(?ilLanguage $language) : void
-    {
-        $this->language = $language;
+        return $this->language ? $this->language : $this->languageHelper->getCurrentLanguage();
     }
 
     /**
@@ -158,13 +180,10 @@ abstract class ilMailTemplateContext
             $this->initLanguage($recipient);
         }
 
-        $old_lang = ilDatePresentation::getLanguage();
-        ilDatePresentation::setLanguage($this->getLanguage());
-
         $resolved = '';
 
         switch (true) {
-            case ('mail_salutation' == $placeholder_id && $recipient !== null):
+            case ('mail_salutation' === $placeholder_id && $recipient !== null):
                 $resolved = $this->getLanguage()->txt('mail_salutation_n');
                 switch ($recipient->getGender()) {
                     case 'f':
@@ -181,58 +200,60 @@ abstract class ilMailTemplateContext
                 }
                 break;
 
-            case ('first_name' == $placeholder_id && $recipient !== null):
+            case ('first_name' === $placeholder_id && $recipient !== null):
                 $resolved = $recipient->getFirstname();
                 break;
 
-            case ('last_name' == $placeholder_id && $recipient !== null):
+            case ('last_name' === $placeholder_id && $recipient !== null):
                 $resolved = $recipient->getLastname();
                 break;
 
-            case ('login' == $placeholder_id && $recipient !== null):
+            case ('login' === $placeholder_id && $recipient !== null):
                 $resolved = $recipient->getLogin();
                 break;
 
-            case ('title' == $placeholder_id && $recipient !== null):
+            case ('title' === $placeholder_id && $recipient !== null):
                 $resolved = $recipient->getUTitle();
                 break;
 
-            case 'ilias_url' == $placeholder_id:
-                $resolved = ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID;
+            case 'ilias_url' === $placeholder_id:
+                $resolved = $this->envHelper->getHttpPath() . '/login.php?client_id=' . $this->envHelper->getClientId();
                 break;
 
-            case 'client_name' == $placeholder_id:
-                $resolved = CLIENT_NAME;
+            case 'client_name' === $placeholder_id:
+                $resolved = $this->envHelper->getClientId();
                 break;
 
-            case 'firstname_last_name_superior' == $placeholder_id && $recipient !== null:
+            case 'firstname_last_name_superior' === $placeholder_id && $recipient !== null:
                 $ouUsers = $this->orgUnitUserService->getUsers([$recipient->getId()], true);
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
 
-                    $firstAndLastNames = \ilUserUtil::getNamePresentation(
-                      array_map(function(OrgUnit\User\ilOrgUnitUser $ouUser) {
-                          return $ouUser->getUserId();
-                      }, $superiors),
-                      false, false, '', false, true, false
-                    );
+                    $superiorUsrIds = array_map(function (ilOrgUnitUser $ouUser) {
+                        return $ouUser->getUserId();
+                    }, $superiors);
 
-                    $resolved = implode(', ', $firstAndLastNames);
+                    $usrIdByNameMap = $this->userHelper->getUsernameMapForIds($superiorUsrIds);
+
+                    $resolved = implode(', ', $usrIdByNameMap);
                     break;
                 }
                 break;
 
             case !in_array($placeholder_id, array_keys($this->getGenericPlaceholders())):
+                $datePresentationLanguage = ilDatePresentation::getLanguage();
+                ilDatePresentation::setLanguage($this->getLanguage());
+
                 $resolved = $this->resolveSpecificPlaceholder(
                     $placeholder_id,
                     $context_parameters,
                     $recipient,
                     $html_markup
                 );
+
+                ilDatePresentation::setLanguage($datePresentationLanguage);
                 break;
         }
-
-        ilDatePresentation::setLanguage($old_lang);
 
         return $resolved;
     }
@@ -246,11 +267,11 @@ abstract class ilMailTemplateContext
     }
 
     /**
-     * @param string $languageCode
+     * @param string $isoCode
      */
-    protected function initLanguageByIso2Code(string $languageCode) : void
+    protected function initLanguageByIso2Code(string $isoCode) : void
     {
-        $this->language = ilLanguageFactory::_getLanguage($languageCode);
+        $this->language = $this->languageHelper->getLanguageByIsoCode($isoCode);
         $this->language->loadLanguageModule('mail');
     }
 }

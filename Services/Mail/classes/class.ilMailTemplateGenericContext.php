@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/class.ilMailTemplateContext.php';
@@ -22,9 +23,7 @@ class ilMailTemplateGenericContext extends ilMailTemplateContext
      */
     public function getTitle() : string
     {
-        global $DIC;
-
-        return $DIC->language()->txt('please_choose');
+        return $this->getLanguage()->txt('please_choose');
     }
 
     /**
@@ -32,9 +31,7 @@ class ilMailTemplateGenericContext extends ilMailTemplateContext
      */
     public function getDescription() : string
     {
-        global $DIC;
-
-        return $DIC->language()->txt('please_choose');
+        return $this->getLanguage()->txt('please_choose');
     }
 
     /**
