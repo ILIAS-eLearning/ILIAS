@@ -8,11 +8,11 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterStandard;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
-use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Component\Table\Data\Export\ExportFormat;
+use ILIAS\UI\Component\Table\Data\Filter\Filter;
 use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\Format\Format;
+use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
@@ -72,7 +72,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderDataTable(Table $component, RendererInterface $renderer): string {
-		$filter = $component->getFilterStorage()->read($component->getTableId(), $this->dic->user()->getId(), $component->getFactory());
+		$filter = $component->getFilterStorage()->read($component->getTableId(), $this->dic->user()->getId());
 
 		$filter = $this->handleFilterInput($component, $filter);
 
@@ -149,14 +149,14 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return Component
 	 */
 	protected function getColumnsSelector(Table $component, Filter $filter, RendererInterface $renderer): Component {
-		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Column $column) use ($component, $filter, $renderer): Shy {
-			return $this->dic->ui()->factory()->button()->shy($renderer->render([
-				$this->dic->ui()->factory()->symbol()->glyph()->add(),
-				$this->dic->ui()->factory()->legacy($column->getTitle())
+		return $this->getUIFactory()->dropdown()->standard(array_map(function (Column $column) use ($component, $filter, $renderer): Shy {
+			return $this->getUIFactory()->button()->shy($renderer->render([
+				$this->getUIFactory()->symbol()->glyph()->add(),
+				$this->getUIFactory()->legacy($column->getTitle())
 			]), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_SELECT_COLUMN => $column->getKey() ], $component->getTableId()));
 		}, array_filter($component->getColumns(), function (Column $column) use ($filter): bool {
 			return ($column->isSelectable() && !in_array($column->getKey(), $filter->getSelectedColumns()));
-		})))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_add_columns"));
+		})))->withLabel($this->txt(Table::LANG_MODULE . "_add_columns"));
 	}
 
 
@@ -166,10 +166,10 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return Component
 	 */
 	protected function getExportsSelector(Table $component): Component {
-		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (ExportFormat $export_format) use ($component): Shy {
-			return $this->dic->ui()->factory()->button()
-				->shy($export_format->getTitle(), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_EXPORT_FORMAT_ID => $export_format->getExportId() ], $component->getTableId()));
-		}, $component->getExportFormats()))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_export"));
+		return $this->getUIFactory()->dropdown()->standard(array_map(function (Format $format) use ($component): Shy {
+			return $this->getUIFactory()->button()
+				->shy($format->getDisplayTitle(), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId() ], $component->getTableId()));
+		}, $component->getFormats()))->withLabel($this->txt(Table::LANG_MODULE . "_export"));
 	}
 
 
@@ -182,17 +182,17 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return Component
 	 */
 	protected function getPagesSelector(Table $component, Filter $filter, Data $data, RendererInterface $renderer): Component {
-		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (int $page) use ($component, $filter, $renderer): Component {
+		return $this->getUIFactory()->dropdown()->standard(array_map(function (int $page) use ($component, $filter, $renderer): Component {
 			if ($filter->getCurrentPage() === $page) {
-				return $this->dic->ui()->factory()->legacy($renderer->render([
-					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy(strval($page))
+				return $this->getUIFactory()->legacy($renderer->render([
+					$this->getUIFactory()->symbol()->glyph()->apply(),
+					$this->getUIFactory()->legacy(strval($page))
 				]));
 			} else {
-				return $this->dic->ui()->factory()->button()
+				return $this->getUIFactory()->button()
 					->shy(strval($page), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_CURRENT_PAGE => $page ], $component->getTableId()));
 			}
-		}, range(1, $filter->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
+		}, range(1, $filter->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->txt(Table::LANG_MODULE
 			. "_pages"), $filter->getCurrentPage(), $filter->getTotalPages($data->getMaxCount())));
 	}
 
@@ -205,18 +205,17 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return Component
 	 */
 	protected function getRowsPerPageSelector(Table $component, Filter $filter, RendererInterface $renderer): Component {
-		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (int $count) use ($component, $filter, $renderer): Component {
+		return $this->getUIFactory()->dropdown()->standard(array_map(function (int $count) use ($component, $filter, $renderer): Component {
 			if ($filter->getRowsCount() === $count) {
-				return $this->dic->ui()->factory()->legacy($renderer->render([
-					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy(strval($count))
+				return $this->getUIFactory()->legacy($renderer->render([
+					$this->getUIFactory()->symbol()->glyph()->apply(),
+					$this->getUIFactory()->legacy(strval($count))
 				]));
 			} else {
-				return $this->dic->ui()->factory()->button()
+				return $this->getUIFactory()->button()
 					->shy(strval($count), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_ROWS_COUNT => $count ], $component->getTableId()));
 			}
-		}, Filter::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
-			. "_rows_per_page"), $filter->getRowsCount()));
+		}, Filter::ROWS_COUNT))->withLabel(sprintf($this->txt(Table::LANG_MODULE . "_rows_per_page"), $filter->getRowsCount()));
 	}
 
 
@@ -230,7 +229,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function handleActionsPanel(Template $tpl, Table $component, Filter $filter, Data $data, RendererInterface $renderer): void {
 		$tpl->setCurrentBlock("actions");
 
-		$tpl->setVariable("ACTIONS", $renderer->render($this->dic->ui()->factory()->panel()->standard("", [
+		$tpl->setVariable("ACTIONS", $renderer->render($this->getUIFactory()->panel()->standard("", [
 			$this->getPagesSelector($component, $filter, $data, $renderer),
 			$this->getColumnsSelector($component, $filter, $renderer),
 			$this->getRowsPerPageSelector($component, $filter, $renderer),
@@ -258,12 +257,12 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		foreach ($columns as $column) {
-			$deselect_button = $this->dic->ui()->factory()->legacy("");
-			$sort_button = $column->getColumnFormater()->formatHeader($column, $component->getTableId(), $renderer);
-			$remove_sort_button = $this->dic->ui()->factory()->legacy("");
+			$deselect_button = $this->getUIFactory()->legacy("");
+			$sort_button = $column->getFormater()->formatHeader(Format::FORMAT_BROWSER, $column, $component->getTableId(), $renderer);
+			$remove_sort_button = $this->getUIFactory()->legacy("");
 
 			if ($column->isSelectable()) {
-				$deselect_button = $this->dic->ui()->factory()->button()->shy($renderer->render($this->dic->ui()->factory()->symbol()->glyph()
+				$deselect_button = $this->getUIFactory()->button()->shy($renderer->render($this->getUIFactory()->symbol()->glyph()
 					->remove()), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_DESELECT_COLUMN => $column->getKey() ], $component->getTableId()));
 			}
 
@@ -272,34 +271,34 @@ class Renderer extends AbstractComponentRenderer {
 
 				if ($sort_field !== null) {
 					if ($sort_field->getSortFieldDirection() === FilterSortField::SORT_DIRECTION_DOWN) {
-						$sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
-							$this->dic->ui()->factory()->legacy($sort_button),
-							$this->dic->ui()->factory()->symbol()->glyph()->sortDescending()
+						$sort_button = $this->getUIFactory()->button()->shy($renderer->render([
+							$this->getUIFactory()->legacy($sort_button),
+							$this->getUIFactory()->symbol()->glyph()->sortDescending()
 						]), self::getActionUrl($component->getActionUrl(), [
 							FilterStorage::VAR_SORT_FIELD => $column->getKey(),
 							FilterStorage::VAR_SORT_FIELD_DIRECTION => FilterSortField::SORT_DIRECTION_UP
 						], $component->getTableId()));
 					} else {
-						$sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
-							$this->dic->ui()->factory()->legacy($sort_button),
-							$this->dic->ui()->factory()->symbol()->glyph()->sortAscending()
+						$sort_button = $this->getUIFactory()->button()->shy($renderer->render([
+							$this->getUIFactory()->legacy($sort_button),
+							$this->getUIFactory()->symbol()->glyph()->sortAscending()
 						]), self::getActionUrl($component->getActionUrl(), [
 							FilterStorage::VAR_SORT_FIELD => $column->getKey(),
 							FilterStorage::VAR_SORT_FIELD_DIRECTION => FilterSortField::SORT_DIRECTION_DOWN
 						], $component->getTableId()));
 					}
 
-					$remove_sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render($this->dic->ui()->factory()->symbol()->glyph()
+					$remove_sort_button = $this->getUIFactory()->button()->shy($renderer->render($this->getUIFactory()->symbol()->glyph()
 						->back() // TODO: Other icon for remove sort
 					), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_REMOVE_SORT_FIELD => $column->getKey() ], $component->getTableId()));
 				} else {
-					$sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, self::getActionUrl($component->getActionUrl(), [
+					$sort_button = $this->getUIFactory()->button()->shy($sort_button, self::getActionUrl($component->getActionUrl(), [
 						FilterStorage::VAR_SORT_FIELD => $column->getKey(),
 						FilterStorage::VAR_SORT_FIELD_DIRECTION => FilterSortField::SORT_DIRECTION_UP
 					], $component->getTableId()));
 				}
 			} else {
-				$sort_button = $this->dic->ui()->factory()->legacy($sort_button);
+				$sort_button = $this->getUIFactory()->legacy($sort_button);
 			}
 
 			$tpl->setVariable("HEADER", $renderer->render([ $deselect_button, $sort_button, $remove_sort_button ]));
@@ -338,7 +337,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function handleDefaultSort(Table $component, Filter $filter): Filter {
 		if (!$filter->isFilterSet() && empty($filter->getSortFields())) {
 			$filter = $filter->withSortFields(array_map(function (Column $column) use ($component): FilterSortField {
-				return $component->getFactory()->filterSortField($column->getKey(), $column->getDefaultSortDirection());
+				return $component->getFilterStorage()->sortField($column->getKey(), $column->getDefaultSortDirection());
 			}, array_filter($component->getColumns(), function (Column $column): bool {
 				return ($column->isSortable() && $column->isDefaultSort());
 			})));
@@ -354,8 +353,16 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param Data     $data
 	 */
 	protected function handleDisplayCount(Template $tpl, Filter $filter, Data $data): void {
-		$tpl->setVariable("COUNT", sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($filter->getLimitStart()
-			+ 1), min($filter->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount()));
+		$count = sprintf($this->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount() > 0 ? $filter->getLimitStart()
+			+ 1 : 0), min($filter->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount());
+
+		$tpl->setCurrentBlock("count_top");
+		$tpl->setVariable("COUNT_TOP", $count);
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("count_bottom");
+		$tpl->setVariable("COUNT_BOTTOM", $count);
+		$tpl->parseCurrentBlock();
 	}
 
 
@@ -373,35 +380,37 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		/**
-		 * @var ExportFormat|null $export_format
+		 * @var Format|null $format
 		 */
-		$export_format = current(array_filter($component->getExportFormats(), function (ExportFormat $export_format) use ($export_format_id): bool {
-			return ($export_format->getExportId() === $export_format_id);
+		$format = current(array_filter($component->getFormats(), function (Format $format) use ($export_format_id): bool {
+			return ($format->getFormatId() === $export_format_id);
 		}));
 
-		if ($export_format === null) {
+		if ($format === null) {
 			return;
 		}
 
 		$columns = array_filter($columns, function (Column $column): bool {
-			return ($column->getExportFormater() !== null);
+			return $column->isExportable();
 		});
 
 		$columns_ = [];
 		foreach ($columns as $column) {
-			$columns_[] = $column->getExportFormater()->formatHeader($export_format, $column, $component->getTableId(), $renderer);
+			$columns_[] = $column->getFormater()->formatHeader($format->getFormatId(), $column, $component->getTableId(), $renderer);
 		}
 
 		$rows_ = [];
 		foreach ($data->getData() as $row) {
 			$row_ = [];
 			foreach ($columns as $column) {
-				$row_[] = $column->getExportFormater()->formatRow($export_format, $column, $row, $component->getTableId(), $renderer);
+				$row_[] = $column->getFormater()->formatRow($format->getFormatId(), $column, $row, $component->getTableId(), $renderer);
 			}
 			$rows_[] = $row_;
 		}
 
-		$export_format->export($columns_, $rows_, $component->getTitle(), $component->getTableId(), $renderer);
+		$data = $format->render($columns_, $rows_, $component->getTitle(), $component->getTableId(), $renderer);
+
+		$format->devliver($data, $component->getTitle(), $component->getTableId());
 	}
 
 
@@ -413,9 +422,9 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function handleFetchData(Table $component, Filter $filter): Data {
 		if (!$component->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
-			$data = $component->getDataFetcher()->fetchData($filter, $component->getFactory());
+			$data = $component->getDataFetcher()->fetchData($filter);
 		} else {
-			$data = $component->getFactory()->data([], 0);
+			$data = $component->getDataFetcher()->data([], 0);
 		}
 
 		return $data;
@@ -470,7 +479,7 @@ class Renderer extends AbstractComponentRenderer {
 		$sort_field = strval(filter_input(INPUT_GET, self::actionParameter(FilterStorage::VAR_SORT_FIELD, $component->getTableId())));
 		$sort_field_direction = intval(filter_input(INPUT_GET, self::actionParameter(FilterStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
 		if (!empty($sort_field) && !empty($sort_field_direction)) {
-			$filter = $filter->addSortField($component->getFactory()->filterSortField($sort_field, $sort_field_direction));
+			$filter = $filter->addSortField($component->getFilterStorage()->sortField($sort_field, $sort_field_direction));
 
 			$filter = $filter->withFilterSet(true);
 		}
@@ -538,16 +547,17 @@ class Renderer extends AbstractComponentRenderer {
 			return;
 		}
 
-		$tpl_checkbox = $this->getTemplate("tpl.datatablecheckbox.html", true, true);
+		$tpl_checkbox = $this->getTemplate("tpl.datatablerow.html", true, false);
 
-		$tpl_checkbox->setVariable("TXT", $this->dic->language()->txt(Table::LANG_MODULE . "_select_all"));
+		$tpl_checkbox->setCurrentBlock("row_checkbox");
 
 		$multiple_actions = [
-			$this->dic->ui()->factory()->legacy($tpl_checkbox->get()),
-			$this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action): Shy {
-				return $this->dic->ui()->factory()->button()->shy($title, $action);
-			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($this->dic->language()
-				->txt(Table::LANG_MODULE . "_multiple_actions"))
+			$this->getUIFactory()->legacy($tpl_checkbox->get()),
+			$this->getUIFactory()->legacy($this->txt(Table::LANG_MODULE . "_select_all")),
+			$this->getUIFactory()->dropdown()->standard(array_map(function (string $title, string $action): Shy {
+				return $this->getUIFactory()->button()->shy($title, $action);
+			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($this->txt(Table::LANG_MODULE
+				. "_multiple_actions"))
 		];
 
 		$tpl->setCurrentBlock("multiple_actions_top");
@@ -589,22 +599,20 @@ class Renderer extends AbstractComponentRenderer {
 		foreach ($data->getData() as $row) {
 			$tpl_row = $this->getTemplate("tpl.datatablerow.html", true, true);
 
-			$tpl_row->setCurrentBlock("row");
-
 			if (count($component->getMultipleActions()) > 0) {
-				$tpl_checkbox = $this->getTemplate("tpl.datatablecheckbox.html", true, true);
+				$tpl_row->setCurrentBlock("row_checkbox");
 
-				$tpl_checkbox->setVariable("POST_VAR", self::actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]");
+				$tpl_row->setVariable("POST_VAR", self::actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]");
 
-				$tpl_checkbox->setVariable("ROW_ID", $row->getRowId());
-
-				$tpl_row->setVariable("COLUMN", $tpl_checkbox->get());
+				$tpl_row->setVariable("ROW_ID", $row->getRowId());
 
 				$tpl_row->parseCurrentBlock();
 			}
 
+			$tpl_row->setCurrentBlock("row");
+
 			foreach ($columns as $column) {
-				$value = $column->getColumnFormater()->formatRow($column, $row, $component->getTableId(), $renderer);
+				$value = $column->getFormater()->formatRow(Format::FORMAT_BROWSER, $column, $row, $component->getTableId(), $renderer);
 
 				if ($value === "") {
 					$value = "&nbsp;";

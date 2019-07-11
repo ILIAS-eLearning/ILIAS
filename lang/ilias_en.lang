@@ -15153,6 +15153,7 @@ datatable#:#datatable_count#:#(%1$s of %2$s)
 datatable#:#datatable_export#:#Export
 datatable#:#datatable_export_csv#:#CSV
 datatable#:#datatable_export_excel#:#Excel
+datatable#:#datatable_export_html#:#HTML
 datatable#:#datatable_export_pdf#:#PDF
 datatable#:#datatable_multiple_actions#:#Multiple actions
 datatable#:#datatable_no_data#:#No data

@@ -46,4 +46,12 @@ interface RowData {
 	 * @return self
 	 */
 	public function withOriginalData(object $original_data): self;
+
+
+	/**
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function __invoke(string $key);
 }

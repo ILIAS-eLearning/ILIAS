@@ -2,8 +2,9 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\Data;
 
-use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
+use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
+use ILIAS\UI\Component\Table\Data\Data\Row\RowDataGetter;
 
 /**
  * Class Data

@@ -1,17 +1,14 @@
 <?php
 
 use ILIAS\UI\Component\Table\Data\Column\Column;
+use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
-use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyColumnFormater;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyExportFormater;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\Format\Format;
+use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
-use ILIAS\UI\Implementation\Component\Table\Data\Data\Data;
-use ILIAS\UI\Implementation\Component\Table\Data\Export\Formater\AbstractColumnFormater;
-use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\DefaultFilterStorage;
 use ILIAS\UI\Renderer;
 
 /**
@@ -25,34 +22,31 @@ function advanced(): string {
 	$factory = $DIC->ui()->factory()->table()->data($DIC);
 
 	$table = $factory->table("example_datatable_advanced", $action_url, "Advanced example data table", [
-		$factory->column("obj_id", "Id", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
-			->withDefaultSelected(false),
-		$factory->column("title", "Title", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
-			->withDefaultSort(true),
-		$factory->column("type", "Type", new class($DIC) extends AbstractColumnFormater {
+		$factory->column("obj_id", "Id")->withDefaultSelected(false),
+		$factory->column("title", "Title")->withDefaultSort(true),
+		$factory->column("type", "Type")->withFormater(new class($DIC) extends DefaultFormater {
 
 			/**
 			 * @inheritDoc
 			 */
-			public function formatHeader(Column $column, string $table_id, Renderer $renderer): string {
-				return $column->getTitle();
+			public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
+				$type = parent::formatRow($format_id, $column, $row, $table_id, $renderer);
+
+				switch ($format_id) {
+					case Format::FORMAT_BROWSER:
+					case Format::FORMAT_PDF:
+					case Format::FORMAT_HTML:
+						return $renderer->render([
+							$this->dic->ui()->factory()->symbol()->icon()->custom(ilObject::_getIcon($row->getRowId(), "small"), $type),
+							$this->dic->ui()->factory()->legacy($type)
+						]);
+
+					default:
+						return $type;
+				}
 			}
-
-
-			/**
-			 * @inheritDoc
-			 */
-			public function formatRow(Column $column, RowData $row, string $table_id, Renderer $renderer): string {
-				$type = $row->getOriginalData()->{$column->getKey()};
-
-				return $renderer->render([
-					$this->dic->ui()->factory()->symbol()->icon()->custom(ilObject::_getIcon($row->getRowId(), "small"), $type),
-					$this->dic->ui()->factory()->legacy($type)
-				]);
-			}
-		}, new SimplePropertyExportFormater($DIC)),
-		$factory->column("description", "Description", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
-			->withDefaultSelected(false)->withSortable(false),
+		}),
+		$factory->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
 		$factory->actionColumn("actions", "Actions", [
 			"Action" => $action_url
 		])
@@ -61,14 +55,14 @@ function advanced(): string {
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(Filter $filter, Factory $factory): DataInterface {
+		public function fetchData(Filter $filter): Data {
 			$sql = 'SELECT *' . $this->getQuery($filter);
 
 			$result = $this->dic->database()->query($sql);
 
 			$rows = [];
 			while (!empty($row = $this->dic->database()->fetchAssoc($result))) {
-				$rows[] = $factory->rowData($row["obj_id"], (object)$row);
+				$rows[] = $this->propertyRowData($row["obj_id"], (object)$row);
 			}
 
 			$sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($filter, true);
@@ -77,7 +71,7 @@ function advanced(): string {
 
 			$max_count = intval($result->fetchAssoc()["count"]);
 
-			return new Data($rows, $max_count);
+			return $this->data($rows, $max_count);
 		}
 
 
@@ -114,13 +108,14 @@ function advanced(): string {
 
 			return $sql;
 		}
-	}, new TableFilterStorage($DIC))->withFilterFields([
+	})->withFilterFields([
 		"title" => $DIC->ui()->factory()->input()->field()->text("Title"),
 		"type" => $DIC->ui()->factory()->input()->field()->text("Type")
-	])->withExportFormats([
-		$factory->exportFormatCSV(),
-		$factory->exportFormatExcel(),
-		$factory->exportFormatPDF()
+	])->withFormats([
+		$factory->formatCSV(),
+		$factory->formatExcel(),
+		$factory->formatPDF(),
+		$factory->formatHTML()
 	])->withMultipleActions([
 		"Action" => $action_url
 	]);

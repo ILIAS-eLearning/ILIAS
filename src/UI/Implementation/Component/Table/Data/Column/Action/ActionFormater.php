@@ -7,23 +7,23 @@ use ILIAS\UI\Component\Table\Data\Column\Action\ActionColumn;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Implementation\Component\Table\Data\Export\Formater\AbstractColumnFormater;
+use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\AbstractFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Renderer;
 use ILIAS\UI\Renderer as RendererInterface;
 
 /**
- * Class ActionColumnFormater
+ * Class ActionFormater
  *
  * @package ILIAS\UI\Implementation\Component\Table\Data\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ActionColumnFormater extends AbstractColumnFormater {
+class ActionFormater extends AbstractFormater {
 
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(Column $column, string $table_id, RendererInterface $renderer): string {
+	public function formatHeader(string $format_id, Column $column, string $table_id, RendererInterface $renderer): string {
 		return $column->getTitle();
 	}
 
@@ -33,7 +33,7 @@ class ActionColumnFormater extends AbstractColumnFormater {
 	 *
 	 * @param ActionColumn $column
 	 */
-	public function formatRow(Column $column, RowData $row, string $table_id, RendererInterface $renderer): string {
+	public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, RendererInterface $renderer): string {
 		return $renderer->render($this->dic->ui()->factory()->dropdown()
 			->standard(array_map(function (string $title, string $action) use ($row, $table_id): Shy {
 				return $this->dic->ui()->factory()->button()

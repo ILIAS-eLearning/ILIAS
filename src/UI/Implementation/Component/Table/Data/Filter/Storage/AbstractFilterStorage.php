@@ -2,8 +2,11 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage;
 
-use ILIAS\DI\Container;
+use ILIAS\UI\Component\Table\Data\Filter\Filter as FilterInterface;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField as FilterSortFieldInterface;
 use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Implementation\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Implementation\Component\Table\Data\Filter\Sort\FilterSortField;
 
 /**
  * Class AbstractFilterStorage
@@ -15,16 +18,26 @@ use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
 abstract class AbstractFilterStorage implements FilterStorage {
 
 	/**
-	 * @var Container
+	 * @inheritDoc
 	 */
-	protected $dic;
+	public function __construct() {
+
+	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(Container $dic) {
-		$this->dic = $dic;
+	public function filter(string $table_id, int $user_id): FilterInterface {
+		return new Filter($table_id, $user_id);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function sortField(string $sort_field, int $sort_field_direction): FilterSortFieldInterface {
+		return new FilterSortField($sort_field, $sort_field_direction);
 	}
 
 

@@ -2,9 +2,8 @@
 
 namespace ILIAS\UI\Component\Table\Data\Filter\Storage;
 
-use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 
 /**
  * Interface FilterStorage
@@ -73,24 +72,39 @@ interface FilterStorage {
 
 	/**
 	 * FilterStorage constructor
-	 *
-	 * @param Container $dic
 	 */
-	public function __construct(Container $dic);
+	public function __construct();
 
 
 	/**
-	 * @param string  $table_id
-	 * @param int     $user_id
-	 * @param Factory $factory
+	 * @param string $table_id
+	 * @param int    $user_id
 	 *
 	 * @return Filter
 	 */
-	public function read(string $table_id, int $user_id, Factory $factory): Filter;
+	public function read(string $table_id, int $user_id): Filter;
 
 
 	/**
 	 * @param Filter $filter
 	 */
 	public function store(Filter $filter): void;
+
+
+	/**
+	 * @param string $table_id
+	 * @param int    $user_id
+	 *
+	 * @return Filter
+	 */
+	public function filter(string $table_id, int $user_id): Filter;
+
+
+	/**
+	 * @param string $sort_field
+	 * @param int    $sort_field_direction
+	 *
+	 * @return FilterSortField
+	 */
+	public function sortField(string $sort_field, int $sort_field_direction): FilterSortField;
 }

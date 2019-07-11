@@ -1,14 +1,11 @@
 <?php
 
-use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Data\Data;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyColumnFormater;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\SimplePropertyExportFormater;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
-use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\DefaultFilterStorage;
 
 /**
  * @return string
@@ -18,18 +15,18 @@ function base(): string {
 
 	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class) . "&node_id=TableDataData";
 
-	$factory = $DIC->ui()->factory()->table()->data($dic);
+	$factory = $DIC->ui()->factory()->table()->data($DIC);
 
 	$table = $factory->table("example_datatable_actions", $action_url, "Example data table with actions", [
-		$factory->column("column1", "Column 1", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC)),
-		$factory->column("column2", "Column 2", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC)),
-		$factory->column("column3", "Column 3", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
+		$factory->column("column1", "Column 1"),
+		$factory->column("column2", "Column 2"),
+		$factory->column("column3", "Column 3")
 	], new class($DIC) extends AbstractDataFetcher {
 
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(Filter $filter, Factory $factory): Data {
+		public function fetchData(Filter $filter): Data {
 			$data = array_map(function (int $index): stdClass {
 				return (object)[
 					"column1" => $index,
@@ -94,13 +91,13 @@ function base(): string {
 
 			$data = array_slice($data, $filter->getLimitStart(), $filter->getLimitEnd());
 
-			$data = array_map(function (stdClass $row) use ($factory): RowData {
-				return $factory->rowData($row->column1, $row);
+			$data = array_map(function (stdClass $row): RowData {
+				return $this->propertyRowData($row->column1, $row);
 			}, $data);
 
-			return $factory->data($data, $max_count);
+			return $this->data($data, $max_count);
 		}
-	}, new TableFilterStorage($DIC));
+	});
 
 	return $DIC->ui()->renderer()->render($table);
 }

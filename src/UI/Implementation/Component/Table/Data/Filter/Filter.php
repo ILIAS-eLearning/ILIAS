@@ -2,8 +2,8 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\Filter;
 
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 use ILIAS\UI\Component\Table\Data\Filter\Filter as FilterInterface;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 
 /**
  * Class Filter

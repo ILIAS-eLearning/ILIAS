@@ -6,10 +6,9 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
-use ILIAS\UI\Component\Table\Data\Export\ExportFormat;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\Format\Format;
 
 /**
  * Interface Table
@@ -28,15 +27,13 @@ interface Table extends Component {
 	/**
 	 * Table constructor
 	 *
-	 * @param string        $table_id
-	 * @param string        $action_url
-	 * @param string        $title
-	 * @param Column[]      $columns
-	 * @param DataFetcher   $data_fetcher
-	 * @param FilterStorage $filter_storage
-	 * @param Factory       $factory
+	 * @param string      $table_id
+	 * @param string      $action_url
+	 * @param string      $title
+	 * @param Column[]    $columns
+	 * @param DataFetcher $data_fetcher
 	 */
-	public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher, FilterStorage $filter_storage, Factory $factory);
+	public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher);
 
 
 	/**
@@ -152,17 +149,17 @@ interface Table extends Component {
 
 
 	/**
-	 * @return ExportFormat[]
+	 * @return Format[]
 	 */
-	public function getExportFormats(): array;
+	public function getFormats(): array;
 
 
 	/**
-	 * @param ExportFormat[] $export_formats
+	 * @param Format[] $formats
 	 *
 	 * @return self
 	 */
-	public function withExportFormats(array $export_formats): self;
+	public function withFormats(array $formats): self;
 
 
 	/**
@@ -203,10 +200,4 @@ interface Table extends Component {
 	 * @return string[]
 	 */
 	public function getMultipleActionRowIds(): array;
-
-
-	/**
-	 * @return Factory
-	 */
-	public function getFactory(): Factory;
 }

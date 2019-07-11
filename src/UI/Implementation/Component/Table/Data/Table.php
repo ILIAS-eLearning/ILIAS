@@ -5,12 +5,12 @@ namespace ILIAS\UI\Implementation\Component\Table\Data;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
-use ILIAS\UI\Component\Table\Data\Table as TableInterface;
-use ILIAS\UI\Component\Table\Data\Export\ExportFormat;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\Format\Format;
+use ILIAS\UI\Component\Table\Data\Table as TableInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\DefaultFilterStorage;
 
 /**
  * Class Table
@@ -55,9 +55,9 @@ class Table implements TableInterface {
 	 */
 	protected $filter_fields = [];
 	/**
-	 * @var ExportFormat[]
+	 * @var Format[]
 	 */
-	protected $export_formats = [];
+	protected $formats = [];
 	/**
 	 * @var string[]
 	 */
@@ -66,16 +66,12 @@ class Table implements TableInterface {
 	 * @var FilterStorage
 	 */
 	protected $filter_storage;
-	/**
-	 * @var Factory
-	 */
-	protected $factory;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher, FilterStorage $filter_storage, Factory $factory) {
+	public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher) {
 		$this->table_id = $table_id;
 
 		$this->action_url = $action_url;
@@ -86,9 +82,7 @@ class Table implements TableInterface {
 
 		$this->data_fetcher = $data_fetcher;
 
-		$this->filter_storage = $filter_storage;
-
-		$this->factory = $factory;
+		$this->filter_storage = new DefaultFilterStorage();
 	}
 
 
@@ -255,18 +249,18 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getExportFormats(): array {
-		return $this->export_formats;
+	public function getFormats(): array {
+		return $this->formats;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withExportFormats(array $export_formats): TableInterface {
+	public function withFormats(array $formats): TableInterface {
 		$clone = clone $this;
 
-		$clone->export_formats = $export_formats;
+		$clone->formats = $formats;
 
 		return $clone;
 	}
@@ -326,13 +320,5 @@ class Table implements TableInterface {
 	public function getMultipleActionRowIds(): array {
 		return (filter_input(INPUT_POST, Renderer::actionParameter(TableInterface::MULTIPLE_SELECT_POST_VAR, $this->getTableId()), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
 			?? []);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getFactory(): Factory {
-		return $this->factory;
 	}
 }
