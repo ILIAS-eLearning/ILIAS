@@ -39,6 +39,16 @@ class LogOfUser {
 	public $acting_user_login;
 
 	/**
+	 * @var string
+	 */
+	public $acting_user_firstname;
+
+	/**
+	 * @var string
+	 */
+	public $acting_user_lastname;
+
+	/**
 	 * @var int
 	 */
 	public $member_user_id;

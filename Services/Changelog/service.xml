@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="changelog">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+	</objects>
+	<crons>
+		<cron id="changelog_delete_old_logs" class="ilChangelogCronDeleteOldLogs" path="Services/Changelog/classes/" />
+	</crons>
+</service>

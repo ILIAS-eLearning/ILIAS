@@ -36,6 +36,16 @@ class LogOfCourse {
 	/**
 	 * @var string
 	 */
+	public $acting_user_firstname;
+
+	/**
+	 * @var string
+	 */
+	public $acting_user_lastname;
+
+	/**
+	 * @var string
+	 */
 	public $acting_user_login;
 
 	/**

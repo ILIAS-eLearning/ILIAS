@@ -24,6 +24,10 @@ class getLogsOfCourseFilter {
 	 * @var int
 	 */
 	protected $event_type = null;
+	/**
+	 * @var int
+	 */
+	protected $user_id = 0;
 
 	/**
 	 * @return ilDateTime|null
@@ -66,5 +70,21 @@ class getLogsOfCourseFilter {
 	public function setEventType(int $event_type) {
 		$this->event_type = $event_type;
 	}
+
+	/**
+	 * @return int
+	 */
+	public function getUserId(): int {
+		return $this->user_id;
+	}
+
+	/**
+	 * @param int $user_id
+	 */
+	public function setUserId(int $user_id) {
+		$this->user_id = $user_id;
+	}
+
+
 
 }

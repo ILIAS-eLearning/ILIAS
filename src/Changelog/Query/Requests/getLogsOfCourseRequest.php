@@ -13,6 +13,10 @@ use ILIAS\Changelog\Query\Requests\Filters\getLogsOfUserFilter;
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class getLogsOfCourseRequest {
+
+	const ORDER_ASCENDING = 'ASC';
+	const ORDER_DESCENDING = 'DESC';
+
 	/**
 	 * @var int
 	 */
@@ -47,7 +51,7 @@ class getLogsOfCourseRequest {
 	 */
 	public function __construct(int $crs_obj_id) {
 		$this->crs_obj_id = $crs_obj_id;
-		$this->filter = new getLogsOfUserFilter();
+		$this->filter = new getLogsOfCourseFilter();
 	}
 
 	/**
