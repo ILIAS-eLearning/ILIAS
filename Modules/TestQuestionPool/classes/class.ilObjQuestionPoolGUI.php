@@ -1192,7 +1192,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
-		$ilHelp->setScreenId('createQuestion');
+		
+		$ilHelp->setScreenId('assQuestions');
+		
+		if(ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled())
+		{
+			$ilHelp->setSubScreenId('createQuestion_editMode');
+		}
+		else
+		{
+			$ilHelp->setSubScreenId('createQuestion');
+		}
 		
 		$form = $this->buildCreateQuestionForm();
 		
