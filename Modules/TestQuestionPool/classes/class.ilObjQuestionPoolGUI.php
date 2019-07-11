@@ -1139,6 +1139,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	private function createQuestionFormObject()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenId('createQuestion');
+		
 		$form = $this->buildCreateQuestionForm();
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );

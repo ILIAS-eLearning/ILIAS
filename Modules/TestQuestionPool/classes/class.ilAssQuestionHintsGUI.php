@@ -87,6 +87,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	public function executeCommand()
 	{
 		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenIdComponent('qpl');
 
 		require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
 		$tpl->setCurrentBlock("ContentStyle");
