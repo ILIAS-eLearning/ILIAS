@@ -1,15 +1,14 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Table\Data\Export;
+namespace ILIAS\UI\Implementation\Component\Table\Data\Format;
 
 use ilHtmlToPdfTransformerFactory;
-use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Renderer;
 
 /**
  * Class PDFFormat
  *
- * @package ILIAS\UI\Implementation\Component\Table\Data\Export
+ * @package ILIAS\UI\Implementation\Component\Table\Data\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -20,14 +19,6 @@ class PDFFormat extends HTMLFormat {
 	 */
 	public function getFormatId(): string {
 		return self::FORMAT_PDF;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getDisplayTitle(): string {
-		return $this->dic->language()->txt(Table::LANG_MODULE . "_export_pdf");
 	}
 
 

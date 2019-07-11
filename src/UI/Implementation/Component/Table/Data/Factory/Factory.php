@@ -11,10 +11,10 @@ use ILIAS\UI\Component\Table\Data\Table as TableInterface;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Action\ActionColumn;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Action\ActionFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
-use ILIAS\UI\Implementation\Component\Table\Data\Export\CSVFormat;
-use ILIAS\UI\Implementation\Component\Table\Data\Export\ExcelFormat;
-use ILIAS\UI\Implementation\Component\Table\Data\Export\HTMLFormat;
-use ILIAS\UI\Implementation\Component\Table\Data\Export\PDFFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\CSVFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\ExcelFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\HTMLFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\PDFFormat;
 use ILIAS\UI\Implementation\Component\Table\Data\Table;
 
 /**

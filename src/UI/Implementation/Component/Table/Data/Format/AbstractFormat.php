@@ -1,16 +1,17 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Table\Data\Export;
+namespace ILIAS\UI\Implementation\Component\Table\Data\Format;
 
 use GuzzleHttp\Psr7\Stream;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Format\Format;
+use ILIAS\UI\Component\Table\Data\Table;
 use ilMimeTypeUtil;
 
 /**
  * Class AbstractFormat
  *
- * @package ILIAS\UI\Implementation\Component\Table\Data\Export
+ * @package ILIAS\UI\Implementation\Component\Table\Data\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -27,6 +28,14 @@ abstract class AbstractFormat implements Format {
 	 */
 	public function __construct(Container $dic) {
 		$this->dic = $dic;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getDisplayTitle(): string {
+		return $this->dic->language()->txt(Table::LANG_MODULE . "_format_" . $this->getFormatId());
 	}
 
 

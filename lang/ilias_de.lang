@@ -15142,10 +15142,10 @@ forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht
 datatable#:#datatable_add_columns#:#Spalten hinzufügen
 datatable#:#datatable_count#:#(%1$s von %2$s)
 datatable#:#datatable_export#:#Exportieren
-datatable#:#datatable_export_csv#:#CSV
-datatable#:#datatable_export_excel#:#Excel
-datatable#:#datatable_export_html#:#HTML
-datatable#:#datatable_export_pdf#:#PDF
+datatable#:#datatable_format_csv#:#CSV
+datatable#:#datatable_format_excel#:#Excel
+datatable#:#datatable_format_html#:#HTML
+datatable#:#datatable_format_pdf#:#PDF
 datatable#:#datatable_multiple_actions#:#Mehrfache Aktionen
 datatable#:#datatable_no_data#:#Keine Daten
 datatable#:#datatable_pages#:#Seiten (%1$s von %2$s)
