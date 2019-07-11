@@ -75,7 +75,8 @@ class ilStudyProgrammeDIC
 				$dic['ilStudyProgrammeUserProgressDB'],
 				$dic['ilStudyProgrammeUserAssignmentDB'],
 				$dic['ilStudyProgrammeRepositorySearchGUI'],
-				$dic['ilObjStudyProgrammeIndividualPlanGUI']
+				$dic['ilObjStudyProgrammeIndividualPlanGUI'],
+				$dic['ilStudyProgrammePostionBasedAccess']
 			);
 		};
 		$dic['ilObjStudyProgrammeTreeGUI'] = function($dic) use ($DIC) {
@@ -152,6 +153,12 @@ class ilStudyProgrammeDIC
 				$DIC['tree'],
 				$DIC['ilLog']
 			);
+		};
+		$dic['ilOrgUnitObjectTypePositionSetting'] = function($dic) {
+			return new ilOrgUnitObjectTypePositionSetting('prg');
+		};
+		$dic['ilStudyProgrammePostionBasedAccess'] = function($dic) {
+			return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
 		};
 		return $dic;
 	}

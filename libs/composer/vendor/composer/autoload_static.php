@@ -7010,6 +7010,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilStudyProgrammeNoProgressForAssignmentException' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeNoProgressForAssignmentException.php',
         'ilStudyProgrammePlaceholderDescription' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Description/class.ilStudyProgrammePlaceholderDescription.php',
         'ilStudyProgrammePlaceholderValues' => __DIR__ . '/../..' . '/../../Services/Certificate/classes/Placeholder/Values/class.ilStudyProgrammePlaceholderValues.php',
+        'ilStudyProgrammePositionBasedAccessViolationException' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammePositionBasedAccessViolationException.php',
+        'ilStudyProgrammePostionBasedAccess' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammePositionBasedAccess.php',
         'ilStudyProgrammeProgress' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php',
         'ilStudyProgrammeProgressDBRepository' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgressDBRepository.php',
         'ilStudyProgrammeProgressListGUI' => __DIR__ . '/../..' . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php',
