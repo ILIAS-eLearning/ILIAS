@@ -1,336 +1,360 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
+use ILIAS\BackgroundTasks\Task\TaskFactory;
+use ILIAS\DI\Container;
+
 /**
+ * Class ilMailTaskProcessorTest
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilMailTaskProcessorTest extends \ilMailBaseTest
+class ilMailTaskProcessorTest extends ilMailBaseTest
 {
+    /** @var ilLanguage */
+    private $languageMock;
 
-	private $languageMock;
-	private $dicMock;
-	private $loggerMock;
+    /** @var Container */
+    private $dicMock;
 
-	public function setUp(): void
-	{
-		$this->languageMock = $this->getMockBuilder('ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
+    /** @var ilLogger */
+    private $loggerMock;
 
-		$this->dicMock = $this->getMockBuilder('\ILIAS\DI\Container')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @throws ReflectionException
+     */
+    public function setUp() : void
+    {
+        $this->languageMock = $this->getMockBuilder(ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->loggerMock = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
-	}
-	/**
-	 * @throws ilException
-	 */
-	public function testOneTask()
-	{
-		$taskManager = $this->getMockBuilder('\ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager')
-			->setMethods(array('run'))
-			->disableOriginalConstructor()
-			->getMock();
+        $this->dicMock = $this->getMockBuilder(Container::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$taskManager
-			->expects($this->exactly(1))
-			->method('run');
+        $this->loggerMock = $this->getMockBuilder(ilLogger::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
 
-		$taskFactory = $this->getMockBuilder('ILIAS\BackgroundTasks\Task\TaskFactory')
-			->setMethods(array('createTask'))
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @throws ilException
+     * @throws ReflectionException
+     */
+    public function testOneTask() : void
+    {
+        $taskManager = $this->getMockBuilder(BasicTaskManager::class)
+            ->setMethods(['run'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$backgroundTask = $this->getMockbuilder('ilMailDeliveryJob')
-			->disableOriginalConstructor()
-			->getMock();
+        $taskManager
+            ->expects($this->exactly(1))
+            ->method('run');
 
-		$backgroundTask->method('unfoldTask')
-			->willReturn(array());
+        $taskFactory = $this->getMockBuilder(ILIAS\BackgroundTasks\Task\TaskFactory::class)
+            ->setMethods(['createTask'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$taskFactory
-			->expects($this->exactly(2))
-			->method('createTask')
-			->willReturn($backgroundTask);
+        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $backgroundTask->expects($this->any())->method('unfoldTask')
+            ->willReturn([]);
+
+        $taskFactory
+            ->expects($this->exactly(2))
+            ->method('createTask')
+            ->willReturn($backgroundTask);
 
 
-		$worker = new ilMassMailTaskProcessor(
-			$taskManager,
-			$taskFactory,
-			$this->languageMock,
-			$this->loggerMock,
-			$this->dicMock,
-			new ilMailValueObjectJsonService(),
-			'SomeAnonymousUserId'
-		);
+        $worker = new ilMassMailTaskProcessor(
+            $taskManager,
+            $taskFactory,
+            $this->languageMock,
+            $this->loggerMock,
+            $this->dicMock,
+            new ilMailValueObjectJsonService(),
+            'SomeAnonymousUserId'
+        );
 
-		$mailValueObject = new ilMailValueObject(
-			'ilias@server.com',
-			'somebody@iliase.de',
-			'',
-			'',
-			'That is awesome!',
-			'Dear Steve, great!',
-			null
-		);
+        $mailValueObject = new ilMailValueObject(
+            'ilias@server.com',
+            'somebody@iliase.de',
+            '',
+            '',
+            'That is awesome!',
+            'Dear Steve, great!',
+            null
+        );
 
-		$mailValueObjects = array(
-			$mailValueObject
-		);
+        $mailValueObjects = [
+            $mailValueObject
+        ];
 
-		$userId = 100;
-		$contextId = 5;
-		$contextParameters = array();
+        $userId = 100;
+        $contextId = '5';
+        $contextParameters = [];
 
-		$worker->run(
-			$mailValueObjects,
-			$userId,
-			$contextId,
-			$contextParameters
-		);
-	}
+        $worker->run(
+            $mailValueObjects,
+            $userId,
+            $contextId,
+            $contextParameters
+        );
+    }
 
-	/**
-	 * @throws ilException
-	 */
-	public function testRunTwoTasks()
-	{
-		$taskManager = $this->getMockBuilder('\ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager')
-			->setMethods(array('run'))
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @throws ilException
+     * @throws ReflectionException
+     */
+    public function testRunTwoTasks() : void
+    {
+        $taskManager = $this->getMockBuilder(BasicTaskManager::class)
+            ->setMethods(['run'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$taskManager
-			->expects($this->exactly(1))
-			->method('run');
+        $taskManager
+            ->expects($this->exactly(1))
+            ->method('run');
 
-		$taskFactory = $this->getMockBuilder('ILIAS\BackgroundTasks\Task\TaskFactory')
-			->setMethods(array('createTask'))
-			->disableOriginalConstructor()
-			->getMock();
+        $taskFactory = $this->getMockBuilder(TaskFactory::class)
+            ->setMethods(['createTask'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$backgroundTask = $this->getMockbuilder('ilMailDeliveryJob')
-			->disableOriginalConstructor()
-			->getMock();
+        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$backgroundTask->method('unfoldTask')
-			->willReturn(array());
+        $backgroundTask
+            ->expects($this->any())
+            ->method('unfoldTask')
+            ->willReturn([]);
 
-		$taskFactory
-			->expects($this->exactly(2))
-			->method('createTask')
-			->willReturn($backgroundTask);
+        $taskFactory
+            ->expects($this->exactly(2))
+            ->method('createTask')
+            ->willReturn($backgroundTask);
 
-		$worker = new ilMassMailTaskProcessor(
-			$taskManager,
-			$taskFactory,
-			$this->languageMock,
-			$this->loggerMock,
-			$this->dicMock,
-			new ilMailValueObjectJsonService(),
-			'SomeAnonymousUserId'
-		);
+        $worker = new ilMassMailTaskProcessor(
+            $taskManager,
+            $taskFactory,
+            $this->languageMock,
+            $this->loggerMock,
+            $this->dicMock,
+            new ilMailValueObjectJsonService(),
+            'SomeAnonymousUserId'
+        );
 
-		$mailValueObjects = array();
+        $mailValueObjects = [];
 
-		$mailValueObjects[] = new ilMailValueObject(
-			'ilias@server.com',
-			'somebody@iliase.de',
-			'',
-			'',
-			'That is awesome!',
-			'Dear Steve, great!',
-			null
-		);
+        $mailValueObjects[] = new ilMailValueObject(
+            'ilias@server.com',
+            'somebody@iliase.de',
+            '',
+            '',
+            'That is awesome!',
+            'Dear Steve, great!',
+            null
+        );
 
-		$mailValueObjects[] = new ilMailValueObject(
-			'ilias@server.com',
-			'somebodyelse@iliase.de',
-			'',
-			'',
-			'Greate',
-			'Steve, Steve, Steve. Wait that is not Steve',
-			null
-		);
+        $mailValueObjects[] = new ilMailValueObject(
+            'ilias@server.com',
+            'somebodyelse@iliase.de',
+            '',
+            '',
+            'Greate',
+            'Steve, Steve, Steve. Wait that is not Steve',
+            null
+        );
 
-		$userId = 100;
-		$contextId = 5;
-		$contextParameters = array();
+        $userId = 100;
+        $contextId = '5';
+        $contextParameters = [];
 
-		$worker->run(
-			$mailValueObjects,
-			$userId,
-			$contextId,
-			$contextParameters
-		);
-	}
+        $worker->run(
+            $mailValueObjects,
+            $userId,
+            $contextId,
+            $contextParameters
+        );
+    }
 
-	/**
-	 * @throws ilException
-	 */
-	public function testRunThreeTasksInDifferentBuckets()
-	{
-		$taskManager = $this->getMockBuilder('\ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager')
-			->setMethods(array('run'))
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @throws ilException
+     * @throws ReflectionException
+     */
+    public function testRunThreeTasksInDifferentBuckets() : void
+    {
+        $taskManager = $this->getMockBuilder(BasicTaskManager::class)
+            ->setMethods(['run'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$taskManager
-			->expects($this->exactly(2))
-			->method('run');
+        $taskManager
+            ->expects($this->exactly(2))
+            ->method('run');
 
-		$taskFactory = $this->getMockBuilder('ILIAS\BackgroundTasks\Task\TaskFactory')
-			->setMethods(array('createTask'))
-			->disableOriginalConstructor()
-			->getMock();
+        $taskFactory = $this->getMockBuilder(TaskFactory::class)
+            ->setMethods(['createTask'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$backgroundTask = $this->getMockbuilder('ilMailDeliveryJob')
-			->disableOriginalConstructor()
-			->getMock();
+        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$backgroundTask->method('unfoldTask')
-			->willReturn(array());
+        $backgroundTask
+            ->expects($this->any())
+            ->method('unfoldTask')
+            ->willReturn([]);
 
-		$taskFactory
-			->expects($this->exactly(4))
-			->method('createTask')
-			->willReturn($backgroundTask);
+        $taskFactory
+            ->expects($this->exactly(4))
+            ->method('createTask')
+            ->willReturn($backgroundTask);
 
-		$worker = new ilMassMailTaskProcessor(
-			$taskManager,
-			$taskFactory,
-			$this->languageMock,
-			$this->loggerMock,
-			$this->dicMock,
-			new ilMailValueObjectJsonService(),
-			'SomeAnonymousUserId'
-		);
+        $worker = new ilMassMailTaskProcessor(
+            $taskManager,
+            $taskFactory,
+            $this->languageMock,
+            $this->loggerMock,
+            $this->dicMock,
+            new ilMailValueObjectJsonService(),
+            'SomeAnonymousUserId'
+        );
 
-		$mailValueObjects = array();
+        $mailValueObjects = [];
 
-		$mailValueObjects[] = new ilMailValueObject(
-			'ilias@server.com',
-			'somebody@iliase.de',
-			'',
-			'',
-			'That is awesome!',
-			'Dear Steve, great!',
-			null
-		);
+        $mailValueObjects[] = new ilMailValueObject(
+            'ilias@server.com',
+            'somebody@iliase.de',
+            '',
+            '',
+            'That is awesome!',
+            'Dear Steve, great!',
+            null
+        );
 
-		$mailValueObjects[] = new ilMailValueObject(
-			'ilias@server.com',
-			'somebodyelse@iliase.de',
-			'',
-			'',
-			'Greate',
-			'Steve, Steve, Steve. Wait that is not Steve',
-			null
-		);
+        $mailValueObjects[] = new ilMailValueObject(
+            'ilias@server.com',
+            'somebodyelse@iliase.de',
+            '',
+            '',
+            'Greate',
+            'Steve, Steve, Steve. Wait that is not Steve',
+            null
+        );
 
-		$mailValueObjects[] = new ilMailValueObject(
-			'ilias@server.com',
-			'somebody@iliase.de',
-			'',
-			'',
-			'That is awesome!',
-			'Hey Alan! Alan! Alan!',
-			null
-		);
+        $mailValueObjects[] = new ilMailValueObject(
+            'ilias@server.com',
+            'somebody@iliase.de',
+            '',
+            '',
+            'That is awesome!',
+            'Hey Alan! Alan! Alan!',
+            null
+        );
 
-		$userId = 100;
-		$contextId = 5;
-		$contextParameters = array();
+        $userId = 100;
+        $contextId = '5';
+        $contextParameters = [];
 
-		$worker->run(
-			$mailValueObjects,
-			$userId,
-			$contextId,
-			$contextParameters,
-			2
-		);
-	}
+        $worker->run(
+            $mailValueObjects,
+            $userId,
+            $contextId,
+            $contextParameters,
+            2
+        );
+    }
 
-	/**
-	 * 
-	 */
-	public function testRunHasWrongTypeAndWillResultInException()
-	{
-		$this->expectException(\ilException::class);
+    /**
+     * @throws ReflectionException
+     * @throws ilException
+     */
+    public function testRunHasWrongTypeAndWillResultInException() : void
+    {
+        $this->expectException(ilException::class);
 
-		$taskManager = $this->getMockBuilder('\ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager')
-			->setMethods(array('run'))
-			->disableOriginalConstructor()
-			->getMock();
+        $taskManager = $this->getMockBuilder(BasicTaskManager::class)
+            ->setMethods(['run'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$taskManager
-			->expects($this->never())
-			->method('run');
+        $taskManager
+            ->expects($this->never())
+            ->method('run');
 
-		$taskFactory = $this->getMockBuilder('ILIAS\BackgroundTasks\Task\TaskFactory')
-			->setMethods(array('createTask'))
-			->disableOriginalConstructor()
-			->getMock();
+        $taskFactory = $this->getMockBuilder(TaskFactory::class)
+            ->setMethods(['createTask'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$backgroundTask = $this->getMockbuilder('ilMailDeliveryJob')
-			->disableOriginalConstructor()
-			->getMock();
+        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$backgroundTask->method('unfoldTask')
-			->willReturn(array());
+        $backgroundTask
+            ->expects($this->any())
+            ->method('unfoldTask')
+            ->willReturn([]);
 
-		$taskFactory
-			->expects($this->never())
-			->method('createTask')
-			->willReturn($backgroundTask);
+        $taskFactory
+            ->expects($this->never())
+            ->method('createTask')
+            ->willReturn($backgroundTask);
 
-		$worker = new ilMassMailTaskProcessor(
-			$taskManager,
-			$taskFactory,
-			$this->languageMock,
-			$this->loggerMock,
-			$this->dicMock,
-			new ilMailValueObjectJsonService(),
-			'SomeAnonymousUserId'
-		);
+        $worker = new ilMassMailTaskProcessor(
+            $taskManager,
+            $taskFactory,
+            $this->languageMock,
+            $this->loggerMock,
+            $this->dicMock,
+            new ilMailValueObjectJsonService(),
+            'SomeAnonymousUserId'
+        );
 
-		$mailValueObjects = array();
+        $mailValueObjects = [];
 
-		$mailValueObjects[] = new ilMailValueObject(
-			'ilias@server.com',
-			'somebody@iliase.de',
-			'',
-			'',
-			'That is awesome!',
-			'Dear Steve, great!',
-			null
-		);
+        $mailValueObjects[] = new ilMailValueObject(
+            'ilias@server.com',
+            'somebody@iliase.de',
+            '',
+            '',
+            'That is awesome!',
+            'Dear Steve, great!',
+            null
+        );
 
-		$mailValueObjects[] = new ilMailValueObject(
-			'ilias@server.com',
-			'somebodyelse@iliase.de',
-			'',
-			'',
-			'Greate',
-			'Steve, Steve, Steve. Wait that is not Steve',
-			null
-		);
+        $mailValueObjects[] = new ilMailValueObject(
+            'ilias@server.com',
+            'somebodyelse@iliase.de',
+            '',
+            '',
+            'Greate',
+            'Steve, Steve, Steve. Wait that is not Steve',
+            null
+        );
 
-		$mailValueObjects[] = 'This should fail';
+        $mailValueObjects[] = 'This should fail';
 
-		$userId = 100;
-		$contextId = 5;
-		$contextParameters = array();
+        $userId = 100;
+        $contextId = '5';
+        $contextParameters = [];
 
-		$worker->run(
-			$mailValueObjects,
-			$userId,
-			$contextId,
-			$contextParameters,
-			2
-		);
-	}
+        $worker->run(
+            $mailValueObjects,
+            $userId,
+            $contextId,
+            $contextParameters,
+            2
+        );
+    }
 }
