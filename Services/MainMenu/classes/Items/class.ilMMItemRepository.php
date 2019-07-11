@@ -10,7 +10,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilMMItemRepository
@@ -58,6 +57,7 @@ class ilMMItemRepository
                 }
             }
         }
+        $this->sync();
     }
 
 
@@ -75,9 +75,6 @@ class ilMMItemRepository
   						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification 
       					WHERE il_gs_identifications.identification IS NULL"
             );
-            foreach ($this->gs->getIdentificationsForPurpose(StaticMainMenuProvider::PURPOSE_MAINBAR) as $identification) {
-                $this->getItemFacadeForIdentificationString($identification->serialize());
-            }
             $this->synced = true;
         }
 
