@@ -13,6 +13,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterface
 {
 
+    const PURPOSE_MAINBAR = 'mainmenu';
+
+
     /**
      * @return TopParentItem[] These are Slates which will be
      * available for configuration and will be collected once during a

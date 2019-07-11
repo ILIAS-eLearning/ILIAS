@@ -42,17 +42,8 @@ class ilMMEntryRendererGUI
     protected function render() : string
     {
         global $DIC;
-        $storage = $DIC->globalScreen()->storage();
 
-        $cacke_key = 'rendered_menu_' . $DIC->user()->getId();
-        if ($storage->cache()->exists($cacke_key)) {
-            $cached_menu = $storage->cache()->get($cacke_key);
-            if (is_string($cached_menu)) {
-                // return $cached_menu;
-            }
-        }
-
-        $top_items = (new ilMMItemRepository($storage))->getStackedTopItemsForPresentation();
+        $top_items = (new ilMMItemRepository())->getStackedTopItemsForPresentation();
         $tpl = new ilTemplate("tpl.main_menu_legacy.html", true, true, 'Services/MainMenu');
         /**
          * @var $top_item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem|\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem
@@ -65,10 +56,6 @@ class ilMMEntryRendererGUI
 
         $tpl->setVariable("ENTRIES", $DIC->ui()->renderer()->render($components));
 
-        $html = $tpl->get();
-
-        $storage->cache()->set($cacke_key, $html, 10);
-
-        return $html;
+        return $tpl->get();
     }
 }

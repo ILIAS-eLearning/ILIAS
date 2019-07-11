@@ -95,16 +95,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
 
     /**
-     * @return ilGSIdentificationStorage
-     * @throws arException
-     */
-    public function identificationStorage() : ilGSIdentificationStorage
-    {
-        return ilGSIdentificationStorage::findOrFail($this->identification->serialize());
-    }
-
-
-    /**
      * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
     public function identification() : \ILIAS\GlobalScreen\Identification\IdentificationInterface

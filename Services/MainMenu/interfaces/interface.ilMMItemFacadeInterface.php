@@ -18,12 +18,6 @@ interface ilMMItemFacadeInterface
 
 
     /**
-     * @return ilGSIdentificationStorage
-     */
-    public function identificationStorage() : ilGSIdentificationStorage;
-
-
-    /**
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
      */
     public function item() : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;

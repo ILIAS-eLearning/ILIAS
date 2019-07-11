@@ -57,22 +57,6 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
 
 
     /**
-     * @return string
-     * @throws \ReflectionException
-     */
-    public function getProviderNameForPresentation() : string
-    {
-        $reflector = new \ReflectionClass($this);
-
-        $re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
-
-        preg_match($re, $reflector->getFileName(), $matches);
-
-        return isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : "-" : "-";
-    }
-
-
-    /**
      * @inheritDoc
      */
     public function provideTypeInformation() : TypeInformationCollection

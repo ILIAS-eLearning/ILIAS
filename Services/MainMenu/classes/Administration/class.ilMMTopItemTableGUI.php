@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+
 /**
  * Class ilMMTopItemTableGUI
  *
@@ -8,7 +10,7 @@
 class ilMMTopItemTableGUI extends ilTable2GUI
 {
 
-    use ilMMHasher;
+    use Hasher;
     /**
      * @var ilMMCustomProvider
      */
@@ -49,10 +51,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
     {
         $this->addColumn($this->lng->txt('topitem_position'), '', '30px');
         $this->addColumn($this->lng->txt('topitem_title'));
-        // $this->addColumn($this->lng->txt('topitem_icon'));
         $this->addColumn($this->lng->txt('topitem_active'));
-        // $this->addColumn($this->lng->txt('topitem_sticky'));
-        // $this->addColumn($this->lng->txt('topitem_mobile'));
         $this->addColumn($this->lng->txt('topitem_subentries'));
         $this->addColumn($this->lng->txt('topitem_css_id'));
         $this->addColumn($this->lng->txt('topitem_type'));
@@ -79,7 +78,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
         $this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
         $this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
-        $this->tpl->setVariable('CSS_ID', ilMMAbstractItemGUI::CSS_ID_PREFIX . $item_facade->identification()->getInternalIdentifier());
+        $this->tpl->setVariable('CSS_ID', "mm_" . $item_facade->identification()->getInternalIdentifier());
         $this->tpl->setVariable('POSITION', $position * 10);
         if ($item_facade->isActivated()) {
             $this->tpl->touchBlock('is_active');

@@ -24,10 +24,6 @@ class ilMMItemInformation implements ItemInformation
      * @var array
      */
     private $items = [];
-    /**
-     * @var StorageFacade
-     */
-    private $storage;
 
 
     /**
@@ -35,9 +31,8 @@ class ilMMItemInformation implements ItemInformation
      *
      * @param StorageFacade $storage
      */
-    public function __construct(StorageFacade $storage)
+    public function __construct()
     {
-        $this->storage = $storage;
         $this->items = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
     }
@@ -97,7 +92,7 @@ class ilMMItemInformation implements ItemInformation
             return (int) $this->items[$item->getProviderIdentification()->serialize()]['position'];
         }
 
-        return 99;
+        return $item->getPosition();
     }
 
 
@@ -111,7 +106,7 @@ class ilMMItemInformation implements ItemInformation
             return $this->items[$serialize]['active'] === "1";
         }
 
-        return false;
+        return $item->isActive();
     }
 
 

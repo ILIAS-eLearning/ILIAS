@@ -1,9 +1,8 @@
 <?php namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
-use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
@@ -14,21 +13,37 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 class Services
 {
 
+    use SingletonTrait;
     /**
-     * @var bool
+     * @var Services
      */
-    protected static $constructed = false;
+    private static $instance = null;
+    /**
+     * @var ProviderFactoryInterface
+     */
+    private $provider_factory;
 
 
     /**
      * Services constructor.
+     *
+     * @param ProviderFactoryInterface $provider_factory
      */
-    public function __construct()
+    public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
+
+
+    /**
+     * @param ProviderFactoryInterface $provider_factory
+     *
+     * @return Services
+     */
+    public static function getInstance(ProviderFactoryInterface $provider_factory)
     {
-        if (self::$constructed === true) {
-            // throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
+        if (!isset(self::$instance)) {
+            self::$instance = new self($provider_factory);
         }
-        self::$constructed = true;
+
+        return self::$instance;
     }
 
 
@@ -39,7 +54,7 @@ class Services
      */
     public function mainmenu() : MainMenuItemFactory
     {
-        return new MainMenuItemFactory();
+        return $this->get(MainMenuItemFactory::class);
     }
 
 
@@ -48,16 +63,7 @@ class Services
      */
     public function collector() : CollectorFactory
     {
-        return new CollectorFactory();
-    }
-
-
-    /**
-     * @return StorageFacade
-     */
-    public function storage() : StorageFacade
-    {
-        return new CoreStorageFacade();
+        return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
     }
 
 
@@ -68,6 +74,6 @@ class Services
      */
     public function identification() : IdentificationFactory
     {
-        return new IdentificationFactory();
+        return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
     }
 }

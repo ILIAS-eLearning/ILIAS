@@ -30,7 +30,7 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer
          */
         $tpl = new ilTemplate("tpl.mm_top_parent_item.html", false, false, 'Services/MainMenu');
         $tpl->setVariable("TITLE", $item->getTitle());
-        $tpl->setVariable("ID", ilMMAbstractItemGUI::CSS_ID_PREFIX . $item->getProviderIdentification()->getInternalIdentifier());
+        $tpl->setVariable("ID", "mm_" . $item->getProviderIdentification()->getInternalIdentifier());
 
         $gl = new ilGroupedListGUI();
         $gl->setAsDropDown(true);

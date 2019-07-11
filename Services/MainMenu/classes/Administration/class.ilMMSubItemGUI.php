@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+
 /**
  * Class ilMMTopItemGUI
  *
@@ -11,7 +13,7 @@
 class ilMMSubItemGUI extends ilMMAbstractItemGUI
 {
 
-    use ilMMHasher;
+    use Hasher;
     const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
     const CMD_ADD = 'subitem_add';
     const CMD_CREATE = 'subitem_create';
@@ -193,7 +195,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
     private function applyFilter()
     {
-        $table = new ilMMSubItemTableGUI($this, $this->repository);
+        $table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
         $table->writeFilterToSession();
 
         $this->cancel();
@@ -202,7 +204,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
     private function resetFilter()
     {
-        $table = new ilMMSubItemTableGUI($this, $this->repository);
+        $table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
         $table->resetFilter();
         $table->resetOffset();
 

@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+
 /**
  * Class ilMMAbstractItemGUI
  *
@@ -9,8 +11,7 @@ class ilMMAbstractItemGUI
 {
 
     const IDENTIFIER = 'identifier';
-    const CSS_ID_PREFIX = "mm_";
-    use ilMMHasher;
+    use Hasher;
     /**
      * @var \ILIAS\DI\UIServices
      */
@@ -68,7 +69,7 @@ class ilMMAbstractItemGUI
     {
         global $DIC;
 
-        $this->repository = new ilMMItemRepository($DIC->globalScreen()->storage());
+        $this->repository = new ilMMItemRepository();
         $this->tab_handling = $tab_handling;
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();

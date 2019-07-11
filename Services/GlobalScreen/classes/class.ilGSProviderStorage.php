@@ -13,9 +13,7 @@ class ilGSProviderStorage extends CachedActiveRecord
      */
     public function getCache() : ilGlobalCache
     {
-        global $DIC;
-
-        return $DIC->globalScreen()->storage()->cache();
+        return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
     }
 
 

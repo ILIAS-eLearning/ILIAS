@@ -1,4 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Tool;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
@@ -14,6 +14,10 @@ use ILIAS\UI\Component\Component;
 class Tool extends AbstractParentItem implements isTopItem, hasContent, hasAsyncContent
 {
 
+    /**
+     * @var
+     */
+    protected $icon;
     /**
      * @var Component
      */

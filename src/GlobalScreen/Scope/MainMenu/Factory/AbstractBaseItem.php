@@ -123,7 +123,7 @@ abstract class AbstractBaseItem implements isItem
             return $value;
         }
 
-        return false;
+        return true;
     }
 
 

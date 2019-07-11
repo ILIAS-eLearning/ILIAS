@@ -1,5 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+
 /**
  * Interface ProviderFactoryInterface
  *
@@ -7,6 +10,18 @@
  */
 interface ProviderFactoryInterface
 {
+
+    /**
+     * @return StaticMainMenuProvider[]
+     */
+    public function getMainBarProvider() : array;
+
+
+    /**
+     * @return ItemInformation
+     */
+    public function getMainBarItemInformation() : ItemInformation;
+
 
     /**
      * @param string $class_name

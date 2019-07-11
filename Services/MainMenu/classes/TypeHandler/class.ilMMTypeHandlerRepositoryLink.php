@@ -56,7 +56,7 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
     public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
     {
         global $DIC;
-        $url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation())->withRequired(true);
+        $url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation());
         if (isset($this->links[$identification->serialize()][self::F_ACTION]) && is_numeric($this->links[$identification->serialize()][self::F_ACTION])) {
             $url = $url->withValue((int) $this->links[$identification->serialize()][self::F_ACTION]);
         }

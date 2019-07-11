@@ -50,12 +50,14 @@ class IdentificationFactory
 
     /**
      * IdentificationFactory constructor.
+     *
+     * @param ProviderFactoryInterface $provider_factory
      */
-    public final function __construct(ProviderFactoryInterface $provider_factory = null)
+    public final function __construct(ProviderFactoryInterface $provider_factory)
     {
         $this->serializer_factory = new SerializerFactory();
         $this->map = new IdentificationMap();
-        $this->provider_factory = $provider_factory ? $provider_factory : new ProviderFactory();
+        $this->provider_factory = $provider_factory;
     }
 
 

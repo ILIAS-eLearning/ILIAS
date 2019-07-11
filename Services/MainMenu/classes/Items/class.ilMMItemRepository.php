@@ -1,11 +1,16 @@
 <?php
 
+use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilMMItemRepository
@@ -31,55 +36,61 @@ class ilMMItemRepository
      * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector
      */
     private $main_collector;
-    /**
-     * @var \ILIAS\GlobalScreen\Provider\Provider[]
-     */
-    private $providers = [];
-    /**
-     * @var ilMMItemInformation
-     */
-    private $information;
-    /**
-     * @var ilGSRepository
-     */
-    private $gs;
 
 
     /**
      * ilMMItemRepository constructor.
      *
-     * @param StorageFacade $storage
-     *
      * @throws Throwable
      */
-    public function __construct(StorageFacade $storage)
+    public function __construct()
     {
         global $DIC;
-        $this->storage = $storage;
-        $this->gs = new ilGSRepository($storage);
-        $this->information = new ilMMItemInformation($this->storage);
-        $this->providers = $this->initProviders();
-        $this->main_collector = $DIC->globalScreen()->collector()->mainmenu($this->providers, $this->information);
+        $this->storage = new CoreStorageFacade();
+        $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->services = $DIC->globalScreen();
-        $this->sync();
+
+        foreach ($this->main_collector->getStackedTopItemsForPresentation() as $top_item) {
+            ilMMItemStorage::register($top_item);
+            if ($top_item instanceof isParent) {
+                foreach ($top_item->getChildren() as $child) {
+                    ilMMItemStorage::register($child);
+                }
+            }
+        }
     }
 
 
-    /**
-     * @return ItemInformation
-     */
-    public function information() : ItemInformation
+    private function sync() : bool
     {
-        return $this->information;
+        if ($this->synced === false || $this->synced === null) {
+            foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
+                foreach ($provider->getAllIdentifications() as $identification) {
+                    ilGSIdentificationStorage::registerIdentification($identification, $provider);
+                }
+            }
+
+            $this->storage->db()->manipulate(
+                "DELETE il_mm_items FROM il_mm_items 
+  						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification 
+      					WHERE il_gs_identifications.identification IS NULL"
+            );
+            foreach ($this->gs->getIdentificationsForPurpose(StaticMainMenuProvider::PURPOSE_MAINBAR) as $identification) {
+                $this->getItemFacadeForIdentificationString($identification->serialize());
+            }
+            $this->synced = true;
+        }
+
+        return $this->synced;
     }
 
 
     /**
      * @param string $class_name
      *
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+     * @return isItem
      */
-    public function getEmptyItemForTypeString(string $class_name) : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+    public function getEmptyItemForTypeString(string $class_name) : isItem
     {
         return $this->services->mainmenu()->custom($class_name, new  NullIdentification());
     }
@@ -92,13 +103,11 @@ class ilMMItemRepository
 
 
     /**
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem|\ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem
+     * @return TopLinkItem[]|TopParentItem[]
      * @throws Throwable
      */
     public function getStackedTopItemsForPresentation() : array
     {
-        $this->sync();
-
         $top_items = $this->main_collector->getStackedTopItemsForPresentation();
 
         return $top_items;
@@ -108,33 +117,12 @@ class ilMMItemRepository
     /**
      * @param IdentificationInterface $identification
      *
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+     * @return isItem
      * @throws Throwable
      */
-    public function getSingleItem(IdentificationInterface $identification) : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+    public function getSingleItem(IdentificationInterface $identification) : isItem
     {
         return $this->main_collector->getSingleItem($identification);
-    }
-
-
-    /**
-     * @return array
-     */
-    private function initProviders() : array
-    {
-        $providers = [];
-        // Core
-        foreach (ilGSProviderStorage::get() as $provider_storage) {
-            /**
-             * @var $provider_storage ilGSProviderStorage
-             */
-            $providers[] = $provider_storage->getInstance();
-        }
-        foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
-            $providers[] = $provider;
-        }
-
-        return $providers;
     }
 
 
@@ -149,12 +137,10 @@ class ilMMItemRepository
 
     /**
      * @return array
+     * @throws arException
      */
     public function getTopItems() : array
     {
-        // sync
-        $this->sync();
-
         return ilMMItemStorage::where(" parent_identification = '' OR parent_identification IS NULL ")->orderBy('position')->getArray();
     }
 
@@ -164,8 +150,6 @@ class ilMMItemRepository
      */
     public function getSubItemsForTable() : array
     {
-        // sync
-        $this->sync();
         $r = $this->storage->db()->query(
             "SELECT sub_items.*, top_items.position AS parent_position 
 FROM il_mm_items AS sub_items 
@@ -214,30 +198,6 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     }
 
 
-    private function sync() : bool
-    {
-        if ($this->synced === false || $this->synced === null) {
-            foreach (ilPluginAdmin::getAllGlobalScreenProviders() as $provider) {
-                foreach ($provider->getAllIdentifications() as $identification) {
-                    ilGSIdentificationStorage::registerIdentification($identification, $provider);
-                }
-            }
-
-            $this->storage->db()->manipulate(
-                "DELETE il_mm_items FROM il_mm_items 
-  						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification 
-      					WHERE il_gs_identifications.identification IS NULL"
-            );
-            foreach ($this->gs->getIdentificationsForPurpose(ilGSRepository::PURPOSE_MAIN_MENU) as $identification) {
-                $this->getItemFacadeForIdentificationString($identification->serialize());
-            }
-            $this->synced = true;
-        }
-
-        return $this->synced;
-    }
-
-
     public function getPossibleParentsForFormAndTable() : array
     {
         static $parents;
@@ -246,7 +206,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
             foreach ($this->getTopItems() as $top_item_identification => $data) {
                 $identification = $this->services->identification()->fromSerializedIdentification($top_item_identification);
                 $item = $this->getSingleItem($identification);
-                if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem) {
+                if ($item instanceof TopParentItem) {
                     $parents[$top_item_identification] = $this->getItemFacade($identification)
                         ->getDefaultTitle();
                 }
