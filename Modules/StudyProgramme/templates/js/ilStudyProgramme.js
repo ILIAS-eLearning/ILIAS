@@ -79,29 +79,44 @@
             /**
              * Defines drag & drop rules for tree-elements
              */
-            var initDndTargetChecking = function (operation, node, node_parent, node_position, more) {
-                // TODO: implement better/faster way to get information about node-types (identifier classes should be added to li-element)
-                if ('#' === node_parent.id) {
+            var initDndTargetChecking = function () {
+                //https://www.jstree.com/api/#/?q=$.jstree.defaults.dnd&f=$.jstree.defaults.core.check_callback
+                $(element).jstree(true).settings.core.check_callback = function (operation, node, node_parent, node_position, more) {
+
+                    // Only allow drag if
+                    // - it does not create a new root,
+                    // - the target is not a lp-object,
+                    // - the target has no children or the type matches
+                    //      (only allow lp objects dropping if the new parent has lp-object children
+                    //      or only allow containers drop in container with other containers)
+
+                    var drop_above_root = node_parent.id === '#',
+                        allowed_drag = false,
+                        source, target,
+                        source_is_lp_obj, target_is_lp_obj, target_is_empty, target_has_lp_content;
+
+                    if(!drop_above_root) {
+                        source = $('#' + node.id);
+                        target = $('#' + node_parent.id);
+
+                        // TODO: implement better/faster way to get information about node-types (identifier classes should be added to li-element)
+                        source_is_lp_obj = source.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object'),
+                        target_is_lp_obj = target.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object'),
+                        target_is_empty = target.find('ul > li > a > span.ilExp2NodeContent > span.title').length === 0,
+                        target_has_lp_content = target.find('ul > li > a > span.ilExp2NodeContent > span.title').first().hasClass('lp-object'),
+
+                        allowed_drag = (
+                            target_is_lp_obj === false
+                            && (target_is_empty || (target_has_lp_content === source_is_lp_obj))
+                        );
+                    }
+
+                    if (allowed_drag) {
+                        return true;
+                    }
                     return false;
-                }
-
-                let $parent = $("#" + node_parent.id),
-                    $node = $("#" + node.id);
-
-                let np_lp_object = $parent.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
-                let is_lp_object = $node.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
-                let np_no_children = ($parent.find('ul > li > a > span.ilExp2NodeContent > span.title').length === 0);
-                let np_has_lp_children = $parent.find('ul > li > a > span.ilExp2NodeContent > span.title').first().hasClass('lp-object');
-
-
-                // only allow drag if it does not create a new root, the target is not a lp-object, the target has no children or
-                // the type matches (only allow lp objects dropping if the new parent has lp-object children or only allow containers drop in container with other containers)
-                let allowed_drag = (!np_lp_object && (np_no_children || np_has_lp_children === is_lp_object));
-                //console.log("result: " + allowed_drag);
-
-                return allowed_drag;
+                };
             };
-
 
             // JsTree events handlers
 
@@ -180,8 +195,12 @@
              * Saves the tree-order async
              */
             $("body").on("study_programme-save_order", function () {
-                var tree_data = $(element).jstree("get_json", -1, ['id']);
-                var json_data = JSON.stringify(tree_data);
+                var tree_data = $(element).jstree(true).get_json('#', {flat: true});
+                var data = [];
+                $.each(tree_data, function(idx, node){
+                   data.push(node.id);
+                });
+                var json_data = JSON.stringify(data);
 
                 if (settings.save_tree_url !== "") {
                     $.ajax({
@@ -205,6 +224,7 @@
 
             return element;
         },
+
         study_programme_modal: function (options) {
             var settings = $.extend({
                 events: {hide: ["async_form-success", "async_form-cancel"]}
