@@ -13,11 +13,18 @@ class ilMailTemplateContextTest extends ilMailBaseTest
 {
     /**
      * @param OrgUnitUserService $orgUnitUserService
+     * @param ilMailEnvironmentHelper $envHelper
+     * @param ilMailUserHelper $usernameHelper
+     * @param ilMailLanguageHelper $languageHelper
      * @return ilMailTemplateContext
      */
-    public function getAnonymousTemplateContext(OrgUnitUserService $orgUnitUserService) : ilMailTemplateContext
-    {
-        return new class($orgUnitUserService) extends ilMailTemplateContext
+    public function getAnonymousTemplateContext(
+        OrgUnitUserService $orgUnitUserService,
+        ilMailEnvironmentHelper $envHelper,
+        ilMailUserHelper $usernameHelper,
+        ilMailLanguageHelper $languageHelper
+    ) : ilMailTemplateContext {
+        return new class($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends ilMailTemplateContext
         {
             public function getId() : string
             {
@@ -51,45 +58,139 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     }
 
     /**
+     * @param int $amount
+     * @return array
      * @throws ReflectionException
      */
-    public function testGenericContextPlaceholders() : void
+    private function generateOrgUnitUsers(int $amount) : array
     {
-        $ouSuperiorUser = $this
-            ->getMockBuilder(ilOrgUnitUser::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getUserId', 'getSuperiors'])
-            ->getMock();
-        
-        $ouUser = $this
-            ->getMockBuilder(ilOrgUnitUser::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getUserId', 'getSuperiors'])
-            ->getMock();
+        $users = [];
 
-        $ouService = $this
-            ->getMockBuilder(OrgUnitUserService::class)
+        for ($i = 1; $i <= $amount; $i++) {
+            $user = $this->getMockBuilder(ilOrgUnitUser::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['getUserId',])
+                ->getMock();
+            $user->expects($this->atLeastOnce())->method('getUserId')->willReturn($i);
+
+            $users[$i] = $user;
+        }
+
+        return $users;
+    }
+
+    /**
+     * @return array
+     * @throws ReflectionException
+     */
+    public function userProvider() : array
+    {
+        $testUsers = [];
+
+        foreach ([
+                     ['gender' => 'm', 'num_superiors' => 2,],
+                     ['gender' => 'n', 'num_superiors' => 1,],
+                     ['gender' => 'f', 'num_superiors' => 0,],
+                     ['gender' => '', 'num_superiors' => 3,]
+                 ] as $definition) {
+            $user = $this->getMockBuilder(ilObjUser::class)
+                ->disableOriginalConstructor()
+                ->setMethods([
+                    'getLanguage',
+                    'getUTitle',
+                    'getLogin',
+                    'getLastname',
+                    'getFirstname',
+                    'getGender',
+                    'getId',
+                ])
+                ->getMock();
+
+            $user->expects($this->atLeastOnce())->method('getLanguage')->willReturn('de');
+            $user->expects($this->atLeastOnce())->method('getUTitle')->willReturn('###Dr. Ing###');
+            $user->expects($this->atLeastOnce())->method('getLogin')->willReturn('###phpunit###');
+            $user->expects($this->atLeastOnce())->method('getLastname')->willReturn('###Unit###');
+            $user->expects($this->atLeastOnce())->method('getFirstname')->willReturn('###PHP###');
+            $user->expects($this->atLeastOnce())->method('getGender')->willReturn($definition['gender']);
+            $user->expects($this->atLeastOnce())->method('getId')->willReturn(4711);
+
+            $ouUser = $this->getMockBuilder(ilOrgUnitUser::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['getSuperiors',])
+                ->getMock();
+
+            $superiors = $this->generateOrgUnitUsers($definition['num_superiors']);
+            $ouUser->expects($this->atLeastOnce())->method('getSuperiors')->willReturn($superiors);
+
+            $testUsers[] = [$user, $ouUser, $superiors,];
+        }
+
+        return $testUsers;
+    }
+
+    /**
+     * @dataProvider userProvider
+     * @param ilObjUser $user
+     * @param ilOrgUnitUser $ouUser
+     * @param ilOrgUnitUser[] $superiors
+     * @throws ReflectionException
+     */
+    public function testGlobalPlaceholdersCanBeResolvedWithCorrespondingValues(
+        ilObjUser $user,
+        ilOrgUnitUser $ouUser,
+        array $superiors
+    ) : void {
+        $ouService = $this->getMockBuilder(OrgUnitUserService::class)
             ->disableOriginalConstructor()
             ->setMethods(['getUsers',])
             ->getMock();
 
-        $lng = $this
-            ->getMockBuilder(ilLanguage::class)
+        $lng = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['txt',])
+            ->setMethods(['txt', 'loadLanguageModule',])
             ->getMock();
 
-        $ouSuperiorUser->expects($this->atLeastOnce())->method('getUserId')->willReturn(4712);
-        $ouUser->expects($this->atLeastOnce())->method('getSuperiors')->willReturn([$ouSuperiorUser]);
-        $ouUser->expects($this->atLeastOnce())->method('getUserId')->willReturn(4711);
-        $ouService->expects($this->atLeastOnce())->method('getUsers')->willReturn([$ouUser]);
-        
-        $context = $this->getAnonymousTemplateContext($ouService);
-        $lng->expects($this->atLeastOnce())->method('txt')->willReturn($this->returnArgument(0));
+        $envHelper = $this->getMockBuilder(ilMailEnvironmentHelper::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getClientId', 'getHttpPath',])
+            ->getMock();
 
-        $context->setLanguage($lng);
-        $this->setGlobalVariable('lng', $lng);
-        
+        $lngHelper = $this->getMockBuilder(ilMailLanguageHelper::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getLanguageByIsoCode', 'getCurrentLanguage',])
+            ->getMock();
+
+        $userHelper = $this->getMockBuilder(ilMailUserHelper::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getUsernameMapForIds',])
+            ->getMock();
+
+        $ouService->expects($this->atLeastOnce())->method('getUsers')->willReturn([$ouUser,]);
+        $lng->expects($this->atLeastOnce())->method('txt')->will($this->returnArgument(0));
+        $envHelper->expects($this->atLeastOnce())->method('getClientId')->willReturn('###phpunit_client###');
+        $envHelper->expects($this->atLeastOnce())->method('getHttpPath')->willReturn('###http_ilias###');
+        $lngHelper->expects($this->atLeastOnce())->method('getLanguageByIsoCode')->willReturn($lng);
+        $lngHelper->expects($this->atLeastOnce())->method('getCurrentLanguage')->willReturn($lng);
+
+        $expectedIdsConstraint = $this->logicalAnd(...array_map(function (ilOrgUnitUser $user) {
+            return $this->contains($user->getUserId());
+        }, $superiors));
+
+        $firstAndLastnames = array_map(function (ilOrgUnitUser $user, int $key) {
+            return "PhpSup{$key} UnitSup{$key}";
+        }, $superiors, array_keys($superiors));
+
+        $userHelper->expects($this->atLeastOnce())->method('getUsernameMapForIds')
+            ->with($expectedIdsConstraint)
+            ->willReturn($firstAndLastnames);
+
+        $context = $this->getAnonymousTemplateContext(
+            $ouService,
+            $envHelper,
+            $userHelper,
+            $lngHelper
+        );
+
         $placeholderResolver = new ilMailTemplatePlaceholderResolver($context, implode('', [
             '[MAIL_SALUTATION]',
             '[FIRST_NAME]',
@@ -101,33 +202,18 @@ class ilMailTemplateContextTest extends ilMailBaseTest
             '[CLIENT_NAME]',
         ]));
 
-        $user = $this
-            ->getMockBuilder(ilObjUser::class)
-            ->disableOriginalConstructor()
-            ->setMethods([
-                'getLanguage',
-                'getUTitle',
-                'getLogin',
-                'getLastname',
-                'getFirstname',
-                'getGender',
-                'getId',
-            ])
-            ->getMock();
-
-        $user->expects($this->atLeastOnce())->method('getLanguage')->willReturn('de');
-        $user->expects($this->atLeastOnce())->method('getUTitle')->willReturn('###Dr. Ing###');
-        $user->expects($this->atLeastOnce())->method('getLogin')->willReturn('###phpunit###');
-        $user->expects($this->atLeastOnce())->method('getLastname')->willReturn('###Unit###');
-        $user->expects($this->atLeastOnce())->method('getFirstname')->willReturn('###PHP###');
-        $user->expects($this->atLeastOnce())->method('getGender')->willReturn('m');
-        $user->expects($this->atLeastOnce())->method('getId')->willReturn(4711);
-
-        $replaceMessage = $placeholderResolver->resolve($user, []);
+        $replaceMessage = $placeholderResolver->resolve($user);
 
         $this->assertStringContainsString('###Dr. Ing###', $replaceMessage);
         $this->assertStringContainsString('###phpunit###', $replaceMessage);
         $this->assertStringContainsString('###Unit###', $replaceMessage);
         $this->assertStringContainsString('###PHP###', $replaceMessage);
+        $this->assertStringContainsString('###phpunit_client###', $replaceMessage);
+        $this->assertStringContainsString('###http_ilias###', $replaceMessage);
+        $this->assertStringContainsString('mail_salutation_' . $user->getGender(), $replaceMessage);
+
+        foreach ($firstAndLastnames as $firstAndLastname) {
+            $this->assertStringContainsString($firstAndLastname, $replaceMessage);
+        }
     }
 }
