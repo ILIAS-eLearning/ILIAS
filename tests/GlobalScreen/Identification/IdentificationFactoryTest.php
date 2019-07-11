@@ -68,7 +68,6 @@ class IdentificationFactoryTest extends TestCase {
 		$this->provider_factory = Mockery::mock(ProviderFactoryInterface::class);
 		$this->provider_factory->shouldReceive('getProviderByClassName')->with(self::MOCKED_PROVIDER_CLASSNAME)->andReturn($this->provider_mock);
 		$this->provider_factory->shouldReceive('isInstanceCreationPossible')->andReturn(true);
-		$this->provider_factory->shouldReceive('isRegistered')->andReturn(true);
 
 		$this->identification = new IdentificationFactory($this->provider_factory);
 	}
