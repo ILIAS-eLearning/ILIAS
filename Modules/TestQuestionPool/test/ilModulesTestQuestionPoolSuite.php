@@ -25,13 +25,6 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
 		// Questiontypes & related classes
 		// -------------------------------------------------------------------------------------------------------------
 
-		// Type: Question (Base class)
-		require_once("./Modules/TestQuestionPool/test/assQuestionTest.php");
-		$suite->addTestSuite("assQuestionTest");
-
-		require_once("./Modules/TestQuestionPool/test/assQuestionGUITest.php");
-		$suite->addTestSuite("assQuestionGUITest");
-
 		// Type: Cloze
 		require_once("./Modules/TestQuestionPool/test/assClozeGapTest.php");
 		$suite->addTestSuite("assClozeGapTest");
