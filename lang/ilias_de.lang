@@ -12981,7 +12981,7 @@ crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Storni
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_period#:#Veranstaltungszeitraum
 crs#:#crs_period_start_mail_placeholder#:#Beginn der Veranstaltung
-crs#:#crs_period_end_mail_placeholder#:#Beginn der Veranstaltung
+crs#:#crs_period_end_mail_placeholder#:#Ende der Veranstaltung
 crs#:#crs_course_period_not_valid#:#Der Zeitraum ist nicht gültig.
 crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
