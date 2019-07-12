@@ -25,7 +25,7 @@ class ilSCORMOfflineModeGUI
 	var $tracking_url;
 	var $vers = "v1";
 	
-	function ilSCORMOfflineModeGUI($type) {
+	function __construct($type) {
 		global $ilias, $tpl, $lng, $ilCtrl;
 		include_once "./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php";
 		$this->ilias = $ilias;
