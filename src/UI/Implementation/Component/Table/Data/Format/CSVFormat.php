@@ -3,6 +3,11 @@
 namespace ILIAS\UI\Implementation\Component\Table\Data\Format;
 
 use ilCSVWriter;
+use ILIAS\UI\Component\Table\Data\Column\Column;
+use ILIAS\UI\Component\Table\Data\Data\Data;
+use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
+use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Renderer;
 
 /**
@@ -15,6 +20,12 @@ use ILIAS\UI\Renderer;
 class CSVFormat extends AbstractFormat {
 
 	/**
+	 * @var ilCSVWriter
+	 */
+	protected $tpl;
+
+
+	/**
 	 * @inheritDoc
 	 */
 	public function getFormatId(): string {
@@ -25,7 +36,7 @@ class CSVFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFileExtension(): string {
+	protected function getFileExtension(): string {
 		return "csv";
 	}
 
@@ -33,23 +44,53 @@ class CSVFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function render(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): string {
-		$csv = new ilCSVWriter();
+	protected function initTemplate(Table $component, Data $data, Filter $filter, Renderer $renderer): void {
+		$this->tpl = new ilCSVWriter();
 
-		$csv->setSeparator(";");
+		$this->tpl->setSeparator(";");
+	}
 
-		foreach ($columns as $column) {
-			$csv->addColumn($column);
-		}
-		$csv->addRow();
 
-		foreach ($rows as $row) {
-			foreach ($row as $column) {
-				$csv->addColumn($column);
-			}
-			$csv->addRow();
-		}
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleColumns(Table $component, array $columns, Filter $filter, Renderer $renderer): void {
+		parent::handleColumns($component, $columns, $filter, $renderer);
 
-		return $csv->getCSVString();
+		$this->tpl->addRow();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleColumn(string $formated_column, Table $component, Column $column, Filter $filter, Renderer $renderer): void {
+		$this->tpl->addColumn($formated_column);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleRow(Table $component, array $columns, RowData $row, Filter $filter, Renderer $renderer): void {
+		parent::handleRow($component, $columns, $row, $filter, $renderer);
+
+		$this->tpl->addRow();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleRowColumn(string $formated_row_column): void {
+		$this->tpl->addColumn($formated_row_column);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function renderTemplate(Table $component): string {
+		return $this->tpl->getCSVString();
 	}
 }

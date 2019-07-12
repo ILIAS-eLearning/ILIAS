@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table as TableInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\DefaultFilterStorage;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\BrowserFormat;
 
 /**
  * Class Table
@@ -310,7 +311,7 @@ class Table implements TableInterface {
 	 * @inheritDoc
 	 */
 	public function getActionRowId(): string {
-		return strval(filter_input(INPUT_GET, Renderer::actionParameter(TableInterface::ACTION_GET_VAR, $this->getTableId())));
+		return strval(filter_input(INPUT_GET, BrowserFormat::actionParameter(TableInterface::ACTION_GET_VAR, $this->getTableId())));
 	}
 
 
@@ -318,7 +319,7 @@ class Table implements TableInterface {
 	 * @inheritDoc
 	 */
 	public function getMultipleActionRowIds(): array {
-		return (filter_input(INPUT_POST, Renderer::actionParameter(TableInterface::MULTIPLE_SELECT_POST_VAR, $this->getTableId()), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
+		return (filter_input(INPUT_POST, BrowserFormat::actionParameter(TableInterface::MULTIPLE_SELECT_POST_VAR, $this->getTableId()), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
 			?? []);
 	}
 }

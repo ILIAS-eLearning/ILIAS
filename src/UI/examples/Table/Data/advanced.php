@@ -8,7 +8,6 @@ use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
-use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\DefaultFilterStorage;
 use ILIAS\UI\Renderer;
 
 /**
@@ -29,10 +28,10 @@ function advanced(): string {
 			/**
 			 * @inheritDoc
 			 */
-			public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
-				$type = parent::formatRow($format_id, $column, $row, $table_id, $renderer);
+			public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
+				$type = parent::formatRow($format, $column, $row, $table_id, $renderer);
 
-				switch ($format_id) {
+				switch ($format->getFormatId()) {
 					case Format::FORMAT_BROWSER:
 					case Format::FORMAT_PDF:
 					case Format::FORMAT_HTML:

@@ -3,7 +3,6 @@
 namespace ILIAS\UI\Component\Table\Data\Data;
 
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
-use ILIAS\UI\Component\Table\Data\Data\Row\RowDataGetter;
 
 /**
  * Interface Data

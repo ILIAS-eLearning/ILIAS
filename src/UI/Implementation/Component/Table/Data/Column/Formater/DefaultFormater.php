@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\Column\Formater;
 
+use ilExcel;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
@@ -19,12 +20,21 @@ class DefaultFormater extends AbstractFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(string $format_id, Column $column, string $table_id, Renderer $renderer): string {
+	public function formatHeader(Format $format, Column $column, string $table_id, Renderer $renderer): string {
 		$title = $column->getTitle();
 
-		switch ($format_id) {
+		switch ($format->getFormatId()) {
 			case Format::FORMAT_PDF:
 				return "<b>{$title}</b>";
+
+			case Format::FORMAT_EXCEL:
+				/**
+				 * @var ilExcel $tpl
+				 */ $tpl = $format->getTemplate()->tpl;
+				$cord = $tpl->getColumnCoord($format->getTemplate()->current_col) . $format->getTemplate()->current_col;
+				$tpl->setBold($cord . ":" . $cord);
+
+				return $title;
 
 			default:
 				return $title;
@@ -35,12 +45,19 @@ class DefaultFormater extends AbstractFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
+	public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
 		$value = $row($column->getKey());
 
 		$value = strval($value);
 
-		switch ($format_id) {
+		switch ($format->getFormatId()) {
+			case Format::FORMAT_BROWSER:
+				if ($value === "") {
+					$value = "&nbsp;";
+				}
+
+				return $value;
+
 			default:
 				return $value;
 		}

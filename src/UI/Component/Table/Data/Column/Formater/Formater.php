@@ -5,6 +5,7 @@ namespace ILIAS\UI\Component\Table\Data\Column\Formater;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
+use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Renderer;
 
 /**
@@ -25,18 +26,18 @@ interface Formater {
 
 
 	/**
-	 * @param string   $format_id
+	 * @param Format   $format
 	 * @param Column   $column
 	 * @param string   $table_id
 	 * @param Renderer $renderer
 	 *
 	 * @return string
 	 */
-	public function formatHeader(string $format_id, Column $column, string $table_id, Renderer $renderer): string;
+	public function formatHeader(Format $format, Column $column, string $table_id, Renderer $renderer): string;
 
 
 	/**
-	 * @param string   $format_id
+	 * @param Format   $format
 	 * @param Column   $column
 	 * @param RowData  $row
 	 * @param string   $table_id
@@ -44,5 +45,5 @@ interface Formater {
 	 *
 	 * @return string
 	 */
-	public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
+	public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
 }

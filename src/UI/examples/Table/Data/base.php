@@ -5,7 +5,6 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
 use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
-use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\DefaultFilterStorage;
 
 /**
  * @return string
