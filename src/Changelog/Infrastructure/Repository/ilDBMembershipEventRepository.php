@@ -18,8 +18,10 @@ use ILIAS\Changelog\Infrastructure\AR\EventAR;
 use ILIAS\Changelog\Infrastructure\AR\EventID;
 use ILIAS\Changelog\Infrastructure\AR\MembershipEventAR;
 use ILIAS\Changelog\Query\Requests\getLogsOfCourseRequest;
+use ILIAS\Changelog\Query\Requests\getLogsOfUserAnonymizedRequest;
 use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
 use ILIAS\Changelog\Query\Responses\getLogsOfCourseResponse;
+use ILIAS\Changelog\Query\Responses\getLogsOfUserAnonymizedResponse;
 use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 use ILIAS\Changelog\Query\Responses\LogOfCourse;
 use ILIAS\Changelog\Query\Responses\LogOfUser;
@@ -33,6 +35,8 @@ use ilObjUser;
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDBMembershipEventRepository extends MembershipRepository {
+
+	const ANONYMOUS = '[anonymous]';
 
 	/**
 	 * @var ilDBInterface
@@ -189,7 +193,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 
 		if ($limit = $getLogsOfUserRequest->getLimit()) {
-			$query .= ' LIMIT ' . $limit . ',' . $getLogsOfUserRequest->getOffset();
+			$query .= ' LIMIT ' . $getLogsOfUserRequest->getOffset() . ',' . $limit;
 		}
 
 		$member_user = new ilObjUser($getLogsOfUserRequest->getUserId());
@@ -215,6 +219,67 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 		}
 
 		return $getLogsOfUserResponse;
+	}
+
+	/**
+	 * @param getLogsOfUserAnonymizedRequest $getLogsOfUserAnonymizedRequest $getLogsOfUserRequest
+	 * @return getLogsOfUserAnonymizedResponse
+	 * @throws ilDateTimeException
+	 */
+	public function getLogsOfUserAnonymized(getLogsOfUserAnonymizedRequest $getLogsOfUserAnonymizedRequest): getLogsOfUserAnonymizedResponse {
+		$query = 'SELECT event.type_id as event_type_id, event.actor_user_id as acting_user_id, event.timestamp, member.crs_obj_id, member.hist_crs_title ' .
+			' FROM ' . EventAR::TABLE_NAME . ' event ' .
+			'INNER JOIN ' . MembershipEventAR::TABLE_NAME . ' member ON event.event_id = member.event_id ';
+
+		$where = [];
+		if ($date_from = $getLogsOfUserAnonymizedRequest->getFilter()->getDateFrom()) {
+			$where[] = 'timestamp >= ' . $this->database->quote($date_from->get(IL_CAL_DATETIME, 'Y-m-d'), 'timestamp');
+		}
+		if ($date_to = $getLogsOfUserAnonymizedRequest->getFilter()->getDateTo()) {
+			$where[] = 'timestamp <= ' . $this->database->quote($date_to->get(IL_CAL_DATETIME, 'Y-m-d'), 'timestamp');
+		}
+		if ($event_type = $getLogsOfUserAnonymizedRequest->getFilter()->getEventType()) {
+			$where[] = 'event.type_id = ' . $this->database->quote($event_type, 'integer');
+		}
+
+		$query .= 'WHERE member.member_user_id = ' . $this->database->quote($getLogsOfUserAnonymizedRequest->getUserId(), 'integer');
+
+		if (!empty($where)) {
+			$query .= ' AND ' . implode(' AND ', $where);
+		}
+
+		$query .= ' ORDER BY ' . $getLogsOfUserAnonymizedRequest->getOrderBy() . ' ' . $getLogsOfUserAnonymizedRequest->getOrderDirection();
+
+
+
+		if ($limit = $getLogsOfUserAnonymizedRequest->getLimit()) {
+			$query .= ' LIMIT ' . $getLogsOfUserAnonymizedRequest->getOffset() . ',' . $limit;
+		}
+
+		$member_user = new ilObjUser($getLogsOfUserAnonymizedRequest->getUserId());
+		$getLogsOfUserAnonymizedResponse = new getLogsOfUserAnonymizedResponse();
+		$res = $this->database->query($query);
+		while ($record = $this->database->fetchObject($res)) {
+			$actor_is_member = ($record->acting_user_id == $member_user->getId());
+			$LogOfUser = new LogOfUser();
+			$LogOfUser->acting_user_id = $actor_is_member ? $member_user->getId() : 0;
+			$LogOfUser->acting_user_login = $actor_is_member ? $member_user->getLogin() : self::ANONYMOUS;
+			$LogOfUser->acting_user_firstname = $actor_is_member ? $member_user->getFirstname() : self::ANONYMOUS;
+			$LogOfUser->acting_user_lastname = $actor_is_member ? $member_user->getLastname() : self::ANONYMOUS;
+			$LogOfUser->event_title_lang_var = 'changelog_event_type_' . $record->event_type_id;
+			$LogOfUser->event_type_id = $record->event_type_id;
+			$LogOfUser->crs_obj_id = $record->crs_obj_id;
+			$LogOfUser->hist_crs_title = $record->hist_crs_title;
+			$LogOfUser->date = new ilDateTime($record->timestamp, IL_CAL_DATETIME);
+			$LogOfUser->member_user_id = $member_user->getId();
+			$LogOfUser->member_login = $member_user->getLogin();
+			$LogOfUser->member_firstname = $member_user->getFirstname();
+			$LogOfUser->member_lastname = $member_user->getLastname();
+
+			$getLogsOfUserAnonymizedResponse->logsOfUser[] = $LogOfUser;
+		}
+
+		return $getLogsOfUserAnonymizedResponse;
 	}
 
 	/**
@@ -254,7 +319,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 
 		if ($limit = $getLogsOfCourseRequest->getLimit()) {
-			$query .= ' LIMIT ' . $limit . ',' . $getLogsOfCourseRequest->getOffset();
+			$query .= ' LIMIT ' . $getLogsOfCourseRequest->getOffset() . ',' . $limit;
 		}
 
 		$getLogsOfCourseResponse = new getLogsOfCourseResponse();

@@ -5,8 +5,10 @@ namespace ILIAS\Changelog\Query;
 
 use ILIAS\Changelog\Infrastructure\Repository\MembershipRepository;
 use ILIAS\Changelog\Query\Requests\getLogsOfCourseRequest;
+use ILIAS\Changelog\Query\Requests\getLogsOfUserAnonymizedRequest;
 use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
 use ILIAS\Changelog\Query\Responses\getLogsOfCourseResponse;
+use ILIAS\Changelog\Query\Responses\getLogsOfUserAnonymizedResponse;
 use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 
 /**
@@ -32,11 +34,19 @@ class MembershipQueryService {
 	}
 
 	/**
-	 * @param getLogsOfUserRequest $getLogsOfUsersRequest
+	 * @param getLogsOfUserRequest $getLogsOfUserRequest
 	 * @return getLogsOfUserResponse
 	 */
-	public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUsersRequest): getLogsOfUserResponse {
-		return $this->repository->getLogsOfUser($getLogsOfUsersRequest);
+	public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUserRequest): getLogsOfUserResponse {
+		return $this->repository->getLogsOfUser($getLogsOfUserRequest);
+	}
+
+	/**
+	 * @param getLogsOfUserAnonymizedRequest $getLogsOfUserAnonymizedRequest
+	 * @return getLogsOfUserAnonymizedResponse
+	 */
+	public function getLogsOfUserAnonymized(getLogsOfUserAnonymizedRequest $getLogsOfUserAnonymizedRequest): getLogsOfUserAnonymizedResponse {
+		return $this->repository->getLogsOfUserAnonymized($getLogsOfUserAnonymizedRequest);
 	}
 
 	/**

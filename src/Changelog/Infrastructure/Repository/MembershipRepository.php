@@ -12,8 +12,10 @@ use ILIAS\Changelog\Events\Membership\SubscribedToCourse;
 use ILIAS\Changelog\Events\Membership\UnsubscribedFromCourse;
 use ILIAS\Changelog\Interfaces\Repository;
 use ILIAS\Changelog\Query\Requests\getLogsOfCourseRequest;
+use ILIAS\Changelog\Query\Requests\getLogsOfUserAnonymizedRequest;
 use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
 use ILIAS\Changelog\Query\Responses\getLogsOfCourseResponse;
+use ILIAS\Changelog\Query\Responses\getLogsOfUserAnonymizedResponse;
 use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 
 /**
@@ -66,6 +68,12 @@ abstract class MembershipRepository implements Repository {
 	 * @return getLogsOfUserResponse
 	 */
 	abstract public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUserRequest): getLogsOfUserResponse;
+
+	/**
+	 * @param getLogsOfUserAnonymizedRequest $getLogsOfUserAnonymizedAnonymizedRequest
+	 * @return getLogsOfUserAnonymizedResponse
+	 */
+	abstract public function getLogsOfUserAnonymized(getLogsOfUserAnonymizedRequest $getLogsOfUserAnonymizedAnonymizedRequest): getLogsOfUserAnonymizedResponse;
 
 	/**
 	 * @param getLogsOfCourseRequest $getLogsOfCourseRequest

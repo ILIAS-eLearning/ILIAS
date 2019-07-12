@@ -29,7 +29,7 @@ class LogOfUser {
 	public $hist_crs_title;
 
 	/**
-	 * @var string
+	 * @var int
 	 */
 	public $acting_user_id;
 
