@@ -108,15 +108,27 @@ class ilChangelogCronDeleteOldLogs extends ilCronJob {
 		try {
 			$threshold_unix = time() - ($timespan_in_days * 24 * 60 * 60);
 			$threshold = date('Y-m-d H:i:s', $threshold_unix);
-			$this->database->query(
-				'DELETE FROM ' . MembershipEventAR::TABLE_NAME . ' 
-				WHERE event_id IN 
-				(SELECT event_id FROM ' . EventAR::TABLE_NAME . ' WHERE timestamp < ' . $this->database->quote($threshold, 'timestamp'). ')'
-			);
-			$this->database->query(
-				'DELETE FROM ' . EventAR::TABLE_NAME . ' WHERE timestamp < ' . $this->database->quote($threshold, 'timestamp')
-			);
-			$ilCronJobResult->setStatus(ilCronJobResult::STATUS_OK);
+			$res = $this->database->query('SELECT event_id FROM ' . EventAR::TABLE_NAME . ' WHERE timestamp < ' . $this->database->quote($threshold, 'timestamp'));
+			if ($res->numRows() == 0) {
+				$ilCronJobResult->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+			} else {
+				$all = $this->database->fetchAll($res, ilDBConstants::FETCHMODE_ASSOC);
+				$all = array_map(function ($element) {
+					return $element['event_id'];
+				}, $all);
+
+				$this->database->query(
+					'DELETE FROM ' . MembershipEventAR::TABLE_NAME .
+					' WHERE event_id IN (\'' . implode('\',\'', $all) . '\')'
+				);
+				$this->database->query(
+					'DELETE FROM ' . EventAR::TABLE_NAME
+					. ' WHERE event_id IN (\'' . implode('\',\'', $all) . '\')'
+				);
+				$ilCronJobResult->setMessage(count($all) . ' entrie(s) deleted.');
+				$ilCronJobResult->setStatus(ilCronJobResult::STATUS_OK);
+			}
+
 		} catch (Exception $e) {
 			$ilCronJobResult->setStatus(ilCronJobResult::STATUS_CRASHED);
 			$ilCronJobResult->setMessage($e->getMessage());
@@ -140,8 +152,7 @@ class ilChangelogCronDeleteOldLogs extends ilCronJob {
 	/**
 	 * @inheritdoc
 	 */
-	public function saveCustomSettings(ilPropertyFormGUI $a_form)
-	{
+	public function saveCustomSettings(ilPropertyFormGUI $a_form) {
 		$this->settings->set(self::CLEAR_OLDER_THAN, $a_form->getInput(self::CLEAR_OLDER_THAN));
 		return true;
 	}
