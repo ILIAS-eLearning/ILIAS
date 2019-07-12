@@ -22,34 +22,16 @@ class BuildArtifactsCommand extends Command {
 	 */
 	protected $agent;
 
-	/**
-	 * @var ConfigReader
-	 */
-	protected $config_reader;
-
-	public function __construct(Agent $agent, ConfigReader $config_reader) {
+	public function __construct(Agent $agent) {
 		parent::__construct();
 		$this->agent = $agent;
-		$this->config_reader = $config_reader;
 	}
 
 	public function configure() {
-		$this
-			->addArgument("config", InputArgument::REQUIRED, "Configuration for the Setup.");
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
-		if ($this->agent->hasConfig()) {
-			$config_file = $input->getArgument("config");
-			$config_content = $this->config_reader->readConfigFile($config_file);
-			$trafo = $this->agent->getArrayToConfigTransformation();
-			$config = $trafo->transform($config_content);
-		}
-		else {
-			$config = null;
-		}
-
-		$goal = $this->agent->getBuildArtifactObjective($config);
+		$goal = $this->agent->getBuildArtifactObjective();
 		$environment = new ArrayEnvironment([]);
 
 		$goals = new ObjectiveIterator($environment, $goal);

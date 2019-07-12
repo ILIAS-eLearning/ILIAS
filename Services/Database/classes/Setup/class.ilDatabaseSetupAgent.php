@@ -77,7 +77,7 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 	/**
 	 * @inheritdocs
 	 */
-	public function getBuildArtifactObjective(Setup\Config $config = null) : Setup\Objective {
+	public function getBuildArtifactObjective() : Setup\Objective {
 		return new Setup\NullObjective();
 	}
 }
