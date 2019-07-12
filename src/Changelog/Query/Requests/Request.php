@@ -65,7 +65,7 @@ abstract class Request {
 	 * @return string
 	 */
 	public function getOrderBy(): string {
-		return $this->orderBy;
+		return $this->orderBy ?: $this->getDefaultOrderField();
 	}
 
 	/**
@@ -95,4 +95,8 @@ abstract class Request {
 		$this->orderDirection = self::ORDER_DESCENDING;
 	}
 
+	/**
+	 * @return string
+	 */
+	abstract public function getDefaultOrderField(): string;
 }

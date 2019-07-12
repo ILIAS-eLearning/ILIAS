@@ -12,6 +12,8 @@ use ILIAS\Changelog\Query\Requests\Filters\getLogsOfUserFilter;
  */
 class getLogsOfUserRequest extends Request {
 
+	const DEFAULT_ORDER_FIELD = 'timestamp';
+
 	/**
 	 * @var int
 	 */
@@ -52,5 +54,13 @@ class getLogsOfUserRequest extends Request {
 	public function getFilter(): getLogsOfUserFilter {
 		return $this->filter;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getDefaultOrderField(): string {
+		return self::DEFAULT_ORDER_FIELD;
+	}
+
 
 }
