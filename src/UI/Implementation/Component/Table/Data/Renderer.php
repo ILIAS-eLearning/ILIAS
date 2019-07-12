@@ -92,12 +92,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function registerResources(ResourceRegistry $registry): void {
 		parent::registerResources($registry);
 
-		$dir = __DIR__;
-		$dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1) . "/../..";
-
-		$registry->register($dir . "/css/datatable.css");
-
-		$registry->register($dir . "/js/datatable.min.js");
+		$registry->register("./src/UI/templates/js/Table/datatable.min.js");
 	}
 
 
