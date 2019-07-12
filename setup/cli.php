@@ -2,6 +2,10 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+
+// according to ./Services/Feeds/classes/class.ilExternalFeed.php:
+define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+
 require_once(__DIR__."/classes/class.ilSetupLanguage.php");
 
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
@@ -39,14 +43,22 @@ function build_container_for_setup() {
 		return new ILIAS\Setup\AgentCollection(
 			$c["ui.field_factory"],
 			$c["refinery"],
+			// TODO: use ImplementationOfInterfaceFinder here instead of fixed list
 			[
-				"database" => $c["agent.database"]
+				"database" => $c["agent.database"],
+				"global_screen" => $c["agent.global_screen"]
 			]
 		);
 	};
 
 	$c["agent.database"] = function ($c) {
 		return new \ilDatabaseSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.global_screen"] = function($c) {
+		return new \ilGlobalScreenSetupAgent(
 			$c["refinery"]
 		);
 	};
@@ -87,6 +99,12 @@ function build_container_for_setup() {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
 			public function multiSelect($label, array $options, $byline = null) {
+				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
+			}
+			public function dateTime($label, $byline = null) {
+				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
+			}
+			public function duration($label, $byline = null) {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
 		};
