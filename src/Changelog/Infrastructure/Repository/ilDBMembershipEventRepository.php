@@ -41,6 +41,7 @@ use ilObjUser;
 class ilDBMembershipEventRepository extends MembershipRepository {
 
 	const ANONYMOUS = '[anonymous]';
+	const DELETED = '[deleted]';
 
 	/**
 	 * @var ilDBInterface
@@ -407,17 +408,17 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 			event.actor_user_id as acting_user_id, 
 			event.timestamp, member.crs_obj_id, 
 			member.hist_crs_title, 
-			acting_usr.login as acting_user_login, 
-			acting_usr.firstname as acting_user_firstname, 
-			acting_usr.lastname as acting_user_lastname, 
-			member_usr.usr_id as member_user_id, 
-			member_usr.login as member_login, 
-			member_usr.firstname as member_firstname, 
-			member_usr.lastname as member_lastname 
+			IFNULL(acting_usr.login, "' . self::DELETED . '") as acting_user_login, 
+			IFNULL(acting_usr.firstname, "' . self::DELETED . '") as acting_user_firstname, 
+			IFNULL(acting_usr.lastname, "' . self::DELETED . '") as acting_user_lastname, 
+			member.member_user_id as member_user_id, 
+			IFNULL(member_usr.login,"' . self::DELETED . '") as member_login, 
+			IFNULL(member_usr.firstname, "' . self::DELETED . '") as member_firstname, 
+			IFNULL(member_usr.lastname, "' . self::DELETED . '") as member_lastname 
 			FROM ' . EventAR::TABLE_NAME . ' event 
 			INNER JOIN ' . MembershipEventAR::TABLE_NAME . ' member ON event.event_id = member.event_id 
-			INNER JOIN usr_data acting_usr ON acting_usr.usr_id = event.actor_user_id 
-			INNER JOIN usr_data member_usr ON member.member_user_id = member_usr.usr_id 
+			LEFT JOIN usr_data acting_usr ON acting_usr.usr_id = event.actor_user_id 
+			LEFT JOIN usr_data member_usr ON member.member_user_id = member_usr.usr_id 
 			WHERE member.crs_obj_id = ' . $this->database->quote($getLogsOfCourseRequest->getCrsObjId(), 'integer');
 
 		// filters
