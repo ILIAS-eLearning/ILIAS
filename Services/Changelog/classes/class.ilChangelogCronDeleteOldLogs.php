@@ -1,18 +1,7 @@
 <?php
 
-namespace ILIAS\Changelog\Cronjob;
-
-
-use Exception;
-use ilCronJob;
-use ilCronJobResult;
-use ilDBInterface;
 use ILIAS\Changelog\Infrastructure\AR\EventAR;
 use ILIAS\Changelog\Infrastructure\AR\MembershipEventAR;
-use \ilLanguage;
-use ilPropertyFormGUI;
-use ilSetting;
-use ilTextInputGUI;
 
 /**
  * Class ilChangelogCronDeleteOldEvents
@@ -142,6 +131,7 @@ class ilChangelogCronDeleteOldLogs extends ilCronJob {
 	 */
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) {
 		$clear_older_then = new ilTextInputGUI($this->lng->txt('frm_' . self::CLEAR_OLDER_THAN), self::CLEAR_OLDER_THAN);
+		$clear_older_then->setRequired(true);
 		$clear_older_then->setValue($this->settings->get(self::CLEAR_OLDER_THAN));
 		$clear_older_then->setInfo($this->lng->txt('frm_' . self::CLEAR_OLDER_THAN . '_info'));
 
