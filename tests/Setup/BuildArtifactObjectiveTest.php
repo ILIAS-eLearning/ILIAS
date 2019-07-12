@@ -64,8 +64,10 @@ class BuildArtifactObjectiveTest extends \PHPUnit\Framework\TestCase {
 		$this->assertTrue($this->o->isNotable());
 	}
 
+	const TEST_PATH = "BuildArtifactObjectiveTest_testAchive";
+
 	public function testAchieve() {
-		$path = tempnam("/tmp", "ILIAS");
+		$path = self::TEST_PATH;
 		$this->o
 			->expects($this->atLeastOnce())
 			->method("getArtifactPath")
@@ -88,5 +90,11 @@ class BuildArtifactObjectiveTest extends \PHPUnit\Framework\TestCase {
 		$this->o->achieve($this->env);
 
 		$this->assertEquals($artifact, file_get_contents($path));
+	}
+
+	public function tearDown() : void {
+		if (file_exists(getcwd()."/".self::TEST_PATH)) {
+			unlink(getcwd()."/".self::TEST_PATH);
+		}
 	}
 }
