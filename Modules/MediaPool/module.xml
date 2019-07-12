@@ -23,7 +23,4 @@
 		<pageobject parent_type="mep" class_name="ilMediaPoolPage" directory="classes"/>
 	</copage>
 	<logging />
-	<gsproviders>
-		<gsprovider purpose="tools" class_name="ilMediaPoolGSToolProvider" />
-	</gsproviders>
 </module>

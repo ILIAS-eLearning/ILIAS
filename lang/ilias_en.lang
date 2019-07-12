@@ -16,7 +16,7 @@
 <!-- language file start -->
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
-chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground. 
+chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
 chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
 chatroom#:#osc_browser_noti_req_permission_error#:#The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system.
@@ -82,6 +82,25 @@ auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
+obj#:#cont_filter_empty#:#Please use the filter to see any objects.
+obj#:#obj_tool_setting_filter#:#Filter
+obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
+obj#:#obj_tool_setting_filter_empty#:#Show on Empty Filter
+obj#:#obj_tool_setting_filter_empty_info#:#Show all items while filter is empty.
+cont#:#cont_std_filter_title_1#:#Title
+cont#:#cont_std_filter_title_2#:#Description
+cont#:#cont_std_filter_title_3#:#Title/Description
+cont#:#cont_std_filter_title_4#:#Keyword
+cont#:#cont_std_filter_title_5#:#Author
+cont#:#cont_std_filter_title_6#:#Copyright
+cont#:#cont_std_filter_title_7#:#Tutorial Support
+cont#:#cont_std_filter_title_8#:#Object Type
+cont#:#cont_filter#:#Filter
+cont#:#cont_select_fields#:#Select Fields
+cont#:#cont_std_record_title#:#Standard
+cont#:#cont_filter_record#:#Record
+cont#:#cont_filter_field#:#Field
+cont#:#cont_filter_fields#:#Filter Fields
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -764,7 +783,7 @@ assessment#:#ass_lac_expression#:#Expression
 assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions. No competence records will be written for these competences.<br />The required amount of questions: %s
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Competence
@@ -1101,7 +1120,7 @@ assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_anonymity#:#Privacy
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
-assessment#:#tst_best_solution_is#:#The best solution is:
+assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_change_points_for_question#:#Points for the Answer
@@ -6655,6 +6674,8 @@ pwassist#:#pwassist_username_mail_body#:#These are the active username found for
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_your_rating#:#Your Rating
+rbac#:#upload_blacklisted_files#:#Bypass blacklist
+rbac#:#facs_upload_blacklisted_files#:#Upload indexed file types despite blacklist
 rbac#:#cals_edit_event#:#User can create and edit public calendars and events in ILIAS
 rbac#:#cals_edit_permission#:#User can change permission settings for Calendar administration
 rbac#:#cals_read#:#User has read access to Calendar Administration
@@ -9985,6 +10006,7 @@ dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
 dcl#:#dcl_all_entries#:#All entries
+dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_own_entries#:#Only own entries
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_tableviews#:#Views
@@ -14472,6 +14494,8 @@ content#:#cont_lpe_user_agreement_link#:#User Agreement Link
 common#:#obj_fold_duplicate#:#Copy Folder
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
+file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
+file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
 file#:#file_suffix_default_white#:#Default Suffix Whitelist
 file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
 file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
@@ -14501,6 +14525,7 @@ copa#:#obj_copa_duplicate#:#Duplicate Content Page
 copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
 adve#:#adve_grp_copa#:#Content Pages
+common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are accessible via the `Personal Settings` or `Mail` section.
@@ -14571,6 +14596,9 @@ mme#:#subtab_topitems#:#Top Items
 mme#:#subtab_subitems#:#Items
 mme#:#tab_back#:#Back
 mme#:#topitem_add#:#Add Top Item
+mme#:#restore#:#Reset Main Menu
+mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.
+mme#:#msg_restored#:#Main Menu completely reset
 mme#:#topitem_edit#:#Edit
 mme#:#topitem_delete#:#Delete
 mme#:#topitem_translate#:#Translate
@@ -15033,6 +15061,11 @@ crs#:#crs_timings_short_end#:#End Date
 lso#:#lso_activation_online_info#:#Set the Learning Sequence online to make it visible and available for Learning Sequence members. If not, only administrators and tutors will have access to it.
 dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_crs_timing_end#:#Suggested End
+assessment#:#finalized_evaluation#:#Scoring completed
+assessment#:#evaluated_users#:#Evaluated Users
+assessment#:#not_evaluated_users#:#Not Yet Evaluated User
+assessment#:#finalized_by#:#Completed by
+assessment#:#finalized_on#:#Completed at
 crs#:#crs_timings_edit_personal#:#Edit Personal Timings
 crs#:#crs_timings_short_start_end_rel#:#Suggested Start (in days)
 crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
@@ -15041,6 +15074,7 @@ content#:#cont_choose_file_source#:#Source
 content#:#cont_choose_local#:#Local directory
 content#:#cont_choose_upload_dir#:#Upload directory
 sess#:#sess_assign#:#Assign
+assessment#:#answer_of#:#Answer of
 common#:#certificate_selection#:#Origin of Certificates
 common#:#certificate_persistent_option#:#Certificates of Achievements
 common#:#certificate_workspace_option#:#Certificates of Workspace
@@ -15098,3 +15132,19 @@ content#:#cont_notification_comment_lm#:#the following Learning Module Page has 
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated
 content#:#cont_commented_by#:#Commented by
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
+pd#:#pd_avail_sortation#:#Available Sortations
+pd#:#pd_default_sortation#:#Default Sortation
+pd#:#pd_sortation#:#Sortation
+pd#:#pd_presentation#:#Presentation
+pd#:#pd_avail_presentation#:#Available Presentations
+pd#:#pd_default_presentation#:#Default Presentation
+pd#:#pd_list#:#List
+pd#:#pd_tile#:#Tile
+pd#:#pd_activation#:#activation
+pd#:#pd_view_courses_groups#:#View ‘Courses and Groups’
+pd#:#pd_view_favourites#:#View ‘Selected Items’
+rbac#:#pdts_change_presentation#:#Change presentation of personal desktop view
+rbac#:#change_presentation#:#Change Presentation
+pd#:#pd_presentation_mode_list#:#Item List Presentation
+pd#:#pd_presentation_mode_tile#:#Tile Presentation
+forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.

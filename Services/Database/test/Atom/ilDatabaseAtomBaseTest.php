@@ -53,12 +53,7 @@ class ilDatabaseAtomBaseTest extends TestCase {
 
 
 	protected function setUp(): void {
-		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryTransaction.php');
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
-		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 
 		global $ilClientIniFile;
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
@@ -123,9 +118,6 @@ class ilDatabaseAtomBaseTest extends TestCase {
 
 
 	public function testCallables() {
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQL.php');
-		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
-
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		// Working
 		$this->assertTrue($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface) { })); // ilDBInterface as first Parameter

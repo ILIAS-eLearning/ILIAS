@@ -322,7 +322,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		}
 
 		// section
-		$section1 = $f->input()->field()->section($fields, $lng->txt("prtf_decl_authorship"));
+		$section1 = $f->input()->field()->section($fields, $lng->txt("prtf_decl_authorship"), "");
 
 		$form_action = $ctrl->getLinkTarget($this, "saveAuthorship");
 		return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);

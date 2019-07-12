@@ -88,9 +88,12 @@ class ilCalendarHeaderNavigationGUI
 		$ui = $this->ui;
 		$toolbar = $this->toolbar;
 
+		$today = new ilDateTime(time(),IL_CAL_UNIX, $this->user->getTimeZone());
+
 		$tpl = new ilTemplate("tpl.navigation_header.html", true, true, "Services/Calendar");
 
 		// previous button
+		$contains_today = false;
 		$this->incrementDate(-1);
 		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed',$this->seed->get(IL_CAL_DATE));
 		$b1 = $ui->factory()->button()->standard($lng->txt("previous"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
@@ -103,6 +106,9 @@ class ilCalendarHeaderNavigationGUI
 			case ilDateTime::DAY:
 				$tpl->setVariable("TXT_TITLE", ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE,'w')).
 					", ".ilDatePresentation::formatDate($this->seed));
+				if(date("Y-m-d") === $this->seed->get(IL_CAL_FKT_DATE,'Y-m-d')) {
+					$contains_today = true;
+				}
 				break;
 
 			case ilDateTime::WEEK:
@@ -112,17 +118,37 @@ class ilCalendarHeaderNavigationGUI
 				$tpl->setVariable("TXT_TITLE", $this->lng->txt('week').' '.$this->seed->get(IL_CAL_FKT_DATE,'W').
 					", ".ilDatePresentation::formatDate($start)." - ".
 					ilDatePresentation::formatDate($end));
+				$il_date_now = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
+				if(ilDate::_within($il_date_now, $start, $end)){
+					$contains_today = true;
+				}
 				break;
 
 			case ilDateTime::MONTH:
 				$tpl->setVariable("TXT_TITLE", $this->lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
 						' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));
+				if($this->seed->get(IL_CAL_FKT_DATE,'Y-m') == date("Y-m")) {
+					$contains_today = true;
+				}
 				break;
 		}
 		ilDatePresentation::setUseRelativeDates(true);
-		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
-		$b2 = $ui->factory()->button()->standard($lng->txt("today"), $this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
-
+		$this->ctrl->setParameterByClass(
+			get_class($this->cmdClass),
+			'seed',
+			$today->get(IL_CAL_DATE)
+		);
+		if($contains_today){
+			$b2 = $ui->factory()->button()->standard(
+				$lng->txt("today"),
+				$this->ctrl->getLinkTarget($this->cmdClass,$this->cmd)
+			)->withUnavailableAction();
+		} else {
+			$b2 = $ui->factory()->button()->standard(
+				$lng->txt("today"),
+				$this->ctrl->getLinkTarget($this->cmdClass,$this->cmd)
+			);
+		}
 		// next button
 		$this->incrementDate(1);
 		$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed',$this->seed->get(IL_CAL_DATE));

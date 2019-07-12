@@ -658,7 +658,6 @@ class ilDclRecordEditGUI {
 		$search = $_POST['search_for'];
 		$dest = $_POST['dest'];
 		$html = "";
-		include_once './Services/Search/classes/class.ilQueryParser.php';
 		$query_parser = new ilQueryParser($search);
 		$query_parser->setMinWordLength(1, true);
 		$query_parser->setCombination(QP_COMBINATION_AND);
@@ -668,7 +667,6 @@ class ilDclRecordEditGUI {
 		}
 
 		// only like search since fulltext does not support search with less than 3 characters
-		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
 		$object_search = new ilLikeObjectSearch($query_parser);
 		$res = $object_search->performSearch();
 		//$res->setRequiredPermission('copy');
@@ -682,7 +680,6 @@ class ilDclRecordEditGUI {
 		foreach ($results as $entry) {
 			$tpl = new ilTemplate("tpl.dcl_tree.html", true, true, "Modules/DataCollection");
 			foreach ((array)$entry['refs'] as $reference) {
-				include_once './Services/Tree/classes/class.ilPathGUI.php';
 				$path = new ilPathGUI();
 				$tpl->setCurrentBlock('result');
 				$tpl->setVariable('RESULT_PATH', $path->getPath(ROOT_FOLDER_ID, $reference) . " » " . $entry['title']);

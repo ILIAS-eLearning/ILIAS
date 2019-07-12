@@ -10,27 +10,29 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-trait SlateSessionStateCode {
+trait SlateSessionStateCode
+{
 
-	use Hasher;
+    use Hasher;
 
 
-	/**
-	 * @param Slate $slate
-	 *
-	 * @return Slate
-	 */
-	public function addOnloadCode(Slate $slate, isItem $item): Slate {
-		$show_signal = $slate->getToggleSignal();
-		$identification = $this->hash($item->getProviderIdentification()->serialize());
+    /**
+     * @param Slate $slate
+     *
+     * @return Slate
+     */
+    public function addOnloadCode(Slate $slate, isItem $item) : Slate
+    {
+        $show_signal = $slate->getToggleSignal();
+        $identification = $this->hash($item->getProviderIdentification()->serialize());
 
-		if (isset($_COOKIE[$identification])) {
-			$slate = $slate->withEngaged(true);
-		}
+        if (isset($_COOKIE[$identification])) {
+            $slate = $slate->withEngaged(true);
+        }
 
-		return $slate->withAdditionalOnLoadCode(
-			function ($id) use ($show_signal, $identification) {
-				return "
+        return $slate->withAdditionalOnLoadCode(
+            function ($id) use ($show_signal, $identification) {
+                return "
 				$(document).on('{$show_signal}', function(event, signalData) {
 					console.log('{$identification} opened/closed (js-id {$id})');
 					if(document.cookie.indexOf('{$identification}') >= 0) {
@@ -41,7 +43,7 @@ trait SlateSessionStateCode {
 					return false;
 				});
 			";
-			}
-		);
-	}
+            }
+        );
+    }
 }

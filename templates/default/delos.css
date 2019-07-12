@@ -7967,6 +7967,10 @@ ul.breadcrumb li:hover {
   display: block;
   width: 100%;
 }
+.il-input-duration .form-group.row {
+  width: 50%;
+  float: left;
+}
 .il-table-presentation-viewcontrols {
   display: flex;
   flex-wrap: wrap;
@@ -8818,6 +8822,27 @@ footer {
 .il-maincontrols-metabar .il-metabar-entries .il-logout {
   padding-left: 10px;
 }
+.il-metabar-entries .glyphicon {
+  font-family: 'il-icons';
+}
+.il-metabar-entries .glyphicon-bell:before {
+  content: "\e027";
+}
+.il-metabar-entries .glyphicon-comment:before {
+  content: "\e04a";
+}
+.il-metabar-entries .glyphicon-envelope:before {
+  content: "\e086";
+}
+.il-metabar-entries .glyphicon-question-sign:before {
+  content: "\e05d";
+}
+.il-metabar-entries .glyphicon-search:before {
+  content: "\e090";
+}
+.il-metabar-entries .glyphicon-user:before {
+  content: "\e005";
+}
 .il-metabar-entries .btn {
   position: relative;
 }
@@ -8873,27 +8898,6 @@ footer {
   .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-status {
     margin-top: 10px;
   }
-}
-.glyphicon {
-  font-family: 'il-icons';
-}
-.glyphicon-bell:before {
-  content: "\e027";
-}
-.glyphicon-comment:before {
-  content: "\e04a";
-}
-.glyphicon-envelope:before {
-  content: "\e086";
-}
-.glyphicon-question-sign:before {
-  content: "\e05d";
-}
-.glyphicon-search:before {
-  content: "\e090";
-}
-.glyphicon-user:before {
-  content: "\e005";
 }
 .il-metabar-slates {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
@@ -9356,7 +9360,9 @@ footer {
 .icon.grpr .abbreviation,
 .icon.bdga .abbreviation,
 .icon.wfe .abbreviation,
-.icon.iass .abbreviation {
+.icon.iass .abbreviation,
+.icon.copa .abbreviation,
+.icon.lso .abbreviation {
   display: none;
 }
 .icon.grp {
@@ -9676,6 +9682,12 @@ footer {
 }
 .icon.iass {
   background-image: url("images/icon_iass.svg");
+}
+.icon.copa {
+  background-image: url("images/icon_copa.svg");
+}
+.icon.lso {
+  background-image: url("images/icon_lso.svg");
 }
 .icon.outlined {
   filter: brightness(0);
@@ -10001,8 +10013,11 @@ footer {
 .icon.outlined.iass {
   background-image: url("images/outlined/icon_iass.svg");
 }
-.icon.copa {
-  background-image: url("images/icon_copa.svg");
+.icon.outlined.copa {
+  background-image: url("images/outlined/icon_copa.svg");
+}
+.icon.outlined.lso {
+  background-image: url("images/outlined/icon_lso.svg");
 }
 .glyph {
   color: #557196;
@@ -10632,6 +10647,175 @@ footer {
 }
 .bg-primary {
   color: white;
+}
+/*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives @height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
+.il-multi-line-cap-2 {
+  position: relative;
+  max-height: 3em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-2:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-line-clamp: 2;
+  -moz-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
+}
+.il-multi-line-cap-3 {
+  position: relative;
+  max-height: 4.5em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-3:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-line-clamp: 3;
+  -moz-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
+}
+.il-multi-line-cap-5 {
+  position: relative;
+  max-height: 7.5em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-5:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-line-clamp: 5;
+  -moz-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
+}
+.il-multi-line-cap-10 {
+  position: relative;
+  max-height: 15em;
+  overflow: hidden;
+  line-height: 1.5;
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+}
+.il-multi-line-cap-10:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-line-clamp: 10;
+  -moz-box-orient: vertical;
+  
+  :after {
+    display: none;
+  }
 }
 /* flex grid support start, see http://www.bootply.com/126437 */
 /* deactivated flex grid, since grids in grids will not work correctly width:100%; and flex:1 1 auto; seem to be problems
@@ -12064,6 +12248,7 @@ img.ilSmallIcon {
 }
 span.ilIcalIcon {
   text-align: initial;
+  font-size: 133%;
 }
 /* Component Imports */
 /* Services/Accordion */

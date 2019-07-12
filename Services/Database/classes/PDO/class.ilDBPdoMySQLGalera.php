@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('class.ilDBPdoMySQLInnoDB.php');
-
 /**
  * Class ilDBPdoMySQLInnoDB
  *
@@ -22,8 +20,6 @@ class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB implements ilDBInterface {
 	 * @return \ilAtomQuery
 	 */
 	public function buildAtomQuery() {
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryTransaction.php');
-
 		return new ilAtomQueryTransaction($this);
 	}
 }

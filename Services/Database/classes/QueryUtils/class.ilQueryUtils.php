@@ -1,5 +1,4 @@
 <?php
-require_once 'Services/Database/interfaces/interface.ilQueryUtils.php';
 
 /**
  * Class ilQueryUtils

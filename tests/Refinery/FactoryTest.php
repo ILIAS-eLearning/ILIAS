@@ -90,4 +90,11 @@ class FactoryTest extends TestCase
 
 		$this->assertInstanceOf(\ILIAS\Refinery\Container\Group::class, $group);
 	}
+
+	public function testCreateDateTimeGroup()
+	{
+		$group = $this->basicFactory->dateTime();
+		$this->assertInstanceOf(\ILIAS\Refinery\DateTime\Group::class, $group);
+	}
+
 }

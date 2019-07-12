@@ -23,10 +23,10 @@ class ilUserPasswordManager
     /** @var array */
     protected $config = [];
 
-    /** @var \ilSetting */
+    /** @var ilSetting|null */
     protected $settings;
 
-    /** @var \ilDBInterface */
+    /** @var ilDBInterface */
     protected $db;
 
     /**
@@ -92,7 +92,7 @@ class ilUserPasswordManager
                     ]
                 ),
                 'password_encoder' => 'bcryptphp',
-                'settings'         => $DIC->settings(),
+                'settings'         => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
                 'db'               => $DIC->database(),
             ]
         );
@@ -102,9 +102,9 @@ class ilUserPasswordManager
     }
 
     /**
-     * @param ilSetting $settings
+     * @param ilSetting|null $settings
      */
-    public function setSettings(ilSetting $settings) : void
+    public function setSettings(?ilSetting $settings) : void
     {
         $this->settings = $settings;
     }

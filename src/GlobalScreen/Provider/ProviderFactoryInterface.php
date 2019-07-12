@@ -10,44 +10,53 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ProviderFactoryInterface {
+interface ProviderFactoryInterface
+{
 
-	/**
-	 * @return StaticMainMenuProvider[]
-	 */
-	public function getMainBarProvider(): array;
-
-
-	/**
-	 * @return ItemInformation
-	 */
-	public function getMainBarItemInformation(): ItemInformation;
+    /**
+     * @return StaticMainMenuProvider[]
+     */
+    public function getMainBarProvider() : array;
 
 
-	/**
-	 * @return DynamicToolProvider[]
-	 */
-	public function getToolProvider(): array;
+    /**
+     * @return ItemInformation
+     */
+    public function getMainBarItemInformation() : ItemInformation;
 
 
-	/**
-	 * @return StaticMetaBarProvider[]
-	 */
-	public function getMetaBarProvider(): array;
+    /**
+     * @return DynamicToolProvider[]
+     */
+    public function getToolProvider() : array;
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return Provider
-	 */
-	public function getProviderByClassName(string $class_name): Provider;
+    /**
+     * @return StaticMetaBarProvider[]
+     */
+    public function getMetaBarProvider() : array;
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return bool
-	 */
-	public function isInstanceCreationPossible(string $class_name): bool;
+    /**
+     * @param string $class_name
+     *
+     * @return Provider
+     */
+    public function getProviderByClassName(string $class_name) : Provider;
+
+
+    /**
+     * @param string $class_name
+     *
+     * @return bool
+     */
+    public function isInstanceCreationPossible(string $class_name) : bool;
+
+
+    /**
+     * @param string $class_name
+     *
+     * @return bool
+     */
+    public function isRegistered(string $class_name) : bool;
 }

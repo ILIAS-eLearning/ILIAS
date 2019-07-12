@@ -167,7 +167,6 @@ class ilDclFieldListGUI {
 		foreach ($tables as $table) {
 			$options[$table->getId()] = $table->getTitle();
 		}
-		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$table_selection = new ilSelectInputGUI('', 'table_id');
 		$table_selection->setOptions($options);
 		$table_selection->setValue($this->table_id);

@@ -822,7 +822,7 @@ class ilStartUpGUI
 		$credentials->initFromRequest();
 		
 		$provider_factory = new ilAuthProviderFactory();
-		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LTI_PROVIDER);
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_PROVIDER_LTI);
 		
 		$status = ilAuthStatus::getInstance();
 		

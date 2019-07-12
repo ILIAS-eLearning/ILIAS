@@ -8,6 +8,10 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
+use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
+use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
+use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Services;
@@ -285,16 +289,17 @@ class ilInitialisation
 	 */
 	public static function initFileUploadService(\ILIAS\DI\Container $dic) {
 		$dic['upload.processor-manager'] = function ($c) {
-			return new \ILIAS\FileUpload\Processor\PreProcessorManagerImpl();
+			return new PreProcessorManagerImpl();
 		};
 
-		$dic['upload'] = function ($c) {
+		$dic['upload'] = function (\ILIAS\DI\Container $c) {
 			$fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
 			if (IL_VIRUS_SCANNER != "None") {
-				$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
+				$fileUploadImpl->register(new VirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
 			}
 
-			$fileUploadImpl->register(new \ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor());
+			$fileUploadImpl->register(new FilenameSanitizerPreProcessor());
+			$fileUploadImpl->register(new BlacklistExtensionPreProcessor(ilFileUtils::getExplicitlyBlockedFiles(), $c->language()->txt("msg_info_blacklisted")));
 
 			return $fileUploadImpl;
 		};
@@ -528,7 +533,6 @@ class ilInitialisation
 	protected static function initDatabase()
 	{
 		// build dsn of database connection and connect
-		require_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$ilDB = ilDBWrapperFactory::getWrapper(IL_DB_TYPE);
 		$ilDB->initFromIniFile();
 		$ilDB->connect();
@@ -757,9 +761,9 @@ class ilInitialisation
 			$DIC->user()->read();
 
 			if ($DIC->user()->isAnonymous()) {
-				$DIC->navigationContext()->claim()->external();
+				$DIC->globalScreen()->tool()->context()->claim()->external();
 			} else {
-				$DIC->navigationContext()->claim()->internal();
+				$DIC->globalScreen()->tool()->context()->claim()->internal();
 			}
 			// init console log handler
 			ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
@@ -1308,7 +1312,7 @@ class ilInitialisation
 			if(self::blockedAuthentication($current_script))
 			{
 				ilLoggerFactory::getLogger('init')->debug('Authentication is started in current script.');
-				$DIC->navigationContext()->claim()->external();
+				$DIC->globalScreen()->tool()->context()->claim()->external();
 				// nothing todo: authentication is done in current script
 				return;
 			}
@@ -1456,7 +1460,7 @@ class ilInitialisation
 		$c['global_screen'] = function () use ($c) {
 			return new Services(new ilGSProviderFactory($c));
 		};
-		$c->navigationContext()->stack()->main();
+		$c->globalScreen()->tool()->context()->stack()->main();
 	}
 
 	/**

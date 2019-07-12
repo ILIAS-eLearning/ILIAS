@@ -338,7 +338,8 @@ class ilObjFile extends ilObject2 {
 					$this->createPreview(false);
 				}
 			} else {
-				throw new ilFileException('not supported File');
+				$this->delete();
+				throw new ilFileException($result->getStatus()->getMessage());
 			}
 		}
 
