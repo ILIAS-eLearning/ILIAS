@@ -1231,4 +1231,8 @@ if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#5513>
+<?php
+\ILIAS\Changelog\DBUpdate\EventAR_V1::updateDB();
+\ILIAS\Changelog\DBUpdate\MembershipEventAR_V1::updateDB();
+?>
