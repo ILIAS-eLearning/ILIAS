@@ -5,7 +5,8 @@ namespace ILIAS\Changelog\Query\Requests;
 use ILIAS\Changelog\Query\Requests\Filters\getLogsOfUserFilter;
 
 /**
- * Class getLogsOfUsersRequest
+ * Class getLogsOfUserRequest
+ * @package ILIAS\Changelog\Query\Requests
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

@@ -6,7 +6,8 @@ namespace ILIAS\Changelog\Query\Requests\Filters;
 use ilDateTime;
 
 /**
- * Class getLogsOfUsersFilter
+ * Class getLogsOfUserFilter
+ * @package ILIAS\Changelog\Query\Requests\Filters
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

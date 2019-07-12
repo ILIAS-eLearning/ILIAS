@@ -4,7 +4,8 @@ namespace ILIAS\Changelog\Query\Responses;
 
 
 /**
- * Class getLogsOfUsersResponse
+ * Class getLogsOfUserResponse
+ * @package ILIAS\Changelog\Query\Responses
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
