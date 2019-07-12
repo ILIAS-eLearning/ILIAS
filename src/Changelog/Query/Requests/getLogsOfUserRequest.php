@@ -9,7 +9,7 @@ use ILIAS\Changelog\Query\Requests\Filters\getLogsOfUserFilter;
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class getLogsOfUserRequest {
+class getLogsOfUserRequest extends Request {
 
 	/**
 	 * @var int
@@ -20,24 +20,6 @@ class getLogsOfUserRequest {
 	 * @var getLogsOfUserFilter
 	 */
 	protected $filter;
-	/**
-	 * @var int
-	 */
-	protected $limit = 0;
-	/**
-	 * @var int
-	 */
-	protected $offset = 0;
-
-	/**
-	 * @var string
-	 */
-	protected $orderBy = 'timestamp';
-
-	/**
-	 * @var string
-	 */
-	protected $orderDirection = 'ASC';
 
 	/**
 	 * getLogsOfUsersRequest constructor.
@@ -55,33 +37,6 @@ class getLogsOfUserRequest {
 		$this->filter = $getLogsOfUsersFilter;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getLimit(): int {
-		return $this->limit;
-	}
-
-	/**
-	 * @param int $limit
-	 */
-	public function setLimit(int $limit) {
-		$this->limit = $limit;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getOffset(): int {
-		return $this->offset;
-	}
-
-	/**
-	 * @param int $offset
-	 */
-	public function setOffset(int $offset) {
-		$this->offset = $offset;
-	}
 
 	/**
 	 * @return int
@@ -95,34 +50,6 @@ class getLogsOfUserRequest {
 	 */
 	public function getFilter(): getLogsOfUserFilter {
 		return $this->filter;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getOrderBy(): string {
-		return $this->orderBy;
-	}
-
-	/**
-	 * @param string $orderBy
-	 */
-	public function setOrderBy(string $orderBy) {
-		$this->orderBy = $orderBy;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getOrderDirection(): string {
-		return $this->orderDirection;
-	}
-
-	/**
-	 * @param string $orderDirection
-	 */
-	public function setOrderDirection(string $orderDirection) {
-		$this->orderDirection = $orderDirection;
 	}
 
 }

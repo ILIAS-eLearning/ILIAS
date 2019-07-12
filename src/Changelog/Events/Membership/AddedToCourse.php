@@ -55,7 +55,9 @@ class AddedToCourse extends MembershipEvent {
 		$this->adding_user_id = $adding_user_id;
 	}
 
-
+	/**
+	 * @return int
+	 */
 	public function getTypeId(): int {
 		return self::TYPE_ID;
 	}
