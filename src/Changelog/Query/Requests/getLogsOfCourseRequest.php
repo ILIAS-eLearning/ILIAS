@@ -25,7 +25,7 @@ class getLogsOfCourseRequest extends Request {
 	protected $filter;
 
 	/**
-	 * getLogsOfUsersRequest constructor.
+	 * getLogsOfCourseRequest constructor.
 	 * @param int $crs_obj_id
 	 */
 	public function __construct(int $crs_obj_id) {

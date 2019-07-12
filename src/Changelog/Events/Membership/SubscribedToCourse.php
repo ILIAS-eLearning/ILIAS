@@ -29,7 +29,7 @@ class SubscribedToCourse extends MembershipEvent {
 	protected $subscribing_user_id;
 
 	/**
-	 * MembershipRequested constructor.
+	 * SubscribedToCourse constructor.
 	 * @param int $crs_obj_id
 	 * @param int $subscribing_user_id
 	 * @throws CourseNotFoundException

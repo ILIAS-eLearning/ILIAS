@@ -33,7 +33,7 @@ class MembershipRequestDenied extends MembershipEvent {
 	protected $denying_user_id;
 
 	/**
-	 * MembershipRequested constructor.
+	 * MembershipRequestDenied constructor.
 	 * @param int $crs_obj_id
 	 * @param int $requesting_user_id
 	 * @param int $denying_user_id

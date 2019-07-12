@@ -32,7 +32,7 @@ class MembershipRequestAccepted extends MembershipEvent {
 	protected $accepting_user_id;
 
 	/**
-	 * MembershipRequested constructor.
+	 * MembershipRequestAccepted constructor.
 	 * @param int $crs_obj_id
 	 * @param int $requesting_user_id
 	 * @param int $accepting_user_id

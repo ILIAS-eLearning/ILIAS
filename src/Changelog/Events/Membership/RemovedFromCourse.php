@@ -33,7 +33,7 @@ class RemovedFromCourse extends MembershipEvent {
 	protected $removing_user_id;
 
 	/**
-	 * MembershipRequested constructor.
+	 * RemovedFromCourse constructor.
 	 * @param int $crs_obj_id
 	 * @param int $member_user_id
 	 * @param int $removing_user_id

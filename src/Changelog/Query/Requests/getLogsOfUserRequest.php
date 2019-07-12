@@ -23,7 +23,7 @@ class getLogsOfUserRequest extends Request {
 	protected $filter;
 
 	/**
-	 * getLogsOfUsersRequest constructor.
+	 * getLogsOfUserRequest constructor.
 	 * @param int $user_id
 	 */
 	public function __construct(int $user_id) {

@@ -8,6 +8,7 @@ use ILIAS\Changelog\Interfaces\Event;
 use ILIAS\Changelog\Interfaces\EventHandler;
 use ILIAS\Changelog\Interfaces\Repository;
 use ReflectionClass;
+use ReflectionException;
 
 /**
  * Class Logger
@@ -20,7 +21,7 @@ abstract class Logger {
 	/**
 	 * @param Event $event
 	 * @throws EventHandlerNotFoundException
-	 * @throws \ReflectionException
+	 * @throws ReflectionException
 	 */
 	public function logEvent(Event $event) {
 		$reflect = new ReflectionClass($event);

@@ -3,7 +3,9 @@
 namespace ILIAS\Changelog\Infrastructure\Repository;
 
 
+use Exception;
 use ilDateTime;
+use ilDateTimeException;
 use ilDBInterface;
 use ILIAS\Changelog\Events\Membership\AddedToCourse;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
@@ -25,8 +27,8 @@ use ilObjCourse;
 use ilObjUser;
 
 /**
- * Class ilDBMembershipRepository
- * @package ILIAS\Changelog\Membership\Repository
+ * Class ilDBMembershipEventRepository
+ * @package ILIAS\Changelog\Infrastructure\Repository
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
@@ -38,7 +40,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	protected $database;
 
 	/**
-	 * ilDBMembershipRepository constructor.
+	 * ilDBMembershipEventRepository constructor.
 	 */
 	public function __construct() {
 		global $DIC;
@@ -50,7 +52,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	 * @param int $course_obj_id
 	 * @param int $actor_user_id
 	 * @param int $affected_user_id
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	protected function saveMembershipEvent(int $type_id, int $course_obj_id, int $actor_user_id, int $affected_user_id) {
 		$event_id = new EventID();
@@ -157,7 +159,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	/**
 	 * @param getLogsOfUserRequest $getLogsOfUserRequest
 	 * @return getLogsOfUserResponse
-	 * @throws \ilDateTimeException
+	 * @throws ilDateTimeException
 	 */
 	public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUserRequest): getLogsOfUserResponse {
 		$query = 'SELECT event.type_id as event_type_id, event.actor_user_id as acting_user_id, event.timestamp, member.crs_obj_id, member.hist_crs_title, acting_usr.login as acting_user_login, acting_usr.firstname as acting_user_firstname, acting_usr.lastname as acting_user_lastname' .
@@ -218,7 +220,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 	/**
 	 * @param getLogsOfCourseRequest $getLogsOfCourseRequest
 	 * @return getLogsOfCourseResponse
-	 * @throws \ilDateTimeException
+	 * @throws ilDateTimeException
 	 */
 	public function getLogsOfCourse(getLogsOfCourseRequest $getLogsOfCourseRequest): getLogsOfCourseResponse {
 		$query = 'SELECT event.type_id as event_type_id, event.actor_user_id as acting_user_id, event.timestamp, member.crs_obj_id, member.hist_crs_title, acting_usr.login as acting_user_login, acting_usr.firstname as acting_user_firstname, acting_usr.lastname as acting_user_lastname, member_usr.usr_id as member_user_id, member_usr.login as member_login, member_usr.firstname as member_firstname, member_usr.lastname as member_lastname ' .

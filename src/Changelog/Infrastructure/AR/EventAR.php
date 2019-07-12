@@ -4,6 +4,7 @@ namespace ILIAS\Changelog\Infrastructure\AR;
 
 
 use ActiveRecord;
+use Exception;
 
 /**
  * Class EventAR
@@ -156,7 +157,7 @@ class EventAR extends ActiveRecord {
 	 * @param $field_name
 	 * @param $field_value
 	 * @return EventID|null
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function wakeUp($field_name, $field_value) {
 		switch ($field_name) {

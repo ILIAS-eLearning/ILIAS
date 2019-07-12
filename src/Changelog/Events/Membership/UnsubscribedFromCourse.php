@@ -28,7 +28,7 @@ class UnsubscribedFromCourse extends MembershipEvent {
 	protected $unsubscribing_user_id;
 
 	/**
-	 * MembershipRequested constructor.
+	 * UnsubscribedFromCourse constructor.
 	 * @param int $crs_obj_id
 	 * @param int $unsubscribing_user_id
 	 * @throws CourseNotFoundException

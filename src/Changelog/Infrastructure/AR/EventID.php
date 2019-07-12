@@ -2,6 +2,7 @@
 
 namespace ILIAS\Changelog\Infrastructure\AR;
 
+use Exception;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -21,7 +22,7 @@ class EventID {
 	/**
 	 * EventID constructor.
 	 * @param string|null $id
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function __construct(string $id = null)
 	{
