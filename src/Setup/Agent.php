@@ -52,5 +52,5 @@ interface Agent {
 	 *
 	 * @throw InvalidArgumentException if Config does not match the Agent.
 	 */
-	public function getBuildArtifactObjective(Config $config = null) : Objective;
+	public function getBuildArtifactObjective() : Objective;
 }

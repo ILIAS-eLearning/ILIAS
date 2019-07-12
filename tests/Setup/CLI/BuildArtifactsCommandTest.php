@@ -14,42 +14,17 @@ class BuildArtifactsCommandTest extends \PHPUnit\Framework\TestCase {
 		$refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
 		$agent = $this->createMock(Setup\Agent::class);
-		$config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-		$command = new Setup\CLI\BuildArtifactsCommand($agent, $config_reader);
+		$command = new Setup\CLI\BuildArtifactsCommand($agent);
 
 		$tester = new CommandTester($command);
-
-		$config = $this->createMock(Setup\Config::class);
-		$config_file = "config_file";
-		$config_file_content = ["config_file"];
 
 		$objective = $this->createMock(Setup\Objective::class);
 		$env = $this->createMock(Setup\Environment::class);
 
-		$config_reader
-			->expects($this->once())
-			->method("readConfigFile")
-			->with($config_file)
-			->willReturn($config_file_content);
-
-		$agent
-			->expects($this->once())
-			->method("hasConfig")
-			->willReturn(true);
-
-		$agent
-			->expects($this->once())
-			->method("getArrayToConfigTransformation")
-			->with()
-			->willReturn($refinery->custom()->transformation(function($v) use ($config_file_content, $config) {
-				$this->assertEquals($v, $config_file_content);
-				return $config;
-			}));
-
 		$agent
 			->expects($this->once())
 			->method("getBuildArtifactObjective")
-			->with($config)
+			->with()
 			->willReturn($objective);
 
 		$objective
@@ -63,7 +38,6 @@ class BuildArtifactsCommandTest extends \PHPUnit\Framework\TestCase {
 			->willReturn($env);
 
 		$tester->execute([
-			"config" => $config_file
 		]);
 	}
 }
