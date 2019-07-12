@@ -46,7 +46,12 @@ class ilLSLPEventHandler {
 	 */
 	protected function getParentLSO(int $child_ref_id)
 	{
-		foreach($this->tree->getPathFull($child_ref_id) as $hop) {
+		$path = $this->tree->getPathFull($child_ref_id);
+		if (!$path) {
+			return false;
+		}
+
+		foreach($path as $hop) {
 			if($hop['type'] === 'lso') {
 				return $hop;
 			}

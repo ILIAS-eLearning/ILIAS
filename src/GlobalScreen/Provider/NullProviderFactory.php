@@ -62,4 +62,13 @@ class NullProviderFactory implements ProviderFactoryInterface
     {
         return false;
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isRegistered(string $class_name) : bool
+    {
+        return false;
+    }
 }

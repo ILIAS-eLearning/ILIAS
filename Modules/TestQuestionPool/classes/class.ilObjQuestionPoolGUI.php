@@ -1190,6 +1190,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	private function createQuestionFormObject()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		
+		$ilHelp->setScreenId('assQuestions');
+		
+		if(ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled())
+		{
+			$ilHelp->setSubScreenId('createQuestion_editMode');
+		}
+		else
+		{
+			$ilHelp->setSubScreenId('createQuestion');
+		}
+		
 		$form = $this->buildCreateQuestionForm();
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
