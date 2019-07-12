@@ -10,7 +10,7 @@ use ilObjUser;
 
 /**
  * Class MembershipRequestAccepted
- * @package ILIAS\Changelog\Membership\Events
+ * @package ILIAS\Changelog\Events\Membership
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

@@ -9,7 +9,7 @@ use ILIAS\Changelog\Interfaces\Event;
 
 /**
  * Class MembershipRequestAcceptedHandler
- * @package ILIAS\Changelog\Membership\Events\Handlers
+ * @package ILIAS\Changelog\Events\Membership\Handlers
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

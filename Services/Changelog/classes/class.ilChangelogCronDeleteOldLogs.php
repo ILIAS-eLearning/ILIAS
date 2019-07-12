@@ -5,7 +5,6 @@ use ILIAS\Changelog\Infrastructure\AR\MembershipEventAR;
 
 /**
  * Class ilChangelogCronDeleteOldEvents
- * @package ILIAS\Changelog\Cronjob
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

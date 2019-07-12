@@ -10,8 +10,8 @@ use ILIAS\Changelog\Interfaces\Repository;
 use ReflectionClass;
 
 /**
- * Class Bus
- * @package ILIAS\Changelog\Bus
+ * Class Logger
+ * @package ILIAS\Changelog\Logger
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

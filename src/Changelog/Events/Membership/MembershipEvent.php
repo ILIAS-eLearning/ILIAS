@@ -6,8 +6,8 @@ namespace ILIAS\Changelog\Events\Membership;
 use ILIAS\Changelog\Interfaces\Event;
 
 /**
- * Class ChangelogMembershipEvent
- * @package ILIAS\Changelog\Membership
+ * Class MembershipEvent
+ * @package ILIAS\Changelog\Events\Membership
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

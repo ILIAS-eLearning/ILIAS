@@ -6,8 +6,8 @@ namespace ILIAS\Changelog\Infrastructure\AR;
 use ActiveRecord;
 
 /**
- * Class MembershipRequested
- * @package ILIAS\Changelog\Membership\AR
+ * Class MembershipEventAR
+ * @package ILIAS\Changelog\Infrastructure\AR
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

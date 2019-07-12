@@ -10,7 +10,7 @@ use ILIAS\Changelog\Interfaces\EventHandler;
 
 /**
  * Class MembershipEventHandler
- * @package ILIAS\Changelog\Membership
+ * @package ILIAS\Changelog\Events\Membership\Handlers
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */

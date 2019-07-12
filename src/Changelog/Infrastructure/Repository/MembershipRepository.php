@@ -18,7 +18,7 @@ use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
 
 /**
  * Class MembershipRepository
- * @package ILIAS\Changelog\Membership\Repository
+ * @package ILIAS\Changelog\Infrastructure\Repository
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
