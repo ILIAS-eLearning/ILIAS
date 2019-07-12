@@ -26,11 +26,6 @@ class LogOfCourse {
 	/**
 	 * @var string
 	 */
-	public $hist_crs_title;
-
-	/**
-	 * @var string
-	 */
 	public $acting_user_id;
 
 	/**

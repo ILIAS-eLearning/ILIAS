@@ -25,6 +25,10 @@ changelog#:#event_type_4#:#Unsubscribed from course
 changelog#:#event_type_5#:#Subscribed to course
 changelog#:#event_type_6#:#Removed from course
 changelog#:#event_type_7#:#Added to course
+changelog#:#event_type_8#:#Manually added from waiting list
+changelog#:#event_type_9#:#Automatically added from waiting list
+changelog#:#event_type_10#:#Changelog globally activated
+changelog#:#event_type_11#:#Changelog globally deactivated
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
