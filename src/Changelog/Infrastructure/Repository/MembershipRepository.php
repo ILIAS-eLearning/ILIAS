@@ -4,6 +4,8 @@ namespace ILIAS\Changelog\Infrastructure\Repository;
 
 
 use ILIAS\Changelog\Events\Membership\AddedToCourse;
+use ILIAS\Changelog\Events\Membership\AutofilledFromWaitingList;
+use ILIAS\Changelog\Events\Membership\ManuallyAddedFromWaitingList;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
 use ILIAS\Changelog\Events\Membership\MembershipRequestDenied;
 use ILIAS\Changelog\Events\Membership\MembershipRequested;
@@ -62,6 +64,18 @@ abstract class MembershipRepository implements Repository {
 	 * @return mixed
 	 */
 	abstract public function saveAddedToCourse(AddedToCourse $addedToCourse);
+
+	/**
+	 * @param ManuallyAddedFromWaitingList $manuallyAddedFromWaitingList
+	 * @return mixed
+	 */
+	abstract public function saveManuallyAddedFromWaitingList(ManuallyAddedFromWaitingList $manuallyAddedFromWaitingList);
+
+	/**
+	 * @param AutofilledFromWaitingList $autofilledFromWaitingList
+	 * @return mixed
+	 */
+	abstract public function saveAutofilledFromWaitingList(AutofilledFromWaitingList $autofilledFromWaitingList);
 
 	/**
 	 * @param getLogsOfUserRequest $getLogsOfUserRequest

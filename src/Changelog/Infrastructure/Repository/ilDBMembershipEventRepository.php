@@ -8,6 +8,8 @@ use ilDateTime;
 use ilDateTimeException;
 use ilDBInterface;
 use ILIAS\Changelog\Events\Membership\AddedToCourse;
+use ILIAS\Changelog\Events\Membership\AutofilledFromWaitingList;
+use ILIAS\Changelog\Events\Membership\ManuallyAddedFromWaitingList;
 use ILIAS\Changelog\Events\Membership\MembershipRequestAccepted;
 use ILIAS\Changelog\Events\Membership\MembershipRequestDenied;
 use ILIAS\Changelog\Events\Membership\MembershipRequested;
@@ -78,6 +80,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 	/**
 	 * @param MembershipRequested $membershipRequested
+	 * @throws Exception
 	 */
 	public function saveMembershipRequested(MembershipRequested $membershipRequested) {
 		$this->saveMembershipEvent(
@@ -91,6 +94,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 	/**
 	 * @param MembershipRequestAccepted $membershipRequestAccepted
+	 * @throws Exception
 	 */
 	public function saveMembershipRequestAccepted(MembershipRequestAccepted $membershipRequestAccepted) {
 		$this->saveMembershipEvent(
@@ -103,6 +107,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 	/**
 	 * @param MembershipRequestDenied $membershipRequestDenied
+	 * @throws Exception
 	 */
 	public function saveMembershipRequestDenied(MembershipRequestDenied $membershipRequestDenied) {
 		$this->saveMembershipEvent(
@@ -115,6 +120,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 	/**
 	 * @param SubscribedToCourse $subscribedToCourse
+	 * @throws Exception
 	 */
 	public function saveSubscribedToCourse(SubscribedToCourse $subscribedToCourse) {
 		$this->saveMembershipEvent(
@@ -127,6 +133,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 	/**
 	 * @param UnsubscribedFromCourse $unsubscribedFromCourse
+	 * @throws Exception
 	 */
 	public function saveUnsubscribedFromCourse(UnsubscribedFromCourse $unsubscribedFromCourse) {
 		$this->saveMembershipEvent(
@@ -139,6 +146,7 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 
 	/**
 	 * @param RemovedFromCourse $RemovedFromCourse
+	 * @throws Exception
 	 */
 	public function saveRemovedFromCourse(RemovedFromCourse $RemovedFromCourse) {
 		$this->saveMembershipEvent(
@@ -148,8 +156,10 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 			$RemovedFromCourse->getMemberUserId()
 		);
 	}
+
 	/**
 	 * @param AddedToCourse $AddedToCourse
+	 * @throws Exception
 	 */
 	public function saveAddedToCourse(AddedToCourse $AddedToCourse) {
 		$this->saveMembershipEvent(
@@ -159,6 +169,35 @@ class ilDBMembershipEventRepository extends MembershipRepository {
 			$AddedToCourse->getMemberUserId()
 		);
 	}
+
+	/**
+	 * @param ManuallyAddedFromWaitingList $manuallyAddedFromWaitingList
+	 * @return void
+	 * @throws Exception
+	 */
+	public function saveManuallyAddedFromWaitingList(ManuallyAddedFromWaitingList $manuallyAddedFromWaitingList) {
+		$this->saveMembershipEvent(
+			$manuallyAddedFromWaitingList->getTypeId(),
+			$manuallyAddedFromWaitingList->getCrsObjId(),
+			$manuallyAddedFromWaitingList->getAddingUserId(),
+			$manuallyAddedFromWaitingList->getMemberUserId()
+		);
+	}
+
+	/**
+	 * @param AutofilledFromWaitingList $autofilledFromWaitingList
+	 * @return mixed|void
+	 * @throws Exception
+	 */
+	public function saveAutofilledFromWaitingList(AutofilledFromWaitingList $autofilledFromWaitingList) {
+		$this->saveMembershipEvent(
+			$autofilledFromWaitingList->getTypeId(),
+			$autofilledFromWaitingList->getCrsObjId(),
+			$autofilledFromWaitingList->getActingUserId(),
+			$autofilledFromWaitingList->getAddedUserId()
+		);
+	}
+
 
 	/**
 	 * @param getLogsOfUserRequest $getLogsOfUserRequest
