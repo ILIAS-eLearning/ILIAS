@@ -14,10 +14,9 @@ use ILIAS\Changelog\Interfaces\Event;
  */
 class UnsubscribedFromCourseHandler extends MembershipEventHandler {
 	/**
-	 * @param Event $changelogEvent
+	 * @param UnsubscribedFromCourse $changelogEvent
 	 */
 	public function handle(Event $changelogEvent) {
-		/** @var $changelogEvent UnsubscribedFromCourse */
 		$this->repository->saveUnsubscribedFromCourse($changelogEvent);
 	}
 }

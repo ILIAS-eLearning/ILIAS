@@ -15,10 +15,9 @@ use ILIAS\Changelog\Interfaces\Event;
  */
 class MembershipRequestDeniedHandler extends MembershipEventHandler {
 	/**
-	 * @param Event $changelogEvent
+	 * @param MembershipRequestDenied $changelogEvent
 	 */
 	public function handle(Event $changelogEvent) {
-		/** @var $changelogEvent MembershipRequestDenied */
 		$this->repository->saveMembershipRequestDenied($changelogEvent);
 	}
 }

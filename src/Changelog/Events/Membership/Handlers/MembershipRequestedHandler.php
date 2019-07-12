@@ -16,10 +16,9 @@ use ILIAS\Changelog\Interfaces\Event;
 class MembershipRequestedHandler extends MembershipEventHandler {
 
 	/**
-	 * @param Event $changelogEvent
+	 * @param MembershipRequested $changelogEvent
 	 */
 	public function handle(Event $changelogEvent) {
-		/** @var $changelogEvent MembershipRequested */
 		$this->repository->saveMembershipRequested($changelogEvent);
 	}
 

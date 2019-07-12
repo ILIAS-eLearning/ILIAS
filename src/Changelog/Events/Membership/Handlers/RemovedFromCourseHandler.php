@@ -14,10 +14,9 @@ use ILIAS\Changelog\Interfaces\Event;
  */
 class RemovedFromCourseHandler extends MembershipEventHandler {
 	/**
-	 * @param Event $changelogEvent
+	 * @param RemovedFromCourse $changelogEvent
 	 */
 	public function handle(Event $changelogEvent) {
-		/** @var $changelogEvent RemovedFromCourse */
 		$this->repository->saveRemovedFromCourse($changelogEvent);
 	}
 }

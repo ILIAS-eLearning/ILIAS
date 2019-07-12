@@ -15,10 +15,9 @@ use ILIAS\Changelog\Interfaces\Event;
  */
 class SubscribedToCourseHandler extends MembershipEventHandler {
 	/**
-	 * @param Event $changelogEvent
+	 * @param SubscribedToCourse $changelogEvent
 	 */
 	public function handle(Event $changelogEvent) {
-		/** @var $changelogEvent SubscribedToCourse */
 		$this->repository->saveSubscribedToCourse($changelogEvent);
 	}
 }
