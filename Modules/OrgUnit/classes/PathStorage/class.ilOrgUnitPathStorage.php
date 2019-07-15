@@ -133,7 +133,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			}
 		}
 
-		$expression = reset($path) . self::GLUE_SIMPLE . end($path);
+		$expression = implode(self::GLUE_SIMPLE, $path);
 		/**
 		 * @var $ilOrgUnitPathStorage ilOrgUnitPathStorage
 		 */
