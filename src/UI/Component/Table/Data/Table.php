@@ -6,8 +6,8 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
 use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 
 /**
@@ -79,34 +79,6 @@ interface Table extends Component {
 
 
 	/**
-	 * @return bool
-	 */
-	public function isFetchDataNeedsFilterFirstSet(): bool;
-
-
-	/**
-	 * @param bool $fetch_data_needs_filter_first_set
-	 *
-	 * @return self
-	 */
-	public function withFetchDataNeedsFilterFirstSet(bool $fetch_data_needs_filter_first_set = false): self;
-
-
-	/**
-	 * @return int
-	 */
-	public function getFilterPosition(): int;
-
-
-	/**
-	 * @param int $filter_position
-	 *
-	 * @return self
-	 */
-	public function withFilterPosition(int $filter_position = Filter::FILTER_POSITION_TOP): self;
-
-
-	/**
 	 * @return Column[]
 	 */
 	public function getColumns(): array;
@@ -146,6 +118,20 @@ interface Table extends Component {
 	 * @return self
 	 */
 	public function withFilterFields(array $filter_fields): self;
+
+
+	/**
+	 * @return BrowserFormat
+	 */
+	public function getBrowserFormat(): BrowserFormat;
+
+
+	/**
+	 * @param BrowserFormat $browser_format
+	 *
+	 * @return self
+	 */
+	public function withBrowserFormat(BrowserFormat $browser_format): self;
 
 
 	/**

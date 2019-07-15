@@ -15,14 +15,6 @@ use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 class Filter implements FilterInterface {
 
 	/**
-	 * @var string
-	 */
-	protected $table_id = "";
-	/**
-	 * @var int
-	 */
-	protected $user_id = 0;
-	/**
 	 * @var mixed[]
 	 */
 	protected $field_values = [];
@@ -51,50 +43,8 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $table_id, int $user_id) {
-		$this->table_id = $table_id;
+	public function __construct() {
 
-		$this->user_id = $user_id;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getTableId(): string {
-		return $this->table_id;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withTableId(string $table_id): FilterInterface {
-		$clone = clone $this;
-
-		$clone->table_id = $table_id;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getUserId(): int {
-		return $this->user_id;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withUserId(int $user_id): FilterInterface {
-		$clone = clone $this;
-
-		$clone->user_id = $user_id;
-
-		return $clone;
 	}
 
 

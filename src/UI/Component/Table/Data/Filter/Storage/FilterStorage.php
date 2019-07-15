@@ -4,6 +4,7 @@ namespace ILIAS\UI\Component\Table\Data\Filter\Storage;
 
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
 use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\Table;
 
 /**
  * Interface FilterStorage
@@ -87,17 +88,25 @@ interface FilterStorage {
 
 	/**
 	 * @param Filter $filter
-	 */
-	public function store(Filter $filter): void;
-
-
-	/**
-	 * @param string $table_id
-	 * @param int    $user_id
+	 * @param Table  $component
 	 *
 	 * @return Filter
 	 */
-	public function filter(string $table_id, int $user_id): Filter;
+	public function handleDefaultFilter(Filter $filter, Table $component): Filter;
+
+
+	/**
+	 * @param Filter $filter
+	 * @param string $table_id
+	 * @param int    $user_id
+	 */
+	public function store(Filter $filter, string $table_id, int $user_id): void;
+
+
+	/**
+	 * @return Filter
+	 */
+	public function filter(): Filter;
 
 
 	/**

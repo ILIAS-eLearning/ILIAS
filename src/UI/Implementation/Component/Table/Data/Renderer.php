@@ -5,14 +5,10 @@ namespace ILIAS\UI\Implementation\Component\Table\Data;
 use Closure;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Implementation\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
@@ -68,19 +64,15 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderDataTable(Table $component, RendererInterface $renderer): string {
 		$filter = $component->getFilterStorage()->read($component->getTableId(), $this->dic->user()->getId());
 
-		$browser_format = new BrowserFormat($this->dic);
+		$filter = $component->getBrowserFormat()->handleFilterInput($component, $filter);
 
-		$filter = $browser_format->handleFilterInput($browser_format, $component, $filter);
-
-		$filter = $this->handleDefaultSort($component, $filter);
-
-		$filter = $this->handleDefaultSelectedColumns($component, $filter);
+		$filter = $component->getFilterStorage()->handleDefaultFilter($filter, $component);
 
 		$data = $this->handleFetchData($component, $filter);
 
-		$html = $this->handleFormat($browser_format, $component, $data, $filter, $renderer);
+		$html = $this->handleFormat($component, $data, $filter, $renderer);
 
-		$component->getFilterStorage()->store($filter);
+		$component->getFilterStorage()->store($filter, $component->getTableId(), $this->dic->user()->getId());
 
 		return $html;
 	}
@@ -100,48 +92,10 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param Table  $component
 	 * @param Filter $filter
 	 *
-	 * @return Filter
-	 */
-	protected function handleDefaultSort(Table $component, Filter $filter): Filter {
-		if (!$filter->isFilterSet() && empty($filter->getSortFields())) {
-			$filter = $filter->withSortFields(array_map(function (Column $column) use ($component): FilterSortField {
-				return $component->getFilterStorage()->sortField($column->getKey(), $column->getDefaultSortDirection());
-			}, array_filter($component->getColumns(), function (Column $column): bool {
-				return ($column->isSortable() && $column->isDefaultSort());
-			})));
-		}
-
-		return $filter;
-	}
-
-
-	/**
-	 * @param Table  $component
-	 * @param Filter $filter
-	 *
-	 * @return Filter
-	 */
-	protected function handleDefaultSelectedColumns(Table $component, Filter $filter): Filter {
-		if (!$filter->isFilterSet() && empty($filter->getSelectedColumns())) {
-			$filter = $filter->withSelectedColumns(array_map(function (Column $column): string {
-				return $column->getKey();
-			}, array_filter($component->getColumns(), function (Column $column): bool {
-				return ($column->isSelectable() && $column->isDefaultSelected());
-			})));
-		}
-
-		return $filter;
-	}
-
-
-	/**
-	 * @param Table  $component
-	 * @param Filter $filter
-	 *
 	 * @return Data
 	 */
 	protected function handleFetchData(Table $component, Filter $filter): Data {
-		if (!$component->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
+		if (!$component->getDataFetcher()->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
 			$data = $component->getDataFetcher()->fetchData($filter);
 		} else {
 			$data = $component->getDataFetcher()->data([], 0);
@@ -152,7 +106,6 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param BrowserFormat     $browser_format
 	 * @param Table             $component
 	 * @param Data              $data
 	 * @param Filter            $filter
@@ -160,25 +113,18 @@ class Renderer extends AbstractComponentRenderer {
 	 *
 	 * @return string
 	 */
-	protected function handleFormat(BrowserFormat $browser_format, Table $component, Data $data, Filter $filter, RendererInterface $renderer): string {
-		$formats = $component->getFormats();
-		array_unshift($formats, $browser_format);
-
-		$export_format_id = strval(filter_input(INPUT_GET, BrowserFormat::actionParameter(FilterStorage::VAR_EXPORT_FORMAT_ID, $component->getTableId())));
-
-		if (empty($export_format_id)) {
-			$export_format_id = Format::FORMAT_BROWSER;
-		}
+	protected function handleFormat(Table $component, Data $data, Filter $filter, RendererInterface $renderer): string {
+		$input_format_id = $component->getBrowserFormat()->getInputFormatId($component);
 
 		/**
-		 * @var Format|null $format
+		 * @var Format $format
 		 */
-		$format = current(array_filter($formats, function (Format $format) use ($export_format_id): bool {
-			return ($format->getFormatId() === $export_format_id);
+		$format = current(array_filter($component->getFormats(), function (Format $format) use ($input_format_id): bool {
+			return ($format->getFormatId() === $input_format_id);
 		}));
 
-		if ($format === null) {
-			return "";
+		if ($format === false) {
+			$format = $component->getBrowserFormat();
 		}
 
 		$data = $format->render(Closure::bind(function (): TemplateFactory { return $this->tpl_factory; }, $this, AbstractComponentRenderer::class)(), $this->getTemplatePath(""), $component, $data, $filter, $renderer); // TODO: `$this->tpl_factory` is private!!!

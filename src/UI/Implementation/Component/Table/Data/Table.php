@@ -5,13 +5,13 @@ namespace ILIAS\UI\Implementation\Component\Table\Data;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
 use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table as TableInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage\DefaultFilterStorage;
-use ILIAS\UI\Implementation\Component\Table\Data\Format\BrowserFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\DefaultBrowserFormat;
 
 /**
  * Class Table
@@ -36,14 +36,6 @@ class Table implements TableInterface {
 	 */
 	protected $title = "";
 	/**
-	 * @var bool
-	 */
-	protected $fetch_data_needs_filter_first_set = false;
-	/**
-	 * @var int
-	 */
-	protected $filter_position = Filter::FILTER_POSITION_TOP;
-	/**
 	 * @var Column[]
 	 */
 	protected $columns = [];
@@ -55,6 +47,10 @@ class Table implements TableInterface {
 	 * @var FilterInput[]
 	 */
 	protected $filter_fields = [];
+	/**
+	 * @var BrowserFormat
+	 */
+	protected $browser_format;
 	/**
 	 * @var Format[]
 	 */
@@ -82,6 +78,9 @@ class Table implements TableInterface {
 		$this->columns = $columns;
 
 		$this->data_fetcher = $data_fetcher;
+
+		global $DIC; // TODO: !!!
+		$this->browser_format = new DefaultBrowserFormat($DIC);
 
 		$this->filter_storage = new DefaultFilterStorage();
 	}
@@ -150,46 +149,6 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function isFetchDataNeedsFilterFirstSet(): bool {
-		return $this->fetch_data_needs_filter_first_set;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withFetchDataNeedsFilterFirstSet(bool $fetch_data_needs_filter_first_set = false): TableInterface {
-		$clone = clone $this;
-
-		$clone->fetch_data_needs_filter_first_set = $fetch_data_needs_filter_first_set;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getFilterPosition(): int {
-		return $this->filter_position;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withFilterPosition(int $filter_position = Filter::FILTER_POSITION_TOP): TableInterface {
-		$clone = clone $this;
-
-		$clone->filter_position = $filter_position;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getColumns(): array {
 		return $this->columns;
 	}
@@ -242,6 +201,26 @@ class Table implements TableInterface {
 		$clone = clone $this;
 
 		$clone->filter_fields = $filter_fields;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getBrowserFormat(): BrowserFormat {
+		return $this->browser_format;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withBrowserFormat(BrowserFormat $browser_format): TableInterface {
+		$clone = clone $this;
+
+		$clone->browser_format = $browser_format;
 
 		return $clone;
 	}
@@ -311,7 +290,7 @@ class Table implements TableInterface {
 	 * @inheritDoc
 	 */
 	public function getActionRowId(): string {
-		return strval(filter_input(INPUT_GET, BrowserFormat::actionParameter(TableInterface::ACTION_GET_VAR, $this->getTableId())));
+		return strval(filter_input(INPUT_GET, DefaultBrowserFormat::actionParameter(TableInterface::ACTION_GET_VAR, $this->getTableId())));
 	}
 
 
@@ -319,7 +298,7 @@ class Table implements TableInterface {
 	 * @inheritDoc
 	 */
 	public function getMultipleActionRowIds(): array {
-		return (filter_input(INPUT_POST, BrowserFormat::actionParameter(TableInterface::MULTIPLE_SELECT_POST_VAR, $this->getTableId()), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
+		return (filter_input(INPUT_POST, DefaultBrowserFormat::actionParameter(TableInterface::MULTIPLE_SELECT_POST_VAR, $this->getTableId()), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
 			?? []);
 	}
 }

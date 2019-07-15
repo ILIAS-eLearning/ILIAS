@@ -39,6 +39,12 @@ interface DataFetcher {
 
 
 	/**
+	 * @return bool
+	 */
+	public function isFetchDataNeedsFilterFirstSet(): bool;
+
+
+	/**
 	 * @param RowData[] $data
 	 * @param int       $max_count
 	 *

@@ -16,14 +16,6 @@ interface Filter {
 	/**
 	 * @var int
 	 */
-	const FILTER_POSITION_TOP = 1;
-	/**
-	 * @var int
-	 */
-	const FILTER_POSITION_BOTTOM = 2;
-	/**
-	 * @var int
-	 */
 	const DEFAULT_ROWS_COUNT = 50;
 	/**
 	 * @var int[]
@@ -45,39 +37,8 @@ interface Filter {
 
 	/**
 	 * Filter constructor
-	 *
-	 * @param string $table_id
-	 * @param int    $user_id
 	 */
-	public function __construct(string $table_id, int $user_id);
-
-
-	/**
-	 * @return string
-	 */
-	public function getTableId(): string;
-
-
-	/**
-	 * @param string $table_id
-	 *
-	 * @return self
-	 */
-	public function withTableId(string $table_id): self;
-
-
-	/**
-	 * @return int
-	 */
-	public function getUserId(): int;
-
-
-	/**
-	 * @param int $user_id
-	 *
-	 * @return self
-	 */
-	public function withUserId(int $user_id): self;
+	public function __construct();
 
 
 	/**

@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\AbstractFormater;
-use ILIAS\UI\Implementation\Component\Table\Data\Format\BrowserFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\DefaultBrowserFormat;
 use ILIAS\UI\Renderer;
 
 /**
@@ -38,7 +38,7 @@ class ActionFormater extends AbstractFormater {
 		return $renderer->render($this->dic->ui()->factory()->dropdown()
 			->standard(array_map(function (string $title, string $action) use ($row, $table_id): Shy {
 				return $this->dic->ui()->factory()->button()
-					->shy($title, BrowserFormat::getActionUrl($action, [ Table::ACTION_GET_VAR => $row->getRowId() ], $table_id));
+					->shy($title, DefaultBrowserFormat::getActionUrl($action, [ Table::ACTION_GET_VAR => $row->getRowId() ], $table_id));
 			}, array_keys($column->getActions()), $column->getActions()))->withLabel($column->getTitle()));
 	}
 }

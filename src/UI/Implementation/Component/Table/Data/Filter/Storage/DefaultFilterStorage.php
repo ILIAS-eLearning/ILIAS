@@ -41,10 +41,10 @@ class DefaultFilterStorage extends AbstractFilterStorage {
 	 * @inheritDoc
 	 */
 	public function read(string $table_id, int $user_id): Filter {
-		$filter = $this->filter($table_id, $user_id);
+		$filter = $this->filter();
 
 		foreach (self::VARS as $property) {
-			$value = json_decode($this->properties_storage->getProperty($filter->getTableId(), $filter->getUserId(), $property), true);
+			$value = json_decode($this->properties_storage->getProperty($table_id, $user_id, $property), true);
 
 			if (!empty($value)) {
 				switch ($property) {
@@ -69,7 +69,7 @@ class DefaultFilterStorage extends AbstractFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function store(Filter $filter): void {
+	public function store(Filter $filter, string $table_id, int $user_id): void {
 		foreach (self::VARS as $property) {
 			$value = "";
 			if (method_exists($filter, $method = "get" . $this->strToCamelCase($property))) {
@@ -80,7 +80,7 @@ class DefaultFilterStorage extends AbstractFilterStorage {
 				}
 			}
 
-			$this->properties_storage->storeProperty($filter->getTableId(), $filter->getUserId(), $property, json_encode($value));
+			$this->properties_storage->storeProperty($table_id, $user_id, $property, json_encode($value));
 		}
 	}
 }

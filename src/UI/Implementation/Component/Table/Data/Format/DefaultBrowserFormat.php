@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Filter\Filter;
 use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
 use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Renderer;
@@ -19,13 +20,13 @@ use LogicException;
 use Throwable;
 
 /**
- * Class BrowserFormat
+ * Class DefaultBrowserFormat
  *
  * @package ILIAS\UI\Implementation\Component\Table\Data\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class BrowserFormat extends HTMLFormat {
+class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 
 	/**
 	 * @var Standard|null
@@ -54,6 +55,16 @@ class BrowserFormat extends HTMLFormat {
 	 */
 	public function devliver(string $data, Table $component): void {
 		throw new LogicException("Seperate devliver browser format not possible!");
+	}
+
+
+	/**
+	 * @param Table $component
+	 *
+	 * @return string|null
+	 */
+	public function getInputFormatId(Table $component): ?string {
+		return filter_input(INPUT_GET, self::actionParameter(FilterStorage::VAR_EXPORT_FORMAT_ID, $component->getTableId()));
 	}
 
 
@@ -190,13 +201,9 @@ class BrowserFormat extends HTMLFormat {
 
 
 	/**
-	 * @param BrowserFormat $browser_format
-	 * @param Table         $component
-	 * @param Filter        $filter
-	 *
-	 * @return Filter
+	 * @inheritDoc
 	 */
-	public function handleFilterInput(BrowserFormat $browser_format, Table $component, Filter $filter): Filter {
+	public function handleFilterInput(Table $component, Filter $filter): Filter {
 		//if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
 
 		$sort_field = strval(filter_input(INPUT_GET, self::actionParameter(FilterStorage::VAR_SORT_FIELD, $component->getTableId())));
@@ -242,7 +249,7 @@ class BrowserFormat extends HTMLFormat {
 		}
 
 		if (count($component->getFilterFields()) > 0) {
-			$browser_format->initFilterForm($component, $filter);
+			$this->initFilterForm($component, $filter);
 			try {
 				$data = $this->dic->uiService()->filter()->getData($this->filter_form);
 
@@ -274,24 +281,11 @@ class BrowserFormat extends HTMLFormat {
 
 		$filter_form = $renderer->render($this->filter_form);
 
-		switch ($component->getFilterPosition()) {
-			case Filter::FILTER_POSITION_BOTTOM:
-				$this->tpl->setCurrentBlock("filter_bottom");
+		$this->tpl->setCurrentBlock("filter");
 
-				$this->tpl->setVariable("FILTER_FORM_BOTTOM", $filter_form);
+		$this->tpl->setVariable("FILTER_FORM", $filter_form);
 
-				$this->tpl->parseCurrentBlock();
-				break;
-
-			case Filter::FILTER_POSITION_TOP:
-			default:
-				$this->tpl->setCurrentBlock("filter_top");
-
-				$this->tpl->setVariable("FILTER_FORM_TOP", $filter_form);
-
-				$this->tpl->parseCurrentBlock();
-				break;
-		}
+		$this->tpl->parseCurrentBlock();
 	}
 
 

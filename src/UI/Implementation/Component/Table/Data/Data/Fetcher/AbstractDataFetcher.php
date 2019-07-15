@@ -45,6 +45,14 @@ abstract class AbstractDataFetcher implements DataFetcher {
 	/**
 	 * @inheritDoc
 	 */
+	public function isFetchDataNeedsFilterFirstSet(): bool {
+		return false;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
 	public function data(array $data, int $max_count): DataInterface {
 		return new Data($data, $max_count);
 	}
