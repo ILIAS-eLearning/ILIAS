@@ -11,7 +11,7 @@
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.24.0",
 		"technosophos/LibRIS": "^2.0.2",
-		"ezyang/htmlpurifier": "4.10.0",
+		"ezyang/htmlpurifier": "4.11.0",
 		"phpmailer/phpmailer": "^6.0.6",
 		"geshi/geshi": "dev-master#5861c58981244ab6ee0dd337f096ff14bf15b1eb",
 		"tecnickcom/tcpdf": "^6.2.12",
