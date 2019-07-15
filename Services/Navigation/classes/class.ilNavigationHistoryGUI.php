@@ -12,6 +12,11 @@
 */
 class ilNavigationHistoryGUI
 {
+
+	/**
+	 * @var \ILIAS\DI\HTTPServices
+	 */
+	private $http;
 	/**
 	 * @var ilCtrl
 	 */
@@ -41,6 +46,7 @@ class ilNavigationHistoryGUI
 		$this->ctrl = $DIC->ctrl();
 		$this->nav_history = $DIC["ilNavigationHistory"];
 		$this->lng = $DIC->language();
+		$this->http = $DIC->http();
 	}
 
 	/**
@@ -152,13 +158,15 @@ class ilNavigationHistoryGUI
 	 * @param
 	 * @return
 	 */
-	function removeEntries()
+	public function removeEntries()
 	{
 		$ilNavigationHistory = $this->nav_history;
-		
+
 		$ilNavigationHistory->deleteDBEntries();
 		$ilNavigationHistory->deleteSessionEntries();
+
+		$script = $this->http->request()->getHeader('Referer')[0];
+		$this->ctrl->redirectToURL($script);
 	}
 	
 }
-?>

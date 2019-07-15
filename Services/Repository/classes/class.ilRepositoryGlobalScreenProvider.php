@@ -97,12 +97,11 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider
             ->withParent($this->getTopItem());
 
         // LastVisited
-        $links = function () : array {
+        $links = function () {
             $items = [];
             if (isset($this->dic['ilNavigationHistory'])) {
                 $items = $this->dic['ilNavigationHistory']->getItems();
             }
-            $links = [];
             reset($items);
             $cnt = 0;
             $first = true;
@@ -117,15 +116,19 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider
                 )            // do not list current item
                 {
                     $ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-                    $links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
+                    yield $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
                         ->withTitle($ititle)
                         ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard($item['type'], $item['type']))
                         ->withAction($item["link"]);
                 }
                 $first = false;
             }
-
-            return $links;
+            if (!$first) {
+                yield $this->mainmenu->link($this->if->identifier('lv_remove'))
+                    ->withTitle($this->dic->language()->txt('remove_entries'))
+                    ->withSymbol($this->dic->ui()->factory()->symbol()->glyph()->remove(""))
+                    ->withAction($this->dic->ctrl()->getLinkTargetByClass(ilNavigationHistoryGUI::class, "removeEntries"));
+            }
         };
         $entries[] = $this->mainmenu->linkList($this->if->identifier('last_visited'))
             ->withLinks($links)
