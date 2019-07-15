@@ -949,8 +949,8 @@ abstract class ilPlugin {
 				" AND name = " . $ilDB->quote($this->getPluginName(), "text");
 			$ilDB->manipulate($q);
 			
-			$ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ ilDBConstants::T_TEXT ], [$this->getPrefix()]);
-			$ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ ilDBConstants::T_TEXT ], [$this->getPrefix()]);
+			$ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ ilDBConstants::T_TEXT ], [ $this->getPrefix() ]);
+			$ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ ilDBConstants::T_TEXT ], [ $this->getPrefix() ]);
 
 			$this->afterUninstall();
 
