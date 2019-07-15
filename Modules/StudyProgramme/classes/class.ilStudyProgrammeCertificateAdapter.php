@@ -28,10 +28,10 @@ extends ilCertificateAdapter
 	public function getCertificateVariablesForPreview()
 	{
 		$vars = $this->getBaseVariablesForPreview(false);
-		$vars['SP_TITLE'] = ilUtil::prepareFormOutput($this->object->getTitle());
-		$vars['SP_DESCRIPTION'] = ilUtil::prepareFormOutput($this->object->getDescription());
-		$vars['SP_TYPE'] = ilUtil::prepareFormOutput($this->object->getSubType());
-		$vars['POINTS'] = ilUtil::prepareFormOutput($this->object->getPoints());
+		$vars['PRG_TITLE'] = ilUtil::prepareFormOutput($this->object->getTitle());
+		$vars['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($this->object->getDescription());
+		$vars['PRG_TYPE'] = ilUtil::prepareFormOutput($this->object->getSubType());
+		$vars['PRG_POINTS'] = ilUtil::prepareFormOutput($this->object->getPoints());
 		$insert_tags = array();
 		foreach($vars as $id => $caption)
 		{
@@ -55,10 +55,10 @@ extends ilCertificateAdapter
 		$user_data = ilObjUser::_lookupFields($user_id);
 		
 		$vars = $this->getBaseVariablesForPresentation($user_data, null, $completion_date);		
-		$vars['SP_TITLE'] = ilUtil::prepareFormOutput($this->object->getTitle());
-		$vars['SP_DESCRIPTION'] = ilUtil::prepareFormOutput($this->object->getDescription());
-		$vars['SP_TYPE'] = ilUtil::prepareFormOutput($this->object->getSubType());
-		$vars['POINTS'] = ilUtil::prepareFormOutput($this->object->getPoints());
+		$vars['PRG_TITLE'] = ilUtil::prepareFormOutput($this->object->getTitle());
+		$vars['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($this->object->getDescription());
+		$vars['PRG_TYPE'] = ilUtil::prepareFormOutput($this->object->getSubType());
+		$vars['PRG_POINTS'] = ilUtil::prepareFormOutput($this->object->getPoints());
 		$insert_tags = array();
 		foreach($vars as $id => $caption)
 		{

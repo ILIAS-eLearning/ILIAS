@@ -41,12 +41,12 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
 		$this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
 		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
-		$this->placeholder['SP_TITLE'] = $this->language->txt('sp_certificate_title');
-		$this->placeholder['SP_DESCRIPTION'] = $this->language->txt('sp_certificate_description');
-		$this->placeholder['SP_TYPE'] = $this->language->txt('sp_certificate_type');
-		$this->placeholder['POINTS'] = $this->language->txt('sp_certificate_points');
-		$this->placeholder['COMPLETION_DATE'] = $this->language->txt('sp_certificate_completion_date');
-		$this->placeholder['EXPIRES_AT'] = $this->language->txt('sp_certificate_progress_expires_at');
+		$this->placeholder['PRG_TITLE'] = $this->language->txt('sp_certificate_title');
+		$this->placeholder['PRG_DESCRIPTION'] = $this->language->txt('sp_certificate_description');
+		$this->placeholder['PRG_TYPE'] = $this->language->txt('sp_certificate_type');
+		$this->placeholder['PRG_POINTS'] = $this->language->txt('sp_certificate_points');
+		$this->placeholder['PRG_COMPLETION_DATE'] = $this->language->txt('sp_certificate_completion_date');
+		$this->placeholder['PRG_EXPIRES_AT'] = $this->language->txt('sp_certificate_progress_expires_at');
 	}
 
 

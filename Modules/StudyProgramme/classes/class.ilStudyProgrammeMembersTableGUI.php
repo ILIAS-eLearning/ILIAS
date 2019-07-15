@@ -37,7 +37,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		['prg_assigned_by', 'prg_assigned_by', true, true, true],
 		['prg_deadline', 'prg_deadline', true, true, true],
 		['prg_expiry_date', 'prg_expiry_date', true, true, true],
-		['prg_validity', 'prg_validity', false, true, true],
+		['prg_validity', 'prg_validity', true, true, true],
 		[null, 'action', false, true, true]
 	];
 
@@ -135,7 +135,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("STATUS", $this->sp_user_progress_db->statusToRepr($a_set["status"]));
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 		$this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
-		$this->tpl->setVariable("VALIDITY",$a_set['prg_validity']);
+
 
 		if(!$this->prg_has_lp_children) {
 			$this->tpl->setCurrentBlock("points_current");
@@ -184,6 +184,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 					}
 					$this->tpl->setVariable("DEADLINE", $a_set["prg_deadline"]);
 					break;
+				case "prg_validity":
+					$this->tpl->setVariable("VALIDITY",$a_set['prg_validity']);
+					break;
+
 			}
 		}
 		$this->tpl->setVariable("ACTIONS", $this->buildActionDropDown( $a_set["actions"]

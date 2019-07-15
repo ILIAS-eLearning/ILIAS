@@ -279,7 +279,7 @@ class ilObjStudyProgrammeSettingsGUI {
 				),
 				$ff->section(
 					[self::PROP_DEADLINE => $this->getDeadlineSubform($prg)],
-					$txt("prg_deadline"),
+					$txt("prg_deadline_settings"),
 					""
 				),
 				$ff->section(
@@ -431,7 +431,7 @@ class ilObjStudyProgrammeSettingsGUI {
 			$vq_date_subform = $vq_date_subform->withValue($date->format($format->toString()));
 			$radio_option = self::OPT_VALIDITY_OF_QUALIFICATION_DATE;
 		}
-		$radio = $ff->radio("","")
+		$radio = $ff->radio($txt('prg_validity_of_qualification_limit'),"")
 			->withOption(
 				self::OPT_NO_VALIDITY_OF_QUALIFICATION,
 				$txt('prg_no_validity_qalification'),
@@ -468,7 +468,7 @@ class ilObjStudyProgrammeSettingsGUI {
 			$radio_option = self::OPT_RESTART_PERIOD;
 			$restart_period_subform = $restart_period_subform->withValue($restart_period);
 		}
-		$radio = $ff->radio("","")
+		$radio = $ff->radio($txt('prg_validity_of_qualification_restart'),"")
 			->withOption(
 				self::OPT_NO_RESTART,
 				$txt('prg_no_restart'),
