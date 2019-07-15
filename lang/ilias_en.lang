@@ -13299,10 +13299,10 @@ prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme as
 prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
 prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#no_manual_status#:#No manual status
-prg#:#some_users_may_not_be_accredited#:#Partcially marked users accredited.
-prg#:#some_users_may_not_be_unmarked_accredited#:#Particially unmarked users accredited.
-prg#:#some_users_may_not_be_marked_relevant#:#Particially marked relevant.
-prg#:#some_users_may_not_be_marked_not_relevant#:#Particially unmarked relevant.
+prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
+prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
