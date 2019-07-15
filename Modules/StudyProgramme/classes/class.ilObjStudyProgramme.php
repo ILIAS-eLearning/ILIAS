@@ -1239,7 +1239,8 @@ class ilObjStudyProgramme extends ilContainer {
 	public function getIdsOfUsersWithCompletedProgress() {
 		$returns = array();
 		foreach ($this->getProgresses() as $progress) {
-			if ($progress->isSuccessful()) {
+			$progress->recalculateFailedToDeadline();
+			if ($progress->isSuccessful() && !$progress->isSuccessfulExpired()) {
 				$returns[] = $progress->getUserId();
 			}
 		}
@@ -1255,12 +1256,13 @@ class ilObjStudyProgramme extends ilContainer {
 		$returns = array();
 		foreach ($this->getProgresses() as $progress) {
 			$progress->recalculateFailedToDeadline();
-			if ($progress->isFailed()) {
+			if ($progress->isFailed() || $progress->isSuccessfulExpired()) {
 				$returns[] = $progress->getUserId();
 			}
 		}
-		return array_unique($returns);
+		return array_unique(array_diff($returns,$this->getIdsOfUsersWithCompletedProgress()));
 	}
+
 
 	/**
 	 * Get the ids of all users that have not completed this programme but

@@ -23,7 +23,7 @@ implements ilStudyProgrammeProgressRepository
 	const FIELD_COMPLETION_DATE = 'completion_date';
 	const FIELD_DEADLINE = 'deadline';
 	const FIELD_VQ_DATE = 'vq_date';
-
+	const FIELD_INVALIDATED = 'invalidated';
 
 	public function __construct(ilDBInterface $db)
 	{
@@ -54,7 +54,8 @@ implements ilStudyProgrammeProgressRepository
 			self::FIELD_LAST_CHANGE_BY => null,
 			self::FIELD_COMPLETION_DATE => null,
 			self::FIELD_DEADLINE => null,
-			self::FIELD_VQ_DATE => null
+			self::FIELD_VQ_DATE => null,
+			self::FIELD_INVALIDATED => 0
 		];
 		$this->insertRowDB($row);
 		return $this->buildByRow($row);
@@ -176,7 +177,8 @@ implements ilStudyProgrammeProgressRepository
 					$progress->getCompletionDate() ?
 					$progress->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
 				self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) : null,
-				self::FIELD_VQ_DATE => $progress->getValidityOfQualification() ? $progress->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null
+				self::FIELD_VQ_DATE => $progress->getValidityOfQualification() ? $progress->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
+				self::FIELD_INVALIDATED => $progress->isInvalidated() ? 1 : 0
 			]
 		);
 	}
@@ -208,6 +210,7 @@ implements ilStudyProgrammeProgressRepository
 				,self::FIELD_COMPLETION_DATE => ['timestamp',$row[self::FIELD_COMPLETION_DATE]]
 				,self::FIELD_DEADLINE => ['text',$row[self::FIELD_DEADLINE]]
 				,self::FIELD_VQ_DATE => ['timestamp',$row[self::FIELD_VQ_DATE]]
+				,self::FIELD_INVALIDATED => ['timestamp',$row[self::FIELD_INVALIDATED]]
 			]
 		);
 	}
@@ -236,6 +239,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_COMPLETION_DATE.' = '.$this->db->quote($values[self::FIELD_COMPLETION_DATE],'timestamp')
 			.'	,'.self::FIELD_DEADLINE.' = '.$this->db->quote($values[self::FIELD_DEADLINE],'text')
 			.'	,'.self::FIELD_VQ_DATE.' = '.$this->db->quote($values[self::FIELD_VQ_DATE],'timestamp')
+			.'	,'.self::FIELD_INVALIDATED.' = '.$this->db->quote($values[self::FIELD_INVALIDATED],'integer')
 			.'	WHERE '.self::FIELD_ID.' = '.$this->db->quote($values[self::FIELD_ID],'integer')
 		;
 		$this->db->manipulate($q);
@@ -243,7 +247,7 @@ implements ilStudyProgrammeProgressRepository
 
 	protected function buildByRow(array $row) : ilStudyProgrammeProgress
 	{
-		return (new ilStudyProgrammeProgress($row[self::FIELD_ID]))
+		$prgrs = (new ilStudyProgrammeProgress($row[self::FIELD_ID]))
 			->setAssignmentId($row[self::FIELD_ASSIGNMENT_ID])
 			->setNodeId($row[self::FIELD_PRG_ID])
 			->setUserId($row[self::FIELD_USR_ID])
@@ -274,6 +278,11 @@ implements ilStudyProgrammeProgressRepository
 				DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT,$row[self::FIELD_VQ_DATE]) :
 				null
 			);
+		if((int)$row[self::FIELD_INVALIDATED] === 1) {
+			$prgrs = $prgrs->invalidate();
+		}
+		return $prgrs;
+
 	}
 
 	protected function loadByFilter(array $filter) 
@@ -292,6 +301,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_COMPLETION_DATE
 			.'	,'.self::FIELD_DEADLINE
 			.'	,'.self::FIELD_VQ_DATE
+			.'	,'.self::FIELD_INVALIDATED
 			.'	FROM '.self::TABLE
 			.'	WHERE TRUE';
 		foreach ($filter as $field => $value) {
@@ -319,6 +329,7 @@ implements ilStudyProgrammeProgressRepository
 			.'	,'.self::FIELD_COMPLETION_DATE
 			.'	,'.self::FIELD_DEADLINE
 			.'	,'.self::FIELD_VQ_DATE
+			.'	,'.self::FIELD_INVALIDATED
 			.'	FROM '.self::TABLE
 			.'	WHERE '.$this->db->in(
 							self::FIELD_STATUS,
@@ -334,7 +345,8 @@ implements ilStudyProgrammeProgressRepository
 							.$this->db->quote(
 								(new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT)
 								,'text'
-							);
+							)
+			.'		AND '.self::FIELD_INVALIDATED.' != 1 OR '.self::FIELD_INVALIDATED.' IS NULL';
 
 		$res = $this->db->query($q);
 		while($rec = $this->db->fetchAssoc($res)) {

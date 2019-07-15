@@ -235,3 +235,19 @@ if (!$ilDB->tableExists('prg_auto_content'))
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#16>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','invalidated')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'invalidated',
+			[
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => false
+			]
+		);
+}
+?>

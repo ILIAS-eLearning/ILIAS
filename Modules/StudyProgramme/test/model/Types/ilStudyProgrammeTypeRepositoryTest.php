@@ -187,10 +187,8 @@ class ilStudyProgrammeTypeRepositoryTest extends PHPUnit_Framework_TestCase
 		$type = $tr->readType($type_id);
 		$this->assertEquals('a_title',$type->getTitle('de'));
 		$this->assertEquals('a_description',$type->getDescription('de'));
-
 		$this->assertEquals('',$type->getTitle());
 		$this->assertEquals('',$type->getDescription());
-
 
 		$type->setTitle('a_title_def','fr');
 		$type->setDescription('a_description_def','fr');
