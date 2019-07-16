@@ -14,6 +14,7 @@ require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
+use ILIAS\UI\Implementation\Component\Input\Field\Factory  as InputFieldFactory;
 
 class ilObjStudyProgrammeSettingsGUI {
 	/**
@@ -210,6 +211,7 @@ class ilObjStudyProgrammeSettingsGUI {
 	const PROP_VALIDITY_OF_QUALIFICATION_DATE = "validity_qualification_date";
 	const PROP_RESTART = "restart";
 	const PROP_RESTART_PERIOD = "restart_period";
+	const PROP_ACCESS_CONTROL_BY_ORGU_POSITION = "access_ctr_by_orgu_position";
 
 	const OPT_NO_DEADLINE = 'opt_no_deadline';
 	const OPT_DEADLINE_PERIOD = "opt_deadline_period";
@@ -228,70 +230,17 @@ class ilObjStudyProgrammeSettingsGUI {
 		$tf = $this->trafo_factory;
 		$txt = function($id) { return $this->lng->txt($id); };
 		$sp_types = $this->type_repository->readAllTypesArray();
-
 		$languages = ilMDLanguageItem::_getLanguages();
 		return $this->input_factory->container()->form()->standard(
 			$submit_action,
-			[
-				$ff->section(
-					[
-						self::PROP_TITLE =>
-							$ff->text($txt("title"))
-								->withValue($trans->getDefaultTitle())
-								->withRequired(true),
-						self::PROP_DESC =>
-							$ff->textarea($txt("description"))
-								->withValue($trans->getDefaultDescription())
-					],
-					$txt("prg_edit"),
-					$this->lng->txt("language").": ".$languages[$trans->getDefaultLanguage()].
-						' <a href="'.$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "").
-						'">&raquo; '.$this->lng->txt("obj_more_translations").'</a>'
-				),
-				$ff->section(
-					[
-						self::PROP_TYPE =>
-							$ff->select($txt("type"), $sp_types)
-								->withValue($prg->getSubtypeId() == 0 ? "" : $prg->getSubtypeId())
-								->withAdditionalTransformation($tf->custom(function($v) {
-									if ($v == "") {
-										return 0;
-									}
-									return $v;
-								}))
-					],
-					$txt("prg_type"),
-					""
-				),
-				$ff->section(
-					[
-						self::PROP_POINTS =>
-							$ff->numeric($txt("prg_points"))
-								->withValue((string)$prg->getPoints())
-								->withAdditionalConstraint($this->validation->greaterThan(-1)),
-						self::PROP_STATUS =>
-							$ff->select($txt("prg_status"), $this->getStatusOptions())
-								->withValue((string)$prg->getStatus())
-								->withRequired(true)
-					],
-					$txt("prg_assessment"),
-					""
-				),
-				$ff->section(
-					[self::PROP_DEADLINE => $this->getDeadlineSubform($prg)],
-					$txt("prg_deadline_settings"),
-					""
-				),
-				$ff->section(
-					[
-						self::PROP_VALIDITY_OF_QUALIFICATION => $this->getValidityOfQualificationSubform($prg)
-						,self::PROP_RESTART => $this->getRestartSubform($prg)
-					],
-					$txt("prg_validity_of_qualification"),
-					""
-
-				)
-			]
+			$this->buildFormElements(
+				$ff,
+				$tf,
+				$txt,
+				$trans,
+				$sp_types,
+				$prg
+			)
 		)
 		->withAdditionalTransformation($tf->custom(function($values) use ($prg) {
 			// values now contains the results of the single sections,
@@ -354,8 +303,112 @@ class ilObjStudyProgrammeSettingsGUI {
 					$prg->setRestartPeriod(ilStudyProgrammeSettings::NO_RESTART);
 				}
 			}
+			if(array_key_exists(5, $values)) {
+				$prg->setAccessControlByOrguPositions(
+					$values[5][self::PROP_ACCESS_CONTROL_BY_ORGU_POSITION] === "checked"
+				);
+			}
 			return $prg;
 		}));
+	}
+
+	protected function buildFormElements(
+		InputFieldFactory $ff,
+		\ILIAS\Transformation\Factory $tf,
+		Closure $txt,
+		ilObjectTranslation $trans,
+		array $sp_types,
+		ilObjStudyProgramme $prg
+	) : array
+	{
+		$return = [
+			$ff->section(
+				[
+					self::PROP_TITLE =>
+						$ff->text($txt("title"))
+							->withValue($trans->getDefaultTitle())
+							->withRequired(true),
+					self::PROP_DESC =>
+						$ff->textarea($txt("description"))
+							->withValue($trans->getDefaultDescription())
+				],
+				$txt("prg_edit"),
+				$txt("language").": ".$languages[$trans->getDefaultLanguage()].
+					' <a href="'.$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "").
+					'">&raquo; '.$txt("obj_more_translations").'</a>'
+			),
+			$ff->section(
+				[
+					self::PROP_TYPE =>
+						$ff->select($txt("type"), $sp_types)
+							->withValue($prg->getSubtypeId() == 0 ? "" : $prg->getSubtypeId())
+							->withAdditionalTransformation($tf->custom(function($v) {
+								if ($v == "") {
+									return 0;
+								}
+								return $v;
+							}))
+				],
+				$txt("prg_type"),
+				""
+			),
+			$ff->section(
+				[
+					self::PROP_POINTS =>
+						$ff->numeric($txt("prg_points"))
+							->withValue((string)$prg->getPoints())
+							->withAdditionalConstraint($this->validation->greaterThan(-1)),
+					self::PROP_STATUS =>
+						$ff->select($txt("prg_status"), $this->getStatusOptions())
+							->withValue((string)$prg->getStatus())
+							->withRequired(true)
+				],
+				$txt("prg_assessment"),
+				""
+			),
+			$ff->section(
+				[self::PROP_DEADLINE => $this->getDeadlineSubform($prg)],
+				$txt("prg_deadline_settings"),
+				""
+			),
+			$ff->section(
+				[
+					self::PROP_VALIDITY_OF_QUALIFICATION => $this->getValidityOfQualificationSubform($prg)
+					,self::PROP_RESTART => $this->getRestartSubform($prg)
+				],
+				$txt("prg_validity_of_qualification"),
+				""
+			)
+		];
+		if($prg->getPositionSettingsIsActiveForPrg()
+			&& $prg->getPositionSettingsIsChangeableForPrg()) {
+			$return[] = $ff->section(
+					[
+						self::PROP_ACCESS_CONTROL_BY_ORGU_POSITION =>
+							$this->getAccessControlByOrguPositionsForm(
+								$ff,
+								$txt,
+								$prg
+							)
+					],
+					$txt('access_ctr_by_orgu_position'),
+					''
+				);
+		}
+		return $return;
+	}
+
+	protected function getAccessControlByOrguPositionsForm(
+		InputFieldFactory $ff,
+		Closure $txt,
+		ilObjStudyProgramme $prg
+	)
+	{
+		$checkbox = $ff->checkbox($txt("prg_status"),'');
+		return $prg->getAccessControlByOrguPositions() ?
+			$checkbox->withValue(true) :
+			$checkbox->withValue(false);
+
 	}
 
 

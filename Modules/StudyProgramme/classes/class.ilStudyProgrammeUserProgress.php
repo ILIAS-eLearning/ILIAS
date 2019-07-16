@@ -285,7 +285,7 @@ class ilStudyProgrammeUserProgress {
 			, ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
 		);
 
-		if (in_array($this->getStatus(), $status) && !$this->isSuccessfulExpired()) {
+		if (in_array($this->getStatus(), $status)) {
 			throw new ilException("Can't mark as failed since program is passed.");
 		}
 
@@ -299,6 +299,37 @@ class ilStudyProgrammeUserProgress {
 		$this->refreshLPStatus();
 
 		return $this;
+	}
+
+	/**
+	 * Mark this progress as failed.
+	 *
+	 * Throws when status is not STATUS_COMPLETED, STATUS_ACCREDITED, STATUS_NOT_RELEVANT.
+	 *
+	 * @throws ilException
+	 * @param int $a_user_id The user who performed the operation.
+	 * @return $this
+	 */
+	public function invalidate() {
+		$status = array(ilStudyProgrammeProgress::STATUS_COMPLETED
+			, ilStudyProgrammeProgress::STATUS_ACCREDITED
+			, ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+		);
+
+		if (in_array($this->getStatus(), $status) && !$this->isSuccessfulExpired()) {
+			throw new ilException("Can't mark as failed since program is passed.");
+		}
+		$this->progress_repository->update(
+			$this->progress->invalidate()
+		);
+		$this->refreshLPStatus();
+
+		return $this;
+	}
+
+	public function isInvalidated()
+	{
+		return $this->progress->isInvalidated();
 	}
 
 	/**
@@ -804,6 +835,7 @@ class ilStudyProgrammeUserProgress {
 
 	protected function refreshLPStatus() {
 		require_once("Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_resetInfoCaches($this->progress->getNodeId());	//thanks to some caching within ilLPStatusWrapper the status may not be read properly otherwise ...
 		ilLPStatusWrapper::_refreshStatus($this->getStudyProgramme()->getId(), array($this->getUserId()));
 	}
 

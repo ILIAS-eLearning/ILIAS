@@ -100,7 +100,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 		$usr_id = $this->usr && $this->usr->getId() ? $this->usr->getId() : SYSTEM_USER_ID;
 		foreach ($this->user_progress_db->getExpiredSuccessfulInstances() as $progress) {
 			try {
-				$progress->markFailed($usr_id);
+				$progress->invalidate($usr_id);
 			} catch (ilException $e) {
 				$this->log->write('an error occured: '.$e->getMessage());
 			}

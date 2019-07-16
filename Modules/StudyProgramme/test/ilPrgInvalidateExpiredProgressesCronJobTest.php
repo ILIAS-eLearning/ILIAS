@@ -79,23 +79,30 @@ class ilPrgInvalidateExpiredProgressesCronJobTest extends PHPUnit_Framework_Test
 
 
 		$job->run();
-
-		$this->assertEquals(
-			ilStudyProgrammeProgress::STATUS_FAILED,
-			$prg1->getProgressForAssignment($assignment1->getId())->getStatus()
-		);
-		$this->assertEquals(
-			ilStudyProgrammeProgress::STATUS_FAILED,
-			$prg1->getProgressForAssignment($assignment2->getId())->getStatus()
-		);
+		$prgrs = $prg1->getProgressForAssignment($assignment1->getId());
 		$this->assertEquals(
 			ilStudyProgrammeProgress::STATUS_COMPLETED,
-			$prg1->getProgressForAssignment($assignment3->getId())->getStatus()
+			$prgrs->getStatus()
 		);
+		$this->assertTrue($prgrs->isInvalidated());
+		$prgrs = $prg1->getProgressForAssignment($assignment2->getId());
 		$this->assertEquals(
 			ilStudyProgrammeProgress::STATUS_ACCREDITED,
-			$prg1->getProgressForAssignment($assignment4->getId())->getStatus()
+			$prgrs->getStatus()
 		);
+		$this->assertTrue($prgrs->isInvalidated());
+		$prgrs = $prg1->getProgressForAssignment($assignment3->getId());
+		$this->assertEquals(
+			ilStudyProgrammeProgress::STATUS_COMPLETED,
+			$prgrs->getStatus()
+		);
+		$this->assertFalse($prgrs->isInvalidated());
+		$prgrs = $prg1->getProgressForAssignment($assignment4->getId());
+		$this->assertEquals(
+			ilStudyProgrammeProgress::STATUS_ACCREDITED,
+			$prgrs->getStatus()
+		);
+		$this->assertFalse($prgrs->isInvalidated());
 	}
 
 	public static function tearDownAfterClass()

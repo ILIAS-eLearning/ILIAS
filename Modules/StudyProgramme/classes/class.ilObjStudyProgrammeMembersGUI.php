@@ -65,7 +65,8 @@ class ilObjStudyProgrammeMembersGUI {
 		ilStudyProgrammeUserProgressDB $sp_user_progress_db,
 		ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
 		ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
-		ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui
+		ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
+		ilStudyProgrammePostionBasedAccess $position_based_access
 	) {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -79,7 +80,7 @@ class ilObjStudyProgrammeMembersGUI {
 		$this->individual_plan_gui = $individual_plan_gui;
 
 		$this->progress_objects = array();
-
+		$this->position_based_access = $position_based_access;
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
@@ -92,6 +93,7 @@ class ilObjStudyProgrammeMembersGUI {
 	public function setRefId($a_ref_id)
 	{
 		$this->ref_id = $a_ref_id;
+		$this->object = \ilObjStudyProgramme::getInstanceByRefId($a_ref_id);
 	}
 
 	public function executeCommand() {
@@ -150,7 +152,15 @@ class ilObjStudyProgrammeMembersGUI {
 	{
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php");
 		$prg_id = ilObject::_lookupObjId($this->ref_id);
-		$table = new ilStudyProgrammeMembersTableGUI($prg_id, $this->ref_id, $this, "view", "", $this->sp_user_progress_db);
+		$table = new ilStudyProgrammeMembersTableGUI(
+			$prg_id,
+			$this->ref_id,
+			$this,
+			"view",
+			"",
+			$this->sp_user_progress_db,
+			$this->position_based_access
+		);
 		return $table;
 	}
 
@@ -200,7 +210,7 @@ class ilObjStudyProgrammeMembersGUI {
 		$prg = $this->getStudyProgramme();
 
 		$completed_courses = array();
-
+		$a_users = array_intersect($a_users, $this->manageMembers());
 		foreach ($a_users as $user_id) {
 			$completed_crss = $prg->getCompletedCourses($user_id);
 			if ($completed_crss) {
@@ -262,8 +272,8 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function addUsersWithAcknowledgedCourses() {
 		$users = $_POST["users"];
+		$a_users = array_intersect($a_users, $this->manageMembers());
 		$assignments = $this->_addUsers($users);
-
 		$completed_programmes = $_POST["courses"];
 		if (is_array($completed_programmes)) {
 			foreach ($completed_programmes as $user_id => $prg_ref_ids) {
@@ -342,10 +352,19 @@ class ilObjStudyProgrammeMembersGUI {
 	public function markAccreditedMulti()
 	{
 		$prgrs_ids = $this->getPostPrgsIds();
+		$errors = 0;
 		foreach ($prgrs_ids as $key => $prgrs_id) {
-			$this->markAccreditedById((int)$prgrs_id);
+			try {
+				$this->markAccreditedById((int)$prgrs_id);
+			} catch(ilStudyProgrammePositionBasedAccessViolationException $e) {
+				$errors++;
+			}
 		}
-		$this->showSuccessMessage("mark_accredited_multi_success");
+		if($errors === 0) {
+			$this->showSuccessMessage("mark_accredited_multi_success");
+		} else {
+			$this->showInfoMessage("some_users_may_not_be_accredited");
+		}
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -359,6 +378,10 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function markAccreditedById($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
+		$usr_id = $prgrs->getUserId();
+		if($this->object->getAccessControlByOrguPositionsGlobal() && !in_array($usr_id, $this->editIndividualPlan())) {
+			throw new ilStudyProgrammePositionBasedAccessViolationException('No permission to edit progress of user');
+		}
 		$prgrs->markAccredited($this->user->getId());
 	}
 
@@ -385,6 +408,10 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function unmarkAccreditedByProgressId($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
+		$usr_id = $prgrs->getUserId();
+		if($this->object->getAccessControlByOrguPositionsGlobal() && !in_array($usr_id, $this->editIndividualPlan())) {
+			throw new ilStudyProgrammePositionBasedAccessViolationException('No permission to edit progress of user');
+		}
 		$prgrs->unmarkAccredited();
 	}
 
@@ -396,12 +423,21 @@ class ilObjStudyProgrammeMembersGUI {
 	public function unmarkAccreditedMulti()
 	{
 		$prgrs_ids = $this->getPostPrgsIds();
+		$errors = 0;
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			if ($this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-				$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+				try{
+					$this->unmarkAccreditedByProgressId((int)$prgrs_id);
+				} catch(ilStudyProgrammePositionBasedAccessViolationException $e) {
+					$errors++;
+				}
 			}
 		}
-		$this->showSuccessMessage("unmark_accredited_multi_success");
+		if($errors === 0) {
+			$this->showSuccessMessage("unmark_accredited_multi_success");
+		} else {
+			$this->showInfoMessage("some_users_may_not_be_unmarked_accredited");
+		}
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -413,9 +449,14 @@ class ilObjStudyProgrammeMembersGUI {
 	public function markRelevantMulti()
 	{
 		$prgrs_ids = $this->getPostPrgsIds();
-
+		$errors = 0;
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			$usr_id = $prgrs->getUserId();
+			if($this->object->getAccessControlByOrguPositionsGlobal() && !in_array($usr_id, $this->editIndividualPlan())) {
+				$errors++;
+				continue;
+			}
 			if (
 				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_IN_PROGRESS ||
 				$this->getProgressObject((int)$prgrs_id)->getStatus() == ilStudyProgrammeProgress::STATUS_ACCREDITED
@@ -424,8 +465,11 @@ class ilObjStudyProgrammeMembersGUI {
 			}
 			$prgrs->markRelevant($this->user->getId());
 		}
-
-		$this->showSuccessMessage("mark_relevant_multi_success");
+		if($errors === 0) {
+			$this->showSuccessMessage("mark_relevant_multi_success");
+		} else {
+			$this->showInfoMessage("some_users_may_not_be_marked_relevant");
+		}
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -437,13 +481,21 @@ class ilObjStudyProgrammeMembersGUI {
 	public function markNotRelevantMulti()
 	{
 		$prgrs_ids = $this->getPostPrgsIds();
-
+		$errors = 0;
 		foreach ($prgrs_ids as $key => $prgrs_id) {
 			$prgrs = $this->getProgressObject((int)$prgrs_id);
+			$usr_id = $prgrs->getUserId();
+			if($this->object->getAccessControlByOrguPositionsGlobal() && !in_array($usr_id, $this->editIndividualPlan())) {
+				$errors++;
+				continue;
+			}
 			$prgrs->markNotRelevant($this->user->getId());
 		}
-
-		$this->showSuccessMessage("mark_not_relevant_multi_success");
+		if($errors === 0) {
+			$this->showSuccessMessage("mark_not_relevant_multi_success");
+		} else {
+			$this->showInfoMessage("some_users_may_not_be_marked_not_relevant");
+		}
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -529,6 +581,10 @@ class ilObjStudyProgrammeMembersGUI {
 	protected function remove($prgrs_id)
 	{
 		$prgrs = $this->getProgressObject($prgrs_id);
+		$usr_id = $prgrs->getUserId();
+		if($this->object->getAccessControlByOrguPositionsGlobal() && !in_array($usr_id, $this->manageMembers())) {
+			throw new ilStudyProgrammePositionBasedAccessViolationException('No permission to manage membership of user');
+		}
 		$ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
 		$prg = $ass->getStudyProgramme();
 		if ($prg->getRefId() != $this->ref_id) {
@@ -640,5 +696,90 @@ class ilObjStudyProgrammeMembersGUI {
 		$link = $this->ctrl->getLinkTarget($this, $target_name);
 		$this->ctrl->setParameter($this, "prgrs_id", null);
 		return $link;
+	}
+
+	public function visibleUsers()
+	{
+		return array_unique(array_merge(
+			$this->viewMembers(),
+			$this->readLeadningProgress(),
+			$this->viewIndividualPlan(),
+			$this->editIndividualPlan(),
+			$this->manageMembers()
+		));
+	}
+
+	protected $view_members;
+	public function viewMembers()
+	{
+		if(!$this->view_members) {
+			$this->view_members =
+				array_unique(array_merge(
+					$this->position_based_access->getUsersInPrgAccessibleForOperation(
+						$this->object,
+						ilOrgUnitOperation::OP_VIEW_MEMBERS
+					),
+					$this->manageMembers()
+				));
+		}
+		return $this->view_members;
+	}
+
+	protected $read_learning_progress;
+	public function readLeadningProgress()
+	{
+		if(!$this->read_learning_progress) {
+			$this->read_learning_progress =
+				array_unique(array_merge(
+					$this->position_based_access->getUsersInPrgAccessibleForOperation(
+						$this->object,
+						ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS
+					),
+					$this->viewIndividualPlan()
+				));
+		}
+		return $this->read_learning_progress;
+	}
+
+	protected $view_individual_plan;
+	public function viewIndividualPlan()
+	{
+		if(!$this->view_individual_plan) {
+			$this->view_individual_plan =
+				array_unique(array_merge(
+					$this->position_based_access->getUsersInPrgAccessibleForOperation(
+						$this->object,
+						ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN
+					),
+					$this->editIndividualPlan()
+				));
+		}
+		return $this->view_individual_plan;
+	}
+
+	protected $edit_individual_plan;
+	public function editIndividualPlan()
+	{
+		if(!$this->edit_individual_plan) {
+			$this->edit_individual_plan =
+				$this->position_based_access->getUsersInPrgAccessibleForOperation(
+					$this->object,
+					ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN
+				);
+		}
+		return $this->edit_individual_plan;
+	}
+
+	protected $manage_members;
+	public function manageMembers()
+	{
+		if(!$this->manage_members) {
+			$this->manage_members =
+				$this->position_based_access->getUsersInPrgAccessibleForOperation(
+					$this->object,
+					ilOrgUnitOperation::OP_MANAGE_MEMBERS
+				);
+		}
+		return $this->manage_members;
 	}
 }
