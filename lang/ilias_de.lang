@@ -12833,10 +12833,10 @@ sess#:#sess_accept_request#:#Zu Sitzung zulassen
 sess#:#sess_assign#:#Zuordnen
 sess#:#sess_contact#:#Kontakt
 sess#:#sess_copy#:#Sitzung kopieren
-sess#:#sess_filter_all_types#:#All types
-sess#:#sess_filter_not_assigned#:#Not Assigned
+sess#:#sess_filter_all_types#:#Alle Objekttypen
+sess#:#sess_filter_not_assigned#:#Nicht zugeordnet
 sess#:#sess_import#:#Sitzung importieren
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_is_assigned#:#Zugeordnet
 sess#:#sess_list_reg_limit_places#:#Freie Plätze
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
 sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Sitzungstermine aktivieren.
