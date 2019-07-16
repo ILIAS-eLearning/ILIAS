@@ -1010,6 +1010,7 @@ assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this ques
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
+assessment#:#questionpool_not_selected#:#Please select a question pool!
 assessment#:#questions_from#:#questions from
 assessment#:#random_accept_sample#:#Accept Sample
 assessment#:#random_another_sample#:#Get another Sample
