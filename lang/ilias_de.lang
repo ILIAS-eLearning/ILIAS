@@ -14651,9 +14651,9 @@ pd#:#pd_enable_learning_history#:#Lernverlauf
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
-sess#:#sess_filter_all_types#:#All types
-sess#:#sess_filter_not_assigned#:#Not Assigned
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_filter_all_types#:#Alle Objekttypen
+sess#:#sess_filter_not_assigned#:#Nicht zugeordnet
+sess#:#sess_is_assigned#:#Zugeordnet
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 wiki#:#wiki_type_wiki_team#:#Team-Wiki
 exc#:#exc_without_wiki_template#:#Ohne Vorlage
