@@ -30,7 +30,7 @@ function disabled() {
 	$group = $ui->input()->field()->group(
 		[ $number_input->withLabel("Left"), $number_input->withLabel("Right")])->withDisabled(true)
 		->withAdditionalTransformation($sum)
-		->withAdditionalConstraint($equal_ten);
+		->withAdditionalTransformation($equal_ten);
 
 	//Step 4: define form and form actions, attach the group to the form
 	$DIC->ctrl()->setParameterByClass(

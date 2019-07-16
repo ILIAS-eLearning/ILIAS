@@ -16,7 +16,7 @@ function with_contraints() {
     //Step 1: Define the input field
     //and add some constraints.
     $pwd_input = $ui->input()->field()->password("Password", "constraints in place.")
-        ->withAdditionalConstraint(
+        ->withAdditionalTransformation(
             $refinery->logical()->parallel([
                 $refinery->string()->hasMinLength(8),
                 $pw_validation->hasLowerChars(),

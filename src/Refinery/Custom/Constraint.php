@@ -4,10 +4,15 @@
 namespace ILIAS\Refinery\Custom;
 
 use ILIAS\Refinery\Constraint as ConstraintInterface;
+use ILIAS\Refinery\DeriveTransformFromApplyTo;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Data;
 use ILIAS\Data\Result;
 
 class Constraint implements ConstraintInterface {
+	use DeriveTransformFromApplyTo;
+	use DeriveInvokeFromTransform;
+
 	/**
 	 * @var ILIAS\Data\Factory
 	 */
@@ -82,7 +87,7 @@ class Constraint implements ConstraintInterface {
 	/**
 	 * @inheritdoc
 	 */
-	final public function applyTo(Result $result) {
+	final public function applyTo(Result $result) : Result {
 		if($result->isError()) {
 			return $result;
 		}

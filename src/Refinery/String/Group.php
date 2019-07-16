@@ -66,4 +66,14 @@ class Group
 	{
 		return new SplitString($delimiter, $this->dataFactory);
 	}
+
+	/**
+	 * Creates a transformation that strips tags from a string.
+	 *
+	 * Uses php's strip_tags under the hood.
+	 */
+	public function stripTags() : StripTags
+	{
+		return new StripTags();
+	}
 }
