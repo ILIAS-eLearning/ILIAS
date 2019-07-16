@@ -15098,3 +15098,16 @@ prg#:#last_edited#:#Last edited
 prg#:#add_category#:#Add Category
 prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category RefId
+prg#:#edit_participants#:#Edit Members
+prg#:#auto_memberships#:#Membership Automation
+prg#:#orgu#:#Organisational Unit
+prg#:#rol#:#Role
+prg#:#auto_membership_title#:#Sources for Membership Automation
+prg#:#add_automembership_source#:#Add automatic Membership Source
+prg#:#auto_membership_src_type#:#Type
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
+prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Source
+prg#:#prg_autoassingment#:#(auto)

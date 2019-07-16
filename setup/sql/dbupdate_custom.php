@@ -232,13 +232,14 @@ if (!$ilDB->tableExists('prg_auto_content'))
 
 <#15>
 <?php
-$ilCtrlStructureReader->getStructure();
+;
 ?>
 
 <#16>
 <?php
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_PRG, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 ?>
+
 <#17>
 <?php
 	ilOrgUnitOperationQueries::registerNewOperation(
@@ -270,14 +271,56 @@ ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::
 		'Manage Memberships of other users',
 		ilOrgUnitOperationContext::CONTEXT_PRG
 	);
+
 ?>
 
 <#18>
 <?php
-$ilCtrlStructureReader->getStructure();
+if (!$ilDB->tableExists('prg_auto_membership'))
+{
+	$ilDB->createTable('prg_auto_membership', array(
+		'prg_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'source_type' => array(
+			'type' => 'text',
+			'length' => 8,
+			'notnull' => true
+		),
+		'source_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'enabled' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'last_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_edited' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('prg_auto_membership', ['prg_obj_id', 'source_type', 'source_id']);
+}
 ?>
 
 <#19>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
+<#20>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -294,3 +337,4 @@ if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
 		);
 }
 ?>
+
