@@ -6610,10 +6610,10 @@ mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
 mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
-mail#:#mail_salutation_f#:#Hallo
+mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Frau'
 mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn keine Anrede angegeben oder gewünscht
-mail#:#mail_salutation_m#:#Hallo
+mail#:#mail_salutation_m#:#Sehr geehrter Herr
 mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Herr'
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
