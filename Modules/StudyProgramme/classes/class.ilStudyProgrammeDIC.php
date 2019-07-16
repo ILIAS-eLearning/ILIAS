@@ -85,7 +85,8 @@ class ilStudyProgrammeDIC
 				$dic['ilStudyProgrammeUserProgressDB'],
 				$dic['ilStudyProgrammeUserAssignmentDB'],
 				$dic['ilStudyProgrammeRepositorySearchGUI'],
-				$dic['ilObjStudyProgrammeIndividualPlanGUI']
+				$dic['ilObjStudyProgrammeIndividualPlanGUI'],
+				$dic['ilStudyProgrammePostionBasedAccess']
 			);
 		};
 
@@ -176,6 +177,12 @@ class ilStudyProgrammeDIC
 				$DIC['tree'],
 				$DIC['ilLog']
 			);
+		};
+		$dic['ilOrgUnitObjectTypePositionSetting'] = function($dic) {
+			return new ilOrgUnitObjectTypePositionSetting('prg');
+		};
+		$dic['ilStudyProgrammePostionBasedAccess'] = function($dic) {
+			return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
 		};
 		return $dic;
 	}

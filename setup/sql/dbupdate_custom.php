@@ -237,6 +237,45 @@ if (!$ilDB->tableExists('prg_auto_content'))
 
 <#16>
 <?php
+ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_PRG, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+?>
+
+<#17>
+<?php
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_VIEW_MEMBERS,
+		'View Memberships of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+		'View learning progress of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN,
+		'View Individual Plans of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN,
+		'Edit Individual Plans of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+		'Manage Memberships of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+
+?>
+
+<#18>
+<?php
 if (!$ilDB->tableExists('prg_auto_membership'))
 {
 	$ilDB->createTable('prg_auto_membership', array(
@@ -275,12 +314,27 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 }
 ?>
 
-<#17>
-<?php
-;
-?>
-
-<#18>
+<#19>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+
+<#20>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'access_ctrl_org_pos',
+			[
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 0
+			]
+		);
+}
+?>
+
