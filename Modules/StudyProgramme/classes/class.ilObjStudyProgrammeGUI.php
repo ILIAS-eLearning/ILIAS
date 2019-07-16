@@ -769,15 +769,62 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 */
 	protected function fillInfoScreen($a_info_screen)
 	{
-		if(!$this->object->getSubtypeId() ||
-			!ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']
+		if($this->object->getSubtypeId() &&
+			ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']
 				->readType($this->object->getSubtypeId())
 		) {
-			return;
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+			$record_gui->setInfoObject($a_info_screen);
+			$record_gui->parse();
 		}
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
-		$record_gui->setInfoObject($a_info_screen);
-		$record_gui->parse();
+
+		if($this->object->getDeadlinePeriod() !== 0) {
+			$this->addDeadlinePeriodInformation($a_info_screen, $this->object->getDeadlinePeriod());
+		}
+		if($this->object->getDeadlineDate() !== null) {
+			$this->addDeadlineDateInformation($a_info_screen, $this->object->getDeadlineDate());
+		}
+		if($this->object->getValidityOfQualificationPeriod() !== ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD) {
+			$this->addValidityOfQualificationPeriodInformation($a_info_screen, $this->object->getValidityOfQualificationPeriod());
+		}
+		if($this->object->getValidityOfQualificationDate() !== null) {
+			$this->addValidityOfQualificationDateInformation($a_info_screen, $this->object->getValidityOfQualificationDate());
+		}
+
+		if($this->object->getRestartPeriod() !== ilStudyProgrammeSettings::NO_RESTART) {
+			$this->addRestartInformation($a_info_screen,$this->object->getRestartPeriod());
+		}
+	}
+
+	protected function addDeadlinePeriodInformation($a_info_screen,$period)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('deadline_information'),$this->lng->txt('dealine_period_info'),sprintf($this->lng->txt('prg_formatted_period'),$period));
+	}
+
+	protected function addDeadlineDateInformation($a_info_screen,$date)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('deadline_information'),$this->lng->txt('dealine_date_info'),$date->format('d.m.Y'));
+	}
+
+	protected function addValidityOfQualificationPeriodInformation($a_info_screen,$period)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('vq_information'),$this->lng->txt('vq_period_info'),sprintf($this->lng->txt('prg_formatted_period'),$period));
+	}
+
+	protected function addValidityOfQualificationDateInformation($a_info_screen,$date)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('vq_information'),$this->lng->txt('vq_date_info'),$date->format('d.m.Y'));
+	}
+
+	protected function addRestartInformation($a_info_screen,$period)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('restart_information'),$this->lng->txt('restart_period_info'),sprintf($this->lng->txt('prg_formatted_period'),$period));
+	}
+
+	protected function addInformation($a_info_screen,$section,$key,$value)
+	{
+		$a_info_screen->addSection($section);
+		$a_info_screen->addProperty($key,$value);
 	}
 
 	protected function edit(){
