@@ -649,3 +649,19 @@ if( $ilDB->tableExists($tempTableName) )
 }
 
 ?>
+
+<#47>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#48>
+<?php
+$q = "SELECT ref_id FROM prg_settings"
+	."	JOIN object_reference USING(obj_id)"
+	."	WHERE lp_mode = 1 AND deleted IS NULL";
+$res = $ilDB->query($q);
+while($rec = $ilDB->fetchAssoc($res)) {
+	ilObjStudyProgramme::getInstanceByRefId((int)$rec["ref_id"])->adjustLPMode();
+}
+?>
