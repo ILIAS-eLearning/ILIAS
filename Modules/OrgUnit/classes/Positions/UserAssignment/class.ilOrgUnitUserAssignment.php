@@ -63,7 +63,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord {
 		$inst = self::where(array(
 			'user_id'     => $user_id,
 			'position_id' => $position_id,
-			'orgu_id'     => $orgu_id,
+			'orgu_id'     => $orgu_id
 		))->first();
 		if (!$inst) {
 			$inst = new self();
@@ -74,6 +74,29 @@ class ilOrgUnitUserAssignment extends \ActiveRecord {
 		}
 
 		return $inst;
+	}
+
+	protected function raiseEvent(string $event)
+	{
+		global $DIC;
+		$ilAppEventHandler = $DIC['ilAppEventHandler'];
+		$ilAppEventHandler->raise('Modules/OrgUnit', $event, array(
+			'obj_id' => $this->getOrguId(),
+			'usr_id' => $this->getUserId(),
+			'position_id' => $this->getPositionId()
+		));
+	}
+
+	public function create()
+	{
+		$this->raiseEvent('assignUserToPosition');
+		parent::create();
+	}
+
+	public function delete()
+	{
+		$this->raiseEvent('deassignUserFromPosition');
+		parent::delete();
 	}
 
 

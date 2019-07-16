@@ -25,6 +25,11 @@ class ilObjStudyProgramme extends ilContainer {
 
 	// Wrapped static ilObjectFactory of ILIAS.
 	public $object_factory;
+
+	/**
+	 * @var ilOrgUnitObjectTypePositionSetting
+	 */
+	protected $ps;
 	// Cache for study programmes
 	static public $study_programme_cache = null;
 
@@ -52,6 +57,12 @@ class ilObjStudyProgramme extends ilContainer {
 			ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
 		$this->auto_categories_repository =
 			ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
+		$this->auto_memberships_repository =
+			ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
+		$this->membersourcereader_factory =
+			ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeMembershipSourceReaderFactory'];
+
+
 
 		$this->progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$this->assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -74,9 +85,7 @@ class ilObjStudyProgramme extends ilContainer {
 		$this->lng = $DIC['lng'];
 
 		$this->object_factory = ilObjectFactoryWrapper::singleton();
-
-
-
+		$this->ps = ilStudyProgrammeDIC::dic()['ilOrgUnitObjectTypePositionSetting'];
 		self::initStudyProgrammeCache();
 	}
 
@@ -253,7 +262,10 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		$this->deleteAllAutomaticContentCategories();
-		$this->events->raise('delete',['object' => $this,'obj_id' => $this->getId()]);
+		$this->deleteAllAutomaticMembershipSources();
+
+    $this->events->raise('delete',['object' => $this,'obj_id' => $this->getId()]);
+
 		return true;
 	}
 
@@ -441,7 +453,29 @@ class ilObjStudyProgramme extends ilContainer {
 	{
 		return $this->settings->getRestartPeriod();
 	}
-
+	public function setAccessControlByOrguPositions(bool $access_ctrl_positions)
+	{
+		$this->settings->setAccessControlByOrguPositions($access_ctrl_positions);
+	}
+	public function getAccessControlByOrguPositions() : bool
+	{
+		return $this->settings->getAccessControlByOrguPositions();
+	}
+	public function getAccessControlByOrguPositionsGlobal() : bool
+	{
+		return $this->getPositionSettingsIsActiveForPrg()
+			&& ($this->settings->getAccessControlByOrguPositions()
+				|| !$this->getPositionSettingsIsChangeableForPrg()
+			);
+	}
+	public function getPositionSettingsIsActiveForPrg() : bool
+	{
+		return $this->ps->isActive();
+	}
+	public function getPositionSettingsIsChangeableForPrg() : bool
+	{
+		return $this->ps->isChangeableForObject();
+	}
 	////////////////////////////////////
 	// TREE NAVIGATION
 	////////////////////////////////////
@@ -984,7 +1018,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return ilStudyProgrammeUserAssignment
 	 */
 	public function assignUser($a_usr_id, $a_assigning_usr_id = null) {
-
+		$this->members_cache = null;
 		if ($this->settings === null) {
 			throw new ilException("ilObjStudyProgramme::assignUser: Program was not properly created.'");
 		}
@@ -1039,7 +1073,7 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) {
-
+		$this->members_cache = null;
 		if ($a_assignment->getStudyProgramme()->getId() != $this->getId()) {
 			throw new ilException("ilObjStudyProgramme::removeAssignment: Assignment '"
 								 .$a_assignment->getId()."' does not belong to study "
@@ -1112,6 +1146,21 @@ class ilObjStudyProgramme extends ilContainer {
 		}, array_values($this->getAssignmentsRaw())); // use array values since we want keys 0...
 	}
 
+	protected $members_cache;
+
+	public function getMembers()
+	{
+		if(!$this->members_cache) {
+			$this->members_cache = array_map(
+				function($assignemnt) {
+					return $assignemnt->getUserId();
+				},
+				$this->assignment_repository->readByPrgId($this->getId())
+			);
+		}
+		return $this->members_cache;
+	}
+
 	/**
 	 * Are there any assignments on this node or any node above?
 	 *
@@ -1127,12 +1176,33 @@ class ilObjStudyProgramme extends ilContainer {
 	 * @return $this
 	 */
 	public function updateAllAssignments() {
+		$this->members_cache = null;
 		$assignments = $this->assignment_db->getInstancesForProgram((int)$this->getId());
 		foreach ($assignments as $ass) {
 			$ass->updateFromProgram();
 		}
 		return $this;
 	}
+
+	/**
+	 * Get assignments of user to this program-node only.
+	 *
+	 * @return ilStudyProgrammeUserAssignment[]
+	 */
+	public function getAssignmentsOfSingleProgramForUser(int $usr_id): array
+	{
+		return $this->assignment_repository->readByUsrIdAndPrgId($usr_id, $this->getId());
+	}
+	/**
+	 * Get assignments of user to this program-node only.
+	 *
+	 * @return ilStudyProgrammeUserAssignment[]
+	 */
+	public function hasAssignmentsOfSingleProgramForUser(int $usr_id): bool
+	{
+		return count($this->getAssignmentsOfSingleProgramForUser($usr_id)) > 0;
+	}
+
 
 	////////////////////////////////////
 	// USER PROGRESS
@@ -1404,6 +1474,160 @@ class ilObjStudyProgramme extends ilContainer {
 	}
 
 
+	////////////////////////////////////
+	// AUTOMATIC MEMBERSHIPS
+	////////////////////////////////////
+
+	/**
+	 * Get sources for auto-memberships.
+	 * @return ilStudyProgrammeAutoMembershipSource[]
+	 */
+	public function getAutomaticMembershipSources(): array
+	{
+		return $this->auto_memberships_repository->readFor($this->getId());
+	}
+
+	/**
+	 * Store a source to be monitored for automatic memberships.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function storeAutomaticMembershipSource(string $type, int $src_id) {
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
+		$this->auto_memberships_repository->update($ams);
+	}
+
+	/**
+	 * Delete a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function deleteAutomaticMembershipSource(string $type, int $src_id)
+	{
+		return $this->auto_memberships_repository->delete($this->getId(), $type, $src_id);
+	}
+
+	/**
+	 * Delete all membership sources of this StudyProgramme;
+	 */
+	public function deleteAllAutomaticMembershipSources()
+	{
+		return $this->auto_memberships_repository->deleteFor($this->getId());
+	}
+
+	/**
+	 * Disable a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function disableAutomaticMembershipSource(string $type, int $src_id)
+	{
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
+		$this->auto_memberships_repository->update($ams);
+	}
+
+	/**
+	 * Enable a membership source.
+	 * @param string $type
+	 * @param int $src_id
+	 */
+	public function enableAutomaticMembershipSource(string $type, int $src_id)
+	{
+		$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$type];
+		$member_ids = $this->getMembersOfMembershipSource($type, $src_id);
+
+		foreach ($member_ids as $usr_id) {
+			if (!$this->getAssignmentsOfSingleProgramForUser($usr_id)) {
+				$this->assignUser($usr_id, $assigned_by);
+			}
+		}
+		$ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, true);
+		$this->auto_memberships_repository->update($ams);
+	}
+
+	/**
+	 * Get member-ids of a certain source.
+	 * @param string $type
+	 * @param int $src_id
+	 * @throws InvalidArgumentException if $src_type is not in AutoMembershipSource-types
+	 * @return int[]
+	 */
+	protected function getMembersOfMembershipSource(string $src_type, int $src_id): array
+	{
+		$source_reader = $this->membersourcereader_factory->getReaderFor($src_type, $src_id);
+		return $source_reader->getMemberIds();
+	}
+
+
+	/**
+	 * Get all StudyProgrammes monitoring this membership-source.
+	 * @param int $cat_ref_id
+	 * @return ilObjStudyProgramme[]
+	 */
+	protected static function getProgrammesMonitoringMemberSource(string $src_type, int $src_id): array
+	{
+		$db = ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
+		$programmes = array_map(function($rec) {
+				$prg_obj_id = (int)array_shift(array_values($rec));
+				$prg_ref_id = (int)array_shift(ilObject::_getAllReferences($prg_obj_id));
+				$prg = self::getInstanceByRefId($prg_ref_id);
+				return $prg;
+			},
+			$db::getProgrammesFor($src_type, $src_id)
+		);
+		return $programmes;
+	}
+
+	public static function addMemberToProgrammes(string $src_type, int $src_id, int $usr_id)
+	{
+		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
+			if (!$prg->hasAssignmentsOfSingleProgramForUser($usr_id)) {
+				$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$src_type];
+				$prg->assignUser($usr_id, $assigned_by);
+			}
+		}
+	}
+
+	public static function removeMemberFromProgrammes(string $src_type, int $src_id, int $usr_id)
+	{
+		foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
+			foreach ($prg->getProgressesOf($usr_id) as $progress) {
+				if($progress->getStatus() !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+					continue;
+				}
+				$assignments = $prg->getAssignmentsOfSingleProgramForUser($usr_id);
+				$next_membership_source = $prg->getApplicableMembershipSourceForUser($usr_id, $src_type);
+
+				foreach ($assignments as $assignment) {
+					if(!is_null($next_membership_source)) {
+						$new_src_type = $next_membership_source->getSourceType();
+						$assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$new_src_type];
+						$assignment = $assignment->setLastChangeBy($assigned_by);
+						$prg->assignment_repository->update($assignment);
+						break;
+					} else {
+						$assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+						$user_assignment = $assignment_db->getInstanceByModel($assignment);
+						$prg->removeAssignment($user_assignment);
+					}
+				}
+			}
+		}
+	}
+
+	public function getApplicableMembershipSourceForUser(int $usr_id, string $exclude_type): ?ilStudyProgrammeAutoMembershipSource
+	{
+		foreach ($this->getAutomaticMembershipSources() as $ams) {
+			$src_type = $ams->getSourceType();
+			if($src_type !== $exclude_type) {
+				$source_members = $this->getMembersOfMembershipSource($src_type, $ams->getSourceId());
+				if(in_array($usr_id, $source_members)) {
+					return $ams;
+				}
+			}
+		}
+		return null;
+	}
 
 	////////////////////////////////////
 	// HELPERS

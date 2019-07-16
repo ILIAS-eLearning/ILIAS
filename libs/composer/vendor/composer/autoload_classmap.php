@@ -6673,6 +6673,8 @@ return array(
     'ilStudyProgrammeNoProgressForAssignmentException' => $baseDir . '/../../Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammeNoProgressForAssignmentException.php',
     'ilStudyProgrammePlaceholderDescription' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Description/class.ilStudyProgrammePlaceholderDescription.php',
     'ilStudyProgrammePlaceholderValues' => $baseDir . '/../../Services/Certificate/classes/Placeholder/Values/class.ilStudyProgrammePlaceholderValues.php',
+    'ilStudyProgrammePositionBasedAccessViolationException' => $baseDir . '/../../Modules/StudyProgramme/classes/exceptions/class.ilStudyProgrammePositionBasedAccessViolationException.php',
+    'ilStudyProgrammePostionBasedAccess' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammePositionBasedAccess.php',
     'ilStudyProgrammeProgress' => $baseDir . '/../../Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgress.php',
     'ilStudyProgrammeProgressDBRepository' => $baseDir . '/../../Modules/StudyProgramme/classes/model/Progress/class.ilStudyProgrammeProgressDBRepository.php',
     'ilStudyProgrammeProgressListGUI' => $baseDir . '/../../Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php',

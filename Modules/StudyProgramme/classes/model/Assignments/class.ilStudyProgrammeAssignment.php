@@ -10,7 +10,7 @@
  *
  * One user can have multiple assignments to the same tree. This makes it possible
  * to represent programs that need to be accomplished periodically as well.
- * 
+ *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  * @version: 0.1.0
  */
@@ -22,6 +22,11 @@ class ilStudyProgrammeAssignment
 	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 	const DATE_FORMAT = 'Y-m-d';
 
+	const AUTO_ASSIGNED_BY_ROLE = -1;
+	const AUTO_ASSIGNED_BY_ORGU = -2;
+	const AUTO_ASSIGNED_BY_COURSE = -3;
+	const AUTO_ASSIGNED_BY_GROUP = -4;
+
 	/**
 	 * Id of this assignment.
 	 *
@@ -29,19 +34,19 @@ class ilStudyProgrammeAssignment
 
 	 */
 	protected $id;
- 
+
 	/**
-	 * The id of the user that is assigned. 
+	 * The id of the user that is assigned.
 	 *
-	 * @var int 
+	 * @var int
 	 */
 	protected $usr_id;
 
 	/**
 	 * Root node of the program tree, the user was assigned to. Could be a subtree of
 	 * a larger program. This is the object id of the program.
-	 * 
-	 * @var int 
+	 *
+	 * @var int
 	 */
 	protected $root_prg_id;
 
@@ -49,14 +54,14 @@ class ilStudyProgrammeAssignment
 	/**
 	 * Timestamp of the moment of the assignment to or last update of the program.
 	 *
-	 * @var int 
+	 * @var int
 	 */
-	protected $last_change; 
+	protected $last_change;
 
 	/**
 	 * Id of user who did the assignment to or last update of the program.
 	 *
-	 * @var int 
+	 * @var int
 	 */
 	protected $last_change_by;
 
@@ -90,7 +95,7 @@ class ilStudyProgrammeAssignment
 	{
 		return $this->id;
 	}
-	
+
 	/**
 	 * Get the object id of the program the user was assigned to.
 	 *
@@ -100,57 +105,65 @@ class ilStudyProgrammeAssignment
 	{
 		return $this->root_prg_id;
 	}
-	
+
 	public function setRootId(int $id) : ilStudyProgrammeAssignment
 	{
 		$this->root_prg_id = $id;
 		return $this;
 	}
-	
+
 	/**
 	 * Get the id of the user who is assigned.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getUserId() : int
 	{
 		return $this->usr_id;
 	}
-	
+
 	public function setUserId(int $usr_id) : ilStudyProgrammeAssignment
 	{
 		$this->usr_id = $usr_id;
 		return $this;
 	}
-	
+
 	/**
 	 * Get the id of the user who did the last change on this assignment.
-	 * 
+	 *
 	 * @return int
-	 */	
+	 */
 	public function getLastChangeBy() : int
 	{
 		return $this->last_change_by;
 	}
-	
+
 	/**
 	 * Set the id of the user who did the last change on this assignment.
-	 * 
+	 *
 	 * Throws when $a_usr_id is not the id of a user.
-	 * 
+	 *
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChangeBy(int $usr_id) : ilStudyProgrammeAssignment
+	public function setLastChangeBy(int $assingned_by_id) : ilStudyProgrammeAssignment
 	{
-		if (ilObject::_lookupType($usr_id) != "usr") {
-			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$usr_id' "
-								 ."is no id of a user.");
+
+		if (ilObject::_lookupType($assingned_by_id) != "usr" &&
+			! in_array($assingned_by_id, [
+				self::AUTO_ASSIGNED_BY_ROLE,
+				self::AUTO_ASSIGNED_BY_ORGU,
+				self::AUTO_ASSIGNED_BY_COURSE,
+				self::AUTO_ASSIGNED_BY_GROUP
+			])
+		) {
+			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assingned_by_id' "
+								 ."is neither a user's id nor a valid membership source.");
 		}
-		$this->last_change_by = $usr_id;
+		$this->last_change_by = $assingned_by_id;
 		return $this;
 	}
-	
+
 	/**
 	 * Get the timestamp of the last change on this program or a sub program.
 	 *
@@ -174,7 +187,7 @@ class ilStudyProgrammeAssignment
 
 	/**
 	 * Set the last change timestamp to the given time.
-	 * 
+	 *
 	 * @return $this
 	 */
 	public function setLastChange(DateTime $timestamp) : ilStudyProgrammeAssignment

@@ -11286,6 +11286,9 @@ rbac#:#org_op_access_results#:#Access Results of Subordinated Users
 orgu#:#org_op_manage_participants#:#Manage Participants
 rbac#:#org_op_manage_participants#:#Manage Subordinated Participants
 orgu#:#org_op_score_participants#:#Score Participants
+orgu#:#org_op_view_members#:#View Members
+orgu#:#org_op_view_individual_plan#:#View Individual Plan
+orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
 rbac#:#org_op_score_participants#:#Score Subordinated Participants
 orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
@@ -13296,6 +13299,10 @@ prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme as
 prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
 prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#no_manual_status#:#No manual status
+prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
+prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
@@ -15091,3 +15098,16 @@ prg#:#last_edited#:#Last edited
 prg#:#add_category#:#Add Category
 prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category RefId
+prg#:#edit_participants#:#Edit Members
+prg#:#auto_memberships#:#Membership Automation
+prg#:#orgu#:#Organisational Unit
+prg#:#rol#:#Role
+prg#:#auto_membership_title#:#Sources for Membership Automation
+prg#:#add_automembership_source#:#Add automatic Membership Source
+prg#:#auto_membership_src_type#:#Type
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
+prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Source
+prg#:#prg_autoassingment#:#(auto)
