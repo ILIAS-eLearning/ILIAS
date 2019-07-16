@@ -1227,4 +1227,8 @@ if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
 	));
 }
 ?>
+<#5512>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

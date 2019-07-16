@@ -156,9 +156,6 @@ Protocol.prototype._enqueue = function(sequence) {
       sequence._timer.active();
       self._emitPacket(packet);
     })
-    .on('end', function() {
-      self._dequeue(sequence);
-    })
     .on('timeout', function() {
       var err = new Error(sequence.constructor.name + ' inactivity timeout');
 
@@ -167,8 +164,10 @@ Protocol.prototype._enqueue = function(sequence) {
       err.timeout = sequence._timeout;
 
       self._delegateError(err, sequence);
-    })
-    .on('start-tls', function() {
+    });
+
+  if (sequence.constructor === Sequences.Handshake) {
+    sequence.on('start-tls', function () {
       sequence._timer.active();
       self._connection._startTLS(function(err) {
         if (err) {
@@ -183,6 +182,19 @@ Protocol.prototype._enqueue = function(sequence) {
         sequence._tlsUpgradeCompleteHandler();
       });
     });
+
+    sequence.on('end', function () {
+      self._handshaked = true;
+
+      if (!self._fatalError) {
+        self.emit('handshake', self._handshakeInitializationPacket);
+      }
+    });
+  }
+
+  sequence.on('end', function () {
+    self._dequeue(sequence);
+  });
 
   if (this._queue.length === 1) {
     this._parser.resetPacketNumber();
@@ -262,6 +274,7 @@ Protocol.prototype._parsePacket = function() {
 
   if (Packet === Packets.HandshakeInitializationPacket) {
     this._handshakeInitializationPacket = packet;
+    this.emit('initialize', packet);
   }
 
   sequence._timer.active();
@@ -307,12 +320,7 @@ Protocol.prototype._determinePacket = function(sequence) {
   }
 
   switch (firstByte) {
-    case 0x00:
-      if (!this._handshaked) {
-        this._handshaked = true;
-        this.emit('handshake', this._handshakeInitializationPacket);
-      }
-      return Packets.OkPacket;
+    case 0x00: return Packets.OkPacket;
     case 0xfe: return Packets.EofPacket;
     case 0xff: return Packets.ErrorPacket;
   }
@@ -436,22 +444,20 @@ Protocol.prototype.destroy = function() {
 
 Protocol.prototype._debugPacket = function(incoming, packet) {
   var connection = this._connection;
-  var headline   = incoming
-    ? '<-- '
-    : '--> ';
-
-  if (connection && connection.threadId !== null) {
-    headline += '(' + connection.threadId + ') ';
-  }
-
-  headline += packet.constructor.name;
+  var direction  = incoming
+    ? '<--'
+    : '-->';
+  var packetName = packet.constructor.name;
+  var threadId   = connection && connection.threadId !== null
+    ? ' (' + connection.threadId + ')'
+    : '';
 
   // check for debug packet restriction
-  if (Array.isArray(this._config.debug) && this._config.debug.indexOf(packet.constructor.name) === -1) {
+  if (Array.isArray(this._config.debug) && this._config.debug.indexOf(packetName) === -1) {
     return;
   }
 
-  console.log(headline);
-  console.log(packet);
-  console.log('');
+  var packetPayload = Util.inspect(packet).replace(/^[^{]+/, '');
+
+  console.log('%s%s %s %s\n', direction, threadId, packetName, packetPayload);
 };

@@ -70,10 +70,6 @@ class ilParserTestSuite  extends TestSuite
 		require_once '012_DataInput/class.test_012_DataInput.php';
 		$suite->addTestSuite('test_012_DataInput');
 
-		// 013_DataOutput
-		require_once '013_DataOutput/class.test_013_DataOutput.php';
-		$suite->addTestSuite('test_013_DataOutput');
-
 		// 014_DataObject
 		require_once '014_DataObject/class.test_014_DataObject.php';
 		$suite->addTestSuite('test_014_DataObject');
