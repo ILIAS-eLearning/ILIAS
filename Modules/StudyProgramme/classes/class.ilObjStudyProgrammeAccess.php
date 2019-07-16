@@ -10,7 +10,7 @@ require_once('./Services/Conditions/interfaces/interface.ilConditionHandling.php
 /**
  * Class ilObjStudyProgrammeAccess
  *
- * TODO: deletion is only allowed if there are now more users assigned to the
+ * TODO: deletion is only allowed if there are no more users assigned to the
  * programme.
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>

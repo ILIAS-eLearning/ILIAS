@@ -169,7 +169,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("EXPIRY_DATE", $a_set["vq_date"]);
 					break;
 				case "prg_assigned_by":
-					$this->tpl->setVariable("ASSIGNED_BY", $a_set["prg_assigned_by"]);
+					$assigned_by = $a_set["prg_assigned_by"];
+					if(is_null($assigned_by)) {
+						$srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
+						$assignment_src = (int)$a_set['prg_assingment_origin'];
+						$assigned_by = $this->lng->txt('prg_autoassingment')
+							.' '.$this->lng->txt($srcs[$assignment_src]);
+					}
+					$this->tpl->setVariable("ASSIGNED_BY", $assigned_by);
 					break;
 				case "prg_deadline":
 					if(is_null($a_set["prg_deadline"])) {
@@ -269,6 +276,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 				   ."     , prgrs.deadline prg_deadline"
 				   ."     , ass.root_prg_id root_prg_id"
 				   ."     , ass.last_change prg_assign_date"
+				   ."     , ass.last_change_by prg_assingment_origin"
 				   ."     , ass_usr.login prg_assigned_by"
 				   // for sorting
 				   ."     , CONCAT(pcp.firstname, pcp.lastname) name"
