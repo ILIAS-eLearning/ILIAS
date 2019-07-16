@@ -11240,10 +11240,10 @@ prg#:#prg_formatted_period#:#%d Tage
 prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
 prg#:#dealine_period_info#:#Bearbeitungszeitraum
 prg#:#dealine_date_info#:#Bearbeitungszeitraum bis zu einem festen Stichtag
-prg#:#vq_information#:#Informationen zur Gültigkeit einer erreichten Qualifikation
-prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte anzahl Tage gültig
+prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
+prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig
 prg#:#vq_date_info#:#Die Qualifikation läuft zu einem Stichtag ab
-prg#:#restart_information#:#Informationen zum automatischen Wiederaufnahme der Qualifikation vor Ablauf
+prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
 prg#:#some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
 prg#:#some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
