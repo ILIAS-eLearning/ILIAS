@@ -319,7 +319,6 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 $ilCtrlStructureReader->getStructure();
 ?>
 
-
 <#20>
 <?php
 global $DIC;
@@ -338,3 +337,19 @@ if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
 }
 ?>
 
+<#21>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','invalidated')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'invalidated',
+			[
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => false
+			]
+	);
+}
+?>

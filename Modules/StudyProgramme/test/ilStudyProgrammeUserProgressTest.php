@@ -945,12 +945,13 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($progress1->isSuccessful());
 		$this->assertTrue($progress1->isSuccessfulExpired());
 		try {
-			$progress1->markFailed(6);
+			$progress1->invalidate();
 			$this->assertTrue(true);
 		} catch(ilException $e) {
 			$this->assertFalse('did throw');
 		}
-		$this->assertFalse($progress1->isSuccessful());
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress1->isInvalidated());
 	}
 
 
@@ -980,10 +981,11 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($progress1->isSuccessful());
 		$this->assertFalse($progress1->isSuccessfulExpired());
 		try {
-			$progress1->markFailed(6);
+			$progress1->invalidate();
 			$this->assertFalse('did not throw');
 		} catch(ilException $e) {
 			$this->assertTrue(true);
 		}
+		$this->assertFalse($progress1->isInvalidated());
 	}
 }

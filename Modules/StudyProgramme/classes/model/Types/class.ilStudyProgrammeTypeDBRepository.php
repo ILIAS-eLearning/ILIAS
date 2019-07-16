@@ -248,8 +248,6 @@ implements ilStudyProgrammeTypeRepository
 	 */
 	public function updateTypeTranslation(ilStudyProgrammeTypeTranslation $tt)
 	{
-		global $DIC;
-		$DIC['ilLog']->dump($tt);
 		$this->updateRowTypeTranslationDB(
 			[
 				self::FIELD_ID => $tt->getId()

@@ -567,21 +567,21 @@ class ilObjStudyProgrammeTest extends PHPUnit_Framework_TestCase {
 		unset($all_possible_subobjects["rolf"]);
 		
 		// this is course reference and training programme
-		$this->assertCount(2, $all_possible_subobjects);
+		$this->assertCount(3, $all_possible_subobjects);
 		$this->assertArrayHasKey("prg", $all_possible_subobjects);
 		$this->assertArrayHasKey("crsr", $all_possible_subobjects);
-		
+		$this->assertArrayHasKey("prgr", $all_possible_subobjects);
 		// root already contains program nodes, so course ref is forbidden
 		$subobjs = ilObjStudyProgramme::getCreatableSubObjects($all_possible_subobjects, $this->root_object->getRefId());
-		$this->assertCount(1, $subobjs);
-		$this->assertArrayHasKey("prg", $subobjs);
-		
-		// first node contains nothing, so course ref and program node are allowed
-		$subobjs = ilObjStudyProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
 		$this->assertCount(2, $subobjs);
 		$this->assertArrayHasKey("prg", $subobjs);
+		$this->assertArrayHasKey("prgr", $all_possible_subobjects);
+		// first node contains nothing, so course ref and program node are allowed
+		$subobjs = ilObjStudyProgramme::getCreatableSubObjects($all_possible_subobjects, $child_l->getRefId());
+		$this->assertCount(3, $subobjs);
+		$this->assertArrayHasKey("prg", $subobjs);
 		$this->assertArrayHasKey("crsr", $subobjs);
-		
+		$this->assertArrayHasKey("prgr", $all_possible_subobjects);
 		$mock_leaf = new ilStudyProgrammeLeafMock();
 		$children = $this->root_object->getChildren();
 		$child_l->object_factory = new ilObjectFactoryWrapperMock();

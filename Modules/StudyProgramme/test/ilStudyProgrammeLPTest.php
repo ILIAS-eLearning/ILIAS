@@ -279,4 +279,40 @@ class ilStudyProgrammeLPTest extends PHPUnit_Framework_TestCase {
 						   , ilLPStatusWrapper::_determineStatus($node3->getId(), $user->getId())
 						   );
 	}
+
+	public function test_invalidate() {
+		$progress_repo = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
+		$this->setAllNodesActive();
+		$yesterday = new DateTime();
+		$yesterday->sub(new DateInterval('P1D'));
+
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$node2_progress->markAccredited(6);
+
+		$this->assertEquals( ilLPStatus::LP_STATUS_COMPLETED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
+		$this->assertEquals( ilLPStatus::LP_STATUS_COMPLETED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
+						   );
+		$progress_repo->update(
+			$progress_repo->readByIds((int)$this->root->getId(),(int)$ass->getId(),(int)$user->getId())
+				->setValidityOfQualification($yesterday)
+		);
+
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$this->assertTrue($root_progress->isSuccessfulExpired());
+		$this->assertFalse($root_progress->isInvalidated());
+		$root_progress->invalidate();
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$this->assertTrue($root_progress->isSuccessfulExpired());
+		$this->assertTrue($root_progress->isInvalidated());
+		$this->assertEquals( ilLPStatus::LP_STATUS_FAILED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
+						   );
+	}
 }

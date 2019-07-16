@@ -2,7 +2,7 @@
 
 class ilStudyProgrammeAutoCategoryTest extends PHPUnit_Framework_TestCase
 {
-	//protected $backupGlobals = FALSE;
+	protected $backupGlobals = FALSE;
 
 	public function setUp()
 	{
