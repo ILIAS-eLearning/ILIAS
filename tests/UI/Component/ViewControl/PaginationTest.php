@@ -16,8 +16,11 @@ class PaginationTest extends ILIAS_UI_TestBase {
 	public function getUIFactory() {
 		$factory = new class extends NoUIFactory
 		{
-			public function glyph() {
-				return new IC\Glyph\Factory(new SignalGenerator());
+			public function symbol(): C\Symbol\Factory {
+				return new IC\Symbol\Factory(
+					new IC\Symbol\Icon\Factory(),
+					new IC\Symbol\Glyph\Factory()
+				);
 			}
 			public function button() {
 				return new IC\Button\Factory(new SignalGenerator());
@@ -80,11 +83,11 @@ class PaginationTest extends ILIAS_UI_TestBase {
 			->withPageSize(1);
 
 		//two entries, first one inactive
-		//rocker left disabled
+		//browse-left disabled
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
-		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+		<a class="glyph disabled" aria-label="back" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -111,7 +114,7 @@ EOT;
 			->withCurrentPage(1);
 
 		//two entries, second one inactive
-		//rocker right disabled
+		//browse-right disabled
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
@@ -124,7 +127,7 @@ EOT;
 	<button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=1">2</button>
 
 	<span class="browse next">
-		<a class="glyph" href="?pagination_offset=2" aria-label="next">
+		<a class="glyph disabled" aria-label="next" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -142,12 +145,12 @@ EOT;
 			->withMaxPaginationButtons(1);
 
 		//one entry,
-		//rocker left disabled
+		//browse-left disabled
 		//boundary-button right
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
-		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+		<a class="glyph disabled" aria-label="back" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -216,7 +219,7 @@ EOT;
 			->withCurrentPage(2);
 
 		//one entry,
-		//rocker right disabled
+		//browse-right disabled
 		//boundary-button left only
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
@@ -232,7 +235,7 @@ EOT;
 	<button class="btn btn-link ilSubmitInactive disabled" data-action="?pagination_offset=2">3</button>
 
 	<span class="browse next">
-		<a class="glyph" href="?pagination_offset=3" aria-label="next">
+		<a class="glyph disabled" aria-label="next" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
 	</span>
@@ -253,7 +256,7 @@ EOT;
 		$expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
-		<a class="glyph" href="?pagination_offset=0" aria-label="back">
+		<a class="glyph disabled" aria-label="back" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
 	</span>

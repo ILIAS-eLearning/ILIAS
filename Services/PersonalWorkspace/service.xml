@@ -4,9 +4,6 @@
 	<baseclasses>
 		<baseclass name="ilSharedResourceGUI" dir="classes" />
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilWorkspaceGlobalScreenProvider" />
-	</gsproviders>
 	<crons>
 		<cron id="pwsp_recalc_quota" class="ilCronPersonalWorkspaceRecalculateQuota" />
 	</crons>

@@ -69,7 +69,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 					}
 
 					$path = ilObject::_getIcon("", "tiny", $titems[$group_item]["type"]);
-					$icon = $this->dic->ui()->factory()->icon()->custom($path, $titems[$group_item]["type"]);
+					$icon = $this->dic->ui()->factory()->symbol()->icon()->custom($path, $titems[$group_item]["type"]);
 
 					if ($_GET["admin_mode"] == "settings" && $titems[$group_item]["ref_id"] == ROOT_FOLDER_ID) {
 						$identification = $this->if->identifier('mm_adm_rep');
@@ -84,7 +84,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 						->link($identification)
 						->withTitle($titems[$group_item]["title"])
 						->withAction($action)
-						->withIcon($icon);
+						->withSymbol($icon);
 				}
 
 				// Main entry
@@ -118,7 +118,7 @@ class ilAdmGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	 */
 	private function getGroups(): array {
 		if (!$this->dic->offsetExists('tree')) { // isDependencyAvailable does not work, Fatal error: Uncaught Error: Call to undefined method ILIAS\DI\Container::tree() in /var/www/html/src/DI/Container.php on line 294
-			return [];
+			return [[], []];
 		}
 		$tree = $this->dic->repositoryTree();
 		$rbacsystem = $this->dic->rbac()->system();

@@ -41,9 +41,6 @@ additional libraries.
 
 ## Quickstart example
 
-This is an example to transform a float value to a string value and
-will create a data type from the result of this transformation:
-
 ```php
 global $DIC;
 
@@ -141,7 +138,6 @@ To avoid exception handling the `applyTo` method can be used instead.
 Find out more about the `applyTo` method of instances of the `Transformation`
 interface in the
 [README about Transformations](/src/Refinery/Transformation/README.md).
-
 
 ###### Natives
 
@@ -245,6 +241,31 @@ The result will be an array of results of each transformation.
 In this case this is an array with an `integer` and a `string`
 value.
 
+##### Custom
+
+The `Custom` group contains of `Transformations` and `Constraints`
+that can be used to create individual transformations and constraints.
+
+##### Logical
+
+The `Logical` group contains of `Constraints` that can be used to create
+different logical operation that can be used on concrete `Constraints`-
+
+##### Null
+
+`Null` group contains of constraints that can be used to identify the
+`null` value via a `Constraint`.
+
+##### Numeric
+
+`Numeric` group consists of a constraints that can be used to identify a
+numeric value via a `Constraint`.
+
+##### Password
+
+`Password` consists of a contains that can be used to create constraints
+for validating password.
+
 ### Custom Transformation
 
 Sometimes the default transformations of this library are not enough, so a
@@ -309,7 +330,7 @@ Just the `transform` method needs to be created in the new transformation class.
 ##### Error Handling
 
 Exceptions thrown inside the `transformation` method will be
-catched and added to new
+caught and added to new
 [error result object (`Result\Error`)](/src/Data/README.md#result).
 
 The origin exception can be accessed through this error object.
@@ -322,7 +343,7 @@ Just the `applyTo` method needs to be created in the new transformation class.
 ##### Error Handling
 
 Exceptions thrown inside the `applyTo` method will be
-**not be** catched.
+**not be** caught.
 On return of an [error result object (`Result\Error`)](/src/Data/README.md#result)
 the `transform` method will throw an exception.
 
@@ -338,8 +359,113 @@ which have their own descriptions.
 
 ### Transformation
 
-[README for Transformation Library](/src/Refinery/Transformation/README.md)
+A transformation is a function from one type or structure of data to another.
+It MUST NOT perform any sideeffects, i.e. it must be morally impossible to observe
+how often the transformation was actually performed. It MUST NOT touch the provided
+value, i.e. it is allowed to create new values but not to modify existing values.
+This would be an observable sideeffect.
 
+The actual usage of this interface is quite boring, but we could typehint on
+`Transformation` to announce we indeed want some function having the aforementioned
+properties. Typehinting on `Transformation` will be useful when code talks about
+structures containing data in some sense, e.g. lists or trees, where the code is
+involved with containing structure but not with the contained data. This would be
+a classic case for generics in languages that support them. PHP unfortunately is
+a language that does not support generics.
+
+The use case that actually led to the proposal of this library is the forms 
+abstraction in the UI framework, where the abstraction deals with forms, extraction
+of data from them and validation of data in them. The concept of transformation
+is required, not matter if we typehint on them or not. Other facilities in PHP
+do not allow a more accurate typehinting, due to lack of generics.
+
+Having common transformations ready in a factory, connected with the promise
+given by the developer that the `Transformation` indeed respects the intended
+properties, should be useful in other scenarios as well, especially at the
+boundaries of the system, where data needs to be re- and destructured to fit
+interfaces to other systems or even users.
+
+```php
+
+require_once(__DIR__."\Factory.php");
+
+$f = new \ILIAS\Refinery\Factory;
+
+// Adding labels to an array to name the elements.
+$add_abc_label = $f->container()->addLabels(["a", "b", "c"]);
+$labeled = $add_abc_label->transform([1,2,3]);
+assert($labeled === ["a" => 1, "b" => 2, "c" => 3]);
+
+// Split a string at some delimiter.
+$split_string_at_dot = $f->string()->splitString(".");
+$split = $split_string_at_dot->transform("a.b.c");
+assert($split === ["a", "b", "c"]);
+
+// Use a closure for the transformation.
+$int_to_string = $f->custom(function ($v) {
+	if (!is_int($v)) {
+		throw new \InvalidArgumentException("Expected int, got ".get_type($v));
+	}
+	return "$v";
+});
+$str = $int_to_string->transform(5);
+assert($str === "5");
+assert($str !== 5);
+```
 ### Validation
 
-[README for Validation Library](/src/Refinery/Validation/README.md)
+A validation checks some supplied value for compliance with some constraints.
+Validations MUST NOT modify the supplied value.
+
+Having an interface to Validations allows to typehint on them and allows them
+to be combined in structured ways. Understanding validation as a separate service
+in the system with objects performing the validations makes it possible to build
+a set of common validations used throughout the system. Having a known set of
+validations makes it possible to perform at least some of the validations on
+client side someday.
+
+```php
+
+// In reality this has dependencies that need to be satisfied...
+$f = new ILIAS\Refinery\Factory;
+
+// Build some basic constraints
+$gt0 = $f->integer()->greaterThan(0);
+$lt10 = $f->integer()->lessThan(10);
+
+// Check them and react:
+if (!$gt0->accepts(1)) {
+	assert(false); // does not happen
+}
+
+// Let them throw an exception:
+$raised = false;
+try {
+	$lt10->check(20);
+	assert(false); // does not happen
+}
+catch (\UnexpectedValueException $e) {
+	$raised = true;
+}
+assert($raised);
+
+// Get to know what the problem with some value is:
+assert(is_string($gt0->problemWith(-10)));
+
+// Combine them in a way that the constraints are checked one after another:
+$between_0_10 = $f->logical()->sequential([$gt0, $lt10]);
+
+// Or in a way that they are checked independently:
+$also_between_0_10 = $f->logical()->parallel([$gt0, $lt10]);
+
+// One can also create a new error message by supplying a builder for an error
+// message:
+
+$between_0_10->withProblemBuilder(function($txt, $value) {
+	return "Value must be between 0 and 10, but is '$value'.";
+});
+
+// To perform internationalisation, the provided $txt could be used, please
+// see `ILIAS\Refinery\Validation\Constraint::withProblemBuilder` for further information.
+
+```

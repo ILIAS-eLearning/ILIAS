@@ -383,12 +383,6 @@ class ilTestCorrectionsGUI
 		// remove test question results
 		$scoring->removeAllQuestionResults($questionGUI->object->getId());
 		
-		// update pass and test results
-		$scoring->updatePassAndTestResults($participantData->getActiveIds());
-		
-		// trigger learning progress
-		ilLPStatusWrapper::_refreshStatus($this->testOBJ->getId(), $participantData->getUserIds());
-		
 		// remove question from test and reindex remaining questions
 		$this->testOBJ->removeQuestion($questionGUI->object->getId());
 		$reindexedSequencePositionMap = $this->testOBJ->reindexFixedQuestionOrdering();
@@ -398,6 +392,12 @@ class ilTestCorrectionsGUI
 		$this->testOBJ->removeQuestionFromSequences(
 			$questionGUI->object->getId(), $participantData->getActiveIds(), $reindexedSequencePositionMap
 		);
+		
+		// update pass and test results
+		$scoring->updatePassAndTestResults($participantData->getActiveIds());
+		
+		// trigger learning progress
+		ilLPStatusWrapper::_refreshStatus($this->testOBJ->getId(), $participantData->getUserIds());
 		
 		// finally delete the question itself
 		$questionGUI->object->delete($questionGUI->object->getId());

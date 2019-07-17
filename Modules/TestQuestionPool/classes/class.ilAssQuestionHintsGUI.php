@@ -90,6 +90,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		$ilCtrl = $DIC['ilCtrl'];
 		$ilTabs = $DIC['ilTabs'];
 		$lng = $DIC['lng'];
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenIdComponent('qpl');
 
 		require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
 		$DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");

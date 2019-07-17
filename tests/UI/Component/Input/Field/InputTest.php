@@ -9,8 +9,6 @@ use \ILIAS\UI\Implementation\Component\Input\Field\Input;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\Data\Factory as DataFactory;
-use \ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use \ILIAS\Refinery\Validation\Factory as ValidationFactory;
 use \ILIAS\Data\Result;
 
 class DefInput extends Input {
@@ -83,11 +81,21 @@ class DefInputData implements InputData {
  */
 class InputTest extends ILIAS_UI_TestBase {
 
+	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
 	public function setUp(): void{
 		$this->data_factory = new DataFactory();
-		$this->transformation_factory = new TransformationFactory();
-		$this->validation_factory = new ValidationFactory($this->data_factory, $this->createMock(\ilLanguage::class));
-		$this->input = new DefInput($this->data_factory, $this->validation_factory, $this->transformation_factory, "label", "byline");
+		$language = $this->createMock(\ilLanguage::class);
+		$this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $language);
+		$this->input = new DefInput(
+			$this->data_factory,
+			$this->refinery,
+			"label",
+			"byline"
+		);
 		$this->name_source = new DefNamesource();
 	}
 
@@ -218,7 +226,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withAdditionalTransformation($this->transformation_factory->custom(function ($v) use ($value, $transform_to) {
+		$input2 = $input->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 
 				return $transform_to;
@@ -241,7 +249,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withInput($values)->withAdditionalTransformation($this->transformation_factory->custom(function ($v) use (
+		$input2 = $input->withInput($values)->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (
 				$value,
 				$transform_to
 			) {
@@ -267,7 +275,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withAdditionalConstraint($this->validation_factory->custom(function ($_) { return true; }, $error))->withInput($values);
+		$input2 = $input->withAdditionalTransformation($this->refinery->custom()->constraint(function ($_) { return true; }, $error))->withInput($values);
 		$res = $input2->getContent();
 
 		$this->assertInstanceOf(Result::class, $res);
@@ -287,7 +295,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withAdditionalConstraint($this->validation_factory->custom(function ($_) { return false; }, $error))->withInput($values);
+		$input2 = $input->withAdditionalTransformation($this->refinery->custom()->constraint(function ($_) { return false; }, $error))->withInput($values);
 		$res = $input2->getContent();
 
 		$this->assertInstanceOf(Result::class, $res);
@@ -301,13 +309,20 @@ class InputTest extends ILIAS_UI_TestBase {
 
 
 	public function test_withInput_and_constraint_fails_different_order() {
+		$rc = $this->refinery->custom();
+
 		$name = "name_0";
 		$value = "value";
 		$error = "an error";
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withInput($values)->withAdditionalConstraint($this->validation_factory->custom(function ($_) { return false; }, $error));
+		$input2 = $input
+			->withInput($values)
+			->withAdditionalTransformation($rc->constraint(function ($_) {
+				return false;
+			}, $error));
+
 		$res = $input2->getContent();
 
 		$this->assertInstanceOf(Result::class, $res);
@@ -328,11 +343,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withAdditionalTransformation($this->transformation_factory->custom(function ($v) use ($value, $transform_to) {
+		$input2 = $input->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 
 				return $transform_to;
-			}))->withAdditionalConstraint($this->validation_factory->custom(function ($v) use ($transform_to) {
+			}))->withAdditionalTransformation($this->refinery->custom()->constraint(function ($v) use ($transform_to) {
 				$this->assertEquals($transform_to, $v);
 
 				return true;
@@ -357,14 +372,14 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withInput($values)->withAdditionalTransformation($this->transformation_factory->custom(function ($v) use (
+		$input2 = $input->withInput($values)->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (
 				$value,
 				$transform_to
 			) {
 				$this->assertEquals($value, $v);
 
 				return $transform_to;
-			}))->withAdditionalConstraint($this->validation_factory->custom(function ($v) use ($transform_to) {
+			}))->withAdditionalTransformation($this->refinery->custom()->constraint(function ($v) use ($transform_to) {
 				$this->assertEquals($transform_to, $v);
 
 				return true;
@@ -389,11 +404,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withAdditionalConstraint($this->validation_factory->custom(function ($v) use ($value) {
+		$input2 = $input->withAdditionalTransformation($this->refinery->custom()->constraint(function ($v) use ($value) {
 				$this->assertEquals($value, $v);
 
 				return true;
-			}, $error))->withAdditionalTransformation($this->transformation_factory->custom(function ($v) use ($value, $transform_to) {
+			}, $error))->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use ($value, $transform_to) {
 				$this->assertEquals($value, $v);
 
 				return $transform_to;
@@ -411,6 +426,8 @@ class InputTest extends ILIAS_UI_TestBase {
 
 
 	public function test_withInput_constraint_fails_and_transformation() {
+		$rc = $this->refinery->custom();
+
 		$name = "name_0";
 		$value = "value";
 		$transform_to = "other value";
@@ -418,11 +435,13 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withAdditionalConstraint($this->validation_factory->custom(function ($v) use ($value) {
+		$input2 = $input
+			->withAdditionalTransformation($rc->constraint(function ($v) use ($value) {
 				$this->assertEquals($value, $v);
 
 				return false;
-			}, $error))->withAdditionalTransformation($this->transformation_factory->custom(function ($v) use ($value, $transform_to) {
+			}, $error))
+			->withAdditionalTransformation($rc->transformation(function ($v) use ($value, $transform_to) {
 				$this->assertFalse("This should not happen");
 
 				return $transform_to;
@@ -447,11 +466,11 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input2 = $input->withInput($values)->withAdditionalConstraint($this->validation_factory->custom(function ($v) use ($value) {
+		$input2 = $input->withInput($values)->withAdditionalTransformation($this->refinery->custom()->constraint(function ($v) use ($value) {
 				$this->assertEquals($value, $v);
 
 				return false;
-			}, $error))->withAdditionalTransformation($this->transformation_factory->custom(function ($v) use ($value, $transform_to) {
+			}, $error))->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use ($value, $transform_to) {
 				$this->assertFalse("This should not happen");
 
 				return $transform_to;
@@ -475,7 +494,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input->requirement_constraint = $this->validation_factory->custom(function ($_) { return false; }, $error);
+		$input->requirement_constraint = $this->refinery->custom()->constraint(function ($_) { return false; }, $error);
 
 		$input2 = $input->withRequired(true)->withInput($values);
 		$res = $input2->getContent();
@@ -497,7 +516,7 @@ class InputTest extends ILIAS_UI_TestBase {
 		$input = $this->input->withNameFrom($this->name_source);
 		$values = new DefInputData([$name => $value]);
 
-		$input->requirement_constraint = $this->validation_factory->custom(function ($_) { return false; }, $error);
+		$input->requirement_constraint = $this->refinery->custom()->constraint(function ($_) { return false; }, $error);
 
 		$input2 = $input->withRequired(true)->withRequired(false)->withInput($values);
 		$res = $input2->getContent();

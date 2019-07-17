@@ -81,7 +81,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // UI framework
 @uibase: "../../src/UI/templates/default/";
 @import "@{uibase}Counter/counter.less";
-@import "@{uibase}Glyph/glyph.less";
 @import "@{uibase}Panel/panel.less";
 @import "@{uibase}Card/card.less";
 @import "@{uibase}Deck/deck.less";
@@ -92,7 +91,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Divider/divider.less";
 @import "@{uibase}Dropdown/dropdown.less";
 @import "@{uibase}Item/item.less";
-@import "@{uibase}Icon/icon.less";
 @import "@{uibase}ViewControl/viewcontrol.less";
 @import "@{uibase}Breadcrumbs/breadcrumbs.less";
 @import "@{uibase}Chart/chart.less";
@@ -105,6 +103,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Layout/layout.less";
 @import "@{uibase}MainControls/maincontrols.less";
 @import "@{uibase}Menu/menu.less";
+@import "@{uibase}Symbol/symbol.less";
 
 @import "less/variables.less";             // customized
 
@@ -119,6 +118,9 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 .bg-primary {
   color: white;
 }
+
+// general multi line cap
+@import "less/multi-line-cap.less";
 
 /* flex grid support start, see http://www.bootply.com/126437 */
 
@@ -1779,6 +1781,7 @@ img.ilSmallIcon {
 }
 span.ilIcalIcon {
 	text-align: initial;
+	font-size: 133%;
 }
 
 /* Component Imports */

@@ -8,13 +8,14 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface StaticMetaBarProvider extends StaticProvider, MetaBarProviderInterface {
+interface StaticMetaBarProvider extends StaticProvider, MetaBarProviderInterface
+{
 
-	const PURPOSE_MBS = "meta_bar_static";
+    const PURPOSE_MBS = "meta_bar_static";
 
 
-	/**
-	 * @return isItem[]
-	 */
-	public function getMetaBarItems(): array;
+    /**
+     * @return isItem[]
+     */
+    public function getMetaBarItems() : array;
 }

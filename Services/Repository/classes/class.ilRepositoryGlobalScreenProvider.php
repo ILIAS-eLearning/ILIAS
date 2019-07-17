@@ -8,127 +8,134 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider {
+class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider
+{
 
-	/**
-	 * @var IdentificationInterface
-	 */
-	protected $top_item;
-
-
-	/**
-	 * ilRepositoryGlobalScreenProvider constructor.
-	 *
-	 * @param \ILIAS\DI\Container $dic
-	 */
-	public function __construct(\ILIAS\DI\Container $dic) {
-		parent::__construct($dic);
-		$this->top_item = $this->if->identifier('rep');
-	}
+    /**
+     * @var IdentificationInterface
+     */
+    protected $top_item;
 
 
-	/**
-	 * Some other components want to provide Items for the main menu which are
-	 * located at the PD TopTitem by default. Therefore we have to provide our
-	 * TopTitem Identification for others
-	 *
-	 * @return IdentificationInterface
-	 */
-	public function getTopItem(): IdentificationInterface {
-		return $this->top_item;
-	}
+    /**
+     * ilRepositoryGlobalScreenProvider constructor.
+     *
+     * @param \ILIAS\DI\Container $dic
+     */
+    public function __construct(\ILIAS\DI\Container $dic)
+    {
+        parent::__construct($dic);
+        $this->top_item = $this->if->identifier('rep');
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getStaticTopItems(): array {
-		$dic = $this->dic;
-
-		return [$this->mainmenu->topParentItem($this->getTopItem())
-			        ->withTitle($this->dic->language()->txt("repository"))
-			        ->withPosition(2)
-			        ->withVisibilityCallable(
-				        function () use ($dic) {
-					        return (bool)($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID));
-				        }
-			        )];
-	}
+    /**
+     * Some other components want to provide Items for the main menu which are
+     * located at the PD TopTitem by default. Therefore we have to provide our
+     * TopTitem Identification for others
+     *
+     * @return IdentificationInterface
+     */
+    public function getTopItem() : IdentificationInterface
+    {
+        return $this->top_item;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getStaticSubItems(): array {
-		$dic = $this->dic;
+    /**
+     * @inheritDoc
+     */
+    public function getStaticTopItems() : array
+    {
+        $dic = $this->dic;
 
-		$title = function () use ($dic): string {
-			try {
-				$nd = $dic['tree']->getNodeData(ROOT_FOLDER_ID);
-				$title = ($nd["title"] === "ILIAS" ? $dic->language()->txt("repository") : $nd["title"]);
-				$icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
-			} catch (InvalidArgumentException $e) {
-				return "";
-			}
+        return [
+            $this->mainmenu->topParentItem($this->getTopItem())
+                ->withTitle($this->dic->language()->txt("repository"))
+                ->withPosition(2)
+                ->withVisibilityCallable(
+                    function () use ($dic) {
+                        return (bool) ($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID));
+                    }
+                ),
+        ];
+    }
 
-			return $title . " - " . $dic->language()->txt("rep_main_page");
-		};
 
-		$action = function (): string {
-			try {
-				$static_link = ilLink::_getStaticLink(1, 'root', true);
-			} catch (InvalidArgumentException $e) {
-				return "";
-			}
+    /**
+     * @inheritDoc
+     */
+    public function getStaticSubItems() : array
+    {
+        $dic = $this->dic;
 
-			return $static_link;
-		};
+        $title = function () use ($dic): string {
+            try {
+                $nd = $dic['tree']->getNodeData(ROOT_FOLDER_ID);
+                $title = ($nd["title"] === "ILIAS" ? $dic->language()->txt("repository") : $nd["title"]);
+                $icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
+            } catch (InvalidArgumentException $e) {
+                return "";
+            }
 
-		$entries[] = $this->mainmenu->link($this->if->identifier('rep_main_page'))
-			->withTitle($title())
-			->withAction($action())
-			->withParent($this->getTopItem());
+            return $title . " - " . $dic->language()->txt("rep_main_page");
+        };
 
-		// LastVisited
-		$links = function (): array {
-			$items = [];
-			if (isset($this->dic['ilNavigationHistory'])) {
-				$items = $this->dic['ilNavigationHistory']->getItems();
-			}
-			$links = [];
-			reset($items);
-			$cnt = 0;
-			$first = true;
+        $action = function () : string {
+            try {
+                $static_link = ilLink::_getStaticLink(1, 'root', true);
+            } catch (InvalidArgumentException $e) {
+                return "";
+            }
 
-			foreach ($items as $k => $item) {
-				if ($cnt >= 10) {
-					break;
-				}
+            return $static_link;
+        };
 
-				if (!isset($item["ref_id"]) || !isset($_GET["ref_id"])
-					|| ($item["ref_id"] != $_GET["ref_id"] || !$first)
-				)            // do not list current item
-				{
-					$ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-					$links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
-						->withTitle( $ititle)
-						->withIcon($this->dic->ui()->factory()->icon()->standard($item['type'], $item['type']))
-						->withAction($item["link"]);
-				}
-				$first = false;
-			}
+        $entries[] = $this->mainmenu->link($this->if->identifier('rep_main_page'))
+            ->withTitle($title())
+            ->withAction($action())
+            ->withParent($this->getTopItem());
 
-			return $links;
-		};
-		$entries[] = $this->mainmenu->linkList($this->if->identifier('last_visited'))
-			->withLinks($links)
-			->withTitle($this->dic->language()->txt('last_visited'))
-			->withParent($this->getTopItem())->withVisibilityCallable(
-				function () use ($dic) {
-					return ($dic->user()->getId() != ANONYMOUS_USER_ID);
-				}
-			);
+        // LastVisited
+        $links = function () : array {
+            $items = [];
+            if (isset($this->dic['ilNavigationHistory'])) {
+                $items = $this->dic['ilNavigationHistory']->getItems();
+            }
+            $links = [];
+            reset($items);
+            $cnt = 0;
+            $first = true;
 
-		return $entries;
-	}
+            foreach ($items as $k => $item) {
+                if ($cnt >= 10) {
+                    break;
+                }
+
+                if (!isset($item["ref_id"]) || !isset($_GET["ref_id"])
+                    || ($item["ref_id"] != $_GET["ref_id"] || !$first)
+                )            // do not list current item
+                {
+                    $ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
+                    $links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
+                        ->withTitle($ititle)
+                        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard($item['type'], $item['type']))
+                        ->withAction($item["link"]);
+                }
+                $first = false;
+            }
+
+            return $links;
+        };
+        $entries[] = $this->mainmenu->linkList($this->if->identifier('last_visited'))
+            ->withLinks($links)
+            ->withTitle($this->dic->language()->txt('last_visited'))
+            ->withParent($this->getTopItem())->withVisibilityCallable(
+                function () use ($dic) {
+                    return ($dic->user()->getId() != ANONYMOUS_USER_ID);
+                }
+            );
+
+        return $entries;
+    }
 }

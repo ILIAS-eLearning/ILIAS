@@ -6,16 +6,16 @@
 
 # API
 
-##Repository Objects as Assignments
+## Repository Objects as Assignments
 
-####Step 1 [WIP]
+#### Step 1 [WIP]
 
 - Provide an implementation of `ilExAssignmentTypeInterface` under Exercise/AssignmentTypes/classes (this should be decentralized in the future)
 - Provide an implenetation of ilExAssignmentTypeGUIInterface under Exercise/AssignmentTypes/GUI/classes
 
 In both cases you need to add your classes to the factory methods in `ilExAssignmentTypes` and `ilExAssignmentTypesGUI`.
 
-####Step 2 [WIP]
+#### Step 2 [WIP]
 
 In your repository object use...
 
@@ -35,20 +35,20 @@ This section documents the general concepts and structures of the Exercise Modul
 * [Criteria Catalog](#criteria-catalog)
 
 
-##Exercise
+## Exercise
 
-##Assignment
+## Assignment
 
-##Assignment Types
+## Assignment Types
 
-##Member
+## Member
 
-##Team
+## Team
 
-##Assignment Member State
+## Assignment Member State
 
-##Submission
+## Submission
 
-##Peer Review
+## Peer Review
 
-##Criteria Catalog
+## Criteria Catalog

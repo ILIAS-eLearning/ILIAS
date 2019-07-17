@@ -78,7 +78,6 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel {
 			$media_item->setLocationType("LocalFile");
 
 			// FSX MediaPreview
-			include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
 			if (ilFFmpeg::enabled() && ilFFmpeg::supportsImageExtraction($format)) {
 				$med = $mob->getMediaItem("Standard");
 				$mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();

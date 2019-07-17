@@ -539,19 +539,14 @@ class ilLinkChecker
 					continue;
 				}
 
+				$curl = null;
 				$http_code = 0;
 				$c_error_no = 0;
+
 				try
 				{
 					$curl = new ilCurlConnection($link['complete']);
 					$curl->init();
-
-					if(ilProxySettings::_getInstance()->isActive())
-					{
-						$curl->setOpt(CURLOPT_HTTPPROXYTUNNEL,true );
-						$curl->setOpt(CURLOPT_PROXY, ilProxySettings::_getInstance()->getHost());
-						$curl->setOpt(CURLOPT_PROXYPORT, ilProxySettings::_getInstance()->getPort());
-					}
 
 					$curl->setOpt( CURLOPT_HEADER, 1);
 					$curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
@@ -566,6 +561,13 @@ class ilLinkChecker
 				{
 					$c_error_no = $e->getCode();
 					ilLoggerFactory::getLogger('lchk')->error('LinkChecker: No valid http code received. Curl error ('.$e->getCode().'): ' . $e->getMessage());
+				}
+				finally
+				{
+					if ($curl != null)
+					{
+						$curl->close();
+					}
 				}
 
 				switch($http_code)

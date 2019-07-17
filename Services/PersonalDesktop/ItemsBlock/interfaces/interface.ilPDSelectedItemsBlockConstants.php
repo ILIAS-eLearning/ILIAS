@@ -13,4 +13,7 @@ interface ilPDSelectedItemsBlockConstants
 	const SORT_BY_TYPE       = 'type';
 	const SORT_BY_LOCATION   = 'location';
 	const SORT_BY_START_DATE = 'start_date';
+
+	const PRESENTATION_LIST = "list";
+	const PRESENTATION_TILE = "tile";
 }

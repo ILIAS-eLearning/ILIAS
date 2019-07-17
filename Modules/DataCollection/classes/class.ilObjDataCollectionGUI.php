@@ -46,8 +46,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		$DIC->language()->loadLanguageModule("dcl");
 
-		if (isset($_REQUEST['table_id'])) {
-			$this->table_id = $_REQUEST['table_id'];
+		if (isset($_GET['table_id'])) {
+			$this->table_id = $_GET['table_id'];
 		} elseif (isset($_GET['tableview_id'])) {
 			$this->table_id = ilDclTableView::find($_GET['tableview_id'])->getTableId();
 		} elseif ($a_id > 0) {

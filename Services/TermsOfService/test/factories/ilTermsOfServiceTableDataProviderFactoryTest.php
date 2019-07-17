@@ -1,77 +1,81 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTermsOfServiceTableDataProviderFactoryTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceTableDataProviderFactoryTest extends \ilTermsOfServiceBaseTest
+class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseTest
 {
-	/**
-	 * @return \ilTermsOfServiceTableDataProviderFactory
-	 */
-	public function testInstanceCanBeCreated()
-	{
-		$factory = new \ilTermsOfServiceTableDataProviderFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
+    /**
+     * @return ilTermsOfServiceTableDataProviderFactory
+     * @throws ReflectionException
+     */
+    public function testInstanceCanBeCreated() : ilTermsOfServiceTableDataProviderFactory
+    {
+        $factory = new ilTermsOfServiceTableDataProviderFactory();
+        $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
 
-		$this->assertInstanceOf('ilTermsOfServiceTableDataProviderFactory', $factory);
+        $this->assertInstanceOf('ilTermsOfServiceTableDataProviderFactory', $factory);
 
-		return $factory;
-	}
+        return $factory;
+    }
 
-	/**
-	 * @depends           testInstanceCanBeCreated
-	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
-	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
-	 */
-	public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(
-		\ilTermsOfServiceTableDataProviderFactory $factory
-	) {
-		$this->expectException(\InvalidArgumentException::class);
+    /**
+     * @depends           testInstanceCanBeCreated
+     * @param ilTermsOfServiceTableDataProviderFactory $factory
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(
+        ilTermsOfServiceTableDataProviderFactory $factory
+    ) : void {
+        $this->expectException(InvalidArgumentException::class);
 
-		$factory->getByContext('PHP unit');
-	}
+        $factory->getByContext('PHP unit');
+    }
 
-	/**
-	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
-	 * @depends           testInstanceCanBeCreated
-	 */
-	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(
-		\ilTermsOfServiceTableDataProviderFactory $factory
-	) {
-		$db = $this->getMockBuilder(\ilDBInterface::class)->getMock();
-		$factory->setDatabaseAdapter($db);
+    /**
+     * @param ilTermsOfServiceTableDataProviderFactory $factory
+     * @depends           testInstanceCanBeCreated
+     * @throws ReflectionException
+     */
+    public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(
+        ilTermsOfServiceTableDataProviderFactory $factory
+    ) : void {
+        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $factory->setDatabaseAdapter($db);
 
-		$this->assertEquals($db, $factory->getDatabaseAdapter());
-	}
+        $this->assertEquals($db, $factory->getDatabaseAdapter());
+    }
 
-	/**
-	 * @depends           testInstanceCanBeCreated
-	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
-	 */
-	public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(
-		\ilTermsOfServiceTableDataProviderFactory $factory
-	) {
-		$this->expectException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
+    /**
+     * @depends           testInstanceCanBeCreated
+     * @param ilTermsOfServiceTableDataProviderFactory $factory
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(
+        ilTermsOfServiceTableDataProviderFactory $factory
+    ) : void {
+        $this->expectException(ilTermsOfServiceMissingDatabaseAdapterException::class);
 
-		$factory->setDatabaseAdapter(null);
-		$factory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
-	}
+        $factory->setDatabaseAdapter(null);
+        $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
+    }
 
-	/**
-	 * @param \ilTermsOfServiceTableDataProviderFactory $factory
-	 * @depends           testInstanceCanBeCreated
-	 * @throws \ilTermsOfServiceMissingDatabaseAdapterException
-	 */
-	public function testFactoryShouldReturnAcceptanceHistoryProviderWhenRequested(
-		\ilTermsOfServiceTableDataProviderFactory $factory
-	) {
-		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
+    /**
+     * @param ilTermsOfServiceTableDataProviderFactory $factory
+     * @depends           testInstanceCanBeCreated
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     * @throws ReflectionException
+     */
+    public function testFactoryShouldReturnAcceptanceHistoryProviderWhenRequested(
+        ilTermsOfServiceTableDataProviderFactory $factory
+    ) : void {
+        $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
 
-		$this->assertInstanceOf(
-			'ilTermsOfServiceAcceptanceHistoryProvider',
-			$factory->getByContext(\ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY)
-		);
-	}
+        $this->assertInstanceOf(
+            'ilTermsOfServiceAcceptanceHistoryProvider',
+            $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY)
+        );
+    }
 }

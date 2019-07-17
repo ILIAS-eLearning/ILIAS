@@ -426,10 +426,12 @@ class ilBookingReservation
 		$to = $ilDB->quote($a_to, 'integer');				
 		
 		// all bookings in period
+		$now = time();
 		$set = $ilDB->query('SELECT count(*) cnt'.
 			' FROM booking_reservation'.
 			' WHERE object_id = '.$ilDB->quote($a_obj_id, 'integer').
 			' AND (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
+			' AND date_to > '.$now.
 			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
 			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
 			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))');			
@@ -484,8 +486,12 @@ class ilBookingReservation
 			
 			$a_from += (60*60*24);						
 		}
-				
-		return (bool)($available_in_period-$booked_in_period);
+
+		if($available_in_period - $booked_in_period > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	//check if the user reached the limit of bookings in this booking pool.

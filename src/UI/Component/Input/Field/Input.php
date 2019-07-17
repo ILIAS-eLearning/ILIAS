@@ -5,8 +5,7 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Validation\Constraint;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\OnUpdateable;
 
@@ -149,16 +148,6 @@ interface Input extends Component, JavaScriptBindable, OnUpdateable {
 	 * @return    Input
 	 */
 	public function withAdditionalTransformation(Transformation $trafo);
-
-
-	/**
-	 * Apply a constraint to the content of the input.
-	 *
-	 * @param    Constraint $constraint
-	 *
-	 * @return    Input
-	 */
-	public function withAdditionalConstraint(Constraint $constraint);
 
 
 	/**

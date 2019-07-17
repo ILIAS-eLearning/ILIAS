@@ -13,8 +13,14 @@ use ILIAS\Data\Result;
 trait DeriveTransformFromApplyTo
 {
 	/**
-	 * @param mixed $from
+	 * @param Result $result
 	 * @return Result
+	 */
+	abstract public function applyTo(Result $result) : Result;
+
+	/**
+	 * @param mixed $from
+	 * @return mixed
 	 * @throws \Exception
 	 */
 	public function transform($from)

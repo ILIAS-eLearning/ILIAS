@@ -64,21 +64,33 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel {
 		$n_ref = $this->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE);
 
 		$join_str
-			= " INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
+			= " LEFT JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
 			. $ilDB->quote($this->getId(), 'integer') . ") ";
+		$join_str .= " LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id) ";
 
-		if ($n_ref) {
-			$join_str
-				.= " INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value LIKE "
-				. $ilDB->quote("%$filter_value%", 'text') . ") ";
-		} else {
-			$join_str
-				.= " INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value = "
-				. $ilDB->quote($filter_value, 'integer') . ") ";
+		$where_str = " AND ";
+
+		if ($filter_value == 'none') {
+			$where_str .= "("
+				. "filter_stloc_{$this->getId()}.value IS NULL "
+				. " OR filter_stloc_{$this->getId()}.value = " . $ilDB->quote("", 'text')
+				. " OR filter_stloc_{$this->getId()}.value = " . $ilDB->quote("[]", 'text')
+				. ") ";
+		} else{
+			if ($n_ref) {
+				$where_str
+					.= " filter_stloc_{$this->getId()}.value LIKE "
+					. $ilDB->quote("%$filter_value%", 'text');
+			} else {
+				$where_str
+					.= " filter_stloc_{$this->getId()}.value = "
+					. $ilDB->quote($filter_value, 'integer');
+			}
 		}
 
 		$sql_obj = new ilDclRecordQueryObject();
 		$sql_obj->setJoinStatement($join_str);
+		$sql_obj->setWhereStatement($where_str);
 
 		return $sql_obj;
 	}

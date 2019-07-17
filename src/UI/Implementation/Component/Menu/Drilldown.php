@@ -16,7 +16,7 @@ class Drilldown extends LabeledMenu implements IMenu\Drilldown
 	use JavaScriptBindable;
 
 	/**
-	 * @var \ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph
+	 * @var \ILIAS\UI\Component\Symbol\Icon\Icon | \ILIAS\UI\Component\Symbol\Glyph\Glyph
 	 */
 	protected $back_icon;
 

@@ -6,15 +6,14 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
+use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use ILIAS\Refinery\Validation\Constraint;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -31,13 +30,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	protected $data_factory;
 	/**
-	 * @var    ValidationFactory
+	 * @var Factory
 	 */
-	protected $validation_factory;
-	/**
-	 * @var TransformationFactory
-	 */
-	protected $transformation_factory;
+	protected $refinery;
 	/**
 	 * @var string
 	 */
@@ -80,7 +75,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	protected $content = null;
 	/**
-	 * @var (Transformation|Constraint)[]
+	 * @var Transformation[]
 	 */
 	private $operations;
 
@@ -88,22 +83,19 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * Input constructor.
 	 *
-	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
-	 * @param TransformationFactory $transformation_factory
+	 * @param DataFactory $data_factory
+	 * @param Factory $refinery
 	 * @param                       $label
 	 * @param                       $byline
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
+		Factory $refinery,
 		$label,
 		$byline
 	) {
 		$this->data_factory = $data_factory;
-		$this->validation_factory = $validation_factory;
-		$this->transformation_factory = $transformation_factory;
+		$this->refinery = $refinery;
 		$this->checkStringArg("label", $label);
 		if ($byline !== null) {
 			$this->checkStringArg("byline", $byline);
@@ -280,9 +272,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 		$this->error = $error;
 	}
 
-	// These are the ways in which a consumer can define how client side
-	// input is processed.
-
 	/**
 	 * Apply a transformation to the current or future content.
 	 *
@@ -311,42 +300,11 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	protected function setAdditionalTransformation(Transformation $trafo) {
 		$this->operations[] = $trafo;
 		if ($this->content !== null) {
-			$this->content = $this->content->map($trafo);
-		}
-	}
-
-
-	/**
-	 * Apply a constraint to the current or the future content.
-	 *
-	 * @param    Constraint $constraint
-	 *
-	 * @return    Input
-	 */
-	public function withAdditionalConstraint(Constraint $constraint) {
-		$clone = clone $this;
-		$clone->setAdditionalConstraint($constraint);
-
-		return $clone;
-	}
-
-
-	/**
-	 * Apply a constraint to the current or the future content.
-	 *
-	 * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
-	 * `withAdditionalConstraint` does not work, i.e. in the constructor.
-	 *
-	 * @param    Constraint $constraint
-	 *
-	 * @return    void
-	 */
-	protected function setAdditionalConstraint(Constraint $constraint) {
-		$this->operations[] = $constraint;
-		if ($this->content !== null) {
-			$this->content = $constraint->applyTo($this->content);
+			if(!$this->content->isError()) {
+				$this->content = $trafo->applyTo($this->content);
+			}
 			if ($this->content->isError()) {
-				$this->setError("" . $this->content->error());
+				$this->setError($this->content->error());
 			}
 		}
 	}
@@ -432,14 +390,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($res->isError()) {
 				return $res;
 			}
-
-			// TODO: I could make this go away by giving Transformation and
-			// Constraint a common interface for that.
-			if ($op instanceof Transformation) {
-				$res = $res->map($op);
-			} elseif ($op instanceof Constraint) {
-				$res = $op->applyTo($res);
-			}
+			$res = $op->applyTo($res);
 		}
 
 		return $res;
@@ -449,7 +400,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * Get the operations that should be performed on the input.
 	 *
-	 * @return \Generator <Transformation|Constraint>
+	 * @return \Generator<Transformation>
 	 */
 	private function getOperations() {
 		if ($this->isRequired()) {

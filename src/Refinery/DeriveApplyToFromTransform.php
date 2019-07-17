@@ -5,12 +5,19 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 
-namespace ILIAS\In\Transformation;
+namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
 
 trait DeriveApplyToFromTransform
 {
+	/**
+	 * @param mixed $from
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	abstract public function transform($from);
+
 	/**
 	 * @param Result $result
 	 * @return Result

@@ -82,6 +82,26 @@ auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
+obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
+obj#:#obj_tool_setting_filter#:#Filter
+obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter "Inhalte" angezeigt.
+obj#:#obj_tool_setting_filter_empty#:#Anzeige bei leerem Filter
+obj#:#obj_tool_setting_filter_empty_info#:#Zeigt alle Elemente, wenn der Filter leer ist.
+cont#:#cont_std_filter_title_1#:#Titel
+cont#:#cont_std_filter_title_2#:#Beschreibung
+cont#:#cont_std_filter_title_3#:#Titel/Beschreibung
+cont#:#cont_std_filter_title_4#:#Schlagwort
+cont#:#cont_std_filter_title_5#:#Autor
+cont#:#cont_std_filter_title_6#:#Copyright
+cont#:#cont_std_filter_title_7#:#Tutorielle Betreuung
+cont#:#cont_std_filter_title_8#:#Objekttyp
+cont#:#cont_filter#:#Filter
+cont#:#cont_select_fields#:#Felder auswählen
+cont#:#cont_std_record_title#:#Standard
+cont#:#cont_filter_record#:#Datensatz
+cont#:#cont_filter_field#:#Feld
+cont#:#cont_filter_fields#:#Filterfelder
+cont#:#cont_show_more#:#Mehr anzeigen
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern an LTI-Tool-Consumer.
@@ -174,9 +194,6 @@ forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf lös
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#publish#:#Veröffentlichen
-forum#:#frm_my_posting_drafts#:#Meine Beitragsentwürfe
-forum#:#frm_posting_draft#:#Entwurf
-forum#:#frm_posting_drafts#:#Entwürfe
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
 forum#:#enable_send_attachments_desc#:#Bitte beachten Sie, dass Datei-Anhänge für jeden benachrichtigten Benutzer separat gespeichert werden müssen, sofern die Zustellung auch als interne Nachricht erfolgt. Dies kann eine sehr hohe Belegung des Festplattenspeichers auf dem Server hervorrufen.
 forum#:#adm_save_drafts#:#Entwürfe speichern
@@ -184,6 +201,7 @@ forum#:#adm_save_drafts_desc#:#Wenn aktiviert, können angemeldete Benutzer Beit
 forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
+forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
 common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
 itgr#:#itgr_show_title#:#Titel anzeigen
@@ -866,7 +884,7 @@ assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet.<br />Die Mindestanzahl für zugewiesene Fragen: %s
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
@@ -1940,8 +1958,6 @@ certificate#:#download_certificate#:#Zertifikat herunterladen
 certificate#:#cert_form_sec_availability#:#Verfügbarkeit
 certificate#:#cert_form_sec_layout#:#Layout und Text
 certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
-common#:#chat_chatviewer#:#Chatviewer
-chatroom#:#chat_enable_autoscroll#:#Automatisches Scrollen aktivieren
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
@@ -3306,7 +3322,6 @@ common#:#mail_send_error#:#Fehler beim Verschicken der Mail
 common#:#mail_sent#:#Ihre Mail wurde versandt
 common#:#mail_settings#:#Mail-Einstellungen
 rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen senden
-rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
 common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt)
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
@@ -3643,6 +3658,14 @@ common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
+common#:#obj_tool_setting_calendar#:#Kalender
+common#:#obj_tool_setting_calendar_info#:#Der Kalender ist aktiviert und der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
+common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
+common#:#obj_tool_setting_news#:#Neuigkeiten
+common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tos#:#Nutzungsvereinbarungen
+common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
 common#:#obj_trac_desc#:#Statistik- und Lernfortschrittseinstellungen und Übersicht
 common#:#obj_tst#:#Test
@@ -3734,7 +3757,7 @@ common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
 common#:#password_allow_chars#:#Erlaubte Zeichen: %s
 common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmeldeseite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
-common#:#password_change_on_first_login_demand#:#Ihr Erstpasswort muss geändert werden, bevor Sie ILIAS nutzen können.
+common#:#password_change_on_first_login_demand#:#Ihr Passwort muss geändert werden, bevor Sie ILIAS nutzen können.
 common#:#password_contains_invalid_chars#:#Das Passwort enthält ungültige Zeichen.
 common#:#password_empty#:#Das Passwort darf nicht leer sein.
 common#:#password_expired#:#Ihr Passwort ist abgelaufen und muss geändert werden, da es zuletzt vor %s Tag(en) geändert wurde.
@@ -3755,7 +3778,6 @@ common#:#path_to_java#:#JAVA-Befehlszeile
 common#:#path_to_unzip#:#UNZIP-Befehlszeile
 common#:#path_to_zip#:#ZIP-Befehlszeile
 common#:#pathes#:#Pfade
-common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pdf_export#:#PDF-Export
 common#:#perm_settings#:#Rechte
@@ -4097,7 +4119,6 @@ common#:#show_filter#:#Filter anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
-common#:#show_system_messages#:#Systemnachrichten
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#side_frame#:#Rahmen Baumansicht
 common#:#signature#:#Signatur
@@ -4177,7 +4198,6 @@ common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_information#:#Systeminformation
 common#:#system_language#:#Systemsprache
-common#:#system_message#:#Systemnachrichten
 common#:#system_styles#:#System-Styles
 common#:#systemcheck_cron#:#System Check per Cron-Job
 common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cron-Job
@@ -6136,6 +6156,26 @@ exc#:#exc_portfolio_returned#:#Portfolio zur Übungseinheit
 exc#:#exc_portfolio_selected#:#Das Portfolio wurde zugeordnet.
 exc#:#exc_presentation_order#:#Reihenfolge
 exc#:#exc_public_submission#:#Öffentliche Lösungsabgaben
+exc#:#exc_reminder_cron_ok#:#Erinnerungen wurden verschickt
+exc#:#exc_reminder_end#:#Ende
+exc#:#exc_reminder_feedback_setting#:#Teilnehmer an Peer-Feedbacks erinnern
+exc#:#exc_reminder_feedback_start#:#Start vor Peer-Feedback-Termin
+exc#:#exc_reminder_frequency#:#Frequenz
+exc#:#exc_reminder_grade_body#:#Die folgende Übungseinheit wurde noch nicht bewertet
+exc#:#exc_reminder_grade_setting#:#Erinnerung an notwendige Bewertung
+exc#:#exc_reminder_grade_subject#:#Übungseinheit "%s" wurde nicht berwertet
+exc#:#exc_reminder_mail_no_tpl#:#Keine Mail-Vorlage verwenden
+exc#:#exc_reminder_mail_template#:#Mail-Vorlage
+exc#:#exc_reminder_peer_body#:#Zur folgenden Übungseinheit fehlen noch Rückmeldungen
+exc#:#exc_reminder_peer_subject#:#Zur Übungseinheit "%s" fehlen Rückmeldungen
+exc#:#exc_reminder_salutation#:#Hallo %s,
+exc#:#exc_reminder_start#:#Start vor Abgabetermin
+exc#:#exc_reminder_start_info#:#Alle Mitglieder der übergeordneten Gruppe oder des übergeordneten Kurses werden benachrichtigt.<br>Ohne Kurs oder Gruppe wird niemand benachrichtigt.
+exc#:#exc_reminder_submit_body#:#die folgenden Übungseinheiten wurden von Ihnen noch nicht abgegeben
+exc#:#exc_reminder_submit_setting#:#Teilnehmer an Abgaben erinnern
+exc#:#exc_reminder_submit_subject#:#Übungseinheit "%s" wurde noch nicht abgegeben
+exc#:#exc_reminders_cron#:#Erinnerungen für Übungseinheiten
+exc#:#exc_reminders_cron_info#:#Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks
 exc#:#exc_save_order#:#Reihenfolge speichern
 exc#:#exc_saved_order#:#Reihenfolge gespeichert
 exc#:#exc_select_ass#:#Übungseinheit auswählen
@@ -6637,7 +6677,6 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
-chatroom#:#chatviewer_no_rooms#:#Noch kein Chatraum auswählbar.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
@@ -6758,10 +6797,10 @@ mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
 mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
-mail#:#mail_salutation_f#:#Hallo
+mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Frau'
 mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn keine Anrede angegeben oder gewünscht
-mail#:#mail_salutation_m#:#Hallo
+mail#:#mail_salutation_m#:#Sehr geehrter Herr
 mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Herr'
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
@@ -7682,6 +7721,8 @@ ps#:#ps_grp_user_fields#:#Gruppenspezifische Benutzerdaten
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht.
 ps#:#ps_not_accepted#:#Nicht zugestimmt
+ps#:#ps_passwd_policy_changed_force_user_reset#:#Die Änderungen wurden erfolgreich übernommen. Sie haben mindestens eine Änderung bzgl. der Passwortrichtlinie vorgenommen. Möchten Sie, dass lokale Benutzerkonten nach der nächsten erfolgreichen Anmeldung ein neues Passwort vergeben müssen?
+ps#:#ps_passwd_policy_change_force_user_reset_succ#:#Die Aktion wurde erfolgreich durchgeführt.
 ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erstanmeldung
 ps#:#ps_password_change_on_first_login_enabled_info#:#Zwingt Benutzer, die sich nicht selbst registriert haben, bei der ersten Anmeldung in ILIAS ihr Passwort zu ändern.
 ps#:#ps_password_chars_and_numbers_enabled#:#Buchstaben und Zahlen erzwingen
@@ -7734,11 +7775,13 @@ rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
 rating#:#rating_your_rating#:#Ihre Bewertung
+rbac#:#upload_blacklisted_files#:#Blacklist umgehen
+rbac#:#facs_upload_blacklisted_files#:#Dateien mit indexierten Endungen hochladen
 rbac#:#active_preconditions#:#Definierte Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
-rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändern
+rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändernilStaffGSToolProvider
 rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
 rbac#:#blga_visible#:#Blog-Administration ist sichtbar
 rbac#:#blga_write#:#Einstellungen in Blog-Administration bearbeiten
@@ -9964,7 +10007,6 @@ registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
 registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen. Zum Beispiel "*@ilias.de".  Registrierungscodes heben diese Prüfung auf.
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
-pd#:#block_show_pdsysmess#:#Systemnachrichten anzeigen
 pd#:#block_show_pdtag#:#Tags anzeigen
 pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
@@ -10090,6 +10132,7 @@ dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_all_entries#:#Alle Einträge
+dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
 dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
@@ -10151,8 +10194,6 @@ dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_std_filter#:#Filtervorbelegung
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
 dcl#:#dcl_filter_changeable#:#Filter änderbar
-common#:#obj_tool_setting_calendar#:#Kalender
-common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
 crs#:#crs_copy#:#Kurs kopieren
 cat#:#cat_copy#:#Kategorie kopieren
 grp#:#grp_copy#:#Gruppe kopieren
@@ -10431,8 +10472,6 @@ ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
 webr#:#invalid_links_tbl#:#Ungültige Links
-common#:#obj_tool_setting_news#:#Neuigkeiten
-common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
 rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
@@ -10518,8 +10557,6 @@ content#:#cont_anonymous_user_missing_perm#:#Nicht angemeldete Benutzer haben ak
 rbac#:#itgr_visible#:#Objektblock ist sichtbar
 content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgeführt werden, welche innerhalb dieses Glossares definiert wurden.
 common#:#edited_on#:#Bearbeitet am
-common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
-common#:#obj_tos#:#Nutzungsvereinbarungen
 tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
 tos#:#tos_agreement_documents_tab_label#:#Nutzungsvereinbarungen
@@ -10588,7 +10625,7 @@ tos#:#tos_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekr
 tos#:#tos_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
 tos#:#tos_crit_type_usr_global_role#:#Globale Rolle
 tos#:#tos_crit_type_usr_global_role_info#:#Das Dokument muss akzeptiert werden, wenn ein Benutzer beim ersten Login in diese Rolle eingetragen ist. Eine nachträgliche Änderung der Rolle führt nicht automatisch zur Vorlage eines neuen Dokuments.
-tos#:#tos_crit_type_usr_language#:#Bbenutzersprache
+tos#:#tos_crit_type_usr_language#:#Benutzersprache
 tos#:#tos_crit_type_usr_language_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login diese Sprache gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
@@ -10978,8 +11015,6 @@ file#:#repository_disk_quota#:#Disk-Quota für Magazin
 file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
 file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
-pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
-pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
 blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
@@ -11731,7 +11766,6 @@ obj#:#obj_presentation#:#Darstellung
 mcst#:#mcst_webfeed#:#RSS-Webfeed
 news#:#news_news_item_def_visibility_users_info#:#Neuigkeiten sind nur authentifizierten Benutzern zugänglich.
 news#:#news_news_item_def_visibility_public_info#:#Neuigkeiten sind in einem öffentlichen RSS-Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
-chatroom#:#room_in_container#:#%s (in: %s)
 common#:#obj_crsv#:#Kurszertifikat
 wsp#:#wsp_type_crsv#:#Zertifikat: Kurs
 wsp#:#wsp_list_crsv#:#Kurszertifikat
@@ -12908,8 +12942,6 @@ blog#:#blog_contributors#:#Mitwirkende
 meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
-common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
-common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
 meta#:#meta_section#:#Bereich
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
@@ -13519,9 +13551,6 @@ skmg#:#skmg_input_file#:#Importdatei
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 form#:#form_no_link#:#Kein Link
 copg#:#copg_sec_link_info#:#Wenn Sie einen Link auf den kompletten Block setzen, stellen Sie bitte sicher, dass der Block keine weiteren interaktiven Elemente (z.B. andere Links) enthält. Deren Funktion ist nicht gewährleistet.
-pd#:#pd_sys_msg_own_block#:#Systemnachrichten im eigenen Block anzeigen
-pd#:#pd_sys_msg_mail_block#:#Systemnachrichten im Block "Mail" anzeigen
-pd#:#pd_sys_msg_no_block#:#Keine Systemnachrichten auf Schreibtisch anzeigen
 logging#:#log_error_message#:#Entschuldigung, es ist ein Fehler aufgetreten. Eine Logdatei wurde erzeugt, die über den Error Code "%s" identifiziert werden kann.
 logging#:#log_error_message_send_mail#:# Bitte wenden Sie sich an <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Dateipfad
@@ -13995,7 +14024,7 @@ chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversatio
 chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
 usr#:#user_actions#:#Benutzeraktionen
-usr#:#user_action#:#Benuzteraktion
+usr#:#user_action#:#Benutzeraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
 chatroom#:#chtr_server_status#:#Server-Status
@@ -14483,6 +14512,8 @@ content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
 common#:#obj_fold_duplicate#:#Ordner kopieren
 common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
+file#:#file_suffix_custom_expl_black#:#Verbotene Dateiendungen
+file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
 file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
 file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
 file#:#file_suffix_custom_black#:#Dateiendungen: Negativliste (Anpassungen)
@@ -14512,6 +14543,7 @@ copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 adve#:#adve_grp_copa#:#Inhaltsseiten
+common#:#msg_info_blacklisted#:#Bitte entschuldigen Sie!  Sie dürfen die Datei aus Sicherheitsgründen nicht hochladen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
@@ -14531,35 +14563,7 @@ exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
 exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
-exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
-exc#:#exc_reminder_start#:#Start Reminders before Deadline
-exc#:#exc_reminder_start_info#:#All members of the parent course/group will be sent reminders.<br>No parent course/group girven - no reminder will be sent!
-exc#:#exc_reminder_frequency#:#Frequency
-exc#:#exc_reminder_grade_setting#:#Remind Tutors to Grade
-exc#:#exc_reminder_feedback_setting#:#Remind Participants to Feedback
-exc#:#exc_reminder_feedback_start#:#Start Reminders before Feedback Deadline
-exc#:#exc_reminders_cron#:#Reminders for Assignments
-exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
-exc#:#exc_reminder_end#:#Reminder ends
-exc#:#exc_reminder_mail_template#:#Mail Template
-exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
-exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
-exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
-exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
-exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
-exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
-exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
-exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
-exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
-exc#:#exc_reminder_salutation#:#Hello %s,
-exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
-exc#:#exc_reminder_grade_subject#:#Assignment "%s" was not graded
-exc#:#exc_reminder_peer_subject#:#Assignment "%s" has no feedback
-exc#:#exc_reminder_submit_body#:#the following assignment has not been finished by you yet
-exc#:#exc_reminder_grade_body#:#the following assignment has not been graded by you yet
-exc#:#exc_reminder_peer_body#:#the following assignment has no feedback from you yet
 exc#:#exc_reminder_link#:#URL
-exc#:#exc_reminder_cron_ok#:#Reminders sent:
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
 badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
@@ -14573,6 +14577,9 @@ mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
 mme#:#tab_back#:#Zurück
 mme#:#topitem_add#:#Haupteintrag hinzufügen
+mme#:#restore#:#Hauptmenu zurücksetzen
+mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
+mme#:#msg_restored#:#Hauptmenu zurückgesetzt
 mme#:#topitem_edit#:#Bearbeiten
 mme#:#topitem_delete#:#Löschen
 mme#:#topitem_translate#:#Übersetzen
@@ -14644,9 +14651,9 @@ pd#:#pd_enable_learning_history#:#Lernverlauf
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
-sess#:#sess_filter_all_types#:#All types
-sess#:#sess_filter_not_assigned#:#Not Assigned
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_filter_all_types#:#Alle Objekttypen
+sess#:#sess_filter_not_assigned#:#Nicht zugeordnet
+sess#:#sess_is_assigned#:#Zugeordnet
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 wiki#:#wiki_type_wiki_team#:#Team-Wiki
 exc#:#exc_without_wiki_template#:#Ohne Vorlage
@@ -14718,7 +14725,7 @@ user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer au
 user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
-lhist#:#lhist_first_login#:#First Login
+lhist#:#lhist_first_login#:#Erstes Login
 prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
@@ -14932,14 +14939,13 @@ rep#:#rep_tree_limit#:#Anzahl Einträge im Baum begrenzen
 rep#:#rep_tree_limit_info#:#Zeigt nur eine begrenzt Anzahl von Elementen im Baum an, um die Performanz zu erhöhen.
 rep#:#rep_tree_limit_number#:#Maximale Anzahl
 rep#:#rep_tree_limit_number_info#:#Maximale Anzahl an Kindelementen, die initial für einen Knoten angezeigt wird. Falls mehr Kindelemente existieren, wird ein Sucheingabefeld angezeigt, mit dem die Kindelemente nach Titeln gefiltert werden können.
-cont#:#cont_show_more#:#Mehr anzeigen
 cont#:#cont_block_limit#:#Einträge per Block begrenzen
 cont#:#cont_block_limit_info#:#Falls ein Block mehr Einträge beinhaltet, erscheint ein Aktionsknopf "Mehr anzeigen".
 crs#:#crs_lobj_pm_score#:#Ihr Ergebnis
 crs#:#crs_lobj_pm_min_goal#:#Benötigter Wert
 dateplaner#:#back_to_crs#:#Kursinhalt
 dateplaner#:#back_to_grp#:#Gruppeninhalt
-dateplaner#:#back_to_pd#:#Zum Persönlichen Schreibtisch
+dateplaner#:#back_to_pd#:#zurück
 crs#:#crs_timings_short_start_end#:#Startdatum
 common#:#il_lso_admin#:#Lernsequenzadministrator
 common#:#il_lso_member#:#Lernsequenzmitglied
@@ -15044,8 +15050,13 @@ lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
-dateplaner#:#cal_crs_timing_start#:#Empfohlener Beginn
-dateplaner#:#cal_crs_timing_end#:#Empfohlenes Ende
+assessment#:#finalized_evaluation#:#Endgültig bewertet
+assessment#:#evaluated_users#:#Bewertete Benutzer
+assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
+assessment#:#finalized_by#:#Bewertung abgeschlossen von
+assessment#:#finalized_on#:#Bewertung abgeschlossen am
+dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
+dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
 crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
 crs#:#crs_timings_short_start_end_rel#:#Empfohlener Start (Tage nach Kursbeitritt)
 crs#:#crs_tile_and_objective_view_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Lernziel-orientierter Ansicht wird nicht unterstützt.
@@ -15054,6 +15065,7 @@ content#:#cont_choose_file_source#:#Quelle
 content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
 sess#:#sess_assign#:#Zuordnen
+assessment#:#answer_of#:#Antwort von
 common#:#certificate_selection#:#Ursprung der Zertifikate
 common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
 common#:#certificate_workspace_option#:#Zertifikate aus dem Arbeitsraum
@@ -15092,3 +15104,38 @@ certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Ob
 exc#:#exc_tbl_action_open_submission#:#Open Submission
 exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
+content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
+exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
+exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
+wiki#:#wiki_notification_comment_subject#:#A comment was added to %s: %s
+wiki#:#wiki_notification_comment#:#the following Wiki Page has been commented.
+wiki#:#wiki_commented_by#:#Commented by
+content#:#cont_notification_activated#:#Notification Activated (Whole LM)
+content#:#cont_page_notification_activated#:#Notification Activated (Single Page)
+content#:#cont_notification_deactivate_lm#:#Deactivate Notification for Learning Module
+content#:#cont_notification_deactivate_page#:#Deactivate Notification for Page
+content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module
+content#:#cont_notification_activate_page#:#Activate Notification for Page
+content#:#cont_notification_deactivated#:#Notification Deactivated
+content#:#cont_notification_comment_subject_lm#:#A comment was added to %s: %s
+content#:#cont_change_notification_salutation#:#Hello %s,
+content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented
+content#:#cont_notification_update_lm#:#the following Learning Module has been updated
+content#:#cont_commented_by#:#Commented by
+content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
+pd#:#pd_avail_sortation#:#Verfügbare Sortierungen
+pd#:#pd_default_sortation#:#Standardsortierung
+pd#:#pd_sortation#:#Sortierung
+pd#:#pd_presentation#:#Präsentation
+pd#:#pd_avail_presentation#:#Verfügbare Präsentationen
+pd#:#pd_default_presentation#:#Standardpräsentation
+pd#:#pd_list#:#Liste
+pd#:#pd_tile#:#Kacheln
+pd#:#pd_activation#:#Aktivierung
+pd#:#pd_view_courses_groups#:#Ansicht ‘Meine Mitgliedschaften’
+pd#:#pd_view_favourites#:#Ansicht ‘Ausgewählte Angebote’
+rbac#:#pdts_change_presentation#:#Schreibtisch-Präsentation ändern (Liste/Kacheln)
+rbac#:#change_presentation#:#Präsentation ändern
+pd#:#pd_presentation_mode_list#:#Listenansicht
+pd#:#pd_presentation_mode_tile#:#Kachelansicht
+forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.

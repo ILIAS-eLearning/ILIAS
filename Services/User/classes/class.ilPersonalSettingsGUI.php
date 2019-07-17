@@ -368,6 +368,8 @@ class ilPersonalSettingsGUI
 				if ($_POST["current_password"] != $_POST["new_password"])
 				{
 					$ilUser->setLastPasswordChangeToNow();
+					$ilUser->setPasswordPolicyResetStatus(false);
+					$ilUser->update();
 				}
 
 				if(ilSession::get('orig_request_target'))

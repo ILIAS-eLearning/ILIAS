@@ -123,7 +123,7 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 			$locate, 
 			$search_type
 		);
-		
+
 		if(is_array($res_field))
 		{			
 			foreach($res_field as $row)

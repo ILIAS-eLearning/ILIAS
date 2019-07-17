@@ -8,7 +8,8 @@ require_once(__DIR__."/Renderer/ilIndependentTemplate.php");
 require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Component as IComponent;
+use ILIAS\UI\Implementaiton\Component as I;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
@@ -16,9 +17,8 @@ use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\ComponentRendererFSLoader;
 use ILIAS\UI\Implementation\Render;
-use ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
-use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Factory;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +30,6 @@ class ilIndependentTemplateFactory implements TemplateFactory {
 
 class NoUIFactory implements Factory {
 	public function counter() {}
-	public function glyph() {}
 	public function button() {}
 	public function card() {}
 	public function deck(array $cards) {}
@@ -45,7 +44,6 @@ class NoUIFactory implements Factory {
 	public function link() {}
 	public function dropdown() {}
 	public function item() {}
-	public function icon() {}
 	public function viewControl() {}
 	public function breadcrumbs(array $crumbs) {}
 	public function chart() {}
@@ -56,6 +54,7 @@ class NoUIFactory implements Factory {
 	public function mainControls(): C\MainControls\Factory {}
 	public function tree() {}
 	public function menu(): C\Menu\Factory {}
+	public function symbol(): C\Symbol\Factory {}
 }
 
 class LoggingRegistry implements ResourceRegistry {
@@ -73,7 +72,7 @@ class ilLanguageMock extends \ilLanguage {
 		$this->requested[] = $a_topic;
 		return $a_topic;
 	}
-	public function toJS($a_key, ilGlobalTemplate $a_tpl = NULL) {
+	public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null) {
 	}
 	public $lang_module = 'common';
 	public function loadLanguageModule($lang_module) {}

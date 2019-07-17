@@ -6,8 +6,8 @@
  */
 class LegacyPathHelperHelper
 {
-	public function createRelativePath($absTargetDir)
-	{
-		return ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($absTargetDir);
-	}
+    public function createRelativePath($absTargetDir)
+    {
+        return ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($absTargetDir);
+    }
 }

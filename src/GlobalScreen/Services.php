@@ -1,94 +1,110 @@
 <?php namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
-use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
+use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
  * Class Services
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Services {
+class Services
+{
 
-	private static $instance = null;
-	/**
-	 * @var array
-	 */
-	private static $services = [];
-
-
-	/**
-	 * @return Services
-	 */
-	public static function getInstance() {
-		if (!isset(self::$instance)) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    use SingletonTrait;
+    /**
+     * @var Services
+     */
+    private static $instance = null;
+    /**
+     * @var ProviderFactoryInterface
+     */
+    private $provider_factory;
 
 
-	/**
-	 * @see MainMenuItemFactory
-	 *
-	 * @return MainMenuItemFactory
-	 */
-	public function mainBar(): MainMenuItemFactory {
-		return $this->get(MainMenuItemFactory::class);
-	}
+    /**
+     * Services constructor.
+     *
+     * @param ProviderFactoryInterface $provider_factory
+     */
+    public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
 
 
-	/**
-	 * @return MetaBarItemFactory
-	 */
-	public function metaBar(): MetaBarItemFactory {
-		return $this->get(MetaBarItemFactory::class);
-	}
+    /**
+     * @param ProviderFactoryInterface $provider_factory
+     *
+     * @return Services
+     */
+    public static function getInstance(ProviderFactoryInterface $provider_factory)
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($provider_factory);
+        }
+
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return LayoutServices
-	 */
-	public function layout(): LayoutServices {
-		return $this->get(LayoutServices::class);
-	}
+    /**
+     * @return MainMenuItemFactory
+     * @see MainMenuItemFactory
+     *
+     */
+    public function mainBar() : MainMenuItemFactory
+    {
+        return $this->get(MainMenuItemFactory::class);
+    }
 
 
-	/**
-	 * @return CollectorFactory
-	 */
-	public function collector(): CollectorFactory {
-		return $this->get(CollectorFactory::class);
-	}
+    /**
+     * @return MetaBarItemFactory
+     */
+    public function metaBar() : MetaBarItemFactory
+    {
+        return $this->get(MetaBarItemFactory::class);
+    }
 
 
-	/**
-	 * @see IdentificationFactory
-	 *
-	 * @return IdentificationFactory
-	 */
-	public function identification(): IdentificationFactory {
-		return $this->get(IdentificationFactory::class);
-	}
+    /**
+     * @return ToolServices
+     * @see ToolServices
+     */
+    public function tool() : ToolServices
+    {
+        return $this->get(ToolServices::class);
+    }
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return mixed
-	 */
-	private function get(string $class_name) {
-		if (!isset(self::$services[$class_name])) {
-			self::$services[$class_name] = new $class_name();
-		}
+    /**
+     * @return LayoutServices
+     */
+    public function layout() : LayoutServices
+    {
+        return $this->get(LayoutServices::class);
+    }
 
-		return self::$services[$class_name];
-	}
+
+    /**
+     * @return CollectorFactory
+     */
+    public function collector() : CollectorFactory
+    {
+        return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
+    }
+
+
+    /**
+     * @return IdentificationFactory
+     * @see IdentificationFactory
+     *
+     */
+    public function identification() : IdentificationFactory
+    {
+        return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
+    }
 }

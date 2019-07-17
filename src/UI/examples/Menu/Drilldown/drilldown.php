@@ -4,7 +4,7 @@ function drilldown() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$ico = $f->icon()->standard('', '')->withSize('medium')->withAbbreviation('+');
+	$ico = $f->symbol()->icon()->standard('', '')->withSize('medium')->withAbbreviation('+');
 
 	$image = $f->image()->responsive("src/UI/examples/Image/mountains.jpg", "Image source: https://stocksnap.io, Creative Commons CC0 license");
 	$page = $f->modal()->lightboxImagePage($image, 'Mountains');
@@ -50,7 +50,7 @@ function toBulky(string $label): \ILIAS\UI\Component\Button\Bulky
 {
 	global $DIC;
 	$f = $DIC->ui()->factory();
-	$ico = $f->icon()->standard('', '')
+	$ico = $f->symbol()->icon()->standard('', '')
 		->withSize('medium')
 		->withAbbreviation('+');
 

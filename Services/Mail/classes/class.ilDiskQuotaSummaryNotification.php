@@ -177,7 +177,7 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
 								
 				$this->getMail()->appendInstallationSignature(true);
 
-				$this->sendMail(array($rcp), array('system'), false);
+				$this->sendMail(array($rcp), false);
 			}
 		}		
 	}

@@ -1,24 +1,24 @@
 <?php
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
 */
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
@@ -79,13 +79,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
      */
     public function executeCommand()
     {
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$this->access->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->hierarchical_access->checkAccess('read', '', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -116,15 +115,20 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     public function getAdminTabs()
     {
         if ($this->access->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->tabs_gui->addTarget("settings",
+            $this->tabs_gui->addTarget(
+                "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
-                array("settings", "view"));
+                array("settings", "view")
+            );
         }
 
         if ($this->access->checkAccess('edit_permission', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget("perm_settings",
+            $this->tabs_gui->addTarget(
+                "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(), 'ilpermissiongui');
+                array(),
+                'ilpermissiongui'
+            );
         }
     }
 
@@ -227,7 +231,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form_settings = new ilSetting("certificate");
 
         $mode = $_POST["persistent_certificate_mode"];
-        $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_instant');
+        $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($mode !== $previousMode && $mode === 'persistent_certificate_mode_instant') {
             $cron = new ilCertificateCron();
             $cron->init();

@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\To\Transformation;
 
 
-use ILIAS\In\Transformation\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation\Transformation;
-use ILIAS\Refinery\Validation\Constraints\ConstraintViolationException;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class NewMethodTransformation implements Transformation
 {
@@ -50,6 +50,10 @@ class NewMethodTransformation implements Transformation
 	 */
 	public function transform($from)
 	{
+		if (false === is_array($from)) {
+			$from = array($from);
+		}
+
 		return call_user_func_array(array($this->object, $this->method), $from);
 	}
 
