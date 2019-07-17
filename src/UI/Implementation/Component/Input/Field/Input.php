@@ -75,7 +75,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	protected $content = null;
 	/**
-	 * @var (Transformation|Constraint)[]
+	 * @var Transformation[]
 	 */
 	private $operations;
 
@@ -272,9 +272,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 		$this->error = $error;
 	}
 
-	// These are the ways in which a consumer can define how client side
-	// input is processed.
-
 	/**
 	 * Apply a transformation to the current or future content.
 	 *
@@ -303,42 +300,11 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	protected function setAdditionalTransformation(Transformation $trafo) {
 		$this->operations[] = $trafo;
 		if ($this->content !== null) {
-			$this->content = $this->content->map($trafo);
-		}
-	}
-
-
-	/**
-	 * Apply a constraint to the current or the future content.
-	 *
-	 * @param    Constraint $constraint
-	 *
-	 * @return    Input
-	 */
-	public function withAdditionalConstraint(Constraint $constraint) {
-		$clone = clone $this;
-		$clone->setAdditionalConstraint($constraint);
-
-		return $clone;
-	}
-
-
-	/**
-	 * Apply a constraint to the current or the future content.
-	 *
-	 * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
-	 * `withAdditionalConstraint` does not work, i.e. in the constructor.
-	 *
-	 * @param    Constraint $constraint
-	 *
-	 * @return    void
-	 */
-	protected function setAdditionalConstraint(Constraint $constraint) {
-		$this->operations[] = $constraint;
-		if ($this->content !== null) {
-			$this->content = $constraint->applyTo($this->content);
+			if(!$this->content->isError()) {
+				$this->content = $trafo->applyTo($this->content);
+			}
 			if ($this->content->isError()) {
-				$this->setError("" . $this->content->error());
+				$this->setError($this->content->error());
 			}
 		}
 	}
@@ -424,14 +390,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($res->isError()) {
 				return $res;
 			}
-
-			// TODO: I could make this go away by giving Transformation and
-			// Constraint a common interface for that.
-			if ($op instanceof Transformation) {
-				$res = $res->map($op);
-			} elseif ($op instanceof Constraint) {
-				$res = $op->applyTo($res);
-			}
+			$res = $op->applyTo($res);
 		}
 
 		return $res;
@@ -441,7 +400,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * Get the operations that should be performed on the input.
 	 *
-	 * @return \Generator <Transformation|Constraint>
+	 * @return \Generator<Transformation>
 	 */
 	private function getOperations() {
 		if ($this->isRequired()) {

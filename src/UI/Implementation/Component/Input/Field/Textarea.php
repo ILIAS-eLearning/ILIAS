@@ -28,9 +28,9 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 		$byline
 	) {
 		parent::__construct($data_factory, $refinery, $label, $byline);
-		$this->setAdditionalTransformation($refinery->custom()->transformation(function($v) {
-			return strip_tags($v);
-		}));
+		$this->setAdditionalTransformation(
+			$refinery->string()->stripTags()
+		);
 	}
 
 	/**
@@ -40,9 +40,10 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 	 */
 	public function withMaxLimit($max_limit)
 	{
-		$clone = clone $this;
+		$clone = $this->withAdditionalTransformation(
+			$this->refinery->string()->hasMaxLength($max_limit)
+		);
 		$clone->max_limit = $max_limit;
-		$clone->setAdditionalConstraint($this->refinery->string()->hasMaxLength($max_limit));
 		return $clone;
 	}
 
@@ -62,9 +63,10 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 	 */
 	public function withMinLimit($min_limit)
 	{
-		$clone = clone $this;
+		$clone = $this->withAdditionalTransformation(
+			$this->refinery->string()->hasMinLength($min_limit)
+		);
 		$clone->min_limit = $min_limit;
-		$clone->setAdditionalConstraint($this->refinery->string()->hasMinLength($min_limit));
 		return $clone;
 	}
 

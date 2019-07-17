@@ -105,6 +105,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->rbac                = $DIC->rbac();
         $this->locator             = $DIC['ilLocator'];
 
+        $this->tpl->addJavaScript('./Services/JavaScript/js/Basic.js');
+
         $this->type = 'frm';
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 

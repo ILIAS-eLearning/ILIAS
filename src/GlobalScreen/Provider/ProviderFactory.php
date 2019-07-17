@@ -110,6 +110,10 @@ class ProviderFactory implements ProviderFactoryInterface
      */
     public function getProviderByClassName(string $class_name) : Provider
     {
+        if (!$this->isInstanceCreationPossible($class_name) || !$this->isRegistered($class_name)) {
+            throw new \LogicException("the GlobalScreen-Provider $class_name is not available");
+        }
+
         return $this->all_providers[$class_name];
     }
 
@@ -119,6 +123,15 @@ class ProviderFactory implements ProviderFactoryInterface
      */
     public function isInstanceCreationPossible(string $class_name) : bool
     {
-        return class_exists($class_name); // && isset($this->all_providers[$class_name])
+        return class_exists($class_name);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isRegistered(string $class_name) : bool
+    {
+        return isset($this->all_providers[$class_name]);
     }
 }

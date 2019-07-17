@@ -31,10 +31,7 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	) {
 
 		parent::__construct($data_factory, $refinery, $label, $byline);
-
-		//TODO: Is there a better way to do this? Note, that "withConstraint" is not
-		// usable here (clone).
-		$this->setAdditionalConstraint($this->refinery->numeric()->isNumeric());
+		$this->setAdditionalTransformation($this->refinery->numeric()->isNumeric());
 	}
 
 

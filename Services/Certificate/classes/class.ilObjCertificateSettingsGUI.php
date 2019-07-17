@@ -22,36 +22,34 @@
 */
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
-
 /**
-* Certificate Settings.
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjCertificateSettingsGUI: ilPermissionGUI
-* @ilCtrl_IsCalledBy ilObjCertificateSettingsGUI: ilAdministrationGUI
-*
-* @ingroup ServicesCertificate
-*/
+ * Certificate Settings.
+ *
+ * @author            Helmut Schottmüller <ilias@aurealis.de>
+ * @version           $Id$
+ *
+ * @ilCtrl_Calls      ilObjCertificateSettingsGUI: ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilObjCertificateSettingsGUI: ilAdministrationGUI
+ *
+ * @ingroup           ServicesCertificate
+ */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
+
     /**
      * @var ilAccessHandler
      */
     protected $hierarchical_access;
-
     /**
      * @var ilRbacSystem
      */
     protected $access;
-
     /**
      * @var ilErrorHandling
      */
     protected $error;
-
     private static $ERROR_MESSAGE;
+
 
     /**
      * Contructor
@@ -67,10 +65,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("certificate");
         $this->lng->loadLanguageModule("trac");
 
-        $this->access              = $DIC['rbacsystem'];
-        $this->error               = $DIC['ilErr'];
+        $this->access = $DIC['rbacsystem'];
+        $this->error = $DIC['ilErr'];
         $this->hierarchical_access = $DIC['ilAccess'];
     }
+
 
     /**
      * Execute command
@@ -105,8 +104,10 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
+
         return true;
     }
+
 
     /**
      * Get tabs
@@ -131,14 +132,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
     }
 
+
     /**
-    * Edit settings.
-    */
+     * Edit settings.
+     */
     public function settings()
     {
         $this->tabs_gui->setTabActive('settings');
         $form_settings = new ilSetting("certificate");
-        
+
         include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -147,7 +149,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $active = new ilCheckboxInputGUI($this->lng->txt("active"), "active");
         $active->setChecked($form_settings->get("active"));
         $form->addItem($active);
-        
+
         $info = new ilNonEditableValueGUI($this->lng->txt("info"), "info");
         $info->setValue($this->lng->txt("certificate_usage"));
         $form->addItem($info);
@@ -174,18 +176,17 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form->addItem($bgimage);
         $format = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
         $defaultformats = array(
-            "a4" => $this->lng->txt("certificate_a4"), // (297 mm x 210 mm)
-            "a4landscape" => $this->lng->txt("certificate_a4_landscape"), // (210 mm x 297 mm)",
-            "a5" => $this->lng->txt("certificate_a5"), // (210 mm x 148.5 mm)
-            "a5landscape" => $this->lng->txt("certificate_a5_landscape"), // (148.5 mm x 210 mm)
-            "letter" => $this->lng->txt("certificate_letter"), // (11 inch x 8.5 inch)
+            "a4"              => $this->lng->txt("certificate_a4"), // (297 mm x 210 mm)
+            "a4landscape"     => $this->lng->txt("certificate_a4_landscape"), // (210 mm x 297 mm)",
+            "a5"              => $this->lng->txt("certificate_a5"), // (210 mm x 148.5 mm)
+            "a5landscape"     => $this->lng->txt("certificate_a5_landscape"), // (148.5 mm x 210 mm)
+            "letter"          => $this->lng->txt("certificate_letter"), // (11 inch x 8.5 inch)
             "letterlandscape" => $this->lng->txt("certificate_letter_landscape") // (11 inch x 8.5 inch)
         );
         $format->setOptions($defaultformats);
         $format->setValue($form_settings->get("pageformat"));
         $format->setInfo($this->lng->txt("certificate_page_format_info"));
         $form->addItem($format);
-
 
         if ($this->hierarchical_access->checkAccess('write', '', $this->object->getRefId())) {
             $form->addCommandButton('save', $this->lng->txt('save'));
@@ -215,7 +216,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $form->addItem($persistentCertificateMode);
 
-
         $this->tpl->setContent($form->getHTML());
 
         if (strcmp($this->ctrl->getCmd(), "save") == 0) {
@@ -224,7 +224,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             }
         }
     }
-    
+
+
     public function save()
     {
         $form_settings = new ilSetting("certificate");

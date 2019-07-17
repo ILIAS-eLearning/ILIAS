@@ -52,6 +52,7 @@ Services provide general functionalities used in the modules or in other service
 - [Mail](../../Services/Mail/README.md): Mail Service
 - [News](../../Services/News/README.md): News Service
 - [Task](../../Services/Tasks/README.md): (Derived) Tasks Service
+- [Like](../../Services/Like/README.md): Like Service
 
 **Learning Outcomes**
 

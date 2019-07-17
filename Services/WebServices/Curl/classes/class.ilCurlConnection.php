@@ -100,11 +100,13 @@ class ilCurlConnection
 	/**
 	 * Init curl connection
 	 *
+	 * @param bool $set_proxy
+	 *
 	 * @access public
 	 * @throws ilCurlConnectionException on error
 	 * 
 	 */
-	public final function init()
+	public final function init(bool $set_proxy = true)
 	{
 		if(strlen($this->url))
 		{
@@ -122,6 +124,24 @@ class ilCurlConnection
 		if(curl_errno($this->ch))
 		{
 			throw new ilCurlConnectionException(curl_error($this->ch), curl_errno($this->ch));
+		}
+
+		if ($set_proxy) {
+			// use a proxy, if configured by ILIAS
+			$proxy = ilProxySettings::_getInstance();
+			if ($proxy->isActive()) {
+				$this->setOpt(CURLOPT_HTTPPROXYTUNNEL, true);
+
+				if (!empty($proxy->getHost())) {
+					$this->setOpt(CURLOPT_PROXY, $proxy->getHost());
+				} else {
+					throw new ilCurlConnectionException("Proxy host is not set on activated proxy");
+				}
+
+				if (!empty($proxy->getPort())) {
+					$this->setOpt(CURLOPT_PROXYPORT, $proxy->getPort());
+				}
+			}
 		}
 
 		return true;

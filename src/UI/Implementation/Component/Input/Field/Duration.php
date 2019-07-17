@@ -116,7 +116,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		};
 
 		$from_before_until = $this->refinery->custom()->constraint($is_ok, $error);
-		$this->setAdditionalConstraint($from_before_until);
+		$this->setAdditionalTransformation($from_before_until);
 	}
 
 	/**
