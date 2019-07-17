@@ -59,7 +59,8 @@ class Renderer extends AbstractComponentRenderer
 	): string {
 		$tpl_name = "tpl.bulky.html";
 		$tpl = $this->setStandardVars($tpl_name, $component);
-		$tpl->setVariable("SYMBOL", $default_renderer->render($component->getSymbol()));
+		$renderer = $default_renderer->withAdditionalContext($component);
+		$tpl->setVariable("SYMBOL", $renderer->render($component->getSymbol()));
 		return $tpl->get();
 	}
 

@@ -9,7 +9,10 @@ function base() {
 		->withAbbreviation('E')
 		->withSize('medium');
 
-	$link = $f->link()->bulky($ico, 'Icon', '#');
+	$glyph = $f->symbol()->glyph()->briefcase();
 
-	return $renderer->render($link);
+	$link = $f->link()->bulky($ico, 'Icon', '#');
+	$link2 = $f->link()->bulky($glyph, 'Glyph', '#');
+
+	return $renderer->render([$link, $link2]);
 }
