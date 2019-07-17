@@ -22,6 +22,14 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 	 * @var ilAccessHandler
 	 */
 	protected $access;
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var
+	 */
+	protected $rbacsystem;
 
 
 	/**
@@ -31,13 +39,15 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 	{
 		global $DIC;
 
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->access = $DIC->access();
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilAccess = $DIC->access();
-		$lng = $DIC->language();
+		$this->dic = $DIC;
+		$this->ctrl = $this->dic->ctrl();
+		$this->lng = $this->dic->language();
+		$this->access = $this->dic->access();
+		$this->rbacsystem = $this->dic->rbac()->system();
+		$ilCtrl = $this->dic->ctrl();
+		$lng = $this->dic->language();
+		$ilAccess = $this->dic->access();
+		$lng = $this->dic->language();
 
 		$this->setId("admsettemp".$a_type);
 
@@ -57,8 +67,10 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.settings_template_row.html",
 			"Services/Administration");
 
-		$this->addMultiCommand("confirmSettingsTemplateDeletion", $lng->txt("delete"));
-		//$this->addCommandButton("", $lng->txt(""));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->addMultiCommand("confirmSettingsTemplateDeletion", $lng->txt("delete"));
+			//$this->addCommandButton("", $lng->txt(""));
+		}
 	}
 
 	/**
@@ -74,11 +86,14 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 		// begin-patch lok
 		$this->tpl->setVariable("VAL_TITLE", ilSettingsTemplate::translate($a_set["title"]));
 		$this->tpl->setVariable("VAL_DESCRIPTION", ilSettingsTemplate::translate($a_set["description"]));
-		// end-patch lok
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-		$this->tpl->setVariable("HREF_EDIT",
-			$ilCtrl->getLinkTarget($this->parent_obj, "editSettingsTemplate"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			// end-patch lok
+			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+			$this->tpl->setVariable("HREF_EDIT",
+				$ilCtrl->getLinkTarget($this->parent_obj, "editSettingsTemplate"));
+		}
 		$ilCtrl->setParameter($this->parent_obj, "templ_id", "");
+
 	}
 
 }

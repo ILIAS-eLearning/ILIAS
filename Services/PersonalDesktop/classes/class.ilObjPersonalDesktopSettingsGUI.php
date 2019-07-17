@@ -84,18 +84,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
-		$ilErr = $this->error;
-		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
 		}
 
 		switch($next_class)
@@ -296,8 +293,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
-		$ilAccess = $this->access;
-		
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this, "saveWsp"));
@@ -361,7 +357,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$this
 		);
 		
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		if($this->rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			// command buttons
 			$form->addCommandButton("saveWsp", $lng->txt("save"));

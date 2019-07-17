@@ -98,8 +98,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
 		$this->prepareOutput();
 
-		if (!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
 
