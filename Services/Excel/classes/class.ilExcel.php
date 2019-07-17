@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 /*
  * Wrapper for Microsoft Excel Import/Export (based on PHPSpreadsheet, formerPHPExcel which is deprecated)
@@ -106,8 +107,9 @@ class ilExcel
 	 */
 	public function addSheet($a_name, $a_activate = true)
 	{
+		#20749
 		// see Worksheet::$_invalidCharacters;
-		$invalid = array('*', ':', '/', '\\', '?', '[', ']');
+		$invalid = array('*', ':', '/', '\\', '?', '[', ']', '\'-','\'');
 		
 		$a_name = str_replace($invalid, "", $a_name);
 		
@@ -257,12 +259,34 @@ class ilExcel
 	 */
 	public function setCellByCoordinates($a_coords, $a_value)
 	{
-		$wb = $this->workbook->getActiveSheet()->setCellValue(
-			$a_coords, 
-			$this->prepareValue($a_value)
-		);
-		$cell = $wb->getCell($a_coords);
-		$this->setDateFormat($cell, $a_value);		
+		if($a_value instanceof ilDateTime)
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValue(
+				$a_coords,
+				$this->prepareValue($a_value)
+			);
+			$cell = $wb->getCell($a_coords);
+			$this->setDateFormat($cell, $a_value);
+		}
+		elseif(is_numeric($a_value))
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicit(
+				$a_coords,
+				$this->prepareValue($a_value),
+				DataType::TYPE_NUMERIC
+			);
+			
+		}
+		else
+		{
+			$this->workbook->getActiveSheet()->setCellValueExplicit(
+				$a_coords,
+				$this->prepareValue($a_value),
+				DataType::TYPE_STRING
+			);
+
+		}
+
 	}
 	
 	/**
@@ -274,13 +298,36 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
-		$col = ++$a_col;
-		$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
-			$col,
-			$a_row,
-			$this->prepareValue($a_value)
-		);
-		$this->setDateFormat($wb->getCellByColumnAndRow($col, $a_row), $a_value);
+		$col = $this->columnIndexAdjustment($a_col);
+
+		if($a_value instanceof ilDateTime)
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
+				$col,
+				$a_row,
+				$this->prepareValue($a_value)
+			);
+			$this->setDateFormat($wb->getCellByColumnAndRow($col, $a_row), $a_value);
+		}
+		elseif(is_numeric($a_value))
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+				$col,
+				$a_row,
+				$this->prepareValue($a_value),
+				DataType::TYPE_NUMERIC
+			);
+		}
+		else
+		{
+			$wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+				$col,
+				$a_row,
+				$this->prepareValue($a_value),
+				DataType::TYPE_STRING
+			);
+		}
+
 	}
 	
 	/**
@@ -319,8 +366,11 @@ class ilExcel
 	 *
 	 * @return mixed
 	 */
-	public function getCell($a_row, $a_col) {
-		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($a_col, $a_row)->getValue();
+	public function getCell($a_row, $a_col)
+	{
+		$col = $this->columnIndexAdjustment($a_col);
+
+		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($col, $a_row)->getValue();
 	}
 
 
@@ -351,7 +401,9 @@ class ilExcel
 	 */
 	public function getColumnCoord($a_col)
 	{
-		return Coordinate::stringFromColumnIndex($a_col);
+		$col = $this->columnIndexAdjustment($a_col);
+
+		return Coordinate::stringFromColumnIndex($col);
 	}
 	
 	/**
@@ -540,9 +592,11 @@ class ilExcel
 	 * @param int $pRow
 	 * @return string
 	 */
-	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
+	function getCoordByColumnAndRow($pColumn = 1, $pRow = 1)
 	{
-		$columnLetter = Coordinate::stringFromColumnIndex($pColumn);
+		$col = $this->columnIndexAdjustment($pColumn);
+		$columnLetter = Coordinate::stringFromColumnIndex($col);
+
 		return $columnLetter . $pRow;
 	}
 
@@ -553,7 +607,28 @@ class ilExcel
 	 */
 	function addLink($a_row, $a_column, $a_path)
 	{
-		$this->workbook->getActiveSheet()->getCellByColumnAndRow($a_column,$a_row)->getHyperlink()->setUrl($a_path);
+		$column = $this->columnIndexAdjustment($a_column);
+
+		$this->workbook->getActiveSheet()->getCellByColumnAndRow($column,$a_row)->getHyperlink()->setUrl($a_path);
 	}
 
+	/**
+	 * Adjustment needed because of migration PHPExcel to PhpSpreadsheet.
+	 * PhpExcel column was 0 index based and PhpSpreadshet set this index to 1
+	 * @param $column
+	 * @return int
+	 */
+	function columnIndexAdjustment(int $column) : int
+	{
+		return $column++;
+	}
+
+	/**
+	 * @param string $coordinatesRange A coordinates range string like 'A1:B5'
+	 * @throws \PhpOffice\PhpSpreadsheet\Exception
+	 */
+	public function mergeCells(string $coordinatesRange) : void
+	{
+		$this->workbook->getActiveSheet()->mergeCells($coordinatesRange);
+	}
 }

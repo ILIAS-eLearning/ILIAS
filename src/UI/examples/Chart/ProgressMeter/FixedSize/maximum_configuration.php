@@ -9,7 +9,7 @@ function maximum_configuration() {
     $renderer = $DIC->ui()->renderer();
 
     //Genarating and rendering the responsive progressmeter
-    $progressmeter = $f->chart()->progressMeter()->fixedSize(100, 75, 80, 50);
+    $progressmeter = $f->chart()->progressMeter()->fixedSize(100, 75, 80, 50, 350);
 
     // add score text
     $progressmeter = $progressmeter->withMainText('Your Score');

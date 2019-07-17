@@ -234,7 +234,7 @@ class ilAdvancedMDSettingsGUI
 		{			
 			$perm = null;
 			// :TODO: hardwired?
-			if(in_array($obj_type, array("crs", "cat")))
+			if(in_array($obj_type, ['cat','crs','sess','grp','iass']))
 			{
 				$perm =	$this->getPermissions()->hasPermissions(
 					ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
@@ -1469,6 +1469,60 @@ class ilAdvancedMDSettingsGUI
 				,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
 			);
 		}			
+		else if($a_obj_type == "sess")
+		{
+			$perm =	$this->getPermissions()->hasPermissions(
+				ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_SESSION,
+				$a_field_id,
+				array(
+					ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_SHOW_FIELD
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD)
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE)
+				));
+			return array(
+				"show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_SHOW_FIELD]
+			,"bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+			,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+			);
+		}
+		else if($a_obj_type == "grp")
+		{
+			$perm =	$this->getPermissions()->hasPermissions(
+				ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_GROUP,
+				$a_field_id,
+				array(
+					ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_SHOW_FIELD
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD)
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE)
+				));
+			return array(
+				"show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_SHOW_FIELD]
+			,"bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+			,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+			);
+		}
+		else if($a_obj_type == "iass")
+		{
+			$perm =	$this->getPermissions()->hasPermissions(
+				ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_IASS,
+				$a_field_id,
+				array(
+					ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_SHOW_FIELD
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD)
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE)
+				));
+			return array(
+				"show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_SHOW_FIELD]
+			,"bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+			,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+			);
+		}
 	}
 	
 	/**
@@ -1498,7 +1552,7 @@ class ilAdvancedMDSettingsGUI
 		{
 			$perm = null;
 			// :TODO: hardwird ?
-			if(in_array($obj_type, array("crs", "cat")))
+			if(in_array($obj_type, ['crs','cat','sess','grp','iass']))
 			{
 				$perm =	$this->getPermissions()->hasPermissions(
 					ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,

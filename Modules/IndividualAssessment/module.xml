@@ -8,8 +8,22 @@
 		<objectgroup id="iass" name="IndividualAssessment" default_pres_pos="170"/>
 	</objectgroups>
 	<objects>
-		<object id="iass" class_name="IndividualAssessment" dir="classes" default_pos="190" default_pres_pos="190"
-			checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1" export="0"  orgunit_permissions="1" amet="1">
+		<object
+			id="iass"
+			class_name="IndividualAssessment"
+			dir="classes"
+			default_pos="190"
+			default_pres_pos="190"
+			checkbox="1"
+			inherit="1"
+			allow_link="1"
+			allow_copy="1"
+			translate="0"
+			rbac="1"
+			export="1"
+			orgunit_permissions="1"
+			amet="1"
+		>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>

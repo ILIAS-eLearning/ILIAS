@@ -1363,24 +1363,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 	}
 	
-	function showUpperIcon()
-	{
-		$tree = $this->tree;
-		$tpl = $this->tpl;
-		$objDefinition = $this->obj_definition;
-		
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-		{
-				$tpl->setUpperIcon(
-					$this->ctrl->getLinkTargetByClass("ilcontentstylesettings",
-						"edit"));
-		}
-		else
-		{
-			// ?
-		}
-	}
-
 	/**
 	* List images of style
 	*/

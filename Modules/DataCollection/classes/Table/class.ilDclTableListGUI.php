@@ -74,10 +74,10 @@ class ilDclTableListGUI {
 		 */
 		$tableHelper = new ilDclTableHelper((int)$this->obj_id, (int)$_GET['ref_id'], $DIC->rbac()->review(), $DIC->user(), $DIC->database());
 		// send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
-		$role_titles = $tableHelper->getRBACRoleTitlesWithoutReadRightOnAnyStandardView();
+		$role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
 
 		if (count($role_titles) > 0) {
-			ilUtil::sendInfo($DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " (" . implode(", ", $role_titles) . ")");
+			ilUtil::sendInfo($DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ", $role_titles));
 		}
 
 		switch ($next_class) {
@@ -88,7 +88,6 @@ class ilDclTableListGUI {
 				} else {
 					$this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'listTables'));
 				}
-				require_once 'Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php';
 				$ilDclTableEditGUI = new ilDclTableEditGUI($this);
 				$this->ctrl->forwardCommand($ilDclTableEditGUI);
 				break;
@@ -96,7 +95,6 @@ class ilDclTableListGUI {
 			case 'ildclfieldlistgui' :
 				$this->tabs->clearTargets();
 				$this->setTabs('fields');
-				require_once 'Modules/DataCollection/classes/Fields/class.ilDclFieldListGUI.php';
 				$ilDclFieldListGUI = new ilDclFieldListGUI($this);
 				$this->ctrl->forwardCommand($ilDclFieldListGUI);
 				break;
@@ -104,7 +102,6 @@ class ilDclTableListGUI {
 			case "ildclfieldeditgui":
 				$this->tabs->clearTargets();
 				$this->setTabs("fields");
-				require_once "Modules/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php";
 				$ilDclFieldEditGUI = new ilDclFieldEditGUI($this);
 				$this->ctrl->forwardCommand($ilDclFieldEditGUI);
 				break;
@@ -112,7 +109,6 @@ class ilDclTableListGUI {
 			case 'ildcltableviewgui' :
 				$this->tabs->clearTargets();
 				$this->setTabs('tableviews');
-				require_once 'Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php';
 				$ilDclTableViewGUI = new ilDclTableViewGUI($this);
 				$this->ctrl->forwardCommand($ilDclTableViewGUI);
 				break;

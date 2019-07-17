@@ -61,22 +61,21 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 				$this->parent_gui->getFieldName($this->parent_gui::FIELD_ONLINE, $set->getRefId())
 			);
 			$cb->setChecked($set->isOnline());
-			$this->tpl->setVariable("ONLINE", $cb->render());
+		} else {
+			$cb = new ilCheckboxInputGUI("","");
+			$cb->setChecked(true);
+			$cb->setDisabled(true);
 		}
+		$this->tpl->setVariable("ONLINE", $cb->render());
 
 		$si = new ilSelectInputGUI(
 			"",
 			$this->parent_gui->getFieldName($this->parent_gui::FIELD_POSTCONDITION_TYPE, $set->getRefId())
 		);
-		$options = $this->parent_gui->getPossiblePostConditions();
-		array_walk (
-			$options,
-			function(&$opt) {
-				$opt = $this->lng->txt($opt);
-			}
-		);
+		$options = $this->parent_gui->getPossiblePostConditionsForType($set->getType());
+
 		$si->setOptions($options);
-		$si->setValue($set->getPostCondition()->getConditionType());
+		$si->setValue($set->getPostCondition()->getConditionOperator());
 
 		$action_items = $this->getActionMenuItems($set->getRefId(), $set->getType());
 		$obj_link = $this->getEditLink($set->getRefId(), $set->getType(), $action_items);
@@ -102,7 +101,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 	{
 		$item_obj_id = $this->getObjIdFor($ref_id);
 		$item_list_gui = $this->getListGuiFor($type);
-		$item_list_gui->initItem($ref_id, $item_obj_id);
+		$item_list_gui->initItem($ref_id, $item_obj_id, $type);
 
 		$item_list_gui->enableCut(true);
 		$item_list_gui->enableDelete(true);
@@ -119,7 +118,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 	{
 		$item_obj_id = $this->getObjIdFor($ref_id);
 		$item_list_gui = $this->getListGuiFor($type);
-		$item_list_gui->initItem($ref_id, $item_obj_id);
+		$item_list_gui->initItem($ref_id, $item_obj_id, $type);
 		return $item_list_gui->getCommands();
 	}
 

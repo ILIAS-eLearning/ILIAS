@@ -44,14 +44,97 @@ test for all existing examples, i.e. checks if the example can be executed at
 all and delivers a string to be included in the documentation of the UI frame-
 work.
 
-### Examples on Main Page (Beginner, ~4h)
+### Examples on Main Page (beginner, ~4h)
 
 We want to have examples on the main pages of some components family of the 
 documentation displayed in ILIAS System Styles Section. E.g. there should
 also be examples on the "Buttons" Page for the complete Buttons family.
 
+### Check if Supplied Data Matches Evaluating Form (advanced, ~8h)
+
+When receiving data from the client we have no mechanism to make sure that the
+data is processed by the same form that created the original client-side HTML-
+form. This is especially interesting because the consumer of the form from
+the UI-Framework does not have control over the naming. When for some reason
+(e.g. some configuration in the Advanced Metadata) the fields in the form change,
+the naming will change accordingly (as correctly pointed out by @mjansenDatabay
+in [#24994](https://mantis.ilias.de/view.php?id=24994)). There could well be
+other reasons why the form processing the request is different from the one
+rendering the HTML, e.g. because endpoints are changed for some reason.
+
+We thus want to introduce a mechanism that checks if the data supplied by the
+client matches the form that is processing it. To implement this check, we want
+to introduce a checksum over the inputs in the form, attach that checksum to the
+data posted from the client and only evaluate the data when the checksum matches
+the processing form. If the checksums do not match, the form should try to show
+the data from the client as good as possible by using some heuristic to fill the
+data in the existing inputs. It should also show a message that says why the data
+was not processed and that the user should check the input again. A mechanism
+like this will become even more valuable once we want to process forms asynchronously.
+
+### Propose Context Parameter for Escaping on ilTemplate::setVariable (advanced, ~8h)
+
+Currently there is no generalized way to handle escaping when outputting text.
+In the long-term we would like to switch to a templating engine that is aware
+of the context in which placeholders are filled. As a short-term improvement we
+would like to introduce an context-parameter for `ilTemplate::setVariable`, based
+on which `ilTemplate` could determine the required escaping for the output context.
+The contexts should e.g. be "html", "html-attribute", "js-string". Depending on
+feedback from other devs, we could either default to a very strict context that
+escapes a lot, or to a context that does not escape and a dicto-rule.
+
+### Add mutators to Counter (beginner, ~1h)
+
+Currently, counters (for Glyphs, e.g.) are constructed with a numeric value;
+there is a getter for this number, but in order to increase the value, one has
+to construct a new Counter.
+It would be handy to have a "withNumber"-mutator, or something like
+"withIncrease/withDecrease"
+
+### Implement `Input::getUpdateOnLoadCode`, `Input::withOnUpdate` and `Input::appendOnUpdate` for every Input (advanced, ~4h)
+
+When introducing [UI Filters](https://github.com/ILIAS-eLearning/ILIAS/pull/1735)
+some ends have been left open and need to be implemented properly. Currently
+`withOnUpdate` and `appendOnUpdate` do not work on Inputs in the general case and
+only work for `Select Field` and `Text Field` in the context of the filter. To
+let the promise of `OnUpdate` come true, the following things will need to be done:
+
+* Every Input needs to implement `Input::getUpdateOnLoadCode`.
+* Once this is done, the method `Input::getUpdateOnLoadCode` on the base class
+should be removed to force new inputs to implement this method properly.
+* The usage of the method should be moved from the (specific) `Container\Filter\Renderer`
+to the (general) `Field\Renderer` to make `OnUpdate` apply everywhere.
+* `Input::withOnUpdate` and `Input::appendOnUpdate` can then be reinstated on the
+base class and removed on `Field\Select` and `Field\Text`.
+* `Group::withOnUpdate` can use `parent::withOnUpdate` then.
+
+New inputs must already implement the methods.
+
+### Remove `MainControl\MainBar::withMoreButton` and `::getMoreButton` (beginner, ~2h)
+
+Currently these two methods offer the possibility for a customization where none
+is required. The more button might be styled via css or exchange of images, but
+we do not need to exchange it programmatically.
+
+### Add symbol for more and use it in the More-Button (beginner, ~2h)
+
+Currently the symbol for the more button is pulled from the examples directory of
+the UI-framework. The image-file should be moved to a proper location and possibly
+become part of the UI-framework as a proper glyph.
 
 ## Long Term
+
+### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`
+
+Currently `Implement\Layout\Page\Renderer::setHeaderVars` contains a special
+case for if it is used in the context of the Kitchen Sink. This is due to the
+fact, that the demo for the complete page provides its own entry point, which
+requires adjustments in the paths to javascript files. A special case like
+this, however, is clunky and should be removed if possible. This seems to require
+adjustments in the way that javascript is included and a base paths for the
+current script is set. It might also be advisable to build the complete page
+demo in another way.
+
 
 ### Balance or Unify Cards and Items
 
@@ -128,6 +211,26 @@ to use Bootraps new set of variables together with a possible set of special
 variables should be designed, documented and implemented. The switch to Bootstrap 4
 needs to be coordinated with the components of ILIAS that currently do use features
 of Bootstrap but do not use the UI-Framework.
+
+
+### Page-Layout and ilTemplate, CSS/JS Header
+
+When rendering the whole page, all needed resources like CSS and JS must be included.
+The issue is closely linked to the question of which Service is responsible for
+rendering the actual page, i.e. the overall output when calling an ILIAS-URL.
+
+In the present implementation of ILIAS\UI\Implementation\Component\Layout\Page,
+a tpl.standardpage.html-Template is acquired via the TemplateFactory, which in
+turn makes use of the global template. The resources of global template are then
+transported to the page's template (Layout\Page\Renderer::setHeaderVars).
+
+Since the UI Page-Component aspires to be _the_ topmost thing to be rendered,
+this should probably be done in a more direct and instructional way, similar to
+the already existent template, but more clearly distinguished, like, maybe, in
+registries for CSS- and JS-resources. These registries could then be passed to
+the page and would turn the aforementioned transportation from ilTemplate obsolete.
+In ultimo, there would be exactly one occurence of a line like
+"echo $renderer->render($page);exit();" to output the complete UI.
 
 
 ## Ideas and Food for Thought

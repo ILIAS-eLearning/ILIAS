@@ -574,7 +574,7 @@ class ilSurveyParticipantsGUI
 	{
 		$this->handleWriteAccess();
 		
-		if (count($_POST["chbUser"]) == 0)
+		if (!is_array($_POST["chbUser"]) || count($_POST["chbUser"]) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
 			$this->ctrl->redirect($this, "maintenance");
@@ -1844,14 +1844,13 @@ class ilSurveyParticipantsGUI
 					$mytxt = str_replace("[code]", $user["code"], $mytxt); 		
 					
 					$mail = new ilMail($sender_id);					
-					$mail->sendMail(
+					$mail->enqueue(
 						$rcp, // to
 						"", // cc
 						"", // bcc
 						$subj, // subject
 						$mytxt, // message
-						array(), // attachments
-						array('normal') // type
+						array() // attachments
 					);			
 					
 					$this->object->set360RaterSent($appr_id,

@@ -10,7 +10,7 @@ class ilMailAddressTypesTest extends \ilMailBaseTest
 	/**
 	 * @inheritdoc
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if (!defined('ANONYMOUS_USER_ID')) {
 			define('ANONYMOUS_USER_ID', 13);

@@ -1,25 +1,24 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/WebServices/Rest/lib/Slim/Slim.php';
 include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
 
 /**
  * Slim rest server
  * 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
-class ilRestServer extends Slim
+class ilRestServer extends Slim\App
 {
-
 	/**
-	 * Constructor
+	 * ilRestServer constructor.
+	 * @param array $container
 	 */
-	public function __construct()
+	public function __construct($container = [])
 	{
-		parent::__construct();
+		parent::__construct($container);
 	}
+
 
 	/**
 	 * Init server / add handlers
@@ -28,7 +27,7 @@ class ilRestServer extends Slim
 	{
 		$callback_obj = new ilRestFileStorage();
 		
-		$this->get('/fileStorage/:name',array($callback_obj,'getFile'));
+		$this->get('/fileStorage',array($callback_obj,'getFile'));
 		$this->post('/fileStorage',array($callback_obj,'createFile'));
 
 

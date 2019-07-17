@@ -249,9 +249,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 		$lng = $DIC['lng'];
 		$objDefinition = $DIC['objDefinition'];
 				
-		$a_form->getItemByPostVar("opts")->setDisabled(true);				
-		
-		if(sizeof($this->confirm_objects))
+		$a_form->getItemByPostVar("opts")->setDisabled(true);
+
+		if(is_array($this->confirm_objects) && count($this->confirm_objects) > 0)
 		{					
 			$new_options = $a_form->getInput("opts");		
 			
@@ -374,8 +374,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	public function update()
 	{
 		parent::update();
-		
-		if(sizeof($this->confirmed_objects))
+
+		if(is_array($this->confirmed_objects) && count($this->confirmed_objects) > 0)
 		{
 			ilADTFactory::initActiveRecordByType();
 			foreach($this->confirmed_objects as $old_option => $item_ids)

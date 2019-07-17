@@ -25,46 +25,14 @@ class LSItemOnlineStatus
 	public function setOnlineStatus(int $ref_id, bool $status)
 	{
 		$obj = $this->getObjectFor($ref_id);
-
-		switch ($obj->getType()) {
-			case self::S_TEST:
-				$obj->setOnline($status);
-				$obj->saveToDb(true);
-				break;
-			case self::S_LEARNMODULE_IL:
-			case self::S_LEARNMODULE_HTML:
-			case self::S_SAHS:
-				$obj->setOnline($status);
-				$obj->update();
-				break;
-			case self::S_SURVEY:
-				$obj->setStatus($status);
-				$obj->saveToDb();
-				break;
-			default:
-				break;
-		}
+		$obj->setOfflineStatus(!$status);
+		$obj->update();
 	}
 
 	public function getOnlineStatus(int $ref_id): bool
 	{
 		$obj = $this->getObjectFor($ref_id);
-
-		switch ($obj->getType()) {
-			case self::S_TEST:
-				return !$obj->getOfflineStatus();
-				break;
-			case self::S_LEARNMODULE_IL:
-			case self::S_LEARNMODULE_HTML:
-			case self::S_SAHS:
-				return !$obj->getOfflineStatus();
-				break;
-			case self::S_SURVEY:
-				return !$obj->getOfflineStatus();
-				break;
-			default:
-				return true;
-		}
+		return !$obj->getOfflineStatus();
 	}
 
 	public function hasOnlineStatus(int $ref_id): bool

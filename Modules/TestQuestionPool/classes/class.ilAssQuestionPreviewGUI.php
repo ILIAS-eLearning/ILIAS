@@ -39,7 +39,7 @@ class ilAssQuestionPreviewGUI
 	protected $tabs;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $tpl;
 
@@ -83,7 +83,7 @@ class ilAssQuestionPreviewGUI
 	 */
 	protected $hintTracking;
 	
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;
@@ -151,6 +151,10 @@ class ilAssQuestionPreviewGUI
 	
 	public function executeCommand()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenIdComponent('qpl');
+
 		$this->tabs->setTabActive(self::TAB_ID_QUESTION_PREVIEW);
 		
 		$this->lng->loadLanguageModule('content');

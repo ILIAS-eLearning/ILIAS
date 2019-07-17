@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilCalendarGlobalScreenProvider
@@ -49,6 +49,7 @@ class ilCalendarGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 		return [$this->mainmenu->link($this->if->identifier('mm_pd_cal'))->withTitle($this->dic->language()->txt("calendar"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar")
 			        ->withParent($this->getTopItem())
+			        ->withPosition(4)
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () {

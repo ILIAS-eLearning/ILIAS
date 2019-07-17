@@ -2,7 +2,7 @@
 
 class ilADTEnumDefinition extends ilADTDefinition
 {
-	protected $options; // [array]	
+	protected $options = []; // [array]
 	protected $numeric; // [bool]
 	
 	public function getType()

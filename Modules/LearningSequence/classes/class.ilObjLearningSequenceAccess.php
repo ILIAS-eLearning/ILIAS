@@ -50,15 +50,44 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
 		return self::$using_code;
 	}
 
-	public static function _isOffline($obj_id)
-	{
-		$obj = ilObjectFactory::getInstanceByObjId($obj_id);
-		return !$obj->getLSSettings()->getIsOnline();
-	}
-
-	protected function isOffline($ref_id) {
+	public static function isOffline($ref_id) {
 		$obj = ilObjectFactory::getInstanceByRefId($ref_id);
-		return !$obj->getLSSettings()->getIsOnline();
+		$act = $obj->getLSActivation();
+		$online = $act->getIsOnline();
+
+		if(!$online
+			&& ($act->getActivationStart() !== null ||
+				$act->getActivationEnd() !== null)
+		) {
+
+			$ts_now = time();
+			$activation_start = $act->getActivationStart();
+			if($activation_start !== null) {
+				$after_activation_start = $ts_now >= $activation_start->getTimestamp();
+			} else {
+				$after_activation_start = true;
+			}
+			$activation_end = $act->getActivationEnd();
+			if($activation_end !== null) {
+				$before_activation_end = $ts_now <= $activation_end->getTimestamp();
+			} else {
+				$before_activation_end = true;
+			}
+
+			$online = ($after_activation_start && $before_activation_end);
+		}
+
+		if($act->getEffectiveOnlineStatus() === false && $online === true) {
+			$obj->setEffectiveOnlineStatus(true);
+			$obj->announceLSOOnline();
+		}
+		if($act->getEffectiveOnlineStatus() === true && $online === false) {
+			$obj->setEffectiveOnlineStatus(false);
+			$obj->announceLSOOffline();
+		}
+
+
+		return !$online;
 	}
 
 	public function _checkAccess($cmd, $permission, $ref_id, $obj_id, $usr_id = "")

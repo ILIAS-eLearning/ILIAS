@@ -457,11 +457,14 @@ class ilForumAppEventListener implements ilAppEventListener
 			default:
 				// get recipients who wants to get forum notifications
 				$logger->debug('Determining subscribers for global forum notifications ...');
-				self::sendNotification($provider, $logger, $notification_type, $provider->getForumNotificationRecipients());
+				$frm_recipients = $provider->getForumNotificationRecipients();
 
 				// get recipients who wants to get thread notifications
 				$logger->debug('Determining subscribers for thread notifications ...');
-				self::sendNotification($provider, $logger, $notification_type, $provider->getThreadNotificationRecipients());
+				$thread_recipients = $provider->getThreadNotificationRecipients();
+
+				$recipients = array_unique(array_merge($frm_recipients, $thread_recipients));
+				self::sendNotification($provider, $logger, $notification_type, $recipients);
 
 				break;
 		}
@@ -485,7 +488,7 @@ class ilForumAppEventListener implements ilAppEventListener
 				count($recipients), implode(', ', $recipients)
 			));
 
-			$mailNotification = new ilForumMailNotification($provider, $logger);
+			$mailNotification = new ilMailEventNotificationSender($provider, $logger);
 			$mailNotification->setType($notificationTypes);
 			$mailNotification->setRecipients($recipients);
 			$mailNotification->send();

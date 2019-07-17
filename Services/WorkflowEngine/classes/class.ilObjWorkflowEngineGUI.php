@@ -179,7 +179,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	 */
 	public function prepareAdminOutput()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 
 		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_wfe.svg'));
 		$this->tpl->setTitle($this->object->getPresentationTitle());

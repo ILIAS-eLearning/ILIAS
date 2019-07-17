@@ -64,7 +64,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->book_obj_id = (int)$_REQUEST['object_id'];
 		$this->seed = ilUtil::stripSlashes($_GET['seed']);
 		$this->sseed = ilUtil::stripSlashes($_GET['sseed']);
-		$this->reservation_id = (int) $_GET["reservation_id"];
+		$this->reservation_id = ilUtil::stripSlashes($_GET["reservation_id"]);
 		$this->profile_user_id = (int) $_GET['user_id'];
 
 		$this->user_id_assigner = $this->user->getId();
@@ -72,6 +72,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$this->user_id_to_book = (int)$_GET['bkusr'];
 		} else {
 			$this->user_id_to_book = $this->user_id_assigner; // by default user books his own booking objects.
+		}
+
+		if ((int) $_REQUEST['object_id'] > 0 && ilBookingObject::lookupPoolId((int) $_REQUEST['object_id']) != $this->object->getId())
+		{
+			throw new ilException("Booking Object ID does not match Booking Pool.");
 		}
 	}
 
@@ -563,6 +568,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			else
 			{
 				$dates = array();
+
+				//loop for 1 week
 				$has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
 				
 				// find first open slot
@@ -702,16 +709,21 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		foreach(ilCalendarUtil::_buildWeekDayList($seed,$week_start)->get() as $date)
 		{
 			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
-			
-			if($av_from || 
-				$av_to)
+
+			#24045 and #24936
+			if($av_from || $av_to)
 			{
-				$today = $date->get(IL_CAL_DATE);						
-				if($av_from > $today ||
-					$av_to < $today)
+				$today = $date->get(IL_CAL_DATE);
+
+				if ($av_from && $av_from > $today)
 				{
 					continue;
-				}			
+				}
+
+				if($av_to && $av_to < $today)
+				{
+					continue;
+				}
 			}
 
 			$slots = array();

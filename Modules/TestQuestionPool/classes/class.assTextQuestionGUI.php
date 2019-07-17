@@ -201,9 +201,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 				$max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
 			}
 			
-			$act_no_of_chars = $this->object->countLetters($user_solution);
-			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . 
+			$act_no_of_chars = $this->object->countLetters($solution);
+			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' .
 				$this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
+			
+			if( $this->object->isWordCounterEnabled() )
+			{
+				$template->setCurrentBlock('word_count');
+				$template->setVariable('WORD_COUNT', $this->lng->txt('qst_essay_written_words').
+					' <b>' . $this->object->countWords($solution) . '</b>'
+				);
+				$template->parseCurrentBlock();
+			}
 		}
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
@@ -358,7 +367,15 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
-			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
+			$template->setVariable("CHARACTERS", $this->lng->txt("qst_essay_chars_remaining"));
+			$template->parseCurrentBlock();
+		}
+		
+		if( $this->object->isWordCounterEnabled() )
+		{
+			$template->setCurrentBlock("word_counter");
+			$template->setVariable("QID", $this->object->getId());
+			$template->setVariable("WORDCOUNTER", $this->lng->txt("qst_essay_allready_written_words"));
 			$template->parseCurrentBlock();
 		}
 
@@ -421,9 +438,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->setVariable("QID", $this->object->getId());
 			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
-			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
+			$template->setVariable("CHARACTERS", $this->lng->txt("qst_essay_chars_remaining"));
 			$template->parseCurrentBlock();
 		}
+		
+		if( $this->object->isWordCounterEnabled() )
+		{
+			$template->setCurrentBlock("word_counter");
+			$template->setVariable("QID", $this->object->getId());
+			$template->setVariable("WORDCOUNTER", $this->lng->txt("qst_essay_allready_written_words"));
+			$template->parseCurrentBlock();
+		}
+		
 		$template->setVariable("QID", $this->object->getId());
 		$template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));
 		$questiontext = $this->object->getQuestion();
@@ -449,10 +475,20 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		if ($this->object->getMaxNumOfChars() > 0)
 		{
 			$tpl->setCurrentBlock('letter_counter_js');
-			$tpl->setVariable("QID", $this->object->getId());
 			$tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$tpl->parseCurrentBlock();
 		}
+		
+		if( $this->object->isWordCounterEnabled() )
+		{
+			$tpl->setCurrentBlock('word_counter_js');
+			$tpl->touchBlock('word_counter_js');
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setCurrentBlock('counter_js');
+		$tpl->setVariable("QID", $this->object->getId());
+		$tpl->parseCurrentBlock();
 		
 		return $tpl->get();
 	}
@@ -580,6 +616,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
+		$this->object->setWordCounterEnabled( isset($_POST['wordcounter']) && $_POST['wordcounter'] );
 		$this->object->setMaxNumOfChars( $_POST["maxchars"] );
 		$this->object->setTextRating( $_POST["text_rating"] );
 		$this->object->setKeywordRelation( $_POST['scoring_mode'] );
@@ -610,6 +647,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
 	{
+		// wordcounter
+		$wordcounter = new ilCheckboxInputGUI($this->lng->txt('qst_essay_wordcounter_enabled'), 'wordcounter');
+		$wordcounter->setInfo($this->lng->txt('qst_essay_wordcounter_enabled_info'));
+		$wordcounter->setChecked($this->object->isWordCounterEnabled());
+		$form->addItem($wordcounter);
+		
 		// maxchars
 		$maxchars = new ilNumberInputGUI($this->lng->txt( "maxchars" ), "maxchars");
 		$maxchars->setSize( 5 );

@@ -555,7 +555,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		$lng = $this->lng;
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 	}
 
 	function showLearningModule()

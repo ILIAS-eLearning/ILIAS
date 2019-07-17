@@ -10596,7 +10596,7 @@ bibl#:#download_original_file#:#Eredeti fájl letöltése
 bibl#:#Type#:#Típus
 bibl#:#override_entries#:#Bejegyzések felülbírálása
 bibl#:#bibl_edit#:#Bibliográfia módosítása
-bibl#:#bibliography file#:#Bibliográfia fájl
+bibl#:#bibliography_file#:#Bibliográfia fájl
 bibl#:#obj_bibl_duplicate#:#Bibliográfia duplikálása
 bibl#:#detail_view#:#Részletes nézet
 bibl#:#bibl_settings_libraries#:#Könyvtárak

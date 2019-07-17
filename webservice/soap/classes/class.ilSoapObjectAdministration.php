@@ -446,8 +446,21 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 			ilSearchSettings::getInstance()->setMaxHits(25);
 
+			$typeFilterQuery = '';
+			if (is_array($types)) {
+				foreach ($types as $objectType) {
+					if (0 === strlen($typeFilterQuery)) {
+						$typeFilterQuery .= '+( ';
+					} else {
+						$typeFilterQuery .= 'OR';
+					}
+					$typeFilterQuery .= (' type:' . (string)$objectType . ' ');
+				}
+				$typeFilterQuery .= ') ';
+			}
+
 			include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-			$query_parser = new ilLuceneQueryParser($key);
+			$query_parser = new ilLuceneQueryParser($typeFilterQuery . $key);
 			$query_parser->parse();
 
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';

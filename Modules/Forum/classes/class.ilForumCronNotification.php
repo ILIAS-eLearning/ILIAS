@@ -612,12 +612,13 @@ class ilForumCronNotification extends ilCronJob
 					frm_notification.user_id user_id,
 					frm_threads.thr_pk thread_id,
 					frm_posts.*
-			FROM 	frm_notification, frm_posts, frm_threads, frm_data
+			FROM 	frm_notification, frm_posts, frm_threads, frm_data, frm_posts_tree
 			WHERE	frm_posts.pos_thr_fk = frm_threads.thr_pk AND ' . $condition . '
 			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
 					OR (frm_threads.thr_pk = frm_notification.thread_id
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
 			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
+			AND     frm_posts_tree.pos_fk = frm_posts.pos_pk AND frm_posts_tree.parent_pos != 0
 			ORDER BY frm_posts.pos_date ASC';
 	}
 

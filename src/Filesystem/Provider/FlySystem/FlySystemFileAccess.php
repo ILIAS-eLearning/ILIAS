@@ -109,11 +109,11 @@ class FlySystemFileAccess implements FileAccess {
 
 
 	/**
-	 * Get the timestamp of the file.
+	 * Get the timestamp (mtime) of the file.
 	 *
 	 * @param string $path The path to the file.
 	 *
-	 * @return \DateTime  The timestamp of the file.
+	 * @return \DateTimeImmutable  The timestamp of the file.
 	 *
 	 * @throws FileNotFoundException    If the file is not found.
 	 * @throws IOException              If the file can not be red.
@@ -121,19 +121,23 @@ class FlySystemFileAccess implements FileAccess {
 	 * @since   5.3
 	 * @version 1.0
 	 */
-	public function getTimestamp(string $path): \DateTime {
+public function getTimestamp(string $path): \DateTimeImmutable {
 
-		try {
-			$rawTimestamp = $this->flySystemFS->getTimestamp($path);
-			if($rawTimestamp === false)
-				throw new IOException("Could not lookup timestamp of the file \"$path\".");
+	try {
+		$rawTimestamp = $this->flySystemFS->getTimestamp($path);
+		if($rawTimestamp === false)
+			throw new IOException("Could not lookup timestamp of the file \"$path\".");
 
-			return new \DateTime($rawTimestamp);
+		if (is_numeric($rawTimestamp)) {
+			$rawTimestamp = '@' . $rawTimestamp;
 		}
-		catch (\League\Flysystem\FileNotFoundException $ex) {
-			throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
-		}
+
+		return new \DateTimeImmutable($rawTimestamp);
 	}
+	catch (\League\Flysystem\FileNotFoundException $ex) {
+		throw new FileNotFoundException("File \"$path\" not found.", 0, $ex);
+	}
+}
 
 
 	/**

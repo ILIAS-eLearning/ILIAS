@@ -61,7 +61,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 		{
 				
 			case "ilscorm2004pagegui":
-				$tpl->getStandardTemplate();
+				$tpl->loadStandardTemplate();
 				$this->setContentStyle();
 				$this->setLocator();
 				// Determine whether the view of a learning resource should

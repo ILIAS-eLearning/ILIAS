@@ -66,7 +66,14 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {        
         if($this->repo_helper->checkAccess('write', $this->getRefId()))
         {
+            // Stolen from ilObjFile->addFileVersion
+            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
+            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
+            ilHistory::_createEntry($this->obj->getId(), "new_version", $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
+            $this->obj->addNewsNotification("file_updated");
+
             $this->handleFileUpload($data);
+
             return $this->getETag();
         }
         throw new Exception\Forbidden("Permission denied. No write access for this file");
@@ -96,6 +103,16 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         }
 
         throw new Exception\Forbidden("Permission denied. No read access for this file");
+    }
+
+    /**
+     * Returns title of file object. If it has a forbidden file extension -> ".sec" will be added
+     *
+     * @return string
+     */
+    function getName()
+    {
+        return ilFileUtils::getValidFilename($this->obj->getTitle());
     }
     
     /**
@@ -154,7 +171,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     function setName($a_name)
     {
-        if($this->repo_helper->isValidFileNameWithValidFileExtension($a_name))
+        if($this->dav_helper->isValidFileNameWithValidFileExtension($a_name))
         {
             parent::setName($a_name);
         }
@@ -269,10 +286,15 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     
     protected function getPathToFile()
     {
-        return $this->getPathToDirectory() . "/" . $this->obj->getFileName();
+        // ilObjFile delivers the filename like it was on the upload. But if the file-extension is forbidden, the file
+        // will be safed as .sec-file. In this case ->getFileName returns the wrong file name
+        $path = $this->getPathToDirectory() . "/" . $this->obj->getFileName();
+
+        // For the case of forbidden file-extensions, ::getValidFilename($path) returns the path with the .sec extension
+        return ilFileUtils::getValidFilename($path);
     }
     
-    protected function checkForVirus($file_dest_path)
+    protected function checkForVirus(string $file_dest_path)
     {
         $vrs = ilUtil::virusHandling($file_dest_path, '', true);
         // If vrs[0] == false -> virus found

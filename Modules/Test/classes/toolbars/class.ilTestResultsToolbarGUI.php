@@ -18,7 +18,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	public $ctrl = null;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	public $tpl = null;
 
@@ -52,7 +52,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	 */
 	private $participantSelectorOptions = array();
 
-	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng)
+	public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng)
 	{
 		$this->ctrl = $ctrl;
 		$this->tpl = $tpl;

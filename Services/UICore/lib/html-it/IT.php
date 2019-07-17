@@ -241,6 +241,8 @@ class HTML_Template_IT
      */
     var $blockvariables = array();
 
+    var $blockparents = array();
+
     /**
      * Array of inner blocks of a block.
      * @var      array
@@ -674,7 +676,7 @@ class HTML_Template_IT
      * @access   public
      * @see      free()
      */
-    function init()
+    protected function init()
     {
         $this->free();
         require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');

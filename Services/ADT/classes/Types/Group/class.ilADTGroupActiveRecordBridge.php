@@ -4,14 +4,30 @@ require_once "Services/ADT/classes/Bridges/class.ilADTActiveRecordBridge.php";
 
 class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 {
-	protected $elements; // [array]
+	protected $elements = []; // [array]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{
 		return ($a_adt instanceof ilADTGroup);
 	}
-	
-	
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getFieldValue($a_field_name) {
+		// TODO: Implement getFieldValue() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setFieldValue($a_field_name, $a_field_value) {
+		// TODO: Implement setFieldValue() method.
+	}
+
+
 	// elements
 	
 	protected function prepareElements()

@@ -104,37 +104,21 @@ class ilForumPostsTree
 		global $DIC;
 		$this->db = $DIC->database();
 	}
-	
-	public function mergeParentPos()
-	{
-		$this->db->update('frm_posts_tree',
-			array(
-				'parent_pos' => array('integer', $this->getParentPos()),
-				'lft'        => array('integer', $this->getLft()),
-				'rgt'        => array('integer', $this->getRgt()),
-				'depth'      => array('integer', $this->getDepth()),
-				'thr_fk'     => array('integer', $this->getTargetThreadId())
-			),
-			array(
-				'pos_fk'	 => array('integer', $this->getPosFk()),
-				'parent_pos' => array('integer', 0),
-				'thr_fk'     => array('integer', $this->getSourceThreadId())
-			));
-	}
+
 	public function merge()
 	{
-		$this->db->update('frm_posts_tree',
-			array(
+		$this->db->update('frm_posts_tree', [
 				'lft'        => array('integer', $this->getLft()),
 				'rgt'        => array('integer', $this->getRgt()),
 				'depth'      => array('integer', $this->getDepth()),
-				'thr_fk'     => array('integer', $this->getTargetThreadId())
-			),
-			array(
-				'pos_fk'	 => array('integer', $this->getPosFk()),
+				'thr_fk'     => array('integer', $this->getTargetThreadId()),
 				'parent_pos' => array('integer', $this->getParentPos()),
+			],
+			[
+				'pos_fk'	 => array('integer', $this->getPosFk()),
 				'thr_fk'     => array('integer', $this->getSourceThreadId())
-			));
+			]
+		);
 	}
 
 	/***

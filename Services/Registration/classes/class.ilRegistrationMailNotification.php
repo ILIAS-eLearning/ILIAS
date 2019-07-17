@@ -59,8 +59,7 @@ class ilRegistrationMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('reg_mail_body_reason'));
 
 					$this->getMail()->appendInstallationSignature(true);
-					$this->getMail()->enableSoap(false);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 
@@ -96,8 +95,7 @@ class ilRegistrationMailNotification extends ilMailNotification
 					$this->appendBody($this->getLanguageText('reg_mail_body_reason'));
 					
 					$this->getMail()->appendInstallationSignature(true);
-					$this->getMail()->enableSoap(false);
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 		}

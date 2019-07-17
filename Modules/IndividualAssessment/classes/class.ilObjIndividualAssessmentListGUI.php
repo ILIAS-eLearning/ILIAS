@@ -16,24 +16,15 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI {
 		$this->info_screen_enabled = true;
 		$this->type = "iass";
 		$this->gui_class_name = "ilobjIndividualassessmentgui";
-		
+
+		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+		$this->enableSubstitutions($this->substitutions->isActive());
+
 		// general commands array
 		include_once('./Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentAccess.php');
 		$this->commands = ilObjIndividualAssessmentAccess::_getCommands();
 	}
 
-
-	/**
-	* inititialize new item
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	int			$a_obj_id		object id
-	* @param	string		$a_title		title
-	* @param	string		$a_description	description
-	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "") {
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
-	}
 
 
 	/**

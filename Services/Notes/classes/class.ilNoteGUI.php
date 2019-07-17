@@ -57,6 +57,9 @@ class ilNoteGUI
 	var $old = false;
 
 	protected $default_command = "getNotesHTML";
+	
+	/** @var array */
+	protected $observer = [];
 
 	/**
 	 * @var \ILIAS\DI\UIServices
@@ -422,7 +425,7 @@ if ($this->private_enabled && $this->public_enabled
 				if ($this->ajax && !$comments_col)
 				{
 					$ntpl->setVariable("COMMENTS_MESS",
-						$ntpl->getMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
+						ilUtil::getSystemMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
 				}
 			}
 			$ntpl->parseCurrentBlock();
@@ -935,7 +938,7 @@ if ($this->private_enabled && $this->public_enabled
 		}
 		if ($mtxt != "")
 		{
-			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+			$tpl->setVariable("MESS", ilUtil::getSystemMessageHTML($mtxt, $mtype));
 		}
 		else
 		{
@@ -1273,7 +1276,7 @@ return;
 								$tgt_obj_id = ilContainerReference::_lookupTargetId($target["rep_obj_id"]);
 								$title = ilObject::_lookupTitle($tgt_obj_id);
 							}
-							$this->item_list_gui[$type]->initItem($vis_ref_id, $target["rep_obj_id"], $title);
+							$this->item_list_gui[$type]->initItem($vis_ref_id, $target["rep_obj_id"], $title, $a_obj_type);
 							$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
 
 							// workaround, because # anchor can't be passed through frameset
@@ -1587,7 +1590,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	*/ 
 	function exportNotesHTML()
 	{
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 		$this->export_html = true;
 		$this->multi_selection = false;
@@ -1665,7 +1668,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilTemplate $a_main_tpl = null)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE, ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 
@@ -1798,19 +1801,39 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 */
 	protected function notifyObserver($a_action, $a_note)
 	{
-		if(sizeof($this->observer))
-		{
-			foreach($this->observer as $item)
-			{
-				$param = $a_note->getObject();			
+		if (is_array($this->observer) && count($this->observer) > 0) {
+			foreach ($this->observer as $item) {
+				$param = $a_note->getObject();
+				//TODO refactor this, check what is this news_id from getObject
+				unset($param['news_id']);
 				$param["action"] = $a_action;
 				$param["note_id"] = $a_note->getId();
-				
-				call_user_func_array($item, $param);				
+
+				call_user_func_array($item, $param);
+			}
+		}
+
+		//ajax calls don't have callbacks in the observer. (modals)
+		if($this->ajax)
+		{
+			$ref = (int)$_GET['ref_id'];
+			if(in_array($ref,ilObject::_getAllReferences($this->rep_obj_id)))
+			{
+				if($this->obj_type == "pg")
+				{
+					$gui = new ilLMPresentationGUI();
+					$gui->observeNoteAction($this->rep_obj_id,$this->obj_id,$this->obj_type,$a_action,$a_note->getId());
+				}
+
+				if($this->obj_type == "wpg")
+				{
+					$gui = new ilWikiPageGUI($this->obj_id, 0, $ref);
+					$gui->observeNoteAction($this->obj_id,$this->obj_id,$this->obj_type,$a_action,$a_note->getId());
+				}
 			}
 		}
 	}	
-	
+
 	protected function listSortAsc()
 	{
 		$_SESSION["comments_sort_asc"] = 1;
@@ -1864,7 +1887,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		if ($cnt > 0)
 		{
 			$c = $f->counter()->status((int) $cnt);
-			$comps[] = $f->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function($id) use ($hash, $update_url, $widget_el_id) {
+			$comps[] = $f->symbol()->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function($id) use ($hash, $update_url, $widget_el_id) {
 				return "$(\"#$id\").click(function(event) { ".self::getListCommentsJSCall($hash, "ilNotes.updateWidget(\"".$widget_el_id."\",\"".$update_url."\");")."});";
 			});
 			$comps[] = $f->divider()->vertical();

@@ -22,7 +22,7 @@ class ilTestPasswordProtectionGUI
 	protected $ctrl;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $tpl;
 
@@ -51,7 +51,7 @@ class ilTestPasswordProtectionGUI
 	 */
 	private $nextCommandCmd;
 	
-	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng, ilTestPlayerAbstractGUI $parentGUI, ilTestPasswordChecker $passwordChecker)
+	public function __construct(ilCtrl $ctrl, ilGlobalTemplate $tpl, ilLanguage $lng, ilTestPlayerAbstractGUI $parentGUI, ilTestPasswordChecker $passwordChecker)
 	{
 		$this->ctrl = $ctrl;
 		$this->tpl = $tpl;
@@ -85,7 +85,7 @@ class ilTestPasswordProtectionGUI
 			return '';
 		}
 		
-		return $this->tpl->getMessageHTML(
+		return ilUtil::getSystemMessageHTML(
 			$this->lng->txt('tst_password_entered_wrong_password'), 'failure'
 		);
 	}

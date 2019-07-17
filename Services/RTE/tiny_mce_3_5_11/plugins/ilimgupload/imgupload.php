@@ -148,7 +148,7 @@ if(isset($_FILES['img_file']) && is_array($_FILES['img_file']))
 	}
 }
 
-$tpl = new ilTemplate(dirname(__FILE__) . "/tpl.img_upload.html", true, true);
+$tpl = new ilGlobalTemplate(dirname(__FILE__) . "/tpl.img_upload.html", true, true);
 
 $tpl->setVariable("OBJ_ID", (int)$_GET["obj_id"]);
 $tpl->setVariable("OBJ_TYPE", $_GET["obj_type"]);
@@ -232,4 +232,4 @@ else if($uploadedFile && $mob_details[$uploadedFile])
 	$tpl->setVariable('UPLOADED_FILE_SRC', $mob_details[$uploadedFile]['http_dir'] . $mob_details[$uploadedFile]['file_name']);
 }
 
-$tpl->show();
+$tpl->printToStdout("DEFAULT", false, true);

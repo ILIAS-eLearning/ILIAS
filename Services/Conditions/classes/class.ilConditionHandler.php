@@ -498,9 +498,26 @@ class ilConditionHandler
 	{
 		global $DIC;
 
+		/** @var ilObjectDefinition $objDefinition */
 		$objDefinition = $DIC['objDefinition'];
 		
 		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg', 'copa');
+
+		// Add operator lp trigger
+		if (ilObjUserTracking::_enabledLearningProgress())
+		{
+			// only if object type has lp
+			foreach ($objDefinition->getAllRepositoryTypes() as $t)
+			{
+				if (ilObjectLP::isSupportedObjectType($t))
+				{
+					if (!in_array($t, $trigger_types))
+					{
+						$trigger_types[] = $t;
+					}
+				}
+			}
+		}
 
 		foreach($objDefinition->getPlugins() as $p_type => $p_info)
 		{
@@ -558,16 +575,17 @@ class ilConditionHandler
 		include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 		
 		$reflection = new ReflectionClass($full_class);
-		if(!$reflection->implementsInterface('ilConditionHandling'))
+		if($reflection->implementsInterface('ilConditionHandling'))
 		{
-			return array();
-		}
-		
-		
-		$operators = call_user_func(
+			$operators = call_user_func(
 				array($full_class, 'getConditionOperators'),
 				$a_type
-		);
+			);
+		}
+		else
+		{
+			$operators = [];
+		}
 		
 		// Add operator lp 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");

@@ -26,7 +26,7 @@ abstract class ilExplorerBaseGUI
 	protected $ctrl;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	protected $tpl;
 
@@ -124,7 +124,7 @@ abstract class ilExplorerBaseGUI
 	 *
 	 * @param ilTemplate|null $a_main_tpl
 	 */
-	function setMainTemplate(ilTemplate $a_main_tpl = null)
+	function setMainTemplate(ilGlobalTemplate $a_main_tpl = null)
 	{
 		$this->tpl = $a_main_tpl;
 	}
@@ -703,7 +703,6 @@ abstract class ilExplorerBaseGUI
 	protected function getJSTreePlugins() {
 		$plugins = array("html_data", "themes", "json_data");
 		if($this->isEnableDnd()) {
-			$plugins[] = "crrm";
 			$plugins[] = "dnd";
 		}
 		return $plugins;

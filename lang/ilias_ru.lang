@@ -1342,7 +1342,7 @@ bibl#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_copy#:#User can copy bibliography
 bibl#:#bibl_edit#:#Edit Bibliography
 bibl#:#bibl_new#:#New Bibliography
-bibl#:#bibliography file#:#Bibliography File
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#detail_view#:#Detail View
 bibl#:#download_original_file#:#Download Original File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
@@ -14926,7 +14926,7 @@ common#:#il_lso_member#:#Learning Sequence Member###10 11 2018 new variable
 lso#:#entries_updated#:#Entries saved###10 11 2018 new variable
 lso#:#curriculum#:#Curriculum###10 11 2018 new variable
 lso#:#unparticipate#:#Unsubscribe###10 11 2018 new variable
-lso#:#participate#:#Subsribe###10 11 2018 new variable
+lso#:#participate#:#Subscribe###10 11 2018 new variable
 lhist#:#lhist_show_more#:#Show More###10 11 2018 new variable
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).###10 11 2018 new variable
 book#:#book_objects_available#:#Objects available %s###10 11 2018 new variable

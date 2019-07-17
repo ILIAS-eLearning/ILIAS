@@ -73,7 +73,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$ilCtrl = $this->ctrl;
 		$ilTabs = $this->tabs;
 
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -398,7 +398,7 @@ die("deprecated");
 		$ilCtrl = $this->ctrl;
 		
 		// init main template
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setBodyClass("");
@@ -482,7 +482,7 @@ die("deprecated");
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
 		$tpl->setVariable("CONTENT", $output);
-		$tpl->show();
+		$tpl->printToStdout();
 		exit;
 	}
 	

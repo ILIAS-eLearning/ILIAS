@@ -1,16 +1,13 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Mime/Sender/interface.ilMailMimeSender.php';
-
 /**
  * Class ilMailMimeSenderSystem
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailMimeSenderSystem implements ilMailMimeSender
 {
-	/**
-	 * @var \ilSetting
-	 */
+	/** @var \ilSetting */
 	protected $settings;
 
 	/**
@@ -25,7 +22,7 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
 	/**
 	 * @inheritdoc
 	 */
-	public function hasReplyToAddress()
+	public function hasReplyToAddress(): bool
 	{
 		return strlen($this->settings->get('mail_system_sys_reply_to_addr')) > 0;
 	}
@@ -33,15 +30,15 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
 	/**
 	 * @inheritdoc
 	 */
-	public function getReplyToAddress()
+	public function getReplyToAddress(): string
 	{
-		return $this->settings->get('mail_system_sys_reply_to_addr');
+		return $this->settings->get('mail_system_sys_reply_to_addr','');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getReplyToName()
+	public function getReplyToName(): string
 	{
 		return '';
 	}
@@ -49,7 +46,7 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
 	/**
 	 * @inheritdoc
 	 */
-	public function hasEnvelopFromAddress()
+	public function hasEnvelopFromAddress(): bool 
 	{
 		return strlen($this->settings->get('mail_system_sys_env_from_addr')) > 0;
 	}
@@ -57,24 +54,24 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
 	/**
 	 * @inheritdoc
 	 */
-	public function getEnvelopFromAddress()
+	public function getEnvelopFromAddress(): string
 	{
-		return $this->settings->get('mail_system_sys_env_from_addr');
+		return $this->settings->get('mail_system_sys_env_from_addr', '');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getFromAddress()
+	public function getFromAddress(): string 
 	{
-		return $this->settings->get('mail_system_sys_from_addr');
+		return $this->settings->get('mail_system_sys_from_addr', '');
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getFromName()
+	public function getFromName(): string 
 	{
-		return $this->settings->get('mail_system_sys_from_name');
+		return $this->settings->get('mail_system_sys_from_name', '');
 	}
 }

@@ -229,6 +229,10 @@ class ilLTIToolConsumer extends ToolConsumer
 		{
 			$toolConsumer->initialize();
 		}
+		$toolConsumer->setRecordId($id);
+
+		ilLoggerFactory::getLogger('lti')->info('Loading with record id: ' . $toolConsumer->getRecordId());
+
 		return $toolConsumer;
 	}
 	

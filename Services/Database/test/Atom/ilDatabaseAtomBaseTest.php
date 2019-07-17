@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * TestCase for the ilDatabaseAtomBaseTest
  *
@@ -34,7 +36,7 @@
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
+class ilDatabaseAtomBaseTest extends TestCase {
 
 	/**
 	 * @var bool
@@ -50,13 +52,8 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 	protected $ilDBInterfaceInnoDB;
 
 
-	protected function setUp() {
-		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+	protected function setUp(): void {
 		ilUnitUtil::performInitialisation();
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryTransaction.php');
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
-		require_once('./Services/Database/classes/class.ilDBWrapperFactory.php');
 
 		global $ilClientIniFile;
 		$this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
@@ -121,9 +118,6 @@ class ilDatabaseAtomBaseTest extends PHPUnit_Framework_TestCase {
 
 
 	public function testCallables() {
-		require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQL.php');
-		require_once('./Services/Database/test/Atom/data/class.ilAtomQueryTestHelper.php');
-
 		$ilAtomQuery = $this->ilDBInterfaceGalera->buildAtomQuery();
 		// Working
 		$this->assertTrue($ilAtomQuery->checkCallable(function (ilDBInterface $ilDBInterface) { })); // ilDBInterface as first Parameter

@@ -79,8 +79,6 @@ class ilDclDetailedViewGUI {
 		}
 
 		// content style (using system defaults)
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
@@ -92,7 +90,6 @@ class ilDclDetailedViewGUI {
 		$this->table = $this->record_obj->getTable();
 
 		// Comments
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$repId = $this->dcl_gui_object->getDataCollectionObject()->getId();
 		$objId = (int)$this->record_id;
 		$this->notesGUI = new ilNoteGUI($repId, $objId);
@@ -177,7 +174,7 @@ class ilDclDetailedViewGUI {
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
 
-		$rctpl = new ilTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
+		$rctpl = new ilDataCollectionGlobalTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
 
 		$ilTabs->setTabActive("id_content");
 
@@ -186,9 +183,7 @@ class ilDclDetailedViewGUI {
 		}
 
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
-		include_once("class.ilDclDetailedViewDefinitionGUI.php");
 		$pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
 
 		$html = $pageObj->getHTML();
@@ -223,7 +218,7 @@ class ilDclDetailedViewGUI {
 		$rctpl->setVariable("CONTENT", $html);
 
 		//Permanent Link
-		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $this->record_obj->getId() . "_" . $this->tableview_id);
+		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $this->tableview_id . "_" . $this->record_obj->getId());
 		$tpl->setVariable('PRMLINK', $perma_link->getHTML());
 
 		// Buttons for previous/next records
@@ -415,9 +410,10 @@ class ilDclDetailedViewGUI {
 	/**
 	 * @return bool
 	 */
-	protected function checkAccess() {
-		return ((ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
-			&& ilDclDetailedViewDefinition::isActive($this->tableview_id));
+	protected function checkAccess()
+	{
+		return ilObjDataCollectionAccess::hasAccessTo(filter_input(INPUT_GET, 'ref_id'), $this->table->getId(), $this->tableview_id)
+			&& ilDclDetailedViewDefinition::isActive($this->tableview_id);
 	}
 }
 

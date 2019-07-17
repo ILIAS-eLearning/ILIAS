@@ -98,7 +98,9 @@ class ilObjectOwnershipManagementGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		$objDefinition = $this->obj_definition;
-				
+
+		$sel_type = '';
+
 		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
 		
 		if(sizeof($objects))
@@ -146,7 +148,7 @@ class ilObjectOwnershipManagementGUI
 		}
 		
 		// #17751
-		if(sizeof($objects[$sel_type]))
+		if(is_array($objects[$sel_type]) && sizeof($objects[$sel_type]))
 		{
 			ilObject::fixMissingTitles($sel_type, $objects[$sel_type]);
 		}

@@ -372,6 +372,22 @@ class ilSkillProfile implements ilSkillUsageInfo
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 	}
+
+	/**
+	 * Remove user from all profiles
+	 *
+	 * @param int $a_user_id
+	 */
+	public static function removeUserFromAllProfiles($a_user_id)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$ilDB->manipulate("DELETE FROM skl_profile_user WHERE ".
+			" user_id = ".$ilDB->quote($a_user_id, "integer")
+		);
+	}
+
 	
 	/**
 	 * Get profiles of a user

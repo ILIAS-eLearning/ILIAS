@@ -575,6 +575,20 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		//$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
 	}
 	
+	public function getPresentationJavascripts()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$files = array();
+		
+		if($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad())
+		{
+			$files[] = './libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js';
+		}
+		
+		return $files;
+	}
+	
 	// hey: prevPassSolutions - pass will be always available from now on
 	public function getTestOutput($activeId, $pass, $isPostponed = FALSE, $userSolutionPost = FALSE, $inlineFeedback = false)
 	// hey.

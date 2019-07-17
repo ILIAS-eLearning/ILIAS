@@ -26,6 +26,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Manual Mail Templates](#manual-mail-templates)
   * [Context Registration](#context-registration)
   * [Context Usage Example](#context-usage-example)
+* [ilMassMailTaskProcessor](#ilmassmailtaskprocessor)
 
 ## General
 
@@ -137,7 +138,7 @@ Examples:
 * ...
 
 The intended public API for sending messages is
-the `sendMail()` method.
+the `enqueue()` method.
 Other methods like `sendMimeMail()` are public
 as well but not intended to be used by consumers.
 
@@ -156,14 +157,13 @@ $message = "Lorem ipsum dolor sit amet,\nconsetetur sadipscing elitr,\nsed diam 
 $attachments = [];
 
 $mail = new \ilMail($senderUserId);
-$mail->sendMail(
+$mail->enqueue(
     $to,
     $cc,
     $bc,
     $subject,
     $message,
-    $attachments,
-    [array("normal")](#recipients)
+    $attachments
 );
 ```
 
@@ -329,7 +329,7 @@ $attachment->copyAttachmentFile(
 );
 
 $mail = new \ilMail($senderUserId);
-$mail->sendMail(
+$mail->enqueue(
     $to,
     $cc,
     $bc,
@@ -349,16 +349,6 @@ $attachment->unlinkFile('/temp/hello.jpg');
 As outlined above attachments have to be removed
 manually by the consumer after the transport of an
 email has been delegated to the mail system.
-
-### Type
-
-The type string MUST be one of the following options:
-
-* normal
-* system (displayed in a separate block at the *Personal Desktop*)
-
-Messages marked as *system* will not be delivered to the recipient if he/she
-did not accept the *Terms of Service*, or he/she has an expired user account.
 
 ## ilMimeMail
 
@@ -476,7 +466,7 @@ class MyMailNotification extends \ilMailNotification
             $this->setBody('Hello World!');
             $this->appendBody(\ilMail::_getInstallationSignature());
 
-            $this->sendMail($this->getRecipients(), array('system'));
+            $this->sendMail($this->getRecipients());
         }
         catch(\ilMailException $e)
         {
@@ -522,7 +512,7 @@ class MyMailNotification extends \ilMailNotification
             $this->setBody('Hello World!');
             $this->appendBody(\ilMail::_getInstallationSignature());
 
-            $this->sendMail($this->getRecipients(), array('system'), false);
+            $this->sendMail($this->getRecipients(), false);
         }
         catch(\ilMailException $e)
         {
@@ -571,7 +561,7 @@ class ilRegistrationMailNotification extends \ilMimeMailNotification
                 $this->appendBody(\ilMail::_getInstallationSignature());
 
                 $this->getMail()->appendInstallationSignature(true);
-                $this->sendMail(array($rcp),array('system'));
+                $this->sendMail(array($rcp));
             }
         }
         catch(\ilMailException $e)
@@ -809,3 +799,27 @@ as callback when an email is actually sent and included
 placeholders should be replaced.
 You also MUST add a key `\ilMailFormCall::CONTEXT_KEY`
 with your context id as value to this array.
+
+## ilMassMailTaskProcessor
+
+Sending more then 1000 mails **at once** can lead that mails can be missing,
+because the responding API couldn't process all requests so fast.
+
+The `ilMassMailTaskProcessor` can be used to transfer these mails into
+background tasks, which can be used to relieve the API.
+
+```php
+$processor = new ilMassMailTaskProcessor();
+$processor->run(
+		$mailValueObjects,    // array of ilMailValueObject
+		$userId,              // integer value of the current user id
+		$contextId,           // integer value of the context id
+		$contextParameters,   // array of context parameters, check out the documentation of backgroundtasks for more information
+		$mailsPerTask         // integer value how many mails should be added in each task, default value is 100
+);
+```
+
+The amount of mails before the background task will be executed can be defined
+by passing a positive integer in the **fifth parameter**.
+Be aware that a high integer for mails per task can exhaust the mail API.
+We recommend to keep this value below 1000 mails per task to ensure that every mail can be sent.

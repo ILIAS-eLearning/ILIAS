@@ -63,7 +63,12 @@ class ilCalendarSchedule
 	 * @var bool strict_period true if no extra range of days are needed. (e.g. month view needs days before and after)
 	 */
 	protected $strict_period;
-	
+
+	/**
+	 * @var ilLogger
+	 */
+	protected $logger;
+
 	/**
 	 * Constructor
 	 *
@@ -80,6 +85,8 @@ class ilCalendarSchedule
 
 	 	$ilUser = $DIC['ilUser'];
 	 	$ilDB = $DIC['ilDB'];
+
+	 	$this->logger = $DIC->logger()->cal();
 	 	
 	 	$this->db = $ilDB;
 
@@ -106,9 +113,7 @@ class ilCalendarSchedule
 	 					
 		
 		// category / event filters
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		
+
 		// portfolio does custom filter handling (booking group ids)		
 		if(ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION)
 		{
@@ -116,19 +121,23 @@ class ilCalendarSchedule
 			if(ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_CONSULTATION)
 			{
 				// this is the "default" filter which handles currently hidden categories for the user
-				include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterHidden.php');
-				$this->addFilter(new ilCalendarScheduleFilterHidden($this->user->getId()));		
+				$this->addFilter(new ilCalendarScheduleFilterHidden($this->user->getId()));
 			}
 			else
 			{
 				// handle booking visibility (target object, booked out)
-				include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
-				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));		
+				//this filter deals with consultation hours
+				$this->addFilter(new ilCalendarScheduleFilterBookings($this->user->getId()));
 			}
-			
-			// exercise 
-			include_once './Services/Calendar/classes/class.ilCalendarScheduleFilterExercise.php';
+
+			if(ilCalendarCategories::_getInstance()->getMode() === ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP)
+			{
+				//this filter deals with booking pool reservations
+				$this->addFilter(new ilCalendarScheduleFilterBookingPool($this->user->getId()));
+			}
+
 			$this->addFilter(new ilCalendarScheduleFilterExercise($this->user->getId()));
+			$this->addFilter(new ilCalendarScheduleFilterTimings($this->user->getId()));
 		}
 		
 	}
@@ -214,6 +223,7 @@ class ilCalendarSchedule
 		
 		$tmp_date = new ilDateTime($unix_start,IL_CAL_UNIX,$this->timezone);
 		$tmp_schedule = array();
+		$tmp_schedule_fullday = array();
 	 	foreach($this->schedule as $schedule)
 	 	{
 	 		if($schedule['fullday'])
@@ -222,7 +232,7 @@ class ilCalendarSchedule
 		 			$f_unix_start == $schedule['dend'] or
 		 			($f_unix_start > $schedule['dstart'] and $f_unix_end <= $schedule['dend']))
 	 			{
-		 			$tmp_schedule[] = $schedule;
+		 			$tmp_schedule_fullday[] = $schedule;
 	 			}
 	 		}
 	 		elseif(($schedule['dstart'] == $unix_start) or
@@ -232,7 +242,16 @@ class ilCalendarSchedule
 	 			$tmp_schedule[] = $schedule;
 	 		}
 	 	}
-	 	return $tmp_schedule;
+
+	 	//order non full day events by starting date;
+		usort($tmp_schedule,function($a, $b){
+			return $a['dstart'] <=> $b['dstart'];
+		});
+
+		//merge both arrays keeping the full day events first and then rest ordered by starting date.
+	 	$schedules = array_merge($tmp_schedule_fullday,$tmp_schedule);
+
+	 	return $schedules;
 	}
 
 	
@@ -368,7 +387,7 @@ class ilCalendarSchedule
 	{
 		if(!sizeof($a_cats))
 		{
-			return;
+			return $a_cats;
 		}
 		
 		foreach($this->filters as $filter)
@@ -384,16 +403,12 @@ class ilCalendarSchedule
 	
 	protected function modifyEventByFilters(ilCalendarEntry $event)
 	{
-		global $DIC;
-
-		$logger = $DIC->logger()->cal();
-
 		foreach($this->filters as $filter)
 		{
 			$res = $filter->modifyEvent($event);
 			if(!$res)
 			{
-				$logger->info('filtering failed for ' . get_class($filter));
+				$this->logger->info('filtering failed for ' . get_class($filter));
 				return FALSE;
 			}
 			$event = $res;
@@ -510,7 +525,7 @@ class ilCalendarSchedule
 			" ORDER BY starta";
 
 		$res = $this->db->query($query);
-				
+
 		$events = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -550,6 +565,7 @@ class ilCalendarSchedule
 					$this->end->increment(IL_CAL_DAY, 2);
 				} else {
 					$this->end->increment(IL_CAL_DAY, 1);
+					$this->end->increment(IL_CAL_SECOND, -1);
 				}
 				break;
 			
@@ -585,15 +601,50 @@ class ilCalendarSchedule
 				}
 				else
 				{
-					//todo: previous implementation still taking more days than represented in the view.
 					$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
 					list($year,$month) = explode('-',$year_month);
 
+					#21716
 					$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);
-					$this->start->increment(IL_CAL_DAY,-6);
 
+					$start_unix_time = $this->start->getUnixTime();
+
+					$start_day_of_week = (int)date('w', $start_unix_time);
+
+					$number_days_previous_month = 0;
+
+					if($start_day_of_week === 0 && $this->weekstart === ilCalendarSettings::WEEK_START_MONDAY)
+					{
+						$number_days_previous_month = 6;
+					}
+					else if($start_day_of_week > 0)
+					{
+						$number_days_previous_month = $start_day_of_week;
+
+						if($this->weekstart === ilCalendarSettings::WEEK_START_MONDAY) {
+							$number_days_previous_month = $start_day_of_week - 1;
+						}
+					}
+
+					$this->start->increment(IL_CAL_DAY, -$number_days_previous_month);
+
+					#21716
 					$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
-					$this->end->increment(IL_CAL_DAY,6);
+
+					$end_unix_time = $this->end->getUnixTime();
+
+					$end_day_of_week = (int)date('w', $end_unix_time);
+
+					if($end_day_of_week > 0)
+					{
+						$number_days_next_month = 7 - $end_day_of_week;
+
+						if($this->weekstart == ilCalendarSettings::WEEK_START_SUNDAY) {
+							$number_days_next_month = $number_days_next_month - 1;
+						}
+
+						$this->end->increment(IL_CAL_DAY, $number_days_next_month);
+					}
 				}
 
 				break;
@@ -608,7 +659,7 @@ class ilCalendarSchedule
 			case self::TYPE_INBOX:
 				$this->start = $seed;
 				$this->end = clone $this->start;
-				$this->end->increment(IL_CAL_MONTH,3);
+				$this->end->increment(IL_CAL_MONTH,12);
 				break;
 		}
 		

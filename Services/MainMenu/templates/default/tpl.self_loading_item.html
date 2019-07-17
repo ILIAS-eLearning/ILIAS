@@ -7,24 +7,9 @@
                 var element = $.parseHTML(data);
                 item.closest("a").replaceWith(element);
                 $(element).show();
-                $(element).css("width", "768px");
-                $(element).css("margin-top", "-5px");
+                $(element).addClass("il-mm-selfloading");
             });
         });
     });
 </script><span class="il-mm-selfloading" data-async-url="{ASYNC_URL}">
-	<!--<style type="text/css">.loader {-->
-		<!--border: 2px solid #f3f3f3; /* Light grey */-->
-		<!--border-top: 2px solid #3498db; /* Blue */-->
-		<!--border-radius: 50%;-->
-		<!--width: 12px;-->
-		<!--height: 12px;-->
-		<!--animation: spin 2s linear infinite;-->
-	<!--}-->
-
-	<!--@keyframes spin {-->
-		<!--0% { transform: rotate(0deg); }-->
-		<!--100% { transform: rotate(360deg); }-->
-	<!--}</style>-->
- <!--<div class="loader"></div>-->
 </span>

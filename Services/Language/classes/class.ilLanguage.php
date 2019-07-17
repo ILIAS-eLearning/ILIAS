@@ -530,7 +530,7 @@ class ilLanguage
 	 * @param string|array $a_lang_key languag key or array of language keys
 	 * @param ilTemplate $a_tpl template
 	 */
-	function toJS($a_lang_key, ilTemplate $a_tpl = null)
+	function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null)
 	{
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -559,7 +559,7 @@ class ilLanguage
 	 * @param array $a_map array of key value pairs (key is text string, value is content)
 	 * @param ilTemplate $a_tpl template
 	 */
-	function toJSMap($a_map, ilTemplate $a_tpl = null)
+	function toJSMap($a_map, ilGlobalTemplateInterface $a_tpl = null)
 	{
 		global $DIC;
 		$tpl = $DIC['tpl'];

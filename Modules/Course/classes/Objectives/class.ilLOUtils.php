@@ -276,7 +276,8 @@ class ilLOUtils
 				if(ilObjTestAccess::visibleUserResultExists($testObjId, $a_user_id))
 				{	
 					$ilCtrl->setParameterByClass('ilObjTestGUI', 'ref_id', $a_test_ref_id);
-					$link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjTestGUI'), 'userResultsGateway');
+					$ctrlClasses = array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestResultsGUI');
+					$link = $ilCtrl->getLinkTargetByClass($ctrlClasses);
 					$ilCtrl->setParameterByClass('ilObjTestGUI', 'ref_id', '');
 					return $link;
 				}

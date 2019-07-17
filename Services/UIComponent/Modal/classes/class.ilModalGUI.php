@@ -183,7 +183,7 @@ class ilModalGUI
 	/**
 	 * Init javascript
 	 */
-	static function initJS(ilTemplate $a_main_tpl = null)
+	static function initJS(ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 

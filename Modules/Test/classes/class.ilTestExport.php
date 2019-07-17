@@ -37,6 +37,11 @@ abstract class ilTestExport
 	private $resultsfile;
 	
 	protected $resultExportingEnabledForTestExport = false;
+	
+	/**
+	 * @var ilTestParticipantList
+	 */
+	protected $forcedAccessFilteredParticipantList = null;
 
 	/**
 	 * Constructor
@@ -98,6 +103,35 @@ abstract class ilTestExport
 	public function setResultExportingEnabledForTestExport($resultExprtingEnabledForTestExport)
 	{
 		$this->resultExportingEnabledForTestExport = $resultExprtingEnabledForTestExport;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getForcedAccessFilteredParticipantList()
+	{
+		return $this->forcedAccessFilteredParticipantList;
+	}
+	
+	/**
+	 * @param ilTestParticipantList $forcedAccessFilteredParticipantList
+	 */
+	public function setForcedAccessFilteredParticipantList(ilTestParticipantList $forcedAccessFilteredParticipantList)
+	{
+		$this->forcedAccessFilteredParticipantList = $forcedAccessFilteredParticipantList;
+	}
+	
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getAccessFilteredParticipantList()
+	{
+		if( $this->getForcedAccessFilteredParticipantList() instanceof ilTestParticipantList )
+		{
+			return $this->getForcedAccessFilteredParticipantList();
+		}
+		
+		return $this->test_obj->buildStatisticsAccessFilteredParticipantList();
 	}
 
 	function getExtension () {
@@ -260,6 +294,7 @@ abstract class ilTestExport
 			));
 		}
 		array_push($rows, array(
+			$this->lng->txt("question_id"),
 			$this->lng->txt("question_title"),
 			$this->lng->txt("average_reached_points"),
 			$this->lng->txt("points"),
@@ -269,6 +304,7 @@ abstract class ilTestExport
 		foreach ($data["questions"] as $key => $value)
 		{
 			array_push($rows, array(
+				$key,
 				$value[0],
 				$value[4],
 				$value[5],
@@ -306,9 +342,7 @@ abstract class ilTestExport
 	 */
 	public function exportToExcel($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
-		$this->test_obj->setAccessFilteredParticipantList(
-			$this->test_obj->buildStatisticsAccessFilteredParticipantList()
-		);
+		$this->test_obj->setAccessFilteredParticipantList( $this->getAccessFilteredParticipantList() );
 		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
 
@@ -422,7 +456,7 @@ abstract class ilTestExport
 
 			$worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getQuestionsWorkedThrough());
 			$worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getNumberOfQuestions());
-			$worksheet->setCell($row, $col++, ($data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0) . '%');
+			$worksheet->setCell($row, $col++, $data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() . '%');
 
 			$time = $data->getParticipant($active_id)->getTimeOfWork();
 			$time_seconds = $time;

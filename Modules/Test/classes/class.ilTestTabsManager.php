@@ -31,6 +31,7 @@ class ilTestTabsManager
 	const TAB_ID_RESULTS = 'results';
 	const SUBTAB_ID_PARTICIPANTS_RESULTS = 'participantsresults';
 	const SUBTAB_ID_MY_RESULTS = 'myresults';
+	const SUBTAB_ID_LO_RESULTS = 'loresults';
 	const SUBTAB_ID_HIGHSCORE = 'highscore';
 	const SUBTAB_ID_SKILL_RESULTS = 'skillresults';
 	const SUBTAB_ID_MY_SOLUTIONS = 'mysolutions';
@@ -49,6 +50,11 @@ class ilTestTabsManager
 	 * @var ilTestAccess
 	 */
 	protected $testAccess;
+	
+	/**
+	 * @var ilTestObjectiveOrientedContainer
+	 */
+	protected $objectiveParent;
 	
 	/**
 	 * @var ilLanguage
@@ -88,9 +94,10 @@ class ilTestTabsManager
 	/**
 	 * ilTestTabsManager constructor.
 	 */
-	public function __construct(ilTestAccess $testAccess)
+	public function __construct(ilTestAccess $testAccess, ilTestObjectiveOrientedContainer $objectiveParent)
 	{
 		$this->testAccess = $testAccess;
+		$this->objectiveParent = $objectiveParent;
 		
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$this->tabs = $DIC['ilTabs'];
@@ -124,6 +131,7 @@ class ilTestTabsManager
 				
 			case self::SUBTAB_ID_PARTICIPANTS_RESULTS:
 			case self::SUBTAB_ID_MY_RESULTS:
+			case self::SUBTAB_ID_LO_RESULTS:
 			case self::SUBTAB_ID_HIGHSCORE:
 			case self::SUBTAB_ID_SKILL_RESULTS:
 			case self::SUBTAB_ID_MY_SOLUTIONS:
@@ -376,11 +384,6 @@ class ilTestTabsManager
 		}
 		
 		if ($DIC->ctrl()->getCmdClass() == 'iltestoutputgui')
-		{
-			return false;
-		}
-		
-		if ($DIC->ctrl()->getCmdClass() == 'iltestevalobjectiveorientedgui')
 		{
 			return false;
 		}
@@ -866,6 +869,17 @@ class ilTestTabsManager
 				array("", "ilobjtestgui", "ilcertificategui")
 			);
 		}
+		
+		$lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
+		if($lti_settings->hasSettingsAccess())
+		{
+			$this->tabs->addSubTabTarget(
+				'lti_provider',
+				$DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+				'',
+				[ilLTIProviderObjectSettingGUI::class]
+			);
+		}
 	}
 	
 	/**
@@ -974,6 +988,11 @@ class ilTestTabsManager
 			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'));
 		}
 		
+		if( $this->needsLoResultsSubTab() )
+		{
+			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'));
+		}
+		
 		if( $this->needsMyResultsSubTab() )
 		{
 			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
@@ -988,6 +1007,19 @@ class ilTestTabsManager
 	public function needsMyResultsSubTab()
 	{
 		return $this->getTestSession()->reportableResultsAvailable($this->getTestOBJ());
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function needsLoResultsSubTab()
+	{
+		if( !$this->needsMyResultsSubTab() )
+		{
+			return false;
+		}
+		
+		return $this->objectiveParent->isObjectiveOrientedPresentationRequired();
 	}
 	
 	/**
@@ -1057,11 +1089,27 @@ class ilTestTabsManager
 			);
 		}
 		
-		if( $this->needsMyResultsSubTab() )
+		if( $this->needsLoResultsSubTab() )
 		{
 			$this->tabs->addSubTab(
+				self::SUBTAB_ID_LO_RESULTS,
+				$DIC->language()->txt('tst_tab_results_objective_oriented'),
+				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'))
+			);
+		}
+		
+		if( $this->needsMyResultsSubTab() )
+		{
+			$myResultsLabel = $DIC->language()->txt('tst_show_results');
+			
+			if( $this->needsLoResultsSubTab() )
+			{
+				$myResultsLabel = $DIC->language()->txt('tst_tab_results_pass_oriented');
+			}
+			
+			$this->tabs->addSubTab(
 				self::SUBTAB_ID_MY_RESULTS,
-				$DIC->language()->txt('tst_show_results'),
+				$myResultsLabel,
 				$DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'))
 				// 'ilTestEvaluationGUI' => 'outUserResultsOverview'
 			);

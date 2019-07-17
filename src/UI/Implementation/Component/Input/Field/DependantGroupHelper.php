@@ -37,7 +37,7 @@ trait DependantGroupHelper {
 	 * @return C\Input\Field\DependantGroup|null
 	 */
 	public function getDependantGroup() {
-		if (is_array($this->inputs)) {
+		if (is_array($this->inputs) && isset($this->inputs["dependant_group"])) {
 			return $this->inputs["dependant_group"];
 		} else {
 			return null;

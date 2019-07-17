@@ -91,7 +91,7 @@ if(isset($_FILES['img_file']['size']) && $_FILES['img_file']['size'] > 0)
 	$mobs[$media_object->getId()] = $media_object->getId();
 }
 
-$tpl = new ilTemplate(dirname(__FILE__).'/tpl.imagemanager.html', true, true);
+$tpl = new ilGlobalTemplate(dirname(__FILE__).'/tpl.imagemanager.html', true, true);
 
 // delete image
 if ($tinyMCE_img_delete_allowed && isset($_POST['lib_action'])
@@ -130,7 +130,7 @@ if(!empty($errors))
 	$error_messages .= '</span>';
 }
 $tpl->setVariable('ERROR_MESSAGES', $error_messages);
-$tpl->show();
+$tpl->printToStdout("DEFAULT", false, true);
 
 function outMobImages()
 {

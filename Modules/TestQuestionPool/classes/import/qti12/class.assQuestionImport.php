@@ -204,6 +204,40 @@ class assQuestionImport
 	protected function addGeneralMetadata(ilQTIItem $item)
 	{
 		$this->object->setExternalId($item->getMetadataEntry('externalID'));
+		$this->object->setLifecycle($this->fetchLifecycle($item));
+	}
+	
+	/**
+	 * @param ilQTIItem $item
+	 * @return ilAssQuestionLifecycle
+	 */
+	protected function fetchLifecycle(ilQTIItem $item)
+	{
+		try
+		{
+			$lifecycle = ilAssQuestionLifecycle::getInstance(
+				$item->getMetadataEntry('ilias_lifecycle')
+			);
+		}
+		catch(ilTestQuestionPoolInvalidArgumentException $e)
+		{
+			try
+			{
+				$lomLifecycle = new ilAssQuestionLomLifecycle(
+					$item->getMetadataEntry('lifecycle')
+				);
+				
+				$lifecycle = ilAssQuestionLifecycle::getInstance(
+					$lomLifecycle->getMappedIliasLifecycleIdentifer()
+				);
+			}
+			catch(ilTestQuestionPoolInvalidArgumentException $e)
+			{
+				$lifecycle = ilAssQuestionLifecycle::getDraftInstance();
+			}
+		}
+		
+		return $lifecycle;
 	}
 	
 	/**

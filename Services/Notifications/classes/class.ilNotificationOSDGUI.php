@@ -11,7 +11,7 @@ class ilNotificationOSDGUI
 	protected $user;
 
 	/**
-	 * @var \ilTemplate
+	 * @var \ilGlobalTemplate
 	 */
 	protected $mainTemplate;
 
@@ -23,10 +23,10 @@ class ilNotificationOSDGUI
 	/**
 	 * ilNotificationOSDGUI constructor.
 	 * @param \ilObjUser $user
-	 * @param \ilTemplate $mainTemplate
+	 * @param \ilGlobalTemplate $mainTemplate
 	 * @param \ilLanguage $lng
 	 */
-	public function __construct(\ilObjUser $user, \ilTemplate $mainTemplate, \ilLanguage $lng)
+	public function __construct(\ilObjUser $user, \ilGlobalTemplateInterface $mainTemplate, \ilLanguage $lng)
 	{
 		$this->user         = $user;
 		$this->mainTemplate = $mainTemplate;

@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Database/interfaces/interface.ilAtomQuery.php');
-require_once('./Services/Database/classes/Atom/class.ilTableLock.php');
 
 /**
  * Class ilAtomQuery
@@ -245,9 +243,10 @@ abstract class ilAtomQueryBase implements ilAtomQuery {
 	 * @throws \ilAtomQueryException
 	 */
 	protected function checkQueries() {
-		if (count($this->query) == 0) {
+		if ((is_array($this->query) && 0 === count($this->query)) && !($this->query instanceof \Traversable)) {
 			throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
 		}
+
 		foreach ($this->query as $query) {
 			if (!$this->checkCallable($query)) {
 				throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);

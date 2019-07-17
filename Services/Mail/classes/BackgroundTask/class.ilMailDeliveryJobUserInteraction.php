@@ -3,7 +3,6 @@
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Types\SingleType;
-use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 
@@ -35,7 +34,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 	 */
 	public function getInputTypes()
 	{
-		// TODO: Implement getInputTypes() method.
+		return [];
 	}
 
 	/**
@@ -43,7 +42,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 	 */
 	public function getOutputType()
 	{
-		// TODO: Implement getOutputType() method.
+		return new SingleType(StringValue::class);
 	}
 
 	/**
@@ -52,5 +51,20 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 	public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket)
 	{
 		return $input;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMessage(array $input) {
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function canBeSkipped(array $input): bool
+	{
+		return true;
 	}
 }

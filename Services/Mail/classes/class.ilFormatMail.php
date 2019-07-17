@@ -37,14 +37,14 @@ class ilFormatMail extends ilMail
 		{
 			return false;
 		}
-#		debug($this->mail_data["m_message"]);
-		$bodylines = explode(chr(13).chr(10), $this->mail_data["m_message"]);
-#		var_dump("<pre>",$bodylines,"</pre");
+
+		$bodylines = preg_split("/\r\n|\n|\r/", $this->mail_data["m_message"]);
 		for ($i = 0; $i < count($bodylines); $i++)
 		{
 			$bodylines[$i] = "> ".$bodylines[$i];
 		}
-		return $this->mail_data["m_message"] = implode(chr(13).chr(10), $bodylines);
+
+		return $this->mail_data["m_message"] = implode(chr(10), $bodylines);
 	}
 
 	/**
@@ -175,31 +175,26 @@ class ilFormatMail extends ilMail
 		}
 		return $this->mail_data;
 	}
+
 	/**
-	* format message according to linebreak option
-	* @param string message
-	* @access	public
-	* @return string formatted message
-	*/
-	public function formatLinebreakMessage($a_message)
+	 * @param string $message
+	 * @return string
+	 */
+	public function formatLinebreakMessage(string $message): string 
 	{
-		$formatted = array();
+		$formatted = [];
 
 		$linebreak = $this->mail_options->getLinebreak();
 
-		$lines = explode(chr(10),$a_message);
-		for($i=0;$i<count($lines);$i++)
-		{
-			if(substr($lines[$i],0,1) != '>')
-			{
-				$formatted[] = wordwrap($lines[$i],$linebreak,chr(10));
-			}
-			else
-			{
+		$lines = explode(chr(10), $message);
+		for ($i = 0; $i < count($lines); $i++) {
+			if (substr($lines[$i], 0, 1) != '>') {
+				$formatted[] = wordwrap($lines[$i], $linebreak, chr(10));
+			} else {
 				$formatted[] = $lines[$i];
 			}
 		}
-		$formatted = implode(chr(10),$formatted);
+		$formatted = implode(chr(10), $formatted);
 
 		return $formatted;
 	}

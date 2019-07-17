@@ -88,7 +88,13 @@ class ilAssQuestionPreviewSession
 	
 	public function getNumRequestedHints()
 	{
-		return count($this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS));
+		$hints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+
+		if (!is_array($hints)) {
+			return 0;
+		}
+
+		return count($hints);
 	}
 	
 	public function isHintRequested($hintId)

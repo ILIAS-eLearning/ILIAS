@@ -531,7 +531,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 			$this->tpl->setCurrentBlock("new_ms");
 			$this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
-			$this->tpl->setVariable('DD_TRIGGER', $this->ui_renderer->render($this->ui_factory->glyph()->add()));
+			$this->tpl->setVariable('DD_TRIGGER', $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add()));
 			$this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
 			$this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
 			$this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
@@ -543,7 +543,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 			$this->tpl->setCurrentBlock("new_app");
 			//$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);
 			$this->tpl->setVariable('NEW_APP_GLYPH',$this->ui_renderer->render(
-				$this->ui_factory->glyph()->add($new_app_url)
+				$this->ui_factory->symbol()->glyph()->add($new_app_url)
 			));
 			// $this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
 			$this->tpl->parseCurrentBlock();
@@ -707,7 +707,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
 					//todo:it could be nice use also ranges of 15 min to create events.
 					$new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add');
-					$this->tpl->setVariable("DAY_NEW_APP_LINK", $renderer->render($ui_factory->glyph()->add($new_app_url)));
+					$this->tpl->setVariable("DAY_NEW_APP_LINK", $renderer->render($ui_factory->symbol()->glyph()->add($new_app_url)));
 
 
 					$this->tpl->setVariable('DAY_NEW_ID',++$new_link_counter);

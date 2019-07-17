@@ -52,9 +52,9 @@ class ilAwarenessUserProviderFactory
 	/**
 	 * Get all awareness providers
 	 *
-	 * @return array of ilAwarenessProvider all providers
+	 * @return \ilAwarenessUserProvider[] array of ilAwarenessProvider all providers
 	 */
-	static function getAllProviders()
+	static function getAllProviders(): array
 	{
 		$providers = array();
 

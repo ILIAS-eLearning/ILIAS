@@ -92,7 +92,7 @@ For best results we RECOMMEND:
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
   * MySQL 5.6+
   * MariaDB 10.2
-  * PHP 7.1
+  * PHP 7.3
   * Apache 2.4.18 with mod_php
   * ImageMagick 6.8+
   * php-gd, php-xml, php-mysql, php-mbstring
@@ -113,12 +113,12 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2.4 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.6 and 5.7 and Galera (experimental), PostgreSQL 9.x
-  * PHP: Version 7.0, 7.1 and 7.2 are supported
+  * PHP: Version 7.2 and 7.3 are supported
   * zip: 3.0+
   * unzip: 6.0+
   * Imagemagick: 6.8.9-9+
   * PhantomJS: 2.0.0+
-  * NodeJS: 8.9.4 (TLS) - 9.7.1
+  * NodeJS: 8.9.4 (TLS) - 10.15.3 (LTS)
   * Java: Version 7 and 8 are suported
   
 <a name="client"></a>
@@ -236,7 +236,7 @@ systemctl restart httpd.service
 
 On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php-xml
+apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php7.1-curl php7.1-dom php7.1-zip php-xml
 ```
 
 On RHEL/CentOS execute: 
@@ -517,12 +517,29 @@ All the other files and directories should be owned by ```root```, but readable 
 It is highly RECOMMENDED to place your data directory outside of the web server docroot, as pointed out by the ILIAS Installation Wizard.
 
 <a name="secure-installation-files"></a>
-### Secure Installation Files
+### Secure Installation Files and Dependencies
 
 The access to the ILIAS Installation Wizard (```/setup/setup.php```) MAY be restricted:
 
 ```
 <Location /setup>
+  <IfVersion < 2.3>
+    Order Deny,Allow
+    Deny From All
+    Allow from 127.0.0.1
+  </IfVersion>
+
+  <IfVersion > 2.3>
+    Require all denied
+    Require ip 127.0.0.1
+  </IfVersion>
+</Location>
+```
+
+The access to the dependencies folder MAY be restricted:
+
+```
+<Location /libs>
   <IfVersion < 2.3>
     Order Deny,Allow
     Deny From All
@@ -672,7 +689,8 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
-| 5.4.x           | 7.0.x, 7.1.x, 7.2.x                   |
+| 6.0.x           | 7.2.x, 7.3.x                          |
+| 5.4.x           | 7.0.x, 7.1.x, 7.2.x, 7.3.x            |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |

@@ -64,7 +64,7 @@ class ilTestRandomQuestionSetConfigGUI
 	public $lng = null;
 	
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplateInterface
 	 */
 	public $tpl = null;
 	
@@ -120,7 +120,7 @@ class ilTestRandomQuestionSetConfigGUI
 	
 	public function __construct(
 		ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilLanguage $lng,
-		ilTemplate $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
+		ilGlobalTemplateInterface $tpl, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ
 	)
 	{
 		$this->ctrl = $ctrl;
@@ -716,8 +716,6 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->questionSetConfig->setLastQuestionSyncTimestamp(0);
 		$this->questionSetConfig->saveToDb();
-
-		$this->sourcePoolDefinitionList->saveDefinitions();
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 

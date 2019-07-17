@@ -112,7 +112,7 @@ class ilSoapUtils extends ilSoapAdministration
 			$mail_obj = new ilMail($ilUser->getId());
 			$mail_obj->setSaveInSentbox(true);
 			$mail_obj->saveAttachments((array) $attachments);
-			$mail_obj->sendMail(
+			$mail_obj->enqueue(
 				implode(',',(array) $mail['to']),
 				implode(',',(array) $mail['cc']),
 				implode(',',(array) $mail['bcc']),

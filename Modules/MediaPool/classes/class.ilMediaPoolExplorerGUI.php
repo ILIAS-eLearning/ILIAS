@@ -37,6 +37,8 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
 		$this->setOrderField("title");
+
+		$this->setNodeOpen($this->tree->readRootId());
 	}
 
 	/**
@@ -102,9 +104,10 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
 	function getNodeHref($a_node)
 	{
 		$ilCtrl = $this->ctrl;
-		
+
+		$ilCtrl->setParameterByClass("ilobjmediapoolgui", "ref_id", (int) $_GET["ref_id"]);
 		$ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $a_node["child"]);
-		$ret = $ilCtrl->getLinkTargetByClass("ilobjmediapoolgui", "listMedia");
+		$ret = $ilCtrl->getLinkTargetByClass("ilobjmediapoolgui", "listMedia", "", false, false);
 		$ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $_GET["mepitem_id"]);
 		return $ret;
 	}

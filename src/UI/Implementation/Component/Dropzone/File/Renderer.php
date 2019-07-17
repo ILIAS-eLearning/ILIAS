@@ -151,16 +151,19 @@ class Renderer extends AbstractComponentRenderer {
 		}, $dropzone->getTriggeredSignals());
 
 		return $dropzone->withAdditionalOnLoadCode(function ($id) use ($dropzone, $signals) {
-			$options = json_encode([
-				'id'                => $id,
-				'registeredSignals' => $signals,
-				'uploadUrl'         => $dropzone->getUploadUrl(),
-				'allowedFileTypes'  => $dropzone->getAllowedFileTypes(),
-				'fileSizeLimit'     => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize()
-				                                                       * $dropzone->getFileSizeLimit()->getUnit() : 0,
-				'maxFiles'          => $dropzone->getMaxFiles(),
-				'identifier'        => $dropzone->getParametername(),
-			]);
+			$options = json_encode(
+				[
+					'id'                => $id,
+					'registeredSignals' => $signals,
+					'uploadUrl'         => $dropzone->getUploadUrl(),
+					'allowedFileTypes'  => $dropzone->getAllowedFileTypes(),
+					'fileSizeLimit'     => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize()
+						* $dropzone->getFileSizeLimit()->getUnit() : 0,
+					'maxFiles'          => $dropzone->getMaxFiles(),
+					'identifier'        => $dropzone->getParametername(),
+					'typeError'         => $this->txt('msg_wrong_filetypes') ." ". implode(", ", $dropzone->getAllowedFileTypes()),
+				]
+			);
 			$reflect = new \ReflectionClass($dropzone);
 			$type = $reflect->getShortName();
 
@@ -188,7 +191,7 @@ class Renderer extends AbstractComponentRenderer {
 		$tplUploadFileList->setVariable("REMOVE", $r->render([$f->button()->close()]));
 
 		if ($this->renderMetaData($dropzone)) {
-			$tplUploadFileList->setVariable("TOGGLE", $r->render([$f->glyph()->collapse(), $f->glyph()->expand()]));
+			$tplUploadFileList->setVariable("TOGGLE", $r->render([$f->symbol()->glyph()->collapse(), $f->symbol()->glyph()->expand()]));
 			$tplUploadFileList->setCurrentBlock("with_metadata");
 			$items[] = $f->button()->shy($this->txt("edit_metadata"), "")->withAriaLabel("edit_metadata");
 			if ($dropzone->allowsUserDefinedFileNames()) {

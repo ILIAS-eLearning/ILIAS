@@ -9,23 +9,22 @@ require_once(__DIR__ . "/InputTest.php");
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
-use \ILIAS\Validation;
-use \ILIAS\Transformation;
+use ILIAS\Refinery;
 
 class TextInputTest extends ILIAS_UI_TestBase {
 
-	public function setUp() {
+	public function setUp(): void{
 		$this->name_source = new DefNamesource();
 	}
 
 
 	protected function buildFactory() {
 		$df = new Data\Factory();
+		$language = $this->createMock(\ilLanguage::class);
 		return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 			new SignalGenerator(),
 			$df,
-			new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
-			new Transformation\Factory()
+			new ILIAS\Refinery\Factory($df, $language)
 		);
 	}
 
@@ -150,12 +149,12 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$text = $f->text($label)->withNameFrom($this->name_source)->withRequired(true);
 
-		$text1 = $text->withInput(new DefPostData([$name => "0"]));
+		$text1 = $text->withInput(new DefInputData([$name => "0"]));
 		$value1 = $text1->getContent();
 		$this->assertTrue($value1->isOk());
 		$this->assertEquals("0", $value1->value());
 
-		$text2 = $text->withInput(new DefPostData([$name => ""]));
+		$text2 = $text->withInput(new DefInputData([$name => ""]));
 		$value2 = $text2->getContent();
 		$this->assertTrue($value2->isError());
 	}
@@ -165,7 +164,7 @@ class TextInputTest extends ILIAS_UI_TestBase {
 		$name = "name_0";
 		$text = $f->text("")
 			->withNameFrom($this->name_source)
-			->withInput(new DefPostData([$name => "<script>alert()</script>"]));
+			->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 
 		$content = $text->getContent();
 		$this->assertEquals("alert()", $content->value());

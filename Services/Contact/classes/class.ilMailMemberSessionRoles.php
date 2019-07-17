@@ -58,6 +58,7 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
 			switch(substr($role_title, 0, 12))
 			{
 				case 'il_sess_part':
+					$sorted_role_ids[1]['default_checked']  = true;
 					$sorted_role_ids[1]['role_id']           = $role_id;
 					$sorted_role_ids[1]['mailbox']           = $mailbox;
 					$sorted_role_ids[1]['form_option_title'] = $this->lng->txt('send_mail_participants');

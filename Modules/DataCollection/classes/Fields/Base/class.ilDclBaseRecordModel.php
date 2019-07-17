@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php';
-require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php';
-require_once './Services/Exceptions/classes/class.ilException.php';
-require_once './Services/User/classes/class.ilUserUtil.php';
-
 /**
  * Class ilDclBaseRecordModel
  *
@@ -674,6 +669,21 @@ class ilDclBaseRecordModel {
 					. "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
 		}
 	}
+
+    /**
+     * @param string $field_id
+     *
+     * @return array|string
+     */
+    public function getStandardFieldPlainText($field_id) {
+        switch ($field_id) {
+            case 'comments':
+                return count(ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(),"dcl", 2,
+                    false, "", "y", true, true));
+            default:
+                return strip_tags($this->getStandardFieldHTML($field_id));
+        }
+    }
 
 
 	/**

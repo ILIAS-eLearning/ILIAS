@@ -283,14 +283,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$num_unread = $thread->getNumUnreadPosts();
 		$num_new    = $thread->getNumNewPosts();
 
-		if($num_posts > 0)
-		{
-			$subject = '<div><a href="' . $this->ctrl->getLinkTarget($this->getParentObject(), 'viewThread') . '">' . $thread->getSubject() . '</a></div>' . $subject;
-		}
-		else
-		{
-			$subject = $thread->getSubject() . $subject;
-		}
+		$subject = '<div><a href="' . $this->ctrl->getLinkTarget($this->getParentObject(), 'viewThread') . '">' . $thread->getSubject() . '</a></div>' . $subject;
 		$this->tpl->setVariable('VAL_SUBJECT', $subject);
 
 		// Author

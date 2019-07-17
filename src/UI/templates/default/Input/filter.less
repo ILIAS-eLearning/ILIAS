@@ -1,0 +1,148 @@
+.il-filter {
+	.col-md-4 {
+		padding-top: @padding-large-vertical;
+		padding-bottom: @padding-large-vertical;
+	}
+
+	//Necessary fix for Apply-Glyph
+	.glyphicon-ok {
+		font-size: unset;
+		text-align: unset;
+	}
+
+	input {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.input-group {
+		width: @il-standard-filter-input-group-width;
+		height: @il-standard-filter-input-group-height;
+		table-layout: fixed;
+	}
+
+	.leftaddon {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: @il-standard-filter-label-width;
+	}
+
+	.rightaddon {
+		overflow: visible;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: @il-standard-filter-input-remove-width;
+	}
+}
+
+.il-filter-bar {
+	padding: @padding-small-vertical @padding-large-horizontal;
+
+	.il-toggle-button {
+		height: @il-standard-filter-bar-btn-toggle-height;
+		padding-left: @il-standard-filter-bar-btn-toggle-padding;
+		padding-right: @il-standard-filter-bar-btn-toggle-padding;
+
+		.il-toggle-switch {
+			width: @il-standard-filter-bar-btn-toggle-switch-width;
+			height: @il-standard-filter-bar-btn-toggle-switch-width;
+		}
+	}
+
+	.btn-bulky {
+		display: inline-flex;
+		width: auto;
+		background-color: initial;
+		font-size: @il-standard-filter-bar-btn-bulky-font-size;
+		border-width: @il-standard-filter-bar-btn-bulky-border-width;
+		&.disabled .bulky-label{
+			color: @il-standard-filter-font-color-disabled;
+		}
+	}
+	.glyph {
+		padding-right: @il-standard-filter-bar-glyph-padding;
+	}
+}
+
+.il-filter-bar-controls {
+	float: right;
+}
+
+.il-filter-inputs-active {
+	background-color: @il-secondary-container-bg;
+	padding: @padding-small-vertical @padding-base-horizontal;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	span {
+		display: inline-block;
+		margin: @padding-small-vertical @padding-base-horizontal @padding-small-vertical @il-standard-filter-active-inputs-margin-left;
+		padding: @il-standard-filter-active-inputs-padding-vertical @padding-base-horizontal;
+		float: left;
+		background-color: @il-primary-container-bg;
+		font-size: @il-standard-filter-active-inputs-font-size;
+	}
+}
+
+.il-filter-input-section {
+	border-top: @il-standard-filter-input-section-border;
+}
+
+.il-filter-field {
+	cursor: text;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+@media (max-width: @screen-sm){
+	.il-filter-bar-controls .bulky-label {
+		display: none;
+	}
+}
+
+@media (max-width: @screen-sm) {
+	.il-filter {
+		.webui-popover {
+			position: static;
+			max-width: none;
+
+		}
+
+		.webui-popover.bottom > .webui-arrow, .webui-popover.bottom-right > .webui-arrow, .webui-popover.bottom-left > .webui-arrow {
+			display: none;
+		}
+		.webui-popover.bottom, .webui-popover.bottom-left, .webui-popover.bottom-right {
+			padding: @il-standard-filter-screen-sm-input-popover-padding;
+			margin-top: @il-standard-filter-screen-sm-input-popover-margin-top;
+			border: @il-standard-filter-screen-sm-input-popover-border;
+			box-shadow: none;
+			background-color: @il-secondary-container-bg;
+		}
+	}
+}
+
+.il-filter.disabled {
+	.input-group-addon {
+		background-color: @il-primary-container-bg;
+		color: @il-standard-filter-font-color-disabled;
+	}
+	.input-group span.form-control {
+		color: @il-standard-filter-font-color-disabled;
+	}
+}
+
+.il-filter-add-list ul {
+	list-style: none;
+	margin: @il-standard-filter-add-input-popover-list-margin;
+	padding: @il-standard-filter-add-input-popover-list-padding;
+
+	li > button {
+		padding: @padding-large-vertical @padding-large-horizontal;
+		display: block;
+		width: @il-standard-filter-add-input-popover-list-button-width;
+	}
+}

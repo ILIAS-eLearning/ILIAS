@@ -12,6 +12,7 @@
  * 
  * @ilCtrl_Calls ilTestResultsGUI: ilParticipantsTestResultsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestResultsGUI
+ * @ilCtrl_Calls ilTestResultsGUI: ilTestEvalObjectiveOrientedGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestSolutionsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestToplistGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestSkillEvaluationGUI
@@ -204,6 +205,21 @@ class ilTestResultsGUI
 				$DIC->ctrl()->forwardCommand($gui);
 				break;
 			
+			case 'iltestevalobjectiveorientedgui':
+				
+				if( !$this->getTestTabs()->needsLoResultsSubTab() )
+				{
+					ilObjTestGUI::accessViolationRedirect();
+				}
+				
+				$this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_LO_RESULTS);
+				
+				require_once 'Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php';
+				$gui = new ilTestEvalObjectiveOrientedGUI($this->getTestObj());
+				$gui->setObjectiveOrientedContainer($this->getObjectiveParent());
+				$DIC->ctrl()->forwardCommand($gui);
+				break;
+			
 			case 'ilmytestsolutionsgui':
 				
 				if( !$this->getTestTabs()->needsMySolutionsSubTab() )
@@ -289,10 +305,25 @@ class ilTestResultsGUI
 		
 		if( $this->testObj->canShowTestResults($this->getTestSession()) )
 		{
+			if( $this->objectiveParent->isObjectiveOrientedPresentationRequired() )
+			{
+				$DIC->ctrl()->redirectByClass('ilTestEvalObjectiveOrientedGUI');
+			}
+
 			$DIC->ctrl()->redirectByClass(array('ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
-		
+
+		$toolbar = $DIC->toolbar();
+		$validator = new ilCertificateDownloadValidator();
+		if($validator->isCertificateDownloadable($DIC->user()->getId(), $this->getTestObj()->getId())) {
+			$button = ilLinkButton::getInstance();
+			$button->setCaption('certificate');
+			$button->setUrl($DIC->ctrl()->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
+			$toolbar->addButtonInstance($button);
+		}
+
 		$this->showNoResultsReportingMessage();
+
 	}
 	
 	protected function showNoResultsReportingMessage()

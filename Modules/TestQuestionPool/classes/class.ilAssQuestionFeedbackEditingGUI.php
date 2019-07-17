@@ -65,7 +65,7 @@ class ilAssQuestionFeedbackEditingGUI
 	 * global $tpl
 	 *
 	 * @access protected
-	 * @var ilTemplate
+	 * @var ilGlobalTemplateInterface
 	 */
 	protected $tpl = null;
 
@@ -92,11 +92,11 @@ class ilAssQuestionFeedbackEditingGUI
 	 * @param assQuestionGUI $questionGUI 
 	 * @param ilCtrl $ctrl
 	 * @param ilAccessHandler $access
-	 * @param ilTemplate $tpl
+	 * @param ilGlobalTemplate $tpl
 	 * @param ilTabsGUI $tabs
 	 * @param ilLanguage $lng
 	 */
-	public function __construct(assQuestionGUI $questionGUI, ilCtrl $ctrl, ilAccessHandler $access, ilTemplate $tpl, ilTabsGUI $tabs, ilLanguage $lng)
+	public function __construct(assQuestionGUI $questionGUI, ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplateInterface $tpl, ilTabsGUI $tabs, ilLanguage $lng)
 	{
 		$this->questionGUI = $questionGUI;
 		$this->questionOBJ = $questionGUI->object;
@@ -116,6 +116,10 @@ class ilAssQuestionFeedbackEditingGUI
 	 */
 	public function executeCommand()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenIdComponent('qpl');
+
 		$cmd = $this->ctrl->getCmd(self::CMD_SHOW);
 		$nextClass = $this->ctrl->getNextClass($this);
 		

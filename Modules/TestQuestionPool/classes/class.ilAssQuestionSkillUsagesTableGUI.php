@@ -21,7 +21,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
 	private $myCtrl;
 
 	/**
-	 * @var ilTemplate
+	 * @var ilGlobalTemplate
 	 */
 	private $myTpl;
 
@@ -37,12 +37,12 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
 	
 	/**
 	 * @param ilCtrl $myCtrl
-	 * @param ilTemplate $myTpl
+	 * @param ilGlobalTemplate $myTpl
 	 * @param ilLanguage $myLng
 	 * @param ilDBInterface $myDb
 	 * @param integer $poolId
 	 */
-	public function __construct(ilCtrl $myCtrl, ilTemplate $myTpl, ilLanguage $myLng, ilDBInterface $myDb, $poolId)
+	public function __construct(ilCtrl $myCtrl, ilGlobalTemplate $myTpl, ilLanguage $myLng, ilDBInterface $myDb, $poolId)
 	{
 		$this->myCtrl = $myCtrl;
 		$this->myTpl = $myTpl;

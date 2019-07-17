@@ -369,50 +369,54 @@ class ilForumPostDraft
 		global $DIC;
 		$ilDB = $DIC->database();
 		
-		$res = $ilDB->queryF('SELECT * FROM frm_posts_drafts WHERE post_author_id = %s',
-			array('integer'), array($user_id));
-		
-		self::$instances[$user_id] = array();
-		while($row = $ilDB->fetchAssoc($res))
-		{
+		$res = $ilDB->queryF(
+			'SELECT * FROM frm_posts_drafts WHERE post_author_id = %s',
+			['integer'],
+			[$user_id]
+		);
+
+		self::$instances[$user_id] = [
+			'draft_ids' => [],
+		];
+
+		while ($row = $ilDB->fetchAssoc($res)) {
 			$tmp_obj = new ilForumPostDraft();
 			self::populateWithDatabaseRecord($tmp_obj, $row);
 			self::$instances[$user_id][$row['thread_id']][$tmp_obj->getPostId()][] = $tmp_obj;
-			self::$instances[$user_id]['draft_ids'][$tmp_obj->getDraftId()] = $tmp_obj;
+			self::$instances[$user_id]['draft_ids'][$tmp_obj->getDraftId()]        = $tmp_obj;
 		}
-		unset($tmp_obj);
 	}
 	
 	/**
 	 * @param int $user_id
-	 * @return mixed
+	 * @return \ilForumPostDraft[]
 	 */
-	public static function getDraftInstancesByUserId($user_id)
+	public static function getDraftInstancesByUserId($user_id) : array
 	{
-		if(!self::$instances[$user_id])
-		{
+		if (!self::$instances[$user_id]) {
 			self::readDrafts($user_id);
 		}
-		
+
 		return self::$instances[$user_id]['draft_ids'];
 	}
 	
 	/**
 	 * @param $user_id
 	 * @param $thread_id
-	 * @return mixed
+	 * @return \ilForumPostDraft[]
 	 */
-	public static function getInstancesByUserIdAndThreadId($user_id, $thread_id)
+	public static function getInstancesByUserIdAndThreadId($user_id, $thread_id): array 
 	{
 		if(!self::$instances[$user_id])
 		{
 			self::readDrafts($user_id);
 		}
 
-		if(self::$instances[$user_id][$thread_id])
-		{
+		if (isset(self::$instances[$user_id][$thread_id])) {
 			return self::$instances[$user_id][$thread_id]; 
 		}
+
+		return [];
 	}
 
 	/**

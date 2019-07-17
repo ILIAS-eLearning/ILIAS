@@ -44,7 +44,7 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
 
 	function view()
 	{
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
+		$this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "Modules/ScormAicc");
 		$this->displayParameter($this->lng->txt("cont_import_id"),
 			$this->sc_object->getImportId());

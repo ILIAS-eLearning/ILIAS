@@ -176,6 +176,11 @@ class ilAssOrderingElementList implements Iterator
 		return count($this->elements);
 	}
 	
+	public function hasElements()
+	{
+		return (bool)$this->countElements();
+	}
+	
 	public function isFirstElementPosition($position)
 	{
 		return $position == 0;

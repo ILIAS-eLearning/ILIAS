@@ -30,16 +30,6 @@ class ilMediaImageUtil
 				$file = fopen($filename, "w");
 				$c = new ilCurlConnection($a_location);
 				$c->init();
-				require_once './Services/Http/classes/class.ilProxySettings.php';
-				if (ilProxySettings::_getInstance()->isActive())
-				{
-					$proxy = ilProxySettings::_getInstance()->getHost();
-					if (($p = ilProxySettings::_getInstance()->getPort()) != "")
-					{
-						$proxy .= ":" . $p;
-					}
-					$c->setOpt(CURLOPT_PROXY, $proxy);
-				}
 				$c->setOpt(CURLOPT_SSL_VERIFYHOST, 0);
 				$c->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
 				$c->setOpt(CURLOPT_MAXREDIRS, 3);

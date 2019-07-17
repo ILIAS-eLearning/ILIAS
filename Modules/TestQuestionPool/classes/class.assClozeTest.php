@@ -197,6 +197,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$this->setFixedTextLength($data["fixed_textlen"]);
 			$this->setIdenticalScoring(($data['tstamp'] == 0) ? true : $data["identical_scoring"]);
 			$this->setFeedbackMode($data['feedback_mode'] === null ? ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION : $data['feedback_mode']);
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+
 			// replacement of old syntax with new syntax
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);

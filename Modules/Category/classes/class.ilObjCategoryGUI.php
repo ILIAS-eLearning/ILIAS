@@ -14,7 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
 *
 * @ingroup ModulesCategory
 */
@@ -258,6 +258,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
 				$news_set_gui->setHideByDate(true);
 				$this->ctrl->forwardCommand($news_set_gui);
+				break;
+
+			case 'ilcontainerfilteradmingui':
+				$this->checkPermissionBool("write");
+				$this->prepareOutput();
+				$this->setEditTabs($active_tab = "settings_filter");
+				$this->tabs_gui->activateTab('settings');
+				$this->ctrl->forwardCommand(new ilContainerFilterAdminGUI($this));
 				break;
 
 			default:
@@ -728,6 +736,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'));
 		}
 
+		$this->tabs_gui->addSubTab("settings_filter",
+			$this->lng->txt("cont_filter"),
+			$this->ctrl->getLinkTargetByClass("ilcontainerfilteradmingui", ""));
+
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab($active_tab);
 	}
@@ -806,7 +818,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::TAXONOMIES,
-					ilObjectServiceSettingsGUI::CUSTOM_METADATA
+					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+					ilObjectServiceSettingsGUI::FILTER
 				)
 			);
 
@@ -879,7 +892,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 						ilObjectServiceSettingsGUI::TAXONOMIES,						
-						ilObjectServiceSettingsGUI::CUSTOM_METADATA
+						ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+						ilObjectServiceSettingsGUI::FILTER
 					)
 				);
 

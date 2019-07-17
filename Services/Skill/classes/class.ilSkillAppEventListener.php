@@ -46,6 +46,17 @@ class ilSkillAppEventListener implements ilAppEventListener
 						break;
 				}
 				break;
+
+			case "Services/Object":
+				switch ($a_event)
+				{
+					case "beforeDeletion":
+						$handler = new ilSkillObjDeletionHandler($a_params["object"]->getId(), $a_params["object"]->getType());
+						$handler->processDeletion();
+						break;
+				}
+				break;
+
 		}
 		
 		return true;

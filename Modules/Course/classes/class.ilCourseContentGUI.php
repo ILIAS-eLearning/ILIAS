@@ -1338,8 +1338,12 @@ class ilCourseContentGUI
 		}
 		if(!$failed)
 		{
+			// update course => create calendar entries
+			$this->course_obj->update();
+
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 			$this->manageTimings();
+
 			return TRUE;
 		}
 		else

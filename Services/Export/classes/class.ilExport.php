@@ -275,10 +275,10 @@ class ilExport
 		{
 			$a_type = ilObject::_lookupType($a_obj_id);
 		}
-		$a_tpl = new ilTemplate("tpl.main.html", true, true);
+		$a_tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$a_tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-		$a_tpl->getStandardTemplate();
+		$a_tpl->loadStandardTemplate();
 		$a_tpl->setTitle(ilObject::_lookupTitle($a_obj_id));
 		$a_tpl->setDescription($lng->txt("export_export_date").": ".
 			date('Y-m-d H:i:s', time())." (".date_default_timezone_get().")");
@@ -292,7 +292,7 @@ class ilExport
 			$f_tpl->parseCurrentBlock();
 		}
 		$a_tpl->setContent($f_tpl->get());
-		$index_content = $a_tpl->get("DEFAULT", false, false, false, true, false, false);
+		$index_content = $a_tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
 
 		$f = fopen ($a_filename, "w");
 		fwrite($f, $index_content);

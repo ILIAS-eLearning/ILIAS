@@ -3,7 +3,9 @@
     "first_maintainer": "rklees(34047)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "src/KioskMode",

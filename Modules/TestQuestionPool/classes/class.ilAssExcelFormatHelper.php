@@ -61,7 +61,7 @@ class ilAssExcelFormatHelper extends ilExcel
 		if(is_string($a_value) && !is_numeric($a_value))
 		{
 			$this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
-				$a_col,
+				$a_col + 1,
 				$a_row,
 				$this->prepareValue($a_value),
 				\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING,

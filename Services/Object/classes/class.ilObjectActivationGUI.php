@@ -51,7 +51,7 @@ class ilObjectActivationGUI
 	protected $item_id;
 
 	/**
-	 * @var \ilTemplate
+	 * @var \ilGlobalTemplate
 	 */
 	protected $tpl;
 
@@ -123,7 +123,7 @@ class ilObjectActivationGUI
 			$this->ctrl->returnToParent($this);
 		}
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		switch($this->ctrl->getNextClass($this))
 		{
@@ -148,7 +148,7 @@ class ilObjectActivationGUI
 				break;
 		}
 		
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 	/**

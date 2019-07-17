@@ -1,7 +1,8 @@
 <?php
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilStaffGlobalScreenProvider
@@ -16,7 +17,10 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 	protected $top_item;
 
 
-	public function __construct(\ILIAS\DI\Container $dic) {
+	/**
+	 * @param Container $dic
+	 */
+	public function __construct(Container $dic) {
 		parent::__construct($dic);
 		$this->top_item = (new ilPDGlobalScreenProvider($dic))->getTopItem();
 	}
@@ -52,6 +56,7 @@ class ilStaffGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("my_staff"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMyStaff")
 			        ->withParent($this->getTopItem())
+			        ->withPosition(12)
 			        ->withAvailableCallable(
 				        function () use ($dic) {
 					        return (bool)($dic->settings()->get("enable_my_staff"));

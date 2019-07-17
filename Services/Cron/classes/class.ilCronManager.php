@@ -134,7 +134,8 @@ class ilCronManager implements \ilCronManagerInterface
 		if($a_job_data === null)
 		{
 			// aquire "fresh" job (status) data
-			$a_job_data = array_pop(self::getCronJobData($a_job->getId()));
+			$jobData = self::getCronJobData($a_job->getId());
+			$a_job_data = array_pop($jobData);
 		}
 
 		// already running?
@@ -188,13 +189,15 @@ class ilCronManager implements \ilCronManagerInterface
 				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
 				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
 
-				$ilLog->log($e->getTraceAsString());
+				$ilLog->error($e->getMessage());
+				$ilLog->error($e->getTraceAsString());
 			} catch (\Throwable $e) { // Could be appended to the catch block with a | in PHP 7.1
 				$result = new \ilCronJobResult();
 				$result->setStatus(\ilCronJobResult::STATUS_CRASHED);
 				$result->setMessage(sprintf("Exception: %s", $e->getMessage()));
 
-				$ilLog->log($e->getTraceAsString());
+				$ilLog->error($e->getMessage());
+				$ilLog->error($e->getTraceAsString());
 			}
 			$ts_dur = self::getMicrotime()-$ts_in;
 
@@ -291,7 +294,8 @@ class ilCronManager implements \ilCronManagerInterface
 		// system
 		else
 		{
-			$job_data = array_pop(self::getCronJobData($a_job_id));
+			$job_data = self::getCronJobData($a_job_id);
+			$job_data = array_pop($job_data);
 			if($job_data["job_id"] == $a_job_id)
 			{
 				return self::getJobInstance($job_data["job_id"], $job_data["component"], 
@@ -552,16 +556,18 @@ class ilCronManager implements \ilCronManagerInterface
 			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "Cron", "crnhk", $pl_name);
 								
 			foreach((array)$plugin_obj->getCronJobInstances() as $job)
-			{				
-				$item = array_pop(ilCronManager::getCronJobData($job->getId()));					
-				if(!sizeof($item))
+			{
+				$jobData = ilCronManager::getCronJobData($job->getId());
+				$item = array_pop($jobData);
+				if(!is_array($item) || 0 === count($item))
 				{						
 					// as job is not "imported" from xml
 					ilCronManager::createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, "");
-				}		
-				
-				$item = array_pop(ilCronManager::getCronJobData($job->getId()));	
-				
+				}
+
+				$jobData = ilCronManager::getCronJobData($job->getId());
+				$item = array_pop($jobData);
+
 				// #17941
 				if(!$a_only_active ||
 					$item["job_status"] == 1)

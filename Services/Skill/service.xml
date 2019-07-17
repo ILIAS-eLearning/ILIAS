@@ -3,9 +3,6 @@
 	id="skll">
 	<baseclasses>
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilSkillGlobalScreenProvider" />
-	</gsproviders>
 	<objects>
 		<object id="skmg" class_name="SkillManagement" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
@@ -15,6 +12,7 @@
 	<logging />
 	<events>
 		<event type="listen" id="Services/Tracking" />
+		<event type="listen" id="Services/Object" />
 	</events>
 	<crons>
 		<cron id="skll_notification" class="ilSkillNotifications" />

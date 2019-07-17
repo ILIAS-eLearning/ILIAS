@@ -83,7 +83,7 @@ class ilBookmarkAdministrationGUI
 
 //		$tpl->enableAdvancedColumnLayout(true, false);
 
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		//print_r($_SESSION["error_post_vars"]);
 		// if no bookmark folder id is given, take dummy root node id (that is 1)
@@ -126,7 +126,7 @@ class ilBookmarkAdministrationGUI
 				}
 				break;
 		}
-		$this->tpl->show(true);
+		$this->tpl->printToStdout(true);
 		return true;
 	}
 
@@ -1025,8 +1025,8 @@ class ilBookmarkAdministrationGUI
 				switch($object['type'])
 				{
 					case 'bm':
-						if(!$object["title"]) continue;
-						if(!$object["target"]) continue;
+						if(!$object["title"]) continue 2;
+						if(!$object["target"]) continue 2;
 						$bm = new ilBookmark();
 						$bm->setTitle($object["title"]);
 						$bm->setDescription($object["description"]);
@@ -1036,7 +1036,7 @@ class ilBookmarkAdministrationGUI
 						$num_create['bm']++;
 						break;
 					case 'bmf':
-						if(!$object["title"]) continue;
+						if(!$object["title"]) continue 2;
 						$bmf = new ilBookmarkFolder();
 						$bmf->setTitle($object["title"]);
 						$bmf->setParent($folder_id);

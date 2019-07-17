@@ -13,14 +13,14 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  */
 class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 {
-	protected $obj_ids = NULL;
-	protected $objective_ids = NULL;
-	protected $sco_ids = NULL;
-	protected $subitem_ids = NULL;
+	protected $obj_ids = null;
+	protected $objective_ids = [];
+	protected $sco_ids = [];
+	protected $subitem_ids = [];
 	protected $in_course; // int
 	protected $in_group; // int
-	protected $privacy_fields; // array
-	protected $privacy_cols = array(); // array
+	protected $privacy_fields = []; 
+	protected $privacy_cols = [];
 	protected $has_multi; // bool
 
 	/**
@@ -103,7 +103,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			if(isset($labels[$c]["icon"]))
 			{
 				$alt = $lng->txt($labels[$c]["type"]);
-				$icon = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" />';
+				$icon = '<img class="ilListItemIcon" src="'.$labels[$c]["icon"].'" alt="'.$alt.'" />';
 				if(sizeof($selected) > 5)
 				{
 					$tooltip[] = $title;
@@ -167,7 +167,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			// so we use all available columns, should be ok anyways
 			$this->obj_ids = $this->getItems(array_keys($user_cols[0]), $user_cols[1]);
 		}
-		if($this->obj_ids)
+		if(is_array($this->obj_ids))
 		{
 			$tmp_cols = array();
 			foreach($this->obj_ids as $obj_id)
@@ -192,7 +192,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					
 					$title = $ilObjDataCache->lookupTitle($obj_id);
 					$type = $ilObjDataCache->lookupType($obj_id);
-					$icon = ilObject::_getIcon("", "tiny", $type);
+					$icon = ilObject::_getIcon($obj_id, "tiny", $type);
 					if($type == "sess")
 					{
 						include_once "Modules/Session/classes/class.ilObjSession.php";

@@ -33,10 +33,10 @@ class ilWebDAVObjDAVHelper
      */
     public function isDAVableObject($id, $is_reference = true)
     {
-        $ref_id = $is_reference ? $id : $this->repo_helper->getRefIdFromObjId($id);
+        $obj_id = $is_reference ? $this->repo_helper->getObjectIdFromRefId($id) : $id;
 
-        $type = $this->repo_helper->getObjectTypeFromRefId($ref_id);
-        $title = $this->repo_helper->getObjectTitleFromRefId($ref_id);
+        $type = $this->repo_helper->getObjectTypeFromObjId($obj_id);
+        $title = $this->repo_helper->getObjectTitleFromObjId($obj_id);
 
         $is_davable = $this->isDAVableObjType($type) && $this->isDAVableObjTitle($title);
         return $is_davable;
@@ -48,7 +48,7 @@ class ilWebDAVObjDAVHelper
      * @param $type
      * @return bool
      */
-    public function isDAVableObjType($type) : bool
+    public function isDAVableObjType(string $type) : bool
     {
         switch($type)
         {
@@ -69,7 +69,7 @@ class ilWebDAVObjDAVHelper
      * @param $title
      * @return bool
      */
-    public function isDAVableObjTitle($title)
+    public function isDAVableObjTitle(string $title) : bool
     {
         return ($this->hasTitleForbiddenChars($title) === false)
             && ($this->hasInvalidPrefixInTitle($title) === false);
@@ -81,7 +81,7 @@ class ilWebDAVObjDAVHelper
      * @param $title
      * @return bool
      */
-    public function hasTitleForbiddenChars($title)
+    public function hasTitleForbiddenChars(string $title) : bool
     {
         foreach(str_split('\\<>/:*?"|#') as $forbidden_character)
         {
@@ -101,10 +101,9 @@ class ilWebDAVObjDAVHelper
      * @param $title
      * @return bool
      */
-    public function hasInvalidPrefixInTitle($title)
+    public function hasInvalidPrefixInTitle(string $title)
     {
         $prefix = substr($title, 0, 1);
-
         return $prefix === '.';
     }
 
@@ -115,7 +114,7 @@ class ilWebDAVObjDAVHelper
      * @param string $type
      * @return ilObjectDAV
      */
-    public function createDAVObjectForRefId($ref_id, $type = '') : ilObjectDAV
+    public function createDAVObjectForRefId(int $ref_id, string $type = '') : ilObjectDAV
     {
         if($type == '')
         {
@@ -143,5 +142,17 @@ class ilWebDAVObjDAVHelper
             }
         }
         throw new BadRequest('Unknown filetype');
+    }
+
+
+    /**
+     * @param $a_title
+     * @return bool
+     * @throws ilFileUtilsException
+     */
+    public function isValidFileNameWithValidFileExtension(string $a_title) : bool
+    {
+        include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+        return $a_title == ilFileUtils::getValidFilename($a_title) && $this->isDAVableObjTitle($a_title);
     }
 }

@@ -477,7 +477,7 @@ class ilObjCloudGUI extends ilObject2GUI {
 			$response->locator = $file_tree_gui->getLocatorHtml($file_tree->getNodeFromId($node->getId()));
 			$response->success = true;
 		} catch (Exception $e) {
-			$response->message = $tpl->getMessageHTML($e->getMessage(), "failure");
+			$response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
 		}
 
 		header('Content-type: application/json');

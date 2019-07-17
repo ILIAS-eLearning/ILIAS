@@ -47,7 +47,6 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createMetaData();
 
 		$this->createDataDirectory();
-		$this->setOfflineStatus(true);
 		$ilDB->manipulateF('
 			INSERT INTO sahs_lm (id, api_adapter, c_type, editable, seq_exp_mode,localization) 
 			VALUES (%s,%s,%s,%s,%s,%s)', 
@@ -1319,16 +1318,16 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 		$this->cloneMetaData($new_obj);
 
+		$new_obj->setOfflineStatus($this->getOfflineStatus());
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
-
-		if(!$cp_options->isRootNode($this->getRefId()))
+		if($cp_options->isRootNode($this->getRefId()))
 		{
-			$new_obj->setOfflineStatus($this->getOfflineStatus());
+			$new_obj->setOfflineStatus(true);
 		}
 
 		// copy properties
-		$new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
+		// $new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setSubType($this->getSubType());
 		$new_obj->setAPIAdapterName($this->getAPIAdapterName());
@@ -1412,6 +1411,19 @@ class ilObjSAHSLearningModule extends ilObject
 			$new_obj->readObject();
 		}
 		
+		// Copy learning progress settings (Mantis #0022964)
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+
+		include_once('Services/Object/classes/class.ilObjectLP.php');
+		/** @var ilScormLP $olp */
+		$olp = ilObjectLP::getInstance($this->getId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{
+			$collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
+		}
 		return $new_obj;
 	}
 	

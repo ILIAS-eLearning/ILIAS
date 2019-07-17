@@ -16,10 +16,19 @@ class ilLOTestRun
 	
 	protected $max_points = 0;
 	protected $questions = array();
+
+	/**
+	 * @var \ilLogger|null
+	 */
+	private $logger = null;
 	
 	
 	public function __construct($a_crs_id, $a_user_id, $a_test_id, $a_objective_id)
 	{
+		global $DIC;
+
+		$this->logger = $DIC->logger()->crs();
+
 		$this->container_id = $a_crs_id;
 		$this->user_id = $a_user_id;
 		$this->test_id = $a_test_id;
@@ -180,17 +189,16 @@ class ilLOTestRun
 	{
 		return array_key_exists($a_question_id,(array) $this->questions);
 	}
-	
+
+	/**
+	 * @param int $a_qst_id
+	 * @param int $a_points
+	 */
 	public function setQuestionResult($a_qst_id, $a_points)
 	{
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.$a_qst_id.' '.$a_points);
-		
-		
-		if($this->questions[$a_qst_id] < $a_points)
-		{
-			$this->questions[$a_qst_id] = $a_points;
-		}
-		$GLOBALS['DIC']['ilLog']->write(__METHOD__.': '.print_r($this->questions,true));
+		$this->logger->debug($a_qst_id. ' ' . $a_points);
+		$this->questions[$a_qst_id] = $a_points;
+		$this->logger->dump($this->questions, ilLogLevel::DEBUG);
 	}
 	
 	/**

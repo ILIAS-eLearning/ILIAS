@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Provider\StaticProvider\AbstractStaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 
 /**
  * Class ilBookmarkGlobalScreenProvider
@@ -52,6 +52,7 @@ class ilBookmarkGlobalScreenProvider extends AbstractStaticMainMenuProvider {
 			        ->withTitle($this->dic->language()->txt("bookmarks"))
 			        ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks")
 			        ->withParent($this->getTopItem())
+			        ->withPosition(3)
 			        ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
 			        ->withAvailableCallable(
 				        function () use ($dic) {

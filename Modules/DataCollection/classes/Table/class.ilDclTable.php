@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/DataCollection/classes/Fields/Base/class.ilDclStandardField.php';
-include_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php';
-include_once './Modules/DataCollection/classes/TableView/class.ilDclTableView.php';
-
 /**
  * Class ilDclBaseFieldModel
  *
@@ -707,54 +703,15 @@ class ilDclTable {
 
 
 	/**
-	 * @param int $ref_id
-	 *
-	 * @return bool
-	 */
-	public function hasPermissionToFields($ref_id) {
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * @param int $ref_id
-	 *
-	 * @return bool
-	 */
-	public function hasPermissionToAddTable($ref_id) {
-		return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
-	}
-
-
-	/**
-	 * @param int $ref_id
-	 *y
-	 *
-	 * @return bool
-	 */
-	public function hasPermissionToAddRecord($ref_id) {
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
-			return true;
-		}
-		if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
-			return false;
-		}
-
-		return ($this->getAddPerm() AND $this->checkLimit());
-	}
-
-
-	/**
 	 * @param $ref_id int the reference id of the current datacollection object
 	 * @param $record ilDclBaseRecordModel the record which will be edited
 	 *
 	 * @return bool
 	 */
 	public function hasPermissionToEditRecord($ref_id, ilDclBaseRecordModel $record) {
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
 			return true;
 		}
@@ -782,6 +739,9 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecord($ref_id, ilDclBaseRecordModel $record) {
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
 			return true;
 		}
@@ -808,6 +768,9 @@ class ilDclTable {
 	 * @return bool
 	 */
 	public function hasPermissionToDeleteRecords($ref_id) {
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
 		return ((ilObjDataCollectionAccess::hasAddRecordAccess($ref_id) && $this->getDeletePerm())
 			|| ilObjDataCollectionAccess::hasWriteAccess($ref_id));
 	}
@@ -816,21 +779,22 @@ class ilDclTable {
 	/**
 	 * @param int $ref_id
 	 * @param     $record ilDclBaseRecordModel
+	 * @param int $user_id
 	 *
 	 * @return bool
 	 */
-	public function hasPermissionToViewRecord($ref_id, $record) {
+	public function hasPermissionToViewRecord($ref_id, $record, $user_id = 0) {
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
-		$rbacreview = $DIC['rbacreview'];
-		/** @var ilRbacReview $rbacreview */
-		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
+		if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)){
+			return false;
+		}
+		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id, $user_id)) {
 			return true;
 		}
 		if (ilObjDataCollectionAccess::hasReadAccess($ref_id)) {
 			// Check for view only own entries setting
-
-			if ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $record->getOwner()) {
+			if ($this->getViewOwnRecordsPerm() && ($user_id ? $user_id : $ilUser->getId()) != $record->getOwner()) {
 				return false;
 			}
 
@@ -857,7 +821,7 @@ class ilDclTable {
 	/**
 	 * @return bool
 	 */
-	protected function checkLimit() {
+	public function checkLimit() {
 		if ($this->getLimited()) {
 			$now = new ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATE);
 			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
@@ -1554,7 +1518,7 @@ class ilDclTable {
 		// Save record-ids in session to enable prev/next links in detail view
 		$_SESSION['dcl_record_ids'] = array();
 		$_SESSION['dcl_table_id'] = $this->getId();
-		$ref = array_pop(ilObject::_getAllReferences($this->getObjId()));
+		$ref = filter_input(INPUT_GET, 'ref_id');
 		$is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref) || ilObjDataCollectionAccess::hasEditAccess($ref));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			// Quick check if the current user is allowed to view the record

@@ -32,7 +32,7 @@ class ilSessionImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
+		$this->ds->setTargetId($a_mapping->getTargetId());
 		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 			$a_xml, $this->ds, $a_mapping);
 	}

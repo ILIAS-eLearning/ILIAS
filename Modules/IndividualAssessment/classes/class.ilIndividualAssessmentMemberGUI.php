@@ -594,7 +594,7 @@ class ilIndividualAssessmentMemberGUI {
 					->withLPStatus($data['learning_progress'])
 					->withViewFile((bool)$data['file_visible_examinee']);
 		if($data['event_time']) {
-			$member = $member->withEventTime($this->createDatetime($data['event_time']));
+			$member = $member->withEventTime($this->createDate($data['event_time']));
 		}
 		if($amend) {
 			$member = $member->withChangerId($this->changer->getId());
@@ -614,9 +614,9 @@ class ilIndividualAssessmentMemberGUI {
 		return $member;
 	}
 
-	private function createDatetime($datetime)
+	private function createDate($datetime)
 	{
-		return new ilDateTime($datetime." 00:00:00", IL_CAL_DATETIME);
+		return new ilDate($datetime, IL_CAL_DATE);
 	}
 
 	protected function uploadFile($file)

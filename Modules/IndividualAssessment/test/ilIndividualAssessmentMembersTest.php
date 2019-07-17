@@ -1,4 +1,7 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembers.php';
 require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMember.php';
 require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php';
@@ -16,11 +19,11 @@ class RiggedMembers extends \ilIndividualAssessmentMembers {
  * @backupGlobals disabled
  * @group needsInstalledILIAS
  */
-class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
+class ilIndividualAssessmentMembersTest extends TestCase {
 	public static $iass;
 	public static $created_users = array();
 
-	public function setUp() {
+	public function setUp(): void {
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 
@@ -270,7 +273,7 @@ class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase {
 		$members->withAccessHandling($ah);
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		global $ilDB;
 		foreach (self::$created_users as $user) {
 			$user->delete;

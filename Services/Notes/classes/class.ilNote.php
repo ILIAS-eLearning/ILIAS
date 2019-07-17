@@ -974,6 +974,11 @@ class ilNote
 			$obj_title = ilObject::_lookupTitle($rep_obj_id);
 			$type_lv = "portfolio";
 		}
+		if ($type == "dcl")
+		{
+			$obj_title = ilObject::_lookupTitle($rep_obj_id);
+			$type_lv = "obj_dcl";
+		}
 
 		include_once("./Services/Link/classes/class.ilLink.php");
 		foreach($recipients as $r)
@@ -1040,8 +1045,8 @@ class ilNote
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-					"", "", $subject, $message, array(), array("system"));
+				$mail_obj->enqueue(ilObjUser::_lookupLogin($user_id),
+					"", "", $subject, $message, array());
 			}
 		}
 

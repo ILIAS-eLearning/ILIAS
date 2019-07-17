@@ -67,6 +67,8 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
 	 */
 	public function prepareFileForExec($filepath)
 	{
+		$filepath = ilFileUtils::getValidFilename($filepath);
+
 		$pos = strrpos($filepath, "/");
 		$name = $pos !== false ? substr($filepath, $pos + 1) : $filepath;
 		

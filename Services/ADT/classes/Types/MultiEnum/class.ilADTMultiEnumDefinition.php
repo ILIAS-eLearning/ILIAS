@@ -2,7 +2,7 @@
 
 class ilADTMultiEnumDefinition extends ilADTDefinition
 {
-	protected $options; // [array]	
+	protected $options = []; // [array]	
 	protected $numeric; // [bool]	
 	
 	

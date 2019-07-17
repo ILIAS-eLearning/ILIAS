@@ -3,10 +3,12 @@
 
 
 /**
- * Factory for ilObj...GUI classes
+ * See bug discussion 24472
  *
- * Internallly introduced due to bug #24472
- * But should be moved to $DIC->object() service asap.
+ * Do not use this class yet. This might need a general factory interface first.
+ *
+ * This could be moved to $DIC->object() service asap.
+ *
  *
  * @author <killing@leifos.de>
  *

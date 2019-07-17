@@ -33,8 +33,8 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 				"lang_var"   => "show",
 				"default"    => true,
 			),
-			array( "permission" => "write", "cmd" => "view", "lang_var" => "edit_content" ),
-			array( "permission" => "write", "cmd" => "edit", "lang_var" => "settings" ),
+			array("permission" => "write", "cmd" => "view", "lang_var" => "edit_content"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
 		);
 
 		return $commands;
@@ -66,11 +66,11 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 	 * checks wether a user may invoke a command or not
 	 * (this method is called by ilAccessHandler::checkAccess)
 	 *
-	 * @param    string  $a_cmd command (not permission!)
-	 * @param    string  $a_permission permission
-	 * @param    int     $a_ref_id reference id
-	 * @param    int     $a_obj_id object id
-	 * @param int|string $a_user_id user id (if not provided, current user is taken)
+	 * @param string     $a_cmd        command (not permission!)
+	 * @param string     $a_permission permission
+	 * @param int        $a_ref_id     reference id
+	 * @param int        $a_obj_id     object id
+	 * @param int|string $a_user_id    user id (if not provided, current user is taken)
 	 *
 	 * @return    boolean        true, if everything is ok
 	 */
@@ -83,10 +83,17 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 		if ($a_user_id == "") {
 			$a_user_id = $ilUser->getId();
 		}
+
+		if (isset($_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
+			if (!self::checkEntryIdMatch($a_obj_id, $_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
+				return false;
+			}
+		}
+
 		switch ($a_cmd) {
 			case "view":
 				if (!self::_lookupOnline($a_obj_id)
-				    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
+					&& !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -106,7 +113,7 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 			case "read":
 			case "visible":
 				if (!self::_lookupOnline($a_obj_id)
-				    && (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+					&& (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
 				) {
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -120,9 +127,28 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 
 
 	/**
+	 * @param $ref_id
+	 * @param $obj_id
+	 *
+	 * @return bool
+	 */
+	private static function checkEntryIdMatch($obj_id, $entry_id) {
+		/**
+		 * @var $ilBiblEntry ilBiblEntry
+		 */
+		$ilBiblEntry = ilBiblEntry::find($entry_id);
+		if (is_null($ilBiblEntry)) {
+			return false;
+		}
+
+		return ($ilBiblEntry->getDataId() == $obj_id);
+	}
+
+
+	/**
 	 * Check wether bibliographic is online or not
 	 *
-	 * @param    int $a_id bibl id
+	 * @param int $a_id bibl id
 	 */
 	public static function _lookupOnline($a_id) {
 		global $DIC;

@@ -9,6 +9,5 @@ use ILIAS\UI\Component as C;
  * Class ProgressMeter
  * @package ILIAS\UI\Implementation\Component\Chart\ProgressMeter
  */
-class FixedSize extends Standard implements C\Chart\ProgressMeter\FixedSize {
-
-}
+class FixedSize extends Standard implements C\Chart\ProgressMeter\FixedSize
+{}

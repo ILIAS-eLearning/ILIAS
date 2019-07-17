@@ -153,7 +153,7 @@ class ilLMPresentationGUI
 				$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
 			}
 		}
-		
+
 		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
 		$this->lm_tree = ilLMTree::getInstance($this->lm->getId());
 
@@ -246,6 +246,28 @@ class ilLMPresentationGUI
 				break;
 
 			default:
+				if($_GET["ntf"])
+				{
+					switch($_GET["ntf"])
+					{
+						case 1:
+							ilNotification::setNotification(ilNotification::TYPE_LM, $this->user->getId(), $this->lm->getId(), false);
+							break;
+
+						case 2:
+							ilNotification::setNotification(ilNotification::TYPE_LM, $this->user->getId(), $this->lm->getId(), true);
+							break;
+
+						case 3:
+							ilNotification::setNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $this->getCurrentPageId(), false);
+							break;
+
+						case 4:
+							ilNotification::setNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $this->getCurrentPageId(), true);
+							break;
+					}
+					$ilCtrl->redirect($this,"layout");
+				}
 				$ret = $this->$cmd();
 				break;
 		}
@@ -458,7 +480,7 @@ class ilLMPresentationGUI
 			//$this->frames = array();
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
-			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
+			$this->tpl = new ilGlobalTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
 			$this->renderPageTitle();
 			$this->tpl->setVariable("FS_CONTENT", $content);
 			if (!$doshow)
@@ -515,7 +537,7 @@ class ilLMPresentationGUI
 				: false;
 			if ($in_module)
 			{
-				$this->tpl = new ilTemplate($attributes["template"], true, true, $in_module);
+				$this->tpl = new ilGlobalTemplate($attributes["template"], true, true, $in_module);
 				$this->tpl->setBodyClass("");
 			}
 			else
@@ -777,7 +799,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
+			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, true);
 			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
 
@@ -795,7 +817,7 @@ class ilLMPresentationGUI
 			$this->ilGlossary($child);
 			if (!$this->offlineMode())
 			{
-				$this->tpl->show();
+				$this->tpl->printToStdout();
 			}
 			else
 			{
@@ -1054,7 +1076,12 @@ class ilLMPresentationGUI
 	{			
 		$ilAccess = $this->access;
 		$tpl = $this->tpl;
-		
+
+		$lm_id = $this->lm->getId();
+		$pg_id = $this->getCurrentPageId();
+
+		$this->lng->loadLanguageModule("content");
+
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
 			$ilAccess, $this->lm->getType(), $_GET["ref_id"], $this->lm->getId());
@@ -1074,7 +1101,49 @@ class ilLMPresentationGUI
 		{
 			$lg->enableRating(true, $this->lng->txt("lm_rating"), false,
 				array("ilcommonactiondispatchergui", "ilratinggui"));
-		}		
+		}
+
+		// notification
+		if ($this->user->getId() != ANONYMOUS_USER_ID)
+		{
+			if(ilNotification::hasNotification(ilNotification::TYPE_LM, $this->user->getId(), $lm_id))
+			{
+				$this->ctrl->setParameter($this, "ntf", 1);
+				if (ilNotification::hasOptOut($lm_id))
+				{
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_deactivate_lm");
+				}
+
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_on.svg"),
+					$this->lng->txt("cont_notification_activated"));
+			}
+			else
+			{
+				$this->ctrl->setParameter($this, "ntf", 2);
+				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_activate_lm");
+
+				if(ilNotification::hasNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(), $pg_id))
+				{
+					$this->ctrl->setParameter($this, "ntf", 3);
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_deactivate_page");
+
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_on.svg"),
+						$this->lng->txt("cont_page_notification_activated"));
+				}
+				else
+				{
+					$this->ctrl->setParameter($this, "ntf", 4);
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "cont_notification_activate_page");
+
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_off.svg"),
+						$this->lng->txt("cont_notification_deactivated"));
+				}
+			}
+			$this->ctrl->setParameter($this, "ntf", "");
+		}
 		
 		if(!$a_redraw)
 		{
@@ -1147,6 +1216,9 @@ class ilLMPresentationGUI
 		{
 			$notes_gui->enablePublicNotes();
 		}
+
+		$callback = array($this, "observeNoteAction");
+		$notes_gui->addObserver($callback);
 
 		if ($next_class == "ilnotegui")
 		{
@@ -1388,7 +1460,7 @@ class ilLMPresentationGUI
 	function ilCitation()
 	{
 		$page_id = $this->getCurrentPageId();
-		$this->tpl = new ilTemplate("tpl.page.html",true,true,true);
+		$this->tpl = new ilGlobalTemplate("tpl.page.html",true,true,true);
 		$this->ilLocator();
 		$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
 
@@ -1397,7 +1469,7 @@ class ilLMPresentationGUI
 		$this->pg_obj = $this->getLMPage($page_id);
 		$xml = $this->pg_obj->getXMLContent();
 		$this->lm_gui->showCitation($xml);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 
@@ -1432,6 +1504,8 @@ class ilLMPresentationGUI
 	 */
 	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
+		$access = $this->access;
+
 		$ilUser = $this->user;
 		$ilHelp = $this->help;
 
@@ -1442,6 +1516,34 @@ class ilLMPresentationGUI
 		$ilHelp->setSubScreenId("content");
 
 		$this->fill_on_load_code = true;
+
+
+		// check page id
+		$requested_page_lm = ilLMPage::lookupParentId($this->getCurrentPageId(), "lm");
+		if ($requested_page_lm != $this->lm->getId())
+		{
+			if ($_REQUEST["frame"] == "")
+			{
+				$this->showNoPageAccess();
+				return "";
+			}
+			else
+			{
+				$read_access = false;
+				foreach (ilObject::_getAllReferences($requested_page_lm) as $ref_id)
+				{
+					if ($access->checkAccess("read", "", $ref_id))
+					{
+						$read_access = true;
+					}
+				}
+				if (!$read_access)
+				{
+					$this->showNoPageAccess();
+					return "";
+				}
+			}
+		}
 
 		// check if page is (not) visible in public area
 		if($ilUser->getId() == ANONYMOUS_USER_ID && 
@@ -2809,8 +2911,9 @@ class ilLMPresentationGUI
 
 		if (is_array($attr))
 		{
-			while (list($k,$v) = each($attr))
-				$tag.= " ".$k."=\"$v\"";
+			foreach ($attr as $k => $v) {
+				$tag .= " " . $k . "=\"$v\"";
+			}
 		}
 
 		if ($type == "")
@@ -2863,7 +2966,7 @@ class ilLMPresentationGUI
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
 		//var_dump($GLOBALS["tpl"]); echo "<br><br>";
 		//exit;
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->ilLocator(true);
 
 		$a_global_tabs = !$this->offlineMode();
@@ -2948,7 +3051,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 	
@@ -2992,7 +3095,7 @@ class ilLMPresentationGUI
 			$this->tpl->setStyleSheetLocation("./".$style_name);
 		}
 
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitle($this->getLMPresentationTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
@@ -3073,7 +3176,7 @@ class ilLMPresentationGUI
 			// forward the command
 			$this->ctrl->forwardCommand($info);
 			//$this->tpl->setContent("aa");
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 
@@ -3108,7 +3211,7 @@ class ilLMPresentationGUI
 
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "print", true,false, 0,
@@ -3256,7 +3359,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TOOLBAR", $tb->getHTML());
 
 		$this->tpl->setVariable("ITEM_SELECTION", $f);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 
 	}
 
@@ -3889,7 +3992,7 @@ class ilLMPresentationGUI
 			}
 		}
 
-		$this->tpl->show(false);
+		$this->tpl->printToStdout(false);
 	}
 
 	/**
@@ -3959,7 +4062,7 @@ class ilLMPresentationGUI
 
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "download", true,false, 0,
@@ -4003,7 +4106,7 @@ class ilLMPresentationGUI
 		include_once("./Modules/LearningModule/classes/class.ilLMDownloadTableGUI.php");
 		$download_table = new ilLMDownloadTableGUI($this, "showDownloadList", $this->lm);
 		$this->tpl->setVariable("DOWNLOAD_TABLE", $download_table->getHTML());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	
@@ -4281,6 +4384,14 @@ class ilLMPresentationGUI
 	}
 
 	/**
+	 * Show info message, if page is not accessible in public area
+	 */
+	function showNoPageAccess()
+	{
+		$this->showMessageScreen($this->lng->txt("msg_no_page_access"));
+	}
+
+	/**
 	 * Show message if navigation to page is not allowed due to unanswered
 	 * questions.
 	 */
@@ -4396,6 +4507,27 @@ class ilLMPresentationGUI
 		echo $exp->getHTML().
 			"<script>".$exp->getOnLoadCode()."</script>";
 		exit;
+	}
+
+	/**
+	 * Generate new ilNote and send Notifications to the users informing that there are new comments in the LM
+	 * @param $a_lm_id
+	 * @param $a_page_id
+	 * @param $a_type
+	 * @param $a_action
+	 * @param $a_note_id
+	 */
+	function observeNoteAction($a_lm_id, $a_page_id, $a_type, $a_action, $a_note_id)
+	{
+		$note = new ilNote($a_note_id);
+		$note = $note->getText();
+
+		$notification = new ilLearningModuleNotification(
+			ilLearningModuleNotification::ACTION_COMMENT,
+			ilNotification::TYPE_LM_PAGE,
+			$this->lm, $a_page_id,$note);
+
+		$notification->send();
 	}
 
 }

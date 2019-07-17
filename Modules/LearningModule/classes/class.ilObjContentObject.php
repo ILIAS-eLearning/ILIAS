@@ -66,8 +66,15 @@ class ilObjContentObject extends ilObject
 		$this->tree = $DIC->repositoryTree();
 		$this->lng = $DIC->language();
 		$this->error = $DIC["ilErr"];
-		$this->tpl = $DIC["tpl"];
-		$this->locator = $DIC["ilLocator"];
+		if (isset($DIC["tpl"]))
+		{
+			$this->tpl = $DIC["tpl"];
+		}
+		if (isset($DIC["ilLocator"]))
+		{
+			$this->locator = $DIC["ilLocator"];
+		}
+
 		// this also calls read() method! (if $a_id is set)
 		parent::__construct($a_id,$a_call_by_reference);
 
@@ -2212,7 +2219,7 @@ class ilObjContentObject extends ilObject
 			$ilLocator->clearItems();
 			if ($this->isActiveTOC())
 			{
-				$tpl = new ilTemplate("tpl.main.html", true, true);
+				$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
 				$GLOBALS["tpl"] = $tpl;
 
@@ -2337,7 +2344,7 @@ class ilObjContentObject extends ilObject
 			}
 		}
 		// template workaround: reset of template 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
@@ -2515,7 +2522,7 @@ class ilObjContentObject extends ilObject
 			ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
 		}
 		
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["mob_id"]  = $a_mob_id;
@@ -2539,7 +2546,7 @@ class ilObjContentObject extends ilObject
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
 		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			$_GET["obj_type"]  = "";
 			$_GET["frame"]  = "";
@@ -2579,7 +2586,7 @@ class ilObjContentObject extends ilObject
 			$ilLocator->clearItems();
 			if ($int_link["type"] == "git")
 			{
-				$tpl = new ilTemplate("tpl.main.html", true, true);
+				$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 				$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
 				$_GET["obj_id"] = $int_link["id"];
@@ -2746,7 +2753,7 @@ class ilObjContentObject extends ilObject
 		
 //echo "<br>B: export Page HTML ($a_lm_page_id)"; flush();
 		// template workaround: reset of template 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
 		include_once("./Services/COPage/classes/class.ilPCQuestion.php");

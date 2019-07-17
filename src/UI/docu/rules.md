@@ -51,7 +51,10 @@ rules and propose changes.
   To make it easy for non-developers to follow the discussion, a link to the
   changed/added factory classes and mock MUST be provided in the description provided
   for the PR.
-
+* There MUST be at least one test case on [testrail.ilias.de](https://testrail.ilias.de)
+  for the component to be merged. There SHOULD be a test case for all relevant client-side
+  interaction.
+  
 ### Modification of existing UI components
 
 * Any changes on interfaces of factories or UI components MUST be agreed upon by

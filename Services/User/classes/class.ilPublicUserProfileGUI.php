@@ -215,7 +215,7 @@ class ilPublicUserProfileGUI
 		$next_class = $ilCtrl->getNextClass($this);	
 		$cmd = $ilCtrl->getCmd();
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 		
 		switch($next_class)
 		{	
@@ -253,7 +253,7 @@ class ilPublicUserProfileGUI
 		// only for direct links
 		if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui")
 		{
-			$tpl->show();
+			$tpl->printToStdout();
 		}
 	}
 	

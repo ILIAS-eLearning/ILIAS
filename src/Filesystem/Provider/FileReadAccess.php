@@ -67,7 +67,7 @@ interface FileReadAccess {
 	 *
 	 * @param string $path  The path to the file.
 	 *
-	 * @return \DateTime  The timestamp of the file.
+	 * @return \DateTimeImmutable  The timestamp of the file.
 	 *
 	 * @throws FileNotFoundException    If the file is not found.
 	 * @throws IOException              If the file can not be red.
@@ -75,7 +75,7 @@ interface FileReadAccess {
 	 * @since 5.3
 	 * @version 1.0
 	 */
-	public function getTimestamp(string $path): \DateTime;
+	public function getTimestamp(string $path): \DateTimeImmutable;
 
 
 	/**

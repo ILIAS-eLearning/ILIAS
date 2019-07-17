@@ -16,13 +16,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 	protected $backupGlobals = false;
 
 	/**
-	 *
-	 */
-	public function setUp()
-	{
-	}
-
-	/**
 	 * @dataProvider provideElements
 	 * @param $elements array
 	 */
@@ -118,21 +111,21 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testRemovingAnNonExistingElementRaisesAnException()
 	{
-		$this->assertException(InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$collection = new ilBuddySystemRelationCollection();
 		$collection->removeElement(5);
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * 
 	 */
 	public function testRemovingAnNonExistingElementByKeyRaisesAnException()
 	{
-		$this->assertException(InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$collection = new ilBuddySystemRelationCollection();
 		$collection->remove("phpunit");
 	}

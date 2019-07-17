@@ -41,9 +41,8 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 */
 	public function getNodeContent($node) {
 		global $DIC;
-		$lng = $DIC['lng'];
 		if ($node["title"] == "__OrgUnitAdministration") {
-			$node["title"] = $lng->txt("objs_orgu");
+			$node["title"] = $DIC->language()->txt("objs_orgu");
 		}
 		if ($node["child"] == $_GET["ref_id"]) {
 			return "<span class='ilExp2NodeContent ilHighlighted'>" . $node["title"] . "</span>";
@@ -91,18 +90,22 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 */
 	public function getNodeHref($node) {
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-		if ($ilCtrl->getCmd() == "performPaste") {
-			$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "target_node", $node["child"]);
+
+		if ($this->select_postvar) {
+            return "#";
+        }
+
+		if ($DIC->ctrl()->getCmd() == "performPaste") {
+			$DIC->ctrl()->setParameterByClass("ilObjOrgUnitGUI", "target_node", $node["child"]);
 		}
-		$array = $ilCtrl->getParameterArrayByClass("ilObjOrgUnitGUI");
+		$array = $DIC->ctrl()->getParameterArrayByClass("ilObjOrgUnitGUI");
 		$temp = $array['ref_id'];
 
-		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $node["child"]);
-		$ilCtrl->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $node["child"]);
+		$DIC->ctrl()->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $node["child"]);
+		$DIC->ctrl()->setParameterByClass("ilObjPluginDispatchGUI", "ref_id", $node["child"]);
 
 		$link_target = ($node['type'] == "orgu") ? $this->getLinkTarget() : $this->getPluginLinkTarget();
-		$ilCtrl->setParameterByClass("ilObjOrgUnitGUI", 'ref_id', $temp);
+		$DIC->ctrl()->setParameterByClass("ilObjOrgUnitGUI", 'ref_id', $temp);
 		return $link_target;
 	}
 
@@ -112,21 +115,17 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 */
 	protected function getLinkTarget() {
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-
-		if ($ilCtrl->getCmdClass() == "ilobjorgunitgui" AND in_array($ilCtrl->getCmd(), $this->stay_with_command)) {
-			return $ilCtrl->getLinkTargetByClass(array( "ilAdministrationGUI", $ilCtrl->getCmdClass() ), $ilCtrl->getCmd());
+		if ($DIC->ctrl()->getCmdClass() == "ilobjorgunitgui" AND in_array($DIC->ctrl()->getCmd(), $this->stay_with_command)) {
+			return $DIC->ctrl()->getLinkTargetByClass(array( "ilAdministrationGUI", $DIC->ctrl()->getCmdClass() ), $DIC->ctrl()->getCmd());
 		} else {
-			return $ilCtrl->getLinkTargetByClass(array( "ilAdministrationGUI", "ilobjorgunitgui" ), "view");
+			return $DIC->ctrl()->getLinkTargetByClass(array( "ilAdministrationGUI", "ilobjorgunitgui" ), "view");
 		}
 	}
 
 
 	protected function getPluginLinkTarget() {
 		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-
-		return $ilCtrl->getLinkTargetByClass("ilObjPluginDispatchGUI", "forward");
+		return $DIC->ctrl()->getLinkTargetByClass("ilObjPluginDispatchGUI", "forward");
 	}
 
 
@@ -141,7 +140,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 */
 	public function getChildsOfNode($a_parent_node_id) {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
+		$ilAccess = $DIC->access();
 
 		$wl = $this->getTypeWhiteList();
 		if (is_array($wl) && count($wl) > 0) {
@@ -212,7 +211,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 	 */
 	public function isNodeClickable($a_node) {
 		global $DIC;
-		$ilAccess = $DIC['ilAccess'];
+		$ilAccess = $DIC->access();
 
 		if ($ilAccess->checkAccess('read', '', $a_node['ref_id'])) {
 			return true;
@@ -220,5 +219,16 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI {
 
 		return false;
 	}
+
+	/**
+     *
+     */
+	public function isNodeSelectable($a_node) {
+	    $current_node = filter_input(INPUT_GET, 'item_ref_id');
+	    if ($a_node['child'] == $current_node || $this->tree->isGrandChild($current_node, $a_node['child'])) {
+	        return false;
+        }
+	    return true;
+    }
 }
 

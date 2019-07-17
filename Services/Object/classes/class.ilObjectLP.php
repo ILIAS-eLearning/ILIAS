@@ -149,7 +149,6 @@ class ilObjectLP
 			}
 		}
 	}
-		
 	public static function isSupportedObjectType($a_type)
 	{
 		global $DIC;
@@ -587,7 +586,8 @@ class ilObjectLP
 		
 		// see ilTrQuery::getParticipantsForObject() [single object only]
 		// this is optimized for larger number of objects, e.g. list GUIs
-		
+
+		$ref_map = [];
 		if((bool)$a_mapped_ref_ids)
 		{
 			$ref_map = $a_obj_ids;
@@ -634,14 +634,14 @@ class ilObjectLP
 				}
 			}
 			// different parents (PD > LP)			
-			else if(sizeof($ref_map))
+			else if(is_array($ref_map) && count($ref_map) > 0)
 			{										
 				foreach($find_by_parent as $obj_id)
 				{					
 					// maybe already found by path search from other object/reference
 					if($res[$obj_id] === false)
 					{						
-						if(isset($ref_map[$obj_id]))
+						if(isset($ref_map[$obj_id]) && is_array($ref_map[$obj_id]))
 						{
 							// check all references
 							foreach($ref_map[$obj_id] as $ref_id)
@@ -655,7 +655,7 @@ class ilObjectLP
 								// we are checking the complete ref_map 
 								// to find all relevant objects in subtree of current ref_id
 								$found = self::findMembershipsByPath($res, $a_usr_id, $parent_ref_id, $ref_map, true);
-								if(sizeof($found))
+								if(is_array($found) && count($found) > 0)
 								{						
 									// if any references were found in a crs/grp-subtree
 									// remove from "read-event"-last-resort-pool
@@ -686,8 +686,7 @@ class ilObjectLP
 			}
 			
 			// last resort: use read_event?
-			if(sizeof($find_by_parent))
-			{				
+			if (is_array($find_by_parent) && count($find_by_parent) > 0) {
 				$set = $ilDB->query("SELECT obj_id".
 					" FROM read_event".
 					" WHERE ".$ilDB->in("obj_id", $find_by_parent, "", "integer").

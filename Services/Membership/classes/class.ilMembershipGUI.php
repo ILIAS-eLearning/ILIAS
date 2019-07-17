@@ -404,7 +404,7 @@ class ilMembershipGUI
 				break;
 		}
 	}
-	
+
 	/**
 	 * Show participant table, subscriber table, wating list table;
 	 */
@@ -1219,11 +1219,20 @@ class ilMembershipGUI
 		{
 			return null;
 		}
-		$subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(),true);
-		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
+		$subscriber = $this->initSubscriberTable();
 		$subscriber->readSubscriberData(
 			$filtered_subscribers
 		);
+		return $subscriber;
+	}
+
+	/**
+	 * @return \ilSubscriberTableGUI
+	 */
+	protected function initSubscriberTable()
+	{
+		$subscriber = new \ilSubscriberTableGUI($this, $this->getParentObject(),true, true);
+		$subscriber->setTitle($this->lng->txt('group_new_registrations'));
 		return $subscriber;
 	}
 	
@@ -1348,7 +1357,7 @@ class ilMembershipGUI
 				if ($this instanceof ilLearningSequenceMembershipGUI) {
 					$this->getMembersObject()->sendNotification(
 						ilLearningSequenceMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
-						$user_id
+						$usr_id
 					);
 				}
 			}
@@ -1601,7 +1610,7 @@ class ilMembershipGUI
 		{
 			$waiting_list->removeFromList($user_id);
 			
-			if($this instanceof ilCourseWaitingList)
+			if($this instanceof ilCourseMembershipGUI)
 			{
 				$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id,true);
 			}
@@ -1685,25 +1694,14 @@ class ilMembershipGUI
 
 		$ilTabs = $DIC['ilTabs'];
 		
-		#$this->checkRbacOrPositionAccessBool('manage_members','manage_members');
 		$this->checkPermission('read');
 		
 		$ilTabs->clearTargets();
-		
-		if($GLOBALS['DIC']['ilAccess']->checkAccess('manage_members','',$this->getParentObject()->getId()))
-		{
-			$ilTabs->setBackTarget(
-				$this->lng->txt('back'),
-				$this->ctrl->getLinkTarget($this, 'participants'));
-		}
-		else
-		{
-			$ilTabs->setBackTarget(
-				$this->lng->txt('back'),
-				$this->ctrl->getLinkTarget($this, 'jump2UsersGallery'));
-		}
-		
-		
+
+		$ilTabs->setBackTarget(
+			$this->lng->txt('back'),
+			$this->ctrl->getLinkTarget($this, 'participants'));
+
 		$list = $this->initAttendanceList();
 		$form = $list->initForm('printMembersOutput');
 		$this->tpl->setContent($form->getHTML());	

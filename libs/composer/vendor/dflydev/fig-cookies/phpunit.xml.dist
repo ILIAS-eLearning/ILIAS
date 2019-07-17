@@ -1,7 +1,0 @@
-<phpunit bootstrap="vendor/autoload.php" colors="true">
-    <testsuites>
-        <testsuite name="dflydev FIG Cookies Tests">
-            <directory>./tests</directory>
-        </testsuite>
-    </testsuites>
-</phpunit>

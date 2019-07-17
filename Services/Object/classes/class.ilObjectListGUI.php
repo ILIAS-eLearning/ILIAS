@@ -160,10 +160,20 @@ class ilObjectListGUI
 	static protected $tpl_component = "Services/Container";
 
 	/**
+	 * @var ilPathGUI|null
+	 */
+	protected $path_gui = null;
+
+	/**
 	 * @var \ILIAS\DI\UIServices
 	 */
 	protected $ui;
-	
+
+	/**
+	 * @var ilObjectService
+	 */
+	protected $object_service;
+
 	/**
 	* constructor
 	*
@@ -184,6 +194,8 @@ class ilObjectListGUI
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
 		$this->context = $a_context;
+
+		$this->object_service = $DIC->object();
 		
 		$this->enableComments(false);
 		$this->enableNotes(false);
@@ -609,10 +621,11 @@ class ilObjectListGUI
 	* @param int
 	* @return void
 	*/
-	function enablePath($a_path, $a_start_node = null)
+	function enablePath($a_path, $a_start_node = null, \ilPathGUI $path_gui = null)
 	{
 		$this->path_enabled = $a_path;
 		$this->path_start_node = (int)$a_start_node;
+		$this->path_gui = $path_gui;
 	}
 
 	/**
@@ -1015,7 +1028,7 @@ class ilObjectListGUI
 	* @param	string		$a_description	description
 	* @param	int			$a_context		tree/workspace
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
 	{
 		$this->offline_mode = false;		
 		if ($this->type == "sahs") {
@@ -1032,6 +1045,18 @@ class ilObjectListGUI
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
 		$this->prevent_access_caching = false;
+
+		// prepare ajax calls
+		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+		if($this->context == self::CONTEXT_REPOSITORY)
+		{
+			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
+		}
+		else
+		{
+			$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
+		}
+		$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));
 
 	}
 
@@ -1824,6 +1849,7 @@ class ilObjectListGUI
 		$redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
 
 		// add common properties (comments, notes, tags)
+		require_once 'Services/Notes/classes/class.ilNote.php';
 		if ((self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0 ||
 				self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0 ||
 				self::$cnt_tags[$note_obj_id] > 0 ||
@@ -2884,7 +2910,21 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->getContainerObject(), "type", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
 			$this->ctrl->setParameter($this->getContainerObject(), "active_node", "");
-			$cmd = $_GET["cmd"] == "enableAdministrationPanel" ? "render" : "enableAdministrationPanel";
+			// bugfix mantis 24559
+			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
+			// as they don't have the possibility to use the multi-download-capability of the manage-tab
+			$user_id = $this->user->getId();
+			$hasAdminAccess = $this->access->checkAccessOfUser($user_id, "crs_admin", $this->ctrl->getCmd(), $_GET['ref_id']);
+			// to still prevent duplicate download functions for admins the following if-else statement keeps the redirection for admins
+			// while letting other course members access the original multi-download functionality
+			if($hasAdminAccess)
+			{
+				$cmd = $_GET["cmd"] == "enableAdministrationPanel" ? "render" : "enableAdministrationPanel";
+			}
+			else
+			{
+				$cmd = $_GET["cmd"] == "enableMultiDownload" ? "render" : "enableMultiDownload";
+			}
 			$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), $cmd);
 			$this->insertCommand($cmd_link, $this->lng->txt("download_multiple_objects"));
 			return true;
@@ -3014,7 +3054,7 @@ class ilObjectListGUI
 	 * 
 	 * @return string
 	 */
-	function getHeaderAction(ilTemplate $a_main_tpl = null)
+	function getHeaderAction(ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 
@@ -3051,7 +3091,7 @@ class ilObjectListGUI
 					count($tags));*/
 
 				$f = $this->ui->factory();
-				$this->addHeaderGlyph("tags", $f->glyph()->tag("#")
+				$this->addHeaderGlyph("tags", $f->symbol()->glyph()->tag("#")
 					->withCounter($f->counter()->status((int) count($tags))),
 					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js));
 
@@ -3079,7 +3119,7 @@ class ilObjectListGUI
 					);*/
 
 				$f = $this->ui->factory();
-				$this->addHeaderGlyph("notes", $f->glyph()->note("#")
+				$this->addHeaderGlyph("notes", $f->symbol()->glyph()->note("#")
 					->withCounter($f->counter()->status((int) $cnt[$this->obj_id][IL_NOTE_PRIVATE])),
 					ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js));
 
@@ -3096,7 +3136,7 @@ class ilObjectListGUI
 					$cnt[$this->obj_id][IL_NOTE_PUBLIC]);*/
 
 				$f = $this->ui->factory();
-				$this->addHeaderGlyph("comments", $f->glyph()->comment("#")
+				$this->addHeaderGlyph("comments", $f->symbol()->glyph()->comment("#")
 					->withCounter($f->counter()->status((int) $cnt[$this->obj_id][IL_NOTE_PUBLIC])),
 					ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js));
 
@@ -3298,8 +3338,12 @@ class ilObjectListGUI
 		
 		if($this->getPathStatus() != false)
 		{
-			include_once 'Services/Tree/classes/class.ilPathGUI.php';
-			$path_gui = new ilPathGUI();
+			if(!$this->path_gui instanceof \ilPathGUI) {
+				$path_gui = new \ilPathGUI();
+			} else {
+				$path_gui = $this->path_gui;
+			}
+
 			$path_gui->enableTextOnly(!$this->path_linked);
 			$path_gui->setUseImages(false);
 			
@@ -3522,20 +3566,8 @@ class ilObjectListGUI
 		$type = ilObject::_lookupType($a_obj_id);
 
 		// initialization
-		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		$this->initItem($a_ref_id, $a_obj_id, $type, $a_title, $a_description);
 
-		// prepare ajax calls
-		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-		if($this->context == self::CONTEXT_REPOSITORY)
-		{
-			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
-		}
-		else
-		{
-			$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
-		}
-		$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));		
-				
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
 			return $this->insertCommands(true, true);
@@ -3676,10 +3708,12 @@ class ilObjectListGUI
 		$this->tpl->setVariable("DIV_CLASS",'ilContainerListItemOuter');
 		$this->tpl->setVariable("DIV_ID", 'data-list-item-id="'.$this->getUniqueItemId(true).'" id = "'.$this->getUniqueItemId(true).'"');
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
-		
-		// #11554 - make sure that internal ids are reset
-		$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
-		
+
+		if (is_object($this->getContainerObject())) {
+			// #11554 - make sure that internal ids are reset
+			$this->ctrl->setParameter($this->getContainerObject(), "item_ref_id", "");
+		}
+
 		return $this->tpl->get();
 	}
 	
@@ -3926,6 +3960,229 @@ class ilObjectListGUI
 		$this->tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * Get list item ui object
+	 *
+	 * @param int $ref_id
+	 * @param int $obj_id
+	 * @param string $type
+	 * @param string $title
+	 * @param string $description
+	 * @return \ILIAS\UI\Component\Item\Item|null
+	 */
+	public function getAsListItem(int $ref_id, int $obj_id, string $type,
+		string $title,
+		string $description): ?\ILIAS\UI\Component\Item\Item
+	{
+		$ui = $this->ui;
+
+		$this->initItem($ref_id, $obj_id, $type,
+			$title,
+			$description);
+
+		$this->enableCommands(true);
+
+		// actions
+		$this->insertCommands();
+		$actions = [];
+		foreach ($this->current_selection_list->getItems() as $action_item) {
+			$actions[] = $ui->factory()
+				->button()
+				->shy($action_item['title'], $action_item['link']);
+		}
+
+		$dropdown = $ui->factory()
+			->dropdown()
+			->standard($actions);
+
+		$def_command = $this->getDefaultCommand();
+
+		if ($type == 'sess' && $title == '') {
+			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
+			$title = ilSessionAppointment::_appointmentToString(
+				$app_info['start'],
+				$app_info['end'],
+				$app_info['fullday']
+			);
+		}
+
+		$icon = $this->ui->factory()
+			->symbol()
+			->icon()
+			->standard($type, $this->lng->txt('obj_' . $type))
+			->withSize('medium');
+
+
+		if ($def_command['link'])
+		{
+			$list_item = $ui->factory()->item()->standard($this->ui->factory()->button()->shy($title, $def_command['link']));
+		}
+		else
+		{
+			$list_item = $ui->factory()->item()->standard($title);
+		}
+
+		$list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
+
+
+		$l = [];
+		foreach ($this->determineProperties() as $p) {
+			if ($p['property'] !== $this->lng->txt('learning_progress')) {
+				$l[(string)$p['property']] = (string)$p['value'];
+			}
+		}
+		if (count($l) > 0) {
+			$list_item = $list_item->withProperties($l);
+		}
+
+		// @todo: learning progress
+
+
+		/*
+		$lp = ilLPStatus::getListGUIStatus($item['obj_id'], false);
+		if (is_array($lp) && array_key_exists('status', $lp)) {
+			$percentage = (int)ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
+			if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+				$percentage = 100;
+			}
+
+			$card = $card->withProgress(
+				$this->uiFactory
+					->chart()
+					->progressMeter()
+					->mini(100, $percentage)
+			);
+		}*/
+
+		return $list_item;
+	}
+
+	/**
+	 * Get card object
+	 *
+	 * @param int $ref_id
+	 * @param int $obj_id
+	 * @param string $type
+	 * @param string $title
+	 * @param string $description
+	 * @return \ILIAS\UI\Component\Card\Card|null
+	 */
+	public function getAsCard(int $ref_id, int $obj_id, string $type,
+		string $title,
+		string $description): ?\ILIAS\UI\Component\Card\Card
+	{
+		$ui = $this->ui;
+
+		$this->initItem($ref_id, $obj_id, $type,
+			$title,
+			$description);
+
+		$this->enableCommands(true);
+
+		$sections = [];
+
+		// description, @todo: move to new ks element
+		if ($description != "") {
+			$sections[] = $ui->factory()->legacy("<div class='il_info il-multi-line-cap-3'>".$description."</div>");
+		}
+
+		$this->insertCommands();
+		$actions = [];
+
+		foreach ($this->current_selection_list->getItems() as $action_item) {
+			$actions[] = $ui->factory()
+				->button()
+				->shy($action_item['title'], $action_item['link']);
+		}
+		$dropdown = $ui->factory()
+			->dropdown()
+			->standard($actions);
+
+		$def_command = $this->getDefaultCommand();
+
+		$img = $this->object_service->commonSettings()->tileImage()->getByObjId((int) $obj_id);
+		if ($img->exists()) {
+			$path = $img->getFullPath();
+		} else {
+			$path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $type . '.svg');
+			if (!is_file($path)) {
+				$path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
+			}
+		}
+
+		$image = $this->ui->factory()
+			->image()
+			->responsive($path, '');
+		if ($def_command['link'] != '')    // #24256
+		{
+			$image = $image->withAction($def_command['link']);
+		}
+
+		if ($type == 'sess') {
+			if ($title != "") {
+				$title = ": ".$title;
+			}
+			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
+			$title = ilSessionAppointment::_appointmentToString(
+				$app_info['start'],
+				$app_info['end'],
+				$app_info['fullday']
+			).$title;
+		}
+
+		$icon = $this->ui->factory()
+			->symbol()
+			->icon()
+			->standard($type, $this->lng->txt('obj_' . $type))
+			->withIsOutlined(true);
+		$card = $ui->factory()->card()->repositoryObject(
+			$title . '<span data-list-item-id="' . $this->getUniqueItemId(true) . '"></span>',
+			$image
+		)->withObjectIcon(
+			$icon
+		)->withActions(
+			$dropdown
+		);
+
+		// #24256
+		if ($def_command['link']) {
+			$card = $card->withTitleAction($def_command['link']);
+		}
+
+		$l = [];
+		foreach ($this->determineProperties() as $p) {
+			if ($p['property'] !== $this->lng->txt('learning_progress')) {
+				$l[(string)$p['property']] = (string)$p['value'];
+			}
+		}
+		if (count($l) > 0)
+		{
+			$prop_list = $ui->factory()->listing()->descriptive($l);
+			$sections[] = $prop_list;
+		}
+		if (count($sections) > 0) {
+			$card = $card->withSections($sections);
+		}
+
+		$lp = ilLPStatus::getListGUIStatus($obj_id, false);
+		if (is_array($lp) && array_key_exists('status', $lp)) {
+			$percentage = (int)ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
+			if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+				$percentage = 100;
+			}
+
+			$card = $card->withProgress(
+				$ui->factory()
+					->chart()
+					->progressMeter()
+					->mini(100, $percentage)
+			);
+		}
+
+		return $card;
+	}
+
 }
 
 ?>

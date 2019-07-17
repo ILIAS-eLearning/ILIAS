@@ -151,7 +151,17 @@ class ilSession
 
 		if (ilSession::_exists($a_session_id))
 		{
-			$ilDB->update("usr_session", $fields, 
+			// note that we do this only when inserting the new record
+			// updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
+			if (class_exists("ilContext"))
+			{
+				if (ilContext::isSessionMainContext())
+				{
+					$fields["context"] = array("text", ilContext::getType());
+				}
+			}
+
+			$ilDB->update("usr_session", $fields,
 				array("session_id" => array("text", $a_session_id)));			
 		}
 		else
@@ -346,11 +356,15 @@ class ilSession
 	{
 		global $DIC;
 
-		$ilSetting = $DIC['ilSetting'];
-		
-		if( $fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED )
+		if($fixedMode)
 		{
 			// fixed session
+			return time() + self::getIdleValue($fixedMode);
+		}
+
+		$ilSetting = $DIC['ilSetting'];
+		if($ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED )
+		{
 			return time() + self::getIdleValue($fixedMode);
 		}
 		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDENT )

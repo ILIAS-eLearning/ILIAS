@@ -181,7 +181,6 @@ class ilExPeerReviewGUI
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 
-		include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
 		$state = ilExcAssMemberState::getInstanceByIds($a_submission->getAssignment()->getId(), $a_submission->getUserId());
 
 		$ass = $a_submission->getAssignment();
@@ -266,7 +265,11 @@ class ilExPeerReviewGUI
 			}
 			*/
 
-			$a_info->addProperty($lng->txt("exc_peer_review"), $edit_pc." ".$view_pc);	
+			$sep = ($edit_pc != "" && $view_pc != "")
+				? "<br><br>"
+				: "";
+
+			$a_info->addProperty($lng->txt("exc_peer_review"), $edit_pc.$sep.$view_pc);
 			
 			$ilCtrl->setParameterByClass("ilExPeerReviewGUI", "ass_id", "");
 		}						

@@ -14,7 +14,7 @@ class ilObjOrgUnitTree {
 	/**
 	 * @var null
 	 */
-	protected static $temporary_table_name = null;
+	protected static $temporary_table_name = NULL;
 	/**
 	 * @var  ilObjOrgUnitTree
 	 */
@@ -60,7 +60,7 @@ class ilObjOrgUnitTree {
 	 * @return \ilObjOrgUnitTree
 	 */
 	public static function _getInstance() {
-		if (self::$instance === null) {
+		if (self::$instance === NULL) {
 			self::$instance = new self();
 		}
 
@@ -75,8 +75,22 @@ class ilObjOrgUnitTree {
 	 * @return int[] array of user ids.
 	 */
 	public function getEmployees($ref_id, $recursive = false) {
-		// return $this->getAssignements($ref_id, new ilOrgUnitPosition(1));
-		return array_unique(($recursive ? $this->loadStaffRecursive("employee", $ref_id) : $this->loadStaff("employee", $ref_id)));
+
+		$arr_usr_ids = [];
+
+		switch ($recursive) {
+			case false:
+				$arr_usr_ids = $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
+				break;
+			case true:
+				foreach ($this->getAllChildren($ref_id) as $ref_id) {
+					$arr_usr_ids = $arr_usr_ids
+						+ $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
+				}
+				break;
+		}
+
+		return $arr_usr_ids;
 	}
 
 
@@ -87,8 +101,9 @@ class ilObjOrgUnitTree {
 	 * @return array
 	 */
 	public function getAssignements($ref_id, ilOrgUnitPosition $ilOrgUnitPosition) {
-		return ilOrgUnitUserAssignment::where(array( 'orgu_id'     => $ref_id,
-		                                             'position_id' => $ilOrgUnitPosition->getId(),
+		return ilOrgUnitUserAssignment::where(array(
+			'orgu_id' => $ref_id,
+			'position_id' => $ilOrgUnitPosition->getId(),
 		))->getArray('id', 'user_id');
 	}
 
@@ -100,23 +115,21 @@ class ilObjOrgUnitTree {
 	 * @return int[]  array of user ids.
 	 */
 	public function getSuperiors($ref_id, $recursive = false) {
-		return array_unique(($recursive ? $this->loadStaffRecursive("superior", $ref_id) : $this->loadStaff("superior", $ref_id)));
-	}
+		$arr_usr_ids = [];
 
+		switch ($recursive) {
+			case false:
+				$arr_usr_ids = $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
+				break;
+			case true:
+				foreach ($this->getAllChildren($ref_id) as $ref_id) {
+					$arr_usr_ids = $arr_usr_ids
+						+ $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_SUPERIOR));
+				}
+				break;
+		}
 
-	/**
-	 * @param $title  string "employee" or "superior"
-	 * @param $ref_id int ref id of org unit.
-	 *
-	 * @return int[] array of user_obj ids
-	 */
-	private function loadStaff($title, $ref_id) {
-		return $this->loadArrayOfStaff($title, array( $ref_id ));
-	}
-
-
-	private function loadStaffRecursive($title, $ref_id) {
-		return $this->loadArrayOfStaff($title, $this->getAllChildren($ref_id));
+		return $arr_usr_ids;
 	}
 
 
@@ -141,8 +154,7 @@ class ilObjOrgUnitTree {
 
 		//if there are still refs that need to be loaded, then do so.
 		if (count($ref_ids)) {
-			$q = "SELECT usr_id, rol_id FROM rbac_ua WHERE "
-			     . $this->db->in("rol_id", $ref_ids, false, "integer");
+			$q = "SELECT usr_id, rol_id FROM rbac_ua WHERE " . $this->db->in("rol_id", $ref_ids, false, "integer");
 			$set = $this->db->query($q);
 			while ($res = $this->db->fetchAssoc($set)) {
 				$orgu_ref = $this->role_to_orgu[$title][$res["rol_id"]];
@@ -203,8 +215,7 @@ class ilObjOrgUnitTree {
 		WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'orgu'";*/
 
 		$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
-		INNER JOIN rbac_operations ON rbac_operations.operation = "
-		     . $this->db->quote($operation, "text") . "
+		INNER JOIN rbac_operations ON rbac_operations.operation = " . $this->db->quote($operation, "text") . "
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($ilUser->getId(), "integer") . "
 		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')
 		INNER JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id
@@ -239,8 +250,7 @@ class ilObjOrgUnitTree {
 		$ilUser = $DIC['ilUser'];
 		$q = "SELECT object_data.obj_id, object_data.title, object_data.type, rbac_pa.ops_id FROM object_data
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($ilUser->getId(), "integer") . "
-		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', "
-		     . $this->db->quote($operation_id, "integer") . ", '%')
+		INNER JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id AND rbac_pa.ops_id LIKE CONCAT('%', " . $this->db->quote($operation_id, "integer") . ", '%')
 		INNER JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 		INNER JOIN tree ON tree.child = rbac_fa.parent
 		INNER JOIN object_reference ON object_reference.ref_id = tree.parent
@@ -383,8 +393,7 @@ class ilObjOrgUnitTree {
 				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
 				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer')
-		     . " AND object_data.type = 'orgu';";
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu';";
 
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();
@@ -417,8 +426,7 @@ class ilObjOrgUnitTree {
 				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
 				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
 				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer')
-		     . " AND object_data.type = 'orgu'";
+			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu'";
 
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();
@@ -459,12 +467,11 @@ class ilObjOrgUnitTree {
 		if (self::$temporary_table_name == $temporary_table_name) {
 			return true;
 		}
-		if (self::$temporary_table_name === null) {
+		if (self::$temporary_table_name === NULL) {
 			$this->dropTempTable($temporary_table_name);
 			self::$temporary_table_name = $temporary_table_name;
 		} elseif ($temporary_table_name != self::$temporary_table_name) {
-			throw new ilException('there is already a temporary table for org-unit assignement: '
-			                      . self::$temporary_table_name);
+			throw new ilException('there is already a temporary table for org-unit assignement: ' . self::$temporary_table_name);
 		}
 
 		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
@@ -487,14 +494,14 @@ class ilObjOrgUnitTree {
 	 * @return bool
 	 */
 	public function dropTempTable($temporary_table_name) {
-		if (self::$temporary_table_name === null
-		    || $temporary_table_name != self::$temporary_table_name) {
+		if (self::$temporary_table_name === NULL
+			|| $temporary_table_name != self::$temporary_table_name) {
 			return false;
 		}
 		$q = "DROP TABLE IF EXISTS " . $temporary_table_name;
 		$this->db->manipulate($q);
 
-		self::$temporary_table_name = null;
+		self::$temporary_table_name = NULL;
 
 		return true;
 	}
@@ -539,14 +546,14 @@ class ilObjOrgUnitTree {
 	 * @param $role
 	 */
 	private function loadRoles($role) {
-		if ($this->roles[$role] == null) {
+		if ($this->roles[$role] == NULL) {
 			$this->loadRolesQuery($role);
 		}
 	}
 
 
 	public function flushCache() {
-		$this->roles = null;
+		$this->roles = NULL;
 	}
 
 
@@ -555,8 +562,7 @@ class ilObjOrgUnitTree {
 	 */
 	private function loadRolesQuery($role) {
 		$this->roles[$role] = array();
-		$q = "SELECT obj_id, title FROM object_data WHERE type = 'role' AND title LIKE 'il_orgu_"
-		     . $role . "%'";
+		$q = "SELECT obj_id, title FROM object_data WHERE type = 'role' AND title LIKE 'il_orgu_" . $role . "%'";
 		$set = $this->db->query($q);
 		while ($res = $this->db->fetchAssoc($set)) {
 			$orgu_ref = $this->getRefIdFromRoleTitle($res["title"]);
@@ -616,9 +622,8 @@ class ilObjOrgUnitTree {
 		if (count($line) > $level) {
 			return $line[$level];
 		} else {
-			throw new Exception("you want to fetch level " . $level
-			                    . " but the line to the length of the line is only " . count($line)
-			                    . ". The line of the given org unit is: " . print_r($line, true));
+			throw new Exception("you want to fetch level " . $level . " but the line to the length of the line is only " . count($line)
+				. ". The line of the given org unit is: " . print_r($line, true));
 		}
 	}
 

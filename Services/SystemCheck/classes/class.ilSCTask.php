@@ -92,6 +92,14 @@ class ilSCTask
 	{
 		return $this->status;
 	}
+
+	/**
+	 * @return bool check if task is active
+	 */
+	public function isActive()
+	{
+		return true;
+	}
 	
 	/**
 	 * Read group
@@ -113,7 +121,7 @@ class ilSCTask
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setGroupId($row->grp_id);
-			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC'));
+			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,ilTimeZone::UTC));
 			$this->setStatus($row->status);
 			$this->setIdentifier($row->identifier);
 		}
@@ -152,7 +160,7 @@ class ilSCTask
 		$ilDB = $DIC['ilDB'];
 		
 		$query = 'UPDATE sysc_tasks SET '.
-				'last_update = '.$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'',UTC),'timestamp').', '.
+				'last_update = '.$ilDB->quote($this->getLastUpdate()->get(IL_CAL_DATETIME,'',ilTimeZone::UTC),'timestamp').', '.
 				'status = '.$ilDB->quote($this->getStatus(),'integer').', '.
 				'identifier = '.$ilDB->quote($this->getIdentifier(),'text').' '.
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');

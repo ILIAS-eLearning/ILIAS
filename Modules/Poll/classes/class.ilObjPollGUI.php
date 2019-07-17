@@ -264,7 +264,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 						
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 
 		// add entry to navigation history
 		if(!$this->getCreationMode() &&

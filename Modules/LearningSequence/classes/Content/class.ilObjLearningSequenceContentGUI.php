@@ -23,7 +23,7 @@ class ilObjLearningSequenceContentGUI
 	public function __construct(
 		ilObjLearningSequenceGUI $parent_gui,
 		ilCtrl $ctrl,
-		ilTemplate $tpl,
+		ilGlobalTemplate $tpl,
 		ilLanguage $lng,
 		ilAccess $access,
 		ilConfirmationGUI $confirmation_gui,
@@ -83,7 +83,7 @@ class ilObjLearningSequenceContentGUI
 
 		$table->addCommandButton(self::CMD_SAVE, $this->lng->txt("save"));
 
-		$this->tpl->setContent($table->getHtml().$btn);
+		$this->tpl->setContent($table->getHtml());
 	}
 
 	/**
@@ -127,18 +127,10 @@ class ilObjLearningSequenceContentGUI
 		$this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
 	}
 
-	/**
-	 * @return array<"value" => "option_text">
-	 */
-	public function getPossiblePostConditions(): array
-	{
-		$ret = [];
-		$types = $this->parent_gui->getObject()->getPossiblePostConditions();
-		foreach ($types as $type) {
-			$ret[$type->getType()] = $type->getLabel();
-		}
 
-		return $ret;
+	public function getPossiblePostConditionsForType(string $type): array
+	{
+		return $this->parent_gui->getObject()->getPossiblePostConditionsForType($type);
 	}
 
 
@@ -160,7 +152,7 @@ class ilObjLearningSequenceContentGUI
 			$condition_type = $this->getFieldName(self::FIELD_POSTCONDITION_TYPE, $ref_id);
 
 			$condition = $lsitem->getPostCondition()
-				->withConditionType((int)$post[$condition_type]);
+				->withConditionOperator($post[$condition_type]);
 			$updated[] = $lsitem
 				->withOnline((bool)$post[$online])
 				->withOrderNumber((int)$post[$order])

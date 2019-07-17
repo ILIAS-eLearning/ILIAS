@@ -792,7 +792,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			$image_dir."/nav_arr_R.png");
 			
 		// template workaround: reset of template 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		
@@ -820,7 +820,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$copage_export->exportSupportScripts();
 		
 		// index.html file
-		$a_glo_gui->tpl = new ilTemplate("tpl.main.html", true, true);
+		$a_glo_gui->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$style_name = $this->user->prefs["style"].".css";;
 		$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 		$a_glo_gui->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -846,7 +846,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		
 		foreach($terms as $term)
 		{
-			$a_glo_gui->tpl = new ilTemplate("tpl.main.html", true, true);
+			$a_glo_gui->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 			$a_glo_gui->tpl = $copage_export->getPreparedMainTemplate();
 			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			
@@ -905,7 +905,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
 		}
 		
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["mob_id"]  = $a_mob_id;
@@ -928,7 +928,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
 		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			$_GET["mob_id"]  = $a_mob_id;
 			$_GET["cmd"] = "fullscreen";

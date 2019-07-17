@@ -5,8 +5,11 @@
 	<p class="quote">{MAXIMUM_CHAR_HINT}</p>
 <!-- END maximum_char_hint -->
 <textarea class="ilc_qlinput_LongTextInput fullwidth textinput" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" cols="40" rows="10" name="TEXT" id="assTextQuestionContent_{QID}">{ESSAY}</textarea>
+	<!-- BEGIN word_counter -->
+	<p id="assTextQuestionWordCounterContainer_{QID}" style="display:none">{WORDCOUNTER} <span id="assTextQuestionWordCounter_{QID}"></span></p>
+	<!-- END word_counter -->
 <!-- BEGIN maxchars_counter -->
-<p id="assTextQuestionLetterCounterContainer_{QID}" style="display:none">(<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" readonly="readonly" id="assTextQuestionLetterCounter_{QID}" style="border: 0; background: transparent;" size="{TEXTBOXSIZE}" value="{MAXCHARS}" /> {CHARACTERS})</p>
+<p id="assTextQuestionLetterCounterContainer_{QID}" style="display:none">{CHARACTERS} <input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" readonly="readonly" id="assTextQuestionLetterCounter_{QID}" style="border: 0; background: transparent;" size="{TEXTBOXSIZE}" value="{MAXCHARS}" /></p>
 <!-- END maxchars_counter -->
 </div>
 </div>

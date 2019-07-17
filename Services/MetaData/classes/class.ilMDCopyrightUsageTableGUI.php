@@ -125,7 +125,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		$f = $DIC->ui()->factory();
 		$r = $DIC->ui()->renderer();
 
-		$icon = $f->icon()->standard($a_set['type'], $this->lng->txt($a_set['type']),"medium");
+		$icon = $f->symbol()->icon()->standard($a_set['type'], $this->lng->txt($a_set['type']),"medium");
 		$this->tpl->setVariable('OBJ_TYPE_ICON', $r->render($icon));
 		$this->tpl->setVariable('TITLE',$a_set['title']);
 		$this->tpl->setVariable("DESCRIPTION", $a_set['desc']);
@@ -214,10 +214,14 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 		return $data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getDataFromDB()
 	{
 		$query = "SELECT rbac_id, obj_id, obj_type FROM il_meta_rights ".
 			"WHERE description = ".$this->db->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->copyright_id,'text').
+			' AND rbac_id != '.$this->db->quote(0,'integer').
 			" GROUP BY rbac_id";
 
 		$result = $this->db->query($query);

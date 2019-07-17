@@ -9,11 +9,11 @@ namespace ILIAS\UI\Implementation\Render;
  */
 class ilTemplateWrapperFactory implements TemplateFactory {
 	/**
-	 * @var	\ilTemplate
+	 * @var	\ilGlobalTemplate
 	 */
 	protected $global_tpl;
 
-	public function __construct(\ilTemplate $global_tpl) {
+	public function __construct(\ilGlobalTemplateInterface $global_tpl) {
 		$this->global_tpl = $global_tpl;
 	}
 

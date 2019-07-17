@@ -210,6 +210,14 @@ class assQuestionExport
 	protected function addGeneralMetadata(ilXmlWriter $xmlwriter)
 	{
 		$this->addQtiMetaDataField($xmlwriter, 'externalId', $this->object->getExternalId());
+		
+		$this->addQtiMetaDataField($xmlwriter, 'ilias_lifecycle',
+			$this->object->getLifecycle()->getIdentifier()
+		);
+		
+		$this->addQtiMetaDataField($xmlwriter, 'lifecycle',
+			$this->object->getLifecycle()->getMappedLomLifecycle()
+		);
 	}
 }
 

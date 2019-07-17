@@ -6,298 +6,340 @@
  */
 class ilCertificateCron extends \ilCronJob
 {
-	const DEFAULT_SCHEDULE_HOURS = 1;
+    const DEFAULT_SCHEDULE_HOURS = 1;
 
-	/** @var \ilLanguage */
-	protected $lng;
+    /** @var \ilLanguage */
+    protected $lng;
 
-	/** \@var ilCertificateQueueRepository */
-	private $queueRepository;
+    /** \@var ilCertificateQueueRepository */
+    private $queueRepository;
 
-	/** @var \ilCertificateTemplateRepository */
-	private $templateRepository;
+    /** @var \ilCertificateTemplateRepository */
+    private $templateRepository;
 
-	/** @var \ilUserCertificateRepository */
-	private $userRepository;
+    /** @var \ilUserCertificateRepository */
+    private $userRepository;
 
-	/** @var \ILIAS\DI\LoggingServices|ilLogger logger */
-	private $logger;
+    /** @var \ILIAS\DI\LoggingServices|ilLogger logger */
+    private $logger;
 
-	/** @var \ilCertificateValueReplacement */
-	private $valueReplacement;
+    /** @var \ilCertificateValueReplacement */
+    private $valueReplacement;
 
-	/** @var ilCertificateObjectHelper|null */
-	private $objectHelper;
+    /** @var ilCertificateObjectHelper|null */
+    private $objectHelper;
 
-	/** @var \ILIAS\DI\Container */
-	private $dic;
+    /** @var \ILIAS\DI\Container */
+    private $dic;
 
-	/**
-	 * @param ilCertificateQueueRepository $queueRepository
-	 * @param ilCertificateTemplateRepository $templateRepository
-	 * @param ilUserCertificateRepository $userRepository
-	 * @param ilCertificateValueReplacement|null $valueReplacement
-	 * @param ilLogger|null $logger
-	 * @param \ILIAS\DI\Container|null $dic
-	 * @param ilLanguage|null $language
-	 * @param ilCertificateObjectHelper|null $objectHelper
-	 */
-	public function __construct(
-		ilCertificateQueueRepository $queueRepository = null,
-		ilCertificateTemplateRepository $templateRepository = null,
-		ilUserCertificateRepository $userRepository = null,
-		ilCertificateValueReplacement $valueReplacement = null,
-		ilLogger $logger = null,
-		\ILIAS\DI\Container $dic = null,
-		ilLanguage $language = null,
-		ilCertificateObjectHelper $objectHelper = null
-	) {
-		if (null === $dic) {
-			global $DIC;
-			$dic = $DIC;
-		}
-		$this->dic = $dic;
+    /** @var ilSetting */
+    private $settings;
 
-		$this->queueRepository = $queueRepository;
-		$this->templateRepository = $templateRepository;
-		$this->userRepository = $userRepository;
-		$this->valueReplacement = $valueReplacement;
-		$this->logger = $logger;
-		$this->objectHelper = $objectHelper;
+    /**
+     * @param ilCertificateQueueRepository $queueRepository
+     * @param ilCertificateTemplateRepository $templateRepository
+     * @param ilUserCertificateRepository $userRepository
+     * @param ilCertificateValueReplacement|null $valueReplacement
+     * @param ilLogger|null $logger
+     * @param \ILIAS\DI\Container|null $dic
+     * @param ilLanguage|null $language
+     * @param ilCertificateObjectHelper|null $objectHelper
+     * @param ilSetting|null $setting
+     */
+    public function __construct(
+        ilCertificateQueueRepository $queueRepository = null,
+        ilCertificateTemplateRepository $templateRepository = null,
+        ilUserCertificateRepository $userRepository = null,
+        ilCertificateValueReplacement $valueReplacement = null,
+        ilLogger $logger = null,
+        \ILIAS\DI\Container $dic = null,
+        ilLanguage $language = null,
+        ilCertificateObjectHelper $objectHelper = null,
+        ilSetting $setting = null
+    ) {
+        if (null === $dic) {
+            global $DIC;
+            $dic = $DIC;
+        }
+        $this->dic = $dic;
 
-		if ($dic) {
-			if (isset($dic['lng'])) {
-				$language = $dic->language();
-				$language->loadLanguageModule('certificate');
-			}
-		}
+        $this->queueRepository = $queueRepository;
+        $this->templateRepository = $templateRepository;
+        $this->userRepository = $userRepository;
+        $this->valueReplacement = $valueReplacement;
+        $this->logger = $logger;
+        $this->objectHelper = $objectHelper;
+        $this->settings = $setting;
 
-		$this->lng = $language;
-	}
+        if ($dic) {
+            if (isset($dic['lng'])) {
+                $language = $dic->language();
+                $language->loadLanguageModule('certificate');
+            }
+        }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getTitle()
-	{
-		return $this->lng->txt('cert_cron_task_title');
-	}
+        $this->lng = $language;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getDescription()
-	{
-		return $this->lng->txt('cert_cron_task_desc');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getTitle()
+    {
+        return $this->lng->txt('cert_cron_task_title');
+    }
 
-	public function init()
-	{
-		if (null === $this->dic) {
-			global $DIC;
-			$this->dic = $DIC;
-		}
+    /**
+     * @inheritdoc
+     */
+    public function getDescription()
+    {
+        return $this->lng->txt('cert_cron_task_desc');
+    }
 
-		$database = $this->dic->database();
+    public function init()
+    {
+        if (null === $this->dic) {
+            global $DIC;
+            $this->dic = $DIC;
+        }
 
-		if (null === $this->logger) {
-			$this->logger = $this->dic->logger()->cert();
-		}
+        $database = $this->dic->database();
 
-		if (null === $this->queueRepository) {
-			$this->queueRepository = new ilCertificateQueueRepository($database, $this->logger);
-		}
+        if (null === $this->logger) {
+            $this->logger = $this->dic->logger()->cert();
+        }
 
-		if (null === $this->templateRepository) {
-			$this->templateRepository = new ilCertificateTemplateRepository($database, $this->logger);
-		}
+        if (null === $this->queueRepository) {
+            $this->queueRepository = new ilCertificateQueueRepository($database, $this->logger);
+        }
 
-		if (null === $this->userRepository) {
-			$this->userRepository = new ilUserCertificateRepository($database, $this->logger);
-		}
+        if (null === $this->templateRepository) {
+            $this->templateRepository = new ilCertificateTemplateRepository($database, $this->logger);
+        }
 
-		if (null === $this->valueReplacement) {
-			$this->valueReplacement = new ilCertificateValueReplacement();
-		}
+        if (null === $this->userRepository) {
+            $this->userRepository = new ilUserCertificateRepository($database, $this->logger);
+        }
 
-		if (null === $this->objectHelper) {
-			$this->objectHelper = new ilCertificateObjectHelper();
-		}
-	}
+        if (null === $this->valueReplacement) {
+            $this->valueReplacement = new ilCertificateValueReplacement();
+        }
 
-	/**
-	 * @ineritdoc
-	 */
-	public function run()
-	{
-		$this->init();
+        if (null === $this->objectHelper) {
+            $this->objectHelper = new ilCertificateObjectHelper();
+        }
 
-		$this->logger->info('START - Begin with cron job to create user certificates from templates');
+        if (null === $this->settings) {
+            $this->settings = new ilSetting('certificate');
+        }
+    }
 
-		$entries = $this->queueRepository->getAllEntriesFromQueue();
+    /**
+     * @ineritdoc
+     * @throws ilDatabaseException
+     */
+    public function run()
+    {
+        $this->init();
 
-		$status = ilCronJobResult::STATUS_OK;
+        $result = new ilCronJobResult();
+        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
 
-		$i = 0;
-		$succeededGenerations = [];
-		foreach ($entries as $entry) {
-			try {
-				if ($i > 0 && $i % 10 === 0) {
-					ilCronManager::ping($this->getId());
-				}
+        $currentMode = $this->settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
+        if ($currentMode !== 'persistent_certificate_mode_cron') {
+            $this->logger->warning(sprintf('Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"',
+                $currentMode));
+            return $result;
+        }
 
-				++$i;
+        $this->logger->info('START - Begin with cron job to create user certificates from templates');
 
-				$this->logger->debug('Entry found will start of processing the entry');
+        $entries = $this->queueRepository->getAllEntriesFromQueue();
 
-				/** @var $entry ilCertificateQueueEntry */
-				$class = $entry->getAdapterClass();
-				$this->logger->debug('Adapter class to be executed "' . $class . '"');
+        $status = ilCronJobResult::STATUS_OK;
 
-				$placeholderValueObject = new $class();
-				if (!$placeholderValueObject instanceof ilCertificatePlaceholderValues) {
-					throw new ilException('The given class ' . $class . ' MUST be an instance of ilCertificateCronAdapter and MUST have an accessible namespace. The class map MAY be reloader.');
-				}
+        $entryCounter = 0;
+        $succeededGenerations = [];
+        foreach ($entries as $entry) {
+            try {
+                $succeededGenerations = $this->processEntry(
+                    $entryCounter,
+                    $entry,
+                    $succeededGenerations
+                );
 
-				$objId = $entry->getObjId();
-				$userId = $entry->getUserId();
-				$templateId = $entry->getTemplateId();
+                ++$entryCounter;
+            } catch (ilInvalidCertificateException $exception) {
+                $this->logger->warning($exception->getMessage());
+                $this->logger->warning('The user MAY not be able to achieve the certificate based on the adapters settings');
+                $this->logger->warning('Due the error, the entry will now be removed from the queue.');
 
-				$this->logger->debug(sprintf(
-					'Fetch certificate template for user id: "%s" and object id: "%s" and template id: "%s"',
-					$userId,
-					$objId,
-					$templateId
-				));
+                $this->queueRepository->removeFromQueue($entry->getId());
 
-				$template = $this->templateRepository->fetchTemplate($templateId);
+                continue;
+            } catch (ilException $exception) {
+                $this->logger->warning($exception->getMessage());
+                $this->logger->warning('Due the error, the entry will now be removed from the queue.');
 
-				$object = $this->objectHelper->getInstanceByObjId($objId, false);
-				if (!$object instanceof ilObject) {
-					throw new ilException(sprintf('The given object id: "%s"  could not be referred to an actual object', $objId));
-				}
+                $this->queueRepository->removeFromQueue($entry->getId());
+                continue;
+            }
+        }
 
-				$type = $object->getType();
+        $result->setStatus($status);
+        if (count($succeededGenerations) > 0) {
+            $result->setMessage(sprintf(
+                'Generated %s certificate(s) in run. Result: %s',
+                count($succeededGenerations),
+                implode(' | ', $succeededGenerations)
+            ));
+        } else {
+            $result->setMessage('0 certificates generated in current run.');
+        }
 
-				$userObject = $this->objectHelper->getInstanceByObjId($userId, false);
-				if (!$userObject || !($userObject instanceof \ilObjUser)) {
-					throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
-				}
+        return $result;
+    }
 
-				$this->logger->debug(sprintf(
-					'Object type: "%s"',
-					$type
-				));
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return 'certificate';
+    }
 
-				$certificateContent = $template->getCertificateContent();
+    /**
+     * @inheritdoc
+     */
+    public function hasAutoActivation()
+    {
+        return true;
+    }
 
-				$placeholderValues = $placeholderValueObject->getPlaceholderValues($userId, $objId);
+    /**
+     * @inheritdoc
+     */
+    public function hasFlexibleSchedule()
+    {
+        return true;
+    }
 
-				$this->logger->debug(sprintf(
-					'Values for placeholders: "%s"',
-					json_encode($placeholderValues)
-				));
-			} catch (ilInvalidCertificateException $exception) {
-				$this->logger->warning($exception->getMessage());
-				$this->logger->warning('The user MAY not be able to achieve the certificate based on the adapters settings');
-				$this->logger->warning('Due the error, the entry will now be removed from the queue.');
+    /**
+     * @inheritdoc
+     */
+    public function getDefaultScheduleType()
+    {
+        return self::SCHEDULE_TYPE_IN_MINUTES;
+    }
 
-				$this->queueRepository->removeFromQueue($entry->getId());
+    /**
+     * @inheritdoc
+     */
+    public function getDefaultScheduleValue()
+    {
+        return 1;
+    }
 
-				continue;
-			} catch (ilException $exception) {
-				$this->logger->warning($exception->getMessage());
-				$this->logger->warning('Due the error, the entry will now be removed from the queue.');
+    /**
+     * @param $entryCounter
+     * @param $entry
+     * @param $succeededGenerations
+     * @return array
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilInvalidCertificateException
+     */
+    public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations): array
+    {
+        if ($entryCounter > 0 && $entryCounter % 10 === 0) {
+            ilCronManager::ping($this->getId());
+        }
 
-				$this->queueRepository->removeFromQueue($entry->getId());
-				continue;
-			}
+        $this->logger->debug('Entry found will start of processing the entry');
 
-			$certificateContent = $this->valueReplacement->replace(
-				$placeholderValues,
-				$certificateContent,
-				CLIENT_WEB_DIR . $template->getBackgroundImagePath()
-			);
+        /** @var $entry ilCertificateQueueEntry */
+        $class = $entry->getAdapterClass();
+        $this->logger->debug('Adapter class to be executed "' . $class . '"');
 
-			$thumbnailImagePath = (string)$template->getThumbnailImagePath();
-			$userCertificate = new ilUserCertificate(
-				$template->getId(),
-				$objId,
-				$type,
-				$userId,
-				$userObject->getFullname(),
-				(int)$entry->getStartedTimestamp(),
-				$certificateContent,
-				json_encode($placeholderValues),
-				null,
-				$template->getVersion(),
-				ILIAS_VERSION_NUMERIC,
-				true,
-				$template->getBackgroundImagePath(),
-				$thumbnailImagePath
-			);
+        $placeholderValueObject = new $class();
+        if (!$placeholderValueObject instanceof ilCertificatePlaceholderValues) {
+            throw new ilException('The given class ' . $class . ' MUST be an instance of ilCertificateCronAdapter and MUST have an accessible namespace. The class map MAY be reloader.');
+        }
 
-			$this->userRepository->save($userCertificate);
+        $objId = $entry->getObjId();
+        $userId = $entry->getUserId();
+        $templateId = $entry->getTemplateId();
 
-			$succeededGenerations[] = implode('/', [
-				'obj_id: ' . $objId,
-				'usr_id: ' . $userId
-			]);
+        $this->logger->debug(sprintf(
+            'Fetch certificate template for user id: "%s" and object id: "%s" and template id: "%s"',
+            $userId,
+            $objId,
+            $templateId
+        ));
 
-			$this->queueRepository->removeFromQueue($entry->getId());
-		}
+        $template = $this->templateRepository->fetchTemplate($templateId);
 
-		$result = new ilCronJobResult();
-		$result->setStatus($status);
-		if (count($succeededGenerations) > 0) {
-			$result->setMessage(sprintf(
-				'Generated %s certificate(s) in run. Result: %s',
-				count($succeededGenerations), implode(' | ', $succeededGenerations)
-			));
-		} else {
-			$result->setMessage('0 certificates generated in current run.');
-		}
+        $object = $this->objectHelper->getInstanceByObjId($objId, false);
+        if (!$object instanceof ilObject) {
+            throw new ilException(sprintf('The given object id: "%s"  could not be referred to an actual object',
+                $objId));
+        }
 
-		return $result;
-	}
+        $type = $object->getType();
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getId()
-	{
-		return 'certificate';
-	}
+        $userObject = $this->objectHelper->getInstanceByObjId($userId, false);
+        if (!$userObject || !($userObject instanceof \ilObjUser)) {
+            throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
+        }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function hasAutoActivation()
-	{
-		return true;
-	}
+        $this->logger->debug(sprintf(
+            'Object type: "%s"',
+            $type
+        ));
 
-	/**
-	 * @inheritdoc
-	 */
-	public function hasFlexibleSchedule()
-	{
-		return true;
-	}
+        $certificateContent = $template->getCertificateContent();
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getDefaultScheduleType()
-	{
-		return self::SCHEDULE_TYPE_IN_MINUTES;
-	}
+        $placeholderValues = $placeholderValueObject->getPlaceholderValues($userId, $objId);
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getDefaultScheduleValue()
-	{
-		return 1;
-	}
+        $this->logger->debug(sprintf(
+            'Values for placeholders: "%s"',
+            json_encode($placeholderValues)
+        ));
+
+        $certificateContent = $this->valueReplacement->replace(
+            $placeholderValues,
+            $certificateContent,
+            CLIENT_WEB_DIR . $template->getBackgroundImagePath()
+        );
+
+        $thumbnailImagePath = (string)$template->getThumbnailImagePath();
+        $userCertificate = new ilUserCertificate(
+            $template->getId(),
+            $objId,
+            $type,
+            $userId,
+            $userObject->getFullname(),
+            (int)$entry->getStartedTimestamp(),
+            $certificateContent,
+            json_encode($placeholderValues),
+            null,
+            $template->getVersion(),
+            ILIAS_VERSION_NUMERIC,
+            true,
+            $template->getBackgroundImagePath(),
+            $thumbnailImagePath
+        );
+
+        $this->userRepository->save($userCertificate);
+
+        $succeededGenerations[] = implode('/', [
+            'obj_id: ' . $objId,
+            'usr_id: ' . $userId
+        ]);
+
+        $this->queueRepository->removeFromQueue($entry->getId());
+
+        return $succeededGenerations;
+    }
 }

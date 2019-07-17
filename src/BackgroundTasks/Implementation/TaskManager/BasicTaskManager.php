@@ -2,11 +2,11 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Exceptions\Exception;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
-use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
@@ -30,7 +30,7 @@ use ILIAS\BackgroundTasks\Value;
  *         when a user interaction occurs.
  *
  */
-class BasicTaskManager implements TaskManager {
+abstract class BasicTaskManager implements TaskManager {
 
 	/**
 	 * @var Persistence
@@ -75,9 +75,9 @@ class BasicTaskManager implements TaskManager {
 			$value = $job->run($final_values, $observer);
 			if (!$value->getType()->isExtensionOf($job->getOutputType())) {
 				throw new Exception("The job " . $job->getType()
-				                    . " did state to output a value of type "
-				                    . $job->getOutputType() . " but outputted a value of type "
-				                    . $value->getType());
+					. " did state to output a value of type "
+					. $job->getOutputType() . " but outputted a value of type "
+					. $value->getType());
 			}
 			$observer->notifyPercentage($job, 100);
 
@@ -87,37 +87,20 @@ class BasicTaskManager implements TaskManager {
 		if (is_a($task, Task\UserInteraction::class)) {
 			/** @var Task\UserInteraction $userInteraction */
 			$userInteraction = $task;
-			$observer->notifyCurrentTask($userInteraction);
-			$observer->notifyState(State::USER_INTERACTION);
-			throw new UserInteractionRequiredException("User interaction required.");
+
+			if ($userInteraction->canBeSkipped($final_values)) {
+				return $userInteraction->getSkippedValue($final_values);
+				//
+			} else {
+				$observer->notifyCurrentTask($userInteraction);
+				$observer->notifyState(State::USER_INTERACTION);
+				throw new UserInteractionRequiredException("User interaction required.");
+			}
 		}
 
 		throw new Exception("You need to execute a Job or a UserInteraction.");
 	}
 
-
-	/**
-	 * This will add an Observer of the Task and start running the task.
-	 *
-	 * @param Bucket $bucket
-	 *
-	 * @return mixed|void
-	 * @throws \Exception
-	 *
-	 */
-	public function run(Bucket $bucket) {
-		$task = $bucket->getTask();
-		$bucket->setCurrentTask($task);
-		$observer = new NonPersistingObserver($bucket);
-
-		try {
-			$this->executeTask($task, $observer);
-			$bucket->setState(State::FINISHED);
-		} catch (UserInteractionRequiredException $e) {
-			// We're okay!
-			$this->persistence->saveBucketAndItsTasks($bucket);
-		}
-	}
 
 
 	/**
@@ -146,4 +129,5 @@ class BasicTaskManager implements TaskManager {
 	public function quitBucket(Bucket $bucket) {
 		$this->persistence->deleteBucket($bucket);
 	}
+
 }

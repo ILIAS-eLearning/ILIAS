@@ -210,6 +210,10 @@ abstract class assQuestionGUI
 	*/
 	function executeCommand()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenIdComponent('qpl');
+
 		$cmd = $this->ctrl->getCmd("editQuestion");
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -466,7 +470,7 @@ abstract class assQuestionGUI
 	public function assessment()
 	{
 		/**
-		 * @var $tpl ilTemplate
+		 * @var $tpl ilGlobalTemplate
 		 */
 		global $DIC;
 		$tpl = $DIC['tpl'];
@@ -562,9 +566,17 @@ abstract class assQuestionGUI
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
 	
-	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl)
 	{
-		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+		foreach($this->getPresentationJavascripts() as $jsFile)
+		{
+			$tpl->addJavaScript($jsFile);
+		}
+	}
+	
+	public function getPresentationJavascripts()
+	{
+		return array();
 	}
 
 	/**
@@ -1301,6 +1313,12 @@ abstract class assQuestionGUI
 			$form->addItem($hi);
 			
 		}
+		
+		// lifecycle
+		$lifecycle = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
+		$lifecycle->setOptions($this->object->getLifecycle()->getSelectOptions($this->lng));
+		$lifecycle->setValue($this->object->getLifecycle()->getIdentifier());
+		$form->addItem($lifecycle);
 
 		// questiontext
 		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
@@ -2275,6 +2293,12 @@ abstract class assQuestionGUI
 		{
 			$this->object->setNrOfTries( $_POST['nr_of_tries'] );
 		}
+		
+		try {
+			$lifecycle = ilAssQuestionLifecycle::getInstance($_POST['lifecycle']);
+			$this->object->setLifecycle($lifecycle);
+		} catch(ilTestQuestionPoolInvalidArgumentException $e) {}
+		
 		$this->object->setQuestion( ilUtil::stripOnlySlashes($_POST['question']) ); // ?
 		$this->object->setEstimatedWorkingTime(
 			$_POST["Estimated"]["hh"],

@@ -29,6 +29,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	* @var integer
 	*/
 	var $maxNumOfChars;
+	
+	/**
+	 * @var bool
+	 */
+	protected $wordCounterEnabled;
 
 	/**
 	* Keywords of the question
@@ -75,6 +80,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
+		$this->wordCounterEnabled = false;
 		$this->maxNumOfChars = 0;
 		$this->points = 1;
 		$this->answers = array();
@@ -143,11 +149,18 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setShuffle($data["shuffle"]);
+			$this->setWordCounterEnabled((bool)$data['word_cnt_enabled']);
 			$this->setMaxNumOfChars($data["maxnumofchars"]);
 			$this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
 			$this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setKeywordRelation(($data['keyword_relation']));
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
 			
 			try
 			{
@@ -334,6 +347,22 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	function setMaxNumOfChars($maxchars = 0)
 	{
 		$this->maxNumOfChars = $maxchars;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isWordCounterEnabled()
+	{
+		return $this->wordCounterEnabled;
+	}
+	
+	/**
+	 * @param bool $wordCounterEnabled
+	 */
+	public function setWordCounterEnabled($wordCounterEnabled)
+	{
+		$this->wordCounterEnabled = $wordCounterEnabled;
 	}
 
 	/**
@@ -690,18 +719,17 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 							)
 		);
 
-		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, 
-							 textgap_rating, matchcondition, keyword_relation) VALUES (%s, %s, %s, %s, %s, %s)",
-							array( "integer", "integer", "text", "text", 'integer', 'text' ),
-							array(
-								$this->getId(),
-								$this->getMaxNumOfChars(),
-								NULL,
-								$this->getTextRating(),
-								$this->matchcondition,
-								$this->getKeywordRelation()
-							)
+		$fields = array(
+			'question_fi' => array('integer', $this->getId()),
+			'maxnumofchars' => array('integer', $this->getMaxNumOfChars()),
+			'word_cnt_enabled' => array('integer', (int)$this->isWordCounterEnabled()),
+			'keywords' => array('text', null),
+			'textgap_rating' => array('text', $this->getTextRating()),
+			'matchcondition' => array('integer', $this->matchcondition),
+			'keyword_relation' => array('text', $this->getKeywordRelation())
 		);
+		
+		$ilDB->insert($this->getAdditionalTableName(), $fields);
 	}
 
 	public function saveAnswerSpecificDataToDb()
@@ -1078,5 +1106,18 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		$text = str_replace("\n", "", $text);
 		
 		return ilStr::strLen($text);
+	}
+	
+	public function countWords($text)
+	{
+		$text = str_replace('&nbsp;', ' ', $text);
+		
+		$text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
+		
+		$text = preg_replace('/^\s*/m', '', $text);
+		$text = preg_replace('/\s*$/m', '', $text);
+		$text = preg_replace('/\s+/m', ' ', $text);
+
+        return count(explode(' ', $text));
 	}
 }

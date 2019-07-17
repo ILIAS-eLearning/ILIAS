@@ -30,6 +30,9 @@
 */
 
 // remove notices from error reporting
+use ILIAS\GlobalScreen\Provider\NullProviderFactory;
+use ILIAS\GlobalScreen\Services;
+
 error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 
 require_once __DIR__."/../../libs/composer/vendor/autoload.php";
@@ -40,7 +43,7 @@ define("DEBUG",false);
 
 //require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class
-require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 
+require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class
 require_once "./Services/Logging/classes/class.ilLog.php";
 require_once "./Services/Authentication/classes/class.ilSession.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -58,7 +61,7 @@ include_once './Services/Logging/classes/public/class.ilLogLevel.php';
 // set ilias pathes
 if($_SERVER['HTTPS'] == 'on')
 {
-	define ("ILIAS_HTTP_PATH",substr("https://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));	
+	define ("ILIAS_HTTP_PATH",substr("https://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));
 }
 else
 {
@@ -88,7 +91,7 @@ else
 	define ('ILIAS_ABSOLUTE_PATH',str_replace("/setup/include", "", dirname(__FILE__)));
 }
 
-// set default timezone 
+// set default timezone
 include_once './Services/Calendar/classes/class.ilTimeZone.php';
 include_once './Services/Init/classes/class.ilIniFile.php';
 $ini = new ilIniFile(ILIAS_ABSOLUTE_PATH.'/ilias.ini.php');
@@ -141,10 +144,6 @@ $ilBench = new ilBenchmark();
 $GLOBALS['ilBench'] = $ilBench;
 $DIC["ilBench"] = function($c) { return $GLOBALS["ilBench"]; };
 
-include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
-include_once("./Services/Database/classes/class.ilMySQLAbstraction.php");
-include_once("./Services/Database/classes/class.ilDBGenerator.php");
-
 // HTTP Services
 $DIC['http.request_factory'] = function ($c) {
 	return new \ILIAS\HTTP\Request\RequestFactoryImpl();
@@ -175,7 +174,6 @@ $c = $DIC;
 $c["ui.factory"] = function ($c) {
 	return new ILIAS\UI\Implementation\Factory(
 		$c["ui.factory.counter"],
-		$c["ui.factory.glyph"],
 		$c["ui.factory.button"],
 		$c["ui.factory.listing"],
 		$c["ui.factory.image"],
@@ -187,13 +185,17 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.link"],
 		$c["ui.factory.dropdown"],
 		$c["ui.factory.item"],
-		$c["ui.factory.icon"],
 		$c["ui.factory.viewcontrol"],
 		$c["ui.factory.chart"],
 		$c["ui.factory.input"],
 		$c["ui.factory.table"],
 		$c["ui.factory.messagebox"],
-		$c["ui.factory.card"]
+		$c["ui.factory.card"],
+		$c["ui.factory.layout"],
+		$c["ui.factory.maincontrols"],
+		$c["ui.factory.tree"],
+		$c["ui.factory.menu"],
+		$c["ui.factory.symbol"]
 	);
 };
 $c["ui.signal_generator"] = function($c) {
@@ -202,8 +204,17 @@ $c["ui.signal_generator"] = function($c) {
 $c["ui.factory.counter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Counter\Factory();
 };
-$c["ui.factory.glyph"] = function($c) {
-	return new ILIAS\UI\Implementation\Component\Glyph\Factory();
+$c["ui.factory.symbol.glyph"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
+};
+$c["ui.factory.symbol.icon"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
+};
+$c["ui.factory.symbol"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Symbol\Factory(
+		$c["ui.factory.symbol.icon"],
+		$c["ui.factory.symbol.glyph"]
+	);
 };
 $c["ui.factory.button"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Button\Factory();
@@ -238,9 +249,7 @@ $c["ui.factory.dropdown"] = function($c) {
 $c["ui.factory.item"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Item\Factory();
 };
-$c["ui.factory.icon"] = function($c) {
-	return new ILIAS\UI\Implementation\Component\Icon\Factory();
-};
+
 $c["ui.factory.viewcontrol"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
 };
@@ -263,6 +272,28 @@ $c["ui.factory.messagebox"] = function($c) {
 $c["ui.factory.card"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Card\Factory();
 };
+$c["ui.factory.layout"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Layout\Factory();
+};
+$c["ui.factory.maincontrols.slate"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MainControls\Slate\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.counter']
+	);
+};
+$c["ui.factory.maincontrols"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\MainControls\Factory(
+		$c['ui.signal_generator'],
+		$c['ui.factory.maincontrols.slate']
+	);
+};
+$c["ui.factory.menu"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Menu\Factory();
+};
+
+$c["ui.factory.tree"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+};
 $c["ui.factory.progressmeter"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
 };
@@ -271,18 +302,23 @@ $c["ui.factory.dropzone.file"] = function($c) {
 };
 $c["ui.factory.input.field"] = function($c) {
 	$data_factory = new ILIAS\Data\Factory();
-	$validation_factory = new ILIAS\Validation\Factory($data_factory, $c["lng"]);
-	$transformation_factory = new ILIAS\Transformation\Factory();
+	$refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
 	return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
 		$c["ui.signal_generator"],
 		$data_factory,
-		$validation_factory,
-		$transformation_factory
+		$refinery
 	);
 };
 $c["ui.factory.input.container"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
-		$c["ui.factory.input.container.form"]
+		$c["ui.factory.input.container.form"],
+		$c["ui.factory.input.container.filter"]
+	);
+};
+$c["ui.factory.input.container.filter"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
+		$c["ui.signal_generator"],
+		$c["ui.factory.input.field"]
 	);
 };
 $c["ui.factory.input.container.form"] = function($c) {
@@ -300,21 +336,27 @@ $c["ui.renderer"] = function($c) {
 	);
 };
 $c["ui.component_renderer_loader"] = function($c) {
-	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper
-	( new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper
-		( $c["ui.resource_registry"]
-			, new ILIAS\UI\Implementation\Render\FSLoader
-			( new ILIAS\UI\Implementation\Render\DefaultRendererFactory
-			($c["ui.factory"]
-				, $c["ui.template_factory"]
-				, $c["lng"]
-				, $c["ui.javascript_binding"]
-			),
-				new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory
-				($c["ui.factory"]
-					, $c["ui.template_factory"]
-					, $c["lng"]
-					, $c["ui.javascript_binding"]
+	return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
+		new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
+			$c["ui.resource_registry"],
+			new ILIAS\UI\Implementation\Render\FSLoader(
+				new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
+				),
+				new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+					$c["ui.factory"],
+					$c["ui.template_factory"],
+					$c["lng"],
+					$c["ui.javascript_binding"]
 				)
 			)
 		)
@@ -330,6 +372,11 @@ $c["ui.resource_registry"] = function($c) {
 };
 $c["ui.javascript_binding"] = function($c) {
 	return new ILIAS\UI\Implementation\Render\ilJavaScriptBinding($c["tpl"]);
+};
+
+// Global Screen
+$c['global_screen'] = function () use ($c) {
+	return new Services(new NullProviderFactory());
 };
 
 

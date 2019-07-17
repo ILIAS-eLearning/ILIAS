@@ -1,22 +1,13 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilSamlMappedUserAttributeValueParserTest
  */
-class ilSamlMappedUserAttributeValueParserTest extends \PHPUnit_Framework_TestCase
+class ilSamlMappedUserAttributeValueParserTest extends TestCase
 {
-	/**
-	 * @param string $exception_class
-	 */
-	protected function assertException($exception_class)
-	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
-		}
-	}
-
 	/**
 	 * @param $externalAttributeReference
 	 * @return \ilExternalAuthUserAttributeMappingRule
@@ -75,7 +66,7 @@ class ilSamlMappedUserAttributeValueParserTest extends \PHPUnit_Framework_TestCa
 
 	public function testExceptionIsRaisedIfAnExpectedAttributeIsMissing()
 	{
-		$this->assertException(ilSamlException::class);
+		$this->expectException(ilSamlException::class);
 
 		$attributeKey   = 'firstname';
 		$userData       = [];
@@ -86,7 +77,7 @@ class ilSamlMappedUserAttributeValueParserTest extends \PHPUnit_Framework_TestCa
 
 	public function testExceptionIsRaisedIfAnExpectedValueCouldNotBeFoundForAnExpectedValueIndex()
 	{
-		$this->assertException(ilSamlException::class);
+		$this->expectException(ilSamlException::class);
 
 		$expectedValue      = 'ILIAS';
 		$expectedValueIndex = 5;
@@ -105,7 +96,7 @@ class ilSamlMappedUserAttributeValueParserTest extends \PHPUnit_Framework_TestCa
 	
 	public function testExceptionIsRaisedForNonScalarValues()
 	{
-		$this->assertException(ilSamlException::class);
+		$this->expectException(ilSamlException::class);
 
 		$expectedValue      = array('ILIAS');
 		$expectedValueIndex = 5;

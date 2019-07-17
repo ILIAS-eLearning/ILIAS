@@ -398,6 +398,12 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$this->setImageFilename($data["image_file"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -907,14 +913,19 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$worksheet->setCell($startrow + $i, 0, $answer->getArea() . ": " . $answer->getCoords());
 			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-			if ($id == $solution[0]["value1"])
+			
+			$cellValue = 0;
+			foreach($solution as $solIndex => $sol)
 			{
-				$worksheet->setCell($startrow + $i, 1, 1);
+				if( $sol['value1'] == $id )
+				{
+					$cellValue = 1;
+					break;
+				}
 			}
-			else
-			{
-				$worksheet->setCell($startrow + $i, 1, 0);
-			}
+			
+			$worksheet->setCell($startrow + $i, 1, $cellValue);
+
 			$i++;
 		}
 

@@ -3,13 +3,15 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Testing the faytory of result objects
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class DataReadmeTest extends PHPUnit_Framework_TestCase {
-	protected function setUp() {
+class DataReadmeTest extends TestCase {
+	protected function setUp(): void {
 		$this->old_active = ini_get("assert.active");
 		$this->old_bail = ini_get("assert.bail");
 		$this->old_warninig = ini_get("assert.warning");
@@ -19,7 +21,7 @@ class DataReadmeTest extends PHPUnit_Framework_TestCase {
 		ini_set("assert.warning", "1");
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		ini_set("assert.active", $this->old_active);
 		ini_set("assert.bail", $this->old_bail);
 		ini_set("assert.warning", $this->old_warninig);

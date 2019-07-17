@@ -1468,18 +1468,10 @@ class ilObjWikiGUI extends ilObjectGUI
 		include_once './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php';
 		$rcontent = ilRepositoryObjectSearchGUI::getSearchBlockHTML($lng->txt('wiki_search'));
 		
-		#include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
-		#$wiki_search_block = new ilWikiSearchBlockGUI();
-		#$rcontent = $wiki_search_block->getHTML();
 
 		// quick navigation
 		if ($a_wpg_id > 0)
 		{
-//			include_once("./Modules/Wiki/classes/class.ilWikiSideBlockGUI.php");
-//			$wiki_side_block = new ilWikiSideBlockGUI();
-//			$wiki_side_block->setPageObject($a_wp);
-//			$rcontent.= $wiki_side_block->getHTML();
-			
 			// rating
 			$wiki_id =ilObject::_lookupObjId($a_wiki_ref_id);			
 			if(ilObjWiki::_lookupRating($wiki_id) && 
@@ -1517,12 +1509,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 			
 		// important pages
-//		if (ilObjWiki::_lookupImportantPages(ilObject::_lookupObjId($a_wiki_ref_id)))
-//		{
-			include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
-			$imp_pages_block = new ilWikiImportantPagesBlockGUI();
-			$rcontent.= $imp_pages_block->getHTML();
-//		}
+		include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
+		$imp_pages_block = new ilWikiImportantPagesBlockGUI();
+		$rcontent.= $imp_pages_block->getHTML();
 
 		// wiki functions block
 		if ($a_wpg_id > 0)
@@ -1583,7 +1572,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "");
 		}		
 								
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());				
 		$this->setContentStyleSheet($tpl);
 
@@ -1630,12 +1619,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		if(!$a_pdf_export)
 		{
-			$tpl->show(false);
+			$tpl->printToStdout(false);
 			exit;		
 		}
 		else
 		{			
-			return $tpl->get("DEFAULT", false, false, false, true, false, false);
+			return $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
 		}
 	}
 	

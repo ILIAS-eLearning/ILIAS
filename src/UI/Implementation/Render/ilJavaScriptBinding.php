@@ -11,7 +11,7 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 	const PREFIX = "il_ui_fw_";
 
 	/**
-	 * @var \ilTemplate
+	 * @var \ilGlobalTemplate
 	 */
 	private	$global_tpl;
 
@@ -22,7 +22,7 @@ class ilJavaScriptBinding implements JavaScriptBinding {
 	 */
 	protected $code = array();
 
-	public function __construct(\ilTemplate $global_tpl) {
+	public function __construct(\ilGlobalTemplateInterface $global_tpl) {
 		$this->global_tpl = $global_tpl;
 	}
 

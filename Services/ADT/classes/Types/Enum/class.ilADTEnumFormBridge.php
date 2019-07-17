@@ -5,7 +5,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 class ilADTEnumFormBridge extends ilADTFormBridge
 {
 	protected $force_radio; // [bool]
-	protected $option_infos; // [array]
+	protected $option_infos = []; // [array]
 	protected $auto_sort = true; // [bool]
 	
 	protected function isValidADT(ilADT $a_adt) 

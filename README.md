@@ -1,3 +1,6 @@
+[![Build Status](https://api.travis-ci.com/ILIAS-eLearning/ILIAS.svg?branch=trunk)](https://travis-ci.com/ILIAS-eLearning/ILIAS)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
+
 # ILIAS
 
 ILIAS is a powerful Open Source Learning Management System for developing and realising web-based e-learning. The software was developed to reduce the costs of using new media in education and further training and to ensure the maximum level of customer influence in the implementation of the software. ILIAS is published under the General Public Licence and free of charge.
@@ -14,17 +17,12 @@ Installation of ILIAS is well documented on [our official Installation manual](h
 ILIAS can be extended with a lot of Plugins. You find the complete list in the [Plugin Repository](http://www.ilias.de/docu/goto.php?target=cat_1442&client_id=docu)
 
 
-### Want to contribute? Great!
+### Community
 
 We have a big [community](http://www.ilias.de/docu/goto.php?target=cat_1444&client_id=docu) and you can get a member of [ILIAS Society](http://www.ilias.de/docu/goto.php?target=cat_1669&client_id=docu).
 You may even join us at one of our regular [ILIAS Conferences](http://www.ilias.de/docu/goto.php?target=cat_2255&client_id=docu).
 
-## Pull-Requests
 
-We highly appreciate Pull-Request from external developers. Due to some regulations in the developments process of ILIAS, some kinds of Pull-Request need further steps. Additionally Pull-Request should target the correct branch for easy merging.
+### Development
 
-- Language-Fixes or additions to language-files don't need further steps.
-- Bugfixes need an entry in the Bugtracker: http://mantis.ilias.de . Pull-Request for Bugfixes target always to the branch where the bug occurs. The developer which merges it will cherry-pick the fix to all branches needed
-- Features/Refactorings need an entry in Feature-Wiki and has to get through the existing procedure for Feature-Requests: http://feature.ilias.de . Pull-Request target to trunk.
-
-Pull-Request will be assigned to the responsible maintainer(s). See further information on how contributions are handled in [/docs/documentation/contributing.md](/docs/documentation/contributing.md)
+Information on our software development processes and guidelines and ways to contribute can be found the the [development section](docs/development) of our documentation.

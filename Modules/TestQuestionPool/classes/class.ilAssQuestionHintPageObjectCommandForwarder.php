@@ -20,6 +20,11 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 	const PRESENTATION_MODE_AUTHOR = 'PRESENTATION_MODE_AUTHOR';
 	
 	/**
+	 * presentation mode for authoring
+	 */
+	const PRESENTATION_MODE_PREVIEW = 'PRESENTATION_MODE_PREVIEW';
+	
+	/**
 	 * presentation mode for requesting
 	 */
 	const PRESENTATION_MODE_REQUEST = 'PRESENTATION_MODE_REQUEST';
@@ -75,6 +80,11 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 				$pageObjectGUI = $this->buildAuthorPresentationPageObjectGUI();
 				break;
 			
+			case self::PRESENTATION_MODE_PREVIEW:
+				
+				$pageObjectGUI = $this->buildPreviewPresentationPageObjectGUI();
+				break;
+			
 			case self::PRESENTATION_MODE_REQUEST:
 				
 				$pageObjectGUI = $this->buildRequestPresentationPageObjectGUI();
@@ -86,6 +96,32 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 		$this->ctrl->forwardCommand($pageObjectGUI);
 	}
 	
+	/**
+	 * forwards the command to page object gui for author presentation
+	 *
+	 * @access private
+	 * @return page object gui object
+	 */
+	private function buildPreviewPresentationPageObjectGUI()
+	{
+		$this->tabs->setBackTarget(
+			$this->lng->txt('tst_question_hints_back_to_hint_list'),
+			$this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST)
+		);
+		
+		$pageObjectGUI = $this->getPageObjectGUI(
+			$this->questionHint->getPageObjectType(), $this->questionHint->getId()
+		);
+		
+		$pageObjectGUI->setEnabledTabs(false);
+		
+		$pageObjectGUI->setPresentationTitle(
+			ilAssQuestionHint::getHintIndexLabel($this->lng, $this->questionHint->getIndex())
+		);
+		
+		return $pageObjectGUI;
+	}
+
 	/**
 	 * forwards the command to page object gui for author presentation
 	 * 
@@ -159,6 +195,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
 		switch( $presentationMode )
 		{
 			case self::PRESENTATION_MODE_AUTHOR:
+			case self::PRESENTATION_MODE_PREVIEW:
 			case self::PRESENTATION_MODE_REQUEST:
 				
 				$this->presentationMode = $presentationMode;

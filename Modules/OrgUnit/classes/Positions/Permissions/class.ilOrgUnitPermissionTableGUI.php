@@ -26,6 +26,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->lng->loadLanguageModule('rbac');
+		$this->lng->loadLanguageModule("orgu");
 
 		$this->ref_id = $a_ref_id;
 
@@ -112,6 +113,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 
 			$this->tpl->setVariable('TXT_PERM', $label);
 			$this->tpl->setVariable('PERM_LONG', $op_id);
+
 
 			if ($permission['permission_set']) {
 				$this->tpl->setVariable('PERM_CHECKED', 'checked="checked"');

@@ -9,6 +9,7 @@ require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
  *
  * @package     Modules/Test
  *
+ * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestEvalObjectiveOrientedGUI: ilTestResultsToolbarGUI
  */
 class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
@@ -19,9 +20,15 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 		
 		switch( $this->ctrl->getNextClass($this) )
 		{
+			case 'ilassquestionpagegui':
+				require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
+				$forwarder = new ilAssQuestionPageCommandForwarder();
+				$forwarder->setTestObj($this->object);
+				$forwarder->forward();
+				break;
+			
 			default:
-				$this->handleTabs('results_objective_oriented');
-				$cmd = $this->ctrl->getCmd().'Cmd';
+				$cmd = $this->ctrl->getCmd('showVirtualPass').'Cmd';
 				$this->$cmd();
 		}
 	}
@@ -57,11 +64,6 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 				$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 			}
 		}
-		
-		$this->tabs->setBackTarget(
-			$this->lng->txt('tst_results_back_introduction'),
-			$this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
-		);
 
         // prepare generation before contents are processed (for mathjax)
 		if ($this->isPdfDeliveryRequest())
@@ -118,12 +120,11 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 			
 			$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
 				$userResultsForLO, $testSession->getActiveId(), null, $this, "showVirtualPass",
-				$command_solution_details, $questionAnchorNav, $objectivesList
+				$command_solution_details, $questionAnchorNav, $objectivesList, false
 			);
 			$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
 				$objectivesList->getObjectiveTitleById($loId)
 			));
-			$overviewTableGUI->setMultipleObjectivesInvolved(false);
 
 			require_once 'Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php';
 			$loStatus = new ilTestLearningObjectivesStatusGUI($this->lng);

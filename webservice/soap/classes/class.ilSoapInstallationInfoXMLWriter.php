@@ -61,7 +61,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	{
 		// we have to build the http path here since this request is client independent!
 		$httpPath = ilSoapFunctions::buildHTTPPath();	
-		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD Group//EN\" \"".$httpPath ."/xml/ilias_client_3_10.dtd\">");  
+		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD InstallationInfo//EN\" \"".$httpPath ."/xml/ilias_installation_info_5_3.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS clients.");
 		$this->xmlHeader();
 		$this->xmlStartTag("Installation",
@@ -175,7 +175,8 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 			$record_ids = array();
 			$record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
 			
-			foreach($record_types as $type) {
+			foreach($record_types as $type_info) {
+				$type = $type_info['obj_type'];
 				$records = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type);
 				foreach ($records as $record){
 					$record_ids [] = $record->getRecordId();

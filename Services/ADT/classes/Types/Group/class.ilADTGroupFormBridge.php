@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 
 class ilADTGroupFormBridge extends ilADTFormBridge
 {
-	protected $elements; // [array]
+	protected $elements = []; // [array]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{
@@ -68,7 +68,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
 		}		
 	}
 	
-	public function addJS(ilTemplate $a_tpl)
+	public function addJS(ilGlobalTemplate $a_tpl)
 	{
 		$this->prepareElements();
 		foreach($this->elements as $element)

@@ -71,7 +71,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$ilLocator = $DIC['ilLocator'];
 		$lng = $DIC['lng'];
 		
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		
 //		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
 //		$this->tpl->setLocator();
@@ -357,6 +357,14 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	public function disableAdministrationPanel()
 	{
 		$_SESSION["il_cont_admin_panel"] = false;
+		$this->ctrl->redirect($this);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function keepObjectsInClipboardObject()
+	{
 		$this->ctrl->redirect($this);
 	}
 	

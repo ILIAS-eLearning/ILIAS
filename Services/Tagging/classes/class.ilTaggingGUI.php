@@ -267,7 +267,7 @@ class ilTaggingGUI
 	/**
 	 * Init javascript
 	 */
-	static function initJavascript($a_ajax_url, ilTemplate $a_main_tpl = null)
+	static function initJavascript($a_ajax_url, ilGlobalTemplateInterface $a_main_tpl = null)
 	{
 		global $DIC;
 
@@ -343,7 +343,7 @@ class ilTaggingGUI
 		}
 		if ($mtxt != "")
 		{
-			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+			$tpl->setVariable("MESS", ilUtil::getSystemMessageHTML($mtxt, $mtype));
 		}
 		else
 		{

@@ -29,6 +29,11 @@ class ilTestScoring
 	protected $preserve_manual_scores;
 
 	private $recalculatedPasses;
+	
+	/**
+	 * @var int
+	 */
+	protected $questionId = 0;
 
 	public function __construct(ilObjTest $test)
 	{
@@ -54,6 +59,22 @@ class ilTestScoring
 		return $this->preserve_manual_scores;
 	}
 	
+	/**
+	 * @return int
+	 */
+	public function getQuestionId()
+	{
+		return $this->questionId;
+	}
+	
+	/**
+	 * @param int $questionId
+	 */
+	public function setQuestionId(int $questionId)
+	{
+		$this->questionId = $questionId;
+	}
+	
 	public function recalculateSolutions()
 	{
 		$participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
@@ -69,6 +90,24 @@ class ilTestScoring
 				assQuestion::_updateTestResultCache($active_id);
 			}
 		}
+	}
+
+	/**
+	 * Updates passed status of the Test
+	 *
+	 * @param $active_id
+	 * @param $pass
+	 */
+	public function recalculateSolution($active_id, $pass)
+	{
+		$user_data = $this
+			->test
+			->getCompleteEvaluationData(false)
+			->getParticipant($active_id)
+			->getPass($pass);
+
+		$this->recalculatePass( $user_data, $active_id , $pass);
+		assQuestion::_updateTestResultCache($active_id);
 	}
 
 	/**
@@ -100,6 +139,11 @@ class ilTestScoring
 		{
 			foreach ($questions as $questiondata)
 			{
+				if( $this->getQuestionId() && $this->getQuestionId() != $questiondata['id'] )
+				{
+					continue;
+				}
+				
 				$question_gui = $this->test->createQuestionGUI( "", $questiondata['id'] );
 				$this->recalculateQuestionScore( $question_gui, $active_id, $pass, $questiondata );
 			}
@@ -203,5 +247,46 @@ class ilTestScoring
 			
 			assQuestion::_updateTestResultCache($activeId);
 		}
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getNumManualScorings()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$query = "
+			SELECT COUNT(*) num_manual_scorings
+			FROM tst_test_result tres
+			
+			INNER JOIN tst_active tact
+			ON tact.active_id = tres.active_fi
+			AND tact.test_fi = %s
+			
+			WHERE tres.manual = 1
+		";
+		
+		$types = array('integer');
+		$values = array($this->test->getTestId());
+		
+		if( $this->getQuestionId() )
+		{
+			$query .= "
+				AND tres.question_fi = %s
+			";
+			
+			$types[] = 'integer';
+			$values[] = $this->getQuestionId();
+		}
+		
+		$res = $DIC->database()->queryF($query, $types, $values);
+		
+		while( $row = $DIC->database()->fetchAssoc($res) )
+		{
+			return (int)$row['num_manual_scorings'];
+		}
+		
+		return 0;
 	}
 }

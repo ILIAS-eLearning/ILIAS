@@ -35,28 +35,24 @@ class ilUIFramework
 		return array("./libs/bower/bower_components/Yamm3/yamm/yamm.css");
 	}
 
+
 	/**
 	 * Init
 	 *
-	 * @param ilTemplate $a_tpl template object
+	 * @param ilGlobalTemplateInterface $a_tpl template object
 	 */
-	static function init($a_tpl = null)
+	static function init(ilGlobalTemplateInterface $a_tpl = null)
 	{
 		global $DIC;
 
-		$tpl = $DIC["tpl"];
-
-		if ($a_tpl == null)
-		{
-			$a_tpl = $tpl;
+		if ($a_tpl == null) {
+			$a_tpl = $DIC["tpl"];
 		}
 
-		foreach (ilUIFramework::getJSFiles() as $f)
-		{
-			$a_tpl->addJavaScript($f, true, 1);
+		foreach (ilUIFramework::getJSFiles() as $f) {
+			$a_tpl->addJavaScript($f, true, 0);
 		}
-		foreach (ilUIFramework::getCssFiles() as $f)
-		{
+		foreach (ilUIFramework::getCssFiles() as $f) {
 			$a_tpl->addCss($f);
 		}
 	}

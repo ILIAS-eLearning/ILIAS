@@ -10,7 +10,7 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilTemplate extends HTML_Template_ITX
+class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 {
 	/**
 	* variablen die immer in jedem block ersetzt werden sollen
@@ -349,7 +349,7 @@ class ilTemplate extends HTML_Template_ITX
 	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
 	* and ilUtil::sendFailure()
 	*/
-	function setMessage($a_type, $a_txt, $a_keep = false)
+	function setOnScreenMessage($a_type, $a_txt, $a_keep = false)
 	{
 		if (!in_array($a_type, array("info", "success", "failure", "question")) || $a_txt == "")
 		{
@@ -434,7 +434,7 @@ class ilTemplate extends HTML_Template_ITX
 	/**
 	* Add a javascript file that should be included in the header.
 	*/
-	function addJavaScript($a_js_file)
+	function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
 	{
 		if (!in_array($a_js_file, $this->js_files))
 		{
@@ -442,7 +442,7 @@ class ilTemplate extends HTML_Template_ITX
 		}
 	}
 
-	function fillJavaScriptFiles()
+	function fillJavaScriptFiles($force = true)
 	{
 		global $ilias,$ilTabs;
 		if ($this->blockExists("js_file"))
@@ -509,5 +509,245 @@ class ilTemplate extends HTML_Template_ITX
 	}
 
 
+	/**
+	 * @inheritDoc
+	 */
+	public function hideFooter() {
+		// TODO: Implement hideFooter() method.
+	}
+
+
+
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addOnLoadCode($a_code, $a_batch = 2) {
+		// TODO: Implement addOnLoadCode() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getOnLoadCodeForAsynch() {
+		// TODO: Implement getOnLoadCodeForAsynch() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function resetJavascript() {
+		// TODO: Implement resetJavascript() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addInlineCss($a_css, $media = "screen") {
+		// TODO: Implement addInlineCss() method.
+	}
+
+
+	public function setBodyClass($a_class = "") {
+		// TODO: Implement setBodyClass() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function loadStandardTemplate() {
+		// TODO: Implement loadStandardTemplate() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTitle($a_title) {
+		// TODO: Implement setTitle() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setDescription($a_descr) {
+		// TODO: Implement setDescription() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTitleIcon($a_icon_path, $a_icon_desc = "") {
+		// TODO: Implement setTitleIcon() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setAlertProperties(array $a_props) {
+		// TODO: Implement setAlertProperties() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function clearHeader() {
+		// TODO: Implement clearHeader() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setHeaderActionMenu($a_header) {
+		// TODO: Implement setHeaderActionMenu() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setHeaderPageTitle($a_title) {
+		// TODO: Implement setHeaderPageTitle() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setLocator() {
+		// TODO: Implement setLocator() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTabs($a_tabs_html) {
+		// TODO: Implement setTabs() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setSubTabs($a_tabs_html) {
+		// TODO: Implement setSubTabs() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setContent($a_html) {
+		// TODO: Implement setContent() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setLeftContent($a_html) {
+		// TODO: Implement setLeftContent() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setLeftNavContent($a_content) {
+		// TODO: Implement setLeftNavContent() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setRightContent($a_html) {
+		// TODO: Implement setRightContent() method.
+	}
+
+
+	public function setPageFormAction($a_action) {
+		// TODO: Implement setPageFormAction() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setLoginTargetPar($a_val) {
+		// TODO: Implement setLoginTargetPar() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true) {
+		// TODO: Implement getSpecial() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false) {
+		// TODO: Implement printToStdout() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setTreeFlatIcon($a_link, $a_mode) {
+		// TODO: Implement setTreeFlatIcon() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addLightbox($a_html, $a_id) {
+		// TODO: Implement addLightbox() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false) {
+		// TODO: Implement addAdminPanelToolbar() method.
+	}
+
+
+	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "") {
+		// TODO: Implement setPermanentLink() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function resetHeaderBlock($a_reset_header_action = true) {
+		// TODO: Implement resetHeaderBlock() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function enableDragDropFileUpload($a_ref_id) {
+		// TODO: Implement enableDragDropFileUpload() method.
+	}
 }
 ?>

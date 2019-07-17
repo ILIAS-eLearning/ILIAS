@@ -62,15 +62,15 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI {
 			$this->initDeleteItem();
 			$response->content = "<div id = 'cld_delete_item' >";
 			if ($this->is_dir) {
-				$response->content .= $tpl->getMessageHTML($lng->txt("cld_confirm_delete_folder"), "question");
+				$response->content .= ilUtil::getSystemMessageHTML($lng->txt("cld_confirm_delete_folder"), "question");
 			} else {
-				$response->content .= $tpl->getMessageHTML($lng->txt("cld_confirm_delete_file"), "question");
+				$response->content .= ilUtil::getSystemMessageHTML($lng->txt("cld_confirm_delete_file"), "question");
 			}
 			$response->content .= $this->gui->getHTML();
 			$response->content .= "</div >";
 			$response->success = true;
 		} catch (Exception $e) {
-			$response->message = $tpl->getMessageHTML($e->getMessage(), "failure");
+			$response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
 		}
 		header('Content-type: application/json');
 		echo ilJsonUtil::encode($response);
@@ -128,10 +128,10 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI {
 				$file_tree = ilCloudFileTree::getFileTreeFromSession();
 				$node = $file_tree->getNodeFromId($_POST["id"]);
 				$file_tree->deleteFromService($node->getId());
-				$response->message = $tpl->getMessageHTML($lng->txt("cld_file_deleted"), "success");
+				$response->message = ilUtil::getSystemMessageHTML($lng->txt("cld_file_deleted"), "success");
 				$response->success = true;
 			} catch (Exception $e) {
-				$response->message = $tpl->getMessageHTML($e->getMessage(), "failure");
+				$response->message = ilUtil::getSystemMessageHTML($e->getMessage(), "failure");
 			}
 		}
 		echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterDeleteItem(" . ilJsonUtil::encode($response)

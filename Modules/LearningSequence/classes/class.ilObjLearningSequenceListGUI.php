@@ -41,7 +41,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
 	{
 		$props = parent::getProperties();
 
-		if(ilObjLearningSequenceAccess::_isOffline($this->obj_id))
+		if(ilObjLearningSequenceAccess::isOffline($this->ref_id))
 		{
 			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
 				"value" => $this->lng->txt("offline"));

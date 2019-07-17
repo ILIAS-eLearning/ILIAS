@@ -76,6 +76,8 @@ class ilTestResultsToXML extends ilXmlWriter
 				'test_fi' => $row['test_fi'],
 				'lastindex' => $row['lastindex'],
 				'tries' => $row['tries'],
+				'last_started_pass' => $row['last_started_pass'],
+				'last_finished_pass' => $row['last_finished_pass'],
 				'submitted' => $row['submitted'],
 				'submittimestamp' => $row['submittimestamp'],
 				'tstamp' => $row['tstamp']

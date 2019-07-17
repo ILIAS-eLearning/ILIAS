@@ -10,7 +10,7 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
 
 class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 {
-	private $answerType, $long_menu_text, $answers, $correct_answers, $json_structure, $ilDB;
+	private $answerType, $long_menu_text, $json_structure, $ilDB;
 	private $specificFeedbackSetting, $minAutoComplete;
 	private $identical_scoring;
 
@@ -19,6 +19,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	const GAP_PLACEHOLDER			= 'Longmenu';
 	const MIN_LENGTH_AUTOCOMPLETE 	= 3;
 	const MAX_INPUT_FIELDS 			= 500;
+
+	/** @var array */
+	private $correct_answers = [];
+	
+	/** @var array */
+	private $answers = [];
 
 	function __construct(
 		$title 		= "",
@@ -200,21 +206,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				array_push($points, $correct_answers_row[1]);
 			}
 		}
-		if(! $this->getIdenticalScoring() && ! $this->checkIfEnoughUniqueAnswersExists($correct_answers))
-		{
-			if( $forn !== null)
-			{
-				foreach($form->getItems() as $key => $item)
-				{
-					if($item->getPostVar() == 'identical_scoring')
-					{
-						$item->setAlert($this->lng->txt('lome_ident_score_multiple'));
-					}
-				}
-				return false;
-			}
-
-		}
 		if(sizeof($correct_answers) != sizeof($points))
 		{
 			return false;
@@ -225,30 +216,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			if($row <= 0)
 			{
 				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * @param $correct_answers
-	 * @return bool
-	 */
-	protected function checkIfEnoughUniqueAnswersExists($correct_answers)
-	{
-		$map = array();
-		foreach($correct_answers as $key => $correct_answers_row)
-		{
-			foreach($correct_answers_row[0] as $position => $answer)
-			{
-				if(array_key_exists($answer, $map))
-				{
-					return false;
-				}
-				else
-				{
-					$map[$answer] = 1;
-				}
 			}
 		}
 		return true;
@@ -310,11 +277,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 				(int)$this->getIdenticalScoring()
 			)
 		);
-
-		if($this->getIdenticalScoring() == 0 && ! $this->checkIfEnoughUniqueAnswersExists($this->getCorrectAnswers()))
-		{
-			ilUtil::sendQuestion($this->lng->txt('not_enough_unique_answers'), true);
-		}
 
 		$this->createFileFromArray();
 	}
@@ -448,6 +410,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 			{
 				$this->setSpecificFeedbackSetting((int)$data['feedback_setting']);
 			}
+			
+			try {
+				$this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
+			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
+				$this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
+			}
+			
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);

@@ -671,7 +671,11 @@ class ilObjMediaObject extends ilObject
 	 */
 	function createDirectory()
 	{
-		ilUtil::createDirectory(ilObjMediaObject::_getDirectory($this->getId()));
+		$path = ilObjMediaObject::_getDirectory($this->getId());
+		ilUtil::createDirectory($path);
+		if (!is_dir($path)) {
+			$this->ilias->raiseError("Failed to create directory $path.", $this->ilias->error_obj->FATAL);
+		}
 	}
 
 	/**
@@ -752,14 +756,14 @@ class ilObjMediaObject extends ilObject
 					if ($item->getCaption() != "")
 					{
 						$xml .= "<Caption Align=\"bottom\">".
-							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
+							$this->escapeProperty($item->getCaption())."</Caption>";
 					}
 
 					// Text Representation
 					if ($item->getTextRepresentation() != "")
 					{
 						$xml .= "<TextRepresentation>".
-							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
+							$this->escapeProperty($item->getTextRepresentation())."</TextRepresentation>";
 					}
 
 					// Parameter
@@ -820,14 +824,14 @@ class ilObjMediaObject extends ilObject
 					if ($item->getCaption() != "")
 					{
 						$xml .= "<Caption Align=\"bottom\">".
-							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
+							$this->escapeProperty($item->getCaption())."</Caption>";
 					}
 					
 					// Text Representation
 					if ($item->getTextRepresentation() != "")
 					{
 						$xml .= "<TextRepresentation>".
-							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
+							$this->escapeProperty($item->getTextRepresentation())."</TextRepresentation>";
 					}
 
 					// Title
@@ -936,6 +940,18 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
+	 * Escape property (e.g. title, caption) to XSLT -> HTML output
+	 *
+	 * @param string $a_value
+	 * @return string
+	 */
+	protected function escapeProperty($a_value)
+	{
+		return htmlspecialchars($a_value);
+	}
+
+
+	/**
 	* Replace "&" (if not an "&amp;") with "&amp;"
 	*/
 	function handleAmps($a_str)
@@ -976,7 +992,7 @@ class ilObjMediaObject extends ilObject
 		$subdir = "il_".IL_INST_ID."_mob_".$this->getId();
 		$a_target_dir = $a_target_dir."/objects/".$subdir;
 		ilUtil::makeDir($a_target_dir);
-		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+		$tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
 
 		//$int_links = $page_object->getInternalLinks();

@@ -105,11 +105,11 @@ class ilTestParticipantList implements Iterator
 	/**
 	 * @return bool
 	 */
-	public function hasTestResults()
+	public function hasScorings()
 	{
 		foreach($this as $participant)
 		{
-			if( $participant->getActiveId() )
+			if( $participant->getScoring() instanceof ilTestParticipantScoring )
 			{
 				return true;
 			}
@@ -160,14 +160,16 @@ class ilTestParticipantList implements Iterator
 		$usrIds = call_user_func_array($userAccessFilter, [$this->getAllUserIds()]);
 		
 		$accessFilteredList = new self($this->getTestObj());
-		
-		foreach($usrIds as $usrId)
+
+		foreach($this as $participant)
 		{
-			$participant = $this->getParticipantByUsrId($usrId);
-			$participant = clone $participant;
-			$accessFilteredList->addParticipant($participant);
+			if( in_array($participant->getUsrId(), $usrIds) )
+			{
+				$participant = clone $participant;
+				$accessFilteredList->addParticipant($participant);
+			}
 		}
-		
+
 		return $accessFilteredList;
 	}
 
@@ -213,33 +215,19 @@ class ilTestParticipantList implements Iterator
 		}
 	}
 	
-	public function initializeScorings()
+	/**
+	 * @return ilTestParticipantList
+	 */
+	public function getScoredParticipantList()
 	{
 		require_once 'Modules/Test/classes/class.ilTestParticipantScoring.php';
 		
+		$scoredParticipantList = new self($this->getTestObj());
+		
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$IN_activeIds = $DIC->database()->in(
-			'tres.active_fi', $this->getAllActiveIds(), false, 'integer'
-		);
+		$res = $DIC->database()->query($this->buildScoringsQuery());
 		
-		$query = "
-			SELECT * FROM tst_result_cache tres
-			
-			INNER JOIN tst_pass_result pres
-			ON pres.active_fi = tres.active_fi
-			AND pres.pass = tres.pass
-
-			INNER JOIN tst_active tact
-			ON tact.active_id = tres.active_fi
-			AND tact.last_finished_pass >= tres.pass
-			AND tact.last_finished_pass = tact.last_started_pass
-			
-			WHERE $IN_activeIds
-		";
-		
-		$res = $DIC->database()->query($query);
-
 		while( $row = $DIC->database()->fetchAssoc($res) )
 		{
 			$scoring = new ilTestParticipantScoring();
@@ -257,7 +245,49 @@ class ilTestParticipantList implements Iterator
 			$scoring->setFinalMark((string)$row['mark_official']);
 			
 			$this->getParticipantByActiveId($row['active_fi'])->setScoring($scoring);
+			
+			$scoredParticipantList->addParticipant(
+				$this->getParticipantByActiveId($row['active_fi'])
+			);
 		}
+		
+		return $scoredParticipantList;
+	}
+	
+	public function buildScoringsQuery()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$IN_activeIds = $DIC->database()->in(
+			'tres.active_fi', $this->getAllActiveIds(), false, 'integer'
+		);
+		
+		if( false && !$this->getTestObj()->isDynamicTest() ) // BH: keep for the moment
+		{
+			$closedScoringsOnly = "
+				INNER JOIN tst_active tact
+				ON tact.active_id = tres.active_fi
+				AND tact.last_finished_pass = tact.last_started_pass
+			";
+		}
+		else
+		{
+			$closedScoringsOnly = '';
+		}
+		
+		$query = "
+			SELECT * FROM tst_result_cache tres
+			
+			INNER JOIN tst_pass_result pres
+			ON pres.active_fi = tres.active_fi
+			AND pres.pass = tres.pass
+
+			$closedScoringsOnly
+			
+			WHERE $IN_activeIds
+		";
+		
+		return $query;
 	}
 	
 	public function getParticipantsTableRows()

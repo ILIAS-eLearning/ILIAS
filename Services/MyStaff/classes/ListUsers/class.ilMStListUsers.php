@@ -3,7 +3,7 @@
 /**
  * Class ilListUser
  *
- * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListUsers {
 
@@ -11,28 +11,27 @@ class ilMStListUsers {
 	 * @param array $arr_usr_ids
 	 * @param array $options
 	 *
-	 * @return array|bool|int
+	 * @return array|int
 	 */
 	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
-		/**
-		 * @var $ilDB \ilDBInterface
-		 */
-		$ilDB = $GLOBALS['DIC']->database();
+		global $DIC;
 
 		//Permissions
 		if (count($arr_usr_ids) == 0) {
-			return false;
+			if ($options['count']) {
+				return 0;
+			} else {
+				return array();
+			}
 		}
 
 		$_options = array(
 			'filters' => array(),
-			'sort'    => array(),
-			'limit'   => array(),
-			'count'   => false,
+			'sort' => array(),
+			'limit' => array(),
+			'count' => false,
 		);
 		$options = array_merge($_options, $options);
-
-		$udf = ilUserDefinedFields::_getInstance();
 
 		$select = 'SELECT
 				   usr_id,
@@ -55,29 +54,28 @@ class ilMStListUsers {
 	               phone_office,
 	               phone_mobile,
 	               active
-	               FROM ' . $ilDB->quoteIdentifier('usr_data') .
+	               FROM ' . $DIC->database()->quoteIdentifier('usr_data') .
 
-		          self::createWhereStatement($arr_usr_ids, $options['filters']);
+			self::createWhereStatement($arr_usr_ids, $options['filters']);
 
 		if ($options['count']) {
-			$result = $ilDB->query($select);
+			$result = $DIC->database()->query($select);
 
-			return $ilDB->numRows($result);
+			return $DIC->database()->numRows($result);
 		}
 
 		if ($options['sort']) {
-			$select .= " ORDER BY " . $options['sort']['field'] . " "
-			           . $options['sort']['direction'];
+			$select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
 		}
 
 		if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
 			$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
 		}
 
-		$result = $ilDB->query($select);
+		$result = $DIC->database()->query($select);
 		$user_data = array();
 
-		while ($user = $ilDB->fetchAssoc($result)) {
+		while ($user = $DIC->database()->fetchAssoc($result)) {
 			$list_user = new ilMStListUser();
 			$list_user->setUsrId($user['usr_id']);
 			$list_user->setGender($user['gender']);
@@ -108,62 +106,47 @@ class ilMStListUsers {
 
 
 	/**
-	 * Returns the WHERE Part for the Queries using parameter $user_ids and local variable $filters
+	 * Returns the WHERE Part for the Queries using parameter $user_ids AND local variable $filters
 	 *
 	 * @param array $arr_usr_ids
 	 * @param array $arr_filter
 	 *
-	 * @return bool|string
+	 * @return string
 	 */
-	private static function createWhereStatement($arr_usr_ids, $arr_filter) {
-		/**
-		 * @var $ilDB \ilDBInterface
-		 */
-		$ilDB = $GLOBALS['DIC']->database();
+	private static function createWhereStatement(array $arr_usr_ids, array $arr_filter) {
+		global $DIC;
 
 		$where = array();
 
-		$where[] = $ilDB->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
+		$where[] = $DIC->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
 
 		if (!empty($arr_filter['user'])) {
 
-			$where[] = "(" . $ilDB->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%")
-			           . " " . "OR " . $ilDB->like("usr_data.firstname", "text", "%"
-			                                                                     . $arr_filter['user']
-			                                                                     . "%") . " "
-			           . "OR " . $ilDB->like("usr_data.lastname", "text", "%" . $arr_filter['user']
-			                                                              . "%") . " " . "OR "
-			           . $ilDB->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%")
-			           . ") ";
+			$where[] = "(" . $DIC->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
+					->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
+					->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
+					->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . ") ";
 		}
 
 		if (!empty($arr_filter['org_unit'])) {
-			$where[] = 'usr_data.usr_id in (SELECT user_id from il_orgu_ua where orgu_id = '
-			           . $ilDB->quote($arr_filter['org_unit'], 'integer') . ')';
+			$where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $DIC->database()
+					->quote($arr_filter['org_unit'], 'integer') . ')';
 		}
 
 		if (!empty($arr_filter['lastname'])) {
-			$where[] = '(lastname LIKE ' . $ilDB->quote('%'
-			                                            . str_replace('*', '%', $arr_filter['lastname'])
-			                                            . '%', 'text') . ')';
+			$where[] = '(lastname LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['lastname']) . '%', 'text') . ')';
 		}
 
 		if (!empty($arr_filter['firstname'])) {
-			$where[] = '(firstname LIKE ' . $ilDB->quote('%'
-			                                             . str_replace('*', '%', $arr_filter['firstname'])
-			                                             . '%', 'text') . ')';
+			$where[] = '(firstname LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['firstname']) . '%', 'text') . ')';
 		}
 
 		if (!empty($arr_filter['email'])) {
-			$where[] = '(email LIKE ' . $ilDB->quote('%'
-			                                         . str_replace('*', '%', $arr_filter['email'])
-			                                         . '%', 'text') . ')';
+			$where[] = '(email LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['email']) . '%', 'text') . ')';
 		}
 
 		if (!empty($arr_filter['title'])) {
-			$where[] = '(title LIKE ' . $ilDB->quote('%'
-			                                         . str_replace('*', '%', $arr_filter['title'])
-			                                         . '%', 'text') . ')';
+			$where[] = '(title LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['title']) . '%', 'text') . ')';
 		}
 
 		if ($arr_filter['activation']) {

@@ -658,7 +658,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				
 				$button = $this->DIC->ui()->factory()->button()->standard(
 					$this->DIC->language()->txt('ass_skl_import_fails_remove_btn'),
-					$this->DIC->ctrl()->getLinkTarget($this, 'renoveImportFails')
+					$this->DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI', 'removeImportFails')
 				);
 				
 				$msgBox = $this->DIC->ui()->factory()->messageBox()->failure($message)->withButtons(array($button));
@@ -674,7 +674,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				
 				if( $this->hasFixedQuestionSetSkillAssignsLowerThanBarrier() )
 				{
-					$this->addFailureMessage($this->getSkillAssignBarrierInfo());
+					$this->addInfoMessage($this->getSkillAssignBarrierInfo());
 				}
 			}
 

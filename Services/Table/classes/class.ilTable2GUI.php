@@ -48,7 +48,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $ext_seg = false;
 	protected $context = "";
 
-	protected $mi_sel_buttons = null;
+	protected $mi_sel_buttons = [];
 	protected $disable_filter_hiding = false;
 	protected $selected_filter = false;
 	protected $top_commands = true;
@@ -65,7 +65,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $open_form_tag = true;
 	protected $close_form_tag = true;
 
-	protected $export_formats;
+	protected $export_formats = [];
 	protected $export_mode;
 	protected $print_mode;
 
@@ -93,6 +93,8 @@ class ilTable2GUI extends ilTableGUI
 	 * @var bool
 	 */
 	protected $select_all_on_top = false;
+
+	protected $sel_buttons = [];
 
 
 	const FILTER_TEXT = 1;
@@ -595,7 +597,7 @@ class ilTable2GUI extends ilTableGUI
 	final public function setData($a_data)
 	{
 		// check column names against given data (to ensure proper sorting)
-		if(DEVMODE &&
+		if(defined('DEVMODE') && DEVMODE &&
 			$this->enabled["header"] && $this->enabled["sort"] &&
 			$this->columns_determined && is_array($this->column) &&
 			is_array($a_data) && sizeof($a_data) && !$this->getExternalSorting())
@@ -622,6 +624,9 @@ class ilTable2GUI extends ilTableGUI
 		}
 
 		$this->row_data = $a_data;
+		if (!is_array($this->row_data)) {
+			$this->row_data = [];
+		}
 	}
 
 	final public function getData()
@@ -2508,7 +2513,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					$alist->setId("sellst_rows_".$this->getId());
 					$hpp = ($ilUser->getPref("hits_per_page") != 9999)
 						? $ilUser->getPref("hits_per_page")
-						: $lng->txt("unlimited");
+						: $lng->txt("no_limit");
 
 					$options = array(0 => $lng->txt("default")." (".$hpp.")",5 => 5, 10 => 10, 15 => 15, 20 => 20,
 									 30 => 30, 40 => 40, 50 => 50,

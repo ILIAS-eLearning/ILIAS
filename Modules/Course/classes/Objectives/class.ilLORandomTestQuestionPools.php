@@ -311,8 +311,9 @@ class ilLORandomTestQuestionPools
 	 * @param int $a_course_id
 	 * @param int $a_objective_id
 	 * @param int $a_tst_type
+	 *
 	 */
-	public function deleteForObjectiveAndTestType($a_course_id, $a_objective_id, $a_tst_type)
+	public static function deleteForObjectiveAndTestType($a_course_id, $a_objective_id, $a_tst_type)
 	{
 		$db = $GLOBALS['DIC']->database();
 

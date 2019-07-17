@@ -35,6 +35,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	protected $obj_id = 0;
 
+	protected $category_id = 0;
+
 	/**
 	 * Constructor
 	 */
@@ -51,6 +53,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$lng->loadLanguageModule('dateplaner');
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
+
+		$this->category_id = $_GET['category_id'];
 		
 		$this->setLimit(5);
 		$this->allow_moving = false;
@@ -62,18 +66,17 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$sel_type = ilCalendarUserSettings::_getInstance()->getCalendarSelectionType();
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_ITEMS);
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->seed->get(IL_CAL_DATE));
+		// @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui",'switchCalendarMode'),
-			$lng->txt('pd_my_offers'), "", "", false,
-			($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
-			);
+			$lng->txt('pd_my_offers'));
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->seed->get(IL_CAL_DATE));
+
+		// @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui",'switchCalendarMode'),
-			$lng->txt('pd_my_memberships'), "", "", false,
-			($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
-			);
+			$lng->txt('pd_my_memberships'));
 
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',"");
 		$this->addBlockCommand(
@@ -87,6 +90,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			self::CAL_GRP_PERSONAL => $lng->txt("cal_grp_".self::CAL_GRP_PERSONAL),
 			self::CAL_GRP_OTHERS => $lng->txt("cal_grp_".self::CAL_GRP_OTHERS)
 		);
+
+		$this->setPresentation(self::PRES_SEC_LEG);
 	}
 
 	/**
@@ -151,10 +156,27 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarVisibility.php');
 		
 		$hidden_obj = ilCalendarVisibility::_getInstanceByUserId($ilUser->getId(), $this->ref_id);
+
 		$hidden = $hidden_obj->getHidden();
 		$visible = $hidden_obj->getVisible();
 		
-		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+		$cats = new ilCalendarCategories($ilUser->getId());
+		if($this->ref_id > 0)
+		{
+			$cats->initialize(ilCalendarCategories::MODE_REPOSITORY, (int) $this->ref_id, true);
+		}
+		else
+		{
+			if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
+			{
+				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP);
+			}
+			else
+			{
+				$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
+			}
+		}
+
 		$all = $cats->getCategoriesInfo();
 		$tmp_title_counter = array();
 		$categories = array();
@@ -169,14 +191,26 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			$tmp_arr['title'] = $category['title'];
 			$tmp_arr['type'] = $category['type'];
 			$tmp_arr['source_ref_id'] = $category['source_ref_id'];
-			
+
+			$tmp_arr['default_selected'] = true;
+			if($this->category_id)
+			{
+				if($this->category_id == $category['cat_id'])
+				{
+					$tmp_arr['default_selected'] = true;
+				}
+				else
+				{
+					$tmp_arr['default_selected'] = false;
+				}
+			}
+
 			// Append object type to make type sortable
 			$tmp_arr['type_sortable'] = ilCalendarCategory::lookupCategorySortIndex($category['type']);
 			if($category['type'] == ilCalendarCategory::TYPE_OBJ)
 			{
 				$tmp_arr['type_sortable'] .= ('_'.ilObject::_lookupType($category['obj_id']));
 			}
-			
 			$tmp_arr['color'] = $category['color'];
 			$tmp_arr['editable'] = $category['editable'];
 
@@ -320,7 +354,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$tpl->setVariable("FORM_ACTION", $ilCtrl->getFormActionByClass("ilcalendarcategorygui"));
 		$tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
 		
-		$this->setDataSection($tpl->get());
+		return $tpl->get();
 	}
 
 	/**
@@ -347,7 +381,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		$a_tpl->setVariable('VAL_ID',$a_set['id']);
 		if($this->obj_id == 0)
 		{
-			if (!$a_set['hidden'])
+			if (!$a_set['hidden'] && $a_set['default_selected'])
 			{
 				$a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
 			}
@@ -372,10 +406,11 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 			$a_set['ref_id']
 		)
 		{
-			if(
-				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP ||
-				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS
-			)
+#			if(
+#				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP ||
+#				ilCalendarCategories::_getInstance($ilUser->getId())->getMode() == ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS
+#			)
+			if(!$this->ref_id)
 			{
 				$ilCtrl->setParameterByClass('ilcalendarpresentationgui', 'backpd', 1);
 			}
@@ -408,6 +443,8 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 					$link = ilLink::_getLink($a_set['ref_id']);
 					break;
 			}
+
+			$ilCtrl->clearParameterByClass(ilCalendarPresentationGUI::class,'ref_id');
 
 			$a_tpl->setVariable('EDIT_LINK',$link);
 			$a_tpl->setVariable('VAL_TITLE',$a_set['title']);
@@ -463,18 +500,40 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	 */
 	function getHTML()
 	{
-		global $DIC;
-
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilSetting = $DIC['ilSetting'];
-		
 		$this->getCalendars();
-		
 		return parent::getHTML();
 	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
+	{
+		return $this->fillDataSection();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getListItemForData(array $data): \ILIAS\UI\Component\Item\Item
+	{
+		$factory = $this->ui->factory();
+		if (isset($data["shy_button"]))
+		{
+			return $factory->item()->standard($data["shy_button"])->withDescription($data["date"]);
+		}
+		else
+		{
+			return $factory->item()->standard($data["date"]);
+		}
+	}
+
 }
 
 ?>

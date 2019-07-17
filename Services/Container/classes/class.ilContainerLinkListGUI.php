@@ -83,7 +83,7 @@ class ilContainerLinkListGUI
 		$lng = $this->lng;
 		$tree = $this->tree;
 		
-		$tpl = new ilTemplate("tpl.container_link_help.html", true, true,
+		$tpl = new ilGlobalTemplate("tpl.container_link_help.html", true, true,
 			"Services/Container");
 		
 		$type_ordering = array(
@@ -123,7 +123,7 @@ class ilContainerLinkListGUI
 			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->show();
+		$tpl->printToStdout();
 		exit;
 
 	}

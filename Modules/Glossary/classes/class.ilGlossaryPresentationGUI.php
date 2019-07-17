@@ -111,6 +111,11 @@ class ilGlossaryPresentationGUI
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		if (!in_array($term_glo_id, $glo_ids) && !ilGlossaryTermReferences::isReferenced($glo_ids, $this->term_id))
 		{
+			if ((int) $this->term_id  > 0)
+			{
+				include_once("./Modules/Glossary/exceptions/class.ilGlossaryException.php");
+				throw new ilGlossaryException("Term ID does not match the glossary.");
+			}
 			$this->term_id = "";
 		}
 		
@@ -210,12 +215,12 @@ class ilGlossaryPresentationGUI
 				$ret = $this->$cmd();
 				break;
 		}
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	function prepareOutput()
 	{
-		$this->tpl->getStandardTemplate();
+		$this->tpl->loadStandardTemplate();
 		$title = $this->glossary->getTitle();
 
 		$this->tpl->setTitle($title);
@@ -436,7 +441,7 @@ class ilGlossaryPresentationGUI
 			$tpl = $this->tpl;
 
 			require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
-			$tpl->getStandardTemplate();
+			$tpl->loadStandardTemplate();
 //			$this->setTabs();
 
 			if ($this->offlineMode())
@@ -726,7 +731,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function media($a_mode = "media")
 	{
-		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -1377,7 +1382,7 @@ class ilGlossaryPresentationGUI
 				break;
 		}
 
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
 		
 /*
@@ -1410,7 +1415,7 @@ class ilGlossaryPresentationGUI
 			});
 		//-->
 		</script>');
-		$tpl->show(false);
+		$tpl->printToStdout(false);
 		exit;
 	}
 

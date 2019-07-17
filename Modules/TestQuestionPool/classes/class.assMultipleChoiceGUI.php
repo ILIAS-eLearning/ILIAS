@@ -729,9 +729,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $tpl->get();
 	}
 	
-	public function populateJavascriptFilesRequiredForWorkForm(ilTemplate $tpl)
+	public function getPresentationJavascripts()
 	{
-		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+		return array('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
 	}
 
 	/**
@@ -976,8 +976,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		if ($this->object->getSelfAssessmentEditingMode())
 		{
 			$choices->setSize( 40 );
-			$choices->setMaxLength( 800 );
 		}
+		$choices->setMaxLength( 800 );
 		if ($this->object->getAnswerCount() == 0)
 			$this->object->addAnswer( "", 0, 0, 0 );
 		$choices->setValues( $this->object->getAnswers() );

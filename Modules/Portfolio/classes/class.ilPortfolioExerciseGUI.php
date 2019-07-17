@@ -269,15 +269,15 @@ class ilPortfolioExerciseGUI
 			}
 		}					
 	}
-	
+
 	function downloadExcSubFile()
-	{		
+	{
 		$ass = new ilExAssignment($this->ass_id);
 		$submission = new ilExSubmission($ass, $this->user_id);
-		$submitted = $submission->getFiles();				
+		$submitted = $submission->getFiles();
 		if (count($submitted) > 0)
 		{
-			$submitted = array_pop($submitted);			
+			$submitted = array_pop($submitted);
 
 			$user_data = ilObjUser::_lookupName($submitted["user_id"]);
 			$title = ilObject::_lookupTitle($submitted["obj_id"])." - ".
@@ -286,8 +286,8 @@ class ilPortfolioExerciseGUI
 				$user_data["lastname"]." (".
 				$user_data["login"].").zip";
 
-			ilUtil::deliverFile($submitted["filename"], $title);																	
-		}							
+			ilUtil::deliverFile($submitted["filename"], $title);
+		}
 	}
 		
 	/**

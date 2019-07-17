@@ -177,7 +177,7 @@ class ilParticipantsTestResultsGUI
 		$participantList = $participantList->getAccessFilteredList($manageParticipantFilter);
 		$participantList = $participantList->getAccessFilteredList($accessResultsFilter);
 		
-		$participantList->initializeScorings();
+		$scoredParticipantList = $participantList->getScoredParticipantList();
 		
 		require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
 		$tableGUI = $this->buildTableGUI();
@@ -192,7 +192,7 @@ class ilParticipantsTestResultsGUI
 				$this->getTestAccess()->checkManageParticipantsAccess()
 			);
 			
-			if( $participantList->hasTestResults() )
+			if( $scoredParticipantList->hasScorings() )
 			{
 				$this->addDeleteAllTestResultsButton($DIC->toolbar());
 			}
@@ -254,6 +254,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		$participantData->load($this->getTestObj()->getTestId());
 		
@@ -289,6 +290,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		
 		$participantData->setActiveIdsFilter((array)$_POST["chbUser"]);
@@ -297,8 +299,16 @@ class ilParticipantsTestResultsGUI
 		
 		foreach( $participantData->getActiveIds() as $activeId )
 		{
-			$cgui->addItem(
-				"chbUser[]", $activeId, $participantData->getFormatedFullnameByActiveId($activeId),
+			if( $this->testObj->getAnonymity() )
+			{
+				$username = $DIC->language()->txt('anonymous');
+			}
+			else
+			{
+				$username = $participantData->getFormatedFullnameByActiveId($activeId);
+			}
+			
+			$cgui->addItem("chbUser[]", $activeId, $username,
 				ilUtil::getImagePath("icon_usr.svg"), $DIC->language()->txt("usr")
 			);
 		}
@@ -315,11 +325,14 @@ class ilParticipantsTestResultsGUI
 		
 		if( isset($_POST["chbUser"]) && is_array($_POST["chbUser"]) && count($_POST["chbUser"]) )
 		{
+			
+			
 			require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
 			$accessFilter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
 			
 			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 			$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+			//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 			$participantData->setParticipantAccessFilter($accessFilter);
 			$participantData->setActiveIdsFilter($_POST["chbUser"]);
 			
@@ -537,7 +550,7 @@ class ilParticipantsTestResultsGUI
 			require_once 'class.ilTestPDFGenerator.php';
 			
 			ilTestPDFGenerator::generatePDF(
-				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->getTestObj()->getTitle(), PDF_USER_RESULT
+				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->getTestObj()->getTitleFilenameCompliant(), PDF_USER_RESULT
 			);
 		}
 		else

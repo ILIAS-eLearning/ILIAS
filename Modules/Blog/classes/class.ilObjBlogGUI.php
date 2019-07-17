@@ -151,6 +151,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		
+		if ($_REQUEST["blpg"] > 0 && ilBlogPosting::lookupBlogId($_REQUEST["blpg"]) != $this->object->getId())
+		{
+			throw new ilException("Posting ID does not match blog.");
+		}
+
 		if($this->object)
 		{
 			// gather postings by month
@@ -275,19 +280,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$opt->setInfo($lng->txt("blog_nav_mode_month_list_info"));
 		$nav_mode->addOption($opt);
 		
+
+		$mon_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
+		$mon_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_info"));
+		$mon_num->setSize(3);
+		$mon_num->setMinValue(1);
+		$opt->addSubItem($mon_num);
+
 		$detail_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month_with_post"), "nav_list_mon_with_post");
 		$detail_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_with_post_info"));
 		//$detail_num->setRequired(true);
 		$detail_num->setSize(3);
 		//$detail_num->setMinValue(0);
 		$opt->addSubItem($detail_num);
-		
-		$mon_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
-		$mon_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_info"));
-		$mon_num->setSize(3);
-		$mon_num->setMinValue(1);
-		$opt->addSubItem($mon_num);
-		
+
 		$opt = new ilRadioOption($lng->txt("blog_nav_mode_month_single"), ilObjBlog::NAV_MODE_MONTH);
 		$opt->setInfo($lng->txt("blog_nav_mode_month_single_info"));
 		$nav_mode->addOption($opt);
@@ -620,7 +626,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			case 'ilblogpostinggui':
 				if (!$this->prtf_embed)
 				{
-					$tpl->getStandardTemplate();
+					$tpl->loadStandardTemplate();
+				}
+
+				if(!$this->checkPermissionBool("read"))
+				{
+					ilUtil::sendInfo($lng->txt("no_permission"));
+					return;
 				}
 
 				// #9680
@@ -748,8 +760,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 								// #9737
 								$info[] = $lng->txt("blog_posting_edit_approval_info");
 							}
-							if(sizeof($info) && !$tpl->hasMessage("info")) // #15121
-							{
+							//TODO can we get rid of this conditional? hasMessage belongs to the old ilBlogGlobalTemplate class
+							//if(sizeof($info) && !$tpl->hasMessage("info")) // #15121
+							//{
 								if($public_action)
 								{
 									ilUtil::sendSuccess(implode("<br />", $info));
@@ -758,7 +771,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 								{
 									ilUtil::sendInfo(implode("<br />", $info));
 								}
-							}
+							//}
 							// revert to edit cmd to avoid confusion
 							$this->addHeaderActionForCommand("render");	
 							$tpl->setContent($ret);
@@ -1012,7 +1025,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilToolbar = new ilToolbarGUI();
 		$ilUser = $this->user;
 		$tree = $this->tree;
-		
+
 		if(!$this->checkPermissionBool("read"))
 		{
 			ilUtil::sendInfo($lng->txt("no_permission"));
@@ -1328,7 +1341,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			
 		// #13564
 		$this->ctrl->setParameter($this, "bmn", "");
-		$tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview")); 
+		//$tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview"));
 		$this->ctrl->setParameter($this, "bmn", $this->month);
 				
 		$this->setContentStyleSheet();		
@@ -1416,18 +1429,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		$a_tpl->resetHeaderBlock(false);
-		// $a_tpl->setBackgroundColor($this->object->getBackgroundColor());
-		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+		// @todo fix
+		//$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($this->object->getTitle());
-		// $a_tpl->setTitleColor($this->object->getFontColor());		
-		$a_tpl->setDescription($name);		
+		$a_tpl->setDescription($name);
 		
 		// to get rid of locator in repository preview
 		$a_tpl->setVariable("LOCATOR", "");
-		
-		// :TODO: obsolete?
-		// $a_tpl->setBodyClass("std ilExternal ilBlog");		
 	}
 	
 	/**
@@ -2475,24 +2484,26 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if(sizeof($blocks))
 		{			
-			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
-			
+			global $DIC;
+
+			$ui_factory = $DIC->ui()->factory();
+			$ui_renderer = $DIC->ui()->renderer();
+
 			ksort($blocks);
 			foreach($blocks as $block)
 			{
-				$panel = ilPanelGUI::getInstance();
-				$panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
-				$panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
-				$panel->setHeading($block[0]);
-				$panel->setBody($block[1]);
-				
+				$title = $block[0];
+
+				$content = $block[1];
 				if(isset($block[2]) && is_array($block[2]))
-				{										
-					$panel->setFooter('<a href="'.$block[2][0].'">'.$block[2][1].'</a>');
+				{
+					$content .= "<a href='".$block[2][0]."'>".$block[2][1]."</a>";
 				}
-				
-				$wtpl->setCurrentBlock("block_bl");		
-				$wtpl->setVariable("BLOCK", $panel->getHTML());
+
+				$secondary_panel = $ui_factory->panel()->secondary()->legacy($title, $ui_factory->legacy($content));
+
+				$wtpl->setCurrentBlock("block_bl");
+				$wtpl->setVariable("BLOCK", $ui_renderer->render($secondary_panel));
 				$wtpl->parseCurrentBlock();
 			}
 		}
@@ -2798,7 +2809,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		$tpl = $this->co_page_html_export->getPreparedMainTemplate();
 		
-		$tpl->getStandardTemplate();
+		$tpl->loadStandardTemplate();
 	
 		$ilTabs->clearTargets();
 		if($a_back_url)
@@ -2852,7 +2863,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			unset($a_right_content);
 		}			
 
-		$content = $a_tpl->get("DEFAULT", false, false, false,
+		$content = $a_tpl->getSpecial("DEFAULT", false, false, false,
 			true, true, true);		
 
 		// open file

@@ -296,7 +296,7 @@ class ilStyleDefinition
 			return self::$current_style;
 		}
 
-		if(!$DIC->isDependencyAvailable("user"))
+		if(!$DIC || !$DIC->isDependencyAvailable("user"))
 		{
 			return null;
 		}

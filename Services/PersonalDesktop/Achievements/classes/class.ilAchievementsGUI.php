@@ -33,6 +33,11 @@ class ilAchievementsGUI
 	protected $tabs;
 
 	/**
+	 * @var ilGlobalTemplate
+	 */
+	private $main_tpl;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -75,7 +80,7 @@ class ilAchievementsGUI
 				$this->setTabs(ilAchievements::SERV_LEARNING_HISTORY);
 				$lhistgui = new ilLearningHistoryGUI();
 				$ctrl->forwardCommand($lhistgui);
-				$this->main_tpl->show();
+				$this->main_tpl->printToStdout();
 				break;
 
 			case 'ilpersonalskillsgui':
@@ -83,7 +88,7 @@ class ilAchievementsGUI
 				include_once './Services/Skill/classes/class.ilPersonalSkillsGUI.php';
 				$skgui = new ilPersonalSkillsGUI();
 				$ctrl->forwardCommand($skgui);
-				$this->main_tpl->show();
+				$this->main_tpl->printToStdout();
 				break;
 
 			case 'ilbadgeprofilegui':
@@ -91,14 +96,14 @@ class ilAchievementsGUI
 				include_once './Services/Badge/classes/class.ilBadgeProfileGUI.php';
 				$bgui = new ilBadgeProfileGUI();
 				$ctrl->forwardCommand($bgui);
-				$this->main_tpl->show();
+				$this->main_tpl->printToStdout();
 				break;
 
 			case 'ilusercertificategui':
 				$this->setTabs(ilAchievements::SERV_CERTIFICATES);
 				$cgui = new ilUserCertificateGUI();
 				$ctrl->forwardCommand($cgui);
-				$this->main_tpl->show();
+				$this->main_tpl->printToStdout();
 				break;
 
 			default:
@@ -106,7 +111,7 @@ class ilAchievementsGUI
 				{
 					$this->$cmd();
 				}
-				$this->main_tpl->show();
+				$this->main_tpl->printToStdout();
 				break;
 		}
 	}

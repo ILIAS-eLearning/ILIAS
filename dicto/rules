@@ -28,11 +28,18 @@ IlTabsGlobal = Globals with name:"ilTabs"
 IlTabs = {IlTabsClass, IlTabsGlobal}
 IlInitialisation = Classes with name:"ilInitialisation"
 WholeIliasCodebaseExceptInitialisation = WholeIliasCodebase except IlInitialisation
+IlUtil= Classes with name:"ilUtil"
+WholeIliasCodebaseExceptIlUtil = WholeIliasCodebase except IlUtil
 SetErrorHandler = Functions with name:"set_error_handler"
 SetExceptionHandler = Functions with name:"set_exception_handler"
 SetErrorOrExceptionHandler = {SetExceptionHandler, SetErrorHandler}
 IliasTemplateFiles = Files with name:"tpl[.].*[.]html"
 IsDependencyAvailableMethod = Methods with name:"isDependencyAvailable"
+GetMessageHTML = Functions with name: "getMessageHTML"
+SetOnScreenMessage = Functions with name: "setOnScreenMessage"
+GetSystemMessageHTML = Functions with name: "getSystemMessageHTML"
+GetSpecial = Functions with name: "getSpecial"
+SVGFiles = Files with name:".*[.]svg"
 
 
 /**
@@ -142,3 +149,37 @@ WholeIliasCodebaseExceptInitialisation cannot depend on: GlobalsExceptDIC
  * This was introduced as temporary workaround. See: https://github.com/ILIAS-eLearning/ILIAS/pull/1064
  */
 WholeIliasCodebase cannot depend on: IsDependencyAvailableMethod
+
+/**
+ * ilTemplate::getMessageHTML is a method that allows consumers to render a
+ * message-box according to the standard format. The kitchen sink component
+ * Message Box was introduced with ILIAS 5.4 and should be used instead.
+ */
+WholeIliasCodebase cannot depend on: GetMessageHTML
+
+/**
+ * ilGlobalTemplate::setOnScreenMessage is only supposed to be used by ilUtil.
+ */
+WholeIliasCodebaseExceptIlUtil cannot depend on: SetOnScreenMessage
+
+/**
+ * The method creates HTML to display a system message. It is to be replaced by
+ * the MessageBox-component in the UI-framework.
+ */
+WholeIliasCodebase cannot depend on: GetSystemMessageHTML
+
+/**
+ * The method `ilGlobalTemplate::getSpecial` encapsulates rendering logic for
+ * main-template and the standard content template. It is somehow similar to
+ * `ilGlobalTemplate::printToStd` and used in conjunction with `echo` at most
+ * of its usage locations. This suggests, that the usages could be replaced by
+ * `printToStd`. The current developements regarding the UI-framework and the
+ * page layout (e.g. https://github.com/ILIAS-eLearning/ILIAS/pull/1146) suggest,
+ * that at some point this method should vanish completely.
+ */
+WholeIliasCodebase cannot depend on: GetSpecial
+
+/**
+ * https://mantis.ilias.de/view.php?id=25040
+ */
+SVGFiles cannot contain text: "<foreignObject"

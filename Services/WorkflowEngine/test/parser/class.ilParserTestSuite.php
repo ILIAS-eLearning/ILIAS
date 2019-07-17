@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Class ilParserTestSuite
  * 
@@ -9,7 +11,7 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilParserTestSuite  extends PHPUnit_Framework_TestSuite
+class ilParserTestSuite  extends TestSuite
 {
 	public static function suite()
 	{
@@ -67,10 +69,6 @@ class ilParserTestSuite  extends PHPUnit_Framework_TestSuite
 		// 012_DataInput
 		require_once '012_DataInput/class.test_012_DataInput.php';
 		$suite->addTestSuite('test_012_DataInput');
-
-		// 013_DataOutput
-		require_once '013_DataOutput/class.test_013_DataOutput.php';
-		$suite->addTestSuite('test_013_DataOutput');
 
 		// 014_DataObject
 		require_once '014_DataObject/class.test_014_DataObject.php';

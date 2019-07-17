@@ -7,7 +7,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilCertificateMigrationGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
  */
 class ilPersonalProfileGUI
 {
@@ -18,11 +18,19 @@ class ilPersonalProfileGUI
 
 	var $user_defined_fields = null;
 
+	/** @var \ilTabsGUI */
+	protected $tabs;
+
+	/** @var \ilTermsOfServiceDocumentEvaluation */
+	protected $termsOfServiceEvaluation;
 
 	/**
 	* constructor
+	 * @param \ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
 	*/
-	function __construct()
+    function __construct(
+		\ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null
+	)
 	{
 		global $DIC;
 
@@ -30,6 +38,12 @@ class ilPersonalProfileGUI
 		$tpl = $DIC['tpl'];
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
+        $this->tabs = $DIC->tabs();
+
+		if ($termsOfServiceEvaluation === null) {
+			$termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
+		}
+		$this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
@@ -71,18 +85,9 @@ class ilPersonalProfileGUI
 				$pub_profile_gui = new ilPublicUserProfileGUI($_GET["user_id"]);
 				$pub_profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "showPersonalData"));
 				$ilCtrl->forwardCommand($pub_profile_gui);
-				$tpl->show();
+				$tpl->printToStdout();
 				break;
 
-			case 'ilcertificatemigrationgui':
-				$migrationGui = new \ilCertificateMigrationGUI();
-				$resultMessageString = $ilCtrl->forwardCommand($migrationGui);
-				/** @var ilTemplate $tpl */
-				$tpl->setMessage(\ilTemplate::MESSAGE_TYPE_SUCCESS, $resultMessageString, true);
-				$this->setTabs();
-				$this->showPersonalData(false, true);
-				break;
-			
 			default:
 				$this->setTabs();
 				$cmd = $this->ctrl->getCmd("showPersonalData");							
@@ -537,6 +542,37 @@ class ilPersonalProfileGUI
 	}
 	
 	/**
+	 * 
+	 */
+	protected function showUserAgreement()
+	{
+		$this->tabs->clearTargets();
+		$this->tabs->clearSubTabs();
+
+		$tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
+
+		$this->tpl->setTitle($this->lng->txt('usr_agreement'));
+
+		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+		if ($handleDocument) {
+			$document = $this->termsOfServiceEvaluation->document();
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+		} else {
+			$tpl->setVariable(
+				'TERMS_OF_SERVICE_CONTENT',
+				sprintf(
+					$this->lng->txt('no_agreement_description'),
+					'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+				)
+			);
+		}
+
+		$this->tpl->setContent($tpl->get());
+		$this->tpl->setPermanentLink('usr', null, 'agreement');
+		$this->tpl->printToStdout();
+	}
+	
+	/**
 	 * Add location fields to form if activated
 	 * 
 	 * @param ilPropertyFormGUI $a_form
@@ -789,11 +825,9 @@ class ilPersonalProfileGUI
 			}
 		}
 
-		$this->renderCertificateMigration($ilUser, $a_migration_started);
-
 		$this->tpl->setContent($this->form->getHTML());
 
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -1052,7 +1086,7 @@ class ilPersonalProfileGUI
 		$pub_profile = new ilPublicUserProfileGUI($ilUser->getId());
 		$ptpl->setVariable("PREVIEW", $pub_profile->getEmbeddable());
 		$this->tpl->setContent($ptpl->get());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 	
 	/**
@@ -1389,11 +1423,15 @@ class ilPersonalProfileGUI
 			include_once "Services/Badge/classes/class.ilBadgeHandler.php";
 			$handler = ilBadgeHandler::getInstance();
 			if($handler->isActive())
-			{		
-				if(sizeof($_POST["bpos"]))
-				{
+			{
+				$badgePositions = [];
+				if (isset($_POST["bpos"]) && is_array($_POST["bpos"])) {
+					$badgePositions = $_POST["bpos"];
+				}
+
+				if (count($badgePositions) > 0) {
 					include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-					ilBadgeAssignment::updatePositions($ilUser->getId(), $_POST["bpos"]);
+					ilBadgeAssignment::updatePositions($ilUser->getId(), $badgePositions);
 				}				
 			}
 			
@@ -1448,7 +1486,7 @@ class ilPersonalProfileGUI
 		$ilToolbar->addButton($this->lng->txt("pd_import_personal_data"),
 			$ilCtrl->getLinkTarget($this, "importPersonalDataSelection"));
 		
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	
@@ -1503,7 +1541,7 @@ class ilPersonalProfileGUI
 		$this->initPersonalDataImportForm();
 		
 		$tpl->setContent($this->form->getHTML());
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 	
 	/**
@@ -1591,34 +1629,7 @@ class ilPersonalProfileGUI
 			$this->setHeader();
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHtml());
-			$tpl->show();
-		}
-	}
-
-	/**
-	 * @param \ilObjUser
-	 * @param bool $migrationIsStartedInRequest
-	 */
-	protected function renderCertificateMigration(\ilObjUser $user, bool $migrationIsStartedInRequest)
-	{
-		$migrationVisibleValidator = new ilCertificateMigrationValidator(new \ilSetting('certificate'));
-
-		$showMigrationBox = $migrationVisibleValidator->isMigrationAvailable(
-			$user,
-			new \ilCertificateMigration($user->getId())
-		);
-		if (!$migrationIsStartedInRequest && true === $showMigrationBox) {
-			$migrationUiEl = new \ilCertificateMigrationUIElements();
-
-			$startMigrationCommand = $this->ctrl->getLinkTargetByClass(
-				['ilCertificateMigrationGUI'], 'startMigrationAndReturnMessage',
-				false,true, false
-			);
-			$messageBoxHtml = $migrationUiEl->getMigrationMessageBox($startMigrationCommand);
-
-			$this->tpl->setCurrentBlock('mess');
-			$this->tpl->setVariable('MESSAGE', $messageBoxHtml);
-			$this->tpl->parseCurrentBlock('mess');
+			$tpl->printToStdout();
 		}
 	}
 }

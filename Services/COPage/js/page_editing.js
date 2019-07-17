@@ -123,6 +123,7 @@ var ilCOPage =
 		if (obj) obj.style.visibility = 'hidden';
 		var obj = document.getElementById('ilPageEditActionBar');
 		if (obj) obj.style.visibility = 'hidden';
+		$("#ilPageEditTopActionBar").css("visibility", "hidden");
 		var obj = document.getElementById('ilPageEditLegend');
 		if (obj) obj.style.visibility = 'hidden';
 		elements = YAHOO.util.Dom.getElementsByClassName('ilc_page_cont_PageContainer');
@@ -1489,6 +1490,7 @@ var ilCOPage =
 			}
 
 			$('#ilsaving').addClass("ilNoDisplay");
+			$("#ilPageEditTopActionBar").css("visibility", "");
 
 			if (ilCOPage.error_str != "")
 			{
@@ -1537,6 +1539,7 @@ var ilCOPage =
 			}
 			//console.log(o.responseText);
 			removeToolbar();
+			$("#ilPageEditTopActionBar").css("visibility", "");
 			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
 			il.Tooltip.init();

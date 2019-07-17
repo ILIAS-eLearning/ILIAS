@@ -143,7 +143,7 @@ class ilMailAttachmentGUI
 		}
 
 		$this->tpl->setContent($confirmation->getHtml());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	public function confirmDeleteAttachments()
@@ -270,6 +270,6 @@ class ilMailAttachmentGUI
 		$table->setData($data);
 
 		$this->tpl->setContent($table->getHtml());
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 }

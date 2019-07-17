@@ -2628,7 +2628,7 @@ return;
 	{
 		$tpl = $this->tpl;
 
-		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+		$tpl = new ilCOPageGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 		$tpl->setCurrentBlock("ilMedia");
 
 		//$int_links = $page_object->getInternalLinks();
@@ -2967,7 +2967,7 @@ return;
 			}
 			else
 			{
-				echo $this->tpl->getMessageHTML($info);
+				echo ilUtil::getSystemMessageHTML($info);
 				exit;
 			}
 		}
@@ -3084,7 +3084,7 @@ return;
 	*/
 	function showMediaFullscreen($a_style_id = 0)
 	{
-		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", 0);
 		$this->tpl->parseCurrentBlock();

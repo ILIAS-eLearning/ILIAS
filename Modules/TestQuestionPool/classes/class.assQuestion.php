@@ -269,6 +269,11 @@ abstract class assQuestion
 	protected $testQuestionConfig;
 // fau.
 	
+	/**
+	 * @var ilAssQuestionLifecycle
+	 */
+	protected $lifecycle;
+	
 	protected static $allowedImageMaterialFileExtensionsByMimeType = array(
 		'image/jpeg' => array('jpg', 'jpeg'), 'image/png' => array('png'), 'image/gif' => array('gif')
 	);
@@ -332,6 +337,8 @@ abstract class assQuestion
 
 		require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
 		$this->shuffler = new ilArrayElementOrderKeeper();
+		
+		$this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
 	}
 	
 	protected static $forcePassResultsUpdateEnabled = false;
@@ -768,6 +775,17 @@ abstract class assQuestion
 	{
 		return $this->title;
 	}
+	
+	/**
+	 * returns the object title prepared to be used as a filename
+	 *
+	 * @return string
+	 */
+	public function getTitleFilenameCompliant()
+	{
+		require_once 'Services/Utilities/classes/class.ilUtil.php';
+		return ilUtil::getASCIIFilename($this->getTitle());
+	}
 
 	/**
 	* Gets the id of the assQuestion object
@@ -912,6 +930,22 @@ abstract class assQuestion
 	function setObjId($obj_id = 0)
 	{
 		$this->obj_id = $obj_id;
+	}
+	
+	/**
+	 * @return ilAssQuestionLifecycle
+	 */
+	public function getLifecycle()
+	{
+		return $this->lifecycle;
+	}
+	
+	/**
+	 * @param ilAssQuestionLifecycle $lifecycle
+	 */
+	public function setLifecycle(ilAssQuestionLifecycle $lifecycle)
+	{
+		$this->lifecycle = $lifecycle;
 	}
 
 	/**
@@ -2706,7 +2740,6 @@ abstract class assQuestion
 	function saveToDb($original_id = "")
 	{
 		global $DIC;
-		$ilDB = $DIC['ilDB'];
 
 		$this->updateSuggestedSolutions();
 		
@@ -2719,11 +2752,14 @@ abstract class assQuestion
 			$complete = "1";
 		}
 
-			// update the question time stamp and completion status
-		$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, owner = %s, complete = %s WHERE question_id = %s",
-			array('integer','integer', 'integer','text'),
-			array(time(), ($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner(), $complete, $this->getId())
-		);
+		$DIC->database()->update('qpl_questions', array(
+			'tstamp' => array('integer', time()),
+			'owner' => array('integer', ($this->getOwner() <= 0 ? $this->ilias->account->id : $this->getOwner())),
+			'complete' => array('integer', $complete),
+			'lifecycle' => array('text', $this->getLifecycle()->getIdentifier()),
+		), array(
+			'question_id' => array('integer', $this->getId())
+		));
 
 		// update question count of question pool
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
@@ -4990,7 +5026,9 @@ abstract class assQuestion
 	 */
 	public function removeIntermediateSolution($active_id, $pass)
 	{
-		return $this->removeCurrentSolution($active_id, $pass, false);
+		$this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function() use ($active_id, $pass) {
+			$this->removeCurrentSolution($active_id, $pass, false);
+		});
 	}
 
 	/**

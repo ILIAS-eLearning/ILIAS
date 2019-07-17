@@ -127,10 +127,9 @@ class ilTestCorrectionsGUI
 		$questionGUI->object->setPoints($questionGUI->object->getMaximumPoints());
 		$questionGUI->object->saveToDb();
 		
-		$preserveManualScoring = (bool)$form->getItemByPostVar('preserve_manscoring')->getChecked();
-		
 		$scoring = new ilTestScoring($this->testOBJ);
-		$scoring->setPreserveManualScores($preserveManualScoring);
+		$scoring->setPreserveManualScores(false);
+		$scoring->setQuestionId($questionGUI->object->getId());
 		$scoring->recalculateSolutions();
 		
 		$this->DIC->ctrl()->redirect($this, 'showQuestion');
@@ -150,18 +149,70 @@ class ilTestCorrectionsGUI
 		
 		$questionGUI->populateCorrectionsFormProperties($form);
 		
-		$manscoring_section = new ilFormSectionHeaderGUI();
-		$manscoring_section->setTitle($this->DIC->language()->txt('manscoring'));
-		$form->addItem($manscoring_section);
+		$scoring = new ilTestScoring($this->testOBJ);
+		$scoring->setQuestionId($questionGUI->object->getId());
 		
-		$manscoringPreservation = new ilCheckboxInputGUI($this->DIC->language()->txt('preserve_manscoring'), 'preserve_manscoring');
-		$manscoringPreservation->setChecked(true);
-		$manscoringPreservation->setInfo($this->DIC->language()->txt('preserve_manscoring_info'));
-		$form->addItem($manscoringPreservation);
-		
-		$form->addCommandButton('saveQuestion', $this->DIC->language()->txt('save'));
+		if( $scoring->getNumManualScorings() )
+		{
+			$form->addCommandButton('confirmManualScoringReset', $this->DIC->language()->txt('save'));
+		}
+		else
+		{
+			$form->addCommandButton('saveQuestion', $this->DIC->language()->txt('save'));
+		}
 		
 		return $form;
+	}
+	
+	protected function addHiddenItemsFromArray(ilConfirmationGUI $gui, $array, $curPath = array())
+	{
+		foreach($array as $name => $value)
+		{
+			if($name == 'cmd' && !count($curPath))
+			{
+				continue;
+			}
+			
+			if( count($curPath) )
+			{
+				$name = "[{$name}]";
+			}
+			
+			if( is_array($value) )
+			{
+				$nextPath = array_merge($curPath, array($name));
+				$this->addHiddenItemsFromArray($gui, $value, $nextPath);
+			}
+			else
+			{
+				$postVar = implode('', $curPath).$name;
+				$gui->addHiddenItem($postVar, $value);
+			}
+		}
+	}
+	
+	protected function confirmManualScoringReset()
+	{
+		$questionGUI = $this->getQuestion((int)$_GET['qid']);
+		
+		$this->setCorrectionTabsContext($questionGUI, 'question');
+		
+		$scoring = new ilTestScoring($this->testOBJ);
+		$scoring->setQuestionId($questionGUI->object->getId());
+		
+		$confirmation = sprintf($this->DIC->language()->txt('tst_corrections_manscore_reset_warning'),
+			$scoring->getNumManualScorings(), $questionGUI->object->getTitle(), $questionGUI->object->getId()
+		);
+		
+		$gui = new ilConfirmationGUI();
+		$gui->setHeaderText($confirmation);
+		$gui->setFormAction($this->DIC->ctrl()->getFormAction($this));
+		$gui->setCancel($this->DIC->language()->txt('cancel'), 'showQuestion');
+		$gui->setConfirm($this->DIC->language()->txt('confirm'), 'saveQuestion');
+		
+		$this->addHiddenItemsFromArray($gui, $_POST);
+		
+		$this->DIC->ui()->mainTemplate()->setContent( $gui->getHTML() );
 	}
 	
 	protected function showSolution()
@@ -280,6 +331,10 @@ class ilTestCorrectionsGUI
 			$questionGUI->object->saveToDb();
 		}
 		
+		$scoring = new ilTestScoring($this->testOBJ);
+		$scoring->setPreserveManualScores(true);
+		$scoring->recalculateSolutions();
+		
 		$response->result = true;
 		
 		echo json_encode($response);
@@ -322,25 +377,27 @@ class ilTestCorrectionsGUI
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
 		$participantData->load($this->testOBJ->getTestId());
 		
-		// remove question from test and reindex remaining questions
-		$this->testOBJ->removeQuestion($questionGUI->object->getId());
-		$this->testOBJ->reindexFixedQuestionOrdering();
-		$this->testOBJ->loadQuestions();
-		
 		// remove question solutions
 		$questionGUI->object->removeAllExistingSolutions();
 		
 		// remove test question results
 		$scoring->removeAllQuestionResults($questionGUI->object->getId());
 		
+		// remove question from test and reindex remaining questions
+		$this->testOBJ->removeQuestion($questionGUI->object->getId());
+		$reindexedSequencePositionMap = $this->testOBJ->reindexFixedQuestionOrdering();
+		$this->testOBJ->loadQuestions();
+		
+		// remove questions from all sequences
+		$this->testOBJ->removeQuestionFromSequences(
+			$questionGUI->object->getId(), $participantData->getActiveIds(), $reindexedSequencePositionMap
+		);
+		
 		// update pass and test results
 		$scoring->updatePassAndTestResults($participantData->getActiveIds());
 		
 		// trigger learning progress
 		ilLPStatusWrapper::_refreshStatus($this->testOBJ->getId(), $participantData->getUserIds());
-		
-		// remove questions from all sequences
-		$this->testOBJ->removeQuestionFromSequences($questionGUI->object->getId(), $participantData->getActiveIds());
 		
 		// finally delete the question itself
 		$questionGUI->object->delete($questionGUI->object->getId());

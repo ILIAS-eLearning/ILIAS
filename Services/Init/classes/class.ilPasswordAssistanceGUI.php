@@ -65,7 +65,7 @@ class ilPasswordAssistanceGUI
 	public function executeCommand()
 	{
 		// check hack attempts
-		if(!$this->settings->get('password_assistance')) // || AUTH_DEFAULT != AUTH_LOCAL)
+		if(!$this->settings->get('password_assistance'))
 		{
 			// 
 			#if(empty($_SESSION['AccountId']) && $_SESSION['AccountId'] !== false)
@@ -196,7 +196,7 @@ class ilPasswordAssistanceGUI
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
 		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -233,6 +233,11 @@ class ilPasswordAssistanceGUI
 			return;
 		}
 
+		$defaultAuth = AUTH_LOCAL;
+		if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
+			$defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
+		}
+
 		$user = new \ilObjUser($usrId);
 		$emailAddresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
 
@@ -251,7 +256,7 @@ class ilPasswordAssistanceGUI
 		} else if (
 			(
 				$user->getAuthMode(true) != AUTH_LOCAL ||
-				($user->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL)
+				($user->getAuthMode(true) == $defaultAuth && $defaultAuth != AUTH_LOCAL)
 			) && !(
 				$user->getAuthMode(true) == AUTH_SAML
 			)
@@ -295,6 +300,7 @@ class ilPasswordAssistanceGUI
 		// Check if we need to create a new session
 		$pwassist_session = db_pwassist_session_find($userObj->getId());
 		if(
+			!is_array($pwassist_session) ||
 			count($pwassist_session) == 0 ||
 			$pwassist_session['expires'] < time() ||
 			true // comment by mjansen: wtf? :-)
@@ -415,6 +421,7 @@ class ilPasswordAssistanceGUI
 		// Retrieve the session, and check if it is valid
 		$pwassist_session = db_pwassist_session_read($pwassist_id);
 		if(
+			!is_array($pwassist_session) ||
 			count($pwassist_session) == 0 ||
 			$pwassist_session['expires'] < time()
 		)
@@ -436,7 +443,7 @@ class ilPasswordAssistanceGUI
 			}
 			$this->tpl->setVariable('FORM', $form->getHTML());
 			$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
-			$this->tpl->show();
+			$this->tpl->printToStdout();
 		}
 	}
 
@@ -480,6 +487,7 @@ class ilPasswordAssistanceGUI
 		$pwassist_session = db_pwassist_session_read($pwassist_id);
 
 		if(
+			!is_array($pwassist_session) ||
 			count($pwassist_session) == 0 ||
 			$pwassist_session['expires'] < time()
 		)
@@ -609,7 +617,7 @@ class ilPasswordAssistanceGUI
 		}
 		$this->tpl->setVariable('FORM', $form->getHTML());
 		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**
@@ -721,7 +729,7 @@ class ilPasswordAssistanceGUI
 
 		$this->tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
 		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
-		$this->tpl->show();
+		$this->tpl->printToStdout();
 	}
 
 	/**

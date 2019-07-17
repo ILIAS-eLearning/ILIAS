@@ -96,16 +96,31 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 		{
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "editImportantPages"),
-				$lng->txt("edit"), "_top");
+				$lng->txt("edit"));
 		}
 		
 		return parent::getHTML();
 	}
 
 	/**
-	* Fill data section
-	*/
+	 * Fill data section
+	 */
 	function fillDataSection()
+	{
+		$this->setDataSection($this->getLegacyContent());
+	}
+
+	//
+	// New rendering
+	//
+
+	protected $new_rendering = true;
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getLegacyContent(): string
 	{
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
@@ -157,7 +172,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 			$cpar[$p["indent"]] = $cnt;
 		}
 		
-		$this->setDataSection($list->getHTML());
+		return $list->getHTML();
 	}
 }
 

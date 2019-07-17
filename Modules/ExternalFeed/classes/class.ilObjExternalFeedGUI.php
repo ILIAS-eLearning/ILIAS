@@ -64,7 +64,6 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 			case "ilexternalfeedblockgui":
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_settings");
-				include_once("./Services/Block/classes/class.ilExternalFeedBlockGUI.php");
 				$fb_gui = new ilExternalFeedBlockGUI();
 				$fb_gui->setGuiObject($this);
 				if (is_object($this->object))

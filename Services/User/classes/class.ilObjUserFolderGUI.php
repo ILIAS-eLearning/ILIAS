@@ -1148,7 +1148,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					}
 	
 					// pre selection for role
-					$pre_select = array_search($role[name], $gl_roles);
+					$pre_select = array_search($role["name"], $gl_roles);
 					if (! $pre_select)
 					{
 						switch($role["name"])
@@ -1504,46 +1504,62 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
-		
-		$this->form->setValuesByArray(
-			array(
-				'lua'	=> $aset->isLocalUserAdministrationEnabled(),
-				'lrua'	=> $aset->isUserAccessRestricted(),
-				'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
-				'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
-				'reuse_of_loginnames' => (bool)$ilSetting->get('reuse_of_loginnames'),
-				'loginname_change_blocking_time' => (float)$show_blocking_time_in_days,
-				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
-				// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
-				'user_reactivate_code' => (int)$ilSetting->get('user_reactivate_code'),
-				'user_own_account' => (int)$ilSetting->get('user_delete_own_account'),
-				'user_own_account_email' => $ilSetting->get('user_delete_own_account_email'),
-			
-				'session_handling_type' => $ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED),
-				'session_reminder_enabled' => $ilSetting->get('session_reminder_enabled'),
-				'session_max_count' => $ilSetting->get('session_max_count', ilSessionControl::DEFAULT_MAX_COUNT),
-				'session_min_idle' => $ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE),
-				'session_max_idle' => $ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE),
-				'session_max_idle_after_first_request' => $ilSetting->get('session_max_idle_after_first_request', ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST),
 
-				'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0,
-				'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0, 													
-				'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
-				'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0 ,
-				'password_min_length' => $security->getPasswordMinLength(),
-				'password_max_length' => $security->getPasswordMaxLength(),
-				'password_ucase_chars_num' => $security->getPasswordNumberOfUppercaseChars(),
-				'password_lowercase_chars_num' => $security->getPasswordNumberOfLowercaseChars(),
-				'password_max_age' => $security->getPasswordMaxAge(),
-				
-				'login_max_attempts' => $security->getLoginMaxAttempts(),				
-				'ps_prevent_simultaneous_logins' => (int)$security->isPreventionOfSimultaneousLoginsEnabled(),
-				'password_assistance' => (bool)$ilSetting->get("password_assistance")
-				,'letter_avatars' => (int)$ilSetting->get('letter_avatars')
-			)
-		);
-						
+		$settings = [
+			'lua' => $aset->isLocalUserAdministrationEnabled(),
+			'lrua' => $aset->isUserAccessRestricted(),
+			'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
+			'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
+			'reuse_of_loginnames' => (bool)$ilSetting->get('reuse_of_loginnames'),
+			'loginname_change_blocking_time' => (float)$show_blocking_time_in_days,
+			'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
+			// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
+			'user_reactivate_code' => (int)$ilSetting->get('user_reactivate_code'),
+			'user_own_account' => (int)$ilSetting->get('user_delete_own_account'),
+			'user_own_account_email' => $ilSetting->get('user_delete_own_account_email'),
+
+			'session_handling_type' => $ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED),
+			'session_reminder_enabled' => $ilSetting->get('session_reminder_enabled'),
+			'session_max_count' => $ilSetting->get('session_max_count', ilSessionControl::DEFAULT_MAX_COUNT),
+			'session_min_idle' => $ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE),
+			'session_max_idle' => $ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE),
+			'session_max_idle_after_first_request' => $ilSetting->get('session_max_idle_after_first_request',
+				ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST),
+
+			'login_max_attempts' => $security->getLoginMaxAttempts(),
+			'ps_prevent_simultaneous_logins' => (int)$security->isPreventionOfSimultaneousLoginsEnabled(),
+			'password_assistance' => (bool)$ilSetting->get("password_assistance"),
+			'letter_avatars' => (int)$ilSetting->get('letter_avatars'),
+			'password_change_on_first_login_enabled' => $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0,
+			'password_max_age' => $security->getPasswordMaxAge()
+		];
+
+		$passwordPolicySettings = $this->getPasswordPolicySettingsMap($security);
+		$this->form->setValuesByArray(array_merge(
+			$settings,
+			$passwordPolicySettings,
+			['pw_policy_hash' => md5(implode('', $passwordPolicySettings))]
+		));
+
 		$this->tpl->setContent($this->form->getHTML());
+	}
+
+
+	/**
+	 * @param ilSecuritySettings $security
+	 * @return array
+	 */
+	private function getPasswordPolicySettingsMap(\ilSecuritySettings $security) : array
+	{
+		return [
+			'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0,
+			'password_chars_and_numbers_enabled' => $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0,
+			'password_special_chars_enabled' => $security->isPasswordSpecialCharsEnabled() ? 1 : 0,
+			'password_min_length' => $security->getPasswordMinLength(),
+			'password_max_length' => $security->getPasswordMaxLength(),
+			'password_ucase_chars_num' => $security->getPasswordNumberOfUppercaseChars(),
+			'password_lowercase_chars_num' => $security->getPasswordNumberOfLowercaseChars(),
+		];
 	}
 	
 	
@@ -1646,7 +1662,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				}		
 				// END SESSION SETTINGS												
 				$ilSetting->set('letter_avatars', (int)$this->form->getInput('letter_avatars'));
-				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+
+				$requestPasswordReset  = false;
+				if ($this->form->getInput('pw_policy_hash')) {
+					$oldSettingsHash = $this->form->getInput('pw_policy_hash');
+					$currentSettingsHash = md5(implode('', $this->getPasswordPolicySettingsMap($security)));
+
+					$requestPasswordReset = ($oldSettingsHash !== $currentSettingsHash);
+				}
+
+				if ($requestPasswordReset) {
+					$this->ctrl->redirect($this, 'askForUserPasswordReset');
+				} else {
+					ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+				}
 			}
 			else
 			{
@@ -1659,6 +1688,34 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		$this->form->setValuesByPost();		
 		$this->tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * 
+	 */
+	protected function forceUserPasswordResetObject()
+	{
+		\ilUserPasswordManager::getInstance()->resetLastPasswordChangeForLocalUsers();
+		$this->lng->loadLanguageModule('ps');
+
+		\ilUtil::sendSuccess($this->lng->txt('ps_passwd_policy_change_force_user_reset_succ'), true);
+		$this->ctrl->redirect($this, 'generalSettings');
+	}
+
+	/**
+	 *
+	 */
+	protected function askForUserPasswordResetObject()
+	{
+		$this->lng->loadLanguageModule('ps');
+
+		$confirmation = new \ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'askForUserPasswordReset'));
+		$confirmation->setHeaderText($this->lng->txt('ps_passwd_policy_changed_force_user_reset'));
+		$confirmation->setConfirm($this->lng->txt('yes'), 'forceUserPasswordReset');
+		$confirmation->setCancel($this->lng->txt('no'), 'generalSettings');
+
+		$this->tpl->setContent($confirmation->getHTML());
 	}
 	
 	
@@ -1915,6 +1972,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$la->setValue(1);
 		$la->setInfo($this->lng->txt('usr_letter_avatars_info'));
 		$this->form->addItem($la);
+
+		$passwordPolicySettingsHash = new \ilHiddenInputGUI('pw_policy_hash');
+		$this->form->addItem($passwordPolicySettingsHash);
 
 		$this->form->addCommandButton('saveGeneralSettings', $this->lng->txt('save'));
 	}
@@ -2584,7 +2644,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "generalSettings"),array('settings','generalSettings','listUserDefinedField','newAccountMail'));
+				$this->ctrl->getLinkTarget($this, "generalSettings"),array('askForUserPasswordReset', 'forceUserPasswordReset', 'settings','generalSettings','listUserDefinedField','newAccountMail'));
 				
 			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");

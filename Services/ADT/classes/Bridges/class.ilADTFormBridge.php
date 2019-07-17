@@ -312,9 +312,9 @@ abstract class ilADTFormBridge
 	/**
 	 * Add ADT-specific JS-files to template
 	 * 
-	 * @param ilTemplate $a_tpl
+	 * @param ilGlobalTemplate $a_tpl
 	 */
-	public function addJS(ilTemplate $a_tpl)
+	public function addJS(ilGlobalTemplate $a_tpl)
 	{
 		
 	}
