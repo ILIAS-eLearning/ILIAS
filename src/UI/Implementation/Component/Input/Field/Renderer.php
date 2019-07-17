@@ -72,7 +72,6 @@ class Renderer extends AbstractComponentRenderer
 		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
 		$registry->register('./src/UI/templates/js/Input/Field/duration.js');
-		$registry->register('./src/UI/templates/js/Input/Container/form.js');
 	}
 
 
@@ -89,14 +88,17 @@ class Renderer extends AbstractComponentRenderer
 				"options" => $s->getSignal()->getOptions()
 			];
 		}
-		$signals = json_encode($signals);
+		if ($signals !== null) {
+			$signals = json_encode($signals);
 
-		$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
-			$code = "il.UI.input.setSignalsForId('$id', $signals);";
-			return $code;
-		});
-		$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
 
+			$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
+				$code = "il.UI.input.setSignalsForId('$id', $signals);";
+				return $code;
+			});
+
+			$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
+		}
 		return $input;
 	}
 
@@ -179,6 +181,20 @@ class Renderer extends AbstractComponentRenderer
 		}
 
 		return $inputs;
+	}
+
+
+	/**
+	 * @param Component\JavascriptBindable $component
+	 * @param                              $tpl
+	 */
+	protected function maybeRenderId(Component\JavascriptBindable $component, Template $tpl) {
+		$id = $this->bindJavaScript($component);
+		if ($id !== null) {
+			$tpl->setCurrentBlock("id");
+			$tpl->setVariable("ID", $id);
+			$tpl->parseCurrentBlock();
+		}
 	}
 
 
@@ -313,12 +329,14 @@ class Renderer extends AbstractComponentRenderer
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
 
+		$input = $this->setSignals($input);
+
 		if($input instanceof Component\Input\Field\Password) {
 			$id = $this->additionalRenderPassword($tpl, $input);
 		}
 
 		if($input instanceof Textarea){
-			$tpl = $this->renderTextareaField($tpl, $input);
+			$id = $this->renderTextareaField($tpl, $input);
 		}
 
 		$tpl->setVariable("NAME", $input->getName());
@@ -339,6 +357,11 @@ class Renderer extends AbstractComponentRenderer
 				if ($input->isDisabled()) {
 					$tpl->setCurrentBlock("disabled");
 					$tpl->setVariable("DISABLED", 'disabled="disabled"');
+					$tpl->parseCurrentBlock();
+				}
+				if ($id) {
+					$tpl->setCurrentBlock("id");
+					$tpl->setVariable("ID", $id);
 					$tpl->parseCurrentBlock();
 				}
 				break;
@@ -386,10 +409,8 @@ class Renderer extends AbstractComponentRenderer
 				break;
 		}
 
-		$input = $this->setSignals($input);
-		$id = $this->bindJavaScript($input);
-		if ($id !== null) {
-			$tpl->setVariable("ID", $id);
+		if ($id === null) {
+			$this->maybeRenderId($input, $tpl);
 		}
 
 		return $tpl->get();
@@ -461,7 +482,6 @@ class Renderer extends AbstractComponentRenderer
 	 * @return string | false
 	 */
 	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input) {
-		$id = false;
 		if($input->getRevelation()) {
 			global $DIC;
 			$f = $this->getUIFactory();
@@ -484,6 +504,7 @@ class Renderer extends AbstractComponentRenderer
 					;
 				});
 			$id = $this->bindJavaScript($input);
+			$tpl->setVariable("ID", $id);
 
 			$glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
 				->withOnClick($sig_reveal);
@@ -510,16 +531,21 @@ class Renderer extends AbstractComponentRenderer
 			$min = $input->getMinLimit();
 			$max = $input->getMaxLimit();
 
-			$input = $input->withOnLoadCode(function($id) use($counter_id_prefix, $min, $max) {
+			$input = $input->withAdditionalOnLoadCode(function($id) use($counter_id_prefix, $min, $max) {
 				return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
 			});
 
 			$textarea_id = $this->bindJavaScript($input);
+			$tpl->setCurrentBlock("id");
 			$tpl->setVariable("ID", $textarea_id);
+			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("limit");
+			$tpl->setVariable("COUNT_ID", $textarea_id);
 			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
+			$tpl->parseCurrentBlock();
 		}
 
-		return $tpl;
+		return $textarea_id;
 	}
 
 
@@ -670,6 +696,7 @@ class Renderer extends AbstractComponentRenderer
 		}
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
 		\ilCalendarUtil::initDateTimePicker();
+		$input = $this->setSignals($input);
 		$input = $input->withAdditionalOnLoadCode(function($id) use ($config) {
 			return '$("#'.$id.'").datetimepicker('.json_encode($config).')';
 		});
@@ -717,6 +744,7 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->parseCurrentBlock();
 		}
 
+		$input = $this->setSignals($input);
 		$input = $input->withAdditionalOnLoadCode(
 			function($id) {
 				return "$(document).ready(function() {

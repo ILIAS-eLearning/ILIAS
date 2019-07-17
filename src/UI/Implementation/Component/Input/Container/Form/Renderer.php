@@ -28,10 +28,6 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard.html", true, true);
 
-		$component = $this->registerSignals($component);
-		$id = $this->bindJavaScript($component);
-		$tpl->setVariable('ID_FORM', $id);
-
 		if($component->getPostURL()!= ""){
 			$tpl->setCurrentBlock("action");
 			$tpl->setVariable("URL", $component->getPostURL());
@@ -44,21 +40,9 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
 		$tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
 
-		$input_group = $component->getInputGroup();
-		$input_group = $input_group->withOnUpdate($component->getUpdateSignal());
-		$tpl->setVariable("INPUTS", $default_renderer->render($input_group));
+		$tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
 		return $tpl->get();
-	}
-
-
-	protected function registerSignals(Form\Form $form) {
-		$update = $form->getUpdateSignal();
-		return $form->withAdditionalOnLoadCode(function($id) use ($update) {
-			$code =
-				"$(document).on('{$update}', function(event, signalData) { il.UI.form.onInputUpdate(event, signalData, '{$id}'); return false; });";
-			return $code;
-		});
 	}
 
 

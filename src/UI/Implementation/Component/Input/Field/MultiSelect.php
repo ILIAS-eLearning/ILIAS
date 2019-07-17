@@ -70,23 +70,23 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect {
 	public function getUpdateOnLoadCode(): \Closure
 	{
 		return function ($id) {
-				$code = "var checkedBoxes = function() {
-					var options = {};
-					var options_combined = [];
-					$('#$id').find('input').each(function() {
-						options[$(this).val()] = $(this).prop('checked').toString();
-					});
-					for (let [key, value] of Object.entries(options)) {
-						options_combined.push(key + ': ' + value);
-					}
-					return options_combined.join(', ');
-				}
-				$('#$id').on('input', function(event) {
-					il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
+			$code = "var checkedBoxes = function() {
+				var options = {};
+				var options_combined = [];
+				$('#$id').find('input').each(function() {
+					options[$(this).val()] = $(this).prop('checked').toString();
 				});
+				for (let [key, value] of Object.entries(options)) {
+					options_combined.push(key + ': ' + value);
+				}
+				return options_combined.join(', ');
+			}
+			$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
-				";
-				return $code;
+			});
+			il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
+			";
+			return $code;
 		};
 	}
 }
