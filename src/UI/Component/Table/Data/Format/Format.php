@@ -87,6 +87,8 @@ interface Format {
 	 * @param Data            $data
 	 * @param Filter          $filter
 	 * @param Renderer        $renderer
+	 *
+	 * @return string
 	 */
 	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Filter $filter, Renderer $renderer): string;
 

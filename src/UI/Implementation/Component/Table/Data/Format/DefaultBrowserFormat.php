@@ -143,9 +143,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 					], $component->getTableId()));
 				}
 
-				$remove_sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render($this->dic->ui()->factory()->symbol()->glyph()
-					->back() // TODO: Other icon for remove sort
-				), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_REMOVE_SORT_FIELD => $column->getKey() ], $component->getTableId()));
+				$remove_sort_button = $this->dic->ui()->factory()->button()->shy($this->dic->language()->txt(Table::LANG_MODULE
+						. "_remove_sort"), self::getActionUrl($component->getActionUrl(), [ FilterStorage::VAR_REMOVE_SORT_FIELD => $column->getKey() ], $component->getTableId())); // TODO: Remove sort icon
 			} else {
 				$sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, self::getActionUrl($component->getActionUrl(), [
 					FilterStorage::VAR_SORT_FIELD => $column->getKey(),
