@@ -120,12 +120,11 @@ class Renderer extends AbstractComponentRenderer {
 			foreach ($layout->meta()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
 				$js_inline[] = $on_load_code->getContent();
 			}
-
-			$base_url = $layout->meta()->getBaseURL();
 		}
 
 		if($for_ui_demo) {
 			$base_url = '../../../../../../';
+			$tpl->setVariable("BASE", $base_url);
 
 			array_unshift($js_files, './Services/JavaScript/js/Basic.js');
 
@@ -155,7 +154,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
 		$tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
 
-		$tpl->setVariable("BASE", $base_url);
 
 		return $tpl;
 	}
