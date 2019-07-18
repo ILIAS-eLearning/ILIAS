@@ -39,6 +39,34 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 
 	/**
+	 * @param Input $input
+	 * @return Input|\ILIAS\UI\Implementation\Component\JavaScriptBindable
+	 */
+	protected function setSignals(Input $input) {
+		foreach ($input->getTriggeredSignals() as $s)
+		{
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+		}
+		if ($signals !== null) {
+			$signals = json_encode($signals);
+
+
+			$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
+				$code = "il.UI.input.setSignalsForId('$id', $signals);";
+				return $code;
+			});
+
+			$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
+		}
+		return $input;
+	}
+
+
+	/**
 	 * @param Component\Input\Field\Input $input
 	 * @param RendererInterface $default_renderer
 	 *
@@ -158,6 +186,9 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	 */
 	protected function renderInputField(Template $tpl, Input $input) {
 
+		$id = null;
+		$input = $this->setSignals($input);
+
 		switch (true) {
 			case ($input instanceof Text):
 			case ($input instanceof Numeric):
@@ -186,24 +217,8 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 		}
 
-		foreach ($input->getTriggeredSignals() as $s)
-		{
-			$signals[] = [
-				"signal_id" => $s->getSignal()->getId(),
-				"event" => $s->getEvent(),
-				"options" => $s->getSignal()->getOptions()
-			];
-		}
-		$signals = json_encode($signals);
-
-		$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
-			$code = "il.UI.input.setSignalsForId('$id', $signals);";
-			return $code;
-		});
-		$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
-		$id = $this->bindJavaScript($input);
-		if ($id !== null) {
-			$tpl->setVariable("ID", $id);
+		if ($id === null) {
+			$this->maybeRenderId($input, $tpl);
 		}
 
 		return $tpl->get();
