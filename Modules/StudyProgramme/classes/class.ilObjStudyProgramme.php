@@ -1615,7 +1615,10 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 	}
 
-	public function getApplicableMembershipSourceForUser(int $usr_id, string $exclude_type): ?ilStudyProgrammeAutoMembershipSource
+	/**
+	 * @return ? ilStudyProgrammeAutoMembershipSource
+	 */
+	public function getApplicableMembershipSourceForUser(int $usr_id, string $exclude_type)
 	{
 		foreach ($this->getAutomaticMembershipSources() as $ams) {
 			$src_type = $ams->getSourceType();
