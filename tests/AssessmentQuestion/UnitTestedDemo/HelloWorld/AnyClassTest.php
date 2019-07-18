@@ -18,26 +18,24 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class AnyClassTest extends AbstractBaseUnitTest
 {
-	/**
-	 * @test
-	 */
-	public function helloWorldIsEqualToHelloWorld()
+	public function testAnyClassGetsCorrectAnyMemberDefault()
 	{
 		$expected = 'Hello World!';
-		$actual = 'Hello World!';
+		
+		$any = new AnyClass();
+		$actual = $any->getAnyMember();
 		
 		$this->assertEquals($expected, $actual);
 	}
 	
-	/**
-	 * @test
-	 *
-	 * @expectedException \Exception
-	 * @expectedExceptionCode 4711
-	 * @expectedExceptionMessage Hello World!
-	 */
-	public function throwsExcpetion()
+	public function testAnyClassGetsCorrectAnyMemberAfterSet()
 	{
-		throw new \Exception('Hello World!', 4711);
+		$expected = 'Another World :)';
+		
+		$any = new AnyClass();
+		$any->setAnyMember($expected);
+		$actual = $any->getAnyMember();
+		
+		$this->assertEquals($expected, $actual);
 	}
 }
