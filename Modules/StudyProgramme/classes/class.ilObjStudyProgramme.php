@@ -537,8 +537,11 @@ class ilObjStudyProgramme extends ilContainer {
 					);
 			}
 			foreach(
-				array_map(function($data) {return $data['child'];},
-					array_unique($ref_child_ref_ids)
+				array_unique(
+					array_map(
+						function($data) {return $data['child'];},
+						array_filter($ref_child_ref_ids, function($data) {return $data["deleted"] === null;})
+					)
 				) as $prg_ref_id
 			) {
 				$this->reference_children[] =
@@ -576,15 +579,19 @@ class ilObjStudyProgramme extends ilContainer {
 
 	protected function getReferencesTo(ilObjStudyProgramme $prg)
 	{
-		return array_map(
-			function($id) {
-				return new ilObjStudyProgrammeReference(
-						array_shift(
+		$tree = $this->tree;
+		return array_filter(
+				array_map(
+					function($id) {
+						return new ilObjStudyProgrammeReference(
+							array_shift(
 							ilObject::_getAllReferences($id)
-						)
-					);
-			},
-			ilContainerReference::_lookupSourceIds($prg->getId())
+							)
+						);
+					},
+					ilContainerReference::_lookupSourceIds($prg->getId())
+				)
+				,function($prg_ref) use ($tree) {return !$tree->isDeleted($prg_ref->getRefId());}
 		);
 	}
 
@@ -602,11 +609,13 @@ class ilObjStudyProgramme extends ilContainer {
 		$current = $this;
 		$parents = [];
 		$queque = [$current];
-
 		while($element = array_shift($queque)) {
 			$parent = $element->getParent();
 			if ($parent === null || $include_references) {
 				foreach ($this->getReferencesTo($element) as $reference) {
+					if($this->tree->isDeleted($reference->getRefId())) {
+						continue;
+					}
 					$r_parent = $reference->getParent();
 					array_push($queque,$r_parent);
 					$parents[] = $r_parent;
@@ -1473,7 +1482,7 @@ class ilObjStudyProgramme extends ilContainer {
 
 		$crslnk_allowed = (
 			$this->hasLPChildren()
-			|| $this->getAmountOfChildren() === 0
+			|| $this->getAmountOfChildren(true) === 0
 		);
 
 		return $valid_status && $crslnk_allowed;
