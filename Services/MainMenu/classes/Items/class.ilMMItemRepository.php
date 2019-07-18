@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
+use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
@@ -173,7 +174,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         if ($identification === null || $identification instanceof NullIdentification || $identification instanceof NullPluginIdentification) {
             return new ilMMNullItemFacade($identification ? $identification : new NullIdentification(), $this->main_collector);
         }
-        if ($identification->getClassName() === ilMMCustomProvider::class) {
+        if ($identification->getClassName() === ilMMCustomProvider::class || $identification instanceof PluginIdentification) {
             return new ilMMCustomItemFacade($identification, $this->main_collector);
         }
 
