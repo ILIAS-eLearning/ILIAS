@@ -210,7 +210,10 @@ class ilObjStudyProgrammeMembersGUI {
 		$prg = $this->getStudyProgramme();
 
 		$completed_courses = array();
-		$a_users = array_intersect($a_users, $this->manageMembers());
+		if($this->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
+			$a_users = array_intersect($a_users, $this->manageMembers());
+		}
+
 		foreach ($a_users as $user_id) {
 			$completed_crss = $prg->getCompletedCourses($user_id);
 			if ($completed_crss) {
@@ -272,7 +275,10 @@ class ilObjStudyProgrammeMembersGUI {
 	 */
 	public function addUsersWithAcknowledgedCourses() {
 		$users = $_POST["users"];
-		$a_users = array_intersect($a_users, $this->manageMembers());
+		if($this->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
+			$a_users = array_intersect($a_users, $this->manageMembers());
+		}
+
 		$assignments = $this->_addUsers($users);
 		$completed_programmes = $_POST["courses"];
 		if (is_array($completed_programmes)) {
