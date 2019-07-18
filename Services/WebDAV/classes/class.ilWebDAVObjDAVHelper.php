@@ -13,6 +13,7 @@ class ilWebDAVObjDAVHelper
 {
     /** @var ilWebDAVRepositoryHelper */
     protected $repo_helper;
+    protected $container_types;
 
     /**
      * ilWebDAVObjDAVHelper constructor.
@@ -22,6 +23,8 @@ class ilWebDAVObjDAVHelper
     public function __construct(ilWebDAVRepositoryHelper $repo_helper)
     {
         $this->repo_helper = $repo_helper;
+
+        $this->container_types = ['cat', 'crs', 'grp', 'fold'];
     }
 
     /**
@@ -31,14 +34,14 @@ class ilWebDAVObjDAVHelper
      * @param bool $is_reference
      * @return bool
      */
-    public function isDAVableObject($id, $is_reference = true)
+    public function isDAVableObject($id, $is_reference = true, &$webdav_problems = null)
     {
         $obj_id = $is_reference ? $this->repo_helper->getObjectIdFromRefId($id) : $id;
 
         $type = $this->repo_helper->getObjectTypeFromObjId($obj_id);
         $title = $this->repo_helper->getObjectTitleFromObjId($obj_id);
 
-        $is_davable = $this->isDAVableObjType($type) && $this->isDAVableObjTitle($title);
+        $is_davable = $this->isDAVableObjType($type) && $this->isDAVableObjTitle($title, $webdav_problems);
         return $is_davable;
     }
 
@@ -69,12 +72,20 @@ class ilWebDAVObjDAVHelper
      * @param $title
      * @return bool
      */
-    public function isDAVableObjTitle(string $title) : bool
+    public function isDAVableObjTitle(string $title, &$webdav_problems = null) : bool
     {
-        return ($this->hasTitleForbiddenChars($title) === false)
-            && ($this->hasInvalidPrefixInTitle($title) === false);
+        if ($this->hasTitleForbiddenChars($title)) {
+            if(!is_null($webdav_problems)) {
+                $webdav_problems['characters'][] = $title;
+            }
+            return false;
+        }
+        if ($this->hasInvalidPrefixInTitle($title))
+        {
+            return false;
+        }
+        return true;
     }
-
     /**
      * Check for forbidden chars in title that are making trouble if displayed in WebDAV
      *
