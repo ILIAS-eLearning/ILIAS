@@ -17,7 +17,6 @@ class Footer implements MainControls\Footer
 
 	public function __construct(array $links, string $text = '')
 	{
-
 		//assure links is of Link\Standard
 		$this->links = $links;
 		$this->text = $text;
