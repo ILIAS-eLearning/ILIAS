@@ -1369,6 +1369,12 @@ class ilObjStudyProgramme extends ilContainer {
 		return $this->auto_categories_repository->readFor($this->getId());
 	}
 
+	public function hasAutomaticContentCategories(): bool
+	{
+		return count($this->getAutomaticContentCategories()) > 0;
+	}
+
+
 	/**
 	 * Store a Category with auto-content for this StudyProgramme;
 	 * a category can only be referenced once (per programme).
@@ -1802,17 +1808,32 @@ class ilObjStudyProgramme extends ilContainer {
 
 		switch ($mode) {
 			case ilStudyProgrammeSettings::MODE_UNDEFINED:
-				return $a_subobjects;
+				$possible_subobjects = $a_subobjects;
+				break;
 			case ilStudyProgrammeSettings::MODE_POINTS:
-				return [
+				$possible_subobjects = [
 					"prg" => $a_subobjects["prg"],
 					"prgr" => $a_subobjects["prgr"]
 				];
+				break;
 			case ilStudyProgrammeSettings::MODE_LP_COMPLETED:
-				return ['crsr' => $a_subobjects['crsr']];
+				$possible_subobjects = ['crsr' => $a_subobjects['crsr']];
+				break;
+			default:
+				throw new ilException("Undefined mode for study programme: '$mode'");
 		}
 
-		throw new ilException("Undefined mode for study programme: '$mode'");
+		if($parent->hasAutomaticContentCategories()) {
+			$possible_subobjects = array_filter(
+				$possible_subobjects,
+				function($subtype) {
+					return $subtype === 'crsr';
+				},
+				ARRAY_FILTER_USE_KEY
+
+			);
+		}
+		return $possible_subobjects;
 	}
 }
 
