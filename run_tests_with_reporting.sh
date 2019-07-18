@@ -40,18 +40,25 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 		JOB_URL=`echo $TRAVIS_JOB_WEB_URL`
 		FAILURE=false
 		declare -A RESULTS=([Tests]=0 [Assertions]=0 [Errors]=0 [Warnings]=0 [Skipped]=0 [Incomplete]=0 [Risky]=0 [Failures]=0);
-
-		for TYPE in "${!RESULTS[@]}"; 
-			do 
-				for PHP_UNIT_RESULT in "${!SPLIT_RESULT[@]}"; 
-					do 
-						if [ "$TYPE" == "${SPLIT_RESULT[$PHP_UNIT_RESULT]}" ]
-							then
-								CLEANED=(`echo ${SPLIT_RESULT[$PHP_UNIT_RESULT + 1]} | tr ',.' ' '`)
-								RESULTS[$TYPE]=$CLEANED;
-						fi
-					done 
-			done
+		if [[ ${RESULT:0:2} == "OK" ]]
+		then
+				IFS=','
+				read -ra PHP_UNIT_RESULT <<< "$RESULT"
+				CLEANED=(`echo ${PHP_UNIT_RESULT[0]} | tr '( OK (tests)' ' ' | xargs`)
+				RESULTS[Tests]=$CLEANED;
+		else
+			for TYPE in "${!RESULTS[@]}"; 
+				do 
+					for PHP_UNIT_RESULT in "${!SPLIT_RESULT[@]}"; 
+						do 
+							if [ "$TYPE" == "${SPLIT_RESULT[$PHP_UNIT_RESULT]}" ]
+								then
+									CLEANED=(`echo ${SPLIT_RESULT[$PHP_UNIT_RESULT + 1]} | tr ',.' ' '`)
+									RESULTS[$TYPE]=$CLEANED;
+							fi
+						done 
+				done
+		fi
 
 		if [ ${RESULTS[Errors]} -gt 0 ] || [ ${RESULTS[Failures]} -gt 0 ]
 			then

@@ -14,6 +14,11 @@ require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.ph
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
 class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
+
+	/**
+	 * @var ilSetupErrorHandling
+	 */
+	protected $error;
 	/**
 	 * @param      $a_data
 	 * @param      $a_id
@@ -21,10 +26,11 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 	 * @param bool $a_prepare_output
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
-		global $DIC;
+		global $DIC, $ilErr;
 		$ilCtrl = $DIC['ilCtrl'];
 		$ilAccess = $DIC['ilAccess'];
 		$ilSetting = $DIC['ilSetting'];
+		$this->error = $ilErr;
 		$this->ctrl = $ilCtrl;
 		$this->ilAccess = $ilAccess;
 		$this->ilSetting = $ilSetting;
@@ -40,7 +46,9 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 	 */
 	public function executeCommand() {
 		//Check Permissions globally for all SubGUIs. We only check write permissions
-		$this->checkPermission('read');
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+			$this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
+		}
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();

@@ -5773,10 +5773,10 @@ mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
-mail#:#mail_salutation_f#:#Hello
+mail#:#mail_salutation_f#:#Dear Mrs.
 mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
 mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], if no salutation is desired or specified
-mail#:#mail_salutation_m#:#Hello
+mail#:#mail_salutation_m#:#Dear Mr.
 mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Mr.'
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved

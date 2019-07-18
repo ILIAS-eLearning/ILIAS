@@ -9,7 +9,7 @@ class JsCollection extends AbstractCollection
 {
 
     /**
-     * @var array
+     * @var Js[]
      */
     protected $path_storage = [];
 
@@ -19,33 +19,25 @@ class JsCollection extends AbstractCollection
      */
     public function addItem(Js $item)
     {
-        $basename = basename($item->getContent());
-        foreach ($this->getItems() as $js) {
-            if (basename($js->getContent()) === $basename) {
-                return;
+        $basename = $this->stripPath($item->getContent());
+        foreach ($this->items as $js) {
+            if ($this->stripPath($js->getContent()) === $basename) { // Path exists
+                if ($js->getBatch() > $item->getBatch()) {
+                    $this->storeItem($item);
+
+                    return;
+                }
             }
         }
-        if (isset($this->path_storage[$item->getContent()])) {
-            if ((int) $this->path_storage[$item->getContent()] > $item->getBatch()) {
-                $this->storeItem($item);
-            }
-        } else {
-            $this->storeItem($item);
-        }
+        $this->storeItem($item);
     }
 
 
     private function storeItem(js $item)
     {
-        $basename = basename(parse_url($item->getContent(), PHP_URL_PATH));
-        foreach ($this->getItems() as $css) {
-            if (basename(parse_url($css->getContent(), PHP_URL_PATH)) === $basename) {
-                return;
-            }
-        }
-
-        $this->items[$item->getContent()] = $item;
-        $this->path_storage[$item->getContent()] = $item->getBatch();
+        $strip_path = $this->stripPath($item->getContent());
+        $this->items[$strip_path] = $item;
+        $this->path_storage[$strip_path] = $item->getBatch();
     }
 
 

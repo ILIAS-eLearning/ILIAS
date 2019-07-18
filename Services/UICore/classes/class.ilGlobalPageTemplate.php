@@ -2,7 +2,6 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
-use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\InlineCss;
 use ILIAS\GlobalScreen\Scope\Layout\Definition\StandardLayoutDefinition;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
