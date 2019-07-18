@@ -61,6 +61,15 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
 	}
 
 
+	public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
+	{
+		// when this is called, the target allready should be defined...
+		$target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
+		$a_obj->setTargetId($target_obj_id);
+		$a_obj->update();
+		parent::putObjectInTree($a_obj,$a_parent_node_id);
+	}
+
 	protected function tryingToCreateCircularReference($obj_to_be_referenced, $reference_position)
 	{
 		if($reference_position === $obj_to_be_referenced) {
