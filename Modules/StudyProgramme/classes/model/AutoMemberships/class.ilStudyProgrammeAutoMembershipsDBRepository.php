@@ -151,10 +151,14 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
 	{
 		global $ilDB;
 		$query = 'SELECT '.self::FIELD_PRG_OBJ_ID
-			.PHP_EOL.'FROM '.self::TABLE
+			.PHP_EOL.'FROM '.self::TABLE .' prgs'
+			.PHP_EOL.'INNER JOIN object_reference oref ON '
+			.'prgs.'.self::FIELD_PRG_OBJ_ID .' =  oref.obj_id'
 			.PHP_EOL.'WHERE '.self::FIELD_SOURCE_TYPE .' = ' .$ilDB->quote($source_type, 'text')
 			.PHP_EOL.'AND '.self::FIELD_SOURCE_ID .' = ' .$ilDB->quote($source_id, 'integer')
-			.PHP_EOL.'AND '.self::FIELD_ENABLED .' = 1';
+			.PHP_EOL.'AND '.self::FIELD_ENABLED .' = 1'
+			.PHP_EOL.'AND oref.deleted IS NULL';
+
  		$res = $ilDB->query($query);
 		$ret = $ilDB->fetchAll($res);
 		return $ret;
