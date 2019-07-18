@@ -231,6 +231,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             }
             // if title is not davable because of forbidden characters in title -> problem info file will be created
             else if(!$problem_info_file_needed
+                && $this->dav_helper->isDAVableObjType($this->repo_helper->getObjectTypeFromRefId($child_ref))
                 && $this->dav_helper->hasTitleForbiddenChars($this->repo_helper->getObjectTitleFromRefId($child_ref)))
             {
                 $problem_info_file_needed = true;
