@@ -1,14 +1,14 @@
 <?php return array (
   'ILIAS\\GlobalScreen\\Scope\\MainMenu\\Provider\\StaticMainMenuProvider' => 
   array (
-    0 => 'ilAdmGlobalScreenProvider',
-    1 => 'ilBadgeGlobalScreenProvider',
-    2 => 'ilBookmarkGlobalScreenProvider',
-    3 => 'ilCalendarGlobalScreenProvider',
-    4 => 'ilContactGlobalScreenProvider',
-    5 => 'ilDerivedTaskGlobalScreenProvider',
-    6 => 'ilLPGlobalScreenProvider',
-    7 => 'ilMMCustomProvider',
+    0 => 'ILIAS\\MainMenu\\Provider\\CustomMainBarProvider',
+    1 => 'ilAdmGlobalScreenProvider',
+    2 => 'ilBadgeGlobalScreenProvider',
+    3 => 'ilBookmarkGlobalScreenProvider',
+    4 => 'ilCalendarGlobalScreenProvider',
+    5 => 'ilContactGlobalScreenProvider',
+    6 => 'ilDerivedTaskGlobalScreenProvider',
+    7 => 'ilLPGlobalScreenProvider',
     8 => 'ilMailGlobalScreenProvider',
     9 => 'ilNewsGlobalScreenProvider',
     10 => 'ilNotesGlobalScreenProvider',
@@ -22,9 +22,8 @@
   ),
   'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\StaticMetaBarProvider' => 
   array (
-    0 => 'ILIAS\\User\\Screen\\UserMetaBarProvider',
-    1 => 'ilMMCustomTopBarProvider',
-    2 => 'ilSearchGSMetaBarProvider',
+    0 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
+    1 => 'ilSearchGSMetaBarProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (

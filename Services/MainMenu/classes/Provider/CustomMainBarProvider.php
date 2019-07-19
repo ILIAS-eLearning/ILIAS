@@ -1,4 +1,4 @@
-<?php
+<?php namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
@@ -10,6 +10,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
@@ -19,13 +20,19 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+use ilMMCustomItemStorage;
+use ilMMItemStorage;
+use ilMMTypeHandlerLink;
+use ilMMTypeHandlerRepositoryLink;
+use ilMMTypeHandlerSeparator;
+use ilMMTypeHandlerTopLink;
 
 /**
- * Class ilMMCustomProvider
+ * Class CustomMainBarProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
+class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
 {
 
     /**
@@ -52,7 +59,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
 
 
     /**
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem[]
+     * @return isItem[]
      */
     public function getStaticSubItems() : array
     {
@@ -72,9 +79,9 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
      * @param ilMMCustomItemStorage $storage
      * @param bool                  $register
      *
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+     * @return isItem
      */
-    public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false) : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+    public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false) : isItem
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 

@@ -1,4 +1,4 @@
-<?php namespace ILIAS\User\Screen;
+<?php namespace ILIAS\User\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
