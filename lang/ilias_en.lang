@@ -15897,3 +15897,4 @@ prg#:#vq_date_info#:#Qualification expires at fixed date
 prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
 prg#:#access_ctr_by_orgu_position#:#Access conrol according to Organisational Unit Positions
+prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
