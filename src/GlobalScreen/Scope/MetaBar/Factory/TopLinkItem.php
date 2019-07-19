@@ -1,15 +1,14 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
-use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
- * Class TopLegacyItem
+ * Class TopLinkItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle
+class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbol
 {
 
     /**
@@ -21,9 +20,32 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      */
     protected $title = "";
     /**
-     * @var Legacy
+     * @var string
      */
-    protected $content = null;
+    protected $action = "";
+
+
+    /**
+     * @param string $action
+     *
+     * @return TopLinkItem
+     */
+    public function withAction(string $action) : TopLinkItem
+    {
+        $clone = clone($this);
+        $clone->action = $action;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAction() : string
+    {
+        return $this->action;
+    }
 
 
     /**
@@ -74,37 +96,5 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     public function getTitle() : string
     {
         return $this->title;
-    }
-
-
-    /**
-     * @param Legacy $content
-     *
-     * @return TopLegacyItem
-     */
-    public function withLegacyContent(Legacy $content) : TopLegacyItem
-    {
-        $clone = clone $this;
-        $clone->content = $content;
-
-        return $clone;
-    }
-
-
-    /**
-     * @return Legacy
-     */
-    public function getLegacyContent() : Legacy
-    {
-        return $this->content;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function hasLegacyContent() : bool
-    {
-        return ($this->content instanceof Legacy);
     }
 }

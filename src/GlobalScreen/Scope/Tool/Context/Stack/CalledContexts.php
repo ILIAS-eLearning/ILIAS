@@ -74,7 +74,7 @@ final class CalledContexts extends ContextCollection
 
         if (isset($this->call_locations[$context->getUniqueContextIdentifier()])) {
             $first_location = $this->call_locations[$context->getUniqueContextIdentifier()];
-            throw new LogicException("context already claimed in $first_location, second try in $call_location");
+            throw new LogicException("context '{$context->getUniqueContextIdentifier()}' already claimed in $first_location, second try in $call_location");
         }
         $this->call_locations[$context->getUniqueContextIdentifier()] = $call_location;
 
