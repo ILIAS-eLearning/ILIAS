@@ -64,7 +64,7 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
                 }
             )
             ->withAction("login.php?client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $this->dic->user()->getCurrentLanguage())
-            ->withSymbol($f->symbol()->glyph()->user())
+            ->withSymbol($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", "login"))
             ->withTitle("Login")
             ->withPosition(999);
 
