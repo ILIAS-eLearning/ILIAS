@@ -60,7 +60,7 @@ class ilStudyProgrammeAssignmentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_last_change_by_invalid()
 	{
-		$spa = (new ilStudyProgrammeAssignment(123))->setLastChangeBy(-1);
+		$spa = (new ilStudyProgrammeAssignment(123))->setLastChangeBy(-55);
 	}
 
 	/**

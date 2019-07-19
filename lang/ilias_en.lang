@@ -13313,6 +13313,7 @@ prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accre
 prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
 prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
 prg#:#access_ctr_by_orgu_position#:#Access conrol according to Organisational Unit Positions
+prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes

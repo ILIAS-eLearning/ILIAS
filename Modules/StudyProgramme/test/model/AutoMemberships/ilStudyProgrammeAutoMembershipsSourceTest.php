@@ -2,14 +2,15 @@
 
 class ilStudyProgrammeAutoMembershipsSourceTest extends PHPUnit_Framework_TestCase
 {
-	//protected $backupGlobals = FALSE;
+	protected $backupGlobals = FALSE;
 
 	public function setUp()
 	{
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 		$this->prg_obj_id = 123;
-		$this->source_type = 1;
+		$this->source_type = ilStudyProgrammeAutoMembershipSource::TYPE_ROLE;
 		$this->source_id = 666;
+		$this->enbl = true;
 		$this->usr_id = 6;
 		$this->dat = new DateTimeImmutable('2019-06-05 15:25:12');
 	}
@@ -20,6 +21,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends PHPUnit_Framework_TestCa
 			$this->prg_obj_id,
 			$this->source_type,
 			$this->source_id,
+			$this->enbl,
 			$this->usr_id,
 			$this->dat
 		);

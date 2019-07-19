@@ -6,6 +6,7 @@ implements ilStudyProgrammeSettingsRepository
 {
 	protected static $cache = [];
 	protected $db;
+	protected $tps;
 
 	const TABLE = 'prg_settings';
 
@@ -22,9 +23,13 @@ implements ilStudyProgrammeSettingsRepository
 	const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
 	const FIELD_ACCESS_CONTROL_ORGU_POSITIONS = 'access_ctrl_org_pos';
 
-	public function __construct(ilDBInterface $db)
+	public function __construct(
+		ilDBInterface $db,
+		ilOrgUnitObjectTypePositionSetting $tps
+	)
 	{
 		$this->db = $db;
+		$this->tps = $tps;
 	}
 
 	/**
@@ -45,13 +50,13 @@ implements ilStudyProgrammeSettingsRepository
 			ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD,
 			null,
 			ilStudyProgrammeSettings::NO_RESTART,
-			false
+			$this->tps->getActivationDefault()
 		);
 		$prg->setSubtypeId(ilStudyProgrammeSettings::DEFAULT_SUBTYPE)
 			->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)
 			->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
 			->setPoints(ilStudyProgrammeSettings::DEFAULT_POINTS)
-			->setAccessControlByOrguPositions(false);
+			->setAccessControlByOrguPositions($this->tps->getActivationDefault());
 		self::$cache[$obj_id] = $prg;
 		return $prg;
 	}
