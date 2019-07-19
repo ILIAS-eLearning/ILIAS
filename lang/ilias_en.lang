@@ -15887,3 +15887,13 @@ prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
 orgu#:#org_op_view_members#:#View Members
 orgu#:#org_op_view_individual_plan#:#View Individual Plan
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
+prg#:#prg_formatted_period#:#%d days
+prg#:#deadline_information#:#Information regarding processing period
+prg#:#dealine_period_info#:#Days to process after assignment
+prg#:#dealine_date_info#:#Deadline date
+prg#:#vq_information#:#Information regarding validity of achived qualification
+prg#:#vq_period_info#:#Days until qualification will expire after achivement
+prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
+prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
+prg#:#access_ctr_by_orgu_position#:#Access conrol according to Organisational Unit Positions
