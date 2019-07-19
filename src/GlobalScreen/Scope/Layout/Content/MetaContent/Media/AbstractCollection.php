@@ -9,7 +9,7 @@ abstract class AbstractCollection
 {
 
     /**
-     * @var array
+     * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
     protected $items = [];
 
@@ -35,5 +35,16 @@ abstract class AbstractCollection
     public function getItemsInOrderOfDelivery() : array
     {
         return $this->items;
+    }
+
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function stripPath(string $path) : string
+    {
+        return basename(parse_url($path, PHP_URL_PATH));
     }
 }

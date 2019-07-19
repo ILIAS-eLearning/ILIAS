@@ -151,6 +151,10 @@ class ilAssQuestionPreviewGUI
 	
 	public function executeCommand()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenIdComponent('qpl');
+
 		$this->tabs->setTabActive(self::TAB_ID_QUESTION_PREVIEW);
 		
 		$this->lng->loadLanguageModule('content');

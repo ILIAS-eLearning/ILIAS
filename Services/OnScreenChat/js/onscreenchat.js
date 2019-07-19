@@ -195,10 +195,10 @@
 				).done(function(result) {
 					result = JSON.parse(result);
 					if(!result.loggedIn) {
-						window.location = '/login.php';
+						window.location = './login.php';
 					}
 				}).fail(function(e){
-					window.location = '/login.php';
+					window.location = './login.php';
 				});
 			}, 300000); // 5 minutes
 

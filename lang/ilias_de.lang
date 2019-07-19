@@ -884,7 +884,7 @@ assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet.<br />Die Mindestanzahl für zugewiesene Fragen: %s
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
@@ -6797,10 +6797,10 @@ mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
 mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
-mail#:#mail_salutation_f#:#Hallo
+mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Frau'
 mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn keine Anrede angegeben oder gewünscht
-mail#:#mail_salutation_m#:#Hallo
+mail#:#mail_salutation_m#:#Sehr geehrter Herr
 mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Herr'
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
@@ -14654,9 +14654,9 @@ pd#:#pd_enable_learning_history#:#Lernverlauf
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
-sess#:#sess_filter_all_types#:#All types
-sess#:#sess_filter_not_assigned#:#Not Assigned
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_filter_all_types#:#Alle Objekttypen
+sess#:#sess_filter_not_assigned#:#Nicht zugeordnet
+sess#:#sess_is_assigned#:#Zugeordnet
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 wiki#:#wiki_type_wiki_team#:#Team-Wiki
 exc#:#exc_without_wiki_template#:#Ohne Vorlage

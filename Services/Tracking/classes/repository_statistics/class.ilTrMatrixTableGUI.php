@@ -103,7 +103,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			if(isset($labels[$c]["icon"]))
 			{
 				$alt = $lng->txt($labels[$c]["type"]);
-				$icon = '<img src="'.$labels[$c]["icon"].'" alt="'.$alt.'" />';
+				$icon = '<img class="ilListItemIcon" src="'.$labels[$c]["icon"].'" alt="'.$alt.'" />';
 				if(sizeof($selected) > 5)
 				{
 					$tooltip[] = $title;
@@ -192,7 +192,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					
 					$title = $ilObjDataCache->lookupTitle($obj_id);
 					$type = $ilObjDataCache->lookupType($obj_id);
-					$icon = ilObject::_getIcon("", "tiny", $type);
+					$icon = ilObject::_getIcon($obj_id, "tiny", $type);
 					if($type == "sess")
 					{
 						include_once "Modules/Session/classes/class.ilObjSession.php";

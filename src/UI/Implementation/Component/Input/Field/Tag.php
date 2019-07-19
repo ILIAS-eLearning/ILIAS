@@ -178,7 +178,7 @@ class Tag extends Input implements C\Input\Field\Tag {
 		/**
 		 * @var $with_constraint C\Input\Field\Tag
 		 */
-		$with_constraint = $clone->withAdditionalConstraint(
+		$with_constraint = $clone->withAdditionalTransformation(
 			$this->refinery->custom()->constraint(
 				function ($value) use ($clone) {
 					return (0 == count(array_diff($value, $clone->getTags())));

@@ -52,8 +52,11 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
 		 */
 		global $DIC;
 		$ilToolbar = $DIC['ilToolbar'];
+		$rbacsystem = $DIC->rbac()->system();
 
-		$ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
+		if($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
+		}
 
 		parent::showGlobalUnitCategories();
 	}

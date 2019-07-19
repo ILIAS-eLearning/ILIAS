@@ -357,6 +357,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$tpl = $DIC['tpl'];
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		
+		$subScreenId = array('createQuestion');
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
@@ -403,6 +407,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		// content editing mode
 		if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
 		{
+			$subScreenId[] = 'editMode';
+			
 			$ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 			
 			$ri->addOption(new ilRadioOption(
@@ -428,6 +434,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
 		if($this->test_object->getPoolUsage())
 		{
+			$subScreenId[] = 'poolSelect';
+			
 			// use pool
 			$usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
 			$usage->setRequired(true);
@@ -459,6 +467,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
 		$form->addCommandButton("handleToolbarCommand", $lng->txt("create"));
 		$form->addCommandButton("questions", $lng->txt("cancel"));
+		
+		$ilHelp->setSubScreenId(implode('_', $subScreenId));
 
 		return $tpl->setContent($form->getHTML());
     }
