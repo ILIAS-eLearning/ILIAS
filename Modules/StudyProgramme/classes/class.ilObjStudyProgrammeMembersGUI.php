@@ -212,15 +212,19 @@ class ilObjStudyProgrammeMembersGUI {
 		$completed_courses = array();
 
 		if($this->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
-			$not_to_add = array_diff($a_users, $this->manageMembers());
-
-			$a_users = array_intersect($a_users, $this->manageMembers());
-			if(count($not_to_add) > 0) {
+			$to_add = $this->position_based_access->filterUsersAccessibleForOperation(
+				$this->getStudyProgramme(),
+				ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+				$a_users
+			);
+			$cnt_not_added = count($a_users) - count($to_add);
+			if($cnt_not_added > 0) {
 				ilUtil::sendInfo(
-					sprintf($this->lng->txt('could_not_add_users_no_permissons'),count($not_to_add))
+					sprintf($this->lng->txt('could_not_add_users_no_permissons'),$cnt_not_added)
 					,true
 				);
 			}
+			$a_users = $to_add;
 		}
 
 		foreach ($a_users as $user_id) {
@@ -285,15 +289,19 @@ class ilObjStudyProgrammeMembersGUI {
 	public function addUsersWithAcknowledgedCourses() {
 		$users = $_POST["users"];
 		if($this->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
-			$not_to_add = array_diff($a_users, $this->manageMembers());
-
-			$a_users = array_intersect($a_users, $this->manageMembers());
-			if(count($not_to_add) > 0) {
+			$to_add = $this->position_based_access->filterUsersAccessibleForOperation(
+				$this->getStudyProgramme(),
+				ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+				$a_users
+			);
+			$cnt_not_added = count($a_users) - count($to_add);
+			if($cnt_not_added > 0) {
 				ilUtil::sendInfo(
-					sprintf($this->lng->txt('could_not_add_users_no_permissons'),count($not_to_add))
+					sprintf($this->lng->txt('could_not_add_users_no_permissons'),$cnt_not_added)
 					,true
 				);
 			}
+			$a_users = $to_add;
 		}
 
 		$assignments = $this->_addUsers($users);
