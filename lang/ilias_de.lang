@@ -15915,3 +15915,4 @@ prg#:#vq_date_info#:#Die Qualifikation läuft zu einem Stichtag ab
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
+prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
