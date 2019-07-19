@@ -11249,6 +11249,7 @@ prg#:#some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise 
 prg#:#some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
 prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
 prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
+prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
