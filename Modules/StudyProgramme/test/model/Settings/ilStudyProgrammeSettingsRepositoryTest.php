@@ -20,11 +20,17 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 		}
 		global $DIC;
 		$this->db = $DIC['ilDB'];
+		$this->tps = $this->createMock(ilOrgUnitObjectTypePositionSetting::class);
+		$this->tps->method('getActivationDefault')
+			->willReturn(true);
 	}
 
 	public function test_init()
 	{
-		$repo = new ilStudyProgrammeSettingsDBRepository($this->db);
+		$repo = new ilStudyProgrammeSettingsDBRepository(
+			$this->db,
+			$this->tps
+		);
 		$this->assertInstanceOf(ilStudyProgrammeSettingsRepository::class,$repo);
 		return $repo;
 	}
@@ -34,7 +40,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_create($repo)
 	{
-		$set = $repo->createFor(1);
+		$set = $repo->createFor(-1);
 		$this->assertEquals($set->getSubtypeId(),ilStudyProgrammeSettings::DEFAULT_SUBTYPE);
 		$this->assertEquals($set->getStatus(),ilStudyProgrammeSettings::STATUS_DRAFT);
 		$this->assertEquals($set->getLPMode(),ilStudyProgrammeSettings::MODE_UNDEFINED);
@@ -51,8 +57,11 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_edit_and_update()
 	{
-		$repo = new ilStudyProgrammeSettingsDBRepository($this->db);
-		$set = $repo->read(1);
+		$repo = new ilStudyProgrammeSettingsDBRepository(
+			$this->db,
+			$this->tps
+		);
+		$set = $repo->read(-1);
 		$this->assertEquals($set->getSubtypeId(),ilStudyProgrammeSettings::DEFAULT_SUBTYPE);
 		$this->assertEquals($set->getStatus(),ilStudyProgrammeSettings::STATUS_DRAFT);
 		$this->assertEquals($set->getLPMode(),ilStudyProgrammeSettings::MODE_UNDEFINED);
@@ -63,9 +72,12 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($set->getValidityOfQualificationDate());
 		$this->assertEquals($set->getRestartPeriod(),ilStudyProgrammeSettings::NO_RESTART);
 
-		$repo = new ilStudyProgrammeSettingsDBRepository($this->db);
+		$repo = new ilStudyProgrammeSettingsDBRepository(
+			$this->db,
+			$this->tps
+		);
 		ilStudyProgrammeSettingsDBRepository::clearCache();
-		$set = $repo->read(1);
+		$set = $repo->read(-1);
 		$this->assertEquals($set->getSubtypeId(),ilStudyProgrammeSettings::DEFAULT_SUBTYPE);
 		$this->assertEquals($set->getStatus(),ilStudyProgrammeSettings::STATUS_DRAFT);
 		$this->assertEquals($set->getLPMode(),ilStudyProgrammeSettings::MODE_UNDEFINED);
@@ -85,7 +97,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 			->setRestartPeriod(30);
 		$repo->update($set);
 		ilStudyProgrammeSettingsDBRepository::clearCache();
-		$set = $repo->read(1);
+		$set = $repo->read(-1);
 		$this->assertEquals($set->getSubtypeId(),123);
 		$this->assertEquals($set->getStatus(),ilStudyProgrammeSettings::STATUS_ACTIVE);
 		$this->assertEquals($set->getLPMode(),ilStudyProgrammeSettings::MODE_POINTS);
@@ -102,16 +114,19 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 			->setRestartPeriod(ilStudyProgrammeSettings::NO_RESTART);
 		$repo->update($set);
 		ilStudyProgrammeSettingsDBRepository::clearCache();
-		$set = $repo->read(1);
+		$set = $repo->read(-1);
 		$this->assertEquals($set->getDeadlinePeriod(),0);
 		$this->assertEquals($set->getDeadlineDate()->format('Ymd'),(new DateTime())->format('Ymd'));
 		$this->assertEquals($set->getValidityOfQualificationDate()->format('Ymd'),'20200101');
 		$this->assertEquals($set->getValidityOfQualificationPeriod(),ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD);
 		$this->assertEquals($set->getRestartPeriod(),ilStudyProgrammeSettings::NO_RESTART);
 
-		$repo = new ilStudyProgrammeSettingsDBRepository($this->db);
+		$repo = new ilStudyProgrammeSettingsDBRepository(
+			$this->db,
+			$this->tps
+		);
 		ilStudyProgrammeSettingsDBRepository::clearCache();
-		$set = $repo->read(1);
+		$set = $repo->read(-1);
 		$this->assertEquals($set->getSubtypeId(),123);
 		$this->assertEquals($set->getStatus(),ilStudyProgrammeSettings::STATUS_ACTIVE);
 		$this->assertEquals($set->getLPMode(),ilStudyProgrammeSettings::MODE_POINTS);
@@ -123,14 +138,17 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 	 * @expectedException \LogicException
 	 */
 	public function test_delete() {
-		$repo = new ilStudyProgrammeSettingsDBRepository($this->db);
-		$set = $repo->read(1);
+		$repo = new ilStudyProgrammeSettingsDBRepository(
+			$this->db,
+			$this->tps
+		);
+		$set = $repo->read(-1);
 		$this->assertEquals($set->getSubtypeId(),123);
 		$this->assertEquals($set->getStatus(),ilStudyProgrammeSettings::STATUS_ACTIVE);
 		$this->assertEquals($set->getLPMode(),ilStudyProgrammeSettings::MODE_POINTS);
 		$this->assertEquals($set->getPoints(),10);
 		$repo->delete($set);
-		$repo->read(1);
+		$repo->read(-1);
 	}
 
 

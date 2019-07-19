@@ -23,7 +23,10 @@ class ilStudyProgrammeTypeTest extends PHPUnit_Framework_TestCase
 		$this->user = $DIC['ilUser'];
 		$this->plugin_admin = $DIC['ilPluginAdmin'];
 		$this->lng = $DIC['lng'];
-		$this->settings_repo = new ilStudyProgrammeSettingsDBRepository($this->db);
+		$tps = $this->createMock(ilOrgUnitObjectTypePositionSetting::class);
+		$tps->method('getActivationDefault')
+			->willReturn(true);
+		$this->settings_repo = new ilStudyProgrammeSettingsDBRepository($this->db,$tps);
 		$this->type_repo = new ilStudyProgrammeTypeDBRepository(
 			$this->db,
 			$this->settings_repo,
