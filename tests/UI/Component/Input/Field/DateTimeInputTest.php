@@ -15,7 +15,7 @@ use \ILIAS\Transformation;
 
 class DateTimeInputTest extends ILIAS_UI_TestBase {
 
-	public function setUp(): void
+	public function setUp()
 	{
 		$this->name_source = new DefNamesource();
 		$this->data_factory = new Data\Factory();
