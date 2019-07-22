@@ -137,5 +137,23 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     {
         return $this->identification->getProviderNameForPresentation();
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isDeletable() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function delete()
+    {
+        parent::delete();
+    }
 }
 
