@@ -15046,3 +15046,6 @@ certificate#:#certificate_learning_progress_must_be_active#:#Only objects with a
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
 content#:#msg_no_page_access#:#You do not have the permission to access this page.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_details#:#« Show Details
