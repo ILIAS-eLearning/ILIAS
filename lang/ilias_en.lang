@@ -13006,7 +13006,7 @@ rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
 crs#:#crs_loc_settings_it_type#:#Initial Test
 crs#:#crs_loc_settings_type_it_placement_all#:#Comprehensive Placement Test Covering all Objectives
-crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Objects
+crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Object
 crs#:#crs_loc_settings_type_it_placement_sel#:#Separate Placement Test for Each Objective
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Comprehensive Achievement Test Covering all Objectives
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Separate Achievement Test for Each Objective
@@ -13022,9 +13022,9 @@ crs#:#crs_loc_btn_new_assignment#:#New Test Assignment
 crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
 crs#:#crs_objective_action_qtest_sep#:#Assign Final Test
 crs#:#crs_loc_settings_tbl_its_q_all#:#Initial Qualifying Test (all Objecives)
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Diagnostic Test (all Objectives)
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Placement Test (all Objectives)
 crs#:#crs_loc_settings_tbl_it_q#:#Initial Qualifying Test (per Objective)
-crs#:#crs_loc_settings_tbl_it_nq#:#Initial Diagnostic Test (per Objective)
+crs#:#crs_loc_settings_tbl_it_nq#:#Initial Placement Test (per Objective)
 crs#:#crs_loc_settings_tbl_qts_all#:#Final Test (all objectives)
 crs#:#crs_loc_settings_tbl_qt#:#Final Test (per objective)
 crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
