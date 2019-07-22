@@ -1231,4 +1231,16 @@ if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5513>
+<?php
+if ($ilDB->tableColumnExists("lng_data", "identifier")) {
+	$field = array(
+		'type'    => 'text',
+		'length'  => 200,
+		'notnull' => true,
+		'default' => ' '
+	);
 
+	$ilDB->modifyTableColumn("lng_data", "identifier", $field);
+}
+?>
