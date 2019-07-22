@@ -13,7 +13,6 @@ class ilWebDAVObjDAVHelper
 {
     /** @var ilWebDAVRepositoryHelper */
     protected $repo_helper;
-    protected $container_types;
 
     /**
      * ilWebDAVObjDAVHelper constructor.
@@ -23,8 +22,6 @@ class ilWebDAVObjDAVHelper
     public function __construct(ilWebDAVRepositoryHelper $repo_helper)
     {
         $this->repo_helper = $repo_helper;
-
-        $this->container_types = ['cat', 'crs', 'grp', 'fold'];
     }
 
     /**
