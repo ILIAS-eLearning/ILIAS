@@ -237,7 +237,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     private function delete()
     {
         $item = $this->getMMItemFromRequest();
-        if ($item->isCustom()) {
+        if ($item->isDeletable()) {
             $this->repository->deleteItem($item);
         }
 
