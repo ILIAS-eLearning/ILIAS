@@ -19,15 +19,17 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 	{
 		PHPUnit_Framework_Error_Deprecated::$enabled = false;
 
-		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		ilUnitUtil::performInitialisation();
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
 
 		$this->root = ilObjStudyProgramme::createInstance();
 		$this->root->putInTree(ROOT_FOLDER_ID);
 		$this->root->object_factory = new ilObjectFactoryWrapperMock();
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)
 				   ->update();
 
 		global $DIC;
@@ -77,7 +79,7 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 				$this->$node_name->object_factory = new ilObjectFactoryWrapperMock();
 				$top->addNode($this->$node_name);
 				$this->setUpNodes($this->$node_name, $data2);
-				$this->$node_name->setStatus(ilStudyProgramme::STATUS_ACTIVE)
+				$this->$node_name->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)
 								 ->update();
 			}
 		}
@@ -98,7 +100,7 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 
 		$user = $this->newUser();
 		$user_id = $user->getId();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$ass_id = $ass->getId();
 
 		$this->leaf11->markCompletedFor($user_id);
@@ -124,7 +126,7 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 
 		$user = $this->newUser();
 		$user_id = $user->getId();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$ass_id = $ass->getId();
 
 		$this->node1->getProgressForAssignment($ass_id)
@@ -151,13 +153,13 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 
 		$user = $this->newUser();
 		$user_id = $user->getId();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$ass_id = $ass->getId();
 
 		$this->node1->getProgressForAssignment($ass_id)
-					->markNotRelevant($this->user->getId());
+					->markNotRelevant(6);
 		$this->root->getProgressForAssignment($ass_id)
-				   ->setRequiredAmountOfPoints(100, $this->user->getId());
+				   ->setRequiredAmountOfPoints(100, 6);
 		$this->leaf21->markCompletedFor($user_id);
 
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $this->root->getProgressForAssignment($ass_id)->getStatus());
@@ -180,11 +182,11 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 
 		$user = $this->newUser();
 		$user_id = $user->getId();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$ass_id = $ass->getId();
 
 		$this->node1->getProgressForAssignment($ass_id)
-					->markNotRelevant($this->user->getId());
+					->markNotRelevant(6);
 		$this->leaf11->markCompletedFor($user_id);
 		$this->leaf21->markCompletedFor($user_id);
 
@@ -208,7 +210,7 @@ class ilStudyProgrammeProgressCalculationTest extends PHPUnit_Framework_TestCase
 
 		$user = $this->newUser();
 		$user_id = $user->getId();
-		$ass = $this->root->assignUser($user->getId());
+		$ass = $this->root->assignUser($user->getId(),6);
 		$ass_id = $ass->getId();
 
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $this->root->getProgressForAssignment($ass_id)->getStatus());

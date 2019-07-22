@@ -11,7 +11,6 @@ require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
 require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php");
 require_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
-require_once("./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeAdvancedMetadataRecord.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
 require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");
 require_once("./Services/Repository/classes/class.ilRepUtil.php");
@@ -28,7 +27,11 @@ require_once("./Services/Repository/classes/class.ilRepUtil.php");
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
  */
 
 class ilObjStudyProgrammeGUI extends ilContainerGUI {
@@ -87,6 +90,41 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 */
 	protected $help;
 
+	/**
+	 * @var ilObjStudyProgrammeSettingsGUI
+	 */
+	protected $settings_gui;
+
+	/**
+	 * @var ilObjStudyProgrammeMembersGUI
+	 */
+	protected $members_gui;
+
+	/**
+	 * @var ilObjStudyProgrammeAutoMembershipsGUI
+	 */
+	protected $memberships_gui;
+
+	/**
+	 * @var ilObjStudyProgrammeTreeGUI
+	 */
+	protected $tree_gui;
+
+	/**
+	 * @var ilStudyProgrammeTypeGUI
+	 */
+	protected $type_gui;
+
+	/**
+	 * @var ilStudyProgrammeTypeRepository
+	 */
+	protected $type_repository;
+
+	/**
+	 * @var ilObjStudyProgrammeAutoCategoriesGUI
+	 */
+	protected $autocategories_gui;
+
 
 	public function __construct() {
 		global $DIC;
@@ -100,6 +138,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$ilLog = $DIC['ilLog'];
 		$ilias = $DIC['ilias'];
 		$ilHelp = $DIC['ilHelp'];
+		$ilUser = $DIC['ilUser'];
 
 		parent::__construct(array(), (int) $_GET['ref_id'], true, false);
 
@@ -113,8 +152,18 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->ilias = $ilias;
 		$this->type = "prg";
 		$this->help = $ilHelp;
+		$this->user = $ilUser;
 
 		$lng->loadLanguageModule("prg");
+
+		$this->settings_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeSettingsGUI'];
+		$this->members_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
+		$this->memberships_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoMembershipsGUI'];
+		$this->tree_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeTreeGUI'];
+		$this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
+		$this->autocategories_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoCategoriesGUI'];
+
+		$this->type_repository = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository'];
 	}
 
 
@@ -132,6 +181,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		// show repository tree
 		$this->showRepTree();
+		$this->addHeaderAction();
 
 		switch ($next_class) {
 			case "ilinfoscreengui":
@@ -162,15 +212,26 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				break;
 			case "ilobjstudyprogrammesettingsgui":
 				$this->denyAccessIfNot("write");
-
 				$this->getSubTabs('settings');
 				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 				$this->tabs_gui->setSubTabActive('settings');
 
-				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
-				$gui = new ilObjStudyProgrammeSettingsGUI($this, $this->ref_id);
-				$this->ctrl->forwardCommand($gui);
+				$this->settings_gui->setParentGUI($this);
+				$this->settings_gui->setParentGUI($this);
+				$this->settings_gui->setRefId($this->ref_id);
+				$this->ctrl->forwardCommand($this->settings_gui);
 				break;
+
+			case "ilobjstudyprogrammeautocategoriesgui":
+				$this->denyAccessIfNot("write");
+				$this->getSubTabs('settings');
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->setSubTabActive('auto_content');
+				$this->autocategories_gui->setRefId($this->ref_id);
+				$this->ctrl->forwardCommand($this->autocategories_gui);
+				break;
+
+
 			/*case 'iltranslationgui':
 				$this->denyAccessIfNot("write");
 
@@ -183,11 +244,31 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				break;*/
 			case "ilobjstudyprogrammemembersgui":
 				$this->denyAccessIfNot("manage_members");
+				$this->getSubTabs('members');
+
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
-				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id, ilObjStudyProgramme::_getStudyProgrammeUserProgressDB());
-				$this->ctrl->forwardCommand($gui);
+				$this->tabs_gui->setSubTabActive('edit_participants');
+
+				$this->members_gui->setParentGUI($this);
+				$this->members_gui->setRefId($this->ref_id);
+				$this->ctrl->forwardCommand($this->members_gui);
+
 				break;
+
+			case "ilobjstudyprogrammeautomembershipsgui":
+				$this->denyAccessIfNot("manage_members");
+				$this->getSubTabs('members');
+
+				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+				$this->tabs_gui->setSubTabActive('auto_memberships');
+
+				$this->memberships_gui->setParentGUI($this);
+				$this->memberships_gui->setRefId($this->ref_id);
+				$this->ctrl->forwardCommand($this->memberships_gui);
+
+				break;
+
+
 			case "ilobjstudyprogrammetreegui":
 				$this->denyAccessIfNot("write");
 
@@ -199,18 +280,35 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				// disable admin panel
 				$_SESSION["il_cont_admin_panel"] = false;
 
-				$gui = new ilObjStudyProgrammeTreeGUI($this->id);
-				$this->ctrl->forwardCommand($gui);
+				$this->tree_gui->setRefId($this->id);
+				$this->ctrl->forwardCommand($this->tree_gui);
 				break;
 			case 'ilstudyprogrammetypegui':
 				$this->tabs_gui->setTabActive('subtypes');
 
-				$types_gui = new ilStudyProgrammeTypeGUI($this);
-				$this->ctrl->forwardCommand($types_gui);
+				$this->type_gui->setParentGUI($this);
+				$this->ctrl->forwardCommand($this->type_gui);
 				break;
 			case 'ilobjectcopygui':
 				$gui = new ilobjectcopygui($this);
 				$this->ctrl->forwardCommand($gui);
+				break;
+			case 'ilobjecttranslationgui':
+				$this->denyAccessIfNot("write");
+				$this->getSubTabs('settings');
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->setSubTabActive('settings_trans');
+				$transgui = new ilObjectTranslationGUI($this);
+				$this->ctrl->forwardCommand($transgui);
+				break;
+			case "ilcertificategui":
+				$this->getSubTabs('settings');
+				$this->denyAccessIfNot("write");
+				$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+				$this->tabs_gui->setSubTabActive('certificate');
+				$guiFactory = new ilCertificateGUIFactory();
+				$output_gui = $guiFactory->create($this->object);
+				$this->ctrl->forwardCommand($output_gui);
 				break;
 			case false:
 				$this->getSubTabs($cmd);
@@ -254,6 +352,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case 'undelete':
 					case 'confirmRemoveFromSystem':
 					case 'removeFromSystem':
+					case 'deliverCertificate':
+					case 'addToDesk':
+					case 'removeFromDesk':
 						$cmd .= "Object";
 						$this->$cmd();
 						break;
@@ -322,6 +423,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 						throw new ilException("ilObjStudyProgrammeGUI: Command not supported: $cmd");
 				}
 				break;
+
 			default:
 				throw new ilException("ilObjStudyProgrammeGUI: Can't forward to next class $next_class");
 		}
@@ -576,13 +678,41 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			case 'settings':
 			case 'editAdvancedSettings':
 				$this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
+
+				if($this->object->isAutoContentApplicable()) {
+					$this->tabs_gui->addSubTab("auto_content", $this->lng->txt("content_automation"), $this->getLinkTarget("auto_content"));
+				}
+
+				$this->tabs_gui->addSubTab("settings_trans",$this->lng->txt("obj_multilinguality"),$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 				//$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 
-				$type = ilStudyProgrammeType::find($this->object->getSubtypeId());
-
-				if (!is_null($type) && count($type->getAssignedAdvancedMDRecords(true))) {
+				$sub_type_id = $this->object->getSubtypeId();
+				if($sub_type_id) {
+					$type = $this->type_repository->readType($sub_type_id);
+				}
+				if (
+					!is_null($type) &&
+					count(
+						$this->type_repository->readAssignedAMDRecordIdsByType(
+							$type->getId()
+							,true
+						)
+					) > 0
+				) {
 					$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('prg_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
 				}
+				if(ilCertificate::isActive())
+				{
+					$this->tabs_gui->addSubTabTarget(
+						"certificate",
+						$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
+						"", "ilcertificategui");
+				}
+				break;
+
+			case 'members':
+				$this->tabs_gui->addSubTab('edit_participants', $this->lng->txt('edit_participants'), $this->getLinkTarget('members'));
+				$this->tabs_gui->addSubTab('auto_memberships', $this->lng->txt('auto_memberships'), $this->getLinkTarget('memberships'));
 				break;
 		}
 
@@ -611,11 +741,18 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		if ($a_cmd == "settings") {
 			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammesettingsgui", "view");
 		}
+		if ($a_cmd == "auto_content") {
+			return $this->ctrl->getLinkTargetByClass("ilObjStudyProgrammeAutoCategoriesGUI", "view");
+		}
+
 		if($a_cmd == self::SUBTAB_VIEW_TREE) {
 			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammetreegui", "view");
 		}
 		if ($a_cmd == "members") {
 			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammemembersgui", "view");
+		}
+		if ($a_cmd == "memberships") {
+			return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammeautomembershipsgui", "view");
 		}
 		if($a_cmd == "subtypes") {
 			return $this->ctrl->getLinkTargetByClass("ilstudyprogrammetypegui", "listTypes");
@@ -630,20 +767,64 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 *
 	 * @param $a_info_screen
 	 */
-	protected function fillInfoScreen($a_info_screen) {
-		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		require_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		require_once('./Services/ADT/classes/class.ilADTFactory.php');
-
-		$type = ilStudyProgrammeType::find($this->object->getSubtypeId());
-		if (!$type) {
-			return;
+	protected function fillInfoScreen($a_info_screen)
+	{
+		if($this->object->getSubtypeId() &&
+			ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']
+				->readType($this->object->getSubtypeId())
+		) {
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+			$record_gui->setInfoObject($a_info_screen);
+			$record_gui->parse();
 		}
 
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
-		$record_gui->setInfoObject($a_info_screen);
-		$record_gui->parse();
+		if($this->object->getDeadlinePeriod() !== 0) {
+			$this->addDeadlinePeriodInformation($a_info_screen, $this->object->getDeadlinePeriod());
+		}
+		if($this->object->getDeadlineDate() !== null) {
+			$this->addDeadlineDateInformation($a_info_screen, $this->object->getDeadlineDate());
+		}
+		if($this->object->getValidityOfQualificationPeriod() !== ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD) {
+			$this->addValidityOfQualificationPeriodInformation($a_info_screen, $this->object->getValidityOfQualificationPeriod());
+		}
+		if($this->object->getValidityOfQualificationDate() !== null) {
+			$this->addValidityOfQualificationDateInformation($a_info_screen, $this->object->getValidityOfQualificationDate());
+		}
+
+		if($this->object->getRestartPeriod() !== ilStudyProgrammeSettings::NO_RESTART) {
+			$this->addRestartInformation($a_info_screen,$this->object->getRestartPeriod());
+		}
+	}
+
+	protected function addDeadlinePeriodInformation($a_info_screen,$period)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('deadline_information'),$this->lng->txt('dealine_period_info'),sprintf($this->lng->txt('prg_formatted_period'),$period));
+	}
+
+	protected function addDeadlineDateInformation($a_info_screen,$date)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('deadline_information'),$this->lng->txt('dealine_date_info'),$date->format('d.m.Y'));
+	}
+
+	protected function addValidityOfQualificationPeriodInformation($a_info_screen,$period)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('vq_information'),$this->lng->txt('vq_period_info'),sprintf($this->lng->txt('prg_formatted_period'),$period));
+	}
+
+	protected function addValidityOfQualificationDateInformation($a_info_screen,$date)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('vq_information'),$this->lng->txt('vq_date_info'),$date->format('d.m.Y'));
+	}
+
+	protected function addRestartInformation($a_info_screen,$period)
+	{
+		$this->addInformation($a_info_screen,$this->lng->txt('restart_information'),$this->lng->txt('restart_period_info'),sprintf($this->lng->txt('prg_formatted_period'),$period));
+	}
+
+	protected function addInformation($a_info_screen,$section,$key,$value)
+	{
+		$a_info_screen->addSection($section);
+		$a_info_screen->addProperty($key,$value);
 	}
 
 	protected function edit(){
@@ -652,9 +833,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->getSubTabs('settings');
 		$this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 		$this->tabs_gui->setSubTabActive('settings');
-
-		require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
-		$gui = new ilObjStudyProgrammeSettingsGUI($this, $this->ref_id);
+		$gui = $this->settings_gui;
+		$gui->setParentGUI($this);
+		$gui->setRefId($this->ref_id);
 		$this->ctrl->setCmd("view");
 		$this->ctrl->forwardCommand($gui);
 	}
@@ -689,6 +870,49 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			$ilNavigationHistory->addItem($_GET['ref_id'],
 				$link, 'prg');
 		}
+	}
+
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+	{
+
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+		$validator = new ilCertificateDownloadValidator();
+		if (true === $validator->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
+			$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
+			$this->lng->loadLanguageModule("certificate");
+			$lg->addCustomCommand($cert_url, "download_certificate");
+			$lg->addHeaderIcon("cert_icon",
+				ilUtil::getImagePath("icon_cert.svg"),
+				$this->lng->txt("download_certificate"),
+				null,
+				null,
+				$cert_url);
+		}
+		return $lg;
+	}
+
+
+	protected function deliverCertificateObject()
+	{
+		global $DIC;
+
+		$user_id = (int)$this->user->getId();
+		$obj_id = (int)$this->object->getId();
+
+		$validator = new ilCertificateDownloadValidator();
+		if (false === $validator->isCertificateDownloadable($user_id, $obj_id)) {
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this);
+		}
+		$repository = new ilUserCertificateRepository();
+		$cert_logger = $DIC->logger()->cert();
+		$pdf_action = new ilCertificatePdfAction(
+			$cert_logger,
+			new ilPdfGenerator($repository, $cert_logger),
+			new ilCertificateUtilHelper(),
+			$this->lng->txt('error_creating_certificate_pdf')
+		);
+		$pdf_action->downloadPdf($user_id, $obj_id);
 	}
 }
 

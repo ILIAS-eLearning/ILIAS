@@ -21,34 +21,15 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	public $tpl;
 
 	/**
-	 * @var ilAccessHandler
-	 */
-	protected $ilAccess;
-
-	/**
 	 * @var ilObjStudyProgramme
 	 */
 	public $object;
-
-	/**
-	 * @var ilLog
-	 */
-	protected $ilLog;
-
-	/**
-	 * @var Ilias
-	 */
-	public $ilias;
 
 	/**
 	 * @var ilLng
 	 */
 	public $lng;
 
-	/**
-	 * @var ilToolbarGUI
-	 */
-	public $toolbar;
 
 	/**
 	 * @var ilObjUser
@@ -62,39 +43,39 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 */
 	protected $sp_user_progress_db;
 
-	public function __construct($a_parent_gui, $a_ref_id, ilStudyProgrammeUserProgressDB $sp_user_progress_db) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
-
-		$this->ref_id = $a_ref_id;
-		$this->parent_gui = $a_parent_gui;
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilLanguage $lng,
+		\ilObjUser $ilUser,
+		ilStudyProgrammeUserProgressDB $sp_user_progress_db,
+		ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
+	) {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->ilAccess = $ilAccess;
-		$this->ilLocator = $ilLocator;
-		$this->tree = $tree;
-		$this->toolbar = $ilToolbar;
-		$this->ilLog = $ilLog;
-		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->user = $ilUser;
+
 		$this->assignment_object = null;
+
 		$this->sp_user_progress_db = $sp_user_progress_db;
+		$this->sp_user_assignment_db = $sp_user_assignment_db;
 
 		$this->object = null;
 
 		$lng->loadLanguageModule("prg");
 
 		$this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
+	}
+
+	public function setParentGUI($a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
+	}
+
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
 	}
 
 	public function executeCommand() {
@@ -120,7 +101,6 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	}
 
 	protected function getAssignmentId() {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
 		if (!is_numeric($_GET["ass_id"])) {
 			throw new ilException("Expected integer 'ass_id'");
 		}
@@ -130,14 +110,23 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	protected function getAssignmentObject() {
 		if ($this->assignment_object === null) {
 			$id = $this->getAssignmentId();
-			$this->assignment_object = ilStudyProgrammeUserAssignment::getInstance($id);
+			$this->assignment_object = $this->sp_user_assignment_db->getInstanceById((int)$id);
 		}
 		return $this->assignment_object;
 	}
 
 	protected function view() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php");
-		$gui = new ilStudyProgrammeIndividualPlanProgressListGUI($this->getAssignmentObject()->getRootProgress());
+		$progress = $this->getAssignmentObject()->getRootProgress();
+		if(
+			$this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
+			&& !in_array($progress->getUserId(), $this->parent_gui->viewIndividualPlan())
+		) {
+			throw new ilStudyProgrammePositionBasedAccessViolationException(
+				"may not access individua plan of user"
+			);
+		}
+		$gui = new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
 		$gui->setOnlyRelevant(true);
 		// Wrap a frame around the original gui element to correct rendering.
 		$tpl = new ilTemplate("tpl.individual_plan_tree_frame.html", false, false, "Modules/StudyProgramme");
@@ -145,9 +134,18 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		return $this->buildFrame("view", $tpl->get());
 	}
 
+
 	protected function manage() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php");
 		$ass = $this->getAssignmentObject();
+		if(
+			$this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
+			&& !in_array($ass->getUserId(), $this->parent_gui->editIndividualPlan())
+		) {
+			throw new ilStudyProgrammePositionBasedAccessViolationException(
+				"may not access individua plan of user"
+			);
+		}
 		$this->ctrl->setParameter($this, "ass_id", $ass->getId());
 		$this->ctrl->setParameter($this, "cmd", "manage");
 		$table = new ilStudyProgrammeIndividualPlanTableGUI($this, $ass, $this->sp_user_progress_db);
@@ -158,6 +156,14 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 
 	protected function updateFromCurrentPlan() {
 		$ass = $this->getAssignmentObject();
+		if(
+			$this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
+			&& !in_array($ass->getUserId(), $this->parent_gui->editIndividualPlan())
+		) {
+			throw new ilStudyProgrammePositionBasedAccessViolationException(
+				"may not access individua plan of user"
+			);
+		}
 		$ass->updateFromProgram();
 		$this->ctrl->setParameter($this, "ass_id", $ass->getId());
 		$this->showSuccessMessage("update_from_plan_successful");
@@ -184,7 +190,12 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		foreach ($status_updates as $prgrs_id => $status) {
 			$prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
 			$cur_status = $prgrs->getStatus();
-
+			if(
+				$this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
+				&& !in_array($prgrs->getUserId(), $this->parent_gui->editIndividualPlan())
+			) {
+				continue;
+			}
 			if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
 				$prgrs->unmarkAccredited($this->user->getId());
 				$changed = true;
@@ -211,11 +222,11 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 			if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
 				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
 
-				if($deadline !== null && $deadline->get(IL_CAL_DATE) < date("Y-m-d")) {
+				if($deadline !== null && $deadline->format('Y-m-d') < date("Y-m-d")) {
 					$prgrs->markFailed($this->user->getId());
 				}
 			} else if($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
-				if($deadline === null || $deadline->get(IL_CAL_DATE) > date("Y-m-d")) {
+				if($deadline === null || $deadline->format('Y-m-d') > date("Y-m-d")) {
 					$prgrs->markNotFailed($this->user->getId());
 				}
 			}
@@ -228,7 +239,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 *
 	 * @param ilStudyProgrammeUserProgress 	$prgrs
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
 	protected function updateDeadline(ilStudyProgrammeUserProgress $prgrs) {
 		$deadline = $this->getDeadlineFromForm($prgrs->getId());
@@ -266,7 +277,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	 *
 	 * @param int 	$prgrs_id
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
 	protected function getDeadlineFromForm($prgrs_id) {
 		$post_var = $this->getDeadlinePostVarTitle();
@@ -280,8 +291,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		if($deadline == "") {
 			return null;
 		}
-
-		return new ilDateTime($deadline, IL_CAL_DATE);
+		return DateTime::createFromFormat('d.m.Y',$deadline);
 	}
 
 	/**
@@ -325,9 +335,18 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	protected function buildFrame($tab, $content) {
 		$tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/StudyProgramme");
 		$ass = $this->getAssignmentObject();
-
-		$tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($ass->getUserId()));
-		foreach (array("view", "manage") as $_tab) {
+		$user_id = $ass->getUserId();
+		$tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));
+		$tabs = [];
+		if($this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
+			if(in_array($user_id, $this->parent_gui->viewIndividualPlan())) {
+				$tabs[] = 'view';
+			}
+			if(in_array($user_id, $this->parent_gui->editIndividualPlan())) {
+				$tabs[] = 'manage';
+			}
+		}
+		foreach ($tabs as $_tab) {
 			$tpl->setCurrentBlock("sub_tab");
 			$tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");
 			$tpl->setVariable("LINK", $this->getLinkTargetForSubTab($_tab, $ass->getId()));
@@ -383,11 +402,11 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		return self::MANUAL_STATUS_ACCREDITED;
 	}
 
-	static public function getLinkTargetView($ctrl, $a_ass_id) {
+	public function getLinkTargetView($a_ass_id) {
 		$cl = "ilObjStudyProgrammeIndividualPlanGUI";
-		$ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
-		$link = $ctrl->getLinkTargetByClass($cl, "view");
-		$ctrl->setParameterByClass($cl, "ass_id", null);
+		$this->ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
+		$link = $this->ctrl->getLinkTargetByClass($cl, "view");
+		$this->ctrl->setParameterByClass($cl, "ass_id", null);
 		return $link;
 	}
 }

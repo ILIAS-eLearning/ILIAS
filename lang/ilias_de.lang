@@ -4400,6 +4400,8 @@ common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
 common#:#obj_prgs#:#Studienprogramme
 common#:#obj_prgs_desc#:#Studienprogramm Administration
+common#:#obj_prgr#:#Link zum Studienprogramm
+common#:#obj_prgrs#:#Links zu Studienprogrammen
 common#:#obj_prtf#:#Portfolio
 common#:#obj_prtt#:#Portfoliovorlage
 common#:#obj_prtt_duplicate#:#Portfoliovorlage kopieren
@@ -10858,6 +10860,9 @@ orgu#:#org_op_manage_participants#:#Teilnehmer verwalten
 orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
 orgu#:#org_op_score_participants#:#Teilnehmer bewerten
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen
+orgu#:#org_op_view_members#:#Mitgliedschaften sichtbar
+orgu#:#org_op_view_individual_plan#:#Individuellen Plan einsehen
+orgu#:#org_op_edit_individual_plan#:#Individuellen Plan bearbeiten
 orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
 orgu#:#orgu_add#:#Organisationseinheit hinzufügen
 orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
@@ -11117,6 +11122,7 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_custom_plan#:#Individueller Plan
 prg#:#prg_deadline#:#Stichtag
+prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_deleted_safely#:#Knoten wurde sicher entfernt.
 prg#:#prg_edit#:#Studienprogramm bearbeiten
 prg#:#prg_manage#:#Verwalten
@@ -11134,6 +11140,9 @@ prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_multi_unmark_relevant#:#Als irrelevant markieren
 prg#:#prg_multi_update_from_current_plan#:#Aus dem aktuellen Plan aktualisieren
 prg#:#prg_new#:#Neues Studienprogramm
+prg#:#prgr_new#:#Neuer Link zum Studienprogramm
+prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
 prg#:#prg_no_members_not_active#:#Da das Studienprogramm nicht aktiv ist, können keine neuen Mitglieder hinzugefügt werden.
 prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_not_allowed_node_to_delete#:#Sie dürfen dieses Studienprogramm nicht löschen.
@@ -11193,6 +11202,55 @@ prg#:#prg_update_from_plan_successful#:#Die Aktualisierung aus dem aktuellen Pla
 prg#:#prg_update_successful#:#Änderungen erfolgreich gespeichert!
 prg#:#prg_view#:#Anzeigen
 prg#:#warning#:#Warnung!
+prg#:#assignment_date#:#Beitrittsdatum
+prg#:#completion_date#:#Abschlussdatum
+prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
+prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
+prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
+prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
+prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
+prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
+prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
+prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
+prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
+prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
+prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
+prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
+prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
+prg#:#sp_certificate_title#:#Titel des Programms
+prg#:#sp_certificate_description#:#Beschreibung des Programms
+prg#:#sp_certificate_type#:#Typ des Programms
+prg#:#sp_certificate_points#:#Anzahl erworbener Punkte
+prg#:#sp_certificate_completion_date#:#Abschlußdatum
+prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
+prg#:#prg_completion_date#:#Abschlußdatum
+prg#:#prg_expiry_date#:#Ablauf Qualifikation
+prg#:#prg_validity#:#Gültigkeit Qualifikation
+prg#:#prg_still_valid#:#Qualifikation gültig
+prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
+prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qulifikationen im Studienprogramm
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
+prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
+prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
+prg#:#no_manual_status#:#Kein manueller Status
+prg#:#prg_formatted_period#:#%d Tage
+prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
+prg#:#dealine_period_info#:#Bearbeitungszeitraum
+prg#:#dealine_date_info#:#Bearbeitungszeitraum bis zu einem festen Stichtag
+prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
+prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig
+prg#:#vq_date_info#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
+prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
+prg#:#some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
+prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
+prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
+prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
 prtf#:#pdf_export#:#PDF Export
 prtf#:#prtf_add_blog#:#Blog hinzufügen
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
@@ -15046,3 +15104,24 @@ grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###25 04 2019
 certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
+prg#:#prg_orgus#:#Organisationseinheit(en)
+prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
+prg#:#content_automation#:#Inhaltsautomatisierung
+prg#:#last_edited_by#:#Zuletzt bearbeitet von
+prg#:#last_edited#:#Zuletzt bearbeitet
+prg#:#add_category#:#Kategorie hinzufügen
+prg#:#modal_categories_title#:#Zu überwachende Kategorie
+prg#:#category#:#Kategorie (RefId)
+prg#:#edit_participants#:#Mitglieder bearbeiten
+prg#:#auto_memberships#:#Automatische Zuweisung
+prg#:#orgu#:#Organisationseinheit
+prg#:#rol#:#Rolle
+prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
+prg#:#add_automembership_source#:#Automatismus hinzufügen
+prg#:#auto_membership_src_type#:#Typ
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
+prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Quelle
+prg#:#prg_autoassingment#:#(automatisch)

@@ -37,10 +37,6 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @var ilObjStudyProgramme
 	 */
 	public $object;
-	/**
-	 * @var ilLocatorGUI
-	 */
-	protected $locator;
 
 	/**
 	 * @var ilLog
@@ -84,38 +80,38 @@ class ilObjStudyProgrammeTreeGUI {
 	 */
 	public $toolbar;
 
-	public function __construct($a_ref_id) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilSetting = $DIC['ilSetting'];
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilAccess $ilAccess,
+		\ilToolbarGUI $ilToolbar,
+		\ilLanguage $lng,
+		\ilComponentLogger $ilLog,
+		\ILIAS $ilias,
+		\ilSetting $ilSetting
+	) {
 
-		$this->ref_id = $a_ref_id;
+
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->access = $ilAccess;
-		$this->locator = $ilLocator;
-		$this->tree = $tree;
 		$this->toolbar = $ilToolbar;
 		$this->log = $ilLog;
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->ilSetting = $ilSetting;
+
 		$this->modal_id = "tree_modal";
 		$this->async_output_handler = new ilAsyncOutputHandler();
-
-		$this->initTree();
 
 		$lng->loadLanguageModule("prg");
 	}
 
+
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
 
 	/**
 	 * Initialize Tree
@@ -138,6 +134,7 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	public function executeCommand() {
+		$this->initTree();
 		$cmd = $this->ctrl->getCmd();
 
 		$this->getToolbar();
@@ -207,13 +204,14 @@ class ilObjStudyProgrammeTreeGUI {
 	 */
 	protected function saveTreeOrder() {
 		$this->checkAccessOrFail('write');
-		
+
 		if(!isset($_POST['tree']) || is_null(json_decode(stripslashes($_POST['tree'])))) {
 			throw new ilStudyProgrammeTreeException("There is no tree data to save!");
 		}
 
 		// saves order recursive
-		$this->storeTreeOrder(json_decode(stripslashes($_POST['tree'])));
+		$data = json_decode(stripslashes($_POST['tree']));
+		$this->storeTreeOrder($data);
 
 		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_saved_order_successful')));
 	}
@@ -222,21 +220,21 @@ class ilObjStudyProgrammeTreeGUI {
 	/**
 	 * Recursive function for saving the tree order
 	 *
-	 * @param [ilObjStudyProgramme]      $nodes
+	 * @param string[]						$nodes_ref_ids
 	 * @param ilContainerSorting|null       $container_sorting
 	 * @param int|null                      $parent_ref_id
 	 */
-	protected function storeTreeOrder($nodes, $container_sorting = null, $parent_ref_id = null) {
+	protected function storeTreeOrder(array $nodes_ref_ids, $container_sorting = null, int $parent_ref_id = null)
+	{
 		$sorting_position = array();
 		$position_count = 10;
 
 		$parent_node = ($parent_ref_id === null)? ilObjectFactoryWrapper::singleton()->getInstanceByRefId($this->ref_id) : ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_ref_id);
 		$container_sorting = ($container_sorting === null) ? ilContainerSorting::_getInstance(ilObject::_lookupObjectId($this->ref_id)) : $container_sorting;
 
-		foreach($nodes as $node) {
+		foreach($nodes_ref_ids as $node_ref) {
 			// get ref_id from json
-			$id = $node->attr->id;
-			$id = substr($id, strrpos($id, "_")+1);
+			$id = substr($node_ref, strrpos($node_ref, "_")+1);
 
 			$sorting_position[$id] = $position_count;
 			$position_count+= 10;
@@ -398,9 +396,6 @@ class ilObjStudyProgrammeTreeGUI {
 	 * @throws ilException
 	 */
 	protected function delete() {
-		global $DIC;
-		$ilSetting = $DIC['ilSetting'];
-
 		$this->checkAccessOrFail("delete");
 
 		if(!isset($_GET['ref_id'], $_GET['item_ref_id'])) {
@@ -413,7 +408,7 @@ class ilObjStudyProgrammeTreeGUI {
 
 		$msg = $this->lng->txt("info_delete_sure");
 
-		if (!$ilSetting->get('enable_trash'))
+		if (!$this->ilSetting->get('enable_trash'))
 		{
 			$msg .= "<br/>".$this->lng->txt("info_delete_warning_no_trash");
 		}

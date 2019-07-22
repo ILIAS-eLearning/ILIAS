@@ -8,6 +8,8 @@
  *  * Remove all assignments of a user on all study programms when the
  *    user is removed.
  *
+ *  * Add/Remove courses to/trom study programms, if upper category is under surveillance
+ *
  * @author  Richard Klees <richard.klees@concepts-and-training.de>
  *
  */
@@ -19,7 +21,7 @@ class ilStudyProgrammeAppEventListener {
 		switch ($a_component) {
 			case "Services/User":
 				switch ($a_event){
-					case "deleteUser": 
+					case "deleteUser":
 						self::onServiceUserDeleteUser($a_parameter);
 						break;
 				}
@@ -49,6 +51,73 @@ class ilStudyProgrammeAppEventListener {
 						break;
 				}
 				break;
+
+			case "Modules/Course":
+				switch ($a_event) {
+					case "addParticipant":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+							$a_parameter
+						);
+						break;
+					case "deleteParticipant":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+			case "Modules/Group":
+				switch ($a_event) {
+					case "addParticipant":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_GROUP,
+							$a_parameter
+						);
+						break;
+					case "deleteParticipant":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_GROUP,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+			case "Services/AccessControl":
+				switch ($a_event) {
+					case "assignUser":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ROLE ,
+							$a_parameter
+						);
+						break;
+					case "deassignUser":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ROLE,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+			case "Modules/OrgUnit":
+				switch ($a_event) {
+					case "assignUserToPosition":
+						self::addMemberToProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
+							$a_parameter
+						);
+						break;
+					case "deassignUserFromPosition":
+					//case "delete":
+						self::removeMemberFromProgrammes(
+							ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
+							$a_parameter
+						);
+						break;
+				}
+				break;
+
 			default:
 				throw new ilException("ilStudyProgrammeAppEventListener::handleEvent: "
 									 ."Won't handle events of '$a_component'.");
@@ -56,8 +125,7 @@ class ilStudyProgrammeAppEventListener {
 	}
 
 	private static function onServiceUserDeleteUser($a_parameter) {
-		require_once("./Modules/StudyProgramme/classes/class.ilStudyProgrammeUserAssignment.php");
-		$assignments = ilStudyProgrammeUserAssignment::getInstancesOfUser($a_parameter["usr_id"]);
+		$assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']->getInstancesOfUser((int)$a_parameter["usr_id"]);
 		foreach ($assignments as $ass) {
 			$ass->deassign();
 		}
@@ -83,8 +151,11 @@ class ilStudyProgrammeAppEventListener {
 		if ($node_type == "crsr" && $parent_type == "prg") {
 			self::adjustProgrammeLPMode($parent_ref_id);
 		}
-		if ($node_type == "prg" && $parent_type == "prg") {
+		if (in_array($node_type , ["prg", "prgr"]) && $parent_type == "prg") {
 			self::addMissingProgresses($parent_ref_id);
+		}
+		if ($node_type == "crs" && $parent_type == "cat") {
+			self::addCrsToProgrammes($node_ref_id, $parent_ref_id);
 		}
 	}
 
@@ -96,9 +167,22 @@ class ilStudyProgrammeAppEventListener {
 		$node_type = ilObject::_lookupType($node_ref_id, true);
 		$new_parent_type = ilObject::_lookupType($new_parent_ref_id, true);
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
-		
-		if ($node_type != "crsr" || ($new_parent_type != "prg" && $old_parent_type != "prg")) {
+
+		if (! in_array($node_type, ["crsr","crs"])
+			|| (
+				($new_parent_type != "prg" && $old_parent_type != "prg")
+				&&
+				$old_parent_type != "cat"
+			)
+		) {
 			return;
+		}
+
+		if ($node_type === 'crs') {
+			self::removeCrsFromProgrammes($node_ref_id, $old_parent_ref_id);
+			if($new_parent_type === 'cat') {
+				self::addCrsToProgrammes($node_ref_id, $new_parent_ref_id);
+			}
 		}
 
 		if ($new_parent_type == "prg") {
@@ -112,11 +196,11 @@ class ilStudyProgrammeAppEventListener {
 	private static function onServiceObjectDeleteOrToTrash($a_parameter) {
 		$node_ref_id = $a_parameter["ref_id"];
 		$old_parent_ref_id = $a_parameter["old_parent_ref_id"];
-		
+
 		$node_type = $a_parameter["type"];
 		$old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
 
-		if ($old_parent_type != "prg") {
+		if ($old_parent_type !== "prg") {
 			return;
 		}
 
@@ -137,4 +221,37 @@ class ilStudyProgrammeAppEventListener {
 		$obj = self::getStudyProgramme($a_ref_id);
 		$obj->addMissingProgresses();
 	}
+
+	private static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		ilObjStudyProgramme::addCrsToProgrammes($crs_ref_id, $cat_ref_id);
+	}
+
+	private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id)
+	{
+		ilObjStudyProgramme::removeCrsFromProgrammes($crs_ref_id, $cat_ref_id);
+	}
+
+	private static function addMemberToProgrammes(string $src_type, array $params)
+	{
+		$usr_id = $params['usr_id'];
+		$obj_id = $params['obj_id'];
+		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
+			$obj_id = $params['role_id'];
+		}
+
+		ilObjStudyProgramme::addMemberToProgrammes($src_type, $obj_id, $usr_id);
+	}
+
+	private static function removeMemberFromProgrammes(string $src_type, array $params)
+	{
+		$usr_id = $params['usr_id'];
+		$obj_id = $params['obj_id'];
+		if($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
+			$obj_id = $params['role_id'];
+		}
+
+		ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $obj_id, $usr_id);
+	}
+
 }

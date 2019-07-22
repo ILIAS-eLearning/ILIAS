@@ -147,6 +147,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		);
 	}
 
+	protected function isCompletedStudyProgramme() : bool
+	{
+		return (
+			'Modules/StudyProgramme' === $this->component &&
+			'userSuccessful' === $this->event
+		);
+	}
+
 	/**
 	 *
 	 */
@@ -159,6 +167,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
 				$this->handleNewMigratedUserCertificate();
 			} elseif ($this->isUserDeletedEvent()) {
 				$this->handleDeletedUser();
+			} elseif ($this->isCompletedStudyProgramme()) {
+				$this->handleCompletedStudyProgramme();
 			}
 		} catch (\ilException $e) {
 			$this->logger->error($e->getMessage());
@@ -399,5 +409,34 @@ class ilCertificateAppEventListener implements ilAppEventListener
 		}
 
 		$this->certificateQueueRepository->addToQueue($entry);
+	}
+
+	private function handleCompletedStudyProgramme()
+	{
+		$settings = new ilSetting('certificate');
+		$objectId = $this->parameters['prg_id'] ?? 0;
+		$userId = $this->parameters['usr_id'] ?? 0;
+		try {
+			$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
+			if (true === $template->isCurrentlyActive()) {
+				$entry = new \ilCertificateQueueEntry(
+					$objectId,
+					$userId,
+					ilStudyProgrammePlaceholderValues::class,
+					\ilCronConstants::IN_PROGRESS,
+					$template->getId(),
+					time()
+				);
+				$mode = $settings->get('persistent_certificate_mode', '');
+				if ($mode === 'persistent_certificate_mode_instant') {
+					$cronjob = new ilCertificateCron();
+					$cronjob->init();
+					return $cronjob->processEntry(0, $entry, array());
+				}
+				$this->certificateQueueRepository->addToQueue($entry);
+			}
+		} catch (ilException $exception) {
+			$this->logger->warning($exception->getMessage());
+		}
 	}
 }

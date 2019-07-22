@@ -1681,7 +1681,7 @@ class ilTree
 		}
 
 		// TODO: Handle this switch by module.xml definitions
-		if($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr')
+		if($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr')
 		{
 			include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 			$data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);

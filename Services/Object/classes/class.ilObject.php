@@ -2296,7 +2296,7 @@ class ilObject
 
 		$ilDB = $DIC->database();
 		
-		if(!in_array($a_type, array("catr", "crsr", "sess", "grpr")))
+		if(!in_array($a_type, array("catr", "crsr", "sess", "grpr", "prgr")))
 		{
 			return;
 		}
@@ -2320,7 +2320,8 @@ class ilObject
 		{
 			case "grpr":
 			case "catr":
-			case "crsr":				
+			case "crsr":
+			case "prgr":
 				$set = $ilDB->query("SELECT oref.obj_id, od.type, od.title FROM object_data od".
 					" JOIN container_reference oref ON (od.obj_id = oref.target_obj_id)".
 					" AND ".$ilDB->in("oref.obj_id", $missing_obj_ids, "", "integer"));

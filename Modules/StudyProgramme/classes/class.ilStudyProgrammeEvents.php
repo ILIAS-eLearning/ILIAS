@@ -8,42 +8,42 @@
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilStudyProgrammeEvents {
-	static protected $component = "Modules/StudyProgramme";
-	static public $app_event_handler = null;
-	
-	static protected function initAppEventHandler() {
-		if (self::$app_event_handler === null) {
-			global $DIC;
-			$ilAppEventHandler = $DIC['ilAppEventHandler'];
-			self::$app_event_handler = $ilAppEventHandler;
-		}
+
+	public function __construct(
+		\ilAppEventHandler $app_event_handler,
+		\ilStudyProgrammeAssignmentRepository $assignemnt_repo
+	) {
+		$this->app_event_handler = $app_event_handler;
+		$this->assignemnt_repo = $assignemnt_repo;
+	}
+
+	const COMPONENT = "Modules/StudyProgramme";
+	public $app_event_handler;
+
+	public function raise($a_event, $a_parameter) {
+		$this->app_event_handler->raise(self::COMPONENT, $a_event, $a_parameter);
 	}
 	
-	static protected function raise($a_event, $a_parameter) {
-		self::initAppEventHandler();
-		self::$app_event_handler->raise(self::$component, $a_event, $a_parameter);
-	}
-	
-	static public function userAssigned(ilStudyProgrammeUserAssignment $a_assignment) {
-		self::raise("userAssigned", array
+	public function userAssigned(ilStudyProgrammeUserAssignment $a_assignment) {
+		$this->raise("userAssigned", array
 			( "root_prg_id"		=> $a_assignment->getStudyProgramme()->getId()
 			, "usr_id"			=> $a_assignment->getUserId()
 			, "ass_id"			=> $a_assignment->getId()
 			));
 	}
 	
-	static public function userDeassigned(ilStudyProgrammeUserAssignment $a_assignment) {
-		self::raise("userDeassigned", array
+	public function userDeassigned(ilStudyProgrammeUserAssignment $a_assignment) {
+		$this->raise("userDeassigned", array
 			( "root_prg_id"		=> $a_assignment->getStudyProgramme()->getId()
 			, "usr_id"			=> $a_assignment->getUserId()
 			, "ass_id"			=> $a_assignment->getId()
 			));
 	}
 	
-	static public function userSuccessful(ilStudyProgrammeUserProgress $a_progress) {
-		$ass = $a_progress->getAssignment();
-		self::raise("userSuccessful", array
-			( "root_prg_id"		=> $ass->getStudyProgramme()->getId()
+	public function userSuccessful(ilStudyProgrammeUserProgress $a_progress) {
+		$ass = $this->assignemnt_repo->read($a_progress->getAssignmentId());
+		$this->raise("userSuccessful", array
+			( "root_prg_id"		=> $ass->getRootId()
 			, "prg_id"			=> $a_progress->getStudyProgramme()->getId()
 			, "usr_id"			=> $ass->getUserId()
 			, "ass_id"			=> $ass->getId()

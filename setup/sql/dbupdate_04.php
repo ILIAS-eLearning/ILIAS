@@ -25150,8 +25150,8 @@ if(!in_array("primary", $const)) {
 $const = $manager->listTableConstraints("il_mm_actions");
 if(!in_array("primary", $const)) {
 	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
-}	
-	
+}
+
 ?>
 <#5424>
 <?php
@@ -25220,7 +25220,7 @@ if ($media_cont_mig == 0)
 	   restore old values anymore and skip this step.
 	   If you would like to skip this step you need to modify the file setup/sql/dbupdate_04.php
 	   Search for 'RUN_CONTENT_STYLE_MIGRATION' (around line 25205) and follow the instructions.
-	
+
 	=> To proceed the update process you now need to refresh the page (F5)
 
 	Mantis Bug Report: https://ilias.de/mantis/view.php?id=23299

@@ -39,10 +39,6 @@ class ilStudyProgrammeTypeGUI {
 	 */
 	protected $locator;
 	/**
-	 * @var ilLog
-	 */
-	protected $log;
-	/**
 	 * @var ILIAS
 	 */
 	protected $ilias;
@@ -59,39 +55,40 @@ class ilStudyProgrammeTypeGUI {
 	/**
 	 * @param ilObjStudyProgrammeGUI $parent_gui
 	 */
-	public function __construct($parent_gui) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-		$ilToolbar = $DIC['ilToolbar'];
-		$ilLocator = $DIC['ilLocator'];
-		$tree = $DIC['tree'];
-		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
-		$ilias = $DIC['ilias'];
-		$ilTabs = $DIC['ilTabs'];
-
+	public function __construct(
+		\ilTemplate $tpl,
+		\ilCtrl $ilCtrl,
+		\ilAccess $ilAccess,
+		\ilToolbarGUI $ilToolbar,
+		\ilLanguage $lng,
+		\ILIAS $ilias,
+		\ilTabsGUI $ilTabs,
+		ilStudyProgrammeTypeRepository $type_repository
+	)
+	{
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->access = $ilAccess;
-		$this->locator = $ilLocator;
 		$this->toolbar = $ilToolbar;
 		$this->tabs = $ilTabs;
-		$this->log = $ilLog;
 		$this->lng = $lng;
 		$this->ilias = $ilias;
-		$this->parent_gui = $parent_gui;
 		$this->lng->loadLanguageModule('prg');
 		$this->ctrl->saveParameter($this, 'type_id');
 		$this->lng->loadLanguageModule('meta');
+		$this->type_repository = $type_repository;
+	}
+
+
+	public function setParentGUI($a_parent_gui)
+	{
+		$this->parent_gui = $a_parent_gui;
 	}
 
 
 	public function executeCommand() {
 		$this->checkAccess();
 		$cmd = $this->ctrl->getCmd();
-
 		switch ($cmd) {
 			case '':
 			case 'view':
@@ -157,7 +154,7 @@ class ilStudyProgrammeTypeGUI {
 		if ($this->ilias->getSetting('custom_icons')) {
 			$this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'), $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
 		}
-		if (count(ilStudyProgrammeType::getAvailableAdvancedMDRecordIds())) {
+		if (count($this->type_repository->readAllAMDRecordIds()) > 0) {
 			$this->tabs->addSubTab('amd', $this->lng->txt('md_advanced'), $this->ctrl->getLinkTarget($this, 'editAMD'));
 		}
 		$this->tabs->setSubTabActive($active_tab_id);
@@ -168,7 +165,11 @@ class ilStudyProgrammeTypeGUI {
 	 * Display form for editing custom icons
 	 */
 	protected function editCustomIcons() {
-		$form = new ilStudyProgrammeTypeCustomIconsFormGUI($this, new ilStudyProgrammeType((int)$_GET['type_id']));
+		$form = new ilStudyProgrammeTypeCustomIconsFormGUI(
+			$this,
+			$this->type_repository
+		);
+		$form->fillObject($type_repository->readType((int)$_GET['type_id']));
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -177,8 +178,11 @@ class ilStudyProgrammeTypeGUI {
 	 * Save icon
 	 */
 	protected function updateCustomIcons() {
-		$form = new ilStudyProgrammeTypeCustomIconsFormGUI($this, new ilStudyProgrammeType((int)$_GET['type_id']));
-		if ($form->saveObject()) {
+		$form = new ilStudyProgrammeTypeCustomIconsFormGUI(
+			$this,
+			$this->type_repository
+		);
+		if ($form->saveObject($this->type_repository->readType((int)$_GET['type_id']))) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->ctrl->redirect($this);
 		} else {
@@ -188,14 +192,21 @@ class ilStudyProgrammeTypeGUI {
 
 
 	protected function editAMD() {
-		$form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI($this, ilStudyProgrammeType::find((int)$_GET['type_id']));
+		$form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI(
+			$this,
+			$this->type_repository
+		);
+		$form->fillForm($this->type_repository->readType((int)$_GET['type_id']));
 		$this->tpl->setContent($form->getHTML());
 	}
 
 
 	protected function updateAMD() {
-		$form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI($this, ilStudyProgrammeType::find((int)$_GET['type_id']));
-		if ($form->saveObject()) {
+		$form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI(
+			$this,
+			$this->type_repository
+		);
+		if ($form->saveObject($this->type_repository->readType((int)$_GET['type_id']))) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->ctrl->redirect($this);
 		} else {
@@ -214,7 +225,12 @@ class ilStudyProgrammeTypeGUI {
 			$button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
 			$this->toolbar->addButtonInstance($button);
 		}
-		$table = new ilStudyProgrammeTypeTableGUI($this, 'listTypes', $this->parent_gui->object->getRefId());
+		$table = new ilStudyProgrammeTypeTableGUI(
+			$this,
+			'listTypes',
+			$this->parent_gui->object->getRefId(),
+			$this->type_repository
+		);
 		$this->tpl->setContent($table->getHTML());
 	}
 
@@ -223,7 +239,8 @@ class ilStudyProgrammeTypeGUI {
 	 * Display form to create a new StudyProgramme type
 	 */
 	protected function add() {
-		$form = new ilStudyProgrammeTypeFormGUI($this, new ilStudyProgrammeType());
+		$form = new ilStudyProgrammeTypeFormGUI($this, $this->type_repository);
+		$form->fillFormCreate();
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -232,8 +249,9 @@ class ilStudyProgrammeTypeGUI {
 	 * Display form to edit an existing StudyProgramme type
 	 */
 	protected function edit() {
-		$type = new ilStudyProgrammeType((int)$_GET['type_id']);
-		$form = new ilStudyProgrammeTypeFormGUI($this, $type);
+		$type = $this->type_repository->readType((int)$_GET['type_id']);
+		$form = new ilStudyProgrammeTypeFormGUI($this, $this->type_repository);
+		$form->fillFormUpdate($type);
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -242,8 +260,12 @@ class ilStudyProgrammeTypeGUI {
 	 * Create (save) type
 	 */
 	protected function create() {
-		$form = new ilStudyProgrammeTypeFormGUI($this, new ilStudyProgrammeType());
-		if ($form->saveObject()) {
+		$form = new ilStudyProgrammeTypeFormGUI(
+			$this,
+			$this->type_repository
+		);
+		$type = $this->type_repository->createType($this->lng->getDefaultLanguage());
+		if ($form->saveObject($type)) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_created'), true);
 			$this->ctrl->redirect($this);
 		} else {
@@ -256,8 +278,8 @@ class ilStudyProgrammeTypeGUI {
 	 * Update (save) type
 	 */
 	protected function update() {
-		$form = new ilStudyProgrammeTypeFormGUI($this, new ilStudyProgrammeType((int)$_GET['type_id']));
-		if ($form->saveObject()) {
+		$form = new ilStudyProgrammeTypeFormGUI($this, $this->type_repository);
+		if ($form->saveObject($this->type_repository->readType((int)$_GET['type_id']))) {
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->ctrl->redirect($this);
 		} else {
@@ -270,9 +292,9 @@ class ilStudyProgrammeTypeGUI {
 	 * Delete a type
 	 */
 	protected function delete() {
-		$type = new ilStudyProgrammeType((int)$_GET['type_id']);
+		$type = $this->type_repository->readType((int)$_GET['type_id']);
 		try {
-			$type->delete();
+			$this->type_repository->deleteType($type);
 			ilUtil::sendSuccess($this->lng->txt('prg_type_msg_deleted'), true);
 			$this->ctrl->redirect($this);
 		} catch (ilException $e) {

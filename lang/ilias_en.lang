@@ -11288,6 +11288,9 @@ rbac#:#org_op_access_results#:#Access Results of Subordinated Users
 orgu#:#org_op_manage_participants#:#Manage Participants
 rbac#:#org_op_manage_participants#:#Manage Subordinated Participants
 orgu#:#org_op_score_participants#:#Score Participants
+orgu#:#org_op_view_members#:#View Members
+orgu#:#org_op_view_individual_plan#:#View Individual Plan
+orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
 rbac#:#org_op_score_participants#:#Score Subordinated Participants
 orgu#:#orgunit_position_permissions_not_active_for#:#You cannot override the position specific permissions for the type:
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
@@ -13177,6 +13180,9 @@ mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Noti
 mail#:#mail_notification_membership_section#:#Membership
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
+prg#:#prgr_new#:#Create Study Programme Link
+prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_add#:#Add Study Programme
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_type#:#Study Programme Type
@@ -13261,11 +13267,61 @@ prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not P
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
 prg#:#prg_update_from_current_plan_success#:#Update From Current Plan
 prg#:#prg_no_user_selected#:#No User Selected
-common#:#obj_prg_duplicate#:#Copy Study Programme
+prg#:#assignment_date#:#Assignment Date
+prg#:#completion_date#:#Completion Date
+prg#:#prg_no_deadline#:#No fixed prozessing time
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
+prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
+prg#:#prg_validity_of_qualification_restart#:#Restart
+prg#:#prg_no_validity_qalification#:#Long-Lasting qualification
+prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
+prg#:#validity_qalification_period#:#Qualification expires individually
+prg#:#validity_qalification_period_desc#:#days after completion
+prg#:#validity_qalification_date#:#Qualification expires at fixed date
+prg#:#validity_qalification_date_desc#:#expiry date
+prg#:#prg_no_restart#:#No restart required
+prg#:#restart_period#:#Restart obligatory
+prg#:#restart_period_desc#:#days before expiry
+prg#:#sp_certificate_title#:#Title of the Study Programme
+prg#:#sp_certificate_description#:#Description of the Study Programme
+prg#:#sp_certificate_type#:#Type of the Study Programme
+prg#:#sp_certificate_points#:#Amount of points that have been acquired
+prg#:#sp_certificate_completion_date#:#Date of completion
+prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification
+prg#:#prg_completion_date#:#Completion date
+prg#:#prg_expiry_date#:#Expiry date
+prg#:#prg_validity#:#Validity
+prg#:#prg_still_valid#:#still valid
+prg#:#prg_renewal_required#:#renewal required
+prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
+prg#:#no_manual_status#:#No manual status
+prg#:#prg_formatted_period#:#%d days
+prg#:#deadline_information#:#Information regarding processing period
+prg#:#dealine_period_info#:#Days to process after assignment
+prg#:#dealine_date_info#:#Deadline date
+prg#:#vq_information#:#Information regarding validity of achived qualification
+prg#:#vq_period_info#:#Days until qualification will expire after achivement
+prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
+prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
+prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
+prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
+prg#:#access_ctr_by_orgu_position#:#Access conrol according to Organisational Unit Positions
+prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
 common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
+common#:#obj_prgr#:#Link to Study Programme
+common#:#obj_prgrs#:#Links to Study Programmes
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.
 forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.
@@ -14349,6 +14405,7 @@ obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
 grp#:#grp_user_already_in_group#:#The selected user is already member of the group.
 prg#:#prg_deadline#:#Deadline
+prg#:#prg_deadline_settings#:#Processing Period
 prg#:#prg_status_failed#:#failed
 common#:#edit_page_meta#:#Edit Page Metadata
 rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
@@ -15046,3 +15103,24 @@ certificate#:#certificate_learning_progress_must_be_active#:#Only objects with a
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
 content#:#msg_no_page_access#:#You do not have the permission to access this page.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+prg#:#prg_orgus#:#Organisational Units
+prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
+prg#:#content_automation#:#Content Automation
+prg#:#last_edited_by#:#Last Editor
+prg#:#last_edited#:#Last edited
+prg#:#add_category#:#Add Category
+prg#:#modal_categories_title#:#Category to be monitored
+prg#:#category#:#Category RefId
+prg#:#edit_participants#:#Edit Members
+prg#:#auto_memberships#:#Membership Automation
+prg#:#orgu#:#Organisational Unit
+prg#:#rol#:#Role
+prg#:#auto_membership_title#:#Sources for Membership Automation
+prg#:#add_automembership_source#:#Add automatic Membership Source
+prg#:#auto_membership_src_type#:#Type
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
+prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Source
+prg#:#prg_autoassingment#:#(auto)

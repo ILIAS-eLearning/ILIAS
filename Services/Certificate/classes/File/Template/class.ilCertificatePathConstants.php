@@ -12,4 +12,5 @@ class ilCertificatePathConstants
 	const TEST_PATH      = '/assessment/certificates/';
 	const EXERCISE_PATH  = '/exercise/certificates/';
 	const SCORM_PATH     = '/scorm/certificates/';
+	const STUDY_PROGRAMME_PATH = '/studyProgramme/certificates/';
 }

@@ -13,7 +13,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 	/**
 	 * @var ilStudyProgrammeType
 	 */
-	protected $type;
+	protected $type_repo;
 	/**
 	 * @var ilTemplate
 	 */
@@ -36,7 +36,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 	 * @param               $parent_gui
 	 * @param ilStudyProgrammeType $type
 	 */
-	public function __construct($parent_gui, ilStudyProgrammeType $type) {
+	public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repo) {
 		global $DIC;
 		$tpl = $DIC['tpl'];
 		$ilCtrl = $DIC['ilCtrl'];
@@ -44,7 +44,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 		$this->webdir = $DIC->filesystem()->web();
 		$this->parent_gui = $parent_gui;
 		$this->user = $DIC['ilUser'];
-		$this->type = $type;
+		$this->type_repo = $type_repo;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -59,12 +59,13 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 	 *
 	 * @return bool
 	 */
-	public function saveObject() {
-		if (!$this->fillObject()) {
+	public function saveObject(ilStudyProgrammeType $type) {
+		$type = $this->fillObject($type);
+		if (!$type) {
 			return false;
 		}
 		try {
-			$this->type->save();
+			$this->type_repo->updateType($type);
 			$this->type->updateAssignedStudyProgrammesIcons();
 			return true;
 		} catch (ilException $e) {
@@ -74,22 +75,27 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 		}
 	}
 
-
-	/**
-	 * Add all fields to the form
-	 */
-	protected function initForm() {
+	public function initForm()
+	{
 		$this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 		$this->setTitle($this->lng->txt('prg_type_custom_icon'));
 		$item = new ilImageFileInputGUI($this->lng->txt('icon'), 'icon');
 		$item->setSuffixes(array( 'svg' ));
 		$item->setInfo($this->lng->txt('prg_type_custom_icon_info'));
-		if ($this->webdir->has($this->type->getIconPath(true))) {
-			// TODO: that´s horrible, try to avoid ilUtil in future
-			$item->setImage(ilUtil::getWebspaceDir().'/'.$this->type->getIconPath(true));
-		}
 		$this->addItem($item);
 		$this->addCommandButton('updateCustomIcons', $this->lng->txt('save'));
+	}
+
+	/**
+	 * Add all fields to the form
+	 */
+	public function fillForm(ilStudyProgrammeType $type)
+	{
+		$item = $this->getItemByPostVar('icon');
+		if ($this->webdir->has($type->getIconPath(true))) {
+			// TODO: that´s horrible, try to avoid ilUtil in future
+			$item->setImage(ilUtil::getWebspaceDir().'/'.$type->getIconPath(true));
+		}
 	}
 
 
@@ -98,31 +104,31 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI {
 	 *
 	 * @return bool
 	 */
-	protected function fillObject() {
+	public function fillObject(ilStudyProgrammeType $type) {
 		$this->setValuesByPost();
 		if (!$this->checkInput()) {
-			return false;
+			return null;
 		}
 		$file_data = (array)$this->getInput('icon');
 		/** @var ilImageFileInputGUI $item */
 		$item = $this->getItemByPostVar('icon');
 		try {
 			if (isset($file_data['name']) && $file_data['name']) {
-				$this->type->removeIconFile();
-				$this->type->setIcon($file_data['name']);
-				$this->type->processAndStoreIconFile($file_data);
+				$type->removeIconFile();
+				$type->setIcon($file_data['name']);
+				$type->processAndStoreIconFile($file_data);
 			} else {
 				if ($item->getDeletionFlag()) {
-					$this->type->removeIconFile();
-					$this->type->setIcon('');
+					$type->removeIconFile();
+					$type->setIcon('');
 				}
 			}
 		} catch (ilException $e) {
 			ilUtil::sendFailure($this->lng->txt('prg_type_msg_error_custom_icon'));
 
-			return false;
+			return null;
 		}
 
-		return true;
+		return $type;
 	}
 }

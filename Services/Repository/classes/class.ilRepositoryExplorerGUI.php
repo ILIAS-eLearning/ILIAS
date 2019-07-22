@@ -296,6 +296,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjstudyprogrammegui"), "view");
 				$ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
 				return $link;
+			case "prgr":
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			default:
 				include_once('./Services/Link/classes/class.ilLink.php');

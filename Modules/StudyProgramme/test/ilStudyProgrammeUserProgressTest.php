@@ -18,10 +18,13 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
-
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		ilUnitUtil::performInitialisation();
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			try {
+				ilUnitUtil::performInitialisation();
+			} catch(Exception $e) {}
+		}
 
 		$this->root = ilObjStudyProgramme::createInstance();
 		$this->root->putInTree(ROOT_FOLDER_ID);
@@ -60,14 +63,14 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	}
 
 	protected function setAllNodesActive() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
 	}
 
 	protected function assignNewUserToRoot() {
 		$user = $this->newUser();
-		return array($this->root->assignUser($user->getId()), $user);
+		return array($this->root->assignUser($user->getId(),6), $user);
 	}
 
 	public function testInitialProgressActive() {
@@ -85,10 +88,13 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 						   , $root_progress->getAmountOfPoints());
 		$this->assertEquals(0, $root_progress->getCurrentAmountOfPoints());
 		$this->assertEquals($this->root->getId(), $root_progress->getStudyProgramme()->getId());
-		$this->assertEquals($ass->getId(), $root_progress->getAssignment()->getId());
+		$this->assertEquals($ass->getId(), $root_progress->getAssignmentId());
 		$this->assertEquals($user->getId(), $root_progress->getUserId());
 		$this->assertNull($root_progress->getLastChangeBy());
 		$this->assertNull($root_progress->getCompletionBy());
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertEquals($root_progress->getAssignmentDate()->format('Y-m-d'),(new \DateTime())->format('Y-m-d'));
+
 
 		$node1_progresses = $this->node1->getProgressesOf($user->getId());
 		$this->assertCount(1, $node1_progresses);
@@ -99,7 +105,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 						   , $node1_progress->getAmountOfPoints());
 		$this->assertEquals(0, $node1_progress->getCurrentAmountOfPoints());
 		$this->assertEquals($this->node1->getId(), $node1_progress->getStudyProgramme()->getId());
-		$this->assertEquals($ass->getId(), $node1_progress->getAssignment()->getId());
+		$this->assertEquals($ass->getId(), $node1_progress->getAssignmentId());
 		$this->assertEquals($user->getId(), $node1_progress->getUserId());
 		$this->assertNull($node1_progress->getLastChangeBy());
 		$this->assertNull($node1_progress->getCompletionBy());
@@ -113,16 +119,16 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 						   , $node2_progress->getAmountOfPoints());
 		$this->assertEquals(0, $node2_progress->getCurrentAmountOfPoints());
 		$this->assertEquals($this->node2->getId(), $node2_progress->getStudyProgramme()->getId());
-		$this->assertEquals($ass->getId(), $node2_progress->getAssignment()->getId());
+		$this->assertEquals($ass->getId(), $node2_progress->getAssignmentId());
 		$this->assertEquals($user->getId(), $node2_progress->getUserId());
 		$this->assertNull($node2_progress->getLastChangeBy());
 		$this->assertNull($node2_progress->getCompletionBy());
 	}
 
 	public function testInitialProgressDraft() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_DRAFT)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)->update();
 
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
@@ -145,9 +151,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testInitialProgressOutdated() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_OUTDATED)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_OUTDATED)->update();
 
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
@@ -191,23 +197,34 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
 		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
-
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
-		$this->assertEquals($root_progress->getAmountOfPoints(), ilStudyProgramme::DEFAULT_POINTS);
-		$this->assertEquals($node1_progress->getAmountOfPoints(), ilStudyProgramme::DEFAULT_POINTS);
-		$this->assertEquals($node2_progress->getAmountOfPoints(), ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertEquals($root_progress->getAmountOfPoints(), ilStudyProgrammeSettings::DEFAULT_POINTS);
+		$this->assertEquals($node1_progress->getAmountOfPoints(), ilStudyProgrammeSettings::DEFAULT_POINTS);
+		$this->assertEquals($node2_progress->getAmountOfPoints(), ilStudyProgrammeSettings::DEFAULT_POINTS);
 
-		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_before_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$node2_progress->markAccredited($USER_ID);
-		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_after_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
+
+
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+
+
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 
 		$this->assertTrue($node2_progress->isSuccessful());
 		$this->assertEquals($root_progress->getAmountOfPoints(), $root_progress->getCurrentAmountOfPoints());
 
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_COMPLETED, $root_progress->getStatus());
+		$this->assertEquals((new \DateTime())->format('Y-m-d'), $root_progress->getCompletionDate()->format('Y-m-d'));
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
+		$this->assertNull($node1_progress->getCompletionDate());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_ACCREDITED, $node2_progress->getStatus());
-
+		$this->assertEquals((new \DateTime())->format('Y-m-d'), $node2_progress->getCompletionDate()->format('Y-m-d'));
 		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
@@ -229,16 +246,19 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
 
-		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_before_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$node2_progress->markAccredited($USER_ID);
 		$node2_progress->unmarkAccredited();
-		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_after_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 
 		// The root node will still be completed, as we do not go back from completed to some other
 		// status.
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 		$this->assertEquals(NULL, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 	}
@@ -260,6 +280,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_FAILED, $node2_progress->getStatus());
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 	}
 
 	public function testMarkNotFailed() {
@@ -279,7 +302,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_FAILED, $node2_progress->getStatus());
-
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 		$node2_progress->markNotFailed($USER_ID);
 
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node2_progress->getStatus());
@@ -297,12 +322,15 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
 		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
-		$ts_before_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_before_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$node2_progress->markNotRelevant($USER_ID);
-		$ts_after_change = $node2_progress->getLastChange()->get(IL_CAL_DATETIME);
+		$ts_after_change = $node2_progress->getLastChange()->format('Y-m-d H:i:s');
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $root_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_IN_PROGRESS, $node1_progress->getStatus());
 		$this->assertEquals(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT, $node2_progress->getStatus());
+		$this->assertNull($root_progress->getCompletionDate());
+		$this->assertNull($node1_progress->getCompletionDate());
+		$this->assertNull($node2_progress->getCompletionDate());
 		$this->assertEquals($USER_ID, $node2_progress->getCompletionBy());
 		$this->assertLessThanOrEqual($ts_before_change, $ts_after_change);
 		$this->assertTrue($node2_progress->hasIndividualModifications());
@@ -331,10 +359,10 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 
 		$NEW_AMOUNT_OF_POINTS_1 = 205;
-		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, ilStudyProgrammeSettings::DEFAULT_POINTS);
 
 		$node2_progress1 = array_shift($this->node2->getProgressesOf($user1->getId()));
-		$node2_progress1->setRequiredAmountOfPoints($NEW_AMOUNT_OF_POINTS_1, $this->user->getId());
+		$node2_progress1->setRequiredAmountOfPoints($NEW_AMOUNT_OF_POINTS_1, 6);
 
 		$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
 	}
@@ -349,9 +377,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 
-		$this->assertEquals(2 * ilStudyProgramme::DEFAULT_POINTS, $root_progress->getMaximumPossibleAmountOfPoints());
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $node1_progress->getMaximumPossibleAmountOfPoints());
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $node2_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(2 * ilStudyProgrammeSettings::DEFAULT_POINTS, $root_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $node1_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $node2_progress->getMaximumPossibleAmountOfPoints());
 	}
 
 	public function testMaximimPossibleAmountOfPoints2() {
@@ -364,9 +392,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$node1_progress = array_shift($this->node1->getProgressesOf($user->getId()));
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 
-		$this->assertEquals(2 * ilStudyProgramme::DEFAULT_POINTS, $root_progress->getMaximumPossibleAmountOfPoints());
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $node1_progress->getMaximumPossibleAmountOfPoints());
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $node2_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(2 * ilStudyProgrammeSettings::DEFAULT_POINTS, $root_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $node1_progress->getMaximumPossibleAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $node2_progress->getMaximumPossibleAmountOfPoints());
 	}
 
 	public function testCanBeCompleted1() {
@@ -386,7 +414,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 	public function testCanBeCompleted2() {
 		$NEW_AMOUNT_OF_POINTS = 3003;
-		$this->assertGreaterThan(ilStudyProgramme::DEFAULT_POINTS, $NEW_AMOUNT_OF_POINTS);
+		$this->assertGreaterThan(ilStudyProgrammeSettings::DEFAULT_POINTS, $NEW_AMOUNT_OF_POINTS);
 
 		$this->setAllNodesActive();
 		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
@@ -403,13 +431,13 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 	public function testCanBeCompleted3() {
 		$NEW_AMOUNT_OF_POINTS = 3003;
-		$this->assertGreaterThan(ilStudyProgramme::DEFAULT_POINTS, $NEW_AMOUNT_OF_POINTS);
+		$this->assertGreaterThan(ilStudyProgrammeSettings::DEFAULT_POINTS, $NEW_AMOUNT_OF_POINTS);
 
 		$this->setAllNodesActive();
 		$node3 = ilObjStudyProgramme::createInstance();
 		$this->root->addNode($node3);
 		$node3->setPoints($NEW_AMOUNT_OF_POINTS)
-			  ->setStatus(ilStudyProgramme::STATUS_ACTIVE)
+			  ->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)
 			  ->update();
 
 
@@ -434,9 +462,9 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 
 		$root_progresses = $this->root->getProgressesOf($user->getId());
 		$this->assertCount(0, $root_progresses);
-		$node1_progresses = $this->root->getProgressesOf($user->getId());
+		$node1_progresses = $this->node1->getProgressesOf($user->getId());
 		$this->assertCount(0, $node1_progresses);
-		$node2_progresses = $this->root->getProgressesOf($user->getId());
+		$node2_progresses = $this->node2->getProgressesOf($user->getId());
 		$this->assertCount(0, $node2_progresses);
 	}
 
@@ -448,13 +476,13 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user = $tmp[1];
 
 		$NEW_AMOUNT_OF_POINTS = 201;
-		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilStudyProgrammeSettings::DEFAULT_POINTS);
 
 		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
 				   ->update();
 
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $root_progress->getAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $root_progress->getAmountOfPoints());
 	}
 
 	// Änderungen von Punkten bei bestehenden qua-Objekten werden nicht direkt übernommen,
@@ -466,7 +494,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user = $tmp[1];
 
 		$NEW_AMOUNT_OF_POINTS = 202;
-		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilStudyProgrammeSettings::DEFAULT_POINTS);
 
 		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
 				   ->update();
@@ -486,13 +514,14 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user = $tmp[1];
 
 		$NEW_AMOUNT_OF_POINTS = 203;
-		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS, ilStudyProgrammeSettings::DEFAULT_POINTS);
 
 		$this->root->setPoints($NEW_AMOUNT_OF_POINTS)
 				   ->update();
 
 		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
 		$ass->updateFromProgram();
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
 		$this->assertEquals($NEW_AMOUNT_OF_POINTS, $root_progress->getAmountOfPoints());
 	}
 
@@ -510,21 +539,31 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user2 = $tmp[1];
 
 		$NEW_AMOUNT_OF_POINTS_1 = 205;
-		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, ilStudyProgrammeSettings::DEFAULT_POINTS);
 		$NEW_AMOUNT_OF_POINTS_2 = 206;
-		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_2, ilStudyProgramme::DEFAULT_POINTS);
+		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_2, ilStudyProgrammeSettings::DEFAULT_POINTS);
 		$this->assertNotEquals($NEW_AMOUNT_OF_POINTS_1, $NEW_AMOUNT_OF_POINTS_2);
 
 		$node2_progress1 = array_shift($this->node2->getProgressesOf($user1->getId()));
+
+
 		$node2_progress2 = array_shift($this->node2->getProgressesOf($user2->getId()));
 
-		$node2_progress1->setRequiredAmountOfPoints($NEW_AMOUNT_OF_POINTS_1, $this->user->getId());
-
+		$node2_progress1->setRequiredAmountOfPoints($NEW_AMOUNT_OF_POINTS_1, 6);
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
+		$node2_progress1 = array_shift($this->node2->getProgressesOf($user1->getId()));
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
 		$this->node2->setPoints($NEW_AMOUNT_OF_POINTS_2)
 					->update();
 		$this->root->updateAllAssignments();
+		$node2_progress2 = array_shift($this->node2->getProgressesOf($user2->getId()));
+		//$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
+		$this->assertEquals($NEW_AMOUNT_OF_POINTS_2, $node2_progress2->getAmountOfPoints());
 
-		$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
+		//$node2_progress1 = array_shift($this->node2->getProgressesOf($user1->getId()));
+		$node2_progress2 = array_shift($this->node2->getProgressesOf($user2->getId()));
+
+		//$this->assertEquals($NEW_AMOUNT_OF_POINTS_1, $node2_progress1->getAmountOfPoints());
 		$this->assertEquals($NEW_AMOUNT_OF_POINTS_2, $node2_progress2->getAmountOfPoints());
 	}
 
@@ -536,7 +575,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testOutdatedNodesCantBeSetToRelevant() {
 		$this->setAllNodesActive();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_OUTDATED);
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_OUTDATED);
 		$tmp = $this->assignNewUserToRoot();
 		$ass1 = $tmp[0];
 		$user1 = $tmp[1];
@@ -566,7 +605,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user1 = $tmp[1];
 
 		$progress = $this->node1->getProgressForAssignment($ass1->getId());
-		$progress->setRequiredAmountOfPoints(1000, $this->user->getId());
+		$progress->setRequiredAmountOfPoints(1000, 6);
 		$this->assertTrue($progress->hasIndividualModifications());
 	}
 
@@ -577,7 +616,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$user1 = $tmp[1];
 
 		$progress = $this->node1->getProgressForAssignment($ass1->getId());
-		$progress->markNotRelevant($this->user->getId());
+		$progress->markNotRelevant(6);
 		$this->assertTrue($progress->hasIndividualModifications());
 	}
 
@@ -630,14 +669,14 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$depth1->addNode($depth2);
 		$depth2->addNode($depth3);
 		$depth3->addNode($depth4);
-		$depth1->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$depth2->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$depth3->setStatus(ilStudyProgramme::STATUS_ACTIVE);
-		$depth4->setStatus(ilStudyProgramme::STATUS_ACTIVE);
+		$depth1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$depth2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$depth3->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$depth4->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
 
 		$user = $this->newUser();
 
-		$assignment = $depth1->assignUser($user->getId());
+		$assignment = $depth1->assignUser($user->getId(),6);
 		$progress4 = $depth4->getProgressForAssignment($assignment->getId());
 		$progress4->markAccredited(6);
 
@@ -650,10 +689,10 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($progress3->isSuccessful());
 		$this->assertTrue($progress4->isSuccessful());
 
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress1->getCurrentAmountOfPoints());
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress2->getCurrentAmountOfPoints());
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress3->getCurrentAmountOfPoints());
-		$this->assertEquals(ilStudyProgramme::DEFAULT_POINTS, $progress4->getCurrentAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $progress1->getCurrentAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $progress2->getCurrentAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $progress3->getCurrentAmountOfPoints());
+		$this->assertEquals(ilStudyProgrammeSettings::DEFAULT_POINTS, $progress4->getCurrentAmountOfPoints());
 	}
 
 
@@ -707,7 +746,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		$ass = $tmp[0];
 		$user = $tmp[1];
 
-		$sp_user_progress_db = new ilStudyProgrammeUserProgressDB();
+		$sp_user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		$inst = $sp_user_progress_db->getInstance(
 			$ass->getId(),
 			$this->root->getId(),
@@ -727,7 +766,7 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetInstanceCalls() {
-		$sp_user_progress_db = new ilStudyProgrammeUserProgressDB();
+		$sp_user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
 		try {
 			$sp_user_progress_db->getInstanceById(-1);
 			$this->assertFalse("This should not happen");
@@ -741,5 +780,212 @@ class ilStudyProgrammeUserProgressTest extends PHPUnit_Framework_TestCase {
 		}
 		catch (ilStudyProgrammeNoProgressForAssignmentException $e) {$this->assertTrue(true);}
 
+	}
+
+	public function test_limited_validity_period() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$prg1->setValidityOfQualificationPeriod(100);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress2->isSuccessful());
+		$val_date = new DateTime();
+		$val_date->add(new DateInterval('P100D'));
+		$this->assertEquals(
+			$val_date->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+		$this->assertNull($progress2->getValidityOfQualification());
+	}
+
+	public function test_limited_validity_date() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$val_date_ref = new DateTime();
+		$val_date_ref->add(new DateInterval('P100D'));
+		$prg1->setValidityOfQualificationDate($val_date_ref);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress2->isSuccessful());
+		$this->assertEquals(
+			$val_date_ref->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+	}
+
+
+	public function test_limited_validity_accredited() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->setValidityOfQualificationPeriod(100);
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$progress1->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+
+		$this->assertTrue($progress1->isSuccessful());
+		$val_date = new DateTime();
+		$val_date->add(new DateInterval('P100D'));
+		$this->assertEquals($val_date->format('Ymd'),$progress1->getValidityOfQualification()->format('Ymd'));
+	}
+
+	public function test_set_failed_limited_validity_future() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$val_date_ref = new DateTime();
+		$val_date_ref->add(new DateInterval('P1D'));
+		$prg1->setValidityOfQualificationDate($val_date_ref);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg2->getProgressForAssignment($assignment->getId());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$this->assertEquals(
+			$val_date_ref->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		try {
+			$progress1->markFailed(6);
+			$this->assertFalse('did not throw');
+		} catch(ilException $e) {
+			$this->assertTrue(true);
+		}
+	}
+
+	public function test_set_failed_limited_validity_past() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+		$val_date_ref = new DateTime();
+		$val_date_ref->sub(new DateInterval('P1D'));
+		$prg1->setValidityOfQualificationDate($val_date_ref);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg2->getProgressForAssignment($assignment->getId());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$this->assertEquals(
+			$val_date_ref->format('Ymd'),
+			$progress1->getValidityOfQualification()->format('Ymd')
+		);
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress1->isSuccessfulExpired());
+		try {
+			$progress1->invalidate();
+			$this->assertTrue(true);
+		} catch(ilException $e) {
+			$this->assertFalse('did throw');
+		}
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertTrue($progress1->isInvalidated());
+	}
+
+
+	public function test_set_failed_no_limited_validity() {
+		$prg1 = ilObjStudyProgramme::createInstance();
+		$prg2 = ilObjStudyProgramme::createInstance();
+
+
+		$prg1->putInTree(ROOT_FOLDER_ID);
+		$prg1->addNode($prg2);
+
+		$prg1->update();
+
+		$prg1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+		$prg2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
+
+		$user = $this->newUser();
+
+		$assignment = $prg1->assignUser($user->getId(),6);
+		$progress1 = $prg2->getProgressForAssignment($assignment->getId());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		$progress2 = $prg2->getProgressForAssignment($assignment->getId());
+		$progress2->markAccredited(6);
+
+		$progress1 = $prg1->getProgressForAssignment($assignment->getId());
+		$this->assertNull($progress1->getValidityOfQualification());
+		$this->assertTrue($progress1->isSuccessful());
+		$this->assertFalse($progress1->isSuccessfulExpired());
+		try {
+			$progress1->invalidate();
+			$this->assertFalse('did not throw');
+		} catch(ilException $e) {
+			$this->assertTrue(true);
+		}
+		$this->assertFalse($progress1->isInvalidated());
 	}
 }
