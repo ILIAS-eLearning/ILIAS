@@ -123,7 +123,11 @@ class ProviderFactory implements ProviderFactoryInterface
      */
     public function isInstanceCreationPossible(string $class_name) : bool
     {
-        return class_exists($class_name);
+        try {
+            return class_exists($class_name);
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
 

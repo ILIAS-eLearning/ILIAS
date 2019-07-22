@@ -8,7 +8,6 @@ use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 
 /**
@@ -49,7 +48,7 @@ class ilMMItemRepository
         $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->services = $DIC->globalScreen();
 
-        foreach ($this->main_collector->getStackedTopItemsForPresentation() as $top_item) {
+        foreach ($this->main_collector->getAllItems() as $top_item) {
             ilMMItemStorage::register($top_item);
             if ($top_item instanceof isParent) {
                 foreach ($top_item->getChildren() as $child) {
@@ -74,18 +73,6 @@ class ilMMItemRepository
     public function clearCache()
     {
         $this->storage->cache()->flush();
-    }
-
-
-    /**
-     * @return TopLinkItem[]|TopParentItem[]
-     * @throws Throwable
-     */
-    public function getStackedTopItemsForPresentation() : array
-    {
-        $top_items = $this->main_collector->getStackedTopItemsForPresentation();
-
-        return $top_items;
     }
 
 
