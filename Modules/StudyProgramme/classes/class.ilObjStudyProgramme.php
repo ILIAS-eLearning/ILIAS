@@ -579,15 +579,19 @@ class ilObjStudyProgramme extends ilContainer {
 
 	protected function getReferencesTo(ilObjStudyProgramme $prg)
 	{
-		return array_map(
-			function($id) {
-				return new ilObjStudyProgrammeReference(
-						array_shift(
+		$tree = $this->tree;
+		return array_filter(
+				array_map(
+					function($id) {
+						return new ilObjStudyProgrammeReference(
+							array_shift(
 							ilObject::_getAllReferences($id)
-						)
-					);
-			},
-			ilContainerReference::_lookupSourceIds($prg->getId())
+							)
+						);
+					},
+					ilContainerReference::_lookupSourceIds($prg->getId())
+				)
+				,function($prg_ref) use ($tree) {return !$tree->isDeleted($prg_ref->getRefId());}
 		);
 	}
 
@@ -1478,7 +1482,7 @@ class ilObjStudyProgramme extends ilContainer {
 
 		$crslnk_allowed = (
 			$this->hasLPChildren()
-			|| $this->getAmountOfChildren() === 0
+			|| $this->getAmountOfChildren(true) === 0
 		);
 
 		return $valid_status && $crslnk_allowed;
