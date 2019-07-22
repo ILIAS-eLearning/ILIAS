@@ -15123,4 +15123,6 @@ prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
 prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#membership_source_type#:#Source
-prg#:#prg_autoassingment#:#(auto)
+prg#:#prg_autoassingment#:#(auto)crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_details#:#« Show Details

@@ -10522,8 +10522,7 @@ td.il_Description_no_margin {
   font-style: italic;
   text-align: left;
 }
-[dir="rtl"] div.il_Description_no_margin,
-[dir="rtl"] td.il_Description_no_margin {
+[dir="rtl"] div.il_Description_no_margin,[dir="rtl"] td.il_Description_no_margin {
   text-align: right;
 }
 div.il_info {
@@ -14339,14 +14338,35 @@ li.smallPad {
 .ilCrsObjAcc {
   margin-bottom: 10px;
 }
+
+.ilCourseObjectiveAccResults {
+  padding-top: 10px;
+}
+
+
+.ilCourseObjectiveAccResult {
+  font-size: 80%;
+}
+
+.ilCourseObjectiveAccSummary {
+  font-size: 120%;
+  padding-top: 15px;
+}
+
+.ilCourseObjectiveProgressBarContainer .text-comparision {
+  display: none;
+}
+
+.ilCourseObjectiveProgressBarContainer {
+  float: right;
+  max-width: 200px;
+  padding: 20px;
+}
+
 /* LOK progress bars */
 .ilCourseObjectiveProgressBar {
   padding-right: 5px;
   float: right;
-}
-.ilCourseObjectiveProgressBarContainer {
-  float: right;
-  padding-left: 10px;
 }
 .ilCourseObjectiveProgressBarContainer > .progress {
   margin: 5px 0 0;
