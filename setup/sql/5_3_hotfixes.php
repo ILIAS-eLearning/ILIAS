@@ -649,3 +649,16 @@ if( $ilDB->tableExists($tempTableName) )
 }
 
 ?>
+<#47>
+<?php
+if ($ilDB->tableColumnExists("lng_data", "identifier")) {
+	$field = array(
+		'type'    => 'text',
+		'length'  => 200,
+		'notnull' => true,
+		'default' => ' '
+	);
+
+	$ilDB->modifyTableColumn("lng_data", "identifier", $field);
+}
+?>
