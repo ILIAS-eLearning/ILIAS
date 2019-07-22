@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @group needsInstalledILIAS
+ */
 class ilPrgRestartAssignmentsCronJobTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
