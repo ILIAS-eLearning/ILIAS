@@ -10,15 +10,18 @@ Furthermore the database got decoupled since the supposed separation in two diff
 
 This documentation describes the interfaces the AssessmentQuestion service comes with and how they are to be used by developers who want to integrate assessment questions to their components.
 
-The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. This means, that most of any business logic around assessment questions needs to be implemented in the consumer's code.
+The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. Most of any business logic around assessment questions with a focus on a single question is covered in the Assessment Question Service.
 
-The AssessmentQuestion service itself does not contain any complex logic about the handling of assessment items. This is reflected in the simple interface structure.
-
-The implementation of authoring processes is the only complex part. But this implementation can be easily adressed from consumers by simply forwarding to corresponding control structure classes.
+The business logic for handling a group of questions is handled by the consumer. E.g. test passed at 80% of correctly answered questions.
 
 # Service Interfaces
 
-The AssessmentQuestion service has the following interfaces that can be used by other developers that want to integrate assessment questions to their component.
+The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
+
+## AsqAuthoringService
+The service offers a complete authoring interface for the editing of questions.
+
+
 
 Objects implementing `ilAsqQuestion` represents the question entity itself while objects implementing `ilAsqQuestionAuthoring` are about the authoring that can be integrated with the `executeCommand` control structure of ILIAS.
 
