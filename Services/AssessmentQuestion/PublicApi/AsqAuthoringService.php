@@ -7,9 +7,6 @@
  */
 class AsqAuthoringService
 {
-	private $QuestionRepository;
-
-
 	/**
 	 * @param string $question_uuid
 	 *
@@ -42,7 +39,7 @@ class AsqAuthoringService
 	 * Gets all questions of a Container from db as an Array containing
 	 * the columns defined in the $columns parameter
 	 */
-	public function GetQuestionsOfContainerAsArray(string $parent_id, AsqColumns $columns) {
+	public function GetQuestionsOfContainerAsAssocArray(string $parent_id, AsqColumns $columns) {
 		return $question_repository->getQuestionsOfContainerAsArray($parent_id, $columns);
 	}
 
@@ -51,25 +48,9 @@ class AsqAuthoringService
 	 *
 	 * @return QuestionAuthoringGUI
 	 *
-	 * Gets the Authoring GUI used for editing questions if a question_id is set
-	 * that question will be loaded in the form
+	 * Gets the link to the question authoring component
 	 */
-	public function GetQuestionAuthoringGUI(string $question_uuid = null) : QuestionAuthoringGUI {
-		if (is_null($question_uuid)) {
-			$question = new QuestionDto();
-		} else {
-			$question = $question_repository->getQuestion($question_uuid);
-		}
-
-		return new QuestionAuthoringGUI($question);
-	}
-
-	/**
-	 * @param QuestionDto $question
-	 *
-	 * Saves question to DB
-	 */
-	public function SaveQuestion(QuestionDto $question) {
-		$question_repository->save($question);
+	public function GetEditLink(string $question_uuid) : \ILIAS\UI\Component\Link\Link {
+		//create link to edit component for given question
 	}
 }
