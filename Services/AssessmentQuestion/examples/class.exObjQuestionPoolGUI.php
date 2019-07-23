@@ -4,24 +4,25 @@
  * When a component consumes the assessment question service for purposes
  * of authoring and managing questions like the current question pool object,
  * it is neccessary to handle the following use cases.
+ *
+ * @ilCtrl_Calls exObjQuestionPoolGUI: ilAssessmentQuestionServiceGUI
  */
 class exObjQuestionPoolGUI
 {
 	/**
-	 * The question creation and editing is handled by the the ilAsqQuestionAuthoring interface.
-	 * It is relevant for the request flow using the ILIAS control structure. This interface
-	 * will be implemented from the current question GUI classes in the future and provides
-	 * the executeCommand method that internally performs the different commands.
+	 * The question creation and editing ui is handled by the Assessment Question Service itself. The control flow
+	 * is to be forwarded to the ilAssessmentQuestionServiceGUI that comes as a regular control structure node.
 	 *
-	 * To integrate the workflow of authoring questions to a consumer, the consumer's GUI class
-	 * must implement a suitable forward case in its own executeCommand method.
+	 * For the question creation screen the ilAssessmentQuestionServiceGUI simply renders a creation form in the
+	 * tab context of the consumer, so the user is kept in the context of the question pool's question tab for example.
 	 *
-	 * Since the consumer MUST not know about any concrete question type's ilAsqQuestionAuthoring implementation
-	 * a dynamic switch-case expression is neccessary. The ilAsqService class provides such an expression
-	 * with a corresponding method. It returns the lowercase class name for the corresponding
-	 * question type authoring class or the interface name when the current next class in the control flow
-	 * does not relate to any question type authoring class.
-	 * An instance of the service class can be requested using $DIC->question()->service().
+	 * For the screens of editing a question the ilAssessmentQuestionServiceGUI manages the question authoring tab context,
+	 * as well as further forwardings in the control structure. All of the commands used in the question authoring ui
+	 * are delegated to sub command classes.
+	 *
+	 * To integrate the forward of to the Assessment Question Service two requirements need to be fullfilled:
+	 * - a suitable control structure forward header is required (like above)
+	 * - a suitable switch case within the executeCommand() method is necessary (like below)
 	 */
 	public function executeCommand()
 	{
@@ -29,22 +30,56 @@ class exObjQuestionPoolGUI
 		
 		switch( $DIC->ctrl()->getNextClass($this) )
 		{
-			case $DIC->question()->service()->fetchNextAuthoringCommandClass($DIC->ctrl()->getNextClass()):
+			case 'ilassessmentquestionservicegui':
 				
-				$questionId = 0; // Fetch questionId from Request Parameters
-				$backLink = ''; // Initialise with Back Link to Consumers Back-Landing Page
+				$serviceGUI = $DIC->question()->authoringServiceGUI(
+					$this->getContainerSpecification()
+				);
 				
-				$questionInstance = $DIC->question()->getQuestionInstance($questionId);
-				$questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
-				
-				$questionAuthoringGUI->setBackLink($backLink);
-				
-				$DIC->ctrl()->forwardCommand($questionAuthoringGUI);
+				$DIC->ctrl()->forwardCommand($serviceGUI);
 		}
 	}
 	
 	/**
-	 * For question listings the ilAsqQuestionFactory provides a factory method to retrieve
+	 * The authoring service requires some information about the consuming container object (e.g. question pool).
+	 * For this purpose a container specification object is available that needs to be constructed
+	 * with the required information like:
+	 * - parent obj/ref id,
+	 * - available taxonomies (that are managed in the consumer)
+	 * - the still required flag to distinguish between test/pool and learning module
+	 *
+	 * The container specification is also used to inject the required globals.
+	 */
+	protected function getContainerSpecification() : AsqContainerSpec
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$containerBackLink = $DIC->ui()->factory()->link()->standard(
+			'Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
+		);
+		
+		$containerSpecification = $DIC->question()->authoringContainerSpecification(
+			
+			$DIC->ui()->mainTemplate(),
+			$DIC->language(),
+			
+			$containerBackLink,
+			$this->object->getId(),
+			$this->object->getRefId(),
+			$this->object->getAvailableTaxonomyIds(),
+			
+			// still required as long as we not have merged the
+			// two kinds of rendering a question to the client
+			$containerIsLearningModule = false,
+			
+			$DIC->user()->getId()
+		);
+		
+		return $containerSpecification;
+	}
+	
+	/**
+	 * For question listings the authoring service provides a method to retrieve
 	 * an array of associative question data arrays. This structure can be simply used as
 	 * data structure for any ilTable2 implementation.
 	 */
@@ -52,17 +87,17 @@ class exObjQuestionPoolGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$parentObjectId = 0; // init with question pool object id
-		
-		$questionDataArray = $DIC->question()->getQuestionDataArray($parentObjectId);
+		$questionsAsAssocArrayStack = $DIC->question()->authoringService()->getQuestionsAsAssocArrayStack(
+			$this->object->getId()
+		);
 		
 		/**
 		 * initialise any ilTable2GUI with this data array
 		 * render initialised ilTable2GUI
 		 */
 		
-		$tableGUI = new exQuestionsTableGUI($this, 'showQuestions', '');
-		$tableGUI->setData($questionDataArray);
+		$tableGUI = new exQuestionsTableGUI($this, 'showQuestionList', '');
+		$tableGUI->setData($questionsAsAssocArrayStack);
 		
 		$tableHTML = $tableGUI->getHTML(); // render table
 	}
