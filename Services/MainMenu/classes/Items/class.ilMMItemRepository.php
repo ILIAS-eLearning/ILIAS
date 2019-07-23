@@ -9,6 +9,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
+use ILIAS\MainMenu\Provider\CustomMainBarProvider;
 
 /**
  * Class ilMMItemRepository
@@ -138,7 +139,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         if ($identification === null || $identification instanceof NullIdentification || $identification instanceof NullPluginIdentification) {
             return new ilMMNullItemFacade($identification ? $identification : new NullIdentification(), $this->main_collector);
         }
-        if ($identification->getClassName() === ilMMCustomProvider::class) {
+        if ($identification->getClassName() === CustomMainBarProvider::class) {
             return new ilMMCustomItemFacade($identification, $this->main_collector);
         }
 
