@@ -15,17 +15,17 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Icons are quickly comprehensible and recognizable graphics.
-	 *     They indicate the functionality or nature of a text-element or context:
+	 *     Icons are quickly comprehensible and recognizable graphics that MUST be used with a text label.
+	 *     They indicate the functionality or nature of the element they illustrate:
 	 *     Icons will mainly be used in front of object-titles, e.g. in the
 	 *     header, the tree and in repository listing.
-	 *     Icons can be disabled. Disabled Icons visually communicate that the depicted
+	 *     Icons can be presented in a disabled state. Disabled Icons visually communicate that the depicted
 	 *     functionality is not available for the intended audience.
 	 *   composition: >
 	 *     Icons come in three fixed sizes: small, medium and large.
-	 *     They can be configured with an additional "abbreviation",
+	 *     They can be presented with an additional "abbreviation",
 	 *     a text of a few characters that will be rendered on top of the image.
-	 *     The Disabled Icons merely stand out visually: A color shade covers the Icon.
+	 *     The Disabled Icons are visually muted: A color shade covers the Icon.
 	 *   effect: >
 	 *     Icons themselves are not interactive; however they are allowed
 	 *     within interactive containers.
@@ -46,8 +46,8 @@ interface Factory
 	 *     1: Icons MUST have a class indicating their usage.
 	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
 	 *   accessibility:
-	 *     1: Icons MUST use aria-label.
-	 *     2: Disabled Icons MUST bear an aria-label indicating the special status.
+	 *     1: Icons MUST bear an aria-label.
+	 *     2: Disabled Icons MUST bear an aria-label indicating the disabled status.
 	 *   wording:
 	 *     1: The aria-label MUST state the represented object-type.
 	 *     2: The abbreviation SHOULD consist of one or two letters.
@@ -62,19 +62,17 @@ interface Factory
 	 * description:
 	 *   purpose: >
 	 *       Glyphs map a generally known concept or symbol to a specific concept in ILIAS.
-	 *       Glyphs are used when space is scarce.
+	 *       Glyphs SHOULD NOT be used with a text label. They are used when space is scarce.
 	 *   composition: >
-	 *       A glyph is a typographical character that represents
-	 *       something else. As any other typographical character, they can be
-	 *       manipulated by regular CSS. If hovered they change their background
-	 *       to indicate possible interactions.
+	 *       A glyph is a typographical character. As any other typographical character, they can be
+	 *       manipulated by regular CSS. If hovered, they MUST change either their color OR their background-color in order to indicate possible interactions.
 	 *   effect: >
-	 *       Glyphs act as trigger for some action such as opening a certain
-	 *       Overlay type or as shortcut.
+	 *       Glyphs act as a trigger for some action (such as opening a certain
+	 *       Overlay type) or as a shortcut.
 	 *   rivals:
-	 *       icon: >
+	 *       Icon: >
 	 *           Standalone Icons are not interactive. Icons can be in an interactive container however.
-	 *           Icons merely serve as additional hint of the functionality described by some title.
+	 *           Icons merely serve as an additional hint of the functionality described by a title.
 	 *           Glyphs are visually distinguished from object icons: they are monochrome.
 	 * background: >
 	 *     "In typography, a glyph is an elemental symbol within an agreed set of
@@ -89,21 +87,21 @@ interface Factory
 	 *   usage:
 	 *       1: Glyphs MUST NOT be used in content titles.
 	 *       2: >
-	 *          Glyphs MUST be used for cross-sectional functionality such as mail for
+	 *          Glyphs MUST be used for cross-sectional functionality such as Mail for
 	 *          example and NOT for representing objects.
 	 *       3: >
 	 *          Glyphs SHOULD be used for very simple tasks that are repeated at
 	 *          many places throughout the system.
 	 *       4: >
-	 *          Services such as mail MAY be represented by a glyph AND an icon.
+	 *          Services such as Mail MAY be represented either by a glyph OR by an icon plus text label, depending on the usage scenario.
 	 *   style:
 	 *       1: >
-	 *          All Glyphs MUST be taken from the Bootstrap Glyphicon Halflings
-	 *          set. Exceptions MUST be approved by the JF.
+	 *          All Glyphs SHOULD be taken from the Bootstrap Glyphicon Halflings
+	 *          set. Exceptions are possible, but MUST be approved by the JF.
 	 *   accessibility:
 	 *       1: >
-	 *          The functionality triggered by the Glyph must be indicated to
-	 *          screen readers with by the attribute aria-label or aria-labelledby attribute.
+	 *          The functionality triggered by the Glyph MUST be indicated to
+	 *          screen readers with the attributes aria-label or aria-labelledby.
 	 * ---
 	 * @return  \ILIAS\UI\Component\Symbol\Glyph\Factory
 	 */
