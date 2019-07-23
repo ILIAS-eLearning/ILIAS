@@ -10,16 +10,72 @@ Furthermore the database got decoupled since the supposed separation in two diff
 
 This documentation describes the interfaces the AssessmentQuestion service comes with and how they are to be used by developers who want to integrate assessment questions to their components.
 
-The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. Most of any business logic around assessment questions with a focus on a single question is covered in the Assessment Question Service.
+The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. The higher level business logic is handled by the consumer. The lower level business logic around assessment questions with a focus on a single question is covered in the Assessment Question Service. 
 
-The business logic for handling a group of questions is handled by the consumer. E.g. test passed at 80% of correctly answered questions.
+//TODO
+* Validierung, ....
+
+Beispiel TEST Business Logic -> Frage nur einmal beantwortbar
+
+The business logic for handling a group of questions is handled by the consumer. E.g. test passed at 80% of correctly answered questions. 
 
 # Service Interfaces
 
 The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
 
-## AsqAuthoringService
-The service offers a complete authoring interface for the editing of questions.
+## Public AsqAuthoringService
+The service offers a complete authoring ui for the editing questions.
+
+//TODO
+GetQuestionsAsAssocArrayStack(container_id):array[] 
+GetQuestionsAsDtoStack(container_id): questionDTO[]
+
+Mit Links auf die Authoring-Oberfläche!!
+
+GetQuestions(container_id, ):array() / questionDTO[]
+
+-> mit container_id -> 
+Unterschiedliche DTO's für unterschiedliche Anwendungszwecke!
+-> siehe Tabellen -> hier müssen wir auch ermöglichen ein array zu erhalten. ilTable braucht nun mal array's!!
+
+-> brauchen wir nicht in der PublicAPI - verlagern in interne API
+SearchQuestions
+GetQuestion
+SaveQuestion
+CreateQuestion
+
+## Public AsqPlayService
+
+```
+/Services/AssessmentQuestion/PublicApi/AsqAuthoringService
+```
+
+GetQuestionPresentation(string question_id):ILIAS\UI\Component (derzeit legacy)
+-> consument macht rendering.
+
+GetQuestionPresentationWithUserSolution(string question_id, solution_id):ILIAS\UI\Component (derzeit legacy)
+
+SaveUserSolution(solutionObjectDTO):solution_id
+-> returns solution_id (ohne user_id!!)
+--> solutionObjectDTO
+---> question_id
+---> POST(?)
+
+
+GetUserResult(solution_id): userResultDTO
+userResultDTO
+* int solution_id
+* string/int question_id
+* boolean correct/incorrect 
+* int Points
+
+ACHTUNG Consumer müssen unseren Eintrittspunkt als Nachfolgen Klasse registrieren!!
+
+
+
+AsqGUIElementFactory
+-> sollte nicht vom Konsumenten aufgerufen werden!!
+--> sondern Links direkt auf unseren Service mit den GUIs
 
 
 
