@@ -33,7 +33,7 @@ class exObjQuestionPoolGUI
 			case 'ilassessmentquestionservicegui':
 				
 				$serviceGUI = $DIC->question()->authoringServiceGUI(
-					$this->getContainerSpecification()
+					$this->buildConsumerContainerSpecifications()
 				);
 				
 				$DIC->ctrl()->forwardCommand($serviceGUI);
@@ -50,7 +50,7 @@ class exObjQuestionPoolGUI
 	 *
 	 * The container specification is also used to inject the required globals.
 	 */
-	protected function getContainerSpecification() : AsqContainerSpec
+	protected function buildConsumerContainerSpecification() : AsqConsumerContainerSpec
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
@@ -58,7 +58,7 @@ class exObjQuestionPoolGUI
 			'Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
 		);
 		
-		$containerSpecification = $DIC->question()->authoringContainerSpecification(
+		$containerSpecification = $DIC->question()->consumerContainerSpecification(
 			
 			$DIC->ui()->mainTemplate(),
 			$DIC->language(),
@@ -87,9 +87,11 @@ class exObjQuestionPoolGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$questionsAsAssocArrayStack = $DIC->question()->authoringService()->getQuestionsAsAssocArrayStack(
-			$this->object->getId()
+		$authoringService = $DIC->question()->authoringService(
+			$this->buildConsumerContainerSpecification()
 		);
+
+		$questionsAsAssocArrayStack = $authoringService->GetQuestionsAsAssocArrayStack();
 		
 		/**
 		 * initialise any ilTable2GUI with this data array
@@ -169,9 +171,7 @@ class exObjQuestionPoolGUI
 	}
 	
 	/**
-	 * For the deletion of questions ilAsqQuestion provides the interface method deleteQuestion.
-	 * The ilAsqFactory is to be used to get the ilAsqQuestion instance for any given questionId.
-	 * A simple call to deleteQuestion deletes the question and all its data.
+	 * For the deletion of questions the authoring service comes with a method DeleteQuestion().
 	 */
 	public function deleteQuestion()
 	{
@@ -179,12 +179,10 @@ class exObjQuestionPoolGUI
 		
 		$questionId = 0; // init from GET parameters
 		
-		/**
-		 * use the ilAsqFactory to get an ilAsqQuestion instance
-		 * that supports the deletion process
-		 */
+		$authoringService = $DIC->question()->authoringService(
+			$this->buildConsumerContainerSpecification()
+		);
 		
-		$questionInstance = $DIC->question()->getQuestionInstance($questionId);
-		$questionInstance->delete();
+		$authoringService->DeleteQuestion($questionId);
 	}
 }
