@@ -23,60 +23,73 @@ The business logic for handling a group of questions is handled by the consumer.
 
 The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
 
-## Public AsqAuthoringService
+## Public Asq Public Authoring Service
+```
+/Services/AssessmentQuestion/PublicApi/AsqPublicAuthoringService
+```
+
 The service offers a complete authoring ui for the editing questions.
 
+$req_columns
+* question_id
+* title
+* question_type
+* points
+* container_id
+* author
+* comments[]
+* created
+* updated
+* working_time
+* ...
+* ..
+
+
+new $req_columns();
+$req_columns->widthQuestionID()->withTitle()->widthPoints();
+
 //TODO
-GetQuestionsAsAssocArrayStack(container_id):array[] 
+GetQuestionsAsAssocArrayStack(container_id,$columns): array[]
 GetQuestionsAsDtoStack(container_id): questionDTO[]
 
-Mit Links auf die Authoring-Oberfläche!!
+///Mit Links auf die Authoring-Oberfläche!!
 
-GetQuestions(container_id, ):array() / questionDTO[]
 
--> mit container_id -> 
-Unterschiedliche DTO's für unterschiedliche Anwendungszwecke!
--> siehe Tabellen -> hier müssen wir auch ermöglichen ein array zu erhalten. ilTable braucht nun mal array's!!
 
--> brauchen wir nicht in der PublicAPI - verlagern in interne API
-SearchQuestions
-GetQuestion
-SaveQuestion
-CreateQuestion
 
 ## Public AsqPlayService
 
-```
-/Services/AssessmentQuestion/PublicApi/AsqAuthoringService
-```
 
 GetQuestionPresentation(string question_id):ILIAS\UI\Component (derzeit legacy)
 -> consument macht rendering.
 
-GetQuestionPresentationWithUserSolution(string question_id, solution_id):ILIAS\UI\Component (derzeit legacy)
-
-SaveUserSolution(solutionObjectDTO):solution_id
+SaveUserSolution(solutionObjectDTO):string solution_id
 -> returns solution_id (ohne user_id!!)
 --> solutionObjectDTO
 ---> question_id
 ---> POST(?)
 
 
-GetUserResult(solution_id): userResultDTO
+GetQuestionPresentationWithUserSolution(string question_id, solution_id):ILIAS\UI\Component (derzeit legacy)
+
+
+
+GetUserScore(solution_id): userScoreDTO
 userResultDTO
-* int solution_id
-* string/int question_id
+* string solution_id
+* string question_id
 * boolean correct/incorrect 
 * int Points
-
-ACHTUNG Consumer müssen unseren Eintrittspunkt als Nachfolgen Klasse registrieren!!
-
 
 
 AsqGUIElementFactory
 -> sollte nicht vom Konsumenten aufgerufen werden!!
 --> sondern Links direkt auf unseren Service mit den GUIs
 
+
+
+/////
+OLD
 
 
 Objects implementing `ilAsqQuestion` represents the question entity itself while objects implementing `ilAsqQuestionAuthoring` are about the authoring that can be integrated with the `executeCommand` control structure of ILIAS.
