@@ -8,15 +8,14 @@
 class AsqPlayService {
 
 	/**
-	 * @param string      $question_uuid
-	 * @param string|null $solution_uuid
+	 * @param string $question_uuid
 	 *
 	 * @return QuestionComponent
 	 *
 	 * Gets Question Presentation Component, if solution is given that solution
 	 * will be displayed
 	 */
-	public function GetQuestionPresentation(string $question_uuid, string $solution_uuid = null) : QuestionComponent {
+	public function GetQuestionPresentation(string $question_uuid) : QuestionComponent {
 		$question = $question_repository->getQuestion($question_uuid);
 
 		if (!is_null($solution_uuid)) {
@@ -26,6 +25,42 @@ class AsqPlayService {
 		return new QuestionComponent($question, $solution);
 	}
 
+	/**
+	 * @param string $question_uuid
+	 *
+	 * @return \ILIAS\UI\Component\Component
+	 *
+	 * Gets Question Presentation Component, if solution is given that solution
+	 * will be displayed
+	 */
+	public function GetStandaloneQuestionExportPresentation(string $question_uuid) : \ILIAS\UI\Component\Component {
+
+	}
+
+
+
+	/**
+	 * @param string      $question_uuid
+	 * @param string|null $solution_uuid
+	 *
+	 * @return QuestionComponent
+	 *
+	 * Gets Question Presentation Component, if solution is given that solution
+	 * will be displayed
+	 */
+	public function GetSolutionPresentation(string $question_uuid, string $solution_uuid = null) : QuestionComponent;
+
+	/**
+	 * @param ilAsqQuestionSolution $solution
+	 * @return \ILIAS\UI\Component\Component
+	 */
+	public function getGenericFeedbackOutput(ilAsqQuestionSolution $solution) : \ILIAS\UI\Component\Component;
+
+	/**
+	 * @param ilAsqQuestionSolution $solution
+	 * @return \ILIAS\UI\Component\Component
+	 */
+	public function getSpecificFeedbackOutput(ilAsqQuestionSolution $solution) : \ILIAS\UI\Component\Component;
 
 	/**
 	 * @param SolutionDto $solution

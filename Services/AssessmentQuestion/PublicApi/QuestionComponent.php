@@ -23,6 +23,16 @@ class QuestionComponent {
 
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasInlineFeedback() : bool;
+
+	/**
+	 * @return bool
+	 */
+	public function isAutosaveable() : bool;
+
 
 	/**
 	 * @return SolutionDto
