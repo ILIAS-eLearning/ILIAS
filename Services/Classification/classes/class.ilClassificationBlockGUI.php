@@ -287,8 +287,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
 						$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);					
 					}
-				}	
-				
+				}
+				$valid_objects = ilUtil::sortArray($valid_objects, "title", "asc", false, true);
 				if(sizeof($valid_objects))
 				{
 					$has_content = true;
@@ -300,7 +300,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 					$this->item_list_gui = array();
 					foreach($valid_objects as $block)
 					{
-						foreach ($block["items"] as $obj)
+						$items = ilUtil::sortArray($block["items"], "title", "asc", false, true);
+						foreach ($items as $obj)
 						{
 							$type = $obj["type"];
 
