@@ -10511,7 +10511,8 @@ td.il_Description_no_margin {
   font-style: italic;
   text-align: left;
 }
-[dir="rtl"] div.il_Description_no_margin,[dir="rtl"] td.il_Description_no_margin {
+[dir="rtl"] div.il_Description_no_margin,
+[dir="rtl"] td.il_Description_no_margin {
   text-align: right;
 }
 div.il_info {
@@ -14327,31 +14328,24 @@ li.smallPad {
 .ilCrsObjAcc {
   margin-bottom: 10px;
 }
-
 .ilCourseObjectiveAccResults {
   padding-top: 10px;
 }
-
-
 .ilCourseObjectiveAccResult {
   font-size: 80%;
 }
-
 .ilCourseObjectiveAccSummary {
   font-size: 120%;
   padding-top: 15px;
 }
-
 .ilCourseObjectiveProgressBarContainer .text-comparision {
   display: none;
 }
-
 .ilCourseObjectiveProgressBarContainer {
   float: right;
   max-width: 200px;
   padding: 20px;
 }
-
 /* LOK progress bars */
 .ilCourseObjectiveProgressBar {
   padding-right: 5px;
@@ -14683,6 +14677,9 @@ div#ilContRepIntro img {
 }
 .ilContainerTileRows .card-no-highlight {
   height: 0px;
+}
+.ilContainerTileRows .il-chart-progressmeter-container {
+  height: 100%;
 }
 .ilContainerShowMore {
   padding: 15px 10px;
