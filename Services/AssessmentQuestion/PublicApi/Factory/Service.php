@@ -5,13 +5,13 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringQueryServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QueryServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringQueryService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QueryService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\PlayService;
 
 /**
@@ -25,20 +25,20 @@ class Service
 {
 	/**
 	 * @param int $containerId
-	 * @return AuthoringQueryServiceContract
+	 * @return QueryServiceContract
 	 */
-	public function authoringQuery(int $containerId) : AuthoringQueryServiceContract
+	public function authoringQuery(int $containerId) : QueryServiceContract
 	{
-		return new AuthoringQueryService($containerId);
+		return new QueryService($containerId);
 	}
 	
 	/**
-	 * @param QuestionAuthoringServiceSpecContract $authoringQuestionServiceSpec
-	 * @return QuestionAuthoringServiceContract
+	 * @param AuthoringServiceSpecContract $authoringQuestionServiceSpec
+	 * @return AuthoringServiceContract
 	 */
-	public function questionAuthoring(QuestionAuthoringServiceSpecContract $authoringQuestionServiceSpec) : QuestionAuthoringServiceContract
+	public function questionAuthoring(AuthoringServiceSpecContract $authoringQuestionServiceSpec) : AuthoringServiceContract
 	{
-		return new QuestionAuthoringService($authoringQuestionServiceSpec);
+		return new AuthoringService($authoringQuestionServiceSpec);
 	}
 	
 	/**

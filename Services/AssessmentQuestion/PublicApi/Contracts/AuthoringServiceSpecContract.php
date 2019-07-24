@@ -15,7 +15,7 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface QuestionAuthoringServiceSpecContract {
+interface AuthoringServiceSpecContract {
 
 	/**
 	 * AsqApiAuthoringQuestionServiceSpecInterface constructor.

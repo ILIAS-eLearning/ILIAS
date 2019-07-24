@@ -2,7 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\UI\Component\Link\Link;
 
@@ -16,7 +16,7 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionAuthoringServiceSpec implements QuestionAuthoringServiceSpecContract {
+class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 
 	/**
 	 * QuestionAuthoringServiceSpec constructor.

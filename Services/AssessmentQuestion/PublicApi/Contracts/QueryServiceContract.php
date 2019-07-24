@@ -12,13 +12,14 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AuthoringQueryServiceContract {
+interface QueryServiceContract {
 
 	/**
+	 * @param int $containerId
 	 * @return array
 	 *
 	 * Gets all questions of a Container from db as an Array containing
 	 * the generic question data fields
 	 */
-	public function GetQuestionsOfContainerAsAssocArray(): array;
+	public function GetQuestionsOfContainerAsAssocArray(int $containerId): array;
 }

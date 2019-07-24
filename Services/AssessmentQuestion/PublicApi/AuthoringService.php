@@ -2,8 +2,8 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\UI\Component\Link\Link;
 
@@ -17,14 +17,14 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionAuthoringService implements QuestionAuthoringServiceContract {
+class AuthoringService implements AuthoringServiceContract {
 
 	/**
 	 * QuestionAuthoringService constructor.
 	 *
-	 * @param QuestionAuthoringServiceSpecContract $asq_authoring_spec
+	 * @param AuthoringServiceSpecContract $asq_authoring_spec
 	 */
-	public function __construct(QuestionAuthoringServiceSpecContract $asq_authoring_spec) {
+	public function __construct(AuthoringServiceSpecContract $asq_authoring_spec) {
 
 	}
 
