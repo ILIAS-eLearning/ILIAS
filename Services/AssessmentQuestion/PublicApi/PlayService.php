@@ -2,10 +2,10 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiComponentQuestionContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServicePlayContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServicePlaySpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiDtoScoringContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionComponentContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\ScoringDTOContract;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -18,14 +18,14 @@ use ILIAS\UI\Component\Component;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AsqApiServicePlay implements AsqApiServicePlayContract {
+class PlayService implements PlayServiceContract {
 
-	public function __construct(AsqApiServicePlaySpecContract $asq_api_service_play_spec) {
+	public function __construct(PlayServiceSpecContract $asq_api_service_play_spec) {
 		//TODO
 	}
 
 
-	public function GetQuestionPresentation(): AsqApiComponentQuestionContract {
+	public function GetQuestionPresentation(): QuestionComponentContract {
 		// TODO: Implement GetQuestionPresentation() method.
 	}
 
@@ -35,7 +35,7 @@ class AsqApiServicePlay implements AsqApiServicePlayContract {
 	}
 
 
-	public function GetUserAnswerPresentation(int $user_answer_id): AsqApiComponentQuestionContract {
+	public function GetUserAnswerPresentation(int $user_answer_id): QuestionComponentContract {
 		// TODO: Implement GetUserAnswerPresentation() method.
 	}
 
@@ -50,22 +50,22 @@ class AsqApiServicePlay implements AsqApiServicePlayContract {
 	}
 
 
-	public function SaveUserAnswer(\ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiDtoUserAnswerContract $user_answer): int {
+	public function SaveUserAnswer(\ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerDTOContract $user_answer): int {
 		// TODO: Implement SaveUserAnswer() method.
 	}
 
 
-	public function GetUserScore(int $user_answer_id): AsqApiDtoScoringContract {
+	public function GetUserScore(int $user_answer_id): ScoringDTOContract {
 		// TODO: Implement GetUserScore() method.
 	}
 
 
-	public function GetUserScoreOfBestScoredAnswer(int $user_id): AsqApiDtoScoringContract {
+	public function GetUserScoreOfBestScoredAnswer(int $user_id): ScoringDTOContract {
 		// TODO: Implement GetUserScoreOfBestScoredAnswer() method.
 	}
 
 
-	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): AsqApiDtoScoringContract {
+	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): ScoringDTOContract {
 		// TODO: Implement GetUserScoreLastOfSubmittedAnswer() method.
 	}
 }

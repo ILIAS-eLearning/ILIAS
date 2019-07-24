@@ -5,11 +5,11 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestion;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestionSpec;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuery;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServicePlay;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServicePlaySpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringQueryService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\PlayService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
 
 /**
  * Class Services
@@ -22,28 +22,28 @@ class Service
 {
 	/**
 	 * @param int $containerId
-	 * @return AsqApiServiceAuthoringQuery
+	 * @return AuthoringQueryService
 	 */
-	public function authoringQuery(int $containerId) : AsqApiServiceAuthoringQuery
+	public function authoringQuery(int $containerId) : AuthoringQueryService
 	{
-		return new AsqApiServiceAuthoringQuery($containerId);
+		return new AuthoringQueryService($containerId);
 	}
 	
 	/**
-	 * @param AsqApiServiceAuthoringQuestionSpec $authoringQuestionServiceSpec
-	 * @return AsqApiServiceAuthoringQuestion
+	 * @param QuestionAuthoringServiceSpec $authoringQuestionServiceSpec
+	 * @return QuestionAuthoringService
 	 */
-	public function authoringQuestion(AsqApiServiceAuthoringQuestionSpec $authoringQuestionServiceSpec) : AsqApiServiceAuthoringQuestion
+	public function authoringQuestion(QuestionAuthoringServiceSpec $authoringQuestionServiceSpec) : QuestionAuthoringService
 	{
-		return new AsqApiServiceAuthoringQuestion($authoringQuestionServiceSpec);
+		return new QuestionAuthoringService($authoringQuestionServiceSpec);
 	}
 	
 	/**
-	 * @param AsqApiServicePlaySpec $playServiceSpec
-	 * @return AsqApiServicePlay
+	 * @param PlayServiceSpec $playServiceSpec
+	 * @return PlayService
 	 */
-	public function play(AsqApiServicePlaySpec $playServiceSpec) : AsqApiServicePlay
+	public function play(PlayServiceSpec $playServiceSpec) : PlayService
 	{
-		return new AsqApiServicePlay($playServiceSpec);
+		return new PlayService($playServiceSpec);
 	}
 }

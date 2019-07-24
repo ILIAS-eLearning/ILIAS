@@ -5,11 +5,10 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestionSpec;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServicePlaySpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdContainerContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdQuestionContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 
 use ILIAS\UI\Component\Link\Link;
 
@@ -23,21 +22,21 @@ use ILIAS\UI\Component\Link\Link;
 class Specification
 {
 	/**
-	 * @param integer $container_id
-	 * @param AsqApiIdQuestionContract $question_uuid
+	 * @param int $container_obj_id
+	 * @param QuestionIdContract $question_uuid
 	 * @param int $actor_user_id
 	 * @param Link $container_backlink
-	 * @return AsqApiServiceAuthoringQuestionSpec
+	 * @return QuestionAuthoringServiceSpec
 	 */
 	public function authoringQuestion(
-		AsqApiIdContainerContract $container_id,
-		AsqApiIdQuestionContract $question_uuid,
+		int $container_obj_id,
+		QuestionIdContract $question_uuid,
 		int $actor_user_id,
 		Link $container_backlink
-	) : AsqApiServiceAuthoringQuestionSpec
+	) : QuestionAuthoringServiceSpec
 	{
-		return new AsqApiServiceAuthoringQuestionSpec(
-			$container_id,
+		return new QuestionAuthoringServiceSpec(
+			$container_obj_id,
 			$question_uuid,
 			$actor_user_id,
 			$container_backlink
@@ -45,12 +44,12 @@ class Specification
 	}
 	
 	/**
-	 * @return AsqApiServicePlaySpec
+	 * @return PlayServiceSpec
 	 * // TODO pass parameters
 	 */
-	public function play() : AsqApiServicePlaySpec
+	public function play() : PlayServiceSpec
 	{
-		return new AsqApiServicePlaySpec(
+		return new PlayServiceSpec(
 		
 		);
 	}

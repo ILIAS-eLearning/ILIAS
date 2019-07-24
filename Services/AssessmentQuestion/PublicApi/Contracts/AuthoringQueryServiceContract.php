@@ -3,7 +3,7 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
 /**
- * Interface AsqContainerId
+ * Interface AuthoringQueryServiceContract
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -12,6 +12,13 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiIdContainerContract {
+interface AuthoringQueryServiceContract {
 
+	/**
+	 * @return array
+	 *
+	 * Gets all questions of a Container from db as an Array containing
+	 * the generic question data fields
+	 */
+	public function GetQuestionsOfContainerAsAssocArray(): array;
 }

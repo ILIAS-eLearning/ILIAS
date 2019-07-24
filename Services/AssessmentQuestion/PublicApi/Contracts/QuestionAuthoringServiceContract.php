@@ -2,24 +2,24 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\AsqApiContainerIsNotResponsibleForQuestionException;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\ContainerIsNotResponsibleForQuestionException;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApServiceiAuthoringQuestionContract
+ * Interface QuestionAuthoringServiceContract
+ * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  *
- * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApServiceiAuthoringQuestionContract {
+interface QuestionAuthoringServiceContract {
 
 	/**
 	 *
-	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
+	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function deleteQuestion(): void;
 
@@ -28,7 +28,7 @@ interface AsqApServiceiAuthoringQuestionContract {
 	 *
 	 * @return Link
 	 *
-	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
+	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function GetEditLink(): Link;
 
@@ -37,7 +37,7 @@ interface AsqApServiceiAuthoringQuestionContract {
 	 *
 	 * @return Link
 	 *
-	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
+	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function getPreviewLink(): Link;
 
@@ -47,7 +47,7 @@ interface AsqApServiceiAuthoringQuestionContract {
 	 *
 	 * @return Link
 	 *
-	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
+	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function getEdiPageLink(): Link;
 
@@ -56,7 +56,7 @@ interface AsqApServiceiAuthoringQuestionContract {
 	 *
 	 * @return Link
 	 *
-	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
+	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function getEditFeedbacksLink(): Link;
 
@@ -65,7 +65,7 @@ interface AsqApServiceiAuthoringQuestionContract {
 	 *
 	 * @return Link
 	 *
-	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
+	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function getEditHintsLink(): Link;
 
@@ -74,13 +74,13 @@ interface AsqApServiceiAuthoringQuestionContract {
 	 *
 	 * @return Link
 	 *
-	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
+	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function getStatisticLink(): Link;
 
 
 	/**
-	 * @param AsqApiIdRevisionContract $asq_api_id_revision
+	 * @param RevisionIdContract $asq_api_id_revision
 	 */
-	public function publishNewRevision(AsqApiIdRevisionContract $asq_api_id_revision):void;
+	public function publishNewRevision(RevisionIdContract $asq_api_id_revision):void;
 }

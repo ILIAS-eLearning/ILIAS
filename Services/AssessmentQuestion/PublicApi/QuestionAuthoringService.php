@@ -2,13 +2,13 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApServiceiAuthoringQuestionContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServiceAuthoringQuestionSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdRevisionContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApServiceiAuthoringQuestionContract
+ * Interface QuestionAuthoringService
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -17,14 +17,14 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AsqApiServiceAuthoringQuestion implements AsqApServiceiAuthoringQuestionContract {
+class QuestionAuthoringService implements QuestionAuthoringServiceContract {
 
 	/**
-	 * AsqApServiceiAuthoringQuestionContract constructor.
+	 * QuestionAuthoringService constructor.
 	 *
-	 * @param AsqApiServiceAuthoringQuestionSpecContract $asq_authoring_spec
+	 * @param QuestionAuthoringServiceSpecContract $asq_authoring_spec
 	 */
-	public function __construct(AsqApiServiceAuthoringQuestionSpecContract $asq_authoring_spec) {
+	public function __construct(QuestionAuthoringServiceSpecContract $asq_authoring_spec) {
 
 	}
 
@@ -64,7 +64,7 @@ class AsqApiServiceAuthoringQuestion implements AsqApServiceiAuthoringQuestionCo
 	}
 
 
-	public function publishNewRevision(AsqApiIdRevisionContract $asq_api_id_revision): void {
+	public function publishNewRevision(RevisionIdContract $asq_api_id_revision): void {
 		// TODO: Implement publishNewRevision() method.
 	}
 }

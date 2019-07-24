@@ -2,7 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServiceAuthoringQueryContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringQueryServiceContract;
 
 /**
  * Class AbstractAsqApiAuthoringQueryService
@@ -14,7 +14,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServiceAuthoring
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AsqApiServiceAuthoringQuery implements AsqApiServiceAuthoringQueryContract {
+class AuthoringQueryService implements AuthoringQueryServiceContract {
 
 	/**
 	 * AsqApiServiceAuthoringQueryContract constructor.

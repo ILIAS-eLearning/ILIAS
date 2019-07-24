@@ -5,7 +5,8 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 use ILIAS\UI\Component\Component;
 
 /**
- * Interface AsqApiServicePlayContract
+ * Interface PlayServiceContract
+ * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author Adrian Lüthi <al@studer-raimann.ch>
@@ -13,14 +14,14 @@ use ILIAS\UI\Component\Component;
  * @author Martin Studer <ms@studer-raimann.ch>
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiServicePlayContract {
+interface PlayServiceContract {
 
 	/**
-	 * @return AsqApiComponentQuestionContract
+	 * @return QuestionComponentContract
 	 *
 	 * Gets Question Presentation
 	 */
-	public function GetQuestionPresentation(): AsqApiComponentQuestionContract;
+	public function GetQuestionPresentation(): QuestionComponentContract;
 
 
 	/**
@@ -37,11 +38,11 @@ interface AsqApiServicePlayContract {
 	/**
 	 * @param int $user_answer_id
 	 *
-	 * @return AsqApiComponentQuestionContract
+	 * @return QuestionComponentContract
 	 *
 	 * Gets Question Presentation Component with user answer
 	 */
-	public function GetUserAnswerPresentation(int $user_answer_id): AsqApiComponentQuestionContract;
+	public function GetUserAnswerPresentation(int $user_answer_id): QuestionComponentContract;
 
 
 	/**
@@ -59,18 +60,18 @@ interface AsqApiServicePlayContract {
 
 
 	/**
-	 * @param AsqApiDtoUserAnswerContract $user_answer
+	 * @param UserAnswerDTOContract $user_answer
 	 *
 	 * @return int
 	 */
-	public function SaveUserAnswer(AsqApiDtoUserAnswerContract $user_answer): int;
+	public function SaveUserAnswer(UserAnswerDTOContract $user_answer): int;
 
 
-	public function GetUserScore(int $user_answer_id): AsqApiDtoScoringContract;
+	public function GetUserScore(int $user_answer_id): ScoringDTOContract;
 
 
-	public function GetUserScoreOfBestScoredAnswer(int $user_id): AsqApiDtoScoringContract;
+	public function GetUserScoreOfBestScoredAnswer(int $user_id): ScoringDTOContract;
 
 
-	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): AsqApiDtoScoringContract;
+	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): ScoringDTOContract;
 }

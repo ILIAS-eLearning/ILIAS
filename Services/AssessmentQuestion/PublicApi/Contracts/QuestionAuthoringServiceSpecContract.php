@@ -2,32 +2,30 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdContainerContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdQuestionContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApiServicePlaySpecContract
+ * Interface QuestionAuthoringServiceSpec
+ * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  *
- * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiServiceAuthoringQuestionSpecContract {
+interface QuestionAuthoringServiceSpecContract {
 
 	/**
 	 * AsqApiAuthoringQuestionServiceSpecInterface constructor.
 	 *
-	 * @param AsqApiIdContainerContract $container_id
-	 * @param AsqApiIdQuestionContract  $question_uuid
-	 * @param int                       $actor_user_id
-	 * @param Link                      $container_backlink
+	 * @param int $container_obj_id
+	 * @param QuestionIdContract $question_uuid
+	 * @param int $actor_user_id
+	 * @param Link $container_backlink
 	 */
-	public function __construct(AsqApiIdContainerContract $container_id, AsqApiIdQuestionContract $question_uuid, int $actor_user_id, Link $container_backlink);
+	public function __construct(int $container_obj_id, QuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink);
 
 
 	/**

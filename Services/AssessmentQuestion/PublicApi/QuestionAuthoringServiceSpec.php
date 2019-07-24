@@ -2,16 +2,12 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqAdditionalConfigSection;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServiceAuthoringQuestionSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdContainerContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiEventSubscriber;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdQuestionContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApiServicePlaySpecContract
+ * Interface QuestionAuthoringServiceSpec
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -20,56 +16,80 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AsqApiServiceAuthoringQuestionSpec implements AsqApiServiceAuthoringQuestionSpecContract {
+class QuestionAuthoringServiceSpec implements QuestionAuthoringServiceSpecContract {
 
 	/**
-	 * AsqApiAuthoringQuestionServiceSpecInterface constructor.
+	 * QuestionAuthoringServiceSpec constructor.
 	 *
-	 * @param AsqApiIdContainerContract $container_id
-	 * @param AsqApiIdQuestionContract  $question_uuid
-	 * @param int                       $actor_user_id
-	 * @param Link                      $container_backlink
+	 * @param int $container_obj_id
+	 * @param QuestionIdContract $question_uuid
+	 * @param int $actor_user_id
+	 * @param Link $container_backlink
 	 */
-	public function __construct(AsqApiIdContainerContract $container_id, AsqApiIdQuestionContract $question_uuid, int $actor_user_id, Link $container_backlink) {
+	public function __construct(int $container_obj_id, QuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink) {
 
 	}
 
 
+	/**
+	 * @param AsqAdditionalConfigSection $asq_additional_config_section
+	 */
 	public function addAdditionalConfigSection(AsqAdditionalConfigSection $asq_additional_config_section) {
 		// TODO: Implement addAdditionalConfigSection() method.
 	}
 
 
+	/**
+	 * @param AsqApiEventSubscriber $asq_public_event_subscriber
+	 */
 	public function subscribeToQuestionCreatedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber) {
 		// TODO: Implement subscribeToQuestionCreatedPublicEvent() method.
 	}
 
 
+	/**
+	 * @param AsqApiEventSubscriber $asq_public_event_subscriber
+	 */
 	public function subscribeToQuestionEditedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber) {
 		// TODO: Implement subscribeToQuestionEditedPublicEvent() method.
 	}
 
 
+	/**
+	 * @param AsqApiEventSubscriber $asq_public_event_subscriber
+	 */
 	public function subscribeToQuestionDeletedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber) {
 		// TODO: Implement subscribeToQuestionDeletedPublicEvent() method.
 	}
 
 
+	/**
+	 * @param string $revision_uuid
+	 */
 	public function withSpecificRevision(string $revision_uuid) {
 		// TODO: Implement withSpecificRevision() method.
 	}
 
 
+	/**
+	 * @return int
+	 */
 	public function getActorUserId(): int {
 		// TODO: Implement getActorUserId() method.
 	}
 
 
+	/**
+	 * @return Link
+	 */
 	public function getContainerBacklink(): Link {
 		// TODO: Implement getContainerBacklink() method.
 	}
 
 
+	/**
+	 * @return array
+	 */
 	public function getAsqAdditionalConfigSections(): array {
 		// TODO: Implement getAsqAdditionalConfigSections() method.
 	}
