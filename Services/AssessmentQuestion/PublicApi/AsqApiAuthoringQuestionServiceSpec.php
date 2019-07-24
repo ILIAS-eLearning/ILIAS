@@ -3,6 +3,7 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
 use ILIAS\UI\Component\Link\Link;
 
 /**
@@ -15,16 +16,17 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiAuthoringServiceSpec {
+interface AsqApiAuthoringQuestionServiceSpec {
 
 	/**
-	 * AsqApiAuthoringServiceSpec constructor.
+	 * AsqApiAuthoringQuestionServiceSpec constructor.
 	 *
 	 * @param AsqApiContainerId $container_id
-	 * @param int            $actor_user_id
-	 * @param Link           $container_backlink
+	 * @param DomainObjectId    $question_uuid
+	 * @param int               $actor_user_id
+	 * @param Link              $container_backlink
 	 */
-	public function __construct(AsqApiContainerId $container_id, int $actor_user_id, Link $container_backlink);
+	public function __construct(AsqApiContainerId $container_id, DomainObjectId $question_uuid, int $actor_user_id, Link $container_backlink);
 
 	/**
 	 * @param AsqAdditionalConfigSection $asq_additional_config_section

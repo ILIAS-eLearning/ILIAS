@@ -4,9 +4,10 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Adapter\ilRepositoryObject
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\AsqAdditionalConfigSection;
 use ILIAS\Services\AssessmentQuestion\PublicApi\AsqContainerId;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionServiceSpec;
 use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiEventSubscriber;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
 use ILIAS\UI\Component\Link\Link;
 
 /**
@@ -16,7 +17,7 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class AsqApiIlRepositoryObjectAuthoringServiceSpec implements AsqApiAuthoringServiceSpec {
+class AsqApiIlRepositoryObjectAuthoringQuestionServiceSpec implements AsqApiAuthoringQuestionServiceSpec {
 
 	/**
 	 * @var int
@@ -36,9 +37,7 @@ class AsqApiIlRepositoryObjectAuthoringServiceSpec implements AsqApiAuthoringSer
 	protected $container_context_learning_module = false;
 
 
-	public function __construct(AsqApiContainerId $container_id, int $actor_user_id, Link $container_backlink) {
-		// TODO: Implement
-	}
+	public function __construct(AsqApiContainerId $container_id, DomainObjectId $question_uuid, int $actor_user_id, Link $container_backlink) { }
 
 
 	public function addAdditionalConfigSection(AsqAdditionalConfigSection $asq_additional_config_section) {
