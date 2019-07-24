@@ -2006,7 +2006,7 @@ badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgend
 badge#:#badge_award_badge#:#Badge verleihen
 badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
 badge#:#badge_backpack_email#:#Mozilla Backpack Account (E-Mail)
-badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
+badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen ihres Mozilla Backpacks.
 badge#:#badge_backpack_list#:#Mein Backpack
 badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
 badge#:#badge_badge#:#Badge
@@ -9300,7 +9300,7 @@ lhist#:#lhist_first_login#:#Erstes Login
 lhist#:#lhist_learning_history#:#Lernverlauf
 lhist#:#lhist_lhist#:#Lernverlauf
 lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#Verfolge weiter Deine Ziele! Lerne heute etwas, um Deinen Lernverlauf zu erweitern.
+lhist#:#lhist_no_entries#:#Verfolgen Sie weiter Ihre Ziele! Lernen Sie heute etwas, um Ihren Lernverlauf zu erweitern.
 lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Mehr anzeigen
