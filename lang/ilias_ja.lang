@@ -15045,3 +15045,4 @@ news#:#lso_news_online_txt#:#A new object for your learning sequence was just pu
 bibl#:#bibliography_file#:#Bibliography File###04 07 2019 new variable
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.###04 07 2019 new variable
 content#:#msg_no_page_access#:#You do not have the permission to access this page.###04 07 2019 new variable
+forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###22 07 2019 new variable
