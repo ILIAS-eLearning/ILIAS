@@ -1,11 +1,12 @@
 <?php
 
-namespace ILIAS\Services\AssessmentQuestion\PublicApi;
+namespace ILIAS\Services\AssessmentQuestion\PublicApi\Implementation;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQueryServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiAuthoringQueryServiceContract;
 
 /**
- * Interface AsqApiAuthoringQuestionService
+ * Class AbstractAsqApiAuthoringQueryService
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -14,21 +15,19 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiAuthoringQueryService {
+class AsqApiAuthoringQueryService implements AsqApiAuthoringQueryServiceContract {
 
 	/**
-	 * AsqApiAuthoringQueryService constructor.
+	 * AsqApiAuthoringQueryServiceContract constructor.
 	 *
-	 * @param AsqApiContainerId $container_id
+	 * @param int $container_id
 	 */
-	public function __construct(AsqApiContainerId $container_id);
+	public function __construct(int $container_id) {
+
+	}
 
 
-	/**
-	 * @return array
-	 *
-	 * Gets all questions of a Container from db as an Array containing
-	 * the generic question data fields
-	 */
-	public function GetQuestionsOfContainerAsAssocArray():array;
+	public function GetQuestionsOfContainerAsAssocArray(): array {
+		// TODO: Implement GetQuestionsOfContainerAsAssocArray() method.
+	}
 }

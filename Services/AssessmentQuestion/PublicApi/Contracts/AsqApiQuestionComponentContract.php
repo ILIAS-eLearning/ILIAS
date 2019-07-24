@@ -2,7 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-interface AsqApiQuestionComponent {
+interface AsqApiQuestionComponentContract {
 
 	/**
 	 * @return string

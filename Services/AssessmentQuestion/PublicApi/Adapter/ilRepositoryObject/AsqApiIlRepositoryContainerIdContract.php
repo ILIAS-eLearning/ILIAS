@@ -2,9 +2,9 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Adapter\ilRepositoryObject;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerIdContract;
 
-class AsqApiIlRepositoryContainerId implements AsqApiContainerId {
+class AsqApiIlRepositoryContainerIdContract implements AsqApiContainerIdContract {
 
 	/**
 	 * @var int;

@@ -2,8 +2,8 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Adapter\ilRepositoryObject;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionServiceSpecInterface;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\AsqApiContainerIsNotResponsibleForQuestionException;
 use ILIAS\UI\Component\Link\Link;
 
@@ -16,20 +16,20 @@ use ILIAS\UI\Component\Link\Link;
  *
  * Service providing the needed Methods for Editing and Creating Questions
  */
-class AsqApiIlRepositoryObjectAuthoringQuestionService implements AsqApiAuthoringQuestionService {
+class AsqApiIlRepositoryObjectAuthoringQuestionServiceContract implements AsqApiAuthoringQuestionServiceContract {
 
 	/**
-	 * @var AsqApiIlRepositoryObjectAuthoringQuestionServiceSpec
+	 * @var AsqApiIlRepositoryObjectAuthoringQuestionServiceSpecInterface
 	 */
 	protected $asq_authoring_spec;
 
 
 	/**
-	 * AsqApiIlRepositoryObjectAuthoringQuestionService constructor.
+	 * AsqApiIlRepositoryObjectAuthoringQuestionServiceContract constructor.
 	 *
-	 * @param AsqApiIlRepositoryObjectAuthoringQuestionServiceSpec $asq_authoring_spec
+	 * @param AsqApiIlRepositoryObjectAuthoringQuestionServiceSpecInterface $asq_authoring_spec
 	 */
-	public function __construct(AsqApiAuthoringQuestionServiceSpec $asq_authoring_spec) { $this->asq_authoring_spec = $asq_authoring_spec; }
+	public function __construct(AsqApiAuthoringQuestionServiceSpecInterface $asq_authoring_spec) { $this->asq_authoring_spec = $asq_authoring_spec; }
 
 
 	public function GetQuestionsOfContainerAsAssocArray(): array {

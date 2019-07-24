@@ -2,13 +2,16 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiDomainObjectId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqAdditionalConfigSection;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiAuthoringQuestionServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiEventSubscriber;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiQuestionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApiPlayServiceSpec
+ * Interface AsqApiPlayServiceSpecContract
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -17,53 +20,57 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiAuthoringQuestionServiceSpec {
+class AsqApiAuthoringQuestionServiceSpec implements AsqApiAuthoringQuestionServiceSpecContract {
 
 	/**
-	 * AsqApiAuthoringQuestionServiceSpec constructor.
+	 * AsqApiAuthoringQuestionServiceSpecInterface constructor.
 	 *
-	 * @param AsqApiContainerId    $container_id
-	 * @param AsqApiDomainObjectId $question_uuid
-	 * @param int                  $actor_user_id
-	 * @param Link                 $container_backlink
+	 * @param AsqApiContainerIdContract $container_id
+	 * @param AsqApiQuestionIdContract  $question_uuid
+	 * @param int                       $actor_user_id
+	 * @param Link                      $container_backlink
 	 */
-	public function __construct(AsqApiContainerId $container_id, AsqApiDomainObjectId $question_uuid, int $actor_user_id, Link $container_backlink);
+	public function __construct(AsqApiContainerIdContract $container_id, AsqApiQuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink) {
+
+	}
 
 
-	/**
-	 * @param AsqAdditionalConfigSection $asq_additional_config_section
-	 *
-	 * Additional Form Seccitons for a question delivered by consumer. E.G. Taxonomie.
-	 */
-	public function addAdditionalConfigSection(AsqAdditionalConfigSection $asq_additional_config_section);
+	public function addAdditionalConfigSection(AsqAdditionalConfigSection $asq_additional_config_section) {
+		// TODO: Implement addAdditionalConfigSection() method.
+	}
 
 
-	public function subscribeToQuestionCreatedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionCreatedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber) {
+		// TODO: Implement subscribeToQuestionCreatedPublicEvent() method.
+	}
 
 
-	public function subscribeToQuestionEditedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionEditedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber) {
+		// TODO: Implement subscribeToQuestionEditedPublicEvent() method.
+	}
 
 
-	public function subscribeToQuestionDeletedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionDeletedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber) {
+		// TODO: Implement subscribeToQuestionDeletedPublicEvent() method.
+	}
 
 
-	public function withSpecificRevision(string $revision_uuid);
+	public function withSpecificRevision(string $revision_uuid) {
+		// TODO: Implement withSpecificRevision() method.
+	}
 
 
-	/**
-	 * @return int
-	 */
-	public function getActorUserId(): int;
+	public function getActorUserId(): int {
+		// TODO: Implement getActorUserId() method.
+	}
 
 
-	/**
-	 * @return Link
-	 */
-	public function getContainerBacklink(): Link;
+	public function getContainerBacklink(): Link {
+		// TODO: Implement getContainerBacklink() method.
+	}
 
 
-	/**
-	 * @return array
-	 */
-	public function getAsqAdditionalConfigSections(): array;
+	public function getAsqAdditionalConfigSections(): array {
+		// TODO: Implement getAsqAdditionalConfigSections() method.
+	}
 }
