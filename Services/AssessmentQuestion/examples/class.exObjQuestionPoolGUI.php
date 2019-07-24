@@ -1,11 +1,13 @@
 <?php
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestionSpec;
+
 /**
  * When a component consumes the assessment question service for purposes
  * of authoring and managing questions like the current question pool object,
  * it is neccessary to handle the following use cases.
  *
- * @ilCtrl_Calls exObjQuestionPoolGUI: ilAssessmentQuestionServiceGUI
+ * @ilCtrl_Calls exObjQuestionPoolGUI: ilAsqQuestionAuthoringGUI
  */
 class exObjQuestionPoolGUI
 {
@@ -30,13 +32,13 @@ class exObjQuestionPoolGUI
 		
 		switch( $DIC->ctrl()->getNextClass($this) )
 		{
-			case 'ilassessmentquestionservicegui':
+			case 'ilasqquestionauthoringgui':
 				
-				$serviceGUI = $DIC->question()->authoringServiceGUI(
-					$this->buildConsumerContainerSpecifications()
+				$authoringGUI = $DIC->assessment()->control()->authoringGUI(
+					$this->buildAsqAuthoringSpecification()
 				);
 				
-				$DIC->ctrl()->forwardCommand($serviceGUI);
+				$DIC->ctrl()->forwardCommand($authoringGUI);
 		}
 	}
 	
@@ -50,7 +52,7 @@ class exObjQuestionPoolGUI
 	 *
 	 * The container specification is also used to inject the required globals.
 	 */
-	protected function buildConsumerContainerSpecification() : AsqConsumerContainerSpec
+	protected function buildAsqAuthoringSpecification() : AsqApiServiceAuthoringQuestionSpec
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
@@ -58,24 +60,13 @@ class exObjQuestionPoolGUI
 			'Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
 		);
 		
-		$containerSpecification = $DIC->question()->consumerContainerSpecification(
-			
-			$DIC->ui()->mainTemplate(),
-			$DIC->language(),
-			
-			$containerBackLink,
+		$authoringSpecification = $DIC->assessment()->specification()->authoringQuestion(
 			$this->object->getId(),
-			$this->object->getRefId(),
-			$this->object->getAvailableTaxonomyIds(),
-			
-			// still required as long as we not have merged the
-			// two kinds of rendering a question to the client
-			$containerIsLearningModule = false,
-			
-			$DIC->user()->getId()
+			$DIC->user()->getId(),
+			$containerBackLink
 		);
 		
-		return $containerSpecification;
+		return $authoringSpecification;
 	}
 	
 	/**
@@ -87,11 +78,9 @@ class exObjQuestionPoolGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$authoringService = $DIC->question()->authoringService(
-			$this->buildConsumerContainerSpecification()
-		);
+		$authoringQueryService = $DIC->assessment()->service()->authoringQuery($this->object->getId());
 
-		$questionsAsAssocArrayStack = $authoringService->GetQuestionsAsAssocArrayStack();
+		$questionsAsAssocArrayStack = $authoringQueryService->GetQuestionsAsAssocArrayStack();
 		
 		/**
 		 * initialise any ilTable2GUI with this data array
@@ -119,7 +108,9 @@ class exObjQuestionPoolGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$parentObjectId = 0; // init with question pool object id
+		$authoringQuestionService = $DIC->assessment()->service()->authoringQuestion(
+			$this->buildAsqAuthoringSpecification()
+		);
 		
 		/**
 		 * parse any qti import xml using the QTI Service and retrieve
@@ -129,44 +120,7 @@ class exObjQuestionPoolGUI
 		
 		foreach($qtiItems as $qtiItem)
 		{
-			$questionType = $DIC->question()->service()->determineQuestionTypeByQtiItem($qtiItem);
-			$questionInstance = $DIC->question()->getEmptyQuestionInstance($questionType);
-			
-			$questionInstance->fromQtiItem($qtiItem);
-			$questionInstance->setParentId($parentObjectId);
-			$questionInstance->save();
-		}
-	}
-	
-	/**
-	 * When a component provides export functionality for assessment questions, it needs the ilAsqQuestion
-	 * interface method toQtiXML to retrieve an qti item xml string. Since the QTI service does not support
-	 * to fetch an QTI xml string based on an QTI object graph, the current implementation of returning
-	 * the xml string itself will be kept within the toQtiXML interface method.
-	 * 
-	 * To export one or more assessment questions the ilAsqFactory provides factory methods
-	 * to get single or multiple ilAsqQuestion instances.
-	 */
-	public function exportQuestions()
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$parentObjectId = 0; // init with question pool object id
-		
-		/**
-		 * get questions managed by this parent object
-		 */
-		$questions = $DIC->question()->getQuestionInstances($parentObjectId);
-		
-		/**
-		 * build QTI xml string that will be used for any kind of export
-		 */
-		
-		$qtiXML = '';
-		
-		foreach($questions as $questionInstance)
-		{
-			$qtiXML .= $questionInstance->toQtiXML();
+			$authoringQuestionService->importQtiItem($qtiItem);
 		}
 	}
 	
@@ -179,10 +133,10 @@ class exObjQuestionPoolGUI
 		
 		$questionId = 0; // init from GET parameters
 		
-		$authoringService = $DIC->question()->authoringService(
-			$this->buildConsumerContainerSpecification()
+		$authoringService = $DIC->assessment()->service()->authoringQuestion(
+			$this->buildAsqAuthoringSpecification()
 		);
 		
-		$authoringService->DeleteQuestion($questionId);
+		$authoringService->deleteQuestion($questionId);
 	}
 }
