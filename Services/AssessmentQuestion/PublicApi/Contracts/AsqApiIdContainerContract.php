@@ -12,6 +12,6 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiContainerId {
+interface AsqApiIdContainerContract {
 
 }

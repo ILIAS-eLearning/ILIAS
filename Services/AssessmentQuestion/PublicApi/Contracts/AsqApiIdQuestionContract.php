@@ -12,10 +12,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiDomainObjectId {
-
-
-	public function __construct(string $id = null);
+interface AsqApiIdQuestionContract {
 
 	public function getId():string;
 }

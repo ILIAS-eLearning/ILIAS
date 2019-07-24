@@ -1,13 +1,12 @@
 <?php
 
-namespace ILIAS\Services\AssessmentQuestion\PublicApi;
+namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiRevisionId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\AsqApiContainerIsNotResponsibleForQuestionException;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApiAuthoringQuestionService
+ * Interface AsqApServiceiAuthoringQuestionContract
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,22 +15,13 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiAuthoringQuestionService {
-
-	/**
-	 * AsqApiAuthoringQuestionService constructor.
-	 *
-	 * @param AsqApiAuthoringQuestionServiceSpec $asq_authoring_spec
-	 */
-	//TODO remove construct in Interface?
-	public function __construct(AsqApiAuthoringQuestionServiceSpec $asq_authoring_spec);
-
+interface AsqApServiceiAuthoringQuestionContract {
 
 	/**
 	 *
 	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
 	 */
-	public function deleteQuestion():void;
+	public function deleteQuestion(): void;
 
 
 	/**
@@ -40,7 +30,8 @@ interface AsqApiAuthoringQuestionService {
 	 *
 	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
 	 */
-	public function GetEditConfigLink(): Link;
+	public function GetEditLink(): Link;
+
 
 	/**
 	 *
@@ -60,6 +51,7 @@ interface AsqApiAuthoringQuestionService {
 	 */
 	public function getEdiPageLink(): Link;
 
+
 	/**
 	 *
 	 * @return Link
@@ -68,6 +60,7 @@ interface AsqApiAuthoringQuestionService {
 	 */
 	public function getEditFeedbacksLink(): Link;
 
+
 	/**
 	 *
 	 * @return Link
@@ -75,6 +68,7 @@ interface AsqApiAuthoringQuestionService {
 	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
 	 */
 	public function getEditHintsLink(): Link;
+
 
 	/**
 	 *
@@ -86,7 +80,7 @@ interface AsqApiAuthoringQuestionService {
 
 
 	/**
-	 * @return AsqApiRevisionId
+	 * @param AsqApiIdRevisionContract $asq_api_id_revision
 	 */
-	public function publishNewRevision(): AsqApiRevisionId;
+	public function publishNewRevision(AsqApiIdRevisionContract $asq_api_id_revision):void;
 }

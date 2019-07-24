@@ -1,11 +1,9 @@
 <?php
 
-namespace ILIAS\Services\AssessmentQuestion\PublicApi;
-
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
+namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
 /**
- * Interface AsqApiAuthoringQuestionService
+ * Interface AsqApServiceiAuthoringQuestionContract
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -14,15 +12,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiAuthoringQueryService {
-
-	/**
-	 * AsqApiAuthoringQueryService constructor.
-	 *
-	 * @param AsqApiContainerId $container_id
-	 */
-	public function __construct(AsqApiContainerId $container_id);
-
+interface AsqApiServiceAuthoringQueryContract {
 
 	/**
 	 * @return array
@@ -30,5 +20,5 @@ interface AsqApiAuthoringQueryService {
 	 * Gets all questions of a Container from db as an Array containing
 	 * the generic question data fields
 	 */
-	public function GetQuestionsOfContainerAsAssocArray():array;
+	public function GetQuestionsOfContainerAsAssocArray(): array;
 }
