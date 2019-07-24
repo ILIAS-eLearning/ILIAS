@@ -6,10 +6,11 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionComponentContr
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\ScoringDTOContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerDTOContract;
 use ILIAS\UI\Component\Component;
 
 /**
- * Interface AsqApiServicePlay
+ * Interface PlayService
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -20,51 +21,89 @@ use ILIAS\UI\Component\Component;
  */
 class PlayService implements PlayServiceContract {
 
+	/**
+	 * PlayService constructor.
+	 * @param PlayServiceSpecContract $asq_api_service_play_spec
+	 */
 	public function __construct(PlayServiceSpecContract $asq_api_service_play_spec) {
 		//TODO
 	}
 
 
+	/**
+	 * @return QuestionComponentContract
+	 */
 	public function GetQuestionPresentation(): QuestionComponentContract {
 		// TODO: Implement GetQuestionPresentation() method.
 	}
 
 
+	/**
+	 * @return Component
+	 */
 	public function GetStandaloneQuestionExportPresentation(): Component {
 		// TODO: Implement GetStandaloneQuestionExportPresentation() method.
 	}
 
 
+	/**
+	 * @param int $user_answer_id
+	 * @return QuestionComponentContract
+	 */
 	public function GetUserAnswerPresentation(int $user_answer_id): QuestionComponentContract {
 		// TODO: Implement GetUserAnswerPresentation() method.
 	}
 
 
+	/**
+	 * @param int $user_answer_id
+	 * @return Component
+	 */
 	public function getGenericFeedbackOutput(int $user_answer_id): Component {
 		// TODO: Implement getGenericFeedbackOutput() method.
 	}
 
 
+	/**
+	 * @param int $user_answer_id
+	 * @return Component
+	 */
 	public function getSpecificFeedbackOutput(int $user_answer_id): Component {
 		// TODO: Implement getSpecificFeedbackOutput() method.
 	}
 
 
-	public function SaveUserAnswer(\ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerDTOContract $user_answer): int {
+	/**
+	 * @param UserAnswerDTOContract $user_answer
+	 * @return int
+	 */
+	public function SaveUserAnswer(UserAnswerDTOContract $user_answer): int {
 		// TODO: Implement SaveUserAnswer() method.
 	}
 
 
+	/**
+	 * @param int $user_answer_id
+	 * @return ScoringDTOContract
+	 */
 	public function GetUserScore(int $user_answer_id): ScoringDTOContract {
 		// TODO: Implement GetUserScore() method.
 	}
 
 
+	/**
+	 * @param int $user_id
+	 * @return ScoringDTOContract
+	 */
 	public function GetUserScoreOfBestScoredAnswer(int $user_id): ScoringDTOContract {
 		// TODO: Implement GetUserScoreOfBestScoredAnswer() method.
 	}
 
 
+	/**
+	 * @param int $user_id
+	 * @return ScoringDTOContract
+	 */
 	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): ScoringDTOContract {
 		// TODO: Implement GetUserScoreLastOfSubmittedAnswer() method.
 	}

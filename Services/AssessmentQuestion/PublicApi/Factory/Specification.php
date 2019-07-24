@@ -5,11 +5,9 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringServiceSpec;
-use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
-
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
-
+use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringServiceSpec;
 use ILIAS\UI\Component\Link\Link;
 
 /**
@@ -28,13 +26,12 @@ class Specification
 	 * @param Link $container_backlink
 	 * @return QuestionAuthoringServiceSpec
 	 */
-	public function authoringQuestion(
+	public function questionAuthoring(
 		int $container_obj_id,
 		QuestionIdContract $question_uuid,
 		int $actor_user_id,
 		Link $container_backlink
-	) : QuestionAuthoringServiceSpec
-	{
+	): QuestionAuthoringServiceSpec {
 		return new QuestionAuthoringServiceSpec(
 			$container_obj_id,
 			$question_uuid,

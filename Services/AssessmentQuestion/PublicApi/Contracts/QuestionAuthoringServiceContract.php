@@ -30,7 +30,7 @@ interface QuestionAuthoringServiceContract {
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function GetEditLink(): Link;
+	public function getEditLink(): Link;
 
 
 	/**
@@ -49,7 +49,7 @@ interface QuestionAuthoringServiceContract {
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEdiPageLink(): Link;
+	public function getEditPageLink(): Link;
 
 
 	/**

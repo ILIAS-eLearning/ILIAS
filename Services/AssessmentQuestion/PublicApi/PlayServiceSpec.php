@@ -3,6 +3,7 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\UI\Component\Link\Link;
 
 /**
@@ -23,10 +24,10 @@ class PlayServiceSpec implements PlayServiceSpecContract {
 	 * @param int $container_obj_id
 	 * @param int $actor_user_id
 	 * @param Link $container_backlink
-	 * @param string $question_uuid
-	 * @param string $question_revision_uuid
+	 * @param QuestionIdContract $question_uuid
+	 * @param QuestionIdContract $question_revision_uuid
 	 */
-	public function __construct(int $container_obj_id, int $actor_user_id, Link $container_backlink, string $question_uuid, string $question_revision_uuid) {
+	public function __construct(int $container_obj_id, int $actor_user_id, Link $container_backlink, QuestionIdContract $question_uuid, QuestionIdContract $question_revision_uuid) {
 
 	}
 

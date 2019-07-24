@@ -29,41 +29,65 @@ class QuestionAuthoringService implements QuestionAuthoringServiceContract {
 	}
 
 
+	/**
+	 *
+	 */
 	public function deleteQuestion(): void {
 		// TODO: Implement deleteQuestion() method.
 	}
 
 
-	public function GetEditLink(): Link {
+	/**
+	 * @return Link
+	 */
+	public function getEditLink(): Link {
 		// TODO: Implement GetEditConfigLink() method.
 	}
 
 
+	/**
+	 * @return Link
+	 */
 	public function getPreviewLink(): Link {
 		// TODO: Implement getPreviewLink() method.
 	}
 
 
-	public function getEdiPageLink(): Link {
+	/**
+	 * @return Link
+	 */
+	public function getEditPageLink(): Link {
 		// TODO: Implement getEdiPageLink() method.
 	}
 
 
+	/**
+	 * @return Link
+	 */
 	public function getEditFeedbacksLink(): Link {
 		// TODO: Implement getEditFeedbacksLink() method.
 	}
 
 
+	/**
+	 * @return Link
+	 */
 	public function getEditHintsLink(): Link {
 		// TODO: Implement getEditHintsLink() method.
 	}
 
 
+	/**
+	 * @return Link
+	 */
 	public function getStatisticLink(): Link {
 		// TODO: Implement getStatisticLink() method.
 	}
 
 
+	/**
+	 * @param RevisionIdContract $asq_api_id_revision
+	 */
 	public function publishNewRevision(RevisionIdContract $asq_api_id_revision): void {
 		// TODO: Implement publishNewRevision() method.
 	}

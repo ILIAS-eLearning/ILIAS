@@ -31,5 +31,5 @@ interface QuestionComponentContract {
 	/**
 	 * @return bool
 	 */
-	public function isAutosaveable(): bool;
+	public function isAutoSaveable(): bool;
 }

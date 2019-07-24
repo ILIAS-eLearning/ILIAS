@@ -5,7 +5,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringQueryServiceContract;
 
 /**
- * Class AbstractAsqApiAuthoringQueryService
+ * Class AuthoringQueryService
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -17,7 +17,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringQueryServiceC
 class AuthoringQueryService implements AuthoringQueryServiceContract {
 
 	/**
-	 * AsqApiServiceAuthoringQueryContract constructor.
+	 * AuthoringQueryService constructor.
 	 *
 	 * @param int $container_id
 	 */
@@ -25,7 +25,9 @@ class AuthoringQueryService implements AuthoringQueryServiceContract {
 
 	}
 
-
+	/**
+	 * @return array
+	 */
 	public function GetQuestionsOfContainerAsAssocArray(): array {
 		// TODO: Implement GetQuestionsOfContainerAsAssocArray() method.
 	}

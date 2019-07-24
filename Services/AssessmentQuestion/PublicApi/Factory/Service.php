@@ -33,7 +33,7 @@ class Service
 	 * @param QuestionAuthoringServiceSpec $authoringQuestionServiceSpec
 	 * @return QuestionAuthoringService
 	 */
-	public function authoringQuestion(QuestionAuthoringServiceSpec $authoringQuestionServiceSpec) : QuestionAuthoringService
+	public function questionAuthoring(QuestionAuthoringServiceSpec $authoringQuestionServiceSpec) : QuestionAuthoringService
 	{
 		return new QuestionAuthoringService($authoringQuestionServiceSpec);
 	}
