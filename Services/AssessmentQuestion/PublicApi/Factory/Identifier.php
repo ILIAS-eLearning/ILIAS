@@ -6,7 +6,11 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdQuestionContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\RevisionId;
+use ilDateTime;
 
 /**
  * Class Identifier
@@ -17,8 +21,21 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdQuestionContra
  */
 class Identifier
 {
-	public function questionId(string $questionUuid) : AsqApiIdQuestionContract
+	/**
+	 * @param string $questionUuid
+	 * @return QuestionIdContract
+	 */
+	public function questionId(string $questionUuid, string $iliasNicId) : QuestionIdContract
 	{
-		return 
+		return new QuestionId($questionUuid, $iliasNicId);
+	}
+	
+	/**
+	 * @param string $revisionUuid
+	 * @return RevisionIdContract
+	 */
+	public function revisionId(string $revisionUuid) : RevisionIdContract
+	{
+		return new RevisionId($revisionUuid, new ilDateTime(time(), IL_CAL_UNIX));
 	}
 }

@@ -40,4 +40,12 @@ class Assessment
 	{
 		return new Specification();
 	}
+	
+	/**
+	 * @return Identifier
+	 */
+	public function identifier() : Identifier
+	{
+		return new Identifier();
+	}
 }
