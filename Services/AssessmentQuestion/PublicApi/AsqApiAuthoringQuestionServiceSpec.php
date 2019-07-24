@@ -3,6 +3,7 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiDomainObjectId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
 use ILIAS\UI\Component\Link\Link;
 
@@ -21,12 +22,13 @@ interface AsqApiAuthoringQuestionServiceSpec {
 	/**
 	 * AsqApiAuthoringQuestionServiceSpec constructor.
 	 *
-	 * @param AsqApiContainerId $container_id
-	 * @param DomainObjectId    $question_uuid
-	 * @param int               $actor_user_id
-	 * @param Link              $container_backlink
+	 * @param AsqApiContainerId    $container_id
+	 * @param AsqApiDomainObjectId $question_uuid
+	 * @param int                  $actor_user_id
+	 * @param Link                 $container_backlink
 	 */
-	public function __construct(AsqApiContainerId $container_id, DomainObjectId $question_uuid, int $actor_user_id, Link $container_backlink);
+	public function __construct(AsqApiContainerId $container_id, AsqApiDomainObjectId $question_uuid, int $actor_user_id, Link $container_backlink);
+
 
 	/**
 	 * @param AsqAdditionalConfigSection $asq_additional_config_section
@@ -43,6 +45,9 @@ interface AsqApiAuthoringQuestionServiceSpec {
 
 
 	public function subscribeToQuestionDeletedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+
+
+	public function withSpecificRevision(string $revision_uuid);
 
 
 	/**

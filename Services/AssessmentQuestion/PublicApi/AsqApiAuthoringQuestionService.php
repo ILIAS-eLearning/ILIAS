@@ -2,6 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiRevisionId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\AsqApiContainerIsNotResponsibleForQuestionException;
 use ILIAS\UI\Component\Link\Link;
 
@@ -22,6 +23,7 @@ interface AsqApiAuthoringQuestionService {
 	 *
 	 * @param AsqApiAuthoringQuestionServiceSpec $asq_authoring_spec
 	 */
+	//TODO remove construct in Interface?
 	public function __construct(AsqApiAuthoringQuestionServiceSpec $asq_authoring_spec);
 
 
@@ -81,4 +83,10 @@ interface AsqApiAuthoringQuestionService {
 	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
 	 */
 	public function getStatisticLink(): Link;
+
+
+	/**
+	 * @return AsqApiRevisionId
+	 */
+	public function publishNewRevision(): AsqApiRevisionId;
 }

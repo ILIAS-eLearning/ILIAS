@@ -2,8 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\AsqApiContainerIsNotResponsibleForQuestionException;
-use ILIAS\UI\Component\Link\Link;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiContainerId;
 
 /**
  * Interface AsqApiAuthoringQuestionService
@@ -20,9 +19,9 @@ interface AsqApiAuthoringQueryService {
 	/**
 	 * AsqApiAuthoringQueryService constructor.
 	 *
-	 * @param AsqApiAuthoringQueryServiceSpec $asq_authoring_spec
+	 * @param AsqApiContainerId $container_id
 	 */
-	public function __construct(AsqApiAuthoringQueryServiceSpec $asq_authoring_spec);
+	public function __construct(AsqApiContainerId $container_id);
 
 
 	/**
