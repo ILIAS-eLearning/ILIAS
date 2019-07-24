@@ -17,7 +17,7 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class AsqApiServiceAuthoringQuestion implements AsqApServiceiAuthoringQuestionContract {
+class AsqApiServiceAuthoringQuestion implements AsqApServiceiAuthoringQuestionContract {
 
 	/**
 	 * AsqApServiceiAuthoringQuestionContract constructor.
