@@ -11,10 +11,8 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContrac
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringServiceSpec;
 use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringQueryService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\PlayService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
 
 /**
  * Class Services
