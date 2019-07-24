@@ -5,6 +5,11 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringQueryServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionAuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoringServiceSpec;
 use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringQueryService;
@@ -22,27 +27,27 @@ class Service
 {
 	/**
 	 * @param int $containerId
-	 * @return AuthoringQueryService
+	 * @return AuthoringQueryServiceContract
 	 */
-	public function authoringQuery(int $containerId) : AuthoringQueryService
+	public function authoringQuery(int $containerId) : AuthoringQueryServiceContract
 	{
 		return new AuthoringQueryService($containerId);
 	}
 	
 	/**
-	 * @param QuestionAuthoringServiceSpec $authoringQuestionServiceSpec
-	 * @return QuestionAuthoringService
+	 * @param QuestionAuthoringServiceSpecContract $authoringQuestionServiceSpec
+	 * @return QuestionAuthoringServiceContract
 	 */
-	public function questionAuthoring(QuestionAuthoringServiceSpec $authoringQuestionServiceSpec) : QuestionAuthoringService
+	public function questionAuthoring(QuestionAuthoringServiceSpecContract $authoringQuestionServiceSpec) : QuestionAuthoringServiceContract
 	{
 		return new QuestionAuthoringService($authoringQuestionServiceSpec);
 	}
 	
 	/**
-	 * @param PlayServiceSpec $playServiceSpec
-	 * @return PlayService
+	 * @param PlayServiceSpecContract $playServiceSpec
+	 * @return PlayServiceContract
 	 */
-	public function play(PlayServiceSpec $playServiceSpec) : PlayService
+	public function play(PlayServiceSpecContract $playServiceSpec) : PlayServiceContract
 	{
 		return new PlayService($playServiceSpec);
 	}
