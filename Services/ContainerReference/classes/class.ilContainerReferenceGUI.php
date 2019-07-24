@@ -34,48 +34,56 @@ include_once('./Services/Object/classes/class.ilObjectGUI.php');
 */
 class ilContainerReferenceGUI extends ilObjectGUI
 {
+	const MAX_SELECTION_ENTRIES = 50;
+
+	const MODE_CREATE = 1;
+	const MODE_EDIT = 2;
+
 	/**
-	 * @var ilTabsGUI
+	 * @var \ilTabsGUI
 	 */
 	protected $tabs;
 
 	/**
-	 * @var ilLocatorGUI
+	 * @var \ilLocatorGUI
 	 */
 	protected $locator;
 
 	/**
-	 * @var ilObjUser
+	 * @var \ilObjUser
 	 */
 	protected $user;
 
 	/**
-	 * @var ilAccessHandler
+	 * @var \ilAccessHandler
 	 */
 	protected $access;
 
 	/**
-	 * @var ilErrorHandling
+	 * @var \ilErrorHandling
 	 */
 	protected $error;
 
 	/**
-	 * @var ilSetting
+	 * @var \ilSetting
 	 */
 	protected $settings;
 
-	const MAX_SELECTION_ENTRIES = 50;
-	
-	const MODE_CREATE = 1;
-	const MODE_EDIT = 2;
-	
+
 	protected $existing_objects = array();
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $target_type;
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $reference_type;
-	/** @var ilPropertyFormGUI */
+
+	/**
+	 * @var \ilPropertyFormGUI
+	 */
 	protected $form;
 
 	/**
@@ -431,6 +439,34 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	public function getReferenceType()
 	{
 		return $this->reference_type;
+	}
+
+	/**
+	 * get tabs
+	 *
+	 * @access public
+	 * @param	object	tabs gui object
+	 */
+	public function getTabs()
+	{
+		global $DIC;
+
+		$ilHelp = $DIC['ilHelp'];
+		$ilHelp->setScreenIdComponent($this->getReferenceType());
+
+		if($this->access->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "edit"),
+				array(),
+				"");
+		}
+		if ($this->access->checkAccess('edit_permission','',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+				array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 
 	/**

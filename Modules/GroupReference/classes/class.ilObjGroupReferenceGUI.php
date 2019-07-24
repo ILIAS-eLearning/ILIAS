@@ -39,38 +39,6 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
 	
 	
 	/**
-	 * get tabs
-	 * 
-	 * @access public
-	 * @global ilAccessHandler $ilAccess
-	 * @global ilHelp $ilHelp
-     * @param	object	tabs gui object
-	 */
-	public function getTabs()
-	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilHelp = $DIC['ilHelp'];
-
-		$ilHelp->setScreenIdComponent("grpr");
-
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "edit"),
-				array(),
-				"");
-		}
-		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
-				array("perm","info","owner"), 'ilpermissiongui');
-		}
-	}
-
-	/**
 	 *  Support for goto php
 	 *
 	 * @param int $a_target

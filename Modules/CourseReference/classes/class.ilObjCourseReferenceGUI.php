@@ -60,49 +60,23 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	}
 	
 	
-	/**
-	 * get tabs
-	 *
-	 * @access public
-     * @param	object	tabs gui object
-	 */
-	public function getTabs()
-	{
-		global $ilAccess, $ilHelp;
 
-		$ilHelp->setScreenIdComponent("crsr");
-
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "edit"),
-				array(),
-				"");
-		}
-		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
-				array("perm","info","owner"), 'ilpermissiongui');
-		}
-	}
-	
 	/**
-	 * Support for goto php 
+	 * Support for goto php
 	 *
 	 * @return void
 	 * @static
 	 */
-	 public static function _goto($a_target)
-	 {
+	public static function _goto($a_target)
+	{
 		global $ilAccess, $ilErr, $lng;
-		
+
 		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 		$target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
-		
+
 		include_once('./Modules/Course/classes/class.ilObjCourseGUI.php');
 		ilObjCourseGUI::_goto($target_ref_id);
-	 }
-		
 	}
+
+}
 ?>
