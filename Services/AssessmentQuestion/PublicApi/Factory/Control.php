@@ -24,6 +24,6 @@ class Control
 	 */
 	public function authoringGUI(QuestionAuthoringServiceSpecContract $authoringQuestionServiceSpec) : ilAsqQuestionAuthoringGUI
 	{
-		return ilAsqQuestionAuthoringGUI($authoringQuestionServiceSpec);
+		return new ilAsqQuestionAuthoringGUI($authoringQuestionServiceSpec);
 	}
 }
