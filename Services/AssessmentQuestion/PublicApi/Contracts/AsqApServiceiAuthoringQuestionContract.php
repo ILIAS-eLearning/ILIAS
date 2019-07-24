@@ -2,12 +2,11 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiRevisionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\AsqApiContainerIsNotResponsibleForQuestionException;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApiAuthoringQuestionServiceContract
+ * Interface AsqApServiceiAuthoringQuestionContract
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,7 +15,7 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiAuthoringQuestionServiceContract {
+interface AsqApServiceiAuthoringQuestionContract {
 
 	/**
 	 *
@@ -31,7 +30,7 @@ interface AsqApiAuthoringQuestionServiceContract {
 	 *
 	 * @throws AsqApiContainerIsNotResponsibleForQuestionException
 	 */
-	public function GetEditConfigLink(): Link;
+	public function GetEditLink(): Link;
 
 
 	/**
@@ -81,7 +80,7 @@ interface AsqApiAuthoringQuestionServiceContract {
 
 
 	/**
-	 * @return AsqApiRevisionIdContract
+	 * @param AsqApiIdRevisionContract $asq_api_id_revision
 	 */
-	public function publishNewRevision(): AsqApiRevisionIdContract;
+	public function publishNewRevision(AsqApiIdRevisionContract $asq_api_id_revision):void;
 }

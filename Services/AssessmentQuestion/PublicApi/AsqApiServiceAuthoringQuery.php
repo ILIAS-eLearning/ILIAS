@@ -1,9 +1,8 @@
 <?php
 
-namespace ILIAS\Services\AssessmentQuestion\PublicApi\Implementation;
+namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQueryServiceContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiAuthoringQueryServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServiceAuthoringQueryContract;
 
 /**
  * Class AbstractAsqApiAuthoringQueryService
@@ -15,10 +14,10 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiAuthoringQuerySe
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AsqApiAuthoringQueryService implements AsqApiAuthoringQueryServiceContract {
+class AsqApiServiceAuthoringQuery implements AsqApiServiceAuthoringQueryContract {
 
 	/**
-	 * AsqApiAuthoringQueryServiceContract constructor.
+	 * AsqApiServiceAuthoringQueryContract constructor.
 	 *
 	 * @param int $container_id
 	 */

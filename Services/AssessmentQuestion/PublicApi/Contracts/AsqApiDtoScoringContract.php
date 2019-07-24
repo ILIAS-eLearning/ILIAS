@@ -4,7 +4,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
 use ilDateTime;
 
-interface AsqApiScoringDtoContract {
+interface AsqApiDtoScoringContract {
 
 	public function getQuestionUuid(): string;
 

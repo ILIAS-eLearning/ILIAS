@@ -3,7 +3,7 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
 /**
- * Interface AsqApiAuthoringQuestionServiceContract
+ * Interface AsqApServiceiAuthoringQuestionContract
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -12,7 +12,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AsqApiAuthoringQueryServiceContract {
+interface AsqApiServiceAuthoringQueryContract {
 
 	/**
 	 * @return array

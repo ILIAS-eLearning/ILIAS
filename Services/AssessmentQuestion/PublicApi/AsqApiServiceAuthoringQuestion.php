@@ -2,13 +2,13 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiAuthoringQuestionServiceContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiAuthoringQuestionServiceSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiRevisionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApServiceiAuthoringQuestionContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiServiceAuthoringQuestionSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AsqApiIdRevisionContract;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Interface AsqApiAuthoringQuestionServiceContract
+ * Interface AsqApServiceiAuthoringQuestionContract
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -17,14 +17,14 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class AsqApiAuthoringQuestionService implements AsqApiAuthoringQuestionServiceContract {
+abstract class AsqApiServiceAuthoringQuestion implements AsqApServiceiAuthoringQuestionContract {
 
 	/**
-	 * AsqApiAuthoringQuestionServiceContract constructor.
+	 * AsqApServiceiAuthoringQuestionContract constructor.
 	 *
-	 * @param AsqApiAuthoringQuestionServiceSpecContract $asq_authoring_spec
+	 * @param AsqApiServiceAuthoringQuestionSpecContract $asq_authoring_spec
 	 */
-	public function __construct(AsqApiAuthoringQuestionServiceSpecContract $asq_authoring_spec) {
+	public function __construct(AsqApiServiceAuthoringQuestionSpecContract $asq_authoring_spec) {
 
 	}
 
@@ -34,7 +34,7 @@ abstract class AsqApiAuthoringQuestionService implements AsqApiAuthoringQuestion
 	}
 
 
-	public function GetEditConfigLink(): Link {
+	public function GetEditLink(): Link {
 		// TODO: Implement GetEditConfigLink() method.
 	}
 
@@ -64,7 +64,7 @@ abstract class AsqApiAuthoringQuestionService implements AsqApiAuthoringQuestion
 	}
 
 
-	public function publishNewRevision(): AsqApiRevisionIdContract {
+	public function publishNewRevision(AsqApiIdRevisionContract $asq_api_id_revision): void {
 		// TODO: Implement publishNewRevision() method.
 	}
 }
