@@ -5,11 +5,11 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionServiceSpec;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQueryService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiPlayService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiPlayServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestion;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestionSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuery;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServicePlay;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServicePlaySpec;
 
 /**
  * Class Services
@@ -22,28 +22,28 @@ class Service
 {
 	/**
 	 * @param int $containerId
-	 * @return AsqApiAuthoringQueryService
+	 * @return AsqApiServiceAuthoringQuery
 	 */
-	public function authoringQuery(int $containerId) : AsqApiAuthoringQueryService
+	public function authoringQuery(int $containerId) : AsqApiServiceAuthoringQuery
 	{
-		return new AsqApiAuthoringQueryService($containerId);
+		return new AsqApiServiceAuthoringQuery($containerId);
 	}
 	
 	/**
-	 * @param AsqApiAuthoringQuestionServiceSpec $authoringQuestionServiceSpec
-	 * @return AsqApiAuthoringQuestionService
+	 * @param AsqApiServiceAuthoringQuestionSpec $authoringQuestionServiceSpec
+	 * @return AsqApiServiceAuthoringQuestion
 	 */
-	public function authoringQuestion(AsqApiAuthoringQuestionServiceSpec $authoringQuestionServiceSpec) : AsqApiAuthoringQuestionService
+	public function authoringQuestion(AsqApiServiceAuthoringQuestionSpec $authoringQuestionServiceSpec) : AsqApiServiceAuthoringQuestion
 	{
-		return new AsqApiAuthoringQuestionService($authoringQuestionServiceSpec);
+		return new AsqApiServiceAuthoringQuestion($authoringQuestionServiceSpec);
 	}
 	
 	/**
-	 * @param AsqApiPlayServiceSpec $playServiceSpec
-	 * @return AsqApiPlayService
+	 * @param AsqApiServicePlaySpec $playServiceSpec
+	 * @return AsqApiServicePlay
 	 */
-	public function play(AsqApiPlayServiceSpec $playServiceSpec) : AsqApiPlayService
+	public function play(AsqApiServicePlaySpec $playServiceSpec) : AsqApiServicePlay
 	{
-		return new AsqApiPlayService($playServiceSpec);
+		return new AsqApiServicePlay($playServiceSpec);
 	}
 }

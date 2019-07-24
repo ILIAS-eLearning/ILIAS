@@ -5,8 +5,8 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiAuthoringQuestionServiceSpec;
-use ilAssessmentQuestionServiceGUI;
+use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestionSpec;
+use ilAsqQuestionAuthoringGUI;
 
 /**
  * Class Control
@@ -18,11 +18,11 @@ use ilAssessmentQuestionServiceGUI;
 class Control
 {
 	/**
-	 * @param AsqApiAuthoringQuestionServiceSpec $authoringQuestionServiceSpec
-	 * @return ilAssessmentQuestionServiceGUI
+	 * @param AsqApiServiceAuthoringQuestionSpec $authoringQuestionServiceSpec
+	 * @return ilAsqQuestionAuthoringGUI
 	 */
-	public function authoringGUI(AsqApiAuthoringQuestionServiceSpec $authoringQuestionServiceSpec) : ilAssessmentQuestionServiceGUI
+	public function authoringGUI(AsqApiServiceAuthoringQuestionSpec $authoringQuestionServiceSpec) : ilAsqQuestionAuthoringGUI
 	{
-		return ilAssessmentQuestionServiceGUI($authoringQuestionServiceSpec);
+		return ilAsqQuestionAuthoringGUI($authoringQuestionServiceSpec);
 	}
 }
