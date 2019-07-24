@@ -6,7 +6,6 @@
  * Class ilAssessmentQuestionExporter
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
  *
  * @package    Services/AssessmentQuestion
  */

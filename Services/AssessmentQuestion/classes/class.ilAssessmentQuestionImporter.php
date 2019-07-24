@@ -6,9 +6,8 @@
  * Class ilAssessmentQuestionImporter
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
  *
- * @package    Modules/Test(QuestionPool)
+ * @package    Services/AssessmentQuestion
  */
 class ilAssessmentQuestionImporter extends ilXmlImporter
 {
