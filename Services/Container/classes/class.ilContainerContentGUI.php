@@ -785,9 +785,19 @@ abstract class ilContainerContentGUI
 			$actions[] = $button;
 
 		}
-		$dropdown = $f->dropdown()->standard($actions);
+
 
 		$def_command = $item_list_gui->getDefaultCommand();
+
+		if ($def_command["frame"] != "") {
+			$button =
+				$f->button()->shy("Open", "")->withAdditionalOnLoadCode(function($id) use ($item, $def_command) {
+					return
+						"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+				});
+			$actions[] = $button;
+		}
+		$dropdown = $f->dropdown()->standard($actions);
 
 		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($a_item_data['obj_id']);
 
@@ -809,7 +819,15 @@ abstract class ilContainerContentGUI
 		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
 		{
-			$image = $image->withAction($def_command["link"]);
+			if ($def_command["frame"] != "") {
+				$image = $image->withAdditionalOnLoadCode(function($id) use ($def_command) {
+					return
+						"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+				});
+			}
+			else {
+				$image = $image->withAction($def_command["link"]);
+			}
 		}
 
 		// card
