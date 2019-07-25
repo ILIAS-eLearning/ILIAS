@@ -107,7 +107,7 @@ class AuthoringService implements AuthoringServiceContract {
 		// TODO: implement
 	}
 	
-	public function changeQuestionContainer(string $questionUuid): void
+	public function changeQuestionContainer(): void
 	{
 		// TODO: Implement changeQuestionContainer() method.
 	}
