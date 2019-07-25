@@ -9,10 +9,15 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 use ILIAS\Services\AssessmentQuestion\PublicApi\AdditionalConfigSection;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectionContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerSubmitContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\UserAnswerSubmit;
+use ILIAS\Services\AssessmentQuestion\PublicApi\UserAnswerId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionResourcesCollector;
 use ilFormSectionHeaderGUI;
 use ilFormPropertyGUI;
+use JsonSerializable;
 
 
 /**
@@ -35,6 +40,32 @@ class Consumer
 	public function questionUuid($questionUuid = ''): QuestionIdContract
 	{
 		return new QuestionId($questionUuid);
+	}
+	
+	/**
+	 * @param string $userAnswerUuid
+	 * @return UserAnswerIdContract
+	 */
+	public function userAnswerUuid($userAnswerUuid = ''): UserAnswerIdContract
+	{
+		return new UserAnswerId($userAnswerUuid);
+	}
+	
+	/**
+	 * @param UserAnswerIdContract $userAnswerUuid
+	 * @param QuestionIdContract $questionUuid
+	 * @param int $user_id
+	 * @param JsonSerializable $user_answer
+	 * @return UserAnswerSubmitContract
+	 */
+	public function userAnswerSubmit(
+		UserAnswerIdContract $userAnswerUuid,
+		QuestionIdContract $questionUuid,
+		int $user_id,
+		JsonSerializable $user_answer
+	): UserAnswerSubmitContract
+	{
+		return new UserAnswerSubmit($userAnswerUuid, $questionUuid, $user_id, $user_answer);
 	}
 	
 	/**

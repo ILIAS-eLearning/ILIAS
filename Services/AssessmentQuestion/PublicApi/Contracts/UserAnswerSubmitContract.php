@@ -2,10 +2,10 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-use ilDateTime;
+use JsonSerializable;
 
 /**
- * Interface ScoringDTOContract
+ * Interface UserAnswerDTOContract
  * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,34 +16,25 @@ use ilDateTime;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  */
-interface ScoringDTOContract {
-
+interface UserAnswerSubmitContract {
+	
 	/**
-	 * @return string
+	 * @return UserAnswerIdContract
 	 */
-	public function getQuestionUuid(): string;
-
-
+	public function getUserAnswerUuid(): UserAnswerIdContract;
+	
+	/**
+	 * @return QuestionIdContract
+	 */
+	public function getQuestionUuid(): QuestionIdContract;
+	
 	/**
 	 * @return int
 	 */
 	public function getUserId(): int;
-
-
+	
 	/**
-	 * @return ilDateTime
+	 * @return JsonSerializable
 	 */
-	public function getSubmittedOn(): ilDateTime;
-
-
-	/**
-	 * @return bool
-	 */
-	public function isUserAnswerCorrect(): bool;
-
-
-	/**
-	 * @return int
-	 */
-	public function getPoints(): int;
+	public function getUserAnswer(): JsonSerializable;
 }

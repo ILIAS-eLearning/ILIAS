@@ -8,8 +8,9 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\ScoringDTOContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerDTOContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerScoringContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerSubmitContract;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -37,7 +38,7 @@ class PlayService implements PlayServiceContract {
 		RevisionIdContract $revisionUuid = null
 	)
 	{
-		//TODO
+		// TODO
 	}
 
 
@@ -47,10 +48,14 @@ class PlayService implements PlayServiceContract {
 	public function GetQuestionPresentation(): QuestionComponentContract {
 		// TODO: Implement GetQuestionPresentation() method.
 	}
-
-
+	
+	
 	/**
-	 * @return Component
+	 * @param QuestionResourcesCollectorContract $collector
+	 * @param $image_path
+	 * @param $a_mode
+	 * @param $a_no_interaction
+	 * @return QuestionComponentContract
 	 */
 	public function GetStandaloneQuestionExportPresentation(
 		QuestionResourcesCollectorContract $collector,
@@ -58,67 +63,67 @@ class PlayService implements PlayServiceContract {
 	): QuestionComponentContract {
 		// TODO: Implement GetStandaloneQuestionExportPresentation() method.
 	}
-
-
+	
+	
 	/**
-	 * @param int $user_answer_id
+	 * @param UserAnswerIdContract $userAnswerUuid
 	 * @return QuestionComponentContract
 	 */
-	public function GetUserAnswerPresentation(int $user_answer_id): QuestionComponentContract {
+	public function GetUserAnswerPresentation(UserAnswerIdContract $userAnswerUuid): QuestionComponentContract {
 		// TODO: Implement GetUserAnswerPresentation() method.
 	}
-
-
+	
+	
 	/**
-	 * @param int $user_answer_id
+	 * @param UserAnswerIdContract $userAnswerUuid
 	 * @return Component
 	 */
-	public function getGenericFeedbackOutput(int $user_answer_id): Component {
+	public function getGenericFeedbackOutput(UserAnswerIdContract $userAnswerUuid): Component {
 		// TODO: Implement getGenericFeedbackOutput() method.
 	}
-
-
+	
+	
 	/**
-	 * @param int $user_answer_id
+	 * @param UserAnswerIdContract $userAnswerUuid
 	 * @return Component
 	 */
-	public function getSpecificFeedbackOutput(int $user_answer_id): Component {
+	public function getSpecificFeedbackOutput(UserAnswerIdContract $userAnswerUuid): Component {
 		// TODO: Implement getSpecificFeedbackOutput() method.
 	}
-
-
+	
+	
 	/**
-	 * @param UserAnswerDTOContract $user_answer
+	 * @param UserAnswerSubmitContract $user_answer
 	 * @return int
 	 */
-	public function SaveUserAnswer(UserAnswerDTOContract $user_answer): int {
+	public function SaveUserAnswer(UserAnswerSubmitContract $user_answer): int {
 		// TODO: Implement SaveUserAnswer() method.
 	}
-
-
+	
+	
 	/**
-	 * @param int $user_answer_id
-	 * @return ScoringDTOContract
+	 * @param UserAnswerIdContract $userAnswerUuid
+	 * @return UserAnswerScoringContract
 	 */
-	public function GetUserScore(int $user_answer_id): ScoringDTOContract {
+	public function GetUserScore(UserAnswerIdContract $userAnswerUuid): UserAnswerScoringContract {
 		// TODO: Implement GetUserScore() method.
 	}
 
 
 	/**
 	 * @param int $user_id
-	 * @return ScoringDTOContract
+	 * @return UserAnswerScoringContract
 	 */
-	public function GetUserScoreOfBestScoredAnswer(int $user_id): ScoringDTOContract {
+	public function GetUserScoreOfBestScoredAnswer(int $user_id): UserAnswerScoringContract {
 		// TODO: Implement GetUserScoreOfBestScoredAnswer() method.
 	}
 
 
 	/**
 	 * @param int $user_id
-	 * @return ScoringDTOContract
+	 * @return UserAnswerScoringContract
 	 */
-	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): ScoringDTOContract {
+	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): UserAnswerScoringContract {
 		// TODO: Implement GetUserScoreLastOfSubmittedAnswer() method.
 	}
 }

@@ -47,36 +47,28 @@ interface PlayServiceContract {
 	 *
 	 * Gets Question Presentation Component with user answer
 	 */
-	public function GetUserAnswerPresentation(int $user_answer_id): QuestionComponentContract;
+	public function GetUserAnswerPresentation(): QuestionComponentContract;
 
 
 	/**
 	 *
 	 * @return Component
 	 */
-	public function getGenericFeedbackOutput(int $user_answer_id): Component;
+	public function getGenericFeedbackOutput(UserAnswerIdContract $userAnswerUuid): Component;
 
 
 	/**
 	 *
 	 * @return Component
 	 */
-	public function getSpecificFeedbackOutput(int $user_answer_id): Component;
+	public function getSpecificFeedbackOutput(UserAnswerIdContract $userAnswerUuid): Component;
 
 
 	/**
-	 * @param UserAnswerDTOContract $user_answer
-	 *
-	 * @return int
+	 * @param UserAnswerSubmitContract $user_answer
 	 */
-	public function SaveUserAnswer(UserAnswerDTOContract $user_answer): int;
+	public function SaveUserAnswer(UserAnswerSubmitContract $user_answer);
 
 
-	public function GetUserScore(int $user_answer_id): ScoringDTOContract;
-
-
-	public function GetUserScoreOfBestScoredAnswer(int $user_id): ScoringDTOContract;
-
-
-	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): ScoringDTOContract;
+	public function GetUserScore(UserAnswerIdContract $userAnswerUuid): UserAnswerScoringContract;
 }
