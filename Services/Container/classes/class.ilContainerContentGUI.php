@@ -789,7 +789,6 @@ abstract class ilContainerContentGUI
 
 
 		$def_command = $item_list_gui->getDefaultCommand();
-
 		$dropdown = $f->dropdown()->standard($actions);
 
 		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($a_item_data['obj_id']);
@@ -810,10 +809,15 @@ abstract class ilContainerContentGUI
 		$sections = [];
 		$title = $a_item_data["title"];
 
+		// workaround for scorm
+		$modified_link =
+			$item_list_gui->modifySAHSlaunch($def_command["link"], $def_command["frame"]);
+
+
 		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
 		{
-			if ($def_command["frame"] != "") {
+			if ($def_command["frame"] != "" && ($modified_link == $def_command["link"])) {
 				$image = $image->withAdditionalOnLoadCode(function($id) use ($def_command) {
 					return
 						"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
@@ -827,7 +831,7 @@ abstract class ilContainerContentGUI
 				$title = $r->render($button);
 			}
 			else {
-				$image = $image->withAction($def_command["link"]);
+				$image = $image->withAction($modified_link);
 			}
 		}
 
@@ -856,9 +860,9 @@ abstract class ilContainerContentGUI
 		)->withActions($dropdown
 		);
 
-		if ($def_command["link"] != "" && $def_command["frame"] == "")	// #24256
+		if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"]))	// #24256
 		{
-			$card = $card->withTitleAction($def_command["link"]);
+			$card = $card->withTitleAction($modified_link);
 		}
 
 		// properties
