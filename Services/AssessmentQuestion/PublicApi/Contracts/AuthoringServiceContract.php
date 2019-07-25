@@ -19,65 +19,64 @@ use ilQtiItem;
 interface AuthoringServiceContract {
 
 	/**
-	 *
+	 * @param string $questionUuid
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function deleteQuestion(string $questionUuid): void;
 
 
 	/**
-	 *
+	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEditLink(): Link;
+	public function getEditLink(string $questionUuid): Link;
 
 
 	/**
-	 *
+	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getPreviewLink(): Link;
+	public function getPreviewLink(string $questionUuid): Link;
 
 
 	/**
-	 * @param string $question_uuid
-	 *
+	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEditPageLink(): Link;
+	public function getEditPageLink(string $questionUuid): Link;
 
 
 	/**
-	 *
+	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEditFeedbacksLink(): Link;
+	public function getEditFeedbacksLink(string $questionUuid): Link;
 
 
 	/**
-	 *
+	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEditHintsLink(): Link;
+	public function getEditHintsLink(string $questionUuid): Link;
 
 
 	/**
-	 *
+	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getStatisticLink(): Link;
+	public function getStatisticLink(string $questionUuid): Link;
 
 
 	/**

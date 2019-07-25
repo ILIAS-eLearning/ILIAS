@@ -16,11 +16,20 @@
 class exQuestionsTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var exObjQuestionPoolGUI
+	 */
+	protected $parent_obj;
+	
+	/**
 	 * @param array $questionData
 	 */
 	public function fillRow($questionData)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$authoringService = $DIC->assessment()->service()->authoring(
+			$this->parent_obj->buildAsqAuthoringSpecification()
+		);
 		
 		/**
 		 * use the associative array containing the question data
@@ -30,14 +39,11 @@ class exQuestionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('QUESTION_TITLE', $questionData['title']);
 		
 		/**
-		 * use the questionId and the ilAsqFactory to get an ilAsqQuestionAuthoring instance
-		 * that provides interface methods to get neccessary links related to the question
+		 * use the questionId and the authoring service to get neccessary links
+		 * related to the question (preview, config, page, feedback, hint, statistic, ...)
 		 */
 		
-		$questionInstance = $DIC->question()->getQuestionInstance( $questionData['questionId'] );
-		$questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
-		
-		$previewLinkComponent = $questionAuthoringGUI->getPreviewLink();
+		$previewLinkComponent = $authoringService->getPreviewLink($questionData['questionId']);
 		
 		$this->tpl->setVariable('QUESTION_HREF', $previewLinkComponent->getAction());
 	}

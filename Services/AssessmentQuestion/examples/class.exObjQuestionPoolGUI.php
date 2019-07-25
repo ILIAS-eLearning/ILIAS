@@ -52,7 +52,7 @@ class exObjQuestionPoolGUI
 	 *
 	 * The container specification is also used to inject the required globals.
 	 */
-	protected function buildAsqAuthoringSpecification() : AuthoringServiceSpecContract
+	public function buildAsqAuthoringSpecification() : AuthoringServiceSpecContract
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		

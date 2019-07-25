@@ -38,49 +38,55 @@ class AuthoringService implements AuthoringServiceContract {
 
 
 	/**
+	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditLink(): Link {
+	public function getEditLink(string $questionUuid): Link {
 		// TODO: Implement GetEditConfigLink() method.
 	}
 
 
 	/**
+	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getPreviewLink(): Link {
+	public function getPreviewLink(string $questionUuid): Link {
 		// TODO: Implement getPreviewLink() method.
 	}
 
 
 	/**
+	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditPageLink(): Link {
+	public function getEditPageLink(string $questionUuid): Link {
 		// TODO: Implement getEdiPageLink() method.
 	}
 
 
 	/**
+	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditFeedbacksLink(): Link {
+	public function getEditFeedbacksLink(string $questionUuid): Link {
 		// TODO: Implement getEditFeedbacksLink() method.
 	}
 
 
 	/**
+	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditHintsLink(): Link {
+	public function getEditHintsLink(string $questionUuid): Link {
 		// TODO: Implement getEditHintsLink() method.
 	}
 
 
 	/**
+	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getStatisticLink(): Link {
+	public function getStatisticLink(string $questionUuid): Link {
 		// TODO: Implement getStatisticLink() method.
 	}
 
