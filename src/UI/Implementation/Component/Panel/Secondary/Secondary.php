@@ -88,7 +88,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 	/**
 	 * @inheritdoc
 	 */
-	public function withFooter(C\Component $component) : C\Panel\Secondary\Secondary
+	public function withFooter(C\Button\Shy $component) : C\Panel\Secondary\Secondary
 	{
 		$clone = clone $this;
 		$clone->footer_component = $component;
@@ -98,7 +98,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 	/**
 	 * @inheritdoc
 	 */
-	public function getFooter(): ?C\Component
+	public function getFooter(): ?C\Button\Shy
 	{
 		return $this->footer_component;
 	}

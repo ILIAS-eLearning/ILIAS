@@ -28,15 +28,15 @@ interface Secondary extends C\Component
 
 	/**
 	 * Sets a Component being displayed below the content
-	 * @param \ILIAS\UI\Component\Component $component
+	 * @param \ILIAS\UI\Component\Button\Shy $component
 	 * @return \ILIAS\UI\Component\Panel\Secondary\Secondary
 	 */
-	public function withFooter(C\Component $component) : Secondary;
+	public function withFooter(C\Button\Shy $component) : Secondary;
 
 	/**
 	 * Gets the Component being displayed below the content
-	 * @return \ILIAS\UI\Component\Component | null
+	 * @return \ILIAS\UI\Component\Button\Shy | null
 	 */
-	public function getFooter() : ?C\Component;
+	public function getFooter() : ?C\Button\Shy;
 
 }
