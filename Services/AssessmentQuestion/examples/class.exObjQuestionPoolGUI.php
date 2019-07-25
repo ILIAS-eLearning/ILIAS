@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AsqApiServiceAuthoringQuestionSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 
 /**
  * When a component consumes the assessment question service for purposes
@@ -15,12 +15,12 @@ class exObjQuestionPoolGUI
 	 * The question creation and editing ui is handled by the Assessment Question Service itself. The control flow
 	 * is to be forwarded to the ilAssessmentQuestionServiceGUI that comes as a regular control structure node.
 	 *
-	 * For the question creation screen the ilAssessmentQuestionServiceGUI simply renders a creation form in the
+	 * For the question creation screen the ilAsqQuestionAuthoringGUI simply renders a creation form in the
 	 * tab context of the consumer, so the user is kept in the context of the question pool's question tab for example.
 	 *
-	 * For the screens of editing a question the ilAssessmentQuestionServiceGUI manages the question authoring tab context,
+	 * For the screens of editing a question the ilAsqQuestionAuthoringGUI manages the question authoring tab context,
 	 * as well as further forwardings in the control structure. All of the commands used in the question authoring ui
-	 * are delegated to sub command classes.
+	 * are delegated to command class subnodes.
 	 *
 	 * To integrate the forward of to the Assessment Question Service two requirements need to be fullfilled:
 	 * - a suitable control structure forward header is required (like above)
@@ -52,7 +52,7 @@ class exObjQuestionPoolGUI
 	 *
 	 * The container specification is also used to inject the required globals.
 	 */
-	protected function buildAsqAuthoringSpecification() : AsqApiServiceAuthoringQuestionSpec
+	protected function buildAsqAuthoringSpecification() : AuthoringServiceSpecContract
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
@@ -60,7 +60,7 @@ class exObjQuestionPoolGUI
 			'Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
 		);
 		
-		$authoringSpecification = $DIC->assessment()->specification()->authoringQuestion(
+		$authoringSpecification = $DIC->assessment()->specification()->questionAuthoring(
 			$this->object->getId(),
 			$DIC->user()->getId(),
 			$containerBackLink
@@ -70,21 +70,23 @@ class exObjQuestionPoolGUI
 	}
 	
 	/**
-	 * For question listings the authoring service provides a method to retrieve
-	 * an array of associative question data arrays. This structure can be simply used as
-	 * data structure for any ilTable2 implementation.
+	 * For question listings the query service provides a method to retrieve an stack of associative question data arrays
+	 * for all questions that relate to us as the parent container. This structure can be simply used as data structure
+	 * for any ilTable2 implementation.
 	 */
 	public function showQuestions()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$authoringQueryService = $DIC->assessment()->service()->authoringQuery($this->object->getId());
+		$queryService = $DIC->assessment()->service()->query();
 
-		$questionsAsAssocArrayStack = $authoringQueryService->GetQuestionsAsAssocArrayStack();
+		$questionsAsAssocArrayStack = $queryService->GetQuestionsOfContainerAsAssocArray(
+			$this->object->getId()
+		);
 		
 		/**
-		 * initialise any ilTable2GUI with this data array
-		 * render initialised ilTable2GUI
+		 * - initialise any ilTable2GUI with this data array
+		 * - render initialised ilTable2GUI
 		 */
 		
 		$tableGUI = new exQuestionsTableGUI($this, 'showQuestionList', '');
@@ -97,18 +99,14 @@ class exObjQuestionPoolGUI
 	 * When a component provides import functionality for assessment questions, it needs to make use of the
 	 * ILIAS QTI service to get any qti xml parsed to an QTI object graph provided by the QTI service.
 	 * 
-	 * To actually import the question as an assessment question the ilAsqQuestion interface method
-	 * fromQtiItem can be used. To retrieve an empty ilAsqQuestion instance, the question type of the
-	 * QtiItem needs to be determined.
-	 * 
-	 * For the question type determination the ilAsqService class provides a corresponding method.
-	 * An instance of the service class can be requested using $DIC->question()->service().
+	 * To actually import the question as an assessment question the authoring service provides a method
+	 * importQtiItem to be used. Simply pass the ilQtiItem and get it imported.
 	 */
 	public function importQuestions()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$authoringQuestionService = $DIC->assessment()->service()->authoringQuestion(
+		$authoringService = $DIC->assessment()->service()->authoring(
 			$this->buildAsqAuthoringSpecification()
 		);
 		
@@ -120,23 +118,24 @@ class exObjQuestionPoolGUI
 		
 		foreach($qtiItems as $qtiItem)
 		{
-			$authoringQuestionService->importQtiItem($qtiItem);
+			$authoringService->importQtiItem($qtiItem);
 		}
 	}
 	
 	/**
-	 * For the deletion of questions the authoring service comes with a method DeleteQuestion().
+	 * For the deletion of questions the authoring service comes with a method deleteQuestion.
+	 * Simply pass the question's UUID.
 	 */
 	public function deleteQuestion()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$questionId = 0; // init from GET parameters
+		$questionUuid = ''; // init from GET parameters
 		
-		$authoringService = $DIC->assessment()->service()->authoringQuestion(
+		$authoringService = $DIC->assessment()->service()->authoring(
 			$this->buildAsqAuthoringSpecification()
 		);
 		
-		$authoringService->deleteQuestion($questionId);
+		$authoringService->deleteQuestion($questionUuid);
 	}
 }

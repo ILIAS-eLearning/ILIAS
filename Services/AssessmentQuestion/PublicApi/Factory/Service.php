@@ -24,19 +24,18 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\PlayService;
 class Service
 {
 	/**
-	 * @param int $containerId
 	 * @return QueryServiceContract
 	 */
-	public function authoringQuery(int $containerId) : QueryServiceContract
+	public function query() : QueryServiceContract
 	{
-		return new QueryService($containerId);
+		return new QueryService();
 	}
 	
 	/**
 	 * @param AuthoringServiceSpecContract $authoringQuestionServiceSpec
 	 * @return AuthoringServiceContract
 	 */
-	public function questionAuthoring(AuthoringServiceSpecContract $authoringQuestionServiceSpec) : AuthoringServiceContract
+	public function authoring(AuthoringServiceSpecContract $authoringQuestionServiceSpec) : AuthoringServiceContract
 	{
 		return new AuthoringService($authoringQuestionServiceSpec);
 	}

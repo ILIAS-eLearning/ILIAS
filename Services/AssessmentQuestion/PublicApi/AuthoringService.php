@@ -6,6 +6,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContra
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\UI\Component\Link\Link;
+use ilQtiItem;
 
 /**
  * Interface QuestionAuthoringService
@@ -28,11 +29,10 @@ class AuthoringService implements AuthoringServiceContract {
 
 	}
 
-
 	/**
-	 *
+	 * @param string $questionUuid
 	 */
-	public function deleteQuestion(): void {
+	public function deleteQuestion(string $questionUuid): void {
 		// TODO: Implement deleteQuestion() method.
 	}
 
@@ -90,5 +90,13 @@ class AuthoringService implements AuthoringServiceContract {
 	 */
 	public function publishNewRevision(RevisionIdContract $asq_api_id_revision): void {
 		// TODO: Implement publishNewRevision() method.
+	}
+	
+	/**
+	 * @param ilQtiItem $qtiItem
+	 */
+	public function importQtiItem(ilQtiItem $qtiItem): void
+	{
+		// TODO: implement
 	}
 }

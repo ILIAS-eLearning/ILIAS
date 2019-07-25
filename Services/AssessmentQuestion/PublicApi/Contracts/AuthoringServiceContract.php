@@ -4,6 +4,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Exception\ContainerIsNotResponsibleForQuestionException;
 use ILIAS\UI\Component\Link\Link;
+use ilQtiItem;
 
 /**
  * Interface QuestionAuthoringServiceContract
@@ -21,7 +22,7 @@ interface AuthoringServiceContract {
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function deleteQuestion(): void;
+	public function deleteQuestion(string $questionUuid): void;
 
 
 	/**
@@ -83,4 +84,9 @@ interface AuthoringServiceContract {
 	 * @param RevisionIdContract $asq_api_id_revision
 	 */
 	public function publishNewRevision(RevisionIdContract $asq_api_id_revision):void;
+	
+	/**
+	 * @param ilQtiItem $qtiItem
+	 */
+	public function importQtiItem(ilQtiItem $qtiItem): void;
 }
