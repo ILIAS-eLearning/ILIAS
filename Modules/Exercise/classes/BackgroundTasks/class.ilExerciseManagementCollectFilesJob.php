@@ -42,10 +42,12 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 	const LINK_COLOR = "0,0,255";
 	const BG_COLOR = "255,255,255";
 	//Column number incremented in ilExcel
-	const PARTICIPANT_NAME_COLUMN = 0;
-	const SUBMISSION_DATE_COLUMN = 1;
-	const FIRST_DEFAULT_SUBMIT_COLUMN = 2;
-	const FIRST_DEFAULT_REVIEW_COLUMN = 3;
+	const PARTICIPANT_LASTNAME_COLUMN = 0;
+	const PARTICIPANT_FIRSTNAME_COLUMN = 1;
+	const PARTICIPANT_LOGIN_COLUMN = 2;
+	const SUBMISSION_DATE_COLUMN = 3;
+	const FIRST_DEFAULT_SUBMIT_COLUMN = 4;
+	const FIRST_DEFAULT_REVIEW_COLUMN = 5;
 
 	/**
 	 * Constructor
@@ -483,8 +485,11 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 			$this->excel->addSheet($this->sanitized_title);
 
 			//add common excel Columns
+			#25585
 			$this->title_columns = array(
-				$this->lng->txt('name'),
+				$this->lng->txt('lastname'),
+				$this->lng->txt('firstname'),
+				$this->lng->txt('login'),
 				$this->lng->txt('exc_last_submission')
 			);
 			switch($assignment_type)
@@ -541,7 +546,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 				if($submission_files)
 				{
 					$participant_name = ilObjUser::_lookupName($participant_id);
-					$this->excel->setCell($row, self::PARTICIPANT_NAME_COLUMN, $participant_name['lastname'].", ".$participant_name['firstname']);
+					$this->excel->setCell($row, self::PARTICIPANT_LASTNAME_COLUMN, $participant_name['lastname']);
+					$this->excel->setCell($row, self::PARTICIPANT_FIRSTNAME_COLUMN, $participant_name['firstname']);
+					$this->excel->setCell($row, self::PARTICIPANT_LOGIN_COLUMN, $participant_name['login']);
 
 					//Get the submission Text
 					if (!in_array($assignment_type, $this->ass_types_with_files))
@@ -600,7 +607,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 									++$row;
 								}
 								$feedback_giver = $review['giver_id']; // user who made the review.
-								$this->excel->setCell($row, $col, ilObjUser::_lookupFullname($feedback_giver));
+								$this->excel->setCell($row, $col, ilUserUtil::getNamePresentation($feedback_giver));
 								$this->excel->setCell($row, $col+1, $review['tstamp']);
 								if($ass_has_criteria)
 								{
