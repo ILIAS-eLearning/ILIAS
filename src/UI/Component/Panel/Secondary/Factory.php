@@ -35,10 +35,13 @@ interface Factory {
 	 *   purpose: >
 	 *      Secondary Legacy Panel present content from a Legacy component.
 	 *   composition: >
-	 *      Secondary Legacy Panel is composed of title and a Legacy component.
+	 *      The Secondary Legacy Panel is composed of title and a Legacy component. Additionally, it
+	 *      may have an optional footer area containing a Shy Button.
 	 *
 	 * context:
 	 *   - Marginal Grid Calendar.
+	 *   - Marginal Blog section.
+	 *   - Marginal Poll section.
 	 *
 	 * ---
 	 * @param string $title
