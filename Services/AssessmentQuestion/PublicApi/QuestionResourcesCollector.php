@@ -1,6 +1,8 @@
 <?php
 
-namespace ILIAS\Services\AssessmentQuestion\Collector;
+namespace ILIAS\Services\AssessmentQuestion\PublicApi;
+
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionResourcesCollectorContract;
 
 /**
  * Class QuestionResourcesCollector
@@ -10,7 +12,7 @@ namespace ILIAS\Services\AssessmentQuestion\Collector;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Björn Heyser <info@bjoernheyser.de>
  */
-class QuestionResourcesCollector {
+class QuestionResourcesCollector implements QuestionResourcesCollectorContract {
 
 	/**
 	 * @var array

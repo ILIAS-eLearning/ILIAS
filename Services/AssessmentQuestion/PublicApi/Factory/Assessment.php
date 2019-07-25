@@ -48,4 +48,12 @@ class Assessment
 	{
 		return new Identifier();
 	}
+	
+	/**
+	 * @return Consumer
+	 */
+	public function consumer(): Consumer
+	{
+		return new Consumer();
+	}
 }

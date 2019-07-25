@@ -2,6 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionResourcesCollectorContract;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -32,7 +33,10 @@ interface PlayServiceContract {
 	 * Gets Question Presentation Component, if solution is given that solution
 	 * will be displayed
 	 */
-	public function GetStandaloneQuestionExportPresentation(): Component;
+	public function GetStandaloneQuestionExportPresentation(
+		QuestionResourcesCollectorContract $collector,
+		$image_path, $a_mode, $a_no_interaction
+	): Component;
 
 
 	/**

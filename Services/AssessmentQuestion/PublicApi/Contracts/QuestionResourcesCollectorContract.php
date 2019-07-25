@@ -7,5 +7,18 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
 interface QuestionResourcesCollectorContract
 {
+	/**
+	 * @return array
+	 */
+	public function getMobs(): array;
 	
+	/**
+	 * @return array
+	 */
+	public function getMediaFiles(): array;
+	
+	/**
+	 * @return array
+	 */
+	public function getJsFiles(): array;
 }

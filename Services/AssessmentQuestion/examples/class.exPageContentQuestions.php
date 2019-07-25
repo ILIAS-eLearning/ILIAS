@@ -14,9 +14,9 @@
 class exPageContentQuestions
 {
 	/**
-	 * @var ilAsqQuestionResourcesCollector
+	 * @var ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionResourcesCollectorContract
 	 */
-	protected $qstResourcesCollector;
+	protected $questionResourcesCollector;
 	
 	/**
 	 * exPageContentQuestions constructor.
@@ -25,7 +25,13 @@ class exPageContentQuestions
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$this->qstResourcesCollector = $DIC->question()->getQuestionResourcesCollector();
+		$this->assessmentPlayService = $DIC->assessment()->service()->play(
+			$DIC->assessment()->specification()->play(
+				$this->object->getId(), $DIC->user()->getId()
+			)
+		);
+		
+		$this->questionResourcesCollector = $DIC->assessment()->consumer()->questionRessourcesCollector();
 	}
 	
 	/**
@@ -64,38 +70,20 @@ class exPageContentQuestions
 				}
 				if ($anyObjParentType == "lm")
 				{
-					$image_path = "./assessment/0/".$questionId."/images/";
+					$image_pagitth = "./assessment/0/".$questionId."/images/";
 				}
 			}
 			
 			/**
-			 * the actual rendering of the question depends on an ilAsqQuestionInstance
-			 * that got correctly configured. therefore the question instance is build
-			 * by a corresponding ilAsqFactory method 
+			 * a question resources collector is passed to the presentation export method, that collets
+			 * all kind of resources the consumer needs to organize for the offline presentation.
+			 * (js/css files, media files, mobs, etc.)
+			 *
+			 * a ui component is returned that can be simply rendered.
 			 */
 			
-			$questionInstance = $DIC->question()->getOfflineExportableQuestionInstance(
-				$questionId, $image_path, $a_mode
-			);
-			
-			/**
-			 * the exporter for the question offline presentation can be requested from the ilAsqFactory
-			 */
-			
-			$qstOfflinePresentationExporter = $DIC->question()->getQuestionOfflinePresentationExporter(
-				$questionInstance
-			);
-			
-			/**
-			 * the ilAsqQuestionOfflinePresentationExporter returns a renderable component.
-			 * 
-			 * an instance of ilAsqQuestionResourcesCollector needs to be injected that
-			 * collects all kind resources the consumer needs to organize for the offline presentation.
-			 * (js/css files, media files, mobs)
-			 */
-			
-			$qstOfflinePresentations[$questionId] = $qstOfflinePresentationExporter->exportQuestion(
-				$this->qstResourcesCollector, $a_no_interaction
+			$qstOfflinePresentations[$questionId] = $this->assessmentPlayService->GetStandaloneQuestionExportPresentation(
+				$this->questionResourcesCollector, $image_path, $a_mode, $a_no_interaction
 			);
 		}
 

@@ -6,6 +6,8 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionResourcesCollector;
+
 /**
  * Class Consumer
  *
@@ -15,5 +17,11 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
  */
 class Consumer
 {
-	
+	/**
+	 * @return QuestionResourcesCollector
+	 */
+	public function questionRessourcesCollector(): QuestionResourcesCollector
+	{
+		return new QuestionResourcesCollector();
+	}
 }
