@@ -13,32 +13,42 @@ This documentation describes the interfaces the AssessmentQuestion service comes
 The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. The higher level business logic is handled by the consumer. E.g. the business Logig that a question can only be answered once or the business logic for handling a group of questions such as that a question can only be answered once. The lower level business logic around assessment questions with a focus on a single question is covered in the Assessment Question Service. E.g. the arrangement of points for answer options.
 
 
-# Service Interfaces
+# Public Services
 
 The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
 
-## Public Asq Public Authoring Service
+## Authoring Service
+[/Services/AssessmentQuestion/PublicApi/AuthoringService.php](../PublicApi/AuthoringService.php)
 ```
-/Services/AssessmentQuestion/PublicApi/AsqApiServiceAuthoringQuery
+$authoringService = $DIC->assessment()->service->authoring(
+    $DIC->assessment->specification()->authoring(
+        $myObjId, $myActorId, $myBacklink
+    ),
+    $DIC->assessment->consumer()->questionUuid('any-valid-uuid')
+);
 ```
-
-The service offers a query method for getting questions as associative of a question.
-
-## AsqApi Authoring Question Service
-```
-/Services/AssessmentQuestion/PublicApi/AsqApiServiceAuthoringQuestion
-```
-
 The Service offers:
 * Links to the Authoring GUI
 * A Delete-Question-Method
 * A Method for Creating new Revisions of a Question. Use this Method if you like to have an immutable Questions Revision for the Play Service.
 
-## Public AsqPlayService
+## Query Service
+[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QueryService.php)
 ```
-/Services/AssessmentQuestion/PublicApi/AsqApiServicePlay
+$queryService = $DIC->assessment()->service->query();
 ```
+The service offers a query method for getting questions as associative of a question.
 
+
+## Play Service
+```
+$playService = $DIC->assessment()->service->play(
+    $DIC->assessment->specification()->play(
+        $myObjId, $myActorId
+    ),
+    $DIC->assessment->consumer()->questionUuid('any-valid-uuid')
+);
+```
 This Service Offers 
 * Presentation Components for rendering at the consumer side. 
 * The possibility to save and score user answers.
@@ -46,7 +56,8 @@ This Service Offers
 
 
 # Consumer
- When integrating questions to any component for authoring purposes, a ctrlCalls to class.ilAsqQuestionAuthoringGui.php has to be implementet and as well as a forwarding in the consumer's `executeCommand()` method.
+
+When integrating questions to any component for authoring purposes, a ctrlCalls to class.ilAsqQuestionAuthoringGui.php has to be implementet and as well as a forwarding in the consumer's `executeCommand()` method.
 
 The consumer is aso repsonsible fot checking the RBAC Permissions. 
 
