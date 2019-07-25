@@ -19,6 +19,11 @@ class ilAssessmentQuestionImporter extends ilXmlImporter
 	 */
 	public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		// TODO: Implement importXmlRepresentation() method.
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		// TODO:
+		// - parse the given xml to ilQtiItems
+		// - get parent container corresponding authoring service from DIC
+		// - import the ilQtiItems
 	}
 }

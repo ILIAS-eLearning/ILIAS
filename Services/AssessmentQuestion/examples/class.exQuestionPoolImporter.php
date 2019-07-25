@@ -45,6 +45,14 @@ class exQuestionPoolImporter extends ilXmlImporter
 		{
 			if ($old != "new_id" && (int) $old > 0)
 			{
+				$authoringService = $DIC->assessment()->service()->authoring(
+					$DIC->assessment()->specification()->authoring(
+						$new,
+						$DIC->user()->getId(),
+						$DIC->ui()->factory()->link()->standard('', '')
+					)
+				);
+
 				$newQstIds = $a_mapping->getMapping("Services/AssessmentQuestion", "qst", $old);
 				
 				if($newQstIds !== false)
@@ -52,9 +60,7 @@ class exQuestionPoolImporter extends ilXmlImporter
 					$qstIds = explode(":", $newQstIds);
 					foreach($qstIds as $qId)
 					{
-						$qstInstance = $DIC->question()->getQuestionInstance($qId);
-						$qstInstance->setParentId($new);
-						$qstInstance->save();
+						$authoringService->changeQuestionContainer($qId);
 					}
 				}
 				

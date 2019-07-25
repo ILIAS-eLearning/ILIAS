@@ -22,4 +22,10 @@ interface QueryServiceContract {
 	 * the generic question data fields
 	 */
 	public function GetQuestionsOfContainerAsAssocArray(int $containerId): array;
+	
+	/**
+	 * @param string $questionUuid
+	 * @return string
+	 */
+	public function getQuestionQtiXml(string $questionUuid): string;
 }

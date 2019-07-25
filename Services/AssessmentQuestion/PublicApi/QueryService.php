@@ -23,4 +23,12 @@ class QueryService implements QueryServiceContract {
 	public function GetQuestionsOfContainerAsAssocArray(int $container_id): array {
 		// TODO: Implement GetQuestionsOfContainerAsAssocArray() method.
 	}
+	
+	/**
+	 * @param string $questionUuid
+	 * @return string
+	 */
+	public function getQuestionQtiXml(string $questionUuid): string {
+		// TODO: implement
+	}
 }

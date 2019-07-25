@@ -60,7 +60,7 @@ class exObjQuestionPoolGUI
 			'Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
 		);
 		
-		$authoringSpecification = $DIC->assessment()->specification()->questionAuthoring(
+		$authoringSpecification = $DIC->assessment()->specification()->authoring(
 			$this->object->getId(),
 			$DIC->user()->getId(),
 			$containerBackLink

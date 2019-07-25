@@ -25,7 +25,7 @@ class Specification
 	 * @param Link $container_backlink
 	 * @return AuthoringServiceSpec
 	 */
-	public function questionAuthoring(
+	public function authoring(
 		int $container_obj_id,
 		int $actor_user_id,
 		Link $container_backlink

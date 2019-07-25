@@ -88,4 +88,9 @@ interface AuthoringServiceContract {
 	 * @param ilQtiItem $qtiItem
 	 */
 	public function importQtiItem(ilQtiItem $qtiItem): void;
+	
+	/**
+	 * @param string $questionUuid
+	 */
+	public function changeQuestionContainer(string $questionUuid): void;
 }

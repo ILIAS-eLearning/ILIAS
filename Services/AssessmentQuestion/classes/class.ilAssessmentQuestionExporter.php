@@ -28,15 +28,8 @@ class ilAssessmentQuestionExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		/**
-		 * the assessment question export does simply get the id an returns
-		 * the qti xml representation of the question.
-		 */
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$questionInstance = $DIC->question()->getQuestionInstance($a_id);
-		
-		return $questionInstance->toQtiXML();
+		return $DIC->assessment()->service()->query()->getQuestionQtiXml($a_id);
 	}
 }
