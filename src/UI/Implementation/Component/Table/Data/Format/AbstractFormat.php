@@ -177,7 +177,7 @@ abstract class AbstractFormat implements Format {
 	protected function handleColumns(Table $component, array $columns, Filter $filter, Renderer $renderer): void {
 		foreach ($columns as $column) {
 			$this->handleColumn($column->getFormater()
-				->formatHeader($this, $column, $component->getTableId(), $renderer), $component, $column, $filter, $renderer);
+				->formatHeaderCell($this, $column, $component->getTableId(), $renderer), $component, $column, $filter, $renderer);
 		}
 	}
 
@@ -217,7 +217,8 @@ abstract class AbstractFormat implements Format {
 	 */
 	protected function handleRow(Table $component, array $columns, RowData $row, Filter $filter, Renderer $renderer): void {
 		foreach ($columns as $column) {
-			$this->handleRowColumn($column->getFormater()->formatRow($this, $column, $row, $component->getTableId(), $renderer));
+			$this->handleRowColumn($column->getFormater()
+				->formatRowCell($this, $column, $row, $row($column->getKey()), $component->getTableId(), $renderer));
 		}
 	}
 

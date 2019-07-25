@@ -20,7 +20,7 @@ class DefaultFormater extends AbstractFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(Format $format, Column $column, string $table_id, Renderer $renderer): string {
+	public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer): string {
 		$title = $column->getTitle();
 
 		switch ($format->getFormatId()) {
@@ -45,9 +45,7 @@ class DefaultFormater extends AbstractFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
-		$value = $row($column->getKey());
-
+	public function formatRowCell(Format $format, Column $column, RowData $row, $value, string $table_id, Renderer $renderer): string {
 		$value = strval($value);
 
 		switch ($format->getFormatId()) {
