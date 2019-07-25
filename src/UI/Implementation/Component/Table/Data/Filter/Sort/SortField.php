@@ -1,19 +1,19 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Table\Data\Filter\Sort;
+namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort;
 
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField as FilterSortFieldInterface;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField as SortFieldInterface;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 use stdClass;
 
 /**
- * Class FilterSortField
+ * Class SortField
  *
- * @package ILIAS\UI\Implementation\Component\Table\Data\Filter\Sort
+ * @package ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class FilterSortField implements FilterSortFieldInterface {
+class SortField implements SortFieldInterface {
 
 	/**
 	 * @var string
@@ -46,7 +46,7 @@ class FilterSortField implements FilterSortFieldInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withSortField(string $sort_field): FilterSortFieldInterface {
+	public function withSortField(string $sort_field): SortFieldInterface {
 		$clone = clone $this;
 
 		$clone->sort_field = $sort_field;
@@ -66,7 +66,7 @@ class FilterSortField implements FilterSortFieldInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withSortFieldDirection(int $sort_field_direction): FilterSortFieldInterface {
+	public function withSortFieldDirection(int $sort_field_direction): SortFieldInterface {
 		$clone = clone $this;
 
 		$clone->sort_field_direction = $sort_field_direction;
@@ -80,8 +80,8 @@ class FilterSortField implements FilterSortFieldInterface {
 	 */
 	public function jsonSerialize(): stdClass {
 		return (object)[
-			FilterStorage::VAR_SORT_FIELD => $this->sort_field,
-			FilterStorage::VAR_SORT_FIELD_DIRECTION => $this->sort_field_direction
+			SettingsStorage::VAR_SORT_FIELD => $this->sort_field,
+			SettingsStorage::VAR_SORT_FIELD_DIRECTION => $this->sort_field_direction
 		];
 	}
 }

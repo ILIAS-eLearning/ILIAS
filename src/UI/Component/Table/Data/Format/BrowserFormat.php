@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\Component\Table\Data\Format;
 
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
 
 /**
@@ -23,10 +23,10 @@ interface BrowserFormat extends Format {
 
 
 	/**
-	 * @param Table  $component
-	 * @param Filter $filter
+	 * @param Table    $component
+	 * @param Settings $user_table_settings
 	 *
-	 * @return Filter
+	 * @return Settings
 	 */
-	public function handleFilterInput(Table $component, Filter $filter): Filter;
+	public function handleUserTableSettingsInput(Table $component, Settings $user_table_settings): Settings;
 }

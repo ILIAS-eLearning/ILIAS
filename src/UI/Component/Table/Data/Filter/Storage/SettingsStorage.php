@@ -1,19 +1,19 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Filter\Storage;
+namespace ILIAS\UI\Component\Table\Data\UserTableSettings\Storage;
 
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
 
 /**
- * Interface FilterStorage
+ * Interface SettingsStorage
  *
- * @package ILIAS\UI\Component\Table\Data\Filter\Storage
+ * @package ILIAS\UI\Component\Table\Data\UserTableSettings\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface FilterStorage {
+interface SettingsStorage {
 
 	/**
 	 * @var string
@@ -72,7 +72,7 @@ interface FilterStorage {
 
 
 	/**
-	 * FilterStorage constructor
+	 * SettingsStorage constructor
 	 */
 	public function __construct();
 
@@ -81,39 +81,39 @@ interface FilterStorage {
 	 * @param string $table_id
 	 * @param int    $user_id
 	 *
-	 * @return Filter
+	 * @return Settings
 	 */
-	public function read(string $table_id, int $user_id): Filter;
+	public function read(string $table_id, int $user_id): Settings;
 
 
 	/**
-	 * @param Filter $filter
-	 * @param Table  $component
+	 * @param Settings $user_table_settings
+	 * @param Table    $component
 	 *
-	 * @return Filter
+	 * @return Settings
 	 */
-	public function handleDefaultFilter(Filter $filter, Table $component): Filter;
+	public function handleDefaultSettings(Settings $user_table_settings, Table $component): Settings;
 
 
 	/**
-	 * @param Filter $filter
-	 * @param string $table_id
-	 * @param int    $user_id
+	 * @param Settings $user_table_settings
+	 * @param string   $table_id
+	 * @param int      $user_id
 	 */
-	public function store(Filter $filter, string $table_id, int $user_id): void;
-
-
-	/**
-	 * @return Filter
-	 */
-	public function filter(): Filter;
+	public function store(Settings $user_table_settings, string $table_id, int $user_id): void;
 
 
 	/**
 	 * @param string $sort_field
 	 * @param int    $sort_field_direction
 	 *
-	 * @return FilterSortField
+	 * @return SortField
 	 */
-	public function sortField(string $sort_field, int $sort_field_direction): FilterSortField;
+	public function sortField(string $sort_field, int $sort_field_direction): SortField;
+
+
+	/**
+	 * @return Settings
+	 */
+	public function userTableSettings(): Settings;
 }

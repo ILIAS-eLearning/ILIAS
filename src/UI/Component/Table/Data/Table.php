@@ -6,7 +6,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\FilterStorage;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 
@@ -163,17 +163,17 @@ interface Table extends Component {
 
 
 	/**
-	 * @return FilterStorage
+	 * @return SettingsStorage
 	 */
-	public function getFilterStorage(): FilterStorage;
+	public function getUserTableSettingsStorage(): SettingsStorage;
 
 
 	/**
-	 * @param FilterStorage $filter_storage
+	 * @param SettingsStorage $user_table_settings_storage
 	 *
 	 * @return self
 	 */
-	public function withFilterStorage(FilterStorage $filter_storage): self;
+	public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage): self;
 
 
 	/**

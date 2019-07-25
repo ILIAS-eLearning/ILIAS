@@ -6,7 +6,7 @@ use Closure;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Table\Data\Data\Data;
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -62,17 +62,17 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderDataTable(Table $component, RendererInterface $renderer): string {
-		$filter = $component->getFilterStorage()->read($component->getTableId(), $this->dic->user()->getId());
+		$user_table_settings = $component->getUserTableSettingsStorage()->read($component->getTableId(), $this->dic->user()->getId());
 
-		$filter = $component->getBrowserFormat()->handleFilterInput($component, $filter);
+		$user_table_settings = $component->getBrowserFormat()->handleUserTableSettingsInput($component, $user_table_settings);
 
-		$filter = $component->getFilterStorage()->handleDefaultFilter($filter, $component);
+		$user_table_settings = $component->getUserTableSettingsStorage()->handleDefaultSettings($user_table_settings, $component);
 
-		$data = $this->handleFetchData($component, $filter);
+		$data = $this->handleFetchData($component, $user_table_settings);
 
-		$html = $this->handleFormat($component, $data, $filter, $renderer);
+		$html = $this->handleFormat($component, $data, $user_table_settings, $renderer);
 
-		$component->getFilterStorage()->store($filter, $component->getTableId(), $this->dic->user()->getId());
+		$component->getUserTableSettingsStorage()->store($user_table_settings, $component->getTableId(), $this->dic->user()->getId());
 
 		return $html;
 	}
@@ -89,14 +89,14 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param Table  $component
-	 * @param Filter $filter
+	 * @param Table    $component
+	 * @param Settings $user_table_settings
 	 *
 	 * @return Data
 	 */
-	protected function handleFetchData(Table $component, Filter $filter): Data {
-		if (!$component->getDataFetcher()->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
-			$data = $component->getDataFetcher()->fetchData($filter);
+	protected function handleFetchData(Table $component, Settings $user_table_settings): Data {
+		if (!$component->getDataFetcher()->isFetchDataNeedsFilterFirstSet() || $user_table_settings->isFilterSet()) {
+			$data = $component->getDataFetcher()->fetchData($user_table_settings);
 		} else {
 			$data = $component->getDataFetcher()->data([], 0);
 		}
@@ -108,12 +108,12 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @param Table             $component
 	 * @param Data              $data
-	 * @param Filter            $filter
+	 * @param Settings          $user_table_settings
 	 * @param RendererInterface $renderer
 	 *
 	 * @return string
 	 */
-	protected function handleFormat(Table $component, Data $data, Filter $filter, RendererInterface $renderer): string {
+	protected function handleFormat(Table $component, Data $data, Settings $user_table_settings, RendererInterface $renderer): string {
 		$input_format_id = $component->getBrowserFormat()->getInputFormatId($component);
 
 		/**
@@ -127,7 +127,7 @@ class Renderer extends AbstractComponentRenderer {
 			$format = $component->getBrowserFormat();
 		}
 
-		$data = $format->render(Closure::bind(function (): TemplateFactory { return $this->tpl_factory; }, $this, AbstractComponentRenderer::class)(), $this->getTemplatePath(""), $component, $data, $filter, $renderer); // TODO: `$this->tpl_factory` is private!!!
+		$data = $format->render(Closure::bind(function (): TemplateFactory { return $this->tpl_factory; }, $this, AbstractComponentRenderer::class)(), $this->getTemplatePath(""), $component, $data, $user_table_settings, $renderer); // TODO: `$this->tpl_factory` is private!!!
 
 		switch ($format->getOutputType()) {
 			case Format::OUTPUT_TYPE_DOWNLOAD:

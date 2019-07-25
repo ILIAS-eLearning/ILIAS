@@ -13,6 +13,15 @@ use ILIAS\UI\Component\Table\Data\Column\Column;
  */
 interface ActionColumn extends Column {
 
+	/* TODO: Needs PHP 7.3
+	/**
+	 * @inheritDoc
+	 *
+	 * @param array $actions
+	 * /
+	public function __construct(string $key, string $title, array $actions);
+	*/
+
 	/**
 	 * @return string[]
 	 */

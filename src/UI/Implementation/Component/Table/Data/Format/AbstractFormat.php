@@ -7,7 +7,7 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
@@ -82,17 +82,17 @@ abstract class AbstractFormat implements Format {
 	/**
 	 * @inheritDoc
 	 */
-	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Filter $filter, Renderer $renderer): string {
+	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string {
 		$this->tpl_factory = $tpl_factory;
 		$this->tpl_path = $tpl_path;
 
-		$this->initTemplate($component, $data, $filter, $renderer);
+		$this->initTemplate($component, $data, $user_table_settings, $renderer);
 
-		$columns = $this->getColumns($component, $filter);
+		$columns = $this->getColumns($component, $user_table_settings);
 
-		$this->handleColumns($component, $columns, $filter, $renderer);
+		$this->handleColumns($component, $columns, $user_table_settings, $renderer);
 
-		$this->handleRows($component, $columns, $data, $filter, $renderer);
+		$this->handleRows($component, $columns, $data, $user_table_settings, $renderer);
 
 		return $this->renderTemplate($component);
 	}
@@ -119,15 +119,15 @@ abstract class AbstractFormat implements Format {
 
 
 	/**
-	 * @param Table  $component
-	 * @param Filter $filter
+	 * @param Table    $component
+	 * @param Settings $user_table_settings
 	 *
 	 * @return Column[]
 	 */
-	protected function getColumnsBase(Table $component, Filter $filter): array {
-		return array_filter($component->getColumns(), function (Column $column) use ($filter): bool {
+	protected function getColumnsBase(Table $component, Settings $user_table_settings): array {
+		return array_filter($component->getColumns(), function (Column $column) use ($user_table_settings): bool {
 			if ($column->isSelectable()) {
-				return in_array($column->getKey(), $filter->getSelectedColumns());
+				return in_array($column->getKey(), $user_table_settings->getSelectedColumns());
 			} else {
 				return true;
 			}
@@ -136,48 +136,48 @@ abstract class AbstractFormat implements Format {
 
 
 	/**
-	 * @param Table  $component
-	 * @param Filter $filter
+	 * @param Table    $component
+	 * @param Settings $user_table_settings
 	 *
 	 * @return Column[]
 	 */
-	protected function getColumnsForExport(Table $component, Filter $filter): array {
-		return array_filter($this->getColumnsBase($component, $filter), function (Column $column): bool {
+	protected function getColumnsForExport(Table $component, Settings $user_table_settings): array {
+		return array_filter($this->getColumnsBase($component, $user_table_settings), function (Column $column): bool {
 			return $column->isExportable();
 		});
 	}
 
 
 	/**
-	 * @param Table  $component
-	 * @param Filter $filter
+	 * @param Table    $component
+	 * @param Settings $user_table_settings
 	 *
 	 * @return Column[]
 	 */
-	protected function getColumns(Table $component, Filter $filter): array {
-		return $this->getColumnsForExport($component, $filter);
+	protected function getColumns(Table $component, Settings $user_table_settings): array {
+		return $this->getColumnsForExport($component, $user_table_settings);
 	}
 
 
 	/**
 	 * @param Table    $component
 	 * @param Data     $data
-	 * @param Filter   $filter
+	 * @param Settings $user_table_settings
 	 * @param Renderer $renderer
 	 */
-	protected abstract function initTemplate(Table $component, Data $data, Filter $filter, Renderer $renderer): void;
+	protected abstract function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): void;
 
 
 	/**
 	 * @param Table    $component
 	 * @param Column[] $columns
-	 * @param Filter   $filter
+	 * @param Settings $user_table_settings
 	 * @param Renderer $renderer
 	 */
-	protected function handleColumns(Table $component, array $columns, Filter $filter, Renderer $renderer): void {
+	protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer): void {
 		foreach ($columns as $column) {
 			$this->handleColumn($column->getFormater()
-				->formatHeaderCell($this, $column, $component->getTableId(), $renderer), $component, $column, $filter, $renderer);
+				->formatHeaderCell($this, $column, $component->getTableId(), $renderer), $component, $column, $user_table_settings, $renderer);
 		}
 	}
 
@@ -186,24 +186,24 @@ abstract class AbstractFormat implements Format {
 	 * @param string   $formated_column
 	 * @param Table    $component
 	 * @param Column   $column
-	 * @param Filter   $filter
+	 * @param Settings $user_table_settings
 	 * @param Renderer $renderer
 	 *
 	 * @return mixed
 	 */
-	protected abstract function handleColumn(string $formated_column, Table $component, Column $column, Filter $filter, Renderer $renderer);
+	protected abstract function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer);
 
 
 	/**
 	 * @param Table    $component
 	 * @param Column[] $columns
 	 * @param Data     $data
-	 * @param Filter   $filter
+	 * @param Settings $user_table_settings
 	 * @param Renderer $renderer
 	 */
-	protected function handleRows(Table $component, array $columns, Data $data, Filter $filter, Renderer $renderer): void {
+	protected function handleRows(Table $component, array $columns, Data $data, Settings $user_table_settings, Renderer $renderer): void {
 		foreach ($data->getData() as $row) {
-			$this->handleRow($component, $columns, $row, $filter, $renderer);
+			$this->handleRow($component, $columns, $row, $user_table_settings, $renderer);
 		}
 	}
 
@@ -212,10 +212,10 @@ abstract class AbstractFormat implements Format {
 	 * @param Table    $component
 	 * @param Column[] $columns
 	 * @param RowData  $row
-	 * @param Filter   $filter
+	 * @param Settings $user_table_settings
 	 * @param Renderer $renderer
 	 */
-	protected function handleRow(Table $component, array $columns, RowData $row, Filter $filter, Renderer $renderer): void {
+	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
 		foreach ($columns as $column) {
 			$this->handleRowColumn($column->getFormater()
 				->formatRowCell($this, $column, $row, $row($column->getKey()), $component->getTableId(), $renderer));

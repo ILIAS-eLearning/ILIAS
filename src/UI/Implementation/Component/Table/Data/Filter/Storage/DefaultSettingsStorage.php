@@ -1,19 +1,19 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage;
+namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Storage;
 
-use ILIAS\UI\Component\Table\Data\Filter\Filter;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 use ilTablePropertiesStorage;
 
 /**
- * Class DefaultFilterStorage
+ * Class DefaultSettingsStorage
  *
- * @package ILIAS\UI\Implementation\Component\Table\Data\Filter\Storage
+ * @package ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class DefaultFilterStorage extends AbstractFilterStorage {
+class DefaultSettingsStorage extends AbstractSettingsStorage {
 
 	/**
 	 * @var ilTablePropertiesStorage
@@ -40,8 +40,8 @@ class DefaultFilterStorage extends AbstractFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function read(string $table_id, int $user_id): Filter {
-		$filter = $this->filter();
+	public function read(string $table_id, int $user_id): Settings {
+		$user_table_settings = $this->userTableSettings();
 
 		foreach (self::VARS as $property) {
 			$value = json_decode($this->properties_storage->getProperty($table_id, $user_id, $property), true);
@@ -49,34 +49,34 @@ class DefaultFilterStorage extends AbstractFilterStorage {
 			if (!empty($value)) {
 				switch ($property) {
 					case self::VAR_SORT_FIELDS:
-						$filter = $filter->withSortFields(array_map(function (array $sort_field): FilterSortField {
+						$user_table_settings = $user_table_settings->withSortFields(array_map(function (array $sort_field): SortField {
 							return $this->sortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
 						}, $value));
 						break;
 
 					default:
-						if (method_exists($filter, $method = "with" . $this->strToCamelCase($property))) {
-							$filter = $filter->{$method}($value);
+						if (method_exists($user_table_settings, $method = "with" . $this->strToCamelCase($property))) {
+							$user_table_settings = $user_table_settings->{$method}($value);
 						}
 				}
 			}
 		}
 
-		return $filter;
+		return $user_table_settings;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function store(Filter $filter, string $table_id, int $user_id): void {
+	public function store(Settings $user_table_settings, string $table_id, int $user_id): void {
 		foreach (self::VARS as $property) {
 			$value = "";
-			if (method_exists($filter, $method = "get" . $this->strToCamelCase($property))) {
-				$value = $filter->{$method}();
+			if (method_exists($user_table_settings, $method = "get" . $this->strToCamelCase($property))) {
+				$value = $user_table_settings->{$method}();
 			} else {
-				if (method_exists($filter, $method = "is" . $this->strToCamelCase($property))) {
-					$value = $filter->{$method}();
+				if (method_exists($user_table_settings, $method = "is" . $this->strToCamelCase($property))) {
+					$value = $user_table_settings->{$method}();
 				}
 			}
 

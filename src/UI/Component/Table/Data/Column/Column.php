@@ -3,7 +3,7 @@
 namespace ILIAS\UI\Component\Table\Data\Column;
 
 use ILIAS\UI\Component\Table\Data\Column\Formater\Formater;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 
 /**
  * Interface Column
@@ -104,7 +104,7 @@ interface Column {
 	 *
 	 * @return self
 	 */
-	public function withDefaultSortDirection(int $default_sort_direction = FilterSortField::SORT_DIRECTION_UP): self;
+	public function withDefaultSortDirection(int $default_sort_direction = SortField::SORT_DIRECTION_UP): self;
 
 
 	/**

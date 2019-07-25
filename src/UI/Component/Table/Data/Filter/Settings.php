@@ -1,17 +1,17 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Filter;
+namespace ILIAS\UI\Component\Table\Data\UserTableSettings;
 
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 
 /**
- * Interface Filter
+ * Interface Settings
  *
- * @package ILIAS\UI\Component\Table\Data\Filter
+ * @package ILIAS\UI\Component\Table\Data\UserTableSettings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Filter {
+interface Settings {
 
 	/**
 	 * @var int
@@ -36,7 +36,7 @@ interface Filter {
 
 
 	/**
-	 * Filter constructor
+	 * Settings constructor
 	 */
 	public function __construct();
 
@@ -66,7 +66,7 @@ interface Filter {
 
 
 	/**
-	 * @return FilterSortField[]
+	 * @return SortField[]
 	 */
 	public function getSortFields(): array;
 
@@ -74,13 +74,13 @@ interface Filter {
 	/**
 	 * @param string $sort_field
 	 *
-	 * @return FilterSortField|null
+	 * @return SortField|null
 	 */
-	public function getSortField(string $sort_field): ?FilterSortField;
+	public function getSortField(string $sort_field): ?SortField;
 
 
 	/**
-	 * @param FilterSortField[] $sort_fields
+	 * @param SortField[] $sort_fields
 	 *
 	 * @return self
 	 */
@@ -88,11 +88,11 @@ interface Filter {
 
 
 	/**
-	 * @param FilterSortField $sort_field
+	 * @param SortField $sort_field
 	 *
 	 * @return self
 	 */
-	public function addSortField(FilterSortField $sort_field): self;
+	public function addSortField(SortField $sort_field): self;
 
 
 	/**

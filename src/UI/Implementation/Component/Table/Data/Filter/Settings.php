@@ -1,25 +1,25 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Component\Table\Data\Filter;
+namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings;
 
-use ILIAS\UI\Component\Table\Data\Filter\Filter as FilterInterface;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\FilterSortField;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 
 /**
- * Class Filter
+ * Class Settings
  *
- * @package ILIAS\UI\Implementation\Component\Table\Data\Filter
+ * @package ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Filter implements FilterInterface {
+class Settings implements SettingsInterface {
 
 	/**
 	 * @var mixed[]
 	 */
 	protected $field_values = [];
 	/**
-	 * @var FilterSortField[]
+	 * @var SortField[]
 	 */
 	protected $sort_fields = [];
 	/**
@@ -67,7 +67,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFieldValues(array $field_values): FilterInterface {
+	public function withFieldValues(array $field_values): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->field_values = $field_values;
@@ -87,8 +87,8 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSortField(string $sort_field): ?FilterSortField {
-		$sort_field = current(array_filter($this->sort_fields, function (FilterSortField $sort_field_) use ($sort_field): bool {
+	public function getSortField(string $sort_field): ?SortField {
+		$sort_field = current(array_filter($this->sort_fields, function (SortField $sort_field_) use ($sort_field): bool {
 			return ($sort_field_->getSortField() === $sort_field);
 		}));
 
@@ -103,7 +103,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withSortFields(array $sort_fields): FilterInterface {
+	public function withSortFields(array $sort_fields): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->sort_fields = $sort_fields;
@@ -115,11 +115,11 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function addSortField(FilterSortField $sort_field): FilterInterface {
+	public function addSortField(SortField $sort_field): SettingsInterface {
 		$clone = clone $this;
 
 		if ($this->getSortField($sort_field->getSortField()) !== null) {
-			$clone->sort_fields = array_reduce($clone->sort_fields, function (array $sort_fields, FilterSortField $sort_field_) use ($sort_field): array {
+			$clone->sort_fields = array_reduce($clone->sort_fields, function (array $sort_fields, SortField $sort_field_) use ($sort_field): array {
 				if ($sort_field_->getSortField() === $sort_field->getSortField()) {
 					$sort_field_ = $sort_field;
 				}
@@ -139,10 +139,10 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function removeSortField(string $sort_field): FilterInterface {
+	public function removeSortField(string $sort_field): SettingsInterface {
 		$clone = clone $this;
 
-		$clone->sort_fields = array_values(array_filter($clone->sort_fields, function (FilterSortField $sort_field_) use ($sort_field): bool {
+		$clone->sort_fields = array_values(array_filter($clone->sort_fields, function (SortField $sort_field_) use ($sort_field): bool {
 			return ($sort_field_->getSortField() !== $sort_field);
 		}));
 
@@ -161,7 +161,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withSelectedColumns(array $selected_columns): FilterInterface {
+	public function withSelectedColumns(array $selected_columns): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->selected_columns = $selected_columns;
@@ -173,7 +173,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function selectColumn(string $selected_column): FilterInterface {
+	public function selectColumn(string $selected_column): SettingsInterface {
 		$clone = clone $this;
 
 		if (!in_array($selected_column, $clone->selected_columns)) {
@@ -187,7 +187,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function deselectColumn(string $selected_column): FilterInterface {
+	public function deselectColumn(string $selected_column): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->selected_columns = array_values(array_filter($clone->selected_columns, function (string $selected_column_) use ($selected_column): bool {
@@ -209,7 +209,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterSet(bool $filter_set = false): FilterInterface {
+	public function withFilterSet(bool $filter_set = false): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->filter_set = $filter_set;
@@ -229,7 +229,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withRowsCount(int $rows_count = self::DEFAULT_ROWS_COUNT): FilterInterface {
+	public function withRowsCount(int $rows_count = self::DEFAULT_ROWS_COUNT): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->rows_count = $rows_count;
@@ -249,7 +249,7 @@ class Filter implements FilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withCurrentPage(int $current_page = 1): FilterInterface {
+	public function withCurrentPage(int $current_page = 1): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->current_page = $current_page;
