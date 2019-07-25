@@ -753,6 +753,7 @@ abstract class ilContainerContentGUI
 	{
 		global $DIC;
 		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
 		$user = $DIC->user();
 
 		$item_list_gui = $this->getItemGUI($a_item_data);
@@ -789,14 +790,6 @@ abstract class ilContainerContentGUI
 
 		$def_command = $item_list_gui->getDefaultCommand();
 
-		if ($def_command["frame"] != "") {
-			$button =
-				$f->button()->shy("Open", "")->withAdditionalOnLoadCode(function($id) use ($item, $def_command) {
-					return
-						"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
-				});
-			$actions[] = $button;
-		}
 		$dropdown = $f->dropdown()->standard($actions);
 
 		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($a_item_data['obj_id']);
@@ -815,6 +808,7 @@ abstract class ilContainerContentGUI
 		}
 
 		$sections = [];
+		$title = $a_item_data["title"];
 
 		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
@@ -824,14 +818,18 @@ abstract class ilContainerContentGUI
 					return
 						"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
 				});
+
+				$button =
+					$f->button()->shy($title, "")->withAdditionalOnLoadCode(function($id) use ($def_command) {
+						return
+							"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+					});
+				$title = $r->render($button);
 			}
 			else {
 				$image = $image->withAction($def_command["link"]);
 			}
 		}
-
-		// card
-		$title = $a_item_data["title"];
 
 		// description, @todo: move to new ks element
 		if ($a_item_data["description"] != "") {
@@ -858,7 +856,7 @@ abstract class ilContainerContentGUI
 		)->withActions($dropdown
 		);
 
-		if ($def_command["link"] != "")	// #24256
+		if ($def_command["link"] != "" && $def_command["frame"] == "")	// #24256
 		{
 			$card = $card->withTitleAction($def_command["link"]);
 		}
