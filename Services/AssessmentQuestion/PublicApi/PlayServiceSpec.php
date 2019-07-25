@@ -9,7 +9,6 @@ use ILIAS\UI\Component\Link\Link;
 
 /**
  * Class PlayServiceSpec
- * @package ILIAS\Services\AssessmentQuestion\PublicApi
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
@@ -17,6 +16,7 @@ use ILIAS\UI\Component\Link\Link;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  *
+ * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
 class PlayServiceSpec implements PlayServiceSpecContract {
 

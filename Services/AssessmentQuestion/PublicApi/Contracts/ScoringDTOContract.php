@@ -13,6 +13,8 @@ use ilDateTime;
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
+ *
+ * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  */
 interface ScoringDTOContract {
 

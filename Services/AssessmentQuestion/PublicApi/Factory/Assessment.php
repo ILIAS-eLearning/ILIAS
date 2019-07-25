@@ -13,7 +13,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  *
- * @package     Services/AssessmentQuestion
+ * @package ILIAS\Services\AssessmentQuestion\PublicApi\Factory
  */
 class Assessment
 {
