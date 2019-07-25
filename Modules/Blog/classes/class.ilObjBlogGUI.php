@@ -2500,7 +2500,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 				if(isset($block[2]) && is_array($block[2]))
 				{
-					$link = $ui_factory->link()->standard($block[2][1], $block[2][0]);
+					$link = $ui_factory->button()->shy($block[2][1], $block[2][0]);
 					$secondary_panel = $secondary_panel->withFooter($link);
 				}
 
