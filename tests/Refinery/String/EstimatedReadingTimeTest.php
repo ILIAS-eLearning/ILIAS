@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Class ReadingTimeTest
  * @package ILIAS\Tests\Refinery\String
  */
-class ReadingTimeTest extends TestCase
+class EstimatedReadingTimeTest extends TestCase
 {
     const TEXT = <<<EOT
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
@@ -57,7 +57,7 @@ EOT;
      */
     public function testExceptionIsRaisedIfSubjectIsNotAString($from)
     {
-        $readingTimeTrafo = $this->refinery->string()->readingTime();
+        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         
         $this->expectException(\InvalidArgumentException::class);
         $readingTimeTrafo->transform($from);
@@ -68,7 +68,7 @@ EOT;
      */
     public function testReadingTimeForPlainText()
     {
-        $readingTimeTrafo = $this->refinery->string()->readingTime();
+        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         $this->assertEquals(
             1,
             $readingTimeTrafo->transform(self::TEXT)
@@ -82,10 +82,16 @@ EOT;
     {
         $text = self::HTML;
 
-        $readingTimeTrafo = $this->refinery->string()->readingTime();
+        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         $this->assertEquals(
             2,
             $readingTimeTrafo->transform($text)
+        );
+
+        $onlyTextReadingTimeInfo = $this->refinery->string()->estimatedReadingTime();
+        $this->assertEquals(
+            1,
+            $onlyTextReadingTimeInfo->transform($text)
         );
     }
 }

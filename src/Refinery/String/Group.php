@@ -82,12 +82,11 @@ class Group
      * Creates a transformation to define the reading time of an human adult
      * The reading time returned in minutes as a integer value
      *
-     * @param int $wordsPerMinute
-     * @param int $firstImageReadingTimeInSeconds
-     * @return ReadingTime
+     * @param bool $withImages
+     * @return EstimatedReadingTime
      */
-    public function readingTime(int $wordsPerMinute = 275, int $firstImageReadingTimeInSeconds = 12) : ReadingTime
+    public function estimatedReadingTime($withImages = false) : EstimatedReadingTime
     {
-        return new ReadingTime($wordsPerMinute, $firstImageReadingTimeInSeconds);
+        return new EstimatedReadingTime($withImages);
     }
 }

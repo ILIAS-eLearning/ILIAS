@@ -8,33 +8,30 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 
 /**
- * Class ReadingTime
+ * Class EstimatedReadingTime
  * @package ILIAS\Refinery\String
  */
-class ReadingTime implements Transformation
+class EstimatedReadingTime implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var int 
-     */
+    /** @var int  */
     private $wordsPerMinute = 275;
 
-    /**
-     * @var int 
-     */
+    /** @var int */
     private $firstImageReadingTimeInSeconds = 12;
+    
+    /** @var bool */
+    private $withImages = false;
 
     /**
      * ReadingTime constructor.
-     * @param int $wordsPerMinute
-     * @param int $firstImageReadingTimeInSeconds
+     * @param bool $withImages
      */
-    public function __construct(int $wordsPerMinute, int $firstImageReadingTimeInSeconds)
+    public function __construct(bool $withImages)
     {
-        $this->wordsPerMinute = $wordsPerMinute;
-        $this->firstImageReadingTimeInSeconds = $firstImageReadingTimeInSeconds;
+        $this->withImages = $withImages;
     }
 
     /**
@@ -79,7 +76,10 @@ class ReadingTime implements Transformation
         }
         
         $imageNodes = $document->getElementsByTagName('img');
-        $numberOfWords += $this->calculateTimeForImages($imageNodes->length);
+        
+        if ($this->withImages) {
+            $numberOfWords += $this->calculateTimeForImages($imageNodes->length);
+        }
 
         $readingTime = ceil($numberOfWords / $this->wordsPerMinute);
         
