@@ -7,9 +7,9 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer;
 use ilMimeTypeUtil;
@@ -218,7 +218,7 @@ abstract class AbstractFormat implements Format {
 	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
 		foreach ($columns as $column) {
 			$this->handleRowColumn($column->getFormater()
-				->formatRowCell($this, $column, $row, $row($column->getKey()), $component->getTableId(), $renderer));
+				->formatRowCell($this, $row($column->getKey()), $column, $row, $component->getTableId(), $renderer));
 		}
 	}
 
