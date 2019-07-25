@@ -8,6 +8,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ilDateTime;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerScoringContract;
 
 /**
@@ -24,6 +25,11 @@ class UserAnswerScoring implements UserAnswerScoringContract
 		// TODO: Implement getQuestionUuid() method.
 	}
 	
+	public function getUserAnswerUuid(): UserAnswerIdContract
+	{
+		// TODO: Implement getQuestionUuid() method.
+	}
+	
 	public function getUserId(): int
 	{
 		// TODO: Implement getUserId() method.
@@ -34,7 +40,7 @@ class UserAnswerScoring implements UserAnswerScoringContract
 		// TODO: Implement getSubmittedOn() method.
 	}
 	
-	public function isUserAnswerCorrect(): bool
+	public function isCorrect(): bool
 	{
 		// TODO: Implement isUserAnswerCorrect() method.
 	}

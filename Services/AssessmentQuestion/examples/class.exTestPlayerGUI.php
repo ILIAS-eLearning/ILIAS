@@ -133,44 +133,60 @@ class exTestPlayerGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$questionUuid = 'any-valid-question-uuid'; // initialise with id of question to be shown
+		/**
+		 * initialise with id of question to be shown
+		 */
 		
-		$asqPlayService = $DIC->assessment()->service()->play(
-			$this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()->questionUuid($questionUuid)
+		$questionUuid = $DIC->assessment()->consumer()->questionUuid('any-valid-question-uuid');
+		
+		/**
+		 * fetch possibly existing participant answer uuid,
+		 * when no participant answer exist yet,
+		 * generate a new user answer uuid
+		 */
+		
+		$userAnswerUuid = $this->getParticipantAnswerUuid($questionUuid->getId());
+		
+		if( $userAnswerUuid )
+		{
+			$userAnswerUuid = $DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid);
+		}
+		else
+		{
+			$userAnswerUuid = $DIC->assessment()->consumer()->userAnswerUuid();
+		}
+		
+		/**
+		 * generate a user answer submit containing the post data
+		 */
+		
+		$userAnswerSubmit = $DIC->assessment()->consumer()->userAnswerSubmit(
+			$userAnswerUuid, $questionUuid, $DIC->user()->getId(), $_POST
 		);
 		
 		/**
-		 * fetch possibly existing participant solution, an empty one is required otherwise
+		 * - initialise the asq play service
+		 * - save the participant's answer submission
+		 * - retrieve the scoring for the answer
 		 */
 		
-		$participantSolution = $this->getParticipantSolution($questionId);
+		$asqPlayService = $DIC->assessment()->service()->play(
+			$this->buildAsqPlayServiceSpec(), $questionUuid
+		);
 		
-		/**
-		 * let the solution object instance harvest the submission post data
-		 */
+		$asqPlayService->SaveUserAnswer($userAnswerSubmit);
 		
-		$participantSolution->initFromServerRequest($serverRequestObject);
-		
-		/**
-		 * get results calculator to be used to retrieve calculated reached points
-		 * that can be stored in a test result storage managed by the test object
-		 */
-		
-		$questionInstance = $DIC->question()->getQuestionInstance($questionId);
-		$solutionInstance = $this->getParticipantSolution($questionId);
-		$resultCalculator = $DIC->question()->getResultCalculator($questionInstance, $solutionInstance);
-		
-		$resultInstance = $resultCalculator->calculate();
+		$userAnswerScoring = $asqPlayService->GetUserScore($userAnswerUuid);
 		
 		/**
 		 * handle the calculated result in any kind
 		 */
 		
 		// can be stored in any ilTestResult object managed by the test
-		$reachedPoints = $resultInstance->getPoints();
+		$reachedPoints = $userAnswerScoring->getPoints();
 		
 		// can be used to differ answer status in CTM's test sequence
-		$isCorrect = $resultInstance->isCorrect();
+		$isCorrect = $userAnswerScoring->isCorrect();
 	}
 	
 	/**

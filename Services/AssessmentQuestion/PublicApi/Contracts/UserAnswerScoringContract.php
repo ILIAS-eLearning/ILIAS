@@ -23,6 +23,11 @@ interface UserAnswerScoringContract {
 	 */
 	public function getQuestionUuid(): QuestionIdContract;
 
+	/**
+	 * @return UserAnswerIdContract
+	 */
+	public function getUserAnswerUuid(): UserAnswerIdContract;
+
 
 	/**
 	 * @return int
@@ -39,7 +44,7 @@ interface UserAnswerScoringContract {
 	/**
 	 * @return bool
 	 */
-	public function isUserAnswerCorrect(): bool;
+	public function isCorrect(): bool;
 
 
 	/**
