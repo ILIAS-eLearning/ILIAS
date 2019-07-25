@@ -1,8 +1,5 @@
 <?php
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerSubmitContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
 
 /**
@@ -14,30 +11,22 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
 class exTestPlayerGUI
 {
 	/**
-	 * When presenting an assessment question to a user, the ilAsqQuestionPresentation provides the
-	 * interface methods to either get a renerable UI coponent for a question presentation or
-	 * for a solution presentation. An instance implementing the ilAsqPresentation according to
-	 * the given question type is provided by a factory method within ilAsqFactory.
-	 * 
-	 * Both methods getQuestionPresentation and getSolutionPresentation gets an instance of ilAsqSolution injected.
-	 * This solution can either be an user solution or the best solution.
-	 * 
-	 * Additional interface methods in ilAsqQuestionPresentation return renderable UI components for the generic
-	 * and specific feedbacks. These methods also need to get an ilAsqSolution instance injected.
-	 * 
-	 * In case of presenting the best solution the required ilAsqSolution instance can be retrieved
-	 * from the ilAsqQuestion interface.
-	 * 
-	 * For any existing user response that is to be presented with the question the instance
-	 * implementing ilAsqSolution can be requested from the ilAsqFactory using the solutionId
-	 * that is to be registered within the consuming component in relation to the user's id
-	 * and additional information (like e.g. test results).
-	 * 
+	 * When presenting an assessment question to a user, it is relevant wether the user
+	 * has allready submited an answer or not.
+	 *
+	 * Simply determine the relevant question uuid and a possible user answer uuid. Then use
+	 * the asq play service to retrieve either a question presentation without user answer,
+	 * or to retrieve a question presentation including a user's answer.
+	 *
+	 * The return value of the corresponding service methods are renderable ui components.
+	 *
+	 * For the presentation of generic or answer specific feedbacks the asq play service
+	 * comes with additional methods, that also returns ui components again.
+	 *
 	 * Variants in usage defined by the consumer:
-	 * - question can be shown writable for the examine
-	 * - question can be shown readable for the examine
+	 * - question can be shown with user answer
+	 * - question can be shown without user answer
 	 * - feedbacks can be shown if required
-	 * - best solution can be shown if required
 	 */
 	public function showQuestion()
 	{
@@ -190,8 +179,10 @@ class exTestPlayerGUI
 	}
 	
 	/**
-	 * this method returns either an initialised solution object instance, or and empty one,
-	 * depending on self managed test results (handled by a future ilTestResult)
+	 * This method checks, wether the user allready submitted an answer, by looking up
+	 * self managed test results. When an user answer is found, the uuid string is returned.
+	 *
+	 * When no user answer has been submitted yet, an empty string is returned.
 	 *
 	 * @param string $questionUuid
 	 * @return string
