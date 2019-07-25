@@ -19,6 +19,13 @@ The AssessmentQuestion service has the following services that can be used by ot
 
 ## Authoring Service
 [/Services/AssessmentQuestion/PublicApi/AuthoringService.php](../PublicApi/AuthoringService.php)
+
+The Service offers:
+* Links to the Authoring GUI
+* A Delete-Question-Method
+* A Method for Creating new Revisions of a Question. Use this Method if you like to have an immutable Questions Revision for the Play Service.
+
+### Get the Service
 ```
 $authoringService = $DIC->assessment()->service->authoring(
     $DIC->assessment->specification()->authoring(
@@ -27,10 +34,25 @@ $authoringService = $DIC->assessment()->service->authoring(
     $DIC->assessment->consumer()->questionUuid('any-valid-uuid')
 );
 ```
-The Service offers:
-* Links to the Authoring GUI
-* A Delete-Question-Method
-* A Method for Creating new Revisions of a Question. Use this Method if you like to have an immutable Questions Revision for the Play Service.
+The Service needs following parameter:
+* A ObjectId - This will Id will be saved as Container Object ID. With this Id it will be checked if the responsible Object ask for the authoring of a question.
+* A ActorId - ILIAS User Id - is used for logging changes on the question.
+* A Backlink - Is used to display a link back to the Calling Object.
+* A UUID Object of the question. You can easely get one by the consumer factory of the assessment question service. Also if you like to create a new question you will give a pre generated UUID. 
+
+### Create a Question
+The Assessment Question Service offers a creation form for questions. You can get the link to this form as follows:
+```
+$creationLinkComponent = $authoringService->getCreationLink();
+```
+Please Note that the ILIAS Ctrl-Flow will pass through your current GUI Class! 
+
+### Edit a Question
+The Assessment Question Service offers an edit form for questions. You can get the link to this form as follows:
+```
+$authoringService->getEditLink()
+```
+Please Note that the ILIAS Ctrl-Flow will pass through your current GUI Class!
 
 ## Query Service
 [/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QueryService.php)
@@ -41,6 +63,7 @@ The service offers a query method for getting questions as associative of a ques
 
 
 ## Play Service
+[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QueryService.php)
 ```
 $playService = $DIC->assessment()->service->play(
     $DIC->assessment->specification()->play(

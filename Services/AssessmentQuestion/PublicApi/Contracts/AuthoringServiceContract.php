@@ -19,11 +19,17 @@ use ilQtiItem;
  */
 interface AuthoringServiceContract {
 
+
 	/**
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function deleteQuestion(): void;
 
+
+	/**
+	 * @return Link
+	 */
+	public function getCreationLink(): Link;
 
 	/**
 	 * @return Link
