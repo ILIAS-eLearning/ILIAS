@@ -2,6 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectionContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\UI\Component\Link\Link;
@@ -34,8 +35,9 @@ class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 	/**
 	 * @param AdditionalConfigSection $asq_additional_config_section
 	 */
-	public function addAdditionalConfigSection(AdditionalConfigSection $asq_additional_config_section) {
+	public function addAdditionalConfigSection(AdditionalConfigSectionContract $asq_additional_config_section) {
 		// TODO: Implement addAdditionalConfigSection() method.
+		return $this;
 	}
 
 

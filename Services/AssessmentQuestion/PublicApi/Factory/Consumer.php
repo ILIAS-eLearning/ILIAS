@@ -6,7 +6,12 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\AdditionalConfigSection;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectionContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionResourcesCollector;
+use ilFormSectionHeaderGUI;
+use ilFormPropertyGUI;
+
 
 /**
  * Class Consumer
@@ -23,5 +28,17 @@ class Consumer
 	public function questionRessourcesCollector(): QuestionResourcesCollector
 	{
 		return new QuestionResourcesCollector();
+	}
+	
+	/**
+	 * @param ilFormSectionHeaderGUI $sectionHeader
+	 * @param ilFormPropertyGUI[] $sectionInputs
+	 * @return AdditionalConfigSectionContract
+	 */
+	public function questionConfigSection(
+		ilFormSectionHeaderGUI $sectionHeader, array $sectionInputs
+	): AdditionalConfigSectionContract
+	{
+		return new AdditionalConfigSection($sectionHeader, $sectionInputs);
 	}
 }

@@ -64,9 +64,30 @@ class exObjQuestionPoolGUI
 			$this->object->getId(),
 			$DIC->user()->getId(),
 			$containerBackLink
-		);
+		)->addAdditionalConfigSection($this->buildAdditionalTaxonomiesConfigSection());
 		
 		return $authoringSpecification;
+	}
+	
+	protected function buildAdditionalTaxonomiesConfigSection()
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$sectionHeader = new ilFormSectionHeaderGUI();
+		$sectionHeader->setTitle('Taxonomy Assignments');
+		
+		$sectionInputs = [];
+		
+		foreach($this->object->getTaxonomyIds() as $taxonomyId)
+		{
+			$sectionInputs[] = new ilTaxSelectInputGUI(
+				$taxonomyId, "tax_{$taxonomyId}"
+			);
+		}
+		
+		return $DIC->assessment()->consumer()->questionConfigSection(
+			$sectionHeader, $sectionInputs
+		);
 	}
 	
 	/**
