@@ -37,7 +37,7 @@ interface PlayServiceContract {
 	public function GetStandaloneQuestionExportPresentation(
 		QuestionResourcesCollectorContract $collector,
 		$image_path, $a_mode, $a_no_interaction
-	): Component;
+	): QuestionComponentContract;
 
 
 	/**

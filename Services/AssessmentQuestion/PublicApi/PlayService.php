@@ -3,6 +3,7 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionComponentContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionResourcesCollectorContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
@@ -51,7 +52,10 @@ class PlayService implements PlayServiceContract {
 	/**
 	 * @return Component
 	 */
-	public function GetStandaloneQuestionExportPresentation(): Component {
+	public function GetStandaloneQuestionExportPresentation(
+		QuestionResourcesCollectorContract $collector,
+		$image_path, $a_mode, $a_no_interaction
+	): QuestionComponentContract {
 		// TODO: Implement GetStandaloneQuestionExportPresentation() method.
 	}
 
