@@ -4,6 +4,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\UI\Component\Link\Link;
 
 /**
@@ -20,30 +21,37 @@ use ILIAS\UI\Component\Link\Link;
 class PlayServiceSpec implements PlayServiceSpecContract {
 
 	/**
-	 * PlayServiceSpec constructor.
-	 * @param int $container_obj_id
-	 * @param int $actor_user_id
-	 * @param Link $container_backlink
-	 * @param QuestionIdContract $question_uuid
-	 * @param QuestionIdContract $question_revision_uuid
+	 * @var int
 	 */
-	public function __construct(int $container_obj_id, int $actor_user_id, Link $container_backlink, QuestionIdContract $question_uuid, QuestionIdContract $question_revision_uuid) {
-
+	protected $containerId;
+	
+	/**
+	 * @var int
+	 */
+	protected $actorId;
+	
+	/**
+	 * @var array
+	 */
+	protected $additionalButtons;
+	
+	/**
+	 * PlayServiceSpec constructor.
+	 *
+	 * @param int $containerId
+	 * @param int $actorId
+	 */
+	public function __construct(int $containerId, int $actorId)
+	{
+		$this->containerId = $containerId;
+		$this->actorId = $actorId;
+		$this->additionalButtons = [];
 	}
-
 
 	/**
 	 * @return void
 	 */
 	public function withAdditionalButton() {
 		// TODO: Implement withAdditionalButton() method.
-	}
-
-
-	/**
-	 * @return void
-	 */
-	public function withQuestionActionLink() {
-		// TODO: Implement withQuestionActionLink() method.
 	}
 }

@@ -30,6 +30,8 @@ class ilAssessmentQuestionExporter extends ilXmlExporter
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		return $DIC->assessment()->service()->query()->getQuestionQtiXml($a_id);
+		return $DIC->assessment()->service()->query()->getQuestionQtiXml(
+			$DIC->assessment()->consumer()->questionUuid($a_id)
+		);
 	}
 }

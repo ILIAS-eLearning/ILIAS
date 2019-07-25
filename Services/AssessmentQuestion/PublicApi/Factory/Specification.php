@@ -38,13 +38,15 @@ class Specification
 	}
 	
 	/**
+	 * @param int $containerId
+	 * @param int $actorId
 	 * @return PlayServiceSpec
-	 * // TODO pass parameters
 	 */
-	public function play() : PlayServiceSpec
+	public function play(
+		int $containerId,
+		int $actorId
+	) : PlayServiceSpec
 	{
-		return new PlayServiceSpec(
-		
-		);
+		return new PlayServiceSpec($containerId, $actorId);
 	}
 }

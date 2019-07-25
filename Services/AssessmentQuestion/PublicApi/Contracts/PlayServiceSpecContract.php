@@ -18,10 +18,4 @@ interface PlayServiceSpecContract {
 	 * @return mixed
 	 */
 	public function withAdditionalButton();
-
-
-	/**
-	 * @return mixed
-	 */
-	public function withQuestionActionLink();
 }

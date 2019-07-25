@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectionContract;
 
 /**
  * When a component consumes the assessment question service for purposes
@@ -51,6 +52,8 @@ class exObjQuestionPoolGUI
 	 * - the still required flag to distinguish between test/pool and learning module
 	 *
 	 * The container specification is also used to inject the required globals.
+	 *
+	 * @return AuthoringServiceSpecContract
 	 */
 	public function buildAsqAuthoringSpecification() : AuthoringServiceSpecContract
 	{
@@ -69,7 +72,10 @@ class exObjQuestionPoolGUI
 		return $authoringSpecification;
 	}
 	
-	protected function buildAdditionalTaxonomiesConfigSection()
+	/**
+	 * @return AdditionalConfigSectionContract
+	 */
+	protected function buildAdditionalTaxonomiesConfigSection(): AdditionalConfigSectionContract
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
@@ -138,8 +144,8 @@ class exObjQuestionPoolGUI
 		foreach($qtiItems as $qtiItem)
 		{
 			$authoringService = $DIC->assessment()->service()->authoring(
-				$DIC->assessment()->consumer()->questionUuid(),
-				$this->buildAsqAuthoringSpecification()
+				$this->buildAsqAuthoringSpecification(),
+				$DIC->assessment()->consumer()->questionUuid()
 			);
 			
 			$authoringService->importQtiItem($qtiItem);
@@ -157,8 +163,8 @@ class exObjQuestionPoolGUI
 		$questionUuid = ''; // init from GET parameters
 		
 		$authoringService = $DIC->assessment()->service()->authoring(
-			$DIC->assessment()->consumer()->questionUuid($questionUuid),
-			$this->buildAsqAuthoringSpecification()
+			$this->buildAsqAuthoringSpecification(),
+			$DIC->assessment()->consumer()->questionUuid($questionUuid)
 		);
 		
 		$authoringService->deleteQuestion();

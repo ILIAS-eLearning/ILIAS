@@ -14,6 +14,11 @@
 class exPageContentQuestions
 {
 	/**
+	 * @var ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec
+	 */
+	protected $playServiceSpec;
+	
+	/**
 	 * @var ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionResourcesCollectorContract
 	 */
 	protected $questionResourcesCollector;
@@ -25,10 +30,8 @@ class exPageContentQuestions
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$this->assessmentPlayService = $DIC->assessment()->service()->play(
-			$DIC->assessment()->specification()->play(
-				$this->object->getId(), $DIC->user()->getId()
-			)
+		$this->playServiceSpec = $DIC->assessment()->specification()->play(
+			$this->object->getId(), $DIC->user()->getId()
 		);
 		
 		$this->questionResourcesCollector = $DIC->assessment()->consumer()->questionRessourcesCollector();
@@ -70,7 +73,7 @@ class exPageContentQuestions
 				}
 				if ($anyObjParentType == "lm")
 				{
-					$image_pagitth = "./assessment/0/".$questionId."/images/";
+					$image_path = "./assessment/0/".$questionId."/images/";
 				}
 			}
 			
@@ -82,7 +85,11 @@ class exPageContentQuestions
 			 * a ui component is returned that can be simply rendered.
 			 */
 			
-			$qstOfflinePresentations[$questionId] = $this->assessmentPlayService->GetStandaloneQuestionExportPresentation(
+			$playService = $DIC->assessment()->service()->play($this->playServiceSpec,
+				$DIC->assessment()->consumer()->questionUuid($questionId)
+			);
+			
+			$qstOfflinePresentations[$questionId] = $playService->GetStandaloneQuestionExportPresentation(
 				$this->questionResourcesCollector, $image_path, $a_mode, $a_no_interaction
 			);
 		}

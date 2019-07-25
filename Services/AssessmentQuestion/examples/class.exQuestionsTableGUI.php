@@ -33,8 +33,8 @@ class exQuestionsTableGUI extends ilTable2GUI
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		$authoringService = $DIC->assessment()->service()->authoring(
-			$DIC->assessment()->consumer()->questionUuid($questionData['questionId']),
-			$this->parent_obj->buildAsqAuthoringSpecification()
+			$this->parent_obj->buildAsqAuthoringSpecification(),
+			$DIC->assessment()->consumer()->questionUuid($questionData['questionId'])
 		);
 		
 		/**

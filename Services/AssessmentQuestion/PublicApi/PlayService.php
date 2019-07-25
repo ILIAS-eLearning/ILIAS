@@ -5,6 +5,8 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionComponentContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\ScoringDTOContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerDTOContract;
 use ILIAS\UI\Component\Component;
@@ -20,12 +22,19 @@ use ILIAS\UI\Component\Component;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class PlayService implements PlayServiceContract {
-
+	
 	/**
 	 * PlayService constructor.
 	 * @param PlayServiceSpecContract $asq_api_service_play_spec
+	 * @param QuestionIdContract $questionUuid
+	 * @param RevisionIdContract|null $revisionUuid
 	 */
-	public function __construct(PlayServiceSpecContract $asq_api_service_play_spec) {
+	public function __construct(
+		PlayServiceSpecContract $asq_api_service_play_spec,
+		QuestionIdContract $questionUuid,
+		RevisionIdContract $revisionUuid = null
+	)
+	{
 		//TODO
 	}
 

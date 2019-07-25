@@ -3,6 +3,8 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QueryServiceContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 
 /**
  * Class AuthoringQueryService
@@ -28,7 +30,10 @@ class QueryService implements QueryServiceContract {
 	 * @param string $questionUuid
 	 * @return string
 	 */
-	public function getQuestionQtiXml(string $questionUuid): string {
+	public function getQuestionQtiXml(
+		QuestionIdContract $questionUuid,
+		RevisionIdContract $revisionUuid = null
+	): string {
 		// TODO: implement
 	}
 }

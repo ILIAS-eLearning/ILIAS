@@ -20,13 +20,13 @@ use ilQtiItem;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class AuthoringService implements AuthoringServiceContract {
-
+	
 	/**
-	 * QuestionAuthoringService constructor.
-	 *
+	 * AuthoringService constructor.
 	 * @param AuthoringServiceSpecContract $asq_authoring_spec
+	 * @param QuestionIdContract $questionUuid
 	 */
-	public function __construct(QuestionIdContract $questionUuid, AuthoringServiceSpecContract $asq_authoring_spec) {
+	public function __construct(AuthoringServiceSpecContract $asq_authoring_spec, QuestionIdContract $questionUuid) {
 	}
 
 	/**
