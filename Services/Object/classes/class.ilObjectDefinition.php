@@ -1166,7 +1166,8 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 		
 		// add very special case
-		$res[] = "itgr";
+		// outcommented, see bug #25662
+//		$res[] = "itgr";
 		
 		return array_unique($res);		
 	}
