@@ -105,6 +105,18 @@ class exObjQuestionPoolGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
+		$authoringService = $DIC->assessment()->service()->authoring(
+			$this->buildAsqAuthoringSpecification(), $DIC->assessment()->consumer()->questionUuid()
+		);
+		
+		$creationLinkComponent = $authoringService->getCreationLink();
+		
+		$button = ilLinkButton::getInstance();
+		$button->setCaption($creationLinkComponent->getLabel());
+		$button->setUrl($creationLinkComponent->getAction());
+		$toolbar = new ilToolbarGUI();
+		$toolbar->addButtonInstance($button);
+		
 		$queryService = $DIC->assessment()->service()->query();
 
 		$questionsAsAssocArrayStack = $queryService->GetQuestionsOfContainerAsAssocArray(
@@ -119,7 +131,9 @@ class exObjQuestionPoolGUI
 		$tableGUI = new exQuestionsTableGUI($this, 'showQuestionList', '');
 		$tableGUI->setData($questionsAsAssocArrayStack);
 		
-		$tableHTML = $tableGUI->getHTML(); // render table
+		
+		$toolbarHTML = $toolbar->getHTML(); // render toolbar including create question button
+		$tableHTML = $tableGUI->getHTML(); // render table containing question list
 	}
 	
 	/**

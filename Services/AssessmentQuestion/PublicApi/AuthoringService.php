@@ -29,6 +29,13 @@ class AuthoringService implements AuthoringServiceContract {
 	 */
 	public function __construct(AuthoringServiceSpecContract $asq_authoring_spec, QuestionIdContract $questionUuid) {
 	}
+	
+	public function getCreationLink(): Link
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		return $DIC->ctrl()->getLinkTargetByClass('ilAsqQuestionAuthoringGUI', 'createQuestionForm');
+	}
 
 	/**
 	 */
