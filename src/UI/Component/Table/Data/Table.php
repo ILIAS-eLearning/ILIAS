@@ -6,9 +6,9 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 
 /**
  * Interface Table

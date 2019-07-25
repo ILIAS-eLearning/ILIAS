@@ -8,12 +8,12 @@ use ILIAS\UI\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 use ILIAS\UI\Renderer;
 use ilUtil;
 use LogicException;
@@ -144,7 +144,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 				}
 
 				$remove_sort_button = $this->dic->ui()->factory()->button()->shy($this->dic->language()->txt(Table::LANG_MODULE
-						. "_remove_sort"), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_REMOVE_SORT_FIELD => $column->getKey() ], $component->getTableId())); // TODO: Remove sort icon
+					. "_remove_sort"), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_REMOVE_SORT_FIELD => $column->getKey() ], $component->getTableId())); // TODO: Remove sort icon
 			} else {
 				$sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, self::getActionUrl($component->getActionUrl(), [
 					SettingsStorage::VAR_SORT_FIELD => $column->getKey(),
@@ -208,7 +208,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 		$sort_field = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
 		$sort_field_direction = intval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
 		if (!empty($sort_field) && !empty($sort_field_direction)) {
-			$user_table_settings = $user_table_settings->addSortField($component->getUserTableSettingsStorage()->sortField($sort_field, $sort_field_direction));
+			$user_table_settings = $user_table_settings->addSortField($component->getUserTableSettingsStorage()
+				->sortField($sort_field, $sort_field_direction));
 
 			$user_table_settings = $user_table_settings->withFilterSet(true);
 		}
@@ -317,17 +318,18 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @return Component
 	 */
 	protected function getPagesSelector(Table $component, Settings $user_table_settings, Data $data, Renderer $renderer): Component {
-		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (int $page) use ($component, $user_table_settings, $renderer): Component {
-			if ($user_table_settings->getCurrentPage() === $page) {
-				return $this->dic->ui()->factory()->legacy($renderer->render([
-					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy(strval($page))
-				]));
-			} else {
-				return $this->dic->ui()->factory()->button()
-					->shy(strval($page), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_CURRENT_PAGE => $page ], $component->getTableId()));
-			}
-		}, range(1, $user_table_settings->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
+		return $this->dic->ui()->factory()->dropdown()
+			->standard(array_map(function (int $page) use ($component, $user_table_settings, $renderer): Component {
+				if ($user_table_settings->getCurrentPage() === $page) {
+					return $this->dic->ui()->factory()->legacy($renderer->render([
+						$this->dic->ui()->factory()->symbol()->glyph()->apply(),
+						$this->dic->ui()->factory()->legacy(strval($page))
+					]));
+				} else {
+					return $this->dic->ui()->factory()->button()
+						->shy(strval($page), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_CURRENT_PAGE => $page ], $component->getTableId()));
+				}
+			}, range(1, $user_table_settings->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
 			. "_pages"), $user_table_settings->getCurrentPage(), $user_table_settings->getTotalPages($data->getMaxCount())));
 	}
 
@@ -340,14 +342,15 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @return Component
 	 */
 	protected function getColumnsSelector(Table $component, Settings $user_table_settings, Renderer $renderer): Component {
-		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Column $column) use ($component, $user_table_settings, $renderer): Shy {
-			return $this->dic->ui()->factory()->button()->shy($renderer->render([
-				$this->dic->ui()->factory()->symbol()->glyph()->add(),
-				$this->dic->ui()->factory()->legacy($column->getTitle())
-			]), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_SELECT_COLUMN => $column->getKey() ], $component->getTableId()));
-		}, array_filter($component->getColumns(), function (Column $column) use ($user_table_settings): bool {
-			return ($column->isSelectable() && !in_array($column->getKey(), $user_table_settings->getSelectedColumns()));
-		})))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_add_columns"));
+		return $this->dic->ui()->factory()->dropdown()
+			->standard(array_map(function (Column $column) use ($component, $user_table_settings, $renderer): Shy {
+				return $this->dic->ui()->factory()->button()->shy($renderer->render([
+					$this->dic->ui()->factory()->symbol()->glyph()->add(),
+					$this->dic->ui()->factory()->legacy($column->getTitle())
+				]), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_SELECT_COLUMN => $column->getKey() ], $component->getTableId()));
+			}, array_filter($component->getColumns(), function (Column $column) use ($user_table_settings): bool {
+				return ($column->isSelectable() && !in_array($column->getKey(), $user_table_settings->getSelectedColumns()));
+			})))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_add_columns"));
 	}
 
 
@@ -359,17 +362,19 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @return Component
 	 */
 	protected function getRowsPerPageSelector(Table $component, Settings $user_table_settings, Renderer $renderer): Component {
-		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (int $count) use ($component, $user_table_settings, $renderer): Component {
-			if ($user_table_settings->getRowsCount() === $count) {
-				return $this->dic->ui()->factory()->legacy($renderer->render([
-					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy(strval($count))
-				]));
-			} else {
-				return $this->dic->ui()->factory()->button()
-					->shy(strval($count), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_ROWS_COUNT => $count ], $component->getTableId()));
-			}
-		}, Settings::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_rows_per_page"), $user_table_settings->getRowsCount()));
+		return $this->dic->ui()->factory()->dropdown()
+			->standard(array_map(function (int $count) use ($component, $user_table_settings, $renderer): Component {
+				if ($user_table_settings->getRowsCount() === $count) {
+					return $this->dic->ui()->factory()->legacy($renderer->render([
+						$this->dic->ui()->factory()->symbol()->glyph()->apply(),
+						$this->dic->ui()->factory()->legacy(strval($count))
+					]));
+				} else {
+					return $this->dic->ui()->factory()->button()
+						->shy(strval($count), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_ROWS_COUNT => $count ], $component->getTableId()));
+				}
+			}, Settings::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
+			. "_rows_per_page"), $user_table_settings->getRowsCount()));
 	}
 
 
@@ -391,8 +396,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @param Data     $data
 	 */
 	protected function handleDisplayCount(Settings $user_table_settings, Data $data): void {
-		$count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount() > 0 ? $user_table_settings->getLimitStart()
-			+ 1 : 0), min($user_table_settings->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount());
+		$count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount()
+		> 0 ? $user_table_settings->getLimitStart() + 1 : 0), min($user_table_settings->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount());
 
 		$this->tpl->setCurrentBlock("count_top");
 		$this->tpl->setVariable("COUNT_TOP", $count);

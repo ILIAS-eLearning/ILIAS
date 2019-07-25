@@ -3,12 +3,12 @@
 namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Storage;
 
 use ILIAS\UI\Component\Table\Data\Column\Column;
+use ILIAS\UI\Component\Table\Data\Table;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField as SortFieldInterface;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
-use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort\SortField;
 use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort\SortField;
 
 /**
  * Class AbstractSettingsStorage

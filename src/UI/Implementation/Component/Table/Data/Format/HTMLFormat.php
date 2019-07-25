@@ -5,8 +5,8 @@ namespace ILIAS\UI\Implementation\Component\Table\Data\Format;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer;
 

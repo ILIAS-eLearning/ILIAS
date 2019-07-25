@@ -2,9 +2,9 @@
 
 namespace ILIAS\UI\Component\Table\Data\UserTableSettings\Storage;
 
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 
 /**
  * Interface SettingsStorage

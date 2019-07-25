@@ -5,13 +5,13 @@ namespace ILIAS\UI\Implementation\Component\Table\Data;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table as TableInterface;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Storage\DefaultSettingsStorage;
 use ILIAS\UI\Implementation\Component\Table\Data\Format\DefaultBrowserFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Storage\DefaultSettingsStorage;
 
 /**
  * Class Table

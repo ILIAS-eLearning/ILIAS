@@ -2,8 +2,8 @@
 
 namespace ILIAS\UI\Component\Table\Data\Format;
 
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
+use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 
 /**
  * Interface BrowserFormat

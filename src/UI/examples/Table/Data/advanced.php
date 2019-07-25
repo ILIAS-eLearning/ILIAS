@@ -3,9 +3,9 @@
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
+use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
-use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
 use ILIAS\UI\Renderer;
