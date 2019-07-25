@@ -300,9 +300,10 @@ EOT;
 
 	public function test_render_with_footer() {
 		$legacy = $this->getUIFactory()->legacy("Legacy content");
+		$footer_shy_button = $this->getUIFactory()->button()->shy("Action","");
 
 		$secondary_panel = $this->getUIFactory()->legacyPanel("Title", $legacy)
-			->withFooter($legacy);
+			->withFooter($footer_shy_button);
 
 		$html = $this->getDefaultRenderer()->render($secondary_panel);
 
@@ -315,7 +316,7 @@ EOT;
 		Legacy content
 	</div>
 	<div class="panel-footer ilBlockInfo">
-		Legacy content
+		<button class="btn btn-link" data-action="">Action</button>
 	</div>
 </div>
 EOT;
