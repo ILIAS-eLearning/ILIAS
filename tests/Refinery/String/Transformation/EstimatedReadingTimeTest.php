@@ -55,7 +55,7 @@ EOT;
      * @dataProvider subjectProvider
      * @param mixed $from
      */
-    public function testExceptionIsRaisedIfSubjectIsNotAString($from)
+    public function testExceptionIsRaisedIfSubjectIsNotAString($from) : void
     {
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         
@@ -66,7 +66,7 @@ EOT;
     /**
      * 
      */
-    public function testReadingTimeForPlainText()
+    public function testReadingTimeForPlainText() : void 
     {
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         $this->assertEquals(
@@ -78,7 +78,7 @@ EOT;
     /**
      *
      */
-    public function testReadingTimeForHtmlFragment()
+    public function testReadingTimeForHtmlFragment() : void
     {
         $text = self::HTML;
 
