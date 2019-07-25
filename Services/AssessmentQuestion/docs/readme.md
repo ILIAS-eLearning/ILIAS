@@ -73,7 +73,7 @@ When consumers want to export the assessment questions as a single QTI xml file,
 
 For importing assessment questions from any single QTI xml file, the QTI service is to be used to retieve a list of `QTIitem` instances. These items can be provided to an empty `ilAsqQuestion` instance to save the question to the database.
 
-# Example Consumers
+# Example Consumers (Test/Pool/LearningModule)
 
 [Services/AssessmentQuestion/examples/class.exObjQuestionPoolGUI.php](../examples/class.exObjQuestionPoolGUI.php)
 
