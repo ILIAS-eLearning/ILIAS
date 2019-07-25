@@ -20,6 +20,11 @@ class exQuestionsTableGUI extends ilTable2GUI
 	 */
 	protected $parent_obj;
 	
+	public function __construct(object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
+	{
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+	}
+	
 	/**
 	 * @param array $questionData
 	 */
@@ -28,6 +33,7 @@ class exQuestionsTableGUI extends ilTable2GUI
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		$authoringService = $DIC->assessment()->service()->authoring(
+			$DIC->assessment()->consumer()->questionUuid($questionData['questionId']),
 			$this->parent_obj->buildAsqAuthoringSpecification()
 		);
 		
@@ -43,8 +49,12 @@ class exQuestionsTableGUI extends ilTable2GUI
 		 * related to the question (preview, config, page, feedback, hint, statistic, ...)
 		 */
 		
-		$previewLinkComponent = $authoringService->getPreviewLink($questionData['questionId']);
+		$previewLink = $authoringService->getPreviewLink()->getAction();
 		
-		$this->tpl->setVariable('QUESTION_HREF', $previewLinkComponent->getAction());
+		// it could be of course also possible to generate the links
+		// from within the assessment question service
+		//$previewLink = $questionData['link_preview'];
+		
+		$this->tpl->setVariable('QUESTION_HREF', $previewLink);
 	}
 }

@@ -127,9 +127,7 @@ class exObjQuestionPoolGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$authoringService = $DIC->assessment()->service()->authoring(
-			$this->buildAsqAuthoringSpecification()
-		);
+		
 		
 		/**
 		 * parse any qti import xml using the QTI Service and retrieve
@@ -139,6 +137,11 @@ class exObjQuestionPoolGUI
 		
 		foreach($qtiItems as $qtiItem)
 		{
+			$authoringService = $DIC->assessment()->service()->authoring(
+				$DIC->assessment()->consumer()->questionUuid(),
+				$this->buildAsqAuthoringSpecification()
+			);
+			
 			$authoringService->importQtiItem($qtiItem);
 		}
 	}
@@ -154,9 +157,10 @@ class exObjQuestionPoolGUI
 		$questionUuid = ''; // init from GET parameters
 		
 		$authoringService = $DIC->assessment()->service()->authoring(
+			$DIC->assessment()->consumer()->questionUuid($questionUuid),
 			$this->buildAsqAuthoringSpecification()
 		);
 		
-		$authoringService->deleteQuestion($questionUuid);
+		$authoringService->deleteQuestion();
 	}
 }

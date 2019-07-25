@@ -4,6 +4,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
+use ilPropertyFormGUI;
 
 interface AdditionalConfigSectionContract
 {

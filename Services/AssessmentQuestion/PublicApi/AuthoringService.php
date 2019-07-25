@@ -4,6 +4,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\UI\Component\Link\Link;
 use ilQtiItem;
@@ -25,68 +26,60 @@ class AuthoringService implements AuthoringServiceContract {
 	 *
 	 * @param AuthoringServiceSpecContract $asq_authoring_spec
 	 */
-	public function __construct(AuthoringServiceSpecContract $asq_authoring_spec) {
-
+	public function __construct(QuestionIdContract $questionUuid, AuthoringServiceSpecContract $asq_authoring_spec) {
 	}
 
 	/**
-	 * @param string $questionUuid
 	 */
-	public function deleteQuestion(string $questionUuid): void {
+	public function deleteQuestion(): void {
 		// TODO: Implement deleteQuestion() method.
 	}
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditLink(string $questionUuid): Link {
+	public function getEditLink(): Link {
 		// TODO: Implement GetEditConfigLink() method.
 	}
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getPreviewLink(string $questionUuid): Link {
+	public function getPreviewLink(): Link {
 		// TODO: Implement getPreviewLink() method.
 	}
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditPageLink(string $questionUuid): Link {
+	public function getEditPageLink(): Link {
 		// TODO: Implement getEdiPageLink() method.
 	}
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditFeedbacksLink(string $questionUuid): Link {
+	public function getEditFeedbacksLink(): Link {
 		// TODO: Implement getEditFeedbacksLink() method.
 	}
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getEditHintsLink(string $questionUuid): Link {
+	public function getEditHintsLink(): Link {
 		// TODO: Implement getEditHintsLink() method.
 	}
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 */
-	public function getStatisticLink(string $questionUuid): Link {
+	public function getStatisticLink(): Link {
 		// TODO: Implement getStatisticLink() method.
 	}
 

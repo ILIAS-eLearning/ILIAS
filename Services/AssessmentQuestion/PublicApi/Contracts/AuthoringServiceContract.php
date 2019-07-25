@@ -19,10 +19,25 @@ use ilQtiItem;
 interface AuthoringServiceContract {
 
 	/**
-	 * @param string $questionUuid
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function deleteQuestion(string $questionUuid): void;
+	public function deleteQuestion(): void;
+
+
+	/**
+	 * @return Link
+	 *
+	 * @throws ContainerIsNotResponsibleForQuestionException
+	 */
+	public function getEditLink(): Link;
+
+
+	/**
+	 * @return Link
+	 *
+	 * @throws ContainerIsNotResponsibleForQuestionException
+	 */
+	public function getPreviewLink(): Link;
 
 
 	/**
@@ -31,7 +46,7 @@ interface AuthoringServiceContract {
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEditLink(string $questionUuid): Link;
+	public function getEditPageLink(): Link;
 
 
 	/**
@@ -40,43 +55,23 @@ interface AuthoringServiceContract {
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getPreviewLink(string $questionUuid): Link;
+	public function getEditFeedbacksLink(): Link;
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEditPageLink(string $questionUuid): Link;
+	public function getEditHintsLink(): Link;
 
 
 	/**
-	 * @param string $questionUuid
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
-	public function getEditFeedbacksLink(string $questionUuid): Link;
-
-
-	/**
-	 * @param string $questionUuid
-	 * @return Link
-	 *
-	 * @throws ContainerIsNotResponsibleForQuestionException
-	 */
-	public function getEditHintsLink(string $questionUuid): Link;
-
-
-	/**
-	 * @param string $questionUuid
-	 * @return Link
-	 *
-	 * @throws ContainerIsNotResponsibleForQuestionException
-	 */
-	public function getStatisticLink(string $questionUuid): Link;
+	public function getStatisticLink(): Link;
 
 
 	/**
@@ -90,7 +85,6 @@ interface AuthoringServiceContract {
 	public function importQtiItem(ilQtiItem $qtiItem): void;
 	
 	/**
-	 * @param string $questionUuid
 	 */
-	public function changeQuestionContainer(string $questionUuid): void;
+	public function changeQuestionContainer(): void;
 }

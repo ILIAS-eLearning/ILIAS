@@ -8,6 +8,8 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\AdditionalConfigSection;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectionContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionResourcesCollector;
 use ilFormSectionHeaderGUI;
 use ilFormPropertyGUI;
@@ -22,6 +24,15 @@ use ilFormPropertyGUI;
  */
 class Consumer
 {
+	/**
+	 * @param string $questionUuid
+	 * @return QuestionIdContract
+	 */
+	public function questionUuid($questionUuid = ''): QuestionIdContract
+	{
+		return new QuestionId($questionUuid);
+	}
+	
 	/**
 	 * @return QuestionResourcesCollector
 	 */

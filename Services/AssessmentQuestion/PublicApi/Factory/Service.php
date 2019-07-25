@@ -11,8 +11,10 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContrac
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QueryService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\PlayService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
 
 /**
  * Class Services
@@ -35,9 +37,12 @@ class Service
 	 * @param AuthoringServiceSpecContract $authoringQuestionServiceSpec
 	 * @return AuthoringServiceContract
 	 */
-	public function authoring(AuthoringServiceSpecContract $authoringQuestionServiceSpec) : AuthoringServiceContract
+	public function authoring(
+		QuestionIdContract $questionUuid,
+		AuthoringServiceSpecContract $authoringQuestionServiceSpec
+	) : AuthoringServiceContract
 	{
-		return new AuthoringService($authoringQuestionServiceSpec);
+		return new AuthoringService($authoringQuestionServiceSpec, $questionUuid);
 	}
 	
 	/**

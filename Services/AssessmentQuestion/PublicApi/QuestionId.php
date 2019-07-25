@@ -21,25 +21,44 @@ class QuestionId implements QuestionIdContract
 	 */
 	protected $uuid;
 	
-	/**
-	 * @var string
-	 */
-	protected $iliasNicId;
-	
-	public function __construct(string $questionUuid, string $iliasNicId)
+	public function __construct(string $questionUuid = '')
 	{
+		if( !strlen($questionUuid) )
+		{
+			$questionUuid = $this->buildUuid();
+		}
+		else
+		{
+			$this->validateUuid();
+		}
+		
 		$this->uuid = $questionUuid;
-		$this->iliasNicId = $iliasNicId;
 	}
 	
+	/**
+	 * @return string
+	 */
+	protected function buildUuid()
+	{
+		return 'xyz-i-am-a-valid-uuidV4';
+	}
+	
+	/**
+	 *
+	 */
+	protected function validateUuid()
+	{
+		if( false ) // when invalid
+		{
+			// throw exeption
+		}
+	}
+	
+	/**
+	 * @return string
+	 */
 	public function getId(): string
 	{
 		return $this->uuid;
 	}
-	
-	public function getIliasNicId(): string
-	{
-		// TODO: Implement getIliasNicId() method.
-	}
-	
 }
