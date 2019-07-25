@@ -42,14 +42,6 @@ class Assessment
 	}
 	
 	/**
-	 * @return Identifier
-	 */
-	public function identifier() : Identifier
-	{
-		return new Identifier();
-	}
-	
-	/**
 	 * @return Consumer
 	 */
 	public function consumer(): Consumer
