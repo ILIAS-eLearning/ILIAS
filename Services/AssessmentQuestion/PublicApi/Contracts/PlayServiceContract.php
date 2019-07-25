@@ -68,7 +68,11 @@ interface PlayServiceContract {
 	 * @param UserAnswerSubmitContract $user_answer
 	 */
 	public function SaveUserAnswer(UserAnswerSubmitContract $user_answer);
-
-
+	
+	
+	/**
+	 * @param UserAnswerIdContract $userAnswerUuid
+	 * @return UserAnswerScoringContract
+	 */
 	public function GetUserScore(UserAnswerIdContract $userAnswerUuid): UserAnswerScoringContract;
 }
