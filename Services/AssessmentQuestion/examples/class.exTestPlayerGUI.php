@@ -12,7 +12,7 @@ class exTestPlayerGUI
 {
 	/**
 	 * When presenting an assessment question to a user, it is relevant wether the user
-	 * has allready submited an answer or not.
+	 * has already submitted an answer or not.
 	 *
 	 * Simply determine the relevant question uuid and a possible user answer uuid. Then use
 	 * the asq play service to retrieve either a question presentation without user answer,
@@ -92,28 +92,20 @@ class exTestPlayerGUI
 	}
 	
 	/**
-	 * With the presentation of an assessment question, this question also gets submitted having any solution
-	 * filled out by any user. With the first presentation there should be no previous user response available.
-	 * The consuming component needs to request an empty ilAsqSolution instance for the given questionId.
+	 * When the user submits an answer the answer is to be saved using the asq play service.
+	 *
+	 * To get an user answer saved it is neccessary to have an user answer uuid. When the user already submitted
+	 * an answer before, the test can lookup the user answer uuid in the test results.
+	 * Otherwise a new user answer uuid is to be generated.
+	 *
+	 * Once the user answer submission has been saved, the asq play service can be used to retrieve
+	 * an user answer scoring, that offers all neccessary result information.
 	 * 
-	 * The ilAsqSolution interface method initFromServerRequest is to be used to initialize the object instance
-	 * with the user response. With the current concept the newly introduced \Psr\Http\Message\ServerRequestInterface
-	 * needs to be injected to this method, but may simply passing $_POST could be an alternative.
-	 * This depends on the future strategy of abstracting the http server request in ILIAS.
-	 * 
-	 * After having this solution saved, the consuming component needs to register the now available solutionId
-	 * together with the questionId and the userId. Additionally this ilAsqSolution instance can be used
-	 * with a question corresponding ilAsqResultCalculator to retrieve the information about right/wrong
-	 * (used for e.g. answer status in CTM's test sequence) and reached points (used as a future ilTestResult)
-	 * to be stored as any result within the consuming component.
-	 * 
-	 * After the first submission of any user response the consuming component needs to provide the corresponsing
-	 * solutionId to request the existing ilAsqSolution instance from the ilAsqFactory for every additional submit.
-	 * 
-	 * The way harvesting and handling solution data in short:
-	 * - post submit gets parsed by ilAsqSolution
-	 * - ilAsqResultCalculator calculates points and right/wrong
-	 * - the test object can use these information for different purposes
+	 * The way harvesting and handling user answer data in short:
+	 * - lookup a possibly existing user answer uuid, generate a new one otherwise
+	 * - create an user answer submit conataining the post submit data
+	 * - save the user answer submit using the asq play service
+	 * - retrieve the user answer scoring using the asq play service
 	 * - points can be saved as an ilTestResult referenced by the questionId and the participantId
 	 * - right/wrong can be used for determining the correct feedbacks for the feedback loop
 	 * - right/wrong can be used as the answer status within the CTM test sequence
