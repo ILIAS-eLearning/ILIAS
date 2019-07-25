@@ -12,7 +12,6 @@ use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetche
 function base(): string {
 	global $DIC;
 
-	$DIC->ctrl()->setParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id", "TableDataData");
 	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
 
 	$factory = $DIC->ui()->factory()->table()->data($DIC);
