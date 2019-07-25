@@ -45,7 +45,7 @@ class DefaultFormater extends AbstractFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRowCell(Format $format, Column $column, RowData $row, $value, string $table_id, Renderer $renderer): string {
+	public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
 		$value = strval($value);
 
 		switch ($format->getFormatId()) {

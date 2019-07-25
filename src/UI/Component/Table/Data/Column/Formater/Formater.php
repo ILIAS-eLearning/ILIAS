@@ -38,13 +38,13 @@ interface Formater {
 
 	/**
 	 * @param Format   $format
+	 * @param mixed    $value
 	 * @param Column   $column
 	 * @param RowData  $row
-	 * @param mixed    $value
 	 * @param string   $table_id
 	 * @param Renderer $renderer
 	 *
 	 * @return string
 	 */
-	public function formatRowCell(Format $format, Column $column, RowData $row, $value, string $table_id, Renderer $renderer): string;
+	public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
 }

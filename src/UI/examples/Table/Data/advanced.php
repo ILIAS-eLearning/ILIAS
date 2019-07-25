@@ -28,8 +28,8 @@ function advanced(): string {
 			/**
 			 * @inheritDoc
 			 */
-			public function formatRowCell(Format $format, Column $column, RowData $row, $value, string $table_id, Renderer $renderer): string {
-				$type = parent::formatRowCell($format, $column, $row, $value, $table_id, $renderer);
+			public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
+				$type = parent::formatRowCell($format, $value, $column, $row, $table_id, $renderer);
 
 				switch ($format->getFormatId()) {
 					case Format::FORMAT_BROWSER:
@@ -60,8 +60,8 @@ function advanced(): string {
 			$result = $this->dic->database()->query($sql);
 
 			$rows = [];
-			while (!empty($row = $this->dic->database()->fetchAssoc($result))) {
-				$rows[] = $this->propertyRowData($row["obj_id"], (object)$row);
+			while (!empty($row = $this->dic->database()->fetchObject($result))) {
+				$rows[] = $this->propertyRowData($row->obj_id, $row);
 			}
 
 			$sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($filter, true);

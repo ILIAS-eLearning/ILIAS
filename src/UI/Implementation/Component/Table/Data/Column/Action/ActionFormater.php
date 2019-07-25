@@ -34,7 +34,7 @@ class ActionFormater extends AbstractFormater {
 	 *
 	 * @param ActionColumn $column
 	 */
-	public function formatRowCell(Format $format, Column $column, RowData $row, $value, string $table_id, Renderer $renderer): string {
+	public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
 		return $renderer->render($this->dic->ui()->factory()->dropdown()
 			->standard(array_map(function (string $title, string $action) use ($row, $table_id): Shy {
 				return $this->dic->ui()->factory()->button()
