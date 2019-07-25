@@ -2,7 +2,6 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionResourcesCollectorContract;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -41,24 +40,23 @@ interface PlayServiceContract {
 
 
 	/**
-	 * @param int $user_answer_id
-	 *
+	 * @param UserAnswerIdContract $userAnswerUuid
 	 * @return QuestionComponentContract
 	 *
 	 * Gets Question Presentation Component with user answer
 	 */
-	public function GetUserAnswerPresentation(): QuestionComponentContract;
+	public function GetUserAnswerPresentation(UserAnswerIdContract $userAnswerUuid): QuestionComponentContract;
 
 
 	/**
-	 *
+	 * @param UserAnswerIdContract $userAnswerUuid
 	 * @return Component
 	 */
 	public function getGenericFeedbackOutput(UserAnswerIdContract $userAnswerUuid): Component;
 
 
 	/**
-	 *
+	 * @param UserAnswerIdContract $userAnswerUuid
 	 * @return Component
 	 */
 	public function getSpecificFeedbackOutput(UserAnswerIdContract $userAnswerUuid): Component;

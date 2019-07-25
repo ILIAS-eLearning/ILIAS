@@ -108,22 +108,4 @@ class PlayService implements PlayServiceContract {
 	public function GetUserScore(UserAnswerIdContract $userAnswerUuid): UserAnswerScoringContract {
 		// TODO: Implement GetUserScore() method.
 	}
-
-
-	/**
-	 * @param int $user_id
-	 * @return UserAnswerScoringContract
-	 */
-	public function GetUserScoreOfBestScoredAnswer(int $user_id): UserAnswerScoringContract {
-		// TODO: Implement GetUserScoreOfBestScoredAnswer() method.
-	}
-
-
-	/**
-	 * @param int $user_id
-	 * @return UserAnswerScoringContract
-	 */
-	public function GetUserScoreLastOfSubmittedAnswer(int $user_id): UserAnswerScoringContract {
-		// TODO: Implement GetUserScoreLastOfSubmittedAnswer() method.
-	}
 }
