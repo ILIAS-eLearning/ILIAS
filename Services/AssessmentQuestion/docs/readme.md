@@ -212,21 +212,21 @@ $asqPlayService->UpdateUserAnswer(
 ### Generic Feedback Output
 ```
 $asqPlayService->getGenericFeedbackOutput(
-        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id)
+        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
     );
 ```
 
 ### Generic Specific Feedback Output
 ```
 $asqPlayService->getGenericFeedbackOutput(
-        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id)
+        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
     );
 ```
 
 ### User Score
 ```
 $asqPlayService->getUserScore(
-        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id)
+        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
     );
 ```
 	
