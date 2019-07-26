@@ -1,7 +1,5 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
@@ -19,17 +17,17 @@ class ilMMItemRepository
 {
 
     /**
+     * @var ilDBInterface
+     */
+    private $db;
+    /**
+     * @var ilGlobalCache
+     */
+    private $cache;
+    /**
      * @var \ILIAS\GlobalScreen\Services
      */
     private $services;
-    /**
-     * @var bool
-     */
-    private $synced = false;
-    /**
-     * @var StorageFacade
-     */
-    private $storage;
     /**
      * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector
      */
@@ -44,7 +42,8 @@ class ilMMItemRepository
     public function __construct()
     {
         global $DIC;
-        $this->storage = new CoreStorageFacade();
+        $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+        $this->db = $DIC->database();
         $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->services = $DIC->globalScreen();
 
@@ -72,7 +71,7 @@ class ilMMItemRepository
 
     public function clearCache()
     {
-        $this->storage->cache()->flush();
+        $this->cache->flush();
     }
 
 
@@ -112,14 +111,14 @@ class ilMMItemRepository
      */
     public function getSubItemsForTable() : array
     {
-        $r = $this->storage->db()->query(
+        $r = $this->db->query(
             "SELECT sub_items.*, top_items.position AS parent_position 
 FROM il_mm_items AS sub_items 
 LEFT JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
 WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_identification, sub_items.position ASC"
         );
         $return = [];
-        while ($data = $this->storage->db()->fetchAssoc($r)) {
+        while ($data = $this->db->fetchAssoc($r)) {
             $return[] = $data;
         }
 
@@ -276,7 +275,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     {
         if ($item_facade->isEditable()) {
             $item_facade->update();
-            $this->storage->cache()->flush();
+            $this->cache->flush();
         }
     }
 
@@ -287,7 +286,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     public function createItem(ilMMItemFacadeInterface $item_facade)
     {
         $item_facade->create();
-        $this->storage->cache()->flush();
+        $this->cache->flush();
     }
 
 
@@ -298,7 +297,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     {
         if ($item_facade->isDeletable()) {
             $item_facade->delete();
-            $this->storage->cache()->flush();
+            $this->cache->flush();
         }
     }
 }
