@@ -87,7 +87,7 @@ class exPageContentQuestions
 			
 			$playService = $DIC->assessment()->service()->play($this->playServiceSpec,
 				$DIC->assessment()->consumer()->questionUuid($questionId),
-				$DIC->assessment()->consumer()->questionUuid($revisionId)
+				$DIC->assessment()->consumer()->revisionUuid($revisionId)
 			);
 			
 			$qstOfflinePresentations[$questionId] = $playService->GetStandaloneQuestionExportPresentation(
