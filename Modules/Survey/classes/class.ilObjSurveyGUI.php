@@ -1661,7 +1661,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$newObj = new ilObjSurvey();
 			$newObj->setType($new_type);
 			$newObj->setTitle("dummy");
-			$newObj->setDescription("dummy");
 			$newObj->create(true);
 			$this->putObjectInTree($newObj);
 
