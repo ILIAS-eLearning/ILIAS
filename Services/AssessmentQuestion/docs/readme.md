@@ -90,13 +90,13 @@ The Service offers the following additional methods for getting direct links to 
 * getEditHintsLink()
 
 ### Publish New Revision
-With revision of a question we would like to fulfill the requirement described under [https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html|https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html]
+With revision of a question we would like to fulfill the already scheduled requirement for ILIAS 6.0 described under [Question Versioning in Test Object|https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html]
 
 _Conceptual Comment: In this proposal we suggest to use a uuid for versioning and not an auto number. This is a conceptual change to the feature wiki entries [Question Versioning in Test Object](https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html) and [Unique IDs for Test Questions](https://docu.ilias.de/goto_docu_wiki_wpage_5312_1357.html) which we have to discuss again at the ILIAS Jour Fixe. The ordering of the versions will be made by the versioning date. With this proposal it would be possible - it's not a must - that a question could be plattform independent identified by his uuid, which has never to be changed._
 
 You can generate a new question revision as follows:
 ```
-$authoringService->publishNewRevision($DIC->assessment->consumer()->newRevisionUuid('any-valid_question-uuid));
+$authoringService->publishNewRevision($DIC->assessment->consumer()->newRevisionUuid());
 ```
 
 ### Import Qti Item
@@ -160,31 +160,18 @@ $asqPlayService->GetQuestionPresentation(
     );
 ```
 
-### Get a standalone question for export
-You can use this method if you like to display and play a question independent from the Assessment Question Service
-//TODO
-```
-
-```
-
 ### Submit a user answer
 A new user's answer to a question is saved as follows.
 ```
 $asqPlayService->CreateUserAnswer(
     new UserAnswerSubmitContract(
-        $DIC->assessment()->consumer()->UserAnswerUuid(
-            new PostDataFromServerRequest($request)->get('user_answer_uuid')
-        ),
-        $DIC->assessment()->consumer()->questionUuid(
-            new PostDataFromServerRequest($request)->get('question_uuid')
-        ),
-        $DIC->assessment()->consumer()->revisionUuid(
-            new PostDataFromServerRequest($request)->get('revision_uuid')
-        ),
-        $user_id,
-        json_encode(
-            new PostDataFromServerRequest($request)->get('user_answer')
-        )
+            $DIC->assessment()->consumer()->NewUserAnswerUuid(),
+            $DIC->assessment()->consumer()->questionUuid('a_valid_uquestion_uuid'),
+            $DIC->assessment()->consumer()->revisionUuid('a_valid_urevision_uuid'),
+            $user_id,
+            json_encode(
+                new PostDataFromServerRequest($request)->get('user_answer')
+            )
     )
 );
 ```
@@ -192,15 +179,9 @@ If you like to update a previously submited answer you can do that as follows:
 ```
 $asqPlayService->UpdateUserAnswer(
     new UserAnswerSubmitContract(
-            $DIC->assessment()->consumer()->UserAnswerUuid(
-                        new PostDataFromServerRequest($request)->get('user_answer_uuid')
-                    ),
-                    $DIC->assessment()->consumer()->questionUuid(
-                        new PostDataFromServerRequest($request)->get('question_uuid')
-                    ),
-                    $DIC->assessment()->consumer()->revisionUuid(
-                        new PostDataFromServerRequest($request)->get('revision_uuid')
-                    ),
+                    $DIC->assessment()->consumer()->UserAnswerUuid('a_valid_user_answer_uuid'),
+                    $DIC->assessment()->consumer()->questionUuid('a_valid_uquestion_uuid'),
+                    $DIC->assessment()->consumer()->revisionUuid('a_valid_urevision_uuid'),
                     $user_id,
                     json_encode(
                         new PostDataFromServerRequest($request)->get('user_answer')
@@ -228,6 +209,13 @@ $asqPlayService->getGenericFeedbackOutput(
 $asqPlayService->getUserScore(
         $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
     );
+```
+
+### Get a standalone question for export
+You can use this method if you like to display and play a question independent from the Assessment Question Service
+//TODO
+```
+
 ```
 	
 # Export / Import
