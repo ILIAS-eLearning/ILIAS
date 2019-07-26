@@ -51,4 +51,12 @@ interface ProviderFactoryInterface
      * @return bool
      */
     public function isInstanceCreationPossible(string $class_name) : bool;
+
+
+    /**
+     * @param string $class_name
+     *
+     * @return bool
+     */
+    public function isRegistered(string $class_name) : bool;
 }

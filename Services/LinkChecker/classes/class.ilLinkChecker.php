@@ -548,13 +548,6 @@ class ilLinkChecker
 					$curl = new ilCurlConnection($link['complete']);
 					$curl->init();
 
-					if(ilProxySettings::_getInstance()->isActive())
-					{
-						$curl->setOpt(CURLOPT_HTTPPROXYTUNNEL,true );
-						$curl->setOpt(CURLOPT_PROXY, ilProxySettings::_getInstance()->getHost());
-						$curl->setOpt(CURLOPT_PROXYPORT, ilProxySettings::_getInstance()->getPort());
-					}
-
 					$curl->setOpt( CURLOPT_HEADER, 1);
 					$curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
 					$curl->setOpt(CURLOPT_CONNECTTIMEOUT ,SOCKET_TIMEOUT);

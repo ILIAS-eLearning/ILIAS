@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 
 /**
@@ -9,6 +10,15 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
  */
 class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 {
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector)
+    {
+        parent::__construct($identification, $collector);
+    }
+
 
     /**
      * @var string

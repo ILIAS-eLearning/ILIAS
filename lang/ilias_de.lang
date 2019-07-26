@@ -884,7 +884,7 @@ assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet.<br />Die Mindestanzahl für zugewiesene Fragen: %s
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
@@ -6797,10 +6797,10 @@ mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
 mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
-mail#:#mail_salutation_f#:#Hallo
+mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Frau'
 mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn keine Anrede angegeben oder gewünscht
-mail#:#mail_salutation_m#:#Hallo
+mail#:#mail_salutation_m#:#Sehr geehrter Herr
 mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Herr'
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
@@ -13656,7 +13656,7 @@ badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_profile_more#:#Alle zeigen
 badge#:#badge_profile_less#:#Weniger zeigen
-badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
+badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen Ihres Mozilla Backpacks.
 badge#:#badge_profile_view#:#Anzeigen
 badge#:#badge_profile_manage#:#Verwalten
 badge#:#badge_subtype_manual#:#manuell
@@ -14646,14 +14646,14 @@ mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link Liste
 mme#:#type_complex#:#Komplex
 mme#:#type_repository_link#:#Magazin-Link
-lhist#:#lhist_no_entries#:#Verfolge weiter Deine Ziele! Lerne heute etwas, um Deinen Lernverlauf zu erweitern.
+lhist#:#lhist_no_entries#:#Verfolgen Sie weiter Ihre Ziele! Lernen Sie heute etwas, um Ihren Lernverlauf zu erweitern.
 pd#:#pd_enable_learning_history#:#Lernverlauf
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
-sess#:#sess_filter_all_types#:#All types
-sess#:#sess_filter_not_assigned#:#Not Assigned
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_filter_all_types#:#Alle Objekttypen
+sess#:#sess_filter_not_assigned#:#Nicht zugeordnet
+sess#:#sess_is_assigned#:#Zugeordnet
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 wiki#:#wiki_type_wiki_team#:#Team-Wiki
 exc#:#exc_without_wiki_template#:#Ohne Vorlage
@@ -14704,7 +14704,7 @@ noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
-skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_type_of_formation#:#Erhebungsart
 skmg#:#skmg_all#:#Alle
 skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
 prtf#:#prtf_copy_tab#:#Reiter kopieren

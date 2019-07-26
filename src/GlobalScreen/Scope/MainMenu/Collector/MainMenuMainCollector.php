@@ -80,6 +80,14 @@ class MainMenuMainCollector
 
 
     /**
+     * @return isItem[]
+     */
+    public function getAllItems() : array
+    {
+        return self::$items;
+    }
+
+    /**
      * This will return all available topitems, stacked based on the configuration
      * in "Administration" and for the visibility of the currently user.
      * Additionally this will filter sequent Separators to avoid double Separators
