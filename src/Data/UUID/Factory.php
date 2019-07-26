@@ -5,7 +5,6 @@ namespace ILIAS\Data\UUID;
 
 use Exception;
 use Ramsey\Uuid\UuidFactory;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * Class Factory
@@ -33,7 +32,7 @@ class Factory {
 	 * @throws Exception
 	 */
 	public function uuid4(): UuidInterface {
-		return $this->uuid_factory->uuid4();
+		return new RamseyUuidWrapper($this->uuid_factory->uuid4());
 	}
 
 	/**
