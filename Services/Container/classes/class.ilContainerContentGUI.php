@@ -788,6 +788,11 @@ abstract class ilContainerContentGUI
 		$dropdown = $f->dropdown()->standard($actions);
 
 		$def_command = $item_list_gui->getDefaultCommand();
+		
+		# Link 'open_mode'
+		if ( is_array( $def_command ) ){
+			$def_command["link"] = $item_list_gui->modifySAHSlaunch( $def_command["link"], $def_command["frame"] );
+		}
 
 		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($a_item_data['obj_id']);
 
