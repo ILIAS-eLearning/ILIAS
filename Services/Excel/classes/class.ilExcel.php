@@ -606,4 +606,15 @@ class ilExcel
 		$this->workbook->getActiveSheet()->getCellByColumnAndRow($column,$a_row)->getHyperlink()->setUrl($a_path);
 	}
 
+	/**
+	 * Adjustment needed because of migration PHPExcel to PhpSpreadsheet.
+	 * PhpExcel column was 0 index based and PhpSpreadshet set this index to 1
+	 * @param $column
+	 * @return int
+	 */
+	function columnIndexAdjustment(int $column) : int
+	{
+		return ++$column;
+	}
+
 }
