@@ -724,7 +724,7 @@ class ilMailFormGUI
 						$this->lng->txt('mail_template_client'),
 						'template_id',
 						$this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
-						array('m_subject', 'm_message')
+                        array('m_subject' => false, 'm_message' => true)
 					);
 
 					foreach ($templates as $template) {
