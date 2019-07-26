@@ -20,19 +20,27 @@ interface QueryServiceContract {
 
 	/**
 	 * @param int $containerId
+	 *
 	 * @return array
 	 *
 	 * Gets all questions of a Container from db as an Array containing
 	 * the generic question data fields
 	 */
 	public function GetQuestionsOfContainerAsAssocArray(int $containerId): array;
-	
+
+
+	/**
+	 * @param int $container_id
+	 *
+	 * @return QuestionDtoContract[]
+	 */
+	public function GetQuestionsOfContainerAsDtoList(int $container_id): array;
+
+
 	/**
 	 * @param string $questionUuid
+	 *
 	 * @return string
 	 */
-	public function getQuestionQtiXml(
-		QuestionIdContract $questionUuid,
-		RevisionIdContract $revisionUuid = null
-	): string;
+	public function getQuestionQtiXml(QuestionIdContract $questionUuid, RevisionIdContract $revisionUuid = null): string;
 }
