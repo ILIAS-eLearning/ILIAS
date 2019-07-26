@@ -79,8 +79,13 @@ class Group
     }
 
     /**
-     * Creates a transformation to define the reading time of an human adult
-     * The reading time returned in minutes as a integer value
+     * Creates a transformation to determine the estimated reading
+     * time of an human adult (roughly 275 WPM)
+     * If images should be taken into consideration, 12 seconds
+     * are added to the first image, 11 for the second,
+     * and minus an additional second for each subsequent image.
+     * Any images after the tenth image are counted at three seconds.
+     * The reading time returned in minutes as a integer value.
      *
      * @param bool $withImages
      * @return EstimatedReadingTime

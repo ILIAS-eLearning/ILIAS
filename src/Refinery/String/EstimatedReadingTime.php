@@ -69,7 +69,7 @@ class EstimatedReadingTime implements Transformation
         if ($textNodes->length > 0) {
             foreach ($textNodes as $textNode) {
                 /** @var \DOMText $textNode */
-                $wordsInContent = array_filter(preg_split( '/\s+/', $textNode->textContent));
+                $wordsInContent = array_filter(preg_split('/\s+/', $textNode->textContent));
                 
                 $numberOfWords += count($wordsInContent);
             }
@@ -78,7 +78,7 @@ class EstimatedReadingTime implements Transformation
         $imageNodes = $document->getElementsByTagName('img');
         
         if ($this->withImages) {
-            $numberOfWords += $this->calculateTimeForImages($imageNodes->length);
+            $numberOfWords += $this->calculateWordsForImages($imageNodes->length);
         }
 
         $readingTime = ceil($numberOfWords / $this->wordsPerMinute);
@@ -87,11 +87,11 @@ class EstimatedReadingTime implements Transformation
     }
 
     /**
-     * @param int $numberOfImages
      * @see https://blog.medium.com/read-time-and-you-bc2048ab620c
+     * @param int $numberOfImages
      * @return float The calculated reading time for the passed number of images translated to words
      */
-    private function calculateTimeForImages(int $numberOfImages) : float
+    private function calculateWordsForImages(int $numberOfImages) : float
     {
         $time = 0.0;
 
