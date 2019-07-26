@@ -32,7 +32,7 @@ class Factory {
 	 * @return UuidInterface
 	 * @throws Exception
 	 */
-	public function uuid4() {
+	public function uuid4(): UuidInterface {
 		return $this->uuid_factory->uuid4();
 	}
 
@@ -40,7 +40,7 @@ class Factory {
 	 * @return string
 	 * @throws Exception
 	 */
-	public function uuid4AsString() {
+	public function uuid4AsString(): string {
 		return $this->uuid4()->toString();
 	}
 
