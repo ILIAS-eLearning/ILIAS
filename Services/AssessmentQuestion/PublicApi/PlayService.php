@@ -35,7 +35,7 @@ class PlayService implements PlayServiceContract {
 	public function __construct(
 		PlayServiceSpecContract $asq_api_service_play_spec,
 		QuestionIdContract $questionUuid,
-		RevisionIdContract $revisionUuid = null
+		RevisionIdContract $revisionUuid
 	)
 	{
 		// TODO
@@ -45,7 +45,7 @@ class PlayService implements PlayServiceContract {
 	/**
 	 * @return QuestionComponentContract
 	 */
-	public function GetQuestionPresentation(): QuestionComponentContract {
+	public function GetQuestionPresentation(UserAnswerIdContract $userAnswerUuid): QuestionComponentContract {
 		// TODO: Implement GetQuestionPresentation() method.
 	}
 	
@@ -63,16 +63,6 @@ class PlayService implements PlayServiceContract {
 	): QuestionComponentContract {
 		// TODO: Implement GetStandaloneQuestionExportPresentation() method.
 	}
-	
-	
-	/**
-	 * @param UserAnswerIdContract $userAnswerUuid
-	 * @return QuestionComponentContract
-	 */
-	public function GetUserAnswerPresentation(UserAnswerIdContract $userAnswerUuid): QuestionComponentContract {
-		// TODO: Implement GetUserAnswerPresentation() method.
-	}
-	
 	
 	/**
 	 * @param UserAnswerIdContract $userAnswerUuid
@@ -96,7 +86,15 @@ class PlayService implements PlayServiceContract {
 	 * @param UserAnswerSubmitContract $user_answer
 	 * @return int
 	 */
-	public function SaveUserAnswer(UserAnswerSubmitContract $user_answer): int {
+	public function CreateUserAnswer(UserAnswerSubmitContract $user_answer): int {
+		// TODO: Implement SaveUserAnswer() method.
+	}
+
+	/**
+	 * @param UserAnswerSubmitContract $user_answer
+	 * @return int
+	 */
+	public function UpdateUserAnswer(UserAnswerSubmitContract $user_answer): int {
 		// TODO: Implement SaveUserAnswer() method.
 	}
 	

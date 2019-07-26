@@ -2,6 +2,8 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
+use ilDateTime;
+
 /**
  * Interface QuestionIdContract
  *
@@ -18,6 +20,17 @@ interface QuestionIdContract {
 	/**
 	 * @return string
 	 */
-	public function getId():string;
+	public function getUuid(): string;
 
+
+	/**
+	 * @return string
+	 */
+	public function getCreatedOnIliasNicId(): string;
+
+
+	/**
+	 * @return ilDateTime
+	 */
+	public function getCreatedOn(): ilDateTime;
 }

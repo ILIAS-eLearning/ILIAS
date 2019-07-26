@@ -18,11 +18,12 @@ use ILIAS\UI\Component\Component;
 interface PlayServiceContract {
 
 	/**
+	 * @param UserAnswerIdContract $userAnswerUuid
 	 * @return QuestionComponentContract
 	 *
-	 * Gets Question Presentation
+	 * Gets Question Presentation Component with user answer
 	 */
-	public function GetQuestionPresentation(): QuestionComponentContract;
+	public function GetQuestionPresentation(UserAnswerIdContract $userAnswerUuid): QuestionComponentContract;
 
 
 	/**
@@ -37,16 +38,6 @@ interface PlayServiceContract {
 		QuestionResourcesCollectorContract $collector,
 		$image_path, $a_mode, $a_no_interaction
 	): QuestionComponentContract;
-
-
-	/**
-	 * @param UserAnswerIdContract $userAnswerUuid
-	 * @return QuestionComponentContract
-	 *
-	 * Gets Question Presentation Component with user answer
-	 */
-	public function GetUserAnswerPresentation(UserAnswerIdContract $userAnswerUuid): QuestionComponentContract;
-
 
 	/**
 	 * @param UserAnswerIdContract $userAnswerUuid
@@ -64,9 +55,19 @@ interface PlayServiceContract {
 
 	/**
 	 * @param UserAnswerSubmitContract $user_answer
+	 * @throws UserAnswerUuidAlreadyExistsException
+	 * @throws UserGivesAnAnswerToAnOtherRevisionThanTheContainerHasInitiatedException
+	 * @throws UserGivesAnAnswerToAnOtherQuestionThanTheContainerHasInitiatedException
 	 */
-	public function SaveUserAnswer(UserAnswerSubmitContract $user_answer);
-	
+	public function CreateUserAnswer(UserAnswerSubmitContract $user_answer);
+
+	/**
+	 * @param UserAnswerSubmitContract $user_answer
+	 * @throws NoUserAnswerFoundToUpateException
+	 * @throws UserGivesAnAnswerToAnOtherRevisionThanTheContainerHasInitiatedException
+	 * @throws UserGivesAnAnswerToAnOtherQuestionThanTheContainerHasInitiatedException
+	 */
+	public function UpdateUserAnswer(UserAnswerSubmitContract $user_answer);
 	
 	/**
 	 * @param UserAnswerIdContract $userAnswerUuid

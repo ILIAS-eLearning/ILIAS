@@ -20,11 +20,21 @@ interface RevisionIdContract {
 	/**
 	 * @return string
 	 */
-	public function getRevisionId():string;
+	public function getQuestionUuid(): string;
+
+	/**
+	 * @return string
+	 */
+	public function getUuid(): string;
+
+	/**
+	 * @return string
+	 */
+	public function getCreatedOnIliasNicId(): string;
+
 
 	/**
 	 * @return ilDateTime
 	 */
-	public function getCreatedOn():ilDateTime;
-
+	public function getCreatedOn(): ilDateTime;
 }

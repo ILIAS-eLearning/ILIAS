@@ -2,10 +2,9 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
-
+use ilDateTime;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
 
 /**
@@ -19,51 +18,31 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
-class UserAnswerId implements UserAnswerIdContract
-{
+class UserAnswerId implements UserAnswerIdContract {
+
 	/**
 	 * @var string
 	 */
 	protected $uuid;
-	
-	public function __construct(string $questionUuid = '')
-	{
-		if( !strlen($questionUuid) )
-		{
-			$questionUuid = $this->buildUuid();
-		}
-		else
-		{
-			$this->validateUuid();
-		}
-		
-		$this->uuid = $questionUuid;
+	/**
+	 * @var ilDateTime
+	 */
+	protected $created_on;
+
+
+	public function __construct($user_answer_uuid, ilDateTime $created_on) {
+		$this->uuid = $user_answer_uuid;
+		$this->created_on = $created_on;
 	}
-	
+
 	/**
 	 * @return string
 	 */
-	protected function buildUuid()
-	{
-		return 'xyz-i-am-a-valid-uuidV4';
-	}
-	
-	/**
-	 *
-	 */
-	protected function validateUuid()
-	{
-		if( false ) // when invalid
-		{
-			// throw exeption
-		}
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getId(): string
-	{
+	public function getUuid(): string {
 		return $this->uuid;
+	}
+
+	public function getCreatedOn(): ilDateTime {
+		return $this->created_on;
 	}
 }

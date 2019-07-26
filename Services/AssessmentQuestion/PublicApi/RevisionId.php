@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ilDateTime;
@@ -19,31 +18,48 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
-class RevisionId implements RevisionIdContract
-{
+class RevisionId implements RevisionIdContract {
+
+	/**
+	 * @var string
+	 */
+	protected $question_uuid;
 	/**
 	 * @var string
 	 */
 	protected $uuid;
-	
+	/**
+	 * @@var string
+	 */
+	protected $created_on_ilias_nic_id;
 	/**
 	 * @var ilDateTime
 	 */
-	protected $createdOn;
-	
-	public function __construct(string $revisionId, ilDateTime $createdOn)
-	{
-		$this->uuid = $revisionId;
-		$this->createdOn = $createdOn;
+	protected $created_on;
+
+
+	public function __construct(string $question_uuid, string $revisionUuid, string $created_on_ilias_nic_id, ilDateTime $created_on) {
+		$this->question_uuid = $question_uuid;
+		$this->uuid = $revisionUuid;
+		$this->created_on_ilias_nic_id = $created_on_ilias_nic_id;
+		$this->created_on = $created_on;
 	}
-	
-	public function getRevisionId(): string
-	{
+
+	public function getQuestionUuid(): string {
+		return $this->question_uuid;
+	}
+
+	public function getUuid(): string {
 		return $this->uuid;
 	}
-	
-	public function getCreatedOn(): ilDateTime
-	{
-		return $this->createdOn;
+
+
+	public function getCreatedOnIliasNicId(): string {
+		return $this->created_on_ilias_nic_id;
+	}
+
+
+	public function getCreatedOn(): ilDateTime {
+		return $this->created_on;
 	}
 }

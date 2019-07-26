@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\UserAnswerSubmit;
 
 /**
  * When a component wants to integrate the assessment question service to present questions
@@ -36,20 +37,22 @@ class exTestPlayerGUI
 		 * initialise with id of question to be shown
 		 */
 		$questionUuid = 'any-valid-question-uuid';
+		/**
+		 * initialise with revision_id of question to be shown
+		 */
+		$revisionUuid = 'any-valid-revision-uuid';
 		
 		/**
 		 * fetch possibly existing participant answer uuid,
 		 * an empty string is returned when no user answer exists
 		 */
-		
 		$userAnswerUuid = $this->getParticipantAnswerUuid($questionUuid);
 		
 		/**
 		 * initialise the asq play service
 		 */
-
 		$asqPlayService = $DIC->assessment()->service()->play(
-			$this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()->questionUuid($questionUuid)
+			$this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()->questionUuid($questionUuid),$DIC->assessment()->consumer()->revisionUuid($questionUuid,$revisionUuid)
 		);
 		
 		/**
@@ -58,13 +61,13 @@ class exTestPlayerGUI
 		
 		if( $userAnswerUuid )
 		{
-			$questionComponent = $asqPlayService->GetUserAnswerPresentation(
+			$questionComponent = $asqPlayService->GetQuestionPresentation(
 				$DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid)
 			);
 		}
 		else
 		{
-			$questionComponent = $asqPlayService->GetQuestionPresentation();
+			$questionComponent = $asqPlayService->GetQuestionPresentation($DIC->assessment()->consumer()->newUserAnswerUuid());
 		}
 		
 		$testplayerPageHTML = $DIC->ui()->renderer()->render($questionComponent);
@@ -119,6 +122,7 @@ class exTestPlayerGUI
 		 */
 		
 		$questionUuid = $DIC->assessment()->consumer()->questionUuid('any-valid-question-uuid');
+		$revisionUuid = $DIC->assessment()->consumer()->questionUuid('any-valid-revision-uuid');
 		
 		/**
 		 * fetch possibly existing participant answer uuid,
@@ -134,28 +138,27 @@ class exTestPlayerGUI
 		}
 		else
 		{
-			$userAnswerUuid = $DIC->assessment()->consumer()->userAnswerUuid();
+			$userAnswerUuid = $DIC->assessment()->consumer()->newUserAnswerUuid();
 		}
 		
 		/**
 		 * generate a user answer submit containing the post data
 		 */
-		
-		$userAnswerSubmit = $DIC->assessment()->consumer()->userAnswerSubmit(
-			$userAnswerUuid, $questionUuid, $DIC->user()->getId(), $_POST
-		);
-		
-		/**
-		 * - initialise the asq play service
-		 * - save the participant's answer submission
-		 * - retrieve the scoring for the answer
-		 */
-		
 		$asqPlayService = $DIC->assessment()->service()->play(
-			$this->buildAsqPlayServiceSpec(), $questionUuid
+			$this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()->questionUuid($questionUuid),$DIC->assessment()->consumer()->revisionUuid($questionUuid,$revisionUuid)
 		);
 		
-		$asqPlayService->SaveUserAnswer($userAnswerSubmit);
+		$userAnswerSubmit = $DIC->assessment()->service()->play()->CreateUserAnswer(
+			new UserAnswerSubmit(
+				$DIC->assessment()->consumer()->userAnswerUuid(PostDataFromServerRequest($request)->get('user_answer_uuid')),
+                $DIC->assessment()->consumer()->questionUuid(new PostDataFromServerRequest($request)->get('question_uuid')),
+          $DIC->assessment()->consumer()->revisionUuid(new PostDataFromServerRequest($request)->get('revision_uuid'))),
+            $user_id,
+            json_encode(new PostDataFromServerRequest($request)->get('user_answer'))
+		);
+
+
+
 		
 		$userAnswerScoring = $asqPlayService->GetUserScore($userAnswerUuid);
 		

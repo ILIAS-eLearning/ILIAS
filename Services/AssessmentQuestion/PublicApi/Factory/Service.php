@@ -57,7 +57,7 @@ class Service
 	public function play(
 		PlayServiceSpecContract $playServiceSpec,
 		QuestionIdContract $questionUuid,
-		RevisionIdContract $revisionUuid = null
+		RevisionIdContract $revisionUuid
 	) : PlayServiceContract
 	{
 		return new PlayService($playServiceSpec, $questionUuid, $revisionUuid);

@@ -7,6 +7,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerSubmitContract;
 use JsonSerializable;
@@ -33,6 +34,11 @@ class UserAnswerSubmit implements UserAnswerSubmitContract
 	 * @var QuestionIdContract
 	 */
 	protected $questionUuid;
+
+	/**
+	 * @var RevisionIdContract
+	 */
+	protected $revisionUuid;
 	
 	/**
 	 * @var int
@@ -53,6 +59,7 @@ class UserAnswerSubmit implements UserAnswerSubmitContract
 	 */
 	public function __construct(
 		UserAnswerIdContract $userAnswerUuid,
+		RevisionIdContract $revisionUuid,
 		QuestionIdContract $questionUuid,
 		int $user_id,
 		JsonSerializable $user_answer
@@ -60,6 +67,7 @@ class UserAnswerSubmit implements UserAnswerSubmitContract
 	{
 		$this->userAnswerUuid = $userAnswerUuid;
 		$this->questionUuid = $questionUuid;
+		$this->revisionUuid = $revisionUuid;
 		$this->userId = $user_id;
 		$this->userAnswer = $user_answer;
 	}
@@ -76,6 +84,14 @@ class UserAnswerSubmit implements UserAnswerSubmitContract
 	 * @return QuestionIdContract
 	 */
 	public function getQuestionUuid(): QuestionIdContract
+	{
+		return $this->questionUuid;
+	}
+
+	/**
+	 * @return QuestionIdContract
+	 */
+	public function getRevisionUuid(): RevisionIdContract
 	{
 		return $this->questionUuid;
 	}

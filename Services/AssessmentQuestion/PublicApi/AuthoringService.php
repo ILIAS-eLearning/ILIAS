@@ -98,6 +98,8 @@ class AuthoringService implements AuthoringServiceContract {
 	public function publishNewRevision(RevisionIdContract $asq_api_id_revision): void {
 		// TODO: Implement publishNewRevision() method.
 	}
+
+
 	
 	/**
 	 * @param ilQtiItem $qtiItem

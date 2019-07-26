@@ -2,6 +2,8 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\RevisionId;
 use JsonSerializable;
 
 /**
@@ -22,11 +24,10 @@ interface UserAnswerSubmitContract {
 	 * @return UserAnswerIdContract
 	 */
 	public function getUserAnswerUuid(): UserAnswerIdContract;
-	
-	/**
-	 * @return QuestionIdContract
-	 */
+
 	public function getQuestionUuid(): QuestionIdContract;
+
+	public function getRevisionUuid(): RevisionIdContract;
 	
 	/**
 	 * @return int

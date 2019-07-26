@@ -159,7 +159,7 @@ class exObjQuestionPoolGUI
 		{
 			$authoringService = $DIC->assessment()->service()->authoring(
 				$this->buildAsqAuthoringSpecification(),
-				$DIC->assessment()->consumer()->questionUuid()
+				$DIC->assessment()->consumer()->newQuestionUuid()
 			);
 			
 			$authoringService->importQtiItem($qtiItem);

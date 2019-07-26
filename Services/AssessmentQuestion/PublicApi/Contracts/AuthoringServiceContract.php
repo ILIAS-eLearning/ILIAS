@@ -19,7 +19,6 @@ use ilQtiItem;
  */
 interface AuthoringServiceContract {
 
-
 	/**
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
@@ -31,9 +30,9 @@ interface AuthoringServiceContract {
 	 */
 	public function getCreationLink(): Link;
 
+
 	/**
 	 * @return Link
-	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function getEditLink(): Link;
@@ -41,7 +40,6 @@ interface AuthoringServiceContract {
 
 	/**
 	 * @return Link
-	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
 	 */
 	public function getPreviewLink(): Link;
@@ -49,6 +47,7 @@ interface AuthoringServiceContract {
 
 	/**
 	 * @param string $questionUuid
+	 *
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
@@ -58,6 +57,7 @@ interface AuthoringServiceContract {
 
 	/**
 	 * @param string $questionUuid
+	 *
 	 * @return Link
 	 *
 	 * @throws ContainerIsNotResponsibleForQuestionException
@@ -84,14 +84,19 @@ interface AuthoringServiceContract {
 	/**
 	 * @param RevisionIdContract $asq_api_id_revision
 	 */
-	public function publishNewRevision(RevisionIdContract $asq_api_id_revision):void;
-	
+	public function publishNewRevision(RevisionIdContract $asq_api_id_revision): void;
+
+
 	/**
 	 * @param ilQtiItem $qtiItem
+	 *
+	 * @throws InvalidQtiItemException
 	 */
 	public function importQtiItem(ilQtiItem $qtiItem): void;
-	
+
+
 	/**
+	 * @param int $container_obj_id
 	 */
-	public function changeQuestionContainer(): void;
+	public function changeQuestionContainer(int $container_obj_id): void;
 }
