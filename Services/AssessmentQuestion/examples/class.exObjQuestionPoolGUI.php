@@ -106,7 +106,7 @@ class exObjQuestionPoolGUI
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
 		$authoringService = $DIC->assessment()->service()->authoring(
-			$this->buildAsqAuthoringSpecification(), $DIC->assessment()->consumer()->questionUuid()
+			$this->buildAsqAuthoringSpecification(), $DIC->assessment()->consumer()->newQuestionUuid()
 		);
 		
 		$creationLinkComponent = $authoringService->getCreationLink();

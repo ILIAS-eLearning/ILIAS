@@ -148,14 +148,23 @@ class exTestPlayerGUI
 			$this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()->questionUuid($questionUuid),$DIC->assessment()->consumer()->revisionUuid($questionUuid,$revisionUuid)
 		);
 		
-		$userAnswerSubmit = $DIC->assessment()->service()->play()->CreateUserAnswer(
-			new UserAnswerSubmit(
-				$DIC->assessment()->consumer()->userAnswerUuid(PostDataFromServerRequest($request)->get('user_answer_uuid')),
-                $DIC->assessment()->consumer()->questionUuid(new PostDataFromServerRequest($request)->get('question_uuid')),
-          $DIC->assessment()->consumer()->revisionUuid(new PostDataFromServerRequest($request)->get('revision_uuid'))),
-            $user_id,
-            json_encode(new PostDataFromServerRequest($request)->get('user_answer'))
-		);
+		$DIC->assessment()->service()->play()->CreateUserAnswer(
+				new UserAnswerSubmitContract(
+					$DIC->assessment()->consumer()->UserAnswerUuid(
+						new PostDataFromServerRequest($request)->get('user_answer_uuid')
+					),
+                    $DIC->assessment()->consumer()->questionUuid(
+                        new PostDataFromServerRequest($request)->get('question_uuid')
+                    ),
+                    $DIC->assessment()->consumer()->revisionUuid(
+	                    new PostDataFromServerRequest($request)->get('revision_uuid')
+                    ),
+                    $user_id,
+                    json_encode(
+                        new PostDataFromServerRequest($request)->get('user_answer')
+					)
+                )
+			);
 
 
 
