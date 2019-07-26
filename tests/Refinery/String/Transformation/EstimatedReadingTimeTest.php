@@ -6,10 +6,6 @@ namespace ILIAS\Tests\Refinery\String;
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ReadingTimeTest
- * @package ILIAS\Tests\Refinery\String
- */
 class EstimatedReadingTimeTest extends TestCase
 {
     const TEXT = <<<EOT

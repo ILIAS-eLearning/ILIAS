@@ -7,10 +7,6 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 
-/**
- * Class EstimatedReadingTime
- * @package ILIAS\Refinery\String
- */
 class EstimatedReadingTime implements Transformation
 {
     use DeriveApplyToFromTransform;
