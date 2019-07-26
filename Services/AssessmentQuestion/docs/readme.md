@@ -173,17 +173,17 @@ A new user's answer to a question is saved as follows.
 $asqPlayService->CreateUserAnswer(
     new UserAnswerSubmitContract(
         $DIC->assessment()->consumer()->UserAnswerUuid(
-            new PostDataFromServerRequest($request)->get('user_answer_uuid)
+            new PostDataFromServerRequest($request)->get('user_answer_uuid')
         ),
         $DIC->assessment()->consumer()->questionUuid(
-            new PostDataFromServerRequest($request)->get('question_uuid)
+            new PostDataFromServerRequest($request)->get('question_uuid')
         ),
         $DIC->assessment()->consumer()->revisionUuid(
-            new PostDataFromServerRequest($request)->get('revision_uuid)
+            new PostDataFromServerRequest($request)->get('revision_uuid')
         ),
         $user_id,
         json_encode(
-            new PostDataFromServerRequest($request)->get('user_answer)
+            new PostDataFromServerRequest($request)->get('user_answer')
         )
     )
 );
@@ -193,17 +193,17 @@ If you like to update a previously submited answer you can do that as follows:
 $asqPlayService->UpdateUserAnswer(
     new UserAnswerSubmitContract(
             $DIC->assessment()->consumer()->UserAnswerUuid(
-                        new PostDataFromServerRequest($request)->get('user_answer_uuid)
+                        new PostDataFromServerRequest($request)->get('user_answer_uuid')
                     ),
                     $DIC->assessment()->consumer()->questionUuid(
-                        new PostDataFromServerRequest($request)->get('question_uuid)
+                        new PostDataFromServerRequest($request)->get('question_uuid')
                     ),
                     $DIC->assessment()->consumer()->revisionUuid(
-                        new PostDataFromServerRequest($request)->get('revision_uuid)
+                        new PostDataFromServerRequest($request)->get('revision_uuid')
                     ),
                     $user_id,
                     json_encode(
-                        new PostDataFromServerRequest($request)->get('user_answer)
+                        new PostDataFromServerRequest($request)->get('user_answer')
                     )
                 )
 );
