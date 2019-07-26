@@ -1,64 +1,28 @@
-<?php
+<?php namespace ILIAS\Repository\Provider;
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ilLink;
+use ilObject;
+use ilUtil;
+use InvalidArgumentException;
 
 /**
- * Class ilRepositoryGlobalScreenProvider
+ * Class RepositoryMainBarProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider
+class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
-    /**
-     * @var IdentificationInterface
-     */
-    protected $top_item;
-
-
-    /**
-     * ilRepositoryGlobalScreenProvider constructor.
-     *
-     * @param \ILIAS\DI\Container $dic
-     */
-    public function __construct(\ILIAS\DI\Container $dic)
-    {
-        parent::__construct($dic);
-        $this->top_item = $this->if->identifier('rep');
-    }
-
-
-    /**
-     * Some other components want to provide Items for the main menu which are
-     * located at the PD TopTitem by default. Therefore we have to provide our
-     * TopTitem Identification for others
-     *
-     * @return IdentificationInterface
-     */
-    public function getTopItem() : IdentificationInterface
-    {
-        return $this->top_item;
-    }
-
 
     /**
      * @inheritDoc
      */
     public function getStaticTopItems() : array
     {
-        $dic = $this->dic;
-
-        return [
-            $this->mainmenu->topParentItem($this->getTopItem())
-                ->withTitle($this->dic->language()->txt("repository"))
-                ->withPosition(2)
-                ->withVisibilityCallable(
-                    function () use ($dic) {
-                        return (bool) ($dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID));
-                    }
-                ),
-        ];
+        return [];
     }
 
 
@@ -66,6 +30,31 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider
      * @inheritDoc
      */
     public function getStaticSubItems() : array
+    {
+        $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
+
+        // Home
+        $entries[] = $this->getHomeItem()
+            ->withParent($top)
+            ->withPosition(20);
+
+        // Tree-View
+        $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
+            ->withAction("#")
+            ->withParent($top)
+            ->withPosition(30)
+            ->withTitle($this->dic->language()->txt("mm_repo_tree_view"));
+
+        // LastVisited
+        $entries[] = $this->getLastVisitedItem()
+            ->withPosition(40)
+            ->withParent($top);
+
+        return $entries;
+    }
+
+
+    private function getHomeItem() : Link
     {
         $dic = $this->dic;
 
@@ -91,11 +80,15 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider
             return $static_link;
         };
 
-        $entries[] = $this->mainmenu->link($this->if->identifier('rep_main_page'))
+        return $this->mainmenu->link($this->if->identifier('rep_main_page'))
             ->withTitle($title())
-            ->withAction($action())
-            ->withParent($this->getTopItem());
+            ->withAction($action());
+    }
 
+
+    private function getLastVisitedItem() : LinkList
+    {
+        $dic = $this->dic;
         // LastVisited
         $links = function () : array {
             $items = [];
@@ -127,15 +120,14 @@ class ilRepositoryGlobalScreenProvider extends AbstractStaticMainMenuProvider
 
             return $links;
         };
-        $entries[] = $this->mainmenu->linkList($this->if->identifier('last_visited'))
+
+        return $this->mainmenu->linkList($this->if->identifier('last_visited'))
             ->withLinks($links)
             ->withTitle($this->dic->language()->txt('last_visited'))
-            ->withParent($this->getTopItem())->withVisibilityCallable(
+            ->withVisibilityCallable(
                 function () use ($dic) {
                     return ($dic->user()->getId() != ANONYMOUS_USER_ID);
                 }
             );
-
-        return $entries;
     }
 }
