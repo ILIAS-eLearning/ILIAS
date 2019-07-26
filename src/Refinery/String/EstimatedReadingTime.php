@@ -71,9 +71,8 @@ class EstimatedReadingTime implements Transformation
             }
         }
         
-        $imageNodes = $document->getElementsByTagName('img');
-        
         if ($this->withImages) {
+            $imageNodes = $document->getElementsByTagName('img');
             $numberOfWords += $this->calculateWordsForImages($imageNodes->length);
         }
 
