@@ -124,8 +124,16 @@ $queryService = $DIC->assessment()->service->query();
 ```
 
 ### Get all questions of the current container
+As Assoc Array
 ```
 $queryService->GetQuestionsOfContainerAsAssocArray(
+			$this->object->getId()
+		);
+```
+
+As List of DTO's 
+```
+$queryService->GetQuestionsOfContainerAsDtoList(
 			$this->object->getId()
 		);
 ```
