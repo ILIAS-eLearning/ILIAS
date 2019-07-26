@@ -92,6 +92,8 @@ The Service offers the following additional methods for getting direct links to 
 ### Publish New Revision
 With revision of a question we would like to fulfill the already scheduled requirement for ILIAS 6.0 described under [Question Versioning in Test Object|https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html]
 
+These feature requests adress a high value functionality the community has been waiting for a long time. When we consider the basic aspects like question revisioning now with the ongoing refactoring we can save a lot of additioal effort (even when the features should be postponed to ILIAS 6.1).
+
 _Conceptual Comment: In this proposal we suggest to use a uuid for versioning and not an auto number. This is a conceptual change to the feature wiki entries [Question Versioning in Test Object](https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html) and [Unique IDs for Test Questions](https://docu.ilias.de/goto_docu_wiki_wpage_5312_1357.html) which we have to discuss again at the ILIAS Jour Fixe. The ordering of the versions will be made by the versioning date. With this proposal it would be possible - it's not a must - that a question could be plattform independent identified by his uuid, which has never to be changed._
 
 You can generate a new question revision as follows:
