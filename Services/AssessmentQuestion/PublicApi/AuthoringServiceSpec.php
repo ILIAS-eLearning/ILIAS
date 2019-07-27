@@ -45,7 +45,7 @@ class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 	/**
 	 * @param EventSubscriber $asq_public_event_subscriber
 	 */
-	public function subscribeToQuestionCreatedPublicEvent(EventSubscriber $asq_public_event_subscriber) {
+	public function subscribeToQuestionCreatedPublicEvent(EventSubscriberContract $asq_public_event_subscriber) {
 		// TODO: Implement subscribeToQuestionCreatedPublicEvent() method.
 	}
 
@@ -53,7 +53,7 @@ class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 	/**
 	 * @param EventSubscriber $asq_public_event_subscriber
 	 */
-	public function subscribeToQuestionEditedPublicEvent(EventSubscriber $asq_public_event_subscriber) {
+	public function subscribeToQuestionEditedPublicEvent(EventSubscriberContract $asq_public_event_subscriber) {
 		// TODO: Implement subscribeToQuestionEditedPublicEvent() method.
 	}
 
@@ -61,7 +61,7 @@ class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 	/**
 	 * @param EventSubscriber $asq_public_event_subscriber
 	 */
-	public function subscribeToQuestionDeletedPublicEvent(EventSubscriber $asq_public_event_subscriber) {
+	public function subscribeToQuestionDeletedPublicEvent(EventSubscriberContract $asq_public_event_subscriber) {
 		// TODO: Implement subscribeToQuestionDeletedPublicEvent() method.
 	}
 

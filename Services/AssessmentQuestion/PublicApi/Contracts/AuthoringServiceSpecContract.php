@@ -2,6 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
+use EventSubscriberContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
 use ILIAS\UI\Component\Link\Link;
 
@@ -34,16 +35,16 @@ interface AuthoringServiceSpecContract {
 	 *
 	 * Additional Form Seccitons for a question delivered by consumer. E.G. Taxonomie.
 	 */
-	public function addAdditionalConfigSection(AsqAdditionalConfigSection $asq_additional_config_section);
+	public function addAdditionalConfigSection(AdditionalConfigSectionContract $asq_additional_config_section);
 
 
-	public function subscribeToQuestionCreatedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionCreatedPublicEvent(EventSubscriberContract $asq_public_event_subscriber);
 
 
-	public function subscribeToQuestionEditedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionEditedPublicEvent(EventSubscriberContract $asq_public_event_subscriber);
 
 
-	public function subscribeToQuestionDeletedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionDeletedPublicEvent(EventSubscriberContract $asq_public_event_subscriber);
 
 
 	public function withSpecificRevision(string $revision_uuid);
