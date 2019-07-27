@@ -2,6 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
+use EventSubscriberContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectionContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
