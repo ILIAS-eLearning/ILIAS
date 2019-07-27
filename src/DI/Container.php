@@ -7,6 +7,7 @@ use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Refinery\Factory;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Factory\Assessment;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -201,13 +202,15 @@ class Container extends \Pimple\Container {
 	public function help(){
 		return $this['ilHelp'];
 	}
-	
+
+
 	/**
-	 * @return \ilAsqFactory
+	 * @return Assessment
 	 */
-	public function question(){
-		return new \ilAsqFactory();
+	public function assessment() {
+		return new Assessment();
 	}
+
 
 	/**
 	 * Get conditions service
