@@ -54,7 +54,7 @@ class Consumer {
 	public function newQuestionUuid(): QuestionIdContract {
 		global $DIC;
 
-		return new QuestionId(UUID::create(), $DIC->settings()->get('inst_id'), new ilDateTime());
+		return new QuestionId('TODO', $DIC->settings()->get('inst_id'), new ilDateTime());
 	}
 
 

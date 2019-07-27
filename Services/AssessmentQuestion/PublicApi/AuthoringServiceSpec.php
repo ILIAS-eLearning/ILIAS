@@ -29,7 +29,7 @@ class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 	 * @param int $actor_user_id
 	 * @param Link $container_backlink
 	 */
-	public function __construct(int $container_obj_id, QuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink) {
+	public function __construct(int $container_obj_id, int $actor_user_id, Link $container_backlink) {
 
 	}
 
