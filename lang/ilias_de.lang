@@ -8153,7 +8153,7 @@ exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_fixed_date#:#Festes Datum
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
 exc#:#exc_global_feedback_file#:#Musterlösung
-exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
 exc#:#exc_global_feedback_file_cron_info#:#Teilnehmer werden per Mail über die Verfügbarkeit der Musterlösung informiert.
 exc#:#exc_global_feedback_file_date#:#Verfügbarkeit
