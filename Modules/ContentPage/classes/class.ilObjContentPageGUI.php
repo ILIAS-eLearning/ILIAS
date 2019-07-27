@@ -298,7 +298,10 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				$this->tpl->parseCurrentBlock();
 
 				$forwarder = new \ilContentPagePageCommandForwarder($this->request, $this->ctrl, $this->tabs, $this->lng, $this->object);
-				$forwarder->forward();
+				$pageContent = $forwarder->forward();
+				if (strlen($pageContent) > 0) {
+					$this->tpl->setContent($pageContent);
+				}
 				break;
 
 			case 'ilinfoscreengui':
