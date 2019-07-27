@@ -8173,14 +8173,14 @@ exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekenn
 exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
 exc#:#exc_list_submission#:#Alle Lösungsabgaben
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
-exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
-exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
-exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
-exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
-exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
-exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
-exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
-exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
+exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
+exc#:#exc_mail_context_grade_reminder_title#:#Erinnerung an Bewertung
+exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
+exc#:#exc_mail_context_peer_reminder_title#:#Erinnerung an Peer-Feedback
+exc#:#exc_mail_context_reminder_assignment_title#:#Titel der Übungseinheit
+exc#:#exc_mail_context_reminder_exercise_title#:#Übungstitel
+exc#:#exc_mail_context_submit_reminder_info#:#Die Nutzer werden an die Abgabe ihrer Einreichungen erinnert.
+exc#:#exc_mail_context_submit_reminder_title#:#Erinnerung an Abgabe
 exc#:#exc_mail_permanent_link#:#Der folgende Link leitet weiter zur Übung:
 exc#:#exc_manage_team#:#Team verwalten
 exc#:#exc_mandatory#:#Verpflichtend
