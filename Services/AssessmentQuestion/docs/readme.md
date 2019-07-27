@@ -10,40 +10,224 @@ Furthermore the database got decoupled since the supposed separation in two diff
 
 This documentation describes the interfaces the AssessmentQuestion service comes with and how they are to be used by developers who want to integrate assessment questions to their components.
 
-The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. This means, that most of any business logic around assessment questions needs to be implemented in the consumer's code.
+The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. The higher level business logic is handled by the consumer. E.g. the business Logig that a question can only be answered once or the business logic for handling a group of questions such as that a question can only be answered once. The lower level business logic around assessment questions with a focus on a single question is covered in the Assessment Question Service. E.g. the arrangement of points for answer options.
 
-The AssessmentQuestion service itself does not contain any complex logic about the handling of assessment items. This is reflected in the simple interface structure.
+# Usage
+When integrating questions to any component for authoring purposes, a ctrlCalls to class.ilAsqQuestionAuthoringGui.php has to be implementet and as well as a forwarding in the consumer's `executeCommand()` method.
 
-The implementation of authoring processes is the only complex part. But this implementation can be easily adressed from consumers by simply forwarding to corresponding control structure classes.
-
-# Service Interfaces
-
-The AssessmentQuestion service has the following interfaces that can be used by other developers that want to integrate assessment questions to their component.
-
-Objects implementing `ilAsqQuestion` represents the question entity itself while objects implementing `ilAsqQuestionAuthoring` are about the authoring that can be integrated with the `executeCommand` control structure of ILIAS.
-
-The interface `ilAsqPresentation` provides all functionality to output a question and its additional contents. Solutions get injected to keep the presentation as modular as possible.
-
-The interface `ilAsqResultCalculator` provides all functionality of calculating right/wrong for a given solution as well as reached points. Having this functionality in an own object implementing this interface makes it possible for consumers to surround this kind calculators with an own proxy calculator implementing the same interface (e.g. for any score cutting options).
-
-The handling of solutions is defined by the interface `ilAsqQuestionSolution` so the future implementation is fully getting rid of dealing with solution values stored in row array structures that were queried from the database.
-
-When calculating results for an `ilAsqQuestionSolution` using the `ilAsqResultCalculator` an instance of `ilAsqQuestionResult` is returned that provides reached points as well as the state of right/wrong with corresponding getters.
-
-The implementation for the offline presentation of assessment questions is currently separated from the regular presentation, because it acts fully different. Therefore an `ilAsqQuestionOfflinePresentationExporter` is available, that handles the neccessary javascripts as well as collecting the required question resources (media files, mobs, additional js/css). For collecting the question resources an  `ilAsqQuestionResourcesCollector` is provided by the `ilAsqFactory` that is able to collect the depencies for multiple questions at once
-
-# Consumer Interface
-
-Consumers need to implement the interface `ilAsqQuestionNavigationAware` with any object that they need to inject to any question type's presentation object. This way the question presentation gets the neccessary link used by the question presentation for any self round trip (e.g fileupload, imagemap select).
+The consuming component is also repsonsible fot checking the RBAC Permissions. 
 
 Additionally the consuming component has an opportunity to provide any command link either as a button (like the well known check button) rendered within the question canvas or as an entry in an question actions menu (e.g. discard or postpone solution).
 
-# Service Factory
+# Public Services
 
-For any use case other developers need to handle within their component when integrating the assessment questions, the `ilAsqFactoy` provides neccessary factory methods. Since the different interfaces of the assessment questions need to be used together, this factory is to be used in the consuming components multiple times.
+The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
 
-The factory is integrated into the global DIC. Use `$DIC->question()` to get an instance of ilAsqFactory.
+## Authoring Service
+[/Services/AssessmentQuestion/PublicApi/AuthoringService.php](../PublicApi/AuthoringService.php)
 
+The Service offers:
+* Links to the Authoring GUI
+* A Delete-Question-Method
+* A Method for Creating new Revisions of a Question. Use this Method if you like to have an immutable Questions Revision for the Play Service.
+
+### Get the Service
+#### For existing questions
+```
+$authoringService = $DIC->assessment()->service->authoring(
+    $DIC->assessment->specification()->authoring(
+        $myObjId, $myActorUserId, $myBacklink
+    ),
+    $DIC->assessment->consumer()->questionUuid('any-valid-uuid')
+);
+```
+#### For not existing questions
+```
+$authoringService = $DIC->assessment()->service->authoring(
+    $DIC->assessment->specification()->authoring(
+        $myObjId, $myActorUserId, $myBacklink
+    ),
+    $DIC->assessment->consumer()->newQuestionUuid()
+);
+```
+The Service needs following parameter:
+* An ILIAS Object Id - This Id will be saved as Container Object Id. With this Id it will be checked if the ILIAS Container ask for the authoring of a question in his responsibility.
+* An ActorId - ILIAS User Id - the Id is used for logging changes on the question.
+* A Backlink - The Link is used to display a link back to the calling object.
+* An uuid object of the question - This is the only ID for getting a question from outside. It's not possible and not allowed to get the question by the database Id. You can quite easy get this uuid object by the consumer factory of the assessment question service. Also if you like to create a new question you will give a pre generated uuid. 
+
+### Create a question
+The Assessment Question Service offers a creation form for questions. You can get the link to this form as follows:
+```
+$authoringService = $DIC->assessment()->service->authoring(
+    $DIC->assessment->specification()->authoring(
+        $myObjId, $myActorUserId, $myBacklink
+    ),
+    $DIC->assessment->consumer()->newQuestionUuid()
+);
+
+$creationLinkComponent = $authoringService->getCreationLink();
+```
+Please note that the ILIAS Ctrl-Flow will pass through your current GUI Class! And you are responsible for checking the permissions for this action!
+
+### Edit a question
+The Assessment Question Service offers an edit form for questions. You can get the link to this form as follows:
+```
+$authoringService->getEditLink()
+```
+Please note that the ILIAS Ctrl-Flow will pass through your current GUI Class!
+
+### Delete a question
+```
+$authoringService->deleteQuestion()
+```
+
+### Additional Links
+The Service offers the following additional methods for getting direct links to the authoring environment. With those links you are able to open directly a form of a specific tab of the authoring environment.
+* getPreviewLink()
+* getEditPageLink()
+* getEditFeedbacksLink()
+* getEditHintsLink()
+
+### Publish New Revision
+With revision of a question we would like to fulfill the already scheduled requirement for ILIAS 6.0 described under [Question Versioning in Test Object|https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html]
+
+These feature requests adress a high value functionality the community has been waiting for a long time. When we consider the basic aspects like question revisioning now with the ongoing refactoring we can save a lot of additioal effort (even when the features should be postponed to ILIAS 6.1).
+
+_Conceptual Comment: In this proposal we suggest to use a uuid for versioning and not an auto number. This is a conceptual change to the feature wiki entries [Question Versioning in Test Object](https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html) and [Unique IDs for Test Questions](https://docu.ilias.de/goto_docu_wiki_wpage_5312_1357.html) which we have to discuss again at the ILIAS Jour Fixe. The ordering of the versions will be made by the versioning date. With this proposal it would be possible - it's not a must - that a question could be plattform independent identified by his uuid, which has never to be changed._
+
+You can generate a new question revision as follows:
+```
+$authoringService->publishNewRevision($DIC->assessment->consumer()->newRevisionUuid());
+```
+
+### Import Qti Item
+If you like to import a Qti Item you can do that as follows:
+```
+$authoringService->importQtiItem($qtiItem);
+```
+
+### Change Question Container
+By transfering a question to a new container use:
+```
+$authoringService->changeQuestionContainer($container_obj_id);
+```
+
+## Query Service
+[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QueryService.php)
+
+The service offers query methods for getting questions as associative array of a question.
+
+### Get the Service
+```
+$queryService = $DIC->assessment()->service->query();
+```
+
+### Get all questions of the current container
+As Assoc Array
+```
+$queryService->GetQuestionsOfContainerAsAssocArray(
+			$this->object->getId()
+		);
+```
+
+As List of DTO's 
+```
+$queryService->GetQuestionsOfContainerAsDtoList(
+			$this->object->getId()
+		);
+```
+
+## Play Service
+[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QueryService.php)
+
+The Play Service you use for presenting a question to a user (student). And you use this service also for calculating the scoring for a user answer.
+
+### Get the Service
+```
+$playService = $DIC->assessment()->service->play(
+    $DIC->assessment->specification()->play(
+        $myObjId, $myActorId
+    ),
+    $DIC->assessment->consumer()->questionUuid('any-valid-question_uuid')
+    $DIC->assessment->consumer()->revisionUuid('any-valid-question_uuid','any-valid-revision_uuid')
+);
+```
+
+### Get the question form and render it
+
+Without a previously submited answer of the user:
+```
+$asqPlayService->GetQuestionPresentation(
+    $DIC->assessment()->consumer()->newUserAnswerUuid()
+    );
+```
+With a previously submited answer of a user:
+```
+$asqPlayService->GetQuestionPresentation(
+    $DIC->assessment()->consumer()->userAnswerUuid(
+        'any-valid-user-answer-uuid')
+    );
+```
+
+### Submit a user answer
+A new user's answer to a question is saved as follows.
+```
+$asqPlayService->CreateUserAnswer(
+    new UserAnswerSubmitContract(
+            $DIC->assessment()->consumer()->NewUserAnswerUuid(),
+            $DIC->assessment()->consumer()->questionUuid('a_valid_uquestion_uuid'),
+            $DIC->assessment()->consumer()->revisionUuid('a_valid_urevision_uuid'),
+            $user_id,
+            json_encode(
+                new PostDataFromServerRequest($request)->get('user_answer')
+            )
+    )
+);
+```
+If you like to update a previously submited answer you can do that as follows:
+```
+$asqPlayService->UpdateUserAnswer(
+    new UserAnswerSubmitContract(
+                    $DIC->assessment()->consumer()->UserAnswerUuid('a_valid_user_answer_uuid'),
+                    $DIC->assessment()->consumer()->questionUuid('a_valid_uquestion_uuid'),
+                    $DIC->assessment()->consumer()->revisionUuid('a_valid_urevision_uuid'),
+                    $user_id,
+                    json_encode(
+                        new PostDataFromServerRequest($request)->get('user_answer')
+                    )
+                )
+);
+```
+
+### Generic Feedback Output
+```
+$asqPlayService->getGenericFeedbackOutput(
+        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
+    );
+```
+
+### Generic Specific Feedback Output
+```
+$asqPlayService->getGenericFeedbackOutput(
+        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
+    );
+```
+
+### User Score
+```
+$asqPlayService->getUserScore(
+        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
+    );
+```
+
+### Get a standalone question for export
+You can use this method if you like to display and play a question independent from the Assessment Question Service
+//TODO
+```
+
+```
+	
 # Export / Import
 
 The assessment question service has two classes for the export and import. For the export `ilAssessmentQuestionExporter` extends `ilXmlExporter` and for the import `ilAssessmentQuestionImporter` extends `ilXmlImporter`. With these classes the assessment questions docks to the common export/import structure of ILIAS.
@@ -54,76 +238,17 @@ When consumers want to export the assessment questions as a single QTI xml file,
 
 For importing assessment questions from any single QTI xml file, the QTI service is to be used to retieve a list of `QTIitem` instances. These items can be provided to an empty `ilAsqQuestion` instance to save the question to the database.
 
-# Service Class
+# Example Consumers (Test/Pool/LearningModule)
 
-There are three requirements up to now that cannot be handled by any concrete and question type specific implementation of any assessment question interfaces. Therefore the `ilAsqService` class provides a container for methods handling this requirements. An instance of the service class can be requested using `$DIC->question()->service()`.
+[Services/AssessmentQuestion/examples/class.exObjQuestionPoolGUI.php](../examples/class.exObjQuestionPoolGUI.php)
 
-* When integrating questions to any component for authoring purposes, a forwarding needs to be implemented in the component's `executeCommand()` method. To check wether any concrete question type authoring implementation is indeed the current next class in the control flow, a suitable method is provided in the `ilAsqService` class.
-* Due to the use of the QTI service during imports of QTI xmls a determination of the question type based on the QTI item is required, because an empty object instance needs to be requested. Currently the question type is provided by the QTI item, but this may get changed in the future. `ilAsqService` provides a suitable method for this purpose.
-* When question managing components need to copy questions within the same consumer instance a method is required to check for existing question titles. `ilAsqService` provides this message.
+[Services/AssessmentQuestion/examples/class.exQuestionsTableGUI.php](../examples/class.exQuestionsTableGUI.php)
 
-# Usage of the Service
+[Services/AssessmentQuestion/examples/class.exTestPlayerGUI.php](../examples/class.exTestPlayerGUI.php)
 
-## Authoring Consume
+[Services/AssessmentQuestion/examples/class.exPageContentQuestions.php](../examples/class.exPageContentQuestions.php)
 
-Usage examples can be viewed within the file:  
-* Services/AssessmentQuestion/examples/class.exObjQuestionPoolGUI.php
-* Services/AssessmentQuestion/examples/class.exQuestionsTableGUI.php
-* Services/AssessmentQuestion/examples/class.exQuestionPoolExporter.php
+[Services/AssessmentQuestion/examples/class.exQuestionPoolExporter.php](../examples/class.exQuestionPoolExporter.php)
 
-## Presentation Consume
+[Services/AssessmentQuestion/examples/class.exQuestionPoolImporter.php](../examples/class.exQuestionPoolImporter.php)
 
-Usage examples can be viewed within the file:  
-* Services/AssessmentQuestion/examples/class.exTestPlayerGUI.php
-
-## Offline Export Consume
-
-Usage examples can be viewed within the file:  
-* Services/AssessmentQuestion/examples/class.exPageContentQuestions.php
-
-# Decoupled Database
-
-Die eigentliche, notwendige Entkopplung findet in diesem Schritten statt: Verletzt der Zugriff auf Daten die geplanten Zuständigkeiten so werden diese bereinigt. Konsumenten sollen lediglich IDs von Fragen und Lösungen kennen und diese in eigener Zuständigkeit Ergebnissen zuordnen. Fragen und Lösungen benötigen keine Informationen der Konsumenten mehr.
-
-* Portierung der Lösungsdatenbank des Test-Objekts in den Fragenservice
-    * Umbenennung der tst_solutions Tabelle in asq_solution_values
-        * Diese Tabelle speichert weiterhin nach dem Key/Value Prinzip die Lösungsinformationen
-        * Zu einer Lösung gehören beliebig viele Datensätze
-    * Ergänzung einer Tabelle asq_solutions
-        * Diese Tabelle verwaltet je Teilnehmerlösung eine neue Lösungs-ID
-        * Die Lösungs-ID wird in asq_solution_values verwendet
-        * Konsumenten können die Lösungs-ID in Ergebnisdaten verwenden
-    * Eigentliche Entkopplung durch Umstrukturieren der IDs und Referenzen
-        * Die Tabelle tst_test_result wird mit einer neuen Spalte für die Lösungs-ID aktualisiert
-* Abstraktion einer neuen Objektschicht zur Repräsentierung von eingereichten Lösungen
-    * Eine ilAsqQuestionSolution Objektinstanz repräsentiert eine Zeile in asq_solutions
-    * Ein ilAsqQuestionSolutionValue Objekt repräsentiert eine Zeile in asq_solution_values
-* Refactoring der bestehenden Fragenklassen durch Einbindung der Lösungsobjekte
-    * Entfernen aller Parameter Übergaben betreffend Teilnehmer ID und Testdurchlauf
-    * Umstellung aller betroffenen Methoden auf Verwendung eines Ersatzparameters vom Typ ilAsqQuestionSolution
-* Abstraktion einer neuen Objektschicht zur Repräsentierung von Test Results
-    * Eine Objekt Instanz vom Typ ilTestResult gewährt Zugriff auf ein Ergebnis eines Teilnehmers zu einer Frage
-    * Gleichzeitig wird über ilTestResult eine zugehörige Lösungs ID verwaltet
-    * Das Handling von Fragen im Test Player wird umgestellt
-        * Für die Anzeige einer Frage mit Lösung wird über ilTestResult die zugehörige ilAsqQuestionSolution und bestückt die GUI Klasse der Frage damit
-        * Rückwärts wird weiterhin die Fragen GUI die vom Teilnehmer übertragene Lösung aus den POST Parametern auslesen, dann aber eigenständig über ilAsqQuestionSolution abspeichern
-        * Die dabei verwendete Lösungs ID wird dem Player zur Erstellung/Aktualisierung eines Ergebnis mittels ilTestResult zurückgereicht
-
-# Open Questions
-
-* Should ilTable(2) be changed to support the Assessment Question service?
-    * ilTable(2) does not support list iterators
-    * ilTable(2) does not support row objects
-
-# Remaining Issues
-
-* The current implemenation for an offline export of questions (question presentation that acts client side) and the regular presentation implementation for questions using the solution backend of the assessment question service needs to be merged in the future
-
-# Future Requirements
-
-The following known requirements that will probably come up with the next releases of ILIAS are not completely considered in the current concept of an Assessment Question Service. But extending the current concept accordingly will be possible to integrate these visions.
-
-* Versioning for Assessment Questions
-* Lifecycle for Assessment Questions
-* Item Statistic for Assessment Questions
-* Offline Rendering for Assessment Questions
