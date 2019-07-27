@@ -16,11 +16,26 @@
 class exQuestionsTableGUI extends ilTable2GUI
 {
 	/**
+	 * @var exObjQuestionPoolGUI
+	 */
+	protected $parent_obj;
+	
+	public function __construct(object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
+	{
+		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+	}
+	
+	/**
 	 * @param array $questionData
 	 */
 	public function fillRow($questionData)
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$authoringService = $DIC->assessment()->service()->authoring(
+			$this->parent_obj->buildAsqAuthoringSpecification(),
+			$DIC->assessment()->consumer()->questionUuid($questionData['questionId'])
+		);
 		
 		/**
 		 * use the associative array containing the question data
@@ -30,15 +45,16 @@ class exQuestionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('QUESTION_TITLE', $questionData['title']);
 		
 		/**
-		 * use the questionId and the ilAsqFactory to get an ilAsqQuestionAuthoring instance
-		 * that provides interface methods to get neccessary links related to the question
+		 * use the questionId and the authoring service to get neccessary links
+		 * related to the question (preview, config, page, feedback, hint, statistic, ...)
 		 */
 		
-		$questionInstance = $DIC->question()->getQuestionInstance( $questionData['questionId'] );
-		$questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
+		$previewLink = $authoringService->getPreviewLink()->getAction();
 		
-		$previewLinkComponent = $questionAuthoringGUI->getPreviewLink();
+		// it could be of course also possible to generate the links
+		// from within the assessment question service
+		//$previewLink = $questionData['link_preview'];
 		
-		$this->tpl->setVariable('QUESTION_HREF', $previewLinkComponent->getAction());
+		$this->tpl->setVariable('QUESTION_HREF', $previewLink);
 	}
 }

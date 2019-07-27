@@ -1,5 +1,8 @@
 <?php
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
+use ILIAS\Services\AssessmentQuestion\PublicApi\UserAnswerSubmit;
+
 /**
  * When a component wants to integrate the assessment question service to present questions
  * to users in an assessment scenario, the following use cases needs to be handled by the component.
@@ -9,118 +12,103 @@
 class exTestPlayerGUI
 {
 	/**
-	 * When presenting an assessment question to a user, the ilAsqQuestionPresentation provides the
-	 * interface methods to either get a renerable UI coponent for a question presentation or
-	 * for a solution presentation. An instance implementing the ilAsqPresentation according to
-	 * the given question type is provided by a factory method within ilAsqFactory.
-	 * 
-	 * Both methods getQuestionPresentation and getSolutionPresentation gets an instance of ilAsqSolution injected.
-	 * This solution can either be an user solution or the best solution.
-	 * 
-	 * Additional interface methods in ilAsqQuestionPresentation return renderable UI components for the generic
-	 * and specific feedbacks. These methods also need to get an ilAsqSolution instance injected.
-	 * 
-	 * In case of presenting the best solution the required ilAsqSolution instance can be retrieved
-	 * from the ilAsqQuestion interface.
-	 * 
-	 * For any existing user response that is to be presented with the question the instance
-	 * implementing ilAsqSolution can be requested from the ilAsqFactory using the solutionId
-	 * that is to be registered within the consuming component in relation to the user's id
-	 * and additional information (like e.g. test results).
-	 * 
+	 * When presenting an assessment question to a user, it is relevant wether the user
+	 * has already submitted an answer or not.
+	 *
+	 * Simply determine the relevant question uuid and a possible user answer uuid. Then use
+	 * the asq play service to retrieve either a question presentation without user answer,
+	 * or to retrieve a question presentation including a user's answer.
+	 *
+	 * The return value of the corresponding service methods are renderable ui components.
+	 *
+	 * For the presentation of generic or answer specific feedbacks the asq play service
+	 * comes with additional methods, that also returns ui components again.
+	 *
 	 * Variants in usage defined by the consumer:
-	 * - question can be shown writable for the examine
-	 * - question can be shown readable for the examine
+	 * - question can be shown with user answer
+	 * - question can be shown without user answer
 	 * - feedbacks can be shown if required
-	 * - best solution can be shown if required
 	 */
 	public function showQuestion()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$questionId = 0; // initialise with id of question to be shown
+		/**
+		 * initialise with id of question to be shown
+		 */
+		$questionUuid = 'any-valid-question-uuid';
+		/**
+		 * initialise with revision_id of question to be shown
+		 */
+		$revisionUuid = 'any-valid-revision-uuid';
 		
 		/**
-		 * fetch possibly existing participant solution, an empty one is required otherwise
+		 * fetch possibly existing participant answer uuid,
+		 * an empty string is returned when no user answer exists
 		 */
-		
-		$participantSolution = $this->getParticipantSolution($questionId);
+		$userAnswerUuid = $this->getParticipantAnswerUuid($questionUuid);
 		
 		/**
-		 * question presentation to be answered by the examine
+		 * initialise the asq play service
+		 */
+		$asqPlayService = $DIC->assessment()->service()->play(
+			$this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()->questionUuid($questionUuid),$DIC->assessment()->consumer()->revisionUuid($questionUuid,$revisionUuid)
+		);
+		
+		/**
+		 * get a question presentation with or without a user answer
 		 */
 		
-		$questionInstance = $DIC->question()->getQuestionInstance($questionId);
-		$questionPresentationGUI = $DIC->question()->getQuestionPresentationInstance($questionInstance);
-		
-		$questionNavigationAware; /* @var ilAsqQuestionNavigationAware $questionNavigationAware */
-		$questionPresentationGUI->setQuestionNavigation($questionNavigationAware);
-		
-		$questionPresentationGUI->setRenderPurpose(ilAsqQuestionPresentation::RENDER_PURPOSE_PLAYBACK);
-		
-		if( $participantSolutionLocked = false )
+		if( $userAnswerUuid )
 		{
-			$renderer = $questionPresentationGUI->getSolutionPresentation($participantSolution);
+			$questionComponent = $asqPlayService->GetQuestionPresentation(
+				$DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid)
+			);
 		}
 		else
 		{
-			$renderer = $questionPresentationGUI->getQuestionPresentation($participantSolution);
+			$questionComponent = $asqPlayService->GetQuestionPresentation($DIC->assessment()->consumer()->newUserAnswerUuid());
 		}
 		
-		$playerQstPageHTML = $renderer->getContent();
+		$testplayerPageHTML = $DIC->ui()->renderer()->render($questionComponent);
 		
 		/**
-		 * feedback presentation for the given 
+		 * get feedback presentation
 		 */
 		
-		if( $showFeedbacks = true && !$participantSolution->isEmpty() )
+		if( $userAnswerUuid && $showFeedbacks = true )
 		{
-			$genericFeedbackRenderer = $questionPresentationGUI->getGenericFeedbackOutput($participantSolution);
-			$playerQstPageHTML .= $genericFeedbackRenderer->getContent();
-			
-			$specificFeedbackRenderer = $questionPresentationGUI->getSpecificFeedbackOutput($participantSolution);
-			$playerQstPageHTML .= $specificFeedbackRenderer->getContent();
-		}
-		
-		/**
-		 * best solution presentation to be answered by the examine
-		 */
-		
-		if( $showBestSolution = true )
-		{
-			$renderer = $questionPresentationGUI->getSolutionPresentation(
-				$questionInstance->getBestSolution()
+			$genericFeedbackComponent = $asqPlayService->getGenericFeedbackOutput(
+				$DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid)
 			);
 			
-			$playerQstPageHTML .= $renderer->getContent();
+			$specificFeedbackComponent = $asqPlayService->getSpecificFeedbackOutput(
+				$DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid)
+			);
+			
+			$testplayerPageHTML .= $DIC->ui()->renderer()->render([
+				$genericFeedbackComponent, $specificFeedbackComponent
+			]);
 		}
 		
-		$playerQstPageHTML; // complete question page html
+		$testplayerPageHTML; // complete test player question page html
 	}
 	
 	/**
-	 * With the presentation of an assessment question, this question also gets submitted having any solution
-	 * filled out by any user. With the first presentation there should be no previous user response available.
-	 * The consuming component needs to request an empty ilAsqSolution instance for the given questionId.
+	 * When the user submits an answer the answer is to be saved using the asq play service.
+	 *
+	 * To get an user answer saved it is neccessary to have an user answer uuid. When the user already submitted
+	 * an answer before, the test can lookup the user answer uuid in the test results.
+	 * Otherwise a new user answer uuid is to be generated.
+	 *
+	 * Once the user answer submission has been saved, the asq play service can be used to retrieve
+	 * an user answer scoring, that offers all neccessary result information.
 	 * 
-	 * The ilAsqSolution interface method initFromServerRequest is to be used to initialize the object instance
-	 * with the user response. With the current concept the newly introduced \Psr\Http\Message\ServerRequestInterface
-	 * needs to be injected to this method, but may simply passing $_POST could be an alternative.
-	 * This depends on the future strategy of abstracting the http server request in ILIAS.
-	 * 
-	 * After having this solution saved, the consuming component needs to register the now available solutionId
-	 * together with the questionId and the userId. Additionally this ilAsqSolution instance can be used
-	 * with a question corresponding ilAsqResultCalculator to retrieve the information about right/wrong
-	 * (used for e.g. answer status in CTM's test sequence) and reached points (used as a future ilTestResult)
-	 * to be stored as any result within the consuming component.
-	 * 
-	 * After the first submission of any user response the consuming component needs to provide the corresponsing
-	 * solutionId to request the existing ilAsqSolution instance from the ilAsqFactory for every additional submit.
-	 * 
-	 * The way harvesting and handling solution data in short:
-	 * - post submit gets parsed by ilAsqSolution
-	 * - ilAsqResultCalculator calculates points and right/wrong
-	 * - the test object can use these information for different purposes
+	 * The way harvesting and handling user answer data in short:
+	 * - lookup a possibly existing user answer uuid, generate a new one otherwise
+	 * - create an user answer submit conataining the post submit data
+	 * - save the user answer submit using the asq play service
+	 * - retrieve the user answer scoring using the asq play service
 	 * - points can be saved as an ilTestResult referenced by the questionId and the participantId
 	 * - right/wrong can be used for determining the correct feedbacks for the feedback loop
 	 * - right/wrong can be used as the answer status within the CTM test sequence
@@ -129,68 +117,112 @@ class exTestPlayerGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		// this can also be $_REQUEST or any other future ilias post-request handler
-		$serverRequestObject; /* @var \Psr\Http\Message\ServerRequestInterface $serverRequestObject */
-		
-		$questionId = 0; // initialise with id of question that just submits
-		
 		/**
-		 * fetch possibly existing participant solution, an empty one is required otherwise
+		 * initialise with id of question to be shown
 		 */
 		
-		$participantSolution = $this->getParticipantSolution($questionId);
+		$questionUuid = $DIC->assessment()->consumer()->questionUuid('any-valid-question-uuid');
+		$revisionUuid = $DIC->assessment()->consumer()->questionUuid('any-valid-revision-uuid');
 		
 		/**
-		 * let the solution object instance harvest the submission post data
+		 * fetch possibly existing participant answer uuid,
+		 * when no participant answer exist yet,
+		 * generate a new user answer uuid
 		 */
 		
-		$participantSolution->initFromServerRequest($serverRequestObject);
+		$userAnswerUuid = $this->getParticipantAnswerUuid($questionUuid->getId());
+		
+		if( $userAnswerUuid )
+		{
+			$userAnswerUuid = $DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid);
+		}
+		else
+		{
+			$userAnswerUuid = $DIC->assessment()->consumer()->newUserAnswerUuid();
+		}
 		
 		/**
-		 * get results calculator to be used to retrieve calculated reached points
-		 * that can be stored in a test result storage managed by the test object
+		 * generate a user answer submit containing the post data
 		 */
+		$asqPlayService = $DIC->assessment()->service()->play(
+			$this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()->questionUuid($questionUuid),$DIC->assessment()->consumer()->revisionUuid($questionUuid,$revisionUuid)
+		);
 		
-		$questionInstance = $DIC->question()->getQuestionInstance($questionId);
-		$solutionInstance = $this->getParticipantSolution($questionId);
-		$resultCalculator = $DIC->question()->getResultCalculator($questionInstance, $solutionInstance);
+		$DIC->assessment()->service()->play()->CreateUserAnswer(
+				new UserAnswerSubmitContract(
+					$DIC->assessment()->consumer()->UserAnswerUuid(
+						new PostDataFromServerRequest($request)->get('user_answer_uuid')
+					),
+                    $DIC->assessment()->consumer()->questionUuid(
+                        new PostDataFromServerRequest($request)->get('question_uuid')
+                    ),
+                    $DIC->assessment()->consumer()->revisionUuid(
+	                    new PostDataFromServerRequest($request)->get('revision_uuid')
+                    ),
+                    $user_id,
+                    json_encode(
+                        new PostDataFromServerRequest($request)->get('user_answer')
+					)
+                )
+			);
+
+
+
 		
-		$resultInstance = $resultCalculator->calculate();
+		$userAnswerScoring = $asqPlayService->GetUserScore($userAnswerUuid);
 		
 		/**
 		 * handle the calculated result in any kind
 		 */
 		
 		// can be stored in any ilTestResult object managed by the test
-		$reachedPoints = $resultInstance->getPoints();
+		$reachedPoints = $userAnswerScoring->getPoints();
 		
 		// can be used to differ answer status in CTM's test sequence
-		$isCorrect = $resultInstance->isCorrect();
+		$isCorrect = $userAnswerScoring->isCorrect();
 	}
 	
 	/**
-	 * this method returns either an initialised solution object instance, or and empty one,
-	 * depending on self managed test results (handled by a future ilTestResult)
+	 * This method checks, wether the user allready submitted an answer, by looking up
+	 * self managed test results. When an user answer is found, the uuid string is returned.
 	 *
-	 * @param integer $questionId
-	 * @return ilAsqQuestionSolution
+	 * When no user answer has been submitted yet, an empty string is returned.
+	 *
+	 * @param string $questionUuid
+	 * @return string
 	 */
-	public function getParticipantSolution($questionId)
+	public function getParticipantAnswerUuid(string $questionUuid): string
 	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
 		/**
-		 * when the test has any test result based on an existing participant solution,
-		 * the solution id needs to be looked up. an empty solution is returned otherwise.
+		 * when the test has any test result for the given question uuid,
+		 * based on an existing participant answer, the participant answer uuid
+		 * needs to be looked up and is to be returned.
 		 */
 		
-		$solutionId = 0;
+		$userAnswerUuid = ''; // use $questionUuid and lookup $userAnswerUuid
 		
-		if( $solutionId )
+		if( $userAnswerUuid )
 		{
-			return $DIC->question()->getQuestionSolutionInstance($questionId, $solutionId);
+			return $userAnswerUuid;
 		}
 		
-		return $DIC->question()->getEmptyQuestionSolutionInstance($questionId);
+		return '';
+	}
+	
+	/**
+	 * this method does build an asq play service specification object,
+	 * that is needed to get an instance of the asq play service.
+	 *
+	 * it describes us as a consumer of the asq play service.
+	 *
+	 * @return PlayServiceSpec
+	 */
+	public function buildAsqPlayServiceSpec()
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		return $DIC->assessment()->specification()->play(
+			$this->object->getId(), $DIC->user()->getId()
+		);
 	}
 }
