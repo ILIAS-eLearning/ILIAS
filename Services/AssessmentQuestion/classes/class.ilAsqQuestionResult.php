@@ -34,7 +34,7 @@ class ilAsqQuestionResult
 	 */
 	public function getPoints() : float
 	{
-		$this->points
+		$this->points;
 	}
 	
 	/**
