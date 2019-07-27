@@ -5,10 +5,11 @@
 /**
  * Class ilAssessmentQuestionExporter
  *
- * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
- * @package    Services/AssessmentQuestion
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilAssessmentQuestionExporter extends ilXmlExporter
 {
@@ -29,15 +30,10 @@ class ilAssessmentQuestionExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		/**
-		 * the assessment question export does simply get the id an returns
-		 * the qti xml representation of the question.
-		 */
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$questionInstance = $DIC->question()->getQuestionInstance($a_id);
-		
-		return $questionInstance->toQtiXML();
+		return $DIC->assessment()->service()->query()->getQuestionQtiXml(
+			$DIC->assessment()->consumer()->questionUuid($a_id)
+		);
 	}
 }

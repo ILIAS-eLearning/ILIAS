@@ -5,10 +5,11 @@
 /**
  * Class ilAssessmentQuestionImporter
  *
- * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
- * @package    Modules/Test(QuestionPool)
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilAssessmentQuestionImporter extends ilXmlImporter
 {
@@ -20,6 +21,11 @@ class ilAssessmentQuestionImporter extends ilXmlImporter
 	 */
 	public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		// TODO: Implement importXmlRepresentation() method.
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		// TODO:
+		// - parse the given xml to ilQtiItems
+		// - get parent container corresponding authoring service from DIC
+		// - import the ilQtiItems
 	}
 }
