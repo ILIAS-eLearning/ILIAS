@@ -14564,6 +14564,14 @@ exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_link#:#URL
+exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
+exc#:#exc_mail_context_grade_reminder_title#:#Erinnerung an Bewertung
+exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
+exc#:#exc_mail_context_peer_reminder_title#:#Erinnerung an Peer-Feedback
+exc#:#exc_mail_context_reminder_assignment_title#:#Titel der Übungseinheit
+exc#:#exc_mail_context_reminder_exercise_title#:#Übungstitel
+exc#:#exc_mail_context_submit_reminder_info#:#Die Nutzer werden an die Abgabe ihrer Einreichungen erinnert.
+exc#:#exc_mail_context_submit_reminder_title#:#Erinnerung an Abgabe
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
 badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.

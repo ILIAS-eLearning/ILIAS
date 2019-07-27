@@ -32,7 +32,6 @@
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (
     0 => 'ILIAS\\Container\\Screen\\MemberViewLayoutProvider',
-    1 => 'ILIAS\\UICore\\DummyLogoProvider',
-    2 => 'ILIAS\\UICore\\PageContentProvider',
+    1 => 'ILIAS\\UICore\\PageContentProvider',
   ),
 );
