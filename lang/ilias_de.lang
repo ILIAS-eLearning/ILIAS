@@ -14551,7 +14551,7 @@ mail#:#mail_bg_task_title#:#Mailversand
 mail#:#mail_bg_task_desc#:#Betreff: %s
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 common#:#presentation_table_more#:#Mehr anzeigen
-exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback#:#Feedback
 exc#:#feedback_received#:#Feedback received
