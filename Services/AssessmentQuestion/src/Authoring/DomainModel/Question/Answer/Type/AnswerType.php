@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type;
 
 use JsonSerializable;
 
-class AnswerType implements AnswerTypeContract, JsonSerializable {
+class AnswerType implements JsonSerializable {
 	protected $answer_type_id;
 
 	public function __construct(string $answer_type_id) {

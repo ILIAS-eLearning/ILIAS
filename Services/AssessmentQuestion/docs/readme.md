@@ -36,7 +36,7 @@ The Service offers:
 ```
 $authoringService = $DIC->assessment()->service->authoring(
     $DIC->assessment->specification()->authoring(
-        $myObjId, $myActorUserId, $myBacklink
+        $myObjId, $myInitiatingUserId, $myBacklink
     ),
     $DIC->assessment->consumer()->questionUuid('any-valid-uuid')
 );
@@ -45,7 +45,7 @@ $authoringService = $DIC->assessment()->service->authoring(
 ```
 $authoringService = $DIC->assessment()->service->authoring(
     $DIC->assessment->specification()->authoring(
-        $myObjId, $myActorUserId, $myBacklink
+        $myObjId, $myInitiatingUserId, $myBacklink
     ),
     $DIC->assessment->consumer()->newQuestionUuid()
 );
@@ -61,7 +61,7 @@ The Assessment Question Service offers a creation form for questions. You can ge
 ```
 $authoringService = $DIC->assessment()->service->authoring(
     $DIC->assessment->specification()->authoring(
-        $myObjId, $myActorUserId, $myBacklink
+        $myObjId, $myInitiatingUserId, $myBacklink
     ),
     $DIC->assessment->consumer()->newQuestionUuid()
 );

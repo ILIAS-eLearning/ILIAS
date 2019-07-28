@@ -3,7 +3,6 @@
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerTypeContract;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\AbstractDomainEvent;
 
@@ -18,11 +17,11 @@ class QuestionAnswerTypeSetEvent extends AbstractDomainEvent {
 	public const NAME = 'QuestionAnswerTypeSetEvent';
 
 	/**
-	 * @var AnswerTypeContract
+	 * @var AnswerType
 	 */
 	protected $answer_type;
 
-	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id,AnswerTypeContract $answer_type)
+	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id, AnswerType $answer_type = null)
 	{
 		parent::__construct($question_uuid, $initiating_user_id);
 		$this->answer_type = $answer_type;
@@ -39,9 +38,9 @@ class QuestionAnswerTypeSetEvent extends AbstractDomainEvent {
 	}
 
 	/**
-	 * @return AnswerTypeContract
+	 * @return AnswerType
 	 */
-	public function getAnswerType(): AnswerTypeContract {
+	public function getAnswerType(): AnswerType {
 		return $this->answer_type;
 	}
 

@@ -57,6 +57,7 @@ abstract class AbstractEventSourcedAggregateRepository implements AggregateRepos
 		if (false && $this->has_cache) {
 			return $this->getFromCache($aggregate_id);
 		} else {
+			$this->id = $aggregate_id;
 			return $this->reconstituteAggregate($this->getEventStore()->getAggregateHistoryFor($aggregate_id));
 		}
 	}

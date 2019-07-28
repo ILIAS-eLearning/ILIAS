@@ -43,7 +43,7 @@ interface AuthoringServiceSpecContract {
 	/**
 	 * @return int
 	 */
-	public function getActorUserId(): int;
+	public function getInitiatingUserId(): int;
 
 
 	/**

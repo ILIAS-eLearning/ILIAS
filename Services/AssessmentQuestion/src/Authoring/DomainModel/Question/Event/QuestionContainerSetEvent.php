@@ -21,7 +21,7 @@ class QuestionContainerSetEvent extends AbstractDomainEvent {
 	 */
 	protected $question_container;
 
-	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id,QuestionContainer $question_container)
+	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id,QuestionContainer $question_container = null)
 	{
 		parent::__construct($question_uuid, $initiating_user_id);
 		$this->question_container = $question_container;

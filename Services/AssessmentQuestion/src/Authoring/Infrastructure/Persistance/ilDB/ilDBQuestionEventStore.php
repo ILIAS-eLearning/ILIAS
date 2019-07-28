@@ -40,13 +40,13 @@ class ilDBQuestionEventStore implements EventStore {
 	public function getAggregateHistoryFor(DomainObjectId $id): DomainEvents {
 		global $DIC;
 
-		$sql = "SELECT * FROM " . ilDBQuestionStoredEvent::STORAGE_NAME . " where aggregate_id = " . $DIC->database()->quote($id->getId());
+		$sql = "SELECT * FROM " . ilDBQuestionStoredEvent::STORAGE_NAME . " where aggregate_id = " . $DIC->database()->quote($id->getId(),'string');
 		$res = $DIC->database()->query($sql);
 
 		$event_stream = new DomainEvents();
 		while ($row = $DIC->database()->fetchAssoc($res)) {
 			/**@var AbstractDomainEvent $event */
-			//TODO namespaces in db oder fix?
+			//TODO should not be saved in DB like this
 			$event_name = "ILIAS\\AssessmentQuestion\\Authoring\\DomainModel\\Question\\Event\\".utf8_encode(trim($row['event_name']));
 			$event = new $event_name(new DomainObjectId($row['aggregate_id']), $row['initiating_user_id']);
 			$event->restoreEventBody($row['event_body']);

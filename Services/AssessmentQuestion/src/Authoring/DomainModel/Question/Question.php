@@ -5,7 +5,6 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerTypeContract;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionAnswerAddedEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionAnswerOptionsSetEvent;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\QuestionAnswerTypeSetEvent;
@@ -53,7 +52,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	protected $container_obj_id;
 	/**
-	 * @var AnswerTypeContract
+	 * @var AnswerType
 	 */
 	protected $answer_type;
 
@@ -80,32 +79,30 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	protected function __construct() {
 		$this->answers = [];
 		$this->answer_options = new AnswerOptions();
+
+		//TODO
+		$this->data = new QuestionData('','','','');
 		parent::__construct();
 	}
 
 
 	/**
-	 * @param string $title
-	 * @param string $description
-	 *
-	 * @param int    $creator_id
+	 * @param DomainObjectId $question_uuid
+	 * @param int $initiating_user_id
+	 * @param AnswerType $answer_type
 	 *
 	 * @return Question
 	 */
-	public static function createNewQuestion(DomainObjectId $question_uuid, int $initiating_user_id,  QuestionContainer $question_container, AnswerTypeContract $answer_type) {
+	public static function createNewQuestion(
+		DomainObjectId $question_uuid,
+		int $initiating_user_id,
+		AnswerType $answer_type): Question {
 		$question = new Question();
 		$question->ExecuteEvent(
 			new QuestionCreatedEvent(
 				$question_uuid,
 				$initiating_user_id
 		));
-
-		$question->ExecuteEvent(
-			new QuestionContainerSetEvent(
-				$question_uuid,
-				$initiating_user_id,
-				$question_container
-			));
 
 		$question->ExecuteEvent(
 			new QuestionAnswerTypeSetEvent(
@@ -117,9 +114,30 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		return $question;
 	}
 
+
+	/**
+	 * @param DomainObjectId    $question_uuid
+	 * @param int               $initiating_user_id
+	 * @param QuestionContainer $question_container
+	 */
+	public function setQuestionContainer(
+		DomainObjectId $question_uuid,
+		int $initiating_user_id,
+		QuestionContainer $question_container):void {
+
+		$this->ExecuteEvent(
+			new QuestionContainerSetEvent(
+				$question_uuid,
+				$initiating_user_id,
+				$question_container
+			));
+	}
+
+
+
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
-		$this->creator_id = $event->getActorUserId();
+		$this->creator_id = $event->getInitiatingUserId();
 	}
 
 	protected function applyQuestionContainerSetEvent(QuestionContainerSetEvent $event) {
@@ -127,7 +145,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	}
 
 
-	protected function applyQuestionAnswerTypeSetEvent(QuestionAnswerTypeSetEvent $event) {
+	protected function applyQuestionAnswerTypeSetEvent(QuestionAnswerTypeSetEvent $event)
+	{
 		$this->answer_type = $event->getAnswerType();
 	}
 
