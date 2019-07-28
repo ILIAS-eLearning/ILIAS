@@ -29,14 +29,14 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	/**
 	 * @var int
 	 */
-	protected $initating_user_id;
+	protected $initiating_user_id;
 	//todo revision einarbeiten
 	//IsRevisionable $aggregate_revision,
-	public function __construct(DomainObjectId $aggregate_id, int $initating_user_id) {
+	public function __construct(DomainObjectId $aggregate_id, int $initiating_user_id) {
 
 		$this->aggregate_id = $aggregate_id;
 		$this->occurred_on = new ilDateTime(time(), IL_CAL_UNIX);
-		$this->initating_user_id = $initating_user_id;
+		$this->initiating_user_id = $initiating_user_id;
 	}
 
 
@@ -71,7 +71,7 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	 * @return int
 	 */
 	public function getInitiatingUserId(): int {
-		return $this->initating_user_id;
+		return $this->initiating_user_id;
 	}
 
 
