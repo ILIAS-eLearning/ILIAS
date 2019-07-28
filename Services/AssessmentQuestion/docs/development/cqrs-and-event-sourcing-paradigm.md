@@ -47,6 +47,8 @@ Note: _For the public external API see Pullrequest: https://github.com/ILIAS-eLe
 
 ## Create a Question
 ![create_question_form.png](create_question_form.png)
+
+
 **1. Start the Bus with a new CreateQuestionCommand**
 By getting the save command from the client. We start a chain of command for this concrete need: _Create a question_ 
 
@@ -284,9 +286,13 @@ At this moment we saved the question at the command side in the aggregate specif
 
 ## Reconstitute Aggregate
 Example Form
+
 ![edit_question_form.png](edit_question_form.png)
+
 Eventstore
+
 ![sql_event_store_changes.png](sql_event_store_changes.png)
+
 
 As you can see 
 1. The generic question data (titel, description, author, question text) are in this example combined as a _Value Object_.
