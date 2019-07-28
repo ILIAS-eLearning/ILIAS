@@ -4,7 +4,6 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\AbstractCommand;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandContract;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;

@@ -30,7 +30,6 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 
 	//TODO get that from DB
 	const SYSTEM_USER_ID = 3;
-
 	/**
 	 * @var DomainObjectId
 	 */
@@ -55,7 +54,6 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @var AnswerType
 	 */
 	protected $answer_type;
-
 	/**
 	 * @var QuestionData
 	 */
@@ -73,43 +71,27 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 */
 	private $answers;
 
+
 	/**
 	 * Question constructor.
 	 */
 	protected function __construct() {
-		$this->answers = [];
-		$this->answer_options = new AnswerOptions();
-
-		//TODO
-		$this->data = new QuestionData('','','','');
 		parent::__construct();
 	}
 
 
 	/**
 	 * @param DomainObjectId $question_uuid
-	 * @param int $initiating_user_id
-	 * @param AnswerType $answer_type
+	 * @param int            $initiating_user_id
+	 * @param AnswerType     $answer_type
 	 *
 	 * @return Question
 	 */
-	public static function createNewQuestion(
-		DomainObjectId $question_uuid,
-		int $initiating_user_id,
-		AnswerType $answer_type): Question {
+	public static function createNewQuestion(DomainObjectId $question_uuid, int $initiating_user_id, AnswerType $answer_type): Question {
 		$question = new Question();
-		$question->ExecuteEvent(
-			new QuestionCreatedEvent(
-				$question_uuid,
-				$initiating_user_id
-		));
+		$question->ExecuteEvent(new QuestionCreatedEvent($question_uuid, $initiating_user_id));
 
-		$question->ExecuteEvent(
-			new QuestionAnswerTypeSetEvent(
-				$question_uuid,
-				$initiating_user_id,
-				$answer_type
-		));
+		$question->ExecuteEvent(new QuestionAnswerTypeSetEvent($question_uuid, $initiating_user_id, $answer_type));
 
 		return $question;
 	}
@@ -120,19 +102,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @param int               $initiating_user_id
 	 * @param QuestionContainer $question_container
 	 */
-	public function setQuestionContainer(
-		DomainObjectId $question_uuid,
-		int $initiating_user_id,
-		QuestionContainer $question_container):void {
+	public function setQuestionContainer(DomainObjectId $question_uuid, int $initiating_user_id, QuestionContainer $question_container): void {
 
-		$this->ExecuteEvent(
-			new QuestionContainerSetEvent(
-				$question_uuid,
-				$initiating_user_id,
-				$question_container
-			));
+		$this->ExecuteEvent(new QuestionContainerSetEvent($question_uuid, $initiating_user_id, $question_container));
 	}
-
 
 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
@@ -140,40 +113,47 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->creator_id = $event->getInitiatingUserId();
 	}
 
+
 	protected function applyQuestionContainerSetEvent(QuestionContainerSetEvent $event) {
 		$this->question_container = $event->getQuestionContainer();
 	}
 
 
-	protected function applyQuestionAnswerTypeSetEvent(QuestionAnswerTypeSetEvent $event)
-	{
+	protected function applyQuestionAnswerTypeSetEvent(QuestionAnswerTypeSetEvent $event) {
 		$this->answer_type = $event->getAnswerType();
 	}
+
 
 	protected function applyQuestionDataSetEvent(QuestionDataSetEvent $event) {
 		$this->data = $event->getData();
 	}
 
+
 	protected function applyQuestionPlayConfigurationSetEvent(QuestionPlayConfigurationSetEvent $event) {
 		$this->play_configuration = $event->getPlayConfiguration();
 	}
+
 
 	protected function applyQuestionRevisionCreatedEvent(QuestionRevisionCreatedEvent $event) {
 		$this->revision_id = new RevisionId($event->getRevisionKey());
 	}
 
+
 	protected function applyQuestionAnswerOptionsSetEvent(QuestionAnswerOptionsSetEvent $event) {
 		$this->answer_options = $event->getAnswerOptions();
 	}
+
 
 	protected function applyQuestionAnswerAddedEvent(QuestionAnswerAddedEvent $event) {
 		$answer = $event->getAnswer();
 		$this->answers[$answer->getTestId()][$answer->getAnswererId()] = $answer;
 	}
 
-	public function getOnlineState() : bool {
+
+	public function getOnlineState(): bool {
 		return $this->online;
 	}
+
 
 	/**
 	 * @return QuestionData
@@ -181,6 +161,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	public function getData(): QuestionData {
 		return $this->data;
 	}
+
 
 	/**
 	 * @param QuestionData $data
@@ -190,12 +171,14 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->ExecuteEvent(new QuestionDataSetEvent($this->getAggregateId(), $creator_id, $data));
 	}
 
+
 	/**
 	 * @return QuestionPlayConfiguration
 	 */
 	public function getPlayConfiguration(): ?QuestionPlayConfiguration {
 		return $this->play_configuration;
 	}
+
 
 	/**
 	 * @param QuestionPlayConfiguration $play_configuration
@@ -204,6 +187,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->ExecuteEvent(new QuestionPlayConfigurationSetEvent($this->getAggregateId(), $creator_id, $play_configuration));
 	}
 
+
 	/**
 	 * @return AnswerOptions
 	 */
@@ -211,21 +195,26 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		return $this->answer_options;
 	}
 
+
 	public function setAnswerOptions(AnswerOptions $options, int $creator_id = self::SYSTEM_USER_ID) {
 		$this->ExecuteEvent(new QuestionAnswerOptionsSetEvent($this->getAggregateId(), $creator_id, $options));
 	}
+
 
 	function addAnswer(Answer $answer) {
 		$this->ExecuteEvent(new QuestionAnswerAddedEvent($this->getAggregateId(), $answer->getAnswererId(), $answer));
 	}
 
-	public function getAnswer(int $user_id, string $test_id) : ?Answer {
+
+	public function getAnswer(int $user_id, string $test_id): ?Answer {
 		return $this->answers[$test_id][$user_id];
 	}
+
 
 	function clearAnswer(int $user_id, string $test_id) {
 
 	}
+
 
 	/**
 	 * @return int
@@ -263,6 +252,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->ExecuteEvent(new QuestionRevisionCreatedEvent($this->getAggregateId(), $this->creator_id, $id->GetKey()));
 	}
 
+
 	/**
 	 * @return string
 	 *
@@ -284,6 +274,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	public function getRevisionData(): array {
 		$data[] = $this->getAggregateId()->getId();
 		$data[] = $this->getData()->jsonSerialize();
+
 		return $data;
 	}
 
@@ -293,6 +284,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		foreach ($event_history->getEvents() as $event) {
 			$question->applyEvent($event);
 		}
+
 		return $question;
 	}
 
