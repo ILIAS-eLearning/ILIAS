@@ -266,7 +266,7 @@ At this point the question will be saved. If there were any errors before nothin
 
 During the saving process, all events not yet processed are read and stored. After that it would be also the time to notify about the events to specific listener.
 
-We that it should not be possible to listen to all events. And probably we will make separate summarized events for outside the boundary of this aggregate.
+We think that it should not be possible to listen to all events. And probably we will make separate summarized events for outside the boundary of this aggregate.
 ```
 class QuestionRepository
 
