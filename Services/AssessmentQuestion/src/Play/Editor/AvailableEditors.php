@@ -13,6 +13,7 @@ namespace ILIAS\AssessmentQuestion\Play\Editor;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class AvailableEditors {
+
 	public static function getAvailableEditors() {
 		//TODO get editors from DB
 		$editors[MultipleChoiceEditor::class] = "MultipleChoiceEditor";

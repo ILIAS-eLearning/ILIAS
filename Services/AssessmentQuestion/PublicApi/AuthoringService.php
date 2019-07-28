@@ -2,12 +2,17 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
+
+use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Command\showCreateQuestionFormCommand;
+use ILIAS\DI\Container;
+
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\UI\Component\Link\Link;
 use ilQtiItem;
+use ilAsqQuestionAuthoringGUI;
 
 /**
  * Interface QuestionAuthoringService
@@ -28,13 +33,27 @@ class AuthoringService implements AuthoringServiceContract {
 	 * @param QuestionIdContract $questionUuid
 	 */
 	public function __construct(AuthoringServiceSpecContract $asq_authoring_spec, QuestionIdContract $questionUuid) {
+
 	}
-	
-	public function getCreationLink(): Link
+
+
+	/**
+	 * @param array $call_stack
+	 *
+	 * @return Link
+	 */
+	public function getCreationLink($call_stack): Link
 	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		return $DIC->ctrl()->getLinkTargetByClass('ilAsqQuestionAuthoringGUI', 'createQuestionForm');
+		/**
+		 * @var Container $DIC
+		 */
+		global $DIC;
+		array_push($call_stack,ilAsqQuestionAuthoringGUI::getClassNameForIlCtrl());
+
+		//TODO
+		return $DIC->ui()->factory()->link()->standard('create',$DIC->ctrl()->getLinkTargetByClass($call_stack,showCreateQuestionFormCommand::getName()));
+
+
 	}
 
 	/**

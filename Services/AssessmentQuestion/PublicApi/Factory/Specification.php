@@ -25,18 +25,18 @@ class Specification
 {
 	/**
 	 * @param int $container_obj_id
-	 * @param int $actor_user_id
+	 * @param int $initiating_user_id
 	 * @param Link $container_backlink
 	 * @return AuthoringServiceSpec
 	 */
 	public function authoring(
 		int $container_obj_id,
-		int $actor_user_id,
+		int $initiating_user_id,
 		Link $container_backlink
 	): AuthoringServiceSpec {
 		return new AuthoringServiceSpec(
 			$container_obj_id,
-			$actor_user_id,
+			$initiating_user_id,
 			$container_backlink
 		);
 	}
