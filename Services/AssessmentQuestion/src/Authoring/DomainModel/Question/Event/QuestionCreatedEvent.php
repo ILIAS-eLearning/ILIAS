@@ -15,9 +15,26 @@ class QuestionCreatedEvent extends AbstractDomainEvent {
 
 	public const NAME = 'QuestionCreatedEvent';
 
-	public function __construct(DomainObjectId $id, int $creator_id)
+	/**
+	 * @var  DomainObjectId
+	 */
+	protected $question_uuid;
+	/**
+	 * @var int;
+	 */
+	protected $container_obj_id;
+	/**
+	 * @var int
+	 */
+	protected $initiating_user_id;
+	/**
+	 * @var string
+	 */
+	protected $answer_type_id;
+
+	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id)
 	{
-		parent::__construct($id, $creator_id);
+		parent::__construct($question_uuid, $initiating_user_id);
 	}
 
 	/**
@@ -29,6 +46,23 @@ class QuestionCreatedEvent extends AbstractDomainEvent {
 	public function getEventName(): string {
 		return self::NAME;
 	}
+
+
+	/**
+	 * @return DomainObjectId
+	 */
+	public function getQuestionUuid(): DomainObjectId {
+		return $this->question_uuid;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getActorUserId(): int {
+		return $this->initiating_user_id;
+	}
+
 
 	public function restoreEventBody(string $json_data) {
 		//no other properties

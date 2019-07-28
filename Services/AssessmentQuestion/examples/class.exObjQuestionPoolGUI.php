@@ -109,7 +109,7 @@ class exObjQuestionPoolGUI
 			$this->buildAsqAuthoringSpecification(), $DIC->assessment()->consumer()->newQuestionUuid()
 		);
 		
-		$creationLinkComponent = $authoringService->getCreationLink();
+		$creationLinkComponent = $authoringService->getCreationLink(['ilrepositorygui','ilObjQuestionPoolGUI']);
 		
 		$button = ilLinkButton::getInstance();
 		$button->setCaption($creationLinkComponent->getLabel());

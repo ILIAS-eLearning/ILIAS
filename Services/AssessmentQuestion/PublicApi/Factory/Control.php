@@ -6,8 +6,7 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringServiceSpec;
-use ilAsqQuestionAuthoringGUI;
+use \ilAsqQuestionAuthoringGUI;
 
 /**
  * Class Control

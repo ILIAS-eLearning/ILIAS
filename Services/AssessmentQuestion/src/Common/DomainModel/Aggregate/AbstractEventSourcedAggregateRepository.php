@@ -45,7 +45,6 @@ abstract class AbstractEventSourcedAggregateRepository implements AggregateRepos
 		$events = $aggregate->getRecordedEvents();
 		$this->getEventStore()->commit($events);
 		$aggregate->clearRecordedEvents();
-
 		if ($this->has_cache) {
 			self::$cache->set($aggregate->getAggregateId()->getId(), $aggregate);
 		}
