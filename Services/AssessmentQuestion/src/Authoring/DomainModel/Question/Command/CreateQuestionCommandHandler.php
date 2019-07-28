@@ -27,11 +27,16 @@ class CreateQuestionCommandHandler implements CommandHandlerContract {
 
 		$question = Question::createNewQuestion(
 			$command->getQuestionUuid(),
-			$command->getActorUserId(),
-			$command->getQuestionContainer(),
+			$command->getInitiatingUserId(),
 			$command->getAnswerType()
 		);
-		//$question->setData($command->getData(), $command->getCreator());
+
+		$question->setQuestionContainer(
+			$command->getQuestionUuid(),
+			$command->getInitiatingUserId(),
+			$command->getQuestionContainer()
+		);
+
 		QuestionRepository::getInstance()->save($question);
 	}
 }

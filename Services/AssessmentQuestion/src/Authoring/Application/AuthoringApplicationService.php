@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerTy
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository;
@@ -51,27 +52,31 @@ class AuthoringApplicationService {
 		return QuestionDto::CreateFromQuestion($question);
 	}
 
-	//TODO answer_type should be a value object; in creation or afterwards?
-	public function CreateQuestion(): void {
-		//CreateQuestion.png
+	public function CreateQuestion(QuestionContainer $question_container,
+		AnswerType $answer_type): void {
 		CommandBusBuilder::getCommandBus()->handle(
 			new CreateQuestionCommand(
 				$this->service_spec->getQuestionUuid(),
-				$this->service_spec->getActorUserId(),
-				$this->service_spec->getQuestionContainer(),
-				new AnswerType($this->service_spec->getAnswerTypeId())
-			));
+				$this->service_spec->getInitiatingUserId(),
+				$question_container,
+				$answer_type)
+		);
 	}
 
-	public function SaveQuestion(QuestionDto $question_dto) {
+	public function SaveQuestion(QuestionData $question_data) {
 		// check changes and trigger them on question if there are any
+
+
 		/** @var Question $question */
-		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
+		$question = QuestionRepository::getInstance()->getAggregateRootById($this->service_spec->getQuestionUuid());
 
-		if ($question_dto->getData() != $question->getData()) {
-			$question->setData($question_dto->getData(), $this->asq_question_spec->user_id);
-		}
 
+		//if ($question_dto->getData() != $question->getData()) {
+			$question->setData($question_data, 6);
+		//}
+
+		CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, 6));
+/*
 		if ($question_dto->getPlayConfiguration() != $question->getPlayConfiguration()) {
 			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->asq_question_spec->user_id);
 		}
@@ -83,7 +88,7 @@ class AuthoringApplicationService {
 		if(count($question->getRecordedEvents()->getEvents()) > 0) {
 			// save changes if there are any
 			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->asq_question_spec->user_id));
-		}
+		}*/
 	}
 
 	public function projectQuestion(string $question_id) {

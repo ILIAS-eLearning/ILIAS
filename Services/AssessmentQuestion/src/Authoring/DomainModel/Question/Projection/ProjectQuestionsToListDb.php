@@ -18,11 +18,8 @@ class ProjectQuestionsToListDb implements Projection {
 		$item = QuestionListItem::where(array('question_id' => $projectee_key))->first();
 
 		if($item == null) {
-			$new = true;
 			$item = new QuestionListItem();
 			$item->setQuestionId($projectee_key);
-		} else {
-			$new = false;
 		}
 
 		/** @var QuestionData $data */
@@ -30,11 +27,6 @@ class ProjectQuestionsToListDb implements Projection {
 		$item->setTitle($data->GetTitle());
 		$item->setDescription($data->getDescription());
 		$item->setQuestion($data->getQuestionText());
-
-		if($new) {
-			$item->create();
-		} else {
-			$item->save();
-		}
+		$item->store();
 	}
 }

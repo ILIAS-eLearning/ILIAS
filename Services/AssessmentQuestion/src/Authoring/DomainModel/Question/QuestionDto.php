@@ -45,9 +45,9 @@ class QuestionDto {
 			$dto->revision_name = $question->getRevisionName();
 		}
 
-		$dto->data = $question->getData();
+		/*$dto->data = $question->getData();
 		$dto->play_configuration = $question->getPlayConfiguration();
-		$dto->answer_options = $question->getAnswerOptions();
+		$dto->answer_options = $question->getAnswerOptions();*/
 		return $dto;
 	}
 

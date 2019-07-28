@@ -2,7 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerTypeContract;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\AbstractCommand;
@@ -30,10 +30,10 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 	 */
 	protected $initiating_user_id;
 	/**
-	 * @var AnswerTypeContract
+	 * @var AnswerType
 	 */
 	protected $answer_type;
-	//TODO AnswerTypeContractMultipleChoice should be a ValueObject!!
+	//TODO AnswerTypeMultipleChoice should be a ValueObject!!
 
 
 	/**
@@ -42,9 +42,9 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 	 * @param DomainObjectId     $question_uuid
 	 * @param int                $initiating_user_id
 	 * @param QuestionContainer  $question_container
-	 * @param AnswerTypeContract $answer_type
+	 * @param AnswerType $answer_type
 	 */
-	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id, QuestionContainer $question_container, AnswerTypeContract $answer_type) {
+	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id, QuestionContainer $question_container, AnswerType $answer_type) {
 		$this->question_uuid = $question_uuid;
 		$this->initiating_user_id = $initiating_user_id;
 		$this->question_container = $question_container;
@@ -71,15 +71,15 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 	/**
 	 * @return int
 	 */
-	public function getActorUserId(): int {
+	public function getInitiatingUserId(): int {
 		return $this->initiating_user_id;
 	}
 
 
 	/**
-	 * @return AnswerTypeContract
+	 * @return AnswerType
 	 */
-	public function getAnswerType(): AnswerTypeContract {
+	public function getAnswerType(): AnswerType {
 		return $this->answer_type;
 	}
 }

@@ -5,34 +5,60 @@ namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Command;
 use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationServiceSpec;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Form\CreateQuestionForm;
+use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Form\EditQuestionForm;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Input\questionTypeSelect;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandContract;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandHandlerContract;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 
-class saveCreateQuestionFormCommandHandler implements CommandHandlerContract {
+class saveLegacyQuestionFormCommandHandler implements CommandHandlerContract {
 
 	public function handle(CommandContract $command) {
 		global $DIC;
 		/**
-		 * @var saveCreateQuestionFormCommand $command
+		 * @var saveLegacyQuestionFormCommand $command
 		 */
 		$cmd = $command;
 
-		$form = new CreateQuestionForm();
-		$result = $form->getForm($cmd->getCreateQuestionFormSpec())->withRequest($cmd->getRequest())->getData();
+		//TODO
 
-		$uuid = new \ILIAS\Data\UUID\Factory();
-		$question_uuid = new DomainObjectId($uuid->uuid4()->toString());
+		$question_uuid = $_POST['aggregate_id'];
 
+
+		/**
+		 * @var Question $question
+		 */
+		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_uuid));
+
+
+		$form = new EditQuestionForm($question,$command->getEditQuestionFormSpec()->getFormPostUrl());
+
+
+
+
+		$form->setValuesByArray($_POST);
+
+
+		$type = new AnswerType('multi');
+		//TODO
 		$authoring_service_spec = new AuthoringApplicationServiceSpec(
-			$question_uuid,
-			71);
+			new DomainObjectId($question_uuid),
+			71,
+			new QuestionContainer(67),
+			$type->getAnswerType()
+		);
+
+
+		$question_data = new QuestionData($form->getItemByPostVar('title')->getValue(),'','','');
+		///$question->setData($question_data);
+
 		$authoring_service = new AuthoringApplicationService($authoring_service_spec);
-		$authoring_service->CreateQuestion(new QuestionContainer(67),
-			new AnswerType($result[0]['question_type']));
+		$authoring_service->SaveQuestion($question_data);
 
 		//TODO
 		$arr_classes = [];
@@ -42,7 +68,8 @@ class saveCreateQuestionFormCommandHandler implements CommandHandlerContract {
 			$cmd_class  = $arr['class'];
 		}
 
-		$DIC->ctrl()->setParameterByClass($cmd_class,'question_uuid',$question_uuid->getId());
+		$DIC->ctrl()->setParameterByClass($cmd_class,'question_uuid',$question_uuid);
 		$DIC->ctrl()->redirectByClass($arr_classes,showLegacyQuestionFormCommand::getName());
+
 	}
 }

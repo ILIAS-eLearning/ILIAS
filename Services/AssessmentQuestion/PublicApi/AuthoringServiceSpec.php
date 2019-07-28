@@ -78,8 +78,8 @@ class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 	/**
 	 * @return int
 	 */
-	public function getActorUserId(): int {
-		// TODO: Implement getActorUserId() method.
+	public function getInitiatingUserId(): int {
+		// TODO: Implement getInitiatingUserId() method.
 	}
 
 

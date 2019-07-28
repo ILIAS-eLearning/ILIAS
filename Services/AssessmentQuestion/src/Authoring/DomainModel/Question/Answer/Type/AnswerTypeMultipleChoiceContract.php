@@ -1,7 +1,7 @@
 <?php
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type;
 
-class AnswerTypeContractMultipleChoice implements AnswerTypeContract {
+class AnswerTypeMultipleChoice  {
 
 	const TYPE_ID = 'multiple_choice';
 
