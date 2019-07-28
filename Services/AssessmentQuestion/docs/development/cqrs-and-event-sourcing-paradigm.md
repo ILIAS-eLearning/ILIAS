@@ -1,6 +1,6 @@
 # CQRS with Event Sourcing
 
-## Why we introduce a new software paradigm for the Assessment Question Service
+## Why we like to introduce a new software paradigm for the Assessment Question Service
 We had a look to the actual behavior and chalenges and the future requirements for the ILIAS Test Assessment and searched a software paradigm which helps us to solve the problems and covers the future requirements. The software paradigm we searched should also help us to make it possible to have more than one developer who can fix Bugs in the Assessment Question Service and that we can cover most of the service with unit tests.
 
 With our concept we like to give a implementation solution for the followint requirements:
