@@ -3,19 +3,18 @@
 ## Why we introduce a new software paradigm for the Assessment Question Service
 We had a look to the actual behavior and chalenges and the future requirements for the ILIAS Test Assessment and searched a software paradigm which helps us to solve the problems and covers the future requirements. The software paradigm we searched should also help us to make it possible to have more than one developer who can fix Bugs in the Assessment Question Service and that we can cover most of the service with unit tests.
 
-The current problems and future requirements that were relevant for the Assessment Question Servcice are as follows
+With our concept we like to give a implementation solution for the followint requirements:
 
-1 Questions from a question pool are copied for use in a test.  There is Back-Reference-ID to the question pool. However, the implementation of... 
-* _Unique IDs for Test Questions_ (https://docu.ilias.de/goto_docu_wiki_wpage_4571_1357.html_docu_wiki_wiki_page_4571_1357.html)
-* And _Item Statistic in Pool_ (https://docu.ilias.de/goto_docu_wiki_wpage_5321_1357.html)
+1  _Unique IDs for Test Questions_ (https://docu.ilias.de/goto_docu_wiki_wpage_4571_1357.html_docu_wiki_wiki_page_4571_1357.html)
+2 And _Item Statistic in Pool_ (https://docu.ilias.de/goto_docu_wiki_wpage_5321_1357.html)
 
-...a challenge when we would realize it with the classical way of ILIAS Development.
+3 In the future we could think about to have the possibility to change questions in a test no matter if it already contains user data records or not - and we would like to offer this function audit-proof!
 
-2 In the future we could think about to have the possibility to change questions in a test no matter if it already contains user data records or not - and we would like to offer this function audit-proof!
+4 There are several authors who can work on a question. There is no history and no easy way to reset a question to a previous state. A question history is a current feature request for the ILIAS test [https://docu.ilias.de/goto_docu_wiki_wpage_5312_1357.html]
 
-3 There are several authors who can work on a question. There is no history and no easy way to reset a question to a previous state. A question history is a current feature request for the ILIAS test [https://docu.ilias.de/goto_docu_wiki_wpage_5312_1357.html]
+5 Collaborative Work
 
-4 When I use a question from a pool in one or more tests. Now I edit the question in the pool. This change is not currently applied to the test. If you then (possibly another user) customize the question in the test, he will be asked if he should also apply his customization to the question in the question pool. With this he(!) overwrites the previous adjustment, which was made directly in the question pool by the other user(!) - without knowing it! To prevent such things requires a very clean code base and it must be easy to introduce appropriate validations to reverse it.
+6 Offline Tests
 
 
 ## Good to know
