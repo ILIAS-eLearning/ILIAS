@@ -15150,3 +15150,29 @@ rbac#:#change_presentation#:#Change Presentation
 pd#:#pd_presentation_mode_list#:#Item List Presentation
 pd#:#pd_presentation_mode_tile#:#Tile Presentation
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+common#:#mm_organisation#:#Organisation
+common#:#mm_staff_list#:#Staff List
+common#:#mm_enrolments#:#Enrolments
+common#:#mm_communication#:#Communication
+common#:#mm_contacts#:#Contacts
+common#:#mm_mail#:#Mail
+common#:#mm_news#:#News
+common#:#mm_notes#:#Notes
+common#:#mm_comments#:#Comments
+common#:#mm_achievements#:#Achievements
+common#:#mm_learning_history#:#Learning History
+common#:#mm_skills#:#Competences
+common#:#mm_learning_progress#:#Learning Progress
+common#:#mm_badges#:#Badges
+common#:#mm_administration#:#Administration
+common#:#mm_repository#:#Repository
+common#:#mm_dashboard#:#Dashboard
+common#:#mm_repo_tree_view#:#Tree View
+common#:#mm_task_derived_tasks#:#Tasks
+common#:#mm_favorites#:#Favorites
+common#:#mm_calendar#:#Calendar
+common#:#mm_tags#:#Tags
+common#:#mm_portfolio#:#Portfolio
+common#:#mm_certificates#:#Certificates
+common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
+common#:#mm_personal_workspace#:#Personal Workspace
