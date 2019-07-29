@@ -606,9 +606,19 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 									}
 									++$row;
 								}
+								
 								$feedback_giver = $review['giver_id']; // user who made the review.
-								$this->excel->setCell($row, $col, ilUserUtil::getNamePresentation($feedback_giver));
+
+								$feedback_giver_name = ilObjUser::_lookupName($feedback_giver);
+
+								$this->excel->setCell(
+									$row,
+									$col,
+									$feedback_giver_name['lastname'] . ", " . $feedback_giver_name['firstname'] . " [" . $feedback_giver_name['login'] . "]"
+								);
+
 								$this->excel->setCell($row, $col+1, $review['tstamp']);
+
 								if($ass_has_criteria)
 								{
 									$this->addCriteriaToExcel($feedback_giver, $participant_id, $row, $col+1);
