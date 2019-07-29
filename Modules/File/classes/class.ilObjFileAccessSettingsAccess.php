@@ -24,17 +24,14 @@
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjFileAccessSettingsAccess
-*
-* @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
-* @version $Id$
-*
-* @ingroup webdav
-*/
+ * Class ilObjFileAccessSettingsAccess
+ *
+ * @author  Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
+ * @version $Id$
+ *
+ * @ingroup webdav
+ */
 class ilObjFileAccessSettingsAccess extends ilObjectAccess
 {
 
-
 }
-
-?>

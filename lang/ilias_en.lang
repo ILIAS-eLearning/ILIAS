@@ -2340,7 +2340,7 @@ rbac#:#file_copy#:#User can copy file
 common#:#file_created#:#File has been added.
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_permission#:#User can change permission settings
-common#:#file_edit#:#Edit File and Upload New Version
+common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_not_found#:#File Not Found
@@ -5244,6 +5244,8 @@ feed#:#feed_settings#:#External Web Feeds Settings
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
+file#:#upload_info#:#Upload
+file#:#upload_info_desc#:#Manage Uploads and Version in Tab "Versions"
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input

@@ -983,3 +983,7 @@ $ilDB->addIndex('read_event', array('usr_id'), 'i1');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#67>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
