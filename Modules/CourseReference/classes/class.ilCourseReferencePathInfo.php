@@ -93,15 +93,15 @@ class ilCourseReferencePathInfo
 
 	/**
 	 * @param int $course_ref_id
+	 * @param int[] $participants
 	 * @return bool
 	 */
-	public static function isReferenceMemberUpdateConfirmationRequired(int $course_ref_id) : bool
+	public static function isReferenceMemberUpdateConfirmationRequired(int $course_ref_id, array $participants) : bool
 	{
 		global $DIC;
 
 		$tree = $DIC->repositoryTree();
 		$childs = $tree->getChildsByType($course_ref_id, 'crsr');
-		$confirmation_required = false;
 		foreach($childs as $tree_node) {
 
 			$path_info = self::getInstanceByRefId($tree_node['child']);
@@ -111,9 +111,18 @@ class ilCourseReferencePathInfo
 			if(!$path_info->isMemberUpdateEnabled()) {
 				continue;
 			}
-			$confirmation_required = true;
+			if(!$path_info->checkManagmentAccess()) {
+				continue;
+			}
+			$part = ilParticipants::getInstance($path_info->getParentCourseRefId());
+			foreach($participants as $part_id)
+			{
+				if($part->isMember($part_id)) {
+					return true;
+				}
+			}
 		}
-		return $confirmation_required;
+		return false;
 	}
 
 	/**
