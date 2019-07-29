@@ -838,6 +838,12 @@ class ilObjFileGUI extends ilObject2GUI
 
         $this->ctrl->setParameter($this, "ref_id", $this->node_id);
 
+        if ($this->checkPermissionBool("write")) {
+            $ilTabs->addTab("id_versions",
+                $lng->txt("versions"),
+                $this->ctrl->getLinkTargetByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_DEFAULT));
+        }
+
         if ($this->checkPermissionBool("visible") || $this->checkPermissionBool("read")) {
             $ilTabs->addTab("id_info",
                 $lng->txt("info_short"),
@@ -846,17 +852,10 @@ class ilObjFileGUI extends ilObject2GUI
 
         if ($this->checkPermissionBool("write")) {
             $ilTabs->addTab("settings",
-                $lng->txt("edit"),
+                $lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "edit"));
         }
 
-        if ($this->checkPermissionBool("write")) {
-            $ilTabs->addTab("id_versions",
-                $lng->txt("versions"),
-                $this->ctrl->getLinkTargetByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_DEFAULT));
-        }
-
-        require_once 'Services/Tracking/classes/class.ilLearningProgressAccess.php';
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $ilTabs->addTab(
                 'learning_progress',
@@ -867,7 +866,6 @@ class ilObjFileGUI extends ilObject2GUI
 
         // meta data
         if ($this->checkPermissionBool("write")) {
-            include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
@@ -1216,8 +1214,6 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
 
-
-
     /**
      * Deletes the file versions that were confirmed by the user.
      */
@@ -1242,8 +1238,6 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
 
-
-
     /**
      * Deletes this file object.
      */
@@ -1263,9 +1257,6 @@ class ilObjFileGUI extends ilObject2GUI
         $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->parent_id);
         $this->ctrl->redirectByClass("ilrepositorygui");
     }
-
-
-
 
 
     protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
