@@ -1299,12 +1299,24 @@ class ilObjFile extends ilObject2
      * @param array $version_ids The file versions to get. If not specified all versions are
      *                           returned.
      *
-     * @return The file versions.
+     * @return array The file versions.
+     *
+     *               Example:  array (
+    'date' => '2019-07-25 11:19:51',
+    'user_id' => '6',
+    'obj_id' => '287',
+    'obj_type' => 'file',
+    'action' => 'create',
+    'info_params' => 'chicken_outlined.pdf,1,1',
+    'user_comment' => '',
+    'hist_entry_id' => '3',
+    'title' => NULL,
+    )
      */
-    public function getVersions($version_ids = null)
+    public function getVersions($version_ids = null) : array
     {
-        include_once("./Services/History/classes/class.ilHistory.php");
-        $versions = ilHistory::_getEntriesForObject($this->getId(), $this->getType());
+
+        $versions = (array) ilHistory::_getEntriesForObject($this->getId(), $this->getType());
 
         if ($version_ids != null && count($version_ids) > 0) {
             foreach ($versions as $index => $version) {

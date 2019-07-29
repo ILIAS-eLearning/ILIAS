@@ -12,7 +12,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  *
  * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI
  *
  * @ingroup      ModulesFile
  */
@@ -140,6 +140,14 @@ class ilObjFileGUI extends ilObject2GUI
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tabs_gui->setTabActive('learning_progress');
+                break;
+            case strtolower(ilFileVersionsGUI::class):
+                $this->tabs_gui->activateTab("id_versions");
+
+                if (!$this->checkPermissionBool("write")) {
+                    $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
+                }
+                $this->ctrl->forwardCommand(new ilFileVersionsGUI($this->object));
                 break;
 
             default:
@@ -537,7 +545,7 @@ class ilObjFileGUI extends ilObject2GUI
      *
      * @access    public
      */
-    function edit()
+    public function edit()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -549,7 +557,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         $ilTabs->activateTab("settings");
 
-        $form = $this->initPropertiesForm();
+        $form = $this->initPropertiesForm('edit');
 
         $val = array();
         $val['title'] = $this->object->getTitle();
@@ -574,14 +582,12 @@ class ilObjFileGUI extends ilObject2GUI
      *
      * @return
      */
-    protected function initPropertiesForm()
+    protected function initPropertiesForm($mode = "create")
     {
-        include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-
         $this->lng->loadLanguageModule('file');
 
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this), 'update');
+        $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
         $form->setTitle($this->lng->txt('file_edit'));
         $form->addCommandButton('update', $this->lng->txt('save'));
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -591,34 +597,39 @@ class ilObjFileGUI extends ilObject2GUI
         $title->setInfo($this->lng->txt("if_no_title_then_filename"));
         $form->addItem($title);
 
-        $upload_possible = true;
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $upload_possible = ilDiskQuotaHandler::isUploadPossible();
-        }
+        if ($mode === 'create') {
+            $upload_possible = true;
+            if ($this->id_type == self::WORKSPACE_NODE_ID) {
+                $upload_possible = ilDiskQuotaHandler::isUploadPossible();
+            }
 
-        if ($upload_possible) {
-            $file = new ilFileStandardDropzoneInputGUI($this->lng->txt('obj_file'), 'file');
-            $file->setRequired(false);
-            $form->addItem($file);
+            if ($upload_possible) {
+                $file = new ilFileStandardDropzoneInputGUI($this->lng->txt('obj_file'), 'file');
+                $file->setRequired(false);
+                $form->addItem($file);
 
-            $group = new ilRadioGroupInputGUI('', 'replace');
-            $group->setValue(0);
+                $group = new ilRadioGroupInputGUI('', 'replace');
+                $group->setValue(0);
 
-            $replace = new ilRadioOption($this->lng->txt('replace_file'), 1);
-            $replace->setInfo($this->lng->txt('replace_file_info'));
-            $group->addOption($replace);
+                $replace = new ilRadioOption($this->lng->txt('replace_file'), 1);
+                $replace->setInfo($this->lng->txt('replace_file_info'));
+                $group->addOption($replace);
 
-            $keep = new ilRadioOption($this->lng->txt('file_new_version'), 0);
-            $keep->setInfo($this->lng->txt('file_new_version_info'));
-            $group->addOption($keep);
+                $keep = new ilRadioOption($this->lng->txt('file_new_version'), 0);
+                $keep->setInfo($this->lng->txt('file_new_version_info'));
+                $group->addOption($keep);
 
-            $file->addSubItem($group);
+                $file->addSubItem($group);
+            } elseif ($mode == 'create') {
+                $file = new ilNonEditableValueGUI($this->lng->txt('obj_file'));
+                $file->setValue($this->lng->txt("personal_workspace_quota_exceeded_warning"));
+                $form->addItem($file);
+            }
         } else {
-            $file = new ilNonEditableValueGUI($this->lng->txt('obj_file'));
-            $file->setValue($this->lng->txt("personal_workspace_quota_exceeded_warning"));
-            $form->addItem($file);
+            $o = new ilNonEditableValueGUI($this->lng->txt('upload_info'));
+            $o->setValue($this->lng->txt('upload_info_desc'));
+            $form->addItem($o);
         }
-
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
         $desc->setRows(3);
         #$desc->setCols(40);
@@ -672,31 +683,11 @@ class ilObjFileGUI extends ilObject2GUI
 
 
     /**
-     * file versions/history
-     *
-     * @access    public
+     * @deprecated
      */
-    function versions()
+    public function versions()
     {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->activateTab("id_versions");
-
-        if (!$this->checkPermissionBool("write")) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
-        }
-
-        // get versions
-        $versions = $this->object->getVersions();
-
-        // build versions table
-        require_once("Modules/File/classes/class.ilFileVersionTableGUI.php");
-        $table = new ilFileVersionTableGUI($this, "versions");
-        $table->setMaxCount(sizeof($versions));
-        $table->setData($versions);
-
-        $this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
+        $this->ctrl->redirectByClass(ilFileVersionsGUI::class);
     }
 
 
@@ -864,7 +855,7 @@ class ilObjFileGUI extends ilObject2GUI
         if ($this->checkPermissionBool("write")) {
             $ilTabs->addTab("id_versions",
                 $lng->txt("versions"),
-                $this->ctrl->getLinkTarget($this, "versions"));
+                $this->ctrl->getLinkTargetByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_DEFAULT));
         }
 
         require_once 'Services/Tracking/classes/class.ilLearningProgressAccess.php';
@@ -1227,66 +1218,6 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
 
-    /**
-     * Displays a confirmation screen with selected file versions that should be deleted.
-     */
-    function deleteVersions()
-    {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-        $ilLocator = $DIC['ilLocator'];
-
-        // get ids either from GET (if single item was clicked) or
-        // from POST (if multiple items were selected)
-        $request = $DIC->http()->request();
-
-        $version_ids = [];
-        if (isset($request->getQueryParams()['hist_id'])) {
-            $version_ids = [$request->getQueryParams()['hist_id']];
-        } elseif (isset($request->getParsedBody()['hist_id'])) {
-            $version_ids = (array) $request->getParsedBody()['hist_id'];
-        }
-
-        if (count($version_ids) < 1) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "versions");
-        } else {
-            $ilTabs->activateTab("id_versions");
-
-            // check if all versions are selected
-            $versionsToKeep = array_udiff($this->object->getVersions(), $version_ids, array($this, "compareHistoryIds"));
-            if (count($versionsToKeep) < 1) {
-                // set our message
-                ilUtil::sendQuestion($this->lng->txt("file_confirm_delete_all_versions"));
-
-                // show confirmation gui
-                include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-                $conf_gui = new ilConfirmationGUI();
-                $conf_gui->setFormAction($this->ctrl->getFormAction($this, "versions"));
-                $conf_gui->setCancel($this->lng->txt("cancel"), "cancelDeleteFile");
-                $conf_gui->setConfirm($this->lng->txt("confirm"), "confirmDeleteFile");
-
-                $conf_gui->addItem("id[]", $this->ref_id, $this->object->getTitle(),
-                    ilObject::_getIcon($this->object->getId(), "small", $this->object->getType()),
-                    $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->object->getType()));
-
-                $html = $conf_gui->getHTML();
-            } else {
-                include_once("./Modules/File/classes/class.ilFileVersionTableGUI.php");
-
-                ilUtil::sendQuestion($this->lng->txt("file_confirm_delete_versions"));
-                $versions = $this->object->getVersions($version_ids);
-
-                $table = new ilFileVersionTableGUI($this, 'versions', true);
-                $table->setMaxCount(sizeof($versions));
-                $table->setData($versions);
-
-                $html = $table->getHTML();
-            }
-
-            $this->tpl->setVariable('ADM_CONTENT', $html);
-        }
-    }
 
 
     /**
@@ -1313,13 +1244,6 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
 
-    /**
-     * Cancels the file version deletion.
-     */
-    function cancelDeleteVersions()
-    {
-        $this->ctrl->redirect($this, "versions");
-    }
 
 
     /**
@@ -1343,74 +1267,7 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
 
-    /**
-     * Cancels the file deletion.
-     */
-    function cancelDeleteFile()
-    {
-        $this->ctrl->redirect($this, "versions");
-    }
 
-
-    /**
-     * Compares two versions either by passing a history entry or an id.
-     *
-     * @param $v1 The first version to compare.
-     * @param $v2 The second version to compare.
-     *
-     * @return
-     */
-    function compareHistoryIds($v1, $v2)
-    {
-        if (is_array($v1)) {
-            $v1 = (int) $v1["hist_entry_id"];
-        } else {
-            if (!is_int($v1)) {
-                $v1 = (int) $v1;
-            }
-        }
-
-        if (is_array($v2)) {
-            $v2 = (int) $v2["hist_entry_id"];
-        } else {
-            if (!is_int($v2)) {
-                $v2 = (int) $v2;
-            }
-        }
-
-        return $v1 - $v2;
-    }
-
-
-    /**
-     * Performs a rollback with the selected file version.
-     */
-    function rollbackVersion()
-    {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        // has the user the rights to delete the file?
-        if (!$this->checkPermissionBool("write")) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
-        }
-
-        // get ids either from GET (if single item was clicked) or
-        // from POST (if multiple items were selected)
-        $version_ids = isset($_GET["hist_id"]) ? array($_GET["hist_id"]) : $_POST["hist_id"];
-
-        // more than one entry selected?
-        if (count($version_ids) != 1) {
-            ilUtil::sendInfo($this->lng->txt("file_rollback_select_exact_one"), true);
-            $this->ctrl->redirect($this, "versions");
-        }
-
-        // rollback the version
-        $new_version = $this->object->rollback($version_ids[0]);
-
-        ilUtil::sendSuccess(sprintf($this->lng->txt("file_rollback_done"), $new_version["rollback_version"]), true);
-        $this->ctrl->redirect($this, "versions");
-    }
 
 
     protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)

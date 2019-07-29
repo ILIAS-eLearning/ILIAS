@@ -24,13 +24,13 @@ class ilFileVersionTableGUI extends ilTable2GUI
 
 
     /**
-     * Creates a new ilFileVersionTableGUI instance.
+     * ilFileVersionTableGUI constructor.
      *
-     * @param ilObjFileGUI $a_parent_obj The parent object.
-     * @param string       $a_parent_cmd The parent command.
-     * @param int          $a_file_id    The id of the file object
+     * @param ilFileVersionsGUI $a_parent_obj
+     * @param                   $a_parent_cmd
+     * @param bool              $confirmDelete
      */
-    function __construct($a_parent_obj, $a_parent_cmd, $confirmDelete = false)
+    public function __construct(ilFileVersionsGUI $a_parent_obj, $a_parent_cmd, $confirmDelete = false)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -49,7 +49,7 @@ class ilFileVersionTableGUI extends ilTable2GUI
         $this->setPrefix("versions");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setEnableHeader(true);
-        $this->disable("footer");
+
 
         // properties depending on confirmation
         if (!$this->confirmDelete) {
@@ -58,7 +58,7 @@ class ilFileVersionTableGUI extends ilTable2GUI
         }
 
         // columns
-        if (!$this->confirmDelete) {
+        if (!$this->confirmDelete) {$this->disable("footer");
             $this->addColumn("", "", "1", true);
         }
 
