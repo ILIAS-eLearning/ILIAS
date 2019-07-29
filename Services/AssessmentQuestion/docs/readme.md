@@ -220,6 +220,11 @@ _$asqPlayService->getUserScore(UserAnswerUuid)_ returns the score in form of an 
 The consumer specific settings like _For Each Questions Negative Points are set to '0 Points'_ are not considered here. This is a matter for the consumer. 
 
 For using this Service a valid already deposited AnswerUUID has to be provided.
+
+```
+$asqPlayService->getUserScore(
+        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
+    );
 ```
 
 ### Get a standalone question for export
