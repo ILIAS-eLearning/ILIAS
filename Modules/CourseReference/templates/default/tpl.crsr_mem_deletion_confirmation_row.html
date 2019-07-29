@@ -5,9 +5,15 @@
 	</td>
 	<td class="std">
 		{VAL_LOGIN}
-		<!-- END reference_info -->
 		<!-- BEGIN reference_path -->
-		<br /><input type="checkbox" name="{CHECK_USER_NAME}" value="{CHECK_USER_VAL}" />{REF_PATH}
+		<div>
+			<input type="checkbox" name="{CHECK_USER_NAME}" value="{CHECK_USER_VAL}" /><div style="display: inline-block">{REF_PATH}</div>
+		</div>
 		<!-- END reference_path -->
+		<!-- BEGIN reference_select -->
+		<div>
+			<input type="checkbox" id="call_{RUID}_{RFORM_ID}" onclick="il.Util.setChecked('{RFORM_ID}','refs[{RUID}]',this.checked)" />&nbsp;<label for="call_{RUID}_{RFORM_ID}">{SEL_ALL}</label>
+		</div>
+		<!-- END reference_select -->
 	</td>
 </tr>

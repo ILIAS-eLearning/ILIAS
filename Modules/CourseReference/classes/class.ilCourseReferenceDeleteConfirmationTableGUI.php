@@ -63,6 +63,7 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
 
 		$this->disable('sort');
 		$this->setShowRowsSelector(false);
+		$this->setSelectAllCheckbox('refs');
 
 		$this->addColumn($this->lng->txt('type'),'type', '50px');
 		$this->addColumn($this->lng->txt('title'),'title');
@@ -109,6 +110,15 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('CHECK_USER_NAME','refs['.$row['id'].']['.$course_ref_id.']');
 			$this->tpl->setVariable('CHECK_USER_VAL',1);
 			$this->tpl->setVariable('REF_PATH', $path->getPath(ROOT_FOLDER_ID, $course_ref_id));
+			$this->tpl->parseCurrentBlock();
+		}
+
+
+		if(count($linked_course_assignments)) {
+			$this->tpl->setCurrentBlock('reference_select');
+			$this->tpl->setVariable('RUID', $row['id']);
+			$this->tpl->setVariable('RFORM_ID', $this->formname);
+			$this->tpl->setVariable('SEL_ALL' , $this->lng->txt('select_all'));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
