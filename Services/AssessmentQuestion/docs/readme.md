@@ -171,13 +171,13 @@ $asqPlayService->GetQuestionPresentation(
 ```
 
 ### Submit a user answer
-A new user's answer to a question is saved as follows.
+A new user's answer to a question is saved with _$asqPlayService->CreateUserAnswer([...])_. This saves an answer given by a user. You must provide a predefined UUID - user_answer_uuid - for this step. In addition to the QuestionUUID and the RevisionUUID, you must also send the value of _user_answer_ of the $_POST. CreateUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
 ```
 $asqPlayService->CreateUserAnswer(
     new UserAnswerSubmitContract(
             $DIC->assessment()->consumer()->NewUserAnswerUuid(),
-            $DIC->assessment()->consumer()->questionUuid('a_valid_uquestion_uuid'),
-            $DIC->assessment()->consumer()->revisionUuid('a_valid_urevision_uuid'),
+            $DIC->assessment()->consumer()->questionUuid('a_valid_question_uuid'),
+            $DIC->assessment()->consumer()->revisionUuid('a_valid_revision_uuid'),
             $user_id,
             json_encode(
                 new PostDataFromServerRequest($request)->get('user_answer')
@@ -185,7 +185,7 @@ $asqPlayService->CreateUserAnswer(
     )
 );
 ```
-If you like to update a previously submited answer you can do that as follows:
+If you like to update a previously submited answer you can do that with _$asqPlayService->UpdateUserAnswer_ This updates a previous given answer of a user. Therefore a valid already deposited AnswerUUID has to be provided. UpdateUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
 ```
 $asqPlayService->UpdateUserAnswer(
     new UserAnswerSubmitContract(
@@ -215,10 +215,11 @@ $asqPlayService->getGenericFeedbackOutput(
 ```
 
 ### User Score
-```
-$asqPlayService->getUserScore(
-        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
-    );
+_$asqPlayService->getUserScore(UserAnswerUuid)_ returns the score in form of an object ([UserAnswerScoringContract](../PublicApi/Contracts/UserAnswerScoringContract.php) for the given answer from the point of view of the question service. 
+
+The consumer specific settings like _For Each Questions Negative Points are set to '0 Points'_ are not considered here. This is a matter for the consumer. 
+
+For using this Service a valid already deposited AnswerUUID has to be provided.
 ```
 
 ### Get a standalone question for export

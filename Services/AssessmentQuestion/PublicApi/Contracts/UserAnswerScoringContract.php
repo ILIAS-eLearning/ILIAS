@@ -21,12 +21,18 @@ interface UserAnswerScoringContract {
 	/**
 	 * @return QuestionIdContract
 	 */
-	public function getQuestionUuid(): QuestionIdContract;
+	public function getQuestionId(): QuestionIdContract;
+
+
+	/**
+	 * @return RevisionIdContract
+	 */
+	public function getRevisioId(): RevisionIdContract;
 
 	/**
 	 * @return UserAnswerIdContract
 	 */
-	public function getUserAnswerUuid(): UserAnswerIdContract;
+	public function getUserAnswerId(): UserAnswerIdContract;
 
 
 	/**
