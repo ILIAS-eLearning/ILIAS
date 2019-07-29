@@ -19,6 +19,8 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 class ilObjFileGUI extends ilObject2GUI
 {
 
+    const CMD_EDIT = "edit";
+    const CMD_VERSIONS = "versions";
     /**
      * @var \ilObjFile
      */
@@ -482,39 +484,8 @@ class ilObjFileGUI extends ilObject2GUI
             return false;
         }
 
-        $data = $form->getInput('file');
-
-        // delete trailing '/' in filename
-        $data["name"] = rtrim($data["name"], '/');
-
-        $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
         $title = $form->getInput('title');
-        if (strlen(trim($title)) == 0) {
-            $title = $filename;
-        } else {
-            $title = $this->object->checkFileExtension($filename, $title);
-        }
         $this->object->setTitle($title);
-
-        if (!empty($data["name"])) {
-            $result = null;
-            switch ($form->getInput('replace')) {
-                case 1:
-                    $this->object->deleteVersions();
-                    $this->object->clearDataDirectory();
-                    $result = $this->object->replaceFile($data['tmp_name'], $data['name']);
-                    break;
-                case 0:
-                    $result = $this->object->addFileVersion($data['tmp_name'], $data['name']);
-                    break;
-            }
-            if ($result) {
-                $this->object->setFileType($result->getMimeType());
-                $this->object->setFileSize($result->getSize());
-                $this->object->setFilename($result->getName());
-            }
-        }
-
         $this->object->setDescription($form->getInput('description'));
         $this->object->setRating($form->getInput('rating'));
 
@@ -522,7 +493,6 @@ class ilObjFileGUI extends ilObject2GUI
 
         // BEGIN ChangeEvent: Record update event.
         if (!empty($data["name"])) {
-            require_once('Services/Tracking/classes/class.ilChangeEvent.php');
             global $DIC;
             $ilUser = $DIC['ilUser'];
             ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
@@ -531,12 +501,11 @@ class ilObjFileGUI extends ilObject2GUI
         // END ChangeEvent: Record update event.
 
         // Update ecs export settings
-        include_once 'Modules/File/classes/class.ilECSFileSettings.php';
         $ecs = new ilECSFileSettings($this->object);
         $ecs->handleSettingsUpdate();
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, 'versions', '', false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, self::CMD_EDIT, '', false, false));
     }
 
 
@@ -557,7 +526,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         $ilTabs->activateTab("settings");
 
-        $form = $this->initPropertiesForm('edit');
+        $form = $this->initPropertiesForm(self::CMD_EDIT);
 
         $val = array();
         $val['title'] = $this->object->getTitle();
@@ -632,7 +601,6 @@ class ilObjFileGUI extends ilObject2GUI
         }
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
         $desc->setRows(3);
-        #$desc->setCols(40);
         $form->addItem($desc);
 
         if ($this->id_type == self::REPOSITORY_NODE_ID) {
@@ -842,7 +810,7 @@ class ilObjFileGUI extends ilObject2GUI
 
         if ($this->checkPermissionBool("write")) {
             $ilTabs->addTab("id_versions",
-                $lng->txt("versions"),
+                $lng->txt(self::CMD_VERSIONS),
                 $this->ctrl->getLinkTargetByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_DEFAULT));
         }
 
@@ -855,7 +823,7 @@ class ilObjFileGUI extends ilObject2GUI
         if ($this->checkPermissionBool("write")) {
             $ilTabs->addTab("settings",
                 $lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "edit"));
+                $this->ctrl->getLinkTarget($this, self::CMD_EDIT));
         }
 
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
@@ -1236,7 +1204,7 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $this->ctrl->setParameter($this, "hist_id", "");
-        $this->ctrl->redirect($this, "versions");
+        $this->ctrl->redirect($this, self::CMD_VERSIONS);
     }
 
 

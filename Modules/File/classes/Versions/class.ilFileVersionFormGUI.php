@@ -163,6 +163,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
     {
         $values = [];
         $values[self::F_TITLE] = $this->file->getTitle();
+        $values[self::F_DESCRIPTION] = $this->file->getDescription();
 
         $this->setValuesByArray($values);
     }
