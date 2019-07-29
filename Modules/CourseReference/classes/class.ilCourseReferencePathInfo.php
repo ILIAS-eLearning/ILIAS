@@ -114,7 +114,7 @@ class ilCourseReferencePathInfo
 			if(!$path_info->checkManagmentAccess()) {
 				continue;
 			}
-			$part = ilParticipants::getInstance($path_info->getParentCourseRefId());
+			$part = ilParticipants::getInstance($path_info->getTargetId());
 			foreach($participants as $part_id)
 			{
 				if($part->isMember($part_id)) {
