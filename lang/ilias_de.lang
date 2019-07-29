@@ -8541,6 +8541,8 @@ file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arb
 file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Speicherplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um Platz für neue Dateien zu schaffen.
 file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
+file#:#upload_info#:#Datei
+file#:#upload_info_desc#:#Verwlaten von Dateien und Versionen im Tab "Versionen"
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
 file#:#repository_disk_quota_info#:#Wenn aktiviert, werden für alle Benutzer die Disk-Quota im Magazin geprüft und optional E-Mails an Administratoren und Benutzer versendet.
 fm#:#fm_settings_active#:#Dateimanager aktivieren

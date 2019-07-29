@@ -143,12 +143,16 @@ class ilFileVersionsGUI
         $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT));
 
         $form = new ilFileVersionFormGUI($this, $mode);
+        $form->fillForm();
         $this->tpl->setContent($form->getHTML());
     }
 
 
     /**
      * @param int $mode
+     *
+     * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
     private function saveVersion($mode = ilFileVersionFormGUI::MODE_ADD)
     {

@@ -5245,7 +5245,7 @@ file#:#file_new_version_info#:#Create new file version. Previous versions will n
 file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#upload_info#:#Upload
-file#:#upload_info_desc#:#Manage Uploads and Version in Tab "Versions"
+file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
