@@ -86,7 +86,7 @@ class PlayService implements PlayServiceContract {
 	 * @param UserAnswerSubmitContract $user_answer
 	 * @return int
 	 */
-	public function CreateUserAnswer(UserAnswerSubmitContract $user_answer): int {
+	public function CreateUserAnswer(UserAnswerSubmitContract $user_answer): void {
 		// TODO: Implement SaveUserAnswer() method.
 	}
 
@@ -94,7 +94,7 @@ class PlayService implements PlayServiceContract {
 	 * @param UserAnswerSubmitContract $user_answer
 	 * @return int
 	 */
-	public function UpdateUserAnswer(UserAnswerSubmitContract $user_answer): int {
+	public function UpdateUserAnswer(UserAnswerSubmitContract $user_answer): void {
 		// TODO: Implement SaveUserAnswer() method.
 	}
 	

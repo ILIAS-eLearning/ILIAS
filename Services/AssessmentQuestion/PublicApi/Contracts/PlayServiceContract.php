@@ -59,7 +59,7 @@ interface PlayServiceContract {
 	 * @throws UserGivesAnAnswerToAnOtherRevisionThanTheContainerHasInitiatedException
 	 * @throws UserGivesAnAnswerToAnOtherQuestionThanTheContainerHasInitiatedException
 	 */
-	public function CreateUserAnswer(UserAnswerSubmitContract $user_answer);
+	public function CreateUserAnswer(UserAnswerSubmitContract $user_answer):void;
 
 	/**
 	 * @param UserAnswerSubmitContract $user_answer
@@ -67,7 +67,7 @@ interface PlayServiceContract {
 	 * @throws UserGivesAnAnswerToAnOtherRevisionThanTheContainerHasInitiatedException
 	 * @throws UserGivesAnAnswerToAnOtherQuestionThanTheContainerHasInitiatedException
 	 */
-	public function UpdateUserAnswer(UserAnswerSubmitContract $user_answer);
+	public function UpdateUserAnswer(UserAnswerSubmitContract $user_answer):void;
 	
 	/**
 	 * @param UserAnswerIdContract $userAnswerUuid

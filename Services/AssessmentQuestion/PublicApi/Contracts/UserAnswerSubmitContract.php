@@ -2,12 +2,10 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
-use ILIAS\Services\AssessmentQuestion\PublicApi\RevisionId;
 use JsonSerializable;
 
 /**
- * Interface UserAnswerDTOContract
+ * Interface UserAnswerSubmitContract
  * @package ILIAS\Services\AssessmentQuestion\PublicApi\Contracts
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
