@@ -692,7 +692,10 @@ class ilMembershipGUI
 			}
 		}
 
-		if(ilCourseReferencePathInfo::isReferenceMemberUpdateConfirmationRequired($this->repository_object->getRefId())) {
+		if(ilCourseReferencePathInfo::isReferenceMemberUpdateConfirmationRequired(
+			$this->repository_object->getRefId(),
+			$participants
+		)) {
 			return $this->showDeleteParticipantsConfirmationWithLinkedCourses($participants);
 		}
 
