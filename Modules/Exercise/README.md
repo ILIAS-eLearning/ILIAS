@@ -50,11 +50,10 @@ This section documents the general concepts and structures of the Exercise Modul
 
 * Code: `Modules/Exercise/AssMemberState`
 
-
 Handles everything about the state (current phase) of a user in an assignment using assignment, individual deadline, user and team information.
 
-* **Absolute Deadlines**: GS <-> DL - GPD - ID
-* **Relative Deadlines**: GS - IS <-> CaD - ID
+* **Absolute Deadlines**: Assignments with absolute deadlines share the same starting time for submissions for all learners (**GS**). Submission end depends on the (absolute) deadline (**DL**) the optional grace period end date (**GPD**) and optional individual deadlines (**ID**). All these dates are absolute.
+* **Relative Deadlines**: For assignments with relative deadlines the length of the submission is predefined (**RD**), but the start can be set by the learning individually (**IS**). These two values are used to calculate the end of the submission phase (**CaD**), which may further be modified by an individual (absolute) deadline by the tutor (**ID**).
 
 * **GS**  **General Start**: As entered in settings. For absolute deadlines, this also starts the submission, for relative deadline this allows the user to start the submission period. (0 = immediately)
 * **IS**  **Individual Start**: TS when user hits "Start" button for an assignment using a relative deadline
