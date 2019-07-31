@@ -312,7 +312,9 @@
 					e.preventDefault();
 					e.stopPropagation();
 
-					messageField.popover('show');
+					emoticonPanel.data('emoticons').preload().then(function() {
+						messageField.popover('show');
+					});
 				}).on('clickoutside', function(e) {
 					e.preventDefault();
 					e.stopPropagation();
@@ -1209,6 +1211,22 @@
 		let emoticonMap = {};
 
 		/**
+		 * 
+		 * @param {string} src
+		 * @returns {Promise<unknown>}
+		 */
+		let Img = function(src) {
+			return new Promise((resolve, reject) => {
+				let img = new Image();
+				img.addEventListener('load', e => resolve(src));
+				img.addEventListener('error', () => {
+					reject(new Error("Failed to load image's URL: " + src));
+				});
+				img.src = src;
+			});
+		};
+
+		/**
 		 * Sets smileys into text
 		 *
 		 * @param {string} message
@@ -1219,7 +1237,7 @@
 				return message;
 			}
 
-			for (var i in _smileys) {
+			for (let i in _smileys) {
 				while (message.indexOf(i) !== -1) {
 					message = message.replace(i, '<img src="' + _smileys[i] + '" />');
 				}
@@ -1228,15 +1246,30 @@
 			return message;
 		};
 
-		this.getContent = function() {
-			let emoticonCollection = [];
+		/**
+		 * 
+		 * @returns {Promise<unknown[]>}
+		 */
+		this.preload = function () {
+			return Promise.all(Object.keys(emoticonMap).map(function (key) {
+				return Img(emoticonMap[key].attr('data-src'));
+			}));
+		}
+
+		this.getContent = function () {
+			let emoticonCollection = []
+
 			for (let i in emoticonMap) {
-				emoticonMap[i].attr("src", emoticonMap[i].attr("data-src"));
-				emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html());
+				if (!emoticonMap.hasOwnProperty(i)) {
+					return
+				}
+
+				emoticonMap[i].attr('src', emoticonMap[i].attr('data-src'));
+				emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html())
 			}
 
-			return emoticonCollection.join('');
-		};
+			return emoticonCollection.join('')
+		}
 
 		this.getTriggerHtml = function() {
 			if (typeof _smileys !== "object" || _smileys.length === 0) {
