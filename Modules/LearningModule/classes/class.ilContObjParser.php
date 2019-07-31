@@ -46,7 +46,7 @@ class ilContObjParser extends ilMDSaxParser
 	var $lm_tree;
 	var $pg_into_tree;
 	var $st_into_tree;
-	var $container;
+	var $container = [];
 	var $in_page_object;	// are we currently within a PageObject? true/false
 	var $in_meta_data;		// are we currently within MetaData? true/false
 	var $in_media_object;
