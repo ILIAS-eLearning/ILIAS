@@ -84,7 +84,6 @@ class ilLMTracker
 			$this->lm_obj_id = ilObject::_lookupObjId($a_id);
 		}
 
-		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
 		$this->lm_tree = ilLMTree::getInstance($this->lm_obj_id);
 	}
 
@@ -160,12 +159,10 @@ class ilLMTracker
 
 		// #9483
 		// general learning module lp tracking
-		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 		ilLearningProgress::_tracProgress($this->user_id, $this->lm_obj_id,
 			$this->lm_ref_id, "lm");
 
 		// obsolete?
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_updateStatus($this->lm_obj_id, $this->user_id);
 
 		// mark currently loaded data as dirty to force reload if necessary
@@ -247,7 +244,6 @@ class ilLMTracker
 		$res = $ilDB->fetchAssoc($set);
 		if($res["obj_id"])
 		{
-			include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
 			$valid_timespan = ilObjUserTracking::_getValidTimeSpan();
 
 			$pg_ts = new ilDateTime($res["timestamp"], IL_CAL_DATETIME);
@@ -376,7 +372,6 @@ class ilLMTracker
 		}
 
 		// load all lm obj ids of learning module
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		$this->lm_obj_ids = ilLMObject::_getAllLMObjectsOfLM($this->lm_obj_id);
 
 		// load read event data
@@ -392,7 +387,6 @@ class ilLMTracker
 		// load question/pages information
 		$this->page_questions = array();
 		$this->all_questions = array();
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		$q = ilLMPageObject::queryQuestionsOfLearningModule($this->lm_obj_id, "", "", 0, 0);
 		foreach ($q["set"] as $quest)
 		{
@@ -401,7 +395,6 @@ class ilLMTracker
 		}
 
 		// load question answer information
-		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
 		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $this->user_id);
 
 		$this->has_incorrect_answers = false;
@@ -639,7 +632,6 @@ class ilLMTracker
 		$this->page_questions = array();
 		$this->all_questions = array();
 		$page_for_question = array();
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		$q = ilLMPageObject::queryQuestionsOfLearningModule($this->lm_obj_id, "", "", 0, 0);
 		foreach ($q["set"] as $quest)
 		{
@@ -648,7 +640,6 @@ class ilLMTracker
 			$page_for_question[$quest["question_id"]] = $quest["page_id"];
 		}
 		// get question information
-		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
 		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
 		$qlist->setParentObjId(0);
 		$qlist->setJoinObjectData(false);
@@ -657,9 +648,7 @@ class ilLMTracker
 		$qdata = $qlist->getQuestionDataArray();
 
 		// load question answer information
-		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
 		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions);
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		foreach ($this->answer_status as $as)
 		{
 			if ($as["try"] >= $qdata[$as["qst_id"]]["nr_of_tries"] && $qdata[$as["qst_id"]]["nr_of_tries"] > 0 && !$as["passed"])
@@ -685,8 +674,6 @@ class ilLMTracker
 	 */
 	static function _isNodeVisible($a_node)
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-
 		if ($a_node["type"] != "pg")
 		{
 			return true;

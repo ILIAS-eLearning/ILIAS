@@ -1,8 +1,7 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
  * TableGUI class for lm short titles
@@ -49,7 +48,6 @@ class ilLMEditShortTitlesTableGUI extends ilTable2GUI
 		$this->setId("lm_short_title");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		$this->setData(ilLMObject::getShortTitles($this->lm->getId(), $this->lang));
 		$this->setTitle($this->lng->txt("cont_short_titles"));
 		

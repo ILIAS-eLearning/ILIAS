@@ -167,8 +167,6 @@ class ilLMEditorGUI
 		switch($next_class)
 		{
 			case "ilobjlearningmodulegui":
-				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php");
 				$this->main_header($this->lm_obj->getType());
 				$lm_gui = new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 
@@ -203,7 +201,6 @@ class ilLMEditorGUI
 	{
 		$tpl = $this->tpl;
 
-		include_once("./Modules/LearningModule/classes/class.ilLMEditorExplorerGUI.php");
 		$exp = new ilLMEditorExplorerGUI($this, "showTree", $this->lm_obj);
 		if (!$exp->handleCommand())
 		{

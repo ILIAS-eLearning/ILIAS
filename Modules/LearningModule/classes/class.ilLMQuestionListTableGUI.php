@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-
 /**
  * Question list table
  *
@@ -90,8 +86,6 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
 
 		$this->determineOffsetAndOrder();
 
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-
 		$questions = ilLMPageObject::queryQuestionsOfLearningModule(
 			$this->lm->getId(),
 			ilUtil::stripSlashes($this->getOrderField()),
@@ -130,7 +124,6 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION",
 			assQuestion::_getQuestionText($a_set["question_id"]));
 
-		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
 		$stats = ilPageQuestionProcessor::getQuestionStatistics($a_set["question_id"]);
 
 		$this->tpl->setVariable("VAL_ANSWERED", (int) $stats["all"]);

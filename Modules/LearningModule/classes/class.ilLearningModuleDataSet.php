@@ -1,7 +1,7 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
  * LearningModule Data set class
@@ -309,7 +309,6 @@ class ilLearningModuleDataSet extends ilDataSet
 					while ($rec  = $ilDB->fetchAssoc($set))
 					{
 						// comments activated?
-						include_once("./Services/Notes/classes/class.ilNote.php");
 						$rec["comments"] = ilNote::commentsActivated($rec["id"], 0, "lm");
 
 						if ($this->getMasterLanguageOnly())
@@ -474,7 +473,6 @@ class ilLearningModuleDataSet extends ilDataSet
 					return;
 				}
 				
-				include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
 				{
 					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
@@ -523,7 +521,6 @@ class ilLearningModuleDataSet extends ilDataSet
 				$this->current_obj = $newObj;
 
 				// activated comments
-				include_once("./Services/Notes/classes/class.ilNote.php");
 				ilNote::activateComments($newObj->getId(), 0, "lm", (int) $a_rec["Comments"]);
 
 				$a_mapping->addMapping("Modules/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
@@ -536,9 +533,6 @@ class ilLearningModuleDataSet extends ilDataSet
 			case "lm_tree":
 				if (!$this->getTranslationImportMode())
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-					include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-					include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 					switch ($a_rec["Type"])
 					{
 						case "st":
@@ -599,7 +593,6 @@ class ilLearningModuleDataSet extends ilDataSet
 				}
 				else
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 					switch ($a_rec["Type"])
 					{
 						case "st":
@@ -652,7 +645,6 @@ class ilLearningModuleDataSet extends ilDataSet
 				break;
 
 			case "lm_data_transl":
-				include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 				if (!$this->getTranslationImportMode())
 				{
 					// save page/chapter title translation

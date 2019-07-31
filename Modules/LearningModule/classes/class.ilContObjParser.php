@@ -1,24 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-require_once("./Services/COPage/classes/class.ilPageObject.php");
-require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
-require_once("./Services/COPage/classes/class.ilPCParagraph.php");
-require_once("./Services/COPage/classes/class.ilPCTable.php");
-require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-require_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
-require_once("./Services/MediaObjects/classes/class.ilMapArea.php");
-require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
-require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-require_once("./Services/Link/classes/class.ilInternalLink.php");
-require_once("./Modules/File/classes/class.ilObjFile.php");
-
-include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
-include_once("Services/MetaData/classes/class.ilMD.php");
 
 /**
 * Content Object Parser
@@ -247,7 +229,6 @@ class ilContObjParser extends ilMDSaxParser
 					switch ($this->content_object->getType())
 					{
 						case "lm":
-							include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 							$page_obj = new ilLMPage($page_arr[1]);
 							break;
 							
@@ -258,7 +239,6 @@ class ilContObjParser extends ilMDSaxParser
 					break;
 
 				case "gdf":
-					include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 					$page_obj = new ilGlossaryDefPage($page_arr[1]);
 					break;
 
@@ -317,7 +297,6 @@ class ilContObjParser extends ilMDSaxParser
 				{
 					if (ilPageObject::_exists($type_arr[0],$source["id"]))
 					{
-						include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 						$page_object = ilPageObjectFactory::getInstance($type_arr[0], $source["id"]);
 						$page_object->buildDom();
 						$page_object->resolveIntLinks();
@@ -329,13 +308,11 @@ class ilContObjParser extends ilMDSaxParser
 				// eventually correct links in questions to learning modules
 				if ($type_arr[0] == "qst")
 				{
-					require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 					assQuestion::_resolveIntLinks($source["id"]);
 				}
 				// eventually correct links in survey questions to learning modules
 				if ($type_arr[0] == "sqst")
 				{
-					require_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 					SurveyQuestion::_resolveIntLinks($source["id"]);
 				}
 				$done[$key] = $key;
@@ -403,7 +380,6 @@ class ilContObjParser extends ilMDSaxParser
 			$obj_dir = $origin_id;
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
 			
-			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$file_obj = new ilObjFile($file_id, false);
 			//$target_dir = ilUtil::getDataDir()."/files/file_".$file_id;
 			$target_dir = $file_obj->getDirectory();
@@ -553,7 +529,6 @@ class ilContObjParser extends ilMDSaxParser
 				if (($this->coType != "tst") and ($this->coType != "qpl"))
 				{
 					$this->lm_page_object = new ilLMPageObject($this->content_object);
-					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$this->page_object = new ilLMPage();
 					$this->lm_page_object->setLMId($this->content_object->getId());
 					$this->lm_page_object->assignPageObject($this->page_object);
@@ -561,7 +536,6 @@ class ilContObjParser extends ilMDSaxParser
 				}
 				else
 				{
-					include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
 					$this->page_object = new ilAssQuestionPage();
 				}
 				break;
@@ -576,7 +550,7 @@ class ilContObjParser extends ilMDSaxParser
 
 			case "MediaObject":
 				$this->in_media_object = true;
-case "InteractiveImage":
+			case "InteractiveImage":
 
 				$this->media_meta_start = true;
 				$this->media_meta_cache = array();
@@ -657,7 +631,6 @@ case "InteractiveImage":
 			case "Definition":
 				$this->in_glossary_definition = true;
 				$this->glossary_definition = new ilGlossaryDefinition();
-				include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 				$this->page_object = new ilGlossaryDefPage();
 				$this->page_object->setParentId($this->glossary_term->getGlossaryId());
 				$this->glossary_definition->setTermId($this->glossary_term->getId());
@@ -1157,7 +1130,6 @@ case "InteractiveImage":
 						if ($ids["pool"] > 0)
 						{
 							// question pool question
-							include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
 							$page = new ilAssQuestionPage($ids["pool"]);
 							$xmlcontent = str_replace($this->cur_qid,
 								"il__qst_".$ids["pool"], $xml);
@@ -1172,7 +1144,6 @@ case "InteractiveImage":
 						if ($ids["test"] > 0)
 						{
 							// test question
-							include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php");
 							$page = new ilAssQuestionPage($ids["test"]);
 							$xmlcontent = str_replace($this->cur_qid, 
 								"il__qst_".$ids["test"], $xml);
