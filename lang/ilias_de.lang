@@ -6256,7 +6256,7 @@ file#:#file_uploaded_by#:#Hochgeladen von
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 common#:#page_count#:#Anzahl Seiten
 file#:#upload_info#:#Datei
-file#:#upload_info_desc#:#Verwlaten von Dateien und Versionen im Tab "Versionen"
+file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 fold#:#fold_import#:#Ordner importieren
 form#:#form_alphabet_all#:#Alle
 form#:#form_days#:#Tage
