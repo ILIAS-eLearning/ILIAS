@@ -340,7 +340,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				{
 					if ($objDefinition->isPlugin($t))
 					{
-						$pl = ilObjectPlugin::getRepoPluginObjectByType($t);
+						$pl = ilObjectPlugin::getPluginObjectByType($t);
 						$ts[$t] = $pl->txt("obj_".$t);
 					}
 					else

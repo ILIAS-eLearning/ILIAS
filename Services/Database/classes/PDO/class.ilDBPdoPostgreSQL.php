@@ -61,6 +61,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	protected function getAdditionalAttributes() {
 		return array(
 			PDO::ATTR_EMULATE_PREPARES => true,
+            PDO::ATTR_STRINGIFY_FETCHES => true,
 		);
 	}
 

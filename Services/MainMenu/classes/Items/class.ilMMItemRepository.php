@@ -71,9 +71,10 @@ class ilMMItemRepository
             }
 
             $this->storage->db()->manipulate(
-                "DELETE il_mm_items FROM il_mm_items 
-  						LEFT JOIN il_gs_identifications  ON il_gs_identifications.identification= il_mm_items.identification 
-      					WHERE il_gs_identifications.identification IS NULL"
+                "DELETE FROM il_mm_items 
+  						WHERE EXISTS (SELECT null FROM il_gs_identifications 
+  						              WHERE il_gs_identifications.identification = il_mm_items.identification 
+      					              AND il_gs_identifications.identification IS NULL)"
             );
             $this->synced = true;
         }

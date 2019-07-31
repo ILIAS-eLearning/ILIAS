@@ -710,7 +710,7 @@ class ilContainerRenderer
 			else
 			{
 				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$pl = ilObjectPlugin::getRepoPluginObjectByType($a_type);
+				$pl = ilObjectPlugin::getPluginObjectByType($a_type);
 				$title= $pl->txt("objs_".$a_type);
 			}
 		}
