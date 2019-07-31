@@ -278,7 +278,7 @@
 				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
 				conversationWindow
 					.find('[data-onscreenchat-emoticons]')
-					.append(getModule().getEmoticons().getHtml())
+					.append(getModule().getEmoticons().getTriggerHtml())
 					.find('.iosOnScreenChatEmoticonsPanel')
 					.parent()
 					.removeClass('ilNoDisplay');
@@ -304,7 +304,7 @@
 					placement : 'auto',
 					title: il.Language.txt('chat_osc_emoticons'),
 					content: function () {
-						return emoticonPanel.data('emoticons').join(' ');
+						return emoticonPanel.data('emoticons').getContent();
 					}
 				});
 
@@ -1226,14 +1226,7 @@
 	 * @constructor
 	 */
 	var Smileys = function Smileys(_smileys) {
-
-		if (_smileys.length !== 0) {
-			// Fetch them directly to prevent issues with the ILIAS WAC
-			for (var i in _smileys) {
-				var img = new Image();
-				img.src = _smileys[i];
-			}
-		}
+		let emoticonMap = {};
 
 		/**
 		 * Sets smileys into text
@@ -1255,37 +1248,38 @@
 			return message;
 		};
 
-		this.getHtml = function() {
-			if (typeof _smileys === "object") {
-				if (_smileys.length === 0) {
-					return $("");
-				}
-
-				var emoticonMap = {}, emoticonCollection = [];
-
-				for (var i in _smileys) {
-					var prop = _smileys[i];
-
-					if (!emoticonMap.hasOwnProperty(prop)) {
-						var $emoticon = $('<img src="' + prop + '" alt="" title="" />')
-							.attr('data-emoticon', i);
-
-						emoticonMap[prop] = $emoticon;
-					}
-
-					emoticonMap[prop].attr({
-						alt:   [emoticonMap[prop].attr('alt').toString(), i].join(' '),
-						title: [emoticonMap[prop].attr('title').toString(), i].join(' ')
-					});
-				}
-
-				for (var i in emoticonMap) {
-					emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html());
-				}
-
-				return $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
-					.data('emoticons', emoticonCollection);
+		this.getContent = function() {
+			let emoticonCollection = [];
+			for (let i in emoticonMap) {
+				emoticonMap[i].attr("src", emoticonMap[i].attr("data-src"));
+				emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html());
 			}
+
+			return emoticonCollection.join('');
+		};
+
+		this.getTriggerHtml = function() {
+			if (typeof _smileys !== "object" || _smileys.length === 0) {
+				return $("");
+			}
+
+			for (let i in _smileys) {
+				let prop = _smileys[i];
+
+				if (!emoticonMap.hasOwnProperty(prop)) {
+					emoticonMap[prop] = $('<img src="#" alt="" title="" />')
+						.attr('data-emoticon', i)
+						.attr('data-src', prop);
+				}
+
+				emoticonMap[prop].attr({
+					alt:   [emoticonMap[prop].attr('alt').toString(), i].join(' '),
+					title: [emoticonMap[prop].attr('title').toString(), i].join(' ')
+				});
+			}
+
+			return $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
+				.data('emoticons', this);
 		};
 	};
 
