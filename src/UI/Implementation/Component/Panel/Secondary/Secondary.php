@@ -31,7 +31,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 	protected $view_controls;
 
 	/**
-	 * @var null \ILIAS\UI\Component\Component
+	 * @var null|\ILIAS\UI\Component\Button\Shy
 	 */
 	protected $footer_component = null;
 
