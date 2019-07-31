@@ -244,15 +244,19 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 			return;
 		}
 
+		$convIdleStateTime =  max(1, (int) (int)$form->getInput('conversation_idle_state_in_minutes'));
+
 		$settings = array(
-			'name'                  => (string)$form->getInput('client_name'),
-			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
-			'enable_osc'            => (boolean)$form->getInput('enable_osc'),
-			'osd_intervall'         => (int)$form->getInput('osd_intervall'),
-			'chat_enabled'          => ((boolean)$form->getInput('chat_enabled')),
-			'enable_smilies'        => (boolean)$form->getInput('enable_smilies'),
+			'name' => (string)$form->getInput('client_name'),
+			'enable_osd' => (boolean)$form->getInput('enable_osd'),
+			'enable_osc' => (boolean)$form->getInput('enable_osc'),
+			'enable_browser_notifications' => (boolean)$form->getInput('enable_browser_notifications'),
+			'conversation_idle_state_in_minutes' => $convIdleStateTime,
+			'osd_intervall' => (int)$form->getInput('osd_intervall'),
+			'chat_enabled' => ((boolean)$form->getInput('chat_enabled')),
+			'enable_smilies' => (boolean)$form->getInput('enable_smilies'),
 			'play_invitation_sound' => (boolean)$form->getInput('play_invitation_sound'),
-			'auth'                  => $form->getInput('auth')
+			'auth' => $form->getInput('auth')
 		);
 
 		if (!$settings['chat_enabled']) {
@@ -265,6 +269,8 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
 		$chatSettings = new ilSetting('chatroom');
 		$chatSettings->set('chat_enabled', $settings['chat_enabled']);
+		$chatSettings->set('enable_browser_notifications', $settings['enable_browser_notifications']);
+		$chatSettings->set('conversation_idle_state_in_minutes', $convIdleStateTime);
 		$chatSettings->set('enable_osc', $settings['enable_osc']);
 		$chatSettings->set('play_invitation_sound', (boolean)$form->getInput('play_invitation_sound'));
 
@@ -283,7 +289,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 	 */
 	public function clientsettings(ilPropertyFormGUI $form = null)
 	{
-		$this->redirectIfNoPermission('read');
+		$this->redirectIfNoPermission(array('visible','read'));
 
 		$this->defaultActions();
 		$this->gui->switchToVisibleMode();

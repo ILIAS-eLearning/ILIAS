@@ -4,9 +4,6 @@
 	<baseclasses>
 		<baseclass name="ilPersonalDesktopGUI" dir="classes" />
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilPDGlobalScreenProvider" />
-	</gsproviders>
 	<objects>
 		<object id="pdts" class_name="PersonalDesktopSettings" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">

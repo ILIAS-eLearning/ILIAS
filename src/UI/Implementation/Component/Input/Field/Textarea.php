@@ -7,8 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
-use ILIAS\Validation\Factory as ValidationFactory;
 
 /**
  * This implements the textarea input.
@@ -24,15 +22,14 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
-		$this->setAdditionalTransformation($transformation_factory->custom(function($v) {
-			return strip_tags($v);
-		}));
+		parent::__construct($data_factory, $refinery, $label, $byline);
+		$this->setAdditionalTransformation(
+			$refinery->string()->stripTags()
+		);
 	}
 
 	/**
@@ -42,9 +39,10 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 	 */
 	public function withMaxLimit($max_limit)
 	{
-		$clone = clone $this;
+		$clone = $this->withAdditionalTransformation(
+			$this->refinery->string()->hasMaxLength($max_limit)
+		);
 		$clone->max_limit = $max_limit;
-		$clone->setAdditionalConstraint($this->validation_factory->hasMaxLength($max_limit));
 		return $clone;
 	}
 
@@ -64,9 +62,10 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 	 */
 	public function withMinLimit($min_limit)
 	{
-		$clone = clone $this;
+		$clone = $this->withAdditionalTransformation(
+			$this->refinery->string()->hasMinLength($min_limit)
+		);
 		$clone->min_limit = $min_limit;
-		$clone->setAdditionalConstraint($this->validation_factory->hasMinLength($min_limit));
 		return $clone;
 	}
 
@@ -92,9 +91,9 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 	 */
 	protected function getConstraintForRequirement() {
 		if($this->min_limit) {
-			return $this->validation_factory->hasMinLength($this->min_limit);
+			return $this->refinery->string()->hasMinLength($this->min_limit);
 		}
-		return $this->validation_factory->hasMinLength(1);
+		return $this->refinery->string()->hasMinLength(1);
 	}
 
 	/**

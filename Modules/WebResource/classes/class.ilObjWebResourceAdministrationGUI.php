@@ -14,7 +14,8 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php" ;
  * @ingroup ModulesWebResource
  */
 class ilObjWebResourceAdministrationGUI extends ilObjectGUI
-{	
+{
+
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "wbrs";
@@ -24,20 +25,15 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 	}
 
 	public function executeCommand()
-	{		
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		
+	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"), $ilErr->WARNING);
+			$this->ilErr->raiseError($this->lng->txt("no_permission"), $this->ilErr->WARNING);
 		}
 
 		switch($next_class)

@@ -4,7 +4,7 @@
     $.fn.extend({
         study_programme_tree: function (options) {
             var settings = $.extend({
-                button_selectors: {all: ".tree_button", create: "a.cmd_create", info: "a.cmd_view", delete: "a.cmd_delete"},
+                button_selectors: {all: ".tree_button", create: "button.cmd_create", info: "button.cmd_view", delete: "button.cmd_delete"},
                 current_node_selector: ".current_node",
                 save_tree_url: '',
                 save_button_id: '',
@@ -79,38 +79,27 @@
             /**
              * Defines drag & drop rules for tree-elements
              */
-            var initDndTargetChecking = function () {
-                var js_tree_settings = $(element).jstree("get_settings");
-
-                js_tree_settings.crrm.move.check_move = function (data) {
-                    /*console.log("new_parent: " + data.cr);
-                    console.log("position: " + data.p);
-                    console.log("calculated position: " + data.cp);
-                    console.log("current element: ");
-                    console.log(data.o);*/
-
-                    // TODO: implement better/faster way to get information about node-types (identifier classes should be added to li-element)
-                    var np_lp_object = data.np.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
-                    var is_lp_object = data.o.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
-                    var np_no_children = (data.np.find('ul > li > a > span.ilExp2NodeContent > span.title').length === 0);
-                    var np_has_lp_children = data.np.find('ul > li > a > span.ilExp2NodeContent > span.title').first().hasClass('lp-object');
-
-                    /*console.log("is_lp_object: " + is_lp_object);
-                    console.log("no_lp_object_children: " + np_has_lp_children);
-                    console.log("no children: " + np_no_children);*/
-
-                    // only allow drag if it does not create a new root, the target is not a lp-object, the target has no children or
-                    // the type matches (only allow lp objects dropping if the new parent has lp-object children or only allow containers drop in container with other containers)
-                    var allowed_drag = (data.cr !== -1 && !np_lp_object && (np_no_children || np_has_lp_children === is_lp_object));
-                    //console.log("result: " + allowed_drag);
-
-                    if (allowed_drag) {
-                        return true;
-                    }
+            var initDndTargetChecking = function (operation, node, node_parent, node_position, more) {
+                // TODO: implement better/faster way to get information about node-types (identifier classes should be added to li-element)
+                if ('#' === node_parent.id) {
                     return false;
-                };
+                }
 
-                $.jstree._reference($(element).attr("id"))._set_settings(js_tree_settings);
+                let $parent = $("#" + node_parent.id),
+                    $node = $("#" + node.id);
+
+                let np_lp_object = $parent.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
+                let is_lp_object = $node.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
+                let np_no_children = ($parent.find('ul > li > a > span.ilExp2NodeContent > span.title').length === 0);
+                let np_has_lp_children = $parent.find('ul > li > a > span.ilExp2NodeContent > span.title').first().hasClass('lp-object');
+
+
+                // only allow drag if it does not create a new root, the target is not a lp-object, the target has no children or
+                // the type matches (only allow lp objects dropping if the new parent has lp-object children or only allow containers drop in container with other containers)
+                let allowed_drag = (!np_lp_object && (np_no_children || np_has_lp_children === is_lp_object));
+                //console.log("result: " + allowed_drag);
+
+                return allowed_drag;
             };
 
 
@@ -131,12 +120,12 @@
              * init the Drag & Drop handling
              */
             element.on("loaded.jstree", function (event, data) {
+                data.instance.settings.core.check_callback = initDndTargetChecking;
+
                 enable_control_buttons(false);
 
                 // hmmmm ugly js workaround: ready event does not exists in this version of jstree
                 window.setTimeout(handle_delete_buttons, 500);
-
-                initDndTargetChecking();
             });
 
             /**

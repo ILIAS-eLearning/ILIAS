@@ -349,10 +349,9 @@ abstract class ilMailNotification
 
 	/**
 	 * @param array $a_rcp
-	 * @param string $a_type ('normal', 'system', 'email')
 	 * @param bool|true $a_parse_recipients
 	 */
-	public function sendMail(array $a_rcp, $a_type, $a_parse_recipients = true)
+	public function sendMail(array $a_rcp, $a_parse_recipients = true)
 	{
 		$recipients = array();
 		foreach($a_rcp as $rcp)
@@ -367,14 +366,13 @@ abstract class ilMailNotification
 			}
 		}
 		$recipients = implode(',',$recipients);
-		$errors = $this->getMail()->validateAndEnqueue(
+		$errors = $this->getMail()->enqueue(
 			$recipients,
 			'',
 			'',
 			$this->getSubject(),
 			$this->getBody(),
-			$this->getAttachments(),
-			$a_type
+			$this->getAttachments()
 		);
 		// smeyer: 19.5.16 fixed strlen warning, since $error is of type array
 		if (count($errors) > 0) {

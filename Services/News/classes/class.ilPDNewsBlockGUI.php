@@ -43,7 +43,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 
 		$this->setLimit(5);
-		$this->setAvailableDetailLevels(3);
 
 		$this->dynamic = false;
 
@@ -62,7 +61,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			$this->dynamic = true;
 			$data = array();
 		}
-		else if ($this->getCurrentDetailLevel() > 0)
+		else
 		{
 			// do not ask two times for the data (e.g. if user displays a 
 			// single item on the personal desktop and the news block is 
@@ -77,11 +76,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 				$data = self::$st_data;
 			}
 		}
-		else
-		{
-			$data = array();
-		}
-		
+
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		
@@ -91,6 +86,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		
 		// reset access check results
 		$ilAccess->setResults($this->acc_results);
+
+		$this->setPresentation(self::PRES_SEC_LIST);
 
 	}
 	
@@ -185,17 +182,13 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			$this->setDataSection($this->getDynamicReload());
 		}
-		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		else if (count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
 		}
 		else
 		{
 			$this->setEnableNumInfo(false);
-			if (count($this->getData()) == 0)
-			{
-				$this->setEnableDetailRow(false);
-			}
 			$this->setDataSection($this->getOverview());
 		}
 	}
@@ -208,9 +201,9 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilUser = $this->user;
-		
-		// set footer info
-		$this->setFooterInfo($lng->txt("news_block_information"), true);
+
+		// @todo: find another solution for this
+		//$this->setFooterInfo($lng->txt("news_block_information"), true);
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -225,9 +218,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		if ($enable_internal_rss)
 		{
 			include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
+			// @todo: rss icon html ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS)
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTarget($this, "showFeedUrl"),
-				$lng->txt("news_get_feed_url"), "", "", true, false, ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS));
+				$lng->txt("news_get_feed_url"));
 		}
 
 		if ($allow_shorter_periods || $allow_longer_periods || $enable_private_feed)
@@ -258,11 +252,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			{
 				$this->setTitle($this->getTitle().' <span style="font-weight:normal;">- '.$per_str."</span>");
 			}
-		}
-
-		if ($this->getCurrentDetailLevel() == 0)
-		{
-			return "";
 		}
 
 		$en = "";
@@ -333,22 +322,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
-		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("selected_items_back"));
 
 		return $content_block->getHTML();
 	}
 
-	function addCloseCommand($a_content_block)
-	{
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
-		
-		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("selected_items_back"));
-	}
-
-	
 	/**
 	* show news
 	*/

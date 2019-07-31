@@ -27,7 +27,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		// render items
 		$items = $component->getItems();
-		if (count($items) == 0) {
+		if (is_array($items) && count($items) == 0) {
 			return "";
 		}
 		$this->renderItems($items, $tpl, $default_renderer);

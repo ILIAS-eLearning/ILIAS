@@ -10,6 +10,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class CoreIdentification extends AbstractIdentification implements IdentificationInterface {
+class CoreIdentification extends AbstractIdentification implements IdentificationInterface
+{
 
 }

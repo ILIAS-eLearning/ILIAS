@@ -1,4 +1,4 @@
-# util [![Build Status](https://travis-ci.org/defunctzombie/node-util.png?branch=master)](https://travis-ci.org/defunctzombie/node-util)
+# util [![Build Status](https://travis-ci.org/browserify/node-util.png?branch=master)](https://travis-ci.org/browserify/node-util)
 
 > Node.js's [util][util] module for all engines.
 

@@ -12,16 +12,15 @@ function base() {
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Validation\Factory($data, $lng);
-    $trafo = new \ILIAS\Transformation\Factory();
+    $refinery = $DIC->refinery();
 
     //Step 1: Implement transformation and constraints
-    $sum = $trafo->custom(function($vs) {
+    $sum = $refinery->custom()->transformation(function($vs) {
         list($l, $r) = $vs;
         $s = $l + $r;
         return $s;
     });
-    $equal_ten = $validation->custom(function($v) {
+    $equal_ten = $refinery->custom()->constraint(function($v) {
         return $v==10;
     }, "The sum must equal ten.");
 
@@ -33,7 +32,7 @@ function base() {
     $group = $ui->input()->field()->group(
         [ $number_input->withLabel("Left"), $number_input->withLabel("Right")])
         ->withAdditionalTransformation($sum)
-        ->withAdditionalConstraint($equal_ten);
+        ->withAdditionalTransformation($equal_ten);
 
     //Step 4: define form and form actions, attach the group to the form
     $DIC->ctrl()->setParameterByClass(

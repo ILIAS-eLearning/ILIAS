@@ -27,13 +27,14 @@ class Renderer extends AbstractComponentRenderer {
 	protected function renderStandard(Component\Input\Container\Form\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard.html", true, true);
 
-		$tpl->setVariable("URL", $component->getPostURL());
+		if($component->getPostURL()!= ""){
+			$tpl->setCurrentBlock("action");
+			$tpl->setVariable("URL", $component->getPostURL());
+			$tpl->parseCurrentBlock();
+		}
 
 		$f = $this->getUIFactory();
-		$submit_button = $f->button()->standard($this->txt("save"), "#")// TODO: replace this with proper 'submit'-signal of form.
-		                   ->withOnLoadCode(function ($id) {
-				return "$('#{$id}').on('click', function(ev) {" . "	$('#{$id}').parents('form').submit();" . "   ev.preventDefault();" . "});";
-			});
+		$submit_button = $f->button()->standard($this->txt("save"), "");
 
 		$tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
 		$tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));

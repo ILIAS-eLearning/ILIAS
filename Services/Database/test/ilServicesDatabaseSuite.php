@@ -21,33 +21,29 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Database Test-Suite
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
+class ilServicesDatabaseSuite extends TestSuite
+{
 
-	/**
-	 * @return \ilServicesDatabaseSuite
-	 */
-	public static function suite() {
-		$suite = new self();
+    /**
+     * @return ilServicesDatabaseSuite
+     *
+     * @throws ReflectionException
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		// Some basic tests such as every table has a primary
-		require_once("./Services/Database/test/Basic/ilDatabaseBaseTest.php");
-		$suite->addTestSuite("ilDatabaseBaseTest");
+        require_once('./Services/Database/test/Atom/ilDatabaseAtomSuite.php'); // This seems to be needed in UnitTests
+        $suite->addTestSuite(new ilDatabaseAtomSuite());
 
-		require_once('./Services/Database/test/Atom/ilDatabaseAtomSuite.php');
-		$suite->addTestSuite('ilDatabaseAtomSuite');
-
-		require_once('./Services/Database/test/Implementations/ilDatabaseImplementationSuite.php');
-		$suite->addTestSuite("ilDatabaseImplementationSuite");
-
-		//require_once('./Services/Database/test/Basic/ilDatabaseReservedWordsTest.php');
-		//$suite->addTestSuite("ilDatabaseReservedWordsTest");
-
-		return $suite;
-	}
+        return $suite;
+    }
 }

@@ -21,13 +21,15 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Database Test-Suite
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabaseAtomSuite extends PHPUnit_Framework_TestSuite {
+class ilDatabaseAtomSuite extends TestSuite {
 
 	/**
 	 * @return \ilDatabaseAtomSuite
@@ -35,10 +37,8 @@ class ilDatabaseAtomSuite extends PHPUnit_Framework_TestSuite {
 	public static function suite() {
 		$suite = new self();
 
-		require_once("ilDatabaseAtomBaseTest.php");
 		$suite->addTestSuite("ilDatabaseAtomBaseTest");
 
-		require_once("ilDatabaseAtomRunTest.php");
 		$suite->addTestSuite("ilDatabaseAtomRunTest");
 
 		return $suite;

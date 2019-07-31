@@ -62,15 +62,26 @@ composer remove --dev <DEPENDENCY_NAME>
 ```
 Afterwards all changes should be committed.
 
-# Updating Class-Map
-The composer classmap holds information (besides the PHP-dependencies) on all ILIAS-classnames and 
-provides autoloading for them. There is no need to require_once or include_once ILIAS-Classes 
-anymore.
-Whenever a new ILIAS-Class in /Services\/* or /Modules\/* is introduced, the classmap should be 
-updated with the following command. 
+# Populate the Vendor-Directory
+The vendor-directory contains code for the dependencies managed by composer and
+the autoloader that allows PHP to automatically find classes. These need to be
+created by composer before ILIAS will work.
+
+To populate the vendor-directory for a production environment call in `lib\composer`:
+
 ```bash
-$ composer dump-autoload
+composer install --no-dev
+composer dump-autoload
 ```
+
+To populate the vendor-directory for a development environment, use
+
+```bash
+composer install --dev
+composer dump-autoload
+```
+
+instead.
 
 # Create library patch
 

@@ -12,7 +12,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if(!extension_loaded('bcmath'))
 		{
@@ -31,7 +31,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 	public function powData()
 	{
 		return array_merge([
-			['2', '64', '18446744073709551616', self::DEFAULT_SCALE],
+			['2', '64', '18446744073709551616', null],
 		], parent::powData());
 	}
 }

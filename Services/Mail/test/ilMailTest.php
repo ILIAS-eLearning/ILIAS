@@ -10,7 +10,7 @@ class ilMailTest extends \ilMailBaseTest
 	/**
 	 * @inheritdoc
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 	}
@@ -160,7 +160,6 @@ class ilMailTest extends \ilMailBaseTest
 			'Subject',
 			'Message',
 			[],
-			['normal'],
 			false
 		);
 

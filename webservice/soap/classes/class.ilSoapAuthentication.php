@@ -191,8 +191,6 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	// PRIVATE
 	function __checkSOAPEnabled()
 	{
-		include_once './Services/Database/classes/MDB2/class.ilDB.php';
-
 		//$db = new ilDB($this->dsn);
 		$ilDB = $this->db;
 		$ilDB->connect();

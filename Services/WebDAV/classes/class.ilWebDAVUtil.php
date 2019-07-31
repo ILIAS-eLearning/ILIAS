@@ -22,8 +22,8 @@ class ilWebDAVUtil
      */
     public static function _isActionsVisible()
     {
-        global $ilClientIniFile;
-        return $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
+        global $DIC;
+        return $DIC->clientIni()->readVariable('file_access','webdav_actions_visible') == '1';
     }
     
     /**
@@ -35,8 +35,10 @@ class ilWebDAVUtil
      */
     public function showMountInstructions(&$objDAV, &$options)
     {
-        global $lng,$ilUser;
-        
+        global $DIC;
+        $lng = $DIC->language();
+        $ilUser = $DIC->user();
+
         $path = $this->davDeslashify($options['path']);
         
         // The $path variable may contain a full or a shortened DAV path.
@@ -111,7 +113,7 @@ class ilWebDAVUtil
             // Logout anonymous user to force authentication after calling mount uri
             if($ilUser->getId() == ANONYMOUS_USER_ID)
             {
-                $GOBALS['DIC']['ilAuthSession']->logout();
+                $DIC['ilAuthSession']->logout();
             }
             
             exit;
@@ -132,8 +134,8 @@ class ilWebDAVUtil
      */
     protected function checkLock($path)
     {
-        global $ilias;
-        
+        global $DIC;
+
         $this->writelog('checkLock('.$path.')');
         $result = null;
         
@@ -159,7 +161,7 @@ class ilWebDAVUtil
                     // the locks. Since these names are not unique (they may
                     // just be the name of the local user running the DAV client)
                     // we return the ILIAS user name in all other cases.
-                    if ($lock['ilias_owner'] == $ilias->account->getId())
+                    if ($lock['ilias_owner'] == $DIC->user()->getId())
                     {
                         $owner = $lock['dav_owner'];
                     } else {
@@ -216,8 +218,10 @@ class ilWebDAVUtil
      */
     private function getObject($davPath)
     {
-        global $tree;
-        
+        global $DIC;
+        $tree = $DIC->repositoryTree();
+
+
         // If the second path elements starts with 'file_', the following
         // characters of the path element directly identify the ref_id of
         // a file object.
@@ -259,8 +263,7 @@ class ilWebDAVUtil
     private function toObjectPath($davPath)
     {
         $this->writelog('toObjectPath('.$davPath);
-        global $tree;
-        
+
         $nodePath = $this->toNodePath($davPath);
         
         if (is_null($nodePath))
@@ -295,7 +298,9 @@ class ilWebDAVUtil
      */
     public function toNodePath($davPath)
     {
-        global $tree;
+        global $DIC;
+        $tree = $DIC->repositoryTree();
+
         $this->writelog('toNodePath('.$davPath.')...');
         
         // Split the davPath into path titles
@@ -467,6 +472,7 @@ class ilWebDAVUtil
      */
     public function getObjectURI($refId, $ressourceName = null, $parentRefId = null)
     {
+        global $DIC;
         $nodeId = 0;
         $baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:").
         "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
@@ -478,8 +484,7 @@ class ilWebDAVUtil
             $uri = $baseUri.'/ref_'.$parentRefId.'/'.$this->davUrlEncode($ressourceName);
         } else {
             // Create URI and use some SQL queries to get the missing data
-            global $tree;
-            $nodePath = $tree->getNodePath($refId);
+            $nodePath = $DIC->repositoryTree()->getNodePath($refId);
             
             if (is_null($nodePath) || count($nodePath) < 2)
             {
@@ -513,19 +518,19 @@ class ilWebDAVUtil
      */
     public function getFileURI($refId, $ressourceName = null, $parentRefId = null)
     {
+        global $DIC;
         $nodeId = 0;
         $baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:").
         "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
         $baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
-        
+
         if (! is_null($ressourceName) && ! is_null($parentRefId))
         {
             // Quickly create URI from the known data without needing SQL queries
             $uri = $baseUri.'/file_'.$refId.'/'.$this->davUrlEncode($ressourceName);
         } else {
             // Create URI and use some SQL queries to get the missing data
-            global $tree;
-            $nodePath = $tree->getNodePath($refId);
+            $nodePath = $DIC->repositoryTree()->getNodePath($refId);
             
             if (is_null($nodePath) || count($nodePath) < 2)
             {
@@ -547,7 +552,8 @@ class ilWebDAVUtil
      */
     public function isWebDAVoverHTTPS() {
         if ($this->isHTTPS == null) {
-            global $ilSetting;
+            global $DIC;
+            $ilSetting = $DIC->settings();
             require_once './Services/Http/classes/class.ilHTTPS.php';
             $https = new ilHTTPS();
             $this->isHTTPS = $https->isDetected() || $ilSetting->get('https');
@@ -566,8 +572,8 @@ class ilWebDAVUtil
      */
     public static function _isActive()
     {
-        global $ilClientIniFile;
-        return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
+        global $DIC;
+        return $DIC->clientIni()->readVariable('file_access','webdav_enabled') == '1';
     }
 
     /**
@@ -627,7 +633,7 @@ class ilWebDAVUtil
     public function isLocalPasswordInstructionRequired()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
 
         if($this->pwd_instruction !== NULL)
         {

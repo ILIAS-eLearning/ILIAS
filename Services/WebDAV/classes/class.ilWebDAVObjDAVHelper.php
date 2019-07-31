@@ -104,7 +104,6 @@ class ilWebDAVObjDAVHelper
     public function hasInvalidPrefixInTitle(string $title)
     {
         $prefix = substr($title, 0, 1);
-
         return $prefix === '.';
     }
 

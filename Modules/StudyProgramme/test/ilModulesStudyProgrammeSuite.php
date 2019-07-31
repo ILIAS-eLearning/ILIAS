@@ -21,12 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * StudyProgramme Test-Suite
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilModulesStudyProgrammeSuite extends PHPUnit_Framework_TestSuite {
+class ilModulesStudyProgrammeSuite extends TestSuite {
     public static function suite()
     {
         $suite = new ilModulesStudyProgrammeSuite();

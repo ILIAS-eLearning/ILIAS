@@ -22,13 +22,15 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$r = $DIC->ui()->renderer();
 		$this->lng->loadLanguageModule("sess");
 		$this->lng->loadLanguageModule("crs");
+		/**
+		 * @var ilCalendarEntry
+		 */
 		$a_app = $this->appointment;
-
 		include_once "./Modules/Session/classes/class.ilObjSession.php";
 
 		$cat_info = $this->getCatInfo();
 
-		$refs = $this->getReadableRefIds($cat_info['obj_id']);
+		$refs = $this->getReadableRefIds($this->getObjIdForAppointment());
 		$ref_id = current($refs);
 
 		// event title
@@ -41,12 +43,13 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 		$this->addEventLocation($a_app);
 
 		//Contained in:
-		$this->addContainerInfo($cat_info['obj_id']);
+		$this->addContainerInfo($this->getObjIdForAppointment());
 
 		//SESSION INFORMATION
-		$this->addInfoSection($this->lng->txt("cal_".(ilOBject::_lookupType($cat_info['obj_id']) == "usr" ? "app" : ilOBject::_lookupType($cat_info['obj_id'])) . "_info"));
+		$this->addInfoSection(
+			$this->lng->txt("cal_sess_info"));
 
-		$session_obj = new ilObjSession($cat_info['obj_id'],false);
+		$session_obj = new ilObjSession($this->getObjIdForAppointment(),false);
 
 		//location
 		if($session_obj->getLocation()){
@@ -79,7 +82,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 			$this->addListItemProperty($this->lng->txt("event_tutor_data"), implode(", ", $str_lecturer));
 		}
 
-		$eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
+		$eventItems = ilObjectActivation::getItemsByEvent($this->getObjIdForAppointment());
 		if(count($eventItems))
 		{
 			include_once('./Services/Link/classes/class.ilLink.php');
@@ -107,7 +110,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
 
 		$this->addAction($this->lng->txt("sess_open"), ilLink::_getStaticLink($ref_id));
 
-		$this->addMetaData('sess', $cat_info['obj_id']);
+		$this->addMetaData('sess', $this->getObjIdForAppointment());
 
 	}
 }

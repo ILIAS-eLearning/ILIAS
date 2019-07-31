@@ -587,7 +587,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 		$values = implode(",", $real);
 		$fields = implode(",", $fields);
-		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
+		$query = "INSERT INTO " . $this->quoteIdentifier($table_name) . " (" . $fields . ") VALUES (" . $values . ")";
 
 		$query = $this->sanitizeMB4StringIfNotSupported($query);
 
@@ -652,7 +652,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 
 		if ($lobs) {
-			$q = "UPDATE " . $table_name . " SET ";
+			$q = "UPDATE " . $this->quoteIdentifier($table_name) . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
 				$q .= $lim . $field . " = " . $placeholders_full[$k];
@@ -674,7 +674,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 				$values[] = $col[1];
 				$field_values[$k] = $col;
 			}
-			$q = "UPDATE " . $table_name . " SET ";
+			$q = "UPDATE " . $this->quoteIdentifier($table_name) . " SET ";
 			$lim = "";
 			foreach ($fields as $k => $field) {
 				$q .= $lim . $this->quoteIdentifier($field) . " = " . $placeholders[$k];
@@ -1560,7 +1560,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public static function isReservedWord($a_word) {
-		require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoMySQLFieldDefinition.php');
 		global $DIC;
 		$ilDBPdoMySQLFieldDefinition = new ilDBPdoMySQLFieldDefinition($DIC->database());
 
@@ -1827,8 +1826,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return \ilAtomQuery
 	 */
 	public function buildAtomQuery() {
-		require_once('./Services/Database/classes/Atom/class.ilAtomQueryLock.php');
-
 		return new ilAtomQueryLock($this);
 	}
 
@@ -1839,7 +1836,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function uniqueConstraintExists($table, array $fields) {
-		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer();
 		$cons = $analyzer->getConstraintsInformation($table);
 		foreach ($cons as $c) {

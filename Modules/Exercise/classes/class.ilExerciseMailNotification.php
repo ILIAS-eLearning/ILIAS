@@ -92,7 +92,7 @@ class ilExerciseMailNotification extends ilMailNotification
 						'#fb'.$this->getAssignmentId());
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 
@@ -149,7 +149,7 @@ class ilExerciseMailNotification extends ilMailNotification
 
 					$this->getMail()->appendInstallationSignature(true);
 
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 				
@@ -181,7 +181,7 @@ class ilExerciseMailNotification extends ilMailNotification
 						'#fb'.$this->getAssignmentId());
 					$this->getMail()->appendInstallationSignature(true);
 										
-					$this->sendMail(array($rcp),array('system'));
+					$this->sendMail(array($rcp));
 				}
 				break;
 		}

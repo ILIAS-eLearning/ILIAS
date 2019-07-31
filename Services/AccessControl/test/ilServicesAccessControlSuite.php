@@ -1,12 +1,14 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-class ilServicesAccessControlSuite extends PHPUnit_Framework_TestSuite
+use PHPUnit\Framework\TestSuite;
+
+class ilServicesAccessControlSuite extends TestSuite
 {
     public static function suite()
     {
 		
-        PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+		PHPUnit\Framework\Error\Deprecated::$enabled = FALSE;
 		
 		$suite = new ilServicesAccessControlSuite();
 		

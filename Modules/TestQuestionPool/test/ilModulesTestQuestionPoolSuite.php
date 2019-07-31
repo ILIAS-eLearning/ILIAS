@@ -1,7 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
+use PHPUnit\Framework\TestSuite;
+
+class ilModulesTestQuestionPoolSuite extends TestSuite
 {
 	public static function suite()
 	{
@@ -22,13 +24,6 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 	
 		// Questiontypes & related classes
 		// -------------------------------------------------------------------------------------------------------------
-
-		// Type: Question (Base class)
-		require_once("./Modules/TestQuestionPool/test/assQuestionTest.php");
-		$suite->addTestSuite("assQuestionTest");
-
-		require_once("./Modules/TestQuestionPool/test/assQuestionGUITest.php");
-		$suite->addTestSuite("assQuestionGUITest");
 
 		// Type: Cloze
 		require_once("./Modules/TestQuestionPool/test/assClozeGapTest.php");
@@ -74,9 +69,6 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		// Type: Imagemap
 		require_once("./Modules/TestQuestionPool/test/assImagemapQuestionTest.php");
 		$suite->addTestSuite("assImagemapQuestionTest");
-
-		require_once("./Modules/TestQuestionPool/test/assImagemapQuestionGUITest.php");
-		$suite->addTestSuite("assImagemapQuestionGUITest");
 
 		// Zype: JavaApplet
 		require_once("./Modules/TestQuestionPool/test/assJavaAppletTest.php");
@@ -154,15 +146,6 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		require_once("./Modules/TestQuestionPool/test/assKprimChoiceTest.php");
 		$suite->addTestSuite("assKprimChoiceTest");
 
-		//require_once("./Modules/TestQuestionPool/test/assTextSubsetGUITest.php");
-		//$suite->addTestSuite("assTextSubsetGUITest");
-
-
-		// Input GUIs
-		// -------------------------------------------------------------------------------------------------------------
-		require_once("./Modules/TestQuestionPool/test/ilAnswerWizardInputGUITest.php");
-		$suite->addTestSuite("ilAnswerWizardInputGUITest");
-
 		// Hints
 		// -------------------------------------------------------------------------------------------------------------
 		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintTest.php");
@@ -171,26 +154,11 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintAbstractTest.php");
 		$suite->addTestSuite("ilAssQuestionHintAbstractTest");
 
-		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintGUITest.php");
-		$suite->addTestSuite("ilAssQuestionHintGUITest");
-
 		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintListTest.php");
 		$suite->addTestSuite("ilAssQuestionHintListTest");
 
-		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintRequestGUITest.php");
-		$suite->addTestSuite("ilAssQuestionHintRequestGUITest");
-
 		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintRequestStatisticDataTest.php");
 		$suite->addTestSuite("ilAssQuestionHintRequestStatisticDataTest");
-
-		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintsGUITest.php");
-		$suite->addTestSuite("ilAssQuestionHintsGUITest");
-
-		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintsOrderingClipboardTest.php");
-		$suite->addTestSuite("ilAssQuestionHintsOrderingClipboardTest");
-
-		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintsTableGUITest.php");
-		$suite->addTestSuite("ilAssQuestionHintsTableGUITest");
 
 		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintTrackingTest.php");
 		$suite->addTestSuite("ilAssQuestionHintTrackingTest");
@@ -207,7 +175,7 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		$suite->addTestSuite("assAnswerClozeTest");
 
 		require_once("./Modules/TestQuestionPool/test/assAnswerErrorTextTest.php");
-		$suite->addTestSuite("assAnswerErrorTextTest"); // mbecker: 100% Coverage @ 03.08.2012
+		$suite->addTestSuite("assAnswerErrorTextTest");
 
 		require_once("./Modules/TestQuestionPool/test/assAnswerImagemapTest.php");
 		$suite->addTestSuite("assAnswerImagemapTest");

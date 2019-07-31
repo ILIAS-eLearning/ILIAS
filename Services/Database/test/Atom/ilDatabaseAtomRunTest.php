@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * TestCase for the ilDatabaseAtomBaseTest
  *
@@ -29,7 +31,7 @@
  *
  * @group   needsInstalledILIAS
  */
-class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
+class ilDatabaseAtomRunTest extends TestCase {
 
 	/**
 	 * @var bool
@@ -53,8 +55,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	protected $ilDBInterfaceInnoDBSecond;
 
 
-	protected function setUp() {
-		require_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+	protected function setUp(): void {
 		ilUnitUtil::performInitialisation();
 
 		global $ilClientIniFile;
@@ -78,7 +79,7 @@ class ilDatabaseAtomRunTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function tearDown() {
+	public function tearDown(): void {
 		$this->ilDBInterfaceGalera->dropSequence('il_db_tests_atom');
 		$this->ilDBInterfaceGalera->dropTable('il_db_tests_atom');
 	}

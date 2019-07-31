@@ -1,153 +1,170 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+
 /**
  * Class ilMMItemStorage
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMItemStorage extends CachedActiveRecord {
+class ilMMItemStorage extends CachedActiveRecord
+{
 
-	/**
-	 * @param \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item
-	 *
-	 * @return ilMMItemStorage
-	 */
-	public static function register(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item) {
-		$mm_item = ilMMItemStorage::find($item->getProviderIdentification()->serialize());
-		if ($mm_item === null) {
-			$mm_item = new ilMMItemStorage();
-			$mm_item->setPosition($item->getPosition());
-			$mm_item->setIdentification($item->getProviderIdentification()->serialize());
-			$mm_item->setActive(true);
-			if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
-				$mm_item->setParentIdentification($item->getParent()->serialize());
-			}
-			$mm_item->create();
-		}
+    /**
+     * @param isItem $item
+     *
+     * @return ilMMItemStorage
+     */
+    public static function register(isItem $item) : ilMMItemStorage
+    {
+        if ($item instanceof Lost) {
+            return new self();
+        }
 
-		return $mm_item;
-	}
+        $mm_item = ilMMItemStorage::find($item->getProviderIdentification()->serialize());
+        if ($mm_item === null) {
+            $mm_item = new ilMMItemStorage();
+            $mm_item->setPosition($item->getPosition());
+            $mm_item->setIdentification($item->getProviderIdentification()->serialize());
+            $mm_item->setActive(true);
+            if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+                $mm_item->setParentIdentification($item->getParent()->serialize());
+            }
+            $mm_item->create();
+        }
 
-
-	public function create() {
-		if (self::find($this->getIdentification())) {
-			$this->update();
-		} else {
-			parent::create();
-		}
-	}
+        return $mm_item;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getCache(): ilGlobalCache {
-		global $DIC;
-
-		return $DIC->globalScreen()->storage()->cache();
-	}
-
-
-	/**
-	 * @var string
-	 *
-	 * @con_is_primary true
-	 * @con_is_unique  true
-	 * @con_has_field  true
-	 * @con_fieldtype  text
-	 * @con_length     64
-	 */
-	protected $identification;
-	/**
-	 * @var bool
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     1
-	 */
-	protected $active = true;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     4
-	 */
-	protected $position = 0;
-	/**
-	 * @var string
-	 *
-	 * @con_has_field  true
-	 * @con_fieldtype  text
-	 * @con_length     256
-	 */
-	protected $parent_identification = '';
-	/**
-	 * @var string
-	 */
-	protected $connector_container_name = "il_mm_items";
+    public function create()
+    {
+        if (self::find($this->getIdentification())) {
+            $this->update();
+        } else {
+            parent::create();
+        }
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getIdentification(): string {
-		return $this->identification;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getCache() : ilGlobalCache
+    {
+        return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+    }
 
 
-	/**
-	 * @param string $identification
-	 */
-	public function setIdentification(string $identification) {
-		$this->identification = $identification;
-	}
+    /**
+     * @var string
+     *
+     * @con_is_primary true
+     * @con_is_unique  true
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     64
+     */
+    protected $identification;
+    /**
+     * @var bool
+     *
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_length     1
+     */
+    protected $active = true;
+    /**
+     * @var int
+     *
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_length     4
+     */
+    protected $position = 0;
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     256
+     */
+    protected $parent_identification = '';
+    /**
+     * @var string
+     */
+    protected $connector_container_name = "il_mm_items";
 
 
-	/**
-	 * @return bool
-	 */
-	public function isActive(): bool {
-		return $this->active;
-	}
+    /**
+     * @return string
+     */
+    public function getIdentification() : string
+    {
+        return $this->identification;
+    }
 
 
-	/**
-	 * @param bool $active
-	 */
-	public function setActive(bool $active) {
-		$this->active = $active;
-	}
+    /**
+     * @param string $identification
+     */
+    public function setIdentification(string $identification)
+    {
+        $this->identification = $identification;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getPosition(): int {
-		return $this->position;
-	}
+    /**
+     * @return bool
+     */
+    public function isActive() : bool
+    {
+        return $this->active;
+    }
 
 
-	/**
-	 * @param int $position
-	 */
-	public function setPosition(int $position) {
-		$this->position = $position;
-	}
+    /**
+     * @param bool $active
+     */
+    public function setActive(bool $active)
+    {
+        $this->active = $active;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getParentIdentification(): string {
-		return $this->parent_identification;
-	}
+    /**
+     * @return int
+     */
+    public function getPosition() : int
+    {
+        return $this->position;
+    }
 
 
-	/**
-	 * @param string $parent_identification
-	 */
-	public function setParentIdentification(string $parent_identification) {
-		$this->parent_identification = $parent_identification;
-	}
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position)
+    {
+        $this->position = $position;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getParentIdentification() : string
+    {
+        return $this->parent_identification;
+    }
+
+
+    /**
+     * @param string $parent_identification
+     */
+    public function setParentIdentification(string $parent_identification)
+    {
+        $this->parent_identification = $parent_identification;
+    }
 }

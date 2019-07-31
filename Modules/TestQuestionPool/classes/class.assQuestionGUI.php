@@ -210,6 +210,10 @@ abstract class assQuestionGUI
 	*/
 	function executeCommand()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		$ilHelp->setScreenIdComponent('qpl');
+
 		$cmd = $this->ctrl->getCmd("editQuestion");
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -562,7 +566,7 @@ abstract class assQuestionGUI
 		$this->question =& assQuestionGUI::_getQuestionGUI($question_type, $question_id);
 	}
 	
-	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplate $tpl)
+	public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl)
 	{
 		foreach($this->getPresentationJavascripts() as $jsFile)
 		{

@@ -11,12 +11,13 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface TypeRenderer {
+interface TypeRenderer
+{
 
-	/**
-	 * @param isItem $item
-	 *
-	 * @return Component
-	 */
-	public function getComponentForItem(isItem $item): Component;
+    /**
+     * @param isItem $item
+     *
+     * @return Component
+     */
+    public function getComponentForItem(isItem $item) : Component;
 }

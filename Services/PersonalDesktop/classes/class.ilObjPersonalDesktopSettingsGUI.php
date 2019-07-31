@@ -29,9 +29,25 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
     private static $ERROR_MESSAGE;
 
 	/**
+	 * @var \ILIAS\UI\Factory
+	 */
+    protected $ui_factory;
+
+	/**
+	 * @var \ILIAS\UI\Renderer
+	 */
+    protected $ui_renderer;
+
+	/**
 	 * @var ilPDSelectedItemsBlockViewSettings
 	 */
-	protected $viewSettings; 
+	protected $viewSettings;
+
+	/**
+	 * @var \Psr\Http\Message\ServerRequestInterface
+	 */
+	protected $request;
+
 	/**
 	 * Contructor
 	 *
@@ -50,6 +66,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$lng = $DIC->language();
 		$this->ui_factory = $DIC->ui()->factory();
 		$this->ui_renderer = $DIC->ui()->renderer();
+		$this->request = $DIC->http()->request();
 		
 		$this->type = 'pdts';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -67,18 +84,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
-		$ilErr = $this->error;
-		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
 		}
 
 		switch($next_class)
@@ -143,6 +157,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilAccess = $this->access;
 		
 		$pd_set = new ilSetting("pd");
+
+		$this->setSettingsSubTabs("general");
 		
 		$enable_calendar = ilCalendarSettings::_getInstance()->isEnabled();
 		#$enable_calendar = $ilSetting->get("enable_calendar");		
@@ -200,35 +216,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$learn_hist->setChecked(($ilSetting->get("enable_learning_history") ? "1" : "0"));
 		$form->addItem($learn_hist);
 
-		// Enable Chatviewer
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_chatviewer"), "block_activated_chatviewer");
-		$cb_prop->setValue("1");
-		$cb_prop->setChecked(($ilSetting->get("block_activated_chatviewer")));
-		$form->addItem($cb_prop);
-
-		require_once 'Services/Mail/classes/class.ilObjMail.php';
-		$pd_sys_msg = new ilRadioGroupInputGUI($lng->txt('show_system_messages'), 'pd_sys_msg_mode');
-
-		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_own_block'), ilObjMail::PD_SYS_MSG_OWN_BLOCK);
-		$pd_sys_msg->addOption($sys_msg_own_block);
-
-		$sys_msg_mail_block = new ilRadioOption($lng->txt('pd_sys_msg_mail_block'), ilObjMail::PD_SYS_MSG_MAIL_BLOCK);
-		$pd_sys_msg->addOption($sys_msg_mail_block);
-
-		$sys_msg_own_block = new ilRadioOption($lng->txt('pd_sys_msg_no_block'), ilObjMail::PD_SYS_MSG_NO_BLOCK);
-		$pd_sys_msg->addOption($sys_msg_own_block);
-
-		$pd_sys_msg->setValue((int)($ilSetting->get('pd_sys_msg_mode')));
-		$form->addItem($pd_sys_msg);
-		
-		if($ilSetting->get('save_post_drafts', 0))
-		{
-			$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_pdfrmpostdraft'), 'block_activated_pdfrmpostdraft');
-			$cb_prop->setInfo($lng->txt('pd_enable_pdfrmpostdraft_info'));
-			$cb_prop->setValue(1);
-			$cb_prop->setChecked($ilSetting->get('block_activated_pdfrmpostdraft', 0));
-			$form->addItem($cb_prop);
-		}
 		// Enable block moving
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_block_moving"),
 			"enable_block_moving");
@@ -237,27 +224,6 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($enable_block_moving);
 		$form->addItem($cb_prop);		
 
-		// Enable 'My Offers' (default personal items)
-		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_offers'), 'enable_my_offers');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($lng->txt('pd_enable_my_offers_info'));
-		$cb_prop->setChecked($this->viewSettings->enabledSelectedItems());
-		$form->addItem($cb_prop);
-		
-		// Enable 'My Memberships'
-		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_memberships'), 'enable_my_memberships');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($lng->txt('pd_enable_my_memberships_info'));
-		$cb_prop->setChecked($this->viewSettings->enabledMemberships());
-		$form->addItem($cb_prop);
-
-		$memberships_sort_defaults = new ilRadioGroupInputGUI($lng->txt('pd_my_memberships_sort_default'), 'my_memberships_sort_default');
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_location'), $this->viewSettings->getSortByLocationMode()));
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_type'), $this->viewSettings->getSortByTypeMode()));
-		$memberships_sort_defaults->addOption(new ilRadioOption($lng->txt('pd_sort_by_start_date'), $this->viewSettings->getSortByStartDateMode()));
-		$memberships_sort_defaults->setRequired(true);
-		$memberships_sort_defaults->setValue($this->viewSettings->getDefaultSortType());
-		$cb_prop->addSubItem($memberships_sort_defaults);
 
 		#22357
 		$this->ctrl->setParameterByClass("iluserstartingpointgui", "ref_id", USER_FOLDER_ID);
@@ -311,41 +277,11 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("comments_del_tutor", (int) ($_POST["comm_del_tutor"] ? 1 : 0));
 		$ilSetting->set("comments_noti_recip", ilUtil::stripSlashes($_POST["comments_noti_recip"]));
 
-		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));
-		$ilSetting->set("pd_sys_msg_mode", (int) ($_POST["pd_sys_msg_mode"]));
-		if($ilSetting->get('save_post_drafts', 0))
-		{
-			$ilSetting->set("block_activated_pdfrmpostdraft", (int)$_POST["block_activated_pdfrmpostdraft"]);
-		}
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 //		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
 
-		// Validate personal desktop view
-		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
-		{
-			ilUtil::sendFailure($this->lng->txt('pd_view_select_at_least_one'), true);
-			$ilCtrl->redirect($this, 'view');
-		}
 
-		$this->viewSettings->enableSelectedItems((int)($_POST['enable_my_offers'] ? 1 : 0));
-		$this->viewSettings->enableMemberships((int)($_POST['enable_my_memberships'] ? 1 : 0));
-
-		if((int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
-		{
-			$this->viewSettings->storeDefaultView($this->viewSettings->getSelectedItemsView());
-		}
-		else if(!(int)$_POST['enable_my_offers'] && (int)$_POST['enable_my_memberships'])
-		{
-			$this->viewSettings->storeDefaultView($this->viewSettings->getMembershipsView());
-		}
-		else if(isset($_POST['personal_items_default_view']))
-		{
-			$this->viewSettings->storeDefaultView((int)$_POST['personal_items_default_view']);
-		}
-
-		$this->viewSettings->storeDefaultSortType(ilUtil::stripSlashes($_POST['my_memberships_sort_default']));
-	
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "view");
 	}
 	
@@ -357,8 +293,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$ilSetting = $this->settings;
-		$ilAccess = $this->access;
-		
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this, "saveWsp"));
@@ -422,7 +357,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$this
 		);
 		
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		if($this->rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			// command buttons
 			$form->addCommandButton("saveWsp", $lng->txt("save"));
@@ -484,6 +419,192 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 				return array(array("editWsp", $fields));			
 		}
 	}
+
+	/**
+	 * Get tabs
+	 *
+	 * @access public
+	 *
+	 */
+	public function setSettingsSubTabs($a_active)
+	{
+		$rbacsystem = $this->rbacsystem;
+		$ilAccess = $this->access;
+
+		$tabs = $this->tabs_gui;
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs->addSubtab("general", $lng->txt("general_settings"),
+				$ctrl->getLinkTarget($this, "editSettings"));
+
+			$tabs->addSubtab("view_favourites", $lng->txt("pd_view_favourites"),
+				$ctrl->getLinkTarget($this, "editViewFavourites"));
+
+			$tabs->addSubtab("view_courses_groups", $lng->txt("pd_view_courses_groups"),
+				$ctrl->getLinkTarget($this, "editViewCoursesGroups"));
+		}
+
+		$tabs->activateSubtab($a_active);
+	}
+
+	/**
+	 * Edit settings of courses and groups overview
+	 */
+	protected function editViewCoursesGroups()
+	{
+		$main_tpl = $this->tpl;
+		$tabs = $this->tabs_gui;
+		$ui_renderer = $this->ui_renderer;
+
+		$tabs->activateTab("pd_settings");
+		$this->setSettingsSubTabs("view_courses_groups");
+
+		$form = $this->getViewSettingsForm($this->viewSettings->getMembershipsView());
+
+		$main_tpl->setContent($ui_renderer->render($form));
+	}
+
+	/**
+	 * Get view courses and groups settings form
+	 *
+	 * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+	 */
+	protected function getViewSettingsForm(int $view)
+	{
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+		$ui_factory = $this->ui_factory;
+
+		if ($view == $this->viewSettings->getSelectedItemsView())
+		{
+			$activation_text = $lng->txt("pd_enable_my_offers");
+			$activation_value = $this->viewSettings->enabledSelectedItems();
+			$save_cmd = "saveViewFavourites";
+		}
+		else
+		{
+			$activation_text = $lng->txt("pd_enable_my_memberships");
+			$activation_value = $this->viewSettings->enabledMemberships();
+			$save_cmd = "saveViewCoursesGroups";
+		}
+
+		// activation
+		$cb_activate = $ui_factory->input()->field()->checkbox($activation_text)
+			->withValue($activation_value);
+		$sec_activation = $ui_factory->input()->field()->section(
+			["active" => $cb_activate],
+			$lng->txt("pd_activation"));
+
+		// presentation
+		$ops = $this->viewSettings->getAvailablePresentationsByView($view);
+		$pres_options = array_column(array_map(function ($k, $v) use ($lng) {
+			return [$v, $lng->txt("pd_".$v)];
+		}, array_keys($ops), $ops), 1, 0);
+		$avail_pres = $ui_factory->input()->field()->multiselect($lng->txt("pd_avail_presentation"), $pres_options)
+			->withValue($this->viewSettings->getActivePresentationsByView($view));
+		$default_pres = $ui_factory->input()->field()->radio($lng->txt("pd_default_presentation"))
+			->withOption('list', $lng->txt("pd_list"))
+			->withOption('tile', $lng->txt("pd_tile"));
+		$default_pres = $default_pres->withValue((string) $this->viewSettings->getDefaultPresentationByView($view));
+		$sec_presentation = $ui_factory->input()->field()->section(
+			["avail_pres" => $avail_pres, "default_pres" => $default_pres],
+			$lng->txt("pd_presentation"));
+
+		// sortation
+		$ops = $this->viewSettings->getAvailableSortOptionsByView($view);
+		$sortation_options = array_column(array_map(function ($k, $v) use ($lng) {
+				return [$v, $lng->txt("pd_sort_by_".$v)];
+			}, array_keys($ops), $ops), 1, 0);
+		$avail_sort = $ui_factory->input()->field()->multiselect($lng->txt("pd_avail_sortation"), $sortation_options)
+			->withValue($this->viewSettings->getActiveSortingsByView($view));
+		$default_sort = $ui_factory->input()->field()->radio($lng->txt("pd_default_sortation"));
+		foreach ($sortation_options as $k => $text)
+		{
+			$default_sort = $default_sort->withOption($k, $text);
+		}
+		$default_sort = $default_sort->withValue((string) $this->viewSettings->getDefaultSortingByView($view));
+		$sec_sortation = $ui_factory->input()->field()->section(
+			["avail_sort" => $avail_sort, "default_sort" => $default_sort],
+			$lng->txt("pd_sortation"));
+
+		$form = $ui_factory->input()->container()->form()->standard($ctrl->getFormAction($this, $save_cmd),
+			["activation" => $sec_activation, "presentation" => $sec_presentation, "sortation" => $sec_sortation]);
+
+		return $form;
+	}
+
+
+	/**
+	 * Save settings of courses and groups overview
+	 */
+	protected function saveViewCoursesGroups()
+	{
+		$this->saveViewSettings($this->viewSettings->getMembershipsView(),
+			"editViewCoursesGroups");
+	}
+
+	/**
+	 * Edit favourites view
+	 */
+	protected function editViewFavourites()
+	{
+		$main_tpl = $this->tpl;
+		$tabs = $this->tabs_gui;
+		$ui_renderer = $this->ui_renderer;
+
+		$tabs->activateTab("pd_settings");
+		$this->setSettingsSubTabs("view_favourites");
+
+		$view = $this->viewSettings->getSelectedItemsView();
+
+		$form = $this->getViewSettingsForm($view);
+
+		$main_tpl->setContent($ui_renderer->render($form));
+	}
+
+	/**
+	 * Save settings of favourites overview
+	 */
+	protected function saveViewFavourites()
+	{
+		$this->saveViewSettings($this->viewSettings->getSelectedItemsView(),
+			"editViewFavourites");
+	}
+
+	/**
+	 * Save settings of favourites overview
+	 */
+	protected function saveViewSettings(int $view, string $redirect_cmd)
+	{
+		$request = $this->request;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		$form = $this->getViewSettingsForm($view);
+		$form = $form->withRequest($request);
+		$form_data = $form->getData();
+		if ($view == $this->viewSettings->getSelectedItemsView())
+		{
+			$this->viewSettings->enableSelectedItems((int)($form_data['activation']['active'] != ""));
+		}
+		else
+		{
+			$this->viewSettings->enableMemberships((int)($form_data['activation']['active'] != ""));
+		}
+		$this->viewSettings->storeViewSorting($view,
+			$form_data['sortation']['default_sort'],
+			$form_data['sortation']['avail_sort'] ?: []);
+		$this->viewSettings->storeViewPresentation($view,
+			$form_data['presentation']['default_pres'],
+			$form_data['presentation']['avail_pres'] ?: []);
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ctrl->redirect($this, $redirect_cmd);
+	}
+
 }
 
 ?>

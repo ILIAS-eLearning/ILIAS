@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\GlobalScreen\Scope\Tool\Context\ContextServices;
+
 include_once("./Services/Table/classes/class.ilTableGUI.php");
 
 
@@ -62,6 +64,10 @@ class ilRepositoryGUI
 	 * @var ilAccessHandler
 	 */
 	protected $access;
+	/**
+	 * @var ContextServices
+	 */
+	protected $tool_context;
 
 	var $lng;
 	var $tpl;
@@ -95,6 +101,7 @@ class ilRepositoryGUI
 		$ilLog = $DIC["ilLog"];
 		$ilUser = $DIC->user();
 		$ilSetting = $DIC->settings();
+		$this->tool_context = $DIC->globalScreen()->tool()->context();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -230,6 +237,8 @@ class ilRepositoryGUI
 		$ilCtrl = $this->ctrl;
 		$ilHelp = $this->help;
 		$ilErr = $this->error;
+
+		$this->tool_context->claim()->repository();
 
 		// check creation mode
 		// determined by "new_type" parameter

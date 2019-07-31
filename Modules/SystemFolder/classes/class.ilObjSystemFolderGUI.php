@@ -1056,7 +1056,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ne = new ilNonEditableValueGUI($lng->txt("db_version"), "");
 		$ne->setValue($ilSetting->get("db_version"));
 		
-		include_once ("./Services/Database/classes/class.ilDBUpdate.php");
 		$this->form->addItem($ne);
 		
 		// ilias version

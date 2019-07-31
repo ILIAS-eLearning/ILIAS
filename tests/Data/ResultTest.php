@@ -4,18 +4,19 @@
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Data;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests working with result object
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ResultTest extends PHPUnit_Framework_TestCase {
-	protected function setUp() {
+class ResultTest extends TestCase {
+	protected function setUp(): void {
 		$this->f = new Data\Factory();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->f = null;
 	}
 

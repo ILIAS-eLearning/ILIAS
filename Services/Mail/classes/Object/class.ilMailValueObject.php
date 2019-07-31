@@ -24,9 +24,6 @@ class ilMailValueObject
 	/** @var */
 	private $attachment;
 
-	/** @var array */
-	private $types;
-
 	/** @var bool */
 	private $usePlaceholders;
 
@@ -44,7 +41,6 @@ class ilMailValueObject
 	 * @param string $subject
 	 * @param string $body
 	 * @param $attachment
-	 * @param array $types
 	 * @param bool $usePlaceholders
 	 * @param bool $saveInSentBox
 	 */
@@ -56,7 +52,6 @@ class ilMailValueObject
 		string $subject,
 		string $body,
 		$attachment,
-		array $types,
 		bool $usePlaceholders = false,
 		bool $saveInSentBox = false
 	) {
@@ -67,7 +62,6 @@ class ilMailValueObject
 		$this->subject          = $subject;
 		$this->body             = $body;
 		$this->attachment       = $attachment;
-		$this->types            = $types;
 		$this->usePlaceholders  = $usePlaceholders;
 		$this->saveInSentBox        = $saveInSentBox;
 	}
@@ -118,14 +112,6 @@ class ilMailValueObject
 	public function getAttachment()
 	{
 		return $this->attachment;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getTypes()
-	{
-		return $this->types;
 	}
 
 	/**

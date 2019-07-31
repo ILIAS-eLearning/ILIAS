@@ -34,22 +34,24 @@ class ilClient
 	 */
 	public $ini;
 
+	/**
+	 * @var ilDbSetup|null
+	 */
+	protected $db_setup = null;
+
 
 	/**
 	 * ilClient constructor.
 	 *
 	 * @param $a_client_id
-	 * @param $a_db_connections
 	 */
-	public function __construct($a_client_id, $a_db_connections)
+	public function __construct($a_client_id)
 	{
 		if ($a_client_id)
 		{
 			$this->id = $a_client_id;
 			$this->ini_file_path = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId()."/client.ini.php";
 		}
-
-		$this->db_connections = $a_db_connections;
 
 		// set path default.ini
 		$this->client_defaults = ILIAS_ABSOLUTE_PATH."/setup/client.master.ini.php";
@@ -63,11 +65,15 @@ class ilClient
 	public function getDBSetup($cached = true) {
 		require_once('./setup/classes/class.ilDbSetup.php');
 
-		if (!$cached) {
-			return \ilDbSetup::getNewInstanceForClient($this);
+		if ($cached) {
+			if (is_null($this->db_setup)) {
+				$this->db_setup = \ilDbSetup::getNewInstanceForClient($this);
+			}
+			return $this->db_setup;
 		}
 
-		return ilDbSetup::getInstanceForClient($this);
+
+		return \ilDbSetup::getNewInstanceForClient($this);
 	}
 
 	/**
@@ -210,7 +216,6 @@ class ilClient
 			return false;
 		}
 
-		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$this->db = ilDBWrapperFactory::getWrapper($this->getdbType());
 		$this->db->setDBUser($this->getdbUser());
 		$this->db->setDBPort($this->getdbPort());
@@ -225,6 +230,12 @@ class ilClient
 			return false;
 		}
 		$GLOBALS["ilDB"] = $this->db;
+
+		if ($GLOBALS["DIC"]->offsetExists("ilDB"))
+		{
+			$GLOBALS["DIC"]->offsetUnset("ilDB");
+		}
+
 		$GLOBALS["DIC"]["ilDB"] = function($c) {
 			return $GLOBALS["ilDB"];
 		};
@@ -543,29 +554,6 @@ class ilClient
 	function checkDatabaseExists($a_keep_connection = false)
 	{
 		return $this->getDBSetup()->isConnectable();
-		
-		//try to connect to database
-		$db = $this->db_connections->connectDB($this->dsn);
-		if (MDB2::isError($db))
-		{
-			return false;
-		}
-
-		if (!$this->isInstalledDB($db))
-		{
-			return false;
-		}
-
-		// #10633
-		if($a_keep_connection)
-		{
-			$GLOBALS["ilDB"] = $this->db;
-			$GLOBALS["DIC"]["ilDB"] = function($c) {
-				return $GLOBALS["ilDB"];
-			};
-		}
-
-		return true;
 	}
 
 	function reconnect()
@@ -674,14 +662,6 @@ class ilClient
 		$url = $this->getURLStringForNIC($a_nic_url);
 		$req = new ilCurlConnection($url);
 		$req->init();
-
-		$settings = $this->getAllSettings();
-		if((bool)$settings['proxy_status'] && strlen($settings['proxy_host']) && strlen($settings['proxy_port']))
-		{
-			$req->setOpt(CURLOPT_HTTPPROXYTUNNEL, true);
-			$req->setOpt(CURLOPT_PROXY, $settings["proxy_host"]);
-			$req->setOpt(CURLOPT_PROXYPORT, $settings["proxy_port"]);
-		}
 
 		$req->setOpt(CURLOPT_HEADER, 1);
 		$req->setOpt(CURLOPT_RETURNTRANSFER, 1);

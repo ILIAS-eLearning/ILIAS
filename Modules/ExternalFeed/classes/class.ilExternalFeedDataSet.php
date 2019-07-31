@@ -130,7 +130,6 @@ class ilExternalFeedDataSet extends ilDataSet
 				$a_mapping->addMapping("Modules/ExternalFeed", "feed", $a_rec["Id"], $newObj->getId());
 
 				// create the feed block
-				include_once("./Services/Block/classes/class.ilExternalFeedBlock.php");
 				$fb = new ilExternalFeedBlock();
 				$fb->setTitle($a_rec["Title"]);
 				$fb->setFeedUrl($a_rec["Url"]);

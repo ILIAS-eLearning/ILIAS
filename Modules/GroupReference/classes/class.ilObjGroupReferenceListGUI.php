@@ -97,15 +97,9 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
 	
 	
 	/**
-	* inititialize new item
-	* Group reference inits the group item
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	int			$a_obj_id		object id
-	* @param	string		$a_title		title
-	* @param	string		$a_description	description
-	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	 * @inheritdoc
+	 */
+	function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
 	{
 		global $DIC;
 
@@ -129,7 +123,7 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id,$target_obj_id);
 
 		
-		parent::initItem($target_ref_id, $target_obj_id,$target_title,$target_description);
+		parent::initItem($target_ref_id, $target_obj_id,$type, $target_title,$target_description);
 
 		// general commands array
 		include_once('./Modules/GroupReference/classes/class.ilObjGroupReferenceAccess.php');

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\TestCase;
+
 require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__."/../Renderer/TestComponent.php");
@@ -57,8 +59,8 @@ class Class3 {
 /**
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ComponentHelperTest extends PHPUnit_Framework_TestCase {
-	public function setUp() {
+class ComponentHelperTest extends TestCase {
+	public function setUp(): void{
 		$this->mock = new ComponentMock();
 	}
 
@@ -74,120 +76,84 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $this->mock->called_gcnbfqn);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_arg_ok() {
-		try {
-			$this->mock->_checkArg("some_arg", true, "some message");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkArg("some_arg", true, "some message");
 	}
 
 	public function test_check_arg_not_ok() {
-		try {
-			$this->mock->_checkArg("some_arg", false, "some message");
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': some message", $e->getMessage());
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': some message");
+		$this->mock->_checkArg("some_arg", false, "some message");
+		
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_int_arg_ok() {
-		try {
-			$this->mock->_checkIntArg("some_arg", 1);
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkIntArg("some_arg", 1);
 	}
 
 	public function test_check_int_arg_not_ok() {
-		try {
-			$this->mock->_checkIntArg("some_arg", "foo");
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected integer, got string 'foo'", $e->getMessage());
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected integer, got string 'foo'");
+		$this->mock->_checkIntArg("some_arg", "foo");
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_string_arg_ok() {
-		try {
-			$this->mock->_checkStringArg("some_arg", "bar");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkStringArg("some_arg", "bar");
 	}
 
 	public function test_check_string_arg_not_ok() {
-		try {
-			$this->mock->_checkStringArg("some_arg", 1);
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected string, got integer '1'", $e->getMessage());
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected string, got integer '1'");
+		$this->mock->_checkStringArg("some_arg", 1);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_bool_arg_ok() {
-		try {
-			$this->mock->_checkBoolArg("some_arg", true);
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkBoolArg("some_arg", true);
 	}
 
 	public function test_check_bool_arg_not_ok() {
-		try {
-			$this->mock->_checkBoolArg("some_arg", 1);
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected bool, got integer '1'", $e->getMessage());
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected bool, got integer '1'");
+		$this->mock->_checkBoolArg("some_arg", 1);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_arg_instanceof_ok() {
-		try {
-			$this->mock->_checkArgInstanceOf("some_arg", $this->mock, ComponentMock::class);
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkArgInstanceOf("some_arg", $this->mock, ComponentMock::class);
 	}
 
 	public function test_check_arg_instanceof_not_ok() {
-		try {
-			$this->mock->_checkArgInstanceOf("some_arg", $this, ComponentMock::class);
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected ComponentMock, got ComponentHelperTest", $e->getMessage());
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected ComponentMock, got ComponentHelperTest");
+		$this->mock->_checkArgInstanceOf("some_arg", $this, ComponentMock::class);
 	}
 
 
-
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_arg_is_element_ok() {
-		try {
-			$this->mock->_checkArgIsElement("some_arg", "bar", array("foo", "bar"), "foobar");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkArgIsElement("some_arg", "bar", array("foo", "bar"), "foobar");
 	}
 
 	public function test_check_string_arg_is_element_not_ok() {
-		try {
-			$this->mock->_checkArgIsElement("some_arg", "baz", array("foo", "bar"), "foobar");
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected foobar, got 'baz'", $e->getMessage());
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected foobar, got 'baz'");
+		$this->mock->_checkArgIsElement("some_arg", "baz", array("foo", "bar"), "foobar");
 	}
 
 	public function test_to_array_with_array() {
@@ -203,144 +169,109 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array($foo), $res);
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_arg_list_elements_ok() {
 		$l = array(new Class1(), new Class1(), new Class1());
-		try {
-			$this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
 	}
 
 	public function test_check_arg_list_elements_no_ok() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected Class1, got Class2");
 		$l = array(new Class1(), new Class1(), new Class2());
-		try {
-			$this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected Class1, got Class2", $e->getMessage());
-		}
+		$this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_arg_list_elements_multi_class_ok() {
 		$l = array(new Class1(), new Class2(), new Class1());
-		try {
-			$this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
 	}
 
 	public function test_check_arg_list_elements_multi_class_not_ok() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected Class1, Class2, got Class3");
 		$l = array(new Class1(), new Class2(), new Class3(), new Class2());
-		try {
-			$this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected Class1, Class2, got Class3", $e->getMessage());
-		}
+		$this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_arg_list_elements_string_or_int_ok() {
 		$l = array(1, "foo");
-		try {
-			$this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
 	}
 
 	public function test_check_arg_list_elements_string_or_int_not_ok() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected string, int, got Class1");
 		$l = array(1, new Class1());
-		try {
-			$this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected string, int, got Class1", $e->getMessage());
-		}
+		$this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_arg_list_ok() {
 		$l = array("a" => 1, "b" => 2, "c" => 3);
-		try {
-			$this->mock->_checkArgList
-				( "some_arg"
-				, $l
-				, function($k,$v) {
-					return is_string($k) && is_int($v);
-				}
-				, function($k, $v) {
-					return "expected keys of type string and integer values, got ($k => $v)";
-				});
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkArgList
+			( "some_arg"
+			, $l
+			, function($k,$v) {
+				return is_string($k) && is_int($v);
+			}
+			, function($k, $v) {
+				return "expected keys of type string and integer values, got ($k => $v)";
+			});
 	}
 
 	public function test_check_arg_list_not_ok_1() {
+		$m = "expected keys of type string and integer values, got (4 => 3)";
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': $m");
 		$l = array("a" => 1, "b" => 2, 4 => 3);
-		try {
-			$this->mock->_checkArgList
-				( "some_arg"
-				, $l
-				, function($k,$v) {
-					return is_string($k) && is_int($v);
-				}
-				, function($k, $v) {
-					return "expected keys of type string and integer values, got ($k => $v)";
-				});
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$m = "expected keys of type string and integer values, got (4 => 3)";
-			$this->assertEquals("Argument 'some_arg': $m", $e->getMessage());
-		}
+		$this->mock->_checkArgList
+			( "some_arg"
+			, $l
+			, function($k,$v) {
+				return is_string($k) && is_int($v);
+			}
+			, function($k, $v) {
+				return "expected keys of type string and integer values, got ($k => $v)";
+			});
 	}
 
 	public function test_check_arg_list_not_ok_2() {
+		$m = "expected keys of type string and integer values, got (c => d)";
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': $m");
 		$l = array("a" => 1, "b" => 2, "c" => "d");
-		try {
-			$this->mock->_checkArgList
-				( "some_arg"
-				, $l
-				, function($k,$v) {
-					return is_string($k) && is_int($v);
-				}
-				, function($k, $v) {
-					return "expected keys of type string and integer values, got ($k => $v)";
-				});
-
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$m = "expected keys of type string and integer values, got (c => d)";
-			$this->assertEquals("Argument 'some_arg': $m", $e->getMessage());
-		}
+		$this->mock->_checkArgList
+			( "some_arg"
+			, $l
+			, function($k,$v) {
+				return is_string($k) && is_int($v);
+			}
+			, function($k, $v) {
+				return "expected keys of type string and integer values, got ($k => $v)";
+			});
 	}
 
+	/**
+	 * @doesNotPerformAssertions
+	 */
 	public function test_check_float_arg_ok() {
-		try {
-			$this->mock->_checkFloatArg("some_arg", 1.73);
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertFalse("This should not happen.");
-		}
+		$this->mock->_checkFloatArg("some_arg", 1.73);
 	}
 
 	public function test_check_float_arg_not_ok() {
-		try {
-			$this->mock->_checkFloatArg("some_arg", "foo");
-			$this->assertFalse("This should not happen.");
-		}
-		catch (\InvalidArgumentException $e) {
-			$this->assertEquals("Argument 'some_arg': expected float, got string 'foo'", $e->getMessage());
-		}
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Argument 'some_arg': expected float, got string 'foo'");
+		$this->mock->_checkFloatArg("some_arg", "foo");
 	}
 }
