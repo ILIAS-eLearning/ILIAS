@@ -548,7 +548,7 @@ abstract class ilPlugin {
 		global $DIC;
 		$lng = $DIC->language();
 
-		$pl = ilObjectPlugin::getRepoPluginObjectByType($pluginId);
+		$pl = ilObjectPlugin::getPluginObjectByType($pluginId);
 		$pl->loadLanguageModule();
 
 		return $lng->exists($pl->getPrefix() . "_" . $langVar);
@@ -1188,9 +1188,10 @@ abstract class ilPlugin {
 	 * @param $a_slot_id
 	 * @param $a_plugin_id
 	 *
-	 * @return string
+	 * @return string | null
 	 */
-	public static function lookupNameForId(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_id): string {
+	public static function lookupNameForId(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_id)
+	{
 		global $DIC;
 		$ilDB = $DIC->database();
 
@@ -1228,6 +1229,29 @@ abstract class ilPlugin {
 		$set = $ilDB->query($q);
 		if ($rec = $ilDB->fetchAssoc($set)) {
 			return $rec["plugin_id"];
+		}
+	}
+
+	/**
+	 * @param string $id
+	 * @return string[] | null
+	 */
+	public static function lookupTypeInformationsForId(string $id)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$q = "SELECT component_type, component_name, slot_id FROM il_plugin "
+			." WHERE plugin_id = " . $ilDB->quote($id, "text")
+		;
+
+		$set = $ilDB->query($q);
+		if ($rec = $ilDB->fetchAssoc($set)) {
+			return [
+				$rec["component_type"],
+				$rec["component_name"],
+				$rec["slot_id"]
+			];
 		}
 	}
 
