@@ -1328,7 +1328,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return;
 		}
 		
-		if ($a_include_view && $ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		if ($a_include_view && $this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			if (!$this->isActiveAdministrationPanel())
 			{
@@ -1343,7 +1343,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if ( $ilUser->getId() != ANONYMOUS_USER_ID &&
 				($this->adminCommands ||
 				(is_object($this->object) && 
-				($ilAccess->checkAccess("write", "", $this->object->getRefId())))
+				($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())))
 										||
 				(is_object($this->object) && 
 				($this->object->getHiddenFilesFound())) ||
@@ -1362,15 +1362,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
 			is_object($this->object) && 
-			$ilAccess->checkAccess("write", "", $this->object->getRefId()) /* &&
+			$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()) /* &&
 			$this->object->getOrderType() == ilContainer::SORT_MANUAL */ // always on because of custom block order 
 			)
 		{
 			$ilTabs->addSubTab("ordering", $lng->txt("cntr_ordering"), $ilCtrl->getLinkTarget($this, "editOrder"));
 		}
 		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
-			is_object($this->object) && 
-			$ilAccess->checkAccess("write", "", $this->object->getRefId())
+			is_object($this->object) &&
+			$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())
 			)
 		{
 			if ($ilSetting->get("enable_cat_page_edit"))
@@ -2699,12 +2699,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	function isActiveAdministrationPanel()
 	{
-		$ilAccess = $this->access;
-		
 		// #10081
 		if($_SESSION["il_cont_admin_panel"] &&
 			$this->object->getRefId() && 
-			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			return false;
 		}

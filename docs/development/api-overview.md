@@ -14,6 +14,7 @@ ILIAS core libs are located in the src folder. There are [special guidelines](..
 - [HTTP](../../src/HTTP/README.md): PSR-7 HTTP Request and Response Handling
 - [Filesystem](../../src/Filesystem/README.md): Filesystem Access
 - [FileUpload](../../src/FileUpload/README.md): File Upload Handling
+- [ArtifactBuilder](../../src/ArtifactBuilder/README.md): Artifact Builder
 - [BackgroundTasks](../../src/BackgroundTasks/README.md): Background Task Management
 - [UI](../../src/UI/README.md): User Interface Framework
 - [GlobalScreen](../../src/GlobalScreen/README.md): Layout Mediator

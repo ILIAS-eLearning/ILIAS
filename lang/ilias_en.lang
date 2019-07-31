@@ -2381,7 +2381,7 @@ rbac#:#file_copy#:#User can copy file
 common#:#file_created#:#File has been added.
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_permission#:#User can change permission settings
-common#:#file_edit#:#Edit File and Upload New Version
+common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_not_found#:#File Not Found
@@ -5282,6 +5282,8 @@ feed#:#feed_settings#:#External Web Feeds Settings
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
+file#:#upload_info#:#File
+file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
@@ -5772,10 +5774,10 @@ mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
-mail#:#mail_salutation_f#:#Hello
+mail#:#mail_salutation_f#:#Dear Mrs.
 mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
 mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], if no salutation is desired or specified
-mail#:#mail_salutation_m#:#Hello
+mail#:#mail_salutation_m#:#Dear Mr.
 mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Mr.'
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
@@ -13043,7 +13045,7 @@ rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
 crs#:#crs_loc_settings_it_type#:#Initial Test
 crs#:#crs_loc_settings_type_it_placement_all#:#Comprehensive Placement Test Covering all Objectives
-crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Objects
+crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Object
 crs#:#crs_loc_settings_type_it_placement_sel#:#Separate Placement Test for Each Objective
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Comprehensive Achievement Test Covering all Objectives
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Separate Achievement Test for Each Objective
@@ -13059,9 +13061,9 @@ crs#:#crs_loc_btn_new_assignment#:#New Test Assignment
 crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
 crs#:#crs_objective_action_qtest_sep#:#Assign Final Test
 crs#:#crs_loc_settings_tbl_its_q_all#:#Initial Qualifying Test (all Objecives)
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Diagnostic Test (all Objectives)
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Placement Test (all Objectives)
 crs#:#crs_loc_settings_tbl_it_q#:#Initial Qualifying Test (per Objective)
-crs#:#crs_loc_settings_tbl_it_nq#:#Initial Diagnostic Test (per Objective)
+crs#:#crs_loc_settings_tbl_it_nq#:#Initial Placement Test (per Objective)
 crs#:#crs_loc_settings_tbl_qts_all#:#Final Test (all objectives)
 crs#:#crs_loc_settings_tbl_qt#:#Final Test (per objective)
 crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
@@ -15148,3 +15150,29 @@ rbac#:#change_presentation#:#Change Presentation
 pd#:#pd_presentation_mode_list#:#Item List Presentation
 pd#:#pd_presentation_mode_tile#:#Tile Presentation
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+common#:#mm_organisation#:#Organisation
+common#:#mm_staff_list#:#Staff List
+common#:#mm_enrolments#:#Enrolments
+common#:#mm_communication#:#Communication
+common#:#mm_contacts#:#Contacts
+common#:#mm_mail#:#Mail
+common#:#mm_news#:#News
+common#:#mm_notes#:#Notes
+common#:#mm_comments#:#Comments
+common#:#mm_achievements#:#Achievements
+common#:#mm_learning_history#:#Learning History
+common#:#mm_skills#:#Competences
+common#:#mm_learning_progress#:#Learning Progress
+common#:#mm_badges#:#Badges
+common#:#mm_administration#:#Administration
+common#:#mm_repository#:#Repository
+common#:#mm_dashboard#:#Dashboard
+common#:#mm_repo_tree_view#:#Tree View
+common#:#mm_task_derived_tasks#:#Tasks
+common#:#mm_favorites#:#Favorites
+common#:#mm_calendar#:#Calendar
+common#:#mm_tags#:#Tags
+common#:#mm_portfolio#:#Portfolio
+common#:#mm_certificates#:#Certificates
+common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
+common#:#mm_personal_workspace#:#Personal Workspace

@@ -108,7 +108,7 @@ class ilMembershipCronNotificationsData
 							// store all single news
 							foreach ($this->user_news_aggr as $agg_news)
 							{
-								if (count($agg_news["aggregation"]) > 0)
+								if (is_array($agg_news["aggregation"]) && count($agg_news["aggregation"]) > 0)
 								{
 									foreach ($agg_news["aggregation"] as $n)
 									{

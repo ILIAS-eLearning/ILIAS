@@ -5,11 +5,14 @@ namespace ILIAS\Refinery\Custom;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation as TransformationInterface;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
 
 /**
  * Transform values according to custom configuration
  */
 class Transformation implements TransformationInterface {
+	use DeriveApplyToFromTransform;
+
 	/**
 	 * @var callable
 	 */
@@ -37,19 +40,5 @@ class Transformation implements TransformationInterface {
 	 */
 	public function __invoke($from) {
 		return $this->transform($from);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data) : Result
-	{
-		$dataValue = $data->value();
-
-		$value = $this->transform($dataValue);
-
-		$result = $this->factory->ok($value);
-
-		return $result;
 	}
 }

@@ -22,7 +22,7 @@ class ilContentPagePageGUI extends \ilPageObjectGUI implements \ilContentPageObj
 	{
 		parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr);
 		$this->setTemplateTargetVar('ADM_CONTENT');
-		$this->setTemplateOutput(true);
+		$this->setTemplateOutput(false);
 		$this->isEmbeddedMode = $isEmbeddedMode;
 	}
 

@@ -43,4 +43,15 @@ class MetaBarItemFactory
     {
         return new LinkItem($identification);
     }
+
+
+    /**
+     * @param IdentificationInterface $identification
+     *
+     * @return TopLinkItem
+     */
+    public function topLinkItem(IdentificationInterface $identification) : TopLinkItem
+    {
+        return new TopLinkItem($identification);
+    }
 }

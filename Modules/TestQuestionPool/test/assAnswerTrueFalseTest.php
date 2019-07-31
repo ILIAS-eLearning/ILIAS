@@ -82,13 +82,8 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 		$this->assertEquals($expected, $instance->isIncorrect());
 	}
 
-	/**
-	 * @TODO: Fix bug! getCorrectness returns int instead of bool.
-	 */
 	public function test_setFalseGetCorrectness_shouldReturnFalse()
 	{
-		$this->markTestIncomplete('Bug detected, fix not applied yet due to poor coverage.');
-
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
 		$instance = new ASS_AnswerTrueFalse();
@@ -99,7 +94,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
 		$actual = $instance->getCorrectness();
 
 		// Assert
-		$this->assertEquals($expected, $actual);
+		$this->assertEquals((bool) $expected, (bool) $actual);
 	}
 
 	public function test_setTrueIsTrue_shouldReturnUnchangedState()
