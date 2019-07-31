@@ -32,6 +32,7 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP")
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(30)
+	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("trac", "")->withIsOutlined(true))
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

@@ -33,6 +33,7 @@ class BadgeMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges")
                 ->withPosition(40)
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
+	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("bdga", "")->withIsOutlined(true))
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

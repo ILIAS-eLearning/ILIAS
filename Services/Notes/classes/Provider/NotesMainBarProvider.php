@@ -33,6 +33,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
             ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToComments")
             ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
             ->withPosition(40)
+	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("note", "")->withIsOutlined(true))
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {

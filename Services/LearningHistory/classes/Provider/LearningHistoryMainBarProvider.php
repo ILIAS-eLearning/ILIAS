@@ -39,6 +39,7 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
             ], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
             ->withPosition(10)
+	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("lhist", "")->withIsOutlined(true))
             ->withAvailableCallable(
                 function () {
                     $achievements = new \ilAchievements();

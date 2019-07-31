@@ -33,6 +33,7 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills")
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(20)
+	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("skmg", "")->withIsOutlined(true))
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

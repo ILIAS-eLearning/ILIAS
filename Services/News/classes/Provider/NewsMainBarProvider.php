@@ -33,6 +33,7 @@ class NewsMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(30)
+	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("nwss", "")->withIsOutlined(true))
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($dic) {

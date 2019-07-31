@@ -34,6 +34,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
             ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems")
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withPosition(10)
+	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("pdts", "")->withIsOutlined(true))
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {
