@@ -36,11 +36,7 @@ class ilOnScreenChatGUI
 
 		if($chatSettings->getSmiliesEnabled())
 		{
-			require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
-			require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
-
-			$oldWacTokenValue = \ilWACSignedPath::getTokenMaxLifetimeInSeconds();
-			\ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+			require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';;
 
 			$smileys_array = ilChatroomSmilies::_getSmilies();
 			foreach($smileys_array as $smiley_array)
@@ -56,7 +52,7 @@ class ilOnScreenChatGUI
 
 					if($key == 'smiley_fullpath')
 					{
-						$new_val = ilWACSignedPath::signFile($value);
+						$new_val = $value;
 					}
 				}
 
@@ -70,8 +66,6 @@ class ilOnScreenChatGUI
 					$smileys[$new_key] = $new_val;
 				}
 			}
-
-			\ilWACSignedPath::setTokenMaxLifetimeInSeconds($oldWacTokenValue);
 		}
 
 		return $smileys;
