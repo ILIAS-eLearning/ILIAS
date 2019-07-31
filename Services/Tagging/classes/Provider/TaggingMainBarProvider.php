@@ -30,6 +30,7 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($this->dic->language()->txt("mm_tags"))
                 ->withAction("#")
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
+	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true))
                 ->withPosition(20),
         ];
     }

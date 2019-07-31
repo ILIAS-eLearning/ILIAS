@@ -30,6 +30,7 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($this->dic->language()->txt("mm_certificates"))
                 ->withAction("#")
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
+	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("cert", "")->withIsOutlined(true))
                 ->withPosition(50),
         ];
     }

@@ -3014,6 +3014,7 @@ common#:#msg_user_last_role1#:#The following users are assigned to this role onl
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed
 common#:#msg_wrong_format#:#The value you entered is not a valid format.
+common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
 common#:#my_bms#:#Bookmarks
 common#:#my_courses#:#My Courses
 common#:#name#:#Name
@@ -14139,6 +14140,10 @@ background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
 background_tasks#:#proceed_job#:#Proceed
 background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
+background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?
+background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.
+background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?
+background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.

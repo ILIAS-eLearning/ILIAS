@@ -36,13 +36,15 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         // Home
         $entries[] = $this->getHomeItem()
             ->withParent($top)
-            ->withPosition(20);
+	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true))
+	        ->withPosition(20);
 
         // Tree-View
         $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
             ->withAction("#")
             ->withParent($top)
             ->withPosition(30)
+	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true))
             ->withTitle($this->dic->language()->txt("mm_repo_tree_view"));
 
         // LastVisited

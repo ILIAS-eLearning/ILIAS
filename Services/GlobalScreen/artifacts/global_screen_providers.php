@@ -26,7 +26,8 @@
   'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\StaticMetaBarProvider' => 
   array (
     0 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
-    1 => 'ilSearchGSMetaBarProvider',
+    1 => 'ilBTGSProvider',
+    2 => 'ilSearchGSMetaBarProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (

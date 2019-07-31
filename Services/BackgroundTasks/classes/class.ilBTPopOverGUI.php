@@ -76,10 +76,24 @@ class ilBTPopOverGUI
 
             switch ($state) {
                 case State::USER_INTERACTION:
-                    $bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
-                    $bucket->setVariable("INTERACTIONS", $r->render([
-                        $this->getUserInteractionContent($observer, $redirect_uri),
-                    ]));
+
+                    /**
+                     * @var $current_task UserInteraction
+                     */
+                    $input = $current_task->getInput();
+
+                    $message = $current_task->getMessage($input);
+                    if ((!empty($message)) AND ($message != null)) {
+                        $bucket->setCurrentBlock('message');
+                        $bucket->setVariable("MESSAGE", $message);
+                        $bucket->parseCurrentBlock();
+                    } else {
+                        $bucket->setVariable("CONTENT", $r->render($this->getProgressbar($observer)));
+                    }
+                    $bucket->setVariable(
+                        "INTERACTIONS", $r->render([$this->getUserInteractionContent($observer, $redirect_uri),])
+                    );
+
                     break;
                 case State::RUNNING:
                     $expected = (int) $current_task->getExpectedTimeOfTaskInSeconds();
@@ -149,18 +163,35 @@ class ilBTPopOverGUI
         /** @var UserInteraction $userInteraction */
         $userInteraction = $observer->getCurrentTask();
         $options = $userInteraction->getOptions($userInteraction->getInput());
-        $buttons = array_map(function (UserInteraction\Option $option) use ($factory, $renderer, $observer, $persistence, $redirect_uri, $language) {
 
-            $this->ctrl()
-                ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::SELECTED_OPTION, $option->getValue());
-            $this->ctrl()
-                ->setParameterByClass(ilBTControllerGUI::class, ilBTControllerGUI::OBSERVER_ID, $persistence->getBucketContainerId($observer));
-            $this->addFromUrlToNextRequest($redirect_uri);
+        $buttons = array_map(
+            function (UserInteraction\Option $option) use ($factory, $renderer, $observer, $persistence, $redirect_uri, $language) {
+                $this->ctrl()->setParameterByClass(
+                    ilBTControllerGUI::class,
+                    ilBTControllerGUI::FROM_URL,
+                    ilBTControllerGUI::hash("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}")
+                );
+                $this->ctrl()->setParameterByClass(
+                    ilBTControllerGUI::class,
+                    ilBTControllerGUI::SELECTED_OPTION,
+                    $option->getValue()
+                );
+                $this->ctrl()->setParameterByClass(
+                    ilBTControllerGUI::class,
+                    ilBTControllerGUI::OBSERVER_ID,
+                    $persistence->getBucketContainerId($observer)
+                );
+                $this->addFromUrlToNextRequest($redirect_uri);
 
-            return $renderer->render($factory->button()
-                ->standard($language->txt($option->getLangVar()), $this->ctrl()
-                    ->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_USER_INTERACTION)));
-        }, $options);
+                return $renderer->render(
+                    $factory->button()
+                        ->standard(
+                            $language->txt($option->getLangVar()), $this->ctrl()
+                            ->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_USER_INTERACTION)
+                        )
+                );
+            }, $options
+        );
 
         $options = implode(" ", $buttons);
 

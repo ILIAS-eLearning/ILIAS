@@ -33,7 +33,8 @@ class WorkspaceMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace")
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withPosition(60)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("fold", "")->withIsOutlined(true))
+	            ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($dic) {
                         return (bool) (!$dic->settings()->get("disable_personal_workspace"));
