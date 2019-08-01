@@ -1237,8 +1237,7 @@
 				if (!emoticonMap.hasOwnProperty(prop)) {
 					emoticonMap[prop] = $('<img src="#" alt="" title="" />')
 						.attr('data-emoticon', i)
-						.attr('data-src', prop)
-						.attr('src', prop);
+						.attr('data-src', prop);
 				}
 
 				emoticonMap[prop].attr({
