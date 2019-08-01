@@ -28,7 +28,7 @@ class ilBTGSProvider extends AbstractStaticMetaBarProvider
 
         $top_legacy_item = $this->globalScreen()->metaBar()->topLegacyItem($this->if->identifier('bgt'))
             ->withLegacyContent($gui->getPopOverContent($uid, "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"))
-            ->withGlyph($f->symbol()->glyph()->briefcase()->withCounter($f->counter()->novelty($amount_of_buckets)))
+            ->withSymbol($f->symbol()->glyph()->briefcase()->withCounter($f->counter()->novelty($amount_of_buckets)))
             ->withVisibilityCallable(
                 function () use ($amount_of_buckets): bool {
                     return ($amount_of_buckets > 0);
