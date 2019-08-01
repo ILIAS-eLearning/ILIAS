@@ -16,7 +16,7 @@ TRAVIS_RESULTS_DIRECTORY="/tmp/CI-Results/"
 DATE=`date '+%Y-%m-%d %H:%M:%S'`
 UNIXDATE=`date '+%s'`
 
-./run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
+./CI/PHPUnit/run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
 
 PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
 
