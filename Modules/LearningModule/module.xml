@@ -3,7 +3,7 @@
 	id="lm">
 	<baseclasses>
 		<baseclass name="ilLMEditorGUI" dir="classes" />
-		<baseclass name="ilLMPresentationGUI" dir="classes" />
+		<baseclass name="ilLMPresentationGUI" dir="Presentation/classes" />
 	</baseclasses>
 	<objectgroups>
 		<objectgroup id="lres" name="LearningResources" default_pres_pos="100"/>

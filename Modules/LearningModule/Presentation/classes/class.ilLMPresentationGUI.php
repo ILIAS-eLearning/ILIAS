@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -453,22 +454,7 @@ class ilLMPresentationGUI
 		$attributes = $this->attrib2arr($node->attributes());
 
 		$this->frames = array();
-		if((!empty($attributes["rows"])) || (!empty($attributes["cols"])))
-		{
-			$content .= $this->buildTag("start", "frameset", $attributes);
-			//$this->frames = array();
-			$this->processNodes($content, $node);
-			$content .= $this->buildTag("end", "frameset");
-			$this->tpl = new ilGlobalTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
-			$this->renderPageTitle();
-			$this->tpl->setVariable("FS_CONTENT", $content);
-			if (!$doshow)
-			{
-				$content = $this->tpl->get();
-			}
-		}
-		else	// node is frame -> process the content tags
-		{
+
 			// ProcessContentTag
 			//if ((empty($attributes["template"]) || !empty($_GET["obj_type"])))
 			if ((empty($attributes["template"]) || !empty($_GET["obj_type"]))
@@ -513,7 +499,7 @@ class ilLMPresentationGUI
 			$in_module = ($attributes["template_location"] == "module")
 				? true
 				: false;
-			if ($in_module)
+/*			if ($in_module)
 			{
 				$this->tpl = new ilGlobalTemplate($attributes["template"], true, true, $in_module);
 				$this->tpl->setBodyClass("");
@@ -521,7 +507,7 @@ class ilLMPresentationGUI
 			else
 			{
 				$this->tpl = $tpl;
-			}
+			}*/
 
 			// set style sheets
 			if (!$this->offlineMode())
@@ -552,25 +538,20 @@ class ilLMPresentationGUI
 				switch ($child->node_name())
 				{
 					case "ilMainMenu":
-						$this->ilMainMenu();
-						//$this->renderPageTitle();
+						// @todo 6.0
+//						$this->ilMainMenu();
 						break;
 
 					case "ilTOC":
-						$this->ilTOC($child_attr["target_frame"]);
+						// @todo 6.0
+//						$this->ilTOC($child_attr["target_frame"]);
 						break;
 
 					case "ilPage":
 						$this->renderPageTitle();
-						switch($this->lm->getType())
-						{
-							case "lm":
-								unset($_SESSION["tr_id"]);
-								unset($_SESSION["bib_id"]);
-								unset($_SESSION["citation"]);
-								$content = $this->ilPage($child);
-								break;
-						}
+						$this->setHeader();
+						$content = $this->getContent();
+						$this->tpl->setContent($content);
 						break;
 
 					case "ilGlossary":
@@ -578,7 +559,8 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMNavigation":
-						$this->ilLMNavigation();
+						// @todo 6.0
+//						$this->ilLMNavigation();
 						break;
 
 					case "ilMedia":
@@ -599,7 +581,8 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMHead":
-						$this->ilLMHead();
+						// @todo 6.0
+//						$this->ilLMHead();
 						break;
 						
 					case "ilLMSubMenu":
@@ -657,10 +640,11 @@ class ilLMPresentationGUI
 //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 				$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
 				ilYuiUtil::initConnection($this->tpl);
-				$this->tpl->fillJavaScriptFiles();
-				$this->tpl->fillScreenReaderFocus();
 
-				$this->tpl->fillCssFiles();
+				// @todo 6.0
+				//$this->tpl->fillJavaScriptFiles();
+				//$this->tpl->fillScreenReaderFocus();
+				//$this->tpl->fillCssFiles();
 			}
 			else
 			{
@@ -684,29 +668,28 @@ class ilLMPresentationGUI
 				$this->tpl->fillCssFiles(true);
 			}
 
-
-			$this->tpl->fillBodyClass();
-
-		}
+			// @todo 6.0
+			//$this->tpl->fillBodyClass();
 
 		if ($doShow)
 		{
 			// (horrible) workaround for preventing template engine
 			// from hiding paragraph text that is enclosed
 			// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-			
-			$this->tpl->fillTabs();
+
+			// @todo 6.0
+			/*$this->tpl->fillTabs();
 			if ($this->fill_on_load_code)
 			{
 				$this->tpl->fillOnLoadCode();
-				//$this->tpl->fillViewAppendInlineCss();
 			}
 			$content =  $this->tpl->get();
 			$content = str_replace("&#123;", "{", $content);
 			$content = str_replace("&#125;", "}", $content);
 
 			header('Content-type: text/html; charset=UTF-8');
-			echo $content;
+			echo $content;*/
+			$tpl->printToStdout();
 		}
 		else
 		{
@@ -932,21 +915,10 @@ class ilLMPresentationGUI
 	/**
 	* output lm header
 	*/
-	function ilLMHead()
+	function setHeader()
 	{
-		$this->tpl->setCurrentBlock("header_image");
-		if ($this->offlineMode())
-		{
-			$this->tpl->setVariable("IMG_HEADER", "./images/icon_lm.svg");
-		}
-		else
-		{
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.svg"));
-		}
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("lm_head");
-		$this->tpl->setVariable("HEADER", $this->getLMPresentationTitle());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setTitle($this->getLMPresentationTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 	}
 
 	/**
@@ -1449,124 +1421,10 @@ class ilLMPresentationGUI
 	}
 
 	/**
-	 * process <ilPage> content tag
-	 *
-	 * @param $a_page_node page node
-	 * @param int $a_page_id header / footer page id
-	 * @return string
+	 * Set content style
 	 */
-	function ilPage(&$a_page_node, $a_page_id = 0)
+	protected function setContentStyles()
 	{
-		$access = $this->access;
-
-		$ilUser = $this->user;
-		$ilHelp = $this->help;
-
-
-		$ilHelp = $this->help;
-		$ilHelp->setScreenIdComponent("lm");
-		$ilHelp->setScreenId("content");
-		$ilHelp->setSubScreenId("content");
-
-		$this->fill_on_load_code = true;
-
-
-		// check page id
-		$requested_page_lm = ilLMPage::lookupParentId($this->getCurrentPageId(), "lm");
-		if ($requested_page_lm != $this->lm->getId())
-		{
-			if ($_REQUEST["frame"] == "")
-			{
-				$this->showNoPageAccess();
-				return "";
-			}
-			else
-			{
-				$read_access = false;
-				foreach (ilObject::_getAllReferences($requested_page_lm) as $ref_id)
-				{
-					if ($access->checkAccess("read", "", $ref_id))
-					{
-						$read_access = true;
-					}
-				}
-				if (!$read_access)
-				{
-					$this->showNoPageAccess();
-					return "";
-				}
-			}
-		}
-
-		// check if page is (not) visible in public area
-		if($ilUser->getId() == ANONYMOUS_USER_ID && 
-		   $this->lm_gui->object->getPublicAccessMode() == 'selected')
-		{
-			$public = ilLMObject::_isPagePublic($this->getCurrentPageId());
-
-			if (!$public)
-				return $this->showNoPublicAccess($this->getCurrentPageId());
-		}
-
-		if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $this->getCurrentPageId()))
-		{
-			return $this->showPreconditionsOfPage($this->getCurrentPageId());
-		}
-
-		// if navigation is restricted based on correct answered questions
-		// check if we have preceeding pages including unsanswered/incorrect answered questions
-		if (!$this->offlineMode())
-		{
-			if ($this->lm->getRestrictForwardNavigation())
-			{
-				if ($this->getTracker()->hasPredIncorrectAnswers($this->getCurrentPageId()))
-				{
-					$this->showNavRestrictionDueToQuestions();
-					return;
-				}
-			}
-		}
-
-
-		// page id is e.g. > 0 when footer or header page is processed
-		if ($a_page_id == 0)
-		{
-			$page_id = $this->getCurrentPageId();
-//echo ":".$page_id.":";
-			// highlighting?
-			
-			if ($_GET["srcstring"] != "" && !$this->offlineMode())
-			{
-				$cache =  ilUserSearchCache::_getInstance($ilUser->getId());
-				$cache->switchSearchType(ilUserSearchCache::LAST_QUERY);
-				$search_string = $cache->getQuery();
-				
-				// advanced search?
-				if(is_array($search_string))
-				{
-					$search_string = $search_string["lom_content"];
-				}
-	
-				$p = new ilQueryParser($search_string);
-				$p->parse();
-				
-				$words = $p->getQuotedWords();
-				if (is_array($words))
-				{
-					foreach ($words as $w)
-					{
-						ilTextHighlighterGUI::highlight("ilLMPageContent", $w, $this->tpl);
-					}
-				}
-
-				$this->fill_on_load_code = true;
-			}
-		}
-		else
-		{
-			$page_id = $a_page_id;
-		}
-
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
@@ -1579,182 +1437,6 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
 		}
 		$this->tpl->parseCurrentBlock();
-
-		// no active page found in chapter
-		if ($this->chapter_has_no_active_page &&
-			ilLMObject::_lookupType($_GET["obj_id"]) == "st")
-		{
-			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
-				"Modules/LearningModule");
-			$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_no_page_in_chapter"));
-			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.svg",
-			//	false, "output", $this->offlineMode()));
-			$mtpl->setVariable("ITEM_TITLE",
-				ilLMObject::_lookupTitle($_GET["obj_id"]));
-			$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
-			return $mtpl->get();
-		}
-		
-		// current page is deactivated
-		if ($this->deactivated_page)
-		{
-			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
-				"Modules/LearningModule");
-			$m = $this->lng->txt("cont_page_currently_deactivated");
-			$act_data = ilLMPage::_lookupActivationData((int) $_GET["obj_id"], $this->lm->getType());
-			if ($act_data["show_activation_info"] &&
-				(ilUtil::now() < $act_data["activation_start"]))
-			{
-				$m.= "<p>".sprintf($this->lng->txt("cont_page_activation_on"),
-					ilDatePresentation::formatDate(new ilDateTime($act_data["activation_start"],IL_CAL_DATETIME)
-					)).
-					"</p>";
-			}
-			$mtpl->setVariable("MESSAGE", $m);
-			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.svg",
-			//	false, "output", $this->offlineMode()));
-			$mtpl->setVariable("ITEM_TITLE",
-				ilLMObject::_lookupTitle($_GET["obj_id"]));
-			$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
-			return $mtpl->get();
-		}
-
-		// check if page is out of focus
-		$focus_mess = "";
-		if ($this->focus_id > 0)
-		{
-			$path = $this->lm_tree->getPathId($page_id);
-
-			// out of focus
-			if (!in_array($this->focus_id, $path))
-			{
-				$mtpl = new ilTemplate("tpl.out_of_focus_message.html", true, true,
-					"Modules/LearningModule");
-				$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_out_of_focus_message"));
-				$mtpl->setVariable("TXT_SHOW_CONTENT", $this->lng->txt("cont_show_content_after_focus"));
-
-				if ($_GET["focus_return"] == "" || ilObject::_lookupType((int) $_GET["focus_return"], true) != "crs")
-				{
-					$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_beginning"));
-					$this->ctrl->setParameter($this, "obj_id", $this->focus_id);
-					$mtpl->setVariable("LINK_BACK_TO_BEGINNING", $this->ctrl->getLinkTarget($this, "layout"));
-					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				}
-				else
-				{
-					$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_return_crs"));
-					$mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink((int) $_GET["focus_return"]));
-				}
-
-				$this->ctrl->setParameter($this, "focus_id", "");
-				$mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this, "layout"));
-				$this->ctrl->setParameter($this, "focus_id", $_GET["focus_id"]);
-
-				$focus_mess = $mtpl->get();
-			}
-			else
-			{
-				$sp = $this->getSuccessorPage();
-				$path2 = array();
-				if ($sp > 0)
-				{
-					$path2 = $this->lm_tree->getPathId($this->getSuccessorPage());
-				}
-				if ($sp == 0 || !in_array($this->focus_id, $path2))
-				{
-					$mtpl = new ilTemplate("tpl.out_of_focus_message.html", true, true,
-						"Modules/LearningModule");
-					$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_out_of_focus_message_last_page"));
-					$mtpl->setVariable("TXT_SHOW_CONTENT", $this->lng->txt("cont_show_content_after_focus"));
-
-					if ($_GET["focus_return"] == "" || ilObject::_lookupType((int) $_GET["focus_return"], true) != "crs")
-					{
-						$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_beginning"));
-						$this->ctrl->setParameter($this, "obj_id", $this->focus_id);
-						$mtpl->setVariable("LINK_BACK_TO_BEGINNING", $this->ctrl->getLinkTarget($this, "layout"));
-						$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-					}
-					else
-					{
-						$mtpl->setVariable("TXT_BACK_BEGINNING", $this->lng->txt("cont_to_focus_return_crs"));
-						$mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink((int) $_GET["focus_return"]));
-					}
-
-					$this->ctrl->setParameter($this, "focus_id", "");
-					$mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this, "layout"));
-					$this->ctrl->setParameter($this, "focus_id", $_GET["focus_id"]);
-
-					$focus_mess = $mtpl->get();
-				}
-			}
-		}
-		
-		// no page found
-		if ($page_id == 0)
-		{
-			$cont = $this->lng->txt("cont_no_page");
-			$this->tpl->setVariable("PAGE_CONTENT", $cont);
-			return $cont;
-		}
-		
-
-		$page_object_gui = $this->getLMPageGUI($page_id);
-		$this->basicPageGuiInit($page_object_gui);
-		$page_object = $page_object_gui->getPageObject();
-		$page_object->buildDom();
-		$page_object->registerOfflineHandler($this);
-		
-		$int_links = $page_object->getInternalLinks();
-
-
-
-		$page_object_gui->setTemplateOutput(false);
-		
-		// Update personal desktop items
-		$ilUser->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
-
-		// Update course items
-		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
-
-		// read link targets
-		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-		$link_xml.= $this->getLinkTargetsXML();
-
-		// get lm page object
-		$lm_pg_obj = new ilLMPageObject($this->lm, $page_id);
-		$lm_pg_obj->setLMId($this->lm->getId());
-		//$pg_obj->setParentId($this->lm->getId());
-		$page_object_gui->setLinkXML($link_xml);
-		
-		// determine target frames for internal links
-		//$pg_frame = $_GET["frame"];
-		$page_object_gui->setLinkFrame($_GET["frame"]);		
-		
-		// page title and tracking (not for header or footer page)
-		if ($page_id == 0 || ($page_id != $this->lm->getHeaderPage() &&
-			$page_id != $this->lm->getFooterPage()))
-		{
-			$page_object_gui->setPresentationTitle(
-				ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang));
-
-			// track access
-			if ($ilUser->getId() != ANONYMOUS_USER_ID && $page_id != 0 && !$this->offlineMode())
-			{
-				$this->getTracker()->trackAccess($page_id);
-			}
-		}
-		else
-		{
-			$page_object_gui->setEnabledPageFocus(false);
-			$page_object_gui->getPageConfig()->setEnableSelfAssessment(false);
-		}
-
-		// ADDED FOR CITATION
-		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
-		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
-		$page_object_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadLink());
 
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
@@ -1769,60 +1451,101 @@ class ilLMPresentationGUI
 				"syntaxhighlight.css");
 		}
 		$this->tpl->parseCurrentBlock();
+	}
 
 
-		$ret = $page_object_gui->presentation($page_object_gui->getOutputMode());
-				
-		// process header
-		if ($this->lm->getHeaderPage() > 0 && 
-			$page_id != $this->lm->getHeaderPage() &&
-			($page_id == 0 || $page_id != $this->lm->getFooterPage()))
-		{
-			if (ilLMObject::_exists($this->lm->getHeaderPage()))
-			{
-				$head = $this->ilPage($a_page_node, $this->lm->getHeaderPage());
-			}
-		}
 
-		// process footer
-		if ($this->lm->getFooterPage() > 0 && 
-			$page_id != $this->lm->getFooterPage() &&
-			($page_id == 0 || $page_id != $this->lm->getHeaderPage()))
-		{
-			if (ilLMObject::_exists($this->lm->getFooterPage()))
-			{
-				$foot = $this->ilPage($a_page_node, $this->lm->getFooterPage());
-			}
-		}
-		
+	/**
+	 * process <ilPage> content tag
+	 *
+	 * @param $a_page_node page node
+	 * @param int $a_page_id header / footer page id
+	 * @return string
+	 */
+	function getContent()
+	{
+		$this->fill_on_load_code = true;
+		$this->setContentStyles();
+
+
+		$tpl = new ilTemplate("tpl.lm_content.html", true, true, "Modules/LearningModule/Presentation");
+
+		// call ilLMContentRendererGUI
+
+		$navigation_renderer = new ilLMNavigationRendererGUI($this->getCurrentPageId(),
+			$this->lm,
+			$this->offlineMode(),
+			$this->chapter_has_no_active_page,
+			$this->deactivated_page,
+			$this->lang,
+			$this->lm_set,
+			$this->lm_tree,
+			$this,
+			$this->getTracker(),
+			$this->lng,
+			$this->user,
+			$this->tpl);
+
+
+		$content_renderer = new ilLMContentRendererGUI(
+			$this->getCurrentPageId(),
+			$this->lm,
+			$this->offlineMode(),
+			$this->chapter_has_no_active_page,
+			$this->deactivated_page,
+			$this->focus_id,
+			$this->lang,
+			$this->lm_set,
+			$this->lm_tree,
+			$this,
+			$this->getTracker(),
+			$this->lng,
+			$this->ctrl,
+			$this->access,
+			$this->user,
+			$this->help);
+
+		$tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
+		$tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
+		$tpl->setVariable("PAGE_CONTENT", $content_renderer->render());
+
+		return $tpl->get();
+
+	}
+
+	/**
+	 * Render rating
+	 *
+	 * @return string
+	 */
+	protected function renderRating()
+	{
 		// rating
 		$rating = "";
 		if($this->lm->hasRatingPages() && !$this->offlineMode())
 		{
 			$rating_gui = new ilRatingGUI();
-			$rating_gui->setObject($this->lm->getId(), "lm", $page_id, "lm");	
-			$rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));		
-			
-			/*			
-				$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, true, 
-					"il.ExcPeerReview.saveComments(".$a_set["peer_id"].", %rating%)"));				
+			$rating_gui->setObject($this->lm->getId(), "lm", $page_id, "lm");
+			$rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));
+
+			/*
+				$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, true,
+					"il.ExcPeerReview.saveComments(".$a_set["peer_id"].", %rating%)"));
 			*/
-						
+
 			$this->ctrl->setParameter($this, "pgid", $page_id);
 			$this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('".
 				$this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false).
 				"')");
 			$this->ctrl->setParameter($this, "pgid", "");
-			
+
 			$rating = '<div id="ilrtrpg" style="text-align:right">'.
 				$rating_gui->getHtml(true, true, "il.LearningModule.saveRating(%rating%);").
 				"</div>";
 		}
-		
-		$this->tpl->setVariable("PAGE_CONTENT", $rating.$head.$focus_mess.$ret.$foot);
-//echo htmlentities("-".$ret."-");
-		return $head.$focus_mess.$ret.$foot;
+		return $rating;
 	}
+
 	
 	function updatePageRating()
 	{
@@ -1889,89 +1612,7 @@ class ilLMPresentationGUI
 		$a_page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
 	}
 
-	/**
-	* show preconditions of the page
-	*/
-	function showPreconditionsOfPage()
-	{
-		$conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getRefId(),$this->lm->getId(), $this->getCurrentPageId());
-		$topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getRefId(),$this->lm->getId(), $this->getCurrentPageId());
 
-		$page_id = $this->getCurrentPageId();
-
-		// content style
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->addBlockFile("PAGE_CONTENT", "pg_content", "tpl.page_preconditions.html", true);
-		
-		// list all missing preconditions
-		foreach($conds as $cond)
-		{
-			$obj_link = ilLink::_getLink($cond["trigger_ref_id"]);
-			$this->tpl->setCurrentBlock("condition");
-			$this->tpl->setVariable("VAL_ITEM", ilObject::_lookupTitle($cond["trigger_obj_id"]));
-			$this->tpl->setVariable("LINK_ITEM", $obj_link);
-			if ($cond["operator"] == "passed")
-			{
-				$cond_str = $this->lng->txt("passed");
-			}
-			else
-			{
-				$cond_str = $this->lng->txt("condition_".$cond["operator"]);
-			}
-			$this->tpl->setVariable("VAL_CONDITION", $cond_str." ".$cond["value"]);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("pg_content");
-		
-		$this->tpl->setVariable("TXT_MISSING_PRECONDITIONS", 
-			sprintf($this->lng->txt("cont_missing_preconditions"),
-			ilLMObject::_lookupTitle($topchap)));
-		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("object"));
-		$this->tpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
-		
-		// output skip chapter link
-		$parent = $this->lm_tree->getParentId($topchap);
-		$childs = $this->lm_tree->getChildsByType($parent, "st");
-		$next = "";
-		$j=-2; $i=1; 
-		foreach($childs as $child)
-		{
-			if ($child["child"] == $topchap)
-			{
-				$j = $i;
-			}
-			if ($i++ == ($j+1))
-			{
-				$succ_node = $this->lm_tree->fetchSuccessorNode($child["child"], "pg");
-			}
-		}
-		if($succ_node != "")
-		{
-			$framestr = (!empty($_GET["frame"]))
-				? "frame=".$_GET["frame"]."&"
-				: "";
-
-			$showViewInFrameset = true;
-			$link = "<br /><a href=\"".
-				$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]).
-				"\">".$this->lng->txt("cont_skip_chapter")."</a>";
-			$this->tpl->setVariable("LINK_SKIP_CHAPTER", $link);
-		}
-		
-		$this->tpl->parseCurrentBlock();
-	}
-	
 	/**
 	* get xml for links
 	*/
@@ -2438,324 +2079,6 @@ class ilLMPresentationGUI
 			return $succ_node["obj_id"];
 		}
 		return 0;
-	}
-
-
-	/**
-	* inserts sequential learning module navigation
-	* at template variable LMNAVIGATION_CONTENT
-	*/
-	function ilLMNavigation()
-	{
-		$ilUser = $this->user;
-
-		$page_id = $this->getCurrentPageId();
-
-		if(empty($page_id))
-		{
-			return;
-		}
-
-		// process navigation for free page
-		if(!$this->lm_tree->isInTree($page_id))
-		{
-			if ($this->offlineMode() || $_GET["back_pg"] == "")
-			{
-				return;
-			}
-			$limpos = strpos($_GET["back_pg"], ":");
-			if ($limpos > 0)
-			{
-				$back_pg = substr($_GET["back_pg"], 0, $limpos);
-			}
-			else
-			{
-				$back_pg = $_GET["back_pg"];
-			}
-			if (!$this->lm->cleanFrames())
-			{
-				$back_href =
-					$this->getLink($this->lm->getRefId(), "layout", $back_pg, $_GET["frame"],
-						"", "reduce");
-				$back_target = "";
-			}
-			else
-			{
-				$back_href =
-					$this->getLink($this->lm->getRefId(), "layout", $back_pg, "",
-						"", "reduce");
-				$back_target = 'target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ';
-			}
-			$back_img =
-				ilUtil::getImagePath("nav_arr2_L.png", false, "output", $this->offlineMode());
-			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
-			$this->tpl->setVariable("IMG_PREV", $back_img);
-			$this->tpl->setVariable("HREF_PREV", $back_href);
-			$this->tpl->setVariable("FRAME_PREV", $back_target);
-			$this->tpl->setVariable("TXT_PREV", $this->lng->txt("back"));
-			$this->tpl->setVariable("ALT_PREV", $this->lng->txt("back"));
-			$this->tpl->setVariable("PREV_ACC_KEY",
-				ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS));
-			$this->tpl->setVariable("SPACER_PREV", $this->offlineMode()
-				? "images/spacer.png"
-				: ilUtil::getImagePath("spacer.png"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
-			$this->tpl->setVariable("IMG_PREV2", $back_img);
-			$this->tpl->setVariable("HREF_PREV2", $back_href);
-			$this->tpl->setVariable("FRAME_PREV2", $back_target);
-			$this->tpl->setVariable("TXT_PREV2", $this->lng->txt("back"));
-			$this->tpl->setVariable("ALT_PREV2", $this->lng->txt("back"));
-			$this->tpl->setVariable("SPACER_PREV2", $this->offlineMode()
-				? "images/spacer.png"
-				: ilUtil::getImagePath("spacer.png"));
-			$this->tpl->parseCurrentBlock();
-			return;
-		}
-
-		// determine successor page_id
-		$found = false;
-		
-		// empty chapter
-		if ($this->chapter_has_no_active_page &&
-			ilLMObject::_lookupType($_GET["obj_id"]) == "st")
-		{
-			$c_id = $_GET["obj_id"];
-		}
-		else
-		{
-			if ($this->deactivated_page)
-			{
-				$c_id = $_GET["obj_id"];
-			}
-			else
-			{
-				$c_id = $page_id;
-			}
-		}
-		while (!$found)
-		{
-			$succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
-			$c_id = $succ_node["obj_id"];
-	
-			$active = ilLMPage::_lookupActive($c_id,
-				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
-
-			if ($succ_node["obj_id"] > 0 &&
-				$ilUser->getId() == ANONYMOUS_USER_ID &&
-				( $this->lm->getPublicAccessMode() == "selected" &&
-				!ilLMObject::_isPagePublic($succ_node["obj_id"])))
-			{
-				$found = false;
-			}
-			else if ($succ_node["obj_id"] > 0 && !$active)
-			{
-				// look, whether activation data should be shown
-				$act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
-				if ($act_data["show_activation_info"] &&
-					(ilUtil::now() < $act_data["activation_start"]))
-				{
-					$found = true;
-				}
-				else
-				{
-					$found = false;
-				}
-			}
-			else
-			{
-				$found = true;
-			}
-		}
-
-		$succ_str = ($succ_node !== false)
-			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
-			: "";
-
-		// determine predecessor page id
-		$found = false;
-		if ($this->deactivated_page)
-		{
-			$c_id = $_GET["obj_id"];
-		}
-		else
-		{
-			$c_id = $page_id;
-		}
-		while (!$found)
-		{
-			$pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
-			$c_id = $pre_node["obj_id"];
-			$active = ilLMPage::_lookupActive($c_id,
-				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
-			if ($pre_node["obj_id"] > 0 &&
-				$ilUser->getId() == ANONYMOUS_USER_ID &&
-				($this->lm->getPublicAccessMode() == "selected" &&
-				!ilLMObject::_isPagePublic($pre_node["obj_id"])))
-			{
-				$found = false;
-			}
-			else if ($pre_node["obj_id"] > 0 && !$active)
-			{
-				// look, whether activation data should be shown
-				$act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
-				if ($act_data["show_activation_info"] &&
-					(ilUtil::now() < $act_data["activation_start"]))
-				{
-					$found = true;
-				}
-				else
-				{
-					$found = false;
-				}
-			}
-			else
-			{
-				$found = true;
-			}
-		}
-		
-		$pre_str = ($pre_node !== false)
-			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
-			: "";
-
-		// determine target frame
-		$framestr = (!empty($_GET["frame"]))
-			? "frame=".$_GET["frame"]."&"
-			: "";
-
-
-		// Determine whether the view of a learning resource should
-		// be shown in the frameset of ilias, or in a separate window.
-		$showViewInFrameset = true;
-
-		if($pre_node != "")
-		{
-			// get presentation title
-			$prev_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang, true);
-			$prev_title = ilUtil::shortenText($prev_title, 50, true);
-			$prev_img = 
-				ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offlineMode());
-
-			if (!$this->lm->cleanFrames())
-			{
-				$prev_href =
-					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"], $_GET["frame"]);
-				$prev_target = "";
-			}
-			else if ($showViewInFrameset && !$this->offlineMode())
-			{
-				$prev_href =
-					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]);
-				$prev_target = 'target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ';
-			}
-			else
-			{
-				$prev_href =
-					$this->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]);
-				$prev_target = 'target="_top" ';
-			}
-			
-			if($ilUser->getId() == ANONYMOUS_USER_ID &&
-			   ($this->lm->getPublicAccessMode() == 'selected' && !ilLMObject::_isPagePublic($pre_node["obj_id"])))
-			{
-				$output = $this->lng->txt("msg_page_not_public");
-			}
-			
-			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
-			$this->tpl->setVariable("IMG_PREV", $prev_img);
-			$this->tpl->setVariable("HREF_PREV", $prev_href);
-			$this->tpl->setVariable("FRAME_PREV", $prev_target);
-			$this->tpl->setVariable("TXT_PREV", $prev_title);
-			$this->tpl->setVariable("ALT_PREV", $this->lng->txt("previous"));
-			$this->tpl->setVariable("SPACER_PREV", $this->offlineMode()
-				? "images/spacer.png"
-				: ilUtil::getImagePath("spacer.png"));
-			$this->tpl->setVariable("PREV_ACC_KEY",
-				ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
-			$this->tpl->setVariable("IMG_PREV2", $prev_img);
-			$this->tpl->setVariable("HREF_PREV2", $prev_href);
-			$this->tpl->setVariable("FRAME_PREV2", $prev_target);
-			$this->tpl->setVariable("TXT_PREV2", $prev_title);
-			$this->tpl->setVariable("ALT_PREV2", $this->lng->txt("previous"));
-			$this->tpl->setVariable("SPACER_PREV2", $this->offlineMode()
-				? "images/spacer.png"
-				: ilUtil::getImagePath("spacer.png"));
-			$this->tpl->parseCurrentBlock();
-		}
-		if($succ_node != "")
-		{
-			// get presentation title
-			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang, true);
-			$succ_title = ilUtil::shortenText($succ_title, 50, true);
-			$succ_img =
-				ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offlineMode());
-			if (!$this->lm->cleanFrames())
-			{
-				$succ_href =
-					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]);
-				$succ_target = "";
-			}
-			else if ($showViewInFrameset && !$this->offlineMode())
-			{
-				$succ_href =
-					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]);
-				$succ_target = ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ';
-			}
-			else
-			{
-				$succ_href =
-					$this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]);
-				$succ_target = ' target="_top" ';
-			}
-			
-			if($ilUser->getId() == ANONYMOUS_USER_ID &&
-			   ($this->lm->getPublicAccessMode() == 'selected' && !ilLMObject::_isPagePublic($pre_node["obj_id"])))
-			{
-				$output = $this->lng->txt("msg_page_not_public");
-			}
-
-			$this->tpl->setCurrentBlock("ilLMNavigation_Next");
-			$this->tpl->setVariable("IMG_SUCC", $succ_img);
-			$this->tpl->setVariable("HREF_SUCC", $succ_href);
-			$this->tpl->setVariable("FRAME_SUCC", $succ_target);
-			$this->tpl->setVariable("TXT_SUCC", $succ_title);
-			$this->tpl->setVariable("ALT_SUCC", $this->lng->txt("next"));
-			$this->tpl->setVariable("SPACER_SUCC", $this->offlineMode()
-				? "images/spacer.png"
-				: ilUtil::getImagePath("spacer.png"));
-			$this->tpl->setVariable("NEXT_ACC_KEY",
-				ilAccessKeyGUI::getAttribute(ilAccessKey::NEXT));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("ilLMNavigation_Next2");
-			$this->tpl->setVariable("IMG_SUCC2", $succ_img);
-			$this->tpl->setVariable("HREF_SUCC2", $succ_href);
-			$this->tpl->setVariable("FRAME_SUCC2", $succ_target);
-			$this->tpl->setVariable("TXT_SUCC2", $succ_title);
-			$this->tpl->setVariable("ALT_SUCC2", $this->lng->txt("next"));
-			$this->tpl->setVariable("SPACER_SUCC2", $this->offlineMode()
-				? "images/spacer.png"
-				: ilUtil::getImagePath("spacer.png"));
-			$this->tpl->parseCurrentBlock();
-
-			// check if successor page is not restricted
-			if (!$this->offlineMode())
-			{
-				if ($this->lm->getRestrictForwardNavigation())
-				{
-					if ($this->getTracker()->hasPredIncorrectAnswers($succ_node["obj_id"]))
-					{
-						$this->tpl->addOnLoadCode("$('.ilc_page_rnav_RightNavigation').addClass('ilNoDisplay');");
-					}
-				}
-			}
-		}
 	}
 
 
@@ -4345,8 +3668,9 @@ class ilLMPresentationGUI
 	protected function renderPageTitle()
 	{
 		$this->tpl->setHeaderPageTitle($this->getLMPresentationTitle());
-		$this->tpl->fillWindowTitle();
-		$this->tpl->fillContentLanguage();
+		// @todo 6.0
+//		$this->tpl->fillWindowTitle();
+//		$this->tpl->fillContentLanguage();
 	}	
 	
 
