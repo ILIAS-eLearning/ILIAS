@@ -72,5 +72,4 @@ Check the
 to create specific git hook adapted to the needs of the development process.
 
 The official [ILIAS pre-commit](https://github.com/ILIAS-eLearning/DeveloperTools/blob/master/git_hooks/hooks/pre-commit)
-uses a dry-run the check you code style and returns
-the line that needs to change according to the defined code style.
+uses a dry-run to check your code style and returns the line that needs to change according to the defined code style.
