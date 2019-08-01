@@ -295,24 +295,24 @@
 					template: '<div class="tooltip ilOnScreenChatWindowHeaderTooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
 				});
 
-				var emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
+				let emoticonPanel = conversationWindow.find('[data-onscreenchat-emoticons-panel]'),
 					messageField = conversationWindow.find('[data-onscreenchat-message]');
-
-				messageField.popover({
-					html : true,
-					trigger: 'manual',
-					placement : 'auto',
-					title: il.Language.txt('chat_osc_emoticons'),
-					content: function () {
-						return emoticonPanel.data('emoticons').getContent();
-					}
-				});
 
 				emoticonPanel.find('[data-onscreenchat-emoticons-flyout-trigger]').on('click', function(e) {
 					e.preventDefault();
 					e.stopPropagation();
 
 					emoticonPanel.data('emoticons').preload().then(function() {
+						messageField.popover({
+							html:      true,
+							trigger:   'manual',
+							placement: 'auto',
+							title:     il.Language.txt('chat_osc_emoticons'),
+							content:   function () {
+								return emoticonPanel.data('emoticons').getContent();
+							}
+						});
+
 						messageField.popover('show');
 					});
 				}).on('clickoutside', function(e) {
@@ -1202,7 +1202,28 @@
 	 * @constructor
 	 */
 	var Smileys = function Smileys(_smileys) {
-		let emoticonMap = {};
+		let emoticonMap = {}, emoticonCollection = [];
+
+		if (typeof _smileys === "object" && Object.keys(_smileys).length > 0) {
+			for (let i in _smileys) {
+				let prop = _smileys[i];
+
+				if (!emoticonMap.hasOwnProperty(prop)) {
+					emoticonMap[prop] = $('<img src="#" alt="" title="" />')
+						.attr('data-emoticon', i)
+						.attr('data-src', prop)
+						.attr('src', prop);
+				}
+
+				emoticonMap[prop].attr({
+					alt:   [emoticonMap[prop].attr('alt').toString(), i].join(' '),
+					title: [emoticonMap[prop].attr('title').toString(), i].join(' ')
+				});
+			}
+			for (let i in emoticonMap) {
+				emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html());
+			}
+		}
 
 		/**
 		 * 
@@ -1245,44 +1266,26 @@
 		 * @returns {Promise<unknown[]>}
 		 */
 		this.preload = function () {
-			return Promise.all(Object.keys(emoticonMap).map(function (key) {
+			let promises = Object.keys(emoticonMap).map(function (key) {
 				return Img(emoticonMap[key].attr('data-src'));
-			}));
+			});
+
+			return Promise.all(promises);
 		}
 
 		this.getContent = function () {
-			let emoticonCollection = []
+			let renderCollection = [];
 
-			for (let i in emoticonMap) {
-				if (!emoticonMap.hasOwnProperty(i)) {
-					return
-				}
+			emoticonCollection.forEach(function(elm) {
+				renderCollection.push(elm.replace(/src="#"/, "").replace(/data-src/, "src"));
+			});
 
-				emoticonMap[i].attr('src', emoticonMap[i].attr('data-src'));
-				emoticonCollection.push(emoticonMap[i].wrap('<div><a data-onscreenchat-emoticon></a></div>').parent().parent().html())
-			}
-
-			return emoticonCollection.join('')
+			return renderCollection.join('');
 		}
 
 		this.getTriggerHtml = function() {
-			if (typeof _smileys !== "object" || _smileys.length === 0) {
+			if (typeof _smileys !== "object" || Object.keys(_smileys).length === 0) {
 				return $("");
-			}
-
-			for (let i in _smileys) {
-				let prop = _smileys[i];
-
-				if (!emoticonMap.hasOwnProperty(prop)) {
-					emoticonMap[prop] = $('<img src="#" alt="" title="" />')
-						.attr('data-emoticon', i)
-						.attr('data-src', prop);
-				}
-
-				emoticonMap[prop].attr({
-					alt:   [emoticonMap[prop].attr('alt').toString(), i].join(' '),
-					title: [emoticonMap[prop].attr('title').toString(), i].join(' ')
-				});
 			}
 
 			return $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
