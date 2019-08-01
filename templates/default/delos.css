@@ -15888,6 +15888,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .popover {
   max-width: 200px;
+  min-height: 100px;
 }
 #onscreenchat-container .popover a {
   border: 1px solid white;
