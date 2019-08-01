@@ -86,7 +86,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
 		// TODO: switch this to internal sorting/segmentation
-		$this->setExternalSorting(true);
+		$this->setExternalSorting(false);
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		$this->setShowRowsSelector(false);
@@ -327,14 +327,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 		$query .= $this->getFrom();
 		$query .= $this->getWhere($a_prg_id);
 		$query .= $this->getFilterWhere($filter);
-
-		if($order_column !== null) {
-			$query .= " ORDER BY $order_column";
-
-			if($order_direction !== null) {
-				$query .= " $order_direction";
-			}
-		}
 
 		if($limit !== null) {
 			$this->db->setLimit($limit, $offset !== null ? $offset : 0);
