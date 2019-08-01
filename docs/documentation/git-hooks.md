@@ -19,7 +19,7 @@ for more information.
 
 All the following hooks can be found in the
 [ILIAS Developer Tools](https://github.com/ILIAS-eLearning/DeveloperTools)
-as seperated files.
+as separated files.
 
 ### Usage
 
@@ -71,6 +71,6 @@ Check the
 [git_hooks code style folder](https://github.com/ILIAS-eLearning/DeveloperTools/tree/master/git_hooks/code-style/)
 to create specific git hook adapted to the needs of the development process.
 
-The offical [ILIAS pre-commit](https://github.com/ILIAS-eLearning/DeveloperTools/blob/master/git_hooks/hooks/pre-commit)
+The official [ILIAS pre-commit](https://github.com/ILIAS-eLearning/DeveloperTools/blob/master/git_hooks/hooks/pre-commit)
 uses a dry-run the check you code style and returns
 the line that needs to change according to the defined code style.
