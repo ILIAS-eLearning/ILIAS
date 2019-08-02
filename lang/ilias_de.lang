@@ -11231,7 +11231,7 @@ prg#:#prg_expiry_date#:#Ablauf Qualifikation
 prg#:#prg_validity#:#Gültigkeit Qualifikation
 prg#:#prg_still_valid#:#Qualifikation gültig
 prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
-prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qulifikationen im Studienprogramm
+prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qualifikationen im Studienprogramm
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
 prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
