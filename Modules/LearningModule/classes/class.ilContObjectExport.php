@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Export class for content objects
@@ -119,15 +118,12 @@ class ilContObjectExport
 	{
 		if (in_array($a_mode, array("master", "masternomedia")))
 		{
-			include_once("./Services/Export/classes/class.ilExport.php");
 			$exp = new ilExport();
 			$conf = $exp->getConfig("Modules/LearningModule");
 			$conf->setMasterLanguageOnly(true, ($a_mode == "master"));
 			$exp->exportObject($this->cont_obj->getType(),$this->cont_obj->getId(), "5.1.0");
 			return;
 		}
-
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		$this->xml = new ilXmlWriter;
 
@@ -148,7 +144,6 @@ class ilContObjectExport
 
 		// get Log File
 		$expDir = $this->cont_obj->getExportDirectory();
-		include_once './Services/Logging/classes/class.ilLog.php';
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
@@ -161,7 +156,6 @@ class ilContObjectExport
 		// export style
 		if ($this->cont_obj->getStyleSheetId() > 0)
 		{
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style_obj = new ilObjStyleSheet($this->cont_obj->getStyleSheetId(), false);
 			//$style_obj->exportXML($this->export_dir."/".$this->subdir);
 			$style_obj->setExportSubDir("style");
@@ -186,7 +180,6 @@ class ilContObjectExport
 		// help export (workaround to use ref id here)
 		if (ilObjContentObject::isOnlineHelpModule((int) $_GET["ref_id"]))
 		{
-			include_once("./Services/Export/classes/class.ilExport.php");
 			$exp = new ilExport();
 			$exp->exportEntity("help", $this->cont_obj->getId(), "4.3.0", "Services/Help",
 				"OnlineHelp", $this->export_dir."/".$this->subdir);

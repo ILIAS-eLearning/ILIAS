@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Content Object (ILIAS native learning module / digilib book)
@@ -42,8 +41,6 @@ class ilLMContObjectManifestBuilder
 	*/
 	function buildManifest()
 	{
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-
 		$this->writer = new ilXmlWriter;
 
 		// set xml header

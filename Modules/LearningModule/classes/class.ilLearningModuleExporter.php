@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Exporter class for html learning modules
@@ -23,7 +22,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 	 */
 	function init()
 	{
-		include_once("./Modules/LearningModule/classes/class.ilLearningModuleDataSet.php");
 		$this->ds = new ilLearningModuleDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
@@ -46,9 +44,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 	 */
 	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-
 		$deps = array();
 
 		if ($a_entity == "lm")
@@ -107,7 +102,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 			// help export
 			foreach ($a_ids as $id)
 			{
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				if (ilObjContentObject::isOnlineHelpModule($id, true))
 				{
 					$deps[] = array(
@@ -120,7 +114,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 			// style
 			foreach ($a_ids as $id)
 			{
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 				if (($s = ilObjContentObject::_lookupStyleSheetId($id)) > 0)
 				{
 					$deps[] = array(
@@ -149,7 +142,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 	{
 		// workaround: old question export
 		$q_ids = array();
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		$pages = ilLMPageObject::getPageList($a_id);
 		foreach ($pages as $p)
 		{
@@ -168,7 +160,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 			foreach ($langs as $l)
 			{
 				// collect questions
-				include_once("./Services/COPage/classes/class.ilPCQuestion.php");
 				foreach (ilPCQuestion::_getQuestionIdsForPage("lm", $p["obj_id"], $l) as $q_id)
 				{
 					$q_ids[$q_id] = $q_id;
@@ -179,7 +170,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 		{
 			$dir = $this->getExport()->export_run_dir;
 			$qti_file = fopen($dir."/qti.xml", "w");
-			include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 			$pool = new ilObjQuestionPool();
 			fwrite($qti_file, $pool->questionsToXML($q_ids));
 			fclose($qti_file);
@@ -187,12 +177,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 
 		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 
-		/*include_once './Modules/LearningModule/classes/class.ilObjLearningModule.php';
-		$lm = new ilObjLearningModule($a_id,false);
-
-		include_once './Modules/LearningModule/classes/class.ilContObjectExport.php';
-		$exp = new ilContObjectExport($lm);
-		$zip = $exp->buildExportFile();*/
 	}
 
 	/**
@@ -205,6 +189,12 @@ class ilLearningModuleExporter extends ilXmlExporter
 	function getValidSchemaVersions($a_entity)
 	{
 		return array (
+			"5.4.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/LearningModule/lm/5_4",
+				"xsd_file" => "ilias_lm_5_4.xsd",
+				"uses_dataset" => true,
+				"min" => "5.4.0",
+				"max" => ""),
 			"5.1.0" => array(
 				"namespace" => "http://www.ilias.de/Modules/LearningModule/lm/5_1",
 				"xsd_file" => "ilias_lm_5_1.xsd",

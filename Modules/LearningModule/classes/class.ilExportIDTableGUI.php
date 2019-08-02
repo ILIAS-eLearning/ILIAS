@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
  * Export IDs table
@@ -41,8 +40,7 @@ class ilExportIDTableGUI extends ilTable2GUI
 		$this->validation = $a_validation;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-		
+
 		if ($this->getOnlineHelpMode())
 		{
 			$this->setData(ilStructureObject::getChapterList($this->parent_obj->object->getId()));

@@ -1,11 +1,6 @@
 <?php
-/*
- * Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE
- * Date: 23.10.14
- * Time: 10:47
- */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * tree explorer lm public area
@@ -30,7 +25,6 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 	{
 		$this->lm = $a_lm;
 
-		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
 		$tree = ilLMTree::getInstance($this->lm->getId());
 
 		parent::__construct("lm_public_section_".$this->lm->getId(),$a_parent_obj,$a_parent_cmd,$tree);
@@ -68,7 +62,6 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 			$a_name = "icon_".$a_node["type"].".svg";
 			if ($a_node["type"] == "pg")
 			{
-				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 				$lm_set = new ilSetting("lm");
 				$active = ilLMPage::_lookupActive($a_node["child"], $this->lm->getType(),
 					$lm_set->get("time_scheduled_page_activation"));
@@ -87,7 +80,6 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 				}
 				else
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_node["child"],
 						$this->lm->getType());
 					if ($contains_dis)
