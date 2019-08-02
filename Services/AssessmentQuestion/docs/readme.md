@@ -228,10 +228,20 @@ $asqPlayService->getUserScore(
 ```
 
 ### Get a standalone question for export
-You can use this method if you like to display and play a question independent from the Assessment Question Service
-//TODO
-```
+You can use this method if you like to display and play a question independent from the Assessment Question Service.
 
+A collection of resources the question requires can be fetched by using a collector that is to be passed as parameter for the offline export.
+
+```
+$questionResourcesCollector = $DIC->assessment()->consumer()->questionRessourcesCollector();
+
+$uestionOfflinePresentationComponent = $playService->GetStandaloneQuestionExportPresentation(
+	$this->questionResourcesCollector, $image_path, $a_mode, $a_no_interaction
+);
+
+$questionResourcesCollector->getMobs();
+$questionResourcesCollector->getMediaFiles();
+$questionResourcesCollector->getJsFiles();
 ```
 	
 # Export / Import
