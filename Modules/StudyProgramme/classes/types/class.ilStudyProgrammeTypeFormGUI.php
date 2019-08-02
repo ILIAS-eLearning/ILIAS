@@ -82,8 +82,6 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         $item->setOptions($options);
         $item->setRequired(true);
         $this->addItem($item);
-
-        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
     /**
@@ -107,6 +105,7 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         }
 
         $this->addCommandButton('update', $this->lng->txt('save'));
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
 
@@ -123,6 +122,7 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         }
 
         $this->addCommandButton('create', $this->lng->txt('save'));
+        $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
     /**

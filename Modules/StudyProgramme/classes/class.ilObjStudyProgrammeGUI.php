@@ -877,7 +877,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 		$validator = new ilCertificateDownloadValidator();
-		if (true === $validator->isCertificateDownloadable($this->user->getId(), $this->object->getId())) {
+		if (true === $validator->isCertificateDownloadable($this->user->getId(), $this->object->getId()) && $lg) {
 			$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
 			$this->lng->loadLanguageModule("certificate");
 			$lg->addCustomCommand($cert_url, "download_certificate");
