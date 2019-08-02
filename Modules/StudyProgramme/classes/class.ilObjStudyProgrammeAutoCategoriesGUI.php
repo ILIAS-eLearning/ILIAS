@@ -115,9 +115,13 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
 		$data = [];
 		foreach($this->getObject()->getAutomaticContentCategories() as $ac) {
-			$title = $this->getItemPath($ac->getCategoryRefId());
+			$ref_id = $ac->getCategoryRefId();
+			if(ilObject::_lookupType($ref_id,true) !== 'cat' || $this->tree->isDeleted($ref_id)) {
+				continue;
+			}
+			$title = $this->getItemPath($ref_id);
 			$usr = $this->getUserRepresentation($ac->getLastEditorId());
-			$form = $this->getModalForm($ac->getCategoryRefId());
+			$form = $this->getModalForm($ref_id);
 			$modal = $this->getModal($form);
 			$collected_modals[] = $modal;
 			$signal = $modal->getShowSignal();
@@ -149,13 +153,16 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	{
 		$form = $this->getModalForm()->withRequest($this->request);
 		$result = $form->getData();
-
 		if(
 			array_key_exists(self::F_CATEGORY_ORIGINAL_REF, $_GET)
 			&& $_GET[self::F_CATEGORY_ORIGINAL_REF] !== $result[self::F_CATEGORY_REF]
 		) {
 			$ids = [(int)$_GET[self::F_CATEGORY_ORIGINAL_REF]];
 			$this->getObject()->deleteAutomaticContentCategories($ids);
+		}
+		if(ilObject::_lookupType((int)$result[self::F_CATEGORY_REF],true) !== 'cat') {
+			\ilUtil::sendFailure(sprintf($this->lng->txt('not_a_valid_cat_id'),$result[self::F_CATEGORY_REF]),true);
+			return;
 		}
 
 		$this->getObject()->storeAutomaticContentCategory(
