@@ -5800,6 +5800,7 @@ mail#:#placeholders_advise#:#Personal placeholders are only substituted for reci
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 mail#:#mail_tbl_head_attachments#:#Attachment
+mail#:#mail_firstname_last_name_superior#:#Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten.
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -12958,6 +12959,8 @@ crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.
 crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
 crs#:#crs_period#:#Period of Event
+crs#:#crs_period_start_mail_placeholder#:#Period Start
+crs#:#crs_period_end_mail_placeholder#:#Period End
 crs#:#crs_course_period_not_valid#:#The period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
 crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
