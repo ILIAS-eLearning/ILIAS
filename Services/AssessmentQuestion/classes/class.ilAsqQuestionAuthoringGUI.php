@@ -15,6 +15,8 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecCo
  */
 class ilAsqQuestionAuthoringGUI
 {
+	const CMD_CREATE_QUESTION = "createQuestion";
+
 	/**
 	 * ilAsqQuestionAuthoringGUI constructor.
 	 * @param AuthoringServiceSpecContract $authoringQuestionServiceSpec
@@ -26,6 +28,9 @@ class ilAsqQuestionAuthoringGUI
 	
 	public function executeCommand()
 	{
-	
+		global $DIC;
+
+		$cmd = $DIC->ctrl()->getCmd();
+		echo $cmd; exit;
 	}
 }

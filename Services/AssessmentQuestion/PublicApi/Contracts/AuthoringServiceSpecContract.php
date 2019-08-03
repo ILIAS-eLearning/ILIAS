@@ -4,6 +4,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Contracts;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\DomainObjectId;
 use ILIAS\UI\Component\Link\Link;
+use Symfony\Component\EventDispatcher\Tests\Debug\EventSubscriber;
 
 /**
  * Interface QuestionAuthoringServiceSpec
@@ -26,7 +27,7 @@ interface AuthoringServiceSpecContract {
 	 * @param int $actor_user_id
 	 * @param Link $container_backlink
 	 */
-	public function __construct(int $container_obj_id, QuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink);
+	public function __construct(int $container_obj_id, int $initiating_user_id, Link $container_backlink);
 
 
 	/**
@@ -34,16 +35,16 @@ interface AuthoringServiceSpecContract {
 	 *
 	 * Additional Form Seccitons for a question delivered by consumer. E.G. Taxonomie.
 	 */
-	public function addAdditionalConfigSection(AsqAdditionalConfigSection $asq_additional_config_section);
+	public function addAdditionalConfigSection(AdditionalConfigSectionContract $asq_additional_config_section);
 
 
-	public function subscribeToQuestionCreatedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionCreatedPublicEvent(EventSubscriber $asq_public_event_subscriber);
 
 
-	public function subscribeToQuestionEditedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionEditedPublicEvent(EventSubscriber $asq_public_event_subscriber);
 
 
-	public function subscribeToQuestionDeletedPublicEvent(AsqApiEventSubscriber $asq_public_event_subscriber);
+	public function subscribeToQuestionDeletedPublicEvent(EventSubscriber $asq_public_event_subscriber);
 
 
 	public function withSpecificRevision(string $revision_uuid);
