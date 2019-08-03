@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
+
 require_once './Services/Object/classes/class.ilObjectGUI.php';
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
@@ -8,6 +10,7 @@ require_once './Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolExce
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';
 require_once './Modules/Test/classes/class.ilObjTest.php';
+require_once './Services/AssessmentQuestion/classes/class.ilAsqQuestionAuthoringGUI.php';
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -28,6 +31,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assKprimChoiceGUI, assLongMenuGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolSkillAdministrationGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAsqQuestionAuthoringGUI
  *
  * @ingroup ModulesTestQuestionPool
  * 
@@ -148,6 +152,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		switch($next_class)
 		{
+			case "ilasqquestionauthoringgui":
+				$gui = new ilAsqQuestionAuthoringGUI($this->buildAsqAuthoringSpecification());
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
@@ -1115,11 +1124,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if( $rbacsystem->checkAccess('write', $_GET['ref_id']) )
 		{
 			$toolbar = new ilToolbarGUI();
-			
+
+			$authoringService = $DIC->assessment()->service()->authoring(
+				$this->buildAsqAuthoringSpecification(), $DIC->assessment()->consumer()->newQuestionUuid()
+			);
+			$creationLinkComponent = $authoringService->getCreationLink([ilRepositoryGUI::class,static::class]);
+
+
 			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 			$btn = ilLinkButton::getInstance();
-			$btn->setCaption('ass_create_question');
-			$btn->setUrl($this->ctrl->getLinkTarget($this, 'createQuestionForm'));
+			$btn->setCaption($creationLinkComponent->getLabel());
+			$btn->setUrl($creationLinkComponent->getAction());
 			$btn->setPrimary(true);
 			$toolbar->addButtonInstance($btn);
 
@@ -1850,8 +1865,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		return $table_gui;
 	}
-	
-	
+
+	public function buildAsqAuthoringSpecification() : AuthoringServiceSpecContract
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+		//TODO
+		$containerBackLink = $DIC->ui()->factory()->link()->standard(
+			'Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
+		);
+
+		$authoringSpecification = $DIC->assessment()->specification()->authoring(
+			$this->object->getId(),
+			$DIC->user()->getId(),
+			$containerBackLink
+		);//->addAdditionalConfigSection($this->buildAdditionalTaxonomiesConfigSection());
+
+		return $authoringSpecification;
+	}
+
+
+
 
 } // END class.ilObjQuestionPoolGUI
 ?>

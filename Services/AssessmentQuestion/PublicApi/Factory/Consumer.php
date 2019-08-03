@@ -19,6 +19,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionResourcesCollector;
 use ilFormSectionHeaderGUI;
 use ilFormPropertyGUI;
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class Consumer
@@ -54,7 +55,7 @@ class Consumer {
 	public function newQuestionUuid(): QuestionIdContract {
 		global $DIC;
 
-		return new QuestionId(UUID::create(), $DIC->settings()->get('inst_id'), new ilDateTime());
+		return new QuestionId(UUID::uuid4(), $DIC->settings()->get('inst_id'), new ilDateTime());
 	}
 
 

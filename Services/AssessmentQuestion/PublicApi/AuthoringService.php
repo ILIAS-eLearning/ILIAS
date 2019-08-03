@@ -2,6 +2,7 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
+use ilAsqQuestionAuthoringGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
@@ -30,11 +31,16 @@ class AuthoringService implements AuthoringServiceContract {
 	public function __construct(AuthoringServiceSpecContract $asq_authoring_spec, QuestionIdContract $questionUuid) {
 	}
 	
-	public function getCreationLink(): Link
+	public function getCreationLink(array $ctrl_stack): Link
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		return $DIC->ctrl()->getLinkTargetByClass('ilAsqQuestionAuthoringGUI', 'createQuestionForm');
+
+		array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+
+		//TODO
+		return $DIC->ui()->factory()->link()->standard('create',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_CREATE_QUESTION));
+
+
 	}
 
 	/**
@@ -109,7 +115,7 @@ class AuthoringService implements AuthoringServiceContract {
 		// TODO: implement
 	}
 	
-	public function changeQuestionContainer(): void
+	public function changeQuestionContainer(int $container_obj_id): void
 	{
 		// TODO: Implement changeQuestionContainer() method.
 	}

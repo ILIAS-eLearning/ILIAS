@@ -6,6 +6,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectio
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\UI\Component\Link\Link;
+use Symfony\Component\EventDispatcher\Tests\Debug\EventSubscriber;
 
 /**
  * Interface QuestionAuthoringServiceSpec
@@ -24,11 +25,11 @@ class AuthoringServiceSpec implements AuthoringServiceSpecContract {
 	 * QuestionAuthoringServiceSpec constructor.
 	 *
 	 * @param int $container_obj_id
-	 * @param QuestionIdContract $question_uuid
+	 * @param string $question_uuid
 	 * @param int $actor_user_id
 	 * @param Link $container_backlink
 	 */
-	public function __construct(int $container_obj_id, QuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink) {
+	public function __construct(int $container_obj_id, int $initiating_user_id, Link $container_backlink) {
 
 	}
 

@@ -26,9 +26,11 @@ interface AuthoringServiceContract {
 
 
 	/**
+	 * @param array $ctrl_stack
+	 *
 	 * @return Link
 	 */
-	public function getCreationLink(): Link;
+	public function getCreationLink(array $ctrl_stack): Link;
 
 
 	/**
