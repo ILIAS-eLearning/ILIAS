@@ -1,0 +1,78 @@
+<?php
+
+namespace ILIAS\AssessmentQuestion\Play\Editor;
+
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
+use JsonSerializable;
+use stdClass;
+
+/**
+ * Abstract Class AbstractEditor
+ *
+ * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
+ */
+abstract class AbstractEditor {
+
+	/**
+	 * @var QuestionDto
+	 */
+	protected $question;
+
+	/**
+	 * AbstractEditor constructor.
+	 *
+	 * @param QuestionDto   $question
+	 * @param array|null $configuration
+	 */
+	public function __construct(QuestionDto $question) {
+		$this->question = $question;
+	}
+
+	/**
+	 * @return string
+	 */
+	abstract public function generateHtml(): string;
+
+
+	/**
+	 * @return Answer
+	 */
+	abstract public function readAnswer(): string;
+
+
+	/**
+	 * @param string $answer
+	 */
+	abstract public function setAnswer(string $answer) : void;
+
+	/**
+	 * @param JsonSerializable|null $config
+	 *
+	 * @return array|null
+	 */
+	public static function generateFields(?JsonSerializable $config): ?array {
+		return null;
+	}
+
+	/**
+	 * @return JsonSerializable|null
+	 */
+	public static function readConfig() : ?JsonSerializable {
+		return null;
+	}
+
+	/**
+	 * @param stdClass $input
+	 *
+	 * @return JsonSerializable|null
+	 */
+	public static function deserialize(?stdClass $input) : ?JsonSerializable {
+		return null;
+	}
+}
