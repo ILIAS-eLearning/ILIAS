@@ -14,7 +14,6 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfigur
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring\AvailableScorings;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionForm;
 use ILIAS\AssessmentQuestion\Play\Editor\AvailableEditors;
-use ILIAS\AssessmentQuestion\Play\Editor\MultipleChoiceEditor;
 use ILIAS\AssessmentQuestion\Play\Presenter\AvailablePresenters;
 use ilImageFileInputGUI;
 use ilNumberInputGUI;
@@ -22,8 +21,7 @@ use \ilPropertyFormGUI;
 use ilSelectInputGUI;
 use ilTextAreaInputGUI;
 use \ilTextInputGUI;
-use mysql_xdevapi\Exception;
-use srag\CustomInputGUIs\SrAssessment\MultiLineInputGUI\MultiLineInputGUI;
+use Exception;
 
 class QuestionFormGUI extends ilPropertyFormGUI {
 	const VAR_AGGREGATE_ID = 'aggregate_id';
@@ -194,9 +192,9 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	private function readQuestionData(): QuestionData {
 		return new QuestionData(
 			$_POST[self::VAR_TITLE],
-			$_POST[self::VAR_DESCRIPTION],
 			$_POST[self::VAR_QUESTION],
-			$_POST[self::VAR_AUTHOR]
+			$_POST[self::VAR_AUTHOR],
+		    $_POST[self::VAR_DESCRIPTION]
 		);
 	}
 

@@ -94,11 +94,12 @@ class ilAsqQuestionAuthoringGUI
 
                 $question->setData(
                     new QuestionData
+                    
                     (
                         $form->getQuestionTitle(), 
-                        $form->getQuestionDescription(), 
                         $form->getQuestionText(), 
-                        $form->getQuestionAuthor()));
+                        $form->getQuestionAuthor(),
+                        $form->getQuestionDescription()));
                 
                 $this->authoring_service->SaveQuestion($question);
                 $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $question_id);

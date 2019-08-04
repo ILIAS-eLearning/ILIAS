@@ -2,7 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Play\Editor;
 
-use JsonSerializable;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 
 /**
  * Class MultipleChoiceEditor
@@ -14,7 +14,7 @@ use JsonSerializable;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class MultipleChoiceEditorConfiguration implements JsonSerializable {
+class MultipleChoiceEditorConfiguration extends AbstractValueObject {
 
 	/**
 	 * @var bool
@@ -65,16 +65,23 @@ class MultipleChoiceEditorConfiguration implements JsonSerializable {
 	public function getThumbnailSize(): int {
 		return $this->thumbnail_size;
 	}
-
+	
 	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
+	 * {@inheritDoc}
+	 * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::equals()
 	 */
-	public function jsonSerialize() {
-		return get_object_vars($this);
-	}
+    public function equals(AbstractValueObject $other): bool
+    {
+        return $this->isShuffleAnswers() === $other->isShuffleAnswers() &&
+               $this->getMaxAnswers() === $other->getMaxAnswers() &&
+               $this->getThumbnailSize() === $other->getThumbnailSize();
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
+     */
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

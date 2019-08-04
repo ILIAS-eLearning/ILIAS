@@ -2,9 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
-use JsonSerializable;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 
-class QuestionData implements JsonSerializable {
+class QuestionData extends AbstractValueObject {
 	/**
 	 * @var string
 	 */
@@ -31,7 +31,7 @@ class QuestionData implements JsonSerializable {
 	 * @param string $text
 	 * @param string $author
 	 */
-	public function __construct(string $title, string $description, string $text, string $author) {
+	public function __construct(string $title, string $text, string $author, string $description = null) {
 		$this->title = $title;
 		$this->description = $description;
 		$this->question_text = $text;
@@ -60,19 +60,29 @@ class QuestionData implements JsonSerializable {
 		return $this->question_text;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getAuthor(): string {
 		return $this->author;
 	}
-
 	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
+	 * {@inheritDoc}
+	 * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::equals()
 	 */
-	public function jsonSerialize() {
-		return get_object_vars($this);
-	}
+    public function equals(AbstractValueObject $other): bool
+    {
+        return $this->getAuthor() === $other->getAuthor() &&
+               $this->getDescription() === $other->getDescription() &&
+               $this->getQuestionText() === $other->getQuestionText() &&
+               $this->getTitle() === $other->getTitle();
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
+     */
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

@@ -53,8 +53,8 @@ class QuestionDataSetEvent extends AbstractDomainEvent {
 	public function restoreEventBody(string $json_data) {
 		$data = json_decode($json_data);
 		$this->data = new QuestionData($data->title,
-		                               $data->description,
 		                               $data->question_text,
-									   $data->author);
+									   $data->author,
+		                               $data->description);
 	}
 }

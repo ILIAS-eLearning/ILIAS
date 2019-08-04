@@ -2,12 +2,14 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
+
 /**
  * Class QuestionHint
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class QuestionHint {
+class QuestionHint extends AbstractValueObject{
 
 	/**
 	 * @var string
@@ -45,6 +47,22 @@ class QuestionHint {
 	public function getPoints(): float {
 		return $this->points;
 	}
-
-
+	
+	/**
+	 * {@inheritDoc}
+	 * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::equals()
+	 */
+    public function equals(AbstractValueObject $other): bool
+    {
+        return $this->getLabelHint() === $other->getLabelHint() &&
+               $this->getPoints() === $other->points;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
+     */
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

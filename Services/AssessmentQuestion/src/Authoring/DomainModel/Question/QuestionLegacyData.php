@@ -6,6 +6,7 @@ use Exception;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Legacy\SingleChoiceQuestionGUI;
 use ilPropertyFormGUI;
 use JsonSerializable;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 
 /**
  * Class QuestionPlayConfiguration
@@ -14,7 +15,7 @@ use JsonSerializable;
  *
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  */
-class QuestionLegacyData implements JsonSerializable {
+class QuestionLegacyData extends AbstractValueObject {
 	const TYPE_GENERIC = 0;
 	const TYPE_SINGLE_CHOICE = 1;
 	const TYPE_MULTIPLE_CHOICE = 2;
@@ -88,16 +89,22 @@ class QuestionLegacyData implements JsonSerializable {
 				throw new Exception("Implement missing case please");
 		}
 	}
-
+	
 	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
+	 * {@inheritDoc}
+	 * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::equals()
 	 */
-	public function jsonSerialize() {
-		return get_object_vars($this);
-	}
+    public function equals(AbstractValueObject $other): bool
+    {
+        return $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
+               $this->getContainerObjId() === $other->getContainerObjId();
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
+     */
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
-use JsonSerializable;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 
 /**
  * Class QuestionPlayConfiguration
@@ -11,14 +11,14 @@ use JsonSerializable;
  *
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  */
-class QuestionPlayConfiguration implements JsonSerializable{
+class QuestionPlayConfiguration extends AbstractValueObject {
 
 	/**
 	 * @var string
 	 */
 	private $presenter_class;
 	/**
-	 * @var JsonSerializable
+	 * @var AbstractValueObject
 	 */
 	private $presenter_configuration;
 	/**
@@ -26,7 +26,7 @@ class QuestionPlayConfiguration implements JsonSerializable{
 	 */
 	private $editor_class;
 	/**
-	 * @var JsonSerializable
+	 * @var AbstractValueObject
 	 */
 	private $editor_configuration;
 	/**
@@ -34,7 +34,7 @@ class QuestionPlayConfiguration implements JsonSerializable{
 	 */
 	private $scoring_class;
 	/**
-	 * @var JsonSerializable
+	 * @var AbstractValueObject
 	 */
 	private $scoring_configuration;
 	/**
@@ -50,18 +50,18 @@ class QuestionPlayConfiguration implements JsonSerializable{
 	 * @param string                $editor_class
 	 * @param string                $scoring_class
 	 * @param int                   $working_time
-	 * @param JsonSerializable|null $editor_configuration
-	 * @param JsonSerializable|null $presenter_configuration
-	 * @param JsonSerializable|null $scoring_configuration
+	 * @param AbstractValueObject|null $editor_configuration
+	 * @param AbstractValueObject|null $presenter_configuration
+	 * @param AbstractValueObject|null $scoring_configuration
 	 */
 	public function __construct(
 		string $presenter_class,
 		string $editor_class,
 		string $scoring_class,
 		int $working_time,
-		JsonSerializable $editor_configuration = null,
-		JsonSerializable $presenter_configuration = null,
-		JsonSerializable $scoring_configuration = null
+	    AbstractValueObject $editor_configuration = null,
+	    AbstractValueObject $presenter_configuration = null,
+	    AbstractValueObject $scoring_configuration = null
 	) {
 		$this->presenter_class = $presenter_class;
 		$this->editor_class = $editor_class;
@@ -101,37 +101,47 @@ class QuestionPlayConfiguration implements JsonSerializable{
 	}
 
 	/**
-	 * @return JsonSerializable
+	 * @return AbstractValueObject
 	 */
-	public function getEditorConfiguration(): ?JsonSerializable {
+	public function getEditorConfiguration(): ?AbstractValueObject {
 		return $this->editor_configuration;
 	}
 
 
 	/**
-	 * @return JsonSerializable
+	 * @return AbstractValueObject
 	 */
-	public function getPresenterConfiguration(): ?JsonSerializable {
+	public function getPresenterConfiguration(): ?AbstractValueObject {
 		return $this->presenter_configuration;
 	}
 
 
 	/**
-	 * @return JsonSerializable
+	 * @return AbstractValueObject
 	 */
-	public function getScoringConfiguration(): ?JsonSerializable {
+	public function getScoringConfiguration(): ?AbstractValueObject {
 		return $this->scoring_configuration;
 	}
-
+	
 	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
+	 * {@inheritDoc}
+	 * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::equals()
 	 */
-	public function jsonSerialize() {
-		return get_object_vars($this);
-	}
+    public function equals(AbstractValueObject $other): bool
+    {
+        return $this->getEditorClass() === $other->getEditorClass() &&
+               $this->getPresenterClass() === $other->getPresenterClass() &&
+               $this->getScoringClass() === $other->getScoringClass() &&
+               AbstractValueObject::isNullableEqual($this->getEditorConfiguration(), $other->getEditorConfiguration()) &&
+               AbstractValueObject::isNullableEqual($this->getPresenterConfiguration(), $other->getPresenterConfiguration()) &&
+               AbstractValueObject::isNullableEqual($this->getScoringConfiguration(), $other->getScoringConfiguration());
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
+     */
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

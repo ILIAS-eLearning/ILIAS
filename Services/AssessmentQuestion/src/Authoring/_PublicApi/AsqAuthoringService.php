@@ -2,14 +2,14 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandBusBuilder;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
 
@@ -67,15 +67,16 @@ class AsqAuthoringService {
 		/** @var Question $question */
 		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
 
-		if ($question_dto->getData() != $question->getData()) {
+		if (!AbstractValueObject::isNullableEqual($question_dto->getData(), $question->getData())) {
 			$question->setData($question_dto->getData(), $this->asq_question_spec->user_id);
 		}
 
-		if ($question_dto->getPlayConfiguration() != $question->getPlayConfiguration()) {
+		if (!AbstractValueObject::isNullableEqual($question_dto->getPlayConfiguration(), $question->getPlayConfiguration())) {
 			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->asq_question_spec->user_id);
 		}
 
-		if ($question_dto->getAnswerOptions() != $question->getAnswerOptions()){
+		// TODO implement equals for answer options
+		if ($question_dto->getAnswerOptions() !== $question->getAnswerOptions()){
 			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->asq_question_spec->user_id);
 		}
 
@@ -94,11 +95,10 @@ class AsqAuthoringService {
 		// no image
 	}
 
-
 	/**
-	 * @param Answer $answer -> vgl Services/AssessmentQuestion/docs/Big_Picture.puml -> AnswerEntity
+	 * @param Answer $answer
 	 */
-	public function SaveAnswer(array $answer) {
+	public function SaveAnswer(Answer $answer) {
 		// Save Answers
 	}
 
