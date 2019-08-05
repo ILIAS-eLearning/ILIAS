@@ -66,6 +66,10 @@ class EstimatedReadingTime implements Transformation
             foreach ($textNodes as $textNode) {
                 /** @var \DOMText $textNode */
                 $wordsInContent = array_filter(preg_split('/\s+/', $textNode->textContent));
+
+                $wordsInContent = array_filter($wordsInContent, function (string $word) {
+                    return preg_replace('/^\pP$/', '', $word) !== '';
+                });
                 
                 $numberOfWords += count($wordsInContent);
             }
