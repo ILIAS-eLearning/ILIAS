@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Legacy\SingleChoic
 use ilPropertyFormGUI;
 use JsonSerializable;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
+use stdClass;
 
 /**
  * Class QuestionPlayConfiguration
@@ -99,7 +100,24 @@ class QuestionLegacyData extends AbstractValueObject {
         return $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
                $this->getContainerObjId() === $other->getContainerObjId();
     }
-    
+
+
+	/**
+	 * Creates QuestionLegacyData from serialized object
+	 *
+	 * @param stdClass $data
+	 *
+	 * @return QuestionLegacyData
+	 */
+	public static function fromStdClass(?stdClass $data) : ?QuestionLegacyData
+	{
+		if ($data === null) {
+			return null;
+		}
+
+		return new QuestionLegacyData($data->answer_type_id, $data->container_obj);
+	}
+
     /**
      * {@inheritDoc}
      * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()

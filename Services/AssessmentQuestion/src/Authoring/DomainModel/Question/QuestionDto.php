@@ -113,7 +113,7 @@ class QuestionDto {
 	/**
 	 * @param QuestionLegacyData $legacy_data
 	 */
-	public function setLegacyData(QuestionLegacyData $legacy_data): void {
+	public function setLegacyData(?QuestionLegacyData $legacy_data): void {
 		$this->legacy_data = $legacy_data;
 	}
 

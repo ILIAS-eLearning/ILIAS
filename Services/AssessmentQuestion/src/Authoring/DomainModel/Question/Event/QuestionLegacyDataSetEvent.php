@@ -59,10 +59,6 @@ class QuestionLegacyDataSetEvent extends AbstractDomainEvent {
 	 * @param string $json_data
 	 */
 	public function restoreEventBody(string $json_data) {
-		$data = json_decode($json_data);
-		$this->legacy_data = new QuestionLegacyData
-		(
-			$data->answer_type_id,
-			$data->container_obj_id);
+		$this->legacy_data = QuestionLegacyData::fromStdClass(json_decode($json_data));
 	}
 }

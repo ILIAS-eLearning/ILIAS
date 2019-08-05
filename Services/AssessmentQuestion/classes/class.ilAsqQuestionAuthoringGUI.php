@@ -26,7 +26,6 @@ class ilAsqQuestionAuthoringGUI
     const VAR_QUESTION_ID = "questionId";
     
 	const CMD_CREATE_QUESTION = "createQuestion";
-	const CMD_CREATE_QUESTION_STEP_2 = "createQuestion2";
 	const CMD_EDIT_QUESTION = "editQuestion";
 
 	/**
@@ -72,41 +71,10 @@ class ilAsqQuestionAuthoringGUI
 	            $type = $form->getQuestionType();
 	            $this->authoring_service->CreateQuestion(new DomainObjectId($guid), null, $type);
 	            $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $guid);
-	            $DIC->ctrl()->redirect($this, self::CMD_CREATE_QUESTION_STEP_2);
+	            $DIC->ctrl()->redirect($this, self::CMD_EDIT_QUESTION);
 	            break;
 	    }
 	}
-	
-    public function createQuestion2()
-    {
-        global $DIC;
-        
-        $form = new CreateQuestionFormGUI();
-        
-        switch($_SERVER['REQUEST_METHOD'])
-        {
-            case "GET":
-                $DIC->ui()->mainTemplate()->setContent($form->getHTML());
-                break;
-            case "POST":
-                $question_id = $_GET[self::VAR_QUESTION_ID];
-                $question = $this->authoring_service->GetQuestion($question_id);
-
-                $question->setData(
-                    new QuestionData
-                    
-                    (
-                        $form->getQuestionTitle(), 
-                        $form->getQuestionText(), 
-                        $form->getQuestionAuthor(),
-                        $form->getQuestionDescription()));
-                
-                $this->authoring_service->SaveQuestion($question);
-                $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $question_id);
-                $DIC->ctrl()->redirect($this, self::CMD_EDIT_QUESTION);
-                break;
-        }
-    }
     
     public function editQuestion()
     {

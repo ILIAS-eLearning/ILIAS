@@ -10,6 +10,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\Answer
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionLegacyData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring\AvailableScorings;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionForm;
@@ -35,6 +36,8 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	const VAR_PRESENTER = 'presenter';
 	const VAR_SCORING = 'scoring';
 	const VAR_WORKING_TIME = 'working_time';
+
+	const VAR_LEGACY = 'legacy';
 
 	const SECONDS_IN_MINUTE = 60;
 	const SECONDS_IN_HOUR = 3600;
@@ -62,6 +65,10 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$id = new ilHiddenInputGUI(self::VAR_AGGREGATE_ID);
 		$id->setValue($question->getId());
 		$this->addItem($id);
+
+		$legacy = new ilHiddenInputGUI(self::VAR_LEGACY);
+		$legacy->setValue(json_encode($question->getLegacyData()));
+		$this->addItem($legacy);
 
 		$this->initQuestionDataConfiguration($question->getData());
 
@@ -101,6 +108,8 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$question = new QuestionDto();
 		$question->setId($_POST[self::VAR_AGGREGATE_ID]);
 
+		$question->setLegacyData(QuestionLegacyData::fromStdClass(json_decode($_POST[self::VAR_LEGACY])));
+
 		$question->setData($this->readQuestionData());
 
 		$question->setPlayConfiguration($this->readPlayConfiguration());
@@ -114,26 +123,29 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	/**
 	 * @param QuestionData $data
 	 */
-	private function initQuestionDataConfiguration(QuestionData $data): void {
+	private function initQuestionDataConfiguration(?QuestionData $data): void {
 		$title = new ilTextInputGUI('title', self::VAR_TITLE);
 		$title->setRequired(true);
-		$title->setValue($data->getTitle());
 		$this->addItem($title);
 
 		$author = new ilTextInputGUI('author', self::VAR_AUTHOR);
 		$author->setRequired(true);
-		$author->setValue($data->getAuthor());
 		$this->addItem($author);
 
 		$description = new ilTextInputGUI('description', self::VAR_DESCRIPTION);
-		$description->setValue($data->getDescription());
 		$this->addItem($description);
 
 		$question_text = new ilTextAreaInputGUI('question', self::VAR_QUESTION);
 		$question_text->setRequired(true);
-		$question_text->setValue($data->getQuestionText());
 		$question_text->setRows(10);
 		$this->addItem($question_text);
+
+		if ($data !== null) {
+			$title->setValue($data->getTitle());
+			$author->setValue($data->getAuthor());
+			$description->setValue($data->getDescription());
+			$question_text->setValue($data->getQuestionText());
+		}
 	}
 
 
