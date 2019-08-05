@@ -92,9 +92,54 @@ class ilContainerRenderer
 		$this->enable_multi_download = (bool)$a_enable_multi_download;				
 		$this->active_block_ordering = (bool)$a_active_block_ordering;			
 		$this->block_custom_pos = $a_block_custom_positions;
-		$this->view_mode = $a_view_mode;
+		# use additional variable to save -default- view 
+		$this->global_view_mode = $a_view_mode;
+		# use setter to set $this->view_mode
+		$this->setViewMode( $a_view_mode );
 		$this->container_gui = $container_gui_obj;
 		$this->ctrl = $DIC->ctrl();
+	}
+
+	/**
+	 * Global view mode
+	 *
+	 * @var int
+	 */
+	protected $global_view_mode;
+
+	/**
+	 * Set view mode
+	 *
+	 * @access protected
+	 * @param int $view_mode_str
+	 * @return
+	 */
+	protected function setViewMode( $view_mode_str = '' ){
+
+		switch ( $view_mode_str ){
+
+			case 'list': {
+
+				$this->view_mode = ilContainerContentGUI::VIEW_MODE_LIST;
+
+				break;
+			}
+			case 'tile': {
+
+				$this->view_mode = ilContainerContentGUI::VIEW_MODE_TILE;
+
+				break;
+
+			}
+			case '':
+			default: {
+
+				$this->view_mode = $this->global_view_mode;
+
+			}
+
+		}
+
 	}
 
 	/**
@@ -565,6 +610,16 @@ class ilContainerRenderer
 					? $a_block_id
 					: null;			
 				$this->addHeaderRow($a_block_tpl, $a_block["type"], $a_block["caption"], array_unique($block_types), $a_block["actions"], $order_id, $a_block["data"]);
+				
+				# use ItemGroup's custom view_mode 
+				include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
+
+				$block_obj_id = ilObject::_lookupObjId( $a_block_id );
+
+				$group_pres = ilObjItemGroup::lookupListPresentation( $block_obj_id );
+
+				$this->setViewMode( $group_pres );
+				#
 
 				if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST)
 				{
