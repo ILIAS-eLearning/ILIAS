@@ -90,4 +90,26 @@ EOT;
             $onlyTextReadingTimeInfo->transform($text)
         );
     }
+
+    /**
+     * 
+     */
+    public function testSolitaryPunctuationCharactersMustNotEffectReadingTime() : void
+    {
+        $textSegmentWithPunctuation = 'Lorem ipsum <img src="#" />, and some other text... ';
+        $repetitions = 300; // 275 repetitions result in an additional minute, if the `,` would be considered
+        
+        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
+        
+        $text = str_repeat($textSegmentWithPunctuation, $repetitions);
+
+        $timeInMinutes = $readingTimeTrafo->transform($text);
+        $this->assertEquals(23, $timeInMinutes);
+
+        $textSegment = 'Lorem ipsum <img src="#" /> and some other text... ';
+        $text = str_repeat($textSegment, $repetitions);
+
+        $timeInMinutes = $readingTimeTrafo->transform($text);
+        $this->assertEquals(23, $timeInMinutes);
+    }
 }
