@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationServiceSpec;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\QuestionTypeSelectForm;
 use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringService;
@@ -29,7 +31,7 @@ class ilAsqQuestionAuthoringGUI
 	const CMD_EDIT_QUESTION = "editQuestion";
 
 	/**
-	 * @var AsqAuthoringService
+	 * @var AuthoringApplicationService
 	 */
 	private $authoring_service;
 	
@@ -41,9 +43,8 @@ class ilAsqQuestionAuthoringGUI
 	{
 	    global $DIC;
 
-	    $asq_spec = new AsqAuthoringSpec($DIC->ui()->mainTemplate(), 
-	        $DIC->language(), 0, $DIC->user()->getId());
-	    $this->authoring_service = new AsqAuthoringService($asq_spec);
+	    $asq_spec = new AuthoringApplicationServiceSpec($DIC->user()->getId());
+	    $this->authoring_service = new AuthoringApplicationService($asq_spec);
 	    
 	}
 	

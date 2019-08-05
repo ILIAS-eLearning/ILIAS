@@ -2,20 +2,20 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\Application;
 
+use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringSpec;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionCommand;
-use ILIAS\AssessmentQuestion\Play\Editor\AvailableEditors;
-use ILIAS\AssessmentQuestion\Play\Editor\MultipleChoiceEditor;
 
 const MSG_SUCCESS = "success";
 
@@ -30,15 +30,15 @@ class AuthoringApplicationService {
 	/**
 	 * @var AuthoringApplicationServiceSpec
 	 */
-	protected $service_spec;
+	protected $asq_question_spec;
 
 	/**
 	 * AsqAuthoringService constructor.
 	 *
-	 * @param $asq_question_spec
+	 * @param AuthoringApplicationServiceSpec $asq_question_spec
 	 */
-	public function __construct(AuthoringApplicationServiceSpec $service_spec) {
-		$this->service_spec = $service_spec;
+	public function __construct($asq_question_spec) {
+		$this->asq_question_spec = $asq_question_spec;
 	}
 
 
@@ -52,47 +52,46 @@ class AuthoringApplicationService {
 		return QuestionDto::CreateFromQuestion($question);
 	}
 
-	public function CreateQuestion(QuestionContainer $question_container,
-		AnswerType $answer_type): void {
-		CommandBusBuilder::getCommandBus()->handle(
-			new CreateQuestionCommand(
-				$this->service_spec->getQuestionUuid(),
-				$this->service_spec->getInitiatingUserId(),
-				$question_container,
-				$answer_type)
-		);
+	public function CreateQuestion(
+		DomainObjectId $question_uuid,
+		?int $container_id = null,
+		?int $answer_type_id = null
+	): void {
+		//CreateQuestion.png
+		CommandBusBuilder::getCommandBus()->handle
+		(new CreateQuestionCommand
+		 ($question_uuid,
+		  $this->asq_question_spec->getInitiatingUserId(),
+		  $container_id,
+		  $answer_type_id));
 	}
 
-	public function SaveQuestion(QuestionData $question_data) {
+	public function SaveQuestion(QuestionDto $question_dto) {
 		// check changes and trigger them on question if there are any
-
-
 		/** @var Question $question */
-		$question = QuestionRepository::getInstance()->getAggregateRootById($this->service_spec->getQuestionUuid());
+		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
 
-
-		//if ($question_dto->getData() != $question->getData()) {
-			$question->setData($question_data, 6);
-		//}
-
-		CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, 6));
-/*
-		if ($question_dto->getPlayConfiguration() != $question->getPlayConfiguration()) {
-			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->asq_question_spec->user_id);
+		if (!AbstractValueObject::isNullableEqual($question_dto->getData(), $question->getData())) {
+			$question->setData($question_dto->getData(), $this->asq_question_spec->getInitiatingUserId());
 		}
 
-		if ($question_dto->getAnswerOptions() != $question->getAnswerOptions()){
-			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->asq_question_spec->user_id);
+		if (!AbstractValueObject::isNullableEqual($question_dto->getPlayConfiguration(), $question->getPlayConfiguration())) {
+			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->asq_question_spec->getInitiatingUserId());
+		}
+
+		// TODO implement equals for answer options
+		if ($question_dto->getAnswerOptions() !== $question->getAnswerOptions()){
+			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->asq_question_spec->getInitiatingUserId());
 		}
 
 		if(count($question->getRecordedEvents()->getEvents()) > 0) {
 			// save changes if there are any
-			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->asq_question_spec->user_id));
-		}*/
+			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->asq_question_spec->getInitiatingUserId()));
+		}
 	}
 
 	public function projectQuestion(string $question_id) {
-		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->asq_question_spec->user_id));
+		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->asq_question_spec->getInitiatingUserId()));
 	}
 
 	public function DeleteQuestion(string $question_id) {
@@ -100,11 +99,10 @@ class AuthoringApplicationService {
 		// no image
 	}
 
-
 	/**
-	 * @param Answer $answer -> vgl Services/AssessmentQuestion/docs/Big_Picture.puml -> AnswerEntity
+	 * @param Answer $answer
 	 */
-	public function SaveAnswer(array $answer) {
+	public function SaveAnswer(Answer $answer) {
 		// Save Answers
 	}
 
@@ -118,34 +116,9 @@ class AuthoringApplicationService {
 		// GetQuestionList.png
 		//TODO - use the Query Bus
 		$event_store = new ilDBQuestionEventStore();
-		return $event_store->allStoredQuestionsForParentSince($this->asq_question_spec->container_id,0);
+		return $event_store->allStoredQuestionsForParentSince(0);
 
 
 		// TODO ev getquestionsofpool, getquestionsoftest methode pro object -> Denke nicht, die ParentIds in ILIAS sind eindeutig. Somit ruft man einfach jene Fragen ab, welche einem in seinem Parent zur Verfügung stehen, resp. welche man bereitgestellt hat.
-	}
-
-	public function SearchQuestions(array $parameters) {
-		// searches questions by query parameters
-		// GetQuestionList.png
-	}
-
-	public function GetAvilableQuestionTypes() {
-		// returns all know question type
-		// GetAvilableQuestionTypes
-	}
-
-	public function SaveQuestionPresentation(string $question_id, $presentation) {
-		// saves display options
-		//EditQuestionPresentation.png
-	}
-
-	public function ImportQuestion($question) {
-		// imports the question
-		// TODO support what
-	}
-
-	public function ExportQuestion(string $question_id) {
-		// exports the question
-		// TODO support what
 	}
 }

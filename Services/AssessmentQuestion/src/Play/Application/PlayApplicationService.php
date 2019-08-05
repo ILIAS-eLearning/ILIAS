@@ -12,12 +12,12 @@ use ILIAS\Messaging\CommandBusBuilder;
 const MSG_SUCCESS = "success";
 
 /**
- * Class AsqPlayService
+ * Class PlayApplicationService
  *
  * @package ILIAS\AssessmentQuestion\Authoring\_PublicApi
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class AsqPlayService {
+class PlayApplicationService {
 
 	public function AnswerQuestion(Answer $answer) {
 		CommandBusBuilder::getCommandBus()->handle(new AnswerQuestionCommand($answer));
