@@ -174,6 +174,25 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		$si->setOptions($options);
 		$cb->addSubItem($si);
 
+		# Temporarily use 'cont' lang-Module
+		$this->lng->loadLanguageModule( "cont" );
+
+		$lpres = new ilRadioGroupInputGUI( $this->lng->txt( 'cont_list_presentation' ), "list_presentation" );
+
+		$item_list = new ilRadioOption( $this->lng->txt( 'default' ), "" );
+		$lpres->addOption( $item_list );
+
+		$item_list = new ilRadioOption( $this->lng->txt( 'cont_item_list' ), "list" );
+		$lpres->addOption( $item_list );
+
+		$tile_view = new ilRadioOption($this->lng->txt( 'cont_tile_view' ), "tile" );
+		$lpres->addOption( $tile_view );
+
+		$a_form->addItem( $lpres );
+
+		# Revert lang-Module to 'itgr'
+		$this->lng->loadLanguageModule( "itgr" );
+
 	}
 
 
@@ -371,6 +390,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	{
 		$a_values["show_title"] = !$this->object->getHideTitle();
 		$a_values["behaviour"] = $this->object->getBehaviour();
+		$a_values[ "list_presentation" ] = $this->object->getListPresentation();
 	}
 
 	/**
@@ -386,6 +406,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 			? $a_form->getInput("behaviour")
 			: ilItemGroupBehaviour::ALWAYS_OPEN;
 		$this->object->setBehaviour($behaviour);
+		$this->object->setListPresentation( $a_form->getInput( "list_presentation" ) );
 	}
 
 	/**
