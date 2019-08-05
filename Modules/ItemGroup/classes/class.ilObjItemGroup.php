@@ -113,6 +113,52 @@ class ilObjItemGroup extends ilObject2
 		return $this->item_data_ar->getBehaviour();
 	}
 
+	const GROUP_VIEW_MODE_LIST = 0;
+	const GROUP_VIEW_MODE_TILE = 1;
+
+	/**
+	 * Get view mode
+	 */
+	protected function getViewMode(){
+
+		switch ( getListPresentation() ){
+
+			case 'list': {
+				return self::GROUP_VIEW_MODE_LIST;
+				break;
+			}
+			case 'tile': {
+				return self::GROUP_VIEW_MODE_TILE;
+				break;
+			}
+			default: {}
+
+		}
+
+		return '';
+
+	}
+
+	/**
+	 * Set hide list presentation
+	 *
+	 * @param bool $a_val list presentation
+	 */
+	function setListPresentation($a_val)
+	{
+		$this->item_data_ar->setListPresentation($a_val);
+	}
+
+	/**
+	 * Get hide list presentation
+	 *
+	 * @return bool list presentation
+	 */
+	function getListPresentation()
+	{
+		return $this->item_data_ar->getListPresentation();
+	}
+
 	/**
 	 * Read
 	 */
@@ -250,9 +296,21 @@ class ilObjItemGroup extends ilObject2
 	}
 
 	/**
-	 * Lookup hide title
+	 * Lookup list_presentation
 	 *
 	 * @param int $a_id ID
+	 * @return int
+	 */
+	static function lookupListPresentation( $a_id )
+	{
+		return self::lookup( $a_id, "list_presentation" );
+	}
+
+	/**
+	 * Lookup column value
+	 *
+	 * @param int $a_id ID
+	 * @param string $a_key Column
 	 * @return bool
 	 */
 	protected static function lookup($a_id, $a_key)
