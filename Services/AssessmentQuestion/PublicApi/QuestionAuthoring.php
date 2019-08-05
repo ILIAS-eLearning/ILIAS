@@ -20,14 +20,17 @@ use ilQtiItem;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
-class AuthoringService implements AuthoringServiceContract {
-	
+class QuestionAuthoring {
+
 	/**
-	 * AuthoringService constructor.
-	 * @param AuthoringServiceSpecContract $asq_authoring_spec
-	 * @param QuestionIdContract $questionUuid
+	 * QuestionAuthoring constructor.
+	 *
+	 * @param int                $container_obj_id
+	 * @param QuestionIdContract $question_uuid
+	 * @param int                $actor_user_id
+	 * @param Link               $container_backlink
 	 */
-	public function __construct(AuthoringServiceSpecContract $asq_authoring_spec, QuestionIdContract $questionUuid) {
+	public function __construct(int $container_obj_id, QuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink) {
 	}
 	
 	public function getCreationLink(): Link

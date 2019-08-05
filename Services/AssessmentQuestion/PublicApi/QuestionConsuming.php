@@ -14,7 +14,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerSubmitContra
 use ILIAS\UI\Component\Component;
 
 /**
- * Interface PlayService
+ * Interface QuestionConsuming
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
@@ -24,16 +24,19 @@ use ILIAS\UI\Component\Component;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
-class PlayService implements PlayServiceContract {
-	
+class QuestionConsuming {
+
 	/**
-	 * PlayService constructor.
-	 * @param PlayServiceSpecContract $asq_api_service_play_spec
+	 * QuestionConsuming constructor.
+	 *
+	 * @param int                $containerId
+	 * @param int                $actorId
 	 * @param QuestionIdContract $questionUuid
-	 * @param RevisionIdContract|null $revisionUuid
+	 * @param RevisionIdContract $revisionUuid
 	 */
 	public function __construct(
-		PlayServiceSpecContract $asq_api_service_play_spec,
+		int $containerId,
+		int $actorId,
 		QuestionIdContract $questionUuid,
 		RevisionIdContract $revisionUuid
 	)

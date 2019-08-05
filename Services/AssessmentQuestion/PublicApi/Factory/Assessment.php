@@ -34,14 +34,6 @@ class Assessment
 	}
 	
 	/**
-	 * @return Specification
-	 */
-	public function specification() : Specification
-	{
-		return new Specification();
-	}
-	
-	/**
 	 * @return Consumer
 	 */
 	public function consumer(): Consumer

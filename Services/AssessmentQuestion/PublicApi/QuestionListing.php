@@ -18,7 +18,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionDtoContract;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
-class QueryService implements QueryServiceContract {
+class QuestionListing implements QueryServiceContract {
 
 	/**
 	 * @param int $container_id

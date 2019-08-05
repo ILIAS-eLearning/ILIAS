@@ -10,11 +10,11 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\PlayServiceSpecContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\AuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionAuthoring;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\QueryService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\PlayService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionListing;
+use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionConsuming;
 use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
 
 /**
@@ -31,11 +31,11 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\QuestionId;
 class Service
 {
 	/**
-	 * @return QueryServiceContract
+	 * @return QuestionListing
 	 */
-	public function query() : QueryServiceContract
+	public function listing() : QuestionListing
 	{
-		return new QueryService();
+		return new QuestionListing();
 	}
 	
 	/**
@@ -47,19 +47,19 @@ class Service
 		QuestionIdContract $questionUuid
 	) : AuthoringServiceContract
 	{
-		return new AuthoringService($authoringQuestionServiceSpec, $questionUuid);
+		return new QuestionAuthoring($authoringQuestionServiceSpec, $questionUuid);
 	}
 	
 	/**
 	 * @param PlayServiceSpecContract $playServiceSpec
 	 * @return PlayServiceContract
 	 */
-	public function play(
+	public function consumig(
 		PlayServiceSpecContract $playServiceSpec,
 		QuestionIdContract $questionUuid,
 		RevisionIdContract $revisionUuid
 	) : PlayServiceContract
 	{
-		return new PlayService($playServiceSpec, $questionUuid, $revisionUuid);
+		return new QuestionConsuming($playServiceSpec, $questionUuid, $revisionUuid);
 	}
 }

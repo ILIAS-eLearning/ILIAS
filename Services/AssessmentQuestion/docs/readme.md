@@ -24,7 +24,7 @@ Additionally the consuming component has an opportunity to provide any command l
 The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
 
 ## Authoring Service
-[/Services/AssessmentQuestion/PublicApi/AuthoringService.php](../PublicApi/AuthoringService.php)
+[/Services/AssessmentQuestion/PublicApi/AuthoringService.php](../PublicApi/QuestionAuthoring.php)
 
 The Service offers:
 * Links to the Authoring GUI
@@ -114,7 +114,7 @@ $authoringService->changeQuestionContainer($container_obj_id);
 ```
 
 ## Query Service
-[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QueryService.php)
+[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QuestionListing.php)
 
 The service offers query methods for getting questions as associative array of a question.
 
@@ -139,7 +139,7 @@ $queryService->GetQuestionsOfContainerAsDtoList(
 ```
 
 ## Play Service
-[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QueryService.php)
+[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/QuestionListing.php)
 
 The Play Service you use for presenting a question to a user (student). And you use this service also for calculating the scoring for a user answer.
 

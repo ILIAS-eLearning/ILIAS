@@ -36,10 +36,10 @@ class Consumer {
 	/**
 	 * @param string $questionUuid
 	 *
-	 * @return QuestionIdContract
+	 * @return QuestionId
 	 * @throws UuidIsInvalidException
 	 */
-	public function questionUuid($question_uuid): QuestionIdContract {
+	public function questionUuid($question_uuid): QuestionId {
 		$question = QuestionRepository::getInstance()->getQuestionById(new DomainObjectId($question_uuid));
 
 		return new QuestionId($question_uuid, $question->getCreatedOnIliasNicId(), $question->getCreatedOn());
