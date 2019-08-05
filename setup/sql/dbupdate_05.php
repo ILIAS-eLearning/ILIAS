@@ -1273,3 +1273,17 @@ identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", 
 
 ?>
 
+<#5514>
+<?php
+global $ilDB;
+if( !$ilDB->tableColumnExists( 'itgr_data', 'list_presentation' ) ) {
+	$ilDB->addTableColumn( 'itgr_data', 'list_presentation',
+		array(
+		"type"    => "text",
+		"notnull" => true,
+		"length"  => 4,
+		"default" => ''
+		)
+	);
+}
+?>
