@@ -486,6 +486,15 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	public function getDeletedBy()
 	{
 		global $DIC;
-		return $DIC->user()->getLogin();
+
+		if($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() == 0
+			&& $this->objPost->getPosAuthorId() == $DIC->user()->getId())
+		{
+			return (string)$this->objPost->getUserAlias();
+		}
+		else
+		{
+			return $DIC->user()->getLogin();
+		}
 	}
 }
