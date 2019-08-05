@@ -119,9 +119,55 @@ abstract class ilContainerContentGUI
 
 		$this->log = ilLoggerFactory::getLogger('cont');
 
-		$this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel())
-			? self::VIEW_MODE_TILE
-			: self::VIEW_MODE_LIST;
+		# Use 'setter'
+		$this->setViewMode();
+
+	}
+
+	/**
+	 * Set view mode
+	 *
+	 * @access protected
+	 * @param int $view_mode_str
+	 * @return
+	 */
+	protected function setViewMode( $view_mode_str = '' ){
+
+		switch ( $view_mode_str ){
+
+			case 'list': {
+
+				$this->view_mode = self::VIEW_MODE_LIST;
+
+				break;
+			}
+			case 'tile': {
+
+				$this->view_mode = self::VIEW_MODE_TILE;
+
+				break;
+
+			}
+			case '':
+			default: { 
+				
+				# default = 'list'
+				$this->view_mode = self::VIEW_MODE_LIST;
+
+				# modified old 'tile' condition from __construct
+				if (
+					ilContainer::_lookupContainerSetting( $this->container_obj->getId(), "list_presentation" ) == "tile"
+						&&
+					!$this->container_gui->isActiveAdministrationPanel()
+						&&
+					!$this->container_gui->isActiveOrdering()
+				){
+					$this->view_mode = self::VIEW_MODE_TILE;
+				}
+
+			}
+
+		}
 
 	}
 	
@@ -992,6 +1038,10 @@ abstract class ilContainerContentGUI
 			$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html, $data);
 		}
 	
+		# set group's list/tile presentation
+		$group_pres = ilObjItemGroup::lookupListPresentation( $a_itgr["obj_id"] );
+		
+		$this->setViewMode( $group_pres );
 		
 		// render item group sub items
 		
@@ -1012,6 +1062,10 @@ abstract class ilContainerContentGUI
 				$this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);				
 			}
 		}
+		
+		# revert list/tile to default
+		$this->setViewMode( '' );
+		
 	}
 }
 
