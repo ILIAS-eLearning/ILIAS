@@ -106,8 +106,8 @@ EOT;
         $timeInMinutes = $readingTimeTrafo->transform($text);
         $this->assertEquals(23, $timeInMinutes);
 
-        $textSegment = 'Lorem ipsum <img src="#" /> and some other text... ';
-        $text = str_repeat($textSegment, $repetitions);
+        $textSegmentWithoutPunctuation = 'Lorem ipsum <img src="#" /> and some other text... ';
+        $text = str_repeat($textSegmentWithoutPunctuation, $repetitions);
 
         $timeInMinutes = $readingTimeTrafo->transform($text);
         $this->assertEquals(23, $timeInMinutes);
