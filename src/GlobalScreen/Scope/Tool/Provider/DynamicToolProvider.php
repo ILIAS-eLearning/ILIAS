@@ -2,26 +2,17 @@
 
 use ILIAS\GlobalScreen\Provider\DynamicProvider;
 use ILIAS\GlobalScreen\Provider\Provider;
-use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\CalledContexts;
-use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
+use ILIAS\GlobalScreen\ScreenContext\ScreenContextAwareProvider;
+use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 
 /**
  * Interface DynamicToolProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface DynamicToolProvider extends Provider
+interface DynamicToolProvider extends Provider, ScreenContextAwareProvider
 {
-
-    const PURPOSE_TOOLS = "tools";
-
-
-    /**
-     * @return ContextCollection
-     */
-    public function isInterestedInContexts() : ContextCollection;
-
 
     /**
      * @param CalledContexts $called_contexts

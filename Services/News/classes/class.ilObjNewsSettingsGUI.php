@@ -67,18 +67,15 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		$rbacsystem = $this->rbacsystem;
-		$ilErr = $this->error;
-		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
 		}
 
 		switch($next_class)

@@ -2,13 +2,14 @@
 
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class TopLegacyItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLegacyItem extends AbstractBaseItem implements isItem, hasGlyph, hasTitle
+class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle
 {
 
     /**
@@ -28,10 +29,10 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasGlyph, hasTit
     /**
      * @inheritDoc
      */
-    public function withGlyph(Glyph $glyph) : hasGlyph
+    public function withSymbol(Symbol $symbol) : hasSymbol
     {
         $clone = clone($this);
-        $clone->glyph = $glyph;
+        $clone->glyph = $symbol;
 
         return $clone;
     }
@@ -40,7 +41,7 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasGlyph, hasTit
     /**
      * @inheritDoc
      */
-    public function getGlyph() : Glyph
+    public function getSymbol() : Symbol
     {
         return $this->glyph;
     }
@@ -49,9 +50,9 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasGlyph, hasTit
     /**
      * @inheritDoc
      */
-    public function hasGlyph() : bool
+    public function hasSymbol() : bool
     {
-        return ($this->glyph instanceof Glyph);
+        return ($this->glyph instanceof Symbol);
     }
 
 

@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * TableGUI class for all pages of a learning module
  *
@@ -90,7 +88,6 @@ class ilLMPagesTableGUI extends ilTable2GUI
 		// icon...
 		
 		// check activation
-		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		$active = ilLMPage::_lookupActive($a_set["obj_id"], $this->lm->getType(),
 			$this->lm_set->get("time_scheduled_page_activation"));
 			

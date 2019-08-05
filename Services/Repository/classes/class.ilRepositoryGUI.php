@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\GlobalScreen\Scope\Tool\Context\ContextServices;
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 
 include_once("./Services/Table/classes/class.ilTableGUI.php");
 

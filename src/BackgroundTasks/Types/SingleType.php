@@ -2,65 +2,71 @@
 
 namespace ILIAS\BackgroundTasks\Types;
 
-class SingleType implements Type, Ancestors {
+class SingleType implements Type, Ancestors
+{
 
-	/** @var \ReflectionClass */
-	protected $type;
-
-
-	/**
-	 * SingleType constructor.
-	 *
-	 * @param $fullyQualifiedClassName
-	 */
-	public function __construct($fullyQualifiedClassName) {
-		$this->type = new \ReflectionClass($fullyQualifiedClassName);
-	}
+    /** @var \ReflectionClass */
+    protected $type;
 
 
-	/**
-	 * @inheritdoc
-	 */
-	function __toString() {
-		return $this->type->getName();
-	}
+    /**
+     * SingleType constructor.
+     *
+     * @param $fullyQualifiedClassName
+     */
+    public function __construct($fullyQualifiedClassName)
+    {
+        $this->type = new \ReflectionClass($fullyQualifiedClassName);
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	function isExtensionOf(Type $type) {
-		if (!$type instanceof SingleType) {
-			return false;
-		}
-
-		return $this->type->isSubclassOf($type->__toString()) || $this->__toString() == $type->__toString();
-	}
+    /**
+     * @inheritdoc
+     */
+    function __toString()
+    {
+        return $this->type->getName();
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAncestors() {
-		$class = $this->type;
-		$ancestors = [ new SingleType($class->getName()) ];
+    /**
+     * @inheritdoc
+     */
+    function isExtensionOf(Type $type)
+    {
+        if (!$type instanceof SingleType) {
+            return false;
+        }
 
-		while ($class = $class->getParentClass()) {
-			$ancestors[] = new SingleType($class->getName());
-		}
-
-		return array_reverse($ancestors);
-	}
+        return $this->type->isSubclassOf($type->__toString()) || $this->__toString() == $type->__toString();
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	function equals(Type $otherType) {
-		if (!$otherType instanceof SingleType) {
-			return false;
-		}
+    /**
+     * @inheritdoc
+     */
+    public function getAncestors()
+    {
+        $class = $this->type;
+        $ancestors = [new SingleType($class->getName())];
 
-		return $this->__toString() == $otherType->__toString();
-	}
+        while ($class = $class->getParentClass()) {
+            $ancestors[] = new SingleType($class->getName());
+        }
+
+        return array_reverse($ancestors);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    function equals(Type $otherType)
+    {
+        if (!$otherType instanceof SingleType) {
+            return false;
+        }
+
+        return $this->__toString() == $otherType->__toString();
+    }
 }

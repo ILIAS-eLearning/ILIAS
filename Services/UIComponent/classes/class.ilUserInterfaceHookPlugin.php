@@ -2,57 +2,48 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Component/classes/class.ilPlugin.php");
-
 /**
  * User interface hook plugin
  *
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ *
  * @ingroup ServicesUIComponent
  */
 abstract class ilUserInterfaceHookPlugin extends ilPlugin
 {
 
     /**
-     * Get Component Type
-     *
-     * @return        string        Component Type
+     * @return string
      */
-    final function getComponentType()
+    public final function getComponentType()
     {
         return IL_COMP_SERVICE;
     }
 
 
     /**
-     * Get Component Name.
-     *
-     * @return        string        Component Name
+     * @return string
      */
-    final function getComponentName()
+    public final function getComponentName()
     {
         return "UIComponent";
     }
 
 
     /**
-     * Get Slot Name.
-     *
-     * @return        string        Slot Name
+     * @return string
      */
-    final function getSlot()
+    public final function getSlot()
     {
         return "UserInterfaceHook";
     }
 
 
     /**
-     * Get Slot ID.
-     *
-     * @return        string        Slot Id
+     * @return string
      */
-    final function getSlotId()
+    public final function getSlotId()
     {
         return "uihk";
     }
@@ -68,10 +59,13 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
 
 
     /**
-     * Get UI plugin class
+     * @return ilUIHookPluginGUI
      */
-    function getUIClassInstance()
+    public function getUIClassInstance() : ilUIHookPluginGUI
     {
+        /**
+         * @var $obj ilUIHookPluginGUI
+         */
         $class = "il" . $this->getPluginName() . "UIHookGUI";
         $this->includeClass("class." . $class . ".php");
         $obj = new $class();

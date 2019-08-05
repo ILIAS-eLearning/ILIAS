@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/interfaces/interface.ilCOPageCollectorInterface.php");
-
 /**
  * Page collector for learning modules
  *

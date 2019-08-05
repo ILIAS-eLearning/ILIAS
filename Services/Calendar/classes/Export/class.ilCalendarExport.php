@@ -253,7 +253,7 @@ class ilCalendarExport
 			// According to RFC 5545 3.6.1 DTEND is not inklusive.
 			// But ILIAS stores inklusive dates in the database.
 			#$app->getEnd()->increment(IL_CAL_DAY,1);
-			$endInit->increment(IL_CAL_DATE,1);
+			$endInit->increment(IL_CAL_DAY, 1);
 
 			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
 			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd',$ilUser->getTimeZone());

@@ -190,10 +190,12 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'Keyword':
 				$par =& $this->__getParent();
-				$this->md_key =& $par->addKeyword();
-				$this->md_key->setKeywordLanguage(new ilMDLanguageItem($a_attribs['Language']));
-				$this->md_key->save();
-				$this->__pushParent($this->md_key);
+				if (!in_array(get_class($par), ["ilMD"])) {
+					$this->md_key =& $par->addKeyword();
+					$this->md_key->setKeywordLanguage(new ilMDLanguageItem($a_attribs['Language']));
+					$this->md_key->save();
+					$this->__pushParent($this->md_key);
+				}
 				break;
 
 			case 'Coverage':
@@ -478,10 +480,12 @@ class ilMDSaxParser extends ilSaxParser
 
 			case 'Keyword':
 				$par =& $this->__getParent();
-				$par->setKeyword($this->__getCharacterData());
-				$this->meta_log->debug("Keyword: ".$this->__getCharacterData());
-				$par->update();
-				$this->__popParent();
+				if (!in_array(get_class($par), ["ilMD"])) {
+					$par->setKeyword($this->__getCharacterData());
+					$this->meta_log->debug("Keyword: " . $this->__getCharacterData());
+					$par->update();
+					$this->__popParent();
+				}
 				break;
 
 			case 'Coverage':

@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -12,6 +13,12 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  */
 interface ProviderFactoryInterface
 {
+
+    /**
+     * @return ModificationProvider[]
+     */
+    public function getModificationProvider() : array;
+
 
     /**
      * @return StaticMainMenuProvider[]

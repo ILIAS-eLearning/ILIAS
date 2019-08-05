@@ -26,30 +26,34 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilFSStorageFile extends ilFileSystemAbstractionStorage {
+class ilFSStorageFile extends ilFileSystemAbstractionStorage
+{
 
-	/**
-	 * ilFSStorageFile constructor.
-	 *
-	 * @param int $a_container_id
-	 */
-	public function __construct($a_container_id = 0) {
-		parent::__construct(self::STORAGE_DATA, true, $a_container_id);
-	}
-
-
-	/**
-	 * @return string
-	 */
-	protected function getPathPostfix() {
-		return 'file';
-	}
+    /**
+     * ilFSStorageFile constructor.
+     *
+     * @param int $a_container_id
+     */
+    public function __construct($a_container_id = 0)
+    {
+        parent::__construct(self::STORAGE_DATA, true, $a_container_id);
+    }
 
 
-	/**
-	 * @return string
-	 */
-	protected function getPathPrefix() {
-		return 'ilFile';
-	}
+    /**
+     * @return string
+     */
+    protected function getPathPostfix()
+    {
+        return 'file';
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getPathPrefix()
+    {
+        return 'ilFile';
+    }
 }

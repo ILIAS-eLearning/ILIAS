@@ -12,6 +12,7 @@ namespace ILIAS\BackgroundTasks\Dependencies\Exceptions;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-class InvalidClassException extends Exception {
+class InvalidClassException extends Exception
+{
 
 }

@@ -1010,6 +1010,7 @@ assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this ques
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
+assessment#:#questionpool_not_selected#:#Please select a question pool!
 assessment#:#questions_from#:#questions from
 assessment#:#random_accept_sample#:#Accept Sample
 assessment#:#random_another_sample#:#Get another Sample
@@ -2381,7 +2382,7 @@ rbac#:#file_copy#:#User can copy file
 common#:#file_created#:#File has been added.
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_permission#:#User can change permission settings
-common#:#file_edit#:#Edit File and Upload New Version
+common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_not_found#:#File Not Found
@@ -3014,6 +3015,7 @@ common#:#msg_user_last_role1#:#The following users are assigned to this role onl
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed
 common#:#msg_wrong_format#:#The value you entered is not a valid format.
+common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all available files. You can download them by clicking on the bag icon in the top bar.
 common#:#my_bms#:#Bookmarks
 common#:#my_courses#:#My Courses
 common#:#name#:#Name
@@ -5282,6 +5284,8 @@ feed#:#feed_settings#:#External Web Feeds Settings
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
+file#:#upload_info#:#File
+file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
@@ -5772,10 +5776,10 @@ mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_options_saved#:#Options saved
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
-mail#:#mail_salutation_f#:#Hello
+mail#:#mail_salutation_f#:#Dear Mrs.
 mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Ms.'
 mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], if no salutation is desired or specified
-mail#:#mail_salutation_m#:#Hello
+mail#:#mail_salutation_m#:#Dear Mr.
 mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salutation is 'Mr.'
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
@@ -5797,6 +5801,7 @@ mail#:#placeholders_advise#:#Personal placeholders are only substituted for reci
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 mail#:#mail_tbl_head_attachments#:#Attachment
+mail#:#mail_firstname_last_name_superior#:#Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten.
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -12955,6 +12960,8 @@ crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.
 crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
 crs#:#crs_period#:#Period of Event
+crs#:#crs_period_start_mail_placeholder#:#Period Start
+crs#:#crs_period_end_mail_placeholder#:#Period End
 crs#:#crs_course_period_not_valid#:#The period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
 crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
@@ -13043,7 +13050,7 @@ rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
 crs#:#crs_loc_settings_it_type#:#Initial Test
 crs#:#crs_loc_settings_type_it_placement_all#:#Comprehensive Placement Test Covering all Objectives
-crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Objects
+crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Object
 crs#:#crs_loc_settings_type_it_placement_sel#:#Separate Placement Test for Each Objective
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Comprehensive Achievement Test Covering all Objectives
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Separate Achievement Test for Each Objective
@@ -13059,9 +13066,9 @@ crs#:#crs_loc_btn_new_assignment#:#New Test Assignment
 crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
 crs#:#crs_objective_action_qtest_sep#:#Assign Final Test
 crs#:#crs_loc_settings_tbl_its_q_all#:#Initial Qualifying Test (all Objecives)
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Diagnostic Test (all Objectives)
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Placement Test (all Objectives)
 crs#:#crs_loc_settings_tbl_it_q#:#Initial Qualifying Test (per Objective)
-crs#:#crs_loc_settings_tbl_it_nq#:#Initial Diagnostic Test (per Objective)
+crs#:#crs_loc_settings_tbl_it_nq#:#Initial Placement Test (per Objective)
 crs#:#crs_loc_settings_tbl_qts_all#:#Final Test (all objectives)
 crs#:#crs_loc_settings_tbl_qt#:#Final Test (per objective)
 crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
@@ -14137,6 +14144,10 @@ background_tasks#:#completed#:#Completed
 background_tasks#:#waiting#:#Waiting
 background_tasks#:#proceed_job#:#Proceed
 background_tasks#:#task_might_be_failed#:#This Task has not responded for a while, you can quit it if needed.
+background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?
+background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.
+background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?
+background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.
 grp#:#grp_period#:#Period of Event
 grp#:#grp_period_info#:#Information about the start and end date of the event, which is supported by the group
 exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mail form. The evaluation is sent to participants.
@@ -15148,3 +15159,29 @@ rbac#:#change_presentation#:#Change Presentation
 pd#:#pd_presentation_mode_list#:#Item List Presentation
 pd#:#pd_presentation_mode_tile#:#Tile Presentation
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+common#:#mm_organisation#:#Organisation
+common#:#mm_staff_list#:#Staff List
+common#:#mm_enrolments#:#Enrolments
+common#:#mm_communication#:#Communication
+common#:#mm_contacts#:#Contacts
+common#:#mm_mail#:#Mail
+common#:#mm_news#:#News
+common#:#mm_notes#:#Notes
+common#:#mm_comments#:#Comments
+common#:#mm_achievements#:#Achievements
+common#:#mm_learning_history#:#Learning History
+common#:#mm_skills#:#Competences
+common#:#mm_learning_progress#:#Learning Progress
+common#:#mm_badges#:#Badges
+common#:#mm_administration#:#Administration
+common#:#mm_repository#:#Repository
+common#:#mm_dashboard#:#Dashboard
+common#:#mm_repo_tree_view#:#Tree View
+common#:#mm_task_derived_tasks#:#Tasks
+common#:#mm_favorites#:#Favorites
+common#:#mm_calendar#:#Calendar
+common#:#mm_tags#:#Tags
+common#:#mm_portfolio#:#Portfolio
+common#:#mm_certificates#:#Certificates
+common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
+common#:#mm_personal_workspace#:#Personal Workspace

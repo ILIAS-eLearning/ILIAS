@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout;
 
-use ILIAS\GlobalScreen\Scope\Layout\Content\LayoutContent;
-use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\MetaContent;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\SingletonTrait;
 
 /**
@@ -13,14 +13,27 @@ class LayoutServices
 {
 
     use SingletonTrait;
+    /**
+     * @var MetaContent
+     */
+    private $meta_content;
 
 
     /**
-     * @return LayoutContent
+     * LayoutServices constructor.
      */
-    public function content() : LayoutContent
+    public function __construct()
     {
-        return $this->get(LayoutContent::class);
+        $this->meta_content = new MetaContent();
+    }
+
+
+    /**
+     * @return ModificationFactory
+     */
+    public function factory() : ModificationFactory
+    {
+        return $this->get(ModificationFactory::class);
     }
 
 
@@ -29,6 +42,6 @@ class LayoutServices
      */
     public function meta() : MetaContent
     {
-        return $this->get(MetaContent::class);
+        return $this->meta_content;
     }
 }

@@ -663,14 +663,6 @@ class ilClient
 		$req = new ilCurlConnection($url);
 		$req->init();
 
-		$settings = $this->getAllSettings();
-		if((bool)$settings['proxy_status'] && strlen($settings['proxy_host']) && strlen($settings['proxy_port']))
-		{
-			$req->setOpt(CURLOPT_HTTPPROXYTUNNEL, true);
-			$req->setOpt(CURLOPT_PROXY, $settings["proxy_host"]);
-			$req->setOpt(CURLOPT_PROXYPORT, $settings["proxy_port"]);
-		}
-
 		$req->setOpt(CURLOPT_HEADER, 1);
 		$req->setOpt(CURLOPT_RETURNTRANSFER, 1);
 		$req->setOpt(CURLOPT_CONNECTTIMEOUT, $socket_timeout);

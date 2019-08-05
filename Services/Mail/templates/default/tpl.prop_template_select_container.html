@@ -16,10 +16,11 @@
 					}
 				});
 				p.success(function(response) {
-					$.each(fields, function() {
-						var field_id = this.toString();
-						$("#" + field_id).val(response[field_id]);
-					});
+					for (const fieldId of Object.keys(fields)) {
+						if ($("#" + fieldId).val().length === 0 || fields[fieldId]) {
+							$("#" + fieldId).val(response[fieldId]);
+						}
+					}
 				});
 			}
 		});
