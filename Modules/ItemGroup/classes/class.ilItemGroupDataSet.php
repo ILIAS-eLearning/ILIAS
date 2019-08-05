@@ -56,6 +56,7 @@ class ilItemGroupDataSet extends ilDataSet
 						"Id" => "integer",
 						"HideTitle" => "integer",
 						"Behaviour" => "integer",
+						"ListPresentation" => "text",
 						"Title" => "text",
 						"Description" => "text");
 			}
@@ -102,7 +103,7 @@ class ilItemGroupDataSet extends ilDataSet
 						$ilDB->in("obj_id", $a_ids, false, "integer"));
 					break;
 				case "5.3.0":
-					$this->getDirectDataFromQuery("SELECT obj_id id, title, description, hide_title, behaviour ".
+					$this->getDirectDataFromQuery("SELECT obj_id id, title, description, hide_title, behaviour, list_presentation ".
 						" FROM object_data JOIN itgr_data ON (object_data.obj_id = itgr_data.id)".
 						"WHERE ".
 						$ilDB->in("obj_id", $a_ids, false, "integer"));
@@ -188,6 +189,7 @@ class ilItemGroupDataSet extends ilDataSet
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setBehaviour($a_rec["Behaviour"]);
 				$newObj->setHideTitle($a_rec["HideTitle"]);
+				$newObj->setListPresentation($a_rec["ListPresentation"]);
 				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/ItemGroup", "itgr", $a_rec["Id"], $newObj->getId());
