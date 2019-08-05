@@ -54,6 +54,16 @@ class ilItemGroupAR extends ActiveRecord
 	protected $behaviour = 0;
 
 	/**
+	 * @var string
+	 *
+	 * @con_has_field true
+	 * @con_fieldtype string
+	 * @con_length    4
+	 * @con_is_notnull false
+	 */
+	protected $list_presentation = '';
+	
+	/**
 	 * Get ID
 	 *
 	 * @return int ID
@@ -113,6 +123,27 @@ class ilItemGroupAR extends ActiveRecord
 	{
 		return $this->behaviour;
 	}
+
+	/**
+	 * Set list presentation
+	 *
+	 * @param bool $a_list_presentation list presentation
+	 */
+	public function setListPresentation( $a_list_presentation )
+	{
+		$this->list_presentation = $a_list_presentation;
+	}
+
+	/**
+	 * Get list presentation
+	 *
+	 * @return bool list presentation
+	 */
+	public function getListPresentation()
+	{
+		return $this->list_presentation;
+	}
+	
 }
 
 ?>
