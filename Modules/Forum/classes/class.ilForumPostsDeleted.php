@@ -89,7 +89,16 @@ class ilForumPostsDeleted
 		
 		if(is_object($provider))
 		{
-			$this->setDeletedBy($this->user->getLogin());
+			if($provider->objPost->getUserAlias() && $provider->objPost->getDisplayUserId() == 0
+				&& $provider->objPost->getPosAuthorId() == $DIC->user()->getId())
+			{
+				$this->setDeletedBy($provider->objPost->getUserAlias());
+			}
+			else
+			{
+				$this->setDeletedBy($this->user->getLogin());	
+			}
+			
 			$this->setDeletedDate(date('Y-m-d H:i:s'));
 			$this->setForumTitle($provider->getForumTitle());
 			$this->setThreadTitle($provider->getThreadTitle());
