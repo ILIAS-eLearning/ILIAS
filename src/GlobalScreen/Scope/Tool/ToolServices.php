@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool;
 
-use ILIAS\GlobalScreen\Scope\Tool\Context\ContextServices;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\GlobalScreen\SingletonTrait;
 
 /**

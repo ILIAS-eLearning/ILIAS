@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
+use ILIAS\MainMenu\Provider\CustomMainBarProvider;
 
 /**
  * Class ilMMNullItemFacade
@@ -93,7 +94,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
         $this->custom_item_storage = $s;
 
         global $DIC;
-        $provider = new ilMMCustomProvider($DIC);
+        $provider = new CustomMainBarProvider($DIC);
         $this->gs_item = $provider->getSingleCustomItem($s);
         if ($this->parent_identification && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
             global $DIC;

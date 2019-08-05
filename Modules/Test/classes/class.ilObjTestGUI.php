@@ -3428,6 +3428,12 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $DIC;
 		$ilObjDataCache = $DIC['ilObjDataCache'];
+		
+		if(!(int)$_REQUEST['sel_qpl'])
+		{
+			ilUtil::sendFailure($this->lng->txt("questionpool_not_selected"));
+			return $this->copyAndLinkToQuestionpoolObject();
+		}
 
 		$qplId = $ilObjDataCache->lookupObjId($_REQUEST['sel_qpl']);
 		$result = $this->copyQuestionsToPool($_REQUEST['q_id'], $qplId);
@@ -3525,8 +3531,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 	public function createQuestionPoolAndCopyObject()
 	{
-		$form = $this->getQuestionpoolCreationForm();
-
 	    if ($_REQUEST['title'])
 		{
 		    $title = $_REQUEST['title'];
@@ -3538,7 +3542,7 @@ class ilObjTestGUI extends ilObjectGUI
 	    
 	    if (!$title)
 		{
-		    ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
+		    ilUtil::sendFailure($this->lng->txt("questionpool_not_entered"));
 		    return $this->copyAndLinkToQuestionpoolObject();
 	    }
 	    
@@ -3563,72 +3567,96 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function createQuestionpoolTargetObject($cmd)
 	{
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		$ilTabs = $DIC['ilTabs'];
-		$this->getTabsManager()->getQuestionsSubTabs();
-		$ilTabs->activateSubTab('edit_test_questions');
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select_copy.html", "Modules/Test");
-		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
+		$this->getTabsManager()->getQuestionsSubTabs();
+		$DIC->tabs()->activateSubTab('edit_test_questions');
+
+		$questionpools = $this->object->getAvailableQuestionpools(
+			FALSE,
+			FALSE,
+			FALSE,
+			TRUE,
+			FALSE,
+			"write"
+		);
+
 		if(count($questionpools) == 0)
 		{
-			$this->tpl->setCurrentBlock("option");
-			$this->tpl->setVariable("VALUE_QPL", "");
-			$this->tpl->parseCurrentBlock();
+			$form = $this->getTargetQuestionpoolForm($questionpools, 'createQuestionPoolAndCopy');
 		}
 		else
 		{
-			foreach($questionpools as $key => $value)
+			$form = $this->getTargetQuestionpoolForm($questionpools, $cmd);
+			
+			switch($cmd)
 			{
-				$this->tpl->setCurrentBlock("option");
-				$this->tpl->setVariable("VALUE_OPTION", $key);
-				$this->tpl->setVariable("TEXT_OPTION", $value["title"]);
-				$this->tpl->parseCurrentBlock();
+				case 'copyQuestionsToPool':
+					break;
+
+				case 'copyAndLinkQuestionsToPool':
+					$hidden = new ilHiddenInputGUI('link');
+					$hidden->setValue(1);
+					$form->addItem($hidden);
+					break;
 			}
 		}
-
+		
+		$DIC->ui()->mainTemplate()->setContent($form->getHTML());
+	}
+	
+	protected function getTargetQuestionpoolForm($questionpools, $cmd)
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($DIC->ctrl()->getFormAction($this));
+		$form->addCommandButton($cmd, $DIC->language()->txt('submit'));
+		$form->addCommandButton('cancelCreateQuestion', $DIC->language()->txt('cancel'));
+		
+		if(count($questionpools) == 0)
+		{
+			$form->setTitle($this->lng->txt("tst_enter_questionpool"));
+			
+			$title = new ilTextInputGUI($DIC->language()->txt('title'), 'title');
+			$title->setRequired(true);
+			$form->addItem($title);
+			
+			$description = new ilTextAreaInputGUI($DIC->language()->txt('description'), 'description');
+			$form->addItem($description);
+		}
+		else
+		{
+			$form->setTitle($this->lng->txt("tst_select_questionpool"));
+			
+			$selectOptions = [
+				'' => $DIC->language()->txt('please_select')
+			];
+			
+			foreach($questionpools as $key => $value)
+			{
+				$selectOptions[$key] = $value["title"];
+			}
+			
+			$select = new ilSelectInputGUI($DIC->language()->txt('tst_source_question_pool'), 'sel_qpl');
+			$select->setRequired(true);
+			$select->setOptions($selectOptions);
+			
+			$form->addItem($select);
+		}
+		
 		if(isset($_REQUEST['q_id']) && is_array($_REQUEST['q_id']))
 		{
 			foreach($_REQUEST['q_id'] as $id)
 			{
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "q_id[]");
-				$this->tpl->setVariable("HIDDEN_VALUE", $id);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("adm_content");
+				$hidden = new ilHiddenInputGUI('q_id[]');
+				$hidden->setValue($id);
+				$form->addItem($hidden);
 			}
 		}
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-
-		if(count($questionpools) == 0)
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
-			$cmd = 'createQuestionPoolAndCopy';
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
-		}
-
-		$this->tpl->setVariable("CMD_SUBMIT", $cmd);
-		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-
-		$createForm = $this->getQuestionpoolCreationForm();
-		switch($cmd)
-		{
-			case 'copyAndLinkQuestionsToPool':
-				$hidden = new ilHiddenInputGUI('link');
-				$hidden->setValue(1);
-				$createForm->addItem($hidden);
-				break;
-			case 'copyQuestionsToPool':
-				break;
-		}
-		$createForm->setFormAction($this->ctrl->getFormAction($this));
-
-		$this->tpl->parseCurrentBlock();
+		
+		return $form;
+		
 	}
 
 	// begin-patch lok

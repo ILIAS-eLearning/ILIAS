@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for glossary tables

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,14 +7,14 @@
  * @author Niels Theen <ntheen@databay.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilGroupNameAsMailValidatorTest extends \ilMailBaseTest
+class ilGroupNameAsMailValidatorTest extends ilMailBaseTest
 {
 	/**
 	 * 
 	 */
-	public function testGroupIsDetectedIfGroupNameExists()
+	public function testGroupIsDetectedIfGroupNameExists() : void
 	{
-		$validator = new \ilGroupNameAsMailValidator('someHost', function(string $groupName) {
+		$validator = new ilGroupNameAsMailValidator('someHost', function(string $groupName) {
 			return true;
 		});
 
@@ -23,9 +24,9 @@ class ilGroupNameAsMailValidatorTest extends \ilMailBaseTest
 	/**
 	 *
 	 */
-	public function testGroupIsNotDetectedIfGroupNameDoesNotExists()
+	public function testGroupIsNotDetectedIfGroupNameDoesNotExists() : void
 	{
-		$validator = new \ilGroupNameAsMailValidator('someHost', function(string $groupName) {
+		$validator = new ilGroupNameAsMailValidator('someHost', function(string $groupName) {
 			return false;
 		});
 

@@ -75,7 +75,6 @@ class ilLMEditShortTitlesGUI
 	{
 		ilUtil::sendInfo($this->lng->txt("cont_short_title_info"));
 		$ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->lm->getId(), $this->lm_gui, "short_titles");
-		include_once("./Modules/LearningModule/classes/class.ilLMEditShortTitlesTableGUI.php");
 		$tab = new ilLMEditShortTitlesTableGUI($this, "listShortTitles", $this->lm, $this->lang);
 		$this->tpl->setContent($ml_head.$tab->getHTML());
 	}

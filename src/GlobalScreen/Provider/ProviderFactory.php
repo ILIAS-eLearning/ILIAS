@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -13,6 +15,14 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class ProviderFactory implements ProviderFactoryInterface
 {
 
+    /**
+     * @var ModificationProvider[]
+     */
+    private $modification_providers = [];
+    /**
+     * @var FinalModificationProvider[]
+     */
+    private $final_modification_providers = [];
     /**
      * @var StaticMainMenuProvider[]
      */
@@ -66,6 +76,24 @@ class ProviderFactory implements ProviderFactoryInterface
             $this->all_providers[get_class($item)] = $item;
         }
         );
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getFinalModificationProvider() : array
+    {
+        return $this->final_modification_providers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getModificationProvider() : array
+    {
+        return $this->modification_providers;
     }
 
 

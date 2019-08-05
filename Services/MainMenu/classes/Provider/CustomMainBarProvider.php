@@ -173,4 +173,13 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
 
         return $this->dic->language()->txt("type_" . strtolower($last_part) . "_info");
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getProviderNameForPresentation() : string
+    {
+        return "Custom";
+    }
 }
