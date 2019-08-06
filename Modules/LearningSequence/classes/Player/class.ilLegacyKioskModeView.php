@@ -68,12 +68,29 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 	 */
 	public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
 	{
-		$builder->start (
-			$this->lng->txt('lso_start_item').' '.$this->getTitleByType($this->getType()),
-			self::CMD_START_OBJECT,
-			0
+		$label = $this->lng->txt('lso_start_item').' '.$this->getTitleByType($this->getType());
+
+		$ref_id = $this->object->getRefId();
+		$type = $this->object->getType();
+
+		$url = \ilLink::_getStaticLink(
+			$ref_id,
+			$type,
+			true,
+			false
 		);
 
+		if(in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
+			$obj_id = $this->object->getId();
+			$item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
+			$item_list_gui->initItem($ref_id, $obj_id);
+			$view_lnk = $item_list_gui->getCommandLink('view');
+			$view_lnk = str_replace('&amp;', '&', $view_lnk);
+			$view_lnk = ILIAS_HTTP_PATH.'/'.$view_lnk;
+			$url = $view_lnk;
+		}
+
+		$builder->start($label, self::CMD_START_OBJECT,	$url, 0);
 		//return $this->debugBuildAllControls($builder);
 		return $builder;
 	}
@@ -83,43 +100,6 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 	 */
 	public function updateGet(State $state, string $command, int $param = null): State
 	{
-		if($command === self::CMD_START_OBJECT) {
-			$url = \ilLink::_getStaticLink(
-				$this->object->getRefId(),
-				$this->object->getType(),
-				true,
-				false
-			);
-
-			$type = $this->object->getType();
-			if(in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
-				$obj_id = $this->object->getId();
-				$ref_id = $this->object->getRefId();
-				$item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
-				$item_list_gui->initItem($ref_id, $obj_id);
-				$view_lnk = $item_list_gui->getCommandLink('view');
-				$view_lnk = str_replace('&amp;', '&', $view_lnk);
-				$view_lnk = ILIAS_HTTP_PATH.'/'.$view_lnk;
-				$url = $view_lnk;
-			}
-
-
-			print implode("\n", [
-				'<script>',
-					'var il_ls_win = window.open("' .$url .'"),',
-					' 	il_ls_win_watch = setInterval(',
-					'		function(){',
-					'			if (il_ls_win.closed) {',
-					'				clearInterval(il_ls_win_watch);',
-					'				var url = location.toString().replace("start_legacy_obj", "x_");',
-					'				location.replace(url);',
-					'			}',
-					' 		},',
-					' 		1000',
-					'	);',
-				'</script>',
-			]);
-		}
 		return $state;
 	}
 

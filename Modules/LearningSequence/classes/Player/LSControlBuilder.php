@@ -74,6 +74,10 @@ class LSControlBuilder implements ControlBuilder
 	 */
 	protected $start;
 
+	/**
+	 * @var string | null
+	 */
+	protected $additional_js;
 
 	public function __construct(
 		Factory $ui_factory,
@@ -278,19 +282,57 @@ class LSControlBuilder implements ControlBuilder
 	 *
 	 * The start-control is exclusively used to open an ILIAS-Object in a new windwow/tab.
 	 */
-	public function start(string $label, string $command, int $parameter=null): ControlBuilder
+	public function start(string $label, string $command, string $url, int $parameter=null): ControlBuilder
 	{
 		if ($this->start) {
 			throw new \LogicException("Only one start-control per view...", 1);
 		}
 		$cmd = $this->url_builder->getHref($command, $parameter);
-		$this->start = $this->ui_factory->button()->primary($label, $cmd);
+
+		$signal = $this->getStartSignal();
+		$this->setListenerJS($signal->getId(),$url, $cmd);
+		$this->start = $this->ui_factory->button()
+			->primary($label, '')
+			->withOnClick($signal);
 		return $this;
 	}
 
 	public function getStartControl()
 	{
 		return $this->start;
+	}
+
+	protected function getStartSignal(): ILIAS\UI\Component\Signal
+	{
+		$id = uniqid();
+		$signal = new ILIAS\UI\Implementation\Component\Signal($id);
+		return $signal;
+	}
+
+
+	public function getAdditionalJS(): string
+	{
+		return $this->additional_js;
+	}
+
+	protected function setListenerJS(string $id, string $new_win_url, string $on_new_win_close_url)
+	{
+		$this->additional_js =
+<<<JS
+$(document).on('{$id}', function() {
+
+	var il_ls_win = window.open('$new_win_url'),
+		il_ls_win_watch = setInterval(
+			function(){
+				if (il_ls_win.closed) {
+					clearInterval(il_ls_win_watch);
+					location.replace('$on_new_win_close_url');
+				}
+			},
+			1000
+		);
+});
+JS;
 	}
 
 }

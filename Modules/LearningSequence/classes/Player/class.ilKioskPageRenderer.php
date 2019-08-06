@@ -67,6 +67,7 @@ class ilKioskPageRenderer
 		//also shift start control up front - this is for legacy-views only!
 		if($control_builder->getStartControl()) {
 			array_unshift($controls, $control_builder->getStartControl());
+			$this->tpl->setVariable("JS_INLINE", $control_builder->getAdditionalJS());
 		}
 
 
