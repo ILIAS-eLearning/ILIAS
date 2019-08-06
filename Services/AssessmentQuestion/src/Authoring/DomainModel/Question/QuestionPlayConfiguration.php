@@ -2,7 +2,11 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring\AvailableScorings;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
+use ILIAS\AssessmentQuestion\Play\Editor\AvailableEditors;
+use ILIAS\AssessmentQuestion\Play\Presenter\AvailablePresenters;
 
 /**
  * Class QuestionPlayConfiguration
@@ -12,98 +16,69 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  */
 class QuestionPlayConfiguration extends AbstractValueObject {
+	/**
+	 * @var AbstractConfiguration
+	 */
+	protected $presenter_configuration;
 
 	/**
-	 * @var string
+	 * @var AbstractConfiguration
 	 */
-	private $presenter_class;
+	protected $editor_configuration;
+
 	/**
-	 * @var AbstractValueObject
+	 * @var AbstractConfiguration
 	 */
-	private $presenter_configuration;
-	/**
-	 * @var string
-	 */
-	private $editor_class;
-	/**
-	 * @var AbstractValueObject
-	 */
-	private $editor_configuration;
-	/**
-	 * @var string
-	 */
-	private $scoring_class;
-	/**
-	 * @var AbstractValueObject
-	 */
-	private $scoring_configuration;
-	/**
-	 * @var int Working time in seconds
-	 */
-	private $working_time;
+	protected $scoring_configuration;
 
 
 	/**
-	 * QuestionPlayConfiguration constructor.
+	 * @param AbstractConfiguration|null $editor_configuration
+	 * @param AbstractConfiguration|null $presenter_configuration
+	 * @param AbstractConfiguration|null $scoring_configuration
 	 *
-	 * @param string                $presenter_class
-	 * @param string                $editor_class
-	 * @param string                $scoring_class
-	 * @param int                   $working_time
-	 * @param AbstractValueObject|null $editor_configuration
-	 * @param AbstractValueObject|null $presenter_configuration
-	 * @param AbstractValueObject|null $scoring_configuration
+	 * @return QuestionPlayConfiguration
 	 */
-	public function __construct(
-		string $presenter_class,
-		string $editor_class,
-		string $scoring_class,
-		int $working_time,
-	    AbstractValueObject $editor_configuration = null,
-	    AbstractValueObject $presenter_configuration = null,
-	    AbstractValueObject $scoring_configuration = null
-	) {
-		$this->presenter_class = $presenter_class;
-		$this->editor_class = $editor_class;
-		$this->scoring_class = $scoring_class;
-		$this->working_time = $working_time;
-		$this->editor_configuration = $editor_configuration;
-		$this->presenter_configuration = $presenter_configuration;
-		$this->scoring_configuration = $scoring_configuration;
+	public static function create(
+	    AbstractConfiguration $editor_configuration = null,
+		AbstractConfiguration $presenter_configuration = null,
+		AbstractConfiguration $scoring_configuration = null
+	) : QuestionPlayConfiguration {
+		$object = new QuestionPlayConfiguration();
+		$object->editor_configuration = $editor_configuration;
+		$object->presenter_configuration = $presenter_configuration;
+		$object->scoring_configuration = $scoring_configuration;
+		return $object;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPresenterClass(): string {
-		return $this->presenter_class;
+	public static function getEditorClass(?QuestionPlayConfiguration $conf): string {
+		if ($conf->editor_configuration !== null) {
+			return $conf->editor_configuration->configurationFor();
+		} else {
+			return AvailableEditors::getDefaultEditor();
+		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getEditorClass(): string {
-		return $this->editor_class;
+	public static function getPresenterClass(?QuestionPlayConfiguration $conf): string {
+		if ($conf->presenter_configuration !== null) {
+			return $conf->presenter_configuration->configurationFor();
+		} else {
+			return AvailablePresenters::getDefaultPresenter();
+		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getScoringClass(): string {
-		return $this->scoring_class;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getWorkingTime(): int {
-		return $this->working_time;
+	public static function getScoringClass(?QuestionPlayConfiguration $conf): string {
+		if ($conf->scoring_configuration !== null) {
+			return $conf->scoring_configuration->configurationFor();
+		} else {
+			return AvailableScorings::getDefaultScoring();
+		}
 	}
 
 	/**
 	 * @return AbstractValueObject
 	 */
-	public function getEditorConfiguration(): ?AbstractValueObject {
+	public function getEditorConfiguration(): ?AbstractConfiguration {
 		return $this->editor_configuration;
 	}
 
@@ -111,7 +86,7 @@ class QuestionPlayConfiguration extends AbstractValueObject {
 	/**
 	 * @return AbstractValueObject
 	 */
-	public function getPresenterConfiguration(): ?AbstractValueObject {
+	public function getPresenterConfiguration(): ?AbstractConfiguration {
 		return $this->presenter_configuration;
 	}
 
@@ -119,7 +94,7 @@ class QuestionPlayConfiguration extends AbstractValueObject {
 	/**
 	 * @return AbstractValueObject
 	 */
-	public function getScoringConfiguration(): ?AbstractValueObject {
+	public function getScoringConfiguration(): ?AbstractConfiguration {
 		return $this->scoring_configuration;
 	}
 	
@@ -129,19 +104,14 @@ class QuestionPlayConfiguration extends AbstractValueObject {
 	 */
     public function equals(AbstractValueObject $other): bool
     {
-        return $this->getEditorClass() === $other->getEditorClass() &&
-               $this->getPresenterClass() === $other->getPresenterClass() &&
-               $this->getScoringClass() === $other->getScoringClass() &&
-               AbstractValueObject::isNullableEqual($this->getEditorConfiguration(), $other->getEditorConfiguration()) &&
-               AbstractValueObject::isNullableEqual($this->getPresenterConfiguration(), $other->getPresenterConfiguration()) &&
-               AbstractValueObject::isNullableEqual($this->getScoringConfiguration(), $other->getScoringConfiguration());
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
-     */
-    public function jsonSerialize() {
-        return get_object_vars($this);
+        return AbstractValueObject::isNullableEqual(
+        	        $this->getEditorConfiguration(),
+	                $other->getEditorConfiguration()) &&
+               AbstractValueObject::isNullableEqual(
+               	    $this->getPresenterConfiguration(),
+                    $other->getPresenterConfiguration()) &&
+               AbstractValueObject::isNullableEqual(
+               	    $this->getScoringConfiguration(),
+                    $other->getScoringConfiguration());
     }
 }

@@ -288,9 +288,9 @@ abstract class AbstractQuestionConfigFormGUI extends \ilPropertyFormGUI
 		
 		$success = true;
 		try {
-			$this->getQuestion()->setData(new QuestionData($this->getInput("title"),
-			                                               $this->getInput('description'),
-			                                               $this->getInput('question')));
+			$this->getQuestion()->setData(QuestionData::create($this->getInput("title"),
+			                                                   $this->getInput('description'),
+			                                                   $this->getInput('question')));
 			
 			/*if( $this->isLearningModuleContext() )
 			{

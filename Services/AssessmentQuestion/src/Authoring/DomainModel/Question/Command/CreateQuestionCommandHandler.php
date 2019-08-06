@@ -37,7 +37,7 @@ class CreateQuestionCommandHandler implements CommandHandlerContract {
 			|| !is_null($command->getQuestionContainer())
 		) {
 			$question->setLegacyData(
-				new QuestionLegacyData(
+				QuestionLegacyData::create(
 					$command->getAnswerType(),
 					$command->getQuestionContainer()
 				)

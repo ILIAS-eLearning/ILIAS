@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\AbstractDomainEvent;
 
@@ -51,10 +52,6 @@ class QuestionDataSetEvent extends AbstractDomainEvent {
 	 * @param string $json_data
 	 */
 	public function restoreEventBody(string $json_data) {
-		$data = json_decode($json_data);
-		$this->data = new QuestionData($data->title,
-		                               $data->question_text,
-									   $data->author,
-		                               $data->description);
+		$this->data = AbstractValueObject::deserialize($json_data);
 	}
 }

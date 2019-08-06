@@ -8,64 +8,79 @@ class QuestionData extends AbstractValueObject {
 	/**
 	 * @var string
 	 */
-	private $title;
+	protected $title;
 	/**
 	 * @var string
 	 */
-	private $description;
+	protected $description;
 	/**
 	 * @var string
 	 */
-	private $question_text;
+	protected $question_text;
 	/**
 	 * @var string
 	 */
-	private $author;
+	protected $author;
+	/**
+	 * @var int
+	 */
+	protected $working_time;
 
 
 	/**
-	 * QuestionData constructor.
+	 * @param string      $title
+	 * @param string      $text
+	 * @param string      $author
+	 * @param string|null $description
+	 * @param int         $working_time
 	 *
-	 * @param string $title
-	 * @param string $description
-	 * @param string $text
-	 * @param string $author
+	 * @return QuestionData
 	 */
-	public function __construct(string $title, string $text, string $author, string $description = null) {
-		$this->title = $title;
-		$this->description = $description;
-		$this->question_text = $text;
-		$this->author = $author;
+	static function create(string $title, string $text, string $author, string $description = null, int $working_time = 0) {
+		$object = new QuestionData();
+		$object->title = $title;
+		$object->description = $description;
+		$object->question_text = $text;
+		$object->author = $author;
+		$object->working_time = $working_time;
+		return $object;
 	}
-
 
 	/**
 	 * @return string
 	 */
-	public function getTitle(): string {
+	public function getTitle(): ?string {
 		return $this->title;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDescription(): string {
+	public function getDescription(): ?string {
 		return $this->description;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getQuestionText(): string {
+	public function getQuestionText(): ?string {
 		return $this->question_text;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAuthor(): string {
+	public function getAuthor(): ?string {
 		return $this->author;
 	}
+
+	/**
+	 * @return int
+	 */
+	public function getWorkingTime(): int {
+		return $this->working_time;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::equals()
@@ -76,13 +91,5 @@ class QuestionData extends AbstractValueObject {
                $this->getDescription() === $other->getDescription() &&
                $this->getQuestionText() === $other->getQuestionText() &&
                $this->getTitle() === $other->getTitle();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
-     */
-    public function jsonSerialize() {
-        return get_object_vars($this);
     }
 }

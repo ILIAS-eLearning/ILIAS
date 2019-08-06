@@ -202,7 +202,7 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 	 * @return QuestionData
 	 */
 	private function readQuestionData(): QuestionData {
-		return new QuestionData(
+		return QuestionData::create(
 			$_POST[self::VAR_TITLE],
 			$_POST[self::VAR_DESCRIPTION],
 			$_POST[self::VAR_QUESTION],
@@ -215,12 +215,8 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 	 */
 	private function readPlayConfiguration(): QuestionPlayConfiguration {
 
-		return new QuestionPlayConfiguration(
-			AvailablePresenters::getDefaultPresenter(),
-			AvailableEditors::getDefaultEditor(),
-			AvailableScorings::getDefaultScoring(),
-			$this->readWorkingTime($_POST[self::VAR_WORKING_TIME]),
-			new MultipleChoiceEditorConfiguration(
+		return QuestionPlayConfiguration::create(
+			MultipleChoiceEditorConfiguration::create(
 				$_POST[self::VAR_MCE_SHUFFLE],
 				1,
 				$_POST[self::VAR_MCE_THUMB_SIZE]

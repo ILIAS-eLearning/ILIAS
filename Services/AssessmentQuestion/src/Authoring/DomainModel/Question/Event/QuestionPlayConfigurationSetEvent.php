@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\AbstractDomainEvent;
 
@@ -51,15 +52,6 @@ class QuestionPlayConfigurationSetEvent extends AbstractDomainEvent {
 	 * @param string $json_data
 	 */
 	public function restoreEventBody(string $json_data) {
-		$data = json_decode($json_data);
-		$this->play_configuration = new QuestionPlayConfiguration
-		(
-			$data->presenter_class,
-			$data->editor_class,
-			$data->scoring_class,
-			$data->working_time,
-			call_user_func(array($data->editor_class, 'deserialize'), $data->editor_configuration),
-			call_user_func(array($data->presenter_class, 'deserialize'), $data->presenter_configuration),
-			call_user_func(array($data->scoring_class, 'deserialize'), $data->scoring_configuration));
+		$this->play_configuration = AbstractValueObject::deserialize($json_data);
 	}
 }

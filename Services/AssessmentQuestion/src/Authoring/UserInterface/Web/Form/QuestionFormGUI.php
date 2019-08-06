@@ -14,6 +14,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionLegacyData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring\AvailableScorings;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionForm;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\Play\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\Play\Presenter\AvailablePresenters;
 use ilImageFileInputGUI;
@@ -83,32 +84,24 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$this->addCommandButton('save', 'Save');
 	}
 
-	const SCORING_DEFINITION_SUFFIX = 'Definition';
-	const EDITOR_DEFINITION_SUFFIX = 'DisplayDefinition';
-
-
 	/**
 	 * @param QuestionPlayConfiguration $play
 	 *
 	 * @return array
 	 */
 	private function collectFields(?QuestionPlayConfiguration $play) : array {
-		$display_definition_class = $this->getDisplayDefinitionClass($play);
+		$sd_class = QuestionPlayConfiguration::getScoringClass($play)::getScoringDefinitionClass();
+		$dd_class = QuestionPlayConfiguration::getEditorClass($play)::getDisplayDefinitionClass();
 
-		$scoring_definition_class = $this->getScoringDefinitionClass($play);
 
-
-		return array_merge(
-			call_user_func(array($display_definition_class, 'getFields')),
-			call_user_func(array($scoring_definition_class, 'getFields'))
-		);
+		return array_merge($dd_class::getFields(), $sd_class::getFields());
 	}
 
 	public function getQuestion() : QuestionDto {
 		$question = new QuestionDto();
 		$question->setId($_POST[self::VAR_AGGREGATE_ID]);
 
-		$question->setLegacyData(QuestionLegacyData::fromStdClass(json_decode($_POST[self::VAR_LEGACY])));
+		$question->setLegacyData(AbstractValueObject::deserialize($_POST[self::VAR_LEGACY]));
 
 		$question->setData($this->readQuestionData());
 
@@ -140,11 +133,20 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$question_text->setRows(10);
 		$this->addItem($question_text);
 
+		$working_time = new ilDurationInputGUI('working_time', self::VAR_WORKING_TIME);
+		$working_time->setShowHours(TRUE);
+		$working_time->setShowMinutes(TRUE);
+		$working_time->setShowSeconds(TRUE);
+		$this->addItem($working_time);
+
 		if ($data !== null) {
 			$title->setValue($data->getTitle());
 			$author->setValue($data->getAuthor());
 			$description->setValue($data->getDescription());
 			$question_text->setValue($data->getQuestionText());
+			$working_time->setHours($data->getWorkingTime() / self::SECONDS_IN_HOUR);
+			$working_time->setMinutes($data->getWorkingTime() / self::SECONDS_IN_MINUTE);
+			$working_time->setSeconds($data->getWorkingTime() % self::SECONDS_IN_MINUTE);
 		}
 	}
 
@@ -164,19 +166,10 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$scorings = $this->createSelectControl('scoring', self::VAR_SCORING, AvailableScorings::getAvailableScorings());
 		$this->addItem($scorings);
 
-		$working_time = new ilDurationInputGUI('working_time', self::VAR_WORKING_TIME);
-		$working_time->setShowHours(TRUE);
-		$working_time->setShowMinutes(TRUE);
-		$working_time->setShowSeconds(TRUE);
-		$this->addItem($working_time);
-
 		if ($play !== null) {
-			$editor->setValue($play->getEditorClass());
-			$presenter->setValue($play->getPresenterClass());
-			$scorings->setValue($play->getScoringClass());
-			$working_time->setHours($play->getWorkingTime() / self::SECONDS_IN_HOUR);
-			$working_time->setMinutes($play->getWorkingTime() / self::SECONDS_IN_MINUTE);
-			$working_time->setSeconds($play->getWorkingTime() % self::SECONDS_IN_MINUTE);
+			$editor->setValue(QuestionPlayConfiguration::getEditorClass($play));
+			$presenter->setValue(QuestionPlayConfiguration::getPresenterClass($play));
+			$scorings->setValue(QuestionPlayConfiguration::getScoringClass($play));
 		}
 	}
 
@@ -187,13 +180,9 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	}
 
 	private function initiateEditorConfiguration(?QuestionPlayConfiguration $play) {
-		$editor_class = $play ? $play->getEditorClass() : 'ILIAS\\AssessmentQuestion\\Play\\Editor\\MultipleChoiceEditor';
+		$fields = QuestionPlayConfiguration::getEditorClass($play)::generateFields($play ? $play->getEditorConfiguration() : null);
 
-		foreach(
-			call_user_func(
-				array($editor_class, 'generateFields'),
-				$play ? $play->getEditorConfiguration() : null
-			) as $field) {
+		foreach($fields as $field) {
 			$this->addItem($field);
 		}
 	}
@@ -202,11 +191,12 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	 * @return QuestionData
 	 */
 	private function readQuestionData(): QuestionData {
-		return new QuestionData(
+		return QuestionData::create(
 			$_POST[self::VAR_TITLE],
 			$_POST[self::VAR_QUESTION],
 			$_POST[self::VAR_AUTHOR],
-		    $_POST[self::VAR_DESCRIPTION]
+		    $_POST[self::VAR_DESCRIPTION],
+			$this->readWorkingTime($_POST[self::VAR_WORKING_TIME])
 		);
 	}
 
@@ -216,11 +206,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	private function readPlayConfiguration(): QuestionPlayConfiguration {
 		$editor_class = $_POST[self::VAR_EDITOR];
 
-		return new QuestionPlayConfiguration(
-			$_POST[self::VAR_PRESENTER],
-			$editor_class,
-			$_POST[self::VAR_SCORING],
-			$this->readWorkingTime($_POST[self::VAR_WORKING_TIME]),
+		return QuestionPlayConfiguration::create(
 			call_user_func(array($editor_class, 'readConfig'))
 		);
 	}
@@ -228,8 +214,8 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	private function readAnswerOptions(QuestionPlayConfiguration $play) : AnswerOptions {
 		$options = new AnswerOptions();
 
-		$sd_class = $this->getScoringDefinitionClass($play);
-		$dd_class = $this->getDisplayDefinitionClass($play);
+		$sd_class = QuestionPlayConfiguration::getScoringClass($play)::getScoringDefinitionClass();
+		$dd_class = QuestionPlayConfiguration::getEditorClass($play)::getDisplayDefinitionClass();
 
 		$count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
 
@@ -237,8 +223,8 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 			$options->addOption(new AnswerOption
 			                    (
 			                    	$i,
-				                    call_user_func(array($dd_class, 'getValueFromPost'), $i),
-				                    call_user_func(array($sd_class, 'getValueFromPost'), $i)
+				                    $dd_class::getValueFromPost($i),
+				                    $sd_class::getValueFromPost($i)
 			                    ));
 		}
 
@@ -260,32 +246,4 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 			throw new Exception("This should be impossible, please fix implementation");
 		}
 	}
-
-
-	/**
-	 * @param QuestionPlayConfiguration|null $play
-	 *
-	 * @return string
-	 */
-	private function getDisplayDefinitionClass(?QuestionPlayConfiguration $play): string {
-		$display_definition_class
-			= ($play === null ? AvailableEditors::getDefaultEditor() : $play->getEditorClass()) .
-			self::EDITOR_DEFINITION_SUFFIX;
-
-		return $display_definition_class;
-}
-
-
-	/**
-	 * @param QuestionPlayConfiguration|null $play
-	 *
-	 * @return string
-	 */
-	private function getScoringDefinitionClass(?QuestionPlayConfiguration $play): string {
-		$scoring_definition_class
-			= ($play === null ? AvailableScorings::getDefaultScoring() : $play->getScoringClass()) .
-			self::SCORING_DEFINITION_SUFFIX;
-
-		return $scoring_definition_class;
-}
 }

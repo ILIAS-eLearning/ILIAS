@@ -2,7 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\Play\Editor;
 
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
+use stdClass;
 
 /**
  * Class MultipleChoiceEditor
@@ -14,34 +16,35 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class MultipleChoiceEditorConfiguration extends AbstractValueObject {
+class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
 
 	/**
 	 * @var bool
 	 */
-	private $shuffle_answers;
+	protected $shuffle_answers;
 	/**
 	 * @var int
 	 */
-	private $max_answers;
+	protected $max_answers;
 	/**
 	 * @var int
 	 */
-	private $thumbnail_size;
+	protected $thumbnail_size;
 
 	/**
-	 * MultipleChoiceEditor constructor.
-	 *
 	 * @param bool $shuffle_answers
 	 * @param int  $max_answers
 	 * @param int  $thumbnail_size
+	 *
+	 * @return MultipleChoiceEditorConfiguration
 	 */
-	public function __construct(bool $shuffle_answers = false, int $max_answers = 1, int $thumbnail_size = 0) {
-		$this->shuffle_answers = $shuffle_answers;
-		$this->max_answers = $max_answers;
-		$this->thumbnail_size = $thumbnail_size;
+	static function create(bool $shuffle_answers = false, int $max_answers = 1, int $thumbnail_size = 0) : MultipleChoiceEditorConfiguration {
+		$object = new MultipleChoiceEditorConfiguration();
+		$object->shuffle_answers = $shuffle_answers;
+		$object->max_answers = $max_answers;
+		$object->thumbnail_size = $thumbnail_size;
+		return $object;
 	}
-
 
 	/**
 	 * @return bool
@@ -75,13 +78,5 @@ class MultipleChoiceEditorConfiguration extends AbstractValueObject {
         return $this->isShuffleAnswers() === $other->isShuffleAnswers() &&
                $this->getMaxAnswers() === $other->getMaxAnswers() &&
                $this->getThumbnailSize() === $other->getThumbnailSize();
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
-     */
-    public function jsonSerialize() {
-        return get_object_vars($this);
     }
 }

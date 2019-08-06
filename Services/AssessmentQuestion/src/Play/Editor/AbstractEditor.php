@@ -18,6 +18,7 @@ use stdClass;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class AbstractEditor {
+	const EDITOR_DEFINITION_SUFFIX = 'DisplayDefinition';
 
 	/**
 	 * @var QuestionDto
@@ -74,5 +75,13 @@ abstract class AbstractEditor {
 	 */
 	public static function deserialize(?stdClass $input) : ?JsonSerializable {
 		return null;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	static function getDisplayDefinitionClass() : string {
+		return get_called_class() . self::EDITOR_DEFINITION_SUFFIX;
 	}
 }

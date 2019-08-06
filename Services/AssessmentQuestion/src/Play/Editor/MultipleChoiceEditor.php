@@ -159,7 +159,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 	 * @return JsonSerializable|null
 	 */
 	public static function readConfig() : ?JsonSerializable {
-		return new MultipleChoiceEditorConfiguration(
+		return MultipleChoiceEditorConfiguration::create(
 			filter_var($_POST[self::VAR_MCE_SHUFFLE], FILTER_VALIDATE_BOOLEAN),
 			$_POST[self::VAR_MCE_MAX_ANSWERS],
 			$_POST[self::VAR_MCE_THUMB_SIZE]
@@ -176,7 +176,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 			return null;
 		}
 
-		return new MultipleChoiceEditorConfiguration(
+		return MultipleChoiceEditorConfiguration::create(
 			$input->shuffle_answers,
 			$input->max_answers,
 			$input->thumbnail_size

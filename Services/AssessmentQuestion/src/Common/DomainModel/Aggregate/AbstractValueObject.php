@@ -2,8 +2,11 @@
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate;
 
 use JsonSerializable;
+use stdClass;
 
 abstract class AbstractValueObject implements JsonSerializable {
+	const VAR_CLASSNAME = "avo_class_name";
+
     /**
      * Compares ValueObjects to each other returns true if they are the same
      * 
@@ -35,8 +38,8 @@ abstract class AbstractValueObject implements JsonSerializable {
         
         return $first->equals($second);
     }
-    
-    /**
+
+	/**
 	 * Specify data which should be serialized to JSON
 	 *
 	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
@@ -44,5 +47,41 @@ abstract class AbstractValueObject implements JsonSerializable {
 	 * which is a value of any type other than a resource.
 	 * @since 5.4.0
 	 */
-	abstract public function jsonSerialize();
+	public function jsonSerialize() {
+		$vars = get_object_vars($this);
+		$vars[self::VAR_CLASSNAME] = get_called_class();
+		return $vars;
+	}
+
+	public static function deserialize(?string $data) : ?AbstractValueObject {
+		if ($data === null) {
+			return null;
+		}
+
+		$std_data = json_decode($data);
+
+		if ($std_data === null) {
+			return null;
+		}
+
+		/** @var AbstractValueObject $object */
+		$object = new $std_data->{self::VAR_CLASSNAME}();
+		$object->setFromStdClass($std_data);
+
+		return $object;
+	}
+
+	private function setFromStdClass(StdClass $data) {
+		foreach ($data as $property=>$value) {
+			if ($value instanceof StdClass)
+			{
+				/** @var AbstractValueObject $object */
+				$object = new $value->{self::VAR_CLASSNAME}();
+				$object->setFromStdClass($value);
+				$this->$property = $object;
+			} else {
+				$this->$property = $value;
+			}
+		}
+	}
 }

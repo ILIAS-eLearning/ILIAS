@@ -18,6 +18,7 @@ use stdClass;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class AbstractScoring {
+	const SCORING_DEFINITION_SUFFIX = 'Definition';
 
 	/**
 	 * @var Question
@@ -63,5 +64,13 @@ abstract class AbstractScoring {
 	 */
 	public static function deserialize(stdClass $input = null) : ?JsonSerializable {
 		return null;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getScoringDefinitionClass(): string {
+		return get_called_class() . self::SCORING_DEFINITION_SUFFIX;
 	}
 }

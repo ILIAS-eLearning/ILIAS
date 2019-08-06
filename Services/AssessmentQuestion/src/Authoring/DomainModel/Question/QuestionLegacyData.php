@@ -24,21 +24,23 @@ class QuestionLegacyData extends AbstractValueObject {
 	/**
 	 * @var int;
 	 */
-	private $container_obj_id;
+	protected $container_obj_id;
 	/**
 	 * @var int
 	 */
-	private $answer_type_id;
+	protected $answer_type_id;
 
 	/**
-	 * QuestionLegacyData constructor.
+	 * @param int      $answer_type_id
+	 * @param int|null $container_obj_id
 	 *
-	 * @param int $answer_type_id
-	 * @param int $container_obj_id
+	 * @return QuestionLegacyData
 	 */
-	public function __construct(int $answer_type_id, int $container_obj_id = null) {
-		$this->answer_type_id = $answer_type_id;
-		$this->container_obj_id = $container_obj_id;
+	static function create(int $answer_type_id, int $container_obj_id = null) : QuestionLegacyData {
+		$object = new QuestionLegacyData();
+		$object->answer_type_id = $answer_type_id;
+		$object->container_obj_id = $container_obj_id;
+		return $object;
 	}
 
 
@@ -99,30 +101,5 @@ class QuestionLegacyData extends AbstractValueObject {
     {
         return $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
                $this->getContainerObjId() === $other->getContainerObjId();
-    }
-
-
-	/**
-	 * Creates QuestionLegacyData from serialized object
-	 *
-	 * @param stdClass $data
-	 *
-	 * @return QuestionLegacyData
-	 */
-	public static function fromStdClass(?stdClass $data) : ?QuestionLegacyData
-	{
-		if ($data === null) {
-			return null;
-		}
-
-		return new QuestionLegacyData($data->answer_type_id, $data->container_obj);
-	}
-
-    /**
-     * {@inheritDoc}
-     * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::jsonSerialize()
-     */
-    public function jsonSerialize() {
-        return get_object_vars($this);
     }
 }
