@@ -180,6 +180,7 @@ class ilKioskPageRenderer
 			}
 		}
 		$css_files[] = \ilUtil::getStyleSheetLocation("filesystem", "delos.css");
+		$css_files[] = \ilUtil::getStyleSheetLocation();
 		$css_files[] = \ilUtil::getNewContentStyleSheetLocation();
 
 		return $css_files;
