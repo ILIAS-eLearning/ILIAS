@@ -118,6 +118,13 @@ class ilTestLearningObjectivesStatusGUI
 				$tpl->setVariable("LP_OBJTV_PROGRESS",
 					ilContainerObjectiveGUI::buildObjectiveProgressBar($has_initial_test, $objtv["id"], $objtv, true)
 				);
+				
+				// since ilContainerObjectiveGUI::buildObjectiveProgressBar() "sets an empty ref_id" for ilObjTestGUI,
+				// after creating links for different test refs, the "saved ref_id param" for ilObjTestGUI gets overwritten.
+				// (!) we need to set an explicit ref_id param for ilObjTestGUI again to keep the things running (!)
+				
+				global $DIC; /* @var \ILIAS\DI\Container $DIC */
+				$DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', (int)$_GET['ref_id']);
 			}
 
 			$tpl->parseCurrentBlock();

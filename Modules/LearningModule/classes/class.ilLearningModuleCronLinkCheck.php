@@ -1,7 +1,7 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
  * This cron check links in learning modules
@@ -87,8 +87,6 @@ class ilLearningModuleCronLinkCheck extends ilCronJob
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 				
-		include_once'./Services/LinkChecker/classes/class.ilLinkChecker.php';
-
 		$link_checker = new ilLinkChecker($ilDB);
 		$link_checker->setMailStatus(true);
 

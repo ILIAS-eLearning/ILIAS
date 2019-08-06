@@ -520,7 +520,7 @@ if( !$ilDB->tableColumnExists('qpl_questions', 'lifecycle') )
 		'notnull' => false,
 		'default' => 'draft'
 	));
-	
+
 	$ilDB->queryF('UPDATE qpl_questions SET lifecycle = %s', array('text'), array('draft'));
 }
 ?>
@@ -1226,5 +1226,50 @@ if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
 		"length" => 8,
 	));
 }
+?>
+<#5512>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5513>
+<?php
+
+$map = [
+    'ilMMCustomProvider' => 'ILIAS\MainMenu\Provider\CustomMainBarProvider',
+    'ilAdmGlobalScreenProvider' => 'ILIAS\\Administration\\AdministrationMainBarProvider',
+    'ilBadgeGlobalScreenProvider' => 'ILIAS\\Badge\\Provider\\BadgeMainBarProvider',
+    'ilCalendarGlobalScreenProvider' => 'ILIAS\\Certificate\\Provider\\CertificateMainBarProvider',
+    'ilContactGlobalScreenProvider' => 'ILIAS\\Contact\\Provider\\ContactMainBarProvider',
+    'ilDerivedTaskGlobalScreenProvider' => 'ILIAS\\Tasks\\DerivedTasks\\Provider\\DerivedTaskMainBarProvider',
+    'ilLPGlobalScreenProvider' => 'ILIAS\\LearningProgress\\LPMainBarProvider',
+    'ilMailGlobalScreenProvider' => 'ILIAS\\Mail\\Provider\\MailMainBarProvider',
+    'ilNewsGlobalScreenProvider' => 'ILIAS\\News\\Provider\\NewsMainBarProvider',
+    'ilNotesGlobalScreenProvider' => 'ILIAS\\Notes\\Provider\\NotesMainBarProvider',
+    'ilPDGlobalScreenProvider' => 'ILIAS\\PersonalDesktop\\PDMainBarProvider',
+    'ilPrtfGlobalScreenProvider' => 'ILIAS\\Portfolio\\Provider\\PortfolioMainBarProvider',
+    'ilRepositoryGlobalScreenProvider' => 'ILIAS\\Repository\\Provider\\RepositoryMainBarProvider',
+    'ilSkillGlobalScreenProvider' => 'ILIAS\\Skill\\Provider\\SkillMainBarProvider',
+    'ilStaffGlobalScreenProvider' => 'ILIAS\\MyStaff\\Provider\\StaffMainBarProvider',
+    'ilWorkspaceGlobalScreenProvider' => 'ILIAS\\PersonalWorkspace\\Provider\\WorkspaceMainBarProvider',
+];
+
+foreach ($map as $old => $new) {
+    $ilDB->manipulateF("UPDATE il_mm_items SET 
+identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_items SET 
+parent_identification = REPLACE(parent_identification, %s, %s) WHERE parent_identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_translation SET 
+id = REPLACE(id, %s, %s) WHERE id LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_translation SET 
+identification = REPLACE(id, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_actions SET 
+identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+}
+
+
 ?>
 

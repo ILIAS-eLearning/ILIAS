@@ -11,22 +11,30 @@ require_once 'Services/Saml/classes/class.ilSamlIdp.php';
  */
 class ilSamlIdpTableGUI extends ilTable2GUI
 {
-	/** @var bool */
-	protected $mayEdit = true;
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+	/**
+	 * @var ILIAS\DI\Container
+	 */
+	protected $dic;
 
 	/**
 	 * ilSamlIdpTableGUI constructor.
 	 * @param        $a_parent_obj
 	 * @param string $a_parent_cmd
 	 * @param string $a_template_context
-	 * @param bool   $mayEdit
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $mayEdit = true)
 	{
 		global $DIC;
 
+		$this->dic = $DIC;
+
 		$f        = $DIC->ui()->factory();
 		$renderer = $DIC->ui()->renderer();
+
 		$this->mayEdit = $mayEdit;
 
 		$this->setId('saml_idp_list');
@@ -87,39 +95,27 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('NAME', $a_set['entity_id']);
 
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setSelectionHeaderClass('small');
-		$list->setItemLinkClass('small');
-		$list->setId('actl_' . $a_set['idp_id']);
-		$list->setListTitle($this->lng->txt('actions'));
+		if($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setSelectionHeaderClass('small');
+			$list->setItemLinkClass('small');
+			$list->setId('actl_' . $a_set['idp_id']);
+			$list->setListTitle($this->lng->txt('actions'));
 
-		$this->ctrl->setParameter($this->getParentObject(),'saml_idp_id', $a_set['idp_id']);
+			$this->ctrl->setParameter($this->getParentObject(),'saml_idp_id', $a_set['idp_id']);
+			$list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'showIdpSettings'));
+			if($a_set['is_active'])
+			{
+				$list->addItem($this->lng->txt('deactivate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'deactivateIdp'));
+			}
+			else
+			{
+				$list->addItem($this->lng->txt('activate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'activateIdp'));
+			}
+			$list->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteIdp'));
+			$this->ctrl->setParameter($this->getParentObject(),'saml_idp_id', '');
 
-		$list->addItem(
-			$this->lng->txt('edit'), '',
-			$this->ctrl->getLinkTarget($this->getParentObject(), 'showIdpSettings')
-		);
-
-		if ($a_set['is_active']) {
-			$list->addItem(
-				$this->lng->txt('deactivate'), '',
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'deactivateIdp')
-			);
-		} else {
-			$list->addItem(
-				$this->lng->txt('activate'), '',
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'activateIdp')
-			);
-		}
-
-		$list->addItem(
-			$this->lng->txt('delete'), '',
-			$this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteIdp')
-		);
-		$this->ctrl->setParameter($this->getParentObject(),'saml_idp_id', '');
-
-		if ($this->mayEdit) {
-			$this->tpl->setVariable('ACTIONS', $list->getHTML());
+			$this->tpl->setVariable('ACTIONS',$list->getHTML());
 		}
 	}
 }

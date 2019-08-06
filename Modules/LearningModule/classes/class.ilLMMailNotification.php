@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailNotification.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author Alex Killing <alex.killing@gmx.de>
@@ -81,12 +80,10 @@ class ilLMMailNotification extends ilMailNotification
 					$this->appendBody(
 						$this->getLanguageText('obj_lm').": ".$this->getObjectTitle(true));
 					$this->appendBody("\n");
-					include_once("./Services/User/classes/class.ilUserUtil.php");
 					$this->appendBody(
 						$this->getLanguageText('user').": ".ilUserUtil::getNamePresentation($ilUser->getId(), false, false, ""));
 					$this->appendBody("\n");
 
-					include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 					$this->appendBody(
 						$this->getLanguageText('question').": ".assQuestion::_getTitle($this->getQuestionId()));
 					$this->appendBody("\n");

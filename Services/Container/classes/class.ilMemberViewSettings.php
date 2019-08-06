@@ -59,12 +59,12 @@ class ilMemberViewSettings
 		$this->settings = $DIC->settings();
 		$this->read();
 	}
-	
-	/**
-	 * Get instance
-	 * @return object ilMemberViewSettings
-	 */
-	public static function getInstance()
+
+
+    /**
+     * @return ilMemberViewSettings
+     */
+	public static function getInstance(): ilMemberViewSettings
 	{
 		if(self::$instance != null)
 		{
@@ -107,31 +107,31 @@ class ilMemberViewSettings
 	 * Check if member view currently enabled
 	 * @return bool
 	 */
-	public function isActive()
-	{
-		$tree = $this->tree;
-		
-		if(!$this->active)
-		{
-			// Not active
-			return false;
-		}
-				
+    public function isActive() : bool
+    {
+        static $mv_status;
+        if (!isset($mv_status)) {
+            if (!$this->active) {
+                // Not active
+                return $mv_status = false;
+            }
 
-		if(!$this->getCurrentRefId())
-		{
-			// No ref id given => mail, search, personal desktop menu in other tab
-			return false;
-		}
-		
-		if(!in_array($this->getCurrentRefId(),$this->container_items) and 
-			$this->getContainer() != $this->getCurrentRefId()) 
-		{
-			// outside of course
-			return false;
-		}
-		return true;
-	}
+            if (!$this->getCurrentRefId()) {
+                // No ref id given => mail, search, personal desktop menu in other tab
+                return $mv_status = false;
+            }
+
+            if (!in_array($this->getCurrentRefId(), $this->container_items) and
+                $this->getContainer() != $this->getCurrentRefId()
+            ) {
+                // outside of course
+                return $mv_status = false;
+            }
+            return $mv_status = true;
+        }
+
+        return $mv_status;
+    }
 	
 	/**
 	 * Check if member view is currently enabled for given ref id

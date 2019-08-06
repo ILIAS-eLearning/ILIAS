@@ -33,12 +33,12 @@ class ilTestParticipantScoring
 	protected $totalQuestions;
 	
 	/**
-	 * @var integer
+	 * @var float
 	 */
 	protected $reachedPoints;
 	
 	/**
-	 * @var integer
+	 * @var float
 	 */
 	protected $maxPoints;
 	
@@ -61,8 +61,8 @@ class ilTestParticipantScoring
 		$this->scoredPass = 0;
 		$this->answeredQuestions = 0;
 		$this->totalQuestions = 0;
-		$this->reachedPoints = 0;
-		$this->maxPoints = 0;
+		$this->reachedPoints = 0.0;
+		$this->maxPoints = 0.0;
 		$this->passed = false;
 		$this->finalMark = '';
 	}
@@ -133,33 +133,33 @@ class ilTestParticipantScoring
 	}
 	
 	/**
-	 * @return int
+	 * @return float
 	 */
-	public function getReachedPoints(): int
+	public function getReachedPoints(): float
 	{
 		return $this->reachedPoints;
 	}
 	
 	/**
-	 * @param int $reachedPoints
+	 * @param float $reachedPoints
 	 */
-	public function setReachedPoints(int $reachedPoints)
+	public function setReachedPoints(float $reachedPoints)
 	{
 		$this->reachedPoints = $reachedPoints;
 	}
 	
 	/**
-	 * @return int
+	 * @return float
 	 */
-	public function getMaxPoints(): int
+	public function getMaxPoints(): float
 	{
 		return $this->maxPoints;
 	}
 	
 	/**
-	 * @param int $maxPoints
+	 * @param float $maxPoints
 	 */
-	public function setMaxPoints(int $maxPoints)
+	public function setMaxPoints(float $maxPoints)
 	{
 		$this->maxPoints = $maxPoints;
 	}

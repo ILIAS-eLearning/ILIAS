@@ -75,7 +75,6 @@ class ilDbSetup {
 	public static function getInstanceForNewClient($client_name, $dbname, $host = 'localhost', $username = 'root', $password = '', $type = ilDBConstants::TYPE_PDO_MYSQL_INNODB) {
 		require_once('./setup/classes/class.ilClient.php');
 		require_once('./Services/Init/classes/class.ilIniFile.php');
-		require_once('./setup/classes/class.ilDBConnections.php');
 
 		$ilClient = new ilClient($client_name, new ilDBConnections());
 		$ilClient->init();

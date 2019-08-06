@@ -266,6 +266,11 @@ numeric value via a `Constraint`.
 `Password` consists of a contains that can be used to create constraints
 for validating password.
 
+##### String
+
+`String` consist of transformations and constraints which can be applied
+to string inputs.
+
 ### Custom Transformation
 
 Sometimes the default transformations of this library are not enough, so a

@@ -46,14 +46,24 @@ class LinkList extends AbstractChildItem implements hasTitle
 
 
     /**
-     * @param array|callable $links
+     * @param array|callable|\Generator $links
      *
      * @return LinkList
      */
     public function withLinks($links) : LinkList
     {
         if (is_callable($links)) {
-            $links = $links();
+            try {
+                $r = new \ReflectionFunction($links);
+                if ($r->isGenerator()) {
+                    $links = iterator_to_array($links());
+                } else {
+                    $links = $links();
+                }
+            } catch (\ReflectionException $e) {
+                $links = false;
+            }
+
             if (!is_array($links)) {
                 throw new InvalidArgumentException("withLinks only accepts arrays of Links or a callable providing them");
             }

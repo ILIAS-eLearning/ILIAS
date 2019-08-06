@@ -232,7 +232,7 @@ class ilSystemNotification extends ilMailNotification
 			$this->appendBody($this->getLanguageText("obj_".$this->getObjType()).": ".
 				$this->getObjectTitle()."\n");
 		}
-		if(sizeof($this->additional))
+		if(is_array($this->additional))
 		{
 			foreach($this->additional as $lang_id => $item)
 			{

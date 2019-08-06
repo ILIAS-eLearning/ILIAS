@@ -93,6 +93,7 @@ class ilOpenIdConnectUserSync
 	 */
 	public function needsCreation() : bool
 	{
+		$this->logger->dump($this->int_account, \ilLogLevel::DEBUG);
 		return strlen($this->int_account) == 0;
 	}
 
@@ -113,12 +114,13 @@ class ilOpenIdConnectUserSync
 		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
 
 		$this->parseRoleAssignments();
-
+		$importParser->setRoleAssignment([
+			$this->settings->getRole() => $this->settings->getRole()
+		]);
 		$importParser->setFolderId(USER_FOLDER_ID);
 		$importParser->startParsing();
 		$debug = $importParser->getProtocol();
 
-		$this->logger->debug($debug);
 
 		// lookup internal account
 		$int_account = ilObjUser::_checkExternalAuthAccount(
@@ -217,11 +219,13 @@ class ilOpenIdConnectUserSync
 
 		if($this->needsCreation() && !$found_role)
 		{
+			$long_role_id = ('il_' . IL_INST_ID . '_role_'.$this->settings->getRole());
+
 			// add default role
 			$this->writer->xmlElement(
 				'Role',
 				[
-					'Id' => $this->settings->getRole(),
+					'Id' => $long_role_id,
 					'Type' => 'Global',
 					'Action' => 'Assign'
 				],

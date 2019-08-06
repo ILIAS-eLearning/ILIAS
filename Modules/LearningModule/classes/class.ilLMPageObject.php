@@ -1,9 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-require_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 define ("IL_CHAPTER_TITLE", "st_title");
 define ("IL_PAGE_TITLE", "pg_title");
@@ -125,7 +122,6 @@ class ilLMPageObject extends ilLMObject
 		}
 
 		// copy meta data
-		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$new_md = $md->cloneMD($a_target_lm->getId(), $lm_page->getId(), $this->getType());
 
@@ -143,16 +139,9 @@ class ilLMPageObject extends ilLMObject
 		// copy page content and activation
 		$page = $lm_page->getPageObject();
 		$this->page_object->copy($page->getId(), $page->getParentType(), $page->getParentId());
-		/*$page->setXMLContent($this->page_object->copyXMLContent());
-		$page->setActive($this->page_object->getActive());
-		$page->setActivationStart($this->page_object->getActivationStart());
-		$page->setActivationEnd($this->page_object->getActivationEnd());
-		$page->buildDom();
-		$page->update();*/
 		$lm_page->read();	// this gets the updated page object into lm page
 
 		// copy translations
-		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 		ilLMObjTranslation::copy($this->getId(), $lm_page->getId());
 
 		return $lm_page;
@@ -175,7 +164,6 @@ class ilLMPageObject extends ilLMObject
 		$a_copied_nodes[$this->getId()] = $lm_page->getId();
 
 		// copy meta data
-		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$new_md = $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
 
@@ -200,7 +188,6 @@ class ilLMPageObject extends ilLMObject
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
 		$type = ilObject::_lookupType($lm_id, false);
-		include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 		$cont_obj = new ilObjLearningModule($lm_id, false);
 		$source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
 
@@ -223,7 +210,6 @@ class ilLMPageObject extends ilLMObject
 //		echo "-".$page->getId()."-".$page->getParentType()."-";
 
 		// copy meta data
-		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($source_lm_page->getLMId(), $a_page_id, $source_lm_page->getType());
 		$md->cloneMD($source_lm_page->getLMId(), $lm_page->getId(), $source_lm_page->getType());
 
@@ -263,7 +249,6 @@ class ilLMPageObject extends ilLMObject
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
 		$type = ilObject::_lookupType($lm_id, false);
-		include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 		$cont_obj = new ilObjLearningModule($lm_id, false);
 		$tree = new ilTree($cont_obj->getId());
 		$tree->setTableNames('lm_tree','lm_data');
@@ -422,13 +407,11 @@ class ilLMPageObject extends ilLMObject
 		}
 
 		// this is also optimized since ilObjectTranslation re-uses instances for one lm
-		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($a_lm_id);
 		$languages = $ot->getLanguages();
 
 		if ($a_lang != "-" && $ot->getContentActivated() && isset($languages[$a_lang]))
 		{
-			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 			$lmobjtrans = new ilLMObjTranslation($a_pg_id, $a_lang);
 			$trans_title = "";
 			if ($a_include_short)
@@ -450,7 +433,6 @@ class ilLMPageObject extends ilLMObject
 			return $title;
 		}
 
-		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
 		$tree = ilLMTree::getInstance($a_lm_id);
 
 		if ($tree->isInTree($a_pg_id))
@@ -463,7 +445,6 @@ class ilLMPageObject extends ilLMObject
 				$cnt = 0;
 				foreach($childs as $child)
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$active = ilLMPage::_lookupActive($child["obj_id"],
 						ilObject::_lookupType($a_lm_id), $a_time_scheduled_activation);
 
@@ -491,13 +472,8 @@ class ilLMPageObject extends ilLMObject
 					$cnt_str = " (".$cur_cnt."/".$cnt.")";
 				}
 			}
-			require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-			//$struct_obj = new ilStructureObject($pred_node["obj_id"]);
-			//return $struct_obj->getTitle();
 			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"], IL_CHAPTER_TITLE,
 				$a_include_numbers, false, false, 0, $a_lang, true).$cnt_str;
-
-			//return $pred_node["title"].$cnt_str;
 		}
 		else
 		{
@@ -565,7 +541,6 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-		include_once("Services/MetaData/classes/class.ilMD2XML.php");
 		$md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
@@ -592,16 +567,12 @@ class ilLMPageObject extends ilLMObject
 	 */
 	function exportXMLPageContent(&$a_xml_writer, $a_inst = 0)
 	{
-//echo "exportxmlpagecontent:$a_inst:<br>";
 		$cont_obj = $this->getContentObject();
 
 		$this->page_object->buildDom();
 		$this->page_object->insertInstIntoIDs($a_inst);
 		$this->mobs_contained = $this->page_object->collectMediaObjects(false);
-		//$this->files_contained = $this->page_object->collectFileItems();
-		include_once("./Services/COPage/classes/class.ilPCFileList.php");
 		$this->files_contained = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
-//		$this->questions_contained = $this->page_object->getQuestionIds();
 		$xml = $this->page_object->getXMLFromDom(false, false, false, "", true);
 		$xml = str_replace("&","&amp;", $xml);
 		$a_xml_writer->appendXML($xml);
@@ -616,7 +587,6 @@ class ilLMPageObject extends ilLMObject
 	 */
 	function getQuestionIds()
 	{
-		include_once("./Services/COPage/classes/class.ilPCQuestion.php");
 		return ilPCQuestion::_getQuestionIdsForPage($this->content_object->getType(),
 			$this->getId());
 	}

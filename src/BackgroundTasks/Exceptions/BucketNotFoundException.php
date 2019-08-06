@@ -7,6 +7,7 @@ namespace ILIAS\BackgroundTasks\Exceptions;
  *
  * @package ILIAS\BackgroundTasks\Exceptions
  */
-class BucketNotFoundException extends Exception {
+class BucketNotFoundException extends Exception
+{
 
 }

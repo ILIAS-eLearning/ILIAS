@@ -45,7 +45,7 @@ class PluginSerializer implements SerializerInterface
     {
         list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-        if (!$provider_factory->isInstanceCreationPossible($class_name)) {
+        if (!$provider_factory->isInstanceCreationPossible($class_name) || !$provider_factory->isRegistered($class_name)) {
             return new NullPluginIdentification($plugin_id, $serialized_string, $internal_identifier);
         }
 

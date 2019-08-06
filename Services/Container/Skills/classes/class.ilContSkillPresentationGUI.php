@@ -108,6 +108,7 @@ class ilContSkillPresentationGUI
 		include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
 		$gui = new ilPersonalSkillsGUI();
 		$gui->setGapAnalysisActualStatusModePerObject($this->container->getId());
+		$gui->setTriggerObjectsFilter($this->getSubtreeObjectIds());
 		$gui->setHistoryView(true); // NOT IMPLEMENTED YET
 		$skills = array_map(function ($v) {
 			return array(
@@ -130,6 +131,24 @@ class ilContSkillPresentationGUI
 		$gui->listProfilesForGap();
 	}
 
+	protected function getSubtreeObjectIds()
+	{
+		global $DIC; /* @var ILIAS\DI\Container $DIC */
+		
+		$nodes = $DIC->repositoryTree()->getSubTree(
+			$DIC->repositoryTree()->getNodeData( $this->container->getRefId() )
+		);
+		
+		$objects = array();
+		
+		foreach($nodes as $node)
+		{
+			$objects[] = $node['obj_id'];
+		}
+
+
+		return $objects;
+	}
 
 }
 
