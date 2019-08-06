@@ -39,7 +39,7 @@
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
 		"symfony/console" : "^4.2",
-		"ramsey/uuid": "^3.8"
+		"ramsey/uuid": "^3.8",
 		"jakoch/phantomjs-installer": "2.1.1-p05"
 	},
 	"config": {
