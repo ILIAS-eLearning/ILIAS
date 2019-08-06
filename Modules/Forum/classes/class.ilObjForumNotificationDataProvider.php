@@ -487,14 +487,25 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 	{
 		global $DIC;
 
-		if($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() == 0
-			&& $this->objPost->getPosAuthorId() == $DIC->user()->getId())
+		if($this->shouldUsePseudonym())
 		{
 			return (string)$this->objPost->getUserAlias();
 		}
-		else
+		return $DIC->user()->getLogin();
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function shouldUsePseudonym()
+	{
+		global $DIC;
+
+		if($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() == 0
+			&& $this->objPost->getPosAuthorId() == $DIC->user()->getId())
 		{
-			return $DIC->user()->getLogin();
+			return true;
 		}
+		return false;
 	}
 }
