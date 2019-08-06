@@ -27,6 +27,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjExerciseGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjFileGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjIndividualAssessmentGUI
+ * @ilCtrl_Calls ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjTestGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSurveyGUI
 
@@ -180,6 +181,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('lso');
 				$this->ctrl->forwardCommand($cp);
+				break;
+			case 'ilobjindividualassessmentgui':
+				$struct = ['ilrepositorygui','ilobjindividualassessmentgui'];
+				if($cmd === 'edit') {
+					$struct[] = 'ilindividualassessmentsettingsgui';
+				}
+				$this->ctrl->redirectByClass($struct, $cmd);
+
 				break;
 
 			case false:
