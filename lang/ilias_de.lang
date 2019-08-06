@@ -240,7 +240,7 @@ administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anony
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
-administration#:#adm_basic#:#Allgemein
+administration#:#adm_layout_and_navigation#:#Layout unf Navigation
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
@@ -13442,13 +13442,13 @@ mcst#:#mcst_copy#:#Mediacast kopieren
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
-administration#:#adm_container#:#Containerobjekte
-administration#:#adm_content_objects#:#Inhaltsobjekte
-administration#:#adm_content_services#:#Content-Services
-administration#:#adm_learning_outcomes#:#Lernergebnisse
-administration#:#adm_maintenance#:#Wartung
+administration#:#adm_repository_and_objects#:#Magazin und Objekte
+administration#:#adm_extending_ilias#:#ILIAS Erweitern
+administration#:#adm_search_and_find#:#Suchen und Finden
+administration#:#adm_achievements#:#Lernerfolge
+administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
 administration#:#adm_user_administration#:#Benutzerverwaltung
-administration#:#adm_user_services#:#Benutzer-Services
+administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 common#:#enter_new_name#:#Bitte geben Sie einen Namen an
 rbac#:#awra_visible#:#Verwaltung der „Wer ist online?“-Anzeige ist sichtbar
 rbac#:#awra_read#:#Lesezugriff auf Verwaltung der „Wer ist online?“-Anzeige
