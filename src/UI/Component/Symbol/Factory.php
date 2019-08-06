@@ -15,7 +15,7 @@ interface Factory
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     Icons are quickly comprehensible and recognizable graphics that MUST be used with a text label.
+	 *     Icons are quickly comprehensible and recognizable graphics that are presented with a text label.
 	 *     They indicate the functionality or nature of the element they illustrate:
 	 *     Icons will mainly be used in front of object-titles, e.g. in the
 	 *     header, the tree and in repository listing.
@@ -62,10 +62,10 @@ interface Factory
 	 * description:
 	 *   purpose: >
 	 *       Glyphs map a generally known concept or symbol to a specific concept in ILIAS.
-	 *       Glyphs SHOULD NOT be used with a text label. They are used when space is scarce.
+	 *       Glyphs don’t come with a text label: They are used when space is scarce.
 	 *   composition: >
 	 *       A glyph is a typographical character. As any other typographical character, they can be
-	 *       manipulated by regular CSS. If hovered, they MUST change either their color OR their background-color in order to indicate possible interactions.
+	 *       manipulated by regular CSS. If hovered, they can change either their color or their background-color in order to indicate possible interactions.
 	 *   effect: >
 	 *       Glyphs act as a trigger for some action (such as opening a certain
 	 *       Overlay type) or as a shortcut.
@@ -73,7 +73,7 @@ interface Factory
 	 *       Icon: >
 	 *           Standalone Icons are not interactive. Icons can be in an interactive container however.
 	 *           Icons merely serve as an additional hint of the functionality described by a title.
-	 *           Glyphs are visually distinguished from object icons: they are monochrome.
+	 *           Glyphs are visually distinguished from object Icons: they are monochrome.
 	 * background: >
 	 *     "In typography, a glyph is an elemental symbol within an agreed set of
 	 *     symbols, intended to represent a readable character for the purposes
@@ -87,13 +87,13 @@ interface Factory
 	 *   usage:
 	 *       1: Glyphs MUST NOT be used in content titles.
 	 *       2: >
-	 *          Glyphs MUST be used for cross-sectional functionality such as Mail for
+	 *          Glyphs MUST be used for cross-sectional functionality such as mail for
 	 *          example and NOT for representing objects.
 	 *       3: >
 	 *          Glyphs SHOULD be used for very simple tasks that are repeated at
 	 *          many places throughout the system.
 	 *       4: >
-	 *          Services such as Mail MAY be represented either by a glyph OR by an icon plus text label, depending on the usage scenario.
+	 *          Services such as mail MAY be represented either by a Glyph OR by an Icon plus text label, depending on the usage scenario.
 	 *   style:
 	 *       1: >
 	 *          All Glyphs SHOULD be taken from the Bootstrap Glyphicon Halflings

@@ -17,7 +17,7 @@ interface Factory {
 	 *   composition: >
 	 *       The Settings Glyph uses the glyphicon-cog.
 	 *   effect: >
-	 *      Upon clicking, a settings dropdown is opened.
+	 *      Upon clicking, a settings Dropdown is opened.
 	 *
 	 * context:
 	 *    - In ILIAS <5.4, blocks on the Personal Desktop feature the Settings Glyph.
@@ -426,7 +426,7 @@ interface Factory {
 	 *          If notifications are activated the Notification Glyph MUST use the brand-warning color.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Activate Notifications' for the inactive version of the glyph and ‘Deactivate Notifications' for the active version.
+	 *          The aria-label MUST be ‘Notifications'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -521,7 +521,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of like expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Like' for the first (inactive) version of the glyph and ‘Undo Like' for the second (active) version.
+	 *          The aria-label MUST be 'Like'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -547,7 +547,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of love expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Love' for the first (inactive) version of the glyph and ‘Undo Love' for the second (active) version.
+	 *          The aria-label MUST be 'Love'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -573,7 +573,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of dislike expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Dislike' for the first (inactive) version of the glyph and ‘Undo Dislike' for the second (active) version.
+	 *          The aria-label MUST be 'Dislike'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -599,7 +599,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of laugh expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Laugh' for the first (inactive) version of the glyph and ‘Undo Laugh' for the second (active) version.
+	 *          The aria-label MUST be 'Laugh'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -625,7 +625,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of astounded expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Astounded' for the first (inactive) version of the glyph and ‘Undo Astounded' for the second (active) version.
+	 *          The aria-label MUST be 'Astounded'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -651,7 +651,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of sad expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Sad' for the first (inactive) version of the glyph and ‘Undo Sad' for the second (active) version.
+	 *          The aria-label MUST be 'Sad'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -677,7 +677,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of angry expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be ‘Angry' for the first (inactive) version of the glyph and ‘Undo Angry' for the second (active) version.
+	 *          The aria-label MUST be 'Angry'.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -705,7 +705,7 @@ interface Factory {
 	 *          The Eye Closed Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be "Click to hide the password".
+	 *          The aria-label MUST be "eye closed - click to hide the input's contents".
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -732,7 +732,7 @@ interface Factory {
 	 *          The Eye Open Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be "Click to reveal the password".
+	 *          The aria-label MUST be "eye open - click to reveal the input's contents".
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -792,7 +792,7 @@ interface Factory {
 	 *          greying out the Reset Glyph.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Reset'. The deactivated state of the Glyph MUST have the aria-label 'Reset not possible'.
+	 *          The aria-label MUST be 'Reset'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -826,7 +826,7 @@ interface Factory {
 	 *          the Apply Glyph.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Apply'. The deactivated state of the Glyph MUST have the aria-label 'Applying not possible'.
+	 *          The aria-label MUST be 'Apply'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -892,7 +892,7 @@ interface Factory {
 	 *   composition: >
 	 *      The Calendar Glyph uses the glyphicon-calendar.
 	 *   effect: >
-	 *       Clicking the calendar glyph SHOULD open a date-picker.
+	 *       Clicking the calendar Glyph will usually open a date-picker.
 	 *
 	 * context:
 	 *    - Use in conjunction with Date-Inputs.
@@ -900,7 +900,7 @@ interface Factory {
 	 * rules:
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Pick date' for opening date-pickers. It MUST be adapted for other use cases.
+	 *          The aria-label MUST be 'Calendar'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -911,11 +911,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Time glyph is used to symbolize time-related actions or alerts.
+	 *      The Time Glyph is used to symbolize time-related actions or alerts.
 	 *   composition: >
 	 *      The Time Glyph uses the glyphicon-time.
 	 *   effect: >
-	 *       Clicking the time glyph SHOULD open a time-picker.
+	 *       Clicking the Time Glyph will usually open a time-picker.
 	 *
 	 * context:
 	 *    - Use in conjunction with Date-Inputs.
@@ -923,7 +923,7 @@ interface Factory {
 	 * rules:
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Pick time' for opening time-pickers. It MUST be adapted for other use cases.
+	 *          The aria-label MUST be 'Time'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
