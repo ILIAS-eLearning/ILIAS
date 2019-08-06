@@ -15,6 +15,15 @@ class ImplementationOfInterfaceFinder
      * @var string
      */
     private $interface = "";
+    /**
+     * @var array
+     */
+    private $ignore = [
+        'libs',
+        'test',
+        'tests',
+        'setup'
+    ];
 
 
     /**
@@ -44,9 +53,9 @@ class ImplementationOfInterfaceFinder
 
         foreach ($composer_classmap as $class_name => $file_path) {
             $path = str_replace($root, "", realpath($file_path));
-            if (strpos($path, "/libs/") !== 0) {
+            if (!preg_match("/(\/" . implode("\/|\/", $this->ignore) . "\/)/", $path)) {
                 yield $class_name;
-            };
+            }
         }
     }
 

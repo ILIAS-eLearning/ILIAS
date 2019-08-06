@@ -5,7 +5,6 @@ namespace ILIAS\DI;
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\GlobalScreen\Scope\Tool\Context\ContextServices;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Factory\Assessment;

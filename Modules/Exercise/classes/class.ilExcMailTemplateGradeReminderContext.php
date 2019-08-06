@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
@@ -6,121 +6,124 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
 /**
  * Handles exercise Grade reminder mail placeholders
  * If all contexts are using the same placeholders,constructor etc. todo: create base class.
- * 
+ *
  * @author Jesús López <lopez@leifos.com>
  * @package ModulesExercise
  */
 class ilExcMailTemplateGradeReminderContext extends ilMailTemplateContext
 {
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * @var ilObjectDataCache
-	 */
-	protected $obj_data_cache;
+    /**
+     * @var ilObjectDataCache
+     */
+    protected $obj_data_cache;
 
 
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    function __construct()
+    {
+        global $DIC;
 
-		$this->lng = $DIC->language();
-		if (isset($DIC["ilObjDataCache"]))
-		{
-			$this->obj_data_cache = $DIC["ilObjDataCache"];
-		}
-	}
+        $this->lng = $DIC->language();
+        if (isset($DIC["ilObjDataCache"])) {
+            $this->obj_data_cache = $DIC["ilObjDataCache"];
+        }
+    }
 
-	const ID = 'exc_context_grade_rmd';
-	
-	/**
-	 * @return string
-	 */
-	public function getId()
-	{
-		return self::ID;
-	}
+    const ID = 'exc_context_grade_rmd';
 
-	/**
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		$lng = $this->lng;
-		
-		$lng->loadLanguageModule('exc');
-		
-		return $lng->txt('exc_mail_context_grade_reminder_title');
-	}
+    /**
+     * @return string
+     */
+    public function getId() : string
+    {
+        return self::ID;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		$lng = $this->lng;
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        $lng = $this->lng;
 
-		$lng->loadLanguageModule('exc');
+        $lng->loadLanguageModule('exc');
 
-		return $lng->txt('exc_mail_context_grade_reminder_info');
-	}
+        return $lng->txt('exc_mail_context_grade_reminder_title');
+    }
 
-	/**
-	 * Return an array of placeholders
-	 * @return array
-	 */
-	public function getSpecificPlaceholders()
-	{
-		$lng = $this->lng;
-		$lng->loadLanguageModule('exc');
+    /**
+     * @return string
+     */
+    public function getDescription() : string
+    {
+        $lng = $this->lng;
 
-		$placeholders = array();
-		
-		$placeholders['ass_title'] = array(
-			'placeholder'	=> 'ASSIGNMENT_TITLE',
-			'label'			=> $lng->txt('exc_mail_context_reminder_assignment_title')
-		);
-		$placeholders['exc_title'] = array(
-			'placeholder'	=> 'EXERCISE_TITLE',
-			'label'			=> $lng->txt('exc_mail_context_reminder_exercise_title')
-		);
-								
-		$placeholders['ass_link'] = array(
-			'placeholder'	=> 'ASSIGNMENT_LINK',
-			'label'			=> $lng->txt('perma_link')
-		);
+        $lng->loadLanguageModule('exc');
 
-		return $placeholders;
-	}
+        return $lng->txt('exc_mail_context_grade_reminder_info');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
-	{
-		$ilObjDataCache = $this->obj_data_cache;
+    /**
+     * Return an array of placeholders
+     * @return array
+     */
+    public function getSpecificPlaceholders() : array
+    {
+        $lng = $this->lng;
+        $lng->loadLanguageModule('exc');
 
-		if($placeholder_id == 'ass_title')
-		{
-			return ilExAssignment::lookupTitle($context_parameters["ass_id"]);
-		}
-		else if($placeholder_id == 'exc_title')
-		{
-			return $ilObjDataCache->lookupTitle($context_parameters["exc_id"]);
+        $placeholders = array();
 
-		}
-		else if($placeholder_id == 'ass_link')
-		{
-			require_once './Services/Link/classes/class.ilLink.php';
-			return ilLink::_getLink($context_parameters["exc_ref"], "exc", array(), "_".$context_parameters["ass_id"]);
-		}
+        $placeholders['ass_title'] = array(
+            'placeholder' => 'ASSIGNMENT_TITLE',
+            'label' => $lng->txt('exc_mail_context_reminder_assignment_title')
+        );
+        $placeholders['exc_title'] = array(
+            'placeholder' => 'EXERCISE_TITLE',
+            'label' => $lng->txt('exc_mail_context_reminder_exercise_title')
+        );
 
-		return '';
-	}
+        $placeholders['ass_link'] = array(
+            'placeholder' => 'ASSIGNMENT_LINK',
+            'label' => $lng->txt('perma_link')
+        );
+
+        return $placeholders;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function resolveSpecificPlaceholder(
+        string $placeholder_id,
+        array $context_parameters,
+        ilObjUser $recipient = null,
+        bool $html_markup = false
+    ) : string {
+        $ilObjDataCache = $this->obj_data_cache;
+
+        if ($placeholder_id == 'ass_title') {
+            return ilExAssignment::lookupTitle($context_parameters["ass_id"]);
+        } else {
+            if ($placeholder_id == 'exc_title') {
+                return $ilObjDataCache->lookupTitle($context_parameters["exc_id"]);
+
+            } else {
+                if ($placeholder_id == 'ass_link') {
+                    require_once './Services/Link/classes/class.ilLink.php';
+                    return ilLink::_getLink($context_parameters["exc_ref"], "exc", array(),
+                        "_" . $context_parameters["ass_id"]);
+                }
+            }
+        }
+
+        return '';
+    }
 }

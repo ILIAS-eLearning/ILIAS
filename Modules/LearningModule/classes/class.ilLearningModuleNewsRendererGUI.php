@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
 /**
  * Learning Module news renderer
  *
@@ -19,7 +18,6 @@ class ilLearningModuleNewsRendererGUI extends ilNewsDefaultRendererGUI
 	 */
 	function getObjectLink()
 	{
-		include_once("./Services/Link/classes/class.ilLink.php");
 		$n = $this->getNewsItem();
 		if ($n->getContextSubObjType() == "pg"
 			&& $n->getContextSubObjId() > 0)

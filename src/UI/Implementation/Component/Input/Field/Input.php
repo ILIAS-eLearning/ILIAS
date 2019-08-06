@@ -421,7 +421,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	final public function getContent() {
 		if (is_null($this->content)) {
-			throw new \LogicException("No content of this field has been evaluated yet. Seems withInput was not called.");
+			throw new \LogicException("No content of this field has been evaluated yet. Seems withRequest was not called.");
 		}
 		return $this->content;
 	}
