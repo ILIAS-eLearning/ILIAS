@@ -569,6 +569,9 @@ class ilFileUtils
 			}
 		}
 
+		// bugfix mantis 25498: add an empty entry to ensure that files without extensions are still valid
+		$whitelist[] = '';
+
 		return $whitelist;
 	}
 
