@@ -8,6 +8,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi;
 
 use ilDateTime;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerIdContract;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerScoringContract;
 
@@ -20,34 +21,59 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerScoringContr
  */
 class UserAnswerScoring implements UserAnswerScoringContract
 {
-	public function getQuestionUuid(): QuestionIdContract
-	{
-		// TODO: Implement getQuestionUuid() method.
+
+	/**
+	 * @return QuestionIdContract
+	 */
+	public function getQuestionId(): QuestionIdContract {
+		// TODO: Implement getQuestionId() method.
 	}
-	
-	public function getUserAnswerUuid(): UserAnswerIdContract
-	{
-		// TODO: Implement getQuestionUuid() method.
+
+
+	/**
+	 * @return RevisionIdContract
+	 */
+	public function getRevisioId(): RevisionIdContract {
+		// TODO: Implement getRevisioId() method.
 	}
-	
-	public function getUserId(): int
-	{
+
+
+	/**
+	 * @return UserAnswerIdContract
+	 */
+	public function getUserAnswerId(): UserAnswerIdContract {
+		// TODO: Implement getUserAnswerId() method.
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getUserId(): int {
 		// TODO: Implement getUserId() method.
 	}
-	
-	public function getSubmittedOn(): ilDateTime
-	{
+
+
+	/**
+	 * @return ilDateTime
+	 */
+	public function getSubmittedOn(): ilDateTime {
 		// TODO: Implement getSubmittedOn() method.
 	}
-	
-	public function isCorrect(): bool
-	{
-		// TODO: Implement isUserAnswerCorrect() method.
+
+
+	/**
+	 * @return bool
+	 */
+	public function isCorrect(): bool {
+		// TODO: Implement isCorrect() method.
 	}
-	
-	public function getPoints(): int
-	{
+
+
+	/**
+	 * @return int
+	 */
+	public function getPoints(): int {
 		// TODO: Implement getPoints() method.
 	}
-	
 }

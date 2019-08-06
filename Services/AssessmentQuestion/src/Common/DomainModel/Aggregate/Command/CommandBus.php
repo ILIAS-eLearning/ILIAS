@@ -2,6 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command;
 
+use DomainException;
+
 class CommandBus implements CommandBusContract {
 
 	/** @var array */
