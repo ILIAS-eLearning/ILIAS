@@ -2,13 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\Application;
 
-use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringSpec;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\SaveQuestionCommand;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository;
 use ILIAS\AssessmentQuestion\Authoring\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;

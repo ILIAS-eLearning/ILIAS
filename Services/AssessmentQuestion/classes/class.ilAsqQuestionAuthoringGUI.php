@@ -6,12 +6,8 @@ use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationServiceSpec;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\QuestionTypeSelectForm;
-use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringService;
-use ILIAS\AssessmentQuestion\Authoring\_PublicApi\AsqAuthoringSpec;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Guid;
-use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\CreateQuestionFormGUI;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\AsqGUIElementFactory;
 
 /**
@@ -29,6 +25,10 @@ class ilAsqQuestionAuthoringGUI
     
 	const CMD_CREATE_QUESTION = "createQuestion";
 	const CMD_EDIT_QUESTION = "editQuestion";
+	const CMD_PLAY_QUESTION = "playQuestion";
+	const CMD_SCORE_QUESTION = "scoreQuestion";
+	//TODO remove me when no longer needed
+	const CMD_DEBUG_QUESTION = "debugQuestion";
 
 	/**
 	 * @var AuthoringApplicationService
@@ -96,5 +96,40 @@ class ilAsqQuestionAuthoringGUI
         }
         
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
+    }
+    
+    public function debugQuestions()
+    {
+        global $DIC;
+        
+        $questions = $this->authoring_service->GetQuestions();
+        
+        $DIC->ui()->mainTemplate()->setContent(join("\n", array_map(
+            function($question) {
+                global $DIC;
+                
+                $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $question["aggregate_id"]);
+                
+                return "<div>" . 
+                            $question["aggregate_id"] . 
+                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_EDIT_QUESTION) . "'>    Edit</a>" .
+                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_PLAY_QUESTION) . "'>   Play</a>" .
+                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_SCORE_QUESTION) . "'>   Score</a>" .
+                        "</ div>";
+            }, $questions)));
+    }
+    
+    public function playQuestion()
+    {
+        global $DIC;
+        
+        $DIC->ui()->mainTemplate()->setContent("PLAY");
+    }
+    
+    public function scoreQuestion()
+    {
+        global $DIC;
+        
+        $DIC->ui()->mainTemplate()->setContent("SCORE");
     }
 }

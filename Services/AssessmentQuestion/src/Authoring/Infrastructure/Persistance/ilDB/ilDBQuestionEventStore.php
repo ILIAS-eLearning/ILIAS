@@ -64,7 +64,7 @@ class ilDBQuestionEventStore implements EventStore {
     */
 
    //TODO since hier nicht verwenden. Die Methode hier müsste bereits wissen wann sie das letzte Mal projeziert hat und dann von da an die Fragen neu rechnen. ODER?
-	public function allStoredQuestionsForParentSince($parent_id, $anEventId): array {
+	public function allStoredQuestionsForParentSince($anEventId): array {
 	   //TODO Remove That DIC - we will be a microservice
 	   global $DIC;
 
