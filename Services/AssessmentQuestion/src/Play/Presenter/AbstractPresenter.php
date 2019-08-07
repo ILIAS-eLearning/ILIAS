@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\Play\Presenter;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use JsonSerializable;
 use stdClass;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
 
 /**
  * Abstract Class AbstractPresenter
@@ -36,7 +37,7 @@ abstract class AbstractPresenter {
 	public function __construct(QuestionDto $question) {
 		$this->question = $question;
 
-		$editor_class = $question->getPlayConfiguration()->getEditorClass();
+		$editor_class = QuestionPlayConfiguration::getEditorClass($question->getPlayConfiguration());
 		$this->editor = new $editor_class($question);
 	}
 

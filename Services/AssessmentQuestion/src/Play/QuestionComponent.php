@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\Play;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use ilTemplate;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
 
 /**
  * Class DefaultPresenter
@@ -27,7 +28,7 @@ class QuestionComponent {
 	public function __construct(QuestionDto $question) {
 		$this->question = $question;
 
-		$presenter_class = $question->getPlayConfiguration()->getPresenterClass();
+		$presenter_class = QuestionPlayConfiguration::getPresenterClass($question->getPlayConfiguration());
 		$this->presenter = new $presenter_class($question);
 
 		$this->editor = $this->presenter->getEditor();

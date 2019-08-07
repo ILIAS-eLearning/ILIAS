@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Authoring\_PublicApi;
+namespace ILIAS\AssessmentQuestion\Play\Application;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionRepository;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;

@@ -9,6 +9,9 @@ use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\QuestionTypeSelect
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Guid;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\AsqGUIElementFactory;
+use ILIAS\AssessmentQuestion\Play\QuestionComponent;
+use ILIAS\AssessmentQuestion\Play\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
 
 /**
  * Class ilAssessmentQuestionExporter
@@ -27,9 +30,11 @@ class ilAsqQuestionAuthoringGUI
 	const CMD_EDIT_QUESTION = "editQuestion";
 	const CMD_PLAY_QUESTION = "playQuestion";
 	const CMD_SCORE_QUESTION = "scoreQuestion";
+	
 	//TODO remove me when no longer needed
 	const CMD_DEBUG_QUESTION = "debugQuestion";
-
+    const DEBUG_TEST_ID = 23;
+	
 	/**
 	 * @var AuthoringApplicationService
 	 */
@@ -123,7 +128,31 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC;
         
-        $DIC->ui()->mainTemplate()->setContent("PLAY");
+        $question_id = $_GET[self::VAR_QUESTION_ID];
+        $question = $this->authoring_service->GetQuestion($question_id);
+        
+        $player = new PlayApplicationService();
+        
+        
+        
+        $question_component = new QuestionComponent($question);
+        switch($_SERVER['REQUEST_METHOD'])
+        {
+            case "GET":
+                $answer = $player->GetUserAnswer($question_id, $DIC->user()->getId(), self::DEBUG_TEST_ID);
+                if (!is_null($answer)) {
+                    $question_component->setAnswer($answer);
+                }
+                break;
+            case "POST":
+                $answer = new Answer($DIC->user()->getId(), $question_id, self::DEBUG_TEST_ID, $question_component->readAnswer());
+                $player->AnswerQuestion($answer);
+                $question_component->setAnswer($answer);
+                break;
+        }
+
+        
+        $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml());
     }
     
     public function scoreQuestion()
