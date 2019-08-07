@@ -218,7 +218,7 @@ class ilSCORMExplorer extends ilExplorer
 			$tpl = new ilTemplate("tpl.sahs_tree_free.html", true, true, "Modules/ScormAicc");
 		}
 
-		if (count($option["childs"])) {
+		if (is_array($option["childs"]) && count($option["childs"])) {
 			foreach ($option["childs"] as $key => $ch_option) {
 				$tpl->setCurrentBlock("childs");
 				$tpl->setVariable("CHILDS", $this->createOutput($ch_option, $jsApi)->get());
