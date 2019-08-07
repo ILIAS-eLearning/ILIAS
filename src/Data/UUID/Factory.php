@@ -28,10 +28,10 @@ class Factory {
 	}
 
 	/**
-	 * @return UuidInterface
+	 * @return Uuid
 	 * @throws Exception
 	 */
-	public function uuid4(): UuidInterface {
+	public function uuid4(): Uuid {
 		return new RamseyUuidWrapper($this->uuid_factory->uuid4());
 	}
 

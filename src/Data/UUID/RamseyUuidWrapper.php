@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface as RamseyUuidInterface;
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class RamseyUuidWrapper implements UuidInterface {
+class RamseyUuidWrapper implements Uuid {
 
 	/**
 	 * @var RamseyUuidInterface
@@ -38,7 +38,7 @@ class RamseyUuidWrapper implements UuidInterface {
 	 * @param RamseyUuidWrapper $other
 	 * @return int
 	 */
-	public function compareTo(UuidInterface $other): int {
+	public function compareTo(Uuid $other): int {
 		return $this->wrapped_uuid->compareTo($other->getWrappedUuid());
 	}
 
@@ -46,7 +46,7 @@ class RamseyUuidWrapper implements UuidInterface {
 	 * @param RamseyUuidWrapper $other
 	 * @return bool
 	 */
-	public function equals(UuidInterface $other): bool {
+	public function equals(Uuid $other): bool {
 		return $this->wrapped_uuid->equals($other->getWrappedUuid());
 	}
 

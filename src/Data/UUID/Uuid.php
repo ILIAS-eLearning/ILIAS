@@ -8,7 +8,7 @@ namespace ILIAS\Data\UUID;
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-interface UuidInterface {
+interface Uuid {
 
 	/**
 	 * Compares this UUID to the specified UUID.
@@ -20,10 +20,10 @@ interface UuidInterface {
 	 * * Q. What's the value of being able to sort UUIDs?
 	 * * A. Use them as keys in a B-Tree or similar mapping.
 	 *
-	 * @param UuidInterface $other UUID to which this UUID is compared
+	 * @param Uuid $other UUID to which this UUID is compared
 	 * @return int -1, 0 or 1 as this UUID is less than, equal to, or greater than `$uuid`
 	 */
-	public function compareTo(UuidInterface $other): int;
+	public function compareTo(Uuid $other): int;
 
 	/**
 	 * Compares this object to the specified object.
@@ -32,10 +32,10 @@ interface UuidInterface {
 	 * object, has the same variant, and contains the same value, bit for bit,
 	 * as this UUID.
 	 *
-	 * @param UuidInterface $other
+	 * @param Uuid $other
 	 * @return bool True if `$other` is equal to this UUID
 	 */
-	public function equals(UuidInterface $other): bool;
+	public function equals(Uuid $other): bool;
 
 	/**
 	 * Converts this UUID into a string representation.
