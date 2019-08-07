@@ -180,27 +180,17 @@ $question_processing_service = $processing_service->question($DIC->assessment()-
 
 #### Get the question form and render it
 ```
-$question_processing_service = $processing_service->getQuestionPresentation();
+$question_component = $processing_service->getQuestionPresentation();
 $DIC->ui()->renderer()->render($question_component);
 ```
 
 
 #### Submit a user answer
-A new user's answer to a question is saved with _$asqPlayService->CreateUserAnswer([...])_. This saves an answer given by a user. You must provide a predefined UUID - user_answer_uuid - for this step. In addition to the QuestionUUID and the RevisionUUID, you must also send the value of _user_answer_ of the $_POST. CreateUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
+A new user's answer to a question is saved with _$asqPlayService->storeUserAnswer([...])_. StoreUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
 ```
+
 $question_processing_service->CreateUserAnswer(
-            json_encode(
-                new PostDataFromServerRequest($request)->get('user_answer')
-            )
-    )
-);
-```
-If you like to update a previously submited answer you can do that with _$asqPlayService->UpdateUserAnswer_ This updates a previous given answer of a user. Therefore a valid already deposited AnswerUUID has to be provided. UpdateUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
-```
-$question_processing_service->UpdateUserAnswer(json_encode(
-                        new PostDataFromServerRequest($request)->get('user_answer')
-                    )
-                )
+    new UserAnswerSubmit(json_encode($DIC->http()->request('user_answer')));
 );
 ```
 
@@ -211,7 +201,7 @@ $question_processing_service->getGenericFeedbackOutput();
 
 #### Generic Specific Feedback Output
 ```
-$question_processing_service-YgetGenericFeedbackOutput();
+$question_processing_service->getGenericFeedbackOutput();
 ```
 
 ### User Score

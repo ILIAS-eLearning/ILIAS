@@ -140,8 +140,8 @@ class exTestPlayerGUI
         /**
          * generate a user answer submit containing the post data
          */
-        $user_answer_submit = new UserAnswerSubmit($question_revision_id, $user_answer_id, $DIC->user()->getId(), json_encode($DIC->http()->request('user_answer')));
-        $processing_question->storeUserAnswer($user_answer_submit);
+        $user_answer_submit = new UserAnswerSubmit(json_encode($DIC->http()->request('user_answer')));
+        $processing_question->storeUserAnswerstoreUserAnswer($user_answer_submit);
 
         $user_answer_score = $processing_question->getUserScore();
 
