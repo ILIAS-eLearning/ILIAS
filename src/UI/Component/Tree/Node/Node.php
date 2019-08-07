@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Tree\Node;
 
+use ILIAS\Data\URI;
 use \ILIAS\UI\Component\Component;
 use \ILIAS\UI\Component\Clickable;
 
@@ -48,5 +49,19 @@ interface Node extends Component, Clickable
 	 * Should this Node be highlighted on loading?
 	 */
 	public function isHighlighted(): bool;
+
+    /**
+     * Get the URI object that is added as link in the UI
+     *
+     * @return URI
+     */
+    public function getLink(): URI;
+
+    /**
+     * Create a new node object with an URI that will be added to the UI
+     * @param URI $uri
+     * @return Node
+     */
+    public function withLink(URI $uri): Node;
 
 }
