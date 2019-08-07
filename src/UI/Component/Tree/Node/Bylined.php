@@ -16,5 +16,5 @@ interface Bylined extends Simple
      * information to the current node
      * @return string
      */
-    public function getBylined() : string;
+    public function getByline() : string;
 }
