@@ -29,19 +29,24 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
 	 * @var int
 	 */
 	protected $thumbnail_size;
+    /**
+     * @var bool
+     */
+	protected $single_line;
 
-	/**
+    /**
 	 * @param bool $shuffle_answers
 	 * @param int  $max_answers
 	 * @param int  $thumbnail_size
 	 *
 	 * @return MultipleChoiceEditorConfiguration
 	 */
-	static function create(bool $shuffle_answers = false, int $max_answers = 1, int $thumbnail_size = 0) : MultipleChoiceEditorConfiguration {
+	static function create(bool $shuffle_answers = false, int $max_answers = 1, int $thumbnail_size = 0, bool $single_line) : MultipleChoiceEditorConfiguration {
 		$object = new MultipleChoiceEditorConfiguration();
 		$object->shuffle_answers = $shuffle_answers;
 		$object->max_answers = $max_answers;
 		$object->thumbnail_size = $thumbnail_size;
+		$object->single_line = $single_line;
 		return $object;
 	}
 
@@ -52,7 +57,6 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
 		return $this->shuffle_answers;
 	}
 
-
 	/**
 	 * @return int
 	 */
@@ -60,14 +64,20 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
 		return $this->max_answers;
 	}
 
-
 	/**
 	 * @return int
 	 */
 	public function getThumbnailSize(): int {
 		return $this->thumbnail_size;
 	}
-	
+
+	/**
+	 * @return boolean
+	 */
+	public function isSingleLine(): bool {
+	    return $this->single_line;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see \ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject::equals()
@@ -76,6 +86,7 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
     {
         return $this->isShuffleAnswers() === $other->isShuffleAnswers() &&
                $this->getMaxAnswers() === $other->getMaxAnswers() &&
-               $this->getThumbnailSize() === $other->getThumbnailSize();
+               $this->getThumbnailSize() === $other->getThumbnailSize() &&
+               $this->isSingleLine() === $other->isSingleLine();
     }
 }

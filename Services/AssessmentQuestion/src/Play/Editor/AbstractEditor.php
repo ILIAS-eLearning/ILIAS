@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\Play\Editor;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use JsonSerializable;
 use stdClass;
@@ -57,14 +58,14 @@ abstract class AbstractEditor {
 	 *
 	 * @return array|null
 	 */
-	public static function generateFields(?JsonSerializable $config): ?array {
+	public static function generateFields(?AbstractConfiguration $config): ?array {
 		return null;
 	}
 
 	/**
 	 * @return JsonSerializable|null
 	 */
-	public static function readConfig() : ?JsonSerializable {
+	public static function readConfig() : ?AbstractConfiguration {
 		return null;
 	}
 

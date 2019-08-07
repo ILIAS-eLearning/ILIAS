@@ -90,6 +90,7 @@ class QuestionData extends AbstractValueObject {
         return $this->getAuthor() === $other->getAuthor() &&
                $this->getDescription() === $other->getDescription() &&
                $this->getQuestionText() === $other->getQuestionText() &&
-               $this->getTitle() === $other->getTitle();
+               $this->getTitle() === $other->getTitle() &&
+               $this->getWorkingTime() === $other->getWorkingTime();
     }
 }

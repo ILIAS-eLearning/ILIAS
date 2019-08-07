@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\Play\Editor;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\AbstractConfiguration;
 use JsonSerializable;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
@@ -37,7 +38,11 @@ class MultipleChoiceEditor extends AbstractEditor {
 	const VAR_MCE_SHUFFLE = 'shuffle';
 	const VAR_MCE_MAX_ANSWERS = 'max_answers';
 	const VAR_MCE_THUMB_SIZE = 'thumbsize';
-
+    const VAR_MCE_IS_SINGLELINE = 'singleline';
+	
+    const STR_TRUE = "true";
+    const STR_FALSE = "false";
+    
 	const VAR_MC_POSTNAME = 'multiple_choice_post_';
 
 	public function __construct(QuestionDto $question) {
@@ -131,7 +136,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 		}
 	}
 
-	public static function generateFields(?JsonSerializable $config): ?array {
+	public static function generateFields(?AbstractConfiguration $config): ?array {
 		$fields = [];
 
 		$shuffle = new ilCheckboxInputGUI('shuffle', self::VAR_MCE_SHUFFLE);
@@ -143,11 +148,16 @@ class MultipleChoiceEditor extends AbstractEditor {
 
 		$thumb_size = new ilNumberInputGUI('thumb size', self::VAR_MCE_THUMB_SIZE);
 		$fields[] = $thumb_size;
+		
+		$singleline = new \ilSelectInputGUI('single line', self::VAR_MCE_IS_SINGLELINE);
+		$singleline->setOptions([self::STR_TRUE => 'Singleline', self::STR_FALSE => 'Multiline']);
+		$fields[] = $singleline;
 
 		if ($config !== null) {
 			$shuffle->setChecked($config->isShuffleAnswers());
 			$max_answers->setValue($config->getMaxAnswers());
 			$thumb_size->setValue($config->getThumbnailSize());
+			$singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
 		}
 
 		return $fields;
@@ -156,11 +166,12 @@ class MultipleChoiceEditor extends AbstractEditor {
 	/**
 	 * @return JsonSerializable|null
 	 */
-	public static function readConfig() : ?JsonSerializable {
+	public static function readConfig() : ?AbstractConfiguration {
 		return MultipleChoiceEditorConfiguration::create(
 			filter_var($_POST[self::VAR_MCE_SHUFFLE], FILTER_VALIDATE_BOOLEAN),
 			$_POST[self::VAR_MCE_MAX_ANSWERS],
-			$_POST[self::VAR_MCE_THUMB_SIZE]
+			$_POST[self::VAR_MCE_THUMB_SIZE],
+		    $_POST[self::VAR_MCE_IS_SINGLELINE] === self::STR_TRUE
 		);
 	}
 
