@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 
 /**
  * Class UserAnswerScoring
@@ -15,18 +16,21 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
  */
 interface ScoredUserAnswerDto
 {
-	//TODO -> zu Consuming Service!!
 
-	public function getQuestionRevisionId(): QuestionRevisionId;
-	
-	public function getUserAnswerId(): UserAnswerId;
-	
-	public function getUserId(): int;
-	
-	public function getSubmittedOn();
-	
-	public function isCorrect(): bool;
-	
-	public function getPoints(): int;
-	
+    public function getQuestionRevisionId() : AssessmentEntityId;
+
+
+    public function getUserAnswerId() : AssessmentEntityId;
+
+
+    public function getUserId() : int;
+
+
+    public function getSubmittedOn();
+
+
+    public function isCorrect() : bool;
+
+
+    public function getPoints() : int;
 }

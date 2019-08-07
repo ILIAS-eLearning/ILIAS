@@ -1,11 +1,9 @@
 <?php
-
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
 use JsonSerializable;
-use QuestionId;
 
 /**
  * Class UserAnswerSubmit
@@ -18,28 +16,31 @@ use QuestionId;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
+class UserAnswerSubmit
+{
 
-class UserAnswerSubmit {
-
-	/**
-	 * @var JsonSerializable
-	 */
-	protected $user_answer;
+    /**
+     * @var JsonSerializable
+     */
+    protected $user_answer;
 
 
-	/**
-	 * UserAnswerDTO constructor.
-	 *
-	 * @param JsonSerializable $user_answer
-	 */
-	public function __construct(JsonSerializable $user_answer) {
-		$this->user_answer = $user_answer;
-	}
+    /**
+     * UserAnswerDTO constructor.
+     *
+     * @param JsonSerializable $user_answer
+     */
+    public function __construct(JsonSerializable $user_answer)
+    {
+        $this->user_answer = $user_answer;
+    }
 
-	/**
-	 * @return JsonSerializable
-	 */
-	public function getUserAnswer(): JsonSerializable {
-		return $this->user_answer;
-	}
+
+    /**
+     * @return JsonSerializable
+     */
+    public function getUserAnswer() : JsonSerializable
+    {
+        return $this->user_answer;
+    }
 }

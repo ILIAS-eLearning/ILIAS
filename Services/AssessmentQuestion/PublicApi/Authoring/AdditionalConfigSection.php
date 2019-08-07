@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 2019 Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
@@ -15,7 +15,8 @@ use ilFormPropertyGUI;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface AdditionalConfigSection {
+interface AdditionalConfigSection
+{
 
-	public function appendSectionInput(ilFormPropertyGUI $section_input);
+    public function appendSectionInput(ilFormPropertyGUI $section_input);
 }

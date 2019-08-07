@@ -13,6 +13,19 @@ This documentation describes the interfaces the AssessmentQuestion service comes
 The AssessmentQuestion service is designed as a component that offers complex functionality for consumers. The way other components can integrate assessment questions keeps as most flexible as possible. The higher level business logic is handled by the consumer. E.g. the business Logig that a question can only be answered once or the business logic for handling a group of questions such as that a question can only be answered once. The lower level business logic around assessment questions with a focus on a single question is covered in the Assessment Question Service. E.g. the arrangement of points for answer options.
 
 # Usage
+The Assessment Question API provides the following Services:
+*Authoring*
+** Question Authoring
+** Question List of a Container like ILIAS Test or ILIAS Question Pool
+** Question Import
+
+*Processing*
+** Question Processing (presentation, save user answer, scoring)
+** Question List for Processing
+
+*Entity Id Builder*
+** Build new AssessmentEntityId (uuid) or build an AssessmentEntityId Object from a uuid string.
+
 When integrating questions to any component for authoring purposes, a ctrlCalls to class.ilAsqQuestionAuthoringGui.php has to be implementet and as well as a forwarding in the consumer's `executeCommand()` method.
 
 The consuming component is also repsonsible fot checking the RBAC Permissions. 
@@ -20,8 +33,6 @@ The consuming component is also repsonsible fot checking the RBAC Permissions.
 Additionally the consuming component has an opportunity to provide any command link either as a button (like the well known check button) rendered within the question canvas or as an entry in an question actions menu (e.g. discard or postpone solution).
 
 # Public Services
-
-The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
 
 ## Authoring Service
 [/Services/AssessmentQuestion/PublicApi/Authoring/AuthoringService.php](../PublicApi/Authoring/AuthoringService.php)
@@ -77,7 +88,7 @@ Please note that the ILIAS Ctrl-Flow will pass through your current GUI Class!
 
 #### Delete a question
 ```
-$authoring_service->question(new QuestionId('my-valid-question-uuid'), $my_back_link)
+$authoring_service->question($DIC->assessment()->entityIdBuilder()->fromString($question_uuid), $my_back_link)
 ```
 
 #### Additional Links
@@ -96,13 +107,13 @@ _Conceptual Comment: In this proposal we suggest to use a uuid for versioning an
 
 You can generate a new question revision as follows:
 ```
-$authoring_service->question(new QuestionId('my-valid-question-uuid'), $my_back_link)->publishNewRevision());
+$authoring_service->question(n$DIC->assessment()->entityIdBuilder()->fromString('my-valid-question-uuid'), $my_back_link)->publishNewRevision());
 ```
 
 #### Change Question Container
 By transfering a question to a new container use:
 ```
-$authoring_service->question(new QuestionId('my-valid-question-uuid'), $my_back_link)->changeQuestionContainer($container_obj_id);
+$authoring_service->question($DIC->assessment()->entityIdBuilder()->fromString($question_uuid), $my_back_link)->changeQuestionContainer($container_obj_id);
 ```
 
 ### Question Import Service
@@ -140,16 +151,12 @@ $question_list = $authoring_service->questionList();
 #### Get all questions of the current container
 As Assoc Array
 ```
-$question_list->getQuestionsOfContainerAsAssocArray(
-			$this->object->getId()
-		);
+$question_list->getQuestionsOfContainerAsAssocArray();
 ```
 
 As List of DTO's 
 ```
-$queryService->getQuestionsOfContainerAsDtoList(
-			$this->object->getId()
-		);
+$question_list->getQuestionsOfContainerAsDtoList();
 ```
 
 ## Processing Service
@@ -165,10 +172,10 @@ $question_processing_service = $DIC->assessment()->questionProcessing($DIC->user
 
 //2. Get the specific question processing service
 ////Without a previously submited answer of the user:
-$question_processing_service = $processing_service->question(new QuestionRevisionId($revision_uuid),$processing_service->newUserAnswerId())
+$question_processing_service = $processing_service->question($DIC->assessment()->entityIdBuilder()->fromString('any-valid-revision-uuid'),$DIC->assessment()->entityIdBuilder()->new()):
 
 ////With a previously submited answer of the user:
-$question_processing_service = $processing_service->question(new QuestionRevisionId($revision_uuid),new UserAnswerId($user_answer_uuid));
+$question_processing_service = $processing_service->question($DIC->assessment()->entityIdBuilder()->fromString($revision_uuid),$DIC->assessment()->entityIdBuilder()->fromString($user_answer_uuid));
 ```
 
 #### Get the question form and render it

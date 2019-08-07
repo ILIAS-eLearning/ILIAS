@@ -1,10 +1,10 @@
 <?php
-
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 
 /**
@@ -18,14 +18,50 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi\Factory
  */
-class AssessmentFactory {
+class AssessmentFactory
+{
 
-	public function questionAuthoring(int $container_obj_id, int $actor_user_id): AuthoringService {
-		return new AuthoringService($container_obj_id, $actor_user_id);
-	}
+    /**
+     * This factory provides the following services
+     * * Authoring Question Service
+     * * Authoring Question List Service
+     * * Authoring Question Import Service
+     *
+     * @param int $container_obj_id
+     * @param int $actor_user_id
+     *
+     * @return AuthoringService
+     */
+    public function questionAuthoring(int $container_obj_id, int $actor_user_id) : AuthoringService
+    {
+        return new AuthoringService($container_obj_id, $actor_user_id);
+    }
 
 
-	public function questionProcessing(int $actor_user_id) {
-		return new ProcessingService($actor_user_id);
-	}
+    /**
+     * Use the services of this factory for
+     * * presenting
+     * * save user answers
+     * * scoring
+     *
+     * @param int $actor_user_id
+     *
+     * @return ProcessingService
+     */
+    public function questionProcessing(int $actor_user_id)
+    {
+        return new ProcessingService($actor_user_id);
+    }
+
+
+    /**
+     * As consumer you are responsible for creating the uuids
+     * This factory helps you!
+     *
+     * @return AssessmentEntityId
+     */
+    public function entityIdBuilder() : AssessmentEntityId
+    {
+        //TODO
+    }
 }

@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -14,88 +16,78 @@ use ILIAS\UI\Component\Component;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>$
  */
-class Question {
+class Question
+{
 
-	/**
-	 * QuestionConsuming constructor.
-	 *
-	 * @param string $userAnswerUuid
-	 * @param int    $actor_user_id
-	 * @param string $revision_id
-	 */
-	public function __construct(string $question_revision_uuid, int $actor_user_id, string $userAnswerUuid) {
-		// TODO
-	}
-
-
-	/**
-	 * @return QuestionFormDto
-	 */
-	public function getQuestionPresentation(): QuestionFormDto {
-		// TODO: Implement GetQuestionPresentation() method.
-	}
+    /**
+     * Question constructor.
+     *
+     * @param AssessmentEntityId $question_revision_uuid
+     * @param int                $actor_user_id
+     * @param AssessmentEntityId $user_answer_uuid
+     */
+    public function __construct(AssessmentEntityId $question_revision_uuid, int $actor_user_id, AssessmentEntityId $user_answer_uuid)
+    {
+        // TODO
+    }
 
 
-	/**
-	 * @param QuestionResourcesDto       $collector
-	 * @param                            $image_path
-	 * @param                            $a_mode
-	 * @param                            $a_no_interaction
-	 *
-	 * @return QuestionFormDto
-	 */
-	//TODO kann man diese weg machen???
-	public function getStandaloneQuestionExportPresentation(QuestionResourcesDto $collector, $image_path, $a_mode, $a_no_interaction): QuestionFormDto {
-		// TODO: Implement GetStandaloneQuestionExportPresentation() method.
-	}
+    /**
+     * @return QuestionFormDto
+     */
+    public function getQuestionPresentation() : QuestionFormDto
+    {
+        // TODO: Implement GetQuestionPresentation() method.
+    }
 
 
-	/**
-	 * @param UserAnswerId $userAnswerUuid
-	 *
-	 * @return Component
-	 */
-	public function getGenericFeedbackOutput(): Component {
-		// TODO: Implement getGenericFeedbackOutput() method.
-	}
+    /**
+     * @param QuestionResourcesDto       $collector
+     * @param                            $image_path
+     * @param                            $a_mode
+     * @param                            $a_no_interaction
+     *
+     * @return QuestionFormDto
+     */
+    //TODO
+    public function getStandaloneQuestionExportPresentation(QuestionResourcesDto $collector, $image_path, $a_mode, $a_no_interaction) : QuestionFormDto
+    {
+        // TODO: Implement GetStandaloneQuestionExportPresentation() method.
+    }
 
 
-	/**
-	 * @param UserAnswerId $userAnswerUuid
-	 *
-	 * @return Component
-	 */
-	public function getSpecificFeedbackOutput(): Component {
-		// TODO: Implement getSpecificFeedbackOutput() method.
-	}
+    /**
+     * @return Component
+     */
+    public function getGenericFeedbackOutput() : Component
+    {
+        // TODO: Implement getGenericFeedbackOutput() method.
+    }
 
 
-	/**
-	 * @param UserAnswerSubmit $user_answer
-	 *
-	 * @return int
-	 */
-	public function createUserAnswer(UserAnswerSubmit $user_answer): void {
-		// TODO: Implement SaveUserAnswer() method.
-	}
+    /**
+     * @return Component
+     */
+    public function getSpecificFeedbackOutput() : Component
+    {
+        // TODO: Implement getSpecificFeedbackOutput() method.
+    }
 
 
-	/**
-	 * @param UserAnswerSubmit $user_answer
-	 *
-	 * @return int
-	 */
-	public function updateUserAnswer(UserAnswerSubmit $user_answer): void {
-		// TODO: Implement SaveUserAnswer() method.
-	}
+    /**
+     * @param UserAnswerSubmit $user_answer
+     */
+    public function storeUserAnswer(UserAnswerSubmit $user_answer) : void
+    {
+        // TODO: Implement SaveUserAnswer() method.
+    }
 
 
-	/**
-	 * @param UserAnswerId $userAnswerUuid
-	 *
-	 * @return ScoredUserAnswerDto
-	 */
-	public function getUserScore(): ScoredUserAnswerDto {
-		// TODO: Implement GetUserScore() method.
-	}
+    /**
+     * @return ScoredUserAnswerDto
+     */
+    public function getUserScore() : ScoredUserAnswerDto
+    {
+        // TODO: Implement GetUserScore() method.
+    }
 }

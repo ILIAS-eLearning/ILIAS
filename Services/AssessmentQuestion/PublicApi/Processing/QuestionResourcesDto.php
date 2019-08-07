@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
@@ -12,34 +13,35 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-interface QuestionResourcesDto  {
+interface QuestionResourcesDto
+{
 
-	/**
-	 * QuestionResourcesCollector constructor
-	 */
-	public function __construct();
-
-
-	/**
-	 * @return array
-	 */
-	public function getMobs(): array;
-
-	/**
-	 * @return array
-	 */
-	public function getMediaFiles(): array;
+    /**
+     * QuestionResourcesCollector constructor
+     */
+    public function __construct();
 
 
-	/**
-	 * @return array
-	 */
-	public function getJsFiles(): array ;
+    /**
+     * @return array
+     */
+    public function getMobs() : array;
 
 
-	/**
-	 * @return array
-	 */
-	public function getCssFiles(): array;
+    /**
+     * @return array
+     */
+    public function getMediaFiles() : array;
 
+
+    /**
+     * @return array
+     */
+    public function getJsFiles() : array;
+
+
+    /**
+     * @return array
+     */
+    public function getCssFiles() : array;
 }

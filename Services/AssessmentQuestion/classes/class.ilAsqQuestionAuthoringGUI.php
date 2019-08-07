@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 
 /**
  * Class ilAssessmentQuestionExporter
@@ -15,17 +16,26 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecCo
  */
 class ilAsqQuestionAuthoringGUI
 {
-	/**
-	 * ilAsqQuestionAuthoringGUI constructor.
-	 * @param AuthoringServiceSpecContract $authoringQuestionServiceSpec
-	 */
-	public function __construct(AuthoringServiceSpecContract $authoringQuestionServiceSpec)
-	{
-		
-	}
-	
-	public function executeCommand()
-	{
-	
-	}
+
+    /**
+     * @var AssessmentEntityId
+     */
+    protected $question_uuid;
+
+
+    /**
+     * ilAsqQuestionAuthoringGUI constructor.
+     *
+     * @param AssessmentEntityId $question_uuid
+     */
+    public function __construct(AssessmentEntityId $question_uuid)
+    {
+        //TODO
+    }
+
+
+    public function executeCommand()
+    {
+
+    }
 }
