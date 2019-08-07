@@ -10,75 +10,75 @@ namespace ILIAS\Filesystem\Finder\Comparator;
  */
 abstract class BaseComparator
 {
-	/** @var string */
-	private $target = '';
+    /** @var string */
+    private $target = '';
 
-	/** @var string */
-	private $operator = '==';
+    /** @var string */
+    private $operator = '==';
 
-	/**
-	 * @return string
-	 */
-	public function getTarget(): string
-	{
-		return $this->target;
-	}
+    /**
+     * @return string
+     */
+    public function getTarget() : string
+    {
+        return $this->target;
+    }
 
-	/**
-	 * @param string $target
-	 */
-	public function setTarget(string $target)
-	{
-		$this->target = $target;
-	}
+    /**
+     * @param string $target
+     */
+    public function setTarget(string $target)
+    {
+        $this->target = $target;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getOperator(): string
-	{
-		return $this->operator;
-	}
+    /**
+     * @return string
+     */
+    public function getOperator() : string
+    {
+        return $this->operator;
+    }
 
-	/**
-	 * @param string $operator
-	 */
-	public function setOperator(string $operator)
-	{
-		if (0 === strlen($operator)) {
-			$operator = '==';
-		}
+    /**
+     * @param string $operator
+     */
+    public function setOperator(string $operator)
+    {
+        if (0 === strlen($operator)) {
+            $operator = '==';
+        }
 
-		if (!in_array($operator, ['>', '<', '>=', '<=', '==', '!='])) {
-			throw new \InvalidArgumentException(sprintf('Invalid operator "%s".', $operator));
-		}
+        if (!in_array($operator, ['>', '<', '>=', '<=', '==', '!='])) {
+            throw new \InvalidArgumentException(sprintf('Invalid operator "%s".', $operator));
+        }
 
-		$this->operator = $operator;
-	}
+        $this->operator = $operator;
+    }
 
-	/**
-	 * @param string $test
-	 * @return bool
-	 */
-	public function test(string $test): bool
-	{
-		switch ($this->operator) {
-			case '>':
-				return $test > $this->target;
+    /**
+     * @param string $test
+     * @return bool
+     */
+    public function test(string $test) : bool
+    {
+        switch ($this->operator) {
+            case '>':
+                return $test > $this->target;
 
-			case '>=':
-				return $test >= $this->target;
+            case '>=':
+                return $test >= $this->target;
 
-			case '<':
-				return $test < $this->target;
+            case '<':
+                return $test < $this->target;
 
-			case '<=':
-				return $test <= $this->target;
+            case '<=':
+                return $test <= $this->target;
 
-			case '!=':
-				return $test != $this->target;
-		}
+            case '!=':
+                return $test != $this->target;
+        }
 
-		return $test == $this->target;
-	}
+        return $test == $this->target;
+    }
 }

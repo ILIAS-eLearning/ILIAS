@@ -15,59 +15,59 @@ use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
  */
 class SizeRangeFilterIterator extends \FilterIterator
 {
-	/** @var FileSystem */
-	private $filesystem;
+    /** @var FileSystem */
+    private $filesystem;
 
-	/** @var NumberComparator[] */
-	private $comparators = [];
+    /** @var NumberComparator[] */
+    private $comparators = [];
 
-	/**
-	 * @param Filesystem         $filesystem
-	 * @param \Iterator          $iterator    The Iterator to filter
-	 * @param NumberComparator[] $comparators An array of NumberComparator instances
-	 */
-	public function __construct(FileSystem $filesystem, \Iterator $iterator, array $comparators)
-	{
-		array_walk($comparators, function ($comparator) {
-			if (!($comparator instanceof NumberComparator)) {
-				if (is_object($comparator)) {
-					throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s',
-						get_class($comparator)));
-				}
+    /**
+     * @param Filesystem $filesystem
+     * @param \Iterator $iterator The Iterator to filter
+     * @param NumberComparator[] $comparators An array of NumberComparator instances
+     */
+    public function __construct(FileSystem $filesystem, \Iterator $iterator, array $comparators)
+    {
+        array_walk($comparators, function ($comparator) {
+            if (!($comparator instanceof NumberComparator)) {
+                if (is_object($comparator)) {
+                    throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s',
+                        get_class($comparator)));
+                }
 
-				throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
-			}
-		});
+                throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
+            }
+        });
 
-		$this->filesystem = $filesystem;
-		$this->comparators = $comparators;
+        $this->filesystem = $filesystem;
+        $this->comparators = $comparators;
 
-		parent::__construct($iterator);
-	}
+        parent::__construct($iterator);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function accept()
-	{
-		/** @var Metadata $metadata */
-		$metadata = $this->current();
+    /**
+     * @inheritdoc
+     */
+    public function accept()
+    {
+        /** @var Metadata $metadata */
+        $metadata = $this->current();
 
-		if (!$metadata->isFile()) {
-			return true;
-		}
+        if (!$metadata->isFile()) {
+            return true;
+        }
 
-		if (!$this->filesystem->has($metadata->getPath())) {
-			return false;
-		}
+        if (!$this->filesystem->has($metadata->getPath())) {
+            return false;
+        }
 
-		$size = $this->filesystem->getSize($metadata->getPath(), DataSize::Byte);
-		foreach ($this->comparators as $compare) {
-			if (!$compare->test((string)$size->getSize())) {
-				return false;
-			}
-		}
+        $size = $this->filesystem->getSize($metadata->getPath(), DataSize::Byte);
+        foreach ($this->comparators as $compare) {
+            if (!$compare->test((string) $size->getSize())) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }
