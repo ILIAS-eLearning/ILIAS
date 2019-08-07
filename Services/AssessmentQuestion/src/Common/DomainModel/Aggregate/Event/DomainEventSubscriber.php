@@ -2,6 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\Common\Event;
 
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvent;
+
 
 /**
  * Interface DomainEventSubscriber

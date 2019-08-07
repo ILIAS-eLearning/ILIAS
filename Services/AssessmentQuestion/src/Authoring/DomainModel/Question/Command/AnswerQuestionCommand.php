@@ -3,8 +3,8 @@
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
-use ILIAS\Messaging\Contract\Command\AbstractCommand;
-use ILIAS\Messaging\Contract\Command\Command;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\AbstractCommand;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandContract;
 
 /**
  * Class AnswerQuestionCommand
@@ -12,7 +12,7 @@ use ILIAS\Messaging\Contract\Command\Command;
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class AnswerQuestionCommand extends AbstractCommand implements Command {
+class AnswerQuestionCommand extends AbstractCommand implements CommandContract {
 
 	/**
 	 * @var Answer

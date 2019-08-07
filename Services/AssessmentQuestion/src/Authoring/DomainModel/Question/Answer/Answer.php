@@ -1,8 +1,6 @@
 <?php
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Entity;
 use JsonSerializable;
 

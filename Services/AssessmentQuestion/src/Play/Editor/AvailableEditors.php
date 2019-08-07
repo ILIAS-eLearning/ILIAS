@@ -15,6 +15,7 @@ namespace ILIAS\AssessmentQuestion\Play\Editor;
 class AvailableEditors {
 	public static function getAvailableEditors() {
 		//TODO get editors from DB
+		$editors = [];
 		$editors[MultipleChoiceEditor::class] = "MultipleChoiceEditor";
 		return $editors;
 	}

@@ -15,6 +15,7 @@ namespace ILIAS\AssessmentQuestion\Play\Presenter;
 class AvailablePresenters {
 	public static function getAvailablePresenters() {
 		//TODO get editors from DB
+		$editors = [];
 		$editors[DefaultPresenter::class] = "DefaultPresenter";
 		return $editors;
 	}

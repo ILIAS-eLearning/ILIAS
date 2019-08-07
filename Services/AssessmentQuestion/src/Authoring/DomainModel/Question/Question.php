@@ -253,6 +253,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * Domain specific data of an object and return it as an array
 	 */
 	public function getRevisionData(): array {
+	    $data = [];
 		$data[] = $this->getAggregateId()->getId();
 		$data[] = $this->getData()->jsonSerialize();
 		return $data;

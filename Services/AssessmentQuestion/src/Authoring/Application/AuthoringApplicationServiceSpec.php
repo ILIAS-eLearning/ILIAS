@@ -2,13 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\Application;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
-use ILIAS\UI\Component\Link\Link;
-use ilLanguage;
-
 /**
  * Class AsqAuthoringSpec
  *

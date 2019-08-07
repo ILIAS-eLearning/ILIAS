@@ -2,12 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question;
 
-use Exception;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Legacy\SingleChoiceQuestionGUI;
-use ilPropertyFormGUI;
-use JsonSerializable;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
-use stdClass;
+use Exception;
+use ilPropertyFormGUI;
 
 /**
  * Class QuestionPlayConfiguration

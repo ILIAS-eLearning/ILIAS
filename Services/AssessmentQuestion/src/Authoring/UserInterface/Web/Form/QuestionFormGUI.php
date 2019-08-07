@@ -2,28 +2,23 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form;
 
-use ilCheckboxInputGUI;
-use ilDurationInputGUI;
-use ilHiddenInputGUI;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionLegacyData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring\AvailableScorings;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionForm;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\Play\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\Play\Presenter\AvailablePresenters;
-use ilImageFileInputGUI;
-use ilNumberInputGUI;
-use \ilPropertyFormGUI;
+use Exception;
+use ilDurationInputGUI;
+use ilHiddenInputGUI;
+use ilPropertyFormGUI;
 use ilSelectInputGUI;
 use ilTextAreaInputGUI;
-use \ilTextInputGUI;
-use Exception;
+use ilTextInputGUI;
 
 class QuestionFormGUI extends ilPropertyFormGUI {
 	const VAR_AGGREGATE_ID = 'aggregate_id';

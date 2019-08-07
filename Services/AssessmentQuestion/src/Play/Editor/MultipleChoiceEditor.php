@@ -2,13 +2,11 @@
 
 namespace ILIAS\AssessmentQuestion\Play\Editor;
 
-use ilCheckboxInputGUI;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
+use JsonSerializable;
+use ilCheckboxInputGUI;
 use ilNumberInputGUI;
 use ilTemplate;
-use JsonSerializable;
 use stdClass;
 
 /**

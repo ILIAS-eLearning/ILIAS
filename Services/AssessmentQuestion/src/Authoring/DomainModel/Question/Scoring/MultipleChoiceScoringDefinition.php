@@ -71,6 +71,7 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	}
 
 	public static function getFields(): array {
+	    $fields = [];
 		$fields[] = new AnswerOptionFormFieldDefinition(
 			'Checked',
 			AnswerOptionFormFieldDefinition::TYPE_NUMBER,

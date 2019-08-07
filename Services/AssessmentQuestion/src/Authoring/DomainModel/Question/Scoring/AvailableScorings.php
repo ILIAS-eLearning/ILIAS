@@ -15,6 +15,7 @@ namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring;
 class AvailableScorings {
 	public static function getAvailableScorings() {
 		//TODO get scorings from DB
+		$scorings = [];
 		$scorings[MultipleChoiceScoring::class] = "MultipleChoiceScoring";
 		return $scorings;
 	}

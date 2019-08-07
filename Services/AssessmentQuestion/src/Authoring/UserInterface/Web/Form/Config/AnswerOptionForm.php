@@ -3,7 +3,6 @@
 namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config;
 
 use Exception;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOption;
 use ilImageFileInputGUI;
 use ilNumberInputGUI;
 use ilTemplate;

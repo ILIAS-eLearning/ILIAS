@@ -3,7 +3,6 @@
 namespace ILIAS\AssessmentQuestion\Play\Editor;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\DisplayDefinition;
-use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionForm;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
 
@@ -61,6 +60,7 @@ class MultipleChoiceEditorDisplayDefinition extends DisplayDefinition {
 	}
 
 	public static function getFields(): array {
+	    $fields = [];
 		$fields[] = new AnswerOptionFormFieldDefinition(
 			'Answer Text',
 			AnswerOptionFormFieldDefinition::TYPE_TEXT,

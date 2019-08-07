@@ -2,11 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command;
 
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Type\AnswerType;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionContainer;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\AbstractCommand;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandContract;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 
 /**
  * Class CreateQuestionCommand
@@ -29,14 +27,12 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 	 */
 	protected $answer_type_id;
 
-	/**
-	 * CreateQuestionCommand constructor.
-	 *
-	 * @param DomainObjectId     $question_uuid
-	 * @param int                $initiating_user_id
-	 * @param QuestionContainer  $question_container
-	 * @param AnswerType $answer_type
-	 */
+    /**
+     * @param DomainObjectId $question_uuid
+     * @param int $initiating_user_id
+     * @param int $container_id
+     * @param int $answer_type_id
+     */
 	public function __construct(
 		DomainObjectId $question_uuid,
 		int $initiating_user_id,

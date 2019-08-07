@@ -1,8 +1,6 @@
 <?php
+
 namespace ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
-
-
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\Value\AnswerOptionValue;
 
 /**
  * Interface AnswerOption

@@ -3,12 +3,10 @@
 
 namespace ILIAS\AssessmentQuestion\Common\Event;
 
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvent;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event\DomainEvents;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Exception\DomainExceptionCorruptAggregateHistory;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Exception\DomainExceptionMissingImplementation;
-
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
+use Exception;
 /**
  * Class AggregateHistory
  *
@@ -22,7 +20,7 @@ use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Exception\DomainExcept
 final class AggregateHistory extends DomainEvents {
 
 	/**
-	 * @var AggregateId
+	 * @var DomainObjectId
 	 */
 	private $aggregate_Id;
 
@@ -30,16 +28,16 @@ final class AggregateHistory extends DomainEvents {
 	/**
 	 * AggregateHistory constructor.
 	 *
-	 * @param AggregateId   $aggregate_Id
+	 * @param DomainObjectId   $aggregate_Id
 	 * @param DomainEvent[] $events
 	 *
-	 * @throws DomainExceptionCorruptAggregateHistory
+	 * @throws Exception
 	 */
-	public function __construct(AggregateId $aggregate_Id, array $events) {
+	public function __construct(DomainObjectId $aggregate_Id, array $events) {
 		/** @var $event DomainEvent */
 		foreach ($events as $event) {
 			if (!$event->getAggregateId()->equals($aggregate_Id)) {
-				throw new DomainExceptionCorruptAggregateHistory;
+				throw new Exception();
 			}
 		}
 		parent::__construct($events);
@@ -48,9 +46,9 @@ final class AggregateHistory extends DomainEvents {
 
 
 	/**
-	 * @return AggregateId
+	 * @return DomainObjectId
 	 */
-	public function getAggregateId(): AggregateId {
+	public function getAggregateId(): DomainObjectId {
 		return $this->aggregate_Id;
 	}
 
@@ -58,9 +56,9 @@ final class AggregateHistory extends DomainEvents {
 	/**
 	 * @param DomainEvent $domainEvent
 	 *
-	 * @throws DomainExceptionMissingImplementation
+	 * @throws Exception
 	 */
 	public function append(DomainEvent $domainEvent) {
-		throw new DomainExceptionMissingImplementation("@todo  Implement append() method.");
+		throw new Exception("@todo  Implement append() method.");
 	}
 }

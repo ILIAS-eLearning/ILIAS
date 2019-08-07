@@ -2,28 +2,25 @@
 
 namespace ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Legacy;
 
-use ilCheckboxInputGUI;
-use ilDurationInputGUI;
-use ilHiddenInputGUI;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionDto;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionLegacyData;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring\AvailableScorings;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Scoring\MultipleChoiceScoringDefinition;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionForm;
 use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
-use ILIAS\AssessmentQuestion\Play\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\Play\Editor\MultipleChoiceEditorConfiguration;
 use ILIAS\AssessmentQuestion\Play\Editor\MultipleChoiceEditorDisplayDefinition;
-use ILIAS\AssessmentQuestion\Play\Presenter\AvailablePresenters;
+use Exception;
+use ilCheckboxInputGUI;
+use ilDurationInputGUI;
+use ilHiddenInputGUI;
 use ilNumberInputGUI;
-use \ilPropertyFormGUI;
+use ilPropertyFormGUI;
 use ilTextAreaInputGUI;
-use \ilTextInputGUI;
-use mysql_xdevapi\Exception;
+use ilTextInputGUI;
 
 class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 	const VAR_AGGREGATE_ID = 'aggregate_id';
@@ -99,6 +96,7 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 	 * @return array
 	 */
 	private function collectFields(?QuestionPlayConfiguration $play) : array {
+	    $fields = [];
 		$fields[] = new AnswerOptionFormFieldDefinition(
 			'Answer Text',
 			AnswerOptionFormFieldDefinition::TYPE_TEXT,

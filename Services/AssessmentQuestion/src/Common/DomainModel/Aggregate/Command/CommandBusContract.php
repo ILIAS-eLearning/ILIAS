@@ -13,7 +13,7 @@ namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command;
 interface CommandBusContract {
 
 	/**
-	 * @param Command $command
+	 * @param CommandContract $command
 	 */
 	public function handle(CommandContract $command): void;
 

@@ -3,7 +3,7 @@
 
 namespace ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Event;
 
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AggregateId;
+use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 
 /**
  * Interface StoredEvent
@@ -29,7 +29,7 @@ interface StoredEvent {
 	public function getEventId(): int;
 
 
-	public function getAggregateId(): AggregateId;
+	public function getAggregateId(): DomainObjectId;
 
 
 	/**

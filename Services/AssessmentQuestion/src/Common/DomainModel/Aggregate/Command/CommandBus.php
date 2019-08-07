@@ -16,7 +16,7 @@ class CommandBus implements CommandBusContract {
 
 
 	/**
-	 * @param Command $command
+	 * @param CommandContract $command
 	 *
 	 */
 	public function handle(CommandContract $command): void {

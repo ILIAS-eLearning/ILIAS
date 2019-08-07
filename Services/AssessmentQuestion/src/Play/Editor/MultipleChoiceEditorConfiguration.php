@@ -4,7 +4,6 @@ namespace ILIAS\AssessmentQuestion\Play\Editor;
 
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Event\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\AbstractValueObject;
-use stdClass;
 
 /**
  * Class MultipleChoiceEditor
