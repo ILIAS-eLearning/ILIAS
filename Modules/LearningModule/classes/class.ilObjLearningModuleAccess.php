@@ -1,11 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Modules/LearningModule/classes/class.ilObjContentObjectAccess.php");
-include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
-require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
-require_once('./Services/Object/classes/class.ilObject2.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilObjLearningModuleAccess

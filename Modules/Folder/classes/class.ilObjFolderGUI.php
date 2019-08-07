@@ -189,12 +189,6 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->checkPermission("read");
 				$this->viewObject();
 				break;
-			
-			case 'ilbackgroundtaskhub':
-				include_once './Services/BackgroundTask/classes/class.ilBackgroundTaskHub.php';
-				$bggui = new ilBackgroundTaskHub();
-				$this->ctrl->forwardCommand($bggui);
-				break;
 
 			case 'ilobjecttranslationgui':
 				$this->checkPermissionBool("write");
@@ -526,20 +520,6 @@ class ilObjFolderGUI extends ilContainerGUI
 			ilObjectGUI::_gotoRepositoryNode($a_target);
 		}
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
-	}
-
-
-	public function downloadFolderObject () {
-		$ilAccess = $this->access;
-		$ilErr = $this->error;
-		$lng = $this->lng;
-			
-		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		$filename = $this->object->downloadFolder();
-		ilUtil::deliverFile($filename, ilUtil::getASCIIFilename($this->object->getTitle().".zip"));				
 	}
 	
 	/**

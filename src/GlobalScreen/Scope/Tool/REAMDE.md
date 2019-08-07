@@ -33,7 +33,7 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
 
 # ToolContexts
 
-What you get in `getToolsForContextStack()` is a stack of `ToolContexts`. Such a `ToolContext` contains a unique name as well as additional information and data which can be given to the `ToolContext` at runtime. More about this below.
+What you get in `getToolsForContextStack()` is a stack of `ToolContexts`. Such a `ScreenContext` contains a unique name as well as additional information and data which can be given to the `ScreenContext` at runtime. More about this below.
 
 As `Tools` are context-related, you have to tell the GlobalScreen service which contexts you are interested in. Only for these you will be asked effectively. These are announced as follows:
 
@@ -85,8 +85,8 @@ class ilRepositoryGUI
 }
 ```
 
-## Fill Data to the ToolContext
-As mentioned above, additional data can be filled into the `ToolContext` to access this data when generating a `Tool` in your `DynamicToolProvider`. This allows you to finer decide whether to currently output a `Tool` or not. For example:
+## Fill Data to the ScreenContext
+As mentioned above, additional data can be filled into the `ScreenContext` to access this data when generating a `Tool` in your `DynamicToolProvider`. This allows you to finer decide whether to currently output a `Tool` or not. For example:
 
 ```php
 class ilMediaPoolPresentationGUI

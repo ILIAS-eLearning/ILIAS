@@ -141,13 +141,6 @@ class ilCalendarRemoteReader
 			$this->curl = new ilCurlConnection($this->getUrl());
 			$this->curl->init();
 
-			if(ilProxySettings::_getInstance()->isActive())
-			{
-				$this->curl->setOpt(CURLOPT_HTTPPROXYTUNNEL,true );
-				$this->curl->setOpt(CURLOPT_PROXY, ilProxySettings::_getInstance()->getHost());
-				$this->curl->setOpt(CURLOPT_PROXYPORT, ilProxySettings::_getInstance()->getPort());
-			}
-
 			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
 			$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST, 0);
 			$this->curl->setOpt(CURLOPT_RETURNTRANSFER, 1);

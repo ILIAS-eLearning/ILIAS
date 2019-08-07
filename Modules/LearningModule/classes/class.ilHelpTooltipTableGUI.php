@@ -1,9 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Services/Help/classes/class.ilHelpMapping.php");
-
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Help mapping
@@ -40,7 +37,6 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		include_once("./Services/Help/classes/class.ilHelp.php");
 		$this->setData(ilHelp::getAllTooltips($a_comp));
 
 		$this->setTitle($lng->txt("help_tooltips"));

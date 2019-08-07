@@ -13,6 +13,7 @@ require_once("./Services/Exceptions/classes/class.ilException.php");
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-class Exception extends \ilException {
+class Exception extends \ilException
+{
 
 }

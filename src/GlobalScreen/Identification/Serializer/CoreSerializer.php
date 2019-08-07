@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\LostIdentification;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
@@ -41,8 +42,8 @@ class CoreSerializer implements SerializerInterface
     {
         list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
-        if (!$provider_factory->isInstanceCreationPossible($class_name)) {
-            return new NullIdentification();
+        if (!$provider_factory->isInstanceCreationPossible($class_name) || !$provider_factory->isRegistered($class_name)) {
+            return new LostIdentification($serialized_string);
         }
 
         $f = new CoreIdentificationProvider($provider_factory->getProviderByClassName($class_name), $this, $map);

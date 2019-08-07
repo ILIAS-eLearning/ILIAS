@@ -21,6 +21,10 @@ class ilCASSettingsGUI
 	private $settings;
 
 	private $ref_id;
+	/**
+	 * @var ILIAS\DI\Container
+	 */
+	private $dic;
 	
 	/**
 	 * Constructor
@@ -31,15 +35,16 @@ class ilCASSettingsGUI
 	 */
 	public function __construct($a_auth_ref_id)
 	{
-		global $lng,$ilCtrl,$tpl,$ilTabs;
+		global $DIC;
 		
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
-		$this->lng = $lng;
+		$this->dic = $DIC;
+		$this->ctrl = $this->dic->ctrl();
+		$this->tabs_gui = $this->dic->tabs();
+		$this->lng = $this->dic->language();
 		$this->lng->loadLanguageModule('registration');
 		$this->lng->loadLanguageModule('auth');
 		
-		$this->tpl = $tpl;
+		$this->tpl = $this->dic['tpl'];
 		$this->ref_id = $a_auth_ref_id;
 
 		$this->settings = ilCASSettings::getInstance();
@@ -63,22 +68,15 @@ class ilCASSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilAccess,$ilErr,$ilCtrl;
+		global $ilErr;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("settings");
 		
-		if(!$ilAccess->checkAccess('read','',$this->ref_id))
+		if(!$this->dic->rbac()->system()->checkAccess("visible,read", $this->ref_id))
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
-		
-		if(!$ilAccess->checkAccess('write','',$this->ref_id) && $cmd != "settings")
-		{
-			ilUtil::sendFailure($this->lng->txt('msg_no_perm_write'), true);
-			$ilCtrl->redirect($this, "settings");
-		}
-
 
 		switch($next_class)
 		{
@@ -230,7 +228,9 @@ class ilCASSettingsGUI
 		$create->setValue(1);
 		$form->addItem($create);
 
-		$form->addCommandButton('save',$this->lng->txt('save'));
+		if($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
+			$form->addCommandButton('save',$this->lng->txt('save'));
+		}
 
 		return $form;
 	}
