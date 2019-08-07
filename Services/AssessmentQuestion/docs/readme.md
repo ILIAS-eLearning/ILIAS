@@ -189,7 +189,7 @@ $DIC->ui()->renderer()->render($question_component);
 A new user's answer to a question is saved with _$asqPlayService->storeUserAnswer([...])_. StoreUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
 ```
 
-$question_processing_service->CreateUserAnswer(
+$question_processing_service->storeUserAnswer(
     new UserAnswerSubmit(json_encode($DIC->http()->request('user_answer')));
 );
 ```
