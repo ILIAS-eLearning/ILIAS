@@ -21,7 +21,8 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\UserAnswerScoringContr
  */
 class UserAnswerScoring implements UserAnswerScoringContract
 {
-
+    
+    
 	/**
 	 * @return QuestionIdContract
 	 */

@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Question;
 use JsonSerializable;
 use stdClass;
+use ILIAS\Services\AssessmentQuestion\PublicApi\UserAnswerScoring;
 
 /**
  * Abstract Class AbstractScoring
@@ -23,12 +24,7 @@ abstract class AbstractScoring {
 	/**
 	 * @var Question
 	 */
-	private $question;
-	/**
-	 * @var array
-	 */
-	private $configuration;
-
+	protected $question;
 
 	/**
 	 * AbstractScoring constructor.
@@ -36,12 +32,11 @@ abstract class AbstractScoring {
 	 * @param Question $question
 	 * @param array    $configuration
 	 */
-	public function __construct(Question $question, array $configuration) {
+	public function __construct(Question $question) {
 		$this->question = $question;
-		$this->configuration = $configuration;
 	}
 
-	abstract function score(Answer $answer);
+	abstract function score(Answer $answer) : int;
 
 	/**
 	 * @return array|null

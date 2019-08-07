@@ -159,6 +159,10 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC;
         
-        $DIC->ui()->mainTemplate()->setContent("SCORE");
+        $player = new PlayApplicationService();
+        
+        $question_id = $_GET[self::VAR_QUESTION_ID];
+        
+        $DIC->ui()->mainTemplate()->setContent($player->GetPointsByUser($question_id, $DIC->user()->getId(), self::DEBUG_TEST_ID));
     }
 }

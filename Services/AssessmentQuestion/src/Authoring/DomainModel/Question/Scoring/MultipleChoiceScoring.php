@@ -16,7 +16,19 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
  */
 class MultipleChoiceScoring extends AbstractScoring {
 
-	function score(Answer $answer) {
-		// TODO: Implement score() method.
+	function score(Answer $answer) : int {
+		$selected_options = explode(",", $answer->getValue());
+		
+		$score = 0;
+
+		foreach ($this->question->getAnswerOptions()->getOptions() as $answer_option) {
+		    if(in_array($answer_option->getOptionId(), $selected_options)) {
+		        $score += $answer_option->getScoringDefinition()->getPointsSelected();
+		    } else {
+		        $score += $answer_option->getScoringDefinition()->getPointsUnselected();
+		    }
+		}
+		
+		return $score;
 	}
 }

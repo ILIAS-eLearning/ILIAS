@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
 use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Command\AnswerQuestionCommand;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Command\CommandBusBuilder;
+use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\QuestionPlayConfiguration;
 
 const MSG_SUCCESS = "success";
 
@@ -36,5 +37,9 @@ class PlayApplicationService {
 
 	public function GetPointsByUser(string $question_id, int $user_id, string $test_id): float {
 		// gets the result of the user
+	    $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_id));
+	    $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
+	    $scoring = new $scoring_class($question);
+	    return $scoring->score($question->getAnswer($user_id, $test_id));
 	}
 }
