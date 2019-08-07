@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectionContract;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
+use ILIAS\UI\Component\Link\Link;
 
 /**
  * When a component consumes the assessment question service for purposes
@@ -10,8 +10,8 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AdditionalConfigSectio
  *
  * @ilCtrl_Calls exObjQuestionPoolGUI: ilAsqQuestionAuthoringGUI
  */
-class exObjQuestionPoolGUI
-{
+class exObjQuestionPoolGUI {
+
 	/**
 	 * The question creation and editing ui is handled by the Assessment Question Service itself. The control flow
 	 * is to be forwarded to the ilAssessmentQuestionServiceGUI that comes as a regular control structure node.
@@ -25,162 +25,142 @@ class exObjQuestionPoolGUI
 	 *
 	 * To integrate the forward of to the Assessment Question Service two requirements need to be fullfilled:
 	 * - a suitable control structure forward header is required (like above)
-	 * - a suitable switch case within the executeCommand() method is necessary (like below)
+	 * - a suitable switch case within the executeCommand() method is necessary
 	 */
-	public function executeCommand()
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		switch( $DIC->ctrl()->getNextClass($this) )
-		{
+
+	/**
+	 * @var AuthoringService
+	 */
+	protected $authoring_service;
+
+
+	public function __construct() {
+		/* @var ILIAS\DI\Container $DIC */ global $DIC;
+
+		$this->authoring_service = $DIC->assessment()->questionAuthoring($this->object->getId(), $DIC->user()->getId());
+	}
+
+
+	public function executeCommand() {
+		global $DIC;
+		/* @var ILIAS\DI\Container $DIC */
+
+		switch ($DIC->ctrl()->getCmdClass()) {
 			case 'ilasqquestionauthoringgui':
-				
-				$authoringGUI = $DIC->assessment()->control()->authoringGUI(
-					$this->buildAsqAuthoringSpecification()
-				);
-				
-				$DIC->ctrl()->forwardCommand($authoringGUI);
+				$this->forwardToQuestionAuthoringGUI($this->authoring_service->currentOrNewQuestionId());
+				break;
+			default:
+				switch ($DIC->ctrl()->getCmd()) {
+					case 'showQuestions':
+						$this->showQuestions();
+						break;
+					//TODO
+				}
 		}
 	}
-	
-	/**
-	 * The authoring service requires some information about the consuming container object (e.g. question pool).
-	 * For this purpose a container specification object is available that needs to be constructed
-	 * with the required information like:
-	 * - parent obj/ref id,
-	 * - available taxonomies (that are managed in the consumer)
-	 * - the still required flag to distinguish between test/pool and learning module
-	 *
-	 * The container specification is also used to inject the required globals.
-	 *
-	 * @return AuthoringServiceSpecContract
-	 */
-	public function buildAsqAuthoringSpecification() : AuthoringServiceSpecContract
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$containerBackLink = $DIC->ui()->factory()->link()->standard(
-			'Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList')
-		);
-		
-		$authoringSpecification = $DIC->assessment()->specification()->authoring(
-			$this->object->getId(),
-			$DIC->user()->getId(),
-			$containerBackLink
-		)->addAdditionalConfigSection($this->buildAdditionalTaxonomiesConfigSection());
-		
-		return $authoringSpecification;
+
+
+	protected function forwardToQuestionAuthoringGUI(QuestionId $question_id) {
+		global $DIC;
+
+		$DIC->ctrl()->forwardCommand($this->authoring_service->question($question_id, $this->getBacklink())->getAuthoringGUI());
 	}
-	
-	/**
-	 * @return AdditionalConfigSectionContract
-	 */
-	protected function buildAdditionalTaxonomiesConfigSection(): AdditionalConfigSectionContract
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$sectionHeader = new ilFormSectionHeaderGUI();
-		$sectionHeader->setTitle('Taxonomy Assignments');
-		
-		$sectionInputs = [];
-		
-		foreach($this->object->getTaxonomyIds() as $taxonomyId)
-		{
-			$sectionInputs[] = new ilTaxSelectInputGUI(
-				$taxonomyId, "tax_{$taxonomyId}"
-			);
-		}
-		
-		return $DIC->assessment()->consumer()->questionConfigSection(
-			$sectionHeader, $sectionInputs
-		);
-	}
-	
+
+
 	/**
 	 * For question listings the query service provides a method to retrieve an stack of associative question data arrays
 	 * for all questions that relate to us as the parent container. This structure can be simply used as data structure
 	 * for any ilTable2 implementation.
 	 */
-	public function showQuestions()
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$authoringService = $DIC->assessment()->service()->authoring(
-			$this->buildAsqAuthoringSpecification(), $DIC->assessment()->consumer()->newQuestionUuid()
-		);
-		
-		$creationLinkComponent = $authoringService->getCreationLink();
-		
+	public function showQuestions() {
+		global $DIC;
+		/* @var ILIAS\DI\Container $DIC */
+
+		$creationLinkComponent = $this->authoring_service->question($DIC->assessment()->currentOrNewQuestionId(), $this->getBacklink())->widthAdditionalConfigSection($this->buildAdditionalTaxonomiesConfigSection())
+			->getCreationLink([ 'ilRepositoryObjectGUI', 'exObjQuestionPoolGUI' ]);
+
 		$button = ilLinkButton::getInstance();
-		$button->setCaption($creationLinkComponent->getLabel());
+		$button->setCaption($creationLinkComponent->gegetLabel());
 		$button->setUrl($creationLinkComponent->getAction());
 		$toolbar = new ilToolbarGUI();
 		$toolbar->addButtonInstance($button);
-		
-		$queryService = $DIC->assessment()->service()->query();
 
-		$questionsAsAssocArrayStack = $queryService->GetQuestionsOfContainerAsAssocArray(
-			$this->object->getId()
-		);
-		
+		$queryService = $this->authoring_service->questionList();
+		$questionsAsAssocArrayStack = $queryService->GetQuestionsOfContainerAsAssocArray();
+
 		/**
 		 * - initialise any ilTable2GUI with this data array
 		 * - render initialised ilTable2GUI
 		 */
-		
+
 		$tableGUI = new exQuestionsTableGUI($this, 'showQuestionList', '');
 		$tableGUI->setData($questionsAsAssocArrayStack);
-		
-		
+
 		$toolbarHTML = $toolbar->getHTML(); // render toolbar including create question button
 		$tableHTML = $tableGUI->getHTML(); // render table containing question list
 	}
-	
+
+
 	/**
 	 * When a component provides import functionality for assessment questions, it needs to make use of the
 	 * ILIAS QTI service to get any qti xml parsed to an QTI object graph provided by the QTI service.
-	 * 
+	 *
 	 * To actually import the question as an assessment question the authoring service provides a method
 	 * importQtiItem to be used. Simply pass the ilQtiItem and get it imported.
 	 */
-	public function importQuestions()
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		
-		
+	public function importQuestions() {
+		global $DIC;
+		/* @var ILIAS\DI\Container $DIC */
+
 		/**
 		 * parse any qti import xml using the QTI Service and retrieve
 		 * an array containing ilQTIItem instances
 		 */
-		$qtiItems = array(); /* @var ilQTIItem[] $qtiItems */
-		
-		foreach($qtiItems as $qtiItem)
-		{
-			$authoringService = $DIC->assessment()->service()->authoring(
-				$this->buildAsqAuthoringSpecification(),
-				$DIC->assessment()->consumer()->newQuestionUuid()
-			);
-			
-			$authoringService->importQtiItem($qtiItem);
+		$qtiItems = array();
+		/* @var ilQTIItem[] $qtiItems */
+
+		foreach ($qtiItems as $qtiItem) {
+			$this->authoring_service->questionImport()->importQtiItem($qtiItem);
 		}
 	}
-	
+
+
 	/**
 	 * For the deletion of questions the authoring service comes with a method deleteQuestion.
 	 * Simply pass the question's UUID.
 	 */
-	public function deleteQuestion()
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
+	public function deleteQuestion() {
+		global $DIC;
+		/* @var ILIAS\DI\Container $DIC */
+
 		$questionUuid = ''; // init from GET parameters
-		
-		$authoringService = $DIC->assessment()->service()->authoring(
-			$this->buildAsqAuthoringSpecification(),
-			$DIC->assessment()->consumer()->questionUuid($questionUuid)
-		);
-		
-		$authoringService->deleteQuestion();
+
+		$this->authoring_service->question($questionUuid,$this->getBacklink())->deleteQuestion();
+	}
+
+	protected function getBacklink(): Link {
+		global $DIC;
+
+		return $DIC->ui()->factory()->link()->standard('Back to Question Pool', $DIC->ctrl()->getLinkTarget($this, 'showQuestionList'));
+	}
+
+
+	/**
+	 * @return AdditionalConfigSectionDto
+	 */
+	protected function buildAdditionalTaxonomiesConfigSection(): AdditionalConfigSectionDto {
+		global $DIC;
+		/* @var \ILIAS\DI\Container $DIC */
+
+		$sectionHeader = new ilFormSectionHeaderGUI();
+		$sectionHeader->setTitle('Taxonomy Assignments');
+
+		$config_section = new AdditionalConfigSectionDto($sectionHeader);
+
+		foreach ($this->object->getTaxonomyIds() as $taxonomyId) {
+			$config_section->appendSectionInput(new ilTaxSelectInputGUI($taxonomyId, "tax_{$taxonomyId}"));
+		}
+
+		return $config_section;
 	}
 }

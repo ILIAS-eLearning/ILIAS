@@ -4,6 +4,9 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
+
 /**
  * Class AssessmentServices
  *
@@ -15,29 +18,14 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi\Factory
  */
-class Assessment
-{
-	/**
-	 * @return Control
-	 */
-	public function control() : Control
-	{
-		return new Control();
+class AssessmentFactory {
+
+	public function questionAuthoring(int $container_obj_id, int $actor_user_id): AuthoringService {
+		return new AuthoringService($container_obj_id, $actor_user_id);
 	}
-	
-	/**
-	 * @return Service
-	 */
-	public function service() : Service
-	{
-		return new Service();
-	}
-	
-	/**
-	 * @return Consumer
-	 */
-	public function consumer(): Consumer
-	{
-		return new Consumer();
+
+
+	public function questionProcessing(int $actor_user_id) {
+		return new ProcessingService($actor_user_id);
 	}
 }

@@ -1,43 +1,57 @@
 <?php
 
-namespace ILIAS\Services\AssessmentQuestion\PublicApi;
+namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
+use ilAsqQuestionAuthoringGUI;
 use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Link\Standard;
 use ilQtiItem;
 
 /**
- * Interface QuestionAuthoringService
+ * Class QuestionAuthoring
  *
+ * @package ILIAS\Services\AssessmentQuestion\PublicApi
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
- *
- * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
-class QuestionAuthoring {
+class Question {
+
+	/**
+	 * @var int
+	 */
+	protected $container_obj_id;
+	/**
+	 * @var int
+	 */
+	protected $actor_user_id;
 
 	/**
 	 * QuestionAuthoring constructor.
 	 *
 	 * @param int                $container_obj_id
-	 * @param QuestionIdContract $question_uuid
+	 * @param string         $question_uuid
 	 * @param int                $actor_user_id
 	 * @param Link               $container_backlink
 	 */
-	public function __construct(int $container_obj_id, QuestionIdContract $question_uuid, int $actor_user_id, Link $container_backlink) {
+	public function __construct(int $container_obj_id, string $question_uuid, int $actor_user_id, Link $container_backlink) {
+		// TODO
+	}
+
+	public function widthAdditionalConfigSection(AdditionalConfigSection $additional_config_section):Question {
+		//TODO
 	}
 	
-	public function getCreationLink(): Link
+	public function getCreationLink(array $ctrl_stack): Link
 	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		return $DIC->ctrl()->getLinkTargetByClass('ilAsqQuestionAuthoringGUI', 'createQuestionForm');
+		// TODO
+	}
+
+	public function getAuthoringGUI(): ilAsqQuestionAuthoringGUI
+	{
+		// TODO
 	}
 
 	/**
@@ -96,21 +110,12 @@ class QuestionAuthoring {
 
 
 	/**
-	 * @param RevisionIdContract $asq_api_id_revision
+	 *
 	 */
-	public function publishNewRevision(RevisionIdContract $asq_api_id_revision): void {
+	public function publishNewRevision(): void {
 		// TODO: Implement publishNewRevision() method.
 	}
 
-
-	
-	/**
-	 * @param ilQtiItem $qtiItem
-	 */
-	public function importQtiItem(ilQtiItem $qtiItem): void
-	{
-		// TODO: implement
-	}
 	
 	public function changeQuestionContainer(): void
 	{

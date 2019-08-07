@@ -1,11 +1,7 @@
 <?php
 
-namespace ILIAS\Services\AssessmentQuestion\PublicApi;
+namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QueryServiceContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionIdContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\RevisionIdContract;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionDtoContract;
 
 /**
  * Class AuthoringQueryService
@@ -18,7 +14,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\QuestionDtoContract;
  *
  * @package ILIAS\Services\AssessmentQuestion\PublicApi
  */
-class QuestionListing implements QueryServiceContract {
+class QuestionList {
 
 	/**
 	 * @param int $container_id
@@ -33,7 +29,7 @@ class QuestionListing implements QueryServiceContract {
 	/**
 	 * @param int $container_id
 	 *
-	 * @return QuestionDtoContract[]
+	 * @return QuestionDto[]
 	 */
 	public function GetQuestionsOfContainerAsDtoList(int $container_id): array {
 		// TODO: Implement GetQuestionsOfContainerAsAssocArray() method.
@@ -45,7 +41,8 @@ class QuestionListing implements QueryServiceContract {
 	 *
 	 * @return string
 	 */
-	public function getQuestionQtiXml(QuestionIdContract $questionUuid, RevisionIdContract $revisionUuid = null): string {
+	//TODO -> ??
+	public function getQuestionQtiXml(QuestionId $questionUuid, QuestionRevisionId $revisionUuid = null): string {
 		// TODO: implement
 	}
 }

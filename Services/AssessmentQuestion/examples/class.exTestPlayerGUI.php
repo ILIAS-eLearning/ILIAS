@@ -1,7 +1,9 @@
 <?php
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\PlayServiceSpec;
-use ILIAS\Services\AssessmentQuestion\PublicApi\UserAnswerSubmit;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\QuestionRevisionId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\UserAnswerId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\UserAnswerSubmit;
 
 /**
  * When a component wants to integrate the assessment question service to present questions
@@ -29,14 +31,23 @@ class exTestPlayerGUI {
 	 * - question can be shown without user answer
 	 * - feedbacks can be shown if required
 	 */
+
+	/**
+	 * @var ProcessingService
+	 */
+	protected $processing_service;
+
+
+	public function __construct() {
+		/* @var ILIAS\DI\Container $DIC */ global $DIC;
+
+		$this->processing_service = $DIC->assessment()->questionProcessing($DIC->user()->getId());
+	}
+
 	public function showQuestion() {
 		global $DIC;
 		/* @var ILIAS\DI\Container $DIC */
 
-		/**
-		 * initialise with id of question to be shown
-		 */
-		$questionUuid = 'any-valid-question-uuid';
 		/**
 		 * initialise with revision_id of question to be shown
 		 */
@@ -46,23 +57,17 @@ class exTestPlayerGUI {
 		 * fetch possibly existing participant answer uuid,
 		 * an empty string is returned when no user answer exists
 		 */
-		$userAnswerUuid = $this->getParticipantAnswerUuid($questionUuid);
+		$userAnswerUuid = $this->getParticipantAnswerUuid(new QuestionRevisionId($revisionUuid));
 
 		/**
-		 * initialise the asq play service
+		 * initialise the processing question service
 		 */
-		$asqPlayService = $DIC->assessment()->service()->play($this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()
-			->questionUuid($questionUuid), $DIC->assessment()->consumer()->revisionUuid($questionUuid, $revisionUuid));
+		$processing_question = $this->processing_service->question($revisionUuid,$userAnswerUuid);
 
 		/**
 		 * get a question presentation with or without a user answer
 		 */
-
-		if ($userAnswerUuid) {
-			$questionComponent = $asqPlayService->GetQuestionPresentation($DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid));
-		} else {
-			$questionComponent = $asqPlayService->GetQuestionPresentation($DIC->assessment()->consumer()->newUserAnswerUuid());
-		}
+		$questionComponent = $processing_question->getQuestionPresentation();
 
 		$testplayerPageHTML = $DIC->ui()->renderer()->render($questionComponent);
 
@@ -70,10 +75,12 @@ class exTestPlayerGUI {
 		 * get feedback presentation
 		 */
 
-		if ($userAnswerUuid && $showFeedbacks = true) {
-			$genericFeedbackComponent = $asqPlayService->getGenericFeedbackOutput($DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid));
+		if ($showFeedbacks = true) {
 
-			$specificFeedbackComponent = $asqPlayService->getSpecificFeedbackOutput($DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid));
+
+			$genericFeedbackComponent = $processing_question->getGenericFeedbackOutput();
+
+			$specificFeedbackComponent = $processing_question->getSpecificFeedbackOutput();
 
 			$testplayerPageHTML .= $DIC->ui()->renderer()->render([
 				$genericFeedbackComponent,
@@ -111,48 +118,39 @@ class exTestPlayerGUI {
 		/**
 		 * initialise with id of question to be shown
 		 */
-
-		$questionUuid = $DIC->assessment()->consumer()->questionUuid('any-valid-question-uuid');
-		$revisionUuid = $DIC->assessment()->consumer()->questionUuid('any-valid-revision-uuid');
+		$question_revision_id = new QuestionRevisionId('any-valid-revision-uuid');
 
 		/**
 		 * fetch possibly existing participant answer uuid,
 		 * when no participant answer exist yet,
 		 * generate a new user answer uuid
 		 */
+		$user_answer_id = $this->getParticipantAnswerUuid($revision_id);
 
-		$userAnswerUuid = $this->getParticipantAnswerUuid($questionUuid->getId());
+		/**
+		 * initialise the processing question service
+		 */
+		$processing_question = $this->processing_service->question($revision_id,$user_answer_id);
 
-		if ($userAnswerUuid) {
-			$userAnswerUuid = $DIC->assessment()->consumer()->userAnswerUuid($userAnswerUuid);
-		} else {
-			$userAnswerUuid = $DIC->assessment()->consumer()->newUserAnswerUuid();
-		}
 
 		/**
 		 * generate a user answer submit containing the post data
 		 */
-		$asqPlayService = $DIC->assessment()->service()->play($this->buildAsqPlayServiceSpec(), $DIC->assessment()->consumer()
-			->questionUuid($questionUuid), $DIC->assessment()->consumer()->revisionUuid($questionUuid, $revisionUuid));
+		$user_answer_submit = new UserAnswerSubmit($question_revision_id, $user_answer_id, $DIC->user()->getId(), json_encode($DIC->http()->request('user_answer')));
+		$processing_question->createUserAnswer($user_answer_submit);
 
-		$user_answer_submit = new UserAnswerSubmit($DIC->assessment()->consumer()->NewUserAnswerUuid(), $DIC->assessment()->consumer()
-			->revisionUuid('a_valid_question_uuid', 'a_valid_revision_uuid'), $DIC->assessment()->consumer()
-			->questionUuid('a_valid_question_uuid'), $user_id, json_encode($request->get('user_answer')));
 
-		$DIC->assessment()->service()->play()->CreateUserAnswer($user_answer_submit);
-
-		
-		$userAnswerScoring = $asqPlayService->GetUserScore($userAnswerUuid);
+		$user_answer_score = $processing_question->getUserScore();
 
 		/**
 		 * handle the calculated result in any kind
 		 */
 
 		// can be stored in any ilTestResult object managed by the test
-		$reachedPoints = $userAnswerScoring->getPoints();
+		$reached_points = $user_answer_score->getPoints();
 
 		// can be used to differ answer status in CTM's test sequence
-		$isCorrect = $userAnswerScoring->isCorrect();
+		$is_correct = $user_answer_score->isCorrect();
 	}
 
 
@@ -162,40 +160,23 @@ class exTestPlayerGUI {
 	 *
 	 * When no user answer has been submitted yet, an empty string is returned.
 	 *
-	 * @param string $questionUuid
+	 * @param QuestionRevisionId $revision_uuid
 	 *
-	 * @return string
+	 * @return UserAnswerId
 	 */
-	public function getParticipantAnswerUuid(string $questionUuid): string {
+	public function getParticipantAnswerUuid(QuestionRevisionId $revision_uuid): UserAnswerId {
 		/**
 		 * when the test has any test result for the given question uuid,
 		 * based on an existing participant answer, the participant answer uuid
 		 * needs to be looked up and is to be returned.
 		 */
 
-		$userAnswerUuid = ''; // use $questionUuid and lookup $userAnswerUuid
+		$user_answer_id = null; // use $revision_uuid and lookup UserAnswerId
 
-		if ($userAnswerUuid) {
-			return $userAnswerUuid;
+		if (is_object($user_answer_id)) {
+			return $user_answer_id;
 		}
 
-		return '';
-	}
-
-
-	/**
-	 * this method does build an asq play service specification object,
-	 * that is needed to get an instance of the asq play service.
-	 *
-	 * it describes us as a consumer of the asq play service.
-	 *
-	 * @return PlayServiceSpec
-	 */
-	public function buildAsqPlayServiceSpec() {
-		global $DIC;
-
-		/* @var \ILIAS\DI\Container $DIC */
-
-		return $DIC->assessment()->specification()->play($this->object->getId(), $DIC->user()->getId());
+		return $this->processing_service->newUserAnswerId();
 	}
 }
