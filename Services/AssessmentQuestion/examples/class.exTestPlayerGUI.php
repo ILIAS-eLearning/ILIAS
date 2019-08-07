@@ -57,12 +57,12 @@ class exTestPlayerGUI {
 		 * fetch possibly existing participant answer uuid,
 		 * an empty string is returned when no user answer exists
 		 */
-		$userAnswerUuid = $this->getParticipantAnswerUuid(new QuestionRevisionId($revisionUuid));
+		$user_answer_uuid = $this->getParticipantAnswerUuid(new QuestionRevisionId($revision_uuid));
 
 		/**
 		 * initialise the processing question service
 		 */
-		$processing_question = $this->processing_service->question($revisionUuid,$userAnswerUuid);
+		$processing_question = $this->processing_service->question($revision_uuid,$user_answer_uuid);
 
 		/**
 		 * get a question presentation with or without a user answer

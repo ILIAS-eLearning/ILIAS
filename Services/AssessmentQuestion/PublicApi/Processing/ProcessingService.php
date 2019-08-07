@@ -4,7 +4,6 @@
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
-use ILIAS\UI\Component\Link\Link;
 use QuestionId;
 
 /**

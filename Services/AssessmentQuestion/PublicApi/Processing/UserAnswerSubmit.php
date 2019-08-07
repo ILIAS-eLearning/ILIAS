@@ -22,18 +22,6 @@ use QuestionId;
 class UserAnswerSubmit {
 
 	/**
-	 * @var QuestionRevisionId
-	 */
-	protected $question_revision_id;
-	/**
-	 * @var UserAnswerId
-	 */
-	protected $user_answer_id;
-	/**
-	 * @var int
-	 */
-	protected $user_id;
-	/**
 	 * @var JsonSerializable
 	 */
 	protected $user_answer;
@@ -42,44 +30,11 @@ class UserAnswerSubmit {
 	/**
 	 * UserAnswerDTO constructor.
 	 *
-	 * @param QuestionId       $questionUuid
-	 * @param int              $user_id
 	 * @param JsonSerializable $user_answer
 	 */
-	public function __construct(QuestionRevisionId $question_revision_id,
-		UserAnswerId $user_answer_id,
-		int $user_id,
-		JsonSerializable $user_answer) {
-		$this->question_revision_id = $question_revision_id;
-		$this->user_answer_id = $user_answer_id;
-		$this->user_id = $user_id;
+	public function __construct(JsonSerializable $user_answer) {
 		$this->user_answer = $user_answer;
 	}
-
-
-	/**
-	 * @return UserAnswerId
-	 */
-	public function getUserAnswerUuid(): UserAnswerId {
-		return $this->user_answer_id;
-	}
-
-
-	/**
-	 * @return QuestionId
-	 */
-	public function getRevisionUuid(): QuestionRevisionId {
-		return $this->question_revision_id;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getUserId(): int {
-		return $this->user_id;
-	}
-
 
 	/**
 	 * @return JsonSerializable

@@ -38,7 +38,7 @@ class QuestionList {
 	 *
 	 * @return array
 	 */
-	public function GetQuestionsOfContainerAsAssocArray(): array {
+	public function getQuestionsOfContainerAsAssocArray(): array {
 		// TODO: Implement GetQuestionsOfContainerAsAssocArray() method.
 	}
 
@@ -48,7 +48,7 @@ class QuestionList {
 	 *
 	 * @return QuestionDto[]
 	 */
-	public function GetQuestionsOfContainerAsDtoList(): array {
+	public function getQuestionsOfContainerAsDtoList(): array {
 		// TODO: Implement GetQuestionsOfContainerAsAssocArray() method.
 	}
 }

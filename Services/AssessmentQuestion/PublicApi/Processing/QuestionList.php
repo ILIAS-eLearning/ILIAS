@@ -34,15 +34,4 @@ class QuestionList {
 	public function GetQuestionsOfContainerAsDtoList(int $container_id): array {
 		// TODO: Implement GetQuestionsOfContainerAsAssocArray() method.
 	}
-
-
-	/**
-	 * @param string $questionUuid
-	 *
-	 * @return string
-	 */
-	//TODO -> ??
-	public function getQuestionQtiXml(QuestionId $questionUuid, QuestionRevisionId $revisionUuid = null): string {
-		// TODO: implement
-	}
 }

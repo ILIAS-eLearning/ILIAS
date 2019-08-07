@@ -24,72 +24,70 @@ Additionally the consuming component has an opportunity to provide any command l
 The AssessmentQuestion service has the following services that can be used by other developers that want to integrate assessment questions to their component.
 
 ## Authoring Service
-[/Services/AssessmentQuestion/PublicApi/AuthoringService.php](../PublicApi/Authoring/QuestionAuthoring.php)
+[/Services/AssessmentQuestion/PublicApi/Authoring/AuthoringService.php](../PublicApi/Authoring/AuthoringService.php)
 
-The Service offers:
+Use this Service for every authoring use cases.
+
+The Service offers the following sub services:
+* Authoring Question Service
+* Authoring Question List Service
+* Authoring Question Import Service
+
+### Authoring Question Service
+With the authoring question service offers:
 * Links to the Authoring GUI
-* A Delete-Question-Method
-* A Method for Creating new Revisions of a Question. Use this Method if you like to have an immutable Questions Revision for the Play Service.
+* The possibility to get an instance of the AuthoringGUI object$
+* A method for publish a new revision of a question
+* A method for deleting a questions
 
-### Get the Service
-#### For existing questions
+
+#### Get the Service
+
+Please note you have to provide a question uuid object yourself. You have this possibility, so that you are able to create and manage additional data for a question before(!) you use the question service. Therefore you as a consumer are responsible for the allocation of uuids. However, the service offers you the possibility to generate such a uuid object for you.
+ 
+ Depending on this, you will get a new uuid object or, if you are in the editing process, the one you are currently using. 
+
 ```
-$authoringService = $DIC->assessment()->service->authoring(
-    $DIC->assessment->specification()->authoring(
-        $myObjId, $myActorUserId, $myBacklink
-    ),
-    $DIC->assessment->consumer()->questionUuid('any-valid-uuid')
-);
+//1. Get the general authoring service
+$authoring_service = $DIC->assessment()->questionAuthoring($this->object->getId(), $DIC->user()->getId());
+
+//2. Get the specific question authoring service
+$authoring_service->question(authoring_service->currentOrNewQuestionId(), $my_back_link)->getAuthoringGUI());
 ```
-#### For not existing questions
-```
-$authoringService = $DIC->assessment()->service->authoring(
-    $DIC->assessment->specification()->authoring(
-        $myObjId, $myActorUserId, $myBacklink
-    ),
-    $DIC->assessment->consumer()->newQuestionUuid()
-);
-```
+
 The Service needs following parameter:
 * An ILIAS Object Id - This Id will be saved as Container Object Id. With this Id it will be checked if the ILIAS Container ask for the authoring of a question in his responsibility.
 * An ActorId - ILIAS User Id - the Id is used for logging changes on the question.
-* A Backlink - The Link is used to display a link back to the calling object.
-* An uuid object of the question - This is the only ID for getting a question from outside. It's not possible and not allowed to get the question by the database Id. You can quite easy get this uuid object by the consumer factory of the assessment question service. Also if you like to create a new question you will give a pre generated uuid. 
+*  An uuid object of the question - This is the only ID for getting a question from outside. It's not possible and not allowed to get the question by the database Id. You can quite easy get this uuid object by the consumer factory of the assessment question service. Also if you like to create a new question you will give a pre generated uuid. 
+* A Backlink - The link is used to display a link back to the calling object.
 
-### Create a question
-The Assessment Question Service offers a creation form for questions. You can get the link to this form as follows:
+#### Create a question
+The authoring question service offers a creation form for questions. You can get the link to this form as follows:
 ```
-$authoringService = $DIC->assessment()->service->authoring(
-    $DIC->assessment->specification()->authoring(
-        $myObjId, $myActorUserId, $myBacklink
-    ),
-    $DIC->assessment->consumer()->newQuestionUuid()
-);
-
-$creationLinkComponent = $authoringService->getCreationLink();
+$authoring_service->question(authoring_service->currentOrNewQuestionId(), $my_back_link)->getCreationLink()
 ```
 Please note that the ILIAS Ctrl-Flow will pass through your current GUI Class! And you are responsible for checking the permissions for this action!
 
-### Edit a question
+#### Edit a question
 The Assessment Question Service offers an edit form for questions. You can get the link to this form as follows:
 ```
-$authoringService->getEditLink()
+$authoring_service->question(authoring_service->currentOrNewQuestionId(), $my_back_link)->getEditLink()
 ```
 Please note that the ILIAS Ctrl-Flow will pass through your current GUI Class!
 
-### Delete a question
+#### Delete a question
 ```
-$authoringService->deleteQuestion()
+$authoring_service->question(new QuestionId('my-valid-question-uuid'), $my_back_link)
 ```
 
-### Additional Links
+#### Additional Links
 The Service offers the following additional methods for getting direct links to the authoring environment. With those links you are able to open directly a form of a specific tab of the authoring environment.
 * getPreviewLink()
 * getEditPageLink()
 * getEditFeedbacksLink()
 * getEditHintsLink()
 
-### Publish New Revision
+#### Publish New Revision
 With revision of a question we would like to fulfill the already scheduled requirement for ILIAS 6.0 described under [Question Versioning in Test Object|https://docu.ilias.de/goto_docu_wiki_wpage_5309_1357.html]
 
 These feature requests adress a high value functionality the community has been waiting for a long time. When we consider the basic aspects like question revisioning now with the ongoing refactoring we can save a lot of additioal effort (even when the features should be postponed to ILIAS 6.1).
@@ -98,87 +96,92 @@ _Conceptual Comment: In this proposal we suggest to use a uuid for versioning an
 
 You can generate a new question revision as follows:
 ```
-$authoringService->publishNewRevision($DIC->assessment->consumer()->newRevisionUuid());
+$authoring_service->question(new QuestionId('my-valid-question-uuid'), $my_back_link)->publishNewRevision());
 ```
 
-### Import Qti Item
-If you like to import a Qti Item you can do that as follows:
-```
-$authoringService->importQtiItem($qtiItem);
-```
-
-### Change Question Container
+#### Change Question Container
 By transfering a question to a new container use:
 ```
-$authoringService->changeQuestionContainer($container_obj_id);
+$authoring_service->question(new QuestionId('my-valid-question-uuid'), $my_back_link)->changeQuestionContainer($container_obj_id);
 ```
 
-## Query Service
-[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/Answering/QuestionListing.php)
+### Question Import Service
 
-The service offers query methods for getting questions as associative array of a question.
 
-### Get the Service
+#### Get the Service
 ```
-$queryService = $DIC->assessment()->service->query();
+1. Get the general authoring service
+$authoring_service = $DIC->assessment()->questionAuthoring($this->object->getId(), $DIC->user()->getId());
+
+2. Get the question import service
+$question_import = $authoring_service->questionImport();
 ```
 
-### Get all questions of the current container
+#### Import Qti Item
+If you like to import a Qti Item you can do that as follows:
+```
+$question_import->importQtiItem($qtiItem);
+```
+
+### Question List Service
+[/Services/AssessmentQuestion/PublicApi/Authoring/QuestionList.php](../PublicApi/Authoring/QuestionList.php)
+
+The service offers query methods for getting questions for authoring purpose as associative array of a question.
+
+#### Get the Service
+```
+1. Get the general authoring service
+$authoring_service = $DIC->assessment()->questionAuthoring($this->object->getId(), $DIC->user()->getId());
+
+2. Get the specific question authoring service
+$question_list = $authoring_service->questionList();
+```
+
+#### Get all questions of the current container
 As Assoc Array
 ```
-$queryService->GetQuestionsOfContainerAsAssocArray(
+$question_list->getQuestionsOfContainerAsAssocArray(
 			$this->object->getId()
 		);
 ```
 
 As List of DTO's 
 ```
-$queryService->GetQuestionsOfContainerAsDtoList(
+$queryService->getQuestionsOfContainerAsDtoList(
 			$this->object->getId()
 		);
 ```
 
-## Play Service
-[/Services/AssessmentQuestion/PublicApi/QueryService.php](../PublicApi/Answering/QuestionListing.php)
+## Processing Service
+[/Services/AssessmentQuestion/PublicApi/Processing/ProcessingService.php](../PublicApi/Processing/ProcessingService.php)
 
-The Play Service you use for presenting a question to a user (student). And you use this service also for calculating the scoring for a user answer.
+The Processing Service you use for presenting a question to a user (student). To store his answer and you use this service also for calculating the scoring for a user answer.
 
-### Get the Service
+### Processing Question Service
+#### Get the Service
 ```
-$playService = $DIC->assessment()->service->play(
-    $DIC->assessment->specification()->play(
-        $myObjId, $myActorId
-    ),
-    $DIC->assessment->consumer()->questionUuid('any-valid-question_uuid')
-    $DIC->assessment->consumer()->revisionUuid('any-valid-question_uuid','any-valid-revision_uuid')
-);
-```
+//1. Get the general Processing Service
+$question_processing_service = $DIC->assessment()->questionProcessing($DIC->user()->getId());
 
-### Get the question form and render it
+//2. Get the specific question processing service
+////Without a previously submited answer of the user:
+$question_processing_service = $processing_service->question(new QuestionRevisionId($revision_uuid),$processing_service->newUserAnswerId())
 
-Without a previously submited answer of the user:
-```
-$asqPlayService->GetQuestionPresentation(
-    $DIC->assessment()->consumer()->newUserAnswerUuid()
-    );
-```
-With a previously submited answer of a user:
-```
-$asqPlayService->GetQuestionPresentation(
-    $DIC->assessment()->consumer()->userAnswerUuid(
-        'any-valid-user-answer-uuid')
-    );
+////With a previously submited answer of the user:
+$question_processing_service = $processing_service->question(new QuestionRevisionId($revision_uuid),new UserAnswerId($user_answer_uuid));
 ```
 
-### Submit a user answer
+#### Get the question form and render it
+```
+$question_processing_service = $processing_service->getQuestionPresentation();
+$DIC->ui()->renderer()->render($question_component);
+```
+
+
+#### Submit a user answer
 A new user's answer to a question is saved with _$asqPlayService->CreateUserAnswer([...])_. This saves an answer given by a user. You must provide a predefined UUID - user_answer_uuid - for this step. In addition to the QuestionUUID and the RevisionUUID, you must also send the value of _user_answer_ of the $_POST. CreateUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
 ```
-$asqPlayService->CreateUserAnswer(
-    new UserAnswerSubmitContract(
-            $DIC->assessment()->consumer()->NewUserAnswerUuid(),
-            $DIC->assessment()->consumer()->questionUuid('a_valid_question_uuid'),
-            $DIC->assessment()->consumer()->revisionUuid('a_valid_revision_uuid'),
-            $user_id,
+$question_processing_service->CreateUserAnswer(
             json_encode(
                 new PostDataFromServerRequest($request)->get('user_answer')
             )
@@ -187,44 +190,32 @@ $asqPlayService->CreateUserAnswer(
 ```
 If you like to update a previously submited answer you can do that with _$asqPlayService->UpdateUserAnswer_ This updates a previous given answer of a user. Therefore a valid already deposited AnswerUUID has to be provided. UpdateUserAnswer will give you no direct feedback. If there are any errors exceptions will be thrown.
 ```
-$asqPlayService->UpdateUserAnswer(
-    new UserAnswerSubmitContract(
-                    $DIC->assessment()->consumer()->UserAnswerUuid('a_valid_user_answer_uuid'),
-                    $DIC->assessment()->consumer()->questionUuid('a_valid_uquestion_uuid'),
-                    $DIC->assessment()->consumer()->revisionUuid('a_valid_urevision_uuid'),
-                    $user_id,
-                    json_encode(
+$question_processing_service->UpdateUserAnswer(json_encode(
                         new PostDataFromServerRequest($request)->get('user_answer')
                     )
                 )
 );
 ```
 
-### Generic Feedback Output
+#### Generic Feedback Output
 ```
-$asqPlayService->getGenericFeedbackOutput(
-        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
-    );
+$question_processing_service->getGenericFeedbackOutput();
 ```
 
-### Generic Specific Feedback Output
+#### Generic Specific Feedback Output
 ```
-$asqPlayService->getGenericFeedbackOutput(
-        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
-    );
+$question_processing_service-YgetGenericFeedbackOutput();
 ```
 
 ### User Score
-_$asqPlayService->getUserScore(UserAnswerUuid)_ returns the score in form of an object ([UserAnswerScoringContract](../PublicApi/Contracts/UserAnswerScoringContract.php) for the given answer from the point of view of the question service. 
+_$asqPlayService->getUserScore(UserAnswerUuid)_ returns the score in form of an object ([./Services/AssessmentQuestion/PublicApi/Processing/ScoredUserAnswerDto.php](../PublicApi/Processing/ScoredUserAnswerDto.php) for the given answer from the point of view of the question service. 
 
 The consumer specific settings like _For Each Questions Negative Points are set to '0 Points'_ are not considered here. This is a matter for the consumer. 
 
 For using this Service a valid already deposited AnswerUUID has to be provided.
 
 ```
-$asqPlayService->getUserScore(
-        $DIC->assessment()->consumer()->UserAnswerUuid('any_valid_user_id')
-    );
+$question_processing_service->getUserScore();
 ```
 
 ### Get a standalone question for export
@@ -233,9 +224,11 @@ You can use this method if you like to display and play a question independent f
 A collection of resources the question requires can be fetched by using a collector that is to be passed as parameter for the offline export.
 
 ```
-$questionResourcesCollector = $DIC->assessment()->consumer()->questionRessourcesCollector();
+//TODO
+$questionResourcesCollector = $DIC->assessment()->questionRessourcesCollector();
 
-$uestionOfflinePresentationComponent = $playService->GetStandaloneQuestionExportPresentation(
+//TODO
+$uestionOfflinePresentationComponent = ...-getStandaloneQuestionExportPresentation(
 	$this->questionResourcesCollector, $image_path, $a_mode, $a_no_interaction
 );
 

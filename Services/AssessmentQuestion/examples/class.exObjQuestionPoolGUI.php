@@ -86,7 +86,7 @@ class exObjQuestionPoolGUI {
 		$toolbar->addButtonInstance($button);
 
 		$queryService = $this->authoring_service->questionList();
-		$questionsAsAssocArrayStack = $queryService->GetQuestionsOfContainerAsAssocArray();
+		$questionsAsAssocArrayStack = $queryService->getQuestionsOfContainerAsAssocArray();
 
 		/**
 		 * - initialise any ilTable2GUI with this data array

@@ -117,8 +117,7 @@ class Question {
 	}
 
 	
-	public function changeQuestionContainer(): void
-	{
+	public function changeQuestionContainer(int $container_obj_id): void {
 		// TODO: Implement changeQuestionContainer() method.
 	}
 }
