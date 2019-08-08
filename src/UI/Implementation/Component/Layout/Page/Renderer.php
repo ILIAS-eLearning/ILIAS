@@ -147,7 +147,6 @@ class Renderer extends AbstractComponentRenderer {
 		foreach ($css_files as $css_file) {
 			$tpl->setCurrentBlock("css_file");
 			$tpl->setVariable("CSS_FILE", $css_file['file']);
-			$tpl->setVariable("CSS_MEDIA", $css_file['media']);
 			$tpl->parseCurrentBlock();
 		}
 
