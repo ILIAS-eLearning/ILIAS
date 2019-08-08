@@ -60,9 +60,26 @@ il.UI.button = il.UI.button || {};
 			return false;
 		};
 
+		var activateLoadingAnimation = function(id){
+			console.log('#'+id);
+            var $button = $('#'+id);
+            $button.addClass('il-btn-with-loading-animation');
+            $button.addClass('disabled');
+            return $button;
+        };
+
+        var deactivateLoadingAnimation = function(id){
+            var $button = $('#'+id);
+            $button.removeClass('il-btn-with-loading-animation');
+            $button.removeClass('disabled');
+            return $button;
+        };
+
 		return {
 			initMonth: initMonth,
-			handleToggleClick: handleToggleClick
+			handleToggleClick: handleToggleClick,
+            activateLoadingAnimation: activateLoadingAnimation,
+            deactivateLoadingAnimation: deactivateLoadingAnimation
 		};
 	})($);
 })($, il);

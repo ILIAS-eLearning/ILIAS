@@ -82,7 +82,7 @@ class Renderer extends AbstractComponentRenderer {
 
 			if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()){
 				$component = $component->withAdditionalOnLoadCode(function ($id) {
-					return "$('#$id').click(function(e) { $('#$id').addClass('il-btn-with-loading-animation'); $('#$id').addClass('disabled');});";
+					return "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});";
 				});
 			}
 		} else {
