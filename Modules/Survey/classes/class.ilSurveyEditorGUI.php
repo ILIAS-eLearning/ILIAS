@@ -1059,7 +1059,8 @@ class ilSurveyEditorGUI
 		{
 			// gather questions from table selected
 			$items = $this->gatherSelectedTableItems(false, true, false, false);
-			if(sizeof($_POST["qids"]))
+
+			if(is_array($_POST["qids"]) && sizeof($_POST["qids"]))
 			{
 				$items["questions"] = $_POST["qids"];
 			}
