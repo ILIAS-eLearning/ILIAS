@@ -5,6 +5,7 @@
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."../../../../Base.php");
 
+use ILIAS\Data\URI;
 use \ILIAS\UI\Implementation\Component\Tree\Node\Node;
 use \ILIAS\UI\Implementation\Component as I;
 
@@ -13,6 +14,23 @@ use \ILIAS\UI\Implementation\Component as I;
  */
 class TestingNode extends Node
 {
+    public function __construct(string $label, URI $uri = null)
+    {
+        parent::__construct($label, $uri);
+    }
+
+    /**
+     * Create a new node object with an URI that will be added to the UI
+     * @param URI $uri
+     * @return Node
+     */
+    public function withLink(URI $uri): \ILIAS\UI\Component\Tree\Node\Node
+    {
+        return new TestingNode(
+            $this->label,
+            $uri
+        );
+    }
 }
 
 /**
@@ -88,4 +106,11 @@ class NodeTest extends ILIAS_UI_TestBase
 		$this->assertEquals($sig, $check);
 	}
 
+	public function testWithURI($node)
+    {
+        $uri = new URI('http://google.de');
+        $node = $node->withLink($uri);
+
+        $this->assertEquals($node->getLink()->getPath(), 'http://google.de');
+    }
 }

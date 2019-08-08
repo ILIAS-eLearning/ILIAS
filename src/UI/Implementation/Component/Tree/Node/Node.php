@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Tree\Node\Node as INode;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -17,110 +18,125 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 abstract class Node implements INode
 {
-	use ComponentHelper;
-	use JavaScriptBindable;
-	use Triggerer;
+    use ComponentHelper;
+    use JavaScriptBindable;
+    use Triggerer;
 
-	/**
-	 * @var string
-	 */
-	protected $label;
+    /**
+     * @var URI
+     */
+    protected $uri;
 
-	/**
-	 * @var bool
-	 */
-	protected $expanded = false;
+    /**
+     * @var string
+     */
+    protected $label;
 
-	/**
-	 * @var bool
-	 */
-	protected $highlighted = false;
+    /**
+     * @var bool
+     */
+    protected $expanded = false;
 
-	/**
-	 * @var Node[]
-	 */
-	protected $subnodes = [];
+    /**
+     * @var bool
+     */
+    protected $highlighted = false;
 
+    /**
+     * @var Node[]
+     */
+    protected $subnodes = [];
 
-	public function __construct(string $label)
-	{
-		$this->label = $label;
-	}
+    public function __construct(string $label, URI $uri = null)
+    {
+        $this->label = $label;
+        $this->uri = $uri;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getLabel(): string
-	{
-		return $this->label;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getLabel() : string
+    {
+        return $this->label;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withAdditionalSubnode(INode $node): INode
-	{
-		$this->subnodes[] = $node;
-		return $this;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withAdditionalSubnode(INode $node) : INode
+    {
+        $this->subnodes[] = $node;
+        return $this;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSubnodes(): array
-	{
-		return $this->subnodes;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getSubnodes() : array
+    {
+        return $this->subnodes;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withExpanded(bool $expanded): INode
-	{
-		$clone = clone $this;
-		$clone->expanded = $expanded;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withExpanded(bool $expanded) : INode
+    {
+        $clone           = clone $this;
+        $clone->expanded = $expanded;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isExpanded(): bool
-	{
-		return $this->expanded;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isExpanded() : bool
+    {
+        return $this->expanded;
+    }
 
-	/**
-	 * @inhertidoc
-	 */
-	public function withHighlighted(bool $highlighted): INode
-	{
-		$clone = clone $this;
-		$clone->highlighted = $highlighted;
-		return $clone;
-	}
+    /**
+     * @inhertidoc
+     */
+    public function withHighlighted(bool $highlighted) : INode
+    {
+        $clone              = clone $this;
+        $clone->highlighted = $highlighted;
+        return $clone;
+    }
 
-	/**
-	 * @inhertidoc
-	 */
-	public function isHighlighted(): bool
-	{
-		return $this->highlighted;
-	}
+    /**
+     * @inhertidoc
+     */
+    public function isHighlighted() : bool
+    {
+        return $this->highlighted;
+    }
 
-	/**
-	 * @inhertidoc
-	 */
-	public function withOnClick(Signal $signal)
-	{
-		return $this->withTriggeredSignal($signal, 'click');
-	}
+    /**
+     * @inhertidoc
+     */
+    public function withOnClick(Signal $signal)
+    {
+        return $this->withTriggeredSignal($signal, 'click');
+    }
 
-	/**
-	 * @inhertidoc
-	 */
-	public function appendOnClick(Signal $signal)
-	{
-		return $this->appendTriggeredSignal($signal, 'click');
-	}
+    /**
+     * @inhertidoc
+     */
+    public function appendOnClick(Signal $signal)
+    {
+        return $this->appendTriggeredSignal($signal, 'click');
+    }
+
+    /**
+     * Get the URI object that is added as link in the UI
+     *
+     * @return URI
+     */
+    public function getLink(): URI
+    {
+        return $this->uri;
+    }
 }

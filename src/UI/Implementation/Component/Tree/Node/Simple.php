@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Tree\Node\Simple as ISimple;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
@@ -13,61 +14,78 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
  */
 class Simple extends Node implements ISimple
 {
-	/**
-	 * @var string
-	 */
-	protected $asynch_url = '';
+    /**
+     * @var string
+     */
+    protected $asynch_url = '';
 
-	/**
-	 * @var Icon|null
-	 */
-	protected $icon;
+    /**
+     * @var Icon|null
+     */
+    protected $icon;
 
-	public function __construct(string $label, Icon $icon=null)
-	{
-		parent::__construct($label);
-		$this->icon = $icon;
-	}
+    public function __construct(
+        string $label,
+        Icon $icon = null,
+        URI $uri = null
+    ) {
+        parent::__construct($label, $uri);
+        $this->icon = $icon;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getLabel(): string
-	{
-		return $this->label;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getLabel() : string
+    {
+        return $this->label;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getIcon()
-	{
-		return $this->icon;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAsyncLoading(): bool
-	{
-		return $this->getAsyncURL() != '';
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getAsyncLoading() : bool
+    {
+        return $this->getAsyncURL() != '';
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withAsyncURL(string $url): ISimple
-	{
-		$clone = clone $this;
-		$clone->asynch_url = $url;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withAsyncURL(string $url) : ISimple
+    {
+        $clone             = clone $this;
+        $clone->asynch_url = $url;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAsyncURL(): string
-	{
-		return $this->asynch_url;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getAsyncURL() : string
+    {
+        return $this->asynch_url;
+    }
+
+    /**
+     * Create a new node object with an URI that will be added to the UI
+     * @param URI $uri
+     * @return Node
+     */
+    public function withLink(URI $uri): \ILIAS\UI\Component\Tree\Node\Node
+    {
+        return new Simple(
+            $this->getLabel(),
+            $this->getIcon(),
+            $uri
+        );
+    }
 }

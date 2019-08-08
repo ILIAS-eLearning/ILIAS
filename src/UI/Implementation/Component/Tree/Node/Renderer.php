@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -28,11 +29,17 @@ class Renderer extends AbstractComponentRenderer {
 			$async = true;
 		}
 
+		$label = $component->getLabel();
+		/** @var URI|null $link */
+		$link = $component->getLink();
+		if (null !== $link) {
+			$label = '<a href="' . $link->getPath() . '">' .  $label . '</a>';
+		}
+		$tpl->setVariable("LABEL", $label);
+
 		if ($component instanceof Node\Bylined && null !== $component->getByline()) {
 			$tpl->setVariable('BYLINE', $component->getByline());
 		}
-
-		$tpl->setVariable("LABEL", $component->getLabel());
 
 		$icon = $component->getIcon();
 		if($icon){
