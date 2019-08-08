@@ -668,7 +668,7 @@ class ilPublicUserProfileGUI
 		)
 		{
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
-			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
+			$button = ilBuddySystemLinkButton::getInstanceByUserId((int) $user->getId());
 			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
 		}
 		

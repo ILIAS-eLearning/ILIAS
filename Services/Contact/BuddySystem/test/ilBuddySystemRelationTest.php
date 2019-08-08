@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
@@ -10,114 +10,109 @@ require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
  */
 class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
 {
-	const RELATION_OWNER_ID = -1;
-	const RELATION_BUDDY_ID = -2;
+    const RELATION_OWNER_ID = -1;
+    const RELATION_BUDDY_ID = -2;
 
-	/**
-	 * @var ilBuddyList
-	 */
-	protected $buddylist;
+    /**
+     *
+     */
+    public function testPriorStateIsEmptyAfterInstanceWasCreated() : void
+    {
+        $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
+        $relation = new ilBuddySystemRelation($stateMock);
+        $this->assertNull($relation->getPriorState());
+    }
 
-	/**
-	 *
-	 */
-	public function testPriorStateIsEmptyAfterInstanceWasCreated()
-	{
-		$state_mock = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
-		$relation   = new ilBuddySystemRelation($state_mock);
-		$this->assertNull($relation->getPriorState());
-	}
+    /**
+     *
+     */
+    public function testPriorStateCanBeRetrievedAfterSubsequentTransitions() : void
+    {
+        $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
+        $furtherStateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
+        $finishStateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
+        $stateMock->expects($this->any())->method('link');
 
-	/**
-	 *
-	 */
-	public function testPriorStateCanBeRetrievedAfterSubsequentTransitions()
-	{
-		$state_mock         = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
-		$further_state_mock = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
-		$finish_state_mock  = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
-		$state_mock->expects($this->any())->method('link');
+        $relation = new ilBuddySystemRelation($stateMock);
+        $relation->setState($furtherStateMock);
+        $this->assertEquals($stateMock, $relation->getPriorState());
+        $relation->setState($finishStateMock);
+        $this->assertEquals($stateMock, $relation->getPriorState());
+    }
 
-		$relation = new ilBuddySystemRelation($state_mock);
-		$relation->setState($further_state_mock);
-		$this->assertEquals($state_mock, $relation->getPriorState());
-		$relation->setState($finish_state_mock);
-		$this->assertEquals($state_mock, $relation->getPriorState());
-	}
+    /**
+     *
+     */
+    public function testValuesCanBeFetchedByGettersWhenSetBySetters() : void
+    {
+        $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
+        $relation = new ilBuddySystemRelation($stateMock);
 
-	/**
-	 *
-	 */
-	public function testValuesCanBeFetchedByGettersWhenSetBySetters()
-	{
-		$state_mock = $this->getMockBuilder('ilBuddySystemRelationState')->getMock();
-		$relation = new ilBuddySystemRelation($state_mock);
+        $relation->setUsrId(1);
+        $this->assertEquals(1, $relation->getUsrId());
 
-		$relation->setUserId(1);
-		$this->assertEquals(1, $relation->getUserId());
+        $relation->setBuddyUsrId(2);
+        $this->assertEquals(2, $relation->getBuddyUsrId());
 
-		$relation->setBuddyUserId(2);
-		$this->assertEquals(2, $relation->getBuddyUserId());
+        $ts = time();
+        $relation->setTimestamp($ts);
+        $this->assertEquals($ts, $relation->getTimestamp());
+    }
 
-		$ts = time();
-		$relation->setTimestamp($ts);
-		$this->assertEquals($ts, $relation->getTimestamp());
-	}
+    /**
+     *
+     */
+    public function testUsersAreNotAbleToRequestThemselves() : void
+    {
+        $this->expectException(ilBuddySystemRelationStateException::class);
+        $stateMock = $this->getMockBuilder(ilBuddySystemUnlinkedRelationState::class)->getMock();
+        $expectedRelation = new ilBuddySystemRelation($stateMock);
 
-	/**
-	 * 
-	 */
-	public function testUsersAreNotAbleToRequestThemselves()
-	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
-		$state_mock = $this->getMockBuilder('ilBuddySystemUnlinkedRelationState')->getMock();
-		$expected_relation  = new ilBuddySystemRelation($state_mock);
+        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
 
-		$expected_relation->setUserId(self::RELATION_OWNER_ID);
-		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
+        $expectedRelation->request();
+    }
 
-		$expected_relation->request();
-	}
+    /**
+     *
+     */
+    public function testUsersAreNotAbleToUnlinkThemselves() : void
+    {
+        $this->expectException(ilBuddySystemRelationStateException::class);
+        $stateMock = $this->getMockBuilder(ilBuddySystemLinkedRelationState::class)->getMock();
+        $expectedRelation = new ilBuddySystemRelation($stateMock);
+        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
 
-	/**
-	 * 
-	 */
-	public function testUsersAreNotAbleToUnlinkThemselves()
-	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
-		$state_mock = $this->getMockBuilder('ilBuddySystemLinkedRelationState')->getMock();
-		$expected_relation  = new ilBuddySystemRelation($state_mock);
-		$expected_relation->setUserId(self::RELATION_OWNER_ID);
-		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
+        $expectedRelation->unlink();
+    }
 
-		$expected_relation->unlink();
-	}
+    /**
+     *
+     */
+    public function testUsersAreNotAbleToLinkThemselves() : void
+    {
+        $this->expectException(ilBuddySystemRelationStateException::class);
+        $stateMock = $this->getMockBuilder(ilBuddySystemRequestedRelationState::class)->getMock();
+        $expectedRelation = new ilBuddySystemRelation($stateMock);
+        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
 
-	/**
-	 * 
-	 */
-	public function testUsersAreNotAbleToLinkThemselves()
-	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
-		$state_mock = $this->getMockBuilder('ilBuddySystemRequestedRelationState')->getMock();
-		$expected_relation  = new ilBuddySystemRelation($state_mock);
-		$expected_relation->setUserId(self::RELATION_OWNER_ID);
-		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
+        $expectedRelation->link();
+    }
 
-		$expected_relation->link();
-	}
+    /**
+     *
+     */
+    public function testUsersAreNotAbleToIgnoreThemselves() : void
+    {
+        $this->expectException(ilBuddySystemRelationStateException::class);
+        $stateMock = $this->getMockBuilder(ilBuddySystemRequestedRelationState::class)->getMock();
+        $expectedRelation = new ilBuddySystemRelation($stateMock);
+        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
 
-	/**
-	 * 
-	 */
-	public function testUsersAreNotAbleToIgnoreThemselves()
-	{
-		$this->expectException(ilBuddySystemRelationStateException::class);
-		$state_mock = $this->getMockBuilder('ilBuddySystemRequestedRelationState')->getMock();
-		$expected_relation  = new ilBuddySystemRelation($state_mock);
-		$expected_relation->setUserId(self::RELATION_OWNER_ID);
-		$expected_relation->setBuddyUserId(self::RELATION_OWNER_ID);
-
-		$expected_relation->ignore();
-	}
+        $expectedRelation->ignore();
+    }
 }
