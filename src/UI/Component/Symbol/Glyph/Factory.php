@@ -13,15 +13,14 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Settings Glyph triggers opening a Dropdown to edit settings of the displayed block.
+	 *       The Settings Glyph triggers the opening of a dropdown that allows to edit settings of the displayed block.
 	 *   composition: >
 	 *       The Settings Glyph uses the glyphicon-cog.
 	 *   effect: >
-	 *      Upon clicking a settings Dropdown is opened.
+	 *      Upon clicking, a settings Dropdown is opened.
 	 *
 	 * context:
-	 *    - Adding answer options or taxonomies in questions-editing forms in tests.
-	 *    - Adding events to the calendar.
+	 *    - In ILIAS <5.4, blocks on the Personal Desktop feature the Settings Glyph.
 	 *
 	 * rules:
 	 *   usage:
@@ -71,7 +70,7 @@ interface Factory {
 	 *       The Expand Glyph is used to trigger the display of
 	 *       some neighbouring Container Collection such as a the content of a Dropdown or an Accordion currently shown.
 	 *   composition: >
-	 *       The Expand Glyph is composed of a triangle pointing to the right indicating that content is currently shown.
+	 *       The Expand Glyph is composed of a triangle pointing to the right indicating that content is currently collapsed.
 	 *   effect: >
 	 *      Clicking the Expand Glyph displays some Container Collection.
 	 *   rivals:
@@ -96,8 +95,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The glyphed add-button serves as stand-in for the respective textual
-	 *       buttons in very crowded screens. It allows adding a new item.
+	 *       The Add Glyph serves as a replacement for the respective textual
+	 *       button in very crowded screens. It allows adding a new item.
 	 *   composition: >
 	 *      The Add Glyph uses the glyphicon-plus-sign.
 	 *   effect: >
@@ -105,20 +104,18 @@ interface Factory {
 	 *
 	 * context:
 	 *   - Adding answer options or taxonomies in questions-editing forms in tests.
-	 *   - Adding events to the calendar.
+	 *   - Adding events to the calendar in Month view of the agenda.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          The Add Glyph SHOULD not come without a Remove Glyph and vice versa.
-	 *          Because either there is not enough place
-	 *          for textual buttons or there is place. Exceptions to this rule,
-	 *          such as the Calendar, where only elements can be added in a
-	 *          certain place are possible, are to be run through the Jour Fixe.
+	 *          The Add Glyph SHOULD not come without a corresponding Remove Glyph and vice versa.
+	 *          Exceptions to this rule,
+	 *          such as the Calendar (where only elements can be added via Add Glyph, but not removed) are possible, but HAVE TO be run through the Jour Fixe.
 	 *       2: >
 	 *          The Add Glyph stands for an Action and SHOULD be placed in the
 	 *          action column of a form.
-	 *       3: The Add Glyph MUST not be used to add lines to tables.
+	 *       3: The Add Glyph MUST NOT be used to add lines to tables.
 	 *   interaction:
 	 *       1: Newly added items MUST be placed below the line in which the Add Glyph has been clicked
 	 *   accessibility:
@@ -134,30 +131,27 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Remove Glyph serves as stand-in for the respective textual
-	 *       buttons in very crowded screens. It allows removing an item.
+	 *       The Remove Glyph serves as a replacement for the respective textual
+	 *       button in very crowded screens. It allows removing an item.
 	 *   composition: >
 	 *       The Remove Glyph uses the glyphicon-plus-sign.
 	 *   effect: >
-	 *       Clicking on the Remove Glyph adds a new input to a form or an event to
-	 *       the calendar.
+	 *       Clicking on the Remove Glyph deletes an existing input from a form.
 	 *
 	 * context:
 	 *   - Removing answer options or taxonomies in questions-editing forms in tests.
-	 *   - Removing events to the calendar.
+	 *   - Removing user notifications in a calendar item.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          The Remove Glyph SHOULD not come without a glyphed Add Glyph and vice versa.
-	 *          Because either there is not enough place
-	 *          for textual buttons or there is place. Exceptions to this rule,
-	 *          such as the Calendar, where only elements can be added in a
-	 *          certain place are possible, are to be run through the Jour Fixe.
+	 *          The Remove Glyph SHOULD not come without a corresponding Add Glyph and vice versa.
+	 *          Exceptions to this rule,
+	 *          such as the Calendar (where only elements can be added via Add Glyph, but not removed) are possible, but HAVE TO be run through the Jour Fixe.
 	 *       2: >
 	 *          The Remove Glyph stands for an Action and SHOULD be placed in the
 	 *          action column of a form.
-	 *       3: The Remove Glyph MUST not be used to add lines to tables.
+	 *       3: The Remove Glyph MUST NOT be used to add lines to tables.
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be ‘Remove'.
@@ -191,7 +185,7 @@ interface Factory {
 	 *          The Up Glyph MUST NOT be used to sort tables. There is an
 	 *          established sorting control for that.
 	 *       2: >
-	 *          The Up Glyph SHOULD not come without a Down and vice versa.
+	 *          The Up Glyph SHOULD not come without a Down Glyph and vice versa.
 	 *       3: >
 	 *          The Up Glyph is an action and SHOULD be listed in the action
 	 *          column of a form.
@@ -214,10 +208,10 @@ interface Factory {
 	 *       The Down Glyph uses the glyphicon-circle-arrow-down. The Down Glyph
 	 *       can be combined with the Add/Remove Glyph.
 	 *   effect: >
-	 *       Clicking on the Down Glyph moves an item up.
+	 *       Clicking on the Down Glyph moves an item down.
 	 *
 	 * context:
-     *       - Moving answers up in Survey matrix questions.
+     *       - Moving answers down in Survey matrix questions.
 	 *
 	 * featurewiki:
 	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
@@ -228,7 +222,7 @@ interface Factory {
 	 *          The Down Glyph MUST NOT be used to sort tables. There is an
 	 *          established sorting control for that.
 	 *       2: >
-	 *          The Down Glyph SHOULD not come without a Up and vice versa.
+	 *          The Down Glyph SHOULD not come without an Up Glyph and vice versa.
 	 *       3: >
 	 *          The Down Glyph is an action and SHOULD be listed in the action
 	 *          column of a form.
@@ -252,7 +246,7 @@ interface Factory {
 	 *       The click on a Back Glyph leads back to a previous view.
 	 *
 	 * context:
-     *      - Show Member View in courses.
+     *      - Exit Member View in courses.
 	 *
 	 * rules:
 	 *   usage:
@@ -281,7 +275,8 @@ interface Factory {
 	 *       The chevron-right glyphicon is used.
 	 *   effect: >
 	 *       The click on a Next Glyph opens a new view.
-	 *
+	 *   context:
+     *      - Enter Member View in a course tab bar.	 *
 	 *
 	 * rules:
 	 *   usage:
@@ -305,8 +300,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Sorting Glyphs indicate the sorting direction of a column in a table as ascending (up) or descending (down).
-	 *       It is a toggle reversing the ordering of a column.
+	 *       The Sorting Glyphs indicate the current sorting direction of a column in a table as ascending (up) or descending (down).
+	 *       Only one Glyph is shown at a time. Clicking on the glyph will reverse the sorting direction.
 	 *   composition: >
 	 *       The Sort Ascending Glyph uses glyphicon-arrow-up.
 	 *   effect: >
@@ -326,8 +321,8 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Sorting Glyphs indicate the sorting direction of a column in a table as ascending (up) or descending (down).
-	 *       It is a toggle reversing the ordering of a column.
+	 *       The Sorting Glyphs indicate the current sorting direction of a column in a table as ascending (up) or descending (down).
+	 *       Only one Glyph is shown at a time. Clicking on the glyph will reverse the sorting direction.
 	 *   composition: >
 	 *       The Sort Descending Glyph uses glyphicon-arrow-descending.
 	 *   effect: >
@@ -347,11 +342,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The briefcase symbolize some ongoing work that is done. Momentarily in the background tasks.
+	 *       The Briefcase Glyph symbolizes some ongoing work that is done. It was introduced for the background tasks.
 	 *   composition: >
-	 *       The briefcase Glyph uses glyphicon-briefcase.
+	 *       The Briefcase Glyph uses glyphicon-briefcase.
 	 *   effect: >
-	 *       The click on the briefcase opens a popup to the background tasks.
+	 *       A click on the Briefcase Glyph opens a popup that shows the background tasks.
 	 *
 	 * rules:
 	 *   accessibility:
@@ -395,7 +390,7 @@ interface Factory {
 	 *   effect: >
 	 *       Upon clicking on the Mail Glyph the user is transferred to the full-screen mail service.
 	 *   rivals:
-	 *      Mail Icon: The Mail Icon is used to indicate the user is currently located in the Mail service The Mail Glyph acts as shortcut to the Mail service.
+	 *      Mail Icon: The Mail Icon is used to indicate the user is currently located in the Mail service. The Mail Glyph acts as shortcut to the Mail service.
 	 *
 	 * rules:
 	 *   accessibility:
@@ -451,7 +446,7 @@ interface Factory {
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          Novelty and Status Counter MUST show the amount of tags that has been given for an specific object.
+	 *          Novelty and Status Counter MUST show the amount of tags that have been added to a specific object.
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be ‘Tags'.
@@ -474,7 +469,7 @@ interface Factory {
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          Novelty and Status Counter MUST show the amount of notes that has been given for an specific object.
+	 *          Novelty and Status Counter MUST show the amount of notes that have been added to a specific object.
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be ‘Notes'.
@@ -497,7 +492,7 @@ interface Factory {
 	 * rules:
 	 *   composition:
 	 *       1: >
-	 *          Novelty and Status Counter MUST show the amount of comments that has been given for an specific object.
+	 *          Novelty and Status Counter MUST show the amount of comments that have been added to a specific object.
 	 *   accessibility:
 	 *       1: >
 	 *          The aria-label MUST be ‘Comments'.
@@ -511,11 +506,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Clicking the Like Glyph indicates a user affirms an item, e.g. a posting.
+	 *       Clicking the Like Glyph indicates a user approves an item, e.g. a posting.
 	 *   composition: >
 	 *       The Like Glyph uses the "thumbs up" unicode emoji U+1F44D, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *        Upon clicking, the Like Glyph acts as a toggle: A first click adds a Like to the respective item, which is reflected in the colour of the Glyph and in the counter. A second click takes the Like away, which is also reflected in colour and counter.
 	 *
 	 * context:
      *       - Show timeline in groups and courses.
@@ -541,7 +536,7 @@ interface Factory {
 	 *   composition: >
 	 *       The Love Glyph uses the "red heart" unicode emoji U+2764, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *        Upon clicking, the Love Glyph acts as a toggle: A first click adds a Love to the respective item, which is reflected in the colour of the Glyph and in the counter. A second click takes the Love away, which is also reflected in colour and counter.
 	 *
 	 * context:
      *       - Show timeline in groups and courses.
@@ -563,11 +558,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       Clicking the Dislike Glyph indicates a user objects an item, e.g. a posting.
+	 *       Clicking the Dislike Glyph indicates a user disapproves an item, e.g. a posting.
 	 *   composition: >
 	 *       The Dislike Glyph uses the "thumbs down" unicode emoji U+1F44E, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *        Upon clicking, the Dislike Glyph acts as a toggle: A first click adds a Dislike to the respective item, which is reflected in the colour of the Glyph and in the counter. A second click takes the Dislike away, which is also reflected in colour and counter.
 	 *
 	 * context:
      *       - Show timeline in groups and courses.
@@ -593,7 +588,7 @@ interface Factory {
 	 *   composition: >
 	 *       The Laugh Glyph uses the "grinning face with smiling eyes" unicode emoji U+1F604, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *        Upon clicking, the Laugh Glyph acts as a toggle: A first click adds a Laugh to the respective item, which is reflected in the colour of the Glyph and in the counter. A second click takes the Laugh away, which is also reflected in colour and counter.
 	 *
 	 * context:
      *       - Show timeline in groups and courses.
@@ -619,7 +614,7 @@ interface Factory {
 	 *   composition: >
 	 *       The Astounded Glyph uses the "face with open mouth" unicode emoji U+1F62E, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *        Upon clicking, the Astounded Glyph acts as a toggle: A first click adds an Astounded to the respective item, which is reflected in the colour of the Glyph and in the counter. A second click takes the Astounded away, which is also reflected in colour and counter.
 	 *
 	 * context:
      *       - Show timeline in groups and courses.
@@ -645,7 +640,7 @@ interface Factory {
 	 *   composition: >
 	 *       The Sad Glyph uses the "sad but relieved face" unicode emoji U+1F625, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *        Upon clicking, the Sad Glyph acts as a toggle: A first click adds a Sad to the respective item, which is reflected in the colour of the Glyph and in the counter. A second click takes the Sad away, which is also reflected in colour and counter.
 	 *
 	 * context:
      *       - Show timeline in groups and courses.
@@ -671,7 +666,7 @@ interface Factory {
 	 *   composition: >
 	 *       The Angry Glyph uses the "angry face" unicode emoji U+1F620, see https://unicode.org/emoji/charts/full-emoji-list.html.
 	 *   effect: >
-	 *       Clicking toggles the state of the user expression. Clicking also updates the respective counter.
+	 *        Upon clicking, the Angry Glyph acts as a toggle: A first click adds an Angry to the respective item, which is reflected in the colour of the Glyph and in the counter. A second click takes the Angry away, which is also reflected in colour and counter.
 	 *
 	 * context:
      *       - Show timeline in groups and courses.
@@ -695,7 +690,7 @@ interface Factory {
 	 * description:
 	 *   purpose: >
 	 *       The Eye Closed Glyph is used to toggle the revelation-mode of password fields.
-	 *       Whith the Eye Closed Glyph shown, the field is currently unmasked.
+	 *       With the Eye Closed Glyph shown, the field is currently unmasked.
 	 *   composition: >
 	 *       The Eye Closed Glyph uses the glyphicon-eye-close.
 	 *   effect: >
@@ -748,14 +743,14 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Attachment glyph indicates that a file is attached or can be attached to an object or entity.
+	 *      The Attachment Glyph indicates that a file is attached or can be attached to an object or entity.
 	 *   composition: >
 	 *      The Attachment Glyph uses the glyphicon-paperclip.
 	 *   effect: >
-	 *       Clicking executes an action which delivers these attachments to the actor or initiates a process to add new attachments.
+	 *       Clicking executes an action which delivers these attachments to the actor OR initiates a process to add new attachments.
 	 *
 	 * context:
-     *       - Impose the information whether or not files have been attached to emails in the folder view.
+     *       - Indicate whether or not files have been attached to emails in the folder view of Mail.
 	 *
 	 * rules:
 	 *   composition:
@@ -774,13 +769,13 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Reset Glyph is used to indicate the possibilty of resetting changes, which the user has made
-	 *      within a control, back to a previous state.
+	 *      The Reset Glyph is used to indicate the possibilty of resetting changes made by the user
+	 *      within a control back to a previous state.
 	 *   composition: >
 	 *      The Reset Glyph uses the glyphicon-repeat.
 	 *   effect: >
-	 *       Upon clicking the related control is reloaded immediately and goes back to state
-	 *       before the user has started to make changes.
+	 *       Upon clicking, the related control is reloaded immediately and goes back to state
+	 *       before the user changes.
 	 *
 	 * featurewiki:
 	 *       - https://www.ilias.de/docu/goto.php?target=wiki_1357_Responsive_Table_Filters#ilPageTocA121
@@ -790,7 +785,7 @@ interface Factory {
 	 *       1: >
 	 *          The Reset Glyph SHOULD not come without an Apply Glyph and vice versa.
 	 *       2: >
-	 *          If there are no changes to reset, the Reset Glyph MUST be deactivated (or not clickable).
+	 *          If there are no changes to reset, the Reset Glyph MUST be deactivated (or not be clickable).
 	 *   style:
 	 *       1: >
 	 *          The deactivated state of the Reset Glyph MUST be visually noticeable for the user, i.e. by
@@ -813,8 +808,8 @@ interface Factory {
 	 *   composition: >
 	 *      The Apply Glyph uses the glyphicon-ok.
 	 *   effect: >
-	 *       Upon clicking the page is reloaded immediately with the updated content the control affects. In case of
-	 *       a filter, it means that the entries in a table change in accordance with the filter values.
+	 *       Upon clicking, the page is reloaded immediately with the updated content reflected in the control. In case of
+	 *       a filter, it means that the entries in a table change in accordance with the filter values set by the user.
 	 *
 	 * featurewiki:
 	 *       - https://www.ilias.de/docu/goto.php?target=wiki_1357_Responsive_Table_Filters#ilPageTocA121
@@ -824,7 +819,7 @@ interface Factory {
 	 *       1: >
 	 *          The Apply Glyph SHOULD not come without a Reset Glyph and vice versa.
 	 *       2: >
-	 *          If there are no changes to apply, the Apply Glyph MUST be deactivated (or not clickable).
+	 *          If there are no changes to apply, the Apply Glyph MUST be deactivated (or not be clickable).
 	 *   style:
 	 *       1: >
 	 *          The deactivated state of the Apply Glyph MUST be visually noticeable for the user, i.e. by greying out
@@ -842,7 +837,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Search Glyph is used to trigger a search-dialog.
+	 *       The Search Glyph is used to trigger a search dialog.
 	 *   composition: >
 	 *       The Search Glyph uses the glyphicon-search.
 	 *   effect: >
@@ -867,7 +862,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       The Help Glyph is used to open a context-sensitive help screen.
+	 *       The Help Glyph opens a context-sensitive help screen.
 	 *   composition: >
 	 *       The Help Glyph uses the glyphicon-question-sign.
 	 *   effect: >
@@ -897,7 +892,7 @@ interface Factory {
 	 *   composition: >
 	 *      The Calendar Glyph uses the glyphicon-calendar.
 	 *   effect: >
-	 *       Clicking the calendar glyph will usually open a date-picker.
+	 *       Clicking the calendar Glyph will usually open a date-picker.
 	 *
 	 * context:
 	 *    - Use in conjunction with Date-Inputs.
@@ -916,11 +911,11 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      The Time glyph is used to symbolize time-related actions or alerts.
+	 *      The Time Glyph is used to symbolize time-related actions or alerts.
 	 *   composition: >
 	 *      The Time Glyph uses the glyphicon-time.
 	 *   effect: >
-	 *       Clicking the time glyph will usually open a time-picker.
+	 *       Clicking the Time Glyph will usually open a time-picker.
 	 *
 	 * context:
 	 *    - Use in conjunction with Date-Inputs.
