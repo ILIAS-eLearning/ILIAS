@@ -22,6 +22,10 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	public $tpl;
 	public $lng;
 	public $ctrl;
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
 	protected $tabs_gui;
 	protected $form;
 	protected $settings;
@@ -39,21 +43,17 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		global $DIC;
-
-		$lng = $DIC['lng'];
-		$tpl = $DIC['tpl'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
 		
 		$this->type = 'logs';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-		$this->lng = $lng;
+		$this->dic = $DIC;
+		$this->lng = $this->dic->language();
 
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
+		$this->tpl = $this->dic['tpl'];
+		$this->lng = $this->dic->language();
+		$this->ctrl = $this->dic->ctrl();
+		$this->tabs_gui = $this->dic->tabs();
 
 		$this->initSettings();
 		$this->initErrorSettings();
@@ -180,12 +180,9 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+			$DIC['ilErr']->raiseError($this->lng->txt('permission_denied'),$DIC['ilErr']->MESSAGE);
 		}
 		
 		$this->tabs_gui->setTabActive(static::SECTION_SETTINGS);
@@ -367,11 +364,8 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 	protected function errorSettings() {
 		global $DIC;
 
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId())) {
-			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+			$DIC['ilErr']->raiseError($this->lng->txt('permission_denied'),$DIC['ilErr']->MESSAGE);
 		}
 
 		$this->tabs_gui->setTabActive(static::SECTION_SETTINGS);

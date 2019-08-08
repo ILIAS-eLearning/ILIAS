@@ -1,47 +1,47 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout;
 
-use ILIAS\GlobalScreen\Scope\Layout\Content\LayoutContent;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\LayoutDefinitionFactory;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
+use ILIAS\GlobalScreen\SingletonTrait;
 
 /**
  * Class LayoutServices
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class LayoutServices {
+class LayoutServices
+{
 
-	/**
-	 * @var array
-	 */
-	private static $services = [];
-
-
-	/**
-	 * @return LayoutDefinitionFactory
-	 */
-	public function definition(): LayoutDefinitionFactory {
-		return $this->get(LayoutDefinitionFactory::class);
-	}
+    use SingletonTrait;
+    /**
+     * @var MetaContent
+     */
+    private $meta_content;
 
 
-	/**
-	 * @return LayoutContent
-	 */
-	public function content(): LayoutContent {
-		return $this->get(LayoutContent::class);
-	}
+    /**
+     * LayoutServices constructor.
+     */
+    public function __construct()
+    {
+        $this->meta_content = new MetaContent();
+    }
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return mixed
-	 */
-	private function get(string $class_name) {
-		if (!isset(self::$services[$class_name])) {
-			self::$services[$class_name] = new $class_name();
-		}
+    /**
+     * @return ModificationFactory
+     */
+    public function factory() : ModificationFactory
+    {
+        return $this->get(ModificationFactory::class);
+    }
 
-		return self::$services[$class_name];
-	}
+
+    /**
+     * @return MetaContent
+     */
+    public function meta() : MetaContent
+    {
+        return $this->meta_content;
+    }
 }

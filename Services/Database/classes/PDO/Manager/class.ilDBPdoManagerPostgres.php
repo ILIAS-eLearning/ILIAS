@@ -1,6 +1,4 @@
 <?php
-require_once('class.ilDBPdoManager.php');
-require_once('./Services/Database/classes/QueryUtils/class.ilPostgresQueryUtils.php');
 
 /**
  * Class ilDBPdoManager

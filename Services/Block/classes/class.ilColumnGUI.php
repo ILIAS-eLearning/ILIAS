@@ -536,7 +536,6 @@ class ilColumnGUI
 		$ilCtrl->setParameter($this, "col_side" ,$this->getSide());
 		
 		$this->tpl = new ilTemplate("tpl.column.html", true, true, "Services/Block");
-		
 		$this->determineBlocks();
 		$this->showBlocks();
 
@@ -1043,7 +1042,6 @@ class ilColumnGUI
 			ilUtil::sortArray($this->blocks[IL_COL_RIGHT], "nr", "asc", true);
 		$this->blocks[IL_COL_CENTER] =
 			ilUtil::sortArray($this->blocks[IL_COL_CENTER], "nr", "asc", true);
-
 	}
 
 	/**

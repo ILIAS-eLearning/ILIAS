@@ -43,12 +43,18 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private $userDefinedFieldsPlaceholderValues;
 
     /**
-     * @param ilCertificateObjectHelper $objectHelper
-     * @param ilCertificateDateHelper $dateHelper
-     * @param int $dateFormat
-     * @param ilLanguage|null $language
-     * @param ilCertificateUtilHelper|null $utilHelper
+     * @var int
+     */
+    private $birthdayDateFormat;
+
+    /**
+     * @param ilCertificateObjectHelper                 $objectHelper
+     * @param ilCertificateDateHelper                   $dateHelper
+     * @param int                                       $dateFormat
+     * @param ilLanguage|null                           $language
+     * @param ilCertificateUtilHelper|null              $utilHelper
      * @param ilUserDefinedFieldsPlaceholderValues|null $userDefinedFieldsPlaceholderValues
+     * @param int                                       $birthdayDateFormat
      */
     public function __construct(
         ilCertificateObjectHelper $objectHelper = null,
@@ -56,7 +62,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         int $dateFormat = null,
         ilLanguage $language = null,
         ilCertificateUtilHelper $utilHelper = null,
-        ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null
+        ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
+        $birthdayDateFormat = IL_CAL_DATE
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -88,6 +95,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             $userDefinedFieldsPlaceholderValues = new ilUserDefinedFieldsPlaceholderValues();
         }
         $this->userDefinedFieldsPlaceholderValues = $userDefinedFieldsPlaceholderValues;
+
+        $this->birthdayDateFormat = $birthdayDateFormat;
 
         $this->placeholder = array(
             'USER_LOGIN'         => '',
@@ -128,13 +137,20 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholder = $this->placeholder;
 
-        $placeholder['USER_LOGIN']         = $this->utilHelper->prepareFormOutput((trim($user->getLogin())));
-        $placeholder['USER_FULLNAME']      = $this->utilHelper->prepareFormOutput((trim($user->getFullname())));
-        $placeholder['USER_FIRSTNAME']     = $this->utilHelper->prepareFormOutput((trim($user->getFirstname())));
-        $placeholder['USER_LASTNAME']      = $this->utilHelper->prepareFormOutput((trim($user->getLastname())));
-        $placeholder['USER_TITLE']         = $this->utilHelper->prepareFormOutput((trim($user->getUTitle())));
-        $placeholder['USER_SALUTATION']    = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($user->getGender())));
-        $placeholder['USER_BIRTHDAY']      = $this->utilHelper->prepareFormOutput((trim($user->getBirthday())));
+        $placeholder['USER_LOGIN']      = $this->utilHelper->prepareFormOutput((trim($user->getLogin())));
+        $placeholder['USER_FULLNAME']   = $this->utilHelper->prepareFormOutput((trim($user->getFullname())));
+        $placeholder['USER_FIRSTNAME']  = $this->utilHelper->prepareFormOutput((trim($user->getFirstname())));
+        $placeholder['USER_LASTNAME']   = $this->utilHelper->prepareFormOutput((trim($user->getLastname())));
+        $placeholder['USER_TITLE']      = $this->utilHelper->prepareFormOutput((trim($user->getUTitle())));
+        $placeholder['USER_SALUTATION'] = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($user->getGender())));
+
+        $birthday   = '';
+        $dateObject = $user->getBirthday();
+        if (null !== $dateObject) {
+            $birthday = $this->dateHelper->formatDate($dateObject, $this->birthdayDateFormat);
+        }
+
+        $placeholder['USER_BIRTHDAY']      = $this->utilHelper->prepareFormOutput((trim($birthday)));
         $placeholder['USER_INSTITUTION']   = $this->utilHelper->prepareFormOutput((trim($user->getInstitution())));
         $placeholder['USER_DEPARTMENT']    = $this->utilHelper->prepareFormOutput((trim($user->getDepartment())));
         $placeholder['USER_STREET']        = $this->utilHelper->prepareFormOutput((trim($user->getStreet())));
@@ -154,10 +170,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * Due the fact that this is a class to create default values
      * the placeholder values will be identical to the description
-     *
      * @param int $userId
      * @param int $objId
      * @return mixed
@@ -168,23 +182,23 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
         $previewPlacholderValues = array(
-            "USER_LOGIN" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_login")),
-            "USER_FULLNAME" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_fullname")),
-            "USER_FIRSTNAME" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_firstname")),
-            "USER_LASTNAME" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_lastname")),
-            "USER_TITLE" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_title")),
-            "USER_SALUTATION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_salutation")),
-            "USER_BIRTHDAY" => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(time(), $this->dateFormat)))),
-            "USER_INSTITUTION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_institution")),
-            "USER_DEPARTMENT" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_department")),
-            "USER_STREET" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_street")),
-            "USER_CITY" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_city")),
-            "USER_ZIPCODE" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_zipcode")),
-            "USER_COUNTRY" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_country")),
+            "USER_LOGIN"         => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_login")),
+            "USER_FULLNAME"      => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_fullname")),
+            "USER_FIRSTNAME"     => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_firstname")),
+            "USER_LASTNAME"      => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_lastname")),
+            "USER_TITLE"         => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_title")),
+            "USER_SALUTATION"    => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_salutation")),
+            "USER_BIRTHDAY"      => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(time(), $this->dateFormat)))),
+            "USER_INSTITUTION"   => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_institution")),
+            "USER_DEPARTMENT"    => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_department")),
+            "USER_STREET"        => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_street")),
+            "USER_CITY"          => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_city")),
+            "USER_ZIPCODE"       => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_zipcode")),
+            "USER_COUNTRY"       => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_country")),
             "USER_MATRICULATION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_matriculation")),
-            'DATE' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(time(), $this->dateFormat)))),
-            'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(time(), $this->dateFormat)))),
-            'DATE_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(time(), $this->dateFormat)))),
+            'DATE'               => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(time(), $this->dateFormat)))),
+            'DATETIME'           => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(time(), $this->dateFormat)))),
+            'DATE_COMPLETED'     => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(time(), $this->dateFormat)))),
             'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(time(), $this->dateFormat))))
         );
 

@@ -43,9 +43,9 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->setMethods(array('txt'))
             ->getMock();
 
-        $languageMock->expects($this->exactly(1))
-            ->method('txt')
-            ->willReturn('Something translated');
+        $languageMock->expects($this->exactly(3))
+                     ->method('txt')
+                     ->willReturn('Something translated');
 
         $defaultPlaceholder = $this->getMockBuilder('ilDefaultPlaceholderDescription')
             ->disableOriginalConstructor()
@@ -67,7 +67,9 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             array(
                 'COURSE_TITLE'   => 'Something translated',
                 'SOMETHING'      => 'SOMEWHAT',
-                'SOMETHING_ELSE' => 'ANYTHING'
+                'SOMETHING_ELSE' => 'ANYTHING',
+                'DATE_COMPLETED' => 'Something translated',
+                'DATETIME_COMPLETED' => 'Something translated'
             ),
             $placeHolders
         );

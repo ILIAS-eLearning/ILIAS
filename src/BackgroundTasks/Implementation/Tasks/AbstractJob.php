@@ -11,12 +11,14 @@ use ILIAS\BackgroundTasks\Task\Job;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-abstract class AbstractJob extends AbstractTask implements Job {
+abstract class AbstractJob extends AbstractTask implements Job
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getInput() {
-		return $this->input;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
 }

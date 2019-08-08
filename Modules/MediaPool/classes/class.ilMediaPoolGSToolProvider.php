@@ -1,71 +1,67 @@
 <?php
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
-use ILIAS\NavigationContext\Stack\CalledContexts;
-use ILIAS\NavigationContext\Stack\ContextCollection;
+use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
+use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 
 /**
  * Class ilStaffGSToolProvider
  *
+ * @author Alex Killing <killing@leifos.com>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider {
+class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function isInterestedInContexts(): ContextCollection {
-		return $this->dic->navigationContext()->collection()->main();
-	}
+    const SHOW_FOLDERS_TOOL = 'show_folders_tool';
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getToolsForContextStack(CalledContexts $called_contexts): array {
-		$ctrl = $this->dic->ctrl();
-
-		$tools = [];
-		$last = $called_contexts->getLast();
-		$additional_data = $last->getAdditionalData();
-		$iff = function ($id) { return $this->globalScreen()->identification()->fromSerializedIdentification($id); };
-		$l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
-		$factory = $this->globalScreen()->tool();
-
-		if ($additional_data->exists('mine')) {
-			/*$tools[] = $factory->tool($iff("providerXY|lorem_tool"))
-				->withTitle("A Tool")
-				->withContent($l("LOREM {$called_contexts->current()->getReferenceId()->toInt()}"));
-			$tools[] = $factory->tool($iff("providerXY|ipsum_tool"))
-				->withTitle("A Second Tool")
-				->withContent($l("IPSUM"));*/
-		}
-
-		/*
-		foreach ($called_contexts->getStackAsArray() as $ct) {
-			$content .= " - $ct<br>";
-		}*/
+    /**
+     * @inheritDoc
+     */
+    public function isInterestedInContexts() : ContextCollection
+    {
+        return $this->context_collection->main()->repository();
+    }
 
 
-		if (strtolower($_GET["baseClass"]) == "ilmediapoolpresentationgui")
-		{
-			$tools[] = $factory->tool($iff("MediaPool|Tree"))
-				->withTitle("Folders")
-				->withContent($l($this->getTree()));
-		}
+    /**
+     * @inheritDoc
+     */
+    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    {
+        $tools = [];
 
-		return $tools;
-	}
+        $additional_data = $called_contexts->current()->getAdditionalData();
+        if ($additional_data->is(self::SHOW_FOLDERS_TOOL, true)) {
 
-	function getTree()
-	{
+            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
-		global $DIC;
+            $tools[] = $this->factory->tool($iff("tree"))
+                ->withTitle("Folders")
+                ->withContent($l($this->getTree($called_contexts->current()->getReferenceId()->toInt())));
+        }
 
-		$pool = ilObjectFactory::getInstanceByRefId((int) $_GET["ref_id"]);
-		$pool_gui = new ilObjMediaPoolGUI((int) $_GET["ref_id"]);
-		$exp = new ilMediaPoolExplorerGUI($pool_gui, "listMedia", $pool);
+        return $tools;
+    }
 
-		return $exp->getHTML(true);
-	}
+
+    /**
+     * @param int $ref_id
+     *
+     * @return string
+     */
+    private function getTree(int $ref_id) : string
+    {
+        try {
+            $pool = ilObjectFactory::getInstanceByRefId($ref_id);
+            $pool_gui = new ilObjMediaPoolGUI($ref_id);
+            $exp = new ilMediaPoolExplorerGUI($pool_gui, "listMedia", $pool);
+
+            return $exp->getHTML(true);
+        } catch (Exception $e) {
+            return "";
+        }
+    }
 }

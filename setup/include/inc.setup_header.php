@@ -144,10 +144,6 @@ $ilBench = new ilBenchmark();
 $GLOBALS['ilBench'] = $ilBench;
 $DIC["ilBench"] = function($c) { return $GLOBALS["ilBench"]; };
 
-include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
-include_once("./Services/Database/classes/class.ilMySQLAbstraction.php");
-include_once("./Services/Database/classes/class.ilDBGenerator.php");
-
 // HTTP Services
 $DIC['http.request_factory'] = function ($c) {
 	return new \ILIAS\HTTP\Request\RequestFactoryImpl();

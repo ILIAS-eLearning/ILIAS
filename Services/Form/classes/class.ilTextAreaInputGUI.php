@@ -631,7 +631,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->parseCurrentBlock();
 
 	}
-	
+
 	/**
 	* Setter/Getter for the html purifier usage
 	*

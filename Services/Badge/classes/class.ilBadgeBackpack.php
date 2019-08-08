@@ -107,7 +107,7 @@ class ilBadgeBackpack
 		{
 			include_once "Services/WebServices/Curl/classes/class.ilCurlConnection.php";	
 			$curl = new ilCurlConnection();
-			$curl->init();
+			$curl->init(false);
 				
 			$curl->setOpt(CURLOPT_FRESH_CONNECT, true);
 			$curl->setOpt(CURLOPT_RETURNTRANSFER, true);

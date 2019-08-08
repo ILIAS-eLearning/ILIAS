@@ -1,8 +1,8 @@
 <?php
 
-use Composer\Autoload\ClassLoader;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
@@ -12,107 +12,128 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGSProviderFactory extends ProviderFactory {
+class ilGSProviderFactory extends ProviderFactory
+{
 
-	/**
-	 * @var Container
-	 */
-	private $dic;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic) {
-		$this->dic = $dic;
-		parent::__construct(
-			[], [], [], new ilMMItemInformation()
-		);
-	}
+    /**
+     * @var array
+     */
+    private $class_loader;
+    /**
+     * @var Container
+     */
+    private $dic;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getMetaBarProvider(): array {
-		$providers = [];
-		// Core
-		$this->appendCore($providers, StaticMetaBarProvider::PURPOSE_MBS);
-
-		// Plugins
-		$this->appendPlugins($providers, StaticMetaBarProvider::class);
-
-		$this->registerInternal($providers);
-
-		return $providers;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Container $dic)
+    {
+        $this->dic = $dic;
+        parent::__construct(
+            [], [], [], new ilMMItemInformation()
+        );
+        $this->class_loader = include "Services/GlobalScreen/artifacts/global_screen_providers.php";
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getMainBarProvider(): array {
-		$providers = [];
-		// Core
-		$this->appendCore($providers, StaticMainMenuProvider::PURPOSE_MAINBAR);
+    /**
+     * @inheritDoc
+     */
+    public function getModificationProvider() : array
+    {
+        $providers = [];
+        // Core
+        $this->appendCore($providers, ModificationProvider::class);
 
-		// Plugins
-		$this->appendPlugins($providers, StaticMainMenuProvider::class);
-
-		$this->registerInternal($providers);
-
-		return $providers;
-	}
+        return $providers;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getToolProvider(): array {
-		$providers = [];
-		// Core
-		$this->appendCore($providers, DynamicToolProvider::PURPOSE_TOOLS);
+    /**
+     * @inheritDoc
+     */
+    public function getMetaBarProvider() : array
+    {
+        $providers = [];
+        // Core
+        $this->appendCore($providers, StaticMetaBarProvider::class);
 
-		// Plugins
-		$this->appendPlugins($providers, DynamicToolProvider::class);
+        // Plugins
+        $this->appendPlugins($providers, StaticMetaBarProvider::class);
 
-		$this->registerInternal($providers);
+        $this->registerInternal($providers);
 
-		return $providers;
-	}
-
-
-	/**
-	 * @param array  $array_of_core_providers
-	 * @param string $interface
-	 */
-	private function appendPlugins(array &$array_of_core_providers, string $interface): void {
-		// Plugins
-		static $plugin_providers;
-
-		$plugin_providers = $plugin_providers ?? ilPluginAdmin::getAllGlobalScreenProviders();
-
-		foreach ($plugin_providers as $provider) {
-			if (is_a($provider, $interface)) {
-				$array_of_core_providers[] = $provider;
-			}
-		}
-	}
+        return $providers;
+    }
 
 
-	/**
-	 * @param array  $array_of_providers
-	 * @param string $purpose
-	 */
-	private function appendCore(array &$array_of_providers, string $purpose): void {
-		// // Core
-		foreach (ilGSProviderStorage::where(['purpose' => $purpose])->get() as $provider_storage) {
-			/**
-			 * @var $provider_storage ilGSProviderStorage
-			 */
-			if ($this->isInstanceCreationPossible($provider_storage->getProviderClass())) {
-				$array_of_providers[] = $provider_storage->getInstance();
-			}
-		}
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getMainBarProvider() : array
+    {
+        $providers = [];
+        // Core
+        $this->appendCore($providers, StaticMainMenuProvider::class);
+
+        // Plugins
+        $this->appendPlugins($providers, StaticMainMenuProvider::class);
+
+        $this->registerInternal($providers);
+
+        return $providers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getToolProvider() : array
+    {
+        $providers = [];
+        // Core
+        $this->appendCore($providers, DynamicToolProvider::class);
+
+        // Plugins
+        $this->appendPlugins($providers, DynamicToolProvider::class);
+
+        $this->registerInternal($providers);
+
+        return $providers;
+    }
+
+
+    /**
+     * @param array  $array_of_core_providers
+     * @param string $interface
+     */
+    private function appendPlugins(array &$array_of_core_providers, string $interface) : void
+    {
+        // Plugins
+        static $plugin_providers;
+
+        $plugin_providers = $plugin_providers ?? ilPluginAdmin::getAllGlobalScreenProviders();
+
+        foreach ($plugin_providers as $provider) {
+            if (is_a($provider, $interface)) {
+                $array_of_core_providers[] = $provider;
+            }
+        }
+    }
+
+
+    /**
+     * @param array  $array_of_providers
+     * @param string $interface
+     */
+    private function appendCore(array &$array_of_providers, string $interface) : void
+    {
+        foreach ($this->class_loader[$interface] as $class_name) {
+            if ($this->isInstanceCreationPossible($class_name)) {
+                $array_of_providers[] = new $class_name($this->dic);
+            }
+        }
+    }
 }

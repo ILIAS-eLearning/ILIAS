@@ -37,10 +37,8 @@ class ilDatabaseAtomSuite extends TestSuite {
 	public static function suite() {
 		$suite = new self();
 
-		require_once("ilDatabaseAtomBaseTest.php");
 		$suite->addTestSuite("ilDatabaseAtomBaseTest");
 
-		require_once("ilDatabaseAtomRunTest.php");
 		$suite->addTestSuite("ilDatabaseAtomRunTest");
 
 		return $suite;

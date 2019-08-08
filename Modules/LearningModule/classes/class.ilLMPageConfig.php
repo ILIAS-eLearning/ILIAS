@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageConfig.php");
-
 /**
  * Learning module page configuration 
  *
@@ -54,7 +52,6 @@ class ilLMPageConfig extends ilPageConfig
 	{
 		if ($a_obj_id > 0)
 		{
-			include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 			$this->setDisableDefaultQuestionFeedback(ilObjLearningModule::_lookupDisableDefaultFeedback($a_obj_id));
 			
 			if (ilObjContentObject::isOnlineHelpModule($a_obj_id, true))

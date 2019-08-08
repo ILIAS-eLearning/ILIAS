@@ -65,7 +65,7 @@ class ilPasswordAssistanceGUI
 	public function executeCommand()
 	{
 		// check hack attempts
-		if(!$this->settings->get('password_assistance')) // || AUTH_DEFAULT != AUTH_LOCAL)
+		if(!$this->settings->get('password_assistance'))
 		{
 			// 
 			#if(empty($_SESSION['AccountId']) && $_SESSION['AccountId'] !== false)
@@ -233,6 +233,11 @@ class ilPasswordAssistanceGUI
 			return;
 		}
 
+		$defaultAuth = AUTH_LOCAL;
+		if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
+			$defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
+		}
+
 		$user = new \ilObjUser($usrId);
 		$emailAddresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
 
@@ -251,7 +256,7 @@ class ilPasswordAssistanceGUI
 		} else if (
 			(
 				$user->getAuthMode(true) != AUTH_LOCAL ||
-				($user->getAuthMode(true) == AUTH_DEFAULT && AUTH_DEFAULT != AUTH_LOCAL)
+				($user->getAuthMode(true) == $defaultAuth && $defaultAuth != AUTH_LOCAL)
 			) && !(
 				$user->getAuthMode(true) == AUTH_SAML
 			)

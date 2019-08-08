@@ -14,6 +14,7 @@ abstract class ilBlockGUI
 	const PRES_MAIN_LEG = 0;		// main legacy panel
 	const PRES_SEC_LEG = 1;			// secondary legacy panel
 	const PRES_SEC_LIST = 2;		// secondary list panel
+	const PRES_MAIN_LIST = 3;		// main stndard list panel
 
 	/**
 	 * @var \ILIAS\DI\UIServices
@@ -949,16 +950,12 @@ abstract class ilBlockGUI
 		return null;
 	}
 
-	/**
-	 * Get items
-	 *
-	 * @return \ILIAS\UI\Component\Item\Group[]
-	 */
-	protected function getListItemGroups(): array
-	{
-		global $DIC;
-		$factory = $DIC->ui()->factory();
 
+	/**
+	 * Handle navigation
+	 */
+	protected function handleNavigation()
+	{
 		$reg_page = $_REQUEST[$this->getNavParameter()."page"];
 		if ($reg_page !== "")
 		{
@@ -980,12 +977,35 @@ abstract class ilBlockGUI
 		{
 			$this->setOffset(0);
 		}
+	}
 
+	/**
+	 * Load data for current page
+	 *
+	 * @return array
+	 */
+	protected function loadData()
+	{
 		$data = $this->getData();
 		$this->max_count = count($data);
 		$this->correctOffset();
 		$data = array_slice($data, $this->getOffset(), $this->getLimit());
 		$this->preloadData($data);
+		return $data;
+	}
+
+
+	/**
+	 * Get items
+	 *
+	 * @return \ILIAS\UI\Component\Item\Group[]
+	 */
+	protected function getListItemGroups(): array
+	{
+		global $DIC;
+		$factory = $DIC->ui()->factory();
+
+		$data = $this->loadData();
 
 		$items = [];
 
@@ -1056,6 +1076,41 @@ abstract class ilBlockGUI
 
 		$ctrl = $this->ctrl;
 
+
+		switch ($this->getPresentation())
+		{
+			case self::PRES_SEC_LEG:
+				$panel = $factory->panel()->secondary()->legacy(
+					$this->getTitle(),
+					$factory->legacy($this->getLegacyContent())
+				);
+				break;
+
+			case self::PRES_MAIN_LEG:
+				$panel = $factory->panel()->standard(
+					$this->getTitle(),
+					$factory->legacy($this->getLegacyContent())
+				);
+				break;
+
+			case self::PRES_SEC_LIST:
+				$this->handleNavigation();
+				$panel = $factory->panel()->secondary()->listing(
+					$this->getTitle(),
+					$this->getListItemGroups()
+				);
+				break;
+
+			case self::PRES_MAIN_LIST:
+				$this->handleNavigation();
+				$panel = $factory->panel()->listing()->standard(
+					$this->getTitle(),
+					$this->getListItemGroups()
+				);
+				break;
+		}
+
+		// actions
 		$actions = [];
 
 		foreach ($this->getBlockCommands() as $command)
@@ -1074,25 +1129,6 @@ abstract class ilBlockGUI
 			}
 			$actions[] = $button;
 		}
-
-		switch ($this->getPresentation())
-		{
-			case self::PRES_SEC_LEG:
-				$panel = $factory->panel()->secondary()->legacy(
-					$this->getTitle(),
-					$factory->legacy($this->getLegacyContent())
-				);
-				break;
-
-			case self::PRES_SEC_LIST:
-				$panel = $factory->panel()->secondary()->listing(
-					$this->getTitle(),
-					$this->getListItemGroups()
-				);
-				break;
-		}
-
-		// actions
 		if (count($actions) > 0)
 		{
 			$actions = $factory->dropdown()->standard($actions);

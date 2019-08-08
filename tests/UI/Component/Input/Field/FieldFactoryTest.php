@@ -71,9 +71,9 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		$this->assertInstanceOf(Field\Group::class, $input);
 		$this->assertInstanceOf(Field\Section::class, $input);
 
-		$input = $f->group([]);
-		$this->assertInstanceOf(Field\Input::class, $input);
-		$this->assertInstanceOf(Field\Group::class, $input);
+		$text = $f->group([]);
+		$this->assertInstanceOf(Field\Input::class, $text);
+		$this->assertInstanceOf(Field\Group::class, $text);
 
 		$input = $f->dependantGroup([]);
 		$this->assertInstanceOf(Field\Input::class, $input);
@@ -107,6 +107,14 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		$input = $f->multiSelect("label", [], "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\MultiSelect::class, $input);
+
+		$datetime = $f->datetime("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $text);
+		$this->assertInstanceOf(Field\Group::class, $text);
+
+		$duration = $f->duration("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $text);
+		$this->assertInstanceOf(Field\Group::class, $text);
 	}
 
 	public function test_implements_factory_no_by_line() {

@@ -57,6 +57,11 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 	protected $objects; // array
 
 	/**
+	 * @var ilObjBookingPool
+	 */
+	protected $pool;
+
+	/**
 	 * Constructor
 	 * @param	ilBookingParticipantGUI 	$a_parent_obj
 	 * @param	string	$a_parent_cmd
@@ -75,6 +80,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 		$this->ref_id = $a_ref_id;
 
 		$this->pool_id = $a_pool_id;
+		$this->pool = new ilObjBookingPool($this->pool_id, false);
 
 		if($_GET['bkusr'])
 		{
@@ -96,7 +102,9 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("description"));
-		$this->addColumn($this->lng->txt("available"));
+		if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+			$this->addColumn($this->lng->txt("available"));
+		}
 		$this->addColumn($this->lng->txt("action"));
 
 		//Fix this order field
@@ -121,7 +129,8 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 		$obj_items = ilBookingObject::getList($this->pool_id);
 		foreach($obj_items as $item)
 		{
-			if(empty(ilBookingReservation::getObjectReservationForUser($item['booking_object_id'], $this->user_id_to_book)))
+			if($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE ||
+				empty(ilBookingReservation::getObjectReservationForUser($item['booking_object_id'], $this->user_id_to_book)))
 			{
 				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $this->user_id_to_book);
 				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $item['booking_object_id']);
@@ -147,9 +156,13 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+			$this->tpl->setCurrentBlock("available");
+			$this->tpl->setVariable("TXT_AVAILABLE", $a_set['nr_items']);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("TXT_TITLE", $a_set['title']);
 		$this->tpl->setVariable("TXT_DESCRIPTION", $a_set['description']);
-		$this->tpl->setVariable("TXT_AVAILABLE", $a_set['nr_items']);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("book_assign"));
 		$this->tpl->setVariable("URL_ACTION", $a_set['url_assign']);
 	}

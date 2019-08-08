@@ -298,4 +298,33 @@ EOT;
 
 	}
 
+	public function test_render_with_footer() {
+		$legacy = $this->getUIFactory()->legacy("Legacy content");
+		$footer_shy_button = $this->getUIFactory()->button()->shy("Action","");
+
+		$secondary_panel = $this->getUIFactory()->legacyPanel("Title", $legacy)
+			->withFooter($footer_shy_button);
+
+		$html = $this->getDefaultRenderer()->render($secondary_panel);
+
+		$expected_html = <<<EOT
+<div class="panel panel-secondary">
+	<div class="panel-heading ilHeader clearfix">
+		<h3 class="ilHeader panel-secondary-title">Title</h3>
+	</div>
+	<div class="panel-body">
+		Legacy content
+	</div>
+	<div class="panel-footer ilBlockInfo">
+		<button class="btn btn-link" data-action="">Action</button>
+	</div>
+</div>
+EOT;
+		$this->assertHTMLEquals(
+			$this->cleanHTML($expected_html),
+			$this->cleanHTML($html)
+		);
+
+	}
+
 }

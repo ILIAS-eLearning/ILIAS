@@ -530,7 +530,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
-			$lgui->initItem($this->object->getRefId(), $this->object->getId());
+			$lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
 			$this->tpl->setAlertProperties($lgui->getAlertProperties());			
 		}
 	}
@@ -736,7 +736,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						else
 						{
 
-							$url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
+							$url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui"), "", "", true, false);
 							$main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
 							$main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
 							$main_tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
@@ -818,6 +818,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 			}
+
 			// bugfix mantis 24559
 			// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
 			// as they don't have the possibility to use the multi-download-capability of the manage-tab
@@ -1328,7 +1329,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return;
 		}
 		
-		if ($a_include_view && $ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		if ($a_include_view && $this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			if (!$this->isActiveAdministrationPanel())
 			{
@@ -1343,7 +1344,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if ( $ilUser->getId() != ANONYMOUS_USER_ID &&
 				($this->adminCommands ||
 				(is_object($this->object) && 
-				($ilAccess->checkAccess("write", "", $this->object->getRefId())))
+				($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())))
 										||
 				(is_object($this->object) && 
 				($this->object->getHiddenFilesFound())) ||
@@ -1362,15 +1363,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
 			is_object($this->object) && 
-			$ilAccess->checkAccess("write", "", $this->object->getRefId()) /* &&
+			$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()) /* &&
 			$this->object->getOrderType() == ilContainer::SORT_MANUAL */ // always on because of custom block order 
 			)
 		{
 			$ilTabs->addSubTab("ordering", $lng->txt("cntr_ordering"), $ilCtrl->getLinkTarget($this, "editOrder"));
 		}
 		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
-			is_object($this->object) && 
-			$ilAccess->checkAccess("write", "", $this->object->getRefId())
+			is_object($this->object) &&
+			$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())
 			)
 		{
 			if ($ilSetting->get("enable_cat_page_edit"))
@@ -1693,11 +1694,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 	function downloadObject()
 	{
-		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
-
-		$no_download = [];
-		$no_perm = [];
+		// This variable determines whether the task has been initiated by a folder's action drop-down to prevent a folder
+		// duplicate inside the zip.
+		$initiated_by_folder_action = false;
 
 		if ($_GET["item_ref_id"] != "")
 		{
@@ -1706,148 +1706,37 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if (!isset($_POST["id"]))
 		{
-			$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+			$object = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
+			$object_type = $object->getType();
+			if($object_type == "fold")
+			{
+				$_POST["id"] = array($_GET['ref_id']);
+				$initiated_by_folder_action = true;
+			}
+			else
+			{
+				$ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+			}
 		}
 
-		// FOR ALL OBJECTS THAT SHOULD BE DOWNLOADED
-		foreach ($_POST["id"] as $ref_id)
-		{
-			$object = ilObjectFactory::getInstanceByRefId($ref_id);
-			$obj_type = $object->getType();
-			if (!in_array($obj_type, array("fold", "file")))
-			{
-				$no_download[] = $object->getType();
-			}
-			else if (!$rbacsystem->checkAccess('read', $ref_id))
-			{
-				$no_perm[] = $ref_id;
-			}
-		}
-		
-		// IF THERE IS ANY OBJECT THAT CANNOT BE DOWNLOADED
-		if (count($no_download))
-		{
-			$no_download = array_unique($no_download);
-			foreach ($no_download as $type)
-			{
-				$txt_objs[] = $this->lng->txt("objs_".$type);
-			}
-			$ilErr->raiseError(implode(', ',$txt_objs)." ".$this->lng->txt("msg_obj_no_download"), $ilErr->MESSAGE);
-		}
-		
-		// NO ACCESS
-		if (count($no_perm))
-		{
-			$ilErr->raiseError(
-				$this->lng->txt("msg_obj_perm_download")." ".implode(',',$no_perm),
-				$ilErr->MESSAGE);
-		}
-		
-		// download the objects
-		$this->downloadMultipleObjects($_POST["id"]);
-	}	
-	
-	private function downloadMultipleObjects($a_ref_ids)
-	{
-		$lng = $this->lng;
-		$rbacsystem = $this->rbacsystem;
-		$ilAccess = $this->access;
-		
-		include_once 'Modules/Folder/classes/class.ilObjFolder.php';
-		include_once 'Modules/File/classes/class.ilObjFile.php';
-		include_once 'Modules/File/classes/class.ilFileException.php';
-		
-		// create temporary file to download
-		$zip = PATH_TO_ZIP;
-		$tmpdir = ilUtil::ilTempnam();		
-		ilUtil::makeDir($tmpdir);
-		
-		try 
-		{
-			// copy each selected object
-			foreach ($a_ref_ids as $ref_id)
-			{
-				if (!$ilAccess->checkAccess("read", "", $ref_id))
-					continue;
-				
-				if (ilObject::_isInTrash($ref_id))
-					continue;
-				
-				// get object
-				$object = ilObjectFactory::getInstanceByRefId($ref_id);
-				$obj_type = $object->getType();
-				if ($obj_type == "fold")
-				{
-					// copy folder to temp directory
-					self::recurseFolder($ref_id, $object->getTitle(), $tmpdir);
-				}
-				else if ($obj_type == "file")
-				{
-					// copy file to temp directory
-					self::copyFile($object->getId(), $object->getTitle(), $tmpdir);
-				}
-			}
+		include_once './Services/Container/classes/BackgroundTasks/class.ilDownloadContainerFilesBackgroundTask.php';
+		$download_job = new ilDownloadContainerFilesBackgroundTask($GLOBALS['DIC']->user()->getId(), $_POST["id"], $initiated_by_folder_action);
 
-			// compress the folder
-			$deliverFilename = ilUtil::getAsciiFilename($this->object->getTitle()) . ".zip";
-			$tmpzipfile = ilUtil::ilTempnam() . ".zip";
-			ilUtil::zip($tmpdir, $tmpzipfile, true);
-			ilUtil::delDir($tmpdir);
-			ilUtil::deliverFile($tmpzipfile, $deliverFilename, '', false, true, true);
-		}
-		catch (ilFileException $e) 
+		$download_job->setBucketTitle($this->getBucketTitle());
+		if($download_job->run())
 		{
-			ilUtil::sendInfo($e->getMessage(), true);
+			ilUtil::sendSuccess($this->lng->txt('msg_bt_download_started'),true);
 		}
+		$GLOBALS['DIC']->ctrl()->redirect($this);
 	}
-	
+
 	/**
-	 * private functions which iterates through all folders and files 
-	 * and create an according file structure in a temporary directory. This function works recursive. 
-	 *
-	 * @param integer $refid reference it
-	 * @param tmpdictory $tmpdir
-	 * @return returns first created directory
+	 * get proper label to add in the background task popover
+	 * @return string
 	 */
-	private static function recurseFolder($refid, $title, $tmpdir) 
+	public function getBucketTitle()
 	{
-		global $DIC;
-
-		$rbacsystem = $DIC->rbac()->system();
-		$tree = $DIC->repositoryTree();
-		$ilAccess = $DIC->access();
-		
-		$tmpdir = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($title);
-		ilUtil::makeDir($tmpdir);
-		
-		$subtree = $tree->getChildsByTypeFilter($refid, array("fold","file"));
-		
-		foreach ($subtree as $child) 
-		{
-			if (!$ilAccess->checkAccess("read", "", $child["ref_id"]))
-				continue;			
-
-			if (ilObject::_isInTrash($child["ref_id"]))
-				continue;
-
-			if ($child["type"] == "fold")
-				self::recurseFolder($child["ref_id"], $child["title"], $tmpdir);
-			else 
-				self::copyFile($child["obj_id"], $child["title"], $tmpdir);
-		}
-	}
-	
-	private static function copyFile($obj_id, $title, $tmpdir)
-	{
-		$newFilename = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($title);
-		
-		// copy to temporary directory
-		$oldFilename = ilObjFile::_lookupAbsolutePath($obj_id);
-
-		if (!copy($oldFilename, $newFilename))
-			throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
-		
-		touch($newFilename, filectime($oldFilename));								
+		return $bucket_title = ilUtil::getAsciiFilename($this->object->getTitle());
 	}
 
 	/**
@@ -2699,12 +2588,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	function isActiveAdministrationPanel()
 	{
-		$ilAccess = $this->access;
-		
 		// #10081
 		if($_SESSION["il_cont_admin_panel"] &&
 			$this->object->getRefId() && 
-			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			return false;
 		}

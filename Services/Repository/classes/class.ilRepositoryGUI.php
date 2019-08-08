@@ -1,8 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\GlobalScreen\Services;
-use ILIAS\NavigationContext\ContextServices;
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 
 include_once("./Services/Table/classes/class.ilTableGUI.php");
 
@@ -68,7 +67,7 @@ class ilRepositoryGUI
 	/**
 	 * @var ContextServices
 	 */
-	protected $navigation_context;
+	protected $tool_context;
 
 	var $lng;
 	var $tpl;
@@ -102,7 +101,7 @@ class ilRepositoryGUI
 		$ilLog = $DIC["ilLog"];
 		$ilUser = $DIC->user();
 		$ilSetting = $DIC->settings();
-		$this->navigation_context = $DIC->navigationContext();
+		$this->tool_context = $DIC->globalScreen()->tool()->context();
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -239,7 +238,7 @@ class ilRepositoryGUI
 		$ilHelp = $this->help;
 		$ilErr = $this->error;
 
-		$this->navigation_context->stack()->repository();
+		$this->tool_context->claim()->repository();
 
 		// check creation mode
 		// determined by "new_type" parameter

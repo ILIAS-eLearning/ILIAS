@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -10,44 +11,59 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ProviderFactoryInterface {
+interface ProviderFactoryInterface
+{
 
-	/**
-	 * @return StaticMainMenuProvider[]
-	 */
-	public function getMainBarProvider(): array;
-
-
-	/**
-	 * @return ItemInformation
-	 */
-	public function getMainBarItemInformation(): ItemInformation;
+    /**
+     * @return ModificationProvider[]
+     */
+    public function getModificationProvider() : array;
 
 
-	/**
-	 * @return DynamicToolProvider[]
-	 */
-	public function getToolProvider(): array;
+    /**
+     * @return StaticMainMenuProvider[]
+     */
+    public function getMainBarProvider() : array;
 
 
-	/**
-	 * @return StaticMetaBarProvider[]
-	 */
-	public function getMetaBarProvider(): array;
+    /**
+     * @return ItemInformation
+     */
+    public function getMainBarItemInformation() : ItemInformation;
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return Provider
-	 */
-	public function getProviderByClassName(string $class_name): Provider;
+    /**
+     * @return DynamicToolProvider[]
+     */
+    public function getToolProvider() : array;
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return bool
-	 */
-	public function isInstanceCreationPossible(string $class_name): bool;
+    /**
+     * @return StaticMetaBarProvider[]
+     */
+    public function getMetaBarProvider() : array;
+
+
+    /**
+     * @param string $class_name
+     *
+     * @return Provider
+     */
+    public function getProviderByClassName(string $class_name) : Provider;
+
+
+    /**
+     * @param string $class_name
+     *
+     * @return bool
+     */
+    public function isInstanceCreationPossible(string $class_name) : bool;
+
+
+    /**
+     * @param string $class_name
+     *
+     * @return bool
+     */
+    public function isRegistered(string $class_name) : bool;
 }

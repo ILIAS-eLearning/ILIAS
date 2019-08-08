@@ -11,7 +11,7 @@ use ILIAS\Data\Result;
  *
  * Constraints MUST NOT modify the supplied value.
  */
-interface Constraint {
+interface Constraint extends Transformation {
 	/**
 	 * Checks the provided value.
 	 *
@@ -51,7 +51,7 @@ interface Constraint {
 	 * @param   Result $result
 	 * @return  Result
 	 */
-	public function applyTo(Result $result);
+	public function applyTo(Result $result) : Result;
 
 	/**
 	 * Get a constraint like this one with a builder for a custom error

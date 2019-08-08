@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
 
 /**
  * Class ilDBPdoMySQLFieldDefinition

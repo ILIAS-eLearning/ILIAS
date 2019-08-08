@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFilterRule.php';
 
 /**
  * Class ilBuddySystemRelationStateNullFilterRule
@@ -9,20 +7,19 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRel
  */
 class ilBuddySystemRelationStateNullFilterRule extends ilBuddySystemRelationStateFilterRule
 {
-	/**
-	 * @return bool
-	 */
-	public function matches()
-	{
-		return true;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function matches() : bool
+    {
+        return true;
+    }
 
-	/**
-	 * @param ilBuddySystemRelationState $state
-	 * @return boolean
-	 */
-	public function __invoke(ilBuddySystemRelationState $state)
-	{
-		return true;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __invoke(ilBuddySystemRelationState $state) : bool
+    {
+        return true;
+    }
 }

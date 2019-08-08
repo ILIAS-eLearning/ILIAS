@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012mk ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./setup/classes/class.ilDBConnections.php");
-
 /**
 * Setup class
 *
@@ -79,8 +77,6 @@ class ilSetup
 		$this->passwordManager = $passwordManager;
 
 		$this->lng = $lng;
-
-		$this->db_connections = new ilDBConnections();
 
 		define("ILIAS_MODULE","setup");
 
@@ -744,7 +740,7 @@ class ilSetup
 			return false;
 		}
 
-		$this->client = new ilClient($a_client_id, $this->db_connections);
+		$this->client = new ilClient($a_client_id);
 
 		if (!$this->client->init())
 		{
@@ -774,7 +770,7 @@ class ilSetup
 			}
 			else
 			{
-				$client = new ilClient(0, $this->db_connections);
+				$client = new ilClient(0);
 			}
 		}
 
@@ -894,7 +890,6 @@ class ilSetup
 		// TODO: move this to client class!!
 		$client->setup_ok = (bool)$client->getSetting("setup_ok");
 
-		include_once "./Services/Database/classes/class.ilDBUpdate.php";
 		$this->lng->setDbHandler($client->db);
 		$dbupdate = new ilDBUpdate($client->db);
 
@@ -1987,7 +1982,7 @@ class ilSetup
 	function cloneFromSource($source_id)
 	{
 		// Getting source and targets
-		$source = new ilClient($source_id, $this->db_connections);
+		$source = new ilClient($source_id);
 		$source->init();
 		$target = $this->client;
 

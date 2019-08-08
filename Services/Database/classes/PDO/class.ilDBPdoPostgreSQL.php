@@ -1,9 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManagerPostgres.php');
-require_once('class.ilDBPdo.php');
-require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoPostgresFieldDefinition.php');
-require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReversePostgres.php');
 
 /**
  * Class ilDBPdoPostgreSQL
@@ -397,7 +393,6 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface {
 	 * @return bool
 	 */
 	public function addPrimaryKey($table_name, $primary_keys) {
-		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$ilDBAnalyzer = new ilDBAnalyzer($this);
 		if ($ilDBAnalyzer->getPrimaryKeyInformation($table_name)) {
 			return true;
