@@ -45,7 +45,7 @@ class ilObjLearningSequenceSettingsGUI
 		ilObjLearningSequence $obj,
 		ilCtrl $il_ctrl,
 		ilLanguage $il_language,
-		ilGlobalTemplate $il_template,
+		ilGlobalPageTemplate $il_template,
 		ilObjectService $obj_service
 	) {
 		$this->obj = $obj;

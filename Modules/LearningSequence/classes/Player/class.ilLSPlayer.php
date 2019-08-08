@@ -106,7 +106,7 @@ class ilLSPlayer
 
 		//content
 		$obj_title = $next_item->getTitle();
-		$icon = $this->ui_factory->icon()
+		$icon = $this->ui_factory->symbol()->icon()
 			->standard($next_item->getType(), $next_item->getType(), 'medium');
 
 		$curriculum = $this->curriculum_builder->getLearnerCurriculum(true)
