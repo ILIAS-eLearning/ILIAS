@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
 /**
 * Class ilObjLearningModuleListGUI
 *
@@ -32,7 +30,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjlearningmodulegui";
 		
 		// general commands array
-		include_once('./Modules/LearningModule/classes/class.ilObjLearningModuleAccess.php');
 		$this->commands = ilObjLearningModuleAccess::_getCommands();
 	}
 

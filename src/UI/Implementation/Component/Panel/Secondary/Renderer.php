@@ -95,6 +95,13 @@ class Renderer extends AbstractComponentRenderer
 
 		$tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
 
+		$footer = $component->getFooter();
+		if($footer) {
+			$tpl->setCurrentBlock("footer");
+			$tpl->setVariable("FOOTER", $default_renderer->render($footer));
+			$tpl->parseCurrentBlock();
+		}
+
 		return $tpl->get();
 	}
 

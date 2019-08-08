@@ -1,13 +1,14 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class BaseItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopParentItem extends AbstractBaseItem implements isItem, hasGlyph, hasTitle, isParent
+class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, isParent
 {
 
     /**
@@ -27,10 +28,10 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasGlyph, hasTit
     /**
      * @inheritDoc
      */
-    public function withGlyph(Glyph $glyph) : hasGlyph
+    public function withSymbol(Symbol $symbol) : hasSymbol
     {
         $clone = clone($this);
-        $clone->glyph = $glyph;
+        $clone->glyph = $symbol;
 
         return $clone;
     }
@@ -39,7 +40,7 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasGlyph, hasTit
     /**
      * @inheritDoc
      */
-    public function getGlyph() : Glyph
+    public function getSymbol() : Symbol
     {
         return $this->glyph;
     }
@@ -48,9 +49,9 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasGlyph, hasTit
     /**
      * @inheritDoc
      */
-    public function hasGlyph() : bool
+    public function hasSymbol() : bool
     {
-        return ($this->glyph instanceof Glyph);
+        return ($this->glyph instanceof Symbol);
     }
 
 

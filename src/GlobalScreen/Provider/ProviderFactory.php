@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Scope\Layout\Provider\FinalModificationProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -13,6 +15,14 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class ProviderFactory implements ProviderFactoryInterface
 {
 
+    /**
+     * @var ModificationProvider[]
+     */
+    private $modification_providers = [];
+    /**
+     * @var FinalModificationProvider[]
+     */
+    private $final_modification_providers = [];
     /**
      * @var StaticMainMenuProvider[]
      */
@@ -72,6 +82,24 @@ class ProviderFactory implements ProviderFactoryInterface
     /**
      * @inheritDoc
      */
+    public function getFinalModificationProvider() : array
+    {
+        return $this->final_modification_providers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getModificationProvider() : array
+    {
+        return $this->modification_providers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getMainBarProvider() : array
     {
         return $this->main_bar_providers;
@@ -110,6 +138,10 @@ class ProviderFactory implements ProviderFactoryInterface
      */
     public function getProviderByClassName(string $class_name) : Provider
     {
+        if (!$this->isInstanceCreationPossible($class_name) || !$this->isRegistered($class_name)) {
+            throw new \LogicException("the GlobalScreen-Provider $class_name is not available");
+        }
+
         return $this->all_providers[$class_name];
     }
 
@@ -119,6 +151,19 @@ class ProviderFactory implements ProviderFactoryInterface
      */
     public function isInstanceCreationPossible(string $class_name) : bool
     {
-        return class_exists($class_name); // && isset($this->all_providers[$class_name])
+        try {
+            return class_exists($class_name);
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isRegistered(string $class_name) : bool
+    {
+        return isset($this->all_providers[$class_name]);
     }
 }

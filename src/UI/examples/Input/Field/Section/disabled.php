@@ -31,7 +31,7 @@ function disabled() {
 	$group = $ui->input()->field()->section(
 		[ $number_input->withLabel("Left"), $number_input->withLabel("Right")],"Equals 10","Left and Right must equal 10")
 		->withAdditionalTransformation($sum)
-		->withAdditionalConstraint($equal_ten)
+		->withAdditionalTransformation($equal_ten)
 		->withDisabled(true);
 
 	//Step 3, define form and form actions, attach the group to the form

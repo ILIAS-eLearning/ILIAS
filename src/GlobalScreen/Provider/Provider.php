@@ -12,4 +12,10 @@ interface Provider
      * @return string
      */
     public function getFullyQualifiedClassName() : string;
+
+
+    /**
+     * @return string
+     */
+    public function getProviderNameForPresentation() : string;
 }

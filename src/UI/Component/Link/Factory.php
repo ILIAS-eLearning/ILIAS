@@ -16,15 +16,15 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *       A standard link is a link with a text label as content of the link.
+	 *       A standard link uses text as the label of the link.
 	 *   composition: >
-	 *       The standard link uses the default link color as text color an no
-	 *       background.
+	 *       The standard link uses the default link color as text color and no
+	 *       background. Hovering a standard link underlines the text label.
 	 *
 	 * rules:
 	 *   usage:
 	 *       1: >
-	 *          Standard links MUST be used if there is no good reason using
+	 *          Standard links MUST be used if there is no good reason to use
 	 *          another instance.
 	 *       2: >
 	 *          Links to ILIAS screens that contain the general ILIAS

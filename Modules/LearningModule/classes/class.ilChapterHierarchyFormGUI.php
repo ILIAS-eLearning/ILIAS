@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilHierarchyFormGUI.php");
-include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 
 /**
 * This class represents a hierarchical form. These forms are used for
@@ -241,13 +239,11 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*/
 	function getChildIcon($a_item)
 	{
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-		
+
 		$img = "icon_".$a_item["type"].".svg";
 		
 		if ($a_item["type"] == "pg")
 		{
-			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 			$lm_set = new ilSetting("lm");
 			$active = ilLMPage::_lookupActive($a_item["node_id"], $this->lm_type,
 				$lm_set->get("time_scheduled_page_activation"));
@@ -266,7 +262,6 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 			}
 			else
 			{
-				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 				$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_item["node_id"],
 					$this->lm_type);
 				if ($contains_dis)
@@ -288,11 +283,9 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	{
 		$lng = $this->lng;
 		
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-		
+
 		if ($a_item["type"] == "pg")
 		{
-			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 			$active = ilLMPage::_lookupActive($a_item["node_id"], $this->lm_type);
 
 			if (!$active)
@@ -301,7 +294,6 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 			}
 			else
 			{
-				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 				$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_item["node_id"],
 					$this->lm_type);
 				if ($contains_dis)

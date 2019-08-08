@@ -2,11 +2,10 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
-use ILIAS\GlobalScreen\Scope\Layout\Content\MetaContent\Media\InlineCss;
-use ILIAS\GlobalScreen\Scope\Layout\Definition\StandardLayoutDefinition;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
+use ILIAS\UICore\PageContentProvider;
 
 /**
  * Class ilGlobalPageTemplate
@@ -36,10 +35,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     private $ui;
     /**
-     * @var StandardLayoutDefinition
-     */
-    private $layout_content;
-    /**
      * @var PageContentGUI
      */
     private $legacy_content_template;
@@ -59,7 +54,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->ui = $ui;
         $this->gs = $gs;
         $this->http = $http;
-        $this->layout_content = $DIC->globalScreen()->layout()->content();
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
     }
 
@@ -101,10 +95,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
 
-        $content = $this->legacy_content_template->renderPage($part, $a_fill_tabs, $a_skip_main_menu);
-        $this->layout_content->setContent($this->ui->factory()->legacy($content));
+        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
 
-        print $this->ui->renderer()->render([$this->layout_content->getPageForLayoutDefinition()]);
+        print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
 

@@ -19,6 +19,10 @@ class GlyphFactoryTest extends AbstractFactoryTest {
 		, "attachment"      => array("context" => false)
 		, "reset"			=> array("context" => false)
 		, "apply"			=> array("context" => false)
+		, "search"			=> array("context" => false)
+		, "help"			=> array("context" => false)
+		, "calendar"		=> array("context" => false)
+		, "time"			=> array("context" => false)
 		);
 
 	public $factory_title = 'ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory';

@@ -19,8 +19,22 @@ class ilDidacticTemplateSettingsGUI
 	 * @var null|ilDidacticTemplateSetting
 	 */
 	private $object = null;
-
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	private $dic;
+	/**
+	 * @var ilLanguage
+	 */
 	private $lng;
+	/**
+	 * @var ilRbacSystem
+	 */
+	private $rbacsystem;
+	/**
+	 * @var ilCtrl
+	 */
+	private $ctrl;
 
 	/**
 	 * Constructor
@@ -28,11 +42,12 @@ class ilDidacticTemplateSettingsGUI
 	public function __construct($a_parent_obj)
 	{
 		global $DIC;
-
-		$lng = $DIC['lng'];
 		
 		$this->parent_object = $a_parent_obj;
-		$this->lng = $lng;
+		$this->dic = $DIC;
+		$this->lng = $this->dic->language();
+		$this->rbacsystem = $this->dic->rbac()->system();
+		$this->ctrl = $this->dic->ctrl();
 
 		if(isset($_REQUEST["tplid"]))
 		{
@@ -109,21 +124,13 @@ class ilDidacticTemplateSettingsGUI
 	 */
 	protected function overview()
 	{
-		global $DIC;
-
-		$ilToolbar = $DIC['ilToolbar'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilAccess = $DIC['ilAccess'];
-
-		if($ilAccess->checkAccess('write','',$_REQUEST["ref_id"]))
+		if($this->rbacsystem->checkAccess('write',$_REQUEST["ref_id"]))
 		{
-			$ilToolbar->addButton(
-				$lng->txt('didactic_import_btn'),
-				$ilCtrl->getLinkTarget($this,'showImportForm')
+			$this->dic->toolbar()->addButton(
+				$this->lng->txt('didactic_import_btn'),
+				$this->ctrl->getLinkTarget($this,'showImportForm')
 			);
 		}
-
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsTableGUI.php';
 		$table = new ilDidacticTemplateSettingsTableGUI($this,'overview');
@@ -242,7 +249,7 @@ class ilDidacticTemplateSettingsGUI
 		$import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
 
 		$file = $form->getInput('file');
-		$tmp = ilUtil::ilTempnam();
+		$tmp = ilUtil::ilTempnam().'.xml';
 
 		// move uploaded file
 		ilUtil::moveUploadedFile(

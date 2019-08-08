@@ -248,6 +248,7 @@ class SurveyImportParser extends ilSaxParser
 							if (is_object($this->survey))
 							{
 								$this->survey->setTitle($value);
+								$this->survey->update(true);
 							}
 							break;
 					}
@@ -546,6 +547,7 @@ class SurveyImportParser extends ilSaxParser
 					if (is_object($this->survey))
 					{
 						$this->survey->setDescription($this->characterbuffer);
+						$this->survey->update(true);
 					}
 				}
 				else

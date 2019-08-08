@@ -507,7 +507,7 @@ ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 /**
  * @var $ilDB ilDBInterface
  */
-$ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
+// $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
 ?>
 <#5461>
@@ -520,7 +520,7 @@ if( !$ilDB->tableColumnExists('qpl_questions', 'lifecycle') )
 		'notnull' => false,
 		'default' => 'draft'
 	));
-	
+
 	$ilDB->queryF('UPDATE qpl_questions SET lifecycle = %s', array('text'), array('draft'));
 }
 ?>
@@ -1190,3 +1190,86 @@ if($ilDB->indexExistsByFields('read_event',array('usr_id')))
 $ilDB->addIndex('read_event', array('usr_id'), 'i1');
 
 ?>
+<#5510>
+<?php
+
+if ($ilDB->tableExists('il_gs_identifications')) {
+    $ilDB->dropTable('il_gs_identifications');
+}
+
+if ($ilDB->tableExists('il_gs_providers')) {
+    $ilDB->dropTable('il_gs_providers');
+}
+?>
+<#5511>
+<?php
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_tstamp')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_tstamp', array(
+		"type"   => "integer",
+		"length" => 8,
+	));
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_evaluation')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_evaluation', array(
+		"type"   => "integer",
+		"length" => 1,
+	));
+	$ilDB->manipulateF(
+		'UPDATE tst_manual_fb SET finalized_evaluation = %s WHERE feedback IS NOT NULL',
+		['integer'],
+		[1]
+	);
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_by_usr_id', array(
+		"type"   => "integer",
+		"length" => 8,
+	));
+}
+?>
+<#5512>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5513>
+<?php
+
+$map = [
+    'ilMMCustomProvider' => 'ILIAS\MainMenu\Provider\CustomMainBarProvider',
+    'ilAdmGlobalScreenProvider' => 'ILIAS\\Administration\\AdministrationMainBarProvider',
+    'ilBadgeGlobalScreenProvider' => 'ILIAS\\Badge\\Provider\\BadgeMainBarProvider',
+    'ilCalendarGlobalScreenProvider' => 'ILIAS\\Certificate\\Provider\\CertificateMainBarProvider',
+    'ilContactGlobalScreenProvider' => 'ILIAS\\Contact\\Provider\\ContactMainBarProvider',
+    'ilDerivedTaskGlobalScreenProvider' => 'ILIAS\\Tasks\\DerivedTasks\\Provider\\DerivedTaskMainBarProvider',
+    'ilLPGlobalScreenProvider' => 'ILIAS\\LearningProgress\\LPMainBarProvider',
+    'ilMailGlobalScreenProvider' => 'ILIAS\\Mail\\Provider\\MailMainBarProvider',
+    'ilNewsGlobalScreenProvider' => 'ILIAS\\News\\Provider\\NewsMainBarProvider',
+    'ilNotesGlobalScreenProvider' => 'ILIAS\\Notes\\Provider\\NotesMainBarProvider',
+    'ilPDGlobalScreenProvider' => 'ILIAS\\PersonalDesktop\\PDMainBarProvider',
+    'ilPrtfGlobalScreenProvider' => 'ILIAS\\Portfolio\\Provider\\PortfolioMainBarProvider',
+    'ilRepositoryGlobalScreenProvider' => 'ILIAS\\Repository\\Provider\\RepositoryMainBarProvider',
+    'ilSkillGlobalScreenProvider' => 'ILIAS\\Skill\\Provider\\SkillMainBarProvider',
+    'ilStaffGlobalScreenProvider' => 'ILIAS\\MyStaff\\Provider\\StaffMainBarProvider',
+    'ilWorkspaceGlobalScreenProvider' => 'ILIAS\\PersonalWorkspace\\Provider\\WorkspaceMainBarProvider',
+];
+
+foreach ($map as $old => $new) {
+    $ilDB->manipulateF("UPDATE il_mm_items SET 
+identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_items SET 
+parent_identification = REPLACE(parent_identification, %s, %s) WHERE parent_identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_translation SET 
+id = REPLACE(id, %s, %s) WHERE id LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_translation SET 
+identification = REPLACE(id, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_actions SET 
+identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+}
+
+
+?>
+

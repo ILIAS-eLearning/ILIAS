@@ -18,26 +18,42 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
+
+	/**
+	 * @var ilTemplate|mixed|null
+	 */
 	var $tpl = null;
+	/**
+	 * @var ilLanguage|null
+	 */
 	var $lng = null;
+	/**
+	 * @var ilCtrl|null
+	 */
 	var $ctrl = null;
+	/**
+	 * @var ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
 
 	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		global $DIC;
 
-		$tpl = $DIC['tpl'];
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-
 		$this->type = "trac";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 
-		$this->tpl = $tpl;
-		$this->lng = $lng;
+		$this->dic = $DIC;
+		$this->tpl = $this->dic['tpl'];
+		$this->lng = $this->dic->language();
 		$this->lng->loadLanguageModule('trac');
+		$this->rbacsystem = $this->dic->rbac()->system();
 
-		$this->ctrl = $ilCtrl;
+		$this->ctrl = $this->dic->ctrl();
 	}
 
 	function executeCommand()
@@ -101,9 +117,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$this->tabs_gui->addTarget("settings",
 			$this->ctrl->getLinkTarget($this, "settings"),
 			"settings",
-			get_class($this));					
+			get_class($this));
 
-		if ($this->checkPermissionBool("read"))
+		if ($this->rbacsystem->checkAccess("visible,read", $this->ref_id))
 		{						
 			if (ilObjUserTracking::_enabledObjectStatistics())
 			{
@@ -148,8 +164,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	* display tracking settings form
 	*/
 	function settingsObject($a_form = null)
-	{		
-		$this->checkPermission('read');
+	{
+		global $ilErr;
+
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+			$ilErr->raiseError($this->lng->txt("no_permission"), $ilErr->WARNING);
+		}
 
 		$this->tabs_gui->addSubTab('lp_settings',
 			$this->lng->txt('settings'),

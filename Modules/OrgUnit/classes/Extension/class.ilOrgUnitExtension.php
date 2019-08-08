@@ -50,7 +50,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin {
 
 		$plugin_ids = ilPlugin::getActivePluginIdsForSlot(IL_COMP_MODULE, "OrgUnit", "orguext");
 		foreach ($plugin_ids as $plugin_id) {
-			$plugin = ilObjectPlugin::getRepoPluginObjectByType($plugin_id);
+			$plugin = ilObjectPlugin::getPluginObjectByType($plugin_id);
 			if ($plugin->showInTree()) {
 				$list[] = $plugin_id;
 			}

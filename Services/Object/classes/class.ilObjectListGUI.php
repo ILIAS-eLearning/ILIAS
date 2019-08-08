@@ -2196,17 +2196,7 @@ class ilObjectListGUI
 			{
 				$prevent_background_click = true;
 			}
-			
-			if ($a_cmd == "downloadFolder")
-			{
-				include_once "Services/BackgroundTask/classes/class.ilFolderDownloadBackgroundTaskHandler.php";
-				if(ilFolderDownloadBackgroundTaskHandler::isActive())
-				{
-					$a_onclick = ilFolderDownloadBackgroundTaskHandler::getObjectListAction($this->ref_id);
-					$a_href = "#";
-				}				
-			}			
-			
+
 			$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
 				"", $prevent_background_click, $a_onclick);
 		}				
@@ -3963,6 +3953,7 @@ class ilObjectListGUI
 
 	/**
 	 * Get list item ui object
+	 *
 	 * @param int $ref_id
 	 * @param int $obj_id
 	 * @param string $type
@@ -4057,6 +4048,16 @@ class ilObjectListGUI
 		return $list_item;
 	}
 
+	/**
+	 * Get card object
+	 *
+	 * @param int $ref_id
+	 * @param int $obj_id
+	 * @param string $type
+	 * @param string $title
+	 * @param string $description
+	 * @return \ILIAS\UI\Component\Card\Card|null
+	 */
 	public function getAsCard(int $ref_id, int $obj_id, string $type,
 		string $title,
 		string $description): ?\ILIAS\UI\Component\Card\Card
@@ -4069,8 +4070,16 @@ class ilObjectListGUI
 
 		$this->enableCommands(true);
 
+		$sections = [];
+
+		// description, @todo: move to new ks element
+		if ($description != "") {
+			$sections[] = $ui->factory()->legacy("<div class='il_info il-multi-line-cap-3'>".$description."</div>");
+		}
+
 		$this->insertCommands();
 		$actions = [];
+
 		foreach ($this->current_selection_list->getItems() as $action_item) {
 			$actions[] = $ui->factory()
 				->button()
@@ -4100,13 +4109,16 @@ class ilObjectListGUI
 			$image = $image->withAction($def_command['link']);
 		}
 
-		if ($type == 'sess' && $title == '') {
+		if ($type == 'sess') {
+			if ($title != "") {
+				$title = ": ".$title;
+			}
 			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
 			$title = ilSessionAppointment::_appointmentToString(
 				$app_info['start'],
 				$app_info['end'],
 				$app_info['fullday']
-			);
+			).$title;
 		}
 
 		$icon = $this->ui->factory()
@@ -4134,11 +4146,13 @@ class ilObjectListGUI
 				$l[(string)$p['property']] = (string)$p['value'];
 			}
 		}
-		if (count($l) > 0) {
-			$prop_list = $ui->factory()
-				->listing()
-				->descriptive($l);
-			$card = $card->withSections([$prop_list]);
+		if (count($l) > 0)
+		{
+			$prop_list = $ui->factory()->listing()->descriptive($l);
+			$sections[] = $prop_list;
+		}
+		if (count($sections) > 0) {
+			$card = $card->withSections($sections);
 		}
 
 		$lp = ilLPStatus::getListGUIStatus($obj_id, false);

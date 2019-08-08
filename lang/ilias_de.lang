@@ -884,7 +884,7 @@ assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet.<br />Die Mindestanzahl für zugewiesene Fragen: %s
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
 assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Summe aller Kompetenzpunkte je Kompetenz
@@ -1113,6 +1113,7 @@ assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet
 assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
+assessment#:#questionpool_not_selected#:#Bitte wählen Sie einen Fragenpool aus!
 assessment#:#questions_from#:#Fragen aus
 assessment#:#questions_per_page_view#:#Seitenansicht
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
@@ -3499,6 +3500,7 @@ common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Roll
 common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht das vorgegebene Format.
+common#:#msg_bt_download_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
 common#:#my_courses_groups#:#Kurse und Gruppen
@@ -6254,6 +6256,8 @@ file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bl
 file#:#file_uploaded_by#:#Hochgeladen von
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 common#:#page_count#:#Anzahl Seiten
+file#:#upload_info#:#Datei
+file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 fold#:#fold_import#:#Ordner importieren
 form#:#form_alphabet_all#:#Alle
 form#:#form_days#:#Tage
@@ -6797,10 +6801,10 @@ mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
 mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_s#:#Mails
 mail#:#mail_salutation_anonymous#:#Hallo
-mail#:#mail_salutation_f#:#Hallo
+mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Frau'
 mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn keine Anrede angegeben oder gewünscht
-mail#:#mail_salutation_m#:#Hallo
+mail#:#mail_salutation_m#:#Sehr geehrter Herr
 mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger 'Herr'
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
@@ -6822,6 +6826,7 @@ mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger
 mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
 mail#:#mail_tbl_head_attachments#:#Anhang
+mail#:#mail_firstname_last_name_superior#:#A comma separated list for firstname and lastname of the user's superior(s).
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
@@ -12979,6 +12984,8 @@ crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_period#:#Veranstaltungszeitraum
+crs#:#crs_period_start_mail_placeholder#:#Beginn der Veranstaltung
+crs#:#crs_period_end_mail_placeholder#:#Ende der Veranstaltung
 crs#:#crs_course_period_not_valid#:#Der Zeitraum ist nicht gültig.
 crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
@@ -13656,7 +13663,7 @@ badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_profile_more#:#Alle zeigen
 badge#:#badge_profile_less#:#Weniger zeigen
-badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen deines Mozilla Backpacks.
+badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen Ihres Mozilla Backpacks.
 badge#:#badge_profile_view#:#Anzeigen
 badge#:#badge_profile_manage#:#Verwalten
 badge#:#badge_subtype_manual#:#manuell
@@ -14136,6 +14143,10 @@ background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#waiting#:#Warten
 background_tasks#:#proceed_job#:#Weiter
 background_tasks#:#task_might_be_failed#:#Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig.
+background_tasks#:#ui_msg_num_files#:#%s Datei(-en) wurden gefunden, möchten Sie fortfahren?
+background_tasks#:#ui_msg_no_files_found#:#Es wurden keine Dateien gefunden. Der Download wird abgebrochen.
+background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgrösse vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?
+background_tasks#:#ui_msg_files_violate_maxsize#:#Die Gesamtdownloadgrösse überschreitet das globale Limit. Der Download wird abgebrochen.
 grp#:#grp_period#:#Veranstaltungszeitraum
 grp#:#grp_period_info#:#Information zum Start und Ende der Veranstaltung, die mit der Gruppe unterstützt werden soll.
 exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
@@ -14551,7 +14562,7 @@ mail#:#mail_bg_task_title#:#Mailversand
 mail#:#mail_bg_task_desc#:#Betreff: %s
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 common#:#presentation_table_more#:#Mehr anzeigen
-exc#:#exc_global_feedback_file_after_date#:#After set Date
+exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#feedback_given#:#Feedback given
 exc#:#feedback#:#Feedback
 exc#:#feedback_received#:#Feedback received
@@ -14564,6 +14575,14 @@ exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_link#:#URL
+exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
+exc#:#exc_mail_context_grade_reminder_title#:#Erinnerung an Bewertung
+exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
+exc#:#exc_mail_context_peer_reminder_title#:#Erinnerung an Peer-Feedback
+exc#:#exc_mail_context_reminder_assignment_title#:#Titel der Übungseinheit
+exc#:#exc_mail_context_reminder_exercise_title#:#Übungstitel
+exc#:#exc_mail_context_submit_reminder_info#:#Die Nutzer werden an die Abgabe ihrer Einreichungen erinnert.
+exc#:#exc_mail_context_submit_reminder_title#:#Erinnerung an Abgabe
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
 badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
@@ -14646,14 +14665,14 @@ mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link Liste
 mme#:#type_complex#:#Komplex
 mme#:#type_repository_link#:#Magazin-Link
-lhist#:#lhist_no_entries#:#Verfolge weiter Deine Ziele! Lerne heute etwas, um Deinen Lernverlauf zu erweitern.
+lhist#:#lhist_no_entries#:#Verfolgen Sie weiter Ihre Ziele! Lernen Sie heute etwas, um Ihren Lernverlauf zu erweitern.
 pd#:#pd_enable_learning_history#:#Lernverlauf
 pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
-sess#:#sess_filter_all_types#:#All types
-sess#:#sess_filter_not_assigned#:#Not Assigned
-sess#:#sess_is_assigned#:#is Assigned
+sess#:#sess_filter_all_types#:#Alle Objekttypen
+sess#:#sess_filter_not_assigned#:#Nicht zugeordnet
+sess#:#sess_is_assigned#:#Zugeordnet
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 wiki#:#wiki_type_wiki_team#:#Team-Wiki
 exc#:#exc_without_wiki_template#:#Ohne Vorlage
@@ -14704,7 +14723,7 @@ noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 book#:#book_notification#:#Benachrichtigungen über Reservierungen
 book#:#book_notification_info#:#Sendet eine Liste der Reservierungen des nächsten Tages an Benutzer (nur eigene) und Admins (wenn aktiviert).
-skmg#:#skmg_type_of_formation#:#Type of Formation
+skmg#:#skmg_type_of_formation#:#Erhebungsart
 skmg#:#skmg_all#:#Alle
 skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
 prtf#:#prtf_copy_tab#:#Reiter kopieren
@@ -15050,6 +15069,11 @@ lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 crs#:#crs_timings_short_end#:#Enddatum
 lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
+assessment#:#finalized_evaluation#:#Endgültig bewertet
+assessment#:#evaluated_users#:#Bewertete Benutzer
+assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
+assessment#:#finalized_by#:#Bewertung abgeschlossen von
+assessment#:#finalized_on#:#Bewertung abgeschlossen am
 dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
 dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
 crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
@@ -15060,6 +15084,7 @@ content#:#cont_choose_file_source#:#Quelle
 content#:#cont_choose_local#:#Lokales Verzeichnis
 content#:#cont_choose_upload_dir#:#Upload-Verzeichnis
 sess#:#sess_assign#:#Zuordnen
+assessment#:#answer_of#:#Antwort von
 common#:#certificate_selection#:#Ursprung der Zertifikate
 common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
 common#:#certificate_workspace_option#:#Zertifikate aus dem Arbeitsraum
@@ -15132,3 +15157,30 @@ rbac#:#pdts_change_presentation#:#Schreibtisch-Präsentation ändern (Liste/Kach
 rbac#:#change_presentation#:#Präsentation ändern
 pd#:#pd_presentation_mode_list#:#Listenansicht
 pd#:#pd_presentation_mode_tile#:#Kachelansicht
+forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
+common#:#mm_organisation#:#Organisation
+common#:#mm_staff_list#:#Mitarbeitendenliste
+common#:#mm_enrolments#:#Einschreibungen
+common#:#mm_communication#:#Kommunikation
+common#:#mm_contacts#:#Kotakte
+common#:#mm_mail#:#Mail
+common#:#mm_news#:#News
+common#:#mm_notes#:#Notizen
+common#:#mm_comments#:#Kommentare
+common#:#mm_achievements#:#Leistungen
+common#:#mm_learning_history#:#Lernhistorie
+common#:#mm_skills#:#Kompetenzen
+common#:#mm_learning_progress#:#Lernfortschritt
+common#:#mm_badges#:#Badges
+common#:#mm_administration#:#Administration
+common#:#mm_repository#:#Magazin
+common#:#mm_dashboard#:#Dashboard
+common#:#mm_repo_tree_view#:#Baumansicht
+common#:#mm_task_derived_tasks#:#Tasks
+common#:#mm_favorites#:#Favoriten
+common#:#mm_calendar#:#Kalender
+common#:#mm_tags#:#Tags
+common#:#mm_portfolio#:#Portfolio
+common#:#mm_certificates#:#Zertifikate
+common#:#mm_personal_and_shared_r#:#Persönliche und geteilte Ressourcen
+common#:#mm_personal_workspace#:#Persönlicher Arbeitsraum

@@ -38,12 +38,18 @@ if (false === file_exists(__DIR__ . '/../libs/composer/vendor/autoload.php')) {
 	exit;
 }
 
-if (ini_get('session.save_handler') != 'files') {
-	throw new Exception("session.save_handler in php.ini must be configured to 'files'.");
+if (php_sapi_name() === "cli") {
+	require_once(__DIR__."/cli.php");
 }
+else {
 
-chdir("..");
-define('IL_INITIAL_WD', getcwd());
-require_once "./setup/include/inc.setup_header.php";
+		if (ini_get('session.save_handler') != 'files') {
+			throw new Exception("session.save_handler in php.ini must be configured to 'files'.");
+		}
 
-$setup = new ilSetupGUI();
+		chdir("..");
+		define('IL_INITIAL_WD', getcwd());
+		require_once "./setup/include/inc.setup_header.php";
+
+		$setup = new ilSetupGUI();
+}

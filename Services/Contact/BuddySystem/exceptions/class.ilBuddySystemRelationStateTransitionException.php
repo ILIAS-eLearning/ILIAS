@@ -1,8 +1,10 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemException.php';
-
+/**
+ * Class ilBuddySystemRelationStateTransitionException
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilBuddySystemRelationStateTransitionException extends ilBuddySystemException
 {
 }

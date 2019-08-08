@@ -15,6 +15,10 @@ include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvan
 class ilChatroomSmiliesTableGUI extends ilTable2GUI
 {
 	private $gui = null;
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
 
 	/**
 	 * Constructor
@@ -26,6 +30,9 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
 	{
 		parent::__construct($a_ref, $cmd);
 
+		global $DIC;
+
+		$this->dic = $DIC;
 		$this->gui = $a_ref;
 
 		$this->setTitle($this->lng->txt('chatroom_available_smilies'));
@@ -40,9 +47,11 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
 		$this->setRowTemplate('tpl.chatroom_smiley_list_row.html', 'Modules/Chatroom');
 		$this->setSelectAllCheckbox('smiley_id');
 
-		$this->addMultiCommand(
-			"smiley-deleteMultipleObject", $this->lng->txt("chatroom_delete_selected")
-		);
+		if($this->dic->rbac()->system()->checkAccess('write', $this->gui->ref_id)) {
+			$this->addMultiCommand(
+				"smiley-deleteMultipleObject", $this->lng->txt("chatroom_delete_selected")
+			);
+		}
 	}
 
 	/**
@@ -66,23 +75,17 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
 
 		$this->ctrl->setParameter($this->gui, 'topic_id', $a_set['id']);
 
-		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setListTitle($this->lng->txt("actions"));
-		$current_selection_list->setId("act_" . $a_set['smiley_id']);
+		if($this->dic->rbac()->system()->checkAccess('write', $this->gui->ref_id)) {
+			$current_selection_list = new ilAdvancedSelectionListGUI();
+			$current_selection_list->setListTitle($this->lng->txt("actions"));
+			$current_selection_list->setId("act_" . $a_set['smiley_id']);
 
-		$current_selection_list->addItem(
-			$this->lng->txt("edit"),
-			'',
-			$this->ctrl->getLinkTarget($this->gui, 'smiley-showEditSmileyEntryFormObject') .
-			"&smiley_id=" . $a_set['smiley_id']
-		);
-		$current_selection_list->addItem(
-			$this->lng->txt("delete"),
-			'',
-			$this->ctrl->getLinkTarget($this->gui, 'smiley-showDeleteSmileyFormObject') .
-			"&smiley_id=" . $a_set['smiley_id']
-		);
+			$current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this->gui, 'smiley-showEditSmileyEntryFormObject')
+				. "&smiley_id=" . $a_set['smiley_id']);
+			$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this->gui, 'smiley-showDeleteSmileyFormObject')
+				. "&smiley_id=" . $a_set['smiley_id']);
 
-		$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+			$this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
+		}
 	}
 }

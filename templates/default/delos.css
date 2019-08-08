@@ -7967,6 +7967,10 @@ ul.breadcrumb li:hover {
   display: block;
   width: 100%;
 }
+.il-input-duration .form-group.row {
+  width: 50%;
+  float: left;
+}
 .il-table-presentation-viewcontrols {
   display: flex;
   flex-wrap: wrap;
@@ -15748,6 +15752,9 @@ div#ilContRepIntro img {
 .ilContainerTileRows .card-no-highlight {
   height: 0px;
 }
+.ilContainerTileRows .il-chart-progressmeter-container {
+  height: 100%;
+}
 .ilContainerShowMore {
   padding: 15px 10px;
   background-color: #ffffff;
@@ -16955,6 +16962,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .popover {
   max-width: 200px;
+  min-height: 100px;
 }
 #onscreenchat-container .popover a {
   border: 1px solid white;
