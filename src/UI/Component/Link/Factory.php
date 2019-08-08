@@ -40,41 +40,35 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *     The bulky button is highly obtrusive. It combines the recognisability
+	 *     The Bulky Link is highly obtrusive. It combines the recognisability
 	 *     of a graphical element with an explicit textual label on an unusually
 	 *     sized button-like area.
+	 *
 	 *   composition: >
-	 *       The Bulky Link is built as a clickable area with an icon or glyph and
-	 *       a label.
+	 *     The Bulky Link is built as a Link around an icon or glyph and a (small) text.
+	 *
+	 *   rivals:
+	 *     Bulky Button: >
+	 *       Although visually very much alike, Bulky Buttons rather trigger a Signal
+	 *       and execute JavaScript while the Bulky Link opens a URL.
+	 *       Use Buttons to act upon other elements and Links to change the page.
+	 *       Bulky Links are not stateful.
+	 *
+	 * context:
+	 *   - Slate
+	 *   - Drilldown Menu
 	 *
 	 * rules:
-	 *   usage:
-	 *     1: >
-	 *       TODO Since Bulky Buttons are so obtrusive they MUST only be used
-	 *       to indicate important actions on the screen.
 	 *   wording:
-	 *     1: TODO The icon/glyph and the text on the Bulky Button MUST be corresponding.
+	 *     1: The icon/glyph and the text of the Bulky Link MUST be corresponding.
 	 *   style:
 	 *     1: >
-	 *       TODO Bulky Buttons MUST occupy as much space as their container
-	 *       leaves them.
-	 *     2: >
-	 *       TODO When used to toggle the visibility of another component, the button
-	 *       MUST reflect the componentes state of visibility.
+	 *       Bulky Links MUST occupy as much space as their container leaves them.
 	 *   responsiveness:
 	 *     1: >
-	 *        TODO On screens larger than small size, Bulky Buttons MUST contain an icon or glyph plus text.
+	 *        On screens larger than small size, Bulky Links MUST contain an icon or glyph plus text.
 	 *     2: >
-	 *        TODO On small-sized screens, Bulky Buttons SHOULD contain only an icon or glyph.
-	 *   accessibility:
-	 *     1: >
-	 *       TODO The functionality of the Bulky Button MUST be indicated for screen
-	 *       readers by an aria-label.
-	 *     2: >
-	 *        TODO Some Buttons can be stateful; when engaged, the state MUST be
-	 *        reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
-	 *        If the Button is not stateful (which is the default), the
-	 *        aria-attribute SHOULD be omitted.
+	 *        On small-sized screens, Bulky Links SHOULD contain only an icon or glyph.
 	 *
 	 * ---
 	 * @param	\ILIAS\UI\Component\Symbol\Symbol		$symbol
