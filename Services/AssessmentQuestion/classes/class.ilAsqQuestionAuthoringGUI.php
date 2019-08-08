@@ -2,16 +2,16 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationService;
-use ILIAS\AssessmentQuestion\Authoring\Application\AuthoringApplicationServiceSpec;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationServiceSpec;
+use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
-use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\Form\QuestionTypeSelectForm;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\Common\DomainModel\Aggregate\Guid;
-use ILIAS\AssessmentQuestion\Authoring\UserInterface\Web\AsqGUIElementFactory;
-use ILIAS\AssessmentQuestion\Play\QuestionComponent;
-use ILIAS\AssessmentQuestion\Play\Application\PlayApplicationService;
-use ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Answer;
+use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class ilAssessmentQuestionExporter
@@ -39,20 +39,19 @@ class ilAsqQuestionAuthoringGUI
 	 * @var AuthoringApplicationService
 	 */
 	private $authoring_service;
-	
-	/**
-	 * ilAsqQuestionAuthoringGUI constructor.
-	 * @param AuthoringServiceSpecContract $authoringQuestionServiceSpec
-	 */
-	public function __construct(AuthoringServiceSpecContract $authoringQuestionServiceSpec)
+
+    /**
+     * ilAsqQuestionAuthoringGUI constructor.
+     */
+	function __construct()
 	{
 	    global $DIC;
 
 	    $asq_spec = new AuthoringApplicationServiceSpec($DIC->user()->getId());
 	    $this->authoring_service = new AuthoringApplicationService($asq_spec);
-	    
+
 	}
-	
+
 	public function executeCommand()
 	{
 		global $DIC;
@@ -60,13 +59,17 @@ class ilAsqQuestionAuthoringGUI
 		$cmd = $DIC->ctrl()->getCmd();
 		$this->{$cmd}();
 	}
-	
+
+
+    /**
+     * @throws Exception
+     */
 	public function createQuestion()
 	{
 	    global $DIC;
-	    
+
 	    $form = new QuestionTypeSelectForm();
-	    
+
 	    switch($_SERVER['REQUEST_METHOD'])
 	    {
 	        case "GET":
@@ -81,7 +84,11 @@ class ilAsqQuestionAuthoringGUI
 	            break;
 	    }
 	}
-    
+
+
+    /**
+     * @throws Exception
+     */
     public function editQuestion()
     {
         global $DIC;

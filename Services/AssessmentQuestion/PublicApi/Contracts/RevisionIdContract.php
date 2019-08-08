@@ -32,7 +32,6 @@ interface RevisionIdContract {
 	 */
 	public function getCreatedOnIliasNicId(): string;
 
-
 	/**
 	 * @return ilDateTime
 	 */
