@@ -62,24 +62,24 @@ il.UI.button = il.UI.button || {};
 
 		var activateLoadingAnimation = function(id){
 			console.log('#'+id);
-            var $button = $('#'+id);
-            $button.addClass('il-btn-with-loading-animation');
-            $button.addClass('disabled');
-            return $button;
-        };
+			var $button = $('#'+id);
+			$button.addClass('il-btn-with-loading-animation');
+			$button.addClass('disabled');
+			return $button;
+		};
 
-        var deactivateLoadingAnimation = function(id){
-            var $button = $('#'+id);
-            $button.removeClass('il-btn-with-loading-animation');
-            $button.removeClass('disabled');
-            return $button;
-        };
+		var deactivateLoadingAnimation = function(id){
+			var $button = $('#'+id);
+			$button.removeClass('il-btn-with-loading-animation');
+			$button.removeClass('disabled');
+			return $button;
+		};
 
 		return {
 			initMonth: initMonth,
 			handleToggleClick: handleToggleClick,
-            activateLoadingAnimation: activateLoadingAnimation,
-            deactivateLoadingAnimation: deactivateLoadingAnimation
+			activateLoadingAnimation: activateLoadingAnimation,
+			deactivateLoadingAnimation: deactivateLoadingAnimation
 		};
 	})($);
 })($, il);
