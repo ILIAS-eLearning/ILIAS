@@ -303,8 +303,6 @@ interface Factory {
 	 *        Elements in the Footer SHOULD NOT vary according to context, but MAY
 	 *        vary according to the user's role or state (logged in/not logged in/...).
 	 *
-	 *   style:
-	 *     1: The Footer SHOULD be kept visually unobstrusive.
 	 * ----
 	 *
 	 * @param  \ILIAS\UI\Component\Link\Standard[] $links

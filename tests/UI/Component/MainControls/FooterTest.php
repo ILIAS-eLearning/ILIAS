@@ -94,15 +94,17 @@ class FooterTest extends ILIAS_UI_TestBase
 
 		$expected = <<<EOT
 		<div class="il-maincontrols-footer">
-			<div class="il-footer-text">
-				footer text
-			</div>
+			<div class="il-footer-content">
+				<div class="il-footer-text">
+					footer text
+				</div>
 
-			<div class="il-footer-links">
-				<ul>
-					<li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
-					<li><a href="#" >go up</a></li>
-				</ul>
+				<div class="il-footer-links">
+					<ul>
+						<li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
+						<li><a href="#" >go up</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 EOT;
