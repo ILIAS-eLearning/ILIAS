@@ -174,10 +174,10 @@ interface Factory {
 	 *       Clicking on the Up Glyph moves an item up.
 	 *
 	 * context:
-     *       - Moving answers up in Survey matrix questions.
+	 *   - Moving answers up in Survey matrix questions.
 	 *
 	 * featurewiki:
-	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
+	 *   - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
 	 *
 	 * rules:
 	 *   usage:
@@ -211,10 +211,10 @@ interface Factory {
 	 *       Clicking on the Down Glyph moves an item down.
 	 *
 	 * context:
-     *       - Moving answers down in Survey matrix questions.
+	 *   - Moving answers up in Survey matrix questions.
 	 *
 	 * featurewiki:
-	 *       - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
+	 *   - http://www.ilias.de/docu/goto_docu_wiki_wpage_813_1357.html
 	 *
 	 * rules:
 	 *   usage:
@@ -246,7 +246,7 @@ interface Factory {
 	 *       The click on a Back Glyph leads back to a previous view.
 	 *
 	 * context:
-     *      - Exit Member View in courses.
+	 *   - Exit Member View in courses.
 	 *
 	 * rules:
 	 *   usage:
@@ -275,8 +275,8 @@ interface Factory {
 	 *       The chevron-right glyphicon is used.
 	 *   effect: >
 	 *       The click on a Next Glyph opens a new view.
-	 *   context:
-     *      - Enter Member View in a course tab bar.	 *
+	 * context:
+	 *   - Enter Member View in a course tab bar.
 	 *
 	 * rules:
 	 *   usage:
