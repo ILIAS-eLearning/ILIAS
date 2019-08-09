@@ -273,7 +273,7 @@ class ilCertificate
     /**
     * Adds PDF data as a file to a given directory
     *
-    * @param binary $pdfdata Binary PDF data
+    * @param string $pdfdata Binary PDF data
     * @param string $dir Directory to contain the PDF data
     * @param string $filename The filename to save the PDF data
     */
