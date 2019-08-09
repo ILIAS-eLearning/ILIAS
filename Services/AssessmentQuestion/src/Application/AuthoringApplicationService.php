@@ -29,17 +29,17 @@ const MSG_SUCCESS = "success";
 class AuthoringApplicationService {
 
 	/**
-	 * @var AuthoringApplicationServiceSpec
+	 * @var int
 	 */
-	protected $asq_question_spec;
+	protected $actor_user_id;
 
 	/**
 	 * AsqAuthoringService constructor.
 	 *
-	 * @param AuthoringApplicationServiceSpec $asq_question_spec
+	 * @param int $actor_user_id
 	 */
-	public function __construct($asq_question_spec) {
-		$this->asq_question_spec = $asq_question_spec;
+	public function __construct(int $actor_user_id) {
+		$this->actor_user_id = $actor_user_id;
 	}
 
 
@@ -62,7 +62,7 @@ class AuthoringApplicationService {
 		CommandBusBuilder::getCommandBus()->handle
 		(new CreateQuestionCommand
 		 ($question_uuid,
-		  $this->asq_question_spec->getInitiatingUserId(),
+		  $this->actor_user_id,
 		  $container_id,
 		  $answer_type_id));
 	}
@@ -73,26 +73,26 @@ class AuthoringApplicationService {
 		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
 
 		if (!AbstractValueObject::isNullableEqual($question_dto->getData(), $question->getData())) {
-			$question->setData($question_dto->getData(), $this->asq_question_spec->getInitiatingUserId());
+			$question->setData($question_dto->getData(), $this->actor_user_id);
 		}
 
 		if (!AbstractValueObject::isNullableEqual($question_dto->getPlayConfiguration(), $question->getPlayConfiguration())) {
-			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->asq_question_spec->getInitiatingUserId());
+			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->actor_user_id);
 		}
 
 		// TODO implement equals for answer options
 		if ($question_dto->getAnswerOptions() !== $question->getAnswerOptions()){
-			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->asq_question_spec->getInitiatingUserId());
+			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->actor_user_id);
 		}
 
 		if(count($question->getRecordedEvents()->getEvents()) > 0) {
 			// save changes if there are any
-			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->asq_question_spec->getInitiatingUserId()));
+			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
 		}
 	}
 
 	public function projectQuestion(string $question_id) {
-		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->asq_question_spec->getInitiatingUserId()));
+		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->actor_user_id));
 	}
 
 	public function DeleteQuestion(string $question_id) {

@@ -3,16 +3,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
 
-interface AssessmentEntityId
+class AssessmentEntityId
 {
 
-    public function new() : AssessmentEntityId;
+    /**
+     * @var string
+     */
+    protected $id;
+
+    public function __construct(string $uuid) {
+        $this->id = $uuid;
+    }
 
 
     /**
-     * @param string $uuid
-     *
-     * @return AssessmentEntityId
+     * @return string
      */
-    public function fromString(string $uuid) : AssessmentEntityId;
+    public function getId() : string
+    {
+        return $this->id;
+    }
 }

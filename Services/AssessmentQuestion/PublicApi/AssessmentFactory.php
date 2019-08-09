@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
+use entityIdBuilder;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
@@ -58,10 +59,10 @@ class AssessmentFactory
      * As consumer you are responsible for creating the uuids
      * This factory helps you!
      *
-     * @return AssessmentEntityId
+     * @return entityIdBuilder
      */
-    public function entityIdBuilder() : AssessmentEntityId
+    public function entityIdBuilder() : entityIdBuilder
     {
-        //TODO
+        return new entityIdBuilder();
     }
 }

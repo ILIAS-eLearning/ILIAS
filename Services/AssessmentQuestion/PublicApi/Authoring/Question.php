@@ -5,6 +5,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
 use ilAsqQuestionAuthoringGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Link\Link;
 
 /**
@@ -50,15 +51,20 @@ class Question
     }
 
 
-    public function getCreationLink(array $ctrl_stack) : Link
+    public function getCreationLink(array $ctrl_stack) :Link
     {
-        // TODO
+        global $DIC;
+
+        array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+
+        //TODO Lang
+        return $DIC->ui()->factory()->link()->standard('create',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_CREATE_QUESTION));
     }
 
 
     public function getAuthoringGUI() : ilAsqQuestionAuthoringGUI
     {
-        // TODO
+        return new ilAsqQuestionAuthoringGUI();
     }
 
 

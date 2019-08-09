@@ -4,7 +4,6 @@ declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-use ILIAS\AssessmentQuestion\Application\AuthoringApplicationServiceSpec;
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
@@ -12,9 +11,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 
 /**
  * Class ilAssessmentQuestionExporter
@@ -50,8 +47,7 @@ class ilAsqQuestionAuthoringGUI
 	{
 	    global $DIC;
 
-	    $asq_spec = new AuthoringApplicationServiceSpec($DIC->user()->getId());
-	    $this->authoring_service = new AuthoringApplicationService($asq_spec);
+	    $this->authoring_service = new AuthoringApplicationService((int) $DIC->user()->getId());
 
 	}
 
@@ -149,7 +145,7 @@ class ilAsqQuestionAuthoringGUI
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":
-                $answer = $player->GetUserAnswer($question_id, $DIC->user()->getId(), self::DEBUG_TEST_ID);
+                $answer = $player->GetUserAnswer($question_id, (int)$DIC->user()->getId(), self::DEBUG_TEST_ID);
                 if (!is_null($answer)) {
                     $question_component->setAnswer($answer);
                 }
