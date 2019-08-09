@@ -24,11 +24,11 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	/**
 	 * @var int
 	 */
-	private $points_selected;
+	protected $points_selected;
 	/**
 	 * @var int
 	 */
-	private $points_unselected;
+	protected $points_unselected;
 
 
 	/**
@@ -56,18 +56,6 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	 */
 	public function getPointsUnselected(): int {
 		return $this->points_unselected;
-	}
-
-	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
-	 */
-	public function jsonSerialize() {
-		return get_object_vars($this);
 	}
 
 	public static function getFields(): array {

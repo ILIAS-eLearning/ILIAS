@@ -2,8 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+
 /**
- * Class AvailableScoring
+ * Class KprimScoring
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -12,16 +14,9 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AvailableScorings {
-	public static function getAvailableScorings() {
-		//TODO get scorings from DB
-		$scorings = [];
-		$scorings[MultipleChoiceScoring::class] = "MultipleChoiceScoring";
-		$scorings[KprimScoring::class] = "KprimScoring";
-		return $scorings;
-	}
-
-	public static function getDefaultScoring() {
-		return MultipleChoiceScoring::class;
-	}
+class KprimScoring extends AbstractScoring {
+    
+    function score(Answer $answer) : int {
+    
+    }
 }

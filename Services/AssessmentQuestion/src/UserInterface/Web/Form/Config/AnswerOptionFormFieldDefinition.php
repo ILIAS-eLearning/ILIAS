@@ -16,7 +16,8 @@ class AnswerOptionFormFieldDefinition {
 	const TYPE_TEXT = 'TextField';
 	const TYPE_NUMBER = 'NumberField';
 	const TYPE_IMAGE = 'ImageField';
-
+    const TYPE_RADIO = "RadioField"; 
+	
 	/**
 	 * @var string
 	 */
