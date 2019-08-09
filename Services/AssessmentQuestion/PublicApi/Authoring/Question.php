@@ -58,7 +58,7 @@ class Question
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
 
         //TODO Lang
-        return $DIC->ui()->factory()->link()->standard('create',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_CREATE_QUESTION));
+        return $DIC->ui()->factory()->link()->standard('create by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_CREATE_QUESTION));
     }
 
 

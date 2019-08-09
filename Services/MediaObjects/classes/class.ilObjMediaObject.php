@@ -420,7 +420,7 @@ class ilObjMediaObject extends ilObject
 		$this->id = $a_id;
 	}
 
-	function getId()
+	function getId():int
 	{
 		return $this->id;
 	}

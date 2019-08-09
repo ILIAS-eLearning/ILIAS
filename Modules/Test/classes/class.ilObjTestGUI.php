@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
+use ILIAS\UI\Component\Link\Link;
+
 require_once './Modules/Test/exceptions/class.ilTestException.php';
 require_once './Services/Object/classes/class.ilObjectGUI.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -46,6 +49,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAsqQuestionAuthoringGUI
  *
  * @ingroup ModulesTest
  */
@@ -84,6 +88,15 @@ class ilObjTestGUI extends ilObjectGUI
 	 * @var ilTestAccess
 	 */
 	protected $testAccess;
+
+    /**
+     * @var AuthoringService
+     */
+    public $authoring_service;
+    /**
+     * @var Link
+     */
+    public $back_link;
 
 	/**
 	 * Constructor
@@ -134,7 +147,13 @@ class ilObjTestGUI extends ilObjectGUI
 			$tabsManager->initSettingsTemplate();
 			$this->setTabsManager($tabsManager);
 		}
-	}
+
+
+        $this->authoring_service = $DIC->assessment()->questionAuthoring($this->object->getId(), $DIC->user()->getId());
+        //TODO LABEL
+        $this->back_link = $DIC->ui()->factory()->link()->standard('TODO',$DIC->ctrl()->getLinkTarget($this));
+
+    }
 
 	/**
 	* execute command
@@ -205,6 +224,12 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		switch($next_class)
 		{
+            case "ilasqquestionauthoringgui":
+                //Get the specific question authoring service
+                $authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), 	$this->back_link)->getAuthoringGUI();
+                $this->ctrl->forwardCommand($authoring_gui);
+                break;
+
 			case 'illtiproviderobjectsettinggui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -2313,7 +2338,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CONTEXT_PARAMETER, $context);
 		
 		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_POOLS);
-		
+
+
 		$toolbar->addButton($this->lng->txt("tst_browse_for_qpl_questions"), $this->ctrl->getLinkTargetByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS));
 		
 		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_TESTS);
@@ -3174,7 +3200,7 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 
 		global $DIC;
-		$ilToolbar = $DIC['ilToolbar'];
+		$ilToolbar = $DIC->toolbar();
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 		
@@ -3210,6 +3236,18 @@ class ilObjTestGUI extends ilObjectGUI
 						$ilToolbar->addInputItem($cb, true);
 					}
 			*/
+            $creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), $this->back_link)->getCreationLink([ilRepositoryGUI::class,ilObjTestGUI::class]);
+
+
+            require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+            $btn = ilLinkButton::getInstance();
+            $btn->setCaption($creationLinkComponent->getLabel());
+            $btn->setUrl($creationLinkComponent->getAction());
+            $btn->setPrimary(true);
+            $ilToolbar->addButtonInstance($btn);
+
+            $ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
+
 			$ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
 
 			$ilToolbar->addSeparator();
