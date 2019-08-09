@@ -106,7 +106,10 @@ class NodeTest extends ILIAS_UI_TestBase
 		$this->assertEquals($sig, $check);
 	}
 
-	public function testWithURI($node)
+    /**
+     * @depends testWithOnClick
+     */
+    public function testWithURI($node)
     {
         $uri = new URI('http://google.de');
         $node = $node->withLink($uri);
