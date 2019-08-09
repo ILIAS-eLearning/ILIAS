@@ -9,5 +9,6 @@ use \ILIAS\UI\Component\Counter\Counter;
 /**
  * Shy button
  */
-interface Shy extends Button {
+interface Shy extends Button
+{
 }

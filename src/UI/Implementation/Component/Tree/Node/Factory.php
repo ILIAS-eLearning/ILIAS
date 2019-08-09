@@ -8,12 +8,11 @@ use ILIAS\UI\Component\Symbol\Icon\Icon as IIcon;
 
 class Factory implements INode\Factory
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function simple(string $label, IIcon $icon=null): INode\Simple
-	{
-		return new Simple($label, $icon);
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function simple(string $label, IIcon $icon=null) : INode\Simple
+    {
+        return new Simple($label, $icon);
+    }
 }

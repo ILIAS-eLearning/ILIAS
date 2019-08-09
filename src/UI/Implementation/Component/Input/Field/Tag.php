@@ -16,274 +16,293 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tag extends Input implements C\Input\Field\Tag {
-
-	const EVENT_ITEM_ADDED = 'itemAdded';
-	const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
-	const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
-	const EVENT_ITEM_REMOVED = 'itemRemoved';
-	const INFINITE = 0;
-	use JavaScriptBindable;
-	use Triggerer;
-	/**
-	 * @var int
-	 */
-	protected $max_tags = self::INFINITE;
-	/**
-	 * @var int
-	 */
-	protected $tag_max_length = self::INFINITE;
-	/**
-	 * @var bool
-	 */
-	protected $extendable = true;
-	/**
-	 * @var int
-	 */
-	protected $suggestion_starts_with = 1;
-	/**
-	 * @var array
-	 */
-	protected $tags = [];
-	/**
-	 * @var array
-	 */
-	protected $value = [];
-
-
-	/**
-	 * TagInput constructor.
-	 *
-	 * @param \ILIAS\Data\Factory           $data_factory
-	 * @param \ILIAS\Refinery\Factory $refinery
-	 * @param string                        $label
-	 * @param string                        $byline
-	 * @param array                         $tags
-	 */
-	public function __construct(
-		DataFactory $data_factory,
-		\ILIAS\Refinery\Factory $refinery,
-		$label,
-		$byline,
-		array $tags
-	) {
-		parent::__construct($data_factory, $refinery, $label, $byline);
-		$this->tags = $tags;
-	}
+class Tag extends Input implements C\Input\Field\Tag
+{
+    const EVENT_ITEM_ADDED = 'itemAdded';
+    const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
+    const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
+    const EVENT_ITEM_REMOVED = 'itemRemoved';
+    const INFINITE = 0;
+    use JavaScriptBindable;
+    use Triggerer;
+    /**
+     * @var int
+     */
+    protected $max_tags = self::INFINITE;
+    /**
+     * @var int
+     */
+    protected $tag_max_length = self::INFINITE;
+    /**
+     * @var bool
+     */
+    protected $extendable = true;
+    /**
+     * @var int
+     */
+    protected $suggestion_starts_with = 1;
+    /**
+     * @var array
+     */
+    protected $tags = [];
+    /**
+     * @var array
+     */
+    protected $value = [];
 
 
-	/**
-	 * @return \stdClass
-	 */
-	public function getConfiguration(): \stdClass {
-		$configuration = new \stdClass();
-		$configuration->id = null;
-		$configuration->options = $this->getTags();
-		$configuration->selectedOptions = $this->getValue();
-		$configuration->extendable = $this->areUserCreatedTagsAllowed();
-		$configuration->suggestionStarts = $this->getSuggestionsStartAfter();
-		$configuration->maxChars = 2000;
-		$configuration->suggestionLimit = 50;
-		$configuration->debug = false;
-		$configuration->allowDuplicates = false;
-		$configuration->highlight = true;
-		$configuration->tagClass = "label label-primary il-input-tag-tag";
-		$configuration->focusClass = 'il-input-tag-focus';
-
-		return $configuration;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function getConstraintForRequirement() {
-		$constraint = $this->refinery->custom()->constraint(
-			function ($value) {
-				$valueIsAStringArray = $this->refinery
-					->to()
-					->listOf($this->refinery->to()->string())
-					->applyTo(new Ok($value))
-					->isOK();
-
-				return ($valueIsAStringArray);
-			}, "Empty array"
-		);
-
-		return $constraint;
-	}
+    /**
+     * TagInput constructor.
+     *
+     * @param \ILIAS\Data\Factory           $data_factory
+     * @param \ILIAS\Refinery\Factory $refinery
+     * @param string                        $label
+     * @param string                        $byline
+     * @param array                         $tags
+     */
+    public function __construct(
+        DataFactory $data_factory,
+        \ILIAS\Refinery\Factory $refinery,
+        $label,
+        $byline,
+        array $tags
+    ) {
+        parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->tags = $tags;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function isClientSideValueOk($value) {
-		if ($this->getMaxTags() > 0) {
-			$max_tags = $this->getMaxTags();
-			$max_tags_ok = $this->refinery->custom()->constraint(
-				function ($value) use ($max_tags) {
-					return (is_array($value) && count($value) <= $max_tags);
-				}, 'Too many Tags'
-			);
-			if (!$max_tags_ok->accepts($value)) {
-				return false;
-			}
-		}
+    /**
+     * @return \stdClass
+     */
+    public function getConfiguration() : \stdClass
+    {
+        $configuration = new \stdClass();
+        $configuration->id = null;
+        $configuration->options = $this->getTags();
+        $configuration->selectedOptions = $this->getValue();
+        $configuration->extendable = $this->areUserCreatedTagsAllowed();
+        $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+        $configuration->maxChars = 2000;
+        $configuration->suggestionLimit = 50;
+        $configuration->debug = false;
+        $configuration->allowDuplicates = false;
+        $configuration->highlight = true;
+        $configuration->tagClass = "label label-primary il-input-tag-tag";
+        $configuration->focusClass = 'il-input-tag-focus';
 
-		if ($this->getTagMaxLength() > 0) {
-			$tag_max_length = $this->getTagMaxLength();
-			$tag_max_length_ok = $this->refinery->custom()->constraint(
-				function ($value) use ($tag_max_length) {
-					if (!is_array($value)) {
-						return false;
-					}
-					foreach ($value as $item) {
-						if (strlen($item) > $tag_max_length) {
-							return false;
-						}
-					}
-
-					return true;
-				}, 'Too long Tags'
-			);
-			if (!$tag_max_length_ok->accepts($value)) {
-				return false;
-			}
-		}
-
-		$valueCanBeAddedAsStringToList = $this->refinery
-			->to()
-			->listOf($this->refinery->to()->string())
-			->applyTo(new Ok($value))
-			->isOK();
-
-		return ($this->refinery->null()->accepts($value) || $valueCanBeAddedAsStringToList);
-	}
+        return $configuration;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getTags(): array {
-		return $this->tags;
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function getConstraintForRequirement()
+    {
+        $constraint = $this->refinery->custom()->constraint(
+            function ($value) {
+                $valueIsAStringArray = $this->refinery
+                    ->to()
+                    ->listOf($this->refinery->to()->string())
+                    ->applyTo(new Ok($value))
+                    ->isOK();
+
+                return ($valueIsAStringArray);
+            },
+            "Empty array"
+        );
+
+        return $constraint;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function withUserCreatedTagsAllowed(bool $extendable): C\Input\Field\Tag {
-		$clone = clone $this;
-		$clone->extendable = $extendable;
-		/**
-		 * @var $with_constraint C\Input\Field\Tag
-		 */
-		$with_constraint = $clone->withAdditionalTransformation(
-			$this->refinery->custom()->constraint(
-				function ($value) use ($clone) {
-					return (0 == count(array_diff($value, $clone->getTags())));
-				}, function ($txt, $value) use ($clone) {
-				return "user created tags are not allowed: " . implode(", ", array_diff($value, $clone->getTags()));
-			}
-			)
-		);
+    /**
+     * @inheritDoc
+     */
+    protected function isClientSideValueOk($value)
+    {
+        if ($this->getMaxTags() > 0) {
+            $max_tags = $this->getMaxTags();
+            $max_tags_ok = $this->refinery->custom()->constraint(
+                function ($value) use ($max_tags) {
+                    return (is_array($value) && count($value) <= $max_tags);
+                },
+                'Too many Tags'
+            );
+            if (!$max_tags_ok->accepts($value)) {
+                return false;
+            }
+        }
 
-		return $with_constraint;
-	}
+        if ($this->getTagMaxLength() > 0) {
+            $tag_max_length = $this->getTagMaxLength();
+            $tag_max_length_ok = $this->refinery->custom()->constraint(
+                function ($value) use ($tag_max_length) {
+                    if (!is_array($value)) {
+                        return false;
+                    }
+                    foreach ($value as $item) {
+                        if (strlen($item) > $tag_max_length) {
+                            return false;
+                        }
+                    }
 
+                    return true;
+                },
+                'Too long Tags'
+            );
+            if (!$tag_max_length_ok->accepts($value)) {
+                return false;
+            }
+        }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function areUserCreatedTagsAllowed(): bool {
-		return $this->extendable;
-	}
+        $valueCanBeAddedAsStringToList = $this->refinery
+            ->to()
+            ->listOf($this->refinery->to()->string())
+            ->applyTo(new Ok($value))
+            ->isOK();
 
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withSuggestionsStartAfter(int $characters): C\Input\Field\Tag {
-		if ($characters < 1) {
-			throw new \InvalidArgumentException("The amount of characters must be at least 1, {$characters} given.");
-		}
-		$clone = clone $this;
-		$clone->suggestion_starts_with = $characters;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getSuggestionsStartAfter(): int {
-		return $this->suggestion_starts_with;
-	}
+        return ($this->refinery->null()->accepts($value) || $valueCanBeAddedAsStringToList);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function withTagMaxLength(int $max_length): C\Input\Field\Tag {
-		$clone = clone $this;
-		$clone->tag_max_length = $max_length;
-
-		return $clone;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getTags() : array
+    {
+        return $this->tags;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getTagMaxLength(): int {
-		return $this->tag_max_length;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function withUserCreatedTagsAllowed(bool $extendable) : C\Input\Field\Tag
+    {
+        $clone = clone $this;
+        $clone->extendable = $extendable;
+        /**
+         * @var $with_constraint C\Input\Field\Tag
+         */
+        $with_constraint = $clone->withAdditionalTransformation(
+            $this->refinery->custom()->constraint(
+                function ($value) use ($clone) {
+                    return (0 == count(array_diff($value, $clone->getTags())));
+                },
+                function ($txt, $value) use ($clone) {
+                    return "user created tags are not allowed: " . implode(", ", array_diff($value, $clone->getTags()));
+                }
+            )
+        );
+
+        return $with_constraint;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function withMaxTags(int $max_tags): C\Input\Field\Tag {
-		$clone = clone $this;
-		$clone->max_tags = $max_tags;
-
-		return $clone;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function areUserCreatedTagsAllowed() : bool
+    {
+        return $this->extendable;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getMaxTags(): int {
-		return $this->max_tags;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function withSuggestionsStartAfter(int $characters) : C\Input\Field\Tag
+    {
+        if ($characters < 1) {
+            throw new \InvalidArgumentException("The amount of characters must be at least 1, {$characters} given.");
+        }
+        $clone = clone $this;
+        $clone->suggestion_starts_with = $characters;
+
+        return $clone;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function withInput(InputData $input) {
-		return parent::withInput($input);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getSuggestionsStartAfter() : int
+    {
+        return $this->suggestion_starts_with;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withTagMaxLength(int $max_length) : C\Input\Field\Tag
+    {
+        $clone = clone $this;
+        $clone->tag_max_length = $max_length;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getTagMaxLength() : int
+    {
+        return $this->tag_max_length;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withMaxTags(int $max_tags) : C\Input\Field\Tag
+    {
+        $clone = clone $this;
+        $clone->max_tags = $max_tags;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getMaxTags() : int
+    {
+        return $this->max_tags;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withInput(InputData $input)
+    {
+        return parent::withInput($input);
+    }
 
 
 
-	// Events
+    // Events
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function withAdditionalOnTagAdded(Signal $signal): C\Input\Field\Tag {
-		return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_ADDED);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function withAdditionalOnTagAdded(Signal $signal) : C\Input\Field\Tag
+    {
+        return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_ADDED);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function withAdditionalOnTagRemoved(Signal $signal): C\Input\Field\Tag {
-		return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_REMOVED);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function withAdditionalOnTagRemoved(Signal $signal) : C\Input\Field\Tag
+    {
+        return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_REMOVED);
+    }
 }

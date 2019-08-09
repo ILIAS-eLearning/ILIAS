@@ -1,8 +1,9 @@
 <?php
-function search() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function search()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->search("#"));
+    return $renderer->render($f->symbol()->glyph()->search("#"));
 }

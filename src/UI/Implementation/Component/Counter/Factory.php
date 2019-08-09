@@ -6,18 +6,21 @@ namespace ILIAS\UI\Implementation\Component\Counter;
 
 use ILIAS\UI\Component as C;
 
-class Factory implements C\Counter\Factory {
-	/**
-	 * @inheritdoc
-	 */
-	public function status($number) {
-		return new Counter(C\Counter\Counter::STATUS, $number);
-	}
+class Factory implements C\Counter\Factory
+{
+    /**
+     * @inheritdoc
+     */
+    public function status($number)
+    {
+        return new Counter(C\Counter\Counter::STATUS, $number);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function novelty($number) {
-		return new Counter(C\Counter\Counter::NOVELTY, $number);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function novelty($number)
+    {
+        return new Counter(C\Counter\Counter::NOVELTY, $number);
+    }
 }

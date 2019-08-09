@@ -10,5 +10,6 @@ use ILIAS\UI\Component\Component;
  * Vertical Divider
  * @author Alex Killing <killing@leifos.de>
  */
-interface Vertical extends Component {
+interface Vertical extends Component
+{
 }

@@ -13,30 +13,30 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 class Combined extends Slate implements ISlate\Combined
 {
-	/**
-	 * @var array<Slate|Bulky>
-	 */
-	protected $contents = [];
+    /**
+     * @var array<Slate|Bulky>
+     */
+    protected $contents = [];
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withAdditionalEntry($entry): ISlate\Combined
-	{
-		$classes = [IBulky::class, ISlate\Slate::class];
-		$check = [$entry];
-		$this->checkArgListElements("Slate or Bulky-Button", $check, $classes);
+    /**
+     * @inheritdoc
+     */
+    public function withAdditionalEntry($entry) : ISlate\Combined
+    {
+        $classes = [IBulky::class, ISlate\Slate::class];
+        $check = [$entry];
+        $this->checkArgListElements("Slate or Bulky-Button", $check, $classes);
 
-		$clone = clone $this;
-		$clone->contents[] = $entry;
-		return $clone;
-	}
+        $clone = clone $this;
+        $clone->contents[] = $entry;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getContents(): array
-	{
-		return $this->contents;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getContents() : array
+    {
+        return $this->contents;
+    }
 }

@@ -12,70 +12,71 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes the Page.
  */
-interface Standard extends Page, JavaScriptBindable {
+interface Standard extends Page, JavaScriptBindable
+{
 
-	/**
-	 * @param Metabar $meta_bar
-	 *
-	 * @return Standard
-	 */
-	public function withMetabar(Metabar $meta_bar): Standard;
-
-
-	/**
-	 * @param Mainbar $main_bar
-	 *
-	 * @return Standard
-	 */
-	public function withMainbar(MainBar $main_bar): Standard;
+    /**
+     * @param Metabar $meta_bar
+     *
+     * @return Standard
+     */
+    public function withMetabar(Metabar $meta_bar) : Standard;
 
 
-	/**
-	 * @param Image $logo
-	 *
-	 * @return Standard
-	 */
-	public function withLogo(Image $logo): Standard;
+    /**
+     * @param Mainbar $main_bar
+     *
+     * @return Standard
+     */
+    public function withMainbar(MainBar $main_bar) : Standard;
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasMetabar(): bool;
+    /**
+     * @param Image $logo
+     *
+     * @return Standard
+     */
+    public function withLogo(Image $logo) : Standard;
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasMainbar(): bool;
+    /**
+     * @return bool
+     */
+    public function hasMetabar() : bool;
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasLogo(): bool;
+    /**
+     * @return bool
+     */
+    public function hasMainbar() : bool;
 
 
-	/**
-	 * @return Metabar
-	 */
-	public function getMetabar(): Metabar;
+    /**
+     * @return bool
+     */
+    public function hasLogo() : bool;
 
 
-	/**
-	 * @return Mainbar
-	 */
-	public function getMainbar(): Mainbar;
+    /**
+     * @return Metabar
+     */
+    public function getMetabar() : Metabar;
 
 
-	/**
-	 * @return Breadcrumbs|null
-	 */
-	public function getBreadcrumbs();
+    /**
+     * @return Mainbar
+     */
+    public function getMainbar() : Mainbar;
 
 
-	/**
-	 * @return Image|null
-	 */
-	public function getLogo();
+    /**
+     * @return Breadcrumbs|null
+     */
+    public function getBreadcrumbs();
+
+
+    /**
+     * @return Image|null
+     */
+    public function getLogo();
 }

@@ -11,5 +11,6 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  * Class Panel
  * @package ILIAS\UI\Implementation\Component\Panel
  */
-class Standard extends Listing implements C\Panel\Listing\Standard {
+class Standard extends Listing implements C\Panel\Listing\Standard
+{
 }

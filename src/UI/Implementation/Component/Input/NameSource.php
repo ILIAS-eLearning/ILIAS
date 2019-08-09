@@ -7,12 +7,13 @@ namespace ILIAS\UI\Implementation\Component\Input;
 /**
  * Describes a source for input names.
  */
-interface NameSource {
+interface NameSource
+{
 
-	/**
-	 * Generates a unique name on every call.
-	 *
-	 * @return string
-	 */
-	public function getNewName();
+    /**
+     * Generates a unique name on every call.
+     *
+     * @return string
+     */
+    public function getNewName();
 }

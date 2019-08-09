@@ -2,7 +2,8 @@
 /**
  * Passwords (when setting) usually have some constraints.
   */
-function with_contraints() {
+function with_contraints()
+{
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
@@ -31,9 +32,9 @@ function with_contraints() {
 
     //Step 2: Define the form and attach the field.
     $DIC->ctrl()->setParameterByClass(
-            'ilsystemstyledocumentationgui',
-            'example',
-            'password'
+        'ilsystemstyledocumentationgui',
+        'example',
+        'password'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
     $form = $ui->input()->container()->form()->standard($form_action, ['pwd'=>$pwd_input, 'pwd2'=>$pwd_input2]);
@@ -50,5 +51,3 @@ function with_contraints() {
     return
         $renderer->render($form);
 }
-
-

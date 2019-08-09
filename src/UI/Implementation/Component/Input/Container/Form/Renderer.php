@@ -8,49 +8,53 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
-class Renderer extends AbstractComponentRenderer {
+class Renderer extends AbstractComponentRenderer
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	public function render(Component\Component $component, RendererInterface $default_renderer) {
-		$this->checkComponent($component);
+    /**
+     * @inheritdoc
+     */
+    public function render(Component\Component $component, RendererInterface $default_renderer)
+    {
+        $this->checkComponent($component);
 
-		if ($component instanceof Component\Input\Container\Form\Standard) {
-			return $this->renderStandard($component, $default_renderer);
-		}
+        if ($component instanceof Component\Input\Container\Form\Standard) {
+            return $this->renderStandard($component, $default_renderer);
+        }
 
-		throw new \LogicException("Cannot render: " . get_class($component));
-	}
-
-
-	protected function renderStandard(Component\Input\Container\Form\Standard $component, RendererInterface $default_renderer) {
-		$tpl = $this->getTemplate("tpl.standard.html", true, true);
-
-		if($component->getPostURL()!= ""){
-			$tpl->setCurrentBlock("action");
-			$tpl->setVariable("URL", $component->getPostURL());
-			$tpl->parseCurrentBlock();
-		}
-
-		$f = $this->getUIFactory();
-		$submit_button = $f->button()->standard($this->txt("save"), "");
-
-		$tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
-		$tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
-
-		$tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
-
-		return $tpl->get();
-	}
+        throw new \LogicException("Cannot render: " . get_class($component));
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getComponentInterfaceName() {
-		return array(
-			Component\Input\Container\Form\Standard::class,
-		);
-	}
+    protected function renderStandard(Component\Input\Container\Form\Standard $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.standard.html", true, true);
+
+        if ($component->getPostURL()!= "") {
+            $tpl->setCurrentBlock("action");
+            $tpl->setVariable("URL", $component->getPostURL());
+            $tpl->parseCurrentBlock();
+        }
+
+        $f = $this->getUIFactory();
+        $submit_button = $f->button()->standard($this->txt("save"), "");
+
+        $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
+        $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
+
+        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
+
+        return $tpl->get();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function getComponentInterfaceName()
+    {
+        return array(
+            Component\Input\Container\Form\Standard::class,
+        );
+    }
 }

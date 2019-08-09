@@ -8,42 +8,43 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
-class Renderer extends AbstractComponentRenderer {
-	/**
-	 * @inheritdoc
-	 */
-	public function render(Component\Component $component, RendererInterface $default_renderer) {
-		$this->checkComponent($component);
+class Renderer extends AbstractComponentRenderer
+{
+    /**
+     * @inheritdoc
+     */
+    public function render(Component\Component $component, RendererInterface $default_renderer)
+    {
+        $this->checkComponent($component);
 
-		if ($component instanceof Component\Link\Standard) {
-			return $this->renderStandard($component, $default_renderer);
-		}
-		return "";
-	}
+        if ($component instanceof Component\Link\Standard) {
+            return $this->renderStandard($component, $default_renderer);
+        }
+        return "";
+    }
 
-	protected function renderStandard(Component\Link\Standard $component, RendererInterface $default_renderer) {
+    protected function renderStandard(Component\Link\Standard $component, RendererInterface $default_renderer)
+    {
+        $tpl_name = "tpl.standard.html";
 
-		$tpl_name = "tpl.standard.html";
+        $tpl = $this->getTemplate($tpl_name, true, true);
+        $action = $component->getAction();
+        $label = $component->getLabel();
+        if ($component->getOpenInNewViewport()) {
+            $tpl->touchBlock("open_in_new_viewport");
+        }
+        $tpl->setVariable("LABEL", $label);
+        $tpl->setVariable("HREF", $action);
 
-		$tpl = $this->getTemplate($tpl_name, true, true);
-		$action = $component->getAction();
-		$label = $component->getLabel();
-		if ($component->getOpenInNewViewport())
-		{
-			$tpl->touchBlock("open_in_new_viewport");
-		}
-		$tpl->setVariable("LABEL", $label);
-		$tpl->setVariable("HREF", $action);
+        return $tpl->get();
+    }
 
-		return $tpl->get();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getComponentInterfaceName() {
-		return array
-		(Component\Link\Standard::class
-		);
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getComponentInterfaceName()
+    {
+        return array(Component\Link\Standard::class
+        );
+    }
 }

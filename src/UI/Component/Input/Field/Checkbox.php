@@ -12,6 +12,6 @@ use ILIAS\UI\Component\Input\Field\DependantGroupProviding;
 /**
  * This describes checkbox inputs.
  */
-interface Checkbox extends DependantGroupProviding {
-
+interface Checkbox extends DependantGroupProviding
+{
 }

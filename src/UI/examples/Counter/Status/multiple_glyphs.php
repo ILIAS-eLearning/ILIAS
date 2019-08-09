@@ -1,5 +1,6 @@
 <?php
-function multiple_glyphs() {
+function multiple_glyphs()
+{
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
@@ -16,5 +17,5 @@ function multiple_glyphs() {
         ->withCounter($f->counter()->novelty(1))
         ->withCounter($f->counter()->status(8));
 
-    return $renderer->render($note).$renderer->render($tag).$renderer->render($comment);
+    return $renderer->render($note) . $renderer->render($tag) . $renderer->render($comment);
 }

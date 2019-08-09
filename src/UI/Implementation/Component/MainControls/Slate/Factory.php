@@ -12,31 +12,31 @@ use ILIAS\UI\Component\Symbol\Symbol;
 
 class Factory implements ISlate\Factory
 {
-	/**
-	 * @var SignalGeneratorInterface
-	 */
-	protected $signal_generator;
+    /**
+     * @var SignalGeneratorInterface
+     */
+    protected $signal_generator;
 
-	/**
-	 * @var ILIAS\UI\Component\Counter\Factory
-	 */
-	protected $counter_factory;
+    /**
+     * @var ILIAS\UI\Component\Counter\Factory
+     */
+    protected $counter_factory;
 
-	public function __construct(
-		SignalGeneratorInterface $signal_generator,
-		CounterFactory $counter_factory
-	) {
-		$this->signal_generator = $signal_generator;
-		$this->counter_factory = $counter_factory;
-	}
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        CounterFactory $counter_factory
+    ) {
+        $this->signal_generator = $signal_generator;
+        $this->counter_factory = $counter_factory;
+    }
 
-	public function legacy(string $name, Symbol $symbol, ILegacy $content): ISlate\Legacy
-	{
-		return new Legacy($this->signal_generator, $name, $symbol, $content);
-	}
+    public function legacy(string $name, Symbol $symbol, ILegacy $content) : ISlate\Legacy
+    {
+        return new Legacy($this->signal_generator, $name, $symbol, $content);
+    }
 
-	public function combined(string $name, Symbol $symbol): ISlate\Combined
-	{
-		return new Combined($this->signal_generator, $name, $symbol);
-	}
+    public function combined(string $name, Symbol $symbol) : ISlate\Combined
+    {
+        return new Combined($this->signal_generator, $name, $symbol);
+    }
 }

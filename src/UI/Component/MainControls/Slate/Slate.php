@@ -14,36 +14,35 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 interface Slate extends Component, JavaScriptBindable
 {
-	public function getName(): string;
+    public function getName() : string;
 
-	/**
-	 * @return Symbol
-	 */
-	public function getSymbol(): Symbol;
+    /**
+     * @return Symbol
+     */
+    public function getSymbol() : Symbol;
 
-	/**
-	 * Signal that toggles the slate when triggered.
-	 */
-	public function getToggleSignal(): Signal;
+    /**
+     * Signal that toggles the slate when triggered.
+     */
+    public function getToggleSignal() : Signal;
 
-	/**
-	 * Signal that engages the slate when triggered.
-	 */
-	public function getShowSignal(): Signal;
+    /**
+     * Signal that engages the slate when triggered.
+     */
+    public function getShowSignal() : Signal;
 
-	/**
-	 * Configures the slate to be rendered as engaged (or not).
-	 */
-	public function withEngaged(bool $state): Slate;
+    /**
+     * Configures the slate to be rendered as engaged (or not).
+     */
+    public function withEngaged(bool $state) : Slate;
 
-	/**
-	 * Should the slate be rendered as engaged?
-	 */
-	public function getEngaged(): bool;
+    /**
+     * Should the slate be rendered as engaged?
+     */
+    public function getEngaged() : bool;
 
-	/**
-	 * @return Component[]
-	 */
-	public function getContents();
-
+    /**
+     * @return Component[]
+     */
+    public function getContents();
 }

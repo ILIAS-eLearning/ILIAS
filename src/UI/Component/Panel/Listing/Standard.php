@@ -8,5 +8,6 @@ namespace ILIAS\UI\Component\Panel\Listing;
  * Interface Standard
  * @package ILIAS\UI\Component\Panel\Listing
  */
-interface Standard extends Listing {
+interface Standard extends Listing
+{
 }

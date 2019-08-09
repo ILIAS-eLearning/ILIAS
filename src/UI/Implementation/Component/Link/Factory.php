@@ -6,11 +6,13 @@ namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component\Link as L;
 
-class Factory implements L\Factory {
-	/**
-	 * @inheritdoc
-	 */
-	public function standard($label, $action) {
-		return new Standard($label, $action);
-	}
+class Factory implements L\Factory
+{
+    /**
+     * @inheritdoc
+     */
+    public function standard($label, $action)
+    {
+        return new Standard($label, $action);
+    }
 }

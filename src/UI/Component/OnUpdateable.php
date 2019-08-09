@@ -8,25 +8,25 @@ namespace ILIAS\UI\Component;
  *
  * @package ILIAS\UI\Component
  */
-interface OnUpdateable extends Triggerer {
+interface OnUpdateable extends Triggerer
+{
 
-	/**
-	 * Trigger a signal of another component on update
-	 *
-	 * @param Signal $signal A signal of another component
-	 *
-	 * @return $this
-	 */
-	public function withOnUpdate(Signal $signal);
+    /**
+     * Trigger a signal of another component on update
+     *
+     * @param Signal $signal A signal of another component
+     *
+     * @return $this
+     */
+    public function withOnUpdate(Signal $signal);
 
-	/**
-	 * Get a component like this, triggering a signal of another component on update.
-	 * In contrast to withOnUpdate, the signal is appended to existing signals for the on update event.
-	 *
-	 * @param Signal $signal
-	 *
-	 * @return $this
-	 */
-	public function appendOnUpdate(Signal $signal);
-
+    /**
+     * Get a component like this, triggering a signal of another component on update.
+     * In contrast to withOnUpdate, the signal is appended to existing signals for the on update event.
+     *
+     * @param Signal $signal
+     *
+     * @return $this
+     */
+    public function appendOnUpdate(Signal $signal);
 }

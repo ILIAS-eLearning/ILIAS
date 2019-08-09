@@ -7,5 +7,6 @@ namespace ILIAS\UI\Component\Card;
 /**
  * This describes a standard Card
  */
-interface Standard extends Card {
+interface Standard extends Card
+{
 }

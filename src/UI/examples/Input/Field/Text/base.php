@@ -3,7 +3,8 @@
  * Example show how to create and render a basic text input field and attach it to a
  * form. This example does not contain any data processing.
  */
-function base() {
+function base()
+{
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();

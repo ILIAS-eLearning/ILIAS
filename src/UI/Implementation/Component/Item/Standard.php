@@ -6,5 +6,6 @@ namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component as C;
 
-class Standard extends Item implements C\Item\Standard {
+class Standard extends Item implements C\Item\Standard
+{
 }

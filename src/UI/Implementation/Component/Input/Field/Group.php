@@ -16,64 +16,65 @@ use ILIAS\Data\Factory as DataFactory;
 /**
  * This implements the group input.
  */
-class Group extends Input implements C\Input\Field\Group {
+class Group extends Input implements C\Input\Field\Group
+{
+    use ComponentHelper;
+    use GroupHelper;
 
-	use ComponentHelper;
-	use GroupHelper;
+    /**
+     * Group constructor.
+     *
+     * @param DataFactory           $data_factory
+     * @param ValidationFactory     $validation_factory
+     * @param \ILIAS\Refinery\Factory $refinery
+     * @param InputInternal[]       $inputs
+     * @param                       $label
+     * @param                       $byline
+     */
+    public function __construct(
+        DataFactory $data_factory,
+        \ILIAS\Refinery\Factory $refinery,
+        array $inputs,
+        string $label,
+        string $byline = null
+    ) {
+        parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->checkArgListElements("inputs", $inputs, InputInternal::class);
+        $this->inputs = $inputs;
+    }
 
-	/**
-	 * Group constructor.
-	 *
-	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
-	 * @param \ILIAS\Refinery\Factory $refinery
-	 * @param InputInternal[]       $inputs
-	 * @param                       $label
-	 * @param                       $byline
-	 */
-	public function __construct(
-		DataFactory $data_factory,
-		\ILIAS\Refinery\Factory $refinery,
-		array $inputs,
-		string $label,
-		string $byline = null
-	) {
-		parent::__construct($data_factory, $refinery, $label, $byline);
-		$this->checkArgListElements("inputs", $inputs, InputInternal::class);
-		$this->inputs = $inputs;
-	}
+    public function withDisabled($is_disabled)
+    {
+        $clone = parent::withDisabled($is_disabled);
+        $inputs = [];
+        foreach ($this->inputs as $key => $input) {
+            $inputs[$key] = $input->withDisabled($is_disabled);
+        }
+        $clone->inputs = $inputs;
+        return $clone;
+    }
 
-	public function withDisabled($is_disabled) {
-		$clone = parent::withDisabled($is_disabled);
-		$inputs = [];
-		foreach ($this->inputs as $key => $input)
-		{
-			$inputs[$key] = $input->withDisabled($is_disabled);
-		}
-		$clone->inputs = $inputs;
-		return $clone;
-	}
+    public function withRequired($is_required)
+    {
+        $clone = parent::withRequired($is_required);
+        $inputs = [];
+        foreach ($this->inputs as $key => $input) {
+            $inputs[$key] = $input->withRequired($is_required);
+        }
+        $clone->inputs = $inputs;
+        return $clone;
+    }
 
-	public function withRequired($is_required) {
-		$clone = parent::withRequired($is_required);
-		$inputs = [];
-		foreach ($this->inputs as $key => $input)
-		{
-			$inputs[$key] = $input->withRequired($is_required);
-		}
-		$clone->inputs = $inputs;
-		return $clone;
-	}
-
-	public function withOnUpdate(Signal $signal) {
-		//TODO: use $clone = parent::withOnUpdate($signal); once the exception there
-		//is solved.
-		$clone = $this->withTriggeredSignal($signal, 'update');
-		$inputs = [];
-		foreach ($this->inputs as $key => $input) {
-			$inputs[$key] = $input->withOnUpdate($signal);
-		}
-		$clone->inputs = $inputs;
-		return $clone;
-	}
+    public function withOnUpdate(Signal $signal)
+    {
+        //TODO: use $clone = parent::withOnUpdate($signal); once the exception there
+        //is solved.
+        $clone = $this->withTriggeredSignal($signal, 'update');
+        $inputs = [];
+        foreach ($this->inputs as $key => $input) {
+            $inputs[$key] = $input->withOnUpdate($signal);
+        }
+        $clone->inputs = $inputs;
+        return $clone;
+    }
 }

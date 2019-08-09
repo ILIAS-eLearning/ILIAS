@@ -1,8 +1,9 @@
 <?php
-function next_glyph() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function next_glyph()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->next("#"));
+    return $renderer->render($f->symbol()->glyph()->next("#"));
 }

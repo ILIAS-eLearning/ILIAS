@@ -8,6 +8,6 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes a group of inputs.
  */
-interface Group extends Input {
-
+interface Group extends Input
+{
 }
