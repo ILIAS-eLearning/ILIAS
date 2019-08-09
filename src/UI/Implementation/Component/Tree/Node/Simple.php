@@ -27,9 +27,9 @@ class Simple extends Node implements ISimple
     public function __construct(
         string $label,
         Icon $icon = null,
-        URI $uri = null
+        URI $link = null
     ) {
-        parent::__construct($label, $uri);
+        parent::__construct($label, $link);
         $this->icon = $icon;
     }
 
@@ -77,15 +77,15 @@ class Simple extends Node implements ISimple
 
     /**
      * Create a new node object with an URI that will be added to the UI
-     * @param URI $uri
+     * @param URI $link
      * @return Node
      */
-    public function withLink(URI $uri): \ILIAS\UI\Component\Tree\Node\Node
+    public function withLink(URI $link): \ILIAS\UI\Component\Tree\Node\Node
     {
         return new Simple(
             $this->getLabel(),
             $this->getIcon(),
-            $uri
+            $link
         );
     }
 }

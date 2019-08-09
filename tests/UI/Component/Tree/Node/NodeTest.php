@@ -14,21 +14,21 @@ use \ILIAS\UI\Implementation\Component as I;
  */
 class TestingNode extends Node
 {
-    public function __construct(string $label, URI $uri = null)
+    public function __construct(string $label, URI $link = null)
     {
-        parent::__construct($label, $uri);
+        parent::__construct($label, $link);
     }
 
     /**
      * Create a new node object with an URI that will be added to the UI
-     * @param URI $uri
+     * @param URI $link
      * @return Node
      */
-    public function withLink(URI $uri): \ILIAS\UI\Component\Tree\Node\Node
+    public function withLink(URI $link): \ILIAS\UI\Component\Tree\Node\Node
     {
         return new TestingNode(
             $this->label,
-            $uri
+            $link
         );
     }
 }

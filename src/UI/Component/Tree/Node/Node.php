@@ -59,9 +59,9 @@ interface Node extends Component, Clickable
 
     /**
      * Create a new node object with an URI that will be added to the UI
-     * @param URI $uri
+     * @param URI $link
      * @return Node
      */
-    public function withLink(URI $uri): Node;
+    public function withLink(URI $link): Node;
 
 }

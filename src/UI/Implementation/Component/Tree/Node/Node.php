@@ -25,7 +25,7 @@ abstract class Node implements INode
     /**
      * @var URI
      */
-    protected $uri;
+    protected $link;
 
     /**
      * @var string
@@ -47,10 +47,10 @@ abstract class Node implements INode
      */
     protected $subnodes = [];
 
-    public function __construct(string $label, URI $uri = null)
+    public function __construct(string $label, URI $link = null)
     {
         $this->label = $label;
-        $this->uri = $uri;
+        $this->link  = $link;
     }
 
     /**
@@ -137,6 +137,6 @@ abstract class Node implements INode
      */
     public function getLink(): URI
     {
-        return $this->uri;
+        return $this->link;
     }
 }
