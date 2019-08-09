@@ -331,9 +331,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 				break;
 
 			case "ilcontainernewssettingsgui":
-				$this->tabs_gui->setTabActive('settings');
+				$forum_settings_gui = new ilForumSettingsGUI($this);
+				$forum_settings_gui->settingsTabs();
+
 				$this->lng->loadLanguageModule('cont');
-				$this->tabs_gui->activateSubTab('obj_news_settings');
+				$this->tabs_gui->activateSubTab('cont_news_settings');
 				$news_set_gui = new ilContainerNewsSettingsGUI($this);
 				$news_set_gui->setNewsBlockForced(true);
 				$news_set_gui->setPublicNotification(true);
