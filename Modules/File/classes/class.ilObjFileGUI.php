@@ -473,7 +473,7 @@ class ilObjFileGUI extends ilObject2GUI
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
 
-        $form = $this->initPropertiesForm();
+        $form = $this->initPropertiesForm(self::CMD_EDIT);
         if (!$form->checkInput()) {
             $ilTabs->activateTab("settings");
             $form->setValuesByPost();
