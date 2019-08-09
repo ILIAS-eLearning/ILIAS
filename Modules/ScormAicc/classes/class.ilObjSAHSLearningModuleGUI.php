@@ -423,7 +423,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
 			}
 			// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
-			switch ($__FILES["scormfile"]["error"])
+			switch ($_FILES["scormfile"]["error"])
 			{
 				case UPLOAD_ERR_INI_SIZE:
 					$this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"),$this->ilias->error_obj->MESSAGE);

@@ -82,7 +82,7 @@ class ilScormAiccImporter extends ilXmlImporter
 		return $result;
 	}
 
-	public function writeData($a_entity, $version, $a_id)
+	public function writeData($a_entity, $a_version, $a_id)
 	{
 		$this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);
 	}
