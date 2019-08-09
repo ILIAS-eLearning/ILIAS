@@ -370,7 +370,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 
 		// admin panel commands
-		if ((count($this->admin_panel_commands) > 0))
+		if ((count((array) $this->admin_panel_commands) > 0))
 		{
 			foreach($this->admin_panel_commands as $cmd)
 			{
