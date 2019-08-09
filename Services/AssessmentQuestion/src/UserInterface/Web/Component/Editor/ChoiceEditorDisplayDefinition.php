@@ -7,7 +7,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormField
 use stdClass;
 
 /**
- * Class MultipleChoiceEditorDisplayDefinition
+ * Class ChoiceEditorDisplayDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,7 +16,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class MultipleChoiceEditorDisplayDefinition extends DisplayDefinition {
+class ChoiceEditorDisplayDefinition extends DisplayDefinition {
 
 	const VAR_MCDD_TEXT = 'mcdd_text' ;
 	const VAR_MCDD_IMAGE = 'mcdd_image';
@@ -78,7 +78,7 @@ class MultipleChoiceEditorDisplayDefinition extends DisplayDefinition {
 	}
 
 	public static function getValueFromPost(string $index) {
-		return new MultipleChoiceEditorDisplayDefinition(
+		return new ChoiceEditorDisplayDefinition(
 			$_POST[$index . self::VAR_MCDD_TEXT],
 			$_POST[$index . self::VAR_MCDD_IMAGE]
 		);
@@ -90,7 +90,7 @@ class MultipleChoiceEditorDisplayDefinition extends DisplayDefinition {
 
 
 	public static function deserialize(stdClass $data) {
-		return new MultipleChoiceEditorDisplayDefinition(
+		return new ChoiceEditorDisplayDefinition(
 			$data->text,
 			$data->image
 		);

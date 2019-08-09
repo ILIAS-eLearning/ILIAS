@@ -7,7 +7,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormField
 use stdClass;
 
 /**
- * Class KprimScoringDefinition
+ * Class KprimChoiceScoringDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,7 +16,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class KprimScoringDefinition extends ScoringDefinition {
+class KprimChoiceScoringDefinition extends ScoringDefinition {
 
     const VAR_KPSD_CORRECT = 'kpsd_correct';
     
@@ -63,11 +63,11 @@ class KprimScoringDefinition extends ScoringDefinition {
 
     public static function getValueFromPost(string $index)
     {
-        return new KprimScoringDefinition(boolval($_POST[self::VAR_KPSD_CORRECT]));
+        return new KprimChoiceScoringDefinition(boolval($_POST[self::VAR_KPSD_CORRECT]));
     }
 
     public static function deserialize(stdClass $data)
     {
-        return new KprimScoringDefinition($data->correct_value);
+        return new KprimChoiceScoringDefinition($data->correct_value);
     }
 }

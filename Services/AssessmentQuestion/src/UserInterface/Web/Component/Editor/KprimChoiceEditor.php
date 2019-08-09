@@ -1,11 +1,9 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
-
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 /**
- * Class KprimScoring
+ * Class KprimChoiceEditor
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -14,9 +12,13 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class KprimScoring extends AbstractScoring {
-    
-    function score(Answer $answer) : int {
-    
-    }
+class KprimChoiceEditor extends AbstractEditor {
+    public function readAnswer(): string
+    {}
+
+    public function setAnswer(string $answer): void
+    {}
+
+    public function generateHtml(): string
+    {}
 }
