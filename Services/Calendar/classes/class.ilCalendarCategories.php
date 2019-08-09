@@ -1127,24 +1127,40 @@ class ilCalendarCategories
 
 		$ilDB = $DIC->database();
 		$access = $DIC->access();
-		
+		$tree = $DIC['tree'];
 		$course_ids = array();
+
 		foreach($this->categories as $cat_id)
 		{
 			if($this->categories_info[$cat_id]['obj_type'] == 'crs' or $this->categories_info[$cat_id]['obj_type'] == 'grp')
 			{
-				$course_ids[] = $this->categories_info[$cat_id]['obj_id'];
+				//use first ref_id if nor source_ref_id is given
+				if(!$this->categories_info[$cat_id]['source_ref_id'])
+				{
+					$refs = ilObject2::_getAllReferences($this->categories_info[$cat_id]['obj_id']);
+					$this->categories_info[$cat_id]['source_ref_id'] = reset($refs);
+				}
+
+				//#21080 adding folder ids of subtree to catch sessions in sub folder
+				$sub = $tree->getFilteredSubTree($this->categories_info[$cat_id]['source_ref_id'],  array("grp", "crs"));
+				foreach ( $sub as $node_data)
+				{
+					if(in_array($node_data["type"], array("grp", "crs", "fold")))
+					{
+						$course_ids[] = $node_data["obj_id"];
+					}
+				}
 			}
 		}
 		
-		$query = "SELECT od2.obj_id sess_id, od1.obj_id crs_id,cat_id, or2.ref_id sess_ref_id FROM object_data od1 ".
+		$query = "SELECT od2.obj_id sess_id, od1.obj_id crs_id,cat_id, or2.ref_id sess_ref_id, od1.type type, or1.ref_id ref_id FROM object_data od1 ".
 			"JOIN object_reference or1 ON od1.obj_id = or1.obj_id ".
 			"JOIN tree t ON or1.ref_id = t.parent ".
 			"JOIN object_reference or2 ON t.child = or2.ref_id ".
 			"JOIN object_data od2 ON or2.obj_id = od2.obj_id ".
 			"JOIN cal_categories cc ON od2.obj_id = cc.obj_id ".
 			"WHERE ".$ilDB->in('od2.type',array('sess','exc'),false,'text').
-			"AND (od1.type = 'crs' OR od1.type = 'grp') ".
+			"AND (od1.type = 'crs' OR od1.type = 'grp' OR od1.type = 'fold') ".
 			"AND ".$ilDB->in('od1.obj_id',$course_ids,false,'integer').' '.
 			"AND or2.deleted IS NULL";
 		
@@ -1159,6 +1175,18 @@ class ilCalendarCategories
 			) {
 				continue;
 			}
+
+			//assign sessions in folder to next course or group parent
+			if($row->type == "fold")
+			{
+				$cont_ref_id = $tree->checkForParentType($row->ref_id, 'grp');
+				if ($cont_ref_id == 0)
+				{
+					$cont_ref_id = $tree->checkForParentType($row->ref_id, 'crs');
+				}
+				$row->crs_id = ilObject2::_lookupObjId($cont_ref_id);
+			}
+
 			$cat_ids[] = $row->cat_id;
 			$course_sessions[$row->crs_id][$row->sess_id] = $row->cat_id;
 			$this->subitem_categories[] = $row->cat_id;
