@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 use ILIAS\AssessmentQuestion\Application\AuthoringApplicationServiceSpec;
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
@@ -12,6 +14,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 
 /**
  * Class ilAssessmentQuestionExporter
@@ -170,6 +173,8 @@ class ilAsqQuestionAuthoringGUI
         
         $question_id = $_GET[self::VAR_QUESTION_ID];
         
-        $DIC->ui()->mainTemplate()->setContent($player->GetPointsByUser($question_id, $DIC->user()->getId(), self::DEBUG_TEST_ID));
+        $DIC->ui()->mainTemplate()->setContent($player->GetPointsByUser($question_id,
+        $DIC->user()->getId(), self::DEBUG_TEST_ID));
+
     }
 }
