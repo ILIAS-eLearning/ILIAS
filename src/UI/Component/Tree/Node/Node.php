@@ -55,7 +55,7 @@ interface Node extends Component, Clickable
      *
      * @return URI
      */
-    public function getLink(): URI;
+    public function getLink(): ?URI;
 
     /**
      * Create a new node object with an URI that will be added to the UI

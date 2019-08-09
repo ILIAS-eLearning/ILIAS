@@ -135,7 +135,7 @@ abstract class Node implements INode
      *
      * @return URI
      */
-    public function getLink(): URI
+    public function getLink(): ?URI
     {
         return $this->link;
     }
