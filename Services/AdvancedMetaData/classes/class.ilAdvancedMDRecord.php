@@ -174,7 +174,14 @@ class ilAdvancedMDRecord
 		$lng = $DIC['lng'];
 		
 		$types = array();
+		$filter = array();
 		$amet_types = $objDefinition->getAdvancedMetaDataTypes();
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+		if(!ilECSSetting::_ecsConfigured()){
+			include_once './Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
+			$filter = array_merge($filter ,ilECSEventQueueReader::getAllEContentTypes());
+		}
 
 		foreach ($amet_types as $at)
 		{
@@ -192,8 +199,10 @@ class ilAdvancedMDRecord
 				}
 				$at["text"] = $text;
 			}
-			
-			$types[] = $at;
+			if(!in_array($at["obj_type"],$filter))
+			{
+				$types[] = $at;
+			}
 		}
 
 		sort($types);
