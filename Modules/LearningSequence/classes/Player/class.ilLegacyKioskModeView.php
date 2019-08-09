@@ -68,6 +68,10 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 	 */
 	public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
 	{
+		if(! $builder instanceof LSControlBuilder) {
+			throw new LogicException("The Legacy Mode in the Learning Sequence requires an LSControlBuilder explicitely.", 1);
+		}
+
 		$label = $this->lng->txt('lso_start_item').' '.$this->getTitleByType($this->getType());
 
 		$ref_id = $this->object->getRefId();
@@ -84,10 +88,10 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 			$obj_id = $this->object->getId();
 			$item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
 			$item_list_gui->initItem($ref_id, $obj_id);
-			$view_lnk = $item_list_gui->getCommandLink('view');
-			$view_lnk = str_replace('&amp;', '&', $view_lnk);
-			$view_lnk = ILIAS_HTTP_PATH.'/'.$view_lnk;
-			$url = $view_lnk;
+			$view_link = $item_list_gui->getCommandLink('view');
+			$view_link = str_replace('&amp;', '&', $view_link);
+			$view_link = ILIAS_HTTP_PATH.'/'.$view_link;
+			$url = $view_link;
 		}
 
 		$builder->start($label, self::CMD_START_OBJECT,	$url, 0);
