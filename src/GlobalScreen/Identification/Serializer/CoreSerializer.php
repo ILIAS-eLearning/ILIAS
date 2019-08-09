@@ -5,7 +5,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\LostIdentification;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 
 /**
  * Class CoreSerializer
@@ -38,7 +38,7 @@ class CoreSerializer implements SerializerInterface
     /**
      * @inheritdoc
      */
-    public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactoryInterface $provider_factory) : IdentificationInterface
+    public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactory $provider_factory) : IdentificationInterface
     {
         list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
