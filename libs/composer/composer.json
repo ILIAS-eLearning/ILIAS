@@ -25,7 +25,7 @@
 		"tecnickcom/tcpdf": "^6.2.12",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1",
-		"imsglobal/lti": "^3.0",
+		"imsglobal/lti": "^3.0.2",
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
@@ -180,7 +180,7 @@
 		},                
 		"imsglobal/lti" : {
 			"source": "https://github.com/ILIAS-eLearning/LTI-Tool-Provider-Library-PHP",
-			"used_version": "v3.0.0",
+			"used_version": "v3.0.2",
 			"added_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"wrapped_by": "",
 			"last_update": "2016-11-24",
@@ -357,6 +357,9 @@
 			},
 			"simplesamlphp/simplesamlphp": {
 				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+			},
+			"imsglobal/lti": {
+				"ILIAS LTI Patches": "patches/lti.patch"
 			}
 		}
 	}
