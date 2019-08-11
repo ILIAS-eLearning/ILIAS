@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
@@ -6,29 +7,34 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 
-class PublishedQuestionRepository {
-
+class PublishedQuestionRepository
+{
+    /**
+     * @var array
+     */
+    protected $question_data_storages;
     /**
      * @var array
      */
     protected $answer_option_storages;
 
-    public function construct() {
 
+    public function __construct()
+    {
+        $this->question_data_storages[] = new QuestionListItemAr();
         $this->answer_option_storages[] = new AnswerOptionImageAr();
         $this->answer_option_storages[] = new AnswerOptionTextAr();
-
     }
 
 
     /**
-     * @param string $container_obj_id
-     * @param string $question_id
-     * @param string $revision_id
-     * @param string $title
-     * @param string $description
-     * @param string $question
-     * @param AnswerOption[]  $answer_option
+     * @param string         $container_obj_id
+     * @param string         $question_id
+     * @param string         $revision_id
+     * @param string         $title
+     * @param string         $description
+     * @param string         $question
+     * @param AnswerOption[] $answer_option
      */
     public function saveNewQuestionRevision(
         string $container_obj_id,
@@ -45,22 +51,24 @@ class PublishedQuestionRepository {
         $item->setContainerObjId($container_obj_id);
         $item->setQuestionId($question_id);
         $item->setRevisionId($revision_id);
-		$item->setTitle($title);
-		$item->setDescription($description);
-		$item->setQuestion($question);
+        $item->setTitle($title);
+        $item->setDescription($description);
+        $item->setQuestion($question);
 
-		//if($new) {
+        //if($new) {
         $item->create();
-		/*} else {
-			$item->save();
-		}*/
+        /*} else {
+            $item->save();
+        }*/
 
         foreach ($answer_options as $answer_option) {
             $answer_option->create();
-		}
+        }
     }
 
-    public function getQuestionByRevisionId(string $revision_id): array {
+
+    public function getQuestionByRevisionId(string $revision_id) : array
+    {
 
         $dto = new QuestionDto();
         $question_list_item = QuestionListItemAr::where(['revision_id' => $revision_id])->getArray();
@@ -78,13 +86,13 @@ class PublishedQuestionRepository {
         $dto->setData($question_data);
 
         //TODO
-       // $play_configuration = QuestionPlayConfiguration::create();
+        // $play_configuration = QuestionPlayConfiguration::create();
 
         //TODO
         $arr_answer_options = new AnswerOptions();
-        foreach($this->answer_option_storages as $storage) {
+        foreach ($this->answer_option_storages as $storage) {
             $answer_options_ar = $storage->where([
-                    'revision_id' => $revision_id
+                    'revision_id' => $revision_id,
                 ]
             )->get();
             if (count($answer_options_ar)) {
@@ -96,29 +104,30 @@ class PublishedQuestionRepository {
                 }
             }
         }
-
-
     }
 
-    public function getQuestionsByContainer($container_obj_id):array {
+
+    public function getQuestionsByContainer($container_obj_id) : array
+    {
 
         //TODO we could return here the whole QuestionsDTO as array see getQuestionByRevisionId
 
         return QuestionListItemAr::where(['container_obj_id' => $container_obj_id, 'is_current_container_revision' => 1])->getArray();
     }
 
-    public function unpublishCurrentRevision(string $question_id, int $container_obj_id) {
 
+    public function unpublishCurrentRevision(string $question_id, int $container_obj_id)
+    {
+        $storages = array_merge($this->question_data_storages,$this->answer_option_storages );
 
-
-        foreach($this->storages as $storage) {
+        foreach ($storages as $storage) {
             /**
              * @var ProjectionAr $storage
              */
             $items = $storage->where([
                     'question_id'                   => $question_id,
                     'is_current_container_revision' => 1,
-                    'container_obj_id'              => $container_obj_id
+                    'container_obj_id'              => $container_obj_id,
                 ]
             )->get();
             if (count($items)) {
