@@ -32,6 +32,7 @@ abstract class AbstractDomainEvent implements DomainEvent {
 	protected $initiating_user_id;
 
 
+
     /**
      * AbstractDomainEvent constructor.
      *

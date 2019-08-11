@@ -1,11 +1,11 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\ilDB;
+namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore;
 
-use ILIAS\AssessmentQuestion\CQRS\Event\AbstractStoredEvent;
+use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerStoredEvent;
 
 /**
- * Class ilDBQuestionStoredEvent
+ * Class questionEventStore
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -14,7 +14,7 @@ use ILIAS\AssessmentQuestion\CQRS\Event\AbstractStoredEvent;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilDBQuestionStoredEvent extends AbstractStoredEvent {
+class QuestionEventStoreAr extends AbstractIlContainerStoredEvent {
 
 	const STORAGE_NAME = "asq_qst_event_store";
 

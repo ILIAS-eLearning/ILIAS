@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
+use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 
 /**
@@ -17,7 +17,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionDataSetEvent extends AbstractDomainEvent {
+class QuestionDataSetEvent extends AbstractIlContainerDomainEvent {
 
 	public const NAME = 'QuestionDataSetEvent';
 	/**
@@ -35,9 +35,9 @@ class QuestionDataSetEvent extends AbstractDomainEvent {
      *
      * @throws \ilDateTimeException
      */
-	public function __construct(DomainObjectId $id, int $creator_id, QuestionData $data = null)
+	public function __construct(DomainObjectId $id, int $container_obj_id, int $initating_user_id, QuestionData $data = null)
 	{
-		parent::__construct($id, $creator_id);
+		parent::__construct($id, $container_obj_id, $initating_user_id);
 		$this->data = $data;
 	}
 

@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use JsonSerializable;
 use stdClass;
 
@@ -16,6 +17,10 @@ use stdClass;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class DisplayDefinition implements JsonSerializable {
+
+    /**
+     * @return AnswerOptionFormFieldDefinition[]
+     */
 	public abstract static function getFields() : array;
 
 	public abstract function getValues() : array;

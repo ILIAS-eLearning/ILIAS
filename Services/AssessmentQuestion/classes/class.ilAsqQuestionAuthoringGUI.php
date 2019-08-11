@@ -34,20 +34,36 @@ class ilAsqQuestionAuthoringGUI
 	//TODO remove me when no longer needed
 	const CMD_DEBUG_QUESTION = "debugQuestion";
     const DEBUG_TEST_ID = 23;
+
+    /**
+     * @var int
+     */
+    protected $container_obj_id;
+
+    /**
+     * @var int
+     */
+    protected $actor_user_id;
 	
 	/**
 	 * @var AuthoringApplicationService
 	 */
-	private $authoring_service;
+	private $authoring_application_service;
+
 
     /**
      * ilAsqQuestionAuthoringGUI constructor.
+     *
+     * @param int $container_obj_id
+     * @param int $actor_user_id
      */
-	function __construct()
+	function __construct(int $container_obj_id, int $actor_user_id)
 	{
 	    global $DIC;
+        $this->container_obj_id = $container_obj_id;
+        $this->actor_user_id = $actor_user_id;
 
-	    $this->authoring_service = new AuthoringApplicationService((int) $DIC->user()->getId());
+	    $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
 
 	}
 
@@ -77,7 +93,7 @@ class ilAsqQuestionAuthoringGUI
 	        case "POST":
 	            $guid = Guid::create();
 	            $type = $form->getQuestionType();
-	            $this->authoring_service->CreateQuestion(new DomainObjectId($guid), null, $type);
+	            $this->authoring_application_service->CreateQuestion(new DomainObjectId($guid), $this->container_obj_id, $type);
 	            $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $guid);
 	            $DIC->ctrl()->redirect($this, self::CMD_EDIT_QUESTION);
 	            break;
@@ -93,14 +109,14 @@ class ilAsqQuestionAuthoringGUI
         global $DIC;
         
         $question_id = $_GET[self::VAR_QUESTION_ID];
-        $question = $this->authoring_service->GetQuestion($question_id);
+        $question = $this->authoring_application_service->GetQuestion($question_id);
         $form = AsqGUIElementFactory::CreateQuestionForm($question);
         
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "POST":
                 $question = $form->getQuestion();
-                $this->authoring_service->SaveQuestion($question);
+                $this->authoring_application_service->SaveQuestion($question);
                 $form = AsqGUIElementFactory::CreateQuestionForm($question);
                 ilutil::sendSuccess("Question Saved");
                 break;
@@ -113,7 +129,7 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC;
         
-        $questions = $this->authoring_service->GetQuestions();
+        $questions = $this->authoring_application_service->GetQuestions();
         
         $DIC->ui()->mainTemplate()->setContent(join("\n", array_map(
             function($question) {
@@ -135,11 +151,10 @@ class ilAsqQuestionAuthoringGUI
         global $DIC;
         
         $question_id = $_GET[self::VAR_QUESTION_ID];
-        $question = $this->authoring_service->GetQuestion($question_id);
+        $question = $this->authoring_application_service->GetQuestion($question_id);
         
-        $player = new PlayApplicationService();
-        
-        
+        $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
+
         
         $question_component = new QuestionComponent($question);
         switch($_SERVER['REQUEST_METHOD'])

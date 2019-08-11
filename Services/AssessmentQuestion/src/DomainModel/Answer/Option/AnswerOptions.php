@@ -27,6 +27,10 @@ class AnswerOptions {
 		$this->options[] = $option;
 	}
 
+
+    /**
+     * @return AnswerOption[]
+     */
 	public function getOptions() : array {
 		return $this->options;
 	}

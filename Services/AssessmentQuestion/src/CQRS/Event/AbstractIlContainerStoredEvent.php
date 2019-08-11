@@ -7,7 +7,7 @@ use ilDateTime;
 use \ilException;
 
 /**
- * Class AbstractStoredEvent
+ * Class AbstractIlContainerStoredEvent
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,7 +16,7 @@ use \ilException;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class AbstractStoredEvent extends ActiveRecord {
+abstract class AbstractIlContainerStoredEvent extends ActiveRecord {
 
 	/**
 	 * @var int
@@ -58,6 +58,15 @@ abstract class AbstractStoredEvent extends ActiveRecord {
 	 * @con_is_notnull true
 	 */
 	protected $occurred_on;
+    /**
+     * @var int
+     *
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_index      true
+     * @con_is_notnull true
+     */
+    protected $container_obj_id;
 	/**
 	 * @var int
 	 *
@@ -87,10 +96,11 @@ abstract class AbstractStoredEvent extends ActiveRecord {
 	 * @param int        $initiating_user_id
 	 * @param string     $event_body
 	 */
-	public function setEventData(string $aggregate_id, string $event_name, ilDateTime $occurred_on, int $initiating_user_id, string $event_body) {
+	public function setEventData(string $aggregate_id, string $event_name, ilDateTime $occurred_on, int $container_obj_id, int $initiating_user_id, string $event_body) {
 		$this->aggregate_id = $aggregate_id;
 		$this->event_name = $event_name;
 		$this->occurred_on = $occurred_on;
+		$this->container_obj_id  = $container_obj_id;
 		$this->initiating_user_id = $initiating_user_id;
 		$this->event_body = $event_body;
 	}
@@ -135,6 +145,14 @@ abstract class AbstractStoredEvent extends ActiveRecord {
 		return $this->occurred_on;
 	}
 
+
+    /**
+     * @return int
+     */
+    public function getContainerObjId() : int
+    {
+        return $this->container_obj_id;
+    }
 
 	/**
 	 * @return int

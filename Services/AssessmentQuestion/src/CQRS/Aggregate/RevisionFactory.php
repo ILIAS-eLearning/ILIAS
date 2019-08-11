@@ -13,6 +13,7 @@ namespace ILIAS\AssessmentQuestion\CQRS\Aggregate;
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
+ *
  */
 class RevisionFactory {
 
@@ -28,7 +29,6 @@ class RevisionFactory {
 	public static function SetRevisionId(IsRevisable $entity) {
 
 		$key = self::GenerateRevisionKey($entity);
-
 		$entity->setRevisionId(new RevisionId($key));
 	}
 

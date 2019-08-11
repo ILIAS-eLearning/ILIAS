@@ -59,9 +59,9 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 	}
 
     /**
-     * @return int|null
+     * @return int
      */
-	public function getQuestionContainer(): ?int {
+	public function getQuestionContainerId(): int {
 		return $this->container_id;
 	}
 

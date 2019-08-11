@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 
 /**
@@ -22,14 +23,22 @@ class ProcessingService
      * @var int
      */
     protected $actor_user_id;
+    /**
+     * @var PlayApplicationService
+     */
+    protected $processing_application_service;
 
 
     /**
+     * @param int $container_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $actor_user_id)
+    public function __construct(int $container_obj_id, int $actor_user_id)
     {
+        $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+
+        $this->processing_application_service = new PlayApplicationService($container_obj_id, $actor_user_id);
     }
 
 
@@ -43,5 +52,13 @@ class ProcessingService
     public function question(AssessmentEntityId $question_revision_id, AssessmentEntityId $user_answer_id) : Question
     {
         return new Question($question_revision_id, $this->actor_user_id, $user_answer_id);
+    }
+
+    /**
+     * @return ProcessingQuestionList
+     */
+    public function questionList() : ProcessingQuestionList
+    {
+        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id);
     }
 }

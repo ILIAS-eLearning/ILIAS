@@ -7,6 +7,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
+use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 
 /**
@@ -19,7 +20,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionPlayConfigurationSetEvent extends AbstractDomainEvent {
+class QuestionPlayConfigurationSetEvent extends AbstractIlContainerDomainEvent {
 
 	public const NAME = 'QuestionPlayConfigurationSetEvent';
 	/**
@@ -27,18 +28,20 @@ class QuestionPlayConfigurationSetEvent extends AbstractDomainEvent {
 	 */
 	protected $play_configuration;
 
+
     /**
      * QuestionPlayConfigurationSetEvent constructor.
      *
      * @param DomainObjectId                 $id
-     * @param int                            $creator_id
+     * @param int                            $container_obj_id
+     * @param int                            $initiating_user_id
      * @param QuestionPlayConfiguration|null $play_configuration
      *
      * @throws \ilDateTimeException
      */
-	public function __construct(DomainObjectId $id, int $creator_id, QuestionPlayConfiguration $play_configuration = null)
+	public function __construct(DomainObjectId $id, int $container_obj_id, int $initiating_user_id, QuestionPlayConfiguration $play_configuration = null)
 	{
-		parent::__construct($id, $creator_id);
+		parent::__construct($id, $container_obj_id, $initiating_user_id);
 		$this->play_configuration = $play_configuration;
 	}
 

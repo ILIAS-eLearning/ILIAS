@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
 use ILIAS\UI\Component\Link\Link;
+use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class AuthoringService
@@ -28,6 +31,10 @@ class AuthoringService
      * @var int
      */
     protected $actor_user_id;
+    /**
+     * AuthoringApplicationService
+     */
+    protected $authoring_application_service;
 
 
     /**
@@ -38,6 +45,8 @@ class AuthoringService
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
     }
 
 
@@ -56,9 +65,19 @@ class AuthoringService
 
 
     /**
+     * @param AssessmentEntityId $question_uuid
+     *
+     * @return QuestionComponent
+     */
+    public function questionComponent(AssessmentEntityId $question_uuid):QuestionComponent {
+       return new QuestionComponent($this->authoring_application_service->GetQuestion($question_uuid->getId()));
+    }
+
+
+    /**
      * @return QuestionList
      */
-    public function questionList() : QuestionList
+    public function questionList() : AuthoringQuestionList
     {
         return new AuthoringQuestionList($this->container_obj_id, $this->actor_user_id);
     }

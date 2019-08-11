@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
+use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
 
 /**
@@ -18,7 +18,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionLegacyDataSetEvent extends AbstractDomainEvent {
+class QuestionLegacyDataSetEvent extends AbstractIlContainerDomainEvent {
 
 	public const NAME = 'QuestionLegacyDataSetEvent';
 
@@ -27,10 +27,12 @@ class QuestionLegacyDataSetEvent extends AbstractDomainEvent {
 	 */
 	protected $legacy_data;
 
+
     /**
      * QuestionLegacyDataSetEvent constructor.
      *
      * @param DomainObjectId          $question_uuid
+     * @param int                     $container_obj_id
      * @param int                     $initiating_user_id
      * @param QuestionLegacyData|null $legacy_data
      *
@@ -39,11 +41,12 @@ class QuestionLegacyDataSetEvent extends AbstractDomainEvent {
 	public function __construct
 	(
 		DomainObjectId $question_uuid,
+		int $container_obj_id,
 		int $initiating_user_id,
 		QuestionLegacyData $legacy_data = null
 	)
 	{
-		parent::__construct($question_uuid, $initiating_user_id);
+		parent::__construct($question_uuid, $container_obj_id, $initiating_user_id);
 		$this->legacy_data = $legacy_data;
 	}
 
