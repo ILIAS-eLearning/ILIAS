@@ -51,14 +51,14 @@ class ProjectQuestions implements Projection {
             $values = $answer_option->getDisplayDefinition()->getValues();
             foreach($answer_option->getDisplayDefinition()->getFields() as $field_key => $field) {
                 foreach ($arr_answer_option_storage as $answer_option_storage) {
-                    //if ($answer_option->satisfy($field->getType()) === true ) {
+                    if ($answer_option_storage->satisfy($field->getType()) === true && strlen( $values[$field_key]) > 0) {
                     $answer_option_storage->setData(
                             $projectee->getContainerObjId(),
                             $projectee->getAggregateId()->getId(),
                             $revision_id,
                             $values[$field_key]);
                     $answer_option_to_project[] = $answer_option_storage;
-                    //}
+                    }
                 }
             }
         }
