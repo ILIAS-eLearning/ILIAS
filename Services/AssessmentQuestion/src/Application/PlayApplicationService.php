@@ -110,8 +110,8 @@ class PlayApplicationService
         if (count($questions) > 0) {
             foreach ($questions as $question) {
                 $question_dto = new QuestionDto();
-                $question_dto->setId('question_id');
-                $question_dto->setRevisionId('revision_id');
+                $question_dto->setId($question['question_id']);
+                $question_dto->setRevisionId($question['revision_id']);
                 $question_data = QuestionData::create(
                     $question['title'],
                     $question['question'],

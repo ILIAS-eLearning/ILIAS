@@ -161,18 +161,6 @@ class asqDebugGUI {
      */
 
 
-    //TODO right Place?
-    /**
-     * Project all Quetions
-     */
-    /*
-if($form->getItemByPostVar('online')->getChecked() &&
-$this->testOBJ->getOfflineStatus() == 1) {
-
-}
-
-*/
-
     protected function renderEditToolbar() {
         global $DIC;
 
@@ -220,21 +208,6 @@ $this->testOBJ->getOfflineStatus() == 1) {
                 $row[] = $question->getRevisionId();
                 $row[] = $question->getData()->getTitle();
 
-                /*
-                $row[] = $DIC->ui()->renderer()->render(
-                    $this->authoring_service->question(
-                        $this->entity_id_builder->fromString(
-                            $question['id']),
-                        $this->back_link
-                    )->getEditLink([ilRepositoryGUI::class,ilObjTestGUI::class,asqDebugGUI::class])
-                );
-                $row[] = $DIC->ui()->renderer()->render(
-                    $this->authoring_service->question(
-                        $this->entity_id_builder->fromString(
-                            $question['id']),
-                        $this->back_link
-                    )->getPreviewLink([ilRepositoryGUI::class,ilObjTestGUI::class,asqDebugGUI::class])
-                );*/
                 $html .= '<li>'.implode($row," | ").'</li>';
             }
             $html .= "<ul>";
