@@ -97,6 +97,17 @@ class PlayApplicationService
         return $scoring->score($question->getAnswer($user_id, $test_id));
     }
 
+    /**
+     * @param string $revision_id
+     *
+     * @return QuestionDto
+     */
+    public function GetQuestion(string $revision_id) : QuestionDto {
+        $repository = new PublishedQuestionRepository();
+
+        return $repository->getQuestionByRevisionId($revision_id);
+    }
+
 
     public function GetQuestions() : array
     {

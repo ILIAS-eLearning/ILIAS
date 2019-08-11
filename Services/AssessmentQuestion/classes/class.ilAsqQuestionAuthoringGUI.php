@@ -8,6 +8,7 @@ use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
@@ -28,7 +29,7 @@ class ilAsqQuestionAuthoringGUI
     
 	const CMD_CREATE_QUESTION = "createQuestion";
 	const CMD_EDIT_QUESTION = "editQuestion";
-	const CMD_PLAY_QUESTION = "playQuestion";
+	const CMD_PREVIEW_QUESTION = "previewQuestion";
 	const CMD_SCORE_QUESTION = "scoreQuestion";
 	
 	//TODO remove me when no longer needed
@@ -140,13 +141,13 @@ class ilAsqQuestionAuthoringGUI
                 return "<div>" . 
                             $question["aggregate_id"] . 
                             "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_EDIT_QUESTION) . "'>    Edit</a>" .
-                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_PLAY_QUESTION) . "'>   Play</a>" .
+                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_PREVIEW_QUESTION) . "'>   Play</a>" .
                             "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_SCORE_QUESTION) . "'>   Score</a>" .
                         "</ div>";
             }, $questions)));
     }
     
-    public function playQuestion()
+    public function previewQuestion()
     {
         global $DIC;
         
@@ -155,7 +156,6 @@ class ilAsqQuestionAuthoringGUI
         
         $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
 
-        
         $question_component = new QuestionComponent($question);
         switch($_SERVER['REQUEST_METHOD'])
         {
@@ -167,8 +167,13 @@ class ilAsqQuestionAuthoringGUI
                 break;
             case "POST":
                 $answer = new Answer($DIC->user()->getId(), $question_id, self::DEBUG_TEST_ID, $question_component->readAnswer());
-                $player->AnswerQuestion($answer);
+                //$player->AnswerQuestion($answer);
                 $question_component->setAnswer($answer);
+
+                $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
+                $scoring = new $scoring_class($question);
+
+                ilUtil::sendInfo("Score: ".$scoring->score($answer));
                 break;
         }
 

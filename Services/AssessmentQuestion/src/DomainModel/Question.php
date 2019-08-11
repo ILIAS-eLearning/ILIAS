@@ -80,7 +80,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * Question constructor.
 	 */
-	protected function __construct() {
+	public function __construct() {
 		parent::__construct();
 
 		$this->answers = [];

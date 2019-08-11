@@ -7,7 +7,7 @@ use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEvent
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionImageAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionTextAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\questionEventStore;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItem;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItemAr;
 
 /**
  * Class SetupDatabase
@@ -26,12 +26,12 @@ class SetupDatabase {
         $ilCtrlStructureReader->readStructure(true);
 
         $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME);
-        $DIC->database()->dropTable(QuestionListItem::STORAGE_NAME);
+        $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME);
         $DIC->database()->dropTable(AnswerOptionImageAr::STORAGE_NAME);
         $DIC->database()->dropTable(AnswerOptionTextAr::STORAGE_NAME);
 
         QuestionEventStoreAr::updateDB();
-		QuestionListItem::updateDB();
+		QuestionListItemAr::updateDB();
         AnswerOptionImageAr::updateDB();
         AnswerOptionTextAr::updateDB();
 

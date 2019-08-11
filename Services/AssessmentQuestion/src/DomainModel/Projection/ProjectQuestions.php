@@ -12,7 +12,7 @@ use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOption;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionImageAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionTextAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItem;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItemAr;
 
 /**
  * Class ProjectQuestions

@@ -29,7 +29,7 @@ class AnswerQuestionCommandHandler implements CommandHandlerContract {
 		$repo = QuestionRepository::getInstance();
 		/** @var Question $question */
 		$question = $repo->getAggregateRootById(new DomainObjectId($command->getAnswer()->getQuestionId()));
-		$question->addAnswer($command->getAnswer());
+		$question->addAnswer($command->getAnswer(), $question->getContainerObjId());
 		QuestionRepository::getInstance()->save($question);
 	}
 }

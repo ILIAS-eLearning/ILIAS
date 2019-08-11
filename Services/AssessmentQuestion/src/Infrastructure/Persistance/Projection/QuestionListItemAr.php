@@ -7,7 +7,7 @@ use arConnector;
 use ilDateTime;
 
 /**
- * Class QuestionListItem
+ * Class QuestionListItemAr
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,7 +16,7 @@ use ilDateTime;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionListItem extends AbstractProjectionAr
+class QuestionListItemAr extends AbstractProjectionAr
 {
 
     const STORAGE_NAME = "asq_question_list_item";
