@@ -24,7 +24,7 @@ class PublishedQuestionRepository {
         string $title,
         string $description,
         string $question,
-        array $answer_option
+        array $answer_options
     ) {
         $this->unpublishCurrentRevision($question_id, $container_obj_id);
 
@@ -42,7 +42,7 @@ class PublishedQuestionRepository {
 			$item->save();
 		}*/
 
-        foreach ($answer_option as $answer_option) {
+        foreach ($answer_options as $answer_option) {
             $answer_option->create();
 		}
     }

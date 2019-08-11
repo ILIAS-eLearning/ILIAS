@@ -44,6 +44,8 @@ class ProjectQuestions implements Projection {
          */
         $arr_answer_option_storage[] = new AnswerOptionImageAr();
         $arr_answer_option_storage[] = new AnswerOptionTextAr();
+
+
         //TODO clean up this foreach in foreach! And use an AnswerDTO Object
         foreach($projectee->getAnswerOptions()->getOptions() as $answer_option) {
             $values = $answer_option->getDisplayDefinition()->getValues();
