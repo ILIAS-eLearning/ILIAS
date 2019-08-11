@@ -145,10 +145,7 @@ class asqDebugGUI
     {
         global $DIC;
         foreach ($this->authoring_service->questionList()->getQuestionsOfContainerAsDtoList() as $question_dto) {
-
-            $revision_id = $this->entity_id_builder->new();
-
-            $this->authoring_service->question($this->entity_id_builder->fromString($question_dto->getId()), $this->back_link)->publishNewRevision($revision_id);
+            $this->authoring_service->question($this->entity_id_builder->fromString($question_dto->getId()), $this->back_link)->publishNewRevision();
         }
         $DIC->ctrl()->redirect($this);
     }
