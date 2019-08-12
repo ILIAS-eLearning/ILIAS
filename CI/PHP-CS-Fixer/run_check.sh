@@ -4,6 +4,7 @@ PHP_CS_FIXER="libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
 
 PRE="\t*** "
 echo `pwd`
+echo `ls libs/composer/vendor/friendsofphp/php-cs-fixer/`
 function printLn() {
 	echo -e "$PRE $1"
 }
