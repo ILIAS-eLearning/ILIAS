@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace ILIAS\Setup;
 
@@ -9,6 +9,7 @@ namespace ILIAS\Setup;
  */
 class ImplementationOfInterfaceFinder
 {
+
     /**
      * @var string
      */
@@ -16,27 +17,28 @@ class ImplementationOfInterfaceFinder
     /**
      * @var array
      */
-    private $ignore = [
-        '/libs/',
-        '/test/',
-        '/tests/',
-        '/setup/',
-        // Classes using removed Auth-class from PEAR
-        '.*ilAuthCalendar.*',
-        '.*ilAuthCAS.*',
-        '.*ilAuthContainerCAS.*',
-        '.*ilAuthContainerECS.*',
-        '.*ilAuthContainerSOAP.*',
-        '.*ilAuthECS.*',
-        '.*ilAuthHTTP.*',
-        '.*ilAuthInactive.*',
-        '.*ilAuthLogObserver.*',
-        '.*ilAuthSOAP.*',
-        '.*ilCASAuth.*',
-        '.*ilSOAPAuth.*',
-        // Classes using unknown 
-        '.*ilPDExternalFeedBlockGUI.*'
-    ];
+    private $ignore
+        = [
+            '/libs/',
+            '/test/',
+            '/tests/',
+            '/setup/',
+            // Classes using removed Auth-class from PEAR
+            '.*ilAuthCalendar.*',
+            '.*ilAuthCAS.*',
+            '.*ilAuthContainerCAS.*',
+            '.*ilAuthContainerECS.*',
+            '.*ilAuthContainerSOAP.*',
+            '.*ilAuthECS.*',
+            '.*ilAuthHTTP.*',
+            '.*ilAuthInactive.*',
+            '.*ilAuthLogObserver.*',
+            '.*ilAuthSOAP.*',
+            '.*ilCASAuth.*',
+            '.*ilSOAPAuth.*',
+            // Classes using unknown
+            '.*ilPDExternalFeedBlockGUI.*',
+        ];
 
 
     public function __construct(string $interface)
@@ -56,24 +58,25 @@ class ImplementationOfInterfaceFinder
             throw new \LogicException("Composer ClassMap not loaded");
         }
 
-		$regexp = implode(
-			"|",
-			array_map(
-				function($v) { return "($v)"; },
-				$this->ignore
-			)
-		); 
+        $regexp = implode(
+            "|",
+            array_map(
+                function ($v) { return "($v)"; },
+                $this->ignore
+            )
+        );
 
-		echo $regexp."\n";
+        echo $regexp . "\n";
 
         foreach ($composer_classmap as $class_name => $file_path) {
             $path = str_replace($root, "", realpath($file_path));
             if (!preg_match("#^" . $regexp . "$#", $path)) {
-				echo $path." => ".$class_name."\n";
+                echo $path . " => " . $class_name . "\n";
                 yield $class_name;
             }
         }
     }
+
 
     public function getMatchingClassNames() : \Iterator
     {
