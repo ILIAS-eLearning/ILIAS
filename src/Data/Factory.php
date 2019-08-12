@@ -87,7 +87,6 @@ class Factory {
 		return new ClientId($clientId);
 	}
 
-
 	/**
 	 * @param int $ref_id
 	 *
@@ -153,5 +152,14 @@ class Factory {
 	public function closedFloatInterval(float $minimum, float $maximum): ClosedFloatInterval
 	{
 		return new ClosedFloatInterval($minimum, $maximum);
+	}
+
+	/**
+	 * @return DateFormat\Factory
+	 */
+	public function dateFormat(): DateFormat\Factory
+	{
+		$builder = new DateFormat\FormatBuilder();
+		return new DateFormat\Factory($builder);
 	}
 }

@@ -157,7 +157,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 		$ilCtrl->setParameterByClass('ildclfieldeditgui', 'field_id', $a_set->getId());
 
 		if (!$a_set->isStandardField()) {
-			include_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 			$alist = new ilAdvancedSelectionListGUI();
 			$alist->setId($a_set->getId());
 			$alist->setListTitle($lng->txt('actions'));

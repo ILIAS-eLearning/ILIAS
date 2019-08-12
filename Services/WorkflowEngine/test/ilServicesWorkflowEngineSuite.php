@@ -3,7 +3,8 @@
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
+
 $GLOBALS["DIC"] = new \ILIAS\DI\Container();
 
 /**
@@ -27,8 +28,6 @@ class ilServicesWorkflowEngineSuite extends TestSuite
 		chdir( '../../../' );
 
 		$suite = new ilServicesWorkflowEngineSuite();
-
-		require_once './Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 
 		//
 		// ---------------------------------------------------------------------
@@ -114,11 +113,6 @@ class ilServicesWorkflowEngineSuite extends TestSuite
 		// ---------------------------------------------------------------------
 		//
 
-		//require_once './Services/WorkflowEngine/test/workflows/ilBaseWorkflowTest.php';
-		//$suite->addTestSuite('ilBaseWorkflowTest');
-
-		//return $suite; // Uncomment to exclude parsertests for more meaningful coverage data.
-
 		// ---------------------------------------------------------------------
 		// Utils
 		// ---------------------------------------------------------------------
@@ -164,21 +158,9 @@ class ilServicesWorkflowEngineSuite extends TestSuite
 		require_once './Services/WorkflowEngine/test/parser/009_EndEvent/class.test_009_EndEvent.php';
 		$suite->addTestSuite('test_009_EndEvent');
 
-		// 010_ComplexGateway
-		//require_once './Services/WorkflowEngine/test/parser/010_ComplexGateway/class.test_010_ComplexGateway.php';
-		//$suite->addTestSuite('test_010_ComplexGateway');
-
-		// 011_EventBasedGateway
-		//require_once './Services/WorkflowEngine/test/parser/011_EventBasedGateway/class.test_011_EventBasedGateway.php';
-		//$suite->addTestSuite('test_011_EventBasedGateway');
-
 		// 012_DataInput
 		require_once './Services/WorkflowEngine/test/parser/012_DataInput/class.test_012_DataInput.php';
 		$suite->addTestSuite('test_012_DataInput');
-
-		// 013_DataOutput
-		require_once './Services/WorkflowEngine/test/parser/013_DataOutput/class.test_013_DataOutput.php';
-		$suite->addTestSuite('test_013_DataOutput');
 
 		// 014_DataObject
 		require_once './Services/WorkflowEngine/test/parser/014_DataObject/class.test_014_DataObject.php';

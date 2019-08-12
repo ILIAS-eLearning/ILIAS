@@ -37,17 +37,18 @@ class Factory implements Field\Factory {
 	 * Factory constructor.
 	 *
 	 * @param SignalGeneratorInterface $signal_generator
+	 * @param Data\Factory $data_factory
+	 * @param \ILIAS\Refinery\Factory $refinery
 	 */
 	public function __construct(
 		SignalGeneratorInterface $signal_generator,
 		Data\Factory $data_factory,
 		\ILIAS\Refinery\Factory $refinery
 	) {
-		$this->data_factory = $data_factory; 
 		$this->signal_generator = $signal_generator;
+		$this->data_factory = $data_factory;
 		$this->refinery = $refinery;
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -56,14 +57,12 @@ class Factory implements Field\Factory {
 		return new Text($this->data_factory, $this->refinery, $label, $byline);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function numeric($label, $byline = null) {
 		return new Numeric($this->data_factory, $this->refinery, $label, $byline);
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -72,14 +71,12 @@ class Factory implements Field\Factory {
 		return new Group($this->data_factory, $this->refinery, $inputs, "", "");
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function section(array $inputs, $label, $byline = null) {
 		return new Section($this->data_factory, $this->refinery, $inputs, $label, $byline);
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -88,14 +85,12 @@ class Factory implements Field\Factory {
 		return new DependantGroup($this->data_factory, $this->refinery, $this->signal_generator, $inputs);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function checkbox($label, $byline = null) {
 		return new Checkbox($this->data_factory, $this->refinery, $label, $byline);
 	}
-
 
 	/**
 	 * @inheritDoc
@@ -104,7 +99,6 @@ class Factory implements Field\Factory {
 		return new Tag($this->data_factory, $this->refinery, $label, $byline, $tags);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
@@ -112,14 +106,12 @@ class Factory implements Field\Factory {
 		return new Password($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator);
 	}
 
-
 	/**
 	 * @inheritdoc
 	 */
 	public function select($label, array $options, $byline = null) {
 		return new Select($this->data_factory, $this->refinery, $label, $options, $byline);
 	}
-
 
 	/**
 	 * @inheritdoc
@@ -142,4 +134,17 @@ class Factory implements Field\Factory {
 		return new MultiSelect($this->data_factory, $this->refinery, $label, $options, $byline);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function dateTime($label, $byline = null) {
+		return new DateTime($this->data_factory, $this->refinery, $label, $byline);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function duration($label, $byline = null) {
+		return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
+	}
 }

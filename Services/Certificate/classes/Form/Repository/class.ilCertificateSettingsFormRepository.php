@@ -57,6 +57,21 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private $templateRepository;
 
     /**
+     * @var string
+     */
+    private $certificatePath;
+
+    /**
+     * @var bool
+     */
+    private $hasAdditionalElements;
+
+    /**
+     * @var ilCertificateBackgroundImageFileService
+     */
+    private $backGroundImageFileService;
+
+    /**
      * @param integer $objectId
      * @param string $certificatePath
      * @param ilLanguage $language
@@ -73,6 +88,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     public function __construct(
         int $objectId,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
         ilAccess $access,
@@ -82,7 +98,9 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ilFormFieldParser $formFieldParser = null,
         ilCertificateTemplateImportAction $importAction = null,
         ilLogger $logger = null,
-        ilCertificateTemplateRepository $templateRepository = null
+        ilCertificateTemplateRepository $templateRepository = null,
+        \ILIAS\Filesystem\Filesystem $filesystem = null,
+        ilCertificateBackgroundImageFileService $backgroundImageFileService = null
     ) {
         global $DIC;
 
@@ -92,6 +110,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->access                       = $access;
         $this->toolbar                      = $toolbar;
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
+        $this->certificatePath              = $certificatePath;
+        $this->hasAdditionalElements        = $hasAdditionalElements;
 
         $database                           = $DIC->database();
 
@@ -125,11 +145,21 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $templateRepository = new ilCertificateTemplateRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
+
+        if (null === $filesystem) {
+            $filesystem = $DIC->filesystem()->web();
+        }
+
+        if (null === $backgroundImageFileService) {
+            $backgroundImageFileService = new ilCertificateBackgroundImageFileService($certificatePath, $filesystem);
+        }
+        $this->backGroundImageFileService = $backgroundImageFileService;
     }
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate $certificateObject
+     * @param ilCertificate    $certificateObject
+     * @param string           $certificatePath
      * @return ilPropertyFormGUI
      * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
@@ -138,8 +168,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
-    {
+    public function createForm(ilCertificateGUI $certificateGUI) {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
         $command = $this->controller->getCmd();
@@ -214,7 +243,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $bgimage->setUseCache(false);
 
         $bgimage->setALlowDeletion(true);
-        if (!$certificateObject->hasBackgroundImage()) {
+        if (!$this->backGroundImageFileService->hasBackgroundImage($certificateTemplate)) {
             if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
                 ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
                 $imagePath = ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
@@ -224,7 +253,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         } else {
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
 
-            $thumbnailPath = $certificateObject->getBackgroundImageThumbPath();
+            $thumbnailPath = $this->backGroundImageFileService->getBackgroundImageThumbPath();
 
             if (!file_exists($thumbnailPath)) {
                 $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
@@ -271,7 +300,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $certificate->setRows(20);
         $certificate->setCols(80);
 
-
         $placeholderHtmlDescription = $this->placeholderDescriptionObject->createPlaceholderHtmlDescription();
 
         $placeholderDescriptionInHtml = $placeholderHtmlDescription;
@@ -301,7 +329,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form->addItem($certificate);
 
-        if ($certificateObject->getAdapter()->hasAdditionalFormElements()) {
+        if (true === $this->hasAdditionalElements) {
             $formSection = new \ilFormSectionHeaderGUI();
             $formSection->setTitle($this->language->txt("cert_form_sec_add_features"));
             $form->addItem($formSection);

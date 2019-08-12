@@ -12,48 +12,52 @@ use ILIAS\UI\Factory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BaseTypeRenderer implements TypeRenderer {
+class BaseTypeRenderer implements TypeRenderer
+{
 
-	/**
-	 * @var Factory
-	 */
-	protected $ui_factory;
-
-
-	/**
-	 * BaseTypeRenderer constructor.
-	 */
-	public function __construct() {
-		global $DIC;
-		$this->ui_factory = $DIC->ui()->factory();
-	}
+    /**
+     * @var Factory
+     */
+    protected $ui_factory;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getComponentForItem(isItem $item): Component {
-		if ($item instanceof Tool) {
-			$symbol = $this->getStandardSymbol($item);
-
-			return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getContent());
-			// return $item->getContent();
-		}
-
-		return $this->ui_factory->legacy("");
-	}
+    /**
+     * BaseTypeRenderer constructor.
+     */
+    public function __construct()
+    {
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+    }
 
 
-	/**
-	 * @param isItem $item
-	 *
-	 * @return Symbol
-	 */
-	protected function getStandardSymbol(isItem $item): Symbol {
-		if ($item instanceof hasSymbol && $item->hasSymbol()) {
-			return $item->getSymbol();
-		}
+    /**
+     * @inheritDoc
+     */
+    public function getComponentForItem(isItem $item) : Component
+    {
+        if ($item instanceof Tool) {
+            $symbol = $this->getStandardSymbol($item);
 
-		return $this->ui_factory->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", 'ILIAS', 'small', true);
-	}
+            return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getContent());
+            // return $item->getContent();
+        }
+
+        return $this->ui_factory->legacy("");
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return Symbol
+     */
+    protected function getStandardSymbol(isItem $item) : Symbol
+    {
+        if ($item instanceof hasSymbol && $item->hasSymbol()) {
+            return $item->getSymbol();
+        }
+
+        return $this->ui_factory->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", 'ILIAS', 'small', true);
+    }
 }

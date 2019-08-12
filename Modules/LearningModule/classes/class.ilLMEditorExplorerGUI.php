@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/LearningModule/classes/class.ilLMExplorerGUI.php");
 
 /**
  * LM editor explorer GUI class
@@ -44,7 +43,6 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 			$a_name = "icon_".$a_node["type"].".svg";
 			if ($a_node["type"] == "pg")
 			{
-				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 				$lm_set = new ilSetting("lm");
 				$active = ilLMPage::_lookupActive($a_node["child"], $this->lm->getType(),
 					$lm_set->get("time_scheduled_page_activation"));
@@ -63,7 +61,6 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 				}
 				else
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_node["child"],
 						$this->lm->getType());
 					if ($contains_dis)
@@ -88,8 +85,6 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 	{
 		$lng = $this->lng;
 		
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-
 		if ($a_node["type"] == "du")
 		{
 			$a_node["type"] = "lm";
@@ -97,7 +92,6 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 
 		if ($a_node["type"] == "pg")
 		{
-			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 			$lm_set = new ilSetting("lm");
 			$active = ilLMPage::_lookupActive($a_node["child"], $this->lm->getType(),
 				$lm_set->get("time_scheduled_page_activation"));

@@ -537,6 +537,34 @@ class ilFileUtils
 		return self::lookupFileMimeType($a_file);
 	}
 
+
+
+	/**
+	 * @return array
+	 */
+	public static function getExplicitlyBlockedFiles() {
+		global $DIC;
+		$setting = $DIC->settings();
+
+		static $fileadmin_ref_id;
+
+		if ($fileadmin_ref_id === null) {
+			$id = (int)reset(ilObject2::_getObjectsByType('facs'))['obj_id'];
+			$fileadmin_ref_id = (int)reset(ilObject2::_getAllReferences($id));
+		}
+		if ($DIC->rbac()->system()->checkAccess('upload_blacklisted_files', $fileadmin_ref_id )) {
+			return array();
+		}
+
+		$blocked = array();
+		foreach (explode(",", $setting->get("suffix_custom_expl_black")) as $blocked_suffix) {
+			$blocked[] = trim(strtolower($blocked_suffix));
+		}
+
+		return $blocked;
+	}
+
+
 	/**
 	 * Valid extensions
 	 * @return array valid file extensions
@@ -568,6 +596,9 @@ class ilFileUtils
 				$whitelist[] = $custom_white;
 			}
 		}
+
+		// bugfix mantis 25498: add an empty entry to ensure that files without extensions are still valid
+		$whitelist[] = '';
 
 		return $whitelist;
 	}

@@ -47,6 +47,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         $repository = new ilCertificateSettingsScormFormRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,
@@ -116,6 +117,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         $repository = new ilCertificateSettingsScormFormRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,

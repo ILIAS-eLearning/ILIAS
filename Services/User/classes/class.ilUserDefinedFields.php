@@ -383,13 +383,28 @@ class ilUserDefinedFields
 		return $this->field_visible_registration;
 	}
 
-	function fieldValuesToSelectArray($a_values)
+	/**
+	 * @param mixed[] $a_values
+	 * @param bool $a_with
+	 * @return array
+	 */
+	public function fieldValuesToSelectArray($a_values, $a_with_selection_info = true)
 	{
+		global $DIC;
+
+		$lng = $DIC->language();
+		$values = [];
+		if($a_with_selection_info) {
+			$values[''] = $lng->txt('please_select');
+		}
 		foreach($a_values as $value)
 		{
 			$values[$value] = $value;
 		}
-		return $values ? $values : array();
+		if(count($values) > (int) $a_with_selection_info) {
+			return $values;
+		}
+		return [];
 	}
 
 	function validateValues()

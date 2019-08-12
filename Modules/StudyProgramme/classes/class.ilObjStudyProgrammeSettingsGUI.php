@@ -258,7 +258,7 @@ class ilObjStudyProgrammeSettingsGUI {
 						self::PROP_POINTS =>
 							$ff->numeric($txt("prg_points"))
 								->withValue((string)$prg->getPoints())
-								->withAdditionalConstraint($this->refinery->int()->isGreaterThan(-1)),
+								->withAdditionalTransformation($this->refinery->int()->isGreaterThan(-1)),
 						self::PROP_STATUS =>
 							$ff->select($txt("prg_status"), $status_options)
 								->withValue((string)$prg->getStatus())

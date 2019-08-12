@@ -42,10 +42,6 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 
 	public function test_WorkflowWithSimpleIntermediateMessageEventShouldOutputAccordingly()
 	{
-		$this->markTestIncomplete(
-				'$ilDB throws notices during test.'
-		);
-
 		$test_name = 'IntermediateCatchEvent_Message_Simple';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
 		$parser = new ilBPMN2Parser();
@@ -59,18 +55,11 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		require_once './Services/Database/classes/class.ilDB.php';
-		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
+		$ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
 		$i = 0;
 		$ildb_mock->expects( $this->any() )->method( 'nextId' )->will( $this->returnValue($i++) );
-		$ildb_mock->expects( $this->any() )->method( 'exec' )->will( $this->returnValue(true) );
 		$ildb_mock->expects( $this->any() )->method( 'insert' )->will( $this->returnValue(true) );
-
-//		$ildb_mock->expects( $this->exactly(2) )
-//				  ->method( 'fetchAssoc' )
-//				  ->with( $this->equalTo('Test') )
-//				  ->will( $this->onConsecutiveCalls(array('answer_id' => 123, 'depth' => 456), false ) );
 
 		global $ilDB;
 		$ilDB = $ildb_mock;
@@ -142,10 +131,6 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 
 	public function test_WorkflowWithSimpleIntermediateSignalEventShouldOutputAccordingly()
 	{
-		$this->markTestIncomplete(
-				'$ilDB throws notices during test.'
-		);
-
 		$test_name = 'IntermediateCatchEvent_Signal_Simple';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
 		$parser = new ilBPMN2Parser();
@@ -159,18 +144,11 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		require_once './Services/Database/classes/class.ilDB.php';
-		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
+		$ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
-		$id = 0;
+		$i = 0;
 		$ildb_mock->expects( $this->any() )->method( 'nextId' )->will( $this->returnValue($i++) );
-		$ildb_mock->expects( $this->any() )->method( 'exec' )->will( $this->returnValue(true) );
 		$ildb_mock->expects( $this->any() )->method( 'insert' )->will( $this->returnValue(true) );
-
-//		$ildb_mock->expects( $this->exactly(2) )
-//				  ->method( 'fetchAssoc' )
-//				  ->with( $this->equalTo('Test') )
-//				  ->will( $this->onConsecutiveCalls(array('answer_id' => 123, 'depth' => 456), false ) );
 
 		global $ilDB;
 		$ilDB = $ildb_mock;
@@ -242,9 +220,6 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 
 	public function test_WorkflowWithSimpleIntermediateTimerEventShouldOutputAccordingly()
 	{
-		$this->markTestIncomplete(
-				'$ilDB throws notices during test.'
-		);
 		$test_name = 'IntermediateCatchEvent_Timer_Simple';
 		$xml = file_get_contents($this->getTestInputFilename($test_name));
 		$parser = new ilBPMN2Parser();
@@ -258,18 +233,11 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 		$goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
 		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		require_once './Services/Database/classes/class.ilDB.php';
-		$ildb_mock = $this->createMock('ilDBMySQL', array('nextId','quote','exec', 'insert'), array(), '', false, false);
+		$ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
 		$ildb_mock->expects( $this->any() )->method('quote')->will( $this->returnCallback(''));
-		$id = 0;
+		$i = 0;
 		$ildb_mock->expects( $this->any() )->method( 'nextId' )->will( $this->returnValue($i++) );
-		$ildb_mock->expects( $this->any() )->method( 'exec' )->will( $this->returnValue(true) );
 		$ildb_mock->expects( $this->any() )->method( 'insert' )->will( $this->returnValue(true) );
-
-//		$ildb_mock->expects( $this->exactly(2) )
-//				  ->method( 'fetchAssoc' )
-//				  ->with( $this->equalTo('Test') )
-//				  ->will( $this->onConsecutiveCalls(array('answer_id' => 123, 'depth' => 456), false ) );
 
 		global $ilDB;
 		$ilDB = $ildb_mock;

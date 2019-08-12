@@ -9,18 +9,20 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ToolFactory {
+class ToolFactory
+{
 
-	/**
-	 * Returns you a Tool which can contain special features in s context
-	 *
-	 * @param IdentificationInterface $identification
-	 *
-	 * @return Tool
-	 *
-	 * @see CalledContexts
-	 */
-	public function tool(IdentificationInterface $identification): Tool {
-		return new Tool($identification);
-	}
+    /**
+     * Returns you a Tool which can contain special features in s context
+     *
+     * @param IdentificationInterface $identification
+     *
+     * @return Tool
+     *
+     * @see CalledContexts
+     */
+    public function tool(IdentificationInterface $identification) : Tool
+    {
+        return new Tool($identification);
+    }
 }

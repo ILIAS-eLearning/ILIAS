@@ -259,7 +259,7 @@ class ilObjSurvey extends ilObject
 			$this->createMetaData();
 		}
 		$this->setOfflineStatus(true);
-		$this->update();
+		$this->update($a_upload);
 	}
 
 /**
@@ -279,9 +279,11 @@ class ilObjSurvey extends ilObject
 	* @access	public
 	* @return	boolean
 	*/
-	function update()
+	function update($a_upload = false)
 	{
-		$this->updateMetaData();
+		if (!$a_upload) {
+			$this->updateMetaData();
+		}
 
 		if (!parent::update())
 		{

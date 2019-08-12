@@ -14,44 +14,49 @@ use ILIAS\BackgroundTasks\Value;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-abstract class AbstractValue implements Value {
+abstract class AbstractValue implements Value
+{
 
-	/**
-	 * @var Task
-	 */
-	protected $parentTask;
-
-
-	/**
-	 * @return Type
-	 */
-	public function getType() {
-		return new SingleType(get_called_class());
-	}
+    /**
+     * @var Task
+     */
+    protected $parentTask;
 
 
-	/**
-	 * @return Task
-	 */
-	public function getParentTask() {
-		return $this->parentTask;
-	}
+    /**
+     * @return Type
+     */
+    public function getType()
+    {
+        return new SingleType(get_called_class());
+    }
 
 
-	/**
-	 * @param Task $parentTask
-	 *
-	 * @return void
-	 */
-	public function setParentTask(Task $parentTask) {
-		$this->parentTask = $parentTask;
-	}
+    /**
+     * @return Task
+     */
+    public function getParentTask()
+    {
+        return $this->parentTask;
+    }
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasParentTask() {
-		return isset($this->parentTask);
-	}
+    /**
+     * @param Task $parentTask
+     *
+     * @return void
+     */
+    public function setParentTask(Task $parentTask)
+    {
+        $this->parentTask = $parentTask;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasParentTask()
+    {
+        return isset($this->parentTask);
+    }
 }

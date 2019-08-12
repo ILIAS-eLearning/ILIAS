@@ -10,7 +10,7 @@
 class ilCertificateTemplateRepository
 {
     /**
-     * @var \ilDB
+     * @var \ilDBInterface
      */
     private $database;
 

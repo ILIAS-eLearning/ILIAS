@@ -5,18 +5,19 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface hasTitle {
+interface hasTitle
+{
 
-	/**
-	 * @param string $title
-	 *
-	 * @return hasTitle
-	 */
-	public function withTitle(string $title): hasTitle;
+    /**
+     * @param string $title
+     *
+     * @return hasTitle
+     */
+    public function withTitle(string $title) : hasTitle;
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string;
+    /**
+     * @return string
+     */
+    public function getTitle() : string;
 }

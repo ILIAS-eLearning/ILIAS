@@ -22,19 +22,21 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
     private $testObject;
 
     /**
-     * @param int $objectId
-     * @param string $certificatePath
-     * @param ilObjTest $testObject
-     * @param ilLanguage $language
-     * @param ilCtrl $controller
-     * @param ilAccess $access
-     * @param ilToolbarGUI $toolbar
-     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+     * @param int                                      $objectId
+     * @param string                                   $certificatePath
+     * @param bool                                     $hasAdditionalElements
+     * @param ilObjTest                                $testObject
+     * @param ilLanguage                               $language
+     * @param ilCtrl                                   $controller
+     * @param ilAccess                                 $access
+     * @param ilToolbarGUI                             $toolbar
+     * @param ilCertificatePlaceholderDescription      $placeholderDescriptionObject
      * @param ilCertificateSettingsFormRepository|null $settingsFormRepository
      */
     public function __construct(
         int $objectId,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilObjTest $testObject,
         ilLanguage $language,
         ilCtrl $controller,
@@ -50,6 +52,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
                 $objectId,
                 $certificatePath,
+                $hasAdditionalElements,
                 $language,
                 $controller,
                 $access,
@@ -62,14 +65,18 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate $certificateObject
+     * @param ilCertificate    $certificateObject
+     * @param string           $certificatePath
      * @return ilPropertyFormGUI
+     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws ilDatabaseException
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
-    {
-        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
+    public function createForm(ilCertificateGUI $certificateGUI) {
+        $form = $this->settingsFromFactory->createForm($certificateGUI);
 
         return $form;
     }

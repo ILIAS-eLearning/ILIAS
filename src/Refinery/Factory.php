@@ -137,4 +137,14 @@ class Factory
 	{
 		return new Numeric\Group($this->dataFactory, $this->language);
 	}
+
+	/**
+	 * Contains transformations for DateTime
+	 *
+	 * @return DateTime\Group
+	 */
+	public function dateTime()
+	{
+		return new DateTime\Group();
+	}
 }

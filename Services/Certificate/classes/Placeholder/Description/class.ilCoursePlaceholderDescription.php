@@ -22,8 +22,8 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     private $placeholder;
 
     /**
-     * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null $language
+     * @param ilDefaultPlaceholderDescription|null           $defaultPlaceholderDescriptionObject
+     * @param ilLanguage|null                                $language
      * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
      */
     public function __construct(
@@ -43,15 +43,15 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
-        $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
-        $this->placeholder['COURSE_TITLE'] =  $this->language->txt('crs_title');
+        $this->placeholder                       = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+        $this->placeholder['COURSE_TITLE']       = $this->language->txt('crs_title');
+        $this->placeholder['DATE_COMPLETED']     = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
+        $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
     }
-
 
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     *
      * @param null $template
      * @return mixed - [PLACEHOLDER] => 'description'
      */
@@ -76,7 +76,6 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return mixed - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

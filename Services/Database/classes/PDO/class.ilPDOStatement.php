@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Services/Database/interfaces/interface.ilDBStatement.php';
-
 /**
  * Class ilPDOStatement is a Wrapper Class for PDOStatement
  *

@@ -1,9 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="adm">
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilAdmGlobalScreenProvider" />
-	</gsproviders>
 	<baseclasses>
 		<baseclass name="ilAdministrationGUI" dir="classes" />
 	</baseclasses>

@@ -48,6 +48,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,
@@ -109,6 +110,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,
@@ -162,6 +164,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,

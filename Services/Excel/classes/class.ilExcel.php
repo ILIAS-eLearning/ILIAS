@@ -366,8 +366,11 @@ class ilExcel
 	 *
 	 * @return mixed
 	 */
-	public function getCell($a_row, $a_col) {
-		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($a_col, $a_row)->getValue();
+	public function getCell($a_row, $a_col)
+	{
+		$col = $this->columnIndexAdjustment($a_col);
+
+		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($col, $a_row)->getValue();
 	}
 
 
@@ -589,7 +592,7 @@ class ilExcel
 	 * @param int $pRow
 	 * @return string
 	 */
-	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
+	function getCoordByColumnAndRow($pColumn = 1, $pRow = 1)
 	{
 		$col = $this->columnIndexAdjustment($pColumn);
 		$columnLetter = Coordinate::stringFromColumnIndex($col);
@@ -604,7 +607,9 @@ class ilExcel
 	 */
 	function addLink($a_row, $a_column, $a_path)
 	{
-		$this->workbook->getActiveSheet()->getCellByColumnAndRow($a_column,$a_row)->getHyperlink()->setUrl($a_path);
+		$column = $this->columnIndexAdjustment($a_column);
+
+		$this->workbook->getActiveSheet()->getCellByColumnAndRow($column,$a_row)->getHyperlink()->setUrl($a_path);
 	}
 
 	/**
@@ -615,7 +620,7 @@ class ilExcel
 	 */
 	function columnIndexAdjustment(int $column) : int
 	{
-		return $column++;
+		return ++$column;
 	}
 
 	/**

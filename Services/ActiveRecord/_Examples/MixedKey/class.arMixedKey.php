@@ -1,5 +1,4 @@
 <?php
-require_once('../../class.ActiveRecord.php');
 
 /**
  * Class arMixedKey

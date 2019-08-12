@@ -22,6 +22,12 @@ class ilDownloadFilesBackgroundTask
 	 * @var int
 	 */
 	protected $user_id;
+
+
+	/**
+	 * @var \ilObjUser|null
+	 */
+	protected $user = null;
 	
 	/**
 	 * @var \ILIAS\BackgroundTasks\Task\TaskFactory
@@ -56,6 +62,8 @@ class ilDownloadFilesBackgroundTask
 		$this->user_id = $a_usr_id;
 		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
 		$this->lng = $DIC->language();
+
+		$this->user = \ilObjectFactory::getInstanceByObjId($a_usr_id, false);
 	}
 	
 	/**
@@ -152,6 +160,7 @@ class ilDownloadFilesBackgroundTask
 		$object_ids = array();
 		foreach($this->getEvents() as $event)
 		{
+			$start = new ilDateTime($event['dstart'], IL_CAL_UNIX);
 			$cat = ilCalendarCategory::getInstanceByCategoryId($event['category_id']);
 			$obj_id = $cat->getObjId();
 
@@ -159,7 +168,9 @@ class ilDownloadFilesBackgroundTask
 			if(!in_array($obj_id, $object_ids) || $cat->getObjType() == "exc")
 			{
 				$object_ids[] = $obj_id;
-				$folder_date = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'Y-m-d');
+
+				$folder_date = $start->get(IL_CAL_FKT_DATE, 'Y-m-d', $this->user->getTimeZone());
+
 
 				if($event['fullday'])
 				{
@@ -167,12 +178,16 @@ class ilDownloadFilesBackgroundTask
 				}
 				else
 				{
-					$time = $event['event']->getStart()->get(IL_CAL_FKT_DATE,'H.i');
-					$end_time = $event['event']->getEnd()->get(IL_CAL_FKT_DATE,'H.i');
-					if($time != $end_time) {
-						$time .= " - ".$end_time;
+					$start_time = $start->get(IL_CAL_FKT_DATE,'H:i',$this->user->getTimeZone());
+
+					$end = new ilDateTime($event['dend'], IL_CAL_UNIX);
+					$end_time = $end->get(IL_CAL_FKT_DATE,'H:i', $this->user->getTimeZone());
+
+					if($start_time != $end_time) {
+						$start_time .= (' - ' . $end_time);
 					}
-					$folder_app = $time." ".ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
+					$folder_app = $start_time.' '.
+						ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
 				}
 
 				$this->logger->debug("collecting files...event title = ".$folder_app);
