@@ -112,10 +112,10 @@ class NodeTest extends ILIAS_UI_TestBase
 	public function testWithURI($node)
 	{
 		$uri = new URI('http://google.de:8080');
-		var_dump($uri);
+
 		/** @var URI $node */
 		$node = $node->withLink($uri);
 
-		$this->assertEquals('google.de', $node->getLink()->getHost());
+		$this->assertEquals('http://google.de:8080', $node->getLink()->getBaseURI());
 	}
 }

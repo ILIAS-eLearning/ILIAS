@@ -33,7 +33,7 @@ class Renderer extends AbstractComponentRenderer {
 		/** @var URI|null $link */
 		$link = $component->getLink();
 		if (null !== $link) {
-			$label = '<a href="' . $link->getPath() . '">' .  $label . '</a>';
+			$label = '<a href="' . $link->getBaseURI() . '">' . $label . '</a>';
 		}
 		$tpl->setVariable("LABEL", $label);
 
