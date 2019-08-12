@@ -58,9 +58,9 @@ interface Factory
      *        byline of additional information to a tree node.
      * ---
      * @param string                                    $label
-     * @param string                                    $bylined
+     * @param string                                    $byline
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
      * @return Bylined
      */
-    public function bylined(string $label, string $bylined, Icon $icon=null): Bylined;
+    public function bylined(string $label, string $byline, Icon $icon=null): Bylined;
 }
