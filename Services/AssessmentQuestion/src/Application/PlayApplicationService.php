@@ -12,6 +12,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\MultipleChoiceQuestionAr;
 const MSG_SUCCESS = "success";
 
 /**
@@ -115,9 +116,6 @@ class PlayApplicationService
         $questions = $repository->getQuestionsByContainer($this->container_obj_id);
         $arr_question_dto = array();
 
-        /**
-         * TODO the DTOs should have a fix constructor with all data
-         */
         if (count($questions) > 0) {
             foreach ($questions as $question) {
                 $question_dto = new QuestionDto();
@@ -126,10 +124,11 @@ class PlayApplicationService
                 $question_data = QuestionData::create(
                     $question['title'],
                     $question['question'],
-                    '',
+                    $question['author'],
                     $question['description'],
-                    0
+                    intval($question['working_time'])
                 );
+                
                 $question_dto->setData($question_data);
                 $arr_question_dto[] = $question_dto;
             }

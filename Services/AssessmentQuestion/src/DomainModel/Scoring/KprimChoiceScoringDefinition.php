@@ -58,7 +58,7 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
      */
     public function getValues(): array
     {
-        return [$this->correct_value];
+        return [self::VAR_KPSD_CORRECT => $this->correct_value];
     }
 
     public static function getValueFromPost(string $index)

@@ -18,7 +18,7 @@ namespace ILIAS\AssessmentQuestion\CQRS\Aggregate;
 class RevisionFactory {
 
 	const NAME_KEY = "revision_factory_revision_name_key";
-	const NAME_SEPERATOR = "#:#";
+	const NAME_SEPERATOR = "_";
 
 
 	/**

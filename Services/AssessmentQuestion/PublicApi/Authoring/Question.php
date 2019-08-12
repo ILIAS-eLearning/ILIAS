@@ -128,6 +128,18 @@ class Question
 
     }
 
+    /**
+     * @return Link
+     */
+    public function getDisplayLink(array $ctrl_stack) : Link
+    {
+        global $DIC;
+        array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+        
+        $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
+        
+        return $DIC->ui()->factory()->link()->standard('play by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_DISPLAY_QUESTION));
+    }
 
     /**
      * @return Link

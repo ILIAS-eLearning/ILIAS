@@ -6,6 +6,11 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ActiveRecord;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ChoiceEditorDisplayDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition;
 
 class PublishedQuestionRepository
 {
@@ -21,28 +26,27 @@ class PublishedQuestionRepository
 
     public function __construct()
     {
-        $this->question_data_storages[] = new QuestionListItemAr();
-        $this->answer_option_storages[] = new AnswerOptionImageAr();
-        $this->answer_option_storages[] = new AnswerOptionTextAr();
+        $this->question_data_storages = [];
+        $this->answer_option_storages = [];
     }
 
 
     /**
-     * @param string         $container_obj_id
-     * @param string         $question_id
-     * @param string         $revision_id
-     * @param string         $title
-     * @param string         $description
-     * @param string         $question
-     * @param AnswerOption[] $answer_option
+     * @param string                    $container_obj_id
+     * @param string                    $question_id
+     * @param string                    $revision_id
+     * @param string                    $title
+     * @param string                    $description
+     * @param string                    $question
+     * @param AbstractProjectionAr      $question_data
+     * @param AbstractProjectionAr[]    $answer_options
      */
     public function saveNewQuestionRevision(
         string $container_obj_id,
         string $question_id,
         string $revision_id,
-        string $title,
-        string $description,
-        string $question,
+        QuestionData $data,
+        AbstractProjectionAr $question_data,
         array $answer_options
     ) {
         $this->unpublishCurrentRevision($question_id, $container_obj_id);
@@ -51,59 +55,67 @@ class PublishedQuestionRepository
         $item->setContainerObjId($container_obj_id);
         $item->setQuestionId($question_id);
         $item->setRevisionId($revision_id);
-        $item->setTitle($title);
-        $item->setDescription($description);
-        $item->setQuestion($question);
+        $item->setTitle($data->getTitle());
+        $item->setDescription($data->getDescription());
+        $item->setQuestion($data->getQuestionText());
+        $item->setAuthor($data->getAuthor());
+        $item->setWorkingTime($data->getWorkingTime());
 
-        //if($new) {
         $item->create();
-        /*} else {
-            $item->save();
-        }*/
 
+        $question_data->create();
+        
         foreach ($answer_options as $answer_option) {
             $answer_option->create();
         }
     }
 
 
-    public function getQuestionByRevisionId(string $revision_id) : array
+    public function getQuestionByRevisionId(string $revision_id) : QuestionDto
     {
 
         $dto = new QuestionDto();
-        $question_list_item = QuestionListItemAr::where(['revision_id' => $revision_id])->getArray();
-        $dto->setId($question_list_item['question_id']);
+        /** @var QuestionListItemAr $question_list_item */
+        $question_list_item = QuestionListItemAr::where(['revision_id' => $revision_id])->first();
+        $dto->setId($question_list_item->getQuestionId());
         $dto->setRevisionId($revision_id);
 
         //TODO
         $question_data = QuestionData::create(
-            $question_list_item['title'],
-            $question_list_item['question'],
-            '',
-            $question_list_item['description'],
-            0
+            $question_list_item->getTitle(),
+            $question_list_item->getQuestion(),
+            $question_list_item->getAuthor(),
+            $question_list_item->getDescription(),
+            $question_list_item->getWorkingTime()
         );
         $dto->setData($question_data);
 
-        //TODO
-        // $play_configuration = QuestionPlayConfiguration::create();
+        /** @var MultipleChoiceQuestionAr $play_config */
+        $play_config = MultipleChoiceQuestionAr::where(['revision_id' => $revision_id])->first();
+        $dto->setPlayConfiguration(QuestionPlayConfiguration::create(MultipleChoiceEditorConfiguration::create(
+            $play_config->isShuffleAnswers(),
+            $play_config->getMaxAnswers(),
+            $play_config->getThumbnailSize(),
+            $play_config->isSingleLine())));
 
-        //TODO
-        $arr_answer_options = new AnswerOptions();
-        foreach ($this->answer_option_storages as $storage) {
-            $answer_options_ar = $storage->where([
-                    'revision_id' => $revision_id,
-                ]
-            )->get();
-            if (count($answer_options_ar)) {
-                foreach ($answer_options_ar as $answer_option_ar) {
-                    /**
-                     * @var QuestionListItemAr $item
-                     */
-                    //$arr_answer_options->addOption();
-                }
-            }
+        $answer_options = new AnswerOptions();
+        $answer_option_ars = AnswerOptionChoiceAr::where(['revision_id' => $revision_id])->get();
+        
+        $index = 1;
+        foreach ($answer_option_ars as $answer_option_ar) {
+            $answer_options->addOption(new AnswerOption(
+                $index,
+                new ChoiceEditorDisplayDefinition(
+                    $answer_option_ar->getText(), 
+                    $answer_option_ar->getImageUuid()),
+                new MultipleChoiceScoringDefinition(
+                    $answer_option_ar->getPointsSelected(),
+                    $answer_option_ar->getPointsUnselected())));
+            $index += 1;
         }
+        $dto->setAnswerOptions($answer_options);
+        
+        return $dto;
     }
 
 

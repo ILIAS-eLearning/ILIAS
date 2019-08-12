@@ -31,11 +31,9 @@ class ilAsqQuestionAuthoringGUI
 	const CMD_EDIT_QUESTION = "editQuestion";
 	const CMD_PREVIEW_QUESTION = "previewQuestion";
 	const CMD_SCORE_QUESTION = "scoreQuestion";
+	const CMD_DISPLAY_QUESTION = "displayQuestion";
+	const DEBUG_TEST_ID = 23;
 	
-	//TODO remove me when no longer needed
-	const CMD_DEBUG_QUESTION = "debugQuestion";
-    const DEBUG_TEST_ID = 23;
-
     /**
      * @var int
      */
@@ -126,27 +124,6 @@ class ilAsqQuestionAuthoringGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    public function debugQuestions()
-    {
-        global $DIC;
-        
-        $questions = $this->authoring_application_service->GetQuestions();
-        
-        $DIC->ui()->mainTemplate()->setContent(join("\n", array_map(
-            function($question) {
-                global $DIC;
-                
-                $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $question["aggregate_id"]);
-                
-                return "<div>" . 
-                            $question["aggregate_id"] . 
-                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_EDIT_QUESTION) . "'>    Edit</a>" .
-                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_PREVIEW_QUESTION) . "'>   Play</a>" .
-                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_SCORE_QUESTION) . "'>   Score</a>" .
-                        "</ div>";
-            }, $questions)));
-    }
-    
     public function previewQuestion()
     {
         global $DIC;
@@ -159,15 +136,8 @@ class ilAsqQuestionAuthoringGUI
         $question_component = new QuestionComponent($question);
         switch($_SERVER['REQUEST_METHOD'])
         {
-            case "GET":
-                $answer = $player->GetUserAnswer($question_id, (int)$DIC->user()->getId(), self::DEBUG_TEST_ID);
-                if (!is_null($answer)) {
-                    $question_component->setAnswer($answer);
-                }
-                break;
             case "POST":
                 $answer = new Answer($DIC->user()->getId(), $question_id, self::DEBUG_TEST_ID, $question_component->readAnswer());
-                //$player->AnswerQuestion($answer);
                 $question_component->setAnswer($answer);
 
                 $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
@@ -177,6 +147,35 @@ class ilAsqQuestionAuthoringGUI
                 break;
         }
 
+        
+        $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml());
+    }
+    
+    // TODO move to player
+    public function displayQuestion()
+    {
+        global $DIC;
+        
+        $revision_id = $_GET[self::VAR_QUESTION_ID];        
+        $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
+        $question = $player->GetQuestion($revision_id);
+        
+        $question_component = new QuestionComponent($question);
+        switch($_SERVER['REQUEST_METHOD'])
+        {
+            case "GET":
+                $answer = $player->GetUserAnswer($question->getId(), (int)$DIC->user()->getId(), self::DEBUG_TEST_ID);
+                if (!is_null($answer)) {
+                    $question_component->setAnswer($answer);
+                }
+                break;
+            case "POST":
+                $answer = new Answer($DIC->user()->getId(), $question->getId(), self::DEBUG_TEST_ID, $question_component->readAnswer());
+                $player->AnswerQuestion($answer);
+                $question_component->setAnswer($answer);
+                break;
+        }
+        
         
         $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml());
     }

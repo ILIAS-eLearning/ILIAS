@@ -21,7 +21,6 @@ class QuestionListItemAr extends AbstractProjectionAr
 
     const STORAGE_NAME = "asq_question_list_item";
 
-
     /**
      * @return string
      */
@@ -56,7 +55,21 @@ class QuestionListItemAr extends AbstractProjectionAr
      * @con_length     200
      */
     protected $question;
-
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     200
+     */
+    protected $author;
+    /**
+     * @var int
+     *
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     */
+    protected $working_time;
 
     /**
      * @return string
@@ -111,7 +124,38 @@ class QuestionListItemAr extends AbstractProjectionAr
         $this->question = $question;
     }
 
-
+    /**
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+    
+    /**
+     * @param string $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+ 
+    /**
+     * @return number
+     */
+    public function getWorkingTime()
+    {
+        return $this->working_time;
+    }
+    
+    /**
+     * @param number $working_time
+     */
+    public function setWorkingTime($working_time)
+    {
+        $this->working_time = $working_time;
+    }
+    
     public function create()
     {
         parent::create();

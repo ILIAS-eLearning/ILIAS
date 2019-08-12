@@ -191,11 +191,6 @@ abstract class AbstractProjectionAr extends ActiveRecord implements ProjectionAr
         parent::update();
     }
 
-
-
-
-
-
     //
     // CRUD
     //

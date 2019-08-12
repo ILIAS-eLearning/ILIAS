@@ -1,6 +1,8 @@
 <?php
 
+
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 use ILIAS\UI\Component\Link\Link;
 
@@ -204,6 +206,14 @@ class asqDebugGUI
                 $row[] = $question->getRevisionId();
                 $row[] = $question->getData()->getTitle();
 
+                $row[] = $DIC->ui()->renderer()->render(
+                    $this->authoring_service->question(
+                        $this->entity_id_builder->fromString(
+                            $question->getRevisionId()),
+                        $this->back_link
+                        )->getDisplayLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
+                    );
+                
                 $html .= '<li>' . implode($row, " | ") . '</li>';
             }
             $html .= "<ul>";
@@ -211,7 +221,6 @@ class asqDebugGUI
 
         $DIC->ui()->mainTemplate()->setContent($html);
     }
-
 
 
     ////////////////

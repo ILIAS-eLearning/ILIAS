@@ -85,7 +85,8 @@ class ChoiceEditorDisplayDefinition extends DisplayDefinition {
 	}
 
 	public function getValues(): array {
-		return [$this->text, $this->image];
+		return [self::VAR_MCDD_TEXT => $this->text, 
+		        self::VAR_MCDD_IMAGE => $this->image];
 	}
 
 

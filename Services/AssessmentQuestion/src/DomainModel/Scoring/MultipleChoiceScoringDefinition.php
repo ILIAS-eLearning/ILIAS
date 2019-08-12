@@ -83,7 +83,8 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	}
 
 	public function getValues(): array {
-		return [$this->points_selected, $this->points_unselected];
+		return [self::VAR_MCSD_SELECTED => $this->points_selected, 
+		        self::VAR_MCSD_UNSELECTED => $this->points_unselected];
 	}
 
 
