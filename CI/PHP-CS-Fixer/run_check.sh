@@ -3,7 +3,7 @@ PHPFIX_RESULTS_PATH="/tmp/phpfix_results"
 PHP_CS_FIXER="libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
 
 PRE="\t*** "
-
+echo `pwd`
 function printLn() {
 	echo -e "$PRE $1"
 }
