@@ -8543,6 +8543,7 @@ file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quot
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
+file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
 file#:#repository_disk_quota_info#:#Wenn aktiviert, werden für alle Benutzer die Disk-Quota im Magazin geprüft und optional E-Mails an Administratoren und Benutzer versendet.
 fm#:#fm_settings_active#:#Dateimanager aktivieren
