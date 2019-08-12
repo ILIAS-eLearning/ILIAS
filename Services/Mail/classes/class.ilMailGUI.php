@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,7 +10,7 @@
  */
 class ilMailGUI
 {
-    /** @var ilTemplate */
+    /** @var ilGlobalPageTemplate */
     private $tpl;
 
     /** @var \ilCtrl */
@@ -64,7 +64,7 @@ class ilMailGUI
     /**
      *
      */
-    protected function initFolder()
+    protected function initFolder() : void
     {
         $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
         if (0 === $folderId) {
@@ -79,7 +79,7 @@ class ilMailGUI
     /**
      *
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $type   = $this->httpRequest->getQueryParams()['type'] ?? '';
         $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
@@ -188,7 +188,7 @@ class ilMailGUI
     /**
      *
      */
-    private function setViewMode()
+    private function setViewMode() : void
     {
         $targetClass = $this->httpRequest->getQueryParams()['target'] ?? 'ilmailfoldergui';
         $type        = $this->httpRequest->getQueryParams()['type'] ?? '';
@@ -216,7 +216,7 @@ class ilMailGUI
     /**
      *
      */
-    private function showHeader()
+    private function showHeader() : void
     {
         global $DIC;
 
@@ -274,7 +274,7 @@ class ilMailGUI
     /**
      *
      */
-    private function handleFolderExplorerCommands()
+    private function handleFolderExplorerCommands() : void
     {
         $exp = new ilMailExplorer($this, 'showExplorer', $this->user->getId());
         $exp->handleCommand();
