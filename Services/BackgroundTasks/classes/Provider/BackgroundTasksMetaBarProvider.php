@@ -1,13 +1,16 @@
 <?php
 
+namespace ILIAS\BackgroundTasks\Provider;
+
+use ilBTPopOverGUI;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 
 /**
- * Class ilBTGSProvider
+ * Class BackgroundTasksMetaBarProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBTGSProvider extends AbstractStaticMetaBarProvider
+class BackgroundTasksMetaBarProvider extends AbstractStaticMetaBarProvider
 {
 
     /**

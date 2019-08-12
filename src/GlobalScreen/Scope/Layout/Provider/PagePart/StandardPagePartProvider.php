@@ -1,9 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLinkItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\Image\Image;
@@ -68,27 +64,9 @@ class StandardPagePartProvider implements PagePartProvider
         $meta_bar = $f->mainControls()->metaBar();
 
         foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
-            switch (true) {
-                case ($item instanceof TopLinkItem):
-                    $slate = $f->button()->bulky($item->getSymbol(), $item->getTitle(), $item->getAction());
-                    break;
-                case ($item instanceof TopLegacyItem):
-                    $slate = $f->mainControls()->slate()->legacy($item->getTitle(), $item->getSymbol(), $item->getLegacyContent());
-                    break;
-                case ($item instanceof TopParentItem):
-                    $slate = $f->mainControls()->slate()->combined($item->getTitle(), $item->getSymbol());
-                    foreach ($item->getChildren() as $child) {
-                        switch (true) {
-                            case ($child instanceof LinkItem):
-                                $b = $f->button()->bulky($child->getSymbol(), $child->getTitle(), $child->getAction());
-                                $slate = $slate->withAdditionalEntry($b);
-                                break;
-                        }
-                    }
-                    break;
-            }
-            if (isset($slate) && ($slate instanceof Slate || $slate instanceof Bulky)) {
-                $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $slate);
+            $component = $item->getRenderer()->getComponentForItem($item);
+            if ($component instanceof Slate || $component instanceof Bulky) {
+                $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $component);
             }
         }
 

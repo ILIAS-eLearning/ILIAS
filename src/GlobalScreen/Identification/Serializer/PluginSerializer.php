@@ -5,7 +5,7 @@ use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentification;
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 
 /**
  * Class PluginSerializer
@@ -41,7 +41,7 @@ class PluginSerializer implements SerializerInterface
     /**
      * @inheritdoc
      */
-    public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactoryInterface $provider_factory) : IdentificationInterface
+    public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactory $provider_factory) : IdentificationInterface
     {
         list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 

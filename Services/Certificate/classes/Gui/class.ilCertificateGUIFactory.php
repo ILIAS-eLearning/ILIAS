@@ -51,6 +51,7 @@ class ilCertificateGUIFactory
                 $formFactory = new ilCertificateSettingsTestFormRepository(
                     $objectId,
                     $certificatePath,
+                    false,
                     $object,
                     $DIC->language(),
                     $DIC->ctrl(),
@@ -68,6 +69,8 @@ class ilCertificateGUIFactory
 
                 break;
             case 'crs':
+                $hasAdditionalElements = true;
+
                 $adapter = new ilCourseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription();
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
@@ -77,6 +80,7 @@ class ilCertificateGUIFactory
                 $formFactory = new ilCertificateSettingsCourseFormRepository(
                     $object,
                     $certificatePath,
+                    false,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
@@ -96,6 +100,7 @@ class ilCertificateGUIFactory
                 $formFactory = new ilCertificateSettingsExerciseRepository(
                     $object,
                     $certificatePath,
+                    false,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
@@ -115,6 +120,7 @@ class ilCertificateGUIFactory
                 $formFactory = new ilCertificateSettingsScormFormRepository(
                     $object,
                     $certificatePath,
+                    true,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),

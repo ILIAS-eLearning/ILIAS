@@ -62,6 +62,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private $certificatePath;
 
     /**
+     * @var bool
+     */
+    private $hasAdditionalElements;
+
+    /**
      * @var ilCertificateBackgroundImageFileService
      */
     private $backGroundImageFileService;
@@ -83,6 +88,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     public function __construct(
         int $objectId,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
         ilAccess $access,
@@ -105,6 +111,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->toolbar                      = $toolbar;
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
         $this->certificatePath              = $certificatePath;
+        $this->hasAdditionalElements        = $hasAdditionalElements;
 
         $database                           = $DIC->database();
 
@@ -161,10 +168,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(
-        ilCertificateGUI $certificateGUI,
-        ilCertificate $certificateObject
-    ) {
+    public function createForm(ilCertificateGUI $certificateGUI) {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
         $command = $this->controller->getCmd();
@@ -325,7 +329,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form->addItem($certificate);
 
-        if ($certificateObject->getAdapter()->hasAdditionalFormElements()) {
+        if (true === $this->hasAdditionalElements) {
             $formSection = new \ilFormSectionHeaderGUI();
             $formSection->setTitle($this->language->txt("cert_form_sec_add_features"));
             $form->addItem($formSection);
