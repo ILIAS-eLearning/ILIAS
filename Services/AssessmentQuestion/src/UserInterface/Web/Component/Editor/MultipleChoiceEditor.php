@@ -195,4 +195,11 @@ class MultipleChoiceEditor extends AbstractEditor {
 			$input->thumbnail_size
 		);
 	}
+	
+	/**
+	 * @return string
+	 */
+	static function getDisplayDefinitionClass() : string {
+	    return ChoiceEditorDisplayDefinition::class;
+	}
 }

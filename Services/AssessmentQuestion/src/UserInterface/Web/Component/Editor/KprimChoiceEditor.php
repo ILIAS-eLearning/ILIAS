@@ -21,4 +21,11 @@ class KprimChoiceEditor extends AbstractEditor {
 
     public function generateHtml(): string
     {}
+    
+    /**
+     * @return string
+     */
+    static function getDisplayDefinitionClass() : string {
+        return ChoiceEditorDisplayDefinition::class;
+    }
 }

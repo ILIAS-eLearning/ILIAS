@@ -6,7 +6,6 @@ use ilCtrlStructureReader;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionImageAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionTextAr;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\questionEventStore;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItemAr;
 
 /**

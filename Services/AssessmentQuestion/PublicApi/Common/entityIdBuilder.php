@@ -1,5 +1,7 @@
 <?php
 
+namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
+
 use ILIAS\Data\UUID\Factory as UUID;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 
