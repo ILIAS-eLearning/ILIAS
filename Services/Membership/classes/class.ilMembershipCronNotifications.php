@@ -336,7 +336,7 @@ class ilMembershipCronNotifications extends ilCronJob
 		// if news has multiple parents find "lowest" parent in path
 		foreach($parent_map as $news_id => $parents)
 		{		
-			if(sizeof($parents) > 1)
+			if(sizeof($parents) > 1 && isset($news_map[$news_id]))
 			{
 				$path = $tree->getPathId($news_map[$news_id]);
 				$lookup = array_flip($path);				
