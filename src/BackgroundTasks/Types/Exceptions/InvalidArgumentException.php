@@ -10,6 +10,7 @@ namespace ILIAS\BackgroundTasks\Types\Exceptions;
  * Thrown if some procedure did not get the arguments it expected.
  *
  */
-class InvalidArgumentException extends Exception {
+class InvalidArgumentException extends Exception
+{
 
 }
