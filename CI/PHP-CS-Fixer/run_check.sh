@@ -11,7 +11,7 @@ function printLn() {
 
 if [[ -x "$PHP_CS_FIXER" ]]
   then
-  	$PHP_CS_FIXER fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --dry-run --format=json > "$PHPFIX_RESULTS_PATH"
+  	$PHP_CS_FIXER fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --dry-run -vvv > "$PHPFIX_RESULTS_PATH"
 	
 	PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
 	
