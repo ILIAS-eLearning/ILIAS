@@ -71,13 +71,19 @@ function build_container_for_setup() {
 			public function numeric($label, $byline = null) {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
-			public function group(array $inputs) {
+			public function group(array $inputs, string $label='') {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
 			public function section(array $inputs, $label, $byline = null) {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
 			public function dependantGroup(array $inputs) {
+				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
+			}
+			public function optionalGroup(array $inputs, string $label, string $byline = null) : \ILIAS\UI\Component\Input\Field\OptionalGroup {
+				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
+			}
+			public function switchableGroup(array $inputs, string $label, string $byline = null) : \ILIAS\UI\Component\Input\Field\SwitchableGroup{
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
 			public function checkbox($label, $byline = null) {
