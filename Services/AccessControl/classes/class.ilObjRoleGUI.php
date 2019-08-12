@@ -979,18 +979,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if($a_show_admin_permissions)
 			{
-				$subs = $objDefinition->getSubObjectsRecursively('adm',true,true);
+				$subs = ilObjRole::getSubObjects('adm', true);
 			}
 			else
 			{
-				$subs = $objDefinition->getSubObjectsRecursively('root',true,false);
+				$subs = ilObjRole::getSubObjects('root', false);
 			}
 		}
 		else
 		{
-			$subs = $objDefinition->getSubObjectsRecursively($this->getParentType(),true,false);
+			$subs = ilObjRole::getSubObjects($this->getParentType(), $a_show_admin_permissions);
 		}
-		
+
 		foreach($subs as $subtype => $def)
 		{
 			// Delete per object type

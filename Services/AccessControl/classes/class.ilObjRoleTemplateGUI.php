@@ -399,7 +399,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			return true;
 		}
 		// delete all existing template entries
-		$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
+		//$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
+		$subs = ilObjRole::getSubObjects('root', false);
+
+		foreach($subs as $subtype => $def)
+		{
+			// Delete per object type
+			$rbacadmin->deleteRolePermission($this->object->getId(),$this->ref_id,$subtype);
+		}
 
 		foreach ($_POST["template_perm"] as $key => $ops_array)
 		{
