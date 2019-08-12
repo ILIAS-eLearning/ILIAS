@@ -24,10 +24,10 @@ class SetupDatabase {
         $ilCtrlStructureReader = new ilCtrlStructureReader($DIC->clientIni());
         $ilCtrlStructureReader->readStructure(true);
 
-        $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME);
-        $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME);
-        $DIC->database()->dropTable(AnswerOptionImageAr::STORAGE_NAME);
-        $DIC->database()->dropTable(AnswerOptionTextAr::STORAGE_NAME);
+        $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME, false);
+        $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME, false);
+        $DIC->database()->dropTable(AnswerOptionImageAr::STORAGE_NAME, false);
+        $DIC->database()->dropTable(AnswerOptionTextAr::STORAGE_NAME, false);
 
         QuestionEventStoreAr::updateDB();
 		QuestionListItemAr::updateDB();
