@@ -38,7 +38,6 @@
 		"sabre/dav": "~3.2.2",
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
-		"symfony/console" : "^4.2",
 		"ramsey/uuid": "^3.8"
 	},
 	"require-dev": {
@@ -49,7 +48,7 @@
 		"phpunit/php-token-stream": "^3.0",
 		"phpdocumentor/reflection-docblock": "^3.3",
 		"friendsofphp/php-cs-fixer": "^2.15",
-        "phpstan/phpstan": "^0.11.12"
+		"phpstan/phpstan": "^0.11.12"
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" },
@@ -329,16 +328,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
-        "phpstan/phpstan": {
-          "source": "https://github.com/phpstan/phpstan",
-          "used_version": "0.11.12",
-          "added_by": "Michael Jansen <mjansen@databay.de>",
-          "wrapped_by": "",
-          "last_update": "",
-          "last_update_by": "",
-          "approved-by": "Jour Fixe",
-          "approved-date": ""
-        },
+		"phpstan/phpstan": {
+			"source": "https://github.com/phpstan/phpstan",
+			"used_version": "0.11.12",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": "",
+			"last_update": "",
+			"last_update_by": "",
+			"approved-by": "Jour Fixe",
+			"approved-date": ""
+		},
 		"symfony/console": {
 			"source": "https://github.com/symfony/console",
 			"used_version": "v4.2",
