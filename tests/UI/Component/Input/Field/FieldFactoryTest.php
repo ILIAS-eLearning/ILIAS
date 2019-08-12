@@ -57,62 +57,108 @@ class FieldFactoryTest extends AbstractFactoryTest {
 		);
 	}
 
-
-	public function test_implements_factory_interface() {
+	public function testImplementsFactoryInterfaceForText() {
 		$f = $this->buildFactory();
 
 		$input = $f->text("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Text::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForNumeric() {
+		$f = $this->buildFactory();
 
 		$input = $f->numeric("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Numeric::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForSection() {
+		$f = $this->buildFactory();
 
 		$input = $f->section([], "label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Group::class, $input);
 		$this->assertInstanceOf(Field\Section::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForGroup() {
+		$f = $this->buildFactory();
 
 		$input = $f->group([]);
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Group::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForCheckbox() {
+		$f = $this->buildFactory();
 
 		$input = $f->checkbox("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Checkbox::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForTag() {
+		$f = $this->buildFactory();
 
 		$input = $f->tag( "label", [],"byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Tag::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForPassword() {
+		$f = $this->buildFactory();
 
 		$input = $f->password("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Password::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForSelect() {
+		$f = $this->buildFactory();
 
 		$input = $f->select("label",[],  "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Select::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForTextarea() {
+		$f = $this->buildFactory();
 
 		$input = $f->textarea( "label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Textarea::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForRadio() {
+		$f = $this->buildFactory();
 
 		$input = $f->radio("label", "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\Radio::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForMultiselect() {
+		$f = $this->buildFactory();
 
 		$input = $f->multiSelect("label", [], "byline");
 		$this->assertInstanceOf(Field\Input::class, $input);
 		$this->assertInstanceOf(Field\MultiSelect::class, $input);
+	}
 
-		$datetime = $f->datetime("label", "byline");
-		$this->assertInstanceOf(Field\Input::class, $text);
-		$this->assertInstanceOf(Field\Group::class, $text);
+	public function testImplementsFactoryInterfaceForDatetime() {
+		$f = $this->buildFactory();
 
-		$duration = $f->duration("label", "byline");
-		$this->assertInstanceOf(Field\Input::class, $text);
-		$this->assertInstanceOf(Field\Group::class, $text);
+		$input = $f->datetime("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+	}
+
+	public function testImplementsFactoryInterfaceForDuration() {
+		$f = $this->buildFactory();
+
+		$input = $f->duration("label", "byline");
+		$this->assertInstanceOf(Field\Input::class, $input);
+		$this->assertInstanceOf(Field\Group::class, $input);
 	}
 
 	public function test_implements_factory_no_by_line() {
