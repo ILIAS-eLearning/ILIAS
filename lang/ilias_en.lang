@@ -9304,6 +9304,7 @@ skmg#:#skmg_edit_skll#:#Edit Competence Settings
 skmg#:#skmg_sktr#:#Competence Template Reference
 skmg#:#skmg_items#:#Items
 skmg#:#skmg_create_sctp#:#Create Template Category
+skmg#:#skmg_edit_sctp#:#Edit Template Category
 skmg#:#skmg_sctp#:#Competence Template Category
 skmg#:#skmg_insert_skill_template_from_clip#:#Insert Competence Template from Clipboard
 skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard
