@@ -379,7 +379,7 @@ class ilObjectGUI
 				$this->enableDragDropFileUpload();		
 			}
 		}
-		
+
 		return true;
 	}
 	

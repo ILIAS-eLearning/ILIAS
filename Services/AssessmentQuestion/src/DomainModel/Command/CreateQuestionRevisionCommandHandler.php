@@ -8,7 +8,7 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\RevisionFactory;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandContract;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandHandlerContract;
-use ILIAS\AssessmentQuestion\DomainModel\Projection\ProjectQuestionsToListDb;
+use ILIAS\AssessmentQuestion\DomainModel\Projection\ProjectQuestions;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 
 /**
@@ -30,7 +30,7 @@ class CreateQuestionRevisionCommandHandler implements CommandHandlerContract {
 	    /** @var CreateQuestionRevisionCommand $command */
 		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($command->getQuestionId()));
 		RevisionFactory::setRevisionId($question);
-		$projector = new ProjectQuestionsToListDb();
+		$projector = new ProjectQuestions();
 		$projector->project($question);
 		QuestionRepository::getInstance()->save($question);
 	}

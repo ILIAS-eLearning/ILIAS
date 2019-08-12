@@ -48,23 +48,23 @@ class QuestionLegacyData extends AbstractValueObject {
 	public static function getQuestionTypes() : array {
 		$question_types = [];
 		$question_types[self::TYPE_GENERIC] = 'GenericQuestion ';
-		$question_types[self::TYPE_SINGLE_CHOICE] = 'Single Choice ';
-		$question_types[self::TYPE_MULTIPLE_CHOICE] = 'Multiple Choice ';
-		$question_types[3] = 'Cloze Test ';
-		$question_types[4] = 'Matching Question ';
-		$question_types[5] = 'Ordering Question ';
-		$question_types[6] = 'Imagemap Question ';
-		$question_types[7] = 'Java Applet ';
-		$question_types[8] = 'Text Question ';
-		$question_types[9] = 'Numeric ';
-		$question_types[10] = 'Text Subset ';
-		$question_types[11] = 'Flash Question ';
-		$question_types[12] = 'Ordering Horizontal ';
-		$question_types[13] = 'File Upload ';
-		$question_types[14] = 'Error Text ';
-		$question_types[15] = 'Formula Question ';
-		$question_types[16] = 'Kprim Choice ';
-		$question_types[17] = 'Long Menu ';
+        /*$question_types[self::TYPE_SINGLE_CHOICE] = 'Single Choice ';
+        $question_types[self::TYPE_MULTIPLE_CHOICE] = 'Multiple Choice ';
+        $question_types[3] = 'Cloze Test ';
+        $question_types[4] = 'Matching Question ';
+        $question_types[5] = 'Ordering Question ';
+        $question_types[6] = 'Imagemap Question ';
+        $question_types[7] = 'Java Applet ';
+        $question_types[8] = 'Text Question ';
+        $question_types[9] = 'Numeric ';
+        $question_types[10] = 'Text Subset ';
+        $question_types[11] = 'Flash Question ';
+        $question_types[12] = 'Ordering Horizontal ';
+        $question_types[13] = 'File Upload ';
+        $question_types[14] = 'Error Text ';
+        $question_types[15] = 'Formula Question ';
+        $question_types[16] = 'Kprim Choice ';
+        $question_types[17] = 'Long Menu ';*/
 		return $question_types;
 	}
 

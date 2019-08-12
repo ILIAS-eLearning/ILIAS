@@ -3,7 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
+use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
 
 /**
  * Class QuestionCreatedEvent
@@ -15,7 +15,7 @@ use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionCreatedEvent extends AbstractDomainEvent {
+class QuestionCreatedEvent extends AbstractIlContainerDomainEvent {
 
 	public const NAME = 'QuestionCreatedEvent';
 
@@ -36,10 +36,6 @@ class QuestionCreatedEvent extends AbstractDomainEvent {
 	 */
 	protected $answer_type_id;
 
-	public function __construct(DomainObjectId $question_uuid, int $initiating_user_id)
-	{
-		parent::__construct($question_uuid, $initiating_user_id);
-	}
 
 	/**
 	 * @return string
@@ -51,21 +47,6 @@ class QuestionCreatedEvent extends AbstractDomainEvent {
 		return self::NAME;
 	}
 
-
-	/**
-	 * @return DomainObjectId
-	 */
-	public function getQuestionUuid(): DomainObjectId {
-		return $this->question_uuid;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getInitiatingUserId(): int {
-		return $this->initiating_user_id;
-	}
 
 	public function restoreEventBody(string $json_data) {
 		//no other properties

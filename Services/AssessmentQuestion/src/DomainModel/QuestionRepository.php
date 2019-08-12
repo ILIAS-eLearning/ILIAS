@@ -8,7 +8,7 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractEventSourcedAggregateReposit
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AggregateRoot;
 use ILIAS\AssessmentQuestion\CQRS\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\CQRS\Event\EventStore;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
 
 /**
  * Class QuestionRepository
@@ -36,7 +36,7 @@ class QuestionRepository extends AbstractEventSourcedAggregateRepository {
      */
 	protected function __construct() {
 		parent::__construct();
-		$this->event_store = new ilDBQuestionEventStore();
+		$this->event_store = new QuestionEventStoreRepository();
 	}
 
     /**
