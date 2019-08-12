@@ -149,7 +149,7 @@ class ilMailGUI
             $this->ctrl->setCmd('setViewMode');
         }
 
-        $this->forwardClass = $this->ctrl->getNextClass($this);
+        $this->forwardClass = (string) $this->ctrl->getNextClass($this);
         $this->showHeader();
 
         if ($this->ctrl->getCmd() !== 'showExplorer') {
