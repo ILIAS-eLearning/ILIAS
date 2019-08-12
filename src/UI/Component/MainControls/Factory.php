@@ -302,7 +302,9 @@ interface Factory {
 	 *     2: >
 	 *        Elements in the Footer SHOULD NOT vary according to context, but MAY
 	 *        vary according to the user's role or state (logged in/not logged in/...).
-	 *
+	 *     3: >
+	 *        Although the footer is constructed only with its "static" parts,
+	 *        it SHOULD have attached a permanent URL for the current page/object.
 	 * ----
 	 *
 	 * @param  \ILIAS\UI\Component\Link\Standard[] $links

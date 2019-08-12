@@ -22,6 +22,7 @@ class FooterTest extends ILIAS_UI_TestBase
 			$f->standard("go up", "#")
 		];
 		$this->text = 'footer text';
+		$this->perm_url = 'http://www.ilias.de/goto.php?target=xxx_123';
 	}
 
 	protected function getFactory()
@@ -37,6 +38,16 @@ class FooterTest extends ILIAS_UI_TestBase
 	public function testConstruction()
 	{
 		$footer = $this->getFactory()->footer($this->links, $this->text);
+		$this->assertInstanceOf(
+			"ILIAS\\UI\\Component\\MainControls\\Footer",
+			$footer
+		);
+		return $footer;
+	}
+
+	public function testConstructionNoLinks()
+	{
+		$footer = $this->getFactory()->footer([], $this->text);
 		$this->assertInstanceOf(
 			"ILIAS\\UI\\Component\\MainControls\\Footer",
 			$footer
@@ -66,6 +77,21 @@ class FooterTest extends ILIAS_UI_TestBase
 		);
 	}
 
+	/**
+	 * @depends testConstruction
+	 */
+	public function testPermanentURL($footer)
+	{
+		$df = new \ILIAS\Data\Factory();
+		$footer = $footer->withPermanentURL($df->uri($this->perm_url));
+		$perm_url = $footer->getPermanentURL();
+		$this->assertInstanceOf("\\ILIAS\\Data\\URI", $perm_url);
+		$this->assertEquals(
+			$perm_url->getBaseURI() .'?' .$perm_url->getQuery(),
+			$this->perm_url
+		);
+		return $footer;
+	}
 
 	protected function brutallyTrimHTML($html)
 	{
@@ -83,7 +109,6 @@ class FooterTest extends ILIAS_UI_TestBase
 		return $factory;
 	}
 
-
 	/**
 	 * @depends testConstruction
 	 */
@@ -95,6 +120,66 @@ class FooterTest extends ILIAS_UI_TestBase
 		$expected = <<<EOT
 		<div class="il-maincontrols-footer">
 			<div class="il-footer-content">
+				<div class="il-footer-text">
+					footer text
+				</div>
+
+				<div class="il-footer-links">
+					<ul>
+						<li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
+						<li><a href="#" >go up</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+EOT;
+
+		$this->assertEquals(
+			$this->brutallyTrimHTML($expected),
+			$this->brutallyTrimHTML($html)
+		);
+	}
+
+	/**
+	 * @depends testConstructionNoLinks
+	 */
+	public function testRenderingNoLinks($footer)
+	{
+		$r = $this->getDefaultRenderer();
+		$html = $r->render($footer);
+
+		$expected = <<<EOT
+		<div class="il-maincontrols-footer">
+			<div class="il-footer-content">
+				<div class="il-footer-text">
+					footer text
+				</div>
+			</div>
+		</div>
+EOT;
+
+		$this->assertEquals(
+			$this->brutallyTrimHTML($expected),
+			$this->brutallyTrimHTML($html)
+		);
+	}
+
+	/**
+	 * @depends testPermanentURL
+	 */
+	public function testRenderingPermUrl($footer)
+	{
+		$r = $this->getDefaultRenderer();
+		$html = $r->render($footer);
+
+		$expected = <<<EOT
+		<div class="il-maincontrols-footer">
+			<div class="il-footer-content">
+				<div class="il-footer-permanent-url">
+					<span>
+						http://www.ilias.de/goto.php?target=xxx_123
+					</span>
+				</div>
 				<div class="il-footer-text">
 					footer text
 				</div>

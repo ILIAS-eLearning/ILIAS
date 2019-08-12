@@ -82,12 +82,25 @@ function pagedemoContent($f)
 
 function pagedemoFooter($f)
 {
+	$df = new \ILIAS\Data\Factory();
 	$text = 'Additional info:';
 	$links = [];
 	$links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
 	$links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
 
-	$footer = $f->mainControls()->footer($links, $text);
+	$footer = $f->mainControls()->footer($links, $text)
+		->withPermanentURL(
+			$df->uri(
+				$_SERVER['REQUEST_SCHEME'].
+				'://'.
+				$_SERVER['SERVER_NAME'].
+				':'.
+				$_SERVER['SERVER_PORT'].
+				$_SERVER['SCRIPT_NAME'].
+				'?'.
+				$_SERVER['QUERY_STRING']
+			)
+		);
 	return $footer;
 }
 

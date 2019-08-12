@@ -259,11 +259,25 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('ID', $id);
 	}
 
-	protected function renderFooter(Footer $component, RendererInterface $default_renderer) {
+	protected function renderFooter(Footer $component, RendererInterface $default_renderer)
+	{
 		$tpl = $this->getTemplate("tpl.footer.html", true, true);
-		$links = $this->getUIFactory()->listing()->unordered($component->getLinks());
-		$tpl->setVariable('LINKS', $default_renderer->render($links));
+		$links = $component->getLinks();
+		if($links) {
+			$link_list = $this->getUIFactory()->listing()->unordered($links);
+			$tpl->setVariable('LINKS', $default_renderer->render($link_list));
+		}
+
 		$tpl->setVariable('TEXT', $component->getText());
+
+		$perm_url = $component->getPermanentURL();
+		if($perm_url) {
+
+			$tpl->setVariable(
+				'PERMANENT_URL',
+				$perm_url->getBaseURI() .'?' .$perm_url->getQuery()
+			);
+		}
 		return $tpl->get();
 	}
 

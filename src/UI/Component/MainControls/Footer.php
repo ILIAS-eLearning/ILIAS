@@ -16,4 +16,9 @@ interface Footer extends Component
 	public function getLinks(): array;
 
 	public function getText(): string;
+
+	/**
+	 * @return \ILIAS\Data\URI | null
+	 */
+	public function getPermanentURL();
 }

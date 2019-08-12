@@ -17,7 +17,8 @@ class Footer implements MainControls\Footer
 
 	public function __construct(array $links, string $text = '')
 	{
-		//assure links is of Link\Standard
+		$types = [\ILIAS\UI\Component\Link\Link::class];
+		$this->checkArgListElements('links', $links, $types);
 		$this->links = $links;
 		$this->text = $text;
 	}
@@ -30,6 +31,18 @@ class Footer implements MainControls\Footer
 	public function getText(): string
 	{
 		return $this->text;
+	}
+
+	public function withPermanentURL(\ILIAS\Data\URI $url): MainControls\Footer
+	{
+		$clone = clone $this;
+		$clone->permanent_url = $url;
+		return $clone;
+	}
+
+	public function getPermanentURL()
+	{
+		return $this->permanent_url;
 	}
 
 }
