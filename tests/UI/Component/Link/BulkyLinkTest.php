@@ -16,11 +16,12 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 		$this->factory = new I\Link\Factory();
 		$this->glyph = new I\Symbol\Glyph\Glyph("briefcase", "briefcase");
 		$this->icon = new I\Symbol\Icon\Standard("someExample","Example", "small", false);
+		$this->target = new \ILIAS\Data\URI("http://www.ilias.de");
 	}
 
 	public function testImplementsInterfaces()
 	{
-		$link = $this->factory->bulky($this->glyph, "label", "http://www.ilias.de");
+		$link = $this->factory->bulky($this->glyph, "label", $this->target);
 		$this->assertInstanceOf(C\Bulky::class, $link);
 		$this->assertInstanceOf(C\Link::class, $link);
 	}
@@ -28,27 +29,27 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 	public function testWrongConstruction()
 	{
 		$this->expectException(\TypeError::class);
-		$link = $this->factory->bulky('wrong param', "label", "http://www.ilias.de");
+		$link = $this->factory->bulky('wrong param', "label", $this->target);
 	}
 
 	public function testGetLabell()
 	{
 		$label = 'some label for the link';
-		$link = $this->factory->bulky($this->glyph, $label, "http://www.ilias.de");
+		$link = $this->factory->bulky($this->glyph, $label, $this->target);
 		$this->assertEquals($label, $link->getLabel());
 	}
 
 	public function testGetGlyphSymbol()
 	{
-		$link = $this->factory->bulky($this->glyph, "label", "http://www.ilias.de");
+		$link = $this->factory->bulky($this->glyph, "label", $this->target);
 		$this->assertEquals($this->glyph, $link->getSymbol());
-		$link = $this->factory->bulky($this->icon, "label", "http://www.ilias.de");
+		$link = $this->factory->bulky($this->icon, "label", $this->target);
 		$this->assertEquals($this->icon, $link->getSymbol());
 	}
 
 	public function testRenderingGlyph() {
 		$r = $this->getDefaultRenderer();
-		$b = $this->factory->bulky($this->glyph, "label", "http://www.ilias.de");
+		$b = $this->factory->bulky($this->glyph, "label", $this->target);
 
 		$expected = ''
 			.'<a class="il-link link-bulky" href="http://www.ilias.de">'
@@ -66,7 +67,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
 	public function testRenderingIcon() {
 		$r = $this->getDefaultRenderer();
-		$b = $this->factory->bulky($this->icon, "label", "http://www.ilias.de");
+		$b = $this->factory->bulky($this->icon, "label", $this->target);
 
 		$expected = ''
 			.'<a class="il-link link-bulky" href="http://www.ilias.de">'
@@ -79,8 +80,4 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 			$r->render($b)
 		);
 	}
-
-
-
-
 }

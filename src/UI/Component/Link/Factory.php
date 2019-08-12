@@ -45,7 +45,7 @@ interface Factory {
 	 *     sized button-like area.
 	 *
 	 *   composition: >
-	 *     The Bulky Link is built as a Link around an icon or glyph and a (small) text.
+	 *     The Bulky Link is built as a a-tag containing an icon or glyph and a (small) text.
 	 *
 	 *   rivals:
 	 *     Bulky Button: >
@@ -60,21 +60,21 @@ interface Factory {
 	 *
 	 * rules:
 	 *   wording:
-	 *     1: The icon/glyph and the text of the Bulky Link MUST be corresponding.
+	 *     1: The symbol and the text of the Bulky Link MUST be corresponding.
 	 *   style:
 	 *     1: >
 	 *       Bulky Links MUST occupy as much space as their container leaves them.
 	 *   responsiveness:
 	 *     1: >
-	 *        On screens larger than small size, Bulky Links MUST contain an icon or glyph plus text.
+	 *        On screens larger than small size, Bulky Links MUST contain a symbol plus text.
 	 *     2: >
-	 *        On small-sized screens, Bulky Links SHOULD contain only an icon or glyph.
+	 *        On small-sized screens, Bulky Links SHOULD contain only a symbol.
 	 *
 	 * ---
-	 * @param	\ILIAS\UI\Component\Symbol\Symbol		$symbol
-	 * @param	string		$label
-	 * @param	string		$action
+	 * @param	\ILIAS\UI\Component\Symbol\Symbol	$symbol
+	 * @param	string	$label
+	 * @param	\ILIAS\Data\URI		$target
 	 * @return  \ILIAS\UI\Component\Link\Bulky
 	 */
-	public function bulky(Symbol $symbol, string $label, string $action): Bulky;
+	public function bulky(Symbol $symbol, string $label, \ILIAS\Data\URI $target): Bulky;
 }

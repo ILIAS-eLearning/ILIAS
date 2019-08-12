@@ -20,8 +20,12 @@ class Bulky extends Link implements C\Link\Bulky {
 	 */
 	protected $symbol;
 
-	function __construct(C\Symbol\Symbol $symbol, string $label, string $action)
+	function __construct(C\Symbol\Symbol $symbol, string $label, \ILIAS\Data\URI $target)
 	{
+		$action = $target->getBaseURI();
+		if($target->getQuery()) {
+			$action .= '?' .$target->getQuery();
+		}
 		parent::__construct($action);
 		$this->label = $label;
 		$this->symbol = $symbol;

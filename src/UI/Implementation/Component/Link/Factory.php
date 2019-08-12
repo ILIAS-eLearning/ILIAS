@@ -22,7 +22,7 @@ class Factory implements L\Factory
 	/**
 	 * @inheritdoc
 	 */
-	public function bulky(Symbol $symbol, string $label, string $action): L\Bulky
+	public function bulky(Symbol $symbol, string $label, \ILIAS\Data\URI $action): L\Bulky
 	{
 		return new Bulky($symbol, $label, $action);
 	}
