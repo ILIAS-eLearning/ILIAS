@@ -20,6 +20,11 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+
+use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\File\Sanitation\DownloadSanitationReportUserInteraction;
+use ILIAS\File\Sanitation\SanitationReportJob;
+
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
@@ -39,6 +44,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
     const CMD_EDIT_DOWNLOADING_SETTINGS = 'editDownloadingSettings';
     const CMD_EDIT_WEBDAV_SETTINGS = 'editWebDAVSettings';
+    const CMD_SANITIZE = 'sanitize';
     /**
      * @var \ilSetting
      */
@@ -231,19 +237,39 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      */
     public function editDownloadingSettings(ilPropertyFormGUI $a_form = null)
     {
-        global $rbacsystem, $ilErr, $tpl, $lng;
+        global $DIC, $ilErr;
+
+        // $DIC->toolbar()->addButton($this->lng->txt('generate_sanitize_report'), $this->ctrl->getLinkTarget($this, self::CMD_SANITIZE));
 
         $this->tabs_gui->setTabActive('downloading_settings');
 
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($lng->txt("no_permission"), $ilErr->WARNING);
+        if (!$DIC->rbac()->system()->checkAccess("visible,read", $this->object->getRefId())) {
+            $ilErr->raiseError($DIC->language()->txt("no_permission"), $ilErr->WARNING);
         }
 
         if (!$a_form) {
             $a_form = $this->initDownloadingSettingsForm();
         }
 
-        $tpl->setContent($a_form->getHTML());
+        $DIC->ui()->mainTemplate()->setContent($a_form->getHTML());
+    }
+
+
+    public function sanitize()
+    {
+        global $DIC;
+
+        $report = $DIC->backgroundTasks()->taskFactory()->createTask(SanitationReportJob::class);
+        $ui = $DIC->backgroundTasks()->taskFactory()->createTask(DownloadSanitationReportUserInteraction::class, [$report]);
+
+        $bucket = new BasicBucket();
+        $bucket->setUserId($DIC->user()->getId());
+        $bucket->setTask($ui);
+        $bucket->setTitle("File Sanitiation Report");
+        $bucket->setDescription("");
+
+        $DIC->backgroundTasks()->taskManager()->run($bucket);
+        $this->ctrl->redirect($this, self::CMD_EDIT_DOWNLOADING_SETTINGS);
     }
 
 
