@@ -161,9 +161,10 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				// pool title
 				if($data["original_id"])
 				{
-					if(isset($questionpools[$data["obj_fi"]]))
+					$original_fi = SurveyQuestion::lookupObjFi($data["original_id"]);
+					if(isset($questionpools[$original_fi]))
 					{
-						$table_data[$id]["pool"] = $questionpools[$data["obj_fi"]];
+						$table_data[$id]["pool"] = $questionpools[$original_fi];
 					}
 					else
 					{

@@ -119,7 +119,7 @@ class ilCourseParticipants extends ilParticipants
 				case 'il_crs_a':
 				case 'il_crs_t':
 				case 'il_crs_m':
-					continue;
+					continue 2;
 
 				default:
 					$roles[$role] = $role;

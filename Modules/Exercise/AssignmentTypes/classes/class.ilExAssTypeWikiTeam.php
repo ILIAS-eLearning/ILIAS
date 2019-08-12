@@ -175,5 +175,20 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 		$target_ar->save();
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function supportsWebDirAccess(): bool
+	{
+		return false;
+	}
+
+	/**
+	 *  @inheritdoc
+	 */
+	public function getStringIdentifier(): string
+	{
+		// TODO: Implement getSubmissionStringIdentifier() method.
+	}
 
 }

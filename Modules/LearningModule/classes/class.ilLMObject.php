@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilLMObject
@@ -71,8 +69,6 @@ class ilLMObject
 	 */
 	function MDUpdateListener($a_element)
 	{
-		include_once 'Services/MetaData/classes/class.ilMD.php';
-
 		switch($a_element)
 		{
 			case 'General':
@@ -92,12 +88,10 @@ class ilLMObject
 				break;
 				
 			case 'Educational':
-				include_once("./Services/Object/classes/class.ilObjectLP.php");				
 				$obj_lp = ilObjectLP::getInstance($this->getLMId());
 				if(in_array($obj_lp->getCurrentMode(), 
 					array(ilLPObjSettings::LP_MODE_TLT, ilLPObjSettings::LP_MODE_COLLECTION_TLT)))
 				{								 
-					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");				
 					ilLPStatusWrapper::_refreshStatus($this->getLMId());
 				}
 				break;
@@ -113,8 +107,6 @@ class ilLMObject
 	*/
 	static function _lookupNID($a_lm_id, $a_lm_obj_id, $a_type)
 	{
-		include_once 'Services/MetaData/classes/class.ilMD.php';
-//echo "-".$a_lm_id."-".$a_lm_obj_id."-".$a_type."-";
 		$md = new ilMD($a_lm_id, $a_lm_obj_id, $a_type);
 		$md_gen = $md->getGeneral();
 		if (is_object($md_gen))
@@ -138,8 +130,6 @@ class ilLMObject
 	*/
 	function createMetaData()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
-
 		$ilUser = $this->user;
 
 		$md_creator = new ilMDCreator($this->getLMId(), $this->getId(), $this->getType());
@@ -159,10 +149,6 @@ class ilLMObject
 	*/
 	function updateMetaData()
 	{
-		include_once("Services/MetaData/classes/class.ilMD.php");
-		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
-		include_once("Services/MetaData/classes/class.ilMDDescription.php");
-
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$md_gen = $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
@@ -186,7 +172,6 @@ class ilLMObject
 	function deleteMetaData()
 	{
 		// Delete meta data
-		include_once('Services/MetaData/classes/class.ilMD.php');
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$md->deleteAll();
 	}
@@ -499,7 +484,6 @@ class ilLMObject
 		$ilDB->manipulate($query);
 
 		// create history entry
-		include_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", "",
 			$this->content_object->getType().":".$this->getType());
 
@@ -680,7 +664,6 @@ class ilLMObject
 			$lm_id = ilLMObject::_lookupContObjID($obj_rec["obj_id"]);
 
 			// link only in learning module, that is not trashed
-			include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
 			$ref_ids  = ilObject::_getAllReferences($lm_id);	// will be 0 if import of lm is in progress (new import)
 			if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($lm_id) ||
 				ilObjHelpSettings::isHelpLM($lm_id))
@@ -743,7 +726,6 @@ class ilLMObject
 
 		$ilDB = $DIC->database();
 		
-		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		if (is_int(strpos($a_id, "_")))
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
@@ -806,7 +788,6 @@ class ilLMObject
 			"WHERE lm_id= ".$ilDB->quote($a_cobj->getId(), "integer");
 		$obj_set = $ilDB->query($query);
 
-		require_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
 		while ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$lm_obj = ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"],false);
@@ -1017,9 +998,6 @@ class ilLMObject
 		$ilUser = $DIC->user();
 		$ilLog = $DIC["ilLog"];
 		
-		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-		
 		$item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
 		$item_type = ilLMObject::_lookupType($a_item_id);
 		$lm_obj = ilObjectFactory::getInstanceByObjId($item_lm_id);
@@ -1040,7 +1018,6 @@ class ilLMObject
 			// @todo: check whether st is NOT in tree
 			
 			// "move" metadata to new lm
-			include_once("Services/MetaData/classes/class.ilMD.php");
 			$md = new ilMD($item_lm_id, $item->getId(), $item->getType());
 			$new_md = $md->cloneMD($a_target_lm->getId(), $item->getId(), $item->getType());
 			
@@ -1107,16 +1084,12 @@ class ilLMObject
 	*/
 	static function saveTitles($a_lm, $a_titles, $a_lang = "-")
 	{
-		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
-		
 		if ($a_lang == "")
 		{
 			$a_lang = "-";
 		}
 		if (is_array($a_titles))
 		{
-			include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
-			include_once("./Services/MetaData/classes/class.ilMD.php");
 			foreach($a_titles as $id => $title)
 			{
 				// see #20375
@@ -1161,69 +1134,69 @@ class ilLMObject
 			
 			if ($copied_type == "pg")
 			{
-				//
-				// 1. Outgoing links from the copied page.
-				//
-				//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
-				include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-				$tpg = new ilLMPage($copied_id);
-				$tpg->buildDom();
-				$il = $tpg->getInternalLinks();
-				$targets = array();
-				foreach($il as $l)
+				foreach (ilPageObject::lookupTranslations($a_parent_type, $copied_id) as $l)
 				{
-					$targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
-						"id" => (int) ilInternalLink::_extractObjIdOfTarget($l["Target"]),
-						"inst" => (int) ilInternalLink::_extractInstOfTarget($l["Target"]));
-				}
-				$fix = array();
-				foreach($targets as $target)
-				{
-					if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
-						($target["type"] == "pg" || $target["type"] == "st"))
+					//
+					// 1. Outgoing links from the copied page.
+					//
+					//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
+					$tpg = new ilLMPage($copied_id, 0, $l);
+					$tpg->buildDom();
+					$il = $tpg->getInternalLinks();
+					$targets = array();
+					foreach ($il as $l)
 					{
-						// first check, whether target is also within the copied set
-						if ($a_copied_nodes[$target["id"]] > 0)
+						$targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
+							"id" => (int)ilInternalLink::_extractObjIdOfTarget($l["Target"]),
+							"inst" => (int)ilInternalLink::_extractInstOfTarget($l["Target"]));
+					}
+					$fix = array();
+					foreach ($targets as $target)
+					{
+						if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
+							($target["type"] == "pg" || $target["type"] == "st"))
 						{
-							$fix[$target["id"]] = $a_copied_nodes[$target["id"]];
-						}
-						else
-						{
-							// now check, if a copy if the target is already in the same lm
-							
-							// only if target is not already in the same lm!
-							$trg_lm = ilLMObject::_lookupContObjID($target["id"]);
-							if ($trg_lm != $copy_lm)
+							// first check, whether target is also within the copied set
+							if ($a_copied_nodes[$target["id"]] > 0)
 							{
-								$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$target["type"]."_".$target["id"]);
-								$found = false;
-	
-								foreach($lm_data as $item)
+								$fix[$target["id"]] = $a_copied_nodes[$target["id"]];
+							} else
+							{
+								// now check, if a copy if the target is already in the same lm
+
+								// only if target is not already in the same lm!
+								$trg_lm = ilLMObject::_lookupContObjID($target["id"]);
+								if ($trg_lm != $copy_lm)
 								{
-									if (!$found && ($item["lm_id"] == $copy_lm))
+									$lm_data = ilLMObject::_getAllObjectsForImportId("il__" . $target["type"] . "_" . $target["id"]);
+									$found = false;
+
+									foreach ($lm_data as $item)
 									{
-										$fix[$target["id"]] = $item["obj_id"];
-										$found = true;
+										if (!$found && ($item["lm_id"] == $copy_lm))
+										{
+											$fix[$target["id"]] = $item["obj_id"];
+											$found = true;
+										}
 									}
 								}
 							}
 						}
 					}
-				}
-				
-				// outgoing links to be fixed
-				if (count($fix) > 0)
-				{
-//echo "<br>--".$copied_id;
-//var_dump($fix);
-					$t = ilObject::_lookupType($copy_lm);
-					if (is_array($all_fixes[$t.":".$copied_id]))
+
+					// outgoing links to be fixed
+					if (count($fix) > 0)
 					{
-						$all_fixes[$t.":".$copied_id] += $fix;
-					}
-					else
-					{
-						$all_fixes[$t.":".$copied_id] = $fix;
+						//echo "<br>--".$copied_id;
+						//var_dump($fix);
+						$t = ilObject::_lookupType($copy_lm);
+						if (is_array($all_fixes[$t . ":" . $copied_id]))
+						{
+							$all_fixes[$t . ":" . $copied_id] += $fix;
+						} else
+						{
+							$all_fixes[$t . ":" . $copied_id] = $fix;
+						}
 					}
 				}
 			}
@@ -1257,7 +1230,6 @@ class ilLMObject
 						"_".$original_id);
 					
 					// pages using these mobs
-					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 					foreach($mobs as $mob)
 					{
 	// mob_usage, where id -> ok
@@ -1329,11 +1301,13 @@ class ilLMObject
 		foreach ($all_fixes as $pg => $fixes)
 		{
 			$pg = explode(":", $pg);
-			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-			$page = ilPageObjectFactory::getInstance($pg[0], $pg[1]);
-			if ($page->moveIntLinks($fixes))
+			foreach (ilPageObject::lookupTranslations($pg[0], $pg[1]) as $l)
 			{
-				$page->update(true, true);
+				$page = ilPageObjectFactory::getInstance($pg[0], $pg[1], 0, $l);
+				if ($page->moveIntLinks($fixes))
+				{
+					$page->update(true, true);
+				}
 			}
 		}
 	}
@@ -1483,8 +1457,6 @@ class ilLMObject
 
 		$ilDB = $DIC->database();
 
-		include_once("Services/MetaData/classes/class.ilMDIdentifier.php");
-
 		if (trim($a_exp_id) == "")
 		{
 			// delete export ids, if existing
@@ -1524,7 +1496,6 @@ class ilLMObject
 			// nothing updated? create a new one
 			if (!$updated)
 			{
-				include_once("./Services/MetaData/classes/class.ilMD.php");
 				$md = new ilMD($a_lm_id, $a_lmobj_id, $a_type);
 				$md_gen = $md->getGeneral();
 				$identifier = $md_gen->addIdentifier();
@@ -1545,7 +1516,6 @@ class ilLMObject
 	public static function getExportId($a_lm_id, $a_lmobj_id, $a_type = "pg")
 	{
 		// look for export id
-		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
 		$entries = ilMDIdentifier::_getEntriesForObj(
 			$a_lm_id, $a_lmobj_id, $a_type);
 
@@ -1566,7 +1536,6 @@ class ilLMObject
 	 */
 	function existsExportID($a_lm_id, $a_exp_id, $a_type = "pg")
 	{
-		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
 		return ilMDIdentifier::existsIdInRbacObject($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
 	}
 
@@ -1575,7 +1544,6 @@ class ilLMObject
 	 */
 	public static function getDuplicateExportIDs($a_lm_id, $a_type = "pg")
 	{
-		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
 		$entries = ilMDIdentifier::_getEntriesForRbacObj($a_lm_id, $a_type);
 		$res = array();
 		foreach ($entries as $e)
@@ -1599,7 +1567,6 @@ class ilLMObject
 	 */
 	function getExportIDInfo($a_lm_id, $a_exp_id, $a_type = "pg")
 	{
-		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
 		$data = ilMDIdentifier::readIdData($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
 		return $data;
 	}
@@ -1621,13 +1588,11 @@ class ilLMObject
 		
 		if ($a_node["type"] == "st")
 		{
-			include_once './Modules/LearningModule/classes/class.ilStructureObject.php';
 			return ilStructureObject::_getPresentationTitle($a_node["child"], IL_CHAPTER_TITLE,
 				$a_include_numbers, $a_time_scheduled_activation, $a_force_content, $a_lm_id, $a_lang);
 		}
 		else
 		{
-			include_once './Modules/LearningModule/classes/class.ilLMPageObject.php';
 			return ilLMPageObject::_getPresentationTitle($a_node["child"],
 				$a_mode, $a_include_numbers, $a_time_scheduled_activation,
 				$a_force_content, $a_lm_id, $a_lang);

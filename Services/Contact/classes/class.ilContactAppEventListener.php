@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php';
 
 /**
  * Class ilContactAppEventListener
@@ -9,28 +7,22 @@ require_once 'Services/EventHandling/interfaces/interface.ilAppEventListener.php
  */
 class ilContactAppEventListener implements ilAppEventListener
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public static function handleEvent($a_component, $a_event, $a_parameter)
-	{
-		global $DIC;
+    /**
+     * @inheritDoc
+     */
+    public static function handleEvent($a_component, $a_event, $a_parameter)
+    {
+        global $DIC;
 
-		if('Services/User' == $a_component && 'deleteUser' == $a_event)
-		{
-			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
-			ilBuddyList::getInstanceByUserId($a_parameter['usr_id'])->destroy();
+        if ('Services/User' == $a_component && 'deleteUser' == $a_event) {
+            ilBuddyList::getInstanceByUserId((int) $a_parameter['usr_id'])->destroy();
+            ilMailingList::removeAssignmentsByUserId((int) $a_parameter['usr_id']);
+        }
 
-			require_once 'Services/Contact/classes/class.ilMailingList.php';
-			ilMailingList::removeAssignmentsByUserId($a_parameter['usr_id']);
-		}
-
-		if('Services/Contact' == $a_component && 'contactRequested' == $a_event)
-		{
-			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemNotification.php';
-			$notification = new ilBuddySystemNotification($DIC->user());
-			$notification->setRecipientIds(array($a_parameter['usr_id']));
-			$notification->send();
-		}
-	}
+        if ('Services/Contact' == $a_component && 'contactRequested' == $a_event) {
+            $notification = new ilBuddySystemNotification($DIC->user(), $DIC->settings());
+            $notification->setRecipientIds([(int) $a_parameter['usr_id']]);
+            $notification->send();
+        }
+    }
 }

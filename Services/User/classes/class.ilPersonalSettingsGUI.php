@@ -36,9 +36,6 @@ class ilPersonalSettingsGUI
         $this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
-//		$lng->loadLanguageModule("jsmath");
-		$lng->loadLanguageModule('chatroom');
-		$lng->loadLanguageModule('chatroom_adm');
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
@@ -75,7 +72,8 @@ class ilPersonalSettingsGUI
 				$this->__initSubTabs($this->ctrl->getCmd());
 				$this->setHeader();
 
-				require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
+				$DIC->tabs()->activateTab('chat_settings');
+
 				$chatSettingsGui = new ilPersonalChatSettingsFormGUI();
 				$this->ctrl->forwardCommand($chatSettingsGui);
 				break;
@@ -93,6 +91,7 @@ class ilPersonalSettingsGUI
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilTabs ilTabsGUI
 		 */
 		global $DIC;
 
@@ -131,13 +130,11 @@ class ilPersonalSettingsGUI
 			);
 		}
 
-		require_once 'Modules/Chatroom/classes/class.ilPersonalChatSettingsFormGUI.php';
-		$chatSettingsGui = new ilPersonalChatSettingsFormGUI(false);
-		if($chatSettingsGui->isAccessible())
-		{
-			/** @var $ilTabs ilTabsGUI */
+		$chatSettingsGui = new ilPersonalChatSettingsFormGUI();
+		if ($chatSettingsGui->isAccessible()) {
 			$ilTabs->addTarget(
-				'chat_settings', $this->ctrl->getLinkTarget($chatSettingsGui, 'showChatOptions'), '', 'ilPersonalChatSettingsFormGUI', '', method_exists($chatSettingsGui, $a_cmd)
+				'chat_settings',
+				$this->ctrl->getLinkTarget($chatSettingsGui, 'showChatOptions'), '', ['ilPersonalChatSettingsFormGUI']
 			);
 		}
 
@@ -371,6 +368,8 @@ class ilPersonalSettingsGUI
 				if ($_POST["current_password"] != $_POST["new_password"])
 				{
 					$ilUser->setLastPasswordChangeToNow();
+					$ilUser->setPasswordPolicyResetStatus(false);
+					$ilUser->update();
 				}
 
 				if(ilSession::get('orig_request_target'))
@@ -1074,22 +1073,29 @@ class ilPersonalSettingsGUI
 		
 		
 		// send notification
-		
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail(ANONYMOUS_USER_ID);
-		
-		$user_email = $ilUser->getEmail();		
-		$admin_mail = $ilSetting->get("user_delete_own_account_email");		
-		
+		$user_email = $ilUser->getEmail();
+		$admin_mail = $ilSetting->get("user_delete_own_account_email");
+		/** @var ilMailMimeSenderFactory $senderFactory */
+		$senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+
+		$mmail = new ilMimeMail();
+		$mmail->From($senderFactory->system());
 		// to user, admin as bcc
 		if($user_email)
-		{											
-			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null);
+		{
+			$mmail->To($user_email);
+			$mmail->Bcc($admin_mail);
+			$mmail->Subject($subject, true);
+			$mmail->Body($message);
+			$mmail->Send();
 		}
 		// admin only
 		else if($admin_mail)
 		{
-			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null);
+			$mmail->To($admin_mail);
+			$mmail->Subject($subject, true);
+			$mmail->Body($message);
+			$mmail->Send();
 		}
 		
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");

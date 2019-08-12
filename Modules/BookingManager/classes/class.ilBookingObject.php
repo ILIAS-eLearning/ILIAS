@@ -578,6 +578,27 @@ class ilBookingObject
 		$target = $new_obj->initStorage($new_obj->getId());		
 		ilUtil::rCopy($source, $target);		
 	}
+
+	/**
+	 * Lookup pool id
+	 *
+	 * @param int $object_id
+	 * @return int
+	 */
+	public static function lookupPoolId($object_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+		$set = $db->queryF("SELECT pool_id FROM booking_object ".
+			" WHERE booking_object_id = %s ",
+			array("integer"),
+			array($object_id)
+			);
+		$rec = $db->fetchAssoc($set);
+		return (int) $rec["pool_id"];
+	}
+
 }
 
 ?>

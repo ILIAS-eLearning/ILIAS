@@ -1,68 +1,70 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTermsOfServiceDataGatewayFactoryTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceDataGatewayFactoryTest extends \ilTermsOfServiceBaseTest
+class ilTermsOfServiceDataGatewayFactoryTest extends ilTermsOfServiceBaseTest
 {
-	/**
-	 *
-	 */
-	public function testInstanceCanBeCreated()
-	{
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$this->assertInstanceOf('ilTermsOfServiceDataGatewayFactory', $factory);
-	}
+    /**
+     *
+     */
+    public function testInstanceCanBeCreated() : void
+    {
+        $factory = new ilTermsOfServiceDataGatewayFactory();
+        $this->assertInstanceOf('ilTermsOfServiceDataGatewayFactory', $factory);
+    }
 
-	/**
-	 * @expectedException \ilTermsOfServiceMissingDatabaseAdapterException
-	 */
-	public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies()
-	{
-		$this->assertException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
+    /**
+     *
+     */
+    public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies() : void
+    {
+        $this->expectException(ilTermsOfServiceMissingDatabaseAdapterException::class);
 
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->getByName('PHP Unit');
-	}
+        $factory = new ilTermsOfServiceDataGatewayFactory();
+        $factory->getByName('PHP Unit');
+    }
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested()
-	{
-		$this->assertException(\InvalidArgumentException::class);
+    /**
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     * @throws ReflectionException
+     */
+    public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
 
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
-		$factory->getByName('PHP Unit');
-	}
+        $factory = new ilTermsOfServiceDataGatewayFactory();
+        $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
+        $factory->getByName('PHP Unit');
+    }
 
-	/**
-	 *
-	 */
-	public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName()
-	{
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
+    /**
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     * @throws ReflectionException
+     */
+    public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName() : void
+    {
+        $factory = new ilTermsOfServiceDataGatewayFactory();
+        $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
 
-		$this->assertInstanceOf(
-			'ilTermsOfServiceAcceptanceDatabaseGateway',
-			$factory->getByName('ilTermsOfServiceAcceptanceDatabaseGateway')
-		);
-	}
+        $this->assertInstanceOf(
+            'ilTermsOfServiceAcceptanceDatabaseGateway',
+            $factory->getByName('ilTermsOfServiceAcceptanceDatabaseGateway')
+        );
+    }
 
-	/**
-	 *
-	 */
-	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet()
-	{
-		$expected = $this->getMockBuilder(\ilDBInterface::class)->getMock();
+    /**
+     * @throws ReflectionException
+     */
+    public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet() : void
+    {
+        $expected = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($expected);
+        $factory = new ilTermsOfServiceDataGatewayFactory();
+        $factory->setDatabaseAdapter($expected);
 
-		$this->assertEquals($expected, $factory->getDatabaseAdapter());
-	}
+        $this->assertEquals($expected, $factory->getDatabaseAdapter());
+    }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,16 +7,16 @@
  */
 interface ilTermsOfServiceCriterionTypeFactoryInterface
 {
-	/**
-	 * @return \ilTermsOfServiceCriterionType[]
-	 */
-	public function getTypesByIdentMap(): array;
+    /**
+     * @return ilTermsOfServiceCriterionType[]
+     */
+    public function getTypesByIdentMap() : array;
 
-	/**
-	 * @param string $typeIdent
-	 * @param bool $useFallback
-	 * @return ilTermsOfServiceCriterionType
-	 * @throws \ilTermsOfServiceCriterionTypeNotFoundException
-	 */
-	public function findByTypeIdent(string $typeIdent, bool $useFallback = false): \ilTermsOfServiceCriterionType;
+    /**
+     * @param string $typeIdent
+     * @param bool   $useFallback
+     * @return ilTermsOfServiceCriterionType
+     * @throws ilTermsOfServiceCriterionTypeNotFoundException
+     */
+    public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilTermsOfServiceCriterionType;
 }

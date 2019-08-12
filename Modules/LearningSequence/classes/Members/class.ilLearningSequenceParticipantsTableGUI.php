@@ -20,7 +20,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 	public function __construct(
 		ilLearningSequenceMembershipGUI $parent_gui,
 		ilObjLearningSequence $ls_object,
-		bool $show_learning_progress = false,
+		ilObjUserTracking $obj_user_tracking,
 		ilPrivacySettings $privacy_settings,
 		ilLanguage $lng,
 		ilAccess $access,
@@ -31,6 +31,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 		$this->rep_object = $ls_object;
 		$this->show_learning_progress = $show_learning_progress;
 
+		$this->obj_user_tracking = $obj_user_tracking;
 		$this->privacy_settings = $privacy_settings;
 		$this->lng = $lng;
 		$this->access = $access;
@@ -72,8 +73,13 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 			$this->addColumn($all_cols[$col]['txt'], $col);
 		}
 
-		$this->addColumn($this->lng->txt('first_access'), "first_access");
-		$this->addColumn($this->lng->txt('last_access'), "last_access");
+		if (
+			$this->obj_user_tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS) &&
+			ilObjUserTracking::_enabledLearningProgress()
+		) {
+			$this->addColumn($this->lng->txt('first_access'), "first_access");
+			$this->addColumn($this->lng->txt('last_access'), "last_access");
+		}
 		$this->addColumn($this->lng->txt('completed_steps'), "completed_steps");
 		$this->addColumn($this->lng->txt('last_visited_step'), "last_visited_step");
 		$this->addColumn($this->lng->txt('lso_notification'), 'notification');

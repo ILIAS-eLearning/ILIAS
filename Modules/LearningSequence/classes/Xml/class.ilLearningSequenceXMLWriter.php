@@ -89,7 +89,7 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
 			$this->xmlStartTag("ls_item", $att);
 
 			$this->xmlElement("ls_item_pc_ref_id", null, $post_condition->getRefId());
-			$this->xmlElement("ls_item_pc_condition_type", null, $post_condition->getConditionType());
+			$this->xmlElement("ls_item_pc_condition_type", null, $post_condition->getConditionOperator());
 			$this->xmlElement("ls_item_pc_value", null, $post_condition->getValue());
 			$this->xmlElement("ls_item_type", null, $ls_item->getType());
 			$this->xmlElement("ls_item_title", null, $ls_item->getTitle());

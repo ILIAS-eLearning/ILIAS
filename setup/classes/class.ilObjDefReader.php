@@ -305,10 +305,6 @@ class ilObjDefReader extends ilSaxParser
 					require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
 					ilPDFCompInstaller::updateFromXML($this->current_component, $a_attribs['name'], $a_attribs['preferred']);
 					break;
-				case 'gsprovider':
-					// ilGSProviderStorage::installDB();
-					ilGSProviderStorage::registerIdentifications($a_attribs['class_name'], $a_attribs['purpose']);
-					break;
 			}
 		}
 	}

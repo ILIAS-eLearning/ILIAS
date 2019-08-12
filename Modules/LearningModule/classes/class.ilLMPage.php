@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Extension of ilPageObject for learning modules 
@@ -49,10 +47,24 @@ class ilLMPage extends ilPageObject
 	{
 		if ($a_page_content->getType() == "par")
 		{
-			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 			$glos = ilObjContentObject::lookupAutoGlossaries($this->getParentId());
 			$a_page_content->autoLinkGlossaries($glos);
 		}
+	}
+
+	/**
+	 * After update content send notifications.
+	 */
+	function afterUpdate()
+	{
+		$references = ilObject::_getAllReferences($this->getParentId());
+		$notification = new ilLearningModuleNotification(
+			ilLearningModuleNotification::ACTION_UPDATE,
+			ilNotification::TYPE_LM_PAGE,
+			new ilObjLearningModule(reset($references)),
+			$this->getId());
+
+		$notification->send();
 	}
 
 }

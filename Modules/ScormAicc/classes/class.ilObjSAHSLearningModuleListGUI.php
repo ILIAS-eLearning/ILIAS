@@ -42,18 +42,13 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	}
 
 	/**
-	* inititialize new item
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	int			$a_obj_id		object id
-	* @param	string		$a_title		title
-	* @param	string		$a_description	description
-	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	 * @inheritdoc
+	 */
+	function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
 	{
 		// general commands array
 		$this->commands = ilObjSAHSLearningModuleAccess::_getCommands($a_obj_id);
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		parent::initItem($a_ref_id, $a_obj_id, $type,  $a_title, $a_description);
 	}
 
 	/**
@@ -200,9 +195,10 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 			$props[] = array("alert" => false, "property" => $lng->txt("type"),
 				"value" => $lng->txt("sahs"));
 		}
-		
-		// check for certificates
-		if (ilObjSAHSLearningModuleAccess::_lookupUserCertificate($this->obj_id))
+
+		$certValidator = new ilCertificateDownloadValidator();
+		$allowed = $certValidator->isCertificateDownloadable($this->user->getId(), $this->obj_id);
+		if ($allowed)
 		{
 			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 			$type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);

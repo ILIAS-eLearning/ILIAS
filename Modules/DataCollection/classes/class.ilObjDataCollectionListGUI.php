@@ -27,7 +27,6 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI {
 		$this->gui_class_name = "ilobjdatacollectiongui";
 
 		// general commands array
-		include_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
 		$this->commands = ilObjDataCollectionAccess::_getCommands();
 	}
 
@@ -43,10 +42,8 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI {
 	public function getProperties() {
 		global $DIC;
 		$lng = $DIC['lng'];
-		$ilUser = $DIC['ilUser'];
 
 		$props = array();
-		include_once("./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php");
 
 		if (!ilObjDataCollectionAccess::_lookupOnline($this->obj_id)) {
 			$props[] = array(

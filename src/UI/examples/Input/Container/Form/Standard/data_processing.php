@@ -7,20 +7,18 @@ function data_processing() {
     global $DIC;
     $ui = $DIC->ui()->factory();
     $lng = $DIC->language();
-    $trafo = new \ILIAS\Transformation\Factory();
     $data = new \ILIAS\Data\Factory();
-    $validation = new \ILIAS\Validation\Factory($data, $lng);
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
-
+    $refinery = $DIC->refinery();
     //Step 1: Define transformations
-    $sum = $trafo->custom(function($vs) {
+    $sum = $refinery->custom()->transformation(function($vs) {
         list($l, $r) = $vs;
         $s = $l + $r;
         return "$l + $r = $s";
     });
 
-    $from_name = $trafo->custom(function($v) {
+    $from_name = $refinery->custom()->transformation(function($v) {
         switch($v) {
             case "one" : return 1;
             case "two" : return 2;
@@ -37,7 +35,7 @@ function data_processing() {
     });
 
     //Step 2: Define custom constraint
-    $valid_number = $validation->custom(function($v) {
+    $valid_number = $refinery->custom()->constraint(function($v) {
         return in_array($v, ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]);
     }, "This is not a number I know...");
 

@@ -2,11 +2,13 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 declare(strict_types=1);
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Class ilServicesAuthApacheSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesAuthApacheSuite extends \PHPUnit_Framework_TestSuite
+class ilServicesAuthApacheSuite extends TestSuite
 {
 	public static function suite()
 	{

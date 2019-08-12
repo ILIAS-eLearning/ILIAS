@@ -254,7 +254,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-		$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		$participantData->load($this->getTestObj()->getTestId());
 		
@@ -290,7 +290,7 @@ class ilParticipantsTestResultsGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 		$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-		$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
+		//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 		$participantData->setParticipantAccessFilter($accessFilter);
 		
 		$participantData->setActiveIdsFilter((array)$_POST["chbUser"]);
@@ -299,8 +299,16 @@ class ilParticipantsTestResultsGUI
 		
 		foreach( $participantData->getActiveIds() as $activeId )
 		{
-			$cgui->addItem(
-				"chbUser[]", $activeId, $participantData->getFormatedFullnameByActiveId($activeId),
+			if( $this->testObj->getAnonymity() )
+			{
+				$username = $DIC->language()->txt('anonymous');
+			}
+			else
+			{
+				$username = $participantData->getFormatedFullnameByActiveId($activeId);
+			}
+			
+			$cgui->addItem("chbUser[]", $activeId, $username,
 				ilUtil::getImagePath("icon_usr.svg"), $DIC->language()->txt("usr")
 			);
 		}
@@ -324,7 +332,7 @@ class ilParticipantsTestResultsGUI
 			
 			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
 			$participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-			$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
+			//$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
 			$participantData->setParticipantAccessFilter($accessFilter);
 			$participantData->setActiveIdsFilter($_POST["chbUser"]);
 			

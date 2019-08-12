@@ -2,11 +2,13 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 declare(strict_types=1);
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ilWhiteListUrlValidatorTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilWhiteListUrlValidatorTest extends \PHPUnit_Framework_TestCase
+class ilWhiteListUrlValidatorTest extends TestCase
 {
 	/**
 	 * @return array

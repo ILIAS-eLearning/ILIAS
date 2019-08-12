@@ -4,462 +4,470 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTemplateRepositoryTest extends \PHPUnit_Framework_TestCase
+class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
-	public function testCertificateWillBeSavedToTheDatabase()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testCertificateWillBeSavedToTheDatabase()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache->method('lookUpType')->willReturn('crs');
+        $objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$database->method('nextId')
-			->willReturn(10);
+        $database->method('nextId')
+            ->willReturn(10);
 
-		$database->method('insert')
-			->with(
-				'il_cert_template',
-				array(
-					'id'                    => array('integer', 10),
-					'obj_id'                => array('integer', 100),
-					'obj_type'              => array('text', 'crs'),
-					'certificate_content'   => array('clob', '<xml>Some Content</xml>'),
-					'certificate_hash'      => array('text', md5('<xml>Some Content</xml>')),
-					'template_values'       => array('clob', '[]'),
-					'version'               => array('text', '1'),
-					'ilias_version'         => array('text', 'v5.4.0'),
-					'created_timestamp'     => array('integer', 123456789),
-					'currently_active'      => array('integer', true),
-					'background_image_path' => array('text', '/some/where/background.jpg'),
-					'deleted'               => array('integer', 0),
-					'thumbnail_image_path'  => array('text', 'some/path/test.svg')
-				)
-			);
+        $database->method('insert')
+            ->with(
+                'il_cert_template',
+                array(
+                    'id'                    => array('integer', 10),
+                    'obj_id'                => array('integer', 100),
+                    'obj_type'              => array('text', 'crs'),
+                    'certificate_content'   => array('clob', '<xml>Some Content</xml>'),
+                    'certificate_hash'      => array('text', md5('<xml>Some Content</xml>')),
+                    'template_values'       => array('clob', '[]'),
+                    'version'               => array('text', '1'),
+                    'ilias_version'         => array('text', 'v5.4.0'),
+                    'created_timestamp'     => array('integer', 123456789),
+                    'currently_active'      => array('integer', true),
+                    'background_image_path' => array('text', '/some/where/background.jpg'),
+                    'deleted'               => array('integer', 0),
+                    'thumbnail_image_path'  => array('text', 'some/path/test.svg')
+                )
+            );
 
-		$logger->expects($this->atLeastOnce())
-			->method('info');
+        $logger->expects($this->atLeastOnce())
+            ->method('info');
 
-		$template = new ilCertificateTemplate(
-			100,
-			'crs',
-			'<xml>Some Content</xml>',
-			md5('<xml>Some Content</xml>'),
-			'[]',
-			'1',
-			'v5.4.0',
-			123456789,
-			true,
-			$backgroundImagePath = '/some/where/background.jpg',
-			'some/path/test.svg'
+        $template = new ilCertificateTemplate(
+            100,
+            'crs',
+            '<xml>Some Content</xml>',
+            md5('<xml>Some Content</xml>'),
+            '[]',
+            '1',
+            'v5.4.0',
+            123456789,
+            true,
+            $backgroundImagePath = '/some/where/background.jpg',
+            'some/path/test.svg'
 
-		);
+        );
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$repository->save($template);
-	}
+        $repository->save($template);
+    }
 
-	public function testFetchCertificateTemplatesByObjId()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testFetchCertificateTemplatesByObjId()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('fetchAssoc')
-			->willReturnOnConsecutiveCalls(
-				array(
-					'id'                    => 1,
-					'obj_id'                => 10,
-					'obj_type'              => 'crs',
-					'certificate_content'   => '<xml>Some Content</xml>',
-					'certificate_hash'      => md5('<xml>Some Content</xml>'),
-					'template_values'       => '[]',
-					'version'               => '1',
-					'ilias_version'         => 'v5.4.0',
-					'created_timestamp'     => 123456789,
-					'currently_active'      => true,
-					'background_image_path' => '/some/where/background.jpg',
-					'thumbnail_image_path' => 'some/path/test.svg'
-				),
-				array(
-					'id'                    => 30,
-					'obj_id'                => 10,
-					'obj_type'              => 'tst',
-					'certificate_content'   => '<xml>Some Other Content</xml>',
-					'certificate_hash'      => md5('<xml>Some Content</xml>'),
-					'template_values'       => '[]',
-					'version'               => '55',
-					'ilias_version'         => 'v5.3.0',
-					'created_timestamp'     => 123456789,
-					'currently_active'      => false,
-					'background_image_path' => '/some/where/else/background.jpg',
-					'thumbnail_image_path'  => 'some/path/test.svg'
-				)
-			);
+        $database->method('fetchAssoc')
+            ->willReturnOnConsecutiveCalls(
+                array(
+                    'id'                    => 1,
+                    'obj_id'                => 10,
+                    'obj_type'              => 'crs',
+                    'certificate_content'   => '<xml>Some Content</xml>',
+                    'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                    'template_values'       => '[]',
+                    'version'               => '1',
+                    'ilias_version'         => 'v5.4.0',
+                    'created_timestamp'     => 123456789,
+                    'currently_active'      => true,
+                    'background_image_path' => '/some/where/background.jpg',
+                    'thumbnail_image_path' => 'some/path/test.svg'
+                ),
+                array(
+                    'id'                    => 30,
+                    'obj_id'                => 10,
+                    'obj_type'              => 'tst',
+                    'certificate_content'   => '<xml>Some Other Content</xml>',
+                    'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                    'template_values'       => '[]',
+                    'version'               => '55',
+                    'ilias_version'         => 'v5.3.0',
+                    'created_timestamp'     => 123456789,
+                    'currently_active'      => false,
+                    'background_image_path' => '/some/where/else/background.jpg',
+                    'thumbnail_image_path'  => 'some/path/test.svg'
+                )
+            );
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache->method('lookUpType')->willReturn('crs');
+        $objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$templates = $repository->fetchCertificateTemplatesByObjId(10);
+        $templates = $repository->fetchCertificateTemplatesByObjId(10);
 
-		$this->assertEquals(1, $templates[0]->getId());
-		$this->assertEquals(30, $templates[1]->getId());
-	}
+        $this->assertEquals(1, $templates[0]->getId());
+        $this->assertEquals(30, $templates[1]->getId());
+    }
 
-	public function testFetchCurrentlyActiveCertificate()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testFetchCurrentlyActiveCertificate()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('fetchAssoc')
-			->willReturnOnConsecutiveCalls(
-				array(
-					'id'                    => 1,
-					'obj_id'                => 10,
-					'obj_type'              => 'crs',
-					'certificate_content'   => '<xml>Some Content</xml>',
-					'certificate_hash'      => md5('<xml>Some Content</xml>'),
-					'template_values'       => '[]',
-					'version'               => '1',
-					'ilias_version'         => 'v5.4.0',
-					'created_timestamp'     => 123456789,
-					'currently_active'      => true,
-					'background_image_path' => '/some/where/background.jpg',
-					'thumbnail_image_path'  => 'some/path/test.svg'
-				),
-				array(
-					'id'                    => 30,
-					'obj_id'                => 10,
-					'obj_type'              => 'tst',
-					'certificate_content'   => '<xml>Some Other Content</xml>',
-					'certificate_hash'      => md5('<xml>Some Content</xml>'),
-					'template_values'       => '[]',
-					'version'               => '55',
-					'ilias_version'         => 'v5.3.0',
-					'created_timestamp'     => 123456789,
-					'currently_active'      => false,
-					'background_image_path' => '/some/where/else/background.jpg',
-					'thumbnail_image_path'  => 'some/path/test.svg'
-				)
-			);
+        $database->method('fetchAssoc')
+            ->willReturnOnConsecutiveCalls(
+                array(
+                    'id'                    => 1,
+                    'obj_id'                => 10,
+                    'obj_type'              => 'crs',
+                    'certificate_content'   => '<xml>Some Content</xml>',
+                    'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                    'template_values'       => '[]',
+                    'version'               => '1',
+                    'ilias_version'         => 'v5.4.0',
+                    'created_timestamp'     => 123456789,
+                    'currently_active'      => true,
+                    'background_image_path' => '/some/where/background.jpg',
+                    'thumbnail_image_path'  => 'some/path/test.svg'
+                ),
+                array(
+                    'id'                    => 30,
+                    'obj_id'                => 10,
+                    'obj_type'              => 'tst',
+                    'certificate_content'   => '<xml>Some Other Content</xml>',
+                    'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                    'template_values'       => '[]',
+                    'version'               => '55',
+                    'ilias_version'         => 'v5.3.0',
+                    'created_timestamp'     => 123456789,
+                    'currently_active'      => false,
+                    'background_image_path' => '/some/where/else/background.jpg',
+                    'thumbnail_image_path'  => 'some/path/test.svg'
+                )
+            );
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache->method('lookUpType')->willReturn('crs');
+        $objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$template = $repository->fetchCurrentlyActiveCertificate(10);
+        $template = $repository->fetchCurrentlyActiveCertificate(10);
 
-		$this->assertEquals(1, $template->getId());
-	}
+        $this->assertEquals(1, $template->getId());
+    }
 
-	public function testFetchPreviousCertificate()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testFetchPreviousCertificate()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('fetchAssoc')
-			->willReturnOnConsecutiveCalls(
-				array(
-					'id'                    => 1,
-					'obj_id'                => 10,
-					'obj_type'              => 'crs',
-					'certificate_content'   => '<xml>Some Content</xml>',
-					'certificate_hash'      => md5('<xml>Some Content</xml>'),
-					'template_values'       => '[]',
-					'version'               => '1',
-					'ilias_version'         => 'v5.4.0',
-					'created_timestamp'     => 123456789,
-					'currently_active'      => true,
-					'background_image_path' => '/some/where/background.jpg',
-					'thumbnail_image_path' => 'some/path/test.svg'
-				),
-				array(
-					'id'                    => 30,
-					'obj_id'                => 10,
-					'obj_type'              => 'tst',
-					'certificate_content'   => '<xml>Some Other Content</xml>',
-					'certificate_hash'      => md5('<xml>Some Content</xml>'),
-					'template_values'       => '[]',
-					'version'               => '55',
-					'ilias_version'         => 'v5.3.0',
-					'created_timestamp'     => 123456789,
-					'currently_active'      => false,
-					'background_image_path' => '/some/where/else/background.jpg',
-					'thumbnail_image_path' => 'some/path/test.svg'
-				)
-			);
+        $database->method('fetchAssoc')
+            ->willReturnOnConsecutiveCalls(
+                array(
+                    'id'                    => 1,
+                    'obj_id'                => 10,
+                    'obj_type'              => 'crs',
+                    'certificate_content'   => '<xml>Some Content</xml>',
+                    'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                    'template_values'       => '[]',
+                    'version'               => '1',
+                    'ilias_version'         => 'v5.4.0',
+                    'created_timestamp'     => 123456789,
+                    'currently_active'      => true,
+                    'background_image_path' => '/some/where/background.jpg',
+                    'thumbnail_image_path' => 'some/path/test.svg'
+                ),
+                array(
+                    'id'                    => 30,
+                    'obj_id'                => 10,
+                    'obj_type'              => 'tst',
+                    'certificate_content'   => '<xml>Some Other Content</xml>',
+                    'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                    'template_values'       => '[]',
+                    'version'               => '55',
+                    'ilias_version'         => 'v5.3.0',
+                    'created_timestamp'     => 123456789,
+                    'currently_active'      => false,
+                    'background_image_path' => '/some/where/else/background.jpg',
+                    'thumbnail_image_path' => 'some/path/test.svg'
+                )
+            );
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache->method('lookUpType')->willReturn('crs');
+        $objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$template = $repository->fetchPreviousCertificate(10);
+        $template = $repository->fetchPreviousCertificate(10);
 
-		$this->assertEquals(30, $template->getId());
-	}
+        $this->assertEquals(30, $template->getId());
+    }
 
-	public function testDeleteTemplateFromDatabase()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testDeleteTemplateFromDatabase()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('quote')
-			->withConsecutive(array(10, 'integer'), array(200, 'integer'))
-			->willReturnOnConsecutiveCalls(10, 200);
+        $database->method('quote')
+            ->withConsecutive(array(10, 'integer'), array(200, 'integer'))
+            ->willReturnOnConsecutiveCalls(10, 200);
 
-		$database->method('query')
-			->with('
+        $database->method('query')
+            ->with('
 DELETE FROM il_cert_template
 WHERE id = 10
 AND obj_id = 200');
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache->method('lookUpType')->willReturn('crs');
+        $objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$repository->deleteTemplate(10, 200);
-	}
+        $repository->deleteTemplate(10, 200);
+    }
 
-	public function testActivatePreviousCertificate()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testActivatePreviousCertificate()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('quote')
-			->withConsecutive(array(10, 'integer'), array(30, 'integer'))
-			->willReturnOnConsecutiveCalls(10, 30);
+        $database->method('quote')
+            ->withConsecutive(array(10, 'integer'), array(30, 'integer'))
+            ->willReturnOnConsecutiveCalls(10, 30);
 
-		$database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-			array(
-				'id'                    => 1,
-				'obj_id'                => 10,
-				'obj_type'              => 'crs',
-				'certificate_content'   => '<xml>Some Content</xml>',
-				'certificate_hash'      => md5('<xml>Some Content</xml>'),
-				'template_values'       => '[]',
-				'version'               => '1',
-				'ilias_version'         => 'v5.4.0',
-				'created_timestamp'     => 123456789,
-				'currently_active'      => true,
-				'background_image_path' => '/some/where/background.jpg',
-				'thumbnail_image_path' => 'some/path/test.svg'
-			),
-			array(
-				'id'                    => 30,
-				'obj_id'                => 10,
-				'obj_type'              => 'tst',
-				'certificate_content'   => '<xml>Some Other Content</xml>',
-				'certificate_hash'      => md5('<xml>Some Content</xml>'),
-				'template_values'       => '[]',
-				'version'               => '55',
-				'ilias_version'         => 'v5.3.0',
-				'created_timestamp'     => 123456789,
-				'currently_active'      => false,
-				'background_image_path' => '/some/where/else/background.jpg',
-				'thumbnail_image_path' => 'some/path/test.svg'
-			)
-		);
+        $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            array(
+                'id'                    => 1,
+                'obj_id'                => 10,
+                'obj_type'              => 'crs',
+                'certificate_content'   => '<xml>Some Content</xml>',
+                'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                'template_values'       => '[]',
+                'version'               => '1',
+                'ilias_version'         => 'v5.4.0',
+                'created_timestamp'     => 123456789,
+                'currently_active'      => true,
+                'background_image_path' => '/some/where/background.jpg',
+                'thumbnail_image_path' => 'some/path/test.svg'
+            ),
+            array(
+                'id'                    => 30,
+                'obj_id'                => 10,
+                'obj_type'              => 'tst',
+                'certificate_content'   => '<xml>Some Other Content</xml>',
+                'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                'template_values'       => '[]',
+                'version'               => '55',
+                'ilias_version'         => 'v5.3.0',
+                'created_timestamp'     => 123456789,
+                'currently_active'      => false,
+                'background_image_path' => '/some/where/else/background.jpg',
+                'thumbnail_image_path' => 'some/path/test.svg'
+            )
+        );
 
-		$database->method('query')
-			->withConsecutive(
-				array($this->anything()),
-				array('UPDATE il_cert_template
+        $database->method('query')
+            ->withConsecutive(
+                array($this->anything()),
+                array('UPDATE il_cert_template
 SET currently_active = 1
 WHERE id = 30')
-			);
+            );
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache->method('lookUpType')->willReturn('crs');
+        $objectDataCache->method('lookUpType')->willReturn('crs');
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$template = $repository->activatePreviousCertificate(10, 200);
+        $template = $repository->activatePreviousCertificate(10, 200);
 
-		$this->assertEquals(30, $template->getId());
-	}
+        $this->assertEquals(30, $template->getId());
+    }
 
-	public function testFetchAllObjectIdsByType()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testFetchAllObjectIdsByType()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('quote')
-			->with('crs')
-			->willReturn('crs');
+        $database->method('quote')
+            ->with('crs')
+            ->willReturn('crs');
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
-			array(
-				'id'                    => 1,
-				'obj_id'                => 10,
-				'obj_type'              => 'crs',
-				'certificate_content'   => '<xml>Some Content</xml>',
-				'certificate_hash'      => md5('<xml>Some Content</xml>'),
-				'template_values'       => '[]',
-				'version'               => '1',
-				'ilias_version'         => 'v5.4.0',
-				'created_timestamp'     => 123456789,
-				'currently_active'      => true,
-				'background_image_path' => '/some/where/background.jpg'
-			),
-			array(
-				'id'                    => 30,
-				'obj_id'                => 30,
-				'obj_type'              => 'crs',
-				'certificate_content'   => '<xml>Some Other Content</xml>',
-				'certificate_hash'      => md5('<xml>Some Content</xml>'),
-				'template_values'       => '[]',
-				'version'               => '55',
-				'ilias_version'         => 'v5.3.0',
-				'created_timestamp'     => 123456789,
-				'currently_active'      => false,
-				'background_image_path' => '/some/where/else/background.jpg'
-			)
-		);
+        $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            array(
+                'id'                    => 1,
+                'obj_id'                => 10,
+                'obj_type'              => 'crs',
+                'certificate_content'   => '<xml>Some Content</xml>',
+                'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                'template_values'       => '[]',
+                'version'               => '1',
+                'ilias_version'         => 'v5.4.0',
+                'created_timestamp'     => 123456789,
+                'currently_active'      => true,
+                'background_image_path' => '/some/where/background.jpg',
+                'thumbnail_image_path' => '/some/where/thumbnail.svg'
+            ),
+            array(
+                'id'                    => 30,
+                'obj_id'                => 30,
+                'obj_type'              => 'crs',
+                'certificate_content'   => '<xml>Some Other Content</xml>',
+                'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                'template_values'       => '[]',
+                'version'               => '55',
+                'ilias_version'         => 'v5.3.0',
+                'created_timestamp'     => 123456789,
+                'currently_active'      => false,
+                'background_image_path' => '/some/where/else/background.jpg',
+                'thumbnail_image_path' => '/some/where/thumbnail.svg'
+            )
+        );
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$ids = $repository->fetchAllObjectIdsByType('crs');
+        $templates = $repository->fetchActiveTemplatesByType('crs');
 
-		$this->assertEquals(array(10, 30), $ids);
-	}
+        $this->assertEquals(10, $templates[0]->getObjId());
+        $this->assertEquals(30, $templates[1]->getObjId());
+    }
 
-	/**
-	 * @expectedException ilException
-	 */
-	public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     *
+     */
+    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved()
+    {
+        $this->expectException(\ilException::class);
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('quote')
-			->with(10, 'integer')
-			->willReturn(10);
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $database->method('quote')
+            ->with(10, 'integer')
+            ->willReturn(10);
 
-		$database->method('fetchAssoc')
-			->willReturn(array());
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('fetchAssoc')
-			->willReturn(array());
+        $database->method('fetchAssoc')
+            ->willReturn(array());
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $database->method('fetchAssoc')
+            ->willReturn(array());
 
-		$repository->fetchFirstCreatedTemplate(10);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$this->fail();
-	}
+        $repository->fetchFirstCreatedTemplate(10);
 
-	public function fetchFirstCreateTemplate()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->fail();
+    }
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+    public function fetchFirstCreateTemplate()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('quote')
-			->with(10, 'integer')
-			->willReturn(10);
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$objectDataCache = $this->getMockBuilder('ilObjectDataCache')
-			->disableOriginalConstructor()
-			->getMock();
+        $database->method('quote')
+            ->with(10, 'integer')
+            ->willReturn(10);
 
-		$database->method('fetchAssoc')
-			->willReturn(array());
+        $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->method('fetchAssoc')->willReturn(
-			array(
-				'id'                    => 1,
-				'obj_id'                => 10,
-				'obj_type'              => 'crs',
-				'certificate_content'   => '<xml>Some Content</xml>',
-				'certificate_hash'      => md5('<xml>Some Content</xml>'),
-				'template_values'       => '[]',
-				'version'               => '1',
-				'ilias_version'         => 'v5.4.0',
-				'created_timestamp'     => 123456789,
-				'currently_active'      => true,
-				'background_image_path' => '/some/where/background.jpg'
-			)
-		);
+        $database->method('fetchAssoc')
+            ->willReturn(array());
 
-		$repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
+        $database->method('fetchAssoc')->willReturn(
+            array(
+                'id'                    => 1,
+                'obj_id'                => 10,
+                'obj_type'              => 'crs',
+                'certificate_content'   => '<xml>Some Content</xml>',
+                'certificate_hash'      => md5('<xml>Some Content</xml>'),
+                'template_values'       => '[]',
+                'version'               => '1',
+                'ilias_version'         => 'v5.4.0',
+                'created_timestamp'     => 123456789,
+                'currently_active'      => true,
+                'background_image_path' => '/some/where/background.jpg'
+            )
+        );
 
-		$firstTemplate = $repository->fetchFirstCreatedTemplate(10);
+        $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
 
-		$this->assertEquals(1, $firstTemplate->getId());
-	}
+        $firstTemplate = $repository->fetchFirstCreatedTemplate(10);
+
+        $this->assertEquals(1, $firstTemplate->getId());
+    }
 }

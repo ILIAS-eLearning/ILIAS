@@ -9,7 +9,7 @@ namespace ILIAS\UI\Component\Item;
  */
 interface Item extends \ILIAS\UI\Component\Component {
 	/**
-	 * Gets the title of the item 
+	 * Gets the title of the item
 	 *
 	 * @return string|\ILIAS\UI\Component\Button\Shy
 	 */
@@ -85,10 +85,10 @@ interface Item extends \ILIAS\UI\Component\Component {
 	/**
 	 * Set icon as lead
 	 *
-	 * @param \ILIAS\UI\Component\Icon\Icon $icon lead icon
+	 * @param \ILIAS\UI\Component\Symbol\Icon\Icon $icon lead icon
 	 * @return Icon
 	 */
-	public function withLeadIcon(\ILIAS\UI\Component\Icon\Icon $icon);
+	public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon);
 
 	/**
 	 * Set image as lead
@@ -105,7 +105,7 @@ interface Item extends \ILIAS\UI\Component\Component {
 	public function withNoLead();
 
 	/**
-	 * @return null|string|\ILIAS\UI\Component\Image\Image|\ILIAS\UI\Component\Icon\Icon
+	 * @return null|string|\ILIAS\UI\Component\Image\Image|\ILIAS\UI\Component\Symbol\Icon\Icon
 	 */
 	public function getLead();
 

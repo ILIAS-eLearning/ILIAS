@@ -204,7 +204,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 			case self::PRESENTATION_MODE_EDITING:
 
 				$pageObjectGui = $this->buildEditingPageObjectGUI();
-				return (string)$this->ctrl->forwardCommand($pageObjectGui);
+				return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
 			case self::PRESENTATION_MODE_PRESENTATION:
 				$pageObjectGUI = $this->buildPresentationPageObjectGUI();

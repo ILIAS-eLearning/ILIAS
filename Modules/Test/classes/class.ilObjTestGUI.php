@@ -473,22 +473,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$incompleteQuestionPurger->setOwnerId($ilUser->getId());
 				$incompleteQuestionPurger->purge();
 				
-				$qid = $_REQUEST['q_id'];
-
-				if(!$qid || $qid == 'Array')
+				try
 				{
-					$questions = $this->object->getQuestionTitlesAndIndexes();
-					if(!is_array($questions))
-						$questions = array();
-
-					$keys = array_keys($questions);
-					$qid  = $keys[0];
-
-					$_REQUEST['q_id'] = $qid;
-					$_GET['q_id']     = $qid;
-					$_POST['q_id']    = $qid;
+					$qid = $this->fetchAuthoringQuestionIdParameter();
 				}
-
+				catch(ilTestException $e)
+				{
+					$qid = 0;
+				}
+				
 				$this->prepareOutput();
 				if(!in_array($cmd, array('addQuestion', 'browseForQuestions')))
 				{
@@ -579,7 +572,7 @@ class ilObjTestGUI extends ilObjectGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
 				$gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
 
-				$gui->initQuestion((int)$_GET['q_id'], $this->object->getId());
+				$gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
 				$gui->initPreviewSettings($this->object->getRefId());
 				$gui->initPreviewSession($ilUser->getId(), (int)$_GET['q_id']);
 				$gui->initHintTracking();
@@ -590,6 +583,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case 'ilassquestionpagegui':
+				$_GET['q_id'] = $this->fetchAuthoringQuestionIdParameter();
 				$this->prepareOutput();
 				require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
 				$forwarder = new ilAssQuestionPageCommandForwarder();
@@ -617,7 +611,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI = assQuestionGUI::_getQuestionGUI('', $_GET['q_id']);
+				$questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 
@@ -644,7 +638,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParameter());
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 
@@ -669,7 +663,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI = assQuestionGUI::_getQuestionGUI('', $_GET['q_id']);
+				$questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 
@@ -718,7 +712,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->ctrl->setReturn($this, "questions");
 				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-				$q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $_GET["q_id"]);
+				$q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $this->fetchAuthoringQuestionIdParameter());
 				$q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
 				$q_gui->object->setObjId($this->object->getId());
 				if(!$_GET['sel_question_types'])
@@ -771,7 +765,36 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		$DIC->ctrl()->redirectByClass('ilTestExportGUI');
 	}
-
+	
+	/**
+	 * @return mixed
+	 */
+	protected function fetchAuthoringQuestionIdParameter()
+	{
+		$qid = $_REQUEST['q_id'];
+		
+		if (!$qid || $qid == 'Array')
+		{
+			$questions = $this->object->getQuestionTitlesAndIndexes();
+			if (!is_array($questions))
+				$questions = array();
+			
+			$keys = array_keys($questions);
+			$qid = $keys[0];
+			
+			$_REQUEST['q_id'] = $qid;
+			$_GET['q_id'] = $qid;
+			$_POST['q_id'] = $qid;
+		}
+		
+		if( $this->object->checkQuestionParent($qid) )
+		{
+			return $qid;
+		}
+		
+		throw new ilTestException('question id does not relate to parent object!');
+	}
+	
 	private function questionsTabGatewayObject()
 	{
 		switch( $this->object->getQuestionSetType() )
@@ -871,16 +894,6 @@ class ilObjTestGUI extends ilObjectGUI
 		// set title and description and title icon
 		$this->setTitleAndDescription();
 
-		// BEGIN WebDAV: Display Mount Webfolder icon.
-		if ($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-			if (ilDAVActivationChecker::_isActive())
-			{
-				$this->showMountWebfolderIcon();
-			}
-		}
-		// END WebDAV: Display Mount Webfolder icon.
 	}
 
 	function runObject()
@@ -1983,6 +1996,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$lng = $DIC['lng'];
 		$ilCtrl = $DIC['ilCtrl'];
 		$tpl = $DIC['tpl'];
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+
+		$subScreenId = array('createQuestion');
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
@@ -2027,6 +2044,8 @@ class ilObjTestGUI extends ilObjectGUI
 		// content editing mode
 		if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
 		{
+			$subScreenId[] = 'editMode';
+
 			$ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 
 			$ri->addOption(new ilRadioOption(
@@ -2052,6 +2071,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if($this->object->getPoolUsage())
 		{
+			$subScreenId[] = 'poolSelect';
+			
 			// use pool
 			$usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
 			$usage->setRequired(true);
@@ -2083,7 +2104,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$form->addCommandButton("executeCreateQuestion", $lng->txt("create"));
 		$form->addCommandButton("questions", $lng->txt("cancel"));
-
+		
+		$DIC->tabs()->activateTab('assQuestions');
+		$ilHelp->setScreenId('assQuestions');
+		$ilHelp->setSubScreenId(implode('_', $subScreenId));
+		
 		return $tpl->setContent($form->getHTML());
 	}
 	
@@ -3403,6 +3428,12 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $DIC;
 		$ilObjDataCache = $DIC['ilObjDataCache'];
+		
+		if(!(int)$_REQUEST['sel_qpl'])
+		{
+			ilUtil::sendFailure($this->lng->txt("questionpool_not_selected"));
+			return $this->copyAndLinkToQuestionpoolObject();
+		}
 
 		$qplId = $ilObjDataCache->lookupObjId($_REQUEST['sel_qpl']);
 		$result = $this->copyQuestionsToPool($_REQUEST['q_id'], $qplId);
@@ -3500,8 +3531,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 	public function createQuestionPoolAndCopyObject()
 	{
-		$form = $this->getQuestionpoolCreationForm();
-
 	    if ($_REQUEST['title'])
 		{
 		    $title = $_REQUEST['title'];
@@ -3513,7 +3542,7 @@ class ilObjTestGUI extends ilObjectGUI
 	    
 	    if (!$title)
 		{
-		    ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
+		    ilUtil::sendFailure($this->lng->txt("questionpool_not_entered"));
 		    return $this->copyAndLinkToQuestionpoolObject();
 	    }
 	    
@@ -3538,72 +3567,96 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function createQuestionpoolTargetObject($cmd)
 	{
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		$ilTabs = $DIC['ilTabs'];
-		$this->getTabsManager()->getQuestionsSubTabs();
-		$ilTabs->activateSubTab('edit_test_questions');
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select_copy.html", "Modules/Test");
-		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
+		$this->getTabsManager()->getQuestionsSubTabs();
+		$DIC->tabs()->activateSubTab('edit_test_questions');
+
+		$questionpools = $this->object->getAvailableQuestionpools(
+			FALSE,
+			FALSE,
+			FALSE,
+			TRUE,
+			FALSE,
+			"write"
+		);
+
 		if(count($questionpools) == 0)
 		{
-			$this->tpl->setCurrentBlock("option");
-			$this->tpl->setVariable("VALUE_QPL", "");
-			$this->tpl->parseCurrentBlock();
+			$form = $this->getTargetQuestionpoolForm($questionpools, 'createQuestionPoolAndCopy');
 		}
 		else
 		{
-			foreach($questionpools as $key => $value)
+			$form = $this->getTargetQuestionpoolForm($questionpools, $cmd);
+			
+			switch($cmd)
 			{
-				$this->tpl->setCurrentBlock("option");
-				$this->tpl->setVariable("VALUE_OPTION", $key);
-				$this->tpl->setVariable("TEXT_OPTION", $value["title"]);
-				$this->tpl->parseCurrentBlock();
+				case 'copyQuestionsToPool':
+					break;
+
+				case 'copyAndLinkQuestionsToPool':
+					$hidden = new ilHiddenInputGUI('link');
+					$hidden->setValue(1);
+					$form->addItem($hidden);
+					break;
 			}
 		}
-
+		
+		$DIC->ui()->mainTemplate()->setContent($form->getHTML());
+	}
+	
+	protected function getTargetQuestionpoolForm($questionpools, $cmd)
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($DIC->ctrl()->getFormAction($this));
+		$form->addCommandButton($cmd, $DIC->language()->txt('submit'));
+		$form->addCommandButton('cancelCreateQuestion', $DIC->language()->txt('cancel'));
+		
+		if(count($questionpools) == 0)
+		{
+			$form->setTitle($this->lng->txt("tst_enter_questionpool"));
+			
+			$title = new ilTextInputGUI($DIC->language()->txt('title'), 'title');
+			$title->setRequired(true);
+			$form->addItem($title);
+			
+			$description = new ilTextAreaInputGUI($DIC->language()->txt('description'), 'description');
+			$form->addItem($description);
+		}
+		else
+		{
+			$form->setTitle($this->lng->txt("tst_select_questionpool"));
+			
+			$selectOptions = [
+				'' => $DIC->language()->txt('please_select')
+			];
+			
+			foreach($questionpools as $key => $value)
+			{
+				$selectOptions[$key] = $value["title"];
+			}
+			
+			$select = new ilSelectInputGUI($DIC->language()->txt('tst_source_question_pool'), 'sel_qpl');
+			$select->setRequired(true);
+			$select->setOptions($selectOptions);
+			
+			$form->addItem($select);
+		}
+		
 		if(isset($_REQUEST['q_id']) && is_array($_REQUEST['q_id']))
 		{
 			foreach($_REQUEST['q_id'] as $id)
 			{
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "q_id[]");
-				$this->tpl->setVariable("HIDDEN_VALUE", $id);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("adm_content");
+				$hidden = new ilHiddenInputGUI('q_id[]');
+				$hidden->setValue($id);
+				$form->addItem($hidden);
 			}
 		}
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-
-		if(count($questionpools) == 0)
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
-			$cmd = 'createQuestionPoolAndCopy';
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
-		}
-
-		$this->tpl->setVariable("CMD_SUBMIT", $cmd);
-		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-
-		$createForm = $this->getQuestionpoolCreationForm();
-		switch($cmd)
-		{
-			case 'copyAndLinkQuestionsToPool':
-				$hidden = new ilHiddenInputGUI('link');
-				$hidden->setValue(1);
-				$createForm->addItem($hidden);
-				break;
-			case 'copyQuestionsToPool':
-				break;
-		}
-		$createForm->setFormAction($this->ctrl->getFormAction($this));
-
-		$this->tpl->parseCurrentBlock();
+		
+		return $form;
+		
 	}
 
 	// begin-patch lok

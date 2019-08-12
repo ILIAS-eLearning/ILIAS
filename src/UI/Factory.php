@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI;
 
+use \ILIAS\UI\Component as C;
+
 /**
  * This is how the factory for UI elements looks. This should provide access
  * to all UI elements at some point.
@@ -13,52 +15,6 @@ namespace ILIAS\UI;
  */
 
 interface Factory {
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *     Icons are quickly comprehensible and recognizable graphics.
-	 *     They indicate the functionality or nature of a text-element or context:
-	 *     Icons will mainly be used in front of object-titles, e.g. in the
-	 *     header, the tree and in repository listing.
-	 *     Icons can be disabled. Disabled Icons visually communicate that the depicted
-	 *     functionality is not available for the intended audience.
-	 *   composition: >
-	 *     Icons come in three fixed sizes: small, medium and large.
-	 *     They can be configured with an additional "abbreviation",
-	 *     a text of a few characters that will be rendered on top of the image.
-	 *     The Disabled Icons merely stand out visually: A color shade covers the Icon.
-	 *   effect: >
-	 *     Icons themselves are not interactive; however they are allowed
-	 *     within interactive containers.
-	 *   rivals:
-	 *     Glyph: >
-	 *       Glyphs are typographical characters that act as a trigger for
-	 *       some action.
-	 *     Image: >
-	 *       Images belong to the content and can be purely decorative.
-	 *
-	 *
-	 * rules:
-	 *   usage:
-	 *     1: Icons MUST be used to represent objects or context.
-	 *     2: Icons MUST be used in combination with a title or label.
-	 *     3: An unique Icon MUST always refer to the same thing.
-	 *   style:
-	 *     1: Icons MUST have a class indicating their usage.
-	 *     2: Icons MUST be tagged with a CSS-class indicating their size.
-	 *   accessibility:
-	 *     1: Icons MUST use aria-label.
-	 *     2: Disabled Icons MUST bear an aria-label indicating the special status.
-	 *   wording:
-	 *     1: The aria-label MUST state the represented object-type.
-	 *     2: The abbreviation SHOULD consist of one or two letters.
-	 * ---
-	 *
-	 * @return \ILIAS\UI\Component\Icon\Factory
-	 **/
-	public function icon();
 
 	/**
 	 * ---
@@ -136,29 +92,29 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Links are used navigate to other resources or views of the system. Clicking
-	 *      on a link does not change the systems status.
+	 *      Links are used navigate to other resources or views of the system by clicking or tapping them. Clicking
+	 *      on a link does not change the system status.
 	 *   composition: >
-	 *      Link is a clickable, graphically minimal obtrusive control element. It can
+	 *      A link is a clickable, graphically minimally obtrusive control element. It can
 	 *      bear text or other content. Links always contain a valid href tag which
-	 *      should not not just contain a hash sign.
+	 *      should not just contain a hash sign.
 	 *   effect: >
-	 *      On-click, the resource or view indicated by the link is requested and
+	 *      After clicking a link, the resource or view indicated by the link is requested and
 	 *      presented. Links are not used to trigger Javascript events.
 	 *   rivals:
 	 *      buttons: >
-	 *          Buttons are used to trigger Interactions that usually change the systems
-	 *          status. Buttons are much more obtrusive than links and may fire JS events.
+	 *          Buttons are used to trigger interactions that usually change the system
+	 *          status. Buttons are much more obtrusive than links and may trigger Javascript events.
 	 *
 	 * rules:
 	 *   usage:
 	 *      1: >
-	 *           Links MAY be used inline in a Textual Paragraphs.
+	 *           Links MAY be used inline in a text paragraph.
 	 *   interaction:
 	 *      1: >
-	 *           Hovering an active link should indicate a possible interaction.
+	 *           Hovering an active link SHOULD indicate a possible interaction.
 	 *      2: >
-	 *           Links MUST not be used to fire Javascript events.
+	 *           Links MUST not be used to trigger Javascript events.
 	 *   style:
 	 *      1: >
 	 *           Links SHOULD not be presented with a separate background color.
@@ -174,57 +130,6 @@ interface Factory {
 	 */
 	public function link();
 
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *       Glyphs map a generally known concept or symbol to a specific concept in ILIAS.
-	 *       Glyphs are used when space is scarce.
-	 *   composition: >
-	 *       A glyph is a typographical character that represents
-	 *       something else. As any other typographical character, they can be
-	 *       manipulated by regular CSS. If hovered they change their background
-	 *       to indicate possible interactions.
-	 *   effect: >
-	 *       Glyphs act as trigger for some action such as opening a certain
-	 *       Overlay type or as shortcut.
-	 *   rivals:
-	 *       icon: >
-	 *           Standalone Icons are not interactive. Icons can be in an interactive container however.
-	 *           Icons merely serve as additional hint of the functionality described by some title.
-	 *           Glyphs are visually distinguished from object icons: they are monochrome.
-	 * background: >
-	 *     "In typography, a glyph is an elemental symbol within an agreed set of
-	 *     symbols, intended to represent a readable character for the purposes
-	 *     of writing and thereby expressing thoughts, ideas and concepts."
-	 *     (https://en.wikipedia.org/wiki/Glyph)
-	 *
-	 *     Lidwell states that such symbols are used "to improve the recognition
-	 *     and recall of signs and controls".
-	 *
-	 * rules:
-	 *   usage:
-	 *       1: Glyphs MUST NOT be used in content titles.
-	 *       2: >
-	 *          Glyphs MUST be used for cross-sectional functionality such as mail for
-	 *          example and NOT for representing objects.
-	 *       3: >
-	 *          Glyphs SHOULD be used for very simple tasks that are repeated at
-	 *          many places throughout the system.
-	 *       4: >
-	 *          Services such as mail MAY be represented by a glyph AND an icon.
-	 *   style:
-	 *       1: >
-	 *          All Glyphs MUST be taken from the Bootstrap Glyphicon Halflings
-	 *          set. Exceptions MUST be approved by the JF.
-	 *   accessibility:
-	 *       1: >
-	 *          The functionality triggered by the Glyph must be indicated to
-	 *          screen readers with by the attribute aria-label or aria-labelledby attribute.
-	 * ---
-	 * @return  \ILIAS\UI\Component\Glyph\Factory
-	 */
-	public function glyph();
 
 	/**
 	 * ---
@@ -750,14 +655,110 @@ interface Factory {
 	 *
 	 * rules:
 	 *   interaction:
-	 *      1: >
-	 *          In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
-	 *          provide interaction by using Buttons.
-	 *      2: >
-	 *          Navigation to other screens MUST by done by using Links.
+	 *     1: >
+	 *       In general Message Boxes MAY provide interaction by using Buttons. Only Confirmation Message Boxes MUST
+	 *       provide interaction by using Buttons.
+	 *     2: >
+	 *       Navigation to other screens MUST by done by using Links.
 	 * ---
 	 * @return  \ILIAS\UI\Component\MessageBox\Factory
 	 */
 	public function messageBox();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Layout components are compontents used for the overall construction of
+	 *       the user interface. They assign places to certain components and thus
+	 *       provide a learnable structure where similar things are found in similar
+	 *       locations throughout the system. In ultimo, the page itself is included here.
+	 *
+	 *       Since Layout components carry - due to their nature - certain structural
+	 *       decisions, they are also about the "where" of elements as opposed to
+	 *       the exclusive "what" in many other components.
+	 *
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\Layout\Factory
+	 */
+	public function layout(): C\Layout\Factory;
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Main Controls are components that are always usable, depending only
+	 *       on overall configuration or roles of the user, not depending on the
+	 *       current content. Main Controls provide global navigation in the app
+	 *       and information about the app.
+	 *
+	 *   rivals:
+	 *     View Controls: >
+	 *       View Controls are used to change the visualisation of some set of
+	 *       data within a component.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: Main Controls MUST NOT change the state of entities in the system.
+	 *
+	 * ---
+	 *
+	 * @return \ILIAS\UI\Component\MainControls\Factory
+	 */
+	public function mainControls(): C\MainControls\Factory;
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Trees present hierarchically structured data.
+	 *   rivals:
+	 *     Drilldown: >
+	 *       A Drilldown shows only one level of the hierarchy, the Tree
+	 *       will show all at the same time.
+	 *     Presentation Table: >
+	 *       Allthough the rows in a table are expandable, entries in a table
+	 *       reflect entities and certain aspects of them. Nodes, however, are
+	 *       entities by themself.
+	 *
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *       A Tree SHOULD NOT be used for data-structures with little hierachy.
+	 *       E.g., listing objects and their properties would call for a
+	 *       Presentation Table rather than a Tree (see "rivals"), since this is
+	 *       a two-dimensional structure only.
+	 *     2: >
+	 *       A Tree SHOULD NOT mix different kind of nodes, i.e.
+	 *       all nodes in the same Tree SHOULD be identical in structure.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Tree\Factory
+	 */
+	public function tree();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Menus let the user choose from several (navigational) options.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Menu\Factory
+	 */
+	public function menu(): Component\Menu\Factory;
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     Symbols are graphical representations of concepts or contexts
+	 *     quickly comprehensible or generally known to the user.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Symbol\Factory
+	 */
+	public function symbol(): Component\Symbol\Factory;
 
 }

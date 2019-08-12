@@ -118,7 +118,16 @@ class ilLMEditorGUI
 		$this->tree = new ilTree($this->lm_obj->getId());
 		$this->tree->setTableNames('lm_tree','lm_data');
 		$this->tree->setTreeTablePK("lm_id");
-		
+
+		if ($this->obj_id > 0 && ilLMObject::_lookupContObjID($this->obj_id) != $this->lm_obj->getId())
+		{
+			throw new ilException("Object ID does not match learning module.");
+		}
+		if ($_REQUEST["active_node"] > 0 && ilLMObject::_lookupContObjID((int) $_REQUEST["active_node"]) != $this->lm_obj->getId())
+		{
+			throw new ilException("Active node does not match learning module.");
+		}
+
 		$ilNavigationHistory->addItem($_GET["ref_id"],
 			"ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"], "lm");
 	}
@@ -158,8 +167,6 @@ class ilLMEditorGUI
 		switch($next_class)
 		{
 			case "ilobjlearningmodulegui":
-				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php");
 				$this->main_header($this->lm_obj->getType());
 				$lm_gui = new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 
@@ -174,11 +181,14 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
+				// @todo 6.0
+				/*
 				$output =  $this->tpl->getSpecial("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
 				header('Content-type: text/html; charset=UTF-8');
-				echo $output;
+				echo $output;*/
+				$this->tpl->printToStdout();
 				break;
 
 			default:
@@ -194,7 +204,6 @@ class ilLMEditorGUI
 	{
 		$tpl = $this->tpl;
 
-		include_once("./Modules/LearningModule/classes/class.ilLMEditorExplorerGUI.php");
 		$exp = new ilLMEditorExplorerGUI($this, "showTree", $this->lm_obj);
 		if (!$exp->handleCommand())
 		{

@@ -9,7 +9,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes Textarea inputs.
  */
-interface Textarea extends Input, JavaScriptBindable {
+interface Textarea extends Input {
 
 	/**
 	 * set maximum number of characters

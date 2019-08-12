@@ -25,6 +25,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 */
 class ilPersonalDesktopGUI
 {
+	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
 	/**
 	 * @var ilCtrl
 	 */
@@ -127,6 +128,11 @@ class ilPersonalDesktopGUI
 	*/
 	function executeCommand()
 	{
+		global $DIC;
+
+		$context = $DIC->globalScreen()->tool()->context();
+		$context->stack()->desktop();
+
 		$ilSetting = $this->settings;
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
@@ -269,9 +275,8 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($achievegui);
 				break;
 
-			case 'ilmystaffgui':
+			case strtolower(ilMyStaffGUI::class):
 				$this->getStandardTemplates();
-				include_once './Services/MyStaff/classes/class.ilMyStaffGUI.php';
 				$mstgui = new ilMyStaffGUI();
 				$ret = $this->ctrl->forwardCommand($mstgui);
 				break;
@@ -399,7 +404,7 @@ class ilPersonalDesktopGUI
 				else
 				{
 					$html = "";
-				
+
 					// user interface plugin slot + default rendering
 					include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
 					$uip = new ilUIHookProcessor("Services/PersonalDesktop", "center_column",
@@ -521,17 +526,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 	}
-	
-	/**
-	* Display system messages.
-	*/
-	function displaySystemMessages()
-	{
-		include_once("Services/Mail/classes/class.ilPDSysMessageBlockGUI.php");
-		$sys_block = new ilPDSysMessageBlockGUI("ilpersonaldesktopgui", "show");
-		return $sys_block->getHTML();
-	}
-	
+
 	/**
 	* Returns the multidimenstional sorted array
 	*
@@ -596,7 +591,8 @@ class ilPersonalDesktopGUI
 			$_GET['view'] = $viewSettings->getMembershipsView();
 			$this->ctrl->setParameter($this, "view", $viewSettings->getMembershipsView());
 		}
-		$this->show();
+		//$this->show();
+		$this->ctrl->redirect($this, "show");
 	}
 
 	/**
@@ -762,10 +758,12 @@ class ilPersonalDesktopGUI
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 
-
+	/**
+	 *
+	 */
 	protected function jumpToMyStaff()
 	{
-		$this->ctrl->redirectByClass("ilmystaffgui");
+		$this->ctrl->redirectByClass(ilMyStaffGUI::class);
 	}
 	
 	/**

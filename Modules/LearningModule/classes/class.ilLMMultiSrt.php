@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/MediaObjects/interfaces/interface.ilMobMultiSrtInt.php");
-
 /**
  * Handler class for multi srt upload in learning modules
  *
@@ -40,8 +38,6 @@ class ilLMMultiSrt implements ilMobMultiSrtInt
 	{
 		// add mob information to items
 		// all pages
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$pages = ilLMPageObject::getPageList($this->lm->getId());
 		$mobs = array();
 		foreach ($pages as $page)

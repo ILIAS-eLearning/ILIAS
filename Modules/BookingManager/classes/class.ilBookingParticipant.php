@@ -168,43 +168,54 @@ class ilBookingParticipant
 
 		$set = $ilDB->query($query);
 
-		while($row = $ilDB->fetchAssoc($set))
-		{
+		while($row = $ilDB->fetchAssoc($set)) {
 			$status = $row['status'];
 			//Nothing to show if the status is canceled when filtering by object
-			if($status == ilBookingReservation::STATUS_CANCELLED && $a_object_id){
+			if ($status == ilBookingReservation::STATUS_CANCELLED && $a_object_id) {
 				continue;
 			}
 
 			$user_name = ilObjUser::_lookupName($row['user_id']);
-			$name = $user_name['lastname'].", ".$user_name['firstname'];
-			$index = $a_booking_pool."_".$row['user_id'];
+			$name = $user_name['lastname'] . ", " . $user_name['firstname'];
+			$index = $a_booking_pool . "_" . $row['user_id'];
 			$actions = array();
 
-			if(!isset($res[$index]))
-			{
+			if (!isset($res[$index])) {
 				$res[$index] = array(
 					"object_title" => array(),
 					"name" => $name
 				);
 
-				if($status !=  ilBookingReservation::STATUS_CANCELLED && $row['title'] != "") {
+				if ($status != ilBookingReservation::STATUS_CANCELLED && $row['title'] != "") {
 					$res[$index]['object_title'] = array($row['title']);
 					$res[$index]['obj_count'] = 1;
+					$res[$index]['object_ids'][] = $row['object_id'];
 				}
-			}
-			else
-			{
-				if($row['title'] != "" && (!in_array($row['title'], $res[$index]['object_title']) && $status !=  ilBookingReservation::STATUS_CANCELLED)) {
+			} else {
+				if ($row['title'] != "" && (!in_array($row['title'],
+							$res[$index]['object_title']) && $status != ilBookingReservation::STATUS_CANCELLED)) {
 					array_push($res[$index]['object_title'], $row['title']);
 					$res[$index]['obj_count'] = $res[$index]['obj_count'] + 1;
+					$res[$index]['object_ids'][] = $row['object_id'];
 				}
 			}
+			$res[$index]['user_id'] = $row['user_id'];
+		}
 
+		$bp = new ilObjBookingPool($a_booking_pool, false);
+
+		foreach ($res as $index => $val)
+		{
+			$actions = [];
 			// action assign only if user did not booked all objects.
-			if($res[$index]['obj_count'] < ilBookingObject::getNumberOfObjectsForPool($a_booking_pool))
+			//if($res[$index]['obj_count'] < ilBookingObject::getNumberOfObjectsForPool($a_booking_pool))
+
+			// alex: this does not seem to be correct: assignments are always possible for all objects
+			$has_schedule = ($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
+			$limit_reached = (!$has_schedule && $bp->getOverallLimit() <= $val['obj_count']);
+			if(!$limit_reached)
 			{
-				$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', $row['user_id']);
+				$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', $val['user_id']);
 				$actions[] = array(
 					'text' => $lng->txt("book_assign_object"),
 					'url' => $ctrl->getLinkTargetByClass("ilbookingparticipantgui", 'assignObjects')
@@ -212,11 +223,11 @@ class ilBookingParticipant
 				$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
 			}
 			
-			$bp = new ilObjBookingPool($a_booking_pool, false);
-			if($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $res[$index]['obj_count'] == 1)
+
+			if($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $val['obj_count'] == 1)
 			{
-				$ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $row['user_id']);
-				$ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $row['object_id']);
+				$ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $val['user_id']);
+				$ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $val['object_ids'][0]);
 				$ctrl->setParameterByClass('ilbookingobjectgui', 'part_view',ilBookingParticipantGUI::PARTICIPANT_VIEW);
 
 				$actions[] = array(
@@ -230,7 +241,7 @@ class ilBookingParticipant
 			}
 			else if($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $res[$index]['obj_count'] > 1)
 			{
-				$ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', $row['user_id']);
+				$ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', $val['user_id']);
 				$actions[] = array(
 					'text' => $lng->txt("book_deassign"),
 					'url' => $ctrl->getLinkTargetByClass("ilobjbookingpoolgui", 'log')
@@ -241,6 +252,7 @@ class ilBookingParticipant
 			//add the actions
 			$res[$index]['actions'] = $actions;
 		}
+		//echo "<pre>"; print_r($res); exit;
 		return $res;
 	}
 

@@ -4,13 +4,13 @@ function base() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	$ico = $f->icon()
+	$ico = $f->symbol()->icon()
 		->standard('someExample', 'Example')
 		->withAbbreviation('E')
 		->withSize('medium');
 	$button = $f->button()->bulky($ico, 'Icon', '#');
 
-	$glyph = $f->glyph()->briefcase();
+	$glyph = $f->symbol()->glyph()->briefcase();
 	$button2 = $f->button()->bulky($glyph, 'Glyph', '#');
 
 	return $renderer->render([

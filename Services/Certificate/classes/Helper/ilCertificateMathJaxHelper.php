@@ -6,13 +6,13 @@
  */
 class ilCertificateMathJaxHelper
 {
-	public function fillXlsFoContent($xslfo)
-	{
-		$xlsfo = ilMathJax::getInstance()
-			->init(ilMathJax::PURPOSE_PDF)
-			->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-			->insertLatexImages($xslfo);
+    public function fillXlsFoContent($xslfo)
+    {
+        $xlsfo = ilMathJax::getInstance()
+            ->init(ilMathJax::PURPOSE_PDF)
+            ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+            ->insertLatexImages($xslfo);
 
-		return $xlsfo;
-	}
+        return $xlsfo;
+    }
 }

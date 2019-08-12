@@ -51,24 +51,17 @@ class CounterTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_known_counters_only() {
-		try {
-			new \ILIAS\UI\Implementation\Component\Counter\Counter("FOO", 1);
-			$this->assertFalse("We should not get here");
-		}
-		catch (\InvalidArgumentException $e) {}
+		$this->expectException(\InvalidArgumentException::class);
+		new \ILIAS\UI\Implementation\Component\Counter\Counter("FOO", 1);
 	}
 
 	/**
 	 * @dataProvider no_number_provider
 	 */
 	public function test_int_numbers_only($no_number) {
+		$this->expectException(\InvalidArgumentException::class);
 		$f = $this->getCounterFactory();
-
-		try {
-			$f->status($no_number);
-			$this->assertFalse("This should not happen");
-		}
-		catch (\InvalidArgumentException $e) {}
+		$f->status($no_number);
 	}
 
 	public function number_provider() {

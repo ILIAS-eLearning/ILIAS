@@ -3,7 +3,7 @@
 /**
  * Class ilMStShowUserCourses
  *
- * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStShowUserCourses extends ilMStListCourses {
 
@@ -11,7 +11,7 @@ class ilMStShowUserCourses extends ilMStListCourses {
 	 * @param array $arr_usr_ids
 	 * @param array $options
 	 *
-	 * @return array|bool|int
+	 * @return array|int
 	 */
 	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
 
@@ -24,20 +24,17 @@ class ilMStShowUserCourses extends ilMStListCourses {
 	 * @param array  $arr_filter
 	 * @param string $tmp_table_user_matrix
 	 *
-	 * @return bool|string
+	 * @return string
 	 */
-	public static function createWhereStatement($arr_usr_ids, $arr_filter, $tmp_table_user_matrix) {
-		/**
-		 * @var $ilDB \ilDBInterface
-		 */
-		$ilDB = $GLOBALS['DIC']->database();
+	protected static function createWhereStatement(array $arr_usr_ids, array $arr_filter, $tmp_table_user_matrix) {
+		global $DIC;
 
 		if (!$arr_filter['usr_id']) {
-			return false;
+			return '';
 		}
 
 		$where = parent::createWhereStatement($arr_usr_ids, $arr_filter, $tmp_table_user_matrix);
-		$usr_filter = "usr_data.usr_id = " . $ilDB->quote($arr_filter['usr_id'], 'integer');
+		$usr_filter = "usr_data.usr_id = " . $DIC->database()->quote($arr_filter['usr_id'], 'integer');
 
 		if (empty($where)) {
 			return ' WHERE ' . $usr_filter;

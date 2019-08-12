@@ -1,12 +1,14 @@
 {
-  "maintenance_model": "Classic",
-  "first_maintainer": "akill(149)",
-  "second_maintainer": "",
-  "implicit_maintainers": [],
-  "coordinator": "",
-  "tester": "",
-  "testcase_writer": "",
-  "path": "Services/LearningHistory",
-  "belong_to_component": "Learning History",
-  "used_in_components": []
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "oliver.samoila(26160)",
+    "testcase_writer": "",
+    "path": "Services/LearningHistory",
+    "belong_to_component": "Learning History",
+    "used_in_components": []
 }

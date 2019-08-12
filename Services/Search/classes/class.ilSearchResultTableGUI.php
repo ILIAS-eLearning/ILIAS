@@ -126,7 +126,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 		$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
-		$item_list_gui->initItem($ref_id,$obj_id,$title,$description);
+		$item_list_gui->initItem($ref_id,$obj_id,$type,$title,$description);
 		$item_list_gui->setContainerObject($this->parent_obj);
 		$item_list_gui->setSearchFragment($this->presenter->lookupContent($obj_id,0));
 		$item_list_gui->setSeparateCommands(true);		

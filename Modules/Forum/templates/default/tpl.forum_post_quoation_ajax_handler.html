@@ -1,10 +1,14 @@
 <script type="text/javascript">
-function ilFrmQuoteAjaxHandler(t, ed) {
-	var request = YAHOO.util.Connect.asyncRequest('GET', '{IL_FRM_QUOTE_CALLBACK_SRC}', {
-		success: function(o) {
-			if (typeof o.responseText != "undefined") {
+(function($, root) {
+	function ilFrmQuoteAjaxHandler(t, ed) {
+		$.ajax({
+			"type": "GET",
+			"url": "{IL_FRM_QUOTE_CALLBACK_SRC}"
+		}).done((response) => {
+			console.log(response);
+			if (typeof response !== "undefined") {
 				var uid = 'frm_quote_' + new Date().getTime();
-				tinyMCE.execCommand("mceInsertContent", false, t._ilfrmquote2html(ed, o.responseText) + '<p id="' + uid + '">&nbsp;</p>');
+				tinyMCE.execCommand("mceInsertContent", false, t._ilfrmquote2html(ed, response) + '<p id="' + uid + '">&nbsp;</p>');
 
 				var rng = tinymce.DOM.createRng();
 				var newNode = ed.dom.select('#' + uid)[0];
@@ -13,11 +17,11 @@ function ilFrmQuoteAjaxHandler(t, ed) {
 				ed.selection.setRng(rng);
 				ed.focus();
 			}
-		},
-		failure:  function(o) {
-		}
-	});
+		});
 
-	return false;
-}
+		return false;
+	}
+
+	root.ilFrmQuoteAjaxHandler = ilFrmQuoteAjaxHandler;
+})(jQuery, window);
 </script>

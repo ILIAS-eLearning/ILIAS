@@ -69,12 +69,11 @@ class ilLearningSequenceImporter extends ilXmlImporter
 		$ls_items = array();
 		foreach ($ls_data as $data) {
 			$old_ref_id = $data["id"];
-			$type = $data["ls_item_type"];
 			$new_ref_id = $mapping->getMapping("Services/Container", "refs", $old_ref_id);
 
 			$post_condition = new ilLSPostCondition(
 				(int)$new_ref_id,
-				(int)$data["ls_item_pc_condition_type"],
+				$data["ls_item_pc_condition_type"],
 				$data["ls_item_pc_value"]
 			);
 
@@ -131,7 +130,9 @@ class ilLearningSequenceImporter extends ilXmlImporter
 			return $mapping->getMapping("Services/Container", "refs", $old_ref_id);
 		}, $lp_settings["lp_item_ref_ids"]);
 
-		$collection->activateEntries($new_ref_ids);
+		if (!is_null($collection)) {
+			$collection->activateEntries($new_ref_ids);
+		}
 
 		$settings = new ilLPObjSettings($this->obj->getId());
 		$settings->setMode((int)$lp_settings["lp_mode"]);

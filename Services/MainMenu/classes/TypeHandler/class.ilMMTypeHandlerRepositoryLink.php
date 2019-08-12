@@ -1,63 +1,88 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
-use ILIAS\GlobalScreen\MainMenu\hasAction;
-use ILIAS\GlobalScreen\MainMenu\isItem;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 
 /**
  * Class ilMMTypeHandlerRepositoryLink
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler {
+class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler
+{
 
-	public function matchesForType(): string {
-		return \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink::class;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function enrichItem(isItem $item): isItem {
-		if ($item instanceof \ILIAS\GlobalScreen\MainMenu\Item\RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
-			$item = $item->withRefId((int)$this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION]);
-		}
-
-		return $item;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function matchesForType() : string
+    {
+        return RepositoryLink::class;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification): array {
-		global $DIC;
-		$url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation());
-		if (isset($this->links[$identification->serialize()][self::F_ACTION]) && is_numeric($this->links[$identification->serialize()][self::F_ACTION])) {
-			$url = $url->withValue((int)$this->links[$identification->serialize()][self::F_ACTION]);
-		}
+    /**
+     * @inheritdoc
+     */
+    public function enrichItem(isItem $item) : isItem
+    {
+        global $DIC;
+        if ($item instanceof RepositoryLink && isset($this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION])) {
+            $ref_id = (int) $this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
+            $item = $item->withRefId($ref_id)
+                ->withVisibilityCallable(
+                    function () use ($DIC, $ref_id) {
+                        return (bool) $DIC->access()->checkAccess('visible', '', $ref_id);
+                    }
+                );
+            // ->withAvailableCallable(
+            // 	function () use ($ref_id) {
+            // 		$b = (bool)(ilObject2::_exists($ref_id, true) && !ilObject2::_isInTrash($ref_id));
+            //
+            // 		return $b;
+            // 	}
+            // )->withNonAvailableReason($DIC->ui()->factory()->legacy($DIC->language()->txt('deleted')))
 
-		return [self::F_ACTION => $url];
-	}
+        }
+
+        return $item;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getFieldTranslation(): string {
-		global $DIC;
+    /**
+     * @inheritdoc
+     */
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
+    {
+        global $DIC;
+        $url = $DIC->ui()->factory()->input()->field()->numeric($this->getFieldTranslation());
+        if (isset($this->links[$identification->serialize()][self::F_ACTION]) && is_numeric($this->links[$identification->serialize()][self::F_ACTION])) {
+            $url = $url->withValue((int) $this->links[$identification->serialize()][self::F_ACTION]);
+        }
 
-		return $DIC->language()->txt("field_ref_id");
-	}
+        return [self::F_ACTION => $url];
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getFieldInfoTranslation(): string {
-		global $DIC;
+    /**
+     * @inheritDoc
+     */
+    protected function getFieldTranslation() : string
+    {
+        global $DIC;
 
-		return $DIC->language()->txt("field_ref_id_info");
-	}
+        return $DIC->language()->txt("field_ref_id");
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getFieldInfoTranslation() : string
+    {
+        global $DIC;
+
+        return $DIC->language()->txt("field_ref_id_info");
+    }
 }

@@ -88,7 +88,7 @@ class ilDclFieldEditGUI {
 
 		$cmd = $ilCtrl->getCmd();
 
-		if (!$this->table->hasPermissionToFields($this->getDataCollectionObject()->ref_id)) {
+		if (!$this->checkAccess()) {
 			$this->permissionDenied();
 
 			return;
@@ -153,7 +153,6 @@ class ilDclFieldEditGUI {
 		$lng = $DIC['lng'];
 		$tpl = $DIC['tpl'];
 
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($ilCtrl->getFormAction($this));
 		$conf->setHeaderText($lng->txt('dcl_confirm_delete_field'));
@@ -210,7 +209,6 @@ class ilDclFieldEditGUI {
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
 		if ($a_mode == "edit") {
@@ -285,13 +283,6 @@ class ilDclFieldEditGUI {
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 		$tpl = $DIC['tpl'];
-
-		//check access
-		if (!$this->table->hasPermissionToFields($this->getDataCollectionObject()->ref_id)) {
-			$this->accessDenied();
-
-			return;
-		}
 
 		$this->initForm($a_mode == "update" ? "edit" : "create");
 
@@ -386,15 +377,16 @@ class ilDclFieldEditGUI {
 	}
 
 
-	/*
-	 * accessDenied
+	/**
+	 * @return bool
 	 */
-	private function accessDenied() {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-		$tpl->setContent("Access Denied");
+	protected function checkAccess() {
+		if ($field_id = $this->field_obj->getId()) {
+			return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->ref_id, $this->table_id, $field_id);
+		} else {
+			return ilObjDataCollectionAccess::hasAccessToFields($this->getDataCollectionObject()->ref_id, $this->table_id);
+		}
 	}
-
 
 	/**
 	 * @return ilObjDataCollection

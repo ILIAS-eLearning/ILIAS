@@ -5,58 +5,62 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class SerializerFactory {
+class SerializerFactory
+{
 
-	/**
-	 * @var CoreSerializer
-	 */
-	private static $core_instance;
-	/**
-	 * @var PluginSerializer
-	 */
-	private static $plugin_instance;
-
-
-	/**
-	 * @return SerializerInterface
-	 */
-	public function core(): SerializerInterface {
-		if (!isset(self::$core_instance)) {
-			self::$core_instance = new CoreSerializer();
-		}
-
-		return self::$core_instance;
-	}
+    /**
+     * @var CoreSerializer
+     */
+    private static $core_instance;
+    /**
+     * @var PluginSerializer
+     */
+    private static $plugin_instance;
 
 
-	/**
-	 * @return SerializerInterface
-	 */
-	public function plugin(): SerializerInterface {
-		if (!isset(self::$plugin_instance)) {
-			self::$plugin_instance = new PluginSerializer();
-		}
+    /**
+     * @return SerializerInterface
+     */
+    public function core() : SerializerInterface
+    {
+        if (!isset(self::$core_instance)) {
+            self::$core_instance = new CoreSerializer();
+        }
 
-		return self::$plugin_instance;
-	}
+        return self::$core_instance;
+    }
 
 
-	/**
-	 * @param string $serialized_identification
-	 *
-	 * @return SerializerInterface
-	 */
-	public function fromSerializedIdentification(string $serialized_identification): SerializerInterface {
-		$plugin = $this->plugin();
-		if ($plugin->canHandle($serialized_identification)) {
-			return $plugin;
-		}
+    /**
+     * @return SerializerInterface
+     */
+    public function plugin() : SerializerInterface
+    {
+        if (!isset(self::$plugin_instance)) {
+            self::$plugin_instance = new PluginSerializer();
+        }
 
-		$core = $this->core();
-		if ($core->canHandle($serialized_identification)) {
-			return $core;
-		}
+        return self::$plugin_instance;
+    }
 
-		throw new \InvalidArgumentException("Nobody can handle serialized identification '$serialized_identification'.");
-	}
+
+    /**
+     * @param string $serialized_identification
+     *
+     * @return SerializerInterface
+     */
+    public function fromSerializedIdentification(string $serialized_identification) : SerializerInterface
+    {
+        $plugin = $this->plugin();
+        if ($plugin->canHandle($serialized_identification)) {
+            return $plugin;
+        }
+
+        $core = $this->core();
+        if ($core->canHandle($serialized_identification)) {
+            return $core;
+        }
+
+        throw new \InvalidArgumentException("Nobody can handle serialized identification '$serialized_identification'.");
+    }
 }

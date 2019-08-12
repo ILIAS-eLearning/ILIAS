@@ -6,31 +6,33 @@
  */
 class ilPDSelectedItemsBlockListGUIFactory
 {
-	/**
-	 * @var ilObjectListGUI[]
-	 */
-	protected static $list_by_type = array();
+	/** @var ilObjectListGUI[] */
+	protected static $list_by_type = [];
 
-	/**
-	 * @var ilObjectDefinition
-	 */
+	/** @var ilObjectDefinition */
 	protected $objDefinition;
 
-	/**
-	 * @var ilPDSelectedItemsBlockGUI
-	 */
+	/** @var ilPDSelectedItemsBlockGUI */
 	protected $block;
+
+	/** @var ilPDSelectedItemsBlockGUI */
+	protected $blockView;
 
 	/**
 	 * ilPDSelectedItemsBlockListGUIFactory constructor.
 	 * @param ilPDSelectedItemsBlockGUI $block
+	 * @param ilPDSelectedItemsBlockViewGUI $blockView
 	 */
-	public function __construct(ilPDSelectedItemsBlockGUI $block)
+	public function __construct(
+		ilPDSelectedItemsBlockGUI $block,
+		ilPDSelectedItemsBlockViewGUI $blockView
+	)
 	{
 		global $DIC;
 
 		$this->objDefinition = $DIC['objDefinition'];
-		$this->block         = $block;
+		$this->block = $block;
+		$this->blockView = $blockView;
 	}
 
 	/**
@@ -72,18 +74,12 @@ class ilPDSelectedItemsBlockListGUIFactory
 			$item_list_gui->enableInfoScreen(true);
 			$item_list_gui->enableSubscribe($this->block->getViewSettings()->enabledSelectedItems());
 
-			if($this->block->getCurrentDetailLevel() < 3 || $this->block->isManagedView())
-			{
-				$item_list_gui->enableDescription(false);
-				$item_list_gui->enableProperties(false);
-				$item_list_gui->enablePreconditions(false);
-				$item_list_gui->enableNoticeProperties(false);
-			}
+			//$item_list_gui->enableDescription(false);
+			//$item_list_gui->enableProperties(false);
+			//$item_list_gui->enablePreconditions(false);
+			//$item_list_gui->enableNoticeProperties(false);
 
-			if($this->block->getCurrentDetailLevel() < 2 || $this->block->isManagedView())
-			{
-				$item_list_gui->enableCommands(true, true);
-			}
+			$item_list_gui->enableCommands(true, true);
 
 			self::$list_by_type[$a_type] = $item_list_gui;
 		}

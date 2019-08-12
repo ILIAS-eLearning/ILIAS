@@ -2,9 +2,7 @@
     "maintenance_model": "Classic",
     "first_maintainer": "",
     "second_maintainer": "",
-    "implicit_maintainers": [
-        "fschmid(21087)"
-    ],
+    "implicit_maintainers": [],
     "coordinator": [
         ""
     ],

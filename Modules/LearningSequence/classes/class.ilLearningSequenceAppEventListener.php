@@ -26,6 +26,9 @@ class ilLearningSequenceAppEventListener
 					case "beforeDeletion":
 						self::onObjectDeletion($parameter);
 						break;
+					case "toTrash":
+						self::onObjectToTrash($parameter);
+						break;
 				}
 				break;
 
@@ -33,7 +36,6 @@ class ilLearningSequenceAppEventListener
 				switch ($event) {
 					case "deleteParticipant":
 						self::onParticipantDeletion($parameter);
-
 						break;
 					case "addParticipant":
 					default:
@@ -49,19 +51,25 @@ class ilLearningSequenceAppEventListener
 		}
 	}
 
-	private static function onServiceTrackingUpdateStatus($parameter)
+	private static function onServiceTrackingUpdateStatus(array $parameter)
 	{
 		$handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
 		$handler->updateLPForChildEvent($parameter);
 	}
 
-	private static function onObjectDeletion($parameter)
+	private static function onObjectDeletion(array $parameter)
 	{
 		$handler = self::getLSEventHandler();
 		$handler->handleObjectDeletion($parameter);
 	}
 
-	private static function onParticipantDeletion($parameter)
+	private static function onObjectToTrash(array $parameter)
+	{
+		$handler = self::getLSEventHandler();
+		$handler->handleObjectToTrash($parameter);
+	}
+
+	private static function onParticipantDeletion(array $parameter)
 	{
 		$handler = self::getLSEventHandler();
 		$obj_id = (int)$parameter['obj_id'];

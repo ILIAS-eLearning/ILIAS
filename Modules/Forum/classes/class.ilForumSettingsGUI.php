@@ -70,7 +70,7 @@ class ilForumSettingsGUI
 	public function getCustomForm(&$a_form)
 	{
 		$this->settingsTabs();
-
+		$this->tabs->activateSubTab("basic_settings");
 		$a_form->setTitle($this->lng->txt('frm_settings_form_header'));
 
 		$presentationHeader = new ilFormSectionHeaderGUI();
@@ -270,8 +270,6 @@ class ilForumSettingsGUI
 		}
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_members_list.html', 'Modules/Forum');
-
-		$this->tabs->activateTab('settings');
 
 		// instantiate the property form
 		if(!$this->initNotificationSettingsForm())

@@ -33,13 +33,23 @@
  *
  * @package ilias-setup
  */
-
-if (ini_get('session.save_handler') != 'files') {
-	throw new Exception("session.save_handler in php.ini must be configured to 'files'.");
+if (false === file_exists(__DIR__ . '/../libs/composer/vendor/autoload.php')) {
+	echo 'Could not find composers "autoload.php". Try to run "composer install" in the directory ".libs/composer"';
+	exit;
 }
 
-chdir("..");
-define('IL_INITIAL_WD', getcwd());
-require_once "./setup/include/inc.setup_header.php";
+if (php_sapi_name() === "cli") {
+	require_once(__DIR__."/cli.php");
+}
+else {
 
-$setup = new ilSetupGUI();
+		if (ini_get('session.save_handler') != 'files') {
+			throw new Exception("session.save_handler in php.ini must be configured to 'files'.");
+		}
+
+		chdir("..");
+		define('IL_INITIAL_WD', getcwd());
+		require_once "./setup/include/inc.setup_header.php";
+
+		$setup = new ilSetupGUI();
+}

@@ -95,7 +95,7 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
 		$message->removePlugin('advlink');
 		$message->usePurifier(true);
 		$message->setRTERootBlockElement('');
-		$message->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
+		$message->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '3.5.11');
 		$message->disableButtons(array(
 			'charmap',
 			'undo',

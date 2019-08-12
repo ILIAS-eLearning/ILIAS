@@ -152,6 +152,21 @@ class ilObjSession extends ilObject
 		}
 
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getPresentationTitleAppointmentPeriod()
+	{
+		$title = '';
+		if($this->getTitle()) {
+			$title = ': '.$this->getTitle();
+		}
+		return ilDatePresentation::formatPeriod(
+			$this->getFirstAppointment()->getStart(),
+			$this->getFirstAppointment()->getEnd()
+		) . $title;
+	}
 	
 	/**
 	 * Create local session participant role

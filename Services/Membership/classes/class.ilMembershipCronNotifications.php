@@ -309,7 +309,7 @@ class ilMembershipCronNotifications extends ilCronJob
 			? "- ".$res
 			: "# ".$res;		
 		
-		if(sizeof($sub))
+		if(is_array($sub) && sizeof($sub))
 		{		
 			$res .= "\n".implode("\n", $sub);						
 		}
@@ -352,7 +352,7 @@ class ilMembershipCronNotifications extends ilCronJob
 		// if news has multiple parents find "lowest" parent in path
 		foreach($parent_map as $news_id => $parents)
 		{		
-			if(sizeof($parents) > 1)
+			if(sizeof($parents) > 1 && $news_map[$news_id] > 0)
 			{
 				$path = $tree->getPathId($news_map[$news_id]);
 				$lookup = array_flip($path);				
@@ -496,13 +496,12 @@ class ilMembershipCronNotifications extends ilCronJob
 			
 		// #10044
 		$mail = new ilMail(ANONYMOUS_USER_ID);
-		$mail->validateAndEnqueue(ilObjUser::_lookupLogin($a_user_id), 
+		$mail->enqueue(ilObjUser::_lookupLogin($a_user_id), 
 			null, 
 			null,
 			$subject, 
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true), 
-			null, 
-			array("system"));
+			[]);
 	}
 	
 	public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)

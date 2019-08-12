@@ -16,8 +16,8 @@ class ilDAVActivationChecker
 	*/
 	public static function _isActive()
 	{
-		global $ilClientIniFile;
-		return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
+		global $DIC;
+		return $DIC->clientIni()->readVariable('file_access','webdav_enabled') == '1';
 	}
 }
 ?>

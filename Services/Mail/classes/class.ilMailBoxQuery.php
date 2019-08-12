@@ -94,8 +94,13 @@ class ilMailBoxQuery
 			   		. 'WHERE user_id = %s '
 					. 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   		. 'AND folder_id = %s '
-					. $filter_qry.' '
-					. 'UNION ALL '
+					. $filter_qry;
+
+		if (self::$filtered_ids) {
+            $queryCount .= ' AND ' . $DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer') . ' ';
+		}
+
+		$queryCount .= ' UNION ALL '
 					. 'SELECT COUNT(mail_id) cnt FROM mail '
 					. 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   		. 'WHERE user_id = %s '
@@ -185,7 +190,6 @@ class ilMailBoxQuery
 		);
 		while($row = $DIC->database()->fetchAssoc($res)) {
 			$row['attachments'] = unserialize(stripslashes($row['attachments']));
-			$row['m_type'] = unserialize(stripslashes($row['m_type']));
 			$mails['set'][] = $row;
 		}
 

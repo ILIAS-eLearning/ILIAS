@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use PHPUnit\Framework\TestCase;
+
 require_once(__DIR__."/mocks.php");
 
 /**
@@ -31,11 +33,11 @@ require_once(__DIR__."/mocks.php");
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
+class ilStudyProgrammeEventsTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp() {
-		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+	protected function setUp(): void {
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
@@ -71,7 +73,7 @@ class ilStudyProgrammeEventsTest extends PHPUnit_Framework_TestCase {
 		return $user;
 	}
 	
-	protected function tearDown() {
+	protected function tearDown(): void {
 		foreach($this->users as $user) {
 			$user->delete();
 		}

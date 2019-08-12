@@ -4,7 +4,7 @@
     $.fn.extend({
         study_programme_tree: function (options) {
             var settings = $.extend({
-                button_selectors: {all: ".tree_button", create: "a.cmd_create", info: "a.cmd_view", delete: "a.cmd_delete"},
+                button_selectors: {all: ".tree_button", create: "button.cmd_create", info: "button.cmd_view", delete: "button.cmd_delete"},
                 current_node_selector: ".current_node",
                 save_tree_url: '',
                 save_button_id: '',
@@ -80,39 +80,43 @@
              * Defines drag & drop rules for tree-elements
              */
             var initDndTargetChecking = function () {
-                var js_tree_settings = $(element).jstree("get_settings");
+                //https://www.jstree.com/api/#/?q=$.jstree.defaults.dnd&f=$.jstree.defaults.core.check_callback
+                $(element).jstree(true).settings.core.check_callback = function (operation, node, node_parent, node_position, more) {
 
-                js_tree_settings.crrm.move.check_move = function (data) {
-                    /*console.log("new_parent: " + data.cr);
-                    console.log("position: " + data.p);
-                    console.log("calculated position: " + data.cp);
-                    console.log("current element: ");
-                    console.log(data.o);*/
+                    // Only allow drag if
+                    // - it does not create a new root,
+                    // - the target is not a lp-object,
+                    // - the target has no children or the type matches
+                    //      (only allow lp objects dropping if the new parent has lp-object children
+                    //      or only allow containers drop in container with other containers)
 
-                    // TODO: implement better/faster way to get information about node-types (identifier classes should be added to li-element)
-                    var np_lp_object = data.np.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
-                    var is_lp_object = data.o.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object');
-                    var np_no_children = (data.np.find('ul > li > a > span.ilExp2NodeContent > span.title').length === 0);
-                    var np_has_lp_children = data.np.find('ul > li > a > span.ilExp2NodeContent > span.title').first().hasClass('lp-object');
+                    var drop_above_root = node_parent.id === '#',
+                        allowed_drag = false,
+                        source, target,
+                        source_is_lp_obj, target_is_lp_obj, target_is_empty, target_has_lp_content;
 
-                    /*console.log("is_lp_object: " + is_lp_object);
-                    console.log("no_lp_object_children: " + np_has_lp_children);
-                    console.log("no children: " + np_no_children);*/
+                    if(!drop_above_root) {
+                        source = $('#' + node.id);
+                        target = $('#' + node_parent.id);
 
-                    // only allow drag if it does not create a new root, the target is not a lp-object, the target has no children or
-                    // the type matches (only allow lp objects dropping if the new parent has lp-object children or only allow containers drop in container with other containers)
-                    var allowed_drag = (data.cr !== -1 && !np_lp_object && (np_no_children || np_has_lp_children === is_lp_object));
-                    //console.log("result: " + allowed_drag);
+                        // TODO: implement better/faster way to get information about node-types (identifier classes should be added to li-element)
+                        source_is_lp_obj = source.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object'),
+                        target_is_lp_obj = target.find('span.ilExp2NodeContent>span.title').first().hasClass('lp-object'),
+                        target_is_empty = target.find('ul > li > a > span.ilExp2NodeContent > span.title').length === 0,
+                        target_has_lp_content = target.find('ul > li > a > span.ilExp2NodeContent > span.title').first().hasClass('lp-object'),
+
+                        allowed_drag = (
+                            target_is_lp_obj === false
+                            && (target_is_empty || (target_has_lp_content === source_is_lp_obj))
+                        );
+                    }
 
                     if (allowed_drag) {
                         return true;
                     }
                     return false;
                 };
-
-                $.jstree._reference($(element).attr("id"))._set_settings(js_tree_settings);
             };
-
 
             // JsTree events handlers
 
@@ -131,12 +135,12 @@
              * init the Drag & Drop handling
              */
             element.on("loaded.jstree", function (event, data) {
+                data.instance.settings.core.check_callback = initDndTargetChecking;
+
                 enable_control_buttons(false);
 
                 // hmmmm ugly js workaround: ready event does not exists in this version of jstree
                 window.setTimeout(handle_delete_buttons, 500);
-
-                initDndTargetChecking();
             });
 
             /**
@@ -191,8 +195,12 @@
              * Saves the tree-order async
              */
             $("body").on("study_programme-save_order", function () {
-                var tree_data = $(element).jstree("get_json", -1, ['id']);
-                var json_data = JSON.stringify(tree_data);
+                var tree_data = $(element).jstree(true).get_json('#', {flat: true});
+                var data = [];
+                $.each(tree_data, function(idx, node){
+                   data.push(node.id);
+                });
+                var json_data = JSON.stringify(data);
 
                 if (settings.save_tree_url !== "") {
                     $.ajax({
@@ -216,6 +224,7 @@
 
             return element;
         },
+
         study_programme_modal: function (options) {
             var settings = $.extend({
                 events: {hide: ["async_form-success", "async_form-cancel"]}

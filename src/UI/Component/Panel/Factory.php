@@ -15,7 +15,7 @@ interface Factory {
 	 * ---
 	 * description:
 	 *   purpose: >
-	 *      Standard Panels are used in the Center Content section to group content.
+	 *      Standard Panels are used in the center content section to group content.
 	 *   composition: >
 	 *      Standard Panels consist of a title and a content section. The
 	 *      structure of this content might be varying from Standard
@@ -27,7 +27,7 @@ interface Factory {
 	 * rules:
 	 *   usage:
 	 *      1: In Forms Standard Panels MUST be used to group different sections into Form Parts.
-	 *      2: Standard Panels SHOULD be used in the Center Content as primary Container for grouping content of varying content.
+	 *      2: Standard Panels SHOULD be used in the center content as primary Container for grouping content of varying content.
 	 * ---
 	 * @param string $title
 	 * @param Component[]|Component
@@ -131,4 +131,39 @@ interface Factory {
 	 * @return \ILIAS\UI\Component\Panel\Listing\Factory
 	 */
 	public function listing();
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *       Secondary Panels are used to group content not located in the center section.
+	 *       Secondary Panels are used to display marginal content related to the current page context.
+	 *   composition: >
+	 *       Secondary Panels consist of content section and top section.
+	 *       The top section may contain a title, sortation and a dropdown.
+	 *       The content section may contain a Pagination view controller or a Section view controller.
+	 *   rivals:
+	 *      Slate: >
+	 *        Secondary Panels are used to present secondary information or content that should appear in combination with the current
+	 *        center content.
+	 *        Other than the Slates in the Mainbar and the Metabar, the Secondary Panel always relates to some specific context
+	 *        indicated by the title of the current screen. Note that the slates in the tools of the Mainbar may have a very similar
+	 *        context-based characteristic. The difference between Slates, Tools and Secondary Panels currently is blurry and needs
+	 *        to be defined more rigorously in the future.
+	 *
+	 * rules:
+	 *   usage:
+	 *      1: Secondary Panels MUST NOT be inside the center content as primary Container for grouping content of varying content.
+	 *
+	 *   composition:
+	 *      1: Secondary Panels MAY contain a Section view control to change the current presentation of the content.
+	 *      2: Secondary Panels MAY contain a Pagination view control to display data in chunks.
+	 *      3: Secondary Panels MUST NOT contain more than one UI ViewControl in the main content.
+	 *      4: Secondary Panels MAY have a Button to perform actions listed in a Standard Dropdown.
+	 *      5: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+	 *
+	 * ---
+	 * @return \ILIAS\UI\Component\Panel\Secondary\Factory
+	 */
+	public function secondary();
 }

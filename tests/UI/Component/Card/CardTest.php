@@ -20,7 +20,6 @@ class CardTest extends ILIAS_UI_TestBase {
 	public function getFactory() {
 		return new \ILIAS\UI\Implementation\Factory(
 			$this->createMock(C\Counter\Factory::class),
-			$this->createMock(C\Glyph\Factory::class),
 			$this->createMock(C\Button\Factory::class),
 			$this->createMock(C\Listing\Factory::class),
 			$this->createMock(C\Image\Factory::class),
@@ -32,13 +31,17 @@ class CardTest extends ILIAS_UI_TestBase {
 			$this->createMock(C\Link\Factory::class),
 			$this->createMock(C\Dropdown\Factory::class),
 			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
 			$this->createMock(C\ViewControl\Factory::class),
 			$this->createMock(C\Chart\Factory::class),
 			$this->createMock(C\Input\Factory::class),
 			$this->createMock(C\Table\Factory::class),
 			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
+			$this->createMock(C\Card\Factory::class),
+			$this->createMock(C\Layout\Factory::class),
+			$this->createMock(C\MainControls\Factory::class),
+			$this->createMock(C\Tree\Factory::class),
+			$this->createMock(C\Menu\Factory::class),
+			$this->createMock(C\Symbol\Factory::class)
 		);
 	}
 
@@ -70,10 +73,17 @@ class CardTest extends ILIAS_UI_TestBase {
 		$this->assertEquals($c->getTitle(), "Card Title New");
 	}
 
-	public function test_with_title_action() {
+	public function test_with_string_title_action() {
 		$c = $this->getBaseCard();
 		$c = $c->withTitleAction("newAction");
 		$this->assertEquals("newAction", $c->getTitleAction());
+	}
+
+	public function test_with_signal_title_action() {
+		$c = $this->getBaseCard();
+		$signal = $this->createMock(C\Signal::class);
+		$c = $c->withTitleAction($signal);
+		$this->assertEquals([$signal], $c->getTitleAction());
 	}
 
 	public function test_with_highlight() {

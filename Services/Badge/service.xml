@@ -4,9 +4,6 @@
 	<baseclasses>
 		<baseclass name="ilBadgeHandlerGUI" dir="classes" />
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilBadgeGlobalScreenProvider" />
-	</gsproviders>
 	<objects>
 		<object id="bdga" class_name="BadgeAdministration" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1" administration="1">

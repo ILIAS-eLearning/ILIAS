@@ -1,9 +1,6 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
-include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * LM editor explorer GUI class
@@ -37,19 +34,10 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		$this->user = $DIC->user();
 		$this->lm = $a_lm;
 
-		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
 		$tree = ilLMTree::getInstance($this->lm->getId());
 
-//echo "+".$tree->isCacheUsed()."+";
-
-//		$tree = new ilTree($this->lm->getId());
-//		$tree->setTableNames('lm_tree','lm_data');
-//		$tree->setTreeTablePK("lm_id");
-
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		$this->cnt_lmobj = ilLMObject::preloadDataByLM($this->lm->getId());
 
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		ilPageObject::preloadActivationDataByParentId($this->lm->getId());
 
 		if ($a_id == "")
@@ -68,6 +56,8 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
 		$this->setPreloadChilds(true);
+
+		$this->setPathOpen($tree->readRootId());
 
 		if ((int) $_GET["obj_id"] > 0)
 		{
@@ -138,17 +128,14 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		{
 			$this->lp_cache[$this->lm->getId()] = false;
 
-			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 			if(ilLearningProgressAccess::checkAccess($this->lm->getRefId()))
 			{
 				$info = null;
 
-				include_once './Services/Object/classes/class.ilObjectLP.php';
 				$olp = ilObjectLP::getInstance($this->lm->getId());
 				if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL ||
 					$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 				{
-					include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
 					$class = ilLPStatusFactory::_getClassById($this->lm->getId(), $olp->getCurrentMode());
 					$info = $class::_getStatusInfo($this->lm->getId());
 				}
@@ -174,7 +161,6 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 				}
 			}
 
-			include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 		}
 
 		if(is_array($this->lp_cache[$this->lm->getId()]) &&

@@ -12,6 +12,7 @@ require_once('Services/Exceptions/classes/class.ilException.php');
  * The Basic Exception Class for BackgroundTasks. Please Specify by extending
  *
  */
-class Exception extends \ilException {
+class Exception extends \ilException
+{
 
 }

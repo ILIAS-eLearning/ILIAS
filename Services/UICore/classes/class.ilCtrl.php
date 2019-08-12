@@ -332,17 +332,17 @@ class ilCtrl
 	}
 
 	/**
-	 * Searchs a node for a given class ($a_class) "near" the another
+	 * Searches a node for a given class ($a_class) "near" another
 	 * node ($a_par_node).
 	 *
 	 * It first looks if the given class is a child class of the current node.
 	 * If such a child node has been found, its id is returned.
 	 *
-	 * If not, this method determines wether the given class is a sibling
-	 * of the current node within the call structure. If this is the case
+	 * If not, this method determines, whether the given class is a sibling
+	 * of the current node within the call structure. If this is the case,
 	 * then the corresponding id is returned.
 	 *
-	 * At last the methode searchs for the given class along the path from
+	 * At last the method searches for the given class along the path from
 	 * the current node to the root class of the call structure.
 	 *
 	 * @param	string		id of starting node for the search

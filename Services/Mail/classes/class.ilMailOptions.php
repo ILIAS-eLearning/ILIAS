@@ -19,61 +19,44 @@ class ilMailOptions
 
 	const DEFAULT_LINE_BREAK = 60;
 
-	/**
-	 * @var \ILIAS
-	 */
+	/** @var \ILIAS */
 	protected $ilias;
 
-	/**
-	 * @var \ilDBInterface
-	 */
+	/** @var \ilDBInterface */
 	protected $db;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $user_id;
 
-	/**
-	 * @var \ilSetting
-	 */
+	/** @var \ilSetting */
 	protected $settings;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $table_mail_options = 'mail_options';
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $linebreak;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $signature;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $cronjob_notification;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $incoming_type = self::INCOMING_LOCAL;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $mail_address_option = self::FIRST_EMAIL;
 
-
-	/**
-	 * @var ilMailTransportSettings
-	 */
+	/** @var ilMailTransportSettings */
 	private $mailTransportSettings;
+
+	/** @var string */
+	protected $firstEmailAddress = '';
+
+	/** @var string */
+	protected $secondEmailAddress = '';
 
 	/**
 	 * @param int $a_user_id
@@ -144,11 +127,10 @@ class ilMailOptions
 		$this->incoming_type        = $row->incoming_type;
 		$this->mail_address_option  = (int)$row->mail_address_option >= 3 ? $row->mail_address_option : self::FIRST_EMAIL;
 
-		$firstMailAddress  = $row->email;
+		$this->firstEmailAddress  = $row->email;
+		$this->secondEmailAddress = $row->second_email;
 
-		$secondMailAddress = $row->second_email;
-
-		$this->mailTransportSettings->adjust($firstMailAddress, $secondMailAddress);
+		$this->mailTransportSettings->adjust($this->firstEmailAddress, $this->secondEmailAddress);
 	}
 
 	/**
@@ -272,80 +254,44 @@ class ilMailOptions
 		$row   = $DIC->database()->fetchAssoc($DIC->database()->query($query));
 		return (int)$row['cronjob_notification'];
 	}
-	
+
 	/**
-	 * @param ilObjUser     $user
-	 * @param ilMailOptions $mail_options
 	 * @return string[]
 	 */
-	protected static function lookupExternalEmails(ilObjUser $user, ilMailOptions $mail_options)
+	public function getExternalEmailAddresses(): array
 	{
-		$emailAddresses = array();
+		$emailAddresses = [];
 
-		switch($mail_options->getMailAddressOption())
-		{
+		switch ($this->getMailAddressOption()) {
 			case self::SECOND_EMAIL:
-				if(strlen($user->getSecondEmail()))
-				{
-					$emailAddresses[] = $user->getSecondEmail();
-				}
-				else if(strlen($user->getEmail()))
-				{
+				if (strlen($this->secondEmailAddress)) {
+					$emailAddresses[] = $this->secondEmailAddress;
+				} elseif (strlen($this->firstEmailAddress)) {
 					// fallback, use first email address
-					$emailAddresses[] = $user->getEmail();
+					$emailAddresses[] = $this->firstEmailAddress;
 				}
 				break;
-			
+
 			case self::BOTH_EMAIL:
-				if(strlen($user->getEmail()))
-				{
-					$emailAddresses[] = $user->getEmail();
+				if (strlen($this->firstEmailAddress)) {
+					$emailAddresses[] = $this->firstEmailAddress;
 				}
-				if(strlen($user->getSecondEmail()))
-				{
-					$emailAddresses[] = $user->getSecondEmail();
+				if (strlen($this->secondEmailAddress)) {
+					$emailAddresses[] = $this->secondEmailAddress;
 				}
 				break;
-			
+
 			case self::FIRST_EMAIL:
 			default:
-				if(strlen($user->getEmail()))
-				{
-					$emailAddresses[] = $user->getEmail();
-				}
-				else if(strlen($user->getSecondEmail()))
-				{
+				if (strlen($this->firstEmailAddress)) {
+					$emailAddresses[] = $this->firstEmailAddress;
+				} elseif (strlen($this->secondEmailAddress)) {
 					// fallback, use first email address
-					$emailAddresses[] = $user->getSecondEmail();
+					$emailAddresses[] = $this->secondEmailAddress;
 				}
 				break;
 		}
-		
-		return $emailAddresses;
-	}
-	
-	/**
-	 * @param ilObjUser     $user
-	 * @param ilMailOptions $mail_options
-	 * @return string[]
-	 */
-	public static function getExternalEmailsByUser(ilObjUser $user, ilMailOptions $mail_options = NULL)
-	{
-		if(!($mail_options instanceof ilMailOptions))
-		{
-			$mail_options = new self($user->getId());
-		}
 
-		return self::lookupExternalEmails($user, $mail_options);
-	}
-	
-	/**
-	 * @param int $user_id
-	 * @param ilMailOptions|NULL $mail_options
-	 * @return string[]
-	 */
-	public static function getExternalEmailsByUserId($user_id, ilMailOptions $mail_options = NULL)
-	{
-		return self::getExternalEmailsByUser(new ilObjUser($user_id), $mail_options);
+		return $emailAddresses;
 	}
 }

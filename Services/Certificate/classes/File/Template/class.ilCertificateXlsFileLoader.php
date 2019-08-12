@@ -6,13 +6,13 @@
  */
 class ilCertificateXlsFileLoader
 {
-	/**
-	 * @return bool|string
-	 */
-	public function getXlsCertificateContent()
-	{
-		$xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
+    /**
+     * @return bool|string
+     */
+    public function getXlsCertificateContent()
+    {
+        $xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
 
-		return $xsl;
-	}
+        return $xsl;
+    }
 }

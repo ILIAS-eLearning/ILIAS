@@ -246,7 +246,7 @@ class ilLDAPAttributeToUser
 				$this->writer->xmlStartTag('User',array('Id' => $usr_id,'Action' => 'Update'));
 				$this->writer->xmlElement('Login',array(),$user['ilInternalAccount']);
 				$this->writer->xmlElement('ExternalAccount',array(),$external_account);
-				$this->writer->xmlElement('AuthMode',array(type => $this->getNewUserAuthMode()),null);
+				$this->writer->xmlElement('AuthMode',array('type' => $this->getNewUserAuthMode()),null);
 
 				if($this->isModeActive(self::MODE_INITIALIZE_ROLES))
 				{
@@ -391,12 +391,12 @@ class ilLDAPAttributeToUser
 						// Handle user defined fields
 						if(substr($field,0,4) != 'udf_')
 						{
-							continue;
+							continue 2;
 						}
 						$id_data = explode('_',$field);
 						if(!isset($id_data[1]))
 						{
-							continue;
+							continue 2;
 						}
 						$this->initUserDefinedFields();
 						$definition = $this->udf->getDefinition($id_data[1]);

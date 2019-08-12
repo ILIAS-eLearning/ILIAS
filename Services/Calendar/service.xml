@@ -3,9 +3,6 @@
 	id="cal">
 	<baseclasses>
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilCalendarGlobalScreenProvider" />
-	</gsproviders>
 	<objects>
 		<object id="cals" class_name="CalendarSettings" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1" administration="1">

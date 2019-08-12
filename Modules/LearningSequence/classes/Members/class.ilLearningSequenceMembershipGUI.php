@@ -18,6 +18,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 	public function __construct(
 		ilObjectGUI $repository_gui,
 		ilObject $repository_obj,
+		ilObjUserTracking $obj_user_tracking,
 		ilPrivacySettings $privacy_settings,
 		ilLanguage $lng,
 		ilCtrl $ctrl,
@@ -28,6 +29,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 	) {
 		parent::__construct($repository_gui, $repository_obj);
 
+		$this->obj_user_tracking = $obj_user_tracking;
 		$this->privacy_settings = $privacy_settings;
 		$this->lng = $lng;
 		$this->ctrl = $ctrl;
@@ -167,20 +169,10 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
 	protected function initParticipantTableGUI(): ilLearningSequenceParticipantsTableGUI
 	{
-		$show_tracking = (
-			ilObjUserTracking::_enabledLearningProgress() &&
-			ilObjUserTracking::_enabledUserRelatedData()
-		);
-
-		if ($show_tracking) {
-			$olp = ilObjectLP::getInstance($this->getParentObject()->getId());
-			$show_tracking = $olp->isActive();
-		}
-
 		return new ilLearningSequenceParticipantsTableGUI(
 			$this,
 			$this->getParentObject(),
-			$show_tracking,
+			$this->obj_user_tracking,
 			$this->privacy_settings,
 			$this->lng,
 			$this->access,

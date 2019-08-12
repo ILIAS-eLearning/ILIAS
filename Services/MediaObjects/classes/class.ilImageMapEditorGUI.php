@@ -538,7 +538,7 @@ class ilImageMapEditorGUI
 			$radg->addOption($ext);
 			
 				$ti = new ilTextInputGUI("", "area_link_ext");
-				$ti->setMaxLength(200);
+				$ti->setMaxLength(800);
 				$ti->setSize(50);
 				if ($_SESSION["il_map_el_href"] != "")
 				{

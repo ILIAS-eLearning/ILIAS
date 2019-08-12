@@ -228,7 +228,6 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 	 */
 	private function handleAssignmentMembers($ex_id, $assignment_id) {
 		$this->xmlStartTag ( "Members" );
-		include_once ("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$members = ilExerciseMembers::_getMembers($ex_id);
 		if (count ( $members )) {
 			foreach ( $members as $member_id ) {

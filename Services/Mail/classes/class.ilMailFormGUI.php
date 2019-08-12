@@ -159,8 +159,6 @@ class ilMailFormGUI
 
 	public function sendMessage()
 	{
-		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
-
 		$message = (string) $_POST['m_message'];
 
 		$mailBody = new ilMailBody($message, $this->purifier);
@@ -175,14 +173,13 @@ class ilMailFormGUI
 
 		$mailer->setSaveInSentbox(true);
 
-		if ($errors = $mailer->validateAndEnqueue(
+		if ($errors = $mailer->enqueue(
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
 			ilUtil::securePlainString($_POST['m_subject']),
 			$sanitizedMessage,
 			$files,
-			$m_type,
 			(int)$_POST['use_placeholders']
 		)
 		) {
@@ -240,7 +237,6 @@ class ilMailFormGUI
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
-			$_POST['m_type'],
 			ilUtil::securePlainString($_POST['m_email']),
 			ilUtil::securePlainString($_POST['m_subject']),
 			ilUtil::securePlainString($_POST['m_message']),
@@ -282,7 +278,6 @@ class ilMailFormGUI
 										 ilUtil::securePlainString($_POST["rcp_to"]),
 										 ilUtil::securePlainString($_POST["rcp_cc"]),
 										 ilUtil::securePlainString($_POST["rcp_bcc"]),
-										 $_POST["m_type"],
 										 ilUtil::securePlainString($_POST["m_email"]),
 										 ilUtil::securePlainString($_POST["m_subject"]),
 										 ilUtil::securePlainString($_POST["m_message"]),
@@ -390,7 +385,6 @@ class ilMailFormGUI
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
 									ilUtil::securePlainString($_POST["rcp_bcc"]),
-									$_POST["m_type"],
 									ilUtil::securePlainString($_POST["m_email"]),
 							 		ilUtil::securePlainString($_POST["m_subject"]),
 									ilUtil::securePlainString($_POST["m_message"]),
@@ -535,7 +529,7 @@ class ilMailFormGUI
 				$mailData["rcp_to"] = $mailData["rcp_cc"] = $mailData["rcp_bcc"] = '';
 				$mailData["m_subject"] = $this->umail->formatForwardSubject();
 				$mailData["m_message"] = $this->umail->prependSignature();
-				if(count($mailData["attachments"]))
+				if(is_array($mailData["attachments"]) && count($mailData["attachments"]))
 				{
 					if($error = $this->mfile->adoptAttachments($mailData["attachments"],$_GET["mail_id"]))
 					{
@@ -714,20 +708,6 @@ class ilMailFormGUI
 		}
 		$form_gui->addItem($att);
 
-		// ONLY IF SYSTEM MAILS ARE ALLOWED
-		if($this->rbacsystem->checkAccess("system_message",$this->umail->getMailObjectReferenceId()))
-		{
-			$chb = new ilCheckboxInputGUI($this->lng->txt('type'), 'm_type[]');
-			$chb->setOptionTitle($this->lng->txt('system_message'));
-			$chb->setValue('system');
-			$chb->setChecked(false);
-			if(is_array($mailData["m_type"]) and in_array('system',$mailData["m_type"]))
-			{
-				$chb->setChecked(true);
-			}
-			$form_gui->addItem($chb);
-		}
-
 		if (\ilMailFormCall::getContextId()) {
 			$context_id = \ilMailFormCall::getContextId();
 
@@ -744,7 +724,7 @@ class ilMailFormGUI
 						$this->lng->txt('mail_template_client'),
 						'template_id',
 						$this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
-						array('m_subject', 'm_message')
+                        array('m_subject' => false, 'm_message' => true)
 					);
 
 					foreach ($templates as $template) {
@@ -812,6 +792,7 @@ class ilMailFormGUI
 
 		$this->tpl->setVariable('FORM', $form_gui->getHTML());
 
+        $this->tpl->addJavaScript('Services/JavaScript/js/Basic.js');
 		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
 		$this->tpl->printToStdout();
 	}
@@ -877,7 +858,6 @@ class ilMailFormGUI
 			ilUtil::securePlainString($_POST['rcp_to']),
 			ilUtil::securePlainString($_POST['rcp_cc']),
 			ilUtil::securePlainString($_POST['rcp_bcc']),
-			$_POST['m_type'],
 			ilUtil::securePlainString($_POST['m_email']),
 			ilUtil::securePlainString($_POST['m_subject']),
 			ilUtil::securePlainString($_POST['m_message']),

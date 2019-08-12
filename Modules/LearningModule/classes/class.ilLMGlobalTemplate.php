@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UICore/lib/html-it/IT.php");
-include_once("./Services/UICore/lib/html-it/ITX.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Copy of ilGlobalTemplate with broader interface, specialized for LM.
@@ -10,7 +8,7 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilLMGlobalTemplate
+class ilLMGlobalTemplate implements ilGlobalTemplateInterface
 {
 	
 
@@ -99,15 +97,12 @@ class ilLMGlobalTemplate
 		$link_items = array();
 
 		// imprint
-		include_once "Services/Imprint/classes/class.ilImprint.php";
 		if($_REQUEST["baseClass"] != "ilImprintGUI" && ilImprint::isActive())
 		{
-			include_once "Services/Link/classes/class.ilLink.php";
 			$link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
 		}
 
 		// system support contacts
-		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php");
 		if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "")
 		{
 			$link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
@@ -123,7 +118,6 @@ class ilLMGlobalTemplate
 		}
 
         // output translation link
-		include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
 		if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
 		{
 			// fix #9992: remember linked translation instead of saving language usages here
@@ -177,7 +171,6 @@ class ilLMGlobalTemplate
 
 			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{
-				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
 				$template2 = clone($this);
 				$ftpl->setCurrentBlock("xhtml_validation");
 				$ftpl->setVariable("VALIDATION",
@@ -303,7 +296,6 @@ class ilLMGlobalTemplate
 	 */
 	private function initHelp()
 	{
-		include_once("./Services/Help/classes/class.ilHelpGUI.php");
 		ilHelpGUI::initHelp($this);
 	}
 
@@ -784,12 +776,10 @@ class ilLMGlobalTemplate
 		}
 
 		// always load jQuery
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
 		iljQueryUtil::initjQueryUI();
 
 		// always load ui framework
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
 		ilUIFramework::init();
 
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -981,7 +971,6 @@ class ilLMGlobalTemplate
 			$ref_id = $this->enable_fileupload;
 			$upload_id = "dropzone_" . $ref_id;
 			
-			include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
 			$upload = new ilFileUploadGUI($upload_id, $ref_id, true);
 			
 			$this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
@@ -1032,7 +1021,6 @@ class ilLMGlobalTemplate
 		$html = "";
 		if (is_object($ilPluginAdmin))
 		{
-			include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
 			$uip = new ilUIHookProcessor("Services/Locator", "main_locator",
 				array("locator_gui" => $ilLocator));
 			if (!$uip->replaced())
@@ -1528,7 +1516,6 @@ class ilLMGlobalTemplate
 				exit;
 			default:
 				// include yahoo dom per default
-				include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 				ilYuiUtil::initDom();
 
 				header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
@@ -1563,7 +1550,6 @@ class ilLMGlobalTemplate
 					{
 						$tpl = $DIC["tpl"];
 
-						include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
 						$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
 						$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
 					}
@@ -1791,7 +1777,6 @@ class ilLMGlobalTemplate
 			}
 			$this->setVariable("ALT_TREE",$lng->txt($this->tree_flat_mode."view"));
 			$this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
-			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 			$this->setVariable("TREE_ACC_KEY",
 				ilAccessKeyGUI::getAttribute(($this->tree_flat_mode == "tree")
 					? ilAccessKey::TREE_ON
@@ -1928,7 +1913,6 @@ class ilLMGlobalTemplate
 	{
 		if (is_array($this->permanent_link))
 		{
-			include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
 			$plinkgui = new ilPermanentLinkGUI(
 				$this->permanent_link["type"],
 				$this->permanent_link["id"],

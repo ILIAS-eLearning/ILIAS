@@ -8,11 +8,11 @@
  *
  * @ingroup ModulesTestQuestionPool
  */
-class assAnswerTrueFalseTest extends PHPUnit_Framework_TestCase
+class assAnswerTrueFalseTest extends assBaseTestCase
 {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		if (defined('ILIAS_PHPUNIT_CONTEXT'))
 		{
@@ -82,13 +82,8 @@ class assAnswerTrueFalseTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $instance->isIncorrect());
 	}
 
-	/**
-	 * @TODO: Fix bug! getCorrectness returns int instead of bool.
-	 */
 	public function test_setFalseGetCorrectness_shouldReturnFalse()
 	{
-		$this->markTestIncomplete('Bug detected, fix not applied yet due to poor coverage.');
-
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
 		$instance = new ASS_AnswerTrueFalse();
@@ -99,7 +94,7 @@ class assAnswerTrueFalseTest extends PHPUnit_Framework_TestCase
 		$actual = $instance->getCorrectness();
 
 		// Assert
-		$this->assertEquals($expected, $actual);
+		$this->assertEquals((bool) $expected, (bool) $actual);
 	}
 
 	public function test_setTrueIsTrue_shouldReturnUnchangedState()

@@ -6,8 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
-use ILIAS\Validation\Factory as ValidationFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\UI\Component\Signal;
 
 /**
  * This implements the select.
@@ -21,22 +20,20 @@ class Select extends Input implements C\Input\Field\Select {
 	/**
 	 * Select constructor.
 	 *
-	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
-	 * @param TransformationFactory $transformation_factory
-	 * @param array                 $options
-	 * @param string                $label
-	 * @param string                $byline
+	 * @param DataFactory $data_factory
+	 * @param \ILIAS\Refinery\Factory $refinery
+	 * @param string $label
+	 * @param array $options
+	 * @param string $byline
 	 */
 	public function __construct(
 		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
+		\ILIAS\Refinery\Factory $refinery,
 		$label,
 		$options,
 		$byline
 	) {
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
+		parent::__construct($data_factory, $refinery, $label, $byline);
 		$this->options = $options;
 	}
 
@@ -61,6 +58,40 @@ class Select extends Input implements C\Input\Field\Select {
 	 * @inheritdoc
 	 */
 	protected function getConstraintForRequirement() {
-		return $this->validation_factory->hasMinLength(1);
+		return $this->refinery->string()->hasMinLength(1);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
+			return $code;
+		};
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->withTriggeredSignal($signal, 'update');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnUpdate(Signal $signal)
+	{
+		// TODO: This method will need to be removed.
+		// See ILIAS\UI\Implementation\Component\Input\Field\Input
+		return $this->appendTriggeredSignal($signal, 'update');
 	}
 }

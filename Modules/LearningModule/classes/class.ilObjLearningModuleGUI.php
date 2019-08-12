@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilLearningModuleGUI
@@ -42,8 +41,6 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 
 	function assignObject()
 	{
-		include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-
 		$this->link_params = "ref_id=".$this->ref_id;
 		$this->object = new ilObjLearningModule($this->id, true);
 	}

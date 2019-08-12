@@ -82,15 +82,15 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 		$fields = array(
 			'login',
 			sprintf(
-				"(CASE WHEN (profpref.value = %s OR profpref.value = %s) THEN firstname ELSE '' END) firstname",
+				"(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) THEN firstname ELSE '' END) firstname",
 				$this->db->quote('y', 'text'), $this->db->quote('g', 'text')
 			),
 			sprintf(
-				"(CASE WHEN (profpref.value = %s OR profpref.value = %s) THEN lastname ELSE '' END) lastname",
+				"(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) THEN lastname ELSE '' END) lastname",
 				$this->db->quote('y', 'text'), $this->db->quote('g', 'text')
 			),
 			sprintf(
-				"(CASE WHEN ((profpref.value = %s OR profpref.value = %s) AND pubemail.value = %s) THEN email ELSE '' END) email",
+				"(CASE WHEN ((profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) AND pubemail.value = %s) THEN email ELSE '' END) email",
 				$this->db->quote('y', 'text'), $this->db->quote('g', 'text'), $this->db->quote('y', 'text')
 			),
 		);
@@ -110,7 +110,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 		$joins = array();
 
 		$joins[] = '
-			INNER JOIN usr_pref profpref
+			LEFT JOIN usr_pref profpref
 			ON profpref.usr_id = usr_data.usr_id
 			AND profpref.keyword = ' . $this->db->quote('public_profile', 'text');
 

@@ -33,6 +33,11 @@ class ilObjectGUI
 	protected $access;
 
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * @var ilSetting
 	 */
 	protected $settings;
@@ -59,7 +64,7 @@ class ilObjectGUI
 
 	/**
 	* template object
-	* @var		object ilias
+	* @var		ilGlobalTemplateInterface
 	* @access	private
 	*/
 	var $tpl;
@@ -140,6 +145,7 @@ class ilObjectGUI
 		$this->settings = $DIC->settings();
 		$this->rbacreview = $DIC->rbac()->review();
 		$this->toolbar = $DIC->toolbar();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$this->object_service = $DIC->object();
 		$objDefinition = $DIC["objDefinition"];
 		$tpl = $DIC["tpl"];
@@ -365,17 +371,7 @@ class ilObjectGUI
 			// set tabs
 			$this->setTabs();
 
-			// BEGIN WebDAV: Display Mount Webfolder icon.
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-				if (ilDAVActivationChecker::_isActive())
-				{			
-					$this->showMountWebfolderIcon();
-				}
-			}
-			// END WebDAV: Display Mount Webfolder icon.
-			
+
 			// fileupload support
 			require_once './Services/FileUpload/classes/class.ilFileUploadUtil.php';
 			if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType()))
@@ -418,7 +414,7 @@ class ilObjectGUI
 
 		include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 		$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
-		$lgui->initItem($this->object->getRefId(), $this->object->getId());
+		$lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
 		$this->tpl->setAlertProperties($lgui->getAlertProperties());		
 	}
 	
@@ -519,21 +515,6 @@ class ilObjectGUI
 		exit;
 	}
 	
-	// BEGIN WebDAV: Show Mount Webfolder Icon.
-	protected function showMountWebfolderIcon()
-	{
-		$tree = $this->tree;
-		$tpl = $this->tpl;
-		$objDefinition = $this->objDefinition;
-
-		if ($this->object->getRefId() == "")
-		{
-			return;
-		}
-
-		$tpl->setMountWebfolderIcon($this->object->getRefId());
-	}
-	// END WebDAV: Show Mount Webfolder Icon.
 
 
 	/**
@@ -1640,7 +1621,7 @@ class ilObjectGUI
 		$tpl = $this->tpl;
 		$ilErr = $this->ilErr;
 
-		if (!$this->checkPermissionBool("visible,read"))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}

@@ -93,7 +93,7 @@ class ilObjForum extends ilObject
 		$id = parent::create();
 
 		$properties = ilForumProperties::getInstance($this->getId());
-		$properties->setDefaultView(1);
+        $properties->setDefaultView(ilForumProperties::VIEW_DATE);
 		$properties->setAnonymisation(0);
 		$properties->setStatisticsStatus(0);
 		$properties->setPostActivation(0);

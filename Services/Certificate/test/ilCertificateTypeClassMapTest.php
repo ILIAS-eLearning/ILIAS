@@ -6,81 +6,83 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateTypeClassMapTest extends \PHPUnit_Framework_TestCase
+class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 {
-	/**
-	 * @var
-	 */
-	private $classMap;
+    /**
+     * @var
+     */
+    private $classMap;
 
-	public function setUp()
-	{
-		$this->classMap = new ilCertificateTypeClassMap();
-	}
+    public function setUp(): void
+    {
+        $this->classMap = new ilCertificateTypeClassMap();
+    }
 
-	public function testFetchCoursePlaceHolderClass()
-	{
-		$class = $this->classMap->getPlaceHolderClassNameByType('crs');
+    public function testFetchCoursePlaceHolderClass()
+    {
+        $class = $this->classMap->getPlaceHolderClassNameByType('crs');
 
-		$this->assertEquals('ilCoursePlaceholderValues', $class);
-	}
+        $this->assertEquals('ilCoursePlaceholderValues', $class);
+    }
 
-	public function testFetchTestPlaceHolderClass()
-	{
-		$class = $this->classMap->getPlaceHolderClassNameByType('tst');
+    public function testFetchTestPlaceHolderClass()
+    {
+        $class = $this->classMap->getPlaceHolderClassNameByType('tst');
 
-		$this->assertEquals('ilTestPlaceHolderValues', $class);
-	}
+        $this->assertEquals('ilTestPlaceHolderValues', $class);
+    }
 
-	public function testFetchExercisePlaceHolderClass()
-	{
-		$class = $this->classMap->getPlaceHolderClassNameByType('exc');
+    public function testFetchExercisePlaceHolderClass()
+    {
+        $class = $this->classMap->getPlaceHolderClassNameByType('exc');
 
-		$this->assertEquals('ilExercisePlaceHolderValues', $class);
-	}
+        $this->assertEquals('ilExercisePlaceHolderValues', $class);
+    }
 
-	public function testFetchScormPlaceHolderClass()
-	{
-		$class = $this->classMap->getPlaceHolderClassNameByType('sahs');
+    public function testFetchScormPlaceHolderClass()
+    {
+        $class = $this->classMap->getPlaceHolderClassNameByType('sahs');
 
-		$this->assertEquals('ilScormPlaceholderValues', $class);
-	}
+        $this->assertEquals('ilScormPlaceholderValues', $class);
+    }
 
-	/**
-	 * @expectedException ilException
-	 */
-	public function testFetchUnknownClassWillResultInException()
-	{
-		$class = $this->classMap->getPlaceHolderClassNameByType('something');
+    /**
+     *
+     */
+    public function testFetchUnknownClassWillResultInException()
+    {
+        $this->expectException(\ilException::class);
 
-		$this->fail('Should never happen. No Exception thrown?');
-	}
+        $class = $this->classMap->getPlaceHolderClassNameByType('something');
 
-	public function testIsCourseExisting()
-	{
-		$result = $this->classMap->typeExistsInMap('crs');
+        $this->fail('Should never happen. No Exception thrown?');
+    }
 
-		$this->assertTrue($result);
-	}
+    public function testIsCourseExisting()
+    {
+        $result = $this->classMap->typeExistsInMap('crs');
 
-	public function testIsTestExisting()
-	{
-		$result = $this->classMap->typeExistsInMap('tst');
+        $this->assertTrue($result);
+    }
 
-		$this->assertTrue($result);
-	}
+    public function testIsTestExisting()
+    {
+        $result = $this->classMap->typeExistsInMap('tst');
 
-	public function testIsExerciseExisting()
-	{
-		$result = $this->classMap->typeExistsInMap('exc');
+        $this->assertTrue($result);
+    }
 
-		$this->assertTrue($result);
-	}
+    public function testIsExerciseExisting()
+    {
+        $result = $this->classMap->typeExistsInMap('exc');
 
-	public function testUnknownTypeIsNotExisting()
-	{
-		$result = $this->classMap->typeExistsInMap('something');
+        $this->assertTrue($result);
+    }
 
-		$this->assertFalse($result);
-	}
+    public function testUnknownTypeIsNotExisting()
+    {
+        $result = $this->classMap->typeExistsInMap('something');
+
+        $this->assertFalse($result);
+    }
 }

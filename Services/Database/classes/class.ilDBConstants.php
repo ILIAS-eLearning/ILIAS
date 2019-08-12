@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
-require_once('./Services/Database/classes/Atom/class.ilAtomQueryBase.php');
 
 /**
  * Class ilDBConstants
@@ -53,6 +51,23 @@ class ilDBConstants {
 	// Collations
 	const MYSQL_COLLATION_UTF8 = 'utf8_general_ci';
 	const MYSQL_COLLATION_UTF8MB4 = 'utf8mb4_general_ci';
+	const MYSQL_COLLATION_UTF8_CZECH = "utf8_czech_ci";
+	const MYSQL_COLLATION_UTF8_DANISH = "utf8_danish_ci";
+	const MYSQL_COLLATION_UTF8_ESTONIAN = "utf8_estonian_ci";
+	const MYSQL_COLLATION_UTF8_ICELANDIC = "utf8_icelandic_ci";
+	const MYSQL_COLLATION_UTF8_LATVIAN = "utf8_latvian_ci";
+	const MYSQL_COLLATION_UTF8_LITHUANIAN = "utf8_lithuanian_ci";
+	const MYSQL_COLLATION_UTF8_PERSIAN = "utf8_persian_ci";
+	const MYSQL_COLLATION_UTF8_POLISH = "utf8_polish_ci";
+	const MYSQL_COLLATION_UTF8_ROMAN = "utf8_roman_ci";
+	const MYSQL_COLLATION_UTF8_ROMANIAN = "utf8_romanian_ci";
+	const MYSQL_COLLATION_UTF8_SLOVAK = "utf8_slovak_ci";
+	const MYSQL_COLLATION_UTF8_SLOVENIAN = "utf8_slovenian_ci";
+	const MYSQL_COLLATION_UTF8_SPANISH2 = "utf8_spanish2_ci";
+	const MYSQL_COLLATION_UTF8_SPANISH = "utf8_spanish_ci";
+	const MYSQL_COLLATION_UTF8_SWEDISH = "utf8_swedish_ci";
+	const MYSQL_COLLATION_UTF8_TURKISH = "utf8_turkish_ci";
+
 	// Mapping AutoExec
 	const AUTOQUERY_INSERT = 1;
 	const AUTOQUERY_UPDATE = 2;
@@ -123,6 +138,32 @@ class ilDBConstants {
 			ilDBConstants::TYPE_POSTGRES,
 			ilDBConstants::TYPE_GALERA,
 		);
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public static function getAvailableCollations() {
+		return [
+			ilDBConstants::MYSQL_COLLATION_UTF8,
+			ilDBConstants::MYSQL_COLLATION_UTF8MB4,
+			ilDBConstants::MYSQL_COLLATION_UTF8_CZECH,
+			ilDBConstants::MYSQL_COLLATION_UTF8_DANISH,
+			ilDBConstants::MYSQL_COLLATION_UTF8_ESTONIAN,
+			ilDBConstants::MYSQL_COLLATION_UTF8_ICELANDIC,
+			ilDBConstants::MYSQL_COLLATION_UTF8_LATVIAN,
+			ilDBConstants::MYSQL_COLLATION_UTF8_LITHUANIAN,
+			ilDBConstants::MYSQL_COLLATION_UTF8_PERSIAN,
+			ilDBConstants::MYSQL_COLLATION_UTF8_POLISH,
+			ilDBConstants::MYSQL_COLLATION_UTF8_ROMAN,
+			ilDBConstants::MYSQL_COLLATION_UTF8_ROMANIAN,
+			ilDBConstants::MYSQL_COLLATION_UTF8_SLOVAK,
+			ilDBConstants::MYSQL_COLLATION_UTF8_SLOVENIAN,
+			ilDBConstants::MYSQL_COLLATION_UTF8_SPANISH2,
+			ilDBConstants::MYSQL_COLLATION_UTF8_SPANISH,
+			ilDBConstants::MYSQL_COLLATION_UTF8_SWEDISH,
+			ilDBConstants::MYSQL_COLLATION_UTF8_TURKISH
+		];
 	}
 
 

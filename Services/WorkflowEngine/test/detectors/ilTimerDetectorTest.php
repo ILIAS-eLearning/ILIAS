@@ -12,12 +12,11 @@
  *
  * @ingroup Services/WorkflowEngine
  */
-class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
+class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
 {
-	public function setUp()
+	public function setUp(): void
 	{
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		//ilUnitUtil::performInitialisation();
+		parent::__construct();
 		
 		require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
 		
@@ -35,13 +34,13 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
 		require_once './Services/WorkflowEngine/classes/detectors/class.ilTimerDetector.php';
 	}
 	
-	public function tearDown()
+	public function tearDown(): void
 	{
-		global $ilSetting;
-		if ($ilSetting !=  NULL)
-		{
-			$ilSetting->delete('IL_PHPUNIT_TEST_TIME');
-			$ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
+		global $DIC;
+
+		if (isset($DIC['ilSetting'])) {
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_TIME' );
+			$DIC['ilSetting']->delete( 'IL_PHPUNIT_TEST_MICROTIME' );
 		}
 	}
 	
@@ -167,10 +166,12 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowInvalidArgumentException
+	 *
 	 */
 	public function testSetGetIllegalListeningTimeframe()
 	{
+		$this->expectException(ilWorkflowInvalidArgumentException::class);
+
 		// Arrange
 		$detector = new ilTimerDetector($this->node);
 		$exp_start = 4712;
@@ -273,10 +274,12 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException ilWorkflowObjectStateException
+	 * 
 	 */
 	public function testGetNonExistingDbId()
 	{
+		$this->expectException(ilWorkflowObjectStateException::class);
+
 		// Arrange
 		$detector = new ilTimerDetector($this->node);
 		$expected = '1234';

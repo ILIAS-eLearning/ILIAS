@@ -1,5 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once('./Services/Xml/classes/class.ilSaxParser.php');
+require_once('./setup/classes/class.ilObjDefReader.php');
+require_once('./setup/classes/class.ilModuleReader.php');
+require_once('./setup/classes/class.ilServiceReader.php');
+require_once('./setup/classes/class.ilCtrlStructureReader.php');
 
 /**
  * Database Update class
@@ -139,7 +144,6 @@ class ilDBUpdate {
 	 * @return int
 	 */
 	public function getCurrentVersion() {
-		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
 		$this->currentVersion = (integer)$set->get("db_version");
 
@@ -153,7 +157,6 @@ class ilDBUpdate {
 	 * @return bool
 	 */
 	public function setCurrentVersion($a_version) {
-		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
 		$set->set("db_version", $a_version);
 		$this->currentVersion = $a_version;
@@ -168,7 +171,6 @@ class ilDBUpdate {
 	 * @param    int        step number
 	 */
 	public function setRunningStatus($a_nr) {
-		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
 		$set->set("db_update_running", $a_nr);
 		$this->db_update_running = $a_nr;
@@ -181,7 +183,6 @@ class ilDBUpdate {
 	 * @return    int        current runnning db step
 	 */
 	public function getRunningStatus() {
-		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
 		$this->db_update_running = (integer)$set->get("db_update_running");
 
@@ -193,7 +194,6 @@ class ilDBUpdate {
 	 * Clear running status
 	 */
 	public function clearRunningStatus() {
-		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting("common", true);
 		$set->set("db_update_running", 0);
 		$this->db_update_running = 0;
@@ -297,7 +297,6 @@ class ilDBUpdate {
 		} elseif ($DIC->offsetExists('ilCtrlStructureReader')) {
 			$ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
 		} else {
-			require_once 'setup/classes/class.ilCtrlStructureReader.php';
 			$ilCtrlStructureReader = new ilCtrlStructureReader();
 			$DIC->offsetSet('ilCtrlStructureReader', $ilCtrlStructureReader);
 		}
@@ -381,12 +380,6 @@ class ilDBUpdate {
 		$this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
 
 		// read module and service information into db
-		require_once "./setup/classes/class.ilModuleReader.php";
-		require_once "./setup/classes/class.ilServiceReader.php";
-		require_once "./setup/classes/class.ilCtrlStructureReader.php";
-
-		require_once "./Services/Component/classes/class.ilModule.php";
-		require_once "./Services/Component/classes/class.ilService.php";
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 
@@ -626,7 +619,6 @@ class ilDBUpdate {
 		if ($this->hotfix_info_read && !$a_force) {
 			return;
 		}
-		include_once './Services/Administration/classes/class.ilSetting.php';
 		$this->hotfix_setting = new ilSetting("common", true);
 		$ilias_version = ILIAS_VERSION_NUMERIC;
 		$version_array = explode(".", $ilias_version);
@@ -665,8 +657,6 @@ class ilDBUpdate {
 		$ilMySQLAbstraction = null;
 		$ilDB = null;
 		$this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
-
-		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
 
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
 		$GLOBALS['DIC']['ilMySQLAbstraction'] = $ilMySQLAbstraction;
@@ -745,7 +735,6 @@ class ilDBUpdate {
 		if ($this->custom_updates_info_read && !$a_force) {
 			return;
 		}
-		include_once './Services/Administration/classes/class.ilSetting.php';
 
 		$this->custom_updates_setting = new ilSetting();
 		$custom_updates_file = $this->PATH . "setup/sql/dbupdate_custom.php";
@@ -776,8 +765,6 @@ class ilDBUpdate {
 		$ilMySQLAbstraction = null;
 		$ilDB = null;
 		$this->initGlobalsRequiredForUpdateSteps($ilCtrlStructureReader, $ilMySQLAbstraction, $ilDB);
-
-		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
 
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
 		$GLOBALS['DIC']['ilMySQLAbstraction'] = $ilMySQLAbstraction;

@@ -2,12 +2,14 @@
 
 include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessCategory.php");
 
+use PHPUnit\Framework\TestCase;
+
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleLessCategoryTest extends PHPUnit_Framework_TestCase {
+class ilSkinStyleLessCategoryTest extends TestCase {
 
 	public function testConstruct() {
 		$category = new ilSystemStyleLessCategory("name", "comment");

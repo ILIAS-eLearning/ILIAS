@@ -83,7 +83,6 @@ class ilObjLearningSequence extends ilContainer
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->user = $DIC['ilUser'];
 		$this->tree = $DIC['tree'];
-		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
 		$this->template = $DIC['tpl'];
 		$this->database = $DIC['ilDB'];
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
@@ -94,7 +93,7 @@ class ilObjLearningSequence extends ilContainer
 		$this->ilias = $DIC['ilias'];
 		$this->il_settings = $DIC['ilSetting'];
 		$this->il_news = $DIC->news();
-
+		$this->il_condition_handler = new ilConditionHandler();
 		$this->data_factory = new \ILIAS\Data\Factory();
 
 		parent::__construct($id, $call_by_reference);
@@ -382,9 +381,17 @@ class ilObjLearningSequence extends ilContainer
 	/**
 	 * @return array<"value" => "option_text">
 	 */
-	public function getPossiblePostConditions(): array
+	public function getPossiblePostConditionsForType(string $type): array
 	{
-		return LSPostConditionTypesDB::getAvailableTypes();
+		$condition_types = $this->il_condition_handler->getOperatorsByTriggerType($type);
+		$conditions = [
+			$this->conditions_db::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
+		];
+		foreach ($condition_types as $cond_type) {
+			$conditions[$cond_type] = $this->lng->txt($cond_type);
+		}
+		return $conditions;
+
 	}
 
 	protected function getLearnerProgressDB(): ilLearnerProgressDB
@@ -448,107 +455,6 @@ class ilObjLearningSequence extends ilContainer
 		}
 
 		return $ref_id;
-	}
-
-	/**
-	 * @param LSLearnerItem[] 	$items
-	 */
-	public function getCurriculumBuilder(array $items, LSUrlBuilder $url_builder=null): ilLSCurriculumBuilder
-	{
-		global $DIC;
-
-		return new ilLSCurriculumBuilder(
-			$items,
-			$DIC["ui.factory"],
-			$this->lng,
-			ilLSPlayer::LSO_CMD_GOTO,
-			$url_builder
-		);
-	}
-
-	public function getUrlBuilder(string $player_url): LSUrlBuilder
-	{
-		$player_url = $this->data_factory->uri(ILIAS_HTTP_PATH .'/'	.$player_url);
-		return new LSUrlBuilder($player_url);
-	}
-
-
-	/**
-	 * factors the player
-	 */
-	public function getSequencePlayer($gui, string $player_command, int $usr_id): ilLSPlayer
-	{
-		global $DIC;
-
-		$lso_ref_id = $this->getRefId();
-		$lso_title = $this->getTitle();
-
-		$player_url = $this->ctrl->getLinkTarget($gui, $player_command, '', false, false);
-		$items = $this->getLSLearnerItems($usr_id);
-		$url_builder = $this->getUrlBuilder($player_url);
-
-		$curriculum_builder = $this->getCurriculumBuilder(
-			$items,
-			$url_builder
-		);
-
-		$state_db = $this->getStateDB();
-
-		$control_builder = new LSControlBuilder(
-			$DIC["ui.factory"],
-			$url_builder,
-			$this->lng
-		);
-
-		$view_factory = new ilLSViewFactory(
-			$this->kiosk_mode_service,
-			$this->lng,
-			$this->access
-		);
-
-		$kiosk_renderer = $this->getKioskRenderer($url_builder);
-
-		return new ilLSPlayer(
-			$lso_ref_id,
-			$lso_title,
-			$usr_id,
-			$items,
-			$state_db,
-			$control_builder,
-			$url_builder,
-			$curriculum_builder,
-			$view_factory,
-			$kiosk_renderer,
-			$DIC["ui.factory"]
-		);
-	}
-
-	protected function getKioskRenderer(LSUrlBuilder $url_builder)
-	{
-		if (!$this->kiosk_renderer) {
-			global $DIC;
-
-			$kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
-
-			$toc_gui = new ilLSTOCGUI($url_builder, $this->template, $this->ctrl);
-			$loc_gui = new ilLSLocatorGUI($url_builder, $DIC["ui.factory"]);
-
-			$window_title = $this->il_settings->get('short_inst_name');
-			if($window_title === false) {
-				$window_title = 'ILIAS';
-			}
-
-			$this->kiosk_renderer = new ilKioskPageRenderer(
-				$this->template,
-				$DIC["ui.renderer"],
-				$kiosk_template,
-				$toc_gui,
-				$loc_gui,
-				$window_title
-			);
-		}
-
-		return $this->kiosk_renderer;
 	}
 
 	/**

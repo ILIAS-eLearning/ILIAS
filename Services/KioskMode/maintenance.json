@@ -3,10 +3,14 @@
     "first_maintainer": "rklees(34047)",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": "",
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/KioskMode",
     "belong_to_component": "General Kiosk-Mode",
-    "used_in_components": ["Learning Sequence"]
+    "used_in_components": [
+        "Learning Sequence"
+    ]
 }
