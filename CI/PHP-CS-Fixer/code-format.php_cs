@@ -7,13 +7,13 @@ $finder = PhpCsFixer\Finder::create()
 		__DIR__ . '/../../setup/sql'
 	))
 	->in(array(
-		#__DIR__ .  '/../../cron',
-		#__DIR__ .  '/../../include',
-		#__DIR__ .  '/../../Modules',
-		#__DIR__ .  '/../../Services',
-		#__DIR__ .  '/../../setup',
+		__DIR__ .  '/../../cron',
+		__DIR__ .  '/../../include',
+		__DIR__ .  '/../../Modules',
+		__DIR__ .  '/../../Services',
+		__DIR__ .  '/../../setup',
 		__DIR__ .  '/../../src',
-		#__DIR__ .  '/../../tests'
+		__DIR__ .  '/../../tests'
 	))
 ;
 

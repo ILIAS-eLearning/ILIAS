@@ -40,6 +40,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
     public function __construct(
         ilObject $object,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
         ilAccess $access,
@@ -56,6 +57,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
                 $object->getId(),
                 $certificatePath,
+                $hasAdditionalElements,
                 $language,
                 $controller,
                 $access,
@@ -74,7 +76,6 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate    $certificateObject
      * @param string           $certificatePath
      * @return ilPropertyFormGUI
      * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
@@ -84,9 +85,9 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
+    public function createForm(ilCertificateGUI $certificateGUI)
     {
-        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
+        $form = $this->settingsFromFactory->createForm($certificateGUI);
 
         $short_name = new ilTextInputGUI($this->language->txt('certificate_short_name'), 'short_name');
         $short_name->setRequired(true);

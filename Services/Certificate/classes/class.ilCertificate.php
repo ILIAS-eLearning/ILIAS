@@ -255,54 +255,6 @@ class ilCertificate
     /* BULK CERTIFICATE PROCESSING METHODS *
     /***************************************
 
-    /**
-    * Creates a directory for a zip archive containing multiple certificates
-    *
-    * @return string The created archive directory
-    */
-    public function createArchiveDirectory()
-    {
-        $type = ilObject::_lookupType($this->objectId);
-        $certificateId = $this->objectId;
-
-        $dir = CLIENT_WEB_DIR . $this->certificatePath . time() . "__" . IL_INST_ID . "__" . $type . "__" . $certificateId . "__certificate/";
-        ilUtil::makeDirParents($dir);
-        return $dir;
-    }
-
-    /**
-    * Adds PDF data as a file to a given directory
-    *
-    * @param string $pdfdata Binary PDF data
-    * @param string $dir Directory to contain the PDF data
-    * @param string $filename The filename to save the PDF data
-    */
-    public function addPDFtoArchiveDirectory($pdfdata, $dir, $filename)
-    {
-        $fh = fopen($dir . $filename, "wb");
-        fwrite($fh, $pdfdata);
-        fclose($fh);
-    }
-
-    /**
-    * Create a ZIP file from a directory with certificates
-    *
-    * @param string $dir Directory containing the certificates
-    * @param boolean $deliver TRUE to deliver the ZIP file, FALSE to return the filename only
-    * @return string The created ZIP archive path
-    */
-    public function zipCertificatesInArchiveDirectory($dir, $deliver = true)
-    {
-        $zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificates.zip";
-        $zipfilePath = CLIENT_WEB_DIR . $this->certificatePath . $zipfile;
-        ilUtil::zip($dir, $zipfilePath);
-        ilUtil::delDir($dir);
-        if ($deliver) {
-            ilUtil::deliverFile($zipfilePath, $zipfile, "application/zip", false, true);
-        }
-        return $zipfilePath;
-    }
-
     public static function isActive()
     {
         if (self::$is_active === null) {
