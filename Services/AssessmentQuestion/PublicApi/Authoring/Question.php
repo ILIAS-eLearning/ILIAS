@@ -124,7 +124,7 @@ class Question
         $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
 
         $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
-        return $player->GetPointsByUser($this->question_id,$this->actor_user_id, ilAsqQuestionAuthoringGUI::DEBUG_TEST_ID);
+        return $player->GetPointsByUser($this->question_id,$this->actor_user_id, $this->container_obj_id);
 
     }
 
