@@ -30,11 +30,11 @@ class Answer implements Entity, JsonSerializable {
 	 */
 	protected $value;
 	/**
-	 * @var string
+	 * @var int
 	 */
 	protected $test_id;
 
-	public function __construct(int $anwerer_id, string $question_id, string $test_id, string $value) {
+	public function __construct(int $anwerer_id, string $question_id, int $test_id, string $value) {
 		$this->answerer_id = $anwerer_id;
 		$this->question_id = $question_id;
 		$this->test_id = $test_id;
