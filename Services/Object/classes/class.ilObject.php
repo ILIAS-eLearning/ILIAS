@@ -341,7 +341,7 @@ class ilObject
 	* @access	public
 	* @return	integer	object id
 	*/
-	function getId()
+	function getId(): int
 	{
 		return $this->id;
 	}

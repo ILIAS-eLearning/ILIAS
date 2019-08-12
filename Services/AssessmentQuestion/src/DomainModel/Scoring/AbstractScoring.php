@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
 /**
  * Abstract Class AbstractScoring
@@ -26,10 +27,10 @@ abstract class AbstractScoring {
 	/**
 	 * AbstractScoring constructor.
 	 *
-	 * @param Question $question
+	 * @param QuestionDto $question
 	 * @param array    $configuration
 	 */
-	public function __construct(Question $question) {
+	public function __construct(QuestionDto $question) {
 		$this->question = $question;
 	}
 

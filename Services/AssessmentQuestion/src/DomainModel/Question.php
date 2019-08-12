@@ -52,6 +52,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @var int
 	 */
 	private $creator_id;
+    /**
+     * @var int
+     */
+    protected $container_obj_id;
 	/**
 	 * @var QuestionData
 	 */
@@ -76,7 +80,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	/**
 	 * Question constructor.
 	 */
-	protected function __construct() {
+	public function __construct() {
 		parent::__construct();
 
 		$this->answers = [];
@@ -92,11 +96,13 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      */
 	public static function createNewQuestion(
 		DomainObjectId $question_uuid,
+		int $container_obj_id,
 		int $initiating_user_id): Question {
 		$question = new Question();
 		$question->ExecuteEvent(
 			new QuestionCreatedEvent(
 				$question_uuid,
+                $container_obj_id,
 				$initiating_user_id
 		));
 
@@ -109,6 +115,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	protected function applyQuestionCreatedEvent(QuestionCreatedEvent $event) {
 		$this->id = $event->getAggregateId();
 		$this->creator_id = $event->getInitiatingUserId();
+        $this->container_obj_id = $event->getContainerObjId();
 	}
 
     /**
@@ -161,14 +168,16 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		return $this->data;
 	}
 
+
     /**
      * @param QuestionData $data
+     * @param int          $container_obj_id
      * @param int          $creator_id
      *
      * @throws ilDateTimeException
      */
-	public function setData(QuestionData $data, int $creator_id = self::SYSTEM_USER_ID): void {
-		$this->ExecuteEvent(new QuestionDataSetEvent($this->getAggregateId(), $creator_id, $data));
+	public function setData(QuestionData $data, int $container_obj_id, int $creator_id = self::SYSTEM_USER_ID): void {
+		$this->ExecuteEvent(new QuestionDataSetEvent($this->getAggregateId(), $container_obj_id, $creator_id, $data));
 	}
 
 	/**
@@ -185,9 +194,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      * @throws ilDateTimeException
      */
 	public function setPlayConfiguration(QuestionPlayConfiguration $play_configuration,
+                                         int $container_obj_id,
                                          int $creator_id = self::SYSTEM_USER_ID): void
     {
-		$this->ExecuteEvent(new QuestionPlayConfigurationSetEvent($this->getAggregateId(), $creator_id, $play_configuration));
+		$this->ExecuteEvent(new QuestionPlayConfigurationSetEvent($this->getAggregateId(),$container_obj_id, $creator_id, $play_configuration));
 	}
 
 	/**
@@ -204,9 +214,11 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      * @throws ilDateTimeException
      */
 	public function setLegacyData(QuestionLegacyData $legacy_data,
+        int $container_obj_id,
                                   int $creator_id = self::SYSTEM_USER_ID): void
     {
 		$this->ExecuteEvent(new QuestionLegacyDataSetEvent($this->getAggregateId(),
+            $container_obj_id,
 		                                                   $creator_id,
 		                                                   $legacy_data));
 	}
@@ -224,8 +236,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      *
      * @throws ilDateTimeException
      */
-	public function setAnswerOptions(AnswerOptions $options, int $creator_id = self::SYSTEM_USER_ID) {
-		$this->ExecuteEvent(new QuestionAnswerOptionsSetEvent($this->getAggregateId(), $creator_id, $options));
+	public function setAnswerOptions(AnswerOptions $options, int $container_obj_id, int $creator_id = self::SYSTEM_USER_ID) {
+		$this->ExecuteEvent(new QuestionAnswerOptionsSetEvent($this->getAggregateId(), $container_obj_id, $creator_id, $options));
 	}
 
     /**
@@ -233,8 +245,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      *
      * @throws ilDateTimeException
      */
-	function addAnswer(Answer $answer) {
-		$this->ExecuteEvent(new QuestionAnswerAddedEvent($this->getAggregateId(), $answer->getAnswererId(), $answer));
+	function addAnswer(Answer $answer, $container_obj_id) {
+		$this->ExecuteEvent(new QuestionAnswerAddedEvent($this->getAggregateId(), $container_obj_id, $answer->getAnswererId(), $answer));
 	}
 
     /**
@@ -262,6 +274,15 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		return $this->creator_id;
 	}
 
+
+    /**
+     * @return int
+     */
+    public function getContainerObjId() : int
+    {
+        return $this->container_obj_id;
+    }
+
 	/**
 	 * @param int $creator_id
 	 */
@@ -283,7 +304,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      * @throws ilDateTimeException
      */
 	public function setRevisionId(RevisionId $id) {
-		$this->ExecuteEvent(new QuestionRevisionCreatedEvent($this->getAggregateId(), $this->creator_id, $id->GetKey()));
+		$this->ExecuteEvent(new QuestionRevisionCreatedEvent($this->getAggregateId(), $this->container_obj_id,$this->creator_id, $id->GetKey()));
 	}
 
 	/**
@@ -307,6 +328,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	    $data = [];
 		$data[] = $this->getAggregateId()->getId();
 		$data[] = $this->getData();
+        $data[] = $this->getAnswerOptions();
 		return $data;
 	}
 

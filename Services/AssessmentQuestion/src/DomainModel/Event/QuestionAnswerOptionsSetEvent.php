@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
+use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
@@ -19,7 +19,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionAnswerOptionsSetEvent extends AbstractDomainEvent {
+class QuestionAnswerOptionsSetEvent extends AbstractIlContainerDomainEvent {
 
 	public const NAME = 'QuestionAnswerOptionsSetEvent';
 	/**
@@ -27,9 +27,20 @@ class QuestionAnswerOptionsSetEvent extends AbstractDomainEvent {
 	 */
 	protected $answer_options;
 
-	public function __construct(DomainObjectId $id, int $creator_id, AnswerOptions $options = null)
+
+    /**
+     * QuestionAnswerOptionsSetEvent constructor.
+     *
+     * @param DomainObjectId     $id
+     * @param int                $container_obj_id
+     * @param int                $initiating_user_id
+     * @param AnswerOptions|null $options
+     *
+     * @throws \ilDateTimeException
+     */
+	public function __construct(DomainObjectId $id, int $container_obj_id, int $initiating_user_id, AnswerOptions $options = null)
 	{
-		parent::__construct($id, $creator_id);
+		parent::__construct($id, $container_obj_id, $initiating_user_id);
 		$this->answer_options = $options;
 	}
 

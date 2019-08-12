@@ -1,8 +1,8 @@
 <?php
-use ILIAS\AssessmentQuestion\AuthoringInfrastructure\Setup\sql\SetupDatabase;
+use ILIAS\AssessmentQuestion\Infrastructure\Setup\sql\SetupDatabase;
 //only for development usage!
 
-chdir("../../../../../../");
+chdir("../../../../../");
 global $DIC;
 
 if (!file_exists(getcwd() . '/ilias.ini.php')) {
@@ -16,9 +16,11 @@ ilContext::init(ilContext::CONTEXT_WEB);
 require_once 'Services/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
-require_once 'Services/AssessmentQuestion/src/Authoring/Infrastructure/Setup/sql/SetupDatabase.php';
-$setup_database = new SetupDatabase();
-$setup_database->run();
+require_once 'Services/AssessmentQuestion/src/Infrastructure/Setup/sql/SetupDatabase.php';
+try {
+    $setup_database = new SetupDatabase();
+    $setup_database->run();
+} catch(Exception $e) {
+    echo "Fehler: Gegebenfalls 'Composer du' durchführen!".$e->getMessage();
+}
 
-$DIC->ctrl()->initBaseClass('ilStartUpGUI');
-$DIC->ctrl()->setTargetScript('ilias.php');

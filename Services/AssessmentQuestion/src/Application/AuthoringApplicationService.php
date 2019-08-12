@@ -2,7 +2,6 @@
 
 namespace ILIS\AssessmentQuestion\Application;
 
-use ILIAS\AssessmentQuestion\Application\AuthoringApplicationServiceSpec;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
@@ -12,7 +11,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\ilDB\ilDBQuestionEventStore;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
 
 const MSG_SUCCESS = "success";
 
@@ -28,18 +27,25 @@ const MSG_SUCCESS = "success";
  */
 class AuthoringApplicationService {
 
+    /**
+     * @var int
+     */
+    protected $container_obj_id;
+
 	/**
-	 * @var AuthoringApplicationServiceSpec
+	 * @var int
 	 */
-	protected $asq_question_spec;
+	protected $actor_user_id;
 
 	/**
 	 * AsqAuthoringService constructor.
-	 *
-	 * @param AuthoringApplicationServiceSpec $asq_question_spec
+     *
+     * @param int $container_obj_id
+	 * @param int $actor_user_id
 	 */
-	public function __construct($asq_question_spec) {
-		$this->asq_question_spec = $asq_question_spec;
+	public function __construct(int $container_obj_id, int $actor_user_id) {
+	    $this->container_obj_id = $container_obj_id;
+		$this->actor_user_id = $actor_user_id;
 	}
 
 
@@ -55,14 +61,14 @@ class AuthoringApplicationService {
 
 	public function CreateQuestion(
 		DomainObjectId $question_uuid,
-		?int $container_id = null,
+		int $container_id,
 		?int $answer_type_id = null
 	): void {
 		//CreateQuestion.png
 		CommandBusBuilder::getCommandBus()->handle
 		(new CreateQuestionCommand
 		 ($question_uuid,
-		  $this->asq_question_spec->getInitiatingUserId(),
+		  $this->actor_user_id,
 		  $container_id,
 		  $answer_type_id));
 	}
@@ -73,26 +79,26 @@ class AuthoringApplicationService {
 		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
 
 		if (!AbstractValueObject::isNullableEqual($question_dto->getData(), $question->getData())) {
-			$question->setData($question_dto->getData(), $this->asq_question_spec->getInitiatingUserId());
+			$question->setData($question_dto->getData(), $this->container_obj_id, $this->actor_user_id);
 		}
 
 		if (!AbstractValueObject::isNullableEqual($question_dto->getPlayConfiguration(), $question->getPlayConfiguration())) {
-			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->asq_question_spec->getInitiatingUserId());
+			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->container_obj_id, $this->actor_user_id);
 		}
 
 		// TODO implement equals for answer options
 		if ($question_dto->getAnswerOptions() !== $question->getAnswerOptions()){
-			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->asq_question_spec->getInitiatingUserId());
+			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->container_obj_id, $this->actor_user_id);
 		}
 
 		if(count($question->getRecordedEvents()->getEvents()) > 0) {
 			// save changes if there are any
-			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->asq_question_spec->getInitiatingUserId()));
+			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
 		}
 	}
 
 	public function projectQuestion(string $question_id) {
-		CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->asq_question_spec->getInitiatingUserId()));
+	    CommandBusBuilder::getCommandBus()->handle(new CreateQuestionRevisionCommand($question_id, $this->actor_user_id));
 	}
 
 	public function DeleteQuestion(string $question_id) {
@@ -105,14 +111,15 @@ class AuthoringApplicationService {
 		// remove answer from question
 	}*/
 
+    /**
+     * @return QuestionDto[]
+     */
 	public function GetQuestions():array {
-		// returns all questions of parent
-		// GetQuestionList.png
-		//TODO - use the Query Bus
-		$event_store = new ilDBQuestionEventStore();
-		return $event_store->allStoredQuestionsForParentSince(0);
-
-
-		// TODO ev getquestionsofpool, getquestionsoftest methode pro object -> Denke nicht, die ParentIds in ILIAS sind eindeutig. Somit ruft man einfach jene Fragen ab, welche einem in seinem Parent zur Verfügung stehen, resp. welche man bereitgestellt hat.
+	    $questions = [];
+		$event_store = new QuestionEventStoreRepository();
+	    foreach($event_store->allStoredQuestionIdsForContainerObjId($this->container_obj_id) as $aggregate_id) {
+            $questions[] = $this->GetQuestion($aggregate_id);
+        }
+	    return $questions;
 	}
 }

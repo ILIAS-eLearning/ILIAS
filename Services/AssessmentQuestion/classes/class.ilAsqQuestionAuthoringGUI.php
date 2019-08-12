@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\AssessmentQuestion\Application\AuthoringApplicationServiceSpec;
+
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
@@ -28,27 +29,42 @@ class ilAsqQuestionAuthoringGUI
     
 	const CMD_CREATE_QUESTION = "createQuestion";
 	const CMD_EDIT_QUESTION = "editQuestion";
-	const CMD_PLAY_QUESTION = "playQuestion";
+	const CMD_PREVIEW_QUESTION = "previewQuestion";
 	const CMD_SCORE_QUESTION = "scoreQuestion";
 	
 	//TODO remove me when no longer needed
 	const CMD_DEBUG_QUESTION = "debugQuestion";
     const DEBUG_TEST_ID = 23;
+
+    /**
+     * @var int
+     */
+    protected $container_obj_id;
+
+    /**
+     * @var int
+     */
+    protected $actor_user_id;
 	
 	/**
 	 * @var AuthoringApplicationService
 	 */
-	private $authoring_service;
+	private $authoring_application_service;
+
 
     /**
      * ilAsqQuestionAuthoringGUI constructor.
+     *
+     * @param int $container_obj_id
+     * @param int $actor_user_id
      */
-	function __construct()
+	function __construct(int $container_obj_id, int $actor_user_id)
 	{
 	    global $DIC;
+        $this->container_obj_id = $container_obj_id;
+        $this->actor_user_id = $actor_user_id;
 
-	    $asq_spec = new AuthoringApplicationServiceSpec($DIC->user()->getId());
-	    $this->authoring_service = new AuthoringApplicationService($asq_spec);
+	    $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
 
 	}
 
@@ -78,7 +94,7 @@ class ilAsqQuestionAuthoringGUI
 	        case "POST":
 	            $guid = Guid::create();
 	            $type = $form->getQuestionType();
-	            $this->authoring_service->CreateQuestion(new DomainObjectId($guid), null, $type);
+	            $this->authoring_application_service->CreateQuestion(new DomainObjectId($guid), $this->container_obj_id, $type);
 	            $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $guid);
 	            $DIC->ctrl()->redirect($this, self::CMD_EDIT_QUESTION);
 	            break;
@@ -94,14 +110,14 @@ class ilAsqQuestionAuthoringGUI
         global $DIC;
         
         $question_id = $_GET[self::VAR_QUESTION_ID];
-        $question = $this->authoring_service->GetQuestion($question_id);
+        $question = $this->authoring_application_service->GetQuestion($question_id);
         $form = AsqGUIElementFactory::CreateQuestionForm($question);
         
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "POST":
                 $question = $form->getQuestion();
-                $this->authoring_service->SaveQuestion($question);
+                $this->authoring_application_service->SaveQuestion($question);
                 $form = AsqGUIElementFactory::CreateQuestionForm($question);
                 ilutil::sendSuccess("Question Saved");
                 break;
@@ -114,7 +130,7 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC;
         
-        $questions = $this->authoring_service->GetQuestions();
+        $questions = $this->authoring_application_service->GetQuestions();
         
         $DIC->ui()->mainTemplate()->setContent(join("\n", array_map(
             function($question) {
@@ -125,36 +141,39 @@ class ilAsqQuestionAuthoringGUI
                 return "<div>" . 
                             $question["aggregate_id"] . 
                             "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_EDIT_QUESTION) . "'>    Edit</a>" .
-                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_PLAY_QUESTION) . "'>   Play</a>" .
+                            "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_PREVIEW_QUESTION) . "'>   Play</a>" .
                             "<a href='" . $DIC->ctrl()->getLinkTarget($this, self::CMD_SCORE_QUESTION) . "'>   Score</a>" .
                         "</ div>";
             }, $questions)));
     }
     
-    public function playQuestion()
+    public function previewQuestion()
     {
         global $DIC;
         
         $question_id = $_GET[self::VAR_QUESTION_ID];
-        $question = $this->authoring_service->GetQuestion($question_id);
+        $question = $this->authoring_application_service->GetQuestion($question_id);
         
-        $player = new PlayApplicationService();
-        
-        
-        
+        $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
+
         $question_component = new QuestionComponent($question);
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":
-                $answer = $player->GetUserAnswer($question_id, $DIC->user()->getId(), self::DEBUG_TEST_ID);
+                $answer = $player->GetUserAnswer($question_id, (int)$DIC->user()->getId(), self::DEBUG_TEST_ID);
                 if (!is_null($answer)) {
                     $question_component->setAnswer($answer);
                 }
                 break;
             case "POST":
                 $answer = new Answer($DIC->user()->getId(), $question_id, self::DEBUG_TEST_ID, $question_component->readAnswer());
-                $player->AnswerQuestion($answer);
+                //$player->AnswerQuestion($answer);
                 $question_component->setAnswer($answer);
+
+                $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
+                $scoring = new $scoring_class($question);
+
+                ilUtil::sendInfo("Score: ".$scoring->score($answer));
                 break;
         }
 
@@ -170,6 +189,8 @@ class ilAsqQuestionAuthoringGUI
         
         $question_id = $_GET[self::VAR_QUESTION_ID];
         
-        $DIC->ui()->mainTemplate()->setContent($player->GetPointsByUser($question_id, $DIC->user()->getId(), self::DEBUG_TEST_ID));
+        $DIC->ui()->mainTemplate()->setContent($player->GetPointsByUser($question_id,
+        $DIC->user()->getId(), self::DEBUG_TEST_ID));
+
     }
 }

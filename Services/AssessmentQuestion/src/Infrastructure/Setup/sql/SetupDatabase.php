@@ -2,8 +2,12 @@
 
 namespace ILIAS\AssessmentQuestion\Infrastructure\Setup\sql;
 
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\ilDB\ilDBQuestionStoredEvent;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\ilDB\QuestionListItem;
+use ilCtrlStructureReader;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreAr;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionImageAr;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionTextAr;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\questionEventStore;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItemAr;
 
 /**
  * Class SetupDatabase
@@ -16,7 +20,25 @@ class SetupDatabase {
 	}
 
 	public function run():void {
-		ilDBQuestionStoredEvent::updateDB();
-		QuestionListItem::updateDB();
+	    global $DIC;
+
+        $ilCtrlStructureReader = new ilCtrlStructureReader($DIC->clientIni());
+        $ilCtrlStructureReader->readStructure(true);
+
+        $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME);
+        $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME);
+        $DIC->database()->dropTable(AnswerOptionImageAr::STORAGE_NAME);
+        $DIC->database()->dropTable(AnswerOptionTextAr::STORAGE_NAME);
+
+        QuestionEventStoreAr::updateDB();
+		QuestionListItemAr::updateDB();
+        AnswerOptionImageAr::updateDB();
+        AnswerOptionTextAr::updateDB();
+
+        echo "Setup wurde durchgefüht, CtrlStruktur neu geladen, Datentabellen wurden installiert / aktualisiert.<br><br>";
+        echo "Es müsste nun neben dem Setup / Resetup ASQ ein neuer Tab 'asqDebugGUI' angezeigt werden<br><br>";
+
+        echo "<a href='/'>zurück zu ILIAS</a>";
+
 	}
 }

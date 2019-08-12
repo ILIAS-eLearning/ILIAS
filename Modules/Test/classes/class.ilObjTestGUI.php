@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
+use ILIAS\UI\Component\Link\Link;
+
 require_once './Modules/Test/exceptions/class.ilTestException.php';
 require_once './Services/Object/classes/class.ilObjectGUI.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -9,6 +12,14 @@ require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';
 require_once './Modules/Test/classes/class.ilTestExpressPage.php';
 require_once 'Modules/OrgUnit/classes/Positions/Operation/class.ilOrgUnitOperation.php';
 require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+
+/**
+ * TODO Remove this before merge
+ */
+///////////////////
+///////////////////
+require_once 'Modules/Test/classes/class.asqDebugGUI.php';
+//////////////////
 
 /**
  * Class ilObjTestGUI
@@ -85,6 +96,15 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	protected $testAccess;
 
+    /**
+     * @var AuthoringService
+     */
+    public $authoring_service;
+    /**
+     * @var Link
+     */
+    public $back_link;
+
 	/**
 	 * Constructor
 	 * @access public
@@ -134,7 +154,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$tabsManager->initSettingsTemplate();
 			$this->setTabsManager($tabsManager);
 		}
-	}
+    }
 
 	/**
 	* execute command
@@ -154,6 +174,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$tree = $DIC['tree'];
 		$ilias = $DIC['ilias'];
 		$ilUser = $DIC['ilUser'];
+
 
 		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])))
 		{
@@ -205,6 +226,20 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		switch($next_class)
 		{
+            /**
+             * TODO Remove this before merge
+             */
+            ///////////////////
+            ///////////////////
+            case "asqdebuggui":
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $DIC->tabs()->activateTab('assQuestions');
+                $gui = new asqDebugGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+            break;
+            ///////////////////
+
 			case 'illtiproviderobjectsettinggui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -481,7 +516,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$qid = 0;
 				}
-				
+
 				$this->prepareOutput();
 				if(!in_array($cmd, array('addQuestion', 'browseForQuestions')))
 				{
@@ -507,9 +542,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
+
 				require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 
 				$q_gui = assQuestionGUI::_getQuestionGUI("", $qid);
+
+
 				if(!($q_gui instanceof assQuestionGUI))
 				{
 					$this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', '');
@@ -517,13 +555,13 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 
 				$q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
-				
+
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
-				
+
 				$q_gui->setTargetGuiClass(null);
 				$q_gui->setQuestionActionCmd(null);
-				
+
 				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 
@@ -775,18 +813,19 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if (!$qid || $qid == 'Array')
 		{
-			$questions = $this->object->getQuestionTitlesAndIndexes();
-			if (!is_array($questions))
+            $questions = $this->object->getQuestionTitlesAndIndexes();
+            if (!is_array($questions))
 				$questions = array();
 			
 			$keys = array_keys($questions);
 			$qid = $keys[0];
-			
-			$_REQUEST['q_id'] = $qid;
+
+            $_REQUEST['q_id'] = $qid;
 			$_GET['q_id'] = $qid;
 			$_POST['q_id'] = $qid;
 		}
-		
+
+
 		if( $this->object->checkQuestionParent($qid) )
 		{
 			return $qid;
@@ -2313,7 +2352,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CONTEXT_PARAMETER, $context);
 		
 		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_POOLS);
-		
+
+
 		$toolbar->addButton($this->lng->txt("tst_browse_for_qpl_questions"), $this->ctrl->getLinkTargetByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::CMD_BROWSE_QUESTIONS));
 		
 		$this->ctrl->setParameterByClass('ilTestQuestionBrowserTableGUI', ilTestQuestionBrowserTableGUI::MODE_PARAMETER, ilTestQuestionBrowserTableGUI::MODE_BROWSE_TESTS);
@@ -3174,7 +3214,7 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 
 		global $DIC;
-		$ilToolbar = $DIC['ilToolbar'];
+		$ilToolbar = $DIC->toolbar();
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
 		
@@ -3190,7 +3230,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if($this->object->evalTotalPersons() == 0)
 		{
-			/*
+            /*
 			include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 			$pool = new ilObjQuestionPool();
 			$questionTypes = $pool->getQuestionTypes();$options = array();
@@ -3202,16 +3242,14 @@ class ilObjTestGUI extends ilObjectGUI
 					$si = new ilSelectInputGUI($lng->txt("test_add_new_question"), "qtype");
 					$si->setOptions($options);
 					$ilToolbar->addInputItem($si, true);
-			/*
+/*
 					// use pool
 					if ($this->object->isExpressModeQuestionPoolAllowed()) {
 						include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
 						$cb = new ilCheckboxInputGUI($lng->txt("test_use_pool"), "use_pool");
 						$ilToolbar->addInputItem($cb, true);
-					}
-			*/
-			$ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
-
+					}*/
+            $ilToolbar->addFormButton($lng->txt("ass_create_question"), "addQuestion");
 			$ilToolbar->addSeparator();
 
 			if($this->object->getPoolUsage())

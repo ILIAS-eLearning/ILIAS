@@ -89,6 +89,28 @@ class QuestionDto {
 	}
 
 
+    /**
+     * @param string $revision_id
+     */
+    public function setRevisionId(string $revision_id) : void
+    {
+        $this->revision_id = $revision_id;
+    }
+
+
+
+
+    /**
+     * @param string $revision_name
+     */
+    public function setRevisionName(string $revision_name) : void
+    {
+        $this->revision_name = $revision_name;
+    }
+
+
+
+
 	/**
 	 * @return string
 	 */

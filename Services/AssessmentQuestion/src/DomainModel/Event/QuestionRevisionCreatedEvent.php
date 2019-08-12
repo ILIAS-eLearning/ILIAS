@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
 use ilDateTimeException;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
+use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
 
 /**
  * Class QuestionRevisionCreatedEvent
@@ -17,25 +17,27 @@ use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionRevisionCreatedEvent extends AbstractDomainEvent {
+class QuestionRevisionCreatedEvent extends AbstractIlContainerDomainEvent {
 	public const NAME = 'QuestionRevisionCreatedEvent';
 	/**
 	 * @var string
 	 */
 	public $revision_key;
 
+
     /**
      * QuestionRevisionCreatedEvent constructor.
      *
      * @param DomainObjectId $id
-     * @param int            $creator_id
+     * @param int            $container_obj_id
+     * @param int            $initating_user_id
      * @param string         $revision_key
      *
      * @throws ilDateTimeException
      */
-	public function __construct(DomainObjectId $id, int $creator_id, string $revision_key = "")
+	public function __construct(DomainObjectId $id, int $container_obj_id, int $initating_user_id, string $revision_key = "")
 	{
-		parent::__construct($id, $creator_id);
+		parent::__construct($id, $container_obj_id, $initating_user_id);
 		$this->revision_key = $revision_key;
 	}
 

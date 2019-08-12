@@ -50,7 +50,7 @@ class AnswerOption implements JsonSerializable {
 
 
 	/**
-	 * @return mixed
+	 * @return DisplayDefinition
 	 */
 	public function getDisplayDefinition() {
 		return $this->display_definition;

@@ -1,7 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Contracts\AuthoringServiceSpecContract;
+use ILIAS\UI\Component\Link\Link;
 
 require_once './Services/Object/classes/class.ilObjectGUI.php';
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
@@ -42,6 +44,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	 * @var ilObjQuestionPool
 	 */
 	public $object;
+	/**
+	 * @var AuthoringService
+	 */
+	public $authoring_service;
+	/**
+	 * @var Link
+	 */
+	public $back_link;
 	
 	/**
 	* Constructor
@@ -66,7 +76,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
+
+
+
 		parent::__construct("",$_GET["ref_id"], true, false);
+
+		$this->authoring_service = $DIC->assessment()->questionAuthoring($this->object->getId(), $DIC->user()->getId());
+		//TODO
+		$this->back_link = $DIC->ui()->factory()->link()->standard('TODO',$DIC->ctrl()->getLinkTarget($this));
 	}
 
 	/**
@@ -153,8 +170,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case "ilasqquestionauthoringgui":
-				$gui = new ilAsqQuestionAuthoringGUI($this->buildAsqAuthoringSpecification());
-				$this->ctrl->forwardCommand($gui);
+
+
+				//2. Get the specific question authoring service
+				$authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), 	$this->back_link)->getAuthoringGUI();
+
+				$this->ctrl->forwardCommand($authoring_gui);
 				break;
 
 			case "ilcommonactiondispatchergui":
@@ -1125,10 +1146,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$toolbar = new ilToolbarGUI();
 
-			$authoringService = $DIC->assessment()->service()->authoring(
-				$this->buildAsqAuthoringSpecification(), $DIC->assessment()->consumer()->newQuestionUuid()
-			);
-			$creationLinkComponent = $authoringService->getCreationLink([ilRepositoryGUI::class,static::class]);
+			$creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), $this->back_link)->getCreationLink(['ilObjQuestionPoolGUI']);
 
 
 			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
