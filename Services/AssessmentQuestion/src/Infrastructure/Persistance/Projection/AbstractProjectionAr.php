@@ -220,15 +220,6 @@ abstract class AbstractProjectionAr extends ActiveRecord implements ProjectionAr
         throw new ilException("Update is not supported - It's only possible to add new records to this store!");
     }
 
-
-    /**
-     * @throws ilException
-     */
-    public function delete() {
-        throw new ilException("Delete is not supported - It's only possible to add new records to this store!");
-    }
-
-
     /**
      * @throws ilException
      */

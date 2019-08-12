@@ -74,7 +74,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 			foreach ($this->definitions as $definition) {
 				$tpl->setCurrentBlock('body_entry');
 				$tpl->setVariable('ENTRY_CLASS', ''); //TODO get class by type
-				$tpl->setVariable('ENTRY', $this->generateField($definition, $row_id, $option !== null ? $option->rawValues()[$def_pos] : null));
+				$raw = $option->rawValues();
+				$tpl->setVariable('ENTRY', $this->generateField($definition, $row_id, $option !== null ? $option->rawValues()[$definition->getPostVar()] : null));
 				$tpl->parseCurrentBlock();
 
 				$def_pos += 1;

@@ -37,6 +37,8 @@ class ProjectQuestions implements Projection {
 	    /** @var Question $projectee */
 		$revision_id = $projectee->getRevisionId()->GetKey();
 
+		$question_id = $projectee->getAggregateId()->getId();
+		
         /**
          * @var AnswerOption[] $arr_answer_option
          */
@@ -48,7 +50,7 @@ class ProjectQuestions implements Projection {
             $projected_answer_option = new AnswerOptionChoiceAr();
             $projected_answer_option->setData(
                 $projectee->getContainerObjId(), 
-                $projectee->getAggregateId()->getId(), 
+                $question_id,
                 $revision_id, 
                 $values[ChoiceEditorDisplayDefinition::VAR_MCDD_TEXT], 
                 $values[ChoiceEditorDisplayDefinition::VAR_MCDD_IMAGE], 
@@ -63,7 +65,7 @@ class ProjectQuestions implements Projection {
         $mc_ar = new MultipleChoiceQuestionAr();
         $mc_ar->setData(
             $projectee->getContainerObjId(),
-            $projectee->getAggregateId()->getId(),
+            $question_id,
             $revision_id, 
             $mc_config->isShuffleAnswers(), 
             $mc_config->getMaxAnswers(), 
@@ -71,9 +73,10 @@ class ProjectQuestions implements Projection {
             $mc_config->isSingleLine());
         
 		$repository = new PublishedQuestionRepository();
+
         $repository->saveNewQuestionRevision(
             $projectee->getContainerObjId(),
-            $projectee->getAggregateId()->getId(),
+            $question_id,
             $revision_id,
             $projectee->getData(),
             $mc_ar,

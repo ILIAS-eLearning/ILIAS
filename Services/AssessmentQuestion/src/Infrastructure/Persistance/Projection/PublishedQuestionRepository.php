@@ -15,31 +15,12 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition
 class PublishedQuestionRepository
 {
     /**
-     * @var array
-     */
-    protected $question_data_storages;
-    /**
-     * @var array
-     */
-    protected $answer_option_storages;
-
-
-    public function __construct()
-    {
-        $this->question_data_storages = [];
-        $this->answer_option_storages = [];
-    }
-
-
-    /**
-     * @param string                    $container_obj_id
-     * @param string                    $question_id
-     * @param string                    $revision_id
-     * @param string                    $title
-     * @param string                    $description
-     * @param string                    $question
-     * @param AbstractProjectionAr      $question_data
-     * @param AbstractProjectionAr[]    $answer_options
+     * @param string $container_obj_id
+     * @param string $question_id
+     * @param string $revision_id
+     * @param QuestionData $data
+     * @param AbstractProjectionAr $question_data
+     * @param array $answer_options
      */
     public function saveNewQuestionRevision(
         string $container_obj_id,
@@ -130,26 +111,19 @@ class PublishedQuestionRepository
 
     public function unpublishCurrentRevision(string $question_id, int $container_obj_id)
     {
-        $storages = array_merge($this->question_data_storages,$this->answer_option_storages );
-
-        foreach ($storages as $storage) {
-            /**
-             * @var ProjectionAr $storage
-             */
-            $items = $storage->where([
-                    'question_id'                   => $question_id,
-                    'is_current_container_revision' => 1,
-                    'container_obj_id'              => $container_obj_id,
-                ]
-            )->get();
-            if (count($items)) {
-                foreach ($items as $item) {
-                    /**
-                     * @var QuestionListItemAr $item
-                     */
-                    $item->updateIsCurrentContainerRevisionToNo();
-                }
+        /** @var QuestionListItemAr $question */
+        $question = QuestionListItemAr::where(['question_id' => $question_id])->first();
+        
+        if (!is_null($question)) {
+            foreach(MultipleChoiceQuestionAr::where(['revision_id' => $question->getRevisionId()])->get() as $mc_ar) {
+                $mc_ar->delete();
+            }
+            
+            foreach(AnswerOptionChoiceAr::where(['revision_id' => $question->getRevisionId()])->get() as $answer_option) {
+                $answer_option->delete();
             }
         }
+        
+        $question->delete();
     }
 }
