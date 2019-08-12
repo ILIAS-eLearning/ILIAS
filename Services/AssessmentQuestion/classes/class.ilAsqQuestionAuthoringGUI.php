@@ -137,7 +137,7 @@ class ilAsqQuestionAuthoringGUI
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "POST":
-                $answer = new Answer($DIC->user()->getId(), $question_id, self::DEBUG_TEST_ID, $question_component->readAnswer());
+                $answer = new Answer($DIC->user()->getId(), $question_id, $this->container_obj_id, $question_component->readAnswer());
                 $question_component->setAnswer($answer);
 
                 $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
@@ -164,13 +164,13 @@ class ilAsqQuestionAuthoringGUI
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":
-                $answer = $player->GetUserAnswer($question->getId(), (int)$DIC->user()->getId(), self::DEBUG_TEST_ID);
+                $answer = $player->GetUserAnswer($question->getId(), (int)$DIC->user()->getId(), $this->container_obj_id);
                 if (!is_null($answer)) {
                     $question_component->setAnswer($answer);
                 }
                 break;
             case "POST":
-                $answer = new Answer($DIC->user()->getId(), $question->getId(), self::DEBUG_TEST_ID, $question_component->readAnswer());
+                $answer = new Answer($DIC->user()->getId(), $question->getId(), $this->container_obj_id, $question_component->readAnswer());
                 $player->AnswerQuestion($answer);
                 $question_component->setAnswer($answer);
                 break;
@@ -189,7 +189,7 @@ class ilAsqQuestionAuthoringGUI
         $question_id = $_GET[self::VAR_QUESTION_ID];
         
         $DIC->ui()->mainTemplate()->setContent($player->GetPointsByUser($question_id,
-        $DIC->user()->getId(), self::DEBUG_TEST_ID));
+        $DIC->user()->getId(), $this->container_obj_id));
 
     }
 }

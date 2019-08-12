@@ -280,7 +280,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      */
     public function getContainerObjId() : int
     {
-        return 23;
+       return $this->container_obj_id;
     }
 
 	/**
