@@ -6,23 +6,52 @@
  */
 class ilCertificateBackgroundImageDelete
 {
+
+    /**
+     * @var string
+     */
+    private $certificatePath;
+
+    /**
+     * @param $certificatePath
+     */
+    public function __construct(string $certificatePath)
+    {
+        $this->certificatePath = $certificatePath;
+    }
+
     public function deleteBackgroundImage(string $version)
     {
-        $result = true;
         if (file_exists($this->getBackgroundImageThumbPath())) {
-            $result = $result & unlink($this->getBackgroundImageThumbPath());
+            unlink($this->getBackgroundImageThumbPath());
         }
 
         $filename = $this->getBackgroundImageDirectory() . 'background_' . $version . '.jpg';
         if (file_exists($filename)) {
-            $result = $result & unlink($filename);
+            unlink($filename);
         }
 
         if (file_exists($this->getBackgroundImageTempfilePath())) {
-            $result = $result & unlink($this->getBackgroundImageTempfilePath());
+            unlink($this->getBackgroundImageTempfilePath());
+        }
+    }
+
+    /**
+     * Returns the filesystem path of the background image
+     * @param  bool $asRelative
+     * @return string The filesystem path of the background image
+     */
+    public function getBackgroundImageDirectory($asRelative = false, $backgroundImagePath = '')
+    {
+        if ($asRelative) {
+            return str_replace(
+                array(CLIENT_WEB_DIR, '//'),
+                array('[CLIENT_WEB_DIR]', '/'),
+                $backgroundImagePath
+            );
         }
 
-        return $result;
+        return $this->certificatePath;
     }
 
     /**
