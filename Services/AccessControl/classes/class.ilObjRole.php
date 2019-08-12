@@ -553,6 +553,55 @@ class ilObjRole extends ilObject
 
 		return implode('_',$role_title_parts);
 	}
+
+	/**
+	 * Get and Sort sub object types
+	 *
+	 * @param string $a_obj_type
+	 * @param boolean $a_add_admin_objects
+	 * @return array
+	 */
+	public static function getSubObjects($a_obj_type, $a_add_admin_objects)
+	{
+		global $DIC;
+		/**
+		 * @var ilObjectDefinition $objDefinition
+		 */
+		$objDefinition = $DIC['objDefinition'];
+		$lng = $DIC->language();
+		$subs = $objDefinition->getSubObjectsRecursively($a_obj_type,true,$a_add_admin_objects);
+
+		$filter = array();
+		$sorted = array();
+		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+		if(!ilECSSetting::_ecsConfigured()){
+			include_once './Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
+			$filter = array_merge($filter ,ilECSEventQueueReader::getAllEContentTypes());
+		}
+
+		foreach($subs as $subtype => $def)
+		{
+			if($objDefinition->isPlugin($subtype))
+			{
+				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
+			}
+			elseif($objDefinition->isSystemObject($subtype))
+			{
+				$translation = $lng->txt("obj_".$subtype);
+			}
+			else
+			{
+				$translation = $lng->txt('objs_'.$subtype);
+			}
+
+			if(!in_array($def["name"],$filter)) {
+				$sorted[$subtype] = $def;
+				$sorted[$subtype]['translation'] = $translation;
+			}
+		}
+
+		return ilUtil::sortArray($sorted, 'translation','asc',true,true);
+	}
 	
 	static function _updateAuthMode($a_roles)
 	{
