@@ -1301,16 +1301,16 @@ class ilObjFile extends ilObject2
      * @return array The file versions.
      *
      *               Example:  array (
-    'date' => '2019-07-25 11:19:51',
-    'user_id' => '6',
-    'obj_id' => '287',
-    'obj_type' => 'file',
-    'action' => 'create',
-    'info_params' => 'chicken_outlined.pdf,1,1',
-    'user_comment' => '',
-    'hist_entry_id' => '3',
-    'title' => NULL,
-    )
+     * 'date' => '2019-07-25 11:19:51',
+     * 'user_id' => '6',
+     * 'obj_id' => '287',
+     * 'obj_type' => 'file',
+     * 'action' => 'create',
+     * 'info_params' => 'chicken_outlined.pdf,1,1',
+     * 'user_comment' => '',
+     * 'hist_entry_id' => '3',
+     * 'title' => NULL,
+     * )
      */
     public function getVersions($version_ids = null) : array
     {

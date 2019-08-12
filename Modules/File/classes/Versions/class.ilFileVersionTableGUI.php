@@ -50,7 +50,6 @@ class ilFileVersionTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setEnableHeader(true);
 
-
         // properties depending on confirmation
         if (!$this->confirmDelete) {
             $this->setTitle($lng->txt("versions"));
@@ -58,7 +57,8 @@ class ilFileVersionTableGUI extends ilTable2GUI
         }
 
         // columns
-        if (!$this->confirmDelete) {$this->disable("footer");
+        if (!$this->confirmDelete) {
+            $this->disable("footer");
             $this->addColumn("", "", "1", true);
         }
 
