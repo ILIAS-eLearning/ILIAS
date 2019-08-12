@@ -11,13 +11,13 @@ use \ILIAS\UI\Implementation\Component\Tree\Node\Bylined;
 
 class Factory implements INode\Factory
 {
-    /**
-     * @inheritdoc
-     */
-    public function simple(string $label, IIcon $icon = null, URI $link = null) : INode\Simple
-    {
-        return new Simple($label, $icon, $link);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function simple(string $label, IIcon $icon = null, URI $link = null) : INode\Simple
+	{
+		return new Simple($label, $icon, $link);
+	}
 
 	public function bylined(string $label, string $byline, IIcon $icon = null) : IByline
 	{
