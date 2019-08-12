@@ -17,5 +17,5 @@ if [[ -x "$PHP_CS_FIXER" ]]
 	printLn "Command exited with code: $PIPE_EXIT_CODE"
 else
 	printLn "No php-cs-fixer found, please install it with the following command:"
-	printLn "\tcomposer require friendsofphp/php-cs-fixer"
+	printLn "\tcd libs/composer/ && composer install"
 fi
