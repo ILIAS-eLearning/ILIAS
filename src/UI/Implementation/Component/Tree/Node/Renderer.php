@@ -29,8 +29,8 @@ class Renderer extends AbstractComponentRenderer {
 		}
 
 		if ($component instanceof Node\Bylined && null !== $component->getByline()) {
-            $tpl->setVariable('BYLINE', $component->getByline());
-        }
+			$tpl->setVariable('BYLINE', $component->getByline());
+		}
 
 		$tpl->setVariable("LABEL", $component->getLabel());
 
@@ -107,7 +107,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return array(
 			Node\Simple::class,
-            Node\Bylined::class
+			Node\Bylined::class
 		);
 	}
 }
