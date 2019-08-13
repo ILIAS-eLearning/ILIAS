@@ -102,25 +102,41 @@ class ilLMEditorGUI
 		$this->tree->setTableNames('lm_tree','lm_data');
 		$this->tree->setTreeTablePK("lm_id");
 
-		if ($this->obj_id > 0 && ilLMObject::_lookupContObjID($this->obj_id) != $this->lm_obj->getId())
-		{
-			throw new ilException("Object ID does not match learning module.");
-		}
-		if ($_REQUEST["active_node"] > 0 && ilLMObject::_lookupContObjID((int) $_REQUEST["active_node"]) != $this->lm_obj->getId())
-		{
-			throw new ilException("Active node does not match learning module.");
-		}
 
 		$ilNavigationHistory->addItem($_GET["ref_id"],
 			"ilias.php?baseClass=ilLMEditorGUI&ref_id=".$_GET["ref_id"], "lm");
 
-	}
+        $this->checkRequestParameters();
 
-	/**
-	* execute command
-	*/
+	}
+	
+    /**
+     * Check request parameters
+     * @throws ilCtrlException
+     * @throws ilException
+     */
+    protected function checkRequestParameters()
+    {
+        $forwards_to_role = $this->ctrl->checkCurrentPathForClass("ilobjrolegui");
+
+        if (!$forwards_to_role && $this->obj_id > 0 && ilLMObject::_lookupContObjID($this->obj_id) != $this->lm_obj->getId())
+        {
+            throw new ilException("Object ID does not match learning module.");
+
+        }
+        if ($_REQUEST["active_node"] > 0 && ilLMObject::_lookupContObjID((int) $_REQUEST["active_node"]) != $this->lm_obj->getId())
+        {
+            throw new ilException("Active node does not match learning module.");
+        }
+    }
+	
+
+    /**
+     * @throws ilCtrlException
+     * @throws ilException
+     */
 	function executeCommand()
-	{
+    {
 
 		$ilHelp = $this->help;
 		
