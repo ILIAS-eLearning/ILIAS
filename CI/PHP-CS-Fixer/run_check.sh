@@ -1,13 +1,6 @@
 #!/bin/bash
-PHPFIX_RESULTS_PATH="/tmp/phpfix_results"
-PHP_CS_FIXER="libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
-TRAVIS_RESULTS_DIRECTORY="/tmp/CI-Results/"
-
-PRE="\t*** "
-
-function printLn() {
-	echo -e "$PRE $1"
-}
+source CI/Import/Functions.sh
+source CI/Import/Variables.sh
 
 if [[ -x "$PHP_CS_FIXER" ]]
   then
