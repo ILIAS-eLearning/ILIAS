@@ -1883,4 +1883,21 @@ class ilCtrl
 			$ilDB->quote($a_comp_prefix, "text").
 			")");
 	}
+
+    /**
+     * Check if current path contains a certain gui class
+     *
+     * @param $gui_class
+     * @return bool
+     * @throws ilCtrlException
+     */
+    public function checkCurrentPathForClass($gui_class)
+    {
+        foreach (explode(":", $this->getCmdNode()) as $cid) {
+            if ($cid != "" && strtolower($this->getClassForCid($cid)) == strtolower($gui_class)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
