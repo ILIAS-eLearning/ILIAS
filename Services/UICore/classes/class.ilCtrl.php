@@ -2024,7 +2024,7 @@ class ilCtrl
     public function checkCurrentPathForClass($gui_class)
     {
         foreach (explode(":", $this->getCmdNode()) as $cid) {
-            if (strtolower($this->getClassForCid($cid)) == strtolower($gui_class)) {
+            if ($cid != "" && strtolower($this->getClassForCid($cid)) == strtolower($gui_class)) {
                 return true;
             }
         }
