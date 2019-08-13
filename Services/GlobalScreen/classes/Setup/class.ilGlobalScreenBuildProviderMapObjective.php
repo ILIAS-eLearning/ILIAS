@@ -1,9 +1,10 @@
 <?php
 
-use ILIAS\Setup;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
+use ILIAS\Setup;
 
 /**
  * Class ilGSBootLoaderBuilder
@@ -12,17 +13,21 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  */
 class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjective
 {
-    public function getArtifactPath() : string {
+
+    public function getArtifactPath() : string
+    {
         return "Services/GlobalScreen/artifacts/global_screen_providers.php";
     }
 
+
     public function build() : Setup\Artifact
-	{
+    {
         $class_names = [];
         $i = [
             StaticMainMenuProvider::class,
             StaticMetaBarProvider::class,
             DynamicToolProvider::class,
+            ModificationProvider::class,
         ];
 
         foreach ($i as $interface) {
