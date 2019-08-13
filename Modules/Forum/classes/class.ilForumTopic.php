@@ -246,25 +246,6 @@ class ilForumTopic
 	}
 	
 	/**
-	* Fetches the primary key of the first post node of the current topic from database and returns it.
-	*
-	* @return  	integer		primary key of the first post node
-	* @access 	public
-	*/
-	public function getFirstPostId()
-	{ 
-		$res = $this->db->queryf('
-			SELECT * FROM frm_posts_tree 
-			WHERE thr_fk = %s
-			AND parent_pos = %s',
-			array('integer', 'integer'), array($this->id, '1'));
-		
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-		
-		return $row->pos_fk ? $row->pos_fk : 0;
-	}
-	
-	/**
 	* Updates the visit counter of the current topic.
 	* 
 	* @access	public
