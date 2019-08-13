@@ -40,11 +40,6 @@ class ilObjLearningSequence extends ilContainer
 	protected $ls_settings;
 
 	/**
-	 * @var ilLearningSequenceFileSystem
-	 */
-	protected $ls_file_system;
-
-	/**
 	 * @var ilLSStateDB
 	 */
 	protected $state_db;
@@ -69,32 +64,22 @@ class ilObjLearningSequence extends ilContainer
 	 */
 	protected $ls_activation;
 
-	/**
-	 * @var LSItemOnlineStatus
-	 */
-	protected $ls_item_online_status;
 
 	public function __construct(int $id = 0, bool $call_by_reference = true)
 	{
 		global $DIC;
+		$this->dic = $DIC;
 
 		$this->type = self::OBJ_TYPE;
 		$this->lng = $DIC['lng'];
 		$this->ctrl = $DIC['ilCtrl'];
 		$this->user = $DIC['ilUser'];
 		$this->tree = $DIC['tree'];
-		$this->template = $DIC['tpl'];
-		$this->database = $DIC['ilDB'];
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
 		$this->rbacadmin = $DIC['rbacadmin'];
-		$this->rbacreview = $DIC['rbacreview'];
 		$this->app_event_handler = $DIC['ilAppEventHandler'];
-		$this->filesystem = $DIC['filesystem'];
-		$this->ilias = $DIC['ilias'];
-		$this->il_settings = $DIC['ilSetting'];
 		$this->il_news = $DIC->news();
 		$this->il_condition_handler = new ilConditionHandler();
-		$this->data_factory = new \ILIAS\Data\Factory();
 
 		parent::__construct($id, $call_by_reference);
 	}
@@ -231,14 +216,28 @@ class ilObjLearningSequence extends ilContainer
 		$lp_settings->cloneSettings($obj_id);
 	}
 
+
+	use ilLSLocalDI;
+	public function getLocalDI(): \ArrayAccess
+	{
+		if (is_null($this->di)) {
+			$this->di = $this->getLSLocalDI(
+				$this,
+				$this->getDIC()
+			);
+		}
+		return $this->di;
+	}
+
+	protected function getDIC(): \ArrayAccess
+	{
+		return $this->dic;
+	}
+
 	protected function getSettingsDB(): ilLearningSequenceSettingsDB
 	{
 		if (!$this->settings_db) {
-			$fs =$this->getLSFileSystem();
-			$this->settings_db = new ilLearningSequenceSettingsDB(
-				$this->database,
-				$fs
-			);
+			$this->settings_db = $this->getLocalDI()['db.settings'];
 		}
 		return $this->settings_db;
 	}
@@ -246,9 +245,7 @@ class ilObjLearningSequence extends ilContainer
 	protected function getActivationDB(): ilLearningSequenceActivationDB
 	{
 		if (!$this->activation_db) {
-			$this->activation_db = new ilLearningSequenceActivationDB(
-				$this->database
-			);
+			$this->activation_db = $this->getLocalDI()['db.activation'];
 		}
 		return $this->activation_db;
 	}
@@ -266,14 +263,6 @@ class ilObjLearningSequence extends ilContainer
 	{
 		$this->getActivationDB()->store($settings);
 		$this->ls_activation = $settings;
-	}
-
-	public function getLSFileSystem()
-	{
-		if (!$this->ls_file_system) {
-			$this->ls_file_system = new ilLearningSequenceFilesystem();
-		}
-		return $this->ls_file_system;
 	}
 
 	public function getLSSettings(): ilLearningSequenceSettings
@@ -294,44 +283,23 @@ class ilObjLearningSequence extends ilContainer
 	protected function getLSItemsDB(): ilLSItemsDB
 	{
 		if (!$this->items_db) {
-			$this->items_db = new ilLSItemsDB(
-				$this->tree,
-				ilContainerSorting::_getInstance($this->getId()),
-				$this->getPostConditionDB(),
-				$this->getLSItemOnlineStatus()
-			);
+			$this->items_db = $this->getLocalDI()['db.lsitems'];
 		}
-
 		return $this->items_db;
 	}
 
 	protected function getPostConditionDB(): ilLSPostConditionDB
 	{
 		if (!$this->conditions_db) {
-			$this->conditions_db = new ilLSPostConditionDB($this->database);
+			$this->conditions_db = $this->getLocalDI()["db.postconditions"];
 		}
-
 		return $this->conditions_db;
-	}
-
-	protected function getLSItemOnlineStatus(): LSItemOnlineStatus
-	{
-		if (!$this->ls_item_online_status) {
-			$this->ls_item_online_status = new LSItemOnlineStatus();
-		}
-
-		return $this->ls_item_online_status;
 	}
 
 	public function getLSParticipants(): ilLearningSequenceParticipants
 	{
 		if (!$this->ls_participant) {
-			$this->ls_participant = new ilLearningSequenceParticipants(
-				(int)$this->getId(),
-				$this->log,
-				$this->app_event_handler,
-				$this->il_settings
-			);
+			$this->ls_participant = $this->getLocalDI()['participants'];
 		}
 
 		return $this->ls_participant;
@@ -385,7 +353,7 @@ class ilObjLearningSequence extends ilContainer
 	{
 		$condition_types = $this->il_condition_handler->getOperatorsByTriggerType($type);
 		$conditions = [
-			$this->conditions_db::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
+			$this->getPostConditionDB()::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
 		];
 		foreach ($condition_types as $cond_type) {
 			$conditions[$cond_type] = $this->lng->txt($cond_type);
@@ -397,22 +365,16 @@ class ilObjLearningSequence extends ilContainer
 	protected function getLearnerProgressDB(): ilLearnerProgressDB
 	{
 		if(! $this->learner_progress_db) {
-			$state_db = $this->getStateDB();
-			$this->learner_progress_db = new ilLearnerProgressDB(
-				$state_db,
-				$this->access
-			);
+			$this->learner_progress_db = $this->getLocalDI()['db.progress'];
 		}
-
 		return $this->learner_progress_db;
 	}
 
 	public function getStateDB(): ilLSStateDB
 	{
 		if (!$this->state_db) {
-			$this->state_db = new ilLSStateDB($this->database);
+			$this->state_db = $this->getLocalDI()['db.states'];
 		}
-
 		return $this->state_db;
 	}
 
@@ -428,15 +390,7 @@ class ilObjLearningSequence extends ilContainer
 	public function getLSRoles(): ilLearningSequenceRoles
 	{
 		if (!$this->ls_roles) {
-			$this->ls_roles = new ilLearningSequenceRoles(
-				$this,
-				$this->getLSParticipants(),
-				$this->ctrl,
-				$this->rbacadmin,
-				$this->rbacreview,
-				$this->database,
-				$this->user
-			);
+			$this->ls_roles = $this->getLocalDI()['roles'];
 		}
 		return $this->ls_roles;
 	}
@@ -598,16 +552,10 @@ class ilObjLearningSequence extends ilContainer
 	{
 		return $this->getLSRoles()->getDefaultAdminRole();
 	}
-
-	public function addMember($user_id, $mem_role): bool
-	{
-		return $this->getLSRoles()->addLSMember($user_id, $mem_role);
-	}
-
+/
 	public function join(int $user_id)
 	{
-		$member_role = $this->getDefaultMemberRole();
-		return $this->getLSRoles()->join($user_id, $member_role);
+		return $this->getLSRoles()->join($user_id);
 	}
 
 	public function leaveLearningSequence()

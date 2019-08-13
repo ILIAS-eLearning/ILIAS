@@ -78,11 +78,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
 
-	/*
-	 * @var ILIAS\GlobalScreen\Scope\Layout\LayoutServices
-	 */
-	protected $layout_service;
-
 	public $object;
 
 	public static function _goto(string $target)
@@ -116,7 +111,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->rbac_review = $DIC['rbacreview'];
 		$this->ui_factory = $DIC['ui.factory'];
 		$this->ui_renderer = $DIC['ui.renderer'];
-		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
+
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
 		$this->app_event_handler = $DIC['ilAppEventHandler'];
 		$this->navigation_history = $DIC['ilNavigationHistory'];
@@ -124,7 +119,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->tpl = $DIC["tpl"];
 		$this->obj_service = $DIC->object();
 		$this->toolbar = $DIC['ilToolbar'];
-		$this->layout_service = $DIC->globalScreen()->layout();
 
 		$this->help->setScreenIdComponent($this->obj_type);
 		$this->lng->loadLanguageModule($this->obj_type);
@@ -351,27 +345,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->addSubTabsForContent($cmd);
 		$this->tabs->activateSubTab(self::TAB_VIEW_CONTENT);
 
-		$usr_id = (int)$this->user->getId();
-		$items = $this->getLearnerItems($usr_id);
-		$current_item_ref_id = $this->getCurrentItemForLearner($usr_id);
-
-		$gui = new ilObjLearningSequenceLearnerGUI(
-			$this->getObject(),
-			$usr_id,
-			$items,
-			$current_item_ref_id,
-			$this->ctrl,
-			$this->lng,
-			$this->tpl,
-			$this->toolbar,
-			$this->kiosk_mode_service,
-			$this->access,
-			$this->settings,
-			$this->ui_factory,
-			$this->ui_renderer,
-			$this->data_factory,
-			$this->layout_service
-		);
+		$gui = $this->object->getLocalDI()["gui.learner"];
 
 		$this->ctrl->setCmd($cmd);
 		$this->ctrl->forwardCommand($gui);
@@ -644,16 +618,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$link .= ilLink::_getLink($this->object->getRefId());
 
 		return rawurlencode(base64_encode($link));
-	}
-
-	protected function getLearnerItems(int $usr_id): array
-	{
-		return $this->getObject()->getLSLearnerItems($usr_id);
-	}
-
-	protected function getCurrentItemForLearner(int $usr_id): int
-	{
-		return $this->getObject()->getCurrentItemForLearner($usr_id);
 	}
 
 	public function getObject()

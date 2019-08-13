@@ -6,6 +6,9 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Listing\Workflow\Workflow;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
+
+
 
 /**
  * Class ilKioskPageRenderer
@@ -14,7 +17,7 @@ class ilKioskPageRenderer
 {
 	public function __construct(
 		ilGlobalPageTemplate $il_global_template,
-		LayoutServices $layout_service,
+		MetaContent $layout_meta_content,
 		Renderer $ui_renderer,
 		ilTemplate $kiosk_template,
 		ilLSTOCGUI $toc_gui,
@@ -22,7 +25,7 @@ class ilKioskPageRenderer
 		string $window_base_title
 	) {
 		$this->il_tpl = $il_global_template;
-		$this->layout_service = $layout_service;
+		$this->layout_meta_content = $layout_meta_content;
 		$this->ui_renderer = $ui_renderer;
 		$this->tpl = $kiosk_template;
 		$this->toc_gui = $toc_gui;
@@ -146,7 +149,7 @@ class ilKioskPageRenderer
 		$js_files = [
 			'./Services/JavaScript/js/Basic.js'
 		];
-		foreach ($this->layout_service->meta()->getJs()->getItemsInOrderOfDelivery() as $js_file) {
+		foreach ($this->layout_meta_content->getJs()->getItemsInOrderOfDelivery() as $js_file) {
 			$file = $js_file->getContent();
 			if(!strpos($file, 'Services/FileUpload/js')) {
 				$js_files[] = $file;
@@ -158,7 +161,7 @@ class ilKioskPageRenderer
 	protected function getOnLoadCode(): string
 	{
 		$js_inline = [];
-		foreach ($this->layout_service->meta()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
+		foreach ($this->layout_meta_content->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
 			$js_inline[] = $on_load_code->getContent();
 		}
 		return implode(PHP_EOL, $js_inline);
@@ -166,7 +169,7 @@ class ilKioskPageRenderer
 
 	protected function getCSSFiles(): array
 	{
-		$css_files = $this->layout_service->meta()->getCSS()->getItemsInOrderOfDelivery();
+		$css_files = $this->layout_meta_content->getCSS()->getItemsInOrderOfDelivery();
 		$css_files = array_map(
 			function($css_file) {
 				return $css_file->getContent();
@@ -182,7 +185,7 @@ class ilKioskPageRenderer
 	protected function getInlineCSS(): string
 	{
 		$css_inline = [];
-		foreach ($this->layout_service->meta()->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
+		foreach ($this->layout_meta_content->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
 			$css_inline[] = $inline_css->getContent();
 		}
 		return implode(PHP_EOL, $css_inline);

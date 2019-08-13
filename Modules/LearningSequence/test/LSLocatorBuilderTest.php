@@ -19,7 +19,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
 		return preg_replace('!\s+!', ' ', $html);
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$cb = $this->createMock(LSControlBuilder::class);
 		$this->lb = new LSLocatorBuilder('cmd', $cb);

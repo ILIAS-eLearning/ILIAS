@@ -134,16 +134,10 @@ class ilLearningSequenceRoles
 		return $this->join($user_id, $role);
 	}
 
-	public function join(int $user_id, $roles): bool
+	public function join(int $user_id): bool
 	{
-		if (is_array($roles)) {
-			foreach ($roles as $role) {
-				$this->rbacadmin->assignUser($role, $user_id, false);
-			}
-		} else {
-			$this->rbacadmin->assignUser($roles, $user_id, false);
-		}
-
+		$role = $this->getDefaultMemberRole();
+		$this->rbacadmin->assignUser($role, $user_id, false);
 		return true;
 	}
 
