@@ -640,13 +640,10 @@ class ilMailFolderGUI
         }
 
         if ((int) $this->mbox->getTrashFolder() === (int) $this->currentFolderId) {
-            if ($this->umail->deleteMails($mailIds)) {
-                ilUtil::sendSuccess($this->lng->txt('mail_deleted'), true);
-                $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
-                $this->ctrl->redirect($this, 'showFolder');
-            } else {
-                ilUtil::sendFailure($this->lng->txt('mail_delete_error'));
-            }
+            $this->umail->deleteMails($mailIds);
+            ilUtil::sendSuccess($this->lng->txt('mail_deleted'), true);
+            $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
+            $this->ctrl->redirect($this, 'showFolder');
         }
 
         $this->showFolder();
@@ -661,7 +658,7 @@ class ilMailFolderGUI
             $mailId = (int) ilSession::get('mail_id');
             ilSession::set('mail_id', null);
         } else {
-            $mailId = $this->httpRequest->getQueryParams()['mail_id'] ?? 0;
+            $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
         }
 
         $mailData = $this->umail->getMail($mailId);
