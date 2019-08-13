@@ -321,86 +321,81 @@ class ilRepositoryGUI
 			$next_class = "";
 		}
 
-		switch ($next_class)
-		{		
-			default:
-				// forward all other classes to gui commands
-				if ($next_class != "" && $next_class != "ilrepositorygui")
+		// forward all other classes to gui commands
+		if ($next_class != "" && $next_class != "ilrepositorygui")
+		{
+			$class_path = $this->ctrl->lookupClassPath($next_class);
+			// get gui class instance
+			require_once($class_path);
+			$class_name = $this->ctrl->getClassForClasspath($class_path);
+			if (!$this->creation_mode)
+			{
+				if(is_subclass_of($class_name, "ilObject2GUI"))
 				{
-					$class_path = $this->ctrl->lookupClassPath($next_class);
-					// get gui class instance
-					require_once($class_path);
-					$class_name = $this->ctrl->getClassForClasspath($class_path);
-					if (!$this->creation_mode)
-					{
-						if(is_subclass_of($class_name, "ilObject2GUI"))
-						{
-							$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
-						}
-						else
-						{
-							$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
-						}						
-					}
-					else
-					{
-						if(is_subclass_of($class_name, "ilObject2GUI"))
-						{
-							$this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
-						}
-						else
-						{
-							$this->gui_obj = new $class_name("", 0, true, false);
-						}
-					}
-					//$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
-
-	
-					$tabs_out = ($new_type == "")
-						? true
-						: false;
-					$this->gui_obj->setCreationMode($this->creation_mode);
-					$this->ctrl->setReturn($this, "return");
-
-					$this->show();
+					$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
 				}
-				else	// 
+				else
 				{
-					// process repository frameset
-					if ($cmd == "frameset")
-					{
-						if ($_SESSION["il_rep_mode"] == "tree")
-						{
-							$this->frameset();
-							return;
-						}
-						$cmd = "";
-						$this->ctrl->setCmd("");
-					}
-					
-					// process tree command
-					if ($cmd == "showTree")
-					{
-						$this->showTree();
-						return;
-					}
-					
-					$cmd = $this->ctrl->getCmd("");
-					
-					// check read access for category
-					if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
-					{
-						$_SESSION["il_rep_ref_id"] = "";
-						$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
-						$this->tpl->printToStdout();
-					}
-					else
-					{
-						$this->cmd = $cmd;
-						$this->$cmd();
-					}
+					$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
 				}
-				break;
+			}
+			else
+			{
+				if(is_subclass_of($class_name, "ilObject2GUI"))
+				{
+					$this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
+				}
+				else
+				{
+					$this->gui_obj = new $class_name("", 0, true, false);
+				}
+			}
+			//$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+
+
+			$tabs_out = ($new_type == "")
+				? true
+				: false;
+			$this->gui_obj->setCreationMode($this->creation_mode);
+			$this->ctrl->setReturn($this, "return");
+
+			$this->show();
+		}
+		else	//
+		{
+			// process repository frameset
+			if ($cmd == "frameset")
+			{
+				if ($_SESSION["il_rep_mode"] == "tree")
+				{
+					$this->frameset();
+					return;
+				}
+				$cmd = "";
+				$this->ctrl->setCmd("");
+			}
+
+			// process tree command
+			if ($cmd == "showTree")
+			{
+				$this->showTree();
+				return;
+			}
+
+			$cmd = $this->ctrl->getCmd("");
+
+			// check read access for category
+			if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id))
+			{
+				$_SESSION["il_rep_ref_id"] = "";
+				$ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
+				$this->tpl->printToStdout();
+			}
+			else
+			{
+				$this->cmd = $cmd;
+				$this->$cmd();
+			}
 		}
 	}
 
