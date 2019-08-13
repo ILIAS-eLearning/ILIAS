@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
@@ -39,7 +40,7 @@ abstract class AbstractScoring {
 	/**
 	 * @return array|null
 	 */
-	public static function generateFields(): ?array {
+	public static function generateFields(?AbstractConfiguration $config): ?array {
 		return [];
 	}
 

@@ -3,13 +3,15 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
-use Exception;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
 use ilSelectInputGUI;
 use ilRadioGroupInputGUI;
 use ilTextInputGUI;
 use ilRadioOption;
+use ilTemplate;
 
 /**
  * Class KprimChoiceEditor
@@ -28,8 +30,6 @@ class KprimChoiceEditor extends AbstractEditor {
     const VAR_LABEL_TYPE = 'kcd_label';
     const VAR_LABEL_TRUE = 'kce_label_true';
     const VAR_LABEL_FALSE = 'kce_label_false';
-    const VAR_POINTS = 'kce_points';
-    const VAR_HALF_POINTS = 'half_points_at';
    
     const STR_TRUE = "true";
     const STR_FALSE = "false";
@@ -49,14 +49,94 @@ class KprimChoiceEditor extends AbstractEditor {
     const STR_ADEQUATE = 'adequate';
     const STR_NOT_ADEQUATE = 'not adequate';
     
+    /**
+     * @var array
+     */
+    private $answer;
+    /**
+     * @var array
+     */
+    private $answer_options;
+    /**
+     * @var KprimChoiceEditorConfiguration
+     */
+    private $configuration;
+    
+    public function __construct(QuestionDto $question) {
+        parent::__construct($question);
+        
+        $this->answer_options = $question->getAnswerOptions()->getOptions();
+        $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
+    }
+    
     public function readAnswer(): string
-    {}
+    {
+        $answers = [];
+        
+        /** @var AnswerOption $answer_option */
+        foreach ($this->answer_options as $answer_option) {
+            $answers[$answer_option->getOptionId()] = $_POST[$this->getPostName($answer_option->getOptionId())];
+        }
+        
+        return json_encode($answers);
+    }
 
+    /**
+     * {@inheritDoc}
+     * @see \ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AbstractEditor::setAnswer()
+     */
     public function setAnswer(string $answer): void
-    {}
+    {
+        $this->answer = json_decode($answer, true);
+    }
 
+    /**
+     * {@inheritDoc}
+     * @see \ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AbstractEditor::generateHtml()
+     */
     public function generateHtml(): string
-    {}
+    {
+        $tpl = new ilTemplate("tpl.KprimChoiceEditor.html", true, true, "Services/AssessmentQuestion");
+        
+        $tpl->setCurrentBlock('header');
+        $tpl->setVariable('INSTRUCTIONTEXT', "You have to decide on every statement: [{$this->configuration->getLabelTrue()}] or [{$this->configuration->getLabelFalse()}]");
+        $tpl->setVariable('OPTION_LABEL_TRUE', $this->configuration->getLabelTrue());
+        $tpl->setVariable('OPTION_LABEL_FALSE', $this->configuration->getLabelFalse());
+        $tpl->parseCurrentBlock();
+        
+        /** @var AnswerOption $answer_option */
+        foreach ($this->answer_options as $answer_option) {
+            /** @var ChoiceEditorDisplayDefinition $display_definition */
+            $display_definition = $answer_option->getDisplayDefinition();
+            
+            $tpl->setCurrentBlock('answer_row');
+            $tpl->setVariable('ANSWER_TEXT', $display_definition->getText());
+            $tpl->setVariable('ANSWER_ID', $this->getPostName($answer_option->getOptionId()));
+            $tpl->setVariable('VALUE_TRUE', self::STR_TRUE);
+            $tpl->setVariable('VALUE_FALSE', self::STR_FALSE);
+            
+            if (!is_null($this->answer)) {
+                if($this->answer[$answer_option->getOptionId()] == self::STR_TRUE) {
+                    $tpl->setVariable('CHECKED_ANSWER_TRUE', 'checked="checked"');
+                } 
+                else if ($this->answer[$answer_option->getOptionId()] == self::STR_FALSE) {
+                    $tpl->setVariable('CHECKED_ANSWER_FALSE', 'checked="checked"');
+                }
+            }
+            
+            $tpl->parseCurrentBlock();
+        }
+        
+        return $tpl->get();
+    }
+
+    /**
+     * @param string $id
+     * @return string
+     */
+    private function getPostName(string $id) {
+        return $this->question->getId() . $id;
+    }
     
     /**
      * 
@@ -82,18 +162,10 @@ class KprimChoiceEditor extends AbstractEditor {
         $optionLabel = KprimChoiceEditor::GenerateOptionLabelField($config);
         $fields[] = $optionLabel;
         
-        $points = new ilNumberInputGUI('points', self::VAR_POINTS);
-        $fields[] = $points;
-        
-        $half_points_at = new ilNumberInputGUI('half_points_at', self::VAR_HALF_POINTS);
-        $fields[] = $half_points_at;
-        
         if ($config !== null) {
             $shuffle->setChecked($config->isShuffleAnswers());
             $thumb_size->setValue($config->getThumbnailSize());
             $singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
-            $points->setValue($config->getPoints());
-            $half_points_at->setValue($config->getHalfPointsAt());
         }
         
         return $fields;
@@ -138,7 +210,9 @@ class KprimChoiceEditor extends AbstractEditor {
             }
             else if ($config->getLabelTrue() === self::STR_ADEQUATE && $config->getLabelFalse() === self::STR_NOT_ADEQUATE) {
                 $optionLabel->setValue(self::LABEL_ADEQUATE);
-            } 
+            } else if (is_null($config->getLabelTrue())) {
+                $optionLabel->setValue(self::LABEL_RIGHT_WRONG);
+            }
             else {
                 $optionLabel->setValue(self::LABEL_CUSTOM);
                 $customLabelTrue->setValue($config->getLabelTrue());
@@ -181,9 +255,7 @@ class KprimChoiceEditor extends AbstractEditor {
             boolval($_POST[self::VAR_SINGLE_LINE]),
             intval($_POST[self::VAR_THUMBNAIL_SIZE]),
             $label_true,
-            $label_false,
-            intval($_POST[self::VAR_POINTS]),
-            intval($_POST[self::VAR_HALF_POINTS]));
+            $label_false);
     }
     
     /**

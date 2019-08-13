@@ -36,22 +36,12 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
      * @var string
      */
     protected $label_false;
-    /**
-     * @var int
-     */
-    protected $points;
-    /**
-     * @var int
-     */
-    protected $half_points_at;
 
     static function create(bool $shuffle_answers = false,
                            bool $single_line = true,
                            int $thumbnail_size = 0,
                            ?string $label_true = "",
-                           ?string $label_false = "",
-                           int $points = 0, 
-                           int $half_points_at = 0) : KprimChoiceEditorConfiguration
+                           ?string $label_false = "") : KprimChoiceEditorConfiguration
         {
             $object = new KprimChoiceEditorConfiguration();
             $object->single_line = $single_line;
@@ -59,8 +49,6 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
             $object->thumbnail_size = $thumbnail_size;
             $object->label_true = $label_true;
             $object->label_false = $label_false;
-            $object->points = $points;
-            $object->half_points_at = $half_points_at;
             
             return $object;
     }
@@ -106,32 +94,14 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @return number
-     */
-    public function getPoints()
-    {
-        return $this->points;
-    }
-
-    /**
-     * @return number
-     */
-    public function getHalfPointsAt()
-    {
-        return $this->half_points_at;
-    }
-
-    /**
      * {@inheritDoc}
      * @see \ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject::equals()
      */
     public function equals(AbstractValueObject $other): bool
     {
         /** @var KprimChoiceEditorConfiguration $other */
-        return $this->halve_points_at === $other->halve_points_at &&
-               $this->label_false === $other->label_false &&
+        return $this->label_false === $other->label_false &&
                $this->label_true === $other->label_true &&
-               $this->points === $other->points &&
                $this->shuffle_answers === $other->shuffle_answers &&
                $this->single_line === $other->single_line &&
                $this->thumbnail_size === $other->thumbnail_size;

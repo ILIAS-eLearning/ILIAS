@@ -18,11 +18,51 @@ use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
  */
 class KprimChoiceScoringConfiguration extends AbstractConfiguration {
     /**
+     * @var int
+     */
+    protected $points;
+    /**
+     * @var int
+     */
+    protected $half_points_at;
+    
+    /**
+     * @param int $points
+     * @param int $half_points_at
+     * @return KprimChoiceScoringConfiguration
+     */
+    static function create(int $points, int $half_points_at) : KprimChoiceScoringConfiguration
+        {
+            $object = new KprimChoiceScoringConfiguration();
+            $object->points = $points;
+            $object->half_points_at = $half_points_at;
+            return $object;
+    }
+    
+    /**
+     * @return number
+     */
+    public function getPoints()
+    {
+        return $this->points;
+    }
+    
+    /**
+     * @return number
+     */
+    public function getHalfPointsAt()
+    {
+        return $this->half_points_at;
+    }
+    
+    /**
      * {@inheritDoc}
      * @see \ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject::equals()
      */
     public function equals(AbstractValueObject $other): bool
     {
-        return true;
+        /** @var KprimChoiceScoringConfiguration $other */
+        return $this->half_points_at === $other->half_points_at &&
+        $this->points === $other->points;
     }
 }

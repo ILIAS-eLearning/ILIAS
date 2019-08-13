@@ -186,6 +186,8 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$scorings = $this->createSelectControl('scoring', self::VAR_SCORING, AvailableScorings::getAvailableScorings());
 		$this->addItem($scorings);
 
+		$this->initiateScoringConfiguration($play);
+		
 		if ($play !== null) {
 			$editor->setValue(QuestionPlayConfiguration::getEditorClass($play));
 			$presenter->setValue(QuestionPlayConfiguration::getPresenterClass($play));
@@ -217,6 +219,17 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		}
 	}
 
+	/**
+	 * @param QuestionPlayConfiguration|null $play
+	 */
+	private function initiateScoringConfiguration(?QuestionPlayConfiguration $play) {
+	    $fields = QuestionPlayConfiguration::getScoringClass($play)::generateFields($play ? $play->getScoringConfiguration() : null);
+	    
+	    foreach($fields as $field) {
+	        $this->addItem($field);
+	    }
+	}
+	
     /**
      * @return QuestionData
      * @throws Exception
