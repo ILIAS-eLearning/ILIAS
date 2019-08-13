@@ -7,6 +7,16 @@
 class ilCertificateFactory
 {
     /**
+     * @var ilCertificatePathFactory
+     */
+    private $pathFactory;
+
+    public function __construct(ilCertificatePathFactory $pathFactory)
+    {
+        $this->pathFactory = $pathFactory;
+    }
+
+    /**
      * @param ilObject $object
      * @return ilCertificate
      * @throws ilException
@@ -20,25 +30,21 @@ class ilCertificateFactory
                 $adapter = new ilTestCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilTestPlaceholderDescription();
                 $placeholderValuesObject = new ilTestPlaceHolderValues();
-                $certificatePath = ilCertificatePathConstants::TEST_PATH . $object->getId() . '/';
                 break;
             case 'crs':
                 $adapter = new ilCourseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription();
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
-                $certificatePath = ilCertificatePathConstants::COURSE_PATH . $object->getId() . '/';
                 break;
             case 'scrm':
                 $adapter = new ilSCORMCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
                 $placeholderValuesObject = new ilScormPlaceholderValues();
-                $certificatePath = ilCertificatePathConstants::SCORM_PATH . $object->getId() . '/';
                 break;
             case 'exc':
                 $adapter = new ilExerciseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
                 $placeholderValuesObject = new ilExercisePlaceHolderValues();
-                $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/';
                 break;
             default:
                 throw new ilException(sprintf(
@@ -47,6 +53,8 @@ class ilCertificateFactory
                 ));
                 break;
         }
+
+        $certificatePath = $this->pathFactory->create($object);
 
         $certificate = new ilCertificate(
             $adapter,

@@ -354,7 +354,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			);
 			
 			if(!$this->object->getAnonymity()) {
-				$factory = new ilCertificateFactory();
+				$factory = new ilCertificateFactory(new ilCertificatePathFactory());
 
 				$certificate = $factory->create($this->object);
 
