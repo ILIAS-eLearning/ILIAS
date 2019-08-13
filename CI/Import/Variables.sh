@@ -1,5 +1,5 @@
 #!/bin/bash
-PHPFIX_RESULTS_PATH="/tmp/phpfix_results"
+PHP_CS_FIXER_RESULTS_PATH="/tmp/phpfix_results"
 PHP_CS_FIXER="libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
 
 PHPUNIT_PATH="/tmp/phpunit_latest.csv"
