@@ -20,7 +20,7 @@ class ilCertificateFactoryTest extends ilCertificateBaseTestCase
         $object->method('getType')
             ->willReturn('something');
 
-        $factory = new ilCertificateFactory();
+        $factory = new ilCertificateFactory(new ilCertificatePathFactory());
 
         $factory->create($object);
 

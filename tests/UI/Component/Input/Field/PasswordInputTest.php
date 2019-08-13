@@ -208,7 +208,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase {
 	public function test_value_type() {
 		$f = $this->buildFactory();
 		$label = "label";
-		$pwd = $f->password($label);
+		$pwd = $f->password($label)->withNameFrom($this->name_source);
 		$this->assertNull($pwd->getValue());
 
 		$post = new _PWDInputData();

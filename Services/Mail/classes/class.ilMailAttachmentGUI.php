@@ -73,8 +73,8 @@ class ilMailAttachmentGUI
         // Important: Do not check for uploaded files here, otherwise it is no more possible to remove files (please ignore bug reports like 10137)
 
         $sizeOfSelectedFiles = 0;
-        $files = (array) ($this->request->getParsedBody()['filename'] ?? []);
-        foreach ($files as $file) {
+        $filesOfRequest = (array) ($this->request->getParsedBody()['filename'] ?? []);
+        foreach ($filesOfRequest as $file) {
             if (file_exists($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)))) {
                 $files[] = urldecode($file);
                 $sizeOfSelectedFiles += filesize($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)));

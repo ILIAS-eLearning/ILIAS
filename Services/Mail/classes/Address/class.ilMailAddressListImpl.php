@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,17 +7,17 @@
  */
 class ilMailAddressListImpl implements ilMailAddressList
 {
-    /** @var \ilMailAddress[] */
+    /** @var ilMailAddress[] */
     protected $addresses = [];
 
     /**
      * ilMailAddressListImpl constructor.
-     * @param \ilMailAddress[] $addresses
+     * @param ilMailAddress[] $addresses
      */
     public function __construct(array $addresses)
     {
         // Ensure valid types in array
-        array_walk($addresses, function (\ilMailAddress $address) {
+        array_walk($addresses, function (ilMailAddress $address) {
         });
 
         $this->addresses = $addresses;

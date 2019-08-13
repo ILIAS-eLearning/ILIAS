@@ -2,7 +2,6 @@
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input;
@@ -105,11 +104,6 @@ class FormTest extends ILIAS_UI_TestBase {
 	}
 
 
-	public function tearDown(): void {
-		\Mockery::close();
-	}
-
-
 	public function test_getInputs() {
 		$f = $this->buildFactory();
 		$if = $this->buildInputFactory();
@@ -142,29 +136,42 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_extractPostData() {
 		$form = new ConcreteForm($this->buildInputFactory(), []);
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
+		$request = $this->createMock(ServerRequestInterface::class);
+		$request
+			->expects($this->once())
+			->method("getParsedBody")
+			->willReturn([]);
 		$input_data = $form->_extractPostData($request);
 		$this->assertInstanceOf(InputData::class, $input_data);
 	}
 
 
 	public function test_withRequest() {
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$input_data = \Mockery::Mock(InputData::class);
-		$input_data->shouldReceive("getOr")->once()->andReturn("");
-
 		$df = $this->buildDataFactory();
+		$request = $this->createMock(ServerRequestInterface::class);
+		$input_data = $this->createMock(InputData::class);
 
-		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1->shouldReceive("withInput")->once()->with($input_data)->andReturn($input_1);
+		$input_1 = $this->inputMock();
+		$input_1
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($input_1);
+		$input_1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(0));
 
-		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(0));
-
-		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2->shouldReceive("withInput")->once()->with($input_data)->andReturn($input_2);
-
-		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(0));
+		$input_2 = $this->inputMock();
+		$input_2
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($input_2);
+		$input_2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(0));
 
 		$form = new ConcreteForm($this->buildInputFactory(), []);
 		$form->setInputs([$input_1, $input_2]);
@@ -179,19 +186,31 @@ class FormTest extends ILIAS_UI_TestBase {
 
 
 	public function test_withRequest_respects_keys() {
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$input_data = \Mockery::Mock(InputData::class);
-		$input_data->shouldReceive("getOr")->once()->andReturn("");
-
 		$df = $this->buildDataFactory();
+		$request = $this->createMock(ServerRequestInterface::class);
+		$input_data = $this->createMock(InputData::class);
 
-		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1->shouldReceive("withInput")->once()->with($input_data)->andReturn($input_1);
-		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(0));
+		$input_1 = $this->inputMock();
+		$input_1
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($input_1);
+		$input_1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(0));
 
-		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2->shouldReceive("withInput")->once()->with($input_data)->andReturn($input_2);
-		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(0));
+		$input_2 = $this->inputMock();
+		$input_2
+			->expects($this->once())
+			->method("withInput")
+			->with($input_data)
+			->willReturn($input_2);
+		$input_2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(0));
 
 		$form = new ConcreteForm($this->buildInputFactory(), []);
 		$form->setInputs(["foo" => $input_1, "bar" => $input_2]);
@@ -207,18 +226,31 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_getData() {
 		$df = $this->buildDataFactory();
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
+		$request = $this->createMock(ServerRequestInterface::class);
+		$request
+			->expects($this->once())
+			->method("getParsedBody")
+			->willReturn([]);
 
-		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(1));
+		$input_1 = $this->inputMock();
+		$input_1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(1));
+		$input_1
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_1);
 
-		$input_1->shouldReceive("withInput")->once()->andReturn($input_1);
-
-		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(2));
-
-		$input_2->shouldReceive("withInput")->once()->andReturn($input_2);
+		$input_2 = $this->inputMock();
+		$input_2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(2));
+		$input_2
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_2);
 
 		$form = new ConcreteForm($this->buildInputFactory(), []);
 		$form->setInputs([$input_1, $input_2]);
@@ -229,18 +261,31 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_getData_respects_keys() {
 		$df = $this->buildDataFactory();
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
+		$request = $this->createMock(ServerRequestInterface::class);
+		$request
+			->expects($this->once())
+			->method("getParsedBody")
+			->willReturn([]);
 
-		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(1));
+		$input_1 = $this->inputMock();
+		$input_1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(1));
+		$input_1
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_1);
 
-		$input_1->shouldReceive("withInput")->once()->andReturn($input_1);
-
-		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(2));
-
-		$input_2->shouldReceive("withInput")->once()->andReturn($input_2);
+		$input_2 = $this->inputMock();
+		$input_2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(2));
+		$input_2
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_2);
 
 		$form = new ConcreteForm($this->buildInputFactory(), []);
 		$form->setInputs(["foo" => $input_1, "bar" => $input_2]);
@@ -251,18 +296,31 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_getData_faulty() {
 		$df = $this->buildDataFactory();
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
+		$request = $this->createMock(ServerRequestInterface::class);
+		$request
+			->expects($this->once())
+			->method("getParsedBody")
+			->willReturn([]);
 
-		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1->shouldReceive("getContent")->once()->andReturn($df->error("error"));
+		$input_1 = $this->inputMock();
+		$input_1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->error("error"));
+		$input_1
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_1);
 
-		$input_1->shouldReceive("withInput")->once()->andReturn($input_1);
-
-		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(2));
-
-		$input_2->shouldReceive("withInput")->once()->andReturn($input_2);
+		$input_2 = $this->inputMock();
+		$input_2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(2));
+		$input_2
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_2);
 
 		$form = new ConcreteForm($this->buildInputFactory(), []);
 		$form->setInputs(["foo" => $input_1, "bar" => $input_2]);
@@ -275,18 +333,31 @@ class FormTest extends ILIAS_UI_TestBase {
 
 	public function test_withAdditionalTransformation() {
 		$df = $this->buildDataFactory();
-		$request = \Mockery::mock(ServerRequestInterface::class);
-		$request->shouldReceive("getParsedBody")->once()->andReturn([]);
+		$request = $this->createMock(ServerRequestInterface::class);
+		$request
+			->expects($this->once())
+			->method("getParsedBody")
+			->willReturn([]);
 
-		$input_1 = \Mockery::mock(InputInternal::class);
-		$input_1->shouldReceive("getContent")->once()->andReturn($df->ok(1));
+		$input_1 = $this->inputMock();
+		$input_1
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(1));
+		$input_1
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_1);
 
-		$input_1->shouldReceive("withInput")->once()->andReturn($input_1);
-
-		$input_2 = \Mockery::mock(InputInternal::class);
-		$input_2->shouldReceive("getContent")->once()->andReturn($df->ok(2));
-
-		$input_2->shouldReceive("withInput")->once()->andReturn($input_2);
+		$input_2 = $this->inputMock();
+		$input_2
+			->expects($this->once())
+			->method("getContent")
+			->willReturn($df->ok(2));
+		$input_2
+			->expects($this->once())
+			->method("withInput")
+			->willReturn($input_2);
 
 		$form = new ConcreteForm($this->buildInputFactory(), []);
 		$form->setInputs([$input_1, $input_2]);
@@ -314,5 +385,15 @@ class FormTest extends ILIAS_UI_TestBase {
 		$form->setInputs($inputs);
 		$named_inputs = $form->getInputs();
 		$this->assertEquals(array_keys($inputs), array_keys($named_inputs));
+	}
+
+	protected function inputMock() {
+		static $no = 1000;
+		$config = $this
+			->getMockBuilder(InputInternal::class)
+			->setMethods(["getName", "withNameFrom", "withInput", "getContent", "getLabel", "withLabel", "getByline", "withByline", "isRequired", "withRequired", "isDisabled", "withDisabled", "getValue", "withValue", "getError", "withError", "withAdditionalTransformation", "withAdditionalConstraint", "getUpdateOnLoadCode", "getCanonicalName", "withOnLoadCode", "withAdditionalOnLoadCode", "getOnLoadCode", "withOnUpdate", "appendOnUpdate", "withResetTriggeredSignals", "getTriggeredSignals"])
+			->setMockClassName("Mock_InputNo".($no++))
+			->getMock();
+		return $config;
 	}
 }

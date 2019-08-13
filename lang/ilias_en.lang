@@ -5286,6 +5286,7 @@ file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
+file#:#generate_sanitize_report#:#Report about inaccessible files
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
