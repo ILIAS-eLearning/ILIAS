@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * @author       Jens Conze
  * @version      $Id$
@@ -13,28 +15,28 @@ class ilMailGUI
     /** @var ilGlobalPageTemplate */
     private $tpl;
 
-    /** @var \ilCtrl */
+    /** @var ilCtrl */
     private $ctrl;
 
-    /** @var \ilLanguage */
+    /** @var ilLanguage */
     private $lng;
 
     /** @var string */
     private $forwardClass = '';
 
-    /** @var \Psr\Http\Message\ServerRequestInterface */
+    /** @var ServerRequestInterface */
     private $httpRequest;
 
     /** @var int */
     private $currentFolderId = 0;
 
-    /** @var \ilObjUser */
+    /** @var ilObjUser */
     private $user;
 
-    /** @var \ilMail */
+    /** @var ilMail */
     public $umail;
 
-    /** @var \ilMailBox */
+    /** @var ilMailBox */
     public $mbox;
 
     /**
@@ -53,7 +55,7 @@ class ilMailGUI
         $this->lng->loadLanguageModule('mail');
 
         $this->mbox  = new ilMailbox($this->user->getId());
-        $this->umail = new \ilMail($this->user->getId());
+        $this->umail = new ilMail($this->user->getId());
         if (!$DIC->rbac()->system()->checkAccess('internal_mail', $this->umail->getMailObjectReferenceId())) {
             $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }
@@ -88,34 +90,34 @@ class ilMailGUI
         $this->ctrl->setParameterByClass('ilmailfoldergui', 'mobj_id', $this->currentFolderId);
 
         if ('search_res' === $type) {
-            \ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
+            ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
             $this->ctrl->redirectByClass('ilmailformgui', 'searchResults');
         } elseif ('attach' === $type) {
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
             $this->ctrl->redirectByClass('ilmailformgui', 'mailAttachment');
         } elseif ('new' === $type) {
             $to = $this->httpRequest->getQueryParams()['rcp_to'] ?? '';
-            \ilSession::set('rcp_to', \ilUtil::stripSlashes($to));
-            if (!strlen(\ilSession::get('rcp_to')) && ($recipients = \ilMailFormCall::getRecipients())) {
-                \ilSession::set('rcp_to', implode(',', $recipients));
-                \ilMailFormCall::setRecipients([]);
+            ilSession::set('rcp_to', ilUtil::stripSlashes($to));
+            if (!strlen(ilSession::get('rcp_to')) && ($recipients = ilMailFormCall::getRecipients())) {
+                ilSession::set('rcp_to', implode(',', $recipients));
+                ilMailFormCall::setRecipients([]);
             }
 
             $cc  = $this->httpRequest->getQueryParams()['rcp_cc'] ?? '';
             $bcc = $this->httpRequest->getQueryParams()['rcp_bcc'] ?? '';
-            \ilSession::set('rcp_cc', \ilUtil::stripSlashes($cc));
-            \ilSession::set('rcp_bcc', \ilUtil::stripSlashes($bcc));
+            ilSession::set('rcp_cc', ilUtil::stripSlashes($cc));
+            ilSession::set('rcp_bcc', ilUtil::stripSlashes($bcc));
 
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
             $this->ctrl->redirectByClass('ilmailformgui', 'mailUser');
         } elseif ('reply' === $type) {
-            \ilSession::set('mail_id', $mailId);
+            ilSession::set('mail_id', $mailId);
             $this->ctrl->redirectByClass('ilmailformgui', 'replyMail');
         } elseif ('read' === $type) {
-            \ilSession::set('mail_id', $mailId);
+            ilSession::set('mail_id', $mailId);
             $this->ctrl->redirectByClass('ilmailfoldergui', 'showMail');
         } elseif ('deliverFile' === $type) {
-            \ilSession::set('mail_id', $mailId);
+            ilSession::set('mail_id', $mailId);
 
             $fileName = '';
             if (isset($this->httpRequest->getParsedBody()['filename'])) {
@@ -123,25 +125,25 @@ class ilMailGUI
             } elseif (isset($this->httpRequest->getQueryParams()['filename'])) {
                 $fileName = $this->httpRequest->getQueryParams()['filename'];
             }
-            \ilSession::set('filename', \ilUtil::stripSlashes($fileName));;
+            ilSession::set('filename', ilUtil::stripSlashes($fileName));;
             $this->ctrl->redirectByClass('ilmailfoldergui', 'deliverFile');
         } elseif ('message_sent' === $type) {
-            \ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
+            ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
             $this->ctrl->redirectByClass('ilmailfoldergui');
         } elseif ('role' === $type) {
             $roles = $this->httpRequest->getParsedBody()['roles'] ?? [];
             if (is_array($roles) && count($roles) > 0) {
-                \ilSession::set('mail_roles', $roles);
+                ilSession::set('mail_roles', $roles);
             } elseif (isset($this->httpRequest->getQueryParams()['role'])) {
-                \ilSession::set('mail_roles', [$this->httpRequest->getQueryParams()['role']]);
+                ilSession::set('mail_roles', [$this->httpRequest->getQueryParams()['role']]);
             }
 
-            \ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
+            ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
             $this->ctrl->redirectByClass('ilmailformgui', 'mailRole');
         }
 
         if ('my_courses' === $this->httpRequest->getQueryParams()['view']) {
-            \ilSession::set('search_crs', \ilUtil::stripSlashes($this->httpRequest->getQueryParams()['search_crs']));
+            ilSession::set('search_crs', ilUtil::stripSlashes($this->httpRequest->getQueryParams()['search_crs']));
             $this->ctrl->redirectByClass('ilmailformgui', 'searchCoursesTo');
         }
 
@@ -158,21 +160,21 @@ class ilMailGUI
 
         switch (strtolower($this->forwardClass)) {
             case 'ilmailformgui':
-                $this->ctrl->forwardCommand(new \ilMailFormGUI());
+                $this->ctrl->forwardCommand(new ilMailFormGUI());
                 break;
 
             case 'ilcontactgui':
                 $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-                $this->ctrl->forwardCommand(new \ilContactGUI());
+                $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
             case 'ilmailoptionsgui':
                 $this->tpl->setTitle($this->lng->txt('mail'));
-                $this->ctrl->forwardCommand(new \ilMailOptionsGUI());
+                $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
             case 'ilmailfoldergui':
-                $this->ctrl->forwardCommand(new \ilMailFolderGUI());
+                $this->ctrl->forwardCommand(new ilMailFolderGUI());
                 break;
 
             default:
@@ -224,9 +226,9 @@ class ilMailGUI
         $DIC['ilMainMenu']->setActive("mail");
 
         $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitleIcon(\ilUtil::getImagePath("icon_mail.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail.svg"));
 
-        \ilUtil::infoPanel();
+        ilUtil::infoPanel();
 
         $this->ctrl->setParameterByClass('ilmailfoldergui', 'mobj_id', $this->currentFolderId);
         $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass('ilmailfoldergui'));
