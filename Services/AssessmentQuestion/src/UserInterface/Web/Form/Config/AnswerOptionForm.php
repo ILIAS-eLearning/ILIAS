@@ -8,6 +8,8 @@ use ilImageFileInputGUI;
 use ilNumberInputGUI;
 use ilTemplate;
 use ilTextInputGUI;
+use ilHiddenInputGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 
 /**
  * Class AnswerOptionForm
@@ -110,20 +112,18 @@ class AnswerOptionForm extends ilTextInputGUI {
 	{
 		switch ($definition->getType()) {
 			case AnswerOptionFormFieldDefinition::TYPE_TEXT:
-				$field = $this->generateTextField($row_id . $definition->getPostVar(), $value);
+				return $this->generateTextField($row_id . $definition->getPostVar(), $value);
 				break;
 			case AnswerOptionFormFieldDefinition::TYPE_IMAGE:
-				$field = $this->generateImageField($row_id . $definition->getPostVar(), $value);
+				return $this->generateImageField($row_id . $definition->getPostVar(), $value);
 				break;
 			case AnswerOptionFormFieldDefinition::TYPE_NUMBER:
-				$field = $this->generateNumberField($row_id . $definition->getPostVar(), $value);
+				return $this->generateNumberField($row_id . $definition->getPostVar(), $value);
 				break;
 			default:
 				throw new Exception('Please implement all fieldtypes you define');
 				break;
 		}
-
-		return $field->render();
 	}
 
 
@@ -138,7 +138,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 		if ($value !== null) {
 			$field->setValue($value);
 		}
-		return $field;
+		return $field->render();
 	}
 
 	/**
@@ -152,7 +152,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 		if ($value !== null) {
 			$field->setValue($value);
 		}
-		return $field;
+		$hidden = '<input type="hidden" name="' . $post_var . QuestionFormGUI::IMG_PATH_SUFFIX . '" value="' . $value . '" />';
+		return $field->render() . $hidden;
 	}
 
 	/**
@@ -166,6 +167,6 @@ class AnswerOptionForm extends ilTextInputGUI {
 		if ($value !== null) {
 			$field->setValue($value);
 		}
-		return $field;
+		return $field->render();
 	}
 }

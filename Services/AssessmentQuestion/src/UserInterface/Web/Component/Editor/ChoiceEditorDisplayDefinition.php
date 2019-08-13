@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
 
@@ -80,7 +81,7 @@ class ChoiceEditorDisplayDefinition extends DisplayDefinition {
 	public static function getValueFromPost(string $index) {
 		return new ChoiceEditorDisplayDefinition(
 			$_POST[$index . self::VAR_MCDD_TEXT],
-			$_POST[$index . self::VAR_MCDD_IMAGE]
+			ImageUploader::UploadImage($index . self::VAR_MCDD_IMAGE)
 		);
 	}
 
