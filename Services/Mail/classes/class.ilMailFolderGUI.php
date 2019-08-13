@@ -890,7 +890,7 @@ class ilMailFolderGUI
      */
     protected function printMail() : void
     {
-        $tplprint = new ilGlobalTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
+        $tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
 
         $mailData = $this->umail->getMail((int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0));
 
@@ -937,7 +937,7 @@ class ilMailFolderGUI
         $tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
         $tplprint->setVariable('MAIL_MESSAGE', nl2br(htmlspecialchars($mailData['m_message'])));
 
-        $tplprint->printToStdout();
+        $tplprint->show();
     }
 
     protected function deliverFile() : void
