@@ -42,7 +42,7 @@ class ilGSProviderFactory implements ProviderFactory
     {
         $this->dic = $dic;
         $this->main_menu_item_information = new ilMMItemInformation();
-        $this->class_loader = include "Services/GlobalScreen/artifacts/global_screen_providers_bak.php";
+        $this->class_loader = include "Services/GlobalScreen/artifacts/global_screen_providers.php";
     }
 
 
