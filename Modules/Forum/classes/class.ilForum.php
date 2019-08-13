@@ -1046,24 +1046,6 @@ class ilForum
 			$params['order_direction'] = 'desc';
 		}
 
-		$cnt_active_pos_query = '';
-		$cnt_join_type        = 'LEFT';
-		if($is_post_activation_enabled && !$params['is_moderator'])
-		{
-			$cnt_active_pos_query = " AND (pos_status = {$this->db->quote(1, 'integer')} OR pos_author_id = {$this->db->quote($user_id, 'integer')}) ";
-			$cnt_join_type        = "INNER";
-		}
-		$query =
-			"SELECT COUNT(DISTINCT(thr_pk)) cnt
-			 FROM frm_threads
-			 {$cnt_join_type} JOIN frm_posts
-			 	ON pos_thr_fk = thr_pk {$cnt_active_pos_query}
-			 WHERE thr_top_fk = %s {$excluded_ids_condition}
-		";
-		$res      = $this->db->queryF($query, array('integer'), array($a_topic_id));
-		$cntData  = $this->db->fetchAssoc($res);
-		$cnt      = (int)$cntData['cnt'];
-
 		$active_query               = '';
 		$active_inner_query         = '';
 		$having                     = '';
@@ -1256,10 +1238,7 @@ class ilForum
 			$threads[] = $thread;
 		}
 
-		return array(
-			'items' => $threads,
-			'cnt' => $cnt
-		);
+		return array('items' => $threads);
 	}
 	
 	/**
