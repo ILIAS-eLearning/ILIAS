@@ -159,6 +159,9 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 			$working_time->setHours(floor($data->getWorkingTime() / self::SECONDS_IN_HOUR));
 			$working_time->setMinutes(floor($data->getWorkingTime() / self::SECONDS_IN_MINUTE));
 			$working_time->setSeconds($data->getWorkingTime() % self::SECONDS_IN_MINUTE);
+		} else {
+		    global $DIC;
+		    $author->setValue($DIC->user()->fullname);
 		}
 	}
 
