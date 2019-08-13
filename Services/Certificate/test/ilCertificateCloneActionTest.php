@@ -26,6 +26,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             ->method('replace');
 
         $certificateFactory = $this->getMockBuilder('ilCertificateFactory')
+            ->disableOriginalConstructor()
             ->getMock();
 
         $oldCertficate = $this->getMockBuilder('ilCertificate')

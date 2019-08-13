@@ -4,7 +4,6 @@ use ILIAS\GlobalScreen\Identification\CoreIdentificationProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\LostIdentification;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
-use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 
 /**
