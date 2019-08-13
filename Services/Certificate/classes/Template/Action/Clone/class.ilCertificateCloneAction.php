@@ -12,9 +12,9 @@ class ilCertificateCloneAction
     private $logger;
 
     /**
-     * @var ilCertificateFactory
+     * @var ilCertificatePathFactory
      */
-    private $certificateFactory;
+    private $pathFactory;
 
     /**
      * @var ilCertificateTemplateRepository
@@ -37,6 +37,11 @@ class ilCertificateCloneAction
     private $objectHelper;
 
     /**
+     * @var string
+     */
+    private $webDirectory;
+
+    /**
      * @param ilDBInterface $database
      * @param ilCertificateFactory $certificateFactory
      * @param ilCertificateTemplateRepository $templateRepository
@@ -47,14 +52,15 @@ class ilCertificateCloneAction
      */
     public function __construct(
         ilDBInterface $database,
-        ilCertificateFactory $certificateFactory,
+        ilCertificatePathFactory $pathFactory,
         ilCertificateTemplateRepository $templateRepository,
         \ILIAS\Filesystem\Filesystem $fileSystem = null,
         ilLogger $logger = null,
-        ilCertificateObjectHelper $objectHelper = null
+        ilCertificateObjectHelper $objectHelper = null,
+        string $webDirectory = CLIENT_WEB_DIR
     ) {
-        $this->database = $database;
-        $this->certificateFactory = $certificateFactory;
+        $this->database           = $database;
+        $this->pathFactory        = $pathFactory;
         $this->templateRepository = $templateRepository;
 
         if (null === $logger) {
@@ -73,6 +79,8 @@ class ilCertificateCloneAction
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
+
+        $this->webDirectory = $webDirectory;
     }
 
     /**
@@ -102,7 +110,7 @@ class ilCertificateCloneAction
             ));
         }
 
-        $newCertificate = $this->certificateFactory->create($newObject);
+        $certificatePath = $this->pathFactory->create($newObject);
 
         $templates = $this->templateRepository->fetchCertificateTemplatesByObjId($oldObject->getId());
 
@@ -112,8 +120,8 @@ class ilCertificateCloneAction
             $backgroundImageFile = basename($backgroundImagePath);
             $backgroundImageThumbnail = dirname($backgroundImagePath) . '/background.jpg.thumb.jpg';
 
-            $newBackgroundImage = $newCertificate->getBackgroundImageDirectory() . $backgroundImageFile;
-            $newBackgroundImageThumbnail = str_replace($webDir, '', $this->getBackgroundImageThumbPath());
+            $newBackgroundImage = $certificatePath . $backgroundImageFile;
+            $newBackgroundImageThumbnail = str_replace($webDir, '', $this->getBackgroundImageThumbPath($certificatePath));
 
             if ($this->fileSystem->has($backgroundImagePath)) {
                 if ($this->fileSystem->has($newBackgroundImage)) {
@@ -188,11 +196,11 @@ class ilCertificateCloneAction
 
     /**
      * Returns the filesystem path of the background image thumbnail
-     *
+     * @param $certificatePath
      * @return string The filesystem path of the background image thumbnail
      */
-    private function getBackgroundImageThumbPath()
+    private function getBackgroundImageThumbPath(string $certificatePath) : string
     {
-        return CLIENT_WEB_DIR . $this->certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
+        return $this->webDirectory . $certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
     }
 }
