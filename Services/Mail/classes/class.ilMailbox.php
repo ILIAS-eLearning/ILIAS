@@ -267,7 +267,7 @@ class ilMailbox
             return false;
         }
 
-        $mail = new ilMail($this->usrId);
+        $mailer = new ilMail($this->usrId);
 
         $subtree = $this->mtree->getSubtree($this->mtree->getNodeData($folderId));
         $this->mtree->deleteTree($this->mtree->getNodeData($folderId));
@@ -275,14 +275,14 @@ class ilMailbox
         foreach ($subtree as $node) {
             $nodeId = (int) $node['obj_id'];
 
-            $mails = $mail->getMailsOfFolder($nodeId);
+            $mails = $mailer->getMailsOfFolder($nodeId);
 
             $mailIds = [];
             foreach ($mails as $mail) {
                 $mailIds[] = $mail['mail_id'];
             }
 
-            $mail->deleteMails($mailIds);
+            $mailer->deleteMails($mailIds);
 
             $this->db->manipulateF(
                 'DELETE FROM ' . $this->table_mail_obj_data . ' WHERE obj_id = %s AND user_id = %s',

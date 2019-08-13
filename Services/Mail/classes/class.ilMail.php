@@ -345,7 +345,7 @@ class ilMail
      * @param array $filter An optional filter array
      * @return array
      */
-    public function getMailsOfFolder($a_folder_id, $filter = [])
+    public function getMailsOfFolder($a_folder_id, $filter = []) : array
     {
         $mails = [];
 
@@ -371,7 +371,7 @@ class ilMail
             $mails[] = $this->fetchMailData($row);
         }
 
-        return $mails;
+        return array_filter($mails);
     }
 
     /**
