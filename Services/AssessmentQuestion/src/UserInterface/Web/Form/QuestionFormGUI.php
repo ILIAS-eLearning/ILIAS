@@ -236,9 +236,11 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	 */
 	private function readPlayConfiguration(): QuestionPlayConfiguration {
 		$editor_class = $_POST[self::VAR_EDITOR];
-
+		$scoring_class = $_POST[self::VAR_SCORING];
+		
 		return QuestionPlayConfiguration::create(
-			call_user_func(array($editor_class, 'readConfig'))
+			call_user_func(array($editor_class, 'readConfig')),
+		    call_user_func(array($scoring_class, 'readConfig'))
 		);
 	}
 

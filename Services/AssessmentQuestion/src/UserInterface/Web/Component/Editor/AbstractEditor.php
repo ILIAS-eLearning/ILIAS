@@ -58,6 +58,8 @@ abstract class AbstractEditor {
 		return null;
 	}
 
+	public static abstract function readConfig();
+	
 	/**
 	 * @return string
 	 */

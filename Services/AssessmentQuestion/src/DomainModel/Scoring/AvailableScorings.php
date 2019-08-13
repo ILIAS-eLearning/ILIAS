@@ -17,7 +17,7 @@ class AvailableScorings {
 		//TODO get scorings from DB
 		$scorings = [];
 		$scorings[MultipleChoiceScoring::class] = "MultipleChoiceScoring";
-		$scorings[KprimScoring::class] = "KprimScoring";
+		$scorings[KprimChoiceScoring::class] = "KprimScoring";
 		return $scorings;
 	}
 

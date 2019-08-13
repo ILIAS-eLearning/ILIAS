@@ -43,15 +43,15 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     /**
      * @var int
      */
-    protected $halve_points_at;
+    protected $half_points_at;
 
     static function create(bool $shuffle_answers = false,
                            bool $single_line = true,
                            int $thumbnail_size = 0,
-                           string $label_true = "",
-                           string $label_false = "",
-                           int $points, 
-                           int $half_points_at) : KprimChoiceEditorConfiguration
+                           ?string $label_true = "",
+                           ?string $label_false = "",
+                           int $points = 0, 
+                           int $half_points_at = 0) : KprimChoiceEditorConfiguration
         {
             $object = new KprimChoiceEditorConfiguration();
             $object->single_line = $single_line;
@@ -60,7 +60,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
             $object->label_true = $label_true;
             $object->label_false = $label_false;
             $object->points = $points;
-            $object->halve_points_at = $half_points_at;
+            $object->half_points_at = $half_points_at;
             
             return $object;
     }
@@ -68,7 +68,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     /**
      * @return boolean
      */
-    public function isShuffle_answers()
+    public function isShuffleAnswers()
     {
         return $this->shuffle_answers;
     }
@@ -76,7 +76,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     /**
      * @return boolean
      */
-    public function isSingle_line()
+    public function isSingleLine()
     {
         return $this->single_line;
     }
@@ -84,7 +84,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     /**
      * @return number
      */
-    public function getThumbnail_size()
+    public function getThumbnailSize()
     {
         return $this->thumbnail_size;
     }
@@ -92,7 +92,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     /**
      * @return string
      */
-    public function getLabel_true()
+    public function getLabelTrue()
     {
         return $this->label_true;
     }
@@ -100,7 +100,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     /**
      * @return string
      */
-    public function getLabel_false()
+    public function getLabelFalse()
     {
         return $this->label_false;
     }
@@ -116,9 +116,9 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
     /**
      * @return number
      */
-    public function getHalve_points_at()
+    public function getHalfPointsAt()
     {
-        return $this->halve_points_at;
+        return $this->half_points_at;
     }
 
     /**

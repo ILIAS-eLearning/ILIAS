@@ -10,6 +10,8 @@ use ilTemplate;
 use ilTextInputGUI;
 use ilHiddenInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
+use ilRadioGroupInputGUI;
+use ilRadioOption;
 
 /**
  * Class AnswerOptionForm
@@ -76,7 +78,6 @@ class AnswerOptionForm extends ilTextInputGUI {
 			foreach ($this->definitions as $definition) {
 				$tpl->setCurrentBlock('body_entry');
 				$tpl->setVariable('ENTRY_CLASS', ''); //TODO get class by type
-				$raw = $option->rawValues();
 				$tpl->setVariable('ENTRY', $this->generateField($definition, $row_id, $option !== null ? $option->rawValues()[$definition->getPostVar()] : null));
 				$tpl->parseCurrentBlock();
 
@@ -110,16 +111,19 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateField(AnswerOptionFormFieldDefinition $definition, int $row_id, $value)
 	{
-		switch ($definition->getType()) {
-			case AnswerOptionFormFieldDefinition::TYPE_TEXT:
-				return $this->generateTextField($row_id . $definition->getPostVar(), $value);
-				break;
-			case AnswerOptionFormFieldDefinition::TYPE_IMAGE:
-				return $this->generateImageField($row_id . $definition->getPostVar(), $value);
-				break;
+        switch ($definition->getType()) {
+            case AnswerOptionFormFieldDefinition::TYPE_TEXT:
+	           return $this->generateTextField($row_id . $definition->getPostVar(), $value);
+               break;
+            case AnswerOptionFormFieldDefinition::TYPE_IMAGE:
+                return $this->generateImageField($row_id . $definition->getPostVar(), $value);
+                break;
 			case AnswerOptionFormFieldDefinition::TYPE_NUMBER:
 				return $this->generateNumberField($row_id . $definition->getPostVar(), $value);
 				break;
+			case AnswerOptionFormFieldDefinition::TYPE_RADIO;
+			    return $this->generateRadioField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
+			    break;
 			default:
 				throw new Exception('Please implement all fieldtypes you define');
 				break;
@@ -168,5 +172,17 @@ class AnswerOptionForm extends ilTextInputGUI {
 			$field->setValue($value);
 		}
 		return $field->render();
+	}
+	
+	private function generateRadioField(string $post_var, $value, $options) {
+	    $field = new ilRadioGroupInputGUI('', $post_var);
+	    $field->setValue($value);
+	    
+	    foreach ($options as $key=>$value)
+	    {
+    	    $option = new ilRadioOption($key, $value);
+    	    $field->addOption($option);	        
+	    }
+	    return $field->render();
 	}
 }

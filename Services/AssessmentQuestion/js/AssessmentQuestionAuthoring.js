@@ -5,9 +5,10 @@ let add_row = function() {
     let new_row = row.clone();
 
     new_row = clear_row(new_row);
-
+    new_count = table.children().length + 1;
+    process_row(new_row, new_count);
     table.append(new_row);
-    set_input_ids(table);
+    $(".js_count").val(new_count);
 };
 
 let remove_row = function() {
@@ -36,14 +37,18 @@ let set_input_ids = function(table) {
     let current_row = 1;
 
     table.children().each(function() {
-        $(this).find("input[name]").each(function() {
-            let input = $(this);
-            input.attr("name", update_input_name(input.attr("name"), current_row));
-        });
-
+    	process_row($(this), current_row);
         current_row += 1;
     });
 };
+
+let process_row = function(row, current_row) {
+    row.find("input[name]").each(function() {
+        let input = $(this);
+        input.attr("name", update_input_name(input.attr("name"), current_row));
+        input.prop("id", update_input_name(input.prop("id"), current_row));
+    });	
+}
 
 let update_input_name = function(old_name, current_row) {
     return current_row + old_name.match(/\D+/);

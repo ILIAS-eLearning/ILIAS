@@ -17,6 +17,7 @@ class AvailableEditors {
 		//TODO get editors from DB
 		$editors = [];
 		$editors[MultipleChoiceEditor::class] = "MultipleChoiceEditor";
+		$editors[KprimChoiceEditor::class] = "KprimChoiceEditor";
 		return $editors;
 	}
 

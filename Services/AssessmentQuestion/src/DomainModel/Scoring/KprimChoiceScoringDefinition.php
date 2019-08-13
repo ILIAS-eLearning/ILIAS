@@ -47,7 +47,7 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
             'Correct Answer',
             AnswerOptionFormFieldDefinition::TYPE_RADIO,
             self::VAR_KPSD_CORRECT,
-            ["Right" => true, "Wrong" => false]);
+            ["True" => "True", "False" => "False"]);
         
         return $fields;
     }
@@ -58,12 +58,12 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
      */
     public function getValues(): array
     {
-        return [self::VAR_KPSD_CORRECT => $this->correct_value];
+        return [self::VAR_KPSD_CORRECT => $this->correct_value ? "True" : "False"];
     }
 
     public static function getValueFromPost(string $index)
     {
-        return new KprimChoiceScoringDefinition(boolval($_POST[self::VAR_KPSD_CORRECT]));
+        return new KprimChoiceScoringDefinition($_POST[$index . self::VAR_KPSD_CORRECT] === "True");
     }
 
     public static function deserialize(stdClass $data)

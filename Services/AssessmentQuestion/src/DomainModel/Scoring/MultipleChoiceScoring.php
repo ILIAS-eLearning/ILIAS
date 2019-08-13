@@ -33,4 +33,10 @@ class MultipleChoiceScoring extends AbstractScoring {
 		
 		return $score;
 	}
+	
+    public static function readConfig()
+    {
+        return new MultipleChoiceScoringConfiguration();
+    }
+
 }
