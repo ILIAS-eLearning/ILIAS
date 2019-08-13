@@ -20,6 +20,9 @@ class ilCertificatePathFactory
             case 'scrm':
                 $certificatePath = ilCertificatePathConstants::SCORM_PATH . $object->getId() . '/';
                 break;
+            case 'sahs':
+                $certificatePath = ilCertificatePathConstants::SCORM_PATH . $object->getId() . '/';
+                break;
             case 'exc':
                 $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/';
                 break;

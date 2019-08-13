@@ -875,10 +875,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$database = $DIC->database();
 		$logger = $DIC->logger()->root();
 
+		$pathFactory = new ilCertificatePathFactory();
 		$objectId    = $this->object->getId();
 		$zipAction = new ilUserCertificateZip(
 			$objectId,
-			ilCertificatePathConstants::TEST_PATH . $objectId . '/'
+			$pathFactory->create($this->object)
 		);
 
 		$archive_dir = $zipAction->createArchiveDirectory();
