@@ -13,7 +13,6 @@ use ILIAS\UI\Factory;
  */
 class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 {
-	const CMD_START_OBJECT = 'start_legacy_obj';
 	const GET_VIEW_CMD_FROM_LIST_GUI_FOR = ['sahs'];
 
 	protected $object;
@@ -94,7 +93,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 			$url = $view_link;
 		}
 
-		$builder->start($label, self::CMD_START_OBJECT,	$url, 0);
+		$builder->start($label,	$url, 0);
 		//return $this->debugBuildAllControls($builder);
 		return $builder;
 	}
