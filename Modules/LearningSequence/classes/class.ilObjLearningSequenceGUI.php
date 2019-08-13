@@ -78,6 +78,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	const MAIL_ALLOWED_ALL = 1;
 	const MAIL_ALLOWED_TUTORS = 2;
 
+	/*
+	 * @var ILIAS\GlobalScreen\Scope\Layout\LayoutServices
+	 */
+	protected $layout_service;
+
 	public $object;
 
 	public static function _goto(string $target)
@@ -119,13 +124,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->tpl = $DIC["tpl"];
 		$this->obj_service = $DIC->object();
 		$this->toolbar = $DIC['ilToolbar'];
+		$this->layout_service = $DIC->globalScreen()->layout();
 
 		$this->help->setScreenIdComponent($this->obj_type);
 		$this->lng->loadLanguageModule($this->obj_type);
 
 		$this->object = $this->getObject();
 		$this->data_factory = new \ILIAS\Data\Factory();
-
 	}
 
 	public function executeCommand()
@@ -364,7 +369,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 			$this->settings,
 			$this->ui_factory,
 			$this->ui_renderer,
-			$this->data_factory
+			$this->data_factory,
+			$this->layout_service
 		);
 
 		$this->ctrl->setCmd($cmd);
