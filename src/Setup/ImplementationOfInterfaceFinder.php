@@ -1,7 +1,6 @@
-<?php namespace ILIAS\ArtifactBuilder\Generators;
+<?php
 
-use Iterator;
-use Throwable;
+namespace ILIAS\Setup;
 
 /**
  * Class ImplementationOfInterfaceFinder
@@ -18,19 +17,30 @@ class ImplementationOfInterfaceFinder
     /**
      * @var array
      */
-    private $ignore = [
-        'libs',
-        'test',
-        'tests',
-        'setup'
-    ];
+    private $ignore
+        = [
+            '/libs/',
+            '/test/',
+            '/tests/',
+            '/setup/',
+            // Classes using removed Auth-class from PEAR
+            '.*ilAuthCalendar.*',
+            '.*ilAuthCAS.*',
+            '.*ilAuthContainerCAS.*',
+            '.*ilAuthContainerECS.*',
+            '.*ilAuthContainerSOAP.*',
+            '.*ilAuthECS.*',
+            '.*ilAuthHTTP.*',
+            '.*ilAuthInactive.*',
+            '.*ilAuthLogObserver.*',
+            '.*ilAuthSOAP.*',
+            '.*ilCASAuth.*',
+            '.*ilSOAPAuth.*',
+            // Classes using unknown
+            '.*ilPDExternalFeedBlockGUI.*',
+        ];
 
 
-    /**
-     * ImplementationOfInterfaceFinder constructor.
-     *
-     * @param string $interface
-     */
     public function __construct(string $interface)
     {
         $this->interface = $interface;
@@ -38,10 +48,7 @@ class ImplementationOfInterfaceFinder
     }
 
 
-    /**
-     * @return Iterator
-     */
-    private function getAllClassNames() : Iterator
+    private function getAllClassNames() : \Iterator
     {
         // We use the composer classmap ATM
         $composer_classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
@@ -51,19 +58,27 @@ class ImplementationOfInterfaceFinder
             throw new \LogicException("Composer ClassMap not loaded");
         }
 
+        $regexp = implode(
+            "|",
+            array_map(
+                function ($v) { return "($v)"; },
+                $this->ignore
+            )
+        );
+
+        echo $regexp . "\n";
+
         foreach ($composer_classmap as $class_name => $file_path) {
             $path = str_replace($root, "", realpath($file_path));
-            if (!preg_match("/(\/" . implode("\/|\/", $this->ignore) . "\/)/", $path)) {
+            if (!preg_match("#^" . $regexp . "$#", $path)) {
+                echo $path . " => " . $class_name . "\n";
                 yield $class_name;
             }
         }
     }
 
 
-    /**
-     * @return Iterator
-     */
-    public function getMatchingClassNames() : Iterator
+    public function getMatchingClassNames() : \Iterator
     {
         foreach ($this->getAllClassNames() as $class_name) {
             try {
@@ -71,7 +86,7 @@ class ImplementationOfInterfaceFinder
                 if ($r->isInstantiable() && $r->implementsInterface($this->interface)) {
                     yield $class_name;
                 }
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 // noting to do here
             }
         }

@@ -1,20 +1,9 @@
 #!/bin/bash
 
-PRE="\t*** "
-
-function printLn() {
-	echo -e "$PRE $1"
-}
+source CI/Import/Functions.sh
+source CI/Import/Variables.sh
 
 printLn "Initialize paths variables"
-
-PHPUNIT_PATH="/tmp/phpunit_latest.csv"
-PHPUNIT_PATH_TMP="/tmp/phpunit_changed.csv"
-PHPUNIT_RESULTS_PATH="/tmp/phpunit_results"
-DICTO_PATH="/tmp/dicto_latest.csv"
-TRAVIS_RESULTS_DIRECTORY="/tmp/CI-Results/"
-DATE=`date '+%Y-%m-%d %H:%M:%S'`
-UNIXDATE=`date '+%s'`
 
 ./CI/PHPUnit/run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
 

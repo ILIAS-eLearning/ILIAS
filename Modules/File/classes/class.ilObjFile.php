@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\File\Sanitation\FilePathSanitizer;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\Location;
 
@@ -815,6 +816,9 @@ class ilObjFile extends ilObject2
      */
     public function sendFile($a_hist_entry_id = null)
     {
+        $s = new FilePathSanitizer($this);
+        $s->sanitizeIfNeeded();
+
         if (is_null($a_hist_entry_id)) {
             $file = $this->getDirectory($this->getVersion()) . "/" . $this->getFileName();
         } else {
@@ -822,7 +826,6 @@ class ilObjFile extends ilObject2
             $data = $this->parseInfoParams($entry);
             $file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
         }
-
         $file = ilFileUtils::getValidFilename($file);
 
         if ($this->file_storage->fileExists($file)) {
@@ -1240,30 +1243,19 @@ class ilObjFile extends ilObject2
 
 
     /**
-     * @param int $obj_id
-     * @param int $a_version
+     * @param      $obj_id
+     * @param null $a_version
      *
-     * @return string
-     * @throws ilFileUtilsException
+     * @return bool|string
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      */
     public static function _lookupAbsolutePath($obj_id, $a_version = null)
     {
-        global $DIC;
-
-        $fs = $DIC->filesystem()->storage();
-
         $file_object = new self($obj_id, false);
-        $file_path = $file_object->getFile($a_version);
-        $valid_file_path = ilFileUtils::getValidFilename($file_path);
-        if ($valid_file_path !== $file_path) {
-            if (!$fs->has(LegacyPathHelper::createRelativePath($file_path)) && $fs->has(LegacyPathHelper::createRelativePath($valid_file_path))) {
-                $file_object->setFileName(ilFileUtils::getValidFilename($file_object->getFileName()));
-                $file_object->update();
-                $file_path = $valid_file_path;
-            }
-        }
+        $s = new FilePathSanitizer($file_object);
+        $s->sanitizeIfNeeded();
 
-        return $file_path;
+        return $file_object->getFile($a_version);
     }
 
 

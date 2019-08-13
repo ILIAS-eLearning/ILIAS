@@ -8,10 +8,7 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
-		],
-		"artifacts": [
-          "ILIAS\\ArtifactBuilder\\Runner\\ComposerArtifactRunner::run"
+		  "cd ..; cd ..; php setup/cli.php build-artifacts"
 		]
 	},
 	"require": {
@@ -52,7 +49,7 @@
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" },
-		"classmap": ["../../Services/", "../../Modules", "../ilias", "../../setup"],
+		"classmap": ["../../Services/", "../../Modules", "../ilias"],
 		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
 	},
 	"extra": {

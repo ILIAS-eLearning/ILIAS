@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -67,8 +69,22 @@ class Factory implements Field\Factory {
 	/**
 	 * @inheritdoc
 	 */
-	public function group(array $inputs) {
-		return new Group($this->data_factory, $this->refinery, $inputs, "", "");
+	public function group(array $inputs, string $label='') {
+		return new Group($this->data_factory, $this->refinery, $inputs, $label, null);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function optionalGroup(array $inputs, string $label, string $byline = null) : Field\OptionalGroup {
+		return new OptionalGroup($this->data_factory, $this->refinery, $inputs, $label, $byline);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function switchableGroup(array $inputs, string $label, string $byline = null) : Field\SwitchableGroup {
+		return new SwitchableGroup($this->data_factory, $this->refinery, $inputs, $label, $byline);
 	}
 
 	/**
@@ -76,13 +92,6 @@ class Factory implements Field\Factory {
 	 */
 	public function section(array $inputs, $label, $byline = null) {
 		return new Section($this->data_factory, $this->refinery, $inputs, $label, $byline);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function dependantGroup(array $inputs) {
-		return new DependantGroup($this->data_factory, $this->refinery, $this->signal_generator, $inputs);
 	}
 
 	/**

@@ -9,29 +9,27 @@ function base() {
 	$renderer = $DIC->ui()->renderer();
 	$request = $DIC->http()->request();
 
-	//Step 1: Define the dependent group (aka sub section)
-	$dependant_field1 = $ui->input()->field()->text("Item 1", "Just some dependent group field");
-	$dependant_field2 = $ui->input()->field()->text("Item 1", "Just another dependent group field");
+	//Step 1: Define the field in the group
+	$dependant_field = $ui->input()->field()->text("Item 1", "Just some dependent group field");
 
-	$dependant_group = $ui->input()->field()->dependantGroup([ "Sub Part 1"=>$dependant_field1, "Sub Part 2"=>$dependant_field2]);
+	//Step 2: define the checkbox and attach the dependant group
+	$checkbox_input = $ui->input()->field()->optionalGroup(
+		["dependant_field"=>$dependant_field],
+		"Optional Group",
+		"Check to display group field."
+	);
 
-	//Step 2: Define input and attach sub section
-	$checkbox_input = $ui->input()->field()->checkbox("Checkbox", "Check to display dependant field.")
-			->withValue(true)
-			->withDependantGroup($dependant_group);
-
-	//Step 3: Define form and form actions
+	//Step 3: define form and form actions
 	$DIC->ctrl()->setParameterByClass(
 		'ilsystemstyledocumentationgui',
 		'example_name',
 		'checkbox'
 	);
-
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-	$form = $ui->input()->container()->form()->standard($form_action, [ "checkbox"=>$checkbox_input]);
+	$form = $ui->input()->container()->form()->standard($form_action, [ $checkbox_input]);
 
-
-	//Step 4: Implement some form data processing.
+	//Step 4: implement some form data processing. Note, the value of the checkbox will
+	// be 'checked' if checked an null if unchecked.
 	if ($request->getMethod() == "POST"
 		&& $request->getQueryParams()['example_name'] =='checkbox') {
 		$form = $form->withRequest($request);
