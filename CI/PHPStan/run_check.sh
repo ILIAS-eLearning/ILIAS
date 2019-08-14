@@ -1,11 +1,4 @@
 #!/bin/bash
-PHPSTAN="libs/composer/vendor/bin/phpstan"
-
-PRE="\t*** "
-
-function printLn() {
-	echo -e "$PRE $1"
-}
 
 if [[ -x "$PHPSTAN" ]]
   then

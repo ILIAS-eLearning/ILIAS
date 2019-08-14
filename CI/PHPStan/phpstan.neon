@@ -3,6 +3,7 @@ parameters:
         - /PHPDoc tag/
     excludes_analyse:
         - '%currentWorkingDirectory%/libs/*'
+        - '%currentWorkingDirectory%/CI/*'
         - '%currentWorkingDirectory%/Customizing/*'
         - '%currentWorkingDirectory%/src/UI/examples/*'
         - '%currentWorkingDirectory%/tests/*'
