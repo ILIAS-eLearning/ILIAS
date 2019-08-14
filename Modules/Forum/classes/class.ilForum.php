@@ -1231,13 +1231,45 @@ class ilForum
 			$this->db->setLimit($limit, $offset);
 		}
 		$res = $this->db->queryF($query, $data_types, $data);
+
+		$last_active_post_condition = "";
+		if($params['is_moderator'] == false)
+		{
+			$last_active_post_condition = " 
+				AND ( pos_status = ". $this->db->quote('1', 'integer')."
+			 	OR (pos_status = ". $this->db->quote('0', 'integer')."
+			  			AND pos_display_user_id = ". $this->db->quote($this->user->getId(), 'integer')."
+			  	))";
+		}
+
 		while($row = $this->db->fetchAssoc($res))
 		{
 			$thread = new ilForumTopic($row['thr_pk'], $params['is_moderator'], true);
 			$thread->assignData($row);
-			$threads[] = $thread;
-		}
+			$threads[$row['thr_pk']] = $thread;
 
+			$this->db->setLimit(1);
+			$post_res = $this->db->query('SELECT  pos_pk, pos_thr_fk, pos_date, pos_author_id, pos_display_user_id,  pos_usr_alias, import_name  
+			FROM frm_posts  
+			WHERE pos_thr_fk = '.$this->db->quote($row['thr_pk']. 'integer')
+				. $last_active_post_condition . ' 
+			ORDER BY pos_date DESC '
+			);
+
+			while($post_row = $this->db->fetchAssoc($post_res))
+			{
+				$tmp_obj = new ilForumPost($post_row['pos_pk'] );
+
+				$tmp_obj->setPosAuthorId($post_row['pos_author_id']);
+				$tmp_obj->setDisplayUserId($post_row['pos_display_user_id']);
+				$tmp_obj->setUserAlias($post_row['pos_usr_alias']);
+				$tmp_obj->setImportName($post_row['import_name']);
+				$tmp_obj->setId($post_row['pos_pk']);
+				$tmp_obj->setCreateDate($post_row['pos_date']);
+
+				$threads[$row['thr_pk']]->last_post = $tmp_obj;
+			}
+		}
 		return array('items' => $threads);
 	}
 	

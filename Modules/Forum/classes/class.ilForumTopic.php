@@ -40,8 +40,8 @@ class ilForumTopic
 	private $is_closed = 0;
 	
 	private $orderField = '';
-	
-	private $posts = array();
+
+	public $last_post;
 
 	private $db = null;
 	
