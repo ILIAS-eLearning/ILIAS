@@ -25,30 +25,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             ->expects($this->once())
             ->method('replace');
 
-        $certificateFactory = $this->getMockBuilder('ilCertificateFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
 
-        $oldCertficate = $this->getMockBuilder('ilCertificate')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $oldCertficate->method('getBackgroundImageThumbPath')
-            ->willReturn('/some/where/background.jpg');
-
-
-        $newCertficate = $this->getMockBuilder('ilCertificate')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $newCertficate->method('getBackgroundImageThumbPath')
-            ->willReturn('/some/where/background.jpg');
-
-        $certificateFactory->method('create')
-            ->willReturnOnConsecutiveCalls(
-                $oldCertficate,
-                $newCertficate
-            );
 
         $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
             ->disableOriginalConstructor()
@@ -112,11 +89,12 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 
         $cloneAction = new ilCertificateCloneAction(
             $database,
-            $certificateFactory,
+            new ilCertificatePathFactory(),
             $templateRepository,
             $fileSystem,
             $logger,
-            $objectHelper
+            $objectHelper,
+            'some/web/directory'
         );
 
         $oldObject = $this->getMockBuilder('ilObject')
