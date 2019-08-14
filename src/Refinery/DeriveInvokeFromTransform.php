@@ -7,24 +7,24 @@
 
 namespace ILIAS\Refinery;
 
-
 use ILIAS\Data\Result;
 
 trait DeriveInvokeFromTransform
 {
-	/**
-	 * @param mixed $from
-	 * @return mixed
-	 * @throws \Exception
-	 */
-	abstract public function transform($from);
+    /**
+     * @param mixed $from
+     * @return mixed
+     * @throws \Exception
+     */
+    abstract public function transform($from);
 
-	/**
-	 * @throws \InvalidArgumentException  if the argument could not be transformed
-	 * @param  mixed  $from
-	 * @return mixed
-	 */
-	public function __invoke($from) {
-		return $this->transform($from);
-	}
+    /**
+     * @throws \InvalidArgumentException  if the argument could not be transformed
+     * @param  mixed  $from
+     * @return mixed
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 }

@@ -2,7 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-function estimatedReadingTime() {
+function estimatedReadingTime()
+{
     global $DIC;
 
     $refinery = $DIC->refinery();

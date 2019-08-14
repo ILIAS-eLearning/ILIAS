@@ -10,18 +10,20 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 /**
  * Strip tags from a string.
  */
-class StripTags implements Transformation {
-	use DeriveApplyToFromTransform;
-	use DeriveInvokeFromTransform;
+class StripTags implements Transformation
+{
+    use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from) {
-		if(!is_string($from)) {
-			throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
-		}
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        if (!is_string($from)) {
+            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+        }
 
-		return strip_tags($from);
-	}
+        return strip_tags($from);
+    }
 }
