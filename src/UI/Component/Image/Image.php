@@ -4,13 +4,17 @@
 
 namespace ILIAS\UI\Component\Image;
 
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\Signal;
+
 /**
  * This describes how a glyph could be modified during construction of UI.
  *
  * Interface Image
  * @package ILIAS\UI\Component\Image
  */
-interface Image extends \ILIAS\UI\Component\Component {
+interface Image extends \ILIAS\UI\Component\Component, JavaScriptBindable, Clickable {
 	/**
 	 * Types of images
 	 */
@@ -52,14 +56,14 @@ interface Image extends \ILIAS\UI\Component\Component {
 
 	/**
 	 * Get an image like this with an action
-	 * @param string $url
+	 * @param string|Signal[] $action
 	 * @return \ILIAS\UI\Component\Image\Image
 	 */
-	public function withAction($url);
+	public function withAction($action);
 
 	/**
 	 * Get the action of the image
-	 * @return string|null
+	 * @return string|Signal[]
 	 */
 	public function getAction();
 }

@@ -14,14 +14,14 @@ interface Card extends Component {
 
 	/**
 	 * Sets the title in the heading section of the card
-	 * @param $title
+	 * @param string|\ILIAS\UI\Component\Button\Shy $title
 	 * @return Standard
 	 */
 	public function withTitle($title);
 
 	/**
 	 * Get the title in the heading section of the card
-	 * @return string
+	 * @return string|\ILIAS\UI\Component\Button\Shy
 	 */
 	public function getTitle();
 

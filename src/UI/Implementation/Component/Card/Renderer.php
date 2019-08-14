@@ -42,13 +42,19 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("no_highlight");
 		}
 
+		$title = $component->getTitle();
 		if($component->getTitleAction()) {
 			$tpl->setCurrentBlock("title_action_begin");
 			$tpl->setVariable("HREF",$component->getTitleAction());
 			$tpl->parseCurrentBlock();
+		} else {
+			if ($title instanceof \ILIAS\UI\Component\Button\Shy)
+			{
+				$title = $default_renderer->render($title);
+			}
 		}
 
-		$tpl->setVariable("TITLE",$component->getTitle());
+		$tpl->setVariable("TITLE", $title);
 
 		if($component->getTitleAction()) {
 			$tpl->touchBlock("title_action_end");
