@@ -16,8 +16,13 @@ il.UI = il.UI || {};
 		var initNodesForExpansion = function (tree) {
 			tree.find('.il-tree-node .node-line').click(
 				function(e){
+					let link_in_list = $(this).find("a");
+					console.log(link_in_list);
+
 					$(this).parent('.il-tree-node').toggleClass('expanded');
-					return false;
+					if (link_in_list.length == 0) {
+						return false;
+					}
 				}
 			);
 
@@ -58,7 +63,10 @@ il.UI = il.UI || {};
 				function(e){
 					resetNodeHighlights(tree);
 					$(this).parent('.il-tree-node').addClass('highlighted');
-					return false;
+					let link_in_list = $(this).find("a");
+					if (link_in_list.length == 0) {
+						return false;
+					}
 				}
 			);
 		};
@@ -71,7 +79,11 @@ il.UI = il.UI || {};
 						var s = signals[i];
 						node.trigger(s.signal_id, s);
 					}
-					return false;
+
+					let link_in_list = $(this).find("a");
+					if (link_in_list.length == 0) {
+						return false;
+					}
 				}
 			);
 		}
