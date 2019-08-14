@@ -70,4 +70,22 @@ interface Factory {
 	 */
 	public function workflow();
 
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Report Listings are used to present label-value doubles of textual-information.
+     *   composition: >
+     *     Report Listings are composed of items containing a key labeling the value
+     *     being displayed side by side.
+     *   rivals:
+     *      DescriptiveListing: >
+     *        The items for a descriptive listing consists of a key as a title
+     *        and a value describing the key. It is to be used whenever the semantics of
+     *        a html descriptive listing is required that can be shown underneath.
+     * ----
+     * @return \ILIAS\UI\Component\Listing\Report\Factory
+     */
+	public function report();
+
 }
