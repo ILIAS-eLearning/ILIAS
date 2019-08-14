@@ -1,4 +1,6 @@
 #!/bin/bash
+source CI/Import/Functions.sh
+source CI/Import/Variables.sh
 
 if [[ -x "$PHPSTAN" ]]
   then
