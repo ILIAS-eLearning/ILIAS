@@ -20,6 +20,10 @@ class ListingFactoryTest extends AbstractFactoryTest {
 			"workflow" => array(
 					"context" => false,
 					"rules" => false
+			),
+			"report" => array(
+					"context" => false,
+					"rules" => false
 			)
 	);
 
