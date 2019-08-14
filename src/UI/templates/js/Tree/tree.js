@@ -16,10 +16,9 @@ il.UI = il.UI || {};
 		var initNodesForExpansion = function (tree) {
 			tree.find('.il-tree-node .node-line').click(
 				function(e){
-					let link_in_list = $(this).find("a");
-					console.log(link_in_list);
-
 					$(this).parent('.il-tree-node').toggleClass('expanded');
+
+					let link_in_list = $(this).find("a");
 					if (link_in_list.length == 0) {
 						return false;
 					}
