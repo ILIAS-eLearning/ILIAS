@@ -25,7 +25,13 @@ interface Factory
      *     of the available space.
      *     A Standard Report Listing SHOULD be used with a divider,
      *     that will be shown between the items.
-     *
+     * rules:
+     *   usage:
+     *       1: >
+     *         The Standard Report Listing MUST NOT be used standalone. It MUST be used as content
+     *         for a parent component such as a Panel or similar.
+     *       2: >
+     *         The Standard Report Listing SHOULD be used as a major ui part such as the main content.
      * ----
      * @param array $items string => Component | string
      *
@@ -47,6 +53,13 @@ interface Factory
      *     The items will be presented underneath, whereby each items' label and value will be presented side by side.
      *     The width of columns for labels and values are not the same, the labels get more space.
      *     For a better optic the values are righ aligned.
+     * rules:
+     *   usage:
+     *       1: >
+     *         The Mini Report Listing MUST NOT be used standalone. It MUST be used as content
+     *         for a parent component such as the Reporting Panel Card or similar.
+     *       2: >
+     *         The Mini Report Listing SHOULD NOT be used as a major ui part such as the main content.
      * ----
      *
      * @param array $items string => Component | string

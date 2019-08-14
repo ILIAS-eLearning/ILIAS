@@ -83,6 +83,11 @@ interface Factory {
      *        The items for a descriptive listing consists of a key as a title
      *        and a value describing the key. It is to be used whenever the semantics of
      *        a html descriptive listing is required that can be shown underneath.
+     * rules:
+     *   usage:
+     *       1: >
+     *         The Report Listing MUST NOT be used standalone. It MUST be used as content
+     *         for a parent component such as a Panel or similar.
      * ----
      * @return \ILIAS\UI\Component\Listing\Report\Factory
      */
