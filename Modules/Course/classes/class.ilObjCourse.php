@@ -1036,12 +1036,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		unset($obj_settings);
 		
 		// clone certificate (#11085)
-		$factory = new ilCertificateFactory(new ilCertificatePathFactory());
+		$pathFactory = new ilCertificatePathFactory();
 		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
 		$cloneAction = new ilCertificateCloneAction(
 			$ilDB,
-			$factory,
+			$pathFactory,
 			$templateRepository,
 			$DIC->filesystem()->web(),
 			$certificateLogger,

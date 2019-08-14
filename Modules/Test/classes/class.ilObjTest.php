@@ -7560,12 +7560,12 @@ function getAnswerFeedbackPoints()
 		$newObj->saveToDb();
 		
 		// clone certificate
-		$factory = new ilCertificateFactory(new ilCertificatePathFactory());
+		$pathFactory = new ilCertificatePathFactory();
 		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
 		$cloneAction = new ilCertificateCloneAction(
 			$ilDB,
-			$factory,
+			$pathFactory,
 			$templateRepository,
 			$DIC->filesystem()->web(),
 			$certificateLogger,
