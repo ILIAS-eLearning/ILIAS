@@ -23,11 +23,6 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
         $this->dic      = new Container();
         $GLOBALS['DIC'] = $this->dic;
 
-        $initRefl = new ReflectionClass(ilInitialisation::class);
-        $method   = $initRefl->getMethod('initUIFramework');
-        $method->setAccessible(true);
-        $method->invoke($initRefl, $this->dic);
-
         $this->setGlobalVariable('lng', $this->getLanguageMock());
         $this->setGlobalVariable(
             'ilCtrl',
@@ -50,6 +45,27 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
             ->getMock();
 
         return $lng;
+    }
+
+    /**
+     * @return MockObject|\ILIAS\UI\Factory
+     */
+    protected function getUiFactoryMock() : \ILIAS\UI\Factory
+    {
+        $ui = $this
+            ->getMockBuilder(\ILIAS\UI\Factory::class)
+            ->getMock();
+
+        $ui->expects($this->any())->method('legacy')->will($this->returnCallback(function ($content) {
+            $legacyMock = $this
+                ->getMockBuilder(\ILIAS\UI\Component\Legacy\Legacy::class)
+                ->getMock();
+            $legacyMock->expects($this->any())->method('getContent')->willReturn($content);
+
+            return $legacyMock;
+        }));
+
+        return $ui;
     }
 
     /**
