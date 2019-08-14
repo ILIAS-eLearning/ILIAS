@@ -29,11 +29,6 @@ class Radio extends Input implements C\Input\Field\Radio {
 	protected $bylines = [];
 
 	/**
-	 * @var array <string,array> {$option_value => $fields}
-	 */
-	protected $dependant_fields = [];
-
-	/**
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
@@ -50,30 +45,11 @@ class Radio extends Input implements C\Input\Field\Radio {
 	/**
 	 * @inheritdoc
 	 */
-	public function withNameFrom(NameSource $source) {
-		$clone = parent::withNameFrom($source);
-
-		foreach ($clone->dependant_fields as $option_value => $fields) {
-			$named_inputs = [];
-			foreach ($fields as $key => $input) {
-				$named_inputs[$key] = $input->withNameFrom($source);
-			}
-			$clone->dependant_fields[$option_value] = $named_inputs;
-		}
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withOption(string $value, string $label, string $byline=null, $dependant_fields=null) : C\Input\Field\Radio{
+	public function withOption(string $value, string $label, string $byline=null) : C\Input\Field\Radio{
 		$clone = clone $this;
 		$clone->options[$value] = $label;
 		if(! is_null($byline)) {
 			$clone->bylines[$value] = $byline;
-		}
-		if(! is_null($dependant_fields)) {
-			$clone->dependant_fields[$value] = $dependant_fields;
 		}
 		return $clone;
 	}
@@ -91,17 +67,6 @@ class Radio extends Input implements C\Input\Field\Radio {
 			return null;
 		}
 		return $this->bylines[$value];
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getDependantFieldsFor(string $value) {
-		if(!array_key_exists($value, $this->dependant_fields)) {
-			return null;
-		}
-		return $this->dependant_fields[$value];
 	}
 
 	/**
@@ -125,33 +90,7 @@ class Radio extends Input implements C\Input\Field\Radio {
 			return $clone->withError("" .$clone->content->error());
 		}
 
-		if (is_null($value)) {
-			$dep_fields = $this->getDependantFieldsFor("");
-		}
-		else {
-			$dep_fields = $this->getDependantFieldsFor($value);
-		}
-		if(is_null($dep_fields)) {
-			$clone->content = $this->applyOperationsTo($value);
-		} else {
-
-			$values = [
-				'value' => $value,
-				'group_values' => []
-			];
-
-			foreach ($dep_fields as $name => $field) {
-				$filled = $field->withInput($post_input);
-				$content = $filled->getContent();
-
-				if ($content->isOk()) {
-					$values['group_values'][$name] = $content->value();
-				}
-
-				$clone->dependant_fields[$value][$name] = $filled;
-			}
-			$clone->content = $clone->applyOperationsTo($values);
-		}
+		$clone->content = $this->applyOperationsTo($value);
 
 		if($clone->getError()) {
 			$clone->content = $clone->data_factory->error($clone->getError());

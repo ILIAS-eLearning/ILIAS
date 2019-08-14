@@ -147,4 +147,14 @@ class Factory
 	{
 		return new DateTime\Group();
 	}
+
+	/**
+	 * Contains transformations for Data\URI
+	 *
+	 * @return URI\Group
+	 */
+	public function uri() : URI\Group
+	{
+		return new URI\Group();
+	}
 }

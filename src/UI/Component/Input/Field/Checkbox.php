@@ -5,13 +5,10 @@ docs/LICENSE */
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Component\Changeable;
-use ILIAS\UI\Component\Onloadable;
-use ILIAS\UI\Component\Input\Field\DependantGroupProviding;
+use ILIAS\UI\Component\Component;
 
 /**
  * This describes checkbox inputs.
  */
-interface Checkbox extends DependantGroupProviding {
-
+interface Checkbox extends Component {
 }

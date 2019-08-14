@@ -155,7 +155,7 @@ class ListValue extends AbstractValue
      */
     public function unserialize($serialized)
     {
-        $this->list = $this->unserialize($serialized);
+        $this->list = unserialize($serialized);
         $this->type = $this->deriveType($this->list);
     }
 

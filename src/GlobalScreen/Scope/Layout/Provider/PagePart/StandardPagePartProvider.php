@@ -1,13 +1,12 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
+use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
-use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
-use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy as LegacyImplementation;
 use ilUtil;
 
@@ -21,6 +20,7 @@ use ilUtil;
 class StandardPagePartProvider implements PagePartProvider
 {
 
+    use isSupportedTrait;
     /**
      * @var Legacy
      */
@@ -64,8 +64,9 @@ class StandardPagePartProvider implements PagePartProvider
         $meta_bar = $f->mainControls()->metaBar();
 
         foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
+
             $component = $item->getRenderer()->getComponentForItem($item);
-            if ($component instanceof Slate || $component instanceof Bulky) {
+            if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $component);
             }
         }
@@ -84,12 +85,12 @@ class StandardPagePartProvider implements PagePartProvider
 
         foreach ($this->gs->collector()->mainmenu()->getStackedTopItemsForPresentation() as $item) {
             /**
-             * @var $slate Combined
+             * @var $component Combined
              */
-            $slate = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
+            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
             $identifier = $item->getProviderIdentification()->getInternalIdentifier();
-            if ($slate instanceof Bulky || $slate instanceof Slate) {
-                $main_bar = $main_bar->withAdditionalEntry($identifier, $slate);
+            if ($this->isComponentSupportedForCombinedSlate($component)) {
+                $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
             }
         }
 
@@ -101,9 +102,9 @@ class StandardPagePartProvider implements PagePartProvider
         if ($this->gs->collector()->tool()->hasTools()) {
             $main_bar = $main_bar->withToolsButton($f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
             foreach ($this->gs->collector()->tool()->getTools() as $tool) {
-                $slate = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
+                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
                 $id = $tool->getProviderIdentification()->getInternalIdentifier();
-                $main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $slate);
+                $main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $component);
             }
         }
 

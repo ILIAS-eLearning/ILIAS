@@ -205,7 +205,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(
             $this->getCriterionConfig(['role_id' => $roleId]),
-            $this->dic->ui()->factory()
+            $this->getUiFactoryMock()
         );
 
         $this->assertInstanceOf(Component::class, $actual);
