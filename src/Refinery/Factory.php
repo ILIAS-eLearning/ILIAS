@@ -153,7 +153,7 @@ class Factory
 	 *
 	 * @return URI\Group
 	 */
-	public function uri()
+	public function uri() : URI\Group
 	{
 		return new URI\Group();
 	}
