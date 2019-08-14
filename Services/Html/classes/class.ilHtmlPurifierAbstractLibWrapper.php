@@ -42,12 +42,12 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
     abstract protected function getPurifierConfigInstance() : HTMLPurifier_Config;
 
     /**
-     * @param HTMLPurifier $oPurifier
+     * @param HTMLPurifier $purifier
      * @return ilHtmlPurifierAbstractLibWrapper
      */
-    protected function setPurifier(HTMLPurifier $oPurifier) : self
+    protected function setPurifier(HTMLPurifier $purifier) : self
     {
-        $this->purifier = $oPurifier;
+        $this->purifier = $purifier;
         return $this;
     }
 
@@ -74,8 +74,8 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
 
     /**
      * Removes all unsupported elements
-     * @param array $elements
-     * @return array
+     * @param string[] $elements
+     * @return string[]
      */
     final protected function removeUnsupportedElements(array $elements) : array
     {
@@ -104,8 +104,8 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
     }
 
     /**
-     * @param array $elements
-     * @return array
+     * @param string[] $elements
+     * @return string[]
      */
     protected function makeElementListTinyMceCompliant(array $elements) : array
     {
