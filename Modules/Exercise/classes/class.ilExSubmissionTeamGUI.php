@@ -94,7 +94,9 @@ class ilExSubmissionTeamGUI
 				$this->ctrl->setReturn($this,'submissionScreenTeam');	
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
-				$rep_search->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
+                if (!$this->submission->isTutor()) {
+                    $rep_search->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
+                }
 				$rep_search->setTitle($this->lng->txt("exc_team_member_add"));
 				$rep_search->setCallback($this,'addTeamMemberActionObject');
 				$this->ctrl->forwardCommand($rep_search);
@@ -239,7 +241,8 @@ class ilExSubmissionTeamGUI
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
 		else if(!$read_only)
-		{								
+		{
+            $add_search = $this->submission->isTutor();
 			// add member
 			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 			ilRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -248,7 +251,7 @@ class ilExSubmissionTeamGUI
 				array(
 					'auto_complete_name'	=> $this->lng->txt('user'),
 					'submit_name'			=> $this->lng->txt('add'),
-					'add_search'			=> true,
+					'add_search'			=> $add_search,
 					'add_from_container'    => $this->exercise->getRefId()		
 				)
 			);

@@ -595,7 +595,12 @@ class ilRepositorySearchGUI
 	
 	public function showSearch()
 	{
-		$this->initFormSearch();
+        // only autocomplete input field, no search form if user privay should be respected
+        // see bug 25481
+        if ($this->getPrivacyMode() == ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING) {
+            return;
+        }
+        $this->initFormSearch();
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	
@@ -754,7 +759,12 @@ class ilRepositorySearchGUI
 	 */
 	function performSearch()
 	{
-		$found_query = false;
+        // only autocomplete input field, no search form if user privay should be respected
+        // see bug 25481
+        if ($this->getPrivacyMode() == ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING) {
+            return "";
+        }
+        $found_query = false;
 		foreach((array) $_POST['rep_query'][$_POST['search_for']] as $field => $value)
 		{
 			if(trim(ilUtil::stripSlashes($value)))
