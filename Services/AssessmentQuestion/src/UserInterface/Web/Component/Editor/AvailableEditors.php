@@ -18,6 +18,7 @@ class AvailableEditors {
 		$editors = [];
 		$editors[MultipleChoiceEditor::class] = "MultipleChoiceEditor";
 		$editors[KprimChoiceEditor::class] = "KprimChoiceEditor";
+        $editors[NumericEditor::class] = "NumericEditor";
 		return $editors;
 	}
 

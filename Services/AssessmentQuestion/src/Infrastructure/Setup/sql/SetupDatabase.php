@@ -21,8 +21,8 @@ class SetupDatabase {
 	public function run():void {
 	    global $DIC;
 
-        //$ilCtrlStructureReader = new ilCtrlStructureReader($DIC->clientIni());
-        //$ilCtrlStructureReader->readStructure(true);
+        $ilCtrlStructureReader = new ilCtrlStructureReader($DIC->clientIni());
+        $ilCtrlStructureReader->readStructure(true);
 
         $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME, false);

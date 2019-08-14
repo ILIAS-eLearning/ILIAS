@@ -82,11 +82,14 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 
 		$this->initiatePlayConfiguration($question->getPlayConfiguration());
 
-		$this->addItem(new AnswerOptionForm(
-			'Answers',
-			$this->collectFields($question->getPlayConfiguration()),
-			$question->getAnswerOptions()->getOptions())
-		);
+		$fields = $this->collectFields($question->getPlayConfiguration());
+		if (count($fields) > 0) {
+            $this->addItem(new AnswerOptionForm(
+                    'Answers',
+                    $fields,
+                    $question->getAnswerOptions()->getOptions())
+            );
+        }
 
 		$this->addCommandButton('save', 'Save');
 	}

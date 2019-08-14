@@ -62,28 +62,28 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
 	/**
 	 * @return bool
 	 */
-	public function isShuffleAnswers(): bool {
+	public function isShuffleAnswers() {
 		return $this->shuffle_answers;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getMaxAnswers(): int {
+	public function getMaxAnswers() {
 		return $this->max_answers;
 	}
 
 	/**
 	 * @return int
 	 */
-	public function getThumbnailSize(): int {
+	public function getThumbnailSize() {
 		return $this->thumbnail_size;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function isSingleLine(): bool {
+	public function isSingleLine() {
 	    return $this->single_line;
 	}
 

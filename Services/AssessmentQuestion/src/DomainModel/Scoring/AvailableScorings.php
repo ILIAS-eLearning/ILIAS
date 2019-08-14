@@ -18,6 +18,7 @@ class AvailableScorings {
 		$scorings = [];
 		$scorings[MultipleChoiceScoring::class] = "MultipleChoiceScoring";
 		$scorings[KprimChoiceScoring::class] = "KprimScoring";
+		$scorings[NumericScoring::class] = "NumericScoring";
 		return $scorings;
 	}
 
