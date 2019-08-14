@@ -19,7 +19,7 @@ il.UI = il.UI || {};
 					$(this).parent('.il-tree-node').toggleClass('expanded');
 
 					let link_in_list = $(this).find("a");
-					if (link_in_list.length == 0) {
+					if (link_in_list.length === 0) {
 						return false;
 					}
 				}
@@ -63,7 +63,7 @@ il.UI = il.UI || {};
 					resetNodeHighlights(tree);
 					$(this).parent('.il-tree-node').addClass('highlighted');
 					let link_in_list = $(this).find("a");
-					if (link_in_list.length == 0) {
+					if (link_in_list.length === 0) {
 						return false;
 					}
 				}
@@ -80,7 +80,7 @@ il.UI = il.UI || {};
 					}
 
 					let link_in_list = $(this).find("a");
-					if (link_in_list.length == 0) {
+					if (link_in_list.length === 0) {
 						return false;
 					}
 				}
