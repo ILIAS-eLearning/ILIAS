@@ -9,7 +9,7 @@ namespace ILIAS\Refinery\URI;
 
 class Group
 {
-    public function string()
+    public function toString()
     {
         return new StringTransformation();
     }

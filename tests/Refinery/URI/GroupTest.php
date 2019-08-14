@@ -20,7 +20,7 @@ class GroupTest extends TestCase
     public function testStringTransformationInstance()
     {
         $group = new Group();
-        $transformation = $group->string();
+        $transformation = $group->toString();
         $this->assertInstanceOf(StringTransformation::class, $transformation);
     }
 }
