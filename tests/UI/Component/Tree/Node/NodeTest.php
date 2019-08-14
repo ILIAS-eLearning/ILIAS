@@ -107,15 +107,17 @@ class NodeTest extends ILIAS_UI_TestBase
 	}
 
 	/**
+	 * @param Node $node
 	 * @depends testWithOnClick
 	 */
 	public function testWithURI($node)
 	{
 		$uri = new URI('http://google.de:8080');
 
-		/** @var URI $node */
 		$node = $node->withLink($uri);
 
-		$this->assertEquals('http://google.de:8080', $node->getLink()->getBaseURI());
+		$stringTransformation = new \ILIAS\Refinery\URI\StringTransformation();
+
+		$this->assertEquals('http://google.de:8080', $stringTransformation->transform($node->getLink()));
 	}
 }

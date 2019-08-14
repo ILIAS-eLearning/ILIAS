@@ -7,7 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Signal;
@@ -33,7 +32,9 @@ class Renderer extends AbstractComponentRenderer {
 		/** @var URI|null $link */
 		$link = $component->getLink();
 		if (null !== $link) {
-			$label = '<a href="' . $link->getBaseURI() . '">' . $label . '</a>';
+			global $DIC;
+			$linkAsString = $DIC->refinery()->uri()->toString()->transform($link);
+			$label   = '<a href="' . $linkAsString . '">' . $label . '</a>';
 		}
 		$tpl->setVariable("LABEL", $label);
 
