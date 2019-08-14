@@ -354,13 +354,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			);
 			
 			if(!$this->object->getAnonymity()) {
-				$factory = new ilCertificateFactory(new ilCertificatePathFactory());
-
-				$certificate = $factory->create($this->object);
-
-				if($certificate->isComplete(new ilTestCertificateAdapter($this->object))) {
+				$userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->cert());
+				try {
+					$userCertificateRepository->fetchActiveCertificate($DIC->user()->getId(), $this->object->getId());
 					$options['certificate'] = $this->lng->txt('exp_type_certificate');
-				}
+				} catch (ilException $e) {}
 			}
 
 			$export_type->setOptions($options);
