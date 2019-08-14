@@ -316,9 +316,6 @@ class ilPersonalChatSettingsFormGUI
                     if (true === $formData[self::PROP_ENABLE_OSC][self::PROP_ENABLE_BROWSER_NOTIFICATIONS]) {
                         $sendBrowserNotifications = true;
                     }
-                    if (isset($formData[self::PROP_ENABLE_OSC][0])) {
-                        $sendBrowserNotifications = (bool) $formData[self::PROP_ENABLE_OSC][0];
-                    }
                 }
 
                 if ($oldBrowserNotificationValue !== $sendBrowserNotifications) {
