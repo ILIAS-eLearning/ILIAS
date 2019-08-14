@@ -51,11 +51,6 @@ with "You SHOULD").
 * If contend from other files is referenced an internal link to this document
 SHOULD be provided.
 * Line wrap after around 80 chars per line to improve readability SHOULD be used.
-* Screenshots and Images SHOULD be avoided in the documentation if possible. Use
-abstractions instead. If there is no way around using an image, it MUST be included
-by referencing a resource in the [screenshots folder](https://ilias-elearning.github.io/screenshots)
-on https://ilias-elearning.github.io.
-
 
 ### Table of Contents (Markdown)
 
