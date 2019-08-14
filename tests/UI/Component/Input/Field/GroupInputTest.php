@@ -120,6 +120,36 @@ class GroupInputTest extends ILIAS_UI_TestBase {
 		$this->assertNotSame($this->group, $new_group);
 	}
 
+	public function testWithValuePreservesKeys() {
+		$this->assertNotSame($this->child1, $this->child2);
+
+		$this->group = new Group(
+			$this->data_factory,
+			$this->refinery,
+			["child1" => $this->child1, "child2" => $this->child2],
+			"LABEL",
+			"BYLINE"
+		);
+
+		$this->child1
+			->method("withValue")
+			->willReturn($this->child2);
+		$this->child1
+			->method("isClientSideValueOk")
+			->willReturn(true);
+		$this->child2
+			->method("withValue")
+			->willReturn($this->child1);
+		$this->child2
+			->method("isClientSideValueOk")
+			->willReturn(true);
+
+		$new_group = $this->group->withValue(["child1" => 1,"child2" => 2]);
+
+		$this->assertEquals(["child1" => $this->child2, "child2" => $this->child1], $new_group->getInputs());
+	}
+
+
 	public function testGroupOnlyDoesNoAcceptNonArrayValue() {
 		$this->expectException(\InvalidArgumentException::class);
 
