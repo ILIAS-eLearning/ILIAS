@@ -612,11 +612,16 @@ Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.
 * **UI-Service**
 	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Used in Directories: src/UI
+	
+* **Refinery**
+	* Coordinators: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* Used in Directories: src/Refinery
 
 
 The following directories are currently maintained under the [Coordinator Model](maintenance-coordinator.md):
 
 * src/UI
+* src/Refinery
 
 
 The following directories are currently unmaintained:
