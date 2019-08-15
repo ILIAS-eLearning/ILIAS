@@ -147,13 +147,11 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 	{
 		foreach ($form->getInputItemsRecursive() as $key => $item)
 		{
-			//vd("$key // {$item->getType()} // ".json_encode($_POST[$item->getPostVar()]));
-
 			switch( $item->getType() )
 			{
 				case 'section_header':
 
-					continue;
+					continue 2;
 
 				case 'datetime':
 
