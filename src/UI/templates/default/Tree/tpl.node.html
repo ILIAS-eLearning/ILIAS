@@ -2,16 +2,25 @@
 	class="il-tree-node node-simple<!-- BEGIN expandable --> expandable<!-- END expandable --><!-- BEGIN expanded --> expanded<!-- END expanded --><!-- BEGIN highlighted --> highlighted<!-- END highlighted -->"
 	<!-- BEGIN async_loading --> data-async_url="{ASYNCURL}" data-async_loaded="false"<!-- END async_loading -->
 	>
-	<span class="node-line">
-		{ICON}<span class="node-label">{LABEL}</span>
+
+	<!-- BEGIN node_without_link -->
+	<span class="node-line">{ICON}<span class="node-label">{LABEL}</span>
 		<!-- BEGIN byline -->
 		<span class="node-byline">{BYLINE}</span>
 		<!-- END byline -->
 	</span>
+	<!-- END node_without_link -->
+
+	<!-- BEGIN node_with_link -->
+	<span class="node-line">{ICON}<span class="node-label"><a href="{LINK}">{LABEL}</a></span>
+		<!-- BEGIN byline -->
+		<span class="node-byline">{BYLINE}</span>
+		<!-- END byline -->
+	</span>
+	<!-- END node_with_link -->
 
 
-
-<!-- BEGIN subnodes -->
+	<!-- BEGIN subnodes -->
 	<ul>
 		{SUBNODES}
 	</ul>

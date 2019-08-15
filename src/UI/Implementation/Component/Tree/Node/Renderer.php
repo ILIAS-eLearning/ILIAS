@@ -32,11 +32,18 @@ class Renderer extends AbstractComponentRenderer {
 		/** @var URI|null $link */
 		$link = $component->getLink();
 		if (null !== $link) {
+			$tpl->setCurrentBlock("node_with_link");
+
 			global $DIC;
 			$linkAsString = $DIC->refinery()->uri()->toString()->transform($link);
-			$label   = '<a href="' . $linkAsString . '">' . $label . '</a>';
+			$tpl->setVariable("LINK", $linkAsString);
 		}
+		else {
+			$tpl->setCurrentBlock("node_without_link");
+		}
+
 		$tpl->setVariable("LABEL", $label);
+		$tpl->parseCurrentBlock();
 
 		if ($component instanceof Node\Bylined && null !== $component->getByline()) {
 			$tpl->setVariable('BYLINE', $component->getByline());
