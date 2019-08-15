@@ -33,10 +33,11 @@ class Renderer extends AbstractComponentRenderer {
 		/** @var URI|null $link */
 		$link = $component->getLink();
 		if (null !== $link) {
-			$tpl->setCurrentBlock("node_with_link");
+			$linkAsString = $this->getRefinery()
+				->uri()
+				->toString()
+				->transform($link);
 
-			global $DIC;
-			$linkAsString = $DIC->refinery()->uri()->toString()->transform($link);
 			$tpl->setVariable("LINK", $linkAsString);
 			$tpl->setVariable("LABEL_LINKED", $label);
 			if($icon){
