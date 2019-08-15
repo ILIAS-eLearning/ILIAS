@@ -202,7 +202,6 @@ class ilCertificateGUI
      * @access public
      */
     public function __construct(
-        ilCertificateAdapter $adapter,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificatePlaceholderValues $placeholderValuesObject,
         $objectId,
