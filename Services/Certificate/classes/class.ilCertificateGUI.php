@@ -44,12 +44,6 @@ class ilCertificateGUI
     private $fileSystem;
 
     /**
-     * ilCertificate object reference
-     * @var ilCertificate
-     */
-    protected $certifcateObject;
-
-    /**
     * The reference to the ILIAS control class
     *
     * @var object
@@ -221,15 +215,6 @@ class ilCertificateGUI
         \ILIAS\Filesystem\Filesystem $fileSystem = null
     ) {
         global $DIC;
-
-
-        $this->certifcateObject = new ilCertificate(
-            $adapter,
-            $placeholderDescriptionObject,
-            $placeholderValuesObject,
-            $objectId,
-            $certificatePath
-        );
 
         $this->lng     = $DIC['lng'];
         $this->tpl     = $DIC['tpl'];
@@ -445,8 +430,7 @@ class ilCertificateGUI
         global $DIC;
 
         $form = $this->settingsFormFactory->createForm(
-            $this,
-            $this->certifcateObject
+            $this
         );
 
         $form->setValuesByPost();
@@ -482,8 +466,7 @@ class ilCertificateGUI
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
         $form = $this->settingsFormFactory->createForm(
-            $this,
-            $this->certifcateObject
+            $this
         );
 
         $formFields = $this->createFormatArray($certificateTemplate);
