@@ -21,7 +21,7 @@ class ComponentRendererFSLoaderTest extends TestCase {
 		$js_binding = $this->getMockBuilder(I\Render\JavaScriptBinding::class)->getMock();
 		$refinery_mock = $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
 			->disableOriginalConstructor()
-            ->getMock();
+			->getMock();
 
 		$default_renderer_factory = new I\Render\DefaultRendererFactory(
 			$ui_factory,
