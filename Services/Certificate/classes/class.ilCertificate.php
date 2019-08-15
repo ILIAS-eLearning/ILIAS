@@ -169,24 +169,6 @@ class ilCertificate
         return $this->certificatePath;
     }
 
-    /**
-    * Checks the status of the certificate
-    *
-    * @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
-    */
-    public function isComplete()
-    {
-        if (self::isActive()) {
-            if ($this->objectId && !self::isObjectActive($this->objectId)) {
-                return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
     /***************************************
     /* BULK CERTIFICATE PROCESSING METHODS *
     /***************************************
@@ -209,40 +191,5 @@ class ilCertificate
 
         return self::$is_active;
     }
-
-    /**
-     * @param int $a_obj_id
-     * @return bool
-     */
-    public static function isObjectActive($a_obj_id)
-    {
-        $chk = self::areObjectsActive(array($a_obj_id));
-        return $chk[$a_obj_id];
-    }
-
-    /**
-     * @param array $a_obj_ids
-     * @return array
-     */
-    public static function areObjectsActive(array $a_obj_ids)
-    {
-        /**
-         * @var $ilDB ilDBInterface
-         */
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $all = array();
-        foreach ($a_obj_ids as $id) {
-            $all[$id] = false;
-        }
-
-        $set = $ilDB->query("SELECT obj_id FROM il_certificate WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer"));
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $all[$row["obj_id"]] = true;
-        }
-
-        return $all;
-    }
+    **/
 }
