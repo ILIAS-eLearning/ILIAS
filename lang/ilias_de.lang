@@ -240,7 +240,7 @@ administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anony
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
-administration#:#adm_layout_and_navigation#:#Layout unf Navigation
+administration#:#adm_layout_and_navigation#:#Layout und Navigation
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
