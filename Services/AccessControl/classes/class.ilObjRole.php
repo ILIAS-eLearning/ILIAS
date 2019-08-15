@@ -573,14 +573,19 @@ class ilObjRole extends ilObject
 
 		$filter = array();
 		$sorted = array();
-		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
-		if(!ilECSSetting::_ecsConfigured()){
-			include_once './Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
-			$filter = array_merge($filter ,ilECSEventQueueReader::getAllEContentTypes());
+
+		if(!ilECSSetting::ecsConfigured()){
+			$filter = array_merge($filter ,ilECSUtils::getPossibleRemoteTypes(false));
+			$filter[] = 'rtst';
 		}
 
 		foreach($subs as $subtype => $def)
 		{
+			if(in_array($def["name"],$filter))
+			{
+				continue;
+			}
+
 			if($objDefinition->isPlugin($subtype))
 			{
 				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
@@ -594,10 +599,8 @@ class ilObjRole extends ilObject
 				$translation = $lng->txt('objs_'.$subtype);
 			}
 
-			if(!in_array($def["name"],$filter)) {
-				$sorted[$subtype] = $def;
-				$sorted[$subtype]['translation'] = $translation;
-			}
+			$sorted[$subtype] = $def;
+			$sorted[$subtype]['translation'] = $translation;
 		}
 
 		return ilUtil::sortArray($sorted, 'translation','asc',true,true);

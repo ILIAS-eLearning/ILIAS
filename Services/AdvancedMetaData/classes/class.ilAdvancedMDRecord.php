@@ -177,14 +177,17 @@ class ilAdvancedMDRecord
 		$filter = array();
 		$amet_types = $objDefinition->getAdvancedMetaDataTypes();
 
-		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
-		if(!ilECSSetting::_ecsConfigured()){
-			include_once './Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
-			$filter = array_merge($filter ,ilECSEventQueueReader::getAllEContentTypes());
+		if(!ilECSSetting::ecsConfigured()){
+			$filter = array_merge($filter ,ilECSUtils::getPossibleRemoteTypes(false));
+			$filter[] = 'rtst';
 		}
 
 		foreach ($amet_types as $at)
 		{
+			if(in_array($at["obj_type"],$filter)) {
+				continue;
+			}
+
 			if ($a_include_text)
 			{
 				$text = $lng->txt("obj_".$at["obj_type"]);
@@ -199,10 +202,8 @@ class ilAdvancedMDRecord
 				}
 				$at["text"] = $text;
 			}
-			if(!in_array($at["obj_type"],$filter))
-			{
-				$types[] = $at;
-			}
+
+			$types[] = $at;
 		}
 
 		sort($types);
