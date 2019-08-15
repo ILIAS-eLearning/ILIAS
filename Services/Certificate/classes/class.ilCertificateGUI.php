@@ -21,8 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Certificate/classes/class.ilCertificate.php");
-
 /**
 * GUI class to create PDF certificates
 *
