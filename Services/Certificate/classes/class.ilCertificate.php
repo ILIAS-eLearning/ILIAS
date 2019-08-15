@@ -168,28 +168,4 @@ class ilCertificate
 
         return $this->certificatePath;
     }
-
-    /***************************************
-    /* BULK CERTIFICATE PROCESSING METHODS *
-    /***************************************
-
-    public static function isActive()
-    {
-        if (self::$is_active === null) {
-            // basic admin setting active?
-            $certificate_active = new ilSetting("certificate");
-            $certificate_active = (bool)$certificate_active->get("active");
-
-            // java/rtpc-server active?
-            if ($certificate_active) {
-                include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-                $certificate_active = ilRPCServerSettings::getInstance()->isEnabled();
-            }
-
-            self::$is_active = (bool)$certificate_active;
-        }
-
-        return self::$is_active;
-    }
-    **/
 }
