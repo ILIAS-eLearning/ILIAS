@@ -1215,7 +1215,7 @@
 				let prop = _smileys[i];
 
 				if (!emoticonMap.hasOwnProperty(prop)) {
-					emoticonMap[prop] = $('<img src="#" alt="" title="" />')
+					emoticonMap[prop] = $('<img alt="" title="" />')
 						.attr('data-emoticon', i)
 						.attr('data-src', prop);
 				}
@@ -1282,7 +1282,7 @@
 			let renderCollection = [];
 
 			emoticonCollection.forEach(function(elm) {
-				renderCollection.push(elm.replace(/src="#"/, "").replace(/data-src/, "src"));
+				renderCollection.push(elm.replace(/data-src/, "src"));
 			});
 
 			return renderCollection.join('');
