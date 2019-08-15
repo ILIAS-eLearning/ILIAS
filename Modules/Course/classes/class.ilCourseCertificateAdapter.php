@@ -178,11 +178,11 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 			}
 		}
 		
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if (ilCertificate::isActive())
+		$validator = new ilCertificateActiveValidator();
+		if (true === $validator->validate())
 		{
 			$obj_active = ilCertificate::areObjectsActive($a_obj_ids);
-		
+
 			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 			$data = ilCourseParticipants::getPassedUsersForObjects($a_obj_ids, $a_usr_ids);			
 			foreach($data as $rec)

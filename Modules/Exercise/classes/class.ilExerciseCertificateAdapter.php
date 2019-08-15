@@ -192,8 +192,8 @@ class ilExerciseCertificateAdapter extends ilCertificateAdapter
 	 */
 	public function hasUserCertificate(int $userId)
 	{
-		// show certificate?
-		if(ilCertificate::isActive() && ilCertificate::isObjectActive($this->object->getId())) {
+		$validator = new ilCertificateActiveValidator();
+		if(true === $validator->validate()) {
 			$certificate_visible = $this->object->getCertificateVisibility();
 			// if not never
 			if($certificate_visible != 2) {
