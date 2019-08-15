@@ -28,6 +28,7 @@ class Renderer extends AbstractComponentRenderer {
 			$async = true;
 		}
 
+		$icon = $component->getIcon();
 		$label = $component->getLabel();
 		/** @var URI|null $link */
 		$link = $component->getLink();
@@ -37,22 +38,23 @@ class Renderer extends AbstractComponentRenderer {
 			global $DIC;
 			$linkAsString = $DIC->refinery()->uri()->toString()->transform($link);
 			$tpl->setVariable("LINK", $linkAsString);
+			$tpl->setVariable("LABEL_LINKED", $label);
+			if($icon){
+				$tpl->setVariable("ICON_LINKED", $default_renderer->render($icon));
+			}
 		}
 		else {
 			$tpl->setCurrentBlock("node_without_link");
+			$tpl->setVariable("LABEL", $label);
+			if($icon){
+				$tpl->setVariable("ICON", $default_renderer->render($icon));
+			}
 		}
-
-		$tpl->setVariable("LABEL", $label);
-		$tpl->parseCurrentBlock();
 
 		if ($component instanceof Node\Bylined && null !== $component->getByline()) {
 			$tpl->setVariable('BYLINE', $component->getByline());
 		}
 
-		$icon = $component->getIcon();
-		if($icon){
-			$tpl->setVariable("ICON", $default_renderer->render($icon));
-		}
 
 		if($component->isHighlighted()){
 			$tpl->touchBlock("highlighted");
