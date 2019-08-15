@@ -89,6 +89,7 @@ class ilLMPresentationGUI
 	{
 		global $DIC;
 
+		$this->tabs = $DIC->tabs();
 		$this->user = $DIC->user();
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->error = $DIC["ilErr"];
@@ -547,6 +548,7 @@ class ilLMPresentationGUI
 					case "ilPage":
 						$this->renderPageTitle();
 						$this->setHeader();
+						$this->ilLMMenu();
 						$content = $this->getContent();
 						$this->tpl->setContent($content);
 						break;
@@ -574,7 +576,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMMenu":
-						$this->ilLMMenu();
+						//$this->ilLMMenu();
 						break;
 
 					case "ilLMHead":
@@ -904,9 +906,10 @@ class ilLMPresentationGUI
 	*/
 	function ilLMMenu()
 	{
-		$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
+        $this->renderTabs("content", $this->getCurrentPageId());
+		/*$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "content", false, true, $this->getCurrentPageId(),
-			$this->lang, $this->export_all_languages));
+			$this->lang, $this->export_all_languages));*/
 	}
 
 	/**
@@ -1211,15 +1214,17 @@ class ilLMPresentationGUI
 			}
 			else 
 			{
-				$ilLocator->addItem("...", "");
+                $ilLocator->addRepositoryItems();
+				//$ilLocator->addItem("...", "");
 
+                /*
 				$par_id = $tree->getParentId($_GET["ref_id"]);
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $par_id);
 				$ilLocator->addItem(
 					ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
 					$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
 					ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);*/
 			}
 		}
 		else
@@ -2203,9 +2208,10 @@ class ilLMPresentationGUI
 
 		$a_global_tabs = !$this->offlineMode();
 
-		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+        $this->renderTabs("toc", 0);
+		/*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "toc", $a_global_tabs, false, 0,
-			$this->lang, $this->export_all_languages));
+			$this->lang, $this->export_all_languages));*/
 
 		// set title header
 		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
@@ -2315,6 +2321,7 @@ class ilLMPresentationGUI
 		$this->renderPageTitle();
 		
 		// set style sheets
+        /*
 		if (!$this->offlineMode())
 		{
 			$this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
@@ -2323,15 +2330,16 @@ class ilLMPresentationGUI
 		{
 			$style_name = $ilUser->getPref("style").".css";;
 			$this->tpl->setStyleSheetLocation("./".$style_name);
-		}
+		}*/
 
 		$this->tpl->loadStandardTemplate();
 		$this->tpl->setTitle($this->getLMPresentationTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
-		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+        $this->renderTabs($a_active_tab, 0);
+		/*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), $a_active_tab, true, false, 0,
-			$this->lang, $this->export_all_languages));
+			$this->lang, $this->export_all_languages));*/
 		
 		// Full locator, if read permission is given
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -2438,10 +2446,11 @@ class ilLMPresentationGUI
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->loadStandardTemplate();
-		
-		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+
+		$this->renderTabs("print", 0);
+		/*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "print", true,false, 0,
-			$this->lang, $this->export_all_languages));
+			$this->lang, $this->export_all_languages));*/
 			
 		$this->ilLocator(true);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
@@ -3265,10 +3274,11 @@ class ilLMPresentationGUI
 		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->loadStandardTemplate();
-		
-		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
+
+        $this->renderTabs("download", 0);
+		/*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "download", true,false, 0,
-			$this->lang, $this->export_all_languages));
+			$this->lang, $this->export_all_languages));*/
 
 		$this->ilLocator(true);
 		//$this->tpl->stopTitleFloating();
@@ -3720,6 +3730,34 @@ class ilLMPresentationGUI
 
 		$notification->send();
 	}
+
+    /**
+     * Render tabs
+     *
+     * @param
+     * @return
+     */
+    protected function renderTabs($active_tab, $current_page_id)
+    {
+        $menu_editor = new ilLMMenuEditor();
+        $menu_editor->setObjId($this->lm->getId());
+
+        $navigation_renderer = new ilLMMenuRendererGUI(
+            $this->tabs,
+            $current_page_id,
+            $active_tab,
+            (string) $this->getExportFormat(),
+            $this->export_all_languages,
+            $this->lm,
+            $this->offlineMode(),
+            $menu_editor,
+            $this->lang,
+            $this->ctrl,
+            $this->access,
+            $this->user,
+            $this->lng);
+        $navigation_renderer->render();
+    }
 
 }
 
