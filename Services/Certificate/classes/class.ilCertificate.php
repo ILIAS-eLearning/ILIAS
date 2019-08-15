@@ -150,22 +150,4 @@ class ilCertificate
         }
         $this->certificateRepository = $certificateRepository;
     }
-
-    /**
-    * Returns the filesystem path of the background image
-    * @param  bool $asRelative
-    * @return string The filesystem path of the background image
-    */
-    public function getBackgroundImageDirectory($asRelative = false, $backgroundImagePath = '')
-    {
-        if ($asRelative) {
-            return str_replace(
-                array(CLIENT_WEB_DIR, '//'),
-                array('[CLIENT_WEB_DIR]', '/'),
-                $backgroundImagePath
-            );
-        }
-
-        return $this->certificatePath;
-    }
 }
