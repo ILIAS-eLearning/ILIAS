@@ -1672,6 +1672,19 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
 		};
 
+		$plugins = ilPluginAdmin::getActivePlugins();
+		foreach ($plugins as $plugin_data){
+			$plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"],$plugin_data["component_name"]
+				,$plugin_data["slot_id"],$plugin_data["name"]);
+
+			$c['ui.renderer'] =  $plugin->exchangeUIRendererAfterInitialization($c);
+
+			foreach ($c->keys() as $key){
+				if(strpos($key,"ui.factory") === 0){
+					$c[$key] = $plugin->exchangeUIFactoryAfterInitialization($key,$c);
+				}
+			}
+		}
 	}
 
 	/**
