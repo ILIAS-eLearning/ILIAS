@@ -129,7 +129,7 @@ class ilECSSetting
 	 *
 	 * @return boolean
 	 */
-	public static function _ecsConfigured(){
+	public static function ecsConfigured(){
 		if(self::$configured === null)
 		{
 			global $DIC;
