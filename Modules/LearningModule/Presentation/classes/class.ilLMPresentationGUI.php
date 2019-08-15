@@ -180,9 +180,6 @@ class ilLMPresentationGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("layout", array("showPrintView"));
 
-		$cmd = (isset($_POST['cmd']['citation']))
-			? "ilCitation"
-			: $cmd;
 
 		$obj_id = $_GET["obj_id"];
 		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
@@ -1382,19 +1379,6 @@ class ilLMPresentationGUI
 
 		$this->current_page_id = $page_id;
 		return $page_id;
-	}
-
-	function ilCitation()
-	{
-		$page_id = $this->getCurrentPageId();
-		$this->tpl = new ilGlobalTemplate("tpl.page.html",true,true,true);
-		$this->ilLocator();
-		$this->tpl->setVariable("MENU",$this->lm_gui->setilCitationMenu());
-
-		$this->pg_obj = $this->getLMPage($page_id);
-		$xml = $this->pg_obj->getXMLContent();
-		$this->lm_gui->showCitation($xml);
-		$this->tpl->printToStdout();
 	}
 
 
