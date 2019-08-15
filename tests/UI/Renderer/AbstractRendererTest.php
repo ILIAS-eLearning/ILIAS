@@ -99,7 +99,13 @@ namespace {
 		}
 
 		public function test_getTemplate_successfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRenderer(
+				$this->ui_factory,
+				$this->tpl_factory,
+				$this->lng,
+				$this->js_binding,
+				$this->getRefinery()
+			);
 			$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 			$expected = array
@@ -111,7 +117,13 @@ namespace {
 		}
 
 		public function test_getTemplate_unsuccessfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer(
+				$this->ui_factory,
+				$this->tpl_factory,
+				$this->lng,
+				$this->js_binding,
+				$this->getRefinery()
+			);
 
 			try {
 				$tpl = $r->_getTemplate("tpl.counter_foo.html", true, false);
@@ -126,7 +138,13 @@ namespace {
 		}
 
 		public function test_bindJavaScript_successfull() {
-			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS(
+				$this->ui_factory,
+				$this->tpl_factory,
+				$this->lng,
+				$this->js_binding,
+				$this->getRefinery()
+			);
 
 			$g = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph(\ILIAS\UI\Component\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
 
@@ -143,7 +161,13 @@ namespace {
 		}
 
 		public function test_bindJavaScript_no_string() {
-			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS(
+				$this->ui_factory,
+				$this->tpl_factory,
+				$this->lng,
+				$this->js_binding,
+				$this->getRefinery()
+			);
 
 			$g = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph(\ILIAS\UI\Component\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
 

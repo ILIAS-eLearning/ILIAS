@@ -42,13 +42,25 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	private static $component_storage = [];
 
 	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
+	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
 	 */
-	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
+	final public function __construct(
+		Factory $ui_factory,
+		TemplateFactory $tpl_factory,
+		\ilLanguage $lng,
+		JavaScriptBinding $js_binding,
+		\ILIAS\Refinery\Factory $refinery
+	) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->lng = $lng;
 		$this->js_binding = $js_binding;
+		$this->refinery = $refinery;
 	}
 
 	/**
@@ -67,6 +79,13 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	final protected function getUIFactory() {
 		return $this->ui_factory;
+	}
+
+	/**
+	 * @return \ILIAS\Refinery\Factory
+	 */
+	final protected function getRefinery() : \ILIAS\Refinery\Factory{
+		return $this->refinery;
 	}
 
 	/**

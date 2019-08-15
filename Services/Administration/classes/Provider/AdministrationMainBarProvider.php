@@ -170,39 +170,25 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $titems[$i["type"]] = $i;
         }
 
-        // admin menu layout
-        $layout = array(
-
-            "basic"               =>
-                array("adm", "mme", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt", "wfe"),
-            "user_administration" =>
-                array("usrf", 'tos', "rolf", "orgu", "auth", "ps"),
-            "learning_outcomes"   =>
-                array("skmg", "bdga", "cert", "trac"),
-            "user_services"       =>
-                array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
-            "content_services"    =>
-                array("seas", "mds", "tags", "taxs", 'ecss', "ltis", "otpl", "pdfg"),
-            "maintenance"         =>
-                array('logs', 'sysc', "recf", "root"),
-            "container"           =>
-                array("reps", "crss", "grps", "prgs"),
-            "content_objects"     =>
-                array(
-                    "bibs",
-                    "blga",
-                    "chta",
-                    "excs",
-                    "facs",
-                    "frma",
-                    "lrss",
-                    "mcts",
-                    "mobs",
-                    "svyf",
-                    "assf",
-                    "wbrs",
-                    "wiks",
-                ),
+		// admin menu layout
+		$layout = array(
+			"maintenance" =>
+				array("adm", "lngf", "hlps", "wfe", "pdfg", 'logs', 'sysc', "recf", "root"),
+			"layout_and_navigation" =>
+				array("mme", "stys", "adve", "accs"),
+			"user_administration" =>
+				array("usrf", 'tos', "rolf", "otpl", "orgu", "auth", "ps"),
+			"personal_workspace" =>
+				array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
+			"achievements" =>
+				array("skmg", "bdga", "cert", "trac"),
+			"search_and_find" =>
+				array("seas", "mds", "tags", "taxs"),
+			"extending_ilias" =>
+				array('ecss', "ltis", "cmps", "extt"),
+			"repository_and_objects" =>
+				array("reps", "crss", "grps", "prgs", "bibs", "blga", "chta", "excs", "facs", "frma", "lrss",
+					"mcts", "mobs", "svyf", "assf", "wbrs", "wiks"),
         );
         $groups = [];
         // now get all items and groups that are accessible
