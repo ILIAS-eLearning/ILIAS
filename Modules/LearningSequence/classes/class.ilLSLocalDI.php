@@ -14,10 +14,23 @@ trait ilLSLocalDI
 		$container = new Container();
 
 		$ref_id = (int)$object->getRefId();
+		$obj_id = (int)$object->getId();
+		$obj_title = $object->getTitle();
+
 		$current_user = $dic['ilUser'];
 		$current_user_id = (int)$current_user->getId();
 
 		$data_factory = new \ILIAS\Data\Factory();
+
+		$container["obj.ref_id"] = $ref_id;
+		$container["obj.obj_id"] = $obj_id;
+		$container["obj.title"] = $obj_title;
+		$container["usr.id"] = $current_user_id;
+
+		$container["obj.sorting"] = function($c): ilContainerSorting
+		{
+			return ilContainerSorting::_getInstance($c["obj.obj_id"]);
+		};
 
 		$container["db.filesystem"] = function($c): ilLearningSequenceFilesystem
 		{
@@ -47,14 +60,12 @@ trait ilLSLocalDI
 			return new ilLSPostConditionDB($dic["ilDB"]);
 		};
 
-		$container["db.lsitems"] = function($c) use ($dic, $object): ilLSItemsDB
+		$container["db.lsitems"] = function($c) use ($dic): ilLSItemsDB
 		{
-			$obj_id = $object->getId();
-			$sorting = ilContainerSorting::_getInstance($obj_id);
 			$online_status = new LSItemOnlineStatus();
 			return new ilLSItemsDB(
 				$dic["tree"],
-				$sorting,
+				$c["obj.sorting"],
 				$c["db.postconditions"],
 				$online_status
 			);
@@ -63,48 +74,38 @@ trait ilLSLocalDI
 		$container["db.progress"] = function($c) use ($dic): ilLearnerProgressDB
 		{
 			 return new ilLearnerProgressDB(
-				$c["db.states"],
+				$c["db.lsitems"],
 				$dic["ilAccess"]
 			);
 		};
 
-		$container["items.ls"] = function($c) use ($ref_id): array
+		$container["learneritems"] = function($c): ilLSLearnerItemsQueries
 		{
-			return $c['db.lsitems']->getLSItems($ref_id);
-		};
-
-		$container["items.learner"] = function($c) use ($ref_id, $current_user_id): array
-		{
-			return $c["db.progress"]->getLearnerItems(
-				$current_user_id,
-				$ref_id,
-				$c["items.ls"]
+			return new ilLSLearnerItemsQueries(
+				$c["db.progress"],
+				$c["db.states"],
+				$c["obj.ref_id"],
+				$c["usr.id"]
 			);
 		};
 
-		$container["gui.learner"] = function($c)
-			use ($dic, $object, $current_user_id, $data_factory): ilObjLearningSequenceLearnerGUI
+
+		$container["gui.learner"] = function($c) use ($dic, $object): ilObjLearningSequenceLearnerGUI
 		{
+			$has_items = count($c["learneritems"]->getItems()) > 0;
 			return new ilObjLearningSequenceLearnerGUI(
 				$object,
-				$current_user_id,
-				//$object->getLSLearnerItems($usr_id),
-				//$object->getCurrentItemForLearner($usr_id),
+				$has_items,
+				$c["usr.id"],
 				$dic["ilCtrl"],
 				$dic["lng"],
 				$dic["tpl"],
 				$dic["ilToolbar"],
-
 				$dic["ilAccess"],
 				$dic["ui.factory"],
 				$dic["ui.renderer"],
 				$c["player.curriculumbuilder"],
 				$c["player"]
-				//settings
-				//state_db
-				//access (!ls_access)
-				//ls_roles
-
 			);
 		};
 
@@ -173,27 +174,22 @@ trait ilLSLocalDI
 			);
 		};
 
-		$container["player.curriculumbuilder"] = function($c)
-			use ($dic, $ref_id, $current_user_id): ilLSCurriculumBuilder
+		$container["player.curriculumbuilder"] = function($c) use ($dic): ilLSCurriculumBuilder
 		{
 			return new ilLSCurriculumBuilder(
-				$c["items.learner"],
+				$c["learneritems"],
 				$dic["ui.factory"],
 				$dic["lng"],
-				\ilLSPlayer::LSO_CMD_GOTO,
+				ilLSPlayer::LSO_CMD_GOTO,
 				$c["player.urlbuilder"]
 			);
 		};
 
-		$container["player"] = function($c)
-			use ($dic, $object, $ref_id, $current_user_id): ilLSPlayer
+		$container["player"] = function($c) use ($dic): ilLSPlayer
 		{
 			return new ilLSPlayer(
-				$ref_id,
-				$object->getTitle(),
-				$current_user_id,
-				$c["items.learner"],
-				$c["db.states"],
+				$c["obj.title"],
+				$c["learneritems"],
 				$c["player.controlbuilder"],
 				$c["player.urlbuilder"],
 				$c["player.curriculumbuilder"],
@@ -203,12 +199,10 @@ trait ilLSLocalDI
 			);
 		};
 
-
-		$container["participants"] = function($c) use ($dic, $object): ilLearningSequenceParticipants
+		$container["participants"] = function($c) use ($dic): ilLearningSequenceParticipants
 		{
-			$obj_id = (int)$object->getId();
 			return new ilLearningSequenceParticipants(
-				$obj_id,
+				$c["obj.obj_id"],
 				$dic["ilLoggerFactory"]->getRootLogger(),
 				$dic["ilAppEventHandler"],
 				$dic["ilSetting"]

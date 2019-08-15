@@ -20,16 +20,10 @@ class ilObjLearningSequenceLearnerGUI
 	const LSO_CMD_NEXT = 'lson';
 	const LSO_CMD_PREV = 'lsop';
 
-	/**
-	 * @var LSLearnerItems[]
-	 */
-	protected $ls_learner_items;
-
 	public function __construct(
 		ilObjLearningSequence $ls_object,
+		bool $has_items,
 		int $usr_id,
-		//array $ls_learner_items,
-		//int $current_item,
 		ilCtrl $ctrl,
 		ilLanguage $lng,
 		ilGlobalPageTemplate $tpl,
@@ -41,12 +35,8 @@ class ilObjLearningSequenceLearnerGUI
 		ilLSPlayer $player
 	) {
 		$this->ls_object = $ls_object;
+		$this->has_items = $has_items;
 		$this->usr_id = $usr_id;
-		//$this->ls_learner_items = $ls_learner_items;
-		$this->ls_learner_items = $this->ls_object->getLSLearnerItems($usr_id);
-		//$this->current_item = $current_item;
-		$this->current_item = $this->ls_object->getCurrentItemForLearner($usr_id);
-
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -114,7 +104,7 @@ class ilObjLearningSequenceLearnerGUI
 	{
 		$is_member = $this->ls_object->isMember($this->usr_id);
 		$completed = $this->ls_object->isCompletedByUser($this->usr_id);
-		$has_items = count($this->ls_learner_items) > 0;
+		$has_items = $this->has_items;
 
 		if (! $is_member) {
 			if ($has_items) {
@@ -194,17 +184,6 @@ class ilObjLearningSequenceLearnerGUI
 	private function getCurriculum(): array
 	{
 		$curriculum = $this->curriculum_builder->getLearnerCurriculum();
-
-		$current_position = 0;
-		foreach ($this->ls_learner_items as $index=>$item) {
-			if($item->getRefId() === $this->current_item) {
-				$current_position = $index;
-			}
-		}
-
-		if(count($this->ls_learner_items) > 0 ) {
-			$curriculum = $curriculum->withActive($current_position);
-		}
 		return array($curriculum);
 	}
 

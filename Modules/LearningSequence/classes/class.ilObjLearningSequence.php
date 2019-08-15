@@ -396,22 +396,6 @@ class ilObjLearningSequence extends ilContainer
 	}
 
 	/**
-	 * Get ref-id of the last item the user touched
-	 */
-	public function getCurrentItemForLearner(int $usr_id): int
-	{
-		$db =  $this->getStateDB();
-		$current = $db->getCurrentItemsFor($this->getRefId(), [$usr_id]);
-		$ref_id = $current[$usr_id];
-
-		if($ref_id < 0) {
-			$ref_id = 0;
-		}
-
-		return $ref_id;
-	}
-
-	/**
 	 * Get mail to members type
 	 * @return int
 	 */
@@ -552,7 +536,7 @@ class ilObjLearningSequence extends ilContainer
 	{
 		return $this->getLSRoles()->getDefaultAdminRole();
 	}
-/
+
 	public function join(int $user_id)
 	{
 		return $this->getLSRoles()->join($user_id);
