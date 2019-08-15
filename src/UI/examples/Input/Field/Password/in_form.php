@@ -11,14 +11,14 @@ function in_form() {
     $request = $DIC->http()->request();
 
     //Step 1: Define the input field.
-    $pwd_input = $ui->input()->field()->password("Password", "! value will be displayed...")
+    $pwd_input = $ui->input()->field()->password("Password", "Value will be displayed...")
         ->withRevelation(true);
 
     //Step 2: Define the form and attach the field.
     $DIC->ctrl()->setParameterByClass(
             'ilsystemstyledocumentationgui',
             'example',
-            'password'
+            'password1'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
     $form = $ui->input()->container()->form()->standard($form_action, ['password'=>$pwd_input]);
@@ -26,7 +26,7 @@ function in_form() {
     //Step 3: Define some data processing.
     $result = '';
     if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example'] =='password') {
+            && $request->getQueryParams()['example'] =='password1') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     }
