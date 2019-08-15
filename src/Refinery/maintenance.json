@@ -1,18 +1,17 @@
 {
-  "maintenance_model": "Service",
-  "first_maintainer": "",
-  "second_maintainer": "",
-  "implicit_maintainers": [
-  ],
-  "coordinator": [
-    "mjansen(8784)",
-    "rklees(34047)"
-  ],
-  "tester": "",
-  "testcase_writer": "",
-  "path": "src/Refinery",
-  "belong_to_component": "None",
-  "used_in_components": [
-    "All"
-  ]
+    "maintenance_model": "Service",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        "mjansen(8784)",
+        "rklees(34047)"
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "src/Refinery",
+    "belong_to_component": "Refinery",
+    "used_in_components": [
+        "All"
+    ]
 }
