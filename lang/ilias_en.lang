@@ -9369,7 +9369,7 @@ content#:#cont_ed_insert_skills#:#Insert Competences
 content#:#cont_pc_skills#:#Competence
 content#:#cont_insert_skills#:#Insert Competence
 content#:#cont_update_skills#:#Edit Competence
-administration#:#adm_basic#:#Basic
+administration#:#adm_layout_and_navigation#:#Layout and Navigation
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
 common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM)
 search#:#lucene_max_fs#:#Maximum File Size (in MB)
@@ -13412,13 +13412,13 @@ mcst#:#mcst_copy#:#Copy Mediacast
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 scov#:#scov_create#:#Create SCORM Certificate
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it
-administration#:#adm_container#:#Container Objects
-administration#:#adm_content_objects#:#Content Objects
-administration#:#adm_content_services#:#Content Services
-administration#:#adm_learning_outcomes#:#Learning Outcomes
-administration#:#adm_maintenance#:#Maintenance
+administration#:#adm_repository_and_objects#:#Repository and Objects
+administration#:#adm_extending_ilias#:#Extending ILIAS
+administration#:#adm_search_and_find#:#Search and Find
+administration#:#adm_achievements#:#Achievements
+administration#:#adm_maintenance#:#System Settings and Maintenance
 administration#:#adm_user_administration#:#User Administration
-administration#:#adm_user_services#:#User Services
+administration#:#adm_personal_workspace#:#Personal Workspace
 common#:#enter_new_name#:#Please enter a name
 rbac#:#awra_visible#:#‘Who is online?’ administration is visible
 rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
