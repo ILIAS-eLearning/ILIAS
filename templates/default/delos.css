@@ -6961,6 +6961,14 @@ button.close {
     flex-grow: 2;
   }
 }
+/* see bug #25920, limit size of cards for small screens */
+@media (max-width: 768px) {
+  .il-card {
+    max-width: 350px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
 .il-deck .row {
   margin-left: 0;
   margin-right: 0;
