@@ -1,6 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
 use Closure;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
@@ -13,6 +17,14 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class MainToolCollector
 {
 
+    /**
+     * @var ItemInformation
+     */
+    private $information;
+    /**
+     * @var TypeInformationCollection
+     */
+    private $type_information_collection;
     /**
      * @var array
      */
@@ -28,9 +40,11 @@ class MainToolCollector
      *
      * @param DynamicToolProvider[] $providers
      */
-    public function __construct(array $providers)
+    public function __construct(array $providers, ItemInformation $information = null)
     {
         $this->providers = $providers;
+        $this->information = $information;
+        $this->type_information_collection = new TypeInformationCollection();
         $this->tools = [];
         $this->initTools();
     }
@@ -49,6 +63,9 @@ class MainToolCollector
         }
 
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
+        array_walk($this->tools, function (Tool $tool) {
+            $this->applyTypeHandler($tool);
+        });
     }
 
 
@@ -64,6 +81,40 @@ class MainToolCollector
     public function hasTools() : bool
     {
         return count($this->tools) > 0;
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return isItem
+     */
+    private function applyTypeHandler(isItem $item) : isItem
+    {
+        $item = $this->getHandlerForItem($item)->enrichItem($item);
+
+        return $item;
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return TypeHandler
+     */
+    public function getHandlerForItem(isItem $item) : TypeHandler
+    {
+        /**
+         * @var $handler TypeHandler
+         */
+        $type = get_class($item);
+        $type_information = $this->type_information_collection->get($type);
+        if (is_null($type_information)) {
+            return new BaseTypeHandler();
+        }
+        $handler = $type_information->getTypeHandler();
+
+        return $handler;
     }
 
 

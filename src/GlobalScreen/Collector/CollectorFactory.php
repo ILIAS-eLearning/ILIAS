@@ -66,10 +66,18 @@ class CollectorFactory
 
     /**
      * @return MainToolCollector
+     * @throws \ReflectionException
      */
     public function tool() : MainToolCollector
     {
-        return $this->getWithArgument(MainToolCollector::class, $this->provider_factory->getToolProvider());
+        if (!$this->has(MainToolCollector::class)) {
+            $providers = $this->provider_factory->getToolProvider();
+            $information = $this->provider_factory->getMainBarItemInformation();
+
+            return $this->getWithMultipleArguments(MainToolCollector::class, [$providers, $information]);
+        }
+
+        return $this->get(MainToolCollector::class);
     }
 
 
