@@ -4,7 +4,6 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilNumberInputGUI;
 use ilTemplate;
@@ -91,7 +90,7 @@ class NumericEditor extends AbstractEditor {
     }
 
     /**
-     * @return JsonSerializable|null
+     * @return AbstractConfiguration|null
      */
     public static function readConfig() : ?AbstractConfiguration {
         return NumericEditorConfiguration::create(intval($_POST[self::VAR_MAX_NR_OF_CHARS]));
