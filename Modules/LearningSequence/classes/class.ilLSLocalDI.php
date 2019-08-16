@@ -13,6 +13,7 @@ trait ilLSLocalDI
 	): Container {
 		$container = new Container();
 
+
 		$ref_id = (int)$object->getRefId();
 		$obj_id = (int)$object->getId();
 		$obj_title = $object->getTitle();
@@ -24,7 +25,8 @@ trait ilLSLocalDI
 
 		$container["obj.ref_id"] = $ref_id;
 		$container["obj.obj_id"] = $obj_id;
-		$container["obj.title"] = $obj_title;
+		$container["obj.title"] = (string)$obj_title;
+
 		$container["usr.id"] = $current_user_id;
 
 		$container["obj.sorting"] = function($c): ilContainerSorting
@@ -93,17 +95,22 @@ trait ilLSLocalDI
 		$container["gui.learner"] = function($c) use ($dic, $object): ilObjLearningSequenceLearnerGUI
 		{
 			$has_items = count($c["learneritems"]->getItems()) > 0;
+			$first_access = $c["learneritems"]->getFirstAccess();
+
 			return new ilObjLearningSequenceLearnerGUI(
-				$object,
+				$c["obj.ref_id"],
 				$has_items,
+				$first_access,
 				$c["usr.id"],
+				$dic["ilAccess"],
 				$dic["ilCtrl"],
 				$dic["lng"],
 				$dic["tpl"],
 				$dic["ilToolbar"],
-				$dic["ilAccess"],
 				$dic["ui.factory"],
 				$dic["ui.renderer"],
+				$c["roles"],
+				$c["db.settings"]->getSettingsFor($c["obj.obj_id"]),
 				$c["player.curriculumbuilder"],
 				$c["player"]
 			);
@@ -212,7 +219,8 @@ trait ilLSLocalDI
 		$container["roles"] = function($c) use ($dic, $object, $current_user): ilLearningSequenceRoles
 		{
 			return new ilLearningSequenceRoles(
-				$object,
+				$c["obj.ref_id"],
+				$c["obj.obj_id"],
 				$c["participants"],
 				$dic["ilCtrl"],
 				$dic["rbacadmin"],

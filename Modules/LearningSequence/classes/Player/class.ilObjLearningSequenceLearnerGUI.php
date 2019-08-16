@@ -1,10 +1,4 @@
-<?php
-
-declare(strict_types=1);
-
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
-use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
+<?php declare(strict_types=1);
 
 /**
  * Class ilObjLearningSequenceLearnerGUI
@@ -21,29 +15,36 @@ class ilObjLearningSequenceLearnerGUI
 	const LSO_CMD_PREV = 'lsop';
 
 	public function __construct(
-		ilObjLearningSequence $ls_object,
+		int $ls_ref_id,
 		bool $has_items,
+		$first_access,
 		int $usr_id,
+		ilAccess $access,
 		ilCtrl $ctrl,
 		ilLanguage $lng,
 		ilGlobalPageTemplate $tpl,
 		ilToolbarGUI $toolbar,
-		ilAccess $access,
 		ILIAS\UI\Factory $ui_factory,
 		ILIAS\UI\Renderer $ui_renderer,
+		ilLearningSequenceRoles $roles,
+		ilLearningSequenceSettings $settings,
 		ilLSCurriculumBuilder $curriculum_builder,
 		ilLSPlayer $player
 	) {
 		$this->ls_object = $ls_object;
+		$this->ls_ref_id = $ls_ref_id;
 		$this->has_items = $has_items;
+		$this->first_access = $first_access;
 		$this->usr_id = $usr_id;
+		$this->access = $access;
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->toolbar = $toolbar;
-		$this->access = $access;
 		$this->ui_factory = $ui_factory;
 		$this->renderer = $ui_renderer;
+		$this->roles = $roles;
+		$this->settings = $settings;
 		$this->curriculum_builder = $curriculum_builder;
 		$this->player = $player;
 	}
@@ -61,8 +62,8 @@ class ilObjLearningSequenceLearnerGUI
 				$this->ctrl->redirect($this, self::CMD_VIEW);
 				break;
 			case self::CMD_UNSUBSCRIBE:
-				if ($this->ls_object->userMayUnparticipate()) {
-					$this->removeMember($this->usr_id);
+				if ($this->userMayUnparticipate()) {
+					$this->roles->leave($this->usr_id);
 				}
 				$this->ctrl->redirect($this, self::CMD_STANDARD);
 				break;
@@ -89,26 +90,32 @@ class ilObjLearningSequenceLearnerGUI
 
 	protected function addMember(int $usr_id)
 	{
-		$admins = $this->ls_object->getLearningSequenceAdminIds();
+		$admins = $this->roles->getLearningSequenceAdminIds();
 		if(! in_array($usr_id, $admins)) {
-			$this->ls_object->join($usr_id);
+			$this->roles->join($usr_id);
 		}
 	}
 
-	protected function removeMember(int $usr_id)
+
+	protected function userMayUnparticipate(): bool
 	{
-		$this->ls_object->leave($usr_id);
+		return $this->access->checkAccess('unparticipate', '', $this->ls_ref_id);
+	}
+
+	protected function userMayJoin(): bool
+	{
+		return $this->access->checkAccess('participate', '', $this->ls_ref_id);
 	}
 
 	protected function initToolbar(string $cmd)
 	{
-		$is_member = $this->ls_object->isMember($this->usr_id);
-		$completed = $this->ls_object->isCompletedByUser($this->usr_id);
+		$is_member = $this->roles->isMember($this->usr_id);
+		$completed = $this->roles->isCompletedByUser($this->usr_id);
 		$has_items = $this->has_items;
 
 		if (! $is_member) {
 			if ($has_items) {
-				$may_subscribe = $this->ls_object->userMayJoin();
+				$may_subscribe = $this->userMayJoin();
 				if($may_subscribe) {
 					$this->toolbar->addButton(
 						$this->lng->txt("lso_player_start"),
@@ -118,18 +125,10 @@ class ilObjLearningSequenceLearnerGUI
 			}
 
 		} else {
-
 			if (! $completed) {
 				if ($has_items) {
-					$state_db =  $this->ls_object->getStateDB();
-					$obj_ref_id = (int)$this->ls_object->getRefId();
-					$first_access = $state_db->getFirstAccessFor(
-						$obj_ref_id,
-						array($this->usr_id)
-					)[$this->usr_id];
-
 					$label = "lso_player_resume";
-					if($first_access === -1) {
+					if($this->first_access === -1) {
 						$label = "lso_player_start";
 					}
 
@@ -159,7 +158,7 @@ class ilObjLearningSequenceLearnerGUI
 				}
 			}
 
-			$may_unsubscribe = $this->ls_object->userMayUnparticipate();
+			$may_unsubscribe = $this->userMayUnparticipate();
 			if ($may_unsubscribe) {
 				$this->toolbar->addButton(
 					$this->lng->txt("unparticipate"),
@@ -189,16 +188,14 @@ class ilObjLearningSequenceLearnerGUI
 
 	private function getMainContent(string $cmd): array
 	{
-		$settings = $this->ls_object->getLSSettings();
-
 		if ($cmd === self::CMD_STANDARD) {
-			$txt = $settings->getAbstract();
-			$img = $settings->getAbstractImage();
+			$txt = $this->settings->getAbstract();
+			$img = $this->settings->getAbstractImage();
 		}
 
 		if ($cmd === self::CMD_EXTRO) {
-			$txt = $settings->getExtro();
-			$img = $settings->getExtroImage();
+			$txt = $this->settings->getExtro();
+			$img = $this->settings->getExtroImage();
 		}
 
 		$contents = [$this->ui_factory->legacy($txt)];

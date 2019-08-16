@@ -304,7 +304,10 @@ class ilObjLearningSequence extends ilContainer
 
 		return $this->ls_participant;
 	}
-
+	public function getMembersObject() //used by Services/Membership/classes/class.ilMembershipGUI.php
+	{
+		return $this->getLSParticipants();
+	}
 
 	public function getLSAccess(): ilObjLearningSequenceAccess
 	{
@@ -370,6 +373,7 @@ class ilObjLearningSequence extends ilContainer
 		return $this->learner_progress_db;
 	}
 
+	//protected function getStateDB(): ilLSStateDB
 	public function getStateDB(): ilLSStateDB
 	{
 		if (!$this->state_db) {
@@ -463,10 +467,8 @@ class ilObjLearningSequence extends ilContainer
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
-	public function getMembersObject()
-	{
-		return $this->getLSParticipants();
-	}
+	/*
+
 
 	public function isMember(int $usr_id)
 	{
@@ -481,21 +483,14 @@ class ilObjLearningSequence extends ilContainer
 		$user_completion = ilLPStatus::_hasUserCompleted($this->getId(), $usr_id);
 		return ($tracking_active && $user_completion);
 	}
+	*/
 
 	public function getShowMembers()
 	{
 		return $this->getLSSettings()->getMembersGallery();
 	}
 
-	public function userMayUnparticipate(): bool
-	{
-		return $this->access->checkAccess('unparticipate', '', $this->getRefId());
-	}
 
-	public function userMayJoin(): bool
-	{
-		return $this->access->checkAccess('participate', '', $this->getRefId());
-	}
 
 	public function announceLSOOnline()
 	{
@@ -537,34 +532,9 @@ class ilObjLearningSequence extends ilContainer
 		return $this->getLSRoles()->getDefaultAdminRole();
 	}
 
-	public function join(int $user_id)
-	{
-		return $this->getLSRoles()->join($user_id);
-	}
-
-	public function leaveLearningSequence()
-	{
-		return $this->getLSRoles()->leaveLearningSequence();
-	}
-
-	public function getLearningSequenceMemberIds()
-	{
-		return $this->getLSRoles()->getLearningSequenceMemberIds();
-	}
-
-	public function leave($a_user_id)
-	{
-		return $this->getLSRoles()->leave($a_user_id);
-	}
-
 	public function getLearningSequenceMemberData($a_mem_ids, $active = 1)
 	{
 		return $this->getLSRoles()->getLearningSequenceMemberData($a_mem_ids, $active);
-	}
-
-	public function getLearningSequenceAdminIds($a_grpId = "")
-	{
-		return $this->getLSRoles()->getLearningSequenceAdminIds();
 	}
 
 	public function getDefaultLearningSequenceRoles($a_grp_id="")

@@ -70,4 +70,9 @@ class ilLSLearnerItemsQueries
 		);
 	}
 
+	public function getFirstAccess()
+	{
+		$first_access = $this->states_db->getFirstAccessFor($this->ls_ref_id, [$this->usr_id]);
+		return $first_access[$this->usr_id];
+	}
 }

@@ -465,7 +465,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		if($this->checkAccess('unparticipate')) {
 			$usr_id = (int)$this->user->getId();
-			$this->getObject()->leave($usr_id);
+			$this->getObject()->getLSRoles()->leave($usr_id);
 			$this->learnerView();
 		}
 	}
