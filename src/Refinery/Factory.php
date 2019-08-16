@@ -32,6 +32,8 @@ class Factory
     {
         $this->dataFactory = $dataFactory;
         $this->language = $language;
+
+        $this->language->loadLanguageModule('validation');
     }
 
     /**
