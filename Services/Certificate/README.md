@@ -32,9 +32,12 @@ for 'Certificates' to their component.
     * [Preview](#preview)
   * [Events](#events)
     * [updateStatus](#updatestatus)
+    
+* [API](#api)
 * [Migration](#migration)
   * [Certificate Templates](#certificate-templates)
   * [User Certificates](#user-certificates)
+
 
 ## General
 
@@ -422,6 +425,14 @@ The course is NOT supported for this behaviour, but Modules/Services
 can be added via the certificates template settings UI.
 Completing all of the selected events will add the user
 into the [queue](#cron-queue-classes).
+
+## API
+
+This service also provides an API to fetch data related to the certificates.
+Currently an endpoint is provided to fetch user certificate related data.
+
+Public API classes:
+* `Certificate\API\ilUserData`
 
 ## Migration
 
