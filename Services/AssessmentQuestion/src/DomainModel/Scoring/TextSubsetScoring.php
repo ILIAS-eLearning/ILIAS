@@ -68,7 +68,7 @@ class TextSubsetScoring extends AbstractScoring
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
-                if (strtoupper($correct->getDisplayDefinition()->getText()) === strtoupper($result)) {
+                if (strtoupper($correct->getScoringDefinition()->getText()) === strtoupper($result)) {
                     $score += $correct->getScoringDefinition()->getPoints();
                     break;
                 }
@@ -87,7 +87,7 @@ class TextSubsetScoring extends AbstractScoring
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
-                if ($correct->getDisplayDefinition()->getText() === $result) {
+                if ($correct->getScoringDefinition()->getText() === $result) {
                     $score += $correct->getScoringDefinition()->getPoints();
                     break;
                 }
@@ -107,7 +107,7 @@ class TextSubsetScoring extends AbstractScoring
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
-                if (levenshtein($correct->getDisplayDefinition()->getText(), $result) <= $distance) {
+                if (levenshtein($correct->getScoringDefinition()->getText(), $result) <= $distance) {
                     $score += $correct->getScoringDefinition()->getPoints();
                     break;
                 }

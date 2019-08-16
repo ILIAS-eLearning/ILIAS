@@ -16,26 +16,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class TextSubsetEditorDisplayDefinition extends DisplayDefinition {
-    
-    const VAR_TSDD_TEXT = 'tsdd_text' ;
-    
-    /**
-     * @var string
-     */
-    private $text;
-    
-    public function __construct(?string $text) {
-        $this->text = $text;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getText(): string {
-        return $this->text;
-    }
-    
+class TextSubsetEditorDisplayDefinition extends DisplayDefinition {    
     /**
      * Specify data which should be serialized to JSON
      *
@@ -49,28 +30,19 @@ class TextSubsetEditorDisplayDefinition extends DisplayDefinition {
     }
     
     public static function getFields(): array {
-        $fields = [];
-        $fields[] = new AnswerOptionFormFieldDefinition(
-            'Answer Text',
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
-            self::VAR_TSDD_TEXT
-            );        
-        
-        return $fields;
+        return [];
     }
     
-    public static function getValueFromPost(string $index) {
-        return new TextSubsetEditorDisplayDefinition(
-            $_POST[$index . self::VAR_TSDD_TEXT]);
+    public static function getValueFromPost($index) {
+        return new TextSubsetEditorDisplayDefinition();
     }
     
     public function getValues(): array {
-        return [self::VAR_TSDD_TEXT => $this->text];
+        return [];
     }
     
     
-    public static function deserialize(stdClass $data) {
-        return new TextSubsetEditorDisplayDefinition(
-            $data->text);
+    public static function deserialize($data) {
+        return new TextSubsetEditorDisplayDefinition();
     }
 }

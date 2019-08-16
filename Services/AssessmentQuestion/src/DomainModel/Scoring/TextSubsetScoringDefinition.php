@@ -18,21 +18,27 @@ use stdClass;
  */
 class TextSubsetScoringDefinition extends ScoringDefinition {
     
-    const VAR_TSSD_POINTS = 'mcsd_selected';
+    const VAR_TSSD_POINTS = 'tssd_points';
+    const VAR_TSSD_TEXT = 'tsdd_text' ;
     
     /**
      * @var int
      */
     protected $points;
+    /**
+     * @var string
+     */
+    protected $text;
     
     /**
      * TextSubsetScoringDefinition constructor.
      *
      * @param int $points
      */
-    public function __construct(int $points)
+    public function __construct(int $points, ?string $text)
     {
         $this->points = $points;
+        $this->text = $text;
     }  
     
     /**
@@ -42,8 +48,21 @@ class TextSubsetScoringDefinition extends ScoringDefinition {
         return $this->points;
     }
     
+    /**
+     * @return string
+     */
+    public function getText(): string {
+        return $this->text;
+    }
+    
     public static function getFields(): array {
         $fields = [];
+        $fields[] = new AnswerOptionFormFieldDefinition(
+            'Answer Text',
+            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            self::VAR_TSSD_TEXT
+            );
+        
         $fields[] = new AnswerOptionFormFieldDefinition(
             'Points',
             AnswerOptionFormFieldDefinition::TYPE_NUMBER,
@@ -54,16 +73,19 @@ class TextSubsetScoringDefinition extends ScoringDefinition {
     }
     
     public static function getValueFromPost(string $index) {
-        return new TextSubsetScoringDefinition(intval($_POST[$index . self::VAR_TSSD_POINTS]));
+        return new TextSubsetScoringDefinition(intval($_POST[$index . self::VAR_TSSD_POINTS]),
+                                               $_POST[$index . self::VAR_TSSD_TEXT]);
     }
     
     public function getValues(): array {
-        return [self::VAR_TSSD_POINTS => $this->points];
+        return [self::VAR_TSSD_POINTS => $this->points,
+                self::VAR_TSSD_TEXT => $this->text
+        ];
     }
     
     
     public static function deserialize(stdClass $data) {
         return new TextSubsetScoringDefinition(
-            $data->points);
+            $data->points, $data->text);
     }
 }
