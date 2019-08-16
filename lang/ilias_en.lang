@@ -15017,6 +15017,7 @@ validation#:#not_greater_than#:#'%s' is not greater than '%s'.
 validation#:#not_less_than#:#'%s' is not less than '%s'.
 validation#:#not_min_length#:#Your input has a length of %d and falls below the minimum length %d.
 validation#:#not_numeric#:#'%s' is not numeric.
+validation#:#not_numeric_empty_string#:#Your input is not numeric.
 validation#:#not_generic#:#It is not the case that: %s
 validation#:#not_max_length#:#The entered text has a length more than '%s'.
 validation#:#not_an_array#:#'%s' is not an array.
