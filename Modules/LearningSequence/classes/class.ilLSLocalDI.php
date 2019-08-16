@@ -13,7 +13,6 @@ trait ilLSLocalDI
 	): Container {
 		$container = new Container();
 
-
 		$ref_id = (int)$object->getRefId();
 		$obj_id = (int)$object->getId();
 		$obj_title = $object->getTitle();
@@ -216,7 +215,7 @@ trait ilLSLocalDI
 			);
 		};
 
-		$container["roles"] = function($c) use ($dic, $object, $current_user): ilLearningSequenceRoles
+		$container["roles"] = function($c) use ($dic, $current_user): ilLearningSequenceRoles
 		{
 			return new ilLearningSequenceRoles(
 				$c["obj.ref_id"],

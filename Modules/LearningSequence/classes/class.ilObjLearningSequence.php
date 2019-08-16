@@ -467,30 +467,10 @@ class ilObjLearningSequence extends ilContainer
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
-	/*
-
-
-	public function isMember(int $usr_id)
-	{
-		$part = $this->getLSParticipants();
-		return $part->isMember($usr_id);
-	}
-
-	public function isCompletedByUser(int $usr_id): bool
-	{
-		\ilLPStatusWrapper::_updateStatus($this->getId(), $usr_id);
-		$tracking_active = ilObjUserTracking::_enabledLearningProgress();
-		$user_completion = ilLPStatus::_hasUserCompleted($this->getId(), $usr_id);
-		return ($tracking_active && $user_completion);
-	}
-	*/
-
 	public function getShowMembers()
 	{
 		return $this->getLSSettings()->getMembersGallery();
 	}
-
-
 
 	public function announceLSOOnline()
 	{
@@ -511,8 +491,6 @@ class ilObjLearningSequence extends ilContainer
 		$act_db = $this->getActivationDB();
 		$act_db->setEffectiveOnlineStatus((int)$this->getRefId(), $status);
 	}
-
-
 
 	/***************************************************************************
 	* Role Stuff
