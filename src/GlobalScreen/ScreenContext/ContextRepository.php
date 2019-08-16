@@ -5,6 +5,9 @@ use ILIAS\Data\ReferenceId;
 /**
  * Class ContextRepository
  *
+ * The Collection of all available Contexts in the System. You can use them in
+ * your @see ScreenContextAwareProvider to announce you are interested in.
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ContextRepository
