@@ -17,6 +17,10 @@ class IsNumeric extends CustomConstraint implements Constraint
                 return is_numeric($value);
             },
             function ($txt, $value) {
+                if ('' === $value) {
+                    return $txt("not_numeric_empty_string");
+                }
+
                 return $txt("not_numeric", $value);
             },
             $data_factory,

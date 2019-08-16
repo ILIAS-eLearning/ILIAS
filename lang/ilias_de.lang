@@ -15033,6 +15033,7 @@ validation#:#not_greater_than#:#'%s' ist nicht größer als '%s'.
 validation#:#not_less_than#:#'%s' ist nicht kleiner als '%s'.
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
 validation#:#not_numeric#:#'%s' ist nicht nummerisch.
+validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
 validation#:#not_generic#:#Es ist nicht der Fall, dass %s
 validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als '%s'.
 validation#:#not_an_array#:#'%s' ist kein Array.
