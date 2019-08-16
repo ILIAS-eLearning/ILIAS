@@ -124,7 +124,7 @@ abstract class ilExplorerBaseGUI
 	 *
 	 * @param ilTemplate|null $a_main_tpl
 	 */
-	function setMainTemplate(ilGlobalTemplate $a_main_tpl = null)
+	function setMainTemplate($a_main_tpl = null)
 	{
 		$this->tpl = $a_main_tpl;
 	}
