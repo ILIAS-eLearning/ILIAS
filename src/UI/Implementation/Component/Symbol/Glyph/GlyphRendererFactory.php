@@ -12,10 +12,24 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory {
 		'BulkyLink'
 	];
 
-	public function getRendererInContext(Component\Component $component, array $contexts) {
+	public function getRendererInContext(Component\Component $component, array $contexts) 
+  {
 		if( count(array_intersect(self::USE_BUTTON_CONTEXT_FOR, $contexts)) > 0) {
-			return new ButtonContextRenderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+			return new ButtonContextRenderer(
+				$this->ui_factory,
+				$this->tpl_factory,
+				$this->lng,
+				$this->js_binding,
+				$this->refinery
+			);
+
 		}
-		return new Renderer($this->ui_factory, $this->tpl_factory, $this->lng, $this->js_binding);
+		return new Renderer(
+			$this->ui_factory,
+			$this->tpl_factory,
+			$this->lng,
+			$this->js_binding,
+			$this->refinery
+		);
 	}
 }

@@ -1262,4 +1262,45 @@ abstract class ilPlugin {
 	public function promoteGlobalScreenProvider(): AbstractStaticPluginMainMenuProvider {
 		return new ilPluginGlobalScreenNullProvider();
 	}
+
+	/**
+	 * This methods allows to replace the UI Renderer (see src/UI) of ILIAS after initialization
+	 * by returning a closure returning a custom renderer. E.g:
+	 *
+	 * return function(\ILIAS\DI\Container $c){
+	 *   return new CustomRenderer();
+	 * };
+	 *
+	 * Note: Note that plugins might conflict by replacing the renderer, so only use if you
+	 * are sure, that no other plugin will do this for a given context.
+	 *
+	 * @param \ILIAS\DI\Container $dic
+	 * @return Closure
+	 */
+	public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic):Closure{
+		//This returns the callable of $c['ui.renderer'] without executing it.
+		return $dic->raw('ui.renderer');
+	}
+
+	/**
+	 * This methods allows to replace some factory for UI Components (see src/UI) of ILIAS
+	 * after initialization by returning a closure returning a custom factory. E.g:
+	 *
+	 * if($key == "ui.factory.nameOfFactory"){
+	 *    return function(\ILIAS\DI\Container  $c){
+	 *       return new CustomFactory($c['ui.signal_generator'],$c['ui.factory.maincontrols.slate']);
+	 *    };
+	 * }
+	 *
+	 * Note: Note that plugins might conflict by replacing the same factory, so only use if you
+	 * are sure, that no other plugin will do this for a given context.
+	 *
+	 * @param string $dic_key
+	 * @param \ILIAS\DI\Container $dic
+	 * @return Closure
+	 */
+	public function exchangeUIFactoryAfterInitialization(string $dic_key, \ILIAS\DI\Container $dic):Closure{
+		//This returns the callable of $c[$key] without executing it.
+		return $dic->raw($dic_key);
+	}
 }

@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 
 /**
  * Class isItem
@@ -14,6 +15,12 @@ interface isItem
      * @return IdentificationInterface
      */
     public function getProviderIdentification() : IdentificationInterface;
+
+
+    /**
+     * @return MetaBarItemRenderer
+     */
+    public function getRenderer() : MetaBarItemRenderer;
 
 
     /**

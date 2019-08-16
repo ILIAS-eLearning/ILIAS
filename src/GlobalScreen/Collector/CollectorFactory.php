@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Collector;
 
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\Collector\MainLayoutCollector;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
@@ -21,7 +21,7 @@ class CollectorFactory
      */
     protected static $instances = [];
     /**
-     * @var ProviderFactoryInterface
+     * @var ProviderFactory
      */
     private $provider_factory;
 
@@ -29,9 +29,9 @@ class CollectorFactory
     /**
      * CollectorFactory constructor.
      *
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory $provider_factory
      */
-    public function __construct(ProviderFactoryInterface $provider_factory)
+    public function __construct(ProviderFactory $provider_factory)
     {
         $this->provider_factory = $provider_factory;
     }

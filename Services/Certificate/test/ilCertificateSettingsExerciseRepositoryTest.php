@@ -48,6 +48,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,
@@ -60,11 +61,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $certificateMock = $this->getMockBuilder('ilCertificate')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $result = $repository->createForm($guiMock, $certificateMock);
+        $result = $repository->createForm($guiMock);
 
         $this->assertEquals($formMock, $result);
     }
@@ -109,6 +106,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,
@@ -162,6 +160,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
+            false,
             $language,
             $controller,
             $access,

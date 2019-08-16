@@ -147,23 +147,4 @@ class RadioInputTest extends ILIAS_UI_TestBase {
 			."</div>";
 		$this->assertHTMLEquals($expected, $r->render($radio));
 	}
-
-
-	public function test_with_dependant() {
-		$r = $this->getDefaultRenderer();
-		$f = $this->buildFactory();
-		$dep_field = $f->text('text', 'text');
-		$radio = $f->radio('label', 'byline')
-			->withOption('value0', 'label0', 'byline0');
-
-		$this->assertNull($radio->getDependantFieldsFor('value0'));
-
-		$dep = ['dep1'=>$dep_field];
-		$radio = $radio->withOption('value1', 'label1', 'byline1', $dep);
-		$this->assertEquals(
-			$dep,
-			$radio->getDependantFieldsFor('value1')
-		);
-	}
-
 }

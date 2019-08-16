@@ -43,7 +43,8 @@ EOT;
             [new \stdClass()],
             [true],
             [null],
-            [function() {}],
+            [function () {
+            }],
         ];
     }
 
@@ -60,9 +61,9 @@ EOT;
     }
 
     /**
-     * 
+     *
      */
-    public function testReadingTimeForPlainText() : void 
+    public function testReadingTimeForPlainText() : void
     {
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         $this->assertEquals(
@@ -92,7 +93,7 @@ EOT;
     }
 
     /**
-     * 
+     *
      */
     public function testSolitaryPunctuationCharactersMustNotEffectReadingTime() : void
     {

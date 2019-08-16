@@ -12,7 +12,11 @@
  */
 class ilAchievements
 {
-	/**
+    /**
+     * @var ilCertificateActiveValidator
+     */
+    private $validator;
+    /**
 	 * @var ilLearningHistoryService
 	 */
 	protected $learing_history;
@@ -48,6 +52,7 @@ class ilAchievements
 		$this->setting = $DIC["ilSetting"];
 		$this->learing_history = $DIC->learningHistory();
 		$this->skmg_setting = new ilSetting("skmg");
+		$this->validator = new ilCertificateActiveValidator();
 	}
 
 	/**
@@ -75,7 +80,7 @@ class ilAchievements
 				return (bool) ilBadgeHandler::getInstance()->isActive();
 				break;
 			case self::SERV_CERTIFICATES:
-				return (bool) ilCertificate::isActive();
+				return $this->validator->validate();
 				break;
 		}
 		return false;

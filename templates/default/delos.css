@@ -6944,8 +6944,16 @@ button.close {
     display: flex;
     flex-direction: column;
   }
-  .row-eq-height .il-card :nth-child(4) {
+  .row-eq-height .il-card :last-child {
     flex-grow: 2;
+  }
+}
+/* see bug #25920, limit size of cards for small screens */
+@media (max-width: 768px) {
+  .il-card {
+    max-width: 350px;
+    margin-right: auto;
+    margin-left: auto;
   }
 }
 .il-deck .row {
@@ -15754,6 +15762,9 @@ div#ilContRepIntro img {
 }
 .ilContainerTileRows .il-chart-progressmeter-container {
   height: 100%;
+}
+.ilContainerTileRows .il-card h5 button.btn {
+  font-size: inherit;
 }
 .ilContainerShowMore {
   padding: 15px 10px;

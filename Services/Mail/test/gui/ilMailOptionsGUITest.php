@@ -22,7 +22,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         ilCtrl $ctrl,
         ilSetting $settings
     ) : ilMailOptionsGUI {
-        $tpl = $this->getMockBuilder(ilGlobalTemplate::class)->disableOriginalConstructor()->getMock();
+        $tpl = $this->getMockBuilder(ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $mail = $this->getMockBuilder(ilFormatMail::class)->disableOriginalConstructor()->getMock();

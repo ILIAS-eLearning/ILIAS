@@ -2,8 +2,8 @@
 
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerFactory;
+use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 
 /**
  * Class IdentificationFactory
@@ -35,7 +35,7 @@ class IdentificationFactory
 {
 
     /**
-     * @var ProviderFactory|ProviderFactoryInterface
+     * @var ProviderFactory|ProviderFactory
      */
     protected $provider_factory;
     /**
@@ -51,9 +51,9 @@ class IdentificationFactory
     /**
      * IdentificationFactory constructor.
      *
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory $provider_factory
      */
-    public final function __construct(ProviderFactoryInterface $provider_factory)
+    public final function __construct(ProviderFactory $provider_factory)
     {
         $this->serializer_factory = new SerializerFactory();
         $this->map = new IdentificationMap();
@@ -65,11 +65,11 @@ class IdentificationFactory
      * Returns a IdentificationProvider for core components, only a Provider
      * is needed.
      *
-     * @param \ILIAS\GlobalScreen\Provider\Provider $provider
+     * @param Provider $provider
      *
      * @return IdentificationProviderInterface
      */
-    public final function core(\ILIAS\GlobalScreen\Provider\Provider $provider) : IdentificationProviderInterface
+    public final function core(Provider $provider) : IdentificationProviderInterface
     {
         return new CoreIdentificationProvider($provider, $this->serializer_factory->core(), $this->map);
     }
@@ -81,12 +81,12 @@ class IdentificationFactory
      * comes from (e.g. to disable or delete all elements when a plugin is
      * deleted or deactivated).
      *
-     * @param \ilPlugin                             $plugin
-     * @param \ILIAS\GlobalScreen\Provider\Provider $provider
+     * @param \ilPlugin $plugin
+     * @param Provider  $provider
      *
      * @return IdentificationProviderInterface
      */
-    public final function plugin(\ilPlugin $plugin, \ILIAS\GlobalScreen\Provider\Provider $provider) : IdentificationProviderInterface
+    public final function plugin(\ilPlugin $plugin, Provider $provider) : IdentificationProviderInterface
     {
         return new PluginIdentificationProvider($provider, $plugin->getId(), $this->serializer_factory->plugin(), $this->map);
     }

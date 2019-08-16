@@ -354,7 +354,6 @@ class ilOpenIdConnectSettings
 	 */
 	public function setUidField(string $field)
 	{
-		ilLoggerFactory::getLogger('root')->warning($field);
 		$this->uid = $field;
 	}
 
