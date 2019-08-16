@@ -1,12 +1,14 @@
 <?php
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Client\ClientSideProvider;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 
 /**
@@ -119,6 +121,36 @@ class ilGSProviderFactory implements ProviderFactory
 
         // Plugins
         $this->appendPlugins($providers, DynamicToolProvider::class);
+
+        $this->registerInternal($providers);
+
+        return $providers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getNotificationsProvider() : array
+    {
+        $providers = [];
+        // Core
+        $this->appendCore($providers, NotificationProvider::class);
+
+        $this->registerInternal($providers);
+
+        return $providers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getClientSideProviders() : array
+    {
+        $providers = [];
+        // Core
+        $this->appendCore($providers, ClientSideProvider::class);
 
         $this->registerInternal($providers);
 

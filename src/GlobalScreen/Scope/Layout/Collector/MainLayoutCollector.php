@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
 
+use ILIAS\GlobalScreen\Client\ClientSideProvider;
+use ILIAS\GlobalScreen\Client\ClientSideProviderRegistrar;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
@@ -7,6 +9,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\NullModification;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\ModificationHandler;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -24,6 +27,10 @@ class MainLayoutCollector
 {
 
     /**
+     * @var ClientSideProvider[]
+     */
+    private $client_side_providers;
+    /**
      * @var ModificationHandler
      */
     private $modification_handler;
@@ -36,11 +43,13 @@ class MainLayoutCollector
     /**
      * MainLayoutCollector constructor.
      *
-     * @param ModificationProvider[] $providers
+     * @param array $providers
+     * @param array $client_side_providers
      */
-    public function __construct(array $providers)
+    public function __construct(array $providers, array $client_side_providers)
     {
         $this->providers = $providers;
+        $this->client_side_providers = $client_side_providers;
         $this->modification_handler = new ModificationHandler();
     }
 
@@ -114,6 +123,15 @@ class MainLayoutCollector
             $this->modification_handler->modifyMetaBarWithClosure($final_meta_bar_modification->getModification());
         }
 
+        //
+        // POC Notification ClientSide
+        //
+
+        $registrar = new ClientSideProviderRegistrar($this->getMetaContent());
+        foreach ($this->client_side_providers as $client_side_provider) {
+            $registrar->registerProviderClientSideCode($client_side_provider);
+        }
+
         return $this->modification_handler->getPageWithPagePartProviders();
     }
 
@@ -127,5 +145,16 @@ class MainLayoutCollector
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
         return $called_contexts;
+    }
+
+
+    /**
+     * @return MetaContent
+     */
+    private function getMetaContent() : MetaContent
+    {
+        global $DIC;
+
+        return $DIC->globalScreen()->layout()->meta();
     }
 }

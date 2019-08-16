@@ -1,9 +1,11 @@
 <?php namespace ILIAS\GlobalScreen\Provider;
 
+use ILIAS\GlobalScreen\Client\ClientSideProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 
 /**
@@ -42,6 +44,18 @@ interface ProviderFactory
      * @return StaticMetaBarProvider[]
      */
     public function getMetaBarProvider() : array;
+
+
+    /**
+     * @return NotificationProvider[]
+     */
+    public function getNotificationsProvider() : array;
+
+
+    /**
+     * @return ClientSideProvider[]
+     */
+    public function getClientSideProviders() : array;
 
 
     /**

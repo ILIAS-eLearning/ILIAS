@@ -16,6 +16,7 @@ There are several scopes served by the GlobalScreen service. Currently these are
 - MainBar (main menu)
 - MetaBar
 - Tool
+- Notification
 - Layout
 
 A scope refers to an area on an ILIAS page. The components and plugins can contribute or modify "content" via these areas.
@@ -38,6 +39,9 @@ The Scope Tool has a lot to do with the Scope MainBar, since the elements
 can be reproduced in almost the same place. However, both the `Items` and the `Providers` as such are .
 
 For more information see [Scope/Tools/README.md](Scope/Tool/README.md).
+
+# Scope Notifications
+For more information, see [Scope/Notification/README.md](Scope/Notification/README.md).
 
 ## Scope Layout
 This area is the superordinate element and responsible for the entire structure of a page. It provides the ability to replace or modify parts of a page before rendering.

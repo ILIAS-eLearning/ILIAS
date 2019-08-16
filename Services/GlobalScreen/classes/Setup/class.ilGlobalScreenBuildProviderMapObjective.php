@@ -1,8 +1,10 @@
 <?php
 
+use ILIAS\GlobalScreen\Client\ClientSideProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 use ILIAS\Setup;
 
@@ -28,6 +30,8 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjecti
             StaticMetaBarProvider::class,
             DynamicToolProvider::class,
             ModificationProvider::class,
+            NotificationProvider::class,
+            ClientSideProvider::class,
         ];
 
         foreach ($i as $interface) {
