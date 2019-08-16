@@ -25,15 +25,19 @@ A scope usually has its own `Collector` and `Factory` definitions of items.
 ## Scope MainBar
 All `Items` available in the MainBar come from this area.
 
+For more information see [Scope/MainMenu/README.md](Scope/MainMenu/README.md).
+
 ## Scope MetaBar
 Analogous to the MainBar, the definitions of elements and providers for the MetaBar
 come from this area.
+
+For more information see [Scope/MetaBar/README.md](Scope/MetaBar/README.md).
 
 ## Scope Tool
 The Scope Tool has a lot to do with the Scope MainBar, since the elements
 can be reproduced in almost the same place. However, both the `Items` and the `Providers` as such are .
 
-For more information see [Scope/Tools/README.md](Scope/Tools/README.md).
+For more information see [Scope/Tools/README.md](Scope/Tool/README.md).
 
 ## Scope Layout
 This area is the superordinate element and responsible for the entire structure of a page. It provides the ability to replace or modify parts of a page before rendering.
