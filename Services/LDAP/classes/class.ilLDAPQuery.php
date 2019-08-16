@@ -178,7 +178,7 @@ class ilLDAPQuery
 					$a_filter,
 					$a_scope));
 		}
-		return new ilLDAPResult($this->lh,$res);
+		return (new ilLDAPResult($this->lh,$res))->run();
 	}
 	
 	/**
@@ -227,60 +227,75 @@ class ilLDAPQuery
 			$dn .= ',';
 		}
 		$dn .=	$this->settings->getBaseDN();
-		
-		// page results
-		$filter = $this->settings->getFilter();
-		$page_filter = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-');
-		$chars = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-		
-		foreach($page_filter as $letter)
+		$tmp_result = null;
+
+		if($this->checkPaginationEnabled())
 		{
-			$new_filter = '(&';
-			$new_filter .= $filter;
-			
-			switch($letter)
-			{
-				case '-':
-					$new_filter .= ('(!(|');
-					foreach($chars as $char)
-					{
-						$new_filter .= ('('.$this->settings->getUserAttribute().'='.$char.'*)');
-					}
-					$new_filter .= ')))';
-					break;
-
-				default:
-					$new_filter .= ('('.$this->settings->getUserAttribute().'='.$letter.'*))');
-					break;
-			}
-
-			$this->log->info('Searching with ldap search and filter '.$new_filter.' in '.$dn);
-		 	$res = $this->queryByScope($this->settings->getUserScope(),
-		 		$dn,
-	 			$new_filter,
+			$filter = '(&' . $this->settings->getFilter();
+			$filter .= ('('.$this->settings->getUserAttribute().'=*))');
+			$this->log->info('Searching with ldap search and filter '.$filter.' in '.$dn);
+			$res = $this->queryByScope($this->settings->getUserScope(),
+				$dn,
+				$filter,
 				array($this->settings->getUserAttribute()));
 
 			$tmp_result = new ilLDAPResult($this->lh,$res);
-			if(!$tmp_result->numRows())
-			{
-				$this->log->notice('No users found. Aborting.');
-				continue;
-			}
-			$this->log->info('Found '.$tmp_result->numRows().' users.');
-			$attribute = strtolower($this->settings->getUserAttribute());
-			foreach($tmp_result->getRows() as $data)
-			{
-				if(isset($data[$attribute]))
-				{
-					$this->readUserData($data[$attribute],false,false);
-				}
-				else
-				{
-					$this->log->warning('Unknown error. No user attribute found.');
-				}
-			}
-			unset($tmp_result);
+			$tmp_result->setWithPagination(true);
+			$tmp_result->run();
 		}
+		else{
+			$filter = $this->settings->getFilter();
+			$page_filter = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-');
+			$chars = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+			$tmp_result = new ilLDAPResult($this->lh);
+
+			foreach($page_filter as $letter) {
+				$new_filter = '(&';
+				$new_filter .= $filter;
+
+				switch ($letter) {
+					case '-':
+						$new_filter .= ('(!(|');
+						foreach ($chars as $char) {
+							$new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $char . '*)');
+						}
+						$new_filter .= ')))';
+						break;
+
+					default:
+						$new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $letter . '*))');
+						break;
+				}
+
+				$this->log->info('Searching with ldap search and filter ' . $new_filter . ' in ' . $dn);
+				$res = $this->queryByScope($this->settings->getUserScope(),
+					$dn,
+					$new_filter,
+					array($this->settings->getUserAttribute()));
+				$tmp_result->setResult($res);
+				$tmp_result->run();
+			}
+		}
+
+		if(!$tmp_result->numRows())
+		{
+			$this->log->notice('No users found. Aborting.');
+		}
+		$this->log->info('Found '.$tmp_result->numRows().' users.');
+		$attribute = strtolower($this->settings->getUserAttribute());
+		foreach($tmp_result->getRows() as $data)
+		{
+			if(isset($data[$attribute]))
+			{
+				$this->readUserData($data[$attribute],false,false);
+			}
+			else
+			{
+				$this->log->warning('Unknown error. No user attribute found.');
+			}
+		}
+		unset($tmp_result);
+
 		return true;
 	}
 	
@@ -338,6 +353,7 @@ class ilLDAPQuery
 			$this->getLogger()->dump($res);
 			
 			$tmp_result = new ilLDAPResult($this->lh,$res);
+			$tmp_result->run();
 			$group_result = $tmp_result->getRows();
 			
 			$this->getLogger()->debug('Group query returned: ');
@@ -396,6 +412,7 @@ class ilLDAPQuery
 			array($this->settings->getGroupMember()));
 			
 		$tmp_result = new ilLDAPResult($this->lh,$res);
+		$tmp_result->run();
 		$group_data = $tmp_result->getRows();
 		
 		
@@ -472,6 +489,7 @@ class ilLDAPQuery
 		
 		
 		$tmp_result = new ilLDAPResult($this->lh,$res);
+		$tmp_result->run();
 		if(!$tmp_result->numRows())
 		{
 			$this->log->info('LDAP: No user data found for: '.$a_name);
@@ -726,6 +744,35 @@ class ilLDAPQuery
 	 	{
 	 		@ldap_unbind($this->lh);
 	 	}
+	}
+
+	/**
+	 * Costly check whether LDAP pagination is enabled or not
+	 *
+	 * @return bool
+	 */
+	function checkPaginationEnabled()
+	{
+		if(LDAP_OPT_PROTOCOL_VERSION < 3)
+		{
+			return false;
+		}
+
+		$res = $this->queryByScope(IL_LDAP_SCOPE_ONE,
+			$this->settings->getBaseDN(),
+			$this->settings->getFilter(),
+			array("*"));
+
+		$result = new ilLDAPResult($this->lh, $res);
+		$result->setWithPagination(true);
+
+		try{
+			$result->run();
+		}catch(Exception $e){
+			$this->getLogger()->info("LDAP paging disabled (". $e->getMessage(). ")");
+			return false;
+		}
+		return true;
 	}
 }
 
