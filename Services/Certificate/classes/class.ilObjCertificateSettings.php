@@ -87,7 +87,7 @@ class ilObjCertificateSettings extends ilObject
     */
     public function getBackgroundImageThumbPath()
     {
-        return $this->getBackgroundImageDefaultFolder() . $this->getBackgroundImageName() . ".thumb.jpg";
+        return $this->getBackgroundImageDefaultFolder() . $this->getBackgroundImageName() . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
 
     /**
