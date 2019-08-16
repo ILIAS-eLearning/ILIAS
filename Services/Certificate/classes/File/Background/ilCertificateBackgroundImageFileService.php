@@ -7,6 +7,9 @@
 class ilCertificateBackgroundImageFileService
 {
     const BACKGROUND_IMAGE_NAME = 'background.jpg';
+    const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload.tmp';
+    const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
+    const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
 
     /**
      * @var \ILIAS\Filesystem\Filesystem
@@ -81,7 +84,7 @@ class ilCertificateBackgroundImageFileService
      */
     public function getBackgroundImageThumbPath()
     {
-        return $this->webDirectory . $this->certificatePath . self::BACKGROUND_IMAGE_NAME . '.thumb.jpg';
+        return $this->webDirectory . $this->certificatePath . self::BACKGROUND_IMAGE_NAME . self::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
 
     /**
@@ -93,7 +96,7 @@ class ilCertificateBackgroundImageFileService
     {
         return str_replace(
             array($this->webDirectory, '//'),
-            array('[CLIENT_WEB_DIR]', '/'),
+            array(self::PLACEHOLDER_CLIENT_WEB_DIRECTORY, '/'),
             $backgroundImagePath
         );
     }
@@ -105,6 +108,6 @@ class ilCertificateBackgroundImageFileService
      */
     public function getBackgroundImageTempfilePath()
     {
-        return $this->webDirectory . $this->certificatePath . "background_upload.tmp";
+        return $this->webDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
     }
 }
