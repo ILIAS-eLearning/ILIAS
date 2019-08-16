@@ -77,7 +77,7 @@ class ilObjCertificateSettings extends ilObject
     */
     public function getBackgroundImageName()
     {
-        return "background.jpg";
+        return ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
     }
 
     /**
