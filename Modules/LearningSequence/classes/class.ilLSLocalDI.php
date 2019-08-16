@@ -13,7 +13,6 @@ trait ilLSLocalDI
 	): Container {
 		$container = new Container();
 
-
 		$ref_id = (int)$object->getRefId();
 		$obj_id = (int)$object->getId();
 		$obj_title = $object->getTitle();
