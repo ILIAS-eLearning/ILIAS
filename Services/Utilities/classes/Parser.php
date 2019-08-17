@@ -860,7 +860,7 @@ class Parser
             if ($line == '') { // empty line, go to next line
                 continue;
             }
-            $first_character = $line{0};
+            $first_character = $line[0];
             $matches = array();
 
             if (preg_match('/^(:*)\{\|(.*)$/', $line, $matches)) {
@@ -2024,7 +2024,7 @@ class Parser
         # so only perform processing if subpages are allowed
         if ($this->areSubpagesAllowed()) {
             # Look at the first character
-            if ($target != '' && $target{0} == '/') {
+            if ($target != '' && $target[0] == '/') {
                 # / at end means we don't want the slash to be shown
                 $trailingSlashes = preg_match_all('%(/+)$%', $target, $m);
                 if ($trailingSlashes) {
@@ -2095,7 +2095,7 @@ class Parser
         }
 
         for ($i = 0; $i < $shorter; ++$i) {
-            if ($st1{$i} != $st2{$i}) {
+            if ($st1[$i] != $st2[$i]) {
                 break;
             }
         }
@@ -2232,11 +2232,11 @@ class Parser
                 $paragraphStack = false;
 
                 while ($commonPrefixLength < $lastPrefixLength) {
-                    $output .= $this->closeList($lastPrefix{$lastPrefixLength - 1});
+                    $output .= $this->closeList($lastPrefix[$lastPrefixLength - 1]);
                     --$lastPrefixLength;
                 }
                 if ($prefixLength <= $commonPrefixLength && $commonPrefixLength > 0) {
-                    $output .= $this->nextItem($pref{$commonPrefixLength - 1});
+                    $output .= $this->nextItem($pref[$commonPrefixLength - 1]);
                 }
                 while ($prefixLength > $commonPrefixLength) {
                     $char = substr($pref, $commonPrefixLength, 1);
@@ -2276,7 +2276,7 @@ class Parser
                         $inBlockElem = true;
                     }
                 } elseif (!$inBlockElem && !$this->mInPre) {
-                    if (' ' == $t{0} and ($this->mLastSection == 'pre' or trim($t) != '')) {
+                    if (' ' == $t[0] and ($this->mLastSection == 'pre' or trim($t) != '')) {
                         // pre
                         if ($this->mLastSection != 'pre') {
                             $paragraphStack = false;
@@ -2323,7 +2323,7 @@ class Parser
             }
         }
         while ($prefixLength) {
-            $output .= $this->closeList($pref2{$prefixLength - 1});
+            $output .= $this->closeList($pref2[$prefixLength - 1]);
             --$prefixLength;
         }
         if ('' != $this->mLastSection) {
@@ -2369,7 +2369,7 @@ class Parser
         $stack = 0;
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
-            $c = $str{$i};
+            $c = $str[$i];
 
             switch ($state) {
             // (Using the number is a performance hack for common cases)
