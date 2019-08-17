@@ -911,7 +911,7 @@ class HTML_Template_IT
      */
     public function getFile($filename)
     {
-        if ($filename{0} == '/' && substr($this->fileRoot, -1) == '/') {
+        if ($filename[0] == '/' && substr($this->fileRoot, -1) == '/') {
             $filename = substr($filename, 1);
         }
 
