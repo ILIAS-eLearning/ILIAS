@@ -37,7 +37,7 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
     */
     public function getFile($filename)
     {
-        if ($filename{0} == '/' && substr($this->fileRoot, -1) == '/') {
+        if ($filename[0] == '/' && substr($this->fileRoot, -1) == '/') {
             $filename = substr($filename, 1);
         }
 
