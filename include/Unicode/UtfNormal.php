@@ -241,7 +241,7 @@ class UtfNormal {
 		global $utfCheckNFC, $utfCombiningClass;
 		$len = strlen( $string );
 		for( $i = 0; $i < $len; $i++ ) {
-			$c = $string{$i};
+			$c = $string[$i];
 			$n = ord( $c );
 			if( $n < 0x80 ) {
 				continue;
@@ -334,7 +334,7 @@ class UtfNormal {
 		foreach( $matches[1] as $str ) {
 			$chunk = strlen( $str );
 
-			if( $str{0} < "\x80" ) {
+			if( $str[0] < "\x80" ) {
 				# ASCII chunk: guaranteed to be valid UTF-8
 				# and in normal form C, so skip over it.
 				$base += $chunk;
@@ -551,7 +551,7 @@ class UtfNormal {
 		$len = strlen( $string );
 		$out = '';
 		for( $i = 0; $i < $len; $i++ ) {
-			$c = $string{$i};
+			$c = $string[$i];
 			$n = ord( $c );
 			if( $n < 0x80 ) {
 				# ASCII chars never decompose
@@ -578,9 +578,9 @@ class UtfNormal {
 					# A lookup table would be slightly faster,
 					# but adds a lot of memory & disk needs.
 					#
-					$index = ( (ord( $c{0} ) & 0x0f) << 12
-					         | (ord( $c{1} ) & 0x3f) <<  6
-					         | (ord( $c{2} ) & 0x3f) )
+					$index = ( (ord( $c[0] ) & 0x0f) << 12
+					         | (ord( $c[1] ) & 0x3f) <<  6
+					         | (ord( $c[2] ) & 0x3f) )
 					       - UNICODE_HANGUL_FIRST;
 					$l = intval( $index / UNICODE_HANGUL_NCOUNT );
 					$v = intval( ($index % UNICODE_HANGUL_NCOUNT) / UNICODE_HANGUL_TCOUNT);
@@ -615,7 +615,7 @@ class UtfNormal {
 		$combiners = array();
 		$lastClass = -1;
 		for( $i = 0; $i < $len; $i++ ) {
-			$c = $string{$i};
+			$c = $string[$i];
 			$n = ord( $c );
 			if( $n >= 0x80 ) {
 				if( $n >= 0xf0 ) {
@@ -673,7 +673,7 @@ class UtfNormal {
 		$x1 = ord(substr(UTF8_HANGUL_VBASE,0,1));
 		$x2 = ord(substr(UTF8_HANGUL_TEND,0,1));
 		for( $i = 0; $i < $len; $i++ ) {
-			$c = $string{$i};
+			$c = $string[$i];
 			$n = ord( $c );
 			if( $n < 0x80 ) {
 				# No combining characters here...
@@ -733,8 +733,8 @@ class UtfNormal {
 						#
 						#$lIndex = utf8ToCodepoint( $startChar ) - UNICODE_HANGUL_LBASE;
 						#$vIndex = utf8ToCodepoint( $c ) - UNICODE_HANGUL_VBASE;
-						$lIndex = ord( $startChar{2} ) - 0x80;
-						$vIndex = ord( $c{2}         ) - 0xa1;
+						$lIndex = ord( $startChar[2] ) - 0x80;
+						$vIndex = ord( $c[2]         ) - 0xa1;
 
 						$hangulPoint = UNICODE_HANGUL_FIRST +
 							UNICODE_HANGUL_TCOUNT *
@@ -752,23 +752,23 @@ class UtfNormal {
 							  $startChar <= UTF8_HANGUL_LAST &&
 							  !$lastHangul ) {
 						# $tIndex = utf8ToCodepoint( $c ) - UNICODE_HANGUL_TBASE;
-						$tIndex = ord( $c{2} ) - 0xa7;
-						if( $tIndex < 0 ) $tIndex = ord( $c{2} ) - 0x80 + (0x11c0 - 0x11a7);
+						$tIndex = ord( $c[2] ) - 0xa7;
+						if( $tIndex < 0 ) $tIndex = ord( $c[2] ) - 0x80 + (0x11c0 - 0x11a7);
 
 						# Increment the code point by $tIndex, without
 						# the function overhead of decoding and recoding UTF-8
 						#
-						$tail = ord( $startChar{2} ) + $tIndex;
+						$tail = ord( $startChar[2] ) + $tIndex;
 						if( $tail > 0xbf ) {
 							$tail -= 0x40;
-							$mid = ord( $startChar{1} ) + 1;
+							$mid = ord( $startChar[1] ) + 1;
 							if( $mid > 0xbf ) {
-								$startChar{0} = chr( ord( $startChar{0} ) + 1 );
+								$startChar[0] = chr( ord( $startChar[0] ) + 1 );
 								$mid -= 0x40;
 							}
-							$startChar{1} = chr( $mid );
+							$startChar[1] = chr( $mid );
 						}
-						$startChar{2} = chr( $tail );
+						$startChar[2] = chr( $tail );
 
 						# If there's another jamo char after this, *don't* try to merge it.
 						$lastHangul = 1;
@@ -798,7 +798,7 @@ class UtfNormal {
 		$len = strlen( $string );
 		$out = '';
 		for( $i = 0; $i < $len; $i++ ) {
-			$out .= $string{$i};
+			$out .= $string[$i];
 		}
 		return $out;
 	}
