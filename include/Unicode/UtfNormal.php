@@ -352,12 +352,12 @@ class UtfNormal {
 			$len = $chunk + 1; # Counting down is faster. I'm *so* sorry.
 
 			for( $i = -1; --$len; ) {
-				if( $remaining = $tailBytes[$c = $str{++$i}] ) {
+				if( $remaining = $tailBytes[$c = $str[++$i]] ) {
 					# UTF-8 head byte!
 					$sequence = $head = $c;
 					do {
 						# Look for the defined number of tail bytes...
-						if( --$len && ( $c = $str{++$i} ) >= "\x80" && $c < "\xc0" ) {
+						if( --$len && ( $c = $str[++$i] ) >= "\x80" && $c < "\xc0" ) {
 							# Legal tail bytes are nice.
 							$sequence .= $c;
 						} else {
