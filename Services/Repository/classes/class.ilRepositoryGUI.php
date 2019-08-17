@@ -448,9 +448,9 @@ class ilRepositoryGUI
 
 		$active_node = ($_GET["active_node"] > 1)
 			? $_GET["active_node"]
-			: ($_GET["ref_id"] > 1)
+			: (($_GET["ref_id"] > 1)
 				? $_GET["ref_id"]
-				: 0;
+				: 0);
 		$top_node = 0;
 		if ($ilSetting->get("rep_tree_limit_grp_crs") && $active_node > 0)
 		{
