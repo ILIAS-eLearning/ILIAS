@@ -33,7 +33,8 @@ class EstimatedReadingTime implements Transformation
     /**
      * @inheritdoc
      */
-    public function transform($from) {
+    public function transform($from)
+    {
         if (!is_string($from)) {
             throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }

@@ -150,7 +150,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @param    string  topic
 	 * @return   string  text clear-text
 	 */
-	function txt($a_topic)
+	function txt($a_topic, $a_default_lang_fallback_mod = '')
 	{
 		global $log;
 		
@@ -830,7 +830,7 @@ class ilSetupLanguage extends ilLanguage
 		return true;
 	}
 	
-	function loadLanguageModule()
+	function loadLanguageModule($a_module)
 	{
 	}
 } // END class.ilSetupLanguage

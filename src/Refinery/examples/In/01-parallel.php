@@ -4,19 +4,20 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function parallel() {
-	global $DIC;
+function parallel()
+{
+    global $DIC;
 
-	$refinery = $DIC->refinery();
+    $refinery = $DIC->refinery();
 
-	$transformation = $refinery->in()->parallel(
-		array(
-			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
-			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
-		)
-	);
+    $transformation = $refinery->in()->parallel(
+        array(
+            new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+            new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+        )
+    );
 
-	$result = $transformation->transform(5);
+    $result = $transformation->transform(5);
 
-	return assert(array(5, 5), $result);
+    return assert(array(5, 5), $result);
 }

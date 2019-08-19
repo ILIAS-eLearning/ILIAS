@@ -5,7 +5,7 @@ matrix:
   - php: 7.3
 script:
 - ./CI/PHPUnit/run_tests_with_reporting.sh;
-- if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then ./CI/PHP-CS-Fixer/run_check.sh; fi
+- if [[ "$TRAVIS_EVENT_TYPE" == "cron" ]]; then travis_wait 60 ./CI/PHP-CS-Fixer/run_check.sh; fi
 addons:
   apt:
     packages:

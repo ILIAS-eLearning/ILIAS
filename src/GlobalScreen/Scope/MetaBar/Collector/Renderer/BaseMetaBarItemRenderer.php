@@ -1,23 +1,30 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
-use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
  * Class BaseMetaBarItemRenderer
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class  BaseMetaBarItemRenderer implements MetaBarItemRenderer
+class BaseMetaBarItemRenderer implements MetaBarItemRenderer
 {
 
+    use isSupportedTrait;
+    /**
+     * @var \ILIAS\GlobalScreen\Services
+     */
     private $ui;
+    /**
+     * @var \ILIAS\GlobalScreen\Services
+     */
+    private $gs;
 
 
     /**
@@ -27,6 +34,7 @@ class  BaseMetaBarItemRenderer implements MetaBarItemRenderer
     {
         global $DIC;
         $this->ui = $DIC->ui();
+        $this->gs = $DIC->globalScreen();
     }
 
 
@@ -56,7 +64,7 @@ class  BaseMetaBarItemRenderer implements MetaBarItemRenderer
                      * @var $child isItem
                      */
                     $component_for_item = $child->getRenderer()->getComponentForItem($child);
-                    if ($component_for_item instanceof Slate || $component_for_item instanceof Bulky) {
+                    if ($this->isComponentSupportedForCombinedSlate($component_for_item)) {
                         $component = $component->withAdditionalEntry($component_for_item);
                     }
                 }

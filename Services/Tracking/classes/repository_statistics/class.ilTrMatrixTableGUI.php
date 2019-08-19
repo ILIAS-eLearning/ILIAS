@@ -467,7 +467,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						$this->tpl->setCurrentBlock("objects");
 						$this->tpl->setVariable("VAL_STATUS", "&nbsp;");
 						$this->tpl->parseCurrentBlock();				
-						continue;
+						break;
 					}
 															
 					$status = isset($a_set[$c]) 

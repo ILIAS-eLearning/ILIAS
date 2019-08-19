@@ -39,14 +39,14 @@ class ilCertificateGUIFactory
 
         $templateRepository = new ilCertificateTemplateRepository($this->dic->database(), $logger);
         $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
+        $pathFactory = new ilCertificatePathFactory();
+
+        $certificatePath = $pathFactory->create($object);
 
         switch ($type) {
             case 'tst':
                 $placeholderDescriptionObject = new ilTestPlaceholderDescription();
                 $placeholderValuesObject = new ilTestPlaceHolderValues();
-                $adapter = new ilTestCertificateAdapter($object);
-
-                $certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsTestFormRepository(
                     $objectId,
@@ -60,8 +60,6 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
-
                 $deleteAction = new ilCertificateTestTemplateDeleteAction(
                     $deleteAction,
                     new ilCertificateObjectHelper()
@@ -71,11 +69,9 @@ class ilCertificateGUIFactory
             case 'crs':
                 $hasAdditionalElements = true;
 
-                $adapter = new ilCourseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription();
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
 
-                $certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsCourseFormRepository(
                     $object,
@@ -88,14 +84,10 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
                 break;
             case 'exc':
-                $adapter = new ilExerciseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
                 $placeholderValuesObject = new ilExercisePlaceHolderValues();
-
-                $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsExerciseRepository(
                     $object,
@@ -108,14 +100,10 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
                 break;
             case 'sahs':
-                $adapter = new ilSCORMCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
                 $placeholderValuesObject = new ilScormPlaceholderValues();
-
-                $certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsScormFormRepository(
                     $object,
@@ -128,8 +116,6 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
-
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));
@@ -137,7 +123,6 @@ class ilCertificateGUIFactory
         }
 
         $gui = new ilCertificateGUI(
-            $adapter,
             $placeholderDescriptionObject,
             $placeholderValuesObject,
             $objectId,

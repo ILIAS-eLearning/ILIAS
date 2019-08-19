@@ -124,9 +124,9 @@ class Group extends Input implements C\Input\Field\Group {
 	public function withValue($value) {
 		$this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 		$clone = clone $this;
-		$clone->inputs = array_map(function($k, $i) use ($value) {
-			return $i->withValue($value[$k]);
-		}, array_keys($this->inputs), $this->inputs);
+		foreach ($this->inputs as $k => $i) {
+			$clone->inputs[$k] = $i->withValue($value[$k]);
+		}
 		return $clone;
 	}
 
