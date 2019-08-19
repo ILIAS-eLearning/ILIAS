@@ -419,7 +419,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());
 		}
 
-		$this->setMaxCount(count($data['items']));
+		$this->setMaxCount($data['cnt']);
 		$this->setData($data['items']);
 
 		// Collect user ids for preloading user objects
