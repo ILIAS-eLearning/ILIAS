@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.4.x 2019-07-01
+* @version	5.4.x 2019-08-19
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -752,7 +752,7 @@ assessment#:#ass_lac_expression#:#Kifejezés
 assessment#:#ass_lac_unable_to_parse_condition#:#'%s' feltétel nem validálható.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Kompetencia felméréséhez szükséges válaszok száma
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenciára nem váltunk át amíg a válaszok száma nem elegendő a kompetenciaszint számításához.
-assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#A teszt által legalább egy mérni kívánt kompetenciához nincs elegendő kérdés.<br />A szükséges minimális kérdésszám: %s
+assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#A teszt által legalább egy mérni kívánt kompetenciához nincs elegendő kérdés, így azokhoz egy kompetenciabejegyzést sem fogunk rögzíteni.<br />A szükséges minimális kérdésszám: %s
 assessment#:#export_essay_qst_with_html#:#Esszé kérdések exportálása HTML kódként
 assessment#:#export_essay_qst_with_html_desc#:#Ha be van kapcsolva, lehetővé válik esszékérdések exportálása HTML segítségével Excelbe.
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetencia
@@ -2340,7 +2340,7 @@ rbac#:#file_copy#:#A felhasználó másolhat fájlt
 common#:#file_created#:#A fájl elkészült.
 rbac#:#file_delete#:#A felhasználó áthelyezhet vagy törölhet fájlt
 rbac#:#file_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-common#:#file_edit#:#Fájl módosítása és új verzió feltöltése
+common#:#file_edit#:#Fájlinformációk módosítása
 common#:#file_info#:#Fájlinformációk
 common#:#file_is_infected#:#A fájl vírussal fertőzött.
 common#:#file_not_found#:#A fájl nem található
@@ -5244,6 +5244,9 @@ feed#:#feed_settings#:#Külső webhírforrások beállításai
 file#:#file_new_version_info#:#Új fájlverzió létrehozása. A korábbi verziók nem módosulnak.
 file#:#file_new_version#:#Új verzió létrehozása
 file#:#replace_file_info#:#Az összes korábbi fájlverziót törli.
+file#:#upload_info#:#Feltöltés
+file#:#upload_info_desc#:#Feltöltések és verziók kezelése a 'Verziók' fül alatt
+file#:#generate_sanitize_report#:#Jelentés az elérhetetlen fájlokról
 common#:#page_count#:#Oldalszám
 form#:#form_days#:#Nap
 form#:#form_file_input#:#Fájlbemenet
@@ -9302,6 +9305,7 @@ skmg#:#skmg_edit_skll#:#Kompetenciabeállítások módosítása
 skmg#:#skmg_sktr#:#Kompetenciasablon-hivatkozás
 skmg#:#skmg_items#:#Bejegyzések
 skmg#:#skmg_create_sctp#:#Sablonkategória létrehozása
+skmg#:#skmg_edit_sctp#:#Sablonkategória módosítása
 skmg#:#skmg_sctp#:#Kompetenciasablon-kategória
 skmg#:#skmg_insert_skill_template_from_clip#:#Kompetenciasablon-kategória beszúrása vágólapról
 skmg#:#skmg_insert_template_category_from_clip#:#Sablonkategória beszúrása vágólapról
@@ -13006,7 +13010,7 @@ rbac#:#wiki_activate_wiki_protection#:#Wiki oldalak írásvédetté tétele
 rbac#:#wiki_wiki_html_export#:#Wiki exportálás HTML-ként
 crs#:#crs_loc_settings_it_type#:#Belépő teszt
 crs#:#crs_loc_settings_type_it_placement_all#:#Összes tanulási célt lefedő szintfelmérő belépő teszt
-crs#:#crs_loc_settings_it_start_object#:#Belépő teszt legyen kezdőobjektum
+crs#:#crs_loc_settings_it_start_object#:#A Belépő teszt legyen a kezdőobjektum
 crs#:#crs_loc_settings_type_it_placement_sel#:#Mindegyik tanulási célhoz más-más szintfelmérő belépő teszt
 crs#:#crs_loc_settings_type_it_qualifying_all#:#Összes tanulási célt lefedő elővizsga belépő teszt
 crs#:#crs_loc_settings_type_it_qualifying_sel#:#Mindegyik tanulási célhoz más-más elővizsga belépő teszt
@@ -15045,4 +15049,7 @@ dateplaner#:#cal_usr_info#:#Kinevezési információk
 certificate#:#certificate_learning_progress_must_be_active#:#Csak tanulási haladású objektumok választhatóak ki. A tanulási haladás ki van kapcsolva a következő objektumoknál: %s
 certificate#:#learning_progress_deactivated#:#A tanulási haladás ki van kapcsolva ennél az objektumnál. Az igazolássablon módosításához és a felhasználók igazolásának legeneráláshoz be kell kapcsolni.
 content#:#msg_no_page_access#:#Nincs jogosultsága az oldal eléréséhez.
-forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###22 07 2019 new variable
+forum#:#frm_move_invalid_file_type#:#'%s' témához tiltott típusú fájlt töltöttek fel. Távolítsa el a fájlt vagy jelezze az üzemeltetőknek, hogy adják hozzá ezt a fájltípust az engedélyzettekhez.
+crs#:#crs_objective_result_summary_initial#:#Belépő tesz: %1$s (%2$s szükséges)
+crs#:#crs_objective_result_summary_qualifying#:#Záró teszt: %1$s (%2$s szükséges)
+crs#:#crs_objective_result_details#:#« Részletek megjelenítése
