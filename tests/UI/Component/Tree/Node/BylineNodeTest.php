@@ -120,25 +120,32 @@ EOT;
 			$js_binding = $this->getJavaScriptBinding();
 		}
 
+		$languageMock = $this->getMockBuilder('ilLanguage')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$defaultRendererFactory = new DefaultRendererFactory(
 			$ui_factory,
 			$tpl_factory,
 			$lng,
-			$js_binding
+			$js_binding,
+			new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
 		);
 
 		$glyphRendererFactory   = new GlyphRendererFactory(
 			$ui_factory,
 			$tpl_factory,
 			$lng,
-			$js_binding
+			$js_binding,
+			new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
 		);
 
 		$fieldRendererFactory = new FieldRendererFactory(
 			$ui_factory,
 			$tpl_factory,
 			$lng,
-			$js_binding
+			$js_binding,
+			new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
 		);
 
 		$fsLoader               = new \ILIAS\UI\Implementation\Render\FSLoader(
