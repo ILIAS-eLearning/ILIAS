@@ -122,8 +122,7 @@ class PublishedQuestionRepository
             foreach(AnswerOptionChoiceAr::where(['revision_id' => $question->getRevisionId()])->get() as $answer_option) {
                 $answer_option->delete();
             }
+            $question->delete();
         }
-        
-        $question->delete();
     }
 }

@@ -23,6 +23,6 @@ class MultipleChoiceScoringConfiguration extends AbstractConfiguration {
      */
     public function equals(AbstractValueObject $other): bool
     {
-        return true;
+        return get_class($this) === get_class($other);
     }
 }

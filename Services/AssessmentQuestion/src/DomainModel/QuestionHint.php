@@ -63,7 +63,8 @@ class QuestionHint extends AbstractValueObject{
     public function equals(AbstractValueObject $other): bool
     {
         /** @var QuestionHint $other */
-        return $this->getLabelHint() === $other->getLabelHint() &&
+        return get_class($this) === get_class($other) &&
+               $this->getLabelHint() === $other->getLabelHint() &&
                $this->getPoints() === $other->points;
     }
 }

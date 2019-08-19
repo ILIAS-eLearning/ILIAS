@@ -108,7 +108,8 @@ class QuestionLegacyData extends AbstractValueObject {
     public function equals(AbstractValueObject $other): bool
     {
         /** @var QuestionLegacyData $other */
-        return $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
+        return get_class($this) === get_class($other) &&
+               $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
                $this->getContainerObjId() === $other->getContainerObjId();
     }
 }

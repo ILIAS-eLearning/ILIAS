@@ -52,6 +52,7 @@ class NumericEditorConfiguration extends AbstractConfiguration
     function equals(AbstractValueObject $other) : bool
     {
         /** @var NumericEditorConfiguration $other */
-        return $this->max_num_of_chars === $other->max_num_of_chars;
+        return get_class($this) === get_class($other) &&
+               $this->max_num_of_chars === $other->max_num_of_chars;
     }
 }

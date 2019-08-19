@@ -62,7 +62,8 @@ class KprimChoiceScoringConfiguration extends AbstractConfiguration {
     public function equals(AbstractValueObject $other): bool
     {
         /** @var KprimChoiceScoringConfiguration $other */
-        return $this->half_points_at === $other->half_points_at &&
-        $this->points === $other->points;
+        return get_class($this) === get_class($other) &&
+               $this->half_points_at === $other->half_points_at &&
+               $this->points === $other->points;
     }
 }

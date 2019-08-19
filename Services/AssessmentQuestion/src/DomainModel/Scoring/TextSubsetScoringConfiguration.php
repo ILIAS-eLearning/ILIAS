@@ -44,6 +44,7 @@ class TextSubsetScoringConfiguration extends AbstractConfiguration {
     public function equals(AbstractValueObject $other): bool
     {
         /** @var TextSubsetScoringConfiguration $other */
-        return $this->text_matching === $other->text_matching;
+        return get_class($this) === get_class($other) &&
+               $this->text_matching === $other->text_matching;
     }
 }

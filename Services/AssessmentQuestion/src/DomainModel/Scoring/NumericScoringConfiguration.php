@@ -73,7 +73,8 @@ class NumericScoringConfiguration extends AbstractConfiguration {
     public function equals(AbstractValueObject $other): bool
     {
         /** @var NumericScoringConfiguration $other */
-        return $this->lower_bound === $other->lower_bound &&
+        return get_class($this) === get_class($other) &&
+               $this->lower_bound === $other->lower_bound &&
                $this->upper_bound === $other->upper_bound &&
                $this->points === $other->points;
     }

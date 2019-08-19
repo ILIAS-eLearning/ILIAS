@@ -106,7 +106,8 @@ class QuestionPlayConfiguration extends AbstractValueObject {
     public function equals(AbstractValueObject $other): bool
     {
         /** @var QuestionPlayConfiguration $other */
-        return AbstractValueObject::isNullableEqual(
+        return get_class($this) === get_class($other) &&
+               AbstractValueObject::isNullableEqual(
         	        $this->getEditorConfiguration(),
 	                $other->getEditorConfiguration()) &&
                AbstractValueObject::isNullableEqual(

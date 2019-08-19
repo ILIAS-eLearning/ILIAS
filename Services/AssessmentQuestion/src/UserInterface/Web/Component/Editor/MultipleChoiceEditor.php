@@ -120,7 +120,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 					$result[] = $_POST[$poststring];
 				}
 			}
-			return implode(",",$result);
+			return json_encode($result);
 		} else {
 			return $_POST[$this->getPostName()];
 		}
@@ -131,11 +131,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 	 * @param string $answer
 	 */
 	public function setAnswer(string $answer) : void {
-		$str_answers = explode(',', $answer);
-
-		foreach ($str_answers as $str_answer) {
-			$this->selected_answers[] = intval($str_answer);
-		}
+			$this->selected_answers = json_decode($answer, true);
 	}
 
 	public static function generateFields(?AbstractConfiguration $config): ?array {

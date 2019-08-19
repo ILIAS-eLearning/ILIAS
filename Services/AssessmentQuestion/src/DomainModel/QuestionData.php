@@ -98,7 +98,8 @@ class QuestionData extends AbstractValueObject {
     public function equals(AbstractValueObject $other): bool
     {
         /** @var QuestionData $other */
-        return $this->getAuthor() === $other->getAuthor() &&
+        return get_class($this) === get_class($other) &&
+               $this->getAuthor() === $other->getAuthor() &&
                $this->getDescription() === $other->getDescription() &&
                $this->getQuestionText() === $other->getQuestionText() &&
                $this->getTitle() === $other->getTitle() &&

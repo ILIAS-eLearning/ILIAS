@@ -52,6 +52,7 @@ class TextSubsetEditorConfiguration extends AbstractConfiguration
     function equals(AbstractValueObject $other) : bool
     {
         /** @var TextSubsetEditorConfiguration $other */
-        return $this->number_of_requested_answers === $other->number_of_requested_answers;
+        return get_class($this) === get_class($other) &&
+               $this->number_of_requested_answers === $other->number_of_requested_answers;
     }
 }

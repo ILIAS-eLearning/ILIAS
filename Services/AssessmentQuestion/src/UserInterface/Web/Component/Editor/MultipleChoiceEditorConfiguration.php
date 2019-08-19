@@ -95,7 +95,8 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
     public function equals(AbstractValueObject $other): bool
     {
         /** @var MultipleChoiceEditorConfiguration $other */
-        return $this->isShuffleAnswers() === $other->isShuffleAnswers() &&
+        return get_class($this) === get_class($other) &&
+               $this->isShuffleAnswers() === $other->isShuffleAnswers() &&
                $this->getMaxAnswers() === $other->getMaxAnswers() &&
                $this->getThumbnailSize() === $other->getThumbnailSize() &&
                $this->isSingleLine() === $other->isSingleLine();

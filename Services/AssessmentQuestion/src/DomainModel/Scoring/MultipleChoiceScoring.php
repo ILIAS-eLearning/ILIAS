@@ -18,7 +18,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 class MultipleChoiceScoring extends AbstractScoring {
 
 	function score(Answer $answer) : int {
-		$selected_options = explode(",", $answer->getValue());
+		$selected_options = json_decode($answer->getValue(), true);
 		
 		$score = 0;
 
