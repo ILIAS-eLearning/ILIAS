@@ -85,8 +85,8 @@ class ilMailOptions
      */
     public function createMailOptionsEntry() : void
     {
-        $incomingMail = strlen($this->settings->get('mail_incoming_mail')) ? (int) $this->settings->get('mail_incoming_mail') : self::INCOMING_LOCAL;
-        $emailAddressOption = strlen($this->settings->get('mail_address_option')) ? (int) $this->settings->get('mail_address_option') : self::FIRST_EMAIL;
+        $incomingMail = strlen($this->settings->get('mail_incoming_mail', '')) ? (int) $this->settings->get('mail_incoming_mail') : self::INCOMING_LOCAL;
+        $emailAddressOption = strlen($this->settings->get('mail_address_option', '')) ? (int) $this->settings->get('mail_address_option') : self::FIRST_EMAIL;
 
         $this->db->replace(
             $this->table_mail_options,
