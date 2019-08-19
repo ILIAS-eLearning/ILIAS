@@ -14,6 +14,12 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
+crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
+crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
+crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
+crs#:#timings_reminder_notifications#:#Benachrichtigungen zur Lernplanung versenden
+crs#:#timings_reminder_notifications_info#:#Wenn aktiviert, werden Kursteilnehmer über überschrittene Lernplanungsmaterialien informiert.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
