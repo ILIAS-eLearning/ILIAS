@@ -987,3 +987,60 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#68>
+<?php
+if(!$ilDB->tableExists('crs_timings_exceeded'))
+{
+	$ilDB->createTable('crs_timings_exceeded', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	,
+		'sent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('crs_timings_exceeded', array('user_id', 'ref_id'));
+}
+?>
+<#69>
+<?php
+if(!$ilDB->tableExists('crs_timings_started'))
+{
+	$ilDB->createTable('crs_timings_started', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	,
+		'sent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('crs_timings_started', array('user_id', 'ref_id'));
+}
+?>
+
