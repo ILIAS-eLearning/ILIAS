@@ -13,9 +13,12 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableScorings;
 
 /**
- * Class ilAssessmentQuestionExporter
+ * Class ilAsqQuestionAuthoringGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
@@ -32,6 +35,7 @@ class ilAsqQuestionAuthoringGUI
 	const CMD_PREVIEW_QUESTION = "previewQuestion";
 	const CMD_SCORE_QUESTION = "scoreQuestion";
 	const CMD_DISPLAY_QUESTION = "displayQuestion";
+	const CMD_GET_FORM_SNIPPET = "getFormSnippet";
 	const DEBUG_TEST_ID = 23;
 	
     /**
@@ -121,16 +125,17 @@ class ilAsqQuestionAuthoringGUI
                 break;
         }
         
+        $DIC->ui()->mainTemplate()->addJavaScript('Services/AssessmentQuestion/js/AssessmentQuestionAuthoring.js');
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
     public function previewQuestion()
     {
         global $DIC;
-        
+
         $question_id = $_GET[self::VAR_QUESTION_ID];
         $question = $this->authoring_application_service->GetQuestion($question_id);
-        
+
         $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
 
         $question_component = new QuestionComponent($question);
@@ -147,10 +152,35 @@ class ilAsqQuestionAuthoringGUI
                 break;
         }
 
-        
         $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml());
     }
     
+    public function getFormSnippet()
+    {
+        $name = $_GET['class'];
+
+        $class = array_search($name, AvailableEditors::getAvailableEditors());
+        if($class === false) {
+            $class = array_search($name, AvailableScorings::getAvailableScorings());
+        }
+        if($class === false) {
+            $class = array_search($name, AvailablePresenters::getAvailablePresenters());
+        }
+        if ($class === false) {
+            return;
+        }
+
+        $form = new ilPropertyFormGUI();
+
+        $fields = $class::generateFields(null);
+
+        foreach ($fields as $field) {
+            $form->addItem($field);
+        }
+
+        exit($form->getHTML());
+    }
+
     // TODO move to player
     public function displayQuestion()
     {

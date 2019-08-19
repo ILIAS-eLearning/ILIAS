@@ -54,5 +54,29 @@ let update_input_name = function(old_name, current_row) {
     return current_row + old_name.match(/\D+/);
 };
 
+let update_form = function() {
+	let initiator = $(this);
+	// decode &amp to &
+	let decoded_link = $('<div>').html($('#form_part_link').val()).text();
+
+	let url = decoded_link + '&class=' + initiator.children("option:selected").text();
+
+	$.ajax(url)
+	.done (function (data) {
+		let initiator_row = initiator.parents('.form-group');
+
+		while (initiator_row.next().find("#editor, #presenter, #scoring, #answer_form").length === 0 &&
+			   !initiator_row.next().hasClass("ilFormFooter")) {
+			initiator_row.next().remove();
+		}
+
+		initiator_row.after($(data).find('.form-horizontal > .form-group'));
+		$('#answer_form').parents('.form-group').remove();
+	});
+}
+
 $(document).on("click", ".js_add", add_row);
 $(document).on("click", ".js_remove", remove_row);
+$(document).on("change", "#editor, #presenter, #scoring", update_form);
+
+

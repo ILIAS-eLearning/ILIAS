@@ -49,6 +49,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	const SECONDS_IN_HOUR = 3600;
     
 	const IMG_PATH_SUFFIX = 'asq_old_img_path';
+    const FORM_PART_LINK = 'form_part_link';
 	
 	/**
 	 * QuestionFormGUI constructor.
@@ -70,9 +71,15 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	 * @param QuestionDto $question
 	 */
 	private function initForm(QuestionDto $question) {
+	    global $DIC;
+
 		$id = new ilHiddenInputGUI(self::VAR_AGGREGATE_ID);
 		$id->setValue($question->getId());
 		$this->addItem($id);
+
+		$form_part_link = new \ilHiddenInputGUI(self::FORM_PART_LINK);
+		$form_part_link->setValue($DIC->ctrl()->getLinkTargetByClass('ilAsqQuestionAuthoringGUI', \ilAsqQuestionAuthoringGUI::CMD_GET_FORM_SNIPPET));
+		$this->addItem($form_part_link);
 
 		$legacy = new ilHiddenInputGUI(self::VAR_LEGACY);
 		$legacy->setValue(json_encode($question->getLegacyData()));
