@@ -51,7 +51,6 @@ class ilForumAuthorInformationCache
 				LEFT JOIN usr_pref pgen ON pgen.usr_id = ud.usr_id AND pgen.keyword = %s
 				LEFT JOIN usr_pref pup ON pup.usr_id = ud.usr_id AND pup.keyword = %s
 				WHERE $in
-				AND ( pprof.value =  ".$ilDB->quote('y', 'text')." OR pprof.value =  ".$ilDB->quote('g', 'text').")
 			";
 
 			$res = $ilDB->queryF(
