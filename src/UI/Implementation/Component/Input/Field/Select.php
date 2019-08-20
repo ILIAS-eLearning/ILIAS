@@ -53,8 +53,7 @@ class Select extends Input implements C\Input\Field\Select {
 	 */
 	protected function isClientSideValueOk($value) {
 		return 
-			in_array($value, array_keys($this->options))
-			|| (!$this->isRequired() && $value == "");
+			in_array($value, array_keys($this->options)) || $value == "";
 	}
 
 	/**
