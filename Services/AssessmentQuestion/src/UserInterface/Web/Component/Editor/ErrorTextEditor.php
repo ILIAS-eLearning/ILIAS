@@ -5,11 +5,12 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ilTextAreaInputGUI;
 use ilNumberInputGUI;
 use ilTemplate;
 
 /**
- * Class TextSubsetEditor
+ * Class ErrorTextEditor
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -18,12 +19,13 @@ use ilTemplate;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class TextSubsetEditor extends AbstractEditor {
+class ErrorTextEditor extends AbstractEditor {
     
-    const VAR_REQUESTED_ANSWERS = 'tse_requested_answers';
+    const VAR_ERROR_TEXT = 'ete_error_text';
+    const VAR_TEXT_SIZE = 'ete_text_size';
     
     /**
-     * @var TextSubsetEditorConfiguration
+     * @var ErrorTextEditorConfiguration
      */
     private $configuration;
     /**
@@ -42,44 +44,14 @@ class TextSubsetEditor extends AbstractEditor {
      */
     public function generateHtml() : string
     {
-        $tpl = new ilTemplate("tpl.TextSubsetEditor.html", true, true, "Services/AssessmentQuestion");
+        $tpl = new ilTemplate("tpl.ErrorTextEditor.html", true, true, "Services/AssessmentQuestion");
         
-        for ($i = 1; $i <= $this->configuration->getNumberOfRequestedAnswers(); $i++) {
-            $tpl->setCurrentBlock('textsubset_row');
-            $tpl->setVariable('COUNTER', $i);
-            $tpl->setVariable('TEXTFIELD_ID', $this->getPostValue($i));
-            $tpl->setVariable('TEXTFIELD_SIZE', $this->calculateSize());
-            
-            if (!is_null($this->answer[$i])) {
-                $tpl->setVariable('TEXTFIELD_VALUE', 'value="' . $this->answer[$i] . '"');
-            }
-            
-            $tpl->parseCurrentBlock();
-        }
-
+        // TODO
+        
         return $tpl->get();
     }
     
-    /**
-     * @param int $i
-     * @return string
-     */
-    private function getPostValue(int $i) {
-        return $i . $this->question->getId();
-    }
-    
-    /**
-     * @return number
-     */
-    private function calculateSize() {
-        $max = 1;
-        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
-            max($max, strlen($option->getScoringDefinition()->getText()));
-        }
-        
-        return $max += 10 - ($max % 10);
-    }
-    
+
     /**
      * @return Answer
      */
@@ -87,9 +59,7 @@ class TextSubsetEditor extends AbstractEditor {
     {
         $answer = [];
         
-        for ($i = 1; $i <= $this->configuration->getNumberOfRequestedAnswers(); $i++) { 
-            $answer[$i] = $_POST[$this->getPostValue($i)];
-        }
+        //TODO
         
         return json_encode($answer);
     }
@@ -103,15 +73,22 @@ class TextSubsetEditor extends AbstractEditor {
     }
     
     public static function generateFields(?AbstractConfiguration $config): ?array {
-        /** @var TextSubsetEditorConfiguration $config */
+        /** @var ErrorTextEditorConfiguration $config */
         
         $fields = [];
         
-        $requested_answers = new ilNumberInputGUI('requested answers', self::VAR_REQUESTED_ANSWERS);
-        $fields[] = $requested_answers;
+        $error_text = new ilTextAreaInputGUI('Error Text', self::VAR_ERROR_TEXT);
+        $error_text->setInfo('Please enter the error text.');
+        $error_text->setRequired(true);
+        $fields[] = $error_text;
+        
+        $text_size = new ilNumberInputGUI('Text Size', self::VAR_TEXT_SIZE);
+        $text_size->setRequired(true);
+        $fields[] = $text_size;
         
         if ($config !== null) {
-            $requested_answers->setValue($config->getNumberOfRequestedAnswers());
+            $error_text->setValue($config->getErrorText());
+            $text_size->setValue($config->getTextSize());
         }
         
         return $fields;
@@ -121,7 +98,9 @@ class TextSubsetEditor extends AbstractEditor {
      * @return AbstractConfiguration|null
      */
     public static function readConfig() : ?AbstractConfiguration {
-        return TextSubsetEditorConfiguration::create(intval($_POST[self::VAR_REQUESTED_ANSWERS]));
+        return ErrorTextEditorConfiguration::create(
+            $_POST[self::VAR_ERROR_TEXT],
+            intval($_POST[self::VAR_TEXT_SIZE]));
     }
     
     /**

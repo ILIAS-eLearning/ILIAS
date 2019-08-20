@@ -20,6 +20,7 @@ class AvailableScorings {
 		$scorings[KprimChoiceScoring::class] = "KprimScoring";
 		$scorings[NumericScoring::class] = "NumericScoring";
 		$scorings[TextSubsetScoring::class] = "TextSubsetScoring";
+		$scorings[ErrorTextScoring::class] = "ErrorTextScoring";
 		return $scorings;
 	}
 

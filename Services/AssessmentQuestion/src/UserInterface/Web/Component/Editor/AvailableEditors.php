@@ -20,6 +20,7 @@ class AvailableEditors {
 		$editors[KprimChoiceEditor::class] = "KprimChoiceEditor";
         $editors[NumericEditor::class] = "NumericEditor";
         $editors[TextSubsetEditor::class] = "TextSubsetEditor";
+        $editors[ErrorTextEditor::class] = "ErrorTextEditor";
 		return $editors;
 	}
 

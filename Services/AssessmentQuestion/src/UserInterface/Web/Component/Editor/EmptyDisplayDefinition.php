@@ -7,7 +7,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormField
 use stdClass;
 
 /**
- * Class TextSubsetEditorDisplayDefinition
+ * Class EmptyDisplayDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -16,7 +16,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class TextSubsetEditorDisplayDefinition extends DisplayDefinition {    
+class EmptyDisplayDefinition extends DisplayDefinition {    
     /**
      * Specify data which should be serialized to JSON
      *
@@ -34,7 +34,7 @@ class TextSubsetEditorDisplayDefinition extends DisplayDefinition {
     }
     
     public static function getValueFromPost($index) {
-        return new TextSubsetEditorDisplayDefinition();
+        return new EmptyDisplayDefinition();
     }
     
     public function getValues(): array {
@@ -43,6 +43,6 @@ class TextSubsetEditorDisplayDefinition extends DisplayDefinition {
     
     
     public static function deserialize($data) {
-        return new TextSubsetEditorDisplayDefinition();
+        return new EmptyDisplayDefinition();
     }
 }
