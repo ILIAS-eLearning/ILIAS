@@ -3,7 +3,7 @@
 namespace ILIAS\Changelog\Infrastructure\AR;
 
 use Exception;
-use Ramsey\Uuid\Uuid;
+use ILIAS\Data\UUID\Factory as UUIDFactory;
 
 /**
  * Class EventID
@@ -30,7 +30,7 @@ class EventID
      */
     public function __construct(string $id = null)
     {
-        $this->id = $id ?: Uuid::uuid4();
+        $this->id = $id ?: (new UUIDFactory())->uuid4AsString();
     }
 
 
