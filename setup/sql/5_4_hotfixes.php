@@ -1043,4 +1043,12 @@ if(!$ilDB->tableExists('crs_timings_started'))
 	$ilDB->addPrimaryKey('crs_timings_started', array('user_id', 'ref_id'));
 }
 ?>
-
+<#70>
+<?php
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmposidx5', 0);
+if (!$idx) {
+	$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+	$setting->set('ilfrmposidx5', 1);
+}
+?>
