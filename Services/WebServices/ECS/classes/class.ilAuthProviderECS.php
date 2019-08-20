@@ -44,7 +44,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 	}
 	
 	/**
-	 * get mid
+	 * get mid (ECS Member ID)
 	 *
 	 * @access public
 	 */
@@ -192,6 +192,20 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 		
 		$this->getLogger()->info('Using ecs hash: ' . $hash);
 		// Check if hash is valid ...
+		// The hash is a token the user's client received from the referring
+		// participient. However, ECS only knows the referrig participient's
+		// PID (Participient ID), not its MID (Member ID).
+		// Here is why:
+		// ECS/CampusConnect supports multiple communities. One paricipient
+		// can be part of multiple communities. ECS/CampusConnect decided to
+		// introduce yet another artificial key that uniquely identifies a
+		// a participient in a community, called MID (Member ID).
+		// Functional dependency: memberships.id <-> (participient_id, community_id)
+		// However, as one paricipient can be part of multiple communities,
+		// it isn't clear through which community the referral happened.
+		// Therefore, MID can't be determined.
+		// MID isn't required though, because all information needed is
+		// supplied by the getAuth() result.
 	 	try
 	 	{
 		 	include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
@@ -201,33 +215,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 			
 			$this->getLogger()->dump($auths, ilLogLevel::DEBUG);
 
-			if($auths->pid)
-			{
-				try
-				{
-					include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
-					$reader = ilECSCommunityReader::getInstanceByServerId($this->getCurrentServer()->getServerId());
-					$part = $reader->getParticipantByMID($auths->pid);
-					
-					if(is_object($part) and is_object($part->getOrganisation()))
-					{
-						$this->abreviation = $part->getOrganisation()->getAbbreviation();
-					}
-					else
-					{
-						$this->abreviation = $auths->abbr;
-					}
-				}
-				catch(Exception $e)
-				{
-					$this->getLogger()->warning('Authentication failed with message: ' . $e->getMessage());
-					return false;
-				}
-			}
-			else
-			{
-				$this->abreviation = $auths->abbr;
-			}
+			$this->abreviation = $auths->abbr;
 			
 			$this->getLogger()->debug('Got abbreviation: ' . $this->abreviation);
 	 	}
