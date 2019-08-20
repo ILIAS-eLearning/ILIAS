@@ -4,7 +4,10 @@ namespace ILIAS\Changelog;
 
 use ILIAS\Changelog\Interfaces\Event;
 use ILIAS\Changelog\Interfaces\EventRepository;
-use ILIAS\Changelog\Query\QueryService;
+use ILIAS\Changelog\Query\EventDTO;
+use ILIAS\Changelog\Query\Filter;
+use ILIAS\Changelog\Query\Options;
+use ILIAS\Changelog\Query\QueryBuilder;
 
 /**
  * Class ChangelogService
@@ -17,9 +20,13 @@ class ChangelogService
 {
 
     /**
+     * @var EventRepository
+     */
+    protected $repository;
+    /**
      * @var EventRepository[]
      */
-    protected $repositories;
+    protected $additional_write_repositories;
 
 
     /**
@@ -29,7 +36,7 @@ class ChangelogService
      */
     public function __construct(EventRepository $event_repository)
     {
-        $this->registerRepository($event_repository);
+        $this->repository = $event_repository;
     }
 
 
@@ -38,28 +45,42 @@ class ChangelogService
      *
      * @param EventRepository $event_repository
      */
-    public function registerRepository(EventRepository $event_repository)
+    public function registerAdditionalWriteRepository(EventRepository $event_repository)
     {
-        $this->repositories[] = $event_repository;
+        $this->additional_write_repositories[] = $event_repository;
     }
 
 
     /**
      * @param Event $event
      */
-    public function logEvent(Event $event)
+    public function log(Event $event)
     {
-        foreach ($this->repositories as $repository) {
+        $this->repository->storeEvent($event);
+        foreach ($this->additional_write_repositories as $repository) {
             $repository->storeEvent($event);
         }
     }
 
 
     /**
-     * @return QueryService
+     * @param Filter  $filter
+     *
+     * @param Options $options
+     *
+     * @return EventDTO[]
      */
-    public function query() : QueryService
+    public function query(Filter $filter, Options $options) : array
     {
-        return new QueryService();
+        return $this->repository->getEvents($filter, $options);
+    }
+
+
+    /**
+     * @return QueryBuilder
+     */
+    public function queryBuilder() : QueryBuilder
+    {
+        return QueryBuilder::getInstance();
     }
 }

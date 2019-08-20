@@ -2,6 +2,10 @@
 
 namespace ILIAS\Changelog\Interfaces;
 
+use ILIAS\Changelog\Query\EventDTO;
+use ILIAS\Changelog\Query\Filter;
+use ILIAS\Changelog\Query\Options;
+
 /**
  * Interface Repository
  *
@@ -12,8 +16,6 @@ namespace ILIAS\Changelog\Interfaces;
 interface EventRepository
 {
 
-    // WRITING
-
     /**
      * @param Event $event
      *
@@ -22,8 +24,13 @@ interface EventRepository
     public function storeEvent(Event $event);
 
 
-    // READING
-
-
+    /**
+     * @param Filter  $filter
+     *
+     * @param Options $options
+     *
+     * @return EventDTO[]
+     */
+    public function getEvents(Filter $filter, Options $options): array;
 
 }
