@@ -43,15 +43,6 @@ class Filter
 
 
     /**
-     * @return int
-     */
-    public function getTimestampFrom() : int
-    {
-        return $this->timestamp_from;
-    }
-
-
-    /**
      * @param int $timestamp_from
      *
      * @return Filter
@@ -62,15 +53,6 @@ class Filter
         $clone->timestamp_from = $timestamp_from;
 
         return $clone;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getTimestampTo() : int
-    {
-        return $this->timestamp_to;
     }
 
 
@@ -89,15 +71,6 @@ class Filter
 
 
     /**
-     * @return string[]
-     */
-    public function getEventNames() : array
-    {
-        return $this->event_names;
-    }
-
-
-    /**
      * @param string[] $event_names
      *
      * @return Filter
@@ -108,15 +81,6 @@ class Filter
         $clone->event_names = $event_names;
 
         return $clone;
-    }
-
-
-    /**
-     * @return int[]
-     */
-    public function getActorUserIds() : array
-    {
-        return $this->actor_user_ids;
     }
 
 
@@ -135,15 +99,6 @@ class Filter
 
 
     /**
-     * @return int[]
-     */
-    public function getSubjectUserIds() : array
-    {
-        return $this->subject_user_ids;
-    }
-
-
-    /**
      * @param int[] $subject_user_ids
      *
      * @return Filter
@@ -154,15 +109,6 @@ class Filter
         $clone->subject_user_ids = $subject_user_ids;
 
         return $clone;
-    }
-
-
-    /**
-     * @return int[]
-     */
-    public function getSubjectObjIds() : array
-    {
-        return $this->subject_obj_ids;
     }
 
 
@@ -181,15 +127,6 @@ class Filter
 
 
     /**
-     * @return string[]
-     */
-    public function getEventIds() : array
-    {
-        return $this->event_ids;
-    }
-
-
-    /**
      * @param string[] $event_ids
      *
      * @return Filter
@@ -200,5 +137,68 @@ class Filter
         $clone->event_ids = $event_ids;
 
         return $clone;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getTimestampFrom() : int
+    {
+        return $this->timestamp_from;
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public function getEventIds() : array
+    {
+        return $this->event_ids;
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public function getEventNames() : array
+    {
+        return $this->event_names;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getSubjectUserIds() : array
+    {
+        return $this->subject_user_ids;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getActorUserIds() : array
+    {
+        return $this->actor_user_ids;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getTimestampTo() : int
+    {
+        return $this->timestamp_to;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getSubjectObjIds() : array
+    {
+        return $this->subject_obj_ids;
     }
 }

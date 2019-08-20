@@ -23,10 +23,6 @@ class ChangelogService
      * @var EventRepository
      */
     protected $repository;
-    /**
-     * @var EventRepository[]
-     */
-    protected $additional_write_repositories;
 
 
     /**
@@ -41,25 +37,11 @@ class ChangelogService
 
 
     /**
-     * Use to add additional Repositories to store the event. Default is the ilDBEventRepository.
-     *
-     * @param EventRepository $event_repository
-     */
-    public function registerAdditionalWriteRepository(EventRepository $event_repository)
-    {
-        $this->additional_write_repositories[] = $event_repository;
-    }
-
-
-    /**
      * @param Event $event
      */
     public function log(Event $event)
     {
         $this->repository->storeEvent($event);
-        foreach ($this->additional_write_repositories as $repository) {
-            $repository->storeEvent($event);
-        }
     }
 
 
