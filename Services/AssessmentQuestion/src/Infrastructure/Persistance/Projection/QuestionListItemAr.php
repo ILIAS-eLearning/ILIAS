@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection;
 
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ActiveRecord;
 use arConnector;
 use ilDateTime;
@@ -28,8 +29,28 @@ class QuestionListItemAr extends AbstractProjectionAr
     {
         return self::STORAGE_NAME;
     }
-
-
+    
+    /**
+     * @var int
+     *
+     * @con_is_primary true
+     * @con_is_unique  true
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_length     8
+     * @con_sequence   true
+     */
+    protected $id;
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     200
+     * @con_index      true
+     * @con_is_notnull true
+     */
+    protected $question_id;
     /**
      * @var string
      *
@@ -71,6 +92,18 @@ class QuestionListItemAr extends AbstractProjectionAr
      */
     protected $working_time;
 
+    public static function createNew(Question $question) : QuestionListItemAr 
+    {
+        $object = new QuestionListItemAr();
+        $object->question_id = $question->getAggregateId()->getId();
+        $object->title = $question->getData()->getTitle();
+        $object->description = $question->getData()->getDescription();
+        $object->question = $question->getData()->getQuestionText();
+        $object->author = $question->getData()->getAuthor();
+        $object->working_time = $question->getData()->getWorkingTime();
+        return $object;
+    }
+    
     /**
      * @return string
      */
@@ -78,16 +111,6 @@ class QuestionListItemAr extends AbstractProjectionAr
     {
         return $this->title;
     }
-
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title) : void
-    {
-        $this->title = $title;
-    }
-
 
     /**
      * @return string
@@ -97,31 +120,12 @@ class QuestionListItemAr extends AbstractProjectionAr
         return $this->description;
     }
 
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description) : void
-    {
-        $this->description = $description;
-    }
-
-
     /**
      * @return string
      */
     public function getQuestion() : string
     {
         return $this->question;
-    }
-
-
-    /**
-     * @param string $question
-     */
-    public function setQuestion(string $question) : void
-    {
-        $this->question = $question;
     }
 
     /**
@@ -131,15 +135,7 @@ class QuestionListItemAr extends AbstractProjectionAr
     {
         return $this->author;
     }
-    
-    /**
-     * @param string $author
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
- 
+
     /**
      * @return number
      */
@@ -149,15 +145,9 @@ class QuestionListItemAr extends AbstractProjectionAr
     }
     
     /**
-     * @param number $working_time
+     * @return string
      */
-    public function setWorkingTime($working_time)
-    {
-        $this->working_time = $working_time;
-    }
-    
-    public function create()
-    {
-        parent::create();
+    public function getQuestionId() : string {
+        return $this->question_id;
     }
 }

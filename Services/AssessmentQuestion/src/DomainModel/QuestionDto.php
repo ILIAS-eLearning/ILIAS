@@ -29,6 +29,10 @@ class QuestionDto {
 	 */
 	private $revision_name = "";
 	/**
+	 * @var int
+	 */
+	private $container_obj_id = "";
+	/**
 	 * @var QuestionData
 	 */
 	private $data;
@@ -45,7 +49,7 @@ class QuestionDto {
 	 */
 	private $answer_options;
 
-	/**
+    /**
 	 * @param Question $question
 	 *
 	 * @return QuestionDto
@@ -53,7 +57,8 @@ class QuestionDto {
 	public static function CreateFromQuestion(Question $question) : QuestionDto {
 		$dto = new QuestionDto();
 		$dto->id = $question->getAggregateId()->getId();
-
+        $dto->container_obj_id = $question->getContainerObjId();
+		
 		if ($question->getRevisionId() !== null) {
 			$dto->revision_id = $question->getRevisionId()->getKey();
 			$dto->revision_name = $question->getRevisionName();
@@ -97,9 +102,6 @@ class QuestionDto {
         $this->revision_id = $revision_id;
     }
 
-
-
-
     /**
      * @param string $revision_name
      */
@@ -107,10 +109,7 @@ class QuestionDto {
     {
         $this->revision_name = $revision_name;
     }
-
-
-
-
+    
 	/**
 	 * @return string
 	 */
@@ -119,12 +118,27 @@ class QuestionDto {
 	}
 
 	/**
+	 * @return number
+	 */
+	public function getContainerObjId()
+	{
+	    return $this->container_obj_id;
+	}
+	
+	/**
+	 * @param number $container_obj_id
+	 */
+	public function setContainerObjId($container_obj_id)
+	{
+	    $this->container_obj_id = $container_obj_id;
+	}
+	
+	/**
 	 * @return QuestionData
 	 */
 	public function getData(): ?QuestionData {
 		return $this->data;
 	}
-
 
 	/**
 	 * @param QuestionData $data

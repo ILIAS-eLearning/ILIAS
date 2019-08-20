@@ -113,27 +113,6 @@ class PlayApplicationService
     public function GetQuestions() : array
     {
         $repository = new PublishedQuestionRepository();
-        $questions = $repository->getQuestionsByContainer($this->container_obj_id);
-        $arr_question_dto = array();
-
-        if (count($questions) > 0) {
-            foreach ($questions as $question) {
-                $question_dto = new QuestionDto();
-                $question_dto->setId($question['question_id']);
-                $question_dto->setRevisionId($question['revision_id']);
-                $question_data = QuestionData::create(
-                    $question['title'],
-                    $question['question'],
-                    $question['author'],
-                    $question['description'],
-                    intval($question['working_time'])
-                );
-                
-                $question_dto->setData($question_data);
-                $arr_question_dto[] = $question_dto;
-            }
-        }
-
-        return $arr_question_dto;
+        return $repository->getQuestionsByContainer($this->container_obj_id);
     }
 }

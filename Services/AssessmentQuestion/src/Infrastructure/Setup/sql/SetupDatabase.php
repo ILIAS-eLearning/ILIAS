@@ -5,8 +5,7 @@ namespace ILIAS\AssessmentQuestion\Infrastructure\Setup\sql;
 use ilCtrlStructureReader;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItemAr;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\AnswerOptionChoiceAr;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\MultipleChoiceQuestionAr;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionAr;
 
 /**
  * Class SetupDatabase
@@ -26,13 +25,11 @@ class SetupDatabase {
 
         $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME, false);
-        $DIC->database()->dropTable(AnswerOptionChoiceAr::STORAGE_NAME, false);
-        $DIC->database()->dropTable(MultipleChoiceQuestionAr::STORAGE_NAME, false);
+        $DIC->database()->dropTable(QuestionAr::STORAGE_NAME, false);
         
         QuestionEventStoreAr::updateDB();
 	    QuestionListItemAr::updateDB();
-        AnswerOptionChoiceAr::updateDB();
-        MultipleChoiceQuestionAr::updateDB();
+	    QuestionAr::updateDB();
         
         echo "Setup wurde durchgefüht, CtrlStruktur neu geladen, Datentabellen wurden installiert / aktualisiert.<br><br>";
         echo "Es müsste nun neben dem Setup / Resetup ASQ ein neuer Tab 'asqDebugGUI' angezeigt werden<br><br>";

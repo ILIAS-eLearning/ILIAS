@@ -55,7 +55,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
     /**
      * @var int
      */
-    protected $container_obj_id;
+    private $container_obj_id;
 	/**
 	 * @var QuestionData
 	 */

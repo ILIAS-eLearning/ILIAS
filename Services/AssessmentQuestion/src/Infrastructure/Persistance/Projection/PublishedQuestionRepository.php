@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
@@ -11,117 +12,123 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEd
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ChoiceEditorDisplayDefinition;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
 
 class PublishedQuestionRepository
 {
     /**
-     * @param string $container_obj_id
-     * @param string $question_id
-     * @param string $revision_id
-     * @param QuestionData $data
-     * @param AbstractProjectionAr $question_data
-     * @param array $answer_options
-     */
-    public function saveNewQuestionRevision(
-        string $container_obj_id,
-        string $question_id,
-        string $revision_id,
-        QuestionData $data,
-        AbstractProjectionAr $question_data,
-        array $answer_options
-    ) {
-        $this->unpublishCurrentRevision($question_id, $container_obj_id);
-
-        $item = new QuestionListItemAr();
-        $item->setContainerObjId($container_obj_id);
-        $item->setQuestionId($question_id);
-        $item->setRevisionId($revision_id);
-        $item->setTitle($data->getTitle());
-        $item->setDescription($data->getDescription());
-        $item->setQuestion($data->getQuestionText());
-        $item->setAuthor($data->getAuthor());
-        $item->setWorkingTime($data->getWorkingTime());
-
-        $item->create();
-
-        $question_data->create();
+    * @param Question $question
+    */
+    public function saveNewQuestionRevision(Question $question) {
+        /** @var QuestionAr $old_question */
+        $old_question = QuestionAr::where(['question_id' => $question->getAggregateId()->getId()])->first();
         
-        foreach ($answer_options as $answer_option) {
-            $answer_option->create();
+        if (!is_null($old_question)) {
+            if ($old_question->getRevisionId() === $question->getRevisionId()) {
+                //same revision already published
+                return;
+            }
+            
+            $object_id = $old_question->getObjectId();
+            $old_question->delete();
         }
+
+        $old_question_list = QuestionListItemAr::where(['question_id' => $question->getAggregateId()->getId()])->first();
+        
+        if (!is_null($old_question_list)) {
+            $old_question_list->delete();
+        }
+        
+        if (is_null($object_id)) {
+            if (!is_null($question->getLegacyData()) &&
+                !is_null($question->getLegacyData()->getObjectId())) {
+                    $object_id = $question->getLegacyData()->getObjectId();
+                }
+                else {
+                    $object_id = $this->getNextObjectId();
+                }
+        }
+        
+        $question_ar = QuestionAr::createNew($question, $object_id);
+        $question_ar->create();
+        
+        $question_list = QuestionListItemAr::createNew($question);
+        $question_list->create();
     }
 
-
+    /**
+     * return current highest object_id + 1
+     * is not auto increment due to import takeover of questions with existion object ids
+     * 
+     * @return number
+     */
+    private function getNextObjectId() {
+        global $DIC;
+        
+        $sql = "SELECT max(object_id) FROM " . QuestionAr::STORAGE_NAME;
+        $query = $DIC->database()->query($sql);
+        $result = $DIC->database()->fetchAssoc($query);
+        $int_result = intval($result['object_id']);
+        return $int_result ? $int_result + 1 : 1;
+    }
+    
     public function getQuestionByRevisionId(string $revision_id) : QuestionDto
     {
 
+        
+        /** @var QuestionAr $question */
+        $question = QuestionAr::where(['revision_id' => $revision_id])->first();
+        
+        $dto = $this->GenerateDtoFromAr($question);
+        
+        return $dto;
+    }
+   
+    /**
+     * @param QuestionAr $question
+     * @return \ILIAS\AssessmentQuestion\DomainModel\QuestionDto
+     */
+    private function GenerateDtoFromAr(QuestionAr $question)
+    {
         $dto = new QuestionDto();
-        /** @var QuestionListItemAr $question_list_item */
-        $question_list_item = QuestionListItemAr::where(['revision_id' => $revision_id])->first();
-        $dto->setId($question_list_item->getQuestionId());
-        $dto->setRevisionId($revision_id);
-
-        //TODO
-        $question_data = QuestionData::create(
-            $question_list_item->getTitle(),
-            $question_list_item->getQuestion(),
-            $question_list_item->getAuthor(),
-            $question_list_item->getDescription(),
-            $question_list_item->getWorkingTime()
-        );
-        $dto->setData($question_data);
-
-        /** @var MultipleChoiceQuestionAr $play_config */
-        $play_config = MultipleChoiceQuestionAr::where(['revision_id' => $revision_id])->first();
-        $dto->setPlayConfiguration(QuestionPlayConfiguration::create(MultipleChoiceEditorConfiguration::create(
-            $play_config->isShuffleAnswers(),
-            $play_config->getMaxAnswers(),
-            $play_config->getThumbnailSize(),
-            $play_config->isSingleLine())));
-
-        $answer_options = new AnswerOptions();
-        $answer_option_ars = AnswerOptionChoiceAr::where(['revision_id' => $revision_id])->get();
-        
-        $index = 1;
-        foreach ($answer_option_ars as $answer_option_ar) {
-            $answer_options->addOption(new AnswerOption(
-                $index,
-                new ChoiceEditorDisplayDefinition(
-                    $answer_option_ar->getText(), 
-                    $answer_option_ar->getImageUuid()),
-                new MultipleChoiceScoringDefinition(
-                    $answer_option_ar->getPointsSelected(),
-                    $answer_option_ar->getPointsUnselected())));
-            $index += 1;
-        }
-        $dto->setAnswerOptions($answer_options);
-        
+        $dto->setId($question->getQuestionId());
+        $dto->setRevisionId($question->getRevisionId());
+        $dto->setContainerObjId($question->getContainerObjId());
+        $dto->setData(AbstractValueObject::deserialize($question->getQuestionData()));
+        $dto->setPlayConfiguration(AbstractValueObject::deserialize($question->getQuestionConfiguration()));
+        $dto->setAnswerOptions(Answeroptions::deserialize($question->getAnswerOptions()));
+        $dto->setLegacyData(QuestionLegacyData::create(0, $question->getContainerObjId(), $question->getObjectId()));
         return $dto;
     }
 
 
+
     public function getQuestionsByContainer($container_obj_id) : array
     {
+        $questions = [];
+        
+        foreach (QuestionAr::where(['container_obj_id' => $container_obj_id])->get() as $question) {
+            $questions[] = $this->GenerateDtoFromAr($question);
+        }
 
-        //TODO we could return here the whole QuestionsDTO as array see getQuestionByRevisionId
-
-        return QuestionListItemAr::where(['container_obj_id' => $container_obj_id, 'is_current_container_revision' => 1])->getArray();
+        return $questions;
     }
 
 
     public function unpublishCurrentRevision(string $question_id, int $container_obj_id)
     {
         /** @var QuestionListItemAr $question */
-        $question = QuestionListItemAr::where(['question_id' => $question_id])->first();
+        $question_list = QuestionListItemAr::where(['question_id' => $question_id])->first();
         
         if (!is_null($question)) {
-            foreach(MultipleChoiceQuestionAr::where(['revision_id' => $question->getRevisionId()])->get() as $mc_ar) {
-                $mc_ar->delete();
-            }
-            
-            foreach(AnswerOptionChoiceAr::where(['revision_id' => $question->getRevisionId()])->get() as $answer_option) {
-                $answer_option->delete();
-            }
+            $question_list->delete();
+        }
+        
+        /** @var QuestionAr $question */
+        $question = QuestionAr::where(['question_id' => $question_id])->first();
+        
+        if (!is_null($question)) {
             $question->delete();
         }
     }

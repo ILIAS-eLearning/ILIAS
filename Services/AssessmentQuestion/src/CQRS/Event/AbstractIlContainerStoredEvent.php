@@ -80,8 +80,7 @@ abstract class AbstractIlContainerStoredEvent extends ActiveRecord {
 	 * @var string
 	 *
 	 * @con_has_field  true
-	 * @con_fieldtype  text
-	 * @con_length     3000
+	 * @con_fieldtype  clob
 	 * @con_is_notnull true
 	 */
 	protected $event_body = '';
