@@ -66,8 +66,6 @@ class ImplementationOfInterfaceFinder
             )
         );
 
-        echo $regexp . "\n";
-
         foreach ($composer_classmap as $class_name => $file_path) {
             $path = str_replace($root, "", realpath($file_path));
             if (!preg_match("#^" . $regexp . "$#", $path)) {
