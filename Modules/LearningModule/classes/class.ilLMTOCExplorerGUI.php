@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/LearningModule/classes/class.ilLMExplorerGUI.php");
-
 /**
  * LM presentation (left frame) explorer GUI class
  *
@@ -178,8 +176,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 			return $this->tracker->getIconForLMObject($a_node, $this->highlight_node);
 		}
 
-		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-
 		if ($a_node["type"] == "du")
 		{
 			$a_node["type"] = "lm";
@@ -187,7 +183,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		$a_name = "icon_".$a_node["type"].".svg";
 		if ($a_node["type"] == "pg")
 		{
-			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 			$lm_set = new ilSetting("lm");
 			$active = ilLMPage::_lookupActive($a_node["child"], $this->lm->getType(),
 				$lm_set->get("time_scheduled_page_activation"));
@@ -267,7 +262,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 					{
 						$a_node = $this->getSuccessorNode($a_node["child"], "pg");
 					}
-					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$active = ilLMPage::_lookupActive($a_node["child"], $this->lm->getType(),
 						$this->lm_set->get("time_scheduled_page_activation"));
 
@@ -298,7 +292,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		if ($a_node["type"] == "pg")
 		{
 			// check public area mode
-			include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 			if($ilUser->getId() == ANONYMOUS_USER_ID && !ilLMObject::_isPagePublic($a_node["child"], true))
 			{
 				return false;
@@ -342,7 +335,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 				while (!$found)
 				{
 					$a_node = $this->getTree()->fetchSuccessorNode($a_node["child"], "pg");
-					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$active = ilLMPage::_lookupActive($a_node["child"], $this->lm->getType(),
 						$this->lm_set->get("time_scheduled_page_activation"));
 
@@ -366,7 +358,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 				}
 			}
 
-			include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 			if ($nid = ilLMPageObject::getExportId($this->lm->getId(), $a_node["child"]))
 			{
 				return "lm_pg_".$nid.$lang_suffix.".html";
@@ -384,7 +375,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	 */
 	function isNodeVisible($a_node)
 	{
-		include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
 		return ilLMTracker::_isNodeVisible($a_node);
 	}
 }

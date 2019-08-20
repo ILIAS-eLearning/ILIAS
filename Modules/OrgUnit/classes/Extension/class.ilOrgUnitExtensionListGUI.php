@@ -13,7 +13,17 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI {
 	 */
 	protected function getPlugin() {
 		if (!$this->plugin) {
-			$this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_SERVICE, "OrgUnit", "orguext", $this->getType()));
+			$this->plugin = ilPlugin::getPluginObject(
+				IL_COMP_MODULE,
+				"OrgUnit",
+				"orguext",
+				ilPlugin::lookupNameForId(
+					IL_COMP_MODULE,
+					"OrgUnit",
+					"orguext",
+					$this->getType()
+				)
+			);
 		}
 
 		return $this->plugin;

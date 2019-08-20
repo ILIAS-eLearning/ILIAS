@@ -11,7 +11,7 @@ function base() {
 
 	//Step 1: define the checkbox, and turning it on
 	$checkbox_input = $ui->input()->field()->checkbox("Checkbox", "Check or not.")
-			->withValue('checked');
+			->withValue(true);
 
 	//Step 2: define form and form actions
 	$DIC->ctrl()->setParameterByClass(

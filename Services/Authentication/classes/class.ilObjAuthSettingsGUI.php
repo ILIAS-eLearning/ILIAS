@@ -15,12 +15,21 @@
  */
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {
+
+	/**
+	 * @var ILIAS\DI\Container
+	 */
+	private $dic;
+
 	/**
 	* Constructor
 	* @access public
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
+		global $DIC;
+
+		$this->dic = $DIC;
 		$this->type = "auth";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -138,9 +147,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setVariable("TXT_CONFIGURE", $this->lng->txt("auth_configure"));
-		$this->tpl->setVariable("TXT_AUTH_REMARK", $this->lng->txt("auth_remark_non_local_auth"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "setAuthMode");
+
+		if($rbacsystem->checkAccess("write",$this->object->getRefId())) {
+			$this->tpl->setVariable("TXT_AUTH_REMARK", $this->lng->txt("auth_remark_non_local_auth"));
+			$this->tpl->setCurrentBlock('auth_mode_submit');
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+			$this->tpl->setVariable("CMD_SUBMIT", "setAuthMode");
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		// auth mode determinitation
 	 	if($this->initAuthModeDetermination())
@@ -154,7 +168,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_AUTH_ROLES", $this->lng->txt("auth_active_roles"));
 		$this->tpl->setVariable("TXT_ROLE", $this->lng->txt("obj_role"));
 		$this->tpl->setVariable("TXT_ROLE_AUTH_MODE", $this->lng->txt("auth_role_auth_mode"));
-		$this->tpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
+		if($rbacsystem->checkAccess("write",$this->object->getRefId())) {
+			$this->tpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
+		}
 		
 		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
 		$reg_roles = ilObjRole::_lookupRegisterAllowed();
@@ -372,9 +388,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$soap_config->setTitle($this->lng->txt("auth_soap_auth"));
 		$soap_config->setDescription($this->lng->txt("auth_soap_auth_desc"));
 		$soap_config->setFormAction($this->ctrl->getFormAction($this, "editSOAP"));
-		$soap_config->addCommandButton("saveSOAP", $this->lng->txt("save"));
-		$soap_config->addCommandButton("editSOAP", $this->lng->txt("cancel"));
-		
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId())) {
+			$soap_config->addCommandButton("saveSOAP", $this->lng->txt("save"));
+			$soap_config->addCommandButton("editSOAP", $this->lng->txt("cancel"));
+		}
 		//set activ
 		$active = new ilCheckboxInputGUI();
 		$active->setTitle($this->lng->txt("active"));
@@ -856,18 +873,18 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
+
 		global $DIC;
 
 		$ilAccess = $DIC['ilAccess'];
 		$ilErr = $DIC['ilErr'];
 
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 
-
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
+		if (!$DIC->rbac()->system()->checkAccess("visible,read", $this->object->getRefId())) {
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
 		
@@ -1262,8 +1279,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$txt->setInfo($this->lng->txt('apache_auth_domains_description'));
 		
 		$form->addItem($txt);
-		
-		$form->addCommandButton('saveApacheSettings',$this->lng->txt('save'));
+
+		if($this->dic->rbac()->system()->checkAccess('visible, read', $this->ref_id)) {
+			$form->addCommandButton('saveApacheSettings',$this->lng->txt('save'));
+		}
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		return $form;

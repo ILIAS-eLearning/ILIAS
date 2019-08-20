@@ -1,8 +1,8 @@
 <?php
 
-use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\CalledContexts;
-use ILIAS\GlobalScreen\Scope\Tool\Context\Stack\ContextCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
+use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
+use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 
 /**
  * Class ilStaffGSToolProvider
@@ -21,7 +21,7 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
      */
     public function isInterestedInContexts() : ContextCollection
     {
-        return $this->context_collection->main()->repository()->administration();
+        return $this->context_collection->main()->repository();
     }
 
 
@@ -31,14 +31,15 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
         $tools = [];
-        $iff = function ($id) { return $this->identification_provider->identifier($id); };
-        $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+        $additional_data = $called_contexts->current()->getAdditionalData();
+        if ($additional_data->is(self::SHOW_FOLDERS_TOOL, true)) {
 
-        $additional_data = $called_contexts->getLast()->getAdditionalData();
-        if ($additional_data->exists(self::SHOW_FOLDERS_TOOL) && $additional_data->get(self::SHOW_FOLDERS_TOOL) === true) {
+            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $ref_id = $called_contexts->current()->getReferenceId()->toInt();
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Folders")
-                ->withContent($l($this->getTree()));
+                ->withContent($l($this->getTree($ref_id)));
         }
 
         return $tools;
@@ -46,14 +47,20 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
 
 
     /**
+     * @param int $ref_id
+     *
      * @return string
      */
-    private function getTree() : string
+    private function getTree(int $ref_id) : string
     {
-        $pool = ilObjectFactory::getInstanceByRefId((int) $_GET["ref_id"]);
-        $pool_gui = new ilObjMediaPoolGUI((int) $_GET["ref_id"]);
-        $exp = new ilMediaPoolExplorerGUI($pool_gui, "listMedia", $pool);
+        try {
+            $pool = ilObjectFactory::getInstanceByRefId($ref_id);
+            $pool_gui = new ilObjMediaPoolGUI($ref_id);
+            $exp = new ilMediaPoolExplorerGUI($pool_gui, "listMedia", $pool);
 
-        return $exp->getHTML(true);
+            return $exp->getHTML(true);
+        } catch (Exception $e) {
+            return "";
+        }
     }
 }

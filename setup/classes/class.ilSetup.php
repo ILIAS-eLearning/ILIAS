@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012mk ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./setup/classes/class.ilDBConnections.php");
-
 /**
 * Setup class
 *

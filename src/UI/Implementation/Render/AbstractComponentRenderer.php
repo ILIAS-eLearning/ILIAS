@@ -42,13 +42,25 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	private static $component_storage = [];
 
 	/**
+	 * @var \ILIAS\Refinery\Factory
+	 */
+	private $refinery;
+
+	/**
 	 * Component renderers must only depend on a UI-Factory and a Template Factory.
 	 */
-	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding) {
+	final public function __construct(
+		Factory $ui_factory,
+		TemplateFactory $tpl_factory,
+		\ilLanguage $lng,
+		JavaScriptBinding $js_binding,
+		\ILIAS\Refinery\Factory $refinery
+	) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->lng = $lng;
 		$this->js_binding = $js_binding;
+		$this->refinery = $refinery;
 	}
 
 	/**
@@ -67,6 +79,13 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 */
 	final protected function getUIFactory() {
 		return $this->ui_factory;
+	}
+
+	/**
+	 * @return \ILIAS\Refinery\Factory
+	 */
+	final protected function getRefinery() : \ILIAS\Refinery\Factory{
+		return $this->refinery;
 	}
 
 	/**
@@ -147,6 +166,22 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 			$component = $this->addTriggererOnLoadCode($component);
 		}
 		return $this->bindOnloadCode($component);
+	}
+
+	/**
+	 * Get a fresh unique id.
+	 *
+	 * ATTENTION: This does not take care about any usage scenario of the provided
+	 * id. If you want to use it to bind JS-code to a component, you most probably
+	 * would want to use bindJavaScript instead, which returns an id that is used
+	 * to bind js to a component.
+	 *
+	 * However, there are cases (e.g radio-input) where an id is required even if
+	 * there is no javascript involved (e.g. to connect a label with an option),
+	 * this is where this method could come in handy.
+	 */
+	final protected function createId() : string {
+		return $this->js_binding->createId();
 	}
 
 	/**

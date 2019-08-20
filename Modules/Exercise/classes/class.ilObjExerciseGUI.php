@@ -698,9 +698,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->addSubTab("crit",
 			$this->lng->txt("exc_criteria_catalogues"),
 			$this->ctrl->getLinkTargetByClass("ilexccriteriacataloguegui", ""));
-		
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(ilCertificate::isActive())
+
+		$validator = new ilCertificateActiveValidator();
+		if(true === $validator->validate())
 		{
 			$this->tabs_gui->addSubTab("certificate",
 				$this->lng->txt("certificate"),

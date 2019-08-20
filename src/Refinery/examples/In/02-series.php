@@ -4,19 +4,20 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function series() {
-	global $DIC;
+function series()
+{
+    global $DIC;
 
-	$refinery = $DIC->refinery();
+    $refinery = $DIC->refinery();
 
-	$transformation = $refinery->in()->series(
-		array(
-			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
-			new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
-		)
-	);
+    $transformation = $refinery->in()->series(
+        array(
+            new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+            new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+        )
+    );
 
-	$result = $transformation->transform(5);
+    $result = $transformation->transform(5);
 
-	return assert(5 === $result);
+    return assert(5 === $result);
 }

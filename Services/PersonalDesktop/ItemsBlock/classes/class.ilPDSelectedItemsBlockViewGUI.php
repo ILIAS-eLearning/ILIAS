@@ -183,15 +183,18 @@ abstract class ilPDSelectedItemsBlockViewGUI
 		require_once 'Services/Object/classes/class.ilObjectListGUIPreloader.php';
 		$listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
+		$obj_ids = [];
 		foreach($item_groups as $item_group)
 		{
 			foreach($item_group->getItems() as $item)
 			{
+				$obj_ids[] = $item['obj_id'];
 				$listPreloader->addItem($item['obj_id'], $item['type'], $item['ref_id']);
 			}
 		}
 
 		$listPreloader->preload();
+		ilAdvancedMDValues::preloadByObjIds($obj_ids);
 	}
 
 	/**

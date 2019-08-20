@@ -64,30 +64,32 @@ class ilLDAPServerTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('EDIT_LINK',$ilCtrl->getLinkTarget($this->getParentObject(),'editServerSettings'));
 		
 		//actions
-		
-		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setSelectionHeaderClass('small');
-		$list->setItemLinkClass('small');
-		$list->setId('actl_'.$a_set['server_id']);
-		$list->setListTitle($this->lng->txt('actions'));
-		$list->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'editServerSettings'));
-		
-		if($a_set['active'])
-		{
-			$list->addItem($this->lng->txt('deactivate'), '',
+		global $DIC;
+		if($DIC->rbac()->system()->checkAccess("write", $_GET['ref_id'])) {
+			include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setSelectionHeaderClass('small');
+			$list->setItemLinkClass('small');
+			$list->setId('actl_'.$a_set['server_id']);
+			$list->setListTitle($this->lng->txt('actions'));
+			$list->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'editServerSettings'));
+
+			if($a_set['active'])
+			{
+				$list->addItem($this->lng->txt('deactivate'), '',
 					$ilCtrl->getLinkTarget($this->getParentObject(),'deactivateServer'));
-		}
-		else
-		{
-			$list->addItem($this->lng->txt('activate'), '',
+			}
+			else
+			{
+				$list->addItem($this->lng->txt('activate'), '',
 					$ilCtrl->getLinkTarget($this->getParentObject(),'activateServer'));
-		}
-		
-		$list->addItem($this->lng->txt('delete'), '', 
+			}
+
+			$list->addItem($this->lng->txt('delete'), '',
 				$ilCtrl->getLinkTarget($this->getParentObject(),'confirmDeleteServerSettings'));
-		
-		$this->tpl->setVariable('ACTIONS',$list->getHTML());
+
+			$this->tpl->setVariable('ACTIONS',$list->getHTML());
+		}
 	}
 }
 ?>

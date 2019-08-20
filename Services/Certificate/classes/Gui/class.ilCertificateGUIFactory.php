@@ -39,18 +39,19 @@ class ilCertificateGUIFactory
 
         $templateRepository = new ilCertificateTemplateRepository($this->dic->database(), $logger);
         $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
+        $pathFactory = new ilCertificatePathFactory();
+
+        $certificatePath = $pathFactory->create($object);
 
         switch ($type) {
             case 'tst':
                 $placeholderDescriptionObject = new ilTestPlaceholderDescription();
                 $placeholderValuesObject = new ilTestPlaceHolderValues();
-                $adapter = new ilTestCertificateAdapter($object);
-
-                $certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsTestFormRepository(
                     $objectId,
                     $certificatePath,
+                    false,
                     $object,
                     $DIC->language(),
                     $DIC->ctrl(),
@@ -58,8 +59,6 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
-
-                $certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
 
                 $deleteAction = new ilCertificateTestTemplateDeleteAction(
                     $deleteAction,
@@ -68,15 +67,16 @@ class ilCertificateGUIFactory
 
                 break;
             case 'crs':
-                $adapter = new ilCourseCertificateAdapter($object);
+                $hasAdditionalElements = true;
+
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription();
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
 
-                $certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsCourseFormRepository(
                     $object,
                     $certificatePath,
+                    false,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
@@ -84,18 +84,15 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
                 break;
             case 'exc':
-                $adapter = new ilExerciseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
                 $placeholderValuesObject = new ilExercisePlaceHolderValues();
-
-                $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsExerciseRepository(
                     $object,
                     $certificatePath,
+                    false,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
@@ -103,26 +100,21 @@ class ilCertificateGUIFactory
                     $placeholderDescriptionObject
                 );
 
-                $certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
                 break;
             case 'sahs':
-                $adapter = new ilSCORMCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
                 $placeholderValuesObject = new ilScormPlaceholderValues();
-
-                $certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
 
                 $formFactory = new ilCertificateSettingsScormFormRepository(
                     $object,
                     $certificatePath,
+                    true,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
-
-                $certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
 
                 break;
             default:
@@ -131,7 +123,6 @@ class ilCertificateGUIFactory
         }
 
         $gui = new ilCertificateGUI(
-            $adapter,
             $placeholderDescriptionObject,
             $placeholderValuesObject,
             $objectId,

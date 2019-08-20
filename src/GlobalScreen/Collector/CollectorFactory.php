@@ -1,12 +1,11 @@
 <?php namespace ILIAS\GlobalScreen\Collector;
 
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use ILIAS\GlobalScreen\Scope\Layout\Collector\MainLayoutCollector;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
-use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
-use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
+use ILIAS\GlobalScreen\SingletonTrait;
 
 /**
  * Class CollectorFactory
@@ -16,12 +15,13 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class CollectorFactory
 {
 
+    use SingletonTrait;
     /**
      * @var array
      */
     protected static $instances = [];
     /**
-     * @var ProviderFactoryInterface
+     * @var ProviderFactory
      */
     private $provider_factory;
 
@@ -29,9 +29,9 @@ class CollectorFactory
     /**
      * CollectorFactory constructor.
      *
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory $provider_factory
      */
-    public function __construct(ProviderFactoryInterface $provider_factory)
+    public function __construct(ProviderFactory $provider_factory)
     {
         $this->provider_factory = $provider_factory;
     }
@@ -43,13 +43,14 @@ class CollectorFactory
      */
     public function mainmenu() : MainMenuMainCollector
     {
-        if (!isset(self::$instances[StaticMainMenuProvider::class])) {
+        if (!$this->has(MainMenuMainCollector::class)) {
             $providers = $this->provider_factory->getMainBarProvider();
             $information = $this->provider_factory->getMainBarItemInformation();
-            self::$instances[StaticMainMenuProvider::class] = new MainMenuMainCollector($providers, $information);
+
+            return $this->getWithMultipleArguments(MainMenuMainCollector::class, [$providers, $information]);
         }
 
-        return self::$instances[StaticMainMenuProvider::class];
+        return $this->get(MainMenuMainCollector::class);
     }
 
 
@@ -58,23 +59,32 @@ class CollectorFactory
      */
     public function metaBar() : MetaBarMainCollector
     {
-        if (!isset(self::$instances[StaticMetaBarProvider::class])) {
-            self::$instances[StaticMetaBarProvider::class] = new MetaBarMainCollector($this->provider_factory->getMetaBarProvider());
-        }
-
-        return self::$instances[StaticMetaBarProvider::class];
+        return $this->getWithArgument(MetaBarMainCollector::class, $this->provider_factory->getMetaBarProvider());
     }
 
 
     /**
      * @return MainToolCollector
+     * @throws \ReflectionException
      */
     public function tool() : MainToolCollector
     {
-        if (!isset(self::$instances[DynamicToolProvider::class])) {
-            self::$instances[DynamicToolProvider::class] = new MainToolCollector($this->provider_factory->getToolProvider());
+        if (!$this->has(MainToolCollector::class)) {
+            $providers = $this->provider_factory->getToolProvider();
+            $information = $this->provider_factory->getMainBarItemInformation();
+
+            return $this->getWithMultipleArguments(MainToolCollector::class, [$providers, $information]);
         }
 
-        return self::$instances[DynamicToolProvider::class];
+        return $this->get(MainToolCollector::class);
+    }
+
+
+    /**
+     * @return MainLayoutCollector
+     */
+    public function layout() : MainLayoutCollector
+    {
+        return $this->getWithArgument(MainLayoutCollector::class, $this->provider_factory->getModificationProvider());
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,8 +7,8 @@
  */
 interface ilMailRecipientParser
 {
-	/**
-	 * @return ilMailAddress[]
-	 */
-	public function parse(): array;
+    /**
+     * @return ilMailAddress[]
+     */
+    public function parse() : array;
 }

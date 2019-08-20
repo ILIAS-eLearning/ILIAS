@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-require_once("./Modules/LearningModule/classes/class.ilLMObjectGUI.php");
-require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-
 /**
 * Class ilStructureObjectGUI
 *
@@ -97,16 +93,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				
 				$this->setTabs();
 			
-				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());	
+				$md_gui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());
 				$md_gui->addMDObserver($this->obj, 'MDUpdateListener', 'General');
 				$md_gui->addMDObserver($this->obj, 'MDUpdateListener', 'Educational'); // #9510
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
 			case "ilconditionhandlergui":
-		$ilTabs = $this->tabs;
-				include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
+				$ilTabs = $this->tabs;
 
 				$this->setTabs();
 				$this->initConditionHandlerInterface();
@@ -179,7 +173,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		
 		$ilCtrl->setParameter($this, "backcmd", "showHierarchy");
 		
-		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		$form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType(), $_GET["transl"]);
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->obj->getTitle());
@@ -205,7 +198,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 		$ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->content_object->getId(), $this);
 		
 		$this->tpl->setContent($ml_head.$ctpl->get());
@@ -547,7 +539,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		$lng = $this->lng;
 		
-		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		if (is_array($_POST["id"]))
 		{
 			$act_items = array();
@@ -606,8 +597,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 	function initConditionHandlerInterface()
 	{
-		include_once("./Services/Conditions/classes/class.ilConditionHandlerGUI.php");
-
 		$this->condHI = new ilConditionHandlerGUI($this);
 		$this->condHI->setBackButtons(array());
 		$this->condHI->setAutomaticValidation(false);
@@ -657,8 +646,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			 "listConditions", get_class($this));
 
 		// metadata
-		include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-		$mdgui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());			
+		$mdgui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());
 		$mdtab = $mdgui->getTab();
 		if($mdtab)
 		{
@@ -722,7 +710,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle($lm_id)), true);
-			include_once("./Services/Object/classes/class.ilObjectGUI.php");
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 
@@ -737,8 +724,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
-		
+
 		$num = ilChapterHierarchyFormGUI::getPostMulti();
 		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
 		
@@ -802,8 +788,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		
 		$ilLog->write("Insert Chapter From Clipboard");
 		
-		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
-		
+
 		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
 		$first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
 
@@ -883,8 +868,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
-		
+
 		$num = ilChapterHierarchyFormGUI::getPostMulti();
 		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
 		
@@ -919,8 +903,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
-		
-		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
 		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
 		$first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
@@ -1004,7 +986,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
 		if (is_array($_POST["id"]))

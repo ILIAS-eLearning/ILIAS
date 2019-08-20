@@ -2,18 +2,13 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 // TODO:
-use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
-use ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory;
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
-use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
-use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
-use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Services;
 
 require_once("libs/composer/vendor/autoload.php");
@@ -359,12 +354,16 @@ class ilInitialisation
 				$uri = dirname($uri);
 			}
 		}
-		if(ilContext::getType() == ilContext::CONTEXT_APACHE_SSO)
-		{
-			return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators(dirname($protocol.$host.$uri)));
 
+		$iliasHttpPath = implode('', [$protocol, $host, $uri]);
+		if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
+			$iliasHttpPath = dirname($iliasHttpPath);
 		}
-		return define('ILIAS_HTTP_PATH',ilUtil::removeTrailingPathSeparators($protocol.$host.$uri));
+
+		$f = new \ILIAS\Data\Factory();
+		$uri = $f->uri(ilUtil::removeTrailingPathSeparators($iliasHttpPath));
+
+		return define('ILIAS_HTTP_PATH', $uri->getBaseURI());
 	}
 
 	/**
@@ -755,15 +754,19 @@ class ilInitialisation
 	public static function initUserAccount() {
 		global $DIC;
 
+		static $context_init;
+
 		$uid = $GLOBALS['DIC']['ilAuthSession']->getUserId();
 		if ($uid) {
 			$DIC->user()->setId($uid);
 			$DIC->user()->read();
-
-			if ($DIC->user()->isAnonymous()) {
-				$DIC->globalScreen()->tool()->context()->claim()->external();
-			} else {
-				$DIC->globalScreen()->tool()->context()->claim()->internal();
+			if (!isset($context_init)) {
+				if ($DIC->user()->isAnonymous()) {
+					$DIC->globalScreen()->tool()->context()->claim()->external();
+				} else {
+					$DIC->globalScreen()->tool()->context()->claim()->internal();
+				}
+				$context_init = true;
 			}
 			// init console log handler
 			ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
@@ -1312,7 +1315,6 @@ class ilInitialisation
 			if(self::blockedAuthentication($current_script))
 			{
 				ilLoggerFactory::getLogger('init')->debug('Authentication is started in current script.');
-				$DIC->globalScreen()->tool()->context()->claim()->external();
 				// nothing todo: authentication is done in current script
 				return;
 			}
@@ -1637,19 +1639,22 @@ class ilInitialisation
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
+							, $c["refinery"]
 							),
 						  new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory
 							($c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
-							),
+							, $c["refinery"]
+						  ),
 						  new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory
 						  	($c["ui.factory"]
 						  	, $c["ui.template_factory"]
 						  	, $c["lng"]
 						  	, $c["ui.javascript_binding"]
-							)
+							, $c["refinery"]
+						  )
 						)
 					)
 				);
@@ -1670,6 +1675,19 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
 		};
 
+		$plugins = ilPluginAdmin::getActivePlugins();
+		foreach ($plugins as $plugin_data){
+			$plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"],$plugin_data["component_name"]
+				,$plugin_data["slot_id"],$plugin_data["name"]);
+
+			$c['ui.renderer'] =  $plugin->exchangeUIRendererAfterInitialization($c);
+
+			foreach ($c->keys() as $key){
+				if(strpos($key,"ui.factory") === 0){
+					$c[$key] = $plugin->exchangeUIFactoryAfterInitialization($key,$c);
+				}
+			}
+		}
 	}
 
 	/**
@@ -1711,14 +1729,14 @@ class ilInitialisation
 			include_once "./Services/LTI/classes/class.ilTemplate.php";
 			$tpl = new LTI\ilGlobalTemplate("tpl.main.html", true, true, "Services/LTI");
 		}
-		else if (
+		/*else if (
 			$_REQUEST["baseClass"] == "ilLMPresentationGUI" ||
 			$_GET["baseClass"] == "ilLMPresentationGUI" ||
 			$_REQUEST["baseClass"] == "ilLMEditorGUI" ||
 			$_GET["baseClass"] == "ilLMEditorGUI"
 		) {
 			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
-		}
+		}*/
 		else if (
 			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
 			$_GET["cmdClass"] == "ilobjbloggui"		||

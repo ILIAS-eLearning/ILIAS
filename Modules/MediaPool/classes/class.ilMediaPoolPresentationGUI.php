@@ -66,6 +66,7 @@ class ilMediaPoolPresentationGUI
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
+        $DIC->globalScreen()->tool()->context()->claim()->repository();
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilMediaPoolGSToolProvider::SHOW_FOLDERS_TOOL, true);
 	}
 

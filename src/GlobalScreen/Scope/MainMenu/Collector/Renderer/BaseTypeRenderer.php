@@ -2,7 +2,6 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Factory;
@@ -36,14 +35,7 @@ class BaseTypeRenderer implements TypeRenderer
      */
     public function getComponentForItem(isItem $item) : Component
     {
-        if ($item instanceof Tool) {
-            $symbol = $this->getStandardSymbol($item);
-
-            return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getContent());
-            // return $item->getContent();
-        }
-
-        return $this->ui_factory->legacy("");
+        return $this->ui_factory->legacy($item->getProviderIdentification()->serialize());
     }
 
 

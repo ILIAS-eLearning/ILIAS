@@ -9,6 +9,7 @@ use ILIAS\Data\DataSize;
 use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Visibility;
@@ -149,6 +150,14 @@ final class ReadOnlyDecorator implements Filesystem {
 		return $this->filesystem->readStream($path);
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function finder(): Finder
+	{
+		return $this->filesystem->finder();
+	}
 
 	/**
 	 * @inheritDoc

@@ -7,7 +7,7 @@
 class ilCertificateQueueRepository
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     private $database;
 
@@ -79,7 +79,7 @@ class ilCertificateQueueRepository
 
         $result = array();
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Queue entry found: ', json_encode($row, JSON_PRETTY_PRINT)));
+            $this->logger->debug(sprintf('Queue entry found: "%s"', json_encode($row, JSON_PRETTY_PRINT)));
 
             $result[] = new ilCertificateQueueEntry(
                 $row['obj_id'],

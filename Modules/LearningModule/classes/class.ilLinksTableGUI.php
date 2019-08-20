@@ -1,27 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * TableGUI class for (broken) links in learning module
@@ -83,7 +62,6 @@ class ilLinksTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("HREF_PAGE",
 			$ilCtrl->getLinkTargetByClass("illmpageobjectgui", "edit"));
 		
-		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		$page_object = new ilLMPage($a_set["obj_id"]);
 		$page_object->buildDom();
 		$int_links = $page_object->getInternalLinks();
@@ -142,7 +120,6 @@ class ilLinksTableGUI extends ilTable2GUI
 					case "GlossaryItem":
 						$this->tpl->setCurrentBlock("link");
 						$this->tpl->setVariable("TXT_LINK_TYPE", $lng->txt("cont_term"));
-						include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 						if (ilGlossaryTerm::_exists($target_id))
 						{
 							$this->tpl->setVariable("TXT_LINK_TITLE",

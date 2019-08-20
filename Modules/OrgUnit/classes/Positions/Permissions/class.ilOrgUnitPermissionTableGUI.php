@@ -90,6 +90,9 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			return true;
 		}
 
+		$objdefinition = $this->dic()['objDefinition'];
+		$is_plugin = $objdefinition->isPlugin($this->getObjType());
+
 		foreach ($row as $permission) {
 			/**
 			 * @var $operation \ilOrgUnitOperation
@@ -102,10 +105,15 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI {
 			$this->tpl->setVariable('POSITION_ID', $position->getId());
 			$this->tpl->setVariable('PERM_ID', $op_id);
 
+			if($is_plugin) {
+				$label = ilObjectPlugin::lookupTxtById($this->getObjType(), $operation->getOperationString());
+			} else {
+				$label = $this->dic()->language()->txt('org_op_'. $operation->getOperationString());
+			}
 
-			$this->tpl->setVariable('TXT_PERM', $this->dic()->language()->txt('org_op_'
-			                                                                  . $operation->getOperationString()));
-			//$this->tpl->setVariable('PERM_LONG', $op_id);
+			$this->tpl->setVariable('TXT_PERM', $label);
+			$this->tpl->setVariable('PERM_LONG', $op_id);
+
 
 			if ($permission['permission_set']) {
 				$this->tpl->setVariable('PERM_CHECKED', 'checked="checked"');
