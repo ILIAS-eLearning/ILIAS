@@ -2,82 +2,90 @@
 
 namespace ILIAS\Changelog\Events\Membership;
 
-
-use ILIAS\Changelog\Exception\CourseNotFoundException;
-use ILIAS\Changelog\Exception\UserNotFoundException;
-use ilObjCourse;
-use ilObjUser;
-
 /**
  * Class RemovedFromCourse
+ *
  * @package ILIAS\Changelog\Events\Membership
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class RemovedFromCourse extends MembershipEvent {
+class RemovedFromCourse extends MembershipEvent
+{
 
-	const TYPE_ID = 6;
-
-
-	/**
-	 * @var int
-	 */
-	protected $crs_obj_id;
-	/**
-	 * @var int
-	 */
-	protected $member_user_id;
-	/**
-	 * @var int
-	 */
-	protected $removing_user_id;
-
-	/**
-	 * RemovedFromCourse constructor.
-	 * @param int $crs_obj_id
-	 * @param int $member_user_id
-	 * @param int $removing_user_id
-	 * @throws CourseNotFoundException
-	 * @throws UserNotFoundException
-	 */
-	public function __construct(int $crs_obj_id, int $member_user_id, int $removing_user_id) {
-		if (!ilObjCourse::_exists($crs_obj_id)) {
-			throw new CourseNotFoundException("couldn't find course with obj_id " . $crs_obj_id);
-		}
-		if (!ilObjUser::_exists($member_user_id)) {
-			throw new UserNotFoundException("couldn't find user with id " . $member_user_id);
-		}
-		if (!ilObjUser::_exists($removing_user_id)) {
-			throw new UserNotFoundException("couldn't find user with id " . $removing_user_id);
-		}
-		$this->crs_obj_id = $crs_obj_id;
-		$this->member_user_id = $member_user_id;
-		$this->removing_user_id = $removing_user_id;
-	}
+    const NAME = 'removed_from_course';
+    /**
+     * @var int
+     */
+    protected $crs_obj_id;
+    /**
+     * @var int
+     */
+    protected $subject_user_id;
+    /**
+     * @var int
+     */
+    protected $actor_user_id;
 
 
-	public function getTypeId(): int {
-		return self::TYPE_ID;
-	}
+    /**
+     * RemovedFromCourse constructor.
+     *
+     * @param int $actor_user_id
+     * @param int $subject_user_id
+     * @param int $crs_obj_id
+     *
+     */
+    public function __construct(int $actor_user_id, int $subject_user_id, int $crs_obj_id)
+    {
+        $this->crs_obj_id = $crs_obj_id;
+        $this->subject_user_id = $subject_user_id;
+        $this->actor_user_id = $actor_user_id;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getCrsObjId(): int {
-		return $this->crs_obj_id;
-	}
 
-	/**
-	 * @return int
-	 */
-	public function getMemberUserId(): int {
-		return $this->member_user_id;
-	}
+    /**
+     * @return String
+     */
+    public function getName() : String
+    {
+        return self::NAME;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getRemovingUserId(): int {
-		return $this->removing_user_id;
-	}
+
+    /**
+     * @return int
+     */
+    public function getSubjectObjId() : int
+    {
+        return $this->crs_obj_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSubjectUserId() : int
+    {
+        return $this->subject_user_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getActorUserId() : int
+    {
+        return $this->actor_user_id;
+    }
+
+
+    /**
+     * May be empty
+     *
+     * @return array
+     */
+    public function getAdditionalData() : array
+    {
+        return [];
+    }
 }

@@ -2,69 +2,81 @@
 
 namespace ILIAS\Changelog\Events\Membership;
 
-
-use ILIAS\Changelog\Exception\CourseNotFoundException;
-use ILIAS\Changelog\Exception\UserNotFoundException;
-use ilObjCourse;
-use ilObjUser;
-
 /**
  * Class MembershipRequested
+ *
  * @package ILIAS\Changelog\Events\Membership
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class MembershipRequested extends MembershipEvent {
+class MembershipRequested extends MembershipEvent
+{
 
-	const TYPE_ID = 1;
-
-	/**
-	 * @var int
-	 */
-	protected $crs_obj_id;
-	/**
-	 * @var int
-	 */
-	protected $requesting_user_id;
-
-	/**
-	 * MembershipRequested constructor.
-	 * @param int $crs_obj_id
-	 * @param int $requesting_user_id
-	 * @throws CourseNotFoundException
-	 * @throws UserNotFoundException
-	 */
-	public function __construct(int $crs_obj_id, int $requesting_user_id) {
-		if (!ilObjCourse::_exists($crs_obj_id)) {
-			throw new CourseNotFoundException("couldn't find course with obj_id " . $crs_obj_id);
-		}
-		if (!ilObjUser::_exists($requesting_user_id)) {
-			throw new UserNotFoundException("couldn't find user with id " . $requesting_user_id);
-		}
-		$this->crs_obj_id = $crs_obj_id;
-		$this->requesting_user_id = $requesting_user_id;
-	}
+    const NAME = 'membership_requested';
+    /**
+     * @var int
+     */
+    protected $crs_obj_id;
+    /**
+     * @var int
+     */
+    protected $subject_user_id;
 
 
-	public function getTypeId(): int {
-		return self::TYPE_ID;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getCrsObjId(): int {
-		return $this->crs_obj_id;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getRequestingUserId(): int {
-		return $this->requesting_user_id;
-	}
+    /**
+     * MembershipRequested constructor.
+     *
+     * @param int $subject_user_id
+     * @param int $crs_obj_id
+     */
+    public function __construct(int $subject_user_id, int $crs_obj_id)
+    {
+        $this->crs_obj_id = $crs_obj_id;
+        $this->subject_user_id = $subject_user_id;
+    }
 
 
+    /**
+     * @return String
+     */
+    public function getName() : String
+    {
+        return self::NAME;
+    }
 
 
+    /**
+     * @return int
+     */
+    public function getSubjectObjId() : int
+    {
+        return $this->crs_obj_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSubjectUserId() : int
+    {
+        return $this->subject_user_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getActorUserId() : int
+    {
+        return 0;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getAdditionalData() : array
+    {
+        return [];
+    }
 }
