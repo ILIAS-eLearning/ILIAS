@@ -1,18 +1,18 @@
 <?php
 
-namespace ILIAS\Changelog\Events\Membership;
+namespace ILIAS\Services\Membership\ChangelogEvents;
 
 /**
- * Class UnsubscribedFromCourse
+ * Class AddedToCourse
  *
  * @package ILIAS\Changelog\Events\Membership
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class UnsubscribedFromCourse extends MembershipEvent
+class AddedToCourse extends MembershipEvent
 {
 
-    const NAME = 'unsubscribed_from_course';
+    const NAME = 'added_to_course';
     /**
      * @var int
      */
@@ -20,19 +20,25 @@ class UnsubscribedFromCourse extends MembershipEvent
     /**
      * @var int
      */
+    protected $subject_user_id;
+    /**
+     * @var int
+     */
     protected $actor_user_id;
 
 
     /**
-     * UnsubscribedFromCourse constructor.
+     * AddedToCourse constructor.
      *
-     * @param int $actor_user_id
+     * @param int $actor_user_id   adding user
+     * @param int $subject_user_id added user
+     * @param int $crs_obj_id
      *
-     * @param int $crs_obj_id unsubscribing user
      */
-    public function __construct(int $actor_user_id, int $crs_obj_id)
+    public function __construct(int $actor_user_id, int $subject_user_id, int $crs_obj_id)
     {
         $this->crs_obj_id = $crs_obj_id;
+        $this->subject_user_id = $subject_user_id;
         $this->actor_user_id = $actor_user_id;
     }
 
@@ -58,6 +64,15 @@ class UnsubscribedFromCourse extends MembershipEvent
     /**
      * @return int
      */
+    public function getSubjectUserId() : int
+    {
+        return $this->subject_user_id;
+    }
+
+
+    /**
+     * @return int
+     */
     public function getActorUserId() : int
     {
         return $this->actor_user_id;
@@ -65,23 +80,10 @@ class UnsubscribedFromCourse extends MembershipEvent
 
 
     /**
-     *  actor and subject are the same here
-     *
-     * @return int
-     */
-    public function getSubjectUserId() : int
-    {
-        return $this->actor_user_id;
-    }
-
-
-    /**
-     * May be empty
-     *
      * @return array
      */
     public function getAdditionalData() : array
     {
-        // TODO: Implement getAdditionalData() method.
+        return [];
     }
 }

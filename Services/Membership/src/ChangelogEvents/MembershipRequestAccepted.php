@@ -1,18 +1,18 @@
 <?php
 
-namespace ILIAS\Changelog\Events\Membership;
+namespace ILIAS\Services\Membership\ChangelogEvents;
 
 /**
- * Class MembershipRequested
+ * Class MembershipRequestAccepted
  *
  * @package ILIAS\Changelog\Events\Membership
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class MembershipRequested extends MembershipEvent
+class MembershipRequestAccepted extends MembershipEvent
 {
 
-    const NAME = 'membership_requested';
+    const NAME = 'request_accepted';
     /**
      * @var int
      */
@@ -21,18 +21,25 @@ class MembershipRequested extends MembershipEvent
      * @var int
      */
     protected $subject_user_id;
+    /**
+     * @var int
+     */
+    protected $actor_user_id;
 
 
     /**
-     * MembershipRequested constructor.
+     * MembershipRequestAccepted constructor.
      *
-     * @param int $subject_user_id
+     * @param int $actor_user_id   accepting user
+     * @param int $subject_user_id accepted user
      * @param int $crs_obj_id
+     *
      */
-    public function __construct(int $subject_user_id, int $crs_obj_id)
+    public function __construct(int $actor_user_id, int $subject_user_id, int $crs_obj_id)
     {
         $this->crs_obj_id = $crs_obj_id;
         $this->subject_user_id = $subject_user_id;
+        $this->actor_user_id = $actor_user_id;
     }
 
 
@@ -42,15 +49,6 @@ class MembershipRequested extends MembershipEvent
     public function getName() : String
     {
         return self::NAME;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getSubjectObjId() : int
-    {
-        return $this->crs_obj_id;
     }
 
 
@@ -68,7 +66,16 @@ class MembershipRequested extends MembershipEvent
      */
     public function getActorUserId() : int
     {
-        return 0;
+        return $this->actor_user_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSubjectObjId() : int
+    {
+        return $this->crs_obj_id;
     }
 
 

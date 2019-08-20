@@ -1,18 +1,18 @@
 <?php
 
-namespace ILIAS\Changelog\Events\Membership;
+namespace ILIAS\Services\Membership\ChangelogEvents;
 
 /**
- * Class AutofilledFromWaitingList
+ * Class MembershipRequested
  *
  * @package ILIAS\Changelog\Events\Membership
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AutofilledFromWaitingList extends MembershipEvent
+class MembershipRequested extends MembershipEvent
 {
 
-    const NAME = 'autofilled_from_waiting_list';
+    const NAME = 'membership_requested';
     /**
      * @var int
      */
@@ -24,11 +24,10 @@ class AutofilledFromWaitingList extends MembershipEvent
 
 
     /**
-     * AutofilledFromWaitingList constructor.
+     * MembershipRequested constructor.
      *
-     * @param int $subject_user_id member who was added
+     * @param int $subject_user_id
      * @param int $crs_obj_id
-     *
      */
     public function __construct(int $subject_user_id, int $crs_obj_id)
     {

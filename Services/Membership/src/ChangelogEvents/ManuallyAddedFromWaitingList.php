@@ -1,18 +1,18 @@
 <?php
 
-namespace ILIAS\Changelog\Events\Membership;
+namespace ILIAS\Services\Membership\ChangelogEvents;
 
 /**
- * Class AddedToCourse
+ * Class ManuallyAddedFromWaitingList
  *
  * @package ILIAS\Changelog\Events\Membership
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AddedToCourse extends MembershipEvent
+class ManuallyAddedFromWaitingList extends MembershipEvent
 {
 
-    const NAME = 'added_to_course';
+    const NAME = 'manually_added_from_waiting_list';
     /**
      * @var int
      */
@@ -28,7 +28,7 @@ class AddedToCourse extends MembershipEvent
 
 
     /**
-     * AddedToCourse constructor.
+     * ManuallyAddedFromWaitingList constructor.
      *
      * @param int $actor_user_id   adding user
      * @param int $subject_user_id added user

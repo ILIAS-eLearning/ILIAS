@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\Changelog\Events\Membership;
+namespace ILIAS\Services\Membership\ChangelogEvents;
 
 use ILIAS\Changelog\Interfaces\Event;
 
