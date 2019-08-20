@@ -1249,49 +1249,38 @@ class ilForum
 			$this->db->setLimit($limit, $offset);
 		}
 		$res = $this->db->queryF($query, $data_types, $data);
-	
-		while($row = $this->db->fetchAssoc($res))
-		{
+
+		$threadIds = [];
+		while($row = $this->db->fetchAssoc($res)) {
 			$thread = new ilForumTopic($row['thr_pk'], $params['is_moderator'], true);
 			$thread->assignData($row);
 			$threads[$row['thr_pk']] = $thread;
 			
-			$thread_ids[] = $row['thr_pk'];
+			$threadIds[] = $row['thr_pk'];
 		}
-		
-		$inner_last_active_post_condition = "";
-		$last_active_post_condition = "";
-		if($params['is_moderator'] == false)
-		{
+
+		$inner_last_active_post_condition = '';
+		if ($params['is_moderator'] == false) {
 			$inner_last_active_post_condition = " 
-				AND ( iposts.pos_status = ". $this->db->quote('1', 'integer')."
-			 	OR ( iposts.pos_status = ". $this->db->quote('0', 'integer')."
-			  			AND iposts.pos_author_id = ". $this->db->quote($this->user->getId(), 'integer')."))";
-
-
-			$last_active_post_condition = " 
-				AND ( frm_posts.pos_status = ". $this->db->quote('1', 'integer')."
-			 	OR (frm_posts.pos_status = ". $this->db->quote('0', 'integer')."
-			  			AND frm_posts.pos_author_id = ". $this->db->quote($this->user->getId(), 'integer')."))";
+				AND ( iposts.pos_status = " . $this->db->quote(1, 'integer') . "
+			 	OR ( iposts.pos_status = " . $this->db->quote(0, 'integer') . "
+			  			AND iposts.pos_author_id = " . $this->db->quote($this->user->getId(), 'integer') . "))";
 		}
-			
+
 		$post_res = $this->db->query('
-				SELECT frm_posts.*
-				FROM frm_posts
-				INNER JOIN (
-					SELECT pos_thr_fk, MAX(iposts.pos_date) i_pos_date
-					FROM frm_posts iposts
-					WHERE '. $this->db->in('iposts.pos_thr_fk', $thread_ids, false, 'integer') .' 
-					'.$inner_last_active_post_condition. '
-					GROUP BY pos_thr_fk
-					) opost ON frm_posts.pos_thr_fk = opost.pos_thr_fk AND frm_posts.pos_date = opost.i_pos_date
-				WHERE  '. $this->db->in('frm_posts.pos_thr_fk', $thread_ids, false, 'integer')  .' 
-				'.$last_active_post_condition . ' '
+			SELECT frm_posts.*
+			FROM frm_posts
+			INNER JOIN (
+				SELECT pos_thr_fk, MAX(iposts.pos_date) i_pos_date
+				FROM frm_posts iposts
+				WHERE ' . $this->db->in('iposts.pos_thr_fk', $threadIds, false, 'integer') . ' 
+				' . $inner_last_active_post_condition . '
+				GROUP BY pos_thr_fk
+			) opost ON frm_posts.pos_thr_fk = opost.pos_thr_fk AND frm_posts.pos_date = opost.i_pos_date'
 		);
-		
-		while($post_row = $this->db->fetchAssoc($post_res))
-		{
-			$tmp_obj = new ilForumPost($post_row['pos_pk'], $params['is_moderator'],  true );
+
+		while ($post_row = $this->db->fetchAssoc($post_res)) {
+			$tmp_obj = new ilForumPost($post_row['pos_pk'], $params['is_moderator'], true);
 
 			$tmp_obj->setPosAuthorId($post_row['pos_author_id']);
 			$tmp_obj->setDisplayUserId($post_row['pos_display_user_id']);
@@ -1299,7 +1288,7 @@ class ilForum
 			$tmp_obj->setImportName($post_row['import_name']);
 			$tmp_obj->setId($post_row['pos_pk']);
 			$tmp_obj->setCreateDate($post_row['pos_date']);
-			
+
 			$threads[$post_row['pos_thr_fk']]->setLastPostForThreadOverview($tmp_obj);
 		}
 
