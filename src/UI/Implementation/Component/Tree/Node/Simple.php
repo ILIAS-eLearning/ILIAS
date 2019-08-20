@@ -82,10 +82,8 @@ class Simple extends Node implements ISimple
 	 */
 	public function withLink(URI $link) : \ILIAS\UI\Component\Tree\Node\Node
 	{
-		return new Simple(
-			$this->getLabel(),
-			$this->getIcon(),
-			$link
-		);
+		$clone = clone $this;
+		$clone->link = $link;
+		return $clone;
 	}
 }
