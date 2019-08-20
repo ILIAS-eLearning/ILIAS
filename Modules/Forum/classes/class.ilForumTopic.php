@@ -40,8 +40,8 @@ class ilForumTopic
 	private $is_closed = 0;
 	
 	private $orderField = '';
-	
-	private $posts = array();
+
+	private $last_post = null;
 
 	private $db = null;
 	
@@ -1244,6 +1244,16 @@ class ilForumTopic
 	{
 		return $this->orderDirection;
 	}
+	
+	public function getLastPostForThreadOverview()
+	{
+		return $this->last_post;
+	}	
+	
+	public function setLastPostForThreadOverview(ilForumPost $post)
+	{
+		$this->last_post = $post;
+	}	
 	
 	public static function lookupForumIdByTopicId($a_topic_id)
 	{
