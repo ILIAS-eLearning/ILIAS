@@ -1300,7 +1300,7 @@ class ilForum
 			$tmp_obj->setId($post_row['pos_pk']);
 			$tmp_obj->setCreateDate($post_row['pos_date']);
 			
-			$threads[$post_row['pos_thr_fk']]->last_post = $tmp_obj;
+			$threads[$post_row['pos_thr_fk']]->setLastPostForThreadOverview($tmp_obj);
 		}
 
 		return array('items' => $threads,'cnt' => $cnt);
