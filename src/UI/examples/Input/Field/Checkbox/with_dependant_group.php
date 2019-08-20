@@ -21,7 +21,7 @@ function with_dependant_group() {
 	$DIC->ctrl()->setParameterByClass(
 		'ilsystemstyledocumentationgui',
 		'example_name',
-		'checkbox'
+		'dependant_checkbox'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
 	$form = $ui->input()->container()->form()->standard($form_action, [ $checkbox_input]);
@@ -29,7 +29,7 @@ function with_dependant_group() {
 	//Step 4: implement some form data processing. Note, the value of the checkbox will
 	// be 'checked' if checked an null if unchecked.
 	if ($request->getMethod() == "POST"
-		&& $request->getQueryParams()['example_name'] =='checkbox') {
+		&& $request->getQueryParams()['example_name'] =='dependant_checkbox') {
 		$form = $form->withRequest($request);
 		$result = $form->getData();
 	}
