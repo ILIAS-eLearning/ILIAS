@@ -218,6 +218,12 @@ exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Probleme
 exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
 exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
+crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
+crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
+crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
+crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
+crs#:#timings_reminder_notifications#:#Benachrichtigungen zur Lernplanung versenden
+crs#:#timings_reminder_notifications_info#:#Wenn aktiviert, werden Kursteilnehmer über überschrittene Lernplanungsmaterialien informiert.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
