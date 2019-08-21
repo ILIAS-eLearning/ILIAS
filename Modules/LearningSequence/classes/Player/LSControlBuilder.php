@@ -292,7 +292,6 @@ class LSControlBuilder implements ControlBuilder
 			throw new \LogicException("Only one start-control per view...", 1);
 		}
 		$this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, $parameter);
-		//$lp_cmd = $this->url_builder->getHref(self::CMD_CHECK_CURRENT_ITEM_LP, $parameter);
 		$lp_cmd = str_replace(
 			'&cmd=view&',
 			'&cmd=' .self::CMD_CHECK_CURRENT_ITEM_LP .'&',
