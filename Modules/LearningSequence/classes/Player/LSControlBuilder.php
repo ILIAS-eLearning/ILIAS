@@ -16,6 +16,7 @@ class LSControlBuilder implements ControlBuilder
 {
 	const CMD_START_OBJECT = 'start_legacy_obj';
 	const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
+	const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 2000;
 
 
 	/**
@@ -339,6 +340,7 @@ class LSControlBuilder implements ControlBuilder
 		string $on_lp_change_url
 	) {
 
+		$interval = self::UPDATE_LEGACY_OBJECT_LP_INTERVAL;
 		$this->additional_js =
 <<<JS
 function lso_checkLPOfObject() {
@@ -358,7 +360,7 @@ $(document).on('{$signal_id}', function() {
 	var il_ls_win = window.open('$new_win_url');
 });
 window._lso_current_item_lp = -1;
-window.setInterval(lso_checkLPOfObject, 2000);
+window.setInterval(lso_checkLPOfObject, $interval);
 JS;
 	}
 
