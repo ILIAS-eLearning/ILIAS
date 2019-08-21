@@ -53,6 +53,6 @@ class SelectInputTest extends ILIAS_UI_TestBase {
 			""
 		))->withRequired(true);
 
-		$this->assertFalse($select->_isClientSideValueOk(""));
+		$this->assertTrue($select->_isClientSideValueOk(""));
 	}
 }
