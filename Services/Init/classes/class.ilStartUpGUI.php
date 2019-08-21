@@ -1299,8 +1299,6 @@ class ilStartUpGUI
 	{
 		global $DIC;
 
-
-		$tpl = $DIC->ui()->mainTemplate();
 		$ilSetting = $DIC->settings();
 		$lng = $DIC->language();
 		$ilIliasIniFile = $DIC['ilIliasIniFile'];
@@ -1335,8 +1333,8 @@ class ilStartUpGUI
 		}
 
 		//instantiate logout template
-		self::initStartUpTemplate("tpl.logout.html");
-		
+		$tpl = self::initStartUpTemplate("tpl.logout.html");
+
 		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			$tpl->setCurrentBlock("homelink");
@@ -1361,7 +1359,7 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
 
-		$tpl->printToStdout();
+		self::printToGlobalTemplate($tpl);
 	}
 
 	/**
@@ -1374,7 +1372,7 @@ class ilStartUpGUI
 
 		$valid = $ilAuth->getValidationData();
 
-		self::initStartUpTemplate("tpl.user_mapping_selection.html");
+		$tpl = self::initStartUpTemplate("tpl.user_mapping_selection.html");
 		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
 
 
@@ -1428,7 +1426,7 @@ class ilStartUpGUI
 		$tpl->setVariable("PASSWORD", ilUtil::prepareFormOutput($_POST["password"]));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
 
-		$tpl->printToStdout();
+		self::printToGlobalTemplate($tpl);
 	}
 
 	/**
@@ -1590,8 +1588,7 @@ class ilStartUpGUI
 			$this->user->setId(ANONYMOUS_USER_ID);
 		}
 
-		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
-		$this->mainTemplate->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('usr_agreement'));
+		$tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 
 		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
 		if ($handleDocument) {
@@ -1611,16 +1608,16 @@ class ilStartUpGUI
 					}
 				}
 
-				$this->mainTemplate->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-				$this->mainTemplate->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
-				$this->mainTemplate->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
-				$this->mainTemplate->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
+				$tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+				$tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+				$tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
+				$tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 			}
 
-			$this->mainTemplate->setPermanentLink('usr', null, 'agreement');
-			$this->mainTemplate->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+			$tpl->setPermanentLink('usr', null, 'agreement');
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
 		} else {
-			$this->mainTemplate->setVariable(
+			$tpl->setVariable(
 				'TERMS_OF_SERVICE_CONTENT',
 				sprintf(
 					$this->lng->txt('no_agreement_description'),
@@ -1629,7 +1626,7 @@ class ilStartUpGUI
 			);
 		}
 
-		$this->mainTemplate->printToStdout();
+		self::printToGlobalTemplate($tpl);
 	}
 
 	/**
