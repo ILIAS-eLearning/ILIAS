@@ -1,6 +1,12 @@
 Client Side GlobalScreen
 ========================
 
+> Attention: This is not a general approach how to do client-side rendering in ILIAS or even bypass it. This mechanism is implemented due to the missing client-side rendering for the requirements of chat notifications. The discussion about client-side rendering will be conducted separately and should provide a general approach.
+
+> This part of the GlobalScreen service also contains TypeScript code. Work is already underway on this in a wide variety of places. This suggestion here is not to bypass this by any means or to deliver final concepts for the use of TypeScript in ILIAS. TypeScript was only used here to have a more understandable and secure structure in JS. We are already looking forward to the discussions about TypeScript.
+
+
+
 There are different scenarios in which besides the `Items` provided by the GlobalScreen providers on the server side, `Items` on the client side can also arise.
 
 Such a case are the `Notifications`: Beside all the notifications, which are offered on the server side by the NotificationProvider, the chat client side must have the possibility to communicate own notifications to the `MainNotificationCollector` as well.
