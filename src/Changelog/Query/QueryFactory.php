@@ -9,7 +9,7 @@ namespace ILIAS\Changelog\Query;
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QueryBuilder
+class QueryFactory
 {
 
     use SingletonTrait;

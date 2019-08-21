@@ -13,12 +13,16 @@ interface Event
 {
 
     /**
+     * Mandatory globally-unique event name
+     *
      * @return String
      */
     public function getName() : String;
 
 
     /**
+     * Mandatory component name
+     *
      * @return String
      */
     public function getILIASComponent() : String;

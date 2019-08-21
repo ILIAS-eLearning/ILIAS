@@ -7,7 +7,7 @@ use ILIAS\Changelog\Interfaces\EventRepository;
 use ILIAS\Changelog\Query\EventDTO;
 use ILIAS\Changelog\Query\Filter;
 use ILIAS\Changelog\Query\Options;
-use ILIAS\Changelog\Query\QueryBuilder;
+use ILIAS\Changelog\Query\QueryFactory;
 
 /**
  * Class ChangelogService
@@ -59,10 +59,10 @@ class ChangelogService
 
 
     /**
-     * @return QueryBuilder
+     * @return QueryFactory
      */
-    public function queryBuilder() : QueryBuilder
+    public function queryFactory() : QueryFactory
     {
-        return QueryBuilder::getInstance();
+        return QueryFactory::getInstance();
     }
 }

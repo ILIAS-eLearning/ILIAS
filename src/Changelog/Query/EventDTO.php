@@ -2,8 +2,6 @@
 
 namespace ILIAS\Changelog\Query;
 
-use ILIAS\Changelog\Infrastructure\AR\EventID;
-
 /**
  * Class EventDTO
  *
