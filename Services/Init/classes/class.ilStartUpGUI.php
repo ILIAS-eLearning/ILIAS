@@ -50,6 +50,8 @@ class ilStartUpGUI
 	{
 		global $DIC;
 
+        $DIC->globalScreen()->tool()->context()->claim()->external();
+
 		if ($user === null) {
 			$user = $DIC->user();
 		}
