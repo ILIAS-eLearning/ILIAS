@@ -172,11 +172,12 @@ class ilPasswordAssistanceGUI
 	 */
 	public function showAssistanceForm(ilPropertyFormGUI $form = null)
 	{
-		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
+		$tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
 		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
-		$this->tpl->setVariable
+		//$this->tpl->setVariable
+		$tpl->setVariable
 		(
 			'TXT_ENTER_USERNAME_AND_EMAIL',
 			str_replace
@@ -194,9 +195,11 @@ class ilPasswordAssistanceGUI
 		{
 			$form = $this->getAssistanceForm();
 		}
-		$this->tpl->setVariable('FORM', $form->getHTML());
-		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
-		$this->tpl->printToStdout();
+		$tpl->setVariable('FORM', $form->getHTML());
+		//$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
+		//$this->tpl->printToStdout();
+
+		ilStartUpGUI::printToGlobalTemplate($tpl);
 	}
 
 	/**
@@ -431,19 +434,20 @@ class ilPasswordAssistanceGUI
 		}
 		else
 		{
-			ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
-			$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
-			$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
+			$tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assignpassword.html', true);
+			$tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
+			$tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
-			$this->tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD', $this->lng->txt('pwassist_enter_username_and_new_password'));
+			$tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD', $this->lng->txt('pwassist_enter_username_and_new_password'));
 
 			if(!$form)
 			{
 				$form = $this->getAssignPasswordForm($pwassist_id);
 			}
-			$this->tpl->setVariable('FORM', $form->getHTML());
-			$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
-			$this->tpl->printToStdout();
+			$tpl->setVariable('FORM', $form->getHTML());
+			//$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_PW);
+			//$this->tpl->printToStdout();
+			ilStartUpGUI::printToGlobalTemplate($tpl);
 		}
 	}
 
@@ -593,11 +597,11 @@ class ilPasswordAssistanceGUI
 	 */
 	public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null)
 	{
-		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
-		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
-		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
+		$tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
+		$tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
+		$tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
-		$this->tpl->setVariable
+		$tpl->setVariable
 		(
 			'TXT_ENTER_USERNAME_AND_EMAIL',
 			str_replace
@@ -615,9 +619,10 @@ class ilPasswordAssistanceGUI
 		{
 			$form = $this->getUsernameAssistanceForm();
 		}
-		$this->tpl->setVariable('FORM', $form->getHTML());
-		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
-		$this->tpl->printToStdout();
+		$tpl->setVariable('FORM', $form->getHTML());
+		//$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
+		//$this->tpl->printToStdout();
+		ilStartUpGUI::printToGlobalTemplate($tpl);
 	}
 
 	/**
@@ -723,13 +728,14 @@ class ilPasswordAssistanceGUI
 	 */
 	public function showMessageForm($text)
 	{
-		ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
-		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
-		$this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
+		$tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
+		$tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
+		$tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
 
-		$this->tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
-		$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
-		$this->tpl->printToStdout();
+		$tpl->setVariable('TXT_TEXT', str_replace("\\n", '<br />', $text));
+		//$this->fillPermanentLink(self::PERMANENT_LINK_TARGET_NAME);
+		//$this->tpl->printToStdout();
+		ilStartUpGUI::printToGlobalTemplate($tpl);
 	}
 
 	/**
