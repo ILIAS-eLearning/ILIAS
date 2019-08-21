@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\NullModification;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\ModificationHandler;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -36,7 +37,7 @@ class MainLayoutCollector
     /**
      * MainLayoutCollector constructor.
      *
-     * @param ModificationProvider[] $providers
+     * @param array $providers
      */
     public function __construct(array $providers)
     {
@@ -127,5 +128,16 @@ class MainLayoutCollector
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
         return $called_contexts;
+    }
+
+
+    /**
+     * @return MetaContent
+     */
+    private function getMetaContent() : MetaContent
+    {
+        global $DIC;
+
+        return $DIC->globalScreen()->layout()->meta();
     }
 }
