@@ -13,10 +13,8 @@ class Options
 {
 
     const DEFAULT_ORDER_FIELD = 'timestamp';
-
     const ORDER_ASCENDING = 'ASC';
     const ORDER_DESCENDING = 'DESC';
-
     /**
      * @var int
      */
@@ -29,29 +27,33 @@ class Options
      * @var string
      */
     protected $orderBy = '';
-
     /**
      * @var string
      */
     protected $orderDirection = self::ORDER_ASCENDING;
+
 
     /**
      * @param int $limit
      *
      * @return Options
      */
-    public function withLimit(int $limit) {
+    public function withLimit(int $limit)
+    {
         $clone = clone $this;
         $clone->limit = $limit;
 
         return $clone;
     }
+
+
     /**
      * @param int $offset
      *
      * @return Options
      */
-    public function withOffset(int $offset) {
+    public function withOffset(int $offset)
+    {
         $clone = clone $this;
         $clone->offset = $offset;
 
@@ -62,7 +64,8 @@ class Options
     /**
      * @return Options
      */
-    public function withOrderByEventName() {
+    public function withOrderByEventName()
+    {
         $clone = clone $this;
         $clone->orderBy = 'event_name';
 
@@ -73,17 +76,20 @@ class Options
     /**
      * @return Options
      */
-    public function withOrderByTimestamp() {
+    public function withOrderByTimestamp()
+    {
         $clone = clone $this;
         $clone->orderBy = 'timestamp';
 
         return $clone;
     }
 
+
     /**
      * @return Options
      */
-    public function withOrderDirectionAscending() {
+    public function withOrderDirectionAscending()
+    {
         $clone = clone $this;
         $clone->orderDirection = self::ORDER_ASCENDING;
 
@@ -94,24 +100,29 @@ class Options
     /**
      * @return Options
      */
-    public function withOrderDirectionDescending() {
+    public function withOrderDirectionDescending()
+    {
         $clone = clone $this;
         $clone->orderDirection = self::ORDER_DESCENDING;
 
         return $clone;
     }
 
-    /**
-     * @return int
-     */
-    public function getLimit(): int {
-        return $this->limit;
-    }
 
     /**
      * @return int
      */
-    public function getOffset(): int {
+    public function getLimit() : int
+    {
+        return $this->limit;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getOffset() : int
+    {
         return $this->offset;
     }
 
@@ -119,7 +130,8 @@ class Options
     /**
      * @return string
      */
-    public function getOrderBy(): string {
+    public function getOrderBy() : string
+    {
         return $this->orderBy ?: self::DEFAULT_ORDER_FIELD;
     }
 
@@ -127,7 +139,8 @@ class Options
     /**
      * @return string
      */
-    public function getOrderDirection(): string {
+    public function getOrderDirection() : string
+    {
         return $this->orderDirection;
     }
 }

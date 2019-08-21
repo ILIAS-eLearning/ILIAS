@@ -31,6 +31,5 @@ interface EventRepository
      *
      * @return EventDTO[]
      */
-    public function getEvents(Filter $filter, Options $options): array;
-
+    public function getEvents(Filter $filter, Options $options) : array;
 }

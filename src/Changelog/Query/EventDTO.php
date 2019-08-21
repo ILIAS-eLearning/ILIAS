@@ -11,6 +11,7 @@ namespace ILIAS\Changelog\Query;
  */
 class EventDTO
 {
+
     /**
      * @var int
      */
@@ -52,15 +53,15 @@ class EventDTO
     /**
      * EventDTO constructor.
      *
-     * @param int $id
+     * @param int    $id
      * @param String $event_id
      * @param String $event_name
-     * @param int $actor_user_id
-     * @param int $subject_user_id
-     * @param int $subject_obj_id
+     * @param int    $actor_user_id
+     * @param int    $subject_user_id
+     * @param int    $subject_obj_id
      * @param String $ilias_component
-     * @param array $additional_data
-     * @param int $timestamp
+     * @param array  $additional_data
+     * @param int    $timestamp
      */
     public function __construct(
         int $id,
@@ -169,7 +170,8 @@ class EventDTO
     /**
      * @return array
      */
-    public function __toArray(): array {
+    public function __toArray() : array
+    {
         return get_object_vars($this);
     }
 }

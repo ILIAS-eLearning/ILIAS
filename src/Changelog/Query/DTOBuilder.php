@@ -16,6 +16,7 @@ class DTOBuilder
 
     use SingletonTrait;
 
+
     /**
      * @param EventAR[] $EventARs
      *

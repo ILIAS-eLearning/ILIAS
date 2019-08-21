@@ -4,6 +4,7 @@ namespace ILIAS\Changelog\Query;
 
 trait SingletonTrait
 {
+
     /**
      * @var self
      */

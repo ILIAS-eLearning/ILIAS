@@ -5,7 +5,6 @@ namespace ILIAS\Changelog\Infrastructure\Repository;
 use ActiveRecordList;
 use arException;
 use Exception;
-use ilDateTimeException;
 use ILIAS\Changelog\Infrastructure\AR\EventAR;
 use ILIAS\Changelog\Infrastructure\AR\EventID;
 use ILIAS\Changelog\Interfaces\Event;
@@ -16,7 +15,6 @@ use ILIAS\Changelog\Query\Filter;
 use ILIAS\Changelog\Query\Options;
 use ILIAS\Changelog\Query\Requests\getLogsOfUserRequest;
 use ILIAS\Changelog\Query\Responses\getLogsOfUserResponse;
-use ilObjUser;
 
 /**
  * Class ilDBEventRepository
@@ -72,6 +70,7 @@ class ilDBEventRepository implements EventRepository
 
 
     // private
+
 
     /**
      * @param ActiveRecordList $EventAR &$EventAR
