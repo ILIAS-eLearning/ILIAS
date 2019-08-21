@@ -1,58 +1,110 @@
-###Changelog Service
+### Changelog Service
 
-The changelog service provides a simple interface to log certain changes in ILIAS. In this first version, the service only provides the logging of course membership events, like 'MembershipRequested' or 'AddedToCourse', which will be stored in the database. But the service's architecture aims to be easily extendable to other components and even allow a developer to write events to different storages.
+The changelog service provides a simple interface to log certain changes in ILIAS. Its responsibilities are:
+* writing changes (provided by a consumer) to a storage
+* reading and delivering those changes back to a consumer
+ 
+ The service's architecture aims to be easily usable and extendable by any component or plugin.
 
-##Usage
-###Logging
-All loggable Events can be found in the namespace ILIAS\Changelog\Events (with a subnamespace for each component). An Event is a simple Data Class which demands all required parameters in its constructor and cannot be changed afterwards. The Changelog Service Class accepts any event in a single 'logEvent' method which will forward the event to the corresponding handler.
+## Usage
 
-Therefore, the logging processing consists of the two easy steps of constructing an event and passing it to the Changelog Service. 
+### Event Classes
 
-#####Example:
+Each loggable change has to be represented by a class implementing the Interface ILIAS\Changelog\Interfaces\Event. The consumers are able to and responsible for implementing those event classes. An event is represented by the following fields:
+
+* *Event ID* (String)
+    * randomly generated UUID
+    * generated automatically when logging the event
+* *Event Name* (String)
+    * globally unique name 
+    * written in snake_case (e.g. *changelog_activated*)
+* *ILIAS Component* (String)
+    * name of the consumers component (e.g. *Services/Membership*)
+* *Actor User ID* (Integer)
+    * ID of the user initiating the change event
+    * may be 0 (e.g. for system initiated actions) 
+* *Subject User ID* (Integer)
+    * ID of the user affected by the change event
+    * may be 0 (e.g. for *changelog_activated*)
+* *Subject Obj ID* (Integer)
+    * Obj ID of the involved object (e.g. a course)
+    * may be 0
+* *Additional Data* (Array)
+    * Array of additional data to be logged
+    * may be empty
+* *Timestamp* (Integer)
+    * Unix Timestamp of the moment the event occured
+    * generated automatically when logging the event
+    
+### Implementing A New Event
+
+1. Note that all fields except for the Event ID and the Timestamp have to be implemented and provided by the consumer. This can be done by implementing the given methods in the Interface ILIAS\Changelog\Interfaces\Event. 
+
+2. It's highly recommended to implement the constructor of an event to request all necessary parameters. Use setter (or "with"-) methods only for optional parameters. 
+
+3. The class name should be the event name in camelCase.
+
+4. All classes implementing the Event interface should be located in a dedicated subfolder of the consuming component. E.g.: place membership event in *Services/Membership/src/ChangelogEvents*.
+
+For an example, please have a look at ./src/Changelog/Events/Changelog/ChangelogActivated.php
+
+
+### Logging
+
+Once an event is implemented it can be logged by using the ILIAS\Changelog\ChangelogService. Simply pass the event to the service's logEvent method:
 
 ```php
-use ILIAS\Changelog\ChangelogService;
-use ILIAS\Changelog\Events\Membership\MembershipRequested;
-
-$changelogService = new ChangelogService();
-$event = new MembershipRequested($crs_obj_id, $member_user_id);
-$changelogService->logEvent($event);
+$changelogService->logEvent(
+    new ChangelogActivated($DIC->user()->getId())
+);
 ```
 
-###Querying
-The query services are also accessible via the central changelogService, while there will be a separate service for each component (at the moment there's only the 'membership' service). So first, fetch the desired service:
+### Querying
+
+Fetching the already logged events can also be achieved via the ChangelogService, by using its *query* method. The *ChangelogService::query()* method accepts two objects: 
+1. *Filter*: As the name implies, used to filter the logged events by any of the given fields. 
+2. *Options*: Used to set query options like *limit* or *orderDirection*
+
+To produce those, fetch the QueryFactory via *ChangelogService::queryFactory()* and call its *filter()* or *options()* method. Set the desired filters and options by using their *with..* methods.
+
+Then pass the filter and options to *ChangelogService::query()* to receive an array of ILIAS\Changelog\Query\EventDTO objects:
 
 ```php
-$membershipQueryService = $changelogService->query()->membership();
-```
-The query services provide a method for every executable query, while every method expects a certain 'Request' object as parameter and returns a certain 'Response' object. E.g.:
-```php
-/**
- * @param getLogsOfUserRequest $getLogsOfUsersRequest
- * @return getLogsOfUserResponse
- */
-public function getLogsOfUser(getLogsOfUserRequest $getLogsOfUsersRequest): getLogsOfUserResponse;
-```
-So before sending a query, the corresponding request has to be constructed. Each request will demand all mandatory parameters in its constructor, while all optional parameters can be set through a setter. Most requests also provide a filter, which can be accessed via a getFilter() method and can be adjusted via setters.
+$result = $changelogService->query(
+    $changelogService->queryFactory()->filter()->withActorUserIds([$DIC->user()->getId()]),
+    $changelogService->queryFactory()->options()->withOrderByTimestamp()
+);
 
-#####Example:
-```php
-$request = new getLogsOfCourseRequest($crs_obj_id);
-$request->setLimit(10);
-$request->setOrderBy('event_type_id');
-$request->setOrderDirectionAscending();
-$request->getFilter()->setUserId($DIC->user()->getId());
-$request->getFilter()->setDateFrom(new ilDateTime('2019-07-11 10:00:00', IL_CAL_DATETIME));
-$response = $changelog_service->query()->membership()->getLogsOfCourse($request);
+var_dump($result);
+
+// result
+ array (size=2)
+   'fdd906bc-1810-46a4-a9ae-6261b6f15a6f' => 
+     object(ILIAS\Changelog\Query\EventDTO)[474]
+       protected 'id' => int 3
+       protected 'event_id' => string 'fdd906bc-1810-46a4-a9ae-6261b6f15a6f' (length=36)
+       protected 'event_name' => string 'changelog_activated' (length=19)
+       protected 'actor_user_id' => int 6
+       protected 'subject_user_id' => int 0
+       protected 'subject_obj_id' => int 0
+       protected 'ilias_component' => string 'Services/Changelog' (length=18)
+       protected 'additional_data' => 
+         array (size=0)
+           empty
+       protected 'timestamp' => int 1566369617
+   'a2fce894-5b5d-438f-8363-45d6d3fcc7a5' => 
+     object(ILIAS\Changelog\Query\EventDTO)[475]
+       protected 'id' => int 5
+       protected 'event_id' => string 'a2fce894-5b5d-438f-8363-45d6d3fcc7a5' (length=36)
+       protected 'event_name' => string 'request_accepted' (length=16)
+       protected 'actor_user_id' => int 6
+       protected 'subject_user_id' => int 289
+       protected 'subject_obj_id' => int 285
+       protected 'ilias_component' => string 'Services/Membership' (length=19)
+       protected 'additional_data' => 
+         array (size=0)
+           empty
+       protected 'timestamp' => int 1566369617
 ```
 
-###Register additional Loggers
-The service's default logger is the ilDBLogger which, as the name implies, stores the events in the ILIAS database. If it should be necessary to log events in some other storage, which could e.g. be a file or another database through some api, a developer can easily implement and register an additional Logger. 
-
-The new Logger needs to extend from the abstract class ILIAS\Changelog\Logger\Logger and implement the method getRepositoryForEvent(Event). This method decides which Repository will be used for which type of event. E.g. it might return a FileMembershipRepository for every Event which is a subclass of ILIAS\Changelog\Events\Membership\MembershipEvent. The FileMembershipRepository would have to be implemented by the developer and would extend from ILIAS\Changelog\Infrastructure\Repository\MembershipRepository. 
-
-To register  an additional Logger, simply call the changelogServices registerLogger() method before logging an event:
-```php
-$changelogService->registerLogger(new myLogger());
-$changelogService->logEvent($event);
-```
+Note: EventDTOs can be converted into an array by calling *EventDTO::__toArray()*.
