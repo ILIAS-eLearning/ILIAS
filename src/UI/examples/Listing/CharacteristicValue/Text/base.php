@@ -10,8 +10,8 @@ function base()
     $items = [
         'Any Label for the First Item' => 'Item 1',
         'Another Label for the Second Item' => 'Item 2',
-        'Third Item Comes as Component' => 'Item 3',
-        'Fourth Item Comes as Component' => 'Item 4'
+        'Third Item Label' => 'Item 3',
+        'Fourth Item Label' => 'Item 4'
     ];
 
     $listing = $f->listing()->characteristicValue()->text($items);
