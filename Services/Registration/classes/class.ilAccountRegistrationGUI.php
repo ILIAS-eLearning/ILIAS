@@ -61,36 +61,29 @@ class ilAccountRegistrationGUI
 		global $DIC;
 
 		$ilErr = $DIC['ilErr'];
-		$tpl = $DIC['tpl'];
 
 		if($this->registration_settings->getRegistrationType() == IL_REG_DISABLED)
 		{
 			$ilErr->raiseError($this->lng->txt('reg_disabled'),$ilErr->FATAL);
 		}
 
-		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
-		switch($next_class)
-		{
-			default:
-				if($cmd)
-				{
-					$this->$cmd();
-				}
-				else
-				{
-					$this->displayForm();
-				}
+		switch ($cmd) {
+			case 'saveForm':
+				$tpl = $this->$cmd();
 				break;
+			default:
+				$tpl = $this->displayForm();
 		}
-		$tpl->setPermanentLink('usr', null, 'registration');
-		$tpl->printToStdout();
+
+		//$tpl->setPermanentLink('usr', null, 'registration');
+		//$tpl->printToStdout();
+		ilStartUpGUI::printToGlobalTemplate($tpl);
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function displayForm()
 	{
@@ -101,16 +94,17 @@ class ilAccountRegistrationGUI
 
 		$lng = $DIC['lng'];
 
-		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
-		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
+		$tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
+		$tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
 		if(!$this->form)
 		{
 			$this->__initForm();
 		}
-		$this->tpl->setVariable('FORM', $this->form->getHTML());
+		$tpl->setVariable('FORM', $this->form->getHTML());
+		return $tpl;
 	}
-	
+
 	protected function __initForm()
 	{
 		global $DIC;
@@ -439,15 +433,14 @@ class ilAccountRegistrationGUI
 		{
 			$password = $this->__createUser($valid_role);
 			$this->__distributeMails($password);
-			$this->login($password);
-			return true;
-		}		
-
+			return $this->login($password);
+			//return true;
+		}
 		$this->form->setValuesByPost();
-		$this->displayForm();
-		return false;
+		return $this->displayForm();
+		//return false;
 	}
-	
+
 	protected function __createUser($a_role)
 	{
 		/**
@@ -784,10 +777,10 @@ class ilAccountRegistrationGUI
 
 		$lng = $DIC['lng'];
 
-		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
-		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
+		$tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
+		//$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
-		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
+		$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
 		if(
 			(
 				$this->registration_settings->getRegistrationType() == IL_REG_DIRECT ||
@@ -799,35 +792,36 @@ class ilAccountRegistrationGUI
 		{
 			// store authenticated user in session
 			ilSession::set('registered_user', $this->userObj->getId());
-			
-			$this->tpl->setCurrentBlock('activation');
-			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
-			
+
+			$tpl->setCurrentBlock('activation');
+			$tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
+
 			$action = $GLOBALS['DIC']->ctrl()->getFormAction($this, 'login').'&target='. ilUtil::stripSlashes($_GET['target']);
-			$this->tpl->setVariable('FORMACTION', $action);
-			
-			$this->tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
-			$this->tpl->parseCurrentBlock();
+			$tpl->setVariable('FORMACTION', $action);
+
+			$tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
+			$tpl->parseCurrentBlock();
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
-			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_submitted'));
+			$tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_submitted'));
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
 			$login_url = './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage();
-			$this->tpl->setVariable('TXT_REGISTERED', sprintf($lng->txt('reg_confirmation_link_successful'), $login_url));
-			$this->tpl->setVariable('REDIRECT_URL', $login_url);
+			$tpl->setVariable('TXT_REGISTERED', sprintf($lng->txt('reg_confirmation_link_successful'), $login_url));
+			$tpl->setVariable('REDIRECT_URL', $login_url);
 		}
 		else
 		{
-			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
+			$tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
 		}
+		return $tpl;
 	}
-	
+
 	/**
 	 * Do Login
-	 * @todo refactor this method should be renamed, but i don't wanted to make changed in 
+	 * @todo refactor this method should be renamed, but i don't wanted to make changed in
 	 * tpl.usr_registered.html in stable release.
 	 */
 	protected function showLogin()
