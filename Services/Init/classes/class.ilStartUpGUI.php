@@ -210,10 +210,9 @@ class ilStartUpGUI
 		// Instantiate login template
 		$tpl = self::initStartUpTemplate("tpl.login.html");
 
-		$page_editor_html = '';
-		//$page_editor_html = $this->getLoginPageEditorHTML();
-		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html); //instantiates new ilTemplate
-		$page_editor_html = $this->showLoginInformation($page_editor_html, $tpl); //TODO: Should fill TXT_LOGIN_INFORMATION and return tpl?
+		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
+		$page_editor_html = $this->showLoginInformation($page_editor_html, $tpl);
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
@@ -223,33 +222,28 @@ class ilStartUpGUI
 
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
 
-		// not controlled by login page editor
-//		$tpl->setVariable("PAGETITLE",  "- ".$this->lng->txt("startpage"));
-//		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-
 		// check expired session and send message
 		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
 			ilUtil::sendFailure($GLOBALS['lng']->txt('auth_err_expired'));
 		}
 
-
 		if(strlen($page_editor_html))
 		{
 			$tpl->setVariable('LPE',$page_editor_html);
 		}
 
-/*
-		$tpl->fillWindowTitle();
-		$tpl->fillCssFiles();
-		$tpl->fillJavaScriptFiles();
-*/
+		self::printToGlobalTemplate($tpl);
+	}
+
+
+	public static function printToGlobalTemplate($tpl)
+	{
 		global $DIC;
 		$gtpl = $DIC['tpl'];
 		$gtpl->setContent($tpl->get());
 		$gtpl->printToStdout("DEFAULT", false, true);
 	}
-
 
 	protected function showCodeForm($a_username = null, $a_form = null)
 	{
@@ -781,7 +775,6 @@ class ilStartUpGUI
 	 */
 	protected function showLoginInformation($page_editor_html, $tpl)
 	{
-		//global $lng,$tpl;
 		global $lng;
 
 		if(strlen($page_editor_html))
@@ -1959,23 +1952,12 @@ class ilStartUpGUI
 		 * @var $ilSetting ilSetting
 		 * @var $ilAccess  ilAccessHandler
 		 */
-
-		//global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
-		global  $lng, $ilCtrl, $ilSetting, $ilAccess;
+		global $lng, $ilCtrl, $ilSetting, $ilAccess;
 		$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-//		$tpl = new ilTemplate("tpl.main.html", true, true);
-
-		// #13574 - basic.js is included with ilTemplate, so jQuery is needed, too
-		//include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		//iljQueryUtil::initjQuery();
-
-		// framework is needed for language selection
-//		include_once("./Services/UICore/classes/class.ilUIFramework.php");
-//		ilUIFramework::init();
 
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
-//		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.svg'));
-//		$tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
+		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.svg'));
+		$tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 
 		if($a_show_back)
 		{
@@ -2016,7 +1998,7 @@ class ilStartUpGUI
 		}
 
 		//Header Title
-/*		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
+		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
 		if (trim($header_top_title) != "" && $tpl->blockExists("header_top_title"))
 		{
@@ -2024,7 +2006,7 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
 			$tpl->parseCurrentBlock();
 		}
-*/
+
 		// language selection
 		$selection = self::getLanguageSelection();
 		if($selection)

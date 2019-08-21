@@ -1764,8 +1764,7 @@ class ilInitialisation
 			$_GET["baseClass"] == "ilStartUpGUI" ||
 			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
 		) {
-			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		} else {
 			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
 				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);

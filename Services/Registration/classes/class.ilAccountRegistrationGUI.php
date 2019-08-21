@@ -77,9 +77,7 @@ class ilAccountRegistrationGUI
 		}
 
 		//$tpl->setPermanentLink('usr', null, 'registration');
-		//$tpl->printToStdout();
 		ilStartUpGUI::printToGlobalTemplate($tpl);
-		return true;
 	}
 
 	/**
@@ -434,11 +432,9 @@ class ilAccountRegistrationGUI
 			$password = $this->__createUser($valid_role);
 			$this->__distributeMails($password);
 			return $this->login($password);
-			//return true;
 		}
 		$this->form->setValuesByPost();
 		return $this->displayForm();
-		//return false;
 	}
 
 	protected function __createUser($a_role)
@@ -778,7 +774,7 @@ class ilAccountRegistrationGUI
 		$lng = $DIC['lng'];
 
 		$tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
-		//$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
+		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
 		$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
 		if(
