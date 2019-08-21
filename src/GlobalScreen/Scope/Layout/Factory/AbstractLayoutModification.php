@@ -123,14 +123,14 @@ abstract class AbstractLayoutModification implements LayoutModification
             if ($first_argument_type !== null) {
                 if (!isset($r->getParameters()[0])
                     || !$r->getParameters()[0]->hasType()
-                    || $r->getParameters()[0]->getType()->getName() !== $first_argument_type
+                    || ($r->getParameters()[0]->getType()->getName() !== $first_argument_type && $r->getParameters()[0]->getType()->allowsNull())
                 ) {
                     return false;
                 }
             }
 
             if (!$r->hasReturnType()
-                || $r->getReturnType()->getName() !== $return_type
+                || ($r->getReturnType()->getName() !== $return_type && !$r->getReturnType()->allowsNull())
             ) {
                 return false;
             }

@@ -67,7 +67,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent() : Legacy
+    public function getContent() : ?Legacy
     {
         return $this->getDecoratedOrOriginal(Legacy::class, $this->original->getContent());
     }
@@ -76,7 +76,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar() : MetaBar
+    public function getMetaBar() : ?MetaBar
     {
         return $this->getDecoratedOrOriginal(MetaBar::class, $this->original->getMetaBar());
     }
@@ -85,7 +85,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMainBar() : MainBar
+    public function getMainBar() : ?MainBar
     {
         return $this->getDecoratedOrOriginal(MainBar::class, $this->original->getMainBar());
     }
@@ -94,7 +94,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs() : Breadcrumbs
+    public function getBreadCrumbs() : ?Breadcrumbs
     {
         return $this->getDecoratedOrOriginal(Breadcrumbs::class, $this->original->getBreadCrumbs());
     }
@@ -103,7 +103,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo() : Image
+    public function getLogo() : ?Image
     {
         return $this->getDecoratedOrOriginal(Image::class, $this->original->getLogo());
     }
