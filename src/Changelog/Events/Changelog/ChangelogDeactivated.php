@@ -1,18 +1,18 @@
 <?php
 
-namespace ILIAS\Changelog\Events\GlobalEvents;
+namespace ILIAS\Changelog\Events\Changelog;
 
 /**
- * Class ChangelogActivated
+ * Class ChangelogDeactivated
  *
  * @package ILIAS\Changelog\Events\GlobalEvents
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ChangelogActivated extends GlobalEvent
+class ChangelogDeactivated extends ChangelogEvent
 {
 
-    const NAME = 'changelog_activated';
+    const NAME = 'changelog_deactivated';
     /**
      * @var int
      */
@@ -20,7 +20,7 @@ class ChangelogActivated extends GlobalEvent
 
 
     /**
-     * ChangelogActivated constructor.
+     * ChangelogDeactivated constructor.
      *
      * @param int $actor_user_id
      */
@@ -40,9 +40,9 @@ class ChangelogActivated extends GlobalEvent
 
 
     /**
-     * @return String
+     * @return string
      */
-    public function getName() : String
+    public function getName() : string
     {
         return self::NAME;
     }

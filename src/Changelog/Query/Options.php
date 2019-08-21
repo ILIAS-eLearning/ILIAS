@@ -12,6 +12,8 @@ namespace ILIAS\Changelog\Query;
 class Options
 {
 
+    const DEFAULT_ORDER_FIELD = 'timestamp';
+
     const ORDER_ASCENDING = 'ASC';
     const ORDER_DESCENDING = 'DESC';
 
@@ -118,7 +120,7 @@ class Options
      * @return string
      */
     public function getOrderBy(): string {
-        return $this->orderBy;
+        return $this->orderBy ?: self::DEFAULT_ORDER_FIELD;
     }
 
 

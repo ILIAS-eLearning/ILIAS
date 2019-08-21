@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\Changelog\Events\GlobalEvents;
+namespace ILIAS\Changelog\Events\Changelog;
 
 use ILIAS\Changelog\Interfaces\Event;
 
@@ -11,10 +11,10 @@ use ILIAS\Changelog\Interfaces\Event;
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class GlobalEvent implements Event
+abstract class ChangelogEvent implements Event
 {
 
-    const ILIAS_COMPONENT = 'global';
+    const ILIAS_COMPONENT = 'Services/Changelog';
 
 
     /**
