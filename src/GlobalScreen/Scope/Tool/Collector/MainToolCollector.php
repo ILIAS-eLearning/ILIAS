@@ -1,11 +1,12 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
 use Closure;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer\ToolItemRenderer;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 
@@ -45,6 +46,12 @@ class MainToolCollector
         $this->providers = $providers;
         $this->information = $information;
         $this->type_information_collection = new TypeInformationCollection();
+
+        // Tool
+        $tool = new TypeInformation(Tool::class, Tool::class, new ToolItemRenderer());
+        $tool->setCreationPrevented(true);
+        $this->type_information_collection->add($tool);
+
         $this->tools = [];
         $this->initTools();
     }
@@ -64,7 +71,7 @@ class MainToolCollector
 
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
         array_walk($this->tools, function (Tool $tool) {
-            $this->applyTypeHandler($tool);
+            $this->applyTypeInformation($tool);
         });
     }
 
@@ -89,9 +96,9 @@ class MainToolCollector
      *
      * @return isItem
      */
-    private function applyTypeHandler(isItem $item) : isItem
+    private function applyTypeInformation(isItem $item) : isItem
     {
-        $item = $this->getHandlerForItem($item)->enrichItem($item);
+        $item->setTypeInformation($this->getTypeInfoermationForItem($item));
 
         return $item;
     }
@@ -100,21 +107,16 @@ class MainToolCollector
     /**
      * @param isItem $item
      *
-     * @return TypeHandler
+     * @return TypeInformation
      */
-    public function getHandlerForItem(isItem $item) : TypeHandler
+    private function getTypeInfoermationForItem(isItem $item) : TypeInformation
     {
         /**
          * @var $handler TypeHandler
          */
         $type = get_class($item);
-        $type_information = $this->type_information_collection->get($type);
-        if (is_null($type_information)) {
-            return new BaseTypeHandler();
-        }
-        $handler = $type_information->getTypeHandler();
 
-        return $handler;
+        return $this->type_information_collection->get($type);
     }
 
 

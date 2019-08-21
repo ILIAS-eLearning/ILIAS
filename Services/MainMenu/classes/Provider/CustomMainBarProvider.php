@@ -131,10 +131,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class), new TopLinkItemRenderer(), new ilMMTypeHandlerTopLink()));
         // Link
         $c->add(new TypeInformation(Link::class, $this->translateType(Link::class), new LinkItemRenderer(), new ilMMTypeHandlerLink()));
-        // Tool
-        $tool = new TypeInformation(Tool::class, $this->translateType(Tool::class), new ToolItemRenderer());
-        $tool->setCreationPrevented(true);
-        $c->add($tool);
 
         // LinkList
         $link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class), new LinkListItemRenderer());

@@ -103,7 +103,6 @@ class StandardPagePartProvider implements PagePartProvider
             $main_bar = $main_bar->withToolsButton($f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
             foreach ($this->gs->collector()->tool()->getTools() as $tool) {
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
-                $id = $tool->getProviderIdentification()->getInternalIdentifier();
                 $main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $component);
             }
         }
