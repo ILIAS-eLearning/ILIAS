@@ -200,18 +200,20 @@ class ilStartUpGUI
 	protected function showLoginPage(ilPropertyFormGUI $form = null)
 	{
 		global $tpl, $ilSetting;
-		
+
+
 		$this->getLogger()->debug('Showing login page');
 
 		$frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
 		$frontend->tryAuthenticationOnLoginPage();
-		
+
 		// Instantiate login template
-		self::initStartUpTemplate("tpl.login.html");
-		
-		$page_editor_html = $this->getLoginPageEditorHTML();
-		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
-		$page_editor_html = $this->showLoginInformation($page_editor_html);
+		$tpl = self::initStartUpTemplate("tpl.login.html");
+
+		$page_editor_html = '';
+		//$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html); //instantiates new ilTemplate
+		$page_editor_html = $this->showLoginInformation($page_editor_html, $tpl); //TODO: Should fill TXT_LOGIN_INFORMATION and return tpl?
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
@@ -222,291 +224,37 @@ class ilStartUpGUI
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
 
 		// not controlled by login page editor
-		$tpl->setVariable("PAGETITLE",  "- ".$this->lng->txt("startpage"));
-		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-		
+//		$tpl->setVariable("PAGETITLE",  "- ".$this->lng->txt("startpage"));
+//		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
+
 		// check expired session and send message
 		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
 			ilUtil::sendFailure($GLOBALS['lng']->txt('auth_err_expired'));
 		}
-		
+
 
 		if(strlen($page_editor_html))
 		{
 			$tpl->setVariable('LPE',$page_editor_html);
 		}
 
+/*
 		$tpl->fillWindowTitle();
 		$tpl->fillCssFiles();
 		$tpl->fillJavaScriptFiles();
-		$tpl->printToStdout("DEFAULT", false);
+*/
+		global $DIC;
+		$gtpl = $DIC['tpl'];
+		$gtpl->setContent($tpl->get());
+		$gtpl->printToStdout("DEFAULT", false, true);
 	}
 
-	/**
-	 * Show login
-	 *
-	 * @global ilLanguage $lng
-	 * @deprecated since 5.2
-	 */
-	protected function showLogin()
-	{
-		global $ilSetting, $ilAuth, $tpl, $ilias, $lng;		
-				
-		$this->getLogger()->warning('Using deprecated startup method');
-		$this->getLogger()->logStack(ilLogLevel::WARNING);
 
-		$status = $ilAuth->getStatus();
-		if ($status == "" && isset($_GET["auth_stat"]))
-		{
-			$status = $_GET["auth_stat"];
-		}
-		
-		if($ilAuth->getAuth() && !$status)
-		{			
-			// deprecated?
-			if ($_GET["rep_ref_id"] != "")
-			{
-				$_GET["ref_id"] = $_GET["rep_ref_id"];
-			}
-			include_once './Services/Init/classes/class.ilInitialisation.php';
-			ilInitialisation::redirectToStartingPage();
-			return;
-		}
-		
-		// check for session cookies enabled
-		if (!isset($_COOKIE['iltest']))
-		{
-			if (empty($_GET['cookies']))
-			{
-				$additional_params = '';
-				ilUtil::setCookie("iltest","cookie",false);
-				ilUtil::redirect("login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"].
-					"&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".
-					rawurlencode(CLIENT_ID)."&lang=".$lng->getLangKey().$additional_params);
-			}
-			else
-			{
-				$_COOKIE['iltest'] = "";
-			}
-		}
-		else
-		{
-			unset($_GET['cookies']);
-		}
-	
-		if ($ilSetting->get("shib_active") && $ilSetting->get("shib_hos_type"))
-		{
-			require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";
-			// Check if we user selects Home Organization
-			$WAYF = new ShibWAYF();
-		}
-
-		if (isset($WAYF) && $WAYF->is_selection())
-		{
-			if ($WAYF->is_valid_selection())
-			{
-				// Set cookie
-				$WAYF->setSAMLCookie();
-
-				// Redirect
-				$WAYF->redirect();
-			}
-		}
-		
-		$failure = $success = null;
-
-		// :TODO: handle internally?
-		if (isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
-		{
-			$lng->loadLanguageModule('registration');
-			if($_GET['reg_confirmation_msg'] == 'reg_account_confirmation_successful')
-			{
-			    $success = $lng->txt(trim($_GET['reg_confirmation_msg']));
-			}
-			else
-			{
-				$failure = $lng->txt(trim($_GET['reg_confirmation_msg']));
-			}
-		}
-		else if(isset($_GET['reached_session_limit']) && $_GET['reached_session_limit'])
-		{
-			$failure = $lng->txt("reached_session_limit");
-		}
-		else if(isset($_GET['accdel']) && $_GET['accdel'])
-		{
-			$lng->loadLanguageModule('user');
-			$failure = $lng->txt("user_account_deleted_confirmation");
-		}
-			
-		if (!empty($status))
-		{					
-			switch ($status)
-			{
-				case AUTH_IDLED:
-					// lang variable err_idled not existing
-					// $tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
-					// fallthrough
-				
-				case AUTH_EXPIRED:
-					$failure = $lng->txt("err_session_expired");
-					break;
-
-				case AUTH_CAS_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_cas_no_ilias_user");
-					break;
-
-				case AUTH_SOAP_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_soap_no_ilias_user");
-					break;
-
-				case AUTH_LDAP_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_ldap_no_ilias_user");
-					break;
-				
-				case AUTH_RADIUS_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_radius_no_ilias_user");
-					break;
-					
-				case AUTH_MODE_INACTIVE:
-					$failure = $lng->txt("err_auth_mode_inactive");
-					break;
-
-				case AUTH_APACHE_FAILED:
-					$failure = $lng->txt("err_auth_apache_failed");
-					break;
-				case AUTH_SAML_FAILED:
-					$lng->loadLanguageModule('auth');
-					$failure = $lng->txt("err_auth_saml_failed");
-					break;
-				case AUTH_CAPTCHA_INVALID:
-					$lng->loadLanguageModule('cptch');
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_CAPTCHA);
-					$ilAuth->logout();
-					session_destroy();
-					$failure = $lng->txt("cptch_wrong_input");
-					break;
-				
-				// special cases: extended user validation failed
-				// ilAuth was successful, so we have to logout here
-				
-				case AUTH_USER_WRONG_IP:				
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_IP);
-					$ilAuth->logout();
-					session_destroy();
-
-					$failure = sprintf($lng->txt('wrong_ip_detected'), $_SERVER['REMOTE_ADDR']);
-					break;
-
-				case AUTH_USER_SIMULTANEOUS_LOGIN:
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_SIMUL);
-					$ilAuth->logout();
-					session_destroy();
-
-					$failure = $lng->txt("simultaneous_login_detected");
-					break;
-
-				case AUTH_USER_TIME_LIMIT_EXCEEDED:
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_TIME);
-					$username = $ilAuth->getExceededUserName(); // #16327
-					$ilAuth->logout();
-
-					// user could reactivate by code?
-					if($ilSetting->get('user_reactivate_code'))
-					{				
-						return $this->showCodeForm($username);
-					}
-
-					session_destroy();				
-
-					$failure = $lng->txt("time_limit_reached");		
-					break;	
-					
-				case AUTH_USER_INACTIVE:
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_INACTIVE);
-					$ilAuth->logout();
-					session_destroy();
-					
-					$failure = $lng->txt("err_inactive");
-					break;
-					
-				// special cases end
-					
-				
-				case AUTH_WRONG_LOGIN:					
-				default:
-					$add = "";
-					$auth_error = $ilias->getAuthError();
-					if (is_object($auth_error))
-					{
-						$add = "<br>".$auth_error->getMessage();
-					}
-					$failure = $lng->txt("err_wrong_login").$add;
-					break;								
-			}			
-		}
-		
-		if (isset($_GET['cu']) && $_GET['cu'])
-		{
-			$lng->loadLanguageModule("auth");
-		    $success = $lng->txt("auth_account_code_used");
-		}
-		
-		
-		// --- render
-		
-		// Instantiate login template
-		self::initStartUpTemplate("tpl.login.html");
-
-		// we need the template for this
-		if($failure)
-		{
-			ilUtil::sendFailure($failure);
-		}
-		else if($success)
-		{
-			ilUtil::sendSuccess($success);
-		}
-
-		// Draw single page editor elements
-		$page_editor_html = $this->getLoginPageEditorHTML();
-		$page_editor_html = $this->showLoginInformation($page_editor_html);
-		$page_editor_html = $this->showLoginForm($page_editor_html);
-		$page_editor_html = $this->showCASLoginForm($page_editor_html);
-		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
-		$page_editor_html = $this->showSamlLoginForm($page_editor_html);
-		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
-		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
-		$page_editor_html = $this->purgePlaceholders($page_editor_html);
-		
-		// not controlled by login page editor
-		$tpl->setVariable("PAGETITLE",  "- ".$lng->txt("startpage"));
-		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-		
-		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
-
-		// browser does not accept cookies
-		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
-		{
-			ilUtil::sendFailure($lng->txt("err_no_cookies"));
-		}
-
-		if(strlen($page_editor_html))
-		{
-			$tpl->setVariable('LPE',$page_editor_html);
-		}
-
-		$tpl->fillWindowTitle();
-		$tpl->fillCssFiles();
-		$tpl->fillJavaScriptFiles();
-
-		$tpl->printToStdout("DEFAULT", false);
-	}
-	
 	protected function showCodeForm($a_username = null, $a_form = null)
 	{
 		global $tpl, $lng;
-		
+
 		self::initStartUpTemplate("tpl.login_reactivate_code.html");
 
 		ilUtil::sendFailure($lng->txt("time_limit_reached"));
@@ -1031,9 +779,10 @@ class ilStartUpGUI
 	 * @param string $page_editor_html
 	 * @return string $page_editor_html
 	 */
-	protected function showLoginInformation($page_editor_html)
+	protected function showLoginInformation($page_editor_html, $tpl)
 	{
-		global $lng,$tpl;
+		//global $lng,$tpl;
+		global $lng;
 
 		if(strlen($page_editor_html))
 		{
@@ -2210,25 +1959,29 @@ class ilStartUpGUI
 		 * @var $ilSetting ilSetting
 		 * @var $ilAccess  ilAccessHandler
 		 */
-		global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
+
+		//global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
+		global  $lng, $ilCtrl, $ilSetting, $ilAccess;
+		$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
+//		$tpl = new ilTemplate("tpl.main.html", true, true);
 
 		// #13574 - basic.js is included with ilTemplate, so jQuery is needed, too
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
+		//include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		//iljQueryUtil::initjQuery();
 
 		// framework is needed for language selection
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
-		ilUIFramework::init();
-		
+//		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+//		ilUIFramework::init();
+
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
-		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.svg'));
-		$tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
+//		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.svg'));
+//		$tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 
 		if($a_show_back)
 		{
 			// #13400
 			$param = 'client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey();
-			
+
 			$tpl->setCurrentBlock('link_item_bl');
 			$tpl->setVariable('LINK_TXT', $lng->txt('login_to_ilias'));
 			$tpl->setVariable('LINK_URL', 'login.php?cmd=force_login&'.$param);
@@ -2263,7 +2016,7 @@ class ilStartUpGUI
 		}
 
 		//Header Title
-		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
+/*		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
 		if (trim($header_top_title) != "" && $tpl->blockExists("header_top_title"))
 		{
@@ -2271,7 +2024,7 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
 			$tpl->parseCurrentBlock();
 		}
-
+*/
 		// language selection
 		$selection = self::getLanguageSelection();
 		if($selection)
@@ -2283,6 +2036,7 @@ class ilStartUpGUI
 		}
 
 		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
+		return $tpl;
 	}
 
 	/**
