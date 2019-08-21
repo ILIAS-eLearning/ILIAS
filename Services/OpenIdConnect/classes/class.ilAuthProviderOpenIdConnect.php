@@ -78,7 +78,8 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 				[
 					'openid',
 					'profile',
-					'email'
+					'email',
+					'roles'
 				]
 			);
 
@@ -139,7 +140,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 
 
 		$int_account = ilObjUser::_checkExternalAuthAccount(
-			'auth_oidc',
+			ilOpenIdConnectUserSync::AUTH_MODE,
 			$ext_acocunt
 		);
 
