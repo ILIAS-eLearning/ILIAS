@@ -546,8 +546,6 @@ class ilUserImportParser extends ilSaxParser
 				{
 					switch ($a_attribs["type"])
 					{
-						case "default":
-						case "local":
 						case "saml":
 						case "ldap":
 							if(strcmp('saml', $a_attribs['type']) === 0)
@@ -575,7 +573,9 @@ class ilUserImportParser extends ilSaxParser
 								}
 							}
 							break;
-							
+
+						case "default":
+						case "local":
 						case "radius":
 						case "shibboleth":
 						case "script":
@@ -702,8 +702,6 @@ class ilUserImportParser extends ilSaxParser
 				{
 					switch($a_attribs["type"])
 					{
-						case "default":
-						case "local":
 						case "saml":
 						case "ldap":
 							if(strcmp('saml', $a_attribs['type']) === 0)
@@ -731,7 +729,9 @@ class ilUserImportParser extends ilSaxParser
 								}
 							}
 							break;
-							
+
+						case "default":
+						case "local":
 						case "radius":
 						case "shibboleth":
 						case "script":

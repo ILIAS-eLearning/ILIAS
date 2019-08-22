@@ -1728,49 +1728,8 @@ class ilInitialisation
 		{
 			include_once "./Services/LTI/classes/class.ilTemplate.php";
 			$tpl = new LTI\ilGlobalTemplate("tpl.main.html", true, true, "Services/LTI");
-		}
-		/*else if (
-			$_REQUEST["baseClass"] == "ilLMPresentationGUI" ||
-			$_GET["baseClass"] == "ilLMPresentationGUI" ||
-			$_REQUEST["baseClass"] == "ilLMEditorGUI" ||
-			$_GET["baseClass"] == "ilLMEditorGUI"
-		) {
-			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
-		}*/
-		else if (
-			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
-			$_GET["cmdClass"] == "ilobjbloggui"		||
-			$_REQUEST["cmdClass"] == "ilblogpostinggui" ||
-			$_GET["cmdClass"] == "ilblogpostinggui"
-		) {
-			//$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
-			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-		}
-		else if (
-			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
-			$_GET["cmdClass"] == "ilobjportfoliotemplategui" ||
-			$_REQUEST["cmdClass"] == "ilobjportfoliogui" ||
-			$_GET["cmdClass"] == "ilobjportfoliogui" ||
-			$_REQUEST["cmdClass"] == "ilobjportfoliobasegui" ||
-			$_GET["cmdClass"] == "ilobjportfoliobasegui" ||
-			$_REQUEST["baseClass"] == "ilObjPortfolioGUI" ||
-			$_GET["baseClass"] == "ilObjPortfolioGUI"
-		) {
-			//$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
-			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-		}
-		else if (
-			$_REQUEST["baseClass"] == "ilStartUpGUI" ||
-			$_GET["baseClass"] == "ilStartUpGUI" ||
-			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
-		) {
-			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		} else {
-			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
-				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-			} else {
-				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-			}
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 
 		self::initGlobal("tpl", $tpl);

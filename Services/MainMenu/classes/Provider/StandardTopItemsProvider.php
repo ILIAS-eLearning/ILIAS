@@ -83,19 +83,23 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
             ->withTitle($f("mm_repository"))
-            ->withPosition(10);
+            ->withPosition(10)
+            ->withVisibilityCallable($this->getVisibilityCallable());
 
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
             ->withTitle($f("mm_personal_workspace"))
-            ->withPosition(20);
+            ->withPosition(20)
+            ->withVisibilityCallable($this->getVisibilityCallable());
 
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
             ->withTitle($f("mm_achievements"))
-            ->withPosition(30);
+            ->withPosition(30)
+            ->withVisibilityCallable($this->getVisibilityCallable());
 
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
             ->withTitle($f("mm_communication"))
-            ->withPosition(40);
+            ->withPosition(40)
+            ->withVisibilityCallable($this->getVisibilityCallable());
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
             ->withTitle($f("mm_organisation"))
@@ -104,13 +108,14 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
                 function () use ($dic) {
                     return (bool) ($dic->settings()->get("enable_my_staff"));
                 }
-            );
+            )
+            ->withVisibilityCallable($this->getVisibilityCallable());
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
             ->withTitle($f("mm_administration"))
             ->withPosition(60)
             ->withVisibilityCallable(
-                function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); }
+                $this->getVisibilityCallable(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
             );
 
         return [
@@ -193,5 +198,17 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     public function getRepositoryIdentification() : IdentificationInterface
     {
         return $this->repository_identification;
+    }
+
+
+    private function getVisibilityCallable(Callable $existing = null) : Callable
+    {
+        return function () use ($existing): bool {
+            if (is_callable($existing)) {
+                return (!$this->dic->user()->isAnonymous() && $existing());
+            }
+
+            return (!$this->dic->user()->isAnonymous());
+        };
     }
 }
