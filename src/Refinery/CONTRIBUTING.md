@@ -17,7 +17,7 @@ about the function of this role.
 ## Reporting Bugs
 
 Bugs must be reported via https://mantis.ilias.de in the `Refinery`
-category, One of the [coordinators](/src/Refinery/maintenance.json)
+category. One of the [coordinators](/src/Refinery/maintenance.json)
 must be assigned.
 
 Bug fixes and improvements can be provided via a Pull Request.
