@@ -83,4 +83,18 @@ class ilCertificateBackgroundImageFileService
     {
         return $this->webDirectory . $this->certificatePath . self::BACKGROUND_IMAGE_NAME . '.thumb.jpg';
     }
+
+    /**
+     * Returns the filesystem path of the background image
+     * @param string $backgroundImagePath
+     * @return string The filesystem path of the background image
+     */
+    public function getBackgroundImageDirectory($backgroundImagePath = '')
+    {
+        return str_replace(
+            array(CLIENT_WEB_DIR, '//'),
+            array('[CLIENT_WEB_DIR]', '/'),
+            $backgroundImagePath
+        );
+    }
 }
