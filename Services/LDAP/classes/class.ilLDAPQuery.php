@@ -50,6 +50,12 @@ class ilLDAPQuery
 	private $log = null;
 	
 	private $user_fields = array();
+
+	/**
+	 * LDAP Handle
+	 * @var resource
+	 */
+	private $lh;
 	
 	/**
 	 * Constructur
@@ -231,50 +237,10 @@ class ilLDAPQuery
 
 		if($this->checkPaginationEnabled())
 		{
-			$filter = '(&' . $this->settings->getFilter();
-			$filter .= ('('.$this->settings->getUserAttribute().'=*))');
-			$this->log->info('Searching with ldap search and filter '.$filter.' in '.$dn);
-			$res = $this->queryByScope($this->settings->getUserScope(),
-				$dn,
-				$filter,
-				array($this->settings->getUserAttribute()));
-
-			$tmp_result = new ilLDAPResult($this->lh,$res);
-			$tmp_result->setWithPagination(true);
-			$tmp_result->run();
+			$tmp_result = $this->runReadAllUsersPaged($dn);
 		}
 		else{
-			$filter = $this->settings->getFilter();
-			$page_filter = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-');
-			$chars = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-			$tmp_result = new ilLDAPResult($this->lh);
-
-			foreach($page_filter as $letter) {
-				$new_filter = '(&';
-				$new_filter .= $filter;
-
-				switch ($letter) {
-					case '-':
-						$new_filter .= ('(!(|');
-						foreach ($chars as $char) {
-							$new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $char . '*)');
-						}
-						$new_filter .= ')))';
-						break;
-
-					default:
-						$new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $letter . '*))');
-						break;
-				}
-
-				$this->log->info('Searching with ldap search and filter ' . $new_filter . ' in ' . $dn);
-				$res = $this->queryByScope($this->settings->getUserScope(),
-					$dn,
-					$new_filter,
-					array($this->settings->getUserAttribute()));
-				$tmp_result->setResult($res);
-				$tmp_result->run();
-			}
+			$tmp_result = $this->runReadAllUsersPartial($dn);
 		}
 
 		if(!$tmp_result->numRows())
@@ -298,7 +264,81 @@ class ilLDAPQuery
 
 		return true;
 	}
-	
+
+	/**
+	 * read all users with ldap paging
+	 *
+	 * @param string $dn
+	 * @return ilLDAPResult
+	 */
+	private function runReadAllUsersPaged($dn)
+	{
+		$filter = '(&' . $this->settings->getFilter();
+		$filter .= ('('.$this->settings->getUserAttribute().'=*))');
+		$this->log->info('Searching with ldap search and filter '.$filter.' in '.$dn);
+
+		$tmp_result = new ilLDAPResult($this->lh);
+		$cookie = '';
+
+		do{
+			ldap_control_paged_result($this->lh, 100, true, $cookie);
+
+			$res = $this->queryByScope($this->settings->getUserScope(),
+				$dn,
+				$filter,
+				array($this->settings->getUserAttribute()));
+			$tmp_result->setResult($res);
+			$tmp_result->run();
+
+			ldap_control_paged_result_response($this->lh, $res, $cookie);
+		} while($cookie !== null && $cookie != '');
+
+		return $tmp_result;
+	}
+
+	/**
+	 * read all users partial by alphabet
+	 *
+	 * @param string $dn
+	 * @return ilLDAPResult
+	 */
+	private function runReadAllUsersPartial($dn)
+	{
+		$filter = $this->settings->getFilter();
+		$page_filter = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-');
+		$chars = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+		$tmp_result = new ilLDAPResult($this->lh);
+
+		foreach($page_filter as $letter) {
+			$new_filter = '(&';
+			$new_filter .= $filter;
+
+			switch ($letter) {
+				case '-':
+					$new_filter .= ('(!(|');
+					foreach ($chars as $char) {
+						$new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $char . '*)');
+					}
+					$new_filter .= ')))';
+					break;
+
+				default:
+					$new_filter .= ('(' . $this->settings->getUserAttribute() . '=' . $letter . '*))');
+					break;
+			}
+
+			$this->log->info('Searching with ldap search and filter ' . $new_filter . ' in ' . $dn);
+			$res = $this->queryByScope($this->settings->getUserScope(),
+				$dn,
+				$new_filter,
+				array($this->settings->getUserAttribute()));
+			$tmp_result->setResult($res);
+			$tmp_result->run();
+		}
+
+		return $tmp_result;
+	}
+
 	/**
 	 * check group membership
 	 * @param string login name
@@ -753,26 +793,7 @@ class ilLDAPQuery
 	 */
 	function checkPaginationEnabled()
 	{
-		if(LDAP_OPT_PROTOCOL_VERSION < 3)
-		{
-			return false;
-		}
-
-		$res = $this->queryByScope(IL_LDAP_SCOPE_ONE,
-			$this->settings->getBaseDN(),
-			$this->settings->getFilter(),
-			array("*"));
-
-		$result = new ilLDAPResult($this->lh, $res);
-		$result->setWithPagination(true);
-
-		try{
-			$result->run();
-		}catch(Exception $e){
-			$this->getLogger()->info("LDAP paging disabled (". $e->getMessage(). ")");
-			return false;
-		}
-		return true;
+		return  LDAP_OPT_PROTOCOL_VERSION >= 3;
 	}
 }
 

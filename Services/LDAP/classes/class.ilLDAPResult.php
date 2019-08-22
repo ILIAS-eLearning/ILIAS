@@ -34,21 +34,6 @@ class ilLDAPResult
 	private $handle;
 
 	/**
-	 * @var int
-	 */
-	private $page_size = 100;
-
-	/**
-	 * @var bool
-	 */
-	private $with_pagination = false;
-
-	/**
-	 * @var string
-	 */
-	public $cookie = '';
-
-	/**
 	 * @var resource
 	 */
 	private $result;
@@ -76,41 +61,6 @@ class ilLDAPResult
 		{
 			$this->result = $a_result;
 		}
-	}
-
-	/**
-	 * Gets page size for ldap_control_paged_result(). Only works with pagination
-	 * @return int
-	 */
-	public function getPageSize()
-	{
-		return $this->page_size;
-	}
-
-	/**
-	 * Sets page size for ldap_control_paged_result(). Only works with pagination
-	 * @param int $page_size
-	 */
-	public function setPageSize($page_size)
-	{
-		$this->page_size = $page_size;
-	}
-
-	/**
-	 * Is pagination enabled
-	 * @return bool
-	 */
-	public function isWithPagination()
-	{
-		return $this->with_pagination;
-	}
-
-	/**
-	 * @param bool $with_pagination
-	 */
-	public function setWithPagination($with_pagination)
-	{
-		$this->with_pagination = $with_pagination;
 	}
 
 	/**
@@ -164,35 +114,10 @@ class ilLDAPResult
 	 */
 	public function run()
 	{
-		if($this->with_pagination)
-		{
-			do{
-				$entries = $this->ldap_get_entries();
-				$this->addEntriesToRows($entries);
-			}while($this->cookie !== null && $this->cookie != '');
-			//reset paged result setting
-			ldap_control_paged_result($this->handle, 10000);
-		}else{
-			$entries = $this->ldap_get_entries();
-			$this->addEntriesToRows($entries);
-		}
-		return $this;
-	}
-
-
-	/**
-	 * Retruns ldap_get_entries() result
-	 * @return array
-	 */
-	private function ldap_get_entries(){
-		$cookie = $this->cookie;
-		if($this->with_pagination)
-			ldap_control_paged_result($this->handle, $this->page_size, true, $cookie);
 		$entries = @ldap_get_entries($this->handle, $this->result);
-		if($this->with_pagination)
-			ldap_control_paged_result_response($this->handle, $this->result,  $cookie);
-		$this->cookie = $cookie;
-		return $entries;
+		$this->addEntriesToRows($entries);
+
+		return $this;
 	}
 
 	/**
