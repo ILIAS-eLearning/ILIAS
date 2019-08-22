@@ -3,11 +3,11 @@
 namespace Certificate\API\Repository;
 
 use Certificate\API\Data\ilUserCertificateData;
-use Certificate\API\Filter\UserCertificateFilter;
 use Certificate\API\Filter\UserDataFilter;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
+ * @ilCtrl_Calls: ilUserDataRepository: ilUserCertificateApiGUI
  */
 class ilUserDataRepository
 {
@@ -27,17 +27,25 @@ class ilUserDataRepository
     private $defaultTitle;
 
     /**
+     * @var \ilCtrl
+     */
+    private $controller;
+
+    /**
      * @param \ilDBInterface $database
      * @param \ilLogger      $logger
+     * @param \ilCtrl        $controller
      * @param string|null    $defaultTitle
      */
     public function __construct(
         \ilDBInterface $database,
         \ilLogger $logger,
+        \ilCtrl $controller,
         string $defaultTitle = null
     ) {
         $this->database = $database;
         $this->logger = $logger;
+        $this->controller = $controller;
 
         if (null === $defaultTitle) {
             global $DIC;
@@ -51,7 +59,7 @@ class ilUserDataRepository
      * @param UserDataFilter $filter
      * @return array
      */
-    public function getUserData(array $userIds, UserDataFilter $filter) : array
+    public function getUserData(array $userIds, UserDataFilter $filter, array $ilCtrlStack) : array
     {
         $sql = '
 SELECT 
@@ -95,6 +103,11 @@ ORDER BY il_cert_user_cert.obj_id';
                 continue;
             }
 
+            $ilCtrlStack[] = 'ilUserCertificateApiGUI';
+            $this->controller->setParameter($this, 'certificate_id', $row['id']);
+            $link = $this->controller->getLinkTargetByClass($ilCtrlStack, 'download');
+            $this->controller->clearParameters($this);
+
             $dataObject = new ilUserCertificateData(
                 $id,
                 $row['title'],
@@ -105,7 +118,8 @@ ORDER BY il_cert_user_cert.obj_id';
                 $row['lastname'],
                 $row['login'],
                 $row['email'],
-                array((int) $row['ref_id'])
+                array((int) $row['ref_id']),
+                $link
             );
 
             $result[$id] = $dataObject;

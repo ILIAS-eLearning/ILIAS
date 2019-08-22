@@ -24,10 +24,11 @@ class UserCertificateAPI
     /**
      * @param array          $userIds
      * @param UserDataFilter $filter
+     * @param array          $ilCtrlStack
      * @return array<int, ilUserCertificateData>
      */
-    public function getUserCertificateData(array $userIds, UserDataFilter $filter) : array
+    public function getUserCertificateData(array $userIds, UserDataFilter $filter, array $ilCtrlStack) : array
     {
-        return $this->userCertificateRepository->getUserData($userIds, $filter);
+        return $this->userCertificateRepository->getUserData($userIds, $filter, $ilCtrlStack);
     }
 }
