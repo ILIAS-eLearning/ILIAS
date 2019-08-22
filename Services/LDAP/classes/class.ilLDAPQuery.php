@@ -787,8 +787,7 @@ class ilLDAPQuery
 	}
 
 	/**
-	 * Costly check whether LDAP pagination is enabled or not
-	 *
+	 * 
 	 * @return bool
 	 */
 	function checkPaginationEnabled()
