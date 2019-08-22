@@ -16,12 +16,11 @@ about the function of this role.
 
 ## Reporting Bugs
 
-Bugs should be reported via https://mantis.ilias.de and
-one of the
-[coordinators](/src/Refinery/maintenance.json)
-must be added to the bug ticket.
+Bugs must be reported via https://mantis.ilias.de in the `Refinery`
+category, One of the [coordinators](/src/Refinery/maintenance.json)
+must be assigned.
 
-Bug fixes and improvements can always be entered via a Pull Request.
+Bug fixes and improvements can be provided via a Pull Request.
 
 A fix that redefines that behaviour of an implementation are considered
 as a [breaking change](#breaking-changes).
@@ -33,7 +32,7 @@ Features and Breaking Changes must be discussed with the
 of this component.
 
 Features that also changes the behaviour of existing implementations
-are considered as [breaking changes](#breaking-changes)
+are considered as [breaking changes](#breaking-changes).
 
 ## Breaking Changes
 
@@ -46,7 +45,8 @@ announced one month in advance on the [Jour Fixe](https://docu.ilias.de/goto_doc
   general behaviour.
 * Contact one of the coordinators in the Pull Request.
   The list of coordinators can be found [here](/src/Refinery/maintenance.json)
-* Every Pull Request with actual code changes, have to add or adapt unit tests.
+* Every Pull Request with actual code changes has to add or adapt unit tests.
+* The title of the Pull Request should be prefixed with `Refinery:`.
 * The Pull Request must pass the CI integration.
   Be aware of the currently supported PHP versions and optimize your code according
   to the supported versions.
@@ -54,8 +54,3 @@ announced one month in advance on the [Jour Fixe](https://docu.ilias.de/goto_doc
   Avoid unnecessary changes to speed up the review process.
 * Use readable and understandable commit messages, so the reviewer can understand the
   intention of each commit.
-
-## Code Style
-
-We are using a variant of the [PSR-2](https://www.php-fig.org/psr/psr-2/),
-but instead Spaces for the line indentation we are using tabs.
