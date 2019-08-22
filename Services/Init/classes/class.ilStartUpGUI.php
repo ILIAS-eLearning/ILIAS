@@ -935,15 +935,6 @@ class ilStartUpGUI
 			return '';
 		}
 
-		include_once './Services/Authentication/classes/class.ilLoginPage.php';
-		include_once './Services/Authentication/classes/class.ilLoginPageGUI.php';
-
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
-		$tpl->setCurrentBlock("SyntaxStyle");
-		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());
-		$tpl->parseCurrentBlock();
-
 		// get page object
 		$page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
