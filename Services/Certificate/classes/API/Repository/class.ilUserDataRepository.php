@@ -142,23 +142,23 @@ ORDER BY il_cert_user_cert.obj_id';
 
         $firstName = $filter->getUserFirstName();
         if (null !== $firstName) {
-            $sql .= ' AND ' . $this->database->like('  usr_data.firstname', 'text', $firstName);
+            $sql .= ' AND ' . $this->database->like('  usr_data.firstname', 'text', '%' . $firstName . '%');
         }
 
         $lastName = $filter->getUserLastName();
         if (null !== $lastName) {
-            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', $lastName);
+            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', '%'- $lastName . '%');
         }
 
         $login = $filter->getUserLogin();
         if (null !== $lastName) {
-            $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', $login);
+            $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', '%'. $login . '%');
         }
 
         $userEmail = $filter->getUserEmail();
         if (null !== $userEmail) {
-            $sql .= ' AND ( ' . $this->database->like('usr_data.email', 'text', $userEmail);
-            $sql .= ' OR ' . $this->database->like('usr_data.second_email', 'text', $userEmail);
+            $sql .= ' AND ( ' . $this->database->like('usr_data.email', 'text', '%'. $userEmail . '%');
+            $sql .= ' OR ' . $this->database->like('usr_data.second_email', 'text', '%'. $userEmail . '%');
             $sql.= ')';
 
         }
@@ -180,8 +180,8 @@ ORDER BY il_cert_user_cert.obj_id';
 
         $title = $filter->getObjectTitle();
         if (null !== $title) {
-            $sql .= ' AND (' . $this->database->like('object_data.title', 'text', $title);
-            $sql .= ' OR ' . $this->database->like('object_data_del.title', 'text', $title) . ')';
+            $sql .= ' AND (' . $this->database->like('object_data.title', 'text', '%' . $title . '%');
+            $sql .= ' OR ' . $this->database->like('object_data_del.title', 'text', '%' . $title . '%') . ')';
         }
 
         $onlyActive = $filter->isOnlyActive();

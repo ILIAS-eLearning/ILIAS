@@ -50,11 +50,11 @@ class UserDataFilter
 
     /**
      * @param array       $userIds
-     * @param string      $userFirstName - can be entered as a SQL Like statement e.g. "John%"
-     * @param string      $userLastName - can be entered as a SQL Like statement e.g. "Doe%"
-     * @param string      $userLogin - can be entered SQL Like  statement e.g. "jdoe%"
+     * @param string      $userFirstName
+     * @param string      $userLastName
+     * @param string      $userLogin
      * @param string      $userEmail - matches on the first and the second email address
-     * @param string|null $objectTitle - can be entered SQL Like e.g. "My Course%"
+     * @param string|null $objectTitle
      * @param int|null    $objectId
      * @param int|null    $issuedBeforeTimestamp
      * @param int|null    $issuedAfterTimestamp
