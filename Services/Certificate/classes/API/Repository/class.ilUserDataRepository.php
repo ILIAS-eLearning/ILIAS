@@ -92,7 +92,8 @@ LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
 INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer') . $this->createWhereCondition($filter) . '
+WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer')
+. $this->createWhereCondition($filter) . '
 ORDER BY il_cert_user_cert.obj_id';
 
         $query = $this->database->query($sql);
@@ -138,7 +139,7 @@ ORDER BY il_cert_user_cert.obj_id';
      * @param UserDataFilter $filter
      * @return string
      */
-    private function createWhereCondition(UserDataFilter $filter)
+    private function createWhereCondition(UserDataFilter $filter) : string
     {
         $sql = '';
 
@@ -149,7 +150,7 @@ ORDER BY il_cert_user_cert.obj_id';
 
         $lastName = $filter->getUserLastName();
         if (null !== $lastName) {
-            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', '%'- $lastName . '%');
+            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', '%'. $lastName . '%');
         }
 
         $login = $filter->getUserLogin();

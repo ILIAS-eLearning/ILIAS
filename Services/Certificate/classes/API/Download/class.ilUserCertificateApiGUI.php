@@ -57,7 +57,7 @@ class ilUserCertificateApiGUI
     /**
      * @throws \ilException
      */
-    public function download()
+    public function download() : void
     {
         $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
         $pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);

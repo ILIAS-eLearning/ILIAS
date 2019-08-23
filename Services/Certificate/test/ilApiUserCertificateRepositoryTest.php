@@ -88,7 +88,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         );
 
         /** @var array<int, \Certificate\API\Data\ilUserCertificateData> $userData */
-        $userData = $repository->getUserData($filter, array());
+        $userData = $repository->getUserData($filter, array('something'));
 
         /** @var \Certificate\API\Data\ilUserCertificateData $object */
         $object = $userData[5];
