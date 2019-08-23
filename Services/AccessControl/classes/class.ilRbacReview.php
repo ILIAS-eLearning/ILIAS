@@ -411,24 +411,28 @@ class ilRbacReview
 	}
 
 	/**
-	 * Get the number of assigned users to roles
-	 * @global ilDB $ilDB
-	 * @param array $a_roles
+	 * Get the number of assigned users to roles (not properly deleted user accounts are not counted)
+	 * @param int[] $a_roles
 	 * @return int
 	 * @todo refactor rolf => DONE
 	 */
-	public function getNumberOfAssignedUsers(Array $a_roles)
+	public function getNumberOfAssignedUsers(array $a_roles)
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
 
-		$query = 'SELECT COUNT(DISTINCT(usr_id)) as num FROM rbac_ua '.
-			'WHERE '.$ilDB->in('rol_id', $a_roles, false, 'integer').' ';
+		$query = 'select count(distinct(ua.usr_id)) as num from rbac_ua ua ' .
+			'join object_data on ua.usr_id = obj_id ' .
+			'join usr_data ud on ua.usr_id = ud.usr_id ' .
+			'where ' . $ilDB->in('rol_id' , $a_roles, false, 'integer');
 
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-		return $row->num ? $row->num : 0;
+		if($res->numRows()) {
+			$row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT);
+			return $row->num;
+		}
+		return 0;
 	}
 
 
@@ -530,18 +534,17 @@ class ilRbacReview
 	/**
 	 * get all assigned roles to a given user
 	 * @access	public
-	 * @param	integer		usr_id
-	 * @return	array		all roles (id) the user have
+	 * @param	int		usr_id
+	 * @return	int[]	all roles (id) the user is assigned to
 	 * @todo refactor rolf =>  DONE
 	 */
 	public function assignedRoles($a_usr_id)
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
 		
-		$role_arr = array();
-		
+		$role_arr = [];
 		$query = "SELECT rol_id FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
 
 		$res = $ilDB->query($query);
@@ -549,7 +552,7 @@ class ilRbacReview
 		{
 			$role_arr[] = $row->rol_id;
 		}
-		return $role_arr ? $role_arr : array();
+		return $role_arr;
 	}
 	
 	/**

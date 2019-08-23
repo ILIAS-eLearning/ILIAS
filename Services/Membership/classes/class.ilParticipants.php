@@ -356,7 +356,7 @@ abstract class ilParticipants
 	{
 		global $DIC;
 
-		$rbacreview = $DIC['rbacreview'];
+		$rbacreview = $DIC->rbac()->review();
 		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$has_policies = $rbacreview->getLocalPolicies($a_ref_id);
