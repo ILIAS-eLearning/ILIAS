@@ -83,7 +83,8 @@ SELECT
   usr_data.firstname,
   usr_data.lastname,
   usr_data.email,
-  usr_data.login
+  usr_data.login,
+  usr_data.second_email,
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
@@ -118,6 +119,7 @@ ORDER BY il_cert_user_cert.obj_id';
                 $row['lastname'],
                 $row['login'],
                 $row['email'],
+                $row['second_email'],
                 array((int) $row['ref_id']),
                 $link
             );
@@ -153,7 +155,10 @@ ORDER BY il_cert_user_cert.obj_id';
 
         $userEmail = $filter->getUserEmail();
         if (null !== $userEmail) {
-            $sql .= ' AND ' . $this->database->like('usr_data.email', 'text', $userEmail);
+            $sql .= ' AND ( ' . $this->database->like('usr_data.email', 'text', $userEmail);
+            $sql .= ' OR ' . $this->database->like('usr_data.second_email', 'text', $userEmail);
+            $sql.= ')';
+
         }
 
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();

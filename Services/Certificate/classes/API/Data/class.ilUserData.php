@@ -52,6 +52,10 @@ class ilUserCertificateData
      * @var string
      */
     private $userEmail;
+    /**
+     * @var string
+     */
+    private $userSecondEmail;
 
     /**
      * @param int         $certificateId
@@ -63,6 +67,7 @@ class ilUserCertificateData
      * @param string      $userLastName
      * @param string      $userLogin
      * @param string      $userEmail
+     * @param string      $userSecondEmail
      * @param array       $objectRefId
      * @param string|null $downloadLink
      */
@@ -76,6 +81,7 @@ class ilUserCertificateData
         string $userLastName,
         string $userLogin,
         string $userEmail,
+        string $userSecondEmail,
         array $objectRefId = array(),
         string $downloadLink = null
     ) {
@@ -91,6 +97,7 @@ class ilUserCertificateData
         $this->userLastName = $userLastName;
         $this->userLogin = $userLogin;
         $this->userEmail = $userEmail;
+        $this->userSecondEmail = $userSecondEmail;
     }
 
     /**
@@ -184,6 +191,14 @@ class ilUserCertificateData
     public function addRefId(int $refId)
     {
         $this->objectRefIds[] = $refId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserSecondEmail() : string
+    {
+        return $this->userSecondEmail;
     }
 
 }
