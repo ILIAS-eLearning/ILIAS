@@ -121,6 +121,15 @@ class ModificationHandler
 
 
     /**
+     * @param Closure $closure_returning_page
+     */
+    public function modifyPageBuilderWithClosure(Closure $closure_returning_page) : void
+    {
+        $this->current_page_builder = new DecoratedPageBuilder($this->current_page_builder, $closure_returning_page);
+    }
+
+
+    /**
      * @return Page
      */
     public function getPageWithPagePartProviders() : Page
