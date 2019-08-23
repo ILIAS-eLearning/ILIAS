@@ -22,7 +22,7 @@ class MainBarModification extends AbstractLayoutModification implements LayoutMo
     /**
      * @inheritDoc
      */
-    public function getClosureFirstArgumentTypeOrNull() : ?string
+    public function getClosureFirstArgumentType() : string
     {
         return UIMainBar::class;
     }
@@ -34,6 +34,24 @@ class MainBarModification extends AbstractLayoutModification implements LayoutMo
     public function getClosureReturnType() : string
     {
         return UIMainBar::class;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function firstArgumentAllowsNull() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function returnTypeAllowsNull() : bool
+    {
+        return true;
     }
 }
 
