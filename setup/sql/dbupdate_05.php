@@ -1273,3 +1273,64 @@ identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", 
 
 ?>
 
+
+<#5514>
+<?php
+if(!$ilDB->tableExists('crs_timings_exceeded'))
+{
+	$ilDB->createTable('crs_timings_exceeded', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	,
+		'sent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('crs_timings_exceeded', array('user_id', 'ref_id'));
+}
+?>
+<#5515>
+<?php
+if(!$ilDB->tableExists('crs_timings_started'))
+{
+	$ilDB->createTable('crs_timings_started', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	,
+		'sent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('crs_timings_started', array('user_id', 'ref_id'));
+}
+?>
+<#5516>
+<?php
+$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+?>

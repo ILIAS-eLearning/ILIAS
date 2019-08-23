@@ -20,6 +20,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer\ToolItemRenderer;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ilMMCustomItemStorage;
 use ilMMItemStorage;
 use ilMMTypeHandlerLink;

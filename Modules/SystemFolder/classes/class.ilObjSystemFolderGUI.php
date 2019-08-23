@@ -2313,25 +2313,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	/**
 	 *
 	 */
-	protected function showVcsInformationObject()
+	protected function showVcsInformationObject() : void
 	{
-		$vc_info = array();
+		$vcInfo = [];
 
-		require_once 'Services/Administration/classes/class.ilSubversionInformation.php';
-		require_once 'Services/Administration/classes/class.ilGitInformation.php';
-
-		foreach(array(new ilSubversionInformation(), new ilGitInformation()) as $vc)
+		foreach([new ilGitInformation()] as $vc)
 		{
 			$html = $vc->getInformationAsHtml();
 			if($html)
 			{
-				$vc_info[] = $html;
+				$vcInfo[] = $html;
 			}
 		}
 
-		if($vc_info)
+		if($vcInfo)
 		{
-			ilUtil::sendInfo(implode("<br />", $vc_info));
+			ilUtil::sendInfo(implode("<br />", $vcInfo));
 		}
 		else
 		{

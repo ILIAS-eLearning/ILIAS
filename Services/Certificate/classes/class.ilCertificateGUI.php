@@ -175,22 +175,24 @@ class ilCertificateGUI
 
     /**
      * ilCertificateGUI constructor
-     * @param ilCertificateAdapter $adapter A reference to the test container object
-     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-     * @param ilCertificatePlaceholderValues $placeholderValuesObject
-     * @param $objectId
-     * @param $certificatePath
-     * @param ilCertificateFormRepository $settingsFormFactory
-     * @param ilCertificateDeleteAction $deleteAction
-     * @param ilCertificateTemplateRepository|null $templateRepository
-     * @param ilPageFormats|null $pageFormats
-     * @param ilXlsFoParser|null $xlsFoParser
-     * @param ilFormFieldParser $formFieldParser
-     * @param ilCertificateTemplateExportAction|null $exportAction
-     * @param ilCertificateBackgroundImageUpload|null $upload
-     * @param ilCertificateTemplatePreviewAction|null $previewAction
-     * @param \ILIAS\FileUpload\FileUpload|null $fileUpload
-     * @param ilSetting|null $setting
+     * @param ilCertificatePlaceholderDescription          $placeholderDescriptionObject
+     * @param ilCertificatePlaceholderValues               $placeholderValuesObject
+     * @param                                              $objectId
+     * @param                                              $certificatePath
+     * @param ilCertificateFormRepository                  $settingsFormFactory
+     * @param ilCertificateDeleteAction                    $deleteAction
+     * @param ilCertificateTemplateRepository|null         $templateRepository
+     * @param ilPageFormats|null                           $pageFormats
+     * @param ilXlsFoParser|null                           $xlsFoParser
+     * @param ilFormFieldParser                            $formFieldParser
+     * @param ilCertificateTemplateExportAction|null       $exportAction
+     * @param ilCertificateBackgroundImageUpload|null      $upload
+     * @param ilCertificateTemplatePreviewAction|null      $previewAction
+     * @param \ILIAS\FileUpload\FileUpload|null            $fileUpload
+     * @param ilSetting|null                               $settings
+     * @param ilCertificateBackgroundImageDelete|null      $backgroundImageDelete
+     * @param \ILIAS\Filesystem\Filesystem|null            $fileSystem
+     * @param ilCertificateBackgroundImageFileService|null $imageFileService
      * @access public
      */
     public function __construct(
@@ -210,7 +212,8 @@ class ilCertificateGUI
         \ILIAS\FileUpload\FileUpload $fileUpload = null,
         ilSetting $settings = null,
         ilCertificateBackgroundImageDelete $backgroundImageDelete = null,
-        \ILIAS\Filesystem\Filesystem $fileSystem = null
+        \ILIAS\Filesystem\Filesystem $fileSystem = null,
+        ilCertificateBackgroundImageFileService $imageFileService = null
     ) {
         global $DIC;
 
@@ -319,8 +322,18 @@ class ilCertificateGUI
         }
         $this->fileSystem = $fileSystem;
 
+        if (null === $imageFileService) {
+            $imageFileService = new ilCertificateBackgroundImageFileService(
+                $this->certificatePath,
+                $this->fileSystem
+            );
+        }
+
         if (null === $backgroundImageDelete) {
-            $backgroundImageDelete = new ilCertificateBackgroundImageDelete($this->certificatePath);
+            $backgroundImageDelete = new ilCertificateBackgroundImageDelete(
+                $this->certificatePath,
+                $imageFileService
+            );
         }
         $this->backgroundImageDelete = $backgroundImageDelete;
     }

@@ -41,4 +41,26 @@ interface Factory
 	 */
 	public function simple(string $label, Icon $icon=null): Simple;
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     The Bylined Node is an entry containing additional information about
+	 *     the node.
+	 *   composition: >
+	 *     It consists of a string-label, a byline and an optional Icon.
+	 *   effect: >
+	 *     This node is a simple node with an additional string-byline.
+	 * rules:
+	 *   usage:
+	 *      1: >
+	 *        A Byline Node SHOULD be used when there is a need to display a
+	 *        byline of additional information to a tree node.
+	 * ---
+	 * @param string                                    $label
+	 * @param string                                    $byline
+	 * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
+	 * @return Bylined
+	 */
+	public function bylined(string $label, string $byline, Icon $icon = null) : Bylined;
 }
