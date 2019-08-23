@@ -62,16 +62,16 @@ class StandardPagePartProvider implements PagePartProvider
     {
         $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
-
+        $has_items = false;
         foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
-
+            $has_items = true;
             $component = $item->getRenderer()->getComponentForItem($item);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $component);
             }
         }
 
-        return $meta_bar;
+        return $has_items ? $meta_bar : null;
     }
 
 

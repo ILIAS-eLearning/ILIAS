@@ -91,7 +91,9 @@ class MetaBarMainCollector
     protected function getVisibleFilter() : Closure
     {
         return function (isItem $item) {
-            return ($item->isAvailable() && $item->isVisible());
+            $b = ($item->isAvailable() && $item->isVisible());
+
+            return $b;
         };
     }
 }
