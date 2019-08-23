@@ -437,6 +437,12 @@ Public API classes:
 `UserCertificateAPI::getUserCertificateData` will return an `array` of `ilUserCertificateData`.
 `ilUserCertificateData` contains specific information of users who achieved a certificate.
 
+The method will need an `array` of `usr_id`, an `UserDataFilter` object and array of
+`ilCtrl-enabled GUI class` names that will be used to create a link to download the certificate.
+
+_Attention: This API will not check if a user has access to the certificate link.
+Please make sure the user using this API has every privilege to download the certificates_
+
 ## Migration
 
 The migration was a feature in the previous ILIAS version 5.4.x, and is no
