@@ -211,43 +211,6 @@ class ilMainMenuGUI
 
 
     /**
-     * @param bool $a_in_topbar
-     *
-     * @return string
-     * @deprecated
-     */
-    public static function getLanguageSelection($a_in_topbar = false) : string
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $gr_list = new ilGroupedListGUI();
-        $gr_list->setAsDropDown(true);
-
-        $languages = $lng->getInstalledLanguages();
-        if (sizeof($languages) > 1) // #11237
-        {
-            foreach ($languages as $lang_key) {
-                $base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
-                $base = preg_replace("/&*lang=[a-z]{2}&*/", "", $base);
-                $link = ilUtil::appendUrlParameterString(
-                    $base,
-                    "lang=" . $lang_key
-                );
-                $link = str_replace("?&", "?", $link);
-
-                $gr_list->addEntry($lng->_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key), $link);
-            }
-
-            return $gr_list->getHTML();
-        }
-
-        return "";
-    }
-
-
-    /**
      * Set all template variables (images, scripts, target frames, ...)
      */
     private function setTemplateVars()
@@ -330,12 +293,6 @@ class ilMainMenuGUI
                     $this->tpl->parseCurrentBlock();
                 }
 
-                // language selection
-                $selection = self::getLanguageSelection();
-                if ($selection) {
-                    $this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-                    $this->tpl->setVariable("LANG_SELECT", $selection);
-                }
 
                 $this->tpl->setCurrentBlock("userisanonymous");
                 $this->tpl->setVariable("TXT_NOT_LOGGED_IN", $lng->txt("not_logged_in"));

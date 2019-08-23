@@ -1942,12 +1942,10 @@ class ilStartUpGUI
 		 * @var $ilSetting ilSetting
 		 * @var $ilAccess  ilAccessHandler
 		 */
-		global $lng, $ilCtrl, $ilSetting, $ilAccess;
+		global $lng, $ilAccess;
 		$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
 
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
-		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.svg'));
-		$tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 
 		if($a_show_back)
 		{
@@ -1987,38 +1985,8 @@ class ilStartUpGUI
 			$template_dir  = 'Services/Init';
 		}
 
-		//Header Title
-		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
-		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
-		if (trim($header_top_title) != "" && $tpl->blockExists("header_top_title"))
-		{
-			$tpl->setCurrentBlock("header_top_title");
-			$tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
-			$tpl->parseCurrentBlock();
-		}
-
-		// language selection
-		$selection = self::getLanguageSelection();
-		if($selection)
-		{
-			$tpl->setCurrentBlock("lang_select");
-			$tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-			$tpl->setVariable("LANG_SELECT", $selection);
-			$tpl->parseCurrentBlock();
-		}
-
 		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
 		return $tpl;
-	}
-
-	/**
-	 * language selection list
-	 * @return string ilGroupedList
-	 */
-	protected static function getLanguageSelection()
-	{
-		include_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
-		return ilMainMenuGUI::getLanguageSelection(true);
 	}
 
 	/**
