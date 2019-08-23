@@ -49,7 +49,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent() : ?Legacy
+    public function getContent() : Legacy
     {
         return $this->content ?? new LegacyImplementation("");
     }
@@ -58,32 +58,41 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar() : ?MetaBar
+    public function getMetaBar() : MetaBar
     {
+        $this->gs->collector()->metaBar()->collect();
+        if (!$this->gs->collector()->metaBar()->hasItems()) {
+            return null;
+        }
         $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
-        $has_items = false;
-        foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
-            $has_items = true;
+
+        foreach ($this->gs->collector()->metaBar()->getItems() as $item) {
+
             $component = $item->getRenderer()->getComponentForItem($item);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $component);
             }
         }
 
-        return $has_items ? $meta_bar : null;
+        return $meta_bar;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function getMainBar() : ?MainBar
+    public function getMainBar() : MainBar
     {
+        $this->gs->collector()->mainmenu()->collect();
+        if (!$this->gs->collector()->mainmenu()->hasItems()) {
+            return null;
+        }
+
         $f = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
-        foreach ($this->gs->collector()->mainmenu()->getStackedTopItemsForPresentation() as $item) {
+        foreach ($this->gs->collector()->mainmenu()->getItems() as $item) {
             /**
              * @var $component Combined
              */
@@ -99,9 +108,10 @@ class StandardPagePartProvider implements PagePartProvider
         );
 
         // Tools
-        if ($this->gs->collector()->tool()->hasTools()) {
+        $this->gs->collector()->tool()->collect();
+        if ($this->gs->collector()->tool()->hasItems()) {
             $main_bar = $main_bar->withToolsButton($f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
-            foreach ($this->gs->collector()->tool()->getTools() as $tool) {
+            foreach ($this->gs->collector()->tool()->getItems() as $tool) {
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
                 $main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $component);
             }
@@ -114,7 +124,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs() : ?Breadcrumbs
+    public function getBreadCrumbs() : Breadcrumbs
     {
         // TODO this currently gets the items from ilLocatorGUI, should that serve be removed with
         // something like GlobalScreen\Scope\Locator\Item
@@ -133,7 +143,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo() : ?Image
+    public function getLogo() : Image
     {
         return $this->ui->factory()->image()->standard(ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS");
     }
