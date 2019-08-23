@@ -38,18 +38,8 @@ class ilCertificateBackgroundImageDelete
             unlink($filename);
         }
 
-        if (file_exists($this->getBackgroundImageTempfilePath())) {
-            unlink($this->getBackgroundImageTempfilePath());
+        if (file_exists($this->fileService->getBackgroundImageTempfilePath())) {
+            unlink($this->fileService->getBackgroundImageTempfilePath());
         }
-    }
-
-    /**
-     * Returns the filesystem path of the background image temp file during upload
-     *
-     * @return string The filesystem path of the background image temp file
-     */
-    private function getBackgroundImageTempfilePath()
-    {
-        return CLIENT_WEB_DIR . $this->certificatePath . "background_upload.tmp";
     }
 }

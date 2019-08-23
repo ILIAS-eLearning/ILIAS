@@ -26,8 +26,9 @@
   'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\StaticMetaBarProvider' => 
   array (
     0 => 'ILIAS\\BackgroundTasks\\Provider\\BackgroundTasksMetaBarProvider',
-    1 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
-    2 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
+    1 => 'ILIAS\\Init\\Provider\\StartUpMetaBarProvider',
+    2 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
+    3 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
