@@ -49,7 +49,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent() : Legacy
+    public function getContent() : ?Legacy
     {
         return $this->content ?? new LegacyImplementation("");
     }
@@ -58,7 +58,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar() : MetaBar
+    public function getMetaBar() : ?MetaBar
     {
         $this->gs->collector()->metaBar()->collect();
         if (!$this->gs->collector()->metaBar()->hasItems()) {
@@ -82,7 +82,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMainBar() : MainBar
+    public function getMainBar() : ?MainBar
     {
         $this->gs->collector()->mainmenu()->collect();
         if (!$this->gs->collector()->mainmenu()->hasItems()) {
@@ -124,7 +124,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs() : Breadcrumbs
+    public function getBreadCrumbs() : ?Breadcrumbs
     {
         // TODO this currently gets the items from ilLocatorGUI, should that serve be removed with
         // something like GlobalScreen\Scope\Locator\Item
@@ -143,7 +143,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo() : Image
+    public function getLogo() : ?Image
     {
         return $this->ui->factory()->image()->standard(ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS");
     }
