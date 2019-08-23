@@ -52,10 +52,6 @@ class StartUpModificationProvider extends AbstractModificationProvider
 
             $factory = $this->dic->ui()->factory();
 
-            // Login
-            $login_glyph = $factory->symbol()->glyph()->user();
-            $login_button = $factory->button()->bulky($login_glyph, 'login', "login.php");
-
             // Language-Selection
             $language_glyph = $factory->symbol()->glyph()->settings();
             $language_selection = $factory->mainControls()->slate()->combined('language_selection', $language_glyph);
@@ -75,7 +71,6 @@ class StartUpModificationProvider extends AbstractModificationProvider
 
             $metabar = $factory->mainControls()->metaBar();
             $metabar = $metabar->withAdditionalEntry('language_selection', $language_selection);
-            $metabar = $metabar->withAdditionalEntry('login', $login_button);
 
             return $metabar;
         })->withLowPriority();
