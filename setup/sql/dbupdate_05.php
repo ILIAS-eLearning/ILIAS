@@ -1334,3 +1334,7 @@ if(!$ilDB->tableExists('crs_timings_started'))
 <?php
 $ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
 ?>
+<#5517>
+<?php
+$ilDB->addIndex('rbac_log', ['created'], 'i2');
+?>
