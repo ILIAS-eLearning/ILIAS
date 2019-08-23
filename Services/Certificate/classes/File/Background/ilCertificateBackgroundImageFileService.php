@@ -92,9 +92,19 @@ class ilCertificateBackgroundImageFileService
     public function getBackgroundImageDirectory($backgroundImagePath = '')
     {
         return str_replace(
-            array(CLIENT_WEB_DIR, '//'),
+            array($this->webDirectory, '//'),
             array('[CLIENT_WEB_DIR]', '/'),
             $backgroundImagePath
         );
+    }
+
+    /**
+     * Returns the filesystem path of the background image temp file during upload
+     *
+     * @return string The filesystem path of the background image temp file
+     */
+    public function getBackgroundImageTempfilePath()
+    {
+        return $this->webDirectory . $this->certificatePath . "background_upload.tmp";
     }
 }
