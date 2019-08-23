@@ -18,15 +18,14 @@ interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterfa
 
     /**
      * @return TopParentItem[] These are Slates which will be
-     * available for configuration and will be collected once during a
-     * StructureReload.
+     * available for configuration.
      */
     public function getStaticTopItems() : array;
 
 
     /**
      * @return isItem[] These are Entries which will be available for
-     * configuration and will be collected once during a StructureReload
+     * configuration.
      */
     public function getStaticSubItems() : array;
 

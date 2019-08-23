@@ -1639,19 +1639,22 @@ class ilInitialisation
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
+							, $c["refinery"]
 							),
 						  new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory
 							($c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
-							),
+							, $c["refinery"]
+						  ),
 						  new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory
 						  	($c["ui.factory"]
 						  	, $c["ui.template_factory"]
 						  	, $c["lng"]
 						  	, $c["ui.javascript_binding"]
-							)
+							, $c["refinery"]
+						  )
 						)
 					)
 				);

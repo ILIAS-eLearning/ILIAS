@@ -108,6 +108,12 @@ class IsNumericConstraintTest extends TestCase
     {
         $not_ok = $this->df->ok("");
 
+        $this->lng
+            ->expects($this->once())
+            ->method("txt")
+            ->with("not_numeric_empty_string")
+            ->willReturn("-%s-");
+
         $res = $this->c->applyTo($not_ok);
         $this->assertFalse($res->isOk());
     }
