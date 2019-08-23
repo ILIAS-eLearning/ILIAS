@@ -432,7 +432,10 @@ This service also provides an API to fetch data related to the certificates.
 Currently an endpoint is provided to fetch user certificate related data.
 
 Public API classes:
-* `Certificate\API\ilUserData`
+* `Certificate\API\UserCertificateAPI`
+
+`UserCertificateAPI::getUserCertificateData` will return an `array` of `ilUserCertificateData`.
+`ilUserCertificateData` contains specific information of users who achieved a certificate.
 
 ## Migration
 
