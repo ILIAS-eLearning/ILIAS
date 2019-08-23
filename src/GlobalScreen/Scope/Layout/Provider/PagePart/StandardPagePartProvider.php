@@ -60,10 +60,14 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMetaBar() : MetaBar
     {
+        $this->gs->collector()->metaBar()->collect();
+        if (!$this->gs->collector()->metaBar()->hasItems()) {
+            return null;
+        }
         $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
 
-        foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
+        foreach ($this->gs->collector()->metaBar()->getItems() as $item) {
 
             $component = $item->getRenderer()->getComponentForItem($item);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
@@ -80,10 +84,15 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMainBar() : MainBar
     {
+        $this->gs->collector()->mainmenu()->collect();
+        if (!$this->gs->collector()->mainmenu()->hasItems()) {
+            return null;
+        }
+
         $f = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
-        foreach ($this->gs->collector()->mainmenu()->getStackedTopItemsForPresentation() as $item) {
+        foreach ($this->gs->collector()->mainmenu()->getItems() as $item) {
             /**
              * @var $component Combined
              */
@@ -99,9 +108,10 @@ class StandardPagePartProvider implements PagePartProvider
         );
 
         // Tools
-        if ($this->gs->collector()->tool()->hasTools()) {
+        $this->gs->collector()->tool()->collect();
+        if ($this->gs->collector()->tool()->hasItems()) {
             $main_bar = $main_bar->withToolsButton($f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
-            foreach ($this->gs->collector()->tool()->getTools() as $tool) {
+            foreach ($this->gs->collector()->tool()->getItems() as $tool) {
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
                 $main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $component);
             }
