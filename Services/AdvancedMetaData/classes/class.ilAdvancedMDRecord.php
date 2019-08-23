@@ -174,10 +174,20 @@ class ilAdvancedMDRecord
 		$lng = $DIC['lng'];
 		
 		$types = array();
+		$filter = array();
 		$amet_types = $objDefinition->getAdvancedMetaDataTypes();
+
+		if(!ilECSSetting::ecsConfigured()){
+			$filter = array_merge($filter ,ilECSUtils::getPossibleRemoteTypes(false));
+			$filter[] = 'rtst';
+		}
 
 		foreach ($amet_types as $at)
 		{
+			if(in_array($at["obj_type"],$filter)) {
+				continue;
+			}
+
 			if ($a_include_text)
 			{
 				$text = $lng->txt("obj_".$at["obj_type"]);
@@ -192,7 +202,7 @@ class ilAdvancedMDRecord
 				}
 				$at["text"] = $text;
 			}
-			
+
 			$types[] = $at;
 		}
 

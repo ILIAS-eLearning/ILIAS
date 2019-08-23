@@ -74,7 +74,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             $objectHelper,
             $utilHelper,
             $database,
-            'someInstallationId'
+            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
@@ -148,7 +148,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             $objectHelper,
             $utilHelper,
             $database,
-            'someInstallationId'
+            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
@@ -213,7 +213,8 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             $templateRepository,
             $objectHelper,
             $utilHelper,
-            $database
+            $database,
+            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
@@ -272,7 +273,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             $objectHelper,
             $utilHelper,
             $database,
-            'someInstallationId'
+            new ilCertificateBackgroundImageFileService('/some/path', $filesystem, '/some/web/dir')
         );
 
         $result = $action->import(
