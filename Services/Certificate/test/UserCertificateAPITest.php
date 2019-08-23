@@ -33,7 +33,7 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
 
         $api = new \Certificate\API\UserCertificateAPI($repository);
 
-        $result = $api->getUserCertificateData(array(20, 10 , 11), new \Certificate\API\Filter\UserDataFilter(), array());
+        $result = $api->getUserCertificateData(new \Certificate\API\Filter\UserDataFilter(array(20, 10 , 11)), array());
 
         $this->assertEquals(array('5' => $userData), $result);
     }

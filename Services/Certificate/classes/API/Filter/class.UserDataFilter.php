@@ -43,19 +43,26 @@ class UserDataFilter
      * @var string
      */
     private $userEmail;
+    /**
+     * @var array
+     */
+    private $userIds;
 
     /**
-     * @param string      $userFirstName
-     * @param string      $userLastName
-     * @param string      $userLogin
-     * @param string      $userEmail
-     * @param string|null $objectTitle - the object title can be entered SQL Like e.g. "My Course%"
-     * @param int|null    $objectId    -
+     * @param array       $userIds
+     * @param string      $userFirstName - can be entered as a SQL Like statement e.g. "John%"
+     * @param string      $userLastName - can be entered as a SQL Like statement e.g. "Doe%"
+     * @param string      $userLogin - can be entered SQL Like  statement e.g. "jdoe%"
+     * @param string      $userEmail - matches on the first and the second email address
+     * @param string|null $objectTitle - can be entered SQL Like e.g. "My Course%"
+     * @param int|null    $objectId
      * @param int|null    $issuedBeforeTimestamp
      * @param int|null    $issuedAfterTimestamp
-     * @param bool        $onlyActive
+     * @param bool        $onlyActive - Show only the currently active certificates of the user
+     * @throws \ilException
      */
     public function __construct(
+        array $userIds,
         string $userFirstName = null,
         string $userLastName = null,
         string $userLogin = null,
@@ -66,6 +73,11 @@ class UserDataFilter
         int $issuedAfterTimestamp = null,
         bool $onlyActive = true
     ) {
+        if (array() === $userIds) {
+            throw new \ilException('The array of user ids is empty');
+        }
+
+        $this->userIds = $userIds;
         $this->userFirstName = $userFirstName;
         $this->userLastName  = $userLastName;
         $this->userLogin     = $userLogin;
@@ -148,5 +160,13 @@ class UserDataFilter
     public function getUserEmail() : ?string
     {
         return $this->userEmail;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserIds() : array
+    {
+        return $this->userIds;
     }
 }

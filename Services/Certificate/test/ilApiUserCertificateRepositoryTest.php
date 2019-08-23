@@ -39,6 +39,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     public function testGetUserData()
     {
         $filter = new \Certificate\API\Filter\UserDataFilter(
+            array(1, 2, 3),
             'test',
             100,
             1234567890,
@@ -87,7 +88,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         );
 
         /** @var array<int, \Certificate\API\Data\ilUserCertificateData> $userData */
-        $userData = $repository->getUserData(array(1, 2, 3), $filter, array());
+        $userData = $repository->getUserData($filter, array());
 
         /** @var \Certificate\API\Data\ilUserCertificateData $object */
         $object = $userData[5];

@@ -55,12 +55,14 @@ class ilUserDataRepository
     }
 
     /**
-     * @param array          $userIds
      * @param UserDataFilter $filter
+     * @param array          $ilCtrlStack
      * @return array
      */
-    public function getUserData(array $userIds, UserDataFilter $filter, array $ilCtrlStack) : array
+    public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
     {
+        $userIds = $filter->getUserIds();
+
         $sql = '
 SELECT 
   il_cert_user_cert.pattern_certificate_id,

@@ -32,8 +32,9 @@ for 'Certificates' to their component.
     * [Preview](#preview)
   * [Events](#events)
     * [updateStatus](#updatestatus)
-    
 * [API](#api)
+  * [UserCertificateAPI](#usercertificateapi)
+  * [UserDataFilter](#userdatafilter)
 * [Migration](#migration)
   * [Certificate Templates](#certificate-templates)
   * [User Certificates](#user-certificates)
@@ -434,14 +435,21 @@ Currently an endpoint is provided to fetch user certificate related data.
 Public API classes:
 * `Certificate\API\UserCertificateAPI`
 
-`UserCertificateAPI::getUserCertificateData` will return an `array` of `ilUserCertificateData`.
-`ilUserCertificateData` contains specific information of users who achieved a certificate.
+### UserCertificateAPI 
 
-The method will need an `array` of `usr_id`, an `UserDataFilter` object and array of
-`ilCtrl-enabled GUI class` names that will be used to create a link to download the certificate.
+`UserCertificateAPI::getUserCertificateData` will return an `array` of `ilUserCertificateData`.
+  `ilUserCertificateData` contains specific information of users who achieved a certificate.
+  The method will need an `UserDataFilter` object and array of
+  `ilCtrl-enabled GUI class` names that will be used to create a link to download the certificate.
 
 _Attention: This API will not check if a user has access to the certificate link.
-Please make sure the user using this API has every privilege to download the certificates_
+Please make sure the user using this API has every privilege to download the certificates._
+
+### UserDataFilter
+
+The `UserDataFilter` contains the elements to limit the final result set.
+The first parameter MUST be an `array` of `usr_id`.
+
 
 ## Migration
 
