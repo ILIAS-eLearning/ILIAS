@@ -23,10 +23,13 @@ class UserCertificateAPI
 
     /**
      * @param UserDataFilter $filter
-     * @param array          $ilCtrlStack
+     * @param array $ilCtrlStack - array of ilCtrl-enabled GUI class
+     *                             names that are used to create the link,
+     *                             if this is an empty array (default) no link
+     *                             will be generated
      * @return array<int, ilUserCertificateData>
      */
-    public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack) : array
+    public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = array()) : array
     {
         return $this->userCertificateRepository->getUserData($filter, $ilCtrlStack);
     }

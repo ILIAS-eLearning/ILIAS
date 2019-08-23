@@ -106,10 +106,12 @@ ORDER BY il_cert_user_cert.obj_id';
                 continue;
             }
 
-            $ilCtrlStack[] = 'ilUserCertificateApiGUI';
-            $this->controller->setParameter($this, 'certificate_id', $row['id']);
-            $link = $this->controller->getLinkTargetByClass($ilCtrlStack, 'download');
-            $this->controller->clearParameters($this);
+            if (array() !== $ilCtrlStack) {
+                $ilCtrlStack[] = 'ilUserCertificateApiGUI';
+                $this->controller->setParameter($this, 'certificate_id', $row['id']);
+                $link = $this->controller->getLinkTargetByClass($ilCtrlStack, 'download');
+                $this->controller->clearParameters($this);
+            }
 
             $dataObject = new ilUserCertificateData(
                 $id,
