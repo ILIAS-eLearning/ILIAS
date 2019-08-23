@@ -237,7 +237,13 @@ class ilLDAPQuery
 
 		if($this->checkPaginationEnabled())
 		{
-			$tmp_result = $this->runReadAllUsersPaged($dn);
+			try{
+				$tmp_result = $this->runReadAllUsersPaged($dn);
+			}catch (ilLDAPPagingException $e){
+				$this->log->warning('Using LDAP with paging failed. Trying to use fallback.');
+				$tmp_result = $this->runReadAllUsersPartial($dn);
+			}
+
 		}
 		else{
 			$tmp_result = $this->runReadAllUsersPartial($dn);
@@ -270,6 +276,7 @@ class ilLDAPQuery
 	 *
 	 * @param string $dn
 	 * @return ilLDAPResult
+	 * @throws ilLDAPPagingException
 	 */
 	private function runReadAllUsersPaged($dn)
 	{
@@ -281,7 +288,12 @@ class ilLDAPQuery
 		$cookie = '';
 
 		do{
-			ldap_control_paged_result($this->lh, 100, true, $cookie);
+			try{
+				ldap_control_paged_result($this->lh, 100, true, $cookie);
+			}catch(Exception $e)
+			{
+				throw new ilLDAPPagingException($e->getMessage());
+			}
 
 			$res = $this->queryByScope($this->settings->getUserScope(),
 				$dn,
@@ -289,8 +301,12 @@ class ilLDAPQuery
 				array($this->settings->getUserAttribute()));
 			$tmp_result->setResult($res);
 			$tmp_result->run();
-
-			ldap_control_paged_result_response($this->lh, $res, $cookie);
+			try{
+				ldap_control_paged_result_response($this->lh, $res, $cookie);
+			}catch(Exception $e)
+			{
+				throw new ilLDAPPagingException($e->getMessage());
+			}
 		} while($cookie !== null && $cookie != '');
 
 		return $tmp_result;
