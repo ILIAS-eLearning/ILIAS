@@ -16,11 +16,11 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 * and add $parameter_name with the selected value.
 	 *
 	 * @param 	string 	$url
-	 * @param 	string 	$paramer_name
+	 * @param 	string 	$parameter_name
 	 *
-	 * @return \Pagination
+	 * @return Pagination
 	 */
-	public function withTargetURL($url, $paramter_name);
+	public function withTargetURL($url, $parameter_name);
 
 	/**
 	 * Get the url this instance should trigger.
@@ -42,7 +42,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @param 	int 	$total
 	 *
-	 * @return \Pagination
+	 * @return Pagination
 	 */
 	public function withTotalEntries($total);
 
@@ -51,7 +51,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @param 	int 	$size
 	 *
-	 * @return \Pagination
+	 * @return Pagination
 	 */
 	public function withPageSize($size);
 
@@ -67,7 +67,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @param 	int 	$page
 	 *
-	 * @return \Pagination
+	 * @return Pagination
 	 */
 	public function withCurrentPage($page);
 
@@ -88,9 +88,9 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	/**
 	 * Register a signal with the control.
 	 *
-	 * @param ILIAS\UI\Component\Signal $signal
+	 * @param C\Signal $signal
 	 *
-	 * @return \Pagination
+	 * @return Pagination
 	 */
 	public function withOnSelect(C\Signal $signal);
 
@@ -106,7 +106,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @param int 	$amount
 	 *
-	 * @return \Pagination
+	 * @return Pagination
 	 */
 	public function withMaxPaginationButtons($amount);
 
@@ -124,16 +124,15 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer {
 	 *
 	 * @param int 	$amount
 	 *
-	 * @return \Pagination
+	 * @return Pagination
 	 */
 	public function withDropdownAt($amount);
 
 	/**
 	 * Below this value, the options are directly rendered as shy-buttons,
-	 * on and above thist value a dropdown is beeing used.
+	 * on and above this value a dropdown is being used.
 	 *
 	 * @return int
 	 */
 	public function getDropdownAt();
-
 }

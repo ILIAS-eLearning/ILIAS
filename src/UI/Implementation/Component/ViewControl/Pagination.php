@@ -90,12 +90,12 @@ class Pagination implements C\ViewControl\Pagination  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTargetURL($url, $paramter_name) {
+	public function withTargetURL($url, $parameter_name) {
 		$this->checkStringArg("url", $url);
-		$this->checkStringArg("paramter_name", $paramter_name);
+		$this->checkStringArg("paramter_name", $parameter_name);
 		$clone = clone $this;
 		$clone->target_url = $url;
-		$clone->paramter_name = $paramter_name;
+		$clone->paramter_name = $parameter_name;
 		return $clone;
 	}
 
