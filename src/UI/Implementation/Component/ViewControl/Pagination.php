@@ -43,7 +43,7 @@ class Pagination implements PaginationInterface  {
 	/**
 	 * @var string
 	 */
-	protected $paramter_name = "pagination_offset";
+	protected $parameter_name = "pagination_offset";
 
 	/**
 	 * @var int | null
@@ -98,13 +98,13 @@ class Pagination implements PaginationInterface  {
 	/**
 	 * @inheritdoc
 	 */
-	public function withTargetURL(string $url, string $paramter_name): PaginationInterface
+	public function withTargetURL(string $url, string $parameter_name): PaginationInterface
 	{
 		$this->checkStringArg("url", $url);
-		$this->checkStringArg("paramter_name", $paramter_name);
+		$this->checkStringArg("parameter_name", $parameter_name);
 		$clone = clone $this;
 		$clone->target_url = $url;
-		$clone->paramter_name = $paramter_name;
+		$clone->parameter_name = $parameter_name;
 		return $clone;
 	}
 
@@ -121,7 +121,7 @@ class Pagination implements PaginationInterface  {
 	 */
 	public function getParameterName(): string
 	{
-		return $this->paramter_name;
+		return $this->parameter_name;
 	}
 
 	/**
