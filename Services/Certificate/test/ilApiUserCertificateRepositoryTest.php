@@ -16,12 +16,20 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
      */
     private $logger;
 
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject
+     */
+    private $controller;
+
     public function setUp() : void
     {
-        $this->database = $this->getMockBuilder('ilDB')
+        $this->database = $this->getMockBuilder('ilDBInterface')
             ->disableOriginalConstructor()
-            ->addMethods(array('fetchAssoc'))
             ->getMock();
+
+        $this->controller = $this->getMockBuilder('ilCtrl')
+                               ->disableOriginalConstructor()
+                               ->getMock();
 
         $this->logger = $this->getMockBuilder('ilLogger')
                          ->disableOriginalConstructor()
@@ -30,7 +38,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testGetUserData()
     {
-        $filter = new \Certificate\API\Filter\UserCertificateFilter(
+        $filter = new \Certificate\API\Filter\UserDataFilter(
             'test',
             100,
             1234567890,
@@ -40,27 +48,60 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $this->database
             ->method('fetchAssoc')
-            ->willReturn(
+            ->willReturnOnConsecutiveCalls(
                 array(
+                    'id' => 5,
                     'title' => 'test',
                     'obj_id' => 100,
+                    'ref_id' => 5000,
                     'acquired_timestamp' => 1234567890,
                     'user_id' => 2000,
-                    'ref_ids' => 300
+                    'firstname' => 'ilyas',
+                    'lastname' => 'homer',
+                    'login' => 'breakdanceMcFunkyPants',
+                    'email' => 'ilyas@ilias.de',
+                    'second_email' => 'breakdance@funky.de'
+                ),
+                array(
+                    'id' => 5,
+                    'title' => 'test',
+                    'obj_id' => 100,
+                    'ref_id' => 6000,
+                    'acquired_timestamp' => 1234567890,
+                    'user_id' => 2000,
+                    'firstname' => 'ilyas',
+                    'lastname' => 'homer',
+                    'login' => 'breakdanceMcFunkyPants',
+                    'email' => 'ilyas@ilias.de',
+                    'second_email' => 'breakdance@funky.de'
                 )
             );
+
+        $this->controller->method('getLinkTargetByClass')->willReturn('somewhere.php?goto=4');
 
         $repository = new \Certificate\API\Repository\ilUserDataRepository(
             $this->database,
             $this->logger,
+            $this->controller,
             'no title given'
         );
 
-
-
         /** @var array<int, \Certificate\API\Data\ilUserCertificateData> $userData */
-        $userData = $repository->getUserData(array(1, 2, 3), $filter);
+        $userData = $repository->getUserData(array(1, 2, 3), $filter, array());
 
-        $this->assertEquals('test', $userData[2000]->getObjectTitle());
+        /** @var \Certificate\API\Data\ilUserCertificateData $object */
+        $object = $userData[5];
+        $this->assertEquals('test', $object->getObjectTitle());
+        $this->assertEquals(5, $object->getCertificateId());
+        $this->assertEquals(100, $object->getObjectId());
+        $this->assertEquals(array(5000, 6000), $object->getObjectRefIds());
+        $this->assertEquals(1234567890, $object->getIssuedOnTimestamp());
+        $this->assertEquals(2000, $object->getUserId());
+        $this->assertEquals('ilyas', $object->getUserFirstName());
+        $this->assertEquals('homer', $object->getUserLastName());
+        $this->assertEquals('breakdanceMcFunkyPants', $object->getUserLogin());
+        $this->assertEquals('ilyas@ilias.de', $object->getUserEmail());
+        $this->assertEquals('breakdance@funky.de', $object->getUserSecondEmail());
+        $this->assertEquals('somewhere.php?goto=4', $object->getDownloadLink());
     }
 }

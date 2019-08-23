@@ -1,0 +1,40 @@
+<?php
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use Certificate\API\Repository\ilUserDataRepository;
+
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
+class UserCertificateAPITest extends ilCertificateBaseTestCase
+{
+    public function testUserDataCall()
+    {
+        $repository = $this->getMockBuilder(ilUserDataRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $userData = new \Certificate\API\Data\ilUserCertificateData(
+            5,
+            'Some Title',
+            100,
+            1234567890,
+            20,
+            'Ilyas',
+            'Homer',
+            'breakdanceMcFunkyPants',
+            'iliyas@ilias.de',
+            'breakdance@funky.de',
+            array(3000)
+        );
+
+        $repository->method('getUserData')
+                   ->willReturn(array(5 => $userData));
+
+        $api = new \Certificate\API\UserCertificateAPI($repository);
+
+        $result = $api->getUserCertificateData(array(20, 10 , 11), new \Certificate\API\Filter\UserDataFilter(), array());
+
+        $this->assertEquals(array('5' => $userData), $result);
+    }
+}
