@@ -14030,7 +14030,6 @@ chatroom#:#chat_osc_user#:#User
 chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.
-chatroom#:#chat_osc_section_head_other_rooms#:#Public Chatroom
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.

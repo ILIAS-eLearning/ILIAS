@@ -14027,7 +14027,6 @@ chatroom#:#chat_osc_user#:#Benutzer
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
-chatroom#:#chat_osc_section_head_other_rooms#:#Öffentlicher Chatraum
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
 chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
