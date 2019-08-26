@@ -17,29 +17,29 @@ interface PagePartProvider
     /**
      * @return Legacy
      */
-    public function getContent() : Legacy;
+    public function getContent() : ?Legacy;
 
 
     /**
      * @return MetaBar
      */
-    public function getMetaBar() : MetaBar;
+    public function getMetaBar() : ?MetaBar;
 
 
     /**
      * @return MainBar
      */
-    public function getMainBar() : MainBar;
+    public function getMainBar() : ?MainBar;
 
 
     /**
      * @return Breadcrumbs
      */
-    public function getBreadCrumbs() : Breadcrumbs;
+    public function getBreadCrumbs() : ?Breadcrumbs;
 
 
     /**
      * @return Image
      */
-    public function getLogo() : Image;
+    public function getLogo() : ?Image;
 }
