@@ -8303,6 +8303,14 @@ div.alert ul > li:before {
 .il-tree .il-tree-node > ul {
   display: none;
 }
+.il-tree .node-byline {
+  display: block;
+  line-height: 0.9em;
+  margin-bottom: 4px;
+  text-decoration: none;
+  cursor: text;
+  font-size: smaller;
+}
 .il-tree .il-tree-node.expanded > ul {
   display: block;
 }
