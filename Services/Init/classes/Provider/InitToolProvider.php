@@ -52,7 +52,7 @@ class InitToolProvider extends AbstractDynamicToolProvider
         $ilCtrl = $DIC->ctrl();
         $ilDB = $DIC->database();
 
-        $ftpl = new \ilTemplate("tpl.devmode.html", true, true, "Services/init");
+        $ftpl = new \ilTemplate("tpl.devmode.html", true, true, "Services/Init");
         // execution time
         $t1 = explode(" ", $GLOBALS['ilGlobalStartTime']);
         $t2 = explode(" ", microtime());
