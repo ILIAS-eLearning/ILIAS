@@ -54,4 +54,21 @@ class MetaBarItemFactory
     {
         return new TopLinkItem($identification);
     }
+
+
+    /**
+     * @param IdentificationInterface $identification
+     *
+     * @return NotificationCenter
+     */
+    public function notificationCenter(IdentificationInterface $identification)
+    {
+        static $created;
+        if ($created === true) {
+            throw new \LogicException("only one NotificationCenter can exist");
+        }
+        $created = true;
+
+        return new NotificationCenter($identification);
+    }
 }
