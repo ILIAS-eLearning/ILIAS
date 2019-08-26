@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
+use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
@@ -98,8 +99,14 @@ class StandardPagePartProvider implements PagePartProvider
              */
             $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
             $identifier = $item->getProviderIdentification()->getInternalIdentifier();
+
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
+            }
+
+            $item_state = new ItemState($item->getProviderIdentification());
+            if ($item_state->isItemActive()) {
+                $main_bar = $main_bar->withActive($identifier);
             }
         }
 

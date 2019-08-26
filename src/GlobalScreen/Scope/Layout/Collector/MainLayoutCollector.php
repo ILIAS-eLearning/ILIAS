@@ -1,5 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
 
+use ILIAS\GlobalScreen\Client\Client;
+use ILIAS\GlobalScreen\Client\ClientSettings;
+use ILIAS\GlobalScreen\Client\ItemState;
+use ILIAS\GlobalScreen\Client\ModeToggle;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
@@ -68,6 +72,35 @@ class MainLayoutCollector
      */
     public function getFinalPage() : Page
     {
+        // Client
+        $settings = new ClientSettings();
+
+        if ((new ModeToggle())->getMode() == ModeToggle::MODE1) {
+            // $settings->setClearStatesForlevels([
+            //     ItemState::LEVEL_OF_TOPITEM => [ItemState::LEVEL_OF_TOPITEM],
+            //     ItemState::LEVEL_OF_TOOL    => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL],
+            // ]);
+            $settings->setStoreStateForLevels(
+                [
+                    ItemState::LEVEL_OF_TOPITEM,
+                    ItemState::LEVEL_OF_TOOL,
+                    ItemState::LEVEL_OF_SUBITEM,
+                ]
+            );
+        } else {
+            // $settings->setClearStatesForlevels([
+            //     ItemState::LEVEL_OF_TOPITEM => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
+            //     ItemState::LEVEL_OF_TOOL    => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
+            //     ItemState::LEVEL_OF_SUBITEM => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
+            // ]);
+            $settings->setStoreStateForLevels(
+                []
+            );
+        }
+
+        $client = new Client($settings);
+        $client->init($this->getMetaContent());
+
         $called_contexts = $this->getContextStack();
 
         $final_content_modification = new NullModification();

@@ -1,34 +1,21 @@
-<?php namespace ILIAS\UICore;
+<?php
 
+namespace ILIAS\GlobalScreen\Provider;
+
+use ILIAS\GlobalScreen\Client\ModeToggle;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
- * Class ilPageContentProvider
+ * Class GSModificationProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class PageContentProvider extends AbstractModificationProvider implements ModificationProvider
+class GSModificationProvider extends AbstractModificationProvider
 {
-
-    /**
-     * @var string
-     */
-    private static $content = "";
-
-
-    /**
-     * @param string $content
-     */
-    public static function setContent(string $content) : void
-    {
-        self::$content = $content;
-    }
-
 
     /**
      * @inheritDoc
@@ -44,10 +31,12 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
      */
     public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
     {
-        return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content) : Legacy {
+        return null;
+        return $this->factory->content()->withModification(function (Legacy $c) : Legacy {
             $ui = $this->dic->ui();
+            $m = new ModeToggle();
 
-            return $ui->factory()->legacy($ui->renderer()->render($content) . self::$content);
-        })->withLowPriority();
+            return $ui->factory()->legacy($m->getMode() . $ui->renderer()->render($c));
+        })->withHighPriority();
     }
 }
