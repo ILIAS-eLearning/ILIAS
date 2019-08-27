@@ -1463,6 +1463,7 @@ class ilInitialisation
 			return new Services(new ilGSProviderFactory($c));
 		};
 		$c->globalScreen()->tool()->context()->stack()->main();
+        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool)DEVMODE);
 	}
 
 	/**

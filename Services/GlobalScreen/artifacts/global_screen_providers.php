@@ -26,18 +26,26 @@
   'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\StaticMetaBarProvider' => 
   array (
     0 => 'ILIAS\\BackgroundTasks\\Provider\\BackgroundTasksMetaBarProvider',
-    1 => 'ILIAS\\Init\\Provider\\StartUpMetaBarProvider',
-    2 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
-    3 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
+    1 => 'ILIAS\\GlobalScreen\\Provider\\GSMetaBarProvider',
+    2 => 'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\NotificationCenterProvider',
+    3 => 'ILIAS\\Init\\Provider\\StartUpMetaBarProvider',
+    4 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
+    5 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
-    0 => 'ilMediaPoolGSToolProvider',
+    0 => 'ILIAS\\Init\\Provider\\InitToolProvider',
+    1 => 'ilMediaPoolGSToolProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (
     0 => 'ILIAS\\Container\\Screen\\MemberViewLayoutProvider',
-    1 => 'ILIAS\\Init\\Provider\\StartUpModificationProvider',
-    2 => 'ILIAS\\UICore\\PageContentProvider',
+    1 => 'ILIAS\\GlobalScreen\\Provider\\GSModificationProvider',
+    2 => 'ILIAS\\Init\\Provider\\StartUpModificationProvider',
+    3 => 'ILIAS\\UICore\\PageContentProvider',
+  ),
+  'ILIAS\\GlobalScreen\\Scope\\Notification\\Provider\\NotificationProvider' => 
+  array (
+    0 => 'ILIAS\\BackgroundTasks\\Provider\\BTNotificationProvider',
   ),
 );

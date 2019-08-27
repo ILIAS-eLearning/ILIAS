@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Signal;
@@ -28,16 +28,34 @@ class Renderer extends AbstractComponentRenderer {
 			$async = true;
 		}
 
+		$icon = $component->getIcon();
+		$label = $component->getLabel();
+		/** @var URI|null $link */
+		$link = $component->getLink();
+		if (null !== $link) {
+			$linkAsString = $this->getRefinery()
+				->uri()
+				->toString()
+				->transform($link);
+
+			$tpl->setVariable("LINK", $linkAsString);
+			$tpl->setVariable("LABEL_LINKED", $label);
+			if($icon){
+				$tpl->setVariable("ICON_LINKED", $default_renderer->render($icon));
+			}
+		}
+		else {
+			$tpl->setCurrentBlock("node_without_link");
+			$tpl->setVariable("LABEL", $label);
+			if($icon){
+				$tpl->setVariable("ICON", $default_renderer->render($icon));
+			}
+		}
+
 		if ($component instanceof Node\Bylined && null !== $component->getByline()) {
 			$tpl->setVariable('BYLINE', $component->getByline());
 		}
 
-		$tpl->setVariable("LABEL", $component->getLabel());
-
-		$icon = $component->getIcon();
-		if($icon){
-			$tpl->setVariable("ICON", $default_renderer->render($icon));
-		}
 
 		if($component->isHighlighted()){
 			$tpl->touchBlock("highlighted");

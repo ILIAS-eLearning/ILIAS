@@ -1,5 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
 
+use ILIAS\GlobalScreen\Client\Client;
+use ILIAS\GlobalScreen\Client\ClientSettings;
+use ILIAS\GlobalScreen\Client\ItemState;
+use ILIAS\GlobalScreen\Client\ModeToggle;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
@@ -8,6 +12,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\NullModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\ModificationHandler;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -37,7 +42,7 @@ class MainLayoutCollector
     /**
      * MainLayoutCollector constructor.
      *
-     * @param ModificationProvider[] $providers
+     * @param array $providers
      */
     public function __construct(array $providers)
     {
@@ -68,6 +73,35 @@ class MainLayoutCollector
      */
     public function getFinalPage() : Page
     {
+        // Client
+        $settings = new ClientSettings();
+
+        if ((new ModeToggle())->getMode() == ModeToggle::MODE1) {
+            // $settings->setClearStatesForlevels([
+            //     ItemState::LEVEL_OF_TOPITEM => [ItemState::LEVEL_OF_TOPITEM],
+            //     ItemState::LEVEL_OF_TOOL    => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL],
+            // ]);
+            $settings->setStoreStateForLevels(
+                [
+                    ItemState::LEVEL_OF_TOPITEM,
+                    ItemState::LEVEL_OF_TOOL,
+                    ItemState::LEVEL_OF_SUBITEM,
+                ]
+            );
+        } else {
+            // $settings->setClearStatesForlevels([
+            //     ItemState::LEVEL_OF_TOPITEM => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
+            //     ItemState::LEVEL_OF_TOOL    => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
+            //     ItemState::LEVEL_OF_SUBITEM => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
+            // ]);
+            $settings->setStoreStateForLevels(
+                []
+            );
+        }
+
+        $client = new Client($settings);
+        $client->init($this->getMetaContent());
+
         $called_contexts = $this->getContextStack();
 
         $final_content_modification = new NullModification();
@@ -135,5 +169,16 @@ class MainLayoutCollector
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
         return $called_contexts;
+    }
+
+
+    /**
+     * @return MetaContent
+     */
+    private function getMetaContent() : MetaContent
+    {
+        global $DIC;
+
+        return $DIC->globalScreen()->layout()->meta();
     }
 }
