@@ -24,7 +24,7 @@ il.UI = il.UI || {};
 		}
 
 		var initNodesForActions = function (tree) {
-			tree.find('.il-tree-node .node-line node-label a').click(
+			tree.find('.il-tree-node .node-line .node-label a').click(
 				function(e) {
 					let href = $(this).attr('href');
 
