@@ -124,18 +124,13 @@ class ilMailExplorer implements TreeRecursion
         $record,
         $environment = null
     ) : Node {
+        /** @var Node $node */
         $node = $this->createNode($factory, $record);
 
         $href = $this->getNodeHref($record);
 
         if ($href) {
-            $node = $node->withAdditionalOnLoadCode( function($id) use ($href) {
-                $js = "$('#$id').find('.node-label').on('click', function(event) {
-                            window.location = '{$href}';
-                            return false;
-                        });";
-                return $js;
-            });
+            $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
         }
 
         if ($this->isNodeOpen($record['child'])) {
