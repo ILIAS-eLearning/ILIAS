@@ -199,18 +199,13 @@ class ilForumExplorerGUI implements TreeRecursion
      */
     public function build(\ILIAS\UI\Component\Tree\Node\Factory $factory, $record, $environment = null) : \ILIAS\UI\Component\Tree\Node\Node
     {
+        /** @var \ILIAS\UI\Component\Tree\Node\Node $node */
         $node = $this->createNode($factory, $record);
 
         $href = $this->getNodeHref($record);
 
         if ($href) {
-            $node = $node->withAdditionalOnLoadCode(function ($id) use ($href) {
-                $js = "$('#$id').find('.node-label').on('click', function(event) {
-                    window.location = '{$href}';
-                    return false;
-                });";
-                return $js;
-            });
+            $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
         }
 
         return $node;
