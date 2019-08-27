@@ -11,6 +11,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\NullModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\ModificationHandler;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -108,6 +109,7 @@ class MainLayoutCollector
         $final_breadcrumbs_modification = new NullModification();
         $final_main_bar_modification = new NullModification();
         $final_meta_bar_modification = new NullModification();
+        $final_page_modification = new NullModification();
 
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
@@ -130,6 +132,9 @@ class MainLayoutCollector
             // METABAR
             $meta_bar_modification = $provider->getMetaBarModification($called_contexts);
             $this->replaceModification($final_meta_bar_modification, $meta_bar_modification, MetaBarModification::class);
+            // PAGE
+            $page_modification = $provider->getPageBuilderDecorator($called_contexts);
+            $this->replaceModification($final_page_modification, $page_modification, PageBuilderModification::class);
         }
 
         if ($final_content_modification->hasValidModification()) {
@@ -146,6 +151,9 @@ class MainLayoutCollector
         }
         if ($final_meta_bar_modification->hasValidModification()) {
             $this->modification_handler->modifyMetaBarWithClosure($final_meta_bar_modification->getModification());
+        }
+        if ($final_page_modification->hasValidModification()) {
+            $this->modification_handler->modifyPageBuilderWithClosure($final_page_modification->getModification());
         }
 
         return $this->modification_handler->getPageWithPagePartProviders();
