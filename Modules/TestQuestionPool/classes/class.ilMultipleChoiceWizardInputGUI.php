@@ -75,8 +75,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 				}
 				foreach ($foundvalues['points_unchecked'] as $points)
 				{
-					if ($points > $max) $max = $points;
-					if (((strlen($points)) == 0) || (!is_numeric($points))) 
+					if (((strlen($points)) == 0) || (!is_numeric($points)))
 					{
 						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
 						return FALSE;
@@ -85,7 +84,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 			}
 			if ($max == 0)
 			{
-				$this->setAlert($lng->txt("enter_enough_positive_points"));
+				$this->setAlert($lng->txt("enter_enough_positive_points_checked"));
 				return false;
 			}
 
