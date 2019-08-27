@@ -8317,15 +8317,6 @@ div.alert ul > li:before {
 .il-tree .il-tree-node.expandable .node-label {
   padding-left: 2px;
 }
-.il-tree .node-byline {
-  display: block;
-  line-height: 0.9em;
-  margin-bottom: 10px;
-  text-decoration: none;
-  cursor: text;
-  font-size: smaller;
-  padding-left: 23px;
-}
 .il-tree .il-tree-node.expandable > .node-line:before {
   font-family: 'Glyphicons Halflings';
   content: "\e250";
