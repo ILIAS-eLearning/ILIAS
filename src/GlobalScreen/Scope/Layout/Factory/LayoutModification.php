@@ -73,11 +73,23 @@ interface LayoutModification
     /**
      * @return string|null
      */
-    public function getClosureFirstArgumentTypeOrNull() : ?string;
+    public function getClosureFirstArgumentType() : string;
 
 
     /**
      * @return string
      */
     public function getClosureReturnType() : string;
+
+
+    /**
+     * @return bool
+     */
+    public function firstArgumentAllowsNull() : bool;
+
+
+    /**
+     * @return bool
+     */
+    public function returnTypeAllowsNull() : bool;
 }
