@@ -1,5 +1,6 @@
 # Table of Contents
 - [Hardening and Security Guidance](#hardening-and-security-guidance)
+  * [List of placeholder names](#list-of-placeholder-names)
   * [Firewalling](#firewalling)
   * [File Access Rights](#file-access-rights)
   * [Place data directory outside of the web root](#place-data-directory-outside-of-the-web-root)
@@ -29,6 +30,21 @@ This guideline is going to show you some best practice examples how to improve t
 The ILIAS e.V. requested a documentation for a "Secure ILIAS" in march 2019.
 The section "Hardening and Security Guidance" should be removed and the security related instructions have to be mantained in a own document.
 
+## List of placeholder names
+
+In the following text includes some placeholder.
+For a better identification, they will describe here:
+
+|  placeholder |  description |
+|-------|-------|
+|  %USERNAME% |  a choiceable user name or the webserver user based on distribution  |
+| %GROUP% | a choiceable group name or the webserver group based on distribution|
+| %HOSTNAME% | your specific fully qualified domain name of ILIAS  |
+| %IPADDRESS% | ip address in CIDR notation  |
+| %DOCROOT% | directory that forms the main document tree visible from the web |
+| %CLIENTID% | the client name of the ILIAS installation  |
+
+
 ## Firewall
 
 Block all traffic by default and explicitly allow only specific traffic to port 443/TCP for HTTPS secured traffic.
@@ -44,26 +60,26 @@ The only files and directories that MUST be owned/writeable by the web user are:
   * data/
   * ILIAS data dir outside of the webservers docroot
 
-All the other files and directories should be owned by ```root```, but readable by the web user (e.g. 644/755).
+All the other files and directories should be owned by a specific user ( %USERNAME% and %GROUP%, has to be created ), but readable by the web user (e.g. 644/755).
 
-example of the suggested configuration:
+example of the suggested configuration (may you can choose other directories, based on your discretion / distribution standard ):
 ```
-git clone --single-branch -b release_5-4 https://github.com/ILIAS-eLearning/ILIAS.git \ /var/www/ilias/.
+git clone --single-branch -b release_5-4 https://github.com/ILIAS-eLearning/ILIAS.git %DOCROOT%/.
 
 mkdir -p /var/www/ilias;
 mkdir /var/www/ilias_data;
 mkdir /var/www/ilias_log;
 mkdir /var/www/ilias_log/ilias_errors
 
-chown [www-data:www-data|www_ilias_1:www_ilias_1] /var/www/ilias /var/www/ilias/data
-chown [www-data:www-data|www_ilias_1:www_ilias_1] /var/www/ilias_data
-chown [www-data:www-data|www_ilias_1:www_ilias_1] /var/www/ilias_log
-chown [www-data:www-data|www_ilias_1:www_ilias_1] /var/www/ilias_log/ilias_errors
+chown %USERNAME%:%GROUP% /var/www/ilias /var/www/ilias/data
+chown %USERNAME%:%GROUP% /var/www/ilias_data
+chown %USERNAME%:%GROUP% /var/www/ilias_log
+chown %USERNAME%:%GROUP% /var/www/ilias_log/ilias_errors
 
-chmod [2]775 /var/www/ilias/data
-chmod [2]775 /var/www/ilias_data
-chmod [2]775 /var/www/ilias_log
-chmod [2]775 /var/www/ilias_log/ilias_errors
+chmod 2775 /var/www/ilias/data
+chmod 2775 /var/www/ilias_data
+chmod 2775 /var/www/ilias_log
+chmod 2775 /var/www/ilias_log/ilias_errors
 ```
 
 After the installation of ILIAS is finished, you SHOULD also revoke write permission for the file ```ilias.ini.php``` (e.g. ```/var/www/ilias/ilias.ini.php```).
@@ -78,28 +94,29 @@ You MAY use openbasedir-restriction to avoid malicious software to directory-tra
 
 Apache2:
 
-    php_admin_value open_basedir ./:%docroot_dir%:/usr/share/php/:/var/www/lib/:/tmp
+    php_admin_value open_basedir ./:%DOCROOT%:/usr/share/php/:/var/www/lib/:/tmp
 
 Nginx:
 
-    fastcgi_param PHP_VALUE open_basedir="./:%docroot_dir%:/usr/share/php/:/var/www/lib/:/tmp";
+    fastcgi_param PHP_VALUE open_basedir="./:%DOCROOT%:/usr/share/php/:/var/www/lib/:/tmp";
 **Hint:** This option will be applied to the PHP-FPM process. If there are multiple websites on your webserver you have to define a single PHP-FPM-pool for each website. Otherwise these other homepages won' t be accessible anymore.
 
 ## OS user handling security
 
-If you use PHP-FPM (FastCGI Process Manager), you can increase security by running the PHP-FPM processes as an specific instead ```www-data``` / ```wwwrun``` (depends on linux distribution).
+If you use PHP-FPM (FastCGI Process Manager), you can increase security by running the PHP-FPM processes as a specific unique user instead of ```www-data``` / ```wwwrun``` (depends on linux distribution).
 
 Snippet from a PHP-FPM pool definition:
 ```
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
-user = www_ilias_1
-group = www_ilias_1
+user = %USERNAME%
+group = %GROUP%
 ```
 
+
 **note:**  
-NGINX and also apache2 is can only run with one user (no multi user multi process model).  
+NGINX and also apache2 can only run with one user (no multi user multi process model).  
 So it is necessary to put all the "PHP-FPM"-users in the primary group of the webserver user.
 
 ## Major security improvement: use HTTPS
@@ -115,8 +132,8 @@ To redirect all HTTP traffic to HTTPS you SHOULD issue a permanent redirect usin
 
 ```
 <VirtualHost *:80>
-   ServerName yourservername.org
-   Redirect permanent / https://yourservername.org/
+   ServerName %HOSTNAME%
+   Redirect permanent / https://%HOSTNAME%/
 </VirtualHost>
 ```
 
@@ -126,10 +143,10 @@ To redirect all HTTP traffic to HTTPS you SHOULD issue a permanent redirect usin
 server {
 		listen   *:80;
 		listen   [::]:80;
-		server_name yourservername.org;
+		server_name %HOSTNAME%;
 
 		location / {
-				return 301 https://yourservername.org$request_uri;				
+				return 301 https://%HOSTNAME%$request_uri;				
 		}
 ```
 
@@ -160,7 +177,7 @@ Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
 ```
 <VirtualHost *:443>
     ...
-    ServerName yourservername.org
+    ServerName %HOSTNAME%
     ...
     SSLEngine on
     SSLCertificateFile       /path/to/signed_cert_plus_intermediates
@@ -187,7 +204,7 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
     ...
-    server_name yourservername.org;
+    server_name %HOSTNAME%;
     ...
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /path/to/signed_cert_plus_intermediates;
@@ -213,10 +230,13 @@ Run ``openssl dhparam -out /etc/ssl/private/dhparam.pem 4096`` in terminal to ge
 
 We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings. It is recommended, to reach a "A" rating as minimum.
 
+It is necessary to often revise these configuration.
+In best case, you allways use the latest "Modern" configuration.
 
 ### Serve security related Headers
 
 To improve the security of your ILIAS users you SHOULD set the following Headers:
+(this is experience based configuration set of headers, may this can differ to your configuration/ usage scenario)
 
 
 ```
@@ -273,7 +293,13 @@ Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
 
 note:  
 If you use a proxied [Chat Server](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Modules/Chatroom/README.md), you MUST add the url to the CSP definition:  
-```connect-src 'self' wss://onscreenchat.yourservername.org https://onscreenchat.yourservername.org;```
+```connect-src 'self' wss://onscreenchat.%HOSTNAME% https://onscreenchat.%HOSTNAME%;```
+
+If you use other external content (e.g. for a SCORM module or external video content) you have to add a ```default-src``` (The default-src is the default policy for loading content such as JavaScript, Images, CSS, Fonts, AJAX requests, Frames, HTML5 Media from other sites):
+
+e.g. for https://www.youtube.com as source:
+
+```default-src 	'self' www.youtube.com; ...```
 
 #### Validate the header configuration
 It is recommended to validate your configuration with the services from https://securityheaders.com/.  
@@ -281,7 +307,7 @@ Try to reach **A** grade.
 
 ### Enable OCSP stapling (TLS Certificate Status Request)
 
-The  TLS/SSL extension [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling) provides a way to improve the performance (cause the webserver is will done this instead of the browser client) of SSL negotiation while maintaining visitor privacy.
+The  TLS/SSL extension [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling) provides a way to improve the performance (cause the webserver is will do this instead of the browser client) of SSL negotiation while maintaining visitor privacy.
 The [Online Certificate Status Protocol (OCSP)](https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol) is used for checking the revocation status of a SSL certificate (X.509 certificate). -> https://tools.ietf.org/html/rfc6066
 
 By adding the following to your SSL VirtualHost configuration your webserver will do the check for you and send signatured information regarding to browser client
@@ -313,8 +339,19 @@ SSLStaplingCache shmcb:/tmp/stapling_cache(128000)
 #### Check the OCSP configuration
 
 ```
-openssl s_client -connect yourservername.org:443 -servername yourservername.org -status < /dev/null 2>&1 | grep -i "OCSP response"
+openssl s_client -connect %HOSTNAME%:443 -servername %HOSTNAME% -status < /dev/null 2>&1 | grep -i "OCSP response"
 ```
+
+The expected output of a working OCSP configuration:
+```
+OCSP response:
+OCSP Response Data:
+    OCSP Response Status: successful (0x0)
+    Response Type: Basic OCSP Response
+```
+
+The [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) will also provided you a working or non-working OCSP configuration:
+```OCSP stapling 	Yes```
 
 ### Enable HTTP Strict Transport Security
 
@@ -351,6 +388,8 @@ max-age:                 Duration of cached information (180 days)
 
 ### Genrate the ILIAS ```ilClientId``` cookie with ```secure``` attribute
 
+(The JF https://docu.ilias.de/goto.php?target=wiki_1357_JourFixe-2018-04-23 suggested to do this in webserver configuration.)
+
 The browser will include the cookie in an HTTP request only if the request is transmitted over a secure channel (HTTPS).  
 https://en.wikipedia.org/wiki/Secure_cookie
 
@@ -367,7 +406,7 @@ Apache2 will use this for all cookie, who are beeing created.
 You can simply add for example ```add_header Set-Cookie``` in your ```server``` configuration.
 
 ```
-    add_header Set-Cookie "ilClientId=%client_id%; Path=/; Secure; HttpOnly";
+    add_header Set-Cookie "ilClientId=%CLIENTID%; Path=/; Secure; HttpOnly";
 ```
 note:  
 For nginx, you have to generate a specific cookie for your ILIAS client.
@@ -423,12 +462,12 @@ Apache2:
         <IfVersion < 2.3>
          Order Deny,Allow
          Deny From All
-         Allow from %IP-Address
+         Allow from %IPADDRESS%
         </IfVersion>
 
         <IfVersion > 2.3>
             Require all denied
-            Require ip %IP-Address
+            Require ip %IPADDRESS%
         </IfVersion>
     </Location>
 ```
@@ -437,20 +476,22 @@ Nginx:
 
 ```
     location /setup {
-        allow %IP-Address;
+        allow %IPADDRESS%;
         deny all;
 
         # add location for PHP processing here
     }
     location /setup/setup.php {
-        allow %IP-Address;
+        allow %IPADDRESS%;
         deny all;
     }
 
 ```
 
+Please add here the whitelisted ip address (%IPADDRESS%) to grant access to ILIAS setup here.
+
 ### Prevent blacklisted files of beeing served by the webserver
-If somebody tries to upload a file thats filetype is blacklisted by the upload settings, the upload will take place but the file will be renamed to ``filename.sec``. The webserver MUST not serve this file anymore to it's visitors as the file may consists of maliscious software.
+If somebody tries to upload a file thats filetype is blacklisted by the upload settings, the upload will take place but the file will be renamed to ``filename.sec``. The webserver should not serve this file anymore to it's visitors as the file may consists of maliscious software.
 
 Apache2:
 
@@ -505,7 +546,7 @@ Nginx:
 Local changes of the code of ILIAS can indicate a potential intrusion.
 
 To determine local changes of the code of ILIAS use `git status` / `git diff`.
-This will show you the uncommited local changes. 
+This will show you the uncommited local changes.
 (Beware: Committed local changes remain undetected using this method.)
 (If you have conscious code local changes, this can lead to a false positive.)
 
@@ -514,7 +555,7 @@ In previous versions of ILIAS, it might have been possible to access SCORM, Medi
 
 Please note that this will not work with Nginx as ``.htaccess-files`` are not supported. Instead you MUST add the following to your Nginx configuration file (please note that running ILIAS with Nginx isn't officially supported and certain features like Shibboleth won't work):
 
-This is a NGINX recommended configuration. (note: inside the `%docroot_dir%/data` no PHP will be proceed)
+This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no PHP will be proceed)
 
 
 ```
@@ -543,9 +584,9 @@ This is a NGINX recommended configuration. (note: inside the `%docroot_dir%/data
 > This is needed if you want to use the ilFileDelivery::DELIVERY_METHOD_XACCEL or the ilFileDelivery::DELIVERY_METHOD_XSENDFILE Method since PHP can't figure out whether X-Accel ist installed or not.""
 
 rename the file:  
-     ```%docroot_dir%/Services/FileDelivery/classes/override.php.template```  
+     ```%DOCROOT%/Services/FileDelivery/classes/override.php.template```  
 to  
-     ```%docroot_dir%Services/FileDelivery/classes/override.php```  
+     ```%DOCROOT%/Services/FileDelivery/classes/override.php```  
 
 
 ## Use secure passwords
@@ -554,7 +595,9 @@ Please keep in mind, that your plattform might me be accessible to the world wid
 Your passwords should fullfil the following criterias:
 
 * at least 8 characters in length
-* lowercase and uppercase alphabetic characters, numbers and symbols
+* lowercase and uppercase alphabetic characters [possible:  ```a-z```, ```A-Z```]
+* numbers [possible:  ```0-9```]
+* and symbols [possible:  ```_ . + ? # - * @ ! $ % ~ / : ;```]
 * do not consist of information that can easily be associated with the user
 
 You MAY generate a password by using the pwgen-command on your webserver's cli
