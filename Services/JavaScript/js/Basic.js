@@ -19,7 +19,9 @@ if (!window.console) {
 }
 
 // global il namespace, additional objects usually should be added to this one
-il = il || {};
+if (typeof il === 'undefined') {
+	il = {}
+}
 
 // utility functions
 il.Util = {
