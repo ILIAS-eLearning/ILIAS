@@ -15195,3 +15195,5 @@ common#:#mm_certificates#:#Zertifikate
 common#:#mm_personal_and_shared_r#:#Persönliche und geteilte Ressourcen
 common#:#mm_personal_workspace#:#Persönlicher Arbeitsraum
 content#:#lm_editing_view#:#Bearbeitungsansicht
+common#:#mm_repo_tree_view_act#:#Baumansicht an
+common#:#mm_repo_tree_view_deact#:#Baumansicht aus

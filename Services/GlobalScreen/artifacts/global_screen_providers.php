@@ -38,6 +38,7 @@
     2 => 'ilLMGSToolProvider',
     3 => 'ilMailGlobalScreenToolProvider',
     4 => 'ilMediaPoolGSToolProvider',
+    5 => 'ilRepositoryGSToolProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (
