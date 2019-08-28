@@ -5,6 +5,7 @@
 use PHPUnit\Framework\TestCase;
 
 use ILIAS\Setup\Environment;
+use ILIAS\Setup\ObjectiveIterator;
 
 class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 	public $called = [];
@@ -68,7 +69,13 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 			->expects($this->exactly(3))
 			->method("connect");
 
-		$this->test1->achieve($env);
+		$i = new ObjectiveIterator($env, $this->test1);
+		while($i->valid()) {
+			$current = $i->current();
+			$env = $current->achieve($env);
+			$i->setEnvironment($env);
+			$i->next();
+		}
 
 		$this->assertEquals([1,2,4], $this->test1->called);
 	}

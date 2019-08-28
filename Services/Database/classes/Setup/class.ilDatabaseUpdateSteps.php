@@ -3,6 +3,8 @@
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup\Environment;
+use ILIAS\Setup\CallableObjective;
+use ILIAS\Setup\NullObjective;
 
 
 /**
@@ -34,11 +36,14 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	 * that are contained.
 	 */
 	final public function getHash() : string {
-		throw \LogicException("NYI!");
+		return hash(
+			"sha256",
+			get_class($this)
+		);
 	}
 
 	public function getLabel() : string {
-		return "Database update steps in ".static::class;
+		return "Database update steps in ".get_class($this);
 	}
 
 	/**
@@ -52,23 +57,31 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	 * @inheritdocs
 	 */
 	final public function getPreconditions(Environment $environment) : array {
-		if ($environment->getResource(Setup\Environment::RESOURCE_DATABASE)) {
+		if (!$environment->getResource(Environment::RESOURCE_DATABASE)) {
+			$pre = new \ilDatabaseExistsObjective($this->config);
 		}
-		return [
-			new \ilDatabaseExistsObjective($this->config)
-		];
+		else {
+			$pre = new NullObjective();
+		}
+
+		$steps = $this->getSteps();
+		$class = get_class($this);
+		foreach($steps as $k => $s) {
+			$pre = new CallableObjective(
+				$s,
+				"Database update step $class::step_$k",
+				false,
+				$pre
+			);
+		}
+
+		return [$pre];
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	final public function achieve(Environment $environment) : Environment {
-		$db = $environment->getResource(Environment::RESOURCE_DATABASE);
-
-		foreach ($this->getSteps() as $num => $method) {
-			call_user_func($method, $db);
-		}
-
 		return $environment;
 	}
 
