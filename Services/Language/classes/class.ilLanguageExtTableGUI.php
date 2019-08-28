@@ -111,7 +111,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             include_once("./Services/Form/classes/class.ilTextInputGUI.php");
             $ti = new ilTextInputGUI($lng->txt("search"), "pattern");
             $ti->setParent($this->parent_obj);
-            $ti->setMaxLength(64);
+            $ti->setMaxLength(200);
             $ti->setSize(20);
             $this->addFilterItem($ti);
             $ti->readFromSession();
