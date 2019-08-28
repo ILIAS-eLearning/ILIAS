@@ -72,7 +72,7 @@ class ilSCORM2004PageLayout
 
 		$r = $ilDB->queryF('SELECT title FROM page_layout WHERE layout_id = %s',
 		array('integer'),array($this->layout_id));
-		$row->$ilDB->fetchAssoc($r);
+		$row = $ilDB->fetchAssoc($r);
 		
 		return $row['title'];
 	}

@@ -1124,11 +1124,11 @@ class ilSCORM2004Node
 	}
 	
 	//function currently unused - shouldn't be removed if subchapter support may be added in the future
-	public function parentHasSeqTemplate(){
-		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Utilities.php");
-		$seq_util = new ilSCORM2004Utilities($this->getId());
-		return $seq_util -> parentHasSeqTemplate($this->slm_object);
-	}
+//	public function parentHasSeqTemplate(){
+//		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Utilities.php");
+//		$seq_util = new ilSCORM2004Utilities($this->getId());
+//		return $seq_util -> parentHasSeqTemplate($this->slm_object);
+//	}
 	
 	
 	public function exportAsScorm12() {
