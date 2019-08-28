@@ -236,7 +236,7 @@ In best case, you allways use the latest "Modern" configuration.
 ### Serve security related Headers
 
 To improve the security of your ILIAS users you SHOULD set the following Headers:
-(this is experience based configuration set of headers, may this can differ to your configuration/ usage scenario)
+(this is an experience based configuration set of headers, this may differ from your configuration/usage scenario)
 
 
 ```
