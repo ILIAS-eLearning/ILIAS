@@ -350,7 +350,7 @@ OCSP Response Data:
     Response Type: Basic OCSP Response
 ```
 
-The [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) will also provided you a working or non-working OCSP configuration:
+The [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) will also show if your OCSP configuration is working:
 ```OCSP stapling 	Yes```
 
 ### Enable HTTP Strict Transport Security
