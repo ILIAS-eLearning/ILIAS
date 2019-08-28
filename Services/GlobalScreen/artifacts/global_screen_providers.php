@@ -26,16 +26,28 @@
   'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\StaticMetaBarProvider' => 
   array (
     0 => 'ILIAS\\BackgroundTasks\\Provider\\BackgroundTasksMetaBarProvider',
-    1 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
-    2 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
+    1 => 'ILIAS\\GlobalScreen\\Provider\\GSMetaBarProvider',
+    2 => 'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\NotificationCenterProvider',
+    3 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
+    4 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
-    0 => 'ilMediaPoolGSToolProvider',
+    0 => 'ILIAS\\Init\\Provider\\InitToolProvider',
+    1 => 'ilForumGlobalScreenToolsProvider',
+    2 => 'ilLMGSToolProvider',
+    3 => 'ilMailGlobalScreenToolProvider',
+    4 => 'ilMediaPoolGSToolProvider',
+    5 => 'ilRepositoryGSToolProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (
     0 => 'ILIAS\\Container\\Screen\\MemberViewLayoutProvider',
-    1 => 'ILIAS\\UICore\\PageContentProvider',
+    1 => 'ILIAS\\GlobalScreen\\Provider\\GSModificationProvider',
+    2 => 'ILIAS\\UICore\\PageContentProvider',
+  ),
+  'ILIAS\\GlobalScreen\\Scope\\Notification\\Provider\\NotificationProvider' => 
+  array (
+    0 => 'ILIAS\\BackgroundTasks\\Provider\\BTNotificationProvider',
   ),
 );

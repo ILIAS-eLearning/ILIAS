@@ -3377,7 +3377,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		exit;
 	}
 	// begin-patch fm
-		
+
 	/**
 	 * Show tree
 	 */
@@ -3417,6 +3417,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			? $_SESSION["il_rep_mode"]
 			: "flat";
 
+		$mode = "tree";
+
 		// check for administration context, see #0016312
 		if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui"))
 		{
@@ -3432,7 +3434,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			if (!$exp->handleCommand())
 			{
-				$tpl->setLeftNavContent($exp->getHTML());
+//				$tpl->setLeftNavContent($exp->getHTML());
 			}
 		}
 	}

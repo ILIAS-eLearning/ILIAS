@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
+use ILIAS\GlobalScreen\Collector\Collector;
+use ILIAS\GlobalScreen\Collector\LogicException;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Provider\Provider;
@@ -25,7 +27,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainMenuMainCollector
+class MainMenuMainCollector implements Collector
 {
 
     /**
@@ -75,7 +77,6 @@ class MainMenuMainCollector
         $this->information = $information;
         $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->load();
     }
 
 
@@ -89,6 +90,15 @@ class MainMenuMainCollector
 
 
     /**
+     * @inheritDoc
+     */
+    public function hasItems() : bool
+    {
+        return (is_array(self::$items) && count(self::$items) > 0);
+    }
+
+
+    /**
      * This will return all available topitems, stacked based on the configuration
      * in "Administration" and for the visibility of the currently user.
      * Additionally this will filter sequent Separators to avoid double Separators
@@ -97,7 +107,7 @@ class MainMenuMainCollector
      * @return isTopItem[]
      * @throws \Throwable
      */
-    public function getStackedTopItemsForPresentation() : array
+    public function getItems() : array
     {
         return $this->getStackedTopItems();
     }
@@ -109,7 +119,6 @@ class MainMenuMainCollector
      */
     private function getStackedTopItems() : array
     {
-        $this->load();
         $top_items = [];
         foreach (self::$topitems as $top_item) {
             if (!$this->checkAvailability($top_item)) {
@@ -189,7 +198,6 @@ class MainMenuMainCollector
      */
     public function getSingleItem(IdentificationInterface $identification) : isItem
     {
-        $this->load();
         try {
             return self::$items[$identification->serialize()];
         } catch (\Throwable $e) {
@@ -223,7 +231,7 @@ class MainMenuMainCollector
      * @return bool
      * @throws \Throwable
      */
-    private function load() : bool
+    public function collect() : void
     {
         if ($this->loaded === false || $this->loaded === null) {
             /**
@@ -240,8 +248,6 @@ class MainMenuMainCollector
                 throw $e;
             }
         }
-
-        return $this->loaded;
     }
 
 

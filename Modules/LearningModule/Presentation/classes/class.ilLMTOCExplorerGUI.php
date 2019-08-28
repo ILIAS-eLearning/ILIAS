@@ -13,25 +13,53 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 {
 	protected $lang;
 	protected $highlight_node;
-	protected $tracker;
 	protected $export_all_languages;
+    /**
+     * @var ilObjLearningModule
+     */
+	protected $lm;
+
+    /**
+     * @var ilSetting
+     */
+	protected $lm_set;
+
+    /**
+     * @var ilLMPresentationLinker
+     */
+	protected $linker;
+
+	protected $focus_id;
+
+    /**
+     * @var ilLMPresentationService
+     */
+	protected $service;
+
+    /**
+     * @var ilLMTracker
+     */
+	protected $tracker;
 
 	/**
 	 * Constructor
 	 *
-	 * @param object $a_parent_obj parent gui object
+	 * @param object|string $a_parent_obj parent gui object
 	 * @param string $a_parent_cmd parent cmd
-	 * @param ilLMPresentationGUI $a_lm_pres learning module presentation gui object
+	 * @param ilLMPresentationService $service
 	 * @param string $a_lang language
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilLMPresentationGUI $a_lm_pres, $a_lang = "-",
+	function __construct($a_parent_obj, $a_parent_cmd, ilLMPresentationService $service, $a_lang = "-",
 		$a_focus_id = 0, $export_all_languages = false)
 	{
 		global $DIC;
 
+		$this->service = $service;
 		$this->user = $DIC->user();
-		$this->lm_pres = $a_lm_pres;
-		$this->lm = $this->lm_pres->lm;
+		$this->lm = $service->getLearningModule();
+		$this->linker = $service->getLinker();
+		$this->tracker = $service->getTracker();
+
 		$exp_id = (!$this->getOfflineMode() && $this->lm->getProgressIcons())
 			? "ilLMProgressTree"
 			: "";
@@ -129,7 +157,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	{
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
-			return $this->lm_pres->getLMPresentationTitle();
+			return $this->service->getPresentationStatus()->getLMPresentationTitle();
 		}
 
 		if ($a_node["type"] == "st")
@@ -323,7 +351,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	{
 		if (!$this->getOfflineMode())
 		{
-			return $this->lm_pres->getLink($this->lm->getRefId(), "", $a_node["child"]);
+			return $this->linker->getLink("", $a_node["child"]);
 			//return parent::buildLinkTarget($a_node_id, $a_type);
 		}
 		else

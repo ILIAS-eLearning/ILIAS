@@ -51,4 +51,13 @@ class ModificationFactory
     {
         return new BreadCrumbsModification();
     }
+
+
+    /**
+     * @return PageBuilderModification
+     */
+    public function page() : PageBuilderModification
+    {
+        return new PageBuilderModification();
+    }
 }

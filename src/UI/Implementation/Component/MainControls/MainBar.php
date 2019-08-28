@@ -6,7 +6,9 @@ namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\MainControls;
+use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -88,7 +90,11 @@ class MainBar implements MainControls\MainBar
 	 */
 	public function withAdditionalEntry(string $id, $entry): MainControls\MainBar
 	{
-		$classes = [Button\Bulky::class, MainControls\Slate\Slate::class];
+		$classes = [
+			Button\Bulky::class,
+			Link\Bulky::class,
+			MainControls\Slate\Slate::class
+		];
 		$check = [$entry];
 		$this->checkArgListElements("Bulky or Slate", $check, $classes);
 
@@ -112,11 +118,8 @@ class MainBar implements MainControls\MainBar
 	/**
 	 * @inheritdoc
 	 */
-	public function withAdditionalToolEntry(string $id, $entry): MainControls\MainBar
+	public function withAdditionalToolEntry(string $id, Slate $entry): MainControls\MainBar
 	{
-		$class = MainControls\Slate\Slate::class;
-		$this->checkArgInstanceOf("Tools must be Slates", $entry, $class);
-
 		if(! $this->tools_button) {
 			throw new \LogicException("There must be a tool-button configured to add tool-entries", 1);
 		}

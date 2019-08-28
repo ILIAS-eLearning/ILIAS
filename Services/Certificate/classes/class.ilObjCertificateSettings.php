@@ -67,17 +67,7 @@ class ilObjCertificateSettings extends ilObject
     */
     public function getBackgroundImagePath()
     {
-        return $this->getBackgroundImageDefaultFolder() . $this->getBackgroundImageName();
-    }
-
-    /**
-    * Returns the filename of the background image
-    *
-    * @return string The filename of the background image
-    */
-    public function getBackgroundImageName()
-    {
-        return "background.jpg";
+        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
     }
 
     /**
@@ -87,7 +77,7 @@ class ilObjCertificateSettings extends ilObject
     */
     public function getBackgroundImageThumbPath()
     {
-        return $this->getBackgroundImageDefaultFolder() . $this->getBackgroundImageName() . ".thumb.jpg";
+        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
 
     /**
@@ -132,7 +122,7 @@ class ilObjCertificateSettings extends ilObject
     public function uploadBackgroundImage($image_tempfilename)
     {
         if (!empty($image_tempfilename)) {
-            $convert_filename = $this->getBackgroundImageName();
+            $convert_filename = ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
             $imagepath = $this->getBackgroundImageDefaultFolder();
             if (!file_exists($imagepath)) {
                 ilUtil::makeDirParents($imagepath);
