@@ -16,6 +16,15 @@ use ILIAS\UI\Renderer;
  */
 class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 {
+    /** @var array */
+    private $sortationOptions;
+
+    /** @var int */
+    private $defaultSorting;
+
+    /** @var \ILIAS\GlobalScreen\Services */
+    private $globalScreen;
+
     /** @var string */
     public $modal_history = '';
 
@@ -91,6 +100,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->httpRequest = $DIC->http()->request();
         $this->uiFactory   = $DIC->ui()->factory();
         $this->uiRenderer  = $DIC->ui()->renderer();
+        $this->globalScreen = $DIC->globalScreen();
 
         $this->access              = $DIC->access();
         $this->ilObjDataCache      = $DIC['ilObjDataCache'];
@@ -124,6 +134,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         // Model of current post
         $this->objCurrentPost = new ilForumPost((int)$_GET['pos_pk'], $this->is_moderator);
+
+        $this->sortationOptions = array(
+            ilForumProperties::VIEW_TREE => 'sort_by_posts',
+            ilForumProperties::VIEW_DATE => 'order_by_date'
+        );
+
+        $this->defaultSorting = ilForumProperties::VIEW_TREE;
     }
 
     protected function initSessionStorage()
@@ -289,7 +306,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             'deliverDraftZipFile',
             'deliverZipFile',
             'cancelDraft',
-            'deleteThreadDrafts'
+            'deleteThreadDrafts',
         );
 
         if (!in_array($cmd, $exclude_cmds)) {
@@ -1405,26 +1422,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->tabs->setBackTarget($this->lng->txt('all_topics'),
             'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $_GET['ref_id']);
 
-        // by answer view
-        $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-        $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-        $this->ctrl->setParameter($this, 'viewmode', ilForumProperties::VIEW_TREE);
-        $this->tabs->addTarget('sort_by_posts', $this->ctrl->getLinkTarget($this, 'viewThread'));
-
-        // by date view
-        $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-        $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-        $this->ctrl->setParameter($this, 'viewmode', ilForumProperties::VIEW_DATE);
-        $this->tabs->addTarget('order_by_date', $this->ctrl->getLinkTarget($this, 'viewThread'));
-
-        $this->ctrl->clearParameters($this);
-
-        if ($this->isHierarchicalView()) {
-            $this->tabs->activateTab('sort_by_posts');
-        } else {
-            $this->tabs->activateTab('order_by_date');
-        }
-
         /**
          * @var $frm ilForum
          */
@@ -2484,6 +2481,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
+        $toolContext = $this->globalScreen
+                            ->tool()
+                            ->context()
+                            ->current();
+
+        $additionalDataExists = $toolContext->getAdditionalData()->exists(ilForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL);
+        if (false === $additionalDataExists && $_SESSION['viewmode'] === ilForumProperties::VIEW_TREE) {
+            $toolContext->addAdditionalData(ilForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL, true);
+        }
+
         // init objects
         $oForumObjects = $this->getForumObjects();
         /**
@@ -2537,9 +2544,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         if ($this->isHierarchicalView()) {
-            $exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread');
-            $exp->setThread($this->objCurrentTopic);
-            $exp->handleCommand();
+            $exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread', $this->objCurrentTopic);
         }
 
         $this->lng->loadLanguageModule('forum');
@@ -2878,6 +2883,35 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if ($numberOfPostings > 0) {
             $threadContentTemplate->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
         }
+
+        $sorting = $this->defaultSorting;
+        if (isset($_SESSION['viewmode'])) {
+            $sorting = $_SESSION['viewmode'];
+        }
+
+        $translationKeys = array();
+        foreach ($this->sortationOptions as $sortingConstantKey => $languageKey) {
+            $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+            $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+            $this->ctrl->setParameter($this, 'viewmode', $sortingConstantKey);
+
+            $translationKeys[$this->lng->txt($languageKey)] = $this->ctrl->getLinkTarget(
+                $this,
+                'viewThread',
+                '',
+                false,
+                false
+            );
+
+            $this->ctrl->clearParameters($this);
+        }
+
+        $sortViewControl = $this->uiFactory
+                               ->viewControl()
+                               ->mode($translationKeys, $this->lng->txt($this->sortationOptions[$sorting]))
+                               ->withActive($this->lng->txt($this->sortationOptions[$sorting]));
+
+        $this->toolbar->addComponent($sortViewControl);
 
         $permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_' . $this->objCurrentTopic->getId());
         $this->tpl->setVariable('PRMLINK', $permalink->getHTML());

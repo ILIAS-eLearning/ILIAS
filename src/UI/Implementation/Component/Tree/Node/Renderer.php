@@ -43,6 +43,9 @@ class Renderer extends AbstractComponentRenderer {
 			if($icon){
 				$tpl->setVariable("ICON_LINKED", $default_renderer->render($icon));
 			}
+			if ($component instanceof Node\Bylined && null !== $component->getByline()) {
+				$tpl->setVariable('BYLINE_LINKED', $component->getByline());
+			}
 		}
 		else {
 			$tpl->setCurrentBlock("node_without_link");
@@ -50,12 +53,10 @@ class Renderer extends AbstractComponentRenderer {
 			if($icon){
 				$tpl->setVariable("ICON", $default_renderer->render($icon));
 			}
+			if ($component instanceof Node\Bylined && null !== $component->getByline()) {
+				$tpl->setVariable('BYLINE', $component->getByline());
+			}
 		}
-
-		if ($component instanceof Node\Bylined && null !== $component->getByline()) {
-			$tpl->setVariable('BYLINE', $component->getByline());
-		}
-
 
 		if($component->isHighlighted()){
 			$tpl->touchBlock("highlighted");

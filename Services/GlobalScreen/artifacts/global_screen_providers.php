@@ -34,8 +34,10 @@
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
     0 => 'ILIAS\\Init\\Provider\\InitToolProvider',
-    1 => 'ilLMGSToolProvider',
-    2 => 'ilMediaPoolGSToolProvider',
+    1 => 'ilForumGlobalScreenToolsProvider',
+    2 => 'ilLMGSToolProvider',
+    3 => 'ilMailGlobalScreenToolProvider',
+    4 => 'ilMediaPoolGSToolProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (
