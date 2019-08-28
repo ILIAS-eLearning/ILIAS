@@ -307,7 +307,7 @@ Try to reach **A** grade.
 
 ### Enable OCSP stapling (TLS Certificate Status Request)
 
-The  TLS/SSL extension [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling) provides a way to improve the performance (cause the webserver is will do this instead of the browser client) of SSL negotiation while maintaining visitor privacy.
+The  TLS/SSL extension [OCSP stapling](https://en.wikipedia.org/wiki/OCSP_stapling) provides a way to improve the performance (as the webserver will fetch the OCS instead of the browser client) of SSL negotiation while maintaining visitor privacy.
 The [Online Certificate Status Protocol (OCSP)](https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol) is used for checking the revocation status of a SSL certificate (X.509 certificate). -> https://tools.ietf.org/html/rfc6066
 
 By adding the following to your SSL VirtualHost configuration your webserver will do the check for you and send signatured information regarding to browser client
