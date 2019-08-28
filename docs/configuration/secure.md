@@ -491,7 +491,7 @@ Nginx:
 Please add the whitelisted ip address (%IPADDRESS%) to grant access to ILIAS setup here.
 
 ### Prevent blacklisted files of beeing served by the webserver
-If somebody tries to upload a file thats filetype is blacklisted by the upload settings, the upload will take place but the file will be renamed to ``filename.sec``. The webserver should not serve this file anymore to it's visitors as the file may consists of maliscious software.
+If somebody tries to upload a file with a filetype blacklisted by the upload settings, the upload will take place, but the file will be renamed to ``filename.sec``. The webserver should not serve this file anymore to it's visitors as the file may consists of malicious software.
 
 Apache2:
 
