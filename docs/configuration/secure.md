@@ -38,7 +38,7 @@ For a better identification, they will describe here:
 |  placeholder |  description |
 |-------|-------|
 | %USERNAME% |  an individual user name or the webserver user based on distribution  |
-| %GROUP% | a choiceable group name or the webserver group based on distribution|
+| %GROUP% | a individual group name or the webserver group based on distribution|
 | %HOSTNAME% | your specific fully qualified domain name of ILIAS  |
 | %IPADDRESS% | ip address in CIDR notation  |
 | %DOCROOT% | directory that forms the main document tree visible from the web |
