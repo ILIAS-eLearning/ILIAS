@@ -1283,7 +1283,7 @@ class ilTrQuery
 								}
 								else
 								{
-									$a_fields[] = $function."(".$field."+childs_".$field.") ".$field."_".strtolower($function);
+									$a_fields[] = $function . "(COALESCE(" . $field . ", 0) + COALESCE(childs_" . $field . ", 0)) " . $field . "_" . strtolower($function);
 								}
 							}
 							break;
