@@ -67,12 +67,7 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 		$steps = $this->getSteps();
 		$class = get_class($this);
 		foreach($steps as $k => $s) {
-			$pre = new CallableObjective(
-				$s,
-				"Database update step $class::step_$k",
-				false,
-				$pre
-			);
+			$pre = new ilDatabaseUpdateStep($s[0], $s[1], $pre);
 		}
 
 		return [$pre];
