@@ -64,10 +64,9 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 			$pre = new NullObjective();
 		}
 
-		$steps = $this->getSteps();
 		$class = get_class($this);
-		foreach($steps as $k => $s) {
-			$pre = new ilDatabaseUpdateStep($s[0], $s[1], $pre);
+		foreach($this->getSteps() as $s) {
+			$pre = new ilDatabaseUpdateStep($this, $s, $pre);
 		}
 
 		return [$pre];
@@ -97,10 +96,10 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 				throw new \LogicException("Method $method seems to be a step but has an odd looking number");
 			}
 
-			$steps[(int)$number] = [$this, $method];	
+			$steps[] = $method;
 		}
 
-		ksort($steps);
+		sort($steps);
 
 		return $steps;
 	}

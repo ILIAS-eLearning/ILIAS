@@ -48,9 +48,9 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 		$steps = $this->test1->_getSteps();
 
 		$expected = [
-			1 => [$this->test1, "step_1"],
-			2 => [$this->test1, "step_2"],
-			4 => [$this->test1, "step_4"],
+			"step_1",
+			"step_2",
+			"step_4",
 		];
 
 		$this->assertEquals($expected, $steps);
