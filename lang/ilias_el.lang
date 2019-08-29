@@ -15047,3 +15047,17 @@ news#:#lso_news_online_txt#:#A new object for your learning sequence was just pu
 certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.###09 05 2019 new variable
 content#:#msg_no_page_access#:#You do not have the permission to access this page.###06 06 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###22 07 2019 new variable
+crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:###29 08 2019 new variable
+crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen###29 08 2019 new variable
+crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten###29 08 2019 new variable
+crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:###29 08 2019 new variable
+crs#:#timings_reminder_notifications#:#Course Timings Notifications###29 08 2019 new variable
+crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.###29 08 2019 new variable
+assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###29 08 2019 new variable
+file#:#upload_info#:#Upload###29 08 2019 new variable
+file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"###29 08 2019 new variable
+file#:#generate_sanitize_report#:#Report about inaccessible files###29 08 2019 new variable
+skmg#:#skmg_edit_sctp#:#Edit Template Category###29 08 2019 new variable
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###29 08 2019 new variable
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###29 08 2019 new variable
+crs#:#crs_objective_result_details#:#« Show Details###29 08 2019 new variable

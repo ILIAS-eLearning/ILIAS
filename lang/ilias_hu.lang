@@ -15053,3 +15053,10 @@ forum#:#frm_move_invalid_file_type#:#'%s' témához tiltott típusú fájlt töl
 crs#:#crs_objective_result_summary_initial#:#Belépő tesz: %1$s (%2$s szükséges)
 crs#:#crs_objective_result_summary_qualifying#:#Záró teszt: %1$s (%2$s szükséges)
 crs#:#crs_objective_result_details#:#« Részletek megjelenítése
+crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:###29 08 2019 new variable
+crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen###29 08 2019 new variable
+crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten###29 08 2019 new variable
+crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:###29 08 2019 new variable
+crs#:#timings_reminder_notifications#:#Course Timings Notifications###29 08 2019 new variable
+crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.###29 08 2019 new variable
+assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###29 08 2019 new variable
