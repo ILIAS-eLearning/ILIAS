@@ -81,6 +81,7 @@ abstract class ilExplorerBaseGUI
 		}
 
 		$this->nodeOnclickEnabled = true;
+        ilYuiUtil::initConnection();
 	}
 	
 	/**
