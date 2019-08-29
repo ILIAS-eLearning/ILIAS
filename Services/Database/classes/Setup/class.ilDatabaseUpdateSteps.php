@@ -105,11 +105,33 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 				throw new \LogicException("Method $method seems to be a step but has an odd looking number");
 			}
 
-			$this->steps[] = $method;
+			$this->steps[$method] = $method;
 		}
 
-		sort($this->steps);
+		asort($this->steps);
 
 		return $this->steps;
+	}
+
+	/**
+	 * Get the step-methods before the given step.
+	 *
+	 * @throws \LogicException if step is not known
+	 * @return string[]
+	 */
+	public function getStepsBefore(string $other) {
+		$this->getSteps();
+		if (!isset($this->steps[$other])) {
+			throw new \LogicException("Unknown database update step: $other");
+		}
+
+		$res = [];
+		foreach ($this->steps as $method) {
+			if ($method	=== $other) {
+				break;
+			}
+			$res[$method] = $method;
+		}
+		return $res;
 	}
 }
