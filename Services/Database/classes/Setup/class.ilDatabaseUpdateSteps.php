@@ -27,6 +27,11 @@ use ILIAS\Setup\NullObjective;
 abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	const STEP_METHOD_PREFIX = "step_";
 
+	/**
+	 * @var	string[]|null
+	 */
+	protected $steps = null;
+
 	final public function __construct(\ilDatabaseSetupConfig $config) {
 		parent::__construct($config);
 	}
@@ -83,7 +88,11 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	 * Get the step functions in this class.
 	 */
 	final protected function getSteps() {
-		$steps = [];
+		if (!is_null($this->steps)) {
+			return $this->steps;
+		}
+
+		$this->steps = [];
 
 		foreach (get_class_methods(static::class) as $method) {
 			if (stripos($method, self::STEP_METHOD_PREFIX) !== 0) {
@@ -96,11 +105,11 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 				throw new \LogicException("Method $method seems to be a step but has an odd looking number");
 			}
 
-			$steps[] = $method;
+			$this->steps[] = $method;
 		}
 
-		sort($steps);
+		sort($this->steps);
 
-		return $steps;
+		return $this->steps;
 	}
 }
