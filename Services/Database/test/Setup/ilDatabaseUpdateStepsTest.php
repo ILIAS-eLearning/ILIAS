@@ -53,7 +53,17 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 			"step_4",
 		];
 
-		$this->assertEquals($expected, $steps);
+		$this->assertEquals($expected, array_values($steps));
+	}
+
+	public function testGetStepsBefore() {
+		$steps = $this->test1->getStepsBefore("step_2");
+
+		$expected = [
+			"step_1"
+		];
+
+		$this->assertEquals($expected, array_values($steps));
 	}
 
 	public function testAchieveAllSteps() {
