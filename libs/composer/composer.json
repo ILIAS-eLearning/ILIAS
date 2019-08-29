@@ -52,8 +52,16 @@
 			"ILIAS\\Tests\\" : "../../tests",
 			"ILIAS\\" : "../../src"
 		},
-		"classmap": ["../../Services/", "../../Modules", "../ilias"],
-		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
+		"classmap": [
+			"../../Services/",
+			"../../Modules",
+			"../ilias"
+		],
+		"exclude-from-classmap": [
+			"../../Services/Migration",
+			"../../*/*/lib", "../../*/*/test",
+			"../../Services/CAS/phpcas"
+		]
 	},
 	"extra": {
 		"cweagans/composer-patches" : {
