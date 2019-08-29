@@ -48,7 +48,10 @@
 		"friendsofphp/php-cs-fixer": "^2.15"
 	},
 	"autoload": {
-		"psr-4" : { "ILIAS\\" : "../../src" },
+		"psr-4" : {
+			"ILIAS\\Tests\\" : "../../tests",
+			"ILIAS\\" : "../../src"
+		},
 		"classmap": ["../../Services/", "../../Modules", "../ilias"],
 		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
 	},
