@@ -1230,21 +1230,23 @@
 			}
 		}
 
-		/**
-		 * 
-		 * @param {string} src
-		 * @returns {Promise<unknown>}
-		 */
-		let Img = function(src) {
-			return new Promise((resolve, reject) => {
-				let img = new Image();
-				img.addEventListener('load', e => resolve(src));
-				img.addEventListener('error', () => {
-					reject(new Error("Failed to load image's URL: " + src));
-				});
-				img.src = src;
-			});
-		};
+        /**
+         *
+         * @param {string} src
+         * @returns {Promise<unknown>}
+         */
+        let Img = function(src) {
+            return new Promise(function(resolve, reject) {
+                let img = new Image();
+                img.addEventListener('load', function(e) {
+                    resolve(src)
+                    img.addEventListener('error', function() {
+                        reject(new Error("Failed to load image's URL: " + src));
+                    });
+                });
+                img.src = src;
+            });
+        };
 
 		/**
 		 * Sets smileys into text
