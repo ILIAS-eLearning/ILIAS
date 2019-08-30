@@ -55,6 +55,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$this->user = $DIC->user();
 		$ilCtrl = $DIC->ctrl();
 
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
+
 		$this->type = 'skmg';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -83,7 +85,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-		if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
+
+        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
@@ -901,13 +904,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		
 		if ($a_templates)
 		{
-			include_once("./Services/Skill/classes/class.ilSkillTemplateTreeExplorerGUI.php");
+            $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_TEMPLATE_TREE, true);
 			$exp = new ilSkillTemplateTreeExplorerGUI($this, "showTree");
 		}
 		else
 		{
-			include_once("./Services/Skill/classes/class.ilSkillTreeExplorerGUI.php");
-			$exp = new ilSkillTreeExplorerGUI($this, "showTree", $a_templates);
+            $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_SKILL_TREE, true);
+			$exp = new ilSkillTreeExplorerGUI($this, "showTree");
 		}
 		if (!$exp->handleCommand())
 		{

@@ -128,7 +128,7 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
 		{
 			$ilCtrl->setParameterByClass("ilobjscorm2004learningmodulegui", "obj_id", $a_node["child"]);
-			$ret = $ilCtrl->getLinkTargetByClass("ilobjscorm2004learningmodulegui", "showOrganization");
+			$ret = $ilCtrl->getLinkTargetByClass(["ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI","ilobjscorm2004learningmodulegui"], "showOrganization");
 			$ilCtrl->setParameterByClass("ilobjscorm2004learningmodulegui", "obj_id", $_GET["obj_id"]);
 			return $ret;
 		}
@@ -137,28 +137,28 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 		{
 			case "page":
 				$ilCtrl->setParameterByClass("ilScorm2004PageNodeGUI", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilScorm2004PageNodeGUI", "edit");
+				$ret = $ilCtrl->getLinkTargetByClass(["ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI", "ilScorm2004PageNodeGUI"], "edit");
 				$ilCtrl->setParameterByClass("ilScorm2004PageNodeGUI", "obj_id", $_GET["obj_id"]);
 				return $ret;
 				break;
 
 			case "chap":
 				$ilCtrl->setParameterByClass("ilScorm2004ChapterGUI", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilScorm2004ChapterGUI", "showOrganization");
+				$ret = $ilCtrl->getLinkTargetByClass(["ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI", "ilScorm2004ChapterGUI"], "showOrganization");
 				$ilCtrl->setParameterByClass("ilScorm2004ChapterGUI", "obj_id", $_GET["obj_id"]);
 				return $ret;
 				break;
 
 			case "sco":
 				$ilCtrl->setParameterByClass("ilScorm2004ScoGUI", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilScorm2004ScoGUI", "showOrganization");
+				$ret = $ilCtrl->getLinkTargetByClass(["ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI", "ilScorm2004ScoGUI"], "showOrganization");
 				$ilCtrl->setParameterByClass("ilScorm2004ScoGUI", "obj_id", $_GET["obj_id"]);
 				return $ret;
 				break;
 
 			case "ass":
 				$ilCtrl->setParameterByClass("ilScorm2004AssetGUI", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilScorm2004AssetGUI", "showOrganization");
+				$ret = $ilCtrl->getLinkTargetByClass(["ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI", "ilScorm2004AssetGUI"], "showOrganization");
 				$ilCtrl->setParameterByClass("ilScorm2004AssetGUI", "obj_id", $_GET["obj_id"]);
 				return $ret;
 				break;

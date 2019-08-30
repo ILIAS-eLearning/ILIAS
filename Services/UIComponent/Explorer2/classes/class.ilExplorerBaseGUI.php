@@ -45,6 +45,11 @@ abstract class ilExplorerBaseGUI
 	protected $enable_dnd = false;
 	protected $search_term = "";
 
+    /**
+     * @var string|object
+     */
+	protected $parent_obj;
+
 	/**
 	 * @var int 
 	 */
@@ -76,6 +81,7 @@ abstract class ilExplorerBaseGUI
 		}
 
 		$this->nodeOnclickEnabled = true;
+        ilYuiUtil::initConnection();
 	}
 	
 	/**

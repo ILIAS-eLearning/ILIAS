@@ -40,12 +40,22 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 	        ->withPosition(20);
 
         // Tree-View
-        $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
-            ->withAction("#")
-            ->withParent($top)
-            ->withPosition(30)
-	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true))
-            ->withTitle($this->dic->language()->txt("mm_repo_tree_view"));
+        $mode = ($_SESSION["il_rep_mode"] == "flat")
+            ? "tree"
+            : "flat";
+        $link = "ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&set_mode=".$mode."&ref_id=".$_GET["ref_id"];
+        $title = ($mode == "flat")
+            ? $this->dic->language()->txt("mm_repo_tree_view_act")
+            : $this->dic->language()->txt("mm_repo_tree_view_deact");
+
+        if ($_GET["baseClass"] == "ilRepositoryGUI") {
+            $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
+                ->withAction($link)
+                ->withParent($top)
+                ->withPosition(30)
+                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true))
+                ->withTitle($title);
+        }
 
         // LastVisited
         $entries[] = $this->getLastVisitedItem()

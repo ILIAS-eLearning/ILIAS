@@ -73,6 +73,8 @@ class MainToolCollector implements Collector
         array_walk($this->tools, function (Tool $tool) {
             $this->applyTypeInformation($tool);
         });
+
+        usort($this->tools, $this->getItemSorter());
     }
 
 
@@ -130,6 +132,17 @@ class MainToolCollector implements Collector
     {
         return function (isItem $tool) {
             return ($tool->isAvailable() && $tool->isVisible());
+        };
+    }
+
+
+    /**
+     * @return Closure
+     */
+    private function getItemSorter() : Closure
+    {
+        return function (Tool &$a, Tool &$b) {
+            return $a->getPosition() > $b->getPosition();
         };
     }
 }
