@@ -35,12 +35,13 @@
   array (
     0 => 'ILIAS\\Init\\Provider\\InitToolProvider',
     1 => 'ilForumGlobalScreenToolsProvider',
-    2 => 'ilLMGSToolProvider',
-    3 => 'ilMailGlobalScreenToolProvider',
-    4 => 'ilMediaPoolGSToolProvider',
-    5 => 'ilRepositoryGSToolProvider',
-    6 => 'ilSkillGSToolProvider',
-    7 => 'ilWorkspaceGSToolProvider',
+    2 => 'ilLMEditGSToolProvider',
+    3 => 'ilLMGSToolProvider',
+    4 => 'ilMailGlobalScreenToolProvider',
+    5 => 'ilMediaPoolGSToolProvider',
+    6 => 'ilRepositoryGSToolProvider',
+    7 => 'ilSkillGSToolProvider',
+    8 => 'ilWorkspaceGSToolProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (

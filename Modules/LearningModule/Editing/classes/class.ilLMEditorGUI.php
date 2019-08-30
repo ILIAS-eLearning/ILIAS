@@ -103,6 +103,7 @@ class ilLMEditorGUI
         }
 
         $this->ctrl = $ilCtrl;
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
 
         $this->ctrl->saveParameter($this, array("ref_id", "transl"));
 
@@ -153,6 +154,8 @@ class ilLMEditorGUI
     public function executeCommand()
     {
         global $DIC;
+
+        $this->tool_context->claim()->repository();
 
         /** @var ilLocatorGUI $loc */
         $loc = $DIC["ilLocator"];
@@ -215,9 +218,11 @@ class ilLMEditorGUI
     {
         $tpl = $this->tpl;
 
+        $this->tool_context->current()->addAdditionalData(ilLMEditGSToolProvider::SHOW_TREE, true);
+
         $exp = new ilLMEditorExplorerGUI($this, "showTree", $this->lm_obj);
         if (!$exp->handleCommand()) {
-            $tpl->setLeftNavContent($exp->getHTML());
+//            $tpl->setLeftNavContent($exp->getHTML());
         }
     }
     
