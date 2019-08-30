@@ -42,41 +42,42 @@ class ilSCORM2004Utilities
 		$this->log = $DIC["ilLog"];
 		$this->id = $a_id;
 	}
-	
-	public function parentHasSeqTemplate($a_slm_id)
-	{
-		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
-		
-		$ilDB = $this->db;
-		$ilLog = $this->log;
-		$has_template = false;
-			
-		$mtree = new ilTree($a_slm_id);
-		$mtree->setTableNames('sahs_sc13_tree','sahs_sc13_tree_node');
-		$mtree->setTreeTablePK("slm_id");
-		//get all parents for current node
-		$parents = $this -> getParentsForNode($a_parents=array(),$this->id);
-		for ($i=0;$i<count($parents);$i++)
-		{
-			$template = ilSCORM2004SeqTemplate::templateForChapter($parents[$i]);
-			if ($template) {
-				$has_template = true;
-				break;
-			}
-		}
-		
-		return $has_template;
-	}
-	
-	private function getParentsForNode($a_parents,$a_id){
-		$parent_id = $tree->getParentId($id);
-		if ($parent_id != 0) {
-			array_push($a_parents,$parent_id);
-			$this->getParentsForNode($a_parents,$parent_id);
-		} else {
-			return $a_parents;
-		}
-	}
+
+	//following 2 functions not used
+//	public function parentHasSeqTemplate($a_slm_id)
+//	{
+//		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
+//
+//		$ilDB = $this->db;
+//		$ilLog = $this->log;
+//		$has_template = false;
+//
+//		$mtree = new ilTree($a_slm_id);
+//		$mtree->setTableNames('sahs_sc13_tree','sahs_sc13_tree_node');
+//		$mtree->setTreeTablePK("slm_id");
+//		//get all parents for current node
+//		$parents = $this -> getParentsForNode($a_parents=array(),$this->id);
+//		for ($i=0;$i<count($parents);$i++)
+//		{
+//			$template = ilSCORM2004SeqTemplate::templateForChapter($parents[$i]);
+//			if ($template) {
+//				$has_template = true;
+//				break;
+//			}
+//		}
+//
+//		return $has_template;
+//	}
+//
+//	private function getParentsForNode($a_parents,$a_id){
+//		$parent_id = $tree->getParentId($id);
+//		if ($parent_id != 0) {
+//			array_push($a_parents,$parent_id);
+//			$this->getParentsForNode($a_parents,$parent_id);
+//		} else {
+//			return $a_parents;
+//		}
+//	}
 	
 	
 	public function getLeftRightInfo() 

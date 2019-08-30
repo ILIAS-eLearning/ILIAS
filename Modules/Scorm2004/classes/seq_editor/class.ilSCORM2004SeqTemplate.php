@@ -171,7 +171,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
     			$sco->setSLMId($a_object->getId());
     			$sco->create(false,true);
     			$this->sahs_sc13_treeId = $sco->getId();
-    			ilSCORM2004Node::putInTree($sco, $a_parent, $target);
+    			ilSCORM2004Node::putInTree($sco, $a_parent, $a_target);
 				$new_id = $sco->getId();
 				break;	
 		}
@@ -185,7 +185,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 				if ($objchild->nodeName === "objective" || $objchild->nodeName === "primaryObjective") {
 		    		$title = $objchild->getAttribute('objectiveID');
 					$objchild->setAttribute("title",$title);
-					$i++;
+//					$i++;
 				}
 			}
 		}

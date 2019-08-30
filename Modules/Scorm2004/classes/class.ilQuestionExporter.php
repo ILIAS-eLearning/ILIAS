@@ -375,6 +375,7 @@ class ilQuestionExporter
 	}
 
 	private function assTextSubset() {
+		$maxlength = $this->json_decoded->maxlength == 0 ? 4096 : $this->json_decoded->maxlength;
 		$this->tpl->setCurrentBlock("textsubset");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));

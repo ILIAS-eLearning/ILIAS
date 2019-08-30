@@ -17,7 +17,8 @@ class ilSCORM2004StoreData
 
 		$ilDB = $DIC->database();
 				
-		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+//		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+        $data = json_decode(file_get_contents('php://input'));
 		if (!$data) return;
 		if ($userId == null) {
 			$userId=(int) $data->p;

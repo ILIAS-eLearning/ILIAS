@@ -272,7 +272,7 @@ class ilLMChapterImportForm
 						case "pg":
 							include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 							$copied_nodes = array();
-							$a_node["insert_id"] = ilSCORM2004Node::pasteTree($this->slm, $a_node["id"], $a_parent["insert_id"], $a_target,
+							$a_node["insert_id"] = ilSCORM2004Node::pasteTree($this->slm, $a_node["id"], $a_parent["insert_id"], $target,
 								$a_node["insert_time"], $copied_nodes,
 								true, true, "lm");
 							break;

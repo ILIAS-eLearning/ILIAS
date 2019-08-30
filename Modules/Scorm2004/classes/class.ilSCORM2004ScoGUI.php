@@ -262,7 +262,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$tbl->setTitle("Questions for ".$this->node_object->getTitle());
 		$tbl->setHeaderNames(array("Question","Page"));
 		$cols = array("question","page");
-		$tbl->setHeaderVars($cols, $header_params);
+//		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setHeaderVars($cols, 0);
 		$tbl->setColumnWidth(array("50%", "50%"));
 		$tbl->disable("sort");
 		$tbl->disable("footer");
@@ -270,6 +271,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$tree = new ilTree($this->slm_object->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
+		$i = 0;
 
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
@@ -551,6 +553,7 @@ die("deprecated");
 		foreach ($export_files as $exp_file)
 		{
 			$filetype = $exp_file['type'];
+			$public_str = "";
 		//	$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($filetype))
 		//		? " <b>(".$this->lng->txt("public").")<b>"
 		//		: "";
@@ -640,6 +643,7 @@ die("deprecated");
 			{
 				if (strcmp($delete_file, $exp_file['file']) == 0)
 				{
+					$public_str = "";
 			//		$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
 			//			? " <b>(".$this->lng->txt("public").")<b>"
 			//			: "";
@@ -693,6 +697,7 @@ die("deprecated");
 		$tree = new ilTree($this->slm_object->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
+		$i = 0;
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
 				$page_obj = new ilSCORM2004Page($page["obj_id"]);
