@@ -47,28 +47,6 @@ class ilObjCertificateSettings extends ilObject
     }
 
     /**
-    * Returns the web path of the background image
-    *
-    * @return string The web path of the background image
-    */
-    public function getDefaultBackgroundImagePathWeb()
-    {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $this->getDefaultBackgroundImagePath());
-    }
-    
-    /**
-    * Returns the web path of the background image thumbnail
-    *
-    * @return string The web path of the background image thumbnail
-    */
-    public function getBackgroundImageThumbPathWeb()
-    {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $this->getDefaultBackgroundImageThumbPath());
-    }
-
-    /**
     * Uploads a background image for the certificate. Creates a new directory for the
     * certificate if needed. Removes an existing certificate image if necessary
     *
