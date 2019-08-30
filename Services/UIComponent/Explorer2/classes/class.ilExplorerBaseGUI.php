@@ -590,6 +590,12 @@ abstract class ilExplorerBaseGUI
 
 		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
 
+		$root = $this->getNodeId($this->getRootNode());
+		if (!in_array($root, $this->open_nodes))
+		{
+			$this->open_nodes[] = $root;
+		}
+
 		if ($_GET["node_id"] != "")
 		{
 			$id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
