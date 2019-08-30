@@ -163,7 +163,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI {
 				//				$item->setVariable("SRC_ICON", "./Modules/Cloud/templates/images/icon_folder_b.png");
 				$item->setVariable("SRC_ICON", ilUtil::getImagePath('icon_dcl_fold.svg'));
 			}
-			$item->setVariable("TXT_DESC", '&nbsp;');
 			$item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
 			$item->setVariable("HREF_TITLE_LINKED", $this->getLinkToFolder($node));
 		} // File
