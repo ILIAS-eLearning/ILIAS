@@ -8,8 +8,6 @@ use ILIAS\UI\Component\Listing\Workflow\Workflow;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
-
-
 /**
  * Class ilKioskPageRenderer
  */
@@ -147,14 +145,17 @@ class ilKioskPageRenderer
 
 	protected function getJsFiles(): array
 	{
-		$js_files = [
-			'./Services/JavaScript/js/Basic.js'
-		];
+		$js_files = [];
+		$basic = './Services/JavaScript/js/Basic.js';
 		foreach ($this->layout_meta_content->getJs()->getItemsInOrderOfDelivery() as $js_file) {
 			$file = $js_file->getContent();
-			if(!strpos($file, 'Services/FileUpload/js')) {
-				$js_files[] = $file;
+			if(strpos($file, 'Services/FileUpload/js')) {
+				continue;
 			}
+			if(! strpos($file, '/jquery') && ! in_array($basic, $js_files)) {
+				$js_files[] = $basic;
+			}
+			$js_files[] = $file;
 		}
 		return $js_files;
 	}

@@ -46,10 +46,7 @@ class ilLSPlayer
 	{
 		//init state and current item
 		$current_item = $this->getCurrentItem();
-
-		//$current_item_ref_id = $this->ls_items->getCurrentItemRefId();
 		$current_item_ref_id = $current_item->getRefId();
-
 		$view = $this->view_factory->getViewFor($current_item);
 		$state = $this->ls_items->getStateFor($current_item);
 		$state = $this->updateViewState($state, $view, $get, $post);

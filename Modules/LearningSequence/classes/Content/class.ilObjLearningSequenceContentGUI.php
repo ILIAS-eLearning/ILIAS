@@ -23,7 +23,7 @@ class ilObjLearningSequenceContentGUI
 	public function __construct(
 		ilObjLearningSequenceGUI $parent_gui,
 		ilCtrl $ctrl,
-		ilGlobalPageTemplate $tpl,
+		ilGlobalTemplateInterface $tpl,
 		ilLanguage $lng,
 		ilAccess $access,
 		ilConfirmationGUI $confirmation_gui,

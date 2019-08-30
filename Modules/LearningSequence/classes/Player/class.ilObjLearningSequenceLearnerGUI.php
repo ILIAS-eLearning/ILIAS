@@ -22,7 +22,7 @@ class ilObjLearningSequenceLearnerGUI
 		ilAccess $access,
 		ilCtrl $ctrl,
 		ilLanguage $lng,
-		ilGlobalPageTemplate $tpl,
+		ilGlobalTemplateInterface $tpl,
 		ilToolbarGUI $toolbar,
 		ILIAS\UI\Factory $ui_factory,
 		ILIAS\UI\Renderer $ui_renderer,
