@@ -44,15 +44,23 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
 
             $tools[] = $this->factory->tool($iff("toc"))
                 ->withTitle($lng->txt("cont_toc"))
-                ->withContent($l($this->getToc($ref_id)));
+                ->withContent($l($this->getToc($ref_id)))
+                ->withPosition(10);
 
             $tools[] = $this->factory->tool($iff("glossary"))
                 ->withTitle($lng->txt("obj_glo"))
-                ->withContent($l($this->getGlossary($ref_id)));
+                ->withContent($l($this->getLinkSlateContent("glossary")))
+                ->withPosition(11);
 
             $tools[] = $this->factory->tool($iff("media"))
-                ->withTitle($lng->txt("cont_media"))
-                ->withContent($l($this->getMedia($ref_id)));
+                ->withTitle($lng->txt("cont_tool_media"))
+                ->withContent($l($this->getLinkSlateContent("media")))
+                ->withPosition(12);
+
+            $tools[] = $this->factory->tool($iff("faq"))
+                ->withTitle($lng->txt("cont_tool_faq"))
+                ->withContent($l($this->getLinkSlateContent("faq")))
+                ->withPosition(13);
         }
 
         return $tools;
@@ -76,25 +84,12 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     }
 
     /**
-     * glossary
-     *
-     * @param int $ref_id
+     * @param string
      * @return string
      */
-    protected function getGlossary(int $ref_id) : string
+    protected function getLinkSlateContent(string $type): string
     {
-        return "Glossary";
-    }
-
-    /**
-     * media
-     *
-     * @param int $ref_id
-     * @return string
-     */
-    protected function getMedia(int $ref_id) : string
-    {
-        return "Media";
+        return "<div style='height:100%; overflow:hidden;' id='".$type."_area'><iframe style='border:0; padding:0; height:100%; width:100%'></iframe></div>";
     }
 
 }

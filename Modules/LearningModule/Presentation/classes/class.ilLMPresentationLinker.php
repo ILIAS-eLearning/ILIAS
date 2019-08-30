@@ -30,6 +30,9 @@ class ilLMPresentationLinker
         $this->export_all_languages = $pres_status->exportAllLanguages();
         $this->lang = $pres_status->getLang();
         $this->lm = $lm;
+        $this->requested_ref_id = $r->getRequestedRefId();
+        $this->offline = $pres_status->offline();
+        $this->export_format = $pres_status->getExportFormat();
     }
 
     /**
@@ -226,5 +229,239 @@ class ilLMPresentationLinker
 
         return $link;
     }
+
+    public function getLayoutLinkTargets()
+    {
+        $targets = [
+            "New" => [
+                "Type" => "New",
+                "Frame" => "_blank",
+                "OnClick" => ""],
+            "FAQ" => [
+                "Type" => "FAQ",
+                "Frame" => "faq",
+                "OnClick" => "return il.LearningModule.showContentFrame(event, 'faq');"],
+            "Glossary" => [
+                "Type" => "Glossary",
+                "Frame" => "glossary",
+                "OnClick" => "return il.LearningModule.showContentFrame(event, 'glossary');"],
+            "Media" => [
+                "Type" => "Media",
+                "Frame" => "media",
+                "OnClick" => "return il.LearningModule.showContentFrame(event, 'media');"]
+        ];
+
+        return $targets;
+    }
+
+    /**
+     * Get XMl for Link Targets
+     */
+    public function getLinkTargetsXML()
+    {
+        $link_info = "<LinkTargets>";
+        foreach ($this->getLayoutLinkTargets() as $k => $t)
+        {
+            $link_info.="<LinkTarget TargetFrame=\"".$t["Type"]."\" LinkTarget=\"".$t["Frame"]."\" OnClick=\"".$t["OnClick"]."\" />";
+        }
+        $link_info.= "</LinkTargets>";
+        return $link_info;
+    }
+
+    /**
+     * get xml for links
+     */
+    function getLinkXML($a_int_links, $a_layoutframes)
+    {
+        $ilCtrl = $this->ctrl;
+
+        // Determine whether the view of a learning resource should
+        // be shown in the frameset of ilias, or in a separate window.
+        $showViewInFrameset = true;
+
+        if ($a_layoutframes == "")
+        {
+            $a_layoutframes = array();
+        }
+        $link_info = "<IntLinkInfos>";
+        foreach ($a_int_links as $int_link)
+        {
+            $target = $int_link["Target"];
+            if (substr($target, 0, 4) == "il__")
+            {
+                $target_arr = explode("_", $target);
+                $target_id = $target_arr[count($target_arr) - 1];
+                $type = $int_link["Type"];
+                $targetframe = ($int_link["TargetFrame"] != "")
+                    ? $int_link["TargetFrame"]
+                    : "None";
+
+                // anchor
+                $anc = $anc_add = "";
+                if ($int_link["Anchor"] != "")
+                {
+                    $anc = $int_link["Anchor"];
+                    $anc_add = "_".rawurlencode($int_link["Anchor"]);
+                }
+                $lcontent = "";
+                switch($type)
+                {
+                    case "PageObject":
+                    case "StructureObject":
+                        $lm_id = ilLMObject::_lookupContObjID($target_id);
+                        if ($lm_id == $this->lm->getId() ||
+                            ($targetframe != "None" && $targetframe != "New"))
+                        {
+                            $ltarget = $a_layoutframes[$targetframe]["Frame"];
+                            $nframe = ($ltarget == "")
+                                ? ""
+                                : $ltarget;
+                            if ($ltarget == "")
+                            {
+                                if ($showViewInFrameset) {
+                                    $ltarget="_parent";
+                                } else {
+                                    $ltarget="_top";
+                                }
+                            }
+                            // scorm always in 1window view and link target
+                            // is always same frame
+                            if ($this->export_format == "scorm" &&
+                                $this->offline)
+                            {
+                                $ltarget = "";
+                            }
+                            $cmd = "layout";
+                            if ($nframe != "") {
+                                $cmd = "page";
+                            }
+                            $href =
+                                $this->getLink($cmd, $target_id, $nframe, $type,
+                                    "append", $anc);
+                            if ($lm_id == "")
+                            {
+                                $href = "";
+                            }
+                        }
+                        else
+                        {
+                            if (!$this->offline)
+                            {
+                                if ($type == "PageObject")
+                                {
+                                    $href = "./goto.php?target=pg_".$target_id.$anc_add;
+                                }
+                                else
+                                {
+                                    $href = "./goto.php?target=st_".$target_id;
+                                }
+                            }
+                            else
+                            {
+                                if ($type == "PageObject")
+                                {
+                                    $href = ILIAS_HTTP_PATH."/goto.php?target=pg_".$target_id.$anc_add."&amp;client_id=".CLIENT_ID;
+                                }
+                                else
+                                {
+                                    $href = ILIAS_HTTP_PATH."/goto.php?target=st_".$target_id."&amp;client_id=".CLIENT_ID;
+                                }
+                            }
+                            if ($targetframe != "New")
+                            {
+                                $ltarget = ilFrameTargetInfo::_getFrame("MainContent");
+                            }
+                            else
+                            {
+                                $ltarget = "_blank";
+                            }
+                        }
+                        break;
+
+                    case "GlossaryItem":
+                        if ($targetframe == "None")
+                        {
+                            $targetframe = "Glossary";
+                        }
+                        $ltarget = $a_layoutframes[$targetframe]["Frame"];
+                        $nframe = ($ltarget == "")
+                            ? $_GET["frame"]
+                            : $ltarget;
+                        $href =
+                            $this->getLink($a_cmd = "glossary", $target_id, $nframe, $type);
+                        break;
+
+                    case "MediaObject":
+                        $ltarget = $a_layoutframes[$targetframe]["Frame"];
+                        $nframe = ($ltarget == "")
+                            ? $_GET["frame"]
+                            : $ltarget;
+                        $href =
+                            $this->getLink($a_cmd = "media", $target_id, $nframe, $type);
+                        break;
+
+                    case "RepositoryItem":
+                        $obj_type = ilObject::_lookupType($target_id, true);
+                        $obj_id = ilObject::_lookupObjId($target_id);
+                        if (!$this->offline)
+                        {
+                            $href = "./goto.php?target=".$obj_type."_".$target_id;
+                        }
+                        else
+                        {
+                            $href = ILIAS_HTTP_PATH."/goto.php?target=".$obj_type."_".$target_id."&amp;client_id=".CLIENT_ID;
+                        }
+                        $ltarget = ilFrameTargetInfo::_getFrame("MainContent");
+                        break;
+
+                    case "WikiPage":
+                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+                        break;
+
+                    case "File":
+                        if (!$this->offline)
+                        {
+                            $ilCtrl->setParameter($this, "obj_id", $this->current_page);
+                            $ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
+                            $href = $ilCtrl->getLinkTarget($this, "downloadFile");
+                            $ilCtrl->setParameter($this, "file_id", "");
+                            $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+                        }
+                        break;
+
+                    case "User":
+                        $obj_type = ilObject::_lookupType($target_id);
+                        if ($obj_type == "usr")
+                        {
+                            $back = $this->ctrl->getLinkTarget($this, "layout");
+                            //var_dump($back); exit;
+                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+                                rawurlencode($back));
+                            $href = "";
+                            if (ilUserUtil::hasPublicProfile($target_id))
+                            {
+                                $href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+                            }
+                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+                            $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
+                        }
+                        break;
+
+                }
+
+                $anc_par = 'Anchor="'.$anc.'"';
+
+                if ($href != "")
+                {
+                    $link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
+                        "TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" $anc_par/>";
+                }
+            }
+        }
+        $link_info.= "</IntLinkInfos>";
+        return $link_info;
+    }
+
 
 }

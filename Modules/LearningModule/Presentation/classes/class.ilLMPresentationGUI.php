@@ -391,6 +391,7 @@ class ilLMPresentationGUI
 		$ilUser = $this->user;
 
 		$layout = $this->determineLayout();
+		$layout = "standard";
 
 		// xmldocfile is deprecated! Use domxml_open_file instead.
 		// But since using relative pathes with domxml under windows don't work,
@@ -700,14 +701,18 @@ class ilLMPresentationGUI
 
 	function media()
 	{
-		if ($_GET["frame"] != "_blank")
-		{
-			return $this->layout("main.xml", !$this->offlineMode());
-		}
-		else
-		{
-			return $this->layout("fullscreen.xml", !$this->offlineMode());
-		}
+        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, true);
+        $GLOBALS["tpl"] = $this->tpl;
+
+        $this->ilMedia();
+        if (!$this->offlineMode())
+        {
+            $this->tpl->printToStdout();
+        }
+        else
+        {
+            return $this->tpl->get();
+        }
 	}
 
 	function glossary()
@@ -716,12 +721,12 @@ class ilLMPresentationGUI
 
 		$ilUser = $this->user;
 		
-		if ($_GET["frame"] != "_blank")
-		{
-			$this->layout();
-		}
-		else
-		{
+		//if ($_GET["frame"] != "_blank")
+        //{
+        //	$this->layout();
+        //}
+        //else
+        //{
 			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, true);
 			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
@@ -737,7 +742,7 @@ class ilLMPresentationGUI
 				$this->tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
 			}
 
-			$this->ilGlossary($child);
+			$this->ilGlossary();
 			if (!$this->offlineMode())
 			{
 				$this->tpl->printToStdout();
@@ -746,10 +751,51 @@ class ilLMPresentationGUI
 			{
 				return $this->tpl->get();
 			}
-		}
+        //}
 	}
 
-	/**
+    function page()
+    {
+        global $DIC;
+
+        $ilUser = $this->user;
+
+        //if ($_GET["frame"] != "_blank")
+        //{
+        //	$this->layout();
+        //}
+        //else
+        //{
+        $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, true);
+        $GLOBALS["tpl"] = $this->tpl;
+        $this->renderPageTitle();
+
+        $this->setContentStyles();
+
+        // set style sheets
+        if (!$this->offlineMode())
+        {
+            $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+        }
+        else
+        {
+            $style_name = $ilUser->getPref("style").".css";;
+            $this->tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
+        }
+
+        $this->tpl->setVariable("PAGE_CONTENT", $this->getPageContent());
+        if (!$this->offlineMode())
+        {
+            $this->tpl->printToStdout();
+        }
+        else
+        {
+            return $this->tpl->get();
+        }
+        //}
+    }
+
+    /**
 	* output main menu
 	*/
 	function ilMainMenu()
@@ -1382,7 +1428,19 @@ class ilLMPresentationGUI
             $this->requested_frame);
 
 
-		$content_renderer = new ilLMContentRendererGUI(
+		$tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
+		$tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
+		$tpl->setVariable("PAGE_CONTENT", $this->getPageContent());
+
+		return $tpl->get();
+	}
+
+	/**
+	 * Get page content
+	 */
+	protected function getPageContent()
+	{
+        $content_renderer = new ilLMContentRendererGUI(
             $this->service,
             $this,
             $this->lng,
@@ -1392,13 +1450,9 @@ class ilLMPresentationGUI
             $this->help,
             $this->requested_obj_id);
 
-		$tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
-		$tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
-		$tpl->setVariable("PAGE_CONTENT", $content_renderer->render());
-
-		return $tpl->get();
-
+		return $content_renderer->render();
 	}
+
 
 	/**
 	 * Render rating

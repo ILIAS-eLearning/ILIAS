@@ -85,6 +85,11 @@ class ilLMContentRendererGUI
     protected $lang;
 
     /**
+     * @var ilLMPresentationLinker
+     */
+    protected $linker;
+
+    /**
      * Constructor
      */
     public function __construct(
@@ -111,6 +116,7 @@ class ilLMContentRendererGUI
         $this->lng = $lng;
         $this->offline = $service->getPresentationStatus()->offline;
         $this->tracker = $service->getTracker();
+        $this->linker = $service->getLinker();
         $this->parent_gui = $parent_gui;
         $this->chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();
         $this->deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
@@ -288,14 +294,13 @@ class ilLMContentRendererGUI
         ilCourseLMHistory::_updateLastAccess($ilUser->getId(), $this->lm->getRefId(), $page_id);
 
         // read link targets
-        // @todo 6.0
-        //		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-        //		$link_xml.= $this->getLinkTargetsXML();
+        $link_xml = $this->linker->getLinkXML($int_links, $this->linker->getLayoutLinkTargets());
+        $link_xml.= $this->linker->getLinkTargetsXML();
 
         // get lm page object
         $lm_pg_obj = new ilLMPageObject($this->lm, $page_id);
         $lm_pg_obj->setLMId($this->lm->getId());
-        //		$page_object_gui->setLinkXML($link_xml);
+        $page_object_gui->setLinkXML($link_xml);
 
         // determine target frames for internal links
         $page_object_gui->setLinkFrame($_GET["frame"]);
