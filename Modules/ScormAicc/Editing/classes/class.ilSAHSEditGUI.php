@@ -42,6 +42,9 @@ class ilSAHSEditGUI
 	function executeCommand()
 	{
 		global $DIC;
+
+        $DIC->globalScreen()->tool()->context()->claim()->repository();
+
 		$lng = $DIC['lng'];
 		$ilAccess = $DIC['ilAccess'];
 		$ilNavigationHistory = $DIC['ilNavigationHistory'];
