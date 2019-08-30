@@ -485,8 +485,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		case "exportFile":
 			$sFile = $_FILES["scormfile"];
 			$fType = $sFile["type"];
-			$cFileTypes = ["application/zip", "application/x-compressed"];
-
+			$cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
 			if (in_array ($fType, $cFileTypes))
 			{
 				$timeStamp = time();
@@ -504,28 +503,26 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 					$importFromXml = true;
 				$mprops = [];
 				$mprops = $importer->moduleProperties;
-				$fed = $mprops["Fourth_edition"][0];
-				if ($fed == "n")
+				$subType = $mprops["SubType"][0];
+				if ($subType == "scorm")
 				{
 					include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 					$newObj = new ilObjSCORMLearningModule();
-					$subType = "scorm";
 				}
 				else
 				{
 					include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 					$newObj = new ilObjSCORM2004LearningModule();
-					$newObj->setEditable($_POST["editable"]=='y');
-					$newObj->setImportSequencing($_POST["import_sequencing"]);
-					$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
-					$subType = "scorm2004";
+//					$newObj->setEditable($_POST["editable"]=='y');
+//					$newObj->setImportSequencing($_POST["import_sequencing"]);
+//					$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
 				}
 			}
 			break;
 		}
 
 		$newObj->setTitle($name);
-		$newObj->setSubType($_POST["sub_type"]);
+		$newObj->setSubType($subType);
 		$newObj->setDescription("");
 		$newObj->setOfflineStatus(true);
 		$newObj->create(true);
@@ -566,30 +563,18 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		}
 
 		ilUtil::unzip($file_path);
+		//todo remove $file_path
 		ilUtil::renameExecutables($newObj->getDataDirectory());
 
 		$title = $newObj->readObject();
 		if ($title != "")
 		{
 			ilObject::_writeTitle($newObj->getId(), $title);
-			/*$md = new ilMD($newObj->getId(),0, $newObj->getType());
-			if(is_object($md_gen = $md->getGeneral()))
-			{
-				$md_gen->setTitle($title);
-				$md_gen->update();
-			}*/
 		}
 		
 		//auto set learning progress settings
-		switch ($_POST["sub_type"])
-		{
-			case "scorm2004":
-			case "scorm":
-			case "exportFile":
-			$newObj->setLearningProgressSettingsAtUpload();
-			break;
-		}
-		
+		$newObj->setLearningProgressSettingsAtUpload();
+
 		if ($importFromXml)
 		{
 			$importer->writeData("sahs", "5.1.0", $newObj->getId());
