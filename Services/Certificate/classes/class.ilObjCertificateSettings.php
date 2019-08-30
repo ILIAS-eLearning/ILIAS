@@ -46,41 +46,6 @@ class ilObjCertificateSettings extends ilObject
         $this->type = "cert";
     }
 
-    private function getBackgroundImageDefaultFolder()
-    {
-        return CLIENT_WEB_DIR . "/certificates/default/";
-    }
-
-    /**
-    * Returns the filesystem path of the background image
-    *
-    * @return string The filesystem path of the background image
-    */
-    private function getDefaultBackgroundImagePath()
-    {
-        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
-    }
-
-    /**
-    * Returns the filesystem path of the background image thumbnail
-    *
-    * @return string The filesystem path of the background image thumbnail
-    */
-    private function getDefaultBackgroundImageThumbPath()
-    {
-        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
-    }
-
-    /**
-    * Returns the filesystem path of the background image temp file during upload
-    *
-    * @return string The filesystem path of the background image temp file
-    */
-    private function getDefaultBackgroundImageTempfilePath()
-    {
-        return $this->getBackgroundImageDefaultFolder() . "background_upload.tmp";
-    }
-
     /**
     * Returns the web path of the background image
     *
@@ -161,5 +126,40 @@ class ilObjCertificateSettings extends ilObject
             $result = $result & unlink($this->getDefaultBackgroundImageTempfilePath());
         }
         return $result;
+    }
+
+    private function getBackgroundImageDefaultFolder()
+    {
+        return CLIENT_WEB_DIR . "/certificates/default/";
+    }
+
+    /**
+     * Returns the filesystem path of the background image
+     *
+     * @return string The filesystem path of the background image
+     */
+    private function getDefaultBackgroundImagePath()
+    {
+        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
+    }
+
+    /**
+     * Returns the filesystem path of the background image thumbnail
+     *
+     * @return string The filesystem path of the background image thumbnail
+     */
+    private function getDefaultBackgroundImageThumbPath()
+    {
+        return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
+    }
+
+    /**
+     * Returns the filesystem path of the background image temp file during upload
+     *
+     * @return string The filesystem path of the background image temp file
+     */
+    private function getDefaultBackgroundImageTempfilePath()
+    {
+        return $this->getBackgroundImageDefaultFolder() . "background_upload.tmp";
     }
 } // END class.ilObjCertificateSettings
