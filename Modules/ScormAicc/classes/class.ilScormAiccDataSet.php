@@ -65,7 +65,7 @@ class ilScormAiccDataSet extends ilDataSet
 	{
 		global $ilDB;
 
-		$obj_id = ilObject::_lookupObjectId ($a_id);
+		$obj_id = $a_id;
 		$columns = [];
 		foreach ($this->properties as $property)
 			array_push ($columns, $property["db_col"]);
@@ -148,14 +148,21 @@ class ilScormAiccDataSet extends ilDataSet
 		return $this->element_db_mapping[$db_col_name];
 	}
 
-	/* own getXmlRepresentation function to embed zipfile in xml
-	 *
-	 */
+    /**
+     * own getXmlRepresentation function to embed zipfile in xml
+     *
+     * @param $a_entity
+     * @param $a_schema_version
+     * @param $a_ids (obj_id)
+     * @param string $a_field
+     * @param bool $a_omit_header
+     * @param bool $a_omit_types
+     * @return string
+     */
 	public function getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
 	{
 		$GLOBALS["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
-		global $ilCtrl, $ilDB;
 		$this->dircnt = 1;
 
 		$this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
