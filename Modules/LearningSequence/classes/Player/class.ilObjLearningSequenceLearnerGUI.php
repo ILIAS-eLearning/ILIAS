@@ -70,6 +70,10 @@ class ilObjLearningSequenceLearnerGUI
 			case self::CMD_VIEW:
 				$this->play();
 				break;
+
+			case LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP:
+				$this->getCurrentItemLearningProgress();
+
 			default:
 				throw new ilException(
 					"ilObjLearningSequenceLearnerGUI: ".
@@ -239,4 +243,11 @@ class ilObjLearningSequenceLearnerGUI
 			\ilUtil::redirect($href);
 		}
 	}
+
+	protected function getCurrentItemLearningProgress()
+	{
+		print $this->player->getCurrentItemLearningProgress();
+		exit;
+	}
+
 }

@@ -45,16 +45,12 @@ class ilLSPlayer
 	public function render(array $get, array $post=null)
 	{
 		//init state and current item
-		$current_item_ref_id = $this->ls_items->getCurrentItemRefId();
-		if($current_item_ref_id === 0) {
-			$current_item = $this->items[0];
-			$current_item_ref_id = $current_item->getRefId();
-		} else {
-			list($position, $current_item) = $this->findItemByRefId($current_item_ref_id);
-		}
+		$current_item = $this->getCurrentItem();
+
+		//$current_item_ref_id = $this->ls_items->getCurrentItemRefId();
+		$current_item_ref_id = $current_item->getRefId();
 
 		$view = $this->view_factory->getViewFor($current_item);
-
 		$state = $this->ls_items->getStateFor($current_item);
 		$state = $this->updateViewState($state, $view, $get, $post);
 
@@ -116,6 +112,16 @@ class ilLSPlayer
 			$content,
 			$curriculum
 		);
+	}
+
+	protected function getCurrentItem() {
+		$current_item_ref_id = $this->ls_items->getCurrentItemRefId();
+		if($current_item_ref_id === 0) {
+			$current_item = $this->items[0];
+		} else {
+			list($position, $current_item) = $this->findItemByRefId($current_item_ref_id);
+		}
+		return $current_item;
 	}
 
 	protected function updateViewState(
@@ -222,6 +228,13 @@ class ilLSPlayer
 			[]
 		);
 		return $component;
+	}
+
+
+	public function getCurrentItemLearningProgress()
+	{
+		$item = $this->getCurrentItem();
+		return $item->getLearningProgressStatus();
 	}
 
 }
