@@ -21,4 +21,7 @@ interface Footer extends Component
 	 * @return \ILIAS\Data\URI | null
 	 */
 	public function getPermanentURL();
+
+	public function withPermanentURL(\ILIAS\Data\URI $url): Footer;
+
 }
