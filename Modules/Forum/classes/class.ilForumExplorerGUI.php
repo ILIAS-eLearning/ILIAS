@@ -171,12 +171,18 @@ class ilForumExplorerGUI implements TreeRecursion
 
         $data = $this->thread->getNestedSetPostChildren($this->root_node->getId());
 
-        $endData = array();
-        foreach ($data as $node) {
-            if ($node['depth'] == 2) {
-                $endData[] = $node;
-            }
-        }
+        $rootNode = array(
+            'pos_pk'              => $this->root_node->getId(),
+            'pos_subject'         => $this->root_node->getSubject(),
+            'pos_author_id'       => $this->root_node->getPosAuthorId(),
+            'pos_display_user_id' => $this->root_node->getDisplayUserId(),
+            'pos_usr_alias'       => $this->root_node->getUserAlias(),
+            'pos_date'            => $this->root_node->getCreateDate(),
+            'import_name'         => $this->root_node->getImportName(),
+            'post_read'           => $this->root_node->isPostRead()
+        );
+
+        $endData = array($rootNode);
 
         $tree = $f->tree()
                   ->expandable($this)
