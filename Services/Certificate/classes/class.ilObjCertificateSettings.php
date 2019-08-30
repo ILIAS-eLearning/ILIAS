@@ -46,7 +46,7 @@ class ilObjCertificateSettings extends ilObject
         $this->type = "cert";
     }
 
-    public function getBackgroundImageDefaultFolder()
+    private function getBackgroundImageDefaultFolder()
     {
         return CLIENT_WEB_DIR . "/certificates/default/";
     }
@@ -56,7 +56,7 @@ class ilObjCertificateSettings extends ilObject
     *
     * @return string The filesystem path of the background image
     */
-    public function getDefaultBackgroundImagePath()
+    private function getDefaultBackgroundImagePath()
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
     }
@@ -66,7 +66,7 @@ class ilObjCertificateSettings extends ilObject
     *
     * @return string The filesystem path of the background image thumbnail
     */
-    public function getDefaultBackgroundImageThumbPath()
+    private function getDefaultBackgroundImageThumbPath()
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
@@ -76,7 +76,7 @@ class ilObjCertificateSettings extends ilObject
     *
     * @return string The filesystem path of the background image temp file
     */
-    public function getDefaultBackgroundImageTempfilePath()
+    private function getDefaultBackgroundImageTempfilePath()
     {
         return $this->getBackgroundImageDefaultFolder() . "background_upload.tmp";
     }
