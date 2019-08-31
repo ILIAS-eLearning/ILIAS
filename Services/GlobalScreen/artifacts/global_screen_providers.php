@@ -43,7 +43,8 @@
     7 => 'ilRepositoryGSToolProvider',
     8 => 'ilSAHSEditGSToolProvider',
     9 => 'ilSkillGSToolProvider',
-    10 => 'ilWorkspaceGSToolProvider',
+    10 => 'ilTaxonomyGSToolProvider',
+    11 => 'ilWorkspaceGSToolProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (

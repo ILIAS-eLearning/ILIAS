@@ -1809,4 +1809,25 @@ class ilCtrl
         }
         return false;
     }
+
+    /**
+     * Get current class path as array of class file names
+     *
+     * @return array
+     * @throws ilCtrlException
+     */
+    public function getCurrentClassPath(): array
+    {
+        $path = [];
+        foreach (explode(":", $this->getCmdNode()) as $cid) {
+            if ($cid != "") {
+                $path[] = $this->getClassForCid($cid);
+            }
+        }
+        if ($this->getCmdNode() == "" && $_GET["baseClass"] != "") {
+            $path[] = $_GET["baseClass"];
+        }
+        return $path;
+    }
+
 }
