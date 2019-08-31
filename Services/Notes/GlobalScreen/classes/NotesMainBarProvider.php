@@ -26,14 +26,15 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;
+        $ctrl = $dic->ctrl();
 
         // Comments
         $comments = $this->mainmenu->link($this->if->identifier('mm_pd_comments'))
             ->withTitle($dic->language()->txt("mm_comments"))
-            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToComments")
+            ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilPDNotesGUI"], "showPublicComments"))
             ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
             ->withPosition(40)
-	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("note", "")->withIsOutlined(true))
+            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("note", "")->withIsOutlined(true))
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {
@@ -44,7 +45,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
         // Notes
         $notes = $this->mainmenu->link($this->if->identifier('mm_pd_notes'))
             ->withTitle($dic->language()->txt("mm_notes"))
-            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNotes")
+            ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilPDNotesGUI"], "showPrivateNotes"))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withPosition(70)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
