@@ -30,6 +30,7 @@
     2 => 'ILIAS\\GlobalScreen\\Scope\\MetaBar\\Provider\\NotificationCenterProvider',
     3 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
     4 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
+    5 => 'ilAwarenessMetaBarProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
