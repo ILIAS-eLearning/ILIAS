@@ -151,8 +151,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$page_gui->setTabHook($this, "addPageTabs");
 				}
 				$ret = $this->ctrl->forwardCommand($page_gui);
-				$tpl->setContent($ret);
-				break;
+				if ($ret != "") {               // in 6.0 this overwrites already set content with an empty string sometimes
+                    $tpl->setContent($ret);
+                }
+                break;
 
 			default:
 				$ret = $this->$cmd();
