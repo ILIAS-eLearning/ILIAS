@@ -536,7 +536,8 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilMedia":
-						$this->ilMedia();
+						$this->media();
+						//$this->ilMedia();
 						break;
 
 					case "ilLocator":
@@ -696,7 +697,8 @@ class ilLMPresentationGUI
 
 	function fullscreen()
 	{
-		return $this->layout("fullscreen.xml", !$this->offlineMode());
+		return $this->media();
+		//return $this->layout("fullscreen.xml", !$this->offlineMode());
 	}
 
 	function media()
