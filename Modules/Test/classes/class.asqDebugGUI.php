@@ -67,7 +67,9 @@ class asqDebugGUI
         switch (strtolower($DIC->ctrl()->getCmdClass())) {
             case strtolower(ilAsqQuestionAuthoringGUI::class):
                 //Get the specific question authoring service
-                $authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), $this->back_link)->getAuthoringGUI();
+                $authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), $this->back_link)->getAuthoringGUI(
+                    $this->back_link, $_GET['ref_id'], 'tst', true
+                );
                 $DIC->ctrl()->forwardCommand($authoring_gui);
                 break;
             default:

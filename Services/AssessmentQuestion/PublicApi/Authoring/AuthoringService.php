@@ -101,8 +101,10 @@ class AuthoringService
     {
         global $DIC;
 
-        if ($DIC->http()->request()->getAttribute('question_uuid', false) !== false) {
-            $DIC->assessment()->entityIdBuilder()->fromString($DIC->http()->request()->getAttribute('question_uuid', false));
+        if ($DIC->http()->request()->getAttribute(\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID, false) !== false) {
+            return $DIC->assessment()->entityIdBuilder()->fromString(
+                $DIC->http()->request()->getAttribute(\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID, false)
+            );
         }
 
         return $DIC->assessment()->entityIdBuilder()->new();
