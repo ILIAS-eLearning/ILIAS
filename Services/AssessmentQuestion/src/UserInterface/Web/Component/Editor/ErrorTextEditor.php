@@ -37,6 +37,7 @@ class ErrorTextEditor extends AbstractEditor {
         parent::__construct($question);
         
         $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
+        $this->answer = [];
     }
     
     /**
@@ -46,22 +47,55 @@ class ErrorTextEditor extends AbstractEditor {
     {
         $tpl = new ilTemplate("tpl.ErrorTextEditor.html", true, true, "Services/AssessmentQuestion");
         
-        // TODO
+        $tpl->setCurrentBlock('editor');
+        $tpl->setVariable('ERRORTEXT_ID', $this->getPostKey());
+        $tpl->setVariable('ERRORTEXT_VALUE', implode(',', $this->answer));
+        $tpl->setVariable('ERRORTEXT', $this->generateErrorText());
+        $tpl->parseCurrentBlock();
         
         return $tpl->get();
     }
     
-
+    /**
+     * @return string
+     */
+    private function getPostKey() : string {
+        return $this->question->getId();
+    }
+    
+    /**
+     * @return string
+     */
+    private function generateErrorText() : string {
+        preg_match_all('/\S+/', $this->configuration->getErrorText(), $matches);
+        
+        $words = $matches[0];
+        
+        $text = '';
+        
+        for ($i = 0; $i < count($words); $i++) {
+            $css = 'errortext_word';
+            if (in_array($i, $this->answer)) {
+                $css .= ' selected';
+            }
+            $text .= '<span class="' . $css . '" data-index="' . $i . '">' . $words[$i] . '</span> ';
+        }
+        
+        return $text;
+    }
+    
     /**
      * @return Answer
      */
     public function readAnswer() : string
     {
-        $answer = [];
+        $answers = explode(',', $_POST[$this->getPostKey()]);
         
-        //TODO
-        
-        return json_encode($answer);
+        $answers = array_map(function($answer) {
+            return intval($answer);
+        }, $answers);
+            
+            return json_encode($answers);
     }
     
     /**

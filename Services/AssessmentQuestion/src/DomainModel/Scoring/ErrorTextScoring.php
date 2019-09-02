@@ -20,7 +20,30 @@ class ErrorTextScoring extends AbstractScoring {
     const VAR_POINTS_WRONG = 'ets_points_wrong';
     
     function score(Answer $answer) : int {
-        return 42;
+        $score = 0;
+        
+        $selected_words = json_decode($answer->getValue(), true);
+        
+        foreach ($selected_words as $selected_word) {
+            $wrong = true;
+            
+            foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
+                /** @var ErrorTextScoringDefinition $scoring_definition */
+                $scoring_definition = $option->getScoringDefinition();
+                
+                if ($scoring_definition->getWrongWordIndex() === $selected_word) {
+                    $score += $scoring_definition->getPoints();
+                    $wrong = false;
+                    break;
+                }
+            }
+            
+            if ($wrong) {
+                $score += $this->question->getPlayConfiguration()->getScoringConfiguration()->getPointsWrong();
+            }
+        }
+        
+        return $score;
     }
     
     /**

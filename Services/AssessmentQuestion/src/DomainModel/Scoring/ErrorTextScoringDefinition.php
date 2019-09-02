@@ -95,20 +95,20 @@ class ErrorTextScoringDefinition extends ScoringDefinition {
         return new ErrorTextScoringDefinition(
             intval($_POST[$index . self::VAR_WORD_INDEX]),
             $_POST[$index . self::VAR_CORRECT_TEXT],
-            intval($_POST[$index]));
+            intval($_POST[$index . self::VAR_POINTS]));
     }
     
     public function getValues(): array {
         return [self::VAR_WORD_INDEX => $this->wrong_word_index,
-                self::VAR_CORRECT_TEXT => $this->correct_text,
-                self::VAR_POINTS => $this->points
+            self::VAR_CORRECT_TEXT => $this->correct_text,
+            self::VAR_POINTS => $this->points
         ];
     }
     
     
     public static function deserialize(stdClass $data) {
         return new ErrorTextScoringDefinition(
-            $data->wrong_word_index, 
+            $data->wrong_word_index,
             $data->correct_text,
             $data->points);
     }

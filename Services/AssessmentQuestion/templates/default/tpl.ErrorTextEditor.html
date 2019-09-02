@@ -1,0 +1,24 @@
+<script src="Services/AssessmentQuestion/js/ErrorTextEditor.js"></script>
+<style>
+.errortext_word:hover {
+	background-color: gray;
+}
+
+.errortext_word.selected {
+	background-color: yellow;
+}
+
+.errortext_word.selected:hover {
+	background-color: light-gray;
+}
+</style>
+<!-- BEGIN editor -->
+<div id="{ERRORTEXT_ID}" class="ilc_qanswer_Answer ilc_answers errortext ilClearFloat">
+	{ERRORTEXT}
+	<input type="hidden" name="{ERRORTEXT_ID}" value="{ERRORTEXT_VALUE}" />
+</div>
+<!-- END editor -->
+<!-- BEGIN feedback -->
+<span class="feedback">{FEEDBACK}</span>
+<br />
+<!-- END feedback -->
