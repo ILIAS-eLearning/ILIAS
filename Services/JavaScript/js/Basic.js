@@ -26,7 +26,13 @@ il.Util = {
 	
 	addOnLoad: function(func)
 	{
-		$().ready(func);
+		$().ready(function() {
+			try {
+				func();
+			} catch (err) {
+				console.error(err);
+			}
+		});
 /*		if (!document.getElementById | !document.getElementsByTagName) return;
 	
 		var oldonload=window.onload;
