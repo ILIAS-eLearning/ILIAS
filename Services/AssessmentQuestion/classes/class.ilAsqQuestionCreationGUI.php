@@ -3,7 +3,6 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
@@ -79,7 +78,7 @@ class ilAsqQuestionCreationGUI
             case strtolower(self::class):
             default:
 
-                $cmd = $DIC->ctrl()->getCmd();
+                $cmd = $DIC->ctrl()->getCmd(self::CMD_SHOW_CREATE_FORM);
                 $this->{$cmd}();
         }
     }
@@ -87,7 +86,13 @@ class ilAsqQuestionCreationGUI
 
     protected function buildCreationForm() : QuestionTypeSelectForm
     {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
         $form = new QuestionTypeSelectForm();
+        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_CREATE_FORM));
+        $form->addCommandButton(self::CMD_CREATE_QUESTION,$DIC->language()->txt('create'));
+        $form->addCommandButton(self::CMD_CANCEL_CREATION,$DIC->language()->txt('cancel'));
+
         return $form;
     }
 
@@ -120,21 +125,14 @@ class ilAsqQuestionCreationGUI
             return;
         }
 
-        // should be the question uuid handled by the ilAsqQuestionAuthoringGUI
-        #$guid = Guid::create();
         $guid = $this->questionId->getId();
 
         $this->authoringApplicationService->CreateQuestion(new DomainObjectId($guid),
             $this->contextContainer->getObjId(), $form->getQuestionType()
         );
 
-        // ilAsqQuestionAuthoringGUI does also handle surviving of this parameter
-        #$DIC->ctrl()->setParameter(
-        #    $this, \ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID, $guid
-        #);
-
-        $DIC->ctrl()->redirectToURL(str_replace('&amp;', '',
-            $this->publicAuthoringService->question($this->questionId)->getEditLink(array())
+        $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
+            $this->publicAuthoringService->question($this->questionId)->getEditLink(array())->getAction()
         ));
     }
 
