@@ -3110,7 +3110,7 @@
 		</xsl:when>
 		<xsl:otherwise>
 			<a target="_blank">
-			<xsl:attribute name="href"><xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
+			<xsl:attribute name="onclick">il.COPagePres.openFullScreenModal('<xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>'); return false;</xsl:attribute>
 			<img border="0" align="right">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>

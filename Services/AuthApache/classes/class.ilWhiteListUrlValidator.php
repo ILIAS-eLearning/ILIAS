@@ -1,6 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-declare(strict_types=1);
 
 /**
  * Class ilWhiteListUrlValidator
@@ -8,61 +7,61 @@ declare(strict_types=1);
  */
 class ilWhiteListUrlValidator
 {
-	/** @var string */
-	protected $url = '';
-	
-	/** @var string[] */
-	protected $whitelist = [];
+    /** @var string */
+    protected $url = '';
 
-	/**
-	 * ilWhiteListUrlValidator constructor.
-	 * @param string   $url
-	 * @param string[] $whitelist
-	 */
-	public function __construct(string $url, array $whitelist)
-	{
-		$this->url       = $url;
-		$this->whitelist = array_filter(array_map(function(string $domain) {
-			return trim($domain); // Used for trimming and type validation (strict primitive type hint)
-		}, $whitelist));
-	}
+    /** @var string[] */
+    protected $whitelist = [];
 
-	/**
-	 * @param string $domain
-	 * @return bool
-	 */
-	private function isValidDomain(string $domain): bool 
-	{
-		foreach ($this->whitelist as $validDomain) {
-			if ($domain === $validDomain) {
-				return true;
-			}
+    /**
+     * ilWhiteListUrlValidator constructor.
+     * @param string $url
+     * @param string[] $whitelist
+     */
+    public function __construct(string $url, array $whitelist)
+    {
+        $this->url = $url;
+        $this->whitelist = array_filter(array_map(function (string $domain) {
+            return trim($domain); // Used for trimming and type validation (strict primitive type hint)
+        }, $whitelist));
+    }
 
-			$firstChar = $validDomain{0};
-			if ('.' !== $firstChar) {
-				$validDomain = '.' . $validDomain;
-			}
+    /**
+     * @param string $domain
+     * @return bool
+     */
+    private function isValidDomain(string $domain) : bool
+    {
+        foreach ($this->whitelist as $validDomain) {
+            if ($domain === $validDomain) {
+                return true;
+            }
 
-			if (strlen($domain) > strlen($validDomain)) {
-				if (substr($domain, (0 - strlen($validDomain))) === $validDomain) {
-					return true;
-				}
-			}
-		}
+            $firstChar = $validDomain{0};
+            if ('.' !== $firstChar) {
+                $validDomain = '.' . $validDomain;
+            }
 
-		return false;
-	}
+            if (strlen($domain) > strlen($validDomain)) {
+                if (substr($domain, (0 - strlen($validDomain))) === $validDomain) {
+                    return true;
+                }
+            }
+        }
 
-	/**
-	 * @return bool
-	 */
-	public function isValid(): bool 
-	{
-		$redirectDomain = parse_url($this->url, PHP_URL_HOST);
-		if (null === $redirectDomain) {
-			return false;
-		}
+        return false;
+    }
 
-		return $this->isValidDomain($redirectDomain);
-	}
+    /**
+     * @return bool
+     */
+    public function isValid() : bool
+    {
+        $redirectDomain = parse_url($this->url, PHP_URL_HOST);
+        if (null === $redirectDomain) {
+            return false;
+        }
+
+        return $this->isValidDomain($redirectDomain);
+    }
 }

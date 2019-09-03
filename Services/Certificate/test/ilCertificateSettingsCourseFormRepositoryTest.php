@@ -81,6 +81,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
         $repository = new ilCertificateSettingsCourseFormRepository(
             $object,
             '/some/where',
+            false,
             $language,
             $controller,
             $access,
@@ -175,6 +176,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
         $repository = new ilCertificateSettingsCourseFormRepository(
             $object,
             '/some/where',
+            false,
             $language,
             $controller,
             $access,

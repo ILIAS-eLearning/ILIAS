@@ -620,7 +620,7 @@ class ilExcel
 	 */
 	function columnIndexAdjustment(int $column) : int
 	{
-		return $column++;
+		return ++$column;
 	}
 
 	/**

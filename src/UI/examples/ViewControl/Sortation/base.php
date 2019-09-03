@@ -15,7 +15,7 @@ function base() {
 	$s = $f->viewControl()->sortation($options)
 		->withTargetURL($DIC->http()->request()->getRequestTarget(), 'sortation');
 
-	$s2 = $s->withLabel($DIC->language()->txt('sortation_std_label'));
+	$s2 = $s->withLabel($DIC->language()->txt('change_sort_direction'));
 
 
 	$image = $f->image()->responsive("src/UI/examples/Image/mountains.jpg", "Image source: https://stocksnap.io, Creative Commons CC0 license");
@@ -23,7 +23,7 @@ function base() {
 	$modal = $f->modal()->lightbox($page);
 
 	$s3 = $s->withResetSignals()
-		->withLabel('show Modal on select')
+		->withLabel('Show Modal on select')
 		->withOnSort($modal->getShowSignal());
 
 

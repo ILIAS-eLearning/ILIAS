@@ -19,13 +19,13 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
 	 * Append an entry.
 	 *
 	 * @param string $id
-	 * @param Button\Bulky|Slate $entry
+	 * @param Button\Bulky|Link\Bulky|Slate $entry
 	 * @throws InvalidArgumentException 	if $id is already taken
 	 */
 	public function withAdditionalEntry(string $id, $entry): MainBar;
 
 	/**
-	 * @return array <string, Button\Bulky|Slate>
+	 * @return array <string, Button\Bulky|Link\Bulky|Slate>
 	 */
 	public function getEntries(): array;
 
@@ -34,14 +34,14 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
 	 * Define a tools-trigger via "withToolsButton" first.
 	 *
 	 * @param string $id
-	 * @param Button\Bulky|Slate $entry
+	 * @param Slate $entry
 	 * @throws InvalidArgumentException 	if $id is already taken
 	 * @throws LogicException 	if no tool-button was set
 	 */
-	public function withAdditionalToolEntry(string $id, $entry): MainBar;
+	public function withAdditionalToolEntry(string $id, Slate\Slate $entry): MainBar;
 
 	/**
-	 * @return array <string, Button\Bulky|Slate>
+	 * @return array <string, Slate>
 	 */
 	public function getToolEntries();
 

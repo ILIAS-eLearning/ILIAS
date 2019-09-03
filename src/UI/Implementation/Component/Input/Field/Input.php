@@ -8,12 +8,12 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -75,7 +75,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 */
 	protected $content = null;
 	/**
-	 * @var (Transformation|Constraint)[]
+	 * @var Transformation[]
 	 */
 	private $operations;
 
@@ -272,9 +272,6 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 		$this->error = $error;
 	}
 
-	// These are the ways in which a consumer can define how client side
-	// input is processed.
-
 	/**
 	 * Apply a transformation to the current or future content.
 	 *
@@ -303,42 +300,11 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	protected function setAdditionalTransformation(Transformation $trafo) {
 		$this->operations[] = $trafo;
 		if ($this->content !== null) {
-			$this->content = $this->content->map($trafo);
-		}
-	}
-
-
-	/**
-	 * Apply a constraint to the current or the future content.
-	 *
-	 * @param    Constraint $constraint
-	 *
-	 * @return    Input
-	 */
-	public function withAdditionalConstraint(Constraint $constraint) {
-		$clone = clone $this;
-		$clone->setAdditionalConstraint($constraint);
-
-		return $clone;
-	}
-
-
-	/**
-	 * Apply a constraint to the current or the future content.
-	 *
-	 * ATTENTION: This is a real setter, i.e. it modifies $this! Use this only if
-	 * `withAdditionalConstraint` does not work, i.e. in the constructor.
-	 *
-	 * @param    Constraint $constraint
-	 *
-	 * @return    void
-	 */
-	protected function setAdditionalConstraint(Constraint $constraint) {
-		$this->operations[] = $constraint;
-		if ($this->content !== null) {
-			$this->content = $constraint->applyTo($this->content);
+			if(!$this->content->isError()) {
+				$this->content = $trafo->applyTo($this->content);
+			}
 			if ($this->content->isError()) {
-				$this->setError("" . $this->content->error());
+				$this->setError($this->content->error());
 			}
 		}
 	}
@@ -375,11 +341,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @inheritdoc
 	 */
 	public function withInput(InputData $input) {
-		//TODO: What should happen if input has not name? Throw exception or return null?
-		/**
-		 * if ($this->getName() === null) {
-		 * throw new \LogicException("Can only collect if input has a name.");
-		 * }**/
+		if ($this->getName() === null) {
+			throw new \LogicException("Can only collect if input has a name.");
+		}
 
 		//TODO: Discuss, is this correct here. If there is no input contained in this post
 		//We assign null. Note that unset checkboxes are not contained in POST.
@@ -394,11 +358,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			}
 		}
 		else {
-			$value = $this->getValue();
 			$clone = $this;
 		}
 
-		$clone->content = $this->applyOperationsTo($value);
+		$clone->content = $this->applyOperationsTo($clone->getValue());
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());
 		}
@@ -425,13 +388,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 				return $res;
 			}
 
-			// TODO: I could make this go away by giving Transformation and
-			// Constraint a common interface for that.
-			if ($op instanceof Transformation) {
-				$res = $res->map($op);
-			} elseif ($op instanceof Constraint) {
-				$res = $op->applyTo($res);
-			}
+			$res = $op->applyTo($res);
 		}
 
 		return $res;
@@ -441,7 +398,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * Get the operations that should be performed on the input.
 	 *
-	 * @return \Generator <Transformation|Constraint>
+	 * @return \Generator<Transformation>
 	 */
 	private function getOperations() {
 		if ($this->isRequired()) {
@@ -460,9 +417,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * @inheritdoc
 	 */
-	final public function getContent() {
+	public function getContent() {
 		if (is_null($this->content)) {
-			throw new \LogicException("No content of this field has been evaluated yet. Seems withInput was not called.");
+			throw new \LogicException("No content of this field has been evaluated yet. Seems withRequest was not called.");
 		}
 		return $this->content;
 	}

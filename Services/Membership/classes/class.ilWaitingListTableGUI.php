@@ -80,14 +80,15 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($all_cols[$col]['txt'], $col);
 		}
-		
-	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"60%");
-	 	$this->addColumn('','mail','20%');
+
+	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"10%");
+	 	$this->addColumn('','mail','10%');
 		
 		$this->addMultiCommand('confirmAssignFromWaitingList',$this->lng->txt('assign'));
 		$this->addMultiCommand('confirmRefuseFromList',$this->lng->txt('refuse'));
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
-		
+
+		$this->setDefaultOrderField('sub_time');
 		$this->setPrefix('waiting');
 		$this->setSelectAllCheckbox('waiting',true);
 		$this->setRowTemplate("tpl.show_waiting_list_row.html","Services/Membership");

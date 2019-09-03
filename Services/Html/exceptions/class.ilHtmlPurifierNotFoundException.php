@@ -1,29 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Html/exceptions/class.ilHtmlException.php'; 
-
-/** 
-* Class for html related exception handling in ILIAS. 
-* 
-* @author	Michael Jansen <mjansen@databay.de>
-* @version	$Id$ 
-* 
-*/
+/**
+ * Class for html related exception handling in ILIAS.
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilHtmlPurifierNotFoundException extends ilHtmlException
 {
-	/** 
-	* Constructor
-	* 
-	* A message is not optional as in build in class Exception
-	* 
-	* @access	public
-	* @param	string	$a_message message
-	* 
-	*/
-	public function __construct($a_message)
-	{
-	 	parent::__construct($a_message);
-	}
+    /**
+     * ilHtmlPurifierNotFoundException constructor.
+     * @param string $message
+     */
+    public function __construct(string $message)
+    {
+        parent::__construct($message);
+    }
 }
-?>

@@ -12,40 +12,42 @@ require_once('./tests/Refinery/TestCase.php');
 
 class GroupTest extends TestCase
 {
-	/**
-	 * @var Group
-	 */
-	private $group;
+    /**
+     * @var Group
+     */
+    private $group;
 
-	/**
-	 * @var Factory
-	 */
-	private $dataFactory;
+    /**
+     * @var Factory
+     */
+    private $dataFactory;
 
-	/**
-	 * @var \ilLanguage
-	 */
-	private $language;
+    /**
+     * @var \ilLanguage
+     */
+    private $language;
 
-	public function setUp() : void
-	{
-		$this->dataFactory = new Factory();
-		$this->language    = $this->getMockBuilder('\ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
+    public function setUp() : void
+    {
+        $this->dataFactory = new Factory();
+        $this->language    = $this->getMockBuilder('\ilLanguage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->group = new Group($this->dataFactory, $this->language);
-	}
+        $this->group = new Group($this->dataFactory, $this->language);
+    }
 
-	public function testCustomConstraint()
-	{
-		$instance = $this->group->constraint(function () {}, 'some error');
-		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Constraint::class, $instance);
-	}
+    public function testCustomConstraint()
+    {
+        $instance = $this->group->constraint(function () {
+        }, 'some error');
+        $this->assertInstanceOf(\ILIAS\Refinery\Custom\Constraint::class, $instance);
+    }
 
-	public function testCustomTransformation()
-	{
-		$instance = $this->group->transformation(function () {});
-		$this->assertInstanceOf(\ILIAS\Refinery\Custom\Transformation::class, $instance);
-	}
+    public function testCustomTransformation()
+    {
+        $instance = $this->group->transformation(function () {
+        });
+        $this->assertInstanceOf(\ILIAS\Refinery\Custom\Transformation::class, $instance);
+    }
 }

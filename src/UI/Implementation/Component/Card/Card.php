@@ -50,7 +50,9 @@ class Card implements C\Card {
 	 * @param \ILIAS\UI\Component\Image\Image|null $image
 	 */
 	public function __construct($title, \ILIAS\UI\Component\Image\Image $image = null){
-		$this->checkStringArg("title", $title);
+		if (! $title instanceof \ILIAS\UI\Component\Button\Shy) {
+			$this->checkStringArg("title", $title);
+		}
 
 		$this->title = $title;
 		$this->image = $image;
@@ -60,7 +62,9 @@ class Card implements C\Card {
 	 * @inheritdoc
 	 */
 	public function withTitle($title){
-		$this->checkStringArg("title", $title);
+		if (! $title instanceof \ILIAS\UI\Component\Button\Shy) {
+			$this->checkStringArg("title", $title);
+		}
 
 		$clone = clone $this;
 		$clone->title = $title;

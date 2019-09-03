@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "none",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "declaration": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": false,
+    "target": "es2015"
+  },
+  "include": [
+    "src/GS.ts"
+  ]
+}

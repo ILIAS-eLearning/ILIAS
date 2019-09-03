@@ -1,10 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/LearningModule/classes/class.ilLMObjectGUI.php");
-require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-require_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
-require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilLMPageObjectGUI
@@ -125,7 +121,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					"_".$_GET["ref_id"],
 					$view_frame);
 
-				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->content_object->getStyleSheetId(), "lm"));
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
@@ -156,8 +151,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					$page_gui->setTabHook($this, "addPageTabs");
 				}
 				$ret = $this->ctrl->forwardCommand($page_gui);
-				$tpl->setContent($ret);
-				break;
+				if ($ret != "") {               // in 6.0 this overwrites already set content with an empty string sometimes
+                    $tpl->setContent($ret);
+                }
+                break;
 
 			default:
 				$ret = $this->$cmd();
@@ -333,14 +330,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$obj_type = ilObject::_lookupType($target_id);
 						if ($obj_type == "usr")
 						{
-							include_once("./Services/User/classes/class.ilUserUtil.php");
 							$back = $this->ctrl->getLinkTarget($this, "edit");
 							//var_dump($back); exit;
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
 								rawurlencode($back));
 							$href = "";
-							include_once("./Services/User/classes/class.ilUserUtil.php");
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
 								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
@@ -370,7 +365,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function updateHistory()
 	{
-		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->obj->getId(), "update",
 			"", $this->content_object->getType().":pg",
 			"", true);
@@ -452,7 +446,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lng->loadLanguageModule("content");
 				ilUtil::sendFailure($lng->txt("page_does_not_exist"), true);
 			}
-			include_once("./Services/Object/classes/class.ilObjectGUI.php");
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 
@@ -494,7 +487,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 	
 		// default layout
@@ -578,7 +570,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			{
 				$file = explode("_", $_GET["file_id"]);
 				$file_id = (int) $file[count($file) - 1];
-				require_once("./Modules/File/classes/class.ilObjFile.php");
 				$fileObj = new ilObjFile($file_id, false);
 				$fileObj->sendFile();
 				exit;

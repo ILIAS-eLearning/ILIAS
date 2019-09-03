@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * TableGUI class for 
  *
@@ -63,7 +61,6 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
 	 */
 	protected function getBlockedUsers()
 	{
-		include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
 		/** @var ilLMTracker $track */
 		$track = ilLMTracker::getInstance($this->lm->getRefId());
 

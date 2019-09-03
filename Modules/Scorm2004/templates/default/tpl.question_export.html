@@ -233,40 +233,30 @@
 			<input id="ilMatchingResetButton_{VAL_ID}" type="button" class="submit" name="reset" value="{BTN_LABEL_RESET}">
 		</div>
 
-		<table style="width: 100%; overflow: auto;">
-			<tbody>
-				<tr>
-					<td id="targetArea_{VAL_ID}" style="width: 66%; vertical-align: top;">
-						<!-- pure tpl for definitions begin -->
-						<div class="droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
-							<table style="width: 100%;">
-								<tbody>
-									<tr>
-										<td class="ilMatchingQuestionDefinition">
-											<div class="ilc_qanswer_Answer">Definition</div>
-										</td>
-										<td class="ilMatchingQuestionTerm"></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<!-- pure tpl for definitions end -->
-					</td>
-					<td id="sourceArea_{VAL_ID}" style="width: 33%; vertical-align: top;">
-						<!-- pure tpl for terms begin -->
-						<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
-							<div class="ilc_qanswer_Answer">Term</div>
-						</div>
-						<!-- pure tpl for terms end -->
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="row">
+			<div id="targetArea_{VAL_ID}" class="col-md-8">
+				<!-- pure tpl for definitions begin -->
+				<div class="row droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
+					<div class="ilMatchingQuestionDefinition col-md-6">
+						<div class="ilc_qanswer_Answer">Definition</div>
+					</div>
+					<div class="ilMatchingQuestionTerm col-md-6"></div>
+				</div>
+				<!-- pure tpl for definitions end -->
+			</div>
+			<div id="sourceArea_{VAL_ID}" class="col-md-4">
+				<!-- pure tpl for terms begin -->
+				<div class="draggable row" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
+					<div class="ilc_qanswer_Answer">Term</div>
+				</div>
+				<!-- pure tpl for terms end -->
+			</div>
+		</div>
 		
 		<div id="feedback{VAL_ID}" style="display:none"></div>
-		
+
 		<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="TXT_SUBMIT_ANSWERS" />
-		
+
 	</div>
 </div>
 <script>
@@ -292,7 +282,7 @@
 		{
 			'definition <- definitions':
 			{
-				'td.ilMatchingQuestionDefinition div': 'definition.text',
+				'div.ilMatchingQuestionDefinition div': 'definition.text',
 				'@id': function(arg) { return "definition_"+arg.context.definitions[arg.pos].id; },
 				'@data-type': '"definition"',
 				'@data-id': 'definition.id'

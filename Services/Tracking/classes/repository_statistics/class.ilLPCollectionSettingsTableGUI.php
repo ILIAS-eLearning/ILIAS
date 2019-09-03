@@ -97,7 +97,11 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$alt = $this->lng->txt('obj_' . $a_set['type']);
 		}			
 		$this->tpl->setVariable('ALT_IMG', $alt);
-		$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon("", "tiny", $a_set['type']));
+		$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon(
+			$a_set['obj_id'],
+			'tiny',
+			$a_set['type'])
+		);
 
 		if($this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL && 
 			$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_TLT)

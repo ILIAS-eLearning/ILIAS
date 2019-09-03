@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
-include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Learning Resources Settings.
@@ -17,10 +15,6 @@ include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 */
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
 
 	/**
 	 * @var ilErrorHandling
@@ -37,7 +31,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		$this->rbacsystem = $DIC->rbac()->system();
 		$this->error = $DIC["ilErr"];
 		$this->access = $DIC->access();
 		$this->settings = $DIC->settings();
@@ -58,14 +51,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	public function executeCommand()
 	{
 		$ilErr = $this->error;
-		$ilAccess = $this->access;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
@@ -74,7 +66,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -128,7 +119,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$lm_set = new ilSetting("lm");
 		$lng->loadLanguageModule("scormdebug");
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("cont_lrs_settings"));

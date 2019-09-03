@@ -19,7 +19,7 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 	/**
 	 * @return	HTMLPurifier_Config Instance of HTMLPurifier_Config
 	 */
-	protected function getPurifierConfigInstance()
+	protected function getPurifierConfigInstance() : HTMLPurifier_Config
 	{
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('HTML.DefinitionID', $this->getPurifierType());

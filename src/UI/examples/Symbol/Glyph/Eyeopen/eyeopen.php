@@ -4,5 +4,14 @@ function eyeopen() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->eyeopen("#"));
+	$glyph = $f->symbol()->glyph()->eyeopen("#");
+
+	//Showcase the various states of this Glyph
+	$list = $f->listing()->descriptive([
+		"Active"=>$glyph,
+		"Inactive"=>$glyph->withUnavailableAction(),
+		"Highlighted"=>$glyph->withHighlight()
+	]);
+
+	return $renderer->render($list);
 }

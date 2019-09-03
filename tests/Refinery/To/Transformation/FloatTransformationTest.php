@@ -16,142 +16,142 @@ use ILIAS\Tests\Refinery\TestCase;
 
 class FloatTransformationTest extends TestCase
 {
-	/**
-	 * @var FloatTransformation
-	 */
-	private $transformation;
+    /**
+     * @var FloatTransformation
+     */
+    private $transformation;
 
-	public function setUp(): void
-	{
-		$this->transformation = new FloatTransformation();
-	}
+    public function setUp() : void
+    {
+        $this->transformation = new FloatTransformation();
+    }
 
-	public function testIntegerToFloatTransformation()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testIntegerToFloatTransformation()
+    {
+        $this->expectNotToPerformAssertions();
 
-		try {
-			$transformedValue = $this->transformation->transform(200);
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $transformedValue = $this->transformation->transform(200);
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testStringToFloatTransformation()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testStringToFloatTransformation()
+    {
+        $this->expectNotToPerformAssertions();
 
-		try {
-			$transformedValue = $this->transformation->transform('hello');
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $transformedValue = $this->transformation->transform('hello');
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testFloatToFloatTransformation()
-	{
-		$transformedValue = $this->transformation->transform(10.5);
+    public function testFloatToFloatTransformation()
+    {
+        $transformedValue = $this->transformation->transform(10.5);
 
-		$this->assertEquals(10.5, $transformedValue);
-	}
+        $this->assertEquals(10.5, $transformedValue);
+    }
 
-	public function testNegativeIntegerToFloatTransformation()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testNegativeIntegerToFloatTransformation()
+    {
+        $this->expectNotToPerformAssertions();
 
-		try {
-			$transformedValue = $this->transformation->transform(-200);
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $transformedValue = $this->transformation->transform(-200);
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testZeroIntegerToFloatTransformation()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testZeroIntegerToFloatTransformation()
+    {
+        $this->expectNotToPerformAssertions();
 
-		try {
-			$transformedValue = $this->transformation->transform(0);
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $transformedValue = $this->transformation->transform(0);
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testZeroFloatToFloatTransformation()
-	{
-		$transformedValue = $this->transformation->transform(0.0);
+    public function testZeroFloatToFloatTransformation()
+    {
+        $transformedValue = $this->transformation->transform(0.0);
 
-		$this->assertEquals(0.0, $transformedValue);
-	}
+        $this->assertEquals(0.0, $transformedValue);
+    }
 
-	public function testPositiveIntegerToFloatApply()
-	{
-		$resultObject = new Result\Ok(200);
+    public function testPositiveIntegerToFloatApply()
+    {
+        $resultObject = new Result\Ok(200);
 
-		$transformedObject = $this->transformation->applyTo($resultObject);
+        $transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertTrue($transformedObject->isError());
-	}
+        $this->assertTrue($transformedObject->isError());
+    }
 
-	public function testNegativeIntegerToFloatApply()
-	{
-		$resultObject = new Result\Ok(-200);
+    public function testNegativeIntegerToFloatApply()
+    {
+        $resultObject = new Result\Ok(-200);
 
-		$transformedObject = $this->transformation->applyTo($resultObject);
+        $transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertTrue($transformedObject->isError());
-	}
+        $this->assertTrue($transformedObject->isError());
+    }
 
-	public function testZeroIntegerToFloatApply()
-	{
-		$resultObject = new Result\Ok(0);
+    public function testZeroIntegerToFloatApply()
+    {
+        $resultObject = new Result\Ok(0);
 
-		$transformedObject = $this->transformation->applyTo($resultObject);
+        $transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertTrue($transformedObject->isError());
-	}
+        $this->assertTrue($transformedObject->isError());
+    }
 
-	public function testStringToFloatApply()
-	{
-		$resultObject = new Result\Ok('hello');
+    public function testStringToFloatApply()
+    {
+        $resultObject = new Result\Ok('hello');
 
-		$transformedObject = $this->transformation->applyTo($resultObject);
+        $transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertTrue($transformedObject->isError());
-	}
+        $this->assertTrue($transformedObject->isError());
+    }
 
-	public function testIntegerToFloatApply()
-	{
-		$resultObject = new Result\Ok(200);
+    public function testIntegerToFloatApply()
+    {
+        $resultObject = new Result\Ok(200);
 
-		$transformedObject = $this->transformation->applyTo($resultObject);
+        $transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertTrue($transformedObject->isError());
-	}
+        $this->assertTrue($transformedObject->isError());
+    }
 
-	public function testFloatToFloatApply()
-	{
-		$resultObject = new Result\Ok(10.5);
+    public function testFloatToFloatApply()
+    {
+        $resultObject = new Result\Ok(10.5);
 
-		$transformedObject = $this->transformation->applyTo($resultObject);
+        $transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertEquals(10.5, $transformedObject->value());
-	}
+        $this->assertEquals(10.5, $transformedObject->value());
+    }
 
-	public function testBooleanToFloatApply()
-	{
-		$resultObject = new Result\Ok(true);
+    public function testBooleanToFloatApply()
+    {
+        $resultObject = new Result\Ok(true);
 
-		$transformedObject = $this->transformation->applyTo($resultObject);
+        $transformedObject = $this->transformation->applyTo($resultObject);
 
-		$this->assertTrue($transformedObject->isError());
-	}
+        $this->assertTrue($transformedObject->isError());
+    }
 }

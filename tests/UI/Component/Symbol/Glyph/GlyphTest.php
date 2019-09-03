@@ -49,6 +49,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, G\Glyph::APPLY			=> "glyphicon glyphicon-ok"
 		, G\Glyph::SEARCH			=> "glyphicon glyphicon-search"
 		, G\Glyph::HELP				=> "glyphicon glyphicon-question-sign"
+		, G\Glyph::CALENDAR			=> "glyphicon glyphicon-calendar"
+		, G\Glyph::TIME				=> "glyphicon glyphicon-time"
 		);
 
 	static $aria_labels = array(
@@ -81,6 +83,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, G\Glyph::APPLY			=> "apply"
 		, G\Glyph::SEARCH			=> "search"
 		, G\Glyph::HELP				=> "help"
+		, G\Glyph::CALENDAR			=> "calendar"
+		, G\Glyph::TIME				=> "time"
 	);
 
 	/**
@@ -286,6 +290,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			, array(G\Glyph::APPLY)
 			, array(G\Glyph::SEARCH)
 			, array(G\Glyph::HELP)
+			, array(G\Glyph::CALENDAR)
+			, array(G\Glyph::TIME)
 			);
 	}
 
@@ -376,7 +382,13 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 	public function test_dont_render_counter() {
 		$this->expectException(\LogicException::class);
-		$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage(), $this->getJavaScriptBinding());
+		$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer(
+			$this->getUIFactory(),
+			$this->getTemplateFactory(),
+			$this->getLanguage(),
+			$this->getJavaScriptBinding(),
+			$this->getRefinery()
+		);
 		$f = $this->getCounterFactory();
 
 		$r->render($f->status(0), $this->getDefaultRenderer());

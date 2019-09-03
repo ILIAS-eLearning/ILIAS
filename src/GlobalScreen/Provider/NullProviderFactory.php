@@ -7,8 +7,17 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class NullProviderFactory implements ProviderFactoryInterface
+class NullProviderFactory implements ProviderFactory
 {
+
+    /**
+     * @inheritDoc
+     */
+    public function getModificationProvider() : array
+    {
+        return [];
+    }
+
 
     /**
      * @inheritDoc
@@ -49,6 +58,15 @@ class NullProviderFactory implements ProviderFactoryInterface
     /**
      * @inheritDoc
      */
+    public function getNotificationsProvider() : array
+    {
+        return [];
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getProviderByClassName(string $class_name) : Provider
     {
         // return new NullP;
@@ -59,6 +77,15 @@ class NullProviderFactory implements ProviderFactoryInterface
      * @inheritDoc
      */
     public function isInstanceCreationPossible(string $class_name) : bool
+    {
+        return false;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isRegistered(string $class_name) : bool
     {
         return false;
     }

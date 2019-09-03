@@ -548,7 +548,7 @@ abstract class ilPlugin {
 		global $DIC;
 		$lng = $DIC->language();
 
-		$pl = ilObjectPlugin::getRepoPluginObjectByType($pluginId);
+		$pl = ilObjectPlugin::getPluginObjectByType($pluginId);
 		$pl->loadLanguageModule();
 
 		return $lng->exists($pl->getPrefix() . "_" . $langVar);
@@ -948,6 +948,9 @@ abstract class ilPlugin {
 				" AND slot_id = " . $ilDB->quote($this->getSlotId(), "text") .
 				" AND name = " . $ilDB->quote($this->getPluginName(), "text");
 			$ilDB->manipulate($q);
+			
+			$ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ ilDBConstants::T_TEXT ], [ $this->getPrefix() ]);
+			$ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ ilDBConstants::T_TEXT ], [ $this->getPrefix() ]);
 
 			$this->afterUninstall();
 
@@ -1185,9 +1188,10 @@ abstract class ilPlugin {
 	 * @param $a_slot_id
 	 * @param $a_plugin_id
 	 *
-	 * @return string
+	 * @return string | null
 	 */
-	public static function lookupNameForId(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_id): string {
+	public static function lookupNameForId(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_id)
+	{
 		global $DIC;
 		$ilDB = $DIC->database();
 
@@ -1228,11 +1232,75 @@ abstract class ilPlugin {
 		}
 	}
 
+	/**
+	 * @param string $id
+	 * @return string[] | null
+	 */
+	public static function lookupTypeInformationsForId(string $id)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$q = "SELECT component_type, component_name, slot_id FROM il_plugin "
+			." WHERE plugin_id = " . $ilDB->quote($id, "text")
+		;
+
+		$set = $ilDB->query($q);
+		if ($rec = $ilDB->fetchAssoc($set)) {
+			return [
+				$rec["component_type"],
+				$rec["component_name"],
+				$rec["slot_id"]
+			];
+		}
+	}
+
 
 	/**
 	 * @return AbstractStaticPluginMainMenuProvider
 	 */
 	public function promoteGlobalScreenProvider(): AbstractStaticPluginMainMenuProvider {
 		return new ilPluginGlobalScreenNullProvider();
+	}
+
+	/**
+	 * This methods allows to replace the UI Renderer (see src/UI) of ILIAS after initialization
+	 * by returning a closure returning a custom renderer. E.g:
+	 *
+	 * return function(\ILIAS\DI\Container $c){
+	 *   return new CustomRenderer();
+	 * };
+	 *
+	 * Note: Note that plugins might conflict by replacing the renderer, so only use if you
+	 * are sure, that no other plugin will do this for a given context.
+	 *
+	 * @param \ILIAS\DI\Container $dic
+	 * @return Closure
+	 */
+	public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic):Closure{
+		//This returns the callable of $c['ui.renderer'] without executing it.
+		return $dic->raw('ui.renderer');
+	}
+
+	/**
+	 * This methods allows to replace some factory for UI Components (see src/UI) of ILIAS
+	 * after initialization by returning a closure returning a custom factory. E.g:
+	 *
+	 * if($key == "ui.factory.nameOfFactory"){
+	 *    return function(\ILIAS\DI\Container  $c){
+	 *       return new CustomFactory($c['ui.signal_generator'],$c['ui.factory.maincontrols.slate']);
+	 *    };
+	 * }
+	 *
+	 * Note: Note that plugins might conflict by replacing the same factory, so only use if you
+	 * are sure, that no other plugin will do this for a given context.
+	 *
+	 * @param string $dic_key
+	 * @param \ILIAS\DI\Container $dic
+	 * @return Closure
+	 */
+	public function exchangeUIFactoryAfterInitialization(string $dic_key, \ILIAS\DI\Container $dic):Closure{
+		//This returns the callable of $c[$key] without executing it.
+		return $dic->raw($dic_key);
 	}
 }
