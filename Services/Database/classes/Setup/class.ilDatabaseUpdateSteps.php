@@ -5,6 +5,7 @@
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\CallableObjective;
 use ILIAS\Setup\NullObjective;
+use ILIAS\Setup\Objective;
 
 
 /**
@@ -32,8 +33,23 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	 */
 	protected $steps = null;
 
-	final public function __construct(\ilDatabaseSetupConfig $config) {
+	/**
+	 * @var	Objective
+	 */
+	protected $base;
+
+	/**
+	 * @param \ilObjective $base for the update steps, i.e. the objective that should
+	 *                           have been reached before the steps of this class can
+	 *                           even begin. Most propably this should be
+	 *                           \ilDatabasePopulatedObjective.
+	 */
+	public function __construct(
+		\ilDatabaseSetupConfig $config,
+		Objective $base
+	) {
 		parent::__construct($config);
+		$this->base = $base;
 	}
 
 	/**
@@ -54,40 +70,47 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	/**
 	 * @inheritdocs
 	 */
-	final public function isNotable() : bool {
+	public function isNotable() : bool {
 		return true;
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	final public function getPreconditions(Environment $environment) : array {
-		if (!$environment->getResource(Environment::RESOURCE_DATABASE)) {
-			$pre = new \ilDatabaseExistsObjective($this->config);
-		}
-		else {
-			$pre = new NullObjective();
-		}
-
-		$class = get_class($this);
-		foreach($this->getSteps() as $s) {
-			$pre = new ilDatabaseUpdateStep($this, $s, $pre);
-		}
-
-		return [$pre];
+	public function getPreconditions(Environment $environment) : array {
+		$steps = $this->getSteps();
+		return [$this->getStep(array_pop($steps))];
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	final public function achieve(Environment $environment) : Environment {
+	public function achieve(Environment $environment) : Environment {
 		return $environment;
 	}
 
 	/**
-	 * Get the step functions in this class.
+	 * Get a database update step.
+	 *
+	 * @throws \LogicException if step is unknown
 	 */
-	final protected function getSteps() {
+	public function getStep(string $name) : ilDatabaseUpdateStep {
+		$others = $this->getStepsBefore($name);
+		if (count($others) === 0) {
+			$pre = $this->base;
+		}
+		else {
+			$pre = $this->getStep(array_pop($others));
+		}
+		return new ilDatabaseUpdateStep($this, $name, $pre);
+	}
+
+	/**
+	 * Get the step-methods in this class.
+	 *
+	 * @return string[]
+	 */
+	public function getSteps() : array {
 		if (!is_null($this->steps)) {
 			return $this->steps;
 		}
@@ -115,6 +138,8 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 
 	/**
 	 * Get the step-methods before the given step.
+	 *
+	 * ATTENTION: The steps are sorted in ascending order.
 	 *
 	 * @throws \LogicException if step is not known
 	 * @return string[]
