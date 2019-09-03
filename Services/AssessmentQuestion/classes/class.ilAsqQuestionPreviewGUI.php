@@ -83,7 +83,11 @@ class ilAsqQuestionPreviewGUI
             );
         }
 
-        $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml());
+        $formAction = $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW);
+
+        $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml(
+            $formAction, self::CMD_SCORE_PREVIEW
+        ));
     }
 
     public function scorePreview()
