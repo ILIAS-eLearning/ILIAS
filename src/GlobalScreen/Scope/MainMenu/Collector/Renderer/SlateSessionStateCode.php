@@ -2,7 +2,10 @@
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
 
 /**
@@ -10,38 +13,68 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-trait SlateSessionStateCode {
+trait SlateSessionStateCode
+{
 
-	use Hasher;
+    use Hasher;
 
 
-	/**
-	 * @param Slate $slate
-	 *
-	 * @return Slate
-	 */
-	public function addOnloadCode(Slate $slate, isItem $item): Slate {
-		$show_signal = $slate->getToggleSignal();
-		$identification = $this->hash($item->getProviderIdentification()->serialize());
+    /**
+     * @param Slate $slate
+     *
+     * @return Slate
+     */
+    public function addOnloadCode(Slate $slate, isItem $item) : Slate
+    {
+        $toggle_signal = $slate->getToggleSignal();
+        $identification = $item->getProviderIdentification()->serialize();
 
-		if (isset($_COOKIE[$identification])) {
-			$slate = $slate->withEngaged(true);
-		}
+        $item_state = new ItemState($item->getProviderIdentification());
 
-		return $slate->withAdditionalOnLoadCode(
-			function ($id) use ($show_signal, $identification) {
-				return "
-				$(document).on('{$show_signal}', function(event, signalData) {
-					console.log('{$identification} opened/closed (js-id {$id})');
-					if(document.cookie.indexOf('{$identification}') >= 0) {
-						document.cookie = '{$identification}' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-					}else {
-						document.cookie = '{$identification}' + '=' + true
-					}
-					return false;
-				});
-			";
-			}
-		);
-	}
+        if ($item_state->isItemActive()) {
+            $slate = $slate->withEngaged(true);
+        }
+
+        $level = $this->getLevel($item);
+
+        $slate = $slate->withAdditionalOnLoadCode(
+            function ($id) use ($toggle_signal, $identification, $level) {
+                $identification = addslashes($identification);
+
+                return "
+                il.GS.Client.register(il.GS.Identification.getFromServerSideString('$identification'), '$id', $level);
+                
+                $(document).on('{$toggle_signal}', function(event, signalData) {
+                    il.GS.Client.trigger('$id');
+                    return false;
+                });
+                ";
+            }
+        );
+
+        /** @var Slate $slate */
+        return $slate;
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return int
+     */
+    private function getLevel(isItem $item) : int
+    {
+        switch (true) {
+            case ($item instanceof isTopItem):
+                $level = ItemState::LEVEL_OF_TOPITEM;
+                break;
+            case ($item instanceof Tool):
+                $level = ItemState::LEVEL_OF_TOOL;
+                break;
+            default:
+                $level = ItemState::LEVEL_OF_SUBITEM;
+        }
+
+        return $level;
+    }
 }

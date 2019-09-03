@@ -10,24 +10,24 @@ use ILIAS\Refinery\Container\AddLabels;
  */
 class Group
 {
-	/**
-	 * @var Factory
-	 */
-	private $dataFactory;
+    /**
+     * @var Factory
+     */
+    private $dataFactory;
 
-	public function __construct(Factory $dataFactory)
-	{
-		$this->dataFactory = $dataFactory;
-	}
+    public function __construct(Factory $dataFactory)
+    {
+        $this->dataFactory = $dataFactory;
+    }
 
-	/**
-	 * Adds to any array keys for each value
-	 *
-	 * @param array $labels
-	 * @return mixed
-	 */
-	public function addLabels(array $labels)
-	{
-		return new AddLabels($labels, $this->dataFactory);
-	}
+    /**
+     * Adds to any array keys for each value
+     *
+     * @param array $labels
+     * @return mixed
+     */
+    public function addLabels(array $labels)
+    {
+        return new AddLabels($labels, $this->dataFactory);
+    }
 }

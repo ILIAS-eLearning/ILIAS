@@ -507,7 +507,7 @@ ilDBUpdateNewObjectType::updateOperationOrder('unparticipate', 1020);
 /**
  * @var $ilDB ilDBInterface
  */
-$ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
+// $ilDB->modifyTableColumn('il_gs_identifications', 'identification', ['length' => 255]);
 $ilDB->modifyTableColumn('il_mm_items', 'identification', ['length' => 255]);
 ?>
 <#5461>
@@ -520,7 +520,7 @@ if( !$ilDB->tableColumnExists('qpl_questions', 'lifecycle') )
 		'notnull' => false,
 		'default' => 'draft'
 	));
-	
+
 	$ilDB->queryF('UPDATE qpl_questions SET lifecycle = %s', array('text'), array('draft'));
 }
 ?>
@@ -1093,4 +1093,248 @@ if( !$ilDB->tableExists('cont_filter_field') )
 		)
 	));
 }
+?>
+<#5504>
+<?php
+if(!$ilDB->tableExists('il_cert_bgtask_migr')) {
+	$ilDB->dropTable('il_cert_bgtask_migr');
+}
+?>
+<#5505>
+<?php
+if ($ilDB->tableExists('il_bt_task')) {
+    if ($ilDB->tableExists('il_bt_value_to_task')) {
+        if ($ilDB->tableExists('il_bt_value')) {
+            $deleteBucketValuesSql = '
+DELETE FROM il_bt_value WHERE id IN (
+    SELECT value_id FROM il_bt_value_to_task WHERE task_id IN (
+        SELECT id FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%') . '
+    )
+)';
+            $ilDB->manipulate($deleteBucketValuesSql);
+        }
+
+        $deleteValueToTask = '
+DELETE FROM il_bt_value_to_task
+WHERE task_id IN (
+    SELECT id FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%') . '
+)';
+
+        $ilDB->manipulate($deleteValueToTask);
+    }
+    $deleteBackgroundTasksSql = 'DELETE FROM il_bt_task WHERE ' . $ilDB->like('type', 'text', 'ilCertificateMigration%');
+    $ilDB->manipulate($deleteBackgroundTasksSql);
+}
+
+if ($ilDB->tableExists('il_bt_bucket')) {
+    $deleteBucketsSql = 'DELETE FROM il_bt_bucket WHERE title = ' . $ilDB->quote('Certificate Migration', 'text') ;
+    $ilDB->manipulate($deleteBucketsSql);
+}
+
+?>
+<#5506>
+<?php
+
+// get pdts type id
+$row = $ilDB->fetchAssoc($ilDB->queryF(
+	"SELECT obj_id FROM object_data WHERE type = %s AND title = %s",
+	array('text', 'text'), array('typ', 'pdts')
+));
+$pdts_id = $row['obj_id'];
+
+// register new 'object' rbac operation for tst
+$op_id = $ilDB->nextId('rbac_operations');
+$ilDB->insert('rbac_operations', array(
+	'ops_id' => array('integer', $op_id),
+	'operation' => array('text', 'change_presentation'),
+	'description' => array('text', 'change presentation of a view'),
+	'class' => array('text', 'object'),
+	'op_order' => array('integer', 200)
+));
+$ilDB->insert('rbac_ta', array(
+	'typ_id' => array('integer', $pdts_id),
+	'ops_id' => array('integer', $op_id)
+));
+
+?>
+<#5507>
+<?php
+// We should ensure that settings are set for new installations and ILIAS version upgrades
+$setting = new ilSetting();
+
+$setting->set('pd_active_sort_view_0', serialize(['location', 'type']));
+$setting->set('pd_active_sort_view_1', serialize(['location', 'type', 'start_date']));
+$setting->set('pd_active_pres_view_0', serialize(['list', 'tile']));
+$setting->set('pd_active_pres_view_1', serialize(['list', 'tile']));
+$setting->set('pd_def_pres_view_0', 'list');
+$setting->set('pd_def_pres_view_1', 'list');
+?>
+<#5508>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('upload_blacklisted_files', "Upload Blacklisted Files", "object", 1);
+if ($tgt_ops_id) {
+    $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('facs');
+    if ($lp_type_id) {
+        ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);
+    }
+}
+?>
+<#5509>
+<?php
+
+if($ilDB->indexExistsByFields('read_event',array('usr_id')))
+{
+	$ilDB->dropIndexByFields('read_event',array('usr_id'));
+}
+$ilDB->addIndex('read_event', array('usr_id'), 'i1');
+
+?>
+<#5510>
+<?php
+
+if ($ilDB->tableExists('il_gs_identifications')) {
+    $ilDB->dropTable('il_gs_identifications');
+}
+
+if ($ilDB->tableExists('il_gs_providers')) {
+    $ilDB->dropTable('il_gs_providers');
+}
+?>
+<#5511>
+<?php
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_tstamp')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_tstamp', array(
+		"type"   => "integer",
+		"length" => 8,
+	));
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_evaluation')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_evaluation', array(
+		"type"   => "integer",
+		"length" => 1,
+	));
+	$ilDB->manipulateF(
+		'UPDATE tst_manual_fb SET finalized_evaluation = %s WHERE feedback IS NOT NULL',
+		['integer'],
+		[1]
+	);
+}
+if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
+	$ilDB->addTableColumn('tst_manual_fb', 'finalized_by_usr_id', array(
+		"type"   => "integer",
+		"length" => 8,
+	));
+}
+?>
+<#5512>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5513>
+<?php
+
+$map = [
+    'ilMMCustomProvider' => 'ILIAS\MainMenu\Provider\CustomMainBarProvider',
+    'ilAdmGlobalScreenProvider' => 'ILIAS\\Administration\\AdministrationMainBarProvider',
+    'ilBadgeGlobalScreenProvider' => 'ILIAS\\Badge\\Provider\\BadgeMainBarProvider',
+    'ilCalendarGlobalScreenProvider' => 'ILIAS\\Certificate\\Provider\\CertificateMainBarProvider',
+    'ilContactGlobalScreenProvider' => 'ILIAS\\Contact\\Provider\\ContactMainBarProvider',
+    'ilDerivedTaskGlobalScreenProvider' => 'ILIAS\\Tasks\\DerivedTasks\\Provider\\DerivedTaskMainBarProvider',
+    'ilLPGlobalScreenProvider' => 'ILIAS\\LearningProgress\\LPMainBarProvider',
+    'ilMailGlobalScreenProvider' => 'ILIAS\\Mail\\Provider\\MailMainBarProvider',
+    'ilNewsGlobalScreenProvider' => 'ILIAS\\News\\Provider\\NewsMainBarProvider',
+    'ilNotesGlobalScreenProvider' => 'ILIAS\\Notes\\Provider\\NotesMainBarProvider',
+    'ilPDGlobalScreenProvider' => 'ILIAS\\PersonalDesktop\\PDMainBarProvider',
+    'ilPrtfGlobalScreenProvider' => 'ILIAS\\Portfolio\\Provider\\PortfolioMainBarProvider',
+    'ilRepositoryGlobalScreenProvider' => 'ILIAS\\Repository\\Provider\\RepositoryMainBarProvider',
+    'ilSkillGlobalScreenProvider' => 'ILIAS\\Skill\\Provider\\SkillMainBarProvider',
+    'ilStaffGlobalScreenProvider' => 'ILIAS\\MyStaff\\Provider\\StaffMainBarProvider',
+    'ilWorkspaceGlobalScreenProvider' => 'ILIAS\\PersonalWorkspace\\Provider\\WorkspaceMainBarProvider',
+];
+
+foreach ($map as $old => $new) {
+    $ilDB->manipulateF("UPDATE il_mm_items SET 
+identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_items SET 
+parent_identification = REPLACE(parent_identification, %s, %s) WHERE parent_identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_translation SET 
+id = REPLACE(id, %s, %s) WHERE id LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_translation SET 
+identification = REPLACE(id, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+
+    $ilDB->manipulateF("UPDATE il_mm_actions SET 
+identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", ['text', 'text', 'text'], [$old, $new, "$old|%"]);
+}
+
+
+?>
+
+
+<#5514>
+<?php
+if(!$ilDB->tableExists('crs_timings_exceeded'))
+{
+	$ilDB->createTable('crs_timings_exceeded', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	,
+		'sent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('crs_timings_exceeded', array('user_id', 'ref_id'));
+}
+?>
+<#5515>
+<?php
+if(!$ilDB->tableExists('crs_timings_started'))
+{
+	$ilDB->createTable('crs_timings_started', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	,
+		'sent' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('crs_timings_started', array('user_id', 'ref_id'));
+}
+?>
+<#5516>
+<?php
+$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+?>
+<#5517>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

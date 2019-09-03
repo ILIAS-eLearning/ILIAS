@@ -1276,7 +1276,7 @@ return;
 								$tgt_obj_id = ilContainerReference::_lookupTargetId($target["rep_obj_id"]);
 								$title = ilObject::_lookupTitle($tgt_obj_id);
 							}
-							$this->item_list_gui[$type]->initItem($vis_ref_id, $target["rep_obj_id"], $title);
+							$this->item_list_gui[$type]->initItem($vis_ref_id, $target["rep_obj_id"], $title, $a_obj_type);
 							$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
 
 							// workaround, because # anchor can't be passed through frameset

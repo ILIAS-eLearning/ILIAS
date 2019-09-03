@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-
 /**
 * Class ilStructreObject
 *
@@ -41,7 +39,6 @@ class ilStructureObject extends ilLMObject
 	function delete($a_delete_meta_data = true)
 	{
 		// only relevant for online help authoring
-		include_once("./Services/Help/classes/class.ilHelpMapping.php");
 		ilHelpMapping::removeScreenIdsOfChapter($this->getId());
 
 		$this->tree = new ilTree($this->getLmId());
@@ -95,12 +92,10 @@ class ilStructureObject extends ilLMObject
 		$a_copied_nodes[$this->getId()] = $chap->getId();
 		
 		// copy meta data
-		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$new_md = $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
 
 		// copy translations
-		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 		ilLMObjTranslation::copy($this->getId(), $chap->getId());
 
 
@@ -143,7 +138,6 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-		include_once("Services/MetaData/classes/class.ilMD2XML.php");
 		$md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
@@ -193,13 +187,11 @@ class ilStructureObject extends ilLMObject
 		}
 
 		// this is also optimized since ilObjectTranslation re-uses instances for one lm
-		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($a_lm_id);
 		$languages = $ot->getLanguages();
 
 		if ($a_lang != "-" && $ot->getContentActivated() && isset($languages[$a_lang]))
 		{
-			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 			$lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);
 			$trans_title = "";
 			if ($a_include_short)
@@ -216,7 +208,6 @@ class ilStructureObject extends ilLMObject
 			}
 		}
 
-		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
 		$tree = ilLMTree::getInstance($a_lm_id);
 
 		if ($a_include_numbers)
@@ -263,8 +254,6 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportXMLPageObjects(&$a_xml_writer, $a_inst = 0)
 	{
-		include_once './Modules/LearningModule/classes/class.ilLMPageObject.php';
-
 		$this->tree = new ilTree($this->getLmId());
 		$this->tree->setTableNames('lm_tree', 'lm_data');
 		$this->tree->setTreeTablePK("lm_id");

@@ -54,6 +54,10 @@ class ilCertificateBackgroundImageUpload
      * @var LegacyPathHelperHelper
      */
     private $legacyPathHelper;
+    /**
+     * @var ilLogger
+     */
+    private $logger;
 
     /**
      * @param \ILIAS\FileUpload\FileUpload $fileUpload

@@ -59,7 +59,6 @@ class ilDclFieldFactory {
 
 		$path = self::getClassPathByInstance($field, self::$record_field_class_patter);
 		if (file_exists($path)) {
-			require_once($path);
 			$class = self::getClassByInstance($field, self::$record_field_class_patter);
 			$instance = new $class($record, $field);
 			if ($instance instanceof ilDclBaseRecordFieldModel) {
@@ -143,7 +142,6 @@ class ilDclFieldFactory {
 
 		$instance = null;
 		if (file_exists($class_path)) {
-			require_once($class_path);
 			$class = self::getClassByInstance($field, self::$field_representation_class_pattern);
 			$instance = new $class($field);
 		} else {
@@ -186,7 +184,6 @@ class ilDclFieldFactory {
 		$instance = null;
 
 		if (file_exists($class_path)) {
-			require_once($class_path);
 			$class = self::getClassByInstance($record_field->getField(), self::$record_representation_class_pattern);
 		} else {
 			$class = self::getFieldClass(self::$default_prefix . "Base", self::$record_representation_class_pattern);
@@ -251,7 +248,6 @@ class ilDclFieldFactory {
 		$path_type = self::getClassPathByInstance($field, self::$field_class_patter);
 
 		if (file_exists($path_type)) {
-			require_once($path_type);
 			$class = self::getClassByInstance($field, self::$field_class_patter);
 		} else {
 			$class = self::getFieldClass(self::$default_prefix . "Base", self::$field_class_patter);

@@ -8,61 +8,60 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\To\Transformation;
 
-
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class DictionaryTransformation implements Transformation
 {
-	use DeriveApplyToFromTransform;
+    use DeriveApplyToFromTransform;
 
-	/**
-	 * @var Transformation
-	 */
-	private $transformation;
+    /**
+     * @var Transformation
+     */
+    private $transformation;
 
-	/**
-	 * @param Transformation $transformation
-	 */
-	public function __construct(Transformation $transformation)
-	{
-		$this->transformation = $transformation;
-	}
+    /**
+     * @param Transformation $transformation
+     */
+    public function __construct(Transformation $transformation)
+    {
+        $this->transformation = $transformation;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from)
-	{
-		if (false === is_array($from)) {
-			throw new ConstraintViolationException(
-				'The value MUST be an array',
-				'not_array'
-			);
-		}
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        if (false === is_array($from)) {
+            throw new ConstraintViolationException(
+                'The value MUST be an array',
+                'not_array'
+            );
+        }
 
-		$result = array();
-		foreach ($from as $key => $value) {
-			if (false === is_string($key)) {
-				throw new ConstraintViolationException(
-					'The key "%s" is NOT a string',
-					'key_is_not_a_string'
-				);
-			}
+        $result = array();
+        foreach ($from as $key => $value) {
+            if (false === is_string($key)) {
+                throw new ConstraintViolationException(
+                    'The key "%s" is NOT a string',
+                    'key_is_not_a_string'
+                );
+            }
 
-			$transformedValue = $this->transformation->transform($value);
-			$result[$key] = $transformedValue;
-		}
+            $transformedValue = $this->transformation->transform($value);
+            $result[$key] = $transformedValue;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 }

@@ -4,7 +4,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
@@ -15,137 +14,149 @@ use ILIAS\UI\Component\Symbol\Symbol;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol {
+class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
+{
 
-	/**
-	 * @var Symbol
-	 */
-	protected $symbol;
-	/**
-	 * @var bool
-	 */
-	protected $is_external_action = false;
-	/**
-	 * @var string
-	 */
-	protected $action = "";
-	/**
-	 * @var string
-	 */
-	protected $alt_text = "";
-	/**
-	 * @var string
-	 */
-	protected $title = "";
-
-
-	/**
-	 * @param string $title
-	 *
-	 * @return Link
-	 */
-	public function withTitle(string $title): hasTitle {
-		$clone = clone($this);
-		$clone->title = $title;
-
-		return $clone;
-	}
+    /**
+     * @var Symbol
+     */
+    protected $symbol;
+    /**
+     * @var bool
+     */
+    protected $is_external_action = false;
+    /**
+     * @var string
+     */
+    protected $action = "";
+    /**
+     * @var string
+     */
+    protected $alt_text = "";
+    /**
+     * @var string
+     */
+    protected $title = "";
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string {
-		return $this->title;
-	}
+    /**
+     * @param string $title
+     *
+     * @return Link
+     */
+    public function withTitle(string $title) : hasTitle
+    {
+        $clone = clone($this);
+        $clone->title = $title;
+
+        return $clone;
+    }
 
 
-	/**
-	 * @param string $alt_text
-	 *
-	 * @return Link
-	 */
-	public function withAltText(string $alt_text): Link {
-		$clone = clone($this);
-		$clone->alt_text = $alt_text;
-
-		return $clone;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getAltText(): string {
-		return $this->alt_text;
-	}
+    /**
+     * @param string $alt_text
+     *
+     * @return Link
+     */
+    public function withAltText(string $alt_text) : Link
+    {
+        $clone = clone($this);
+        $clone->alt_text = $alt_text;
+
+        return $clone;
+    }
 
 
-	/**
-	 * @param string $action
-	 *
-	 * @return Link
-	 */
-	public function withAction(string $action): hasAction {
-		$clone = clone($this);
-		$clone->action = $action;
-
-		return $clone;
-	}
+    /**
+     * @return string
+     */
+    public function getAltText() : string
+    {
+        return $this->alt_text;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getAction(): string {
-		return $this->action;
-	}
+    /**
+     * @param string $action
+     *
+     * @return Link
+     */
+    public function withAction(string $action) : hasAction
+    {
+        $clone = clone($this);
+        $clone->action = $action;
+
+        return $clone;
+    }
 
 
-	/**
-	 * @param bool $is_external
-	 *
-	 * @return Link
-	 */
-	public function withIsLinkToExternalAction(bool $is_external): hasAction {
-		$clone = clone $this;
-		$clone->is_external_action = $is_external;
-
-		return $clone;
-	}
+    /**
+     * @return string
+     */
+    public function getAction() : string
+    {
+        return $this->action;
+    }
 
 
-	/**
-	 * @return bool
-	 */
-	public function isLinkWithExternalAction(): bool {
-		return $this->is_external_action;
-	}
+    /**
+     * @param bool $is_external
+     *
+     * @return Link
+     */
+    public function withIsLinkToExternalAction(bool $is_external) : hasAction
+    {
+        $clone = clone $this;
+        $clone->is_external_action = $is_external;
+
+        return $clone;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function withSymbol(Symbol $symbol): hasSymbol {
-		$clone = clone $this;
-		$clone->symbol = $symbol;
-
-		return $clone;
-	}
+    /**
+     * @return bool
+     */
+    public function isLinkWithExternalAction() : bool
+    {
+        return $this->is_external_action;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getSymbol(): Symbol {
-		return $this->symbol;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function withSymbol(Symbol $symbol) : hasSymbol
+    {
+        $clone = clone $this;
+        $clone->symbol = $symbol;
+
+        return $clone;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function hasSymbol(): bool {
-		return ($this->symbol instanceof Symbol);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getSymbol() : Symbol
+    {
+        return $this->symbol;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasSymbol() : bool
+    {
+        return ($this->symbol instanceof Symbol);
+    }
 }

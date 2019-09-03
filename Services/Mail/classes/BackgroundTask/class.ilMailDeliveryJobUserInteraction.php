@@ -52,4 +52,19 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 	{
 		return $input;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMessage(array $input) {
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function canBeSkipped(array $input): bool
+	{
+		return true;
+	}
 }

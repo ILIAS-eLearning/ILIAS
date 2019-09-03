@@ -12,54 +12,55 @@ use ILIAS\BackgroundTasks\Types\Type;
  * The Value as a defined format of data passed between two tasks. IO MUST be serialisable
  * since it will bes stored in the database or somewhere else
  */
-interface Value extends \Serializable {
+interface Value extends \Serializable
+{
 
-	/**
-	 * @return string Gets a hash for this Value. If two objects are the same the hash must be the
-	 *                same! if two objects are different you need to have as view collisions as
-	 *                possible.
-	 */
-	public function getHash();
-
-
-	/**
-	 * @param \ILIAS\BackgroundTasks\Value $other
-	 *
-	 * @return bool
-	 */
-	public function equals(Value $other);
+    /**
+     * @return string Gets a hash for this Value. If two objects are the same the hash must be the
+     *                same! if two objects are different you need to have as view collisions as
+     *                possible.
+     */
+    public function getHash();
 
 
-	/**
-	 * @return Type get the Type of the
-	 */
-	public function getType();
+    /**
+     * @param \ILIAS\BackgroundTasks\Value $other
+     *
+     * @return bool
+     */
+    public function equals(Value $other);
 
 
-	/**
-	 * @param Task $parentTask
-	 *
-	 * @return mixed
-	 */
-	public function setParentTask(Task $parentTask);
+    /**
+     * @return Type get the Type of the
+     */
+    public function getType();
 
 
-	/**
-	 * @return Task
-	 */
-	public function getParentTask();
+    /**
+     * @param Task $parentTask
+     *
+     * @return mixed
+     */
+    public function setParentTask(Task $parentTask);
 
 
-	/**
-	 * @return boolean
-	 */
-	public function hasParentTask();
+    /**
+     * @return Task
+     */
+    public function getParentTask();
 
 
-	/**
-	 * @param $value
-	 *
-	 * @return
-	 */
-	function setValue($value);
+    /**
+     * @return boolean
+     */
+    public function hasParentTask();
+
+
+    /**
+     * @param $value
+     *
+     * @return
+     */
+    function setValue($value);
 }

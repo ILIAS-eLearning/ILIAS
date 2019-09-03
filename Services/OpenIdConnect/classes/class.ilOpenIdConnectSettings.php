@@ -122,6 +122,12 @@ class ilOpenIdConnectSettings
 	private $profile_update_map = [];
 
 	/**
+	 * @var array
+	 */
+	private $role_mappings = [];
+
+
+	/**
 	 * ilOpenIdConnectSettings constructor.
 	 */
 	private function __construct()
@@ -354,7 +360,6 @@ class ilOpenIdConnectSettings
 	 */
 	public function setUidField(string $field)
 	{
-		ilLoggerFactory::getLogger('root')->warning($field);
 		$this->uid = $field;
 	}
 
@@ -403,6 +408,51 @@ class ilOpenIdConnectSettings
 		);
 	}
 
+	/**
+	 * @param array $a_role_mappings
+	 */
+	public function setRoleMappings(array $a_role_mappings)
+	{
+		$this->role_mappings = $a_role_mappings;
+	}
+
+	/**
+	 * Get role mappings
+	 */
+	public function getRoleMappings() : array
+	{
+		return (array) $this->role_mappings;
+	}
+
+	/**
+	 * @param $a_role_id
+	 * @return string
+	 */
+	public function getRoleMappingValueForId($a_role_id) : string {
+
+		if(
+			isset($this->role_mappings[$a_role_id]) &&
+			isset($this->role_mappings[$a_role_id]['value'])
+		) {
+			return (string) $this->role_mappings[$a_role_id]['value'];
+		}
+		return '';
+	}
+
+	/**
+	 * @param $a_role_id
+	 * @return string
+	 */
+	public function getRoleMappingUpdateForId($a_role_id) : bool {
+
+		if(
+			isset($this->role_mappings[$a_role_id]) &&
+			isset($this->role_mappings[$a_role_id]['update'])
+		) {
+			return (bool) $this->role_mappings[$a_role_id]['update'];
+		}
+		return '';
+	}
 
 	/**
 	 * Save in settings
@@ -429,6 +479,7 @@ class ilOpenIdConnectSettings
 			$this->storage->set('pmap_'.$field, $this->getProfileMappingFieldValue($field));
 			$this->storage->set('pumap_'.$field, $this->getProfileMappingFieldUpdate($field));
 		}
+		$this->storage->set('role_mappings', (string) serialize($this->getRoleMappings()));
 	}
 
 	/**
@@ -456,6 +507,7 @@ class ilOpenIdConnectSettings
 		$this->allowSync((bool) $this->storage->get('allow_sync'), false);
 		$this->setRole((int) $this->storage->get('role'),0);
 		$this->setUidField((string) $this->storage->get('uid'),'');
+		$this->setRoleMappings((array) unserialize($this->storage->get('role_mappings', serialize([]))));
 	}
 
 	/**

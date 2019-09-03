@@ -19,7 +19,17 @@ class ComponentRendererFSLoaderTest extends TestCase {
 		$tpl_factory = $this->getMockBuilder(I\Render\TemplateFactory::class)->getMock();
 		$lng = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
 		$js_binding = $this->getMockBuilder(I\Render\JavaScriptBinding::class)->getMock();
-		$default_renderer_factory = new I\Render\DefaultRendererFactory($ui_factory, $tpl_factory, $lng, $js_binding);
+		$refinery_mock = $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$default_renderer_factory = new I\Render\DefaultRendererFactory(
+			$ui_factory,
+			$tpl_factory,
+			$lng,
+			$js_binding,
+			$refinery_mock
+		);
 		$this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
 		$this->field_renderer = $this->createMock(I\Render\RendererFactory::class);
 		return new ComponentRendererFSLoaderTesting($default_renderer_factory, $this->glyph_renderer, $this->field_renderer);

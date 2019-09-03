@@ -1,5 +1,4 @@
 <?php
-require_once('class.ilDBPdoReverse.php');
 
 /**
  * Class ilDBPdoReverse

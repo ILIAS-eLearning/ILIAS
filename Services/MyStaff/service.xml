@@ -1,7 +1,3 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="msta">
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilStaffGlobalScreenProvider" />
-		<gsprovider purpose="tools" class_name="ilStaffGSToolProvider" />
-	</gsproviders>
 </service>

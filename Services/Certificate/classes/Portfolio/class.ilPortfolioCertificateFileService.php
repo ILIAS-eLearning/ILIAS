@@ -14,19 +14,20 @@ class ilPortfolioCertificateFileService
     private $filesystem;
 
     /**
-     * @var ilLogger|Logger|null
+     * @var ilLogger|null
      */
     private $logger;
 
-    /**
-     * @param Filesystem|null $filesystem
-     * @param Logger|null $logger
-     */
+
     const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
 
     const CERTIFICATE_FILENAME = 'certificate.pdf';
 
-    public function __construct(Filesystem $filesystem = null, Logger $logger = null)
+    /**
+     * @param Filesystem|null $filesystem
+     * @param ilLogger        $logger
+     */
+    public function __construct(Filesystem $filesystem = null, ilLogger $logger = null)
     {
         global $DIC;
 
@@ -144,6 +145,6 @@ class ilPortfolioCertificateFileService
             return CLIENT_DATA_DIR . '/' . $completePath;
         }
 
-        throw new ilException(sprintf('Certificate File does not exist in "%"', $completePath));
+        throw new ilException(sprintf('Certificate File does not exist in "%s"', $completePath));
     }
 }

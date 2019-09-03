@@ -37,7 +37,7 @@ class ilTermsOfServiceDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrap
     /**
      * @inheritdoc
      */
-    protected function getPurifierConfigInstance()
+    protected function getPurifierConfigInstance() : HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias termsofservice document');

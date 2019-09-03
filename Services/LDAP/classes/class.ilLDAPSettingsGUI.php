@@ -34,22 +34,19 @@ class ilLDAPSettingsGUI
 {
 	private $ref_id = null;
 	private $server = null;
+	private $dic;
 	
 	public function __construct($a_auth_ref_id)
 	{
 		global $DIC;
 
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$ilTabs = $DIC['ilTabs'];
-		
-		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs;
-		$this->lng = $lng;
+		$this->dic = $DIC;
+		$this->ctrl = $this->dic->ctrl();
+		$this->tabs_gui = $this->dic->tabs();
+		$this->lng = $this->dic->language();
 		$this->lng->loadLanguageModule('ldap');
 		
-		$this->tpl = $tpl;
+		$this->tpl = $this->dic['tpl'];
 
 		if($_GET["cmd"] != "addServerSettings")
 		{
@@ -65,20 +62,13 @@ class ilLDAPSettingsGUI
 	
 	public function executeCommand()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilias = $DIC['ilias'];
-		$ilErr = $DIC['ilErr'];
-		$ilCtrl = $DIC['ilCtrl'];
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
-		if(!$ilAccess->checkAccess('write','',$this->ref_id) && $cmd != "serverList")
+		if(!$this->dic->rbac()->system()->checkAccess("visible,read", $this->ref_id) && $cmd != "serverList")
 		{
 			ilUtil::sendFailure($this->lng->txt('msg_no_perm_write'), true);
-			$ilCtrl->redirect($this, "serverList");
+			$this->ctrl->redirect($this, "serverList");
 		}
 		
 
@@ -655,13 +645,9 @@ class ilLDAPSettingsGUI
 	{
 		global $DIC;
 
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		$ilToolbar = $DIC['ilToolbar'];
-		
-		if(!$ilAccess->checkAccess('read','',$this->ref_id) && $cmd != "serverList")
+		if(!$this->dic->rbac()->system()->checkAccess("visible,read", $this->ref_id) && $cmd != "serverList")
 		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
+			$DIC['ilErr']->raiseError($this->lng->txt('msg_no_perm_read'),$DIC['ilErr']->WARNING);
 		}
 		
 		if(!ilLDAPServer::checkLDAPLib() and  $this->server->isActive())
@@ -669,9 +655,11 @@ class ilLDAPSettingsGUI
 			ilUtil::sendFailure('Missing LDAP libraries. Please ensure that the PHP LDAP module is installed on your server.');
 		}
 
-		$ilToolbar->addButton($this->lng->txt("add_ldap_server"),
-			$this->ctrl->getLinkTarget($this, "addServerSettings"));
-		
+		if ($this->dic->rbac()->system()->checkAccess("write", $this->ref_id)) {
+			$DIC->toolbar()->addButton($this->lng->txt("add_ldap_server"),
+				$this->ctrl->getLinkTarget($this, "addServerSettings"));
+		}
+
 		include_once './Services/LDAP/classes/class.ilLDAPServerTableGUI.php';
 		
 		$table = new ilLDAPServerTableGUI($this, "serverList");

@@ -160,10 +160,20 @@ class ilObjectListGUI
 	static protected $tpl_component = "Services/Container";
 
 	/**
+	 * @var ilPathGUI|null
+	 */
+	protected $path_gui = null;
+
+	/**
 	 * @var \ILIAS\DI\UIServices
 	 */
 	protected $ui;
-	
+
+	/**
+	 * @var ilObjectService
+	 */
+	protected $object_service;
+
 	/**
 	* constructor
 	*
@@ -184,6 +194,8 @@ class ilObjectListGUI
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
 		$this->context = $a_context;
+
+		$this->object_service = $DIC->object();
 		
 		$this->enableComments(false);
 		$this->enableNotes(false);
@@ -609,10 +621,11 @@ class ilObjectListGUI
 	* @param int
 	* @return void
 	*/
-	function enablePath($a_path, $a_start_node = null)
+	function enablePath($a_path, $a_start_node = null, \ilPathGUI $path_gui = null)
 	{
 		$this->path_enabled = $a_path;
 		$this->path_start_node = (int)$a_start_node;
+		$this->path_gui = $path_gui;
 	}
 
 	/**
@@ -1015,7 +1028,7 @@ class ilObjectListGUI
 	* @param	string		$a_description	description
 	* @param	int			$a_context		tree/workspace
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
 	{
 		$this->offline_mode = false;		
 		if ($this->type == "sahs") {
@@ -1032,6 +1045,18 @@ class ilObjectListGUI
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
 		$this->prevent_access_caching = false;
+
+		// prepare ajax calls
+		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+		if($this->context == self::CONTEXT_REPOSITORY)
+		{
+			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
+		}
+		else
+		{
+			$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
+		}
+		$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));
 
 	}
 
@@ -2171,17 +2196,7 @@ class ilObjectListGUI
 			{
 				$prevent_background_click = true;
 			}
-			
-			if ($a_cmd == "downloadFolder")
-			{
-				include_once "Services/BackgroundTask/classes/class.ilFolderDownloadBackgroundTaskHandler.php";
-				if(ilFolderDownloadBackgroundTaskHandler::isActive())
-				{
-					$a_onclick = ilFolderDownloadBackgroundTaskHandler::getObjectListAction($this->ref_id);
-					$a_href = "#";
-				}				
-			}			
-			
+
 			$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
 				"", $prevent_background_click, $a_onclick);
 		}				
@@ -3313,8 +3328,12 @@ class ilObjectListGUI
 		
 		if($this->getPathStatus() != false)
 		{
-			include_once 'Services/Tree/classes/class.ilPathGUI.php';
-			$path_gui = new ilPathGUI();
+			if(!$this->path_gui instanceof \ilPathGUI) {
+				$path_gui = new \ilPathGUI();
+			} else {
+				$path_gui = $this->path_gui;
+			}
+
 			$path_gui->enableTextOnly(!$this->path_linked);
 			$path_gui->setUseImages(false);
 			
@@ -3537,20 +3556,8 @@ class ilObjectListGUI
 		$type = ilObject::_lookupType($a_obj_id);
 
 		// initialization
-		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		$this->initItem($a_ref_id, $a_obj_id, $type, $a_title, $a_description);
 
-		// prepare ajax calls
-		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-		if($this->context == self::CONTEXT_REPOSITORY)
-		{
-			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
-		}
-		else
-		{
-			$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
-		}
-		$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));		
-				
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
 			return $this->insertCommands(true, true);
@@ -3943,6 +3950,255 @@ class ilObjectListGUI
 		$this->tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * Get list item ui object
+	 *
+	 * @param int $ref_id
+	 * @param int $obj_id
+	 * @param string $type
+	 * @param string $title
+	 * @param string $description
+	 * @return \ILIAS\UI\Component\Item\Item|null
+	 */
+	public function getAsListItem(int $ref_id, int $obj_id, string $type,
+		string $title,
+		string $description): ?\ILIAS\UI\Component\Item\Item
+	{
+		$ui = $this->ui;
+
+		$this->initItem($ref_id, $obj_id, $type,
+			$title,
+			$description);
+
+		$this->enableCommands(true);
+
+		// actions
+		$this->insertCommands();
+		$actions = [];
+		foreach ($this->current_selection_list->getItems() as $action_item) {
+			$actions[] = $ui->factory()
+				->button()
+				->shy($action_item['title'], $action_item['link']);
+		}
+
+		$dropdown = $ui->factory()
+			->dropdown()
+			->standard($actions);
+
+		$def_command = $this->getDefaultCommand();
+
+		if ($type == 'sess' && $title == '') {
+			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
+			$title = ilSessionAppointment::_appointmentToString(
+				$app_info['start'],
+				$app_info['end'],
+				$app_info['fullday']
+			);
+		}
+
+		$icon = $this->ui->factory()
+			->symbol()
+			->icon()
+			->standard($type, $this->lng->txt('obj_' . $type))
+			->withSize('medium');
+
+
+		if ($def_command['link'])
+		{
+			$list_item = $ui->factory()->item()->standard($this->ui->factory()->button()->shy($title, $def_command['link']));
+		}
+		else
+		{
+			$list_item = $ui->factory()->item()->standard($title);
+		}
+
+		$list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
+
+
+		$l = [];
+		foreach ($this->determineProperties() as $p) {
+			if ($p['property'] !== $this->lng->txt('learning_progress')) {
+				$l[(string)$p['property']] = (string)$p['value'];
+			}
+		}
+		if (count($l) > 0) {
+			$list_item = $list_item->withProperties($l);
+		}
+
+		// @todo: learning progress
+
+
+		/*
+		$lp = ilLPStatus::getListGUIStatus($item['obj_id'], false);
+		if (is_array($lp) && array_key_exists('status', $lp)) {
+			$percentage = (int)ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
+			if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+				$percentage = 100;
+			}
+
+			$card = $card->withProgress(
+				$this->uiFactory
+					->chart()
+					->progressMeter()
+					->mini(100, $percentage)
+			);
+		}*/
+
+		return $list_item;
+	}
+
+	/**
+	 * Get card object
+	 *
+	 * @param int $ref_id
+	 * @param int $obj_id
+	 * @param string $type
+	 * @param string $title
+	 * @param string $description
+	 * @return \ILIAS\UI\Component\Card\Card|null
+	 */
+	public function getAsCard(int $ref_id, int $obj_id, string $type,
+		string $title,
+		string $description): ?\ILIAS\UI\Component\Card\Card
+	{
+		$ui = $this->ui;
+
+		$this->initItem($ref_id, $obj_id, $type,
+			$title,
+			$description);
+
+		$this->enableCommands(true);
+
+		$sections = [];
+
+		// description, @todo: move to new ks element
+		if ($description != "") {
+			$sections[] = $ui->factory()->legacy("<div class='il_info il-multi-line-cap-3'>".$description."</div>");
+		}
+
+		$this->insertCommands();
+		$actions = [];
+
+		foreach ($this->current_selection_list->getItems() as $action_item) {
+			$actions[] = $ui->factory()
+				->button()
+				->shy($action_item['title'], $action_item['link']);
+		}
+
+		$def_command = $this->getDefaultCommand();
+
+        if ($def_command["frame"] != "") {
+            $button =
+                $ui->factory()->button()->shy("Open", "")->withAdditionalOnLoadCode(function($id) use ($def_command) {
+                    return
+                        "$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+                });
+            $actions[] = $button;
+        }
+        $dropdown = $ui->factory()->dropdown()->standard($actions);
+
+		$img = $this->object_service->commonSettings()->tileImage()->getByObjId((int) $obj_id);
+		if ($img->exists()) {
+			$path = $img->getFullPath();
+		} else {
+			$path = ilUtil::getImagePath('cont_tile/cont_tile_default_' . $type . '.svg');
+			if (!is_file($path)) {
+				$path = ilUtil::getImagePath('cont_tile/cont_tile_default.svg');
+			}
+		}
+
+        // workaround for scorm
+        $modified_link =
+            $this->modifySAHSlaunch($def_command["link"], $def_command["frame"]);
+
+        $image = $this->ui->factory()
+			->image()
+			->responsive($path, '');
+		if ($def_command['link'] != '')    // #24256
+		{
+            if ($def_command["frame"] != "" && ($modified_link == $def_command["link"])) {
+                $image = $image->withAdditionalOnLoadCode(function($id) use ($def_command) {
+                    return
+                        "$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+                });
+
+                $button =
+                    $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function($id) use ($def_command) {
+                        return
+                            "$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+                    });
+                $title = $ui->renderer()->render($button);
+            }
+            else {
+                $image = $image->withAction($modified_link);
+            }
+		}
+
+		if ($type == 'sess') {
+			if ($title != "") {
+				$title = ": ".$title;
+			}
+			$app_info = ilSessionAppointment::_lookupAppointment($obj_id);
+			$title = ilSessionAppointment::_appointmentToString(
+				$app_info['start'],
+				$app_info['end'],
+				$app_info['fullday']
+			).$title;
+		}
+
+		$icon = $this->ui->factory()
+			->symbol()
+			->icon()
+			->standard($type, $this->lng->txt('obj_' . $type))
+			->withIsOutlined(true);
+		$card = $ui->factory()->card()->repositoryObject(
+			$title . '<span data-list-item-id="' . $this->getUniqueItemId(true) . '"></span>',
+			$image
+		)->withObjectIcon(
+			$icon
+		)->withActions(
+			$dropdown
+		);
+
+		// #24256
+		if ($def_command['link'] && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {
+			$card = $card->withTitleAction($modified_link);
+		}
+
+		$l = [];
+		foreach ($this->determineProperties() as $p) {
+			if ($p['property'] !== $this->lng->txt('learning_progress')) {
+				$l[(string)$p['property']] = (string)$p['value'];
+			}
+		}
+		if (count($l) > 0)
+		{
+			$prop_list = $ui->factory()->listing()->descriptive($l);
+			$sections[] = $prop_list;
+		}
+		if (count($sections) > 0) {
+			$card = $card->withSections($sections);
+		}
+
+		$lp = ilLPStatus::getListGUIStatus($obj_id, false);
+		if (is_array($lp) && array_key_exists('status', $lp)) {
+			$percentage = (int)ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
+			if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+				$percentage = 100;
+			}
+
+			$card = $card->withProgress(
+				$ui->factory()
+					->chart()
+					->progressMeter()
+					->mini(100, $percentage)
+			);
+		}
+
+		return $card;
+	}
+
 }
 
 ?>

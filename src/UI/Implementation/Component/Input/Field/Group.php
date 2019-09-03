@@ -17,15 +17,24 @@ use ILIAS\Data\Factory as DataFactory;
  * This implements the group input.
  */
 class Group extends Input implements C\Input\Field\Group {
-
 	use ComponentHelper;
-	use GroupHelper;
+
+	/**
+	 * Inputs that are contained by this group
+	 *
+	 * @var    Input[]
+	 */
+	protected $inputs = [];
+
+	/**
+	 * @var	\ilLanguage
+	 */
+	protected $lng;
 
 	/**
 	 * Group constructor.
 	 *
 	 * @param DataFactory           $data_factory
-	 * @param ValidationFactory     $validation_factory
 	 * @param \ILIAS\Refinery\Factory $refinery
 	 * @param InputInternal[]       $inputs
 	 * @param                       $label
@@ -45,23 +54,18 @@ class Group extends Input implements C\Input\Field\Group {
 
 	public function withDisabled($is_disabled) {
 		$clone = parent::withDisabled($is_disabled);
-		$inputs = [];
-		foreach ($this->inputs as $key => $input)
-		{
-			$inputs[$key] = $input->withDisabled($is_disabled);
-		}
-		$clone->inputs = $inputs;
+		$clone->inputs = array_map(function($i) use ($is_disabled) {
+			return $i->withDisabled($is_disabled);
+		}, $this->inputs);
 		return $clone;
 	}
 
 	public function withRequired($is_required) {
 		$clone = parent::withRequired($is_required);
 		$inputs = [];
-		foreach ($this->inputs as $key => $input)
-		{
-			$inputs[$key] = $input->withRequired($is_required);
-		}
-		$clone->inputs = $inputs;
+		$clone->inputs = array_map(function($i) use ($is_required) {
+			return $i->withRequired($is_required);
+		}, $this->inputs);
 		return $clone;
 	}
 
@@ -69,11 +73,139 @@ class Group extends Input implements C\Input\Field\Group {
 		//TODO: use $clone = parent::withOnUpdate($signal); once the exception there
 		//is solved.
 		$clone = $this->withTriggeredSignal($signal, 'update');
-		$inputs = [];
-		foreach ($this->inputs as $key => $input) {
-			$inputs[$key] = $input->withOnUpdate($signal);
-		}
-		$clone->inputs = $inputs;
+		$clone->inputs = array_map(function($i) use ($signal) {
+			return $i->withOnUpdate($signal);
+		}, $this->inputs);	
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function isClientSideValueOk($value) {
+		if (!is_array($value)) {
+			return false;
+		}
+		if (count($this->getInputs()) !== count($value)) {
+			return false;
+		}
+		foreach ($this->getInputs() as $key => $input) {
+			if (!array_key_exists($key, $value)) {
+				return false;
+			}
+			if (!$input->isClientSideValueOk($value[$key])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Get the value that is displayed in the input client side.
+	 *
+	 * @return    mixed
+	 */
+	public function getValue() {
+		return array_map(function($i) {
+			return $i->getValue();
+		}, $this->inputs);
+	}
+
+
+	/**
+	 * Get an input like this with another value displayed on the
+	 * client side.
+	 *
+	 * @param    mixed
+	 *
+	 * @throws  \InvalidArgumentException    if value does not fit client side input
+	 * @return Input
+	 */
+	public function withValue($value) {
+		$this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
+		$clone = clone $this;
+		foreach ($this->inputs as $k => $i) {
+			$clone->inputs[$k] = $i->withValue($value[$k]);
+		}
+		return $clone;
+	}
+
+	/**
+	 * Collects the input, applies trafos and forwards the input to its children and returns
+	 * a new input group reflecting the inputs with data that was putted in.
+	 *
+	 * @inheritdoc
+	 */
+	public function withInput(InputData $post_input) {
+		if (sizeof($this->getInputs()) === 0) {
+			return $this;
+		}
+
+		/**
+		 * @var $clone Group
+		 */
+		$clone = clone $this;
+
+		$inputs = [];
+		$contents = [];
+		$error = false;
+
+		foreach ($this->getInputs() as $key => $input) {
+			$inputs[$key] = $input->withInput($post_input);
+			$content = $inputs[$key]->getContent();
+			if ($content->isError()) {
+				$error = true;
+			}
+			else {
+				$contents[$key] = $content->value();
+			}
+		}
+
+		$clone->inputs = $inputs;
+		if ($error) {
+			// TODO: use lng here
+			$clone->content = $clone->data_factory->error("error_in_group");
+		}
+		else {
+			$clone->content = $clone->applyOperationsTo($contents);
+		}
+
+		if ($clone->content->isError()) {
+			$clone = $clone->withError("".$clone->content->error());
+		}
+
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withNameFrom(NameSource $source) {
+		$clone = parent::withNameFrom($source);
+		/**
+		 * @var $clone Group
+		 */
+		$named_inputs = [];
+		foreach ($this->getInputs() as $key => $input) {
+			$named_inputs[$key] = $input->withNameFrom($source);
+		}
+
+		$clone->inputs = $named_inputs;
+
+		return $clone;
+	}
+
+	/**
+	 * @return Input[]
+	 */
+	public function getInputs() {
+		return $this->inputs;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function getConstraintForRequirement() {
+		return null;
 	}
 }

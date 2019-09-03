@@ -132,8 +132,7 @@ class ilUIFilterService
 	public function getData(Filter\Standard $filter)
 	{
 		$result = null;
-		if (in_array($this->request->getFilterCmd(),
-				[self::CMD_APPLY, self::CMD_TOGGLE_ON, self::CMD_EXPAND, self::CMD_COLLAPSE]) && $filter->isActivated()) {
+		if ($filter->isActivated()) {
 			$filter = $this->request->getFilterWithRequest($filter);
 			$result = $filter->getData();
 		}

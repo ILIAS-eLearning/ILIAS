@@ -11,21 +11,23 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLinkItemRenderer extends BaseTypeRenderer {
+class TopLinkItemRenderer extends BaseTypeRenderer
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	const BLANK = "_blank";
-	const TOP = "_top";
+    /**
+     * @inheritDoc
+     */
+    const BLANK = "_blank";
+    const TOP = "_top";
 
 
-	/**
-	 * @param TopLinkItem $item
-	 *
-	 * @return Component
-	 */
-	public function getComponentForItem(isItem $item): Component {
-		return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), $item->getTitle(), $item->getAction());
-	}
+    /**
+     * @param TopLinkItem $item
+     *
+     * @return Component
+     */
+    public function getComponentForItem(isItem $item) : Component
+    {
+        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()))->withOpenInNewViewport($item->isLinkWithExternalAction());
+    }
 }

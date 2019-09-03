@@ -104,6 +104,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}MainControls/maincontrols.less";
 @import "@{uibase}Menu/menu.less";
 @import "@{uibase}Symbol/symbol.less";
+@import "@{uibase}Link/link.less";
 
 @import "less/variables.less";             // customized
 
@@ -118,6 +119,9 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 .bg-primary {
   color: white;
 }
+
+// general multi line cap
+@import "less/multi-line-cap.less";
 
 /* flex grid support start, see http://www.bootply.com/126437 */
 
@@ -1052,8 +1056,8 @@ div.il_info {
 	text-align: right;
 }
 
-/* ---------------- headlines ------------------ */
 
+/* ---------------- headlines ------------------ */
 
 a#il_mhead_t_focus {
 	color: @brand-secondary;
@@ -1778,6 +1782,7 @@ img.ilSmallIcon {
 }
 span.ilIcalIcon {
 	text-align: initial;
+	font-size: 133%;
 }
 
 /* Component Imports */

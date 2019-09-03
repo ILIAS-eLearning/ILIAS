@@ -770,8 +770,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
-		
-		if(!$this->record_gui->importEditFormPostValues())
+
+		if(
+			$this->record_gui instanceof \ilAdvancedMDRecordGUI &&
+			!$this->record_gui->importEditFormPostValues()
+		)
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
@@ -801,9 +804,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			array(
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 			)
-		);		
-		$this->record_gui->writeEditForm($this->object->getId());
-		
+		);
+		if($this->record_gui instanceof \ilAdvancedMDRecordGUI)
+		{
+			$this->record_gui->writeEditForm($this->object->getId());
+		}
+
 		
 		// apply didactic template?
 		$dtpl = $this->getDidacticTemplateVar("dtpl");
@@ -1033,13 +1039,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
-		
-		if(!$this->record_gui->importEditFormPostValues())
+
+		if(
+			$this->record_gui instanceof \ilAdvancedMDRecordGUI &&
+			!$this->record_gui->importEditFormPostValues()
+		)
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
-		
-		
+
 		$this->load();
 		
 		$this->object->validate();
@@ -1062,9 +1070,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 			)
 		);
-		$this->record_gui->writeEditForm();
+		if($this->record_gui instanceof \ilAdvancedMDRecordGUI)
+		{
+			$this->record_gui->writeEditForm();
+		}
 		$this->handleFileUpload();
-		
+
 		// if autofill has been activated trigger process
 		if(!$old_autofill &&
 			$this->object->hasWaitingListAutoFill())

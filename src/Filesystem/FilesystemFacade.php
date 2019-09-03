@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem;
 
 use ILIAS\Data\DataSize;
+use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\Provider\DirectoryAccess;
 use ILIAS\Filesystem\Provider\FileAccess;
 use ILIAS\Filesystem\Provider\FileStreamAccess;
@@ -236,5 +237,13 @@ final class FilesystemFacade implements Filesystem {
 	 */
 	public function copy(string $path, string $copyPath) {
 		$this->fileAccess->copy($path, $copyPath);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function finder(): Finder
+	{
+		return new Finder($this);
 	}
 }

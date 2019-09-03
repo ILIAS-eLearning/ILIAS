@@ -325,17 +325,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		// Last posting
 		if($num_posts > 0)
 		{
-			if($this->getIsModerator())
-			{
-				$objLastPost = $thread->getLastPost();
-			}
-			else
-			{
-				$objLastPost = $thread->getLastActivePost();
-			}
-
-			if(is_object($objLastPost))
-			{
+			if ($thread->getLastPostForThreadOverview() instanceof ilForumPost) {
+				$objLastPost = $thread->getLastPostForThreadOverview();
 				$authorinfo = new ilForumAuthorInformation(
 					$objLastPost->getPosAuthorId(),
 					$objLastPost->getDisplayUserId(),

@@ -63,8 +63,8 @@ class ilWebDAVMountInstructions
         
         $this->protocol_prefixes = array(
             'default' => 'https://',
-            'nautilus' => 'webdavs://',
-            'konqueror' => 'davs://'
+            'konqueror' => 'webdavs://',
+            'nautilus' => 'davs://'
         );
         
         $this->setValuesFromUserAgent($this->user_agent);

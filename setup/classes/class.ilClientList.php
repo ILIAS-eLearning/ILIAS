@@ -35,9 +35,8 @@ class ilClientList
 	var $path;			// clients base dir
 	var $error = "";	// error text
 	
-	function __construct($a_db_connections)
+	function __construct()
 	{		
-		$this->db_connections = $a_db_connections;
 		$this->path = ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR;
 		$this->init();
 	}
@@ -61,7 +60,7 @@ class ilClientList
 
 			if (is_file($this->path."/".$entry."/client.ini.php"))
 			{
-				$client = new ilClient($entry, $this->db_connections);
+				$client = new ilClient($entry);
 				$client->init();
 				
 				$this->clients[$entry] = $client;

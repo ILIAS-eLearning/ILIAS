@@ -291,8 +291,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
 						$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);					
 					}
-				}	
-				
+				}
+				$valid_objects = ilUtil::sortArray($valid_objects, "title", "asc", false, true);
 				if(sizeof($valid_objects))
 				{
 					$has_content = true;
@@ -304,7 +304,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 					$this->item_list_gui = array();
 					foreach($valid_objects as $block)
 					{
-						foreach ($block["items"] as $obj)
+						$items = ilUtil::sortArray($block["items"], "title", "asc", false, true);
+						foreach ($items as $obj)
 						{
 							$type = $obj["type"];
 
@@ -319,7 +320,11 @@ class ilClassificationBlockGUI extends ilBlockGUI
 								include_once($location . "/class." . $full_class . ".php");
 								$this->item_list_gui[$type] = new $full_class();
 								$this->item_list_gui[$type]->enableDelete(false);
-								$this->item_list_gui[$type]->enablePath(true, $this->parent_ref_id); // relative path
+								$this->item_list_gui[$type]->enablePath(
+									true,
+									$this->parent_ref_id,
+									new \ilSessionClassificationPathGUI()
+								);
 								$this->item_list_gui[$type]->enableLinkedPath(true);
 								$this->item_list_gui[$type]->enableCut(false);
 								$this->item_list_gui[$type]->enableCopy(false);

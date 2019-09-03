@@ -34,6 +34,7 @@ abstract class Menu implements IMenu\Menu
 		$classes = [
 			Sub::class,
 			Component\Clickable::class,
+			Component\Link\Link::class,
 			Component\Divider\Horizontal::class
 		];
 		$this->checkArgListElements("items", $items, $classes);

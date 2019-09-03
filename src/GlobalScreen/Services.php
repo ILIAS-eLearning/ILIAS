@@ -2,129 +2,122 @@
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
+use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
+use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
  * Class Services
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Services {
+class Services
+{
 
-	private static $instance = null;
-	/**
-	 * @var array
-	 */
-	private static $services = [];
-	/**
-	 * @var ProviderFactoryInterface
-	 */
-	private $provider_factory;
-
-
-	/**
-	 * Services constructor.
-	 *
-	 * @param ProviderFactoryInterface $provider_factory
-	 */
-	public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
+    use SingletonTrait;
+    /**
+     * @var Services
+     */
+    private static $instance = null;
+    /**
+     * @var ProviderFactory
+     */
+    private $provider_factory;
 
 
-	/**
-	 * @param ProviderFactoryInterface $provider_factory
-	 *
-	 * @return Services
-	 */
-	public static function getInstance(ProviderFactoryInterface $provider_factory) {
-		if (!isset(self::$instance)) {
-			self::$instance = new self($provider_factory);
-		}
-
-		return self::$instance;
-	}
+    /**
+     * Services constructor.
+     *
+     * @param ProviderFactory $provider_factory
+     */
+    public function __construct(ProviderFactory $provider_factory)
+    {
+        $this->provider_factory = $provider_factory;
+    }
 
 
-	/**
-	 * @return MainMenuItemFactory
-	 * @see MainMenuItemFactory
-	 *
-	 */
-	public function mainBar(): MainMenuItemFactory {
-		return $this->get(MainMenuItemFactory::class);
-	}
+    /**
+     * @param ProviderFactory $provider_factory
+     *
+     * @return Services
+     */
+    public static function getInstance(ProviderFactory $provider_factory)
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($provider_factory);
+        }
+
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return MetaBarItemFactory
-	 */
-	public function metaBar(): MetaBarItemFactory {
-		return $this->get(MetaBarItemFactory::class);
-	}
+    /**
+     * @return MainMenuItemFactory
+     * @see MainMenuItemFactory
+     *
+     */
+    public function mainBar() : MainMenuItemFactory
+    {
+        return $this->get(MainMenuItemFactory::class);
+    }
 
 
-	/**
-	 * @return ToolFactory
-	 * @see ToolFactory
-	 */
-	public function tool(): ToolFactory {
-		return $this->get(ToolFactory::class);
-	}
+    /**
+     * @return MetaBarItemFactory
+     */
+    public function metaBar() : MetaBarItemFactory
+    {
+        return $this->get(MetaBarItemFactory::class);
+    }
 
 
-	/**
-	 * @return LayoutServices
-	 */
-	public function layout(): LayoutServices {
-		return $this->get(LayoutServices::class);
-	}
+    /**
+     * @return ToolServices
+     * @see ToolServices
+     */
+    public function tool() : ToolServices
+    {
+        return $this->get(ToolServices::class);
+    }
 
 
-	/**
-	 * @return CollectorFactory
-	 */
-	public function collector(): CollectorFactory {
-		return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
-	}
+    /**
+     * @return LayoutServices
+     */
+    public function layout() : LayoutServices
+    {
+        return $this->get(LayoutServices::class);
+    }
 
 
-	/**
-	 * @return IdentificationFactory
-	 * @see IdentificationFactory
-	 *
-	 */
-	public function identification(): IdentificationFactory {
-		return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
-	}
+    /**
+     * @return NotificationServices
+     */
+    public function notifications() : NotificationServices
+    {
+        return $this->get(NotificationServices::class);
+    }
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return mixed
-	 */
-	private function get(string $class_name) {
-		if (!isset(self::$services[$class_name])) {
-			self::$services[$class_name] = new $class_name();
-		}
-
-		return self::$services[$class_name];
-	}
+    /**
+     * @return CollectorFactory
+     */
+    public function collector() : CollectorFactory
+    {
+        return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
+    }
 
 
-	/**
-	 * @param string $class_name
-	 *
-	 * @return mixed
-	 */
-	private function getWithArgument(string $class_name, $argument) {
-		if (!isset(self::$services[$class_name])) {
-			self::$services[$class_name] = new $class_name($argument);
-		}
-
-		return self::$services[$class_name];
-	}
+    /**
+     * @return IdentificationFactory
+     * @see IdentificationFactory
+     *
+     */
+    public function identification() : IdentificationFactory
+    {
+        return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
+    }
 }

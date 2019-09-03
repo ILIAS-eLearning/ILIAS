@@ -2,11 +2,8 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
-use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\BucketMeta;
-use ILIAS\BackgroundTasks\Exceptions\Exception;
 use ILIAS\BackgroundTasks\Task;
-use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 /**
  * Class BasicBucketMeta
@@ -18,126 +15,139 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
  * If you don't want to load the whole task structure of a bucket you will get an empty bucket. You
  * get meta-info about the bucket but cannot access its tasks etc. because they are not loaded yet.
  */
-class BasicBucketMeta implements BucketMeta {
+class BasicBucketMeta implements BucketMeta
+{
 
-	/**
-	 * @var int
-	 */
-	protected $userId;
-	/**
-	 * @var int
-	 */
-	protected $state;
-	/**
-	 * @var string
-	 */
-	protected $title = "";
-	/**
-	 * @var string
-	 */
-	protected $description = "";
-	/**
-	 * @var int
-	 */
-	protected $percentage = 0;
-
-
-	/**
-	 * @return int
-	 */
-	public function getUserId() {
-		return $this->userId;
-	}
+    /**
+     * @var int
+     */
+    protected $userId;
+    /**
+     * @var int
+     */
+    protected $state;
+    /**
+     * @var string
+     */
+    protected $title = "";
+    /**
+     * @var string
+     */
+    protected $description = "";
+    /**
+     * @var int
+     */
+    protected $percentage = 0;
 
 
-	/**
-	 * @param int $userId
-	 */
-	public function setUserId($userId) {
-		$this->userId = $userId;
-	}
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getState() {
-		return $this->state;
-	}
+    /**
+     * @param int $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
 
 
-	/**
-	 * @param int $state
-	 */
-	public function setState($state) {
-		$this->state = $state;
-	}
+    /**
+     * @return int
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @param int $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
 
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getDescription() {
-		return $this->description;
-	}
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
 
-	/**
-	 * @param string $description
-	 */
-	public function setDescription($description) {
-		$this->description = $description;
-	}
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getPercentage() {
-		return $this->percentage;
-	}
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
 
-	/**
-	 * @param Task $task
-	 * @param int  $percentage
-	 *
-	 * @throws \EmptyBucketException
-	 */
-	public function setPercentage(Task $task, $percentage) {
-		throw new \EmptyBucketException("You cannot set the percentage on an empty bucket.");
-	}
+    /**
+     * @return int
+     */
+    public function getPercentage()
+    {
+        return $this->percentage;
+    }
 
 
-	/**
-	 * @return integer
-	 */
-	public function getOverallPercentage() {
-		return $this->percentage;
-	}
+    /**
+     * @param Task $task
+     * @param int  $percentage
+     *
+     * @throws \EmptyBucketException
+     */
+    public function setPercentage(Task $task, $percentage)
+    {
+        throw new \EmptyBucketException("You cannot set the percentage on an empty bucket.");
+    }
 
 
-	/**
-	 * @param $percentage int
-	 *
-	 */
-	public function setOverallPercentage($percentage) {
-		$this->percentage = $percentage;
-	}
+    /**
+     * @return integer
+     */
+    public function getOverallPercentage()
+    {
+        return $this->percentage;
+    }
+
+
+    /**
+     * @param $percentage int
+     *
+     */
+    public function setOverallPercentage($percentage)
+    {
+        $this->percentage = $percentage;
+    }
 }

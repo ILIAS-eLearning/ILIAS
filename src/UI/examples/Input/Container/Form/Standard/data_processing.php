@@ -43,7 +43,7 @@ function data_processing() {
     // validation.
     $number_input = $ui->input()->field()
         ->text("number", "Put in the name of a number from one to ten.")
-        ->withAdditionalConstraint($valid_number)
+        ->withAdditionalTransformation($valid_number)
         ->withAdditionalTransformation($from_name);
 
     //Step 4: Define the form action to target the input processing

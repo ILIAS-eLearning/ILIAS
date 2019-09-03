@@ -4,24 +4,27 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function toList() {
-	class SomeClass {
-		public function say(string $firstWord, string $secondWord) {
-			return $firstWord . $secondWord;
-		}
-	}
+function toList()
+{
+    class SomeClass
+    {
+        public function say(string $firstWord, string $secondWord)
+        {
+            return $firstWord . $secondWord;
+        }
+    }
 
-	global $DIC;
+    global $DIC;
 
-	$instance = new SomeClass();
+    $instance = new SomeClass();
 
-	$refinery = $DIC->refinery();
+    $refinery = $DIC->refinery();
 
-	$transformation = $refinery->to()->toNew(
-		array($instance, 'say')
-	);
+    $transformation = $refinery->to()->toNew(
+        array($instance, 'say')
+    );
 
-	$result = $transformation->transform(array('Hello', ' World!'));
+    $result = $transformation->transform(array('Hello', ' World!'));
 
-	return assert('Hello World!' === $result);
+    return assert('Hello World!' === $result);
 }

@@ -92,6 +92,14 @@ class ilSCTask
 	{
 		return $this->status;
 	}
+
+	/**
+	 * @return bool check if task is active
+	 */
+	public function isActive()
+	{
+		return true;
+	}
 	
 	/**
 	 * Read group

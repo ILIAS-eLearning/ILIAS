@@ -11,14 +11,18 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class LinkItemRenderer extends BaseTypeRenderer {
+class LinkItemRenderer extends BaseTypeRenderer
+{
 
-	/**
-	 * @param Link $item
-	 *
-	 * @return Component
-	 */
-	public function getComponentForItem(isItem $item): Component {
-		return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), $item->getTitle(), $item->getAction());
-	}
+    /**
+     * @param Link $item
+     *
+     * @return Component
+     */
+    public function getComponentForItem(isItem $item) : Component
+    {
+        $uri_string = $item->getAction();
+
+        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($uri_string));
+    }
 }

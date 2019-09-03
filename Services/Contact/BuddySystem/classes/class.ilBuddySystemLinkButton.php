@@ -1,11 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/JSON/classes/class.ilJsonUtil.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
-require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
-require_once 'Services/Contact/BuddySystem/interfaces/interface.ilBuddySystemLinkButtonType.php';
 
 /**
  * Class ilBuddySystemLinkButton
@@ -13,101 +7,104 @@ require_once 'Services/Contact/BuddySystem/interfaces/interface.ilBuddySystemLin
  */
 class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 {
-	/**
-	 * @var int
-	 */
-	protected $usr_id;
+    /** @var int */
+    protected $usrId;
 
-	/**
-	 * @var ilBuddyList
-	 */
-	protected $buddylist;
+    /** @var ilBuddyList */
+    protected $buddyList;
 
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /** @var ilLanguage */
+    protected $lng;
 
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+    /** @var ilObjUser */
+    protected $user;
 
-	/**
-	 * @param $usr_id
-	 */
-	protected function __construct($usr_id)
-	{
-		global $DIC;
+    /**
+     * ilBuddySystemLinkButton constructor.
+     * @param int $usrId
+     * @throws ilBuddySystemException
+     */
+    protected function __construct(int $usrId)
+    {
+        global $DIC;
 
-		$this->usr_id    = $usr_id;
-		$this->buddylist = ilBuddyList::getInstanceByGlobalUser();
-		
-		$this->user = $DIC['ilUser'];
-		$this->lng  = $DIC['lng'];
-	}
+        $this->usrId = $usrId;
+        $this->buddyList = ilBuddyList::getInstanceByGlobalUser();
 
-	/**
-	 * @param int $usr_id
-	 * @return ilBuddySystemLinkButton
-	 */
-	public static function getInstanceByUserId($usr_id)
-	{
-		return new self($usr_id);
-	}
+        $this->user = $DIC['ilUser'];
+        $this->lng = $DIC['lng'];
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getUsrId()
-	{
-		return $this->usr_id;
-	}
+    /**
+     * @param int $usrId
+     * @return ilBuddySystemLinkButton
+     * @throws ilBuddySystemException
+     */
+    public static function getInstanceByUserId(int $usrId) : self
+    {
+        return new self($usrId);
+    }
 
-	/**
-	 * @param int $usr_id
-	 */
-	public function setUsrId($usr_id)
-	{
-		$this->usr_id = $usr_id;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getUsrId() : int
+    {
+        return $this->usrId;
+    }
 
-	/**
-	 * @return ilBuddyList
-	 */
-	public function getBuddyList()
-	{
-		return $this->buddylist;
-	}
+    /**
+     * @param int $usrId
+     */
+    public function setUsrId(int $usrId)
+    {
+        $this->usrId = $usrId;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getHtml()
-	{
-		$this->lng->loadLanguageModule('buddysystem');
+    /**
+     * @inheritDoc
+     */
+    public function getBuddyList() : ilBuddyList
+    {
+        return $this->buddyList;
+    }
 
-		ilBuddySystemGUI::initializeFrontend();
+    /**
+     * @return string
+     */
+    public function getHtml() : string
+    {
+        $this->lng->loadLanguageModule('buddysystem');
 
-		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
-		if(!ilBuddySystem::getInstance()->isEnabled())
-		{
-			return '';
-		}
+        ilBuddySystemGUI::initializeFrontend();
 
-		$relation = $this->buddylist->getRelationByUserId($this->getUsrId());
+        if (!ilBuddySystem::getInstance()->isEnabled()) {
+            return '';
+        }
 
-		// The ILIAS JF decided to add a new personal setting
-		if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me')))
-		{
-			return '';
-		}
+        $relation = $this->buddyList->getRelationByUserId($this->getUsrId());
 
-		$button_tpl = new ilTemplate('tpl.buddy_system_link_button.html', true, true, 'Services/Contact/BuddySystem');
-		$button_tpl->setVariable('BUTTON_HTML', ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation($this->user->getId(), $relation)->getHtml());
-		$button_tpl->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
-		$button_tpl->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
-		$button_tpl->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
-		return $button_tpl->get();
-	}
+        // The ILIAS JF decided to add a new personal setting
+        if (
+            $relation->isUnlinked() &&
+            !ilUtil::yn2tf(ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
+        ) {
+            return '';
+        }
+
+        $buttonTemplate = new ilTemplate('tpl.buddy_system_link_button.html', true, true,
+            'Services/Contact/BuddySystem');
+        $buttonTemplate->setVariable(
+            'BUTTON_HTML',
+            ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation(
+                (int) $this->user->getId(),
+                $relation
+            )->getHtml()
+        );
+        $buttonTemplate->setVariable('BUTTON_BUDDY_ID', $this->getUsrId());
+        $buttonTemplate->setVariable('BUTTON_CSS_CLASS', 'ilBuddySystemLinkWidget');
+        $buttonTemplate->setVariable('BUTTON_CURRENT_STATE', get_class($relation->getState()));
+
+        return $buttonTemplate->get();
+    }
 }

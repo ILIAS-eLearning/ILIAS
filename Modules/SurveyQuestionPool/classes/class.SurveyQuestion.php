@@ -112,13 +112,6 @@ class SurveyQuestion
 	* @var boolean
 	*/
 	var $obligatory;
-	
-	/**
-	* The reference to the Template class
-	*
-	* @var object
-	*/
-	var $tpl;
 
 	/**
 	* The reference to the Language class
@@ -169,11 +162,9 @@ class SurveyQuestion
 		$this->user = $DIC->user();
 		$this->db = $DIC->database();
 		$lng = $DIC->language();
-		$tpl = $DIC["tpl"];
 		$ilUser = $DIC->user();
 
 		$this->lng = $lng;
-		$this->tpl = $tpl;
 		$this->complete = 0; 
 		$this->title = $title;
 		$this->description = $description;

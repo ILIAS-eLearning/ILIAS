@@ -24,6 +24,7 @@ class ilPersonalSkillsGUI
 	protected $gap_self_eval_levels = array();
 	protected $mode = "";
 	protected $history_view = false;
+	protected $trigger_objects_filter = array();
 	protected $intro_text = "";
 	protected $hidden_skills = array();
 
@@ -215,6 +216,22 @@ class ilPersonalSkillsGUI
 	}
 	
 	/**
+	 * @return array
+	 */
+	public function getTriggerObjectsFilter()
+	{
+		return $this->trigger_objects_filter;
+	}
+	
+	/**
+	 * @param array $trigger_objects_filter
+	 */
+	public function setTriggerObjectsFilter($trigger_objects_filter)
+	{
+		$this->trigger_objects_filter = $trigger_objects_filter;
+	}
+	
+	/**
 	 * Set intro text
 	 *
 	 * @param string $a_val intro text html	
@@ -334,20 +351,20 @@ class ilPersonalSkillsGUI
 		$ilTabs = $this->tabs;
 
 		// list skills
-		$ilTabs->addSubTab("list_skills",
+		$ilTabs->addTab("list_skills",
 			$lng->txt("skmg_selected_skills"),
 			$ilCtrl->getLinkTarget($this, "listSkills"));
 
 		if (count($this->user_profiles) > 0)
 		{
-			$ilTabs->addSubTab("profile",
+			$ilTabs->addTab("profile",
 				$lng->txt("skmg_assigned_profiles"),
 				$ilCtrl->getLinkTarget($this, "listAssignedProfile"));
 		}
 
 		// assign materials
 
-		$ilTabs->activateSubTab($a_activate);
+		$ilTabs->activateTab($a_activate);
 	}
 	
 	function setOfflineMode($a_file_path)
@@ -553,6 +570,11 @@ class ilPersonalSkillsGUI
 				// get all object triggered entries and render them
 				foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"] , $user->getId(), ilBasicSkill::EVAL_BY_ALL) as $level_entry)
 				{
+					if( count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter()) )
+					{
+						continue;
+					}
+					
 					// render the self evaluation at the correct position within the list of object triggered entries
 					if ($se_date > $level_entry["status_date"] && !$se_rendered)
 					{

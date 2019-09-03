@@ -97,7 +97,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
             ->getMock();
 
-        $dateHelper->expects($this->once())
+        $dateHelper->expects($this->exactly(2))
             ->method('formatDate')
             ->willReturn('2018-09-10');
 
@@ -136,7 +136,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             1,
             $language,
             $utilHelper,
-            $userDefinePlaceholderMock
+            $userDefinePlaceholderMock,
+            1
         );
 
         $result = $placeHolderObject->getPlaceholderValues(100, 200);
@@ -149,7 +150,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'USER_LASTNAME'      => 'Theen',
                 'USER_TITLE'         => '',
                 'USER_SALUTATION'    => 'Something',
-                'USER_BIRTHDAY'      => '2018-10-10',
+                'USER_BIRTHDAY'      => '2018-09-10',
                 'USER_INSTITUTION'   => '',
                 'USER_DEPARTMENT'    => '',
                 'USER_STREET'        => '',
@@ -163,7 +164,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'DATETIME_COMPLETED' => '',
                 'CLIENT_WEB_DIR'     => '',
                 'DATE'               => '2018-09-10',
-                'DATETIME'          => '2018-09-10 12:01:33'
+                'DATETIME'           => '2018-09-10 12:01:33'
             ),
             $result
         );
@@ -214,7 +215,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             1,
             $language,
             $utilHelper,
-            $userDefinePlaceholderMock
+            $userDefinePlaceholderMock,
+            1
         );
 
         $result = $placeHolderObject->getPlaceholderValuesForPreview(

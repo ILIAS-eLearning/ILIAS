@@ -2,12 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
-require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php');
-require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php');
-require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
-require_once('./Services/Export/classes/class.ilExport.php');
-
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
  * This Class avoids duplicated code by routing the request to the right place
@@ -169,8 +163,6 @@ class ilDclContentExporter {
 		$fields_available = false;
 		switch ($format) {
 			case self::EXPORT_EXCEL:
-				require_once "./Services/Excel/classes/class.ilExcel.php";
-
 				$adapter = new ilExcel();
 				foreach ($this->tables as $table) {
 					ilDclCache::resetCache();
@@ -257,8 +249,6 @@ class ilDclContentExporter {
 		$client_id = $_COOKIE['ilClientId'];
 
 		// Start cloning process using soap call
-		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-
 		$soap_client = new ilSoapClient();
 		$soap_client->setResponseTimeout(5);
 		$soap_client->enableWSDL(true);

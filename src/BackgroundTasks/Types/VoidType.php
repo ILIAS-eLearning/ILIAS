@@ -12,59 +12,65 @@ namespace ILIAS\BackgroundTasks\Types;
  * Void Type and Singleton for the void type.
  *
  */
-class VoidType implements Type {
+class VoidType implements Type
+{
 
-	protected static $instance = null;
-
-
-	/**
-	 * Just to make it protected.
-	 * VoidValue constructor.
-	 */
-	protected function __construct() {
-	}
+    protected static $instance = null;
 
 
-	/**
-	 * @return VoidType
-	 */
-	public static function instance() {
-		if (!self::instance()) {
-			self::$instance = new VoidType();
-		}
-
-		return self::$instance;
-	}
+    /**
+     * Just to make it protected.
+     * VoidValue constructor.
+     */
+    protected function __construct()
+    {
+    }
 
 
-	/**
-	 * @return string A string representation of the Type.
-	 */
-	function __toString() {
-		return "Void";
-	}
+    /**
+     * @return VoidType
+     */
+    public static function instance()
+    {
+        if (!self::instance()) {
+            self::$instance = new VoidType();
+        }
+
+        return self::$instance;
+    }
 
 
-	/**
-	 * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
-	 *
-	 * @param $type Type
-	 *
-	 * @return bool
-	 */
-	function isExtensionOf(Type $type) {
-		return $type instanceof VoidType;
-	}
+    /**
+     * @return string A string representation of the Type.
+     */
+    function __toString()
+    {
+        return "Void";
+    }
 
 
-	/**
-	 * returns true if the two types are equal.
-	 *
-	 * @param Type $otherType
-	 *
-	 * @return bool
-	 */
-	function equals(Type $otherType) {
-		return $otherType instanceof VoidType;
-	}
+    /**
+     * Is this type a subtype of $type. Not strict! x->isSubtype(x) == true.
+     *
+     * @param $type Type
+     *
+     * @return bool
+     */
+    function isExtensionOf(Type $type)
+    {
+        return $type instanceof VoidType;
+    }
+
+
+    /**
+     * returns true if the two types are equal.
+     *
+     * @param Type $otherType
+     *
+     * @return bool
+     */
+    function equals(Type $otherType)
+    {
+        return $otherType instanceof VoidType;
+    }
 }

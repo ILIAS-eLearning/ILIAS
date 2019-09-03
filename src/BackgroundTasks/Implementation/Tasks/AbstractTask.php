@@ -17,148 +17,159 @@ use ILIAS\BackgroundTasks\Value;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-abstract class AbstractTask implements Task {
+abstract class AbstractTask implements Task
+{
 
-	use BasicScalarValueFactory;
-	const MAIN_REMOVE = 'bt_main_remove';
-	const MAIN_ABORT = 'bt_main_abort';
-	/**
-	 * @var Value[]
-	 */
-	protected $input = [];
-	/**
-	 * @var Value
-	 */
-	protected $output;
-
-
-	/**
-	 * @param $values (Value|Task)[]
-	 *
-	 * @return void
-	 */
-	public function setInput(array $values) {
-		$this->input = $this->getValues($values);
-		$this->checkTypes($this->input);
-	}
+    use BasicScalarValueFactory;
+    const MAIN_REMOVE = 'bt_main_remove';
+    const MAIN_ABORT = 'bt_main_abort';
+    /**
+     * @var Value[]
+     */
+    protected $input = [];
+    /**
+     * @var Value
+     */
+    protected $output;
 
 
-	protected function checkTypes($values) {
-		$expectedTypes = $this->getInputTypes();
-
-		for ($i = 0; $i < count($expectedTypes); $i ++) {
-			$expectedType = $expectedTypes[$i];
-			$givenType = $this->extractType($values[$i]);
-			if (!$givenType->isExtensionOf($expectedType)) {
-				throw new InvalidArgumentException("Types did not match when setting input for "
-				                                   . get_called_class()
-				                                   . ". Expected type $expectedType given type $givenType.");
-			}
-		}
-	}
+    /**
+     * @param $values (Value|Task)[]
+     *
+     * @return void
+     */
+    public function setInput(array $values)
+    {
+        $this->input = $this->getValues($values);
+        $this->checkTypes($this->input);
+    }
 
 
-	/**
-	 * @param $value Value
-	 *
-	 * @return mixed
-	 * @throws InvalidArgumentException
-	 */
-	protected function extractType($value) {
-		if (is_a($value, Value::class)) {
-			return $value->getType();
-		}
-		if (is_a($value, Task::class)) {
-			;
-		}
+    protected function checkTypes($values)
+    {
+        $expectedTypes = $this->getInputTypes();
 
-		return $value->getOutputType();
-
-		throw new InvalidArgumentException("Input values must be tasks or Values (extend BT\\Task or BT\\Value).");
-	}
+        for ($i = 0; $i < count($expectedTypes); $i++) {
+            $expectedType = $expectedTypes[$i];
+            $givenType = $this->extractType($values[$i]);
+            if (!$givenType->isExtensionOf($expectedType)) {
+                throw new InvalidArgumentException("Types did not match when setting input for "
+                    . get_called_class()
+                    . ". Expected type $expectedType given type $givenType.");
+            }
+        }
+    }
 
 
-	/**
-	 * @return Value Returns a thunk value (yet to be calculated). It's used for task composition
-	 *               and type checks.
-	 *
-	 */
-	public function getOutput() {
-		$thunk = new ThunkValue($this->getOutputType());
-		$thunk->setParentTask($this);
+    /**
+     * @param $value Value
+     *
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    protected function extractType($value)
+    {
+        if (is_a($value, Value::class)) {
+            return $value->getType();
+        }
+        if (is_a($value, Task::class)) {
+            ;
+        }
 
-		return $thunk;
-	}
+        return $value->getOutputType();
 
-
-	/**
-	 * @param $values (Value|Task)[]
-	 *
-	 * @return Value[]
-	 */
-	private function getValues($values) {
-		$inputs = [];
-
-		foreach ($values as $value) {
-			if ($value instanceof Task) {
-				$inputs[] = $value->getOutput();
-			} elseif ($value instanceof Value) {
-				$inputs[] = $value;
-			} else {
-				$inputs[] = $this->wrapScalar($value);
-			}
-		}
-
-		return $inputs;
-	}
+        throw new InvalidArgumentException("Input values must be tasks or Values (extend BT\\Task or BT\\Value).");
+    }
 
 
-	/**
-	 * @return Value[]
-	 */
-	public function getInput() {
-		return $this->input;
-	}
+    /**
+     * @return Value Returns a thunk value (yet to be calculated). It's used for task composition
+     *               and type checks.
+     *
+     */
+    public function getOutput()
+    {
+        $thunk = new ThunkValue($this->getOutputType());
+        $thunk->setParentTask($this);
+
+        return $thunk;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getType() {
-		return get_called_class();
-	}
+    /**
+     * @param $values (Value|Task)[]
+     *
+     * @return Value[]
+     */
+    private function getValues($values)
+    {
+        $inputs = [];
+
+        foreach ($values as $value) {
+            if ($value instanceof Task) {
+                $inputs[] = $value->getOutput();
+            } elseif ($value instanceof Value) {
+                $inputs[] = $value;
+            } else {
+                $inputs[] = $this->wrapScalar($value);
+            }
+        }
+
+        return $inputs;
+    }
 
 
-	/**
-	 * Unfold the task. If task A has dependency B and B' and B has dependency C, the resulting
-	 * list will be [A, B, C, B'].
-	 *
-	 * @return Task[]
-	 */
-	public function unfoldTask() {
-		$list = [ $this ];
-		foreach ($this->getInput() as $input) {
-			if (is_a($input, ThunkValue::class)) {
-				$list = array_merge($list, $input->getParentTask()->unfoldTask());
-			}
-		}
-
-		return $list;
-	}
+    /**
+     * @return Value[]
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getRemoveOption() {
-		return new UserInteractionOption('remove', self::MAIN_REMOVE);
-	}
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return get_called_class();
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAbortOption() {
-		return new UserInteractionOption('abort', self::MAIN_ABORT);
-	}
+    /**
+     * Unfold the task. If task A has dependency B and B' and B has dependency C, the resulting
+     * list will be [A, B, C, B'].
+     *
+     * @return Task[]
+     */
+    public function unfoldTask()
+    {
+        $list = [$this];
+        foreach ($this->getInput() as $input) {
+            if (is_a($input, ThunkValue::class)) {
+                $list = array_merge($list, $input->getParentTask()->unfoldTask());
+            }
+        }
+
+        return $list;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getRemoveOption()
+    {
+        return new UserInteractionOption('remove', self::MAIN_REMOVE);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getAbortOption()
+    {
+        return new UserInteractionOption('abort', self::MAIN_ABORT);
+    }
 }

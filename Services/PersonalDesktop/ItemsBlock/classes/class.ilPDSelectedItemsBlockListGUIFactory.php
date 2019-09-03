@@ -6,31 +6,33 @@
  */
 class ilPDSelectedItemsBlockListGUIFactory
 {
-	/**
-	 * @var ilObjectListGUI[]
-	 */
-	protected static $list_by_type = array();
+	/** @var ilObjectListGUI[] */
+	protected static $list_by_type = [];
 
-	/**
-	 * @var ilObjectDefinition
-	 */
+	/** @var ilObjectDefinition */
 	protected $objDefinition;
 
-	/**
-	 * @var ilPDSelectedItemsBlockGUI
-	 */
+	/** @var ilPDSelectedItemsBlockGUI */
 	protected $block;
+
+	/** @var ilPDSelectedItemsBlockGUI */
+	protected $blockView;
 
 	/**
 	 * ilPDSelectedItemsBlockListGUIFactory constructor.
 	 * @param ilPDSelectedItemsBlockGUI $block
+	 * @param ilPDSelectedItemsBlockViewGUI $blockView
 	 */
-	public function __construct(ilPDSelectedItemsBlockGUI $block)
+	public function __construct(
+		ilPDSelectedItemsBlockGUI $block,
+		ilPDSelectedItemsBlockViewGUI $blockView
+	)
 	{
 		global $DIC;
 
 		$this->objDefinition = $DIC['objDefinition'];
-		$this->block         = $block;
+		$this->block = $block;
+		$this->blockView = $blockView;
 	}
 
 	/**

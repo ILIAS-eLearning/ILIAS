@@ -23314,33 +23314,83 @@ while ($row = $ilDB->fetchAssoc($res)) {
 ?>
 <#5322>
 <?php
-// Migrate accepted criteria for missing documents (file did not exists during migration)
-$ilDB->manipulateF("
-	UPDATE tos_acceptance_track
-	INNER JOIN tos_versions
-		ON tos_versions.id = tos_acceptance_track.tosv_id
-	SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
-	WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
-	",
-	['text', 'text'],
-	['[{"id":"usr_language","value":{"lng":"', '"}}]']
-);
+/** @var $ilDB ilDBInterface */
+if (in_array($ilDB->getDBType(), [ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES])) {
+    // Migrate accepted criteria for missing documents (file did not exists during migration)
+    $res = $ilDB->query("
+        SELECT tos_acceptance_track.*
+        FROM tos_acceptance_track
+        INNER JOIN tos_versions ON tos_versions.id = tos_acceptance_track.tosv_id
+        WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
+        "
+    );
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ilDB->manipulateF(
+            "
+                UPDATE tos_acceptance_track
+                SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+                WHERE tos_acceptance_track.tosv_id = %s AND tos_acceptance_track.usr_id = %s AND tos_acceptance_track.ts = %s
+            ",
+            ['text', 'text', 'integer', 'integer', 'integer'],
+            ['[{"id":"usr_language","value":{"lng":"', '"}}]', $row['tosv_id'], $row['usr_id'], $row['ts']]
+        );
+    }
 
-// Migrate accepted criteria for already migrated documents
-$ilDB->manipulateF("
-	UPDATE tos_acceptance_track
-	INNER JOIN tos_versions
-		ON tos_versions.id = tos_acceptance_track.tosv_id
-	INNER JOIN tos_documents
-		ON tos_documents.id = tos_versions.doc_id
-	INNER JOIN tos_criterion_to_doc
-		ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
-	SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_criterion_to_doc.criterion_value, %s))
-	WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
-	",
-	['text', 'text', 'text'],
-	['usr_language', '[{"id":"usr_language","value":', '}]']
-);
+    // Migrate accepted criteria for already migrated documents
+    $res = $ilDB->queryF("
+        SELECT tos_acceptance_track.*
+        FROM tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        INNER JOIN tos_documents
+            ON tos_documents.id = tos_versions.doc_id
+        INNER JOIN tos_criterion_to_doc
+            ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
+        WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
+        ",
+        ['text'],
+        ['usr_language']
+    );
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ilDB->manipulateF(
+            "
+                UPDATE tos_acceptance_track
+                SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+                WHERE tos_acceptance_track.tosv_id = %s AND tos_acceptance_track.usr_id = %s AND tos_acceptance_track.ts = %s
+            ",
+            ['text', 'text', 'integer', 'integer', 'integer'],
+            ['[{"id":"usr_language","value":', '}]', $row['tosv_id'], $row['usr_id'], $row['ts']]
+        );
+    }
+} else {
+    // Migrate accepted criteria for missing documents (file did not exists during migration)
+    $ilDB->manipulateF("
+        UPDATE tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+        WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
+        ",
+        ['text', 'text'],
+        ['[{"id":"usr_language","value":{"lng":"', '"}}]']
+    );
+
+    // Migrate accepted criteria for already migrated documents
+    $ilDB->manipulateF("
+        UPDATE tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        INNER JOIN tos_documents
+            ON tos_documents.id = tos_versions.doc_id
+        INNER JOIN tos_criterion_to_doc
+            ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
+        SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_criterion_to_doc.criterion_value, %s))
+        WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
+        ",
+        ['text', 'text', 'text'],
+        ['usr_language', '[{"id":"usr_language","value":', '}]']
+    );
+}
 ?>
 <#5323>
 <?php
@@ -24200,53 +24250,53 @@ if (! $ilDB->tableExists('il_mm_translation')) {
 ?>
 <#5369>
 <?php
-$fields = array(
-	'provider_class' => array(
-		'type'   => 'text',
-		'length' => '255',
-
-	),
-	'purpose'        => array(
-		'type'   => 'text',
-		'length' => '255',
-
-	),
-	'dynamic'        => array(
-		'type'   => 'integer',
-		'length' => '1',
-
-	),
-
-);
-if (!$ilDB->tableExists('il_gs_providers')) {
-	$ilDB->createTable('il_gs_providers', $fields);
-	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
-}
+// $fields = array(
+// 	'provider_class' => array(
+// 		'type'   => 'text',
+// 		'length' => '255',
+//
+// 	),
+// 	'purpose'        => array(
+// 		'type'   => 'text',
+// 		'length' => '255',
+//
+// 	),
+// 	'dynamic'        => array(
+// 		'type'   => 'integer',
+// 		'length' => '1',
+//
+// 	),
+//
+// );
+// if (!$ilDB->tableExists('il_gs_providers')) {
+// 	$ilDB->createTable('il_gs_providers', $fields);
+// 	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
+// }
 ?>
 <#5370>
 <?php
-$fields = array(
-	'identification' => array(
-		'type'   => 'text',
-		'length' => '64',
-
-	),
-	'provider_class' => array(
-		'type'   => 'text',
-		'length' => '255',
-
-	),
-	'active'         => array(
-		'type'   => 'integer',
-		'length' => '1',
-
-	),
-
-);
-if (!$ilDB->tableExists('il_gs_identifications')) {
-	$ilDB->createTable('il_gs_identifications', $fields);
-	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
-}
+// $fields = array(
+// 	'identification' => array(
+// 		'type'   => 'text',
+// 		'length' => '64',
+//
+// 	),
+// 	'provider_class' => array(
+// 		'type'   => 'text',
+// 		'length' => '255',
+//
+// 	),
+// 	'active'         => array(
+// 		'type'   => 'integer',
+// 		'length' => '1',
+//
+// 	),
+//
+// );
+// if (!$ilDB->tableExists('il_gs_identifications')) {
+// 	$ilDB->createTable('il_gs_identifications', $fields);
+// 	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
+// }
 ?>
 <#5371>
 <?php
@@ -25097,54 +25147,54 @@ ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
 <#5423>
 <?php
 // Possibly missing primaries
-$ilDB->modifyTableColumn('il_mm_translation', 'identification', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_gs_providers', 'provider_class', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_gs_providers', 'purpose', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_gs_identifications', 'provider_class', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_mm_custom_items', 'identifier', array(
-	'length'  => 255
-));
-
-$ilDB->modifyTableColumn('il_mm_actions', 'identification', array(
-	'length'  => 255
-));
-
-
-$manager = $ilDB->loadModule('Manager');
-
-$const = $manager->listTableConstraints("il_mm_translation");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_mm_translation', array( 'id' ));
-}
-$const = $manager->listTableConstraints("il_gs_providers");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
-}
-$const = $manager->listTableConstraints("il_gs_identifications");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
-}
-$const = $manager->listTableConstraints("il_mm_custom_items");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_mm_custom_items', array( 'identifier' ));
-}
-$const = $manager->listTableConstraints("il_mm_actions");
-if(!in_array("primary", $const)) {
-	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
-}	
-	
+// $ilDB->modifyTableColumn('il_mm_translation', 'identification', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_gs_providers', 'provider_class', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_gs_providers', 'purpose', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_gs_identifications', 'provider_class', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_mm_custom_items', 'identifier', array(
+// 	'length'  => 255
+// ));
+//
+// $ilDB->modifyTableColumn('il_mm_actions', 'identification', array(
+// 	'length'  => 255
+// ));
+//
+//
+// $manager = $ilDB->loadModule('Manager');
+//
+// $const = $manager->listTableConstraints("il_mm_translation");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_mm_translation', array( 'id' ));
+// }
+// $const = $manager->listTableConstraints("il_gs_providers");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_gs_providers', array('provider_class'));
+// }
+// $const = $manager->listTableConstraints("il_gs_identifications");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_gs_identifications', array('identification'));
+// }
+// $const = $manager->listTableConstraints("il_mm_custom_items");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_mm_custom_items', array( 'identifier' ));
+// }
+// $const = $manager->listTableConstraints("il_mm_actions");
+// if(!in_array("primary", $const)) {
+// 	$ilDB->addPrimaryKey('il_mm_actions', array( 'identification' ));
+// }
+//
 ?>
 <#5424>
 <?php

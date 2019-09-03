@@ -122,15 +122,9 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	
 	
 	/**
-	* inititialize new item
-	* Course reference inits the course item
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	int			$a_obj_id		object id
-	* @param	string		$a_title		title
-	* @param	string		$a_description	description
-	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	 * @inheritdoc
+	 */
+	function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
 	{
 		$ilAccess = $this->access;
 		$tree = $this->tree;
@@ -150,7 +144,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		
 		
 	
-		parent::initItem($target_ref_id, $target_obj_id,$target_title,$target_description);
+		parent::initItem($target_ref_id, $target_obj_id,$type, $target_title,$target_description);
 
 		// general commands array
 		include_once('./Modules/CategoryReference/classes/class.ilObjCategoryReferenceAccess.php');

@@ -5,6 +5,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface StaticProvider extends Provider {
+interface StaticProvider extends Provider
+{
 
 }

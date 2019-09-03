@@ -71,6 +71,9 @@ class ilCourseConstants
 	const IL_CRS_VIEW_TIMING = 2;
 	const IL_CRS_VIEW_SIMPLE = 4;
 	const IL_CRS_VIEW_BY_TYPE = 5;
+
+	const CRON_TIMINGS_STARTED_TABLE	= 'crs_timings_started';
+	const CRON_TIMINGS_EXCEEDED_TABLE	= 'crs_timings_exceeded';
 }
 
 ?>

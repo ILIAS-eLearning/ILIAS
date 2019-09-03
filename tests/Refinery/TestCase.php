@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-class TestCase extends PHPUnitTestCase
+abstract class TestCase extends PHPUnitTestCase
 {
-
 }

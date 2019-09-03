@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,86 +7,75 @@
  */
 class ilBuddySystem
 {
-	/**
-	 * @var self
-	 */
-	protected static $instance;
+    /** @var self */
+    protected static $instance;
 
-	/**
-	 * @var bool
-	 */
-	protected static $is_enabled;
+    /** @var bool */
+    protected static $isEnabled;
 
-	/**
-	 * @var ilSetting
-	 */
-	protected $settings;
+    /** @var ilSetting */
+    protected $settings;
 
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+    /** @var ilObjUser */
+    protected $user;
 
-	/**
-	 * 
-	 */
-	protected function __construct()
-	{
-		global $DIC;
+    /**
+     * ilBuddySystem constructor.
+     */
+    protected function __construct()
+    {
+        global $DIC;
 
-		$this->settings = new ilSetting('buddysystem');
-		$this->user     = $DIC['ilUser'];
-	}
+        $this->settings = new ilSetting('buddysystem');
+        $this->user = $DIC['ilUser'];
+    }
 
-	/**
-	 * @return self
-	 */
-	public static function getInstance()
-	{
-		if(!(self::$instance instanceof self))
-		{
-			self::$instance = new self();
-		}
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (!(self::$instance instanceof self)) {
+            self::$instance = new self();
+        }
 
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * @param string $keyword
-	 * @param mixed $value
-	 */
-	public function setSetting($keyword, $value)
-	{
-		$this->settings->set($keyword, $value);
-	}
+    /**
+     * @param string $keyword
+     * @param mixed $value
+     */
+    public function setSetting(string $keyword, $value) : void
+    {
+        $this->settings->set($keyword, $value);
+    }
 
-	/**
-	 * @param string $keyword
-	 * @param bool|false $default
-	 * @return string
-	 */
-	public function getSetting($keyword, $default = false)
-	{
-		return $this->settings->get($keyword, $default);
-	}
+    /**
+     * @param string $keyword
+     * @param bool|false $default
+     * @return string
+     */
+    public function getSetting(string $keyword, bool $default = false)
+    {
+        return $this->settings->get($keyword, $default);
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isEnabled()
-	{
-		if(self::$is_enabled !== null)
-		{
-			return self::$is_enabled;
-		}
+    /**
+     * @return bool
+     */
+    public function isEnabled() : bool
+    {
+        if (self::$isEnabled !== null) {
+            return self::$isEnabled;
+        }
 
-		if($this->user->isAnonymous())
-		{
-			self::$is_enabled = false;
-			return false;
-		}
+        if ($this->user->isAnonymous()) {
+            self::$isEnabled = false;
+            return false;
+        }
 
-		self::$is_enabled = $this->settings->get('enabled', false);
-		return self::$is_enabled;
-	}
+        self::$isEnabled = (bool) $this->settings->get('enabled', false);
+        return self::$isEnabled;
+    }
 }

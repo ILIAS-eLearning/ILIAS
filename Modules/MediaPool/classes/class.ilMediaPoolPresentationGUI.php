@@ -47,7 +47,7 @@ class ilMediaPoolPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function __construct()
+	public function __construct()
 	{
 		global $DIC;
 
@@ -66,6 +66,8 @@ class ilMediaPoolPresentationGUI
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
+        $DIC->globalScreen()->tool()->context()->claim()->repository();
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilMediaPoolGSToolProvider::SHOW_FOLDERS_TOOL, true);
 	}
 
 	/**

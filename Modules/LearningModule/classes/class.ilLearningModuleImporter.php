@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Importer class for files
@@ -24,7 +23,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 	 */
 	function init()
 	{
-		include_once("./Modules/LearningModule/classes/class.ilLearningModuleDataSet.php");
 		$this->ds = new ilLearningModuleDataSet();
 		$this->ds->setDSPrefix("ds");
 
@@ -56,8 +54,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		include_once './Modules/File/classes/class.ilObjFile.php';
-
 		$this->log->debug("import XML Representation");
 
 		// case i container
@@ -87,7 +83,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 		else	// new import version (does mapping, too)
 		{
 			$this->log->debug("create ilDataSetIportParser instance");
-			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 				$a_xml, $this->ds, $a_mapping);
 		}
@@ -98,8 +93,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 		$this->qtis = array();
 		if (is_file($qti_file))
 		{
-			include_once "./Services/QTI/classes/class.ilQTIParser.php";
-			include_once("./Modules/Test/classes/class.ilObjTest.php");
 			$qtiParser = new ilQTIParser ($qti_file,
 					IL_MO_VERIFY_QTI, 0, "");
 			$result = $qtiParser->startParsing ();
@@ -124,8 +117,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 	{
 		$pg_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "pg");
 
-		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		$this->log->debug("pg map entries: ".count($pg_map));
 		foreach ($pg_map as $pg_id)
 		{
@@ -162,10 +153,8 @@ class ilLearningModuleImporter extends ilXmlImporter
 			$id = explode(":", $p);
 			if (count($id) == 3)
 			{
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
 				if (ilPageObject::_exists($id[0], $id[1], $id[2], true))
 				{
-					include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 					$new_page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $id[2]);
 					$new_page->buildDom();
 
@@ -198,7 +187,6 @@ class ilLearningModuleImporter extends ilXmlImporter
 			$new_style_id = (int) $a_mapping->getMapping("Services/Style", "sty", $old_style_id);
 			if ($new_lm_id > 0 && $new_style_id > 0)
 			{
-				include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 				$lm = new ilObjLearningModule($new_lm_id, false);
 				$lm->writeStyleSheetId($new_style_id);
 			}

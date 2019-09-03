@@ -340,7 +340,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				{
 					if ($objDefinition->isPlugin($t))
 					{
-						$pl = ilObjectPlugin::getRepoPluginObjectByType($t);
+						$pl = ilObjectPlugin::getPluginObjectByType($t);
 						$ts[$t] = $pl->txt("obj_".$t);
 					}
 					else
@@ -1056,7 +1056,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ne = new ilNonEditableValueGUI($lng->txt("db_version"), "");
 		$ne->setValue($ilSetting->get("db_version"));
 		
-		include_once ("./Services/Database/classes/class.ilDBUpdate.php");
 		$this->form->addItem($ne);
 		
 		// ilias version
@@ -2314,25 +2313,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	/**
 	 *
 	 */
-	protected function showVcsInformationObject()
+	protected function showVcsInformationObject() : void
 	{
-		$vc_info = array();
+		$vcInfo = [];
 
-		require_once 'Services/Administration/classes/class.ilSubversionInformation.php';
-		require_once 'Services/Administration/classes/class.ilGitInformation.php';
-
-		foreach(array(new ilSubversionInformation(), new ilGitInformation()) as $vc)
+		foreach([new ilGitInformation()] as $vc)
 		{
 			$html = $vc->getInformationAsHtml();
 			if($html)
 			{
-				$vc_info[] = $html;
+				$vcInfo[] = $html;
 			}
 		}
 
-		if($vc_info)
+		if($vcInfo)
 		{
-			ilUtil::sendInfo(implode("<br />", $vc_info));
+			ilUtil::sendInfo(implode("<br />", $vcInfo));
 		}
 		else
 		{
