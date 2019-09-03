@@ -500,11 +500,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $section_appearance = new ilFormSectionHeaderGUI();
         $section_appearance->setTitle($this->lng->txt('cont_presentation'));
         $form->addItem($section_appearance);
-        $form_service = $this->object_service->commonSettings()->legacyForm($form, $this->object);
-        $form = $form_service->addTitleIconVisibility();
-        $form = $form_service->addTopActionsVisibility();
-        $form = $form_service->addIcon();
-        $form = $form_service->addTileImage();
+        $form = $this->object_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 
         $form->addCommandButton("update", $this->lng->txt("save"));
 
@@ -563,11 +559,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->object->setApproval($a_form->getInput("approval"));
         $this->object->setNotification($a_form->getInput("notification"));
 
-        $form_service = $this->object_service->commonSettings()->legacyForm($a_form, $this->object);
-        $form_service->saveTitleIconVisibility();
-        $form_service->saveTopActionsVisibility();
-        $form_service->saveIcon();
-        $form_service->saveTileImage();
+        $this->object_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
 
         $this->emptyInfo();
     }
