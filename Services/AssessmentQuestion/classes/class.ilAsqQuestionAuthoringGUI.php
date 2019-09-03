@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
-use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
@@ -53,7 +52,6 @@ class ilAsqQuestionAuthoringGUI
     /**
      * obsolete constans, commands will be moved
      */
-	const CMD_EDIT_QUESTION = "editQuestion";
 	const CMD_SCORE_QUESTION = "scoreQuestion";
 	const CMD_DISPLAY_QUESTION = "displayQuestion";
 	const CMD_GET_FORM_SNIPPET = "getFormSnippet";
@@ -263,7 +261,11 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_CONFIG);
 
-                $gui = new ilAsqQuestionConfigEditorGUI();
+                $gui = new ilAsqQuestionConfigEditorGUI(
+                    $this->contextContainer,
+                    $this->question_id,
+                    $this->authoring_application_service
+                );
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -327,31 +329,6 @@ class ilAsqQuestionAuthoringGUI
         }
 	}
 
-
-    /**
-     * @throws Exception
-     */
-    public function editQuestion()
-    {
-        global $DIC;
-        
-        $question_id = $_GET[self::VAR_QUESTION_ID];
-        $question = $this->authoring_application_service->GetQuestion($question_id);
-        $form = AsqGUIElementFactory::CreateQuestionForm($question);
-        
-        switch($_SERVER['REQUEST_METHOD'])
-        {
-            case "POST":
-                $question = $form->getQuestion();
-                $this->authoring_application_service->SaveQuestion($question);
-                $form = AsqGUIElementFactory::CreateQuestionForm($question);
-                ilutil::sendSuccess("Question Saved");
-                break;
-        }
-        
-        $DIC->ui()->mainTemplate()->addJavaScript('Services/AssessmentQuestion/js/AssessmentQuestionAuthoring.js');
-        $DIC->ui()->mainTemplate()->setContent($form->getHTML());
-    }
 
     public function getFormSnippet()
     {

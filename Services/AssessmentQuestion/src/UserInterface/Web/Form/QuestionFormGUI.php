@@ -97,8 +97,6 @@ class QuestionFormGUI extends ilPropertyFormGUI {
                     $question->getAnswerOptions()->getOptions())
             );
         }
-
-		$this->addCommandButton('save', 'Save');
 	}
 
 	/**

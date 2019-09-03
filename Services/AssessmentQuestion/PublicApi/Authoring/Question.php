@@ -110,10 +110,11 @@ class Question
     {
         global $DIC;
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+        array_push($ctrl_stack,\ilAsqQuestionConfigEditorGUI::class);
 
         $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
 
-        return $DIC->ui()->factory()->link()->standard('edit by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_EDIT_QUESTION));
+        return $DIC->ui()->factory()->link()->standard('edit by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack));
     }
 
 
