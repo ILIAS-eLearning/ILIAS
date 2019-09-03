@@ -34,7 +34,7 @@ class SetupDatabase {
         echo "Setup wurde durchgefüht, CtrlStruktur neu geladen, Datentabellen wurden installiert / aktualisiert.<br><br>";
         echo "Es müsste nun neben dem Setup / Resetup ASQ ein neuer Tab 'asqDebugGUI' angezeigt werden<br><br>";
 
-        echo "<a href='/'>zurück zu ILIAS</a>";
+        echo "<a href='../../../../../'>zurück zu ILIAS</a>";
 
 	}
 }
