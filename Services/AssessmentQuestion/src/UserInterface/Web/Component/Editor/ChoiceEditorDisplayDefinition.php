@@ -97,4 +97,30 @@ class ChoiceEditorDisplayDefinition extends DisplayDefinition {
 			$data->image
 		);
 	}
+	
+	/**
+	 * @var string
+	 */
+	private static $error_message;
+	
+	/**
+	 * @param string $index
+	 * @return bool
+	 */
+	public static function checkInput(string $index) : bool {
+	    if ($_POST[$index . self::VAR_MCDD_TEXT] == null)
+	    {
+	        self::$error_message = "Answer text is necessary";
+	        return false;
+	    }
+	    
+	    return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getErrorMessage() : string {
+	    return self::$error_message;
+	}
 }

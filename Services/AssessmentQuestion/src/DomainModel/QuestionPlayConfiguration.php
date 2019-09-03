@@ -117,4 +117,12 @@ class QuestionPlayConfiguration extends AbstractValueObject {
                	    $this->getScoringConfiguration(),
                     $other->getScoringConfiguration());
     }
+    
+    public function hasAnswerOptions(): bool {
+        $sd_class = QuestionPlayConfiguration::getScoringClass($this)::getScoringDefinitionClass();
+        $dd_class = QuestionPlayConfiguration::getEditorClass($this)::getDisplayDefinitionClass();
+        
+        
+        return (count($dd_class::getFields()) + count($sd_class::getFields())) > 0;
+    }
 }

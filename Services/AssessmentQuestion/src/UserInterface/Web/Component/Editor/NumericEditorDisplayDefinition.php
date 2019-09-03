@@ -3,7 +3,6 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
-use stdClass;
 
 /**
  * Class NumericEditorDefinition

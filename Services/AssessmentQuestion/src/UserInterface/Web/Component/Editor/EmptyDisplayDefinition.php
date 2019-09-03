@@ -3,8 +3,6 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
-use stdClass;
 
 /**
  * Class EmptyDisplayDefinition

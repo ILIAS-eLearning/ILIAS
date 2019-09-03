@@ -77,8 +77,8 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 
 	public static function getValueFromPost(string $index) {
 		return new MultipleChoiceScoringDefinition(
-			$_POST[$index . self::VAR_MCSD_SELECTED],
-			$_POST[$index . self::VAR_MCSD_UNSELECTED]
+			intval($_POST[$index . self::VAR_MCSD_SELECTED]),
+			intval($_POST[$index . self::VAR_MCSD_UNSELECTED])
 		);
 	}
 
@@ -93,5 +93,39 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 			$data->points_selected,
 			$data->points_unselected
 		);
+	}
+	
+	/**
+	 * @var string
+	 */
+	private static $error_message;
+	
+	/**
+	 * @param string $index
+	 * @return bool
+	 */
+	public static function checkInput(string $index) : bool {
+	    if (!is_numeric($_POST[$index . self::VAR_MCSD_SELECTED]) ||
+	        !is_numeric($_POST[$index . self::VAR_MCSD_UNSELECTED])) 
+	    {
+	        self::$error_message = "value needs to be integer";
+	        return false;
+	    }
+	    
+	    if (intval($_POST[$index . self::VAR_MCSD_SELECTED]) < 1 &&
+	        intval($_POST[$index . self::VAR_MCSD_UNSELECTED]) < 1) 
+	    {
+	        self::$error_message = "The maximum available points must be greater than 0!";
+	        return false;
+	    }
+	    
+	    return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getErrorMessage() : string {
+	    return self::$error_message;
 	}
 }

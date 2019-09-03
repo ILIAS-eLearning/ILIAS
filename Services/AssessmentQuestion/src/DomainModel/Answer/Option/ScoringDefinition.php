@@ -35,4 +35,18 @@ abstract class ScoringDefinition implements JsonSerializable {
 	public function jsonSerialize() {
 	    return get_object_vars($this);
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public static function checkInput(string $index) : bool {
+	    return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getErrorMessage() : string {
+	    return '';
+	}
 }

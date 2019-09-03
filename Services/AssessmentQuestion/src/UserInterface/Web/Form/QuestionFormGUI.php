@@ -51,6 +51,11 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	const IMG_PATH_SUFFIX = 'asq_old_img_path';
     const FORM_PART_LINK = 'form_part_link';
 	
+    /**
+     * @var AnswerOptionForm
+     */
+    private $option_form;
+    
 	/**
 	 * QuestionFormGUI constructor.
 	 *
@@ -59,6 +64,11 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	public function __construct($question) {
 		$this->initForm($question);
         $this->setMultipart(true);
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->setValuesByPost();
+        }
+        
 		parent::__construct();
 	}
 
@@ -89,29 +99,15 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 
 		$this->initiatePlayConfiguration($question->getPlayConfiguration());
 
-		$fields = $this->collectFields($question->getPlayConfiguration());
-		if (count($fields) > 0) {
-            $this->addItem(new AnswerOptionForm(
-                    'Answers',
-                    $fields,
-                    $question->getAnswerOptions()->getOptions())
-            );
+		if ($question->getPlayConfiguration()->hasAnswerOptions()) {
+		    $this->option_form = new AnswerOptionForm(
+		        'Answers',
+		        $question->getPlayConfiguration(),
+		        $question->getAnswerOptions()->getOptions());
+		        
+            $this->addItem($this->option_form);
         }
 	}
-
-	/**
-	 * @param QuestionPlayConfiguration $play
-	 *
-	 * @return array
-	 */
-	private function collectFields(?QuestionPlayConfiguration $play) : array {
-		$sd_class = QuestionPlayConfiguration::getScoringClass($play)::getScoringDefinitionClass();
-		$dd_class = QuestionPlayConfiguration::getEditorClass($play)::getDisplayDefinitionClass();
-
-
-		return array_merge($dd_class::getFields(), $sd_class::getFields());
-	}
-
 
     /**
      * @return QuestionDto
@@ -127,8 +123,11 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 
 		$question->setPlayConfiguration($this->readPlayConfiguration());
 
-		$question->setAnswerOptions($this->readAnswerOptions($question->getPlayConfiguration()));
-
+		if (!is_null($this->option_form)) {
+    		$this->option_form->setConfiguration($question->getPlayConfiguration());
+    		$question->setAnswerOptions($this->option_form->readAnswerOptions());
+		}
+		
 		return $question;
 	}
 
@@ -266,31 +265,6 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 			call_user_func(array($editor_class, 'readConfig')),
 		    call_user_func(array($scoring_class, 'readConfig'))
 		);
-	}
-
-    /**
-     * @param QuestionPlayConfiguration $play
-     *
-     * @return AnswerOptions
-     */
-	private function readAnswerOptions(QuestionPlayConfiguration $play) : AnswerOptions {
-		$options = new AnswerOptions();
-
-		$sd_class = QuestionPlayConfiguration::getScoringClass($play)::getScoringDefinitionClass();
-		$dd_class = QuestionPlayConfiguration::getEditorClass($play)::getDisplayDefinitionClass();
-
-		$count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
-
-		for ($i = 1; $i <= $count; $i++) {
-			$options->addOption(new AnswerOption
-			                    (
-			                    	$i,
-				                    $dd_class::getValueFromPost($i),
-				                    $sd_class::getValueFromPost($i)
-			                    ));
-		}
-
-		return $options;
 	}
 
     /**

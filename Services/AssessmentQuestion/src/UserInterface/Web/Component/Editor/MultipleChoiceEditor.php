@@ -3,7 +3,6 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilSelectInputGUI;
 use JsonSerializable;
@@ -159,6 +158,9 @@ class MultipleChoiceEditor extends AbstractEditor {
 			$thumb_size->setValue($config->getThumbnailSize());
 			$singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
 		}
+		else {
+		    $max_answers->setValue(1);
+		}
 
 		return $fields;
 	}
@@ -169,8 +171,8 @@ class MultipleChoiceEditor extends AbstractEditor {
 	public static function readConfig() : ?AbstractConfiguration {
 		return MultipleChoiceEditorConfiguration::create(
 			filter_var($_POST[self::VAR_MCE_SHUFFLE], FILTER_VALIDATE_BOOLEAN),
-			$_POST[self::VAR_MCE_MAX_ANSWERS],
-			$_POST[self::VAR_MCE_THUMB_SIZE],
+			intval($_POST[self::VAR_MCE_MAX_ANSWERS]),
+			intval($_POST[self::VAR_MCE_THUMB_SIZE]),
 		    $_POST[self::VAR_MCE_IS_SINGLELINE] === self::STR_TRUE
 		);
 	}

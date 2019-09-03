@@ -28,4 +28,18 @@ abstract class DisplayDefinition implements JsonSerializable {
 	public abstract static function getValueFromPost(string $index);
 
 	public abstract static function deserialize(stdClass $data);
+	
+	/**
+	 * @return bool
+	 */
+	public static function checkInput(string $index) : bool {
+	    return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public static function getErrorMessage() : string {
+	    return '';
+	}
 }

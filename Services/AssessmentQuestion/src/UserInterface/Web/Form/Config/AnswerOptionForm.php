@@ -3,7 +3,9 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
 
 use Exception;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ilImageFileInputGUI;
 use ilNumberInputGUI;
 use ilTemplate;
@@ -35,10 +37,18 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 * @var array
 	 */
 	private $options;
+	/**
+	 * @var QuestionPlayConfiguration
+	 */
+	private $configuration;
 
-	public function __construct(string $title, array $definitions, array $options) {
+	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, array $options) {
 		parent::__construct($title);
-		$this->definitions = $definitions;
+		
+		//TODO every question that needs answer options requires them until now, if not --> dont set by default
+		$this->setRequired(true);
+		$this->configuration = $configuration;
+		$this->definitions = $this->collectFields($configuration);
 
 		//add empty row if there are no answers
 		if (sizeof($options) === 0) {
@@ -48,6 +58,13 @@ class AnswerOptionForm extends ilTextInputGUI {
 		}
 	}
 
+	/**
+	 * @param QuestionPlayConfiguration $configuration
+	 */
+	public function setConfiguration(QuestionPlayConfiguration $configuration) {
+	    $this->configuration = $configuration;
+	}
+	
 	/**
 	 * @param string $a_mode
 	 *
@@ -72,16 +89,12 @@ class AnswerOptionForm extends ilTextInputGUI {
 
 		/** @var AnswerOption $option */
 		foreach ($this->options as $option) {
-			$def_pos = 0;
-
 			/** @var AnswerOptionFormFieldDefinition $definition */
 			foreach ($this->definitions as $definition) {
 				$tpl->setCurrentBlock('body_entry');
 				$tpl->setVariable('ENTRY_CLASS', ''); //TODO get class by type
 				$tpl->setVariable('ENTRY', $this->generateField($definition, $row_id, $option !== null ? $option->rawValues()[$definition->getPostVar()] : null));
 				$tpl->parseCurrentBlock();
-
-				$def_pos += 1;
 			}
 
 			$tpl->setCurrentBlock('row');
@@ -100,6 +113,67 @@ class AnswerOptionForm extends ilTextInputGUI {
 		return $tpl->get();
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function checkInput() : bool {    
+	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
+	    
+	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
+	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
+	    
+	    for ($i = 1; $i <= $count; $i++) {
+	        if(!$dd_class::checkInput($i)) {
+	            $this->setAlert($dd_class::getErrorMessage());
+	            return false;
+	        }
+	        
+	        if(!$sd_class::checkInput($i)) {
+	            $this->setAlert($sd_class::getErrorMessage());
+	            return false;
+	        }
+	    }
+	    
+	    return true;
+	}
+
+	/**
+	 * @param QuestionPlayConfiguration $play
+	 *
+	 * @return AnswerOptions
+	 */
+	public function readAnswerOptions() : AnswerOptions {
+	    $options = new AnswerOptions();
+
+	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
+	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
+	    
+	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
+	    
+	    for ($i = 1; $i <= $count; $i++) {
+	        $options->addOption(new AnswerOption
+	            (
+	                $i,
+	                $dd_class::getValueFromPost($i),
+	                $sd_class::getValueFromPost($i)
+	                ));
+	    }
+	    
+	    return $options;
+	}
+
+	/**
+	 * @param QuestionPlayConfiguration $play
+	 *
+	 * @return array
+	 */
+	private function collectFields(?QuestionPlayConfiguration $play) : array {
+	    $sd_class = QuestionPlayConfiguration::getScoringClass($play)::getScoringDefinitionClass();
+	    $dd_class = QuestionPlayConfiguration::getEditorClass($play)::getDisplayDefinitionClass();
+	    
+	    
+	    return array_merge($dd_class::getFields(), $sd_class::getFields());
+	}
 
 	/**
 	 * @param AnswerOptionFormFieldDefinition $definition
@@ -111,26 +185,25 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateField(AnswerOptionFormFieldDefinition $definition, int $row_id, $value)
 	{
-        switch ($definition->getType()) {
-            case AnswerOptionFormFieldDefinition::TYPE_TEXT:
-	           return $this->generateTextField($row_id . $definition->getPostVar(), $value);
-               break;
-            case AnswerOptionFormFieldDefinition::TYPE_IMAGE:
-                return $this->generateImageField($row_id . $definition->getPostVar(), $value);
-                break;
-			case AnswerOptionFormFieldDefinition::TYPE_NUMBER:
-				return $this->generateNumberField($row_id . $definition->getPostVar(), $value);
-				break;
-			case AnswerOptionFormFieldDefinition::TYPE_RADIO;
-			    return $this->generateRadioField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
-			    break;
-			default:
-				throw new Exception('Please implement all fieldtypes you define');
-				break;
-		}
+	    switch ($definition->getType()) {
+	        case AnswerOptionFormFieldDefinition::TYPE_TEXT:
+	            return $this->generateTextField($row_id . $definition->getPostVar(), $value);
+	            break;
+	        case AnswerOptionFormFieldDefinition::TYPE_IMAGE:
+	            return $this->generateImageField($row_id . $definition->getPostVar(), $value);
+	            break;
+	        case AnswerOptionFormFieldDefinition::TYPE_NUMBER:
+	            return $this->generateNumberField($row_id . $definition->getPostVar(), $value);
+	            break;
+	        case AnswerOptionFormFieldDefinition::TYPE_RADIO;
+	        return $this->generateRadioField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
+	        break;
+	        default:
+	            throw new Exception('Please implement all fieldtypes you define');
+	            break;
+	    }
 	}
-
-
+	
 	/**
 	 * @param string $post_var
 	 * @param        $value
@@ -139,9 +212,9 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateTextField(string $post_var, $value) {
 		$field = new ilTextInputGUI('', $post_var);
-		if ($value !== null) {
-			$field->setValue($value);
-		}
+		
+		$this->setFieldValue($post_var, $value, $field);
+		
 		return $field->render();
 	}
 
@@ -153,9 +226,9 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateImageField(string $post_var, $value) {
 		$field = new ilImageFileInputGUI('', $post_var);
-		if ($value !== null) {
-			$field->setValue($value);
-		}
+		
+		$this->setFieldValue($post_var, $value, $field);
+		
 		$hidden = '<input type="hidden" name="' . $post_var . QuestionFormGUI::IMG_PATH_SUFFIX . '" value="' . $value . '" />';
 		return $field->render() . $hidden;
 	}
@@ -168,15 +241,16 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateNumberField(string $post_var, $value) {
 		$field = new ilNumberInputGUI('', $post_var);
-		if ($value !== null) {
-			$field->setValue($value);
-		}
+		
+		$this->setFieldValue($post_var, $value, $field);
+		
 		return $field->render();
 	}
 	
 	private function generateRadioField(string $post_var, $value, $options) {
 	    $field = new ilRadioGroupInputGUI('', $post_var);
-	    $field->setValue($value);
+	    
+	    $this->setFieldValue($post_var, $value, $field);
 	    
 	    foreach ($options as $key=>$value)
 	    {
@@ -184,5 +258,20 @@ class AnswerOptionForm extends ilTextInputGUI {
     	    $field->addOption($option);	        
 	    }
 	    return $field->render();
+	}
+	
+	/**
+	 * @param string $post_var
+	 * @param $value
+	 * @param $field
+	 */
+	private function setFieldValue(string $post_var, $value, $field)
+	 {
+	     if (array_key_exists($post_var, $_POST)) {
+	         $field->setValue($_POST[$post_var]);
+	     }
+	     else if ($value !== null) {
+	         $field->setValue($value);
+	     }
 	}
 }

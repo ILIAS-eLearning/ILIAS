@@ -75,6 +75,11 @@ let update_form = function() {
 	});
 }
 
+$(document).ready(function() {
+	//TODO hack to prevent image verification error
+	$('[name=ilfilehash]').remove();
+});
+
 $(document).on("click", ".js_add", add_row);
 $(document).on("click", ".js_remove", remove_row);
 $(document).on("change", "#editor, #presenter, #scoring", update_form);
