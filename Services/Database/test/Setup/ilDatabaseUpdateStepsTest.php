@@ -32,6 +32,14 @@ class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 		// is really called.
 		$db->connect();
 	}
+
+	public function _getSteps() : array {
+		return $this->getSteps();
+	}
+
+	public function _getStepsBefore(string $other) : array {
+		return $this->getStepsBefore($other);
+	}
 }
 
 class ilDatabaseUpdateStepsTest extends TestCase {
@@ -78,7 +86,7 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 	}
 
 	public function testGetAllSteps() {
-		$steps = $this->test1->getSteps();
+		$steps = $this->test1->_getSteps();
 
 		$expected = [
 			"step_1",
@@ -90,7 +98,7 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 	}
 
 	public function testGetStepsBeforeStep1() {
-		$steps = $this->test1->getStepsBefore("step_1");
+		$steps = $this->test1->_getStepsBefore("step_1");
 
 		$expected = [
 		];
@@ -99,7 +107,7 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 	}
 
 	public function testGetStepsBeforeStep2() {
-		$steps = $this->test1->getStepsBefore("step_2");
+		$steps = $this->test1->_getStepsBefore("step_2");
 
 		$expected = [
 			"step_1"
@@ -109,7 +117,7 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 	}
 
 	public function testGetStepsBeforeStep4() {
-		$steps = $this->test1->getStepsBefore("step_4");
+		$steps = $this->test1->_getStepsBefore("step_4");
 
 		$expected = [
 			"step_1",
