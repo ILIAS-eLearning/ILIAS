@@ -95,14 +95,22 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	 * @throws \LogicException if step is unknown
 	 */
 	public function getStep(string $name) : ilDatabaseUpdateStep {
+		return new ilDatabaseUpdateStep(
+			$this,
+			$name,
+			...$this->getPreconditionsOfStep($name)
+		);
+	}
+
+	/**
+	 * @return Objective[]
+	 */
+	protected function getPreconditionsOfStep(string $name) : array {
 		$others = $this->getStepsBefore($name);
 		if (count($others) === 0) {
-			$pre = $this->base;
+			return [$this->base];
 		}
-		else {
-			$pre = $this->getStep(array_pop($others));
-		}
-		return new ilDatabaseUpdateStep($this, $name, $pre);
+		return [$this->getStep(array_pop($others))];
 	}
 
 	/**
