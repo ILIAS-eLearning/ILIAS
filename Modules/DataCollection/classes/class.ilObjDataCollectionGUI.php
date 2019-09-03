@@ -31,6 +31,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	const GET_REF_ID = "ref_id";
 	const GET_VIEW_ID = "tableview_id";
 
+	/**
+	 * @var ilObjDataCollection
+	 */
+	public $object;
+
 
 	/**
 	 * ilObjDataCollectionGUI constructor.
@@ -44,7 +49,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-		$DIC->language()->loadLanguageModule("dcl");
+		$this->lng->loadLanguageModule("dcl");
+		$this->lng->loadLanguageModule('content');
+		$this->lng->loadLanguageModule('obj');
+		$this->lng->loadLanguageModule('cntr');
 
 		if (isset($_GET['table_id'])) {
 			$this->table_id = $_GET['table_id'];
@@ -251,7 +259,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				break;
 
 			default:
-				return parent::executeCommand();
+				switch ($this->ctrl->getCmd()) {
+					case 'edit': // this is necessary because ilObjectGUI only calls its own editObject (why??)
+						$this->prepareOutput();
+						$this->editObject();
+						break;
+					default:
+						return parent::executeCommand();
+				}
 		}
 
 		return true;
@@ -396,31 +411,91 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		}
 	}
 
-
 	/**
-	 * @param ilPropertyFormGUI $a_form
+	 * edit object
+	 *
+	 * @access	public
 	 */
-	protected function initEditCustomForm(ilPropertyFormGUI $a_form) {
-		global $DIC;
-		$ilTabs = $DIC['ilTabs'];
+	public function editObject()
+	{
+		$tpl = $this->tpl;
+		$ilTabs = $this->tabs_gui;
+		$ilErr = $this->ilErr;
 
-		$ilTabs->activateTab("id_settings");
+		if (!$this->checkPermissionBool("write"))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
+		}
+
+		$ilTabs->activateTab("settings");
+
+		$form = $this->initEditForm();
+		$values = $this->getEditFormValues();
+		if($values)
+		{
+			$form->setValuesByArray($values, true);
+		}
+
+		$this->addExternalEditFormCustom($form);
+
+		$tpl->setContent($form->getHTML());
+	}
+	/**
+	 * Init object edit form
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initEditForm()
+	{
+		$this->tabs_gui->activateTab("id_settings");
+		$this->lng->loadLanguageModule($this->object->getType());
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setSize(min(40, ilObject::TITLE_LENGTH));
+		$ti->setMaxLength(ilObject::TITLE_LENGTH);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
 
 		// is_online
 		$cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
 		$cb->setInfo($this->lng->txt("dcl_online_info"));
-		$a_form->addItem($cb);
+		$form->addItem($cb);
 
 		// Notification
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
 		$cb->setInfo($this->lng->txt("dcl_notification_info"));
-		$a_form->addItem($cb);
+		$form->addItem($cb);
 
 		//table order
 		$order_options = array();
 		foreach ($this->getDataCollectionObject()->getTables() as $table) {
 			$order_options[$table->getId()] = $table->getTitle();
 		}
+
+		// tile img upload
+		$section_appearance = new ilFormSectionHeaderGUI();
+		$section_appearance->setTitle($this->lng->txt('cont_presentation'));
+		$form->addItem($section_appearance);
+		$form_service = $this->object_service->commonSettings()->legacyForm($form, $this->object);
+		$form = $form_service->addTitleIconVisibility();
+		$form = $form_service->addTopActionsVisibility();
+		$form = $form_service->addIcon();
+		$form = $form_service->addTileImage();
+
+		$form->addCommandButton("update", $this->lng->txt("save"));
+
+		return $form;
 	}
 
 
@@ -470,6 +545,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotification($a_form->getInput("notification"));
+
+		$form_service = $this->object_service->commonSettings()->legacyForm($a_form, $this->object);
+		$form_service->saveTitleIconVisibility();
+		$form_service->saveTopActionsVisibility();
+		$form_service->saveIcon();
+		$form_service->saveTileImage();
 
 		$this->emptyInfo();
 	}
