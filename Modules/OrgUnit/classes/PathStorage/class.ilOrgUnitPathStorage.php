@@ -138,8 +138,8 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			$first = array_shift($path);
 			$last = array_pop($path);
 			$middle = implode(self::GLUE_SIMPLE, $path);
-			if (strlen($middle) > self::MAX_MIDDLE_PATH_LENGTH) {
-				$middle = substr($middle, 0, self::MAX_MIDDLE_PATH_LENGTH) . " ...";
+			if (ilStr::strLen($middle) > self::MAX_MIDDLE_PATH_LENGTH) {
+				$middle = ilStr::subStr($middle, 0, self::MAX_MIDDLE_PATH_LENGTH) . " ...";
 			}
 			$expression = implode(self::GLUE_SIMPLE, [ $first, $middle, $last ]);
 		} else {
