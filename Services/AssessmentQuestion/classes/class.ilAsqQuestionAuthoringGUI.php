@@ -20,7 +20,6 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableScorings;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 
 /**
  * Class ilAsqQuestionAuthoringGUI
