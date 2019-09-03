@@ -24,8 +24,9 @@ class CreateQuestionCommandHandler implements CommandHandlerContract {
      * @param CommandContract $command
      */
 	public function handle(CommandContract $command) {
-
-	    /** @var CreateQuestionCommand $command */
+        /** @var CreateQuestionCommand $command */
+	    
+        /** @var Question $question */
 		$question = Question::createNewQuestion(
 			$command->getQuestionUuid(),
             $command->getQuestionContainerId(),
@@ -39,7 +40,9 @@ class CreateQuestionCommandHandler implements CommandHandlerContract {
 				QuestionLegacyData::create(
 					$command->getAnswerType(),
 					$command->getQuestionContainerId()
-				)
+				),
+			    $command->getQuestionContainerId(),
+			    $command->getInitiatingUserId()
 			);
 		}
 

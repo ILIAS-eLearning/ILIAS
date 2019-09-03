@@ -5,11 +5,8 @@ namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore;
 
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Event\AbstractDomainEvent;
-use ILIAS\AssessmentQuestion\CQRS\Event\DomainEvent;
 use ILIAS\AssessmentQuestion\CQRS\Event\DomainEvents;
 use ILIAS\AssessmentQuestion\CQRS\Event\EventStore;
-use ILIAS\AssessmentQuestion\CQRS\Event\IlContainerDomainEvent;
 
 /**
  * Class QuestionEventStoreRepository

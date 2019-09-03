@@ -8,7 +8,6 @@ use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;

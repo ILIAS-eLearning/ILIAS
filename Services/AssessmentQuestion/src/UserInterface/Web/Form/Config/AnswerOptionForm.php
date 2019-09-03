@@ -2,18 +2,17 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
 
-use Exception;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
+use Exception;
 use ilImageFileInputGUI;
 use ilNumberInputGUI;
-use ilTemplate;
-use ilTextInputGUI;
-use ilHiddenInputGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
+use ilTemplate;
+use ilTextInputGUI;
 
 /**
  * Class AnswerOptionForm
@@ -42,14 +41,20 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private $configuration;
 
-	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, array $options) {
+	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, array $options, array $definitions = null) {
 		parent::__construct($title);
 		
 		//TODO every question that needs answer options requires them until now, if not --> dont set by default
 		$this->setRequired(true);
 		$this->configuration = $configuration;
-		$this->definitions = $this->collectFields($configuration);
-
+		
+		if(is_null($definitions)) {
+		    $this->definitions = $this->collectFields($configuration);
+		}
+		else {
+		    $this->definitions = $definitions;
+		}
+		
 		//add empty row if there are no answers
 		if (sizeof($options) === 0) {
 			$this->options[] = null;

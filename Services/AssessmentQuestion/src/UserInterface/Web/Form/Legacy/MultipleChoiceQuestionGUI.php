@@ -26,7 +26,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ChoiceEditorDisp
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfiguration;
 
 /**
- * Class SingleChoiceQuestionGUI
+ * Class MultipleChoiceQuestionGUI
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -35,7 +35,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfigurat
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
+class MultipleChoiceQuestionGUI extends ilPropertyFormGUI {
 	const VAR_AGGREGATE_ID = 'aggregate_id';
 
 	const VAR_TITLE = 'title';
@@ -48,6 +48,7 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 	const VAR_MCE_SHUFFLE = 'shuffle';
 	const VAR_MCE_THUMB_SIZE = 'thumbsize';
 	const VAR_MCE_IS_SINGLELINE = 'singleline';
+	const VAR_MCE_MAX_ANSWERS = 'max_answers';
 	
 	const STR_TRUE = "true";
 	const STR_FALSE = "false";
@@ -113,43 +114,13 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
         $this->option_form = new AnswerOptionForm(
             'Answers',
             $question->getPlayConfiguration(),
-            $question->getAnswerOptions()->getOptions(),
-            $this->collectFields());
+            $question->getAnswerOptions()->getOptions());
         
         $this->addItem($this->option_form);
 	}
 
 	const SCORING_DEFINITION_SUFFIX = 'Definition';
 	const EDITOR_DEFINITION_SUFFIX = 'DisplayDefinition';
-
-
-	/**
-	 * @param QuestionPlayConfiguration $play
-	 *
-	 * @return array
-	 */
-	private function collectFields() : array {
-	    $fields = [];
-		$fields[] = new AnswerOptionFormFieldDefinition(
-			'Answer Text',
-			AnswerOptionFormFieldDefinition::TYPE_TEXT,
-			self::VAR_MCDD_TEXT
-		);
-
-		$fields[] = new AnswerOptionFormFieldDefinition(
-			'Answer Image',
-			AnswerOptionFormFieldDefinition::TYPE_IMAGE,
-			self::VAR_MCDD_IMAGE
-		);
-
-		$fields[] = new AnswerOptionFormFieldDefinition(
-			'Checked',
-			AnswerOptionFormFieldDefinition::TYPE_NUMBER,
-			self::VAR_MCSD_SELECTED
-		);
-
-		return $fields;
-	}
 
     /**
      * @return QuestionDto
@@ -223,6 +194,10 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 	    $shuffle->setValue(1);
 	    $this->addItem($shuffle);
 	    
+	    $max_answers = new ilNumberInputGUI('max answers', self::VAR_MCE_MAX_ANSWERS);
+	    $max_answers->setMinValue(2);
+	    $this->addItem($max_answers);
+	    
 	    $thumb_size = new ilNumberInputGUI('thumb size', self::VAR_MCE_THUMB_SIZE);
 	    $this->addItem($thumb_size);
 	    
@@ -234,6 +209,7 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 	        /** @var MultipleChoiceEditorConfiguration $config */
 	        $config = $play->getEditorConfiguration();
 	        $shuffle->setChecked($config->isShuffleAnswers());
+	        $max_answers->setValue($config->getMaxAnswers());
 	        $thumb_size->setValue($config->getThumbnailSize());
 	        $singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
 	    }
@@ -261,7 +237,7 @@ class SingleChoiceQuestionGUI extends ilPropertyFormGUI {
 		return QuestionPlayConfiguration::create(
 			MultipleChoiceEditorConfiguration::create(
 				$_POST[self::VAR_MCE_SHUFFLE],
-				1,
+				intval($_POST[self::VAR_MCE_MAX_ANSWERS]),
 			    intval($_POST[self::VAR_MCE_THUMB_SIZE]),
 			    $_POST[self::VAR_MCE_IS_SINGLELINE] === self::STR_TRUE
 			)

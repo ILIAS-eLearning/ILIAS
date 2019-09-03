@@ -2,8 +2,6 @@
 namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection;
 
 use ActiveRecord;
-use arConnector;
-use ilDateTime;
 use ilException;
 
 abstract class AbstractProjectionAr extends ActiveRecord

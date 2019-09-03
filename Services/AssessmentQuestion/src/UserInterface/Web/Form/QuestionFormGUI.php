@@ -99,7 +99,9 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 
 		$this->initiatePlayConfiguration($question->getPlayConfiguration());
 
-		if ($question->getPlayConfiguration()->hasAnswerOptions()) {
+		if (!is_null($question->getPlayConfiguration()) &&
+		    $question->getPlayConfiguration()->hasAnswerOptions()) 
+		{
 		    $this->option_form = new AnswerOptionForm(
 		        'Answers',
 		        $question->getPlayConfiguration(),

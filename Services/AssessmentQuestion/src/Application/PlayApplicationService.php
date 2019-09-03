@@ -12,7 +12,6 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
-use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\MultipleChoiceQuestionAr;
 const MSG_SUCCESS = "success";
 
 /**

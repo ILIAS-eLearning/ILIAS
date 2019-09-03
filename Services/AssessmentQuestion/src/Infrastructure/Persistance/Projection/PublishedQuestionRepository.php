@@ -2,18 +2,11 @@
 
 namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ActiveRecord;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ChoiceEditorDisplayDefinition;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
 class PublishedQuestionRepository
 {

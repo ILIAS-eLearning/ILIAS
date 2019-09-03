@@ -105,15 +105,18 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	 * @return bool
 	 */
 	public static function checkInput(string $index) : bool {
+	    // unselected key does not exist in singlechoicequestion legacyform
 	    if (!is_numeric($_POST[$index . self::VAR_MCSD_SELECTED]) ||
-	        !is_numeric($_POST[$index . self::VAR_MCSD_UNSELECTED])) 
+	           (array_key_exists($index . self::VAR_MCSD_UNSELECTED, $_POST) && 
+	            !is_numeric($_POST[$index . self::VAR_MCSD_UNSELECTED]))) 
 	    {
 	        self::$error_message = "value needs to be integer";
 	        return false;
 	    }
 	    
 	    if (intval($_POST[$index . self::VAR_MCSD_SELECTED]) < 1 &&
-	        intval($_POST[$index . self::VAR_MCSD_UNSELECTED]) < 1) 
+	           (!array_key_exists($index . self::VAR_MCSD_UNSELECTED, $_POST) || 
+	            intval($_POST[$index . self::VAR_MCSD_UNSELECTED]) < 1)) 
 	    {
 	        self::$error_message = "The maximum available points must be greater than 0!";
 	        return false;

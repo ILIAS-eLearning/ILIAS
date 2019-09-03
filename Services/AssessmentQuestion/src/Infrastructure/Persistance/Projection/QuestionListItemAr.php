@@ -3,9 +3,6 @@
 namespace ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection;
 
 use ILIAS\AssessmentQuestion\DomainModel\Question;
-use ActiveRecord;
-use arConnector;
-use ilDateTime;
 
 /**
  * Class QuestionListItemAr

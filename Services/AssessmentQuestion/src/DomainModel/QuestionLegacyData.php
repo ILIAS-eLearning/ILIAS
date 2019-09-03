@@ -6,6 +6,7 @@ use Exception;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\SingleChoiceQuestionGUI;
 use ilPropertyFormGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\MultipleChoiceQuestionGUI;
 
 /**
  * Class QuestionLegacyData
@@ -47,9 +48,9 @@ class QuestionLegacyData extends AbstractValueObject {
 	public static function getQuestionTypes() : array {
 		$question_types = [];
 		$question_types[self::TYPE_GENERIC] = 'GenericQuestion ';
-        /*$question_types[self::TYPE_SINGLE_CHOICE] = 'Single Choice ';
+        $question_types[self::TYPE_SINGLE_CHOICE] = 'Single Choice ';
         $question_types[self::TYPE_MULTIPLE_CHOICE] = 'Multiple Choice ';
-        $question_types[3] = 'Cloze Test ';
+        /*$question_types[3] = 'Cloze Test ';
         $question_types[4] = 'Matching Question ';
         $question_types[5] = 'Ordering Question ';
         $question_types[6] = 'Imagemap Question ';
@@ -92,7 +93,7 @@ class QuestionLegacyData extends AbstractValueObject {
 			case self::TYPE_SINGLE_CHOICE:
 				return new SingleChoiceQuestionGUI($question);
 			case self::TYPE_MULTIPLE_CHOICE:
-				return null;
+				return new MultipleChoiceQuestionGUI($question);
 			default:
 				throw new Exception("Implement missing case please");
 		}

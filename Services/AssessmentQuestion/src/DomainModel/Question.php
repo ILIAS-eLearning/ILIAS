@@ -214,11 +214,11 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
      * @throws ilDateTimeException
      */
 	public function setLegacyData(QuestionLegacyData $legacy_data,
-        int $container_obj_id,
+                                  int $container_obj_id,
                                   int $creator_id = self::SYSTEM_USER_ID): void
     {
 		$this->ExecuteEvent(new QuestionLegacyDataSetEvent($this->getAggregateId(),
-            $container_obj_id,
+                                                           $container_obj_id,
 		                                                   $creator_id,
 		                                                   $legacy_data));
 	}
