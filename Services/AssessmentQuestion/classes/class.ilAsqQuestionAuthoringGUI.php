@@ -50,14 +50,6 @@ class ilAsqQuestionAuthoringGUI
     const CMD_REDRAW_HEADER_ACTION_ASYNC = '';
 
     /**
-     * obsolete constans, commands will be moved
-     */
-	const CMD_SCORE_QUESTION = "scoreQuestion";
-	const CMD_DISPLAY_QUESTION = "displayQuestion";
-	const CMD_GET_FORM_SNIPPET = "getFormSnippet";
-	const DEBUG_TEST_ID = 23;
-
-    /**
      * @var AuthoringContextContainer
      */
 	protected $contextContainer;
@@ -98,107 +90,6 @@ class ilAsqQuestionAuthoringGUI
         );
 
         $this->question_id = $this->authoring_service->currentOrNewQuestionId();
-    }
-
-    protected function initAuthoringTabs()
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $question = $this->authoring_service->question(
-            $this->question_id, $this->contextContainer->getBackLink()
-        );
-
-        $DIC->tabs()->clearTargets();
-
-        $DIC->tabs()->setBackTarget(
-            $this->contextContainer->getBackLink()->getLabel(),
-            $this->contextContainer->getBackLink()->getAction()
-        );
-
-        if( $this->contextContainer->hasWriteAccess() )
-        {
-            $link = $question->getEditPageLink();
-            $DIC->tabs()->addTab(self::TAB_ID_PAGEVIEW, $link->getLabel(), $link->getAction());
-        }
-
-        $link = $question->getPreviewLink(array());
-        $DIC->tabs()->addTab(self::TAB_ID_PREVIEW, $link->getLabel(), $link->getAction());
-
-        if( $this->contextContainer->hasWriteAccess() )
-        {
-            $link = $question->getEditLink(array());
-            $DIC->tabs()->addTab(self::TAB_ID_CONFIG, $link->getLabel(), $link->getAction());
-        }
-
-        $link = $question->getEditFeedbacksLink();
-        $DIC->tabs()->addTab(self::TAB_ID_FEEDBACK, $link->getLabel(), $link->getAction());
-
-        $link = $question->getEditHintsLink();
-        $DIC->tabs()->addTab(self::TAB_ID_HINTS, $link->getLabel(), $link->getAction());
-
-        $link = $question->getRecapitulationLink();
-        $DIC->tabs()->addTab(self::TAB_ID_RECAPITULATION, $link->getLabel(), $link->getAction());
-
-        $link = $question->getStatisticLink();
-        $DIC->tabs()->addTab(self::TAB_ID_STATISTIC, $link->getLabel(), $link->getAction());
-    }
-
-    protected function getHeaderAction() : string
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        //$question = $this->authoring_application_service->GetQuestion($this->question_id->getId());
-
-        /**
-         * TODO: Get the old integer id of the question.
-         * We still need the former integer sequence id of the question,
-         * since several other services in ilias does only work with an int id.
-         */
-
-        //$integerQuestionId = $question->getLegacyIntegerId(); // or similar
-        $integerQuestionId = 0;
-
-        $dispatcher = new ilCommonActionDispatcherGUI(
-            ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $DIC->access(),
-            $this->contextContainer->getObjType(),
-            $this->contextContainer->getRefId(),
-            $this->contextContainer->getObjId()
-        );
-
-        $dispatcher->setSubObject('quest', $integerQuestionId);
-
-        $ha = $dispatcher->initHeaderAction();
-        $ha->enableComments(true, false);
-
-        return $ha->getHeaderAction($DIC->ui()->mainTemplate());
-    }
-
-    protected function initHeaderAction()
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $DIC->ui()->mainTemplate()->setVariable(
-            'HEAD_ACTION', $this->getHeaderAction()
-        );
-
-        $notesUrl = $DIC->ctrl()->getLinkTargetByClass(
-            array('ilCommonActionDispatcherGUI', 'ilNoteGUI'), '', '', true, false
-        );
-
-        ilNoteGUI::initJavascript($notesUrl,IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
-
-        $redrawActionsUrl = $DIC->ctrl()->getLinkTarget(
-            $this, self::CMD_REDRAW_HEADER_ACTION_ASYNC, '', true
-        );
-
-        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
-    }
-
-    protected function redrawHeaderAction()
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        echo $this->getHeaderAction() . $DIC->ui()->mainTemplate()->getOnLoadCodeForAsynch();
-        exit;
     }
 
 
@@ -329,6 +220,121 @@ class ilAsqQuestionAuthoringGUI
         }
 	}
 
+
+    protected function redrawHeaderAction()
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        echo $this->getHeaderAction() . $DIC->ui()->mainTemplate()->getOnLoadCodeForAsynch();
+        exit;
+    }
+
+
+    protected function initHeaderAction()
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+
+        $DIC->ui()->mainTemplate()->setVariable(
+            'HEAD_ACTION', $this->getHeaderAction()
+        );
+
+        $notesUrl = $DIC->ctrl()->getLinkTargetByClass(
+            array('ilCommonActionDispatcherGUI', 'ilNoteGUI'), '', '', true, false
+        );
+
+        ilNoteGUI::initJavascript($notesUrl,IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
+
+        $redrawActionsUrl = $DIC->ctrl()->getLinkTarget(
+            $this, self::CMD_REDRAW_HEADER_ACTION_ASYNC, '', true
+        );
+
+        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
+    }
+
+
+    protected function getHeaderAction() : string
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+
+        //$question = $this->authoring_application_service->GetQuestion($this->question_id->getId());
+
+        /**
+         * TODO: Get the old integer id of the question.
+         * We still need the former integer sequence id of the question,
+         * since several other services in ilias does only work with an int id.
+         */
+
+        //$integerQuestionId = $question->getLegacyIntegerId(); // or similar
+        $integerQuestionId = 0;
+
+        $dispatcher = new ilCommonActionDispatcherGUI(
+            ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $DIC->access(),
+            $this->contextContainer->getObjType(),
+            $this->contextContainer->getRefId(),
+            $this->contextContainer->getObjId()
+        );
+
+        $dispatcher->setSubObject('quest', $integerQuestionId);
+
+        $ha = $dispatcher->initHeaderAction();
+        $ha->enableComments(true, false);
+
+        return $ha->getHeaderAction($DIC->ui()->mainTemplate());
+    }
+
+
+    protected function initAuthoringTabs()
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+
+        $question = $this->authoring_service->question(
+            $this->question_id, $this->contextContainer->getBackLink()
+        );
+
+        $DIC->tabs()->clearTargets();
+
+        $DIC->tabs()->setBackTarget(
+            $this->contextContainer->getBackLink()->getLabel(),
+            $this->contextContainer->getBackLink()->getAction()
+        );
+
+        if( $this->contextContainer->hasWriteAccess() )
+        {
+            $link = $question->getEditPageLink();
+            $DIC->tabs()->addTab(self::TAB_ID_PAGEVIEW, $link->getLabel(), $link->getAction());
+        }
+
+        $link = $question->getPreviewLink(array());
+        $DIC->tabs()->addTab(self::TAB_ID_PREVIEW, $link->getLabel(), $link->getAction());
+
+        if( $this->contextContainer->hasWriteAccess() )
+        {
+            $link = $question->getEditLink(array());
+            $DIC->tabs()->addTab(self::TAB_ID_CONFIG, $link->getLabel(), $link->getAction());
+        }
+
+        $link = $question->getEditFeedbacksLink();
+        $DIC->tabs()->addTab(self::TAB_ID_FEEDBACK, $link->getLabel(), $link->getAction());
+
+        $link = $question->getEditHintsLink();
+        $DIC->tabs()->addTab(self::TAB_ID_HINTS, $link->getLabel(), $link->getAction());
+
+        $link = $question->getRecapitulationLink();
+        $DIC->tabs()->addTab(self::TAB_ID_RECAPITULATION, $link->getLabel(), $link->getAction());
+
+        $link = $question->getStatisticLink();
+        $DIC->tabs()->addTab(self::TAB_ID_STATISTIC, $link->getLabel(), $link->getAction());
+    }
+
+
+    /**
+     * below is obsolete code that needs to be (re-)moved
+     * for the moment it keeps alive here
+     */
+
+    const CMD_SCORE_QUESTION = "scoreQuestion";
+    const CMD_DISPLAY_QUESTION = "displayQuestion";
+    const CMD_GET_FORM_SNIPPET = "getFormSnippet";
+    const DEBUG_TEST_ID = 23;
 
     public function getFormSnippet()
     {
