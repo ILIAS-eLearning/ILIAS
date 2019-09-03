@@ -9,19 +9,17 @@ include_once("class.ilCloudUtil.php");
  *
  * Base class for the settings. Needs to be overwritten if the plugin needs custom settings.
  *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
-
  * @ingroup ModulesCloud
  */
-
 class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 {
+
     /**
      * @var ilObjCloud
      */
     protected $cloud_object;
-
     /**
      * @var ilPropertyFormGUI
      */
@@ -33,7 +31,8 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
      *
      * @param $plugin_service_class
      */
-    public function __construct($plugin_service_class) {
+    public function __construct($plugin_service_class)
+    {
         global $DIC;
         parent::__construct($plugin_service_class);
 
@@ -51,6 +50,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->cloud_object = $object;
     }
 
+
     /**
      * Edit Settings. This commands uses the form class to display an input form.
      */
@@ -62,13 +62,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 
         $ilTabs->activateTab("settings");
 
-        try
-        {
+        try {
             $this->initSettingsForm();
             $this->getSettingsValues();
             $tpl->setContent($this->form->getHTML());
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage());
         }
     }
@@ -99,8 +97,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->addItem($cb);
 
         $folder = new ilTextInputGUI($lng->txt("cld_root_folder"), "root_folder");
-        if(!$this->cloud_object->currentUserIsOwner())
-        {
+        if (!$this->cloud_object->currentUserIsOwner()) {
             $folder->setDisabled(true);
             $folder->setInfo($lng->txt("cld_only_owner_has_permission_to_change_root_path"));
         }
@@ -126,12 +123,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
      */
     protected function createPluginSection()
     {
-        if(get_class($this) != "ilCloudPluginSettingsGUI" && $this->getMakeOwnPluginSection())
-        {
+        if (get_class($this) != "ilCloudPluginSettingsGUI" && $this->getMakeOwnPluginSection()) {
             global $DIC;
             $lng = $DIC['lng'];
             $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->cloud_object->getServiceName()." ".$lng->txt("cld_service_specific_settings"));
+            $section->setTitle($this->cloud_object->getServiceName() . " " . $lng->txt("cld_service_specific_settings"));
             $this->form->addItem($section);
         }
     }
@@ -140,7 +136,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      *
      */
-    protected function initPluginSettings(){}
+    protected function initPluginSettings() { }
 
 
     /**
@@ -164,14 +160,15 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         return true;
     }
 
+
     /**
      * Get values for edit Settings form
      */
     function getSettingsValues()
     {
-        $values["title"]       = $this->cloud_object->getTitle();
-        $values["desc"]        = $this->cloud_object->getDescription();
-        $values["online"]      = $this->cloud_object->getOnline();
+        $values["title"] = $this->cloud_object->getTitle();
+        $values["desc"] = $this->cloud_object->getDescription();
+        $values["online"] = $this->cloud_object->getOnline();
         $values["root_folder"] = $this->cloud_object->getRootFolder();
         $this->getPluginSettingsValues($values);
         $this->form->setValuesByArray($values, true);
@@ -181,7 +178,9 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * @param $values
      */
-    protected function getPluginSettingsValues(&$values){}
+    protected function getPluginSettingsValues(&$values) { }
+
+
     /**
      * Update Settings
      */
@@ -195,17 +194,14 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 
         $ilTabs->activateTab("settings");
 
-        try
-        {
+        try {
             $this->initSettingsForm();
             $this->initPresentationSection();
-            if ($this->form->checkInput())
-            {
+            if ($this->form->checkInput()) {
                 $this->cloud_object->setTitle($this->form->getInput("title"));
                 $this->cloud_object->setDescription($this->form->getInput("desc"));
                 $this->updatePluginSettings();
-                if (ilCloudUtil::normalizePath($this->form->getInput("root_folder")) != $this->cloud_object->getRootFolder())
-                {
+                if (ilCloudUtil::normalizePath($this->form->getInput("root_folder")) != $this->cloud_object->getRootFolder()) {
                     $this->cloud_object->setRootFolder($this->form->getInput("root_folder"));
                     $this->cloud_object->setRootId($this->getService()->getRootId($this->cloud_object->getRootFolder()));
                 }
@@ -218,8 +214,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
                 ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
                 $ilCtrl->redirect($this, 'editSettings');
             }
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage());
         }
 
@@ -231,8 +226,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      *
      */
-    protected function updatePluginSettings(){}
-
+    protected function updatePluginSettings() { }
 }
 
 ?>
