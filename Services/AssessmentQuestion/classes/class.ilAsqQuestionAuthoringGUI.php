@@ -5,13 +5,9 @@ declare(strict_types=1);
 
 
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
@@ -57,9 +53,7 @@ class ilAsqQuestionAuthoringGUI
     /**
      * obsolete constans, commands will be moved
      */
-	const CMD_CREATE_QUESTION = "createQuestion";
 	const CMD_EDIT_QUESTION = "editQuestion";
-	const CMD_PREVIEW_QUESTION = "previewQuestion";
 	const CMD_SCORE_QUESTION = "scoreQuestion";
 	const CMD_DISPLAY_QUESTION = "displayQuestion";
 	const CMD_GET_FORM_SNIPPET = "getFormSnippet";
@@ -225,7 +219,13 @@ class ilAsqQuestionAuthoringGUI
         {
             case strtolower(ilAsqQuestionCreationGUI::class):
 
-                $gui = new ilAsqQuestionCreationGUI();
+                $gui = new ilAsqQuestionCreationGUI(
+                    $this->contextContainer,
+                    $this->question_id,
+                    $this->authoring_service,
+                    $this->authoring_application_service
+                );
+
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -236,7 +236,12 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PREVIEW);
 
-                $gui = new ilAsqQuestionPreviewGUI();
+                $gui = new ilAsqQuestionPreviewGUI(
+                    $this->contextContainer,
+                    $this->question_id,
+                    $this->authoring_application_service
+                );
+
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -347,35 +352,7 @@ class ilAsqQuestionAuthoringGUI
         $DIC->ui()->mainTemplate()->addJavaScript('Services/AssessmentQuestion/js/AssessmentQuestionAuthoring.js');
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
-    
-    public function previewQuestion()
-    {
-        global $DIC;
 
-        $question_id = $_GET[self::VAR_QUESTION_ID];
-        $question = $this->authoring_application_service->GetQuestion($question_id);
-
-        $player = new PlayApplicationService(
-            $this->contextContainer->getObjId(), $this->contextContainer->getActorId()
-        );
-
-        $question_component = new QuestionComponent($question);
-        switch($_SERVER['REQUEST_METHOD'])
-        {
-            case "POST":
-                $answer = new Answer($this->contextContainer->getActorId(), $question_id, $this->contextContainer->getObjId(), $question_component->readAnswer());
-                $question_component->setAnswer($answer);
-
-                $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
-                $scoring = new $scoring_class($question);
-
-                ilUtil::sendInfo("Score: ".$scoring->score($answer));
-                break;
-        }
-
-        $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml());
-    }
-    
     public function getFormSnippet()
     {
         $name = $_GET['class'];
