@@ -105,6 +105,16 @@ class AuthoringService
             );
         }
 
+        // NOTE: $DIC->http()->request() seems to always comes with EMPTY attributes member ^^
+        // lets wait for fixes and use the super global meanwhile
+
+        if( isset($_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID]) )
+        {
+            return $DIC->assessment()->entityIdBuilder()->fromString(
+                $_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID]
+            );
+        }
+
         return $DIC->assessment()->entityIdBuilder()->new();
     }
 }
