@@ -193,7 +193,7 @@ class CaseOfLabel implements Transformation {
 	 *
 	 * @throws LanguageNotSupportedException
 	 */
-	public function transform($from): string {
+	public function transform($from) {
 		if (!is_string($from)) {
 			throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
 		}
@@ -222,7 +222,7 @@ class CaseOfLabel implements Transformation {
 	/**
 	 * @inheritDoc
 	 */
-	public function __invoke($from): string {
+	public function __invoke($from) {
 		return $this->transform($from);
 	}
 
