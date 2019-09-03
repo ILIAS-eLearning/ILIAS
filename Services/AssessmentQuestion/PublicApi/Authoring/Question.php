@@ -6,6 +6,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 use ilAsqQuestionAuthoringGUI;
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
@@ -80,7 +81,7 @@ class Question
         bool $actor_has_write_access
     ) : ilAsqQuestionAuthoringGUI
     {
-        return new ilAsqQuestionAuthoringGUI(
+        $authoringContextContainer = new AuthoringContextContainer(
             $container_back_link,
             $container_ref_id,
             $this->container_obj_id,
@@ -88,6 +89,8 @@ class Question
             $this->actor_user_id,
             $actor_has_write_access
         );
+
+        return new ilAsqQuestionAuthoringGUI($authoringContextContainer);
     }
 
 

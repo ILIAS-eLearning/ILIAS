@@ -18,6 +18,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePres
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableScorings;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 
@@ -66,19 +67,9 @@ class ilAsqQuestionAuthoringGUI
 	const DEBUG_TEST_ID = 23;
 
     /**
-     * @var UiStandardLink
+     * @var AuthoringContextContainer
      */
-    protected $container_back_link;
-
-    /**
-     * @var int
-     */
-    protected $container_obj_id;
-
-    /**
-     * @var int
-     */
-    protected $actor_user_id;
+	protected $contextContainer;
 
 	/**
 	 * @var AuthoringApplicationService
@@ -99,33 +90,21 @@ class ilAsqQuestionAuthoringGUI
     /**
      * ilAsqQuestionAuthoringGUI constructor.
      *
-     * @param UiStandardLink $container_back_link
-     * @param int            $container_ref_id
-     * @param int            $container_obj_id
-     * @param string         $container_obj_type
-     * @param int            $actor_user_id
-     * @param bool           $actor_has_write_access
+     * @param AuthoringContextContainer $authoringContextContainer
      */
-	function __construct(
-        UiStandardLink $container_back_link,
-        int $container_ref_id,
-        int $container_obj_id,
-        string $container_obj_type,
-        int $actor_user_id,
-        bool $actor_has_write_access
-    )
+	function __construct(AuthoringContextContainer $contextContainer)
 	{
 	    global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $this->container_back_link = $container_back_link;
-        $this->container_ref_id = $container_ref_id;
-        $this->container_obj_id = $container_obj_id;
-        $this->container_obj_type = $container_obj_type;
-        $this->actor_user_id = $actor_user_id;
-        $this->actor_has_write_access = $actor_has_write_access;
+	    $this->contextContainer = $contextContainer;
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
-        $this->authoring_service = $DIC->assessment()->questionAuthoring($container_obj_id, $actor_user_id);
+        $this->authoring_application_service = new AuthoringApplicationService(
+            $this->contextContainer->getObjId(), $this->contextContainer->getActorId()
+        );
+
+        $this->authoring_service = $DIC->assessment()->questionAuthoring(
+            $this->contextContainer->getObjId(), $this->contextContainer->getActorId()
+        );
 
         $this->question_id = $this->authoring_service->currentOrNewQuestionId();
     }
@@ -135,17 +114,17 @@ class ilAsqQuestionAuthoringGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
         $question = $this->authoring_service->question(
-            $this->question_id, $this->container_back_link
+            $this->question_id, $this->contextContainer->getBackLink()
         );
 
         $DIC->tabs()->clearTargets();
 
         $DIC->tabs()->setBackTarget(
-            $this->container_back_link->getLabel(),
-            $this->container_back_link->getAction()
+            $this->contextContainer->getBackLink()->getLabel(),
+            $this->contextContainer->getBackLink()->getAction()
         );
 
-        if( $this->actor_has_write_access )
+        if( $this->contextContainer->hasWriteAccess() )
         {
             $link = $question->getEditPageLink();
             $DIC->tabs()->addTab(self::TAB_ID_PAGEVIEW, $link->getLabel(), $link->getAction());
@@ -154,7 +133,7 @@ class ilAsqQuestionAuthoringGUI
         $link = $question->getPreviewLink(array());
         $DIC->tabs()->addTab(self::TAB_ID_PREVIEW, $link->getLabel(), $link->getAction());
 
-        if( $this->actor_has_write_access )
+        if( $this->contextContainer->hasWriteAccess() )
         {
             $link = $question->getEditLink(array());
             $DIC->tabs()->addTab(self::TAB_ID_CONFIG, $link->getLabel(), $link->getAction());
@@ -190,7 +169,9 @@ class ilAsqQuestionAuthoringGUI
 
         $dispatcher = new ilCommonActionDispatcherGUI(
             ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $DIC->access(),
-            $this->container_obj_type, $this->container_ref_id, $this->container_obj_id
+            $this->contextContainer->getObjType(),
+            $this->contextContainer->getRefId(),
+            $this->contextContainer->getObjId()
         );
 
         $dispatcher->setSubObject('quest', $integerQuestionId);
@@ -356,7 +337,7 @@ class ilAsqQuestionAuthoringGUI
 	        case "POST":
 	            $guid = Guid::create();
 	            $type = $form->getQuestionType();
-	            $this->authoring_application_service->CreateQuestion(new DomainObjectId($guid), $this->container_obj_id, $type);
+	            $this->authoring_application_service->CreateQuestion(new DomainObjectId($guid), $this->contextContainer->getObjId(), $type);
 	            $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $guid);
 	            $DIC->ctrl()->redirect($this, self::CMD_EDIT_QUESTION);
 	            break;
@@ -396,13 +377,15 @@ class ilAsqQuestionAuthoringGUI
         $question_id = $_GET[self::VAR_QUESTION_ID];
         $question = $this->authoring_application_service->GetQuestion($question_id);
 
-        $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
+        $player = new PlayApplicationService(
+            $this->contextContainer->getObjId(), $this->contextContainer->getActorId()
+        );
 
         $question_component = new QuestionComponent($question);
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "POST":
-                $answer = new Answer($DIC->user()->getId(), $question_id, $this->container_obj_id, $question_component->readAnswer());
+                $answer = new Answer($this->contextContainer->getActorId(), $question_id, $this->contextContainer->getObjId(), $question_component->readAnswer());
                 $question_component->setAnswer($answer);
 
                 $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
@@ -446,21 +429,25 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC;
         
-        $revision_id = $_GET[self::VAR_QUESTION_ID];        
-        $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
+        $revision_id = $_GET[self::VAR_QUESTION_ID];
+
+        $player = new PlayApplicationService(
+            $this->contextContainer->getObjId(), $this->contextContainer->getActorId()
+        );
+
         $question = $player->GetQuestion($revision_id);
         
         $question_component = new QuestionComponent($question);
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":
-                $answer = $player->GetUserAnswer($question->getId(), (int)$DIC->user()->getId(), $this->container_obj_id);
+                $answer = $player->GetUserAnswer($question->getId(), (int)$this->contextContainer->getActorId(), $this->contextContainer->getObjId());
                 if (!is_null($answer)) {
                     $question_component->setAnswer($answer);
                 }
                 break;
             case "POST":
-                $answer = new Answer($DIC->user()->getId(), $question->getId(), $this->container_obj_id, $question_component->readAnswer());
+                $answer = new Answer($this->contextContainer->getActorId(), $question->getId(), $this->contextContainer->getObjId(), $question_component->readAnswer());
                 $player->AnswerQuestion($answer);
                 $question_component->setAnswer($answer);
                 break;
@@ -474,12 +461,14 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC;
         
-        $player = new PlayApplicationService();
+        $player = new PlayApplicationService(
+            $this->contextContainer->getObjId(), $this->contextContainer->getActorId()
+        );
         
         $question_id = $_GET[self::VAR_QUESTION_ID];
         
         $DIC->ui()->mainTemplate()->setContent($player->GetPointsByUser($question_id,
-        $DIC->user()->getId(), $this->container_obj_id));
+        $this->contextContainer->getActorId(), $this->contextContainer->getObjId()));
 
     }
 }
