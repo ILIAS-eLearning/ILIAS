@@ -521,7 +521,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of like expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Like'.
+	 *          The aria-label MUST be 'Like' for the first (inactive) version of the glyph and 'Undo Like' for the second (active) version.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -547,7 +547,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of love expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Love'.
+	 *          The aria-label MUST be 'Love' for the first (inactive) version of the glyph and 'Undo Love' for the second (active) version.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -573,7 +573,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of dislike expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Dislike'.
+	 *          The aria-label MUST be 'Dislike' for the first (inactive) version of the glyph and 'Undo Dislike' for the second (active) version.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -599,7 +599,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of laugh expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Laugh'.
+	 *          The aria-label MUST be 'Laugh' for the first (inactive) version of the glyph and 'Undo Laugh' for the second (active) version.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -625,7 +625,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of astounded expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Astounded'.
+	 *          The aria-label MUST be 'Astounded' for the first (inactive) version of the glyph and 'Undo Astounded' for the second (active) version.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -651,7 +651,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of sad expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Sad'.
+	 *          The aria-label MUST be 'Sad' for the first (inactive) version of the glyph and 'Undo Sad' for the second (active) version.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -677,7 +677,7 @@ interface Factory {
 	 *          A Status Counter MUST indicate the overall amount of angry expressions.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Angry'.
+	 *          The aria-label MUST be 'Angry' for the first (inactive) version of the glyph and 'Undo Angry' for the second (active) version.
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -705,7 +705,7 @@ interface Factory {
 	 *          The Eye Closed Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be "eye closed - click to hide the input's contents".
+	 *          The aria-label MUST be "Click to hide the password".
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -732,7 +732,7 @@ interface Factory {
 	 *          The Eye Open Glyph MUST only be used with Password-Inputs.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be "eye open - click to reveal the input's contents".
+	 *          The aria-label MUST be "Click to reveal the password".
 	 * ---
 	 * @param	string|null	$action
 	 * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -792,7 +792,7 @@ interface Factory {
 	 *          greying out the Reset Glyph.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Reset'.
+	 *          The aria-label MUST be 'Reset'. The deactivated state of the Glyph MUST have the aria-label 'Reset not possible'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -826,7 +826,7 @@ interface Factory {
 	 *          the Apply Glyph.
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Apply'.
+	 *          The aria-label MUST be 'Apply'. The deactivated state of the Glyph MUST have the aria-label 'Applying not possible'.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -900,7 +900,7 @@ interface Factory {
 	 * rules:
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Calendar'.
+	 *          The aria-label MUST be 'Pick date' for opening date-pickers. It MUST be adapted for other use cases.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -923,7 +923,7 @@ interface Factory {
 	 * rules:
 	 *   accessibility:
 	 *       1: >
-	 *          The aria-label MUST be 'Time'.
+	 *          The aria-label MUST be 'Pick time' for opening time-pickers. It MUST be adapted for other use cases.
 	 * ---
 	 * @param string|null	$action
 	 * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
