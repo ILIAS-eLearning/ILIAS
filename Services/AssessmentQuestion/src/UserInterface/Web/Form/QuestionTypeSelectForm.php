@@ -37,8 +37,6 @@ class QuestionTypeSelectForm extends ilPropertyFormGUI {
 		$select = new ilSelectInputGUI("type", self::VAR_QUESTION_TYPE);
 		$select->setOptions(QuestionLegacyData::getQuestionTypes());
 		$this->addItem($select);
-
-		$this->addCommandButton('create', 'Create');
 	}
 
     /**

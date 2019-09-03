@@ -42,10 +42,12 @@ class QuestionComponent {
 		$this->editor = $this->presenter->getEditor();
 	}
 
-	public function renderHtml() : string {
+	public function renderHtml($formAction, $scoreCommand) : string {
 		$tpl = new ilTemplate("tpl.question_view.html", true, true, "Services/AssessmentQuestion");
 
-		$tpl->setCurrentBlock('question');
+        $tpl->setCurrentBlock('question');
+        $tpl->setVariable('FORM_ACTION', $formAction);
+        $tpl->setVariable('SCORE_COMMAND', $scoreCommand);
 		$tpl->setVariable('QUESTION_OUTPUT', $this->presenter->generateHtml());
 		$tpl->parseCurrentBlock();
 

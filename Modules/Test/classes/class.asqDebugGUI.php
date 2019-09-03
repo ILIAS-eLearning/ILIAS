@@ -64,10 +64,12 @@ class asqDebugGUI
     {
         global $DIC;
 
-        switch (strtolower($DIC->ctrl()->getCmdClass())) {
+        switch (strtolower($DIC->ctrl()->getNextClass())) {
             case strtolower(ilAsqQuestionAuthoringGUI::class):
                 //Get the specific question authoring service
-                $authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), $this->back_link)->getAuthoringGUI();
+                $authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getAuthoringGUI(
+                    $this->back_link, $_GET['ref_id'], 'tst', true
+                );
                 $DIC->ctrl()->forwardCommand($authoring_gui);
                 break;
             default:
@@ -123,15 +125,13 @@ class asqDebugGUI
                 $row[] = $DIC->ui()->renderer()->render(
                     $this->authoring_service->question(
                         $this->entity_id_builder->fromString(
-                            $question['id']),
-                        $this->back_link
+                            $question['id'])
                     )->getEditLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
                 );
                 $row[] = $DIC->ui()->renderer()->render(
                     $this->authoring_service->question(
                         $this->entity_id_builder->fromString(
-                            $question['id']),
-                        $this->back_link
+                            $question['id'])
                     )->getPreviewLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
                 );
                 $html .= '<li>' . implode($row, " | ") . '</li>';
@@ -147,7 +147,7 @@ class asqDebugGUI
     {
         global $DIC;
         foreach ($this->authoring_service->questionList()->getQuestionsOfContainerAsDtoList() as $question_dto) {
-            $this->authoring_service->question($this->entity_id_builder->fromString($question_dto->getId()), $this->back_link)->publishNewRevision();
+            $this->authoring_service->question($this->entity_id_builder->fromString($question_dto->getId()))->publishNewRevision();
         }
         $DIC->ctrl()->redirect($this);
     }
@@ -158,7 +158,7 @@ class asqDebugGUI
         global $DIC;
 
         //Create Button
-        $creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), $this->back_link)->getCreationLink([
+        $creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getCreationLink([
             ilRepositoryGUI::class,
             ilObjTestGUI::class,
             asqDebugGUI::class,
@@ -209,8 +209,7 @@ class asqDebugGUI
                 $row[] = $DIC->ui()->renderer()->render(
                     $this->authoring_service->question(
                         $this->entity_id_builder->fromString(
-                            $question->getRevisionId()),
-                        $this->back_link
+                            $question->getRevisionId())
                         )->getDisplayLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
                     );
                 

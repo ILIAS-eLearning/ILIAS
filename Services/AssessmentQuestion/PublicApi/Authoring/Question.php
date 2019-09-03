@@ -6,8 +6,9 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 use ilAsqQuestionAuthoringGUI;
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
@@ -46,9 +47,8 @@ class Question
      * @param int    $container_obj_id
      * @param string $question_uuid
      * @param int    $actor_user_id
-     * @param Link   $container_backlink
      */
-    public function __construct(int $container_obj_id, AssessmentEntityId $question_uuid, int $actor_user_id, Link $container_backlink)
+    public function __construct(int $container_obj_id, AssessmentEntityId $question_uuid, int $actor_user_id)
     {
         $this->actor_user_id = $actor_user_id;
         $this->container_obj_id = $container_obj_id;
@@ -64,19 +64,34 @@ class Question
     }
 
 
-    public function getCreationLink(array $ctrl_stack) :Link
+    public function getCreationLink(array $ctrl_stack) :UiStandardLink
     {
         global $DIC;
 
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+        array_push($ctrl_stack,\ilAsqQuestionCreationGUI::class);
 
-        return $DIC->ui()->factory()->link()->standard('create by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_CREATE_QUESTION));
+        return $DIC->ui()->factory()->link()->standard('create by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack));
     }
 
 
-    public function getAuthoringGUI() : ilAsqQuestionAuthoringGUI
+    public function getAuthoringGUI(
+        UiStandardLink $container_back_link,
+        int $container_ref_id,
+        string $container_obj_type,
+        bool $actor_has_write_access
+    ) : ilAsqQuestionAuthoringGUI
     {
-        return new ilAsqQuestionAuthoringGUI($this->container_obj_id, $this->actor_user_id);
+        $authoringContextContainer = new AuthoringContextContainer(
+            $container_back_link,
+            $container_ref_id,
+            $this->container_obj_id,
+            $container_obj_type,
+            $this->actor_user_id,
+            $actor_has_write_access
+        );
+
+        return new ilAsqQuestionAuthoringGUI($authoringContextContainer);
     }
 
 
@@ -89,33 +104,35 @@ class Question
 
 
     /**
-     * @return Link
+     * @return UiStandardLink
      */
-    public function getEditLink(array $ctrl_stack) :Link
+    public function getEditLink(array $ctrl_stack) :UiStandardLink
     {
         global $DIC;
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+        array_push($ctrl_stack,\ilAsqQuestionConfigEditorGUI::class);
 
         $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
 
-        return $DIC->ui()->factory()->link()->standard('edit by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_EDIT_QUESTION));
+        return $DIC->ui()->factory()->link()->standard('edit by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack));
     }
 
 
     /**
-     * @return Link
+     * @return UiStandardLink
      */
     //TODO this will not be the way! Do not save questions,
     // only simulate and show the points directly after submitting
     // Therefore, to Save Command has to
-    public function getPreviewLink(array $ctrl_stack) : Link
+    public function getPreviewLink(array $ctrl_stack) : UiStandardLink
     {
         global $DIC;
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+        array_push($ctrl_stack,\ilAsqQuestionPreviewGUI::class);
 
         $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
 
-        return $DIC->ui()->factory()->link()->standard('preview by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_PREVIEW_QUESTION));
+        return $DIC->ui()->factory()->link()->standard('preview by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack));
     }
 
     //TODO this will not be the way - see above
@@ -129,9 +146,9 @@ class Question
     }
 
     /**
-     * @return Link
+     * @return UiStandardLink
      */
-    public function getDisplayLink(array $ctrl_stack) : Link
+    public function getDisplayLink(array $ctrl_stack) : UiStandardLink
     {
         global $DIC;
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
@@ -142,38 +159,52 @@ class Question
     }
 
     /**
-     * @return Link
+     * @return UiStandardLink
      */
-    public function getEditPageLink() : Link
+    public function getEditPageLink() : UiStandardLink
     {
-        // TODO: Implement getEdiPageLink() method.
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        return $DIC->ui()->factory()->link()->standard('link label', '#');
     }
 
 
     /**
-     * @return Link
+     * @return UiStandardLink
      */
-    public function getEditFeedbacksLink() : Link
+    public function getEditFeedbacksLink() : UiStandardLink
     {
-        // TODO: Implement getEditFeedbacksLink() method.
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        return $DIC->ui()->factory()->link()->standard('link label', '#');
     }
 
 
     /**
-     * @return Link
+     * @return UiStandardLink
      */
-    public function getEditHintsLink() : Link
+    public function getEditHintsLink() : UiStandardLink
     {
-        // TODO: Implement getEditHintsLink() method.
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        return $DIC->ui()->factory()->link()->standard('link label', '#');
     }
 
 
     /**
-     * @return Link
+     * @return UiStandardLink
      */
-    public function getStatisticLink() : Link
+    public function getRecapitulationLink() : UiStandardLink
     {
-        // TODO: Implement getStatisticLink() method.
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        return $DIC->ui()->factory()->link()->standard('link label', '#');
+    }
+
+
+    /**
+     * @return UiStandardLink
+     */
+    public function getStatisticLink() : UiStandardLink
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        return $DIC->ui()->factory()->link()->standard('link label', '#');
     }
 
 

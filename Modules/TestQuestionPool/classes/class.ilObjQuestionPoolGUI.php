@@ -173,7 +173,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 
 				//2. Get the specific question authoring service
-				$authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), 	$this->back_link)->getAuthoringGUI();
+				$authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getAuthoringGUI(
+					$this->back_link, $this->object->getRefId(), $this->object->getType(), $DIC->access()->checkAccess(
+						'write', '', $this->object->getRefId()
+					)
+				);
 
 				$this->ctrl->forwardCommand($authoring_gui);
 				break;
@@ -1146,7 +1150,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$toolbar = new ilToolbarGUI();
 
-			$creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId(), $this->back_link)->getCreationLink(['ilObjQuestionPoolGUI']);
+			$creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getCreationLink(['ilObjQuestionPoolGUI']);
 
 
 			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
