@@ -30,6 +30,14 @@ use ILIAS\UI\Component\Link\Standard as UiStandardLink;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  *
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionCreationGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPreviewGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionConfigEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionFeedbackEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionHintsEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionRecapitulationEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionStatisticsGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilCommonActionDispatcherGUI
  */
 class ilAsqQuestionAuthoringGUI
@@ -221,6 +229,10 @@ class ilAsqQuestionAuthoringGUI
         exit;
     }
 
+
+    /**
+     * @throws ilCtrlException
+     */
 	public function executeCommand()
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -238,8 +250,82 @@ class ilAsqQuestionAuthoringGUI
 
                 $this->initHeaderAction();
                 $this->initAuthoringTabs();
+                $DIC->tabs()->activateTab(self::TAB_ID_PREVIEW);
 
                 $gui = new ilAsqQuestionPreviewGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilAsqQuestionPageEditorGUI::class):
+
+                $this->initHeaderAction();
+                $this->initAuthoringTabs();
+                $DIC->tabs()->activateTab(self::TAB_ID_PAGEVIEW);
+
+                $gui = new ilAsqQuestionPageEditorGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilAsqQuestionConfigEditorGUI::class):
+
+                $this->initHeaderAction();
+                $this->initAuthoringTabs();
+                $DIC->tabs()->activateTab(self::TAB_ID_CONFIG);
+
+                $gui = new ilAsqQuestionConfigEditorGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilAsqQuestionFeedbackEditorGUI::class):
+
+                $this->initHeaderAction();
+                $this->initAuthoringTabs();
+                $DIC->tabs()->activateTab(self::TAB_ID_FEEDBACK);
+
+                $gui = new ilAsqQuestionFeedbackEditorGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilAsqQuestionHintsEditorGUI::class):
+
+                $this->initHeaderAction();
+                $this->initAuthoringTabs();
+                $DIC->tabs()->activateTab(self::TAB_ID_HINTS);
+
+                $gui = new ilAsqQuestionHintsEditorGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilAsqQuestionRecapitulationEditorGUI::class):
+
+                $this->initHeaderAction();
+                $this->initAuthoringTabs();
+                $DIC->tabs()->activateTab(self::TAB_ID_RECAPITULATION);
+
+                $gui = new ilAsqQuestionRecapitulationEditorGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilAsqQuestionStatisticsGUI::class):
+
+                $this->initHeaderAction();
+                $this->initAuthoringTabs();
+                $DIC->tabs()->activateTab(self::TAB_ID_STATISTIC);
+
+                $gui = new ilAsqQuestionStatisticsGUI();
+                $DIC->ctrl()->forwardCommand($gui);
+
+                break;
+
+            case strtolower(ilCommonActionDispatcherGUI::class):
+
+                $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
