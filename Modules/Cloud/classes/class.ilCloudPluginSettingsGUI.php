@@ -28,6 +28,24 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     protected $form;
 
 
+    /**
+     * ilCloudPluginSettingsGUI constructor.
+     *
+     * @param $plugin_service_class
+     */
+    public function __construct($plugin_service_class) {
+        global $DIC;
+        parent::__construct($plugin_service_class);
+
+        $DIC->language()->loadLanguageModule('content');
+        $DIC->language()->loadLanguageModule('obj');
+        $DIC->language()->loadLanguageModule('cntr');
+    }
+
+
+    /**
+     * @param ilObjCloud $object
+     */
     public function setCloudObject(ilObjCloud $object)
     {
         $this->cloud_object = $object;
@@ -41,7 +59,6 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
 
         $ilTabs->activateTab("settings");
 
@@ -56,6 +73,10 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         }
     }
 
+
+    /**
+     *
+     */
     public function initSettingsForm()
     {
         global $DIC;
@@ -91,11 +112,18 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->createPluginSection();
         $this->initPluginSettings();
 
+        $this->initPresentationSection();
+
         $this->form->addCommandButton("updateSettings", $lng->txt("save"));
 
         $this->form->setTitle($lng->txt("cld_edit_Settings"));
         $this->form->setFormAction($ilCtrl->getFormActionByClass("ilCloudPluginSettingsGUI"));
     }
+
+
+    /**
+     *
+     */
     protected function createPluginSection()
     {
         if(get_class($this) != "ilCloudPluginSettingsGUI" && $this->getMakeOwnPluginSection())
@@ -108,8 +136,29 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         }
     }
 
+
+    /**
+     *
+     */
     protected function initPluginSettings(){}
 
+
+    /**
+     *
+     */
+    protected function initPresentationSection()
+    {
+        global $DIC;
+        $section_appearance = new ilFormSectionHeaderGUI();
+        $section_appearance->setTitle($DIC->language()->txt('cont_presentation'));
+        $this->form->addItem($section_appearance);
+        $DIC->object()->commonSettings()->legacyForm($this->form, $this->cloud_object)->addTileImage();
+    }
+
+
+    /**
+     * @return bool
+     */
     protected function getMakeOwnPluginSection()
     {
         return true;
@@ -125,10 +174,13 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $values["online"]      = $this->cloud_object->getOnline();
         $values["root_folder"] = $this->cloud_object->getRootFolder();
         $this->getPluginSettingsValues($values);
-        $this->form->setValuesByArray($values);
+        $this->form->setValuesByArray($values, true);
     }
 
 
+    /**
+     * @param $values
+     */
     protected function getPluginSettingsValues(&$values){}
     /**
      * Update Settings
@@ -146,6 +198,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         try
         {
             $this->initSettingsForm();
+            $this->initPresentationSection();
             if ($this->form->checkInput())
             {
                 $this->cloud_object->setTitle($this->form->getInput("title"));
@@ -159,6 +212,9 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 
                 $this->cloud_object->setOnline($this->form->getInput("online"));
                 $this->cloud_object->update();
+
+                $DIC->object()->commonSettings()->legacyForm($this->form, $this->cloud_object)->saveTileImage();
+
                 ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
                 $ilCtrl->redirect($this, 'editSettings');
             }
@@ -170,6 +226,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHtml());
     }
+
+
+    /**
+     *
+     */
     protected function updatePluginSettings(){}
 
 }
