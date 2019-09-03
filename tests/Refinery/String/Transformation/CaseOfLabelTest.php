@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\Data;
 use ILIAS\Refinery;
-use ILIAS\Refinery\String\LanguageNotSupportedException;
 use ILIAS\Refinery\String\CaseOfLabel;
+use ILIAS\Refinery\String\LanguageNotSupportedException;
 use PHPUnit\Framework\TestCase;
 
 /**
