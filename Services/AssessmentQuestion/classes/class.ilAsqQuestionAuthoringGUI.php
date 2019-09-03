@@ -286,9 +286,7 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $question = $this->authoring_service->question(
-            $this->question_id, $this->contextContainer->getBackLink()
-        );
+        $question = $this->authoring_service->question($this->question_id);
 
         $DIC->tabs()->clearTargets();
 

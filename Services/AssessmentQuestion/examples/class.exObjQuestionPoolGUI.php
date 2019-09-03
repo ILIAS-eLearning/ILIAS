@@ -77,7 +77,7 @@ class exObjQuestionPoolGUI
     {
         global $DIC;
 
-        $DIC->ctrl()->forwardCommand($this->authoring_service->question($question_id, $this->getBacklink())->getAuthoringGUI());
+        $DIC->ctrl()->forwardCommand($this->authoring_service->question($question_id)->getAuthoringGUI());
     }
 
 
@@ -91,7 +91,7 @@ class exObjQuestionPoolGUI
         global $DIC;
         /* @var ILIAS\DI\Container $DIC */
 
-        $creationLinkComponent = $this->authoring_service->question($DIC->assessment()->questionAuthoring()->currentOrNewQuestionId(), $this->getBacklink())
+        $creationLinkComponent = $this->authoring_service->question($DIC->assessment()->questionAuthoring()->currentOrNewQuestionId())
             ->widthAdditionalConfigSection($this->buildAdditionalTaxonomiesConfigSection())
             ->getCreationLink(['ilRepositoryObjectGUI', 'exObjQuestionPoolGUI']);
 
@@ -153,7 +153,7 @@ class exObjQuestionPoolGUI
 
         $question_uuid = ''; // init from GET parameters
 
-        $this->authoring_service->question($DIC->assessment()->entityIdBuilder()->fromString($question_uuid), $this->getBacklink())->deleteQuestion();
+        $this->authoring_service->question($DIC->assessment()->entityIdBuilder()->fromString($question_uuid))->deleteQuestion();
     }
 
 
