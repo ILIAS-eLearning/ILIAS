@@ -25,7 +25,7 @@ use ILIAS\Setup\Objective;
  * If for some reason you rely on update steps from other db-updated-classes
  * implement `getPreconditionSteps`.
  */
-abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
+abstract class ilDatabaseUpdateSteps implements Objective {
 	const STEP_METHOD_PREFIX = "step_";
 
 	/**
@@ -45,10 +45,8 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	 *                           \ilDatabasePopulatedObjective.
 	 */
 	public function __construct(
-		\ilDatabaseSetupConfig $config,
 		Objective $base
 	) {
-		parent::__construct($config);
 		$this->base = $base;
 	}
 

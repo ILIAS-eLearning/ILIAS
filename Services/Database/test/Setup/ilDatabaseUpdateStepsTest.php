@@ -44,10 +44,9 @@ class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 
 class ilDatabaseUpdateStepsTest extends TestCase {
 	protected function setUp(): void {
-		$this->config = $this->createMock(\ilDatabaseSetupConfig::class);
 		$this->base = $this->createMock(Objective::class);
 
-		$this->test1 = new Test_ilDatabaseUpdateSteps($this->config, $this->base);
+		$this->test1 = new Test_ilDatabaseUpdateSteps($this->base);
 	}
 
 	public function testGetStep1() {
