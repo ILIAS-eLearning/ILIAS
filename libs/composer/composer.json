@@ -35,7 +35,6 @@
 		"sabre/dav": "~3.2.2",
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
-		"symfony/console" : "^4.2",
 		"ramsey/uuid": "^3.8"
 	},
 	"require-dev": {
