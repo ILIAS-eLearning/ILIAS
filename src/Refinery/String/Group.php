@@ -74,10 +74,10 @@ class Group
 	 *
 	 * @param string $language_key
 	 *
-	 * @return CaseOfLabelIfPossible
+	 * @return CaseOfLabel
 	 */
-	public function caseOfLabelIfPossible(string $language_key) : CaseOfLabelIfPossible
+	public function caseOfLabel(string $language_key) : CaseOfLabel
 	{
-		return new CaseOfLabelIfPossible($language_key, $this->dataFactory);
+		return new CaseOfLabel($language_key, $this->dataFactory);
 	}
 }

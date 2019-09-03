@@ -3,15 +3,15 @@
 use ILIAS\Data;
 use ILIAS\Refinery;
 use ILIAS\Refinery\String\LanguageNotSupportedException;
-use ILIAS\Refinery\String\CaseOfLabelIfPossible;
+use ILIAS\Refinery\String\CaseOfLabel;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class CaseOfLabelIfPossibleTest
+ * Class CaseOfLabelTest
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class CaseOfLabelIfPossibleTest extends TestCase {
+class CaseOfLabelTest extends TestCase {
 
 	const LANGUAGE_KEY = "en";
 	const SENSELESS_LANGUAGE_KEY = "this_language_key_will_never_exist";
@@ -22,7 +22,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 	const EXPECTED_RESULT_TEST_STRING_2 = "I Switch the Computer on and Go Online";
 	const EXPECTED_RESULT_TEST_STRING_3 = "Now It Is Working";
 	/**
-	 * @var CaseOfLabelIfPossible
+	 * @var CaseOfLabel
 	 */
 	protected $case_of_label_if_possible;
 	/**
@@ -40,7 +40,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 		$language = $this->createMock('\\' . ilLanguage::class);
 
 		$this->f = new Refinery\Factory($dataFactory, $language);
-		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::LANGUAGE_KEY);
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
 	}
 
 
@@ -120,7 +120,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 	 *
 	 */
 	public function testInvoke(): void {
-		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::LANGUAGE_KEY);
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
 
 		$str = ($this->case_of_label_if_possible)(self::TEST_STRING_1);
 
@@ -132,7 +132,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 	 *
 	 */
 	public function testInvokeFails(): void {
-		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::LANGUAGE_KEY);
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
 
 		$raised = false;
 		try {
@@ -196,7 +196,7 @@ class CaseOfLabelIfPossibleTest extends TestCase {
 	 *
 	 */
 	public function testUnknownLanguageKey(): void {
-		$this->case_of_label_if_possible = $this->f->string()->caseOfLabelIfPossible(self::SENSELESS_LANGUAGE_KEY);
+		$this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::SENSELESS_LANGUAGE_KEY);
 
 		$raised = false;
 		try {

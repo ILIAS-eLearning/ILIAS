@@ -8,7 +8,7 @@ use ILIAS\Refinery\Transformation;
 use InvalidArgumentException;
 
 /**
- * Class CaseOfLabelIfPossible
+ * Class CaseOfLabel
  *
  * Format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
  *
@@ -18,7 +18,7 @@ use InvalidArgumentException;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class CaseOfLabelIfPossible implements Transformation {
+class CaseOfLabel implements Transformation {
 
 	use DeriveApplyToFromTransform;
 	/**
@@ -175,7 +175,7 @@ class CaseOfLabelIfPossible implements Transformation {
 
 
 	/**
-	 * CaseOfLabelIfPossible constructor
+	 * CaseOfLabel constructor
 	 *
 	 * @param string  $language_key
 	 * @param Factory $factory
