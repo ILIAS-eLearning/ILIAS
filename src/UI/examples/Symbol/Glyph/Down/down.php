@@ -4,5 +4,14 @@ function down() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->down("#"));
+	$glyph = $f->symbol()->glyph()->down("#");
+
+	//Showcase the various states of this Glyph
+	$list = $f->listing()->descriptive([
+		"Active"=>$glyph,
+		"Inactive"=>$glyph->withUnavailableAction(),
+		"Highlighted"=>$glyph->withHighlight()
+	]);
+
+	return $renderer->render($list);
 }

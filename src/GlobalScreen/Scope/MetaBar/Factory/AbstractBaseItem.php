@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\BaseMetaBarItemRenderer;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 
 /**
  * Class AbstractBaseItem
@@ -10,6 +12,10 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 abstract class AbstractBaseItem implements isItem
 {
 
+    /**
+     * @var BaseMetaBarItemRenderer
+     */
+    protected $renderer;
     /**
      * @var int
      */
@@ -44,6 +50,16 @@ abstract class AbstractBaseItem implements isItem
     public function __construct(IdentificationInterface $provider_identification)
     {
         $this->provider_identification = $provider_identification;
+        $this->renderer = new BaseMetaBarItemRenderer();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getRenderer() : MetaBarItemRenderer
+    {
+        return $this->renderer;
     }
 
 

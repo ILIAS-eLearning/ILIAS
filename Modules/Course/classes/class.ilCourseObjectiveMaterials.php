@@ -194,18 +194,16 @@ class ilCourseObjectiveMaterials
 					$type = ilLOTestAssignments::getInstance($container_obj_id)->getTypeByTest($material['child']);
 					if($type != ilLOSettings::TYPE_TEST_UNDEFINED)
 					{
-						continue;
+						break;
 					}
-					else
-					{
-						$assignable[] = $material;
-					}
+
+					$assignable[] = $material;
 					break;
 					
 				case 'crs':
 				case 'rolf':
 				case 'itgr':
-					continue;
+					break;
 				
 				default:
 					$assignable[] = $material;

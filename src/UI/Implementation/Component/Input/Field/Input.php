@@ -8,12 +8,12 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -341,11 +341,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	 * @inheritdoc
 	 */
 	public function withInput(InputData $input) {
-		//TODO: What should happen if input has not name? Throw exception or return null?
-		/**
-		 * if ($this->getName() === null) {
-		 * throw new \LogicException("Can only collect if input has a name.");
-		 * }**/
+		if ($this->getName() === null) {
+			throw new \LogicException("Can only collect if input has a name.");
+		}
 
 		//TODO: Discuss, is this correct here. If there is no input contained in this post
 		//We assign null. Note that unset checkboxes are not contained in POST.
@@ -360,11 +358,10 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			}
 		}
 		else {
-			$value = $this->getValue();
 			$clone = $this;
 		}
 
-		$clone->content = $this->applyOperationsTo($value);
+		$clone->content = $this->applyOperationsTo($clone->getValue());
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());
 		}
@@ -390,6 +387,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 			if ($res->isError()) {
 				return $res;
 			}
+
 			$res = $op->applyTo($res);
 		}
 
@@ -419,9 +417,9 @@ abstract class Input implements C\Input\Field\Input, InputInternal {
 	/**
 	 * @inheritdoc
 	 */
-	final public function getContent() {
+	public function getContent() {
 		if (is_null($this->content)) {
-			throw new \LogicException("No content of this field has been evaluated yet. Seems withInput was not called.");
+			throw new \LogicException("No content of this field has been evaluated yet. Seems withRequest was not called.");
 		}
 		return $this->content;
 	}

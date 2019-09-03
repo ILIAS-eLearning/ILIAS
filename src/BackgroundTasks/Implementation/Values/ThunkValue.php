@@ -2,9 +2,10 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\Values;
 
-use ILIAS\BackgroundTasks\Value;
-//use ILIAS\BackgroundTasks\ValueType;
 use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
+
+//use ILIAS\BackgroundTasks\ValueType;
 
 /**
  * Class ThunkValue
@@ -15,84 +16,92 @@ use ILIAS\BackgroundTasks\Types\Type;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-class ThunkValue extends AbstractValue {
+class ThunkValue extends AbstractValue
+{
 
-	/**
-	 * @var ValueType
-	 */
-	protected $type;
-
-
-	/**
-	 * ThunkValue constructor.
-	 */
-	public function __construct() {
-	}
+    /**
+     * @var ValueType
+     */
+    protected $type;
 
 
-	/**
-	 * @return Type
-	 */
-	public function getType() {
-		return $this->parentTask->getOutputType();
-	}
+    /**
+     * ThunkValue constructor.
+     */
+    public function __construct()
+    {
+    }
 
 
-	/**
-	 * String representation of object
-	 *
-	 * @link  http://php.net/manual/en/serializable.serialize.php
-	 * @return string the string representation of the object or null
-	 * @since 5.1.0
-	 */
-	public function serialize() {
-		return null;
-	}
+    /**
+     * @return Type
+     */
+    public function getType()
+    {
+        return $this->parentTask->getOutputType();
+    }
 
 
-	/**
-	 * Constructs the object
-	 *
-	 * @link  http://php.net/manual/en/serializable.unserialize.php
-	 *
-	 * @param string $serialized <p>
-	 *                           The string representation of the object.
-	 *                           </p>
-	 *
-	 * @return void
-	 * @since 5.1.0
-	 */
-	public function unserialize($serialized) {
-		// Nothing to do.
-	}
+    /**
+     * String representation of object
+     *
+     * @link  http://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        return null;
+    }
 
 
-	/**
-	 * @return string Gets a hash for this IO. If two objects are the same the hash must be the
-	 *                same! if two objects are different you need to have as view collitions as
-	 *                possible.
-	 */
-	public function getHash() {
-		return null;
-	}
+    /**
+     * Constructs the object
+     *
+     * @link  http://php.net/manual/en/serializable.unserialize.php
+     *
+     * @param string $serialized <p>
+     *                           The string representation of the object.
+     *                           </p>
+     *
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        // Nothing to do.
+    }
 
 
-	/**
-	 * @param \ILIAS\BackgroundTasks\Value $other
-	 *
-	 * @return mixed
-	 */
-	public function equals(Value $other) {
-		return false;
-	}
+    /**
+     * @return string Gets a hash for this IO. If two objects are the same the hash must be the
+     *                same! if two objects are different you need to have as view collitions as
+     *                possible.
+     */
+    public function getHash()
+    {
+        return null;
+    }
 
 
-	/**
-	 * @param $value
-	 *
-	 * @return
-	 */
-	function setValue($value) {
-		// TODO: Implement setValue() method.
-	}
+    /**
+     * @param \ILIAS\BackgroundTasks\Value $other
+     *
+     * @return mixed
+     */
+    public function equals(Value $other)
+    {
+        return false;
+    }
+
+
+    /**
+     * @param $value
+     *
+     * @return
+     */
+    function setValue($value)
+    {
+        // TODO: Implement setValue() method.
+    }
 }

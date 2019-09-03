@@ -22,9 +22,15 @@ class InstallCommand extends Command {
 	 */
 	protected $agent;
 
-	public function __construct(Agent $agent) {
+	/**
+	 * @var ConfigReader
+	 */
+	protected $config_reader;
+
+	public function __construct(Agent $agent, ConfigReader $config_reader) {
 		parent::__construct();
 		$this->agent = $agent;
+		$this->config_reader = $config_reader;
 	}
 
 	public function configure() {
@@ -35,7 +41,7 @@ class InstallCommand extends Command {
 	public function execute(InputInterface $input, OutputInterface $output) {
 		if ($this->agent->hasConfig()) {
 			$config_file = $input->getArgument("config");
-			$config_content = $this->readConfigFile($config_file);
+			$config_content = $this->config_reader->readConfigFile($config_file);
 			$trafo = $this->agent->getArrayToConfigTransformation();
 			$config = $trafo->transform($config_content);
 		}
@@ -56,20 +62,5 @@ class InstallCommand extends Command {
 			$goals->setEnvironment($environment);
 			$goals->next();
 		}
-	}
-
-	protected function readConfigFile(string $name) : array {
-		if (!file_exists($name) || !is_readable($name)) {
-			throw new \InvalidArgumentException(
-				"Config-file $name does not exist or is not readable."
-			);
-		}
-		$json = json_decode(file_get_contents($name), JSON_OBJECT_AS_ARRAY);
-		if (!is_array($json)) {
-			throw new \InvalidArgumentException(
-				"Could not find JSON-array in $name."
-			);
-		}
-		return $json;
 	}
 }

@@ -64,23 +64,28 @@ class ilRbacAdmin
 
 	/**
 	 * deletes a user from rbac_ua
-	 *  all user <-> role relations are deleted
+	 * all user <-> role relations are deleted
 	 * @access	public
-	 * @param	integer	user_id
+	 * @param	int	user_id
 	 * @return	boolean	true on success
 	 */
 	public function removeUser($a_usr_id)
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
-		
+		$ilDB = $DIC->database();
+		$review = $DIC->rbac()->review();
+
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::removeUser(): No usr_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
+		foreach($review->assignedRoles($a_usr_id) as $role_id) {
+			$this->deassignUser($role_id, $a_usr_id);
+		}
+		
 		$query = "DELETE FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -354,7 +359,7 @@ class ilRbacAdmin
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$rbacreview = $DIC['rbacreview'];
+		$rbacreview = $DIC->rbac()->review();
 		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{

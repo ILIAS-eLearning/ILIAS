@@ -2,8 +2,8 @@
 <module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
 	id="lm">
 	<baseclasses>
-		<baseclass name="ilLMEditorGUI" dir="classes" />
-		<baseclass name="ilLMPresentationGUI" dir="classes" />
+		<baseclass name="ilLMEditorGUI" dir="Editing/classes" />
+		<baseclass name="ilLMPresentationGUI" dir="Presentation/classes" />
 	</baseclasses>
 	<objectgroups>
 		<objectgroup id="lres" name="LearningResources" default_pres_pos="100"/>

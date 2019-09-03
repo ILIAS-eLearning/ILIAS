@@ -116,6 +116,17 @@ class AgentCollection implements Agent {
 		return $this->getXObjective("getUpdateObjective", $config);
 	}
 
+	/**
+	 * @inheritdocs
+	 */
+	public function getBuildArtifactObjective() : Objective {
+		$gs = [];
+		foreach ($this->agents as $k => $c) {
+			$gs[] = $c->getBuildArtifactObjective();
+		}
+		return new ObjectiveCollection("Collected Build Artifact Objectives", false, ...$gs);
+	}
+
 	protected function getXObjective(string $which, Config $config = null) : Objective {
 		$this->checkConfig($config);
 
@@ -129,7 +140,7 @@ class AgentCollection implements Agent {
 			}
 		}
 
-		return new ObjectiveCollection("Collected Update Objectives", false, ...$gs);
+		return new ObjectiveCollection("Collected Objectives", false, ...$gs);
 	}
 
 	protected function checkConfig(Config $config) {

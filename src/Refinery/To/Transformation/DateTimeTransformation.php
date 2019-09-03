@@ -14,38 +14,38 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
  */
 class DateTimeTransformation implements Transformation
 {
-	use DeriveApplyToFromTransform;
+    use DeriveApplyToFromTransform;
 
-	/**
-	 * @var DataFactory
-	 */
-	private $factory;
+    /**
+     * @var DataFactory
+     */
+    private $factory;
 
-	/**
-	 * @param Factory $factory
-	 */
-	public function __construct(Factory $factory)
-	{
-		$this->factory = $factory;
-	}
+    /**
+     * @param Factory $factory
+     */
+    public function __construct(Factory $factory)
+    {
+        $this->factory = $factory;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from)
-	{
-		try {
-			return new \DateTimeImmutable($from);
-		} catch (\Exception $e) {
-			throw new \InvalidArgumentException($e->getMessage(), 1);
-		}
-	}
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        try {
+            return new \DateTimeImmutable($from);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException($e->getMessage(), 1);
+        }
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 }

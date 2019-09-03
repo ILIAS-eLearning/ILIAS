@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
  * Class ilObjContentObjectAccess
  *
@@ -196,7 +194,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
 			else
 			{
 				// determine learning object
-				include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 				$lm_id = ilLMObject::_lookupContObjID($t_arr[1]);
 				$ref_ids = ilObject::_getAllReferences($lm_id);
 			}

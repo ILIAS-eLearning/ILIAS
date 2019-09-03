@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,29 +11,29 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilMailBaseTest extends TestCase
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp(): void 
-	{
-		$GLOBALS['DIC'] = new \ILIAS\DI\Container();
+    /**
+     * @inheritdoc
+     */
+    protected function setUp() : void
+    {
+        $GLOBALS['DIC'] = new Container();
 
-		parent::setUp();
-	}
+        parent::setUp();
+    }
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable($name, $value)
-	{
-		global $DIC;
+    /**
+     * @param string $name
+     * @param $value
+     */
+    protected function setGlobalVariable(string $name, $value) : void
+    {
+        global $DIC;
 
-		$GLOBALS[$name] = $value;
+        $GLOBALS[$name] = $value;
 
-		unset($DIC[$name]);
-		$DIC[$name] = function ($c) use ($name) {
-			return $GLOBALS[$name];
-		};
-	}
+        unset($DIC[$name]);
+        $DIC[$name] = function ($c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
 }

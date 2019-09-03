@@ -2,9 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-
 /**
  * Extension of ilPageObjectGUI for learning modules 
  *
@@ -35,7 +32,6 @@ class ilLMPageGUI extends ilPageObjectGUI
 		$this->log = $DIC["ilLog"];
 		parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		$this->getPageConfig()->setUseStoredQuestionTries(ilObjContentObject::_lookupStoreTries($this->getPageObject()->getParentId()));
 	}
 
@@ -48,7 +44,6 @@ class ilLMPageGUI extends ilPageObjectGUI
 
 		if (strtolower($_GET["cmdClass"]) == "ilassquestionfeedbackeditinggui")
 		{
-			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 			if (ilObjContentObject::_lookupDisableDefaultFeedback($this->getPageObject()->getParentId()))
 			{
 				ilUtil::sendInfo($lng->txt("cont_def_feedb_deactivated"));
@@ -80,16 +75,13 @@ class ilLMPageGUI extends ilPageObjectGUI
 		$parent_id = ilPageObject::lookupParentId((int) $_GET["page_id"], "lm");
 
 		// is restriction mode set?
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 		if (ilObjContentObject::_lookupRestrictForwardNavigation($parent_id))
 		{
 			// check if user is blocked
 			$id = ilUtil::stripSlashes($_POST["id"]);
 
-			include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
 			$as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
 			// get question information
-			include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
 			$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
 			$qlist->setParentObjId(0);
 			$qlist->setJoinObjectData(false);
@@ -99,12 +91,10 @@ class ilLMPageGUI extends ilPageObjectGUI
 			// has the user been blocked?
 			if ($as["try"] >= $qdata[$as["qst_id"]]["nr_of_tries"] && $qdata[$as["qst_id"]]["nr_of_tries"] > 0 && !$as["passed"])
 			{
-				include_once "./Services/Notification/classes/class.ilNotification.php";
 				$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_LM_BLOCKED_USERS, $parent_id);
 
 				if (count($users) > 0)
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMMailNotification.php");
 					$not = new ilLMMailNotification();
 					$not->setType(ilLMMailNotification::TYPE_USER_BLOCKED);
 					$not->setQuestionId($id);
