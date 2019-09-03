@@ -7,7 +7,6 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
-use ILIAS\UI\Component\Link\Link;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
@@ -54,13 +53,12 @@ class AuthoringService
      * @param int                $container_obj_id
      * @param AssessmentEntityId $question_uuid
      * @param int                $actor_user_id
-     * @param Link               $container_backlink
      *
      * @return Question
      */
-    public function question(AssessmentEntityId $question_uuid, Link $container_backlink) : Question
+    public function question(AssessmentEntityId $question_uuid) : Question
     {
-        return new Question($this->container_obj_id, $question_uuid, $this->actor_user_id, $container_backlink);
+        return new Question($this->container_obj_id, $question_uuid, $this->actor_user_id);
     }
 
 

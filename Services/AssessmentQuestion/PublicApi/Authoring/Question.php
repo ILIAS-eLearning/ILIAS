@@ -46,9 +46,8 @@ class Question
      * @param int    $container_obj_id
      * @param string $question_uuid
      * @param int    $actor_user_id
-     * @param UiStandardLink   $container_backlink
      */
-    public function __construct(int $container_obj_id, AssessmentEntityId $question_uuid, int $actor_user_id, UiStandardLink $container_backlink)
+    public function __construct(int $container_obj_id, AssessmentEntityId $question_uuid, int $actor_user_id)
     {
         $this->actor_user_id = $actor_user_id;
         $this->container_obj_id = $container_obj_id;
