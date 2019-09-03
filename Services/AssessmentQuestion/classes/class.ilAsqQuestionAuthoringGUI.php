@@ -217,6 +217,10 @@ class ilAsqQuestionAuthoringGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 
+        $DIC->ctrl()->setParameter(
+            $this, self::VAR_QUESTION_ID, $this->question_id->getId()
+        );
+
 		switch( $DIC->ctrl()->getNextClass() )
         {
             case strtolower(ilAsqQuestionCreationGUI::class):
@@ -316,31 +320,6 @@ class ilAsqQuestionAuthoringGUI
                 $cmd = $DIC->ctrl()->getCmd();
                 $this->{$cmd}();
         }
-	}
-
-
-    /**
-     * @throws Exception
-     */
-	public function createQuestion()
-	{
-	    global $DIC;
-
-	    $form = new QuestionTypeSelectForm();
-
-	    switch($_SERVER['REQUEST_METHOD'])
-	    {
-	        case "GET":
-	            $DIC->ui()->mainTemplate()->setContent($form->getHTML());
-	            break;
-	        case "POST":
-	            $guid = Guid::create();
-	            $type = $form->getQuestionType();
-	            $this->authoring_application_service->CreateQuestion(new DomainObjectId($guid), $this->contextContainer->getObjId(), $type);
-	            $DIC->ctrl()->setParameter($this, self::VAR_QUESTION_ID, $guid);
-	            $DIC->ctrl()->redirect($this, self::CMD_EDIT_QUESTION);
-	            break;
-	    }
 	}
 
 
