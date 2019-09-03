@@ -63,21 +63,21 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 		);
 	}
 
-	public function getLabel() : string {
+	final public function getLabel() : string {
 		return "Database update steps in ".get_class($this);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function isNotable() : bool {
+	final public function isNotable() : bool {
 		return true;
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function getPreconditions(Environment $environment) : array {
+	final public function getPreconditions(Environment $environment) : array {
 		$steps = $this->getSteps();
 		return [$this->getStep(array_pop($steps))];
 	}
@@ -85,7 +85,7 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	/**
 	 * @inheritdocs
 	 */
-	public function achieve(Environment $environment) : Environment {
+	final public function achieve(Environment $environment) : Environment {
 		return $environment;
 	}
 
@@ -94,7 +94,7 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	 *
 	 * @throws \LogicException if step is unknown
 	 */
-	public function getStep(string $name) : ilDatabaseUpdateStep {
+	final public function getStep(string $name) : ilDatabaseUpdateStep {
 		return new ilDatabaseUpdateStep(
 			$this,
 			$name,
@@ -105,7 +105,7 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	/**
 	 * @return Objective[]
 	 */
-	protected function getPreconditionsOfStep(string $name) : array {
+	final protected function getPreconditionsOfStep(string $name) : array {
 		$others = $this->getStepsBefore($name);
 		if (count($others) === 0) {
 			return [$this->base];
@@ -114,11 +114,11 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	}
 
 	/**
-	 * Get the step-methods in this class.
+	 * Get the names of the step-methods in this class.
 	 *
 	 * @return string[]
 	 */
-	public function getSteps() : array {
+	final protected function getSteps() : array {
 		if (!is_null($this->steps)) {
 			return $this->steps;
 		}
@@ -145,14 +145,14 @@ abstract class ilDatabaseUpdateSteps extends ilDatabaseObjective {
 	}
 
 	/**
-	 * Get the step-methods before the given step.
+	 * Get the names of the step-methods before the given step.
 	 *
 	 * ATTENTION: The steps are sorted in ascending order.
 	 *
 	 * @throws \LogicException if step is not known
 	 * @return string[]
 	 */
-	public function getStepsBefore(string $other) {
+	final protected function getStepsBefore(string $other) {
 		$this->getSteps();
 		if (!isset($this->steps[$other])) {
 			throw new \LogicException("Unknown database update step: $other");
