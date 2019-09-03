@@ -69,8 +69,9 @@ class Question
         global $DIC;
 
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+        array_push($ctrl_stack,\ilAsqQuestionCreationGUI::class);
 
-        return $DIC->ui()->factory()->link()->standard('create by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_CREATE_QUESTION));
+        return $DIC->ui()->factory()->link()->standard('create by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack));
     }
 
 
@@ -126,10 +127,11 @@ class Question
     {
         global $DIC;
         array_push($ctrl_stack,ilAsqQuestionAuthoringGUI::class);
+        array_push($ctrl_stack,\ilAsqQuestionPreviewGUI::class);
 
         $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
 
-        return $DIC->ui()->factory()->link()->standard('preview by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack,ilAsqQuestionAuthoringGUI::CMD_PREVIEW_QUESTION));
+        return $DIC->ui()->factory()->link()->standard('preview by asq',$DIC->ctrl()->getLinkTargetByClass($ctrl_stack));
     }
 
     //TODO this will not be the way - see above
