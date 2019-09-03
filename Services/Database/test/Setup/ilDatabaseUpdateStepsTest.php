@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ObjectiveIterator;
+use ILIAS\Setup\Objective;
 
 class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 	public $called = [];
@@ -31,21 +32,53 @@ class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 		// is really called.
 		$db->connect();
 	}
-
-	public function _getSteps() {
-		return self::getSteps();
-	}
 }
 
 class ilDatabaseUpdateStepsTest extends TestCase {
 	protected function setUp(): void {
 		$this->config = $this->createMock(\ilDatabaseSetupConfig::class);
+		$this->base = $this->createMock(Objective::class);
 
-		$this->test1 = new Test_ilDatabaseUpdateSteps($this->config);
+		$this->test1 = new Test_ilDatabaseUpdateSteps($this->config, $this->base);
+	}
+
+	public function testGetStep1() {
+		$env = $this->createMock(Environment::class);
+
+		$step1 = $this->test1->getStep("step_1");
+
+		$this->assertInstanceOf(ilDatabaseUpdateStep::class, $step1);
+		$this->assertEquals(
+			hash("sha256", Test_ilDatabaseUpdateSteps::class."::step_1"),
+			$step1->getHash()
+		);
+
+		$preconditions = $step1->getPreconditions($env);
+
+		$this->assertCount(1, $preconditions);
+		$this->assertSame($this->base, $preconditions[0]);
+	}
+
+	public function testGetStep2() {
+		$env = $this->createMock(Environment::class);
+
+		$step1 = $this->test1->getStep("step_1");
+		$step2 = $this->test1->getStep("step_2");
+
+		$this->assertInstanceOf(ilDatabaseUpdateStep::class, $step2);
+		$this->assertEquals(
+			hash("sha256", Test_ilDatabaseUpdateSteps::class."::step_2"),
+			$step2->getHash()
+		);
+
+		$preconditions = $step2->getPreconditions($env);
+
+		$this->assertCount(1, $preconditions);
+		$this->assertEquals($step1->getHash(), $preconditions[0]->getHash());
 	}
 
 	public function testGetAllSteps() {
-		$steps = $this->test1->_getSteps();
+		$steps = $this->test1->getSteps();
 
 		$expected = [
 			"step_1",
@@ -56,11 +89,31 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 		$this->assertEquals($expected, array_values($steps));
 	}
 
-	public function testGetStepsBefore() {
+	public function testGetStepsBeforeStep1() {
+		$steps = $this->test1->getStepsBefore("step_1");
+
+		$expected = [
+		];
+
+		$this->assertEquals($expected, array_values($steps));
+	}
+
+	public function testGetStepsBeforeStep2() {
 		$steps = $this->test1->getStepsBefore("step_2");
 
 		$expected = [
 			"step_1"
+		];
+
+		$this->assertEquals($expected, array_values($steps));
+	}
+
+	public function testGetStepsBeforeStep4() {
+		$steps = $this->test1->getStepsBefore("step_4");
+
+		$expected = [
+			"step_1",
+			"step_2"
 		];
 
 		$this->assertEquals($expected, array_values($steps));
@@ -78,6 +131,16 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 		$db
 			->expects($this->exactly(3))
 			->method("connect");
+
+		$this->base
+			->method("getPreconditions")
+			->willReturn([]);
+
+		$this->base
+			->expects($this->once())
+			->method("achieve")
+			->with($env)
+			->willReturn($env);
 
 		$i = new ObjectiveIterator($env, $this->test1);
 		while($i->valid()) {
