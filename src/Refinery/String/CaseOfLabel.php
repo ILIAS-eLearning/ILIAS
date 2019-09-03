@@ -8,13 +8,14 @@ use ILIAS\Data\Factory;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use InvalidArgumentException;
+use LogicException;
 
 /**
  * Class CaseOfLabel
  *
  * Format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
  *
- * Throws a LanguageNotSupportedException in the transform method, if a not supported language is passed
+ * Throws a LogicException in the transform method, if a not supported language is passed
  *
  * @package ILIAS\Refinery\String
  *
@@ -191,7 +192,7 @@ class CaseOfLabel implements Transformation {
 	/**
 	 * @inheritDoc
 	 *
-	 * @throws LanguageNotSupportedException
+	 * @throws LogicException
 	 */
 	public function transform($from) {
 		if (!is_string($from)) {
@@ -199,11 +200,11 @@ class CaseOfLabel implements Transformation {
 		}
 
 		if (empty($this->language_key)) {
-			throw new LanguageNotSupportedException("Please specify a language for the title capitalization");
+			throw new LogicException("Please specify a language for the title capitalization");
 		}
 
 		if (!isset($this->not_capitalize[$this->language_key])) {
-			throw new LanguageNotSupportedException("Language " . $this->language_key . " is not supported for the title capitalization");
+			throw new LogicException("Language " . $this->language_key . " is not supported for the title capitalization");
 		}
 
 		// First write the first letter of each word to uppercase

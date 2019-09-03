@@ -5,7 +5,6 @@ declare(strict_types=1);
 use ILIAS\Data;
 use ILIAS\Refinery;
 use ILIAS\Refinery\String\CaseOfLabel;
-use ILIAS\Refinery\String\LanguageNotSupportedException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -203,7 +202,7 @@ class CaseOfLabelTest extends TestCase {
 		$raised = false;
 		try {
 			$str = $this->case_of_label_if_possible->transform(self::TEST_STRING_1);
-		} catch (LanguageNotSupportedException $e) {
+		} catch (LogicException $e) {
 			$raised = true;
 		}
 		$this->assertTrue($raised);

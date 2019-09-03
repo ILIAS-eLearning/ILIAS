@@ -70,7 +70,7 @@ class Group
 	/**
 	 * Creates a transformation that can be used to format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
 	 *
-	 * Throws a LanguageNotSupportedException in the transform method, if a not supported language is passed
+	 * Throws a LogicException in the transform method, if a not supported language is passed
 	 *
 	 * @param string $language_key
 	 *
