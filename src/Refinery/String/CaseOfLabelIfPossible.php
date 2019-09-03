@@ -3,10 +3,9 @@
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
-use ILIAS\Data\Result;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use InvalidArgumentException;
-use Throwable;
 
 /**
  * Class CaseOfLabelIfPossible
@@ -21,6 +20,7 @@ use Throwable;
  */
 class CaseOfLabelIfPossible implements Transformation {
 
+	use DeriveApplyToFromTransform;
 	/**
 	 * @var string
 	 */
@@ -214,22 +214,6 @@ class CaseOfLabelIfPossible implements Transformation {
 		$to = ucfirst($to);
 
 		return $to;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function applyTo(Result $data): Result {
-		$dataValue = $data->value();
-
-		try {
-			$value = $this($dataValue);
-
-			return $this->factory->ok($value);
-		} catch (Throwable $ex) {
-			return $this->factory->error($ex);
-		}
 	}
 
 
