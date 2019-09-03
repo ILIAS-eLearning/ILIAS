@@ -77,6 +77,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		$DIC->language()->loadLanguageModule('bibl');
+        $DIC->language()->loadLanguageModule('content');
+        $DIC->language()->loadLanguageModule('obj');
+        $DIC->language()->loadLanguageModule('cntr');
 
 		if (is_object($this->object)) {
 			$this->facade = new ilBiblFactoryFacade($this->object);
@@ -380,6 +383,33 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		);
 	}
 
+    /**
+     * edit object
+     *
+     * @access	public
+     */
+    public function editObject()
+    {
+        $tpl = $this->tpl;
+        $ilTabs = $this->tabs_gui;
+        $ilErr = $this->ilErr;
+
+        if (!$this->checkPermissionBool("write")) {
+            $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
+        }
+
+        $ilTabs->activateTab("settings");
+
+        $form = $this->initEditForm();
+        $values = $this->getEditFormValues();
+        if ($values) {
+            $form->setValuesByArray($values, true);
+        }
+
+        $this->addExternalEditFormCustom($form);
+
+        $tpl->setContent($form->getHTML());
+    }
 
 	public function initEditForm() {
 		global $DIC;
@@ -399,6 +429,12 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$cb_override->addSubItem($in_file);
 
 		$form->addItem($cb_override);
+
+        $section_appearance = new ilFormSectionHeaderGUI();
+        $section_appearance->setTitle($this->lng->txt('cont_presentation'));
+        $form->addItem($section_appearance);
+        $DIC->object()->commonSettings()->legacyForm($form, $this->object)->addTileImage();
+
 		$form->setFormAction($DIC->ctrl()->getFormAction($this, "save"));
 
 		return $form;
@@ -547,6 +583,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 			if (!empty($_FILES['bibliographic_file']['name'])) {
 				$this->addNews($this->object->getId(), 'updated');
 			}
+
+            $DIC->object()->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
 		} else {
 			$this->handleNonAccess();
 		}
