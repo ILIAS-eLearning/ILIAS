@@ -34,7 +34,7 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI",
                     "ilAchievementsGUI","ilUserCertificateGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
-	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("cert", "")->withIsOutlined(true))
+                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("cert", "")->withIsOutlined(true))
                 ->withPosition(50),
         ];
     }
