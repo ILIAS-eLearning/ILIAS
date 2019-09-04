@@ -97,6 +97,7 @@ class QuestionEventStoreRepository implements EventStore {
 
 	    $sql = "SELECT MAX(object_id) as id FROM " . QuestionEventStoreAr::STORAGE_NAME;
 	    $res = $DIC->database()->query($sql);
-	    return $DIC->database()->fetchAssoc($res)['id'] ?? 1;
+	    $values = $DIC->database()->fetchAssoc($res);
+	    return (intval($values['id']) + 1) ?? 1;
 	}
 }

@@ -121,7 +121,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 			}
 			return json_encode($result);
 		} else {
-			return $_POST[$this->getPostName()];
+			return json_encode([$_POST[$this->getPostName()]]);
 		}
 	}
 
