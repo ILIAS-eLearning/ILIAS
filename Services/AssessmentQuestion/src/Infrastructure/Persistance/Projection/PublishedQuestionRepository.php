@@ -23,7 +23,6 @@ class PublishedQuestionRepository
                 return;
             }
             
-            $object_id = $old_question->getObjectId();
             $old_question->delete();
         }
 
@@ -33,43 +32,15 @@ class PublishedQuestionRepository
             $old_question_list->delete();
         }
         
-        if (is_null($object_id)) {
-            if (!is_null($question->getLegacyData()) &&
-                !is_null($question->getLegacyData()->getObjectId())) {
-                    $object_id = $question->getLegacyData()->getObjectId();
-                }
-                else {
-                    $object_id = $this->getNextObjectId();
-                }
-        }
-        
-        $question_ar = QuestionAr::createNew($question, $object_id);
+        $question_ar = QuestionAr::createNew($question);
         $question_ar->create();
         
         $question_list = QuestionListItemAr::createNew($question);
         $question_list->create();
     }
-
-    /**
-     * return current highest object_id + 1
-     * is not auto increment due to import takeover of questions with existion object ids
-     * 
-     * @return number
-     */
-    private function getNextObjectId() {
-        global $DIC;
-        
-        $sql = "SELECT max(object_id) FROM " . QuestionAr::STORAGE_NAME;
-        $query = $DIC->database()->query($sql);
-        $result = $DIC->database()->fetchAssoc($query);
-        $int_result = intval($result['object_id']);
-        return $int_result ? $int_result + 1 : 1;
-    }
     
     public function getQuestionByRevisionId(string $revision_id) : QuestionDto
     {
-
-        
         /** @var QuestionAr $question */
         $question = QuestionAr::where(['revision_id' => $revision_id])->first();
         

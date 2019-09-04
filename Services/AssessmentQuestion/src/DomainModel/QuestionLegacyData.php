@@ -29,21 +29,15 @@ class QuestionLegacyData extends AbstractValueObject {
 	 * @var int
 	 */
 	protected $answer_type_id;
-    /**
-     * @var int
-     */
-	protected $object_id;
 	
 	/**
 	 * @param int      $answer_type_id
-	 * @param int|null $container_obj_id
 	 *
 	 * @return QuestionLegacyData
 	 */
-	static function create(int $answer_type_id, $object_id = null) : QuestionLegacyData {
+	static function create(int $answer_type_id) : QuestionLegacyData {
 		$object = new QuestionLegacyData();
 		$object->answer_type_id = $answer_type_id;
-		$object->object_id = $object_id;
 		return $object;
 	}
 
@@ -78,13 +72,6 @@ class QuestionLegacyData extends AbstractValueObject {
 		return $this->answer_type_id;
 	}
 
-	/**
-	 * @return int|NULL
-	 */
-	public function getObjectId(): ?int {
-	    return $this->object_id;   
-	}
-	
     /**
      * @param QuestionDto $question
      *
@@ -113,8 +100,6 @@ class QuestionLegacyData extends AbstractValueObject {
     {
         /** @var QuestionLegacyData $other */
         return get_class($this) === get_class($other) &&
-               $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
-               $this->getContainerObjId() === $other->getContainerObjId() &&
-               $this->getObjectId() === $other->getObjectId();
+               $this->getAnswerTypeId() === $other->getAnswerTypeId();
     }
 }

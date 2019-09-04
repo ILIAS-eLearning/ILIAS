@@ -127,8 +127,11 @@ class ilAsqQuestionCreationGUI
 
         $guid = $this->questionId->getId();
 
-        $this->authoringApplicationService->CreateQuestion(new DomainObjectId($guid),
-            $this->contextContainer->getObjId(), $form->getQuestionType()
+        $this->authoringApplicationService->CreateQuestion(
+            new DomainObjectId($guid),
+            $this->contextContainer->getObjId(), 
+            null, //new questions get dynamic ids
+            $form->getQuestionType()
         );
 
         $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',

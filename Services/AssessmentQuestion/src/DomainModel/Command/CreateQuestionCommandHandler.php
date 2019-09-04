@@ -30,16 +30,15 @@ class CreateQuestionCommandHandler implements CommandHandlerContract {
 		$question = Question::createNewQuestion(
 			$command->getQuestionUuid(),
             $command->getQuestionContainerId(),
-			$command->getInitiatingUserId()
+			$command->getInitiatingUserId(),
+		    $command->getObjectId() ?? QuestionRepository::getInstance()->getNextId()
 		);
 
-		if (!is_null($command->getAnswerType())
-			&& !is_null($command->getQuestionContainerId())
-		) {
+		if (!is_null($command->getAnswerType()))
+        {
 			$question->setLegacyData(
 				QuestionLegacyData::create(
-					$command->getAnswerType(),
-					$command->getQuestionContainerId()
+					$command->getAnswerType()
 				),
 			    $command->getQuestionContainerId(),
 			    $command->getInitiatingUserId()

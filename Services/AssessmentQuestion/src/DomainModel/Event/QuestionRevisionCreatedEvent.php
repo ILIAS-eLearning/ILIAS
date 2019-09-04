@@ -35,9 +35,13 @@ class QuestionRevisionCreatedEvent extends AbstractIlContainerDomainEvent {
      *
      * @throws ilDateTimeException
      */
-	public function __construct(DomainObjectId $id, int $container_obj_id, int $initating_user_id, string $revision_key = "")
+	public function __construct(DomainObjectId $id, 
+	                            int $container_obj_id, 
+	                            int $initating_user_id, 
+	                            int $object_id, 
+	                            string $revision_key = "")
 	{
-		parent::__construct($id, $container_obj_id, $initating_user_id);
+		parent::__construct($id, $container_obj_id, $initating_user_id, $object_id);
 		$this->revision_key = $revision_key;
 	}
 

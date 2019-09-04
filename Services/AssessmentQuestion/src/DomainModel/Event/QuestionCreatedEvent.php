@@ -20,23 +20,19 @@ class QuestionCreatedEvent extends AbstractIlContainerDomainEvent {
 	public const NAME = 'QuestionCreatedEvent';
 
 	/**
-	 * @var  DomainObjectId
+	 * @param string $question_uuid
+	 * @param int $container_obj_id
+	 * @param int $initiating_user_id
+	 * @param int $object_id
 	 */
-	protected $question_uuid;
-	/**
-	 * @var int;
-	 */
-	protected $container_obj_id;
-	/**
-	 * @var int
-	 */
-	protected $initiating_user_id;
-	/**
-	 * @var string
-	 */
-	protected $answer_type_id;
-
-
+	public function __construct(DomainObjectId $question_uuid,
+	                            int $container_obj_id,
+	                            int $initiating_user_id,
+	                            int $object_id) 
+	{
+	    parent::__construct($question_uuid, $container_obj_id, $initiating_user_id, $object_id);
+	}
+	
 	/**
 	 * @return string
 	 *
@@ -46,9 +42,14 @@ class QuestionCreatedEvent extends AbstractIlContainerDomainEvent {
 	public function getEventName(): string {
 		return self::NAME;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @see \ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent::restoreEventBody()
+	 */
+    public function restoreEventBody(string $json_data)
+    {
+        //no additional fields
+    }
 
-
-	public function restoreEventBody(string $json_data) {
-		//no other properties
-	}
 }

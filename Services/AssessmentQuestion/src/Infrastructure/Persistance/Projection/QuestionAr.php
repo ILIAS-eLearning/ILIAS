@@ -102,12 +102,12 @@ class QuestionAr extends AbstractProjectionAr
      * @param Question $question
      * @param int $object_id
      */
-    public static function createNew(Question $question, int $object_id) {
+    public static function createNew(Question $question) {
         $object = new QuestionAr();
         
         $created = new ilDateTime(time(), IL_CAL_UNIX);
         $object->created = $created->get(IL_CAL_DATETIME);
-        $object->object_id = $object_id;
+        $object->object_id = $question->getObjectId();
         $object->revision_id = $question->getRevisionId()->GetKey();
         $object->question_id = $question->getAggregateId()->getId();
         $object->question_data = json_encode($question->getData());

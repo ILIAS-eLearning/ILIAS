@@ -35,9 +35,13 @@ class QuestionDataSetEvent extends AbstractIlContainerDomainEvent {
      *
      * @throws \ilDateTimeException
      */
-	public function __construct(DomainObjectId $id, int $container_obj_id, int $initating_user_id, QuestionData $data = null)
+	public function __construct(DomainObjectId $id, 
+	                            int $container_obj_id, 
+	                            int $initating_user_id, 
+	                            int $object_id,
+	                            QuestionData $data = null)
 	{
-		parent::__construct($id, $container_obj_id, $initating_user_id);
+		parent::__construct($id, $container_obj_id, $initating_user_id, $object_id);
 		$this->data = $data;
 	}
 

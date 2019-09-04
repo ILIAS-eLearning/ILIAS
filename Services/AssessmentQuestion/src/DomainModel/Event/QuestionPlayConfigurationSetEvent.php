@@ -39,9 +39,13 @@ class QuestionPlayConfigurationSetEvent extends AbstractIlContainerDomainEvent {
      *
      * @throws \ilDateTimeException
      */
-	public function __construct(DomainObjectId $id, int $container_obj_id, int $initiating_user_id, QuestionPlayConfiguration $play_configuration = null)
+	public function __construct(DomainObjectId $id, 
+	                            int $container_obj_id, 
+	                            int $initiating_user_id, 
+	                            int $object_id, 
+	                            QuestionPlayConfiguration $play_configuration = null)
 	{
-		parent::__construct($id, $container_obj_id, $initiating_user_id);
+		parent::__construct($id, $container_obj_id, $initiating_user_id, $object_id);
 		$this->play_configuration = $play_configuration;
 	}
 

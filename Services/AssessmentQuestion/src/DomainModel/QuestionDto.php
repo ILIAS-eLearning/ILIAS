@@ -70,6 +70,10 @@ class QuestionDto {
 		$dto->legacy_data = $question->getLegacyData();
 		return $dto;
 	}
+	
+	public function __construct() {
+	    $this->answer_options = new AnswerOptions();
+	}
 
 	/**
 	 * @return string

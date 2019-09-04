@@ -61,6 +61,7 @@ class AuthoringApplicationService {
 	public function CreateQuestion(
 		DomainObjectId $question_uuid,
 		int $container_id,
+	    ?int $object_id = null,
 		?int $answer_type_id = null
 	): void {
 		//CreateQuestion.png
@@ -69,7 +70,8 @@ class AuthoringApplicationService {
 		 ($question_uuid,
 		  $this->actor_user_id,
 		  $container_id,
-		  $answer_type_id));
+		  $answer_type_id,
+		  $object_id));
 	}
 
 	public function SaveQuestion(QuestionDto $question_dto) {

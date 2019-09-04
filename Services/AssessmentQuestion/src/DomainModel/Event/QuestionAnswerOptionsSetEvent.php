@@ -38,9 +38,13 @@ class QuestionAnswerOptionsSetEvent extends AbstractIlContainerDomainEvent {
      *
      * @throws \ilDateTimeException
      */
-	public function __construct(DomainObjectId $id, int $container_obj_id, int $initiating_user_id, AnswerOptions $options = null)
+	public function __construct(DomainObjectId $id, 
+	                            int $container_obj_id, 
+	                            int $initiating_user_id, 
+	                            int $object_id, 
+	                            AnswerOptions $options = null)
 	{
-		parent::__construct($id, $container_obj_id, $initiating_user_id);
+		parent::__construct($id, $container_obj_id, $initiating_user_id, $object_id);
 		$this->answer_options = $options;
 	}
 

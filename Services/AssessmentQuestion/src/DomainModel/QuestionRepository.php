@@ -65,4 +65,11 @@ class QuestionRepository extends AbstractEventSourcedAggregateRepository {
 	protected function reconstituteAggregate(DomainEvents $event_history): AggregateRoot {
 		return Question::reconstitute($event_history);
 	}
+	
+	/**
+	 * @return int
+	 */
+	public function getNextId() : int {
+	    return $this->event_store->getNextId();
+	}
 }

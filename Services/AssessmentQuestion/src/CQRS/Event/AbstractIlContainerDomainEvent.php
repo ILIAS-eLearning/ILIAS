@@ -35,24 +35,29 @@ abstract class AbstractIlContainerDomainEvent implements IlContainerDomainEvent
      * @var int
      */
     protected $initiating_user_id;
-
-
+    /**
+     * @var int
+     */
+    protected $object_id;
+    
     /**
      * AbstractQuestionEvent constructor.
      *
      * @param DomainObjectId $aggregate_id
      * @param int            $container_obj_id
      * @param int            $initiating_user_id
+     * @param int            $object_id
      *
      * @throws \ilDateTimeException
      */
-    public function __construct(DomainObjectId $aggregate_id, int $container_obj_id, int $initiating_user_id)
+    public function __construct(DomainObjectId $aggregate_id, int $container_obj_id, int $initiating_user_id, int $object_id)
     {
 
         $this->aggregate_id = $aggregate_id;
         $this->occurred_on = new ilDateTime(time(), IL_CAL_UNIX);
         $this->container_obj_id = $container_obj_id;
         $this->initiating_user_id = $initiating_user_id;
+        $this->object_id = $object_id;
     }
 
 
@@ -102,6 +107,13 @@ abstract class AbstractIlContainerDomainEvent implements IlContainerDomainEvent
         return $this->initiating_user_id;
     }
 
+    /**
+     * @return int
+     */
+    public function getObjectId(): int
+    {
+        return $this->object_id;
+    }
 
     /**
      * @return string
