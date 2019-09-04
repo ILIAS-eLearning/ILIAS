@@ -544,6 +544,7 @@ class Renderer extends AbstractComponentRenderer
 		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
 
 		//monitor change-events
+		$input = $this->setSignals($input);
 		$id = $this->bindJavaScript($input) ?? $this->createId();
 		$input_tpl->setVariable("ID", $id);
 

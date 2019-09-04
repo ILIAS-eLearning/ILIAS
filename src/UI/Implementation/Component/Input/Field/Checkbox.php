@@ -106,4 +106,18 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 	public function withOnLoad(C\Signal $signal) {
 		return $this->withTriggeredSignal($signal, 'load');
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());
+		});
+		il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());";
+			return $code;
+		};
+	}
 }

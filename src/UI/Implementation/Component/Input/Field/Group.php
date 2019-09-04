@@ -70,9 +70,7 @@ class Group extends Input implements C\Input\Field\Group {
 	}
 
 	public function withOnUpdate(Signal $signal) {
-		//TODO: use $clone = parent::withOnUpdate($signal); once the exception there
-		//is solved.
-		$clone = $this->withTriggeredSignal($signal, 'update');
+		$clone = parent::withOnUpdate($signal);
 		$clone->inputs = array_map(function($i) use ($signal) {
 			return $i->withOnUpdate($signal);
 		}, $this->inputs);	
@@ -207,5 +205,18 @@ class Group extends Input implements C\Input\Field\Group {
 	 */
 	protected function getConstraintForRequirement() {
 		return null;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function () {
+			/*
+			 * Currently, there is no use case for Group here. The single Inputs
+			 * within the Group are responsible for handling getUpdateOnLoadCode().
+			 */
+		};
 	}
 }
