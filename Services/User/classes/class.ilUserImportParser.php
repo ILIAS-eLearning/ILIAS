@@ -283,11 +283,7 @@ class ilUserImportParser extends ilSaxParser
 	{
 		global $DIC;
 
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
-		$styleDefinition = $DIC['styleDefinition'];
+		$global_settings = $DIC->settings();
 
 		$this->roles = array();
 		$this->mode = $a_mode;
@@ -323,7 +319,7 @@ class ilUserImportParser extends ilSaxParser
 			}
 		}
 
-		$settings = $ilias->getAllSettings();
+		$settings = $global_settings->getAll();
 		if ($settings["usr_settings_hide_skin_style"] == 1)
 		{
 			$this->hideSkin = TRUE;
@@ -550,8 +546,6 @@ class ilUserImportParser extends ilSaxParser
 				{
 					switch ($a_attribs["type"])
 					{
-						case "default":
-						case "local":
 						case "saml":
 						case "ldap":
 							if(strcmp('saml', $a_attribs['type']) === 0)
@@ -579,7 +573,9 @@ class ilUserImportParser extends ilSaxParser
 								}
 							}
 							break;
-							
+
+						case "default":
+						case "local":
 						case "radius":
 						case "shibboleth":
 						case "script":
@@ -706,8 +702,6 @@ class ilUserImportParser extends ilSaxParser
 				{
 					switch($a_attribs["type"])
 					{
-						case "default":
-						case "local":
 						case "saml":
 						case "ldap":
 							if(strcmp('saml', $a_attribs['type']) === 0)
@@ -735,7 +729,9 @@ class ilUserImportParser extends ilSaxParser
 								}
 							}
 							break;
-							
+
+						case "default":
+						case "local":
 						case "radius":
 						case "shibboleth":
 						case "script":

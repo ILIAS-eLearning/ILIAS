@@ -13,5 +13,4 @@ require_once('./libs/composer/vendor/autoload.php');
 
 abstract class TestCase extends PHPUnitTestCase
 {
-
 }

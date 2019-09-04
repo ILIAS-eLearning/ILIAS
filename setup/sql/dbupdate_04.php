@@ -23314,33 +23314,83 @@ while ($row = $ilDB->fetchAssoc($res)) {
 ?>
 <#5322>
 <?php
-// Migrate accepted criteria for missing documents (file did not exists during migration)
-$ilDB->manipulateF("
-	UPDATE tos_acceptance_track
-	INNER JOIN tos_versions
-		ON tos_versions.id = tos_acceptance_track.tosv_id
-	SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
-	WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
-	",
-	['text', 'text'],
-	['[{"id":"usr_language","value":{"lng":"', '"}}]']
-);
+/** @var $ilDB ilDBInterface */
+if (in_array($ilDB->getDBType(), [ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES])) {
+    // Migrate accepted criteria for missing documents (file did not exists during migration)
+    $res = $ilDB->query("
+        SELECT tos_acceptance_track.*
+        FROM tos_acceptance_track
+        INNER JOIN tos_versions ON tos_versions.id = tos_acceptance_track.tosv_id
+        WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
+        "
+    );
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ilDB->manipulateF(
+            "
+                UPDATE tos_acceptance_track
+                SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+                WHERE tos_acceptance_track.tosv_id = %s AND tos_acceptance_track.usr_id = %s AND tos_acceptance_track.ts = %s
+            ",
+            ['text', 'text', 'integer', 'integer', 'integer'],
+            ['[{"id":"usr_language","value":{"lng":"', '"}}]', $row['tosv_id'], $row['usr_id'], $row['ts']]
+        );
+    }
 
-// Migrate accepted criteria for already migrated documents
-$ilDB->manipulateF("
-	UPDATE tos_acceptance_track
-	INNER JOIN tos_versions
-		ON tos_versions.id = tos_acceptance_track.tosv_id
-	INNER JOIN tos_documents
-		ON tos_documents.id = tos_versions.doc_id
-	INNER JOIN tos_criterion_to_doc
-		ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
-	SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_criterion_to_doc.criterion_value, %s))
-	WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
-	",
-	['text', 'text', 'text'],
-	['usr_language', '[{"id":"usr_language","value":', '}]']
-);
+    // Migrate accepted criteria for already migrated documents
+    $res = $ilDB->queryF("
+        SELECT tos_acceptance_track.*
+        FROM tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        INNER JOIN tos_documents
+            ON tos_documents.id = tos_versions.doc_id
+        INNER JOIN tos_criterion_to_doc
+            ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
+        WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
+        ",
+        ['text'],
+        ['usr_language']
+    );
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ilDB->manipulateF(
+            "
+                UPDATE tos_acceptance_track
+                SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+                WHERE tos_acceptance_track.tosv_id = %s AND tos_acceptance_track.usr_id = %s AND tos_acceptance_track.ts = %s
+            ",
+            ['text', 'text', 'integer', 'integer', 'integer'],
+            ['[{"id":"usr_language","value":', '}]', $row['tosv_id'], $row['usr_id'], $row['ts']]
+        );
+    }
+} else {
+    // Migrate accepted criteria for missing documents (file did not exists during migration)
+    $ilDB->manipulateF("
+        UPDATE tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+        WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
+        ",
+        ['text', 'text'],
+        ['[{"id":"usr_language","value":{"lng":"', '"}}]']
+    );
+
+    // Migrate accepted criteria for already migrated documents
+    $ilDB->manipulateF("
+        UPDATE tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        INNER JOIN tos_documents
+            ON tos_documents.id = tos_versions.doc_id
+        INNER JOIN tos_criterion_to_doc
+            ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
+        SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_criterion_to_doc.criterion_value, %s))
+        WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
+        ",
+        ['text', 'text', 'text'],
+        ['usr_language', '[{"id":"usr_language","value":', '}]']
+    );
+}
 ?>
 <#5323>
 <?php

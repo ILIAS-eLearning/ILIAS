@@ -45,6 +45,11 @@ abstract class ilExplorerBaseGUI
 	protected $enable_dnd = false;
 	protected $search_term = "";
 
+    /**
+     * @var string|object
+     */
+	protected $parent_obj;
+
 	/**
 	 * @var int 
 	 */
@@ -76,6 +81,7 @@ abstract class ilExplorerBaseGUI
 		}
 
 		$this->nodeOnclickEnabled = true;
+        ilYuiUtil::initConnection();
 	}
 	
 	/**
@@ -124,7 +130,7 @@ abstract class ilExplorerBaseGUI
 	 *
 	 * @param ilTemplate|null $a_main_tpl
 	 */
-	function setMainTemplate(ilGlobalTemplate $a_main_tpl = null)
+	function setMainTemplate($a_main_tpl = null)
 	{
 		$this->tpl = $a_main_tpl;
 	}

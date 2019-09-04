@@ -15,11 +15,13 @@ function drilldown() {
 
 	$label = $f->button()->bulky($ico->withAbbreviation('0'), 'root', '');
 
+	$link = $f->link()->bulky($ico->withAbbreviation('>>'), 'link', '#');
+
 	$items = [
 		$f->menu()->sub(toBulky('1'), [
 			$f->menu()->sub(
 					toBulky('1.1'),
-					[$button, $button]
+					[$button, $link]
 				)
 				->withInitiallyActive(),
 			$f->menu()->sub(toBulky('1.2'), [

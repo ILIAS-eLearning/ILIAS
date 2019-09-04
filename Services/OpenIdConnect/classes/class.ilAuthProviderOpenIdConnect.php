@@ -76,9 +76,14 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 			);
 			$oidc->addScope(
 				[
-					'openid'
+					'openid',
+					'profile',
+					'email',
+					'roles'
 				]
 			);
+
+
 			$oidc->addAuthParam(['response_mode' => 'form_post']);
 			switch($this->settings->getLoginPromptType())
 			{
@@ -90,9 +95,10 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 
 			$oidc->authenticate();
 			// user is authenticated, otherwise redirected to authorization endpoint or exception
-			$this->getLogger()->dump($_REQUEST);
+			$this->getLogger()->dump($_REQUEST, \ilLogLevel::DEBUG);
 
 			$claims = $oidc->getVerifiedClaims(null);
+			$this->getLogger()->dump($claims , \ilLogLevel::DEBUG);
 			$status = $this->handleUpdate($status, $claims);
 
 			if($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL)
@@ -134,7 +140,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 
 
 		$int_account = ilObjUser::_checkExternalAuthAccount(
-			'auth_oidc',
+			ilOpenIdConnectUserSync::AUTH_MODE,
 			$ext_acocunt
 		);
 

@@ -1,7 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool\Provider;
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
+use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 
 /**
  * Class AbstractDynamicToolProvider
@@ -12,15 +15,15 @@ abstract class AbstractDynamicToolProvider extends AbstractProvider implements D
 {
 
     /**
-     * @var \ILIAS\GlobalScreen\Identification\IdentificationProviderInterface
+     * @var IdentificationProviderInterface
      */
     protected $identification_provider;
     /**
-     * @var \ILIAS\GlobalScreen\Scope\Tool\Context\Stack\ContextCollection
+     * @var ContextCollection
      */
     protected $context_collection;
     /**
-     * @var \ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory
+     * @var ToolFactory
      */
     protected $factory;
 

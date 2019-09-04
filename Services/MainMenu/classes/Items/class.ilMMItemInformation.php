@@ -49,6 +49,7 @@ class ilMMItemInformation implements ItemInformation
         global $DIC;
         static $usr_language_key;
         static $default_language;
+
         if (!$usr_language_key) {
             $usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
         }

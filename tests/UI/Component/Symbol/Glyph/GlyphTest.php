@@ -382,7 +382,13 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 	public function test_dont_render_counter() {
 		$this->expectException(\LogicException::class);
-		$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory(),$this->getLanguage(), $this->getJavaScriptBinding());
+		$r = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer(
+			$this->getUIFactory(),
+			$this->getTemplateFactory(),
+			$this->getLanguage(),
+			$this->getJavaScriptBinding(),
+			$this->getRefinery()
+		);
 		$f = $this->getCounterFactory();
 
 		$r->render($f->status(0), $this->getDefaultRenderer());

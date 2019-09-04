@@ -196,7 +196,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(
             $this->getCriterionConfig(['lng' => $lng]),
-            $this->dic->ui()->factory()
+            $this->getUiFactoryMock()
         );
 
         $this->assertInstanceOf(Component::class, $actual);

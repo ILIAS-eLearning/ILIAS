@@ -269,12 +269,12 @@ class ilObjExercise extends ilObject
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
 
-		$factory = new ilCertificateFactory();
+		$pathFactory = new ilCertificatePathFactory();
 		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
 		$cloneAction = new ilCertificateCloneAction(
 			$ilDB,
-			$factory,
+			$pathFactory,
 			$templateRepository,
 			$this->webFilesystem,
 			$this->log,

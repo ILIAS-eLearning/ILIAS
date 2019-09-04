@@ -534,7 +534,7 @@ class ilMailSearchCoursesGUI
 						$rowData['status'] = '';
 						if($member != $this->user->getId())
 						{
-							if($relation->isOwnedByRequest())
+							if($relation->isOwnedByActor())
 							{
 								$rowData['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
 							}

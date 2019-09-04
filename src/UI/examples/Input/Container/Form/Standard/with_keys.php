@@ -10,8 +10,8 @@ function with_keys() {
     $request = $DIC->http()->request();
 
     //Step 1: Define the input fields
-    $number_input = $ui->input()->field()
-        ->text("number", "Some numeric input");
+    $some_input = $ui->input()->field()
+        ->text("Input", "Any Input");
 
     //Step 2: Define the form action to target the input processing
     $DIC->ctrl()->setParameterByClass(
@@ -24,8 +24,8 @@ function with_keys() {
     //Step 5: Define the form, plugin the inputs and attach some transformation acting
     // on the complete input of the form.
     $form = $ui->input()->container()->form()->standard($form_action,
-        [ 'input1'=>$number_input->withLabel("Input 1")
-        , 'input2'=>$number_input->withLabel("Input 2")
+        [ 'input1'=>$some_input->withLabel("Input 1")
+        , 'input2'=>$some_input->withLabel("Input 2")
         ]);
 
     //Step 6: Define some data processing.

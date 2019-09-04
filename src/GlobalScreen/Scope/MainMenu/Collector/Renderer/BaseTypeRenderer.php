@@ -1,8 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
+use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Factory;
@@ -36,14 +37,7 @@ class BaseTypeRenderer implements TypeRenderer
      */
     public function getComponentForItem(isItem $item) : Component
     {
-        if ($item instanceof Tool) {
-            $symbol = $this->getStandardSymbol($item);
-
-            return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getContent());
-            // return $item->getContent();
-        }
-
-        return $this->ui_factory->legacy("");
+        return $this->ui_factory->legacy($item->getProviderIdentification()->serialize());
     }
 
 
@@ -57,7 +51,27 @@ class BaseTypeRenderer implements TypeRenderer
         if ($item instanceof hasSymbol && $item->hasSymbol()) {
             return $item->getSymbol();
         }
+        if ($item instanceof hasTitle) {
+            $abbr = strtoupper(substr($item->getTitle(), 0, 1));
+        } else {
+            $abbr = strtoupper(substr(uniqid('', true), -1));
+        }
 
-        return $this->ui_factory->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", 'ILIAS', 'small', true);
+        return $this->ui_factory->symbol()->icon()->standard($abbr, $abbr, 'small', true)->withAbbreviation($abbr);
+    }
+
+
+    /**
+     * @param string $uri_string
+     *
+     * @return URI
+     */
+    protected function getURI(string $uri_string) : URI
+    {
+        if (strpos($uri_string, 'http') === 0) {
+            return new URI($uri_string);
+        }
+
+        return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
     }
 }

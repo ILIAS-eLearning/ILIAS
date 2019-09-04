@@ -47,14 +47,46 @@ class Renderer extends AbstractComponentRenderer
 		 */
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Input\Field\Group) {
-			/**
-			 * @var $component Group
-			 */
+		$input_tpl = null;
+		$id = null;
+		$dependant_group_html = null;
+
+		if ($component instanceof Component\Input\Field\Text) {
+			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\Numeric) {
+			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\Checkbox) {
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\OptionalGroup) {
+			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+			$component = $component->withAdditionalOnLoadCode(function($id) {
+				return $this->getOptionalGroupOnLoadCode($id);
+			});
+			$dependant_group_html = $this->renderFieldGroups($component, $default_renderer);
+			$id = $this->bindJavaScript($component);
+			return $this->renderInputFieldWithContext($input_tpl, $component, $id, $dependant_group_html);
+		} elseif ($component instanceof Component\Input\Field\SwitchableGroup) {
+			return $this->renderSwitchableGroupField($component, $default_renderer);
+		} elseif ($component instanceof Component\Input\Field\Tag) {
+			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
+		} elseif ($component instanceof Password) {
+			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
+		} else if ($component instanceof Select) {
+			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} else if ($component instanceof Component\Input\Field\Textarea) {
+			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
+		} elseif ($component instanceof Component\Input\Field\Radio) {
+			return $this->renderRadioField($component, $default_renderer);
+		} else if ($component instanceof MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
+		} else if ($component instanceof Component\Input\Field\Group) {
 			return $this->renderFieldGroups($component, $default_renderer);
 		}
+		else {
+			throw new \LogicException("Cannot render '" . get_class($component) . "'");
+		}
 
-		return $this->renderNoneGroupInput($component, $default_renderer);
+		return $this->renderInputFieldWithContext($input_tpl, $component, $id);
 	}
 
 
@@ -63,13 +95,11 @@ class Renderer extends AbstractComponentRenderer
 	 */
 	public function registerResources(ResourceRegistry $registry) {
 		parent::registerResources($registry);
-		$registry->register('./src/UI/templates/js/Input/Field/dependantGroup.js');
 		$registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
 		$registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
 		$registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/textarea.js');
-		$registry->register('./src/UI/templates/js/Input/Field/radioInput.js');
 		$registry->register('./src/UI/templates/js/Input/Field/input.js');
 		$registry->register('./src/UI/templates/js/Input/Field/duration.js');
 	}
@@ -113,19 +143,17 @@ class Renderer extends AbstractComponentRenderer
 		$id = null;
 		$dependant_group_html = null;
 
-		if($input instanceof Component\Input\Field\DependantGroupProviding) {
-			if ($input->getDependantGroup()) {
-				$dependant_group_html = $default_renderer->render($input->getDependantGroup());
-				$id = $this->bindJavaScript($input);
-			}
-		}
-
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Numeric) {
 			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Checkbox) {
 			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+			$dependant_group = $input->getDependantGroup();
+			if (!is_null($dependant_group)) {
+				$dependant_group_html = $default_renderer->render($dependant_group);
+				$id = $this->bindJavaScript($input);
+			}
 		} elseif ($input instanceof Component\Input\Field\Tag) {
 			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
 		} elseif ($input instanceof Password) {
@@ -156,13 +184,7 @@ class Renderer extends AbstractComponentRenderer
 	 * @return string
 	 */
 	protected function renderFieldGroups(Group $group, RendererInterface $default_renderer) {
-		if ($group instanceof Component\Input\Field\DependantGroup) {
-			/**
-			 * @var $group DependantGroup
-			 */
-			return $this->renderDependantGroup($group, $default_renderer);
-
-		} elseif ($group instanceof Component\Input\Field\Section) {
+		if ($group instanceof Component\Input\Field\Section) {
 			/**
 			 * @var $group Section
 			 */
@@ -182,7 +204,6 @@ class Renderer extends AbstractComponentRenderer
 
 		return $inputs;
 	}
-
 
 	/**
 	 * @param Component\JavascriptBindable $component
@@ -229,44 +250,6 @@ class Renderer extends AbstractComponentRenderer
 		return $section_tpl->get();
 	}
 
-
-	/**
-	 * @param DependantGroup    $dependant_group
-	 * @param RendererInterface $default_renderer
-	 *
-	 * @return string
-	 */
-	protected function renderDependantGroup(DependantGroup $dependant_group, RendererInterface $default_renderer) {
-		$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
-
-		$toggle = $dependant_group->getToggleSignal();
-		$show = $dependant_group->getShowSignal();
-		$hide = $dependant_group->getHideSignal();
-		$init = $dependant_group->getInitSignal();
-
-		$dependant_group = $dependant_group->withAdditionalOnLoadCode(
-			function ($id) use ($toggle, $show, $hide, $init) {
-				return "il.UI.Input.dependantGroup.init('$id',{toggle:'$toggle',show:'$show',hide:'$hide',init:'$init'});";
-			}
-		);
-
-		/**
-		 * @var $dependant_group DependantGroup
-		 */
-		$id = $this->bindJavaScript($dependant_group);
-		$dependant_group_tpl->setVariable("ID", $id);
-
-		$inputs_html = "";
-
-		foreach ($dependant_group->getInputs() as $input) {
-			$inputs_html .= $default_renderer->render($input);
-		}
-		$dependant_group_tpl->setVariable("CONTENT", $inputs_html);
-
-		return $dependant_group_tpl->get();
-	}
-
-
 	/**
 	 * @param Template $input_tpl
 	 * @param Input    $input
@@ -276,7 +259,6 @@ class Renderer extends AbstractComponentRenderer
 	 * @return string
 	 */
 	protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null) {
-
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		/**
 		 * TODO: should we throw an error in case for no name or render without name?
@@ -342,14 +324,17 @@ class Renderer extends AbstractComponentRenderer
 		$tpl->setVariable("NAME", $input->getName());
 
 		switch (true) {
+			case ($input instanceof Checkbox || $input instanceof OptionalGroup):
+				if ($input->getValue()) {
+					$tpl->touchBlock("value");
+				}
 			case ($input instanceof Text):
-			case ($input instanceof Checkbox):
 			case ($input instanceof Numeric):
 			case ($input instanceof Password):
 			case ($input instanceof Textarea):
 				$tpl->setVariable("NAME", $input->getName());
 
-				if ($input->getValue() !== null) {
+				if ($input->getValue() !== null && !($input instanceof Checkbox)) {
 					$tpl->setCurrentBlock("value");
 					$tpl->setVariable("VALUE", $input->getValue());
 					$tpl->parseCurrentBlock();
@@ -559,15 +544,10 @@ class Renderer extends AbstractComponentRenderer
 		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
 
 		//monitor change-events
-		$input = $input->withAdditionalOnLoadCode(function ($id) {
-			return "il.UI.Input.radio.init('$id');";
-		});
-		$input = $this->setSignals($input);
-		$id = $this->bindJavaScript($input);
+		$id = $this->bindJavaScript($input) ?? $this->createId();
 		$input_tpl->setVariable("ID", $id);
 
-		foreach ($input->getOptions() as $value=>$label) {
-			$group_id = $id .'_' .$value .'_group';
+		foreach ($input->getOptions() as $value => $label) {
 			$opt_id = $id .'_' .$value .'_opt';
 
 			$input_tpl->setCurrentBlock('optionblock');
@@ -587,21 +567,6 @@ class Renderer extends AbstractComponentRenderer
 			if (!empty($byline)) {
 				$input_tpl->setVariable("BYLINE", $byline);
 			}
-
-			//dependant fields
-			$dependant_group_html = '';
-			$dep_fields = $input->getDependantFieldsFor($value);
-			if(! is_null($dep_fields)) {
-				$inputs_html = '';
-				$dependant_group_tpl = $this->getTemplate("tpl.dependant_group.html", true, true);
-				foreach ($dep_fields as $key => $inpt) {
-					$inputs_html .= $default_renderer->render($inpt);
-				}
-				$dependant_group_tpl->setVariable("CONTENT", $inputs_html);
-				$dependant_group_tpl->setVariable("ID", $group_id);
-				$dependant_group_html = $dependant_group_tpl->get();
-			}
-			$input_tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
 
 			$input_tpl->parseCurrentBlock();
 		}
@@ -626,6 +591,106 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl->get();
+	}
+
+	/**
+	 * @param Radio $input
+	 * @param RendererInterface    $default_renderer
+	 *
+	 * @return string
+	 */
+	protected function renderSwitchableGroupField(Component\Input\Field\SwitchableGroup $input, RendererInterface $default_renderer) {
+		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
+
+		$input = $input->withAdditionalOnLoadCode(function($id) {
+			return $this->getSwitchableGroupOnLoadCode($id);
+		});
+		$id = $this->bindJavaScript($input);
+		$input_tpl->setVariable("ID", $id);
+
+		foreach ($input->getInputs() as $key => $group) {
+			$opt_id = $id .'_' .$key.'_opt';
+
+			$input_tpl->setCurrentBlock('optionblock');
+			$input_tpl->setVariable("NAME", $input->getName());
+			$input_tpl->setVariable("OPTIONID", $opt_id);
+			$input_tpl->setVariable("VALUE", $key);
+			$input_tpl->setVariable("LABEL", $group->getLabel());
+
+			if ($input->getValue() !== null) {
+				list($index, $subvalues) = $input->getValue();
+				if((int)$index === $key) {
+					$input_tpl->setVariable("CHECKED", 'checked="checked"');
+				}
+			}
+			if ($input->isDisabled()) {
+				$input_tpl->setVariable("DISABLED", 'disabled="disabled"');
+			}
+
+			$dependant_group_html = $this->renderFieldGroups($group, $default_renderer);
+			$input_tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
+			$input_tpl->parseCurrentBlock();
+		}
+		$options_html = $input_tpl->get();
+
+		//render with context:
+		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
+		$tpl->setVariable("LABEL", $input->getLabel());
+		$tpl->setVariable("INPUT", $options_html);
+
+		if ($input->getByline() !== null) {
+			$tpl->setCurrentBlock("byline");
+			$tpl->setVariable("BYLINE", $input->getByline());
+			$tpl->parseCurrentBlock();
+		}
+		if ($input->isRequired()) {
+			$tpl->touchBlock("required");
+		}
+		if ($input->getError() !== null) {
+			$tpl->setCurrentBlock("error");
+			$tpl->setVariable("ERROR", $input->getError());
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl->get();
+	}
+
+
+	protected function getOptionalGroupOnLoadCode($id) {
+		return <<<JS
+var $id = $("#$id");
+var {$id}_group = $id.siblings(".form-group").show();
+var {$id}_adjust = function() {
+	if ({$id}[0].checked) {
+		{$id}_group.show();
+	}
+	else {
+		{$id}_group.hide()
+	}
+}
+$id.change({$id}_adjust);
+{$id}_adjust();
+JS;
+	}
+
+	protected function getSwitchableGroupOnLoadCode($id) {
+		return <<<JS
+var radio = $("#$id");
+radio.change(function(event){
+	var r = $(this),
+		options = r.children('.il-input-radiooption').children('input');
+
+	options.each(function(index, opt) {
+		var group = $(opt).siblings('.form-group');
+		if(opt.checked) {
+			group.show();
+		} else {
+			group.hide();
+		}
+	});
+});
+radio.trigger('change');
+
+JS;
 	}
 
 	/**
@@ -779,10 +844,11 @@ class Renderer extends AbstractComponentRenderer
 			Component\Input\Field\Text::class,
 			Component\Input\Field\Numeric::class,
 			Component\Input\Field\Group::class,
+			Component\Input\Field\OptionalGroup::class,
+			Component\Input\Field\SwitchableGroup::class,
 			Component\Input\Field\Section::class,
 			Component\Input\Field\Checkbox::class,
 			Component\Input\Field\Tag::class,
-			Component\Input\Field\DependantGroup::class,
 			Component\Input\Field\Password::class,
 			Component\Input\Field\Select::class,
 			Component\Input\Field\Radio::class,

@@ -112,9 +112,18 @@
 			display: flex;
 			flex-direction: column;
 
-			:nth-child(4) {
+			:last-child {
 				flex-grow: 2;
 			}
 		}
+	}
+}
+
+/* see bug #25920, limit size of cards for small screens */
+@media (max-width: @screen-sm-min) {
+	.il-card {
+		max-width: @il-card-max-width-xs;
+		margin-right: auto;
+		margin-left: auto;
 	}
 }

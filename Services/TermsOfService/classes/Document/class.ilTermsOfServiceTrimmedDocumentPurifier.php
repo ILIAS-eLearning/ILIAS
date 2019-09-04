@@ -24,20 +24,20 @@ class ilTermsOfServiceTrimmedDocumentPurifier implements ilHtmlPurifierInterface
     /**
      * @inheritdoc
      */
-    public function purify($a_html)
+    public function purify(string $html) : string
     {
-        return trim($this->inner->purify($a_html));
+        return trim($this->inner->purify($html));
     }
 
     /**
      * @inheritdoc
      */
-    public function purifyArray(array $a_array_of_html)
+    public function purifyArray(array $htmlCollection) : array
     {
-        foreach ($a_array_of_html as $key => $html) {
-            $a_array_of_html[$key] = $this->purify($html);
+        foreach ($htmlCollection as $key => $html) {
+            $htmlCollection[$key] = $this->purify($html);
         }
 
-        return $a_array_of_html;
+        return $htmlCollection;
     }
 }

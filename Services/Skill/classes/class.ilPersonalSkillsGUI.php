@@ -351,20 +351,20 @@ class ilPersonalSkillsGUI
 		$ilTabs = $this->tabs;
 
 		// list skills
-		$ilTabs->addSubTab("list_skills",
+		$ilTabs->addTab("list_skills",
 			$lng->txt("skmg_selected_skills"),
 			$ilCtrl->getLinkTarget($this, "listSkills"));
 
 		if (count($this->user_profiles) > 0)
 		{
-			$ilTabs->addSubTab("profile",
+			$ilTabs->addTab("profile",
 				$lng->txt("skmg_assigned_profiles"),
 				$ilCtrl->getLinkTarget($this, "listAssignedProfile"));
 		}
 
 		// assign materials
 
-		$ilTabs->activateSubTab($a_activate);
+		$ilTabs->activateTab($a_activate);
 	}
 	
 	function setOfflineMode($a_file_path)

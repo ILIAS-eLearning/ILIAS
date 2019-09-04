@@ -170,6 +170,10 @@ class ilBookingObjectGUI
 	 */
 	function create(ilPropertyFormGUI $a_form = null)
 	{
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+            return;
+        }
+
 		$ilCtrl = $this->ctrl;
 		$tpl = $this->tpl;
 		$lng = $this->lng;
@@ -192,7 +196,11 @@ class ilBookingObjectGUI
 	 */
 	function edit(ilPropertyFormGUI $a_form = null)
     {
-		$tpl = $this->tpl;
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+            return;
+        }
+
+        $tpl = $this->tpl;
 		$ilCtrl = $this->ctrl;
 		$ilTabs = $this->tabs;
 		$lng = $this->lng;
@@ -333,7 +341,11 @@ class ilBookingObjectGUI
 	 */
 	function save()
 	{
-		$ilCtrl = $this->ctrl;
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+            return;
+        }
+
+        $ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
 		$form = $this->initForm();
@@ -404,7 +416,11 @@ class ilBookingObjectGUI
 	 */
 	function update()
 	{
-		$lng = $this->lng;
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+            return;
+        }
+
+        $lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
 		$form = $this->initForm('edit', $this->object_id);
@@ -472,7 +488,11 @@ class ilBookingObjectGUI
 	 */
 	function confirmDelete()
 	{
-		$ilCtrl = $this->ctrl;
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+            return;
+        }
+
+        $ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		$tpl = $this->tpl;
 		$ilTabs = $this->tabs;
@@ -499,7 +519,11 @@ class ilBookingObjectGUI
 	 */
 	function delete()
 	{
-		$ilCtrl = $this->ctrl;
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+            return;
+        }
+
+        $ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';

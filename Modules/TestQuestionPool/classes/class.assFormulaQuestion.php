@@ -321,7 +321,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 				{
 					if(is_array($userdata[$result]))
 					{
-						if($forsolution && $result_output)
+						if(false && $forsolution && $result_output) // fix for mantis #25956
 						{
 							$value_org = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
 							$value = sprintf("%." . $resObj->getPrecision() . "f", $value_org);
