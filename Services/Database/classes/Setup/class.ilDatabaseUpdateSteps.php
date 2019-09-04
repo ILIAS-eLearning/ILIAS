@@ -92,19 +92,19 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	 *
 	 * @throws \LogicException if step is unknown
 	 */
-	final public function getStep(string $name) : ilDatabaseUpdateStep {
+	final public function getStep(int $num) : ilDatabaseUpdateStep {
 		return new ilDatabaseUpdateStep(
 			$this,
-			$name,
-			...$this->getPreconditionsOfStep($name)
+			self::STEP_METHOD_PREFIX.$num,
+			...$this->getPreconditionsOfStep($num)
 		);
 	}
 
 	/**
 	 * @return Objective[]
 	 */
-	final protected function getPreconditionsOfStep(string $name) : array {
-		$others = $this->getStepsBefore($name);
+	final protected function getPreconditionsOfStep(int $num) : array {
+		$others = $this->getStepsBefore($num);
 		if (count($others) === 0) {
 			return [$this->base];
 		}
@@ -114,7 +114,7 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	/**
 	 * Get the names of the step-methods in this class.
 	 *
-	 * @return string[]
+	 * @return int[]
 	 */
 	final protected function getSteps() : array {
 		if (!is_null($this->steps)) {
@@ -134,7 +134,7 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 				throw new \LogicException("Method $method seems to be a step but has an odd looking number");
 			}
 
-			$this->steps[$method] = $method;
+			$this->steps[(int)$number] = (int)$number;
 		}
 
 		asort($this->steps);
@@ -148,20 +148,20 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	 * ATTENTION: The steps are sorted in ascending order.
 	 *
 	 * @throws \LogicException if step is not known
-	 * @return string[]
+	 * @return int[]
 	 */
-	final protected function getStepsBefore(string $other) {
+	final protected function getStepsBefore(int $num) {
 		$this->getSteps();
-		if (!isset($this->steps[$other])) {
-			throw new \LogicException("Unknown database update step: $other");
+		if (!isset($this->steps[$num])) {
+			throw new \LogicException("Unknown database update step: $num");
 		}
 
 		$res = [];
-		foreach ($this->steps as $method) {
-			if ($method	=== $other) {
+		foreach ($this->steps as $cur) {
+			if ($cur === $num) {
 				break;
 			}
-			$res[$method] = $method;
+			$res[$cur] = $cur;
 		}
 		return $res;
 	}
