@@ -110,6 +110,7 @@ class Renderer extends AbstractComponentRenderer
 	 * @return Input|\ILIAS\UI\Implementation\Component\JavaScriptBindable
 	 */
 	protected function setSignals(Input $input) {
+		$signals = null;
 		foreach ($input->getTriggeredSignals() as $s)
 		{
 			$signals[] = [
@@ -318,7 +319,7 @@ class Renderer extends AbstractComponentRenderer
 		}
 
 		if($input instanceof Textarea){
-			$id = $this->renderTextareaField($tpl, $input);
+			$this->renderTextareaField($tpl, $input);
 		}
 
 		$tpl->setVariable("NAME", $input->getName());
@@ -467,6 +468,7 @@ class Renderer extends AbstractComponentRenderer
 	 * @return string | false
 	 */
 	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input) {
+		$id = null;
 		if($input->getRevelation()) {
 			global $DIC;
 			$f = $this->getUIFactory();
@@ -529,8 +531,6 @@ class Renderer extends AbstractComponentRenderer
 			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
 			$tpl->parseCurrentBlock();
 		}
-
-		return $textarea_id;
 	}
 
 
