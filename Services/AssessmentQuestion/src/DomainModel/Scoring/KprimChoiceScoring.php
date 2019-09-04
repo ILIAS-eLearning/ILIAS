@@ -58,6 +58,7 @@ class KprimChoiceScoring extends AbstractScoring {
         $fields = [];
         
         $points = new ilNumberInputGUI('points', self::VAR_POINTS);
+        $points->setRequired(true);
         $fields[] = $points;
         
         $half_points_at = new ilNumberInputGUI('half_points_at', self::VAR_HALF_POINTS);

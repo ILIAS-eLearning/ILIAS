@@ -170,7 +170,12 @@ class KprimChoiceEditor extends AbstractEditor {
         return $fields;
     }
     
-    private static function GenerateOptionLabelField(?AbstractConfiguration $config)
+    /**
+     * public due to use in legacy form
+     * @param AbstractConfiguration $config
+     * @return \ilRadioGroupInputGUI
+     */
+    public static function GenerateOptionLabelField(?AbstractConfiguration $config)
     {
         /** @var KprimChoiceEditorConfiguration $config */
         $optionLabel = new ilRadioGroupInputGUI('Option Labels', self::VAR_LABEL_TYPE);

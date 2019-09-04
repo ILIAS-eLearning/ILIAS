@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\SingleChoiceQuestionGUI;
 use ilPropertyFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\MultipleChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\KprimChoiceQuestionGUI;
 
 /**
  * Class QuestionLegacyData
@@ -22,6 +23,8 @@ class QuestionLegacyData extends AbstractValueObject {
 	const TYPE_GENERIC = 0;
 	const TYPE_SINGLE_CHOICE = 1;
 	const TYPE_MULTIPLE_CHOICE = 2;
+	const TYPE_KPRIM_CHOICE = 16;
+	
 	/**
 	 * @var int
 	 */
@@ -50,6 +53,7 @@ class QuestionLegacyData extends AbstractValueObject {
 		$question_types[self::TYPE_GENERIC] = 'GenericQuestion ';
         $question_types[self::TYPE_SINGLE_CHOICE] = 'Single Choice ';
         $question_types[self::TYPE_MULTIPLE_CHOICE] = 'Multiple Choice ';
+        $question_types[self::TYPE_KPRIM_CHOICE] = 'Kprim Choice ';
         /*$question_types[3] = 'Cloze Test ';
         $question_types[4] = 'Matching Question ';
         $question_types[5] = 'Ordering Question ';
@@ -63,7 +67,6 @@ class QuestionLegacyData extends AbstractValueObject {
         $question_types[13] = 'File Upload ';
         $question_types[14] = 'Error Text ';
         $question_types[15] = 'Formula Question ';
-        $question_types[16] = 'Kprim Choice ';
         $question_types[17] = 'Long Menu ';*/
 		return $question_types;
 	}
@@ -94,6 +97,8 @@ class QuestionLegacyData extends AbstractValueObject {
 				return new SingleChoiceQuestionGUI($question);
 			case self::TYPE_MULTIPLE_CHOICE:
 				return new MultipleChoiceQuestionGUI($question);
+			case self::TYPE_KPRIM_CHOICE:
+			    return new KprimChoiceQuestionGUI($question);
 			default:
 				throw new Exception("Implement missing case please");
 		}

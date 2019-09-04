@@ -40,6 +40,11 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	const SECONDS_IN_HOUR = 3600;
 
 	const FORM_PART_LINK = 'form_part_link';
+
+	/**
+	 * @var AnswerOptionForm
+	 */
+	protected $option_form;
 	
 	/**
 	 * QuestionFormGUI constructor.
@@ -179,11 +184,6 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	 * @return QuestionPlayConfiguration
 	 */
 	protected abstract function readPlayConfiguration(): QuestionPlayConfiguration;
-
-    /**
-     * @return AnswerOptions
-     */
-	protected abstract function readAnswerOptions() : AnswerOptions;
 
 	/**
 	 * @return QuestionPlayConfiguration

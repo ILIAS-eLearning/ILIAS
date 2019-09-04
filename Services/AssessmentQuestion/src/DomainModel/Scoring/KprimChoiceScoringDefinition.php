@@ -20,6 +20,8 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
 
     const VAR_KPSD_CORRECT = 'kpsd_correct';
     
+    const STR_TRUE = "True";
+    
     /**
      * @var bool
      */
@@ -47,7 +49,7 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
             'Correct Answer',
             AnswerOptionFormFieldDefinition::TYPE_RADIO,
             self::VAR_KPSD_CORRECT,
-            ["True" => "True", "False" => "False"]);
+            [self::STR_TRUE => self::STR_TRUE, "False" => "False"]);
         
         return $fields;
     }
@@ -63,7 +65,7 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
 
     public static function getValueFromPost(string $index)
     {
-        return new KprimChoiceScoringDefinition($_POST[$index . self::VAR_KPSD_CORRECT] === "True");
+        return new KprimChoiceScoringDefinition($_POST[$index . self::VAR_KPSD_CORRECT] === self::STR_TRUE);
     }
 
     public static function deserialize(stdClass $data)

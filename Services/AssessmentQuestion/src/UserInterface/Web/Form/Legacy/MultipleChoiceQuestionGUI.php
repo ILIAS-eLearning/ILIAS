@@ -88,30 +88,4 @@ class MultipleChoiceQuestionGUI extends LegacyFormGUIBase {
 			)
 		);
 	}
-
-    /**
-     * @return AnswerOptions
-     */
-	protected function readAnswerOptions() : AnswerOptions {
-		$options = new AnswerOptions();
-
-		$count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
-
-		for ($i = 1; $i <= $count; $i++) {
-			$options->addOption(new AnswerOption
-			                    (
-				                    $i,
-				                    new ChoiceEditorDisplayDefinition(
-					                    $_POST[$i . self::VAR_MCDD_TEXT],
-				                        ImageUploader::UploadImage($i . self::VAR_MCDD_IMAGE)
-				                    ),
-				                    new MultipleChoiceScoringDefinition(
-					                    intval($_POST[$i . self::VAR_MCSD_SELECTED]),
-					                    0
-				                    )
-			                    ));
-		}
-
-		return $options;
-	}
 }
