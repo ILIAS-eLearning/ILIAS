@@ -1052,3 +1052,21 @@ if (!$idx) {
 	$setting->set('ilfrmposidx5', 1);
 }
 ?>
+<#71>
+<?php
+$ilDB->modifyTableColumn('frm_notification', 'frm_id', array(
+	'type'    => 'integer',
+	'length'  => 8,
+	'notnull' => true,
+	'default' => 0
+));
+?>
+<#72>
+<?php
+$ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
+	'type'    => 'integer',
+	'length'  => 8,
+	'notnull' => true,
+	'default' => 0
+));
+?>
