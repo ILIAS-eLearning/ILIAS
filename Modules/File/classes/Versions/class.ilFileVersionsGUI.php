@@ -31,6 +31,10 @@ class ilFileVersionsGUI
      */
     private $access;
     /**
+     * @var ilWorkspaceAccessHandler
+     */
+    private $wsp_access;
+    /**
      * @var int
      */
     private $ref_id;
@@ -77,12 +81,14 @@ class ilFileVersionsGUI
         $this->ref_id = (int) $this->http->request()->getQueryParams()['ref_id'];
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
+        $this->wsp_access = new ilWorkspaceAccessHandler();
     }
 
 
     public function executeCommand()
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        // bugfix mantis 26007: use new function hasPermission to ensure that the check also works for workspace files
+        if (!$this->hasPermission('write')) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }
@@ -312,5 +318,32 @@ class ilFileVersionsGUI
         });
 
         return $versions_to_keep;
+    }
+
+
+    /**
+     * bugfix mantis 26007:
+     * this function was created to ensure that the access check not only works for repository objects
+     * but for workspace objects too
+     *
+     * @param string $a_permission
+     *
+     * @return bool
+     */
+    private function hasPermission($a_permission) {
+        // determine if the permission check concerns a workspace- or repository-object
+        if(isset($_GET['wsp_id'])) {
+            // permission-check concerning a workspace object
+            if($this->wsp_access->checkAccess($a_permission, "", $this->ref_id)) {
+                return true;
+            }
+        } else {
+            // permission-check concerning a repository object
+            if ($this->access->checkAccess($a_permission, '', $this->ref_id)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
