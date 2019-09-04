@@ -27,6 +27,11 @@ class DefInput extends Input {
 	protected function getConstraintForRequirement() {
 		return $this->requirement_constraint;
 	}
+
+
+	public function getUpdateOnLoadCode() : \Closure {
+		return function () {};
+	}
 }
 
 class DefNamesource implements NameSource {

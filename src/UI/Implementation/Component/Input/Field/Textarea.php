@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\Data\Factory as DataFactory;
 
@@ -106,5 +107,19 @@ class Textarea extends Input implements C\Input\Field\Textarea {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+			return $code;
+		};
 	}
 }
