@@ -76,7 +76,16 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	 * @inheritdocs
 	 */
 	final public function getPreconditions(Environment $environment) : array {
-		return [$this->getStep($this->getLatestStepNum())];
+		$log = $environment->getResource(\ilDatabaseUpdateStepExecutionLog::class);
+
+		if ($log) {
+			$finished = $log->getLastFinishedStep(get_class($this));
+		}
+		else {
+			$finished = 0;
+		}
+
+		return [$this->getStep($this->getLatestStepNum(), $finished)];
 	}
 
 	/**
