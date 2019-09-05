@@ -108,11 +108,7 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 				continue;
 			}
 			else if ($s <= $num) {
-				$cur = new ilDatabaseUpdateStep(
-					$this,
-					self::STEP_METHOD_PREFIX.$s,
-					$cur
-				);
+				$cur = new ilDatabaseUpdateStep($this, $s, $cur);
 			}
 			else {
 				break;
