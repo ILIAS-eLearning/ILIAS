@@ -88,27 +88,30 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	}
 
 	/**
-	 * Get a database update step.
+	 * Get a database update step. Optionally tell which step is known to have
+	 * been finished to exclude it from the preconditions of the newer steps.
 	 *
 	 * @throws \LogicException if step is unknown
 	 */
-	final public function getStep(int $num) : ilDatabaseUpdateStep {
-		return new ilDatabaseUpdateStep(
-			$this,
-			self::STEP_METHOD_PREFIX.$num,
-			...$this->getPreconditionsOfStep($num)
-		);
-	}
-
-	/**
-	 * @return Objective[]
-	 */
-	final protected function getPreconditionsOfStep(int $num) : array {
-		$others = $this->getStepsBefore($num);
-		if (count($others) === 0) {
-			return [$this->base];
+	final public function getStep(int $num, int $finished = 0) : ilDatabaseUpdateStep {
+		$cur = $this->base;
+		foreach($this->getSteps() as $s) {
+			if ($s <= $finished) {
+				continue;
+			}
+			else if ($s <= $num) {
+				$cur = new ilDatabaseUpdateStep(
+					$this,
+					self::STEP_METHOD_PREFIX.$s,
+					$cur
+				);
+			}
+			else {
+				break;
+			}
 		}
-		return [$this->getStep(array_pop($others))];
+
+		return $cur;
 	}
 
 	/**
@@ -140,29 +143,5 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 		asort($this->steps);
 
 		return $this->steps;
-	}
-
-	/**
-	 * Get the names of the step-methods before the given step.
-	 *
-	 * ATTENTION: The steps are sorted in ascending order.
-	 *
-	 * @throws \LogicException if step is not known
-	 * @return int[]
-	 */
-	final protected function getStepsBefore(int $num) {
-		$this->getSteps();
-		if (!isset($this->steps[$num])) {
-			throw new \LogicException("Unknown database update step: $num");
-		}
-
-		$res = [];
-		foreach ($this->steps as $cur) {
-			if ($cur === $num) {
-				break;
-			}
-			$res[$cur] = $cur;
-		}
-		return $res;
 	}
 }

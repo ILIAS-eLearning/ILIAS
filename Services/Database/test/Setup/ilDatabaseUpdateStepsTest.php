@@ -36,10 +36,6 @@ class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 	public function _getSteps() : array {
 		return $this->getSteps();
 	}
-
-	public function _getStepsBefore(int $other) : array {
-		return $this->getStepsBefore($other);
-	}
 }
 
 class ilDatabaseUpdateStepsTest extends TestCase {
@@ -84,34 +80,45 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 		$this->assertEquals($step1->getHash(), $preconditions[0]->getHash());
 	}
 
+	public function testGetStep4Finished2() {
+		$env = $this->createMock(Environment::class);
+
+		$step4 = $this->test1->getStep(4,2);
+
+		$this->assertInstanceOf(ilDatabaseUpdateStep::class, $step4);
+		$this->assertEquals(
+			hash("sha256", Test_ilDatabaseUpdateSteps::class."::step_4"),
+			$step4->getHash()
+		);
+
+		$preconditions = $step4->getPreconditions($env);
+
+		$this->assertCount(1, $preconditions);
+		$this->assertEquals($this->base, $preconditions[0]);
+	}
+
+	public function testGetStep4Finished1() {
+		$env = $this->createMock(Environment::class);
+
+		$step4 = $this->test1->getStep(4,1);
+		$step2 = $this->test1->getStep(2,1);
+
+		$this->assertInstanceOf(ilDatabaseUpdateStep::class, $step4);
+		$this->assertEquals(
+			hash("sha256", Test_ilDatabaseUpdateSteps::class."::step_4"),
+			$step4->getHash()
+		);
+
+		$preconditions = $step4->getPreconditions($env);
+
+		$this->assertCount(1, $preconditions);
+		$this->assertEquals($step2->getHash(), $preconditions[0]->getHash());
+	}
+
 	public function testGetAllSteps() {
 		$steps = $this->test1->_getSteps();
 
 		$expected = [1,2,4];
-
-		$this->assertEquals($expected, array_values($steps));
-	}
-
-	public function testGetStepsBeforeStep1() {
-		$steps = $this->test1->_getStepsBefore(1);
-
-		$expected = [];
-
-		$this->assertEquals($expected, array_values($steps));
-	}
-
-	public function testGetStepsBeforeStep2() {
-		$steps = $this->test1->_getStepsBefore(2);
-
-		$expected = [1];
-
-		$this->assertEquals($expected, array_values($steps));
-	}
-
-	public function testGetStepsBeforeStep4() {
-		$steps = $this->test1->_getStepsBefore(4);
-
-		$expected = [1,2];
 
 		$this->assertEquals($expected, array_values($steps));
 	}
