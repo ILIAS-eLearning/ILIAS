@@ -7,9 +7,12 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ObjectiveIterator;
 use ILIAS\Setup\Objective;
+use ILIAS\Setup\NullObjective;
 
 class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 	public $called = [];
+
+	public $step_2_precondition = null;
 
 	public function step_1(\ilDBInterface $db) {
 		$this->called[] = 1;
@@ -33,7 +36,14 @@ class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps {
 		$db->connect();
 	}
 
-	public function _getSteps() : array {
+	public function getAdditionalPreconditionsForStep(int $num) : array {
+		if ($this->step_2_precondition && $num === 2) {
+			return [$this->step_2_precondition];
+		}
+		return [];
+	}
+
+	public function _getSteps(): array {
 		return $this->getSteps();
 	}
 }
@@ -78,6 +88,21 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 
 		$this->assertCount(1, $preconditions);
 		$this->assertEquals($step1->getHash(), $preconditions[0]->getHash());
+	}
+
+	public function testGetStep2WithAdditionalPrecondition() {
+		$env = $this->createMock(Environment::class);
+
+		$this->test1->step_2_precondition = new NullObjective;
+
+		$step1 = $this->test1->getStep(1);
+		$step2 = $this->test1->getStep(2);
+
+		$preconditions = $step2->getPreconditions($env);
+
+		$this->assertCount(2, $preconditions);
+		$this->assertEquals($step1->getHash(), $preconditions[0]->getHash());
+		$this->assertEquals($this->test1->step_2_precondition, $preconditions[1]);
 	}
 
 	public function testGetStep4Finished2() {
