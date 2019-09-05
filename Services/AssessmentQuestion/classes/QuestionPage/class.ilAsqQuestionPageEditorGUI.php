@@ -10,6 +10,14 @@
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
+ *
+ * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilPageEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilEditClipboardGUI
+ * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilMDEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilNoteGUI
+ * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilInternalLinkGUI
+ * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilPropertyFormGUI
  */
 class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
 {
@@ -26,11 +34,14 @@ class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
      * @param int $a_id
      * @param int $a_old_nr
      *
-     * @return \ilAssQuestionPageGUI
+     * @return \ilAsqQuestionPageEditorGUI
      */
-    public function __construct($a_id = 0, $a_old_nr = 0)
+    public function __construct($questionIntId)
     {
-        parent::__construct('qpl', $a_id, $a_old_nr);
+        parent::__construct(
+            ilAsqQuestionPage::ASQ_OBJECT_TYPE, $questionIntId
+        );
+
         $this->setEnabledPageFocus(false);
     }
 
@@ -55,11 +66,14 @@ class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
 
         $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
 
-        // fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
+        /**
+         * enable page toc as placeholder for info and actions block
+         * @see self::insertPageToc
+         */
         $config = $this->getPageConfig();
         $config->setEnablePageToc('y');
         $this->setPageConfig($config);
-        // fau.
+
         return parent::showPage();
     }
 
@@ -74,7 +88,10 @@ class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
         return $output;
     }
 
-    // fau: testNav - support the addition of question info and actions below the title
+
+    /**
+     * support the addition of question info and actions below the title
+     */
 
     /**
      * Set the HTML of a question info block below the title (number, status, ...)
@@ -96,6 +113,7 @@ class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
 
     /**
      * Replace page toc placeholder with question info and actions
+     *
      * @todo: 	support question info and actions in the page XSL directly
      * 			the current workaround avoids changing the COPage service
      *
@@ -109,14 +127,11 @@ class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
             $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'Modules/TestQuestionPool');
             $tpl->setVariable('QUESTION_INFO',$this->questionInfoHTML);
             $tpl->setVariable('QUESTION_ACTIONS',$this->questionActionsHTML);
-            $a_output = str_replace("{{{{{PageTOC}}}}}",  $tpl->get(), $a_output);
+
+            return str_replace("{{{{{PageTOC}}}}}",  $tpl->get(), $a_output);
         }
-        else
-        {
-            $a_output = str_replace("{{{{{PageTOC}}}}}",  '', $a_output);
-        }
-        return $a_output;
+
+        return str_replace("{{{{{PageTOC}}}}}",  '', $a_output);
     }
-    // fau.
 
 }
