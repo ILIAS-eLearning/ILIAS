@@ -40,10 +40,10 @@ class QuestionAnswerAddedEvent extends AbstractIlContainerDomainEvent {
 	public function __construct(DomainObjectId $aggregate_id, 
 	                            int $container_obj_id, 
 	                            int $initating_user_id, 
-	                            int $object_id, 
+	                            int $question_int_id, 
 	                            Answer $answer = null) 
 	{
-		parent::__construct($aggregate_id, $container_obj_id, $initating_user_id, $object_id);
+	    parent::__construct($aggregate_id, $container_obj_id, $initating_user_id, $question_int_id);
 
 		$this->answer = $answer;
 	}

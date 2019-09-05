@@ -48,7 +48,11 @@ class QuestionDto {
 	 * @var AnswerOptions
 	 */
 	private $answer_options;
-
+    /**
+     * @var int
+     */
+	private $question_int_id;
+	
     /**
 	 * @param Question $question
 	 *
@@ -58,7 +62,8 @@ class QuestionDto {
 		$dto = new QuestionDto();
 		$dto->id = $question->getAggregateId()->getId();
         $dto->container_obj_id = $question->getContainerObjId();
-		
+		$dto->question_int_id = $question->getQuestionIntId();
+        
 		if ($question->getRevisionId() !== null) {
 			$dto->revision_id = $question->getRevisionId()->getKey();
 			$dto->revision_name = $question->getRevisionName();
@@ -76,6 +81,22 @@ class QuestionDto {
 	}
 
 	/**
+     * @return number
+     */
+    public function getQuestionIntId()
+    {
+        return $this->questionIntId;
+    }
+
+    /**
+     * @param number $question_int_id
+     */
+    public function setQuestionIntId($question_int_id)
+    {
+        $this->question_int_id = $question_int_id;
+    }
+
+    /**
 	 * @return string
 	 */
 	public function getId(): string {

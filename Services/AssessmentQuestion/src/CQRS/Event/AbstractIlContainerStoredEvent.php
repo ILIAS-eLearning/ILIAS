@@ -37,7 +37,7 @@ abstract class AbstractIlContainerStoredEvent extends ActiveRecord {
 	 * @con_fieldtype  integer
 	 * @con_length     8
 	 */
-	protected $object_id;
+	protected $question_int_id;
 	/**
 	 * @var string
 	 *
@@ -104,14 +104,14 @@ abstract class AbstractIlContainerStoredEvent extends ActiveRecord {
 	 * @param int        $initiating_user_id
 	 * @param string     $event_body
 	 */
-	public function setEventData(string $aggregate_id, string $event_name, ilDateTime $occurred_on, int $container_obj_id, int $initiating_user_id, int $object_id, string $event_body) {
+	public function setEventData(string $aggregate_id, string $event_name, ilDateTime $occurred_on, int $container_obj_id, int $initiating_user_id, int $question_int_id, string $event_body) {
 		$this->aggregate_id = $aggregate_id;
 		$this->event_name = $event_name;
 		$this->occurred_on = $occurred_on;
 		$this->container_obj_id  = $container_obj_id;
 		$this->initiating_user_id = $initiating_user_id;
 		$this->event_body = $event_body;
-		$this->object_id = $object_id;
+		$this->question_int_id = $question_int_id;
 	}
 
 
@@ -133,8 +133,8 @@ abstract class AbstractIlContainerStoredEvent extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getObjectId(): int {
-	    return $this->object_id;
+	public function getQuestionIntId(): int {
+	    return $this->question_int_id;
 	}
 	
 	/**
