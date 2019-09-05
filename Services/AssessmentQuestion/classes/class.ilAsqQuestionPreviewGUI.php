@@ -6,6 +6,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 
@@ -38,6 +39,15 @@ class ilAsqQuestionPreviewGUI
      */
     protected $authoringApplicationService;
 
+    /**
+     * @var QuestionDto
+     */
+    protected $questionDto;
+
+    /**
+     * @var QuestionComponent
+     */
+    protected $questionComponent;
 
     /**
      * ilAsqQuestionCreationGUI constructor.
@@ -71,44 +81,62 @@ class ilAsqQuestionPreviewGUI
         }
     }
 
-
-    public function showPreview(QuestionComponent $question_component = null)
+    public function showPreview()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        if( $question_component === null )
+        if( $this->questionComponent === null )
         {
-            $question_component = new QuestionComponent(
-                $this->authoringApplicationService->GetQuestion($this->questionId->getId())
+            $this->questionDto = $this->authoringApplicationService->GetQuestion(
+                $this->questionId->getId()
             );
+
+            $this->questionComponent = new QuestionComponent($this->questionDto);
         }
 
         $formAction = $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW);
 
-        $DIC->ui()->mainTemplate()->setContent($question_component->renderHtml(
+        $questionHtml = $this->questionComponent->renderHtml(
             $formAction, self::CMD_SCORE_PREVIEW
-        ));
+        );
+
+        $qstPageGUI = new ilAsqQuestionPageGUI($this->questionDto->getQuestionIntId());
+        $qstPageGUI->setRenderPageContainer(false);
+        $qstPageGUI->setEditPreview(true);
+        $qstPageGUI->setEnabledTabs(false);
+
+        $qstPageGUI->setQuestionHTML([
+            $this->questionDto->getQuestionIntId() => $questionHtml
+        ]);
+
+        $qstPageGUI->setPresentationTitle($this->questionDto->getData()->getTitle());
+
+        $tpl = new ilTemplate('tpl.question_preview_container.html', true, true, 'Services/AssessmentQuestion');
+
+        $tpl->setVariable('QUESTION_OUTPUT', $qstPageGUI->preview());
+
+        $DIC->ui()->mainTemplate()->setContent($tpl->get());
     }
 
     public function scorePreview()
     {
-        $question = $this->authoringApplicationService->GetQuestion($this->questionId->getId());
-        $question_component = new QuestionComponent($question);
+        $this->questionDto = $this->authoringApplicationService->GetQuestion($this->questionId->getId());
+        $this->questionComponent = new QuestionComponent($this->questionDto);
 
         $answer = new Answer(
             $this->contextContainer->getActorId(),
             $this->questionId->getId(),
             $this->contextContainer->getObjId(),
-            $question_component->readAnswer()
+            $this->questionComponent->readAnswer()
         );
 
-        $question_component->setAnswer($answer);
+        $this->questionComponent->setAnswer($answer);
 
-        $scoring_class = QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration());
-        $scoring = new $scoring_class($question);
+        $scoring_class = QuestionPlayConfiguration::getScoringClass($this->questionDto->getPlayConfiguration());
+        $scoring = new $scoring_class($this->questionDto);
 
         ilUtil::sendInfo("Score: ".$scoring->score($answer));
 
-        $this->showPreview($question_component);
+        $this->showPreview();
     }
 }
