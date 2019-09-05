@@ -22,8 +22,8 @@ use ILIAS\Setup\Objective;
  * If the class takes care of only one table or a set of related tables it will
  * be easier to maintain.
  *
- * If for some reason you rely on update steps from other db-updated-classes
- * implement `getPreconditionSteps`.
+ * If for some reason you rely on other objectives, e.g. steps from other db-update
+ * classes, implement `getAdditionalPreconditionsForStep`.
  */
 abstract class ilDatabaseUpdateSteps implements Objective {
 	const STEP_METHOD_PREFIX = "step_";
@@ -48,6 +48,18 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 		Objective $base
 	) {
 		$this->base = $base;
+	}
+
+	/**
+	 * Get preconditions for steps.
+	 *
+	 * The previous step will automatically be a precondition of every step but
+	 * will not be returned from this method.
+	 *
+	 * @return Objective[]
+	 */
+	public function getAdditionalPreconditionsForStep(int $num): array {
+		return [];
 	}
 
 	/**
@@ -108,7 +120,7 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 				continue;
 			}
 			else if ($s <= $num) {
-				$cur = new ilDatabaseUpdateStep($this, $s, $cur);
+				$cur = new ilDatabaseUpdateStep($this, $s, $cur, ...$this->getAdditionalPreconditionsForStep($s));
 			}
 			else {
 				break;
