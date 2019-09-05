@@ -141,8 +141,7 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PAGEVIEW);
 
-                $gui = new ilAsqQuestionPageEditorGUI();
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->forwardToPageEditor();
 
                 break;
 
@@ -219,6 +218,54 @@ class ilAsqQuestionAuthoringGUI
                 $this->{$cmd}();
         }
 	}
+
+
+	protected function forwardToPageEditor()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $question = $this->authoring_application_service->GetQuestion($this->question_id->getId());
+        $qstIntId = 2728; //$question->getIntId();
+
+        $gui = new ilAsqQuestionPageEditorGUI($qstIntId);
+
+        $gui->setQuestionHTML([
+            $qstIntId => '[question-content]'
+        ]);
+
+        $gui->setHeader($question->getData()->getTitle());
+        $gui->setPresentationTitle($question->getData()->getTitle());
+
+        $gui->setOutputMode('edit');
+        $gui->setEditPreview(true);
+        $gui->setEnabledTabs(false);
+
+        // TODO: The update TS of the question needs an update on page changes
+        //$gui->obj->addUpdateListener() // update timestamp of question
+
+        if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind
+        {
+            $DIC->ctrl()->setCmdClass(strtolower(get_class($gui)));
+            $DIC->ctrl()->setCmd('preview');
+        }
+
+        $gui->setTemplateTargetVar('ADM_CONTENT');
+        $gui->setTemplateOutput(true);
+
+        // content and syntax styles
+        $DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
+        $DIC->ui()->mainTemplate()->setVariable("LOCATION_CONTENT_STYLESHEET",
+            ilObjStyleSheet::getContentStylePath(0)
+        );
+        $DIC->ui()->mainTemplate()->parseCurrentBlock();
+        $DIC->ui()->mainTemplate()->setCurrentBlock("SyntaxStyle");
+        $DIC->ui()->mainTemplate()->setVariable("LOCATION_SYNTAX_STYLESHEET",
+            ilObjStyleSheet::getSyntaxStylePath()
+        );
+        $DIC->ui()->mainTemplate()->parseCurrentBlock();
+
+        $DIC->ctrl()->forwardCommand($gui);
+    }
 
 
     protected function redrawHeaderAction()
