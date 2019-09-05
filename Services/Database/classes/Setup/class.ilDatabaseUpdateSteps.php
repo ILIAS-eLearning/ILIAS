@@ -41,7 +41,7 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	/**
 	 * @param \ilObjective $base for the update steps, i.e. the objective that should
 	 *                           have been reached before the steps of this class can
-	 *                           even begin. Most propably this should be
+	 *                           even begin. Most probably this should be
 	 *                           \ilDatabasePopulatedObjective.
 	 */
 	public function __construct(
