@@ -142,10 +142,9 @@ class ilAsqQuestionCreationGUI
         );
 
         $question = $this->authoringApplicationService->GetQuestion($guid);
-        $questionIntId = 2728; //$question->getIntId();
 
         $this->questionPageService->createPage(
-            $this->contextContainer->getObjId(), $questionIntId
+            $this->contextContainer->getObjId(), $question->getQuestionIntId()
         );
 
         $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
