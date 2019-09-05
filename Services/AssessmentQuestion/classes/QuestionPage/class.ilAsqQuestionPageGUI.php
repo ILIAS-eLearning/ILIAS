@@ -11,15 +11,15 @@
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilPageEditorGUI
- * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilEditClipboardGUI
- * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilMDEditorGUI
- * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilPublicUserProfileGUI
- * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilNoteGUI
- * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilInternalLinkGUI
- * @ilCtrl_Calls ilAsqQuestionPageEditorGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilAsqQuestionPageGUI: ilPageEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionPageGUI: ilEditClipboardGUI
+ * @ilCtrl_Calls ilAsqQuestionPageGUI: ilMDEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionPageGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilAsqQuestionPageGUI: ilNoteGUI
+ * @ilCtrl_Calls ilAsqQuestionPageGUI: ilInternalLinkGUI
+ * @ilCtrl_Calls ilAsqQuestionPageGUI: ilPropertyFormGUI
  */
-class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
+class ilAsqQuestionPageGUI extends ilPageObjectGUI
 {
     const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 
@@ -34,7 +34,7 @@ class ilAsqQuestionPageEditorGUI extends ilPageObjectGUI
      * @param int $a_id
      * @param int $a_old_nr
      *
-     * @return \ilAsqQuestionPageEditorGUI
+     * @return \ilAsqQuestionPageGUI
      */
     public function __construct($questionIntId)
     {
