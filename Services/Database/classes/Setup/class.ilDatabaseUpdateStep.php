@@ -37,7 +37,7 @@ class ilDatabaseUpdateStep extends CallableObjective {
 				$db = $env->getResource(Environment::RESOURCE_DATABASE);
 				call_user_func([$parent, $method_name], $db); 
 			},
-			"Database update step $class_name::$method_name",
+			"Database update step {$this->class_name}::{$this->method_name}",
 			false,
 			...$preconditions
 		);
