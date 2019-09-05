@@ -129,8 +129,10 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 
 		$env
 			->method("getResource")
-			->with(Environment::RESOURCE_DATABASE)
-			->willReturn($db); 
+			->will($this->returnValueMap([
+				[Environment::RESOURCE_DATABASE, $db],
+				[\ilDatabaseUpdateStepExecutionLog::class, null]
+			]));
 
 		$db
 			->expects($this->exactly(3))
@@ -155,5 +157,48 @@ class ilDatabaseUpdateStepsTest extends TestCase {
 		}
 
 		$this->assertEquals([1,2,4], $this->test1->called);
+	}
+
+	public function testAchieveSomeSteps() {
+		$env = $this->createMock(Environment::class);
+		$log = $this->createMock(\ilDatabaseUpdateStepExecutionLog::class);
+		$db = $this->createMock(\ilDBInterface::class);
+
+		$env
+			->method("getResource")
+			->will($this->returnValueMap([
+				[Environment::RESOURCE_DATABASE, $db],
+				[\ilDatabaseUpdateStepExecutionLog::class, $log]
+			]));
+
+		$log
+			->expects($this->atLeastOnce())
+			->method("getLastFinishedStep")
+			->with(Test_ilDatabaseUpdateSteps::class)
+			->willReturn(1);
+
+		$db
+			->expects($this->exactly(2))
+			->method("connect");
+
+		$this->base
+			->method("getPreconditions")
+			->willReturn([]);
+
+		$this->base
+			->expects($this->once())
+			->method("achieve")
+			->with($env)
+			->willReturn($env);
+
+		$i = new ObjectiveIterator($env, $this->test1);
+		while($i->valid()) {
+			$current = $i->current();
+			$env = $current->achieve($env);
+			$i->setEnvironment($env);
+			$i->next();
+		}
+
+		$this->assertEquals([2,4], $this->test1->called);
 	}
 }
