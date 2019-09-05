@@ -166,14 +166,14 @@ class asqDebugGUI
 
         require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $btn = ilLinkButton::getInstance();
-        $btn->setCaption($creationLinkComponent->getLabel());
+        $btn->setCaption($creationLinkComponent->getLabel(), false);
         $btn->setUrl($creationLinkComponent->getAction());
         $btn->setPrimary(true);
         $DIC->toolbar()->addButtonInstance($btn);
 
         //Set Online Button
         $btn = ilLinkButton::getInstance();
-        $btn->setCaption("Set Online (Publish - creates new revisions of all questions)");
+        $btn->setCaption("Set Online (Publish - creates new revisions of all questions)", false);
         $btn->setUrl($DIC->ctrl()->getLinkTarget($this, 'setOnline'));
         $DIC->toolbar()->addButtonInstance($btn);
     }
