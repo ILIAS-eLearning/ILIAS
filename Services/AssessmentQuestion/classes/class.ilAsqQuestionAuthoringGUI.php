@@ -27,7 +27,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
  *
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionCreationGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPreviewGUI
- * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionConfigEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionFeedbackEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionHintsEditorGUI
@@ -125,6 +125,8 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PREVIEW);
 
+                $this->prepareQuestionPageOutput();
+
                 $gui = new ilAsqQuestionPreviewGUI(
                     $this->contextContainer,
                     $this->question_id,
@@ -135,11 +137,13 @@ class ilAsqQuestionAuthoringGUI
 
                 break;
 
-            case strtolower(ilAsqQuestionPageEditorGUI::class):
+            case strtolower(ilAsqQuestionPageGUI::class):
 
                 $this->initHeaderAction();
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PAGEVIEW);
+
+                $this->prepareQuestionPageOutput();
 
                 $this->forwardToPageEditor();
 
@@ -225,12 +229,12 @@ class ilAsqQuestionAuthoringGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $question = $this->authoring_application_service->GetQuestion($this->question_id->getId());
-        $qstIntId = 2728; //$question->getIntId();
+        $uiComponent = new QuestionComponent($question);
 
-        $gui = new ilAsqQuestionPageEditorGUI($qstIntId);
+        $gui = new ilAsqQuestionPageGUI($question->getQuestionIntId());
 
         $gui->setQuestionHTML([
-            $qstIntId => '[question-content]'
+            $question->getQuestionIntId() => $uiComponent->renderHtml('', '')
         ]);
 
         $gui->setHeader($question->getData()->getTitle());
@@ -252,19 +256,33 @@ class ilAsqQuestionAuthoringGUI
         $gui->setTemplateTargetVar('ADM_CONTENT');
         $gui->setTemplateOutput(true);
 
-        // content and syntax styles
+        $DIC->ctrl()->forwardCommand($gui);
+    }
+
+
+    protected function prepareQuestionPageOutput()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        // content styles
+
         $DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
+
         $DIC->ui()->mainTemplate()->setVariable("LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(0)
         );
+
         $DIC->ui()->mainTemplate()->parseCurrentBlock();
+
+        // syntax styles
+
         $DIC->ui()->mainTemplate()->setCurrentBlock("SyntaxStyle");
+
         $DIC->ui()->mainTemplate()->setVariable("LOCATION_SYNTAX_STYLESHEET",
             ilObjStyleSheet::getSyntaxStylePath()
         );
-        $DIC->ui()->mainTemplate()->parseCurrentBlock();
 
-        $DIC->ctrl()->forwardCommand($gui);
+        $DIC->ui()->mainTemplate()->parseCurrentBlock();
     }
 
 
