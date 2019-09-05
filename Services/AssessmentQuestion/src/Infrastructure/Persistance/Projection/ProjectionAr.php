@@ -23,7 +23,7 @@ interface ProjectionAr
     /**
      * @return int
      */
-    public function getObjectId(): int;
+    public function getquestionIntId(): int;
 
     /**
      * @return string

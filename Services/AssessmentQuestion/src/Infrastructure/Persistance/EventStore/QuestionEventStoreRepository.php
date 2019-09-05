@@ -37,7 +37,7 @@ class QuestionEventStoreRepository implements EventStore {
 				$event->getOccurredOn(),
 				$event->getContainerObjId(),
 				$event->getInitiatingUserId(),
-			    $event->getObjectId(),
+			    $event->getQuestionIntId(),
 				$event->getEventBody());
 
 			$stored_event->create();
@@ -60,7 +60,7 @@ class QuestionEventStoreRepository implements EventStore {
 		while ($row = $DIC->database()->fetchAssoc($res)) {
 			/**@var AbstractDomainEvent $event */
 			$event_name = "ILIAS\\AssessmentQuestion\\DomainModel\\Event\\".utf8_encode(trim($row['event_name']));
-			$event = new $event_name(new DomainObjectId($row['aggregate_id']), $row['container_obj_id'], $row['initiating_user_id'], $row['object_id']);
+			$event = new $event_name(new DomainObjectId($row['aggregate_id']), $row['container_obj_id'], $row['initiating_user_id'], $row['question_int_id']);
 			$event->restoreEventBody($row['event_body']);
 			$event_stream->addEvent($event);
 		}
@@ -95,7 +95,7 @@ class QuestionEventStoreRepository implements EventStore {
 	public function getNextId() : int {
 	    global $DIC;
 
-	    $sql = "SELECT MAX(object_id) as id FROM " . QuestionEventStoreAr::STORAGE_NAME;
+	    $sql = "SELECT MAX(question_int_id) as id FROM " . QuestionEventStoreAr::STORAGE_NAME;
 	    $res = $DIC->database()->query($sql);
 	    $values = $DIC->database()->fetchAssoc($res);
 	    return (intval($values['id']) + 1) ?? 1;

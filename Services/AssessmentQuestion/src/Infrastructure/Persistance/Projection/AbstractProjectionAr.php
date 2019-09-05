@@ -30,5 +30,4 @@ abstract class AbstractProjectionAr extends ActiveRecord
     public function save() {
         throw new ilException("Save is not supported - It's only possible to add new records to this store!");
     }
-
 }

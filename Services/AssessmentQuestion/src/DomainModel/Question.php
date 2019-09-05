@@ -59,7 +59,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
     /**
      * @var int
      */
-    private $object_id;
+    private $question_int_id;
 	/**
 	 * @var QuestionData
 	 */
@@ -102,14 +102,14 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		DomainObjectId $question_uuid,
 		int $container_obj_id,
 		int $initiating_user_id,
-	    int $object_id): Question {
+	    int $question_int_id): Question {
 		$question = new Question();
 		$question->ExecuteEvent(
 			new QuestionCreatedEvent(
 				$question_uuid,
                 $container_obj_id,
 				$initiating_user_id,
-			    $object_id
+			    $question_int_id
 		));
 
 		return $question;
@@ -122,7 +122,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->id = $event->getAggregateId();
 		$this->creator_id = $event->getInitiatingUserId();
         $this->container_obj_id = $event->getContainerObjId();
-        $this->object_id = $event->getObjectId();
+        $this->question_int_id = $event->getQuestionIntId();
 	}
 
     /**
@@ -188,7 +188,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		    $this->getAggregateId(), 
 		    $container_obj_id, 
 		    $creator_id, 
-		    $this->getObjectId(), 
+		    $this->getQuestionIntId(), 
 		    $data));
 	}
 
@@ -213,7 +213,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
             $this->getAggregateId(),
             $container_obj_id, 
             $creator_id, 
-            $this->getObjectId(), 
+            $this->getQuestionIntId(), 
             $play_configuration));
 	}
 
@@ -237,7 +237,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		$this->ExecuteEvent(new QuestionLegacyDataSetEvent($this->getAggregateId(),
                                                            $container_obj_id,
 		                                                   $creator_id,
-		                                                   $this->getObjectId(),
+		                                                   $this->getQuestionIntId(),
 		                                                   $legacy_data));
 	}
 
@@ -259,7 +259,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		    $this->getAggregateId(), 
 		    $container_obj_id, 
 		    $creator_id, 
-		    $this->getObjectId(),
+		    $this->getQuestionIntId(),
 		    $options));
 	}
 
@@ -273,7 +273,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		    $this->getAggregateId(), 
 		    $container_obj_id, 
 		    $answer->getAnswererId(), 
-		    $this->getObjectId(),
+		    $this->getQuestionIntId(),
 		    $answer));
 	}
 
@@ -314,9 +314,9 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
     /**
      * @return int
      */
-    public function getObjectId(): int
+    public function getQuestionIntId(): int
     {
-        return $this->object_id;
+        return $this->question_int_id;
     }
 
 	/**
@@ -344,7 +344,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 		    $this->getAggregateId(), 
 		    $this->getContainerObjId(),
 		    $this->getCreatorId(), 
-		    $this->getObjectId(),
+		    $this->getQuestionIntId(),
 		    $id->GetKey()));
 	}
 

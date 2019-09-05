@@ -72,7 +72,7 @@ class QuestionAr extends AbstractProjectionAr
      *
      * @var int
      */
-    protected $object_id;
+    protected $question_int_id;
     /**
      * @var string
      *
@@ -100,14 +100,13 @@ class QuestionAr extends AbstractProjectionAr
     /**
      * 
      * @param Question $question
-     * @param int $object_id
      */
     public static function createNew(Question $question) {
         $object = new QuestionAr();
         
         $created = new ilDateTime(time(), IL_CAL_UNIX);
         $object->created = $created->get(IL_CAL_DATETIME);
-        $object->object_id = $question->getObjectId();
+        $object->question_int_id = $question->getQuestionIntId();
         $object->revision_id = $question->getRevisionId()->GetKey();
         $object->question_id = $question->getAggregateId()->getId();
         $object->question_data = json_encode($question->getData());
@@ -162,9 +161,9 @@ class QuestionAr extends AbstractProjectionAr
     /**
      * @return int
      */
-    public function getObjectId(): int
+    public function getQuestionIntId(): int
     {
-        return $this->object_id;
+        return $this->question_int_id;
     }
 
     /**

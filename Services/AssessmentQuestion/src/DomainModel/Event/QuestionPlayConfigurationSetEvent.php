@@ -42,10 +42,10 @@ class QuestionPlayConfigurationSetEvent extends AbstractIlContainerDomainEvent {
 	public function __construct(DomainObjectId $id, 
 	                            int $container_obj_id, 
 	                            int $initiating_user_id, 
-	                            int $object_id, 
+	                            int $question_int_id, 
 	                            QuestionPlayConfiguration $play_configuration = null)
 	{
-		parent::__construct($id, $container_obj_id, $initiating_user_id, $object_id);
+	    parent::__construct($id, $container_obj_id, $initiating_user_id, $question_int_id);
 		$this->play_configuration = $play_configuration;
 	}
 

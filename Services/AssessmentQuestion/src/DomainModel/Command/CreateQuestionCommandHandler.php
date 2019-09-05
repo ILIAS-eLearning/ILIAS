@@ -31,7 +31,7 @@ class CreateQuestionCommandHandler implements CommandHandlerContract {
 			$command->getQuestionUuid(),
             $command->getQuestionContainerId(),
 			$command->getInitiatingUserId(),
-		    $command->getObjectId() ?? QuestionRepository::getInstance()->getNextId()
+		    $command->getQuestionIntId() ?? QuestionRepository::getInstance()->getNextId()
 		);
 
 		if (!is_null($command->getAnswerType()))
