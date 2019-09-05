@@ -9,12 +9,12 @@ interface ilDatabaseUpdateStepExecutionLog {
 	/**
 	 * @throws \LogicException	if the previously started step has not finished
 	 */
-	public function start(string $class, int $step): void;
+	public function started(string $class, int $step): void;
 
 	/**
 	 * @throws \LogicException	if the finished step does not match the previously started step
 	 */
-	public function finish(string $class, int $step): void;
+	public function finished(string $class, int $step): void;
 
 	public function getLastStartedStep(string $class): int;
 	public function getLastFinishedStep(string $class): int;

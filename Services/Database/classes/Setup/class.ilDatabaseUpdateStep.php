@@ -27,15 +27,22 @@ class ilDatabaseUpdateStep extends CallableObjective {
 
 	public function __construct(
 		ilDatabaseUpdateSteps $parent,
-		string $method_name,
+		int $num,
 		Objective ...$preconditions
 	) {
 		$this->class_name = get_class($parent);
-		$this->method_name = $method_name;
+		$this->method_name = \ilDatabaseUpdateSteps::STEP_METHOD_PREFIX.$num;
 		parent::__construct(
-			function (Environment $env) use ($parent, $method_name) {
+			function (Environment $env) use ($parent, $num) {
 				$db = $env->getResource(Environment::RESOURCE_DATABASE);
-				call_user_func([$parent, $method_name], $db); 
+				$log = $env->getResource(\ilDatabaseUpdateStepExecutionLog::class);
+				if ($log) {
+					$log->started($this->class_name, $num);
+				}
+				call_user_func([$parent, $this->method_name], $db); 
+				if ($log) {
+					$log->finished($this->class_name, $num);
+				}
 			},
 			"Database update step {$this->class_name}::{$this->method_name}",
 			false,
