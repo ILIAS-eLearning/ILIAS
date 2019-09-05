@@ -1505,7 +1505,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$ilUser = $this->user;
 	
 		$ids = $this->getLogReservationIds();
-		if(!sizeof($ids))
+		if(!is_array($ids) || !sizeof($ids))
 		{
 			$this->ctrl->redirect($this, 'log');
 		}
