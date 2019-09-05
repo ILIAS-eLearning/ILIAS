@@ -85,7 +85,7 @@ class QuestionDto {
      */
     public function getQuestionIntId()
     {
-        return $this->questionIntId;
+        return $this->question_int_id;
     }
 
     /**
