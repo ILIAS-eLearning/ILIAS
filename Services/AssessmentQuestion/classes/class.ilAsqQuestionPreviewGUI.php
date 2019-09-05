@@ -94,11 +94,7 @@ class ilAsqQuestionPreviewGUI
             $this->questionComponent = new QuestionComponent($this->questionDto);
         }
 
-        $formAction = $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW);
-
-        $questionHtml = $this->questionComponent->renderHtml(
-            $formAction, self::CMD_SCORE_PREVIEW
-        );
+        $questionHtml = $this->questionComponent->renderHtml(self::CMD_SCORE_PREVIEW);
 
         $qstPageGUI = new ilAsqQuestionPageGUI($this->questionDto->getQuestionIntId());
         $qstPageGUI->setRenderPageContainer(false);
@@ -113,6 +109,7 @@ class ilAsqQuestionPreviewGUI
 
         $tpl = new ilTemplate('tpl.question_preview_container.html', true, true, 'Services/AssessmentQuestion');
 
+        $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW));
         $tpl->setVariable('QUESTION_OUTPUT', $qstPageGUI->preview());
 
         $DIC->ui()->mainTemplate()->setContent($tpl->get());
