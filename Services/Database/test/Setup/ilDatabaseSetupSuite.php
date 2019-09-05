@@ -13,6 +13,8 @@ class ilDatabaseSetupSuite extends TestSuite {
 
 		require_once(__DIR__."/ilDatabaseUpdateStepsTest.php");
 		$suite->addTestSuite(\ilDatabaseUpdateStepsTest::class);
+		require_once(__DIR__."/ilDatabaseUpdateStepTest.php");
+		$suite->addTestSuite(\ilDatabaseUpdateStepTest::class);
 
 		return $suite;
 	}
