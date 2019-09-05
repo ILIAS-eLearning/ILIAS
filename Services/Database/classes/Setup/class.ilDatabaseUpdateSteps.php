@@ -76,8 +76,7 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	 * @inheritdocs
 	 */
 	final public function getPreconditions(Environment $environment) : array {
-		$steps = $this->getSteps();
-		return [$this->getStep(array_pop($steps))];
+		return [$this->getStep($this->getLatestStepNum())];
 	}
 
 	/**
@@ -115,7 +114,15 @@ abstract class ilDatabaseUpdateSteps implements Objective {
 	}
 
 	/**
-	 * Get the names of the step-methods in this class.
+	 * Get the number of latest database step in this class.
+	 */
+	final public function getLatestStepNum() : int {
+		$this->getSteps();
+		return end($this->steps);
+	}
+
+	/**
+	 * Get the numbers of the steps in this class.
 	 *
 	 * @return int[]
 	 */
