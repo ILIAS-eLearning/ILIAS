@@ -74,6 +74,26 @@ class AnswerOption implements JsonSerializable {
 		return array_merge($dd_fields, $sd_fields);
 	}
 
+	public function equals(AnswerOption $other) : bool {
+	    if (get_class($this->display_definition) !== get_class($other->display_definition) ||
+	        get_class($this->scoring_definition) !== get_class($other->scoring_definition)) 
+	    {
+	       return false;        
+	    }
+	    
+	    $my_values = $this->rawValues();
+	    $other_values = $other->rawValues();
+	    
+	    foreach ($my_values as $key => $value)
+	    {
+	        if ($my_values[$key] !== $other_values[$key]) 
+	        {
+	            return false;
+	        }
+	    }
+	    
+	    return true;
+	}
 
 	/**
 	 * Specify data which should be serialized to JSON

@@ -87,8 +87,7 @@ class AuthoringApplicationService {
 			$question->setPlayConfiguration($question_dto->getPlayConfiguration(), $this->container_obj_id, $this->actor_user_id);
 		}
 
-		// TODO implement equals for answer options
-		if ($question_dto->getAnswerOptions() !== $question->getAnswerOptions()){
+		if (!$question_dto->getAnswerOptions()->equals($question->getAnswerOptions())){
 			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->container_obj_id, $this->actor_user_id);
 		}
 

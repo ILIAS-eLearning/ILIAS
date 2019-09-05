@@ -47,4 +47,36 @@ class AnswerOptions {
 	    
 	    return $options;
 	}
+	
+	/**
+	 * @param AnswerOptions $other
+	 * @return bool
+	 */
+	public function equals (AnswerOptions $other) : bool {
+	    return !is_null($other) &&
+	           count($this->options) === count($other->options) &&
+	           $this->optionsAreEqual($other);
+	}
+	
+	public function optionsAreEqual(AnswerOptions $other) : bool {
+	    /** @var AnswerOption $my_option */
+	    foreach ($this->options as $my_option) {
+	        $found = false;
+	        
+	        /** @var AnswerOption $other_option */
+	        foreach ($other->options as $other_option) {
+	            if ($my_option->getOptionId() === $other_option->getOptionId() &&
+	                $my_option->equals($other_option)) {
+	                    $found = true;
+	                    break;
+	                }
+	        }
+	        
+	        if (!$found) {
+	            return false;
+	        }
+	    }
+	    
+	    return true;
+	}
 }
