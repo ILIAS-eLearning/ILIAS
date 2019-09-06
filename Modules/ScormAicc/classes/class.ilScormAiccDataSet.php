@@ -239,8 +239,10 @@ class ilScormAiccDataSet extends ilDataSet
 		$manWriter->appendXML ("\n<content>\n");
 
 		$files = [
-			"scormFile" => $baseFileName . ".zip",
-			"properties" => $baseFileName . ".xml",
+			// "scormFile" => $baseFileName . ".zip",
+			// "properties" => $baseFileName . ".xml",
+			"scormFile" => "content.zip",
+			"properties" => "properties.xml",
 			"metadata" => "metadata.xml"
 		];
 		foreach ($files as $key => $value)
@@ -268,10 +270,16 @@ class ilScormAiccDataSet extends ilDataSet
 		}
 
 		//creating final zip file
-		$zArchive->addFile($xmlFilePath, $baseFileName . ".xml");
-		$zArchive->addFile($scormFilePath, $baseFileName . ".zip");
-		$zArchive->addFile($manifestFilePath, "manifest.xml");
-		$zArchive->addFile($metaDataFilePath, "metadata.xml");
+		// $zArchive->addFile($xmlFilePath, $baseFileName . ".xml");
+		// $zArchive->addFile($scormFilePath, $baseFileName . ".zip");
+		// $zArchive->addFile($manifestFilePath, "manifest.xml");
+		// $zArchive->addFile($metaDataFilePath, "metadata.xml");
+		// $zArchive->addFile($xmlFilePath, $baseExportName.'/'. $baseFileName . ".xml");
+		// $zArchive->addFile($scormFilePath, $baseExportName.'/'. $baseFileName . ".zip");
+		$zArchive->addFile($xmlFilePath, $baseExportName.'/properties.xml');
+		$zArchive->addFile($scormFilePath, $baseExportName.'/content.zip');
+		$zArchive->addFile($manifestFilePath, $baseExportName.'/'. "manifest.xml");
+		$zArchive->addFile($metaDataFilePath, $baseExportName.'/'. "metadata.xml");
 		$zArchive->close();
 		//delete temporary files
 		unlink ($xmlFilePath);

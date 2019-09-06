@@ -24,13 +24,13 @@ class ilScormAiccExporter extends ilXmlExporter
 			$dataset = new ilScorm2004DataSet();
 			$dataset->setDSPrefix("ds");
 			$dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
-			return $dataset->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+			$dataset->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 		}
 		else
 		{
 			$this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
 			//using own getXmlRepresentation function in ilScormAiccDataSet
-			return $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_id, "", false, true);
+			$this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_id, "", false, true);
 		}
 	}
 

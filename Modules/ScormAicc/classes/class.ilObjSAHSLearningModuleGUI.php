@@ -499,8 +499,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$zar->close();
 				require_once "./Modules/ScormAicc/classes/class.ilScormAiccImporter.php";
 				$importer = new ilScormAiccImporter ();
-				if ($importer->importXmlRepresentation("sahs", Null, $lmTempDir, "") == true)
+				$lmTempDir .= '/' .substr($_FILES["scormfile"]["name"], 0, strlen($a_filename) - 4);
+				if ($importer->importXmlRepresentation("sahs", Null, $lmTempDir, "") == true) {
 					$importFromXml = true;
+				}
 				$mprops = [];
 				$mprops = $importer->moduleProperties;
 				$subType = $mprops["SubType"][0];
@@ -537,8 +539,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			if ($importFromXml)
 			{
-				$lmTempDir = $lmDir . $timeStamp;
-				$scormFile = $importer->manifest["scormFile"][0];
+				// $lmTempDir = $lmDir . $timeStamp;
+				// $scormFile = $importer->manifest["scormFile"][0];
+				$scormFile = "content.zip";
 				$scormFilePath = $lmTempDir . "/" . $scormFile;
 				$targetPath = $newObj->getDataDirectory()."/".$scormFile;
 				$file_path = $targetPath;

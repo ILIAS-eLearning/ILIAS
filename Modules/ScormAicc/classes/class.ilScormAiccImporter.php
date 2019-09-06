@@ -26,11 +26,30 @@ class ilScormAiccImporter extends ilXmlImporter
 	{
 		global $DIC;
 		$ilLog = $DIC['ilLog'];
-
+		
 		if ($this->handleEditableLmXml($a_entity, $a_id, $a_import_dirname, $a_mapping))
 		{
 			return true;
 		}
+		// case i container
+		if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+			$newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+			// $this->writeData("sahs", "5.1.0", $newObj->getId());
+			require_once ("./Services/Export/classes/class.ilExport.php");
+			$exportDir = ilExport::_getExportDirectory($a_id);
+			$tempFile  = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) .'.zip';
+			$timeStamp = time();
+			$lmDir = ilUtil::getWebspaceDir ("filesystem")."/lm_data/";
+			$lmTempDir = $lmDir . $timeStamp;
+			if (!file_exists ($lmTempDir)) mkdir ($lmTempDir, 0755, true);
+			$zar = new ZipArchive();
+			$zar->open ($tempFile);
+			$zar->extractTo ($lmTempDir);
+			$zar->close();
+			$a_import_dirname = $lmTempDir . '/' . basename($this->getImportDirectory());
+		}
+
+
 
 		$result = false;
 		if (file_exists($a_import_dirname))
@@ -39,12 +58,13 @@ class ilScormAiccImporter extends ilXmlImporter
 			if (file_exists($manifestFile))
 			{
 				$manifest = file_get_contents ($manifestFile);
-				$manifestRoot = simplexml_load_string($manifest);
-				$this->manifest["scormFile"] = $manifestRoot->scormFile;
-				$this->manifest["properties"] = $manifestRoot->properties;
+				// $manifestRoot = simplexml_load_string($manifest);
+				// $this->manifest["scormFile"] = $manifestRoot->scormFile;
+				// $this->manifest["properties"] = $manifestRoot->properties;
 				if(isset ($manifest))
 				{
-					$propertiesFile = $a_import_dirname . "/" . $this->manifest["properties"][0];
+					// $propertiesFile = $a_import_dirname . "/" . $this->manifest["properties"][0];
+					$propertiesFile = $a_import_dirname . "/properties.xml";
 					$xml = file_get_contents ($propertiesFile);
 					if(isset ($xml))
 					{
@@ -56,6 +76,51 @@ class ilScormAiccImporter extends ilXmlImporter
 						}
 						$this->moduleProperties["Title"] = $xmlRoot->Title;
 						$this->moduleProperties["Description"] = $xmlRoot->Description;
+						
+						if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+							
+							$this->dataset->writeData("sahs", "5.1.0", $newObj->getId(), $this->moduleProperties);
+
+							// $newObj->setTitle($name);
+							$newObj->setSubType($subType);
+							// $newObj->setDescription("");
+							// $newObj->setOfflineStatus(true);
+							// $newObj->create(true);
+							$newObj->createReference();
+							// $newObj->putInTree($_GET["ref_id"]);
+							// $newObj->setPermissions($_GET["ref_id"]);
+
+							// create data directory, copy file to directory
+							// $newObj->createDataDirectory();
+
+							$scormFile = "content.zip";
+							$scormFilePath = $a_import_dirname . "/" . $scormFile;
+							$targetPath = $newObj->getDataDirectory()."/".$scormFile;
+							$file_path = $targetPath;
+
+							ilFileUtils::rename ($scormFilePath, $targetPath);
+							ilUtil::unzip($file_path);
+							unlink($file_path);
+							ilUtil::renameExecutables($newObj->getDataDirectory());
+
+							$newId = $newObj->getRefId();
+							$subType = $this->moduleProperties["SubType"][0];
+							if ($subType == "scorm")
+							{
+								include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
+								$newObj = new ilObjSCORMLearningModule($newId);
+							}
+							else
+							{
+								include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+								$newObj = new ilObjSCORM2004LearningModule($newId);
+							}
+							$title = $newObj->readObject();
+							//auto set learning progress settings
+							$newObj->setLearningProgressSettingsAtUpload();
+						}
+						
+						
 						$result = true;
 					}
 					else
