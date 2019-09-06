@@ -118,8 +118,21 @@ class AuthoringService
         return $DIC->assessment()->entityIdBuilder()->new();
     }
 
-    public function getQuestionPage(AssessmentEntityId $questionUid) : \ilAsqQuestionPageGUI
+    public function getQuestionPage(QuestionComponent $questionComponent, string $scoreCommand) : \ilAsqQuestionPageGUI
     {
+        $questionHtml = $questionComponent->renderHtml($scoreCommand);
+
+        $pageGUI = $this->authoring_application_service->getQuestionPage(
+            $questionComponent->getQuestionDto()->getQuestionIntId()
+        );
+
+        $pageGUI->setQuestionHTML([
+            $questionComponent->getQuestionDto()->getQuestionIntId() => $questionHtml
+        ]);
+
+        $pageGUI->setPresentationTitle($questionComponent->getQuestionDto()->getData()->getTitle());
+
+        return $pageGUI;
     }
 
     public function getQuestionPageEditor(AssessmentEntityId $questionUid) : \ilAsqQuestionPageGUI
@@ -135,7 +148,7 @@ class AuthoringService
         );
 
         $pageGUI->setQuestionHTML([
-            $questionDto->getQuestionIntId() => $qstComponent->renderHtml('', '')
+            $questionDto->getQuestionIntId() => $qstComponent->renderHtml('')
         ]);
 
         $pageGUI->setHeader($questionDto->getData()->getTitle());

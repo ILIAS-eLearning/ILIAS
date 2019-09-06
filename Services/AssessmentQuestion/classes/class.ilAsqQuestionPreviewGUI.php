@@ -4,6 +4,7 @@
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -40,9 +41,9 @@ class ilAsqQuestionPreviewGUI
     protected $authoringApplicationService;
 
     /**
-     * @var QuestionDto
+     * @var AuthoringService
      */
-    protected $questionDto;
+    protected $publicAuthoringService;
 
     /**
      * @var QuestionComponent
@@ -57,12 +58,14 @@ class ilAsqQuestionPreviewGUI
     public function __construct(
         AuthoringContextContainer $contextContainer,
         AssessmentEntityId $questionId,
+        AuthoringService $publicAuthoringService,
         AuthoringApplicationService $authoringApplicationService
 
     )
     {
         $this->contextContainer = $contextContainer;
         $this->questionId = $questionId;
+        $this->publicAuthoringService = $publicAuthoringService;
         $this->authoringApplicationService = $authoringApplicationService;
     }
 
@@ -87,25 +90,12 @@ class ilAsqQuestionPreviewGUI
 
         if( $this->questionComponent === null )
         {
-            $this->questionDto = $this->authoringApplicationService->GetQuestion(
-                $this->questionId->getId()
-            );
-
-            $this->questionComponent = new QuestionComponent($this->questionDto);
+            $this->questionComponent = $this->publicAuthoringService->questionComponent($this->questionId);
         }
 
-        $questionHtml = $this->questionComponent->renderHtml(self::CMD_SCORE_PREVIEW);
-
-        $qstPageGUI = new ilAsqQuestionPageGUI($this->questionDto->getQuestionIntId());
-        $qstPageGUI->setRenderPageContainer(false);
-        $qstPageGUI->setEditPreview(true);
-        $qstPageGUI->setEnabledTabs(false);
-
-        $qstPageGUI->setQuestionHTML([
-            $this->questionDto->getQuestionIntId() => $questionHtml
-        ]);
-
-        $qstPageGUI->setPresentationTitle($this->questionDto->getData()->getTitle());
+        $qstPageGUI = $this->publicAuthoringService->getQuestionPage(
+            $this->questionComponent, self::CMD_SCORE_PREVIEW
+        );
 
         $tpl = new ilTemplate('tpl.question_preview_container.html', true, true, 'Services/AssessmentQuestion');
 
@@ -117,8 +107,14 @@ class ilAsqQuestionPreviewGUI
 
     public function scorePreview()
     {
-        $this->questionDto = $this->authoringApplicationService->GetQuestion($this->questionId->getId());
-        $this->questionComponent = new QuestionComponent($this->questionDto);
+        $this->questionComponent = $this->publicAuthoringService->questionComponent($this->questionId);
+
+        /**
+         * TODO: we should think about the QuestionComponent again (later).
+         * Currently it handles rendering of the question inputs
+         * as well as reading from request,
+         * altough the answer behavior is settable from outside.
+         */
 
         $answer = new Answer(
             $this->contextContainer->getActorId(),
@@ -129,8 +125,8 @@ class ilAsqQuestionPreviewGUI
 
         $this->questionComponent->setAnswer($answer);
 
-        $scoring_class = QuestionPlayConfiguration::getScoringClass($this->questionDto->getPlayConfiguration());
-        $scoring = new $scoring_class($this->questionDto);
+        $scoring_class = QuestionPlayConfiguration::getScoringClass($this->questionComponent->getQuestionDto()->getPlayConfiguration());
+        $scoring = new $scoring_class($this->questionComponent->getQuestionDto());
 
         ilUtil::sendInfo("Score: ".$scoring->score($answer));
 

@@ -126,7 +126,13 @@ class AuthoringApplicationService {
 
 	public function getQuestionPage(int $questionIntId) : \ilAsqQuestionPageGUI
     {
+        $pageGUI = new \ilAsqQuestionPageGUI($questionIntId);
 
+        $pageGUI->setRenderPageContainer(false);
+        $pageGUI->setEditPreview(true);
+        $pageGUI->setEnabledTabs(false);
+
+        return $pageGUI;
     }
 
 	public function getQuestionPageEditor(int $questionIntId) : \ilAsqQuestionPageGUI

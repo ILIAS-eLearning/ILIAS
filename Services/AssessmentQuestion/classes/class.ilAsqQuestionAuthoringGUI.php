@@ -128,6 +128,7 @@ class ilAsqQuestionAuthoringGUI
                 $gui = new ilAsqQuestionPreviewGUI(
                     $this->contextContainer,
                     $this->question_id,
+                    $this->authoring_service,
                     $this->authoring_application_service
                 );
 

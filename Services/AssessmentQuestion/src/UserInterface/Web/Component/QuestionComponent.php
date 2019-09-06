@@ -60,4 +60,14 @@ class QuestionComponent {
 	public function setAnswer(Answer $answer) {
 		$this->editor->setAnswer($answer->getValue());
 	}
+
+
+    /**
+     * @deprecated
+     * to be removed, but neccessary for the moment
+     */
+	public function getQuestionDto()
+    {
+        return $this->question;
+    }
 }
