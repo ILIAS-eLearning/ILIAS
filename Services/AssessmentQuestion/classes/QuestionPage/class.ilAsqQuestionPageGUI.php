@@ -38,11 +38,21 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
      */
     public function __construct($questionIntId)
     {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
         parent::__construct(
             ilAsqQuestionPage::ASQ_OBJECT_TYPE, $questionIntId
         );
 
         $this->setEnabledPageFocus(false);
+
+        // content and syntax styles
+        $DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
+        $DIC->ui()->mainTemplate()->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+        $DIC->ui()->mainTemplate()->parseCurrentBlock();
+        $DIC->ui()->mainTemplate()->setCurrentBlock("SyntaxStyle");
+        $DIC->ui()->mainTemplate()->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
+        $DIC->ui()->mainTemplate()->parseCurrentBlock();
     }
 
     public function getOriginalPresentationTitle()

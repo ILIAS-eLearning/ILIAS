@@ -125,8 +125,6 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PREVIEW);
 
-                $this->prepareQuestionPageOutput();
-
                 $gui = new ilAsqQuestionPreviewGUI(
                     $this->contextContainer,
                     $this->question_id,
@@ -143,9 +141,18 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PAGEVIEW);
 
-                $this->prepareQuestionPageOutput();
+                $gui = $this->authoring_service->getQuestionPageEditor($this->question_id);
 
-                $this->forwardToPageEditor();
+                if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"]))
+                {
+                    // workaround for page edit imagemaps, keep in mind
+
+                    $DIC->ctrl()->setCmdClass(strtolower(get_class($gui)));
+                    $DIC->ctrl()->setCmd('preview');
+                }
+
+                $html = $DIC->ctrl()->forwardCommand($gui);
+                $DIC->ui()->mainTemplate()->setContent($html);
 
                 break;
 
@@ -222,51 +229,6 @@ class ilAsqQuestionAuthoringGUI
                 $this->{$cmd}();
         }
 	}
-
-
-	protected function forwardToPageEditor()
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $gui = $this->authoring_service->getQuestionPageEditor($this->question_id);
-
-        if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"]))
-        {
-            // workaround for page edit imagemaps, keep in mind
-
-            $DIC->ctrl()->setCmdClass(strtolower(get_class($gui)));
-            $DIC->ctrl()->setCmd('preview');
-        }
-
-        $html = $DIC->ctrl()->forwardCommand($gui);
-        $DIC->ui()->mainTemplate()->setContent($html);
-    }
-
-
-    protected function prepareQuestionPageOutput()
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        // content styles
-
-        $DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
-
-        $DIC->ui()->mainTemplate()->setVariable("LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
-        );
-
-        $DIC->ui()->mainTemplate()->parseCurrentBlock();
-
-        // syntax styles
-
-        $DIC->ui()->mainTemplate()->setCurrentBlock("SyntaxStyle");
-
-        $DIC->ui()->mainTemplate()->setVariable("LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-
-        $DIC->ui()->mainTemplate()->parseCurrentBlock();
-    }
 
 
     protected function redrawHeaderAction()
