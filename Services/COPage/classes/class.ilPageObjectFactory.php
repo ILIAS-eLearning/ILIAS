@@ -26,7 +26,7 @@ class ilPageObjectFactory
 		$def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
 		$class = $def["class_name"];
 		$path = "./".$def["component"]."/".$def["directory"]."/class.".$class.".php";
-		include_once($path);
+		//include_once($path);
 		$obj = new $class($a_id , $a_old_nr, $a_lang);
 		
 		return $obj;
@@ -44,7 +44,7 @@ class ilPageObjectFactory
 		$def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
 		$class = $def["class_name"]."Config";
 		$path = "./".$def["component"]."/".$def["directory"]."/class.".$class.".php";
-		include_once($path);
+		//include_once($path);
 		$cfg = new $class();
 		
 		return $cfg;

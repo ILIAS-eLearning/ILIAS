@@ -181,9 +181,9 @@ class Question
 
         return $DIC->ui()->factory()->link()->standard(
             $DIC->language()->txt('asq_authoring_tab_pageview'),
-            $DIC->ctrl()->getLinkTargetByClass([
-                ilAsqQuestionAuthoringGUI::class, \ilAsqQuestionPageEditorGUI::class
-            ])
+            $DIC->ctrl()->getLinkTargetByClass(
+                [ilAsqQuestionAuthoringGUI::class, \ilAsqQuestionPageGUI::class], 'edit'
+            )
         );
     }
 

@@ -27,7 +27,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
  *
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionCreationGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPreviewGUI
- * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionConfigEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionFeedbackEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionHintsEditorGUI
@@ -128,6 +128,7 @@ class ilAsqQuestionAuthoringGUI
                 $gui = new ilAsqQuestionPreviewGUI(
                     $this->contextContainer,
                     $this->question_id,
+                    $this->authoring_service,
                     $this->authoring_application_service
                 );
 
@@ -135,14 +136,24 @@ class ilAsqQuestionAuthoringGUI
 
                 break;
 
-            case strtolower(ilAsqQuestionPageEditorGUI::class):
+            case strtolower(ilAsqQuestionPageGUI::class):
 
                 $this->initHeaderAction();
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PAGEVIEW);
 
-                $gui = new ilAsqQuestionPageEditorGUI();
-                $DIC->ctrl()->forwardCommand($gui);
+                $gui = $this->authoring_service->getQuestionPageEditor($this->question_id);
+
+                if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"]))
+                {
+                    // workaround for page edit imagemaps, keep in mind
+
+                    $DIC->ctrl()->setCmdClass(strtolower(get_class($gui)));
+                    $DIC->ctrl()->setCmd('preview');
+                }
+
+                $html = $DIC->ctrl()->forwardCommand($gui);
+                $DIC->ui()->mainTemplate()->setContent($html);
 
                 break;
 
