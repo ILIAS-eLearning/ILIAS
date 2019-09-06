@@ -914,6 +914,7 @@ class ilAuthUtils
 				return $idp->getEntityId();
 
 			default:
+				$lng->loadLanguageModule('auth');
 				return $lng->txt('auth_'.self::_getAuthModeName($a_auth_key));
 		}
 	}

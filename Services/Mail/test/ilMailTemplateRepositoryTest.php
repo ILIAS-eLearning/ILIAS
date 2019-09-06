@@ -1,111 +1,116 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailTemplateRepository
+ * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailTemplateRepositoryTest extends \ilMailBaseTest
+class ilMailTemplateRepositoryTest extends ilMailBaseTest
 {
-	/**
-	 * @return \ilMailTemplate
-	 */
-	public function testEntityCanBeSaved(): \ilMailTemplate
-	{
-		$db = $this->getMockbuilder(\ilDBInterface::class)->getMock();
+    /**
+     * @return ilMailTemplate
+     * @throws ReflectionException
+     */
+    public function testEntityCanBeSaved() : ilMailTemplate
+    {
+        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
 
-		$repository = new \ilMailTemplateRepository($db);
+        $repository = new ilMailTemplateRepository($db);
 
-		$templateId = 666;
+        $templateId = 666;
 
-		$template = new \ilMailTemplate();
-		$template->setTitle('phpunit');
-		$template->setSubject('FooBar');
-		$template->setMessage('FooBar');
-		$template->setLang('de');
-		$template->setContext('4711');
-		$template->setAsDefault(true);
+        $template = new ilMailTemplate();
+        $template->setTitle('phpunit');
+        $template->setSubject('FooBar');
+        $template->setMessage('FooBar');
+        $template->setLang('de');
+        $template->setContext('4711');
+        $template->setAsDefault(true);
 
-		$db->expects($this->once())->method('nextId')->willReturn($templateId);
-		$db->expects($this->once())->method('insert');
+        $db->expects($this->once())->method('nextId')->willReturn($templateId);
+        $db->expects($this->once())->method('insert');
 
-		$repository->store($template);
+        $repository->store($template);
 
-		$this->assertEquals($templateId, $template->getTplId());
+        $this->assertEquals($templateId, $template->getTplId());
 
-		return $template;
-	}
+        return $template;
+    }
 
-	/**
-	 * @depends testEntityCanBeSaved
-	 * @param \ilMailTemplate $template
-	 * @return \ilMailTemplate
-	 */
-	public function testEntityCanBeModified(\ilMailTemplate $template): \ilMailTemplate
-	{
-		$db = $this->getMockbuilder(\ilDBInterface::class)->getMock();
+    /**
+     * @depends testEntityCanBeSaved
+     * @param ilMailTemplate $template
+     * @return ilMailTemplate
+     * @throws ReflectionException
+     */
+    public function testEntityCanBeModified(ilMailTemplate $template) : ilMailTemplate
+    {
+        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
 
-		$repository = new \ilMailTemplateRepository($db);
+        $repository = new ilMailTemplateRepository($db);
 
-		$db->expects($this->once())->method('update');
+        $db->expects($this->once())->method('update');
 
-		$repository->store($template);
+        $repository->store($template);
 
-		return $template;
-	}
+        return $template;
+    }
 
-	/**
-	 * @depends testEntityCanBeModified
-	 * @param \ilMailTemplate $template
-	 */
-	public function testEntityCanBeDeleted(\ilMailTemplate $template)
-	{
-		$db = $this->getMockbuilder(\ilDBInterface::class)->getMock();
+    /**
+     * @depends testEntityCanBeModified
+     * @param ilMailTemplate $template
+     * @throws ReflectionException
+     */
+    public function testEntityCanBeDeleted(ilMailTemplate $template) : void
+    {
+        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
 
-		$repository = new \ilMailTemplateRepository($db);
+        $repository = new ilMailTemplateRepository($db);
 
-		$db->expects($this->once())->method('manipulate');
+        $db->expects($this->once())->method('manipulate');
 
-		$repository->deleteByIds([$template->getTplId()]);
-	}
+        $repository->deleteByIds([$template->getTplId()]);
+    }
 
-	/**
-	 * 
-	 */
-	public function testTemplateCanBeFoundById()
-	{
-		$db = $this->getMockbuilder(\ilDBInterface::class)->getMock();
-		$statement = $this->getMockbuilder(\ilDBStatement::class)->getMock();
+    /**
+     * @throws ReflectionException
+     */
+    public function testTemplateCanBeFoundById() : void
+    {
+        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
+        $statement = $this->getMockbuilder(ilDBStatement::class)->getMock();
 
-		$templateId = 666;
+        $templateId = 666;
 
-		$emptyTemplate = new \ilMailTemplate();
-		$emptyTemplate->setTplId($templateId);
+        $emptyTemplate = new ilMailTemplate();
+        $emptyTemplate->setTplId($templateId);
 
-		$db->expects($this->once())->method('queryF')->willReturn($statement);
-		$db->expects($this->once())->method('numRows')->willReturn(1);
-		$db->expects($this->once())->method('fetchAssoc')->willReturn($emptyTemplate->toArray());
+        $db->expects($this->once())->method('queryF')->willReturn($statement);
+        $db->expects($this->once())->method('numRows')->willReturn(1);
+        $db->expects($this->once())->method('fetchAssoc')->willReturn($emptyTemplate->toArray());
 
-		$repository = new \ilMailTemplateRepository($db);
-		$template = $repository->findById(4711);
+        $repository = new ilMailTemplateRepository($db);
+        $template = $repository->findById(4711);
 
-		$this->assertEquals($templateId, $template->getTplId());
-	}
+        $this->assertEquals($templateId, $template->getTplId());
+    }
 
-	/**
-	 * 
-	 */
-	public function testExceptionIsRaisedIfNoTemplateCanBeFoundById()
-	{
-		$this->expectException(\OutOfBoundsException::class);
+    /**
+     * @throws ReflectionException
+     */
+    public function testExceptionIsRaisedIfNoTemplateCanBeFoundById() : void
+    {
+        $this->expectException(OutOfBoundsException::class);
 
-		$db = $this->getMockbuilder(\ilDBInterface::class)->getMock();
-		$statement = $this->getMockbuilder(\ilDBStatement::class)->getMock();
+        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
+        $statement = $this->getMockbuilder(ilDBStatement::class)->getMock();
 
-		$db->expects($this->once())->method('queryF')->willReturn($statement);
-		$db->expects($this->once())->method('numRows')->willReturn(0);
-		$db->expects($this->never())->method('fetchAssoc');
+        $db->expects($this->once())->method('queryF')->willReturn($statement);
+        $db->expects($this->once())->method('numRows')->willReturn(0);
+        $db->expects($this->never())->method('fetchAssoc');
 
-		$repository = new \ilMailTemplateRepository($db);
-		$repository->findById(4711);
-	}
+        $repository = new ilMailTemplateRepository($db);
+        $repository->findById(4711);
+    }
 }

@@ -323,44 +323,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
 		$acc->setId('template_perm_'.$this->ref_id);
 
-		$subs = $objDefinition->getSubObjectsRecursively('root','true',false);
+		$subs = ilObjRole::getSubObjects('root', false);
 
-		$sorted = array();
 		foreach($subs as $subtype => $def)
 		{
-			if($objDefinition->isPlugin($subtype))
-			{
-				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
-			}
-			elseif($objDefinition->isSystemObject($subtype))
-			{
-				$translation = $this->lng->txt("obj_".$subtype);
-			}
-			else
-			{
-				$translation = $this->lng->txt('objs_'.$subtype);
-			}
-
-			$sorted[$subtype] = $def;
-			$sorted[$subtype]['translation'] = $translation;
-		}
-
-		$sorted = ilUtil::sortArray($sorted, 'translation','asc',true,true);
-		foreach($sorted as $subtype => $def)
-		{
-			if($objDefinition->isPlugin($subtype))
-			{
-				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
-			}
-			elseif($objDefinition->isSystemObject($subtype))
-			{
-				$translation = $this->lng->txt("obj_".$subtype);
-			}
-			else
-			{
-				$translation = $this->lng->txt('objs_'.$subtype);
-			}
-
 			$tbl = new ilObjectRoleTemplatePermissionTableGUI(
 				$this,
 				'perm',
@@ -372,7 +338,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$tbl->setShowChangeExistingObjects(false);
 			$tbl->parse();
 
-			$acc->addItem($translation, $tbl->getHTML());
+			$acc->addItem($def['translation'], $tbl->getHTML());
 		}
 
 		$this->tpl->setVariable('ACCORDION',$acc->getHTML());
@@ -395,8 +361,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$options->parse();
 		$this->tpl->setVariable('OPTIONS_TABLE',$options->getHTML());
 	}
-
-
 
 
 	/**
@@ -435,7 +399,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			return true;
 		}
 		// delete all existing template entries
-		$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
+		//$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
+		$subs = ilObjRole::getSubObjects('root', false);
+
+		foreach($subs as $subtype => $def)
+		{
+			// Delete per object type
+			$rbacadmin->deleteRolePermission($this->object->getId(),$this->ref_id,$subtype);
+		}
 
 		foreach ($_POST["template_perm"] as $key => $ops_array)
 		{

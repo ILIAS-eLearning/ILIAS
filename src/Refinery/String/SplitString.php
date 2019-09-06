@@ -10,56 +10,60 @@ use ILIAS\Refinery\Transformation;
 /**
  * Split a string by delimiter into array
  */
-class SplitString implements Transformation {
-	/**
-	 * @var string
-	 */
-	protected $delimiter;
+class SplitString implements Transformation
+{
+    /**
+     * @var string
+     */
+    protected $delimiter;
 
-	/**
-	 * @var Factory
-	 */
-	private $factory;
+    /**
+     * @var Factory
+     */
+    private $factory;
 
-	/**
-	 * @param string $delimiter
-	 * @param Factory $factory
-	 */
-	public function __construct($delimiter, Factory $factory ) {
-		$this->delimiter = $delimiter;
-		$this->factory = $factory;
-	}
+    /**
+     * @param string $delimiter
+     * @param Factory $factory
+     */
+    public function __construct($delimiter, Factory $factory)
+    {
+        $this->delimiter = $delimiter;
+        $this->factory = $factory;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from) {
-		if(!is_string($from)) {
-			throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
-		}
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        if (!is_string($from)) {
+            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+        }
 
-		return explode($this->delimiter, $from);
-	}
+        return explode($this->delimiter, $from);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from) {
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function applyTo(Result $data): Result
-	{
-		$dataValue = $data->value();
-		if(false === is_string($dataValue)) {
-			$exception = new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
-			return $this->factory->error($exception);
-		}
+    /**
+     * @inheritdoc
+     */
+    public function applyTo(Result $data) : Result
+    {
+        $dataValue = $data->value();
+        if (false === is_string($dataValue)) {
+            $exception = new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            return $this->factory->error($exception);
+        }
 
-		$value = explode($this->delimiter, $dataValue);
-		return $this->factory->ok($value);
-	}
+        $value = explode($this->delimiter, $dataValue);
+        return $this->factory->ok($value);
+    }
 }

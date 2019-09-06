@@ -11,55 +11,56 @@ namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Value;
 
-interface ScalarValueFactory {
+interface ScalarValueFactory
+{
 
-	/**
-	 * @param bool $bool
-	 *
-	 * @return BooleanValue
-	 */
-	public function boolean($bool);
-
-
-	/**
-	 * @param float $float
-	 *
-	 * @return FloatValue
-	 */
-	public function float($float);
+    /**
+     * @param bool $bool
+     *
+     * @return BooleanValue
+     */
+    public function boolean($bool);
 
 
-	/**
-	 * @param int $integer
-	 *
-	 * @return IntegerValue
-	 */
-	public function integer($integer);
+    /**
+     * @param float $float
+     *
+     * @return FloatValue
+     */
+    public function float($float);
 
 
-	/**
-	 * @param string $string
-	 *
-	 * @return StringValue
-	 */
-	public function string($string);
+    /**
+     * @param int $integer
+     *
+     * @return IntegerValue
+     */
+    public function integer($integer);
 
 
-	/**
-	 * Tries to wrap a Value. Stays unchanged if the given value already is a Background Task Value.
-	 *
-	 * @param $value
-	 *
-	 * @return Value
-	 * @throws InvalidArgumentException
-	 */
-	public function wrapValue($value);
+    /**
+     * @param string $string
+     *
+     * @return StringValue
+     */
+    public function string($string);
 
 
-	/**
-	 * @param $scalar
-	 *
-	 * @return ScalarValue
-	 */
-	public function scalar($scalar);
+    /**
+     * Tries to wrap a Value. Stays unchanged if the given value already is a Background Task Value.
+     *
+     * @param $value
+     *
+     * @return Value
+     * @throws InvalidArgumentException
+     */
+    public function wrapValue($value);
+
+
+    /**
+     * @param $scalar
+     *
+     * @return ScalarValue
+     */
+    public function scalar($scalar);
 }

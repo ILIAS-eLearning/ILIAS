@@ -106,6 +106,7 @@ class ilMediaAliasItem
 		{
 			return $res->nodeset;
 		}
+		return array();
 	}
 
 	/**

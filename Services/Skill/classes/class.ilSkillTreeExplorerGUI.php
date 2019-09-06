@@ -206,7 +206,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 		
 		$ilCtrl->setParameterByClass($gui_class, "tref_id", $tref_id);
 		$ilCtrl->setParameterByClass($gui_class, "obj_id", $skill_id);
-		$ret = $ilCtrl->getLinkTargetByClass($gui_class, $cmd);
+		$ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI", $gui_class], $cmd);
 		$ilCtrl->setParameterByClass($gui_class, "obj_id", $_GET["obj_id"]);
 		$ilCtrl->setParameterByClass($gui_class, "tref_id", $_GET["tref_id"]);
 

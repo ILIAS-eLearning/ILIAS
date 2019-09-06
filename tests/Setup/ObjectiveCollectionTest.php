@@ -4,9 +4,13 @@
 
 namespace ILIAS\Tests\Setup;
 
+require_once(__DIR__."/Helper.php");
+
 use ILIAS\Setup;
 
 class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase {
+	use Helper;
+
 	public function testGetObjectives() {
 		$g1 = $this->newObjective();
 		$g2 = $this->newObjective();
@@ -78,21 +82,5 @@ class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase {
 
 		$res = $c->achieve($env);
 		$this->assertSame($env, $res);
-	}
-
-	protected function newObjective() {
-		static $no = 0;
-
-		$objective = $this
-			->getMockBuilder(Setup\Objective::class)
-			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
-			->setMockClassName("Mock_ObjectiveNo".($no++))
-			->getMock();
-
-		$objective
-			->method("getHash")
-			->willReturn("".$no);
-
-		return $objective;
 	}
 }

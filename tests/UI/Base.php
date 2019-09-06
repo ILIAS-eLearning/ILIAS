@@ -72,7 +72,7 @@ class ilLanguageMock extends \ilLanguage {
 		$this->requested[] = $a_topic;
 		return $a_topic;
 	}
-	public function toJS($a_key, ilGlobalTemplate $a_tpl = NULL) {
+	public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null) {
 	}
 	public $lang_module = 'common';
 	public function loadLanguageModule($lang_module) {}
@@ -153,6 +153,12 @@ abstract class ILIAS_UI_TestBase extends TestCase {
 		return new LoggingJavaScriptBinding();
 	}
 
+	public function getRefinery() {
+		return $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
+			->disableOriginalConstructor()
+			->getMock();
+	}
+
 	public function getDefaultRenderer(JavaScriptBinding $js_binding = null) {
 		$ui_factory = $this->getUIFactory();
 		$tpl_factory = $this->getTemplateFactory();
@@ -161,6 +167,8 @@ abstract class ILIAS_UI_TestBase extends TestCase {
 		if(!$js_binding){
 			$js_binding = $this->getJavaScriptBinding();
 		}
+
+		$refinery = $this->getRefinery();
 
 		$component_renderer_loader
 			= new Render\LoaderCachingWrapper
@@ -172,19 +180,22 @@ abstract class ILIAS_UI_TestBase extends TestCase {
 							, $tpl_factory
 							, $lng
 							, $js_binding
+							, $refinery
 							),
 						  new GlyphRendererFactory
 							( $ui_factory
 							, $tpl_factory
 							, $lng
 							, $js_binding
-							),
+							, $refinery
+						  ),
 						  new FieldRendererFactory
 							( $ui_factory
 							, $tpl_factory
 							, $lng
 							, $js_binding
-							)
+							, $refinery
+						  )
 						)
 					)
 				);

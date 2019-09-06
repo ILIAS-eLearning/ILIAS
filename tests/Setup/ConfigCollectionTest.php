@@ -4,9 +4,13 @@
 
 namespace ILIAS\Tests\Setup;
 
+require_once(__DIR__."/Helper.php");
+
 use ILIAS\Setup;
 
 class ConfigCollectionTest extends \PHPUnit\Framework\TestCase {
+	use Helper;
+
 	public function testConstruct() {
 		$c1 = $this->newConfig();
 		$c2 = $this->newConfig();
@@ -37,17 +41,5 @@ class ConfigCollectionTest extends \PHPUnit\Framework\TestCase {
 		$c = new Setup\ConfigCollection(["c1" => $c1, "c2" => $c2, "c3" => $c3]);
 
 		$this->assertEquals(["c1", "c2", "c3"], $c->getKeys());
-	}
-
-	protected function newConfig() {
-		static $no = 0;
-
-		$config = $this
-			->getMockBuilder(Setup\Config::class)
-			->setMethods([])
-			->setMockClassName("Mock_ConfigNo".($no++))
-			->getMock();
-
-		return $config;
 	}
 }

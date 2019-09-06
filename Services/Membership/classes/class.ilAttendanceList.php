@@ -66,38 +66,41 @@ class ilAttendanceList
 
 		// roles
 		$roles = $this->participants->getRoles();
+
 		foreach($roles as $role_id)
 		{
 			$title = ilObject::_lookupTitle($role_id);
 			switch(substr($title, 0, 8))
 			{
 				case 'il_crs_a':
-				case 'il_grp_a':					
+				case 'il_grp_a':
+				case 'il_lso_a':
 					$this->addRole($role_id, $DIC->language()->txt('event_tbl_admin'), 'admin');
 					break;
-				
-				case 'il_crs_t':					
+
+				case 'il_crs_t':
 					$this->addRole($role_id, $DIC->language()->txt('event_tbl_tutor'), 'tutor');
 					break;
-				
+
 				case 'il_crs_m':
 				case 'il_grp_m':
+				case 'il_lso_m':
 					$this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
 					break;
-				
+
 				case 'il_sess_':
 					$this->addRole($role_id, $DIC->language()->txt('event_tbl_member'), 'member');
 					break;
-				
+
 				// local
 				default:
 					$this->has_local_role = true;
 					$this->addRole($role_id, $title, 'local');
 					break;
-			}			
-		}			
+			}
+		}
 	}
-	
+
 	/**
 	 * read object export fields
 	 * @return boolean

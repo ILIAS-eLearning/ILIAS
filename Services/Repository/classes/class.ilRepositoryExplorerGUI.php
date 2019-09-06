@@ -79,7 +79,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		$objDefinition = $DIC["objDefinition"];
 
 		$this->cur_ref_id = (int) $_GET["ref_id"];
-		
+
 		$this->top_node_id = 0;
 		if ($ilSetting->get("rep_tree_limit_grp_crs") && $this->cur_ref_id > 0)
 		{
@@ -102,9 +102,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
 		$this->setSkipRootNode(false);
+		$this->setNodeOpen($this->tree->readRootId());
 		$this->setAjax(true);
 		$this->setOrderField("title");
-
 		if ($ilSetting->get("repository_tree_pres") == "" ||
 			($ilSetting->get("rep_tree_limit_grp_crs") && $this->top_node_id == 0))
 		{			

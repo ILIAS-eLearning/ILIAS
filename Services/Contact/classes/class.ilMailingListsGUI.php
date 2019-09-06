@@ -588,7 +588,7 @@ class ilMailingListsGUI
 			/**
 			 * @var $relation ilBuddySystemRelation
 			 */
-			$options[$relation->getBuddyUserId()] = $names[$relation->getBuddyUserId()];
+			$options[$relation->getBuddyUsrId()] = $names[$relation->getBuddyUsrId()];
 		}
 
 		$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();

@@ -162,7 +162,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
             $data['cnt'] = count($data['items']);
         }
 
-        $this->logger->debug(sprintf('END - Actual results:', json_encode($data)));
+        $this->logger->debug(sprintf('END - Actual results: "%s"', json_encode($data)));
 
         return $data;
     }

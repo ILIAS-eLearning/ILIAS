@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Tree\Node\Node as INode;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -20,6 +21,11 @@ abstract class Node implements INode
 	use ComponentHelper;
 	use JavaScriptBindable;
 	use Triggerer;
+
+	/**
+	 * @var URI
+	 */
+	protected $link;
 
 	/**
 	 * @var string
@@ -41,10 +47,10 @@ abstract class Node implements INode
 	 */
 	protected $subnodes = [];
 
-
-	public function __construct(string $label)
+	public function __construct(string $label, URI $link = null)
 	{
 		$this->label = $label;
+		$this->link  = $link;
 	}
 
 	/**
@@ -122,5 +128,14 @@ abstract class Node implements INode
 	public function appendOnClick(Signal $signal)
 	{
 		return $this->appendTriggeredSignal($signal, 'click');
+	}
+
+	/**
+	 * Get the URI object that is added as link in the UI
+	 * @return URI
+	 */
+	public function getLink() : ?URI
+	{
+		return $this->link;
 	}
 }

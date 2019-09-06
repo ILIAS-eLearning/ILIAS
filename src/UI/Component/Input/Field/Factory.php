@@ -96,11 +96,67 @@ interface Factory {
 	 * ---
 	 *
 	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+	 * @param    string    $label
 	 *
 	 * @return    \ILIAS\UI\Component\Input\Field\Group
 	 */
-	public function group(array $inputs);
+	public function group(array $inputs, string $label='');
 
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      An optional group is a collection of input where the user needs to make
+	 *      a conscious decision to use or not use the provided inputs.
+	 *   composition: >
+	 *      An optional group is composed of a checkbox that bears the label and
+	 *      the byline of the group and the contained inputs that are arranged in
+	 *      a way to make them visually belong to the checkbox.
+	 *   effect: >
+	 *      If the checkbox is checked, the contained inputs are revealed, while
+	 *      they are hidden when the checkbox is not checked.
+	 *
+	 * rules:
+	 *  usage:
+	 *    1: >
+     *      There MUST NOT be a nesting of more than one optional and/or switchable
+	 *      group. The only exception to this rule is the required quantification
+	 *      of a subsetting by a date or number. These exceptions MUST individually
+	 *      accepted by the Jour Fixe.
+	 *
+	 * ---
+	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+	 * @return	\ILIAS\UI\Component\Input\Field\OptionalGroup
+	 */
+	public function optionalGroup(array $inputs, string $label, string $byline = null) : OptionalGroup;
+
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *      A switchable group is a collection of groups that makes the user decide
+	 *      which group he wants to fill with further input.
+	 *   composition: >
+	 *      A switchable group is composed of radiobuttons that bear the label and
+	 *      the byline of the according group and the inputs contained in that group
+	 *      in a way to make them visually belong to the radio group.
+	 *   effect: >
+	 *      If a radiobutton is selected, the according inputs are revealed and the
+	 *      other groups are hidden.
+	 *
+	 * rules:
+	 *  usage:
+	 *    1: >
+     *      There MUST NOT be a nesting of more than one optional and/or switchable
+	 *      group. The only exception to this rule is the required quantification
+	 *      of a subsetting by a date or number. These exceptions MUST individually
+	 *      accepted by the Jour Fixe.
+	 *
+	 * ---
+	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input\Group>    $inputs
+	 * @return	\ILIAS\UI\Component\Input\Field\SwitchableGroup
+	 */
+	public function switchableGroup(array $inputs, string $label, string $byline = null) : SwitchableGroup;
 
 	/**
 	 * ---
@@ -146,36 +202,6 @@ interface Factory {
 	 * @return    \ILIAS\UI\Component\Input\Field\Section
 	 */
 	public function section(array $inputs, $label, $byline = null);
-
-
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *      Fields can be nested by using dependant groups (formerly known as subforms)
-	 *      allowing for settings-dependent configurations.
-	 *   composition: >
-	 *      Dependant groups are like groups composed of a set of input fields.
-	 *   effect: >
-	 *      The display of dependent group is triggered by enabling some other input
-	 *      field which has an attached dependant group. Note that not all fields allow
-	 *      this (e.g. Checkboxes do). Look at the interface whether and how dependant
-	 *      groups can be attached.
-	 *
-	 * rules:
-	 *   usage:
-	 *     1: >
-	 *       There MUST NOT be a nesting of more than one dependant group. The only
-	 *       exception to this rule is the required quantification of a subsetting by a
-	 *       date or number. These exceptions MUST individually accepted by the Jour Fixe.
-	 * ---
-	 *
-	 *
-	 * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
-	 *
-	 * @return    \ILIAS\UI\Component\Input\Field\DependantGroup
-	 */
-	public function dependantGroup(array $inputs);
 
 
 	/**

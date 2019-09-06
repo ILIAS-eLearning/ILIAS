@@ -1007,6 +1007,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		{
 			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
 		}
+
+		// assert that this is empty and does not contain old data
+		ilUtil::delDir($tst_dir, true);
+
 		return $tst_dir;
 	}
 
@@ -7556,12 +7560,12 @@ function getAnswerFeedbackPoints()
 		$newObj->saveToDb();
 		
 		// clone certificate
-		$factory = new ilCertificateFactory();
+		$pathFactory = new ilCertificatePathFactory();
 		$templateRepository = new ilCertificateTemplateRepository($ilDB);
 
 		$cloneAction = new ilCertificateCloneAction(
 			$ilDB,
-			$factory,
+			$pathFactory,
 			$templateRepository,
 			$DIC->filesystem()->web(),
 			$certificateLogger,
@@ -10924,11 +10928,14 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->canShowTestResults($testSession))
 		{
-			$factory = new ilCertificateFactory();
+			$isComplete = false;
+			$userCertificateRepository = new ilUserCertificateRepository($this->db, $this->log);
+			try {
+				$userCertificateRepository->fetchActiveCertificate($user_id, $this->getId());
+				$isComplete = true;
+			} catch (ilException $e) {}
 
-			$cert = $factory->create($this);
-
-			if ($cert->isComplete())
+			if ($isComplete)
 			{
 				$vis = $this->getCertificateVisibility();
 				$showcert = FALSE;

@@ -11,40 +11,41 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblTableQueryFilterInterface {
+interface ilBiblTableQueryFilterInterface
+{
 
-	/**
-	 * @return string
-	 */
-	public function getFieldName();
-
-
-	/**
-	 * @param string $field_name
-	 */
-	public function setFieldName($field_name);
+    /**
+     * @return string
+     */
+    public function getFieldName();
 
 
-	/**
-	 * @return string
-	 */
-	public function getFieldValue();
+    /**
+     * @param string $field_name
+     */
+    public function setFieldName($field_name);
 
 
-	/**
-	 * @param string $field_value
-	 */
-	public function setFieldValue($field_value);
+    /**
+     * @return string
+     */
+    public function getFieldValue();
 
 
-	/**
-	 * @return string
-	 */
-	public function getOperator();
+    /**
+     * @param string $field_value
+     */
+    public function setFieldValue($field_value);
 
 
-	/**
-	 * @param string $operator
-	 */
-	public function setOperator($operator);
+    /**
+     * @return string
+     */
+    public function getOperator();
+
+
+    /**
+     * @param string $operator
+     */
+    public function setOperator($operator);
 }

@@ -14,87 +14,87 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class TupleTransformation implements Transformation
 {
-	use DeriveApplyToFromTransform;
+    use DeriveApplyToFromTransform;
 
-	/**
-	 * @var Transformation[]
-	 */
-	private $transformations;
+    /**
+     * @var Transformation[]
+     */
+    private $transformations;
 
-	/**
-	 * @param array $transformations
-	 */
-	public function __construct(array $transformations)
-	{
-		foreach ($transformations as $transformation) {
-			if (!$transformation instanceof Transformation) {
-				$transformationClassName = Transformation::class;
+    /**
+     * @param array $transformations
+     */
+    public function __construct(array $transformations)
+    {
+        foreach ($transformations as $transformation) {
+            if (!$transformation instanceof Transformation) {
+                $transformationClassName = Transformation::class;
 
-				throw new ConstraintViolationException(
-					sprintf('The array MUST contain only "%s" instances', $transformationClassName),
-					'not_a_transformation',
-					$transformationClassName
-				);
-			}
-		}
+                throw new ConstraintViolationException(
+                    sprintf('The array MUST contain only "%s" instances', $transformationClassName),
+                    'not_a_transformation',
+                    $transformationClassName
+                );
+            }
+        }
 
-		$this->transformations = $transformations;
-	}
+        $this->transformations = $transformations;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from)
-	{
-		$this->validateValueLength($from);
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        $this->validateValueLength($from);
 
-		$result = array();
-		foreach ($from as $key => $value) {
-			if (false === array_key_exists($key, $this->transformations)) {
-				throw new ConstraintViolationException(
-					sprintf(
-						'There is no entry "%s" defined in the transformation array',
-						$key
-					),
-					'values_do_not_match',
-					$key
-				);
-			}
-			$transformedValue = $this->transformations[$key]->transform($value);
+        $result = array();
+        foreach ($from as $key => $value) {
+            if (false === array_key_exists($key, $this->transformations)) {
+                throw new ConstraintViolationException(
+                    sprintf(
+                        'There is no entry "%s" defined in the transformation array',
+                        $key
+                    ),
+                    'values_do_not_match',
+                    $key
+                );
+            }
+            $transformedValue = $this->transformations[$key]->transform($value);
 
-			$result[] = $transformedValue;
-		}
+            $result[] = $transformedValue;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 
-	/**
-	 * @param $values
-	 */
-	private function validateValueLength($values)
-	{
-		$countOfValues = count($values);
-		$countOfTransformations = count($this->transformations);
+    /**
+     * @param $values
+     */
+    private function validateValueLength($values)
+    {
+        $countOfValues = count($values);
+        $countOfTransformations = count($this->transformations);
 
-		if ($countOfValues !== $countOfTransformations) {
-			throw new ConstraintViolationException(
-				sprintf(
-					'The given values(count: "%s") does not match with the given transformations("%s")',
-					$countOfValues,
-					$countOfTransformations
-				),
-				'given_values_',
-				$countOfValues,
-				$countOfTransformations
-			);
-		}
-	}
+        if ($countOfValues !== $countOfTransformations) {
+            throw new ConstraintViolationException(
+                sprintf(
+                    'The given values(count: "%s") does not match with the given transformations("%s")',
+                    $countOfValues,
+                    $countOfTransformations
+                ),
+                'given_values_',
+                $countOfValues,
+                $countOfTransformations
+            );
+        }
+    }
 }

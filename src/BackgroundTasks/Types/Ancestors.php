@@ -2,12 +2,13 @@
 
 namespace ILIAS\BackgroundTasks\Types;
 
-interface Ancestors {
+interface Ancestors
+{
 
-	/**
-	 * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
-	 *
-	 * @return Type[]
-	 */
-	public function getAncestors();
+    /**
+     * returns the hierarchy of this type. E.g. ["AbstractValue", "ScalarValue", "IntegerValue", "UserIdValue"]
+     *
+     * @return Type[]
+     */
+    public function getAncestors();
 }

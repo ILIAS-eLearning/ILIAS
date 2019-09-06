@@ -508,7 +508,7 @@ class ilDateTime
 				$this->dt_obj = DateTime::createFromFormat(
 					DateTime::ISO8601,
 					$a_date,
-					$this->getTimeZoneIdentifier()
+					new DateTimeZone($this->getTimeZoneIdentifier())
 					);
 				break;
 	 	}
