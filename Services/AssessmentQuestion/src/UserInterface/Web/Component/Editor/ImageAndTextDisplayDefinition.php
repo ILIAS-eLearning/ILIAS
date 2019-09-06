@@ -25,11 +25,11 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 	/**
 	 * @var string
 	 */
-	private $text;
+	protected $text;
 	/**
 	 * @var string
 	 */
-	private $image;
+	protected $image;
 
 	public function __construct(string $text, string $image) {
 		$this->text = $text;

@@ -20,21 +20,20 @@ class OrderingEditorConfiguration extends AbstractConfiguration
     /**
      * @var bool
      */
-    private $vertical;
+    protected $vertical;
     /**
      * @var int
      */
-    private $minimum_size;
+    protected $minimum_size;
     /**
      * @var int
      */
-    private $geometry;
+    protected $geometry;
     
     public static function create(
         bool $vertical, 
-        bool $minimum_size, 
-        int $geometry, 
-        int $points) : OrderingEditorConfiguration
+        int $minimum_size, 
+        int $geometry) : OrderingEditorConfiguration
     {
         $object = new OrderingEditorConfiguration();
         $object->vertical = $vertical;

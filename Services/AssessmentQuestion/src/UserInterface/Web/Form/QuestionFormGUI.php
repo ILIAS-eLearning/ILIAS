@@ -179,6 +179,14 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	 * @param QuestionPlayConfiguration $play
 	 */
 	private function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void {
+	    /* on post replace playconfiguration with configuration that uses 
+	     * the selected editor and scoring classes, so that the form
+	     * displays correctly when errors are detected
+	     */
+	    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	        $play = $this->readPlayConfiguration();
+	    }
+	    
 		$editor = $this->createSelectControl(
 		    'editor',
             self::VAR_EDITOR,

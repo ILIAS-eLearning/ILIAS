@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ilNumberInputGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 
 /**
  * Class NumericScoring
@@ -50,6 +51,7 @@ class NumericScoring extends AbstractScoring
         $fields = [];
 
         $points = new ilNumberInputGUI('points', self::VAR_POINTS);
+        $points->setRequired(true);
         $fields[] = $points;
 
         $lower_bound = new ilNumberInputGUI('lower bound', self::VAR_LOWER_BOUND);
@@ -75,5 +77,12 @@ class NumericScoring extends AbstractScoring
             intval($_POST[self::VAR_POINTS]),
             floatval($_POST[self::VAR_LOWER_BOUND]),
             floatval($_POST[self::VAR_UPPER_BOUND]));
+    }
+    
+    /**
+     * @return string
+     */
+    public static function getScoringDefinitionClass(): string {
+        return EmptyScoringDefinition::class;
     }
 }

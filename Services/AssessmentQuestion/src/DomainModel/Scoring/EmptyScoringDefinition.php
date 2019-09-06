@@ -21,7 +21,7 @@ class EmptyScoringDefinition extends ScoringDefinition {
     }
     
     public static function getValueFromPost($index) {
-        return new EmptyDisplayDefinition();
+        return new EmptyScoringDefinition();
     }
     
     public function getValues(): array {
@@ -30,6 +30,6 @@ class EmptyScoringDefinition extends ScoringDefinition {
     
     
     public static function deserialize($data) {
-        return new EmptyDisplayDefinition();
+        return new EmptyScoringDefinition();
     }
 }

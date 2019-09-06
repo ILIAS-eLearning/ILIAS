@@ -25,7 +25,7 @@ class OrderingScoringConfiguration extends AbstractConfiguration {
     
     static function create(int $points) : OrderingScoringConfiguration
     {
-        $object = new NumericScoringConfiguration();
+        $object = new OrderingScoringConfiguration();
         $object->points = $points;
         return $object;
     }

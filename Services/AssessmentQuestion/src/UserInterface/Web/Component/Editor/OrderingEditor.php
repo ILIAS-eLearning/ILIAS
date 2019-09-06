@@ -60,7 +60,8 @@ class OrderingEditor extends AbstractEditor {
         
         $fields = [];
         
-        $is_vertical = new ilCheckboxInputGUI('is horizontal', self::VAR_VERTICAL);
+        $is_vertical = new ilCheckboxInputGUI('is vertical', self::VAR_VERTICAL);
+        $is_vertical->setValue(true);
         $fields[] = $is_vertical;
         
         $mimimum_size = new ilNumberInputGUI('min size', self::VAR_MINIMUM_SIZE);
@@ -71,7 +72,7 @@ class OrderingEditor extends AbstractEditor {
         $fields[] = $geometry;
         
         if ($config !== null) {
-            $is_vertical->setValue($config->isVertical());
+            $is_vertical->setChecked($config->isVertical());
             $mimimum_size->setValue($config->getMinimumSize());
             $geometry->setValue($config->getGeometry());
         }
@@ -89,5 +90,12 @@ class OrderingEditor extends AbstractEditor {
             boolval($_POST[self::VAR_VERTICAL]), 
             intval($_POST[self::VAR_MINIMUM_SIZE]), 
             intval($_POST[self::VAR_GEOMETRY]));
+    }
+    
+    /**
+     * @return string
+     */
+    static function getDisplayDefinitionClass() : string {
+        return ImageAndTextDisplayDefinition::class;
     }
 }

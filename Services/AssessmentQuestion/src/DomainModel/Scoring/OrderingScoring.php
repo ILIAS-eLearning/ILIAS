@@ -49,7 +49,7 @@ class OrderingScoring extends AbstractScoring
 
     public static function readConfig()
     {
-        return NumericScoringConfiguration::create(
+        return OrderingScoringConfiguration::create(
             intval($_POST[self::VAR_POINTS]));
     }
     
