@@ -45,6 +45,11 @@ class ilAsqQuestionCreationGUI
      */
     protected $authoringApplicationService;
 
+    /**
+     * @var ilAsqQuestionPageService
+     */
+    protected $questionPageService;
+
 
     /**
      * ilAsqQuestionCreationGUI constructor.
@@ -63,6 +68,8 @@ class ilAsqQuestionCreationGUI
         $this->questionId = $questionId;
         $this->publicAuthoringService = $publicAuthoringService;
         $this->authoringApplicationService = $authoringApplicationService;
+
+        $this->questionPageService = new \ilAsqQuestionPageService();
     }
 
 
@@ -132,6 +139,12 @@ class ilAsqQuestionCreationGUI
             $this->contextContainer->getObjId(), 
             null, //new questions get dynamic ids
             $form->getQuestionType()
+        );
+
+        $question = $this->authoringApplicationService->GetQuestion($guid);
+
+        $this->questionPageService->createPage(
+            $this->contextContainer->getObjId(), $question->getQuestionIntId()
         );
 
         $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',

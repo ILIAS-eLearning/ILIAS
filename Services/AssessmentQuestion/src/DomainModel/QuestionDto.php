@@ -81,15 +81,15 @@ class QuestionDto {
 	}
 
 	/**
-     * @return number
+     * @return int
      */
     public function getQuestionIntId()
     {
-        return $this->questionIntId;
+        return $this->question_int_id;
     }
 
     /**
-     * @param number $question_int_id
+     * @param int $question_int_id
      */
     public function setQuestionIntId($question_int_id)
     {
