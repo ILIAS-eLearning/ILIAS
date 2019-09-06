@@ -117,4 +117,33 @@ class AuthoringService
 
         return $DIC->assessment()->entityIdBuilder()->new();
     }
+
+    public function getQuestionPage(AssessmentEntityId $questionUid) : \ilAsqQuestionPageGUI
+    {
+    }
+
+    public function getQuestionPageEditor(AssessmentEntityId $questionUid) : \ilAsqQuestionPageGUI
+    {
+        $questionDto = $this->authoring_application_service->GetQuestion(
+            $questionUid->getId()
+        );
+
+        $qstComponent = $this->questionComponent($questionUid);
+
+        $pageGUI = $this->authoring_application_service->getQuestionPageEditor(
+            $questionDto->getQuestionIntId()
+        );
+
+        $pageGUI->setQuestionHTML([
+            $questionDto->getQuestionIntId() => $qstComponent->renderHtml('', '')
+        ]);
+
+        $pageGUI->setHeader($questionDto->getData()->getTitle());
+        $pageGUI->setPresentationTitle($questionDto->getData()->getTitle());
+
+        // TODO: The update TS of the question needs an update on page changes
+        //$gui->obj->addUpdateListener() // update timestamp of question
+
+        return $pageGUI;
+    }
 }

@@ -123,4 +123,20 @@ class AuthoringApplicationService {
         }
 	    return $questions;
 	}
+
+	public function getQuestionPage(int $questionIntId) : \ilAsqQuestionPageGUI
+    {
+
+    }
+
+	public function getQuestionPageEditor(int $questionIntId) : \ilAsqQuestionPageGUI
+    {
+        $pageGUI = new \ilAsqQuestionPageGUI($questionIntId);
+
+        $pageGUI->setOutputMode('edit');
+        $pageGUI->setEditPreview(true);
+        $pageGUI->setEnabledTabs(false);
+
+        return $pageGUI;
+    }
 }

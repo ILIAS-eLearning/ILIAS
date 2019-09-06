@@ -228,35 +228,18 @@ class ilAsqQuestionAuthoringGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $question = $this->authoring_application_service->GetQuestion($this->question_id->getId());
-        $uiComponent = new QuestionComponent($question);
+        $gui = $this->authoring_service->getQuestionPageEditor($this->question_id);
 
-        $gui = new ilAsqQuestionPageGUI($question->getQuestionIntId());
-
-        $gui->setQuestionHTML([
-            $question->getQuestionIntId() => $uiComponent->renderHtml('', '')
-        ]);
-
-        $gui->setHeader($question->getData()->getTitle());
-        $gui->setPresentationTitle($question->getData()->getTitle());
-
-        $gui->setOutputMode('edit');
-        $gui->setEditPreview(true);
-        $gui->setEnabledTabs(false);
-
-        // TODO: The update TS of the question needs an update on page changes
-        //$gui->obj->addUpdateListener() // update timestamp of question
-
-        if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) // workaround for page edit imagemaps, keep in mind
+        if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"]))
         {
+            // workaround for page edit imagemaps, keep in mind
+
             $DIC->ctrl()->setCmdClass(strtolower(get_class($gui)));
             $DIC->ctrl()->setCmd('preview');
         }
 
-        $gui->setTemplateTargetVar('ADM_CONTENT');
-        $gui->setTemplateOutput(true);
-
-        $DIC->ctrl()->forwardCommand($gui);
+        $html = $DIC->ctrl()->forwardCommand($gui);
+        $DIC->ui()->mainTemplate()->setContent($html);
     }
 
 
