@@ -37,7 +37,7 @@ class Settings implements SettingsInterface {
 	/**
 	 * @var int
 	 */
-	protected $current_page = 1;
+	protected $current_page = 0;
 
 
 	/**
@@ -249,7 +249,7 @@ class Settings implements SettingsInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withCurrentPage(int $current_page = 1): SettingsInterface {
+	public function withCurrentPage(int $current_page = 0): SettingsInterface {
 		$clone = clone $this;
 
 		$clone->current_page = $current_page;
@@ -261,16 +261,9 @@ class Settings implements SettingsInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getTotalPages(int $max_count): int {
-		return max(1, ceil($max_count / $this->getRowsCount()));
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getLimitStart(): int {
-		return (($this->getCurrentPage() - 1) * $this->getRowsCount());
+		// TODO: Somehow access `self::dic()->ui()->factory()->viewControl()->pagination()->getOffset()`
+		return ($this->getCurrentPage() * $this->getRowsCount());
 	}
 
 
@@ -278,6 +271,7 @@ class Settings implements SettingsInterface {
 	 * @inheritDoc
 	 */
 	public function getLimitEnd(): int {
-		return ($this->getCurrentPage() * $this->getRowsCount());
+		// TODO: Use `self::dic()->ui()->factory()->viewControl()->pagination()`?
+		return (($this->getCurrentPage() + 1) * $this->getRowsCount());
 	}
 }

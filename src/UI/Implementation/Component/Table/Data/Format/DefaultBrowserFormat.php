@@ -227,9 +227,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			$user_table_settings = $user_table_settings->withCurrentPage(); // Reset current page on row change
 		}
 
-		$current_page = intval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId())));
-		if (!empty($current_page)) {
-			$user_table_settings = $user_table_settings->withCurrentPage($current_page);
+		$current_page = filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
+		if ($current_page !== null) {
+			$user_table_settings = $user_table_settings->withCurrentPage(intval($current_page));
 
 			$user_table_settings = $user_table_settings->withFilterSet(true);
 		}
@@ -299,7 +299,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 		$this->tpl->setCurrentBlock("actions");
 
 		$this->tpl->setVariable("ACTIONS", $renderer->render($this->dic->ui()->factory()->panel()->standard("", [
-			$this->getPagesSelector($component, $user_table_settings, $data, $renderer),
+			$this->getPagesSelector($component, $user_table_settings, $data),
 			$this->getColumnsSelector($component, $user_table_settings, $renderer),
 			$this->getRowsPerPageSelector($component, $user_table_settings, $renderer),
 			$this->getExportsSelector($component)
@@ -313,24 +313,14 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @param Table    $component
 	 * @param Settings $user_table_settings
 	 * @param Data     $data
-	 * @param Renderer $renderer
 	 *
 	 * @return Component
 	 */
-	protected function getPagesSelector(Table $component, Settings $user_table_settings, Data $data, Renderer $renderer): Component {
-		return $this->dic->ui()->factory()->dropdown()
-			->standard(array_map(function (int $page) use ($component, $user_table_settings, $renderer): Component {
-				if ($user_table_settings->getCurrentPage() === $page) {
-					return $this->dic->ui()->factory()->legacy($renderer->render([
-						$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-						$this->dic->ui()->factory()->legacy(strval($page))
-					]));
-				} else {
-					return $this->dic->ui()->factory()->button()
-						->shy(strval($page), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_CURRENT_PAGE => $page ], $component->getTableId()));
-				}
-			}, range(1, $user_table_settings->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
-			. "_pages"), $user_table_settings->getCurrentPage(), $user_table_settings->getTotalPages($data->getMaxCount())));
+	protected function getPagesSelector(Table $component, Settings $user_table_settings, Data $data): Component {
+		return $this->dic->ui()->factory()->viewControl()->pagination()
+			->withTargetURL($component->getActionUrl(), self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()))
+			->withCurrentPage($user_table_settings->getCurrentPage())->withTotalEntries($data->getMaxCount())
+			->withPageSize($user_table_settings->getRowsCount());
 	}
 
 
@@ -374,7 +364,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 						->shy(strval($count), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_ROWS_COUNT => $count ], $component->getTableId()));
 				}
 			}, Settings::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
-			. "_rows_per_page"), $user_table_settings->getRowsCount()));
+				. "_rows_per_page"), $user_table_settings->getRowsCount()));
 	}
 
 
@@ -396,6 +386,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @param Data     $data
 	 */
 	protected function handleDisplayCount(Settings $user_table_settings, Data $data): void {
+		// TODO: Use `self::dic()->ui()->factory()->viewControl()->pagination()`?
 		$count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount()
 		> 0 ? $user_table_settings->getLimitStart() + 1 : 0), min($user_table_settings->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount());
 

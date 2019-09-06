@@ -172,15 +172,7 @@ interface Settings {
 	 *
 	 * @return self
 	 */
-	public function withCurrentPage(int $current_page = 1): self;
-
-
-	/**
-	 * @param int $max_count
-	 *
-	 * @return int
-	 */
-	public function getTotalPages(int $max_count): int;
+	public function withCurrentPage(int $current_page = 0): self;
 
 
 	/**

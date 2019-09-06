@@ -88,7 +88,7 @@ function base(): string {
 
 			$max_count = count($data);
 
-			$data = array_slice($data, $user_table_settings->getLimitStart(), $user_table_settings->getLimitEnd());
+			$data = array_slice($data, $user_table_settings->getLimitStart(), $user_table_settings->getRowsCount());
 
 			$data = array_map(function (stdClass $row): RowData {
 				return $this->propertyRowData($row->column1, $row);
