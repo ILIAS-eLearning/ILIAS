@@ -8,7 +8,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormField
 use stdClass;
 
 /**
- * Class ChoiceEditorDisplayDefinition
+ * Class ImageAndTextDisplayDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -17,7 +17,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ChoiceEditorDisplayDefinition extends DisplayDefinition {
+class ImageAndTextDisplayDefinition extends DisplayDefinition {
 
 	const VAR_MCDD_TEXT = 'mcdd_text' ;
 	const VAR_MCDD_IMAGE = 'mcdd_image';
@@ -48,18 +48,6 @@ class ChoiceEditorDisplayDefinition extends DisplayDefinition {
 		return $this->image;
 	}
 
-	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link  https://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
-	 */
-	public function jsonSerialize() {
-		return get_object_vars($this);
-	}
-
 	public static function getFields(): array {
 	    $fields = [];
 		$fields[] = new AnswerOptionFormFieldDefinition(
@@ -79,7 +67,7 @@ class ChoiceEditorDisplayDefinition extends DisplayDefinition {
 	}
 
 	public static function getValueFromPost(string $index) {
-		return new ChoiceEditorDisplayDefinition(
+		return new ImageAndTextDisplayDefinition(
 			$_POST[$index . self::VAR_MCDD_TEXT],
 			ImageUploader::UploadImage($index . self::VAR_MCDD_IMAGE)
 		);
@@ -92,7 +80,7 @@ class ChoiceEditorDisplayDefinition extends DisplayDefinition {
 
 
 	public static function deserialize(stdClass $data) {
-		return new ChoiceEditorDisplayDefinition(
+		return new ImageAndTextDisplayDefinition(
 			$data->text,
 			$data->image
 		);

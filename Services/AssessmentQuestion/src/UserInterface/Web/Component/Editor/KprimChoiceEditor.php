@@ -266,6 +266,6 @@ class KprimChoiceEditor extends AbstractEditor {
      * @return string
      */
     static function getDisplayDefinitionClass() : string {
-        return ChoiceEditorDisplayDefinition::class;
+        return ImageAndTextDisplayDefinition::class;
     }
 }

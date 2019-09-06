@@ -13,7 +13,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEdito
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ChoiceEditorDisplayDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoringDefinition;
 
 /**

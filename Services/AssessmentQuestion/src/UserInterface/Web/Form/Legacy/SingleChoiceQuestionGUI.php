@@ -8,7 +8,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ChoiceEditorDisplayDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;

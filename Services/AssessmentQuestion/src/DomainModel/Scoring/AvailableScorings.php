@@ -21,6 +21,7 @@ class AvailableScorings {
 		$scorings[NumericScoring::class] = "NumericScoring";
 		$scorings[TextSubsetScoring::class] = "TextSubsetScoring";
 		$scorings[ErrorTextScoring::class] = "ErrorTextScoring";
+		$scorings[OrderingScoring::class] = "OrderingScoring";
 		return $scorings;
 	}
 

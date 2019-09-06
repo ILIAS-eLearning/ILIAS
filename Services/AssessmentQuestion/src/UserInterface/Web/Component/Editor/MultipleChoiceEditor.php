@@ -198,6 +198,6 @@ class MultipleChoiceEditor extends AbstractEditor {
 	 * @return string
 	 */
 	static function getDisplayDefinitionClass() : string {
-	    return ChoiceEditorDisplayDefinition::class;
+	    return ImageAndTextDisplayDefinition::class;
 	}
 }

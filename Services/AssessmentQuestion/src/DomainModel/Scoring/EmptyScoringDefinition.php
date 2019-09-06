@@ -2,10 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
 
 /**
- * Class EmptyDisplayDefinition
+ * Class EmptyScoringDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -14,7 +14,8 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class EmptyDisplayDefinition extends DisplayDefinition {        
+class EmptyScoringDefinition extends ScoringDefinition {
+    
     public static function getFields(): array {
         return [];
     }

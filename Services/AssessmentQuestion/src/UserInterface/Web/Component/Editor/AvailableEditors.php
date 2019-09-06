@@ -21,6 +21,7 @@ class AvailableEditors {
         $editors[NumericEditor::class] = "NumericEditor";
         $editors[TextSubsetEditor::class] = "TextSubsetEditor";
         $editors[ErrorTextEditor::class] = "ErrorTextEditor";
+        $editors[OrderingEditor::class] = "OrderingEditor";
 		return $editors;
 	}
 
