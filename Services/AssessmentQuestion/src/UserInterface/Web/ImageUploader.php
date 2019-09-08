@@ -19,6 +19,8 @@ use ilImageFileInputGUI;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ImageUploader {
+    const BASE_PATH = 'AssessmentQuestion/Uploads';
+    
     /**
      * @return string
      */
@@ -55,7 +57,7 @@ class ImageUploader {
                 $target_file = Guid::create() . "." . $pathinfo['extension'];
                 $upload->moveOneFileTo(
                     $result,
-                    'AssessmentQuestion/Uploads',
+                    self::BASE_PATH,
                     Location::WEB,
                     $target_file,
                     true);
@@ -63,5 +65,9 @@ class ImageUploader {
         }
         
         return $target_file;
+    }
+    
+    public static function getImagePath() : string {
+        return ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID .  '/' . self::BASE_PATH . '/';
     }
 }

@@ -10,6 +10,7 @@ use ilCheckboxInputGUI;
 use ilNumberInputGUI;
 use ilTemplate;
 use stdClass;
+use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 
 /**
  * Class MultipleChoiceEditor
@@ -73,9 +74,17 @@ class MultipleChoiceEditor extends AbstractEditor {
 
 		/** @var AnswerOption $answer_option */
 		foreach ($this->answer_options as $answer_option) {
-			/** @var MultipleChoiceEditorDisplayDefinition $display_definition */
+			/** @var ImageAndTextDisplayDefinition $display_definition */
 			$display_definition = $answer_option->getDisplayDefinition();
 
+			if (!empty($display_definition->getImage())) {
+    			$tpl->setCurrentBlock('answer_image');
+    			$tpl->setVariable('ANSWER_IMAGE_URL', ImageUploader::getImagePath() . '/' . $display_definition->getImage());
+    			$tpl->setVariable('ANSWER_IMAGE_ALT', $display_definition->getText());
+    			$tpl->setVariable('ANSWER_IMAGE_TITLE', $display_definition->getText());
+    			$tpl->parseCurrentBlock();
+			}
+			
 			$tpl->setCurrentBlock('answer_row');
 			$tpl->setVariable('ANSWER_TEXT', $display_definition->getText());
 			$tpl->setVariable('TYPE', $this->isMultipleChoice() ? "checkbox" : "radio");
