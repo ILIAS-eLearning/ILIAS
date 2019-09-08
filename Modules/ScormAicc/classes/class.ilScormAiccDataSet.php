@@ -47,7 +47,7 @@ class ilScormAiccDataSet extends ilDataSet
 			"Tries" => ["db_col" => "question_tries", "db_type" => "integer"],
 			"Width" => ["db_col" => "width", "db_type" => "integer"],
             "IdSetting" => ["db_col" => "id_setting", "db_type" => "integer"],
-            "NameSetting" => ["db_col" => "name_setting", "db_type" => "integer"],
+            "NameSetting" => ["db_col" => "name_setting", "db_type" => "integer"]
 		];
 
 		$this->element_db_mapping = [];
@@ -108,15 +108,15 @@ class ilScormAiccDataSet extends ilDataSet
 			foreach ($this->properties as $key => $value)
 			{
 				if ($key == "Id" || $key == "title"|| $key == "description") continue;
-                //fix localization and mastery_score
+				//fix localization and mastery_score
 				if ($key == "MasteryScore" && $data[$key][0] == 0) continue;
-                if ($key == "Localization" && $data[$key][0] == "") continue;
-                //end fix
+				if ($key == "Localization" && $data[$key][0] == "") continue;
+				//end fix
 				if (isset ($data[$key])) {
-                    if (count($data[$key]) > 0) {
-                        $columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
-                    }
-                }
+					if (count($data[$key]) > 0) {
+						$columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
+					}
+				}
 			}
 			if (count ($columns) > 0)
 			{
@@ -239,8 +239,6 @@ class ilScormAiccDataSet extends ilDataSet
 		$manWriter->appendXML ("\n<content>\n");
 
 		$files = [
-			// "scormFile" => $baseFileName . ".zip",
-			// "properties" => $baseFileName . ".xml",
 			"scormFile" => "content.zip",
 			"properties" => "properties.xml",
 			"metadata" => "metadata.xml"
@@ -270,12 +268,6 @@ class ilScormAiccDataSet extends ilDataSet
 		}
 
 		//creating final zip file
-		// $zArchive->addFile($xmlFilePath, $baseFileName . ".xml");
-		// $zArchive->addFile($scormFilePath, $baseFileName . ".zip");
-		// $zArchive->addFile($manifestFilePath, "manifest.xml");
-		// $zArchive->addFile($metaDataFilePath, "metadata.xml");
-		// $zArchive->addFile($xmlFilePath, $baseExportName.'/'. $baseFileName . ".xml");
-		// $zArchive->addFile($scormFilePath, $baseExportName.'/'. $baseFileName . ".zip");
 		$zArchive->addFile($xmlFilePath, $baseExportName.'/properties.xml');
 		$zArchive->addFile($scormFilePath, $baseExportName.'/content.zip');
 		$zArchive->addFile($manifestFilePath, $baseExportName.'/'. "manifest.xml");

@@ -499,8 +499,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$zar->close();
 				require_once "./Modules/ScormAicc/classes/class.ilScormAiccImporter.php";
 				$importer = new ilScormAiccImporter ();
-				$lmTempDir .= '/' .substr($_FILES["scormfile"]["name"], 0, strlen($a_filename) - 4);
-				if ($importer->importXmlRepresentation("sahs", Null, $lmTempDir, "") == true) {
+				$import_dirname = $lmTempDir . '/' .substr($_FILES["scormfile"]["name"], 0, strlen($a_filename) - 4);
+				if ($importer->importXmlRepresentation("sahs", Null, $import_dirname, "") == true) {
 					$importFromXml = true;
 				}
 				$mprops = [];
@@ -539,34 +539,30 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			if ($importFromXml)
 			{
-				// $lmTempDir = $lmDir . $timeStamp;
-				// $scormFile = $importer->manifest["scormFile"][0];
 				$scormFile = "content.zip";
-				$scormFilePath = $lmTempDir . "/" . $scormFile;
-				$targetPath = $newObj->getDataDirectory()."/".$scormFile;
-				$file_path = $targetPath;
-
-				ilFileUtils::rename ($scormFilePath, $targetPath);
+				$scormFilePath = $import_dirname . "/" . $scormFile;
+				$file_path = $newObj->getDataDirectory()."/".$scormFile;
+				ilFileUtils::rename ($scormFilePath, $file_path);
+				ilUtil::unzip($file_path);
+				unlink($file_path);
+				ilUtil::delDir($lmTempDir,false);
 			}
 			else
 			{
 				// copy uploaded file to data directory
 				$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
-
 				ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],
 					$_FILES["scormfile"]["name"], $file_path);
+				ilUtil::unzip($file_path);
 			}
 		}
 		else
 		{
 			// copy uploaded file to data directory
 			$file_path = $newObj->getDataDirectory()."/". $_POST["uploaded_file"];
-
 			ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $file_path);
+			ilUtil::unzip($file_path);
 		}
-
-		ilUtil::unzip($file_path);
-		//todo remove $file_path
 		ilUtil::renameExecutables($newObj->getDataDirectory());
 
 		$title = $newObj->readObject();
