@@ -316,7 +316,7 @@ The code base is deviced in several components:
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
 	* Testcases: FH Aachen
-	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [vimotion](http://www.ilias.de/docu/goto_docu_usr_25105.html)
 
 * **Mail**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
@@ -534,6 +534,12 @@ The code base is deviced in several components:
 	* Testcases: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 
+* **Tasks**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Taxonomy**
 	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
 	* 2nd Maintainer: MISSING
@@ -609,6 +615,9 @@ The code base is deviced in several components:
 
 Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
 
+* **Refinery**
+	* Coordinators: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
+	* Used in Directories: 
 * **UI-Service**
 	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Used in Directories: src/UI
@@ -616,6 +625,7 @@ Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.
 
 The following directories are currently maintained under the [Coordinator Model](maintenance-coordinator.md):
 
+* src/Refinery
 * src/UI
 
 
@@ -623,9 +633,10 @@ The following directories are currently unmaintained:
 
 * Services/AssessmentQuestion
 * Services/DiskQuota
-* Services/Like
 * Services/Membership
 * Services/OpenIdConnect
 * Services/PHPUnit
 * Services/QTI
 * Services/Randomization
+* Services/UI
+* src/Setup

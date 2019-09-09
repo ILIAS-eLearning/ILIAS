@@ -10,5 +10,7 @@
     "testcase_writer": "",
     "path": "Services/Like",
     "belong_to_component": "None",
-    "used_in_components": ["News"]
+    "used_in_components": [
+        "News"
+    ]
 }
