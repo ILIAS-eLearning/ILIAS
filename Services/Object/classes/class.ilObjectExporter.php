@@ -21,7 +21,6 @@ class ilObjectExporter extends ilXmlExporter
 	 */
 	function init()
 	{
-	    echo "<br>NOW INIT ilOBjectExporter with ".$this->dir_relative."<br>";
 		include_once("./Services/Object/classes/class.ilObjectDataSet.php");
 		$this->ds = new ilObjectDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
