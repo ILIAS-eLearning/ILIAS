@@ -150,13 +150,19 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 		if (isset($mailData['att_file'])) {
 			$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
 			$fs->create();
-			$path = $fs->getAbsolutePath() . '/';
 
-			$accountMail->addAttachment($path . '/' . $mailData['lang'], $mailData['att_file']);
+			$pathToFile = '/' . implode('/', array_map(function($pathPart) {
+				return trim($pathPart, '/');
+			}, [
+				$fs->getAbsolutePath(),
+				$mailData['lang'],
+			]));
+
+			$accountMail->addAttachment($pathToFile, $mailData['att_file']);
 
 			$this->logger->debug(sprintf(
 				"Attaching '%s' as '%s' ...",
-				$path . '/' . $mailData['lang'],
+				$pathToFile,
 				$mailData['att_file']
 			));
 		} else {
