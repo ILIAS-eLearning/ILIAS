@@ -306,6 +306,12 @@ The code base is deviced in several components:
 	* Testcases: [scarlino](http://www.ilias.de/docu/goto_docu_usr_56074.html)
 	* Tester: [mglaubitz](http://www.ilias.de/docu/goto_docu_usr_28309.html)
 
+* **Like**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Logging**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: MISSING
@@ -391,8 +397,8 @@ The code base is deviced in several components:
 	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 
 * **Online Help**
-	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
