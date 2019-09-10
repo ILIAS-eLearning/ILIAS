@@ -13,13 +13,13 @@
  */
 class ilAsqQuestionPage extends ilPageObject
 {
-    const ASQ_OBJECT_TYPE = 'asq'; // was 'qpl' for all questions in the past
+    const PARENT_TYPE = 'asq'; // was 'qpl' for all questions in the past
 
     /**
      * @return string parent type
      */
     function getParentType()
     {
-        return self::ASQ_OBJECT_TYPE;
+        return self::PARENT_TYPE;
     }
 }
