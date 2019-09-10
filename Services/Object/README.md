@@ -21,7 +21,7 @@ $obj_service = $this->getObjectService();
 - [Common Settings](##Common-Settings)
 
 
-##Common Settings
+## Common Settings
 
 The object service provides methods to include common settings into your settings forms and save them.
 
