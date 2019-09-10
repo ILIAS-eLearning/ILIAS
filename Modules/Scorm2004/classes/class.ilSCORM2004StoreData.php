@@ -463,9 +463,9 @@ class ilSCORM2004StoreData
 				{
 
 					//special handling for status
-					$completed = $g_data->$key->$skey->$user->{completed};
-					$measure = $g_data->$key->$skey->$user->{measure};
-					$satisfied = $g_data->$key->$skey->$user->{satisfied};
+					$completed =$g_data->$key->$skey->$user->{"completed"};
+					$measure = $g_data->$key->$skey->$user->{"measure"};
+					$satisfied = $g_data->$key->$skey->$user->{"satisfied"};
 
 					$returnAr=array($completed, $satisfied, $measure);
 
