@@ -6,7 +6,7 @@ This component provides features for handling ILIAS objects like repository obje
 
 - [Export Entities](#Export-Entities)
 - [Object Service](#Object-Service)
-- [Common Settings](##Common-Settings)
+- [Common Settings](#Common-Settings)
 
 
 # Export Entities
