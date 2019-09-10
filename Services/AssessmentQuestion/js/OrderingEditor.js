@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('.js_list').sortable({
 		placeholder: "placeholder",
+		tolerance: "pointer",
 		start: function(e, ui){
 	        ui.placeholder.height(ui.item.height());
 	        ui.placeholder.width(ui.item.width());

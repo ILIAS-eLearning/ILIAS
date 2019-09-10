@@ -69,6 +69,11 @@ class OrderingEditor extends AbstractEditor {
         }
 
         $tpl->setCurrentBlock('editor');
+        
+        if (!$this->configuration->isVertical()) {
+            $tpl->setVariable('ADD_CLASS', 'horizontal');
+        }
+        
         $tpl->setVariable('POST_NAME', $this->question->getId());
         $tpl->setVariable('ANSWER', $this->answer);
         $tpl->parseCurrentBlock();
