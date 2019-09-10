@@ -61,6 +61,28 @@ Get `ilObjectTileImage` instance for an object id:
 $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($obj_id);
 ```
 
+**Copying / Import / Export**
+
+If objects are copied in the repository, the common settings including e.g. tile images and custom icons will be copied automatically.
+
+For including these in your export you need to ensure to include the common entity of the object service as a tail dependency in your exporter:
+
+```
+public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+{
+    if ($a_entity == "your_main_entity_type") {
+        $res = [];
+        ...
+        $res[] = array(
+            "component" => "Services/Object",
+            "entity" => "common",
+            "ids" => $a_ids);
+        return $res;
+    }
+}
+```
+
+
 # JF Decisions
 
 8 Oct 2018

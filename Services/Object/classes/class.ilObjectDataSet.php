@@ -294,10 +294,7 @@ class ilObjectDataSet extends ilDataSet
 
 		switch ($a_entity) {
             case "transl_entry":
-                $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ObjId']);
-                if (!$new_id) {
-                    $new_id = $a_mapping->getMapping('Services/Object', 'obj', $a_rec['ObjId']);
-                }
+                $new_id = $this->getNewObjId($a_mapping, $a_rec['ObjId']);
                 if ($new_id > 0) {
                     include_once("./Services/Object/classes/class.ilObjectTranslation.php");
                     $transl = ilObjectTranslation::getInstance($new_id);
@@ -308,10 +305,7 @@ class ilObjectDataSet extends ilDataSet
                 break;
 
             case "transl":
-                $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ObjId']);
-                if (!$new_id) {
-                    $new_id = $a_mapping->getMapping('Services/Object', 'obj', $a_rec['ObjId']);
-                }
+                $new_id = $this->getNewObjId($a_mapping, $a_rec['ObjId']);
                 if ($new_id > 0) {
                     include_once("./Services/Object/classes/class.ilObjectTranslation.php");
                     $transl = ilObjectTranslation::getInstance($new_id);
@@ -335,13 +329,7 @@ class ilObjectDataSet extends ilDataSet
                     ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
                     ilObjectServiceSettingsGUI::USE_NEWS
                 );
-                $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ObjId']);
-                if (!$new_id) {
-                    $new_id = $a_mapping->getMapping('Services/Object', 'objs', $a_rec['ObjId']);
-                }
-                if (!$new_id) {
-                    $new_id = $a_mapping->getMapping('Services/Object', 'obj', $a_rec['ObjId']);
-                }
+                $new_id = $this->getNewObjId($a_mapping, $a_rec['ObjId']);
                 if ($new_id > 0) {
                     if (in_array($a_rec["Setting"], $settings)) {
                         ilContainer::_writeContainerSetting($new_id, $a_rec["Setting"], $a_rec["Value"]);
@@ -363,9 +351,8 @@ class ilObjectDataSet extends ilDataSet
 
             case "tile":
                 $new_id = $this->getNewObjId($a_mapping, $a_rec['ObjId']);
-
                 $dir = str_replace("..", "", $a_rec["Dir"]);
-                if ($dir != "" && $this->getImportDirectory() != "") {
+                if ($new_id > 0 && $dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
                     $cs = $DIC->object()->commonSettings();
                     $ti = $cs->tileImage()->getByObjId($new_id);
@@ -378,12 +365,17 @@ class ilObjectDataSet extends ilDataSet
     /**
      * Get new object id
      *
-     * @param array $a_mapping
-     * @param string $old_id
-     * @return string
+     * @param ilImportMapping $a_mapping
+     * @param $old_id
+     * @return mixed
      */
     protected function getNewObjId($a_mapping, $old_id)
     {
+        global $DIC;
+        
+        /** @var ilObjectDefinition $objDefinition */
+        $objDefinition = $DIC["objDefinition"];
+        
         $new_id = $a_mapping->getMapping('Services/Container','objs',$old_id);
         if (!$new_id)
         {
@@ -392,6 +384,19 @@ class ilObjectDataSet extends ilDataSet
         if (!$new_id)
         {
             $new_id = $a_mapping->getMapping('Services/Object','obj',$old_id);
+        }
+        if (!$new_id) {
+            foreach ($a_mapping->getAllMappings() as $k => $m) {
+                if (substr($k, 0, 8) == "Modules/") {
+                    foreach ($m as $type => $map) {
+                        if (!$new_id) {
+                            if ($objDefinition->isRBACObject($type)) {
+                                $new_id = $a_mapping->getMapping($k,$type,$old_id);
+                            }
+                        }
+                    }
+                }
+            }
         }
         return $new_id;
     }
