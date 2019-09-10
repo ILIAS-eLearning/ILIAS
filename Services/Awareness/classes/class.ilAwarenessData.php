@@ -345,7 +345,7 @@ class ilAwarenessData
 					$obj->last_login = $n["last_login"];;
 
 					// get actions
-					$action_collection = $this->action_collector->getActionsForTargetUser((int) $n["id"]);
+					$action_collection = $this->action_collector->getActionsForTargetUser($n["id"]);
 					$obj->actions = array();
 					foreach ($action_collection->getActions() as $action)
 					{
