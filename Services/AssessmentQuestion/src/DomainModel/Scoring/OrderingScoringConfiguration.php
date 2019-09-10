@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
 
 /**
  * Class OrderingScoringConfiguration
@@ -47,5 +48,12 @@ class OrderingScoringConfiguration extends AbstractConfiguration {
         /** @var OrderingScoringConfiguration $other */
         return get_class($this) === get_class($other) &&
         $this->points === $other->points;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getOptionFormConfig() : array {
+        return [AnswerOptionForm::OPTION_ORDER];
     }
 }

@@ -7,7 +7,7 @@
 				<!-- END header_entry -->
 				<th>
 					<!-- BEGIN commands -->{COMMANDS_TEXT}<!-- END commands -->
-					<button type="button" name="{CMD_ADD}" class="js_add btn btn-link" id="add_{ID}">
+					<button type="button" class="js_add btn btn-link">
 						<span class="glyphicon glyphicon-plus"></span>
 					</button>
 				</th>
@@ -22,12 +22,16 @@
 				</td>
 				<!-- END body_entry -->
 				<td class="ilValignTop">
-					<button type="button" name="{CMD_REMOVE}" class="js_remove btn btn-link" id="remove_{ID}">
+					<button type="button" class="js_remove btn btn-link">
 						<span class="glyphicon glyphicon-minus"></span>
 					</button>
 					<!-- BEGIN move -->
-					<button type="button" name="{CMD_UP}" class="js_up btn btn-link" id="up_{ID}">{UP_BUTTON}</button>
-					<button type="button" name="{CMD_DOWN}" class="js_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</button>
+					<button type="button" class="js_up btn btn-link" {X}>
+						<span class="glyphicon glyphicon-chevron-up"></span>
+					</button>
+					<button type="button" class="js_down btn btn-link">
+						<span class="glyphicon glyphicon-chevron-down"></span>
+					</button>
 					<!-- END move -->
 				</td>
 			</tr>

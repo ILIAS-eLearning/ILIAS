@@ -28,6 +28,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 
 	const COUNT_POST_VAR = 'option_count';
 
+	const OPTION_ORDER = 'AnswerOptionOrder';
+	
 	/**
 	 * @var array
 	 */
@@ -40,6 +42,11 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 * @var QuestionPlayConfiguration
 	 */
 	private $configuration;
+	
+	/**
+	 * @var array
+	 */
+	private $form_configuration;
 
 	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, array $options, array $definitions = null) {
 		parent::__construct($title);
@@ -53,6 +60,10 @@ class AnswerOptionForm extends ilTextInputGUI {
 		}
 		else {
 		    $this->definitions = $definitions;
+		}
+		
+		if (!is_null($configuration)) {
+		    $this->form_configuration = $this->collectConfigurations($configuration);
 		}
 		
 		//add empty row if there are no answers
@@ -102,6 +113,13 @@ class AnswerOptionForm extends ilTextInputGUI {
 				$tpl->parseCurrentBlock();
 			}
 
+			if (in_array(self::OPTION_ORDER, $this->form_configuration)) {
+    			$tpl->setCurrentBlock('move');
+    			$tpl->setVariable('X', "");
+    			$tpl->parseCurrentBlock();
+			}
+
+			
 			$tpl->setCurrentBlock('row');
 			$tpl->setVariable('ID', $row_id);
 			$tpl->parseCurrentBlock();
@@ -180,6 +198,16 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    return array_merge($dd_class::getFields(), $sd_class::getFields());
 	}
 
+	/**
+	 * @param QuestionPlayConfiguration $play
+	 *
+	 * @return array
+	 */
+	private function collectConfigurations(QuestionPlayConfiguration $play) : array {
+	    return array_merge($play->getEditorConfiguration()->getOptionFormConfig(), 
+	                       $play->getScoringConfiguration()->getOptionFormConfig());
+	}
+	
 	/**
 	 * @param AnswerOptionFormFieldDefinition $definition
 	 * @param int                             $row_id

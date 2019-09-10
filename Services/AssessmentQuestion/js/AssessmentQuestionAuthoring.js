@@ -31,6 +31,18 @@ let clear_row = function(row) {
     return row;
 };
 
+let up_row = function() {
+	let row = $(this).parents(".aot_row");
+	row.prev('.aot_row').before(row);
+	set_input_ids(row.parents(".aot_table").children("tbody"));
+}
+
+let down_row = function() {
+	let row = $(this).parents(".aot_row");
+	row.next('.aot_row').after(row);
+	set_input_ids(row.parents(".aot_table").children("tbody"));
+}
+
 let set_input_ids = function(table) {
     $(".js_count").val(table.children().length);
 
@@ -82,6 +94,8 @@ $(document).ready(function() {
 
 $(document).on("click", ".js_add", add_row);
 $(document).on("click", ".js_remove", remove_row);
+$(document).on("click", ".js_up", up_row);
+$(document).on("click", ".js_down", down_row);
 $(document).on("change", "#editor, #presenter, #scoring", update_form);
 
 

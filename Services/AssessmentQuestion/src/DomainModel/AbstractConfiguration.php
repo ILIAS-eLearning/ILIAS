@@ -26,4 +26,11 @@ abstract class AbstractConfiguration extends AbstractValueObject {
 		$class = get_called_class();
 		return substr($class, 0, strlen($class) - strlen("Configuration"));
 	}
+	
+	/**
+	 * @return array
+	 */
+	public function getOptionFormConfig() : array {
+	    return [];
+	}
 }
