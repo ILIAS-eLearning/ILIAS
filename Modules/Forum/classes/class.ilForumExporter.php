@@ -46,7 +46,23 @@ class ilForumExporter extends ilXmlExporter
 		return $xml;
 	}
 
-	/**
+    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    {
+        $res = [];
+
+        if ($a_entity == "frm") {
+            // service settings
+            $res[] = array(
+                "component" => "Services/Object",
+                "entity" => "common",
+                "ids" => $a_ids
+            );
+        }
+
+        return $res;
+    }
+
+    /**
 	 * Returns schema versions that the component can export to.
 	 * ILIAS chooses the first one, that has min/max constraints which
 	 * fit to the target release. Please put the newest on top.

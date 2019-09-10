@@ -69,7 +69,14 @@ class ilTestExporter extends ilXmlExporter
 				);
 			}
 
-			return $deps;
+            // service settings
+            $deps[] = array(
+                "component" => "Services/Object",
+                "entity" => "common",
+                "ids" => $a_ids
+            );
+
+            return $deps;
 		}
 
 		return parent::getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids);

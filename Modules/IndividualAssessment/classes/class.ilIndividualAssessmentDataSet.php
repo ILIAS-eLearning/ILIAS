@@ -141,7 +141,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet {
 		switch ($entity)
 		{
 			case "iass":
-				if($new_id = $mapping->getMapping('Services/Container','objs',$rec['Id']))
+				if($new_id = $mapping->getMapping('Services/Container','objs',$rec['id']))
 				{
 					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 				}
@@ -171,8 +171,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet {
 				$newObj->setInfoSettings($info);
 				$newObj->update();
 				$newObj->updateInfo();
-
-				$mapping->addMapping("Modules/IndividualAssessment", "iass", $rec["Id"], $newObj->getId());
+				$mapping->addMapping("Modules/IndividualAssessment", "iass", $rec["id"], $newObj->getId());
 				break;
 		}
 	}
