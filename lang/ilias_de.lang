@@ -15060,3 +15060,4 @@ forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht
 crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_details#:#« Details anzeigen
+exc#:#exc_text_saved#:#Der Text wurde gespeichert.
