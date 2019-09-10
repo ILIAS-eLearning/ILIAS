@@ -152,11 +152,11 @@ class ilLearningHistoryGUI
 	 * @return string
 	 * @throws ilCtrlException
 	 */
-	public function getEmbeddedHTML($from = null, $to = null, $classes = null)
+	public function getEmbeddedHTML($from = null, $to = null, $classes = null, $a_mode = null)
 	{
 		$ctrl = $this->ctrl;
 
-		return $ctrl->getHTML($this, ["from" => $from, "to" => $to, "classes" => $classes]);
+		return $ctrl->getHTML($this, ["from" => $from, "to" => $to, "classes" => $classes, "mode" => $a_mode]);
 	}
 
 	/**
@@ -167,7 +167,7 @@ class ilLearningHistoryGUI
 	 */
 	public function getHTML($par)
 	{
-		return $this->getHistoryHtml($par["from"], $par["to"], $par["classes"]);
+		return $this->getHistoryHtml($par["from"], $par["to"], $par["classes"], $par["mode"]);
 	}
 	
 	/**
@@ -175,13 +175,13 @@ class ilLearningHistoryGUI
 	 *
 	 * @return string
 	 */
-	protected function getHistoryHtml($from = null, $to = null, $classes = null)
+	protected function getHistoryHtml($from = null, $to = null, $classes = null, $mode = null)
 	{
 		$tpl = new ilTemplate("tpl.timeline.html", true, true, "Services/LearningHistory");
 
-		$tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes));
+		$tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes, $mode));
 
-		if ($this->show_more)
+		if ($this->show_more && $mode != "print")
 		{
 			$tpl->setCurrentBlock("show_more");
 			$tpl->setVariable("SHOW_MORE_BUTTON", $this->renderButton());
@@ -199,7 +199,7 @@ class ilLearningHistoryGUI
 	 * @param array $classes
 	 * @return string
 	 */
-	protected function renderTimeline(int $from = null, int $to = null, array $classes = null): string
+	protected function renderTimeline(int $from = null, int $to = null, array $classes = null, string $mode = null): string
 	{
 		$collector = $this->lhist_service->factory()->collector();
 		$ctrl = $this->ctrl;
