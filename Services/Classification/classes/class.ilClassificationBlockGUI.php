@@ -259,7 +259,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 				{								
 					if($item["ref_id"] != $this->parent_ref_id && 
 						!$tree->isDeleted($item["ref_id"]) &&
-						$ilAccess->checkAccess("read", "", $item["ref_id"]))
+						$ilAccess->checkAccess("visible", "", $item["ref_id"]))
 					{
 						// group all valid items in blocks
 						// by their parent group/course or category
