@@ -113,6 +113,11 @@ class ilMediaPoolExporter extends ilXmlExporter
 				"ids" => $a_ids);
 		}
 
+        $deps[] = array(
+            "component" => "Services/Object",
+            "entity" => "tile",
+            "ids" => $a_ids);
+
 		return $deps;
 	}
 
