@@ -106,7 +106,7 @@ class ilLearningModuleExporter extends ilXmlExporter
             $deps[] = array(
                 "component" => "Services/Object",
                 "entity" => "tile",
-                "ids" => $md_ids);
+                "ids" => $a_ids);
 
 			// help export
 			foreach ($a_ids as $id)
