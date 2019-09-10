@@ -26,6 +26,11 @@ class SetupDatabase {
         $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionAr::STORAGE_NAME, false);
+
+        $DIC->database()->manipulateF(
+            "DELETE FROM page_object WHERE parent_type = %s",
+            ['text'], ['asq']
+        );
         
         QuestionEventStoreAr::updateDB();
 	    QuestionListItemAr::updateDB();
