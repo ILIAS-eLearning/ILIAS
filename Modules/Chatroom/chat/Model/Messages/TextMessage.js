@@ -17,12 +17,12 @@ var TextMessage = function TextMessage() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, from, format}}
  */
 TextMessage.prototype.create = function(content, roomId, subRoomId, from, format) {
-	var message = Message.create('message', content, roomId, subRoomId);
+    var message = Message.create('message', content, roomId, subRoomId);
 
-	message.from = from;
-	message.format = format;
+    message.from = from;
+    message.format = format;
 
-	return message;
+    return message;
 };
 
 /**

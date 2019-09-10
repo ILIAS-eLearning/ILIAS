@@ -819,9 +819,9 @@ class Mail_RFC822 {
      * @return boolean Success or failure.
      */
     protected function _validateDliteral($dliteral)
-	{
-		return !preg_match('/(.)[][\x0D\\\\]/', $dliteral, $matches) && ((! isset($matches[1])) || $matches[1] != '\\');
-	}
+    {
+        return !preg_match('/(.)[][\x0D\\\\]/', $dliteral, $matches) && ((! isset($matches[1])) || $matches[1] != '\\');
+    }
 
     /**
      * Function to validate an addr-spec.
@@ -835,21 +835,21 @@ class Mail_RFC822 {
     {
         $addr_spec = trim($addr_spec);
 
-		// mjansen patch 16 Sep 2016 start
-		$validateState = $this->validate;
-		// mjansen patch 16 Sep 2016 end
+        // mjansen patch 16 Sep 2016 start
+        $validateState = $this->validate;
+        // mjansen patch 16 Sep 2016 end
         // Split on @ sign if there is one.
         if (strpos($addr_spec, '@') !== false) {
             $parts      = explode('@', $addr_spec);
             $local_part = $this->_splitCheck($parts, '@');
             $domain     = substr($addr_spec, strlen($local_part . '@'));
-			// mjansen patch 16 Sep 2016 start
-			if (substr_count($addr_spec, '@') != 1 && $local_part == '') {
-				$this->validate = false;
-				$local_part = $addr_spec;
-				$domain     = $this->default_domain;
-			}
-			// mjansen patch 16 Sep 2016 end
+            // mjansen patch 16 Sep 2016 start
+            if (substr_count($addr_spec, '@') != 1 && $local_part == '') {
+                $this->validate = false;
+                $local_part = $addr_spec;
+                $domain     = $this->default_domain;
+            }
+            // mjansen patch 16 Sep 2016 end
         // No @ sign so assume the default domain.
         } else {
             $local_part = $addr_spec;
@@ -857,11 +857,11 @@ class Mail_RFC822 {
         }
 
         if (($local_part = $this->_validateLocalPart($local_part)) === false) return false;
-		// mjansen patch 16 Sep 2016 start
-		if ($validateState != $this->validate) {
-			$this->validate = $validateState;
-		}
-		// mjansen patch 16 Sep 2016 end
+        // mjansen patch 16 Sep 2016 start
+        if ($validateState != $this->validate) {
+            $this->validate = $validateState;
+        }
+        // mjansen patch 16 Sep 2016 end
         if (($domain     = $this->_validateDomain($domain)) === false) return false;
 
         // Got here so return successful.

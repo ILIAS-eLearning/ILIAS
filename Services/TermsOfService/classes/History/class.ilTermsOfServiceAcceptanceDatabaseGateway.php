@@ -68,15 +68,15 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         $this->db->setLimit(1, 0);
 
         $res = $this->db->queryF('
-			SELECT tos_versions.*,
-				tos_acceptance_track.ts accepted_ts,
-				tos_acceptance_track.criteria,
-				tos_acceptance_track.usr_id
-			FROM tos_acceptance_track
-			INNER JOIN tos_versions ON id = tosv_id
-			WHERE usr_id = %s
-			ORDER BY tos_acceptance_track.ts DESC
-			',
+              SELECT tos_versions.*,
+                   tos_acceptance_track.ts accepted_ts,
+                   tos_acceptance_track.criteria,
+                   tos_acceptance_track.usr_id
+              FROM tos_acceptance_track
+              INNER JOIN tos_versions ON id = tosv_id
+              WHERE usr_id = %s
+              ORDER BY tos_acceptance_track.ts DESC
+              ',
             ['integer'],
             [$entity->getUserId()]
         );
@@ -101,10 +101,10 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
     public function loadById(ilTermsOfServiceAcceptanceEntity $entity) : ilTermsOfServiceAcceptanceEntity
     {
         $res = $this->db->queryF('
-			SELECT *
-			FROM tos_versions
-			WHERE id = %s
-			',
+              SELECT *
+              FROM tos_versions
+              WHERE id = %s
+              ',
             ['integer'],
             [$entity->getId()]
         );

@@ -14,11 +14,11 @@ var ConnectAction = function ConnectAction() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, subscriber}}
  */
 ConnectAction.prototype.create = function(roomId, subRoomId, subscriber) {
-	var message = Message.create('connected', 'connected', roomId, subRoomId);
+    var message = Message.create('connected', 'connected', roomId, subRoomId);
 
-	message.user = subscriber;
+    message.user = subscriber;
 
-	return message;
+    return message;
 };
 
 /**

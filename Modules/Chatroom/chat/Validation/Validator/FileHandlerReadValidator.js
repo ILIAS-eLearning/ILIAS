@@ -13,14 +13,14 @@ FileHandlerReadValidator.prototype = new AbstractValidator();
  * @type {{create: Function}}
  */
 module.exports = {
-	/**
-	 * @param {string} filename
-	 * @returns {FileHandlerReadValidator}
-	 */
-	create: function create(filename) {
-		var validator = new FileHandlerReadValidator();
-		validator.addRule(new FileExists(filename));
+    /**
+     * @param {string} filename
+     * @returns {FileHandlerReadValidator}
+     */
+    create: function create(filename) {
+        var validator = new FileHandlerReadValidator();
+        validator.addRule(new FileExists(filename));
 
-		return validator;
-	}
+        return validator;
+    }
 };

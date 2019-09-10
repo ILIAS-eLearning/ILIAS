@@ -11,12 +11,12 @@ require_once 'Services/Object/classes/class.ilObject.php';
  */
 class ilObjChatroomAdmin extends ilObject
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function __construct($a_id = 0, $a_call_by_reference = true)
-	{
-		$this->type = 'chta';
-		parent::__construct($a_id, $a_call_by_reference);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($a_id = 0, $a_call_by_reference = true)
+    {
+        $this->type = 'chta';
+        parent::__construct($a_id, $a_call_by_reference);
+    }
 }

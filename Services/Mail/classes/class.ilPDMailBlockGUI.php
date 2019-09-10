@@ -12,329 +12,329 @@ include_once 'Services/Mail/classes/class.ilMailUserCache.php';
  */
 class ilPDMailBlockGUI extends ilBlockGUI
 {
-	static $block_type = 'pdmail';
+    static $block_type = 'pdmail';
 
-	/**
-	 * @var \ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var \ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * @var \ilObjUser
-	 */
-	protected $user;
+    /**
+     * @var \ilObjUser
+     */
+    protected $user;
 
-	/**
-	 * @var \ilCtrl
-	 */
-	protected $ctrl;
+    /**
+     * @var \ilCtrl
+     */
+    protected $ctrl;
 
-	/**
-	 * @var \ilRbacSystem
-	 */
-	protected $rbacsystem;
+    /**
+     * @var \ilRbacSystem
+     */
+    protected $rbacsystem;
 
-	/**
-	 * @var \ilSetting
-	 */
-	protected $setting;
+    /**
+     * @var \ilSetting
+     */
+    protected $setting;
 
-	/**
-	 * @var array
-	 */
-	protected $mails = array();
+    /**
+     * @var array
+     */
+    protected $mails = array();
 
-	/**
-	 * @var int
-	 */
-	protected $inbox;
+    /**
+     * @var int
+     */
+    protected $inbox;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->lng        = $DIC->language();
-		$this->user       = $DIC->user();
-		$this->ctrl       = $DIC->ctrl();
-		$this->setting    = $DIC->settings();
-		$this->rbacsystem = $DIC->rbac()->system();
+        $this->lng        = $DIC->language();
+        $this->user       = $DIC->user();
+        $this->ctrl       = $DIC->ctrl();
+        $this->setting    = $DIC->settings();
+        $this->rbacsystem = $DIC->rbac()->system();
 
-		include_once 'Services/User/classes/class.ilObjUser.php';
-		include_once 'Services/Mail/classes/class.ilMailbox.php';
-		include_once 'Services/Mail/classes/class.ilMail.php';
+        include_once 'Services/User/classes/class.ilObjUser.php';
+        include_once 'Services/Mail/classes/class.ilMailbox.php';
+        include_once 'Services/Mail/classes/class.ilMail.php';
 
-		parent::__construct();
+        parent::__construct();
 
-		$this->setLimit(5);
-		$this->setTitle($this->lng->txt('mail'));
-		$this->setPresentation(self::PRES_SEC_LIST);
-	}
+        $this->setLimit(5);
+        $this->setTitle($this->lng->txt('mail'));
+        $this->setPresentation(self::PRES_SEC_LIST);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getBlockType(): string 
-	{
-		return self::$block_type;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getBlockType(): string 
+    {
+        return self::$block_type;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function isRepositoryObject(): bool 
-	{
-		return false;
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function isRepositoryObject(): bool 
+    {
+        return false;
+    }
 
-	/**
-	 * Get Screen Mode for current command.
-	 */
-	static function getScreenMode()
-	{
-		switch($_GET['cmd'])
-		{
-			case 'showMail':
-				return IL_SCREEN_CENTER;
-				break;
+    /**
+     * Get Screen Mode for current command.
+     */
+    static function getScreenMode()
+    {
+        switch($_GET['cmd'])
+        {
+            case 'showMail':
+                return IL_SCREEN_CENTER;
+                break;
 
-			default:
-				return IL_SCREEN_SIDE;
-				break;
-		}
-	}
+            default:
+                return IL_SCREEN_SIDE;
+                break;
+        }
+    }
 
-	/**
-	 * execute command
-	 */
-	public function executeCommand()
-	{
-		$cmd = $this->ctrl->getCmd('getHTML');
+    /**
+     * execute command
+     */
+    public function executeCommand()
+    {
+        $cmd = $this->ctrl->getCmd('getHTML');
 
-		return $this->$cmd();
-	}
+        return $this->$cmd();
+    }
 
-	public function getHTML()
-	{
-		$umail = new ilMail($this->user->getId());
-		if(!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()))
-		{
-			return '';
-		}
+    public function getHTML()
+    {
+        $umail = new ilMail($this->user->getId());
+        if(!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()))
+        {
+            return '';
+        }
 
-		$this->getMails();
-		$this->setData($this->mails);
+        $this->getMails();
+        $this->setData($this->mails);
 
-		return parent::getHTML();
-	}
+        return parent::getHTML();
+    }
 
-	/**
-	 * Get Mails
-	 */
-	protected function getMails()
-	{
-		require_once 'Services/Mail/classes/class.ilObjMail.php';
+    /**
+     * Get Mails
+     */
+    protected function getMails()
+    {
+        require_once 'Services/Mail/classes/class.ilObjMail.php';
 
-		$umail       = new ilMail($this->user->getId());
-		$mbox        = new ilMailbox($this->user->getId());
-		$this->inbox = $mbox->getInboxFolder();
+        $umail       = new ilMail($this->user->getId());
+        $mbox        = new ilMailbox($this->user->getId());
+        $this->inbox = $mbox->getInboxFolder();
 
-		$this->mails = $umail->getMailsOfFolder(
-			$this->inbox,
-			array(
-				 'status'  => 'unread'
-			)
-		);
-	}
+        $this->mails = $umail->getMailsOfFolder(
+            $this->inbox,
+            array(
+                 'status'  => 'unread'
+            )
+        );
+    }
 
-	/**
-	 * Fill data section
-	 */
-	public function fillDataSection()
-	{
-		$this->getMails();
-		$this->setData($this->mails);
+    /**
+     * Fill data section
+     */
+    public function fillDataSection()
+    {
+        $this->getMails();
+        $this->setData($this->mails);
 
-		if(count($this->mails) > 0)
-		{
-			$this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
-			parent::fillDataSection();
-		}
-		else
-		{
-			$this->setEnableNumInfo(false);
-			$this->setDataSection($this->getOverview());
-		}
-	}
+        if(count($this->mails) > 0)
+        {
+            $this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
+            parent::fillDataSection();
+        }
+        else
+        {
+            $this->setEnableNumInfo(false);
+            $this->setDataSection($this->getOverview());
+        }
+    }
 
-	/**
-	 * get flat bookmark list for personal desktop
-	 */
-	public function fillRow($mail)
-	{
-		$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
-		
-		$this->tpl->touchBlock('usr_image_space');
-		if($user && $user->getId() != ANONYMOUS_USER_ID)
-		{
-			$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
-			$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
-			$this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
-		}
-		else if(!$user)
-		{
-			$this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
+    /**
+     * get flat bookmark list for personal desktop
+     */
+    public function fillRow($mail)
+    {
+        $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 
-			$this->tpl->setCurrentBlock('image_container');
-			$this->tpl->touchBlock('image_container');
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
-			$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
-			$this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
-		}
+        $this->tpl->touchBlock('usr_image_space');
+        if($user && $user->getId() != ANONYMOUS_USER_ID)
+        {
+            $this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
+            $this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
+            $this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
+        }
+        else if(!$user)
+        {
+            $this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 
-		$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
+            $this->tpl->setCurrentBlock('image_container');
+            $this->tpl->touchBlock('image_container');
+            $this->tpl->parseCurrentBlock();
+        }
+        else
+        {
+            $this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
+            $this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
+            $this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
+        }
 
-		$this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8'));
-		$this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
-		$this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
-		$this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
-		$this->ctrl->clearParameters($this);
-	}
+        $this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
 
-	/**
-	 * Get overview.
-	 */
-	protected function getOverview()
-	{
-		return '<div class="small">' . ((int)count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
-	}
+        $this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8'));
+        $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
+        $this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
+        $this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
+        $this->ctrl->clearParameters($this);
+    }
 
-	/**
-	 * show mail
-	 */
-	protected function showMail()
-	{
-		include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
-		$mail_gui = new ilPDMailGUI();
+    /**
+     * Get overview.
+     */
+    protected function getOverview()
+    {
+        return '<div class="small">' . ((int)count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
+    }
 
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
-		$content_block->setContent($mail_gui->getPDMailHTML($_GET["mail_id"],
-			$_GET["mobj_id"]));
-		$content_block->setTitle($this->lng->txt("message"));
+    /**
+     * show mail
+     */
+    protected function showMail()
+    {
+        include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
+        $mail_gui = new ilPDMailGUI();
 
-		$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
-			$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=reply",
-			$this->lng->txt("reply"));
-		$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
-			$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=read",
-			$this->lng->txt("inbox"));
+        include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+        $content_block = new ilPDContentBlockGUI();
+        $content_block->setContent($mail_gui->getPDMailHTML($_GET["mail_id"],
+            $_GET["mobj_id"]));
+        $content_block->setTitle($this->lng->txt("message"));
 
-		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
-		$content_block->addBlockCommand($this->ctrl->getLinkTarget($this, 'deleteMail'), $this->lng->txt('delete'));
+        $content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
+            $_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=reply",
+            $this->lng->txt("reply"));
+        $content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
+            $_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=read",
+            $this->lng->txt("inbox"));
 
-		return $content_block->getHTML();
-	}
+        $this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+        $content_block->addBlockCommand($this->ctrl->getLinkTarget($this, 'deleteMail'), $this->lng->txt('delete'));
 
-	/**
-	 * delete mail
-	 */
-	public function deleteMail()
-	{
-		$this->lng->loadLanguageModule('mail');
+        return $content_block->getHTML();
+    }
 
-		$umail = new ilMail($this->user->getId());
-		$mbox  = new ilMailbox($this->user->getId());
+    /**
+     * delete mail
+     */
+    public function deleteMail()
+    {
+        $this->lng->loadLanguageModule('mail');
 
-		if(!$_GET['mobj_id'])
-		{
-			$_GET['mobj_id'] = $mbox->getInboxFolder();
-		}
+        $umail = new ilMail($this->user->getId());
+        $mbox  = new ilMailbox($this->user->getId());
 
-		if ($umail->moveMailsToFolder(array((int)$_GET['mail_id']), (int)$mbox->getTrashFolder())) {
-			\ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
-		} else {
-			\ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
-		}
-		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
-	}
+        if(!$_GET['mobj_id'])
+        {
+            $_GET['mobj_id'] = $mbox->getInboxFolder();
+        }
 
-	/**
-	 * @param array $data
-	 */
-	protected function preloadData(array $data)
-	{
-		$usr_ids = array();
+        if ($umail->moveMailsToFolder(array((int)$_GET['mail_id']), (int)$mbox->getTrashFolder())) {
+            \ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
+        } else {
+            \ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
+        }
+        $this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
+    }
 
-		foreach($data as $mail)
-		{
-			if($mail['sender_id'] && $mail['sender_id'] != ANONYMOUS_USER_ID)
-			{
-				$usr_ids[$mail['sender_id']] = $mail['sender_id'];
-			}
-		}
+    /**
+     * @param array $data
+     */
+    protected function preloadData(array $data)
+    {
+        $usr_ids = array();
 
-		ilMailUserCache::preloadUserObjects($usr_ids);
-	}
+        foreach($data as $mail)
+        {
+            if($mail['sender_id'] && $mail['sender_id'] != ANONYMOUS_USER_ID)
+            {
+                $usr_ids[$mail['sender_id']] = $mail['sender_id'];
+            }
+        }
 
-	//
-	// New rendering
-	//
+        ilMailUserCache::preloadUserObjects($usr_ids);
+    }
 
-	protected $new_rendering = true;
+    //
+    // New rendering
+    //
 
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getListItemForData(array $mail): \ILIAS\UI\Component\Item\Item
-	{
-		$f = $this->ui->factory();
-
-		$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
-
-		if($user && $user->getId() != ANONYMOUS_USER_ID)
-		{
-			$public_name_long = $user->getPublicName();
-			$img_sender = $user->getPersonalPicturePath('xxsmall');
-			$alt_sender = htmlspecialchars($user->getPublicName());
-		}
-		else if(!$user)
-		{
-			$public_name_long = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
-			$img_sender = "";
-			$alt_sender = "";
-		}
-		else
-		{
-			$public_name_long = ilMail::_getIliasMailerName();
-			$img_sender = ilUtil::getImagePath('HeaderIconAvatar.svg');
-			$alt_sender = htmlspecialchars(ilMail::_getIliasMailerName());
-		}
-
-		$new_mail_date = ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE));
-		$new_mail_subj = htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8');
-		$this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
-		$this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
-		$new_mail_link = $this->ctrl->getLinkTarget($this, 'showMail', "", false, false);
-		$this->ctrl->clearParameters($this);
+    protected $new_rendering = true;
 
 
-		$button = $f->button()->shy($new_mail_subj, $new_mail_link);
+    /**
+     * @inheritdoc
+     */
+    protected function getListItemForData(array $mail): \ILIAS\UI\Component\Item\Item
+    {
+        $f = $this->ui->factory();
 
-		$item = $f->item()->standard($button)->withDescription($new_mail_date);
-		if ($img_sender != "")
-		{
-			$item = $item->withLeadImage($f->image()->standard($img_sender, $alt_sender));
-		}
+        $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 
-		return $item;
-	}
+        if($user && $user->getId() != ANONYMOUS_USER_ID)
+        {
+            $public_name_long = $user->getPublicName();
+            $img_sender = $user->getPersonalPicturePath('xxsmall');
+            $alt_sender = htmlspecialchars($user->getPublicName());
+        }
+        else if(!$user)
+        {
+            $public_name_long = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
+            $img_sender = "";
+            $alt_sender = "";
+        }
+        else
+        {
+            $public_name_long = ilMail::_getIliasMailerName();
+            $img_sender = ilUtil::getImagePath('HeaderIconAvatar.svg');
+            $alt_sender = htmlspecialchars(ilMail::_getIliasMailerName());
+        }
+
+        $new_mail_date = ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE));
+        $new_mail_subj = htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8');
+        $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
+        $this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
+        $new_mail_link = $this->ctrl->getLinkTarget($this, 'showMail', "", false, false);
+        $this->ctrl->clearParameters($this);
+
+
+        $button = $f->button()->shy($new_mail_subj, $new_mail_link);
+
+        $item = $f->item()->standard($button)->withDescription($new_mail_date);
+        if ($img_sender != "")
+        {
+            $item = $item->withLeadImage($f->image()->standard($img_sender, $alt_sender));
+        }
+
+        return $item;
+    }
 
 }

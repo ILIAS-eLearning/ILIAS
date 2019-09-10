@@ -13,29 +13,29 @@ $ilias_main_directory = './';
 $i = 0;
 while(!file_exists($ilias_main_directory . 'ilias.ini.php') && $i < 20)
 {
-	$ilias_main_directory .= '../';
-	++$i;
+    $ilias_main_directory .= '../';
+    ++$i;
 
-	$cookie_path = dirname($cookie_path);
+    $cookie_path = dirname($cookie_path);
 }
 chdir($ilias_main_directory);
 
 if(!file_exists(getcwd() . '/ilias.ini.php'))
 {
-	die('Please ensure ILIAS is installed!');
+    die('Please ensure ILIAS is installed!');
 }
 
 $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 
 if(isset($_GET["client_id"]))
 {
-	if($cookie_path == "\\")
-	{
-		$cookie_path = '/';
-	}
+    if($cookie_path == "\\")
+    {
+        $cookie_path = '/';
+    }
 
-	setcookie('ilClientId', $_GET['client_id'], 0, $cookie_path, '');
-	$_COOKIE['ilClientId'] = $_GET['client_id'];
+    setcookie('ilClientId', $_GET['client_id'], 0, $cookie_path, '');
+    $_COOKIE['ilClientId'] = $_GET['client_id'];
 }
 define('IL_COOKIE_PATH', $cookie_path);
 

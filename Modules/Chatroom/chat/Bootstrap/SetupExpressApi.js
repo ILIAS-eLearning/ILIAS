@@ -8,13 +8,13 @@ var CONST = require('../Constants');
  * @param {Function} callback
  */
 module.exports = function SetupExpressApi(callback) {
-	var api = Express();
+    var api = Express();
 
-	api.all(CONST.API_PREFIX+'/:action/:namespace/*', Authentication);
+    api.all(CONST.API_PREFIX+'/:action/:namespace/*', Authentication);
 
-	RoutingHandler.setup(api);
+    RoutingHandler.setup(api);
 
-	Container.setApi(api);
+    Container.setApi(api);
 
-	callback(null);
+    callback(null);
 };

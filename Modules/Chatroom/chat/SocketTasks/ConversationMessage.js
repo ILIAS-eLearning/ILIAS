@@ -3,60 +3,60 @@ var HTMLEscape = require('../Helper/HTMLEscape');
 var UUID = require('node-uuid');
 
 module.exports = function(conversationId, userId, message) {
-	function shouldPersistMessage(conversation) {
-		var doStoreMessage = conversation.isGroup();
+    function shouldPersistMessage(conversation) {
+        var doStoreMessage = conversation.isGroup();
 
-		if (!conversation.isGroup()) {
-			var participants = conversation.getParticipants();
+        if (!conversation.isGroup()) {
+            var participants = conversation.getParticipants();
 
-			for (var index in participants) {
-				if (participants.hasOwnProperty(index) && participants[index].getAcceptsMessages()) {
-					doStoreMessage = true;
-					break;
-				}
-			}
-		}
+            for (var index in participants) {
+                if (participants.hasOwnProperty(index) && participants[index].getAcceptsMessages()) {
+                    doStoreMessage = true;
+                    break;
+                }
+            }
+        }
 
-		return doStoreMessage;
-	}
+        return doStoreMessage;
+    }
 
-	if (conversationId !== null && userId !== null && message !== null) {
+    if (conversationId !== null && userId !== null && message !== null) {
 
-		var namespace = Container.getNamespace(this.nsp.name);
-		var conversation = namespace.getConversations().getById(conversationId);
-		var participant = namespace.getSubscriber(userId);
+        var namespace = Container.getNamespace(this.nsp.name);
+        var conversation = namespace.getConversations().getById(conversationId);
+        var participant = namespace.getSubscriber(userId);
 
-		if(conversation.isParticipant(participant))
-		{
-			var messageObj = {
-				conversationId: conversationId,
-				userId: userId,
-				message: HTMLEscape.escape(message),
-				timestamp: (new Date).getTime(),
-				uuid: UUID.v4() // not stored
-			};
+        if(conversation.isParticipant(participant))
+        {
+            var messageObj = {
+                conversationId: conversationId,
+                userId: userId,
+                message: HTMLEscape.escape(message),
+                timestamp: (new Date).getTime(),
+                uuid: UUID.v4() // not stored
+            };
 
-			if (participant.getAcceptsMessages()) {
-				var doStoreMessage = shouldPersistMessage(conversation);
+            if (participant.getAcceptsMessages()) {
+                var doStoreMessage = shouldPersistMessage(conversation);
 
-				if (doStoreMessage) {
-					namespace.getDatabase().persistConversationMessage(messageObj);
-				}
+                if (doStoreMessage) {
+                    namespace.getDatabase().persistConversationMessage(messageObj);
+                }
 
-				conversation.emit('conversation', conversation.json());
-				var ignoredParticipants = conversation.send(messageObj);
+                conversation.emit('conversation', conversation.json());
+                var ignoredParticipants = conversation.send(messageObj);
 
-				if (Object.keys(ignoredParticipants).length > 0) {
-					messageObj["ignoredParticipants"] = ignoredParticipants;
-					participant.emit("participantsSuppressedMessages", messageObj);
-				}
+                if (Object.keys(ignoredParticipants).length > 0) {
+                    messageObj["ignoredParticipants"] = ignoredParticipants;
+                    participant.emit("participantsSuppressedMessages", messageObj);
+                }
 
-				Container.getLogger().info('SendMessage by "%s" in conversation %s', userId, conversationId);
-			} else {
-				participant.emit("senderSuppressesMessages", messageObj);
+                Container.getLogger().info('SendMessage by "%s" in conversation %s', userId, conversationId);
+            } else {
+                participant.emit("senderSuppressesMessages", messageObj);
 
-				Container.getLogger().info('SendMessage by "%s" in conversation %s not delivered, user does not want to receive messages', userId, conversationId);
-			}
-		}
-	}
+                Container.getLogger().info('SendMessage by "%s" in conversation %s not delivered, user does not want to receive messages', userId, conversationId);
+            }
+        }
+    }
 };

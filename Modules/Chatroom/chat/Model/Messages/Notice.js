@@ -15,11 +15,11 @@ var Notice = function Notice() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number}}
  */
 Notice.prototype.create = function(content, roomId, subRoomId, data) {
-	var message = Message.create('notice', content, roomId, subRoomId);
+    var message = Message.create('notice', content, roomId, subRoomId);
 
-	message.data = data;
+    message.data = data;
 
-	return message;
+    return message;
 };
 
 /**

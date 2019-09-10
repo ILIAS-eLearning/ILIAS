@@ -13,24 +13,24 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomClearGUI extends ilChatroomGUIHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function executeDefault($method)
-	{
-		$this->redirectIfNoPermission('moderate');
+    /**
+     * {@inheritdoc}
+     */
+    public function executeDefault($method)
+    {
+        $this->redirectIfNoPermission('moderate');
 
-		$room = $this->getRoomByObjectId($this->gui->object->getId());
-		$this->exitIfNoRoomExists($room);
+        $room = $this->getRoomByObjectId($this->gui->object->getId());
+        $this->exitIfNoRoomExists($room);
 
-		$chat_user = new ilChatroomUser($this->ilUser, $room);
-		$subRoomId = $_REQUEST['sub'];
+        $chat_user = new ilChatroomUser($this->ilUser, $room);
+        $subRoomId = $_REQUEST['sub'];
 
-		$room->clearMessages($subRoomId);
+        $room->clearMessages($subRoomId);
 
-		$connector = $this->gui->getConnector();
-		$response  = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
+        $connector = $this->gui->getConnector();
+        $response  = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
 
-		$this->sendResponse($response);
-	}
+        $this->sendResponse($response);
+    }
 }

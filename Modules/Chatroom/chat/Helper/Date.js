@@ -11,9 +11,9 @@ var DateHelper = function DateHelper(){};
  * @returns {number}
  */
 DateHelper.prototype.getTimestamp = function() {
-	var date = new Date();
+    var date = new Date();
 
-	return date.getTime();
+    return date.getTime();
 };
 
 /**

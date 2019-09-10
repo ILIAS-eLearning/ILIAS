@@ -5,44 +5,44 @@ var PreloadConversations = require('./PreloadConversations');
 
 module.exports = function SetupIM(result, callback) {
 
-	function setupIMNamespace(namespace, nextLoop) {
-		function createIMNamespace(callback) {
-			var namespaceIM = Handler.createNamespace(namespace.getName() + '-im');
-			namespaceIM.setIsIM(true);
+    function setupIMNamespace(namespace, nextLoop) {
+        function createIMNamespace(callback) {
+            var namespaceIM = Handler.createNamespace(namespace.getName() + '-im');
+            namespaceIM.setIsIM(true);
 
-			Container.getLogger().info('SetupNamespace IM: %s!', namespaceIM.getName());
+            Container.getLogger().info('SetupNamespace IM: %s!', namespaceIM.getName());
 
-			namespaceIM.setDatabase(namespace.getDatabase());
+            namespaceIM.setDatabase(namespace.getDatabase());
 
-			callback(null, namespaceIM);
-		}
+            callback(null, namespaceIM);
+        }
 
-		function onIMNamespaceSetupFinished(err, result) {
-			if(err) {
-				throw err;
-			}
+        function onIMNamespaceSetupFinished(err, result) {
+            if(err) {
+                throw err;
+            }
 
-			nextLoop();
-		}
+            nextLoop();
+        }
 
-		async.waterfall(
-			[
-				createIMNamespace,
-				PreloadConversations
-			],
-			onIMNamespaceSetupFinished
-		);
-	}
+        async.waterfall(
+            [
+                createIMNamespace,
+                PreloadConversations
+            ],
+            onIMNamespaceSetupFinished
+        );
+    }
 
-	function onIMSetupFinished(err) {
-		if(err) {
-			throw err;
-		}
+    function onIMSetupFinished(err) {
+        if(err) {
+            throw err;
+        }
 
-		Container.getLogger().info('SetupNamespace IM finished!');
+        Container.getLogger().info('SetupNamespace IM finished!');
 
-		callback();
-	}
+        callback();
+    }
 
-	async.eachSeries(Container.getNamespaces(), setupIMNamespace, onIMSetupFinished);
+    async.eachSeries(Container.getNamespaces(), setupIMNamespace, onIMSetupFinished);
 };

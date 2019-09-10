@@ -13,11 +13,11 @@ var EnterAction = function EnterAction() {};
  * @param {{id: number, username: string}} subscriber
  */
 EnterAction.prototype.create = function(roomId, subRoomId, subscriber) {
-	var message = Message.create('private_room_entered', 'private_room_entered', roomId, subRoomId);
+    var message = Message.create('private_room_entered', 'private_room_entered', roomId, subRoomId);
 
-	message.subscriber = subscriber;
+    message.subscriber = subscriber;
 
-	return message;
+    return message;
 };
 
 /**

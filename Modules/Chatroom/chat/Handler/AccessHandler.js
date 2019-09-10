@@ -8,13 +8,13 @@ function AccessHandler() {};
  * @returns {boolean}
  */
 AccessHandler.prototype.canAccessNamespace = function(socket, subscriberId) {
-	/*if(!socket.nsp.hasSubscriber(subscriberId)) {
-		console.log("access denied for user " + subscriberId + " cause of no permission to Namespace " + socket.nsp.name);
+    /*if(!socket.nsp.hasSubscriber(subscriberId)) {
+        console.log("access denied for user " + subscriberId + " cause of no permission to Namespace " + socket.nsp.name);
 
-		return false;
-	}*/
+        return false;
+    }*/
 
-	return true;
+    return true;
 };
 
 /**
@@ -26,25 +26,25 @@ AccessHandler.prototype.canAccessNamespace = function(socket, subscriberId) {
  */
 AccessHandler.prototype.canAccessRoom = function(socket, subscriberId, roomId) {
 /*	if(!this.canAccessNamespace(socket, subscriberId)) {
-		return false;
-	}
+        return false;
+    }
 
-	var subscriber = socket.nsp.getSubscriber(subscriberId);
+    var subscriber = socket.nsp.getSubscriber(subscriberId);
 
-	if(!subscriber.hasRoom(roomId)) {
-		console.log("access denied for user " + subscriberId + " cause of no permission to room " + roomId);
+    if(!subscriber.hasRoom(roomId)) {
+        console.log("access denied for user " + subscriberId + " cause of no permission to room " + roomId);
 
-		return false
-	}*/
-	return true;
+        return false
+    }*/
+    return true;
 };
 
 /**
  * @param {Socket} socket
  */
 AccessHandler.prototype.disconnect = function(socket) {
-	Container.getLogger().info('Disconnected socket %s', socket.id);
-	socket.disconnect();
+    Container.getLogger().info('Disconnected socket %s', socket.id);
+    socket.disconnect();
 };
 
 module.exports = exports = new AccessHandler();

@@ -18,57 +18,57 @@ require_once "./Services/Notifications/classes/class.ilObjNotificationAdminAcces
 */
 class ilObjNotificationAdminGUI extends ilObjectGUI
 {
-	/**
-	* Constructor
-	* @access	public
-	*/
-	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
-		$this->type = "nota";
-		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
-		$this->lng->loadLanguageModule('notification');
-	}
-	
-	static function _forwards()
-	{
-		return array();
-	}
-	
-	function executeCommand()
-	{
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-	
-		$this->prepareOutput();
+    /**
+    * Constructor
+    * @access	public
+    */
+    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
+        $this->type = "nota";
+        parent::__construct($a_data,$a_id,$a_call_by_reference, false);
+        $this->lng->loadLanguageModule('notification');
+    }
 
-		switch ($next_class)
-		{
-			case 'ilpermissiongui':
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
-				break;
+    static function _forwards()
+    {
+        return array();
+    }
+
+    function executeCommand()
+    {
+        $next_class = $this->ctrl->getNextClass($this);
+        $cmd = $this->ctrl->getCmd();
+
+        $this->prepareOutput();
+
+        switch ($next_class)
+        {
+            case 'ilpermissiongui':
+                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+                $perm_gui = new ilPermissionGUI($this);
+                $ret =& $this->ctrl->forwardCommand($perm_gui);
+                break;
 
                         default:
-				$this->__initSubTabs();
-				$this->tabs_gui->activateTab("view");
+                $this->__initSubTabs();
+                $this->tabs_gui->activateTab("view");
                             
-				if (empty($cmd) || $cmd == 'view') {
+                if (empty($cmd) || $cmd == 'view') {
                                     $cmd = 'showTypes';
-				}
+                }
 
-				$cmd .= "Object";
-				$this->$cmd();
-				break;
-		}		
-	}
+                $cmd .= "Object";
+                $this->$cmd();
+                break;
+        }
+    }
 
-	/**
-	* save object
-	*
-	* @access	public
-	*/
-	static function saveObject2($params = array()) {
-		global $objDefinition, $ilUser;
+    /**
+    * save object
+    *
+    * @access	public
+    */
+    static function saveObject2($params = array()) {
+        global $objDefinition, $ilUser;
 
                 // create and insert file in grp_tree
                 require_once 'Services/Notifications/classes/class.ilObjNotificationAdmin.php';
@@ -79,50 +79,50 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 $fileObj->putInTree(SYSTEM_FOLDER_ID);
                 //$fileObj->setPermissions($params['ref_id']);
                 // upload file to filesystem
-	}
+    }
 
-	function setTabs() {
-		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+    function setTabs() {
+        $this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		if ($this->access->checkAccess("visible", "", $this->ref_id))
-		{
-			$this->ilTabs->addTab("id_info",
-				$this->lng->txt("info_short"),
-				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
-		}
+        if ($this->access->checkAccess("visible", "", $this->ref_id))
+        {
+            $this->ilTabs->addTab("id_info",
+                $this->lng->txt("info_short"),
+                $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
+        }
 
-		if ($this->access->checkAccess("edit_permission", "", $this->ref_id))
-		{
-				$this->tabs_gui->addTab("id_permissions",
-				$this->lng->txt("perm_settings"),
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
-		}
-	}
+        if ($this->access->checkAccess("edit_permission", "", $this->ref_id))
+        {
+                $this->tabs_gui->addTab("id_permissions",
+                $this->lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
+        }
+    }
 
-	// init sub tabs
-	function __initSubTabs() {
-		$this->tabs_gui->addSubTabTarget(
-			"notification_general",
-			$this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showGeneralSettings")
-		);
+    // init sub tabs
+    function __initSubTabs() {
+        $this->tabs_gui->addSubTabTarget(
+            "notification_general",
+            $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showGeneralSettings")
+        );
 
-		$this->tabs_gui->addSubTabTarget(
-			"notification_admin_types",
-			$this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showTypes")
-		);
+        $this->tabs_gui->addSubTabTarget(
+            "notification_admin_types",
+            $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showTypes")
+        );
 
-		$this->tabs_gui->addSubTabTarget(
-			"notification_admin_matrix",
-			$this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showConfigMatrix")
-		);
-	}
+        $this->tabs_gui->addSubTabTarget(
+            "notification_admin_matrix",
+            $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showConfigMatrix")
+        );
+    }
 
-	function addLocatorItems()
-	{
-		if (is_object($this->object)) {
-			$this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
-		}
-	}
+    function addLocatorItems()
+    {
+        if (is_object($this->object)) {
+            $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
+        }
+    }
 
         function showGeneralSettingsObject($form = null) {
             require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
@@ -133,9 +133,9 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
                 /**
                  * @todo dirty...
-				 * 
-				 * push all notifiation settings to the form to enable custom
-				 * settings per channel
+                 *
+                 * push all notifiation settings to the form to enable custom
+                 * settings per channel
                  */
                 $form->setValuesByArray(array_merge($settings->getAll(), $form->restored_values));
             }
@@ -160,13 +160,13 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             else {
                 /**
                  * @todo dirty...
-				 * 
-				 * push all notifiation settings to the form to enable custom
-				 * settings per channel
+                 *
+                 * push all notifiation settings to the form to enable custom
+                 * settings per channel
                  */
                 $values = $form->store_values;//array('enable_osd', 'osd_polling_intervall', 'enable_mail');
                 
-				// handle custom channel settings
+                // handle custom channel settings
                 foreach($values as $v) {
                     $settings->set($v, $_POST[$v]);
                 }
@@ -242,11 +242,11 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             $this->tpl->setContent($table->getHtml());
         }
 
-	private function saveConfigMatrixObject() {
-		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+    private function saveConfigMatrixObject() {
+        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
 
-		ilNotificationDatabaseHandler::setUserConfig(-1, $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
-		$this->showConfigMatrixObject();
-	}
+        ilNotificationDatabaseHandler::setUserConfig(-1, $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
+        $this->showConfigMatrixObject();
+    }
 } // END class.ilObjFileGUI
 ?>

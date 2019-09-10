@@ -12,59 +12,59 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOp
  */
 class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 {
-	const OPTION_CANCEL = 'cancel';
+    const OPTION_CANCEL = 'cancel';
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getOptions(array $input): array
-	{
-		return [];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getOptions(array $input): array
+    {
+        return [];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getRemoveOption() {
-		return new UserInteractionOption('remove', self::OPTION_CANCEL);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getRemoveOption() {
+        return new UserInteractionOption('remove', self::OPTION_CANCEL);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getInputTypes()
-	{
-		return [];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getInputTypes()
+    {
+        return [];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getOutputType()
-	{
-		return new SingleType(StringValue::class);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getOutputType()
+    {
+        return new SingleType(StringValue::class);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket)
-	{
-		return $input;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket)
+    {
+        return $input;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getMessage(array $input) {
-		return '';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getMessage(array $input) {
+        return '';
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function canBeSkipped(array $input): bool
-	{
-		return true;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function canBeSkipped(array $input): bool
+    {
+        return true;
+    }
 }

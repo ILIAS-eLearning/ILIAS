@@ -7,15 +7,15 @@ var FileSystem = require('fs');
  */
 module.exports = function FileExists(filename) {
 
-	/**
-	 * @type {string}
-	 * @private
-	 */
-	var _filename = filename;
+    /**
+     * @type {string}
+     * @private
+     */
+    var _filename = filename;
 
-	this.validate = function() {
-		if(!FileSystem.existsSync(_filename)) {
-			throw new Error('File does not exist: ' + _filename);
-		}
-	};
+    this.validate = function() {
+        if(!FileSystem.existsSync(_filename)) {
+            throw new Error('File does not exist: ' + _filename);
+        }
+    };
 };

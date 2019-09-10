@@ -1,79 +1,79 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title>{TITLE}: HTML Export</title>
-	<!-- BEGIN HeadBaseTag -->
-	<!-- set to ilias root for pages delivered by scripts in sub folders (e.g. WebAcessChecker -->
-	<base href="{BASE}" />
-	<!-- END HeadBaseTag -->
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-	<!-- BEGIN AdditionalStyle -->
-	<link rel="stylesheet" type="text/css" href="{LOCATION_ADDITIONAL_STYLESHEET}" />
-	<!-- END AdditionalStyle -->
-	<!-- BEGIN generic_css -->
-	<link rel="stylesheet" type="text/css" href="{LOCATION_GENERIC_STYLESHEET}" media="{MEDIA_GENERIC_STYLESHEET}" />
-	<!-- END generic_css -->
-	<!-- BEGIN SyntaxStyle -->
-	<link rel="stylesheet" type="text/css" href="{LOCATION_SYNTAX_STYLESHEET}" />
-	<!-- END SyntaxStyle -->
-	<!-- BEGIN css_file -->
-	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
-	<!-- END css_file -->
-	<!-- BEGIN css_inline -->
-	<style>
-		{CSS_INLINE}
-	</style>
-	<!-- END css_inline -->
-	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
-	<!-- BEGIN ContentStyle -->
-	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
-	<!-- END ContentStyle -->
-	{LOCATION_NEWCONTENT_STYLESHEET_TAG}
-	<!-- BEGIN js_file -->
-	<script type="text/javascript" src="{JS_FILE}"></script>
-	<!-- END js_file -->
+    <title>{TITLE}: HTML Export</title>
+    <!-- BEGIN HeadBaseTag -->
+    <!-- set to ilias root for pages delivered by scripts in sub folders (e.g. WebAcessChecker -->
+    <base href="{BASE}" />
+    <!-- END HeadBaseTag -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <!-- BEGIN AdditionalStyle -->
+    <link rel="stylesheet" type="text/css" href="{LOCATION_ADDITIONAL_STYLESHEET}" />
+    <!-- END AdditionalStyle -->
+    <!-- BEGIN generic_css -->
+    <link rel="stylesheet" type="text/css" href="{LOCATION_GENERIC_STYLESHEET}" media="{MEDIA_GENERIC_STYLESHEET}" />
+    <!-- END generic_css -->
+    <!-- BEGIN SyntaxStyle -->
+    <link rel="stylesheet" type="text/css" href="{LOCATION_SYNTAX_STYLESHEET}" />
+    <!-- END SyntaxStyle -->
+    <!-- BEGIN css_file -->
+    <link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
+    <!-- END css_file -->
+    <!-- BEGIN css_inline -->
+    <style>
+        {CSS_INLINE}
+    </style>
+    <!-- END css_inline -->
+    <link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+    <!-- BEGIN ContentStyle -->
+    <link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
+    <!-- END ContentStyle -->
+    {LOCATION_NEWCONTENT_STYLESHEET_TAG}
+    <!-- BEGIN js_file -->
+    <script type="text/javascript" src="{JS_FILE}"></script>
+    <!-- END js_file -->
 </head>
 <body><!-- BEGIN thread_block -->
 
 <!-- BEGIN thread_headline -->
 <p>
-	<span><b>{T_TXT_TOPIC}{T_TITLE}</b></span><br />
-	<span class="default">{T_TXT_FORUM}{T_FORUM}</span><br />
-	<span class="small">{T_TXT_AUTHOR}{T_AUTHOR}</span><br />
-	<span class="small">{T_TXT_NUM_POSTS}{T_NUM_POSTS}</span><br />
-	<span class="small">{T_TXT_NUM_VISITS}{T_NUM_VISITS}</span><br />
+    <span><b>{T_TXT_TOPIC}{T_TITLE}</b></span><br />
+    <span class="default">{T_TXT_FORUM}{T_FORUM}</span><br />
+    <span class="small">{T_TXT_AUTHOR}{T_AUTHOR}</span><br />
+    <span class="small">{T_TXT_NUM_POSTS}{T_NUM_POSTS}</span><br />
+    <span class="small">{T_TXT_NUM_VISITS}{T_NUM_VISITS}</span><br />
 </p>
 <!-- END thread_headline -->
 
 <!-- BEGIN posttable -->
 <ul id="ilFrmPostList"><!-- BEGIN posts_row -->
-	<li class="ilFrmPostRow{ROWCOL}">
-		<div>
-			<div class="ilFrmPostImage"><img class="ilUserIcon" src="{USR_IMAGE}" /></div>
-			<div class="ilFrmPostContentContainer">
-				<div class="ilFrmPostHeader">
-					<span class="small"><!-- BEGIN usr_name -->{USR_NAME} | <!-- END usr_name -->{AUTHOR} <!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym --> | {POST_DATE}<br /><!-- BEGIN post_update -->{POST_UPDATE_TXT}  <!-- BEGIN update_usr_name -->{UPDATE_USR_NAME} | <!-- END update_usr_name -->{UPDATE_AUTHOR}<!-- END post_update --><!-- BEGIN post_not_activated_yet --><br /><span class="ilFrmPostActivationStatus">{POST_NOT_ACTIVATED_YET}</span><!-- END post_not_activated_yet --></span>
-					<!-- BEGIN registered -->
-					<br /><span class="small">{TXT_REGISTERED} {REGISTERED_SINCE}</span><!-- END registered --><!-- BEGIN num_posts -->
-					<br /><span class="small">{TXT_NUM_POSTS}: {NUM_POSTS}</span><!-- END num_posts --> 
-					<div class="ilFrmPostTitle">{SUBJECT}</div>
-				</div><!-- BEGIN censorship_advice -->
-				<div class="ilFrmPostCensorshipAdvice">{TXT_CENSORSHIP_ADVICE}:</div><!-- END censorship_advice -->
-				<div class="ilFrmPostContent">{POST}</div>
-				<div class="ilFrmPostClear"></div>
-			</div>
-		</div>
-		<div class="ilFrmPostClear"></div>
-	</li><!-- END posts_row -->
+    <li class="ilFrmPostRow{ROWCOL}">
+        <div>
+            <div class="ilFrmPostImage"><img class="ilUserIcon" src="{USR_IMAGE}" /></div>
+            <div class="ilFrmPostContentContainer">
+                <div class="ilFrmPostHeader">
+                    <span class="small"><!-- BEGIN usr_name -->{USR_NAME} | <!-- END usr_name -->{AUTHOR} <!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym --> | {POST_DATE}<br /><!-- BEGIN post_update -->{POST_UPDATE_TXT}  <!-- BEGIN update_usr_name -->{UPDATE_USR_NAME} | <!-- END update_usr_name -->{UPDATE_AUTHOR}<!-- END post_update --><!-- BEGIN post_not_activated_yet --><br /><span class="ilFrmPostActivationStatus">{POST_NOT_ACTIVATED_YET}</span><!-- END post_not_activated_yet --></span>
+                    <!-- BEGIN registered -->
+                    <br /><span class="small">{TXT_REGISTERED} {REGISTERED_SINCE}</span><!-- END registered --><!-- BEGIN num_posts -->
+                    <br /><span class="small">{TXT_NUM_POSTS}: {NUM_POSTS}</span><!-- END num_posts -->
+                    <div class="ilFrmPostTitle">{SUBJECT}</div>
+                </div><!-- BEGIN censorship_advice -->
+                <div class="ilFrmPostCensorshipAdvice">{TXT_CENSORSHIP_ADVICE}:</div><!-- END censorship_advice -->
+                <div class="ilFrmPostContent">{POST}</div>
+                <div class="ilFrmPostClear"></div>
+            </div>
+        </div>
+        <div class="ilFrmPostClear"></div>
+    </li><!-- END posts_row -->
 </ul>
 <!-- END posttable -->
 
 <!-- END thread_block -->
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
-	if(typeof il !== "undefined") {
-		<!-- BEGIN on_load_code_inner -->{OLCODE}<!-- END on_load_code_inner -->
-	}
+    if(typeof il !== "undefined") {
+        <!-- BEGIN on_load_code_inner -->{OLCODE}<!-- END on_load_code_inner -->
+    }
 </script>
 <!-- END on_load_code -->
 </body>

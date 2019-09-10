@@ -9,20 +9,20 @@ var FileHandler = require('./FileHandler');
  */
 var CommandLineHandler = function CommandLineHandler() {
 
-	/**
-	 * @returns {Array}
-	 */
-	this.readArguments = function() {
-		CommandLineHandlerValidator.validate();
+    /**
+     * @returns {Array}
+     */
+    this.readArguments = function() {
+        CommandLineHandlerValidator.validate();
 
-		var arguments = [];
+        var arguments = [];
 
-		for(var index = CONST.COMMAND_ARGS_OFFSET; index < process.argv.length; index++) {
-			arguments.push(process.argv[index]);
-		}
+        for(var index = CONST.COMMAND_ARGS_OFFSET; index < process.argv.length; index++) {
+            arguments.push(process.argv[index]);
+        }
 
-		return arguments;
-	}
+        return arguments;
+    }
 };
 
 /**

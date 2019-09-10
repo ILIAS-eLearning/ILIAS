@@ -6,7 +6,7 @@ $metadataFiles = glob(rtrim(realpath(__DIR__ . '/../metadata'), '/') . '/*.xml')
 $metadataSources = array();
 foreach($metadataFiles as $file)
 {
-	$metadataSources[]= array('type' => 'xml', 'file' => $file);
+    $metadataSources[]= array('type' => 'xml', 'file' => $file);
 }
 // ilias-patch: end
 /* 

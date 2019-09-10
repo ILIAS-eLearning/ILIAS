@@ -12,11 +12,11 @@
  */
 class ilChatroomGetPermissionsGUI extends ilChatroomGUIHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function executeDefault($requestedMethod)
-	{
-		throw new Exception('METHOD_NOT_IN_USE', 1456435027);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function executeDefault($requestedMethod)
+    {
+        throw new Exception('METHOD_NOT_IN_USE', 1456435027);
+    }
 }

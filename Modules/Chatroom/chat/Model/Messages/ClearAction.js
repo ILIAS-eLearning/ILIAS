@@ -13,7 +13,7 @@ var ClearAction = function ClearAction() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number}}
  */
 ClearAction.prototype.create = function(roomId, subRoomId) {
-	return Message.create('clear', 'history_has_been_cleared', roomId, subRoomId);
+    return Message.create('clear', 'history_has_been_cleared', roomId, subRoomId);
 };
 
 /**

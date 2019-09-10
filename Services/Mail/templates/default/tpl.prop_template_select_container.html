@@ -1,28 +1,28 @@
 {CONTENT}
 <script>
-	(function($) {
-		var fields = {FIELDS};
+    (function($) {
+        var fields = {FIELDS};
 
-		$('#{ID}').on("change", function() {
-			var $elm = $(this),
-				val  = $elm.val();
+        $('#{ID}').on("change", function() {
+            var $elm = $(this),
+                val  = $elm.val();
 
-			if ($.trim(val).length > 0) {
-				var p = $.ajax({
-					url: "{URL}",
-					dataType: "json",
-					data: {
-						template_id: $elm.val()
-					}
-				});
-				p.success(function(response) {
-					for (const fieldId of Object.keys(fields)) {
-						if ($("#" + fieldId).val().length === 0 || fields[fieldId]) {
-							$("#" + fieldId).val(response[fieldId]);
-						}
-					}
-				});
-			}
-		});
-	})(jQuery);
+            if ($.trim(val).length > 0) {
+                var p = $.ajax({
+                    url: "{URL}",
+                    dataType: "json",
+                    data: {
+                        template_id: $elm.val()
+                    }
+                });
+                p.success(function(response) {
+                    for (const fieldId of Object.keys(fields)) {
+                        if ($("#" + fieldId).val().length === 0 || fields[fieldId]) {
+                            $("#" + fieldId).val(response[fieldId]);
+                        }
+                    }
+                });
+            }
+        });
+    })(jQuery);
 </script>

@@ -1,10 +1,10 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="osch">
-	<baseclasses>
-		<baseclass name="ilOnScreenChatGUI" dir="classes" />
-	</baseclasses>
-	<events>
-		<event type="listen" id="Modules/Chatroom" />
-	</events>
-	<logging />
+    <baseclasses>
+        <baseclass name="ilOnScreenChatGUI" dir="classes" />
+    </baseclasses>
+    <events>
+        <event type="listen" id="Modules/Chatroom" />
+    </events>
+    <logging />
 </service>

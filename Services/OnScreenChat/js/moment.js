@@ -1,9 +1,9 @@
 function momentFromNowToTime(time) {
-	var currentTime = new Date().getTime();
+    var currentTime = new Date().getTime();
 
-	if (isNaN(time) || time > currentTime) {
-		time = currentTime;
-	}
+    if (isNaN(time) || time > currentTime) {
+        time = currentTime;
+    }
 
-	return moment(time).fromNow();
+    return moment(time).fromNow();
 }

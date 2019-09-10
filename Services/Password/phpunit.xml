@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-		colors="true"
-		stopOnFailure="true"
-		backupGlobals="false"
-		bootstrap="./test/bootstrap.php">
-	<testsuite name="ilServicesMailSuite">
-		<file>./test/ilServicesPasswordSuite.php</file>
-	</testsuite>
-	<logging>
-		<log type="coverage-html"
-			 target="build/coverage"
-			 highLowerBound="80" />
-		<log type="testdox-html"
-			 target="build/dox.html" />
-	</logging>
-	<filter>
-		<whitelist>
-			<directory suffix=".php">classes</directory>
-		</whitelist>
-	</filter>
+        colors="true"
+        stopOnFailure="true"
+        backupGlobals="false"
+        bootstrap="./test/bootstrap.php">
+    <testsuite name="ilServicesMailSuite">
+        <file>./test/ilServicesPasswordSuite.php</file>
+    </testsuite>
+    <logging>
+        <log type="coverage-html"
+             target="build/coverage"
+             highLowerBound="80" />
+        <log type="testdox-html"
+             target="build/dox.html" />
+    </logging>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">classes</directory>
+        </whitelist>
+    </filter>
 </phpunit>

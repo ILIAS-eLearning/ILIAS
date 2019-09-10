@@ -6,44 +6,44 @@ var async = require('async');
 
 module.exports = function SetupNamespaces(result, callback) {
 
-	var clientConfigs = Container.getClientConfigs();
+    var clientConfigs = Container.getClientConfigs();
 
-	function setupNamespace(config, nextLoop) {
-		function createNamespace(callback) {
-			var namespace = Handler.createNamespace(config.name);
+    function setupNamespace(config, nextLoop) {
+        function createNamespace(callback) {
+            var namespace = Handler.createNamespace(config.name);
 
-			Container.getLogger().info('SetupNamespace %s!', namespace.getName());
+            Container.getLogger().info('SetupNamespace %s!', namespace.getName());
 
-			callback(null, namespace, config);
-		}
+            callback(null, namespace, config);
+        }
 
-		function onNamespaceSetupFinished(err, result) {
-			if (err) {
-				throw err;
-			}
+        function onNamespaceSetupFinished(err, result) {
+            if (err) {
+                throw err;
+            }
 
-			nextLoop();
-		}
+            nextLoop();
+        }
 
-		async.waterfall(
-			[
-				createNamespace,
-				SetupDatabase,
-				PreloadData
-			],
-			onNamespaceSetupFinished
-		);
-	}
+        async.waterfall(
+            [
+                createNamespace,
+                SetupDatabase,
+                PreloadData
+            ],
+            onNamespaceSetupFinished
+        );
+    }
 
-	function onNamespacesSetupFinished(err) {
-		if (err) {
-			throw err;
-		}
+    function onNamespacesSetupFinished(err) {
+        if (err) {
+            throw err;
+        }
 
-		Container.getLogger().info('SetupNamespace finished!');
+        Container.getLogger().info('SetupNamespace finished!');
 
-		callback();
-	}
+        callback();
+    }
 
-	async.eachSeries(clientConfigs, setupNamespace, onNamespacesSetupFinished);
+    async.eachSeries(clientConfigs, setupNamespace, onNamespacesSetupFinished);
 };

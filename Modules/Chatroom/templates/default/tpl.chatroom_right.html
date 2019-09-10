@@ -1,30 +1,30 @@
 <div id="chat_users">
-	<p class="no_users small ilCenter">{LBL_NO_FURTHER_USERS}</p>
+    <p class="no_users small ilCenter">{LBL_NO_FURTHER_USERS}</p>
 </div>
 
 <script id="ilChatUserRowAction" class="ilNoDisplay" type="x-tmpl-ilias">
-	<li role="presentation">
-		<div class="arrow-down ilNoDisplay"></div>
-		<a role="menuitem" tabindex="-1">[[LABEL]]</a>
-	</li>
+    <li role="presentation">
+        <div class="arrow-down ilNoDisplay"></div>
+        <a role="menuitem" tabindex="-1">[[LABEL]]</a>
+    </li>
 </script>
 
 <script id="ilChatUserRowTemplate" class="ilNoDisplay" type="x-tmpl-ilias">
-	<div class="ilChatroomUser">
-		<div class="media" id="dropdownMenu[[INDEX]]" data-toggle="dropdown" aria-expanded="true">
-			<div class="ilAwarenessItemRow">
-				<div class="media-left">
-					<a href="#">
-						<img class="media-object" alt="">
-					</a>
-				</div>
-				<div class="media-body">
-					<h4 class="media-heading">[[USERNAME]]</h4>
-				</div>
-			</div>
-		</div>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu[[INDEX]]"></ul>
-	</div>
+    <div class="ilChatroomUser">
+        <div class="media" id="dropdownMenu[[INDEX]]" data-toggle="dropdown" aria-expanded="true">
+            <div class="ilAwarenessItemRow">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" alt="">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">[[USERNAME]]</h4>
+                </div>
+            </div>
+        </div>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu[[INDEX]]"></ul>
+    </div>
 </script>
 
 <div id="private_rooms"></div>

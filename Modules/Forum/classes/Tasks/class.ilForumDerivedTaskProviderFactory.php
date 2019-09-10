@@ -7,69 +7,69 @@
  */
 class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 {
-	/** @var ilTaskService */
-	protected $taskService;
+    /** @var ilTaskService */
+    protected $taskService;
 
-	/** @var \ilAccess */
-	protected $accessHandler;
+    /** @var \ilAccess */
+    protected $accessHandler;
 
-	/** @var \ilSetting */
-	protected $settings;
+    /** @var \ilSetting */
+    protected $settings;
 
-	/** @var \ilLanguage */
-	protected $lng;
+    /** @var \ilLanguage */
+    protected $lng;
 
-	/** @var \ilCtrl */
-	protected $ctrl;
+    /** @var \ilCtrl */
+    protected $ctrl;
 
-	/**
-	 * ilForumDerivedTaskProviderFactory constructor.
-	 * @param \ilTaskService $taskService
-	 * @param \ilAccess|null $accessHandler
-	 * @param \ilSetting|null $settings
-	 * @param \ilLanguage|null $lng
-	 * @param ilCtrl|null $ctrl
-	 */
-	public function __construct(
-		\ilTaskService $taskService,
-		\ilAccess $accessHandler = null,
-		\ilSetting $settings = null,
-		\ilLanguage $lng = null,
-		\ilCtrl $ctrl = null
-	) {
-		global $DIC;
+    /**
+     * ilForumDerivedTaskProviderFactory constructor.
+     * @param \ilTaskService $taskService
+     * @param \ilAccess|null $accessHandler
+     * @param \ilSetting|null $settings
+     * @param \ilLanguage|null $lng
+     * @param ilCtrl|null $ctrl
+     */
+    public function __construct(
+        \ilTaskService $taskService,
+        \ilAccess $accessHandler = null,
+        \ilSetting $settings = null,
+        \ilLanguage $lng = null,
+        \ilCtrl $ctrl = null
+    ) {
+        global $DIC;
 
-		$this->taskService = $taskService;
-		$this->accessHandler = is_null($accessHandler)
-			? $DIC->access()
-			: $accessHandler;
+        $this->taskService = $taskService;
+        $this->accessHandler = is_null($accessHandler)
+            ? $DIC->access()
+            : $accessHandler;
 
-		$this->settings = is_null($settings)
-			? $DIC->settings()
-			: $settings;
+        $this->settings = is_null($settings)
+            ? $DIC->settings()
+            : $settings;
 
-		$this->lng = is_null($lng)
-			? $DIC->language()
-			: $lng;
+        $this->lng = is_null($lng)
+            ? $DIC->language()
+            : $lng;
 
-		$this->ctrl = is_null($ctrl)
-			? $DIC->ctrl()
-			: $ctrl;
-	}
+        $this->ctrl = is_null($ctrl)
+            ? $DIC->ctrl()
+            : $ctrl;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getProviders(): array
-	{
-		return [
-			new \ilForumDraftsDerivedTaskProvider(
-				$this->taskService,
-				$this->accessHandler,
-				$this->lng,
-				$this->settings,
-				$this->ctrl
-			)
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getProviders(): array
+    {
+        return [
+            new \ilForumDraftsDerivedTaskProvider(
+                $this->taskService,
+                $this->accessHandler,
+                $this->lng,
+                $this->settings,
+                $this->ctrl
+            )
+        ];
+    }
 }

@@ -1,146 +1,146 @@
 <script type="text/javascript">
 
-	var myId = {MY_ID};
+    var myId = {MY_ID};
 
 
-	il.Util.addOnLoad(function() {
-		var lang = {
-			main                       :{LBL_MAINROOM},
-			leave                      :{LBL_LEAVE_PRIVATE_ROOM},
-			left                       :{LBL_LEFT_PRIVATE_ROOM},
-			enter                      :{LBL_JOIN},
-			delete_private_room_question :{LBL_DELETE_PRIVATE_ROOM_QUESTION},
-			delete_private_room        :{LBL_DELETE_PRIVATE_ROOM},
-			invite_users               :{LBL_INVITE_TO_PRIVATE_ROOM},
-			kick                       :{LBL_KICK},
-			ban                        :{LBL_BAN},
-			kick_question              :{LBL_KICK_QUESTION},
-			ban_question               :{LBL_BAN_QUESTION},
-			address                    :{LBL_ADDRESS},
-			speak_to                   :{LBL_SPEAK_TO},
-			whisper                    :{LBL_WHISPER},
-			whisper_to                 :{LBL_WHISPER_TO},
-			connect                    :{LBL_CONNECT},
-			disconnected               :{LBL_DISCONNECT},
-			create_private_room        :{LBL_CREATE_PRIVATE_ROOM_JS},
-			welcome_to_chat            :{LBL_WELCOME_TO_CHAT},
-			user_invited               :{LBL_USER_INVITED},
-			user_kicked                :{LBL_USER_KICKED},
-			user_invited_self          :{LBL_USER_INVITED_SELF},
-			private_room_closed        :{LBL_PRIVATE_ROOM_CLOSED},
-			private_room_entered       :{LBL_PRIVATE_ROOM_ENTERED},
-			private_room_left          :{LBL_PRIVATE_ROOM_LEFT},
-			private_room_entered_user  :{LBL_PRIVATE_ROOM_ENTERED_USER},
-			kicked_from_private_room   :{LBL_KICKED_FROM_PRIVATE_ROOM},
-			ok                         :{LBL_OK},
-			cancel                     :{LBL_CANCEL},
-			history_has_been_cleared   :{LBL_HISTORY_CLEARED},
-			clear_room_history         :{LBL_CLEAR_ROOM_HISTORY},
-			clear_room_history_question:{LBL_CLEAR_ROOM_HISTORY_QUESTION},
-			end_whisper                :{LBL_END_WHISPER},
-			timeformat                 :{LBL_TIMEFORMAT},
-			dateformat                 :{LBL_DATEFORMAT}
-		};
-		var initial = {INITIAL_DATA};
-		$('#chat_messages').chat(lang, '{BASEURL}', '{SESSION_ID}', '{INSTANCE}', '{SCOPE}', '{POSTURL}', initial);
-	});
+    il.Util.addOnLoad(function() {
+        var lang = {
+            main                       :{LBL_MAINROOM},
+            leave                      :{LBL_LEAVE_PRIVATE_ROOM},
+            left                       :{LBL_LEFT_PRIVATE_ROOM},
+            enter                      :{LBL_JOIN},
+            delete_private_room_question :{LBL_DELETE_PRIVATE_ROOM_QUESTION},
+            delete_private_room        :{LBL_DELETE_PRIVATE_ROOM},
+            invite_users               :{LBL_INVITE_TO_PRIVATE_ROOM},
+            kick                       :{LBL_KICK},
+            ban                        :{LBL_BAN},
+            kick_question              :{LBL_KICK_QUESTION},
+            ban_question               :{LBL_BAN_QUESTION},
+            address                    :{LBL_ADDRESS},
+            speak_to                   :{LBL_SPEAK_TO},
+            whisper                    :{LBL_WHISPER},
+            whisper_to                 :{LBL_WHISPER_TO},
+            connect                    :{LBL_CONNECT},
+            disconnected               :{LBL_DISCONNECT},
+            create_private_room        :{LBL_CREATE_PRIVATE_ROOM_JS},
+            welcome_to_chat            :{LBL_WELCOME_TO_CHAT},
+            user_invited               :{LBL_USER_INVITED},
+            user_kicked                :{LBL_USER_KICKED},
+            user_invited_self          :{LBL_USER_INVITED_SELF},
+            private_room_closed        :{LBL_PRIVATE_ROOM_CLOSED},
+            private_room_entered       :{LBL_PRIVATE_ROOM_ENTERED},
+            private_room_left          :{LBL_PRIVATE_ROOM_LEFT},
+            private_room_entered_user  :{LBL_PRIVATE_ROOM_ENTERED_USER},
+            kicked_from_private_room   :{LBL_KICKED_FROM_PRIVATE_ROOM},
+            ok                         :{LBL_OK},
+            cancel                     :{LBL_CANCEL},
+            history_has_been_cleared   :{LBL_HISTORY_CLEARED},
+            clear_room_history         :{LBL_CLEAR_ROOM_HISTORY},
+            clear_room_history_question:{LBL_CLEAR_ROOM_HISTORY_QUESTION},
+            end_whisper                :{LBL_END_WHISPER},
+            timeformat                 :{LBL_TIMEFORMAT},
+            dateformat                 :{LBL_DATEFORMAT}
+        };
+        var initial = {INITIAL_DATA};
+        $('#chat_messages').chat(lang, '{BASEURL}', '{SESSION_ID}', '{INSTANCE}', '{SCOPE}', '{POSTURL}', initial);
+    });
 
 </script>
 
 <script src="Modules/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js"></script>
 
 <script type="text/javascript">
-	var initial = {INITIAL_DATA};
-	var room 	= {SCOPE};
-	var userId = initial.userinfo.userid;
-	var user = null;
-	var instance = "{INSTANCE}";
+    var initial = {INITIAL_DATA};
+    var room 	= {SCOPE};
+    var userId = initial.userinfo.userid;
+    var user = null;
+    var instance = "{INSTANCE}";
 
-	$(initial.users).each(function(key){
-		if(initial.users[key].id == userId) {
-			user = initial.users[key].login;
-		}
-	});
+    $(initial.users).each(function(key){
+        if(initial.users[key].id == userId) {
+            user = initial.users[key].login;
+        }
+    });
 
-	var formatTime = function(timestamp) {
-		var date = new Date(timestamp * 1000);
+    var formatTime = function(timestamp) {
+        var date = new Date(timestamp * 1000);
 
-		var hours = date.getHours();
-		var minutes = date.getMinutes();
-		var seconds = date.getSeconds();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
 
-		return (hours < 10? "0": "") + hours + ":" + (minutes < 10? "0": "") + minutes + ":" + (seconds < 10? "0": "") + seconds;
-	};
+        return (hours < 10? "0": "") + hours + ":" + (minutes < 10? "0": "") + minutes + ":" + (seconds < 10? "0": "") + seconds;
+    };
 </script>
 
 <div id="invite_users_container" class="ilNoDisplayChat">
-	<div>
-		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
-		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
-	</div>
-	<div>
-		<p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input autocomplete="off" type="text" class="form-control" id="invite_user_text" /></p>
-		<ul id="invite_users_available">
-			<li></li>
-		</ul>
-	</div>
+    <div>
+        <input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
+        <input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
+    </div>
+    <div>
+        <p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input autocomplete="off" type="text" class="form-control" id="invite_user_text" /></p>
+        <ul id="invite_users_available">
+            <li></li>
+        </ul>
+    </div>
 </div>
 
 <table id="chat_wrapper">
-	<tr id="chat_head_line">
-		<td class="ilValignBottom">
-			<h3 class="ilHeader current_room_title"></h3>
-			<div class="ilHeadAction" id="chat_actions_wrapper">
-				<div class="btn-group" id="chat_actions">
-					<button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
-						<span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
-					</button>
-				</div>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div id="chat_messages">
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td class="ilRight">
-			<div class="form-group">
-				<label for="chat_auto_scroll" class="control-label">{LBL_AUTO_SCROLL}</label>
-				<input type="checkbox" id="chat_auto_scroll" checked="checked" />
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form role="form" class="form-horizontal">
-				<div class="ilFormHeader">
-					<h3><a name="il_form_top"></a>{LBL_MESSAGE}</h3>
-					<div class="ilFormCmds">
-					</div>
-					<div class="help-block"></div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-3">
-						<label class="control-label" for="submit_message_text">
-							<span id="message_recipient_info_all">{LBL_TOALL}</span>
-							<span id="message_recipient_info"></span>
-						</label>
-					</div>
-					<div id="iosChatInputContainer" class="col-sm-9">
-						<input class="form-control" type="text" name="message" id="submit_message_text"/>
-						<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
-					</div>
-				</div>
-			</form>
-		</td>
-	</tr>
+    <tr id="chat_head_line">
+        <td class="ilValignBottom">
+            <h3 class="ilHeader current_room_title"></h3>
+            <div class="ilHeadAction" id="chat_actions_wrapper">
+                <div class="btn-group" id="chat_actions">
+                    <button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
+                        <span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
+                    </button>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="chat_messages">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="ilRight">
+            <div class="form-group">
+                <label for="chat_auto_scroll" class="control-label">{LBL_AUTO_SCROLL}</label>
+                <input type="checkbox" id="chat_auto_scroll" checked="checked" />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <form role="form" class="form-horizontal">
+                <div class="ilFormHeader">
+                    <h3><a name="il_form_top"></a>{LBL_MESSAGE}</h3>
+                    <div class="ilFormCmds">
+                    </div>
+                    <div class="help-block"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label class="control-label" for="submit_message_text">
+                            <span id="message_recipient_info_all">{LBL_TOALL}</span>
+                            <span id="message_recipient_info"></span>
+                        </label>
+                    </div>
+                    <div id="iosChatInputContainer" class="col-sm-9">
+                        <input class="form-control" type="text" name="message" id="submit_message_text"/>
+                        <input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
+                    </div>
+                </div>
+            </form>
+        </td>
+    </tr>
 </table>
 
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
 
 <div class="ilNoDisplayChat" id="create_private_room_dialog">
-	<label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
+    <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
 </div>

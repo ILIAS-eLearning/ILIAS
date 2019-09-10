@@ -18,11 +18,11 @@ var TargetMessage = function TargetMessage() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, from, format, target}}
  */
 TargetMessage.prototype.create = function(content, roomId, subRoomId, from, format, target) {
-	var message = TextMessage.create(content, roomId, subRoomId, from, format);
+    var message = TextMessage.create(content, roomId, subRoomId, from, format);
 
-	message.target = target;
+    message.target = target;
 
-	return message;
+    return message;
 };
 
 /**

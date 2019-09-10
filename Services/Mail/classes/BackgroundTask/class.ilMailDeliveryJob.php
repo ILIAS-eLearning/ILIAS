@@ -14,90 +14,90 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilMailDeliveryJob extends AbstractJob
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function run(array $input, Observer $observer)
-	{
-		global $DIC;
+    /**
+     * @inheritdoc
+     */
+    public function run(array $input, Observer $observer)
+    {
+        global $DIC;
 
-		$arguments = array_map(function($value) {
-			return $value->getValue();
-		}, $input);
+        $arguments = array_map(function($value) {
+            return $value->getValue();
+        }, $input);
 
-		$DIC->logger()->mail()->info(sprintf(
-			'Mail delivery background task executed for input: %s',
-			json_encode($arguments, JSON_PRETTY_PRINT)
-		));
+        $DIC->logger()->mail()->info(sprintf(
+            'Mail delivery background task executed for input: %s',
+            json_encode($arguments, JSON_PRETTY_PRINT)
+        ));
 
-		$mail = new ilMail((int)$input[0]->getValue());
-		$mail->setSaveInSentbox((bool)$input[8]->getValue());
-		$mail = $mail
-			->withContextId((string)$input[9]->getValue())
-			->withContextParameters((array)unserialize($input[10]->getValue()));
+        $mail = new ilMail((int)$input[0]->getValue());
+        $mail->setSaveInSentbox((bool)$input[8]->getValue());
+        $mail = $mail
+            ->withContextId((string)$input[9]->getValue())
+            ->withContextParameters((array)unserialize($input[10]->getValue()));
 
-		$mail->sendMail(
-			(string)$input[1]->getValue(), // To
-			(string)$input[2]->getValue(),  // Cc
-			(string)$input[3]->getValue(),  // Bcc
-			(string)$input[4]->getValue(),  // Subject
-			(string)$input[5]->getValue(),  // Message
-			(array)unserialize($input[6]->getValue()),  // Attachments 
-			(bool)$input[7]->getValue() // Use Placeholders
-		);
+        $mail->sendMail(
+            (string)$input[1]->getValue(), // To
+            (string)$input[2]->getValue(),  // Cc
+            (string)$input[3]->getValue(),  // Bcc
+            (string)$input[4]->getValue(),  // Subject
+            (string)$input[5]->getValue(),  // Message
+            (array)unserialize($input[6]->getValue()),  // Attachments
+            (bool)$input[7]->getValue() // Use Placeholders
+        );
 
-		$DIC->logger()->mail()->info(sprintf(
-			'Mail delivery background task finished: %s',
-			json_encode($arguments, JSON_PRETTY_PRINT)
-		));
+        $DIC->logger()->mail()->info(sprintf(
+            'Mail delivery background task finished: %s',
+            json_encode($arguments, JSON_PRETTY_PRINT)
+        ));
 
-		$output = new BooleanValue();
-		$output->setValue(true);
+        $output = new BooleanValue();
+        $output->setValue(true);
 
-		return $output;
-	}
+        return $output;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getInputTypes()
-	{
-		return [
-			new SingleType(IntegerValue::class), // 0. User Id
-			new SingleType(StringValue::class), // 1. To
-			new SingleType(StringValue::class), // 2. CC
-			new SingleType(StringValue::class), // 3. BCC
-			new SingleType(StringValue::class), // 4. Subject
-			new SingleType(StringValue::class), // 5. Message
-			new SingleType(StringValue::class), // 6. Attachments
-			new SingleType(BooleanValue::class), // 7. Use placeholders
-			new SingleType(BooleanValue::class), // 8. Save in sentbox
-			new SingleType(StringValue::class), // 9. Context Id
-			new SingleType(StringValue::class), // 10. Context Parameters
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getInputTypes()
+    {
+        return [
+            new SingleType(IntegerValue::class), // 0. User Id
+            new SingleType(StringValue::class), // 1. To
+            new SingleType(StringValue::class), // 2. CC
+            new SingleType(StringValue::class), // 3. BCC
+            new SingleType(StringValue::class), // 4. Subject
+            new SingleType(StringValue::class), // 5. Message
+            new SingleType(StringValue::class), // 6. Attachments
+            new SingleType(BooleanValue::class), // 7. Use placeholders
+            new SingleType(BooleanValue::class), // 8. Save in sentbox
+            new SingleType(StringValue::class), // 9. Context Id
+            new SingleType(StringValue::class), // 10. Context Parameters
+        ];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isStateless()
-	{
-		return true;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isStateless()
+    {
+        return true;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getExpectedTimeOfTaskInSeconds()
-	{
-		return 30;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getExpectedTimeOfTaskInSeconds()
+    {
+        return 30;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getOutputType()
-	{
-		return new SingleType(BooleanValue::class);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getOutputType()
+    {
+        return new SingleType(BooleanValue::class);
+    }
 }

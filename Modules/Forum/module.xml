@@ -1,38 +1,38 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
-	id="frm">
-	<baseclasses>
-	</baseclasses>
-	<objects>
-		<object id="frm" class_name="Forum" dir="classes" default_pos="70" default_pres_pos="90"
-			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1">
-			<parent id="cat">cat</parent>
-			<parent id="crs">crs</parent>
-			<parent id="fold">fold</parent>
-			<parent id="grp">grp</parent>
-			<parent id="recf">recf</parent>
-			<parent id="root">root</parent>
-		</object>
-		<object id="frma" class_name="ForumAdministration" dir="classes"
-			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
-			<parent id="adm" max="1">adm</parent>
-		</object>
-	</objects>
-	<events>		
-		<event type="listen" id="Services/News" />
-		<event type="listen" id="Modules/Course" />
-		<event type="listen" id="Modules/Group" />
-		<event type="listen" id="Modules/Forum" />
-		<event type="raise" id="createdPost" />
-		<event type="raise" id="updatedPost" />
-		<event type="raise" id="censoredPost" />
-		<event type="raise" id="deletedPost" />
-	</events>
-	<crons>		
-		<cron id="frm_notification" class="ilForumCronNotification" />
-	</crons>
-	<logging />
-	<gsproviders>
-		<gsprovider purpose="tools" class_name="ilForumGlobalScreenToolsProvider" />
-	</gsproviders>
+    id="frm">
+    <baseclasses>
+    </baseclasses>
+    <objects>
+        <object id="frm" class_name="Forum" dir="classes" default_pos="70" default_pres_pos="90"
+            checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1">
+            <parent id="cat">cat</parent>
+            <parent id="crs">crs</parent>
+            <parent id="fold">fold</parent>
+            <parent id="grp">grp</parent>
+            <parent id="recf">recf</parent>
+            <parent id="root">root</parent>
+        </object>
+        <object id="frma" class_name="ForumAdministration" dir="classes"
+            checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+            <parent id="adm" max="1">adm</parent>
+        </object>
+    </objects>
+    <events>
+        <event type="listen" id="Services/News" />
+        <event type="listen" id="Modules/Course" />
+        <event type="listen" id="Modules/Group" />
+        <event type="listen" id="Modules/Forum" />
+        <event type="raise" id="createdPost" />
+        <event type="raise" id="updatedPost" />
+        <event type="raise" id="censoredPost" />
+        <event type="raise" id="deletedPost" />
+    </events>
+    <crons>
+        <cron id="frm_notification" class="ilForumCronNotification" />
+    </crons>
+    <logging />
+    <gsproviders>
+        <gsprovider purpose="tools" class_name="ilForumGlobalScreenToolsProvider" />
+    </gsproviders>
 </module>

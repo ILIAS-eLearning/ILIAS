@@ -1,38 +1,38 @@
 var should						= require('should'),
-	assert						= require('assert'),
-	sinon						= require('sinon'),
-	AbstractValidator			= require('../Validation/Validator/AbstractValidator'),
-	FileHandlerReadValidator	= require('../Validation/Validator/FileHandlerReadValidator');
+    assert						= require('assert'),
+    sinon						= require('sinon'),
+    AbstractValidator			= require('../Validation/Validator/AbstractValidator'),
+    FileHandlerReadValidator	= require('../Validation/Validator/FileHandlerReadValidator');
 
 
 describe('RuleSet', function(){
 
-	describe('AbstractRuleSet', function(){
+    describe('AbstractRuleSet', function(){
 
-		var TestValidator = null;
+        var TestValidator = null;
 
-		before(function(done){
-			TestValidator = function() {};
-			TestValidator.prototype = new AbstractValidator();
+        before(function(done){
+            TestValidator = function() {};
+            TestValidator.prototype = new AbstractValidator();
 
-			done();
-		});
+            done();
+        });
 
 
-		it('should always have the correct amount of rules', function(done){
-			var validator = new TestValidator();
+        it('should always have the correct amount of rules', function(done){
+            var validator = new TestValidator();
 
-			var rule = sinon.stub();
+            var rule = sinon.stub();
 
-			assert.equal(validator.getRules().length, 0);
+            assert.equal(validator.getRules().length, 0);
 
-			validator.addRule(rule);
-			assert.equal(validator.getRules().length, 1);
+            validator.addRule(rule);
+            assert.equal(validator.getRules().length, 1);
 
-			validator.addRule(rule);
-			assert.equal(validator.getRules().length, 2);
+            validator.addRule(rule);
+            assert.equal(validator.getRules().length, 2);
 
-			done();
-		});
-	});
+            done();
+        });
+    });
 });

@@ -6,8 +6,8 @@ var Handler		= require('../Handler/CommandLineHandler');
  */
 module.exports = function ReadCommandArguments(callback) {
 
-	var arguments = Handler.readArguments();
-	Container.setArguments(arguments);
+    var arguments = Handler.readArguments();
+    Container.setArguments(arguments);
 
-	callback(null);
+    callback(null);
 };

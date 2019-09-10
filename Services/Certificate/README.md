@@ -281,18 +281,18 @@ $iliasVersion         = 'v5.4.0';
 $currentlyActive      = true;
 
 $certificate = new ilUserCertificate(
-	$patternCertificateId,
-	$objId,
-	$objType,
-	$userId,
-	$userName,
-	$acquiredTimestamp,
-	$certificateContent,
-	$templateValues,
-	$validUntil,
-	$version,
-	$iliasVersion,
-	$currentlyActive,
+    $patternCertificateId,
+    $objId,
+    $objType,
+    $userId,
+    $userName,
+    $acquiredTimestamp,
+    $certificateContent,
+    $templateValues,
+    $validUntil,
+    $version,
+    $iliasVersion,
+    $currentlyActive,
 );
 
 $repository = new ilUserCertificateRepository($database, $logger);
@@ -324,16 +324,16 @@ $currentlyActive      = true;
 $backgroundImagePath  = '/data/somone/certifcates/course/200/background_2.jpg';
 
 $template = new ilCertificateTemplate(
-	$obj_id,
-	$obj_type,
-	$certificateContent,
-	$certificateHash,
-	$templateValues,
-	$version,
-	$iliasVersion,
-	$createdTimestamp,
-	$currentlyActive,
-	$backgroundImagePath
+    $obj_id,
+    $obj_type,
+    $certificateContent,
+    $certificateHash,
+    $templateValues,
+    $version,
+    $iliasVersion,
+    $createdTimestamp,
+    $currentlyActive,
+    $backgroundImagePath
 );
 
 $repository = new ilCertificateTemplateRepository($database);
@@ -359,10 +359,10 @@ $adapterClass = 'CoursePlaceholderValues'
 $state = ilCronConstants::IN_PROGRESS;
 
 $template = new ilCertificateQueueEntry(
-	$objId,
-	$userId,
-	$adapterClass,
-	$state
+    $objId,
+    $userId,
+    $adapterClass,
+    $state
 );
 
 $repository = new ilCertificateQueueRepository($database);

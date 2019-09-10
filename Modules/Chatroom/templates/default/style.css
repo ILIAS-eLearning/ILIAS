@@ -1,10 +1,10 @@
 .chat.messageLine.dateline {
-	background-color: #ECF0F9;
+    background-color: #ECF0F9;
 }
 
 .chat.messageLine {
-	margin-top: 5px;
-	margin-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .chat.messageLine.private {
@@ -12,13 +12,13 @@
 }
 
 .chat.username {
-	/*font-weight: bold;
-	color: blue;*/
+    /*font-weight: bold;
+    color: blue;*/
 }
 
 .chat.messageseparator {
     padding: 0;
-	padding-right: 3px;
+    padding-right: 3px;
 }
 
 .chat.date {
@@ -54,27 +54,27 @@
 
 #submit_message_text {
     width: 80%;
-	display: inline;
+    display: inline;
 }
 
 .online_user {
-	line-height: 2em;
+    line-height: 2em;
 }
 
 .online_user img {
-	width: 22px;
-	height: 22px;
+    width: 22px;
+    height: 22px;
 }
 
 .listentry {
 }
 
 .listentry {
-	display: block;
+    display: block;
 } 
 
 .listentry div {
-	display: inline-block;
+    display: inline-block;
 }
 
 .listentry.self {
@@ -101,30 +101,30 @@
 .style_underlined { text-decoration: underline; }
 
 .invisible {
-	display:none;
+    display:none;
 }
 
 .chat.optionlist {
-	display: none;
+    display: none;
 }
 
 .in_room {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #invite_users_available {
-	border: 1px solid #BCCAE5;
-	padding: 0;
+    border: 1px solid #BCCAE5;
+    padding: 0;
 }
 
 #invite_users_available li{
-	list-style-image: none;
-	list-style-type: none;
-	list-style-position: inside;
-	margin: 0;
-	padding: 0;
-	padding-left: 30px;
-	margin: 3px 0;
+    list-style-image: none;
+    list-style-type: none;
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+    padding-left: 30px;
+    margin: 3px 0;
 
 }
 
@@ -145,108 +145,108 @@
 }
 
 h2.current_room_title {
-	display: inline;
-	width: auto;
+    display: inline;
+    width: auto;
 }
 
 .chat_block_title {
-	font-weight: bold;
-	padding: 3px;
-	text-align: left;
-	font-size: 90%;
-	color: #404040;
-	background-color: #F8F8F8;
-	border-bottom: 1px solid #E9E9E9;
-	margin-top: 0;
-	
+    font-weight: bold;
+    padding: 3px;
+    text-align: left;
+    font-size: 90%;
+    color: #404040;
+    background-color: #F8F8F8;
+    border-bottom: 1px solid #E9E9E9;
+    margin-top: 0;
+
 }
 
 .chat_new_events:before {
-	color: #D06000;
-	font-weight: bold;
-	content: '*';
+    color: #D06000;
+    font-weight: bold;
+    content: '*';
 }
 
 .chat_modal_overlay {
-	position: fixed;
-	left: 0;
-	top: 0;
-	background: url("./images/overlay.png");
-	width: 100%;
-	height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: url("./images/overlay.png");
+    width: 100%;
+    height: 100%;
 }
 
 .invite_user_line {
-	background-image: url(../../../../templates/default/images/icon_usr.svg);
-	background-position: left center;
-	background-repeat: no-repeat;
+    background-image: url(../../../../templates/default/images/icon_usr.svg);
+    background-position: left center;
+    background-repeat: no-repeat;
 }
 
 #iosChatInputContainer {
-	position: relative;
+    position: relative;
 }
 
 #iosChatEmoticonsPanel {
-	position: absolute;
-	left: 16px;
-	top: 1px;
-	display: block;
-	height: 19px;
-	width: 19px;
+    position: absolute;
+    left: 16px;
+    top: 1px;
+    display: block;
+    height: 19px;
+    width: 19px;
 }
 
 #iosChatEmoticonsPanel > a {
-	display: block;
-	height: 19px;
-	width: 19px;
-	background: url("./images/emoticons_trigger.png") no-repeat 1px 2px;
-	position: relative;
-	z-index: 1;
-	border-left: 1px solid #FFFFFF;
+    display: block;
+    height: 19px;
+    width: 19px;
+    background: url("./images/emoticons_trigger.png") no-repeat 1px 2px;
+    position: relative;
+    z-index: 1;
+    border-left: 1px solid #FFFFFF;
 }
 
 #iosChatEmoticonsPanel > a:hover, #iosChatEmoticonsPanel > a.active {
-	background-color: #6D84B4;
-	border-bottom: 1px solid #6D84B6;
-	border-left: 1px solid #3B5998;
-	border-right: 1px solid #3B5998;
-	border-top: none;
+    background-color: #6D84B4;
+    border-bottom: 1px solid #6D84B6;
+    border-left: 1px solid #3B5998;
+    border-right: 1px solid #3B5998;
+    border-top: none;
 }
 
 #iosChatEmoticonsPanelFlyout {
-	position: absolute;
-	background-color: white;
-	border: 1px solid gray;
-	padding: 5px;
-	border-bottom: 2px solid #293E6A;
-	bottom: 19px;
-	display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid gray;
+    padding: 5px;
+    border-bottom: 2px solid #293E6A;
+    bottom: 19px;
+    display: none;
 }
 
 #iosChatEmoticonsPanelFlyout a {
-	border: 1px solid white;
-	display: block;
-	padding: 1px 0 1px 2px;
+    border: 1px solid white;
+    display: block;
+    padding: 1px 0 1px 2px;
 }
 
 #iosChatEmoticonsPanelFlyout a:hover {
-	border: 1px solid silver;
+    border: 1px solid silver;
 }
 
 
 .ilNoDisplayChat {
-	display: none;
+    display: none;
 }
 
 #iosChatEmoticonsPanel img, .messageLine img {
-	max-width: 24px;
-	max-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
 }
 
 #message_recipient_info {
-	word-wrap: normal;
+    word-wrap: normal;
 }
 
 #chat_users button .label {
-	vertical-align: middle !important;
+    vertical-align: middle !important;
 }

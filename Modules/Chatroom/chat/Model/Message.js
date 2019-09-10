@@ -18,13 +18,13 @@ var Message = function Message() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number}}
  */
 Message.prototype.create = function(type, content, roomId, subRoomId) {
-	return {
-		type: type,
-		timestamp: Date.getTimestamp(),
-		content: content,
-		roomId: roomId,
-		subRoomId: subRoomId
-	};
+    return {
+        type: type,
+        timestamp: Date.getTimestamp(),
+        content: content,
+        roomId: roomId,
+        subRoomId: subRoomId
+    };
 };
 
 /**

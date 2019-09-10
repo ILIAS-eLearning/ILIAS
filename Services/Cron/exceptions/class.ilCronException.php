@@ -12,6 +12,6 @@ include_once './Services/Exceptions/classes/class.ilException.php';
  */
 class ilCronException extends ilException
 {
-	
+
 }
 ?>

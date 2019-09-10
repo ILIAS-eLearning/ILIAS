@@ -11,16 +11,16 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilServicesContactSuite extends TestSuite
 {
-	/**
-	 * @return self
-	 */
-	public static function suite()
-	{
-		$suite = new self();
+    /**
+     * @return self
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		require_once 'Services/Contact/BuddySystem/test/ilBuddySystemTestSuite.php';
-		$suite->addTestSuite('ilBuddySystemTestSuite');
+        require_once 'Services/Contact/BuddySystem/test/ilBuddySystemTestSuite.php';
+        $suite->addTestSuite('ilBuddySystemTestSuite');
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

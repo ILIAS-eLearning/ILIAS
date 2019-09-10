@@ -7,8 +7,8 @@
  */
 interface ilCronManagerInterface
 {
-	/**
-	 * Run all active jobs
-	 */
-	public function runActiveJobs();
+    /**
+     * Run all active jobs
+     */
+    public function runActiveJobs();
 }

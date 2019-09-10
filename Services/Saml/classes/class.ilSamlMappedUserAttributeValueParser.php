@@ -6,100 +6,100 @@
  */
 class ilSamlMappedUserAttributeValueParser
 {
-	const ATTR_REGEX = '/^(.*?)(\|(\d+))?$/';
-	
-	/**
-	 * @var \ilExternalAuthUserAttributeMappingRule
-	 */
-	protected $rule;
+    const ATTR_REGEX = '/^(.*?)(\|(\d+))?$/';
 
-	/**
-	 * @var array
-	 */
-	protected $userData = [];
+    /**
+     * @var \ilExternalAuthUserAttributeMappingRule
+     */
+    protected $rule;
 
-	/**
-	 * ilSamlMappedUserAttributeValueParser constructor.
-	 * @param ilExternalAuthUserAttributeMappingRule $rule
-	 * @param array                                  $userData
-	 */
-	public function __construct(\ilExternalAuthUserAttributeMappingRule $rule, array $userData)
-	{
-		$this->rule     = $rule;
-		$this->userData = $userData;
-	}
+    /**
+     * @var array
+     */
+    protected $userData = [];
 
-	/**
-	 * @return int
-	 */
-	protected function getValueIndex()
-	{
-		$index = 0;
+    /**
+     * ilSamlMappedUserAttributeValueParser constructor.
+     * @param ilExternalAuthUserAttributeMappingRule $rule
+     * @param array                                  $userData
+     */
+    public function __construct(\ilExternalAuthUserAttributeMappingRule $rule, array $userData)
+    {
+        $this->rule     = $rule;
+        $this->userData = $userData;
+    }
 
-		$matches = array();
-		preg_match(self::ATTR_REGEX, $this->rule->getExternalAttribute(), $matches);
+    /**
+     * @return int
+     */
+    protected function getValueIndex()
+    {
+        $index = 0;
 
-		if (is_array($matches) && isset($matches[3]) && is_numeric($matches[3])) {
-			$index = (int)$matches[3];
-		}
+        $matches = array();
+        preg_match(self::ATTR_REGEX, $this->rule->getExternalAttribute(), $matches);
 
-		return $index  >= 0 ? $index : 0;
-	}
+        if (is_array($matches) && isset($matches[3]) && is_numeric($matches[3])) {
+            $index = (int)$matches[3];
+        }
 
-	/**
-	 * @return string
-	 */
-	public function getAttributeKey()
-	{
-		$attribute = '';
+        return $index  >= 0 ? $index : 0;
+    }
 
-		$matches = array();
-		preg_match(self::ATTR_REGEX, $this->rule->getExternalAttribute(), $matches);
+    /**
+     * @return string
+     */
+    public function getAttributeKey()
+    {
+        $attribute = '';
 
-		if (is_array($matches) && isset($matches[1]) && is_string($matches[1])) {
-			$attribute = $matches[1];
-		}
+        $matches = array();
+        preg_match(self::ATTR_REGEX, $this->rule->getExternalAttribute(), $matches);
 
-		return $attribute;
-	}
+        if (is_array($matches) && isset($matches[1]) && is_string($matches[1])) {
+            $attribute = $matches[1];
+        }
 
-	/**
-	 * @throws \ilSamlException
-	 * @return mixed
-	 */
-	public function parse()
-	{
-		$attributeKey = $this->getAttributeKey();
+        return $attribute;
+    }
 
-		if (!array_key_exists($attributeKey, $this->userData)) {
-			throw new \ilSamlException(sprintf(
-				"Configured external attribute of mapping '%s' -> '%s' does not exist in SAML attribute data.",
-				$this->rule->getAttribute(), $this->rule->getExternalAttribute()
-			));
-		}
+    /**
+     * @throws \ilSamlException
+     * @return mixed
+     */
+    public function parse()
+    {
+        $attributeKey = $this->getAttributeKey();
 
-		$value = $this->userData[$attributeKey];
+        if (!array_key_exists($attributeKey, $this->userData)) {
+            throw new \ilSamlException(sprintf(
+                "Configured external attribute of mapping '%s' -> '%s' does not exist in SAML attribute data.",
+                $this->rule->getAttribute(), $this->rule->getExternalAttribute()
+            ));
+        }
 
-		if (is_array($value)) {
-			$valueIndex = $this->getValueIndex();
+        $value = $this->userData[$attributeKey];
 
-			if (!array_key_exists($valueIndex, $value)) {
-				throw new \ilSamlException(sprintf(
-					"Configured external attribute of mapping '%s' -> '%s' does not exist in SAML attribute data.",
-					$this->rule->getAttribute(), $this->rule->getExternalAttribute()
-				));
-			}
+        if (is_array($value)) {
+            $valueIndex = $this->getValueIndex();
 
-			$value = $value[$valueIndex];
-		}
+            if (!array_key_exists($valueIndex, $value)) {
+                throw new \ilSamlException(sprintf(
+                    "Configured external attribute of mapping '%s' -> '%s' does not exist in SAML attribute data.",
+                    $this->rule->getAttribute(), $this->rule->getExternalAttribute()
+                ));
+            }
 
-		if (!is_scalar($value)) {
-			throw new \ilSamlException(sprintf(
-				"Could not parse a scalar value based on the user attribute mapping '%s' -> '%s'.",
-				$this->rule->getAttribute(), $this->rule->getExternalAttribute()
-			));
-		}
+            $value = $value[$valueIndex];
+        }
 
-		return $value;
-	}
+        if (!is_scalar($value)) {
+            throw new \ilSamlException(sprintf(
+                "Could not parse a scalar value based on the user attribute mapping '%s' -> '%s'.",
+                $this->rule->getAttribute(), $this->rule->getExternalAttribute()
+            ));
+        }
+
+        return $value;
+    }
 }

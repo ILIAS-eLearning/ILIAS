@@ -1,20 +1,20 @@
 {FORM}
 <script type="text/javascript">
-	(function($) {
+    (function($) {
 
-		var $form = $('#form_{FORM_ID}');
+        var $form = $('#form_{FORM_ID}');
 
-		$form.on('keyup keydown keypress', function(event) {
-			if (event.which == 13) {
-				if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
-						(
-								$(event.target).prop("tagName").toLowerCase() != "input"
-								||
-								$(event.target).prop("type") != "submit"
-						)) {
-					event.preventDefault();
-				}
-			}
-		});
-	})(jQuery);
+        $form.on('keyup keydown keypress', function(event) {
+            if (event.which == 13) {
+                if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
+                        (
+                                $(event.target).prop("tagName").toLowerCase() != "input"
+                                ||
+                                $(event.target).prop("type") != "submit"
+                        )) {
+                    event.preventDefault();
+                }
+            }
+        });
+    })(jQuery);
 </script>

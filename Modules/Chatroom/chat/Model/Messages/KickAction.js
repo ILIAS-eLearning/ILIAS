@@ -12,7 +12,7 @@ var KickAction = function KickAction() {};
  * @param {number} subRoomId
  */
 KickAction.prototype.create = function(roomId, subRoomId) {
-	return Message.create('userjustkicked', 'userjustkicked', roomId, subRoomId);
+    return Message.create('userjustkicked', 'userjustkicked', roomId, subRoomId);
 };
 
 /**

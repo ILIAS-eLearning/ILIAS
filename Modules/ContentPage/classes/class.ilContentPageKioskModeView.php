@@ -15,190 +15,190 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilContentPageKioskModeView extends ilKioskModeView
 {
-	const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
+    const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
 
-	/** @var \ilObjContentPage */
-	protected $contentPageObject;
+    /** @var \ilObjContentPage */
+    protected $contentPageObject;
 
-	/** @var \ilObjUser */
-	protected $user;
+    /** @var \ilObjUser */
+    protected $user;
 
-	/** @var Factory */
-	protected $uiFactory;
+    /** @var Factory */
+    protected $uiFactory;
 
-	/** @var Renderer */
-	protected $uiRenderer;
+    /** @var Renderer */
+    protected $uiRenderer;
 
-	/** @var \ilCtrl */
-	protected $ctrl;
+    /** @var \ilCtrl */
+    protected $ctrl;
 
-	/** @var \ilTemplate */
-	protected $mainTemplate;
+    /** @var \ilTemplate */
+    protected $mainTemplate;
 
-	/** @var ServerRequestInterface */
-	protected $httpRequest;
+    /** @var ServerRequestInterface */
+    protected $httpRequest;
 
-	/** @var \ilTabsGUI */
-	protected $tabs;
+    /** @var \ilTabsGUI */
+    protected $tabs;
 
-	/** @var MessageBox */
-	protected $messages = [];
+    /** @var MessageBox */
+    protected $messages = [];
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getObjectClass(): string
-	{
-		return \ilObjContentPage::class;
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function getObjectClass(): string
+    {
+        return \ilObjContentPage::class;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function setObject(\ilObject $object)
-	{
-		global $DIC;
+    /**
+     * @inheritDoc
+     */
+    protected function setObject(\ilObject $object)
+    {
+        global $DIC;
 
-		$this->contentPageObject = $object;
+        $this->contentPageObject = $object;
 
-		$this->ctrl = $DIC->ctrl();
-		$this->mainTemplate = $DIC->ui()->mainTemplate();
-		$this->uiFactory = $DIC->ui()->factory();
-		$this->uiRenderer = $DIC->ui()->renderer();
-		$this->httpRequest = $DIC->http()->request();
-		$this->tabs = $DIC->tabs();
-		$this->user = $DIC->user();
-	}
+        $this->ctrl = $DIC->ctrl();
+        $this->mainTemplate = $DIC->ui()->mainTemplate();
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
+        $this->httpRequest = $DIC->http()->request();
+        $this->tabs = $DIC->tabs();
+        $this->user = $DIC->user();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function hasPermissionToAccessKioskMode(): bool
-	{
-		return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function hasPermissionToAccessKioskMode(): bool
+    {
+        return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function buildInitialState(State $empty_state): State
-	{
-		return $empty_state;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function buildInitialState(State $empty_state): State
+    {
+        return $empty_state;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function buildControls(State $state, ControlBuilder $builder)
-	{
-		$this->builtLearningProgressToggleControl($builder);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function buildControls(State $state, ControlBuilder $builder)
+    {
+        $this->builtLearningProgressToggleControl($builder);
+    }
 
-	/**
-	 * @param ControlBuilder $builder
-	 */
-	protected function builtLearningProgressToggleControl(ControlBuilder $builder)
-	{
-		$learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
-		if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
-			$isCompleted = \ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
+    /**
+     * @param ControlBuilder $builder
+     */
+    protected function builtLearningProgressToggleControl(ControlBuilder $builder)
+    {
+        $learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
+        if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
+            $isCompleted = \ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
-			$this->lng->loadLanguageModule('copa');
-			$learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_completed');
-			if (!$isCompleted) {
-				$learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_not_completed');
-			}
+            $this->lng->loadLanguageModule('copa');
+            $learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_completed');
+            if (!$isCompleted) {
+                $learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_not_completed');
+            }
 
-			$builder->generic(
-				$learningProgressToggleCtrlLabel,
-				self::CMD_TOGGLE_LEARNING_PROGRESS,
-				1
-			);
-		}
-	}
+            $builder->generic(
+                $learningProgressToggleCtrlLabel,
+                self::CMD_TOGGLE_LEARNING_PROGRESS,
+                1
+            );
+        }
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function updateGet(State $state, string $command, int $param = null): State
-	{
-		$this->toggleLearningProgress($command);
+    /**
+     * @inheritDoc
+     */
+    public function updateGet(State $state, string $command, int $param = null): State
+    {
+        $this->toggleLearningProgress($command);
 
-		return $state;
-	}
+        return $state;
+    }
 
-	/**
-	 * @param string $command
-	 */
-	protected function toggleLearningProgress(string $command)
-	{
-		if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
-			$learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
-			if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
-				$marks = new \ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
-				$marks->setCompleted(!$marks->getCompleted());
-				$marks->update();
+    /**
+     * @param string $command
+     */
+    protected function toggleLearningProgress(string $command)
+    {
+        if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
+            $learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
+            if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
+                $marks = new \ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
+                $marks->setCompleted(!$marks->getCompleted());
+                $marks->update();
 
-				\ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
+                \ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
-				$this->lng->loadLanguageModule('trac');
+                $this->lng->loadLanguageModule('trac');
 
-				$this->messages[] = $this->uiFactory->messageBox()->success(
-					$this->lng->txt('trac_updated_status')
-				);
-			}
-		}
-	}
+                $this->messages[] = $this->uiFactory->messageBox()->success(
+                    $this->lng->txt('trac_updated_status')
+                );
+            }
+        }
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function updatePost(State $state, string $command, array $post): State
-	{
-		return $state;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function updatePost(State $state, string $command, array $post): State
+    {
+        return $state;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function render(
-		State $state,
-		Factory $factory,
-		URLBuilder $url_builder,
-		array $post = null
-	): Component {
-		\ilLearningProgress::_tracProgress(
-			$this->user->getId(),
-			$this->contentPageObject->getId(),
-			$this->contentPageObject->getRefId(),
-			$this->contentPageObject->getType()
-		);
+    /**
+     * @inheritDoc
+     */
+    public function render(
+        State $state,
+        Factory $factory,
+        URLBuilder $url_builder,
+        array $post = null
+    ): Component {
+        \ilLearningProgress::_tracProgress(
+            $this->user->getId(),
+            $this->contentPageObject->getId(),
+            $this->contentPageObject->getRefId(),
+            $this->contentPageObject->getType()
+        );
 
-		$this->renderContentStyle();
+        $this->renderContentStyle();
 
-		$forwarder = new \ilContentPagePageCommandForwarder(
-			$this->httpRequest, $this->ctrl, $this->tabs, $this->lng, $this->contentPageObject
-		);
-		$forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
+        $forwarder = new \ilContentPagePageCommandForwarder(
+            $this->httpRequest, $this->ctrl, $this->tabs, $this->lng, $this->contentPageObject
+        );
+        $forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
-		$this->ctrl->setParameterByClass(\ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
+        $this->ctrl->setParameterByClass(\ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
 
-		return $factory->legacy(implode('', [
-			$this->uiRenderer->render($this->messages),
-			$forwarder->forward($this->ctrl->getLinkTargetByClass([
-				\ilRepositoryGUI::class, \ilObjContentPageGUI::class, \ilContentPagePageGUI::class
-			]))
-		]));
-	}
+        return $factory->legacy(implode('', [
+            $this->uiRenderer->render($this->messages),
+            $forwarder->forward($this->ctrl->getLinkTargetByClass([
+                \ilRepositoryGUI::class, \ilObjContentPageGUI::class, \ilContentPagePageGUI::class
+            ]))
+        ]));
+    }
 
-	/**
-	 * Renders the content style of a ContentPage object into main template
-	 */
-	protected function renderContentStyle()
-	{
-		$this->mainTemplate->addCss(\ilObjStyleSheet::getSyntaxStylePath());
-		$this->mainTemplate->addCss(\ilObjStyleSheet::getContentStylePath(
-			$this->contentPageObject->getStyleSheetId())
-		);
-	}
+    /**
+     * Renders the content style of a ContentPage object into main template
+     */
+    protected function renderContentStyle()
+    {
+        $this->mainTemplate->addCss(\ilObjStyleSheet::getSyntaxStylePath());
+        $this->mainTemplate->addCss(\ilObjStyleSheet::getContentStylePath(
+            $this->contentPageObject->getStyleSheetId())
+        );
+    }
 }

@@ -4,5 +4,5 @@
  * @param res
  */
 module.exports = function(req, res) {
-	res.send({ status: 200 });
+    res.send({ status: 200 });
 };

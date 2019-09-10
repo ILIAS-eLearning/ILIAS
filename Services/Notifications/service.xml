@@ -1,12 +1,12 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="nota">
-	<baseclasses>
+    <baseclasses>
             <baseclass name="ilNotificationGUI" dir="classes" />
-	</baseclasses>
-	<objects>
-		<object id="nota" class_name="NotificationAdmin" dir="classes"
-			checkbox="0" inherit="0" translate="sys" rbac="0" system="1">
+    </baseclasses>
+    <objects>
+        <object id="nota" class_name="NotificationAdmin" dir="classes"
+            checkbox="0" inherit="0" translate="sys" rbac="0" system="1">
                         <parent id="adm" max="1">adm</parent>
-		</object>
-	</objects>
+        </object>
+    </objects>
 </service>

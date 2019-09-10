@@ -15,10 +15,10 @@ CommandLineHandlerValidator.prototype = new AbstractValidator();
  * @type {CommandLineHandlerValidator}
  */
 module.exports = function() {
-	var validator = new CommandLineHandlerValidator();
+    var validator = new CommandLineHandlerValidator();
 
-	validator.addRule(new MinNumOfArguments(2, "Required: Server-Config file", "Required: Client-Config file"));
-	validator.addRule(new MaxNumOfArguments(0));
+    validator.addRule(new MinNumOfArguments(2, "Required: Server-Config file", "Required: Client-Config file"));
+    validator.addRule(new MaxNumOfArguments(0));
 
-	return validator;
+    return validator;
 }();

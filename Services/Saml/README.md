@@ -27,7 +27,7 @@ phpinfo();
 Cal this script via your browser and append a trailing /,
 followed by an arbitrary string.
 
-	https://your.ilias.de/phpinfo.php/saml/sp/saml2-acs.php/default-sp
+    https://your.ilias.de/phpinfo.php/saml/sp/saml2-acs.php/default-sp
 
 When now searching `PATH_INFO` within the delivered
 HTML document, the contents PHP variable `$_SERVER['PATH_INFO']`
@@ -46,18 +46,18 @@ See: [SimpleSAMLphp: Configuring Nginx](https://simplesamlphp.org/docs/developme
 [...]
 
 location ~ \.php$ {
-	fastcgi_split_path_info ^(.+?\.php)(/.*)$; # SimpleSAMLphp
+    fastcgi_split_path_info ^(.+?\.php)(/.*)$; # SimpleSAMLphp
 
-	# Bypass the fact that try_files resets $fastcgi_path_info
-	# see: http://trac.nginx.org/nginx/ticket/321
-	set $path_info $fastcgi_path_info;
-	fastcgi_param PATH_INFO $path_info;
+    # Bypass the fact that try_files resets $fastcgi_path_info
+    # see: http://trac.nginx.org/nginx/ticket/321
+    set $path_info $fastcgi_path_info;
+    fastcgi_param PATH_INFO $path_info;
 
-	fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-	fastcgi_keep_conn on;
-	fastcgi_index  index.php;
-	fastcgi_param  SCRIPT_FILENAME  $document_root/$fastcgi_script_name;
-	include /etc/nginx/fastcgi_params;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+    fastcgi_keep_conn on;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME  $document_root/$fastcgi_script_name;
+    include /etc/nginx/fastcgi_params;
 }
 
 [...]

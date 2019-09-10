@@ -9,38 +9,38 @@ require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php
  */
 class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 
-	/** @var ilDB|ilDBInterface */
-	private $database;
+    /** @var ilDB|ilDBInterface */
+    private $database;
 
-	/** @var ilLanguage */
-	private $language;
+    /** @var ilLanguage */
+    private $language;
 
-	/**
-	 * ilNotificationOSDHandler constructor.
-	 * @param ilDBInterface|null $database
-	 * @param ilLanguage|null $language
-	 * @param \ILIAS\DI\Container|null $dic
-	 */
-	public function __construct(
-		\ilDBInterface $database = null,
-		\ilLanguage $language = null,
-		\ILIAS\DI\Container $dic = null
-	) {
-		if ($dic === null) {
-			global $DIC;
-			$dic = $DIC;
-		}
+    /**
+     * ilNotificationOSDHandler constructor.
+     * @param ilDBInterface|null $database
+     * @param ilLanguage|null $language
+     * @param \ILIAS\DI\Container|null $dic
+     */
+    public function __construct(
+        \ilDBInterface $database = null,
+        \ilLanguage $language = null,
+        \ILIAS\DI\Container $dic = null
+    ) {
+        if ($dic === null) {
+            global $DIC;
+            $dic = $DIC;
+        }
 
-		if ($database === null) {
-			$database = $dic->database();
-		}
-		$this->database = $database;
+        if ($database === null) {
+            $database = $dic->database();
+        }
+        $this->database = $database;
 
-		if ($language === null) {
-			$language = $dic->language();
-		}
-		$this->language = $language;
-	}
+        if ($language === null) {
+            $language = $dic->language();
+        }
+        $this->language = $language;
+    }
 
     public function notify(ilNotificationObject $notification) {
         $id = $this->database->nextId(ilNotificationSetupHelper::$tbl_notification_osd_handler);
@@ -88,17 +88,17 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
             $row['data'] = unserialize($row['serialized']);
             unset($row['serialized']);
 
-	    $row['data']->handlerParams = array('general' => $row['data']->handlerParams[''], 'osd' => $row['data']->handlerParams['osd']);
+        $row['data']->handlerParams = array('general' => $row['data']->handlerParams[''], 'osd' => $row['data']->handlerParams['osd']);
 
-	    if ($append_osd_id_to_link) {
+        if ($append_osd_id_to_link) {
 
-		if ($row['data']->link) {
-		    $row['data']->link = self::appendParamToLink($row['data']->link, 'osd_id', $row['notification_osd_id']);
-		}
+        if ($row['data']->link) {
+            $row['data']->link = self::appendParamToLink($row['data']->link, 'osd_id', $row['notification_osd_id']);
+        }
 
-		$row['data']->shortDescription = self::appendOsdIdToLinks($row['data']->shortDescription, $row['notification_osd_id']);
-		$row['data']->longDescription = self::appendOsdIdToLinks($row['data']->longDescription, $row['notification_osd_id']);
-		
+        $row['data']->shortDescription = self::appendOsdIdToLinks($row['data']->shortDescription, $row['notification_osd_id']);
+        $row['data']->longDescription = self::appendOsdIdToLinks($row['data']->longDescription, $row['notification_osd_id']);
+
             }
             $notifications[] = $row;
         }
@@ -109,25 +109,25 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
     }
 
     private static function appendOsdIdToLinks($subject, $osd_id) {
-	$matches = array();
-	preg_match_all('/href="(.*?)"/', $subject, $matches);
-	if($matches[1]) {
-	    foreach($matches[1] as $match) {
-		$match_appended = self::appendParamToLink($match, 'osd_id', $osd_id);
-		$subject = str_replace($match, $match_appended, $subject);
-	    }
-	}
-	return $subject;
+    $matches = array();
+    preg_match_all('/href="(.*?)"/', $subject, $matches);
+    if($matches[1]) {
+        foreach($matches[1] as $match) {
+        $match_appended = self::appendParamToLink($match, 'osd_id', $osd_id);
+        $subject = str_replace($match, $match_appended, $subject);
+        }
+    }
+    return $subject;
     }
 
-	/**
-	 * Removes a notifcation and triggers a follow up notification to remove
-	 * the notification from the browser view of the original recipient
-	 * 
-	 * @global ilDB $ilDB
-	 * @param integer $notification_osd_id 
-	 */
-	public static function removeNotification($notification_osd_id) {
+    /**
+     * Removes a notifcation and triggers a follow up notification to remove
+     * the notification from the browser view of the original recipient
+     *
+     * @global ilDB $ilDB
+     * @param integer $notification_osd_id
+     */
+    public static function removeNotification($notification_osd_id) {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -148,23 +148,23 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
         }
     }
 
-	/**
-	 * Remove orphaned notifications
-	 * 
-	 * @global ilDB $ilDB 
-	 */
+    /**
+     * Remove orphaned notifications
+     *
+     * @global ilDB $ilDB
+     */
     public static function cleanup() {
-		global $DIC;
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		$query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE valid_until < ' . $ilDB->quote( time() ,'integer');
+        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE valid_until < ' . $ilDB->quote( time() ,'integer');
         $ilDB->manipulate($query);
     }
 
-	/**
-	 * Exec self::clean with a probability of 1%
-	 */
+    /**
+     * Exec self::clean with a probability of 1%
+     */
     public static function cleanupOnRandom() {
         $rnd = rand(0, 10000);
         if ($rnd == 500) {
@@ -172,14 +172,14 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
         }
     }
 
-	/**
-	 * Helper to append an additional parameter to an existing url
-	 * 
-	 * @param string $link
-	 * @param string $param
-	 * @param scalar $value
-	 * @return string 
-	 */
+    /**
+     * Helper to append an additional parameter to an existing url
+     *
+     * @param string $link
+     * @param string $param
+     * @param scalar $value
+     * @return string
+     */
     private static function appendParamToLink($link, $param, $value) {
         if (strpos($link, '?') !== false) {
             $link .= '&' . $param . '=' . $value;

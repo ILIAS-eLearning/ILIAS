@@ -811,11 +811,11 @@ background tasks, which can be used to relieve the API.
 ```php
 $processor = new ilMassMailTaskProcessor();
 $processor->run(
-		$mailValueObjects,    // array of ilMailValueObject
-		$userId,              // integer value of the current user id
-		$contextId,           // integer value of the context id
-		$contextParameters,   // array of context parameters, check out the documentation of backgroundtasks for more information
-		$mailsPerTask         // integer value how many mails should be added in each task, default value is 100
+        $mailValueObjects,    // array of ilMailValueObject
+        $userId,              // integer value of the current user id
+        $contextId,           // integer value of the context id
+        $contextParameters,   // array of context parameters, check out the documentation of backgroundtasks for more information
+        $mailsPerTask         // integer value how many mails should be added in each task, default value is 100
 );
 ```
 

@@ -11,103 +11,103 @@ var Room				= require('./Model/Room');
  */
 function app() {
 
-	var app = express();
+    var app = express();
 
-	/**
-	 * @type {http.Server|https.Server}
-	 * @private
-	 */
-	var _server = null;
+    /**
+     * @type {http.Server|https.Server}
+     * @private
+     */
+    var _server = null;
 
-	/**
-	 * @type {JSON}
-	 * @typedef {Namespace}
-	 * @private
-	 */
-	var _namespaces = {};
+    /**
+     * @type {JSON}
+     * @typedef {Namespace}
+     * @private
+     */
+    var _namespaces = {};
 
-	/**
-	 *
-	 * @type {engine.io/Server}
-	 * @private
-	 */
-	var _io = null;
+    /**
+     *
+     * @type {engine.io/Server}
+     * @private
+     */
+    var _io = null;
 
-	/**
-	 * @returns {http.Server|https.Server}
-	 */
-	app.getServer = function() { return _server; };
+    /**
+     * @returns {http.Server|https.Server}
+     */
+    app.getServer = function() { return _server; };
 
-	/**
-	 * @param {string} name
-	 * @returns {Namespace}
-	 */
-	app.getNamespace = function(name) {
-		name = name.replace(/^\//, '');
-		if(_namespaces[name] !== undefined) {
-			return _namespaces[name];
-		}
-		console.log("Namespace " + name + " does not exists");
-	};
+    /**
+     * @param {string} name
+     * @returns {Namespace}
+     */
+    app.getNamespace = function(name) {
+        name = name.replace(/^\//, '');
+        if(_namespaces[name] !== undefined) {
+            return _namespaces[name];
+        }
+        console.log("Namespace " + name + " does not exists");
+    };
 
-	app.getNamespaces = function() {
-		return _namespaces;
-	};
+    app.getNamespaces = function() {
+        return _namespaces;
+    };
 
-	/**
-	 * @param {http.Server|https.Server} server
-	 */
-	app.bindServer = function(server) {
-		_server = server;
-		_io 	= require('socket.io')(server);
+    /**
+     * @param {http.Server|https.Server} server
+     */
+    app.bindServer = function(server) {
+        _server = server;
+        _io 	= require('socket.io')(server);
 
-		_bindNamespaces();
-	};
+        _bindNamespaces();
+    };
 
-	/**
-	 * Creates a roomId which is used in the chat server.
-	 *
-	 * @param {number} roomId
-	 * @param {number} subRoomId
-	 * @returns {string}
-	 */
-	app.createServerRoomId = function(roomId, subRoomId) {
-		return roomId + '_' + subRoomId;
-	};
+    /**
+     * Creates a roomId which is used in the chat server.
+     *
+     * @param {number} roomId
+     * @param {number} subRoomId
+     * @returns {string}
+     */
+    app.createServerRoomId = function(roomId, subRoomId) {
+        return roomId + '_' + subRoomId;
+    };
 
-	var index_bindNamespaces = function() {
-		var bindNamespace = function(config){
-			var namespace = new Namespace(_io, config.name);
-			namespace.getIO().on('connect', require('./Handler/SocketHandler'));
+    var index_bindNamespaces = function() {
+        var bindNamespace = function(config){
+            var namespace = new Namespace(_io, config.name);
+            namespace.getIO().on('connect', require('./Handler/SocketHandler'));
 
-			namespace.getIO().getNamespace = function(){
-				return namespace;
-			};
+            namespace.getIO().getNamespace = function(){
+                return namespace;
+            };
 
-			//@TODO: THIS SHOULD NOT BE STATIC CODED!!!!!!!
-			var room = new Room("4_0");
-			namespace.addRoom(room);
-			// END
+            //@TODO: THIS SHOULD NOT BE STATIC CODED!!!!!!!
+            var room = new Room("4_0");
+            namespace.addRoom(room);
+            // END
 
-			_namespaces[config.name] = namespace;
-		};
+            _namespaces[config.name] = namespace;
+        };
 
-		app.settings.namespaces.forEach(bindNamespace);
+        app.settings.namespaces.forEach(bindNamespace);
 
-		delete app.settings.namespaces;
-	};
+        delete app.settings.namespaces;
+    };
 
-	return app;
+    return app;
 }
 
 /**
  * @returns {Function}
  */
 module.exports = function() {
-	if(_app === null) {
-		console.log("new App");
-		_app = app();
-	}
+    if(_app === null) {
+        console.log("new App");
+        _app = app();
+    }
 
-	return _app;
+    return _app;
 }();

@@ -6,14 +6,14 @@
  */
 class ilContentPagePageConfig extends \ilPageConfig
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function init()
-	{
-		$this->setEnableInternalLinks(true);
-		$this->setIntLinkHelpDefaultType('RepositoryItem');
-		$this->setSinglePageMode(true);
-		$this->setEnablePermissionChecks(true);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->setEnableInternalLinks(true);
+        $this->setIntLinkHelpDefaultType('RepositoryItem');
+        $this->setSinglePageMode(true);
+        $this->setEnablePermissionChecks(true);
+    }
 }

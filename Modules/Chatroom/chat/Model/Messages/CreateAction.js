@@ -16,12 +16,12 @@ var CreateAction = function CreateAction() {};
  * @return {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, title: string, ownerId: number}}
  */
 CreateAction.prototype.create = function(roomId, subRoomId, title, ownerId) {
-	var message = Message.create('private_room_created', 'private_room_created', roomId, subRoomId);
+    var message = Message.create('private_room_created', 'private_room_created', roomId, subRoomId);
 
-	message.title = title;
-	message.ownerId = ownerId;
+    message.title = title;
+    message.ownerId = ownerId;
 
-	return message;
+    return message;
 };
 
 /**

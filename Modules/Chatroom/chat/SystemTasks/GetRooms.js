@@ -8,7 +8,7 @@ var Container = require('../AppContainer');
  */
 module.exports = function(req, res) {
 
-	var namespace = Container.getNamespace(req.params.namespace);
+    var namespace = Container.getNamespace(req.params.namespace);
 
-	res.send({rooms: namespace.getRooms()});
+    res.send({rooms: namespace.getRooms()});
 };

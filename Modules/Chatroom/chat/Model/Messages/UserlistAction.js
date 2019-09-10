@@ -14,11 +14,11 @@ var UserlistAction = function UserlistAction() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, users: {}}}
  */
 UserlistAction.prototype.create = function(roomId, subRoomId, users) {
-	var message = Message.create('userlist', 'userlist', roomId, subRoomId);
+    var message = Message.create('userlist', 'userlist', roomId, subRoomId);
 
-	message.users = users;
+    message.users = users;
 
-	return message;
+    return message;
 };
 
 /**

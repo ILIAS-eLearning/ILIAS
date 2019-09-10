@@ -8,24 +8,24 @@ var FileHandlerReadValidator	= require('../Validation/Validator/FileHandlerReadV
  */
 var FileHandler = function FileHandler() {
 
-	/**
-	 * @public
-	 *
-	 * @return {JSON}
-	 */
-	this.read = function(filename) {
-		return JSON.parse(_read(filename));
-	};
+    /**
+     * @public
+     *
+     * @return {JSON}
+     */
+    this.read = function(filename) {
+        return JSON.parse(_read(filename));
+    };
 
-	this.readPlain = function(filename) {
-		return _read(filename);
-	};
+    this.readPlain = function(filename) {
+        return _read(filename);
+    };
 
-	function _read(filename) {
-		FileHandlerReadValidator.create(filename).validate();
+    function _read(filename) {
+        FileHandlerReadValidator.create(filename).validate();
 
-		return FileSystem.readFileSync(filename);
-	}
+        return FileSystem.readFileSync(filename);
+    }
 };
 
 module.exports = new FileHandler();

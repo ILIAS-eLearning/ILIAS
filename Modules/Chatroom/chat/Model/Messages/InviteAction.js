@@ -16,12 +16,12 @@ var InviteAction = function InviteAction() {};
  * @returns {{type: string, timestamp: number, content: string, roomId: number, subRoomId: number, title: string, owner: number}}
  */
 InviteAction.prototype.create = function(roomId, subRoomId, title, owner) {
-	var message = Message.create('user_invited', 'user_invited', roomId, subRoomId);
+    var message = Message.create('user_invited', 'user_invited', roomId, subRoomId);
 
-	message.title = title;
-	message.owner = owner;
+    message.title = title;
+    message.owner = owner;
 
-	return message;
+    return message;
 };
 
 /**

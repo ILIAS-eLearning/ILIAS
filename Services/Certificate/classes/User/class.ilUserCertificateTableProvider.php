@@ -145,9 +145,9 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
         if (isset($params['limit'])) {
             $cnt_sql = '
-				SELECT COUNT(*) cnt
-				FROM il_cert_user_cert
-				WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
+                SELECT COUNT(*) cnt
+                FROM il_cert_user_cert
+                WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
             $row_cnt = $this->database->fetchAssoc($this->database->query($cnt_sql));
 

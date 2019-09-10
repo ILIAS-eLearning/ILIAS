@@ -11,13 +11,13 @@ var HTMLEscape = function HTMLEscape(){};
  * @returns {number}
  */
 HTMLEscape.prototype.escape = function(html) {
-	html = String(html)
-		.replace(/&(?!\w+;)/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;');
+    html = String(html)
+        .replace(/&(?!\w+;)/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
 
-	return html;
+    return html;
 };
 
 /**

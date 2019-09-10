@@ -416,8 +416,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 break;
 
             case "ilcontainernewssettingsgui":
-	            $forum_settings_gui = new ilForumSettingsGUI($this);
-	            $forum_settings_gui->settingsTabs();
+                $forum_settings_gui = new ilForumSettingsGUI($this);
+                $forum_settings_gui->settingsTabs();
 
                 $this->lng->loadLanguageModule('cont');
                 $news_set_gui = new ilContainerNewsSettingsGUI($this);
@@ -2917,14 +2917,14 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->tpl->setVariable('PRMLINK', $permalink->getHTML());
 
         $this->tpl->addOnLoadCode('$(".ilFrmPostContent img").each(function() {
-			var $elm = $(this);
-			$elm.css({
-				maxWidth: $elm.attr("width") + "px", 
-				maxHeight: $elm.attr("height")  + "px"
-			});
-			$elm.removeAttr("width");
-			$elm.removeAttr("height");
-		});');
+            var $elm = $(this);
+            $elm.css({
+                maxWidth: $elm.attr("width") + "px", 
+                maxHeight: $elm.attr("height")  + "px"
+            });
+            $elm.removeAttr("width");
+            $elm.removeAttr("height");
+        });');
 
         $this->tpl->setContent($threadContentTemplate->get());
 

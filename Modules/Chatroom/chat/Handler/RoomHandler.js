@@ -9,13 +9,13 @@ var Room = require('../Model/Room');
  * @returns {Room}
  */
 module.exports.createRoom = function(namespace, scope, subScope, title, owner) {
-	var serverRoomId = scope + '_' + subScope;
+    var serverRoomId = scope + '_' + subScope;
 
-	var room = new Room(serverRoomId);
-	room.setTitle(title);
-	room.setOwnerId(owner);
+    var room = new Room(serverRoomId);
+    room.setTitle(title);
+    room.setOwnerId(owner);
 
-	namespace.addRoom(room);
+    namespace.addRoom(room);
 
-	return room;
+    return room;
 };
