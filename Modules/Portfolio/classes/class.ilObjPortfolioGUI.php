@@ -1552,7 +1552,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$page_gui = new ilPortfolioPageGUI($this->object->getId(), $page["id"]);
 				$page_gui->setOutputMode("print");
 				$page_gui->setPresentationTitle($page["title"]);
-				$page_content .= $page_head_str.$page_gui->showPage();
+				$html = $this->ctrl->getHTML($page_gui);
+				$page_content .= $page_head_str.$html;
 
 				if ($a_pdf_export)
 				{
