@@ -1763,6 +1763,7 @@ auth#:#auth_account_migration_new#:#Neues Benutzerkonto anlegen
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_login_editor#:#Loginseite gestalten
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
 auth#:#auth_rad_migration#:#Account-Migration:
 auth#:#auth_rad_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf Radius Authentifizierung umzustellen.
 auth#:#auth_radius_charset#:#Zeichenkodierung

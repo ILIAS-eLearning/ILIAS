@@ -47,6 +47,7 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
