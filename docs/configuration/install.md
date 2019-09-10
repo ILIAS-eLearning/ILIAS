@@ -32,16 +32,6 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Installation Wizard](#installation-wizard)
    1. [Configure ILIAS Java RPC server \(OPTIONAL\)](#configure-ilias-java-rpc-server-optional)
 1. [Hardening and Security Guidance](#hardening-and-security-guidance)
-   1. [Secure Files](#secure-files)
-      1. [File Access Rights](#file-access-rights)
-      1. [Place data directory outside of the web root](#place-data-directory-outside-of-the-web-root)
-      1. [Secure Installation Files](#secure-installation-files)
-   1. [Use HTTPS](#use-https)
-      1. [Redirect all unencrypted traffic to HTTPS](#redirect-all-unencrypted-traffic-to-https)
-      1. [Enable HTTP Strict Transport Security](#enable-http-strict-transport-security)
-      1. [Proper SSL configuration](#proper-ssl-configuration)
-   1. [Serve security related Headers](#serve-security-related-headers)
-   1. [Report security issues](#report-security-issues)
 1. [Customizing ILIAS](#customizing-ilias)
    1. [Plugin Repository](#plugin-repository)
 1. [Upgrading ILIAS](#upgrading-ilias)
@@ -120,7 +110,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * PhantomJS: 2.0.0+
   * NodeJS: 8.9.4 (TLS) - 10.15.3 (LTS)
   * Java: Version 7 and 8 are suported
-  
+
 <a name="client"></a>
 ### Client
 
@@ -130,7 +120,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
 <a name="database-recommendations"></a>
 ## Database Recommendations
 
-> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports utf8mb3 only. 
+> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports utf8mb3 only.
 
 We RECOMMEND to use MySQL/MariaDB with the following settings:
 
@@ -170,24 +160,24 @@ cd ilias
 git checkout release_5-2
 chown www-data:www-data /var/www/html/ilias -R
 ```
-The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories. 
+The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories.
 
 For more details on file access rights see [File Access Rights](#file-access-rights) in the Security section of this document.
 
 <a name="dependency-installation"></a>
 # Dependency Installation
 
-Depending on your Linux Distribution you have several ways to install the required dependencies. We RECOMMEND to always use your distributions package manager to keep your packages up to date in an easy manner avoiding security issues. 
+Depending on your Linux Distribution you have several ways to install the required dependencies. We RECOMMEND to always use your distributions package manager to keep your packages up to date in an easy manner avoiding security issues.
 
 <a name="apache-installationconfiguration"></a>
 ## Apache Installation/Configuration
 
-On Debian/Ubuntu execute: 
+On Debian/Ubuntu execute:
 ```
-apt-get install apache2 
+apt-get install apache2
 ```
 
-On RHEL/CentOS execute: 
+On RHEL/CentOS execute:
 ```
 yum install httpd
 ```
@@ -221,12 +211,12 @@ security enhancing configuration.
 
 After changing the configuration remember to reload the web server daemon:
 
-On Debian/Ubuntu: 
+On Debian/Ubuntu:
 ```
 systemctl restart apache2.service
 ```
 
-On RHEL/CentOS: 
+On RHEL/CentOS:
 ```
 systemctl restart httpd.service
 ```
@@ -239,7 +229,7 @@ On Debian/Ubuntu 14.04 or 16.04 execute:
 apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php7.1-curl php7.1-dom php7.1-zip php-xml
 ```
 
-On RHEL/CentOS execute: 
+On RHEL/CentOS execute:
 ```
 yum install php
 systemctl restart httpd.service
@@ -261,10 +251,10 @@ We RECOMMEND the following settings for your php.ini:
 ; you may choose higher values for max_execution_time and memory_limit
 max_execution_time = 600
 memory_limit = 512M
- 
+
 error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT ; PHP 5.4.0 and higher
 display_errors = Off
- 
+
 ; or any higher values for post_max_size and upload_max_filesize
 post_max_size = 256M
 upload_max_filesize = 256M
@@ -278,7 +268,7 @@ session.cookie_httponly = On
 session.save_handler = files ; for ILIAS setup, ILIAS installations override this
 ; If you installation is served via HTTPS also use:
 session.cookie_secure = On
- 
+
 ; for chat server since ILIAS 4.2
 allow_url_fopen = 1
 
@@ -295,12 +285,12 @@ Remember to reload your web server configuration to apply those changes.
 <a name="database-installationconfiguration"></a>
 ## Database Installation/Configuration
 
-On Debian/Ubuntu execute: 
+On Debian/Ubuntu execute:
 ```
 apt-get install mysql-server
 ```
 
-On RHEL/CentOS execute: 
+On RHEL/CentOS execute:
 ```
 yum install mariadb
 ```
@@ -353,12 +343,12 @@ We RECOMMEND to use https://github.com/major/MySQLTuner-perl to optimize your My
 
 You MAY use whatever MTA you like to send E-Mail generated by ILIAS. We RECOMMEND to use an already existing smarthost (mailhub). A very simple way to do so is using ```ssmtp```:
 
-On Debian/Ubuntu execute: 
+On Debian/Ubuntu execute:
 ```
 apt-get install ssmtp
 ```
 
-On RHEL/CentOS execute: 
+On RHEL/CentOS execute:
 ```
 yum install ssmtp
 ```
@@ -373,7 +363,7 @@ The configuration file for SSMTP (e.g. ```/etc/ssmtp/ssmtp.conf ```) MAY look as
 # Make this empty to disable rewriting.
 root=yourmail@mail.com
 
-# The place where the mail goes. The actual machine name is required no 
+# The place where the mail goes. The actual machine name is required no
 # MX records are consulted. Commonly mailhosts are named mail.domain.com
 mailhub=smtp.yourmail.com
 
@@ -402,7 +392,7 @@ On Ubuntu 16.04 execute:
 apt-get install zip unzip imagemagick openjdk-8-jdk
 ```
 
-On RHEL/CentOS execute: 
+On RHEL/CentOS execute:
 ```
 yum install zip unzip libxslt ImageMagick java-1.8.0-openjdk
 ```
@@ -475,149 +465,20 @@ At this point the RPC server will generate PDF certificates, but to use Lucence 
 <a name="hardening-and-security-guidance"></a>
 # Hardening and Security Guidance
 
-<a name="secure-files"></a>
-## Secure Files
+Due the Call for Bids "Documentation for  'Secure ILIAS'", the content is moved to an own file.
 
-In previous versions of ILIAS it might have been possible to access SCORM, Media Files and User Profile Images without beeing logged in by guessing the proper URL and no measures were taken by the admin to deny such access.
-
-Since ILIAS 5.1 a new WebAccessChecker (WAC) is implemented by default. To make use of WAC you MUST enable ```mod_rewrite``` in your Apache configuration.
-
-Please note that this will not work with Nginx as ```.htaccess```-files are not supported. Instead you MAY add the following to your Nginx configuration file (please note that running ILIAS with Nginx isn't officially supported and certain features like Shibboleth won't work):
-
-```
-server {
-    [...]
-    root /var/www/trunk;
-    set $root $document_root;
-    rewrite ^/data/(.*)/(.*)/(.*)$ /Services/WebAccessChecker/wac.php last;
-    location /secured-data {
-        alias $root/data;
-        internal;
-    }
-    [...]
-}
-```
-
-<a name="file-access-rights"></a>
-### File Access Rights
-
-If you're an experienced admin you MAY want to use more strict file access rights that we RECOMMENDED earlier in this document. To make it impossible for an attacker to modify PHP files if he gains control over the web server processes those files SHOULD be owned by ```root``` wherever possible.
-
-The only files and directories that must be owned/writeable by the web user are:
-
-  * ilias.ini.php
-  * data/
-  * ILIAS data dir outside of the webservers docroot
-
-All the other files and directories should be owned by ```root```, but readable by the web user (e.g. 644/755).
-
-<a name="place-data-directory-outside-of-the-web-root"></a>
-### Place data directory outside of the web root
-
-It is highly RECOMMENDED to place your data directory outside of the web server docroot, as pointed out by the ILIAS Installation Wizard.
-
-<a name="secure-installation-files"></a>
-### Secure Installation Files and Dependencies
-
-The access to the ILIAS Installation Wizard (```/setup/setup.php```) MAY be restricted:
-
-```
-<Location /setup>
-  <IfVersion < 2.3>
-    Order Deny,Allow
-    Deny From All
-    Allow from 127.0.0.1
-  </IfVersion>
-
-  <IfVersion > 2.3>
-    Require all denied
-    Require ip 127.0.0.1
-  </IfVersion>
-</Location>
-```
-
-The access to the dependencies folder MAY be restricted:
-
-```
-<Location /libs>
-  <IfVersion < 2.3>
-    Order Deny,Allow
-    Deny From All
-    Allow from 127.0.0.1
-  </IfVersion>
-
-  <IfVersion > 2.3>
-    Require all denied
-    Require ip 127.0.0.1
-  </IfVersion>
-</Location>
-```
-
-<a name="use-https"></a>
-## Use HTTPS
-
-You can get a trusted, free SSL certificate at https://letsencrypt.org
-
-<a name="redirect-all-unencrypted-traffic-to-https"></a>
-### Redirect all unencrypted traffic to HTTPS
-
-To redirect all HTTP traffic to HTTPS you MAY issue a permanent redirect using the 301 status code:
-
-```
-<VirtualHost *:80>
-   ServerName yourservername.org
-   Redirect permanent / https://yourservername.org/
-</VirtualHost>
-```
-
-<a name="enable-http-strict-transport-security"></a>
-### Enable HTTP Strict Transport Security
-
-By adding the following to your Apache SSL VirtualHost configuration you instruct browsers not to allow any connection to your ILIAS instance using HTTP and prevent visitors from bypassing invalid certificate warnings.
-
-```
-<IfModule mod_headers.c>
-    Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
-</IfModule>
-```
-
-**Warning:** Before activating the configuration above you MUST make sure that you have a good workflow for maintaining your SSL settings (including certificate renewals) as you will not be able to disable HTTPS access to your site for up to 6 months.
-
-<a name="proper-ssl-configuration"></a>
-### Proper SSL configuration
-
-The default SSL ciphers used by web servers are often not state-of-the-art, so you SHOULD consider to choose your own settings. Which settings should be used depends completely on your environment. Therefore giving a generic recommendation is not really possible.
-
-We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://mozilla.github.io/server-side-tls/ssl-config-generator/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings.
-
-<a name="serve-security-related-headers"></a>
-## Serve security related Headers
-
-To improve the security of your ILIAS users you SHOULD set the following Headers:
-
-  * X-Content-Type-Options: nosniff
-  * X-XSS-Protection: 1; mode=block
-  * X-Frame-Options: SAMEORIGIN
-
-For Apache on Debian systems you can turn those headers on by editing ```/etc/apache2/conf-enabled/security.conf```. You MUST enable  ```mod_headers``` and ```mod_env``` for this.
-
-For Nginx you can simply add for example ```add_header X-Frame-Options "SAMEORIGIN";``` in your ```server``` configuration.
-
-<a name="report-security-issues"></a>
-## Report security issues
-
-If you think you found an security related issue in ILIAS please refer to http://www.ilias.de/docu/goto_docu_wiki_5307.html#ilPageTocA213 for reporting it.
+See [Hardening and Security Guidance](secure.md)
 
 <a name="customizing-ilias"></a>
 # Customizing ILIAS
 
-If you need to customize your ILIAS installation you MUST NOT edit the core files, otherwise you will not be able to update your installation in a timely manner (e.g. due to security fixes). 
+If you need to customize your ILIAS installation you MUST NOT edit the core files, otherwise you will not be able to update your installation in a timely manner (e.g. due to security fixes).
 
 You can find proper ways to customize ILIAS in the [ILIAS Development Guide](http://www.ilias.de/docu/goto_docu_pg_29964_42.html):
 
   * [Plugins and Plugin Slots - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=st_27029)
   * [Custom Styles](/templates/Readme.md#custom-styles)
-  
+
 <a name="plugin-repository"></a>
 ## Plugin Repository
 
@@ -626,7 +487,7 @@ ILIAS can be extended with a lot of Plugins. You find the complete list in the [
 <a name="upgrading-ilias"></a>
 # Upgrading ILIAS
 
-The easiest way to update ILIAS is using Git, please note that this is only possible if you installed ILIAS via git as advised in this document. If Git wasn't used you can always download the ZIP or Tarball in the [release section of the ILIAS GitHub pages](https://github.com/ILIAS-eLearning/ILIAS/releases). 
+The easiest way to update ILIAS is using Git, please note that this is only possible if you installed ILIAS via git as advised in this document. If Git wasn't used you can always download the ZIP or Tarball in the [release section of the ILIAS GitHub pages](https://github.com/ILIAS-eLearning/ILIAS/releases).
 
 Before you start you SHOULD consider to:
 
@@ -662,7 +523,7 @@ git checkout release_5-2
 Replace ```release_5-2``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
-  
+
 See [Database Update](#database-update) for details on how to complete the Upgrade by updating your database.
 
 As a last step you should log in with a User using your custom skin. If everything works fine change back from Delos to your skin. If not refer to [Customizing ILIAS](#customizing-ilias) to modify your skin to match the new requirements.
