@@ -8580,7 +8580,7 @@ style#:#sty_del_template#:#Templates und Klassen löschen
 style#:#sty_del_template_keep_classes#:#Löschen und Stylesheet-Klasse erhalten
 style#:#sty_delete_other_selected#:#Fortfahren
 style#:#sty_disable_auto_margins#:#Automatische Abstände unterdrücken
-style#:#sty_disable_auto_margins_info#:#Unterdrückt das automatische Setzen der linken und rechten Abstandes auf 0 Pixel, wenn Media-Objekte links- oder rechtsbündig angeordnete werden.
+style#:#sty_disable_auto_margins_info#:#Unterdrückt das automatische Setzen der linken und rechten Abstandes auf 0 Pixel, wenn Media-Objekte links- oder rechtsbündig angeordnet werden.
 style#:#sty_edit_template#:#Template bearbeiten
 style#:#sty_even_col_class#:#Einschließlich Spalten
 style#:#sty_even_row_class#:#Einschließlich Zeilen
