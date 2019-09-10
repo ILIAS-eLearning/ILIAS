@@ -42,7 +42,7 @@ abstract class ilObject2 extends ilObject
 		
 	}
 	
-	function getId() : int { return parent::getId(); }
+	function getId() : int { return (int) parent::getId(); }
 	function setId($a_id) { return parent::setId($a_id); }
 	final function setRefId($a_id) { return parent::setRefId($a_id); }
 	final function getRefId() { return parent::getRefId(); }

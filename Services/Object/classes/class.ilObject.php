@@ -343,7 +343,7 @@ class ilObject
 	*/
 	function getId() : int
 	{
-		return $this->id;
+		return (int) $this->id;
 	}
 
 	/**
