@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="asq">
 	<copage>
-		<pageobject parent_type="aht" class_name="ilAsqHintPage" directory="classes"/>
-		<pageobject parent_type="asq" class_name="ilAsqQuestionPage" directory="classes"/>
-		<pageobject parent_type="afbg" class_name="ilAsqGenFeedbackPage" directory="classes/feedback"/>
-		<pageobject parent_type="afbs" class_name="ilAsqSpecFeedbackPage" directory="classes/feedback"/>
+		<pageobject parent_type="aht" class_name="ilAsqHintPage" directory="classes/PageObject/Hint"/>
+		<pageobject parent_type="asq" class_name="ilAsqQuestionPage" directory="classes/PageObject/Question"/>
+		<pageobject parent_type="afbg" class_name="ilAsqGenFeedbackPage" directory="classes/PageObject/Feedback"/>
+		<pageobject parent_type="afbs" class_name="ilAsqSpecFeedbackPage" directory="classes/PageObject/Feedback"/>
 	</copage>
 </service>
