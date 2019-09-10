@@ -15200,3 +15200,4 @@ common#:#mm_repo_tree_view_act#:#Activate Tree
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree
 content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
+exc#:#exc_text_saved#:#Text has been saved.
