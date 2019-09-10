@@ -59,6 +59,30 @@ class ilLPCollectionOfMediaObjects extends ilLPCollection
 	
 		return $data;
 	}
+
+    /**
+     * Scorm items are not copied, they are newly created by reading the manifest.
+     * Therefore, they do not have a mapping. So we need to map them via the import_id/identifierref
+     *
+     * @param $a_target_id
+     * @param $a_copy_id
+     */
+    public function cloneCollection($a_target_id, $a_copy_id, $mob_mapping = null)
+    {
+        global $DIC;
+
+        $target_obj_id = ilObject::_lookupObjId($a_target_id);
+        $new_collection = new static($target_obj_id, $this->mode);
+        $possible_items = $new_collection->getPossibleItems();
+        foreach($this->items as $item_id) {
+            if (isset($mob_mapping[$item_id]) && isset($possible_items[$mob_mapping[$item_id]])) {
+                $new_collection->addEntry($mob_mapping[$item_id]);
+            }
+        }
+
+        $DIC->logger()->root()->write(__METHOD__.': cloned learning progress collection.');
+    }
+
 }
 
 ?>
