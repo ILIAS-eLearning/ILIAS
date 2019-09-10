@@ -1,0 +1,20 @@
+<script src="Services/AssessmentQuestion/js/OrderingEditor.js"></script>
+<style>
+	.placeholder {
+		background-color: #E8F8F5;
+		border: 1px #A3E4D7 dashed;
+		padding: 10px;
+	}
+</style>
+<!-- BEGIN editor -->
+<div class="ilc_qanswer_Answer ilc_answers answers ilClearFloat">
+	<ul class="dd-list ilc_qordul_OrderList js_list">
+		<!-- BEGIN item -->
+		<li class="dd-item ilc_qordli_OrderListItem js_order_item" draggable="true" data-id="{OPTION_ID}">
+	        <div class="dd-handle ilc_qanswer_Answer">{ITEM_TEXT}</div>  
+	    </li>
+		<!-- END item -->
+	</ul>
+	<input class="js_order_answer" type="hidden" name="{POST_NAME}" value="{ANSWER}" />
+</div>
+<!-- END editor -->

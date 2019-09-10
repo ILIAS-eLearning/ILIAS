@@ -23,7 +23,22 @@ class OrderingScoring extends AbstractScoring
 
     function score(Answer $answer) : int
     {
-        return 42;
+        /** @var OrderingScoringConfiguration $scoring_conf */
+        $scoring_conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
+
+        $answers = explode(',', $answer->getValue());
+
+        /* To be valid answers need to be in the same order as in the question definition
+         * what means that the correct answer will just be an increasing amount of numbers
+         * so if the number should get smaller it is an error.
+         */
+        for ($i = 0; $i < count($answers) - 1; $i++) {
+            if ($answers[$i] > $answers[$i + 1]) {
+                return 0;
+            }
+        }
+
+        return $scoring_conf->getPoints();
     }
 
 
