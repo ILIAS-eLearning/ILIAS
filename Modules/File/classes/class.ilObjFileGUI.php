@@ -483,6 +483,16 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $title = $form->getInput('title');
+        // bugfix mantis 26045:
+        $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
+        if(strlen(trim($title)) == 0)
+        {
+            $title = $filename;
+        }
+        else
+        {
+            $title = $this->object->checkFileExtension($filename,$title);
+        }
         $this->object->setTitle($title);
         $this->object->setDescription($form->getInput('description'));
         $this->object->setRating($form->getInput('rating'));
