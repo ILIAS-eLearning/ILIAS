@@ -39,6 +39,34 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 
 	/**
+	 * @param Input $input
+	 * @return Input|\ILIAS\UI\Implementation\Component\JavaScriptBindable
+	 */
+	protected function setSignals(Input $input) {
+		foreach ($input->getTriggeredSignals() as $s)
+		{
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+		}
+		if ($signals !== null) {
+			$signals = json_encode($signals);
+
+
+			$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
+				$code = "il.UI.input.setSignalsForId('$id', $signals);";
+				return $code;
+			});
+
+			$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
+		}
+		return $input;
+	}
+
+
+	/**
 	 * @param Component\Input\Field\Input $input
 	 * @param RendererInterface $default_renderer
 	 *
@@ -49,8 +77,12 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 		if ($input instanceof Component\Input\Field\Text) {
 			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\Numeric) {
+			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
 		} elseif ($input instanceof Component\Input\Field\Select) {
 			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
+		} elseif ($input instanceof Component\Input\Field\MultiSelect) {
+			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
 		} else {
 			throw new \LogicException("Cannot render '" . get_class($input) . "'");
 		}
@@ -121,7 +153,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param Template $tpl
+	 * @param Template $input_tpl
 	 * @param Input    $input
 	 * @param RendererInterface    $default_renderer
 	 *
@@ -149,15 +181,17 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 
 	/**
 	 * @param Template $tpl
-	 * @param Input    $input
-	 * @param RendererInterface    $default_renderer
-	 *
+	 * @param Input $input
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input) {
 
+		$id = null;
+		$input = $this->setSignals($input);
+
 		switch (true) {
 			case ($input instanceof Text):
+			case ($input instanceof Numeric):
 				$tpl->setVariable("NAME", $input->getName());
 
 				if ($input->getValue() !== null) {
@@ -177,28 +211,51 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 				$tpl = $this->renderSelectInput($tpl, $input);
 				break;
 
+			case ($input instanceof MultiSelect):
+				$tpl = $this->renderMultiSelectInput($tpl, $input);
+				break;
+
 		}
 
-		foreach ($input->getTriggeredSignals() as $s)
-		{
-			$signals[] = [
-				"signal_id" => $s->getSignal()->getId(),
-				"event" => $s->getEvent(),
-				"options" => $s->getSignal()->getOptions()
-			];
+		if ($id === null) {
+			$this->maybeRenderId($input, $tpl);
 		}
-		$signals = json_encode($signals);
-
-		$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
-			$code = "il.UI.input.setSignalsForId('$id', $signals);";
-			return $code;
-		});
-		$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
-		$this->maybeRenderId($input, $tpl);
 
 		return $tpl->get();
 	}
 
+	/**
+	 * @param Template $tpl
+	 * @param MultiSelect $input
+	 * @return Template
+	 */
+	public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template	{
+		$value = $input->getValue();
+		$name = $input->getName();
+
+		foreach ($input->getOptions() as $opt_value => $opt_label) {
+			$tpl->setCurrentBlock("option");
+			$tpl->setVariable("NAME", $name);
+			$tpl->setVariable("VALUE", $opt_value);
+			$tpl->setVariable("LABEL", $opt_label);
+
+			if($value && in_array($opt_value, $value)) {
+				$tpl->setVariable("CHECKED", 'checked="checked"');
+			}
+			if ($input->isDisabled()) {
+				$tpl->setVariable("DISABLED", 'disabled="disabled"');
+			}
+
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl;
+	}
+
+	/**
+	 * @param Template $tpl
+	 * @param Select $input
+	 * @return Template
+	 */
 	public function renderSelectInput(Template $tpl, Select $input)
 	{
 		if ($input->isDisabled()) {
@@ -235,6 +292,7 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	}
 
 	/**
+	 * @param array $input_labels
 	 * @param RendererInterface $default_renderer
 	 *
 	 * @return string
@@ -298,8 +356,10 @@ class FilterContextRenderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return [
 			Component\Input\Field\Text::class,
+			Component\Input\Field\Numeric::class,
+			Component\Input\Field\Group::class,
 			Component\Input\Field\Select::class,
-			Component\Input\Field\Group::class
+			Component\Input\Field\MultiSelect::class
 		];
 	}
 }

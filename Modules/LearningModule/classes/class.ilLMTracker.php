@@ -322,7 +322,7 @@ class ilLMTracker
 	/**
 	 * Set current page
 	 *
-	 * @param id $a_val current page id
+	 * @param int $a_val current page id
 	 */
 	public function setCurrentPage($a_val)
 	{
@@ -332,7 +332,7 @@ class ilLMTracker
 	/**
 	 * Get current page
 	 *
-	 * @return id current page id
+	 * @return int current page id
 	 */
 	public function getCurrentPage()
 	{

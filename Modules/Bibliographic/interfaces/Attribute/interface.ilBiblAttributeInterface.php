@@ -5,52 +5,53 @@
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
-interface ilBiblAttributeInterface {
+interface ilBiblAttributeInterface
+{
 
-	/**
-	 * @return int
-	 */
-	public function getEntryId();
-
-
-	/**
-	 * @param int $entry_id
-	 */
-	public function setEntryId($entry_id);
+    /**
+     * @return int
+     */
+    public function getEntryId();
 
 
-	/**
-	 * @return string
-	 */
-	public function getName();
+    /**
+     * @param int $entry_id
+     */
+    public function setEntryId($entry_id);
 
 
-	/**
-	 * @param string $name
-	 */
-	public function setName($name);
+    /**
+     * @return string
+     */
+    public function getName();
 
 
-	/**
-	 * @return string
-	 */
-	public function getValue();
+    /**
+     * @param string $name
+     */
+    public function setName($name);
 
 
-	/**
-	 * @param string $value
-	 */
-	public function setValue($value);
+    /**
+     * @return string
+     */
+    public function getValue();
 
 
-	/**
-	 * @return int
-	 */
-	public function getId();
+    /**
+     * @param string $value
+     */
+    public function setValue($value);
 
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id);
+    /**
+     * @return int
+     */
+    public function getId();
+
+
+    /**
+     * @param int $id
+     */
+    public function setId($id);
 }

@@ -47,6 +47,7 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -631,6 +632,7 @@ assessment#:#tst_conflicting_setting#:#This setting does conflict with another s
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
+assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 assessment#:#error_open_image_file#:#Error opening an image file!
@@ -15197,3 +15199,8 @@ common#:#mm_certificates#:#Certificates
 common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
 common#:#mm_personal_workspace#:#Personal Workspace
 content#:#lm_editing_view#:#Editing View
+common#:#mm_repo_tree_view_act#:#Activate Tree
+common#:#mm_repo_tree_view_deact#:#Deactivate Tree
+content#:#cont_tool_media#:#Media
+content#:#cont_tool_faq#:#FAQ
+exc#:#exc_text_saved#:#Text has been saved.

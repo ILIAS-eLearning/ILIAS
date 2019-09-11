@@ -2155,7 +2155,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if(false)
 		{
-			$this->tpl->setCurrentBlock("filter");
+			$this->tpl->setCurrentBlock("form_filter");
 			$this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
 			$this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect());
 			$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));

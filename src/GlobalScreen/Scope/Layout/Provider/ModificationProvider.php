@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContextAwareProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 
@@ -55,4 +56,12 @@ interface ModificationProvider extends Provider, ScreenContextAwareProvider
      * @return BreadCrumbsModification|null
      */
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack) : ?BreadCrumbsModification;
+
+
+    /**
+     * @param CalledContexts $screen_context_stack
+     *
+     * @return PageBuilderModification|null
+     */
+    public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification;
 }

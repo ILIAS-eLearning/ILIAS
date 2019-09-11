@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
+use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
@@ -52,7 +53,7 @@ class BaseMetaBarItemRenderer implements MetaBarItemRenderer
         switch (true) {
             case ($item instanceof LinkItem):
             case ($item instanceof TopLinkItem):
-                $component = $f->button()->bulky($item->getSymbol(), $item->getTitle(), $item->getAction());
+                $component = $f->link()->bulky($item->getSymbol(), $item->getTitle(), $this->getURI($item->getAction()));
                 break;
             case ($item instanceof TopLegacyItem):
                 $component = $f->mainControls()->slate()->legacy($item->getTitle(), $item->getSymbol(), $item->getLegacyContent());
@@ -72,5 +73,20 @@ class BaseMetaBarItemRenderer implements MetaBarItemRenderer
         }
 
         return $component;
+    }
+
+
+    /**
+     * @param string $uri_string
+     *
+     * @return URI
+     */
+    protected function getURI(string $uri_string) : URI
+    {
+        if (strpos($uri_string, 'http') === 0) {
+            return new URI($uri_string);
+        }
+
+        return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
     }
 }

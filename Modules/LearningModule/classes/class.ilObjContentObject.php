@@ -2135,10 +2135,7 @@ class ilObjContentObject extends ilObject
 		$_GET["cmd"] = "nop";
 		$get_transl = $_GET["transl"];
 		$_GET["transl"] = "";
-		$lm_gui = new ilLMPresentationGUI();
-		$lm_gui->setOfflineMode(true, ($a_lang == "all"));
-		$lm_gui->setOfflineDirectory($a_target_dir);
-		$lm_gui->setExportFormat($a_export_format);
+		$lm_gui = new ilLMPresentationGUI($a_export_format, ($a_lang == "all"), $a_target_dir);
 
 		$ot = ilObjectTranslation::getInstance($this->getId());
 		$langs = array();

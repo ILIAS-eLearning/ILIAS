@@ -271,7 +271,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				$this->handleRemovedUpload();
 			}
 			
-			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+			ilUtil::sendSuccess($this->lng->txt("exc_text_saved"), true);
 			if($a_return)
 			{
 				$ilCtrl->redirect($this, "returnToParent");

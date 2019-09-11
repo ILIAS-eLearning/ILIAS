@@ -286,4 +286,21 @@ class Tag extends Input implements C\Input\Field\Tag {
 	public function withAdditionalOnTagRemoved(Signal $signal): C\Input\Field\Tag {
 		return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_REMOVED);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('itemAdded', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			$('#$id').on('itemRemoved', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+			return $code;
+		};
+	}
 }
