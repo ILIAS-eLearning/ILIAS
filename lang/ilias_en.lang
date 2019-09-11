@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_editor_title#:#Edit Question
 asq#:#asq_question_generic#:#Generic Question
 asq#:#asq_question_single_answer#:#Multiple Choice Question (Single Answer)
 asq#:#asq_question_multiple_answer#:#Multiple Choice Question (Multiple Answer)

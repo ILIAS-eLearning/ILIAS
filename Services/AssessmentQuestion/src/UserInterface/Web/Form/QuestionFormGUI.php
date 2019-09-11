@@ -70,6 +70,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	    
 		$this->initForm($question);
         $this->setMultipart(true);
+        $this->setTitle($this->lang->txt('asq_editor_title'));
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->setValuesByPost();

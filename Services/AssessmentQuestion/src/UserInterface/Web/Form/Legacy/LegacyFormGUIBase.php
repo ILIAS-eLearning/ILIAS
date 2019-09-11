@@ -61,6 +61,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    
 	    $this->initForm($question);
 	    $this->setMultipart(true);
+	    $this->setTitle($question->getLegacyData()->getQuestionTypes()[$question->getLegacyData()->getAnswerTypeId()]);
 	    
 	    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	        $this->setValuesByPost();
