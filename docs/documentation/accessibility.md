@@ -24,6 +24,8 @@ HTML-Content rendered by ILIAS shall conform to EN 301 549 / WCAG 2.1 Recommenda
 9.	We will try to accommodate users with limited cognitive, language or learning abilities. 
 10.	ILIAS can be operated with assistive technology without compromising the privacy of a user. 
 
+If proposing a new KS component, one MUST make sure the element conforms with the guideline listed here. If the conformity can only be achieved by the client of the element, one has to state a rule refering back to the corresponding rule in this document
+
 ## Principle 1: Perceivable
 Reference: WCAG 2.1 > 1 / EN 301 549 > 9.1 
 Target group: creator of content, developers
@@ -478,7 +480,7 @@ In content implemented using markup languages, status messages MUST be programma
 
 # CONFORMANCE REQUIREMENTS 
 Reference: EN 301 549 > 9.5
-ILIAS shall satisfy all the following five WCAG 2.1 conformance requirements at Level AA. 
+ILIAS MUST satisfy all the following five WCAG 2.1 conformance requirements at Level AA. 
 1) Conformance level 
 2) Full pages 
 3) Complete processes 
