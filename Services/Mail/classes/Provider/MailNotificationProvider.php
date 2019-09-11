@@ -42,8 +42,14 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
         $group = $factory->standardGroup($id('mail_group'))->withTitle($this->dic->language()->txt('mail'));
 
+        if (1 === $numberOfNewMessages) {
+            $body = $this->dic->language()->txt('nc_mail_unread_messages_number_s');
+        } else {
+            $body = sprintf($this->dic->language()->txt('nc_mail_unread_messages_number_p'), $numberOfNewMessages);
+        }
+
         $notification = $factory->standard($id('mail'))
-            ->withTitle(sprintf($this->dic->language()->txt('mail_main_bar_unread_messages'), $numberOfNewMessages))
+            ->withTitle($body)
             ->withAction('ilias.php?baseClass=ilMailGUI');
 
         $group->addNotification($notification);
