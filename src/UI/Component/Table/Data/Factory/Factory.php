@@ -47,16 +47,6 @@ interface Factory {
 
 
 	/**
-	 * @param string   $key
-	 * @param string   $title
-	 * @param string[] $actions
-	 *
-	 * @return Column
-	 */
-	public function actionColumn(string $key, string $title, array $actions): Column;
-
-
-	/**
 	 * @return Format
 	 */
 	public function formatCSV(): Format;

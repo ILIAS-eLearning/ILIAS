@@ -8,8 +8,6 @@ use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
 use ILIAS\UI\Component\Table\Data\Factory\Factory as FactoryInterface;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table as TableInterface;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Action\ActionColumn;
-use ILIAS\UI\Implementation\Component\Table\Data\Column\Action\ActionFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
 use ILIAS\UI\Implementation\Component\Table\Data\Format\CSVFormat;
 use ILIAS\UI\Implementation\Component\Table\Data\Format\ExcelFormat;
@@ -53,15 +51,6 @@ class Factory implements FactoryInterface {
 	 */
 	public function column(string $key, string $title): ColumnInterface {
 		return new Column($key, $title);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function actionColumn(string $key, string $title, array $actions): ColumnInterface {
-		return (new ActionColumn($key, $title))->withActions($actions)->withSortable(false)->withFormater(new ActionFormater($this->dic))
-			->withSelectable(false)->withExportable(false);
 	}
 
 

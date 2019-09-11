@@ -6,6 +6,7 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Implementation\Component\Table\Data\Column\Action\AbstractActionColumn;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
 use ILIAS\UI\Renderer;
@@ -46,9 +47,19 @@ function advanced(): string {
 			}
 		}),
 		$factory->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
-		$factory->actionColumn("actions", "Actions", [
-			"Action" => $action_url
-		])
+		new class("actions", "Actions") extends AbstractActionColumn {
+
+			/**
+			 * @inheritDoc
+			 */
+			public function getActions(RowData $row): array {
+				global $action_url;
+
+				return [
+					"Action" => $action_url
+				];
+			}
+		}
 	], new class($DIC) extends AbstractDataFetcher {
 
 		/**

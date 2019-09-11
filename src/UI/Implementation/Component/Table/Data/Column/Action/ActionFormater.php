@@ -35,10 +35,12 @@ class ActionFormater extends AbstractFormater {
 	 * @param ActionColumn $column
 	 */
 	public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
+		$actions = $column->getActions($row);
+
 		return $renderer->render($this->dic->ui()->factory()->dropdown()
 			->standard(array_map(function (string $title, string $action) use ($row, $table_id): Shy {
 				return $this->dic->ui()->factory()->button()
 					->shy($title, DefaultBrowserFormat::getActionUrl($action, [ Table::ACTION_GET_VAR => $row->getRowId() ], $table_id));
-			}, array_keys($column->getActions()), $column->getActions()))->withLabel($column->getTitle()));
+			}, array_keys($actions), $actions))->withLabel($column->getTitle()));
 	}
 }

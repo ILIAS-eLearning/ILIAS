@@ -3,40 +3,38 @@
 namespace ILIAS\UI\Implementation\Component\Table\Data\Column\Action;
 
 use ILIAS\UI\Component\Table\Data\Column\Action\ActionColumn as ActionColumnInterface;
-use ILIAS\UI\Component\Table\Data\Column\Column as ColumnInterface;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
 
 /**
- * Class ActionColumn
+ * Class AbstractActionColumn
  *
  * @package ILIAS\UI\Implementation\Component\Table\Data\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ActionColumn extends Column implements ActionColumnInterface {
+abstract class AbstractActionColumn extends Column implements ActionColumnInterface {
 
 	/**
-	 * @var string[]
+	 * @inheritDoc
 	 */
-	protected $actions = [];
+	protected $sortable = false;
+	/**
+	 * @inheritDoc
+	 */
+	protected $selectable = false;
+	/**
+	 * @inheritDoc
+	 */
+	protected $exportable = false;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getActions(): array {
-		return $this->actions;
-	}
+	public function __construct(string $key, string $title) {
+		parent::__construct($key, $title);
 
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withActions(array $actions): ColumnInterface {
-		$clone = clone $this;
-
-		$clone->actions = $actions;
-
-		return $clone;
+		global $DIC; // TODO: !!!
+		$this->formater = new ActionFormater($DIC);
 	}
 }

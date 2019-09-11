@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Component\Table\Data\Column\Action;
 
 use ILIAS\UI\Component\Table\Data\Column\Column;
+use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 
 /**
  * Interface ActionColumn
@@ -13,25 +14,10 @@ use ILIAS\UI\Component\Table\Data\Column\Column;
  */
 interface ActionColumn extends Column {
 
-	/* TODO: Needs PHP 7.3
 	/**
-	 * @inheritDoc
+	 * @param RowData $row
 	 *
-	 * @param array $actions
-	 * /
-	public function __construct(string $key, string $title, array $actions);
-	*/
-
-	/**
 	 * @return string[]
 	 */
-	public function getActions(): array;
-
-
-	/**
-	 * @param string[] $actions
-	 *
-	 * @return Column
-	 */
-	public function withActions(array $actions): Column;
+	public function getActions(RowData $row): array;
 }
