@@ -188,7 +188,8 @@ The visual presentation of the following MUST have a contrast ratio of at least 
 
 #### Success Criterion Text Spacing$$
 Reference: WCAG 2.1 > 1.4.12 Level AA / EN 301 549 > 9.1.4.12
-In content implemented using markup languages that support the following text style properties, no loss of content or functionality occurs by setting all of the following and by changing no other style property:
+Target group: creator of content, developer
+In content implemented using markup languages that support the following text style properties, no loss of content or functionality MUST occurs by setting all of the following and by changing no other style property:
 
 - Line height (line spacing) to at least 1.5 times the font size;
 
@@ -202,7 +203,8 @@ Exception: Human languages and scripts that do not make use of one or more of th
 
 #### Success Criterion Content on Hover or Focus
 Reference: WCAG 2.1 > 1.4.13 Level AA / EN 301 549 > 9.1.4.13
-Where receiving and then removing pointer hover or keyboard focus triggers additional content to become visible and then hidden, the following are true:
+Target group: developer
+Where receiving and then removing pointer hover or keyboard focus triggers additional content to become visible and then hidden, the following MUST be true:
 
 - **Dissmissable**: A mechanism is available to dismiss the additional content without moving pointer hover or keyboard focus, unless the additional content communicates an input error or does not obscure or replace other content;
 
@@ -215,25 +217,31 @@ Custom tooltips, sub-menus, and other nonmodal popups that display on hover and 
 
 ### Principle Operable
 Reference: WCAG 2.1 > 2. / EN 301 549 > 9.2
-User interface components and navigation must be operable.
+Target group: creator of content, developer
+User interface components and navigation MUST be operable.
 
 #### Guideline Keyboard Accessible
 Reference: WCAG 2.1 > 2.1 / EN 301 549 > 9.2.1
-Make all functionality available from a keyboard.
+Target group: creator of content, developer
+All functionality MUST be available from a keyboard.
 
 #### Success Criterion Keyboard
 Reference: WCAG 2.1 > 2.1.1 Level A / EN 301 549 > 9.2.1.1
-All functionality of the content is operable through a keyboard interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and
+Target group: creator of content, developer
+All functionality of the content MUST be operable through a keyboard interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and
 not just the endpoints. This exception relates to the underlying function, not the input technique. For example, if using handwriting to enter text, the input technique (handwriting) requires path-dependent input but the underlying function (text input) does not.  This does not forbid and should not discourage providing mouse input or other input methods in addition to keyboard operation.
 
 #### Success Criterion No Keyboard Trap
-If keyboard focus can be moved to a component of the page using a keyboard interface, then focus can be moved away from that component using only a keyboard interface, and, if it requires more than unmodified arrow or tab keys or other
+Reference: WCAG 2.1 > 2.1.2 Level A / EN 301 549 > 9.2.1.2
+Target group: developer
+If keyboard focus can be moved to a component of the page using a keyboard interface, then focus MUST be movable away from that component using only a keyboard interface, and, if it requires more than unmodified arrow or tab keys or other
 standard exit methods, the user is advised of the method for moving focus away.  
-Note: Since any content that does not meet this success criterion can interfere with a user's ability to use the whole page, all content on the Web page (whether it is used to meet other success criteria or not) must meet this success criterion.
+Note: Since any content that does not meet this success criterion can interfere with a user's ability to use the whole page, all content on the Web page (whether it is used to meet other success criteria or not) MUST meet this success criterion.
 
 #### Success Criterion Character Key Shortcuts
 Reference: WCAG 2.1 > 2.1.4 Level A / EN 301 549 > 9.2.1.4
-If a keyboard shortcut is implemented in content using only letter (including upper- and lower-case letters), punctuation, number, or symbol characters, then at least one of the following is true:
+Target group: developer
+If a keyboard shortcut is implemented in content using only letter (including upper- and lower-case letters), punctuation, number, or symbol characters, then at least one of the following MUST be true:
 
 - **Turn off**: A mechanism is available to turn the shortcut off;
 - **Remap**: A mechanism is available to remap the shortcut to use one or more non-printable keyboard characters (e.g. Ctrl, Alt, etc);
@@ -241,11 +249,13 @@ If a keyboard shortcut is implemented in content using only letter (including up
 
 ### Guideline 2.2 Enough Time
 Reference: WCAG 2.1 > 2.2 / EN 301 549 > 9.2.2
-Provide users enough time to read and use content.
+Target group: creator of content
+Users MUST be provided enough time to read and use content.
 
 #### Success Criterion Timing Adjustable
 Reference: WCAG 2.1 > 2.2.1 Level A / EN 301 549 > 9.2.2.1
-For each time limit that is set by the content, at least one of the following is true:
+Target group: creator of content
+For each time limit that is set by the content, at least one of the following MUST be true:
 
   - **Turn off**: The user is allowed to turn off the time limit before encountering it; or
 
@@ -266,7 +276,8 @@ For each time limit that is set by the content, at least one of the following is
 
 #### Success Criterion Pause, Stop, Hide
 Reference: WCAG 2.1 > 2.2.2 Level A / EN 301 549 > 9.2.2.2
-For moving, blinking, scrolling, or auto-updating information, all of the following are true:
+Target group: creator of content
+For moving, blinking, scrolling, or auto-updating information, all of the following MUST be true:
 
   - **Moving, blinking, scrolling**: For any moving, blinking or scrolling information that
    (1) starts automatically, (2) lasts more than five seconds, and (3) is presented in
@@ -281,56 +292,69 @@ For moving, blinking, scrolling, or auto-updating information, all of the follow
 
 ### Guideline Seizures
 Reference: WCAG 2.1 > 2.3 / EN 301 549 > 9.2.3
-Do not design content in a way that is known to cause seizures.
+Target group: creator of content
+One MUST not design content in a way that is known to cause seizures.
 
 #### Success Criterion Three Flashes or Below Threshold
 Reference: WCAG 2.1 > 2.3.1 Level A / EN 301 549 > 9.2.3.1
-Web pages do not contain anything that flashes more than three times in any one second period, or the flash is below the general flash nd red flash thresholds.
-Reference: WCAG 2.1 > 2.3.1 Level A / EN 301 549 > 9.2.3.1
+Target group: creator of content
+Web pages MUST not contain anything that flashes more than three times in any one second period, or the flash is below the general flash nd red flash thresholds.
 
 ### Guideline Navigable
 Reference: WCAG 2.1 > 2.4 / EN 301 549 > 9.2.4
-Provide ways to help users navigate, find content, and determine where they are.
+Target group: developer
+One MUST provide ways to help users navigate, find content, and determine where they are.
 
 #### Success Criterion Bypass Blocks
 Reference: WCAG 2.1 > 2.4.1 Level A / EN 301 549 > 9.2.4.1 
-A mechanism is available to bypass blocks of content that are repeated on multiple Web pages.
+Target group: developer
+A mechanism MUST be available to bypass blocks of content that are repeated on multiple Web pages.
 
 #### Success Criterion Page Titled
 Reference: WCAG 2.1 > 2.4.2 Level A  / EN 301 549 > 9.2.4.2
-Web pages have titles that describe topic or purpose.
+Target group: developer
+Web pages MUST have titles that describe topic or purpose.
 
 #### Success Criterion Focus Order
 Reference: WCAG 2.1 > 2.4.3 Level A  / EN 301 549 > 9.2.4.3
-If a Web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components receive focus in an order that preserves meaning and operability.
+Target group: developer
+If a Web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components MUST receive focus in an order that preserves meaning and operability.
 
 #### Success Criterion Link Purpose (In Context)
-The purpose of each link can be determined from the link text alone or from the link text together with its programmatically determined link context, except where the purpose of the link would be ambiguous to users in general.
+Reference: WCAG 2.1 > 2.4.4 Level A  / EN 301 549 > 9.2.4.4
+Target group: creator of content, developer
+One MUST be able to determine the purpose of each link from the link text alone or from the link text together with its programmatically determined link context, except where the purpose of the link would be ambiguous to users in general.
 
 #### Success Criterion Multiple Ways
 Reference: WCAG 2.1 > 2.4.5 Level AA / EN 301 549 > 9.2.4.5
-More than one way is available to locate a Web page within a set of Web pages except where the Web Page is the result of, or a step in, a process.
+Target group: developer
+More than one way MUST be available to locate a Web page within a set of Web pages except where the Web Page is the result of, or a step in, a process.
 
 #### Success Criterion Headings and Labels
 Reference: WCAG 2.1 > 2.4.6 Level AA / EN 301 549 > 9.2.4.6
-Headings and labels describe topic or purpose.
+Target group: creator of content, developer
+Headings and labels MUST describe topic or purpose.
 
 #### Success Criterion Focus Visible
 Reference: WCAG 2.1 > 2.4.7 Level AA  / EN 301 549 > 9.2.4.7
-Any keyboard operable user interface has a mode of operation where the keyboard focus indicator is visible.
+Target group: developer
+Any keyboard operable user interface MUST have a mode of operation where the keyboard focus indicator is visible.
 
 ### Guideline Modalities
 Reference: WCAG 2.1 > 2.5 / EN 301 549 > 9.2.5
-Make it easier for users to operate functionality through various inputs beyond keyboard.
+Target group: developer
+One SHOULD make it easier for users to operate functionality through various inputs beyond keyboard.
 
 #### Success Criterion Pointer Gestures
 Reference: WCAG 2.1 > 2.5.1 Level A / EN 301 549 > 9.2.5.1
-All functionality that uses multipoint or path-based gestures for operation can be operated with a single pointer without a path-based gesture, unless a multipoint or path-based gesture is essential.
+Target group: developer
+All functionality that uses multipoint or path-based gestures for operation MUST be able to be operated with a single pointer without a path-based gesture, unless a multipoint or path-based gesture is essential.
 This requirement applies to web content that interprets pointer actions (i.e. this does not apply to actions that are required to operate the user agent or assistive technology).
 
 #### Success Criterion Pointer Cancellation
 Reference: WCAG 2.1 > 2.5.2 Level A / EN 301 549 > 9.2.5.2
-For functionality that can be operated using a single pointer, at least one of the following is true:
+Target group: developer
+For functionality that can be operated using a single pointer, at least one of the following MUST be true:
 
 - **No Down-Event**: The down-event of the pointer is not used to execute any part of the function;
 
@@ -342,69 +366,86 @@ For functionality that can be operated using a single pointer, at least one of t
 
 #### Success Criterion  Label in Name
 Reference: WCAG 2.1 > 2.5.3 Level A / EN 301 549 > 9.2.5.3
-For user interface components with labels that include text or images of text, the name contains the text that is presented visually. A best practice is to have the text of the label at the start of the name.
+Target group: developer
+For user interface components with labels that include text or images of text, the name MUST contain the text that is presented visually. A best practice is to have the text of the label at the start of the name.
 
 #### Success Criterion Motion Actuation
 Reference: WCAG 2.1 > 2.5.4 Level A / EN 301 549 > 9.2.5.4
-Functionality that can be operated by device motion or user motion can also be operated by user interface components and responding to the motion can be disabled to prevent accidental actuation, except when:
+Target group: developer
+Functionality that can be operated by device motion or user motion MUST also be operable by user interface components and responding to the motion can be disabled to prevent accidental actuation, except when:
 
 - **Supported Interface**: The motion is used to operate functionality through an accessibility supported interface;
 - **Essential**: The motion is essential for the function and doing so would invalidate the activity.
 
 ## Principle Understandable
 Reference: WCAG 2.1 > 3. / EN 301 549 > 9.3
-Information and the operation of user interface must be understandable.
+Target group: developer
+Information and the operation of user interface MUST be understandable.
 
 ### Guideline Readable
 Reference: WCAG 2.1 > 3.1 / EN 301 549 > 9.3.1
-Make text content readable and understandable.
+Target group: creator of content, developer
+Text content MUST be readable and understandable.
 
 #### Success Criterion Language of Page
 Reference: WCAG 2.1 > 3.1.1 Level A / EN 301 549 > 9.3.1.1
-The default human language of each Web page can be programmatically determined.
+Target group: developer
+The default human language of each Web page MUST be determinable programmatically.
 
 #### Success Criterion Language of Parts
 Reference: WCAG 2.1 > 3.1.2 Level AA / EN 301 549 > 9.3.1.2
-The human language of each passage or phrase in the content can be programmatically determined except for proper names, technical terms, words of indeterminate language, and words or phrases that have become part of the vernacular of the immediately surrounding text.
+Target group: developer
+The human language of each passage or phrase in the content MUST be determinable programmatically except for proper names, technical terms, words of indeterminate language, and words or phrases that have become part of the vernacular of the immediately surrounding text.
 
 ### Guideline Predictable
 Reference: WCAG 2.1 > 3. / EN 301 549 > 9.3
-Make Web pages appear and operate in predictable ways.
+Target group: developer
+Web pages MUST appear and operate in predictable ways.
 
 #### Success Criterion On Focus
 Reference: WCAG 2.1 > 3.2.1 Level A / EN 301 549 > 9.3.2.1
-When any component receives focus, it does not initiate a change of context.
+Target group: developer
+When any component receives focus, it MUST not initiate a change of context.
 
 #### Success Criterion On Input
-Changing the setting of any user interface component does not automatically cause a change of context unless the user has been advised of the behavior before using the component.
+Reference: WCAG 2.1 > 3.2.2 Level A / EN 301 549 > 9.3.2.2
+Target group: developer
+Changing the setting of any user interface component MUST not automatically cause a change of context unless the user has been advised of the behavior before using the component.
 
 #### Success Criterion Consistent Navigation
- Reference: WCAG 2.1 > 3.2.3 Level AA / EN 301 549 > 9.3.2.3
-Navigational mechanisms that are repeated on multiple Web pages within a set of Web pages occur in the same relative order each time they are repeated, unless a change is initiated by the user.
+Reference: WCAG 2.1 > 3.2.3 Level AA / EN 301 549 > 9.3.2.3
+Target group: developer
+Navigational mechanisms that are repeated on multiple Web pages within a set of Web pages MUST occur in the same relative order each time they are repeated, unless a change is initiated by the user.
 
 #### Success Criterion Consistent Identification
 Reference: WCAG 2.1 > 3.2.4 Level AA / EN 301 549 > 9.3.2.4
-Components that have the same functionality within a set of Web pages are identified consistently.
+Target group: developer
+Components that have the same functionality within a set of Web pages MUST be identified consistently.
 
 ### Guideline Input Assistance
 Reference: WCAG 2.1 > 3.3 / EN 301 549 > 9.3.3
-Help users avoid and correct mistakes.
+Target group: developer
+One MUST help users avoid and correct mistakes.
 
 #### Success Criterion Error Identification
 Reference: WCAG 2.1 > 3.3.1 Level A / EN 301 549 > 9.3.3.1
-If an input error is automatically detected, the item that is in error is identified and the error is described to the user in text.
+Target group: developer
+If an input error is automatically detected, the item that is in error MUST be identified and the error MUST be described to the user in text.
 
 #### Success Criterion Labels or Instructions
 Reference: WCAG 2.1 > 3.3.2 Level A / EN 301 549 > 9.3.3.2
-Labels or instructions are provided when content requires user input.
+Target group: developer
+Labels or instructions MUST be provided when content requires user input.
 
 #### Success Criterion Error Suggestion
 Reference: WCAG 2.1 > 3.3.3 Level AA / EN 301 549 > 9.3.3.3
-If an input error is automatically detected and suggestions for correction are known, then the suggestions are provided to the user, unless it would jeopardize the security or purpose of the content.
+Target group: developer
+If an input error is automatically detected and suggestions for correction are known, then the suggestions MUST be provided to the user, unless it would jeopardize the security or purpose of the content.
 
 #### Success Criterion Error Prevention (Legal, Financial, Data)
 Reference: WCAG 2.1 > 3.3.4 Level AA / EN 301 549 > 9.3.3.4
-For Web pages that cause legal commitments or financial transactions for the user to occur, that modify or delete user-controllable data in data storage systems, or that submit user test responses, at least one of the following is true:
+Target group: developer
+For Web pages that cause legal commitments or financial transactions for the user to occur, that modify or delete user-controllable data in data storage systems, or that submit user test responses, at least one of the following MUST be true:
 
 - **Reversible**: Submissions are reversible.
 - **Checked**: Data entered by the user is checked for input errors and the user is provided an opportunity to correct them.
@@ -412,24 +453,28 @@ For Web pages that cause legal commitments or financial transactions for the use
 
 ### Principle Robust
 Reference: WCAG 2.1 > 4. / EN 301 549 > 9.4
-Content must be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies.
+Target group: developer
+Content MUST be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies.
 
 ### Guideline Compatible
 Reference: WCAG 2.1 > 4.1 / EN 301 549 > 9.4.1
-Maximize compatibility with current and future user agents, including assistive technologies.
+Target group: developer
+One MUST maximize compatibility with current and future user agents, including assistive technologies.
 
 #### Success Criterion Parsing
 Reference: WCAG 2.1 > 4.1.1 Level A / EN 301 549 > 9.4.1.1
-In content implemented using markup languages, elements have complete start and end tags, elements are nested according to their specifications, elements do not contain duplicate attributes, and any IDs are unique, except where the specifications allow these features. Start and end tags that are missing a critical character in their formation, such as a closing angle bracket or a mismatched attribute value quotation mark are not complete.
-
+Target group: developer
+In content implemented using markup languages, elements MUST have complete start and end tags, elements MUST be nested according to their specifications, elements MUST not contain duplicate attributes, and any IDs MUST be unique, except where the specifications allow these features. Start and end tags that are missing a critical character in their formation, such as a closing angle bracket or a mismatched attribute value quotation mark are not complete.
 
 #### Success Criterion Name, Role, Value
 Reference: WCAG 2.1 > 4.1.2 Level A / EN 301 549 > 9.4.1.2
-For all user interface components (including but not limited to: form elements, links and components generated by scripts), the name and role can be programmatically determined; states, properties, and values that can be set by the user can be programmatically set; and notification of changes to these items is available to user agents, including assistive technologies. This success criterion is primarily for Web authors who develop or script their own user interface components. For example, standard HTML controls already meet this success criterion when used according to specification.
+Target group: developer
+For all user interface components (including but not limited to: form elements, links and components generated by scripts), the name and role MUST be determinable programmatically; states, properties, and values that can be set by the user MUST be programmatically settable; and notification of changes to these items MUST be available to user agents, including assistive technologies. This success criterion is primarily for Web authors who develop or script their own user interface components. For example, standard HTML controls already meet this success criterion when used according to specification.
 
 #### Success Criterion Status Messages
 Reference: WCAG 2.1 > 4.1.3 Level AA / EN 301 549 > 9.4.1.3
-In content implemented using markup languages, status messages can be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus.
+Target group: developer
+In content implemented using markup languages, status messages MUST be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus.
 
 # CONFORMANCE REQUIREMENTS 
 Reference: EN 301 549 > 9.5
