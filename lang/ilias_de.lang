@@ -14064,7 +14064,8 @@ chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
 chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
-mail#:#mail_main_bar_unread_messages#:#Sie haben %s ungelesene E-Mails.
+common#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
+common#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
