@@ -56,5 +56,6 @@
   'ILIAS\\GlobalScreen\\Scope\\Notification\\Provider\\NotificationProvider' => 
   array (
     0 => 'ILIAS\\BackgroundTasks\\Provider\\BTNotificationProvider',
+    1 => 'ILIAS\\Mail\\Provider\\MailNotificationProvider',
   ),
 );

@@ -14069,6 +14069,8 @@ chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
+common#:#nc_mail_unread_messages_number_p#:#You have %s unread emails.
+common#:#nc_mail_unread_messages_number_s#:#You have one unread email.
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.

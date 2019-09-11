@@ -60,7 +60,6 @@ class ilMainMenuGUI
     var $tpl;
     var $target;
     var $start_template;
-    var $mail; // [bool]
     /**
      * @var ilGlobalTemplate
      */
@@ -109,13 +108,6 @@ class ilMainMenuGUI
         );
         $this->target = $a_target;
         $this->start_template = $a_use_start_template;
-
-        $this->mail = false;
-        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-            if ($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
-                $this->mail = true;
-            }
-        }
 
         $this->setMode(self::MODE_FULL);
 
@@ -178,7 +170,7 @@ class ilMainMenuGUI
 
 
     /**
-     * @param string $a_active "desktop"|"repository"|"search"|"mail"|"chat_invitation"|"administration"
+     * @param string $a_active "desktop"|"repository"|"search"|"chat_invitation"|"administration"
      *
      * @deprecated
      *
@@ -420,23 +412,6 @@ class ilMainMenuGUI
         $ilUser = $this->user;
         $ui_factory = $this->ui->factory();
         $ui_renderer = $this->ui->renderer();
-
-        if ($this->mail) {
-            $new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
-
-            $a_tpl->setCurrentBlock('status_box');
-
-            $glyph = $ui_factory->symbol()->glyph()->mail("ilias.php?baseClass=ilMailGUI");
-
-            if ($new_mails > 0) {
-                $glyph = $glyph->withCounter($ui_factory->counter()->novelty($new_mails));
-            }
-
-            $a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
-            $a_tpl->setVariable('STATUS_ID', "sb_mail");
-            $this->addToolbarTooltip("sb_mail", "mm_tb_mail");
-            $a_tpl->parseCurrentBlock();
-        }
     }
 
 
