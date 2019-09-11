@@ -21,6 +21,7 @@ class ilAsqQuestionConfigEditorGUI
 {
     const CMD_SHOW_FORM = 'showForm';
     const CMD_SAVE_FORM = 'saveForm';
+    const CMD_SAVE_AND_RETURN = 'saveAndReturn';
 
     /**
      * @var AuthoringContextContainer
@@ -112,6 +113,26 @@ class ilAsqQuestionConfigEditorGUI
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_FORM);
     }
 
+    /**
+     * @throws Exception
+     */
+    protected function saveAndReturn()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        
+        $form = $this->buildForm();
+        
+        if( !$form->checkInput() )
+        {
+            $this->showForm($form);
+            return;
+        }
+        
+        $question = $form->getQuestion();
+        $this->authoringApplicationService->SaveQuestion($question);
+        
+        $DIC->ctrl()->redirect($this->contextContainer->getBackLink());
+    }
 
     /**
      * @return ilPropertyFormGUI
@@ -125,6 +146,7 @@ class ilAsqQuestionConfigEditorGUI
 
         $form = AsqGUIElementFactory::CreateQuestionForm($question);
         $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
+        $form->addCommandButton(self::CMD_SAVE_AND_RETURN, $DIC->language()->txt('save_return'));
         $form->addCommandButton(self::CMD_SAVE_FORM, $DIC->language()->txt('save'));
 
         return $form;
