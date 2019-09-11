@@ -15202,3 +15202,6 @@ common#:#mm_repo_tree_view_deact#:#Deactivate Tree
 content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Text has been saved.
+common#:#nc_contact_requests_headline#:#Contact Requests
+common#:#nc_contact_requests_number_s#:#You have %s Contact Request
+common#:#nc_contact_requests_number_p#:#You have %s Contact Requests

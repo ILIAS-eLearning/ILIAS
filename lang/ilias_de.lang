@@ -15201,3 +15201,6 @@ common#:#mm_repo_tree_view_deact#:#Baumansicht aus
 content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
+common#:#nc_contact_requests_headline#:#Kontaktanfragen
+common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
+common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
