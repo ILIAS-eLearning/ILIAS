@@ -116,10 +116,12 @@ class OrderingEditor extends AbstractEditor {
         
         $minimum_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_min_size'), self::VAR_MINIMUM_SIZE);
         $minimum_size->setInfo($DIC->language()->txt('asq_description_min_size'));
+        $minimum_size->setSize(6);
         $fields[] = $minimum_size;
         
         $geometry = new ilNumberInputGUI($DIC->language()->txt('asq_label_geometry'), self::VAR_GEOMETRY);
         $geometry->setRequired(true);
+        $geometry->setSize(6);
         $fields[] = $geometry;
         
         if ($config !== null) {

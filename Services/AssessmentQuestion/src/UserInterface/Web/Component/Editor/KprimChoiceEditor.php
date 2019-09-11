@@ -151,20 +151,24 @@ class KprimChoiceEditor extends AbstractEditor {
         $shuffle = new ilCheckboxInputGUI($DIC->language()->txt('asq_label_shuffle'), self::VAR_SHUFFLE_ANSWERS);
         $shuffle->setValue(1);
         $fields[] = $shuffle;
-        
-        $thumb_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_thumb_size'), self::VAR_THUMBNAIL_SIZE);
-        $thumb_size->setInfo('asq_description_thumb_size');
-        $fields[] = $thumb_size;
-        
+   
         $singleline = new ilSelectInputGUI($DIC->language()->txt('asq_label_editor'), self::VAR_SINGLE_LINE);
         $singleline->setOptions([
-            self::STR_TRUE => $DIC->language()->txt('asq_option_single_line'), 
+            self::STR_TRUE => $DIC->language()->txt('asq_option_single_line'),
             self::STR_FALSE => $DIC->language()->txt('asq_option_multi_line')]);
         
         $fields[] = $singleline;
         
-
-
+        $thumb_size = new ilNumberInputGUI(
+            $DIC->language()->txt('asq_label_thumb_size'),
+            self::VAR_THUMBNAIL_SIZE);
+        $thumb_size->setInfo($DIC->language()->txt('asq_description_thumb_size'));
+        $thumb_size->setSuffix($DIC->language()->txt('asq_pixel'));
+        $thumb_size->setMinValue(20);
+        $thumb_size->setDecimals(0);
+        $thumb_size->setSize(6);
+        $fields[] = $thumb_size;
+        
         $optionLabel = KprimChoiceEditor::GenerateOptionLabelField($config);
         $fields[] = $optionLabel;
         

@@ -110,6 +110,7 @@ class TextSubsetEditor extends AbstractEditor {
         
         $requested_answers = new ilNumberInputGUI($DIC->language()->txt('asq_label_requested_answers'), self::VAR_REQUESTED_ANSWERS);
         $requested_answers->setRequired(true);
+        $requested_answers->setSize(2);
         $fields[] = $requested_answers;
         
         if ($config !== null) {

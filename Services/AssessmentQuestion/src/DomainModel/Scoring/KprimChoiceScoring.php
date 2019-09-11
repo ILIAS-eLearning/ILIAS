@@ -61,10 +61,12 @@ class KprimChoiceScoring extends AbstractScoring {
         
         $points = new ilNumberInputGUI($DIC->language()->txt('asq_label_points'), self::VAR_POINTS);
         $points->setRequired(true);
+        $points->setSize(2);
         $fields[] = $points;
         
         $half_points_at = new ilNumberInputGUI($DIC->language()->txt('asq_label_half_points'), self::VAR_HALF_POINTS);
         $half_points_at->setInfo($DIC->language()->txt('asq_description_half_points'));
+        $half_points_at->setSize(2);
         $fields[] = $half_points_at;
         
         if ($config !== null) {

@@ -160,6 +160,8 @@ class MultipleChoiceEditor extends AbstractEditor {
 		    $DIC->language()->txt('asq_label_max_answer'), 
 		    self::VAR_MCE_MAX_ANSWERS);
 		$max_answers->setInfo($DIC->language()->txt('asq_description_max_answer'));
+		$max_answers->setDecimals(0);
+		$max_answers->setSize(2);
 		$fields[] = $max_answers;
 
 		$singleline = new ilSelectInputGUI(
@@ -176,6 +178,10 @@ class MultipleChoiceEditor extends AbstractEditor {
 		    $DIC->language()->txt('asq_label_thumb_size'), 
 		    self::VAR_MCE_THUMB_SIZE);
 		$thumb_size->setInfo($DIC->language()->txt('asq_description_thumb_size'));
+		$thumb_size->setSuffix($DIC->language()->txt('asq_pixel'));
+		$thumb_size->setMinValue(20);
+		$thumb_size->setDecimals(0);
+		$thumb_size->setSize(6);
 		$fields[] = $thumb_size;
 
 		if ($config !== null) {

@@ -74,6 +74,10 @@ class MultipleChoiceQuestionGUI extends LegacyFormGUIBase {
 	        $this->lang->txt('asq_label_thumb_size'),
 	        self::VAR_MCE_THUMB_SIZE);
 	    $thumb_size->setInfo($this->lang->txt('asq_description_thumb_size'));
+	    $thumb_size->setSuffix($this->lang->txt('asq_pixel'));
+	    $thumb_size->setMinValue(20);
+	    $thumb_size->setDecimals(0);
+	    $thumb_size->setSize(6);
 	    $this->addItem($thumb_size);
 	    
 	    if ($play !== null) {

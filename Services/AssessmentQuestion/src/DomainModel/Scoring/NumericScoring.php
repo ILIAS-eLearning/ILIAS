@@ -52,16 +52,21 @@ class NumericScoring extends AbstractScoring
         
         $fields = [];
 
-        $points = new ilNumberInputGUI($DIC->language()->txt('asq_label_lower_points'), self::VAR_POINTS);
+        $points = new ilNumberInputGUI($DIC->language()->txt('asq_label_points'), self::VAR_POINTS);
         $points->setRequired(true);
+        $points->setSize(2);
         $fields[] = $points;
 
         $lower_bound = new ilNumberInputGUI($DIC->language()->txt('asq_label_lower_bound'), self::VAR_LOWER_BOUND);
+        $lower_bound->setRequired(true);
         $lower_bound->allowDecimals(true);
+        $lower_bound->setSize(6);
         $fields[] = $lower_bound;
 
         $upper_bound = new ilNumberInputGUI($DIC->language()->txt('asq_label_upper_bound'), self::VAR_UPPER_BOUND);
+        $upper_bound->setRequired(true);
         $upper_bound->allowDecimals(true);
+        $upper_bound->setSize(6);
         $fields[] = $upper_bound;
 
         if ($config !== null) {
