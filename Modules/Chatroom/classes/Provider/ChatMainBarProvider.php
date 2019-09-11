@@ -26,35 +26,37 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $publicChatRefId = \ilObjChatroom::_getPublicRefId();
+        $publicChatRefId = (int) \ilObjChatroom::_getPublicRefId();
+        $publicChatObjId = (int) $dic['ilObjDataCache']->lookupObjId($publicChatRefId);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_public_chat'))
-                ->withTitle($dic['ilObjDataCache']->lookupTitle($dic['ilObjDataCache']->lookupObjId($publicChatRefId)))
+                ->withTitle($dic['ilObjDataCache']->lookupTitle($publicChatObjId))
                 ->withAction('ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id=' . $publicChatRefId)
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
-                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("chtr", "")->withIsOutlined(true))
+                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('chtr', '')->withIsOutlined(true))
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
-                    function () use ($publicChatRefId, $dic) {
-                        if (!$publicChatRefId) {
-                            return false;
-                        }
-
-                        return (
-                            (int) $dic->user()->getId() !== 0 && !$dic->user()->isAnonymous()
-                        );
+                    function () use ($publicChatObjId) : bool {
+                        return $publicChatObjId > 0;
                     }
                 )
                 ->withVisibilityCallable(
-                    function () use ($dic, $publicChatRefId) {
+                    function () use ($dic, $publicChatRefId) : bool {
+                        if (0 === (int) $dic->user()->getId() || $dic->user()->isAnonymous()) {
+                            return false;
+                        }
+                        
                         $hasPublicChatRoomAccess = $dic
                             ->rbac()
                             ->system()
                             ->checkAccessOfUser($dic->user()->getId(), 'read', $publicChatRefId);
 
-                        return (new \ilSetting('chatroom'))->get('chat_enabled') && $hasPublicChatRoomAccess;
+                        return (
+                            (new \ilSetting('chatroom'))->get('chat_enabled') &&
+                            $hasPublicChatRoomAccess
+                        );
                     }
                 ),
         ];
