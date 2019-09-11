@@ -108,15 +108,16 @@ class ErrorTextEditor extends AbstractEditor {
     
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var ErrorTextEditorConfiguration $config */
+        global $DIC;
         
         $fields = [];
         
-        $error_text = new ilTextAreaInputGUI('Error Text', self::VAR_ERROR_TEXT);
-        $error_text->setInfo('Please enter the error text.');
+        $error_text = new ilTextAreaInputGUI($DIC->language()->txt('asq_label_error_text'), self::VAR_ERROR_TEXT);
+        $error_text->setInfo($DIC->language()->txt('asq_description_error_text'));
         $error_text->setRequired(true);
         $fields[] = $error_text;
         
-        $text_size = new ilNumberInputGUI('Text Size', self::VAR_TEXT_SIZE);
+        $text_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_text_size'), self::VAR_TEXT_SIZE);
         $text_size->setRequired(true);
         $fields[] = $text_size;
         

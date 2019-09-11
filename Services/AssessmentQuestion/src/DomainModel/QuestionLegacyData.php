@@ -43,11 +43,13 @@ class QuestionLegacyData extends AbstractValueObject {
 
 
 	public static function getQuestionTypes() : array {
+	    global $DIC;
+	    
 		$question_types = [];
-		$question_types[self::TYPE_GENERIC] = 'GenericQuestion ';
-        $question_types[self::TYPE_SINGLE_CHOICE] = 'Single Choice ';
-        $question_types[self::TYPE_MULTIPLE_CHOICE] = 'Multiple Choice ';
-        $question_types[self::TYPE_KPRIM_CHOICE] = 'Kprim Choice ';
+		$question_types[self::TYPE_GENERIC] = $DIC->language()->txt('asq_question_generic');
+		$question_types[self::TYPE_SINGLE_CHOICE] = $DIC->language()->txt('asq_question_single_answer');
+		$question_types[self::TYPE_MULTIPLE_CHOICE] = $DIC->language()->txt('asq_question_multiple_answer');
+		$question_types[self::TYPE_KPRIM_CHOICE] = $DIC->language()->txt('asq_question_kprim_answer');
         /*$question_types[3] = 'Cloze Test ';
         $question_types[4] = 'Matching Question ';
         $question_types[5] = 'Ordering Question ';

@@ -49,9 +49,11 @@ class OrderingScoring extends AbstractScoring
      */
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var OrderingScoringConfiguration $config */
+        global $DIC;
+        
         $fields = [];
 
-        $points = new ilNumberInputGUI('points', self::VAR_POINTS);
+        $points = new ilNumberInputGUI($DIC->language()->txt('asq_label_points'), self::VAR_POINTS);
         $points->setRequired(true);
         $fields[] = $points;
 

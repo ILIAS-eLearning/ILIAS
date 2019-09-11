@@ -56,15 +56,17 @@ class TextSubsetScoringDefinition extends ScoringDefinition {
     }
     
     public static function getFields(): array {
+        global $DIC;
+        
         $fields = [];
         $fields[] = new AnswerOptionFormFieldDefinition(
-            'Answer Text',
+            $DIC->language()->txt('asq_label_answer_text'),
             AnswerOptionFormFieldDefinition::TYPE_TEXT,
             self::VAR_TSSD_TEXT
             );
         
         $fields[] = new AnswerOptionFormFieldDefinition(
-            'Points',
+            $DIC->language()->txt('asq_label_points'),
             AnswerOptionFormFieldDefinition::TYPE_NUMBER,
             self::VAR_TSSD_POINTS
             );

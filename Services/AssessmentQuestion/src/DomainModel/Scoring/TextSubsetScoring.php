@@ -124,18 +124,19 @@ class TextSubsetScoring extends AbstractScoring
      */
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var TextSubsetScoringConfiguration $config */
+        global $DIC;
         
         $fields = [];
         
-        $text_matching = new ilSelectInputGUI('text matching line', self::VAR_TEXT_MATCHING);
+        $text_matching = new ilSelectInputGUI($DIC->language()->txt('asq_label_text_matching'), self::VAR_TEXT_MATCHING);
         $text_matching->setOptions(
-            [self::TM_CASE_INSENSITIVE => 'Case Insensitive', 
-             self::TM_CASE_SENSITIVE => 'Case Sensitive',
-             self::TM_LEVENSHTEIN_1 => 'Levenshtein 1',
-             self::TM_LEVENSHTEIN_2 => 'Levenshtein 2',
-             self::TM_LEVENSHTEIN_3 => 'Levenshtein 3',
-             self::TM_LEVENSHTEIN_4 => 'Levenshtein 4',
-             self::TM_LEVENSHTEIN_5 => 'Levenshtein 5']);
+            [self::TM_CASE_INSENSITIVE => $DIC->language()->txt('asq_option_case_insensitive'), 
+                self::TM_CASE_SENSITIVE => $DIC->language()->txt('asq_option_case_sensitive'),
+                self::TM_LEVENSHTEIN_1 => $DIC->language()->txt('asq_option_levenshtein_1'),
+                self::TM_LEVENSHTEIN_2 => $DIC->language()->txt('asq_option_levenshtein_2'),
+                self::TM_LEVENSHTEIN_3 => $DIC->language()->txt('asq_option_levenshtein_3'),
+                self::TM_LEVENSHTEIN_4 => $DIC->language()->txt('asq_option_levenshtein_4'),
+                self::TM_LEVENSHTEIN_5 => $DIC->language()->txt('asq_option_levenshtein_5')]);
         $fields[] = $text_matching;
         
         if ($config !== null) {

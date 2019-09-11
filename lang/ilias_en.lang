@@ -14,6 +14,72 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_question_generic#:#Generic Question
+asq#:#asq_question_single_answer#:#Multiple Choice Question (Single Answer)
+asq#:#asq_question_multiple_answer#:#Multiple Choice Question (Multiple Answer)
+asq#:#asq_question_kprim_answer#:#Multiple Choice Question (Kprim Answer)
+asq#:#asq_label_answer#:#Answers
+asq#:#asq_label_title#:#Title
+asq#:#asq_label_author#:#Author
+asq#:#asq_label_description#:#Description
+asq#:#asq_label_question#:#Question
+asq#:#asq_label_working_time#:#Working Time
+asq#:#asq_label_selected_editor#:#Editor
+asq#:#asq_label_selected_presenter#:#Presenter
+asq#:#asq_label_selected_scoring#:#Scoring
+asq#:#asq_label_checked#:#Checked
+asq#:#asq_label_unchecked#:#Unchecked
+asq#:#asq_label_answer_text#:#Answer Text
+asq#:#asq_label_answer_image#:#Answer Image
+asq#:#asq_label_shuffle#:#Shuffle Answers
+asq#:#asq_label_max_answer#:#Answering Lmitation
+asq#:#asq_label_editor#:#Editor for Answers
+asq#:#asq_label_thumb_size#:#Thumbnail Size
+asq#:#asq_label_actions#:#Actions
+asq#:#asq_label_right#:#right
+asq#:#asq_label_wrong#:#wrong
+asq#:#asq_label_options#:#Options
+asq#:#asq_label_points#:#Points
+asq#:#asq_label_half_points#:#Activate Half-Point Scoring
+asq#:#asq_label_obtion_labels#:#Option Labels
+asq#:#asq_label_right_wrong#:#right / wrong
+asq#:#asq_label_plus_minus#:#+ / -
+asq#:#asq_label_applicable#:#applicable / not applicable
+asq#:#asq_label_adequate#:#adequate / not adequate
+asq#:#asq_label_userdefined#:#Userdefined Labels
+asq#:#asq_label_user_true#:#Label for 'TRUE'
+asq#:#asq_label_user_false#:#Label for 'FALSE'
+asq#:#asq_label_error_text#:#Error Text
+asq#:#asq_label_text_size#:#Text Size
+asq#:#asq_label_points_wrong#:#Wrong Selections
+asq#:#asq_label_wrong_text#:#Wrong Text
+asq#:#asq_label_correct_text#:#Correct Text
+asq#:#asq_label_max_nr_of_chars#:#Maximum Number of Characters
+asq#:#asq_label_upper_bound#:#Upper Bound
+asq#:#asq_label_lower_bound#:#Lower Bound
+asq#:#asq_label_is_vertical#:#Vertical Ordering
+asq#:#asq_label_min_size#:#Minimum Height
+asq#:#asq_label_geometry#:#Geometry
+asq#:#asq_label_text_matching#:#Text Matching Method
+asq#:#asq_label_requested_answers#:#Number of Requested Answers
+asq#:#asq_option_single_line#:#Single Line Answers
+asq#:#asq_option_multi_line#:#Multi Line Answers
+asq#:#asq_option_case_insensitive#:#Case Insensitive
+asq#:#asq_option_case_sensitive#:#Case Sensitive
+asq#:#asq_option_levenshtein_1#:#Levenshtein Distance of 1
+asq#:#asq_option_levenshtein_2#:#Levenshtein Distance of 2
+asq#:#asq_option_levenshtein_3#:#Levenshtein Distance of 3
+asq#:#asq_option_levenshtein_4#:#Levenshtein Distance of 4
+asq#:#asq_option_levenshtein_5#:#Levenshtein Distance of 5
+asq#:#asq_description_max_answer#:#With this setting the number of answers choosable by the participants can be limited.
+asq#:#asq_description_thumb_size#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.
+asq#:#asq_description_half_points#:#Usually the participant has to answer the question fully correct to get the configured points. With this option the participant gets the half of the configured points with at least three correct decisions.
+asq#:#asq_description_options#:#The configured phrases will be used as label for the options selectable by the participant.
+asq#:#asq_description_error_text#:#Please enter the error text. To mark a word as an error please insert a hash sign (#) in front of the word. To mark a group of words as an error please encapsulate the words group between double brackets (i.e.: here is ((an example)) of it). If you press the "Analyze Error Text" button, all marked words will be extracted for further processing.
+asq#:#asq_description_max_nr_chars#:#If you enter a value, the field for the numerical answer will be created with a fixed length of this value, so entering more than the allowed characters is not possible. Note, that for numeric gaps the decimal separator is counted as a regular character.
+asq#:#asq_description_min_size#:#This is the minimum height in pixels for term and definition/picture items during the test output.
+asq#:#asq_error_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
+asq#:#asq_error_numeric#:#Please enter a numeric value.
 asq#:#asq_authoring_tab_preview#:#Preview
 asq#:#asq_authoring_tab_pageview#:#Edit Page
 asq#:#asq_authoring_tab_config#:#Edit Question

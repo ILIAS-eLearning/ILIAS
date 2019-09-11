@@ -48,17 +48,19 @@ class NumericScoring extends AbstractScoring
      */
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var NumericScoringConfiguration $config */
+        global $DIC;
+        
         $fields = [];
 
-        $points = new ilNumberInputGUI('points', self::VAR_POINTS);
+        $points = new ilNumberInputGUI($DIC->language()->txt('asq_label_lower_points'), self::VAR_POINTS);
         $points->setRequired(true);
         $fields[] = $points;
 
-        $lower_bound = new ilNumberInputGUI('lower bound', self::VAR_LOWER_BOUND);
+        $lower_bound = new ilNumberInputGUI($DIC->language()->txt('asq_label_lower_bound'), self::VAR_LOWER_BOUND);
         $lower_bound->allowDecimals(true);
         $fields[] = $lower_bound;
 
-        $upper_bound = new ilNumberInputGUI('upper bound', self::VAR_UPPER_BOUND);
+        $upper_bound = new ilNumberInputGUI($DIC->language()->txt('asq_label_upper_bound'), self::VAR_UPPER_BOUND);
         $upper_bound->allowDecimals(true);
         $fields[] = $upper_bound;
 

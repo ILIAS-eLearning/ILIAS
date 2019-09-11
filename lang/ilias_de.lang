@@ -14,6 +14,72 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_question_generic#:#Generische Frage
+asq#:#asq_question_single_answer#:#Single Choice
+asq#:#asq_question_multiple_answer#:#Multiple Choice
+asq#:#asq_question_kprim_answer#:#Kprim Choice
+asq#:#asq_label_answer#:#Antworten
+asq#:#asq_label_title#:#Titel
+asq#:#asq_label_author#:#Autor
+asq#:#asq_label_description#:#Beschreibung
+asq#:#asq_label_question#:#Frage
+asq#:#asq_label_working_time#:#Bearbeitungsdauer
+asq#:#asq_label_selected_editor#:#Editor
+asq#:#asq_label_selected_presenter#:#Presenter
+asq#:#asq_label_selected_scoring#:#Scoring
+asq#:#asq_label_checked#:#Ausgewählt
+asq#:#asq_label_unchecked#:#Nicht Ausgewählt
+asq#:#asq_label_answer_text#:#Antwort-Text
+asq#:#asq_label_answer_image#:#Antwort-Grafik
+asq#:#asq_label_shuffle#:#Antworten michen
+asq#:#asq_label_max_answer#:#Antwortbeschränkung
+asq#:#asq_label_editor#:#Antwort-Editor
+asq#:#asq_label_thumb_size#:#Vorschaugröße
+asq#:#asq_label_actions#:#Aktionen
+asq#:#asq_label_right#:#richtig
+asq#:#asq_label_wrong#:#falsch
+asq#:#asq_label_options#:#Obtionen
+asq#:#asq_label_points#:#Punkte
+asq#:#asq_label_half_points#:#Halbpunktebewertung
+asq#:#asq_label_obtion_labels#:#Optionsbezeichnungen
+asq#:#asq_label_right_wrong#:#richtig / falsch
+asq#:#asq_label_plus_minus#:#+ / -
+asq#:#asq_label_applicable#:#zutreffend / nicht zutreffend
+asq#:#asq_label_adequate#:#adäquat / nicht adäquat
+asq#:#asq_label_userdefined#:#Benutzerdefinierte Bezeichnungen
+asq#:#asq_label_user_true#:#Bezeichnung für "WAHR"
+asq#:#asq_label_user_false#:#Bezeichnung für "FALSCH"
+asq#:#asq_label_error_text#:#Fehler/Worte markieren
+asq#:#asq_label_text_size#:#Textgröße
+asq#:#asq_label_points_wrong#:#Falsche Selektionen
+asq#:#asq_label_wrong_text#:#Fehlerhafter Text
+asq#:#asq_label_correct_text#:#Korrekter Text
+asq#:#asq_label_max_nr_of_chars#:#Maximale Anzahl von Zeichen
+asq#:#asq_label_upper_bound#:#Obere Schranke
+asq#:#asq_label_lower_bound#:#Untere Schranke
+asq#:#asq_label_is_vertical#:#Vertikales Ordnen
+asq#:#asq_label_min_size#:#Minimale Höhe
+asq#:#asq_label_geometry#:#Geometrie
+asq#:#asq_label_text_matching#:#Methode für Textvergleiche
+asq#:#asq_label_requested_answers#:#Anzahl der erwünschten Antworten
+asq#:#asq_option_single_line#:#Einzeilige Antworten
+asq#:#asq_option_multi_line#:#Mehrzeilige Antworten
+asq#:#asq_option_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
+asq#:#asq_option_case_sensitive#:#Groß- und Kleinschreibung beachten
+asq#:#asq_option_levenshtein_1#:#Levenshtein-Abstand von 1
+asq#:#asq_option_levenshtein_2#:#Levenshtein-Abstand von 2
+asq#:#asq_option_levenshtein_3#:#Levenshtein-Abstand von 3
+asq#:#asq_option_levenshtein_4#:#Levenshtein-Abstand von 4
+asq#:#asq_option_levenshtein_5#:#Levenshtein-Abstand von 5
+asq#:#asq_description_max_answer#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
+asq#:#asq_description_thumb_size#:#Wenn Sie eine Vorschaugröße angeben, werden hochgeladene Bilder automatisch auf diese Größe verkleinert. Ohne Vorschaugröße werden die Bilder in ihrer Originalgröße verwendet.
+asq#:#asq_description_half_points#:#Es hat sich als sinnvoll erwiesen, drei korrekte Antworten bereits mit der Hälfte der maximal erreichbaren Punktezahl zu honorieren. Bei weniger als drei korrekten Antworten werden keine Punkte vergeben.
+asq#:#asq_description_options#:#Die hier konfigurierten Bezeichnungen werden als Beschriftung für die Entscheidungsoptionen verwendet.
+asq#:#asq_description_error_text#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche "Text analysieren" klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+asq#:#asq_description_max_nr_chars#:#Wenn Sie hier einen Wert eintragen, wird das Feld für die numerische Antwort mit der angegebenen Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Zu beachten ist dabei, dass das Dezimaltrennzeichen dabei mit gezählt wird.
+asq#:#asq_description_min_size#:#Geben Sie bitte die Größe des Textes in Prozent der Normalgröße an. Wenn Sie keinen Wert angeben, wird die Normalgröße (100 Prozent) verwendet.
+asq#:#asq_error_points#:# Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
+asq#:#asq_error_numeric#:#Bitte geben Sie einen numerischen Wert ein.
 asq#:#asq_authoring_tab_preview#:#Vorschau
 asq#:#asq_authoring_tab_pageview#:#Seite bearbeiten
 asq#:#asq_authoring_tab_config#:#Eigenschaften

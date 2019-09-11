@@ -59,15 +59,17 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	}
 
 	public static function getFields(): array {
+	    global $DIC;
+	    
 	    $fields = [];
 		$fields[] = new AnswerOptionFormFieldDefinition(
-			'Checked',
+		    $DIC->language()->txt('asq_label_checked'),
 			AnswerOptionFormFieldDefinition::TYPE_NUMBER,
 			self::VAR_MCSD_SELECTED
 		);
 
 		$fields[] = new AnswerOptionFormFieldDefinition(
-			'Unchecked',
+		    $DIC->language()->txt('asq_label_unchecked'),
 			AnswerOptionFormFieldDefinition::TYPE_NUMBER,
 			self::VAR_MCSD_UNSELECTED
 		);
@@ -105,12 +107,14 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	 * @return bool
 	 */
 	public static function checkInput(string $index) : bool {
+	    global $DIC;
+	    
 	    // unselected key does not exist in singlechoicequestion legacyform
 	    if (!is_numeric($_POST[$index . self::VAR_MCSD_SELECTED]) ||
 	           (array_key_exists($index . self::VAR_MCSD_UNSELECTED, $_POST) && 
 	            !is_numeric($_POST[$index . self::VAR_MCSD_UNSELECTED]))) 
 	    {
-	        self::$error_message = "value needs to be integer";
+	        self::$error_message = $DIC->language()->txt('asq_error_numeric');
 	        return false;
 	    }
 	    
@@ -118,7 +122,7 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 	           (!array_key_exists($index . self::VAR_MCSD_UNSELECTED, $_POST) || 
 	            intval($_POST[$index . self::VAR_MCSD_UNSELECTED]) < 1)) 
 	    {
-	        self::$error_message = "The maximum available points must be greater than 0!";
+	        self::$error_message = $DIC->language()->txt('asq_error_points');;
 	        return false;
 	    }
 	    

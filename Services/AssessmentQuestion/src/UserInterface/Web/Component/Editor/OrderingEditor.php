@@ -106,23 +106,25 @@ class OrderingEditor extends AbstractEditor {
     
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var OrderingEditorConfiguration $config */
+        global $DIC;
         
         $fields = [];
         
-        $is_vertical = new ilCheckboxInputGUI('is vertical', self::VAR_VERTICAL);
+        $is_vertical = new ilCheckboxInputGUI($DIC->language()->txt('asq_label_is_vertical'), self::VAR_VERTICAL);
         $is_vertical->setValue(true);
         $fields[] = $is_vertical;
         
-        $mimimum_size = new ilNumberInputGUI('min size', self::VAR_MINIMUM_SIZE);
-        $fields[] = $mimimum_size;
+        $minimum_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_min_size'), self::VAR_MINIMUM_SIZE);
+        $minimum_size->setInfo($DIC->language()->txt('asq_description_min_size'));
+        $fields[] = $minimum_size;
         
-        $geometry = new ilNumberInputGUI('geometry', self::VAR_GEOMETRY);
+        $geometry = new ilNumberInputGUI($DIC->language()->txt('asq_label_geometry'), self::VAR_GEOMETRY);
         $geometry->setRequired(true);
         $fields[] = $geometry;
         
         if ($config !== null) {
             $is_vertical->setChecked($config->isVertical());
-            $mimimum_size->setValue($config->getMinimumSize());
+            $minimum_size->setValue($config->getMinimumSize());
             $geometry->setValue($config->getGeometry());
         }
         else {

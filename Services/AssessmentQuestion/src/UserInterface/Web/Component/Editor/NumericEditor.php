@@ -76,10 +76,12 @@ class NumericEditor extends AbstractEditor {
 
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var NumericEditorConfiguration $config */
-
+        global $DIC;
+        
         $fields = [];
 
-        $max_chars = new ilNumberInputGUI('thumb size', self::VAR_MAX_NR_OF_CHARS);
+        $max_chars = new ilNumberInputGUI($DIC->language()->txt('asq_label_max_nr_of_chars'), self::VAR_MAX_NR_OF_CHARS);
+        $max_chars->setInfo($DIC->language()->txt('asq_description_max_nr_chars'));
         $fields[] = $max_chars;
 
         if ($config !== null) {

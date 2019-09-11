@@ -6,7 +6,6 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
 use Exception;
 use ilDurationInputGUI;
@@ -47,11 +46,19 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	protected $option_form;
 	
 	/**
+	 * @var \ilLanguage
+	 */
+	protected $lang;
+	
+	/**
 	 * QuestionFormGUI constructor.
 	 *
 	 * @param QuestionDto $question
 	 */
 	public function __construct($question) {
+	    global $DIC;
+	    $this->lang = $DIC->language();
+	    
 	    $this->initForm($question);
 	    $this->setMultipart(true);
 	    
@@ -90,7 +97,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    $this->initiatePlayConfiguration($question->getPlayConfiguration());
 	    
         $this->option_form = new AnswerOptionForm(
-            'Answers',
+            $this->lang->txt('asq_label_answer'),
             $question->getPlayConfiguration(),
             $question->getAnswerOptions()->getOptions());
         
@@ -124,23 +131,23 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	 * @param QuestionData $data
 	 */
 	private function initQuestionDataConfiguration(?QuestionData $data): void {
-	    $title = new ilTextInputGUI('title', self::VAR_TITLE);
+	    $title = new ilTextInputGUI($this->lang->txt('asq_label_title'), self::VAR_TITLE);
 	    $title->setRequired(true);
 	    $this->addItem($title);
 	    
-	    $author = new ilTextInputGUI('author', self::VAR_AUTHOR);
+	    $author = new ilTextInputGUI($this->lang->txt('asq_label_author'), self::VAR_AUTHOR);
 	    $author->setRequired(true);
 	    $this->addItem($author);
 	    
-	    $description = new ilTextInputGUI('description', self::VAR_DESCRIPTION);
+	    $description = new ilTextInputGUI($this->lang->txt('asq_label_description'), self::VAR_DESCRIPTION);
 	    $this->addItem($description);
 	    
-	    $question_text = new ilTextAreaInputGUI('question', self::VAR_QUESTION);
+	    $question_text = new ilTextAreaInputGUI($this->lang->txt('asq_label_question'), self::VAR_QUESTION);
 	    $question_text->setRequired(true);
 	    $question_text->setRows(10);
 	    $this->addItem($question_text);
 	    
-	    $working_time = new ilDurationInputGUI('working_time', self::VAR_WORKING_TIME);
+	    $working_time = new ilDurationInputGUI($this->lang->txt('asq_label_working_time'), self::VAR_WORKING_TIME);
 	    $working_time->setShowHours(TRUE);
 	    $working_time->setShowMinutes(TRUE);
 	    $working_time->setShowSeconds(TRUE);

@@ -104,10 +104,12 @@ class TextSubsetEditor extends AbstractEditor {
     
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var TextSubsetEditorConfiguration $config */
+        global $DIC;
         
         $fields = [];
         
-        $requested_answers = new ilNumberInputGUI('requested answers', self::VAR_REQUESTED_ANSWERS);
+        $requested_answers = new ilNumberInputGUI($DIC->language()->txt('asq_label_requested_answers'), self::VAR_REQUESTED_ANSWERS);
+        $requested_answers->setRequired(true);
         $fields[] = $requested_answers;
         
         if ($config !== null) {

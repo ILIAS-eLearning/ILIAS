@@ -49,15 +49,17 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 	}
 
 	public static function getFields(): array {
+	    global $DIC;
+	    
 	    $fields = [];
 		$fields[] = new AnswerOptionFormFieldDefinition(
-			'Answer Text',
+			$DIC->language()->txt('asq_label_answer_text'),
 			AnswerOptionFormFieldDefinition::TYPE_TEXT,
 			self::VAR_MCDD_TEXT
 		);
 
 		$fields[] = new AnswerOptionFormFieldDefinition(
-			'Answer Image',
+		    $DIC->language()->txt('asq_label_answer_image'),
 			AnswerOptionFormFieldDefinition::TYPE_IMAGE,
 			self::VAR_MCDD_IMAGE
 		);
@@ -96,9 +98,11 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 	 * @return bool
 	 */
 	public static function checkInput(string $index) : bool {
+	    global $DIC;
+	    
 	    if ($_POST[$index . self::VAR_MCDD_TEXT] == null)
 	    {
-	        self::$error_message = "Answer text is necessary";
+	        self::$error_message = $DIC->language()->txt('msg_input_is_required');
 	        return false;
 	    }
 	    
