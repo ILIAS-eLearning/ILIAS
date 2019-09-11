@@ -178,6 +178,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		} else {
 		    global $DIC;
 		    $author->setValue($DIC->user()->fullname);
+		    $working_time->setMinutes(1);
 		}
 	}
 
