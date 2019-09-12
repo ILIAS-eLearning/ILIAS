@@ -10,6 +10,14 @@
  * @author  Björn Heyser <bh@bjoernheyser.de>
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
+ *
+ * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilPageEditorGUI
+ * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilEditClipboardGUI
+ * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilMDEditorGUI
+ * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilNoteGUI
+ * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilInternalLinkGUI
+ * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilPropertyFormGUI
  */
 class ilAsqGenericFeedbackPageGUI extends ilPageObjectGUI
 {

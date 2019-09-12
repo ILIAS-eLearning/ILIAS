@@ -15,7 +15,6 @@ class ilAsqGenericFeedbackPageConfig extends ilPageConfig
 {
     public function init()
     {
-        $this->setEnablePCType('Tabs', true);
-        $this->setEnableInternalLinks(false);
+
     }
 }
