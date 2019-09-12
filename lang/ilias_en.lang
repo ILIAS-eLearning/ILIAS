@@ -91,6 +91,11 @@ asq#:#asq_authoring_tab_hints#:#Hints
 asq#:#asq_authoring_tab_recapitulation#:#Content for Recapitulation
 asq#:#asq_authoring_tab_statistics#:#Statistics
 asq#:#asq_authoring_create_question_link#:#Create Question
+asq#:#asq_create_question_form#:#Create Question
+asq#:#asq_input_question_type#:#Question Type
+asq#:#asq_input_cont_edit_mode#:#Editor for Feedback and Hints
+asq#:#asq_input_cont_edit_mode_rte_textarea#:#Use rich-text editor for editing feedback and hints
+asq#:#asq_input_cont_edit_mode_page_object#:#Use ILIAS page editor for editing feedback and hints
 asq#:#asq_feedback_form_title#:#Common Solution Feedback
 asq#:#asq_input_feedback_correct#:#Correct Solution
 asq#:#asq_input_feedback_wrong#:#At Least One Answer is Not Correct

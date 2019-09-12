@@ -39,6 +39,8 @@ class QuestionTypeSelectForm extends ilPropertyFormGUI {
 
 	    global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
+	    $this->setTitle($DIC->language()->txt('asq_create_question_form'));
+
 		$select = new ilSelectInputGUI(
 		    $DIC->language()->txt('asq_input_question_type'), self::VAR_QUESTION_TYPE
         );

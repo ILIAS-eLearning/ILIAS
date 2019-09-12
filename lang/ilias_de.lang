@@ -91,6 +91,11 @@ asq#:#asq_authoring_tab_hints#:#Lösungshinweise
 asq#:#asq_authoring_tab_recapitulation#:#Inhalte zur Wiederholung
 asq#:#asq_authoring_tab_statistics#:#Statistik
 asq#:#asq_authoring_create_question_link#:#Frage estellen
+asq#:#asq_create_question_form#:#Frage erstellen
+asq#:#asq_input_question_type#:#Fragetyp
+asq#:#asq_input_cont_edit_mode#:#Editor für Rückmeldungen und Lösungshinweise
+asq#:#asq_input_cont_edit_mode_rte_textarea#:#Rich-Text-Editor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+asq#:#asq_input_cont_edit_mode_page_object#:#ILIAS-Seiteneditor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
 asq#:#asq_feedback_form_title#:#Common Solution Feedback
 asq#:#asq_input_feedback_correct#:#Richtige Lösung
 asq#:#asq_input_feedback_wrong#:#Mindestens eine Antwort ist nicht richtig
