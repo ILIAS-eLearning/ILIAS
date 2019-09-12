@@ -341,6 +341,7 @@ class ilDclStandardField extends ilDclBaseFieldModel {
 		if ($this->getId() == 'comments') {
 			return 'n_comments';
 		}
+		return parent::getSortField();
 	}
 
 
