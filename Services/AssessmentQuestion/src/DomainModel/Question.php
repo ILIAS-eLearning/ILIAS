@@ -20,6 +20,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionLegacyDataSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionPlayConfigurationSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionRevisionCreatedEvent;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 
 /**
  * Class Question
@@ -80,6 +81,18 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	 * @var QuestionLegacyData
 	 */
 	private $legacy_data;
+    /**
+     * @var ContentEditingMode
+     */
+	private $contentEditingMode;
+    /**
+     * @var Feedback
+     */
+	private $feedback_correct;
+    /**
+     * @var Feedback
+     */
+	private $feedback_wrong;
 
 	/**
 	 * Question constructor.
@@ -89,6 +102,17 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 
 		$this->answers = [];
 		$this->answer_options = new AnswerOptions();
+
+
+		/**
+         * TODO: I guess this is not the right place.
+         * It just helps to develop for the moment.
+         */
+		$this->contentEditingMode = new ContentEditingMode(
+            ContentEditingMode::PAGE_OBJECT
+        );
+		$this->feedback_correct = new Feedback();
+		$this->feedback_wrong = new Feedback();
 	}
 
     /**
@@ -294,6 +318,56 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable 
 	function clearAnswer(int $user_id, string $test_id) {
 
 	}
+
+
+    /**
+     * @return ContentEditingMode
+     */
+    public function getContentEditingMode() : ContentEditingMode
+    {
+        return $this->contentEditingMode;
+    }
+
+
+    /**
+     * @param ContentEditingMode $contentEditingMode
+     */
+    public function setContentEditingMode(ContentEditingMode $contentEditingMode) : void
+    {
+        $this->contentEditingMode = $contentEditingMode;
+    }
+
+
+    /**
+     * @return Feedback
+     */
+    public function getFeedbackCorrect() : Feedback {
+        return $this->feedback_correct;
+    }
+
+
+    /**
+     * @param Feedback $feedback_correct
+     */
+    public function setFeedbackCorrect(Feedback $feedback_correct) : void {
+        $this->feedback_correct = $feedback_correct;
+    }
+
+
+    /**
+     * @return Feedback
+     */
+    public function getFeedbackWrong() : Feedback {
+        return $this->feedback_wrong;
+    }
+
+
+    /**
+     * @param Feedback $feedback_wrong
+     */
+    public function setFeedbackWrong(Feedback $feedback_wrong) : void {
+        $this->feedback_wrong = $feedback_wrong;
+    }
 
 	/**
 	 * @return int
