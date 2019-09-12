@@ -111,6 +111,32 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($fmg);
                 break;
 
+            case 'ilwebdavmountinstructionsuploadgui':
+                include_once './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsUploadGUI.php';
+                include_once './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsTableDataProvider.php';
+                $document_gui = new ilWebDAVMountInstructionsUploadGUI(
+                        $this->object,
+                        $this->tpl,
+                        $this->user,
+                        $this->ctrl,
+                        $this->lng,
+                        $DIC->rbac()->system(),
+                        $DIC['ilErr'],
+                        $DIC->logger()->root(),
+                        $this->toolbar,
+                        $DIC->http(),
+                        $DIC->ui()->factory(),
+                        $DIC->ui()->renderer(),
+                        $DIC->filesystem(),
+                        $DIC->upload(),
+                        new ilWebDAVMountInstructionsRepositoryImpl($DIC->database())
+                );
+                $this->tabs_gui->setTabActive('webdav');
+                $this->addWebDAVSubTabs();
+                $this->tabs_gui->setSubTabActive('webdav_upload_instructions');
+                $this->ctrl->forwardCommand($document_gui);
+                break;
+
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = self::CMD_EDIT_DOWNLOADING_SETTINGS;
@@ -352,6 +378,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         return $form;
     }
 
+    protected function addWebDAVSubTabs()
+    {
+            $this->tabs_gui->addSubTabTarget(
+                    "webdav_general_settings",
+                    $this->ctrl->getLinkTarget($this, self::CMD_EDIT_WEBDAV_SETTINGS),
+                    array(self::CMD_EDIT_WEBDAV_SETTINGS, "view"));
+            $this->tabs_gui->addSubTabTarget(
+                    "webdav_upload_instructions",
+                    $this->ctrl->getLinkTargetByClass('ilWebDAVMountInstructionsUploadGUI'),
+                    "view");
+    }
 
     /**
      * Edit settings.
@@ -366,6 +403,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $lng = $DIC['lng'];
 
         $this->tabs_gui->setTabActive('webdav');
+        $this->addWebDAVSubTabs();
 
         if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $ilErr->raiseError($lng->txt("no_permission"), $ilErr->WARNING);
