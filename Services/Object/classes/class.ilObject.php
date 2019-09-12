@@ -353,7 +353,7 @@ class ilObject
 	*/
 	function setId($a_id)
 	{
-		$this->id = $a_id;
+		$this->id = (int) $a_id;
 	}
 
 	/**
