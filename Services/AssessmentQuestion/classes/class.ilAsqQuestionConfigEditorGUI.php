@@ -130,8 +130,10 @@ class ilAsqQuestionConfigEditorGUI
         
         $question = $form->getQuestion();
         $this->authoringApplicationService->SaveQuestion($question);
-        
-        $DIC->ctrl()->redirect($this->contextContainer->getBackLink());
+
+        $DIC->ctrl()->redirectToUrl(str_replace('&amp;', '&',
+            $this->contextContainer->getBackLink()->getAction()
+        ));
     }
 
     /**
