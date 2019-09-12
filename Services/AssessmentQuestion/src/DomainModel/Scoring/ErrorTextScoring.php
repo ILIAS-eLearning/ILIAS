@@ -51,10 +51,13 @@ class ErrorTextScoring extends AbstractScoring {
      */
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var ErrorTextScoringConfiguration $config */
+        global $DIC;
         
         $fields = [];
         
-        $points_wrong = new ilNumberInputGUI('points wrong', self::VAR_POINTS_WRONG);
+        $points_wrong = new ilNumberInputGUI($DIC->language()->txt('asq_label_points_wrong'), self::VAR_POINTS_WRONG);
+        $points_wrong->setSize(6);
+        $points_wrong->setInfo($DIC->language()->txt('asq_info_points_wrong'));
         $fields[] = $points_wrong;
         
         if ($config !== null) {

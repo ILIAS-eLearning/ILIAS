@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilNumberInputGUI;
 use ilCheckboxInputGUI;
+use ilTemplate;
 
 /**
  * Class OrderingEditor
@@ -27,7 +28,7 @@ class OrderingEditor extends AbstractEditor {
      */
     private $configuration;
     /**
-     * @var ?array
+     * @var string
      */
     private $answer;
     
@@ -42,38 +43,90 @@ class OrderingEditor extends AbstractEditor {
      */
     public function generateHtml() : string
     {
-        return '';
+        $tpl = new ilTemplate("tpl.OrderingEditor.html", true, true, "Services/AssessmentQuestion");
+
+        if (empty($this->answer)) {
+            $items = $this->question->getAnswerOptions()->getOptions();
+            shuffle($items);
+
+            $this->answer = implode(',',
+                array_map(
+                    function($answer_option)
+                    {
+                        return $answer_option->getOptionId();
+                    },
+                    $items));
+        }
+        else {
+            $items = $this->orderItemsByAnswer();
+        }
+
+        foreach ($items as $item) {
+            $tpl->setCurrentBlock('item');
+            $tpl->setVariable('OPTION_ID', $item->getOptionId());
+            $tpl->setVariable('ITEM_TEXT', $item->getDisplayDefinition()->getText());
+            $tpl->parseCurrentBlock();
+        }
+
+        $tpl->setCurrentBlock('editor');
+        
+        if (!$this->configuration->isVertical()) {
+            $tpl->setVariable('ADD_CLASS', 'horizontal');
+        }
+        
+        $tpl->setVariable('POST_NAME', $this->question->getId());
+        $tpl->setVariable('ANSWER', $this->answer);
+        $tpl->parseCurrentBlock();
+
+        return $tpl->get();
     }
-    
+
+    private function orderItemsByAnswer() : array {
+        $ordering = array_map('intval',explode(',', $this->answer));
+        $answers = $this->question->getAnswerOptions()->getOptions();
+
+        $items = [];
+
+        foreach ($ordering as $index) {
+            $items[] = $answers[$index - 1];
+        }
+
+        return $items;
+    }
+
     public function readAnswer(): string
     {
-        return '';
+        return $_POST[$this->question->getId()];
     }
     
     public function setAnswer(string $answer): void
     {
-        $this->answer = [];
+        $this->answer = $answer;
     }
     
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var OrderingEditorConfiguration $config */
+        global $DIC;
         
         $fields = [];
         
-        $is_vertical = new ilCheckboxInputGUI('is vertical', self::VAR_VERTICAL);
+        $is_vertical = new ilCheckboxInputGUI($DIC->language()->txt('asq_label_is_vertical'), self::VAR_VERTICAL);
         $is_vertical->setValue(true);
         $fields[] = $is_vertical;
         
-        $mimimum_size = new ilNumberInputGUI('min size', self::VAR_MINIMUM_SIZE);
-        $fields[] = $mimimum_size;
+        $minimum_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_min_size'), self::VAR_MINIMUM_SIZE);
+        $minimum_size->setInfo($DIC->language()->txt('asq_description_min_size'));
+        $minimum_size->setSize(6);
+        $fields[] = $minimum_size;
         
-        $geometry = new ilNumberInputGUI('geometry', self::VAR_GEOMETRY);
+        $geometry = new ilNumberInputGUI($DIC->language()->txt('asq_label_geometry'), self::VAR_GEOMETRY);
         $geometry->setRequired(true);
+        $geometry->setSize(6);
         $fields[] = $geometry;
         
         if ($config !== null) {
             $is_vertical->setChecked($config->isVertical());
-            $mimimum_size->setValue($config->getMinimumSize());
+            $minimum_size->setValue($config->getMinimumSize());
             $geometry->setValue($config->getGeometry());
         }
         else {

@@ -3,13 +3,8 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
 use ilSelectInputGUI;
@@ -42,27 +37,48 @@ class MultipleChoiceQuestionGUI extends LegacyFormGUIBase {
 	 */
 	protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
 	{
-	    
+	    return QuestionPlayConfiguration::create
+	    (
+	        MultipleChoiceEditorConfiguration::create(false),
+	        new MultipleChoiceScoringConfiguration());
 	}
 	
 	/**
 	 * @param QuestionPlayConfiguration $play
 	 */
 	protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void {
-	    $shuffle = new ilCheckboxInputGUI('shuffle', self::VAR_MCE_SHUFFLE);
+	    $shuffle = new ilCheckboxInputGUI(
+	        $this->lang->txt('asq_label_shuffle'),
+	        self::VAR_MCE_SHUFFLE);
+	    
 	    $shuffle->setValue(1);
 	    $this->addItem($shuffle);
 	    
-	    $max_answers = new ilNumberInputGUI('max answers', self::VAR_MCE_MAX_ANSWERS);
-	    $max_answers->setMinValue(2);
+	    $max_answers = new ilNumberInputGUI(
+	        $this->lang->txt('asq_label_max_answer'),
+	        self::VAR_MCE_MAX_ANSWERS);
+	    $max_answers->setInfo($this->lang->txt('asq_description_max_answer'));
 	    $this->addItem($max_answers);
 	    
-	    $thumb_size = new ilNumberInputGUI('thumb size', self::VAR_MCE_THUMB_SIZE);
-	    $this->addItem($thumb_size);
+	    $singleline = new ilSelectInputGUI(
+	        $this->lang->txt('asq_label_editor'),
+	        self::VAR_MCE_IS_SINGLELINE);
 	    
-	    $singleline = new ilSelectInputGUI('single line', self::VAR_MCE_IS_SINGLELINE);
-	    $singleline->setOptions([self::STR_TRUE => 'Singleline', self::STR_FALSE => 'Multiline']);
+	    $singleline->setOptions([
+	        self::STR_TRUE => $this->lang->txt('asq_option_single_line'),
+	        self::STR_FALSE => $this->lang->txt('asq_option_multi_line')]);
+	    
 	    $this->addItem($singleline);
+	    
+	    $thumb_size = new ilNumberInputGUI(
+	        $this->lang->txt('asq_label_thumb_size'),
+	        self::VAR_MCE_THUMB_SIZE);
+	    $thumb_size->setInfo($this->lang->txt('asq_description_thumb_size'));
+	    $thumb_size->setSuffix($this->lang->txt('asq_pixel'));
+	    $thumb_size->setMinValue(20);
+	    $thumb_size->setDecimals(0);
+	    $thumb_size->setSize(6);
+	    $this->addItem($thumb_size);
 	    
 	    if ($play !== null) {
 	        /** @var MultipleChoiceEditorConfiguration $config */
@@ -85,7 +101,8 @@ class MultipleChoiceQuestionGUI extends LegacyFormGUIBase {
 				intval($_POST[self::VAR_MCE_MAX_ANSWERS]),
 			    intval($_POST[self::VAR_MCE_THUMB_SIZE]),
 			    $_POST[self::VAR_MCE_IS_SINGLELINE] === self::STR_TRUE
-			)
+			),
+		    new MultipleChoiceScoringConfiguration()
 		);
 	}
 }

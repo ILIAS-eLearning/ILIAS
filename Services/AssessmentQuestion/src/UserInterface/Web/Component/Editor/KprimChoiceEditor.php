@@ -30,8 +30,8 @@ class KprimChoiceEditor extends AbstractEditor {
     const VAR_LABEL_TRUE = 'kce_label_true';
     const VAR_LABEL_FALSE = 'kce_label_false';
    
-    const STR_TRUE = "true";
-    const STR_FALSE = "false";
+    const STR_TRUE = "True";
+    const STR_FALSE = "False";
     
     const LABEL_RIGHT_WRONG = "label_rw";
     const LABEL_PLUS_MINUS = "label_pm";
@@ -144,20 +144,31 @@ class KprimChoiceEditor extends AbstractEditor {
      */
     public static function generateFields(?AbstractConfiguration $config): ?array {
         /** @var KprimChoiceEditorConfiguration $config */
+        global $DIC;
         
         $fields = [];
         
-        $shuffle = new ilCheckboxInputGUI('shuffle', self::VAR_SHUFFLE_ANSWERS);
+        $shuffle = new ilCheckboxInputGUI($DIC->language()->txt('asq_label_shuffle'), self::VAR_SHUFFLE_ANSWERS);
         $shuffle->setValue(1);
         $fields[] = $shuffle;
-                
-        $singleline = new ilSelectInputGUI('single line', self::VAR_SINGLE_LINE);
-        $singleline->setOptions([self::STR_TRUE => 'Singleline', self::STR_FALSE => 'Multiline']);
+   
+        $singleline = new ilSelectInputGUI($DIC->language()->txt('asq_label_editor'), self::VAR_SINGLE_LINE);
+        $singleline->setOptions([
+            self::STR_TRUE => $DIC->language()->txt('asq_option_single_line'),
+            self::STR_FALSE => $DIC->language()->txt('asq_option_multi_line')]);
+        
         $fields[] = $singleline;
         
-        $thumb_size = new ilNumberInputGUI('thumb size', self::VAR_THUMBNAIL_SIZE);
+        $thumb_size = new ilNumberInputGUI(
+            $DIC->language()->txt('asq_label_thumb_size'),
+            self::VAR_THUMBNAIL_SIZE);
+        $thumb_size->setInfo($DIC->language()->txt('asq_description_thumb_size'));
+        $thumb_size->setSuffix($DIC->language()->txt('asq_pixel'));
+        $thumb_size->setMinValue(20);
+        $thumb_size->setDecimals(0);
+        $thumb_size->setSize(6);
         $fields[] = $thumb_size;
-
+        
         $optionLabel = KprimChoiceEditor::GenerateOptionLabelField($config);
         $fields[] = $optionLabel;
         
@@ -178,28 +189,47 @@ class KprimChoiceEditor extends AbstractEditor {
     public static function GenerateOptionLabelField(?AbstractConfiguration $config)
     {
         /** @var KprimChoiceEditorConfiguration $config */
-        $optionLabel = new ilRadioGroupInputGUI('Option Labels', self::VAR_LABEL_TYPE);
-        $optionLabel->setInfo('The configured phrases will be used as label for the options selectable by the participant.');
+        global $DIC;
+        
+        $optionLabel = new ilRadioGroupInputGUI(
+            $DIC->language()->txt('asq_label_obtion_labels'), 
+            self::VAR_LABEL_TYPE);
+        $optionLabel->setInfo($DIC->language()->txt('asq_description_options'));
         $optionLabel->setRequired(true);
 
-        $right_wrong = new ilRadioOption('right / wrong', self::LABEL_RIGHT_WRONG);
+        $right_wrong = new ilRadioOption(
+            $DIC->language()->txt('asq_label_right_wrong'), 
+            self::LABEL_RIGHT_WRONG);
         $optionLabel->addOption($right_wrong);
           
-        $plus_minus = new ilRadioOption('+ / -', self::LABEL_PLUS_MINUS);
+        $plus_minus = new ilRadioOption(
+            $DIC->language()->txt('asq_label_plus_minus'), 
+            self::LABEL_PLUS_MINUS);
         $optionLabel->addOption($plus_minus);
         
-        $applicable = new ilRadioOption('applicable / not applicable', self::LABEL_APPLICABLE);
+        $applicable = new ilRadioOption(
+            $DIC->language()->txt('asq_label_applicable'), 
+            self::LABEL_APPLICABLE);
         $optionLabel->addOption($applicable);
         
-        $adequate = new ilRadioOption('adequate / not adequate', self::LABEL_ADEQUATE);
+        $adequate = new ilRadioOption(
+            $DIC->language()->txt('asq_label_adequate'), 
+            self::LABEL_ADEQUATE);
         $optionLabel->addOption($adequate);
         
-        $custom = new ilRadioOption('Userdefined Labels', self::LABEL_CUSTOM);
+        $custom = new ilRadioOption(
+            $DIC->language()->txt('asq_label_userdefined'), 
+            self::LABEL_CUSTOM);
         $optionLabel->addOption($custom);
-        $customLabelTrue = new ilTextInputGUI('Label for True', self::VAR_LABEL_TRUE);
+        
+        $customLabelTrue = new ilTextInputGUI(
+            $DIC->language()->txt('asq_label_user_true'), 
+            self::VAR_LABEL_TRUE);
         $custom->addSubItem($customLabelTrue);
         
-        $customLabelFalse = new ilTextInputGUI('Label for False', self::VAR_LABEL_FALSE);
+        $customLabelFalse = new ilTextInputGUI(
+            $DIC->language()->txt('asq_label_user_false'), 
+            self::VAR_LABEL_FALSE);
         $custom->addSubItem($customLabelFalse);
         
         if ($config !== null) {

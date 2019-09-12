@@ -72,19 +72,21 @@ class ErrorTextScoringDefinition extends ScoringDefinition {
     }
     
     public static function getFields(): array {
+        global $DIC;
+        
         $fields = [];
         $fields[] = new AnswerOptionFormFieldDefinition(
-            'Wrong Text',
+            $DIC->language()->txt('asq_label_wrong_text'),
             AnswerOptionFormFieldDefinition::TYPE_TEXT,
             self::VAR_WORD_INDEX);
         
         $fields[] = new AnswerOptionFormFieldDefinition(
-            'Correct Text',
+            $DIC->language()->txt('asq_label_correct_text'),
             AnswerOptionFormFieldDefinition::TYPE_TEXT,
             self::VAR_CORRECT_TEXT);
         
         $fields[] = new AnswerOptionFormFieldDefinition(
-            'Points',
+            $DIC->language()->txt('asq_label_points'),
             AnswerOptionFormFieldDefinition::TYPE_NUMBER,
             self::VAR_POINTS);
         

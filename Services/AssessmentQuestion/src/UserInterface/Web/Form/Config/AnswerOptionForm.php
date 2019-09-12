@@ -88,6 +88,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 * @throws \ilTemplateException
 	 */
 	public function render($a_mode = '') {
+	    global $DIC;
+	    
 		$tpl = new ilTemplate("tpl.AnswerOptionTable.html", true, true, "Services/AssessmentQuestion");
 
 		/** @var AnswerOptionFormFieldDefinition $definition */
@@ -98,7 +100,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 		}
 
 		$tpl->setCurrentBlock('commands');
-		$tpl->setVariable('COMMANDS_TEXT', 'Actions');
+		$tpl->setVariable('COMMANDS_TEXT', $DIC->language()->txt('asq_label_actions'));
 		$tpl->parseCurrentBlock();
 
 		$row_id = 1;

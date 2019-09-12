@@ -145,21 +145,44 @@ class MultipleChoiceEditor extends AbstractEditor {
 	public static function generateFields(?AbstractConfiguration $config): ?array {
 	    /** @var MultipleChoiceEditorConfiguration $config */
 
+	    global $DIC;
+	    
 		$fields = [];
 
-		$shuffle = new ilCheckboxInputGUI('shuffle', self::VAR_MCE_SHUFFLE);
+		$shuffle = new ilCheckboxInputGUI(
+		    $DIC->language()->txt('asq_label_shuffle'), 
+		    self::VAR_MCE_SHUFFLE);
+		
 		$shuffle->setValue(1);
 		$fields[] = $shuffle;
 
-		$max_answers = new ilNumberInputGUI('max_answers', self::VAR_MCE_MAX_ANSWERS);
+		$max_answers = new ilNumberInputGUI(
+		    $DIC->language()->txt('asq_label_max_answer'), 
+		    self::VAR_MCE_MAX_ANSWERS);
+		$max_answers->setInfo($DIC->language()->txt('asq_description_max_answer'));
+		$max_answers->setDecimals(0);
+		$max_answers->setSize(2);
 		$fields[] = $max_answers;
 
-		$thumb_size = new ilNumberInputGUI('thumb size', self::VAR_MCE_THUMB_SIZE);
-		$fields[] = $thumb_size;
+		$singleline = new ilSelectInputGUI(
+		    $DIC->language()->txt('asq_label_editor'), 
+		    self::VAR_MCE_IS_SINGLELINE);
 		
-		$singleline = new ilSelectInputGUI('single line', self::VAR_MCE_IS_SINGLELINE);
-		$singleline->setOptions([self::STR_TRUE => 'Singleline', self::STR_FALSE => 'Multiline']);
+		$singleline->setOptions([
+		    self::STR_TRUE => $DIC->language()->txt('asq_option_single_line'), 
+		    self::STR_FALSE => $DIC->language()->txt('asq_option_multi_line')]);
+		
 		$fields[] = $singleline;
+		
+		$thumb_size = new ilNumberInputGUI(
+		    $DIC->language()->txt('asq_label_thumb_size'), 
+		    self::VAR_MCE_THUMB_SIZE);
+		$thumb_size->setInfo($DIC->language()->txt('asq_description_thumb_size'));
+		$thumb_size->setSuffix($DIC->language()->txt('asq_pixel'));
+		$thumb_size->setMinValue(20);
+		$thumb_size->setDecimals(0);
+		$thumb_size->setSize(6);
+		$fields[] = $thumb_size;
 
 		if ($config !== null) {
 			$shuffle->setChecked($config->isShuffleAnswers());

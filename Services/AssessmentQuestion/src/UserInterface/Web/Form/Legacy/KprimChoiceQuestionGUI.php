@@ -3,18 +3,12 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditor;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditorConfiguration;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
 use ilSelectInputGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditorConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoringConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoringDefinition;
 
 /**
  * Class MultipleChoiceQuestionGUI
@@ -98,7 +92,7 @@ class KprimChoiceQuestionGUI extends LegacyFormGUIBase {
                 $label_false),
             KprimChoiceScoringConfiguration::create(
                 intval($_POST[self::VAR_POINTS]),
-                intval($_POST[self::VAR_HALF_POINTS]))
+                $_POST[self::VAR_HALF_POINTS] === self::STR_TRUE ? 3 : 0)
         );
     }
 
@@ -107,15 +101,23 @@ class KprimChoiceQuestionGUI extends LegacyFormGUIBase {
         /** @var KprimChoiceEditorConfiguration $editor_config */
         $editor_config = $play->getEditorConfiguration();
         
-        $shuffle = new ilCheckboxInputGUI('shuffle', self::VAR_SHUFFLE_ANSWERS);
+        $shuffle = new ilCheckboxInputGUI($this->lang->txt('asq_label_shuffle'), self::VAR_SHUFFLE_ANSWERS);
         $shuffle->setValue(1);
         $this->addItem($shuffle);
         
-        $singleline = new ilSelectInputGUI('single line', self::VAR_SINGLE_LINE);
-        $singleline->setOptions([self::STR_TRUE => 'Singleline', self::STR_FALSE => 'Multiline']);
+        $singleline = new ilSelectInputGUI($this->lang->txt('asq_label_editor'), self::VAR_SINGLE_LINE);
+        $singleline->setOptions([
+            self::STR_TRUE => $this->lang->txt('asq_option_single_line'),
+            self::STR_FALSE => $this->lang->txt('asq_option_multi_line')]);
+        
         $this->addItem($singleline);
         
-        $thumb_size = new ilNumberInputGUI('thumb size', self::VAR_THUMBNAIL_SIZE);
+        $thumb_size = new ilNumberInputGUI($this->lang->txt('asq_label_thumb_size'), self::VAR_THUMBNAIL_SIZE);
+        $thumb_size->setInfo($this->lang->txt('asq_description_thumb_size'));
+        $thumb_size->setSuffix($this->lang->txt('asq_pixel'));
+        $thumb_size->setMinValue(20);
+        $thumb_size->setDecimals(0);
+        $thumb_size->setSize(6);
         $this->addItem($thumb_size);
         
         $optionLabel = KprimChoiceEditor::GenerateOptionLabelField($editor_config);
@@ -130,16 +132,19 @@ class KprimChoiceQuestionGUI extends LegacyFormGUIBase {
         /** @var KprimChoiceScoringConfiguration $scoring_config */
         $scoring_config = $play->getScoringConfiguration();
         
-        $points = new ilNumberInputGUI('points', self::VAR_POINTS);
+        $points = new ilNumberInputGUI($this->lang->txt('asq_label_points'), self::VAR_POINTS);
         $points->setRequired(true);
+        $points->setSize(2);
         $this->addItem($points);
         
-        $half_points_at = new ilNumberInputGUI('half_points_at', self::VAR_HALF_POINTS);
+        $half_points_at = new ilCheckboxInputGUI($this->lang->txt('asq_label_half_points'), self::VAR_HALF_POINTS);
+        $half_points_at->setInfo($this->lang->txt('asq_description_half_points'));
+        $half_points_at->setValue(self::STR_TRUE);
         $this->addItem($half_points_at);
         
         if ($scoring_config !== null) {
             $points->setValue($scoring_config->getPoints());
-            $half_points_at->setValue($scoring_config->getHalfPointsAt());
+            $half_points_at->setChecked($scoring_config->getHalfPointsAt() == 3);
         }
     }
 }

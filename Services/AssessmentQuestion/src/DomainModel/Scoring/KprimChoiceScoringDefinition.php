@@ -21,6 +21,7 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
     const VAR_KPSD_CORRECT = 'kpsd_correct';
     
     const STR_TRUE = "True";
+    const STR_FALSE = "False";
     
     /**
      * @var bool
@@ -44,12 +45,17 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
      */
     public static function getFields(): array
     {
+        global $DIC;
+        
         $fields = [];
         $fields[] = new AnswerOptionFormFieldDefinition(
-            'Correct Answer',
+            $DIC->language()->txt('asq_label_options'),
             AnswerOptionFormFieldDefinition::TYPE_RADIO,
             self::VAR_KPSD_CORRECT,
-            [self::STR_TRUE => self::STR_TRUE, "False" => "False"]);
+            [
+                $DIC->language()->txt('asq_label_right') => self::STR_TRUE, 
+                $DIC->language()->txt('asq_label_wrong') => self::STR_FALSE
+            ]);
         
         return $fields;
     }
@@ -60,7 +66,7 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
      */
     public function getValues(): array
     {
-        return [self::VAR_KPSD_CORRECT => $this->correct_value ? "True" : "False"];
+        return [self::VAR_KPSD_CORRECT => $this->correct_value ? self::STR_TRUE : self::STR_FALSE];
     }
 
     public static function getValueFromPost(string $index)
