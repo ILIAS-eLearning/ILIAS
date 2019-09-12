@@ -81,7 +81,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $feedbackCorrectInput = $this->buildFeedbackContentInputFormProperty(
-            $DIC->language()->txt('input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
+            $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
         );
 
         $feedbackCorrectInput->setValue($this->questionDto->getFeedbackCorrect()->getContent());
@@ -89,7 +89,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         $this->addItem($feedbackCorrectInput);
 
         $feedbackWrongInput = $this->buildFeedbackContentInputFormProperty(
-            $DIC->language()->txt('input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
+            $DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
         );
 
         $feedbackWrongInput->setValue($this->questionDto->getFeedbackWrong()->getContent());
@@ -132,7 +132,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $feedbackCorrectInput = $this->buildFeedbackPageObjectFormProperty(
-            $DIC->language()->txt('input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
+            $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
         );
 
         $feedbackCorrectInput->setValue($this->getPageObjectNonEditableInputValueHtml(
@@ -143,7 +143,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         $this->addItem($feedbackCorrectInput);
 
         $feedbackWrongInput = $this->buildFeedbackPageObjectFormProperty(
-            $DIC->language()->txt('input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
+            $DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
         );
 
         $feedbackWrongInput->setValue($this->getPageObjectNonEditableInputValueHtml(
