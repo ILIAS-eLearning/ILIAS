@@ -6,6 +6,8 @@ use Exception;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\CreateQuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ilPropertyFormGUI;
 
 const MSG_SUCCESS = "success";
@@ -68,4 +70,21 @@ class AsqGUIElementFactory {
 		}
 
 	}
+
+
+    /**
+     * @param AuthoringContextContainer $contextContainer
+     * @param QuestionDto               $question
+     * @param bool                      $preventRteUsage
+     *
+     * @return QuestionFeedbackFormGUI
+     */
+	public static function CreateQuestionFeedbackForm(
+        \ilAsqFeedbackPageService $feedbackPageService,
+        QuestionDto $question,
+        bool $preventRteUsage
+    ): QuestionFeedbackFormGUI
+    {
+        return new QuestionFeedbackFormGUI($feedbackPageService, $question, $preventRteUsage);
+    }
 }

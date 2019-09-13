@@ -178,7 +178,12 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_FEEDBACK);
 
-                $gui = new ilAsqQuestionFeedbackEditorGUI();
+                $gui = new ilAsqQuestionFeedbackEditorGUI(
+                    $this->contextContainer,
+                    $this->authoring_service,
+                    $this->authoring_application_service,
+                    $this->question_id
+                );
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;

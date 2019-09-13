@@ -27,10 +27,7 @@ class SetupDatabase {
         $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionAr::STORAGE_NAME, false);
 
-        $DIC->database()->manipulateF(
-            "DELETE FROM page_object WHERE parent_type = %s",
-            ['text'], ['asq']
-        );
+        $this->cleanupContentPages();
         
         QuestionEventStoreAr::updateDB();
 	    QuestionListItemAr::updateDB();
@@ -42,4 +39,21 @@ class SetupDatabase {
         echo "<a href='../../../../../'>zurück zu ILIAS</a>";
 
 	}
+
+	protected function cleanupContentPages()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        // question pages
+        $DIC->database()->manipulateF(
+            "DELETE FROM page_object WHERE parent_type = %s",
+            ['text'], ['asq']
+        );
+
+        // generic (correct/wrong) feedback pages
+        $DIC->database()->manipulateF(
+            "DELETE FROM page_object WHERE parent_type = %s",
+            ['text'], ['afbg']
+        );
+    }
 }

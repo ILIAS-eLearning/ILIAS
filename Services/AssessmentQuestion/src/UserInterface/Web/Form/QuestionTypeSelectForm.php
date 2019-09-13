@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
+use ILIAS\AssessmentQuestion\DomainModel\ContentEditingMode;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
 use ilPropertyFormGUI;
 use ilSelectInputGUI;
@@ -18,6 +19,7 @@ use ilSelectInputGUI;
  */
 class QuestionTypeSelectForm extends ilPropertyFormGUI {
 	const VAR_QUESTION_TYPE = "question_type";
+	const VAR_CONTENT_EDIT_MODE = "content_edit_mode";
 
     /**
      * QuestionTypeSelectForm constructor.
@@ -34,9 +36,37 @@ class QuestionTypeSelectForm extends ilPropertyFormGUI {
 	 * @access private
 	 */
 	private function initForm() {
-		$select = new ilSelectInputGUI("type", self::VAR_QUESTION_TYPE);
+
+	    global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+	    $this->setTitle($DIC->language()->txt('asq_create_question_form'));
+
+		$select = new ilSelectInputGUI(
+		    $DIC->language()->txt('asq_input_question_type'), self::VAR_QUESTION_TYPE
+        );
 		$select->setOptions(QuestionLegacyData::getQuestionTypes());
 		$this->addItem($select);
+
+        if( \ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
+        {
+            $radio = new \ilRadioGroupInputGUI(
+                $DIC->language()->txt("asq_input_cont_edit_mode"), self::VAR_CONTENT_EDIT_MODE
+            );
+
+            $radio->addOption(new \ilRadioOption(
+                $DIC->language()->txt('asq_input_cont_edit_mode_rte_textarea'),
+                ContentEditingMode::RTE_TEXTAREA
+            ));
+
+            $radio->addOption(new \ilRadioOption(
+                $DIC->language()->txt('asq_input_cont_edit_mode_page_object'),
+                ContentEditingMode::PAGE_OBJECT
+            ));
+
+            $radio->setValue(ContentEditingMode::RTE_TEXTAREA);
+
+            $this->addItem($radio);
+        }
 	}
 
     /**
@@ -47,4 +77,23 @@ class QuestionTypeSelectForm extends ilPropertyFormGUI {
 		//return null for type new so that no legacy object will be generated
 		return $val === 0 ? null : $val;
 	}
+
+
+    /**
+     * @return bool
+     */
+	public function hasContentEditingMode() : bool
+    {
+        $input = $this->getItemByPostVar(self::VAR_CONTENT_EDIT_MODE);
+        return $input instanceof \ilFormPropertyGUI;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getContentEditingMode() : string
+    {
+        return $this->getInput(self::VAR_CONTENT_EDIT_MODE);
+    }
 }

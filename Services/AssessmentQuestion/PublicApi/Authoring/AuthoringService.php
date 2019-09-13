@@ -159,4 +159,9 @@ class AuthoringService
 
         return $pageGUI;
     }
+
+    public function getGenericFeedbackPage(int $feedbackIntId) : \ilAsqGenericFeedbackPageGUI
+    {
+        return new \ilAsqGenericFeedbackPageGUI($feedbackIntId);
+    }
 }

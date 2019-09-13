@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\FeedbackDto;
 
 /**
  * Class QuestionDto
@@ -52,7 +53,19 @@ class QuestionDto {
      * @var int
      */
 	private $question_int_id;
-	
+    /**
+     * @var ContentEditingModeDto
+     */
+	private $content_editing_mode;
+    /**
+     * @var FeedbackDto
+     */
+	private $feedback_correct;
+    /**
+     * @var FeedbackDto
+     */
+	private $feedback_wrong;
+
     /**
 	 * @param Question $question
 	 *
@@ -73,6 +86,19 @@ class QuestionDto {
 		$dto->play_configuration = $question->getPlayConfiguration();
 		$dto->answer_options = $question->getAnswerOptions();
 		$dto->legacy_data = $question->getLegacyData();
+
+		$dto->content_editing_mode = ContentEditingModeDto::createFromContentEditingMode(
+		    $question->getContentEditingMode()
+        );
+
+		$dto->feedback_correct = FeedbackDto::createFromFeedback(
+            $question->getFeedbackCorrect()
+        );
+
+		$dto->feedback_wrong = FeedbackDto::createFromFeedback(
+            $question->getFeedbackWrong()
+        );
+
 		return $dto;
 	}
 	
@@ -218,4 +244,32 @@ class QuestionDto {
 	public function setAnswerOptions(AnswerOptions $answer_options): void {
 		$this->answer_options = $answer_options;
 	}
+
+
+    /**
+     * @return ContentEditingModeDto
+     */
+    public function getContentEditingMode() : ContentEditingModeDto
+    {
+        return $this->content_editing_mode;
+    }
+
+
+    /**
+     * @return FeedbackDto
+     */
+    public function getFeedbackCorrect() : FeedbackDto
+    {
+        return $this->feedback_correct;
+    }
+
+
+    /**
+     * @return FeedbackDto
+     */
+    public function getFeedbackWrong() : FeedbackDto
+    {
+        return $this->feedback_wrong;
+    }
+
 }

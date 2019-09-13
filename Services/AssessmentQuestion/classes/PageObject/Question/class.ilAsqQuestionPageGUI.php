@@ -41,7 +41,7 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         parent::__construct(
-            ilAsqQuestionPage::ASQ_OBJECT_TYPE, $questionIntId
+            ilAsqQuestionPage::PARENT_TYPE, $questionIntId
         );
 
         $this->setEnabledPageFocus(false);

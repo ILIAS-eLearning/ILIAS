@@ -143,6 +143,14 @@ class ilAsqQuestionCreationGUI
 
         $question = $this->authoringApplicationService->GetQuestion($guid);
 
+        if( \ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
+        {
+            if( $form->hasContentEditingMode() )
+            {
+                // TODO: save content editing mode to question in any way.
+            }
+        }
+
         $this->questionPageService->createPage(
             $this->contextContainer->getObjId(), $question->getQuestionIntId()
         );
