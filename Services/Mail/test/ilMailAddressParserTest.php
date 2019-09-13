@@ -11,7 +11,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
     const DEFAULT_HOST = 'ilias';
 
     /**
-     * @return array
+     * @return array[]
      */
     public function emailAddressesProvider() : array
     {
@@ -69,6 +69,21 @@ class ilMailAddressParserTest extends ilMailBaseTest
     }
 
     /**
+     * @return array[]
+     */
+    public function emailInvalidAddressesProvider() : array
+    {
+        return [
+            'Trailing Dot in Local Part' => [
+                'phpunit.'
+            ],
+            'Trailing Dot in Local Part of Email Address' => [
+                'phpunit.@ilias.de'
+            ],
+        ];
+    }
+
+    /**
      * @param string $addresses
      * @param array $expected
      * @dataProvider emailAddressesProvider
@@ -98,6 +113,18 @@ class ilMailAddressParserTest extends ilMailBaseTest
 
         $this->assertCount(count($expected), $parsedAddresses);
         $this->assertEquals($expected, $parsedAddresses);
+    }
+
+    /**
+     * @dataProvider emailInvalidAddressesProvider
+     * @param string $addresses
+     */
+    public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses) : void 
+    {
+        $this->expectException(ilMailException::class);
+
+        $parser = new ilMailPearRfc822WrapperAddressParser($addresses);
+        $parser->parse();
     }
 
     /**
