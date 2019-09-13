@@ -33,20 +33,19 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
         $tools = [];
 
         $queryParams = $this->dic->http()->request()->getQueryParams();
-        $cmdClass    = (string) ($queryParams['cmdClass'] ?? '');
-        $refid       = (int) ($queryParams['ref_id'] ?? 0);
+        $refId       = (int) ($queryParams['ref_id'] ?? 0);
         $threadId    = (int) ($queryParams['thr_pk'] ?? 0);
 
         $additional_data = $called_contexts->getLast()->getAdditionalData();
         if ($additional_data->exists(self::SHOW_FORUM_THREADS_TOOL) && $additional_data->get(self::SHOW_FORUM_THREADS_TOOL) === true) {
-            $isModerator = $this->dic->access()->checkAccess('moderate_frm', '', $refid);
+            $isModerator = $this->dic->access()->checkAccess('moderate_frm', '', $refId);
             $thread      = new ilForumTopic((int) $threadId, $isModerator);
 
             $exp = new ilForumExplorerGUI(
                 'frm_exp_' . $thread->getId(),
                 new ilObjForumGUI(
                     "",
-                    $refid,
+                    $refId,
                     true,
                     false
                 ),
