@@ -36,11 +36,11 @@
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
     0 => 'ILIAS\\Init\\Provider\\InitToolProvider',
-    1 => 'ilAdminGSToolProvider',
-    2 => 'ilForumGlobalScreenToolsProvider',
-    3 => 'ilLMEditGSToolProvider',
-    4 => 'ilLMGSToolProvider',
-    5 => 'ilMailGlobalScreenToolProvider',
+    1 => 'MailGlobalScreenToolProvider',
+    2 => 'ilAdminGSToolProvider',
+    3 => 'ilForumGlobalScreenToolsProvider',
+    4 => 'ilLMEditGSToolProvider',
+    5 => 'ilLMGSToolProvider',
     6 => 'ilMediaPoolGSToolProvider',
     7 => 'ilRepositoryGSToolProvider',
     8 => 'ilSAHSEditGSToolProvider',
@@ -57,6 +57,7 @@
   'ILIAS\\GlobalScreen\\Scope\\Notification\\Provider\\NotificationProvider' => 
   array (
     0 => 'ILIAS\\BackgroundTasks\\Provider\\BTNotificationProvider',
-    1 => 'ILIAS\\Mail\\Provider\\MailNotificationProvider',
+    1 => 'ILIAS\\Contact\\Provider\\ContactNotificationProvider',
+    2 => 'ILIAS\\Mail\\Provider\\MailNotificationProvider',
   ),
 );
