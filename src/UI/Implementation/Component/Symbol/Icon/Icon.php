@@ -83,7 +83,7 @@ abstract class Icon implements C\Symbol\Icon\Icon {
 		$this->checkArgIsElement(
 			"size", $size,
 			self::$possible_sizes,
-			implode(self::$possible_sizes, '/')
+			implode('/', self::$possible_sizes)
 		);
 		$clone = clone $this;
 		$clone->size = $size;
