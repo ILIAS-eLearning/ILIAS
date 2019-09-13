@@ -3,10 +3,10 @@
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 
 /**
- * Class ilForumGlobalScreenToolsProvider
+ * Class ForumGlobalScreenToolsProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
+class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
 {
     const SHOW_FORUM_THREADS_TOOL = 'show_forum_threads_tool';
 
