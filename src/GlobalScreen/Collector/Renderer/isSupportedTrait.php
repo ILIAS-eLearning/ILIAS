@@ -2,8 +2,9 @@
 
 namespace ILIAS\GlobalScreen\Collector\Renderer;
 
-use ILIAS\UI\Component\Button\Bulky;
+use ILIAS\UI\Component\Button\Bulky as BulkyButton;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Link\Bulky as BulkyLink;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
@@ -21,6 +22,6 @@ trait isSupportedTrait
      */
     private function isComponentSupportedForCombinedSlate(Component $component) : bool
     {
-        return ($component instanceof Bulky || $component instanceof Slate);
+        return ($component instanceof BulkyButton || $component instanceof Slate || $component instanceof BulkyLink);
     }
 }

@@ -5,40 +5,41 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblAdminFactoryFacadeInterface {
+interface ilBiblAdminFactoryFacadeInterface
+{
 
-	/**
-	 * @return \ilBiblTypeFactoryInterface
-	 */
-	public function typeFactory();
-
-
-	/**
-	 * @return \ilBiblTypeInterface
-	 */
-	public function type();
+    /**
+     * @return \ilBiblTypeFactoryInterface
+     */
+    public function typeFactory();
 
 
-	/**
-	 * @return \ilBiblTranslationFactoryInterface
-	 */
-	public function translationFactory();
+    /**
+     * @return \ilBiblTypeInterface
+     */
+    public function type();
 
 
-	/**
-	 * @return \ilBiblFieldFactoryInterface
-	 */
-	public function fieldFactory();
+    /**
+     * @return \ilBiblTranslationFactoryInterface
+     */
+    public function translationFactory();
 
 
-	/**
-	 * @return int
-	 */
-	public function iliasObjId();
+    /**
+     * @return \ilBiblFieldFactoryInterface
+     */
+    public function fieldFactory();
 
 
-	/**
-	 * @return int
-	 */
-	public function iliasRefId();
+    /**
+     * @return int
+     */
+    public function iliasObjId();
+
+
+    /**
+     * @return int
+     */
+    public function iliasRefId();
 }

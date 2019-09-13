@@ -26,10 +26,14 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))
                 ->withTitle($this->dic->language()->txt("mm_learning_progress"))
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP")
+                ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI",
+                    "ilAchievementsGUI","ilLearningProgressGUI","ilLPListOfProgressGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(30)
 	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("trac", "")->withIsOutlined(true))

@@ -1,6 +1,26 @@
+# Object Component
+
+This component provides features for handling ILIAS objects like repository objects or other objects being derived from `ilObject`.
+
+**Topics**
+
+- [Export Entities](#Export-Entities)
+- [Object Service](#Object-Service)
+- [Common Settings](#Common-Settings)
+
+
+# Export Entities
+
+The object component "Services/Object" provides the following entities, which should be added as tail dependency, if the corresponding features are used. All of them need the general object IDs to be passed.
+
+- "transl": Multilanguage titles/descriptions
+- "service_settings": Additional feature settings. (full documentation will follow)
+- "icon": Custom Icons
+- "tile": Tile Images
+- "common": All of the entities above. Usually save to use this one, even if not all features are used. This entity should be enhanced automatically in the future, if more common properties/settings for objects will be introduced.
+
 # Object Service
 
-This service provides features for handling ILIAS objects like repository objects or other objects being derived from `ilObject`.
 
 The object service can be obtained using the `DIC`:
 
@@ -16,12 +36,8 @@ $obj_service = $this->getObjectService();
 
 ```
 
-**Subservices**
 
-- [Common Settings](##Common-Settings)
-
-
-##Common Settings
+## Common Settings
 
 The object service provides methods to include common settings into your settings forms and save them.
 
@@ -60,6 +76,28 @@ Get `ilObjectTileImage` instance for an object id:
 ```
 $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($obj_id);
 ```
+
+**Copying / Import / Export**
+
+If objects are copied in the repository, the common settings including e.g. tile images and custom icons will be copied automatically.
+
+For including these in your export you need to ensure to include the common entity of the object service as a tail dependency in your exporter:
+
+```
+public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+{
+    if ($a_entity == "your_main_entity_type") {
+        $res = [];
+        ...
+        $res[] = array(
+            "component" => "Services/Object",
+            "entity" => "common",
+            "ids" => $a_ids);
+        return $res;
+    }
+}
+```
+
 
 # JF Decisions
 

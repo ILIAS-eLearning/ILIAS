@@ -494,7 +494,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 				case "login":
 					if($a_ass->hasTeam())
 					{
-						continue;
+						break;
 					}
 					// fallthrough
 				

@@ -155,13 +155,18 @@ function getDemoEntryRepository($f)
 		'./src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1'
 	);
 
+	$url = './src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
+	$link1 = $f->link()->bulky($icon, 'Favorites (Link)', $url);
+	$link2 = $f->link()->bulky($icon, 'Courses (Link2)', $url);
+	$link3 = $f->link()->bulky($icon, 'Groups (Link)', $url);
+
 	$slate = $slate
 		->withAdditionalEntry($button->withLabel('Repository - Home'))
 		->withAdditionalEntry($button->withLabel('Repository - Tree'))
 		->withAdditionalEntry($button->withLabel('Repository - Last visited'))
-		->withAdditionalEntry($button->withLabel('Favorites'))
-		->withAdditionalEntry($button->withLabel('Courses'))
-		->withAdditionalEntry($button->withLabel('Groups'))
+		->withAdditionalEntry($link1)
+		->withAdditionalEntry($link2)
+		->withAdditionalEntry($link3)
 		->withAdditionalEntry($button->withLabel('Study Programme'))
 		->withAdditionalEntry($button->withLabel('Own Repository-Objects'))
 		;

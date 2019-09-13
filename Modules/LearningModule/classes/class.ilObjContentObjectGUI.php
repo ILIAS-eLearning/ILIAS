@@ -206,7 +206,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					$pg_gui->setLMPageObject($obj);
 				}
 				$ret = $this->ctrl->forwardCommand($pg_gui);
-				break;
+                break;
 
 			case "ilstructureobjectgui":
 				$ilTabs->setBackTarget($lng->txt("learning module"),

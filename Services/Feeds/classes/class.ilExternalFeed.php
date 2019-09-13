@@ -310,7 +310,7 @@ class ilExternalFeed
 							if(isset($url_parts['port'])){
 								$full_url .= ":$url_parts[port]";
 							}
-							if($href{0} != '/'){ #it's a relative link on the domain
+							if($href[0] != '/'){ #it's a relative link on the domain
 								$full_url .= dirname($url_parts['path']);
 								if(substr($full_url, -1) != '/'){
 									#if the last character isn't a '/', add it

@@ -46,7 +46,8 @@ function build_container_for_setup() {
 			// TODO: use ImplementationOfInterfaceFinder here instead of fixed list
 			[
 				"database" => $c["agent.database"],
-				"global_screen" => $c["agent.global_screen"]
+				"global_screen" => $c["agent.global_screen"],
+				"ui_structure" => $c["agent.ui_structure"]
 			]
 		);
 	};
@@ -62,6 +63,11 @@ function build_container_for_setup() {
 			$c["refinery"]
 		);
 	};
+
+	$c["agent.ui_structure"] = function($c) {
+		return new \ilUIStructureSetupAgent();
+	};
+
 
 	$c["ui.field_factory"] = function($c) {
 		return new class implements FieldFactory {

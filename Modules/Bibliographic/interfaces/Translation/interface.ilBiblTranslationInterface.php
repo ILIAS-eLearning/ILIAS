@@ -5,70 +5,71 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblTranslationInterface {
+interface ilBiblTranslationInterface
+{
 
-	/**
-	 * @return integer
-	 */
-	public function getId();
-
-
-	/**
-	 * @param integer $id
-	 */
-	public function setId($id);
+    /**
+     * @return integer
+     */
+    public function getId();
 
 
-	/**
-	 * @return integer
-	 */
-	public function getFieldId();
+    /**
+     * @param integer $id
+     */
+    public function setId($id);
 
 
-	/**
-	 * @param integer $field_id
-	 */
-	public function setFieldId($field_id);
+    /**
+     * @return integer
+     */
+    public function getFieldId();
 
 
-	/**
-	 * @return string
-	 */
-	public function getLanguageKey();
+    /**
+     * @param integer $field_id
+     */
+    public function setFieldId($field_id);
 
 
-	/**
-	 * @param string $language_key
-	 */
-	public function setLanguageKey($language_key);
+    /**
+     * @return string
+     */
+    public function getLanguageKey();
 
 
-	/**
-	 * @return string
-	 */
-	public function getTranslation();
+    /**
+     * @param string $language_key
+     */
+    public function setLanguageKey($language_key);
 
 
-	/**
-	 * @param string $translation
-	 */
-	public function setTranslation($translation);
+    /**
+     * @return string
+     */
+    public function getTranslation();
 
 
-	/**
-	 * @return mixed
-	 */
-	public function getDescription();
+    /**
+     * @param string $translation
+     */
+    public function setTranslation($translation);
 
 
-	/**
-	 * @param mixed $description
-	 */
-	public function setDescription($description);
+    /**
+     * @return mixed
+     */
+    public function getDescription();
 
 
-	/**
-	 * @return void
-	 */
-	public function store();
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description);
+
+
+    /**
+     * @return void
+     */
+    public function store();
 }

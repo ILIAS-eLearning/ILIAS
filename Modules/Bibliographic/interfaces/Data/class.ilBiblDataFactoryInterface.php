@@ -5,13 +5,13 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-interface ilBiblDataFactoryInterface {
+interface ilBiblDataFactoryInterface
+{
 
-	/**
-	 * @param integer $id
-	 *
-	 * @return array ilBiblData Record
-	 */
-	public function getIlBiblDataById($id);
-
+    /**
+     * @param integer $id
+     *
+     * @return array ilBiblData Record
+     */
+    public function getIlBiblDataById($id);
 }

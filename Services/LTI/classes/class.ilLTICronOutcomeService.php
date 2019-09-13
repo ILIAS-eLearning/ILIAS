@@ -83,7 +83,7 @@ class ilLTICronOutcomeService extends ilCronJob
 		$last_ts = $info['job_status_ts'];
 		if(!$last_ts)
 		{
-			$last_ts = time() - 24 * 7 * 3600;
+			$last_ts = time() - 24 * 3600;
 		}
 		$since = new ilDateTime($last_ts,IL_CAL_UNIX);
 
