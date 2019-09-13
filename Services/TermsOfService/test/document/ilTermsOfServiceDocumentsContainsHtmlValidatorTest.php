@@ -13,11 +13,11 @@ class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends ilTermsOfServic
     public function textProvider() : array
     {
         return [
-            ['phpunit', false,],
-            ['php<b>unit</b>', true,],
-            ['php<b>unit</b> <info@ilias.de>', false,],
-            ['<html><body>php<b>unit</b></body></html>', true,],
-            ['<html><body>php<b>unit</b>Php Unit <info@ilias.de></body></html>', false,],
+            'Plain Text' => ['phpunit', false,],
+            'HTML Fragment' =>['php<b>unit</b>', true,],
+            'HTML Fragment with Email Address' => ['php<b>unit</b> <info@ilias.de>', false,],
+            'HTML' => ['<html><body>php<b>unit</b></body></html>', true,],
+            'HTML with Email Address' => ['<html><body>php<b>unit</b>Php Unit <info@ilias.de></body></html>', false,],
         ];
     }
 

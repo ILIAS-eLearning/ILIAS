@@ -168,9 +168,9 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     public function languageProvider() : array
     {
         return [
-            [$this->expectedInitialValue, $this->englishLanguageTranslation],
-            [$this->expectedAfterFormSubmitValue, $this->germanLanguageTranslation],
-            ['invalid_lng', ''],
+            'English Language' => [$this->expectedInitialValue, $this->englishLanguageTranslation],
+            'German Language' => [$this->expectedAfterFormSubmitValue, $this->germanLanguageTranslation],
+            'Invalid Languages' => ['invalid_lng', ''],
         ];
     }
 
