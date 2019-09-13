@@ -7,6 +7,7 @@ il.UI = il.UI || {};
 		var init = function (component_id, highlight_nodes) {
 			var tree = $('#' + component_id);
 			initNodesForExpansion(tree);
+			initNodesForActions(tree);
 			initNodesForAsyncLoading(tree);
 			if(highlight_nodes) {
 				initHighlightOnNodeClick(tree);
@@ -17,15 +18,25 @@ il.UI = il.UI || {};
 			tree.find('.il-tree-node .node-line').click(
 				function(e){
 					$(this).parent('.il-tree-node').toggleClass('expanded');
-
-					let link_in_list = $(this).find("a");
-					if (link_in_list.length === 0) {
-						return false;
-					}
+					return false;
 				}
 			);
+		}
 
-		};
+		var initNodesForActions = function (tree) {
+			tree.find('.il-tree-node .node-line .node-label a').click(
+				function(e) {
+					let href = $(this).attr('href');
+
+					if (typeof href === typeof undefined || href === false || href === "#") {
+						return false;
+					}
+
+					// Don't propagate event to prevent expanding the node on click
+					e.stopPropagation();
+				}
+			);
+		}
 
 		var initNodesForAsyncLoading = function (tree) {
 			tree.find(".il-tree-node[data-async_url][data-async_loaded='false'] .node-line").click(
@@ -62,11 +73,8 @@ il.UI = il.UI || {};
 				function(e){
 					resetNodeHighlights(tree);
 					$(this).parent('.il-tree-node').addClass('highlighted');
-					let link_in_list = $(this).find("a");
-					if (link_in_list.length === 0) {
 						return false;
 					}
-				}
 			);
 		};
 
@@ -78,12 +86,8 @@ il.UI = il.UI || {};
 						var s = signals[i];
 						node.trigger(s.signal_id, s);
 					}
-
-					let link_in_list = $(this).find("a");
-					if (link_in_list.length === 0) {
 						return false;
 					}
-				}
 			);
 		}
 

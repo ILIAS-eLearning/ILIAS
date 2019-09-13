@@ -7484,7 +7484,9 @@ hr.il-divider-with-label {
     float: none;
     zoom: 1;
     vertical-align: top;
-    width: auto;
+    /* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
+				see known issues at https://caniuse.com/#search=calc */
+    width: 100%;
   }
   .panel-secondary .il-item .dropdown {
     position: static;
@@ -10096,6 +10098,18 @@ footer {
 }
 .il-link.link-bulky {
   display: block;
+  text-decoration: none;
+}
+.il-link.link-bulky .icon,
+.il-link.link-bulky .bulky-label {
+  display: inline-block;
+}
+.il-link.link-bulky .icon {
+  margin-bottom: -3px;
+  text-decoration: none;
+}
+.il-link.link-bulky .bulky-label {
+  color: #333333;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
