@@ -158,10 +158,10 @@ class ilContainerSorting
 					return $block_id;
 				}, explode(";", $rec["block_ids"])));
 
-				$ilDB->insert("container_sorting_bl", array(
-					"obj_id" => array("integer", $target_obj_id),
-					"block_ids" => array("text", $new_ids)
-				));
+				$ilDB->replace("container_sorting_bl",
+					array("obj_id" => array("integer", $target_obj_id)),
+					array("block_ids" => array("text", $new_ids))
+				);
 
 				$ilLog->debug("Write block sorting for obj_id = ".$target_obj_id.": ".$new_ids);
 			}
