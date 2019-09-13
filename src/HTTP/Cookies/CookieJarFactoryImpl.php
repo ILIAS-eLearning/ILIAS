@@ -15,20 +15,23 @@ use Psr\Http\Message\ResponseInterface;
  * @since   5.3
  * @version 1.0.0
  */
-class CookieJarFactoryImpl implements CookieJarFactory {
+class CookieJarFactoryImpl implements CookieJarFactory
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	public function fromCookieStrings($cookieStrings) {
-		return new CookieJarWrapper(SetCookies::fromSetCookieStrings($cookieStrings));
-	}
+    /**
+     * @inheritdoc
+     */
+    public function fromCookieStrings($cookieStrings)
+    {
+        return new CookieJarWrapper(SetCookies::fromSetCookieStrings($cookieStrings));
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function fromResponse(ResponseInterface $response) {
-		return new CookieJarWrapper(SetCookies::fromResponse($response));
-	}
+    /**
+     * @inheritdoc
+     */
+    public function fromResponse(ResponseInterface $response)
+    {
+        return new CookieJarWrapper(SetCookies::fromResponse($response));
+    }
 }
