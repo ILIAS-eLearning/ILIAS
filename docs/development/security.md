@@ -1,9 +1,14 @@
 # ILIAS Security Group
 
-## Handling Security Issues
+## Table of Contents
+* [Reporting Security Issues](#reporting-security-issues)
+* [Contributors](#contributors)
+
+## Reporting Security Issues
+Please report security issues via e-mail to: security@lists.ilias.de
 
 ## Contributors
-See also: <a name="who-is-an-ILIAS-contributor" href="">contributing.md</a>
-...
-Fabian Sesterhenn, TH Köln, fabian.sesterhenn@th-koeln.de
-...
+* Denis Klöpfer, CAT Concepts and Training, Cologne, Germany
+* Fabian Sesterhenn, TH Köln, Cologne, Germany
+* Nadimo Staszak, University of Cologne, Cologne, Germany
+* Robin Baumgartner, studer + raimann ag, Burgdorf, Switzerland
