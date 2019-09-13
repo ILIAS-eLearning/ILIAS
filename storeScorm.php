@@ -6,6 +6,7 @@
  * @version $Id$
  */
 
+// adding a comment as a test for a PR, nothing else change with eol = CRLF
 
 include_once "Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_SCORM);
