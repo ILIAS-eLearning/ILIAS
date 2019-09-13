@@ -485,13 +485,10 @@ class ilObjFileGUI extends ilObject2GUI
         $title = $form->getInput('title');
         // bugfix mantis 26045:
         $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
-        if(strlen(trim($title)) == 0)
-        {
+        if (strlen(trim($title)) == 0) {
             $title = $filename;
-        }
-        else
-        {
-            $title = $this->object->checkFileExtension($filename,$title);
+        } else {
+            $title = $this->object->checkFileExtension($filename, $title);
         }
         $this->object->setTitle($title);
         $this->object->setDescription($form->getInput('description'));
@@ -1189,51 +1186,6 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         return $response;
-    }
-
-
-    /**
-     * Deletes the file versions that were confirmed by the user.
-     */
-    function confirmDeleteVersions()
-    {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        // has the user the rights to delete versions?
-        if (!$this->checkPermissionBool("write")) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
-        }
-
-        // delete versions after confirmation
-        if (count($_POST["hist_id"]) > 0) {
-            $this->object->deleteVersions($_POST["hist_id"]);
-            ilUtil::sendSuccess($this->lng->txt("file_versions_deleted"), true);
-        }
-
-        $this->ctrl->setParameter($this, "hist_id", "");
-        $this->ctrl->redirect($this, self::CMD_VERSIONS);
-    }
-
-
-    /**
-     * Deletes this file object.
-     */
-    function confirmDeleteFile()
-    {
-        // has the user the rights to delete the file?
-        if (!$this->checkPermissionBool("write")) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
-        }
-
-        // delete this file object
-        include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
-        $ru = new ilRepUtilGUI($this);
-        $ru->deleteObjects($this->parent_id, array($this->ref_id));
-
-        // redirect to parent object
-        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->parent_id);
-        $this->ctrl->redirectByClass("ilrepositorygui");
     }
 
 

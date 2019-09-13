@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\File\Sanitation\FilePathSanitizer;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\Location;
 
@@ -366,6 +367,7 @@ class ilObjFile extends ilObject2
      * @param $a_upload_file
      * @param $a_filename
      *
+     * @return \ILIAS\FileUpload\DTO\UploadResult
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
@@ -383,6 +385,14 @@ class ilObjFile extends ilObject2
     }
 
 
+    /**
+     * @param $a_upload_file
+     * @param $a_filename
+     *
+     * @return \ILIAS\FileUpload\DTO\UploadResult
+     * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     */
     public function addFileVersion($a_upload_file, $a_filename)
     {
         if ($result = $this->getUploadFile($a_upload_file, $a_filename, true)) {
@@ -820,12 +830,12 @@ class ilObjFile extends ilObject2
 
         if (is_null($a_hist_entry_id)) {
             $file = $this->getDirectory($this->getVersion()) . "/" . $this->getFileName();
+            $file = ilFileUtils::getValidFilename($file);
         } else {
             $entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
             $data = $this->parseInfoParams($entry);
             $file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
         }
-        $file = ilFileUtils::getValidFilename($file);
 
         if ($this->file_storage->fileExists($file)) {
             global $DIC;
@@ -861,7 +871,7 @@ class ilObjFile extends ilObject2
             return true;
         }
 
-        throw new \ILIAS\Filesystem\Exception\FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
+        throw new FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
     }
 
 
@@ -1475,15 +1485,18 @@ class ilObjFile extends ilObject2
      * @return array Returns an array containing the "filename" and "version" contained within the
      *               "info_params".
      */
-    function parseInfoParams($entry)
+    private function parseInfoParams($entry)
     {
-        $data = preg_split("/(.*),(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE
-            | PREG_SPLIT_NO_EMPTY);
+        $data = explode(",", $entry["info_params"]);
 
         // bugfix: first created file had no version number
         // this is a workaround for all files created before the bug was fixed
         if (empty($data[1])) {
             $data[1] = "1";
+        }
+
+        if (empty($data[2])) {
+            $data[2] = "1";
         }
 
         $result = array(
