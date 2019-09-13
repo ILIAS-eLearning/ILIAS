@@ -3,10 +3,10 @@
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 
 /**
- * Class ilMailGlobalScreenToolProvider
+ * Class MailGlobalScreenToolProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailGlobalScreenToolProvider extends AbstractDynamicToolProvider
+class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
     const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
