@@ -18,8 +18,9 @@ class Factory implements Page\Factory {
 		MainControls\MetaBar $metabar = null,
 		MainControls\MainBar $mainbar = null,
 		Breadcrumbs $locator = null,
-		Image $logo = null
+		Image $logo = null,
+		MainControls\Footer $footer = null
 	): Page\Standard {
-		return new Standard($content, $metabar, $mainbar, $locator, $logo);
+		return new Standard($content, $metabar, $mainbar, $locator, $logo, $footer);
 	}
 }
