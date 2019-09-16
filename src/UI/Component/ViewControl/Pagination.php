@@ -121,4 +121,9 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 	 * will be translated, a custom label will not.
 	 */
 	public function getDefaultDropdownLabel(): string;
+
+	/**
+	 * Calculate the total number of pages.
+	 */
+	public function getPageLength(): int;
 }
