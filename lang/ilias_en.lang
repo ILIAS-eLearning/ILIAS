@@ -7087,7 +7087,7 @@ style#:#sty_media_char#:#Media
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
-style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name

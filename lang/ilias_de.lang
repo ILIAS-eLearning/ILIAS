@@ -13333,7 +13333,7 @@ style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
 style#:#sty_move_user_styles#:#Stylesheet der Benutzer ändern
-style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
