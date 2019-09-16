@@ -123,7 +123,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 	public function getDefaultDropdownLabel(): string;
 
 	/**
-	 * Calculate the total number of pages.
+	 * Get the current number of entries on this page.
 	 */
 	public function getPageLength(): int;
 }
