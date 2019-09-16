@@ -43,6 +43,7 @@ For a better identification, they will describe here:
 | %IPADDRESS% | ip address in CIDR notation  |
 | %DOCROOT% | directory that forms the main document tree visible from the web |
 | %EXTERNALDATA% | ILIAS data directory outside of the web documenation root |
+| %LOGDIR% | path to the directory containing log files |
 | %CLIENTID% | the client name of the ILIAS installation  |
 
 
@@ -67,23 +68,22 @@ example of the suggested configuration (may you can choose other directories, ba
 ```
 git clone --single-branch -b release_5-4 https://github.com/ILIAS-eLearning/ILIAS.git %DOCROOT%/.
 
-mkdir -p /var/www/ilias;
-mkdir /var/www/ilias_data;
-mkdir /var/log/ilias;
-mkdir /var/log/ilias/ilias_errors
+mkdir -p %DOCROOT%
+mkdir %EXTERNALDATA%
+mkdir %LOGDIR%
+mkdir %LOGDIR%/errors
 
-chown %USERNAME%:%GROUP% /var/www/ilias /var/www/ilias/data
-chown %USERNAME%:%GROUP% /var/www/ilias_data
-chown %USERNAME%:%GROUP% /var/log/ilias
-chown %USERNAME%:%GROUP% /var/log/ilias/ilias_errors
+chown %USERNAME%:%GROUP% %DOCROOT% %DOCROOT%/data
+chown %USERNAME%:%GROUP% %EXTERNALDATA%
+chown %USERNAME%:%GROUP% %LOGDIR% %LOGDIR%/errors
 
-chmod 2775 /var/www/ilias/data
-chmod 2775 /var/www/ilias_data
-chmod 2775 /var/log/ilias
-chmod 2775 /var/log/ilias/ilias_errors
+chmod 2775 %DOCROOT%
+chmod 2775 %EXTERNALDATA%
+chmod 2775 %LOGDIR%
+chmod 2775 %LOGDIR%/errors
 ```
 
-After the installation of ILIAS is finished, you SHOULD also revoke write permission for the file ```ilias.ini.php``` (e.g. ```/var/www/ilias/ilias.ini.php```).
+After the installation of ILIAS is finished, you SHOULD also revoke write permission for the file ```ilias.ini.php``` (e.g. ```%DOCROOT%/ilias.ini.php```).
 note: for changing base setting via ILIAS setup, you need to grant write permission for the file ```ilias.ini.php``` again.
 
 ## Place data directory outside of the web root
@@ -95,11 +95,11 @@ You MAY use openbasedir-restriction to avoid malicious software to directory-tra
 
 Apache2:
 
-    php_admin_value open_basedir ./:%DOCROOT%:%EXTERNALDATA%:/var/log/ilias:/usr/share/php/:/var/www/lib/:/tmp
+    php_admin_value open_basedir ./:%DOCROOT%:%EXTERNALDATA%:%LOGDIR%:/usr/share/php/:/var/www/lib/:/tmp
 
 Nginx:
 
-    fastcgi_param PHP_VALUE open_basedir="./:%DOCROOT%:%EXTERNALDATA%:/var/log/ilias:/usr/share/php/:/var/www/lib/:/tmp";
+    fastcgi_param PHP_VALUE open_basedir="./:%DOCROOT%:%EXTERNALDATA%:%LOGDIR%:/usr/share/php/:/var/www/lib/:/tmp";
 **Hint:** This option will be applied to the PHP-FPM process. If there are multiple websites on your webserver you have to define a single PHP-FPM-pool for each website. Otherwise these other homepages won' t be accessible anymore.
 
 ## OS user handling security
