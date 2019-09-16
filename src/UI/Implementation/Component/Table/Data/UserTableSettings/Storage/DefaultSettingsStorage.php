@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Storage;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 use ilTablePropertiesStorage;
@@ -24,8 +25,8 @@ class DefaultSettingsStorage extends AbstractSettingsStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct(Container $dic) {
+		parent::__construct($dic);
 
 		// TODO: Not use ilTablePropertiesStorage and reimplement it - Currently just a "fast solution" to save the table filter
 		$this->properties_storage = new ilTablePropertiesStorage();

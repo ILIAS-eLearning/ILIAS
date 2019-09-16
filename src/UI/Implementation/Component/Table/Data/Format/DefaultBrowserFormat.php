@@ -315,10 +315,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @return Component
 	 */
 	protected function getPagesSelector(Table $component, Settings $user_table_settings, Data $data): Component {
-		return $this->dic->ui()->factory()->viewControl()->pagination()
-			->withTargetURL($component->getActionUrl(), self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()))
-			->withCurrentPage($user_table_settings->getCurrentPage())->withTotalEntries($data->getMaxCount())
-			->withPageSize($user_table_settings->getRowsCount());
+		return $user_table_settings->getPagination($data)
+			->withTargetURL($component->getActionUrl(), self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
 	}
 
 
@@ -384,9 +382,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @param Data     $data
 	 */
 	protected function handleDisplayCount(Settings $user_table_settings, Data $data): void {
-		// TODO: Use `self::dic()->ui()->factory()->viewControl()->pagination()`?
 		$count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount()
-		> 0 ? $user_table_settings->getLimitStart() + 1 : 0), min($user_table_settings->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount());
+		> 0 ? ($user_table_settings->getLimitStart() + 1) : 0), $data->getMaxCount());
 
 		$this->tpl->setCurrentBlock("count_top");
 		$this->tpl->setVariable("COUNT_TOP", $count);

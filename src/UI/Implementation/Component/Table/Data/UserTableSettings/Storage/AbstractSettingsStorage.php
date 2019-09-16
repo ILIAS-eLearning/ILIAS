@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Storage;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
@@ -20,10 +21,16 @@ use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort\SortFiel
 abstract class AbstractSettingsStorage implements SettingsStorage {
 
 	/**
+	 * @var Container
+	 */
+	protected $dic;
+
+
+	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(Container $dic) {
+		$this->dic = $dic;
 	}
 
 
@@ -63,7 +70,7 @@ abstract class AbstractSettingsStorage implements SettingsStorage {
 	 * @inheritDoc
 	 */
 	public function userTableSettings(): SettingsInterface {
-		return new Settings();
+		return new Settings($this->dic->ui()->factory()->viewControl()->pagination());
 	}
 
 

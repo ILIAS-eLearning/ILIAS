@@ -2,7 +2,9 @@
 
 namespace ILIAS\UI\Component\Table\Data\UserTableSettings;
 
+use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\ViewControl\Pagination;
 
 /**
  * Interface Settings
@@ -37,8 +39,10 @@ interface Settings {
 
 	/**
 	 * Settings constructor
+	 *
+	 * @param Pagination $pagination
 	 */
-	public function __construct();
+	public function __construct(Pagination $pagination);
 
 
 	/**
@@ -185,4 +189,14 @@ interface Settings {
 	 * @return int
 	 */
 	public function getLimitEnd(): int;
+
+
+	/**
+	 * @param Data $data
+	 *
+	 * @return Pagination
+	 *
+	 * @internal
+	 */
+	public function getPagination(Data $data): Pagination;
 }

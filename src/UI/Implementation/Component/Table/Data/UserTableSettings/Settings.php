@@ -2,8 +2,10 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings;
 
+use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\ViewControl\Pagination;
 
 /**
  * Class Settings
@@ -14,6 +16,10 @@ use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
  */
 class Settings implements SettingsInterface {
 
+	/**
+	 * @var Pagination
+	 */
+	protected $pagination;
 	/**
 	 * @var mixed[]
 	 */
@@ -30,21 +36,13 @@ class Settings implements SettingsInterface {
 	 * @var bool
 	 */
 	protected $filter_set = false;
-	/**
-	 * @var int
-	 */
-	protected $rows_count = self::DEFAULT_ROWS_COUNT;
-	/**
-	 * @var int
-	 */
-	protected $current_page = 0;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(Pagination $pagination) {
+		$this->pagination = $pagination->withPageSize(self::DEFAULT_ROWS_COUNT);
 	}
 
 
@@ -222,7 +220,7 @@ class Settings implements SettingsInterface {
 	 * @inheritDoc
 	 */
 	public function getRowsCount(): int {
-		return $this->rows_count;
+		return $this->pagination->getPageSize();
 	}
 
 
@@ -232,7 +230,7 @@ class Settings implements SettingsInterface {
 	public function withRowsCount(int $rows_count = self::DEFAULT_ROWS_COUNT): SettingsInterface {
 		$clone = clone $this;
 
-		$clone->rows_count = $rows_count;
+		$clone->pagination = $clone->pagination->withPageSize($rows_count);
 
 		return $clone;
 	}
@@ -242,7 +240,7 @@ class Settings implements SettingsInterface {
 	 * @inheritDoc
 	 */
 	public function getCurrentPage(): int {
-		return $this->current_page;
+		return $this->pagination->getCurrentPage();
 	}
 
 
@@ -252,7 +250,7 @@ class Settings implements SettingsInterface {
 	public function withCurrentPage(int $current_page = 0): SettingsInterface {
 		$clone = clone $this;
 
-		$clone->current_page = $current_page;
+		$clone->pagination = $clone->pagination->withCurrentPage($current_page);
 
 		return $clone;
 	}
@@ -262,8 +260,7 @@ class Settings implements SettingsInterface {
 	 * @inheritDoc
 	 */
 	public function getLimitStart(): int {
-		// TODO: Somehow access `self::dic()->ui()->factory()->viewControl()->pagination()->getOffset()`
-		return ($this->getCurrentPage() * $this->getRowsCount());
+		return $this->pagination->getOffset();
 	}
 
 
@@ -271,7 +268,16 @@ class Settings implements SettingsInterface {
 	 * @inheritDoc
 	 */
 	public function getLimitEnd(): int {
-		// TODO: Use `self::dic()->ui()->factory()->viewControl()->pagination()`?
 		return (($this->getCurrentPage() + 1) * $this->getRowsCount());
+	}
+
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @internal
+	 */
+	public function getPagination(Data $data): Pagination {
+		return $this->pagination->withTotalEntries($data->getMaxCount());
 	}
 }

@@ -15208,5 +15208,6 @@ datatable#:#datatable_format_html#:#HTML
 datatable#:#datatable_format_pdf#:#PDF
 datatable#:#datatable_multiple_actions#:#Mehrfache Aktionen
 datatable#:#datatable_no_data#:#Keine Daten
+datatable#:#datatable_remove_sort#:#Sortierung entfernen
 datatable#:#datatable_rows_per_page#:#Zeilen pro Seite (%s)
 datatable#:#datatable_select_all#:#Alle auswählen

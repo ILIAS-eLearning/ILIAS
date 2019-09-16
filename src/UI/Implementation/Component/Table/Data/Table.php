@@ -82,7 +82,7 @@ class Table implements TableInterface {
 		global $DIC; // TODO: !!!
 		$this->browser_format = new DefaultBrowserFormat($DIC);
 
-		$this->user_table_settings_storage = new DefaultSettingsStorage();
+		$this->user_table_settings_storage = new DefaultSettingsStorage($DIC);
 	}
 
 

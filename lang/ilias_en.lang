@@ -15209,5 +15209,6 @@ datatable#:#datatable_format_html#:#HTML
 datatable#:#datatable_format_pdf#:#PDF
 datatable#:#datatable_multiple_actions#:#Multiple actions
 datatable#:#datatable_no_data#:#No data
+datatable#:#datatable_remove_sort#:#Remove sort
 datatable#:#datatable_rows_per_page#:#Rows per page (%s)
 datatable#:#datatable_select_all#:#Select all

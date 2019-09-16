@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Component\Table\Data\UserTableSettings\Storage;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
@@ -73,8 +74,10 @@ interface SettingsStorage {
 
 	/**
 	 * SettingsStorage constructor
+	 *
+	 * @param Container $dic
 	 */
-	public function __construct();
+	public function __construct(Container $dic);
 
 
 	/**
