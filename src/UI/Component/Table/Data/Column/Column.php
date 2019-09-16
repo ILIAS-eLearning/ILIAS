@@ -147,18 +147,4 @@ interface Column {
 	 * @return self
 	 */
 	public function withExportable(bool $exportable = true): self;
-
-
-	/**
-	 * @return bool
-	 */
-	public function isDragable(): bool;
-
-
-	/**
-	 * @param bool $dragable
-	 *
-	 * @return self
-	 */
-	public function withDragable(bool $dragable = false): self;
 }

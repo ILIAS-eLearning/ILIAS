@@ -52,10 +52,6 @@ class Column implements ColumnInterface {
 	 * @var bool
 	 */
 	protected $exportable = true;
-	/**
-	 * @var bool
-	 */
-	protected $dragable = false;
 
 
 	/**
@@ -246,26 +242,6 @@ class Column implements ColumnInterface {
 		$clone = clone $this;
 
 		$clone->exportable = $exportable;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function isDragable(): bool {
-		return $this->dragable;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withDragable(bool $dragable = false): ColumnInterface {
-		$clone = clone $this;
-
-		$clone->dragable = $dragable;
 
 		return $clone;
 	}

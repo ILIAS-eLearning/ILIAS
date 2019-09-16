@@ -155,8 +155,6 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			$sort_button = $this->dic->ui()->factory()->legacy($sort_button);
 		}
 
-		// TODO: Dragable columns
-
 		$formated_column = $renderer->render([
 			$deselect_button,
 			$sort_button,
