@@ -98,21 +98,35 @@ interface Factory {
 	/**
 	 * ---
 	 * description:
-	 *   purpose: TODO
-	 *   composition: TODO
-	 *   rivals:
-	 *     Rival 1: TODO
+	 *   purpose: >
+     *      The Data Table lists structured data in a table view.
+     *
+	 *   composition: >
+     *      The Data Table consists of a Table Title, Filter, Columns, Rows, Export,
+     *      Paging, Commands on Multiple Rows, Multiple Sorting, Hide and Show Columns,
+     *
+     *      Each column can be formatted using a formatter. For example with
+     *      a formatter you can convert learning progress integer values
+     *      to icons or you can convert an array of links to an actions menu.
+     *
+     *      The default Export possibilities are CSV, XLSX, HTML and PDF
+     *
+     *   effect: The Data Table shows the data as requested by the user.
+     *
+     *   rivals:
+     *      Presentation Table: >
+     *          The Presentation Table lists some tabular data in a pleasant way. The user
+     *          can get a quick overview over the records in the dataset, the Presentation
+     *          Table only shows the most relevant fields of the records at first glance.
 	 *
 	 * rules:
 	 *   usage:
-	 *     1: TODO
-	 *     2: TODO
-	 *     3: TODO
-	 *     4: TODO
-	 *     5: TODO
-	 *     6: TODO
+	 *     1: You MUST use in maximum one Action Column
+     *     2: You MUST use no additional Check Boxes as the Multi Action Checkboxes
+     *     3: You MUST not use the Data Table as editable table
 	 *   responsiveness:
-	 *     7: TODO
+     *     1: >
+     *        The Data Table is responsive by using a small number of columns
 	 *
 	 * ---
 	 * @param Container $dic
