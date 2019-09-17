@@ -12,12 +12,13 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface ActionColumn extends Column {
+interface ActionColumn extends Column
+{
 
-	/**
-	 * @param RowData $row
-	 *
-	 * @return string[]
-	 */
-	public function getActions(RowData $row): array;
+    /**
+     * @param RowData $row
+     *
+     * @return string[]
+     */
+    public function getActions(RowData $row) : array;
 }

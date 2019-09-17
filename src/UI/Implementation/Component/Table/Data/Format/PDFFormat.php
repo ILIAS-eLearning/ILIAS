@@ -12,38 +12,42 @@ use ILIAS\UI\Component\Table\Data\Table;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class PDFFormat extends HTMLFormat {
+class PDFFormat extends HTMLFormat
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getFormatId(): string {
-		return self::FORMAT_PDF;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function getFileExtension(): string {
-		return "pdf";
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getFormatId() : string
+    {
+        return self::FORMAT_PDF;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function renderTemplate(Table $component): string {
-		$html = parent::renderTemplate($component);
+    /**
+     * @inheritDoc
+     */
+    protected function getFileExtension() : string
+    {
+        return "pdf";
+    }
 
-		$pdf = new ilHtmlToPdfTransformerFactory();
 
-		$tmp_file = $pdf->deliverPDFFromHTMLString($html, "", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, self::class, $component->getTableId());
+    /**
+     * @inheritDoc
+     */
+    protected function renderTemplate(Table $component) : string
+    {
+        $html = parent::renderTemplate($component);
 
-		$data = file_get_contents($tmp_file);
+        $pdf = new ilHtmlToPdfTransformerFactory();
 
-		unlink($tmp_file);
+        $tmp_file = $pdf->deliverPDFFromHTMLString($html, "", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, self::class, $component->getTableId());
 
-		return $data;
-	}
+        $data = file_get_contents($tmp_file);
+
+        unlink($tmp_file);
+
+        return $data;
+    }
 }

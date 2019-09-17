@@ -15,49 +15,52 @@ use ILIAS\UI\Renderer;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class DefaultFormater extends AbstractFormater {
+class DefaultFormater extends AbstractFormater
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer): string {
-		$title = $column->getTitle();
+    /**
+     * @inheritDoc
+     */
+    public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer) : string
+    {
+        $title = $column->getTitle();
 
-		switch ($format->getFormatId()) {
-			case Format::FORMAT_PDF:
-				return "<b>{$title}</b>";
+        switch ($format->getFormatId()) {
+            case Format::FORMAT_PDF:
+                return "<b>{$title}</b>";
 
-			case Format::FORMAT_EXCEL:
-				/**
-				 * @var ilExcel $tpl
-				 */ $tpl = $format->getTemplate()->tpl;
-				$cord = $tpl->getColumnCoord($format->getTemplate()->current_col) . $format->getTemplate()->current_col;
-				$tpl->setBold($cord . ":" . $cord);
+            case Format::FORMAT_EXCEL:
+                /**
+                 * @var ilExcel $tpl
+                 */ $tpl = $format->getTemplate()->tpl;
+                $cord = $tpl->getColumnCoord($format->getTemplate()->current_col) . $format->getTemplate()->current_col;
+                $tpl->setBold($cord . ":" . $cord);
 
-				return $title;
+                return $title;
 
-			default:
-				return $title;
-		}
-	}
+            default:
+                return $title;
+        }
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
-		$value = strval($value);
+    /**
+     * @inheritDoc
+     */
+    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
+    {
+        $value = strval($value);
 
-		switch ($format->getFormatId()) {
-			case Format::FORMAT_BROWSER:
-				if ($value === "") {
-					$value = "&nbsp;";
-				}
+        switch ($format->getFormatId()) {
+            case Format::FORMAT_BROWSER:
+                if ($value === "") {
+                    $value = "&nbsp;";
+                }
 
-				return $value;
+                return $value;
 
-			default:
-				return $value;
-		}
-	}
+            default:
+                return $value;
+        }
+    }
 }

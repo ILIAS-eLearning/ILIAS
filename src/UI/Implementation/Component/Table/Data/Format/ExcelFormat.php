@@ -17,114 +17,124 @@ use ILIAS\UI\Renderer;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ExcelFormat extends AbstractFormat {
+class ExcelFormat extends AbstractFormat
+{
 
-	/**
-	 * @var ilExcel
-	 */
-	protected $tpl;
-	/**
-	 * @var int
-	 */
-	protected $current_col = 0;
-	/**
-	 * @var int
-	 */
-	protected $current_row = 1;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getFormatId(): string {
-		return self::FORMAT_EXCEL;
-	}
+    /**
+     * @var ilExcel
+     */
+    protected $tpl;
+    /**
+     * @var int
+     */
+    protected $current_col = 0;
+    /**
+     * @var int
+     */
+    protected $current_row = 1;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getFileExtension(): string {
-		return "xlsx";
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getFormatId() : string
+    {
+        return self::FORMAT_EXCEL;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): void {
-		$this->tpl = new ilExcel();
-
-		$this->tpl->addSheet($component->getTitle());
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getTemplate(): object {
-		return (object)[
-			"tpl" => $this->tpl,
-			"current_row" => $this->current_row,
-			"current_col" => $this->current_col
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function getFileExtension() : string
+    {
+        return "xlsx";
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer): void {
-		$this->current_col = 0;
+    /**
+     * @inheritDoc
+     */
+    protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer) : void
+    {
+        $this->tpl = new ilExcel();
 
-		parent::handleColumns($component, $columns, $user_table_settings, $renderer);
-
-		$this->current_row ++;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer): void {
-		$this->tpl->setCell($this->current_row, $this->current_col, $formated_column);
-
-		$this->current_col ++;
-	}
+        $this->tpl->addSheet($component->getTitle());
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
-		$this->current_col = 0;
-
-		parent::handleRow($component, $columns, $row, $user_table_settings, $renderer);
-
-		$this->current_row ++;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function handleRowColumn(string $formated_row_column): void {
-		$this->tpl->setCell($this->current_row, $this->current_col, $formated_row_column);
-
-		$this->current_col ++;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getTemplate() : object
+    {
+        return (object) [
+            "tpl"         => $this->tpl,
+            "current_row" => $this->current_row,
+            "current_col" => $this->current_col
+        ];
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function renderTemplate(Table $component): string {
-		$tmp_file = $this->tpl->writeToTmpFile();
+    /**
+     * @inheritDoc
+     */
+    protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer) : void
+    {
+        $this->current_col = 0;
 
-		$data = file_get_contents($tmp_file);
+        parent::handleColumns($component, $columns, $user_table_settings, $renderer);
 
-		unlink($tmp_file);
+        $this->current_row++;
+    }
 
-		return $data;
-	}
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer) : void
+    {
+        $this->tpl->setCell($this->current_row, $this->current_col, $formated_column);
+
+        $this->current_col++;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer) : void
+    {
+        $this->current_col = 0;
+
+        parent::handleRow($component, $columns, $row, $user_table_settings, $renderer);
+
+        $this->current_row++;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleRowColumn(string $formated_row_column) : void
+    {
+        $this->tpl->setCell($this->current_row, $this->current_col, $formated_row_column);
+
+        $this->current_col++;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function renderTemplate(Table $component) : string
+    {
+        $tmp_file = $this->tpl->writeToTmpFile();
+
+        $data = file_get_contents($tmp_file);
+
+        unlink($tmp_file);
+
+        return $data;
+    }
 }

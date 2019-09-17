@@ -17,173 +17,174 @@ use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Table extends Component {
+interface Table extends Component
+{
 
-	const ACTION_GET_VAR = "row_id";
-	const MULTIPLE_SELECT_POST_VAR = "selected_row_ids";
-	const LANG_MODULE = "datatable";
-
-
-	/**
-	 * Table constructor
-	 *
-	 * @param string      $table_id
-	 * @param string      $action_url
-	 * @param string      $title
-	 * @param Column[]    $columns
-	 * @param DataFetcher $data_fetcher
-	 */
-	public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher);
+    const ACTION_GET_VAR = "row_id";
+    const MULTIPLE_SELECT_POST_VAR = "selected_row_ids";
+    const LANG_MODULE = "datatable";
 
 
-	/**
-	 * @return string
-	 */
-	public function getTableId(): string;
+    /**
+     * Table constructor
+     *
+     * @param string      $table_id
+     * @param string      $action_url
+     * @param string      $title
+     * @param Column[]    $columns
+     * @param DataFetcher $data_fetcher
+     */
+    public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher);
 
 
-	/**
-	 * @param string $table_id
-	 *
-	 * @return self
-	 */
-	public function withTableId(string $table_id): self;
+    /**
+     * @return string
+     */
+    public function getTableId() : string;
 
 
-	/**
-	 * @return string
-	 */
-	public function getActionUrl(): string;
+    /**
+     * @param string $table_id
+     *
+     * @return self
+     */
+    public function withTableId(string $table_id) : self;
 
 
-	/**
-	 * @param string $action_url
-	 *
-	 * @return self
-	 */
-	public function withActionUrl(string $action_url): self;
+    /**
+     * @return string
+     */
+    public function getActionUrl() : string;
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string;
+    /**
+     * @param string $action_url
+     *
+     * @return self
+     */
+    public function withActionUrl(string $action_url) : self;
 
 
-	/**
-	 * @param string $title
-	 *
-	 * @return self
-	 */
-	public function withTitle(string $title): self;
+    /**
+     * @return string
+     */
+    public function getTitle() : string;
 
 
-	/**
-	 * @return Column[]
-	 */
-	public function getColumns(): array;
+    /**
+     * @param string $title
+     *
+     * @return self
+     */
+    public function withTitle(string $title) : self;
 
 
-	/**
-	 * @param Column[] $columns
-	 *
-	 * @return self
-	 */
-	public function withColumns(array $columns): self;
+    /**
+     * @return Column[]
+     */
+    public function getColumns() : array;
 
 
-	/**
-	 * @return DataFetcher
-	 */
-	public function getDataFetcher(): DataFetcher;
+    /**
+     * @param Column[] $columns
+     *
+     * @return self
+     */
+    public function withColumns(array $columns) : self;
 
 
-	/**
-	 * @param DataFetcher $data_fetcher
-	 *
-	 * @return self
-	 */
-	public function withFetchData(DataFetcher $data_fetcher): self;
+    /**
+     * @return DataFetcher
+     */
+    public function getDataFetcher() : DataFetcher;
 
 
-	/**
-	 * @return FilterInput[]
-	 */
-	public function getFilterFields(): array;
+    /**
+     * @param DataFetcher $data_fetcher
+     *
+     * @return self
+     */
+    public function withFetchData(DataFetcher $data_fetcher) : self;
 
 
-	/**
-	 * @param FilterInput[] $filter_fields
-	 *
-	 * @return self
-	 */
-	public function withFilterFields(array $filter_fields): self;
+    /**
+     * @return FilterInput[]
+     */
+    public function getFilterFields() : array;
 
 
-	/**
-	 * @return BrowserFormat
-	 */
-	public function getBrowserFormat(): BrowserFormat;
+    /**
+     * @param FilterInput[] $filter_fields
+     *
+     * @return self
+     */
+    public function withFilterFields(array $filter_fields) : self;
 
 
-	/**
-	 * @param BrowserFormat $browser_format
-	 *
-	 * @return self
-	 */
-	public function withBrowserFormat(BrowserFormat $browser_format): self;
+    /**
+     * @return BrowserFormat
+     */
+    public function getBrowserFormat() : BrowserFormat;
 
 
-	/**
-	 * @return Format[]
-	 */
-	public function getFormats(): array;
+    /**
+     * @param BrowserFormat $browser_format
+     *
+     * @return self
+     */
+    public function withBrowserFormat(BrowserFormat $browser_format) : self;
 
 
-	/**
-	 * @param Format[] $formats
-	 *
-	 * @return self
-	 */
-	public function withFormats(array $formats): self;
+    /**
+     * @return Format[]
+     */
+    public function getFormats() : array;
 
 
-	/**
-	 * @return string[]
-	 */
-	public function getMultipleActions(): array;
+    /**
+     * @param Format[] $formats
+     *
+     * @return self
+     */
+    public function withFormats(array $formats) : self;
 
 
-	/**
-	 * @param string[] $multiple_actions
-	 *
-	 * @return self
-	 */
-	public function withMultipleActions(array $multiple_actions): self;
+    /**
+     * @return string[]
+     */
+    public function getMultipleActions() : array;
 
 
-	/**
-	 * @return SettingsStorage
-	 */
-	public function getUserTableSettingsStorage(): SettingsStorage;
+    /**
+     * @param string[] $multiple_actions
+     *
+     * @return self
+     */
+    public function withMultipleActions(array $multiple_actions) : self;
 
 
-	/**
-	 * @param SettingsStorage $user_table_settings_storage
-	 *
-	 * @return self
-	 */
-	public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage): self;
+    /**
+     * @return SettingsStorage
+     */
+    public function getUserTableSettingsStorage() : SettingsStorage;
 
 
-	/**
-	 * @return string
-	 */
-	public function getActionRowId(): string;
+    /**
+     * @param SettingsStorage $user_table_settings_storage
+     *
+     * @return self
+     */
+    public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage) : self;
 
 
-	/**
-	 * @return string[]
-	 */
-	public function getMultipleActionRowIds(): array;
+    /**
+     * @return string
+     */
+    public function getActionRowId() : string;
+
+
+    /**
+     * @return string[]
+     */
+    public function getMultipleActionRowIds() : array;
 }

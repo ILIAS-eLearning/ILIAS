@@ -15,36 +15,37 @@ use ILIAS\UI\Renderer;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Formater {
+interface Formater
+{
 
-	/**
-	 * Formater constructor
-	 *
-	 * @param Container $dic
-	 */
-	public function __construct(Container $dic);
-
-
-	/**
-	 * @param Format   $format
-	 * @param Column   $column
-	 * @param string   $table_id
-	 * @param Renderer $renderer
-	 *
-	 * @return string
-	 */
-	public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer): string;
+    /**
+     * Formater constructor
+     *
+     * @param Container $dic
+     */
+    public function __construct(Container $dic);
 
 
-	/**
-	 * @param Format   $format
-	 * @param mixed    $value
-	 * @param Column   $column
-	 * @param RowData  $row
-	 * @param string   $table_id
-	 * @param Renderer $renderer
-	 *
-	 * @return string
-	 */
-	public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
+    /**
+     * @param Format   $format
+     * @param Column   $column
+     * @param string   $table_id
+     * @param Renderer $renderer
+     *
+     * @return string
+     */
+    public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer) : string;
+
+
+    /**
+     * @param Format   $format
+     * @param mixed    $value
+     * @param Column   $column
+     * @param RowData  $row
+     * @param string   $table_id
+     * @param Renderer $renderer
+     *
+     * @return string
+     */
+    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer) : string;
 }

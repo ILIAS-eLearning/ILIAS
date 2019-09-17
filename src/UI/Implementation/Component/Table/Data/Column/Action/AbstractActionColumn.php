@@ -12,29 +12,31 @@ use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractActionColumn extends Column implements ActionColumnInterface {
+abstract class AbstractActionColumn extends Column implements ActionColumnInterface
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	protected $sortable = false;
-	/**
-	 * @inheritDoc
-	 */
-	protected $selectable = false;
-	/**
-	 * @inheritDoc
-	 */
-	protected $exportable = false;
+    /**
+     * @inheritDoc
+     */
+    protected $sortable = false;
+    /**
+     * @inheritDoc
+     */
+    protected $selectable = false;
+    /**
+     * @inheritDoc
+     */
+    protected $exportable = false;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(string $key, string $title) {
-		parent::__construct($key, $title);
+    /**
+     * @inheritDoc
+     */
+    public function __construct(string $key, string $title)
+    {
+        parent::__construct($key, $title);
 
-		global $DIC; // TODO: !!!
-		$this->formater = new ActionFormater($DIC);
-	}
+        global $DIC; // TODO: !!!
+        $this->formater = new ActionFormater($DIC);
+    }
 }

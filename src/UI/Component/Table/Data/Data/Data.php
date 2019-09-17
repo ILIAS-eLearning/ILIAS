@@ -11,47 +11,48 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Data {
+interface Data
+{
 
-	/**
-	 * Data constructor
-	 *
-	 * @param RowData[] $data
-	 * @param int       $max_count
-	 */
-	public function __construct(array $data, int $max_count);
-
-
-	/**
-	 * @return RowData[]
-	 */
-	public function getData(): array;
+    /**
+     * Data constructor
+     *
+     * @param RowData[] $data
+     * @param int       $max_count
+     */
+    public function __construct(array $data, int $max_count);
 
 
-	/**
-	 * @param RowData[] $data
-	 *
-	 * @return self
-	 */
-	public function withData(array $data): self;
+    /**
+     * @return RowData[]
+     */
+    public function getData() : array;
 
 
-	/**
-	 * @return int
-	 */
-	public function getMaxCount(): int;
+    /**
+     * @param RowData[] $data
+     *
+     * @return self
+     */
+    public function withData(array $data) : self;
 
 
-	/**
-	 * @param int $max_count
-	 *
-	 * @return self
-	 */
-	public function withMaxCount(int $max_count): self;
+    /**
+     * @return int
+     */
+    public function getMaxCount() : int;
 
 
-	/**
-	 * @return int
-	 */
-	public function getDataCount(): int;
+    /**
+     * @param int $max_count
+     *
+     * @return self
+     */
+    public function withMaxCount(int $max_count) : self;
+
+
+    /**
+     * @return int
+     */
+    public function getDataCount() : int;
 }

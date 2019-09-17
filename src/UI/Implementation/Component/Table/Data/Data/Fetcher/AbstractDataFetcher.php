@@ -18,58 +18,65 @@ use ILIAS\UI\Implementation\Component\Table\Data\Data\Row\PropertyRowData;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractDataFetcher implements DataFetcher {
+abstract class AbstractDataFetcher implements DataFetcher
+{
 
-	/**
-	 * @var Container
-	 */
-	protected $dic;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic) {
-		$this->dic = $dic;
-	}
+    /**
+     * @var Container
+     */
+    protected $dic;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getNoDataText(): string {
-		return $this->dic->language()->txt(Table::LANG_MODULE . "_no_data");
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Container $dic)
+    {
+        $this->dic = $dic;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function isFetchDataNeedsFilterFirstSet(): bool {
-		return false;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getNoDataText() : string
+    {
+        return $this->dic->language()->txt(Table::LANG_MODULE . "_no_data");
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function data(array $data, int $max_count): DataInterface {
-		return new Data($data, $max_count);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function isFetchDataNeedsFilterFirstSet() : bool
+    {
+        return false;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function propertyRowData(string $row_id, object $original_data): RowData {
-		return new PropertyRowData($row_id, $original_data);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function data(array $data, int $max_count) : DataInterface
+    {
+        return new Data($data, $max_count);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getterRowData(string $row_id, object $original_data): RowData {
-		return new GetterRowData($row_id, $original_data);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function propertyRowData(string $row_id, object $original_data) : RowData
+    {
+        return new PropertyRowData($row_id, $original_data);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getterRowData(string $row_id, object $original_data) : RowData
+    {
+        return new GetterRowData($row_id, $original_data);
+    }
 }

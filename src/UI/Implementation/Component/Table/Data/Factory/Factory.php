@@ -22,66 +22,74 @@ use ILIAS\UI\Implementation\Component\Table\Data\Table;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Factory implements FactoryInterface {
+class Factory implements FactoryInterface
+{
 
-	/**
-	 * @var Container
-	 */
-	protected $dic;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic) {
-		$this->dic = $dic;
-	}
+    /**
+     * @var Container
+     */
+    protected $dic;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function table(string $id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher): TableInterface {
-		return new Table($id, $action_url, $title, $columns, $data_fetcher);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Container $dic)
+    {
+        $this->dic = $dic;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function column(string $key, string $title): ColumnInterface {
-		return new Column($key, $title);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function table(string $id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher) : TableInterface
+    {
+        return new Table($id, $action_url, $title, $columns, $data_fetcher);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function formatCSV(): Format {
-		return new CSVFormat($this->dic);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function column(string $key, string $title) : ColumnInterface
+    {
+        return new Column($key, $title);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function formatExcel(): Format {
-		return new ExcelFormat($this->dic);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function formatCSV() : Format
+    {
+        return new CSVFormat($this->dic);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function formatPDF(): Format {
-		return new PDFFormat($this->dic);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function formatExcel() : Format
+    {
+        return new ExcelFormat($this->dic);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function formatHTML(): Format {
-		return new HTMLFormat($this->dic);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function formatPDF() : Format
+    {
+        return new PDFFormat($this->dic);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function formatHTML() : Format
+    {
+        return new HTMLFormat($this->dic);
+    }
 }

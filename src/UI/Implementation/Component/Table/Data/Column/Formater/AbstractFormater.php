@@ -12,18 +12,20 @@ use ILIAS\UI\Component\Table\Data\Column\Formater\Formater;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractFormater implements Formater {
+abstract class AbstractFormater implements Formater
+{
 
-	/**
-	 * @var Container
-	 */
-	protected $dic;
+    /**
+     * @var Container
+     */
+    protected $dic;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic) {
-		$this->dic = $dic;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Container $dic)
+    {
+        $this->dic = $dic;
+    }
 }

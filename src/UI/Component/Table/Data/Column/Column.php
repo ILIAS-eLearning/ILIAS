@@ -12,139 +12,140 @@ use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Column {
+interface Column
+{
 
-	/**
-	 * Column constructor
-	 *
-	 * @param string $key
-	 * @param string $title
-	 */
-	public function __construct(string $key, string $title);
-
-
-	/**
-	 * @return string
-	 */
-	public function getKey(): string;
+    /**
+     * Column constructor
+     *
+     * @param string $key
+     * @param string $title
+     */
+    public function __construct(string $key, string $title);
 
 
-	/**
-	 * @param string $key
-	 *
-	 * @return self
-	 */
-	public function withKey(string $key): self;
+    /**
+     * @return string
+     */
+    public function getKey() : string;
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string;
+    /**
+     * @param string $key
+     *
+     * @return self
+     */
+    public function withKey(string $key) : self;
 
 
-	/**
-	 * @param string $title
-	 *
-	 * @return self
-	 */
-	public function withTitle(string $title): self;
+    /**
+     * @return string
+     */
+    public function getTitle() : string;
 
 
-	/**
-	 * @return Formater
-	 */
-	public function getFormater(): Formater;
+    /**
+     * @param string $title
+     *
+     * @return self
+     */
+    public function withTitle(string $title) : self;
 
 
-	/**
-	 * @param Formater $formater
-	 *
-	 * @return self
-	 */
-	public function withFormater(Formater $formater): self;
+    /**
+     * @return Formater
+     */
+    public function getFormater() : Formater;
 
 
-	/**
-	 * @return bool
-	 */
-	public function isSortable(): bool;
+    /**
+     * @param Formater $formater
+     *
+     * @return self
+     */
+    public function withFormater(Formater $formater) : self;
 
 
-	/**
-	 * @param bool $sortable
-	 *
-	 * @return self
-	 */
-	public function withSortable(bool $sortable = true): self;
+    /**
+     * @return bool
+     */
+    public function isSortable() : bool;
 
 
-	/**
-	 * @return bool
-	 */
-	public function isDefaultSort(): bool;
+    /**
+     * @param bool $sortable
+     *
+     * @return self
+     */
+    public function withSortable(bool $sortable = true) : self;
 
 
-	/**
-	 * @param bool $default_sort
-	 *
-	 * @return self
-	 */
-	public function withDefaultSort(bool $default_sort = false): self;
+    /**
+     * @return bool
+     */
+    public function isDefaultSort() : bool;
 
 
-	/**
-	 * @return int
-	 */
-	public function getDefaultSortDirection(): int;
+    /**
+     * @param bool $default_sort
+     *
+     * @return self
+     */
+    public function withDefaultSort(bool $default_sort = false) : self;
 
 
-	/**
-	 * @param int $default_sort_direction
-	 *
-	 * @return self
-	 */
-	public function withDefaultSortDirection(int $default_sort_direction = SortField::SORT_DIRECTION_UP): self;
+    /**
+     * @return int
+     */
+    public function getDefaultSortDirection() : int;
 
 
-	/**
-	 * @return bool
-	 */
-	public function isSelectable(): bool;
+    /**
+     * @param int $default_sort_direction
+     *
+     * @return self
+     */
+    public function withDefaultSortDirection(int $default_sort_direction = SortField::SORT_DIRECTION_UP) : self;
 
 
-	/**
-	 * @param bool $selectable
-	 *
-	 * @return self
-	 */
-	public function withSelectable(bool $selectable = true): self;
+    /**
+     * @return bool
+     */
+    public function isSelectable() : bool;
 
 
-	/**
-	 * @return bool
-	 */
-	public function isDefaultSelected(): bool;
+    /**
+     * @param bool $selectable
+     *
+     * @return self
+     */
+    public function withSelectable(bool $selectable = true) : self;
 
 
-	/**
-	 * @param bool $default_selected
-	 *
-	 * @return self
-	 */
-	public function withDefaultSelected(bool $default_selected = true): self;
+    /**
+     * @return bool
+     */
+    public function isDefaultSelected() : bool;
 
 
-	/**
-	 * @return bool
-	 */
-	public function isExportable(): bool;
+    /**
+     * @param bool $default_selected
+     *
+     * @return self
+     */
+    public function withDefaultSelected(bool $default_selected = true) : self;
 
 
-	/**
-	 * @param bool $exportable
-	 *
-	 * @return self
-	 */
-	public function withExportable(bool $exportable = true): self;
+    /**
+     * @return bool
+     */
+    public function isExportable() : bool;
+
+
+    /**
+     * @param bool $exportable
+     *
+     * @return self
+     */
+    public function withExportable(bool $exportable = true) : self;
 }

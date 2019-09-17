@@ -15,57 +15,58 @@ use ILIAS\UI\Component\Table\Data\Table;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Factory {
+interface Factory
+{
 
-	/**
-	 * Factory constructor
-	 *
-	 * @param Container $dic
-	 */
-	public function __construct(Container $dic);
-
-
-	/**
-	 * @param string      $id
-	 * @param string      $action_url
-	 * @param string      $title
-	 * @param Column[]    $columns
-	 * @param DataFetcher $data_fetcher
-	 *
-	 * @return Table
-	 */
-	public function table(string $id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher): Table;
+    /**
+     * Factory constructor
+     *
+     * @param Container $dic
+     */
+    public function __construct(Container $dic);
 
 
-	/**
-	 * @param string $key
-	 * @param string $title
-	 *
-	 * @return Column
-	 */
-	public function column(string $key, string $title): Column;
+    /**
+     * @param string      $id
+     * @param string      $action_url
+     * @param string      $title
+     * @param Column[]    $columns
+     * @param DataFetcher $data_fetcher
+     *
+     * @return Table
+     */
+    public function table(string $id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher) : Table;
 
 
-	/**
-	 * @return Format
-	 */
-	public function formatCSV(): Format;
+    /**
+     * @param string $key
+     * @param string $title
+     *
+     * @return Column
+     */
+    public function column(string $key, string $title) : Column;
 
 
-	/**
-	 * @return Format
-	 */
-	public function formatExcel(): Format;
+    /**
+     * @return Format
+     */
+    public function formatCSV() : Format;
 
 
-	/**
-	 * @return Format
-	 */
-	public function formatPDF(): Format;
+    /**
+     * @return Format
+     */
+    public function formatExcel() : Format;
 
 
-	/**
-	 * @return Format
-	 */
-	public function formatHTML(): Format;
+    /**
+     * @return Format
+     */
+    public function formatPDF() : Format;
+
+
+    /**
+     * @return Format
+     */
+    public function formatHTML() : Format;
 }
