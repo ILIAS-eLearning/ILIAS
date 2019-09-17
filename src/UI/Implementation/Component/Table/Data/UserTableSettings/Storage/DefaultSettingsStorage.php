@@ -51,7 +51,7 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
         $user_table_settings = new Settings($this->dic->ui()->factory()->viewControl()->pagination());
 
         foreach (self::VARS as $property) {
-            $value = json_decode($this->properties_storage->getProperty($table_id, $user_id, $property), true);
+            $value = json_decode($this->properties_storage->getProperty($table_id, $user_id, $property) ?? "", true);
 
             if (!empty($value)) {
                 switch ($property) {

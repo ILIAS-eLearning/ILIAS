@@ -54,7 +54,7 @@ interface Settings
      *
      * @return array
      */
-    public function getFieldValues() : array;
+    public function getFilterFieldValues() : array;
 
 
     /**
@@ -62,15 +62,15 @@ interface Settings
      *
      * @return mixed
      */
-    public function getFieldValue(string $key);
+    public function getFilterFieldValue(string $key);
 
 
     /**
-     * @param mixed[] $field_values
+     * @param mixed[] $filter_field_values
      *
      * @return self
      */
-    public function withFieldValues(array $field_values) : self;
+    public function withFilterFieldValues(array $filter_field_values) : self;
 
 
     /**

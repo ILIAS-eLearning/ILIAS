@@ -267,7 +267,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             try {
                 $data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
 
-                $user_table_settings = $user_table_settings->withFieldValues($data);
+                $user_table_settings = $user_table_settings->withFilterFieldValues($data);
 
                 if (!empty(array_filter($data))) {
                     $user_table_settings = $user_table_settings->withFilterSet(true);

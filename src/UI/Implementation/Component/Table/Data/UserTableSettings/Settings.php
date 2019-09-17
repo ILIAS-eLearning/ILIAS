@@ -26,7 +26,7 @@ class Settings implements SettingsInterface
     /**
      * @var mixed[]
      */
-    protected $field_values = [];
+    protected $filter_field_values = [];
     /**
      * @var SortField[]
      */
@@ -53,29 +53,29 @@ class Settings implements SettingsInterface
     /**
      * @inheritDoc
      */
-    public function getFieldValues() : array
+    public function getFilterFieldValues() : array
     {
-        return $this->field_values;
+        return $this->filter_field_values;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function getFieldValue(string $key)
+    public function getFilterFieldValue(string $key)
     {
-        return $this->field_values[$key] ?? null;
+        return $this->filter_field_values[$key] ?? null;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function withFieldValues(array $field_values) : SettingsInterface
+    public function withFilterFieldValues(array $filter_field_values) : SettingsInterface
     {
         $clone = clone $this;
 
-        $clone->field_values = $field_values;
+        $clone->filter_field_values = $filter_field_values;
 
         return $clone;
     }
