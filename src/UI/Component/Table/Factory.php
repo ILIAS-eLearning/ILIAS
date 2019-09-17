@@ -4,7 +4,6 @@
 
 namespace ILIAS\UI\Component\Table;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
 use ILIAS\UI\Component\Table\Data\Table;

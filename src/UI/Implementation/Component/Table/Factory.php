@@ -1,7 +1,6 @@
 <?php
 namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
 use ILIAS\UI\Component\Table\Data\Table as TableInterface;
