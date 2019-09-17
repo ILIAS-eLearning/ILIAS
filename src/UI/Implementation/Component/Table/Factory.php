@@ -3,9 +3,10 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table as T;
+use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
+use ILIAS\UI\Component\Table\Data\Table as TableInterface;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Implementation\Component\Table\Data\Factory\Factory as DataTableFactory;
-use ILIAS\UI\Component\Table\Data\Factory\Factory as DataTableFactoryInterface;
+use ILIAS\UI\Implementation\Component\Table\Data\Table;
 
 /**
  * Implementation of factory for tables
@@ -37,7 +38,7 @@ class Factory implements T\Factory {
 	/**
 	 * @inheritDoc
 	 */
-	public function data(Container $dic): DataTableFactoryInterface {
-		return new DataTableFactory($dic);
+	public function data(string $id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher): TableInterface {
+		return new Table($id, $action_url, $title, $columns, $data_fetcher);
 	}
 }

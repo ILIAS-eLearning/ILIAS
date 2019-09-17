@@ -10,7 +10,6 @@ use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField as SortFieldInterface;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
-use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort\SortField;
 
 /**
@@ -45,7 +44,7 @@ abstract class AbstractSettingsStorage implements SettingsStorage
     {
         if (!$user_table_settings->isFilterSet() && empty($user_table_settings->getSortFields())) {
             $user_table_settings = $user_table_settings->withSortFields(array_map(function (Column $column) use ($component): SortFieldInterface {
-                return $this->sortField($column->getKey(), $column->getDefaultSortDirection());
+                return new SortField($column->getKey(), $column->getDefaultSortDirection());
             }, array_filter($component->getColumns(), function (Column $column) : bool {
                 return ($column->isSortable() && $column->isDefaultSort());
             })));
@@ -60,24 +59,6 @@ abstract class AbstractSettingsStorage implements SettingsStorage
         }
 
         return $user_table_settings;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function sortField(string $sort_field, int $sort_field_direction) : SortFieldInterface
-    {
-        return new SortField($sort_field, $sort_field_direction);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function userTableSettings() : SettingsInterface
-    {
-        return new Settings($this->dic->ui()->factory()->viewControl()->pagination());
     }
 
 

@@ -2,15 +2,22 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Table\Data\Column\Column;
-use ILIAS\UI\Component\Table\Data\Data\Data;
+use ILIAS\UI\Component\Table\Data\Column\Column as ColumnInterface;
+use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Action\AbstractActionColumn;
+use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater;
+use ILIAS\UI\Implementation\Component\Table\Data\Data\Data;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
+use ILIAS\UI\Implementation\Component\Table\Data\Data\Row\PropertyRowData;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\CSVFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\ExcelFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\HTMLFormat;
+use ILIAS\UI\Implementation\Component\Table\Data\Format\PDFFormat;
 use ILIAS\UI\Renderer;
 
 /**
@@ -22,18 +29,16 @@ function advanced() : string
 
     $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
 
-    $factory = $DIC->ui()->factory()->table()->data($DIC);
-
-    $table = $factory->table("example_datatable_advanced", $action_url, "Advanced example data table", [
-        $factory->column("obj_id", "Id")->withDefaultSelected(false),
-        $factory->column("title", "Title")->withDefaultSort(true),
-        $factory->column("type", "Type")->withFormater(new class($DIC) extends DefaultFormater
+    $table = $DIC->ui()->factory()->table()->data("example_datatable_advanced", $action_url, "Advanced example data table", [
+        (new Column("obj_id", "Id"))->withDefaultSelected(false),
+        (new Column("title", "Title"))->withDefaultSort(true),
+        (new Column("type", "Type"))->withFormater(new class($DIC) extends DefaultFormater
         {
 
             /**
              * @inheritDoc
              */
-            public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
+            public function formatRowCell(Format $format, $value, ColumnInterface $column, RowData $row, string $table_id, Renderer $renderer) : string
             {
                 $type = parent::formatRowCell($format, $value, $column, $row, $table_id, $renderer);
 
@@ -51,7 +56,7 @@ function advanced() : string
                 }
             }
         }),
-        $factory->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
+        (new Column("description", "Description"))->withDefaultSelected(false)->withSortable(false),
         new class("actions", "Actions") extends AbstractActionColumn
         {
 
@@ -73,7 +78,7 @@ function advanced() : string
         /**
          * @inheritDoc
          */
-        public function fetchData(Settings $user_table_settings) : Data
+        public function fetchData(Settings $user_table_settings) : DataInterface
         {
             $sql = 'SELECT *' . $this->getQuery($user_table_settings);
 
@@ -81,7 +86,7 @@ function advanced() : string
 
             $rows = [];
             while (!empty($row = $this->dic->database()->fetchObject($result))) {
-                $rows[] = $this->propertyRowData($row->obj_id, $row);
+                $rows[] = new PropertyRowData($row->obj_id, $row);
             }
 
             $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($user_table_settings, true);
@@ -90,7 +95,7 @@ function advanced() : string
 
             $max_count = intval($result->fetchAssoc()["count"]);
 
-            return $this->data($rows, $max_count);
+            return new Data($rows, $max_count);
         }
 
 
@@ -132,10 +137,10 @@ function advanced() : string
         "title" => $DIC->ui()->factory()->input()->field()->text("Title"),
         "type"  => $DIC->ui()->factory()->input()->field()->text("Type")
     ])->withFormats([
-        $factory->formatCSV(),
-        $factory->formatExcel(),
-        $factory->formatPDF(),
-        $factory->formatHTML()
+        new CSVFormat($DIC),
+        new ExcelFormat($DIC),
+        new PDFFormat($DIC),
+        new HTMLFormat($DIC)
     ])->withMultipleActions([
         "Action" => $action_url
     ]);

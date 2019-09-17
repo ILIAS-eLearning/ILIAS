@@ -5,7 +5,9 @@
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Factory\Factory as DataTableFactory;
+use ILIAS\UI\Component\Table\Data\Column\Column;
+use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
+use ILIAS\UI\Component\Table\Data\Table;
 
 /**
  * Table factory
@@ -129,9 +131,13 @@ interface Factory {
      *        The Data Table is responsive by using a small number of columns
 	 *
 	 * ---
-	 * @param Container $dic
+     * @param string      $id
+     * @param string      $action_url
+     * @param string      $title
+     * @param Column[]    $columns
+     * @param DataFetcher $data_fetcher
 	 *
-	 * @return \ILIAS\UI\Component\Table\Data\Factory\Factory
+	 * @return \ILIAS\UI\Component\Table\Data\Table
 	 */
-	public function data(Container $dic): DataTableFactory;
+	public function data(string $id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher): Table;
 }

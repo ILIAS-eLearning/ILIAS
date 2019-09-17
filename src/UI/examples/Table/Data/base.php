@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Table\Data\Data\Data;
+use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
+use ILIAS\UI\Implementation\Component\Table\Data\Data\Data;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Fetcher\AbstractDataFetcher;
+use ILIAS\UI\Implementation\Component\Table\Data\Data\Row\PropertyRowData;
 
 /**
  * @return string
@@ -17,19 +20,17 @@ function base() : string
 
     $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
 
-    $factory = $DIC->ui()->factory()->table()->data($DIC);
-
-    $table = $factory->table("example_datatable_actions", $action_url, "Example data table with actions", [
-        $factory->column("column1", "Column 1"),
-        $factory->column("column2", "Column 2"),
-        $factory->column("column3", "Column 3")
+    $table = $DIC->ui()->factory()->table()->data("example_datatable_actions", $action_url, "Example data table with actions", [
+        new Column("column1", "Column 1"),
+        new Column("column2", "Column 2"),
+        new Column("column3", "Column 3")
     ], new class($DIC) extends AbstractDataFetcher
     {
 
         /**
          * @inheritDoc
          */
-        public function fetchData(Settings $user_table_settings) : Data
+        public function fetchData(Settings $user_table_settings) : DataInterface
         {
             $data = array_map(function (int $index) : stdClass {
                 return (object) [
@@ -96,10 +97,10 @@ function base() : string
             $data = array_slice($data, $user_table_settings->getLimitStart(), $user_table_settings->getRowsCount());
 
             $data = array_map(function (stdClass $row) : RowData {
-                return $this->propertyRowData($row->column1, $row);
+                return new PropertyRowData($row->column1, $row);
             }, $data);
 
-            return $this->data($data, $max_count);
+            return new Data($data, $max_count);
         }
     });
 
