@@ -77,6 +77,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
         \ilBuddySystemGUI::initializeFrontend($this);
+        \ilOnScreenChatGUI::initializeFrontend($this);
     }
 
 

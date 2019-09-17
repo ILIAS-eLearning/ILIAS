@@ -298,7 +298,6 @@ class ilMainMenuGUI
             $this->renderHelpButtons();
 
             $this->renderOnScreenChatMenu();
-            $this->populateWithOnScreenChat();
             $this->renderBackgroundTasks();
             $this->renderAwareness();
         }
@@ -555,13 +554,6 @@ class ilMainMenuGUI
             );
         }
     }
-
-
-    private function populateWithOnScreenChat()
-    {
-        ilOnScreenChatGUI::initializeFrontend();
-    }
-
 
     private function renderOnScreenChatMenu()
     {
