@@ -1,4 +1,5 @@
 # Table of Contents
+
 - [Hardening and Security Guidance](#hardening-and-security-guidance)
   * [List of placeholder names](#list-of-placeholder-names)
   * [Firewalling](#firewalling)
@@ -91,15 +92,21 @@ note: for changing base setting via ILIAS setup, you need to grant write permiss
 It is highly RECOMMENDED to place your data directory outside of the web server docroot, as pointed out by the ILIAS Installation Wizard.
 
 ## Isolate Docroot
+
 You MAY use openbasedir-restriction to avoid malicious software to directory-traverse out of your docroot-directory. This is very important if there are other websites on the same host.
 
 Apache2:
 
-    php_admin_value open_basedir ./:%DOCROOT%:%EXTERNALDATA%:%LOGDIR%:/usr/share/php/:/var/www/lib/:/tmp
+```
+php_admin_value open_basedir ./:%DOCROOT%:%EXTERNALDATA%:%LOGDIR%:/usr/share/php/:/var/www/lib/:/tmp
+```
 
 Nginx:
 
+```
     fastcgi_param PHP_VALUE open_basedir="./:%DOCROOT%:%EXTERNALDATA%:%LOGDIR%:/usr/share/php/:/var/www/lib/:/tmp";
+```
+
 **Hint:** This option will be applied to the PHP-FPM process. If there are multiple websites on your webserver you have to define a single PHP-FPM-pool for each website. Otherwise these other homepages won' t be accessible anymore.
 
 ## OS user handling security
@@ -107,6 +114,7 @@ Nginx:
 If you use PHP-FPM (FastCGI Process Manager), you can increase security by running the PHP-FPM processes as a specific unique user instead of `www-data` / `wwwrun` (depends on linux distribution).
 
 Snippet from a PHP-FPM pool definition:
+
 ```
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
@@ -115,14 +123,13 @@ user = %USERNAME%
 group = %GROUP%
 ```
 
-
 **note:**  
 NGINX and also apache2 can only run with one user (no multi user multi process model).  
 So it is necessary to put all the "PHP-FPM"-users in the primary group of the webserver user.
 
 ## Major security improvement: use HTTPS
 
-You can get a trusted, free SSL certificate at https://letsencrypt.org.
+You can get a trusted, free SSL certificate at <https://letsencrypt.org>.
 Or use a SSL certificate from a commercial certificate authority.
 
 ### Redirect all unencrypted traffic to HTTPS
@@ -142,13 +149,13 @@ To redirect all HTTP traffic to HTTPS you SHOULD issue a permanent redirect usin
 
 ```
 server {
-		listen   *:80;
-		listen   [::]:80;
-		server_name %HOSTNAME%;
+    listen   *:80;
+    listen   [::]:80;
+    server_name %HOSTNAME%;
 
-		location / {
-				return 301 https://%HOSTNAME%$request_uri;				
-		}
+    location / {
+        return 301 https://%HOSTNAME%$request_uri;
+    }
 ```
 
 ### Proper SSL configuration
@@ -160,6 +167,7 @@ The default SSL settings (e.g. ciphers & ssl protocol version ) used by web serv
 The following suggestion can only be a recommendation and depends completely on your specific environment (webserver software and version, used OpenSSL version, etc.).
 
 If you use, the following suggestion, please note that the oldest compatible clients will be:
+
 * Firefox 27
 * Chrome 30
 * IE 11 on Windows 7,
@@ -172,9 +180,11 @@ If you use, the following suggestion, please note that the oldest compatible cli
 Older browser clients will not be able to reach the ILIAS installation!
 
 #### Apache2
+
 *(Version: 2.4.34,  OpenSSL 1.1.1c)*
 
 Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
+
 ```
 <VirtualHost *:443>
     ...
@@ -186,6 +196,7 @@ Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
 ```
 
 Add the following line OUTSIDE  the `<VirtualHost></VirtualHost>` block:
+
 ```
 SSLProtocol             all -SSLv3 -TLSv1 -TLSv1.1
 SSLCipherSuite          ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
@@ -194,8 +205,8 @@ SSLCompression          off
 SSLSessionTickets       off
 ```
 
-
 #### NGINX
+
 *(Version: 1.14.0,  OpenSSL 1.1.1c)*
 
 Add the following line INSIDE the server block:
@@ -239,7 +250,6 @@ In best case, you allways use the latest "Modern" configuration.
 To improve the security of your ILIAS users you SHOULD set the following Headers:
 (this is an experience based configuration set of headers, this may differ from your configuration/usage scenario)
 
-
 ```
     X-Content-Type-Options: nosniff;
     X-XSS-Protection: 1; mode=block;
@@ -250,6 +260,7 @@ To improve the security of your ILIAS users you SHOULD set the following Headers
 ```
 
 *Backward compatibility to  Microsoft Internet Explorer 10*:  
+
 ```
 add_header X-Content-Security-Policy "default-src 'self'; connect-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' 'unsafe-inline' data:; font-src 'self' 'unsafe-inline' data:; media-src 'self' 'unsafe-inline' data:";
 ```
@@ -257,6 +268,7 @@ add_header X-Content-Security-Policy "default-src 'self'; connect-src 'self'; sc
 see also: [Browser compatibility of HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Browser_compatibility)
 
 ##### Apache
+
 Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
 
 ```
@@ -275,7 +287,8 @@ Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
     </IfModule>
 ```
 
- ##### NGINX
+##### NGINX
+
  You can simply add this in your `server` configuration:
 
  ```
@@ -292,22 +305,24 @@ Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
          add_header X-Content-Security-Policy "default-src 'self'; connect-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' 'unsafe-inline' data:; font-src 'self' 'unsafe-inline' data:; media-src 'self' 'unsafe-inline' data:";
  ```
 
-note:  
+note:
 If you use a proxied [Chat Server](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Modules/Chatroom/README.md), you MUST add the url to the CSP definition:  
+
 ```
 connect-src 'self' wss://onscreenchat.%HOSTNAME% https://onscreenchat.%HOSTNAME%;
 ```
 
 If you use other external content (e.g. for a SCORM module or external video content) you have to add a `default-src` (The default-src is the default policy for loading content such as JavaScript, Images, CSS, Fonts, AJAX requests, Frames, HTML5 Media from other sites):
 
-e.g. for https://www.youtube.com as source:
+e.g. for <https://www.youtube.com> as source:
 
 ```
-default-src 	'self' www.youtube.com; ...
+default-src 'self' www.youtube.com; ...
 ```
 
 #### Validate the header configuration
-It is recommended to validate your configuration with the services from https://securityheaders.com/.  
+
+It is recommended to validate your configuration with the services from <https://securityheaders.com>.
 Try to reach **A** grade.
 
 ### Enable OCSP stapling (TLS Certificate Status Request)
@@ -320,12 +335,15 @@ By adding the following to your SSL VirtualHost configuration your webserver wil
 #### Apache2
 
 Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
+
 ```
 SSLUseStapling on
 SSLStaplingResponderTimeout 5
 SSLStaplingReturnResponderErrors off
 ```
+
 Add the following line OUTSIDE  the `<VirtualHost></VirtualHost>` block:
+
 ```
 SSLStaplingCache shmcb:/tmp/stapling_cache(128000)
 ```
@@ -348,6 +366,7 @@ openssl s_client -connect %HOSTNAME%:443 -servername %HOSTNAME% -status < /dev/n
 ```
 
 The expected output of a working OCSP configuration:
+
 ```
 OCSP response:
 OCSP Response Data:
@@ -356,8 +375,9 @@ OCSP Response Data:
 ```
 
 The [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) will also show if your OCSP configuration is working:
+
 ```
-OCSP stapling 	Yes
+OCSP stapling Yes
 ```
 
 ### Enable HTTP Strict Transport Security
@@ -388,6 +408,7 @@ Ensure you have `mod_headers.so` enabled in Apache2:
 **Warning:** Before activating the configuration above you MUST make sure that you have a good workflow for maintaining your SSL settings (including certificate renewals) as you will not be able to disable HTTPS access to your site for up to 6 months.
 
 **Tip:** When you test HSTS, use a very short max-age timeout
+
 ```
 includeSubDomains:       Restrictions also apply to all subdomains of the current domain.
 max-age:                 Duration of cached information (180 days)
@@ -395,13 +416,15 @@ max-age:                 Duration of cached information (180 days)
 
 ### Generate the ILIAS `ilClientId` cookie with `secure` attribute
 
-(The JF https://docu.ilias.de/goto.php?target=wiki_1357_JourFixe-2018-04-23 suggested to do this in webserver configuration.)
+(The JF <https://docu.ilias.de/goto.php?target=wiki_1357_JourFixe-2018-04-23> suggested to do this in webserver configuration.)
 
-The browser will include the cookie in an HTTP request only if the request is transmitted over a secure channel (HTTPS).  
-https://en.wikipedia.org/wiki/Secure_cookie
+The browser will include the cookie in an HTTP request only if the request is transmitted over a secure channel (HTTPS).
+<https://en.wikipedia.org/wiki/Secure_cookie>
 
 ##### Apache
+
 You have to add this to the apache2 configuration.
+
 ```
 Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
 ```
@@ -410,11 +433,13 @@ note:
 Apache2 will use this for all cookie, who are beeing created.
 
 ##### NGINX
+
 You can simply add for example `add_header Set-Cookie` in your `server` configuration.
 
 ```
     add_header Set-Cookie "ilClientId=%CLIENTID%; Path=/; Secure; HttpOnly";
 ```
+
 note:  
 For nginx, you have to generate a specific cookie for your ILIAS client.
 This will overide the cookie deliverd by ILIAS, so it is necessary to generate the whole cookie.
@@ -427,7 +452,9 @@ It is recommended to suppress these header informations to prevent detection and
 ### Remove “server” information from http header
 
 #### Apache2
-* Module mod_headers is needed
+
+* Module mod\_headers is needed
+
 ```
 <IfModule mod_headers.c>
     Headers unset Server
@@ -436,12 +463,15 @@ It is recommended to suppress these header informations to prevent detection and
 ```
 
 #### NGINX
-* Module ngx_http_headers_module is needed
+
+* Module ngx\_http\_headers\_module is needed
 
 ```
     more_set_headers 'Server: ';
 ```
+
 or better
+
 ```
     more_clear_headers  'Server:*';
 ```
@@ -452,7 +482,7 @@ This can also be done by unsetting the header in webserver.
 * "Header unset X-Powered-By" for Apache2 or rather
 * "more_clear_headers 'X-Powered-By'" for NGINX.
 
-The suggested solution is to set 'expose_php' to 'off' in your php.ini:
+The suggested solution is to set 'expose\_php' to 'off' in your php.ini:
 
 ```
     expose_php = Off
@@ -461,9 +491,11 @@ The suggested solution is to set 'expose_php' to 'off' in your php.ini:
 ## deny access or restrict to several files or locations
 
 ### ILIAS setup
+
 The access to the ILIAS Installation Wizard `(/setup/setup.php)` MAY be restricted:
 
-Apache2:  
+Apache2:
+
 ```
     <Location /setup>
         <IfVersion < 2.3>
@@ -498,32 +530,41 @@ Nginx:
 Please add the whitelisted ip address (%IPADDRESS%) to grant access to ILIAS setup here.
 
 ### Prevent blacklisted files of beeing served by the webserver
+
 If somebody tries to upload a file with a filetype blacklisted by the upload settings, the upload will take place, but the file will be renamed to `filename.sec`. The webserver should not serve this file anymore to it's visitors as the file may consists of malicious software.
 
 Apache2:
 
+```
     <FilesMatch "\.(sec)$">
         Order Deny,Allow
         Deny from All
     </FilesMatch>
+```
 
 Nginx:
 
+```
     location ~ [^/]\.sec {
         deny all;
     }
+```
 
 ### Prevent execution of PHP-Code in data-directory
+
 There may be situations where there is no oppurtunity to disallow uploading php-files e.g. in Computer Science courses. In this case you SHOULD disallow these uploaded code to be executed by the webserver.
 
 Apache2:
+
 ```
     <LocationMatch "/data/.*(?i)\.(php)$">
         Order Deny,Allow
         Deny from All
     </LocationMatch>
 ```
+
 Nginx:
+
 ```
     location ~* /data/.*\.php {
         deny all;
@@ -531,25 +572,28 @@ Nginx:
 ```
 
 ### Deny Access to local Git-Directory
+
 If you installed ILIAS via git, access the local Git-Directory (.git) SHOULD be denied for visitors via web.
 
 Apache2:
+
 ```
     <Directorymatch "^/.*/\.git/">
         Order deny,allow
         Deny from all
     </Directorymatch>
 ```
+
 Nginx:
+
 ```
     location /.git {
         deny all;
     }
 ```
 
-
-
 ## Integrity check of ILIAS code in docroot
+
 Local changes of the code of ILIAS can indicate a potential intrusion.
 
 To determine local changes of the code of ILIAS use `git status` / `git diff`.
@@ -586,20 +630,22 @@ This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no
     }
 ```
 
-
-** [ilFileDelivery](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Services/FileDelivery/classes/override.php.template)** (concerns NGINX/PHP-FPM):
+**[ilFileDelivery](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Services/FileDelivery/classes/override.php.template)** (concerns NGINX/PHP-FPM):
 > This is needed if you want to use the ilFileDelivery::DELIVERY_METHOD_XACCEL or the ilFileDelivery::DELIVERY_METHOD_XSENDFILE Method since PHP can't figure out whether X-Accel ist installed or not.""
 
 rename the file:  
+
 ```
 %DOCROOT%/Services/FileDelivery/classes/override.php.template
 ```
 to  
+
 ```
 %DOCROOT%/Services/FileDelivery/classes/override.php
 ```
 
 ## Use secure passwords
+
 Please keep in mind, that your plattform might me be accessible to the world wide web. To avoid unauthorized access to your Ilias-Installation, it his highly recommended to use secure passwords. Especially the root password and the Ilias-Master-Password are potentially endangered.
 
 Your passwords should fullfil the following criterias:
@@ -621,4 +667,4 @@ You MAY generate a password by using the pwgen-command on your webserver's cli
 
 ## Report security issues
 
-If you think you found an security related issue in ILIAS please refer to http://www.ilias.de/docu/goto_docu_wiki_5307.html#ilPageTocA213 for reporting it.
+If you think you found an security related issue in ILIAS please refer to <http://www.ilias.de/docu/goto_docu_wiki_5307.html#ilPageTocA213> for reporting it.
