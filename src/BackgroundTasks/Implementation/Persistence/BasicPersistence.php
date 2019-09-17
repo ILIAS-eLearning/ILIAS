@@ -218,8 +218,7 @@ class BasicPersistence implements Persistence
         $taskContainer->setClassName(get_class($task));
         // bugfix mantis 23503
         $absolute_class_path = $reflection->getFileName();
-        $ilias_absolute_path = ILIAS_ABSOLUTE_PATH;
-        $relative_class_path = str_replace($ilias_absolute_path,".",$absolute_class_path);
+        $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
         $taskContainer->setClassPath($relative_class_path);
 
         // Recursivly save the inputs and link them to this task.
@@ -288,8 +287,7 @@ class BasicPersistence implements Persistence
         $valueContainer->setClassName(get_class($value));
         // bugfix mantis 23503
         $absolute_class_path = $reflection->getFileName();
-        $ilias_absolute_path = ILIAS_ABSOLUTE_PATH;
-        $relative_class_path = str_replace($ilias_absolute_path,".",$absolute_class_path);
+        $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
         $valueContainer->setClassPath($relative_class_path);
         $valueContainer->setType($value->getType());
         $valueContainer->setHasParenttask($value->hasParentTask());
