@@ -12,7 +12,7 @@
     + [Serve security related Headers](#serve-security-related-headers)
     + [Enable OCSP stapling (TLS Certificate Status Request)](#enable-ocsp-stapling--tls-certificate-status-request-)
     + [Enable HTTP Strict Transport Security](#enable-http-strict-transport-security)
-    + [Genrate the ILIAS `ilClientId` cookie with `secure` attribute](#genrate-the-ilias--ilclientid--cookie-with--secure--attribute)
+    + [Genrate the ILIAS `ilClientId` cookie with `secure` attribute](#generate-the-ilias--ilclientid--cookie-with--secure--attribute)
   * [Suppress server signature and PHP version information](#suppress-server-signature-and-php-version-information)
   * [deny access or restrict to several files or locations](#deny-access-or-restrict-to-several-files-or-locations)
     + [ILIAS setup](#ilias-setup)
@@ -393,7 +393,7 @@ includeSubDomains:       Restrictions also apply to all subdomains of the curren
 max-age:                 Duration of cached information (180 days)
 ```
 
-### Genrate the ILIAS `ilClientId` cookie with `secure` attribute
+### Generate the ILIAS `ilClientId` cookie with `secure` attribute
 
 (The JF https://docu.ilias.de/goto.php?target=wiki_1357_JourFixe-2018-04-23 suggested to do this in webserver configuration.)
 
