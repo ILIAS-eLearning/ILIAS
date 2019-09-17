@@ -271,6 +271,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
                 if (!empty(array_filter($data))) {
                     $user_table_settings = $user_table_settings->withFilterSet(true);
+
+                    $user_table_settings = $user_table_settings->withCurrentPage(); // Reset current page on filter change
                 }
             } catch (Throwable $ex) {
 
