@@ -31,7 +31,7 @@ class ilObjLearningSequenceLearnerGUI
 		int $current_item,
 		ilCtrl $ctrl,
 		ilLanguage $lng,
-		ilGlobalTemplate $tpl,
+		ilGlobalTemplateInterface $tpl,
 		ilToolbarGUI $toolbar,
 		ilKioskModeService $kiosk_mode_service,
 		ilAccess $access,

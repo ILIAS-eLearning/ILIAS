@@ -1646,7 +1646,7 @@ return "";		// changed. alex
 
 		# Initial colon indicates main namespace rather than specified default
 		# but should not create invalid {ns,title} pairs such as {0,Project:Foo}
-		if ( ':' == $dbkey{0} ) {
+		if ( ':' == $dbkey[0] ) {
 			$this->mNamespace = NS_MAIN;
 			$dbkey = substr( $dbkey, 1 ); # remove the colon but continue processing
 			$dbkey = trim( $dbkey, '_' ); # remove any subsequent whitespace
@@ -1777,7 +1777,7 @@ return "";		// changed. alex
 		}
 
 		// Any remaining initial :s are illegal.
-		if ( $dbkey !== '' && ':' == $dbkey{0} ) {
+		if ( $dbkey !== '' && ':' == $dbkey[0] ) {
 			return false;
 		}
 		

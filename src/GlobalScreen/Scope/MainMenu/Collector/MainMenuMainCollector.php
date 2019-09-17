@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
+use ILIAS\GlobalScreen\Collector\Collector;
+use ILIAS\GlobalScreen\Collector\LogicException;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Provider\Provider;
@@ -25,7 +27,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainMenuMainCollector
+class MainMenuMainCollector implements Collector
 {
 
     /**
@@ -75,7 +77,24 @@ class MainMenuMainCollector
         $this->information = $information;
         $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->load();
+    }
+
+
+    /**
+     * @return isItem[]
+     */
+    public function getAllItems() : array
+    {
+        return self::$items;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasItems() : bool
+    {
+        return (is_array(self::$items) && count(self::$items) > 0);
     }
 
 
@@ -88,7 +107,7 @@ class MainMenuMainCollector
      * @return isTopItem[]
      * @throws \Throwable
      */
-    public function getStackedTopItemsForPresentation() : array
+    public function getItems() : array
     {
         return $this->getStackedTopItems();
     }
@@ -100,7 +119,6 @@ class MainMenuMainCollector
      */
     private function getStackedTopItems() : array
     {
-        $this->load();
         $top_items = [];
         foreach (self::$topitems as $top_item) {
             if (!$this->checkAvailability($top_item)) {
@@ -130,6 +148,8 @@ class MainMenuMainCollector
                     }
                     ksort($children);
                     $children = $this->handleDoubleDividers($children);
+                    // bugfix mantis 25577
+                    $children = $this->handleSolitaryDividers($children, $top_item);
 
                     // https://mantis.ilias.de/view.php?id=24061
                     if (count($children) === 0) {
@@ -180,7 +200,6 @@ class MainMenuMainCollector
      */
     public function getSingleItem(IdentificationInterface $identification) : isItem
     {
-        $this->load();
         try {
             return self::$items[$identification->serialize()];
         } catch (\Throwable $e) {
@@ -214,7 +233,7 @@ class MainMenuMainCollector
      * @return bool
      * @throws \Throwable
      */
-    private function load() : bool
+    public function collect() : void
     {
         if ($this->loaded === false || $this->loaded === null) {
             /**
@@ -231,8 +250,6 @@ class MainMenuMainCollector
                 throw $e;
             }
         }
-
-        return $this->loaded;
     }
 
 
@@ -334,6 +351,42 @@ class MainMenuMainCollector
             }
             if ($separators > 1) {
                 unset($children[$position]);
+            }
+        }
+
+        return $children;
+    }
+
+
+    /**
+     * bugfix mantis 25577:
+     * prevent solitary dividers from being shown
+     *
+     * @param $children
+     *
+     * @return array
+     */
+    private function handleSolitaryDividers($children, $top_item) : array
+    {
+        foreach ($children as $position => $child) {
+            if ($child instanceof Separator) {
+                // remove dividers that are the only item of the item-list and remove their top-item as well
+                if (count($children) === 1) {
+                    unset($children[$position]);
+                    unset($top_item);
+                    continue;
+                }
+                // remove dividers that stand alone at the beginning of the item-list
+                if ($position == min(array_keys($children))) {
+                    unset($children[$position]);
+                    continue;
+                }
+                // remove dividers that stand alone at the end of the item-list
+                if ($position == max(array_keys($children))) {
+                    unset($children[$position]);
+                    continue;
+                }
+
             }
         }
 

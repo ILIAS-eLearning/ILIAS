@@ -1214,12 +1214,12 @@ class ilTinyMCE extends ilRTE
 			$a_string = str_replace(',,', ',', $a_string);
 		}
 
-		if($a_string{0} == ',')
+		if($a_string[0] == ',')
 		{
 			$a_string = (string)substr($a_string, 1);
 		}
 
-		if(strlen($a_string) && $a_string{strlen($a_string) - 1} == ',')
+		if(strlen($a_string) && $a_string[strlen($a_string) - 1] == ',')
 		{
 			$a_string = substr($a_string, 0, strlen($a_string) - 1);
 		}

@@ -568,7 +568,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		$this->participants->updateNotification($ilUser->getId(),$ilSetting->get('mail_grp_admin_notification', true));
 		
 		// attach ADMINs
-		if (count($this->group_data["admin"]["attach"]))
+		if (isset($this->group_data["admin"]["attach"]) && count($this->group_data["admin"]["attach"]))
 		{
 			foreach($this->group_data["admin"]["attach"] as $user)
 			{
@@ -586,7 +586,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			}
 		}
 		// detach ADMINs
-		if (count($this->group_data["admin"]["detach"]))
+		if (isset($this->group_data["admin"]["detach"]) && count($this->group_data["admin"]["detach"]))
 		{
 			foreach($this->group_data["admin"]["detach"] as $user)
 			{
@@ -603,7 +603,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			}
 		}
 		// MEMBER
-		if (count($this->group_data["member"]["attach"]))
+		if (isset($this->group_data["member"]["attach"]) && count($this->group_data["member"]["attach"]))
 		{
 			foreach($this->group_data["member"]["attach"] as $user)
 			{
@@ -617,7 +617,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			}
 		}
 
-		if (count($this->group_data["member"]["detach"]))
+		if (isset($this->group_data["member"]["detach"]) && count($this->group_data["member"]["detach"]))
 		{
 			foreach($this->group_data["member"]["detach"] as $user)
 			{

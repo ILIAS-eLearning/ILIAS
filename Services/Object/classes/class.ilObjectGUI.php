@@ -33,6 +33,11 @@ class ilObjectGUI
 	protected $access;
 
 	/**
+	 * @var ilRbacSystem
+	 */
+	protected $rbacsystem;
+
+	/**
 	 * @var ilSetting
 	 */
 	protected $settings;
@@ -140,6 +145,7 @@ class ilObjectGUI
 		$this->settings = $DIC->settings();
 		$this->rbacreview = $DIC->rbac()->review();
 		$this->toolbar = $DIC->toolbar();
+		$this->rbacsystem = $DIC->rbac()->system();
 		$this->object_service = $DIC->object();
 		$objDefinition = $DIC["objDefinition"];
 		$tpl = $DIC["tpl"];
@@ -1615,7 +1621,7 @@ class ilObjectGUI
 		$tpl = $this->tpl;
 		$ilErr = $this->ilErr;
 
-		if (!$this->checkPermissionBool("visible,read"))
+		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}

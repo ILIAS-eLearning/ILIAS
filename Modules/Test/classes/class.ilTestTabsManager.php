@@ -848,8 +848,8 @@ class ilTestTabsManager
 		);
 		
 		// certificate subtab
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if( !$this->isHiddenTab('certificate') && ilCertificate::isActive() )
+		$validator = new ilCertificateActiveValidator();
+		if( !$this->isHiddenTab('certificate') && true === $validator->validate() )
 		{
 			$this->tabs->addSubTabTarget(
 				"certificate",

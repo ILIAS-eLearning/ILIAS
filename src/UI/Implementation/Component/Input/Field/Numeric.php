@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
 
 /**
  * This implements the numeric input.
@@ -30,10 +31,7 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	) {
 
 		parent::__construct($data_factory, $refinery, $label, $byline);
-
-		//TODO: Is there a better way to do this? Note, that "withConstraint" is not
-		// usable here (clone).
-		$this->setAdditionalConstraint($this->refinery->numeric()->isNumeric());
+		$this->setAdditionalTransformation($this->refinery->numeric()->isNumeric());
 	}
 
 
@@ -50,5 +48,19 @@ class Numeric extends Input implements C\Input\Field\Numeric {
 	 */
 	protected function getConstraintForRequirement() {
 		return $this->refinery->numeric()->isNumeric();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+			return $code;
+		};
 	}
 }

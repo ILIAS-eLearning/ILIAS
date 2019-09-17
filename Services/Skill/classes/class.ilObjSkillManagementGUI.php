@@ -55,6 +55,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$this->user = $DIC->user();
 		$ilCtrl = $DIC->ctrl();
 
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
+
 		$this->type = 'skmg';
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -76,7 +78,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	{
 		$rbacsystem = $this->rbacsystem;
 		$ilErr = $this->error;
-		$ilAccess = $this->access;
 		$ilTabs = $this->tabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -84,7 +85,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+
+        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
 		}
@@ -602,7 +604,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		$this->form->addCommandButton("test", $lng->txt("execute"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->form->addCommandButton("test", $lng->txt("execute"));
+		}
 
 		$this->form->setTitle("getCompletionDateForTriggerRefId()");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -668,7 +672,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		$this->form->addCommandButton("testCert", $lng->txt("execute"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->form->addCommandButton("testCert", $lng->txt("execute"));
+		}
 
 		$this->form->setTitle("checkUserCertificateForTriggerRefId()");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -734,6 +740,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id']))
 		$this->form->addCommandButton("testAllCert", $lng->txt("execute"));
 
 		$this->form->setTitle("getTriggerOfAllCertificates()");
@@ -785,7 +792,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		$this->form->addCommandButton("testLevels", $lng->txt("execute"));
+		if($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+			$this->form->addCommandButton("testLevels", $lng->txt("execute"));
+		}
 
 		$this->form->setTitle("getTriggerOfAllCertificates()");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -895,13 +904,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		
 		if ($a_templates)
 		{
-			include_once("./Services/Skill/classes/class.ilSkillTemplateTreeExplorerGUI.php");
+            $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_TEMPLATE_TREE, true);
 			$exp = new ilSkillTemplateTreeExplorerGUI($this, "showTree");
 		}
 		else
 		{
-			include_once("./Services/Skill/classes/class.ilSkillTreeExplorerGUI.php");
-			$exp = new ilSkillTreeExplorerGUI($this, "showTree", $a_templates);
+            $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_SKILL_TREE, true);
+			$exp = new ilSkillTreeExplorerGUI($this, "showTree");
 		}
 		if (!$exp->handleCommand())
 		{

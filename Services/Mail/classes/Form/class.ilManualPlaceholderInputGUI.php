@@ -64,6 +64,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 
 		$this->dependencyElementId = $dependencyElementId;
 
+		$this->tpl->addJavaScript('Services/JavaScript/js/Basic.js');
 		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
 	}
 

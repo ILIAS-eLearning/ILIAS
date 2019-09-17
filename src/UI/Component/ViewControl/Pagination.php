@@ -18,8 +18,9 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 	 * Get a Pagination with this target-url.
 	 * Shy-Buttons in this control will link to this url
 	 * and add $parameter_name with the selected value.
+	 *
 	 */
-	public function withTargetURL(string $url, string $paramter_name): Pagination;
+	public function withTargetURL(string $url, string $parameter_name): Pagination;
 
 	/**
 	 * Get the url this instance should trigger.
@@ -95,7 +96,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 
 	/**
 	 * Below this value, the options are directly rendered as shy-buttons,
-	 * on and above this value a dropdown is beeing used.
+	 * on and above this value a dropdown is being used.
 	 *
 	 * @return int|null
 	 */

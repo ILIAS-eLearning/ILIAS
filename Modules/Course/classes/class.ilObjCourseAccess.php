@@ -570,6 +570,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 			$lng->loadLanguageModule('crs');
 			
 			return array(
+				'crs_start' => $start,
+				'crs_end' => $end,
 				'property' => $lng->txt('crs_period'),
 				'value' => ilDatePresentation::formatPeriod($start, $end)
 			);

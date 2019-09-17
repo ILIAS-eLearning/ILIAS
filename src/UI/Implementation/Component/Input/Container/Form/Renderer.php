@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -16,7 +17,7 @@ class Renderer extends AbstractComponentRenderer {
 	public function render(Component\Component $component, RendererInterface $default_renderer) {
 		$this->checkComponent($component);
 
-		if ($component instanceof Component\Input\Container\Form\Standard) {
+		if ($component instanceof Form\Standard) {
 			return $this->renderStandard($component, $default_renderer);
 		}
 
@@ -24,7 +25,7 @@ class Renderer extends AbstractComponentRenderer {
 	}
 
 
-	protected function renderStandard(Component\Input\Container\Form\Standard $component, RendererInterface $default_renderer) {
+	protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer) {
 		$tpl = $this->getTemplate("tpl.standard.html", true, true);
 
 		if($component->getPostURL()!= ""){

@@ -1,6 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
  * Class ilBuddySystemRelationRepository
@@ -8,243 +7,214 @@
  */
 class ilBuddySystemRelationRepository
 {
-	const TYPE_APPROVED  = 'app';
-	const TYPE_REQUESTED = 'req';
-	const TYPE_IGNORED   = 'ign';
+    const TYPE_APPROVED = 'app';
+    const TYPE_REQUESTED = 'req';
+    const TYPE_IGNORED = 'ign';
 
-	/**
-	 * @var ilDBInterface
-	 */
-	protected $db;
+    /** @var ilDBInterface */
+    protected $db;
 
-	/**
-	 * @var int
-	 */
-	protected $usr_id; 
+    /** @var int */
+    protected $usrId;
 
-	/**
-	 * @var int $usr_id
-	 */
-	public function __construct($usr_id)
-	{
-		global $DIC;
+    /**
+     * ilBuddySystemRelationRepository constructor.
+     * @param int $usrId
+     */
+    public function __construct(int $usrId)
+    {
+        global $DIC;
 
-		$this->db     = $DIC['ilDB'];
-		$this->usr_id = $usr_id;
-	}
+        $this->db = $DIC['ilDB'];
+        $this->usrId = $usrId;
+    }
 
-	/**
-	 * @return ilDBInterface
-	 */
-	public function getDatabaseAdapter()
-	{
-		return $this->db;
-	}
+    /**
+     * Reads all items from database
+     * @return ilBuddySystemRelation[]
+     */
+    public function getAll() : array
+    {
+        $relations = [];
 
-	/**
-	 * @param ilDBInterface $db
-	 */
-	public function setDatabaseAdapter(ilDBInterface $db)
-	{
-		$this->db = $db;
-	}
-
-	/**
-	 * Reads all items from database
-	 * @return ilBuddySystemRelation[]
-	 */
-	public function getAll()
-	{
-		$relations = array();
-
-		$res = $this->db->queryF(
-			"
+        $res = $this->db->queryF(
+            "
 			SELECT usr_id, buddy_usr_id, ts, %s rel_type FROM buddylist WHERE usr_id = %s
 			UNION
 			SELECT usr_id, buddy_usr_id, ts, (CASE WHEN ignored = 1 THEN %s ELSE %s END) rel_type FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s
 			",
-			array(
-				'text', 'integer', 'text', 'text', 'integer', 'integer'
-			),
-			array(
-				self::TYPE_APPROVED, $this->usr_id, self::TYPE_IGNORED, self::TYPE_REQUESTED, $this->usr_id, $this->usr_id
-			)
-		);
+            [
+                'text',
+                'integer',
+                'text',
+                'text',
+                'integer',
+                'integer'
+            ],
+            [
+                self::TYPE_APPROVED,
+                $this->usrId,
+                self::TYPE_IGNORED,
+                self::TYPE_REQUESTED,
+                $this->usrId,
+                $this->usrId
+            ]
+        );
 
-		while($row = $this->db->fetchAssoc($res))
-		{
-			$relation = $this->getRelationByDatabaseRecord($row);
-			$relation->setUserId($row['usr_id']);
-			$relation->setBuddyUserId($row['buddy_usr_id']);
-			$relation->setTimestamp($row['ts']);
-			$relation->setIsOwnedByRequest($relation->getUserId() == $this->usr_id);
-			$key = $this->usr_id == $relation->getUserId() ? $relation->getBuddyUserId() : $relation->getUserId();
-			$relations[$key] = $relation;
-		}
+        while ($row = $this->db->fetchAssoc($res)) {
+            $relation = $this->getRelationByDatabaseRecord($row);
+            $relation->setUsrId((int) $row['usr_id']);
+            $relation->setBuddyUsrId((int) $row['buddy_usr_id']);
+            $relation->setTimestamp((int) $row['ts']);
+            $relation->setIsOwnedByActor($relation->getUsrId() === $this->usrId);
+            $key = $this->usrId === $relation->getUsrId() ? $relation->getBuddyUsrId() : $relation->getUsrId();
+            $relations[$key] = $relation;
+        }
 
-		return $relations;
-	}
+        return $relations;
+    }
 
-	/**
-	 * @param $row
-	 * @return ilBuddySystemRelation
-	 */
-	private function getRelationByDatabaseRecord($row)
-	{
-		if(self::TYPE_APPROVED == $row['rel_type'])
-		{
-			$relation = new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
-			return $relation;
-		}
-		else
-		{
-			if(self::TYPE_IGNORED == $row['rel_type'])
-			{
-				$relation = new ilBuddySystemRelation(new ilBuddySystemIgnoredRequestRelationState());
-				return $relation;
-			}
-			else
-			{
-				$relation = new ilBuddySystemRelation(new ilBuddySystemRequestedRelationState());
-				return $relation;
-			}
-		}
-	}
+    /**
+     * @param $row
+     * @return ilBuddySystemRelation
+     */
+    private function getRelationByDatabaseRecord($row)
+    {
+        if (self::TYPE_APPROVED === $row['rel_type']) {
+            return new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
+        } elseif (self::TYPE_IGNORED === $row['rel_type']) {
+            return new ilBuddySystemRelation(new ilBuddySystemIgnoredRequestRelationState());
+        }
 
-	/**
-	 * 
-	 */
-	public function destroy()
-	{
-		$this->db->queryF(
-			"DELETE FROM buddylist WHERE usr_id = %s OR buddy_usr_id = %s",
-			array('integer', 'integer'),
-			array($this->usr_id, $this->usr_id)
-		);
+        return new ilBuddySystemRelation(new ilBuddySystemRequestedRelationState());
+    }
 
-		$this->db->queryF(
-			"DELETE FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s",
-			array('integer', 'integer'),
-			array($this->usr_id, $this->usr_id)
-		);
-	}
+    /**
+     *
+     */
+    public function destroy()
+    {
+        $this->db->queryF(
+            "DELETE FROM buddylist WHERE usr_id = %s OR buddy_usr_id = %s",
+            ['integer', 'integer'],
+            [$this->usrId, $this->usrId]
+        );
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	private function addToApprovedBuddies(ilBuddySystemRelation $relation)
-	{
-		$this->db->replace(
-			'buddylist',
-			array(
-				'usr_id'       => array('integer', $relation->getUserId()),
-				'buddy_usr_id' => array('integer', $relation->getBuddyUserId())
-			),
-			array(
-				'ts' => array('integer', $relation->getTimestamp())
-			)
-		);
+        $this->db->queryF(
+            "DELETE FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s",
+            ['integer', 'integer'],
+            [$this->usrId, $this->usrId]
+        );
+    }
 
-		$this->db->replace(
-			'buddylist',
-			array(
-				'usr_id'       => array('integer', $relation->getBuddyUserId()),
-				'buddy_usr_id' => array('integer', $relation->getUserId())
-			),
-			array(
-				'ts' => array('integer', $relation->getTimestamp())
-			)
-		);
-	}
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    private function addToApprovedBuddies(ilBuddySystemRelation $relation)
+    {
+        $this->db->replace(
+            'buddylist',
+            [
+                'usr_id' => ['integer', $relation->getUsrId()],
+                'buddy_usr_id' => ['integer', $relation->getBuddyUsrId()]
+            ],
+            [
+                'ts' => ['integer', $relation->getTimestamp()]
+            ]
+        );
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	private function removeFromApprovedBuddies(ilBuddySystemRelation $relation)
-	{
-		$this->db->manipulateF(
-			"DELETE FROM buddylist WHERE usr_id = %s AND buddy_usr_id = %s",
-			array('integer', 'integer'),
-			array($relation->getUserId(), $relation->getBuddyUserId())
-		);
+        $this->db->replace(
+            'buddylist',
+            [
+                'usr_id' => ['integer', $relation->getBuddyUsrId()],
+                'buddy_usr_id' => ['integer', $relation->getUsrId()]
+            ],
+            [
+                'ts' => ['integer', $relation->getTimestamp()]
+            ]
+        );
+    }
 
-		$this->db->manipulateF(
-			"DELETE FROM buddylist WHERE buddy_usr_id = %s AND usr_id = %s",
-			array('integer', 'integer'),
-			array($relation->getUserId(), $relation->getBuddyUserId())
-		);
-	}
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    private function removeFromApprovedBuddies(ilBuddySystemRelation $relation)
+    {
+        $this->db->manipulateF(
+            "DELETE FROM buddylist WHERE usr_id = %s AND buddy_usr_id = %s",
+            ['integer', 'integer'],
+            [$relation->getUsrId(), $relation->getBuddyUsrId()]
+        );
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 * @param boolean $ignored
-	 */
-	private function addToRequestedBuddies(ilBuddySystemRelation $relation, $ignored)
-	{
-		$this->db->replace(
-			'buddylist_requests',
-			array(
-				'usr_id'       => array('integer', $relation->getUserId()),
-				'buddy_usr_id' => array('integer', $relation->getBuddyUserId())
-			),
-			array(
-				'ts'      => array('integer', $relation->getTimestamp()),
-				'ignored' => array('integer', (int)$ignored)
-			)
-		);
-	}
+        $this->db->manipulateF(
+            "DELETE FROM buddylist WHERE buddy_usr_id = %s AND usr_id = %s",
+            ['integer', 'integer'],
+            [$relation->getUsrId(), $relation->getBuddyUsrId()]
+        );
+    }
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	private function removeFromRequestedBuddies(ilBuddySystemRelation $relation)
-	{
-		$this->db->manipulateF(
-			"DELETE FROM buddylist_requests WHERE usr_id = %s AND buddy_usr_id = %s",
-			array('integer', 'integer'),
-			array($relation->getUserId(), $relation->getBuddyUserId())
-		);
+    /**
+     * @param ilBuddySystemRelation $relation
+     * @param boolean $ignored
+     */
+    private function addToRequestedBuddies(ilBuddySystemRelation $relation, $ignored)
+    {
+        $this->db->replace(
+            'buddylist_requests',
+            [
+                'usr_id' => ['integer', $relation->getUsrId()],
+                'buddy_usr_id' => ['integer', $relation->getBuddyUsrId()]
+            ],
+            [
+                'ts' => ['integer', $relation->getTimestamp()],
+                'ignored' => ['integer', (int) $ignored]
+            ]
+        );
+    }
 
-		$this->db->manipulateF(
-			"DELETE FROM buddylist_requests WHERE buddy_usr_id = %s AND usr_id = %s",
-			array('integer', 'integer'),
-			array($relation->getUserId(), $relation->getBuddyUserId())
-		);
-	}
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    private function removeFromRequestedBuddies(ilBuddySystemRelation $relation)
+    {
+        $this->db->manipulateF(
+            "DELETE FROM buddylist_requests WHERE usr_id = %s AND buddy_usr_id = %s",
+            ['integer', 'integer'],
+            [$relation->getUsrId(), $relation->getBuddyUsrId()]
+        );
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	public function save(ilBuddySystemRelation $relation)
-	{
-		$ilAtomQuery = $this->db->buildAtomQuery();
-		$ilAtomQuery->addTableLock('buddylist_requests');
-		$ilAtomQuery->addTableLock('buddylist');
+        $this->db->manipulateF(
+            "DELETE FROM buddylist_requests WHERE buddy_usr_id = %s AND usr_id = %s",
+            ['integer', 'integer'],
+            [$relation->getUsrId(), $relation->getBuddyUsrId()]
+        );
+    }
 
-		$ilAtomQuery->addQueryCallable(function(ilDBInterface $ilDB) use ($relation) {
-			if($relation->isLinked())
-			{
-				$this->addToApprovedBuddies($relation);
-			}
-			else if($relation->wasLinked())
-			{
-				$this->removeFromApprovedBuddies($relation);
-			}
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    public function save(ilBuddySystemRelation $relation) : void
+    {
+        $ilAtomQuery = $this->db->buildAtomQuery();
+        $ilAtomQuery->addTableLock('buddylist_requests');
+        $ilAtomQuery->addTableLock('buddylist');
 
-			if($relation->isRequested())
-			{
-				$this->addToRequestedBuddies($relation, false);
-			}
-			else if($relation->isIgnored())
-			{
-				$this->addToRequestedBuddies($relation, true);
-			}
-			else if($relation->wasRequested() || $relation->wasIgnored())
-			{
-				$this->removeFromRequestedBuddies($relation);
-			}
-		});
+        $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($relation) {
+            if ($relation->isLinked()) {
+                $this->addToApprovedBuddies($relation);
+            } elseif ($relation->wasLinked()) {
+                $this->removeFromApprovedBuddies($relation);
+            }
 
-		$ilAtomQuery->run();
-	}
+            if ($relation->isRequested()) {
+                $this->addToRequestedBuddies($relation, false);
+            } elseif ($relation->isIgnored()) {
+                $this->addToRequestedBuddies($relation, true);
+            } elseif ($relation->wasRequested() || $relation->wasIgnored()) {
+                $this->removeFromRequestedBuddies($relation);
+            }
+        });
+
+        $ilAtomQuery->run();
+    }
 }

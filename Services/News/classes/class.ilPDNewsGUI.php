@@ -84,7 +84,7 @@ class ilPDNewsGUI
 				$this->$cmd();
 				break;
 		}
-		$this->tpl->show(true);
+		$this->tpl->printToStdout();
 		return true;
 	}
 

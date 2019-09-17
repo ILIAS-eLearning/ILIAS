@@ -376,9 +376,8 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 			$types = array(self::TYPE_TEXT, self::TYPE_MEDIA, self::TYPE_QUESTION);
 		}
 
-		include_once("./Services/Certificate/classes/class.ilCertificate.php");
-		if (!ilCertificate::isActive())
-		{
+		$validator = new ilCertificateActiveValidator();
+		if(true === $validator->validate()) {
 			// we remove type verification if certificates are deactivated and this
 			// is not the currently selected value
 			if (($key = array_search(self::TYPE_VERIFICATION, $types)) !== false &&

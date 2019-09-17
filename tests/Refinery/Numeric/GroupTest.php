@@ -14,34 +14,34 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class GroupTest extends TestCase
 {
-	/**
-	 * @var Group
-	 */
-	private $group;
+    /**
+     * @var Group
+     */
+    private $group;
 
-	/**
-	 * @var Factory
-	 */
-	private $dataFactory;
+    /**
+     * @var Factory
+     */
+    private $dataFactory;
 
-	/**
-	 * @var \ilLanguage
-	 */
-	private $language;
+    /**
+     * @var \ilLanguage
+     */
+    private $language;
 
-	public function setUp() : void
-	{
-		$this->dataFactory = new Factory();
-		$this->language    = $this->getMockBuilder('\ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
+    public function setUp() : void
+    {
+        $this->dataFactory = new Factory();
+        $this->language    = $this->getMockBuilder('\ilLanguage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->group = new Group($this->dataFactory, $this->language);
-	}
+        $this->group = new Group($this->dataFactory, $this->language);
+    }
 
-	public function testIsNumericGroup()
-	{
-		$instance = $this->group->isNumeric();
-		$this->assertInstanceOf(IsNumeric::class, $instance);
-	}
+    public function testIsNumericGroup()
+    {
+        $instance = $this->group->isNumeric();
+        $this->assertInstanceOf(IsNumeric::class, $instance);
+    }
 }

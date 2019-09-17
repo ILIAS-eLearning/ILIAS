@@ -124,14 +124,14 @@ class ilWACSignedPath {
 		$ttlCookie = $cookieJar->get($name . self::TTL_SUFFIX);
 
 		$defaultToken = '';
-		$tokenCookieValue = is_null($tokenCookie) ? $defaultToken : is_a($tokenCookie->getValue(), Cookie::class) ? $tokenCookie->getValue() : $defaultToken;
+		$tokenCookieValue = is_null($tokenCookie) ? $defaultToken : (is_a($tokenCookie->getValue(), Cookie::class) ? $tokenCookie->getValue() : $defaultToken);
 
 		$defaultTimestamp = 0;
-		$timestampCookieValue = is_null($timestampCookie) ? $defaultTimestamp : is_a($timestampCookie->getValue(), Cookie::class) ? $timestampCookie->getValue() : $defaultTimestamp;
+		$timestampCookieValue = is_null($timestampCookie) ? $defaultTimestamp : (is_a($timestampCookie->getValue(), Cookie::class) ? $timestampCookie->getValue() : $defaultTimestamp);
 		$timestampCookieValue = intval($timestampCookieValue);
 
 		$defaultTtl = 0;
-		$ttlCookieValue = is_null($ttlCookie) ? $defaultTtl : is_a($ttlCookie->getValue(), Cookie::class) ? $ttlCookie->getValue() : $defaultTtl;
+		$ttlCookieValue = is_null($ttlCookie) ? $defaultTtl : (is_a($ttlCookie->getValue(), Cookie::class) ? $ttlCookie->getValue() : $defaultTtl);
 		$ttlCookieValue = intval($ttlCookieValue);
 
 		$this->getPathObject()->setToken($tokenCookieValue);

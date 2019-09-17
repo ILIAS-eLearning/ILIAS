@@ -1642,8 +1642,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				
 				// certificates
-				include_once "Services/Certificate/classes/class.ilCertificate.php";
-				if(ilCertificate::isActive())
+				$validator = new ilCertificateActiveValidator();
+				if(true === $validator->validate())
 				{					
 					$this->tabs_gui->addSubTabTarget(
 						"certificate",

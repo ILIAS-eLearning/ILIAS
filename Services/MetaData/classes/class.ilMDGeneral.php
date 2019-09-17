@@ -246,7 +246,8 @@ class ilMDGeneral extends ilMDBase
 		$fields = $this->__getFields();
 		$fields['meta_general_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_general'));
 
-		//$this->log->debug("Insert General ".print_r($fields, true));
+		$this->log->debug("Insert General ".print_r($fields, true));
+		$this->log->logStack(ilLogLevel::DEBUG);
 		//ilUtil::printBacktrace(10);
 
 		if($this->db->insert('il_meta_general',$fields))

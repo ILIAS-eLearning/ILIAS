@@ -2,17 +2,10 @@
 
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
-use ILIAS\BackgroundTasks\Exceptions\Exception;
+use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
-use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
-use ILIAS\BackgroundTasks\Bucket;
-use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Persistence;
-use ILIAS\BackgroundTasks\Task;
-use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
-use ILIAS\BackgroundTasks\TaskManager;
-use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class BasicTaskManager
@@ -30,42 +23,42 @@ use ILIAS\BackgroundTasks\Value;
  *         when a user interaction occurs.
  *
  */
- class SyncTaskManager extends BasicTaskManager {
+class SyncTaskManager extends BasicTaskManager
+{
 
-	/**
-	 * @var Persistence
-	 */
-	protected $persistence;
-
-
-	public function __construct(Persistence $persistence) {
-		$this->persistence = $persistence;
-	}
+    /**
+     * @var Persistence
+     */
+    protected $persistence;
 
 
-
-	/**
-	 * This will add an Observer of the Task and start running the task.
-	 *
-	 * @param Bucket $bucket
-	 *
-	 * @return mixed|void
-	 * @throws \Exception
-	 *
-	 */
-	public function run(Bucket $bucket) {
-		$task = $bucket->getTask();
-		$bucket->setCurrentTask($task);
-		$observer = new NonPersistingObserver($bucket);
-
-		try {
-			$this->executeTask($task, $observer);
-			$bucket->setState(State::FINISHED);
-		} catch (UserInteractionRequiredException $e) {
-			// We're okay!
-			$this->persistence->saveBucketAndItsTasks($bucket);
-		}
-	}
+    public function __construct(Persistence $persistence)
+    {
+        $this->persistence = $persistence;
+    }
 
 
+    /**
+     * This will add an Observer of the Task and start running the task.
+     *
+     * @param Bucket $bucket
+     *
+     * @return mixed|void
+     * @throws \Exception
+     *
+     */
+    public function run(Bucket $bucket)
+    {
+        $task = $bucket->getTask();
+        $bucket->setCurrentTask($task);
+        $observer = new NonPersistingObserver($bucket);
+
+        try {
+            $this->executeTask($task, $observer);
+            $bucket->setState(State::FINISHED);
+        } catch (UserInteractionRequiredException $e) {
+            // We're okay!
+            $this->persistence->saveBucketAndItsTasks($bucket);
+        }
+    }
 }

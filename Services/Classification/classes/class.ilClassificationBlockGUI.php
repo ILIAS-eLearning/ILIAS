@@ -263,7 +263,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 				{								
 					if($item["ref_id"] != $this->parent_ref_id && 
 						!$tree->isDeleted($item["ref_id"]) &&
-						$ilAccess->checkAccess("read", "", $item["ref_id"]))
+						$ilAccess->checkAccess("visible", "", $item["ref_id"]))
 					{
 						// group all valid items in blocks
 						// by their parent group/course or category
@@ -291,8 +291,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
 						$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);					
 					}
-				}	
-				
+				}
+				$valid_objects = ilUtil::sortArray($valid_objects, "title", "asc", false, true);
 				if(sizeof($valid_objects))
 				{
 					$has_content = true;
@@ -304,7 +304,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 					$this->item_list_gui = array();
 					foreach($valid_objects as $block)
 					{
-						foreach ($block["items"] as $obj)
+						$items = ilUtil::sortArray($block["items"], "title", "asc", false, true);
+						foreach ($items as $obj)
 						{
 							$type = $obj["type"];
 

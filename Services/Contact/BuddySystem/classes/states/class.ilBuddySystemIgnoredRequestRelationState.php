@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddySystemRelationState.php';
 
 /**
  * Class ilBuddySystemIgnoredRequestRelationState
@@ -9,47 +7,46 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddyS
  */
 class ilBuddySystemIgnoredRequestRelationState extends ilAbstractBuddySystemRelationState
 {
-	/**
-	 *  {@inheritDoc}
-	 */
-	public function getName()
-	{
-		return 'IgnoredRequest';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getName() : string
+    {
+        return 'IgnoredRequest';
+    }
 
-	/**
-	 *  {@inheritDoc}
-	 */
-	public function getAction()
-	{
-		return 'ignore';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getAction() : string
+    {
+        return 'ignore';
+    }
 
-	/**
-	 * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
-	 */
-	public function getPossibleTargetStates()
-	{
-		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateCollection.php';
-		return new ilBuddySystemRelationStateCollection(array(
-			new ilBuddySystemUnlinkedRelationState(),
-			new ilBuddySystemLinkedRelationState()
-		));
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getPossibleTargetStates() : ilBuddySystemRelationStateCollection
+    {
+        return new ilBuddySystemRelationStateCollection([
+            new ilBuddySystemUnlinkedRelationState(),
+            new ilBuddySystemLinkedRelationState()
+        ]);
+    }
 
-	/**
-	 * @param ilBuddySystemRelation
-	 */
-	public function unlink(ilBuddySystemRelation $relation)
-	{
-		$relation->setState(new ilBuddySystemUnlinkedRelationState());
-	}
+    /**
+     * @inheritDoc
+     */
+    public function unlink(ilBuddySystemRelation $relation) : void
+    {
+        $relation->setState(new ilBuddySystemUnlinkedRelationState());
+    }
 
-	/**
-	 * @param ilBuddySystemRelation
-	 */
-	public function link(ilBuddySystemRelation $relation)
-	{
-		$relation->setState(new ilBuddySystemLinkedRelationState());
-	}
+    /**
+     * @inheritDoc
+     */
+    public function link(ilBuddySystemRelation $relation) : void
+    {
+        $relation->setState(new ilBuddySystemLinkedRelationState());
+    }
 }

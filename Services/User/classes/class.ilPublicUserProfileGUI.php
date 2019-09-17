@@ -425,6 +425,10 @@ class ilPublicUserProfileGUI
 		{
 			$imagefile = basename($imagefile);			
 		}
+		else
+        {
+            $imagefile = ilWACSignedPath::signFile($imagefile."?t=1");
+        }
 
 		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "" &&
 			($ilUser->getId() != ANONYMOUS_USER_ID || $user->getPref("public_profile") == "g"))
@@ -668,7 +672,7 @@ class ilPublicUserProfileGUI
 		)
 		{
 			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
-			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
+			$button = ilBuddySystemLinkButton::getInstanceByUserId((int) $user->getId());
 			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
 		}
 		

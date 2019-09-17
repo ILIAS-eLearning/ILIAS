@@ -30,7 +30,7 @@ class ilForumProperties
 	 * Default view ( 1 => 'order by answers', 2 => 'order by date ascending', 3 => 'order by date descending')
 	 * @access	private
 	 */
-	private $default_view = self::VIEW_TREE;
+	private $default_view = self::VIEW_DATE;
 	
 	/**
 	 * Defines if a forum is anonymized or not
