@@ -1,0 +1,391 @@
+@import "../../../../templates/default/delos";
+// Import Custom Less Files here
+@import "Skyguide_Style-variables.less";
+
+/***************DESKTOP VIEW***************/
+
+/**********StartupScreen**********/
+.ilMainHeader > header > .row > a.navbar-brand > img {
+    height: 50px;
+    width: auto;
+}
+div#il_startup_logo img {
+    height: 50px;
+    width: auto;
+}
+.ilStartupSection {
+    padding-top: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.ilStartupFrame .alert.alert-danger {
+    margin-left: -15px;
+    margin-right: 15px;
+}
+.ilStartupFrame .help-block {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+/**********HEADER**********/
+#ilTopNav.navbar {
+    float: right;
+    margin-right: 15px;
+}
+#ilTopNav .navbar-nav > li > a {
+    border-top: none;
+}
+#ilTopNav .navbar-nav > .active > a,
+#ilTopNav .navbar-nav > .open > a,
+#ilTopNav .navbar-nav > .active > a:hover,
+#ilTopNav .navbar-nav > .open > a:hover,
+#ilTopNav .navbar-nav > .active > a:active,
+#ilTopNav .navbar-nav > .open > a:active,
+#ilTopNav .navbar-nav > .active > a:focus,
+#ilTopNav .navbar-nav > .open > a:focus {
+    border-top: none;
+}
+#ilTopNav .navbar-nav > li > a {
+    text-transform: inherit;
+}
+.navbar-nav > li > .dropdown-menu {
+    margin-top: 14px;
+}
+div.ilMemberViewMainHeader {
+    background-color: #981a0a;
+    color: white !important;
+}
+div.ilMemberViewMainHeader .ilTopTitle {
+    float: right;
+    margin-right: 15px;
+    padding-right: 15px;
+}
+div.ilMemberViewMainHeader a {
+    color: white !important;
+    font-weight: initial;
+}
+div.ilMemberViewMainHeader .ilTopTitle:hover,
+div.ilMemberViewMainHeader .ilTopTitle:active,
+div.ilMemberViewMainHeader .ilTopTitle:focus {
+    background-color: #aeaeae;
+    outline: 0;
+    text-decoration: none;
+}
+div.ilTopMemberView h3 {
+    float: left;
+    margin-left: 15px;
+}
+
+/**********BODY**********/
+.breadcrumb {
+    padding-top: 10px;
+    font-weight: 600;
+    font-size: 0.8em;
+}
+#fixed_content {
+    margin-top: 15px;
+    margin-right: 15px;
+    margin-left: 15px;
+    background-color: white;
+}
+.ilFormHeader, .ilFormFooter {
+    background-color: transparent;
+}
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus {
+    background-color: #ccddec;
+}
+table.calmini td.calminitoday > .il_calmini_monthday > a {
+    color: #0057a2;
+    border: 2px solid #0057a2;
+    background-color: transparent;
+    border-radius: 12px;
+    padding-left: 6px;
+    padding-right: 5px;
+    padding-bottom: 1px;
+}
+table.calmini td.calminitoday {
+    background-color: transparent;
+}
+.ilErrorFrame .alert.alert-danger {
+    margin-right: 30px;
+}
+
+/*Permalink*/
+.RepositoryPermaLink .ilPermalinkContainer {
+    display: -webkit-inline-box;
+    margin-bottom: 20px;
+    width: auto;
+}
+.RepositoryPermaLink label {
+    float: left;
+    padding-right: 5px;
+    padding-top: 4px;
+}
+.RepositoryPermaLink .permalink_label {
+    color: @accent-primary !important;
+}
+.RepositoryPermaLink #current_perma_link {
+    border: 1px solid @accent-primary;
+}
+.RepositoryPermaLink .input-group-btn {
+    float: left;
+}
+
+/*Tree*/
+#ilSideBarIcon {
+    display: none;
+}
+a.ilTreeView {
+    background-color: white;
+    border: 1px solid #0057a2;
+        border-left-color: rgb(0, 87, 162);
+        border-left-style: solid;
+        border-left-width: 1px;
+    border-left: none;
+    bottom: auto;
+    box-shadow: none;
+    color: #0057a2;
+    display: block;
+    z-index: 999;
+    border-radius: 0;
+    padding: 0 1px;
+    width: 20px;
+    margin-left: 0;
+    text-align: center;
+    left: 0;
+    line-height: 32px;
+    top: 130px;
+    -webkit-transition: color, background-color 0.1s ease-in-out;
+    transition: color, background-color 0.1s ease-in-out;
+}
+#imgtree {
+    @media  (max-width: 1200px) {
+    display: none;
+  }
+}
+a.ilTreeView[href*="mode=flat"] {
+    margin-left: 277px;
+    border-right: none;
+    left: auto;
+    border: 1px solid #0057a2;
+        border-right-color: rgb(0, 87, 162);
+        border-right-style: solid;
+        border-right-width: 1px;
+    border-right: none;
+}
+a.ilTreeView:hover {
+    background-color: #ccddec;
+}
+
+/*Tab Navigation*/
+.nav-tabs > li > a {
+    color: @accent-primary;
+    font-size: 100%;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    background-color: @accent-primary;
+    color: white;
+    border: 0;
+}
+.nav-tabs > li > a:hover {
+    border-color: white;
+    background-color: white;
+    color: @mid-gray;
+}
+#ilSubTab {
+    background-color: #e5eef6;
+    margin: -23px 15px 10px;
+    padding: 5px 0;
+}
+#ilSubTab > li > a {
+    font-size: 90%;
+    color: @accent-primary;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+    text-decoration: none;
+    color: @mid-gray;
+    background-color: transparent;
+}
+
+/*Buttons*/
+.btn-default {
+    color: @accent-primary;
+    background-color: transparent;
+    border-color: @accent-primary;
+    font-size: inherit;
+}
+.btn-default:hover,
+.btn-default:active,
+.btn-default.active,
+.btn-default:focus,
+.btn-default.focus,
+.open > .dropdown-toggle.btn-default {
+    color: white;
+    background-color: @accent-primary;
+    border-color: @accent-primary;
+}
+
+/**********FOOTER**********/
+
+
+/***************MOBILE VIEW***************/
+/**********StartupScreen**********/
+.ilMainHeader {
+  @media  (max-width: 767px) {
+    background-color: transparent;
+    top: 0 !important;
+    position: absolute;
+ }
+}
+div#il_startup_logo img {
+  @media  (max-width: 767px) {
+    margin: 0px;
+    height: 55px;
+    padding-left: 1px;
+    padding-top: 1px;
+ }
+}
+div.ilStartupFrame {
+  @media  (max-width: 767px) {
+    margin-top: -15px;
+ }
+}
+.ilStartupFrame .alert.alert-danger {
+  @media  (max-width: 767px) {
+    margin-left: -15px;
+    margin-right: -15px;
+ }
+}
+
+/**********HEADER**********/
+#ilTopBar.ilTopBar {
+  @media  (max-width: 767px) {
+    height: 60px;
+    background-color: #f9f9f9;
+    color: @mid-gray;
+    border-bottom: 3px solid #f0f0f0;
+ }
+}
+#ilTopBarNav > li > a {
+  @media  (max-width: 767px) {
+    background-color: transparent;
+    margin-top: 9px;
+    font-size: initial;
+ }
+}
+#ilTopNav button.navbar-toggle {
+  @media  (max-width: 767px) {
+    color: @mid-gray;
+    background-color: transparent;
+    border: 1px solid @mid-gray;
+    border-radius: 3px;
+    left: 65px;
+    top: 9px;
+    height: 38px;
+    width: 38px;
+ }
+}
+#ilTopNav button.navbar-toggle .icon-bar {
+  @media  (max-width: 767px) {
+    margin-left: -3px;
+ }
+}
+.ilMainMenu.ilTopFixed {
+  @media  (max-width: 767px) {
+    top: 60px;
+ }
+}
+.ilMainMenu {
+  @media  (max-width: 767px) {
+    background-color: #E5EEF6;
+ }
+}
+#ilTopNav .navbar-nav > li > a {
+  @media  (max-width: 767px) {
+    color: #666;
+    margin: 0px;
+    padding: 7px 10px 8px;
+ }
+}
+#ilTopNav.navbar-default {
+  @media  (max-width: 767px) {
+    background-color: transparent;
+ }
+}
+#ilTopNav.navbar {
+  @media  (max-width: 767px) {
+    float: left;
+    margin-right: 0px;
+    width: 100%;
+ }
+}
+#ilTopNav .navbar-nav > li {
+  @media  (max-width: 767px) {
+    border-bottom: 1px solid #ccc;
+    margin: 0px;
+ }
+}
+#ilTopNav.navbar > .navbar-collapse {
+  @media  (max-width: 767px) {
+    padding: 0 0 0 0;
+ }
+}
+#ilTopNav .navbar-nav > li > a:hover,
+#ilTopNav .navbar-nav > li > a:active,
+#ilTopNav .navbar-nav > li > a:focus {
+  @media  (max-width: 767px) {
+    background-color: @accent-primary;
+ }
+}
+.navbar-nav {
+  @media  (max-width: 767px) {
+    margin: 0px 0px;
+ }
+}
+#ilTopNav .navbar-nav > .active > a,
+#ilTopNav .navbar-nav > .open > a,
+#ilTopNav .navbar-nav > .active > a:hover,
+#ilTopNav .navbar-nav > .open > a:hover,
+#ilTopNav .navbar-nav > .active > a:active,
+#ilTopNav .navbar-nav > .open > a:active,
+#ilTopNav .navbar-nav > .active > a:focus,
+#ilTopNav .navbar-nav > .open > a:focus {
+  @media  (max-width: 767px) {
+    background-color: @accent-primary;
+ }
+}
+.navbar-nav .open .dropdown-menu > li > a,
+.navbar-nav .open .dropdown-menu .dropdown-header {
+  @media  (max-width: 767px) {
+    margin-left: -15px;
+    margin-right: -15px;
+ }
+}
+.ilMainHeader > header > .row > a.navbar-brand > img {
+  @media  (max-width: 767px) {
+    height: 55px;
+    margin-top: 1px;
+    margin-left: 1px;
+ }
+}
+
+/**********BODY**********/
+body {
+    @media  (max-width: 767px) {
+      background-color: white;
+ }
+}
+#fixed_content {
+  @media  (max-width: 767px) {
+    margin-right: 0px;
+    margin-left: 0px;
+ }
+}
+.RepositoryPermaLink a.permalink_label > span.glyphicon {
+  @media  (max-width: 767px) {
+    display: inherit;
+ }
+}

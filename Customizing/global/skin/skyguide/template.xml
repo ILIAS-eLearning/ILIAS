@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://www.w3.org" version="0.168" name="Skyguide_Skin">
+  <style id="Skyguide_Style" name="Skyguide_Style" image_directory="images" css_file="Skyguide_Style" sound_directory="sound" font_directory="fonts"/>
+</template>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<g>
+	<defs>
+		<path id="SVGID_1_" d="M5.5,5C5.5,5,5,5,5,5.5v21c0,0,0,0.5,0.5,0.5h21c0,0,0.5,0,0.5-0.5v-21c0,0,0-0.5-0.5-0.5H5.5z"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	</clipPath>
+	
+		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-463.5909" y1="536.9888" x2="-462.5909" y2="536.9888" gradientTransform="matrix(25.1429 0 0 -25.1429 11659.4287 13517.4307)">
+		<stop  offset="0" style="stop-color:#505050"/>
+		<stop  offset="7.292820e-03" style="stop-color:#505050"/>
+		<stop  offset="0.3484" style="stop-color:#6A6A6A"/>
+		<stop  offset="0.7462" style="stop-color:#828282"/>
+		<stop  offset="0.9912" style="stop-color:#8B8B8B"/>
+		<stop  offset="1" style="stop-color:#8B8B8B"/>
+	</linearGradient>
+	<rect x="5" y="5" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="22" height="22"/>
+</g>
+<g>
+	<defs>
+		<rect id="SVGID_4_" x="5" y="5" width="22" height="22"/>
+	</defs>
+	<clipPath id="SVGID_5_">
+		<use xlink:href="#SVGID_4_"  overflow="visible"/>
+	</clipPath>
+	<path clip-path="url(#SVGID_5_)" fill="#FFFFFF" d="M19,20.6v-1l-5.1-2v1l3.9,1.5l-3.9,1.5v1L19,20.6z M10.5,24v-1
+		c0.3,0,0.5-0.1,0.7-0.2c0.2-0.1,0.4-0.2,0.6-0.4c0.2-0.2,0.3-0.3,0.4-0.6c0.1-0.2,0.1-0.5,0.1-0.8c0-0.3,0-0.5-0.1-0.7
+		c-0.1-0.2-0.2-0.3-0.3-0.5c-0.1-0.1-0.3-0.3-0.5-0.3c-0.2-0.1-0.3-0.2-0.5-0.3L10.3,19c-0.1,0-0.2-0.1-0.3-0.2
+		c-0.1-0.1-0.2-0.1-0.3-0.2c-0.1-0.1-0.2-0.2-0.2-0.2c-0.1-0.1-0.1-0.2-0.1-0.3c0-0.2,0-0.3,0.1-0.4c0.1-0.1,0.2-0.2,0.3-0.2
+		c0.1-0.1,0.3-0.1,0.4-0.1c0.1,0,0.3,0,0.4,0c0.3,0,0.5,0,0.8,0.1c0.2,0,0.5,0.1,0.6,0.2l0.1-1.1c-0.4-0.1-0.9-0.2-1.4-0.2v-0.9H9.8
+		v1c-0.2,0-0.5,0.1-0.7,0.2c-0.2,0.1-0.4,0.2-0.6,0.3c-0.2,0.1-0.3,0.3-0.4,0.5C8.1,17.7,8,18,8,18.2c0,0.2,0,0.4,0.1,0.6
+		c0.1,0.2,0.2,0.3,0.3,0.4c0.1,0.1,0.3,0.2,0.4,0.3c0.2,0.1,0.3,0.2,0.5,0.3l0.7,0.3c0.2,0.1,0.3,0.1,0.4,0.2
+		c0.1,0.1,0.3,0.1,0.4,0.2c0.1,0.1,0.2,0.2,0.3,0.3c0.1,0.1,0.1,0.2,0.1,0.3c0,0.2,0,0.3-0.1,0.4c-0.1,0.1-0.2,0.2-0.3,0.3
+		c-0.1,0.1-0.2,0.1-0.4,0.1c-0.1,0-0.3,0-0.4,0c-0.3,0-0.6,0-0.9-0.1c-0.3-0.1-0.6-0.2-0.8-0.3L8,22.8c0.5,0.2,1.1,0.3,1.7,0.3V24
+		H10.5z"/>
+</g>
+</svg>

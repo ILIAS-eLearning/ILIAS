@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="{META_CONTENT_LANGUAGE}" dir="{LANGUAGE_DIRECTION}">
+<head>
+	<meta charset="utf-8"  />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{WINDOW_TITLE} {PAGETITLE}</title>
+	<!-- BEGIN mh_meta_item -->
+	<meta name="{MH_META_NAME}" lang="{MH_META_LANG}" content="{MH_META_CONTENT}" />
+	<!-- END mh_meta_item -->
+    <!-- BEGIN HeadBaseTag -->
+    <!-- set to ilias root for pages delivered by scripts in sub folders (e.g. WebAcessChecker -->
+    <base href="{BASE}" />
+    <!-- END HeadBaseTag -->
+	<!-- BEGIN AdditionalStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_ADDITIONAL_STYLESHEET}" />
+	<!-- END AdditionalStyle -->
+	<!-- BEGIN generic_css -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_GENERIC_STYLESHEET}" media="{MEDIA_GENERIC_STYLESHEET}" />
+	<!-- END generic_css -->
+	<!-- BEGIN SyntaxStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_SYNTAX_STYLESHEET}" />
+	<!-- END SyntaxStyle -->
+	<!-- BEGIN ChatStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CHAT_STYLESHEET}" />
+			{EXPIRES}
+	<!-- END ChatStyle -->
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+	<link rel="apple-touch-startup-image" href="./Customizing/global/skin/Skyguide_Skin/images/logo/ilias_logo_startup_320x460.png" /><!-- Startup image -->
+	<link rel="apple-touch-icon-precomposed" href="./Customizing/global/skin/Skyguide_Skin/images/logo/ilias_logo_57x57-precomposed.png" /><!-- iphone -->
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="./Customizing/global/skin/Skyguide_Skin/images/logo/ilias_logo_72x72-precomposed.png" /><!-- ipad -->
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="./Customizing/global/skin/Skyguide_Skin/images/logo/ilias_logo_114x114-precomposed.png" /><!-- iphone retina -->
+
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
+	<!-- END css_file -->
+	<!-- BEGIN css_inline -->
+	<style type="text/css">
+		{CSS_INLINE}
+	</style>
+	<!-- END css_inline -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+	<!-- BEGIN ContentStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
+	<!-- END ContentStyle -->
+	<!-- <link rel="P3Pv1" href="{LOCATION_P3PFILE}" /> -->
+	{LOCATION_NEWCONTENT_STYLESHEET_TAG}
+<!-- BEGIN HeadContent -->
+{CONTENT_BLOCK}
+<!-- END HeadContent -->
+<!-- BEGIN CalendarJS -->
+<style type="text/css">@import url({LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET});</style>
+<script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR}"></script>
+{CALENDAR_LANG_JAVASCRIPT}
+<script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR_SETUP}"></script>
+<!-- END CalendarJS -->
+	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="{JS_FILE}"></script><!-- END js_file -->
+	{SESSION_REMINDER}
+</head>
+<body <!-- BEGIN body_class -->class="{BODY_CLASS}" <!-- END body_class --> {BODY_ATTRIBUTES}>
+<!-- drag_zmove used, e.g. in learnin modules to drag layout borders -->
+<div id="drag_zmove"></div>
+<div id="ilAll">{CONTENT}</div>
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+il.Util.addOnLoad(function() {
+<!-- BEGIN on_load_code_inner -->{OLCODE}
+<!-- END on_load_code_inner -->
+});
+</script>
+<!-- END on_load_code -->
+</body>
+</html>

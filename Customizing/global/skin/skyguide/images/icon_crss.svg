@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
+	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<switch>
+	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
+		</i:pgfRef>
+	</foreignObject>
+	<g i:extraneous="self">
+		<rect x="0" fill="none" width="32" height="32"/>
+		<g>
+			<g>
+				<defs>
+					<rect id="SVGID_1_" x="6" y="4" width="20" height="14"/>
+				</defs>
+				<clipPath id="SVGID_2_">
+					<use xlink:href="#SVGID_1_"  overflow="visible"/>
+				</clipPath>
+				
+					<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-388.5165" y1="-293.4867" x2="-387.5165" y2="-293.4867" gradientTransform="matrix(20 0 0 20 7776.3306 5880.7339)">
+					<stop  offset="0" style="stop-color:#538132"/>
+					<stop  offset="0.0198" style="stop-color:#538132"/>
+					<stop  offset="1" style="stop-color:#74A029"/>
+				</linearGradient>
+				<rect x="6" y="4" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="20" height="14"/>
+			</g>
+		</g>
+		<path fill="#4C3327" d="M26,16H6v2h5.284l-3.943,8.582c-0.23,0.502-0.011,1.096,0.491,1.326C7.968,27.971,8.11,28,8.25,28
+			c0.378,0,0.741-0.216,0.909-0.582l1.496-3.256h10.691l1.496,3.256C23.01,27.784,23.372,28,23.751,28
+			c0.14,0,0.282-0.029,0.417-0.092c0.502-0.23,0.722-0.824,0.491-1.326L20.716,18H26V16z M18.591,18.168l1.835,3.994h-8.853
+			l1.835-3.994c0.025-0.054,0.025-0.112,0.04-0.168h5.104C18.566,18.056,18.566,18.113,18.591,18.168z"/>
+	</g>
+</switch>
+</svg>
