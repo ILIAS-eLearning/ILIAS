@@ -130,6 +130,8 @@ class MainMenuMainCollector
                     }
                     ksort($children);
                     $children = $this->handleDoubleDividers($children);
+                    // bugfix mantis 25577
+                    $children = $this->handleSolitaryDividers($children, $top_item);
 
                     // https://mantis.ilias.de/view.php?id=24061
                     if (count($children) === 0) {
@@ -334,6 +336,42 @@ class MainMenuMainCollector
             }
             if ($separators > 1) {
                 unset($children[$position]);
+            }
+        }
+
+        return $children;
+    }
+
+
+    /**
+     * bugfix mantis 25577:
+     * prevent solitary dividers from being shown
+     *
+     * @param $children
+     *
+     * @return array
+     */
+    private function handleSolitaryDividers($children, $top_item) : array
+    {
+        foreach ($children as $position => $child) {
+            if ($child instanceof Separator) {
+                // remove dividers that are the only item of the item-list and remove their top-item as well
+                if (count($children) === 1) {
+                    unset($children[$position]);
+                    unset($top_item);
+                    continue;
+                }
+                // remove dividers that stand alone at the beginning of the item-list
+                if ($position == min(array_keys($children))) {
+                    unset($children[$position]);
+                    continue;
+                }
+                // remove dividers that stand alone at the end of the item-list
+                if ($position == max(array_keys($children))) {
+                    unset($children[$position]);
+                    continue;
+                }
+
             }
         }
 
