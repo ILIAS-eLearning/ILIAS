@@ -51,20 +51,23 @@
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
 			{CONTENT}
+
+			<footer>
+				{FOOTER}
+			</footer>
 		</main>
 
-		<footer>
-			{FOOTER}
-		</footer>
+
 	</section>
+
 
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
-	il.Util.addOnLoad(function() {
 	<!-- BEGIN on_load_code_inner -->
-		{OLCODE}
+		il.Util.addOnLoad(function() {
+			{OLCODE}
+		});
 	<!-- END on_load_code_inner -->
-});
 </script>
 <!-- END on_load_code -->
 

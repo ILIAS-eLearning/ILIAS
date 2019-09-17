@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
@@ -12,9 +11,9 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
 {
 
     /**
-     * @var Glyph
+     * @var Symbol
      */
-    protected $glyph;
+    protected $symbol;
     /**
      * @var string
      */
@@ -54,7 +53,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
         $clone = clone($this);
-        $clone->glyph = $symbol;
+        $clone->symbol = $symbol;
 
         return $clone;
     }
@@ -65,7 +64,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      */
     public function getSymbol() : \ILIAS\UI\Component\Symbol\Symbol
     {
-        return $this->glyph;
+        return $this->symbol;
     }
 
 
@@ -74,7 +73,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      */
     public function hasSymbol() : bool
     {
-        return ($this->glyph instanceof Symbol);
+        return ($this->symbol instanceof Symbol);
     }
 
 

@@ -122,7 +122,11 @@ class ilMailTemplateContextTest extends ilMailBaseTest
             $superiors = $this->generateOrgUnitUsers($definition['num_superiors']);
             $ouUser->expects($this->atLeastOnce())->method('getSuperiors')->willReturn($superiors);
 
-            $testUsers[] = [$user, $ouUser, $superiors,];
+            $testUsers[sprintf(
+                'User with gender "%s" and %s superiors',
+                $definition['gender'],
+                $definition['num_superiors']
+            )] = [$user, $ouUser, $superiors,];
         }
 
         return $testUsers;

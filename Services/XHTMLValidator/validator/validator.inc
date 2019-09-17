@@ -97,7 +97,7 @@ class validator {
         foreach ($GLOBALS['opts'] as $k => $v) {
 
             /* lock the explanation tip to 90 chars */
-            if (isset($v['explain']{91})) {
+            if (isset($v['explain'][91])) {
                 $title = iconv_substr($v['explain'], 0, 87, 'UTF-8') . '...';
             } else {
                 $title = $v['explain'];
@@ -122,7 +122,7 @@ class validator {
                     $return .= "<select name=\"$k\">\n";
 
                     foreach ($v['values'] as $key => $val) {
-                        if ($val{0} == '$')
+                        if ($val[0] == '$')
                             eval('$val='.$val.';'); // map the var name to its value
 
                         $return .= "<option value=\"$key\"" . ($v['default'] == $key ? ' selected="selected"' :'') .">$val</option>\n";
@@ -321,7 +321,7 @@ class validator {
 
             foreach (explode("\n", $diff) as $line) {
 
-                switch(isset($line{0}) ? $line{0} : '') {
+                switch(isset($line[0]) ? $line[0] : '') {
                     case '-':
                         $text .= '<span class="diffsub">' . $line . "</span><br />\n";
                         break;
@@ -329,7 +329,7 @@ class validator {
                         $text .= '<span class="diffadd">' . $line . "</span><br />\n";
                         break;
                     case '@':
-                        if (isset($line{1}) && $line{1} == '@' && isset($line{2}) && $line{2} == ' ') {
+                        if (isset($line[1]) && $line[1] == '@' && isset($line[2]) && $line[2] == ' ') {
                             $text .= '<span class="diffjmp">' . $line . "</span><br />\n";
                             break;
                         }

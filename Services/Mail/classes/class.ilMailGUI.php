@@ -68,11 +68,10 @@ class ilMailGUI
                            ->context()
                            ->current();
 
-        $additionalDataExists = $toolContext->getAdditionalData()->exists(ilMailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL);
+        $additionalDataExists = $toolContext->getAdditionalData()->exists(MailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL);
         if (false === $additionalDataExists) {
-            $toolContext->addAdditionalData(ilMailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL, true);
+            $toolContext->addAdditionalData(MailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL, true);
         }
-
     }
 
     /**
@@ -137,7 +136,7 @@ class ilMailGUI
             } elseif (isset($this->httpRequest->getQueryParams()['filename'])) {
                 $fileName = $this->httpRequest->getQueryParams()['filename'];
             }
-            ilSession::set('filename', ilUtil::stripSlashes($fileName));;
+            ilSession::set('filename', ilUtil::stripSlashes($fileName));
             $this->ctrl->redirectByClass('ilmailfoldergui', 'deliverFile');
         } elseif ('message_sent' === $type) {
             ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
@@ -208,7 +207,9 @@ class ilMailGUI
 
         if ('redirect_to_read' === $type) {
             $this->ctrl->setParameterByClass(
-                'ilMailFolderGUI', 'mail_id', $mailId
+                'ilMailFolderGUI',
+                'mail_id',
+                $mailId
             );
             $this->ctrl->setParameterByClass('ilmailfoldergui', 'mobj_id', $this->currentFolderId);
             $this->ctrl->redirectByClass('ilMailFolderGUI', 'showMail');
