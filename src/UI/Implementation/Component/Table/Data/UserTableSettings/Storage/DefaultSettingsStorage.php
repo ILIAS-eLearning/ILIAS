@@ -28,7 +28,6 @@ class DefaultSettingsStorage extends AbstractSettingsStorage {
 	public function __construct(Container $dic) {
 		parent::__construct($dic);
 
-		// TODO: Not use ilTablePropertiesStorage and reimplement it - Currently just a "fast solution" to save the table filter
 		$this->properties_storage = new ilTablePropertiesStorage();
 		$this->properties_storage->properties = array_reduce(self::VARS, function (array $properties, string $property): array {
 			$properties[$property] = [ "storage" => "db" ];
