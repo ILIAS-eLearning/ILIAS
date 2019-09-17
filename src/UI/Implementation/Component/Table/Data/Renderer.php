@@ -67,7 +67,7 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderDataTable(Table $component, RendererInterface $renderer) : string
     {
-        $user_table_settings = $component->getUserTableSettingsStorage()->read($component->getTableId(), $this->dic->user()->getId());
+        $user_table_settings = $component->getUserTableSettingsStorage()->read($component->getTableId(), intval($this->dic->user()->getId()));
 
         $user_table_settings = $component->getBrowserFormat()->handleUserTableSettingsInput($component, $user_table_settings);
 
@@ -77,7 +77,7 @@ class Renderer extends AbstractComponentRenderer
 
         $html = $this->handleFormat($component, $data, $user_table_settings, $renderer);
 
-        $component->getUserTableSettingsStorage()->store($user_table_settings, $component->getTableId(), $this->dic->user()->getId());
+        $component->getUserTableSettingsStorage()->store($user_table_settings, $component->getTableId(), intval($this->dic->user()->getId()));
 
         return $html;
     }
