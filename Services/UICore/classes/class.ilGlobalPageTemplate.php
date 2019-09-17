@@ -78,6 +78,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         \ilUIFramework::init($this);
         \ilBuddySystemGUI::initializeFrontend($this);
         \ilOnScreenChatGUI::initializeFrontend($this);
+        $sessionReminder = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
+        $sessionReminder->populatePage($this, $this->lng);
     }
 
 
