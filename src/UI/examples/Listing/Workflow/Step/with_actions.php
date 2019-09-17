@@ -8,6 +8,7 @@ function with_actions() {
 
 	//setup steps
 	$step = $f->step('','');
+	//action is set by the third parameter for the step-factory
 	$steps = [
 		$f->step('step 1', 'available, successfully completed', '#')
 			->withAvailability($step::AVAILABLE)->withStatus($step::SUCCESSFULLY),
