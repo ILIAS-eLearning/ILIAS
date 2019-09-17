@@ -88,7 +88,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
 
-        $registry->register("./src/UI/templates/js/Table/datatable.min.js");
+        $registry->register("./src/UI/templates/js/Table/datatable.js");
     }
 
 
