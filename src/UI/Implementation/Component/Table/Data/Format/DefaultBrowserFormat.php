@@ -254,7 +254,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 				if (is_array($data)) {
 					$user_table_settings = $user_table_settings->withFieldValues($data);
 
-					$user_table_settings = $user_table_settings->withFilterSet(true);
+					if (!empty(array_filter($data))) {
+						$user_table_settings = $user_table_settings->withFilterSet(true);
+					}
 				}
 			} catch (Throwable $ex) {
 
