@@ -261,7 +261,6 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateImageField(string $post_var, $value) {
 		$field = new ilImageFileInputGUI('', $post_var);
-		
 		$this->setFieldValue($post_var, $value, $field);
 		
 		$hidden = '<input type="hidden" name="' . $post_var . QuestionFormGUI::IMG_PATH_SUFFIX . '" value="' . $value . '" />';

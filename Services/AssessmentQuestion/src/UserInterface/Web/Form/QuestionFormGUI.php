@@ -11,8 +11,10 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
 use Exception;
+use ilAssSelfAssessmentQuestionFormatter;
 use ilDurationInputGUI;
 use ilHiddenInputGUI;
+use ilObjAdvancedEditing;
 use ilPropertyFormGUI;
 use ilSelectInputGUI;
 use ilTextAreaInputGUI;
@@ -102,7 +104,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$legacy->setValue(json_encode($question->getLegacyData()));
 		$this->addItem($legacy);
 
-		$this->initQuestionDataConfiguration($question->getData());
+		$this->initQuestionDataConfiguration($question);
 
 		$this->initiatePlayConfiguration($question->getPlayConfiguration());
 
@@ -142,9 +144,11 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 
 
 	/**
-	 * @param QuestionData $data
+	 * @param QuestionDto $question
 	 */
-	private function initQuestionDataConfiguration(?QuestionData $data): void {
+	private function initQuestionDataConfiguration(QuestionDto $question): void {
+	    $data = $question->getData();
+	    
 	    $title = new ilTextInputGUI($this->lang->txt('asq_label_title'), self::VAR_TITLE);
 		$title->setRequired(true);
 		$this->addItem($title);
@@ -159,12 +163,18 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$question_text = new ilTextAreaInputGUI($this->lang->txt('asq_label_question'), self::VAR_QUESTION);
 		$question_text->setRequired(true);
 		$question_text->setRows(10);
+	    $question_text->setUseRte(true);
+	    $question_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+	    $question_text->addPlugin("latex");
+	    $question_text->addButton("latex");
+	    $question_text->addButton("pastelatex");
+	    $question_text->setRTESupport($question->getQuestionIntId(), "qpl", "assessment");
 		$this->addItem($question_text);
 
 		$working_time = new ilDurationInputGUI($this->lang->txt('asq_label_working_time'), self::VAR_WORKING_TIME);
-		$working_time->setShowHours(TRUE);
-		$working_time->setShowMinutes(TRUE);
-		$working_time->setShowSeconds(TRUE);
+		$working_time->setShowHours(true);
+		$working_time->setShowMinutes(true);
+		$working_time->setShowSeconds(true);
 		$this->addItem($working_time);
 
 		if ($data !== null) {
