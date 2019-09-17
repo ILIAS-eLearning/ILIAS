@@ -76,6 +76,18 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         \iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
+        \ilBuddySystemGUI::initializeFrontend($this);
+        \ilOnScreenChatGUI::initializeFrontend($this);
+
+        $sessionReminder = new ilSessionReminderGUI(
+            ilSessionReminder::createInstanceWithCurrentUserSession(),
+            $this,
+            $this->lng
+        );
+        $sessionReminder->populatePage();
+
+        $onScreenNotifier = new ilNotificationOSDGUI($this, $this->lng);
+        $onScreenNotifier->populatePage();
     }
 
 

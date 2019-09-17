@@ -5,58 +5,63 @@
  */
 class ilNotificationOSDGUI
 {
-	/**
-	 * @var \ilObjUser
-	 */
-	protected $user;
+    /** @var \ilObjUser */
+    protected $user;
 
-	/**
-	 * @var \ilGlobalTemplate
-	 */
-	protected $mainTemplate;
+    /** @var \ilGlobalTemplateInterface */
+    protected $page;
 
-	/**
-	 * @var \ilLanguage
-	 */
-	protected $lng;
-	
-	/**
-	 * ilNotificationOSDGUI constructor.
-	 * @param \ilObjUser $user
-	 * @param \ilGlobalTemplate $mainTemplate
-	 * @param \ilLanguage $lng
-	 */
-	public function __construct(\ilObjUser $user, \ilGlobalTemplateInterface $mainTemplate, \ilLanguage $lng)
-	{
-		$this->user         = $user;
-		$this->mainTemplate = $mainTemplate;
-		$this->lng          = $lng;
-	}
-	
-	public function render()
-	{
-		$notificationSettings = new \ilSetting('notifications');
-		$chatSettings = new \ilSetting('chatroom');
+    /** @var \ilLanguage */
+    protected $lng;
 
-		$osdTemplate = new \ilTemplate('tpl.osd_notifications.js', true, true, 'Services/Notifications');
+    /**
+     * ilNotificationOSDGUI constructor.
+     * @param ilGlobalTemplateInterface $page
+     * @param ilLanguage $language
+     */
+    public function __construct(\ilGlobalTemplateInterface $page, \ilLanguage $language)
+    {
+        global $DIC;
 
-		require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-		require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+        $this->user = $DIC->user();
+        $this->page = $page;
+        $this->lng = $language;
+    }
 
-		$notifications = \ilNotificationOSDHandler::getNotificationsForUser($this->user->getId());
-		$osdTemplate->setVariable('NOTIFICATION_CLOSE_HTML', json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $this->lng->txt('close'))));
-		$osdTemplate->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-		$osdTemplate->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
-		$osdTemplate->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $this->user->getPref('chat_play_invitation_sound') ? 'true' : 'false');
+    /**
+     * 
+     */
+    public function populatePage() : void
+    {
+        if ($this->user->isAnonymous() || 0 === (int) $this->user->getId()) {
+            return;
+        }
 
-		require_once "Services/jQuery/classes/class.iljQueryUtil.php";
-		iljQueryUtil::initjQuery();
+        $notificationSettings = new \ilSetting('notifications');
+        $chatSettings = new \ilSetting('chatroom');
 
-		require_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
-		ilPlayerUtil::initMediaElementJs();
+        $osdTemplate = new \ilTemplate('tpl.osd_notifications.js', true, true, 'Services/Notifications');
 
-		$this->mainTemplate->addJavaScript('Services/Notifications/templates/default/notifications.js');
-		$this->mainTemplate->addCSS('Services/Notifications/templates/default/osd.css');
-		$this->mainTemplate->addOnLoadCode($osdTemplate ->get());
-	}
+        $notifications = \ilNotificationOSDHandler::getNotificationsForUser($this->user->getId());
+        $osdTemplate->setVariable(
+            'NOTIFICATION_CLOSE_HTML',
+            json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $this->lng->txt('close')))
+        );
+        $osdTemplate->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
+        $osdTemplate->setVariable(
+            'OSD_POLLING_INTERVALL',
+            $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60'
+        );
+        $osdTemplate->setVariable(
+            'OSD_PLAY_SOUND',
+            $chatSettings->get('play_invitation_sound') && $this->user->getPref('chat_play_invitation_sound') ? 'true' : 'false'
+        );
+
+        iljQueryUtil::initjQuery($this->page );
+        ilPlayerUtil::initMediaElementJs($this->page);
+
+        $this->page->addJavaScript('Services/Notifications/templates/default/notifications.js');
+        $this->page->addCSS('Services/Notifications/templates/default/osd.css');
+        $this->page->addOnLoadCode($osdTemplate->get());
+    }
 }

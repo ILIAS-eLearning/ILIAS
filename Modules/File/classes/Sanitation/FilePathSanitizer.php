@@ -5,6 +5,7 @@ namespace ILIAS\File\Sanitation;
 use DirectoryIterator;
 use Exception;
 use ilFileUtils;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ilObjFile;
 
@@ -32,6 +33,10 @@ class FilePathSanitizer
      * @var string
      */
     private $absolute_path;
+    /**
+     * @var int
+     */
+    private $version = 1;
 
 
     /**
@@ -41,8 +46,9 @@ class FilePathSanitizer
      */
     public function __construct(ilObjFile $file_object)
     {
+        $this->version = (int) $file_object->getVersion();
         $this->file_object = $file_object;
-        $this->absolute_path = $this->file_object->getDirectory($this->file_object->getVersion()) . "/" . $this->file_object->getFileName();
+        $this->absolute_path = $this->file_object->getDirectory($this->version) . "/" . $this->file_object->getFileName();
         $this->relative_path = LegacyPathHelper::createRelativePath($this->absolute_path);
         $this->fs = LegacyPathHelper::deriveFilesystemFrom($this->absolute_path);
     }
@@ -83,7 +89,6 @@ class FilePathSanitizer
 
     /**
      * @return bool
-     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      */
     public function sanitizeIfNeeded() /* : void */
     {
@@ -95,7 +100,13 @@ class FilePathSanitizer
 
                 return false;
             }
-            $first_file = reset($this->fs->listContents($dirname));
+            try {
+                $first_file = reset($this->fs->listContents($dirname));
+            } catch (DirectoryNotFoundException $e) {
+                $this->log("FAILED AGAIN and AGAIN: Sanitizing File Path: {$this->file_object->getFile()}. Message: {$e->getMessage()}");
+
+                return false;
+            }
             if ($first_file instanceof \ILIAS\Filesystem\DTO\Metadata) {
                 try {
                     $valid_filename = $this->santitizeFilename($first_file->getPath());
