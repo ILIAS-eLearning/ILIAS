@@ -1147,12 +1147,14 @@ class ilObjFileGUI extends ilObject2GUI
                 }
             }
         } else {
-            if (trim($title) == "") {
-                $title = $filename;
-            }
-
             // create and insert file in grp_tree
             $fileObj = new ilObjFile();
+            // bugfix mantis 0026043
+            if(strlen(trim($title)) == 0) {
+                $title = $filename;
+            } else {
+                $title = $fileObj->checkFileExtension($filename,$title);
+            }
             $fileObj->setTitle($title);
             $fileObj->setDescription($description);
             $fileObj->setFileName($filename);
