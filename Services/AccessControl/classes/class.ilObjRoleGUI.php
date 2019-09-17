@@ -769,55 +769,20 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if($a_show_admin_permissions)
 			{
-				$subs = $objDefinition->getSubObjectsRecursively('adm',true,true);
+				$subs = ilObjRole::getSubObjects('adm', true);
 			}
 			else
 			{
-				$subs = $objDefinition->getSubObjectsRecursively('root',true,$a_show_admin_permissions);
+				$subs = ilObjRole::getSubObjects('root', false);
 			}
 		}
 		else
 		{
-			$subs = $objDefinition->getSubObjectsRecursively($this->getParentType(),true,$a_show_admin_permissions);
+			$subs = ilObjRole::getSubObjects($this->getParentType(), $a_show_admin_permissions);
 		}
-		
-		$sorted = array();
+
 		foreach($subs as $subtype => $def)
 		{
-			if($objDefinition->isPlugin($subtype))
-			{
-				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
-			}
-			elseif($objDefinition->isSystemObject($subtype))
-			{
-				$translation = $this->lng->txt("obj_".$subtype);
-			}
-			else
-			{
-				$translation = $this->lng->txt('objs_'.$subtype);
-			}
-			
-			$sorted[$subtype] = $def;
-			$sorted[$subtype]['translation'] = $translation;
-		}
-		
-		
-		$sorted = ilUtil::sortArray($sorted, 'translation','asc',true,true);
-		foreach($sorted as $subtype => $def)
-		{
-			if($objDefinition->isPlugin($subtype))
-			{
-				$translation = ilObjectPlugin::lookupTxtById($subtype,"obj_".$subtype);
-			}
-			elseif($objDefinition->isSystemObject($subtype))
-			{
-				$translation = $this->lng->txt("obj_".$subtype);
-			}
-			else
-			{
-				$translation = $this->lng->txt('objs_'.$subtype);
-			}
-
 			include_once 'Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php';
 			$tbl = new ilObjectRoleTemplatePermissionTableGUI(
 				$this,
@@ -829,7 +794,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			);
 			$tbl->parse();
 			
-			$acc->addItem($translation, $tbl->getHTML());
+			$acc->addItem($def['translation'], $tbl->getHTML());
 		}
 
 		$this->tpl->setVariable('ACCORDION',$acc->getHTML());
@@ -1017,18 +982,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if($a_show_admin_permissions)
 			{
-				$subs = $objDefinition->getSubObjectsRecursively('adm',true,true);
+				$subs = ilObjRole::getSubObjects('adm', true);
 			}
 			else
 			{
-				$subs = $objDefinition->getSubObjectsRecursively('root',true,false);
+				$subs = ilObjRole::getSubObjects('root', false);
 			}
 		}
 		else
 		{
-			$subs = $objDefinition->getSubObjectsRecursively($this->getParentType(),true,false);
+			$subs = ilObjRole::getSubObjects($this->getParentType(), $a_show_admin_permissions);
 		}
-		
+
 		foreach($subs as $subtype => $def)
 		{
 			// Delete per object type

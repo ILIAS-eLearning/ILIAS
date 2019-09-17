@@ -423,7 +423,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
 			}
 			// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
-			switch ($__FILES["scormfile"]["error"])
+			switch ($_FILES["scormfile"]["error"])
 			{
 				case UPLOAD_ERR_INI_SIZE:
 					$this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"),$this->ilias->error_obj->MESSAGE);
@@ -485,8 +485,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		case "exportFile":
 			$sFile = $_FILES["scormfile"];
 			$fType = $sFile["type"];
-			$cFileTypes = ["application/zip", "application/x-compressed"];
-
+			$cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
 			if (in_array ($fType, $cFileTypes))
 			{
 				$timeStamp = time();
@@ -500,32 +499,32 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$zar->close();
 				require_once "./Modules/ScormAicc/classes/class.ilScormAiccImporter.php";
 				$importer = new ilScormAiccImporter ();
-				if ($importer->importXmlRepresentation("sahs", Null, $lmTempDir, "") == true)
+				$import_dirname = $lmTempDir . '/' .substr($_FILES["scormfile"]["name"], 0, strlen($a_filename) - 4);
+				if ($importer->importXmlRepresentation("sahs", Null, $import_dirname, "") == true) {
 					$importFromXml = true;
+				}
 				$mprops = [];
 				$mprops = $importer->moduleProperties;
-				$fed = $mprops["Fourth_edition"][0];
-				if ($fed == "n")
+				$subType = $mprops["SubType"][0];
+				if ($subType == "scorm")
 				{
 					include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 					$newObj = new ilObjSCORMLearningModule();
-					$subType = "scorm";
 				}
 				else
 				{
 					include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 					$newObj = new ilObjSCORM2004LearningModule();
-					$newObj->setEditable($_POST["editable"]=='y');
-					$newObj->setImportSequencing($_POST["import_sequencing"]);
-					$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
-					$subType = "scorm2004";
+//					$newObj->setEditable($_POST["editable"]=='y');
+//					$newObj->setImportSequencing($_POST["import_sequencing"]);
+//					$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
 				}
 			}
 			break;
 		}
 
 		$newObj->setTitle($name);
-		$newObj->setSubType($_POST["sub_type"]);
+		$newObj->setSubType($subType);
 		$newObj->setDescription("");
 		$newObj->setOfflineStatus(true);
 		$newObj->create(true);
@@ -540,56 +539,41 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			if ($importFromXml)
 			{
-				$lmTempDir = $lmDir . $timeStamp;
-				$scormFile = $importer->manifest["scormFile"][0];
-				$scormFilePath = $lmTempDir . "/" . $scormFile;
-				$targetPath = $newObj->getDataDirectory()."/".$scormFile;
-				$file_path = $targetPath;
-
-				ilFileUtils::rename ($scormFilePath, $targetPath);
+				$scormFile = "content.zip";
+				$scormFilePath = $import_dirname . "/" . $scormFile;
+				$file_path = $newObj->getDataDirectory()."/".$scormFile;
+				ilFileUtils::rename ($scormFilePath, $file_path);
+				ilUtil::unzip($file_path);
+				unlink($file_path);
+				ilUtil::delDir($lmTempDir,false);
 			}
 			else
 			{
 				// copy uploaded file to data directory
 				$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
-
 				ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],
 					$_FILES["scormfile"]["name"], $file_path);
+				ilUtil::unzip($file_path);
 			}
 		}
 		else
 		{
 			// copy uploaded file to data directory
 			$file_path = $newObj->getDataDirectory()."/". $_POST["uploaded_file"];
-
 			ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $file_path);
+			ilUtil::unzip($file_path);
 		}
-
-		ilUtil::unzip($file_path);
 		ilUtil::renameExecutables($newObj->getDataDirectory());
 
 		$title = $newObj->readObject();
 		if ($title != "")
 		{
 			ilObject::_writeTitle($newObj->getId(), $title);
-			/*$md = new ilMD($newObj->getId(),0, $newObj->getType());
-			if(is_object($md_gen = $md->getGeneral()))
-			{
-				$md_gen->setTitle($title);
-				$md_gen->update();
-			}*/
 		}
 		
 		//auto set learning progress settings
-		switch ($_POST["sub_type"])
-		{
-			case "scorm2004":
-			case "scorm":
-			case "exportFile":
-			$newObj->setLearningProgressSettingsAtUpload();
-			break;
-		}
-		
+		$newObj->setLearningProgressSettingsAtUpload();
+
 		if ($importFromXml)
 		{
 			$importer->writeData("sahs", "5.1.0", $newObj->getId());

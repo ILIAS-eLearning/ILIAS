@@ -1168,7 +1168,8 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 		
 		// add very special case
-		$res[] = "itgr";
+		// outcommented, see bug #25662
+//		$res[] = "itgr";
 		
 		return array_unique($res);		
 	}
@@ -1214,7 +1215,7 @@ class ilObjectDefinition// extends ilSaxParser
 				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 				$loc = ilPlugin::_getDirectory($component, $slotName, $slotId, $pl_name) . "/classes";
 				// The plugin_id is the same as the type_id in repository object plugins.
-				$pl = ilObjectPlugin::getRepoPluginObjectByType($pl_id);
+				$pl = ilObjectPlugin::getPluginObjectByType($pl_id);
 
 				$this->obj_data[$pl_id] = array(
 					"name" => $pl_id,

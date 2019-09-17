@@ -45,6 +45,8 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
 
 		$this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 		$this->placeholder['COURSE_TITLE'] =  $this->language->txt('crs_title');
+		$this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
+		$this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
 	}
 
 

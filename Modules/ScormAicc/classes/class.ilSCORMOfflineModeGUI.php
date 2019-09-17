@@ -74,7 +74,7 @@ class ilSCORMOfflineModeGUI
 				$sop_manifest = new ilTemplate('tpl.sop.appcache',true,true,'Modules/ScormAicc');
 				$entries = $this->offlineMode->getSopManifestEntries();
 				$sop_manifest->setVariable("CACHE_ENTRIES", $entries);
-				$sop_manifest->setVariable("VERSION", $vers);
+				$sop_manifest->setVariable("VERSION", $this->vers);
 				$this->sendManifest($sop_manifest->get());
 				break;
 				
@@ -98,7 +98,7 @@ class ilSCORMOfflineModeGUI
 					$entries = $this->offlineMode->getLmManifestEntries();
 				}
 				$lm_manifest->setVariable("CACHE_ENTRIES", $entries);
-				$lm_manifest->setVariable("VERSION", $vers);
+				$lm_manifest->setVariable("VERSION", $this->vers);
 				$this->sendManifest($lm_manifest->get());
 				break;
 			
@@ -163,7 +163,7 @@ class ilSCORMOfflineModeGUI
 				$player2004->setVariable($langstrings);
 				$player2004->setVariable("DOC_TITLE","ILIAS SCORM 2004 Offline Player");
 				$player2004->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
+				list($tsfrac, $tsint) = explode(' ', microtime());
 				$player2004->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 				$player2004->setVariable('BASE_DIR', './Modules/Scorm2004/');
 
@@ -250,6 +250,7 @@ class ilSCORMOfflineModeGUI
 		$log = $DIC['log'];
 		$icon = ($offline_mode == "online") ? "icon_sahs.svg" : "icon_sahs_offline.svg";
 		$tabTitle = $this->lng->txt("offline_mode");
+		$a_active = $offline_mode; //workaround
 		$thisurl =$this->ctrl->getLinkTarget($this, $a_active);
 		$ilTabs->addTab($a_active, $tabTitle, $thisurl);
 		$ilTabs->activateTab($a_active);

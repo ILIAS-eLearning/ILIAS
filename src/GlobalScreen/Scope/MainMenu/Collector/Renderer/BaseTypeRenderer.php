@@ -9,27 +9,30 @@ use ILIAS\UI\Factory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BaseTypeRenderer implements TypeRenderer {
+class BaseTypeRenderer implements TypeRenderer
+{
 
-	/**
-	 * @var Factory
-	 */
-	protected $ui_factory;
-
-
-	/**
-	 * BaseTypeRenderer constructor.
-	 */
-	public function __construct() {
-		global $DIC;
-		$this->ui_factory = $DIC->ui()->factory();
-	}
+    /**
+     * @var Factory
+     */
+    protected $ui_factory;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getComponentForItem(isItem $item): Component {
-		return $this->ui_factory->legacy("");
-	}
+    /**
+     * BaseTypeRenderer constructor.
+     */
+    public function __construct()
+    {
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getComponentForItem(isItem $item) : Component
+    {
+        return $this->ui_factory->legacy("");
+    }
 }

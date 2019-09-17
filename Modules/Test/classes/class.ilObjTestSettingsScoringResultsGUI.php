@@ -221,7 +221,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			{
 				case 'section_header':
 					
-					continue;
+					break;
 					
 				case 'datetime':
 
@@ -475,13 +475,13 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$chb_only_passed_failed->setInfo($this->lng->txt('tst_results_grading_opt_show_status_desc'));
 		$chb_only_passed_failed->setValue(1);
 		$chb_only_passed_failed->setChecked($this->testOBJ->isShowGradingStatusEnabled());
-		$form->addItem($chb_only_passed_failed);
+        $resultsAccessEnabled->addSubItem($chb_only_passed_failed);
 
 		$chb_resulting_mark_only = new ilCheckboxInputGUI($this->lng->txt('tst_results_grading_opt_show_mark'), 'grading_mark');
 		$chb_resulting_mark_only->setInfo($this->lng->txt('tst_results_grading_opt_show_mark_desc'));
 		$chb_resulting_mark_only->setValue(1);
 		$chb_resulting_mark_only->setChecked($this->testOBJ->isShowGradingMarkEnabled());
-		$form->addItem($chb_resulting_mark_only);
+        $resultsAccessEnabled->addSubItem($chb_resulting_mark_only);
 	}
 
 	/**

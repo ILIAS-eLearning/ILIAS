@@ -753,6 +753,7 @@ abstract class ilContainerContentGUI
 	{
 		global $DIC;
 		$f = $DIC->ui()->factory();
+		$r = $DIC->ui()->renderer();
 		$user = $DIC->user();
 
 		$item_list_gui = $this->getItemGUI($a_item_data);
@@ -785,9 +786,10 @@ abstract class ilContainerContentGUI
 			$actions[] = $button;
 
 		}
-		$dropdown = $f->dropdown()->standard($actions);
+
 
 		$def_command = $item_list_gui->getDefaultCommand();
+		$dropdown = $f->dropdown()->standard($actions);
 
 		$img = $DIC->object()->commonSettings()->tileImage()->getByObjId($a_item_data['obj_id']);
 
@@ -804,19 +806,48 @@ abstract class ilContainerContentGUI
 			}
 		}
 
+		$sections = [];
+		$title = $a_item_data["title"];
+
+		// workaround for scorm
+		$modified_link =
+			$item_list_gui->modifySAHSlaunch($def_command["link"], $def_command["frame"]);
+
+
 		$image = $f->image()->responsive($path, "");
 		if ($def_command["link"] != "")	// #24256
 		{
-			$image = $image->withAction($def_command["link"]);
+			if ($def_command["frame"] != "" && ($modified_link == $def_command["link"])) {
+				$image = $image->withAdditionalOnLoadCode(function($id) use ($def_command) {
+					return
+						"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+				});
+
+				$button =
+					$f->button()->shy($title, "")->withAdditionalOnLoadCode(function($id) use ($def_command) {
+						return
+							"$('#$id').click(function(e) { window.open('".str_replace("&amp;", "&", $def_command["link"])."', '".$def_command["frame"]."');});";
+					});
+				$title = $r->render($button);
+			}
+			else {
+				$image = $image->withAction($modified_link);
+			}
 		}
 
-		// card
-		$title = $a_item_data["title"];
+		// description, @todo: move to new ks element
+		if ($a_item_data["description"] != "") {
+			$sections[] = $f->legacy("<div class='il_info il-multi-line-cap-3'>".$a_item_data["description"]."</div>");
+		}
 
-		if ($a_item_data["type"] == "sess" && $a_item_data["title"] == "")
+		if ($a_item_data["type"] == "sess")
 		{
 			$app_info = ilSessionAppointment::_lookupAppointment($a_item_data['obj_id']);
-			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+			if ($title != "") {
+				$title = ": ".$title;
+			}
+			$title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']).
+				$title;
 		}
 
 		$icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_".$a_item_data["type"]))
@@ -829,9 +860,9 @@ abstract class ilContainerContentGUI
 		)->withActions($dropdown
 		);
 
-		if ($def_command["link"] != "")	// #24256
+		if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"]))	// #24256
 		{
-			$card = $card->withTitleAction($def_command["link"]);
+			$card = $card->withTitleAction($modified_link);
 		}
 
 		// properties
@@ -843,12 +874,15 @@ abstract class ilContainerContentGUI
 				$l[(string) $p["property"]] = (string) $p["value"];
 			}
 		}
+
 		if (count($l) > 0)
 		{
 			$prop_list = $f->listing()->descriptive($l);
-			$card = $card->withSections([$prop_list]);
+			$sections[] = $prop_list;
 		}
-
+		if (count($sections) > 0) {
+			$card = $card->withSections($sections);
+		}
 		// learning progress
 		include_once "Services/Tracking/classes/class.ilLPStatus.php";
 		$lp = ilLPStatus::getListGUIStatus($a_item_data["obj_id"], false);

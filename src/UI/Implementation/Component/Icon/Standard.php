@@ -128,7 +128,7 @@ class Standard extends Icon implements C\Icon\Standard {
 		$this->checkStringArg("name", $name);
 		$this->checkStringArg("string", $aria_label);
 		$this->checkArgIsElement("size", $size,	self::$possible_sizes,
-			implode(self::$possible_sizes, '/')
+			implode("/", self::$possible_sizes)
 		);
 		$this->checkBoolArg("is_disabled", $is_disabled);
 		$this->name = $name;

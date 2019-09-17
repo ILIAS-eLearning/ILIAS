@@ -10,6 +10,9 @@
  */
 class ilCertificateMigrationGUI
 {
+	/** @var ilLogger|null */
+	private $logger;
+
 	/** @var \ilCtrl|null */
 	protected $ctrl;
 
@@ -48,6 +51,7 @@ class ilCertificateMigrationGUI
 	 * @param ilSetting|null                       $certificateSettings
 	 * @param ilCertificateMigrationValidator|null $migrationValidator
 	 * @param ilErrorHandling|null                 $errorHandler
+	 * @param ilLog|null                           $logger
 	 */
 	public function __construct(
 		\ilCtrl $ctrl = null,
@@ -58,7 +62,8 @@ class ilCertificateMigrationGUI
 		\ilLearningHistoryService $learningHistoryService = null,
 		\ilSetting $certificateSettings = null,
 		\ilCertificateMigrationValidator $migrationValidator = null,
-		\ilErrorHandling $errorHandler = null
+		\ilErrorHandling $errorHandler = null,
+        \ilLog $logger = null
 	) {
 		global $DIC;
 
@@ -94,6 +99,11 @@ class ilCertificateMigrationGUI
 			$errorHandler = $DIC['ilErr'];
 		}
 		$this->errorHandler = $errorHandler;
+
+		if (null === $logger) {
+			$logger = $DIC->logger()->cert();
+		}
+		$this->logger = $logger;
 
 		$this->ctrl = $ctrl;
 		$lng->loadLanguageModule('cert');
@@ -144,7 +154,8 @@ class ilCertificateMigrationGUI
 			$this->user, new \ilCertificateMigration($this->user->getId())
 		);
 		if (false === $isMigrationAvailable) {
-			$this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+		    $this->logger->error('Tried to execute user certificate migration, but the migration has already been executed');
+			return '';
 		}
 
 		$factory = $this->backgroundTasks->taskFactory();

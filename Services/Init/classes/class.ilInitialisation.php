@@ -8,6 +8,7 @@ use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Injector;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\GlobalScreen\Services;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -1438,6 +1439,13 @@ class ilInitialisation
 	/**
 	 * init the ILIAS UI framework.
 	 */
+	protected static function initGlobalScreen(\ILIAS\DI\Container $c)
+    {
+        $c["global_screen"] = function () use ($c)  {
+            return new Services(new ilGSProviderFactory($c));
+        };
+    }
+
 	protected static function initUIFramework(\ILIAS\DI\Container $c) {
 		$c["ui.factory"] = function ($c) {
 			return new ILIAS\UI\Implementation\Factory(
@@ -1616,7 +1624,7 @@ class ilInitialisation
 			// use the init function with plugin hook here, too
 			self::initStyle();
 		}
-
+		self::initGlobalScreen($GLOBALS["DIC"]);
 		self::initUIFramework($GLOBALS["DIC"]);
 
 		// LTI

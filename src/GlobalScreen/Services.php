@@ -1,9 +1,8 @@
 <?php namespace ILIAS\GlobalScreen;
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
-use ILIAS\GlobalScreen\Collector\CoreStorageFacade;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
+use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
@@ -11,57 +10,70 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Services {
+class Services
+{
 
-	/**
-	 * @var bool
-	 */
-	protected static $constructed = false;
-
-
-	/**
-	 * Services constructor.
-	 */
-	public function __construct() {
-		if (self::$constructed === true) {
-			// throw new \LogicException("Only one Instance of GlobalScreen-Services can be created, use it from \$DIC instead.");
-		}
-		self::$constructed = true;
-	}
+    use SingletonTrait;
+    /**
+     * @var Services
+     */
+    private static $instance = null;
+    /**
+     * @var ProviderFactoryInterface
+     */
+    private $provider_factory;
 
 
-	/**
-	 * @see MainMenuItemFactory
-	 *
-	 * @return MainMenuItemFactory
-	 */
-	public function mainmenu(): MainMenuItemFactory {
-		return new MainMenuItemFactory();
-	}
+    /**
+     * Services constructor.
+     *
+     * @param ProviderFactoryInterface $provider_factory
+     */
+    public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
 
 
-	/**
-	 * @return CollectorFactory
-	 */
-	public function collector(): CollectorFactory {
-		return new CollectorFactory();
-	}
+    /**
+     * @param ProviderFactoryInterface $provider_factory
+     *
+     * @return Services
+     */
+    public static function getInstance(ProviderFactoryInterface $provider_factory)
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($provider_factory);
+        }
+
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return StorageFacade
-	 */
-	public function storage(): StorageFacade {
-		return new CoreStorageFacade();
-	}
+    /**
+     * @return MainMenuItemFactory
+     * @see MainMenuItemFactory
+     *
+     */
+    public function mainmenu() : MainMenuItemFactory
+    {
+        return $this->get(MainMenuItemFactory::class);
+    }
 
 
-	/**
-	 * @see IdentificationFactory
-	 *
-	 * @return IdentificationFactory
-	 */
-	public function identification(): IdentificationFactory {
-		return new IdentificationFactory();
-	}
+    /**
+     * @return CollectorFactory
+     */
+    public function collector() : CollectorFactory
+    {
+        return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
+    }
+
+
+    /**
+     * @return IdentificationFactory
+     * @see IdentificationFactory
+     *
+     */
+    public function identification() : IdentificationFactory
+    {
+        return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
+    }
 }

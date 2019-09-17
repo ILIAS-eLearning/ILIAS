@@ -298,19 +298,21 @@ class ilExcel
 	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
+		$col = $this->columnIndexAdjustment($a_col);
+
 		if($a_value instanceof ilDateTime)
 		{
 			$wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
-				$a_col +1,
+				$col,
 				$a_row,
 				$this->prepareValue($a_value)
 			);
-			$this->setDateFormat($wb->getCellByColumnAndRow($a_col +1, $a_row), $a_value);
+			$this->setDateFormat($wb->getCellByColumnAndRow($col, $a_row), $a_value);
 		}
 		elseif(is_numeric($a_value))
 		{
 			$wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
-				$a_col +1,
+				$col,
 				$a_row,
 				$this->prepareValue($a_value),
 				DataType::TYPE_NUMERIC
@@ -319,7 +321,7 @@ class ilExcel
 		else
 		{
 			$wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
-				$a_col +1,
+				$col,
 				$a_row,
 				$this->prepareValue($a_value),
 				DataType::TYPE_STRING
@@ -364,8 +366,11 @@ class ilExcel
 	 *
 	 * @return mixed
 	 */
-	public function getCell($a_row, $a_col) {
-		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($a_col, $a_row)->getValue();
+	public function getCell($a_row, $a_col)
+	{
+		$col = $this->columnIndexAdjustment($a_col);
+
+		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($col, $a_row)->getValue();
 	}
 
 
@@ -396,7 +401,9 @@ class ilExcel
 	 */
 	public function getColumnCoord($a_col)
 	{
-		return Coordinate::stringFromColumnIndex($a_col + 1);
+		$col = $this->columnIndexAdjustment($a_col);
+
+		return Coordinate::stringFromColumnIndex($col);
 	}
 	
 	/**
@@ -585,9 +592,11 @@ class ilExcel
 	 * @param int $pRow
 	 * @return string
 	 */
-	function getCoordByColumnAndRow($pColumn = 0, $pRow = 1)
+	function getCoordByColumnAndRow($pColumn = 1, $pRow = 1)
 	{
-		$columnLetter = Coordinate::stringFromColumnIndex($pColumn + 1);
+		$col = $this->columnIndexAdjustment($pColumn);
+		$columnLetter = Coordinate::stringFromColumnIndex($col);
+
 		return $columnLetter . $pRow;
 	}
 
@@ -598,7 +607,20 @@ class ilExcel
 	 */
 	function addLink($a_row, $a_column, $a_path)
 	{
-		$this->workbook->getActiveSheet()->getCellByColumnAndRow($a_column,$a_row)->getHyperlink()->setUrl($a_path);
+		$column = $this->columnIndexAdjustment($a_column);
+
+		$this->workbook->getActiveSheet()->getCellByColumnAndRow($column,$a_row)->getHyperlink()->setUrl($a_path);
+	}
+
+	/**
+	 * Adjustment needed because of migration PHPExcel to PhpSpreadsheet.
+	 * PhpExcel column was 0 index based and PhpSpreadshet set this index to 1
+	 * @param $column
+	 * @return int
+	 */
+	function columnIndexAdjustment(int $column) : int
+	{
+		return ++$column;
 	}
 
 }

@@ -43,6 +43,11 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 	private $userDefinedFieldsPlaceholderValues;
 
 	/**
+	 * @var int
+	 */
+	private $birthdayDateFormat;
+
+	/**
 	 * @param ilCertificateObjectHelper $objectHelper
 	 * @param ilCertificateDateHelper $dateHelper
 	 * @param int $dateFormat
@@ -56,7 +61,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 		int $dateFormat = null,
 		ilLanguage $language = null,
 		ilCertificateUtilHelper $utilHelper = null,
-		ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null
+		ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
+		$birthdayDateFormat = IL_CAL_DATE
 	) {
 		if (null === $objectHelper) {
 			$objectHelper = new ilCertificateObjectHelper();
@@ -88,6 +94,8 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 			$userDefinedFieldsPlaceholderValues = new ilUserDefinedFieldsPlaceholderValues();
 		}
 		$this->userDefinedFieldsPlaceholderValues = $userDefinedFieldsPlaceholderValues;
+
+		$this->birthdayDateFormat = $birthdayDateFormat;
 
 		$this->placeholder = array(
 			'USER_LOGIN'         => '',
@@ -138,7 +146,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 		$birthday = '';
 		$dateObject = $user->getBirthday();
 		if (null !== $dateObject) {
-			$birthday = $this->dateHelper->formatDate($dateObject, IL_CAL_DATE);
+			$birthday   = $this->dateHelper->formatDate($dateObject, $this->birthdayDateFormat);
 		}
 
 		$placeholder['USER_BIRTHDAY']      = $this->utilHelper->prepareFormOutput((trim($birthday)));

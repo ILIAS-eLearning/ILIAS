@@ -127,7 +127,9 @@
 		float: none;
 		zoom: 1;
 		vertical-align: top;
-		width: auto;
+        /* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
+        see known issues at https://caniuse.com/#search=calc */
+        width: 100%;
 	}
 
 	.dropdown {

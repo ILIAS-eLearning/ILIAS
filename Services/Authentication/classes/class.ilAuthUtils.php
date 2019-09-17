@@ -916,6 +916,7 @@ class ilAuthUtils
 				return $idp->getEntityId();
 
 			default:
+				$lng->loadLanguageModule('auth');
 				if (!empty($auth_name)) {
 					return $lng->txt('auth_' . $auth_name);
 				} else {

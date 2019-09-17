@@ -9,7 +9,7 @@
  */
 class ilOpenIdConnectUserSync
 {
-	const AUTH_MODE = 'auth_oidc';
+	const AUTH_MODE = 'oidc';
 
 	/**
 	 * @var ilOpenIdConnectSettings
@@ -93,6 +93,7 @@ class ilOpenIdConnectUserSync
 	 */
 	public function needsCreation() : bool
 	{
+		$this->logger->dump($this->int_account, \ilLogLevel::DEBUG);
 		return strlen($this->int_account) == 0;
 	}
 
@@ -112,17 +113,17 @@ class ilOpenIdConnectUserSync
 		$importParser = new ilUserImportParser();
 		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
 
-		$this->parseRoleAssignments();
+		$roles = $this->parseRoleAssignments();
+		$importParser->setRoleAssignment($roles);
 
 		$importParser->setFolderId(USER_FOLDER_ID);
 		$importParser->startParsing();
 		$debug = $importParser->getProtocol();
 
-		$this->logger->debug($debug);
 
 		// lookup internal account
 		$int_account = ilObjUser::_checkExternalAuthAccount(
-			'auth_oidc',
+			self::AUTH_MODE,
 			$this->ext_account
 		);
 		$this->setInternalAccount($int_account);
@@ -206,22 +207,73 @@ class ilOpenIdConnectUserSync
 		}
 		$this->writer->xmlEndTag('User');
 		$this->writer->xmlEndTag('Users');
+
+		$this->logger->debug($this->writer->xmlDumpMem());
 	}
 
 	/**
 	 * Parse role assignments
+	 * @return array array of role assignments
 	 */
-	protected function parseRoleAssignments()
+	protected function parseRoleAssignments() : array
 	{
+		$this->logger->debug('Parsing role assignments');
+
 		$found_role = false;
 
-		if($this->needsCreation() && !$found_role)
-		{
-			// add default role
+		$roles_assignable[$this->settings->getRole()] = $this->settings->getRole();
+
+
+		$this->logger->dump($this->settings->getRoleMappings(),\ilLogLevel::DEBUG);
+
+		foreach($this->settings->getRoleMappings() as $role_id => $role_info) {
+
+			$this->logger->dump($role_id);
+			$this->logger->dump($role_info);
+
+			list($role_attribute, $role_value) = explode('::', $role_info['value']);
+
+			if(
+				!$role_attribute ||
+				!$role_value
+			) {
+				$this->logger->debug('No valid role mapping configuration for: ' . $role_id);
+				continue;
+			}
+
+			if(!isset($this->user_info->$role_attribute)) {
+				$this->logger->debug('No user info passed');
+				continue;
+			}
+
+			if(
+				!$this->needsCreation() &&
+				!$role_info['update']
+			) {
+				$this->logger->debug('No user role update for role: ' . $role_id);
+				continue;
+			}
+
+			if(is_array($this->user_info->$role_attribute)) {
+				if(!in_array($role_value, $this->user_info->$role_attribute)) {
+					$this->logger->debug('User account has no ' . $role_value);
+					continue;
+				}
+			}
+			elseif(strcmp($this->user_info->$role_attribute, $role_value) !== 0) {
+				$this->logger->debug('User account has no ' . $role_value);
+				continue;
+			}
+			$this->logger->debug('Matching role mapping for role_id: ' . $role_id);
+
+			$found_role = true;
+			$roles_assignable[$role_id] = $role_id;
+			$long_role_id = ('il_' . IL_INST_ID . '_role_'.$role_id);
+
 			$this->writer->xmlElement(
 				'Role',
 				[
-					'Id' => $this->settings->getRole(),
+					'Id' => $long_role_id,
 					'Type' => 'Global',
 					'Action' => 'Assign'
 				],
@@ -229,6 +281,22 @@ class ilOpenIdConnectUserSync
 			);
 		}
 
+		if($this->needsCreation() && !$found_role)
+		{
+			$long_role_id = ('il_' . IL_INST_ID . '_role_'.$this->settings->getRole());
+
+			// add default role
+			$this->writer->xmlElement(
+				'Role',
+				[
+					'Id' => $long_role_id,
+					'Type' => 'Global',
+					'Action' => 'Assign'
+				],
+				null
+			);
+		}
+		return $roles_assignable;
 	}
 
 

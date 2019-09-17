@@ -161,7 +161,7 @@ class ilSCORMExplorer extends ilExplorer
 				$option["visible"]		= !in_array($child["c_type"], $types_do_not_display);
 
 				if($this->showChilds($option["id"])) {
-					$option = $this->createOutputArray($option["id"], $option, ++$depth);
+					$option = $this->createOutputArray($option["id"], $option);
 				}
 
 				$options["childs"][] = $option;
@@ -218,7 +218,7 @@ class ilSCORMExplorer extends ilExplorer
 			$tpl = new ilTemplate("tpl.sahs_tree_free.html", true, true, "Modules/ScormAicc");
 		}
 
-		if (count($option["childs"])) {
+		if (is_array($option["childs"]) && count($option["childs"])) {
 			foreach ($option["childs"] as $key => $ch_option) {
 				$tpl->setCurrentBlock("childs");
 				$tpl->setVariable("CHILDS", $this->createOutput($ch_option, $jsApi)->get());
@@ -273,7 +273,7 @@ class ilSCORMExplorer extends ilExplorer
 	protected function insertObject($option, ilTemplate $tpl, $jsApi) {
 		if (!is_array($option) || !isset($option["id"])) {
 			$this->ilias->raiseError(get_class($this)."::insertObject(): Missing parameter or wrong datatype! ".
-									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+									"options:".var_dump($option),$this->ilias->error_obj->WARNING);
 		}
 
 		//get scorm item

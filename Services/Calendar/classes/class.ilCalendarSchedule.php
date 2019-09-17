@@ -524,7 +524,7 @@ class ilCalendarSchedule
 			" ORDER BY starta";
 
 		$res = $this->db->query($query);
-				
+
 		$events = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
@@ -564,6 +564,7 @@ class ilCalendarSchedule
 					$this->end->increment(IL_CAL_DAY, 2);
 				} else {
 					$this->end->increment(IL_CAL_DAY, 1);
+					$this->end->increment(IL_CAL_SECOND, -1);
 				}
 				break;
 			
@@ -643,9 +644,6 @@ class ilCalendarSchedule
 
 						$this->end->increment(IL_CAL_DAY, $number_days_next_month);
 					}
-
-					$this->logger->debug("* Month Calendar starts on = ".$this->start);
-					$this->logger->debug("* Month Calendar ends on = ".$this->end);
 				}
 
 				break;

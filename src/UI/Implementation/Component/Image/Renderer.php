@@ -23,18 +23,32 @@ class Renderer extends AbstractComponentRenderer {
 		$this->checkComponent($component);
 		$tpl = $this->getTemplate("tpl.image.html", true, true);
 
-		if($component->getAction()) {
-			$tpl->setCurrentBlock("action_begin");
-			$tpl->setVariable("HREF",$component->getAction());
-			$tpl->parseCurrentBlock();
+		$id = $this->bindJavaScript($component);
+		if (!empty($component->getAction())) {
+			$tpl->touchBlock("action_begin");
+
+			if (is_string($component->getAction())) {
+				$tpl->setCurrentBlock("with_href");
+				$tpl->setVariable("HREF", $component->getAction());
+				$tpl->parseCurrentBlock();
+			}
+
+			if (is_array($component->getAction())) {
+				$tpl->setCurrentBlock("with_id");
+				$tpl->setVariable("ID", $id);
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		$tpl->setCurrentBlock($component->getType());
 		$tpl->setVariable("SOURCE",$component->getSource());
 		$tpl->setVariable("ALT",htmlspecialchars($component->getAlt()));
+		if (empty($component->getAction()) && $id !== null) {
+			$tpl->setVariable("IMG_ID", " id='".$id."' ");
+		}
 		$tpl->parseCurrentBlock();
 
-		if($component->getAction()) {
+		if (!empty($component->getAction())) {
 			$tpl->touchBlock("action_end");
 		}
 

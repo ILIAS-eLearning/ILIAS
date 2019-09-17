@@ -61,14 +61,17 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 			$language,
 			$objectHelper,
 			$participantsHelper,
-			$ilUtilHelper
+			$ilUtilHelper,
+			$ilDateHelper
 		);
 
 		$placeholderValues = $valuesObject->getPlaceholderValues(100, 200);
 
 		$this->assertEquals(
 			array(
-				'COURSE_TITLE'       => 'Some Title'
+				'COURSE_TITLE'       => 'Some Title',
+				'DATE_COMPLETED'     => '2018-09-10',
+				'DATETIME_COMPLETED' => '2018-09-10 10:32:00'
 			),
 			$placeholderValues);
 	}

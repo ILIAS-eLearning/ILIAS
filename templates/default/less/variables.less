@@ -298,6 +298,30 @@
 //** Border color of inactive buttons
 @il-disabled-btn-border:         #e0e0e0;
 
+@btn-default-color:             @link-color;
+@btn-default-border:            #d0d0d0;
+@btn-default-bg:                #fefefe;
+@disabled-btn-bg:               #b0b0b0;
+@disabled-btn-border:           #b0b0b0;
+@disabled-btn-color:            #e0e0e0;
+//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
+@btn-tag-bg:                    #75deea;
+@btn-tag-bg-relevance-verylow:  desaturate(@btn-tag-bg, 80%);
+@btn-tag-bg-relevance-low:      desaturate(@btn-tag-bg, 60%);
+@btn-tag-bg-relevance-middle:   desaturate(@btn-tag-bg, 40%);
+@btn-tag-bg-relevance-high:     desaturate(@btn-tag-bg, 20%);
+@btn-tag-bg-relevance-veryhigh: @btn-tag-bg;
+//** Foreground colors for tags; usually black/white depending on the background color
+@btn-tag-fg-relevance-verylow:  contrast(desaturate(@btn-tag-bg, 80%));
+@btn-tag-fg-relevance-low:      contrast(desaturate(@btn-tag-bg, 60%));
+@btn-tag-fg-relevance-middle:   contrast(desaturate(@btn-tag-bg, 40%));
+@btn-tag-fg-relevance-high:     contrast(desaturate(@btn-tag-bg, 20%));
+@btn-tag-fg-relevance-veryhigh: contrast(@btn-tag-bg);
+//** Border radius of tags
+@btn-tag-border-radius: 3px;
+//** margin of tags
+@btn-tag-margin: 2px 4px 2px 0;
+
 
 //== Toggle Buttons
 //
@@ -351,34 +375,6 @@
 @breadcrumb-font-weight:        600;
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          "»";
-
-//== Buttons
-//
-//##
-
-@btn-default-color:             @link-color;
-@btn-default-border:            #d0d0d0;
-@btn-default-bg:                #fefefe;
-@disabled-btn-bg:               #b0b0b0;
-@disabled-btn-border:           #b0b0b0;
-@disabled-btn-color:            #e0e0e0;
-//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
-@btn-tag-bg:                    #75deea;
-@btn-tag-bg-relevance-verylow:  desaturate(@btn-tag-bg, 80%);
-@btn-tag-bg-relevance-low:      desaturate(@btn-tag-bg, 60%);
-@btn-tag-bg-relevance-middle:   desaturate(@btn-tag-bg, 40%);
-@btn-tag-bg-relevance-high:     desaturate(@btn-tag-bg, 20%);
-@btn-tag-bg-relevance-veryhigh: @btn-tag-bg;
-//** Foreground colors for tags; usually black/white depending on the background color
-@btn-tag-fg-relevance-verylow:  contrast(desaturate(@btn-tag-bg, 80%));
-@btn-tag-fg-relevance-low:      contrast(desaturate(@btn-tag-bg, 60%));
-@btn-tag-fg-relevance-middle:   contrast(desaturate(@btn-tag-bg, 40%));
-@btn-tag-fg-relevance-high:     contrast(desaturate(@btn-tag-bg, 20%));
-@btn-tag-fg-relevance-veryhigh: contrast(@btn-tag-bg);
-//** Border radius of tags
-@btn-tag-border-radius: 3px;
-//** margin of tags
-@btn-tag-margin: 2px 4px 2px 0;
 
 
 //== Badges
@@ -775,6 +771,8 @@
 @il-card-repository-dropdown-border: #e0e0e0 1px solid;
 @il-card-repository-outlined-icon-filter: brightness(1);
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
+//** Sets the maximum width of cards in small screens
+@il-card-max-width-xs: 350px;
 
 //== Workflow
 //

@@ -155,7 +155,7 @@ class Container extends \Pimple\Container {
 	 * @return Services
 	 */
 	public function globalScreen() {
-		return new Services();
+		return $this['global_screen'];
 	}
 
 

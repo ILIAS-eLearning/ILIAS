@@ -17,7 +17,8 @@ class ilSCORM2004StoreData
 
 		$ilDB = $DIC->database();
 				
-		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+//		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+        $data = json_decode(file_get_contents('php://input'));
 		if (!$data) return;
 		if ($userId == null) {
 			$userId=(int) $data->p;
@@ -462,9 +463,9 @@ class ilSCORM2004StoreData
 				{
 
 					//special handling for status
-					$completed = $g_data->$key->$skey->$user->{completed};
-					$measure = $g_data->$key->$skey->$user->{measure};
-					$satisfied = $g_data->$key->$skey->$user->{satisfied};
+					$completed =$g_data->$key->$skey->$user->{"completed"};
+					$measure = $g_data->$key->$skey->$user->{"measure"};
+					$satisfied = $g_data->$key->$skey->$user->{"satisfied"};
 
 					$returnAr=array($completed, $satisfied, $measure);
 

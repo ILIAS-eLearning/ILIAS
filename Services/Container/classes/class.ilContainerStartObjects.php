@@ -202,6 +202,7 @@ class ilContainerStartObjects
 			{
 				case 'lm':
 				case 'sahs':
+				case 'copa':
 				case 'svy':
 				case 'tst':
 					$poss_items[] = $node['ref_id'];
@@ -253,6 +254,12 @@ class ilContainerStartObjects
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 				if(!ilLPStatus::_hasUserCompleted($obj_id, $a_user_id))
 				{
+					return false;
+				}
+				break;
+
+			case 'copa':
+				if (!ilLPStatus::_hasUserCompleted($obj_id, $a_user_id)) {
 					return false;
 				}
 				break;

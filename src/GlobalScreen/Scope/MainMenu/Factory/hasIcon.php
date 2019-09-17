@@ -9,18 +9,19 @@ use ILIAS\UI\Component\Icon\Icon;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface hasIcon {
+interface hasIcon
+{
 
-	/**
-	 * @param Icon $icon
-	 *
-	 * @return hasIcon
-	 */
-	public function withIconPath(Icon $icon): hasIcon;
+    /**
+     * @param Icon $icon
+     *
+     * @return hasIcon
+     */
+    public function withIconPath(Icon $icon) : hasIcon;
 
 
-	/**
-	 * @return string
-	 */
-	public function getIconPath(): Icon;
+    /**
+     * @return string
+     */
+    public function getIconPath() : Icon;
 }

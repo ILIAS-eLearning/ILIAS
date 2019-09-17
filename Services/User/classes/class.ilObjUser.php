@@ -1338,7 +1338,7 @@ class ilObjUser extends ilObject
 	{
 		global $DIC;
 
-		$rbacadmin = $DIC['rbacadmin'];
+		$rbacadmin = $DIC->rbac()->admin();
 		$ilDB = $DIC['ilDB'];
 
 		// deassign from ldap groups

@@ -11,67 +11,56 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractStaticMainMenuProvider extends AbstractProvider implements StaticMainMenuProvider {
+abstract class AbstractStaticMainMenuProvider extends AbstractProvider implements StaticMainMenuProvider
+{
 
-	/**
-	 * @var Container
-	 */
-	protected $dic;
-	/**
-	 * @var IdentificationProviderInterface
-	 */
-	protected $if;
-	/**
-	 * @var MainMenuItemFactory
-	 */
-	protected $mainmenu;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(Container $dic) {
-		parent::__construct($dic);
-		$this->mainmenu = $this->globalScreen()->mainmenu();
-		$this->if = $this->globalScreen()->identification()->core($this);
-	}
+    /**
+     * @var Container
+     */
+    protected $dic;
+    /**
+     * @var IdentificationProviderInterface
+     */
+    protected $if;
+    /**
+     * @var MainMenuItemFactory
+     */
+    protected $mainmenu;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getAllIdentifications(): array {
-		$ids = [];
-		foreach ($this->getStaticTopItems() as $slate) {
-			$ids[] = $slate->getProviderIdentification();
-		}
-		foreach ($this->getStaticSubItems() as $entry) {
-			$ids[] = $entry->getProviderIdentification();
-		}
-
-		return $ids;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        $this->mainmenu = $this->globalScreen()->mainmenu();
+        $this->if = $this->globalScreen()->identification()->core($this);
+    }
 
 
-	/**
-	 * @return string
-	 * @throws \ReflectionException
-	 */
-	public function getProviderNameForPresentation(): string {
-		$reflector = new \ReflectionClass($this);
+    /**
+     * @inheritDoc
+     */
+    public function getAllIdentifications() : array
+    {
+        $ids = [];
+        foreach ($this->getStaticTopItems() as $slate) {
+            $ids[] = $slate->getProviderIdentification();
+        }
+        foreach ($this->getStaticSubItems() as $entry) {
+            $ids[] = $entry->getProviderIdentification();
+        }
 
-		$re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
-
-		preg_match($re, $reflector->getFileName(), $matches);
-
-		return isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : "-" : "-";
-	}
+        return $ids;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function provideTypeInformation(): TypeInformationCollection {
-		return new TypeInformationCollection();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function provideTypeInformation() : TypeInformationCollection
+    {
+        return new TypeInformationCollection();
+    }
 }

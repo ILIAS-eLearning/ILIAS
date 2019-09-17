@@ -14,6 +14,11 @@ use ILIAS\UI\Factory;
  */
 class LSControlBuilder implements ControlBuilder
 {
+	const CMD_START_OBJECT = 'start_legacy_obj';
+	const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
+	const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 2000;
+
+
 	/**
 	 * @var Component|null
 	 */
@@ -74,6 +79,10 @@ class LSControlBuilder implements ControlBuilder
 	 */
 	protected $start;
 
+	/**
+	 * @var string | null
+	 */
+	protected $additional_js;
 
 	public function __construct(
 		Factory $ui_factory,
@@ -278,19 +287,81 @@ class LSControlBuilder implements ControlBuilder
 	 *
 	 * The start-control is exclusively used to open an ILIAS-Object in a new windwow/tab.
 	 */
-	public function start(string $label, string $command, int $parameter=null): ControlBuilder
+	public function start(string $label, string $url, int $parameter=null): ControlBuilder
 	{
 		if ($this->start) {
 			throw new \LogicException("Only one start-control per view...", 1);
 		}
-		$cmd = $this->url_builder->getHref($command, $parameter);
-		$this->start = $this->ui_factory->button()->primary($label, $cmd);
+		$this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, $parameter);
+		$lp_cmd = str_replace(
+			'&cmd=view&',
+			'&cmd=' .self::CMD_CHECK_CURRENT_ITEM_LP .'&',
+			$this_cmd
+		);
+		$signal = $this->getStartSignal();
+
+		$this->setListenerJS($signal->getId(), $url,  $lp_cmd, $this_cmd);
+
+		$this->start = $this->ui_factory->button()
+			->primary($label, '')
+			->withOnClick($signal);
+
 		return $this;
 	}
 
 	public function getStartControl()
 	{
 		return $this->start;
+	}
+
+	/**
+	 * This is a hack and not supposed to be considered as a common way to inject
+	 * JS-Code and bind it to a button.
+	 * However, for the time beeing and the lack of a general alternative,
+	 * I think it's OK to do this for legacy(!)-objects here...
+	 */
+	protected function getStartSignal(): ILIAS\UI\Component\Signal
+	{
+		$id = uniqid();
+		$signal = new ILIAS\UI\Implementation\Component\Signal($id);
+		return $signal;
+	}
+
+
+	public function getAdditionalJS(): string
+	{
+		return $this->additional_js;
+	}
+
+	protected function setListenerJS(
+		string $signal_id,
+		string $new_win_url,
+		string $check_lp_url,
+		string $on_lp_change_url
+	) {
+
+		$interval = self::UPDATE_LEGACY_OBJECT_LP_INTERVAL;
+		$this->additional_js =
+<<<JS
+function lso_checkLPOfObject() {
+	$.ajax({
+		url: "$check_lp_url",
+	}).done(function(data) {
+		if(window._lso_current_item_lp === -1) {
+			window._lso_current_item_lp = data;
+		}
+		if (window._lso_current_item_lp !== data) {
+			location.replace('$on_lp_change_url');
+		}
+	});
+}
+
+$(document).on('{$signal_id}', function() {
+	var il_ls_win = window.open('$new_win_url');
+});
+window._lso_current_item_lp = -1;
+window.setInterval(lso_checkLPOfObject, $interval);
+JS;
 	}
 
 }

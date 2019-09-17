@@ -17,6 +17,9 @@ include_once("./Services/Skill/classes/class.ilSkillProfile.php");
  */
 class ilPersonalSkillsGUI
 {
+    const LIST_SELECTED = "";
+    const LIST_PROFILES = "profiles";
+
 	protected $offline_mode;
 	protected $skill_tree;
 	static $skill_tt_cnt = 1;
@@ -24,6 +27,7 @@ class ilPersonalSkillsGUI
 	protected $gap_self_eval_levels = array();
 	protected $mode = "";
 	protected $history_view = false;
+	protected $trigger_objects_filter = array();
 	protected $intro_text = "";
 	protected $hidden_skills = array();
 
@@ -94,6 +98,11 @@ class ilPersonalSkillsGUI
 	 */
 	protected $filter;
 
+    /**
+     * @var string
+     */
+	protected $list_mode = self::LIST_SELECTED;
+
 	/**
 	 * Contructor
 	 *
@@ -128,6 +137,9 @@ class ilPersonalSkillsGUI
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "tref_id");
 		$ilCtrl->saveParameter($this, "profile_id");
+		$ilCtrl->saveParameter($this, "list_mode");
+
+		$this->list_mode = $_GET["list_mode"];
 
 		$this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
 
@@ -212,6 +224,22 @@ class ilPersonalSkillsGUI
 	function getHistoryView()
 	{
 		return $this->history_view;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getTriggerObjectsFilter()
+	{
+		return $this->trigger_objects_filter;
+	}
+	
+	/**
+	 * @param array $trigger_objects_filter
+	 */
+	public function setTriggerObjectsFilter($trigger_objects_filter)
+	{
+		$this->trigger_objects_filter = $trigger_objects_filter;
 	}
 	
 	/**
@@ -334,16 +362,20 @@ class ilPersonalSkillsGUI
 		$ilTabs = $this->tabs;
 
 		// list skills
+        $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
 		$ilTabs->addSubTab("list_skills",
 			$lng->txt("skmg_selected_skills"),
-			$ilCtrl->getLinkTarget($this, "listSkills"));
+			$ilCtrl->getLinkTarget($this, "render"));
 
 		if (count($this->user_profiles) > 0)
 		{
+            $ilCtrl->setParameter($this, "list_mode", self::LIST_PROFILES);
 			$ilTabs->addSubTab("profile",
 				$lng->txt("skmg_assigned_profiles"),
-				$ilCtrl->getLinkTarget($this, "listAssignedProfile"));
+				$ilCtrl->getLinkTarget($this, "render"));
 		}
+
+        $ilCtrl->clearParameterByClass(get_class($this), "list_mode");
 
 		// assign materials
 
@@ -354,6 +386,23 @@ class ilPersonalSkillsGUI
 	{
 		$this->offline_mode = $a_file_path;
 	}
+
+    /**
+     * Render
+     */
+    protected function render()
+    {
+        switch($this->list_mode) {
+            case self::LIST_PROFILES:
+                $this->listAssignedProfile();
+                break;
+
+            default:
+                $this->listSkills();
+                break;
+        }
+    }
+
 
 	/**
 	 * List skills
@@ -553,6 +602,11 @@ class ilPersonalSkillsGUI
 				// get all object triggered entries and render them
 				foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"] , $user->getId(), ilBasicSkill::EVAL_BY_ALL) as $level_entry)
 				{
+					if( count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter()) )
+					{
+						continue;
+					}
+					
 					// render the self evaluation at the correct position within the list of object triggered entries
 					if ($se_date > $level_entry["status_date"] && !$se_rendered)
 					{
@@ -805,7 +859,7 @@ class ilPersonalSkillsGUI
 
 
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listSkills"));
+			$ilCtrl->getLinkTarget($this, "render"));
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
@@ -997,7 +1051,7 @@ class ilPersonalSkillsGUI
 
 
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listSkills"));
+			$ilCtrl->getLinkTarget($this, "render"));
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
@@ -1074,7 +1128,7 @@ class ilPersonalSkillsGUI
 		$ilCtrl->saveParameter($this, "tref_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");*/
 		
-		$ilCtrl->redirect($this, "listSkills");
+		$ilCtrl->redirect($this, "render");
 
 	}
 	

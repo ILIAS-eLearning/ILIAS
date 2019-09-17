@@ -170,15 +170,18 @@ abstract class ilPDSelectedItemsBlockViewGUI
 		require_once 'Services/Object/classes/class.ilObjectListGUIPreloader.php';
 		$listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
+		$obj_ids = [];
 		foreach($item_groups as $item_group)
 		{
 			foreach($item_group->getItems() as $item)
 			{
+				$obj_ids[] = $item['obj_id'];
 				$listPreloader->addItem($item['obj_id'], $item['type'], $item['ref_id']);
 			}
 		}
 
 		$listPreloader->preload();
+		ilAdvancedMDValues::preloadByObjIds($obj_ids);
 	}
 
 	/**
@@ -188,6 +191,8 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	{
 		global $DIC;
 
+		$objDefinition = $DIC["objDefinition"];
+
 		$object_types_by_container = $DIC['objDefinition']->getGroupedRepositoryObjectTypes(array('cat', 'crs', 'grp', 'fold'));
 
 		$grouped_items = array();
@@ -196,7 +201,18 @@ abstract class ilPDSelectedItemsBlockViewGUI
 		{
 			$group = new ilPDSelectedItemsBlockGroup();
 			// Icons are currently not determined for section header objects
-			$group->setLabel($this->lng->txt('objs_'. $container_object_type));
+            if (!$objDefinition->isPlugin($container_object_type))
+            {
+                $title = $this->lng->txt('objs_'. $container_object_type);
+            }
+            else
+            {
+                include_once("./Services/Component/classes/class.ilPlugin.php");
+                $pl = ilObjectPlugin::getPluginObjectByType($container_object_type);
+                $title= $pl->txt("objs_".$container_object_type);
+            }
+
+            $group->setLabel($title);
 			$group->setItems($this->provider->getItems($container_data['objs']));
 
 			$grouped_items[] = $group;

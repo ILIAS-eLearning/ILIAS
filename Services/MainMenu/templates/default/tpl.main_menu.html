@@ -11,31 +11,25 @@
 			<div class="ilTopMemberView"><h3>{MEMBER_VIEW_INFO}</h3></div>
 			<!-- END member_view_bl -->
 			<!-- BEGIN topbar_icons_bl -->
-			<ul id="ilTopBarNav" class="">					
+			<ul id="ilTopBarNav" class="">
 				<!-- BEGIN status_box -->
-					<li id="{STATUS_ID}">{GLYPH}</li>
+				<li id="{STATUS_ID}">{GLYPH}</li>
 				<!-- END status_box -->
 				<!-- BEGIN help_icon -->
-					<li><a id="help_tr" href="#" onclick="return il.Help.listHelp(event, false);"><img src="{IMG_HELP}" alt="" /></a></li>
+				<li><a id="help_tr" href="#" onclick="return il.Help.listHelp(event, false);"><img src="{IMG_HELP}" alt=""/></a></li>
 				<!-- END help_icon -->
 				<!-- BEGIN help_tt_icon -->
-					<li><a id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" alt="" /><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" alt="" /></a></li>
-				<!-- END help_tt_icon -->
-				{ONSCREENCHAT}
-				{AWARENESS}
+				<li><a id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" alt=""/><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" alt=""/></a></li>
+				<!-- END help_tt_icon -->				{ONSCREENCHAT} {AWARENESS}
 				<li id="mm_tb_background_tasks" class="mm_background_tasks" refresh-uri="{BACKGROUNDTASKS_REFRESH_URI}">{BACKGROUNDTASKS}</li>
 				<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
 				<!-- BEGIN help -->
-				<li id="mm_help"><a href="#" onclick="{HELP_CLICK}" >
-					<span class="visible-xs-inline glyphicon glyphicon-question-sign"></span>
-					<span class="hidden-xs">{TXT_HELP}</span></a>
+				<li id="mm_help"><a href="#" onclick="{HELP_CLICK}"> <span class="visible-xs-inline glyphicon glyphicon-question-sign"></span> <span class="hidden-xs">{TXT_HELP}</span></a>
 				</li>
 				<!-- END help -->
 				<!-- BEGIN userisloggedin -->
 				<li id="userlog" class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<span>{USER_IMG}<!--{USERNAME}--><span class="caret"></span></span>
-					</a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span>{USER_IMG}<!--{USERNAME}--><span class="caret"></span></span> </a>
 					<ul class="dropdown-menu pull-right" role="menu">
 						<li>
 							<a href="{USR_LINK_PROFILE}" target="_top">{USR_TXT_PROFILE}</a>
@@ -51,8 +45,7 @@
 				</li>
 				<!-- END userisloggedin -->
 				<!-- BEGIN lang_select -->
-				<li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>
-					{LANG_SELECT}
+				<li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a> {LANG_SELECT}
 				</li>
 				<!-- END lang_select -->
 				<!-- BEGIN userisanonymous -->
@@ -61,21 +54,16 @@
 					<!-- BEGIN registration_link --><!-- {LINK_REGISTER} --><!-- {TXT_REGISTER} --><!-- END registration_link -->
 				</li>
 				<!-- END userisanonymous -->
-
 			</ul>
 			<!-- END topbar_icons_bl -->
 		</div>
 	</div>
-</div>
-<!-- BEGIN osd_container --><div class="osdNotificationContainer"></div><!-- END osd_container -->
-<!-- BEGIN main_menu_bl -->
+</div><!-- BEGIN osd_container -->
+<div class="osdNotificationContainer"></div><!-- END osd_container --><!-- BEGIN main_menu_bl -->
 <div class="ilMainHeader ilTopFixed hidden-print">
 	<header class="container-fluid ilContainerWidth">
 		<div class="row">
-			<a class="navbar-brand" href="{HEADER_URL}" target="_top">
-				<img class="hidden-xs noMirror" alt="Logo" src="{HEADER_ICON}" />
-				<img class="visible-xs-inline-block noMirror" alt="Logo" src="{HEADER_ICON_RESPONSIVE}">
-			</a>
+			<a class="navbar-brand" href="{HEADER_URL}" target="_top"> <img class="hidden-xs noMirror" alt="Logo" src="{HEADER_ICON}"/> <img class="visible-xs-inline-block noMirror" alt="Logo" src="{HEADER_ICON_RESPONSIVE}"> </a>
 		</div>
 	</header>
 </div>
@@ -88,20 +76,15 @@
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ilMainMenuEntries">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+						<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
 					<!-- <a class="navbar-brand" href="#">Brand</a> -->
 				</div>
 			</nav>
-
 			<!-- BEGIN screen_id -->
 			<div id="il_screen_id" class="ilHighlighted small">Screen-ID: {SCREEN_ID}</div>
 			<!-- END screen_id -->
 			<!-- BEGIN top_section --><!-- END top_section -->
 		</div>
 	</div>
-</div>
-<!-- END main_menu_bl -->
+</div><!-- END main_menu_bl -->

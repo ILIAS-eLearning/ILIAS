@@ -266,7 +266,11 @@ class ilExPeerReviewGUI
 			}
 			*/
 
-			$a_info->addProperty($lng->txt("exc_peer_review"), $edit_pc." ".$view_pc);	
+			$sep = ($edit_pc != "" && $view_pc != "")
+				? "<br><br>"
+				: "";
+
+			$a_info->addProperty($lng->txt("exc_peer_review"), $edit_pc.$sep.$view_pc);
 			
 			$ilCtrl->setParameterByClass("ilExPeerReviewGUI", "ass_id", "");
 		}						

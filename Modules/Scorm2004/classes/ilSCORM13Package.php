@@ -743,7 +743,8 @@ class ilSCORM13Package
 			$page->setTitle ( $tnode [0] );
 			$page->setSLMId ( $slm->getId () );
 			$page->create (true);
-			ilSCORM2004Node::putInTree ( $page, $sco->getId (), $target );
+//			ilSCORM2004Node::putInTree ( $page, $sco->getId (), $target );
+            ilSCORM2004Node::putInTree ( $page, $sco->getId (), "" );
 			$pmd = $page_xml->xpath ("MetaData");
 			if($pmd[0])
 		  	{
@@ -1122,20 +1123,21 @@ class ilSCORM13Package
 
 	/**
 	 * add new sahs and package record
+     * NOT USED
 	 */
-	public function dbAddNew()
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		
-		$ilDB->insert('cp_package', array(
-			'obj_id'		=> array('integer', $this->packageId),
-			'xmldata'		=> array('clob', $x->asXML()),
-			'jsdata'		=> array('clob', json_encode($j))
-		));
-		
-		return true;
-	}
+//	public function dbAddNew()
+//	{
+//		global $DIC;
+//		$ilDB = $DIC['ilDB'];
+//
+//		$ilDB->insert('cp_package', array(
+//			'obj_id'		=> array('integer', $this->packageId),
+//			'xmldata'		=> array('clob', $x->asXML()),
+//			'jsdata'		=> array('clob', json_encode($j))
+//		));
+//
+//		return true;
+//	}
 
 
 	public function removeCMIData()

@@ -417,7 +417,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 				case "mark":	
 					if($has_no_team_yet)
 					{
-						continue;
+						break;
 					}
 					// fallthrough
 					
@@ -462,7 +462,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 				case "login":
 					if($a_ass->hasTeam())
 					{
-						continue;
+						break;
 					}
 					// fallthrough
 				

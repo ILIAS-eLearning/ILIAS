@@ -112,7 +112,7 @@ class ilSAHSEditGUI
 			{
 				require_once("Modules/ScormAicc/classes/class.ilScormAiccExporter.php");
 				$exporter = new ilScormAiccExporter();
-				$xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $_GET["ref_id"]);
+				$xml = $exporter->getXmlRepresentation("sahs", "5.1.0", ilObject::_lookupObjectId($_GET["ref_id"]));
 			}
 			else if ($cmd == "download")
 			{

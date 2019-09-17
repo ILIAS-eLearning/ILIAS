@@ -1190,6 +1190,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	private function createQuestionFormObject()
 	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+		
+		$ilHelp->setScreenId('assQuestions');
+		
+		if(ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled())
+		{
+			$ilHelp->setSubScreenId('createQuestion_editMode');
+		}
+		else
+		{
+			$ilHelp->setSubScreenId('createQuestion');
+		}
+		
 		$form = $this->buildCreateQuestionForm();
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
@@ -1331,7 +1345,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function copyObject()
 	{
-		if (count($_POST["q_id"]) > 0)
+		if (isset($_POST["q_id"]) && is_array($_POST["q_id"]) && count($_POST["q_id"]) > 0)
 		{
 			foreach ($_POST["q_id"] as $key => $value)
 			{
@@ -1356,7 +1370,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function moveObject()
 	{
-		if (count($_POST["q_id"]) > 0)
+		if (isset($_POST["q_id"]) && is_array($_POST["q_id"]) && count($_POST["q_id"]) > 0)
 		{
 			foreach ($_POST["q_id"] as $key => $value)
 			{

@@ -30,6 +30,8 @@
 */
 
 // remove notices from error reporting
+use ILIAS\GlobalScreen\Services;
+
 error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
 
 require_once __DIR__."/../../libs/composer/vendor/autoload.php";
@@ -339,5 +341,9 @@ $DIC['ilCtrl'] = new ilCtrl();
 $DIC["ilIliasIniFile"] = function($c) { return $GLOBALS["ilIliasIniFile"]; };
 
 $DIC["ilClientIniFile"] = function($c) { return $GLOBALS["ilClientIniFile"]; };
+
+$DIC["global_screen"] = function () use ($DIC)  {
+	return new Services(new ilGSProviderFactory($DIC));
+};
 
 ?>

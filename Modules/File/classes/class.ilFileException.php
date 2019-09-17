@@ -22,35 +22,34 @@
 */
 
 /**
-*
-* Class to report exception
-*
-* @author Roland Küstermann <roland@kuestermann.com>
-* @version $Id: class.ilExerciseException.php 12992 2007-01-25 10:04:26Z rkuester $
-*
-*
-*
-*/
+ *
+ * Class to report exception
+ *
+ * @author  Roland Küstermann <roland@kuestermann.com>
+ * @version $Id: class.ilExerciseException.php 12992 2007-01-25 10:04:26Z rkuester $
+ *
+ *
+ *
+ */
 
 include_once 'Services/Exceptions/classes/class.ilException.php';
 
-
-
 class ilFileException extends ilException
 {
+
     public static $ID_MISMATCH = 0;
     public static $ID_DEFLATE_METHOD_MISMATCH = 1;
     public static $DECOMPRESSION_FAILED = 2;
-    /**
-	 * A message isn't optional as in build in class Exception
-	 *
-	 * @access public
-	 *
-	 */
-	public function __construct($a_message,$a_code = 0)
-	{
-	 	parent::__construct($a_message,$a_code);
-	}
-}
 
-?>
+
+    /**
+     * A message isn't optional as in build in class Exception
+     *
+     * @access public
+     *
+     */
+    public function __construct($a_message, $a_code = 0)
+    {
+        parent::__construct($a_message, $a_code);
+    }
+}

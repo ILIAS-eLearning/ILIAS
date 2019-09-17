@@ -75,7 +75,7 @@ class ilObjPluginDispatchGUI
 		if ($type != "")
 		{
 			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$plugin = ilObjectPlugin::getRepoPluginObjectByType($type);
+			$plugin = ilObjectPlugin::getPluginObjectByType($type);
 			if ($plugin)
 			{
 				$gui_cn = "ilObj".$plugin->getPluginName()."GUI";

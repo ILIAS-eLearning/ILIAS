@@ -822,7 +822,7 @@ class ilStartUpGUI
 		$credentials->initFromRequest();
 		
 		$provider_factory = new ilAuthProviderFactory();
-		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LTI_PROVIDER);
+		$provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_PROVIDER_LTI);
 		
 		$status = ilAuthStatus::getInstance();
 		
@@ -2133,22 +2133,22 @@ class ilStartUpGUI
 
 	public function confirmRegistration()
 	{
-		\ilUtil::setCookie('iltest', 'cookie', false);
+		ilUtil::setCookie('iltest', 'cookie', false);
 
 		if (!isset($_GET['rh']) || !strlen(trim($_GET['rh']))) {
 			$this->ctrl->redirectToURL('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
 		}	
 
 		try {
-			$oRegSettings = new \ilRegistrationSettings();
+			$oRegSettings = new ilRegistrationSettings();
 
-			$usr_id = \ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
+			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
 			/** @var \ilObjUser $user */
-			$user = \ilObjectFactory::getInstanceByObjId($usr_id);
+			$user = ilObjectFactory::getInstanceByObjId($usr_id);
 			$user->setActive(true);
 			$password = '';
 			if ($oRegSettings->passwordGenerationEnabled()) {
-				$passwords = \ilUtil::generatePasswords(1);
+				$passwords = ilUtil::generatePasswords(1);
 				$password = $passwords[0];
 				$user->setPasswd($password, IL_PASSWD_PLAIN);
 				$user->setLastPasswordChangeTS(time());
@@ -2157,19 +2157,23 @@ class ilStartUpGUI
 
 			$target = $user->getPref('reg_target');
 			if (strlen($target) > 0) {
-				// Used for \ilAccountMail in \ilAccountRegistrationMail, which relies on this super global ...
+				// Used for ilAccountMail in ilAccountRegistrationMail, which relies on this super global ...
 				$_GET['target'] = $target;
 			}
 
-			$accountMail = new \ilAccountRegistrationMail($oRegSettings, $this->lng);
+			$accountMail = new ilAccountRegistrationMail(
+				$oRegSettings,
+				$this->lng,
+				ilLoggerFactory::getLogger('user')
+			);
 			$accountMail->withEmailConfirmationRegistrationMode()->send($user, $password);
 
 			$this->ctrl->redirectToURL(sprintf(
 				'./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang=%s',
 				$user->getLanguage()
 			));
-		} catch(\ilRegConfirmationLinkExpiredException $exception) {
-			$soap_client = new \ilSoapClient();
+		} catch(ilRegConfirmationLinkExpiredException $exception) {
+			$soap_client = new ilSoapClient();
 			$soap_client->setResponseTimeout(1);
 			$soap_client->enableWSDL(true);
 			$soap_client->init();
@@ -2188,7 +2192,7 @@ class ilStartUpGUI
 				'./login.php?cmd=force_login&reg_confirmation_msg=%s',
 				$exception->getMessage()
 			));
-		} catch(\ilRegistrationHashNotFoundException $exception) {
+		} catch(ilRegistrationHashNotFoundException $exception) {
 			$this->ctrl->redirectToURL(sprintf(
 				'./login.php?cmd=force_login&reg_confirmation_msg=%s',
 				$exception->getMessage()

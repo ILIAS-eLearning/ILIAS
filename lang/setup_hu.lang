@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.4.x 2018-07-28 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   5.4.x 2019-07-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>
@@ -29,9 +29,9 @@ available_hotfixes#:#Elérhető gyorsjavítások
 available_languages#:#Elérhető nyelvek
 back#:#Vissza
 basic_settings#:#Alapbeállítások
-cannot_create_datadir_no_write_access#:#Nincs írási jog. Nem tud létrehozni adatkönyvtárat.
-cannot_create_datadir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. Az adatkönyvtár nem hozható létre.
-cannot_create_logdir_inside_webdir#:#A könyvtár a webhelykönyvtár alatt van. A naplókönyvtár nem hozható létre.
+cannot_create_datadir_no_write_access#:#Nincs írási jog. Nem tud létrehozni adatmappát.
+cannot_create_datadir_inside_webdir#:#A mappa a webhelymappa alatt van. Az adatmappa nem hozható létre.
+cannot_create_logdir_inside_webdir#:#A mappa a webhelymappa alatt van. A naplómappa nem hozható létre.
 change_basic_settings#:#Alapbeállítások módosítása
 change_password#:#Jelszócsere
 change_sort_direction#:#Rendezési irány módosítása
@@ -78,21 +78,21 @@ convert_path_comment#:#Képek miniatürizált változatainak megjelenítéséhez
 convert_path#:#ImageMagick-konvertáló elérési útvonal
 could_not_create_logfile#:#Nem hozhat létre naplófájlt.
 country#:#Ország
-create_datadir_failed#:#Az adatkönyvtár létrehozása nem sikerült.
+create_datadir_failed#:#Az adatmappa létrehozása nem sikerült.
 create_directory#:#Könyvtár létrehozása
 create_new_client#:#Új kliens létrehozása
-create_webdir_failed#:#A webkönyvtár létrehozása nem sikerült.
+create_webdir_failed#:#A webmappa létrehozása nem sikerült.
 create#:#Létrehozás
 ctrl_missing_desc#:#Hiányzik az irányítási struktúra. Kattintson az 'Újratöltés'-re.
 ctrl_structure_desc#:#Ezt a funkciót csak akkor indítsa el, ha a frissítési vagy javítási útmutatás előírja.
 ctrl_structure_reload#:#Irányítási struktúra újratöltése.
 ctrl_structure_reloaded#:#Irányítási struktúra újratöltve.
 ctrl_structure#:#Irányítási struktúra
-data_directories#:#Adatkönyvtárak
-data_directory_in_ws_info#:#Ez a könyvtár nem változtatható.
-data_directory_in_ws#:#Webhelyen belüli adatkönyvtár
-data_directory_info#:#Adjon meg egy webhelyen kívüli könyvtárt, amelyet írhat a webszerver.
-data_directory_outside_ws#:#Webhelyen kívüli adatkönyvtár
+data_directories#:#Adatmappák
+data_directory_in_ws_info#:#Ez a mappa nem változtatható.
+data_directory_in_ws#:#Webhelyen belüli adatmappa
+data_directory_info#:#Adjon meg egy webhelyen kívüli mappát, amelyet írhat a webszerver.
+data_directory_outside_ws#:#Webhelyen kívüli adatmappa
 data_path#:#Adat elérési útvonal
 database_create#:#Adatbázis létrehozása
 database_exists#:#az adatbázis létezik
@@ -107,8 +107,8 @@ database_version#:#Jelenlegi adatbázis-változat
 database#:#Adatbázis
 datadir_path_comment1#:#Kötelező
 datadir_path_comment2#:#Ez ebben a setup-változatban nem változtatható meg.
-datadir_path#:#Elérési út az adatkönyvtárhoz
-datadir_webspacedir_match#:#Adatkönyvtára elérési útja ugyanarra a könyvtárra mutat, ahol a webhely könyvtára is van. Válasszon másik könyvtárat.
+datadir_path#:#Elérési út az adatmappához
+datadir_webspacedir_match#:#Adatmappája elérési útja ugyanarra a mappára mutat, ahol a webhely mappája is van. Válasszon másik mappát.
 date#:#dátum
 db_conn#:#Adatbázis-kapcsolódás
 db_control_structure_missing#:#Hiányzik az irányítási struktúra (Lásd 'Részletek' -> 'Eszközök')
@@ -136,7 +136,7 @@ delete_info#:#Biztos?
 delete#:#Törlés
 details#:#Részletek
 determine_tools_paths#:#Kísérlet az eszközök elérési útjának meghatározására
-dir_exists_create#:#A könyvtár már létezik. Kapcsolja ki a 'létrehozás'-t, hogy ez a könyvtár legyen az adatkönyvtára.
+dir_exists_create#:#A mappa már létezik. Kapcsolja ki a 'létrehozás'-t, hogy ez a mappa legyen az adatmappája.
 disable_check#:#Ellenőrzés tiltása
 disable_logging#:#Naplózás tiltása
 disable#:#Tiltás
@@ -188,30 +188,30 @@ include_local#:#Helyit is tartalmazza
 info_text_3rdparty#:#Itt állítsa be az ILIAS-nak szükséges 3. fél eszközöket. Ennek a lépésnek a befejezéséhez kövesse a setup információkat az egyes add-on-ok esetében.
 info_text_clone#:#Ez a funkció a jelenleg kiválasztott klienst felülírja egy másik másolatával.<p><i>Figyeljen arra, hogy csak letiltott klienst tud felölteni, és nem szerepelhet 'master' a névében.<br>Jelenleg csak a MySQL támogatott.</i><p><b>Figyelem! Ez nem visszavonható! A kliens felülíródik az Ön által itt kiválasztott forrás tartalmával!</b>
 info_text_contact#:#Itt további kliensinformációkat és ezen kliens rendszergazdájának kapcsolati adatait állíthatja be. Minden információt az Ön adatbázisában tárolunk.
-info_text_db_collation1#:#Ha az Ön által használni kívánt illesztés (collation) nincs a támogatott UTF-8 collation-ok között, adatbázisát is manuálisan kell létrehoznia. Minden esetben győződjön meg arról, hogy az adatbázis karakterkészlete utf8.
+info_text_db_collation1#:#Ha az Ön által használni kívánt illesztés (collation) nincs a támogatott UTF-8 illesztések között, adatbázisát is manuálisan kell létrehoznia. Minden esetben győződjön meg arról, hogy az adatbázis karakterkészlete utf8.
 info_text_db_collation2#:#További információkat az illesztésről a MySQL weboldalán talál.
 info_text_db#:#Az adatbázis nem létezik vagy üres. Ha még nem létezik az adatbázis, jelölje be alul az 'Adatbázis létrehozása' opciót, ekkor az ILIAS megpróbálja létrehozni az adatbázist. Ha a létrehozás nem sikerül vagy a szükséges illesztés (collation) nem elérhető, hozza létre manuálisan az adatbázist az alábbi parancs használatával:
 info_text_db2#:#Bizonyosodjon meg arról, hogy adatbázisa a 'CHARACTER SET utf8' beállítással lett létrehozva.
-info_text_delete#:#Ezt a klienst az alul levő gombra kattintva törölheti. Csak a kliens ini-fájlja kerül eltávolításra, minden fájl a kliens adatkönyvtárakban és az adatbázisban megmarad. A fájlokat és az adatbázist a rendszergazdának manuálisan kell eltávolítania.
+info_text_delete#:#Ezt a klienst az alul levő gombra kattintva törölheti. Csak a kliens ini-fájlja kerül eltávolításra, minden fájl a kliens adatmappákban és az adatbázisban megmarad. A fájlokat és az adatbázist a rendszergazdának manuálisan kell eltávolítania.
 info_text_finish1#:#Gratulálunk! Kliens beállítása sikeres volt. Kattintson a 'Bejelentkezés'-re, hogy belépjen és konfigurálja ILIAS-telepítését.
 info_text_finish2#:#Néhány beállítás még hiányzik vagy nem pontos. Nézze meg az eljárásvázlatot, hogy megtudhassa, mit kell elvégeznie.
 info_text_first_client#:#Alapbeállításai elmentésre kerültek. Most beállítjuk (setup) első kliensét. A setup végigvezeti Önt a telepítési folyamaton. A jobb oldali panelen mindig láthatja a telepítési folyamat aktuális állapotát.
 info_text_first_install#:#Úgy tűnik, először telepíti az ILIAS-t, mert nem található ilias.ini fájl. Abban a fájlban tárolja az ILIAS a mesterjelszót, hogy megvédje az ILIAS setup-ot az illetéktelen hozzáférésektől.
-info_text_ini#:#Válasszon kliens-azonosítót (ID-t). Minden betű használható (kivéve az umlautosak) és számok. A kliens-azonosítónak egy szónak kell lennie.<br/>Ezután adja meg az adatbázis-kapcsolódáshoz szükséges adatokat. A setup egy tesztkapcsolódással megvizsgálja beállításait, teszteli, hogy létezik-e az adatbázis. Ha az adatbázis még nem létezik, a setup létrehozza azt Önnek a következő telepítési lépésében.
+info_text_ini#:#Válasszon kliensazonosítót (kliens-ID-t). Minden betű használható (kivéve az umlautosak) és számok. A kliens-azonosítónak egy szónak kell lennie.<br/>Ezután adja meg az adatbázis-kapcsolódáshoz szükséges adatokat. A setup egy tesztkapcsolódással megvizsgálja beállításait, teszteli, hogy létezik-e az adatbázis. Ha az adatbázis még nem létezik, a setup létrehozza azt Önnek a következő telepítési lépésében.
 info_text_lang#:#Válasszon további nyelveket és/vagy távolítsa el a kiválasztott nyelveket. Az alapértelmezett nyelv azon új felhasználói fiókoknak vagy felhasználóknak határozza meg a használt nyelvet, akik nem választottak még.
 info_text_list#:#Ebben az áttekintésben az összes elérhető kliens setup és elérési állapotát láthatja. Jobb fent a kliensválasztás képernyőjét be-/kikapcsolhatja. Ha a kliensválasztást bekapcsolja, az összes elérhető on-line kliens egy felsorolásban megjelenik az ILIAS kezdőlapján. Ha a kliensválasztást kikapcsolja, az <i>alapértelmezett</i> kliens bejelentkezési képernyője jelenik meg a kezdőlapon. Az alapértelmezett klienst a lejjebb lévő gombbal állíthatja be.
-info_text_login#:#Adja meg telepítése kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
+info_text_login#:#Adja meg telepítése kliensazonosítóját és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
 info_text_nic#:#Regisztrálhat és beszerezhet egy egyedi telepítési azonosítót (NIC-ID) a nyílt forráskódú ILIAS közösségi szerverről. <b>Megjegyzés</b>: A NIC-ID beszerzése célszerű, ha más ILIAS-telepítéssel tartalom megosztását tervezi vagy ha másik ILIAS-telepítés tartalmát szeretné újrafelhasználni.<br /><br /><b>Adatvédelem</b><br />A NIC-szerver az első regisztráció során az alábbi adatokat tárolja (később az adatok nem frissülnek):<br />&nbsp;•&nbsp;Kiszolgálónév<br />&nbsp;•&nbsp;Telepítési név<br />&nbsp;•&nbsp;Telepítési információ<br />&nbsp;•&nbsp;HTTP útvonal<br />&nbsp;•&nbsp;Kapcsolattartó vezetékneve<br />&nbsp;•&nbsp;Kapcsolattartó keresztneve<br />&nbsp;•&nbsp;Kapcsolattartó e-mail címe<br /><br />Az összes személyes adatot kizárólag a <a href="http://verein.ilias.de" target="_blank">ILIAS open source e-Learning e.V.</a> használja belső dokumentálási célzattal, azokat tovább nem adja, semmilyen marketing tevékenységre nem használja. Amennyiben ILIAS-telepítését mások előtt is ismertté kívánja tenni, töltse fel adatit a '<a href="http://www.ilias.de/docu/goto_docu_dcl_3444.html" target="_blank">List of Known Installations</a>' oldalra.
 info_text_nic3#:#Sikeresen regisztrálta telepítését. Az Ön nic-id-je
 info_text_password#:#Itt cserélheti le setup-programjának mesterjelszavát.
-info_text_pathes#:#Az ILIAS kliensenkénti adatbázisokkal támogatja a többklienses struktúrát. Alább megadhatja az alap adatkönyvtárat, a naplófájl helyét és az elérési utat a 3. felek által készített eszközökhöz. Ezen beállítások az Ön által később létrehozott összes kliensre érvényesek lesznek.
-ini_client_id_exists#:#Ezzel az azonosítóval (ID) már létezik kliens. Válasszon másik kliensazonosítót.
-ini_client_id_invalid#:#A megadott kliensazonosító (ID) nem megfelelő karaktereket is tartalmaz
-ini_client_id_no_change#:#A kliens azonosító (ID) nem változtatható meg ebben a verzióban, miután a kliens könyvtárak sikeresen létre lettek hozva.
-ini_client_id_too_long#:#A kliens ID túl hosszú.
-ini_client_id_too_short#:#A kliens ID túl rövid.
+info_text_pathes#:#Az ILIAS kliensenkénti adatbázisokkal támogatja a többklienses struktúrát. Alább megadhatja az alap adatmappát, a naplófájl helyét és az elérési utat a 3. fél által készített eszközökhöz. Ezen beállítások az Ön által később létrehozott összes kliensre érvényesek lesznek.
+ini_client_id_exists#:#Ezzel az azonosítóval (kliens-ID) már létezik kliens. Válasszon másik kliensazonosítót.
+ini_client_id_invalid#:#A megadott kliensazonosító (kliens-ID) nem megfelelő karaktereket is tartalmaz
+ini_client_id_no_change#:#A kliensazonosító (kliens-ID) nem változtatható meg ebben a verzióban, miután a kliensmappák már sikeresen létrejöttek.
+ini_client_id_too_long#:#A kliensazonosító (kliens-ID) túl hosszú.
+ini_client_id_too_short#:#A kliensazonosító (kliens-ID) túl rövid.
 ini_db_name_exists#:#már létezik. Válasszon másik adatbázisnevet.
-ini_no_client_id#:#Nincs megadva kliensazonosító (ID).
+ini_no_client_id#:#Nincs megadva kliensazonosító (kliens-ID).
 ini_no_db_host#:#Nincs kiszolgálónév.
 ini_no_db_name#:#Nincs adatbázisnév.
 ini_no_db_user#:#Nincs adatbázis-felhasználónév.
@@ -288,7 +288,7 @@ login_invalid#:#Érvénytelen bejelentkezés.
 login_to_ilias#:#Bejelentkezés az ILIAS-ba
 login#:#Bejelentkezés
 logout#:#Kijelentkezés
-main_datadir_outside_webspace#:#A webhelyen kívüli fő adatkönyvtár
+main_datadir_outside_webspace#:#A webhelyen kívüli fő adatmappa
 master_password#:#Mesterjelszó
 missing_data#:#Hiányzó adatok
 ffmpeg_path_comment#:#Audió/videó konvertálás lehetősége, pl. '/your_path/ffmpeg'.
@@ -327,7 +327,7 @@ no_items#:#Nincs bejegyzés
 no_latex_url#:#Nincs megadva LaTeX CGI script URL.
 no_password#:#Nincs megadva jelszó.
 no_path_convert#:#Nincs megadva konvertálási útvonal.
-no_path_datadir#:#Nincs megadva adatkönyvtár.
+no_path_datadir#:#Nincs megadva adatmappa.
 no_path_fop#:#Nincs megadva FOP elérési útvonal.
 no_path_given#:#Nincs megadva elérési útvonal.
 no_path_java#:#Nincs megadva java elérési útvonal.
@@ -492,7 +492,7 @@ step#:#Lépés
 street#:#Utca, házszám, emelet/ajtó
 submit#:#Elküldés
 time_zone#:#Időzóna
-tiny_dir_does_not_exist#:#A szerkesztőt tartalmazó könyvtár nem létezik. A szerkesztőt tartalmazó ZIP fájlt ki kell csomagolnia a megfelelő helyre.
+tiny_dir_does_not_exist#:#A szerkesztőt tartalmazó mappa nem létezik. A szerkesztőt tartalmazó ZIP fájlt ki kell csomagolnia a megfelelő helyre.
 tiny_nothing_to_do#:#A szerkesztőt már telepítették, nincs további tennivaló.
 tiny_zip_changed#:#A szerkesztőt tartalmazó ZIP fájl megváltozott a legutóbbi setup alatt. Csomagolja ki a ZIP fájlt, hogy frissítse a meglévő szerkesztőpéldányt.
 tiny_zip_does_not_exist#:#A TinyMCE szerkesztőt tartalmazó ZIP fájlt nem található a Szolgáltatások/RTE-ben a megfelelő helyen .

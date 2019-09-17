@@ -555,6 +555,7 @@ class ilObjUserGUI extends ilObjectGUI
 				include_once('Services/Mail/classes/class.ilAccountMail.php');
 				$acc_mail = new ilAccountMail();
 				$acc_mail->useLangVariablesAsFallback(true);
+				$acc_mail->setAttachConfiguredFiles(true);
 				$acc_mail->setUserPassword($_POST['passwd']);
 				$acc_mail->setUser($userObj);
 
