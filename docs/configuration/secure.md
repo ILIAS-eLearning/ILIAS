@@ -12,7 +12,7 @@
     + [Serve security related Headers](#serve-security-related-headers)
     + [Enable OCSP stapling (TLS Certificate Status Request)](#enable-ocsp-stapling--tls-certificate-status-request-)
     + [Enable HTTP Strict Transport Security](#enable-http-strict-transport-security)
-    + [Genrate the ILIAS ```ilClientId``` cookie with ```secure``` attribute](#genrate-the-ilias----ilclientid----cookie-with----secure----attribute)
+    + [Genrate the ILIAS `ilClientId` cookie with `secure` attribute](#genrate-the-ilias--ilclientid--cookie-with--secure--attribute)
   * [Suppress server signature and PHP version information](#suppress-server-signature-and-php-version-information)
   * [deny access or restrict to several files or locations](#deny-access-or-restrict-to-several-files-or-locations)
     + [ILIAS setup](#ilias-setup)
@@ -54,7 +54,7 @@ For "quality of life", it is recommend to also permit 80/TCP for a [redirect to 
 
 ## File Access Rights
 
-If you're an experienced admin you MAY want to use more restrictive file access rights that we RECOMMEND in this document. To make it impossible for an attacker to modify PHP files if he gains control over the web server processes, those files SHOULD be owned by ```root``` wherever possible.
+If you're an experienced admin you MAY want to use more restrictive file access rights that we RECOMMEND in this document. To make it impossible for an attacker to modify PHP files if he gains control over the web server processes, those files SHOULD be owned by `root` wherever possible.
 
 The only files and directories that MUST be owned/writeable by the web user are:
 
@@ -83,8 +83,8 @@ chmod 2775 %LOGDIR%
 chmod 2775 %LOGDIR%/errors
 ```
 
-After the installation of ILIAS is finished, you SHOULD also revoke write permission for the file ```ilias.ini.php``` (e.g. ```%DOCROOT%/ilias.ini.php```).
-note: for changing base setting via ILIAS setup, you need to grant write permission for the file ```ilias.ini.php``` again.
+After the installation of ILIAS is finished, you SHOULD also revoke write permission for the file `ilias.ini.php` (e.g. `%DOCROOT%/ilias.ini.php`).
+note: for changing base setting via ILIAS setup, you need to grant write permission for the file `ilias.ini.php` again.
 
 ## Place data directory outside of the web root
 
@@ -104,7 +104,7 @@ Nginx:
 
 ## OS user handling security
 
-If you use PHP-FPM (FastCGI Process Manager), you can increase security by running the PHP-FPM processes as a specific unique user instead of ```www-data``` / ```wwwrun``` (depends on linux distribution).
+If you use PHP-FPM (FastCGI Process Manager), you can increase security by running the PHP-FPM processes as a specific unique user instead of `www-data` / `wwwrun` (depends on linux distribution).
 
 Snippet from a PHP-FPM pool definition:
 ```
@@ -276,7 +276,7 @@ Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
 ```
 
  ##### NGINX
- You can simply add this in your ```server``` configuration:
+ You can simply add this in your `server` configuration:
 
  ```
   # Content-Security
@@ -294,13 +294,17 @@ Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
 
 note:  
 If you use a proxied [Chat Server](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Modules/Chatroom/README.md), you MUST add the url to the CSP definition:  
-```connect-src 'self' wss://onscreenchat.%HOSTNAME% https://onscreenchat.%HOSTNAME%;```
+```
+connect-src 'self' wss://onscreenchat.%HOSTNAME% https://onscreenchat.%HOSTNAME%;
+```
 
-If you use other external content (e.g. for a SCORM module or external video content) you have to add a ```default-src``` (The default-src is the default policy for loading content such as JavaScript, Images, CSS, Fonts, AJAX requests, Frames, HTML5 Media from other sites):
+If you use other external content (e.g. for a SCORM module or external video content) you have to add a `default-src` (The default-src is the default policy for loading content such as JavaScript, Images, CSS, Fonts, AJAX requests, Frames, HTML5 Media from other sites):
 
 e.g. for https://www.youtube.com as source:
 
-```default-src 	'self' www.youtube.com; ...```
+```
+default-src 	'self' www.youtube.com; ...
+```
 
 #### Validate the header configuration
 It is recommended to validate your configuration with the services from https://securityheaders.com/.  
@@ -321,7 +325,7 @@ SSLUseStapling on
 SSLStaplingResponderTimeout 5
 SSLStaplingReturnResponderErrors off
 ```
-Add the following line OUTSIDE  the ``` <VirtualHost></VirtualHost> ``` block:
+Add the following line OUTSIDE  the `<VirtualHost></VirtualHost>` block:
 ```
 SSLStaplingCache shmcb:/tmp/stapling_cache(128000)
 ```
@@ -352,7 +356,9 @@ OCSP Response Data:
 ```
 
 The [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) will also show if your OCSP configuration is working:
-```OCSP stapling 	Yes```
+```
+OCSP stapling 	Yes
+```
 
 ### Enable HTTP Strict Transport Security
 
@@ -365,7 +371,7 @@ By adding the following to your SSL VirtualHost configuration you instruct brows
 
 #### Apache2
 
-Ensure you have ```mod_headers.so``` enabled in Apache2:
+Ensure you have `mod_headers.so` enabled in Apache2:
 
 ```
 <IfModule mod_headers.c>
@@ -387,7 +393,7 @@ includeSubDomains:       Restrictions also apply to all subdomains of the curren
 max-age:                 Duration of cached information (180 days)
 ```
 
-### Genrate the ILIAS ```ilClientId``` cookie with ```secure``` attribute
+### Genrate the ILIAS `ilClientId` cookie with `secure` attribute
 
 (The JF https://docu.ilias.de/goto.php?target=wiki_1357_JourFixe-2018-04-23 suggested to do this in webserver configuration.)
 
@@ -404,7 +410,7 @@ note:
 Apache2 will use this for all cookie, who are beeing created.
 
 ##### NGINX
-You can simply add for example ```add_header Set-Cookie``` in your ```server``` configuration.
+You can simply add for example `add_header Set-Cookie` in your `server` configuration.
 
 ```
     add_header Set-Cookie "ilClientId=%CLIENTID%; Path=/; Secure; HttpOnly";
@@ -585,10 +591,13 @@ This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no
 > This is needed if you want to use the ilFileDelivery::DELIVERY_METHOD_XACCEL or the ilFileDelivery::DELIVERY_METHOD_XSENDFILE Method since PHP can't figure out whether X-Accel ist installed or not.""
 
 rename the file:  
-     ```%DOCROOT%/Services/FileDelivery/classes/override.php.template```  
+```
+%DOCROOT%/Services/FileDelivery/classes/override.php.template
+```
 to  
-     ```%DOCROOT%/Services/FileDelivery/classes/override.php```  
-
+```
+%DOCROOT%/Services/FileDelivery/classes/override.php
+```
 
 ## Use secure passwords
 Please keep in mind, that your plattform might me be accessible to the world wide web. To avoid unauthorized access to your Ilias-Installation, it his highly recommended to use secure passwords. Especially the root password and the Ilias-Master-Password are potentially endangered.
@@ -596,9 +605,9 @@ Please keep in mind, that your plattform might me be accessible to the world wid
 Your passwords should fullfil the following criterias:
 
 * at least 8 characters in length
-* lowercase and uppercase alphabetic characters [possible:  ```a-z```, ```A-Z```]
-* numbers [possible:  ```0-9```]
-* and symbols [possible:  ```_ . + ? # - * @ ! $ % ~ / : ;```]
+* lowercase and uppercase alphabetic characters [possible:  `a-z`, `A-Z`]
+* numbers [possible:  `0-9`]
+* and symbols [possible:  `_ . + ? # - * @ ! $ % ~ / : ;`]
 * do not consist of information that can easily be associated with the user
 
 You MAY generate a password by using the pwgen-command on your webserver's cli
