@@ -27,7 +27,9 @@ function advanced() : string
 {
     global $DIC;
 
-    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
+    $DIC->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
+
+    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
     $table = $DIC->ui()->factory()->table()->data("example_datatable_advanced", $action_url, "Advanced example data table", [
         (new Column("obj_id", "Id"))->withDefaultSelected(false),
@@ -107,7 +109,7 @@ class AdvancedExampleActionColumns extends AbstractActionColumn
     {
         global $DIC;
 
-        $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
+        $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
         return [
             "Action" => $action_url

@@ -18,7 +18,9 @@ function base() : string
 {
     global $DIC;
 
-    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
+    $DIC->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
+
+    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
     $table = $DIC->ui()->factory()->table()->data("example_datatable_actions", $action_url, "Example data table with actions", [
         new Column("column1", "Column 1"),
