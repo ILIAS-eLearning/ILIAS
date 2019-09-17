@@ -174,7 +174,7 @@ Older browser clients will not be able to reach the ILIAS installation!
 #### Apache2
 *(Version: 2.4.34,  OpenSSL 1.1.1c)*
 
-Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
+Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
 ```
 <VirtualHost *:443>
     ...
@@ -185,7 +185,7 @@ Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
     SSLCertificateKeyFile   /path/to/private/key
 ```
 
-Add the following line OUTSIDE  the `` <VirtualHost></VirtualHost> `` block:
+Add the following line OUTSIDE  the `<VirtualHost></VirtualHost>` block:
 ```
 SSLProtocol             all -SSLv3 -TLSv1 -TLSv1.1
 SSLCipherSuite          ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
@@ -223,11 +223,11 @@ server {
 
 ```
 
-``ssl_dhparam /etc/ssl/private/dhparam.pem;``:
+`ssl_dhparam /etc/ssl/private/dhparam.pem;`:
 
 This specifies a file with DH parameters for EDH (Ephemeral Diffie-Hellman) ciphers.  
 By default, NGINX will use the default DHE paramaters provided by openssl. This uses a weak key that gets lower scores.  
-Run ``openssl dhparam -out /etc/ssl/private/dhparam.pem 4096`` in terminal to generate it.
+Run `openssl dhparam -out /etc/ssl/private/dhparam.pem 4096` in terminal to generate it.
 
 We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings. It is recommended, to reach a "A" rating as minimum.
 
@@ -257,7 +257,7 @@ add_header X-Content-Security-Policy "default-src 'self'; connect-src 'self'; sc
 see also: [Browser compatibility of HTTP headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Browser_compatibility)
 
 ##### Apache
-Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
+Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
 
 ```
     <IfModule mod_headers.c>
@@ -319,7 +319,7 @@ By adding the following to your SSL VirtualHost configuration your webserver wil
 
 #### Apache2
 
-Add the following line INSIDE the `` <VirtualHost></VirtualHost> `` block:
+Add the following line INSIDE the `<VirtualHost></VirtualHost>` block:
 ```
 SSLUseStapling on
 SSLStaplingResponderTimeout 5
@@ -461,7 +461,7 @@ The suggested solution is to set 'expose_php' to 'off' in your php.ini:
 ## deny access or restrict to several files or locations
 
 ### ILIAS setup
-The access to the ILIAS Installation Wizard ``(/setup/setup.php)`` MAY be restricted:<br/><br/>
+The access to the ILIAS Installation Wizard `(/setup/setup.php)` MAY be restricted:
 
 Apache2:  
 ```
@@ -498,7 +498,7 @@ Nginx:
 Please add the whitelisted ip address (%IPADDRESS%) to grant access to ILIAS setup here.
 
 ### Prevent blacklisted files of beeing served by the webserver
-If somebody tries to upload a file with a filetype blacklisted by the upload settings, the upload will take place, but the file will be renamed to ``filename.sec``. The webserver should not serve this file anymore to it's visitors as the file may consists of malicious software.
+If somebody tries to upload a file with a filetype blacklisted by the upload settings, the upload will take place, but the file will be renamed to `filename.sec`. The webserver should not serve this file anymore to it's visitors as the file may consists of malicious software.
 
 Apache2:
 
@@ -558,12 +558,12 @@ This will show you the uncommited local changes.
 (If you have conscious code local changes, this can lead to a false positive.)
 
 ## Use WebAccessChecker
-In previous versions of ILIAS, it might have been possible to access SCORM, Media Files and User Profile Images without beeing logged in by guessing the proper URL and no measures were taken by the admin to deny such access. Since ILIAS 5.1, a new WebAccessChecker (WAC) is activated by default. To make use of WAC you MUST enable ``mod_rewrite`` in your Apache configuration.
 
-Please note that this will not work with Nginx as ``.htaccess-files`` are not supported. Instead you MUST add the following to your Nginx configuration file (please note that running ILIAS with Nginx isn't officially supported and certain features like Shibboleth won't work):
+In previous versions of ILIAS, it might have been possible to access SCORM, Media Files and User Profile Images without beeing logged in by guessing the proper URL and no measures were taken by the admin to deny such access. Since ILIAS 5.1, a new WebAccessChecker (WAC) is activated by default. To make use of WAC you MUST enable `mod_rewrite` in your Apache configuration.
+
+Please note that this will not work with Nginx as `.htaccess-files` are not supported. Instead you MUST add the following to your Nginx configuration file (please note that running ILIAS with Nginx isn't officially supported and certain features like Shibboleth won't work):
 
 This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no PHP will be proceed)
-
 
 ```
     server {
