@@ -404,7 +404,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			return;
 		}
 
-		$tpl_checkbox = $this->tpl_factory->getTemplate($this->tpl_path . "tpl.datatablerow.html", true, false);
+		$tpl_checkbox = ($this->get_template)("tpl.datatablerow.html");
 
 		$tpl_checkbox->setCurrentBlock("row_checkbox");
 

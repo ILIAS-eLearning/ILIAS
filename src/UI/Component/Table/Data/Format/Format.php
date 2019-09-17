@@ -6,7 +6,6 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
-use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer;
 
 /**
@@ -81,16 +80,15 @@ interface Format {
 
 
 	/**
-	 * @param TemplateFactory $tpl_factory
-	 * @param string          $tpl_path
-	 * @param Table           $component
-	 * @param Data            $data
-	 * @param Settings        $user_table_settings
-	 * @param Renderer        $renderer
+	 * @param callable $get_template
+	 * @param Table    $component
+	 * @param Data     $data
+	 * @param Settings $user_table_settings
+	 * @param Renderer $renderer
 	 *
 	 * @return string
 	 */
-	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string;
+	public function render(callable $get_template, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string;
 
 
 	/**

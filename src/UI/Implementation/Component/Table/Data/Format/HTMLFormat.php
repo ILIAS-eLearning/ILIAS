@@ -45,7 +45,7 @@ class HTMLFormat extends AbstractFormat {
 	 * @inheritDoc
 	 */
 	protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): void {
-		$this->tpl = $this->tpl_factory->getTemplate($this->tpl_path . "tpl.datatable.html", true, true);
+		$this->tpl = ($this->get_template)("tpl.datatable.html");
 
 		$this->tpl->setVariable("ID", $component->getTableId());
 
@@ -91,7 +91,7 @@ class HTMLFormat extends AbstractFormat {
 	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
 		$tpl = $this->tpl;
 
-		$this->tpl = $this->tpl_factory->getTemplate($this->tpl_path . "tpl.datatablerow.html", true, true);
+		$this->tpl = ($this->get_template)("tpl.datatablerow.html");
 
 		$this->handleRowTemplate($component, $row);
 

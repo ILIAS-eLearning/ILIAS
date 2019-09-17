@@ -10,7 +10,6 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
-use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer;
 use ilMimeTypeUtil;
 
@@ -32,13 +31,9 @@ abstract class AbstractFormat implements Format {
 	 */
 	protected $tpl;
 	/**
-	 * @var TemplateFactory
+	 * @var callable
 	 */
-	protected $tpl_factory;
-	/**
-	 * @var string
-	 */
-	protected $tpl_path;
+	protected $get_template;
 
 
 	/**
@@ -82,9 +77,8 @@ abstract class AbstractFormat implements Format {
 	/**
 	 * @inheritDoc
 	 */
-	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string {
-		$this->tpl_factory = $tpl_factory;
-		$this->tpl_path = $tpl_path;
+	public function render(callable $get_template, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string {
+		$this->get_template = $get_template;
 
 		$this->initTemplate($component, $data, $user_table_settings, $renderer);
 
