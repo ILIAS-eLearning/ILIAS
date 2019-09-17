@@ -699,7 +699,7 @@ class ilSCORM13Player
 		$ilUser = $DIC['ilUser'];
 		
 		//get json string
-		$g_data = new stdClass();
+		$g_data = [];
 
 		$global_to_system = 1;
 
@@ -745,43 +745,43 @@ class ilSCORM13Player
 				if($row['satisfied'] != NULL)
 				{
 					$toset = $row['satisfied'];
-					$g_data->{"satisfied"}->{$objective_id}->{$learner}->{$scope} = $toset;
+					$g_data["satisfied"][$objective_id][$learner][$scope] = $toset;
 				}
 				
 				if($row['measure'] != NULL)
 				{
 					$toset = $row['measure'];
-					$g_data->{"measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
+					$g_data["measure"][$objective_id][$learner][$scope] = $toset;
 				}
 				
 				if($row['score_raw'] != NULL)
 				{
 					$toset = $row['score_raw'];
-					$g_data->{"score_raw"}->{$objective_id}->{$learner}->{$scope} = $toset;
+					$g_data["score_raw"][$objective_id][$learner][$scope] = $toset;
 				}
 				
 				if($row['score_min'] != NULL)
 				{
 					$toset = $row['score_min'];
-					$g_data->{"score_min"}->{$objective_id}->{$learner}->{$scope} = $toset;
+					$g_data["score_min"][$objective_id][$learner][$scope] = $toset;
 				}
 				
 				if($row['score_max'] != NULL)
 				{
 					$toset = $row['score_max'];
-					$g_data->{"score_max"}->{$objective_id}->{$learner}->{$scope} = $toset;
+					$g_data["score_max"][$objective_id][$learner][$scope] = $toset;
 				}
 				
 				if($row['progress_measure'] != NULL)
 				{
 					$toset = $row['progress_measure'];
-					$g_data->{"progress_measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
+					$g_data["progress_measure"][$objective_id][$learner][$scope] = $toset;
 				}
 				
 				if($row['completion_status'] != NULL)
 				{
 					$toset = $row['completion_status'];
-					$g_data->{"completion_status"}->{$objective_id}->{$learner}->{$scope} = $toset;
+					$g_data["completion_status"][$objective_id][$learner][$scope] = $toset;
 				}
 			}
 		}

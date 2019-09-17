@@ -373,7 +373,7 @@ class ilGroupAddToGroupActionGUI
 				$lng->txt("obj_grp").": ".$_POST["title"]
 				, "question").
 			"<div class='ilNoDisplay'>".$form->getHTML()."</div>".
-			$this->ui->renderer()->renderAsync($button);
+            "<div class='ilRight'>".$this->ui->renderer()->renderAsync($button)."</div>";
 
 		exit;
 	}
@@ -431,7 +431,7 @@ class ilGroupAddToGroupActionGUI
 		include_once("./Services/Link/classes/class.ilLink.php");
 		$url = ilLink::_getLink($newObj->getRefId());
 		echo $tpl->getMessageHTML($lng->txt("grp_created_and_user_been_added"), "success");
-		echo "<script>setTimeout(function (){ window.location.replace('$url');}, 1000);</script>";
+		echo "<script>setTimeout(function (){ window.location.replace('$url');}, 1500);</script>";
 		exit;
 	}
 

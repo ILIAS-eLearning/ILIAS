@@ -569,6 +569,7 @@ class ilOpenIdConnectSettingsGUI
 				$role_title,
 				'role_map_'.$role_id
 			);
+			$role_map->setInfo($this->lng->txt('auth_oidc_role_info'));
 			$role_map->setValue($this->settings->getRoleMappingValueForId($role_id));
 			$form->addItem($role_map);
 
@@ -602,11 +603,30 @@ class ilOpenIdConnectSettingsGUI
 
 
 			$role_settings = [];
+			$role_valid = true;
 			foreach($this->prepareRoleSelection(false) as $role_id => $role_title) {
 
-				$this->logger->dump($form->getInput('role_map_' . $role_id));
+				if(!strlen(trim($form->getInput('role_map_' . $role_id)))) {
+					continue;
+				}
+
+				$role_params = explode('::', $form->getInput('role_map_' . $role_id));
+				$this->logger->dump($role_params, \ilLogLevel::DEBUG);
+
+				if(count($role_params) !== 2) {
+					$form->getItemByPostVar('role_map_' . $role_id)->setAlert($this->lng->txt('msg_wrong_format'));
+					$role_valid = false;
+					continue;
+				}
 				$role_settings[$role_id]['update'] = (bool) !$form->getInput('role_map_update_' . $role_id);
 				$role_settings[$role_id]['value'] = (string) $form->getInput('role_map_' . $role_id);
+			}
+
+			if(!$role_valid) {
+				$form->setValuesByPost();
+				\ilUtil::sendFailure($this->lng->txt('err_check_input'));
+				$this->roles($form);
+				return;
 			}
 
 			$this->settings->setRoleMappings($role_settings);

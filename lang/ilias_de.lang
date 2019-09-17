@@ -1887,6 +1887,7 @@ auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie f�
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginseite gestalten
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
 auth#:#auth_oidc#:#OpenId Connect
 auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
@@ -6388,7 +6389,7 @@ content#:#glo_show_taxonomy_info#:#Die Taxonomie wird in der Präsentationsansic
 content#:#glo_style#:#Glossar-Style
 content#:#glo_table_form#:#Tabelle
 content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in einer Übersichtstabelle dargestellt. Beim Anklicken eines Begriffes wird dieser mit der vollständigen Definition angezeigt.
-content#:#glo_term_is_used_n_times#:#Der Begriff wird %s in Lernmodulen verwendet.
+content#:#glo_term_is_used_n_times#:#Der Begriff wird %s Mal verwendet.
 content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgeführt werden, welche innerhalb dieses Glossares definiert wurden.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#glo_text_snippet_length#:#Länge der gekürzten Definitionen
@@ -13275,7 +13276,7 @@ style#:#sty_del_template#:#Templates und Klassen löschen
 style#:#sty_del_template_keep_classes#:#Löschen und Stylesheet-Klasse erhalten
 style#:#sty_delete_other_selected#:#Fortfahren
 style#:#sty_disable_auto_margins#:#Automatische Abstände unterdrücken
-style#:#sty_disable_auto_margins_info#:#Unterdrückt das automatische Setzen der linken und rechten Abstandes auf 0 Pixel, wenn Media-Objekte links- oder rechtsbündig angeordnete werden.
+style#:#sty_disable_auto_margins_info#:#Unterdrückt das automatische Setzen des linken und rechten Abstandes auf 0 Pixel, wenn Media-Objekte links- oder rechtsbündig angeordnet werden.
 style#:#sty_edit_template#:#Template bearbeiten
 style#:#sty_even_col_class#:#Einschließlich Spalten
 style#:#sty_even_row_class#:#Einschließlich Zeilen
@@ -13332,7 +13333,7 @@ style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
 style#:#sty_move_user_styles#:#Stylesheet der Benutzer ändern
-style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
@@ -15060,3 +15061,4 @@ forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht
 crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_details#:#« Details anzeigen
+exc#:#exc_text_saved#:#Der Text wurde gespeichert.
