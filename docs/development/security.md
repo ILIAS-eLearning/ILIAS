@@ -9,7 +9,7 @@
 ## Reporting Security Issues
 Please make sure to understand, that treating security issues confidentially is required to keep ILIAS installations as safe as possible until the issue is fixed.
 
-Please write an email to security@lists.ilias.de about your discovery, containing a description of the issue with the scenario in which the problem is triggered and a description of its implications. Do not file an issue in the bugtracker!
+Please write an email to security@lists.ilias.de about your discovery, containing a description of the issue with the scenario in which the problem is triggered and a description of its implications. **Do not file an issue in the bugtracker!**
 
 You will receive an answer from a member of the ILIAS security group about further steps.
 
