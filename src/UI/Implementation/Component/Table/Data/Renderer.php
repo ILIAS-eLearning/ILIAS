@@ -126,8 +126,8 @@ class Renderer extends AbstractComponentRenderer {
 			$format = $component->getBrowserFormat();
 		}
 
-		$data = $format->render(function (string $name): Template {
-			return $this->getTemplate($name, true, true);
+		$data = $format->render(function (string $name, bool $purge_unfilled_vars = true, bool $purge_unused_blocks = true): Template {
+			return $this->getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks);
 		}, $component, $data, $user_table_settings, $renderer);
 
 		switch ($format->getOutputType()) {

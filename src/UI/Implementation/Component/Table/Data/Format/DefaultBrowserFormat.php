@@ -249,14 +249,12 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 		if (count($component->getFilterFields()) > 0) {
 			$this->initFilterForm($component, $user_table_settings);
 			try {
-				$data = $this->dic->uiService()->filter()->getData($this->filter_form);
+				$data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
 
-				if (is_array($data)) {
-					$user_table_settings = $user_table_settings->withFieldValues($data);
+				$user_table_settings = $user_table_settings->withFieldValues($data);
 
-					if (!empty(array_filter($data))) {
-						$user_table_settings = $user_table_settings->withFilterSet(true);
-					}
+				if (!empty(array_filter($data))) {
+					$user_table_settings = $user_table_settings->withFilterSet(true);
 				}
 			} catch (Throwable $ex) {
 
@@ -406,7 +404,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			return;
 		}
 
-		$tpl_checkbox = ($this->get_template)("tpl.datatablerow.html");
+		$tpl_checkbox = ($this->get_template)("tpl.datatablerow.html", true, false);
 
 		$tpl_checkbox->setCurrentBlock("row_checkbox");
 
