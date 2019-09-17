@@ -36,17 +36,16 @@ The section "Hardening and Security Guidance" should be removed and the security
 In the following text includes some placeholder.
 For a better identification, they will describe here:
 
-|  placeholder |  description |
+| placeholder | description |
 |-------|-------|
-| %USERNAME% |  an individual user name or the webserver user based on distribution  |
-| %GROUP% | a individual group name or the webserver group based on distribution|
-| %HOSTNAME% | your specific fully qualified domain name of ILIAS  |
-| %IPADDRESS% | ip address in CIDR notation  |
+| %USERNAME% | an individual user name or the webserver user based on distribution |
+| %GROUP% | a individual group name or the webserver group based on distribution |
+| %HOSTNAME% | your specific fully qualified domain name of ILIAS |
+| %IPADDRESS% | ip address in CIDR notation |
 | %DOCROOT% | directory that forms the main document tree visible from the web |
 | %EXTERNALDATA% | ILIAS data directory outside of the web documenation root |
 | %LOGDIR% | path to the directory containing log files |
 | %CLIENTID% | the client name of the ILIAS installation  |
-
 
 ## Firewall
 
@@ -63,9 +62,10 @@ The only files and directories that MUST be owned/writeable by the web user are:
   * data/
   * ILIAS data dir outside of the webservers docroot
 
-All the other files and directories should be owned by a specific user ( %USERNAME% and %GROUP%, has to be created ), but readable by the web user (e.g. 644/755).
+All the other files and directories should be owned by a specific user (%USERNAME% and %GROUP%, has to be created), but readable by the web user (e.g. 644/755).
 
-example of the suggested configuration (may you can choose other directories, based on your discretion / distribution standard ):
+example of the suggested configuration (may you can choose other directories, based on your discretion / distribution standard):
+
 ```
 git clone --single-branch -b release_5-4 https://github.com/ILIAS-eLearning/ILIAS.git %DOCROOT%/.
 
@@ -123,8 +123,8 @@ user = %USERNAME%
 group = %GROUP%
 ```
 
-**note:**  
-NGINX and also apache2 can only run with one user (no multi user multi process model).  
+**note:**
+NGINX and also apache2 can only run with one user (no multi user multi process model).
 So it is necessary to put all the "PHP-FPM"-users in the primary group of the webserver user.
 
 ## Major security improvement: use HTTPS
@@ -140,8 +140,8 @@ To redirect all HTTP traffic to HTTPS you SHOULD issue a permanent redirect usin
 
 ```
 <VirtualHost *:80>
-   ServerName %HOSTNAME%
-   Redirect permanent / https://%HOSTNAME%/
+    ServerName %HOSTNAME%
+    Redirect permanent / https://%HOSTNAME%/
 </VirtualHost>
 ```
 
@@ -230,14 +230,12 @@ server {
     ssl_prefer_server_ciphers on;
 
     ssl_dhparam /etc/ssl/private/dhparam.pem;
-
-
 ```
 
 `ssl_dhparam /etc/ssl/private/dhparam.pem;`:
 
-This specifies a file with DH parameters for EDH (Ephemeral Diffie-Hellman) ciphers.  
-By default, NGINX will use the default DHE paramaters provided by openssl. This uses a weak key that gets lower scores.  
+This specifies a file with DH parameters for EDH (Ephemeral Diffie-Hellman) ciphers.
+By default, NGINX will use the default DHE paramaters provided by openssl. This uses a weak key that gets lower scores.
 Run `openssl dhparam -out /etc/ssl/private/dhparam.pem 4096` in terminal to generate it.
 
 We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings. It is recommended, to reach a "A" rating as minimum.
@@ -255,11 +253,11 @@ To improve the security of your ILIAS users you SHOULD set the following Headers
     X-XSS-Protection: 1; mode=block;
     X-Frame-Options: SAMEORIGIN;
     Referrer-Policy: strict-origin;
-    Feature-Policy sync-xhr 'self';  
-    add_header Content-Security-Policy "default-src 'self'; connect-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' 'unsafe-inline' data:; font-src 'self' 'unsafe-inline' data:; media-src 'self' 'unsafe-inline' data:";  
+    Feature-Policy sync-xhr 'self';
+    add_header Content-Security-Policy "default-src 'self'; connect-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' 'unsafe-inline' data:; font-src 'self' 'unsafe-inline' data:; media-src 'self' 'unsafe-inline' data:";
 ```
 
-*Backward compatibility to  Microsoft Internet Explorer 10*:  
+*Backward compatibility to  Microsoft Internet Explorer 10*:
 
 ```
 add_header X-Content-Security-Policy "default-src 'self'; connect-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline' data:; img-src 'self' 'unsafe-inline' data:; font-src 'self' 'unsafe-inline' data:; media-src 'self' 'unsafe-inline' data:";
@@ -429,7 +427,7 @@ You have to add this to the apache2 configuration.
 Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
 ```
 
-note:  
+note:
 Apache2 will use this for all cookie, who are beeing created.
 
 ##### NGINX
@@ -440,7 +438,7 @@ You can simply add for example `add_header Set-Cookie` in your `server` configur
     add_header Set-Cookie "ilClientId=%CLIENTID%; Path=/; Secure; HttpOnly";
 ```
 
-note:  
+note:
 For nginx, you have to generate a specific cookie for your ILIAS client.
 This will overide the cookie deliverd by ILIAS, so it is necessary to generate the whole cookie.
 
@@ -479,8 +477,8 @@ or better
 ### Remove “X-Powered-By” information from http header
 
 This can also be done by unsetting the header in webserver.
-* "Header unset X-Powered-By" for Apache2 or rather
-* "more_clear_headers 'X-Powered-By'" for NGINX.
+* `Header unset X-Powered-By` for Apache2 or rather
+* `more_clear_headers 'X-Powered-By'` for NGINX.
 
 The suggested solution is to set 'expose\_php' to 'off' in your php.ini:
 
@@ -511,7 +509,7 @@ Apache2:
     </Location>
 ```
 
-Nginx:  
+Nginx:
 
 ```
     location /setup {
@@ -633,12 +631,13 @@ This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no
 **[ilFileDelivery](https://github.com/ILIAS-eLearning/ILIAS/blob/release_5-4/Services/FileDelivery/classes/override.php.template)** (concerns NGINX/PHP-FPM):
 > This is needed if you want to use the ilFileDelivery::DELIVERY_METHOD_XACCEL or the ilFileDelivery::DELIVERY_METHOD_XSENDFILE Method since PHP can't figure out whether X-Accel ist installed or not.""
 
-rename the file:  
+rename the file:
 
 ```
 %DOCROOT%/Services/FileDelivery/classes/override.php.template
 ```
-to  
+
+to
 
 ```
 %DOCROOT%/Services/FileDelivery/classes/override.php
@@ -657,9 +656,9 @@ Your passwords should fullfil the following criterias:
 * do not consist of information that can easily be associated with the user
 
 You MAY generate a password by using the pwgen-command on your webserver's cli
-* -B: don't include ambiguous characters in the password;
-* -y: include at least one special symbol in the password
-).
+
+* `-B`: don't include ambiguous characters in the password;
+* `-y`: include at least one special symbol in the password
 
 ```
     pwgen -By
