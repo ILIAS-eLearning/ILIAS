@@ -1,11 +1,13 @@
-var provider = il.GS.Services.provider().getByProviderName('BTClientSideNotificationProvider');
-var identification = il.GS.Services.identification(provider, 'my_first_notification');
-var one_notification = il.GS.Services.factory().notifications().onScreen(identification);
+var provider = il.GS.Provider.getClientSideProvider('BTClientSideNotificationProvider')
+
+
+var identification = il.GS.Identification.getFromClientSideString('my_first_notification', provider);
+var one_notification = il.GS.DTO.notifications().onScreen(identification);
 
 one_notification.title = "My Title";
 one_notification.summary = "My Summary";
 
-var collector = il.GS.Services.collector().notifications();
+var collector = il.GS.Collector.NotificationCollector.notifications();
 
 collector.push(one_notification);
 

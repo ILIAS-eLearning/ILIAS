@@ -26,36 +26,43 @@ class ilMediaCastExporter extends ilXmlExporter
 	}
 
 
-	/**
-	 * Get tail dependencies
-	 *
-	 * @param		string		entity
-	 * @param		string		target release
-	 * @param		array		ids
-	 * @return		array		array of array with keys "component", entity", "ids"
-	 */
-	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-	{
+    /**
+     * Get tail dependencies
+     *
+     * @param		string		entity
+     * @param		string		target release
+     * @param		array		ids
+     * @return		array		array of array with keys "component", entity", "ids"
+     */
+    function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    {
 
-		include_once("./Modules/MediaCast/classes/class.ilObjMediaCast.php");
-		$mc_items_ids = array();
+        include_once("./Modules/MediaCast/classes/class.ilObjMediaCast.php");
+        $mc_items_ids = array();
 
-		foreach ($a_ids as $id)
-		{
-			$mcst = new ilObjMediaCast($id, false);
-			$items = $mcst->readItems(true);
-			foreach ($items as $i)
-			{
-				$news_ids[] = $i["id"];
-			}
-		}
+        foreach ($a_ids as $id) {
+            $mcst = new ilObjMediaCast($id, false);
+            $items = $mcst->readItems(true);
+            foreach ($items as $i) {
+                $news_ids[] = $i["id"];
+            }
+        }
 
-		return array (
-			array(
-				"component" => "Services/News",
-				"entity" => "news",
-				"ids" => $news_ids)
-			);
+        $deps = [];
+
+        $deps[] = [
+            "component" => "Services/News",
+            "entity" => "news",
+            "ids" => $news_ids
+        ];
+
+        // common object properties
+        $deps[] = array(
+            "component" => "Services/Object",
+            "entity" => "common",
+            "ids" => $a_ids);
+
+        return $deps;
 	}
 
 	/**

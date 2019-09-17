@@ -5,79 +5,83 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblFactoryFacadeInterface {
+interface ilBiblFactoryFacadeInterface
+{
 
-	/**
-	 * @return \ilBiblTypeFactoryInterface
-	 */
-	public function typeFactory();
-
-	/**
-	 * @return \ilBiblOverviewModelFactoryInterface
-	 */
-	public function overviewModelFactory();
-
-	/**
-	 * @return \ilBiblTypeInterface
-	 */
-	public function type();
+    /**
+     * @return \ilBiblTypeFactoryInterface
+     */
+    public function typeFactory();
 
 
-	/**
-	 * @return \ilBiblLibraryFactoryInterface
-	 */
-	public function libraryFactory();
+    /**
+     * @return \ilBiblOverviewModelFactoryInterface
+     */
+    public function overviewModelFactory();
 
 
-	/**
-	 * @return \ilBiblFieldFactoryInterface
-	 */
-	public function fieldFactory();
+    /**
+     * @return \ilBiblTypeInterface
+     */
+    public function type();
 
 
-	/**
-	 * @return \ilBiblTranslationFactoryInterface
-	 */
-	public function translationFactory();
+    /**
+     * @return \ilBiblLibraryFactoryInterface
+     */
+    public function libraryFactory();
 
 
-	/**
-	 * @return \ilBiblEntryFactoryInterface
-	 */
-	public function entryFactory();
+    /**
+     * @return \ilBiblFieldFactoryInterface
+     */
+    public function fieldFactory();
 
 
-	/**
-	 * @return \ilBiblFileReaderFactoryInterface
-	 */
-	public function fileReaderFactory();
+    /**
+     * @return \ilBiblTranslationFactoryInterface
+     */
+    public function translationFactory();
 
 
-	/**
-	 * @return \ilBiblFieldFilterFactoryInterface
-	 */
-	public function filterFactory();
+    /**
+     * @return \ilBiblEntryFactoryInterface
+     */
+    public function entryFactory();
 
 
-	/**
-	 * @return \ilBiblAttributeFactoryInterface
-	 */
-	public function attributeFactory();
+    /**
+     * @return \ilBiblFileReaderFactoryInterface
+     */
+    public function fileReaderFactory();
 
 
-	/**
-	 * @return int
-	 */
-	public function iliasObjId();
+    /**
+     * @return \ilBiblFieldFilterFactoryInterface
+     */
+    public function filterFactory();
 
 
-	/**
-	 * @return int
-	 */
-	public function iliasRefId();
+    /**
+     * @return \ilBiblAttributeFactoryInterface
+     */
+    public function attributeFactory();
 
-	/**
-	 * @return \ilBiblDataFactoryInterface
-	 */
-	public function dataFactory();
+
+    /**
+     * @return int
+     */
+    public function iliasObjId();
+
+
+    /**
+     * @return int
+     */
+    public function iliasRefId();
+
+
+    /**
+     * @return \ilBiblDataFactoryInterface
+     */
+    public function dataFactory();
 }

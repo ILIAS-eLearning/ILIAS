@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
 use Closure;
+use ILIAS\GlobalScreen\Collector\Collector;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
@@ -15,7 +16,7 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainToolCollector
+class MainToolCollector implements Collector
 {
 
     /**
@@ -53,11 +54,10 @@ class MainToolCollector
         $this->type_information_collection->add($tool);
 
         $this->tools = [];
-        $this->initTools();
     }
 
 
-    private function initTools()
+    public function collect() : void
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
@@ -73,19 +73,24 @@ class MainToolCollector
         array_walk($this->tools, function (Tool $tool) {
             $this->applyTypeInformation($tool);
         });
+
+        usort($this->tools, $this->getItemSorter());
     }
 
 
     /**
      * @return Tool[]
      */
-    public function getTools() : array
+    public function getItems() : array
     {
         return $this->tools;
     }
 
 
-    public function hasTools() : bool
+    /**
+     * @return bool
+     */
+    public function hasItems() : bool
     {
         return count($this->tools) > 0;
     }
@@ -127,6 +132,17 @@ class MainToolCollector
     {
         return function (isItem $tool) {
             return ($tool->isAvailable() && $tool->isVisible());
+        };
+    }
+
+
+    /**
+     * @return Closure
+     */
+    private function getItemSorter() : Closure
+    {
+        return function (Tool &$a, Tool &$b) {
+            return $a->getPosition() > $b->getPosition();
         };
     }
 }

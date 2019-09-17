@@ -7484,7 +7484,9 @@ hr.il-divider-with-label {
     float: none;
     zoom: 1;
     vertical-align: top;
-    width: auto;
+    /* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
+				see known issues at https://caniuse.com/#search=calc */
+    width: 100%;
   }
   .panel-secondary .il-item .dropdown {
     position: static;
@@ -8728,36 +8730,43 @@ footer {
 .il-maincontrols-slate.disengaged {
   display: none;
 }
-.il-maincontrols-slate .btn-bulky {
+.il-maincontrols-slate .btn-bulky,
+.il-maincontrols-slate .link-bulky {
   align-items: center;
   background-color: #f2f2f2;
   display: flex;
   margin-bottom: 2px;
   padding: 10px 20px;
 }
-.il-maincontrols-slate .btn-bulky.disengaged:before {
+.il-maincontrols-slate .btn-bulky.disengaged:before,
+.il-maincontrols-slate .link-bulky.disengaged:before {
   content: " \e606";
   font-family: "il-icons";
   font-size: 2.1rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate .btn-bulky.engaged:before {
+.il-maincontrols-slate .btn-bulky.engaged:before,
+.il-maincontrols-slate .link-bulky.engaged:before {
   content: " \e604";
   font-family: "il-icons";
   font-size: 2.1rem;
   margin-right: 10px;
 }
 .il-maincontrols-slate .btn-bulky:hover,
-.il-maincontrols-slate .btn-bulky.engaged {
+.il-maincontrols-slate .link-bulky:hover,
+.il-maincontrols-slate .btn-bulky.engaged,
+.il-maincontrols-slate .link-bulky.engaged {
   background-color: #d1d8e3;
   border-color: #e0e0e0;
   color: inherit;
 }
-.il-maincontrols-slate .btn-bulky .icon {
+.il-maincontrols-slate .btn-bulky .icon,
+.il-maincontrols-slate .link-bulky .icon {
   filter: invert(50%);
   margin-right: 10px;
 }
-.il-maincontrols-slate .btn-bulky .bulky-label {
+.il-maincontrols-slate .btn-bulky .bulky-label,
+.il-maincontrols-slate .link-bulky .bulky-label {
   font-size: 1.5rem;
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
@@ -9174,11 +9183,13 @@ footer {
   list-style: none;
   padding: 0;
 }
-.il-drilldown .btn-bulky {
+.il-drilldown .btn-bulky,
+.il-drilldown .link-bulky {
   align-items: center;
   display: flex;
 }
-.il-drilldown .il-drilldown-current .btn-bulky {
+.il-drilldown .il-drilldown-current .btn-bulky,
+.il-drilldown .il-drilldown-current .link-bulky {
   cursor: auto;
 }
 .il-drilldown .il-drilldown-structure,
@@ -10084,6 +10095,21 @@ footer {
 }
 .il-glyphicon-angry:before {
   content: "\1f620";
+}
+.il-link.link-bulky {
+  display: block;
+  text-decoration: none;
+}
+.il-link.link-bulky .icon,
+.il-link.link-bulky .bulky-label {
+  display: inline-block;
+}
+.il-link.link-bulky .icon {
+  margin-bottom: -3px;
+  text-decoration: none;
+}
+.il-link.link-bulky .bulky-label {
+  color: #333333;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
@@ -13525,6 +13551,13 @@ div.ilCOPGMediaPrint {
   background-repeat: no-repeat !important;
   background-size: auto 90% !important;
   padding: 1px !important;
+}
+/* fullscreen iframe */
+#il-copg-mob-fullscreen {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
 /* Services/Calendar */
 td.even {

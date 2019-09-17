@@ -6,16 +6,18 @@
  *
  * Basic frame for the plugin service class probably needs to be overwritten
  *
- * @author Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @ingroup ModulesCloud
  */
 class ilCloudPluginService
 {
+
     /**
      * @var ilCloudPlugin $object
      */
     protected $plugin_object = null;
+
 
     /**
      * @param $service_name
@@ -26,6 +28,7 @@ class ilCloudPluginService
         $this->plugin_object = ilCloudConnector::getPluginClass($service_name, $obj_id);
     }
 
+
     /**
      * @return ilCloudPlugin
      */
@@ -34,8 +37,10 @@ class ilCloudPluginService
         return $this->plugin_object;
     }
 
+
     /**
      * For shorter access
+     *
      * @return ilCloudHookPlugin
      */
     public function getPluginHookObject()
@@ -43,14 +48,17 @@ class ilCloudPluginService
         return $this->getPluginObject()->getPluginHookObject();
     }
 
+
     /**
      * For shorter access
+     *
      * @return ilCloudPluginConfig
      */
     public function getAdminConfigObject()
     {
         return $this->getPluginObject()->getAdminConfigObject();
     }
+
 
     /**
      * Called after the cloud object is created to authenticate the service if needed. The callback can be used to get
@@ -63,8 +71,10 @@ class ilCloudPluginService
         header("Location: " . htmlspecialchars_decode($callback_url));
     }
 
+
     /**
      * Place were the callback should lead to after authentication. Can be used to updated plugin settings.
+     *
      * @return bool
      */
     public function afterAuthService()
@@ -72,13 +82,16 @@ class ilCloudPluginService
         return true;
     }
 
-    public function getServiceObject(){}
+
+    public function getServiceObject() { }
+
 
     /**
      * Called when RootId (id of the folder which is set to root) is needed.
      * Mostly after the base directory is changed by the user or after creating the cloud Obect
      *
      * @param $root_path
+     *
      * @return string
      */
     public function getRootId($root_path)
@@ -86,36 +99,46 @@ class ilCloudPluginService
         return "root";
     }
 
+
     /**
      * Updates the file tree when the user navigates through files and folders
+     *
      * @param ilCloudFileTree $file_tree
-     * @param string $parent_folder
+     * @param string          $parent_folder
      */
-    public function addToFileTree(ilCloudFileTree  $file_tree, $parent_folder = "/"){}
+    public function addToFileTree(ilCloudFileTree $file_tree, $parent_folder = "/") { }
+
 
     /**
      * Called when a file is accessed for download by the user
-     * @param null $path
+     *
+     * @param null            $path
      * @param ilCloudFileTree $file_tree
      */
-    public function getFile($path = null, ilCloudFileTree $file_tree = null){}
+    public function getFile($path = null, ilCloudFileTree $file_tree = null) { }
+
 
     /**
      * Called when a folder is created by the user
-     * @param null $path
+     *
+     * @param null            $path
      * @param ilCloudFileTree $file_tree
      */
-    public function createFolder($path = null, ilCloudFileTree $file_tree = null){}
+    public function createFolder($path = null, ilCloudFileTree $file_tree = null) { }
+
 
     /**
      * Called when an item is deleted by the user
-     * @param null $path
+     *
+     * @param null            $path
      * @param ilCloudFileTree $file_tree
      */
-    public function deleteItem($path = null, ilCloudFileTree $file_tree = null){}
+    public function deleteItem($path = null, ilCloudFileTree $file_tree = null) { }
+
 
     /**
      * by default false
+     *
      * @return bool
      */
     public function isCaseSensitive()
@@ -123,22 +146,27 @@ class ilCloudPluginService
         return false;
     }
 
+
     /**
      * @param int $bytes
+     *
      * @return string
      */
     public function formatBytes($bytes)
     {
-        $unit  = array('B', 'KB', 'MB', 'GB', 'TB');
+        $unit = array('B', 'KB', 'MB', 'GB', 'TB');
         $bytes = max($bytes, 0);
-        $pow   = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $pow   = min($pow, count($unit) - 1);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($unit) - 1);
         $bytes /= pow(1024, $pow);
+
         return round($bytes, 2) . ' ' . $unit[$pow];
     }
 
+
     /**
      * A little helper function returning the currently used protocol as string
+     *
      * @return string
      */
     public function getProtokol()

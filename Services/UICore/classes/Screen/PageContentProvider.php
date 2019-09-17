@@ -45,7 +45,9 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
     {
         return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content) : Legacy {
-            return $this->dic->ui()->factory()->legacy(self::$content);
-        })->withHighPriority();
+            $ui = $this->dic->ui();
+
+            return $ui->factory()->legacy($ui->renderer()->render($content) . self::$content);
+        })->withLowPriority();
     }
 }

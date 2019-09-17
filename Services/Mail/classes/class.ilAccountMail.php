@@ -37,6 +37,9 @@ class ilAccountMail
 	
 	private $attachments = array();
 	
+	/** @var bool */
+	private $attachConfiguredFiles = false;
+
 	/**
 	* constructor
 	* @access	public 
@@ -54,7 +57,23 @@ class ilAccountMail
 	{
 		return $this->lang_variables_as_fallback;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
+	public function shouldAttachConfiguredFiles() : bool
+	{
+		return $this->attachConfiguredFiles;
+	}
+
+	/**
+	 * @param bool $attachConfiguredFiles
+	 */
+	public function setAttachConfiguredFiles(bool $attachConfiguredFiles)
+	{
+		$this->attachConfiguredFiles = $attachConfiguredFiles;
+	}
+
 	/**
 	* set user password
 	*
@@ -85,7 +104,15 @@ class ilAccountMail
 	* @param	object	$a_user		user object
 	*/
 	function setUser(&$a_user)
-	{		
+	{
+		if (
+			$this->user instanceof ilObjUser &&
+			$a_user instanceof ilObjUser &&
+			$a_user->getId() != $this->user->getId()
+		) {
+			$this->attachments = [];
+		}
+
 		$this->user =& $a_user;
 	}
 
@@ -146,6 +173,26 @@ class ilAccountMail
 		}
 
 		return $this->amail[$a_lang];
+	}
+
+	/***
+	 * @param $mailData
+	 */
+	private function addAttachments($mailData)
+	{
+		if ($this->shouldAttachConfiguredFiles() && isset($mailData['att_file'])) {
+			$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
+			$fs->create();
+
+			$pathToFile = '/' . implode('/', array_map(function($pathPart) {
+					return trim($pathPart, '/');
+				}, [
+					$fs->getAbsolutePath(),
+					$mailData['lang'],
+				]));
+
+			$this->addAttachment($pathToFile, $mailData['att_file']);
+		}
 	}
 	
 	/**
@@ -215,6 +262,8 @@ class ilAccountMail
 		}
 		else
 		{
+			$this->addAttachments($amail);
+
 			// replace placeholders
 			$mail_subject = $this->replacePlaceholders($amail['subject'], $user, $amail, $lang);
 			$mail_body = $this->replacePlaceholders($amail['body'], $user, $amail, $lang);

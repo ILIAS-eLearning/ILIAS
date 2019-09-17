@@ -19,7 +19,7 @@
 		"ezyang/htmlpurifier": "4.11.0",
 		"phpmailer/phpmailer": "^6.0.6",
 		"geshi/geshi": "dev-master#5861c58981244ab6ee0dd337f096ff14bf15b1eb",
-		"tecnickcom/tcpdf": "^6.2.12",
+		"tecnickcom/tcpdf": "^6.2.26",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1",
 		"imsglobal/lti": "^3.0",
@@ -35,7 +35,6 @@
 		"sabre/dav": "~3.2.2",
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
-		"symfony/console" : "^4.2",
 		"ramsey/uuid": "^3.8"
 	},
 	"require-dev": {
@@ -137,7 +136,7 @@
 		},
 		"tecnickcom/tcpdf" : {
 			"source" : "https://github.com/tecnickcom/TCPDF",
-			"used_version" : "v6.2.12",
+			"used_version" : "v6.2.26",
 			"wrapped_by" : "Services/PDFGeneration",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
 			"last_update" : "2016-06-02",

@@ -100,8 +100,9 @@ class ilBadgeRenderer
 				
 		$hash = $this->getBadgeHash();
 
-		$btpl = new ilTemplate("tpl.badge_renderer.html", true, true, "Services/Badge");		
-		$btpl->setVariable("BADGE_IMG", $this->badge->getImagePath());
+		$btpl = new ilTemplate("tpl.badge_renderer.html", true, true, "Services/Badge");
+        $image_path = ilWACSignedPath::signFile($this->badge->getImagePath());
+		$btpl->setVariable("BADGE_IMG", $image_path);
 		$btpl->setVariable("BADGE_TXT", $this->badge->getTitle());
 		$btpl->setVariable("BADGE_ID", "badge_".
 			($this->assignment 

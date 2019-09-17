@@ -301,6 +301,6 @@ class EntriesYamlParser implements YamlParser
 	 * @return string
 	 */
 	public static function fromCamelCaseToWords($camelCaseString) {
-		return join(preg_split('/(?<=[a-z])(?=[A-Z])/x', ucwords($camelCaseString)), " " );
+		return implode(' ', preg_split('/(?<=[a-z])(?=[A-Z])/x', ucwords($camelCaseString)));
 	}
 }

@@ -8,9 +8,9 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "sourceMap": false,
-    "target": "es5"
+    "target": "es2015"
   },
   "include": [
-    "src/GS.ts"
+    "src/**/*"
   ]
 }

@@ -720,7 +720,7 @@ class ilInitGlobalTemplate implements ilGlobalTemplateInterface
 		}
 		foreach($this->inline_css as $css)
 		{
-			$this->setCurrentBlock("css_file");
+			$this->setCurrentBlock("css_inline");
 			$this->setVariable("CSS_INLINE", $css["css"]);
 			$this->parseCurrentBlock();
 		}

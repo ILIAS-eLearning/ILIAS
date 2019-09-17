@@ -102,6 +102,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
 		$this->setSkipRootNode(false);
+		$this->setNodeOpen($this->tree->readRootId());
 		$this->setAjax(true);
 		$this->setOrderField("title");
 		if ($ilSetting->get("repository_tree_pres") == "" ||

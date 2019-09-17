@@ -5,22 +5,23 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblAdminLibraryFacadeInterface {
+interface ilBiblAdminLibraryFacadeInterface
+{
 
-	/**
-	 * @return int
-	 */
-	public function iliasObjId();
-
-
-	/**
-	 * @return int
-	 */
-	public function iliasRefId();
+    /**
+     * @return int
+     */
+    public function iliasObjId();
 
 
-	/**
-	 * @return \ilBiblLibraryFactoryInterface
-	 */
-	public function libraryFactory();
+    /**
+     * @return int
+     */
+    public function iliasRefId();
+
+
+    /**
+     * @return \ilBiblLibraryFactoryInterface
+     */
+    public function libraryFactory();
 }
