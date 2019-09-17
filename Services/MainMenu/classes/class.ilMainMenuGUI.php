@@ -341,8 +341,6 @@ class ilMainMenuGUI
                 );
                 $this->tpl->parseCurrentBlock();
             } else {
-                $this->renderOnScreenNotifications($ilUser, $main_tpl, $lng);
-
                 $this->tpl->setCurrentBlock("userisloggedin");
                 $this->tpl->setVariable("TXT_LOGIN_AS", $lng->txt("login_as"));
                 $user_img_src = $ilUser->getPersonalPicturePath("small", true);
@@ -574,23 +572,6 @@ class ilMainMenuGUI
         $this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
         $this->addToolbarTooltip("awareness_trigger", "mm_tb_aware");
     }
-
-
-    /**
-     * @param \ilObjUser  $user
-     * @param \ilTemplate $mainTpl
-     * @param \ilLanguage $lng
-     */
-    private function renderOnScreenNotifications(\ilObjUser $user, \ilGlobalTemplateInterface $mainTpl, \ilLanguage $lng)
-    {
-        if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
-            $this->tpl->touchBlock('osd_container');
-
-            $osdGui = new ilNotificationOSDGUI($user, $mainTpl, $lng);
-            $osdGui->render();
-        }
-    }
-
 
     /**
      * Toggle rendering of main menu, search, user info

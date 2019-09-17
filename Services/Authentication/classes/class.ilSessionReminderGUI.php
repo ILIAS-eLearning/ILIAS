@@ -6,35 +6,45 @@
  */
 class ilSessionReminderGUI
 {
-    /**
-     * @var ilSessionReminder
-     */
+    /** @var ilSessionReminder */
     protected $sessionReminder;
+
+    /** @var \ilGlobalTemplateInterface */
+    protected $page;
+
+    /** @var \ilLanguage */
+    protected $lng;
 
     /**
      * @param ilSessionReminder $sessionReminder
-     */
-    public function __construct(ilSessionReminder $sessionReminder)
-    {
-        $this->setSessionReminder($sessionReminder);
-    }
-
-    /**
      * @param ilGlobalTemplateInterface $page
      * @param ilLanguage $language
      */
-    public function populatePage(ilGlobalTemplateInterface $page, \ilLanguage $language) : void
+    public function __construct(
+        ilSessionReminder $sessionReminder,
+        ilGlobalTemplateInterface $page,
+        \ilLanguage $language
+    ) {
+        $this->sessionReminder = $sessionReminder;
+        $this->page = $page;
+        $this->lng = $language;
+    }
+
+    /**
+     *
+     */
+    public function populatePage() : void
     {
-        if (!$this->getSessionReminder()->isActive()) {
+        if (!$this->sessionReminder->isActive()) {
             return;
         }
 
-        iljQueryUtil::initjQuery($page);
+        iljQueryUtil::initjQuery($this->page);
         ilYuiUtil::initCookie();
 
-        $page->addJavaScript('./Services/Authentication/js/session_reminder.js');
-        
-        $url = './sessioncheck.php?client_id=' . CLIENT_ID . '&lang=' . $language->getLangKey();
+        $this->page->addJavaScript('./Services/Authentication/js/session_reminder.js');
+
+        $url = './sessioncheck.php?client_id=' . CLIENT_ID . '&lang=' . $this->lng->getLangKey();
         $devMode = defined('DEVMODE') && DEVMODE ? 1 : 0;
         $clientId = defined('CLIENT_ID') ? CLIENT_ID : '';
         $sessionName = session_name();
@@ -55,25 +65,6 @@ class ilSessionReminderGUI
 })(jQuery);
 JS;
 
-        $page->addOnLoadCode($javascript);
-    }
-
-    /**
-     * @param ilSessionReminder $sessionReminder
-     * @return $this
-     */
-    public function setSessionReminder(ilSessionReminder $sessionReminder) : self
-    {
-        $this->sessionReminder = $sessionReminder;
-
-        return $this;
-    }
-
-    /**
-     * @return ilSessionReminder
-     */
-    public function getSessionReminder() : ilSessionReminder
-    {
-        return $this->sessionReminder;
+        $this->page->addOnLoadCode($javascript);
     }
 }
