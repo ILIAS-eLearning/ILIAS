@@ -298,7 +298,6 @@ class ilMainMenuGUI
             $this->renderHelpButtons();
 
             $this->renderOnScreenChatMenu();
-            $this->populateWithBuddySystem();
             $this->populateWithOnScreenChat();
             $this->renderBackgroundTasks();
             $this->renderAwareness();
@@ -554,17 +553,6 @@ class ilMainMenuGUI
                 $ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
                 . "');"
             );
-        }
-    }
-
-
-    /**
-     * Includes all buddy system/user connections related javascript code
-     */
-    private function populateWithBuddySystem()
-    {
-        if (ilBuddySystem::getInstance()->isEnabled()) {
-            ilBuddySystemGUI::initializeFrontend();
         }
     }
 

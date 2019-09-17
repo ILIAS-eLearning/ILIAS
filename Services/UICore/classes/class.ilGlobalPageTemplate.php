@@ -76,6 +76,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         \iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
+        \ilBuddySystemGUI::initializeFrontend($this);
     }
 
 
