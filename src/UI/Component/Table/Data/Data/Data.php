@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Table\Data\Data;
 
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;

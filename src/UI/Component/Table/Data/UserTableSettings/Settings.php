@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Table\Data\UserTableSettings;
 
 use ILIAS\UI\Component\Table\Data\Data\Data;

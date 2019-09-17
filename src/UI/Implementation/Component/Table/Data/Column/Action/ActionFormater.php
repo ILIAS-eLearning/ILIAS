@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Table\Data\Column\Action;
 
 use ILIAS\UI\Component\Button\Shy;
