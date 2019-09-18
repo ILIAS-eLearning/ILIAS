@@ -1,12 +1,16 @@
 <?php
 
 
-class ilWebDAVMountInstructionsTextDocumentProcessor implements ilWebDAVMountInstructionsDocumentProcessor
+class ilWebDAVMountInstructionsTextDocumentProcessor extends ilWebDAVMountInstructionsDocumentProcessorBase
 {
 
-    public function processMountInstructions(string $raw_mount_instructions) : string
+    public function processMountInstructions(string $raw_mount_instructions) : array
     {
-        return $raw_mount_instructions;
-        // TODO: Implement processMountInstructions() method.
+        $stripped_instructions = htmlspecialchars($raw_mount_instructions);
+        $stripped_instructions = nl2br($stripped_instructions);
+
+        $processed_instructions = $this->parseInstructionsToAssocArray($stripped_instructions);
+
+        return $processed_instructions;
     }
 }
