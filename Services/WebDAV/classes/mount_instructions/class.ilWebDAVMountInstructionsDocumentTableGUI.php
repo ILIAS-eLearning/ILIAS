@@ -370,9 +370,9 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
 	protected function formatTitle(string $a_column, array $a_row)
 	{
+	    if($a_row['processed_text'] == null) $a_row['processed_text'] = '';
 		$modal = $this->ui_factory
-			->modal()
-			->lightbox([$this->ui_factory->modal()->lightboxTextPage($a_row['raw_text'], $a_row['title'])]);
+			->modal()->lightbox($this->ui_factory->modal()->lightboxTextPage($a_row['processed_text'], 'Mount Instructions'));
 
 		$title_link = $this->ui_factory
 			->button()

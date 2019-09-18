@@ -82,7 +82,7 @@ class ilWebDAVMountInstructionsUploadGUI {
 			$this->toolbar->addStickyItem($addDocumentBtn);
 		}
 
-		$document_tbl_gui = new ilWebDAVMountInstructionsDocumentTableGUI(  // new ilTermsOfServiceDocumentTableGUI(
+		$document_tbl_gui = new ilWebDAVMountInstructionsDocumentTableGUI(
 			$this,
 			'showDocuments',
 			$this->ui_factory,
