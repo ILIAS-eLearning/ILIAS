@@ -1070,3 +1070,12 @@ $ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
 	'default' => 0
 ));
 ?>
+<#73>
+<?php
+$ilDB->modifyTableColumn('il_cert_template', 'version', array(
+    'type'    => 'integer',
+    'length'  => 8,
+    'notnull' => true,
+    'default' => 0
+));
+?>
