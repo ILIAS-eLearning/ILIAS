@@ -29,6 +29,12 @@ class ilMailAddressParserTest extends ilMailBaseTest
                     new ilMailAddress('phpunit', 'ilias.de')
                 ]
             ],
+            'Trailing Dot in Local Part of Email Address' => [
+                'phpunit.@ilias.de',
+                [
+                    new ilMailAddress('phpunit.', 'ilias.de')
+                ]
+            ],
             'Mailing List Address' => [
                 '#il_ml_4711',
                 [
@@ -75,10 +81,10 @@ class ilMailAddressParserTest extends ilMailBaseTest
     {
         return [
             'Trailing Dot in Local Part' => [
-                'phpunit.'
+                'phpunit@'
             ],
             'Trailing Dot in Local Part of Email Address' => [
-                'phpunit.@ilias.de'
+                'phpunit@@ilias.de'
             ],
         ];
     }
