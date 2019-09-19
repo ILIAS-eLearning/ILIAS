@@ -223,8 +223,10 @@
 			<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
 		</xsl:if>
 
-		<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
-		<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
+		<xsl:if test=". != '' and . != ' '">
+			<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
+			<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
+		</xsl:if>
 	</xsl:for-each>
 	<xsl:for-each select="./ExtLink">
 		<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
