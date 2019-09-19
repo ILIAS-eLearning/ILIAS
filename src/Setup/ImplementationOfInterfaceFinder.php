@@ -31,7 +31,6 @@ class ImplementationOfInterfaceFinder
             '.*ilAuthContainerSOAP.*',
             '.*ilAuthECS.*',
             '.*ilAuthHTTP.*',
-            '.*ilAuthInactive.*',
             '.*ilAuthSOAP.*',
             '.*ilCASAuth.*',
             '.*ilSOAPAuth.*',
