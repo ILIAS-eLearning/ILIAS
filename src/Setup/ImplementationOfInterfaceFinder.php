@@ -26,9 +26,7 @@ class ImplementationOfInterfaceFinder
             // Classes using removed Auth-class from PEAR
             '.*ilAuthCAS.*',
             '.*ilAuthContainerCAS.*',
-            '.*ilAuthContainerECS.*',
             '.*ilAuthContainerSOAP.*',
-            '.*ilAuthHTTP.*',
             '.*ilAuthSOAP.*',
             '.*ilCASAuth.*',
             '.*ilSOAPAuth.*',
