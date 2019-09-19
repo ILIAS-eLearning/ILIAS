@@ -80,11 +80,11 @@ class ilMailAddressParserTest extends ilMailBaseTest
     public function emailInvalidAddressesProvider() : array
     {
         return [
-            'Trailing Dot in Local Part' => [
-                'phpunit@'
+            'Trailing Quote in Local Part' => [
+                'phpunit"@'
             ],
-            'Trailing Dot in Local Part of Email Address' => [
-                'phpunit@@ilias.de'
+            'Trailing Quote in Local Part of Email Address' => [
+                'phpunit"@ilias.de'
             ],
         ];
     }
