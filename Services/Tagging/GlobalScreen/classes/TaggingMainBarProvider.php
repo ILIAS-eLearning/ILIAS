@@ -31,19 +31,19 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
         $contents = $f->legacy("some contents.");
 
         return [
-            /* this does not work...
             $this->mainmenu->complex($this->if->identifier('tags2'))
-                ->withContent($f->maincontrols()->slate()->legacy('legacy2', $icon, $contents))
+                ->withSymbol($icon)
+                ->withContent($contents)
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withAlwaysAvailable(true)
                 ->withPosition(19)
-            ,*/
+            ,
             $this->mainmenu->link($this->if->identifier('tags'))
                 ->withTitle($this->dic->language()->txt("mm_tags"))
                 ->withAction("#")
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
-	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true))
-                ->withPosition(20)
+                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true))
+                ->withPosition(20),
         ];
     }
 }
