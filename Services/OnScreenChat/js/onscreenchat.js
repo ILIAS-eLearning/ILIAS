@@ -1,6 +1,6 @@
 (function($, $scope, $chat){
 	'use strict';
-
+console.log("x");
 	var TYPE_CONSTANT	= 'osc';
 	var PREFIX_CONSTANT	= TYPE_CONSTANT + '_';
 	var ACTION_SHOW_CONV = "show";
