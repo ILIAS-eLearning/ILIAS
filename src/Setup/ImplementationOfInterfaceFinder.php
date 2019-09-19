@@ -24,7 +24,6 @@ class ImplementationOfInterfaceFinder
             '/tests/',
             '/setup/',
             // Classes using removed Auth-class from PEAR
-            '.*ilAuthCalendar.*',
             '.*ilAuthCAS.*',
             '.*ilAuthContainerCAS.*',
             '.*ilAuthContainerECS.*',
