@@ -113,7 +113,7 @@ class ilAuthFactory
 	 * Get options for a specific context
 	 * @return 
 	 */
-	public static function getContextOptions()
+	public static function getContextOptions($a_context)
 	{
 		return self::$context_options[$a_context] ? 
 			self::$context_options[$a_context] : 
@@ -133,10 +133,6 @@ class ilAuthFactory
 		
 		switch(self::$context)
 		{
-			case self::CONTEXT_WEB:
-				include_once './Services/Authentication/classes/class.ilAuthWeb.php';
-				return new ilAuthWeb($deco,$options);
-				
 			case self::CONTEXT_HTTP:
 				include_once './Services/Authentication/classes/class.ilAuthHTTP.php';
 				return new ilAuthHTTP($deco,$options);
