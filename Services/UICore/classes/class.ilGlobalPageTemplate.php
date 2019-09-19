@@ -86,8 +86,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         );
         $sessionReminder->populatePage();
 
-        //$onScreenNotifier = new ilNotificationOSDGUI($this, $this->lng);
-        //$onScreenNotifier->populatePage();
+        $onScreenNotifier = new ilNotificationOSDGUI($this, $this->lng);
+        $onScreenNotifier->populatePage();
     }
 
 
