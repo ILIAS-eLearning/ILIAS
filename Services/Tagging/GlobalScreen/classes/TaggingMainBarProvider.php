@@ -27,23 +27,17 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $f = $this->dic->ui()->factory();
 
-        $icon = $f->symbol()->glyph()->comment();
-        $contents = $f->legacy("some contents.");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true);
+        $contents = $f->legacy("<div style='padding:20px;'>Tag One, Tag Two</div>");
 
         return [
-            $this->mainmenu->complex($this->if->identifier('tags2'))
+            $this->mainmenu->complex($this->if->identifier('tags'))
+                ->withTitle($this->dic->language()->txt("mm_tags"))
                 ->withSymbol($icon)
                 ->withContent($contents)
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withAlwaysAvailable(true)
-                ->withPosition(19)
-            ,
-            $this->mainmenu->link($this->if->identifier('tags'))
-                ->withTitle($this->dic->language()->txt("mm_tags"))
-                ->withAction("#")
-                ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
-                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true))
-                ->withPosition(20),
+                ->withPosition(20)
         ];
     }
 }
