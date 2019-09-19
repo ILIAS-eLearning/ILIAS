@@ -133,6 +133,45 @@
         ]
     },
     {
+        "name": "enshrined/svg-sanitize",
+        "version": "0.10.0",
+        "version_normalized": "0.10.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/darylldoyle/svg-sanitizer.git",
+            "reference": "5344d8511e494adf160f71f4b34024d3a3c66c82"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/5344d8511e494adf160f71f4b34024d3a3c66c82",
+            "reference": "5344d8511e494adf160f71f4b34024d3a3c66c82",
+            "shasum": ""
+        },
+        "require-dev": {
+            "codeclimate/php-test-reporter": "^0.1.2",
+            "phpunit/phpunit": "^6"
+        },
+        "time": "2019-01-11T12:31:32+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "enshrined\\svgSanitize\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Daryll Doyle",
+                "email": "daryll@enshrined.co.uk"
+            }
+        ],
+        "description": "An SVG sanitizer for PHP"
+    },
+    {
         "name": "ezyang/htmlpurifier",
         "version": "v4.11.0",
         "version_normalized": "4.11.0.0",
