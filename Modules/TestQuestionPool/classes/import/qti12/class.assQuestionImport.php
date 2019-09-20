@@ -203,7 +203,14 @@ class assQuestionImport
 	 */
 	protected function addGeneralMetadata(ilQTIItem $item)
 	{
-		$this->object->setExternalId($item->getMetadataEntry('externalID'));
+        if( $item->getMetadataEntry('externalID') )
+        {
+            $this->object->setExternalId($item->getMetadataEntry('externalID'));
+        }
+        else
+        {
+            $this->object->setExternalId($item->getMetadataEntry('externalId'));
+        }
 	}
 	
 	/**
