@@ -906,8 +906,16 @@
 			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
 			var message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
 			var chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']');
+			var username = findUsernameInConversationByMessage(messageObject);
 
-			template = template.replace(/\[\[username\]\]/g, findUsernameInConversationByMessage(messageObject));
+			if (username === "") {
+				if(prepend === false) {
+					getModule().historyBlocked = false;
+				}
+				return;
+			}
+
+			template = template.replace(/\[\[username\]\]/g, username);
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
