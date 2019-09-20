@@ -2,9 +2,10 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-
 namespace ILIAS\Tests\Setup;
+
 require_once(__DIR__."/Helper.php");
+
 use ILIAS\Setup;
 
 class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase {

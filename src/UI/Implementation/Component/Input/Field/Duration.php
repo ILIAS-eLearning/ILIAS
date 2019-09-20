@@ -317,4 +317,25 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale {
 		return null;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "var combinedDuration = function() {
+				var options = [];
+				$('#$id').find('input').each(function() {
+					options.push($(this).val());
+				});
+				return options.join(' - ');
+			}
+			$('#$id').on('input dp.change', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', combinedDuration());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', combinedDuration());";
+			return $code;
+		};
+	}
+
 }

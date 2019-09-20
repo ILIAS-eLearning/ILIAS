@@ -390,7 +390,12 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI
 	public function build(\ILIAS\UI\Component\Tree\Node\Factory $factory,
 						  $a_node, $environment = null ) : \ILIAS\UI\Component\Tree\Node\Node
 	{
-		$node = $factory->simple($this->getNodeContent($a_node));
+		$icon = ($this->getNodeIcon($a_node) != "")
+			? $this->ui->factory()->symbol()->icon()->custom($this->getNodeIcon($a_node),
+                $this->getNodeIconAlt($a_node))
+			: null;
+
+		$node = $factory->simple($this->getNodeContent($a_node), $icon);
 
 		$href = $this->getNodeHref($a_node);
 		if ($href)

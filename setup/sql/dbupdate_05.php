@@ -1334,3 +1334,34 @@ if(!$ilDB->tableExists('crs_timings_started'))
 <?php
 $ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
 ?>
+<#5517>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5518>
+<?php
+$ilDB->modifyTableColumn('frm_notification', 'frm_id', array(
+	'type'    => 'integer',
+	'length'  => 8,
+	'notnull' => true,
+	'default' => 0
+));
+?>
+<#5519>
+<?php
+$ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
+	'type'    => 'integer',
+	'length'  => 8,
+	'notnull' => true,
+	'default' => 0
+));
+?>
+<#5520>
+<?php
+$ilDB->modifyTableColumn('il_cert_template', 'version', array(
+    'type'    => 'integer',
+    'length'  => 8,
+    'notnull' => true,
+    'default' => 0
+));
+?>

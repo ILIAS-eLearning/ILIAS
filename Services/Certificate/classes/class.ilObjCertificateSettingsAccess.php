@@ -96,22 +96,7 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
         return ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName() . ".thumb.jpg";
     }
 
-    /**
-    * Returns the web path of the background image
-    *
-    * @return string The web path of the background image
-    */
-    public static function getBackgroundImagePathWeb()
-    {
-        return str_replace(
-            ilUtil::removeTrailingPathSeparators(
-            ILIAS_ABSOLUTE_PATH
-        ),
-            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            ilObjCertificateSettingsAccess::getBackgroundImagePath()
-        );
-    }
-    
+
     /**
     * Returns the web path of the background image thumbnail
     *

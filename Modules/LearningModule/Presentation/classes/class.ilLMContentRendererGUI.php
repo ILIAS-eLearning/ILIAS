@@ -85,25 +85,22 @@ class ilLMContentRendererGUI
     protected $lang;
 
     /**
+     * @var ilLMPresentationLinker
+     */
+    protected $linker;
+
+    /**
      * Constructor
      */
     public function __construct(
-        int $current_page,
-        ilObjLearningModule $lm,
-        bool $offline,
-        bool $chapter_has_no_active_page,
-        bool $deactivated_page,
-        int $focus_id,
-        string $lang,
-        ilSetting $lm_set,
-        ilLMTree $lm_tree,
+        ilLMPresentationService $service,
         ilLMPresentationGUI $parent_gui,
-        ilLMTracker $tracker,
         ilLanguage $lng,
         ilCtrl $ctrl,
         ilAccessHandler $access,
         ilObjUser $user,
-        ilHelpGUI $help
+        ilHelpGUI $help,
+        $requested_obj_id
     ) {
         global $DIC;
 
@@ -111,22 +108,23 @@ class ilLMContentRendererGUI
         $this->user = $user;
         $this->help = $help;
         $this->ctrl = $ctrl;
-        $this->lm_tree = $lm_tree;
-        $this->lang = $lang;
-        $this->current_page = $current_page;
-        $this->lm = $lm;
-        $this->lm_set = $lm_set;
+        $this->lm_tree = $service->getLMTree();
+        $this->lang = $service->getPresentationStatus()->getLang();
+        $this->current_page = $service->getNavigationStatus()->getCurrentPage();
+        $this->lm = $service->getLearningModule();
+        $this->lm_set = $service->getSettings();
         $this->lng = $lng;
-        $this->offline = $offline;
-        $this->tracker = $tracker;
+        $this->offline = $service->getPresentationStatus()->offline;
+        $this->tracker = $service->getTracker();
+        $this->linker = $service->getLinker();
         $this->parent_gui = $parent_gui;
-        $this->chapter_has_no_active_page = $chapter_has_no_active_page;
-        $this->deactivated_page = $deactivated_page;
-        $this->focus_id = $focus_id;
+        $this->chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();
+        $this->deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
+        $this->focus_id = $service->getPresentationStatus()->getFocusId();
 
-        $this->search_string = $_GET["srcstring"];
-        $this->requested_obj_id = (int) $_GET["obj_id"];
-        $this->requested_focus_return = (int) $_GET["focus_return"];
+        $this->search_string = $service->getPresentationStatus()->getSearchString();
+        $this->requested_obj_id = $requested_obj_id;
+        $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
     }
 
     /**
@@ -296,14 +294,13 @@ class ilLMContentRendererGUI
         ilCourseLMHistory::_updateLastAccess($ilUser->getId(), $this->lm->getRefId(), $page_id);
 
         // read link targets
-        // @todo 6.0
-        //		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-        //		$link_xml.= $this->getLinkTargetsXML();
+        $link_xml = $this->linker->getLinkXML($int_links, $this->linker->getLayoutLinkTargets());
+        $link_xml.= $this->linker->getLinkTargetsXML();
 
         // get lm page object
         $lm_pg_obj = new ilLMPageObject($this->lm, $page_id);
         $lm_pg_obj->setLMId($this->lm->getId());
-        //		$page_object_gui->setLinkXML($link_xml);
+        $page_object_gui->setLinkXML($link_xml);
 
         // determine target frames for internal links
         $page_object_gui->setLinkFrame($_GET["frame"]);

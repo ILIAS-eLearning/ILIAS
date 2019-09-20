@@ -1,4 +1,4 @@
-(function($, $scope, $chat, $menu){
+(function($, $scope, $chat){
 	'use strict';
 
 	var TYPE_CONSTANT	= 'osc';
@@ -147,8 +147,6 @@
 			getModule().emoticons = new Smileys(getModule().config.emoticons);
 			getModule().messageFormatter = new MessageFormatter(getModule().getEmoticons());
 
-			$menu.setMessageFormatter(getModule().getMessageFormatter());
-
 			$.each(getModule().config.initialUserData, function(usrId, item) {
 				getModule().participantsNames[usrId] = item.public_name;
 
@@ -156,8 +154,6 @@
 				img.src = item.profile_image;
 				getModule().participantsImages[usrId] = img;
 			});
-			$menu.syncPublicNames(getModule().participantsNames);
-			$menu.syncProfileImages(getModule().participantsImages);
 
 			$(window).on('storage', function(e) {
 				if (
@@ -406,7 +402,7 @@
 		 */
 		onRemoveConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
-			$menu.remove(conversation);
+			// TODO: Remove conversation/notification from notification center
 		},
 
 		/**
@@ -415,7 +411,7 @@
 		 */
 		onCloseConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
-			$menu.addOrUpdate(conversation);
+			// TODO: Add or update conversation/notification to notification center
 		},
 
 		/**
@@ -424,7 +420,7 @@
 		 */
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
-			$menu.addOrUpdate(conversation);
+			// TODO: Add or update conversation/notification to notification center
 		},
 
 		/**
@@ -565,14 +561,12 @@
 			}).done(function(response) {
 				$.each(response, function(id, item){
 					getModule().participantsNames[id] = item.public_name;
-					$menu.syncPublicNames(getModule().participantsNames);
 
 					var img = new Image();
 					img.src = item.profile_image;
 					getModule().participantsImages[id] = img;
 
 					$('[data-onscreenchat-avatar='+id+']').attr('src', img.src);
-					$menu.syncProfileImages(getModule().participantsImages);
 				});
 
 				dfd.resolve();
@@ -689,7 +683,6 @@
 
 		onMenuItemClicked: function(e) {
 			$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
-			$menu.close();
 		},
 
 		updatePlaceholder: function(e) {
@@ -1250,21 +1243,23 @@
 			}
 		}
 
-		/**
-		 * 
-		 * @param {string} src
-		 * @returns {Promise<unknown>}
-		 */
-		let Img = function(src) {
-			return new Promise((resolve, reject) => {
-				let img = new Image();
-				img.addEventListener('load', e => resolve(src));
-				img.addEventListener('error', () => {
-					reject(new Error("Failed to load image's URL: " + src));
-				});
-				img.src = src;
-			});
-		};
+        /**
+         *
+         * @param {string} src
+         * @returns {Promise<unknown>}
+         */
+        let Img = function(src) {
+            return new Promise(function(resolve, reject) {
+                let img = new Image();
+                img.addEventListener('load', function(e) {
+                    resolve(src)
+                    img.addEventListener('error', function() {
+                        reject(new Error("Failed to load image's URL: " + src));
+                    });
+                });
+                img.src = src;
+            });
+        };
 
 		/**
 		 * Sets smileys into text
@@ -1318,4 +1313,4 @@
 		};
 	};
 
-})(jQuery, window, window.il.Chat, window.il.OnScreenChatMenu);
+})(jQuery, window, window.il.Chat);

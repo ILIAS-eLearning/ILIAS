@@ -28,7 +28,7 @@ class InitToolProvider extends AbstractDynamicToolProvider
         $content = $this->getDevModeContent();
         $identification = $this->identification_provider->identifier('devmode');
         $devmode_infos = $this->factory->tool($identification)
-            ->withPosition(1)
+            ->withPosition(999)
             ->withTitle("DEVMODE")
             ->withSymbol($this->dic->ui()->factory()->symbol()->glyph()->settings())
             ->withContent($this->dic->ui()->factory()->legacy($content));

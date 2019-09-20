@@ -4,7 +4,6 @@
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\MainControls as IMainControls;
-use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements IMainControls\Factory
@@ -52,6 +51,14 @@ class Factory implements IMainControls\Factory
 	public function slate(): IMainControls\Slate\Factory
 	{
 		return $this->slate_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function footer(array $links, string $text=''): IMainControls\Footer
+	{
+		return new Footer($links, $text);
 	}
 
 }

@@ -47,6 +47,7 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -631,6 +632,7 @@ assessment#:#tst_conflicting_setting#:#This setting does conflict with another s
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
+assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 assessment#:#error_open_image_file#:#Error opening an image file!
@@ -7129,7 +7131,7 @@ style#:#sty_media_char#:#Media
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
-style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
@@ -14030,7 +14032,6 @@ chatroom#:#chat_osc_user#:#User
 chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.
-chatroom#:#chat_osc_section_head_other_rooms#:#Public Chatroom
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
@@ -14067,6 +14068,8 @@ chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
+common#:#nc_mail_unread_messages_number_p#:#You have %s unread emails.
+common#:#nc_mail_unread_messages_number_s#:#You have one unread email.
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
@@ -15195,3 +15198,11 @@ common#:#mm_certificates#:#Certificates
 common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
 common#:#mm_personal_workspace#:#Personal Workspace
 content#:#lm_editing_view#:#Editing View
+common#:#mm_repo_tree_view_act#:#Activate Tree
+common#:#mm_repo_tree_view_deact#:#Deactivate Tree
+content#:#cont_tool_media#:#Media
+content#:#cont_tool_faq#:#FAQ
+exc#:#exc_text_saved#:#Text has been saved.
+common#:#nc_contact_requests_headline#:#Contact Requests
+common#:#nc_contact_requests_number_s#:#You have %s Contact Request
+common#:#nc_contact_requests_number_p#:#You have %s Contact Requests

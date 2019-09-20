@@ -19,14 +19,22 @@ if (!window.console) {
 }
 
 // global il namespace, additional objects usually should be added to this one
-il = {};
+if (typeof il === 'undefined') {
+	il = {}
+}
 
 // utility functions
 il.Util = {
 	
 	addOnLoad: function(func)
 	{
-		$().ready(func);
+		$().ready(function() {
+			try {
+				func();
+			} catch (err) {
+				console.error(err);
+			}
+		});
 /*		if (!document.getElementById | !document.getElementsByTagName) return;
 	
 		var oldonload=window.onload;

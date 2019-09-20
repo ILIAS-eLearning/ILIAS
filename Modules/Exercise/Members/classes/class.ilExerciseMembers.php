@@ -215,7 +215,9 @@ class ilExerciseMembers
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
 		{
-			$tmp_arr_members[] = $row->usr_id;
+			if (ilObject::_lookupType($row->usr_id) == "usr") {
+                $tmp_arr_members[] = $row->usr_id;
+            }
 		}
 		$this->setMembers($tmp_arr_members);
 

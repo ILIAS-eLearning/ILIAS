@@ -6,13 +6,12 @@ include_once("./Services/Component/classes/class.ilModule.php");
 /**
  * Class ilCloudModule
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  *
  * @ingroup ModulesCloud
  */
-
 class ilCloudModule extends ilModule
 {
 
@@ -24,6 +23,7 @@ class ilCloudModule extends ilModule
         parent::__construct();
     }
 
+
     /**
      * Core modules vs. plugged in modules
      */
@@ -31,6 +31,7 @@ class ilCloudModule extends ilModule
     {
         return true;
     }
+
 
     /**
      * Get version of module. This is especially important for
@@ -40,7 +41,6 @@ class ilCloudModule extends ilModule
     {
         return "-";
     }
-
 }
 
 ?>

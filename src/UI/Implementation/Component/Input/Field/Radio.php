@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -99,4 +100,17 @@ class Radio extends Input implements C\Input\Field\Radio {
 		return $clone;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());";
+			return $code;
+		};
+	}
 }

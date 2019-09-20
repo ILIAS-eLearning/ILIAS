@@ -231,26 +231,18 @@ class ilOpenIdConnectUserSync
 			$this->logger->dump($role_id);
 			$this->logger->dump($role_info);
 
+			list($role_attribute, $role_value) = explode('::', $role_info['value']);
+
 			if(
-				!isset($role_info['value']) ||
-				!strlen($role_info['value'])
+				!$role_attribute ||
+				!$role_value
 			) {
-				$this->logger->debug('No role mapping configuration for: ' . $role_id);
+				$this->logger->debug('No valid role mapping configuration for: ' . $role_id);
 				continue;
 			}
 
-			$value = trim($role_info['value']);
-
-			if(
-				!isset($this->user_info->groups) ||
-				!is_array($this->user_info->groups)
-			) {
+			if(!isset($this->user_info->$role_attribute)) {
 				$this->logger->debug('No user info passed');
-				continue;
-			}
-
-			if(!in_array($value, $this->user_info->groups)) {
-				$this->logger->debug('User account groups have no: ' . $value);
 				continue;
 			}
 
@@ -262,6 +254,16 @@ class ilOpenIdConnectUserSync
 				continue;
 			}
 
+			if(is_array($this->user_info->$role_attribute)) {
+				if(!in_array($role_value, $this->user_info->$role_attribute)) {
+					$this->logger->debug('User account has no ' . $role_value);
+					continue;
+				}
+			}
+			elseif(strcmp($this->user_info->$role_attribute, $role_value) !== 0) {
+				$this->logger->debug('User account has no ' . $role_value);
+				continue;
+			}
 			$this->logger->debug('Matching role mapping for role_id: ' . $role_id);
 
 			$found_role = true;

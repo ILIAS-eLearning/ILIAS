@@ -10,24 +10,29 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 	const MODE_DIRECT_REGISTRATION = 1;
 	const MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION = 2;
 
-	/** @var \ilRegistrationSettings */
+	/** @var ilRegistrationSettings */
 	private $settings;
 
-	/** @var \ilLanguage */
+	/** @var ilLanguage */
 	private $lng;
+
+	/** @var ilLogger */
+	private $logger;
 
 	/** @var int */
 	private $mode = self::MODE_DIRECT_REGISTRATION;
 
 	/**
 	 * ilAccountRegistrationMail constructor.
-	 * @param \ilRegistrationSettings $settings
-	 * @param \ilLanguage $lng
+	 * @param ilRegistrationSettings $settings
+	 * @param ilLanguage             $lng
+	 * @param ilLogger               $logger
 	 */
-	public function __construct(\ilRegistrationSettings $settings, \ilLanguage $lng)
+	public function __construct(ilRegistrationSettings $settings, ilLanguage $lng, ilLogger $logger)
 	{
 		$this->settings = $settings;
 		$this->lng = $lng;
+		$this->logger = $logger;
 
 		parent::__construct(false);
 	}
@@ -63,11 +68,27 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 	}
 
 	/**
-	 * @param \ilObjUser $user
-	 * @param string $rawPassword
+	 * @param $mailData
 	 * @return bool
 	 */
-	private function trySendingUserDefinedAccountMail(\ilObjUser $user, $rawPassword)
+	private function isEmptyMailConfigurationData($mailData)
+	{
+		return !(
+			isset($mailData['body']) &&
+			is_string($mailData['body']) &&
+			$mailData['body'] !== '' &&
+			isset($mailData['subject']) &&
+			is_string($mailData['subject']) &&
+			$mailData['subject'] !== ''
+		);
+	}
+
+	/**
+	 * @param ilObjUser $user
+	 * @param string    $rawPassword
+	 * @return bool
+	 */
+	private function trySendingUserDefinedAccountMail(ilObjUser $user, $rawPassword)
 	{
 		$trimStrings = function($value) {
 			if (is_string($value)) {
@@ -77,26 +98,49 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 			return $value;
 		};
 
-		$mailData = \ilObjUserFolder::_lookupNewAccountMail($user->getLanguage());
+		$this->logger->debug(sprintf(
+			"Trying to send configurable email dependent welcome email to user %s (id: %s|language: %s) ...",
+			$user->getLogin(),
+			$user->getId(),
+			$user->getLanguage()
+		));
+
+		$mailData = ilObjUserFolder::_lookupNewAccountMail($user->getLanguage());
 		if (!is_array($mailData)) {
+			$this->logger->debug(sprintf(
+				"Did not find any email configuration for language '%s' at all, skipping attempt ...",
+				$user->getLanguage()
+			));
 			return false;
 		}
 
 		$mailData = array_map($trimStrings, $mailData);
 
-		if (!($mailData['body'] !== '' && $mailData['subject'] !== '')) {
-			$mailData = \ilObjUserFolder::_lookupNewAccountMail($this->language->getDefaultLanguage());
+		if ($this->isEmptyMailConfigurationData($mailData)) {
+			$this->logger->debug(sprintf(
+				"Either subject or email missing, trying to determine email configuration via default language: %s",
+				$this->language->getDefaultLanguage()
+			));
+
+			$mailData = ilObjUserFolder::_lookupNewAccountMail($this->language->getDefaultLanguage());
 			if (!is_array($mailData)) {
+				$this->logger->debug(sprintf(
+					"Did not find any email configuration for language '%s' at all, skipping attempt ...",
+					$this->language->getDefaultLanguage()
+				));
 				return false;
 			}
 
 			$mailData = array_map($trimStrings, $mailData);
-			if (!($mailData['body'] !== '' && $mailData['subject'] !== '')) {
+			if ($this->isEmptyMailConfigurationData($mailData)) {
+				$this->logger->debug(sprintf(
+					"Did not find any valid email configuration, skipping attempt ..."
+				));
 				return false;
 			}
 		}
 
-		$accountMail = new \ilAccountMail();
+		$accountMail = new ilAccountMail();
 		$accountMail->setUser($user);
 
 		if ($this->settings->passwordGenerationEnabled()) {
@@ -104,25 +148,52 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 		}
 
 		if (isset($mailData['att_file'])) {
-			$fs = new \ilFSStorageUserFolder(USER_FOLDER_ID);
+			$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
 			$fs->create();
-			$path = $fs->getAbsolutePath() . '/';
 
-			$accountMail->addAttachment($path . '/' . $mailData['lang'], $mailData['att_file']);
+			$pathToFile = '/' . implode('/', array_map(function($pathPart) {
+				return trim($pathPart, '/');
+			}, [
+				$fs->getAbsolutePath(),
+				$mailData['lang'],
+			]));
+
+			$accountMail->addAttachment($pathToFile, $mailData['att_file']);
+
+			$this->logger->debug(sprintf(
+				"Attaching '%s' as '%s' ...",
+				$pathToFile,
+				$mailData['att_file']
+			));
+		} else {
+			$this->logger->debug(sprintf(
+				"Not attachments configured for this email configuration ..."
+			));
 		}
 
 		$accountMail->send();
+
+		$this->logger->debug(sprintf(
+			"Welcome email sent"
+		));
 
 		return true;
 	}
 
 	/**
-	 * @param \ilObjUser $user
-	 * @param string $rawPassword
-	 * @param bool $usedRegistrationCode
+	 * @param ilObjUser $user
+	 * @param string    $rawPassword
+	 * @param bool      $usedRegistrationCode
 	 */
-	private function sendLanguageVariableBasedAccountMail(\ilObjUser $user, $rawPassword, $usedRegistrationCode)
+	private function sendLanguageVariableBasedAccountMail(ilObjUser $user, $rawPassword, $usedRegistrationCode)
 	{
+		$this->logger->debug(sprintf(
+			"Sending language variable dependent welcome email to user %s (id: %s|language: %s) as fallback ...",
+			$user->getLogin(),
+			$user->getId(),
+			$user->getLanguage()
+		));
+
 		$this->initMimeMail();
 
 		$this->initLanguageByIso2Code($user->getLanguage());
@@ -163,14 +234,18 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 		$this->appendBody(ilMail::_getInstallationSignature());
 
 		$this->sendMimeMail($user->getEmail());
+
+		$this->logger->debug(sprintf(
+			"Welcome email sent"
+		));
 	}
 
 	/**
-	 * @param \ilObjUser $user
-	 * @param string $rawPassword
-	 * @param bool $usedRegistrationCode
+	 * @param ilObjUser $user
+	 * @param string    $rawPassword
+	 * @param bool      $usedRegistrationCode
 	 */
-	public function send(\ilObjUser $user, $rawPassword = '', $usedRegistrationCode = false)
+	public function send(ilObjUser $user, $rawPassword = '', $usedRegistrationCode = false)
 	{
 		if (!$this->trySendingUserDefinedAccountMail($user, $rawPassword)) {
 			$this->sendLanguageVariableBasedAccountMail($user, $rawPassword, $usedRegistrationCode);

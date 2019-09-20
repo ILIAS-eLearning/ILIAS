@@ -1983,6 +1983,9 @@ class ilObject
 		$customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
 		$customIcon->copy($new_obj->getId());
 
+        $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($this->getId());
+        $tile_image->copy($new_obj->getId());
+
 		$ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
 			'object'             => $new_obj,
 			'cloned_from_object' => $this,

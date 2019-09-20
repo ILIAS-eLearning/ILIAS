@@ -196,7 +196,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 	/**
 	 * @return string
 	 */
-	protected function getIconDirectory(): string 
+	protected function getIconDirectory(): string
 	{
 		return implode(DIRECTORY_SEPARATOR, [
 			$this->config->getBaseDirectory(),
@@ -246,4 +246,22 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 			$this->getRelativePath()
 		]);
 	}
+
+    /**
+     * @param $source_dir
+     * @param $filename
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
+    public function createFromImportDir($source_dir)
+    {
+        $target_dir = implode(DIRECTORY_SEPARATOR, [
+            \ilUtil::getWebspaceDir(),
+            $this->getIconDirectory()
+        ]);
+        ilUtil::rCopy($source_dir, $target_dir);
+        $this->persistIconState($this->getRelativePath());
+    }
+
 }

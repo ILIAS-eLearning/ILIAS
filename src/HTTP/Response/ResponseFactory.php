@@ -14,12 +14,13 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author  Nicolas Schaefli <ns@studer-raimann.ch>
  */
-interface ResponseFactory {
+interface ResponseFactory
+{
 
-	/**
-	 * Creates a new response with the help of the underlying library.
-	 *
-	 * @return ResponseInterface
-	 */
-	public function create();
+    /**
+     * Creates a new response with the help of the underlying library.
+     *
+     * @return ResponseInterface
+     */
+    public function create();
 }

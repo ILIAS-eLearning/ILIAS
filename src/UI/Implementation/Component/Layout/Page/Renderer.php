@@ -51,6 +51,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
+		if($component->hasFooter()) {
+			$tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
+		}
+
 		$component = $component->withOnLoadCode(
 			function($id) {
 				return "$(document).ready(function() {

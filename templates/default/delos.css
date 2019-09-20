@@ -7484,7 +7484,9 @@ hr.il-divider-with-label {
     float: none;
     zoom: 1;
     vertical-align: top;
-    width: auto;
+    /* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
+				see known issues at https://caniuse.com/#search=calc */
+    width: 100%;
   }
   .panel-secondary .il-item .dropdown {
     position: static;
@@ -8295,38 +8297,33 @@ div.alert ul > li:before {
 }
 .il-tree ul {
   list-style-type: none;
-  padding-left: 20px;
+  padding: 4px 0 4px 20px;
 }
 .il-tree li.il-tree-node .node-line {
   cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
 }
-.il-tree .il-tree-node > ul {
-  display: none;
+.il-tree li.il-tree-node .node-line > .node-label .icon {
+  vertical-align: text-bottom;
 }
-.il-tree .node-byline {
-  display: block;
-  line-height: 0.9em;
-  margin-bottom: 4px;
-  text-decoration: none;
-  cursor: text;
-  font-size: smaller;
+.il-tree li.il-tree-node .node-line > .node-byline {
+  width: 100%;
 }
-.il-tree .il-tree-node.expanded > ul {
-  display: block;
+.il-tree li.il-tree-node.highlighted > .node-line {
+  background-color: #ffffd0;
 }
-.il-tree .il-tree-node.expandable .node-label {
-  padding-left: 2px;
-}
-.il-tree .il-tree-node.expandable > .node-line:before {
+.il-tree li.il-tree-node.expandable > .node-line:before {
   font-family: 'Glyphicons Halflings';
   content: "\e250";
+  position: absolute;
+  margin-left: -20px;
 }
-.il-tree .il-tree-node.expandable.expanded > .node-line:before {
-  font-family: 'Glyphicons Halflings';
+.il-tree li.il-tree-node.expandable.expanded > .node-line:before {
   content: "\e252";
 }
-.il-tree .il-tree-node.highlighted > .node-line {
-  background-color: #ffffd0;
+.il-tree li.il-tree-node:not(.expanded) > ul {
+  display: none;
 }
 .shadow-right {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
@@ -9184,6 +9181,30 @@ footer {
     font-size: 4rem;
     height: 50px;
   }
+}
+.il-maincontrols-footer {
+  color: white;
+  font-size: 0.9em;
+  padding: 2px 10px;
+}
+.il-maincontrols-footer .il-footer-content div {
+  float: left;
+}
+.il-maincontrols-footer .il-footer-links ul {
+  list-style: none;
+  paddinng: 0px;
+  margin: 0px;
+}
+.il-maincontrols-footer .il-footer-links ul li {
+  display: inline-block;
+  margin-left: 5px;
+}
+.il-maincontrols-footer .il-footer-links ul li a {
+  color: white;
+}
+.il-maincontrols-footer .il-footer-permanent-url {
+  display: inline-block;
+  border: 1px solid gray;
 }
 .il-drilldown ul {
   list-style: none;
@@ -10101,6 +10122,21 @@ footer {
 }
 .il-glyphicon-angry:before {
   content: "\1f620";
+}
+.il-link.link-bulky {
+  display: block;
+  text-decoration: none;
+}
+.il-link.link-bulky .icon,
+.il-link.link-bulky .bulky-label {
+  display: inline-block;
+}
+.il-link.link-bulky .icon {
+  margin-bottom: -3px;
+  text-decoration: none;
+}
+.il-link.link-bulky .bulky-label {
+  color: #333333;
 }
 /*		Color scheme
 		Dark BLue: #0f2152;
@@ -13534,6 +13570,13 @@ div.ilCOPGMediaPrint {
   background-repeat: no-repeat !important;
   background-size: auto 90% !important;
   padding: 1px !important;
+}
+/* fullscreen iframe */
+#il-copg-mob-fullscreen {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
 }
 /* Services/Calendar */
 td.even {

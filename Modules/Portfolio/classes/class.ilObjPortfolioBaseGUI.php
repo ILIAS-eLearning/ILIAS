@@ -51,6 +51,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		$this->lng->loadLanguageModule("prtf");
 		$this->lng->loadLanguageModule("user");		
+		$this->lng->loadLanguageModule("obj");		
 	}
 	
 	protected function addLocatorItems()

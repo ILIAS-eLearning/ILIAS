@@ -106,6 +106,35 @@ class Renderer extends AbstractComponentRenderer
 
 
 	/**
+	 * @param Input $input
+	 * @return Input|\ILIAS\UI\Implementation\Component\JavaScriptBindable
+	 */
+	protected function setSignals(Input $input) {
+		$signals = null;
+		foreach ($input->getTriggeredSignals() as $s)
+		{
+			$signals[] = [
+				"signal_id" => $s->getSignal()->getId(),
+				"event" => $s->getEvent(),
+				"options" => $s->getSignal()->getOptions()
+			];
+		}
+		if ($signals !== null) {
+			$signals = json_encode($signals);
+
+
+			$input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
+				$code = "il.UI.input.setSignalsForId('$id', $signals);";
+				return $code;
+			});
+
+			$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
+		}
+		return $input;
+	}
+
+
+	/**
 	 * @param Component\Input\Field\Input $input
 	 *
 	 * @return string
@@ -184,7 +213,7 @@ class Renderer extends AbstractComponentRenderer
 	protected function maybeRenderId(Component\JavascriptBindable $component, Template $tpl) {
 		$id = $this->bindJavaScript($component);
 		if ($id !== null) {
-			$tpl->setCurrentBlock("with_id");
+			$tpl->setCurrentBlock("id");
 			$tpl->setVariable("ID", $id);
 			$tpl->parseCurrentBlock();
 		}
@@ -282,12 +311,15 @@ class Renderer extends AbstractComponentRenderer
 	 * @return string
 	 */
 	protected function renderInputField(Template $tpl, Input $input, $id) {
+
+		$input = $this->setSignals($input);
+
 		if($input instanceof Component\Input\Field\Password) {
 			$id = $this->additionalRenderPassword($tpl, $input);
 		}
 
 		if($input instanceof Textarea){
-			$tpl = $this->renderTextareaField($tpl, $input);
+			$this->renderTextareaField($tpl, $input);
 		}
 
 		$tpl->setVariable("NAME", $input->getName());
@@ -363,6 +395,10 @@ class Renderer extends AbstractComponentRenderer
 				break;
 		}
 
+		if ($id === null) {
+			$this->maybeRenderId($input, $tpl);
+		}
+
 		return $tpl->get();
 	}
 
@@ -432,7 +468,7 @@ class Renderer extends AbstractComponentRenderer
 	 * @return string | false
 	 */
 	protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input) {
-		$id = false;
+		$id = null;
 		if($input->getRevelation()) {
 			global $DIC;
 			$f = $this->getUIFactory();
@@ -455,6 +491,7 @@ class Renderer extends AbstractComponentRenderer
 					;
 				});
 			$id = $this->bindJavaScript($input);
+			$tpl->setVariable("ID", $id);
 
 			$glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
 				->withOnClick($sig_reveal);
@@ -481,16 +518,19 @@ class Renderer extends AbstractComponentRenderer
 			$min = $input->getMinLimit();
 			$max = $input->getMaxLimit();
 
-			$input = $input->withOnLoadCode(function($id) use($counter_id_prefix, $min, $max) {
+			$input = $input->withAdditionalOnLoadCode(function($id) use($counter_id_prefix, $min, $max) {
 				return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
 			});
 
 			$textarea_id = $this->bindJavaScript($input);
+			$tpl->setCurrentBlock("id");
 			$tpl->setVariable("ID", $textarea_id);
+			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("limit");
+			$tpl->setVariable("COUNT_ID", $textarea_id);
 			$tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
+			$tpl->parseCurrentBlock();
 		}
-
-		return $tpl;
 	}
 
 
@@ -504,6 +544,7 @@ class Renderer extends AbstractComponentRenderer
 		$input_tpl = $this->getTemplate("tpl.radio.html", true, true);
 
 		//monitor change-events
+		$input = $this->setSignals($input);
 		$id = $this->bindJavaScript($input) ?? $this->createId();
 		$input_tpl->setVariable("ID", $id);
 
@@ -721,6 +762,7 @@ JS;
 		}
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
 		\ilCalendarUtil::initDateTimePicker();
+		$input = $this->setSignals($input);
 		$input = $input->withAdditionalOnLoadCode(function($id) use ($config) {
 			return '$("#'.$id.'").datetimepicker('.json_encode($config).')';
 		});
@@ -768,6 +810,7 @@ JS;
 			$tpl->parseCurrentBlock();
 		}
 
+		$input = $this->setSignals($input);
 		$input = $input->withAdditionalOnLoadCode(
 			function($id) {
 				return "$(document).ready(function() {
