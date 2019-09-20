@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 
 /**
  * Class ImageAndTextDisplayDefinition
@@ -48,22 +49,35 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 		return $this->image;
 	}
 
-	public static function getFields(): array {
+	public static function getFields(QuestionPlayConfiguration $play = null): array {
 	    global $DIC;
 	    
 	    $fields = [];
-		$fields[] = new AnswerOptionFormFieldDefinition(
-			$DIC->language()->txt('asq_label_answer_text'),
-			AnswerOptionFormFieldDefinition::TYPE_TEXT,
-			self::VAR_MCDD_TEXT
-		);
-
-		$fields[] = new AnswerOptionFormFieldDefinition(
-		    $DIC->language()->txt('asq_label_answer_image'),
-			AnswerOptionFormFieldDefinition::TYPE_IMAGE,
-			self::VAR_MCDD_IMAGE
-		);
-
+	    
+	    if (!is_null($play) &&
+	        method_exists($play->getEditorConfiguration(), 'isSingleLine') &&
+	        !$play->getEditorConfiguration()->isSingleLine()) 
+	    {
+	        $fields[] = new AnswerOptionFormFieldDefinition(
+	            $DIC->language()->txt('asq_label_answer_text'),
+	            AnswerOptionFormFieldDefinition::TYPE_TEXT_AREA,
+	            self::VAR_MCDD_TEXT
+	            );
+	    }
+	    else 
+	    {
+	        $fields[] = new AnswerOptionFormFieldDefinition(
+	            $DIC->language()->txt('asq_label_answer_text'),
+	            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+	            self::VAR_MCDD_TEXT
+	            );
+	        
+	        $fields[] = new AnswerOptionFormFieldDefinition(
+	            $DIC->language()->txt('asq_label_answer_image'),
+	            AnswerOptionFormFieldDefinition::TYPE_IMAGE,
+	            self::VAR_MCDD_IMAGE
+	            );
+	    }
 
 		return $fields;
 	}
@@ -71,7 +85,8 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 	public static function getValueFromPost(string $index) {
 		return new ImageAndTextDisplayDefinition(
 			$_POST[$index . self::VAR_MCDD_TEXT],
-			ImageUploader::UploadImage($index . self::VAR_MCDD_IMAGE)
+			array_key_exists(self::VAR_MCDD_IMAGE, $_POST) ? 
+		      ImageUploader::UploadImage($index . self::VAR_MCDD_IMAGE) : ''
 		);
 	}
 

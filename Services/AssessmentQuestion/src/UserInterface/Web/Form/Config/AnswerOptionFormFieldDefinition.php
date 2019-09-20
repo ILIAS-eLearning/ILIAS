@@ -14,6 +14,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
  */
 class AnswerOptionFormFieldDefinition {
 	const TYPE_TEXT = 'TextField';
+	const TYPE_TEXT_AREA = 'TextArea';
 	const TYPE_NUMBER = 'NumberField';
 	const TYPE_IMAGE = 'ImageField';
     const TYPE_RADIO = "RadioField"; 

@@ -1,4 +1,7 @@
+let usingTiny = false;
+
 let add_row = function() {
+	usingTiny = false;
     let row = $(this).parents(".aot_table").find(".aot_row").eq(0);
     let table = $(this).parents(".aot_table").children("tbody");
 
@@ -9,6 +12,10 @@ let add_row = function() {
     process_row(new_row, new_count);
     table.append(new_row);
     $(".js_count").val(new_count);
+    
+    if (usingTiny) {
+    	tinymce.init(tinymce.get()[0].settings);
+    }
 };
 
 let remove_row = function() {
@@ -24,8 +31,13 @@ let remove_row = function() {
 };
 
 let clear_row = function(row) {
-    row.find("input").each(function() {
+    row.find("input, textarea").each(function() {
         $(this).val('');
+        if ($(this).siblings('.mceEditor').length > 0) {
+        	$(this).siblings('.mceEditor').remove();
+        	$(this).show();
+        	usingTiny = true;
+        }
     });
 
     return row;
@@ -55,7 +67,7 @@ let set_input_ids = function(table) {
 };
 
 let process_row = function(row, current_row) {
-    row.find("input[name]").each(function() {
+    row.find("input[name],textarea[name]").each(function() {
         let input = $(this);
         input.attr("name", update_input_name(input.attr("name"), current_row));
         input.prop("id", update_input_name(input.prop("id"), current_row));

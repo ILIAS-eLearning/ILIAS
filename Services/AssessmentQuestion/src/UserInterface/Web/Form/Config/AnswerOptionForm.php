@@ -9,10 +9,12 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use Exception;
 use ilImageFileInputGUI;
 use ilNumberInputGUI;
+use ilObjAdvancedEditing;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilTemplate;
 use ilTextInputGUI;
+use ilTextAreaInputGUI;
 
 /**
  * Class AnswerOptionForm
@@ -66,8 +68,11 @@ class AnswerOptionForm extends ilTextInputGUI {
 		    $this->form_configuration = $this->collectConfigurations($configuration);
 		}
 		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		    $this->options = $this->readAnswerOptions()->getOptions();
+		}
 		//add empty row if there are no answers
-		if (sizeof($options) === 0) {
+		else if (sizeof($options) === 0) {
 			$this->options[] = null;
 		} else {
 			$this->options = $options;
@@ -197,7 +202,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($play)::getDisplayDefinitionClass();
 	    
 	    
-	    return array_merge($dd_class::getFields(), $sd_class::getFields());
+	    return array_merge($dd_class::getFields($play), $sd_class::getFields($play));
 	}
 
 	/**
@@ -224,6 +229,9 @@ class AnswerOptionForm extends ilTextInputGUI {
 	        case AnswerOptionFormFieldDefinition::TYPE_TEXT:
 	            return $this->generateTextField($row_id . $definition->getPostVar(), $value);
 	            break;
+	        case AnswerOptionFormFieldDefinition::TYPE_TEXT_AREA:
+	            return $this->generateTextArea($row_id . $definition->getPostVar(), $value);
+	            break;
 	        case AnswerOptionFormFieldDefinition::TYPE_IMAGE:
 	            return $this->generateImageField($row_id . $definition->getPostVar(), $value);
 	            break;
@@ -231,8 +239,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 	            return $this->generateNumberField($row_id . $definition->getPostVar(), $value);
 	            break;
 	        case AnswerOptionFormFieldDefinition::TYPE_RADIO;
-	        return $this->generateRadioField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
-	        break;
+    	        return $this->generateRadioField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
+    	        break;
 	        default:
 	            throw new Exception('Please implement all fieldtypes you define');
 	            break;
@@ -251,6 +259,17 @@ class AnswerOptionForm extends ilTextInputGUI {
 		$this->setFieldValue($post_var, $value, $field);
 		
 		return $field->render();
+	}
+	
+	private function generateTextArea(string $post_var, $value) {
+	    $tpl = new ilTemplate("tpl.TextAreaField.html", true, true, "Services/AssessmentQuestion");
+	    
+	    $tpl->setCurrentBlock('textarea');
+	    $tpl->setVariable('POST_NAME', $post_var);
+	    $tpl->setVariable('VALUE', $value);
+	    $tpl->parseCurrentBlock();
+	    
+	    return $tpl->get();
 	}
 
 	/**
