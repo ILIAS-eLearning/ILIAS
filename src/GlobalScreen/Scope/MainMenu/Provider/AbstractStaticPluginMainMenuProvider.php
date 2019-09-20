@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
+use ILIAS\GlobalScreen\Provider\PluginProvider;
 use ilPlugin;
 
 /**
@@ -8,31 +10,53 @@ use ilPlugin;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractStaticPluginMainMenuProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
+abstract class AbstractStaticPluginMainMenuProvider extends AbstractStaticMainMenuProvider implements PluginProvider, StaticMainMenuProvider
 {
 
     /**
      * @var ilPlugin
      */
-    protected $plugin;
+    private $plugin;
+    /**
+     * @var PluginIdentificationProvider
+     */
+    protected $if;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic, ilPlugin $plugin)
+    final public function __construct(Container $dic, ilPlugin $plugin)
     {
         parent::__construct($dic);
         $this->plugin = $plugin;
-        $this->if = $this->globalScreen()->identification()->plugin($plugin, $this);
+        $this->if = $this->globalScreen()->identification()->plugin($plugin->getId(), $this);
     }
 
 
     /**
      * @return string
      */
-    public final function getProviderNameForPresentation() : string
+    final public function getProviderNameForPresentation() : string
     {
         return $this->plugin->getPluginName();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    final public function getPluginID() : string
+    {
+        return $this->plugin->getId();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    final public function id() : PluginIdentificationProvider
+    {
+        return $this->if;
     }
 }
