@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Provider;
+<?php
+
+namespace ILIAS\GlobalScreen\Provider;
 
 use ILIAS\GlobalScreen\Identification\PluginIdentificationProvider;
 

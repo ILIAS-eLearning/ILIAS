@@ -2,14 +2,15 @@
 
 namespace ILIAS\GlobalScreen\Provider;
 
-use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
-use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
-use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarPluginProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
+use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolPluginProvider;
 
 /**
- * Class DefaultProviderCollection
+ * Class PluginProviderCollection
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -17,31 +18,31 @@ interface ProviderCollection
 {
 
     /**
-     * @return ModificationProvider
+     * @return AbstractModificationPluginProvider
      */
-    public function getModificationProvider() : ?ModificationProvider;
+    public function getModificationProvider() : ?AbstractModificationPluginProvider;
 
 
     /**
-     * @return StaticMainMenuProvider
+     * @return AbstractStaticMainMenuPluginProvider
      */
-    public function getStaticMainMenuProvider() : ?StaticMainMenuProvider;
+    public function getMainBarProvider() : ?AbstractStaticMainMenuPluginProvider;
 
 
     /**
-     * @return DynamicToolProvider
+     * @return AbstractDynamicToolPluginProvider
      */
-    public function getDynamicToolProvider() : ?DynamicToolProvider;
+    public function getToolProvider() : ?AbstractDynamicToolPluginProvider;
 
 
     /**
-     * @return StaticMetaBarProvider
+     * @return AbstractStaticMetaBarPluginProvider
      */
-    public function getStaticMetaBarProvider() : ?StaticMetaBarProvider;
+    public function getMetaBarProvider() : ?AbstractStaticMetaBarPluginProvider;
 
 
     /**
-     * @return NotificationProvider
+     * @return AbstractNotificationPluginProvider
      */
-    public function getNotificationProvider() : ?NotificationProvider;
+    public function getNotificationProvider() : ?AbstractNotificationPluginProvider;
 }

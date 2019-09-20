@@ -88,7 +88,7 @@ class ilGSProviderFactory implements ProviderFactory
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
-            $provider = $collection->getStaticMainMenuProvider();
+            $provider = $collection->getMainBarProvider();
             if ($provider) {
                 $providers[] = $provider;
             }
@@ -112,7 +112,7 @@ class ilGSProviderFactory implements ProviderFactory
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
-            $provider = $collection->getStaticMetaBarProvider();
+            $provider = $collection->getMetaBarProvider();
             if ($provider) {
                 $providers[] = $provider;
             }
@@ -136,7 +136,7 @@ class ilGSProviderFactory implements ProviderFactory
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
-            $provider = $collection->getDynamicToolProvider();
+            $provider = $collection->getToolProvider();
             if ($provider) {
                 $providers[] = $provider;
             }
