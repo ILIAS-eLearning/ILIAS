@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
+use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -183,18 +184,18 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	 */
 	protected abstract function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void ;
 
-    /**
-     * @return QuestionData
-     * @throws Exception
-     */
+	/**
+	 * @return QuestionData
+	 * @throws Exception
+	 */
 	private function readQuestionData(): QuestionData {
-		return QuestionData::create(
-			$_POST[self::VAR_TITLE],
-			$_POST[self::VAR_AUTHOR],
-			$_POST[self::VAR_QUESTION],
-			$_POST[self::VAR_DESCRIPTION],
-		    $this->readWorkingTime($_POST[self::VAR_WORKING_TIME])
-		);
+	    return QuestionData::create(
+	        ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_TITLE]),
+	        ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_QUESTION]),
+	        ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_AUTHOR]),
+	        ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_DESCRIPTION]),
+	        $this->readWorkingTime($_POST[self::VAR_WORKING_TIME])
+	        );
 	}
 
 	/**

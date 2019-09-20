@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
+use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -11,7 +12,6 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
 use Exception;
-use ilAssSelfAssessmentQuestionFormatter;
 use ilDurationInputGUI;
 use ilHiddenInputGUI;
 use ilObjAdvancedEditing;
@@ -278,10 +278,10 @@ class QuestionFormGUI extends ilPropertyFormGUI {
      */
 	private function readQuestionData(): QuestionData {
 		return QuestionData::create(
-			$_POST[self::VAR_TITLE],
-			$_POST[self::VAR_QUESTION],
-			$_POST[self::VAR_AUTHOR],
-		    $_POST[self::VAR_DESCRIPTION],
+		    ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_TITLE]),
+		    ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_QUESTION]),
+		    ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_AUTHOR]),
+		    ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_DESCRIPTION]),
 			$this->readWorkingTime($_POST[self::VAR_WORKING_TIME])
 		);
 	}

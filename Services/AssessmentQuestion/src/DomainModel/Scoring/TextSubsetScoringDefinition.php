@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
@@ -76,7 +77,7 @@ class TextSubsetScoringDefinition extends ScoringDefinition {
     
     public static function getValueFromPost(string $index) {
         return new TextSubsetScoringDefinition(intval($_POST[$index . self::VAR_TSSD_POINTS]),
-                                               $_POST[$index . self::VAR_TSSD_TEXT]);
+                                               ilAsqHtmlPurifier::getInstance()->purify($_POST[$index . self::VAR_TSSD_TEXT]));
     }
     
     public function getValues(): array {

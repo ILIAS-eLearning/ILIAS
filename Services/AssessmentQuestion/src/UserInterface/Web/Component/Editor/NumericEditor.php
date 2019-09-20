@@ -99,4 +99,8 @@ class NumericEditor extends AbstractEditor {
     public static function readConfig() : ?AbstractConfiguration {
         return NumericEditorConfiguration::create(intval($_POST[self::VAR_MAX_NR_OF_CHARS]));
     }
+    
+    static function getDisplayDefinitionClass(): string {
+        return EmptyDisplayDefinition::class;
+    }
 }

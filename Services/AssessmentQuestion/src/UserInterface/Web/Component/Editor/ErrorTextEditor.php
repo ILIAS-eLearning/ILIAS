@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
+use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -136,7 +137,7 @@ class ErrorTextEditor extends AbstractEditor {
      */
     public static function readConfig() : ?AbstractConfiguration {
         return ErrorTextEditorConfiguration::create(
-            $_POST[self::VAR_ERROR_TEXT],
+            ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_ERROR_TEXT]),
             intval($_POST[self::VAR_TEXT_SIZE]));
     }
     

@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
@@ -96,7 +97,7 @@ class ErrorTextScoringDefinition extends ScoringDefinition {
     public static function getValueFromPost(string $index) {
         return new ErrorTextScoringDefinition(
             intval($_POST[$index . self::VAR_WORD_INDEX]),
-            $_POST[$index . self::VAR_CORRECT_TEXT],
+            ilAsqHtmlPurifier::getInstance()->purify($_POST[$index . self::VAR_CORRECT_TEXT]),
             intval($_POST[$index . self::VAR_POINTS]));
     }
     
