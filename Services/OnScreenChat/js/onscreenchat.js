@@ -475,12 +475,12 @@
 		receiveMessage: function(messageObject) {
 			let conversation = getModule().storage.get(messageObject.conversationId);
 
-			if(getModule().historyTimestamps[conversation.id] === undefined) {
-				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
-			}
-
 			var username = findUsernameInConversationByMessage(messageObject);
 			if (username !== "") {
+				if(getModule().historyTimestamps[conversation.id] === undefined) {
+					getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
+				}
+
 				conversation.latestMessage = messageObject;
 
 				conversation.action = ACTION_SHOW_CONV;
