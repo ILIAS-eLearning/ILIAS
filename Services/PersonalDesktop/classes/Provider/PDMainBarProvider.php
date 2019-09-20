@@ -28,13 +28,16 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("pdts", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/heart.svg"), "");
+
         // Favorites
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_pd_sel_items'))
             ->withTitle($this->dic->language()->txt("mm_favorites"))
             ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems")
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withPosition(10)
-	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("pdts", "")->withIsOutlined(true))
+	        ->withSymbol($icon)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {
@@ -49,12 +52,15 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             );
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), "");
+
         // Dashboard
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_pd_crs_grp'))
             ->withTitle($this->dic->language()->txt("mm_dashboard"))
             ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
             ->withParent(StandardTopItemsProvider::getInstance()->getRepositoryIdentification())
             ->withPosition(10)
+            ->withSymbol($icon)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {

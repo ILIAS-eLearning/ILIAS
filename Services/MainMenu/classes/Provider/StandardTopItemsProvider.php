@@ -81,23 +81,38 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         };
         $dic = $this->dic;
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
+
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_repository"))
             ->withPosition(10);
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), "");
+
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_personal_workspace"))
             ->withPosition(20);
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), "");
+
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_achievements"))
             ->withPosition(30);
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), "");
+
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_communication"))
             ->withPosition(40);
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), "");
+
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_organisation"))
             ->withPosition(50)
             ->withAvailableCallable(
@@ -106,7 +121,10 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
                 }
             );
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/settings.svg"), "");
+
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_administration"))
             ->withPosition(60)
             ->withVisibilityCallable(
