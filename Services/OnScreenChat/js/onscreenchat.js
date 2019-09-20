@@ -475,31 +475,34 @@
 		receiveMessage: function(messageObject) {
 			let conversation = getModule().storage.get(messageObject.conversationId);
 
-			if(getModule().historyTimestamps[conversation.id] === undefined) {
-				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
-			}
+			var username = findUsernameInConversationByMessage(messageObject);
+			if (username !== "") {
+				if(getModule().historyTimestamps[conversation.id] === undefined) {
+					getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
+				}
 
-			conversation.latestMessage = messageObject;
+				conversation.latestMessage = messageObject;
 
-			conversation.action = ACTION_SHOW_CONV;
-			getModule().storage.save(conversation, function() {
-				getModule().addMessage(messageObject, false);
-			});
+				conversation.action = ACTION_SHOW_CONV;
+				getModule().storage.save(conversation, function() {
+					getModule().addMessage(messageObject, false);
+				});
 
-			if (
-				(!messageObject.hasOwnProperty("isNeutral") || !messageObject.isNeutral) &&
-				messageObject.hasOwnProperty("uuid") && messageObject.uuid &&
-				getModule().user !== undefined &&
-				getConfig().enabledBrowserNotifications &&
-				parseInt(getModule().user.id) !== parseInt(messageObject.userId)
-			) {
-				il.OnScreenChatNotifications.send(
-					messageObject.uuid,
-					conversation.id,
-					il.Language.txt('osc_noti_title'),
-					$("<span>").html(messageObject.message).text(),
-					getConfig().notificationIconPath
-				);
+				if (
+					(!messageObject.hasOwnProperty("isNeutral") || !messageObject.isNeutral) &&
+					messageObject.hasOwnProperty("uuid") && messageObject.uuid &&
+					getModule().user !== undefined &&
+					getConfig().enabledBrowserNotifications &&
+					parseInt(getModule().user.id) !== parseInt(messageObject.userId)
+				) {
+					il.OnScreenChatNotifications.send(
+						messageObject.uuid,
+						conversation.id,
+						il.Language.txt('osc_noti_title'),
+						$("<span>").html(messageObject.message).text(),
+						getConfig().notificationIconPath
+					);
+				}
 			}
 		},
 
