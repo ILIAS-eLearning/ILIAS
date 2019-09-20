@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
+
 /**
  * Class ilObjOrgUnit GUI class
  *
@@ -99,6 +101,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 		$lng->loadLanguageModule("orgu");
 		$this->tpl->addCss('./Modules/OrgUnit/templates/default/orgu.css');
+
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(OrgUnitToolProvider::SHOW_ORGU_TREE, true);
 	}
 
 
@@ -106,11 +110,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		parent::prepareOutput();
-
-		//Otherwise move-Objects would not work
-		if ($cmd != "cut") {
-			$this->showTree();
-		}
 
 		switch ($next_class) {
 			case 'ilorgunitglobalsettingsgui':
@@ -387,27 +386,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI");
 		$gui->render();
 	}
-
-
-	public function showTree() {
-		$tree = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
-		$tree->setTypeWhiteList($this->getTreeWhiteList());
-		$tree->setNodeOpen(ilObjOrgUnit::getRootOrgRefId());
-
-		if (!$tree->handleCommand()) {
-			$this->tpl->setLeftNavContent($tree->getHTML());
-		}
-		$this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $_GET["ref_id"]);
-	}
-
-
-	protected function getTreeWhiteList() {
-		$whiteList = array( "orgu" );
-		$pls = ilOrgUnitExtension::getActivePluginIdsForTree();
-
-		return array_merge($whiteList, $pls);
-	}
-
 
 	/**
 	 * called by prepare output
