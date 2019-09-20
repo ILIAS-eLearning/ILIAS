@@ -479,16 +479,19 @@
 		receiveMessage: function(messageObject) {
 			var conversation = getModule().storage.get(messageObject.conversationId);
 
-			if(getModule().historyTimestamps[conversation.id] === undefined) {
-				getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
+			var username = findUsernameInConversationByMessage(messageObject);
+			if (username !== "") {
+				if (getModule().historyTimestamps[conversation.id] === undefined) {
+					getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
+				}
+
+				conversation.latestMessage = messageObject;
+
+				conversation.action = ACTION_SHOW_CONV;
+				getModule().storage.save(conversation, function () {
+					getModule().addMessage(messageObject, false);
+				});
 			}
-
-			conversation.latestMessage = messageObject;
-
-			conversation.action = ACTION_SHOW_CONV;
-			getModule().storage.save(conversation, function() {
-				getModule().addMessage(messageObject, false);
-			});
 		},
 
 		onParticipantsSuppressedMessages: function(messageObject) {
