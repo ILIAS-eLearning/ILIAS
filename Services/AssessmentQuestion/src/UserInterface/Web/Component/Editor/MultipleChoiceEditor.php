@@ -79,7 +79,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 
 			if (!empty($display_definition->getImage())) {
     			$tpl->setCurrentBlock('answer_image');
-    			$tpl->setVariable('ANSWER_IMAGE_URL', ImageUploader::getImagePath() . '/' . $display_definition->getImage());
+    			$tpl->setVariable('ANSWER_IMAGE_URL', ImageUploader::getImagePath() . $display_definition->getImage());
     			$tpl->setVariable('ANSWER_IMAGE_ALT', $display_definition->getText());
     			$tpl->setVariable('ANSWER_IMAGE_TITLE', $display_definition->getText());
     			$tpl->parseCurrentBlock();

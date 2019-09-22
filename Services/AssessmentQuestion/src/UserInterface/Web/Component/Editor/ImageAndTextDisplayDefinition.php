@@ -86,7 +86,7 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 	public static function getValueFromPost(string $index) {
 		return new ImageAndTextDisplayDefinition(
 		    ilAsqHtmlPurifier::getInstance()->purify($_POST[$index . self::VAR_MCDD_TEXT]),
-			array_key_exists(self::VAR_MCDD_IMAGE, $_POST) ? 
+			array_key_exists($index . self::VAR_MCDD_IMAGE, $_FILES) ? 
 		      ImageUploader::UploadImage($index . self::VAR_MCDD_IMAGE) : ''
 		);
 	}

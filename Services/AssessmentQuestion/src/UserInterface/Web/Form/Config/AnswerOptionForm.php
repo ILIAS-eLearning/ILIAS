@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
+use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use Exception;
 use ilImageFileInputGUI;
@@ -15,6 +16,7 @@ use ilRadioOption;
 use ilTemplate;
 use ilTextInputGUI;
 use ilTextAreaInputGUI;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
 /**
  * Class AnswerOptionForm
@@ -37,7 +39,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private $definitions;
 	/**
-	 * @var array
+	 * @var AnswerOptions
 	 */
 	private $options;
 	/**
@@ -50,7 +52,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private $form_configuration;
 
-	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, array $options, array $definitions = null) {
+	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, AnswerOptions $options, array $definitions = null) {
 		parent::__construct($title);
 		
 		//TODO every question that needs answer options requires them until now, if not --> dont set by default
@@ -68,12 +70,9 @@ class AnswerOptionForm extends ilTextInputGUI {
 		    $this->form_configuration = $this->collectConfigurations($configuration);
 		}
 		
+		$this->options = new AnswerOptions();
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		    $this->options = $this->readAnswerOptions()->getOptions();
-		}
-		//add empty row if there are no answers
-		else if (sizeof($options) === 0) {
-			$this->options[] = null;
+		    $this->readAnswerOptions();
 		} else {
 			$this->options = $options;
 		}
@@ -110,8 +109,13 @@ class AnswerOptionForm extends ilTextInputGUI {
 
 		$row_id = 1;
 
+		//add dummy object if no options are defined so that one empty line will be printed
+		if (count($this->options->getOptions()) === 0) {
+		    $this->options->addOption(null);
+		}
+		
 		/** @var AnswerOption $option */
-		foreach ($this->options as $option) {
+		foreach ($this->options->getOptions() as $option) {
 			/** @var AnswerOptionFormFieldDefinition $definition */
 			foreach ($this->definitions as $definition) {
 				$tpl->setCurrentBlock('body_entry');
@@ -136,7 +140,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 
 		$tpl->setCurrentBlock('count');
 		$tpl->setVariable('COUNT_POST_VAR', self::COUNT_POST_VAR);
-		$tpl->setVariable('COUNT', sizeof($this->options));
+		$tpl->setVariable('COUNT', sizeof($this->options->getOptions()));
 		$tpl->parseCurrentBlock();
 
 
@@ -172,26 +176,26 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 *
 	 * @return AnswerOptions
 	 */
-	public function readAnswerOptions() : AnswerOptions {
-	    $options = new AnswerOptions();
-
+	private function readAnswerOptions() {
 	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
 	    
 	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
 	    
 	    for ($i = 1; $i <= $count; $i++) {
-	        $options->addOption(new AnswerOption
+	        $this->options->addOption(new AnswerOption
 	            (
 	                $i,
 	                $dd_class::getValueFromPost($i),
 	                $sd_class::getValueFromPost($i)
 	                ));
 	    }
-	    
-	    return $options;
 	}
 
+	public function getAnswerOptions() : AnswerOptions {
+	    return $this->options;
+	}
+	
 	/**
 	 * @param QuestionPlayConfiguration $play
 	 *
@@ -280,10 +284,16 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateImageField(string $post_var, $value) {
 		$field = new ilImageFileInputGUI('', $post_var);
-		$this->setFieldValue($post_var, $value, $field);
+
+		//TODO enough html for template?
+		$additional = '<input type="hidden" name="' . $post_var . QuestionFormGUI::IMG_PATH_SUFFIX . '" value="' . $value . '" />';
 		
-		$hidden = '<input type="hidden" name="' . $post_var . QuestionFormGUI::IMG_PATH_SUFFIX . '" value="' . $value . '" />';
-		return $field->render() . $hidden;
+		if (!empty($value)) {
+		    $additional .= '<img style="margin: 5px 0px 5px 0px; max-width: 275px;" src="' . ImageUploader::getImagePath() . $value . '" border="0" /><br />';
+		    $field->setValue('  ');// set empty string as value so that delete current image checkbox shows up, but no annoying filename is displayed
+		}
+		
+		return $field->render() . $additional;
 	}
 
 	/**

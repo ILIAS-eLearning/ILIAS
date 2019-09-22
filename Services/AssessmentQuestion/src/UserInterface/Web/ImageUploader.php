@@ -19,12 +19,12 @@ use ilImageFileInputGUI;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ImageUploader {
-    const BASE_PATH = 'AssessmentQuestion/Uploads';
+    const BASE_PATH = 'asq/%d/%d/images';
     
     /**
      * @return string
      */
-    public static function UploadImage(string $image_key) : string {
+    public static function UploadImage(string $image_key, int $container_id = 1, int $object_id = 1) : string {
         global $DIC;
         $upload = $DIC->upload();
         $target_file = "";
@@ -57,7 +57,7 @@ class ImageUploader {
                 $target_file = Guid::create() . "." . $pathinfo['extension'];
                 $upload->moveOneFileTo(
                     $result,
-                    self::BASE_PATH,
+                    sprintf(self::BASE_PATH, $container_id, $object_id),
                     Location::WEB,
                     $target_file,
                     true);
@@ -67,7 +67,7 @@ class ImageUploader {
         return $target_file;
     }
     
-    public static function getImagePath() : string {
-        return ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID .  '/' . self::BASE_PATH . '/';
+    public static function getImagePath(int $container_id = 1, int $object_id = 1) : string {
+        return ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID .  '/' . sprintf(self::BASE_PATH, $container_id, $object_id) . '/';
     }
 }
