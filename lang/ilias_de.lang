@@ -15062,3 +15062,4 @@ crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_details#:#« Details anzeigen
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
+exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.

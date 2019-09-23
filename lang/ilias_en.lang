@@ -14781,7 +14781,7 @@ exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be us
 exc#:#exc_num_teams#:#Number
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_max_team_participants#:#Maximal Number
-exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_total_members#:#Total Exercise Participants
 exc#:#exc_value_can_not_set#:#This value can not be set.
 exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
 exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
@@ -15062,3 +15062,4 @@ crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_details#:#« Show Details
 exc#:#exc_text_saved#:#Text has been saved.
+exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
