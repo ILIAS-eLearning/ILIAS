@@ -1365,3 +1365,7 @@ $ilDB->modifyTableColumn('il_cert_template', 'version', array(
     'default' => 0
 ));
 ?>
+<#5521>
+<?php
+$ilDB->addIndex('rbac_log', ['created'], 'i2');
+?>
