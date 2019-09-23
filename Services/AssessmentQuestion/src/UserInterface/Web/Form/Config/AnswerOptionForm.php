@@ -5,18 +5,14 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use Exception;
 use ilImageFileInputGUI;
 use ilNumberInputGUI;
-use ilObjAdvancedEditing;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilTemplate;
 use ilTextInputGUI;
-use ilTextAreaInputGUI;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
 /**
  * Class AnswerOptionForm
@@ -289,7 +285,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 		$additional = '<input type="hidden" name="' . $post_var . QuestionFormGUI::IMG_PATH_SUFFIX . '" value="' . $value . '" />';
 		
 		if (!empty($value)) {
-		    $additional .= '<img style="margin: 5px 0px 5px 0px; max-width: 275px;" src="' . ImageUploader::getImagePath() . $value . '" border="0" /><br />';
+		    $additional .= '<img style="margin: 5px 0px 5px 0px; max-width: 275px;" src="' . $value . '" border="0" /><br />';
 		    $field->setValue('  ');// set empty string as value so that delete current image checkbox shows up, but no annoying filename is displayed
 		}
 		

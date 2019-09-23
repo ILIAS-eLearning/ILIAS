@@ -6,7 +6,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\FileUpload\Location;
-use ilImageFileInputGUI;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
 
 /**
  * Class ImageUploader
@@ -19,55 +19,95 @@ use ilImageFileInputGUI;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ImageUploader {
-    const BASE_PATH = 'asq/%d/%d/images';
+    const BASE_PATH = 'asq/images/%d/%d/';
+    
+    /**
+     * @var ImageUploader
+     */
+    private static $instance;
+    
+    /**
+     * @var array
+     */
+    private $request_uploads;
+    
+    public static function getInstance() : ImageUploader {
+        if (self::$instance === null) {
+            self::$instance = new ImageUploader();
+        }
+        
+        return self::$instance;
+    }
+    
+    private function __construct() {
+        $this->request_uploads = [];
+    }
     
     /**
      * @return string
      */
-    public static function UploadImage(string $image_key, int $container_id = 1, int $object_id = 1) : string {
+    public function processImage(string $image_key) : string {
         global $DIC;
         $upload = $DIC->upload();
         $target_file = "";
         
-        $image = $_FILES[$image_key];
-        
-        if (array_key_exists($image_key . "_delete" , $_POST)) {
-            return "";
-        }
-        if ($image['size'] === 0) {
-            return $_POST[$image_key . QuestionFormGUI::IMG_PATH_SUFFIX];
-        }
-        
-        if ($upload->hasUploads()) {
-            if (!$upload->hasBeenProcessed()) {
-                $upload->process();
-            }
+        if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
+            $upload->process();
             
-            foreach ($upload->getResults() as $res)
+            foreach ($upload->getResults() as $result)
             {
-                /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
-                if ($res->getName() == $image["name"]) {
-                    $result = $res;
-                    break;
+                if ($result && $result->getStatus()->getCode() === ProcessingStatus::OK) {
+                    $pathinfo    = pathinfo($result->getName());
+                    $target_file = Guid::create() . "." . $pathinfo['extension'];
+                    $upload->moveOneFileTo(
+                        $result,
+                        self::processBasePath($target_file),
+                        Location::WEB,
+                        $target_file);
+                    
+                    foreach ($_FILES as $key => $value) {
+                        if ($value['name'] === $result->getName()) {
+                            $this->request_uploads[$key] = $this->getImagePath($target_file);
+                        }
+                    }
                 }
             }
-            
-            if ($result && $result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
-                $pathinfo    = pathinfo($image["name"]);
-                $target_file = Guid::create() . "." . $pathinfo['extension'];
-                $upload->moveOneFileTo(
-                    $result,
-                    sprintf(self::BASE_PATH, $container_id, $object_id),
-                    Location::WEB,
-                    $target_file,
-                    true);
-            }
         }
         
-        return $target_file;
+        // delete selected
+        //TODO search ilias source for hopefully existing _delete constant
+        if (array_key_exists($image_key . '_delete', $_POST)) {
+            return '';
+        }
+        
+        // new file uploaded
+        if (array_key_exists($image_key, $this->request_uploads)) {
+            return $this->request_uploads[$image_key];
+        }
+        
+        // old file exists
+        if (!empty($_POST[$image_key . QuestionFormGUI::IMG_PATH_SUFFIX])) {
+            return $_POST[$image_key . QuestionFormGUI::IMG_PATH_SUFFIX];
+        }
+       
+        // no file
+        return '';
     }
     
-    public static function getImagePath(int $container_id = 1, int $object_id = 1) : string {
-        return ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID .  '/' . sprintf(self::BASE_PATH, $container_id, $object_id) . '/';
+    private function getImagePath(string $filename) : string {
+        return ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID .  '/' . self::processBasePath($filename) . $filename;
+    }
+    
+    private function processBasePath(string $filename) : string {
+        if (strlen($filename) < 2) {
+            $first = '0';
+            $second = '0';
+        }
+        else {
+            $first = $filename[0];
+            $second = $filename[1];
+        }
+        
+        return sprintf(self::BASE_PATH, $first, $second);
     }
 }

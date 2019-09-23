@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
@@ -84,10 +85,11 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 	}
 
 	public static function getValueFromPost(string $index) {
+	    $image_key = $index . self::VAR_MCDD_IMAGE;
+	    
 		return new ImageAndTextDisplayDefinition(
 		    ilAsqHtmlPurifier::getInstance()->purify($_POST[$index . self::VAR_MCDD_TEXT]),
-			array_key_exists($index . self::VAR_MCDD_IMAGE, $_FILES) ? 
-		      ImageUploader::UploadImage($index . self::VAR_MCDD_IMAGE) : ''
+		    ImageUploader::getInstance()->processImage($image_key)
 		);
 	}
 
