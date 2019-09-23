@@ -15,6 +15,7 @@ use ilObjAdvancedEditing;
 use ilPropertyFormGUI;
 use ilTextAreaInputGUI;
 use ilTextInputGUI;
+use ilSelectInputGUI;
 
 /**
  * Class MultipleChoiceQuestionGUI
@@ -34,7 +35,8 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	const VAR_DESCRIPTION = 'description';
 	const VAR_QUESTION = 'question';
 	const VAR_WORKING_TIME = 'working_time';
-
+	const VAR_LIFECYCLE = 'lifecycle';
+	
 	const VAR_LEGACY = 'legacy';
 
 	const SECONDS_IN_MINUTE = 60;
@@ -146,6 +148,17 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    $description = new ilTextInputGUI($this->lang->txt('asq_label_description'), self::VAR_DESCRIPTION);
 	    $this->addItem($description);
 	    
+	    $lifecycle = new ilSelectInputGUI($this->lang->txt('asq_label_lifecycle'), self::VAR_LIFECYCLE);
+	    $lifecycle->setOptions([
+	        QuestionData::LIFECYCLE_DRAFT => $this->lang->txt('asq_lifecycle_draft'),
+	        QuestionData::LIFECYCLE_TO_BE_REVIEWED => $this->lang->txt('asq_lifecycle_to_be_reviewed'),
+	        QuestionData::LIFECYCLE_REJECTED => $this->lang->txt('asq_lifecycle_rejected'),
+	        QuestionData::LIFECYCLE_FINAL => $this->lang->txt('asq_lifecycle_final'),
+	        QuestionData::LIFECYCLE_SHARABLE => $this->lang->txt('asq_lifecycle_sharable'),
+	        QuestionData::LIFECYCLE_OUTDATED => $this->lang->txt('asq_lifecycle_outdated')
+	    ]);
+	    $this->addItem($lifecycle);
+	    
 	    $question_text = new ilTextAreaInputGUI($this->lang->txt('asq_label_question'), self::VAR_QUESTION);
 	    $question_text->setRequired(true);
 	    $question_text->setRows(10);
@@ -167,6 +180,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	        $title->setValue($data->getTitle());
 	        $author->setValue($data->getAuthor());
 	        $description->setValue($data->getDescription());
+	        $lifecycle->setValue($data->getLifecycle());
 	        $question_text->setValue($data->getQuestionText());
 	        $working_time->setHours(floor($data->getWorkingTime() / self::SECONDS_IN_HOUR));
 	        $working_time->setMinutes(floor($data->getWorkingTime() / self::SECONDS_IN_MINUTE));
@@ -194,8 +208,9 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	        ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_QUESTION]),
 	        ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_AUTHOR]),
 	        ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_DESCRIPTION]),
-	        $this->readWorkingTime($_POST[self::VAR_WORKING_TIME])
-	        );
+	        $this->readWorkingTime($_POST[self::VAR_WORKING_TIME]),
+	        intval($_POST[self::VAR_LIFECYCLE])
+	    );
 	}
 
 	/**

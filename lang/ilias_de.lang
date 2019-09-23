@@ -14,6 +14,13 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_lifecycle#:#Lebenszyklus
+asq#:#asq_lifecycle_draft#:#Entwurf
+asq#:#asq_lifecycle_to_be_reviewed#:#Zum Review
+asq#:#asq_lifecycle_rejected#:#Zurückgewiesen
+asq#:#asq_lifecycle_final#:#Final
+asq#:#asq_lifecycle_sharable#:#Teilbar
+asq#:#asq_lifecycle_outdated#:#Veraltet
 asq#:#asq_info_points_wrong#:#Geben Sie Punkte für die Auswahl von Wörtern an, die nicht in der Liste der markierten Fehler enthalten sind.
 asq#:#asq_pixel#:#Pixel
 asq#:#asq_editor_title#:#Frage Editieren

@@ -37,6 +37,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	const VAR_AUTHOR = 'author';
 	const VAR_DESCRIPTION = 'description';
 	const VAR_QUESTION = 'question';
+	const VAR_LIFECYCLE = 'lifecycle';
 
 	const VAR_EDITOR = 'editor';
 	const VAR_PRESENTER = 'presenter';
@@ -160,6 +161,17 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		$description = new ilTextInputGUI($this->lang->txt('asq_label_description'), self::VAR_DESCRIPTION);
 		$this->addItem($description);
 
+		$lifecycle = new ilSelectInputGUI($this->lang->txt('asq_label_lifecycle'), self::VAR_LIFECYCLE);
+		$lifecycle->setOptions([
+		    QuestionData::LIFECYCLE_DRAFT => $this->lang->txt('asq_lifecycle_draft'),
+		    QuestionData::LIFECYCLE_TO_BE_REVIEWED => $this->lang->txt('asq_lifecycle_to_be_reviewed'),
+		    QuestionData::LIFECYCLE_REJECTED => $this->lang->txt('asq_lifecycle_rejected'),
+		    QuestionData::LIFECYCLE_FINAL => $this->lang->txt('asq_lifecycle_final'),
+		    QuestionData::LIFECYCLE_SHARABLE => $this->lang->txt('asq_lifecycle_sharable'),
+		    QuestionData::LIFECYCLE_OUTDATED => $this->lang->txt('asq_lifecycle_outdated')
+		]);
+		$this->addItem($lifecycle);
+		
 		$question_text = new ilTextAreaInputGUI($this->lang->txt('asq_label_question'), self::VAR_QUESTION);
 		$question_text->setRequired(true);
 		$question_text->setRows(10);
@@ -182,6 +194,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 			$author->setValue($data->getAuthor());
 			$description->setValue($data->getDescription());
 			$question_text->setValue($data->getQuestionText());
+			$lifecycle->setValue($data->getLifecycle());
 			$working_time->setHours(floor($data->getWorkingTime() / self::SECONDS_IN_HOUR));
 			$working_time->setMinutes(floor($data->getWorkingTime() / self::SECONDS_IN_MINUTE));
 			$working_time->setSeconds($data->getWorkingTime() % self::SECONDS_IN_MINUTE);
@@ -282,7 +295,8 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		    ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_QUESTION]),
 		    ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_AUTHOR]),
 		    ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_DESCRIPTION]),
-			$this->readWorkingTime($_POST[self::VAR_WORKING_TIME])
+			$this->readWorkingTime($_POST[self::VAR_WORKING_TIME]),
+			intval($_POST[self::VAR_LIFECYCLE])
 		);
 	}
 

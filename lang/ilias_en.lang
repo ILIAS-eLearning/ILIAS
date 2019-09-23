@@ -14,6 +14,13 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_lifecycle#:#Lifecycle
+asq#:#asq_lifecycle_draft#:#Draft
+asq#:#asq_lifecycle_to_be_reviewed#:#To be Reviewed
+asq#:#asq_lifecycle_rejected#:#Rejected
+asq#:#asq_lifecycle_final#:#Final
+asq#:#asq_lifecycle_sharable#:#Sharable
+asq#:#asq_lifecycle_outdated#:#Outdated
 asq#:#asq_info_points_wrong#:#Enter the negative points for each selected word that is not in the list of the marked errors.
 asq#:#asq_pixel#:#Pixel
 asq#:#asq_editor_title#:#Edit Question

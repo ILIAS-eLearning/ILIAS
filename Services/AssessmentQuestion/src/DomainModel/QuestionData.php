@@ -15,7 +15,14 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class QuestionData extends AbstractValueObject {
-	/**
+	 const LIFECYCLE_DRAFT = 1;
+	 const LIFECYCLE_TO_BE_REVIEWED = 2;
+	 const LIFECYCLE_REJECTED = 3;
+	 const LIFECYCLE_FINAL = 4;
+	 const LIFECYCLE_SHARABLE = 5;
+	 const LIFECYCLE_OUTDATED = 6;
+
+     /**
 	 * @var string
 	 */
 	protected $title;
@@ -23,6 +30,10 @@ class QuestionData extends AbstractValueObject {
 	 * @var string
 	 */
 	protected $description;
+	/**
+	 * @var int
+	 */
+	protected $lifecycle;
 	/**
 	 * @var string
 	 */
@@ -45,13 +56,14 @@ class QuestionData extends AbstractValueObject {
 	 *
 	 * @return QuestionData
 	 */
-	static function create(string $title, string $text, string $author, string $description = null, int $working_time = 0) {
+	static function create(string $title, string $text, string $author, string $description = null, int $working_time = 0, int $lifecycle = self::LIFECYCLE_DRAFT) {
 		$object = new QuestionData();
 		$object->title = $title;
 		$object->description = $description;
 		$object->question_text = $text;
 		$object->author = $author;
 		$object->working_time = $working_time;
+		$object->lifecycle = $lifecycle;
 		return $object;
 	}
 
@@ -69,6 +81,13 @@ class QuestionData extends AbstractValueObject {
 		return $this->description;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getLifecycle(): int {
+	    return $this->lifecycle;
+	}
+	
 	/**
 	 * @return string
 	 */
@@ -101,6 +120,7 @@ class QuestionData extends AbstractValueObject {
         return get_class($this) === get_class($other) &&
                $this->getAuthor() === $other->getAuthor() &&
                $this->getDescription() === $other->getDescription() &&
+               $this->getLifecycle() === $other->getLifecycle() &&
                $this->getQuestionText() === $other->getQuestionText() &&
                $this->getTitle() === $other->getTitle() &&
                $this->getWorkingTime() === $other->getWorkingTime();

@@ -23,7 +23,7 @@ class AnswerOptions {
 		$this->options = [];
 	}
 
-	public function addOption(AnswerOption $option) {
+	public function addOption(?AnswerOption $option) {
 		$this->options[] = $option;
 	}
 
