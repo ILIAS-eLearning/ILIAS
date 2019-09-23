@@ -8255,7 +8255,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-listing-characteristic-value-row {
   /* i tried .ilClearFloat, did not work as expected */
   border-top: solid #dddddd 1px;
-  padding: 15px 0;
+  padding: 12px 0;
 }
 .il-listing-characteristic-value-row:before,
 .il-listing-characteristic-value-row:after {
@@ -8289,7 +8289,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 }
 .il-listing-characteristic-value-item {
   float: right;
-  padding-left: 15px;
+  padding-left: 12px;
   width: 50%;
   left: 50%;
 }
@@ -8302,10 +8302,10 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 /* when characteristic value listing is used in the card */
 .il-card .il-listing-characteristic-value-row {
   border-top: none;
-  padding: 5px;
+  padding: 6px 3px;
 }
 .il-card .il-listing-characteristic-value-label {
-  padding-left: 5px;
+  padding-left: 6px;
   width: 75%;
   right: 75%;
 }

@@ -2,7 +2,7 @@
 .il-listing-characteristic-value-row {
   .clearfix; /* i tried .ilClearFloat, did not work as expected */
   border-top: solid @characteristic-value-border-color 1px;
-  padding: 15px 0;
+  padding: @padding-large-horizontal 0;
 }
 .il-listing-characteristic-value-row:first-child {
   border-top: none;
@@ -18,7 +18,7 @@
 }
 .il-listing-characteristic-value-item {
   .ilFloatRight;
-  padding-left: 15px;
+  padding-left: @padding-large-horizontal;
   width: 50%;
   left: 50%;
   @media (max-width: @grid-float-breakpoint-max) {
@@ -29,10 +29,10 @@
 /* when characteristic value listing is used in the card */
 .il-card .il-listing-characteristic-value-row {
   border-top: none;
-  padding: 5px;
+  padding: @padding-small-horizontal @padding-small-vertical;
 }
 .il-card .il-listing-characteristic-value-label {
-  padding-left: 5px;
+  padding-left: @padding-small-horizontal;
   width: 75%;
   right: 75%;
 }
