@@ -648,6 +648,7 @@ class ilAccess implements ilAccessHandler {
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
+
 		// if current permission is visible and visible is set in activation
 		if($a_permission == 'visible' and $item_data['visible'])
 		{
@@ -655,6 +656,14 @@ class ilAccess implements ilAccessHandler {
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
+
+        // learning progress must be readable, regardless of the activation
+        if($a_permission == 'read_learning_progress') {
+            $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
+            $ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
+            return true;
+        }
+
 		// no access
 		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
 		$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
