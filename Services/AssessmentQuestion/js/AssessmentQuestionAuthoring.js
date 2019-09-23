@@ -32,10 +32,19 @@ let remove_row = function() {
 
 let clear_row = function(row) {
     row.find("input, textarea").each(function() {
-        $(this).val('');
-        if ($(this).siblings('.mceEditor').length > 0) {
-        	$(this).siblings('.mceEditor').remove();
-        	$(this).show();
+    	$input = $(this);
+    	
+    	if ($input.attr('type') === 'radio' ||
+    		$input.attr('type') === 'checkbox') {
+    		$input.attr('checked', 'checked');
+    	}
+    	else {
+    		$input.val('');
+    	}
+        
+        if ($input.siblings('.mceEditor').length > 0) {
+        	$input.siblings('.mceEditor').remove();
+        	$input.show();
         	usingTiny = true;
         }
     });
