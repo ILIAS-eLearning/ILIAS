@@ -22,7 +22,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [Text::class];
     }
@@ -30,7 +30,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component $component, RendererInterface $default_renderer)
+    public function render(Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -47,7 +47,7 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return string
      */
-    private function render_text(Text $component)
+    private function render_text(Text $component) : string
     {
         $tpl = $this->getReportTemplate();
 
@@ -66,7 +66,7 @@ class Renderer extends AbstractComponentRenderer
      * @param string $label
      * @param string $item
      */
-    private function renderItem(Template $tpl, $tpl_block, $label, $item)
+    private function renderItem(Template $tpl, string $tpl_block, string $label, string $item)
     {
         $tpl->setCurrentBlock($tpl_block);
         $tpl->setVariable('LABEL', $label);
@@ -86,7 +86,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @return Template
      */
-    private function getReportTemplate()
+    private function getReportTemplate() : Template
     {
         return $this->getTemplate('tpl.characteristic_value.html', true, true);
     }

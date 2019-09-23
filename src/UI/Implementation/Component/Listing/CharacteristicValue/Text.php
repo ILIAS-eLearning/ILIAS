@@ -28,7 +28,12 @@ class Text implements C\Listing\CharacteristicValue\Text
         $this->items = $items;
     }
 
-    private function validateItems(array $items)
+    /**
+     * @param array $items
+     *
+     * @return bool
+     */
+    private function validateItems(array $items) : bool
     {
         if( !count($items) )
         {
@@ -60,7 +65,7 @@ class Text implements C\Listing\CharacteristicValue\Text
     /**
      * @inheritdoc
      */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }

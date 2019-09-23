@@ -48,7 +48,7 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
         $this->assertHTMLEquals($expectedHtml, $actualHtml);
     }
 
-    private function getExpectedHtml()
+    private function getExpectedHtml() : string
     {
         $html  = '<div class="il-listing-characteristic-value clearfix">';
         $html .= '	<div class="il-listing-characteristic-value-row clearfix">';

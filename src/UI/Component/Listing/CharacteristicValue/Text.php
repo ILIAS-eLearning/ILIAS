@@ -17,5 +17,5 @@ interface Text extends Component
      *
      * @return array $items string => string
      */
-    public function getItems();
+    public function getItems() : array;
 }
