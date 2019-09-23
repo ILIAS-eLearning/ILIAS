@@ -1110,7 +1110,7 @@ class ilCtrl
 			$xml_style = false;
 		}
 
-		$script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch, $xml_style);
+		$script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch);
 		if ($a_fallback_cmd != "")
 		{
 			$script = ilUtil::appendUrlParameterString($script, "fallbackCmd=".$a_fallback_cmd, $xml_style);
