@@ -117,10 +117,6 @@ class ilObjBibliographic extends ilObject2 {
 			"id" => ["integer", $this->getId()], "filename" => ["text", $this->getFilename()], "is_online" => ["integer", $this->getOnline()], "file_type" => ["integer", $this->getFilename() ? $this->determineFileTypeByFileName($this->getFilename()) : ""],
 		]
 		);
-		//in case the bibliographic list item was copied the filename is empty
-		if(!empty($this->getFilename())) {
-			$this->parseFileToDatabase();
-		}
 	}
 
 
@@ -140,7 +136,18 @@ class ilObjBibliographic extends ilObject2 {
 		global $DIC;
 
 		$upload = $DIC->upload();
-		$has_valid_upload = $upload->hasUploads() && !$upload->hasBeenProcessed();
+		// bugfix mantis 26050
+		$has_valid_upload = false;
+		if($upload->hasBeenProcessed()) {
+		    if(!empty($this->getFilename())) {
+		        $has_valid_upload = true;
+            }
+        } else {
+		    if($upload->hasUploads()) {
+		        $has_valid_upload = true;
+            }
+        }
+
 		if ($_POST['override_entries'] && $has_valid_upload) {
 			$upload->process();
 			$this->deleteFile();
