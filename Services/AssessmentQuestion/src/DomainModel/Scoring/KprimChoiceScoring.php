@@ -20,8 +20,8 @@ class KprimChoiceScoring extends AbstractScoring {
     const VAR_POINTS = 'kcs_points';
     const VAR_HALF_POINTS = 'kcs_half_points_at';
     
-    const STR_TRUE = "true";
-    const STR_FALSE = "false";
+    const STR_TRUE = "True";
+    const STR_FALSE = "False";
     
     function score(Answer $answer) : int {
         $answers = json_decode($answer->getValue(), true);
