@@ -820,8 +820,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$selectionLimit = (int)$form->getItemByPostVar('selection_limit')->getValue();
 		$this->object->setSelectionLimit($selectionLimit > 0 ? $selectionLimit : null);
 
-		$this->object->setSpecificFeedbackSetting( $_POST['feedback_setting'] );
-
 		$this->object->setMultilineAnswerSetting( $_POST["types"] );
 		if (is_array( $_POST['choice']['imagename'] ) && $_POST["types"] == 1)
 		{
@@ -960,8 +958,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		if ($this->object->getSelfAssessmentEditingMode())
 		{
 			$choices->setSize( 40 );
-			$choices->setMaxLength( 800 );
 		}
+		$choices->setMaxLength( 800 );
 		if ($this->object->getAnswerCount() == 0)
 			$this->object->addAnswer( "", 0, 0, 0 );
 		$choices->setValues( $this->object->getAnswers() );

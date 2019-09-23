@@ -2639,7 +2639,7 @@ class ilObjectListGUI
 				$items =& $command["access_info"];
 				foreach ($items as $item)
 				{
-					if ($item["type"] == IL_NO_LICENSE)
+					if (defined('IL_NO_LICENSE') && $item["type"] == IL_NO_LICENSE)
 					{
 						$this->addCustomProperty($this->lng->txt("license"),$item["text"],true);
 						$this->enableProperties(true);

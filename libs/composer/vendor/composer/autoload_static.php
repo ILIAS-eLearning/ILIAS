@@ -16,6 +16,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
     );
 
     public static $prefixLengthsPsr4 = array (
+        'e' => 
+        array (
+            'enshrined\\svgSanitize\\' => 22,
+        ),
         'c' => 
         array (
             'cweagans\\Composer\\' => 18,
@@ -81,6 +85,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
     );
 
     public static $prefixDirsPsr4 = array (
+        'enshrined\\svgSanitize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
+        ),
         'cweagans\\Composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/cweagans/composer-patches/src',
@@ -956,6 +964,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\FileUpload\\Processor\\WhitelistFileHeaderPreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/WhitelistFileHeaderPreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\WhitelistMimeTypePreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/WhitelistMimeTypePreProcessor.php',
         'ILIAS\\FileUpload\\ScalarTypeCheckAware' => __DIR__ . '/../..' . '/../../src/FileUpload/ScalarTypeCheckAware.php',
+        'ILIAS\\File\\Sanitation\\FilePathSanitizer' => __DIR__ . '/../..' . '/../../Modules/File/classes/Sanitation/FilePathSanitizer.php',
         'ILIAS\\Filesystem\\DTO\\Metadata' => __DIR__ . '/../..' . '/../../src/Filesystem/DTO/Metadata.php',
         'ILIAS\\Filesystem\\Decorator\\FilesystemWhitelistDecorator' => __DIR__ . '/../..' . '/../../src/Filesystem/Decorator/FilesystemWhitelistDecorator.php',
         'ILIAS\\Filesystem\\Decorator\\ReadOnlyDecorator' => __DIR__ . '/../..' . '/../../src/Filesystem/Decorator/ReadOnlyDecorator.php',
@@ -2593,6 +2602,11 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'cweagans\\Composer\\PatchEvent' => __DIR__ . '/..' . '/cweagans/composer-patches/src/PatchEvent.php',
         'cweagans\\Composer\\PatchEvents' => __DIR__ . '/..' . '/cweagans/composer-patches/src/PatchEvents.php',
         'cweagans\\Composer\\Patches' => __DIR__ . '/..' . '/cweagans/composer-patches/src/Patches.php',
+        'enshrined\\svgSanitize\\Sanitizer' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Sanitizer.php',
+        'enshrined\\svgSanitize\\data\\AllowedAttributes' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedAttributes.php',
+        'enshrined\\svgSanitize\\data\\AllowedTags' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedTags.php',
+        'enshrined\\svgSanitize\\data\\AttributeInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AttributeInterface.php',
+        'enshrined\\svgSanitize\\data\\TagInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/TagInterface.php',
         'getID3' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/getid3.php',
         'getID3_cached_dbm' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/extension.cache.dbm.php',
         'getID3_cached_mysql' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/extension.cache.mysql.php',
@@ -3347,6 +3361,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilCalendarRemoteReader' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarRemoteReader.php',
         'ilCalendarSchedule' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarSchedule.php',
         'ilCalendarScheduleFilter' => __DIR__ . '/../..' . '/../../Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php',
+        'ilCalendarScheduleFilterBookingPool' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterBookingPool.php',
         'ilCalendarScheduleFilterBookings' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php',
         'ilCalendarScheduleFilterExercise' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterExercise.php',
         'ilCalendarScheduleFilterHidden' => __DIR__ . '/../..' . '/../../Services/Calendar/classes/class.ilCalendarScheduleFilterHidden.php',
@@ -5436,7 +5451,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjectTranslationTableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTranslationTableGUI.php',
         'ilObjectTypeMismatchException' => __DIR__ . '/../..' . '/../../Services/Object/exceptions/class.ilObjectTypeMismatchException.php',
         'ilObjectivesAlignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php',
-        'ilOnScreenChat' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChat.php',
         'ilOnScreenChatAppEventListener' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',
         'ilOnScreenChatGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
         'ilOnScreenChatMenuGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php',
@@ -6698,6 +6712,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilWaitingListTableGUI' => __DIR__ . '/../..' . '/../../Services/Membership/classes/class.ilWaitingListTableGUI.php',
         'ilWebAccessChecker' => __DIR__ . '/../..' . '/../../Services/WebAccessChecker/classes/class.ilWebAccessChecker.php',
         'ilWebAccessCheckerDelivery' => __DIR__ . '/../..' . '/../../Services/WebAccessChecker/classes/class.ilWebAccessCheckerDelivery.php',
+        'ilWebDAVAuthentication' => __DIR__ . '/../..' . '/../../Services/WebDAV/classes/auth/class.ilWebDAVAuthentication.php',
         'ilWebLinkXmlParser' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParser.php',
         'ilWebLinkXmlParserException' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParserException.php',
         'ilWebLinkXmlWriter' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlWriter.php',

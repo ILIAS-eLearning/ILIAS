@@ -186,7 +186,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	public function removeIntermediateSolution()
 	{
 		$questionId = $this->getCurrentQuestionId();
-		return $this->getQuestionInstance($questionId)->removeIntermediateSolution(
+		
+		$this->getQuestionInstance($questionId)->removeIntermediateSolution(
 			$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
 	}
@@ -1604,7 +1605,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		if( $fullpage )
 		{
 			include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
-			$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary');
+			$table_gui = new ilListOfQuestionsTableGUI($this, 'showQuestion');
 			
 			$table_gui->setShowPointsEnabled( !$this->object->getTitleOutput() );
 			$table_gui->setShowMarkerEnabled( $this->object->getShowMarker() );

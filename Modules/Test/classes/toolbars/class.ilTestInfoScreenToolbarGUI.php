@@ -705,7 +705,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				
 				if( $this->hasFixedQuestionSetSkillAssignsLowerThanBarrier() )
 				{
-					$this->addFailureMessage($this->getSkillAssignBarrierInfo());
+					$this->addInfoMessage($this->getSkillAssignBarrierInfo());
 				}
 			}
 

@@ -126,10 +126,10 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 	 */
 	public function saveSpecificFormProperties(ilPropertyFormGUI $form)
 	{
+		$this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), $form->getInput('feedback_setting'));
+		
 		if( !$this->questionOBJ->isAdditionalContentEditingModePageObject() )
 		{
-			$this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), $form->getInput('feedback_setting'));
-
 			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )
 			{
 				$this->saveSpecificAnswerFeedbackContent(

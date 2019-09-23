@@ -531,3 +531,130 @@ if($ilDB->tableColumnExists("map_area", "href")) {
 	$ilDB->modifyTableColumn("map_area", "href", $field);
 }
 ?>
+<#45>
+<?php
+
+$tempTableName = 'tmp_tst_qst_fixparent';
+
+$tempTableFields = array(
+	'qst_id' => array(
+		'type' => 'integer',
+		'notnull' => true,
+		'length' => 4,
+		'default' => 0
+	),
+	'tst_obj_id' => array(
+		'type' => 'integer',
+		'notnull' => true,
+		'length' => 4,
+		'default' => 0
+	),
+	'qpl_obj_id' => array(
+		'type' => 'integer',
+		'notnull' => true,
+		'length' => 4,
+		'default' => 0
+	)
+);
+
+$brokenFixedTestQuestionsQuery = "
+    SELECT qq.question_id qst_id, t.obj_fi tst_obj_id, qq.obj_fi qpl_obj_id
+    FROM tst_tests t
+    INNER JOIN tst_test_question tq
+    ON t.test_id = tq.test_fi
+    INNER JOIN qpl_questions qq
+    ON qq.question_id = tq.question_fi
+    WHERE t.question_set_type = 'FIXED_QUEST_SET'
+    AND t.obj_fi != qq.obj_fi
+";
+
+$brokenRandomTestQuestionsQuery = "
+    SELECT qq.question_id qst_id, t.obj_fi tst_obj_id, qq.obj_fi qpl_obj_id
+    FROM tst_tests t
+    INNER JOIN tst_rnd_cpy tq
+    ON t.test_id = tq.tst_fi
+    INNER JOIN qpl_questions qq
+    ON qq.question_id = tq.qst_fi
+    WHERE t.question_set_type = 'RANDOM_QUEST_SET'
+    AND t.obj_fi != qq.obj_fi
+";
+
+$brokenQuestionCountQuery = "
+    SELECT COUNT(broken.qst_id) cnt FROM (
+        SELECT q1.qst_id FROM ( {$brokenFixedTestQuestionsQuery} ) q1
+        UNION
+        SELECT q2.qst_id FROM ( {$brokenRandomTestQuestionsQuery} ) q2
+    ) broken
+";
+
+$brokenQuestionSelectQuery = "
+    SELECT q1.qst_id, q1.tst_obj_id, q1.qpl_obj_id FROM ( {$brokenFixedTestQuestionsQuery} ) q1
+    UNION
+    SELECT q2.qst_id, q2.tst_obj_id, q2.qpl_obj_id FROM ( {$brokenRandomTestQuestionsQuery} ) q2
+";
+
+$res = $ilDB->query($brokenQuestionCountQuery);
+$row = $ilDB->fetchAssoc($res);
+
+if( $ilDB->tableExists($tempTableName) )
+{
+	$ilDB->dropTable($tempTableName);
+}
+
+if( $row['cnt'] > 0 )
+{
+	$ilDB->createTable($tempTableName, $tempTableFields);
+	$ilDB->addPrimaryKey($tempTableName, array('qst_id'));
+	$ilDB->addIndex($tempTableName, array('tst_obj_id', 'qpl_obj_id'), 'i1');
+	
+	$ilDB->manipulate("
+        INSERT INTO {$tempTableName} (qst_id, tst_obj_id, qpl_obj_id) {$brokenQuestionSelectQuery}
+    ");
+}
+
+?>
+<#46>
+<?php
+
+$tempTableName = 'tmp_tst_qst_fixparent';
+
+if( $ilDB->tableExists($tempTableName) )
+{
+	$updateStatement = $ilDB->prepareManip("
+        UPDATE qpl_questions SET obj_fi = ? WHERE obj_fi = ? AND question_id IN(
+            SELECT qst_id FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
+        )
+    ", array('integer', 'integer', 'integer', 'integer')
+	);
+	
+	$deleteStatement = $ilDB->prepareManip("
+        DELETE FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
+    ", array('integer', 'integer')
+	);
+	
+	$res = $ilDB->query("SELECT DISTINCT tst_obj_id, qpl_obj_id FROM {$tempTableName}");
+	
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		$ilDB->execute($updateStatement, array(
+			$row['tst_obj_id'], $row['qpl_obj_id'], $row['tst_obj_id'], $row['qpl_obj_id']
+		));
+		
+		$ilDB->execute($deleteStatement, array(
+			$row['tst_obj_id'], $row['qpl_obj_id']
+		));
+	}
+	
+	$ilDB->dropTable($tempTableName);
+}
+
+?>
+<#47>
+<?php
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmposidx5', 0);
+if (!$idx) {
+	$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+	$setting->set('ilfrmposidx5', 1);
+}
+?>

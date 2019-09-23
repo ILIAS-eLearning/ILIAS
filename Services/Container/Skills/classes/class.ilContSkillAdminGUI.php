@@ -177,7 +177,7 @@ class ilContSkillAdminGUI
 			{
 				$options[$l["id"]] = $l["title"];
 			}
-			$si = new ilSelectInputGUI($skill->getTitle(), "skill_".$sk["skill_id"]."_".$sk["tref_id"]);
+			$si = new ilSelectInputGUI(ilBasicSkill::_lookupTitle($sk["skill_id"], $sk["tref_id"]), "skill_".$sk["skill_id"]."_".$sk["tref_id"]);
 			$si->setOptions($options);
 			$si->setInfo($this->getPathString($sk["skill_id"], $sk["tref_id"]));
 			if (isset($mem_levels[$sk["skill_id"].":".$sk["tref_id"]]))

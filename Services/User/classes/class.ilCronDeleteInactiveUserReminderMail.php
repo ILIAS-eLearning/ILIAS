@@ -13,7 +13,7 @@ class ilCronDeleteInactiveUserReminderMail
 {
 	const TABLE_NAME = "usr_cron_mail_reminder";
 
-	private function mailSent($usr_id)
+	private static function mailSent($usr_id)
 	{
 		global $ilDB;
 		$ilDB->manipulateF("INSERT INTO " . self::TABLE_NAME . " (usr_id, ts) VALUES (%s, %s)",

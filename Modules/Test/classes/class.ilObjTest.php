@@ -998,6 +998,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		{
 			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
 		}
+
+		// assert that this is empty and does not contain old data
+		ilUtil::delDir($tst_dir, true);
+
 		return $tst_dir;
 	}
 
@@ -7349,6 +7353,9 @@ function getAnswerFeedbackPoints()
 		$newObj->setAutosaveIval($this->getAutosaveIval());
 		$newObj->setOfferingQuestionHintsEnabled($this->isOfferingQuestionHintsEnabled());
 		$newObj->setSpecificAnswerFeedback($this->getSpecificAnswerFeedback());
+		if ($this->isPassWaitingEnabled()) {
+			$newObj->setPassWaiting($this->getPassWaiting());
+		}
 		$newObj->setObligationsEnabled($this->areObligationsEnabled());
 		$newObj->saveToDb();
 		

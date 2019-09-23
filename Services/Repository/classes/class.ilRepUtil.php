@@ -99,7 +99,7 @@ class ilRepUtil
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
-		if (count($not_deletable) > 0)
+		if (is_array($not_deletable) && count($not_deletable) > 0)
 		{
 			$not_deletable_titles = array();
 			foreach ($not_deletable as $key => $ref_id) {
@@ -398,7 +398,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		$tree = $DIC->repositoryTree();
 
 		$cur_obj_id = ilObject::_lookupObjId($a_cur_ref_id);
-		
+
+		$no_create = [];
+
 		foreach ($a_ref_ids as $id)
 		{
 			$obj_data = ilObjectFactory::getInstanceByRefId($id);

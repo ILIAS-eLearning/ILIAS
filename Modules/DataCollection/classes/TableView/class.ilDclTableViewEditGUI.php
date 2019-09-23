@@ -89,13 +89,19 @@ class ilDclTableViewEditGUI
      */
     public function executeCommand()
     {
+	    $cmd = $this->ctrl->getCmd('show');
+	    $next_class = $this->ctrl->getNextClass($this);
+
+	    if (!$this->checkAccess($cmd)) {
+		    $this->permissionDenied();
+	    }
+
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
         $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTarget($this->parent_obj));
         $this->tabs_gui->setBack2Target($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this->parent_obj->parent_obj));
 
-        $cmd = $this->ctrl->getCmd('show');
-        $next_class = $this->ctrl->getNextClass($this);
+
 
         switch($next_class)
         {
@@ -269,5 +275,36 @@ class ilDclTableViewEditGUI
         ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_deleted'), true);
         $this->cancel();
     }
+
+
+	/**
+	 *
+	 */
+	public function permissionDenied() {
+		ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+		$this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
+	}
+
+
+	/**
+	 * @param $cmd
+	 *
+	 * @return bool
+	 */
+	protected function checkAccess($cmd)
+	{
+		if (in_array($cmd, ['add', 'create'])) {
+			return ilObjDataCollectionAccess::hasAccessToEditTable(
+				$this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+				$this->table->getId()
+			);
+		} else {
+			return ilObjDataCollectionAccess::hasAccessTo(
+				$this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+				$this->table->getId(),
+				$this->tableview->getId()
+			);
+		}
+	}
 
 }

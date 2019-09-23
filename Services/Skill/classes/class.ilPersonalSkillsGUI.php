@@ -155,7 +155,7 @@ class ilPersonalSkillsGUI
 	 *
 	 * @param array $a_val self evaluation values key1: base_skill_id, key2: tref_id: value: level id	
 	 */
-	function setGapAnalysisSelfEvalLevels($a_val)
+	function setGapAnalysisSelfEvalLevels(array $a_val)
 	{
 		$this->gap_self_eval_levels = $a_val;
 	}
@@ -1218,7 +1218,7 @@ class ilPersonalSkillsGUI
 		$this->getActualLevels($skills, $user_id);
 
 		$incl_self_eval = false;
-		if (count($this->getGapAnalysisSelfEvalLevels() > 0))
+		if (count($this->getGapAnalysisSelfEvalLevels()) > 0)
 		{
 			$incl_self_eval = true;
 			$self_vals = $this->getGapAnalysisSelfEvalLevels();

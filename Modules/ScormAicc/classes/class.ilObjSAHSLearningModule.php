@@ -49,8 +49,8 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$ilDB->manipulateF('
 			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable, seq_exp_mode,localization) 
-			VALUES (%s,%s,%s,%s,%s,%s,%s)', 
-			array('integer', 'text', 'text', 'text', 'integer','integer','text'), 
+			VALUES (%s,%s,%s,%s,%s,%s,%s)',
+			array('integer', 'text', 'text', 'text', 'integer','integer','text'),
 			array($this->getId(),'n','API', $this->getSubType(),(int)$this->getEditable(),
 				(int)$this->getSequencingExpertMode(), $this->getLocalization()
 				));
@@ -62,12 +62,12 @@ class ilObjSAHSLearningModule extends ilObject
 	function read()
 	{
 		global $ilDB;
-		
+
 		parent::read();
 
-		$lm_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
-			array('integer'),array($this->getId()));	
-		
+		$lm_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s',
+			array('integer'),array($this->getId()));
+
 		while($lm_rec = $ilDB->fetchAssoc($lm_set))
 		{
 			$this->setOnline(ilUtil::yn2tf($lm_rec["c_online"]));
@@ -108,7 +108,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setMasteryScore($lm_rec["mastery_score"]);
 			$this->setIdSetting($lm_rec["id_setting"]);
 			$this->setNameSetting($lm_rec["name_setting"]);
-			
+
 			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
 			{
@@ -123,24 +123,24 @@ class ilObjSAHSLearningModule extends ilObject
 	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
-		
-		$lm_set = $ilDB->queryF('SELECT c_online FROM sahs_lm WHERE id = %s', 
+
+		$lm_set = $ilDB->queryF('SELECT c_online FROM sahs_lm WHERE id = %s',
 		array('integer'), array($a_id));
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
-		
+
 		return ilUtil::yn2tf($lm_rec["c_online"]);
 	}
-	
+
 	/**
 	 * Get affective localization
-	 * 
+	 *
 	 * @param int $a_id scorm lm id
 	 */
 	static function getAffectiveLocalization($a_id)
 	{
 		global $ilDB, $lng;
-		
-		$lm_set = $ilDB->queryF('SELECT localization FROM sahs_lm WHERE id = %s', 
+
+		$lm_set = $ilDB->queryF('SELECT localization FROM sahs_lm WHERE id = %s',
 			array('integer'), array($a_id));
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 		$inst_lang = $lng->getInstalledLanguages();
@@ -160,10 +160,10 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		global $ilDB;
 
-		$obj_set = $ilDB->queryF('SELECT c_type FROM sahs_lm WHERE id = %s', 
+		$obj_set = $ilDB->queryF('SELECT c_type FROM sahs_lm WHERE id = %s',
 		array('integer'), array($a_obj_id));
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
-		
+
 		return $obj_rec["c_type"];
 	}
 
@@ -207,17 +207,17 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->tries;
 	}
-	
+
 	/**
 	 * Set localization
 	 *
-	 * @param string $a_val localization	
+	 * @param string $a_val localization
 	 */
 	function setLocalization($a_val)
 	{
 		$this->localization = $a_val;
 	}
-	
+
 	/**
 	 * Get localization
 	 *
@@ -232,21 +232,21 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		global $ilDB;
 
-		$lm_set = $ilDB->queryF('SELECT question_tries FROM sahs_lm WHERE id = %s', 
+		$lm_set = $ilDB->queryF('SELECT question_tries FROM sahs_lm WHERE id = %s',
 		array('integer'), array($a_id));
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
-			
+
 		return $lm_rec['question_tries'];
 	}
 	/**
 	* Gets the disk usage of the object in bytes.
-    *
+	*
 	* @access	public
 	* @return	integer		the disk usage in bytes
 	*/
 	function getDiskUsage()
 	{
-	    require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
+		require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
 		return ilObjSAHSLearningModuleAccess::_lookupDiskUsage($this->id);
 	}
 
@@ -369,7 +369,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return ilUtil::yn2tf($this->auto_review);
 	}
-	
+
 	/**
 	* set auto review as Char for SCORM 2004
 	*/
@@ -384,7 +384,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->auto_review;
 	}
-	
+
 	/**
 	* get max attempt
 	*/
@@ -401,7 +401,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->max_attempt = $a_max_attempt;
 	}
-	
+
 	/**
 	* get module version
 	*/
@@ -412,15 +412,15 @@ class ilObjSAHSLearningModule extends ilObject
 
 	/**
 	* get assigned glossary
-	*/	
+	*/
 	function getAssignedGlossary()
 	{
 		return $this->assigned_glossary;
 	}
-	
+
 	/**
 	* set assigned glossary
-	*/	
+	*/
 	function setAssignedGlossary($a_assigned_glossary)
 	{
 		$this->assigned_glossary = $a_assigned_glossary;
@@ -432,7 +432,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->module_version = $a_module_version;
 	}
-	
+
 		/**
 	* get session setting
 	*/
@@ -440,7 +440,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->session;
 	}
-	
+
 	/**
 	* set session setting
 	*/
@@ -448,7 +448,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->session = $a_session;
 	}
-	
+
 	/**
 	* disable menu
 	*/
@@ -456,7 +456,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->no_menu;
 	}
-	
+
 	/**
 	* disable menu
 	*/
@@ -464,7 +464,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->no_menu = $a_no_menu;
 	}
-	
+
 	/**
 	* hide navigation tree
 	*/
@@ -472,7 +472,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->hide_navig;
 	}
-	
+
 	/**
 	* disable menu
 	*/
@@ -631,7 +631,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->offline_mode = $a_offline_mode;
 	}
 
-	
+
 	/**
 	* debug
 	*/
@@ -639,7 +639,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->debug;
 	}
-	
+
 	/**
 	* debug
 	*/
@@ -647,7 +647,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->debug = $a_debug;
 	}
-	
+
 	/**
 	* debug pw
 	*/
@@ -655,7 +655,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->debug_pw;
 	}
-	
+
 	/**
 	* debug pw
 	*/
@@ -663,7 +663,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->debug_pw = $a_debug_pw;
 	}
-	
+
 	/**
 	* get auto continue
 	*/
@@ -692,17 +692,17 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->auto_last_visited = $a_auto_last_visited;
 	}
 
-	
+
 	/**
 	 * Set sequencing expert mode
 	 *
-	 * @param boolean $a_val sequencing expert mode	
+	 * @param boolean $a_val sequencing expert mode
 	 */
 	function setSequencingExpertMode($a_val)
 	{
 		$this->seq_exp_mode = $a_val;
 	}
-	
+
 	/**
 	 * Get sequencing expert mode
 	 *
@@ -728,13 +728,13 @@ class ilObjSAHSLearningModule extends ilObject
 		return $this->auto_suspend;
 	}
 
-	
+
 	/**
 	* open_mode
 	* 0: in Tab/new Window like in previous versions
 	* 1: in iFrame with width=100% and heigth=100%
 	* 2: in iFrame with specified width and height
-	* 3: 
+	* 3:
 	* 4:
 	* 5: in new Window without specified width and height
 	* 6: in new Window with specified width and height
@@ -747,7 +747,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->open_mode = $a_open_mode;
 	}
-	
+
 	/**
 	* width
 	*/
@@ -782,13 +782,13 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	* set mastery_score 
+	* set mastery_score
 	*/
 	function setMasteryScore($a_mastery_score)
 	{
 		$this->mastery_score = $a_mastery_score;
 	}
-	
+
 	/**
 	* check mastery_score / min_normalized_measure of SCOs (SCORM 1.2) / objectives (SCORM 2004)
 	*/
@@ -826,7 +826,7 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->mastery_score_values;
 	}
-	
+
 	/**
 	* update values for mastery_score / min_normalized_measure in database - not requested
 	*/
@@ -843,7 +843,7 @@ class ilObjSAHSLearningModule extends ilObject
 				if ($i_mastery_score > 100) $i_mastery_score = 100;
 				$i_mastery_score = $i_mastery_score/100;
 				$statement = $ilDB->manipulateF(
-					'UPDATE cp_objective,cp_node SET minnormalmeasure = %s 
+					'UPDATE cp_objective,cp_node SET minnormalmeasure = %s
 					WHERE satisfiedbymeasure=1 AND minnormalmeasure is not null AND cp_objective.cp_node_id=cp_node.cp_node_id AND slm_id = %s',
 					array('text','integer'),
 					array($i_mastery_score,$this->getID())
@@ -851,7 +851,7 @@ class ilObjSAHSLearningModule extends ilObject
 			} else {
 				if ($i_mastery_score > 127) $i_mastery_score = 127;
 				$statement = $ilDB->manipulateF(
-					'UPDATE sc_item,scorm_object SET sc_item.masteryscore = %s 
+					'UPDATE sc_item,scorm_object SET sc_item.masteryscore = %s
 					WHERE sc_item.masteryscore is not null AND sc_item.obj_id=scorm_object.obj_id AND slm_id = %s',
 					array('integer','integer'),
 					array($i_mastery_score,$this->getID())
@@ -860,7 +860,7 @@ class ilObjSAHSLearningModule extends ilObject
 		}
 	}
 	*/
-	
+
 	/**
 	* update meta data only
 	*/
@@ -894,7 +894,7 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	* set id_setting 
+	* set id_setting
 	*/
 	function setIdSetting($a_id_setting)
 	{
@@ -910,14 +910,14 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	* set name_setting 
+	* set name_setting
 	*/
 	function setNameSetting($a_name_setting)
 	{
 		$this->name_setting = $a_name_setting;
 	}
 
-	
+
 
 
 	/**
@@ -932,7 +932,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$this->updateMetaData();
 		parent::update();
-		
+
 		$s_mastery_score = $this->getMasteryScore();
 		if ($s_mastery_score == "") $s_mastery_score = null;
 
@@ -976,7 +976,7 @@ class ilObjSAHSLearningModule extends ilObject
 				mastery_score = %s,
 				id_setting = %s,
 				name_setting = %s
-			WHERE id = %s', 
+			WHERE id = %s',
 		array(	'text',
 				'text',
 				'text',
@@ -1016,7 +1016,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer',
 				'integer'
-				), 
+				),
 		array(	ilUtil::tf2yn($this->getOnline()),
 				$this->getAPIAdapterName(),
 				$this->getAPIFunctionsPrefix(),
@@ -1060,7 +1060,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 		return true;
 	}
-	
+
 	/**
 	 * Get SCORM modules that assign a certain glossary
 	 *
@@ -1070,7 +1070,7 @@ class ilObjSAHSLearningModule extends ilObject
 	static function getScormModulesForGlossary($a_glo_id)
 	{
 		global $ilDB;
-	
+
 		$set = $ilDB->query("SELECT DISTINCT id FROM sahs_lm WHERE ".
 			" glossary = ".$ilDB->quote($a_glo_id, "integer"));
 		$sms = array();
@@ -1093,7 +1093,7 @@ class ilObjSAHSLearningModule extends ilObject
 	static function lookupAssignedGlossary($a_slm_id)
 	{
 		global $ilDB;
-	
+
 		$set = $ilDB->query("SELECT DISTINCT glossary FROM sahs_lm WHERE ".
 			" id = ".$ilDB->quote($a_slm_id, "integer"));
 		$rec  = $ilDB->fetchAssoc($set);
@@ -1157,7 +1157,7 @@ class ilObjSAHSLearningModule extends ilObject
 		{
 			return false;
 		}
- 
+
 		// delete meta data of scorm content object
 		$this->deleteMetaData();
 
@@ -1165,11 +1165,11 @@ class ilObjSAHSLearningModule extends ilObject
 		ilUtil::delDir($this->getDataDirectory());
 
 		// delete scorm learning module record
-		$ilDB->manipulateF('DELETE FROM sahs_lm WHERE id = %s', 
+		$ilDB->manipulateF('DELETE FROM sahs_lm WHERE id = %s',
 			array('integer'), array($this->getId()));
-		
+
 		$ilLog->write("SAHS Delete(SAHSLM), Subtype: ".$this->getSubType());
-		
+
 		if ($this->getSubType() == "scorm")
 		{
 			// remove all scorm objects and scorm tree
@@ -1195,37 +1195,37 @@ class ilObjSAHSLearningModule extends ilObject
 		if ($this->getSubType() != "scorm")
 		{
 			// delete aicc data
- 			$res = $ilDB->queryF('
+			$res = $ilDB->queryF('
 				SELECT aicc_object.obj_id FROM aicc_object, aicc_units
 				WHERE aicc_object.obj_id = aicc_units.obj_id
 				AND aicc_object.slm_id = %s',
 				array('integer'), array($this->getId()));
-			
+
 				while($row = $ilDB->fetchAssoc($res))
 				{
 					$obj_id = $row['obj_id'];
 					$ilDB->manipulateF('
-					DELETE FROM aicc_units WHERE obj_id = %s', 
-					array('integer'), array($obj_id));				
+					DELETE FROM aicc_units WHERE obj_id = %s',
+					array('integer'), array($obj_id));
 				}
-			
+
 			$res = $ilDB->queryF('
 				SELECT aicc_object.obj_id FROM aicc_object, aicc_course
 				WHERE aicc_object.obj_id = aicc_course.obj_id
 				AND aicc_object.slm_id = %s',
 				array('integer'), array($this->getId()));
-			
+
 				while($row = $ilDB->fetchAssoc($res))
 				{
 					$obj_id = $row['obj_id'];
 					$ilDB->manipulateF('
 					DELETE FROM aicc_course WHERE obj_id = %s',
-					array('integer'), array($obj_id));		
+					array('integer'), array($obj_id));
 				}
 
 			$ilDB->manipulateF('
 				DELETE FROM aicc_object WHERE slm_id = %s',
-				array('integer'), array($this->getId()));	
+				array('integer'), array($this->getId()));
 		}
 
 		$q_log = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
@@ -1255,7 +1255,7 @@ class ilObjSAHSLearningModule extends ilObject
 		if (strcmp($this->getSubType(), "scorm2004") == 0)
 		{
 			$res = ilObjSCORM2004LearningModule::_getUniqueScaledScoreForUser($this->getId(), $ilUser->getId());
-			if (!is_null($res)) 
+			if (!is_null($res))
 			{
 				return $res * 100.0;
 			}
@@ -1269,21 +1269,21 @@ class ilObjSAHSLearningModule extends ilObject
 			return null;
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Returns score.max for the learning module, refered to the last sco where score.max is set.
 	 * This is called by the certificate generator if [SCORM_POINTS_MAX] is
 	 * inserted.
-	 * 
+	 *
 	 * @access	public
 	 * @return	float
-	 * 
+	 *
 	 */
 	public function getMaxPoints()
 	{
 		global $ilUser;
-		
+
 		if(strcmp($this->getSubType(), 'scorm2004') == 0)
 		{
 			$res = ilObjSCORM2004LearningModule::_getMaxScoreForUser($this->getId(), $ilUser->getId());
@@ -1294,7 +1294,7 @@ class ilObjSAHSLearningModule extends ilObject
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Populate by directory. Add a filename to do a special check for
 	 * ILIAS SCORM export files. If the corresponding directory is found
@@ -1315,7 +1315,7 @@ class ilObjSAHSLearningModule extends ilObject
 		ilUtil::renameExecutables($this->getDataDirectory());
 	}
 
-	
+
 	/**
 	 * Clone scorm object
 	 *
@@ -1338,7 +1338,7 @@ class ilObjSAHSLearningModule extends ilObject
 		}
 
 		// copy properties
-		$new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
+		// $new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->setSubType($this->getSubType());
 		$new_obj->setAPIAdapterName($this->getAPIAdapterName());
@@ -1388,9 +1388,9 @@ class ilObjSAHSLearningModule extends ilObject
 			$new_obj->setStyleSheetId($new_id);
 			$new_obj->update();
 		}*/
-		
+
 		// up to this point $new_obj is of type ilobjsahslearning module
-		
+
 		// create instance of correct subtype and call forward it to
 		// cloneIntoNewObject method
 		switch ($this->getSubType())
@@ -1400,7 +1400,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$source_obj = new ilObjSCORMLearningModule($this->getRefId());
 				$new_obj = new ilObjSCORMLearningModule($new_obj->getRefId());
 				break;
-				
+
 			case "scorm2004":
 				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 				$source_obj = new ilObjSCORM2004LearningModule($this->getRefId());
@@ -1416,15 +1416,28 @@ class ilObjSAHSLearningModule extends ilObject
 		{
 			$source_obj->copyAuthoredContent($new_obj);
 		}
-		else 
+		else
 		{
 			// ... or read manifest file
 			$new_obj->readObject();
 		}
-		
+
+		// Copy learning progress settings (Mantis #0022964)
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+
+		include_once('Services/Object/classes/class.ilObjectLP.php');
+		/** @var ilScormLP $olp */
+		$olp = ilObjectLP::getInstance($this->getId());
+		$collection = $olp->getCollectionInstance();
+		if($collection)
+		{
+			$collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
+		}
 		return $new_obj;
 	}
-	
+
 	public function zipLmForOfflineMode()
 	{
 		$lmDir=ilUtil::getWebspaceDir("filesystem")."/lm_data/lm_".$this->getId();

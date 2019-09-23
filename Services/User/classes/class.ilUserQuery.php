@@ -11,7 +11,14 @@
 */
 class ilUserQuery
 {
-	private $order_field = 'login';
+	const DEFAULT_ORDER_FIELD = 'login';
+
+	/**
+	 * @var \ilLogger | null
+	 */
+	private $logger = null;
+
+	private $order_field = self::DEFAULT_ORDER_FIELD;
 	private $order_dir = 'asc';
 	private $offset = 0;
 	private $limit = 50;
@@ -54,7 +61,9 @@ class ilUserQuery
 	 */
 	public function __construct()
 	{
-		;
+		global $DIC;
+
+		$this->logger = $DIC->logger()->usr();
 	}
 
 	/**
@@ -538,7 +547,14 @@ class ilUserQuery
 				}
 				if (substr($this->order_field, 0, 4) == "udf_")
 				{
-					$query .= " ORDER BY ud_".((int)substr($this->order_field, 4)).".value " . strtoupper($this->order_dir);
+					// #25311 check if order field is in field list
+					if(is_array($this->getUdfFilter()) && array_key_exists($this->order_field,$this->getUdfFilter()))
+					{
+						$query .= " ORDER BY ud_".((int)substr($this->order_field, 4)).".value " . strtoupper($this->order_dir);
+					}
+					else {
+						$query .= ' ORDER BY '. self::DEFAULT_ORDER_FIELD . ' ' . strtoupper($this->order_dir);
+					}
 				}
 				else
 				{

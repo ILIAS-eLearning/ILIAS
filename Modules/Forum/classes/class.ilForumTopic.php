@@ -40,8 +40,8 @@ class ilForumTopic
 	private $is_closed = 0;
 	
 	private $orderField = '';
-	
-	private $posts = array();
+
+	private $last_post = null;
 
 	private $db = null;
 	
@@ -548,12 +548,32 @@ class ilForumTopic
 			$nodes = $this->getAllPosts();
 			if(is_array($nodes))
 			{
+				$postsMoved = array();
 				// Move attachments
-				foreach($nodes as $node)
-				{
-					$file_obj = new ilFileDataForum((int)$old_obj_id, (int)$node->pos_pk);
-					$file_obj->moveFilesOfPost((int)$new_obj_id);
-					unset($file_obj);
+				try{
+
+					foreach($nodes as $node)
+					{
+						$file_obj = new ilFileDataForum((int)$old_obj_id, (int)$node->pos_pk);
+						$moved = $file_obj->moveFilesOfPost((int)$new_obj_id);
+
+						if (true === $moved) {
+							$postsMoved[] = array(
+								'from' => $old_obj_id,
+								'to' => $new_obj_id,
+								'position_id' => (int) $node->pos_pk
+							);
+						}
+
+						unset($file_obj);
+					}
+				} catch (\ilFileUtilsException $exception) {
+					foreach ($postsMoved as $postedInformation) {
+						$file_obj = new ilFileDataForum($postedInformation['to'], $postedInformation['position_id']);
+						$file_obj->moveFilesOfPost($postedInformation['from']);
+					}
+
+					throw $exception;
 				}
 			}
 
@@ -1224,6 +1244,16 @@ class ilForumTopic
 	{
 		return $this->orderDirection;
 	}
+	
+	public function getLastPostForThreadOverview()
+	{
+		return $this->last_post;
+	}	
+	
+	public function setLastPostForThreadOverview(ilForumPost $post)
+	{
+		$this->last_post = $post;
+	}	
 	
 	public static function lookupForumIdByTopicId($a_topic_id)
 	{

@@ -919,7 +919,7 @@ class ilLPStatus
 		self::$list_gui_cache = $res;		
 	}
 	
-	public static function getListGUIStatus($a_obj_id, $a_image_only = true)
+	public static function getListGUIStatus($a_obj_id, $a_image_only = false)
 	{
 		if ($a_image_only) {
 			$image = '';

@@ -17,20 +17,20 @@ class ilScormAiccExporter extends ilXmlExporter
 	{
 
 		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
-		$lm = new ilObjSAHSLearningModule(ilObject::_lookupObjectId($a_id),false);
+		$lm = new ilObjSAHSLearningModule($a_id, false);
 		if ($lm->getEditable())		// fix #0022063 (export authoring scorm lm)
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilScorm2004DataSet.php");
 			$dataset = new ilScorm2004DataSet();
 			$dataset->setDSPrefix("ds");
 			$dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
-			return $dataset->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+			$dataset->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 		}
 		else
 		{
 			$this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
 			//using own getXmlRepresentation function in ilScormAiccDataSet
-			return $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_id, "", false, true);
+			$this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_id, "", false, true);
 		}
 	}
 

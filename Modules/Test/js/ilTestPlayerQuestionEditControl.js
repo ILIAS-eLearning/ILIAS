@@ -103,6 +103,14 @@ il.TestPlayerQuestionEditControl = new function() {
 	 */
 	this.init = function(configParam) {
 
+	    // make sure users do not change answers until we are set up properly
+        $('body').css('pointer-events', 'none');
+        $(document).keydown(function(e) {
+            if (origData === '') { // not initialized yet?
+                e.preventDefault();
+            }
+        });
+
         // save the configuration parameters provided by ILIAS
         config = configParam;
 
@@ -216,6 +224,9 @@ il.TestPlayerQuestionEditControl = new function() {
         if (typeof tinyMCE != 'undefined') {
             activateMceSaveHandler();
         }
+
+        // we are set up now, user may change answer now.
+        $('body').css('pointer-events', '');
     }
 
     /**
