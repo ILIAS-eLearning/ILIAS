@@ -129,7 +129,7 @@ class ilUsersGalleryGUI
 			!$user->isAnonymous()
 		)
 		{
-			$contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId($user->getId())->getHtml();
+			$contact_btn_html = ilBuddySystemLinkButton::getInstanceByUserId((int) $user->getId())->getHtml();
 		}
 
 		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");

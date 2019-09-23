@@ -398,7 +398,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		$tree = $DIC->repositoryTree();
 
 		$cur_obj_id = ilObject::_lookupObjId($a_cur_ref_id);
-		
+
+		$no_create = [];
+
 		foreach ($a_ref_ids as $id)
 		{
 			$obj_data = ilObjectFactory::getInstanceByRefId($id);

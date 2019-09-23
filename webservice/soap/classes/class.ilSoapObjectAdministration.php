@@ -871,7 +871,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 					$newObj->createLMTree();
 					break;
 				case 'cat':
-					$newObj->addTranslation($object_data["title"],$object_data["description"], $lng->getLangKey(), $lng->getLangKey());
+					/** @var $newObj ilObjCategory */
+					$newObj->addTranslation($object_data["title"],$object_data["description"], $lng->getLangKey(), true);
 					break;
 			}
 			

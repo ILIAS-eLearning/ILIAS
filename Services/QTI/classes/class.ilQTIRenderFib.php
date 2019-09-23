@@ -55,7 +55,6 @@ class ilQTIRenderFib
 
 	function __construct()
 	{
-		$this->showdraw = SHOWDRAW_NO;
 		$this->response_labels = array();
 		$this->material = array();
 		$this->encoding = "UTF-8";

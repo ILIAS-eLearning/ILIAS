@@ -16,12 +16,24 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjSearchSettingsGUI extends ilObjectGUI
 {
+
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+	/**
+	 * @var ilSetupErrorHandling
+	 */
+	protected $error;
 	/**
 	* Constructor
 	* @access public
 	*/
 	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
+		global $DIC, $ilErr;
+		$this->dic = $DIC;
+		$this->error = $ilErr;
 		$this->type = "seas";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
@@ -68,14 +80,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
-		global $DIC;
-
-		$ilAccess = $DIC['ilAccess'];
-		$ilErr = $DIC['ilErr'];
-		
-		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		if (!$this->dic->rbac()->system()->checkAccess("visible,read", $this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+			$this->error->raiseError($this->lng->txt('permission_denied'),$this->error->MESSAGE);
 		}
 		$this->tabs_gui->setTabActive('settings');
 		$this->initFormSettings();

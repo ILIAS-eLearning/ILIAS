@@ -117,13 +117,13 @@ class ilBadgeProfileGUI
 		}
 		else
 		{
-			$ilTabs->addSubTab("list",
+			$ilTabs->addTab("list",
 				$lng->txt("badge_profile_view"),
 				$ilCtrl->getLinkTarget($this, "listBadges"));
-			$ilTabs->addSubTab("manage",
+			$ilTabs->addTab("manage",
 				$lng->txt("badge_profile_manage"),
 				$ilCtrl->getLinkTarget($this, "manageBadges"));
-			$ilTabs->activateSubTab($a_active);
+			$ilTabs->activateTab($a_active);
 		}
 		
 	}

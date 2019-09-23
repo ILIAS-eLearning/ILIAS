@@ -4,13 +4,17 @@
 		padding: 0;
 	}
 
-	.btn-bulky {
+	.btn-bulky,
+	.link-bulky {
 		align-items: center;
 		display: flex;
 	}
 
-	.il-drilldown-current .btn-bulky {
-		cursor: auto;
+	.il-drilldown-current {
+		 & .btn-bulky,
+		 & .link-bulky {
+			cursor: auto;
+		}
 	}
 
 	.il-drilldown-structure,

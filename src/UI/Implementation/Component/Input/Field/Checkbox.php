@@ -7,20 +7,18 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 
 /**
- * This implements the checkbox input, note that this uses GroupHelper to manage potentially
- * attached dependant groups.
+ * This implements the checkbox input.
  */
 class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable {
 
 	use JavaScriptBindable;
 	use Triggerer;
-	use DependantGroupHelper;
-
 
 	/**
 	 * @inheritdoc
@@ -33,7 +31,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 	 * @inheritdoc
 	 */
 	protected function isClientSideValueOk($value) {
-		if ($value == "checked" || $value === "") {
+		if ($value == "checked" || $value === "" || is_bool($value)) {
 			return true;
 		} else {
 			return false;
@@ -46,13 +44,10 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 	 * @return Checkbox
 	 */
 	public function withValue($value) {
-		//be lenient to bool params for easier use
-		if ($value === true) {
-			$value = "checked";
-		} else {
-			if ($value === false) {
-				$value = "";
-			}
+		if (!is_bool($value)) {
+			throw new \InvalidArgumentException(
+				"Unknown value type for checkbox: ".gettype($value)
+			);
 		}
 
 		return parent::withValue($value);
@@ -69,20 +64,60 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 
 		if (!$this->isDisabled()) {
 			$value = $post_input->getOr($this->getName(), "");
-			$clone = $this->withValue($value);
+			$clone = $this->withValue($value === "checked");
 		}
 		else {
 			$value = $this->getValue();
 			$clone = $this;
 		}
 
-		$clone->content = $this->applyOperationsTo($value);
+		$clone->content = $this->applyOperationsTo($clone->getValue());
 		if ($clone->content->isError()) {
 			return $clone->withError("" . $clone->content->error());
 		}
 
-		$clone = $clone->withGroupInput($post_input);
-
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnLoad(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'load');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnChange(C\Signal $signal) {
+		return $this->withTriggeredSignal($signal, 'change');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function appendOnChange(C\Signal $signal) {
+		return $this->appendTriggeredSignal($signal, 'change');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withOnLoad(C\Signal $signal) {
+		return $this->withTriggeredSignal($signal, 'load');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());
+		});
+		il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());";
+			return $code;
+		};
 	}
 }

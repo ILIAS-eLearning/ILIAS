@@ -2,7 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 
 /**
  * Interface SerializerInterface
@@ -28,14 +28,14 @@ interface SerializerInterface
 
 
     /**
-     * @param string                   $serialized_string
-     * @param IdentificationMap        $map
+     * @param string            $serialized_string
+     * @param IdentificationMap $map
      *
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory   $provider_factory
      *
      * @return IdentificationInterface
      */
-    public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactoryInterface $provider_factory) : IdentificationInterface;
+    public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactory $provider_factory) : IdentificationInterface;
 
 
     /**

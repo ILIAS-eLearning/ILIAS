@@ -4,5 +4,14 @@ function next_glyph() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->next("#"));
+	$glyph = $f->symbol()->glyph()->next("#");
+
+	//Showcase the various states of this Glyph
+	$list = $f->listing()->descriptive([
+		"Active"=>$glyph,
+		"Inactive"=>$glyph->withUnavailableAction(),
+		"Highlighted"=>$glyph->withHighlight()
+	]);
+
+	return $renderer->render($list);
 }

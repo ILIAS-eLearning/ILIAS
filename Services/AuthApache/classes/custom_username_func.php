@@ -1,14 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-class ApacheCustom {
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-	public static function getUsername() {
-            /*
-             * enter your custom login-name resolve function here
-             *
-             * if you are using the "auto create account" feature
-             * be sure to return a valid username IN ANY CASE
-             */
-	}
-	
+class ApacheCustom
+{
+    /**
+     * @return string
+     */
+    public static function getUsername() : string
+    {
+        /*
+         * enter your custom login-name resolve function here
+         *
+         * if you are using the "auto create account" feature
+         * be sure to return a valid username IN ANY CASE
+         */
+        return '';
+    }
 }

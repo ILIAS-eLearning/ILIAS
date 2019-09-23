@@ -8,33 +8,30 @@ include_once("class.ilCloudConnector.php");
 /**
  * Class ilObjCloud
  *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * $Id$
  *
  * @extends ilObject2
  */
 class ilObjCloud extends ilObject2
 {
+
     /**
      * @var bool
      */
     protected $online = false;
-
     /**
      * @var string
      */
     protected $service = "";
-
     /**
      * @var string
      */
     protected $root_folder = "";
-
     /**
      * @var int
      */
     protected $owner_id = 0;
-
     /**
      * @var bool
      */
@@ -51,6 +48,7 @@ class ilObjCloud extends ilObject2
         parent::__construct($a_ref_id, $a_reference);
     }
 
+
     /*
  * initType
  */
@@ -58,6 +56,7 @@ class ilObjCloud extends ilObject2
     {
         $this->type = "cld";
     }
+
 
     /**
      * Create object
@@ -76,14 +75,15 @@ class ilObjCloud extends ilObject2
         $ilDB->manipulate("INSERT INTO il_cld_data " .
             "(id, is_online, service, root_folder, root_id, owner_id, auth_complete) VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
-            $ilDB->quote("", "integer")  . "," .
-            $ilDB->quote("", "text")    . "," .
-            $ilDB->quote("", "text")    . "," .
-            $ilDB->quote("", "text")    . "," .
+            $ilDB->quote("", "integer") . "," .
+            $ilDB->quote("", "text") . "," .
+            $ilDB->quote("", "text") . "," .
+            $ilDB->quote("", "text") . "," .
             $ilDB->quote($this->getOwnerId(), "integer") . "," .
             $ilDB->quote("", "integer") .
             ")");
     }
+
 
     /**
      * Read data from db
@@ -96,8 +96,7 @@ class ilObjCloud extends ilObject2
         $set = $ilDB->query("SELECT * FROM il_cld_data " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 
-        while ($rec = $ilDB->fetchAssoc($set))
-        {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $this->setOnline($rec["is_online"]);
             $this->setRootFolder($rec["root_folder"]);
             $this->setRootId($rec["root_id"]);
@@ -106,6 +105,7 @@ class ilObjCloud extends ilObject2
             $this->setAuthComplete($rec["auth_complete"]);
         }
     }
+
 
     /**
      * Update data
@@ -116,15 +116,16 @@ class ilObjCloud extends ilObject2
         $ilDB = $DIC['ilDB'];
 
         $ilDB->manipulate($up = "UPDATE il_cld_data SET " .
-                " is_online = " . $ilDB->quote($this->getOnline(), "integer") . "," .
-                " service = " . $ilDB->quote($this->getServiceName(), "text") . "," .
-                " root_folder = " . $ilDB->quote($this->getRootFolder(), "text") . "," .
-                " root_id = " . $ilDB->quote($this->getRootId(), "text") . "," .
-                " owner_id = " . $ilDB->quote($this->getOwnerId(), "integer") . "," .
-                " auth_complete = " . $ilDB->quote($this->getAuthComplete(), "integer") .
-                " WHERE id = " . $ilDB->quote($this->getId(), "integer")
+            " is_online = " . $ilDB->quote($this->getOnline(), "integer") . "," .
+            " service = " . $ilDB->quote($this->getServiceName(), "text") . "," .
+            " root_folder = " . $ilDB->quote($this->getRootFolder(), "text") . "," .
+            " root_id = " . $ilDB->quote($this->getRootId(), "text") . "," .
+            " owner_id = " . $ilDB->quote($this->getOwnerId(), "integer") . "," .
+            " auth_complete = " . $ilDB->quote($this->getAuthComplete(), "integer") .
+            " WHERE id = " . $ilDB->quote($this->getId(), "integer")
         );
     }
+
 
     /**
      * Delete data from db
@@ -134,11 +135,9 @@ class ilObjCloud extends ilObject2
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        if ($this->getServiceName() != null)
-        {
+        if ($this->getServiceName() != null) {
             $plugin_class = ilCloudConnector::getPluginClass($this->getServiceName(), $this->getId());
-            if ($plugin_class)
-            {
+            if ($plugin_class) {
                 $plugin_class->doDelete($this->getId());
             }
         }
@@ -146,8 +145,8 @@ class ilObjCloud extends ilObject2
         $ilDB->manipulate("DELETE FROM il_cld_data WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
         );
-
     }
+
 
     /**
      * Do Cloning
@@ -160,8 +159,7 @@ class ilObjCloud extends ilObject2
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
-        if(!$cp_options->isRootNode($this->getRefId()))
-        {
+        if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->getOnline());
         }
 
@@ -173,19 +171,20 @@ class ilObjCloud extends ilObject2
         $new_obj->update();
     }
 
-//
-// Set/Get Methods for our example properties
-//
+    //
+    // Set/Get Methods for our example properties
+    //
 
     /**
      * Set online
      *
-     * @param    boolean        online
+     * @param boolean        online
      */
     function setOnline($a_val)
     {
         $this->online = $a_val;
     }
+
 
     /**
      * Get online
@@ -197,24 +196,23 @@ class ilObjCloud extends ilObject2
         return $this->online;
     }
 
+
     /**
      * Set root_folder, this may only be changed by the owner of the object. This is due too security constraints.
      * The parameter $no_check could be used by plugins for which these constraint is not an issue.
      *
-     * @param    string        root_folder
+     * @param string        root_folder
      */
-    function setRootFolder($a_val,$no_check = false)
+    function setRootFolder($a_val, $no_check = false)
     {
-        if($this->currentUserIsOwner() || $no_check || $this->getRootFolder() == null)
-        {
-            $a_val             = ilCloudUtil::normalizePath($a_val);
+        if ($this->currentUserIsOwner() || $no_check || $this->getRootFolder() == null) {
+            $a_val = ilCloudUtil::normalizePath($a_val);
             $this->root_folder = $a_val;
-        }
-        else
-        {
+        } else {
             throw new ilCloudException(ilCloudException::PERMISSION_TO_CHANGE_ROOT_FOLDER_DENIED);
         }
     }
+
 
     /**
      * Get root_folder
@@ -226,21 +224,21 @@ class ilObjCloud extends ilObject2
         return $this->root_folder;
     }
 
+
     /**
      * Set root_id
      *
-     * @param    string        root_id
+     * @param string        root_id
      */
-    function setRootId($a_val,$no_check = false)
+    function setRootId($a_val, $no_check = false)
     {
-        if ($this->currentUserIsOwner() || $no_check || $this->getRootId() == null)
-        {
+        if ($this->currentUserIsOwner() || $no_check || $this->getRootId() == null) {
             $this->root_id = $a_val;
-        } else
-        {
+        } else {
             throw new ilCloudException(ilCloudException::PERMISSION_TO_CHANGE_ROOT_FOLDER_DENIED);
         }
     }
+
 
     /**
      * Get root_id
@@ -252,15 +250,17 @@ class ilObjCloud extends ilObject2
         return $this->root_id;
     }
 
+
     /**
      * Set service
      *
-     * @param    string        service
+     * @param string        service
      */
     function setServiceName($a_val)
     {
         $this->service_name = $a_val;
     }
+
 
     /**
      * Get service
@@ -272,6 +272,7 @@ class ilObjCloud extends ilObject2
         return $this->service_name;
     }
 
+
     /**
      * @param int $owner_id
      */
@@ -279,6 +280,7 @@ class ilObjCloud extends ilObject2
     {
         $this->owner_id = $owner_id;
     }
+
 
     /**
      * @return int
@@ -288,6 +290,7 @@ class ilObjCloud extends ilObject2
         return $this->owner_id;
     }
 
+
     /**
      * @return bool
      */
@@ -295,8 +298,10 @@ class ilObjCloud extends ilObject2
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
+
         return $ilUser->getId() == $this->getOwnerId();
     }
+
 
     /**
      * @param boolean $auth_complete
@@ -306,6 +311,7 @@ class ilObjCloud extends ilObject2
         $this->auth_complete = $auth_complete;
     }
 
+
     /**
      * @return boolean
      */
@@ -314,4 +320,5 @@ class ilObjCloud extends ilObject2
         return $this->auth_complete;
     }
 }
+
 ?>

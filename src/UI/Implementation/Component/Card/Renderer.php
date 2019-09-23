@@ -31,13 +31,18 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->touchBlock("no_highlight");
 		}
 
+        $title = $component->getTitle();
 		$id = $this->bindJavaScript($component);
 		if (!empty($component->getTitleAction())) {
 			if (is_string($component->getTitleAction())) {
 				$tpl->setCurrentBlock("title_action_begin");
 				$tpl->setVariable("HREF", $component->getTitleAction());
 				$tpl->parseCurrentBlock();
-			}
+			} else {
+                if ($title instanceof \ILIAS\UI\Component\Button\Shy) {
+                    $title = $default_renderer->render($title);
+                }
+            }
 			if (is_array($component->getTitleAction())) {
 				$tpl->setCurrentBlock("title_action_begin");
 				$tpl->setVariable("ID", $id);
@@ -45,7 +50,7 @@ class Renderer extends AbstractComponentRenderer {
 			}
 		}
 
-		$tpl->setVariable("TITLE",$component->getTitle());
+		$tpl->setVariable("TITLE", $title);
 
 		if(!empty($component->getTitleAction())) {
 			$tpl->touchBlock("title_action_end");

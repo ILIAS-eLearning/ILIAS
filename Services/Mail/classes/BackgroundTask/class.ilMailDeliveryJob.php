@@ -47,7 +47,7 @@ class ilMailDeliveryJob extends AbstractJob
 		);
 
 		$DIC->logger()->mail()->info(sprintf(
-			'Mail delivery background task finished',
+			'Mail delivery background task finished: %s',
 			json_encode($arguments, JSON_PRETTY_PRINT)
 		));
 

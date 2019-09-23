@@ -1938,8 +1938,15 @@ class ilObject
 		$new_obj->setTitle($title);
 		$new_obj->setDescription($this->getLongDescription());
 		$new_obj->setType($this->getType());
+
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
+
+		if($this->supportsOfflineHandling())
+		{
+			$new_obj->setOffLineStatus($this->getOfflineStatus());
+			$new_obj->update();
+		}
 
 		if(!$options->isTreeCopyDisabled() && !$a_omit_tree)
 		{
@@ -1975,6 +1982,9 @@ class ilObject
 		$customIconFactory = $DIC['object.customicons.factory'];
 		$customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
 		$customIcon->copy($new_obj->getId());
+
+        $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($this->getId());
+        $tile_image->copy($new_obj->getId());
 
 		$ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
 			'object'             => $new_obj,

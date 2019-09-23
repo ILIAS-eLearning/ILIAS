@@ -1,7 +1,7 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
  * LearningModule Data set class
@@ -115,7 +115,7 @@ class ilLearningModuleDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("5.1.0");
+		return array("5.1.0", "5.4.0");
 	}
 	
 	/**
@@ -171,6 +171,38 @@ class ilLearningModuleDataSet extends ilDataSet
 						"ForTranslation" => "integer",
 						"StyleId" => "integer"
 					);
+
+				case "5.4.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"DefaultLayout" => "text",
+						"PageHeader" => "text",
+						"TocActive" => "text",
+						"LMMenuActive" => "text",
+						"TOCMode" => "text",
+						"PrintViewActive" => "text",
+						"NoGloAppendix" => "text",
+						"Numbering" => "text",
+						"HistUserComments" => "text",
+						"PublicAccessMode" => "text",
+						"PubNotes" => "text",
+						"HeaderPage" => "integer",
+						"FooterPage" => "integer",
+						"LayoutPerPage" => "integer",
+						"Rating" => "integer",
+						"HideHeadFootPrint" => "integer",
+						"DisableDefFeedback" => "integer",
+						"RatingPages" => "integer",
+						"ProgrIcons" => "integer",
+						"StoreTries" => "integer",
+						"RestrictForwNav" => "integer",
+						"Comments" => "integer",
+						"ForTranslation" => "integer",
+						"StyleId" => "integer"
+					);
+
 			}
 		}
 
@@ -179,6 +211,7 @@ class ilLearningModuleDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.4.0":
 					return array(
 						"LmId" => "integer",
 						"Child" => "integer",
@@ -200,6 +233,7 @@ class ilLearningModuleDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.4.0":
 					return array(
 						"LmId" => "integer",
 						"LinkType" => "text",
@@ -216,6 +250,7 @@ class ilLearningModuleDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.4.0":
 					return array(
 						"Id" => "integer",
 						"Lang" => "text",
@@ -247,19 +282,33 @@ class ilLearningModuleDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
-					$q = "SELECT id, title, description,".
-						" default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering,".
-						" hist_user_comments, public_access_mode, header_page, footer_page, layout_per_page, rating, ".
-						" hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id".
-						" FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)".
-						" WHERE ".$ilDB->in("id", $a_ids, false, "integer");
+				case "5.4.0":
+					switch ($a_version)
+					{
+						case "5.1.0":
+							$q = "SELECT id, title, description,".
+								" default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering,".
+								" hist_user_comments, public_access_mode, header_page, footer_page, layout_per_page, rating, ".
+								" hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id".
+								" FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)".
+								" WHERE ".$ilDB->in("id", $a_ids, false, "integer");
+								break;
+
+						case "5.4.0":
+							$q = "SELECT id, title, description,".
+								" default_layout, page_header, toc_active, lm_menu_active, toc_mode, print_view_active, numbering,".
+								" hist_user_comments, public_access_mode, no_glo_appendix, header_page, footer_page, layout_per_page, rating, ".
+								" hide_head_foot_print, disable_def_feedback, rating_pages, store_tries, restrict_forw_nav, progr_icons, stylesheet style_id".
+								" FROM content_object JOIN object_data ON (content_object.id = object_data.obj_id)".
+								" WHERE ".$ilDB->in("id", $a_ids, false, "integer");
+
+					}
 
 					$set = $ilDB->query($q);
 					$this->data = array();
 					while ($rec  = $ilDB->fetchAssoc($set))
 					{
 						// comments activated?
-						include_once("./Services/Notes/classes/class.ilNote.php");
 						$rec["comments"] = ilNote::commentsActivated($rec["id"], 0, "lm");
 
 						if ($this->getMasterLanguageOnly())
@@ -288,6 +337,7 @@ class ilLearningModuleDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.4.0":
 					// the order by lft is very important, this ensures that parent nodes are written before
 					// their childs and that the import can add nodes simply with a "add at last child" target
 					$q = "SELECT lm_tree.lm_id, child, parent, depth, type, title, short_title, public_access, active, layout, import_id".
@@ -350,6 +400,7 @@ class ilLearningModuleDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.4.0":
 					$this->getDirectDataFromQuery("SELECT lm_id, link_type, title, target, link_ref_id, active".
 						" FROM lm_menu ".
 						" WHERE ".$ilDB->in("lm_id", $a_ids, false, "integer"));
@@ -362,6 +413,7 @@ class ilLearningModuleDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "5.1.0":
+				case "5.4.0":
 					$this->getDirectDataFromQuery("SELECT id, lang, title, short_title".
 						" FROM lm_data_transl ".
 						" WHERE ".$ilDB->in("id", $a_ids, false, "integer"));
@@ -421,7 +473,6 @@ class ilLearningModuleDataSet extends ilDataSet
 					return;
 				}
 				
-				include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
 				{
 					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
@@ -442,6 +493,7 @@ class ilLearningModuleDataSet extends ilDataSet
 				$newObj->setActiveLMMenu(ilUtil::yn2tf($a_rec["LmMenuActive"]));
 				$newObj->setTOCMode($a_rec["TocMode"]);
 				$newObj->setActivePrintView(ilUtil::yn2tf($a_rec["PrintViewActive"]));
+				$newObj->setActivePreventGlossaryAppendix(ilUtil::yn2tf($a_rec["NoGloAppendix"]));
 				$newObj->setActiveNumbering(ilUtil::yn2tf($a_rec["Numbering"]));
 				$newObj->setHistoryUserComments(ilUtil::yn2tf($a_rec["HistUserComments"]));
 				$newObj->setPublicAccessMode($a_rec["PublicAccessMode"]);
@@ -469,7 +521,6 @@ class ilLearningModuleDataSet extends ilDataSet
 				$this->current_obj = $newObj;
 
 				// activated comments
-				include_once("./Services/Notes/classes/class.ilNote.php");
 				ilNote::activateComments($newObj->getId(), 0, "lm", (int) $a_rec["Comments"]);
 
 				$a_mapping->addMapping("Modules/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
@@ -482,9 +533,6 @@ class ilLearningModuleDataSet extends ilDataSet
 			case "lm_tree":
 				if (!$this->getTranslationImportMode())
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-					include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-					include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 					switch ($a_rec["Type"])
 					{
 						case "st":
@@ -545,7 +593,6 @@ class ilLearningModuleDataSet extends ilDataSet
 				}
 				else
 				{
-					include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 					switch ($a_rec["Type"])
 					{
 						case "st":
@@ -598,7 +645,6 @@ class ilLearningModuleDataSet extends ilDataSet
 				break;
 
 			case "lm_data_transl":
-				include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 				if (!$this->getTranslationImportMode())
 				{
 					// save page/chapter title translation

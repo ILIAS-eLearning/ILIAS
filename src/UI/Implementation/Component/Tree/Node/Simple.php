@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Tree\Node\Simple as ISimple;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
@@ -23,9 +24,12 @@ class Simple extends Node implements ISimple
 	 */
 	protected $icon;
 
-	public function __construct(string $label, Icon $icon=null)
-	{
-		parent::__construct($label);
+	public function __construct(
+		string $label,
+		Icon $icon = null,
+		URI $link = null
+	) {
+		parent::__construct($label, $link);
 		$this->icon = $icon;
 	}
 
@@ -69,5 +73,17 @@ class Simple extends Node implements ISimple
 	public function getAsyncURL(): string
 	{
 		return $this->asynch_url;
+	}
+
+	/**
+	 * Create a new node object with an URI that will be added to the UI
+	 * @param URI $link
+	 * @return Node
+	 */
+	public function withLink(URI $link) : \ILIAS\UI\Component\Tree\Node\Node
+	{
+		$clone = clone $this;
+		$clone->link = $link;
+		return $clone;
 	}
 }

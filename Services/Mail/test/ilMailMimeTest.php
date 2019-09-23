@@ -1,232 +1,235 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailMimeTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailMimeTest extends \ilMailBaseTest
+class ilMailMimeTest extends ilMailBaseTest
 {
-	const USER_ID = 6;
+    const USER_ID = 6;
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp(): void
-	{
-		if (!defined('ANONYMOUS_USER_ID')) {
-			define('ANONYMOUS_USER_ID', 13);
-		}
+    /**
+     * @inheritdoc
+     */
+    protected function setUp() : void
+    {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
 
-		\ilMimeMail::setDefaultTransport(null);
-		\ilMailMimeSenderUserById::addUserToCache(self::USER_ID, $this->getUserById(self::USER_ID));
+        ilMimeMail::setDefaultTransport(null);
+        ilMailMimeSenderUserById::addUserToCache(self::USER_ID, $this->getUserById(self::USER_ID));
 
-		parent::setUp();
-	}
+        parent::setUp();
+    }
 
-	/**
-	 *
-	 */
-	public function testMimMailDelegatesEmailDeliveryToThePassedTransporter()
-	{
-		$defaultTransport = $this->getMockBuilder(\ilMailMimeTransport::class)->getMock();
-		$defaultTransport->expects($this->never())->method('send');
+    /**
+     * @throws ReflectionException
+     */
+    public function testMimMailDelegatesEmailDeliveryToThePassedTransporter() : void
+    {
+        $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
+        $defaultTransport->expects($this->never())->method('send');
 
-		$transport = $this->getMockBuilder(\ilMailMimeTransport::class)->getMock();
-		$transport->expects($this->once())->method('send');
+        $transport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
+        $transport->expects($this->once())->method('send');
 
-		$transportFactory = $this->getMockBuilder(\ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
-		$transportFactory->expects($this->any())->method('getTransport')->will($this->returnValue($defaultTransport));
-		$this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
+        $transportFactory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
+        $transportFactory->expects($this->any())->method('getTransport')->will($this->returnValue($defaultTransport));
+        $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
 
-		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
-		$this->setGlobalVariable('ilSetting', $settings);
+        $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
+        $this->setGlobalVariable('ilSetting', $settings);
 
-		$mail = new \ilMimeMail();
-		$mail->send($transport);
-	}
+        $mail = new ilMimeMail();
+        $mail->send($transport);
+    }
 
-	/**
-	 *
-	 */
-	public function testMimMailDelegatesEmailDeliveryToDefaultTransport()
-	{
-		$defaultTransport = $this->getMockBuilder(\ilMailMimeTransport::class)->getMock();
-		$defaultTransport->expects($this->once())->method('send');
+    /**
+     * @throws ReflectionException
+     */
+    public function testMimMailDelegatesEmailDeliveryToDefaultTransport() : void
+    {
+        $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
+        $defaultTransport->expects($this->once())->method('send');
 
-		$transportFactory = $this->getMockBuilder(\ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
-		$transportFactory->expects($this->any())->method('getTransport')->will($this->returnValue($defaultTransport));
-		$this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
+        $transportFactory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
+        $transportFactory->expects($this->any())->method('getTransport')->will($this->returnValue($defaultTransport));
+        $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
 
-		$settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
-		$this->setGlobalVariable('ilSetting', $settings);
+        $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
+        $this->setGlobalVariable('ilSetting', $settings);
 
-		$mail = new \ilMimeMail();
-		$mail->send();
-	}
+        $mail = new ilMimeMail();
+        $mail->send();
+    }
 
-	/**
-	 *
-	 */
-	public function testTransportFactoryWillReturnNullTransportIfExternalEmailDeliveryIsDisabled()
-	{
-		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
-		$settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
-			if ('mail_allow_external' == $key) {
-				return false;
-			}
+    /**
+     * @throws ReflectionException
+     */
+    public function testTransportFactoryWillReturnNullTransportIfExternalEmailDeliveryIsDisabled() : void
+    {
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
+        $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
+            if ('mail_allow_external' == $key) {
+                return false;
+            }
 
-			return true;
-		}));
-		$this->setGlobalVariable('ilSetting', $settings);
+            return true;
+        }));
+        $this->setGlobalVariable('ilSetting', $settings);
 
-		$eventHandler = $this->getMockBuilder(\ilAppEventHandler::class)->disableOriginalConstructor()->setMethods(array(
-			'raise',
-		))->getMock();
+        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->setMethods([
+            'raise',
+        ])->getMock();
 
-		$factory = new \ilMailMimeTransportFactory($settings, $eventHandler);
-		$this->assertInstanceOf('\ilMailMimeTransportNull', $factory->getTransport());
-	}
+        $factory = new ilMailMimeTransportFactory($settings, $eventHandler);
+        $this->assertInstanceOf('\ilMailMimeTransportNull', $factory->getTransport());
+    }
 
-	/**
-	 *
-	 */
-	public function testTransportFactoryWillReturnSmtpTransportIfEnabled()
-	{
-		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
-		$settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
-			if ('mail_allow_external' == $key) {
-				return true;
-			}
-
-
-			if ('mail_smtp_status' == $key) {
-				return true;
-			}
-
-			return true;
-		}));
-		$this->setGlobalVariable('ilSetting', $settings);
-
-		$eventHandler = $this->getMockBuilder(\ilAppEventHandler::class)->disableOriginalConstructor()->setMethods(array(
-			'raise',
-		))->getMock();
-
-		$factory = new \ilMailMimeTransportFactory($settings, $eventHandler);
-		$this->assertInstanceOf('\ilMailMimeTransportSmtp', $factory->getTransport());
-	}
-
-	/**
-	 *
-	 */
-	public function testTransportFactoryWillReturnSendmailTransportIfSmtpTransportIsDisabled()
-	{
-		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
-
-		$settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
-			if ('mail_allow_external' == $key) {
-				return true;
-			}
+    /**
+     * @throws ReflectionException
+     */
+    public function testTransportFactoryWillReturnSmtpTransportIfEnabled() : void
+    {
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
+        $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
+            if ('mail_allow_external' == $key) {
+                return true;
+            }
 
 
-			if ('mail_smtp_status' == $key) {
-				return false;
-			}
+            if ('mail_smtp_status' == $key) {
+                return true;
+            }
 
-			return true;
-		}));
-		$this->setGlobalVariable('ilSetting', $settings);
+            return true;
+        }));
+        $this->setGlobalVariable('ilSetting', $settings);
 
-		$eventHandler = $this->getMockBuilder(\ilAppEventHandler::class)->disableOriginalConstructor()->setMethods(array(
-			'raise',
-		))->getMock();
+        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->setMethods([
+            'raise',
+        ])->getMock();
 
-		$factory = new \ilMailMimeTransportFactory($settings, $eventHandler);
-		$this->assertInstanceOf('\ilMailMimeTransportSendMail', $factory->getTransport());
-	}
+        $factory = new ilMailMimeTransportFactory($settings, $eventHandler);
+        $this->assertInstanceOf('\ilMailMimeTransportSmtp', $factory->getTransport());
+    }
 
-	/**
-	 *
-	 */
-	public function testFactoryWillReturnSystemSenderForAnonymousUserId()
-	{
-		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
+    /**
+     * @throws ReflectionException
+     */
+    public function testTransportFactoryWillReturnSendmailTransportIfSmtpTransportIsDisabled() : void
+    {
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
 
-		$factory = new \ilMailMimeSenderFactory($settings);
-		$this->assertInstanceOf('\ilMailMimeSenderSystem', $factory->getSenderByUsrId(\ANONYMOUS_USER_ID));
-	}
+        $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
+            if ('mail_allow_external' == $key) {
+                return true;
+            }
 
-	/**
-	 *
-	 */
-	public function testFactoryWillReturnSystemSenderWhenExplicitlyRequested()
-	{
-		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
 
-		$factory = new \ilMailMimeSenderFactory($settings);
-		$this->assertInstanceOf('\ilMailMimeSenderSystem', $factory->system());
-	}
+            if ('mail_smtp_status' == $key) {
+                return false;
+            }
 
-	/**
-	 * @param int $usrId
-	 * @return \ilObjUser
-	 */
-	protected function getUserById($usrId)
-	{
-		$user = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->setMethods(
-			array()
-		)->getMock();
-		$user->expects($this->any())->method('getId')->will($this->returnValue($usrId));
+            return true;
+        }));
+        $this->setGlobalVariable('ilSetting', $settings);
 
-		return $user;
-	}
+        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->setMethods([
+            'raise',
+        ])->getMock();
 
-	/**
-	 *
-	 */
-	public function testFactoryWillReturnUserSenderForExistingUserId()
-	{
-		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
+        $factory = new ilMailMimeTransportFactory($settings, $eventHandler);
+        $this->assertInstanceOf('\ilMailMimeTransportSendMail', $factory->getTransport());
+    }
 
-		$factory = new \ilMailMimeSenderFactory($settings);
-		$this->assertInstanceOf('\ilMailMimeSenderUser', $factory->getSenderByUsrId(self::USER_ID));
-	}
+    /**
+     * @throws ReflectionException
+     */
+    public function testFactoryWillReturnSystemSenderForAnonymousUserId() : void
+    {
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
 
-	/**
-	 *
-	 */
-	public function testFactoryWillReturnUserSenderWhenExplicitlyRequested()
-	{
-		$settings = $this->getMockBuilder(\ilSetting::class)->disableOriginalConstructor()->setMethods(array(
-			'set',
-			'get'
-		))->getMock();
+        $factory = new ilMailMimeSenderFactory($settings);
+        $this->assertInstanceOf('\ilMailMimeSenderSystem', $factory->getSenderByUsrId(ANONYMOUS_USER_ID));
+    }
 
-		$factory = new \ilMailMimeSenderFactory($settings);
-		$this->assertInstanceOf('\ilMailMimeSenderUser', $factory->user(self::USER_ID));
-	}
+    /**
+     * @throws ReflectionException
+     */
+    public function testFactoryWillReturnSystemSenderWhenExplicitlyRequested() : void
+    {
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
+
+        $factory = new ilMailMimeSenderFactory($settings);
+        $this->assertInstanceOf('\ilMailMimeSenderSystem', $factory->system());
+    }
+
+    /**
+     * @param int $usrId
+     * @return ilObjUser
+     * @throws ReflectionException
+     */
+    protected function getUserById(int $usrId) : ilObjUser
+    {
+        $user = $this->getMockBuilder(ilObjUser::class)
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
+        $user->expects($this->any())->method('getId')->will($this->returnValue($usrId));
+
+        return $user;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testFactoryWillReturnUserSenderForExistingUserId() : void
+    {
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
+
+        $factory = new ilMailMimeSenderFactory($settings);
+        $this->assertInstanceOf('\ilMailMimeSenderUser', $factory->getSenderByUsrId(self::USER_ID));
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testFactoryWillReturnUserSenderWhenExplicitlyRequested() : void
+    {
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+            'set',
+            'get'
+        ])->getMock();
+
+        $factory = new ilMailMimeSenderFactory($settings);
+        $this->assertInstanceOf('\ilMailMimeSenderUser', $factory->user(self::USER_ID));
+    }
 }

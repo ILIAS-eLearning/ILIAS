@@ -8,10 +8,9 @@ interface ilCertificateFormRepository
 {
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate $certificateObject
      * @return ilPropertyFormGUI
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject);
+    public function createForm(ilCertificateGUI $certificateGUI);
 
     /**
      * @param array $formFields

@@ -10,8 +10,24 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 	{
 		return ($a_adt instanceof ilADTGroup);
 	}
-	
-	
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getFieldValue($a_field_name) {
+		// TODO: Implement getFieldValue() method.
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setFieldValue($a_field_name, $a_field_value) {
+		// TODO: Implement setFieldValue() method.
+	}
+
+
 	// elements
 	
 	protected function prepareElements()

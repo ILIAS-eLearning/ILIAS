@@ -176,9 +176,9 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     public function objectCacheProvider() : array
     {
         return [
-            [$this->expectedInitialValue, $this->adminRoleTitle],
-            [$this->expectedAfterFormSubmitValue, $this->userRoleTitle],
-            [-1, ''],
+            'Administrator Role Id' => [$this->expectedInitialValue, $this->adminRoleTitle],
+            'User Role Id' => [$this->expectedAfterFormSubmitValue, $this->userRoleTitle],
+            'Invalid Role Id' => [-1, ''],
         ];
     }
 
@@ -205,7 +205,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(
             $this->getCriterionConfig(['role_id' => $roleId]),
-            $this->dic->ui()->factory()
+            $this->getUiFactoryMock()
         );
 
         $this->assertInstanceOf(Component::class, $actual);
@@ -222,12 +222,15 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $criterion = $this->getInstance();
 
         return [
-            [$criterion, $this->getCriterionConfig(['role_id' => []])],
-            [$criterion, $this->getCriterionConfig(['role_id' => new stdClass()])],
-            [$criterion, $this->getCriterionConfig(['role_id' => 1.424])],
-            [$criterion, $this->getCriterionConfig(['role_id' => 'phpunit'])],
-            [$criterion, $this->getCriterionConfig(['another_config_key' => true])],
-            [$criterion, $this->getCriterionConfig()],
+            'Array' => [$criterion, $this->getCriterionConfig(['role_id' => []])],
+            'Object' => [$criterion, $this->getCriterionConfig(['role_id' => new stdClass()])],
+            'Double' => [$criterion, $this->getCriterionConfig(['role_id' => 1.424])],
+            'String' => [$criterion, $this->getCriterionConfig(['role_id' => 'phpunit'])],
+            'Wrong Key Provided for Extracting Role' => [
+                $criterion,
+                $this->getCriterionConfig(['another_config_key' => true])
+            ],
+            'Empty Configuration' => [$criterion, $this->getCriterionConfig()],
         ];
     }
 

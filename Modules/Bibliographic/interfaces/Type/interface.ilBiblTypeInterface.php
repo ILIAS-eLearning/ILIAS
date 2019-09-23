@@ -5,39 +5,40 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblTypeInterface {
+interface ilBiblTypeInterface
+{
 
-	/**
-	 * @param string $identifier
-	 *
-	 * @return bool
-	 */
-	public function isStandardField(string $identifier): bool;
-
-
-	/**
-	 * @param string $identifier
-	 *
-	 * @return bool
-	 */
-	public function isEntryType(string $identifier): bool;
+    /**
+     * @param string $identifier
+     *
+     * @return bool
+     */
+    public function isStandardField(string $identifier) : bool;
 
 
-	/**
-	 * @return string such as "ris" or "bib"
-	 */
-	public function getStringRepresentation(): string;
+    /**
+     * @param string $identifier
+     *
+     * @return bool
+     */
+    public function isEntryType(string $identifier) : bool;
 
 
-	/**
-	 * @return int ID, see ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX or
-	 *             DATA_TYPE_BIBTEX::DATA_TYPE_RIS
-	 */
-	public function getId(): int;
+    /**
+     * @return string such as "ris" or "bib"
+     */
+    public function getStringRepresentation() : string;
 
 
-	/**
-	 * @return string[]
-	 */
-	public function getStandardFieldIdentifiers(): array;
+    /**
+     * @return int ID, see ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX or
+     *             DATA_TYPE_BIBTEX::DATA_TYPE_RIS
+     */
+    public function getId() : int;
+
+
+    /**
+     * @return string[]
+     */
+    public function getStandardFieldIdentifiers() : array;
 }

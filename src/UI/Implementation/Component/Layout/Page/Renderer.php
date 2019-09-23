@@ -51,6 +51,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
+		if($component->hasFooter()) {
+			$tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
+		}
+
 		$component = $component->withOnLoadCode(
 			function($id) {
 				return "$(document).ready(function() {
@@ -120,12 +124,11 @@ class Renderer extends AbstractComponentRenderer {
 			foreach ($layout->meta()->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
 				$js_inline[] = $on_load_code->getContent();
 			}
-
-			$base_url = $layout->meta()->getBaseURL();
 		}
 
 		if($for_ui_demo) {
 			$base_url = '../../../../../../';
+			$tpl->setVariable("BASE", $base_url);
 
 			array_unshift($js_files, './Services/JavaScript/js/Basic.js');
 
@@ -148,14 +151,12 @@ class Renderer extends AbstractComponentRenderer {
 		foreach ($css_files as $css_file) {
 			$tpl->setCurrentBlock("css_file");
 			$tpl->setVariable("CSS_FILE", $css_file['file']);
-			$tpl->setVariable("CSS_MEDIA", $css_file['media']);
 			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
 		$tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
 
-		$tpl->setVariable("BASE", $base_url);
 
 		return $tpl;
 	}

@@ -81,9 +81,14 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 		$this->setLimit(999999);
 		
 		$this->setFormName('cmd');
-		
+
+
 		$this->addCommandButton('copyContainerToTargets', $this->lng->txt('obj_'.$this->type.'_duplicate'));
-		$this->addCommandButton($a_back_cmd, $this->lng->txt('btn_back'));
+        if ($a_back_cmd == "") {        // see bug #25991
+            $this->addCommandButton("cancel", $this->lng->txt('cancel'));
+        } else {
+            $this->addCommandButton($a_back_cmd, $this->lng->txt('btn_back'));
+        }
 	}
 	
 	/**

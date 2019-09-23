@@ -95,16 +95,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
 
     /**
-     * @return ilGSIdentificationStorage
-     * @throws arException
-     */
-    public function identificationStorage() : ilGSIdentificationStorage
-    {
-        return ilGSIdentificationStorage::findOrFail($this->identification->serialize());
-    }
-
-
-    /**
      * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
      */
     public function identification() : \ILIAS\GlobalScreen\Identification\IdentificationInterface
@@ -345,10 +335,6 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         if ($this->isDeletable()) {
             $serialize = $this->identification->serialize();
-            $gs = ilGSIdentificationStorage::find($serialize);
-            if ($gs instanceof ilGSIdentificationStorage) {
-                $gs->delete();
-            }
             $mm = ilMMItemStorage::find($serialize);
             if ($mm instanceof ilMMItemStorage) {
                 $mm->delete();

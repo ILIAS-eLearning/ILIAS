@@ -45,6 +45,11 @@ abstract class ilExplorerBaseGUI
 	protected $enable_dnd = false;
 	protected $search_term = "";
 
+    /**
+     * @var string|object
+     */
+	protected $parent_obj;
+
 	/**
 	 * @var int 
 	 */
@@ -76,6 +81,7 @@ abstract class ilExplorerBaseGUI
 		}
 
 		$this->nodeOnclickEnabled = true;
+        ilYuiUtil::initConnection();
 	}
 	
 	/**
@@ -124,7 +130,7 @@ abstract class ilExplorerBaseGUI
 	 *
 	 * @param ilTemplate|null $a_main_tpl
 	 */
-	function setMainTemplate(ilGlobalTemplate $a_main_tpl = null)
+	function setMainTemplate($a_main_tpl = null)
 	{
 		$this->tpl = $a_main_tpl;
 	}
@@ -590,6 +596,12 @@ abstract class ilExplorerBaseGUI
 
 		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
 
+		$root = $this->getNodeId($this->getRootNode());
+		if (!in_array($root, $this->open_nodes))
+		{
+			$this->open_nodes[] = $root;
+		}
+
 		if ($_GET["node_id"] != "")
 		{
 			$id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
@@ -761,39 +773,42 @@ abstract class ilExplorerBaseGUI
 
 		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
 
-		// render childs
-		$root_node = $this->getRootNode();
-		
-		if (!$this->getSkipRootNode() &&
-			$this->isNodeVisible($this->getRootNode()))
-		{
-			$this->listStart($etpl);
-			$this->renderNode($this->getRootNode(), $etpl);
-			$this->listEnd($etpl);
-		}
-		else
-		{		
-			$childs = $this->getChildsOfNode($this->getNodeId($root_node));
-			$childs = $this->sortChilds($childs, $this->getNodeId($root_node));
-			$any = false;
-			foreach ($childs as $child_node)
+		if (!$this->ajax) {
+			// render childs
+			$root_node = $this->getRootNode();
+
+			if (!$this->getSkipRootNode() &&
+				$this->isNodeVisible($this->getRootNode()))
 			{
-				if ($this->isNodeVisible($child_node))
-				{
-					if (!$any)
-					{
-						$this->listStart($etpl);
-						$any = true;
-					}
-					$this->renderNode($child_node, $etpl);
-				}
-			}
-			if ($any)
-			{
+				$this->listStart($etpl);
+				$this->renderNode($this->getRootNode(), $etpl);
 				$this->listEnd($etpl);
 			}
+			else
+			{
+				$childs = $this->getChildsOfNode($this->getNodeId($root_node));
+				$childs = $this->sortChilds($childs, $this->getNodeId($root_node));
+				$any = false;
+				foreach ($childs as $child_node)
+				{
+					if ($this->isNodeVisible($child_node))
+					{
+						if (!$any)
+						{
+							$this->listStart($etpl);
+							$any = true;
+						}
+						$this->renderNode($child_node, $etpl);
+					}
+				}
+				if ($any)
+				{
+					$this->listEnd($etpl);
+				}
+			}
+
 		}
-		
+
 		$etpl->setVariable("CONTAINER_ID", $container_id);
 		$etpl->setVariable("CONTAINER_OUTER_ID", $container_outer_id);
 

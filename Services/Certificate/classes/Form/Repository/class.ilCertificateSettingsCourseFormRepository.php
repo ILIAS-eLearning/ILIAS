@@ -70,6 +70,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     public function __construct(
         \ilObject $object,
         string $certificatePath,
+        bool $hasAdditionalElements,
         ilLanguage $language,
         ilCtrl $controller,
         ilAccess $access,
@@ -91,6 +92,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             $settingsFromFactory = new ilCertificateSettingsFormRepository(
                 $object->getId(),
                 $certificatePath,
+                $hasAdditionalElements,
                 $language,
                 $controller,
                 $access,
@@ -134,10 +136,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate $certificateObject
-     *
      * @return ilPropertyFormGUI
-     *
      * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -145,9 +144,9 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
+    public function createForm(ilCertificateGUI $certificateGUI)
     {
-        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
+        $form = $this->settingsFromFactory->createForm($certificateGUI);
 
         $objectLearningProgressSettings = new ilLPObjSettings($this->object->getId());
 

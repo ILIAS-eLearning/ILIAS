@@ -2,11 +2,12 @@
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
+use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
+use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
  * Class Services
@@ -16,13 +17,13 @@ use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 class Services
 {
 
+    use SingletonTrait;
+    /**
+     * @var Services
+     */
     private static $instance = null;
     /**
-     * @var array
-     */
-    private static $services = [];
-    /**
-     * @var ProviderFactoryInterface
+     * @var ProviderFactory
      */
     private $provider_factory;
 
@@ -30,17 +31,20 @@ class Services
     /**
      * Services constructor.
      *
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory $provider_factory
      */
-    public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
+    public function __construct(ProviderFactory $provider_factory)
+    {
+        $this->provider_factory = $provider_factory;
+    }
 
 
     /**
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory $provider_factory
      *
      * @return Services
      */
-    public static function getInstance(ProviderFactoryInterface $provider_factory)
+    public static function getInstance(ProviderFactory $provider_factory)
     {
         if (!isset(self::$instance)) {
             self::$instance = new self($provider_factory);
@@ -71,12 +75,12 @@ class Services
 
 
     /**
-     * @return ToolFactory
-     * @see ToolFactory
+     * @return ToolServices
+     * @see ToolServices
      */
-    public function tool() : ToolFactory
+    public function tool() : ToolServices
     {
-        return $this->get(ToolFactory::class);
+        return $this->get(ToolServices::class);
     }
 
 
@@ -86,6 +90,15 @@ class Services
     public function layout() : LayoutServices
     {
         return $this->get(LayoutServices::class);
+    }
+
+
+    /**
+     * @return NotificationServices
+     */
+    public function notifications() : NotificationServices
+    {
+        return $this->get(NotificationServices::class);
     }
 
 
@@ -106,35 +119,5 @@ class Services
     public function identification() : IdentificationFactory
     {
         return $this->getWithArgument(IdentificationFactory::class, $this->provider_factory);
-    }
-
-
-    /**
-     * @param string $class_name
-     *
-     * @return mixed
-     */
-    private function get(string $class_name)
-    {
-        if (!isset(self::$services[$class_name])) {
-            self::$services[$class_name] = new $class_name();
-        }
-
-        return self::$services[$class_name];
-    }
-
-
-    /**
-     * @param string $class_name
-     *
-     * @return mixed
-     */
-    private function getWithArgument(string $class_name, $argument)
-    {
-        if (!isset(self::$services[$class_name])) {
-            self::$services[$class_name] = new $class_name($argument);
-        }
-
-        return self::$services[$class_name];
     }
 }

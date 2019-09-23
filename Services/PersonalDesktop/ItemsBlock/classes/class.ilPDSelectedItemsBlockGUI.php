@@ -653,6 +653,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 
 		$item_groups = [];
+		$list_items = [];
 
 		foreach ($groupedItems as $group) {
 			$list_items = [];
@@ -706,11 +707,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		ilObjectActivation::addListGUIActivationProperty($itemListGui, $item);
 
 		$list_item = $itemListGui->getAsListItem(
-			$item['ref_id'],
-			$item['obj_id'],
-			$item['type'],
-			$item['title'],
-			$item['description']
+			(int) $item['ref_id'],
+			(int) $item['obj_id'],
+			(string) $item['type'],
+			(string) $item['title'],
+			(string) $item['description']
 		);
 
 		return $list_item;

@@ -53,8 +53,6 @@ class ilMyStaffGUI {
 				break;
 		}
 
-		$DIC->navigationContext()->current()->addAdditionalData('mine', 'lorem');
-
 		$DIC->ui()->mainTemplate()->printToStdout();
 	}
 

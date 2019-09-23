@@ -10,6 +10,7 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\MainControls\Footer;
 
 /**
  * Page
@@ -24,21 +25,25 @@ class Standard implements Page\Standard {
 	 */
 	private $content;
 	/**
-	 * @var MetaBar
+	 * @var MetaBar|null
 	 */
 	private $metabar;
 	/**
-	 * @var	MainBar
+	 * @var	MainBar|null
 	 */
 	private $mainbar;
 	/**
-	 * @var	Breadcrumbs
+	 * @var	Breadcrumbs|null
 	 */
 	private $breadcrumbs;
 	/**
-	 * @var Image
+	 * @var Image|null
 	 */
 	private $logo;
+	/**
+	 * @var	footer|null
+	 */
+	private $footer;
 	/**
 	 * @var	bool
 	 */
@@ -57,43 +62,44 @@ class Standard implements Page\Standard {
 	 * @param MainBar|null     $mainbar
 	 * @param Breadcrumbs|null $locator
 	 * @param Image|null       $logo
+	 * @param Footer|null      $footer
 	 */
 	public function __construct(
 		array $content,
 		MetaBar $metabar = null,
 		MainBar $mainbar = null,
 		Breadcrumbs $locator = null,
-		Image $logo = null
+		Image $logo = null,
+		Footer $footer = null
 	) {
 		$allowed = [\ILIAS\UI\Component\Component::class];
 		$this->checkArgListElements("content", $content, $allowed);
 
+		$this->content = $content;
 		$this->metabar = $metabar;
 		$this->mainbar = $mainbar;
-		$this->content = $content;
 		$this->breadcrumbs = $locator;
 		$this->logo = $logo;
+		$this->footer = $footer;
 	}
-
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withMetabar(Metabar $meta_bar): Page\Standard {
+	public function withMetabar(Metabar $meta_bar): Page\Standard
+	{
 		$clone = clone $this;
 		$clone->metabar = $meta_bar;
-
 		return $clone;
 	}
-
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withMainbar(Mainbar $main_bar): Page\Standard {
+	public function withMainbar(Mainbar $main_bar): Page\Standard
+	{
 		$clone = clone $this;
 		$clone->mainbar = $main_bar;
-
 		return $clone;
 	}
 
@@ -101,10 +107,20 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritDoc
 	 */
-	public function withLogo(Image $logo): Page\Standard {
+	public function withLogo(Image $logo): Page\Standard
+	{
 		$clone = clone $this;
 		$clone->logo = $logo;
+		return $clone;
+	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function withFooter(Footer $footer): Page\Standard
+	{
+		$clone = clone $this;
+		$clone->footer = $footer;
 		return $clone;
 	}
 
@@ -112,7 +128,8 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritDoc
 	 */
-	public function hasMetabar(): bool {
+	public function hasMetabar(): bool
+	{
 		return ($this->metabar instanceof MetaBar);
 	}
 
@@ -120,7 +137,8 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritDoc
 	 */
-	public function hasMainbar(): bool {
+	public function hasMainbar(): bool
+	{
 		return ($this->mainbar instanceof MainBar);
 	}
 
@@ -128,10 +146,18 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritDoc
 	 */
-	public function hasLogo(): bool {
+	public function hasLogo(): bool
+	{
 		return ($this->logo instanceof Image);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function hasFooter(): bool
+	{
+		return ($this->footer instanceof Footer);
+	}
 
 	/**
 	 * @inheritdoc
@@ -145,7 +171,7 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMetabar(): MetaBar
+	public function getMetabar()
 	{
 		return $this->metabar;
 	}
@@ -154,7 +180,7 @@ class Standard implements Page\Standard {
 	/**
 	 * @inheritdoc
 	 */
-	public function getMainbar(): MainBar
+	public function getMainbar()
 	{
 		return $this->mainbar;
 	}
@@ -177,6 +203,13 @@ class Standard implements Page\Standard {
 		return $this->logo;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function getFooter()
+	{
+		return $this->footer;
+	}
 
 	/**
 	 * @param    bool $use_headers

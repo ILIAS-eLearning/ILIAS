@@ -90,14 +90,21 @@ class ilOrgUnitGlobalSettingsGUI
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('orgu_global_set_positions'));
 		$form->addItem($section);
-		
-		$available_types = $GLOBALS['DIC']['objDefinition']->getOrgUnitPermissionTypes();
+
+		$objDefinition = $DIC['objDefinition'];
+		$available_types = $objDefinition ->getOrgUnitPermissionTypes();
 		foreach($available_types as $object_type) {
-			
 			$setting = new ilOrgUnitObjectTypePositionSetting($object_type);
-			
+
+			if ($objDefinition->isPlugin($object_type))
+			{
+				$label = ilObjectPlugin::lookupTxtById($object_type, 'objs_'. $object_type);
+			} else {
+				$label = $this->lng->txt('objs_'. $object_type);
+			}
+
 			$type = new ilCheckboxInputGUI(
-				$this->lng->txt('orgu_global_set_positions_type_active').' '.$this->lng->txt('objs_'. $object_type),
+				$this->lng->txt('orgu_global_set_positions_type_active').' '.$label,
 				$object_type.'_active'
 			);
 			$type->setValue(1);

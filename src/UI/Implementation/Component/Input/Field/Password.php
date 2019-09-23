@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Password as PWD;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -98,7 +99,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 		if($special) {
 			$constraints[] = $pw_validation->hasSpecialChars();
 		}
-		return $this->withAdditionalConstraint($this->refinery->logical()->parallel($constraints));
+		return $this->withAdditionalTransformation($this->refinery->logical()->parallel($constraints));
 	}
 
 	/**
@@ -158,5 +159,19 @@ class Password extends Input implements C\Input\Field\Password, Triggerable {
 	 */
 	public function getMaskSignal() {
 		return $this->signal_mask;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));";
+			return $code;
+		};
 	}
 }

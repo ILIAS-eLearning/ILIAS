@@ -122,6 +122,14 @@ Currently the symbol for the more button is pulled from the examples directory o
 the UI-framework. The image-file should be moved to a proper location and possibly
 become part of the UI-framework as a proper glyph.
 
+### Create a `Group`-family in `Input\Field` (beginner, ~2h)
+
+Currently `Input\Field` contains various group inputs, where the different inputs
+are created with methods that share the "group"-suffix. This is a exemplary case
+for the introduction of a new 'Group` family within `Input\Field`, with its own
+description, factory, renderer, directory...
+
+
 ## Long Term
 
 ### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`

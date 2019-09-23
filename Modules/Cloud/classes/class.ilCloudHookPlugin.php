@@ -8,13 +8,14 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
  *
  * Definition of the PluginHook
  *
- * @author Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  * @extends ilPlugin
  * @ingroup ModulesCloud
  */
 abstract class ilCloudHookPlugin extends ilPlugin
 {
+
     /**
      * Get Component Type
      *
@@ -24,6 +25,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
     {
         return IL_COMP_MODULE;
     }
+
 
     /**
      * Get Component Name.
@@ -35,6 +37,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
         return "Cloud";
     }
 
+
     /**
      * Get Slot Name.
      *
@@ -44,6 +47,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
     {
         return "CloudHook";
     }
+
 
     /**
      * Get Slot ID.
@@ -55,6 +59,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
         return "cldh";
     }
 
+
     /**
      * Object initialization done by slot.
      */
@@ -63,21 +68,24 @@ abstract class ilCloudHookPlugin extends ilPlugin
         // nothing to do here
     }
 
+
     public function getPluginTablePrefix()
     {
         $id = $this->getId();
-        if(!$id)
-        {
-            $rec = ilPlugin::getPluginRecord($this->getComponentType(),$this->getComponentName(), $this->getSlotId(), $this->getPluginName());
+        if (!$id) {
+            $rec = ilPlugin::getPluginRecord($this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName());
             $id = $rec['plugin_id'];
         }
+
         return $this->getSlotObject()->getPrefix() . "_" . $id;
     }
 
+
     public function getPluginTableName()
     {
-        return $this->getPluginTablePrefix()."_props";
+        return $this->getPluginTablePrefix() . "_props";
     }
+
 
     public function getPluginConfigTableName()
     {

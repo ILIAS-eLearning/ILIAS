@@ -3,7 +3,7 @@
 	id="sahs">
 	<baseclasses>
 		<baseclass name="ilSAHSPresentationGUI" dir="classes" />
-		<baseclass name="ilSAHSEditGUI" dir="classes" />
+		<baseclass name="ilSAHSEditGUI" dir="Editing/classes" />
 	</baseclasses>
 	<objects>
 		<object id="sahs" class_name="SAHSLearningModule" dir="classes" default_pos="140"
