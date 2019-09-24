@@ -14,6 +14,16 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_option_rectangle#:#Rechteck
+asq#:#asq_option_circle#:#Kreis
+asq#:#asq_option_polygon#:#Polygon
+asq#:#asq_label_coordinates#:#Koordinaten
+asq#:#asq_label_type#:#Typ
+asq#:#asq_label_tooltip#:#Tooltip
+asq#:#asq_label_multiple_choice#:#Multiple Choice
+asq#:#asq_label_single_choice#:#Single Choice
+asq#:#asq_label_mode#:#Modus
+asq#:#asq_label_image#:#Bild
 asq#:#asq_label_lifecycle#:#Lebenszyklus
 asq#:#asq_lifecycle_draft#:#Entwurf
 asq#:#asq_lifecycle_to_be_reviewed#:#Zum Review

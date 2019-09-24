@@ -76,7 +76,7 @@ class ImageMapEditorDisplayDefinition extends DisplayDefinition {
         $fields = [];
         
         $fields[] = new AnswerOptionFormFieldDefinition(
-            $DIC->language()->txt('asq_label_tootlip'),
+            $DIC->language()->txt('asq_label_tooltip'),
             AnswerOptionFormFieldDefinition::TYPE_TEXT,
             self::VAR_TOOLTIP
             );
@@ -86,9 +86,9 @@ class ImageMapEditorDisplayDefinition extends DisplayDefinition {
             AnswerOptionFormFieldDefinition::TYPE_DROPDOWN,
             self::VAR_TYPE,
             [
-                self::TYPE_RECTANGLE => $DIC->language()->txt('asq_label_rectangle'),
-                self::TYPE_CIRCLE => $DIC->language()->txt('asq_label_circle'),
-                self::TYPE_POLYGON => $DIC->language()->txt('asq_label_polygon')
+                self::TYPE_RECTANGLE => $DIC->language()->txt('asq_option_rectangle'),
+                self::TYPE_CIRCLE => $DIC->language()->txt('asq_option_circle'),
+                self::TYPE_POLYGON => $DIC->language()->txt('asq_option_polygon')
             ]);
         
         $fields[] = new AnswerOptionFormFieldDefinition(
