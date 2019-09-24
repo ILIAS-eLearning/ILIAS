@@ -62,8 +62,6 @@ class AsqImageUpload extends ilFileInputGUI {
     }
 
     /**
-     * Check input, strip slashes etc. set alert, if input is not ok.
-     *
      * @return	boolean		Input ok, true/false
      */
     function checkInput()
