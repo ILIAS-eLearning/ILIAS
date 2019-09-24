@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 namespace Certificate\API;
 
 use Certificate\API\Data\UserCertificateDto;
@@ -11,13 +12,24 @@ use Certificate\API\Repository\UserDataRepository;
  */
 class UserCertificateAPI
 {
-    /**
-     * @var UserDataRepository
-     */
+    /** @var UserDataRepository */
     private $userCertificateRepository;
 
-    public function __construct(UserDataRepository $userCertificateRepository)
+    /**
+     * UserCertificateAPI constructor.
+     * @param UserDataRepository|null $userCertificateRepository
+     */
+    public function __construct(UserDataRepository $userCertificateRepository = null)
     {
+        if (null === $userCertificateRepository) {
+            global $DIC;
+
+            $userCertificateRepository = new UserDataRepository(
+                $DIC->database(),
+                $DIC->logger()->cert(),
+                $DIC->ctrl()
+            );
+        }
         $this->userCertificateRepository = $userCertificateRepository;
     }
 
@@ -29,7 +41,7 @@ class UserCertificateAPI
      *                             will be generated
      * @return array<int, UserCertificateDto>
      */
-    public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = array()) : array
+    public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = []) : array
     {
         return $this->userCertificateRepository->getUserData($filter, $ilCtrlStack);
     }

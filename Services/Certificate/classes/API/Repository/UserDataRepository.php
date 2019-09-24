@@ -28,7 +28,9 @@ class UserDataRepository
      * @param \ilDBInterface $database
      * @param \ilLogger $logger
      * @param \ilCtrl $controller
-     * @param string|null $defaultTitle
+     * @param string|null $defaultTitle The default title is use if the title of an repository object could not be
+     *                                  determined. This could be the case if the object is deleted from system and
+     *                                  mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
         \ilDBInterface $database,
