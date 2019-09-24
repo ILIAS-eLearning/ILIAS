@@ -6,69 +6,56 @@ namespace Certificate\API\Data;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserCertificateData
+class ilUserCertificateDto
 {
-    /**
-     * @var string
-     */
-    private $objectTitle;
-    /**
-     * @var array
-     */
-    private $objectRefIds;
-    /**
-     * @var int
-     */
-    private $objectId;
-    /**
-     * @var int
-     */
-    private $issuedOnTimestamp;
-    /**
-     * @var int
-     */
-    private $userId;
-    /**
-     * @var string
-     */
-    private $downloadLink;
-    /**
-     * @var int
-     */
-    private $certificateId;
-    /**
-     * @var string
-     */
-    private $userFirstName;
-    /**
-     * @var string
-     */
-    private $userLastName;
-    /**
-     * @var string
-     */
-    private $userLogin;
-    /**
-     * @var string
-     */
-    private $userEmail;
-    /**
-     * @var string
-     */
-    private $userSecondEmail;
+    /** @var string */
+    private $objectTitle = '';
+
+    /** @var int[] */
+    private $objectRefIds = [];
+
+    /** @var int */
+    private $objectId = 0;
+
+    /** @var int */
+    private $issuedOnTimestamp = 0;
+
+    /** @var int */
+    private $userId = 0;
+
+    /** @var string */
+    private $downloadLink = '';
+
+    /** @var int */
+    private $certificateId = 0;
+
+    /** @var string */
+    private $userFirstName = '';
+
+    /** @var string */
+    private $userLastName = '';
+
+    /** @var string */
+    private $userLogin = '';
+
+    /** @var string */
+    private $userEmail = '';
+
+    /** @var string */
+    private $userSecondEmail = '';
 
     /**
-     * @param int         $certificateId
-     * @param string      $objectTitle
-     * @param int         $objectId
-     * @param int         $issuedOnTimestamp
-     * @param int         $userId
-     * @param string      $userFirstName
-     * @param string      $userLastName
-     * @param string      $userLogin
-     * @param string      $userEmail
-     * @param string      $userSecondEmail
-     * @param array       $objectRefId
+     * @param int $certificateId
+     * @param string $objectTitle
+     * @param int $objectId
+     * @param int $issuedOnTimestamp
+     * @param int $userId
+     * @param string $userFirstName
+     * @param string $userLastName
+     * @param string $userLogin
+     * @param string $userEmail
+     * @param string $userSecondEmail
+     * @param array $objectRefId
      * @param string|null $downloadLink
      */
     public function __construct(
@@ -149,7 +136,7 @@ class ilUserCertificateData
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getObjectRefIds() : array
     {
@@ -188,7 +175,10 @@ class ilUserCertificateData
         return $this->userEmail;
     }
 
-    public function addRefId(int $refId)
+    /**
+     *
+     */
+    public function addRefId(int $refId) : void
     {
         $this->objectRefIds[] = $refId;
     }
@@ -200,5 +190,4 @@ class ilUserCertificateData
     {
         return $this->userSecondEmail;
     }
-
 }

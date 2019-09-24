@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 namespace Certificate\API;
 
-use Certificate\API\Data\ilUserCertificateData;
+use Certificate\API\Data\ilUserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
 use Certificate\API\Repository\ilUserDataRepository;
 
@@ -27,7 +27,7 @@ class UserCertificateAPI
      *                             names that are used to create the link,
      *                             if this is an empty array (default) no link
      *                             will be generated
-     * @return array<int, ilUserCertificateData>
+     * @return array<int, ilUserCertificateDto>
      */
     public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = array()) : array
     {

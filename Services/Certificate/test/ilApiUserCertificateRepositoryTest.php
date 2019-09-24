@@ -87,10 +87,10 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             'no title given'
         );
 
-        /** @var array<int, \Certificate\API\Data\ilUserCertificateData> $userData */
+        /** @var array<int, \Certificate\API\Data\ilUserCertificateDto> $userData */
         $userData = $repository->getUserData($filter, array('something'));
 
-        /** @var \Certificate\API\Data\ilUserCertificateData $object */
+        /** @var \Certificate\API\Data\ilUserCertificateDto $object */
         $object = $userData[5];
         $this->assertEquals('test', $object->getObjectTitle());
         $this->assertEquals(5, $object->getCertificateId());

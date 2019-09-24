@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @ingroup ServicesCertificate
@@ -10,27 +10,23 @@ use GuzzleHttp\Psr7\Request;
  */
 class ilUserCertificateApiGUI
 {
-    /**
-     * @var ilLogger
-     */
+    /** @var ilLogger */
     private $certificateLogger;
-    /**
-     * @var Request|\Psr\Http\Message\ServerRequestInterface|null
-     */
+
+    /** @var ServerRequestInterface */
     private $request;
-    /**
-     * @var ilLanguage|null
-     */
+
+    /** @var ilLanguage */
     private $language;
 
     /**
-     * @param ilLanguage|null               $language
-     * @param \GuzzleHttp\Psr7\Request|null $request
-     * @param ilLogger                      $certificateLogger
+     * @param ilLanguage|null $language
+     * @param ServerRequestInterface $request
+     * @param ilLogger $certificateLogger
      */
     public function __construct(
         ilLanguage $language = null,
-        GuzzleHttp\Psr7\Request $request = null,
+        ServerRequestInterface $request = null,
         ilLogger $certificateLogger = null
     ) {
         global $DIC;

@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 namespace Certificate\API\Filter;
 
 /**
@@ -7,58 +8,47 @@ namespace Certificate\API\Filter;
  */
 class UserDataFilter
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $objectTitle;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     private $objectId;
-    /**
-     * @var int
-     */
+
+    /** @var int */
     private $issuedBeforeTimestamp;
-    /**
-     * @var int|null
-     */
+
+    /** @var int|null */
     private $issuedAfterTimestamp;
-    /**
-     * @var bool
-     */
+
+    /** @var bool */
     private $onlyActive;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $userFirstName;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $userLastName;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $userLogin;
-    /**
-     * @var string
-     */
+
+    /** @var string */
     private $userEmail;
-    /**
-     * @var array
-     */
-    private $userIds;
+
+    /** @var array */
+    private $userIds = [];
 
     /**
-     * @param array       $userIds
-     * @param string      $userFirstName
-     * @param string      $userLastName
-     * @param string      $userLogin
-     * @param string      $userEmail - matches on the first and the second email address
+     * @param array $userIds
+     * @param string $userFirstName
+     * @param string $userLastName
+     * @param string $userLogin
+     * @param string $userEmail - matches on the first and the second email address
      * @param string|null $objectTitle
-     * @param int|null    $objectId
-     * @param int|null    $issuedBeforeTimestamp
-     * @param int|null    $issuedAfterTimestamp
-     * @param bool        $onlyActive - Show only the currently active certificates of the user
+     * @param int|null $objectId
+     * @param int|null $issuedBeforeTimestamp
+     * @param int|null $issuedAfterTimestamp
+     * @param bool $onlyActive - Show only the currently active certificates of the user
      * @throws \ilException
      */
     public function __construct(
@@ -79,15 +69,15 @@ class UserDataFilter
 
         $this->userIds = $userIds;
         $this->userFirstName = $userFirstName;
-        $this->userLastName  = $userLastName;
-        $this->userLogin     = $userLogin;
-        $this->userEmail     = $userEmail;
+        $this->userLastName = $userLastName;
+        $this->userLogin = $userLogin;
+        $this->userEmail = $userEmail;
 
-        $this->objectTitle           = $objectTitle;
-        $this->objectId              = $objectId;
+        $this->objectTitle = $objectTitle;
+        $this->objectId = $objectId;
         $this->issuedBeforeTimestamp = $issuedBeforeTimestamp;
-        $this->issuedAfterTimestamp  = $issuedAfterTimestamp;
-        $this->onlyActive            = $onlyActive;
+        $this->issuedAfterTimestamp = $issuedAfterTimestamp;
+        $this->onlyActive = $onlyActive;
     }
 
     /**
@@ -163,7 +153,7 @@ class UserDataFilter
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getUserIds() : array
     {

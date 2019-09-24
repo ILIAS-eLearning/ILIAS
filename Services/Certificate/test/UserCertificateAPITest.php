@@ -14,7 +14,7 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userData = new \Certificate\API\Data\ilUserCertificateData(
+        $userData = new \Certificate\API\Data\ilUserCertificateDto(
             5,
             'Some Title',
             100,

@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 namespace Certificate\API\Repository;
 
-use Certificate\API\Data\ilUserCertificateData;
+use Certificate\API\Data\ilUserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
 
 /**
@@ -11,31 +12,23 @@ use Certificate\API\Filter\UserDataFilter;
  */
 class ilUserDataRepository
 {
-    /**
-     * @var \ilDBInterface
-     */
+    /** @var \ilDBInterface */
     private $database;
 
-    /**
-     * @var \ilLogger
-     */
+    /** @var \ilLogger */
     private $logger;
 
-    /**
-     * @var null|string
-     */
+    /** @var null|string */
     private $defaultTitle;
 
-    /**
-     * @var \ilCtrl
-     */
+    /** @var \ilCtrl */
     private $controller;
 
     /**
      * @param \ilDBInterface $database
-     * @param \ilLogger      $logger
-     * @param \ilCtrl        $controller
-     * @param string|null    $defaultTitle
+     * @param \ilLogger $logger
+     * @param \ilCtrl $controller
+     * @param string|null $defaultTitle
      */
     public function __construct(
         \ilDBInterface $database,
@@ -56,7 +49,7 @@ class ilUserDataRepository
 
     /**
      * @param UserDataFilter $filter
-     * @param array          $ilCtrlStack
+     * @param array $ilCtrlStack
      * @return array
      */
     public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
@@ -86,46 +79,47 @@ SELECT
   usr_data.lastname,
   usr_data.email,
   usr_data.login,
-  usr_data.second_email,
+  usr_data.second_email
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
 INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer')
-. $this->createWhereCondition($filter) . '
+            . $this->createWhereCondition($filter) . '
 ORDER BY il_cert_user_cert.obj_id';
 
         $query = $this->database->query($sql);
 
         $result = array();
         while ($row = $this->database->fetchAssoc($query)) {
-            $id         = $row['id'];
+            $id = (int) $row['id'];
 
             if (isset($result[$id])) {
-                $result[$id]->addRefId($row['ref_id']);
+                $result[$id]->addRefId((int) $row['ref_id']);
                 continue;
             }
 
+            $link = '';
             if (array() !== $ilCtrlStack) {
                 $ilCtrlStack[] = 'ilUserCertificateApiGUI';
-                $this->controller->setParameter($this, 'certificate_id', $row['id']);
+                $this->controller->setParameter($this, 'certificate_id', $id);
                 $link = $this->controller->getLinkTargetByClass($ilCtrlStack, 'download');
                 $this->controller->clearParameters($this);
             }
 
-            $dataObject = new ilUserCertificateData(
+            $dataObject = new ilUserCertificateDto(
                 $id,
                 $row['title'],
-                $row['obj_id'],
-                $row['acquired_timestamp'],
-                $row['user_id'],
+                (int) $row['obj_id'],
+                (int) $row['acquired_timestamp'],
+                (int) $row['user_id'],
                 $row['firstname'],
                 $row['lastname'],
                 $row['login'],
                 $row['email'],
                 $row['second_email'],
-                array((int) $row['ref_id']),
+                [(int) $row['ref_id']],
                 $link
             );
 
@@ -150,30 +144,32 @@ ORDER BY il_cert_user_cert.obj_id';
 
         $lastName = $filter->getUserLastName();
         if (null !== $lastName) {
-            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', '%'. $lastName . '%');
+            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', '%' . $lastName . '%');
         }
 
         $login = $filter->getUserLogin();
         if (null !== $lastName) {
-            $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', '%'. $login . '%');
+            $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', '%' . $login . '%');
         }
 
         $userEmail = $filter->getUserEmail();
         if (null !== $userEmail) {
-            $sql .= ' AND ( ' . $this->database->like('usr_data.email', 'text', '%'. $userEmail . '%');
-            $sql .= ' OR ' . $this->database->like('usr_data.second_email', 'text', '%'. $userEmail . '%');
-            $sql.= ')';
+            $sql .= ' AND ( ' . $this->database->like('usr_data.email', 'text', '%' . $userEmail . '%');
+            $sql .= ' OR ' . $this->database->like('usr_data.second_email', 'text', '%' . $userEmail . '%');
+            $sql .= ')';
 
         }
 
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if (null !== $issuedBeforeTimestamp) {
-            $sql .= ' AND il_cert_user_cert.acquired_timestamp < ' . $this->database->quote($issuedBeforeTimestamp, 'integer');
+            $sql .= ' AND il_cert_user_cert.acquired_timestamp < ' . $this->database->quote($issuedBeforeTimestamp,
+                    'integer');
         }
 
         $issuedAfterTimestamp = $filter->getIssuedAfterTimestamp();
         if (null !== $issuedAfterTimestamp) {
-            $sql .= ' AND il_cert_user_cert.acquired_timestamp > ' . $this->database->quote($issuedAfterTimestamp, 'integer');
+            $sql .= ' AND il_cert_user_cert.acquired_timestamp > ' . $this->database->quote($issuedAfterTimestamp,
+                    'integer');
         }
 
         $objectId = $filter->getObjectId();
