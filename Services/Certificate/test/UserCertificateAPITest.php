@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Certificate\API\Repository\ilUserDataRepository;
+use Certificate\API\Repository\UserDataRepository;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -10,11 +10,11 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
 {
     public function testUserDataCall()
     {
-        $repository = $this->getMockBuilder(ilUserDataRepository::class)
+        $repository = $this->getMockBuilder(UserDataRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userData = new \Certificate\API\Data\ilUserCertificateDto(
+        $userData = new \Certificate\API\Data\UserCertificateDto(
             5,
             'Some Title',
             100,

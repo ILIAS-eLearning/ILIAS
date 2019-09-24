@@ -437,8 +437,8 @@ Public API classes:
 
 ### UserCertificateAPI 
 
-`UserCertificateAPI::getUserCertificateData` will return an `array` of `ilUserCertificateData`.
-  `ilUserCertificateData` contains specific information of users who achieved a certificate.
+`UserCertificateAPI::getUserCertificateData` will return an `array` of `UserCertificateDto`.
+  `UserCertificateDto` contains specific information of users who achieved a certificate.
   The method will need an `UserDataFilter` object and an array of
   `ilCtrl-enabled GUI class` names that will be used to create a link to download the certificate.
 

@@ -80,17 +80,17 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $this->controller->method('getLinkTargetByClass')->willReturn('somewhere.php?goto=4');
 
-        $repository = new \Certificate\API\Repository\ilUserDataRepository(
+        $repository = new \Certificate\API\Repository\UserDataRepository(
             $this->database,
             $this->logger,
             $this->controller,
             'no title given'
         );
 
-        /** @var array<int, \Certificate\API\Data\ilUserCertificateDto> $userData */
+        /** @var array<int, \Certificate\API\Data\UserCertificateDto> $userData */
         $userData = $repository->getUserData($filter, array('something'));
 
-        /** @var \Certificate\API\Data\ilUserCertificateDto $object */
+        /** @var \Certificate\API\Data\UserCertificateDto $object */
         $object = $userData[5];
         $this->assertEquals('test', $object->getObjectTitle());
         $this->assertEquals(5, $object->getCertificateId());

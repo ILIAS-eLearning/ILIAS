@@ -3,14 +3,14 @@
 
 namespace Certificate\API\Repository;
 
-use Certificate\API\Data\ilUserCertificateDto;
+use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  * @ilCtrl_Calls: ilUserDataRepository: ilUserCertificateApiGUI
  */
-class ilUserDataRepository
+class UserDataRepository
 {
     /** @var \ilDBInterface */
     private $database;
@@ -108,7 +108,7 @@ ORDER BY il_cert_user_cert.obj_id';
                 $this->controller->clearParameters($this);
             }
 
-            $dataObject = new ilUserCertificateDto(
+            $dataObject = new UserCertificateDto(
                 $id,
                 $row['title'],
                 (int) $row['obj_id'],

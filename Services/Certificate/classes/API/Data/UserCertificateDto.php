@@ -6,7 +6,7 @@ namespace Certificate\API\Data;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserCertificateDto
+class UserCertificateDto
 {
     /** @var string */
     private $objectTitle = '';
