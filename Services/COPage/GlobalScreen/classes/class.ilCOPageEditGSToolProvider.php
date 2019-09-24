@@ -5,14 +5,14 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 
 /**
- * Learning module editing GS tool provider
+ * Page  editing GS tool provider
  *
  * @author Alex Killing <killing@leifos.com>
  */
-class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
+class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
 {
 
-    const SHOW_TREE = 'show_tree';
+    const SHOW_EDITOR = 'copg_show_editor';
 
 
     /**
@@ -31,15 +31,15 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
     {
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
-        if ($additional_data->is(self::SHOW_TREE, true)) {
+        if ($additional_data->is(self::SHOW_EDITOR, true)) {
 
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/list.svg"), "");
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/pencil.svg"), "");
 
             $iff = function ($id) { return $this->identification_provider->identifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
-            $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle("Chapters")
+            $tools[] = $this->factory->tool($iff("copg_editor"))
                 ->withSymbol($icon)
+                ->withTitle("Editor")
                 ->withContent($l($this->getContent()));
         }
 
@@ -54,10 +54,6 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
      */
     private function getContent() : string
     {
-        $service = new ilLMEditService($_GET);
-        $lm = $service->getLearningModule();
-
-        $exp = new ilLMEditorExplorerGUI("illmeditorgui", "showTree", $lm);
-        return $exp->getHTML();
+        return "<div id='copg-editor-slate-content'></div>";
     }
 }

@@ -13262,9 +13262,14 @@ div.ilEditVAccordICont {
 div.ilTinyMenuSection {
   float: left;
   white-space: nowrap;
-  border-right: 1px solid #e0e0e0;
-  padding: 0 10px 4px 0;
+  /* border-right: 1px solid #e0e0e0; */
+  /* padding: 0 10px 4px 0; */
   margin-right: 10px;
+}
+div.ilTinyMenuSection p {
+  margin: 20px 0 5px 0;
+  padding: 2px 5px;
+  background-color: #efefef;
 }
 @media only screen and (max-width: 768px) {
   div.ilTinyMenuSection {
@@ -13302,14 +13307,13 @@ div.ilTinyMenuSection {
   margin: 0;
 }
 #iltinymenu {
-  z-index: 1040 !important;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  background-color: #f9f9f9;
-  -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.176);
+  /*z-index: 1040 !important;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	background-color: @il-secondary-container-bg;
+    .box-shadow(3px 9px 9px 0 rgba(0, 0, 0, 0.176));*/
 }
 #iltinymenu .bd div.last {
   float: left;
