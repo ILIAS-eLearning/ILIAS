@@ -9,6 +9,8 @@ use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
+use ilTemplate;
+use Exception;
 
 /**
  * Class ImageMapEditor
@@ -40,6 +42,7 @@ class ImageMapEditor extends AbstractEditor {
     public function __construct(QuestionDto $question) {
         parent::__construct($question);
         
+        $this->selected_answers = [];
         $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
     }
     
@@ -48,7 +51,125 @@ class ImageMapEditor extends AbstractEditor {
      */
     public function generateHtml() : string
     {        
-        return 'image_map';
+        $tpl = new ilTemplate("tpl.ImageMapEditor.html", true, true, "Services/AssessmentQuestion");
+        
+        $tpl->setCurrentBlock('generic');
+        $tpl->setVariable('POST_NAME', $this->getPostName());
+        $tpl->setVariable('IMAGE_URL', $this->configuration->getImage());
+        $tpl->setVariable('VALUE', $this->selected_answers);
+        $tpl->parseCurrentBlock();
+        
+        /** @var AnswerOption $answer_option */
+        foreach ($this->question->getAnswerOptions()->getOptions() as $answer_option) {
+            /** @var ImageMapEditorDisplayDefinition $display_definition */
+            $display_definition = $answer_option->getDisplayDefinition();
+           
+            $tpl->setCurrentBlock('answer_option');
+            $tpl->setVariable('OPTION_SHAPE', $this->generateShape($display_definition, $answer_option->getOptionId()));
+            $tpl->parseCurrentBlock();
+        }
+        
+        return $tpl->get();
+    }
+    
+    private function getPostName() : string {
+        return $this->question->getId();
+    }
+    
+    /**
+     * @param ImageMapEditorDisplayDefinition $display_definition
+     * @param int $id
+     * @return string
+     */
+    private function generateShape(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
+        switch ($display_definition->getType()) {
+            case ImageMapEditorDisplayDefinition::TYPE_CIRCLE:
+                return $this->generateCircle($display_definition, $id);
+            case ImageMapEditorDisplayDefinition::TYPE_POLYGON:
+                return $this->generatePolygon($display_definition, $id);
+            case ImageMapEditorDisplayDefinition::TYPE_RECTANGLE:
+                return $this->generateRectangle($display_definition, $id);
+            default:
+                throw new Exception('implement rendering of shape please');
+        }
+    }
+    
+    /**
+     * @param ImageMapEditorDisplayDefinition $display_definition
+     * @param int $id
+     * @return string
+     */
+    private function generateCircle(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
+        $values = $this->decodeCoordinates($display_definition->getCoordinates());
+        
+        return '<circle class="' . $this->getSelectedClass($id) . '" cx="' . $values['x'] .'" cy="' . $values['y'] .'" r="' . $values['r'] .'" data-value="' . $id . '">
+                   <title>' . $display_definition->getTooltip() . '</title>
+                </circle>';
+    }
+
+    /**
+     * @param ImageMapEditorDisplayDefinition $display_definition
+     * @param int $id
+     * @return string
+     */
+    private function generatePolygon(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
+        $values = $this->decodeCoordinates($display_definition->getCoordinates());
+        
+        return '<polygon class="' . $this->getSelectedClass($id) . '" points="' . $values['points'] .'" data-value="' . $id . '">
+                   <title>' . $display_definition->getTooltip() . '</title>
+                </poligon>';
+    }
+    
+    /**
+     * @param ImageMapEditorDisplayDefinition $display_definition
+     * @param int $id
+     * @return string
+     */
+    private function generateRectangle(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
+        $values = $this->decodeCoordinates($display_definition->getCoordinates());
+        
+        return '<rect class="' . $this->getSelectedClass($id) . '" 
+                      x="' . $values['x'] .'" 
+                      y="' . $values['y'] .'" 
+                      width="' . $values['width'] .'" 
+                      height="' . $values['height'] .'" 
+                      data-value="' . $id . '">
+                   <title>' . $display_definition->getTooltip() . '</title>
+                </rect>';
+    }
+    
+    /**
+     * Decodes 'a:1;b:2'
+     * 
+     * to
+     * 
+     * [
+     *  'a' => '1',
+     *  'b' => '2'
+     * ]
+     * 
+     * @param string $coordinates
+     * @return array
+     */
+    private function decodeCoordinates(string $coordinates) : array {
+        $raw_values = explode(';', $coordinates);
+        
+        $values = [];
+        
+        foreach ($raw_values as $raw_value) {
+            $raw_split = explode(':', $raw_value);
+            $values[$raw_split[0]] = $raw_split[1];
+        }
+        
+        return $values;
+    }
+    
+    /**
+     * @param int $id
+     * @return string
+     */
+    private function getSelectedClass(int $id) : string {
+        return in_array($id, $this->selected_answers) ? 'selected' : '';
     }
     
     /**
@@ -56,19 +177,7 @@ class ImageMapEditor extends AbstractEditor {
      */
     public function readAnswer() : string
     {
-        if ($this->configuration->isMultipleChoice()) {
-            $result = [];
-            /** @var AnswerOption $answer_option */
-            foreach ($this->answer_options as $answer_option) {
-                $poststring = $this->getPostName($answer_option->getOptionId());
-                if (isset($_POST[$poststring])) {
-                    $result[] = $_POST[$poststring];
-                }
-            }
-            return json_encode($result);
-        } else {
-            return json_encode([$_POST[$this->getPostName()]]);
-        }
+        return json_encode(explode(',', $_POST[$this->getPostName()]));
     }
     
     

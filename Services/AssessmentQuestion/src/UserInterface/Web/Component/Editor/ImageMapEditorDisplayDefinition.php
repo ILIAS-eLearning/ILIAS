@@ -55,7 +55,7 @@ class ImageMapEditorDisplayDefinition extends DisplayDefinition {
     }
     
     /**
-     * @return number
+     * @return int
      */
     public function getType()
     {

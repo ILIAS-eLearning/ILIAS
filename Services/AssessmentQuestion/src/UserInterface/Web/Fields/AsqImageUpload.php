@@ -86,7 +86,7 @@ class AsqImageUpload extends ilFileInputGUI {
         $additional = '<input type="hidden" name="' . $this->getPostVar() . '" value="' . $this->image_path . '" />';
         
         if (!empty($this->image_path)) {
-            $additional .= '<img style="margin: 5px 0px 5px 0px; max-width: 275px;" src="' . $this->image_path . '" border="0" /><br />';
+            $additional .= '<img style="margin: 5px 0px 5px 0px; max-width: 333px;" src="' . $this->image_path . '" border="0" /><br />';
         }
         
         $delete = '';
@@ -106,7 +106,7 @@ class AsqImageUpload extends ilFileInputGUI {
            return $additional;
         }
         else {
-            return parent::render($a_mode) . $additional . $delete;
+            return '<div style="width: 333px;">' . parent::render($a_mode) . '</ div>' . $additional . $delete;
         }
         
     }

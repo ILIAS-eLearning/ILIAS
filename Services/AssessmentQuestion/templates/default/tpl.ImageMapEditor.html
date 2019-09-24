@@ -1,0 +1,47 @@
+<script src="Services/AssessmentQuestion/js/ImageMapEditor.js"></script>
+<style>
+	.imagemap_editor {
+		position: relative;
+	}
+	
+	.imagemap_editor svg{
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		left: 0px;
+	}
+
+	.imagemap_editor rect,
+	.imagemap_editor circle,
+	.imagemap_editor polygon {
+		fill: white;
+		fill-opacity: 0.6;
+		cursor: pointer;
+	}
+	
+    .imagemap_editor rect.selected,
+	.imagemap_editor circle.selected,
+	.imagemap_editor polygon.selected {
+		fill-opacity: 0.95;
+		stroke: red;
+		stroke-width: 1px;
+	}
+</style>
+<div class="ilc_answers answers answer-table ilClearFloat">
+	<div class="ilc_qanswer_Answer imagemap_editor">
+		<!-- BEGIN generic -->
+		<input type="hidden" name="{POST_NAME}" value="{VALUE}" />
+		<img border="0" src="{IMAGE_URL}" />
+		<!-- END generic -->
+		<svg viewBox="0 0 100 100">
+			<!-- BEGIN answer_option -->
+			{OPTION_SHAPE}
+			<!-- END answer_option -->
+		</svg>
+	</div>
+	<!-- BEGIN feedback -->
+	<div>
+		<span class="feedback">{FEEDBACK}</span>
+	</div>
+	<!-- END feedback -->
+</div>
