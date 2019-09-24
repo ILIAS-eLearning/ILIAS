@@ -18,6 +18,7 @@ class AnswerOptionFormFieldDefinition {
 	const TYPE_NUMBER = 'NumberField';
 	const TYPE_IMAGE = 'ImageField';
     const TYPE_RADIO = "RadioField"; 
+    const TYPE_DROPDOWN = 'DropDown';
 	
 	/**
 	 * @var string

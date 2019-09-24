@@ -49,7 +49,6 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	const SECONDS_IN_MINUTE = 60;
 	const SECONDS_IN_HOUR = 3600;
     
-	const IMG_PATH_SUFFIX = 'asq_old_img_path';
     const FORM_PART_LINK = 'form_part_link';
 	
     /**

@@ -16,12 +16,13 @@ class AvailableEditors {
 	public static function getAvailableEditors() {
 		//TODO get editors from DB
 		$editors = [];
-		$editors[MultipleChoiceEditor::class] = "MultipleChoiceEditor";
-		$editors[KprimChoiceEditor::class] = "KprimChoiceEditor";
-        $editors[NumericEditor::class] = "NumericEditor";
-        $editors[TextSubsetEditor::class] = "TextSubsetEditor";
-        $editors[ErrorTextEditor::class] = "ErrorTextEditor";
-        $editors[OrderingEditor::class] = "OrderingEditor";
+		$editors[MultipleChoiceEditor::class] = 'MultipleChoiceEditor';
+		$editors[KprimChoiceEditor::class] = 'KprimChoiceEditor';
+        $editors[NumericEditor::class] = 'NumericEditor';
+        $editors[TextSubsetEditor::class] = 'TextSubsetEditor';
+        $editors[ErrorTextEditor::class] = 'ErrorTextEditor';
+        $editors[OrderingEditor::class] = 'OrderingEditor';
+        $editors[ImageMapEditor::class] = 'ImageMapEditor';
 		return $editors;
 	}
 

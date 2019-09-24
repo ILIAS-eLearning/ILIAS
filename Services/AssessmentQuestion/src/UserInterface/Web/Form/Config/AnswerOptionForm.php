@@ -13,6 +13,7 @@ use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilTemplate;
 use ilTextInputGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
 
 /**
  * Class AnswerOptionForm
@@ -241,6 +242,9 @@ class AnswerOptionForm extends ilTextInputGUI {
 	        case AnswerOptionFormFieldDefinition::TYPE_RADIO;
     	        return $this->generateRadioField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
     	        break;
+	        case AnswerOptionFormFieldDefinition::TYPE_DROPDOWN;
+	           return $this->generateDropDownField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
+	           break;
 	        default:
 	            throw new Exception('Please implement all fieldtypes you define');
 	            break;
@@ -279,17 +283,11 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 * @return ilImageFileInputGUI
 	 */
 	private function generateImageField(string $post_var, $value) {
-		$field = new ilImageFileInputGUI('', $post_var);
+		$field = new AsqImageUpload('', $post_var);
 
-		//TODO enough html for template?
-		$additional = '<input type="hidden" name="' . $post_var . QuestionFormGUI::IMG_PATH_SUFFIX . '" value="' . $value . '" />';
+		$field->setImagePath($value);
 		
-		if (!empty($value)) {
-		    $additional .= '<img style="margin: 5px 0px 5px 0px; max-width: 275px;" src="' . $value . '" border="0" /><br />';
-		    $field->setValue('  ');// set empty string as value so that delete current image checkbox shows up, but no annoying filename is displayed
-		}
-		
-		return $field->render() . $additional;
+		return $field->render();
 	}
 
 	/**
@@ -316,6 +314,16 @@ class AnswerOptionForm extends ilTextInputGUI {
     	    $option = new ilRadioOption($key, $value);
     	    $field->addOption($option);	        
 	    }
+	    return $field->render();
+	}
+	
+	private function generateDropDownField(string $post_var, $value, $options) {
+	    $field = new \ilSelectInputGUI('', $post_var);
+	    
+	    $field->setOptions($options);
+	    
+	    $this->setFieldValue($post_var, $value, $field);
+	    
 	    return $field->render();
 	}
 	

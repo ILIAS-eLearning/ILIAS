@@ -86,8 +86,8 @@ class ImageUploader {
         }
         
         // old file exists
-        if (!empty($_POST[$image_key . QuestionFormGUI::IMG_PATH_SUFFIX])) {
-            return $_POST[$image_key . QuestionFormGUI::IMG_PATH_SUFFIX];
+        if (!empty($_POST[$image_key])) {
+            return $_POST[$image_key];
         }
        
         // no file
