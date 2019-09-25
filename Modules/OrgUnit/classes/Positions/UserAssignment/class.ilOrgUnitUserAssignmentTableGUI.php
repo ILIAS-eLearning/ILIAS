@@ -54,6 +54,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI {
 
 
 	protected function setTableHeaders() {
+		$this->addColumn($this->lng->txt("login"), "login");
 		$this->addColumn($this->lng->txt("firstname"), "first_name");
 		$this->addColumn($this->lng->txt("lastname"), "last_name");
 		$this->addColumn($this->lng->txt("action"));
@@ -91,6 +92,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI {
 	 */
 	protected function setRowForUser(&$set, $user_id) {
 		$user = new ilObjUser($user_id);
+		$set["login"] = $user->getLogin();
 		$set["first_name"] = $user->getFirstname();
 		$set["last_name"] = $user->getLastname();
 		$set["user_object"] = $user;
@@ -106,6 +108,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI {
 
 		$lng = $DIC['lng'];
 		$ilAccess = $DIC['ilAccess'];
+		$this->tpl->setVariable("LOGIN", $set["login"]);
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
 		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
 //		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
