@@ -13,19 +13,20 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class AnswerOptionFormFieldDefinition {
-	const TYPE_TEXT = 'TextField';
-	const TYPE_TEXT_AREA = 'TextArea';
-	const TYPE_NUMBER = 'NumberField';
-	const TYPE_IMAGE = 'ImageField';
-    const TYPE_RADIO = "RadioField"; 
-    const TYPE_DROPDOWN = 'DropDown';
+	const TYPE_TEXT = 1;
+	const TYPE_TEXT_AREA = 2;
+	const TYPE_NUMBER = 3;
+	const TYPE_IMAGE = 4;
+    const TYPE_RADIO = 5; 
+    const TYPE_DROPDOWN = 6;
+    const TYPE_BUTTON = 7;
 	
 	/**
 	 * @var string
 	 */
 	private $header;
 	/**
-	 * @var string
+	 * @var int
 	 */
 	private $type;
 	/**
@@ -42,11 +43,11 @@ class AnswerOptionFormFieldDefinition {
      * AnswerOptionFormFieldDefinition constructor.
      *
      * @param string     $header
-     * @param string     $type
+     * @param int     $type
      * @param string     $post_var
      * @param array|null $options
      */
-	public function __construct(string $header, string $type, string $post_var, array $options = null) {
+	public function __construct(string $header, int $type, string $post_var, array $options = null) {
 		$this->header = $header;
 		$this->type = $type;
 		$this->post_var = $post_var;
@@ -63,7 +64,7 @@ class AnswerOptionFormFieldDefinition {
 	/**
 	 * @return string
 	 */
-	public function getType(): string {
+	public function getType(): int {
 		return $this->type;
 	}
 

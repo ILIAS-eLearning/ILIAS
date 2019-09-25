@@ -5,7 +5,6 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use Exception;
 use ilImageFileInputGUI;
 use ilNumberInputGUI;
@@ -14,6 +13,7 @@ use ilRadioOption;
 use ilTemplate;
 use ilTextInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
+use ilButton;
 
 /**
  * Class AnswerOptionForm
@@ -229,25 +229,20 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    switch ($definition->getType()) {
 	        case AnswerOptionFormFieldDefinition::TYPE_TEXT:
 	            return $this->generateTextField($row_id . $definition->getPostVar(), $value);
-	            break;
 	        case AnswerOptionFormFieldDefinition::TYPE_TEXT_AREA:
 	            return $this->generateTextArea($row_id . $definition->getPostVar(), $value);
-	            break;
 	        case AnswerOptionFormFieldDefinition::TYPE_IMAGE:
 	            return $this->generateImageField($row_id . $definition->getPostVar(), $value);
-	            break;
 	        case AnswerOptionFormFieldDefinition::TYPE_NUMBER:
 	            return $this->generateNumberField($row_id . $definition->getPostVar(), $value);
-	            break;
-	        case AnswerOptionFormFieldDefinition::TYPE_RADIO;
+	        case AnswerOptionFormFieldDefinition::TYPE_RADIO:
     	        return $this->generateRadioField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
-    	        break;
-	        case AnswerOptionFormFieldDefinition::TYPE_DROPDOWN;
-	           return $this->generateDropDownField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
-	           break;
+	        case AnswerOptionFormFieldDefinition::TYPE_DROPDOWN:
+	            return $this->generateDropDownField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
+	        case AnswerOptionFormFieldDefinition::TYPE_BUTTON:
+	            return $this->generateButton($row_id . $definition->getPostVar(), $definition->getOptions());
 	        default:
 	            throw new Exception('Please implement all fieldtypes you define');
-	            break;
 	    }
 	}
 	
@@ -325,6 +320,20 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    $this->setFieldValue($post_var, $value, $field);
 	    
 	    return $field->render();
+	}
+	
+	private function generateButton(string $id, $options) {
+	    $css = 'btn btn-default';
+	    if (array_key_exists('css', $options)) {
+	        $css .= ' ' . $options['css'];
+	    }
+	    
+	    $title = '';
+	    if (array_key_exists('title', $options)) {
+	        $title .= ' ' . $options['title'];
+	    }
+	    
+	    return sprintf('<input type="Button" id="%s" class="%s" value="%s" />', $id, $css, $title);
 	}
 	
 	/**
