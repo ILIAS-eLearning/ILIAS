@@ -12,4 +12,4 @@ let shape_click = function(e) {
 	shape.parents('svg').siblings('input[type="hidden"]').val(selected.join(','));
 }
 
-$(document).on("click", ".imagemap_editor rect, .imagemap_editor circle, .imagemap_editor polygon", shape_click);
+$(document).on("click", ".imagemap_editor rect, .imagemap_editor ellipse, .imagemap_editor polygon", shape_click);

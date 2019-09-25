@@ -12,7 +12,7 @@
 	}
 
 	.imagemap_editor rect,
-	.imagemap_editor circle,
+	.imagemap_editor ellipse,
 	.imagemap_editor polygon {
 		fill: white;
 		fill-opacity: 0.6;
@@ -20,7 +20,7 @@
 	}
 	
     .imagemap_editor rect.selected,
-	.imagemap_editor circle.selected,
+	.imagemap_editor ellipse.selected,
 	.imagemap_editor polygon.selected {
 		fill-opacity: 0.95;
 		stroke: red;
@@ -33,7 +33,7 @@
 		<input type="hidden" name="{POST_NAME}" value="{VALUE}" />
 		<img border="0" src="{IMAGE_URL}" />
 		<!-- END generic -->
-		<svg viewBox="0 0 100 100">
+		<svg viewBox="0 0 100 100" preserveAspectRatio="none">
 			<!-- BEGIN answer_option -->
 			{OPTION_SHAPE}
 			<!-- END answer_option -->

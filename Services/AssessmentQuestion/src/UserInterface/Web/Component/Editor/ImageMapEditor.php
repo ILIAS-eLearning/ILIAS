@@ -102,9 +102,14 @@ class ImageMapEditor extends AbstractEditor {
     private function generateCircle(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
         $values = $this->decodeCoordinates($display_definition->getCoordinates());
         
-        return '<circle class="' . $this->getSelectedClass($id) . '" cx="' . $values['x'] .'" cy="' . $values['y'] .'" r="' . $values['r'] .'" data-value="' . $id . '">
+        return '<ellipse class="' . $this->getSelectedClass($id) . '"
+                      cx="' . $values['cx'] .'"
+                      cy="' . $values['cy'] .'"
+                      rx="' . $values['rx'] .'"
+                      ry="' . $values['ry'] .'"
+                      data-value="' . $id . '">
                    <title>' . $display_definition->getTooltip() . '</title>
-                </circle>';
+                </ellipse>';
     }
 
     /**

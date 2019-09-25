@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_select_coordinates#:#Koordinaten Auswählen
 asq#:#asq_option_rectangle#:#Rechteck
 asq#:#asq_option_circle#:#Kreis
 asq#:#asq_option_polygon#:#Polygon

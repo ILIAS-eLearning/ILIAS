@@ -97,6 +97,15 @@ class ImageMapEditorDisplayDefinition extends DisplayDefinition {
             self::VAR_COORDINATES
             );
         
+        $fields[] = new AnswerOptionFormFieldDefinition(
+            '',
+            AnswerOptionFormFieldDefinition::TYPE_BUTTON,
+            'btn-coordinates',
+            [
+                'css' => 'js_select_coordinates',
+                'title' => $DIC->language()->txt('asq_label_select_coordinates')
+            ]);
+        
         return $fields;
     }
     
