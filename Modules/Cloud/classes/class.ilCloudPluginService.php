@@ -93,12 +93,39 @@ class ilCloudPluginService
      */
     public function addToFileTree(ilCloudFileTree  $file_tree, $parent_folder = "/"){}
 
+
+    /**
+     * Updates the file tree when the user navigates through files and folders.
+     * Uses the id instead of the path.
+     *
+     * @param ilCloudFileTree $file_tree
+     * @param string          $id
+     *
+     * @return bool
+     */
+    public function addToFileTreeWithId(ilCloudFileTree $file_tree, $id) {
+        return false;
+    }
+
     /**
      * Called when a file is accessed for download by the user
      * @param null $path
      * @param ilCloudFileTree $file_tree
      */
     public function getFile($path = null, ilCloudFileTree $file_tree = null){}
+
+
+    /**
+     * Called when a file is accessed for download by the user
+     * Uses the id instead of the path.
+     *
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function getFileById($id) {
+        return false;
+    }
 
     /**
      * Called when a folder is created by the user
@@ -107,12 +134,64 @@ class ilCloudPluginService
      */
     public function createFolder($path = null, ilCloudFileTree $file_tree = null){}
 
+
+    /**
+     * Called when a folder is created by the user
+     * Uses the id instead of the path.
+     * @param string $parent_id
+     * @param string $folder_name
+     *
+     * @return string|bool
+     */
+    public function createFolderById($parent_id, $folder_name){
+        return false;
+    }
+
+
+    /**
+     * Called when a file is uploaded by the user
+     *
+     * @param                 $file
+     * @param                 $name
+     * @param string          $path
+     * @param ilCloudFileTree $file_tree
+     */
+    public function putFile($file, $name, $path = '', ilCloudFileTree $file_tree = NULL){}
+
+
+    /**
+     * Called when a file is uploaded by the user
+     * Uses the id instead of the path.
+     *
+     * @param string $tmp_name
+     * @param string $file_name
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function putFileById($tmp_name, $file_name, $id) {
+        return false;
+    }
+
     /**
      * Called when an item is deleted by the user
      * @param null $path
      * @param ilCloudFileTree $file_tree
      */
     public function deleteItem($path = null, ilCloudFileTree $file_tree = null){}
+
+
+    /**
+     * Called when an item is deleted by the user
+     * Uses the id instead of the path.
+     *
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function deleteItemById($id) {
+        return false;
+    }
 
     /**
      * by default false
