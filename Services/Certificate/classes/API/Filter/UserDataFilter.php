@@ -47,16 +47,25 @@ class UserDataFilter
         array $usrIds,
         bool $onlyActive = true
     ) {
+        $this->ensureValidUniqueUsrIds($usrIds);
+
+        $this->userIds = $usrIds;
+        $this->onlyActive = $onlyActive;
+    }
+
+    /**
+     * @param int[] $usrIds
+     * @throws \ilException
+     */
+    private function ensureValidUniqueUsrIds(array $usrIds) : void 
+    {
         if ([] === $usrIds) {
             throw new \ilException('The passed array of user ids must not be empty!');
         }
 
         array_walk($usrIds, function(int $usrId) {
-           // Do nothing, use this for type safety of array values 
+            // Do nothing, use this for type safety of array values 
         });
-
-        $this->userIds = $usrIds;
-        $this->onlyActive = $onlyActive;
     }
 
     /**
@@ -174,13 +183,7 @@ class UserDataFilter
      */
     public function withUserIds(array $usrIds) :self
     {
-        if ([] === $usrIds) {
-            throw new \ilException('The passed array of user ids must not be empty!');
-        }
-
-        array_walk($usrIds, function(int $usrId) {
-            // Do nothing, use this for type safety of array values 
-        });
+        $this->ensureValidUniqueUsrIds($usrIds);
         
         $clone = clone $this;
         $clone->userIds = $usrIds;
@@ -191,12 +194,11 @@ class UserDataFilter
     /**
      * @param int[] $usrIds
      * @return $this
+     * @throws \ilException
      */
     public function withAdditionalUserIds(array $usrIds) :self
     {
-        array_walk($usrIds, function(int $usrId) {
-            // Do nothing, use this for type safety of array values 
-        });
+        $this->ensureValidUniqueUsrIds($usrIds);
 
         $clone = clone $this;
         $clone->userIds = array_unique(array_merge($clone->userIds, $usrIds));
