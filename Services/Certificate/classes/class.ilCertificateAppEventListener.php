@@ -73,7 +73,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param string $component
      * @return \ilCertificateAppEventListener
      */
-    public function withComponent(string $component): self
+    public function withComponent(string $component) : self
     {
         $clone = clone $this;
 
@@ -86,7 +86,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param string $event
      * @return \ilCertificateAppEventListener
      */
-    public function withEvent(string $event): self
+    public function withEvent(string $event) : self
     {
         $clone = clone $this;
 
@@ -99,7 +99,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param array $parameters
      * @return \ilCertificateAppEventListener
      */
-    public function withParameters(array $parameters): self
+    public function withParameters(array $parameters) : self
     {
         $clone = clone $this;
 
@@ -111,7 +111,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     /**
      * @return bool
      */
-    protected function isLearningAchievementEvent(): bool
+    protected function isLearningAchievementEvent() : bool
     {
         return (
             'Services/Tracking' === $this->component &&
@@ -179,7 +179,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             $objectId = $this->parameters['obj_id'] ?? 0;
             $userId = $this->parameters['usr_id'] ?? 0;
 
-            $type  = $this->objectDataCache->lookupType($objectId);
+            $type = $this->objectDataCache->lookupType($objectId);
 
 
             if ($this->certificateClassMap->typeExistsInMap($type)) {
@@ -238,13 +238,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
         $userId = $this->parameters['usr_id'];
 
-        $this->userCertificateRepository->deleteUserCertificates((int)$userId);
+        $this->userCertificateRepository->deleteUserCertificates((int) $userId);
 
-        $this->certificateQueueRepository->removeFromQueueByUserId((int)$userId);
+        $this->certificateQueueRepository->removeFromQueueByUserId((int) $userId);
 
         $portfolioFileService->deleteUserDirectory($userId);
 
-        $this->logger->info(sprintf('All relevant data sources for the user certificates for user(user_id: "%s" deleted)', $userId));
+        $this->logger->info(sprintf('All relevant data sources for the user certificates for user(user_id: "%s" deleted)',
+            $userId));
     }
 
     /**
