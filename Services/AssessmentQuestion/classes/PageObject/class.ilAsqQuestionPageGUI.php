@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
+
 /**
  * Class ilAsqQuestionPageEditorGUI
  *
@@ -36,12 +38,16 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
      *
      * @return \ilAsqQuestionPageGUI
      */
-    public function __construct($questionIntId)
+    function __construct($a_parent_type, $a_id, $a_old_nr = 0,
+        $a_prevent_get_id = false, $a_lang = "")
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
+        $this->setLanguage($a_lang);
+        $this->setParentType($a_parent_type);
+
         parent::__construct(
-            ilAsqQuestionPage::PARENT_TYPE, $questionIntId
+            $a_parent_type, $a_id,0,false,$a_lang
         );
 
         $this->setEnabledPageFocus(false);
@@ -53,6 +59,14 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
         $DIC->ui()->mainTemplate()->setCurrentBlock("SyntaxStyle");
         $DIC->ui()->mainTemplate()->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
         $DIC->ui()->mainTemplate()->parseCurrentBlock();
+    }
+
+    public static function getGUI($il_obj_int_id, $question_int_id):ilAsqQuestionPageGUI {
+        $page_factory = new PageFactory($il_obj_int_id,$question_int_id);
+        $question_page = $page_factory->getQuestionPageService();
+       $page =  $question_page->getPage();
+
+        return new self($page->getParentType(),$question_int_id,0,false,$page->getLanguage());
     }
 
     public function getOriginalPresentationTitle()

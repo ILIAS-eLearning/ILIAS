@@ -23,8 +23,11 @@ class ilAsqGenericFeedbackPageGUI extends ilPageObjectGUI
 {
     public function __construct($feedbackIntId = 0)
     {
+        $page_factory = new PageFactory();
+
+        $feedbak_page = $page_factory->getFeedbackPage();
         parent::__construct(
-            ilAsqGenericFeedbackPage::PARENT_TYPE, $feedbackIntId
+            $feedbak_page->getParentType(), $feedbackIntId
         );
     }
 }

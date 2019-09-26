@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\QuestionPageService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
@@ -46,12 +48,6 @@ class ilAsqQuestionCreationGUI
     protected $authoringApplicationService;
 
     /**
-     * @var ilAsqQuestionPageService
-     */
-    protected $questionPageService;
-
-
-    /**
      * ilAsqQuestionCreationGUI constructor.
      *
      * @param AuthoringContextContainer $contextContainer
@@ -68,8 +64,6 @@ class ilAsqQuestionCreationGUI
         $this->questionId = $questionId;
         $this->publicAuthoringService = $publicAuthoringService;
         $this->authoringApplicationService = $authoringApplicationService;
-
-        $this->questionPageService = new \ilAsqQuestionPageService();
     }
 
 
@@ -150,10 +144,6 @@ class ilAsqQuestionCreationGUI
                 // TODO: save content editing mode to question in any way.
             }
         }
-
-        $this->questionPageService->createPage(
-            $this->contextContainer->getObjId(), $question->getQuestionIntId()
-        );
 
         $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
             $this->publicAuthoringService->question($this->questionId)->getEditLink(array())->getAction()

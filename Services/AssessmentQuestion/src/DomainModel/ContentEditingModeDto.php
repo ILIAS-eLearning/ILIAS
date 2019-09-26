@@ -31,8 +31,9 @@ class ContentEditingModeDto
     {
         $dto = new self();
         $dto->mode = $mode->getMode();
-
         return $dto;
+
+        new \ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig();
     }
 
 

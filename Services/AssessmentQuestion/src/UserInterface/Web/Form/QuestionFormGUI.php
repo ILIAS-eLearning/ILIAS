@@ -179,7 +179,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	    $question_text->addPlugin("latex");
 	    $question_text->addButton("latex");
 	    $question_text->addButton("pastelatex");
-	    $question_text->setRTESupport($question->getQuestionIntId(), "qpl", "assessment");
+	    $question_text->setRTESupport($question->getQuestionIntId(), $question->getIlComponentid(), "assessment");
 		$this->addItem($question_text);
 
 		$working_time = new ilDurationInputGUI($this->lang->txt('asq_label_working_time'), self::VAR_WORKING_TIME);

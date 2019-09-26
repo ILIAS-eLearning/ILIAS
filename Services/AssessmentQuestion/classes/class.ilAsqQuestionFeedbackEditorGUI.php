@@ -12,39 +12,32 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
 /**
  * Class ilAsqQuestionFeedbackEditorGUI
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author  Adrian Lüthi <al@studer-raimann.ch>
- * @author  Björn Heyser <bh@bjoernheyser.de>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Theodor Truffer <tt@studer-raimann.ch>
+ * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author       Adrian Lüthi <al@studer-raimann.ch>
+ * @author       Björn Heyser <bh@bjoernheyser.de>
+ * @author       Martin Studer <ms@studer-raimann.ch>
+ * @author       Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilAsqQuestionFeedbackEditorGUI: ilAsqGenericFeedbackPageGUI
  */
 class ilAsqQuestionFeedbackEditorGUI
 {
+
     const CMD_SHOW_FEEDBACK = 'showFeedback';
     const CMD_SAVE_FEEDBACK = 'saveFeedback';
-
-    /**
-     * @var AuthoringContextContainer
-     */
-    protected $contextContainer;
 
     /**
      * @var PublicAuthoringService
      */
     protected $publicAuthoringService;
-
     /**
      * @var AuthoringApplicationService
      */
     protected $authoringApplicationService;
-
     /**
      * @var AssessmentEntityId
      */
     protected $questionUid;
-
     /**
      * @var ilAsqFeedbackPageService
      */
@@ -60,18 +53,17 @@ class ilAsqQuestionFeedbackEditorGUI
      * @param AssessmentEntityId          $questionUid
      */
     public function __construct(
-        AuthoringContextContainer $contextContainer,
         PublicAuthoringService $publicAuthoringService,
         AuthoringApplicationService $authoringApplicationService,
         AssessmentEntityId $questionUid
-    )
-    {
-        $this->contextContainer = $contextContainer;
+    ) {
         $this->publicAuthoringService = $publicAuthoringService;
         $this->authoringApplicationService = $authoringApplicationService;
         $this->questionUid = $questionUid;
 
-        $this->feedbackPageService = new ilAsqFeedbackPageService($this->contextContainer);
+        $page_factory = new PageFactory();
+
+        $this->feedbackPageService = $page_factory->getFeedbackPage();
     }
 
 
@@ -80,10 +72,10 @@ class ilAsqQuestionFeedbackEditorGUI
      */
     public function executeCommand()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var ILIAS\DI\Container $DIC */
 
-        switch( $DIC->ctrl()->getNextClass() )
-        {
+        switch ($DIC->ctrl()->getNextClass()) {
             case strtolower(ilAsqGenericFeedbackPageGUI::class):
 
                 $DIC->tabs()->clearTargets();
@@ -97,8 +89,7 @@ class ilAsqQuestionFeedbackEditorGUI
 
                 $gui = $this->publicAuthoringService->getGenericFeedbackPage($feedbackIntId);
 
-                if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"]))
-                {
+                if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
                     // workaround for page edit imagemaps, keep in mind
 
                     $DIC->ctrl()->setCmdClass(strtolower(get_class($gui)));
@@ -118,30 +109,31 @@ class ilAsqQuestionFeedbackEditorGUI
         }
     }
 
+
     protected function showFeedback(QuestionFeedbackFormGUI $form = null)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
 
-        if( $form === null )
-        {
+        if ($form === null) {
             $form = $this->buildForm();
         }
 
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
 
+
     protected function saveFeedback()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
 
         $form = $this->buildForm();
 
-        if( $form->checkInput() )
-        {
+        if ($form->checkInput()) {
             $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
 
-            if( $question->getContentEditingMode()->isRteTextarea() )
-            {
+            if ($question->getContentEditingMode()->isRteTextarea()) {
                 $question->getFeedbackCorrect()->setContent($form->getFeedbackCorrect());
                 $question->getFeedbackWrong()->setContent($form->getFeedbackWrong());
             }
@@ -156,12 +148,12 @@ class ilAsqQuestionFeedbackEditorGUI
     /**
      * @return QuestionFeedbackFormGUI
      */
-    protected function buildForm(): QuestionFeedbackFormGUI
+    protected function buildForm() : QuestionFeedbackFormGUI
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
 
-        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($this->feedbackPageService,
-            $this->authoringApplicationService->GetQuestion($this->questionUid->getId()),
+        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($this->feedbackPageService, $this->authoringApplicationService->GetQuestion($this->questionUid->getId()),
             false
         );
 

@@ -136,7 +136,7 @@ class AuthoringApplicationService {
 
 	public function getQuestionPageEditor(int $questionIntId) : \ilAsqQuestionPageGUI
     {
-        $pageGUI = new \ilAsqQuestionPageGUI($questionIntId);
+        $pageGUI = \ilAsqQuestionPageGUI::getGUI($this->container_obj_id,$questionIntId);
 
         $pageGUI->setOutputMode('edit');
         $pageGUI->setEditPreview(true);

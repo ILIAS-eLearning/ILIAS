@@ -5,6 +5,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 
 /**
  * Class QuestionFeedbackFormGUI
@@ -41,12 +42,13 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
     /**
      * QuestionFeedbackFormGUI constructor.
      *
-     * @param \ilAsqFeedbackPageService $feedbackPageService
+     * @param AuthoringContextContainer $contextContainer
+     * @param \GenericFeedbackPageService $feedbackPageService
      * @param QuestionDto               $questionDto
      * @param bool                      $preventRteUsage
      */
     public function __construct(
-        \ilAsqFeedbackPageService $feedbackPageService,
+        \GenericFeedbackPageService $feedbackPageService,
         QuestionDto $questionDto,
         bool $preventRteUsage
     )
@@ -173,10 +175,11 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
      */
     protected function getPageObjectNonEditableInputValueHtml($pageObjectType, $pageObjectId)
     {
-        $this->feedbackPageService->ensureFeedbackPageExists($pageObjectType, $pageObjectId);
+        //pageObjectType, $pageObjectId,  $this->questionDto->getQuestionIntId()
+        $this->feedbackPageService->getPage();
 
-        $link = $this->feedbackPageService->getFeedbackPageEditingLink($pageObjectType, $pageObjectId);
-        $content = $this->feedbackPageService->getFeedbackPageContent($pageObjectType, $pageObjectId);
+        $link = $this->feedbackPageService->getPageEditingLink($pageObjectType, $pageObjectId);
+        $content = $this->feedbackPageService->getPageContent();
 
         return "$link<br /><br />$content";
     }
