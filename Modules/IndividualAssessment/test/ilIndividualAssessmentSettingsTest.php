@@ -17,7 +17,6 @@ class ilIndividualAssessmentSettingsTest extends TestCase {
 	public static $db;
 
 	public static function setUpBeforeClass(): void {
-		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 		self::$iass = new ilObjIndividualAssessment;

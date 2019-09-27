@@ -12,8 +12,6 @@ class ilInitialisationTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp(): void {
-		PHPUnit\Framework\Error\Deprecated::$enabled = false;
-
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 	}

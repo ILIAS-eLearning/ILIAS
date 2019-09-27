@@ -37,8 +37,6 @@ class ilStudyProgrammeEventsTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp(): void {
-		PHPUnit\Framework\Error\Deprecated::$enabled = false;
-
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");

@@ -21,9 +21,6 @@ class ilObjDataCollectionTest extends TestCase
 
     protected function setUp(): void
     {
-        PHPUnit\Framework\Error\Deprecated::$enabled = false;
-//        PHPUnit_Framework_Error_Warning::$enabled = FALSE;
-//        PHPUnit_Framework_Error_Notice::$enabled = FALSE;
         parent::setUp();
 
         require_once("./Modules/DataCollection/classes/class.ilObjDataCollection.php");

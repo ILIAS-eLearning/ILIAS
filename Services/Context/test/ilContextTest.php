@@ -11,7 +11,6 @@ class ilContextTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp(): void {
-		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 		require_once("Services/Context/test/class.ilContextExtended.php");
 	}
 	
