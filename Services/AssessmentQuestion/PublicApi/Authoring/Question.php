@@ -37,6 +37,10 @@ class Question
      */
     protected $question_id;
     /**
+     * @var string
+     */
+    protected $lng_key;
+    /**
      * AuthoringApplicationService
      */
     protected $authoring_application_service;
@@ -56,7 +60,10 @@ class Question
         $this->container_obj_id = $container_obj_id;
         $this->question_id = $question_uuid->getId();
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
+        //The lng_key could be used in future as parameter in the constructor
+        $this->lng_key = $DIC->language()->getDefaultLanguage();
+
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $this->lng_key);
 
         $DIC->language()->loadLanguageModule('asq');
     }

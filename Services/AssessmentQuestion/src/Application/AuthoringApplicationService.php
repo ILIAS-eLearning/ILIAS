@@ -2,6 +2,7 @@
 
 namespace ILIS\AssessmentQuestion\Application;
 
+use ilAsqQuestionPageGUI;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
@@ -11,6 +12,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
 
 const MSG_SUCCESS = "success";
 
@@ -35,16 +37,24 @@ class AuthoringApplicationService {
 	 * @var int
 	 */
 	protected $actor_user_id;
+    /**
+     * @var string
+     */
+    protected $lng_key;
 
 	/**
 	 * AsqAuthoringService constructor.
      *
      * @param int $container_obj_id
 	 * @param int $actor_user_id
+     * @param string $lng_key
 	 */
 	public function __construct(int $container_obj_id, int $actor_user_id) {
+	    global $DIC;
 	    $this->container_obj_id = $container_obj_id;
 		$this->actor_user_id = $actor_user_id;
+        //The lng_key could be used in future as parameter in the constructor
+        $this->lng_key = $DIC->language()->getDefaultLanguage();
 	}
 
 
@@ -123,25 +133,27 @@ class AuthoringApplicationService {
 	    return $questions;
 	}
 
-	public function getQuestionPage(int $questionIntId) : \ilAsqQuestionPageGUI
+	public function getQuestionPage(int $question_int_id) : \ilAsqQuestionPageGUI
     {
-        $pageGUI = new \ilAsqQuestionPageGUI($questionIntId);
+        $page_factory = new PageFactory($this->container_obj_id,$question_int_id);
+        $page_gui = \ilAsqQuestionPageGUI::getGUI($page_factory->getQuestionPage());
 
-        $pageGUI->setRenderPageContainer(false);
-        $pageGUI->setEditPreview(true);
-        $pageGUI->setEnabledTabs(false);
+        $page_gui->setRenderPageContainer(false);
+        $page_gui->setEditPreview(true);
+        $page_gui->setEnabledTabs(false);
 
-        return $pageGUI;
+        return $page_gui;
     }
 
-	public function getQuestionPageEditor(int $questionIntId) : \ilAsqQuestionPageGUI
+	public function getQuestionPageEditor(int $question_int_id) : \ilAsqQuestionPageGUI
     {
-        $pageGUI = new \ilAsqQuestionPageGUI($questionIntId);
+        $page_factory = new PageFactory($this->container_obj_id,$question_int_id);
+        $page_gui = \ilAsqQuestionPageGUI::getGUI($page_factory->getQuestionPage());
 
-        $pageGUI->setOutputMode('edit');
-        $pageGUI->setEditPreview(true);
-        $pageGUI->setEnabledTabs(false);
+        $page_gui->setOutputMode('edit');
+        $page_gui->setEditPreview(true);
+        $page_gui->setEnabledTabs(false);
 
-        return $pageGUI;
+        return $page_gui;
     }
 }

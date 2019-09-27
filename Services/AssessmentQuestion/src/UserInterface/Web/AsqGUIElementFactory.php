@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\CreateQuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ilPropertyFormGUI;
 
@@ -80,11 +81,11 @@ class AsqGUIElementFactory {
      * @return QuestionFeedbackFormGUI
      */
 	public static function CreateQuestionFeedbackForm(
-        \ilAsqFeedbackPageService $feedbackPageService,
         QuestionDto $question,
         bool $preventRteUsage
     ): QuestionFeedbackFormGUI
     {
-        return new QuestionFeedbackFormGUI($feedbackPageService, $question, $preventRteUsage);
+        $page_factory = new PageFactory($question->getContainerObjId(),$question->getQuestionIntId());
+        return new QuestionFeedbackFormGUI($page_factory->getFeedbackPage(),$question, $preventRteUsage);
     }
 }

@@ -52,7 +52,7 @@ class exQuestionPoolExporter extends ilXmlExporter
          * in the shown depeny array structure.
          */
 
-        if ($a_entity == 'qpl') {
+        if ($a_entity == 'asq') {
             $deps = array();
 
             $questionIds = array(); // initialise with question ids that need to be exported

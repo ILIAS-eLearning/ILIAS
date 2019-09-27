@@ -5,6 +5,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
@@ -31,6 +32,10 @@ class AuthoringService
      */
     protected $actor_user_id;
     /**
+     * @var string
+     */
+    protected $lng_key;
+    /**
      * AuthoringApplicationService
      */
     protected $authoring_application_service;
@@ -42,10 +47,14 @@ class AuthoringService
      */
     public function __construct(int $container_obj_id, int $actor_user_id)
     {
+        global $DIC;
+
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+        //The lng_key could be used in future as parameter in the constructor
+        $this->lng_key = $DIC->language()->getDefaultLanguage();
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $this->lng_key);
     }
 
 
@@ -160,8 +169,8 @@ class AuthoringService
         return $pageGUI;
     }
 
-    public function getGenericFeedbackPage(int $feedbackIntId) : \ilAsqGenericFeedbackPageGUI
+    public function getGenericFeedbackPageGUI(Page $page) : \ilAsqGenericFeedbackPageGUI
     {
-        return new \ilAsqGenericFeedbackPageGUI($feedbackIntId);
+        return new \ilAsqGenericFeedbackPageGUI($page);
     }
 }

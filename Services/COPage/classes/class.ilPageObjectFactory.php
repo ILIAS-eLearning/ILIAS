@@ -28,7 +28,6 @@ class ilPageObjectFactory
 		$path = "./".$def["component"]."/".$def["directory"]."/class.".$class.".php";
 		//include_once($path);
 		$obj = new $class($a_id , $a_old_nr, $a_lang);
-		
 		return $obj;
 	}
 	
