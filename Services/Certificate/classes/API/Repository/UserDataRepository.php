@@ -156,7 +156,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
 
             case $filter->shouldSortByIssueTimestamps():
             default:
-             $orderBy .= 'il_cert_user_cert.acquired_timestamp';
+                $orderBy .= 'il_cert_user_cert.acquired_timestamp';
                 break;
         }
 
