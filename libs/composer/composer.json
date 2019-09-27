@@ -43,9 +43,14 @@
 		"phpunit/phpunit": "^8",
 		"phpunit/php-code-coverage": "^7.0",
 		"mockery/mockery": "^1.2",
-		"phpunit/php-token-stream": "^3.0",
+		"phpunit/php-token-stream": "^3.1",
 		"phpdocumentor/reflection-docblock": "^3.3",
-		"friendsofphp/php-cs-fixer": "^2.15"
+		"friendsofphp/php-cs-fixer": "^2.15",
+		"sebastian/environment": "^4.2",
+		"phpunit/php-timer": "^2.1",
+		"phpspec/prophecy": "^1.8",
+		"theseer/tokenizer": "^1.1",
+		"myclabs/deep-copy": "^1.9"
 	},
 	"autoload": {
 		"psr-4" : {
