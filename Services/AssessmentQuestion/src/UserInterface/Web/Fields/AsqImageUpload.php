@@ -106,7 +106,7 @@ class AsqImageUpload extends ilFileInputGUI {
            return $additional;
         }
         else {
-            return '<div style="width: 333px;">' . parent::render($a_mode) . '</ div>' . $additional . $delete;
+            return '<div style="width: 333px;">' . parent::render($a_mode)  . $additional . $delete . '</div>';
         }
         
     }
