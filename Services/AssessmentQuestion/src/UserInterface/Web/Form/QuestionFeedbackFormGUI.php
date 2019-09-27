@@ -5,6 +5,8 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 
 /**
@@ -24,9 +26,9 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
     const VAR_FEEDBACK_WRONG = 'feedback_wrong';
 
     /**
-     * @var \ilAsqFeedbackPageService
+     * @var Page
      */
-    protected $feedbackPageService;
+    protected $page;
 
     /**
      * @var QuestionDto
@@ -42,13 +44,12 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
     /**
      * QuestionFeedbackFormGUI constructor.
      *
-     * @param AuthoringContextContainer $contextContainer
-     * @param \GenericFeedbackPageService $feedbackPageService
+     * @param Page                      $page
      * @param QuestionDto               $questionDto
      * @param bool                      $preventRteUsage
      */
     public function __construct(
-        \GenericFeedbackPageService $feedbackPageService,
+        Page $page,
         QuestionDto $questionDto,
         bool $preventRteUsage
     )
@@ -57,7 +58,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
 
         parent::__construct();
 
-        $this->feedbackPageService = $feedbackPageService;
+        $this->page = $page;
         $this->questionDto = $questionDto;
         $this->preventRteUsage = $preventRteUsage;
 
@@ -137,10 +138,8 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
             $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
         );
 
-        $feedbackCorrectInput->setValue($this->getPageObjectNonEditableInputValueHtml(
-            \ilAsqGenericFeedbackPage::PARENT_TYPE,
-            $this->questionDto->getFeedbackCorrect()->getIntId()
-        ));
+
+        $feedbackCorrectInput->setValue($this->getPageObjectNonEditableInputValueHtml($this->page));
 
         $this->addItem($feedbackCorrectInput);
 
@@ -148,10 +147,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
             $DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
         );
 
-        $feedbackWrongInput->setValue($this->getPageObjectNonEditableInputValueHtml(
-            \ilAsqGenericFeedbackPage::PARENT_TYPE,
-            $this->questionDto->getFeedbackWrong()->getIntId()
-        ));
+        $feedbackWrongInput->setValue($this->getPageObjectNonEditableInputValueHtml($this->page));
 
         $this->addItem($feedbackWrongInput);
     }
@@ -168,20 +164,13 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
     }
 
     /**
-     * @param string  $pageObjectType
-     * @param integer $pageObjectId
+     * @param $page Page
      *
-     * @return string $nonEditableValueHTML
+     * @return string
      */
-    protected function getPageObjectNonEditableInputValueHtml($pageObjectType, $pageObjectId)
+    protected function getPageObjectNonEditableInputValueHtml(Page $page):string
     {
-        //pageObjectType, $pageObjectId,  $this->questionDto->getQuestionIntId()
-        $this->feedbackPageService->getPage();
-
-        $link = $this->feedbackPageService->getPageEditingLink($pageObjectType, $pageObjectId);
-        $content = $this->feedbackPageService->getPageContent();
-
-        return "$link<br /><br />$content";
+        return $page->getPageEditingLink();
     }
 
     public function getFeedbackCorrect()

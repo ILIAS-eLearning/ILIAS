@@ -2,11 +2,12 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as PublicAuthoringService;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
-use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
 
 /**
@@ -38,10 +39,6 @@ class ilAsqQuestionFeedbackEditorGUI
      * @var AssessmentEntityId
      */
     protected $questionUid;
-    /**
-     * @var ilAsqFeedbackPageService
-     */
-    protected $feedbackPageService;
 
 
     /**
@@ -60,10 +57,6 @@ class ilAsqQuestionFeedbackEditorGUI
         $this->publicAuthoringService = $publicAuthoringService;
         $this->authoringApplicationService = $authoringApplicationService;
         $this->questionUid = $questionUid;
-
-        $page_factory = new PageFactory();
-
-        $this->feedbackPageService = $page_factory->getFeedbackPage();
     }
 
 
@@ -87,7 +80,8 @@ class ilAsqQuestionFeedbackEditorGUI
                 $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
                 $feedbackIntId = $question->getFeedbackCorrect()->getIntId();
 
-                $gui = $this->publicAuthoringService->getGenericFeedbackPage($feedbackIntId);
+                $page_factory = new PageFactory($question->getContainerObjId(),$question->getQuestionIntId());
+                $gui = $this->publicAuthoringService->getGenericFeedbackPageGUI($page_factory->getFeedbackPage());
 
                 if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
                     // workaround for page edit imagemaps, keep in mind
@@ -153,7 +147,7 @@ class ilAsqQuestionFeedbackEditorGUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($this->feedbackPageService, $this->authoringApplicationService->GetQuestion($this->questionUid->getId()),
+        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($this->authoringApplicationService->GetQuestion($this->questionUid->getId()),
             false
         );
 

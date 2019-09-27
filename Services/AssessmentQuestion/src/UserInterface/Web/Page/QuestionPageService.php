@@ -20,7 +20,7 @@ class QuestionPageService extends AbstractPageService
     public function getPage() : Page
     {
         global $DIC;
-        return QuestionPage::getPage('QuestionPage',$this->getIlObjectIntId(),$this->getQuestionIntId(),$DIC->language()->getDefaultLanguage());
+        return Page::getPage('QuestionPage',$this->getIlObjectIntId(),$this->getQuestionIntId(),$DIC->language()->getDefaultLanguage());
     }
 
 

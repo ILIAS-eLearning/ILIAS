@@ -2,7 +2,9 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
+
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
 
 /**
  * Class ilAsqQuestionPageEditorGUI
@@ -25,32 +27,80 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
 {
     const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 
-    private $originalPresentationTitle = '';
+    /**
+     * @var string
+     */
+    public $originalPresentationTitle = '';
+    /**
+     * @var string
+     */
+    public $questionInfoHTML = '';
+    /**
+     * @var string
+     */
+    public $questionActionsHTML = '';
+    /**
+     * @var string
+     */
+    public $question_html = '';
+    /**
+     * @var string
+     */
+    public $question_xml = '';
+    /**
+     * @var bool
+     */
+    public $output2template = false;
+    /**
+     * @var string
+     */
+    public $template_output_var = "PAGE_CONTENT";
+    /**
+     * @var string
+     */
+    public $output_mode = IL_PAGE_PRESENTATION;
+    /**
+     * @var bool
+     */
+    public $enabledpagefocus = true;
+    /**
+     * @var bool
+     */
+    public $a_output = false;
 
-    private $questionInfoHTML = '';
-    private $questionActionsHTML = '';
 
     /**
-     * Constructor
+     * ilAsqQuestionPageGUI constructor.
      *
-     * @param int $a_id
-     * @param int $a_old_nr
-     *
-     * @return \ilAsqQuestionPageGUI
+     * @param Page $page
      */
-    function __construct($a_parent_type, $a_id, $a_old_nr = 0,
-        $a_prevent_get_id = false, $a_lang = "")
+    function __construct(Page $page)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        /**
+          * @var \ILIAS\DI\Container $DIC
+        **/
+        global $DIC;
 
-        $this->setLanguage($a_lang);
-        $this->setParentType($a_parent_type);
+        $this->setParentType($page->getParentType());
+        $this->setId($page->getId());
+        $this->setLanguage($page->getLanguage());
 
-        parent::__construct(
-            $a_parent_type, $a_id,0,false,$a_lang
-        );
+        $this->setPageObject($page);
+        $this->setPageConfig($this->getPageObject()->getPageConfig());
 
-        $this->setEnabledPageFocus(false);
+        $this->log = $DIC->logger()->root();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->user = $DIC->user();
+        $this->help = $DIC->help();
+
+        $this->plugin_admin = $DIC["ilPluginAdmin"];
+
+        $this->page_back_title = $this->lng->txt("page");
+        $this->lng->loadLanguageModule("content");
+        $this->lng->loadLanguageModule("copg");
+
+        $this->ctrl->saveParameter($this, "transl");
 
         // content and syntax styles
         $DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
@@ -61,12 +111,14 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
         $DIC->ui()->mainTemplate()->parseCurrentBlock();
     }
 
-    public static function getGUI($il_obj_int_id, $question_int_id):ilAsqQuestionPageGUI {
-        $page_factory = new PageFactory($il_obj_int_id,$question_int_id);
-        $question_page = $page_factory->getQuestionPageService();
-       $page =  $question_page->getPage();
 
-        return new self($page->getParentType(),$question_int_id,0,false,$page->getLanguage());
+    /**
+     * @param Page $page
+     *
+     * @return ilAsqQuestionPageGUI
+     */
+    public static function getGUI(Page $page):ilAsqQuestionPageGUI {
+        return new self($page);
     }
 
     public function getOriginalPresentationTitle()
@@ -87,7 +139,6 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     public function showPage()
     {
         $this->setOriginalPresentationTitle($this->getPresentationTitle());
-
         $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
 
         /**
@@ -134,6 +185,27 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     {
         $this->questionActionsHTML = $a_html;
     }
+
+    /**
+     * Set page config object
+     *
+     * @param PageConfig
+     */
+    function setPageConfig($page_config)
+    {
+        $this->page_config = $page_config;
+    }
+
+    /**
+     * Get page config object
+     *
+     * @return	PageConfig
+     */
+    function getPageConfig()
+    {
+        return $this->page_config;
+    }
+
 
     /**
      * Replace page toc placeholder with question info and actions
