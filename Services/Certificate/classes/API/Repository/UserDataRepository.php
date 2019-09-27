@@ -151,7 +151,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
                 break;
 
             case $filter->shouldSortByObjectTitles():
-                $orderBy .= 'usr_data.title';
+                $orderBy .= 'title';
                 break;
 
             case $filter->shouldSortByIssueTimestamps():
