@@ -173,7 +173,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 				if (null === $id) {
 					return '';
 				}
-				$obj_id = $objectHelper->lookupObjId($id);
+				$obj_id = $objectHelper->lookupObjId((int) $id);
 				$olp = $lpHelper->getInstance($obj_id);
 
 				$invalid_modes = $this->getInvalidLPModes();
