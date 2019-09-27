@@ -207,7 +207,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 		}
 
 		foreach($refIds as $refId) {
-			$objectId = $this->objectHelper->lookupObjId($refId);
+			$objectId = $this->objectHelper->lookupObjId((int) $refId);
 			$learningProgressObject = $this->lpHelper->getInstance($objectId);
 			$currentMode = $learningProgressObject->getCurrentMode();
 			if(in_array($currentMode, $invalidModes)) {
