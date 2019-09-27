@@ -4,7 +4,7 @@
 /**
  * Class ilContentPagePageConfig
  */
-class ilContentPagePageConfig extends \ilPageConfig
+class ilContentPagePageConfig extends ilPageConfig
 {
 	/**
 	 * @inheritdoc
@@ -15,5 +15,10 @@ class ilContentPagePageConfig extends \ilPageConfig
 		$this->setIntLinkHelpDefaultType('RepositoryItem');
 		$this->setSinglePageMode(true);
 		$this->setEnablePermissionChecks(true);
+
+		$mediaPoolSettings = new ilSetting('mobs');
+		if ($mediaPoolSettings->get('mep_activate_pages')) {
+			$this->setEnablePCType('ContentInclude', true);
+		}
 	}
 }
