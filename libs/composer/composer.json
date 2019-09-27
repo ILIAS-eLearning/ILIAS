@@ -40,7 +40,7 @@
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
-		"phpunit/phpunit": "^8.0",
+		"phpunit/phpunit": "^8",
 		"phpunit/php-code-coverage": "^7.0",
 		"mockery/mockery": "^1.2",
 		"phpunit/php-token-stream": "^3.0",
