@@ -25,4 +25,15 @@ class ToolFactory
     {
         return new Tool($identification);
     }
+
+    //
+    // /**
+    //  * @param IdentificationInterface $identification
+    //  *
+    //  * @return TreeTool
+    //  */
+    // public function treeTool(IdentificationInterface $identification) : TreeTool
+    // {
+    //     return new TreeTool($identification);
+    // }
 }

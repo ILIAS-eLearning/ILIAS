@@ -8632,7 +8632,7 @@ style#:#sty_media_char#:#Medien
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
-style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
@@ -15205,3 +15205,4 @@ exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
+exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.

@@ -7131,7 +7131,7 @@ style#:#sty_media_char#:#Media
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
-style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
@@ -14838,7 +14838,7 @@ exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be us
 exc#:#exc_num_teams#:#Number
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_max_team_participants#:#Maximal Number
-exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_total_members#:#Total Exercise Participants
 exc#:#exc_value_can_not_set#:#This value can not be set.
 exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
 exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
@@ -15206,3 +15206,4 @@ exc#:#exc_text_saved#:#Text has been saved.
 common#:#nc_contact_requests_headline#:#Contact Requests
 common#:#nc_contact_requests_number_s#:#You have %s Contact Request
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
+exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.

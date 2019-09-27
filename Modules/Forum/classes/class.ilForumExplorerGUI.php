@@ -169,8 +169,6 @@ class ilForumExplorerGUI implements TreeRecursion
         $f = $this->ui->factory();
         /** @var ilTree $tree */
 
-        $data = $this->thread->getNestedSetPostChildren($this->root_node->getId());
-
         $rootNode = array(
             'pos_pk'              => $this->root_node->getId(),
             'pos_subject'         => $this->root_node->getSubject(),
@@ -208,10 +206,11 @@ class ilForumExplorerGUI implements TreeRecursion
         /** @var \ILIAS\UI\Component\Tree\Node\Node $node */
         $node = $this->createNode($factory, $record);
 
-        $href = $this->getNodeHref($record);
-
-        if ($href) {
-            $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
+        if ($record['pos_pk'] != $this->root_node->getId()) {
+            $href = $this->getNodeHref($record);
+            if ($href) {
+                $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
+            }
         }
 
         return $node;
@@ -263,14 +262,18 @@ class ilForumExplorerGUI implements TreeRecursion
                     ->symbol()
                     ->icon()
                     ->custom($path, 'forum');
+        
+        if ($node['pos_pk'] == $this->root_node->getId()) {
+            $treeNode = $factory->simple($node['pos_subject'], $icon);
+        } else {
+            $authorInfo = $this->getAuthorInformationByNode($node);
+            $creationDate = ilDatePresentation::formatDate(new ilDateTime($node['pos_date'], IL_CAL_DATETIME));
+            $bylineString = $authorInfo->getAuthorShortName() . ', ' . $creationDate;
 
-        $authorInfo = $this->getAuthorInformationByNode($node);
-        $creationDate = ilDatePresentation::formatDate(new ilDateTime($node['pos_date'], IL_CAL_DATETIME));
-        $bylineString = $authorInfo->getAuthorShortName() . ', ' . $creationDate;
+            $treeNode = $factory->bylined($node['pos_subject'], $bylineString, $icon);
+        }
 
-        $simple = $factory->bylined($node['pos_subject'], $bylineString, $icon);
-
-        return $simple;
+        return $treeNode;
     }
 
     /**

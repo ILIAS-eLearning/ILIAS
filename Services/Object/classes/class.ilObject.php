@@ -341,9 +341,9 @@ class ilObject
 	* @access	public
 	* @return	integer	object id
 	*/
-	function getId()
+	function getId() : int
 	{
-		return $this->id;
+		return (int) $this->id;
 	}
 
 	/**
@@ -353,7 +353,7 @@ class ilObject
 	*/
 	function setId($a_id)
 	{
-		$this->id = $a_id;
+		$this->id = (int) $a_id;
 	}
 
 	/**

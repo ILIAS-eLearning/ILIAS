@@ -35,7 +35,8 @@
 		"sabre/dav": "~3.2.2",
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
-		"ramsey/uuid": "^3.8"
+		"ramsey/uuid": "^3.8",
+		"enshrined/svg-sanitize": "^0.10.0"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -47,9 +48,20 @@
 		"friendsofphp/php-cs-fixer": "^2.15"
 	},
 	"autoload": {
-		"psr-4" : { "ILIAS\\" : "../../src" },
-		"classmap": ["../../Services/", "../../Modules", "../ilias"],
-		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
+		"psr-4" : {
+			"ILIAS\\Tests\\" : "../../tests",
+			"ILIAS\\" : "../../src"
+		},
+		"classmap": [
+			"../../Services/",
+			"../../Modules",
+			"../ilias"
+		],
+		"exclude-from-classmap": [
+			"../../Services/Migration",
+			"../../*/*/lib", "../../*/*/test",
+			"../../Services/CAS/phpcas"
+		]
 	},
 	"extra": {
 		"cweagans/composer-patches" : {
@@ -343,7 +355,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "2019-07-15"
 		},
-
+		"enshrined/svg-sanitize" : {
+			"source" : "https://github.com/darylldoyle/svg-sanitizer",
+			"used_version" : "v0.10.0",
+			"wrapped_by" : "Services/MediaObject",
+			"added_by" : "Alex Killing <killing@leifos.de>",
+			"last_update" : "2019-09-19",
+			"last_update_by" : "Alex Killing <killing@leifos.de>",
+			"approved-by": "see security issue 20339",
+			"approved-date": "2017-04-05"
+		},
 		"patches": {
 			"tecnickcom/tcpdf": {
 				"ILIAS TCPDF Patches": "patches/tcpdf.patch"

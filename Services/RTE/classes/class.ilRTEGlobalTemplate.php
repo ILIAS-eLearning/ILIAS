@@ -1505,15 +1505,6 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
 						$this->initHelp();
 					}
 
-					if($this->blockExists("content") && $this->variableExists('MAINMENU'))
-					{
-						$tpl = $DIC["tpl"];
-
-						include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
-						$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
-						$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
-					}
-
 					// these fill blocks in tpl.main.html
 					$this->fillCssFiles();
 					$this->fillInlineCss();

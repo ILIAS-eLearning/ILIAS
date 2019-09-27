@@ -28,13 +28,16 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("mail", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/envolope-letter.svg"), "");
+
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_mail'))
                 ->withTitle($this->dic->language()->txt("mm_mail"))
                 ->withAction("ilias.php?baseClass=ilMailGUI")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
-                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("mail", "")->withIsOutlined(true))
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($dic) {

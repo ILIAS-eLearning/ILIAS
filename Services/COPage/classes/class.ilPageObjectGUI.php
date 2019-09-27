@@ -109,6 +109,10 @@ class ilPageObjectGUI
 	private $abstract_only = false;
 	protected $parent_type = "";
 
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+	protected $tool_context;
 
 	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
 	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
@@ -181,6 +185,8 @@ class ilPageObjectGUI
 		$this->page_back_title = $this->lng->txt("page");
 		$this->lng->loadLanguageModule("content");
 		$this->lng->loadLanguageModule("copg");
+
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
 		
 		$this->setTemplateOutput(false);
 
@@ -2923,6 +2929,8 @@ return;
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 			$this->ctrl->redirect($this, "preview");
 		}
+
+        $this->tool_context->current()->addAdditionalData(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
 
 		// not so nive workaround for container pages, bug #0015831
 		$ptype = $this->getParentType();
