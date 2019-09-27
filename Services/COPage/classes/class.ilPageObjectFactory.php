@@ -44,7 +44,6 @@ class ilPageObjectFactory
 		$class = $def["class_name"]."Config";
 		$path = "./".$def["component"]."/".$def["directory"]."/class.".$class.".php";
 		//include_once($path);
-		new \ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig();
 		$cfg = new $class();
 		
 		return $cfg;
