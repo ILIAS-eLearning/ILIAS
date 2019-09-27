@@ -8,6 +8,12 @@ namespace Certificate\API\Filter;
  */
 class UserDataFilter
 {
+    const SORT_FIELD_ISSUE_TIMESTAMP = 1;
+    const SORT_FIELD_USR_LOGIN = 2;
+    const SORT_FIELD_USR_LASTNAME = 3;
+    const SORT_FIELD_USR_FIRSTNAME = 4;
+    const SORT_FIELD_OBJ_TITLE = 5;
+
     /** @var string|null */
     private $objectTitle;
 
@@ -38,6 +44,12 @@ class UserDataFilter
     /** @var int[] */
     private $userIds = [];
 
+    /** @var bool */
+    private $reverseSorting = false;
+
+    /** @var int */
+    private $sort = self::SORT_FIELD_ISSUE_TIMESTAMP;
+
     /**
      * @param int[] $usrIds
      * @param bool $onlyActive Show only the currently active certificates of the user
@@ -57,13 +69,13 @@ class UserDataFilter
      * @param int[] $usrIds
      * @throws \ilException
      */
-    private function ensureValidUniqueUsrIds(array $usrIds) : void 
+    private function ensureValidUniqueUsrIds(array $usrIds) : void
     {
         if ([] === $usrIds) {
             throw new \ilException('The passed array of user ids must not be empty!');
         }
 
-        array_walk($usrIds, function(int $usrId) {
+        array_walk($usrIds, function (int $usrId) {
             // Do nothing, use this for type safety of array values 
         });
     }
@@ -76,7 +88,7 @@ class UserDataFilter
     {
         $clone = clone $this;
         $clone->objectTitle = $title;
-        
+
         return $clone;
     }
 
@@ -154,7 +166,7 @@ class UserDataFilter
 
     /**
      * @param int|null $timestamp
-     * @return $this 
+     * @return $this
      */
     public function withIssuedAfterTimestamp(?int $timestamp) : self
     {
@@ -181,10 +193,10 @@ class UserDataFilter
      * @return $this
      * @throws \ilException
      */
-    public function withUserIds(array $usrIds) :self
+    public function withUserIds(array $usrIds) : self
     {
         $this->ensureValidUniqueUsrIds($usrIds);
-        
+
         $clone = clone $this;
         $clone->userIds = $usrIds;
 
@@ -196,7 +208,7 @@ class UserDataFilter
      * @return $this
      * @throws \ilException
      */
-    public function withAdditionalUserIds(array $usrIds) :self
+    public function withAdditionalUserIds(array $usrIds) : self
     {
         $this->ensureValidUniqueUsrIds($usrIds);
 
@@ -284,5 +296,130 @@ class UserDataFilter
     public function getUserIds() : array
     {
         return $this->userIds;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withSortedLastNames() : self
+    {
+        $clone = clone $this;
+        $clone->sort = self::SORT_FIELD_USR_LASTNAME;
+
+        return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withSortedFirstNames() : self
+    {
+        $clone = clone $this;
+        $clone->sort = self::SORT_FIELD_USR_FIRSTNAME;
+
+        return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withSortedObjectTitles() : self
+    {
+        $clone = clone $this;
+        $clone->sort = self::SORT_FIELD_OBJ_TITLE;
+
+        return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withSortedLogins() : self
+    {
+        $clone = clone $this;
+        $clone->sort = self::SORT_FIELD_USR_LOGIN;
+
+        return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withSortedIssuedOnTimestamps() : self
+    {
+        $clone = clone $this;
+        $clone->sort = self::SORT_FIELD_ISSUE_TIMESTAMP;
+
+        return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withReverseSorting() : self
+    {
+        $clone = clone $this;
+        $clone->reverseSorting = true;
+
+        return $clone;
+    }
+
+    /**
+     * @return $this
+     */
+    public function withAscendingSorting() : self
+    {
+        $clone = clone $this;
+        $clone->reverseSorting = false;
+
+        return $clone;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReverseSorting() : bool
+    {
+        return $this->reverseSorting;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSortByIssueTimestamps() : bool
+    {
+        return $this->sort === self::SORT_FIELD_ISSUE_TIMESTAMP;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSortByLastNames() : bool
+    {
+        return $this->sort === self::SORT_FIELD_USR_LASTNAME;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSortByFirstNames() : bool
+    {
+        return $this->sort === self::SORT_FIELD_USR_FIRSTNAME;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSortByLogins() : bool
+    {
+        return $this->sort === self::SORT_FIELD_USR_LOGIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSortByObjectTitles() : bool
+    {
+        return $this->sort === self::SORT_FIELD_OBJ_TITLE;
     }
 }
