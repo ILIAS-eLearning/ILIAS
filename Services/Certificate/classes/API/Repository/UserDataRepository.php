@@ -88,8 +88,7 @@ LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
 INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer')
-            . $this->createWhereCondition($filter) . '
-ORDER BY il_cert_user_cert.obj_id';
+            . $this->createWhereCondition($filter) . ' ' . $this->createOrderByClause($filter);
 
         $query = $this->database->query($sql);
 
@@ -128,6 +127,43 @@ ORDER BY il_cert_user_cert.obj_id';
             $result[$id] = $dataObject;
         }
         return $result;
+    }
+
+    /**
+     * @param UserDataFilter $filter
+     * @return string
+     */
+    private function createOrderByClause(UserDataFilter $filter) : string
+    {
+        $orderBy = ' ORDER BY ';
+
+        switch (true) {
+            case $filter->shouldSortByLogins():
+                $orderBy .= 'usr_data.login';
+                break;
+
+            case $filter->shouldSortByFirstNames():
+                $orderBy .= 'usr_data.firstname';
+                break;
+
+            case $filter->shouldSortByLastNames():
+                $orderBy .= 'usr_data.lastname';
+                break;
+
+            case $filter->shouldSortByObjectTitles():
+                $orderBy .= 'usr_data.title';
+                break;
+
+            case $filter->shouldSortByIssueTimestamps():
+            default:
+             $orderBy .= 'il_cert_user_cert.acquired_timestamp';
+                break;
+        }
+
+
+        $orderBy .= ' ' . $filter->isReverseSorting() ? ' DESC ' : ' ASC ';
+        
+        return $orderBy;
     }
 
     /**
