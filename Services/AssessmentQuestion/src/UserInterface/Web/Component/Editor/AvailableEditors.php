@@ -23,6 +23,7 @@ class AvailableEditors {
         $editors[ErrorTextEditor::class] = 'ErrorTextEditor';
         $editors[OrderingEditor::class] = 'OrderingEditor';
         $editors[ImageMapEditor::class] = 'ImageMapEditor';
+        $editors[FileUploadEditor::class] = 'FileuploadEditor';
 		return $editors;
 	}
 

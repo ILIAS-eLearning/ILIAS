@@ -14,6 +14,15 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_max_upload#:#Maximale Dateigröße
+asq#:#asq_label_allowed_extensions#:#Erlaubte Dateierweiterungen
+asq#:#asq_label_upload_type#:#Typ
+asq#:#asq_label_single_file#:#Eine Datei
+asq#:#asq_label_many_file#:#Mehrere Dateien
+asq#:#asq_label_completed_by_submition#:#Bestehen durch Abgabe
+asq#:#asq_description_max_upload#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
+asq#:#asq_description_allowed_extensions#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt).
+asq#:#asq_description_completed_by_submition#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 asq#:#asq_label_select_coordinates#:#Koordinaten Auswählen
 asq#:#asq_option_rectangle#:#Rechteck
 asq#:#asq_option_circle#:#Kreis

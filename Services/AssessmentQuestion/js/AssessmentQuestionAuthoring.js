@@ -198,6 +198,10 @@ let display_coordinate_selector = function() {
 };
 
 let process_imgkey = function(e) {
+	if (popup === null) {
+		return;
+	}
+	
 	//ESC
 	if (e.keyCode === 27) {
 		close_popup();
@@ -212,10 +216,8 @@ let process_imgkey = function(e) {
 }
 
 let close_popup = function(e) {
-	if (popup !== null) {
-		popup.remove();
-		canvas.remove();
-	}	
+	popup.remove();
+	canvas.remove();
 }
 
 let transformToPercentage = function(part, whole) {

@@ -14,6 +14,15 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_max_upload#:#Maximum file upload size
+asq#:#asq_label_allowed_extensions#:#Allowed File Extensions
+asq#:#asq_label_upload_type#:#Type
+asq#:#asq_label_single_file#:#Single File
+asq#:#asq_label_many_file#:#Multiple Files
+asq#:#asq_label_completed_by_submition#:#Completed by Submission
+asq#:#asq_description_max_upload#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
+asq#:#asq_description_allowed_extensions#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
+asq#:#asq_description_completed_by_submition#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
 asq#:#asq_label_select_coordinates#:#Select Coordinates
 asq#:#asq_option_rectangle#:#Rectangle
 asq#:#asq_option_circle#:#Circle
