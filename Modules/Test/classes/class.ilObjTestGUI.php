@@ -572,6 +572,8 @@ class ilObjTestGUI extends ilObjectGUI
 				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php";
 				require_once "./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php";
 
+                //TODO ASQ - new implementation
+                /*
 				$page_gui = new ilTestExpressPageObjectGUI($qid);
 				$page_gui->test_object = $this->object;
 				$page_gui->setEditPreview(true);
@@ -593,7 +595,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
 				$page_gui->setPresentationTitle($question->getTitle() . ' ['. $this->lng->txt('question_id_short') . ': ' . $question->getId()  . ']');
 				$ret =& $this->ctrl->forwardCommand($page_gui);
-
+*/
 				global $DIC;
 				$ilTabs = $DIC['ilTabs'];
 				$ilTabs->activateTab('assQuestions');

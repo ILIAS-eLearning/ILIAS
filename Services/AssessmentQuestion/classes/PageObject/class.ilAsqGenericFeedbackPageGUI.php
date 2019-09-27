@@ -1,7 +1,8 @@
 <?php
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
 /**
  * Class ilAsqGenericFeedbackPageGUI
  *
@@ -21,10 +22,15 @@
  */
 class ilAsqGenericFeedbackPageGUI extends ilPageObjectGUI
 {
-    public function __construct($feedbackIntId = 0)
+    /**
+     * ilAsqQuestionPageGUI constructor.
+     *
+     * @param Page $page
+     */
+    function __construct(Page $page)
     {
         parent::__construct(
-            ilAsqGenericFeedbackPage::PARENT_TYPE, $feedbackIntId
+            $page->getParentType(), $page->getId()
         );
     }
 }

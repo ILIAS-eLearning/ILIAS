@@ -17,6 +17,8 @@ use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\FeedbackDto;
  */
 class QuestionDto {
 
+    const IL_COMPONENT_ID = 'asq';
+
 	/**
 	 * @var string
 	 */
@@ -33,6 +35,10 @@ class QuestionDto {
 	 * @var int
 	 */
 	private $container_obj_id = "";
+    /**
+     * var string
+     */
+    private $il_component_id = self::IL_COMPONENT_ID;
 	/**
 	 * @var QuestionData
 	 */
@@ -183,6 +189,16 @@ class QuestionDto {
 	{
 	    $this->container_obj_id = $container_obj_id;
 	}
+
+
+    /**
+     * @return string
+     */
+    public function getIlComponentid() : string
+    {
+        return $this->il_component_id;
+    }
+
 	
 	/**
 	 * @return QuestionData

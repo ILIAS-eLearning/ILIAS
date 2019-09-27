@@ -173,7 +173,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 *
 	 * @return AnswerOptions
 	 */
-	private function readAnswerOptions() {
+	public function readAnswerOptions() {
 	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
 	    
