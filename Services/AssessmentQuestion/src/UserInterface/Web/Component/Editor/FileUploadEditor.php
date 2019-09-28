@@ -8,6 +8,10 @@ use ilNumberInputGUI;
 use ilTextInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
+use ilTemplate;
+use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
+use ILIAS\FileUpload\Location;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
 
 /**
  * Class FileUploadEditor
@@ -24,6 +28,9 @@ class FileUploadEditor extends AbstractEditor {
     const VAR_MAX_UPLOAD = 'fue_max_upload';
     const VAR_ALLOWED_EXTENSIONS = 'fue_extensions';
     const VAR_UPLOAD_TYPE = 'fue_type';
+    
+    const UPLOADPATH = 'asq/answers/';
+    
     
     /**
      * @var FileUploadEditorConfiguration
@@ -74,21 +81,124 @@ class FileUploadEditor extends AbstractEditor {
     }
     
     public function readAnswer(): string
-    {}
+    {
+        global $DIC;
+        
+        if ($DIC->upload()->hasUploads() && !$DIC->upload()->hasBeenProcessed()) {
+            $this->UploadNewFile();
+        }
+        
+        $this->deleteOldFiles();
+        
+        return json_encode($this->selected_answers);
+    }
+    
+    private function UploadNewFile() {
+        global $DIC;
+        
+        $DIC->upload()->process();
+        
+        foreach ($DIC->upload()->getResults() as $result)
+        {
+            $folder = self::UPLOADPATH . $this->question->getId() . '/';
+            $pathinfo = pathinfo($result->getName());
+            
+            if ($result && $result->getStatus()->getCode() === ProcessingStatus::OK && 
+                $this->checkAllowedExtension($pathinfo['extension'])) {
+                $DIC->upload()->moveOneFileTo(
+                    $result,
+                    $folder,
+                    Location::WEB,
+                    $pathinfo['basename']);
+                
+                $this->selected_answers[] = ILIAS_HTTP_PATH . '/' .
+                                            ILIAS_WEB_DIR . '/' .
+                                            CLIENT_ID .  '/' .
+                                            $folder .
+                                            $pathinfo['basename'];
+            }
+        }
+    }
 
+    private function deleteOldFiles() {
+        $answers = $this->selected_answers;
+        
+        foreach ($answers as $key => $value) {
+            if (array_key_exists($this->getPostVar() . $key, $_POST)) {
+                unset($this->selected_answers[$key]);
+            }
+        }
+    }
+    
+    /**
+     * @param string $extension
+     * @return bool
+     */
+    private function checkAllowedExtension(string $extension) :bool {
+        return empty($this->configuration->getAllowedExtensions()) ||
+               in_array($extension, explode(',', $this->configuration->getAllowedExtensions()));
+    }
+    
     public static function readConfig() : FileUploadEditorConfiguration
     {
-        return FileUploadEditorConfiguration::create(intval($_POST[self::VAR_MAX_UPLOAD]), 
-                                                     $_POST[self::VAR_ALLOWED_EXTENSIONS], 
+        $max_upload = intval($_POST[self::VAR_MAX_UPLOAD]);
+        
+        if ($max_upload === 0) {
+            $max_upload = null;
+        }
+        
+        return FileUploadEditorConfiguration::create($max_upload, 
+                                                     str_replace(' ', '', $_POST[self::VAR_ALLOWED_EXTENSIONS]), 
                                                      intval($_POST[self::VAR_UPLOAD_TYPE]));
     }
 
     public function setAnswer(string $answer): void
-    {}
+    {
+        $this->selected_answers = json_decode($answer, true);
+    }
 
     public function generateHtml(): string
-    {}
+    {
+        global $DIC;
+        
+        $tpl = new ilTemplate("tpl.FileUploadEditor.html", true, true, "Services/AssessmentQuestion");
+        $tpl->setVariable('TXT_UPLOAD_FILE', $DIC->language()->txt('asq_header_upload_file'));
+        $tpl->setVariable('TXT_MAX_SIZE', 
+                          sprintf($DIC->language()->txt('asq_text_max_size'), 
+                                  $this->configuration->getMaximumSize() ?? 777));
+        $tpl->setVariable('POST_VAR', $this->getPostVar());
+        
+        if (!empty($this->configuration->getAllowedExtensions())) {
+            $tpl->setCurrentBlock('allowed_extensions');
+            $tpl->setVariable('TXT_ALLOWED_EXTENSIONS', 
+                              sprintf($DIC->language()->txt('asq_text_allowed_extensions'), 
+                                      $this->configuration->getAllowedExtensions()));
+            $tpl->parseCurrentBlock();
+            
+        }
+        
+        if (count($this->selected_answers) > 0) {
+            $tpl->setCurrentBlock('files');
+
+            foreach ($this->selected_answers as $key => $value) {
+                $tpl->setCurrentBlock('file');
+                $tpl->parseCurrentBlock('FILE_ID', $this->getPostVar() . $key);
+                $tpl->parseCurrentBlock('FILENAME', $value);
+                $tpl->parseCurrentBlock();
+            }
+            
+            $tpl->setVariable('HEADER_DELETE', $DIC->language()->txt('delete'));
+            $tpl->setVariable('HEADER_FILENAME', $DIC->language()->txt('filename'));
+            $tpl->parseCurrentBlock();
+        }
+        
+        return $tpl->get();
+    }
     
+    private function getPostVar() : string {
+        return $this->question->getId();
+    }
+
     public static function getDisplayDefinitionClass() : string {
         return EmptyDisplayDefinition::class;
     }

@@ -1,0 +1,28 @@
+<div class="ilClearFloat assFileUpload">
+	<!-- BEGIN files -->
+	<div class="ilc_qanswer_Answer ilc_answers answers assFileUploadTable">
+		<table>
+			<tr>
+				<th style="min-width: 60px;">{HEADER_DELETE}</th>
+				<th>{HEADER_FILENAME}</th>
+			</tr>
+			<!-- BEGIN file -->
+			<tr>
+				<td class="std" style="vertical-align: top">
+					<input type="checkbox" name="{FILE_ID}" value="FILE_NAME"/>
+				</td>
+				<td class="std" style="vertical-align: top">
+					<span>{FILENAME}</span>
+				</td>
+			</tr>
+		<!-- END file -->
+		</table>
+	</div>
+	<!-- END files -->
+	<h2>{TXT_UPLOAD_FILE}</h2>
+	<div><input type="file" name="{POST_VAR}" /></div>
+	<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
+	<!-- BEGIN allowed_extensions -->
+	<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_EXTENSIONS}</span></div>
+	<!-- END allowed_extensions -->
+</div>

@@ -14,6 +14,9 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_header_upload_file#:#Choose File to Upload
+asq#:#asq_text_max_size#:#Maximum Filesize: %d byte
+asq#:#asq_text_allowed_extensions#:#Allowed Extensions: %s
 asq#:#asq_label_max_upload#:#Maximum file upload size
 asq#:#asq_label_allowed_extensions#:#Allowed File Extensions
 asq#:#asq_label_upload_type#:#Type
