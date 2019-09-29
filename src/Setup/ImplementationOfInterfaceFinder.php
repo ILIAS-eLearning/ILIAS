@@ -19,7 +19,7 @@ class ImplementationOfInterfaceFinder
      */
     private $ignore
         = [
-            '/libs/',
+            'libs/',
             '/test/',
             '/tests/',
             '/setup/',
@@ -51,7 +51,7 @@ class ImplementationOfInterfaceFinder
             "|",
             array_map(
                 function ($v) { return "($v)"; },
-                $this->ignore
+                array_merge($this->ignore, array_map(function($v) {return str_replace('/', "\\\\", $v);}, $this->ignore))
             )
         );
 
