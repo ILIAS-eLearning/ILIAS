@@ -27,15 +27,15 @@ interface Environment {
 	public function withResource(string $id, $resource) : Environment;
 
 	 /**
-	  * When using the environment with preconditions, it might become necessary to
-	  * build an Objective with the respective config.
+	  * Stores a config for some component in the environment.
+	  *
 	  * @throw \RuntimeException if this config is already in the environment.
 	  */
 	public function withConfigFor(string $component, $config) : Environment;
 
 	/**
-	 * @return array|null
+	 * @throw \RuntimeException if there is no config for the component
+	 * @return mixed 
 	 */
 	public function getConfigFor(string $component);
-
 }
