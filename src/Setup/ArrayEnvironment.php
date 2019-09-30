@@ -15,7 +15,7 @@ class ArrayEnvironment implements Environment {
 	 /**
 	  * @var array<string,mixed>
 	  */
-	protected $configs;
+	public $configs;
 
 	public function __construct(array $resources)
 	{
@@ -43,7 +43,7 @@ class ArrayEnvironment implements Environment {
 				"Resource '$id' is already contained in the environment"
 			);
 		}
-		$clone = new ArrayEnvironment($this->resources);
+		$clone = clone $this;
 		$clone->resources[$id] = $resource;
 		return $clone;
 	}
@@ -58,7 +58,7 @@ class ArrayEnvironment implements Environment {
 				"Config for '$component' is already contained in the environment"
 			);
 		}
-		$clone = new ArrayEnvironment($this->resources);
+		$clone = clone $this;
 		$clone->configs[$component] = $config;
 		return $clone;
 	}
