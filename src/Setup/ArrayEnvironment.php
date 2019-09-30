@@ -15,7 +15,6 @@ class ArrayEnvironment implements Environment {
 	 /**
 	  * @var array<string,mixed>
 	  */
-
 	protected $configs;
 
 	public function __construct(array $resources)
@@ -52,28 +51,28 @@ class ArrayEnvironment implements Environment {
 	/**
 	 * @inheritdoc
 	 */
-	public function withConfigFor(string $id, $config): Environment
+	public function withConfigFor(string $component, $config): Environment
 	{
-		if (isset($this->configs[$id])) {
+		if (isset($this->configs[$component])) {
 			throw new \RuntimeException(
-				"Config '$id' is already contained in the environment"
+				"Config for '$component' is already contained in the environment"
 			);
 		}
 		$clone = new ArrayEnvironment($this->resources);
-		$clone->configs[$id] = $config;
+		$clone->configs[$component] = $config;
 		return $clone;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getConfigFor(string $id)
+	public function getConfigFor(string $component)
 	{
-		if (!isset($this->configs[$id])) {
+		if (!isset($this->configs[$component])) {
 			throw new \RuntimeException(
-				"Config '$id' is not contained in the environment"
+				"Config for '$component' is not contained in the environment"
 			);
 		}
-		return $this->configs[$id];
+		return $this->configs[$component];
 	}
 }

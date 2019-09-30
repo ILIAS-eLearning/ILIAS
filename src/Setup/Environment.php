@@ -31,11 +31,11 @@ interface Environment {
 	  * build an Objective with the respective config.
 	  * @throw \RuntimeException if this config is already in the environment.
 	  */
-	public function withConfigFor(string $id, $config) : Environment;
+	public function withConfigFor(string $component, $config) : Environment;
 
 	/**
 	 * @return array|null
 	 */
-	public function getConfigFor(string $id);
+	public function getConfigFor(string $component);
 
 }
