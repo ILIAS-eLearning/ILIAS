@@ -3714,12 +3714,7 @@ class ilSetupGUI
 		};
 // BEGIN WebDAV
 		// read module and service information into db
-		require_once "./setup/classes/class.ilModuleReader.php";
-		require_once "./setup/classes/class.ilServiceReader.php";
-		require_once "./setup/classes/class.ilCtrlStructureReader.php";
 
-		require_once "./Services/Component/classes/class.ilModule.php";
-		require_once "./Services/Component/classes/class.ilService.php";
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 

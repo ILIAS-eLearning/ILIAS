@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./setup/classes/class.ilObjDefReader.php");
-
 /**
 * Class ilServiceReader
 *
@@ -34,12 +32,6 @@ include_once("./setup/classes/class.ilObjDefReader.php");
 */
 class ilServiceReader extends ilObjDefReader
 {
-
-	function __construct($a_path, $a_name, $a_type)
-	{
-		parent::__construct($a_path, $a_name, $a_type);
-	}
-	
 	function getServices()
 	{
 		$this->startParsing();
@@ -59,9 +51,7 @@ class ilServiceReader extends ilObjDefReader
 	*/
 	function clearTables()
 	{
-		global $ilDB;
-
-		$ilDB->manipulate("DELETE FROM service_class");
+		$this->db->manipulate("DELETE FROM service_class");
 	}
 
 
@@ -75,15 +65,12 @@ class ilServiceReader extends ilObjDefReader
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilDB;
-
-		
 		switch ($a_name)
 		{
 			case 'service':
 				$this->current_service = $this->name;
 				$this->current_component = $this->type."/".$this->name;
-				$ilDB->manipulateF("INSERT INTO il_component (type, name, id) ".
+				$this->db->manipulateF("INSERT INTO il_component (type, name, id) ".
 					"VALUES (%s,%s,%s)", array("text", "text", "text"),
 					array($this->type, $this->name, $a_attribs["id"]));
 				
@@ -91,11 +78,10 @@ class ilServiceReader extends ilObjDefReader
 				break;
 				
 			case 'baseclass':
-				$ilDB->manipulateF("INSERT INTO service_class (service, class, dir) ".
+				$this->db->manipulateF("INSERT INTO service_class (service, class, dir) ".
 					"VALUES (%s,%s,%s)", array("text", "text", "text"),
 					array($this->name, $a_attribs["name"], $a_attribs["dir"]));
 				break;
-				
 		}
 
 		// smeyer: first read outer xml
