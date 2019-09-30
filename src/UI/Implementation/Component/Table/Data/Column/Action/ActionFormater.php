@@ -42,20 +42,10 @@ class ActionFormater extends AbstractFormater
     {
         $actions = $column->getActions($row);
 
-        $actions = array_map(function (string $title, string $action) use ($row, $table_id): Shy {
-            return $this->dic->ui()->factory()->button()
-                ->shy($title, DefaultBrowserFormat::getActionUrl($action, [Table::ACTION_GET_VAR => $row->getRowId()], $table_id));
-        }, array_keys($actions), $actions);
-
-        if (count($actions) > 1) {
-            return $renderer->render($this->dic->ui()->factory()->dropdown()
-                ->standard($actions)->withLabel($column->getTitle()));
-        } else {
-            if (count($actions) === 1) {
-                return $renderer->render(current($actions));
-            } else {
-                return "";
-            }
-        }
+        return $renderer->render($this->dic->ui()->factory()->dropdown()
+            ->standard(array_map(function (string $title, string $action) use ($row, $table_id): Shy {
+                return $this->dic->ui()->factory()->button()
+                    ->shy($title, DefaultBrowserFormat::getActionUrl($action, [Table::ACTION_GET_VAR => $row->getRowId()], $table_id));
+            }, array_keys($actions), $actions))->withLabel($column->getTitle()));
     }
 }
