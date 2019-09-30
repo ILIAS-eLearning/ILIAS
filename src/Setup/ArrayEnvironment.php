@@ -15,7 +15,7 @@ class ArrayEnvironment implements Environment {
 	 /**
 	  * @var array<string,mixed>
 	  */
-	public $configs;
+	protected $configs;
 
 	public function __construct(array $resources)
 	{
