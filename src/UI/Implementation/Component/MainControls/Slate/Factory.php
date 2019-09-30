@@ -9,6 +9,7 @@ use ILIAS\UI\Component\Legacy\Legacy as ILegacy;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Counter\Factory as CounterFactory;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\NotImplementedException;
 
 class Factory implements ISlate\Factory
 {
@@ -38,5 +39,12 @@ class Factory implements ISlate\Factory
 	public function combined(string $name, Symbol $symbol): ISlate\Combined
 	{
 		return new Combined($this->signal_generator, $name, $symbol);
+	}
+
+
+	public function notification(string $name,  array $notification_items): ISlate\Notification
+	{
+		throw new NotImplementedException();
+		//return new Notification($name, $notification_items);
 	}
 }
