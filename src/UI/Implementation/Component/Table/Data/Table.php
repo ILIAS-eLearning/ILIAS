@@ -10,7 +10,7 @@ use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
 use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table as TableInterface;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
+use ILIAS\UI\Component\Table\Data\Settings\Storage\SettingsStorage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Table\Data\Format\DefaultBrowserFormat;
 
@@ -64,7 +64,7 @@ class Table implements TableInterface
     /**
      * @var SettingsStorage
      */
-    protected $custom_user_table_settings_storage;
+    protected $custom_settings_storage;
 
 
     /**
@@ -292,20 +292,20 @@ class Table implements TableInterface
     /**
      * @inheritDoc
      */
-    public function getCustomUserTableSettingsStorage() : ?SettingsStorage
+    public function getCustomSettingsStorage() : ?SettingsStorage
     {
-        return $this->custom_user_table_settings_storage;
+        return $this->custom_settings_storage;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function withCustomUserTableSettingsStorage(?SettingsStorage $custom_user_table_settings_storage = null) : TableInterface
+    public function withCustomSettingsStorage(?SettingsStorage $custom_settings_storage = null) : TableInterface
     {
         $clone = clone $this;
 
-        $clone->custom_user_table_settings_storage = $custom_user_table_settings_storage;
+        $clone->custom_settings_storage = $custom_settings_storage;
 
         return $clone;
     }

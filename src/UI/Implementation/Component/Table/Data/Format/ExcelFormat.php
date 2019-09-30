@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Component\Table\Data\Settings\Settings;
 use ILIAS\UI\Renderer;
 
 /**
@@ -57,7 +57,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, Data $data, Settings $settings, Renderer $renderer) : void
     {
         $this->tpl = new ilExcel();
 
@@ -81,11 +81,11 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleColumns(Table $component, array $columns, Settings $settings, Renderer $renderer) : void
     {
         $this->current_col = 0;
 
-        parent::handleColumns($component, $columns, $user_table_settings, $renderer);
+        parent::handleColumns($component, $columns, $settings, $renderer);
 
         $this->current_row++;
     }
@@ -94,7 +94,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
     {
         $this->tpl->setCell($this->current_row, $this->current_col, $formated_column);
 
@@ -105,11 +105,11 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row, Settings $settings, Renderer $renderer) : void
     {
         $this->current_col = 0;
 
-        parent::handleRow($component, $columns, $row, $user_table_settings, $renderer);
+        parent::handleRow($component, $columns, $row, $settings, $renderer);
 
         $this->current_row++;
     }

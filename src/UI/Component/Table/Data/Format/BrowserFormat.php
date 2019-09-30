@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Table\Data\Format;
 
 use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Component\Table\Data\Settings\Settings;
 
 /**
  * Interface BrowserFormat
@@ -27,9 +27,9 @@ interface BrowserFormat extends Format
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      *
      * @return Settings
      */
-    public function handleUserTableSettingsInput(Table $component, Settings $user_table_settings) : Settings;
+    public function handleSettingsInput(Table $component, Settings $settings) : Settings;
 }

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort;
+namespace ILIAS\UI\Implementation\Component\Table\Data\Settings\Sort;
 
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField as SortFieldInterface;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
+use ILIAS\UI\Component\Table\Data\Settings\Sort\SortField as SortFieldInterface;
+use ILIAS\UI\Component\Table\Data\Settings\Storage\SettingsStorage;
 use stdClass;
 
 /**
  * Class SortField
  *
- * @package ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort
+ * @package ILIAS\UI\Implementation\Component\Table\Data\Settings\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

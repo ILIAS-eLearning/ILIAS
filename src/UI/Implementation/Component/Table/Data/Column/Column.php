@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Table\Data\Column;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column as ColumnInterface;
 use ILIAS\UI\Component\Table\Data\Column\Formater\Formater;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\Table\Data\Settings\Sort\SortField;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater;
 
 /**

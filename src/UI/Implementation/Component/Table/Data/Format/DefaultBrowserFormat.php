@@ -13,10 +13,10 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField as SortFieldInterface;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
-use ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\Table\Data\Settings\Settings;
+use ILIAS\UI\Component\Table\Data\Settings\Sort\SortField as SortFieldInterface;
+use ILIAS\UI\Component\Table\Data\Settings\Storage\SettingsStorage;
+use ILIAS\UI\Implementation\Component\Table\Data\Settings\Sort\SortField;
 use ILIAS\UI\Renderer;
 use ilUtil;
 use LogicException;
@@ -79,24 +79,24 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     /**
      * @inheritDoc
      */
-    protected function getColumns(Table $component, Settings $user_table_settings) : array
+    protected function getColumns(Table $component, Settings $settings) : array
     {
-        return $this->getColumnsBase($component, $user_table_settings);
+        return $this->getColumnsBase($component, $settings);
     }
 
 
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, Data $data, Settings $settings, Renderer $renderer) : void
     {
-        parent::initTemplate($component, $data, $user_table_settings, $renderer);
+        parent::initTemplate($component, $data, $settings, $renderer);
 
-        $this->handleFilterForm($component, $user_table_settings, $renderer);
+        $this->handleFilterForm($component, $settings, $renderer);
 
-        $this->handleActionsPanel($component, $user_table_settings, $data, $renderer);
+        $this->handleActionsPanel($component, $settings, $data, $renderer);
 
-        $this->handleDisplayCount($user_table_settings, $data);
+        $this->handleDisplayCount($settings, $data);
 
         $this->handleMultipleActions($component, $renderer);
     }
@@ -105,7 +105,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleColumns(Table $component, array $columns, Settings $settings, Renderer $renderer) : void
     {
         if (count($component->getMultipleActions()) > 0) {
             $this->tpl->setCurrentBlock("header");
@@ -115,14 +115,14 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             $this->tpl->parseCurrentBlock();
         }
 
-        parent::handleColumns($component, $columns, $user_table_settings, $renderer);
+        parent::handleColumns($component, $columns, $settings, $renderer);
     }
 
 
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
     {
         $deselect_button = $this->dic->ui()->factory()->legacy("");
         $sort_button = $formated_column;
@@ -134,7 +134,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         }
 
         if ($column->isSortable()) {
-            $sort_field = $user_table_settings->getSortField($column->getKey());
+            $sort_field = $settings->getSortField($column->getKey());
 
             if ($sort_field !== null) {
                 if ($sort_field->getSortFieldDirection() === SortFieldInterface::SORT_DIRECTION_DOWN) {
@@ -174,7 +174,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             $remove_sort_button
         ]);
 
-        parent::handleColumn($formated_column, $component, $column, $user_table_settings, $renderer);
+        parent::handleColumn($formated_column, $component, $column, $settings, $renderer);
     }
 
 
@@ -199,9 +199,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      */
-    protected function initFilterForm(Table $component, Settings $user_table_settings) : void
+    protected function initFilterForm(Table $component, Settings $settings) : void
     {
         if ($this->filter_form === null) {
             $filter_fields = $component->getFilterFields();
@@ -216,85 +216,85 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     /**
      * @inheritDoc
      */
-    public function handleUserTableSettingsInput(Table $component, Settings $user_table_settings) : Settings
+    public function handleSettingsInput(Table $component, Settings $settings) : Settings
     {
         //if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
 
         $sort_field = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
         $sort_field_direction = intval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
         if (!empty($sort_field) && !empty($sort_field_direction)) {
-            $user_table_settings = $user_table_settings->addSortField(new SortField($sort_field, $sort_field_direction));
+            $settings = $settings->addSortField(new SortField($sort_field, $sort_field_direction));
 
-            $user_table_settings = $user_table_settings->withFilterSet(true);
+            $settings = $settings->withFilterSet(true);
         }
 
         $remove_sort_field = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_REMOVE_SORT_FIELD, $component->getTableId())));
         if (!empty($remove_sort_field)) {
-            $user_table_settings = $user_table_settings->removeSortField($remove_sort_field);
+            $settings = $settings->removeSortField($remove_sort_field);
 
-            $user_table_settings = $user_table_settings->withFilterSet(true);
+            $settings = $settings->withFilterSet(true);
         }
 
         $rows_count = intval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_ROWS_COUNT, $component->getTableId())));
         if (!empty($rows_count)) {
-            $user_table_settings = $user_table_settings->withRowsCount($rows_count);
-            $user_table_settings = $user_table_settings->withCurrentPage(); // Reset current page on row change
+            $settings = $settings->withRowsCount($rows_count);
+            $settings = $settings->withCurrentPage(); // Reset current page on row change
         }
 
         $current_page = filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
         if ($current_page !== null) {
-            $user_table_settings = $user_table_settings->withCurrentPage(intval($current_page));
+            $settings = $settings->withCurrentPage(intval($current_page));
 
-            $user_table_settings = $user_table_settings->withFilterSet(true);
+            $settings = $settings->withFilterSet(true);
         }
 
         $select_column = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SELECT_COLUMN, $component->getTableId())));
         if (!empty($select_column)) {
-            $user_table_settings = $user_table_settings->selectColumn($select_column);
+            $settings = $settings->selectColumn($select_column);
 
-            $user_table_settings = $user_table_settings->withFilterSet(true);
+            $settings = $settings->withFilterSet(true);
         }
 
         $deselect_column = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_DESELECT_COLUMN, $component->getTableId())));
         if (!empty($deselect_column)) {
-            $user_table_settings = $user_table_settings->deselectColumn($deselect_column);
+            $settings = $settings->deselectColumn($deselect_column);
 
-            $user_table_settings = $user_table_settings->withFilterSet(true);
+            $settings = $settings->withFilterSet(true);
         }
 
         if (count($component->getFilterFields()) > 0) {
-            $this->initFilterForm($component, $user_table_settings);
+            $this->initFilterForm($component, $settings);
             try {
                 $data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
 
-                $user_table_settings = $user_table_settings->withFilterFieldValues($data);
+                $settings = $settings->withFilterFieldValues($data);
 
                 if (!empty(array_filter($data))) {
-                    $user_table_settings = $user_table_settings->withFilterSet(true);
+                    $settings = $settings->withFilterSet(true);
 
-                    $user_table_settings = $user_table_settings->withCurrentPage(); // Reset current page on filter change
+                    $settings = $settings->withCurrentPage(); // Reset current page on filter change
                 }
             } catch (Throwable $ex) {
 
             }
         }
 
-        return $user_table_settings;
+        return $settings;
     }
 
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      */
-    protected function handleFilterForm(Table $component, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleFilterForm(Table $component, Settings $settings, Renderer $renderer) : void
     {
         if (count($component->getFilterFields()) === 0) {
             return;
         }
 
-        $this->initFilterForm($component, $user_table_settings);
+        $this->initFilterForm($component, $settings);
 
         $filter_form = $renderer->render($this->filter_form);
 
@@ -308,18 +308,18 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Data     $data
      * @param Renderer $renderer
      */
-    protected function handleActionsPanel(Table $component, Settings $user_table_settings, Data $data, Renderer $renderer) : void
+    protected function handleActionsPanel(Table $component, Settings $settings, Data $data, Renderer $renderer) : void
     {
         $this->tpl->setCurrentBlock("actions");
 
         $this->tpl->setVariable("ACTIONS", $renderer->render($this->dic->ui()->factory()->panel()->standard("", [
-            $this->getPagesSelector($component, $user_table_settings, $data),
-            $this->getColumnsSelector($component, $user_table_settings, $renderer),
-            $this->getRowsPerPageSelector($component, $user_table_settings, $renderer),
+            $this->getPagesSelector($component, $settings, $data),
+            $this->getColumnsSelector($component, $settings, $renderer),
+            $this->getRowsPerPageSelector($component, $settings, $renderer),
             $this->getExportsSelector($component)
         ])));
 
@@ -329,51 +329,51 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Data     $data
      *
      * @return Component
      */
-    protected function getPagesSelector(Table $component, Settings $user_table_settings, Data $data) : Component
+    protected function getPagesSelector(Table $component, Settings $settings, Data $data) : Component
     {
-        return $user_table_settings->getPagination($data)
+        return $settings->getPagination($data)
             ->withTargetURL($component->getActionUrl(), self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
     }
 
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      *
      * @return Component
      */
-    protected function getColumnsSelector(Table $component, Settings $user_table_settings, Renderer $renderer) : Component
+    protected function getColumnsSelector(Table $component, Settings $settings, Renderer $renderer) : Component
     {
         return $this->dic->ui()->factory()->dropdown()
-            ->standard(array_map(function (Column $column) use ($component, $user_table_settings, $renderer): Shy {
+            ->standard(array_map(function (Column $column) use ($component, $settings, $renderer): Shy {
                 return $this->dic->ui()->factory()->button()->shy($renderer->render([
                     $this->dic->ui()->factory()->symbol()->glyph()->add(),
                     $this->dic->ui()->factory()->legacy($column->getTitle())
                 ]), self::getActionUrl($component->getActionUrl(), [SettingsStorage::VAR_SELECT_COLUMN => $column->getKey()], $component->getTableId()));
-            }, array_filter($component->getColumns(), function (Column $column) use ($user_table_settings): bool {
-                return ($column->isSelectable() && !in_array($column->getKey(), $user_table_settings->getSelectedColumns()));
+            }, array_filter($component->getColumns(), function (Column $column) use ($settings): bool {
+                return ($column->isSelectable() && !in_array($column->getKey(), $settings->getSelectedColumns()));
             })))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_add_columns"));
     }
 
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      *
      * @return Component
      */
-    protected function getRowsPerPageSelector(Table $component, Settings $user_table_settings, Renderer $renderer) : Component
+    protected function getRowsPerPageSelector(Table $component, Settings $settings, Renderer $renderer) : Component
     {
         return $this->dic->ui()->factory()->dropdown()
-            ->standard(array_map(function (int $count) use ($component, $user_table_settings, $renderer): Component {
-                if ($user_table_settings->getRowsCount() === $count) {
+            ->standard(array_map(function (int $count) use ($component, $settings, $renderer): Component {
+                if ($settings->getRowsCount() === $count) {
                     return $this->dic->ui()->factory()->legacy($renderer->render([
                         $this->dic->ui()->factory()->symbol()->glyph()->apply(),
                         $this->dic->ui()->factory()->legacy(strval($count))
@@ -383,7 +383,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                         ->shy(strval($count), self::getActionUrl($component->getActionUrl(), [SettingsStorage::VAR_ROWS_COUNT => $count], $component->getTableId()));
                 }
             }, Settings::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
-                . "_rows_per_page"), $user_table_settings->getRowsCount()));
+                . "_rows_per_page"), $settings->getRowsCount()));
     }
 
 
@@ -402,13 +402,13 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Data     $data
      */
-    protected function handleDisplayCount(Settings $user_table_settings, Data $data) : void
+    protected function handleDisplayCount(Settings $settings, Data $data) : void
     {
         $count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount()
-        > 0 ? ($user_table_settings->getLimitStart() + 1) : 0), $data->getMaxCount());
+        > 0 ? ($settings->getLimitStart() + 1) : 0), $data->getMaxCount());
 
         $this->tpl->setCurrentBlock("count_top");
         $this->tpl->setVariable("COUNT_TOP", $count);

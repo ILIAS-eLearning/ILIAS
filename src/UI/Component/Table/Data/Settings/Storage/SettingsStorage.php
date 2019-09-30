@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Table\Data\UserTableSettings\Storage;
+namespace ILIAS\UI\Component\Table\Data\Settings\Storage;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Table;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Component\Table\Data\Settings\Settings;
 
 /**
  * Interface SettingsStorage
  *
- * @package ILIAS\UI\Component\Table\Data\UserTableSettings\Storage
+ * @package ILIAS\UI\Component\Table\Data\Settings\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -93,18 +93,18 @@ interface SettingsStorage
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Table    $component
      *
      * @return Settings
      */
-    public function handleDefaultSettings(Settings $user_table_settings, Table $component) : Settings;
+    public function handleDefaultSettings(Settings $settings, Table $component) : Settings;
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param string   $table_id
      * @param int      $user_id
      */
-    public function store(Settings $user_table_settings, string $table_id, int $user_id) : void;
+    public function store(Settings $settings, string $table_id, int $user_id) : void;
 }

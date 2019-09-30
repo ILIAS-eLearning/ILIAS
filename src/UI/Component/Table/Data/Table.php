@@ -10,7 +10,7 @@ use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\DataFetcher;
 use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Storage\SettingsStorage;
+use ILIAS\UI\Component\Table\Data\Settings\Storage\SettingsStorage;
 
 /**
  * Interface Table
@@ -168,15 +168,15 @@ interface Table extends Component
     /**
      * @return SettingsStorage|null
      */
-    public function getCustomUserTableSettingsStorage() : ?SettingsStorage;
+    public function getCustomSettingsStorage() : ?SettingsStorage;
 
 
     /**
-     * @param SettingsStorage|null $custom_user_table_settings_storage
+     * @param SettingsStorage|null $custom_settings_storage
      *
      * @return self
      */
-    public function withCustomUserTableSettingsStorage(?SettingsStorage $custom_user_table_settings_storage = null) : self;
+    public function withCustomSettingsStorage(?SettingsStorage $custom_settings_storage = null) : self;
 
 
     /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Table\Data\UserTableSettings\Sort;
+namespace ILIAS\UI\Component\Table\Data\Settings\Sort;
 
 use JsonSerializable;
 use stdClass;
@@ -10,7 +10,7 @@ use stdClass;
 /**
  * Interface SortField
  *
- * @package ILIAS\UI\Component\Table\Data\UserTableSettings\Sort
+ * @package ILIAS\UI\Component\Table\Data\Settings\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

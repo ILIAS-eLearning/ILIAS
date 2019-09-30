@@ -6,8 +6,8 @@ use ILIAS\UI\Component\Table\Data\Column\Column as ColumnInterface;
 use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\Table\Data\Settings\Settings;
+use ILIAS\UI\Component\Table\Data\Settings\Sort\SortField;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Action\AbstractActionColumn;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater;
@@ -126,9 +126,9 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
-    public function fetchData(Settings $user_table_settings) : DataInterface
+    public function fetchData(Settings $settings) : DataInterface
     {
-        $sql = 'SELECT *' . $this->getQuery($user_table_settings);
+        $sql = 'SELECT *' . $this->getQuery($settings);
 
         $result = $this->dic->database()->query($sql);
 
@@ -137,7 +137,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
             $rows[] = new PropertyRowData($row->obj_id, $row);
         }
 
-        $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($user_table_settings, true);
+        $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($settings, true);
 
         $result = $this->dic->database()->query($sql);
 
@@ -148,16 +148,16 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param bool     $max_count
      *
      * @return string
      */
-    protected function getQuery(Settings $user_table_settings, $max_count = false) : string
+    protected function getQuery(Settings $settings, $max_count = false) : string
     {
         $sql = ' FROM object_data';
 
-        $field_values = array_filter($user_table_settings->getFilterFieldValues());
+        $field_values = array_filter($settings->getFilterFieldValues());
 
         if (!empty($field_values)) {
             $sql .= ' WHERE ' . implode(' AND ', array_map(function (string $key, string $value) : string {
@@ -166,16 +166,16 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
         }
 
         if (!$max_count) {
-            if (!empty($user_table_settings->getSortFields())) {
+            if (!empty($settings->getSortFields())) {
                 $sql .= ' ORDER BY ' . implode(", ", array_map(function (SortField $sort_field) : string {
                         return $this->dic->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
                             === SortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
-                    }, $user_table_settings->getSortFields()));
+                    }, $settings->getSortFields()));
             }
 
-            if (!empty($user_table_settings->getLimitStart()) && !empty($user_table_settings->getLimitEnd())) {
-                $sql .= ' LIMIT ' . $this->dic->database()->quote($user_table_settings->getLimitStart(), ilDBConstants::T_INTEGER) . ','
-                    . $this->dic->database()->quote($user_table_settings->getLimitEnd(), ilDBConstants::T_INTEGER);
+            if (!empty($settings->getLimitStart()) && !empty($settings->getLimitEnd())) {
+                $sql .= ' LIMIT ' . $this->dic->database()->quote($settings->getLimitStart(), ilDBConstants::T_INTEGER) . ','
+                    . $this->dic->database()->quote($settings->getLimitEnd(), ilDBConstants::T_INTEGER);
             }
         }
 

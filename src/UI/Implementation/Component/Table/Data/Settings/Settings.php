@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings;
+namespace ILIAS\UI\Implementation\Component\Table\Data\Settings;
 
 use ILIAS\UI\Component\Table\Data\Data\Data;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
+use ILIAS\UI\Component\Table\Data\Settings\Settings as SettingsInterface;
+use ILIAS\UI\Component\Table\Data\Settings\Sort\SortField;
 use ILIAS\UI\Component\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Class Settings
  *
- * @package ILIAS\UI\Implementation\Component\Table\Data\UserTableSettings
+ * @package ILIAS\UI\Implementation\Component\Table\Data\Settings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

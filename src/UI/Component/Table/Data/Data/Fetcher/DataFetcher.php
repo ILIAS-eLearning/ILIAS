@@ -6,7 +6,7 @@ namespace ILIAS\UI\Component\Table\Data\Data\Fetcher;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Data\Data;
-use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Component\Table\Data\Settings\Settings;
 
 /**
  * Interface DataFetcher
@@ -27,11 +27,11 @@ interface DataFetcher
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      *
      * @return Data
      */
-    public function fetchData(Settings $user_table_settings) : Data;
+    public function fetchData(Settings $settings) : Data;
 
 
     /**
