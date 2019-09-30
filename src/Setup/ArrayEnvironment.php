@@ -12,14 +12,22 @@ class ArrayEnvironment implements Environment {
 	 */
 	protected $resources;
 
-	public function __construct(array $resources) {
+	 /**
+	  * @var array<string,mixed>
+	  */
+
+	protected $configs;
+
+	public function __construct(array $resources)
+	{
 		$this->resources = $resources;
 	}
 
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
-	public function getResource(string $id) {
+	public function getResource(string $id)
+	{
 		if (!isset($this->resources[$id])) {
 			return null;
 		}
@@ -27,9 +35,10 @@ class ArrayEnvironment implements Environment {
 	}
 
 	/**
-	 * @inheritdocs
+	 * @inheritdoc
 	 */
-	public function withResource(string $id, $resource) : Environment {
+	public function withResource(string $id, $resource): Environment
+	{
 		if (isset($this->resources[$id])) {
 			throw new \RuntimeException(
 				"Resource '$id' is already contained in the environment"
@@ -38,5 +47,33 @@ class ArrayEnvironment implements Environment {
 		$clone = new ArrayEnvironment($this->resources);
 		$clone->resources[$id] = $resource;
 		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withConfigFor(string $id, $config): Environment
+	{
+		if (isset($this->configs[$id])) {
+			throw new \RuntimeException(
+				"Config '$id' is already contained in the environment"
+			);
+		}
+		$clone = new ArrayEnvironment($this->resources);
+		$clone->configs[$id] = $config;
+		return $clone;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getConfigFor(string $id)
+	{
+		if (!isset($this->configs[$id])) {
+			throw new \RuntimeException(
+				"Config '$id' is not contained in the environment"
+			);
+		}
+		return $this->configs[$id];
 	}
 }

@@ -10,7 +10,7 @@ namespace ILIAS\Setup;
  */
 interface Environment {
 	// We define some resources that will definitely be requried. We allow for
-	// new identifiers, though, to be open for extensions and the future, though.
+	// new identifiers, though, to be open for extensions and the future.
 	const RESOURCE_DATABASE = "resource_database";
 
 	/**
@@ -25,4 +25,17 @@ interface Environment {
 	 * @throw \RuntimeException if this resource is already in the environment.
 	 */
 	public function withResource(string $id, $resource) : Environment;
+
+	 /**
+	  * When using the environment with preconditions, it might become necessary to
+	  * build an Objective with the respective config.
+	  * @throw \RuntimeException if this config is already in the environment.
+	  */
+	public function withConfigFor(string $id, $config) : Environment;
+
+	/**
+	 * @return array|null
+	 */
+	public function getConfigFor(string $id);
+
 }
