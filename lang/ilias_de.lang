@@ -9354,6 +9354,7 @@ logging#:#error_settings_saved#:#Einstellungen gespeichert
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
+logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
 logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Error-Log-Dateien
 logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#E-Mail-Empfänger
