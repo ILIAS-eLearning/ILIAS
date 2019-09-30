@@ -11,6 +11,21 @@
 class ilCOPageDefReader
 {
 	/**
+	 * @var \ilDBInterface|null
+	 */
+	protected $db;
+
+	public function __construct(\ilDBInterface $db)
+	{
+		$this->db = $db;
+	}
+
+	protected function getDB(): \ilDBInterface
+	{
+		return $this->db;
+	}
+
+	/**
 	 * Clear definition tables
 	 *
 	 * @param
@@ -18,8 +33,8 @@ class ilCOPageDefReader
 	 */
 	function clearTables()
 	{
-		global $ilDB;
-		
+		$ilDB = $this->getDB();
+
 		$ilDB->manipulate("DELETE FROM copg_pc_def");
 		$ilDB->manipulate("DELETE FROM copg_pobj_def");
 	}
@@ -33,8 +48,8 @@ class ilCOPageDefReader
 	 */
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs, $a_comp)
 	{
-		global $ilDB;
-		
+		$ilDB = $this->getDB();
+
 		switch ($a_name)
 		{
 			case "pagecontent":

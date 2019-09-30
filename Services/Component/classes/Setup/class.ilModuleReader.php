@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./setup/classes/class.ilObjDefReader.php");
-
 /**
 * Class ilModuleReader
 *
@@ -34,12 +32,6 @@ include_once("./setup/classes/class.ilObjDefReader.php");
 */
 class ilModuleReader extends ilObjDefReader
 {
-
-	function __construct($a_path, $a_name, $a_type)
-	{
-		parent::__construct($a_path, $a_name, $a_type);
-	}
-	
 	function getModules()
 	{
 		$this->startParsing();
@@ -58,12 +50,10 @@ class ilModuleReader extends ilObjDefReader
 	 */
 	function clearTables()
 	{
-		global $ilDB;
-		
 		// only this one clears parents tables (not service reader)
 		parent::clearTables();
 
-		$ilDB->manipulate("DELETE FROM module_class");
+		$this->db->manipulate("DELETE FROM module_class");
 	}
 
 
@@ -77,15 +67,12 @@ class ilModuleReader extends ilObjDefReader
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilDB;
-
-		
 		switch ($a_name)
 		{
 			case 'module':
 				$this->current_module = $this->name;
 				$this->current_component = $this->type."/".$this->name;
-				$ilDB->manipulateF("INSERT INTO il_component (type, name, id) ".
+				$this->db->manipulateF("INSERT INTO il_component (type, name, id) ".
 					"VALUES (%s,%s,%s)", array("text", "text", "text"),
 					array($this->type, $this->name, $a_attribs["id"]));
 				
@@ -93,7 +80,7 @@ class ilModuleReader extends ilObjDefReader
 				break;
 				
 			case 'baseclass':
-				$ilDB->manipulateF("INSERT INTO module_class (module, class, dir) ".
+				$this->db->manipulateF("INSERT INTO module_class (module, class, dir) ".
 					"VALUES (%s,%s,%s)", array("text", "text", "text"),
 					array($this->name, $a_attribs["name"], $a_attribs["dir"]));
 				break;

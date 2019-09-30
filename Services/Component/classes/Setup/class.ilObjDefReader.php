@@ -24,24 +24,34 @@ class ilObjDefReader extends ilSaxParser
 	protected $in_mail_templates = false;
 
 	/**
+	 * @var \ilDBInterface|null
+	 */
+	protected $db;
+
+	/**
 	 * @var array
 	 */
 	protected $mail_templates_by_component = array();
 
-	function __construct($a_path, $a_name, $a_type)
+	function __construct($a_path, $a_name, $a_type, \ilDBInterface $db = null)
 	{
+		if ($db !== null) {
+			$this->db = $db;
+		}
+		else {
+			global $ilDB;
+			$this->db = $ilDB;
+		}
 		// init specialized readers
 		foreach ($this->readers as $k => $reader)
 		{
 			$class = $reader["class"];
-			$class_path = "./setup/classes/class.".$class.".php";
-			include_once($class_path);
-			$this->readers[$k]["reader"] = new $class();
+			$this->readers[$k]["reader"] = new $class($this->db);
 		}
 		
 		$this->name = $a_name;
 		$this->type = $a_type;
-//echo "<br>-".$a_path."-".$this->name."-".$this->type."-";
+
 		parent::__construct($a_path);
 	}
 	
@@ -57,24 +67,22 @@ class ilObjDefReader extends ilSaxParser
 	*/
 	function clearTables()
 	{
-		global $ilDB;
+		$this->db->manipulate("DELETE FROM il_object_def");
+		
+		$this->db->manipulate("DELETE FROM il_object_subobj");
+		
+		$this->db->manipulate("DELETE FROM il_object_group");
 
-		$ilDB->manipulate("DELETE FROM il_object_def");
+		$this->db->manipulate("DELETE FROM il_pluginslot");
 		
-		$ilDB->manipulate("DELETE FROM il_object_subobj");
-		
-		$ilDB->manipulate("DELETE FROM il_object_group");
-
-		$ilDB->manipulate("DELETE FROM il_pluginslot");
-		
-		$ilDB->manipulate("DELETE FROM il_component");
+		$this->db->manipulate("DELETE FROM il_component");
 
 		// Keep the plugin listeners in the table
 		// This avoids reading them in the setup
 		// ilPluginReader is called in the plugin administration
-		$ilDB->manipulate("DELETE FROM il_event_handling WHERE component NOT LIKE 'Plugins/%'");
+		$this->db->manipulate("DELETE FROM il_event_handling WHERE component NOT LIKE 'Plugins/%'");
 		
-		$ilDB->manipulate("DELETE FROM il_object_sub_type");
+		$this->db->manipulate("DELETE FROM il_object_sub_type");
 		
 		foreach ($this->readers as $k => $reader)
 		{
@@ -87,12 +95,10 @@ class ilObjDefReader extends ilSaxParser
 	*/
 	static function deleteObjectDefinition($a_id)
 	{
-		global $ilDB;
-
-		$ilDB->manipulateF("DELETE FROM il_object_def WHERE id = %s",
+		$this->db->manipulateF("DELETE FROM il_object_def WHERE id = %s",
 			array("text"), array($a_id));
 		
-		$ilDB->manipulateF("DELETE FROM il_object_subobj WHERE parent = %s OR subobj = %s",
+		$this->db->manipulateF("DELETE FROM il_object_subobj WHERE parent = %s OR subobj = %s",
 			array("text", "text"), array($a_id, $a_id));
 	}
 	
@@ -105,8 +111,6 @@ class ilObjDefReader extends ilSaxParser
 	 */
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		global $ilDB;
-		
 		$this->current_tag = $a_name;
 		
 		// check if a special reader needs to be activated
@@ -129,17 +133,17 @@ class ilObjDefReader extends ilSaxParser
 				case 'object':
 	
 					// if attributes are not given, set default (repository only)
-					if($a_attribs["repository"] === NULL)
+					if(($a_attribs["repository"] ?? null) === NULL)
 					{
 						$a_attribs["repository"] = true;
 					}
-					if($a_attribs["workspace"] === NULL)
+					if(($a_attribs["workspace"] ?? null) === NULL)
 					{
 						$a_attribs["workspace"] = false;
 					}
 	
 					$this->current_object = $a_attribs["id"];
-					$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
+					$this->db->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
 						"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,".
 						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration,".
 						"amet,orgunit_permissions,lti_provider,offline_handling) VALUES ".
@@ -152,43 +156,43 @@ class ilObjDefReader extends ilSaxParser
 							$a_attribs["class_name"],
 							$this->current_component,
 							$this->current_component."/".$a_attribs["dir"],
-							(int) $a_attribs["checkbox"],
-							(int) $a_attribs["inherit"],
-							$a_attribs["translate"],
-							(int) $a_attribs["devmode"],
-							(int) $a_attribs["allow_link"],
-							(int) $a_attribs["allow_copy"],
-							(int) $a_attribs["rbac"],
-							(int) $a_attribs["default_pos"],
-							(int) $a_attribs["default_pres_pos"],
-							(int) $a_attribs["sideblock"],
-							$a_attribs["group"],
-							(int) $a_attribs["system"],
-							(int) $a_attribs["export"],
-							(int) $a_attribs["repository"],
-							(int) $a_attribs["workspace"],
-							(int) $a_attribs['administration'],
-							(int) $a_attribs['amet'],
-							(int) $a_attribs['orgunit_permissions'],
-							(int) $a_attribs['lti_provider'],
-							(int) $a_attribs['offline_handling']
+							(int) ($a_attribs["checkbox"] ?? null),
+							(int) ($a_attribs["inherit"] ?? null),
+							$a_attribs["translate"] ?? null,
+							(int) ($a_attribs["devmode"] ?? null),
+							(int) ($a_attribs["allow_link"] ?? null),
+							(int) ($a_attribs["allow_copy"] ?? null),
+							(int) ($a_attribs["rbac"] ?? null),
+							(int) ($a_attribs["default_pos"] ?? null),
+							(int) ($a_attribs["default_pres_pos"] ?? null),
+							(int) ($a_attribs["sideblock"] ?? null),
+							$a_attribs["group"] ?? null,
+							(int) ($a_attribs["system"] ?? null),
+							(int) ($a_attribs["export"] ?? null),
+							(int) ($a_attribs["repository"] ?? null),
+							(int) ($a_attribs["workspace"] ?? null),
+							(int) ($a_attribs['administration'] ?? null),
+							(int) ($a_attribs['amet'] ?? null),
+							(int) ($a_attribs['orgunit_permissions'] ?? null),
+							(int) ($a_attribs['lti_provider'] ?? null),
+							(int) ($a_attribs['offline_handling'] ?? null)
 						));
 					break;
 				
 				case "subobj":
-					$ilDB->manipulateF("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
+					$this->db->manipulateF("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
 						array("text", "text", "integer"),
-						array($this->current_object, $a_attribs["id"], (int) $a_attribs["max"]));
+						array($this->current_object, $a_attribs["id"], (int) ($a_attribs["max"] ?? null)));
 					break;
 	
 				case "parent":
-					$ilDB->manipulateF("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
+					$this->db->manipulateF("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
 						array("text", "text", "integer"),
-						array($a_attribs["id"], $this->current_object, (int) $a_attribs["max"]));
+						array($a_attribs["id"], $this->current_object, (int) ($a_attribs["max"] ?? null)));
 					break;
 	
 				case "objectgroup":
-					$ilDB->manipulateF("INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (%s,%s,%s)",
+					$this->db->manipulateF("INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (%s,%s,%s)",
 						array("text", "text", "integer"),
 						array($a_attribs["id"], $a_attribs["name"], $a_attribs["default_pres_pos"]));
 					break;
@@ -196,33 +200,32 @@ class ilObjDefReader extends ilSaxParser
 				case "pluginslot":
 					$this->current_object = $a_attribs["id"];
 					$q = "INSERT INTO il_pluginslot (component, id, name) VALUES (".
-						$ilDB->quote($this->current_component, "text").",".
-						$ilDB->quote($a_attribs["id"], "text").",".
-						$ilDB->quote($a_attribs["name"], "text").")";
-					$ilDB->manipulate($q);
+						$this->db->quote($this->current_component, "text").",".
+						$this->db->quote($a_attribs["id"], "text").",".
+						$this->db->quote($a_attribs["name"], "text").")";
+					$this->db->manipulate($q);
 					break;
 				
 				case "event":
-					$component = $a_attribs["component"];
+					$component = $a_attribs["component"] ?? null;
 					if(!$component)
 					{
 						$component = $this->current_component;
 					}				
 					$q = "INSERT INTO il_event_handling (component, type, id) VALUES (".
-						$ilDB->quote($component, "text").",".
-						$ilDB->quote($a_attribs["type"], "text").",".
-						$ilDB->quote($a_attribs["id"], "text").")";
-					$ilDB->manipulate($q);
+						$this->db->quote($component, "text").",".
+						$this->db->quote($a_attribs["type"], "text").",".
+						$this->db->quote($a_attribs["id"], "text").")";
+					$this->db->manipulate($q);
 					break;
 					
 				case "cron":				
-					$component = $a_attribs["component"];
+					$component = $a_attribs["component"] ?? null;
 					if(!$component)
 					{
 						$component = $this->current_component;
 					}				
-					include_once "Services/Cron/classes/class.ilCronManager.php";
-					ilCronManager::updateFromXML($component, $a_attribs["id"], $a_attribs["class"], $a_attribs["path"]);		
+					ilCronManager::updateFromXML($component, $a_attribs["id"], $a_attribs["class"], ($a_attribs["path"] ?? null));		
 					$this->has_cron[$component][] = $a_attribs["id"];
 					break;
 	
@@ -236,7 +239,7 @@ class ilObjDefReader extends ilSaxParser
 						break;
 					}
 
-					$component = $a_attribs['component'];
+					$component = $a_attribs['component'] ?? null;
 					if(!$component)
 					{
 						$component = $this->current_component;
@@ -246,17 +249,17 @@ class ilObjDefReader extends ilSaxParser
 						$component,
 						$a_attribs['id'],
 						$a_attribs['class'],
-						$a_attribs['path']
+						$a_attribs['path'] ?? null
 					);
 					$this->mail_templates_by_component[$component][] = $a_attribs["id"];
 					break;
 	
 				case "sub_type":
-					$ilDB->manipulate("INSERT INTO il_object_sub_type ".
+					$this->db->manipulate("INSERT INTO il_object_sub_type ".
 						"(obj_type, sub_type, amet) VALUES (".
-						$ilDB->quote($this->current_object, "text").",".
-						$ilDB->quote($a_attribs["id"], "text").",".
-						$ilDB->quote($a_attribs["amet"], "integer").
+						$this->db->quote($this->current_object, "text").",".
+						$this->db->quote($a_attribs["id"], "text").",".
+						$this->db->quote($a_attribs["amet"], "integer").
 						")");
 					break;
 
@@ -285,7 +288,7 @@ class ilObjDefReader extends ilSaxParser
 						$ilWACSecurePath->create();
 					}
 					$ilWACSecurePath->setCheckingClass($a_attribs["checking-class"]);
-					$ilWACSecurePath->setInSecFolder((bool)$a_attribs["in-sec-folder"]);
+					$ilWACSecurePath->setInSecFolder((bool)($a_attribs["in-sec-folder"] ?? null));
 					$ilWACSecurePath->setComponentDirectory(dirname($this->xml_file));
 					$ilWACSecurePath->update();
 					break;
@@ -326,13 +329,12 @@ class ilObjDefReader extends ilSaxParser
 		{
 			if($a_name == "module" || $a_name == "service")
 			{
-				include_once "Services/Cron/classes/class.ilCronManager.php";
 				ilCronManager::clearFromXML($this->current_component, 
-					(array)$this->has_cron[$this->current_component]);
+					($this->has_cron[$this->current_component] ?? []));
 
-				ilMailTemplateContextService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
+				ilMailTemplateContextService::clearFromXml($this->current_component, ($this->mail_templates_by_component[$this->current_component] ?? []));
 				
-				if(!in_array($this->getComponentId(), (array)$this->has_badges))
+				if(!in_array($this->getComponentId(), ($this->has_badges ?? [])))
 				{
 					include_once "Services/Badge/classes/class.ilBadgeHandler.php";
 					ilBadgeHandler::clearFromXml($this->getComponentId());
@@ -386,6 +388,4 @@ class ilObjDefReader extends ilSaxParser
 	{
 		return $this->component_id;
 	}
-
 }
-?>
