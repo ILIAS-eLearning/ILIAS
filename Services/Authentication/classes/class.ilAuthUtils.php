@@ -70,16 +70,7 @@ class ilAuthUtils
 	const LOCAL_PWV_FULL = 1;
 	const LOCAL_PWV_NO = 2;
 	const LOCAL_PWV_USER = 3;
-	
-	
-	/**
-	 * Initialize session
-	 */
-	public static function initSession()
-	{
-		
-	}
-	
+
 	/**
 	 * Check if authentication is should be forced.
 	 */
@@ -91,7 +82,7 @@ class ilAuthUtils
 		}
 		return false;
 	}
-	
+
 	public static function handleForcedAuthentication()
 	{
 		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
@@ -130,60 +121,6 @@ class ilAuthUtils
 					return;
 			}
 		}
-	}
-	
-
-	
-	static function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
-	{
-		global $DIC;
-
-		$ilDB = $DIC['ilDB'];
-		
-		if(isset($_GET['ecs_hash']) or isset($_GET['ecs_hash_url']))
-		{
-			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_ECS);
-			return AUTH_ECS;
-		}
-		if(isset($_POST['auth_mode']))
-		{
-			// begin-patch ldap_multiple
-			return $_POST['auth_mode'];
-			// end-patch ldap_multiple
-		}
-
-		include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
-		$det = ilAuthModeDetermination::_getInstance();
-		
-		if(!$det->isManualSelection() and $det->getCountActiveAuthModes() > 1)
-		{
-			ilLoggerFactory::getLogger('auth')->debug('Using AUTH_MULTIPLE');
-			return AUTH_MULTIPLE;
-		}
-
-
-		$db =& $ilDB;
-		
-		if ($a_db_handler != '')
-		{
-			$db =& $a_db_handler;
-		}
-		
-		// Is it really necessary to check the auth mode with password ?
-		// Changed: smeyer
-		$q = "SELECT auth_mode FROM usr_data WHERE ".
-			 "login = ".$ilDB->quote($a_username);
-			 //"passwd = ".$ilDB->quote(md5($a_password))."";
-							 
-			 
-		$r = $db->query($q);
-		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-//echo "+".$row->auth_mode."+";
-
-		
-		$auth_mode =  self::_getAuthMode($row->auth_mode,$db);
-		
-		return in_array($auth_mode,self::_getActiveAuthModes()) ? $auth_mode : AUTH_INACTIVE;
 	}
 	
 	static function _getAuthMode($a_auth_mode,$a_db_handler = '')
@@ -318,10 +255,6 @@ class ilAuthUtils
 
 			case AUTH_APACHE:
 				return 'apache';
-
-			case AUTH_PROVIDER_LTI:
-				return "lti";
-				break;
 
 			case AUTH_OPENID_CONNECT:
 				return 'oidc';

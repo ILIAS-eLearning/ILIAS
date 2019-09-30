@@ -246,7 +246,7 @@ class ilOnScreenChatGUI
             $page->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
             $page->addJavascript('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
             $page->addJavascript('./Services/Notifications/js/browser_notifications.js');
-            $page->addJavascript('./Services/OnScreenChat/js/notifications.js');
+            $page->addJavascript('./Services/OnScreenChat/js/onscreenchat-notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/moment.js');
             $page->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
             $page->addJavascript('./Services/OnScreenChat/js/chat.js');
@@ -256,7 +256,8 @@ class ilOnScreenChatGUI
             $page->addOnLoadCode("il.OnScreenChat.init();");
             $page->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
                 'conversationIdleTimeThreshold' => max(1,
-                    (int) $clientSettings->get('conversation_idle_state_in_minutes', 1)),
+                    (int) $clientSettings->get('conversation_idle_state_in_minutes', 1)
+                ),
                 'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),
             ]) . ');');
 

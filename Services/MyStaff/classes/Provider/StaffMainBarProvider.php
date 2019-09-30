@@ -31,8 +31,11 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
         $items = [];
         $top = StandardTopItemsProvider::getInstance()->getOrganisationIdentification();
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/people.svg"), "");
+
         // My Staff
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_mst'))
+            ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_staff_list"))
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
                 \ilPersonalDesktopGUI::class,
@@ -52,8 +55,11 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/notebook.svg"), "");
+
         // My Enrollments
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_enrol'))
+            ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_enrolments"))
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
                 \ilPersonalDesktopGUI::class,
