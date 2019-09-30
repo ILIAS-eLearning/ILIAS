@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\Column;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column as ColumnInterface;
 use ILIAS\UI\Component\Table\Data\Column\Formater\Formater;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
@@ -19,6 +20,10 @@ use ILIAS\UI\Implementation\Component\Table\Data\Column\Formater\DefaultFormater
 class Column implements ColumnInterface
 {
 
+    /**
+     * @var Container
+     */
+    protected $dic;
     /**
      * @var string
      */
@@ -60,14 +65,15 @@ class Column implements ColumnInterface
     /**
      * @inheritDoc
      */
-    public function __construct(string $key, string $title)
+    public function __construct(Container $dic, string $key, string $title)
     {
+        $this->dic = $dic;
+
         $this->key = $key;
 
         $this->title = $title;
 
-        global $DIC; // TODO: !!!
-        $this->formater = new DefaultFormater($DIC);
+        $this->formater = new DefaultFormater($this->dic);
     }
 
 

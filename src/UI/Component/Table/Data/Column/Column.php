@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Data\Column;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Formater\Formater;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 
@@ -20,10 +21,11 @@ interface Column
     /**
      * Column constructor
      *
-     * @param string $key
-     * @param string $title
+     * @param Container $dic
+     * @param string    $key
+     * @param string    $title
      */
-    public function __construct(string $key, string $title);
+    public function __construct(Container $dic, string $key, string $title);
 
 
     /**

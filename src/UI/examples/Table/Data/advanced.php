@@ -32,11 +32,11 @@ function advanced() : string
     $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
     $table = $DIC->ui()->factory()->table()->data("example_datatable_advanced", $action_url, "Advanced example data table", [
-        (new Column("obj_id", "Id"))->withDefaultSelected(false),
-        (new Column("title", "Title"))->withDefaultSort(true),
-        (new Column("type", "Type"))->withFormater(new AdvancedExampleFormater($DIC)),
-        (new Column("description", "Description"))->withDefaultSelected(false)->withSortable(false),
-        new AdvancedExampleActionColumns("actions", "Actions")
+        (new Column($DIC, "obj_id", "Id"))->withDefaultSelected(false),
+        (new Column($DIC, "title", "Title"))->withDefaultSort(true),
+        (new Column($DIC, "type", "Type"))->withFormater(new AdvancedExampleFormater($DIC)),
+        (new Column($DIC, "description", "Description"))->withDefaultSelected(false)->withSortable(false),
+        new AdvancedExampleActionColumns($DIC, "actions", "Actions")
     ], new AdvancedExampleDataFetcher($DIC))->withFilterFields([
         "title" => $DIC->ui()->factory()->input()->field()->text("Title"),
         "type"  => $DIC->ui()->factory()->input()->field()->text("Type")
@@ -107,9 +107,7 @@ class AdvancedExampleActionColumns extends AbstractActionColumn
      */
     public function getActions(RowData $row) : array
     {
-        global $DIC;
-
-        $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
+        $action_url = $this->dic->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
         return [
             "Action" => $action_url

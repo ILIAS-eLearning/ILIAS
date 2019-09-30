@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\Column\Action;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Action\ActionColumn as ActionColumnInterface;
 use ILIAS\UI\Implementation\Component\Table\Data\Column\Column;
 
@@ -34,11 +35,10 @@ abstract class AbstractActionColumn extends Column implements ActionColumnInterf
     /**
      * @inheritDoc
      */
-    public function __construct(string $key, string $title)
+    public function __construct(Container $dic, string $key, string $title)
     {
-        parent::__construct($key, $title);
+        parent::__construct($dic, $key, $title);
 
-        global $DIC; // TODO: !!!
-        $this->formater = new ActionFormater($DIC);
+        $this->formater = new ActionFormater($this->dic);
     }
 }
