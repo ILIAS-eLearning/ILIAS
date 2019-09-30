@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Table\Data\Data;
 
 use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Class Data
@@ -17,6 +18,7 @@ use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 class Data implements DataInterface
 {
 
+    use ComponentHelper;
     /**
      * @var RowData[]
      */
@@ -52,6 +54,8 @@ class Data implements DataInterface
      */
     public function withData(array $data) : DataInterface
     {
+        $this->checkArgListElements("data", $data, [RowData::class]);
+
         $clone = clone $this;
 
         $clone->data = $data;

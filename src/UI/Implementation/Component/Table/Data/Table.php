@@ -79,6 +79,7 @@ class Table implements TableInterface
 
         $this->title = $title;
 
+        $this->checkArgListElements("columns", $columns, [Column::class]);
         $this->columns = $columns;
 
         $this->data_fetcher = $data_fetcher;
@@ -170,6 +171,8 @@ class Table implements TableInterface
      */
     public function withColumns(array $columns) : TableInterface
     {
+        $this->checkArgListElements("columns", $columns, [Column::class]);
+
         $clone = clone $this;
 
         $clone->columns = $columns;
@@ -214,6 +217,8 @@ class Table implements TableInterface
      */
     public function withFilterFields(array $filter_fields) : TableInterface
     {
+        $this->checkArgListElements("filter_fields", $filter_fields, [FilterInput::class]);
+
         $clone = clone $this;
 
         $clone->filter_fields = $filter_fields;
@@ -258,6 +263,8 @@ class Table implements TableInterface
      */
     public function withFormats(array $formats) : TableInterface
     {
+        $this->checkArgListElements("formats", $formats, [Format::class]);
+
         $clone = clone $this;
 
         $clone->formats = $formats;

@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings as SettingsInterface;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Sort\SortField;
 use ILIAS\UI\Component\ViewControl\Pagination;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Class Settings
@@ -19,6 +20,7 @@ use ILIAS\UI\Component\ViewControl\Pagination;
 class Settings implements SettingsInterface
 {
 
+    use ComponentHelper;
     /**
      * @var Pagination
      */
@@ -112,6 +114,8 @@ class Settings implements SettingsInterface
      */
     public function withSortFields(array $sort_fields) : SettingsInterface
     {
+        $this->checkArgListElements("sort_fields", $sort_fields, [SortField::class]);
+
         $clone = clone $this;
 
         $clone->sort_fields = $sort_fields;
