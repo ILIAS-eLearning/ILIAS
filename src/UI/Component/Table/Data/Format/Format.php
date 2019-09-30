@@ -98,5 +98,5 @@ interface Format
      * @param string $data
      * @param Table  $component
      */
-    public function devliver(string $data, Table $component) : void;
+    public function deliverDownload(string $data, Table $component) : void;
 }

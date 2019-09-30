@@ -59,9 +59,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     /**
      * @inheritDoc
      */
-    public function devliver(string $data, Table $component) : void
+    public function deliverDownload(string $data, Table $component) : void
     {
-        throw new LogicException("Seperate devliver browser format not possible!");
+        throw new LogicException("Seperate deliver download browser format not possible!");
     }
 
 

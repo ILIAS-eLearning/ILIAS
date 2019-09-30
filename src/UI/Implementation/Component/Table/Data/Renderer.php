@@ -142,7 +142,7 @@ class Renderer extends AbstractComponentRenderer
 
         switch ($format->getOutputType()) {
             case Format::OUTPUT_TYPE_DOWNLOAD:
-                $format->devliver($data, $component);
+                $format->deliverDownload($data, $component);
 
                 return "";
 
