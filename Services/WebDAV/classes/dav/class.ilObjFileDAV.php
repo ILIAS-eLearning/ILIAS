@@ -66,12 +66,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {        
         if($this->repo_helper->checkAccess('write', $this->getRefId()))
         {
-            // Stolen from ilObjFile->addFileVersion
-            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
-            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
-            ilHistory::_createEntry($this->obj->getId(), "new_version", $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
-            $this->obj->addNewsNotification("file_updated");
-
+            $this->setObjValuesForNewFileVersion();
             $this->handleFileUpload($data);
             return $this->getETag();
         }
@@ -222,7 +217,10 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $this->obj->setFileType(ilMimeTypeUtil::lookupMimeType($file_dest_path));
         $this->obj->setFileSize($written_length);
-        $this->obj->update();
+        if($this->obj->update() && $this->obj->getMaxVersion() > 1)
+        {
+            $this->createHistoryAndNotificationForObjUpdate();
+        }
     }
 
     /**
@@ -304,5 +302,25 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             $this->obj->delete();
             throw new Exception\Forbidden('Virus found!');
         }
+    }
+
+    /**
+     * Set object values for a new file version
+     */
+    protected function setObjValuesForNewFileVersion()
+    {
+        // Stolen from ilObjFile->addFileVersion
+        $this->obj->setVersion($this->obj->getMaxVersion() + 1);
+        $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
+    }
+
+    /**
+     * Create history entry and a news notification for file object update
+     */
+    protected function createHistoryAndNotificationForObjUpdate()
+    {
+        // Add history entry and notification for new file version (stolen from ilObjFile->addFileVersion)
+        ilHistory::_createEntry($this->obj->getId(), "new_version", $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
+        $this->obj->addNewsNotification("file_updated");
     }
 }
