@@ -6,10 +6,11 @@ namespace ILIAS\UI\Implementation\Component\Table\Data;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Table\Data\Data\Data;
+use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
 use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\UserTableSettings\Settings;
+use ILIAS\UI\Implementation\Component\Table\Data\Data\Data;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
@@ -98,14 +99,14 @@ class Renderer extends AbstractComponentRenderer
      * @param Table    $component
      * @param Settings $user_table_settings
      *
-     * @return Data
+     * @return DataInterface
      */
-    protected function handleFetchData(Table $component, Settings $user_table_settings) : Data
+    protected function handleFetchData(Table $component, Settings $user_table_settings) : DataInterface
     {
         if (!$component->getDataFetcher()->isFetchDataNeedsFilterFirstSet() || $user_table_settings->isFilterSet()) {
             $data = $component->getDataFetcher()->fetchData($user_table_settings);
         } else {
-            $data = $component->getDataFetcher()->data([], 0);
+            $data = new Data([], 0);
         }
 
         return $data;
@@ -114,13 +115,13 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * @param Table             $component
-     * @param Data              $data
+     * @param DataInterface     $data
      * @param Settings          $user_table_settings
      * @param RendererInterface $renderer
      *
      * @return string
      */
-    protected function handleFormat(Table $component, Data $data, Settings $user_table_settings, RendererInterface $renderer) : string
+    protected function handleFormat(Table $component, DataInterface $data, Settings $user_table_settings, RendererInterface $renderer) : string
     {
         $input_format_id = $component->getBrowserFormat()->getInputFormatId($component);
 
