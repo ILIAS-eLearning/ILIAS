@@ -12,6 +12,7 @@ use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Renderer;
+use ilUtil;
 
 /**
  * Class AbstractFormat
@@ -84,9 +85,17 @@ abstract class AbstractFormat implements Format
      */
     public function render(callable $get_template, Table $component, Data $data, Settings $settings, Renderer $renderer) : string
     {
-        $filename = $component->getTitle() . "." . $this->getFileExtension();
+        $this->get_template = $get_template;
 
-        ilUtil::deliverData($data, $filename);
+        $this->initTemplate($component, $data, $settings, $renderer);
+
+        $columns = $this->getColumns($component, $settings);
+
+        $this->handleColumns($component, $columns, $settings, $renderer);
+
+        $this->handleRows($component, $columns, $data, $renderer);
+
+        return $this->renderTemplate($component);
     }
 
 
@@ -97,17 +106,7 @@ abstract class AbstractFormat implements Format
     {
         $filename = $component->getTitle() . "." . $this->getFileExtension();
 
-        $stream = new Stream(fopen("php://memory", "rw"));
-        $stream->write($data);
-
-        $this->dic->http()->saveResponse($this->dic->http()->response()->withBody($stream)->withHeader("Content-Disposition", 'attachment; filename="'
-            . $filename . '"')// Filename
-        ->withHeader("Content-Type", ilMimeTypeUtil::APPLICATION__OCTET_STREAM)// Force download
-        ->withHeader("Expires", "0")->withHeader("Pragma", "public"));// No cache
-
-        $this->dic->http()->sendResponse();
-
-        exit;
+        ilUtil::deliverData($data, $filename);
     }
 
 
