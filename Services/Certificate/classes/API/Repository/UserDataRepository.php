@@ -8,7 +8,6 @@ use Certificate\API\Filter\UserDataFilter;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
- * @ilCtrl_Calls: ilUserDataRepository: ilUserCertificateApiGUI
  */
 class UserDataRepository
 {
