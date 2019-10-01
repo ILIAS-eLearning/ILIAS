@@ -104,9 +104,9 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
             $link = '';
             if (array() !== $ilCtrlStack) {
                 $ilCtrlStack[] = ilUserCertificateApiGUI::class;
-                $this->controller->setParameter($this, 'certificate_id', $id);
+                $this->controller->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
                 $link = $this->controller->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
-                $this->controller->clearParameters($this);
+                $this->controller->clearParametersByClass(ilUserCertificateApiGUI::class);
             }
 
             $dataObject = new UserCertificateDto(
