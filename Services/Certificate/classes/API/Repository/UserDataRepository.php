@@ -5,6 +5,7 @@ namespace Certificate\API\Repository;
 
 use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
+use ilUserCertificateApiGUI;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -102,7 +103,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
 
             $link = '';
             if (array() !== $ilCtrlStack) {
-                $ilCtrlStack[] = 'ilUserCertificateApiGUI';
+                $ilCtrlStack[] = ilUserCertificateApiGUI::class;
                 $this->controller->setParameter($this, 'certificate_id', $id);
                 $link = $this->controller->getLinkTargetByClass($ilCtrlStack, 'download');
                 $this->controller->clearParameters($this);
