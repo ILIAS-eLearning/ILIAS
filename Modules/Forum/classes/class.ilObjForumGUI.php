@@ -137,7 +137,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $this->sortationOptions = array(
             ilForumProperties::VIEW_TREE => 'sort_by_posts',
-            ilForumProperties::VIEW_DATE => 'order_by_date'
+            ilForumProperties::VIEW_DATE => 'sort_by_date'
         );
 
         $this->defaultSorting = ilForumProperties::VIEW_TREE;

@@ -10428,7 +10428,7 @@ trac#:#trac_lp_learner_access_info#:#If active, users can access their own learn
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 search#:#search_option_online#:#Online
 search#:#search_option_offline#:#Offline
-forum#:#sort_by_date#:#Sort by date
+forum#:#sort_by_date#:#By Date
 forum#:#error_reading_file#:#There was an error reading the file
 rbac#:#lp_other_users#:#See learning progress overview of other users
 rbac#:#trac_lp_other_users#:#See learning progress overview of other users
