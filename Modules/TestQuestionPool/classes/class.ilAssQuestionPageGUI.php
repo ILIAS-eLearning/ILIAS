@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
+
 require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
 require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
 
@@ -36,7 +38,8 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 	 */
 	public function __construct($a_id = 0, $a_old_nr = 0)
 	{
-		parent::__construct('qpl', $a_id, $a_old_nr);
+	    //TODO ASQ-BH - Please Check
+		parent::__construct(PageFactory::ASQ_PAGE_TYPE_QUESTION, $a_id, $a_old_nr);
 		$this->setEnabledPageFocus(false);
 	}
 
