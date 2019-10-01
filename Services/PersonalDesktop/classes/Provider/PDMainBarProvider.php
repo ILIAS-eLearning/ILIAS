@@ -52,6 +52,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             );
 
+        /*
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), "");
 
         // Dashboard
@@ -73,7 +74,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
 
                     return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
                 }
-            );
+            );*/
 
         return $entries;
     }
