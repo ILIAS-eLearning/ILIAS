@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table\Data\Format;
 
-use GuzzleHttp\Psr7\Stream;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
@@ -13,7 +12,6 @@ use ILIAS\UI\Component\Table\Data\Format\Format;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Renderer;
-use ilMimeTypeUtil;
 
 /**
  * Class AbstractFormat
