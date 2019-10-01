@@ -217,27 +217,39 @@ class ilObjLearningSequence extends ilContainer
 	}
 
 
-	use ilLSLocalDI;
-	public function getLocalDI(): \ArrayAccess
-	{
-		if (is_null($this->di)) {
-			$this->di = $this->getLSLocalDI(
-				$this,
-				$this->getDIC()
-			);
-		}
-		return $this->di;
-	}
-
 	protected function getDIC(): \ArrayAccess
 	{
 		return $this->dic;
 	}
 
+	public function getDI(): \ArrayAccess
+	{
+		if (is_null($this->di)) {
+			$di = new ilLSDI();
+			$di->init($this->getDIC());
+			$this->di = $di;
+		}
+		return $this->di;
+	}
+
+	public function getLocalDI(): \ArrayAccess
+	{
+		if (is_null($this->local_di)) {
+			$di = new ilLSLocalDI();
+			$di->init(
+				$this->getDI(),
+				new \ILIAS\Data\Factory(),
+				$this
+			);
+			$this->local_di = $di;
+		}
+		return $this->local_di;
+	}
+
 	protected function getSettingsDB(): ilLearningSequenceSettingsDB
 	{
 		if (!$this->settings_db) {
-			$this->settings_db = $this->getLocalDI()['db.settings'];
+			$this->settings_db = $this->getDI()['db.settings'];
 		}
 		return $this->settings_db;
 	}
@@ -245,7 +257,7 @@ class ilObjLearningSequence extends ilContainer
 	protected function getActivationDB(): ilLearningSequenceActivationDB
 	{
 		if (!$this->activation_db) {
-			$this->activation_db = $this->getLocalDI()['db.activation'];
+			$this->activation_db = $this->getDI()['db.activation'];
 		}
 		return $this->activation_db;
 	}
@@ -291,7 +303,7 @@ class ilObjLearningSequence extends ilContainer
 	protected function getPostConditionDB(): ilLSPostConditionDB
 	{
 		if (!$this->conditions_db) {
-			$this->conditions_db = $this->getLocalDI()["db.postconditions"];
+			$this->conditions_db = $this->getDI()["db.postconditions"];
 		}
 		return $this->conditions_db;
 	}
@@ -377,7 +389,7 @@ class ilObjLearningSequence extends ilContainer
 	public function getStateDB(): ilLSStateDB
 	{
 		if (!$this->state_db) {
-			$this->state_db = $this->getLocalDI()['db.states'];
+			$this->state_db = $this->getDI()['db.states'];
 		}
 		return $this->state_db;
 	}
