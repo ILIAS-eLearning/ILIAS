@@ -186,7 +186,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
         }
 
         $login = $filter->getUserLogin();
-        if (null !== $lastName) {
+        if (null !== $login) {
             $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', '%' . $login . '%');
         }
 
