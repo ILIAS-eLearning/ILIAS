@@ -86,17 +86,9 @@ abstract class AbstractFormat implements Format
      */
     public function render(callable $get_template, Table $component, Data $data, Settings $settings, Renderer $renderer) : string
     {
-        $this->get_template = $get_template;
+        $filename = $component->getTitle() . "." . $this->getFileExtension();
 
-        $this->initTemplate($component, $data, $settings, $renderer);
-
-        $columns = $this->getColumns($component, $settings);
-
-        $this->handleColumns($component, $columns, $settings, $renderer);
-
-        $this->handleRows($component, $columns, $data, $renderer);
-
-        return $this->renderTemplate($component);
+        ilUtil::deliverData($data, $filename);
     }
 
 
