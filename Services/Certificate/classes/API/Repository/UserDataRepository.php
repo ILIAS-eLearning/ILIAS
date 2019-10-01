@@ -5,10 +5,10 @@ namespace Certificate\API\Repository;
 
 use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
+use ilUserCertificateApiGUI;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
- * @ilCtrl_Calls: ilUserDataRepository: ilUserCertificateApiGUI
  */
 class UserDataRepository
 {
@@ -95,10 +95,10 @@ SELECT
 
             $link = '';
             if (array() !== $ilCtrlStack) {
-                $ilCtrlStack[] = 'ilUserCertificateApiGUI';
-                $this->controller->setParameter($this, 'certificate_id', $id);
-                $link = $this->controller->getLinkTargetByClass($ilCtrlStack, 'download');
-                $this->controller->clearParameters($this);
+                $ilCtrlStack[] = ilUserCertificateApiGUI::class;
+                $this->controller->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
+                $link = $this->controller->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
+                $this->controller->clearParametersByClass(ilUserCertificateApiGUI::class);
             }
 
             $dataObject = new UserCertificateDto(
@@ -235,7 +235,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
         }
 
         $login = $filter->getUserLogin();
-        if (null !== $lastName) {
+        if (null !== $login) {
             $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', '%' . $login . '%');
         }
 

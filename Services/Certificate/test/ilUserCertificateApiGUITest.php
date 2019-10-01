@@ -23,7 +23,11 @@ class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $gui = new ilUserCertificateApiGUI($language, $request, $logger);
+        $controller = $this->getMockBuilder('ilCtrl')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $gui = new ilUserCertificateApiGUI($language, $request, $logger, $controller);
         $this->assertInstanceOf(ilUserCertificateApiGUI::class, $gui);
     }
 }
