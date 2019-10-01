@@ -56,8 +56,6 @@ class UserDataRepository
      */
     public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
     {
-        $userIds = $filter->getUserIds();
-
         $sql = '
 SELECT 
   il_cert_user_cert.pattern_certificate_id,
@@ -82,13 +80,7 @@ SELECT
   usr_data.email,
   usr_data.login,
   usr_data.second_email
-FROM il_cert_user_cert
-LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
-INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer')
-            . $this->createWhereCondition($filter) . ' ' . $this->createOrderByClause($filter);
+' . $this->getQuery($filter);
 
         $query = $this->database->query($sql);
 
@@ -128,6 +120,52 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
         }
         return $result;
     }
+
+
+    /**
+     * @param UserDataFilter $filter
+     *
+     * @return int
+     */
+    public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
+    {
+        $sql = 'SELECT COUNT(il_cert_user_cert.id) as count
+        ' . $this->getQuery($filter,true);
+
+        $result = $this->database->query($sql);
+
+        $max_count = intval($this->database->fetchAssoc($result)["count"]);
+
+        return $max_count;
+    }
+
+
+    /**
+     * @param UserDataFilter $filter
+     * @param bool           $max_count_only
+     *
+     * @return string
+     */
+    private function getQuery(UserDataFilter $filter, bool $max_count_only = false) : string
+    {
+        $userIds = $filter->getUserIds();
+
+        $sql = 'FROM il_cert_user_cert
+LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
+INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
+WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer')
+            . $this->createWhereCondition($filter);
+
+        if (!$max_count_only) {
+            $sql.=  ' ' . $this->createOrderByClause($filter);
+            $this->database->setLimit($filter->getLimitEnd(), $filter->getLimitStart());
+        }
+
+        return $sql;
+    }
+
 
     /**
      * @param UserDataFilter $filter
