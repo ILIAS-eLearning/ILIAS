@@ -50,6 +50,12 @@ class UserDataFilter
     /** @var int */
     private $sort = self::SORT_FIELD_ISSUE_TIMESTAMP;
 
+    /** @var int|null */
+    private $limitStart = null;
+
+    /** @var int|null */
+    private $limitEnd = null;
+
     /**
      * @param int[] $usrIds
      * @param bool $onlyActive Show only the currently active certificates of the user
@@ -421,5 +427,51 @@ class UserDataFilter
     public function shouldSortByObjectTitles() : bool
     {
         return $this->sort === self::SORT_FIELD_OBJ_TITLE;
+    }
+
+
+    /**
+     * @param int|null $limitStart
+     *
+     * @return self
+     */
+    public function withLimitStart(?int $limitStart) : self
+    {
+        $clone = clone $this;
+        $clone->limitStart = $limitStart;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getLimitStart() : ?int
+    {
+        return $this->limitStart;
+    }
+
+
+    /**
+     * @param int|null $limitEnd
+     *
+     * @return self
+     */
+    public function withLimitEnd(?int $limitEnd) : self
+    {
+        $clone = clone $this;
+        $clone->limitEnd = $limitEnd;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getLimitEnd() : ?int
+    {
+        return $this->limitEnd;
     }
 }
