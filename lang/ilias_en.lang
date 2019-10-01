@@ -13541,6 +13541,7 @@ logging#:#log_error_settings#:#Error logging settings
 logging#:#error_settings_saved#:#Saved settings
 logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
+logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 blog#:#blog_show_latest#:#Show latest postings/drafts
