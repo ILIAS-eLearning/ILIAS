@@ -10,8 +10,8 @@ use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
-use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
+use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Renderer;
 use ilMimeTypeUtil;
 
@@ -94,7 +94,7 @@ abstract class AbstractFormat implements Format
 
         $this->handleColumns($component, $columns, $settings, $renderer);
 
-        $this->handleRows($component, $columns, $data, $settings, $renderer);
+        $this->handleRows($component, $columns, $data, $renderer);
 
         return $this->renderTemplate($component);
     }
@@ -205,13 +205,12 @@ abstract class AbstractFormat implements Format
      * @param Table    $component
      * @param Column[] $columns
      * @param Data     $data
-     * @param Settings $settings
      * @param Renderer $renderer
      */
-    protected function handleRows(Table $component, array $columns, Data $data, Settings $settings, Renderer $renderer) : void
+    protected function handleRows(Table $component, array $columns, Data $data, Renderer $renderer) : void
     {
         foreach ($data->getData() as $row) {
-            $this->handleRow($component, $columns, $row, $settings, $renderer);
+            $this->handleRow($component, $columns, $row, $renderer);
         }
     }
 
@@ -220,10 +219,9 @@ abstract class AbstractFormat implements Format
      * @param Table    $component
      * @param Column[] $columns
      * @param RowData  $row
-     * @param Settings $settings
      * @param Renderer $renderer
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Settings $settings, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
     {
         foreach ($columns as $column) {
             $this->handleRowColumn($column->getFormater()

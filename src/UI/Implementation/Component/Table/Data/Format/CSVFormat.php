@@ -8,8 +8,8 @@ use ilCSVWriter;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
-use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
+use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Renderer;
 
 /**
@@ -80,9 +80,9 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Settings $settings, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
     {
-        parent::handleRow($component, $columns, $row, $settings, $renderer);
+        parent::handleRow($component, $columns, $row, $renderer);
 
         $this->tpl->addRow();
     }

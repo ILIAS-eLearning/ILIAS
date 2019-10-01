@@ -124,17 +124,17 @@ interface Table extends Component
 
 
     /**
-     * @return BrowserFormat|null
+     * @return BrowserFormat
      */
-    public function getCustomBrowserFormat() : ?BrowserFormat;
+    public function getBrowserFormat() : BrowserFormat;
 
 
     /**
-     * @param BrowserFormat|null $custom_browser_format
+     * @param BrowserFormat $browser_format
      *
      * @return self
      */
-    public function withCustomBrowserFormat(?BrowserFormat $custom_browser_format = null) : self;
+    public function withBrowserFormat(BrowserFormat $browser_format) : self;
 
 
     /**
@@ -166,27 +166,15 @@ interface Table extends Component
 
 
     /**
-     * @return SettingsStorage|null
+     * @return SettingsStorage
      */
-    public function getCustomSettingsStorage() : ?SettingsStorage;
+    public function getSettingsStorage() : SettingsStorage;
 
 
     /**
-     * @param SettingsStorage|null $custom_settings_storage
+     * @param SettingsStorage $settings_storage
      *
      * @return self
      */
-    public function withCustomSettingsStorage(?SettingsStorage $custom_settings_storage = null) : self;
-
-
-    /**
-     * @return string
-     */
-    public function getActionRowId() : string;
-
-
-    /**
-     * @return string[]
-     */
-    public function getMultipleActionRowIds() : array;
+    public function withSettingsStorage(SettingsStorage $settings_storage) : self;
 }

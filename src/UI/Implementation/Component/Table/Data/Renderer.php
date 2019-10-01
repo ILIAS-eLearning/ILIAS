@@ -7,13 +7,10 @@ namespace ILIAS\UI\Implementation\Component\Table\Data;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Table\Data\Data\Data as DataInterface;
-use ILIAS\UI\Component\Table\Data\Format\BrowserFormat;
 use ILIAS\UI\Component\Table\Data\Format\Format;
-use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
+use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Implementation\Component\Table\Data\Data\Data;
-use ILIAS\UI\Implementation\Component\Table\Data\Format\DefaultBrowserFormat;
-use ILIAS\UI\Implementation\Component\Table\Data\Settings\Storage\DefaultSettingsStorage;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
@@ -71,18 +68,15 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderDataTable(Table $component, RendererInterface $renderer) : string
     {
-        $browser_format = $component->getCustomBrowserFormat() ?: new DefaultBrowserFormat($this->dic);
-        $settings_storage = $component->getCustomSettingsStorage() ?: new DefaultSettingsStorage($this->dic);
-
-        $settings = $settings_storage->read($component->getTableId(), intval($this->dic->user()->getId()));
-        $settings = $browser_format->handleSettingsInput($component, $settings);
-        $settings = $settings_storage->handleDefaultSettings($settings, $component);
+        $settings = $component->getSettingsStorage()->read($component->getTableId(), intval($this->dic->user()->getId()));
+        $settings = $component->getBrowserFormat()->handleSettingsInput($component, $settings);
+        $settings = $component->getSettingsStorage()->handleDefaultSettings($settings, $component);
 
         $data = $this->handleFetchData($component, $settings);
 
-        $html = $this->handleFormat($browser_format, $component, $data, $settings, $renderer);
+        $html = $this->handleFormat($component, $data, $settings, $renderer);
 
-        $settings_storage->store($settings, $component->getTableId(), intval($this->dic->user()->getId()));
+        $component->getSettingsStorage()->store($settings, $component->getTableId(), intval($this->dic->user()->getId()));
 
         return $html;
     }
@@ -118,7 +112,6 @@ class Renderer extends AbstractComponentRenderer
 
 
     /**
-     * @param BrowserFormat     $browser_format ,
      * @param Table             $component
      * @param DataInterface     $data
      * @param Settings          $settings
@@ -126,9 +119,9 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return string
      */
-    protected function handleFormat(BrowserFormat $browser_format, Table $component, DataInterface $data, Settings $settings, RendererInterface $renderer) : string
+    protected function handleFormat(Table $component, DataInterface $data, Settings $settings, RendererInterface $renderer) : string
     {
-        $input_format_id = $browser_format->getInputFormatId($component);
+        $input_format_id = $component->getBrowserFormat()->getInputFormatId($component);
 
         /**
          * @var Format $format
@@ -138,7 +131,7 @@ class Renderer extends AbstractComponentRenderer
         }));
 
         if ($format === false) {
-            $format = $browser_format;
+            $format = $component->getBrowserFormat();
         }
 
         $data = $format->render(function (string $name, bool $purge_unfilled_vars = true, bool $purge_unused_blocks = true) : Template {
