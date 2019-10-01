@@ -44,11 +44,8 @@ class UserDataFilter
     /** @var int[] */
     private $userIds = [];
 
-    /** @var bool */
-    private $reverseSorting = false;
-
-    /** @var int */
-    private $sort = self::SORT_FIELD_ISSUE_TIMESTAMP;
+    /** @var array */
+    private $sorts = [];
 
     /**
      * @param int[] $usrIds
@@ -299,127 +296,76 @@ class UserDataFilter
     }
 
     /**
+     * @param bool $reverse
+     *
      * @return $this
      */
-    public function withSortedLastNames() : self
+    public function withSortedLastNames(bool $reverse = false) : self
     {
         $clone = clone $this;
-        $clone->sort = self::SORT_FIELD_USR_LASTNAME;
+        $clone->sorts[] = [self::SORT_FIELD_USR_LASTNAME, $reverse];
 
         return $clone;
     }
 
     /**
+     * @param bool $reverse
+     *
      * @return $this
      */
-    public function withSortedFirstNames() : self
+    public function withSortedFirstNames(bool $reverse = false) : self
     {
         $clone = clone $this;
-        $clone->sort = self::SORT_FIELD_USR_FIRSTNAME;
+        $clone->sorts[] = [self::SORT_FIELD_USR_FIRSTNAME, $reverse];
 
         return $clone;
     }
 
     /**
+     * @param bool $reverse
+     *
      * @return $this
      */
-    public function withSortedObjectTitles() : self
+    public function withSortedObjectTitles(bool $reverse = false) : self
     {
         $clone = clone $this;
-        $clone->sort = self::SORT_FIELD_OBJ_TITLE;
+        $clone->sorts[] = [self::SORT_FIELD_OBJ_TITLE, $reverse];
 
         return $clone;
     }
 
     /**
+     * @param bool $reverse
+     * 
      * @return $this
      */
-    public function withSortedLogins() : self
+    public function withSortedLogins(bool $reverse = false) : self
     {
         $clone = clone $this;
-        $clone->sort = self::SORT_FIELD_USR_LOGIN;
+        $clone->sorts[] = [self::SORT_FIELD_USR_LOGIN, $reverse];
 
         return $clone;
     }
 
     /**
+     * @param bool $reverse
+     * 
      * @return $this
      */
-    public function withSortedIssuedOnTimestamps() : self
+    public function withSortedIssuedOnTimestamps(bool $reverse = false) : self
     {
         $clone = clone $this;
-        $clone->sort = self::SORT_FIELD_ISSUE_TIMESTAMP;
+        $clone->sorts[] = [self::SORT_FIELD_ISSUE_TIMESTAMP, $reverse];
 
         return $clone;
     }
 
-    /**
-     * @return $this
-     */
-    public function withReverseSorting() : self
-    {
-        $clone = clone $this;
-        $clone->reverseSorting = true;
-
-        return $clone;
-    }
 
     /**
-     * @return $this
+     * @return array
      */
-    public function withAscendingSorting() : self
+    public function getSorts() : array
     {
-        $clone = clone $this;
-        $clone->reverseSorting = false;
-
-        return $clone;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isReverseSorting() : bool
-    {
-        return $this->reverseSorting;
-    }
-
-    /**
-     * @return bool
-     */
-    public function shouldSortByIssueTimestamps() : bool
-    {
-        return $this->sort === self::SORT_FIELD_ISSUE_TIMESTAMP;
-    }
-
-    /**
-     * @return bool
-     */
-    public function shouldSortByLastNames() : bool
-    {
-        return $this->sort === self::SORT_FIELD_USR_LASTNAME;
-    }
-
-    /**
-     * @return bool
-     */
-    public function shouldSortByFirstNames() : bool
-    {
-        return $this->sort === self::SORT_FIELD_USR_FIRSTNAME;
-    }
-
-    /**
-     * @return bool
-     */
-    public function shouldSortByLogins() : bool
-    {
-        return $this->sort === self::SORT_FIELD_USR_LOGIN;
-    }
-
-    /**
-     * @return bool
-     */
-    public function shouldSortByObjectTitles() : bool
-    {
-        return $this->sort === self::SORT_FIELD_OBJ_TITLE;
+        return $this->sorts;
     }
 }
