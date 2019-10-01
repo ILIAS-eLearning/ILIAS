@@ -3238,7 +3238,7 @@ common#:#optimize#:#Optimize
 common#:#option#:#Option
 common#:#optional_filters#:#Optional Filters
 common#:#options#:#Options
-common#:#order_by_date#:#Order by Date
+common#:#order_by_date#:#By Date
 common#:#order_by#:#Order by
 common#:#organization#:#Provider
 common#:#other#:#Other
@@ -9930,7 +9930,7 @@ common#:#obj_mep_duplicate#:#Copy Media Pool
 common#:#obj_mcst_duplicate#:#Copy Mediacast
 common#:#obj_glo_duplicate#:#Copy Glossary
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module
-forum#:#sort_by_posts#:#Sort by Posts
+forum#:#sort_by_posts#:#By Reply
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.
 forum#:#number_of_threads#:#Displayed Number of Threads per Page
 forum#:#frm_rating#:#Rating
