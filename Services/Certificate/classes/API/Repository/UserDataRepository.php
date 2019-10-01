@@ -143,6 +143,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
 
             foreach ($sorts as [$key, $reverse]) {
                 $reverse = $reverse ? ' DESC ' : ' ASC ';
+                
                 switch (true) {
                     case ($key === UserDataFilter::SORT_FIELD_USR_LOGIN):
                         $orderBy .= 'usr_data.login ' . $reverse;
