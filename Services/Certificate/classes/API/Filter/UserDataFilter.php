@@ -13,6 +13,8 @@ class UserDataFilter
     const SORT_FIELD_USR_LASTNAME = 3;
     const SORT_FIELD_USR_FIRSTNAME = 4;
     const SORT_FIELD_OBJ_TITLE = 5;
+    const SORT_DIRECTION_ASC = 1;
+    const SORT_DIRECTION_DESC = 2;
 
     /** @var string|null */
     private $objectTitle;
@@ -302,66 +304,66 @@ class UserDataFilter
     }
 
     /**
-     * @param bool $reverse
+     * @param int $direction
      *
      * @return $this
      */
-    public function withSortedLastNames(bool $reverse = false) : self
+    public function withSortedLastNames(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
-        $clone->sorts[] = [self::SORT_FIELD_USR_LASTNAME, $reverse];
+        $clone->sorts[] = [self::SORT_FIELD_USR_LASTNAME, $direction];
 
         return $clone;
     }
 
     /**
-     * @param bool $reverse
+     * @param int $direction
      *
      * @return $this
      */
-    public function withSortedFirstNames(bool $reverse = false) : self
+    public function withSortedFirstNames(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
-        $clone->sorts[] = [self::SORT_FIELD_USR_FIRSTNAME, $reverse];
+        $clone->sorts[] = [self::SORT_FIELD_USR_FIRSTNAME, $direction];
 
         return $clone;
     }
 
     /**
-     * @param bool $reverse
+     * @param int $direction
      *
      * @return $this
      */
-    public function withSortedObjectTitles(bool $reverse = false) : self
+    public function withSortedObjectTitles(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
-        $clone->sorts[] = [self::SORT_FIELD_OBJ_TITLE, $reverse];
+        $clone->sorts[] = [self::SORT_FIELD_OBJ_TITLE, $direction];
 
         return $clone;
     }
 
     /**
-     * @param bool $reverse
+     * @param int $direction
      * 
      * @return $this
      */
-    public function withSortedLogins(bool $reverse = false) : self
+    public function withSortedLogins(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
-        $clone->sorts[] = [self::SORT_FIELD_USR_LOGIN, $reverse];
+        $clone->sorts[] = [self::SORT_FIELD_USR_LOGIN, $direction];
 
         return $clone;
     }
 
     /**
-     * @param bool $reverse
+     * @param int $direction
      * 
      * @return $this
      */
-    public function withSortedIssuedOnTimestamps(bool $reverse = false) : self
+    public function withSortedIssuedOnTimestamps(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
-        $clone->sorts[] = [self::SORT_FIELD_ISSUE_TIMESTAMP, $reverse];
+        $clone->sorts[] = [self::SORT_FIELD_ISSUE_TIMESTAMP, $direction];
 
         return $clone;
     }

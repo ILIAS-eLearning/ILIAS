@@ -175,30 +175,34 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
     {
         $sorts = $filter->getSorts();
 
+        if (!empty($sorts)) {
+            return '';
+        }
+
         $orders = [];
 
-        foreach ($sorts as [$key, $reverse]) {
-            $reverse = $reverse ? ' DESC' : ' ASC';
+        foreach ($sorts as [$key, $direction]) {
+            $direction = $direction === UserDataFilter::SORT_DIRECTION_DESC ? ' DESC' : ' ASC';
 
             switch (true) {
                 case ($key === UserDataFilter::SORT_FIELD_USR_LOGIN):
-                    $orders[] = 'usr_data.login' . $reverse;
+                    $orders[] = 'usr_data.login' . $direction;
                     break;
 
                 case ($key === UserDataFilter::SORT_FIELD_USR_FIRSTNAME):
-                    $orders[] = 'usr_data.firstname' . $reverse;
+                    $orders[] = 'usr_data.firstname' . $direction;
                     break;
 
                 case ($key === UserDataFilter::SORT_FIELD_USR_LASTNAME):
-                    $orders[] = 'usr_data.lastname' . $reverse;
+                    $orders[] = 'usr_data.lastname' . $direction;
                     break;
 
                 case ($key === UserDataFilter::SORT_FIELD_OBJ_TITLE):
-                    $orders[] = 'title' . $reverse;
+                    $orders[] = 'title' . $direction;
                     break;
 
                 case ($key === UserDataFilter::SORT_FIELD_ISSUE_TIMESTAMP):
-                    $orders[] = 'il_cert_user_cert.acquired_timestamp' . $reverse;
+                    $orders[] = 'il_cert_user_cert.acquired_timestamp' . $direction;
                     break;
 
                 default:
@@ -206,14 +210,9 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
             }
         }
 
-        if (!empty($orders)) {
+        $orderBy = ' ORDER BY ' . implode(', ', $orders);
 
-            $orderBy = ' ORDER BY ' . implode(", ", $orders);
-
-            return $orderBy;
-        } else {
-            return '';
-        }
+        return $orderBy;
     }
 
     /**
