@@ -137,38 +137,40 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
     {
         $sorts = $filter->getSorts();
 
-        if (!empty($sorts)) {
+        $orders = [];
 
-            $orderBy = ' ORDER BY ';
+        foreach ($sorts as [$key, $reverse]) {
+            $reverse = $reverse ? ' DESC' : ' ASC';
 
-            foreach ($sorts as [$key, $reverse]) {
-                $reverse = $reverse ? ' DESC ' : ' ASC ';
-                
-                switch (true) {
-                    case ($key === UserDataFilter::SORT_FIELD_USR_LOGIN):
-                        $orderBy .= 'usr_data.login ' . $reverse;
-                        break;
+            switch (true) {
+                case ($key === UserDataFilter::SORT_FIELD_USR_LOGIN):
+                    $orders[] = 'usr_data.login' . $reverse;
+                    break;
 
-                    case ($key === UserDataFilter::SORT_FIELD_USR_FIRSTNAME):
-                        $orderBy .= 'usr_data.firstname' . $reverse;
-                        break;
+                case ($key === UserDataFilter::SORT_FIELD_USR_FIRSTNAME):
+                    $orders[] = 'usr_data.firstname' . $reverse;
+                    break;
 
-                    case ($key === UserDataFilter::SORT_FIELD_USR_LASTNAME):
-                        $orderBy .= 'usr_data.lastname' . $reverse;
-                        break;
+                case ($key === UserDataFilter::SORT_FIELD_USR_LASTNAME):
+                    $orders[] = 'usr_data.lastname' . $reverse;
+                    break;
 
-                    case ($key === UserDataFilter::SORT_FIELD_OBJ_TITLE):
-                        $orderBy .= 'title' . $reverse;
-                        break;
+                case ($key === UserDataFilter::SORT_FIELD_OBJ_TITLE):
+                    $orders[] = 'title' . $reverse;
+                    break;
 
-                    case ($key === UserDataFilter::SORT_FIELD_ISSUE_TIMESTAMP):
-                        $orderBy .= 'il_cert_user_cert.acquired_timestamp' . $reverse;
-                        break;
+                case ($key === UserDataFilter::SORT_FIELD_ISSUE_TIMESTAMP):
+                    $orders[] = 'il_cert_user_cert.acquired_timestamp' . $reverse;
+                    break;
 
-                    default:
-                        break;
-                }
+                default:
+                    break;
             }
+        }
+
+        if (!empty($orders)) {
+
+            $orderBy = ' ORDER BY ' . implode(", ", $orders);
 
             return $orderBy;
         } else {
