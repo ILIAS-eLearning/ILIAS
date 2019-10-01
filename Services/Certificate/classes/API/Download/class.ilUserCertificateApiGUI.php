@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilUserCertificateApiGUI
 {
     const CMD_DOWNLOAD = 'download';
-    
+
     /** @var ilLogger */
     private $certificateLogger;
 
@@ -27,6 +27,7 @@ class ilUserCertificateApiGUI
      * @param ilLanguage|null $language
      * @param ServerRequestInterface $request
      * @param ilLogger $certificateLogger
+     * @param ilCtrl $controller
      */
     public function __construct(
         ilLanguage $language = null,
@@ -77,6 +78,7 @@ class ilUserCertificateApiGUI
                 break;
         }
     }
+
 
     /**
      * @throws \ilException
