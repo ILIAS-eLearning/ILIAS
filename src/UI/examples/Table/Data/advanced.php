@@ -51,12 +51,12 @@ function advanced() : string
 
     $info_text = $DIC->ui()->factory()->legacy("");
 
-    $action_row_id = $table->getActionRowId();
+    $action_row_id = $table->getBrowserFormat()->getActionRowId($table->getTableId());
     if ($action_row_id !== "") {
         $info_text = $info_text = $DIC->ui()->factory()->messageBox()->info("Row id: " . $action_row_id);
     }
 
-    $mutliple_action_row_ids = $table->getMultipleActionRowIds();
+    $mutliple_action_row_ids = $table->getBrowserFormat()->getMultipleActionRowIds($table->getTableId());
     if (!empty($mutliple_action_row_ids)) {
         $info_text = $DIC->ui()->factory()->messageBox()->info("Row ids: " . implode(", ", $mutliple_action_row_ids));
     }
