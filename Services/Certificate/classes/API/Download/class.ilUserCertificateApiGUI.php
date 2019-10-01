@@ -6,7 +6,6 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @ingroup ServicesCertificate
  * @author  Niels Theen <ntheen@databay.de>
- * @ilCtrl_Calls: ilUserCertificateApiGUI:
  */
 class ilUserCertificateApiGUI
 {
