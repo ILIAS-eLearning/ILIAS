@@ -173,35 +173,44 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
      */
     private function createOrderByClause(UserDataFilter $filter) : string
     {
-        $orderBy = ' ORDER BY ';
+        $sorts = $filter->getSorts();
 
-        switch (true) {
-            case $filter->shouldSortByLogins():
-                $orderBy .= 'usr_data.login';
-                break;
+        if (!empty($sorts)) {
 
-            case $filter->shouldSortByFirstNames():
-                $orderBy .= 'usr_data.firstname';
-                break;
+            $orderBy = ' ORDER BY ';
 
-            case $filter->shouldSortByLastNames():
-                $orderBy .= 'usr_data.lastname';
-                break;
+            foreach ($sorts as [$key, $reverse]) {
+                $reverse = $reverse ? ' DESC ' : ' ASC ';
+                switch (true) {
+                    case ($key === UserDataFilter::SORT_FIELD_USR_LOGIN):
+                        $orderBy .= 'usr_data.login ' . $reverse;
+                        break;
 
-            case $filter->shouldSortByObjectTitles():
-                $orderBy .= 'title';
-                break;
+                    case ($key === UserDataFilter::SORT_FIELD_USR_FIRSTNAME):
+                        $orderBy .= 'usr_data.firstname' . $reverse;
+                        break;
 
-            case $filter->shouldSortByIssueTimestamps():
-            default:
-                $orderBy .= 'il_cert_user_cert.acquired_timestamp';
-                break;
+                    case ($key === UserDataFilter::SORT_FIELD_USR_LASTNAME):
+                        $orderBy .= 'usr_data.lastname' . $reverse;
+                        break;
+
+                    case ($key === UserDataFilter::SORT_FIELD_OBJ_TITLE):
+                        $orderBy .= 'title' . $reverse;
+                        break;
+
+                    case ($key === UserDataFilter::SORT_FIELD_ISSUE_TIMESTAMP):
+                        $orderBy .= 'il_cert_user_cert.acquired_timestamp' . $reverse;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return $orderBy;
+        } else {
+            return '';
         }
-
-
-        $orderBy .= ' ' . $filter->isReverseSorting() ? ' DESC ' : ' ASC ';
-        
-        return $orderBy;
     }
 
     /**
