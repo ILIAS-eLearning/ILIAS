@@ -714,6 +714,9 @@ class ilInitialisation
 			// init console log handler
 			include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 			ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
+
+			require_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
+			ilOnlineTracking::updateAccess($ilUser);
 		}
 		else
 		{
