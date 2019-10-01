@@ -43,7 +43,7 @@ class ilUserDefinedFields
 
 	/**
 	 * Get instance
-	 * @return object ilUserDefinedFields
+	 * @return ilUserDefinedFields
 	 */
 	public static function _getInstance()
 	{
@@ -102,6 +102,9 @@ class ilUserDefinedFields
 		return 0;
 	}
 
+	/**
+	 * @return array
+	 */
 	function getDefinitions()
 	{
 		return $this->definitions ? $this->definitions : array();
