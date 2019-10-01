@@ -35,7 +35,7 @@ class DefaultFormater extends AbstractFormater
                 /**
                  * @var ilExcel $tpl
                  */ $tpl = $format->getTemplate()->tpl;
-                $cord = $tpl->getColumnCoord($format->getTemplate()->current_col) . $format->getTemplate()->current_col;
+                $cord = $tpl->getColumnCoord($format->getTemplate()->current_col) . $format->getTemplate()->current_row;
                 $tpl->setBold($cord . ":" . $cord);
 
                 return $title;
