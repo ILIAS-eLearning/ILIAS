@@ -84,6 +84,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         // Dashboard
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), "");
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
+            ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_dashboard"))
             ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
             ->withPosition(10)
