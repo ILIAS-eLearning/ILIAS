@@ -408,7 +408,6 @@ class BasicPersistence implements Persistence
         /** @var TaskContainer $taskContainer */
         $taskContainer = TaskContainer::find($taskContainerId);
         /** @noinspection PhpIncludeInspection */
-        require_once($taskContainer->getClassPath());
         /** @var Task $task */
         $task = $factory->createTask($taskContainer->getClassName());
 
@@ -441,7 +440,7 @@ class BasicPersistence implements Persistence
         /** @var ValueContainer $valueContainer */
         $valueContainer = ValueContainer::find($valueContainerId);
         /** @noinspection PhpIncludeInspection */
-        require_once($valueContainer->getClassPath());
+        
         /** @var Value $value */
         $value = $factory->createInstance($valueContainer->getClassName());
 
