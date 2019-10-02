@@ -23,7 +23,12 @@ if ($_GET['new_ui'] == '1') {
 	$content = pagedemoContent($f);
 	$metabar = pagedemoMetabar($f);
 	$mainbar = pagedemoMainbar($f, $renderer)
-		->withActive("pws");
+		->withActive("pws")
+		/**
+		 * You can also activate a tool initially, e.g.:
+		 * ->withActive("tool2")
+		 */
+		;
 
 	$footer = pagedemoFooter($f);
 
