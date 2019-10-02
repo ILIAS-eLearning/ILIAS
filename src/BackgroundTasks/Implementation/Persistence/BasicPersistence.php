@@ -286,9 +286,9 @@ class BasicPersistence implements Persistence
         $reflection = new \ReflectionClass(get_class($value));
         $valueContainer->setClassName(get_class($value));
         // bugfix mantis 23503
-        $absolute_class_path = $reflection->getFileName();
-        $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
-        $valueContainer->setClassPath($relative_class_path);
+        // $absolute_class_path = $reflection->getFileName();
+        // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
+        // $valueContainer->setClassPath($relative_class_path);
         $valueContainer->setType($value->getType());
         $valueContainer->setHasParenttask($value->hasParentTask());
         $valueContainer->setBucketId($bucketId);
