@@ -293,6 +293,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private function generateNumberField(string $post_var, $value) {
 		$field = new ilNumberInputGUI('', $post_var);
+		$field->setSize(2);
 		
 		$this->setFieldValue($post_var, $value, $field);
 		

@@ -55,7 +55,7 @@ abstract class AbstractEditor {
      * @return array|null
      */
 	public static function generateFields(?AbstractConfiguration $config): ?array {
-		return null;
+		return [];
 	}
 
 	public static abstract function readConfig();

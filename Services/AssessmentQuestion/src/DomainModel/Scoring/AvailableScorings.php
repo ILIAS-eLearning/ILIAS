@@ -23,6 +23,7 @@ class AvailableScorings {
 		$scorings[ErrorTextScoring::class] = "ErrorTextScoring";
 		$scorings[OrderingScoring::class] = "OrderingScoring";
 		$scorings[FileUploadScoring::class] = "FileUploadScoring";
+		$scorings[FormulaScoring::class] = "FormulaScoring";
 		return $scorings;
 	}
 
