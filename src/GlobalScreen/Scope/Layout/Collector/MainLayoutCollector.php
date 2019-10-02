@@ -75,12 +75,10 @@ class MainLayoutCollector
     {
         // Client
         $settings = new ClientSettings();
+        $settings->setHashing(true);
+        $settings->setLogging(true);
 
-        if ((new ModeToggle())->getMode() == ModeToggle::MODE1) {
-            // $settings->setClearStatesForlevels([
-            //     ItemState::LEVEL_OF_TOPITEM => [ItemState::LEVEL_OF_TOPITEM],
-            //     ItemState::LEVEL_OF_TOOL    => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL],
-            // ]);
+        if ((new ModeToggle())->getMode() === ModeToggle::MODE1) {
             $settings->setStoreStateForLevels(
                 [
                     ItemState::LEVEL_OF_TOPITEM,
@@ -89,11 +87,6 @@ class MainLayoutCollector
                 ]
             );
         } else {
-            // $settings->setClearStatesForlevels([
-            //     ItemState::LEVEL_OF_TOPITEM => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
-            //     ItemState::LEVEL_OF_TOOL    => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
-            //     ItemState::LEVEL_OF_SUBITEM => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM],
-            // ]);
             $settings->setStoreStateForLevels(
                 []
             );
