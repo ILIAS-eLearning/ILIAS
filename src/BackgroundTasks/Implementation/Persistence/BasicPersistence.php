@@ -218,8 +218,8 @@ class BasicPersistence implements Persistence
         $taskContainer->setClassName(get_class($task));
         // bugfix mantis 23503
         $absolute_class_path = $reflection->getFileName();
-        $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
-        $taskContainer->setClassPath($relative_class_path);
+        // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
+        $taskContainer->setClassPath($reflection->getFileName());
 
         // Recursivly save the inputs and link them to this task.
         foreach ($task->getInput() as $input) {
