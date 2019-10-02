@@ -208,7 +208,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             $filter_fields = $component->getFilterFields();
 
             $this->filter_form = $this->dic->uiService()->filter()
-                ->standard($component->getTableId(), $this->getActionUrlWithParams($component->getActionUrl(), [], $component->getTableId()), $filter_fields, array_fill(0, count($filter_fields), false), true,
+                ->standard($component->getTableId(), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_FILTER_FIELD_VALUES => true], $component->getTableId()),
+                    $filter_fields,
+                    array_fill(0, count($filter_fields), false), true,
                     true);
         }
     }
@@ -219,8 +221,6 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
      */
     public function handleSettingsInput(Table $component, Settings $settings) : Settings
     {
-        //if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
-
         $sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
         $sort_field_direction = intval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
         if (!empty($sort_field) && !empty($sort_field_direction)) {
@@ -264,9 +264,16 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         }
 
         if (count($component->getFilterFields()) > 0) {
-            $this->initFilterForm($component, $settings);
-            try {
-                $data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
+            $filter_field_values = boolval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_FILTER_FIELD_VALUES, $component->getTableId())));
+            if ($filter_field_values) {
+
+                $this->initFilterForm($component, $settings);
+
+                try {
+                    $data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
+                } catch (Throwable $ex) {
+                    $data = [];
+                }
 
                 $settings = $settings->withFilterFieldValues($data);
 
@@ -275,8 +282,6 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
                     $settings = $settings->withCurrentPage(); // Reset current page on filter change
                 }
-            } catch (Throwable $ex) {
-
             }
         }
 
@@ -397,7 +402,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     {
         return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Format $format) use ($component): Shy {
             return $this->dic->ui()->factory()->button()
-                ->shy($format->getDisplayTitle(), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
+                ->shy($format->getDisplayTitle(),
+                    $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
         }, $component->getFormats()))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_export"));
     }
 

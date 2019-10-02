@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Table\Data\Settings\Storage;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
+use ILIAS\UI\Component\Table\Data\Table;
 
 /**
  * Interface SettingsStorage
@@ -45,7 +45,7 @@ interface SettingsStorage
     /**
      * @var string
      */
-    const VAR_FIELD_VALUES = "field_values";
+    const VAR_FILTER_FIELD_VALUES = "filter_field_values";
     /**
      * @var string
      */
@@ -70,7 +70,7 @@ interface SettingsStorage
             self::VAR_SORT_FIELDS,
             self::VAR_ROWS_COUNT,
             self::VAR_CURRENT_PAGE,
-            self::VAR_FIELD_VALUES,
+            self::VAR_FILTER_FIELD_VALUES,
             self::VAR_SELECTED_COLUMNS
         ];
 
