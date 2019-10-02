@@ -33,7 +33,8 @@ if ($_GET['new_ui'] == '1') {
 		$mainbar,
 		$breadcrumbs,
 		$logo,
-		$footer
+		$footer,
+		'UI PAGE DEMO'
 	)
 	->withUIDemo(true);
 	;

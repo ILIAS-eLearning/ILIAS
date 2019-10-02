@@ -19,11 +19,11 @@ interface Factory
 	 *
 	 *   composition: >
 	 *     The main parts of a Page are the Metabar, the Mainbar providing
-	 *     main navigation, the logo, breadcrumbs and, of course, the pages's
+	 *     main navigation, the logo, title, breadcrumbs and, of course, the pages's
 	 *     content. "Content" in this case is the part of the page that is
 	 *     not Mainbar, Metabar, Footer or Locator, but e.g. the Repository-Listing,
 	 *     an object's view or edit form, etc.
-	 *     The locator (in form of breadcrumbs) and the logo are optional.
+	 *     The locator (in form of breadcrumbs),the logo and title are optional.
 	 *
 	 * featurewiki:
 	 *   - Desktop: https://docu.ilias.de/goto_docu_wiki_wpage_4563_1357.html
@@ -44,6 +44,7 @@ interface Factory
 	 * @param  \ILIAS\UI\Component\MainControls\Mainbar $mainbar
 	 * @param  \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs $locator
 	 * @param  \ILIAS\UI\Component\MainControls\Footer $footer
+	 * @param  string $title
 	 * @return \ILIAS\UI\Component\Layout\Page\Standard
 	 */
 	public function standard(
@@ -52,7 +53,8 @@ interface Factory
 		MainControls\Mainbar $mainbar = null,
 		Breadcrumbs $locator = null,
 		Image $logo = null,
-		MainControls\Footer $footer = null
+		MainControls\Footer $footer = null,
+		string $title = ''
 	): Standard;
 
 }

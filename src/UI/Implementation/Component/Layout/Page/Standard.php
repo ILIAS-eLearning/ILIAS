@@ -45,6 +45,10 @@ class Standard implements Page\Standard {
 	 */
 	private $footer;
 	/**
+	 * @var	string
+	 */
+	private $title;
+	/**
 	 * @var	bool
 	 */
 	private $with_headers = true;
@@ -70,7 +74,8 @@ class Standard implements Page\Standard {
 		MainBar $mainbar = null,
 		Breadcrumbs $locator = null,
 		Image $logo = null,
-		Footer $footer = null
+		Footer $footer = null,
+		string $title = ''
 	) {
 		$allowed = [\ILIAS\UI\Component\Component::class];
 		$this->checkArgListElements("content", $content, $allowed);
@@ -81,6 +86,7 @@ class Standard implements Page\Standard {
 		$this->breadcrumbs = $locator;
 		$this->logo = $logo;
 		$this->footer = $footer;
+		$this->title = $title;
 	}
 
 	/**
@@ -248,5 +254,17 @@ class Standard implements Page\Standard {
 		$clone = clone $this;
 		$clone->ui_demo = $switch;
 		return $clone;
+	}
+
+	public function withTitle(string $title): Page\Standard
+	{
+		$clone = clone $this;
+		$clone->title = $title;
+		return $clone;
+	}
+
+	public function getTitle(): string
+	{
+		return $this->title;
 	}
 }
