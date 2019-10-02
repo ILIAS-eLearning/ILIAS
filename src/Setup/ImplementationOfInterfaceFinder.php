@@ -50,8 +50,7 @@ class ImplementationOfInterfaceFinder
         $regexp = implode(
             "|",
             array_map(
-                // fix path-separators to respect windows' backspaces.
-                function ($v) { return "(".str_replace($v, '/', '(/|\\\\)').")"; },
+                function ($v) { return "($v)"; },
                 $this->ignore
             )
         );
