@@ -518,6 +518,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		if(!$a_posting_ids)
 		{
 			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+            if (ilObject::_lookupType($a_blog_id) != "blog") {
+                return;
+            }
 			$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 			$blog->disableNotes(!$this->enable_comments);
 			$blog->setContentStyleSheet();

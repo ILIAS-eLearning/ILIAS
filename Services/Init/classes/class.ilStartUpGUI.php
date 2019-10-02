@@ -20,6 +20,10 @@ class ilStartUpGUI
 	/** @var \ilCtrl */
 	protected $ctrl;
 	protected $lng;
+
+	/**
+	 * @var \ilLogger | null
+	 */
 	protected $logger;
 
 	/** @var \ilGlobalTemplate */
@@ -191,11 +195,12 @@ class ilStartUpGUI
 		$this->logger->debug('No valid session -> show login');
 		$this->showLoginPage();
 	}
-	
-	
+
+
 	/**
 	 * @todo check for forced authentication like ecs, ...
 	 * Show login page
+	 * @param \ilPropertyFormGUI|null $form
 	 */
 	protected function showLoginPage(ilPropertyFormGUI $form = null)
 	{
@@ -243,266 +248,6 @@ class ilStartUpGUI
 		$tpl->printToStdout("DEFAULT", false);
 	}
 
-	/**
-	 * Show login
-	 *
-	 * @global ilLanguage $lng
-	 * @deprecated since 5.2
-	 */
-	protected function showLogin()
-	{
-		global $ilSetting, $ilAuth, $tpl, $ilias, $lng;		
-				
-		$this->getLogger()->warning('Using deprecated startup method');
-		$this->getLogger()->logStack(ilLogLevel::WARNING);
-
-		$status = $ilAuth->getStatus();
-		if ($status == "" && isset($_GET["auth_stat"]))
-		{
-			$status = $_GET["auth_stat"];
-		}
-		
-		if($ilAuth->getAuth() && !$status)
-		{			
-			// deprecated?
-			if ($_GET["rep_ref_id"] != "")
-			{
-				$_GET["ref_id"] = $_GET["rep_ref_id"];
-			}
-			include_once './Services/Init/classes/class.ilInitialisation.php';
-			ilInitialisation::redirectToStartingPage();
-			return;
-		}
-		
-		// check for session cookies enabled
-		if (!isset($_COOKIE['iltest']))
-		{
-			if (empty($_GET['cookies']))
-			{
-				$additional_params = '';
-				ilUtil::setCookie("iltest","cookie",false);
-				ilUtil::redirect("login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"].
-					"&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".
-					rawurlencode(CLIENT_ID)."&lang=".$lng->getLangKey().$additional_params);
-			}
-			else
-			{
-				$_COOKIE['iltest'] = "";
-			}
-		}
-		else
-		{
-			unset($_GET['cookies']);
-		}
-	
-		if ($ilSetting->get("shib_active") && $ilSetting->get("shib_hos_type"))
-		{
-			require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";
-			// Check if we user selects Home Organization
-			$WAYF = new ShibWAYF();
-		}
-
-		if (isset($WAYF) && $WAYF->is_selection())
-		{
-			if ($WAYF->is_valid_selection())
-			{
-				// Set cookie
-				$WAYF->setSAMLCookie();
-
-				// Redirect
-				$WAYF->redirect();
-			}
-		}
-		
-		$failure = $success = null;
-
-		// :TODO: handle internally?
-		if (isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
-		{
-			$lng->loadLanguageModule('registration');
-			if($_GET['reg_confirmation_msg'] == 'reg_account_confirmation_successful')
-			{
-			    $success = $lng->txt(trim($_GET['reg_confirmation_msg']));
-			}
-			else
-			{
-				$failure = $lng->txt(trim($_GET['reg_confirmation_msg']));
-			}
-		}
-		else if(isset($_GET['reached_session_limit']) && $_GET['reached_session_limit'])
-		{
-			$failure = $lng->txt("reached_session_limit");
-		}
-		else if(isset($_GET['accdel']) && $_GET['accdel'])
-		{
-			$lng->loadLanguageModule('user');
-			$failure = $lng->txt("user_account_deleted_confirmation");
-		}
-			
-		if (!empty($status))
-		{					
-			switch ($status)
-			{
-				case AUTH_IDLED:
-					// lang variable err_idled not existing
-					// $tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
-					// fallthrough
-				
-				case AUTH_EXPIRED:
-					$failure = $lng->txt("err_session_expired");
-					break;
-
-				case AUTH_CAS_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_cas_no_ilias_user");
-					break;
-
-				case AUTH_SOAP_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_soap_no_ilias_user");
-					break;
-
-				case AUTH_LDAP_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_ldap_no_ilias_user");
-					break;
-				
-				case AUTH_RADIUS_NO_ILIAS_USER:
-					$failure = $lng->txt("err_auth_radius_no_ilias_user");
-					break;
-					
-				case AUTH_MODE_INACTIVE:
-					$failure = $lng->txt("err_auth_mode_inactive");
-					break;
-
-				case AUTH_APACHE_FAILED:
-					$failure = $lng->txt("err_auth_apache_failed");
-					break;
-				case AUTH_SAML_FAILED:
-					$lng->loadLanguageModule('auth');
-					$failure = $lng->txt("err_auth_saml_failed");
-					break;
-				case AUTH_CAPTCHA_INVALID:
-					$lng->loadLanguageModule('cptch');
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_CAPTCHA);
-					$ilAuth->logout();
-					session_destroy();
-					$failure = $lng->txt("cptch_wrong_input");
-					break;
-				
-				// special cases: extended user validation failed
-				// ilAuth was successful, so we have to logout here
-				
-				case AUTH_USER_WRONG_IP:				
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_IP);
-					$ilAuth->logout();
-					session_destroy();
-
-					$failure = sprintf($lng->txt('wrong_ip_detected'), $_SERVER['REMOTE_ADDR']);
-					break;
-
-				case AUTH_USER_SIMULTANEOUS_LOGIN:
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_SIMUL);
-					$ilAuth->logout();
-					session_destroy();
-
-					$failure = $lng->txt("simultaneous_login_detected");
-					break;
-
-				case AUTH_USER_TIME_LIMIT_EXCEEDED:
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_TIME);
-					$username = $ilAuth->getExceededUserName(); // #16327
-					$ilAuth->logout();
-
-					// user could reactivate by code?
-					if($ilSetting->get('user_reactivate_code'))
-					{				
-						return $this->showCodeForm($username);
-					}
-
-					session_destroy();				
-
-					$failure = $lng->txt("time_limit_reached");		
-					break;	
-					
-				case AUTH_USER_INACTIVE:
-					ilSession::setClosingContext(ilSession::SESSION_CLOSE_INACTIVE);
-					$ilAuth->logout();
-					session_destroy();
-					
-					$failure = $lng->txt("err_inactive");
-					break;
-					
-				// special cases end
-					
-				
-				case AUTH_WRONG_LOGIN:					
-				default:
-					$add = "";
-					$auth_error = $ilias->getAuthError();
-					if (is_object($auth_error))
-					{
-						$add = "<br>".$auth_error->getMessage();
-					}
-					$failure = $lng->txt("err_wrong_login").$add;
-					break;								
-			}			
-		}
-		
-		if (isset($_GET['cu']) && $_GET['cu'])
-		{
-			$lng->loadLanguageModule("auth");
-		    $success = $lng->txt("auth_account_code_used");
-		}
-		
-		
-		// --- render
-		
-		// Instantiate login template
-		self::initStartUpTemplate("tpl.login.html");
-
-		// we need the template for this
-		if($failure)
-		{
-			ilUtil::sendFailure($failure);
-		}
-		else if($success)
-		{
-			ilUtil::sendSuccess($success);
-		}
-
-		// Draw single page editor elements
-		$page_editor_html = $this->getLoginPageEditorHTML();
-		$page_editor_html = $this->showLoginInformation($page_editor_html);
-		$page_editor_html = $this->showLoginForm($page_editor_html);
-		$page_editor_html = $this->showCASLoginForm($page_editor_html);
-		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
-		$page_editor_html = $this->showSamlLoginForm($page_editor_html);
-		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
-		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
-		$page_editor_html = $this->purgePlaceholders($page_editor_html);
-		
-		// not controlled by login page editor
-		$tpl->setVariable("PAGETITLE",  "- ".$lng->txt("startpage"));
-		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-		
-		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
-
-		// browser does not accept cookies
-		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
-		{
-			ilUtil::sendFailure($lng->txt("err_no_cookies"));
-		}
-
-		if(strlen($page_editor_html))
-		{
-			$tpl->setVariable('LPE',$page_editor_html);
-		}
-
-		$tpl->fillWindowTitle();
-		$tpl->fillCssFiles();
-		$tpl->fillJavaScriptFiles();
-
-		$tpl->printToStdout("DEFAULT", false);
-	}
-	
 	protected function showCodeForm($a_username = null, $a_form = null)
 	{
 		global $tpl, $lng;
@@ -559,7 +304,7 @@ class ilStartUpGUI
 		global $lng, $ilAuth, $ilCtrl;
 		
 		$uname = $_POST["uname"];
-		
+
 		$form = $this->initCodeForm($uname);
 		if($uname && $form->checkInput())
 		{
@@ -572,7 +317,7 @@ class ilStartUpGUI
 				
 				if(!$user_id = ilObjUser::_lookupId($uname))
 				{
-					$this->showLogin();
+					$this->showLoginPage();
 					return false;
 				}
 				
@@ -972,7 +717,8 @@ class ilStartUpGUI
 					return;
 					
 				case ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED:
-					return $this->showCodeForm(ilObjUser::_lookupLogin($status->getAuthenticatedUserId()));
+					$uname = ilObjUser::_lookupLogin($status->getAuthenticatedUserId());
+					return $this->showLoginPage($this->initCodeForm($uname));
 
 				case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
 					return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
@@ -1623,73 +1369,6 @@ class ilStartUpGUI
 	}
 
 	/**
-	* Show user selection screen, if external account could not be mapped
-	* to an ILIAS account, but the provided e-mail address is known.
-	*/
-	function showUserMappingSelection()
-	{
-		global $ilAuth, $tpl, $lng;
-
-		$valid = $ilAuth->getValidationData();
-
-		self::initStartUpTemplate("tpl.user_mapping_selection.html");
-		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
-
-
-		if ($ilAuth->getSubStatus() == AUTH_WRONG_LOGIN)
-		{
-			ilUtil::sendFailure($lng->txt("err_wrong_login"));
-		}
-
-		include_once('./Services/User/classes/class.ilObjUser.php');
-		if (count($email_user) == 1)
-		{
-			//$user = new ilObjUser(key($email_user));
-			$tpl->setCurrentBlock("one_user");
-			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
-			$tpl->setVariable("VAL_USERNAME", current($email_user));
-			$tpl->setVariable("USER_ID", key($email_user));
-			$tpl->parseCurrentBlock();
-		}
-		else
-		{
-			foreach($email_user as $key => $login)
-			{
-				$tpl->setCurrentBlock("user");
-				$tpl->setVariable("USR_ID", $key);
-				$tpl->setVariable("VAL_USER", $login);
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setCurrentBlock("multpiple_user");
-			$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setCurrentBlock("content");
-		$this->ctrl->setParameter($this, "ext_uid", urlencode($_GET["ext_uid"]));
-		$this->ctrl->setParameter($this, "soap_pw", urlencode($_GET["soap_pw"]));
-		$this->ctrl->setParameter($this, "auth_stat", $_GET["auth_stat"]);
-		$tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-		$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
-		if (count($email_user) == 1)
-		{
-			$tpl->setVariable("TXT_EXPLANATION", $lng->txt("ums_explanation"));
-			$tpl->setVariable("TXT_EXPLANATION_2", $lng->txt("ums_explanation_2"));
-		}
-		else
-		{
-			$tpl->setVariable("TXT_EXPLANATION", $lng->txt("ums_explanation_3"));
-			$tpl->setVariable("TXT_EXPLANATION_2", $lng->txt("ums_explanation_4"));
-		}
-		$tpl->setVariable("TXT_CREATE_USER", $lng->txt("ums_create_new_account"));
-		$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
-		$tpl->setVariable("PASSWORD", ilUtil::prepareFormOutput($_POST["password"]));
-		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
-
-		$tpl->printToStdout();
-	}
-
-	/**
 	* show client list
 	*/
 	function showClientList()
@@ -2132,22 +1811,22 @@ class ilStartUpGUI
 
 	public function confirmRegistration()
 	{
-		\ilUtil::setCookie('iltest', 'cookie', false);
+		ilUtil::setCookie('iltest', 'cookie', false);
 
 		if (!isset($_GET['rh']) || !strlen(trim($_GET['rh']))) {
 			$this->ctrl->redirectToURL('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
 		}	
 
 		try {
-			$oRegSettings = new \ilRegistrationSettings();
+			$oRegSettings = new ilRegistrationSettings();
 
-			$usr_id = \ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
+			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
 			/** @var \ilObjUser $user */
-			$user = \ilObjectFactory::getInstanceByObjId($usr_id);
+			$user = ilObjectFactory::getInstanceByObjId($usr_id);
 			$user->setActive(true);
 			$password = '';
 			if ($oRegSettings->passwordGenerationEnabled()) {
-				$passwords = \ilUtil::generatePasswords(1);
+				$passwords = ilUtil::generatePasswords(1);
 				$password = $passwords[0];
 				$user->setPasswd($password, IL_PASSWD_PLAIN);
 				$user->setLastPasswordChangeTS(time());
@@ -2156,19 +1835,23 @@ class ilStartUpGUI
 
 			$target = $user->getPref('reg_target');
 			if (strlen($target) > 0) {
-				// Used for \ilAccountMail in \ilAccountRegistrationMail, which relies on this super global ...
+				// Used for ilAccountMail in ilAccountRegistrationMail, which relies on this super global ...
 				$_GET['target'] = $target;
 			}
 
-			$accountMail = new \ilAccountRegistrationMail($oRegSettings, $this->lng);
+			$accountMail = new ilAccountRegistrationMail(
+				$oRegSettings,
+				$this->lng,
+				ilLoggerFactory::getLogger('user')
+			);
 			$accountMail->withEmailConfirmationRegistrationMode()->send($user, $password);
 
 			$this->ctrl->redirectToURL(sprintf(
 				'./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang=%s',
 				$user->getLanguage()
 			));
-		} catch(\ilRegConfirmationLinkExpiredException $exception) {
-			$soap_client = new \ilSoapClient();
+		} catch(ilRegConfirmationLinkExpiredException $exception) {
+			$soap_client = new ilSoapClient();
 			$soap_client->setResponseTimeout(1);
 			$soap_client->enableWSDL(true);
 			$soap_client->init();
@@ -2187,7 +1870,7 @@ class ilStartUpGUI
 				'./login.php?cmd=force_login&reg_confirmation_msg=%s',
 				$exception->getMessage()
 			));
-		} catch(\ilRegistrationHashNotFoundException $exception) {
+		} catch(ilRegistrationHashNotFoundException $exception) {
 			$this->ctrl->redirectToURL(sprintf(
 				'./login.php?cmd=force_login&reg_confirmation_msg=%s',
 				$exception->getMessage()

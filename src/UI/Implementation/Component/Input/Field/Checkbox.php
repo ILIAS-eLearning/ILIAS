@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -104,5 +105,19 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 	 */
 	public function withOnLoad(C\Signal $signal) {
 		return $this->withTriggeredSignal($signal, 'load');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getUpdateOnLoadCode(): \Closure
+	{
+		return function ($id) {
+			$code = "$('#$id').on('input', function(event) {
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());
+		});
+		il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());";
+			return $code;
+		};
 	}
 }

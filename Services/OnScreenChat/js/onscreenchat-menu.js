@@ -133,23 +133,6 @@
 					}
 				}
 
-				if (getModule().config.rooms.length > 0) {
-					templates += '<div class="dropdown-header">' + il.Language.txt('chat_osc_section_head_other_rooms') + '</div>';
-					
-					for (var index in getModule().config.rooms) {
-						if (getModule().config.rooms.hasOwnProperty(index)) {
-							var room = getModule().config.rooms[index],
-								template = getModule().config.roomTemplate;
-
-							template = template.replace(/\[\[icon\]\]/g, room.icon);
-							template = template.replace(/\[\[url\]\]/g, room.url);
-							template = template.replace(/\[\[name\]\]/g, room.name);
-
-							templates += template;
-						}
-					}
-				}
-
 				getModule().content.find('#onscreenchatmenu-content').html(templates);
 
 				il.ExtLink.autolink($('#onscreenchatmenu-content').find('[data-onscreenchat-body-last-msg]'));

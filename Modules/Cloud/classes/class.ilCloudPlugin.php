@@ -9,43 +9,38 @@ include_once("class.ilObjCloud.php");
  *
  * Base Class for the model of the plugin. Probably will be extended by most plugins.
  *
- * @author Timon Amstutz timon.amstutz@ilub.unibe.ch
+ * @author  Timon Amstutz timon.amstutz@ilub.unibe.ch
  * @version $Id$
  *
  * @ingroup ModulesCloud
  */
 class ilCloudPlugin
 {
+
     /**
      * @var
      */
     protected $obj_id;
-
     /**
      * @var ilCloudHookPlugin
      */
     protected $plugin_hook_object;
-
     /**
      * @var string
      */
     protected $table_name = "";
-
     /**
      * @var ilCloudPluginConfig
      */
     protected $admin_config_object;
-
     /**
      * @var ilObjCloud
      */
     protected $cloud_modul_object;
-
     /**
      * @var int
      */
     protected $max_file_size = 25;
-
     /**
      * @var bool
      */
@@ -59,26 +54,24 @@ class ilCloudPlugin
         $this->setObjId($obj_id);
 
         $this->plugin_hook_object = ilCloudConnector::getPluginHookClass($service_name);
-        if (!is_object($this->plugin_hook_object))
-        {
+        if (!is_object($this->plugin_hook_object)) {
             throw new ilCloudException(ilCloudException::PLUGIN_HOOK_COULD_NOT_BE_INSTANTIATED);
         }
         $this->admin_config_object = new ilCloudPluginConfig($this->plugin_hook_object->getPluginConfigTableName());
-        if (!$this->read())
-        {
+        if (!$this->read()) {
             $this->create();
         }
 
-        if(!$cloud_modul_object)
-        {
-	        // in the context of deleting, it's possible that the ilObjCloud with this obj_id is already pushing up the daisies
-	        // so instantiating it would lead to an error
+        if (!$cloud_modul_object) {
+            // in the context of deleting, it's possible that the ilObjCloud with this obj_id is already pushing up the daisies
+            // so instantiating it would lead to an error
             if ($obj_id == 0 || ilObjCloud::_exists($obj_id, false, 'cld')) {
-		        $cloud_modul_object = new ilObjCloud($obj_id, false);
-	        }
+                $cloud_modul_object = new ilObjCloud($obj_id, false);
+            }
         }
         $this->setCloudModulObject($cloud_modul_object);
     }
+
 
     /**
      * @param  $obj_id
@@ -88,6 +81,7 @@ class ilCloudPlugin
         $this->obj_id = $obj_id;
     }
 
+
     /**
      * @return
      */
@@ -95,6 +89,7 @@ class ilCloudPlugin
     {
         return $this->obj_id;
     }
+
 
     /**
      * @return \ilCloudHookPlugin
@@ -104,6 +99,7 @@ class ilCloudPlugin
         return $this->plugin_hook_object;
     }
 
+
     /**
      * @return \ilCloudPluginConfig
      */
@@ -112,6 +108,7 @@ class ilCloudPlugin
         return $this->admin_config_object;
     }
 
+
     /**
      * @param \ilCloudHookPlugin $plugin_hook_object
      */
@@ -119,6 +116,7 @@ class ilCloudPlugin
     {
         $this->plugin_hook_object = $plugin_hook_object;
     }
+
 
     /**
      * @return string
@@ -131,19 +129,20 @@ class ilCloudPlugin
 
     /**
      * @param boolean $async_drawing
-
-    public function setAsyncDrawing($async_drawing)
-    {
-        $this->async_drawing = $async_drawing;
-    }
-
-    /**
+     *
+     * public function setAsyncDrawing($async_drawing)
+     * {
+     * $this->async_drawing = $async_drawing;
+     * }
+     *
+     * /**
+     *
      * @return boolean
      *
-    public function getAsyncDrawing()
-    {
-        return $this->async_drawing;
-    }*/
+     * public function getAsyncDrawing()
+     * {
+     * return $this->async_drawing;
+     * }*/
 
     /**
      * @param int $max_file_size
@@ -153,6 +152,7 @@ class ilCloudPlugin
         $this->max_file_size = $max_file_size;
     }
 
+
     /**
      * @return int
      */
@@ -160,6 +160,7 @@ class ilCloudPlugin
     {
         return $this->max_file_size;
     }
+
 
     /**
      * @param $cloud_modul_object
@@ -169,6 +170,7 @@ class ilCloudPlugin
         $this->cloud_modul_object = $cloud_modul_object;
     }
 
+
     /**
      * @return ilObjCloud
      */
@@ -177,6 +179,7 @@ class ilCloudPlugin
         return $this->cloud_modul_object;
     }
 
+
     /**
      * $return integer
      */
@@ -184,16 +187,21 @@ class ilCloudPlugin
     {
         include_once("./Modules/Cloud/classes/class.ilObjCloud.php");
         $cloud_object = new ilObjCloud($this->getObjId(), false);
+
         return $cloud_object->getOwnerId();
     }
 
-    public function read(){}
 
-    public function create(){}
+    public function read() { }
 
-    public function doUpdate(){}
 
-    public function doDelete(){}
+    public function create() { }
+
+
+    public function doUpdate() { }
+
+
+    public function doDelete() { }
 }
 
 ?>

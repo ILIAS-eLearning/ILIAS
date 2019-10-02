@@ -74,24 +74,4 @@ class Select extends Input implements C\Input\Field\Select {
 			return $code;
 		};
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function withOnUpdate(Signal $signal)
-	{
-		// TODO: This method will need to be removed.
-		// See ILIAS\UI\Implementation\Component\Input\Field\Input
-		return $this->withTriggeredSignal($signal, 'update');
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function appendOnUpdate(Signal $signal)
-	{
-		// TODO: This method will need to be removed.
-		// See ILIAS\UI\Implementation\Component\Input\Field\Input
-		return $this->appendTriggeredSignal($signal, 'update');
-	}
 }

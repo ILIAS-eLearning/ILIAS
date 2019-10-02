@@ -27,13 +27,16 @@ class NewsMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("nwss", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/feed.svg"), "");
+
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_news'))
                 ->withTitle($this->dic->language()->txt("mm_news"))
                 ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(30)
-	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("nwss", "")->withIsOutlined(true))
+	            ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($dic) {

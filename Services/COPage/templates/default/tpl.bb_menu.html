@@ -160,6 +160,21 @@ il.COPageBB = {
 		t.insertBBTabs(bbopen, bbclose);
 	},
 
+	setCharacterClass: function(i)
+	{
+		var t = i.hid_val;
+		var stype = {Strong: 'str', Emph: 'emp', Important: 'imp', Comment: 'com',
+			Quotation: 'quot', Accent: 'acc', Code: 'code'};
+		if (stype[t]) {
+			il.COPageBB.applyCommand(stype[t]);
+		} else {
+			il.COPageBB.insertBBTabs('[marked class="' + t + '"]', '[/marked]');
+		}
+
+		console.log(t);
+		return false;
+	},
+
 	insertBBTabs: function (bbopen, bbclose) {
 
 		theSelection = false;

@@ -341,9 +341,9 @@ class ilObject
 	* @access	public
 	* @return	integer	object id
 	*/
-	function getId()
+	function getId() : int
 	{
-		return $this->id;
+		return (int) $this->id;
 	}
 
 	/**
@@ -353,7 +353,7 @@ class ilObject
 	*/
 	function setId($a_id)
 	{
-		$this->id = $a_id;
+		$this->id = (int) $a_id;
 	}
 
 	/**
@@ -1982,6 +1982,9 @@ class ilObject
 		$customIconFactory = $DIC['object.customicons.factory'];
 		$customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
 		$customIcon->copy($new_obj->getId());
+
+        $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($this->getId());
+        $tile_image->copy($new_obj->getId());
 
 		$ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
 			'object'             => $new_obj,

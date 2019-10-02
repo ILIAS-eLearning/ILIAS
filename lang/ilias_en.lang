@@ -47,6 +47,7 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -3237,7 +3238,7 @@ common#:#optimize#:#Optimize
 common#:#option#:#Option
 common#:#optional_filters#:#Optional Filters
 common#:#options#:#Options
-common#:#order_by_date#:#Order by Date
+common#:#order_by_date#:#By Date
 common#:#order_by#:#Order by
 common#:#organization#:#Provider
 common#:#other#:#Other
@@ -7130,7 +7131,7 @@ style#:#sty_media_char#:#Media
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
-style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
@@ -9929,7 +9930,7 @@ common#:#obj_mep_duplicate#:#Copy Media Pool
 common#:#obj_mcst_duplicate#:#Copy Mediacast
 common#:#obj_glo_duplicate#:#Copy Glossary
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module
-forum#:#sort_by_posts#:#Sort by Posts
+forum#:#sort_by_posts#:#By Reply
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.
 forum#:#number_of_threads#:#Displayed Number of Threads per Page
 forum#:#frm_rating#:#Rating
@@ -10427,7 +10428,7 @@ trac#:#trac_lp_learner_access_info#:#If active, users can access their own learn
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 search#:#search_option_online#:#Online
 search#:#search_option_offline#:#Offline
-forum#:#sort_by_date#:#Sort by date
+forum#:#sort_by_date#:#By Date
 forum#:#error_reading_file#:#There was an error reading the file
 rbac#:#lp_other_users#:#See learning progress overview of other users
 rbac#:#trac_lp_other_users#:#See learning progress overview of other users
@@ -13540,6 +13541,7 @@ logging#:#log_error_settings#:#Error logging settings
 logging#:#error_settings_saved#:#Saved settings
 logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
+logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 blog#:#blog_show_latest#:#Show latest postings/drafts
@@ -14031,7 +14033,6 @@ chatroom#:#chat_osc_user#:#User
 chatroom#:#chat_osc_write_a_msg#:#Write a Message ...
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.
-chatroom#:#chat_osc_section_head_other_rooms#:#Public Chatroom
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
@@ -14068,6 +14069,8 @@ chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
+common#:#nc_mail_unread_messages_number_p#:#You have %s unread emails.
+common#:#nc_mail_unread_messages_number_s#:#You have one unread email.
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
@@ -14836,7 +14839,7 @@ exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be us
 exc#:#exc_num_teams#:#Number
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_max_team_participants#:#Maximal Number
-exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_total_members#:#Total Exercise Participants
 exc#:#exc_value_can_not_set#:#This value can not be set.
 exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
 exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
@@ -15200,3 +15203,8 @@ common#:#mm_repo_tree_view_act#:#Activate Tree
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree
 content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
+exc#:#exc_text_saved#:#Text has been saved.
+common#:#nc_contact_requests_headline#:#Contact Requests
+common#:#nc_contact_requests_number_s#:#You have %s Contact Request
+common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
+exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.

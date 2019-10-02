@@ -137,7 +137,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $this->sortationOptions = array(
             ilForumProperties::VIEW_TREE => 'sort_by_posts',
-            ilForumProperties::VIEW_DATE => 'order_by_date'
+            ilForumProperties::VIEW_DATE => 'sort_by_date'
         );
 
         $this->defaultSorting = ilForumProperties::VIEW_TREE;
@@ -2486,9 +2486,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                             ->context()
                             ->current();
 
-        $additionalDataExists = $toolContext->getAdditionalData()->exists(ilForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL);
+        $additionalDataExists = $toolContext->getAdditionalData()->exists(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL);
         if (false === $additionalDataExists && $_SESSION['viewmode'] === ilForumProperties::VIEW_TREE) {
-            $toolContext->addAdditionalData(ilForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL, true);
+           $toolContext->addAdditionalData(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL, true);
         }
 
         // init objects
@@ -2541,10 +2541,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 }
             } catch (Exception $e) {
             }
-        }
-
-        if ($this->isHierarchicalView()) {
-            $exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread', $this->objCurrentTopic);
         }
 
         $this->lng->loadLanguageModule('forum');

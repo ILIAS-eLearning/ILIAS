@@ -9,7 +9,8 @@
  *
  * @ingroup ModulesBibliographic
  */
-class ilObjBibliographicAdminAccess extends ilObjectAccess {
+class ilObjBibliographicAdminAccess extends ilObjectAccess
+{
 
 }
 

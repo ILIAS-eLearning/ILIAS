@@ -53,7 +53,10 @@ class BaseMetaBarItemRenderer implements MetaBarItemRenderer
         switch (true) {
             case ($item instanceof LinkItem):
             case ($item instanceof TopLinkItem):
-                $component = $f->link()->bulky($item->getSymbol(), $item->getTitle(), $this->getURI($item->getAction()));
+                $component = $f->button()->bulky(
+                	$item->getSymbol(),
+	                $item->getTitle(),
+	                $item->getAction());
                 break;
             case ($item instanceof TopLegacyItem):
                 $component = $f->mainControls()->slate()->legacy($item->getTitle(), $item->getSymbol(), $item->getLegacyContent());

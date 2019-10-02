@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
 
 class Renderer extends AbstractComponentRenderer {
@@ -31,6 +32,10 @@ class Renderer extends AbstractComponentRenderer {
 		if ($component instanceof MetaBar) {
 			return $this->renderMetabar($component, $default_renderer);
 		}
+		if ($component instanceof Footer) {
+			return $this->renderFooter($component, $default_renderer);
+		}
+
 	}
 
 	protected function renderMainbar(MainBar $component, RendererInterface $default_renderer) {
@@ -254,6 +259,27 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->setVariable('ID', $id);
 	}
 
+	protected function renderFooter(Footer $component, RendererInterface $default_renderer)
+	{
+		$tpl = $this->getTemplate("tpl.footer.html", true, true);
+		$links = $component->getLinks();
+		if($links) {
+			$link_list = $this->getUIFactory()->listing()->unordered($links);
+			$tpl->setVariable('LINKS', $default_renderer->render($link_list));
+		}
+
+		$tpl->setVariable('TEXT', $component->getText());
+
+		$perm_url = $component->getPermanentURL();
+		if($perm_url) {
+
+			$tpl->setVariable(
+				'PERMANENT_URL',
+				$perm_url->getBaseURI() .'?' .$perm_url->getQuery()
+			);
+		}
+		return $tpl->get();
+	}
 
 	/**
 	 * @inheritdoc
@@ -270,7 +296,8 @@ class Renderer extends AbstractComponentRenderer {
 	protected function getComponentInterfaceName() {
 		return array(
 			MetaBar::class,
-			MainBar::class
+			MainBar::class,
+			Footer::class
 		);
 	}
 
