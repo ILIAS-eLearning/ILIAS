@@ -118,6 +118,11 @@ SELECT
 
             $result[$id] = $dataObject;
         }
+
+        if ($filter->getLimitStart() !== null && $filter->getLimitEnd() !== null) {
+            $result = array_slice($result, $filter->getLimitStart(), ($filter->getLimitEnd() - $filter->getLimitStart()));
+        }
+
         return $result;
     }
 
@@ -129,7 +134,7 @@ SELECT
      */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
     {
-        $sql = 'SELECT COUNT(il_cert_user_cert.id) as count
+        $sql = 'SELECT COUNT(DISTINCT il_cert_user_cert.id) as count
         ' . $this->getQuery($filter,true);
 
         $result = $this->database->query($sql);
@@ -160,7 +165,6 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
 
         if (!$max_count_only) {
             $sql.=  ' ' . $this->createOrderByClause($filter);
-            $this->database->setLimit($filter->getLimitEnd(), $filter->getLimitStart());
         }
 
         return $sql;
