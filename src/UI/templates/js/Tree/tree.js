@@ -4,7 +4,16 @@ il.UI = il.UI || {};
 (function($, UI) {
 	UI.tree = (function($) {
 
-		var init = function (component_id, highlight_nodes) {
+		const toggleNodeState = function (event, action, state_param, is_expanded) {
+			action += (action.indexOf("?") !== -1 ? "&" : "?") + encodeURIComponent(state_param) + "=" + (is_expanded ? 0 : 1);
+
+			$.ajax({
+				type: 'POST',
+				url: action
+			});
+		}
+
+		const init = function (component_id, highlight_nodes) {
 			var tree = $('#' + component_id);
 			initNodesForExpansion(tree);
 			initNodesForActions(tree);
@@ -12,18 +21,18 @@ il.UI = il.UI || {};
 			if(highlight_nodes) {
 				initHighlightOnNodeClick(tree);
 			}
-		};
+		}
 
-		var initNodesForExpansion = function (tree) {
+		const initNodesForExpansion = function (tree) {
 			tree.find('.il-tree-node .node-line').click(
-				function(e){
+				function(e) {
 					$(this).parent('.il-tree-node').toggleClass('expanded');
-					return false;
+					e.preventDefault();
 				}
 			);
 		}
 
-		var initNodesForActions = function (tree) {
+		const initNodesForActions = function (tree) {
 			tree.find('.il-tree-node .node-line .node-label a').click(
 				function(e) {
 					let href = $(this).attr('href');
@@ -38,7 +47,7 @@ il.UI = il.UI || {};
 			);
 		}
 
-		var initNodesForAsyncLoading = function (tree) {
+		const initNodesForAsyncLoading = function (tree) {
 			tree.find(".il-tree-node[data-async_url][data-async_loaded='false'] .node-line").click(
 				function(e){
 					var node = $(e.currentTarget).parent('.il-tree-node');
@@ -64,21 +73,21 @@ il.UI = il.UI || {};
 			);
 		};
 
-		var resetNodeHighlights = function(tree) {
+		const resetNodeHighlights = function(tree) {
 			tree.find('.il-tree-node').removeClass('highlighted');
 		}
 
-		var initHighlightOnNodeClick = function(tree) {
+		const initHighlightOnNodeClick = function(tree) {
 			tree.find('.il-tree-node .node-line').click(
 				function(e){
 					resetNodeHighlights(tree);
 					$(this).parent('.il-tree-node').addClass('highlighted');
-						return false;
+						e.preventDefault();
 					}
 			);
 		};
 
-		var registerFurtherNodeSignals = function (id, signals) {
+		const registerFurtherNodeSignals = function (id, signals) {
 			$('#' + id + ' > span').click(
 				function(e){
 					var node = $('#' + id);
@@ -93,7 +102,8 @@ il.UI = il.UI || {};
 
 		return {
 			init: init,
-			registerFurtherNodeSignals: registerFurtherNodeSignals
+			registerFurtherNodeSignals: registerFurtherNodeSignals,
+			toggleNodeState: toggleNodeState
 		}
 
 	})($);

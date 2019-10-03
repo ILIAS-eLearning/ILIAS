@@ -56,6 +56,9 @@ class ilMailExplorer implements TreeRecursion
     /** @var ilSessionIStorage */
     protected $store;
 
+    /** @var int  */
+    protected $currentFolderId = 0;
+
     /**
      * ilMailExplorer constructor.
      * @param $parentObject
@@ -80,6 +83,21 @@ class ilMailExplorer implements TreeRecursion
         if (!is_array($this->open_nodes)) {
             $this->open_nodes = [];
         }
+
+        $this->initFolder();
+    }
+
+    /**
+     *
+     */
+    protected function initFolder() : void
+    {
+        $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
+        if (0 === $folderId) {
+            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? 0);
+        }
+
+        $this->currentFolderId = (int) $folderId;
     }
 
     /**
@@ -99,7 +117,7 @@ class ilMailExplorer implements TreeRecursion
         $tree = $f->tree()
             ->expandable($this)
             ->withData($data)
-            ->withHighlightOnNodeClick(true);
+            ->withHighlightOnNodeClick(false);
 
         return $tree;
     }
@@ -146,7 +164,27 @@ class ilMailExplorer implements TreeRecursion
             $node = $node->withExpanded(true);
         }
 
-        return $node;
+        $node = $node->withAdditionalOnLoadCode(function ($id) use ($record) {
+            $serverNodeId = $record['child'];
+
+            $this->ctrl->setParameterByClass('ilMailGUI', 'node_id', $serverNodeId);
+            $url = $this->ctrl->getLinkTargetByClass(['ilMailGUI'], 'toggleExplorerNodeState', '', true, false);
+            $this->ctrl->setParameterByClass('ilMailGUI', 'node_id', null);
+
+            $code = "$('#$id').on('click', function(event) {
+                let node = $(this);
+
+                if (node.hasClass('expandable')) {
+                    il.UI.tree.toggleNodeState(event, '$url', 'prior_state', node.hasClass('expanded'));
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });";
+
+            return $code;
+        });
+
+        return $node->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
     /**
