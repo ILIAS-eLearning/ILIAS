@@ -74,7 +74,7 @@
 			return $elm;
 		}()), buttons = props.buttons;
 
-		if (props.header != null) {
+		if (props.header !== null) {
 			if (0 === $modal.find("." + $(templates.header).attr("class")).length) {
 				$modal.find(".modal-content").prepend($(templates.header));
 			}
