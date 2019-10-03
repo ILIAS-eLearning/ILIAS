@@ -4,8 +4,8 @@ il.UI = il.UI || {};
 (function($, UI) {
 	UI.tree = (function($) {
 
-		const toggleNodeState = function (event, action, state_param, is_expanded) {
-			action += (action.indexOf("?") !== -1 ? "&" : "?") + encodeURIComponent(state_param) + "=" + (is_expanded ? 0 : 1);
+		const toggleNodeState = function (event, action, state_param, was_expanded) {
+			action += (action.indexOf("?") !== -1 ? "&" : "?") + encodeURIComponent(state_param) + "=" + (was_expanded ? 0 : 1);
 
 			$.ajax({
 				type: 'POST',
