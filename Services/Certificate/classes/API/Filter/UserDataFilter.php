@@ -199,7 +199,6 @@ class UserDataFilter
     /**
      * @param int[] $usrIds
      * @return $this
-     * @throws \ilException
      */
     public function withUserIds(array $usrIds) : self
     {
@@ -214,7 +213,6 @@ class UserDataFilter
     /**
      * @param int[] $usrIds
      * @return $this
-     * @throws \ilException
      */
     public function withAdditionalUserIds(array $usrIds) : self
     {
@@ -230,7 +228,6 @@ class UserDataFilter
      * @param int[] $refIds
      *
      * @return $this
-     * @throws \ilException
      */
     public function withRefIds(array $refIds) : self
     {
@@ -246,7 +243,6 @@ class UserDataFilter
      * @param int[] $refIds
      *
      * @return $this
-     * @throws \ilException
      */
     public function withAdditionalRefIds(array $refIds) : self
     {
