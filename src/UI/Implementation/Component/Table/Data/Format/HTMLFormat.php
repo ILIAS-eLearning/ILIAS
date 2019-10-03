@@ -49,7 +49,7 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, Data $data, Settings $settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void
     {
         $this->tpl = ($this->get_template)("tpl.datatable.html");
 
@@ -86,7 +86,7 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRows(Table $component, array $columns, Data $data, Renderer $renderer) : void
+    protected function handleRows(Table $component, array $columns, ?Data $data, Renderer $renderer) : void
     {
         $this->tpl->setCurrentBlock("body");
 
@@ -147,12 +147,12 @@ class HTMLFormat extends AbstractFormat
 
 
     /**
-     * @param Data  $data
-     * @param Table $component
+     * @param Data|null $data
+     * @param Table     $component
      */
-    protected function handleNoDataText(Data $data, Table $component) : void
+    protected function handleNoDataText(?Data $data, Table $component) : void
     {
-        if ($data->getDataCount() === 0) {
+        if ($data === null || $data->getDataCount() === 0) {
             $this->tpl->setCurrentBlock("no_data");
 
             $this->tpl->setVariable("NO_DATA_TEXT", $component->getDataFetcher()->getNoDataText());

@@ -307,8 +307,8 @@ class Settings implements SettingsInterface
      *
      * @internal
      */
-    public function getPagination(Data $data) : Pagination
+    public function getPagination(?Data $data) : Pagination
     {
-        return $this->pagination->withTotalEntries($data->getMaxCount());
+        return $this->pagination->withTotalEntries($data === null ? 0 : $data->getMaxCount());
     }
 }

@@ -85,7 +85,7 @@ abstract class AbstractFormat implements Format
     /**
      * @inheritDoc
      */
-    public function render(callable $get_template, Table $component, Data $data, Settings $settings, Renderer $renderer) : string
+    public function render(callable $get_template, Table $component, ?Data $data, Settings $settings, Renderer $renderer) : string
     {
         $this->get_template = $get_template;
 
@@ -157,12 +157,12 @@ abstract class AbstractFormat implements Format
 
 
     /**
-     * @param Table    $component
-     * @param Data     $data
-     * @param Settings $settings
-     * @param Renderer $renderer
+     * @param Table     $component
+     * @param Data|null $data
+     * @param Settings  $settings
+     * @param Renderer  $renderer
      */
-    protected abstract function initTemplate(Table $component, Data $data, Settings $settings, Renderer $renderer) : void;
+    protected abstract function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void;
 
 
     /**
@@ -193,15 +193,17 @@ abstract class AbstractFormat implements Format
 
 
     /**
-     * @param Table    $component
-     * @param Column[] $columns
-     * @param Data     $data
-     * @param Renderer $renderer
+     * @param Table     $component
+     * @param Column[]  $columns
+     * @param Data|null $data
+     * @param Renderer  $renderer
      */
-    protected function handleRows(Table $component, array $columns, Data $data, Renderer $renderer) : void
+    protected function handleRows(Table $component, array $columns, ?Data $data, Renderer $renderer) : void
     {
-        foreach ($data->getData() as $row) {
-            $this->handleRow($component, $columns, $row, $renderer);
+        if ($data !== null) {
+            foreach ($data->getData() as $row) {
+                $this->handleRow($component, $columns, $row, $renderer);
+            }
         }
     }
 

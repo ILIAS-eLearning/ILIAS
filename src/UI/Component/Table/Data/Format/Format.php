@@ -74,15 +74,15 @@ interface Format
 
 
     /**
-     * @param callable $get_template
-     * @param Table    $component
-     * @param Data     $data
-     * @param Settings $settings
-     * @param Renderer $renderer
+     * @param callable  $get_template
+     * @param Table     $component
+     * @param Data|null $data
+     * @param Settings  $settings
+     * @param Renderer  $renderer
      *
      * @return string
      */
-    public function render(callable $get_template, Table $component, Data $data, Settings $settings, Renderer $renderer) : string;
+    public function render(callable $get_template, Table $component, ?Data $data, Settings $settings, Renderer $renderer) : string;
 
 
     /**

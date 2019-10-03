@@ -188,11 +188,11 @@ interface Settings
 
 
     /**
-     * @param Data $data
+     * @param Data|null $data
      *
      * @return Pagination
      *
      * @internal
      */
-    public function getPagination(Data $data) : Pagination;
+    public function getPagination(?Data $data) : Pagination;
 }

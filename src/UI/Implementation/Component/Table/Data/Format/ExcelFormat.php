@@ -57,7 +57,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, Data $data, Settings $settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void
     {
         $this->tpl = new ilExcel();
 

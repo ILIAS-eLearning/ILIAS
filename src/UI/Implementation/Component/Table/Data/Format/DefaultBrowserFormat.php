@@ -89,7 +89,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, Data $data, Settings $settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void
     {
         parent::initTemplate($component, $data, $settings, $renderer);
 
@@ -315,12 +315,12 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
 
     /**
-     * @param Table    $component
-     * @param Settings $settings
-     * @param Data     $data
-     * @param Renderer $renderer
+     * @param Table     $component
+     * @param Settings  $settings
+     * @param Data|null $data
+     * @param Renderer  $renderer
      */
-    protected function handleActionsPanel(Table $component, Settings $settings, Data $data, Renderer $renderer) : void
+    protected function handleActionsPanel(Table $component, Settings $settings, ?Data $data, Renderer $renderer) : void
     {
         $this->tpl->setCurrentBlock("actions");
 
@@ -336,13 +336,13 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
 
     /**
-     * @param Table    $component
-     * @param Settings $settings
-     * @param Data     $data
+     * @param Table     $component
+     * @param Settings  $settings
+     * @param Data|null $data
      *
      * @return Component
      */
-    protected function getPagesSelector(Table $component, Settings $settings, Data $data) : Component
+    protected function getPagesSelector(Table $component, Settings $settings, ?Data $data) : Component
     {
         return $settings->getPagination($data)
             ->withTargetURL($component->getActionUrl(), $this->actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
@@ -411,13 +411,13 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
 
     /**
-     * @param Settings $settings
-     * @param Data     $data
+     * @param Settings  $settings
+     * @param Data|null $data
      */
-    protected function handleDisplayCount(Settings $settings, Data $data) : void
+    protected function handleDisplayCount(Settings $settings, ?Data $data) : void
     {
-        $count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount()
-        > 0 ? ($settings->getLimitStart() + 1) : 0), $data->getMaxCount());
+        $count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data !== null && $data->getDataCount() > 0 ? ($settings->getLimitStart() + 1) : 0),
+            ($data === null ? 0 : $data->getMaxCount()));
 
         $this->tpl->setCurrentBlock("count_top");
         $this->tpl->setVariable("COUNT_TOP", $count);
