@@ -158,7 +158,7 @@ LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
 ' . ($filter->shouldIncludeDeletedObjects() ? 'LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id' : '') . '
 LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
 INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE ' . $this->createWhereCondition($filter);
+' . $this->createWhereCondition($filter);
 
         if (!$max_count_only) {
             $sql.=  ' ' . $this->createOrderByClause($filter);
@@ -223,64 +223,74 @@ WHERE ' . $this->createWhereCondition($filter);
      */
     private function createWhereCondition(UserDataFilter $filter) : string
     {
+        $wheres = [];
+
         $userIds = $filter->getUserIds();
-        $sql = $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer');
+        if (!empty($userIds)) {
+            $wheres[] = $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer');
+        }
 
         $refIds = $filter->getRefIds();
-        $sql .= ' AND ' . $this->database->in('object_reference.ref_id', $refIds, false, 'integer');
+        if (!empty($refIds)) {
+            $wheres[] = $this->database->in('object_reference.ref_id', $refIds, false, 'integer');
+        }
 
         $firstName = $filter->getUserFirstName();
         if (null !== $firstName) {
-            $sql .= ' AND ' . $this->database->like('  usr_data.firstname', 'text', '%' . $firstName . '%');
+            $wheres[] = $this->database->like('  usr_data.firstname', 'text', '%' . $firstName . '%');
         }
 
         $lastName = $filter->getUserLastName();
         if (null !== $lastName) {
-            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', '%' . $lastName . '%');
+            $wheres[] = $this->database->like('usr_data.lastname', 'text', '%' . $lastName . '%');
         }
 
         $login = $filter->getUserLogin();
         if (null !== $login) {
-            $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', '%' . $login . '%');
+            $wheres[] = $this->database->like('  usr_data.login', 'text', '%' . $login . '%');
         }
 
         $userEmail = $filter->getUserEmail();
         if (null !== $userEmail) {
-            $sql .= ' AND ( ' . $this->database->like('usr_data.email', 'text', '%' . $userEmail . '%');
-            $sql .= ' OR ' . $this->database->like('usr_data.second_email', 'text', '%' . $userEmail . '%');
-            $sql .= ')';
+            $wheres[] = '(' . $this->database->like('usr_data.email', 'text', '%' . $userEmail . '%')
+                . ' OR ' . $this->database->like('usr_data.second_email', 'text', '%' . $userEmail . '%')
+                . ')';
 
         }
 
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if (null !== $issuedBeforeTimestamp) {
-            $sql .= ' AND il_cert_user_cert.acquired_timestamp < ' . $this->database->quote($issuedBeforeTimestamp,
+            $wheres[] = 'il_cert_user_cert.acquired_timestamp < ' . $this->database->quote($issuedBeforeTimestamp,
                     'integer');
         }
 
         $issuedAfterTimestamp = $filter->getIssuedAfterTimestamp();
         if (null !== $issuedAfterTimestamp) {
-            $sql .= ' AND il_cert_user_cert.acquired_timestamp > ' . $this->database->quote($issuedAfterTimestamp,
+            $wheres[] = 'il_cert_user_cert.acquired_timestamp > ' . $this->database->quote($issuedAfterTimestamp,
                     'integer');
         }
 
         $objectId = $filter->getObjectId();
         if (null !== $objectId) {
-            $sql .= ' AND   il_cert_user_cert.obj_id = ' . $this->database->quote($objectId, 'integer');
+            $wheres[] = 'il_cert_user_cert.obj_id = ' . $this->database->quote($objectId, 'integer');
         }
 
         $title = $filter->getObjectTitle();
         if (null !== $title) {
-            $sql .= ' AND (' . $this->database->like('object_data.title', 'text', '%' . $title . '%');
-            if ($filter->shouldIncludeDeletedObjects()) {
-                $sql .= ' OR ' . $this->database->like('object_data_del.title', 'text', '%' . $title . '%') . ')';
-            }
+            $wheres[] = '(' . $this->database->like('object_data.title', 'text', '%' . $title . '%')
+                . ($filter->shouldIncludeDeletedObjects() ? ' OR ' . $this->database->like('object_data_del.title', 'text', '%' . $title . '%') : '') . ')';
         }
 
         $onlyActive = $filter->isOnlyActive();
         if (true === $onlyActive) {
-            $sql .= ' AND il_cert_user_cert.currently_active = ' . $this->database->quote(1, 'integer');
+            $wheres[] = 'il_cert_user_cert.currently_active = ' . $this->database->quote(1, 'integer');
         }
+
+        if (empty($wheres)) {
+            return '';
+        }
+
+        $sql = ' WHERE ' . implode(' AND ', $wheres);
 
         return $sql;
     }

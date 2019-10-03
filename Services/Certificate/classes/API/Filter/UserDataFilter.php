@@ -62,34 +62,17 @@ class UserDataFilter
     private $shouldIncludeDeletedObjects = true;
 
     /**
-     * @param int[] $usrIds
-     * @param int[] $refIds
-     * @param bool $onlyActive Show only the currently active certificates of the user
-     * @throws \ilException
+     *
      */
-    public function __construct(
-        array $usrIds,
-        array $refIds,
-        bool $onlyActive = true
-    ) {
-        $this->ensureValidUniqueUsrIds($usrIds);
-        $this->ensureValidUniqueRefIds($refIds);
+    public function __construct() {
 
-        $this->userIds = $usrIds;
-        $this->refIds = $refIds;
-        $this->onlyActive = $onlyActive;
     }
 
     /**
      * @param int[] $usrIds
-     * @throws \ilException
      */
     private function ensureValidUniqueUsrIds(array $usrIds) : void
     {
-        if ([] === $usrIds) {
-            throw new \ilException('The passed array of user ids must not be empty!');
-        }
-
         array_walk($usrIds, function (int $usrId) {
             // Do nothing, use this for type safety of array values 
         });
@@ -97,15 +80,9 @@ class UserDataFilter
 
     /**
      * @param int[] $refIds
-     *
-     * @throws \ilException
      */
     private function ensureValidUniqueRefIds(array $refIds) : void
     {
-        if ([] === $refIds) {
-            throw new \ilException('The passed array of ref ids must not be empty!');
-        }
-
         array_walk($refIds, function (int $refId) {
             // Do nothing, use this for type safety of array values
         });
@@ -229,7 +206,7 @@ class UserDataFilter
         $this->ensureValidUniqueUsrIds($usrIds);
 
         $clone = clone $this;
-        $clone->userIds = $usrIds;
+        $clone->userIds = array_unique($usrIds);
 
         return $clone;
     }
@@ -260,7 +237,7 @@ class UserDataFilter
         $this->ensureValidUniqueRefIds($refIds);
 
         $clone = clone $this;
-        $clone->refIds = $refIds;
+        $clone->refIds = array_unique($refIds);
 
         return $clone;
     }
