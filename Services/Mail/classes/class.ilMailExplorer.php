@@ -99,7 +99,7 @@ class ilMailExplorer implements TreeRecursion
         $tree = $f->tree()
             ->expandable($this)
             ->withData($data)
-            ->withHighlightOnNodeClick(true);
+            ->withHighlightOnNodeClick(false);
 
         return $tree;
     }
