@@ -15,15 +15,6 @@ interface RowData
 {
 
     /**
-     * RowData constructor
-     *
-     * @param string $row_id
-     * @param object $original_data
-     */
-    public function __construct(string $row_id, object $original_data);
-
-
-    /**
      * @return string
      */
     public function getRowId() : string;

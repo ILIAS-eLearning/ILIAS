@@ -24,7 +24,9 @@ abstract class AbstractFormater implements Formater
 
 
     /**
-     * @inheritDoc
+     * AbstractFormater constructor
+     *
+     * @param Container $dic
      */
     public function __construct(Container $dic)
     {

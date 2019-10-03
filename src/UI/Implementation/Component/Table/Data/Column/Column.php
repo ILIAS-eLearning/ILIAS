@@ -63,7 +63,11 @@ class Column implements ColumnInterface
 
 
     /**
-     * @inheritDoc
+     * Column constructor
+     *
+     * @param Container $dic
+     * @param string    $key
+     * @param string    $title
      */
     public function __construct(Container $dic, string $key, string $title)
     {

@@ -39,7 +39,9 @@ abstract class AbstractFormat implements Format
 
 
     /**
-     * @inheritDoc
+     * AbstractFormat constructor
+     *
+     * @param Container $dic
      */
     public function __construct(Container $dic)
     {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Data\Column\Formater;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
 use ILIAS\UI\Component\Table\Data\Data\Row\RowData;
 use ILIAS\UI\Component\Table\Data\Format\Format;
@@ -19,14 +18,6 @@ use ILIAS\UI\Renderer;
  */
 interface Formater
 {
-
-    /**
-     * Formater constructor
-     *
-     * @param Container $dic
-     */
-    public function __construct(Container $dic);
-
 
     /**
      * @param Format   $format

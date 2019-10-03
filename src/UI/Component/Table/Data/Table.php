@@ -28,18 +28,6 @@ interface Table extends Component
 
 
     /**
-     * Table constructor
-     *
-     * @param string      $table_id
-     * @param string      $action_url
-     * @param string      $title
-     * @param Column[]    $columns
-     * @param DataFetcher $data_fetcher
-     */
-    public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher);
-
-
-    /**
      * @return string
      */
     public function getTableId() : string;

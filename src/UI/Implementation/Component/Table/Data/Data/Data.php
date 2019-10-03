@@ -30,7 +30,10 @@ class Data implements DataInterface
 
 
     /**
-     * @inheritDoc
+     * Data constructor
+     *
+     * @param RowData[] $data
+     * @param int       $max_count
      */
     public function __construct(array $data, int $max_count)
     {

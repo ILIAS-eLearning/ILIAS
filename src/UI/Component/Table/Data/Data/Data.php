@@ -17,15 +17,6 @@ interface Data
 {
 
     /**
-     * Data constructor
-     *
-     * @param RowData[] $data
-     * @param int       $max_count
-     */
-    public function __construct(array $data, int $max_count);
-
-
-    /**
      * @return RowData[]
      */
     public function getData() : array;

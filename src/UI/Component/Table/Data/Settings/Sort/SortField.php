@@ -28,15 +28,6 @@ interface SortField extends JsonSerializable
 
 
     /**
-     * SortField constructor
-     *
-     * @param string $sort_field
-     * @param int    $sort_field_direction
-     */
-    public function __construct(string $sort_field, int $sort_field_direction);
-
-
-    /**
      * @return string
      */
     public function getSortField() : string;

@@ -27,7 +27,10 @@ abstract class AbstractRowData implements RowData
 
 
     /**
-     * @inheritDoc
+     * AbstractRowData constructor
+     *
+     * @param string $row_id
+     * @param object $original_data
      */
     public function __construct(string $row_id, object $original_data)
     {

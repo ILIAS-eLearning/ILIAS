@@ -44,7 +44,9 @@ class Settings implements SettingsInterface
 
 
     /**
-     * @inheritDoc
+     * Settings constructor
+     *
+     * @param Pagination $pagination
      */
     public function __construct(Pagination $pagination)
     {

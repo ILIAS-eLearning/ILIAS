@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Data\Data\Fetcher;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Data\Data;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
 
@@ -17,14 +16,6 @@ use ILIAS\UI\Component\Table\Data\Settings\Settings;
  */
 interface DataFetcher
 {
-
-    /**
-     * DataFetcher constructor
-     *
-     * @param Container $dic
-     */
-    public function __construct(Container $dic);
-
 
     /**
      * @param Settings $settings

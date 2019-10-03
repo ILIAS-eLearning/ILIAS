@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table\Data\Settings\Storage;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Settings\Settings;
 use ILIAS\UI\Component\Table\Data\Table;
 
@@ -73,14 +72,6 @@ interface SettingsStorage
             self::VAR_FILTER_FIELD_VALUES,
             self::VAR_SELECTED_COLUMNS
         ];
-
-
-    /**
-     * SettingsStorage constructor
-     *
-     * @param Container $dic
-     */
-    public function __construct(Container $dic);
 
 
     /**

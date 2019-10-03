@@ -6,10 +6,10 @@ namespace ILIAS\UI\Implementation\Component\Table\Data\Settings\Storage;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Column;
-use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Component\Table\Data\Settings\Settings as SettingsInterface;
 use ILIAS\UI\Component\Table\Data\Settings\Sort\SortField as SortFieldInterface;
 use ILIAS\UI\Component\Table\Data\Settings\Storage\SettingsStorage;
+use ILIAS\UI\Component\Table\Data\Table;
 use ILIAS\UI\Implementation\Component\Table\Data\Settings\Sort\SortField;
 
 /**
@@ -29,7 +29,9 @@ abstract class AbstractSettingsStorage implements SettingsStorage
 
 
     /**
-     * @inheritDoc
+     * AbstractSettingsStorage constructor
+     *
+     * @param Container $dic
      */
     public function __construct(Container $dic)
     {
