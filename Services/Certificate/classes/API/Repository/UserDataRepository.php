@@ -65,7 +65,7 @@ SELECT
   il_cert_user_cert.acquired_timestamp,
   il_cert_user_cert.currently_active,
   il_cert_user_cert.id,
-  (CASE WHEN (object_data.title IS NULL)
+' . ($filter->shouldIncludeDeletedObjects() ? '(CASE WHEN (object_data.title IS NULL)
     THEN
       CASE WHEN (object_data_del.title IS NULL)
         THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
@@ -73,7 +73,7 @@ SELECT
         END
     ELSE object_data.title 
     END
-  ) as title,
+  ) as title' : 'object_data_del.title') . ',
   object_reference.ref_id,
   usr_data.firstname,
   usr_data.lastname,
@@ -153,15 +153,12 @@ SELECT
      */
     private function getQuery(UserDataFilter $filter, bool $max_count_only = false) : string
     {
-        $userIds = $filter->getUserIds();
-
         $sql = 'FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
+' . ($filter->shouldIncludeDeletedObjects() ? 'LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id' : '') . '
 LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
 INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer')
-            . $this->createWhereCondition($filter);
+WHERE ' . $this->createWhereCondition($filter);
 
         if (!$max_count_only) {
             $sql.=  ' ' . $this->createOrderByClause($filter);
@@ -226,7 +223,11 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
      */
     private function createWhereCondition(UserDataFilter $filter) : string
     {
-        $sql = '';
+        $userIds = $filter->getUserIds();
+        $sql = $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer');
+
+        $refIds = $filter->getRefIds();
+        $sql .= ' AND ' . $this->database->in('object_reference.ref_id', $refIds, false, 'integer');
 
         $firstName = $filter->getUserFirstName();
         if (null !== $firstName) {
@@ -271,7 +272,9 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
         $title = $filter->getObjectTitle();
         if (null !== $title) {
             $sql .= ' AND (' . $this->database->like('object_data.title', 'text', '%' . $title . '%');
-            $sql .= ' OR ' . $this->database->like('object_data_del.title', 'text', '%' . $title . '%') . ')';
+            if ($filter->shouldIncludeDeletedObjects()) {
+                $sql .= ' OR ' . $this->database->like('object_data_del.title', 'text', '%' . $title . '%') . ')';
+            }
         }
 
         $onlyActive = $filter->isOnlyActive();

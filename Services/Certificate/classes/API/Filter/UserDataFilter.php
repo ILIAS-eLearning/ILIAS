@@ -46,6 +46,9 @@ class UserDataFilter
     /** @var int[] */
     private $userIds = [];
 
+    /** @var int[] */
+    private $refIds = [];
+
     /** @var array */
     private $sorts = [];
 
@@ -55,18 +58,25 @@ class UserDataFilter
     /** @var int|null */
     private $limitEnd = null;
 
+    /** @var bool */
+    private $shouldIncludeDeletedObjects = true;
+
     /**
      * @param int[] $usrIds
+     * @param int[] $refIds
      * @param bool $onlyActive Show only the currently active certificates of the user
      * @throws \ilException
      */
     public function __construct(
         array $usrIds,
+        array $refIds,
         bool $onlyActive = true
     ) {
         $this->ensureValidUniqueUsrIds($usrIds);
+        $this->ensureValidUniqueRefIds($refIds);
 
         $this->userIds = $usrIds;
+        $this->refIds = $refIds;
         $this->onlyActive = $onlyActive;
     }
 
@@ -82,6 +92,22 @@ class UserDataFilter
 
         array_walk($usrIds, function (int $usrId) {
             // Do nothing, use this for type safety of array values 
+        });
+    }
+
+    /**
+     * @param int[] $refIds
+     *
+     * @throws \ilException
+     */
+    private function ensureValidUniqueRefIds(array $refIds) : void
+    {
+        if ([] === $refIds) {
+            throw new \ilException('The passed array of ref ids must not be empty!');
+        }
+
+        array_walk($refIds, function (int $refId) {
+            // Do nothing, use this for type safety of array values
         });
     }
 
@@ -224,6 +250,38 @@ class UserDataFilter
     }
 
     /**
+     * @param int[] $refIds
+     *
+     * @return $this
+     * @throws \ilException
+     */
+    public function withRefIds(array $refIds) : self
+    {
+        $this->ensureValidUniqueRefIds($refIds);
+
+        $clone = clone $this;
+        $clone->refIds = $refIds;
+
+        return $clone;
+    }
+
+    /**
+     * @param int[] $refIds
+     *
+     * @return $this
+     * @throws \ilException
+     */
+    public function withAdditionalRefIds(array $refIds) : self
+    {
+        $this->ensureValidUniqueRefIds($refIds);
+
+        $clone = clone $this;
+        $clone->refIds = array_unique(array_merge($clone->refIds, $refIds));
+
+        return $clone;
+    }
+
+    /**
      * @return string
      */
     public function getObjectTitle() : ?string
@@ -301,6 +359,14 @@ class UserDataFilter
     public function getUserIds() : array
     {
         return $this->userIds;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getRefIds() : array
+    {
+        return $this->refIds;
     }
 
     /**
@@ -421,5 +487,38 @@ class UserDataFilter
     public function getLimitEnd() : ?int
     {
         return $this->limitEnd;
+    }
+
+
+    /**
+     * @return self
+     */
+    public function withShouldIncludeDeletedObjects() : self
+    {
+        $clone = clone $this;
+        $clone->shouldIncludeDeletedObjects = true;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return self
+     */
+    public function withoutShouldIncludeDeletedObjects() : self
+    {
+        $clone = clone $this;
+        $clone->shouldIncludeDeletedObjects = false;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function shouldIncludeDeletedObjects() : bool
+    {
+        return $this->shouldIncludeDeletedObjects;
     }
 }
