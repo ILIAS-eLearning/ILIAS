@@ -134,7 +134,7 @@ SELECT
      */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
     {
-        $sql = 'SELECT COUNT(DISTINCT il_cert_user_cert.id) as count
+        $sql = 'SELECT COUNT(il_cert_user_cert.id) as count
         ' . $this->getQuery($filter,true);
 
         $result = $this->database->query($sql);
