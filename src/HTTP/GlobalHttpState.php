@@ -29,7 +29,7 @@ interface GlobalHttpState
      *
      * @return ServerRequestInterface
      */
-    public function request();
+    public function request() : ServerRequestInterface;
 
 
     /**
@@ -37,7 +37,7 @@ interface GlobalHttpState
      *
      * @return ResponseInterface
      */
-    public function response();
+    public function response() : ResponseInterface;
 
 
     /**
@@ -47,7 +47,7 @@ interface GlobalHttpState
      *
      * @return CookieJar
      */
-    public function cookieJar();
+    public function cookieJar() : CookieJar;
 
 
     /**
@@ -59,7 +59,7 @@ interface GlobalHttpState
      *
      * @return void
      */
-    public function saveRequest(ServerRequestInterface $request);
+    public function saveRequest(ServerRequestInterface $request) : void;
 
 
     /**
@@ -69,7 +69,7 @@ interface GlobalHttpState
      *
      * @return void
      */
-    public function saveResponse(ResponseInterface $response);
+    public function saveResponse(ResponseInterface $response) : void;
 
 
     /**
@@ -78,5 +78,5 @@ interface GlobalHttpState
      * @return void
      * @throws ResponseSendingException Each subsequent call will throw this exception.
      */
-    public function sendResponse();
+    public function sendResponse() : void;
 }

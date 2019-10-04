@@ -3,6 +3,7 @@
 
 namespace ILIAS\DI;
 
+use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Request\RequestFactory;
@@ -64,11 +65,9 @@ class HTTPServices implements GlobalHttpState
 
 
     /**
-     * Creates a new cookie jar from the current known request.
-     *
-     * @return \ILIAS\HTTP\Cookies\CookieJar
+     * @inheritDoc
      */
-    public function cookieJar()
+    public function cookieJar() : CookieJar
     {
         return $this->cookieJarFactory->fromResponse($this->response());
     }
@@ -77,7 +76,7 @@ class HTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function request()
+    public function request() : ServerRequestInterface
     {
         if ($this->request === null) {
             $this->request = $this->requestFactory->create();
@@ -90,7 +89,7 @@ class HTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function response()
+    public function response() : ResponseInterface
     {
         if ($this->response === null) {
             $this->response = $this->responseFactory->create();
@@ -103,7 +102,7 @@ class HTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveRequest(ServerRequestInterface $request)
+    public function saveRequest(ServerRequestInterface $request) : void
     {
         $this->request = $request;
     }
@@ -112,7 +111,7 @@ class HTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveResponse(ResponseInterface $response)
+    public function saveResponse(ResponseInterface $response) : void
     {
         $this->response = $response;
     }
@@ -121,7 +120,7 @@ class HTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function sendResponse()
+    public function sendResponse() : void
     {
         $this->sender->sendResponse($this->response());
     }
