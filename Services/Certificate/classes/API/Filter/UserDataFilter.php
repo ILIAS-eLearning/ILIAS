@@ -229,7 +229,7 @@ class UserDataFilter
      *
      * @return $this
      */
-    public function withAdditionalobjIds(array $objIds) : self
+    public function withAdditionalObjIds(array $objIds) : self
     {
         $this->ensureValidUniqueObjIds($objIds);
 
