@@ -78,7 +78,7 @@ class UserDataFilter
     /**
      * @param int[] $objIds
      */
-    private function ensureValidUniqueobjIds(array $objIds) : void
+    private function ensureValidUniqueObjIds(array $objIds) : void
     {
         array_walk($objIds, function (int $objId) {
             // Do nothing, use this for type safety of array values
@@ -216,7 +216,7 @@ class UserDataFilter
      */
     public function withObjIds(array $objIds) : self
     {
-        $this->ensureValidUniqueobjIds($objIds);
+        $this->ensureValidUniqueObjIds($objIds);
 
         $clone = clone $this;
         $clone->objIds = array_unique($objIds);
@@ -231,7 +231,7 @@ class UserDataFilter
      */
     public function withAdditionalobjIds(array $objIds) : self
     {
-        $this->ensureValidUniqueobjIds($objIds);
+        $this->ensureValidUniqueObjIds($objIds);
 
         $clone = clone $this;
         $clone->objIds = array_unique(array_merge($clone->objIds, $objIds));
