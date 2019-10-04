@@ -132,6 +132,7 @@ class IdentificationFactoryTest extends TestCase
 
     public function testUnserializingPlugin()
     {
+        $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
         $identification = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock)->identifier('dummy');
         $serialized_identification = $identification->serialize();
         $this->provider_mock->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
