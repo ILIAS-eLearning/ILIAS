@@ -576,8 +576,8 @@ class Renderer extends AbstractComponentRenderer
 			$input_tpl->setVariable("VALUE", $key);
 			$input_tpl->setVariable("LABEL", $group->getLabel());
 
-			if ($input->getValue() !== null) {
-				list($index, $subvalues) = $input->getValue();
+			if ($group->getValue() !== null) {
+				list($index, $subvalues) = $group->getValue();
 				if((int)$index === $key) {
 					$input_tpl->setVariable("CHECKED", 'checked="checked"');
 				}
@@ -591,6 +591,7 @@ class Renderer extends AbstractComponentRenderer
 			$input_tpl->parseCurrentBlock();
 		}
 		$options_html = $input_tpl->get();
+
 
 		//render with context:
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
