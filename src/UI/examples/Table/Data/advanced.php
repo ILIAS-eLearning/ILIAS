@@ -153,7 +153,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
      *
      * @return string
      */
-    protected function getQuery(Settings $settings, $max_count = false) : string
+    protected function getQuery(Settings $settings, bool $max_count = false) : string
     {
         $sql = ' FROM object_data';
 
