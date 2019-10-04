@@ -79,6 +79,8 @@ class Renderer extends AbstractComponentRenderer
 			return $this->renderRadioField($component, $default_renderer);
 		} else if ($component instanceof MultiSelect) {
 			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
+		} else if ($component instanceof Component\Input\Field\DateTime) {
+			$input_tpl = $this->getTemplate("tpl.datetime.html", true, true);
 		} else if ($component instanceof Component\Input\Field\Group) {
 			return $this->renderFieldGroups($component, $default_renderer);
 		}
@@ -131,50 +133,6 @@ class Renderer extends AbstractComponentRenderer
 			$input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
 		}
 		return $input;
-	}
-
-
-	/**
-	 * @param Component\Input\Field\Input $input
-	 *
-	 * @return string
-	 */
-	protected function renderNoneGroupInput(Component\Input\Field\Input $input, RendererInterface $default_renderer) {
-		$input_tpl = null;
-		$id = null;
-		$dependant_group_html = null;
-
-		if ($input instanceof Component\Input\Field\Text) {
-			$input_tpl = $this->getTemplate("tpl.text.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Numeric) {
-			$input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Checkbox) {
-			$input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-			$dependant_group = $input->getDependantGroup();
-			if (!is_null($dependant_group)) {
-				$dependant_group_html = $default_renderer->render($dependant_group);
-				$id = $this->bindJavaScript($input);
-			}
-		} elseif ($input instanceof Component\Input\Field\Tag) {
-			$input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
-		} elseif ($input instanceof Password) {
-			$input_tpl = $this->getTemplate("tpl.password.html", true, true);
-		} else if ($input instanceof Select) {
-			$input_tpl = $this->getTemplate("tpl.select.html", true, true);
-		} else if ($input instanceof Component\Input\Field\Textarea) {
-			$input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
-		} elseif ($input instanceof Component\Input\Field\Radio) {
-			return $this->renderRadioField($input, $default_renderer);
-		} else if ($input instanceof MultiSelect) {
-			$input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-		} else if ($input instanceof DateTime) {
-			$input_tpl = $this->getTemplate("tpl.datetime.html", true, true);
-		} else {
-			throw new \LogicException("Cannot render '" . get_class($input) . "'");
-		}
-
-		$html = $this->renderInputFieldWithContext($input_tpl, $input, $id, $dependant_group_html);
-		return $html;
 	}
 
 

@@ -1489,7 +1489,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
-		
+
 		// quick editing in portfolio
 		if ($this->prt_id > 0 &&
 			stristr($a_cmd, "embedded"))
@@ -1759,8 +1759,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// title
 			$wtpl->setVariable("URL_TITLE", $preview);
 			$wtpl->setVariable("TITLE", $item["title"]);
+
+            $kw = ilBlogPosting::getKeywords($this->obj_id, $item["id"]);
+            natcasesort($kw);
+            $keywords = (count($kw) > 0)
+                ? "<br>".$this->lng->txt("keywords").": ".implode(", ", $kw)
+                : "";
+
 			$wtpl->setVariable("DATETIME", $author.
-				ilDatePresentation::formatDate($item["created"]));
+				ilDatePresentation::formatDate($item["created"]).$keywords);
 
 			// content			
 			$wtpl->setVariable("CONTENT", $snippet);			
@@ -2433,12 +2440,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$keywords = $this->lng->txt("blog_no_keywords");
 				}
 				$cmd = null;
-				if($may_edit_keywords)
-				{
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $blpg);
-					$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
-				}
 				$blocks[$order["keywords"]] = array(
 					$this->lng->txt("blog_keywords"),
 					$keywords,

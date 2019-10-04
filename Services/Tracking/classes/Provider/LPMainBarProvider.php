@@ -28,6 +28,9 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
     {
         global $DIC;
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("trac", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/graph.svg"), "");
+
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))
@@ -36,7 +39,7 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
                     "ilAchievementsGUI","ilLearningProgressGUI","ilLPListOfProgressGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(30)
-	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("trac", "")->withIsOutlined(true))
+	            ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

@@ -24,7 +24,7 @@ interface CookieJarFactory
      *
      * @return CookieJar
      */
-    public function fromCookieStrings($cookieStrings);
+    public function fromCookieStrings(array $cookieStrings) : CookieJar;
 
 
     /**
@@ -34,5 +34,5 @@ interface CookieJarFactory
      *
      * @return CookieJar
      */
-    public function fromResponse(ResponseInterface $response);
+    public function fromResponse(ResponseInterface $response) : CookieJar;
 }

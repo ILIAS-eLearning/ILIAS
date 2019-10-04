@@ -28,6 +28,9 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
         $f = $this->dic->ui()->factory();
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true);
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), "");
+
         $contents = $f->legacy("<div style='padding:20px;'>Tag One, Tag Two</div>");
 
         return [
