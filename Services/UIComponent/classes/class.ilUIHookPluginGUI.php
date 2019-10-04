@@ -3,40 +3,37 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * User interface hook class
+ * Class ilUIHookPluginGUI
  *
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUIComponent
  */
 class ilUIHookPluginGUI
 {
 
+    /**
+     * @var ilUserInterfaceHookPlugin
+     */
     protected $plugin_object = null;
-    const UNSPECIFIED = "";
-    const KEEP = "";
-    const REPLACE = "r";
-    const APPEND = "a";
-    const PREPEND = "p";
+    public const UNSPECIFIED = '';
+    public const KEEP = '';
+    public const REPLACE = 'r';
+    public const APPEND = 'a';
+    public const PREPEND = 'p';
 
 
     /**
-     * Set plugin object
-     *
-     * @param object    plugin object
+     * @param ilUserInterfaceHookPlugin $a_val
      */
-    final function setPluginObject($a_val)
+    final public function setPluginObject($a_val)
     {
         $this->plugin_object = $a_val;
     }
 
 
     /**
-     * Get plugin object
-     *
-     * @return    object    plugin object
+     * @return ilUserInterfaceHookPlugin
      */
-    final function getPluginObject()
+    final public function getPluginObject()
     {
         return $this->plugin_object;
     }
@@ -62,9 +59,9 @@ class ilUIHookPluginGUI
      * - ilUIHookPluginGUI::PREPEND (Prepend your HTML to the default HTML)
      *
      */
-    function getHTML($a_comp, $a_part, $a_par = array())
+    public function getHTML($a_comp, $a_part, $a_par = array())
     {
-        return array("mode" => ilUIHookPluginGUI::KEEP, "html" => "");
+        return array('mode' => self::KEEP, 'html' => '');
     }
 
 
@@ -85,7 +82,7 @@ class ilUIHookPluginGUI
      * Allows to modify user interface objects before they generate their output.
      *
      */
-    function modifyGUI($a_comp, $a_part, $a_par = array())
+    public function modifyGUI($a_comp, $a_part, $a_par = array())
     {
     }
 
@@ -100,17 +97,17 @@ class ilUIHookPluginGUI
      * Modify HTML based on default html and plugin response
      *
      */
-    final function modifyHTML($a_def_html, $a_resp)
+    final public function modifyHTML($a_def_html, $a_resp)
     {
-        switch ($a_resp["mode"]) {
-            case ilUIHookPluginGUI::REPLACE:
-                $a_def_html = $a_resp["html"];
+        switch ($a_resp['mode']) {
+            case self::REPLACE:
+                $a_def_html = $a_resp['html'];
                 break;
-            case ilUIHookPluginGUI::APPEND:
-                $a_def_html .= $a_resp["html"];
+            case self::APPEND:
+                $a_def_html .= $a_resp['html'];
                 break;
-            case ilUIHookPluginGUI::PREPEND:
-                $a_def_html = $a_resp["html"] . $a_def_html;
+            case self::PREPEND:
+                $a_def_html = $a_resp['html'] . $a_def_html;
                 break;
         }
 
@@ -123,7 +120,7 @@ class ilUIHookPluginGUI
      *
      * Can be used to interfere with the goto script behaviour
      */
-    function gotoHook()
+    public function gotoHook()
     {
     }
 
@@ -133,8 +130,8 @@ class ilUIHookPluginGUI
      *
      * Can be used to interfere with the goto script behaviour
      */
-    function checkGotoHook($a_target)
+    public function checkGotoHook($a_target)
     {
-        return array("target" => false);
+        return array('target' => false);
     }
 }
