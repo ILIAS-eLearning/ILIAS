@@ -12,10 +12,10 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Request\RequestFactory;
 use ILIAS\HTTP\Response\ResponseFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
-use Mockery\MockInterface;
-use Psr\Http\Message\RequestInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class HTTPServicesTest
@@ -27,23 +27,23 @@ use Psr\Http\Message\ResponseInterface;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class HTTPServicesTest extends MockeryTestCase
+class HTTPServicesTest extends PHPUnitTestCase
 {
 
     /**
-     * @var RequestFactory|MockInterface $mockRequestFactory
+     * @var RequestFactory|MockObject $mockRequestFactory
      */
     private $mockRequestFactory;
     /**
-     * @var ResponseFactory|MockInterface $mockResponseFactory
+     * @var ResponseFactory|MockObject $mockResponseFactory
      */
     private $mockResponseFactory;
     /**
-     * @var CookieJarFactory|MockInterface $mockCookieJarFactory
+     * @var CookieJarFactory|MockObject $mockCookieJarFactory
      */
     private $mockCookieJarFactory;
     /**
-     * @var ResponseSenderStrategy|MockInterface $mockSenderStrategy
+     * @var ResponseSenderStrategy|MockObject $mockSenderStrategy
      */
     private $mockSenderStrategy;
     /**
@@ -55,10 +55,17 @@ class HTTPServicesTest extends MockeryTestCase
     protected function setUp() : void
     {
         parent::setUp();
-        $this->mockRequestFactory = \Mockery::mock('alias:' . RequestFactory::class);
-        $this->mockResponseFactory = \Mockery::mock('alias:' . ResponseFactory::class);
-        $this->mockSenderStrategy = \Mockery::mock('alias:' . ResponseSenderStrategy::class);
-        $this->mockCookieJarFactory = \Mockery::mock('alias:' . CookieJarFactory::class);
+        // $this->mockRequestFactory = \Mockery::mock('alias:' . RequestFactory::class);
+        $this->mockRequestFactory = $this->getMockBuilder(RequestFactory::class)->setMethods(['create'])->getMock();
+
+        // $this->mockResponseFactory = \Mockery::mock('alias:' . ResponseFactory::class);
+        $this->mockResponseFactory = $this->getMockBuilder(ResponseFactory::class)->setMethods(['create'])->getMock();
+
+        // $this->mockSenderStrategy = \Mockery::mock('alias:' . ResponseSenderStrategy::class);
+        $this->mockSenderStrategy = $this->getMockBuilder(ResponseSenderStrategy::class)->getMock();
+
+        // $this->mockCookieJarFactory = \Mockery::mock('alias:' . CookieJarFactory::class);
+        $this->mockCookieJarFactory = $this->getMockBuilder(CookieJarFactory::class)->getMock();
 
         //setup http state
         $this->httpState = new HTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory);
@@ -70,10 +77,12 @@ class HTTPServicesTest extends MockeryTestCase
      */
     public function testRequestWhichShouldGenerateANewRequestOnce()
     {
-        $expectedRequest = \Mockery::mock('alias:' . RequestInterface::class);
-        $wrongRequest = \Mockery::mock('alias:' . RequestInterface::class);
+        $expectedRequest = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
+        $wrongRequest = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
 
-        $this->mockRequestFactory->shouldReceive("create")->withNoArgs()->once()->andReturnValues([$expectedRequest, $wrongRequest]);
+        $this->mockRequestFactory->expects($this->once())
+            ->method('create')
+            ->willReturn($expectedRequest, $wrongRequest);
 
         //test method
 
@@ -94,10 +103,12 @@ class HTTPServicesTest extends MockeryTestCase
      */
     public function testResponseWhichShouldGenerateANewResponseOnce()
     {
-        $expectedResponse = \Mockery::mock('alias:' . ResponseInterface::class);
-        $wrongResponse = \Mockery::mock('alias:' . ResponseInterface::class);
+        $expectedResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();
+        $wrongResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();
 
-        $this->mockResponseFactory->shouldReceive("create")->withNoArgs()->once()->andReturnValues([$expectedResponse, $wrongResponse]);
+        $this->mockResponseFactory->expects($this->once())
+            ->method('create')
+            ->willReturn($expectedResponse, $wrongResponse);
 
         //test method
 
