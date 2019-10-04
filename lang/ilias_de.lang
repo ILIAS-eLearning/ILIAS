@@ -15207,15 +15207,15 @@ common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
-datatable#:#datatable_add_columns#:#Spalten hinzufügen
-datatable#:#datatable_count#:#(%1$s von %2$s)
-datatable#:#datatable_export#:#Exportieren
-datatable#:#datatable_format_csv#:#CSV
-datatable#:#datatable_format_excel#:#Excel
-datatable#:#datatable_format_html#:#HTML
-datatable#:#datatable_format_pdf#:#PDF
-datatable#:#datatable_multiple_actions#:#Mehrfache Aktionen
-datatable#:#datatable_no_data#:#Keine Daten
-datatable#:#datatable_remove_sort#:#Sortierung entfernen
-datatable#:#datatable_rows_per_page#:#Zeilen pro Seite (%s)
-datatable#:#datatable_select_all#:#Alle auswählen
+ui#:#datatable_add_columns#:#Spalten hinzufügen
+ui#:#datatable_count#:#(%1$s von %2$s)
+ui#:#datatable_export#:#Exportieren
+ui#:#datatable_format_csv#:#CSV
+ui#:#datatable_format_excel#:#Excel
+ui#:#datatable_format_html#:#HTML
+ui#:#datatable_format_pdf#:#PDF
+ui#:#datatable_multiple_actions#:#Mehrfache Aktionen
+ui#:#datatable_no_data#:#Keine Daten
+ui#:#datatable_remove_sort#:#Sortierung entfernen
+ui#:#datatable_rows_per_page#:#Zeilen pro Seite (%s)
+ui#:#datatable_select_all#:#Alle auswählen

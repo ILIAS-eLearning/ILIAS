@@ -15208,15 +15208,15 @@ common#:#nc_contact_requests_headline#:#Contact Requests
 common#:#nc_contact_requests_number_s#:#You have %s Contact Request
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
-datatable#:#datatable_add_columns#:#Add columns
-datatable#:#datatable_count#:#(%1$s of %2$s)
-datatable#:#datatable_export#:#Export
-datatable#:#datatable_format_csv#:#CSV
-datatable#:#datatable_format_excel#:#Excel
-datatable#:#datatable_format_html#:#HTML
-datatable#:#datatable_format_pdf#:#PDF
-datatable#:#datatable_multiple_actions#:#Multiple actions
-datatable#:#datatable_no_data#:#No data
-datatable#:#datatable_remove_sort#:#Remove sort
-datatable#:#datatable_rows_per_page#:#Rows per page (%s)
-datatable#:#datatable_select_all#:#Select all
+ui#:#datatable_add_columns#:#Add columns
+ui#:#datatable_count#:#(%1$s of %2$s)
+ui#:#datatable_export#:#Export
+ui#:#datatable_format_csv#:#CSV
+ui#:#datatable_format_excel#:#Excel
+ui#:#datatable_format_html#:#HTML
+ui#:#datatable_format_pdf#:#PDF
+ui#:#datatable_multiple_actions#:#Multiple actions
+ui#:#datatable_no_data#:#No data
+ui#:#datatable_remove_sort#:#Remove sort
+ui#:#datatable_rows_per_page#:#Rows per page (%s)
+ui#:#datatable_select_all#:#Select all

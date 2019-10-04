@@ -51,7 +51,7 @@ class Renderer extends AbstractComponentRenderer
 
         $this->dic = $DIC;
 
-        $this->dic->language()->loadLanguageModule(Table::LANG_MODULE);
+        $this->dic->language()->loadLanguageModule(Table::UI_LANG_MODULE); // TODO: Move to `AbstractComponentRenderer`
 
         $this->checkComponent($component);
 
