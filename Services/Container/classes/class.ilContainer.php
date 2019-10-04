@@ -524,6 +524,7 @@ class ilContainer extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0, $a_omit_tree = false)
 	{
+	    /** @var ilObjCourse $new_obj */
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id, $a_omit_tree);
 
 		// translations
@@ -576,8 +577,17 @@ class ilContainer extends ilObject
 		{						
 			self::_writeContainerSetting($new_obj->getId(), $keyword, $value);
 		}
-		
-		return $new_obj;
+
+        $new_obj->setNewsTimeline($this->getNewsTimeline());
+        $new_obj->setNewsBlockActivated($this->getNewsBlockActivated());
+        $new_obj->setUseNews($this->getUseNews());
+        $new_obj->setNewsTimelineAutoEntries($this->getNewsTimelineAutoEntries());
+        $new_obj->setNewsTimelineLandingPage($this->getNewsTimelineLandingPage());
+        ilBlockSetting::cloneSettingsOfBlock("news", $this->getId(), $new_obj->getId());
+        $mom_noti = new ilMembershipNotifications($this->getRefId());
+        $mom_noti->cloneSettings($new_obj->getRefId());
+
+        return $new_obj;
 	}
 	
 	/**
