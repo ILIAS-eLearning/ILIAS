@@ -1354,6 +1354,7 @@ abstract class ilPlugin
         if (!$this->promoteGlobalScreenProvider() instanceof ilPluginGlobalScreenNullProvider) {
             $this->provider_collection->setMetaBarProvider($this->promoteGlobalScreenProvider());
         }
+
         return $this->provider_collection;
     }
 
