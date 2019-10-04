@@ -1330,7 +1330,9 @@ abstract class ilPlugin
      */
     public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
     {
-        return new ilPluginGlobalScreenNullProvider();
+        global $DIC;
+
+        return new ilPluginGlobalScreenNullProvider($DIC, $this);
     }
 
 
