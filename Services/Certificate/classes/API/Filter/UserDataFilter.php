@@ -20,16 +20,13 @@ class UserDataFilter
     private $objectTitle;
 
     /** @var int|null */
-    private $objectId;
-
-    /** @var int|null */
     private $issuedBeforeTimestamp;
 
     /** @var int|null */
     private $issuedAfterTimestamp;
 
     /** @var bool */
-    private $onlyActive = true;
+    private $onlyCertActive = true;
 
     /** @var string|null */
     private $userFirstName;
@@ -47,7 +44,7 @@ class UserDataFilter
     private $userIds = [];
 
     /** @var int[] */
-    private $refIds = [];
+    private $objIds = [];
 
     /** @var array */
     private $sorts = [];
@@ -74,16 +71,16 @@ class UserDataFilter
     private function ensureValidUniqueUsrIds(array $usrIds) : void
     {
         array_walk($usrIds, function (int $usrId) {
-            // Do nothing, use this for type safety of array values 
+            // Do nothing, use this for type safety of array values
         });
     }
 
     /**
-     * @param int[] $refIds
+     * @param int[] $objIds
      */
-    private function ensureValidUniqueRefIds(array $refIds) : void
+    private function ensureValidUniqueobjIds(array $objIds) : void
     {
-        array_walk($refIds, function (int $refId) {
+        array_walk($objIds, function (int $objId) {
             // Do nothing, use this for type safety of array values
         });
     }
@@ -149,18 +146,6 @@ class UserDataFilter
     }
 
     /**
-     * @param int|null $objId
-     * @return $this
-     */
-    public function withObjectId(?int $objId) : self
-    {
-        $clone = clone $this;
-        $clone->objectId = $objId;
-
-        return $clone;
-    }
-
-    /**
      * @param int|null $timestamp
      * @return $this
      */
@@ -188,10 +173,10 @@ class UserDataFilter
      * @param bool $status
      * @return $this
      */
-    public function withOnlyActive(bool $status) : self
+    public function withOnlyCertActive(bool $status) : self
     {
         $clone = clone $this;
-        $clone->onlyActive = $status;
+        $clone->onlyCertActive = $status;
 
         return $clone;
     }
@@ -225,31 +210,31 @@ class UserDataFilter
     }
 
     /**
-     * @param int[] $refIds
+     * @param int[] $objIds
      *
      * @return $this
      */
-    public function withRefIds(array $refIds) : self
+    public function withObjIds(array $objIds) : self
     {
-        $this->ensureValidUniqueRefIds($refIds);
+        $this->ensureValidUniqueobjIds($objIds);
 
         $clone = clone $this;
-        $clone->refIds = array_unique($refIds);
+        $clone->objIds = array_unique($objIds);
 
         return $clone;
     }
 
     /**
-     * @param int[] $refIds
+     * @param int[] $objIds
      *
      * @return $this
      */
-    public function withAdditionalRefIds(array $refIds) : self
+    public function withAdditionalobjIds(array $objIds) : self
     {
-        $this->ensureValidUniqueRefIds($refIds);
+        $this->ensureValidUniqueobjIds($objIds);
 
         $clone = clone $this;
-        $clone->refIds = array_unique(array_merge($clone->refIds, $refIds));
+        $clone->objIds = array_unique(array_merge($clone->objIds, $objIds));
 
         return $clone;
     }
@@ -260,14 +245,6 @@ class UserDataFilter
     public function getObjectTitle() : ?string
     {
         return $this->objectTitle;
-    }
-
-    /**
-     * @return int
-     */
-    public function getObjectId() : ?int
-    {
-        return $this->objectId;
     }
 
     /**
@@ -289,9 +266,9 @@ class UserDataFilter
     /**
      * @return bool
      */
-    public function isOnlyActive() : bool
+    public function isOnlyCertActive() : bool
     {
-        return $this->onlyActive;
+        return $this->onlyCertActive;
     }
 
     /**
@@ -337,9 +314,9 @@ class UserDataFilter
     /**
      * @return int[]
      */
-    public function getRefIds() : array
+    public function getObjIds() : array
     {
-        return $this->refIds;
+        return $this->objIds;
     }
 
     /**
@@ -383,7 +360,7 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     * 
+     *
      * @return $this
      */
     public function withSortedLogins(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -396,7 +373,7 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     * 
+     *
      * @return $this
      */
     public function withSortedIssuedOnTimestamps(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -426,7 +403,6 @@ class UserDataFilter
     {
         $clone = clone $this;
         $clone->limitStart = $limitStart;
-
         return $clone;
     }
 
@@ -449,7 +425,6 @@ class UserDataFilter
     {
         $clone = clone $this;
         $clone->limitEnd = $limitEnd;
-
         return $clone;
     }
 
