@@ -185,7 +185,7 @@ class ilForumExplorerGUI implements TreeRecursion
         $tree = $f->tree()
                   ->expandable($this)
                   ->withData($endData)
-                  ->withHighlightOnNodeClick(true);
+                  ->withHighlightOnNodeClick(false);
 
         return $tree;
     }
