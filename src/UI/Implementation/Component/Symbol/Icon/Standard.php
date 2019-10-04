@@ -24,18 +24,14 @@ class Standard extends Icon implements C\Symbol\Icon\Standard {
 		,self::ADM
 		,self::USRF
 		,self::ROLF
-		,self::OBJF
 		,self::USR
 		,self::ROLT
 		,self::LNGF
 		,self::LNG
 		,self::ROLE
-		,self::DBK
 		,self::GLO
 		,self::ROOT
 		,self::LM
-		,self::NOTF
-		,self::NOTE
 		,self::FRM
 		,self::EXC
 		,self::AUTH
@@ -52,7 +48,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard {
 		,self::TRAC
 		,self::ASSF
 		,self::STYS
-		,self::CRSG
 		,self::WEBR
 		,self::SEAS
 		,self::EXTT

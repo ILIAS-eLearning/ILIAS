@@ -7,7 +7,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class NotificationCenterProvider extends AbstractStaticMetaBarProvider implements StaticMetaBarProvider
+class NotificationCenterProvider extends AbstractStaticMetaBarProvider
 {
 
     /**
@@ -15,24 +15,27 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider implement
      */
     public function getMetaBarItems() : array
     {
-
         $mb = $this->globalScreen()->metaBar();
+
         $id = function ($id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
-        $item = [];
 
-        $item[] = $mb->notificationCenter($id('notification_center'))
-            ->withAvailableCallable(function () {
-                // Check if notifications available
-                return true;
-            })
-            ->withVisibilityCallable(
-                function () {
-                    return !$this->dic->user()->isAnonymous();
-                }
-            );
+        $nc = $this->dic->globalScreen()->collector()->notifications();
 
-        return $item;
+        return [
+            $mb->notificationCenter($id('notification_center'))
+                ->withAmountOfNotifications($nc->getAmountOfNotifications())
+                ->withNotifications($nc->getNotifications())
+                ->withAvailableCallable(static function () {
+                    // Check if notifications available
+                    return true;
+                })
+                ->withVisibilityCallable(
+                    function () {
+                        return !$this->dic->user()->isAnonymous() && $this->dic->globalScreen()->collector()->notifications()->hasNotifications();
+                    }
+                ),
+        ];
     }
 }

@@ -54,16 +54,20 @@ class ilBuddySystemGUI
     }
 
     /**
-     *
+     * @param ilGlobalTemplateInterface $page
      */
-    public static function initializeFrontend() : void
+    public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
     {
         global $DIC;
 
-        if (!self::$isFrontendInitialized) {
+        if (
+            ilBuddySystem::getInstance()->isEnabled() &&
+            !$DIC->user()->isAnonymous() &&
+            !self::$isFrontendInitialized
+        ) {
             $DIC->language()->loadLanguageModule('buddysystem');
 
-            $DIC['tpl']->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
+            $page->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
 
             $config = new stdClass();
             $config->http_post_url = $DIC->ctrl()->getFormActionByClass([
@@ -71,13 +75,13 @@ class ilBuddySystemGUI
                 'ilBuddySystemGUI'
             ], '', '', true, false);
             $config->transition_state_cmd = 'transitionAsync';
-            $DIC['tpl']->addOnLoadCode("il.BuddySystem.setConfig(" . json_encode($config) . ");");
+            $page->addOnLoadCode("il.BuddySystem.setConfig(" . json_encode($config) . ");");
 
             $btn_config = new stdClass();
             $btn_config->bnt_class = 'ilBuddySystemLinkWidget';
 
-            $DIC['tpl']->addOnLoadCode("il.BuddySystemButton.setConfig(" . json_encode($btn_config) . ");");
-            $DIC['tpl']->addOnLoadCode("il.BuddySystemButton.init();");
+            $page->addOnLoadCode("il.BuddySystemButton.setConfig(" . json_encode($btn_config) . ");");
+            $page->addOnLoadCode("il.BuddySystemButton.init();");
 
             self::$isFrontendInitialized = true;
         }

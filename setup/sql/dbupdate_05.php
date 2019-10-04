@@ -1355,5 +1355,17 @@ $ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
 	'notnull' => true,
 	'default' => 0
 ));
-?>	
-	
+?>
+<#5520>
+<?php
+$ilDB->modifyTableColumn('il_cert_template', 'version', array(
+    'type'    => 'integer',
+    'length'  => 8,
+    'notnull' => true,
+    'default' => 0
+));
+?>
+<#5521>
+<?php
+$ilDB->addIndex('rbac_log', ['created'], 'i2');
+?>

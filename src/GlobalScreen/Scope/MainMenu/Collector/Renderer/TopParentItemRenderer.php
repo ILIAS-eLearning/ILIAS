@@ -32,9 +32,6 @@ class TopParentItemRenderer extends BaseTypeRenderer
             foreach ($item->getChildren() as $child) {
 
                 switch (true) {
-                    case ($child instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex):
-                        // throw new ilException("Rendering not yet implemented: ".get_class($child));
-                        break;
                     case ($child instanceof Separator):
                         // throw new ilException("Rendering not yet implemented: ".get_class($child));
                         break;

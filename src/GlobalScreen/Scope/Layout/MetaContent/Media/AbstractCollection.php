@@ -45,6 +45,6 @@ abstract class AbstractCollection
      */
     protected function stripPath(string $path) : string
     {
-        return basename(parse_url($path, PHP_URL_PATH));
+        return md5(parse_url($path, PHP_URL_PATH));
     }
 }

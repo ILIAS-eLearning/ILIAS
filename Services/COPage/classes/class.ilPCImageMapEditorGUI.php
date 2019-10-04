@@ -245,8 +245,13 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		$areas = $this->std_alias_item->getMapAreas();
 		foreach($areas as $area)
 		{
+            // fix #26032 empty values lead to "empty text node" errors on page update
+            $name = ilUtil::stripSlashes($_POST["name_".$area["Nr"]]);
+            if ($name == "") {
+                $name = " ";
+            }
 			$this->std_alias_item->setAreaTitle($area["Nr"],
-				ilUtil::stripSlashes($_POST["name_".$area["Nr"]]));
+                $name);
 			$this->std_alias_item->setAreaHighlightMode($area["Nr"],
 				ilUtil::stripSlashes($_POST["hl_mode_".$area["Nr"]]));
 			$this->std_alias_item->setAreaHighlightClass($area["Nr"],

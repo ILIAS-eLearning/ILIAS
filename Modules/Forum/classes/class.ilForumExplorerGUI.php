@@ -185,7 +185,7 @@ class ilForumExplorerGUI implements TreeRecursion
         $tree = $f->tree()
                   ->expandable($this)
                   ->withData($endData)
-                  ->withHighlightOnNodeClick(true);
+                  ->withHighlightOnNodeClick(false);
 
         return $tree;
     }
@@ -206,10 +206,11 @@ class ilForumExplorerGUI implements TreeRecursion
         /** @var \ILIAS\UI\Component\Tree\Node\Node $node */
         $node = $this->createNode($factory, $record);
 
-        $href = $this->getNodeHref($record);
-
-        if ($href) {
-            $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
+        if ($record['pos_pk'] != $this->root_node->getId()) {
+            $href = $this->getNodeHref($record);
+            if ($href) {
+                $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
+            }
         }
 
         return $node;

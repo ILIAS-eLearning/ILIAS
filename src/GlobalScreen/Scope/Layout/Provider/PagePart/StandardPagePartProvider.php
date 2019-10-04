@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -22,6 +23,7 @@ class StandardPagePartProvider implements PagePartProvider
 {
 
     use isSupportedTrait;
+    use SlateSessionStateCode;
     /**
      * @var Legacy
      */
@@ -110,17 +112,24 @@ class StandardPagePartProvider implements PagePartProvider
             }
         }
 
+        $grid_icon = $f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small");
         $main_bar = $main_bar->withMoreButton(
-            $f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#")
+            $f->button()->bulky($grid_icon, "More", "#")
         );
 
         // Tools
         $this->gs->collector()->tool()->collect();
         if ($this->gs->collector()->tool()->hasItems()) {
-            $main_bar = $main_bar->withToolsButton($f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
+            $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
+            $main_bar = $main_bar->withToolsButton($tools_button);
             foreach ($this->gs->collector()->tool()->getItems() as $tool) {
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
-                $main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $component);
+                $identifier = $this->hash($tool->getProviderIdentification()->serialize());
+                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component);
+                $item_state = new ItemState($tool->getProviderIdentification());
+                if ($item_state->isItemActive()) {
+                    $main_bar = $main_bar->withActive($identifier);
+                }
             }
         }
 
