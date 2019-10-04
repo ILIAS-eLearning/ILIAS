@@ -23867,7 +23867,7 @@ if($ilDB->tableExists('certificate_template')) {
 
 				$objectId = basename($certificateFile->getPathInfo());
 				if (!is_numeric($objectId) || !($objectId > 0)) {
-					$GLOBALS['ilLog']->warn(sprintf(
+					$GLOBALS['ilLog']->warning(sprintf(
 						"Could not extract valid obj_id, cannot migrate certificate XML template file: %s",
 						$pathToFile
 					));
