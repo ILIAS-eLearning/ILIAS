@@ -78,5 +78,4 @@ interface Standard extends Page, JavaScriptBindable {
 	public function withTitle(string $title): Standard;
 
 	public function getTitle(): string;
-
 }
