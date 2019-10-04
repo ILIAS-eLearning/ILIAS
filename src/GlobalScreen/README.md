@@ -90,6 +90,23 @@ How a specific provider must look like is described in the respective README.md 
 ## [](#collector)Collector
 In most cases it is not necessary to implement a collector yourself. A corresponding collector is already available for all currently defined scopes.
 
-# Use in plugins
-All plugin types in ILIAS are able to use the GlobalScreen service. All activated plugins will be asked for their `Providers`,
-an empty provider is returned by default.
+# Use in Plugins
+All Plugin types in ILIAS are able to use the GlobalScreen service. 
+
+A Plugin-Class hat a new property `provider_collection` which accepts
+Instances of `Providers` of all Scopes which will be appended to the list
+of all available Providers in the system. E.g.:
+
+```php
+    public function __construct()
+    {
+        parent::__construct();
+
+        global $DIC;
+        $this->provider_collection->setMainBarProvider(new MainBarProvider($DIC, $this));
+        $this->provider_collection->setMetaBarProvider(new MetaBarProvider($DIC, $this));
+        $this->provider_collection->setNotificationProvider(new NotificationProvider($DIC, $this));
+        $this->provider_collection->setModificationProvider(new ModificationProvider($DIC, $this));
+        $this->provider_collection->setToolProvider(new ToolProvider($DIC, $this));
+    }
+```
