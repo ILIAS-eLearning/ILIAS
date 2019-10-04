@@ -5,6 +5,7 @@ namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -29,7 +30,7 @@ interface GlobalHttpState
      *
      * @return ServerRequestInterface
      */
-    public function request() : ServerRequestInterface;
+    public function request() : RequestInterface;
 
 
     /**

@@ -76,7 +76,7 @@ class HTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function request() : ServerRequestInterface
+    public function request() : \Psr\Http\Message\RequestInterface
     {
         if ($this->request === null) {
             $this->request = $this->requestFactory->create();
