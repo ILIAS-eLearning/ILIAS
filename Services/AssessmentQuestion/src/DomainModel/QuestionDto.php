@@ -97,13 +97,13 @@ class QuestionDto {
 		    $question->getContentEditingMode()
         );
 
-		$dto->feedback_correct = FeedbackDto::createFromFeedback(
+		/*$dto->feedback_correct = FeedbackDto::createFromFeedback(
             $question->getFeedbackCorrect()
         );
 
 		$dto->feedback_wrong = FeedbackDto::createFromFeedback(
             $question->getFeedbackWrong()
-        );
+        );*/
 
 		return $dto;
 	}

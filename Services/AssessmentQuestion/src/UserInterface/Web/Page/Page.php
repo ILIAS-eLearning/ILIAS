@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Page;
 
+use ilAsqGenericFeedbackPageGUI;
 use ILIAS\UI\Implementation\Component\Link\Standard;
 use ReflectionClass;
 
@@ -102,7 +103,7 @@ class Page extends \ilPageObject
         $label = $DIC->language()->txt('asq_link_edit_feedback_page');
 
         //TODO
-        $action = $DIC->ctrl()->getLinkTargetByClass($DIC->ctrl()->getCmdClass(), \ilAsqQuestionFeedbackEditorGUI::CMD_SHOW_FEEDBACK);
+        $action = $DIC->ctrl()->getLinkTargetByClass(ilAsqGenericFeedbackPageGUI::class, ilAsqGenericFeedbackPageGUI::CMD_EDIT);
 
         $link = new Standard($label,$action);
 

@@ -67,7 +67,6 @@ class ilAsqQuestionFeedbackEditorGUI
     {
         global $DIC;
         /* @var ILIAS\DI\Container $DIC */
-
         switch ($DIC->ctrl()->getNextClass()) {
             case strtolower(ilAsqGenericFeedbackPageGUI::class):
 
@@ -78,7 +77,7 @@ class ilAsqQuestionFeedbackEditorGUI
                 );
 
                 $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
-                $feedbackIntId = $question->getFeedbackCorrect()->getIntId();
+                //$feedbackIntId = $question->getFeedbackCorrect()->getIntId();
 
                 $page_factory = new PageFactory($question->getContainerObjId(),$question->getQuestionIntId());
                 $gui = $this->publicAuthoringService->getGenericFeedbackPageGUI($page_factory->getFeedbackPage());
@@ -128,8 +127,8 @@ class ilAsqQuestionFeedbackEditorGUI
             $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
 
             if ($question->getContentEditingMode()->isRteTextarea()) {
-                $question->getFeedbackCorrect()->setContent($form->getFeedbackCorrect());
-                $question->getFeedbackWrong()->setContent($form->getFeedbackWrong());
+                //$question->getFeedbackCorrect()->setContent($form->getFeedbackCorrect());
+                //$question->getFeedbackWrong()->setContent($form->getFeedbackWrong());
             }
 
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_FEEDBACK);
@@ -147,9 +146,7 @@ class ilAsqQuestionFeedbackEditorGUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($this->authoringApplicationService->GetQuestion($this->questionUid->getId()),
-            false
-        );
+        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($this->authoringApplicationService->GetQuestion($this->questionUid->getId()));
 
         $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FEEDBACK));
         $form->addCommandButton(self::CMD_SAVE_FEEDBACK, $DIC->language()->txt('save'));

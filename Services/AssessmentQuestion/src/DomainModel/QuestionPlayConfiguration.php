@@ -36,6 +36,11 @@ class QuestionPlayConfiguration extends AbstractValueObject {
 	protected $scoring_configuration;
 
     /**
+     * @var AbstractConfiguration
+     */
+    protected $feedback_configuration;
+
+    /**
      * @param AbstractConfiguration $editor_configuration
      * @param AbstractConfiguration $scoring_configuration
      * @param AbstractConfiguration $presenter_configuration
@@ -44,12 +49,14 @@ class QuestionPlayConfiguration extends AbstractValueObject {
 	public static function create(
 	    AbstractConfiguration $editor_configuration = null,
 		AbstractConfiguration $scoring_configuration = null,
-		AbstractConfiguration $presenter_configuration = null
+		AbstractConfiguration $presenter_configuration = null,
+        AbstractConfiguration $feedback_configuration = null
 	) : QuestionPlayConfiguration {
 		$object = new QuestionPlayConfiguration();
 		$object->editor_configuration = $editor_configuration;
 		$object->presenter_configuration = $presenter_configuration;
 		$object->scoring_configuration = $scoring_configuration;
+        $object->feedback_configuration = $feedback_configuration;
 		return $object;
 	}
 

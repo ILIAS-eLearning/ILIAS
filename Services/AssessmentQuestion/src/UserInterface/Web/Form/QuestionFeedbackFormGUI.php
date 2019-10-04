@@ -4,10 +4,19 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
+use ilFormSectionHeaderGUI;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerSpecificPageObjectFeedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerSpecificPageObjectFeedbackConfiguration;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\CommonPageObjectFeedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\CommonPageObjectFeedbackConfiguration;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
+use ilRadioGroupInputGUI;
+use ilRadioOption;
 
 /**
  * Class QuestionFeedbackFormGUI
@@ -22,9 +31,6 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer
  */
 class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
 {
-    const VAR_FEEDBACK_CORRECT = 'feedback_correct';
-    const VAR_FEEDBACK_WRONG = 'feedback_wrong';
-
     /**
      * @var Page
      */
@@ -33,25 +39,17 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
     /**
      * @var QuestionDto
      */
-    protected $questionDto;
-
-    /**
-     * @var bool
-     */
-    protected $preventRteUsage;
-
+    protected $question_dto;
 
     /**
      * QuestionFeedbackFormGUI constructor.
      *
      * @param Page                      $page
      * @param QuestionDto               $questionDto
-     * @param bool                      $preventRteUsage
      */
     public function __construct(
         Page $page,
-        QuestionDto $questionDto,
-        bool $preventRteUsage
+        QuestionDto $question_dto
     )
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -59,29 +57,18 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         parent::__construct();
 
         $this->page = $page;
-        $this->questionDto = $questionDto;
-        $this->preventRteUsage = $preventRteUsage;
+        $this->question_dto = $question_dto;
 
         $this->setTitle($DIC->language()->txt('asq_feedback_form_title'));
 
         $this->initForm();
     }
 
-    protected function initForm()
-    {
-        if( $this->questionDto->getContentEditingMode()->isRteTextarea() )
-        {
-            $this->initRteTextareaForm();
-        }
-        elseif( $this->questionDto->getContentEditingMode()->isPageObject() )
-        {
-            $this->initPageObjectForm();
-        }
-    }
 
+   /*
     protected function initRteTextareaForm()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
 
         $feedbackCorrectInput = $this->buildFeedbackContentInputFormProperty(
             $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
@@ -98,13 +85,14 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         $feedbackWrongInput->setValue($this->questionDto->getFeedbackWrong()->getContent());
 
         $this->addItem($feedbackWrongInput);
-    }
+    }*/
 
     /**
      * @param string $label
      * @param string $postVar
      * @return \ilTextAreaInputGUI
      */
+    /*
     protected function buildFeedbackContentInputFormProperty($label, $postVar)
     {
         $property = new \ilTextAreaInputGUI($label, $postVar);
@@ -128,58 +116,24 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         $property->setRTESupport($this->questionDto->getQuestionIntId(), 'asq', 'assessment');
 
         return $property;
-    }
+    }*/
 
-    protected function initPageObjectForm()
+    protected function initForm()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $feedbackCorrectInput = $this->buildFeedbackPageObjectFormProperty(
-            $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
-        );
+        $page_object_common_feedback_configuration = CommonPageObjectFeedbackConfiguration::create($this->page);
+        foreach(CommonPageObjectFeedback::generateFields($page_object_common_feedback_configuration) as $field) {
+            $this->addItem($field);
+        }
 
-
-        $feedbackCorrectInput->setValue($this->getPageObjectNonEditableInputValueHtml($this->page));
-
-        $this->addItem($feedbackCorrectInput);
-
-        $feedbackWrongInput = $this->buildFeedbackPageObjectFormProperty(
-            $DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
-        );
-
-        $feedbackWrongInput->setValue($this->getPageObjectNonEditableInputValueHtml($this->page));
-
-        $this->addItem($feedbackWrongInput);
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($DIC->language()->txt('asq_header_feedback_answers'));
+        $this->addItem($header);
+        $page_object_specific_feedback_configuration = AnswerSpecificPageObjectFeedbackConfiguration::create($this->page, $this->question_dto->getAnswerOptions());
+        foreach(AnswerSpecificPageObjectFeedback::generateFields($page_object_specific_feedback_configuration) as $field) {
+            $this->addItem($field);
+        }
     }
 
-    /**
-     * @param string $label
-     * @param string $postVar
-     * @return \ilNonEditableValueGUI
-     */
-    protected function buildFeedbackPageObjectFormProperty($label, $postVar)
-    {
-        $property = new \ilNonEditableValueGUI($label, $postVar, true);
-        return $property;
-    }
-
-    /**
-     * @param $page Page
-     *
-     * @return string
-     */
-    protected function getPageObjectNonEditableInputValueHtml(Page $page):string
-    {
-        return $page->getPageEditingLink();
-    }
-
-    public function getFeedbackCorrect()
-    {
-        return $this->getInput(self::VAR_FEEDBACK_CORRECT);
-    }
-
-    public function getFeedbackWrong()
-    {
-        return $this->getInput(self::VAR_FEEDBACK_WRONG);
-    }
 }
