@@ -4,12 +4,10 @@
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 
 /**
- * @defgroup ServicesComponent Services/Component
+ * Abstract Class ilPlugin
  *
  * @author   Alex Killing <alex.killing@gmx.de>
  * @author   Fabian Schmid <fs@studer-raimann.ch>
- *
- * @ingroup  ServicesComponent
  */
 abstract class ilPlugin
 {
