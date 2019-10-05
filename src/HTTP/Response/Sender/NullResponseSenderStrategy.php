@@ -22,7 +22,7 @@ class NullResponseSenderStrategy implements ResponseSenderStrategy
      *
      * @return void
      */
-    public function sendResponse(ResponseInterface $response)
+    public function sendResponse(ResponseInterface $response) : void
     {
         //noop
         return;

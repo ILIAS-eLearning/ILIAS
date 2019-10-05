@@ -672,4 +672,30 @@ class ilMembershipNotifications
 			$noti->switchMode($mode);			
 		}
 	}
+
+	/**
+	 * Clone notification object settings
+	 *
+     * @param $new_ref_id
+     */
+	public function cloneSettings($new_ref_id)
+	{
+	    global $ilDB;
+
+	    $set = $ilDB->queryF("SELECT * FROM member_noti ".
+	    	" WHERE ref_id = %s ",
+	    	array("integer"),
+	    	array($this->ref_id)
+	    	);
+	    while ($rec = $ilDB->fetchAssoc($set))
+	    {
+            $ilDB->insert("member_noti", array(
+                "ref_id" => array("integer", $new_ref_id),
+                "nmode" => array("integer", $rec["nmode"])
+            ));
+	    }
+
+
+    }
+
 }
