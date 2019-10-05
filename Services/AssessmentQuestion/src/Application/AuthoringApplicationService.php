@@ -72,7 +72,8 @@ class AuthoringApplicationService {
 		DomainObjectId $question_uuid,
 		int $container_id,
 	    ?int $object_id = null,
-		?int $answer_type_id = null
+		?int $answer_type_id = null,
+	    ?string $content_editing_mode
 	): void {
 		//CreateQuestion.png
 		CommandBusBuilder::getCommandBus()->handle
@@ -81,7 +82,8 @@ class AuthoringApplicationService {
 		  $this->actor_user_id,
 		  $container_id,
 		  $answer_type_id,
-		  $object_id));
+		  $object_id,
+		  $content_editing_mode));
 	}
 
 	public function SaveQuestion(QuestionDto $question_dto) {
