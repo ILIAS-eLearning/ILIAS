@@ -59,7 +59,7 @@ class PublishedQuestionRepository
         $dto->setId($question->getQuestionId());
         $dto->setRevisionId($question->getRevisionId());
         $dto->setContainerObjId($question->getContainerObjId());
-        $dto->setQuestionIntId($question_int_id);
+        $dto->setQuestionIntId($question->getQuestionIntId());
         $dto->setData(AbstractValueObject::deserialize($question->getQuestionData()));
         $dto->setPlayConfiguration(AbstractValueObject::deserialize($question->getQuestionConfiguration()));
         $dto->setAnswerOptions(Answeroptions::deserialize($question->getAnswerOptions()));
