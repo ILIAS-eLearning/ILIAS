@@ -26,7 +26,12 @@ trait SlateSessionStateCode
      */
     public function addOnloadCode(Slate $slate, isItem $item) : Slate
     {
-        $toggle_signal = $slate->getToggleSignal();
+        if ($item instanceof Tool) {
+            $signal = $slate->getShowSignal();
+        } else {
+            $signal = $slate->getToggleSignal();
+        }
+
         $identification = $item->getProviderIdentification()->serialize();
 
         $item_state = new ItemState($item->getProviderIdentification());
@@ -38,13 +43,13 @@ trait SlateSessionStateCode
         $level = $this->getLevel($item);
 
         $slate = $slate->withAdditionalOnLoadCode(
-            function ($id) use ($toggle_signal, $identification, $level) {
+            function ($id) use ($signal, $identification, $level) {
                 $identification = addslashes($identification);
 
                 return "
-                il.GS.Client.register(il.GS.Identification.getFromServerSideString('$identification'), '$id', $level);
+                il.GS.Client.register(il.GS.Identification.getFromServerSideString('{$identification}'), '{$id}', {$level});
                 
-                $(document).on('{$toggle_signal}', function(event, signalData) {
+                $(document).on('{$signal}', function(event, signalData) {
                     il.GS.Client.trigger('$id');
                     return false;
                 });
@@ -65,11 +70,11 @@ trait SlateSessionStateCode
     private function getLevel(isItem $item) : int
     {
         switch (true) {
-            case ($item instanceof isTopItem):
-                $level = ItemState::LEVEL_OF_TOPITEM;
-                break;
             case ($item instanceof Tool):
                 $level = ItemState::LEVEL_OF_TOOL;
+                break;
+            case ($item instanceof isTopItem):
+                $level = ItemState::LEVEL_OF_TOPITEM;
                 break;
             default:
                 $level = ItemState::LEVEL_OF_SUBITEM;

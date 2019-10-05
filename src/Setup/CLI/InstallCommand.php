@@ -4,6 +4,7 @@
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentCollection;
 use ILIAS\Setup\ArrayEnvironment;
 use ILIAS\Setup\ObjectiveIterator;
 use Symfony\Component\Console\Command\Command;
@@ -51,6 +52,12 @@ class InstallCommand extends Command {
 
 		$goal = $this->agent->getInstallObjective($config);
 		$environment = new ArrayEnvironment([]);
+
+		if ($this->agent instanceof AgentCollection && $config) {
+			foreach ($config->getKeys() as $k) {
+				$environment = $environment->withConfigFor($k, $config->getConfig($k));
+			}
+		}
 
 		$goals = new ObjectiveIterator($environment, $goal);
 		while($goals->valid()) {

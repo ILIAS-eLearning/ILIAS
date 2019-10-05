@@ -23,14 +23,14 @@ class ilMailExplorer implements TreeRecursion
     /** @var ilTree */
     private $tree;
 
-    /** @var  */
+    /** @var */
     private $root_id;
 
     /** @var array */
-    private $open_nodes = array();
+    private $open_nodes = [];
 
     /** @var array */
-    private $custom_open_nodes = array();
+    private $custom_open_nodes = [];
 
     /** @var \ilLanguage */
     private $lng;
@@ -45,14 +45,16 @@ class ilMailExplorer implements TreeRecursion
 
     private $search_term = '';
 
-    private $childs = array();
+    private $children = [];
 
-    private $all_childs = array();
+    private $all_children = [];
 
     private $preloaded = false;
 
     private $orderFieldNumeric = false;
 
+    /** @var ilSessionIStorage */
+    protected $store;
 
     /**
      * ilMailExplorer constructor.
@@ -63,14 +65,21 @@ class ilMailExplorer implements TreeRecursion
     {
         global $DIC;
 
-        $this->lng          = $DIC->language();
-        $this->ctrl         = $DIC->ctrl();
-        $this->httpRequest  = $DIC->http()->request();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->httpRequest = $DIC->http()->request();
         $this->parentObject = $parentObject;
-        $this->ui           = $DIC->ui();
+        $this->ui = $DIC->ui();
 
         $this->tree = new ilTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
+
+        $this->store = new ilSessionIStorage('expl2');
+        $openNodes = $this->store->get('mail_tree');
+        $this->open_nodes = unserialize($openNodes);
+        if (!is_array($this->open_nodes)) {
+            $this->open_nodes = [];
+        }
     }
 
     /**
@@ -84,13 +93,13 @@ class ilMailExplorer implements TreeRecursion
         /** @var ilTree $tree */
         $tree = $this->tree;
 
-        $subtree  = $tree->getChilds($tree->readRootId());
-        $data     = $subtree;
+        $subtree = $tree->getChilds($tree->readRootId());
+        $data = $subtree;
 
         $tree = $f->tree()
-                  ->expandable($this)
-                  ->withData($data)
-                  ->withHighlightOnNodeClick(true);
+            ->expandable($this)
+            ->withData($data)
+            ->withHighlightOnNodeClick(false);
 
         return $tree;
     }
@@ -105,7 +114,7 @@ class ilMailExplorer implements TreeRecursion
      */
     public function getChildren($record, $environment = null) : array
     {
-        return $this->getChildsOfNode($record['child']);
+        return $this->getChildrenByParentId($record['child']);
     }
 
     /**
@@ -147,7 +156,7 @@ class ilMailExplorer implements TreeRecursion
      */
     public function getHTML()
     {
-        $this->preloadChilds();
+        $this->preloadChildren();
 
         return $this->render();
     }
@@ -166,10 +175,10 @@ class ilMailExplorer implements TreeRecursion
         $path = $this->getNodeIcon($node);
 
         $icon = $DIC->ui()
-                    ->factory()
-                    ->symbol()
-                    ->icon()
-                    ->custom($path, 'a');
+            ->factory()
+            ->symbol()
+            ->icon()
+            ->custom($path, 'a');
 
         $simple = $factory->simple($this->getNodeContent($node), $icon);
 
@@ -182,19 +191,20 @@ class ilMailExplorer implements TreeRecursion
      * @param int $parentNodeId parent id
      * @return array childs
      */
-    private function getChildsOfNode($parentNodeId)
+    private function getChildrenByParentId($parentNodeId)
     {
         if ($this->preloaded && $this->search_term == '') {
-            if (is_array($this->childs[$parentNodeId])) {
-                return $this->childs[$parentNodeId];
+            if (is_array($this->children[$parentNodeId])) {
+                return $this->children[$parentNodeId];
             }
-            return array();
+
+            return [];
         }
 
-        $childs = $this->tree->getChilds($parentNodeId, $this->order_field);
+        $children = $this->tree->getChilds($parentNodeId, $this->order_field);
 
         $finalChildren = [];
-        foreach($childs as $key => $child) {
+        foreach ($children as $key => $child) {
             if ($this->matches($child)) {
                 $finalChildren[$key] = $child;
             }
@@ -218,18 +228,18 @@ class ilMailExplorer implements TreeRecursion
     /**
      * Preload childs
      */
-    private function preloadChilds()
+    private function preloadChildren()
     {
         $subtree = $this->tree->getSubTree($this->getRootNode());
         foreach ($subtree as $subNode) {
-            $this->childs[$subNode['parent']][] = $subNode;
-            $this->all_childs[$subNode['child']] = $subNode;
+            $this->children[$subNode['parent']][] = $subNode;
+            $this->all_children[$subNode['child']] = $subNode;
         }
 
         if ($this->order_field != '') {
-            foreach ($this->childs as $key => $childs) {
-                $this->childs[$key] = ilUtil::sortArray(
-                    $childs,
+            foreach ($this->children as $key => $children) {
+                $this->children[$key] = ilUtil::sortArray(
+                    $children,
                     $this->order_field,
                     'asc',
                     $this->orderFieldNumeric
@@ -239,8 +249,8 @@ class ilMailExplorer implements TreeRecursion
 
         // sort childs and store prev/next reference
         if ($this->order_field == '') {
-            $this->all_childs = ilUtil::sortArray(
-                $this->all_childs,
+            $this->all_children = ilUtil::sortArray(
+                $this->all_children,
                 'lft',
                 'asc',
                 true,
@@ -248,12 +258,12 @@ class ilMailExplorer implements TreeRecursion
             );
 
             $prev = false;
-            foreach ($this->all_childs as $key => $children) {
+            foreach ($this->all_children as $key => $children) {
                 if ($prev) {
-                    $this->all_childs[$prev]['next_node_id'] = $key;
+                    $this->all_children[$prev]['next_node_id'] = $key;
                 }
-                $this->all_childs[$key]['prev_node_id'] = $prev;
-                $this->all_childs[$key]['next_node_id'] = false;
+                $this->all_children[$key]['prev_node_id'] = $prev;
+                $this->all_children[$key]['next_node_id'] = false;
                 $prev = $key;
             }
         }
@@ -293,8 +303,9 @@ class ilMailExplorer implements TreeRecursion
     private function getRootNode()
     {
         if (!isset($this->root_node_data)) {
-            $this->root_node_data =  $this->tree->getNodeData($this->getRootId());
+            $this->root_node_data = $this->tree->getNodeData($this->getRootId());
         }
+
         return $this->root_node_data;
     }
 
@@ -312,13 +323,15 @@ class ilMailExplorer implements TreeRecursion
      * @param array
      * @return bool
      */
-    private function matches($node): bool
+    private function matches($node) : bool
     {
-        if ($this->search_term == '' ||
+        if (
+            $this->search_term == '' ||
             is_int(stripos($this->getNodeContent($node), $this->search_term))
         ) {
             return true;
         }
+
         return false;
     }
 

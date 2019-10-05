@@ -23,7 +23,12 @@ if ($_GET['new_ui'] == '1') {
 	$content = pagedemoContent($f);
 	$metabar = pagedemoMetabar($f);
 	$mainbar = pagedemoMainbar($f, $renderer)
-		->withActive("pws");
+		->withActive("pws")
+		/**
+		 * You can also activate a tool initially, e.g.:
+		 * ->withActive("tool2")
+		 */
+		;
 
 	$footer = pagedemoFooter($f);
 
@@ -184,7 +189,17 @@ function getDemoEntryRepository($f)
 		'./src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1'
 	);
 
-	$url = './src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
+	$df = new \ILIAS\Data\Factory();
+	$url = $df->uri(
+		$_SERVER['REQUEST_SCHEME'].
+		'://'.
+		$_SERVER['SERVER_NAME'].
+		':'.
+		$_SERVER['SERVER_PORT'].
+		$_SERVER['SCRIPT_NAME'].
+		'?'.
+		$_SERVER['QUERY_STRING']
+	);
 	$link1 = $f->link()->bulky($icon, 'Favorites (Link)', $url);
 	$link2 = $f->link()->bulky($icon, 'Courses (Link2)', $url);
 	$link3 = $f->link()->bulky($icon, 'Groups (Link)', $url);

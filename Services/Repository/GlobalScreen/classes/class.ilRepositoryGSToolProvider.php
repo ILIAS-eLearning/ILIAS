@@ -31,6 +31,9 @@ class ilRepositoryGSToolProvider extends AbstractDynamicToolProvider
     {
         global $DIC;
 
+        /** @var ilObjectDefinition $objDefinition */
+        $objDefinition = $DIC["objDefinition"];
+
         $lng = $DIC->language();
         $lng->loadLanguageModule("rep");
 
@@ -41,10 +44,20 @@ class ilRepositoryGSToolProvider extends AbstractDynamicToolProvider
             $iff = function ($id) { return $this->identification_provider->identifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
+            $type = ilObject::_lookupType((int) $ref_id, true);
 
-            $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle($lng->txt("tree"))
-                ->withContent($l($this->getTree($ref_id)));
+            /*$mode = ($_SESSION["il_rep_mode"] != "")
+                ? $_SESSION["il_rep_mode"]
+                : "flat";
+            $mode = "tree";*/
+
+            if (
+                (strtolower($_GET["baseClass"]) != "iladministrationgui") &&
+                $objDefinition->isContainer($type)) {
+                $tools[] = $this->factory->tool($iff("tree"))
+                    ->withTitle($lng->txt("tree"))
+                    ->withContent($l($this->getTree($ref_id)));
+            }
         }
 
         return $tools;
@@ -66,34 +79,24 @@ class ilRepositoryGSToolProvider extends AbstractDynamicToolProvider
         
         try {
 
-            $mode = ($_SESSION["il_rep_mode"] != "")
-                ? $_SESSION["il_rep_mode"]
-                : "flat";
-
             $type = ilObject::_lookupType((int) $_GET["ref_id"], true);
-            $classname = "ilObj".$objDefinition->getClassName($type)."GUI";
+
+            $classname = "ilObj" . $objDefinition->getClassName($type) . "GUI";
 
             $mode = "tree";
 
             // check for administration context, see #0016312
-            if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui"))
-            {
-                $exp = new ilRepositoryExplorerGUI($classname, "showRepTree");
-                /*
-                if(method_exists($this, 'getAdditionalWhitelistTypes')) {
-                    $whitelist = array_merge (
-                        $exp->getTypeWhiteList(),
-                        $this->getAdditionalWhitelistTypes()
-                    );
-                    $exp->setTypeWhiteList($whitelist);
-                }*/
+            $exp = new ilRepositoryExplorerGUI($classname, "showRepTree");
+            /*
+            if(method_exists($this, 'getAdditionalWhitelistTypes')) {
+                $whitelist = array_merge (
+                    $exp->getTypeWhiteList(),
+                    $this->getAdditionalWhitelistTypes()
+                );
+                $exp->setTypeWhiteList($whitelist);
+            }*/
 
-                return $exp->getHTML();
-            }
-
-            return "";
-            //$renderer = new ilLMSlateTocRendererGUI();
-            //return $renderer->render();
+            return $exp->getHTML();
         } catch (Exception $e) {
             return "";
         }
