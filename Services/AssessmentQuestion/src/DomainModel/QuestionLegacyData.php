@@ -26,18 +26,24 @@ class QuestionLegacyData extends AbstractValueObject {
 	const TYPE_KPRIM_CHOICE = 16;
 	
 	/**
-	 * @var int
+	 * @var ?int
 	 */
 	protected $answer_type_id;
+	
+	/**
+	 * @var ?string
+	 */
+	protected $content_editing_mode;
 	
 	/**
 	 * @param int      $answer_type_id
 	 *
 	 * @return QuestionLegacyData
 	 */
-	static function create(int $answer_type_id) : QuestionLegacyData {
+	static function create(?int $answer_type_id, ?string $content_editing_mode) : QuestionLegacyData {
 		$object = new QuestionLegacyData();
 		$object->answer_type_id = $answer_type_id;
+		$object->content_editing_mode = $content_editing_mode;
 		return $object;
 	}
 
@@ -73,6 +79,10 @@ class QuestionLegacyData extends AbstractValueObject {
 	public function getAnswerTypeId(): ?int {
 		return $this->answer_type_id;
 	}
+	
+	public function getContentEditingMode(): ?string {
+	    return $this->content_editing_mode;
+	}
 
     /**
      * @param QuestionDto $question
@@ -102,6 +112,7 @@ class QuestionLegacyData extends AbstractValueObject {
     {
         /** @var QuestionLegacyData $other */
         return get_class($this) === get_class($other) &&
-               $this->getAnswerTypeId() === $other->getAnswerTypeId();
+               $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
+               $this->getContentEditingMode() === $other->getContentEditingMode();
     }
 }

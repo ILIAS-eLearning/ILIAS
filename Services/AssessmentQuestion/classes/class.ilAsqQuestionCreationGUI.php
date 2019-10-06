@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\QuestionPageService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
@@ -132,18 +130,9 @@ class ilAsqQuestionCreationGUI
             new DomainObjectId($guid),
             $this->contextContainer->getObjId(), 
             null, //new questions get dynamic ids
-            $form->getQuestionType()
+            $form->getQuestionType(),
+            $form->getContentEditingMode()
         );
-
-        $question = $this->authoringApplicationService->GetQuestion($guid);
-
-        if( \ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
-        {
-            if( $form->hasContentEditingMode() )
-            {
-                // TODO: save content editing mode to question in any way.
-            }
-        }
 
         $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
             $this->publicAuthoringService->question($this->questionId)->getEditLink(array())->getAction()
