@@ -84,7 +84,6 @@ class AsqGUIElementFactory {
         QuestionDto $question
     ): QuestionFeedbackFormGUI
     {
-        $page_factory = new PageFactory($question->getContainerObjId(),$question->getQuestionIntId());
-        return new QuestionFeedbackFormGUI($page_factory->getFeedbackPage(),$question);
+        return new QuestionFeedbackFormGUI($question);
     }
 }

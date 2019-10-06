@@ -2,12 +2,13 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedbackDefinition;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
+
+
 /**
- * Class ilAsqGenericFeedbackPageGUI
+ * Class ilAsqAnswerOptionFeedbackPageGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
@@ -15,23 +16,27 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilPageEditorGUI
- * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilEditClipboardGUI
- * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilMDEditorGUI
- * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilPublicUserProfileGUI
- * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilNoteGUI
- * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilInternalLinkGUI
- * @ilCtrl_Calls ilAsqGenericFeedbackPageGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilAsqAnswerOptionFeedbackPageGUI: ilPageEditorGUI
+ * @ilCtrl_Calls ilAsqAnswerOptionFeedbackPageGUI: ilEditClipboardGUI
+ * @ilCtrl_Calls ilAsqAnswerOptionFeedbackPageGUI: ilMDEditorGUI
+ * @ilCtrl_Calls ilAsqAnswerOptionFeedbackPageGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilAsqAnswerOptionFeedbackPageGUI: ilNoteGUI
+ * @ilCtrl_Calls ilAsqAnswerOptionFeedbackPageGUI: ilInternalLinkGUI
+ * @ilCtrl_Calls ilAsqAnswerOptionFeedbackPageGUI: ilPropertyFormGUI
  */
-class ilAsqGenericFeedbackPageGUI extends ilPageObjectGUI
+class ilAsqAnswerOptionFeedbackPageGUI extends ilPageObjectGUI
 {
+    const PAGE_TYPE = 'asqa';
     const CMD_EDIT = 'edit';
-    const PAGE_TYPE = 'asqg';
+    const VAR_ANSWER_OPTION_INT_ID = "answer_option_int_id";
+    /**
+     * @var QuestionDto
+     */
+    protected $question;
     /**
      * @var int
      */
-    protected $feedback_type_int_id;
-
+    protected $answer_option_int_id;
 
     /**
      * ilAsqQuestionPageGUI constructor.
@@ -45,10 +50,10 @@ class ilAsqGenericFeedbackPageGUI extends ilPageObjectGUI
          **/
         global $DIC;
 
-        $this->feedback_type_int_id = $_GET[AnswerFeedbackDefinition::VAR_FEEDBACK_TYPE_INT_ID];
-        $DIC->ctrl()->saveParameter($this, AnswerFeedbackDefinition::VAR_FEEDBACK_TYPE_INT_ID);
+        $this->answer_option_int_id = $_GET[self::VAR_ANSWER_OPTION_INT_ID];
+        $DIC->ctrl()->saveParameter($this, self::VAR_ANSWER_OPTION_INT_ID);
 
-        $page = Page::getPage(self::PAGE_TYPE,$question->getQuestionIntId(), $this->feedback_type_int_id,$DIC->language()->getDefaultLanguage());
+        $page = Page::getPage(self::PAGE_TYPE,$question->getQuestionIntId(), $this->answer_option_int_id,$DIC->language()->getDefaultLanguage());
 
         $this->setParentType($page->getParentType());
         $this->setId($page->getId());

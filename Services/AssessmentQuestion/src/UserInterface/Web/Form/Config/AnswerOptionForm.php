@@ -30,7 +30,11 @@ class AnswerOptionForm extends ilTextInputGUI {
 	const COUNT_POST_VAR = 'option_count';
 
 	const OPTION_ORDER = 'AnswerOptionOrder';
-	
+
+    /**
+     * @var int
+     */
+    private $question_ind_id;
 	/**
 	 * @var array
 	 */
@@ -49,9 +53,10 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private $form_configuration;
 
-	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, AnswerOptions $options, array $definitions = null) {
+	public function __construct(string $title, int $question_int_id, ?QuestionPlayConfiguration $configuration, AnswerOptions $options, array $definitions = null) {
 		parent::__construct($title);
-		
+
+		$this->question_ind_id = $question_int_id;
 		//TODO every question that needs answer options requires them until now, if not --> dont set by default
 		$this->setRequired(true);
 		$this->configuration = $configuration;
@@ -67,7 +72,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 		    $this->form_configuration = $this->collectConfigurations($configuration);
 		}
 		
-		$this->options = new AnswerOptions();
+		$this->options = new AnswerOptions($question_int_id);
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		    $this->readAnswerOptions();
 		} else {
@@ -182,6 +187,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    for ($i = 1; $i <= $count; $i++) {
 	        $this->options->addOption(new AnswerOption
 	            (
+	                $this->question_ind_id,
 	                $i,
 	                $dd_class::getValueFromPost($i),
 	                $sd_class::getValueFromPost($i)

@@ -15,6 +15,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionAnswerAddedEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionAnswerOptionsSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionCreatedEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionDataSetEvent;
+use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionFeedbackSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionLegacyDataSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionPlayConfigurationSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionRevisionCreatedEvent;
@@ -83,6 +84,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
      * @var ContentEditingMode
      */
     private $contentEditingMode;
+    /**
+     * @var Feedback
+     */
+    protected $feedback;
 
 
     /**
@@ -343,6 +348,34 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     function clearAnswer(int $user_id, string $test_id)
     {
 
+    }
+
+    /**
+     * @return Feedback
+     */
+    public function getFeedback() : ?Feedback
+    {
+        return $this->feedback;
+    }
+
+
+    /**
+     * @param Feedback $feedback
+     * @param int $creator_id
+     *
+     * @throws ilDateTimeException
+     */
+    public function setFeedback(
+        Feedback $feedback,
+        int $container_obj_id,
+        int $creator_id = self::SYSTEM_USER_ID
+    ) : void {
+        $this->ExecuteEvent(new QuestionFeedbackSetEvent(
+            $this->getAggregateId(),
+            $container_obj_id,
+            $creator_id,
+            $this->getQuestionIntId(),
+            $feedback));
     }
 
 

@@ -3,7 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\FeedbackDto;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 
 /**
  * Class QuestionDto
@@ -64,13 +64,10 @@ class QuestionDto {
      */
 	private $content_editing_mode;
     /**
-     * @var FeedbackDto
+     * @var Feedback
      */
-	private $feedback_correct;
-    /**
-     * @var FeedbackDto
-     */
-	private $feedback_wrong;
+	private $feedback;
+
 
     /**
 	 * @param Question $question
@@ -272,20 +269,21 @@ class QuestionDto {
 
 
     /**
-     * @return FeedbackDto
+     * @param Feedback $feedback
      */
-    public function getFeedbackCorrect() : FeedbackDto
+    public function setFeedback(Feedback $feedback) : void
     {
-        return $this->feedback_correct;
+        $this->feedback = $feedback;
     }
 
 
+
     /**
-     * @return FeedbackDto
+     * @return Feedback
      */
-    public function getFeedbackWrong() : FeedbackDto
+    public function getFeedback() : Feedback
     {
-        return $this->feedback_wrong;
+        return $this->feedback;
     }
 
 }

@@ -20,6 +20,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilAsqQuestionFeedbackEditorGUI: ilAsqGenericFeedbackPageGUI
+ * @ilCtrl_Calls ilAsqQuestionFeedbackEditorGUI: ilAsqAnswerOptionFeedbackPageGUI
  */
 class ilAsqQuestionFeedbackEditorGUI
 {
@@ -66,6 +67,7 @@ class ilAsqQuestionFeedbackEditorGUI
     public function executeCommand()
     {
         global $DIC;
+
         /* @var ILIAS\DI\Container $DIC */
         switch ($DIC->ctrl()->getNextClass()) {
             case strtolower(ilAsqGenericFeedbackPageGUI::class):
@@ -77,10 +79,30 @@ class ilAsqQuestionFeedbackEditorGUI
                 );
 
                 $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
-                //$feedbackIntId = $question->getFeedbackCorrect()->getIntId();
+                $gui = new \ilAsqGenericFeedbackPageGUI($question);
 
-                $page_factory = new PageFactory($question->getContainerObjId(),$question->getQuestionIntId());
-                $gui = $this->publicAuthoringService->getGenericFeedbackPageGUI($page_factory->getFeedbackPage());
+                if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
+                    // workaround for page edit imagemaps, keep in mind
+
+                    $DIC->ctrl()->setCmdClass(strtolower(get_class($gui)));
+                    $DIC->ctrl()->setCmd('preview');
+                }
+
+                $html = $DIC->ctrl()->forwardCommand($gui);
+                $DIC->ui()->mainTemplate()->setContent($html);
+
+                break;
+
+            case strtolower(ilAsqAnswerOptionFeedbackPageGUI::class):
+
+                $DIC->tabs()->clearTargets();
+
+                $DIC->tabs()->setBackTarget($DIC->language()->txt('asq_back_to_question_link'),
+                    $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_FEEDBACK)
+                );
+
+                $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
+                $gui = new \ilAsqAnswerOptionFeedbackPageGUI($question);
 
                 if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
                     // workaround for page edit imagemaps, keep in mind
@@ -123,18 +145,18 @@ class ilAsqQuestionFeedbackEditorGUI
 
         $form = $this->buildForm();
 
-        if ($form->checkInput()) {
-            $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
-
-            if ($question->getContentEditingMode()->isRteTextarea()) {
-                //$question->getFeedbackCorrect()->setContent($form->getFeedbackCorrect());
-                //$question->getFeedbackWrong()->setContent($form->getFeedbackWrong());
-            }
-
-            $DIC->ctrl()->redirect($this, self::CMD_SHOW_FEEDBACK);
+        if( !$form->checkInput() )
+        {
+            $this->showFeedback($form);
+            return;
         }
 
-        $this->showFeedback($form);
+        $question = $form->getQuestion();
+        $this->authoringApplicationService->SaveQuestion($question);
+
+        ilutil::sendSuccess("Question Saved", true);
+        $DIC->ctrl()->redirect($this, self::CMD_SHOW_FEEDBACK);
+
     }
 
 

@@ -2,6 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
+use ILIAS\Services\AssessmentQuestion\DomainModel\AnswerSpecificFeedback\AbstractAnswerOptionFeedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\AnswerSpecificFeedback\AnswerOptionFeedbackPage;
 use JsonSerializable;
 use stdClass;
 
@@ -19,9 +21,11 @@ class AnswerOption implements JsonSerializable {
 
 	const DISPLAY_DEF_CLASS = "ddclass";
 	const SCORING_DEF_CLASS = "sdclass";
+    const FEEDBACK_DEF_CLASS = "fdclass";
+
 
 	/**
-	 * @var string
+	 * @var int
 	 */
 	private $option_id;
 	/**
@@ -32,6 +36,10 @@ class AnswerOption implements JsonSerializable {
 	 * @var ?ScoringDefinition
 	 */
 	private $scoring_definition;
+    /**
+     * @var ?AbstractAnswerSpecificFeedback
+     */
+    private $feedback_definition;
 
 	public function __construct(int $id, ?DisplayDefinition $display_definition = null, ?ScoringDefinition $scoring_definition = null)
 	{
@@ -64,6 +72,16 @@ class AnswerOption implements JsonSerializable {
 		return $this->scoring_definition;
 	}
 
+
+    /**
+     * @return AbstractAnswerOptionFeedback|Null
+     */
+    public function getFeedbackDefinition()
+    {
+        return $this->feedback_definition;
+    }
+
+
 	/**
 	 * @return array
 	 */
@@ -76,7 +94,7 @@ class AnswerOption implements JsonSerializable {
 
 	public function equals(AnswerOption $other) : bool {
 	    if (get_class($this->display_definition) !== get_class($other->display_definition) ||
-	        get_class($this->scoring_definition) !== get_class($other->scoring_definition)) 
+	        get_class($this->scoring_definition) !== get_class($other->scoring_definition))
 	    {
 	       return false;        
 	    }
@@ -111,6 +129,7 @@ class AnswerOption implements JsonSerializable {
 	}
 
 	public function deserialize(stdClass $option) {
+
 		$dd_class = $option->{self::DISPLAY_DEF_CLASS};
 		$this->display_definition = call_user_func(array($dd_class, 'deserialize'), $option->display_definition);
 

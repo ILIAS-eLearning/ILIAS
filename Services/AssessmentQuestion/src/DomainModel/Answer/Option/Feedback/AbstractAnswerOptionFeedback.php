@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
+namespace ILIAS\Services\AssessmentQuestion\DomainModel\AnswerSpecificFeedback;
 
 /**
  * Class Feedback
@@ -13,7 +13,7 @@ namespace ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AbstractAnswerSpecificFeedback {
+class AbstractAnswerOptionFeedback {
 
     const VAR_FEEDBACK_SETTING = "feedback_setting";
     const VAR_FEEDBACK_FOR_ANSWER = "feedback_for_answer";
