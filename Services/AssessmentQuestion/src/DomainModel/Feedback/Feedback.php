@@ -4,10 +4,8 @@
 
 namespace ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
 
-
-
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackModeDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackMode;
 use JsonSerializable;
 
 /**
@@ -22,63 +20,104 @@ use JsonSerializable;
  */
 class Feedback extends AbstractValueObject implements JsonSerializable
 {
-    const ANSWER_OPTION_FEEDBACK_MODE_DEFINITION = "aofmdclass";
 
+    const ANSWER_CORRECT_FEEDBACK = "acfclass";
+    const ANSWER_WRONG_FEEDBACK = "awfdclass";
+    const ANSWER_OPTION_FEEDBACK_MODE = "aofmdclass";
     /**
-     * @var AnswerOptionFeedbackModeDefinition
+     * @var AnswerCorrectFeedback
      */
-    protected $answer_option_feedback_mode_setting;
+    protected $answer_correct_feedback;
+    /**
+     * @var AnswerWrongFeedback
+     */
+    protected $answer_wrong_feedback;
+    /**
+     * @var AnswerOptionFeedbackMode
+     */
+    protected $answer_option_feedback_mode;
 
-    public function __construct(AnswerOptionFeedbackModeDefinition $answer_option_feedback_mode_setting) {
-        $this->answer_option_feedback_mode_setting = $answer_option_feedback_mode_setting;
+
+    public function __construct(
+        AnswerCorrectFeedback $answer_correct_feedback = null,
+        AnswerWrongFeedback $answer_wrong_feedback = null,
+        AnswerOptionFeedbackMode $answer_option_feedback_mode = null
+    ) {
+        $this->answer_correct_feedback = $answer_correct_feedback;
+        $this->answer_wrong_feedback = $answer_wrong_feedback;
+        $this->answer_option_feedback_mode = $answer_option_feedback_mode;
     }
 
 
     /**
-     * @return int
+     * @return AnswerCorrectFeedback
      */
-    public function getAnswerOptionFeedbackModeSetting() : AnswerOptionFeedbackModeDefinition
+    public function getAnswerCorrectFeedback() : ?AnswerCorrectFeedback
     {
-        return $this->answer_option_feedback_mode_setting;
+        return $this->answer_correct_feedback;
+    }
+
+
+    /**
+     * @return AnswerWrongFeedback
+     */
+    public function getAnswerWrongFeedback() : ?AnswerWrongFeedback
+    {
+        return $this->answer_wrong_feedback;
+    }
+
+
+    /**
+     * @return Null|AnswerOptionFeedbackMode
+     */
+    public function getAnswerOptionFeedbackMode() : ?AnswerOptionFeedbackMode
+    {
+        return $this->answer_option_feedback_mode;
     }
 
 
     public function jsonSerialize()
     {
         $vars = get_object_vars($this);
-        $vars[self::ANSWER_OPTION_FEEDBACK_MODE_DEFINITION] = get_class($this->answer_option_feedback_mode_setting);
+        $vars[self::ANSWER_CORRECT_FEEDBACK] = get_class($this->answer_correct_feedback);
+        $vars[self::ANSWER_WRONG_FEEDBACK] = get_class($this->answer_wrong_feedback);
+        $vars[self::ANSWER_OPTION_FEEDBACK_MODE] = get_class($this->answer_option_feedback_mode);
+
         return $vars;
     }
 
 
-    public function equals(AbstractValueObject $other) : bool {
-        if (get_class($this->answer_option_feedback_mode_setting) !== get_class($other->answer_option_feedback_mode_setting))
-        {
+    public function equals(AbstractValueObject $other) : bool
+    {
+        if (get_class($this) !== get_class($other)) {
             return false;
         }
 
-        /*$my_values = $this->rawValues();
-        $other_values = $other->rawValues();
+        if (!AbstractValueObject::isNullableEqual($this->answer_correct_feedback, $other->answer_correct_feedback)) {
+            return false;
+        }
 
-        foreach ($my_values as $key => $value)
-        {
-            if ($my_values[$key] !== $other_values[$key])
-            {
-                return false;
-            }
-        }*/
+        if (!AbstractValueObject::isNullableEqual($this->answer_wrong_feedback, $other->answer_wrong_feedback)) {
+            return false;
+        }
+
+        if (!AbstractValueObject::isNullableEqual($this->answer_option_feedback_mode, $other->answer_option_feedback_mode)) {
+            return false;
+        }
 
         return true;
     }
 
-    public static function deserialize(?string $json_data) : ?AbstractValueObject {
+
+    public static function deserialize(?string $json_data) : ?AbstractValueObject
+    {
         $data = json_decode($json_data);
 
-        $feedback = new Feedback(new AnswerOptionFeedbackModeDefinition($data->answer_option_feedback_mode_setting->answer_option_feedback_mode_setting));
-
+        $feedback = new Feedback(
+            new AnswerCorrectFeedback((string) $data->answer_correct_feedback->answer_feedback),
+            new AnswerWrongFeedback((string) $data->answer_wrong_feedback->answer_feedback),
+            new AnswerOptionFeedbackMode((int) $data->answer_option_feedback_mode->answer_option_feedback_mode));
 
         return $feedback;
     }
-
-
 }

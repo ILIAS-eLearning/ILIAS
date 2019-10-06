@@ -99,6 +99,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
 
         $this->answers = [];
         $this->answer_options = new AnswerOptions();
+        //$this->feedback = new Feedback();
 
         /**
          * TODO: I guess this is not the right place.
@@ -191,6 +192,15 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     {
         $answer = $event->getAnswer();
         $this->answers[$answer->getTestId()][$answer->getAnswererId()] = $answer;
+    }
+
+    /**
+     * @param QuestionAnswerAddedEvent $event
+     */
+    protected function applyQuestionFeedbackSetEvent(QuestionFeedbackSetEvent $event)
+    {
+        $feedback = $event->getFeedback();
+        $this->feedback = $feedback;
     }
 
 

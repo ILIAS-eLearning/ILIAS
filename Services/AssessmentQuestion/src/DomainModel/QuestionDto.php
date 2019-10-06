@@ -94,6 +94,9 @@ class QuestionDto {
 		    $question->getContentEditingMode()
         );
 
+
+        $dto->feedback = $question->getFeedback();
+
 		/*$dto->feedback_correct = FeedbackDto::createFromFeedback(
             $question->getFeedbackCorrect()
         );
@@ -101,6 +104,7 @@ class QuestionDto {
 		$dto->feedback_wrong = FeedbackDto::createFromFeedback(
             $question->getFeedbackWrong()
         );*/
+
 
 		return $dto;
 	}
@@ -281,7 +285,7 @@ class QuestionDto {
     /**
      * @return Feedback
      */
-    public function getFeedback() : Feedback
+    public function getFeedback() : ?Feedback
     {
         return $this->feedback;
     }

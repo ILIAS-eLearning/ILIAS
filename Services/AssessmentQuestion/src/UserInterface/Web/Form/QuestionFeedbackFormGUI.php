@@ -9,10 +9,15 @@ use ilAsqAnswerOptionFeedbackPageGUI;
 use ilAsqQuestionAuthoringGUI;
 use ilAsqQuestionFeedbackEditorGUI;
 use ilFormSectionHeaderGUI;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedbackDefinition;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackModeDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedback;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackMode;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerCorrectFeedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerWrongFeedback;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 use ILIAS\UI\Implementation\Component\Link\Standard;
 
@@ -125,19 +130,25 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
             $this->addItem($field);
         }*/
 
-        foreach (AnswerFeedbackDefinition::getFields($this->question_dto->getId()) as $field) {
+        $this->addItem(AnswerCorrectFeedback::generateField($this->question_dto));
+        $this->addItem(AnswerWrongFeedback::generateField($this->question_dto));
+
+       /* foreach (AnswerFeedback::generateFields($this->question_dto->getId()) as $field) {
             $this->addItem($field);
-        }
+        }*/
 
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($DIC->language()->txt('asq_header_feedback_answers'));
         $this->addItem($header);
 
-        foreach (AnswerOptionFeedbackModeDefinition::getFields() as $field) {
+        foreach (AnswerOptionFeedbackMode::generateField($this->question_dto->getFeedback()->getAnswerOptionFeedbackMode()) as $field) {
             $this->addItem($field);
         }
 
         foreach ($this->question_dto->getAnswerOptions()->getOptions() as $answer_option) {
+
+            $this->addItem(AnswerOptionFeedback::generateField($this->question_dto,$answer_option));
+/*
 
             $answer_specific_feedback = new \ilNonEditableValueGUI('test', $answer_option->getOptionId(), true);
 
@@ -155,7 +166,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
 
             $this->addItem($answer_specific_feedback);
             //            $answer_option->getFeedbackDefinition()->
-
+*/
         }
     }
 
@@ -172,11 +183,25 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
      public function getQuestion() : QuestionDto {
         $question = $this->question_dto;
 
+        $question->setFeedback(new Feedback(
+            AnswerCorrectFeedback::getValueFromPost(),
+            AnswerWrongFeedback::getValueFromPost(),
+            AnswerOptionFeedbackMode::getValueFromPost()));
 
-        $question->setFeedback(new Feedback(AnswerOptionFeedbackModeDefinition::getValueFromPost()));
+        $answer_options = new AnswerOptions();
+        foreach($question->getAnswerOptions()->getOptions() as $answer_option) {
+            $answer_option_new = new AnswerOption(
+                $answer_option->getOptionId(),
+                $answer_option->getDisplayDefinition(),
+                $answer_option->getScoringDefinition(),
+                AnswerOptionFeedback::getValueFromPost($answer_option->getOptionId())
+            );
+            $answer_options->addOption($answer_option_new);
+        }
+
+         $question->setAnswerOptions($answer_options);
 
         return $question;
-
     }
 
 }

@@ -4,6 +4,7 @@
 
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as PublicAuthoringService;
@@ -168,7 +169,12 @@ class ilAsqQuestionFeedbackEditorGUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($this->authoringApplicationService->GetQuestion($this->questionUid->getId()));
+        $question_dto = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
+        if(!is_object($question_dto->getFeedback())) {
+            $question_dto->setFeedback(new Feedback());
+        }
+
+        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($question_dto);
 
         $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FEEDBACK));
         $form->addCommandButton(self::CMD_SAVE_FEEDBACK, $DIC->language()->txt('save'));

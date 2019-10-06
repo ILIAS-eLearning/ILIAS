@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedbackDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedback;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
@@ -45,8 +45,8 @@ class ilAsqGenericFeedbackPageGUI extends ilPageObjectGUI
          **/
         global $DIC;
 
-        $this->feedback_type_int_id = $_GET[AnswerFeedbackDefinition::VAR_FEEDBACK_TYPE_INT_ID];
-        $DIC->ctrl()->saveParameter($this, AnswerFeedbackDefinition::VAR_FEEDBACK_TYPE_INT_ID);
+        $this->feedback_type_int_id = $_GET[AnswerFeedback::VAR_FEEDBACK_TYPE_INT_ID];
+        $DIC->ctrl()->saveParameter($this, AnswerFeedback::VAR_FEEDBACK_TYPE_INT_ID);
 
         $page = Page::getPage(self::PAGE_TYPE,$question->getQuestionIntId(), $this->feedback_type_int_id,$DIC->language()->getDefaultLanguage());
 

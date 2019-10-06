@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
 
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
@@ -181,16 +182,17 @@ class AnswerOptionForm extends ilTextInputGUI {
 	public function readAnswerOptions() {
 	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
+        $fd_class = AnswerOptionFeedback::class;
 	    
 	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
 	    
 	    for ($i = 1; $i <= $count; $i++) {
 	        $this->options->addOption(new AnswerOption
 	            (
-	                $this->question_ind_id,
 	                $i,
 	                $dd_class::getValueFromPost($i),
-	                $sd_class::getValueFromPost($i)
+	                $sd_class::getValueFromPost($i),
+                    $fd_class::getValueFromPost($i)
 	                ));
 	    }
 	}

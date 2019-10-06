@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use JsonSerializable;
@@ -17,51 +18,71 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AnswerOptionFeedbackModeDefinition implements JsonSerializable {
+class AnswerOptionFeedbackMode extends AbstractValueObject implements JsonSerializable {
 
     const OPT_ANSWER_OPTION_FEEDBACK_MODE_NONE = 0;
     const OPT_ANSWER_OPTION_FEEDBACK_MODE_ALL = 1;
     const OPT_ANSWER_OPTION_FEEDBACK_MODE_CHECKED = 2;
     const OPT_ANSWER_OPTION_FEEDBACK_MODE_CORRECT = 3;
 
-    const VAR_ANSWER_OPTION_FEEDBACK_MODE_SETTING = 'answer_option_feedback_mode_setting';
+    const VAR_ANSWER_OPTION_FEEDBACK_MODE = 'answer_option_feedback_mode';
     /**
      * var int
      */
-    protected $answer_option_feedback_mode_setting;
+    protected $answer_option_feedback_mode;
 
-    public function __construct($answer_option_feedback_mode_setting) {
-        $this->answer_option_feedback_mode_setting = $answer_option_feedback_mode_setting;
+    public function __construct(int $answer_option_feedback_mode) {
+        $this->answer_option_feedback_mode = $answer_option_feedback_mode;
     }
 
 
-	public static function getFields() : array {
+	public static function generateField(AnswerOptionFeedbackMode $answer_option_feedback_mode = NULL) : array {
 	    global $DIC;
 
         $fields = [];
 
-        $feedback_setting = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_feedback_setting'), self::VAR_ANSWER_OPTION_FEEDBACK_MODE_SETTING);
+        $feedback_setting = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_feedback_setting'), self::VAR_ANSWER_OPTION_FEEDBACK_MODE);
         $feedback_setting->addOption(new ilRadioOption($DIC->language()->txt('asq_option_feedback_all'), self::OPT_ANSWER_OPTION_FEEDBACK_MODE_ALL));
         $feedback_setting->addOption(new ilRadioOption($DIC->language()->txt('asq_option_feedback_checked'), self::OPT_ANSWER_OPTION_FEEDBACK_MODE_CHECKED));
         $feedback_setting->addOption(new ilRadioOption($DIC->language()->txt('asq_option_feedback_correct'), self::OPT_ANSWER_OPTION_FEEDBACK_MODE_CORRECT));
         $feedback_setting->setRequired(true);
+
+        if(is_object($answer_option_feedback_mode)) {
+            $feedback_setting->setValue($answer_option_feedback_mode->getMode());
+        }
+
+
         $fields[] =  $feedback_setting;
 
         return $fields;
     }
 
     public static function getValueFromPost() {
-        return new AnswerOptionFeedbackModeDefinition(
-            intval($_POST[self::VAR_ANSWER_OPTION_FEEDBACK_MODE_SETTING]));
-    }
-
-    public function getValues(): array {
-        return [self::VAR_ANSWER_OPTION_FEEDBACK_MODE_SETTING => $this->answer_option_feedback_mode_setting];
+        return new AnswerOptionFeedbackMode(
+            intval($_POST[self::VAR_ANSWER_OPTION_FEEDBACK_MODE]));
     }
 
 
-    public static function deserialize(stdClass $data) {
-        return new AnswerOptionFeedbackModeDefinition($data->answer_option_feedback_mode_setting);
+   public function getMode(): string {
+       return $this->answer_option_feedback_mode;
+   }
+
+
+    public static function deserialize(?string $data) : ?AbstractValueObject {
+        return new AnswerOptionFeedbackMode($data->answer_option_feedback_mode);
+    }
+
+    public function equals(AbstractValueObject $other) : bool {
+        if (get_class($this) !== get_class($other))
+        {
+            return false;
+        }
+
+        if($this->getMode() !== $other->getMode()) {
+            return false;
+        }
+
+        return true;
     }
 	
 	/**
