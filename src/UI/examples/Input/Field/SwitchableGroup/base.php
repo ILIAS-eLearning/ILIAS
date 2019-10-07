@@ -20,16 +20,20 @@ function base() {
 	$group2 = $ui->input()->field()->group(
 		[
 			"field_2_1"=>$ui->input()->field()->text("Item 2", "Just another field")
+				->withValue('some val')
 		],
 		"switchable group number two"
 	);
 
 	//Step 2: Switchable Group - one or the other:
 	$sg = $ui->input()->field()->switchableGroup(
-		[$group1, $group2],
+		[
+			"g1"=>$group1,
+			"g2"=>$group2
+		],
 		"pick one",
 		"...or the other"
-	);
+	)->withValue("g2");
 
 	//Step 3: define form and form actions
 	$DIC->ctrl()->setParameterByClass(
@@ -38,7 +42,11 @@ function base() {
 		'switchablegroup'
 	);
 	$form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-	$form = $ui->input()->container()->form()->standard($form_action, ['switchable_group' => $sg]);
+	$form = $ui->input()->container()->form()->standard(
+		$form_action,
+		[
+			'switchable_group' => $sg
+		]);
 
 	//Step 4: implement some form data processing.
 	if ($request->getMethod() == "POST"
