@@ -37,7 +37,7 @@ let clear_row = function(row) {
     	
     	if ($input.attr('type') === 'radio' ||
     		$input.attr('type') === 'checkbox') {
-    		$input.attr('checked', 'checked');
+    		$input.attr('checked', false);
     	}
     	else {
     		$input.val('');
