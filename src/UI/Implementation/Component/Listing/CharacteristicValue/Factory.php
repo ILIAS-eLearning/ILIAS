@@ -6,8 +6,8 @@ namespace ILIAS\UI\Implementation\Component\Listing\CharacteristicValue;
 use ILIAS\UI\Component as C;
 
 /**
- * Factory for report listings
- * @package ILIAS\UI\Implementation\Component\Listing\Report
+ * Factory for characteristic value listings
+ * @package ILIAS\UI\Implementation\Component\Listing\CharacteristicValue
  */
 class Factory implements C\Listing\CharacteristicValue\Factory
 {

@@ -7,7 +7,6 @@ use ILIAS\UI\Component\Component;
 
 /**
  * Interface Text
- * @package ILIAS\UI\Component\Listing\CharacteristicValue
  */
 interface Text extends Component
 {

@@ -12,10 +12,7 @@ use ILIAS\UI\Component\Listing\CharacteristicValue\Text;
 
 /**
  * Class Renderer
- *
- * @author      Björn Heyser <info@bjoernheyser.de>
- *
- * @package     Services/AssessmentQuestion
+ * @package     ILIAS\UI\Implementation\Component\Listing\CharacteristicValue
  */
 class Renderer extends AbstractComponentRenderer
 {
