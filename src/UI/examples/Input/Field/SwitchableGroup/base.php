@@ -33,7 +33,7 @@ function base() {
 		],
 		"pick one",
 		"...or the other"
-	)->withValue("g2");
+	);
 
 	//Step 3: define form and form actions
 	$DIC->ctrl()->setParameterByClass(
@@ -45,7 +45,8 @@ function base() {
 	$form = $ui->input()->container()->form()->standard(
 		$form_action,
 		[
-			'switchable_group' => $sg
+			'switchable_group' => $sg,
+			'switchable_group2' => $sg->withValue("g2")
 		]);
 
 	//Step 4: implement some form data processing.
