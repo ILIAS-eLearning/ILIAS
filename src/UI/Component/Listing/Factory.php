@@ -87,8 +87,8 @@ interface Factory {
      *        and a value describing the key.
      * ----
      *
-     * @return CharacteristicValue\Factory
+     * @return \ILIAS\UI\Component\Listing\CharacteristicValue\Factory
      */
-    public function characteristicValue() : CharacteristicValue\Factory;
+    public function characteristicValue() : \ILIAS\UI\Component\Listing\CharacteristicValue\Factory;
 
 }
