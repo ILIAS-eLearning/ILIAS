@@ -2,12 +2,15 @@
 
 use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class BaseMetaBarItemRenderer
@@ -22,10 +25,6 @@ class BaseMetaBarItemRenderer implements MetaBarItemRenderer
      * @var \ILIAS\GlobalScreen\Services
      */
     private $ui;
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    private $gs;
 
 
     /**
@@ -35,7 +34,6 @@ class BaseMetaBarItemRenderer implements MetaBarItemRenderer
     {
         global $DIC;
         $this->ui = $DIC->ui();
-        $this->gs = $DIC->globalScreen();
     }
 
 
@@ -54,9 +52,9 @@ class BaseMetaBarItemRenderer implements MetaBarItemRenderer
             case ($item instanceof LinkItem):
             case ($item instanceof TopLinkItem):
                 $component = $f->button()->bulky(
-                	$item->getSymbol(),
-	                $item->getTitle(),
-	                $item->getAction());
+                    $this->getStandardSymbol($item),
+                    $item->getTitle(),
+                    $item->getAction());
                 break;
             case ($item instanceof TopLegacyItem):
                 $component = $f->mainControls()->slate()->legacy($item->getTitle(), $item->getSymbol(), $item->getLegacyContent());
@@ -91,5 +89,25 @@ class BaseMetaBarItemRenderer implements MetaBarItemRenderer
         }
 
         return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return Symbol
+     */
+    protected function getStandardSymbol(isItem $item) : Symbol
+    {
+        if ($item instanceof hasSymbol && $item->hasSymbol()) {
+            return $item->getSymbol();
+        }
+        if ($item instanceof hasTitle) {
+            $abbr = strtoupper(substr($item->getTitle(), 0, 1));
+        } else {
+            $abbr = strtoupper(substr(uniqid('', true), -1));
+        }
+
+        return $this->ui->factory()->symbol()->icon()->standard($abbr, $abbr, 'small', true)->withAbbreviation($abbr);
     }
 }

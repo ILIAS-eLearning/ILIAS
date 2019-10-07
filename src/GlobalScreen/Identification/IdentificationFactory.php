@@ -81,14 +81,14 @@ class IdentificationFactory
      * comes from (e.g. to disable or delete all elements when a plugin is
      * deleted or deactivated).
      *
-     * @param \ilPlugin $plugin
-     * @param Provider  $provider
+     * @param string   $plugin_id
+     * @param Provider $provider
      *
      * @return IdentificationProviderInterface
      */
-    public final function plugin(\ilPlugin $plugin, Provider $provider) : IdentificationProviderInterface
+    public final function plugin(string $plugin_id, Provider $provider) : IdentificationProviderInterface
     {
-        return new PluginIdentificationProvider($provider, $plugin->getId(), $this->serializer_factory->plugin(), $this->map);
+        return new PluginIdentificationProvider($provider, $plugin_id, $this->serializer_factory->plugin(), $this->map);
     }
 
 

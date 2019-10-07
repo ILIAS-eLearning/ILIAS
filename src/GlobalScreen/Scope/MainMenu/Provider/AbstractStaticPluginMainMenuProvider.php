@@ -1,38 +1,16 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
 
-use ILIAS\DI\Container;
-use ilPlugin;
+use ILIAS\GlobalScreen\Provider\PluginProvider;
 
 /**
  * Class AbstractStaticPluginMainMenuProvider
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated use AbstractStaticMainMenuPluginProvider instead. This class will be removed in ILIAS 7
+ * @see        AbstractStaticMainMenuPluginProvider
+ *
+ * @author     Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractStaticPluginMainMenuProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
+abstract class AbstractStaticPluginMainMenuProvider extends AbstractStaticMainMenuPluginProvider implements PluginProvider, StaticMainMenuProvider
 {
 
-    /**
-     * @var ilPlugin
-     */
-    protected $plugin;
-
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct(Container $dic, ilPlugin $plugin)
-    {
-        parent::__construct($dic);
-        $this->plugin = $plugin;
-        $this->if = $this->globalScreen()->identification()->plugin($plugin, $this);
-    }
-
-
-    /**
-     * @return string
-     */
-    public final function getProviderNameForPresentation() : string
-    {
-        return $this->plugin->getPluginName();
-    }
 }
