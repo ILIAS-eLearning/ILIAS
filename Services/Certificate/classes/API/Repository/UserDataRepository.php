@@ -5,6 +5,7 @@ namespace Certificate\API\Repository;
 
 use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
+use ilDBConstants;
 use ilUserCertificateApiGUI;
 
 /**
@@ -56,43 +57,27 @@ class UserDataRepository
      */
     public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
     {
-        $userIds = $filter->getUserIds();
-
-        $sql = '
-SELECT 
-  il_cert_user_cert.pattern_certificate_id,
-  il_cert_user_cert.obj_id,
-  il_cert_user_cert.user_id,
-  il_cert_user_cert.user_name,
-  il_cert_user_cert.acquired_timestamp,
-  il_cert_user_cert.currently_active,
-  il_cert_user_cert.id,
-  (CASE WHEN (object_data.title IS NULL)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
-    END
-  ) as title,
-  object_reference.ref_id,
-  usr_data.firstname,
-  usr_data.lastname,
-  usr_data.email,
-  usr_data.login,
-  usr_data.second_email
-FROM il_cert_user_cert
-LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
-LEFT JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id
-INNER JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
-WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'integer')
-            . $this->createWhereCondition($filter) . ' ' . $this->createOrderByClause($filter);
+        $sql = 'SELECT
+    cert.pattern_certificate_id,
+    cert.obj_id,
+    cert.user_id,
+    cert.user_name,
+    cert.acquired_timestamp,
+    cert.currently_active,
+    cert.id,
+    cert.title,
+    cert.ref_id,
+    usr_data.firstname,
+    usr_data.lastname,
+    usr_data.email,
+    usr_data.login,
+    usr_data.second_email
+FROM
+' . $this->getQuery($filter);
 
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $id = (int) $row['id'];
 
@@ -102,7 +87,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
             }
 
             $link = '';
-            if (array() !== $ilCtrlStack) {
+            if ([] !== $ilCtrlStack) {
                 $ilCtrlStack[] = ilUserCertificateApiGUI::class;
                 $this->controller->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
                 $link = $this->controller->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
@@ -111,7 +96,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
 
             $dataObject = new UserCertificateDto(
                 $id,
-                $row['title'],
+                $row['title'] ?? $this->defaultTitle,
                 (int) $row['obj_id'],
                 (int) $row['acquired_timestamp'],
                 (int) $row['user_id'],
@@ -126,8 +111,90 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
 
             $result[$id] = $dataObject;
         }
+
+        if ($filter->getLimitStart() !== null && $filter->getLimitEnd() !== null) {
+            $result = array_slice($result, $filter->getLimitStart(), ($filter->getLimitEnd() - $filter->getLimitStart()));
+        }
+
         return $result;
     }
+
+
+    /**
+     * @param UserDataFilter $filter
+     *
+     * @return int
+     */
+    public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
+    {
+        $sql = 'SELECT
+    COUNT(id) AS count
+FROM
+' . $this->getQuery($filter, true);
+
+        $query = $this->database->query($sql);
+
+        $max_count = intval($this->database->fetchAssoc($query)["count"]);
+
+        return $max_count;
+    }
+
+
+    /**
+     * @param UserDataFilter $filter
+     * @param bool           $max_count_only
+     *
+     * @return string
+     */
+    private function getQuery(UserDataFilter $filter, bool $max_count_only = false) : string
+    {
+        $sql = '(
+SELECT 
+  il_cert_user_cert.pattern_certificate_id,
+  il_cert_user_cert.obj_id,
+  il_cert_user_cert.user_id,
+  il_cert_user_cert.user_name,
+  il_cert_user_cert.acquired_timestamp,
+  il_cert_user_cert.currently_active,
+  il_cert_user_cert.id,
+  object_data.title,
+  object_reference.ref_id
+FROM il_cert_user_cert
+INNER JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
+INNER JOIN object_reference ON object_reference.obj_id = il_cert_user_cert.obj_id';
+
+        if ($filter->shouldIncludeDeletedObjects()) {
+            $sql .= '
+UNION
+SELECT 
+  il_cert_user_cert.pattern_certificate_id,
+  il_cert_user_cert.obj_id,
+  il_cert_user_cert.user_id,
+  il_cert_user_cert.user_name,
+  il_cert_user_cert.acquired_timestamp,
+  il_cert_user_cert.currently_active,
+  il_cert_user_cert.id,
+  object_data_del.title,
+  NULL AS ref_id
+FROM il_cert_user_cert
+INNER JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id';
+        } else {
+            $sql .= '
+WHERE object_reference.deleted IS NULL';
+        }
+
+        $sql .= '
+) AS cert
+INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
+' . $this->createWhereCondition($filter);
+
+        if (!$max_count_only) {
+            $sql .= $this->createOrderByClause($filter);
+        }
+
+        return $sql;
+    }
+
 
     /**
      * @param UserDataFilter $filter
@@ -160,11 +227,11 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
                     break;
 
                 case ($key === UserDataFilter::SORT_FIELD_OBJ_TITLE):
-                    $orders[] = 'title' . $direction;
+                    $orders[] = 'cert.title' . $direction;
                     break;
 
                 case ($key === UserDataFilter::SORT_FIELD_ISSUE_TIMESTAMP):
-                    $orders[] = 'il_cert_user_cert.acquired_timestamp' . $direction;
+                    $orders[] = 'cert.acquired_timestamp' . $direction;
                     break;
 
                 default:
@@ -172,7 +239,7 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
             }
         }
 
-        $orderBy = ' ORDER BY ' . implode(', ', $orders);
+        $orderBy = 'ORDER BY ' . implode(', ', $orders);
 
         return $orderBy;
     }
@@ -184,58 +251,68 @@ WHERE ' . $this->database->in('il_cert_user_cert.user_id', $userIds, false, 'int
      */
     private function createWhereCondition(UserDataFilter $filter) : string
     {
-        $sql = '';
+        $wheres = [];
+
+        $userIds = $filter->getUserIds();
+        if (!empty($userIds)) {
+            $wheres[] = $this->database->in('cert.user_id', $userIds, false, ilDBConstants::T_INTEGER);
+        }
+
+        $objIds = $filter->getObjIds();
+        if (!empty($objIds)) {
+            $wheres[] = $this->database->in('cert.obj_id', $objIds, false, ilDBConstants::T_INTEGER);
+        }
 
         $firstName = $filter->getUserFirstName();
-        if (null !== $firstName) {
-            $sql .= ' AND ' . $this->database->like('  usr_data.firstname', 'text', '%' . $firstName . '%');
+        if (!empty($firstName)) {
+            $wheres[] = $this->database->like('usr_data.firstname', ilDBConstants::T_TEXT, '%' . $firstName . '%');
         }
 
         $lastName = $filter->getUserLastName();
-        if (null !== $lastName) {
-            $sql .= ' AND ' . $this->database->like('usr_data.lastname', 'text', '%' . $lastName . '%');
+        if (!empty($lastName)) {
+            $wheres[] = $this->database->like('usr_data.lastname', ilDBConstants::T_TEXT, '%' . $lastName . '%');
         }
 
         $login = $filter->getUserLogin();
-        if (null !== $login) {
-            $sql .= ' AND ' . $this->database->like('  usr_data.login', 'text', '%' . $login . '%');
+        if (!empty($login)) {
+            $wheres[] = $this->database->like('usr_data.login', ilDBConstants::T_TEXT, '%' . $login . '%');
         }
 
         $userEmail = $filter->getUserEmail();
-        if (null !== $userEmail) {
-            $sql .= ' AND ( ' . $this->database->like('usr_data.email', 'text', '%' . $userEmail . '%');
-            $sql .= ' OR ' . $this->database->like('usr_data.second_email', 'text', '%' . $userEmail . '%');
-            $sql .= ')';
+        if (!empty($userEmail)) {
+            $wheres[] = '(' . $this->database->like('usr_data.email', ilDBConstants::T_TEXT, '%' . $userEmail . '%')
+                . ' OR ' . $this->database->like('usr_data.second_email', ilDBConstants::T_TEXT, '%' . $userEmail . '%')
+                . ')';
 
         }
 
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
-        if (null !== $issuedBeforeTimestamp) {
-            $sql .= ' AND il_cert_user_cert.acquired_timestamp < ' . $this->database->quote($issuedBeforeTimestamp,
-                    'integer');
+        if ($issuedBeforeTimestamp !== null) {
+            $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote($issuedBeforeTimestamp,
+                    ilDBConstants::T_INTEGER);
         }
 
         $issuedAfterTimestamp = $filter->getIssuedAfterTimestamp();
-        if (null !== $issuedAfterTimestamp) {
-            $sql .= ' AND il_cert_user_cert.acquired_timestamp > ' . $this->database->quote($issuedAfterTimestamp,
-                    'integer');
-        }
-
-        $objectId = $filter->getObjectId();
-        if (null !== $objectId) {
-            $sql .= ' AND   il_cert_user_cert.obj_id = ' . $this->database->quote($objectId, 'integer');
+        if ($issuedAfterTimestamp !== null) {
+            $wheres[] = 'cert.acquired_timestamp > ' . $this->database->quote($issuedAfterTimestamp,
+                    ilDBConstants::T_INTEGER);
         }
 
         $title = $filter->getObjectTitle();
-        if (null !== $title) {
-            $sql .= ' AND (' . $this->database->like('object_data.title', 'text', '%' . $title . '%');
-            $sql .= ' OR ' . $this->database->like('object_data_del.title', 'text', '%' . $title . '%') . ')';
+        if (!empty($title)) {
+            $wheres[] = $this->database->like('cert.title', ilDBConstants::T_TEXT, '%' . $title . '%');
         }
 
-        $onlyActive = $filter->isOnlyActive();
-        if (true === $onlyActive) {
-            $sql .= ' AND il_cert_user_cert.currently_active = ' . $this->database->quote(1, 'integer');
+        $onlyCertActive = $filter->isOnlyCertActive();
+        if ($onlyCertActive === true) {
+            $wheres[] = 'cert.currently_active = ' . $this->database->quote(1, ilDBConstants::T_INTEGER);
         }
+
+        if (empty($wheres)) {
+            return '';
+        }
+
+        $sql = 'WHERE ' . implode(' AND ', $wheres);
 
         return $sql;
     }

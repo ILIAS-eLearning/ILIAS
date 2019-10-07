@@ -20,16 +20,13 @@ class UserDataFilter
     private $objectTitle;
 
     /** @var int|null */
-    private $objectId;
-
-    /** @var int|null */
     private $issuedBeforeTimestamp;
 
     /** @var int|null */
     private $issuedAfterTimestamp;
 
     /** @var bool */
-    private $onlyActive = true;
+    private $onlyCertActive = true;
 
     /** @var string|null */
     private $userFirstName;
@@ -46,36 +43,45 @@ class UserDataFilter
     /** @var int[] */
     private $userIds = [];
 
+    /** @var int[] */
+    private $objIds = [];
+
     /** @var array */
     private $sorts = [];
 
-    /**
-     * @param int[] $usrIds
-     * @param bool $onlyActive Show only the currently active certificates of the user
-     * @throws \ilException
-     */
-    public function __construct(
-        array $usrIds,
-        bool $onlyActive = true
-    ) {
-        $this->ensureValidUniqueUsrIds($usrIds);
+    /** @var int|null */
+    private $limitStart = null;
 
-        $this->userIds = $usrIds;
-        $this->onlyActive = $onlyActive;
+    /** @var int|null */
+    private $limitEnd = null;
+
+    /** @var bool */
+    private $shouldIncludeDeletedObjects = true;
+
+    /**
+     *
+     */
+    public function __construct() {
+
     }
 
     /**
      * @param int[] $usrIds
-     * @throws \ilException
      */
     private function ensureValidUniqueUsrIds(array $usrIds) : void
     {
-        if ([] === $usrIds) {
-            throw new \ilException('The passed array of user ids must not be empty!');
-        }
-
         array_walk($usrIds, function (int $usrId) {
-            // Do nothing, use this for type safety of array values 
+            // Do nothing, use this for type safety of array values
+        });
+    }
+
+    /**
+     * @param int[] $objIds
+     */
+    private function ensureValidUniqueObjIds(array $objIds) : void
+    {
+        array_walk($objIds, function (int $objId) {
+            // Do nothing, use this for type safety of array values
         });
     }
 
@@ -140,18 +146,6 @@ class UserDataFilter
     }
 
     /**
-     * @param int|null $objId
-     * @return $this
-     */
-    public function withObjectId(?int $objId) : self
-    {
-        $clone = clone $this;
-        $clone->objectId = $objId;
-
-        return $clone;
-    }
-
-    /**
      * @param int|null $timestamp
      * @return $this
      */
@@ -179,10 +173,10 @@ class UserDataFilter
      * @param bool $status
      * @return $this
      */
-    public function withOnlyActive(bool $status) : self
+    public function withOnlyCertActive(bool $status) : self
     {
         $clone = clone $this;
-        $clone->onlyActive = $status;
+        $clone->onlyCertActive = $status;
 
         return $clone;
     }
@@ -190,14 +184,13 @@ class UserDataFilter
     /**
      * @param int[] $usrIds
      * @return $this
-     * @throws \ilException
      */
     public function withUserIds(array $usrIds) : self
     {
         $this->ensureValidUniqueUsrIds($usrIds);
 
         $clone = clone $this;
-        $clone->userIds = $usrIds;
+        $clone->userIds = array_unique($usrIds);
 
         return $clone;
     }
@@ -205,7 +198,6 @@ class UserDataFilter
     /**
      * @param int[] $usrIds
      * @return $this
-     * @throws \ilException
      */
     public function withAdditionalUserIds(array $usrIds) : self
     {
@@ -218,19 +210,41 @@ class UserDataFilter
     }
 
     /**
+     * @param int[] $objIds
+     *
+     * @return $this
+     */
+    public function withObjIds(array $objIds) : self
+    {
+        $this->ensureValidUniqueObjIds($objIds);
+
+        $clone = clone $this;
+        $clone->objIds = array_unique($objIds);
+
+        return $clone;
+    }
+
+    /**
+     * @param int[] $objIds
+     *
+     * @return $this
+     */
+    public function withAdditionalObjIds(array $objIds) : self
+    {
+        $this->ensureValidUniqueObjIds($objIds);
+
+        $clone = clone $this;
+        $clone->objIds = array_unique(array_merge($clone->objIds, $objIds));
+
+        return $clone;
+    }
+
+    /**
      * @return string
      */
     public function getObjectTitle() : ?string
     {
         return $this->objectTitle;
-    }
-
-    /**
-     * @return int
-     */
-    public function getObjectId() : ?int
-    {
-        return $this->objectId;
     }
 
     /**
@@ -252,9 +266,9 @@ class UserDataFilter
     /**
      * @return bool
      */
-    public function isOnlyActive() : bool
+    public function isOnlyCertActive() : bool
     {
-        return $this->onlyActive;
+        return $this->onlyCertActive;
     }
 
     /**
@@ -298,6 +312,14 @@ class UserDataFilter
     }
 
     /**
+     * @return int[]
+     */
+    public function getObjIds() : array
+    {
+        return $this->objIds;
+    }
+
+    /**
      * @param int $direction
      *
      * @return $this
@@ -338,7 +360,7 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     * 
+     *
      * @return $this
      */
     public function withSortedLogins(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -351,7 +373,7 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     * 
+     *
      * @return $this
      */
     public function withSortedIssuedOnTimestamps(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -369,5 +391,82 @@ class UserDataFilter
     public function getSorts() : array
     {
         return $this->sorts;
+    }
+
+
+    /**
+     * @param int|null $limitStart
+     *
+     * @return self
+     */
+    public function withLimitStart(?int $limitStart) : self
+    {
+        $clone = clone $this;
+        $clone->limitStart = $limitStart;
+        return $clone;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getLimitStart() : ?int
+    {
+        return $this->limitStart;
+    }
+
+
+    /**
+     * @param int|null $limitEnd
+     *
+     * @return self
+     */
+    public function withLimitEnd(?int $limitEnd) : self
+    {
+        $clone = clone $this;
+        $clone->limitEnd = $limitEnd;
+        return $clone;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getLimitEnd() : ?int
+    {
+        return $this->limitEnd;
+    }
+
+
+    /**
+     * @return self
+     */
+    public function withShouldIncludeDeletedObjects() : self
+    {
+        $clone = clone $this;
+        $clone->shouldIncludeDeletedObjects = true;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return self
+     */
+    public function withoutShouldIncludeDeletedObjects() : self
+    {
+        $clone = clone $this;
+        $clone->shouldIncludeDeletedObjects = false;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function shouldIncludeDeletedObjects() : bool
+    {
+        return $this->shouldIncludeDeletedObjects;
     }
 }
