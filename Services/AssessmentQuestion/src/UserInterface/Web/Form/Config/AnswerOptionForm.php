@@ -2,19 +2,17 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
 use Exception;
-use ilImageFileInputGUI;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilTemplate;
 use ilTextInputGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
-use ilHiddenInputGUI;
 
 /**
  * Class AnswerOptionForm
@@ -281,7 +279,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 * @param string $post_var
 	 * @param        $value
 	 *
-	 * @return ilImageFileInputGUI
+	 * @return AsqImageUpload
 	 */
 	private function generateImageField(string $post_var, $value) {
 		$field = new AsqImageUpload('', $post_var);

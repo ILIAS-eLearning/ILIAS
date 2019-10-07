@@ -3,16 +3,10 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoring;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoringConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\OrderingScoring;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditor;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditorConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\NumericEditorConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\OrderingEditor;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\NumericScoringConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\OrderingEditorConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\OrderingScoringConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\OrderingEditor;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\OrderingEditorConfiguration;
 
 /**
  * Class OrderingQuestionGUI

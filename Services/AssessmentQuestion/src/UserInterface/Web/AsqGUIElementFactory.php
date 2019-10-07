@@ -2,24 +2,22 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web;
 
-use Exception;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\CreateQuestionFormGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
-use ilPropertyFormGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\SingleChoiceQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\MultipleChoiceQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\KprimChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\ErrorTextQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\NumericQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\ImageMapQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\FormulaQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\TextSubsetQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\OrderingQuestionGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\FileUploadQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\FormulaQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\ImageMapQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\KprimChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\MultipleChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\NumericQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\OrderingQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\SingleChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\TextSubsetQuestionGUI;
+use Exception;
+use ilPropertyFormGUI;
 
 const MSG_SUCCESS = "success";
 
@@ -153,9 +151,7 @@ class AsqGUIElementFactory {
 	}
 
     /**
-     * @param AuthoringContextContainer $contextContainer
      * @param QuestionDto               $question
-     * @param bool                      $preventRteUsage
      *
      * @return QuestionFeedbackFormGUI
      */

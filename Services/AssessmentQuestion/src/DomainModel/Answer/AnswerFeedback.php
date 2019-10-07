@@ -2,15 +2,15 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer;
 
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\UI\Implementation\Component\Link\Standard;
+use JsonSerializable;
 use ilAsqAnswerOptionFeedbackPageGUI;
 use ilAsqGenericFeedbackPageGUI;
 use ilAsqQuestionAuthoringGUI;
 use ilAsqQuestionFeedbackEditorGUI;
 use ilFormPropertyGUI;
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\UI\Implementation\Component\Link\Standard;
-use JsonSerializable;
 
 /**
  * Abstract Class FeedbackDefinition
@@ -43,8 +43,6 @@ Abstract class AnswerFeedback extends AbstractValueObject implements JsonSeriali
 
 
     public static function generateRteField(QuestionDto $question, string $label, string $post_var, string $answer_feedback) : ilFormPropertyGUI {
-        global $DIC;
-
         $feedback = new \ilTextAreaInputGUI($label, $post_var);
         $feedback->setRequired(true);
         $feedback->setRows(10);

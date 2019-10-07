@@ -3,7 +3,6 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 
 /**
  * Class MultipleChoiceScoring

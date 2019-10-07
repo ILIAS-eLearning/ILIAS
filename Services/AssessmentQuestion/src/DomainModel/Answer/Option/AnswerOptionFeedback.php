@@ -3,23 +3,14 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
-use ilAsqAnswerOptionFeedbackPageGUI;
-use ilAsqGenericFeedbackPageGUI;
-use ilAsqQuestionAuthoringGUI;
-use ilAsqQuestionFeedbackEditorGUI;
-use ilFormPropertyGUI;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
-use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerCorrectFeedback;
 use ILIAS\UI\Implementation\Component\Link\Standard;
-use ilRadioGroupInputGUI;
-use ilRadioOption;
 use JsonSerializable;
+use ilAsqAnswerOptionFeedbackPageGUI;
+use ilAsqQuestionFeedbackEditorGUI;
+use ilFormPropertyGUI;
 use stdClass;
 
 /**
@@ -57,8 +48,6 @@ class AnswerOptionFeedback  implements JsonSerializable
 
     public static function generateField(QuestionDto $question,AnswerOption $answer_option) : ilFormPropertyGUI
     {
-        global $DIC;
-
         $arr_option = $answer_option->getDisplayDefinition()->getValues();
         $label = $arr_option[ImageAndTextDisplayDefinition::VAR_MCDD_TEXT];
 
@@ -79,8 +68,6 @@ class AnswerOptionFeedback  implements JsonSerializable
     }
 
     public static function generateRteField(QuestionDto $question, string $label, string $post_var, string $answer_feedback) : ilFormPropertyGUI {
-        global $DIC;
-
         $feedback = new \ilTextAreaInputGUI($label, $post_var);
        // $feedback->setRequired(true);
         $feedback->setRows(10);

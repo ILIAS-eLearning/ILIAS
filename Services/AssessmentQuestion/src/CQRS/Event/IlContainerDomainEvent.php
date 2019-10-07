@@ -3,8 +3,6 @@
 
 namespace ILIAS\AssessmentQuestion\CQRS\Event;
 
-use \ilDateTime;
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 
 /**
  * Interface DomainEvent

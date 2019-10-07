@@ -3,10 +3,9 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
 use ILIAS\AssessmentQuestion\DomainModel\ContentEditingMode;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
+use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ilPropertyFormGUI;
 use ilSelectInputGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 
 /**
  * Class QuestionTypeSelectForm

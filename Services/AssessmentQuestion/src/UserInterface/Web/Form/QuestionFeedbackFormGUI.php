@@ -4,22 +4,17 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
-use Exception;
-use ilAsqAnswerOptionFeedbackPageGUI;
-use ilAsqQuestionAuthoringGUI;
-use ilAsqQuestionFeedbackEditorGUI;
-use ilFormSectionHeaderGUI;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedback;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackMode;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerCorrectFeedback;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerWrongFeedback;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
-use ILIAS\UI\Implementation\Component\Link\Standard;
+use Exception;
+use ilFormSectionHeaderGUI;
 
 /**
  * Class QuestionFeedbackFormGUI

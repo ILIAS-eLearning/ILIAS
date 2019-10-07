@@ -4,7 +4,6 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web;
 
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 

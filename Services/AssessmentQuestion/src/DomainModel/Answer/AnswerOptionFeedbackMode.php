@@ -3,10 +3,9 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
+use JsonSerializable;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
-use JsonSerializable;
-use stdClass;
 
 /**
  * Abstract Class FeedbackDefinition

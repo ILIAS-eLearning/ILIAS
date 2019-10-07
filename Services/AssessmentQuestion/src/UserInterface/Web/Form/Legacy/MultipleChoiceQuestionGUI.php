@@ -3,13 +3,10 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration;
-use ilCheckboxInputGUI;
-use ilNumberInputGUI;
-use ilSelectInputGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditor;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoring;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditor;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration;
 
 /**
  * Class MultipleChoiceQuestionGUI

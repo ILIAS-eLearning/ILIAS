@@ -6,7 +6,6 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
 /**

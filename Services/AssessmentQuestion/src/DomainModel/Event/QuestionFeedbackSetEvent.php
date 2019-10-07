@@ -2,7 +2,6 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;

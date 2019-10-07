@@ -3,12 +3,11 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 
 /**
  * Class ImageAndTextDisplayDefinition

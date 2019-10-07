@@ -2,21 +2,10 @@
 
 namespace ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
 
-use ilAsqAnswerOptionFeedbackPageGUI;
-use ilAsqGenericFeedbackPageGUI;
-use ilAsqQuestionAuthoringGUI;
-use ilAsqQuestionFeedbackEditorGUI;
-use ilFormPropertyGUI;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedback;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\UI\Implementation\Component\Link\Standard;
-use ilObjAdvancedEditing;
-use ilRadioGroupInputGUI;
-use ilRadioOption;
-use ilTextAreaInputGUI;
-use JsonSerializable;
-use stdClass;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedback;
+use ilFormPropertyGUI;
 
 /**
  * Abstract Class FeedbackDefinition
