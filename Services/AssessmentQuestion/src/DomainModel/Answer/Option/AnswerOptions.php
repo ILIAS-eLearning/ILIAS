@@ -37,8 +37,9 @@ class AnswerOptions {
 	
 	public static function deserialize(string $json_data) : AnswerOptions {
 	    $data = json_decode($json_data);
+
 	    $options = new AnswerOptions();
-	    
+
 	    foreach($data as $option) {
 	        $aoption = new AnswerOption($option->option_id);
 	        $aoption->deserialize($option);

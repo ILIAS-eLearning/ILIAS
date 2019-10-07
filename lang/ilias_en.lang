@@ -138,6 +138,11 @@ asq#:#asq_input_feedback_correct#:#Correct Solution
 asq#:#asq_input_feedback_wrong#:#At Least One Answer is Not Correct
 asq#:#asq_link_edit_feedback_page#:#Edit Content
 asq#:#asq_back_to_question_link#:#Back To Calling Question
+asq#:#asq_header_feedback_answers#:#Feedback for Every Answer
+asq#:#asq_label_feedback_setting#:#Mode of answer specific feedback.
+asq#:#asq_option_feedback_all#:#Show answer specific feedback for all answers.
+asq#:#asq_option_feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
+asq#:#asq_option_feedback_correct#:#Show answer specific feedback for all correct answers.
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.

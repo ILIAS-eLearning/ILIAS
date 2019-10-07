@@ -160,11 +160,9 @@ class AsqGUIElementFactory {
      * @return QuestionFeedbackFormGUI
      */
 	public static function CreateQuestionFeedbackForm(
-        QuestionDto $question,
-        bool $preventRteUsage
+        QuestionDto $question
     ): QuestionFeedbackFormGUI
     {
-        $page_factory = new PageFactory($question->getContainerObjId(),$question->getQuestionIntId());
-        return new QuestionFeedbackFormGUI($page_factory->getFeedbackPage(),$question, $preventRteUsage);
+        return new QuestionFeedbackFormGUI($question);
     }
 }

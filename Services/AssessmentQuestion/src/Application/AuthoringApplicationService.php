@@ -9,6 +9,7 @@ use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
@@ -103,6 +104,10 @@ class AuthoringApplicationService {
 			$question->setAnswerOptions($question_dto->getAnswerOptions(), $this->container_obj_id, $this->actor_user_id);
 		}
 
+        if (!AbstractValueObject::isNullableEqual($question_dto->getFeedback(), $question->getFeedback())){
+            $question->setFeedback($question_dto->getFeedback(), $this->container_obj_id, $this->actor_user_id);
+        }
+
 		if(count($question->getRecordedEvents()->getEvents()) > 0) {
 			// save changes if there are any
 			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
@@ -150,6 +155,10 @@ class AuthoringApplicationService {
 	public function getQuestionPageEditor(int $question_int_id) : \ilAsqQuestionPageGUI
     {
         $page_factory = new PageFactory($this->container_obj_id,$question_int_id);
+
+
+
+
         $page_gui = \ilAsqQuestionPageGUI::getGUI($page_factory->getQuestionPage());
 
         $page_gui->setOutputMode('edit');

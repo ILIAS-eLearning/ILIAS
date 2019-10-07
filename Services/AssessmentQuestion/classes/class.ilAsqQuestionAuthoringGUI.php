@@ -10,7 +10,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableScorings;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableAnswerSpecificFeedbacks;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
@@ -45,7 +45,7 @@ class ilAsqQuestionAuthoringGUI
     const TAB_ID_RECAPITULATION = 'qst_recapitulation_tab';
     const TAB_ID_STATISTIC = 'qst_statistic_tab';
 
-    const VAR_QUESTION_ID = "questionId";
+    const VAR_QUESTION_ID = "question_id";
 
     const CMD_REDRAW_HEADER_ACTION_ASYNC = '';
 
@@ -355,7 +355,7 @@ class ilAsqQuestionAuthoringGUI
 
         $class = array_search($name, AvailableEditors::getAvailableEditors());
         if($class === false) {
-            $class = array_search($name, AvailableScorings::getAvailableScorings());
+            $class = array_search($name, AvailableAnswerSpecificFeedbacks::getAvailableScorings());
         }
         if($class === false) {
             $class = array_search($name, AvailablePresenters::getAvailablePresenters());
