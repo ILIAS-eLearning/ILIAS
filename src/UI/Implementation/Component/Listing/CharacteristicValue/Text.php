@@ -7,8 +7,8 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
- * Class Report
- * @package ILIAS\UI\Implementation\Component\Listing\Report
+ * Class Text
+ * @package ILIAS\UI\Implementation\Component\Listing\CharacteristicValue
  */
 class Text implements C\Listing\CharacteristicValue\Text
 {
