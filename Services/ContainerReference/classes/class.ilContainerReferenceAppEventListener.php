@@ -75,6 +75,8 @@ class ilContainerReferenceAppEventListener  implements ilAppEventListener
 		global $DIC;
 
 		$ilLog = $DIC["ilLog"];
+		$ilAppEventHandler = $DIC["ilAppEventHandler"];
+		$tree = $DIC["tree"];
 	 	
 	 	include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 	 	if(!$source_id = ilContainerReference::_lookupSourceId($a_target_id))
@@ -87,13 +89,24 @@ class ilContainerReferenceAppEventListener  implements ilAppEventListener
 	 		{
 	 			continue;
 	 		}
-	 		switch($instance->getType())
+	 		$type = $instance->getType();
+	 		switch($type)
 	 		{
 				case 'grpr':
 	 			case 'crsr':
 	 			case 'catr':
+	 				$parent_id = $tree->getParentId($ref_id);
 	 				$instance->delete();
 	 				$ilLog->write(__METHOD__.': Deleted reference object of type '.$instance->getType().' with Id '.$instance->getId());
+	 				$ilAppEventHandler->raise(
+	 					'Services/ContainerReference',
+	 					'deleteReference',
+	 					[
+	 						'ref_id' => $ref_id,
+	 						'old_parent_ref_id' => $parent_id,
+	 						'type' => $type
+	 					]
+	 				);
 	 				break;
 	 				
 	 			default:
