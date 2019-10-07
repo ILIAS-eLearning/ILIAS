@@ -27,7 +27,7 @@ interface Factory
      *
      * @param array $items string => string
      *
-     * @return Text
+     * @return \ILIAS\UI\Component\Listing\CharacteristicValue\Text
      */
-    public function text(array $items) : Text;
+    public function text(array $items) : \ILIAS\UI\Component\Listing\CharacteristicValue\Text;
 }

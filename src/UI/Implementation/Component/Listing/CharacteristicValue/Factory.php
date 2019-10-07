@@ -14,7 +14,7 @@ class Factory implements C\Listing\CharacteristicValue\Factory
     /**
      * @inheritdoc
      */
-    public function text(array $items) : C\Listing\CharacteristicValue\Text
+    public function text(array $items) : \ILIAS\UI\Component\Listing\CharacteristicValue\Text
     {
         return new Text($items);
     }
