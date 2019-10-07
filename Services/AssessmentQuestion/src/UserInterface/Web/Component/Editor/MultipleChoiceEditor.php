@@ -51,6 +51,10 @@ class MultipleChoiceEditor extends AbstractEditor {
 
 		$this->answer_options = $question->getAnswerOptions()->getOptions();
 		$this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
+		
+		if ($this->configuration->isShuffleAnswers()) {
+		    shuffle($this->answer_options);
+		}
 	}
 
 
@@ -81,6 +85,10 @@ class MultipleChoiceEditor extends AbstractEditor {
     			$tpl->setVariable('ANSWER_IMAGE_URL', $display_definition->getImage());
     			$tpl->setVariable('ANSWER_IMAGE_ALT', $display_definition->getText());
     			$tpl->setVariable('ANSWER_IMAGE_TITLE', $display_definition->getText());
+    			$tpl->setVariable('THUMB_SIZE', 
+    			    is_null($this->configuration->getThumbnailSize()) ? 
+    			         '' : 
+    			         sprintf(' style="height: %spx;" ', $this->configuration->getThumbnailSize()));
     			$tpl->parseCurrentBlock();
 			}
 			
