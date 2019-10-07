@@ -599,6 +599,7 @@ class ilPluginAdmin
 
 
     /**
+     * @deprecated
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider[]
      */
     public static function getAllGlobalScreenProviders() : array
@@ -613,5 +614,22 @@ class ilPluginAdmin
         }
 
         return $providers;
+    }
+
+
+    /**
+     * @return Generator
+     */
+    public static function getGlobalScreenProviderCollections() : Generator
+    {
+        /**
+         * @var $pl ilPlugin
+         */
+        foreach (self::getActivePlugins() as $plugin) {
+            $pl = self::getPluginObjectById($plugin['plugin_id']);
+            if ($pl->isActive()) {
+                yield $pl->getGlobalScreenProviderCollection();
+            }
+        }
     }
 }
