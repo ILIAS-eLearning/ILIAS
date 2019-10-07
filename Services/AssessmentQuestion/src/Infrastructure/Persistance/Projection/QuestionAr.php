@@ -17,7 +17,7 @@ use ilDateTime;
  */
 class QuestionAr extends AbstractProjectionAr
 {
-    const STORAGE_NAME = "asq_mc_question";
+    const STORAGE_NAME = "asq_question";
     /**
      * @var int
      *
