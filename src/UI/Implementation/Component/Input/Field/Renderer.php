@@ -592,7 +592,6 @@ class Renderer extends AbstractComponentRenderer
 		}
 		$options_html = $input_tpl->get();
 
-
 		//render with context:
 		$tpl = $this->getTemplate("tpl.context_form.html", true, true);
 		$tpl->setVariable("LABEL", $input->getLabel());
