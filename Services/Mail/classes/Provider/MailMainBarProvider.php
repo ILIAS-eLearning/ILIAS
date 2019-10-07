@@ -28,7 +28,6 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("mail", "")->withIsOutlined(true);
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/envolope-letter.svg"), "");
 
         return [
