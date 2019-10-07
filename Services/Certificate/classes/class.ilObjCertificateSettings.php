@@ -140,4 +140,43 @@ class ilObjCertificateSettings extends ilObject
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
     }
-} // END class.ilObjCertificateSettings
+
+    /**
+     * @return bool
+     */
+    public function hasBackgroundImage() : bool
+    {
+        $filePath = $this->getDefaultBackgroundImagePath();
+        if (file_exists($filePath) && filesize($filePath) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the web path of the background image
+     * @return string The web path of the background image
+     */
+    public function getDefaultBackgroundImagePathWeb() : string
+    {
+        return str_replace(
+            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $this->getDefaultBackgroundImagePath()
+        );
+    }
+
+    /**
+     * Returns the web path of the background image thumbnail
+     * @return string The web path of the background image thumbnail
+     */
+    public function getBackgroundImageThumbPathWeb() : string
+    {
+        return str_replace(
+            ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
+            ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
+            $this->getDefaultBackgroundImageThumbPath()
+        );
+    }
+}

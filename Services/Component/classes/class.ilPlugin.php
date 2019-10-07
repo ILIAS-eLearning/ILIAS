@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
+use ILIAS\GlobalScreen\Provider\ProviderCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 
 /**
@@ -48,11 +50,16 @@ abstract class ilPlugin
      * @var string
      */
     protected $id = '';
+    /**
+     * @var ProviderCollection
+     */
+    protected $provider_collection;
 
 
     public function __construct()
     {
         $this->__init();
+        $this->provider_collection = new PluginProviderCollection();
     }
 
 
@@ -1327,12 +1334,28 @@ abstract class ilPlugin
 
     /**
      * @return AbstractStaticPluginMainMenuProvider
+     *
+     * @deprecated
+     * @see getGlobalScreenProviderCollection instead
      */
     public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
     {
         global $DIC;
 
         return new ilPluginGlobalScreenNullProvider($DIC, $this);
+    }
+
+
+    /**
+     * @return PluginProviderCollection
+     */
+    final public function getGlobalScreenProviderCollection() : PluginProviderCollection
+    {
+        if (!$this->promoteGlobalScreenProvider() instanceof ilPluginGlobalScreenNullProvider) {
+            $this->provider_collection->setMetaBarProvider($this->promoteGlobalScreenProvider());
+        }
+
+        return $this->provider_collection;
     }
 
 

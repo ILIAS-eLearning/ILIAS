@@ -2,6 +2,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\Provider;
+use ILIAS\GlobalScreen\Provider\ProviderCollection;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
@@ -18,6 +19,10 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 class ilGSProviderFactory implements ProviderFactory
 {
 
+    /**
+     * @var ProviderCollection[]
+     */
+    private $plugin_provider_collections = null;
     /**
      * @var array
      */
@@ -47,16 +52,14 @@ class ilGSProviderFactory implements ProviderFactory
     }
 
 
-    /**
-     * @inheritDoc
-     */
-    public function getModificationProvider() : array
+    private function initPlugins() : void
     {
-        $providers = [];
-        // Core
-        $this->appendCore($providers, ModificationProvider::class);
-
-        return $providers;
+        if (!is_array($this->plugin_provider_collections)) {
+            $this->plugin_provider_collections = [];
+            foreach (ilPluginAdmin::getGlobalScreenProviderCollections() as $collection) {
+                $this->plugin_provider_collections[] = $collection;
+            }
+        }
     }
 
 
@@ -76,14 +79,20 @@ class ilGSProviderFactory implements ProviderFactory
     /**
      * @inheritDoc
      */
-    public function getMetaBarProvider() : array
+    public function getMainBarProvider() : array
     {
         $providers = [];
         // Core
-        $this->appendCore($providers, StaticMetaBarProvider::class);
+        $this->appendCore($providers, StaticMainMenuProvider::class);
 
         // Plugins
-        $this->appendPlugins($providers, StaticMetaBarProvider::class);
+        $this->initPlugins();
+        foreach ($this->plugin_provider_collections as $collection) {
+            $provider = $collection->getMainBarProvider();
+            if ($provider) {
+                $providers[] = $provider;
+            }
+        }
 
         $this->registerInternal($providers);
 
@@ -94,14 +103,20 @@ class ilGSProviderFactory implements ProviderFactory
     /**
      * @inheritDoc
      */
-    public function getMainBarProvider() : array
+    public function getMetaBarProvider() : array
     {
         $providers = [];
         // Core
-        $this->appendCore($providers, StaticMainMenuProvider::class);
+        $this->appendCore($providers, StaticMetaBarProvider::class);
 
         // Plugins
-        $this->appendPlugins($providers, StaticMainMenuProvider::class);
+        $this->initPlugins();
+        foreach ($this->plugin_provider_collections as $collection) {
+            $provider = $collection->getMetaBarProvider();
+            if ($provider) {
+                $providers[] = $provider;
+            }
+        }
 
         $this->registerInternal($providers);
 
@@ -119,9 +134,37 @@ class ilGSProviderFactory implements ProviderFactory
         $this->appendCore($providers, DynamicToolProvider::class);
 
         // Plugins
-        $this->appendPlugins($providers, DynamicToolProvider::class);
+        $this->initPlugins();
+        foreach ($this->plugin_provider_collections as $collection) {
+            $provider = $collection->getToolProvider();
+            if ($provider) {
+                $providers[] = $provider;
+            }
+        }
 
         $this->registerInternal($providers);
+
+        return $providers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getModificationProvider() : array
+    {
+        $providers = [];
+        // Core
+        $this->appendCore($providers, ModificationProvider::class);
+
+        // Plugins
+        $this->initPlugins();
+        foreach ($this->plugin_provider_collections as $collection) {
+            $provider = $collection->getModificationProvider();
+            if ($provider) {
+                $providers[] = $provider;
+            }
+        }
 
         return $providers;
     }
@@ -135,6 +178,15 @@ class ilGSProviderFactory implements ProviderFactory
         $providers = [];
         // Core
         $this->appendCore($providers, NotificationProvider::class);
+
+        // Plugins
+        $this->initPlugins();
+        foreach ($this->plugin_provider_collections as $collection) {
+            $provider = $collection->getNotificationProvider();
+            if ($provider) {
+                $providers[] = $provider;
+            }
+        }
 
         $this->registerInternal($providers);
 
@@ -169,7 +221,11 @@ class ilGSProviderFactory implements ProviderFactory
     {
         foreach ($this->class_loader[$interface] as $class_name) {
             if ($this->isInstanceCreationPossible($class_name)) {
-                $array_of_providers[] = new $class_name($this->dic);
+                try {
+                    $array_of_providers[] = new $class_name($this->dic);
+                } catch (Throwable $e) {
+                    $i = $e;
+                }
             }
         }
     }

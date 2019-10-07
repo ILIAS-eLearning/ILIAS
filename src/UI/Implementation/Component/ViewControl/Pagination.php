@@ -220,7 +220,7 @@ class Pagination implements PaginationInterface  {
 	}
 
 	/**
-	 * Calculate the total number of pages.
+	 * @inheritdoc
 	 */
 	public function getPageLength(): int
 	{

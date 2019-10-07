@@ -22,11 +22,8 @@ class ilLSPlayer
 
 
 	public function __construct(
-		int $lso_ref_id,
 		string $lso_title,
-		int $usr_id,
-		array $items, //LSLearnerItem[]
-		ilLSStateDB $state_db,
+		ilLSLearnerItemsQueries $ls_items,
 		LSControlBuilder $control_builder,
 		LSUrlBuilder $url_builder,
 		ilLSCurriculumBuilder $curriculum_builder,
@@ -34,11 +31,9 @@ class ilLSPlayer
 		ilKioskPageRenderer $renderer,
 		ILIAS\UI\Factory $ui_factory
 	) {
-		$this->lso_ref_id = $lso_ref_id;
 		$this->lso_title = $lso_title;
-		$this->usr_id = $usr_id;
-		$this->items = $items;
-		$this->state_db = $state_db;
+		$this->ls_items = $ls_items;
+		$this->items = $ls_items->getItems();
 		$this->control_builder = $control_builder;
 		$this->url_builder = $url_builder;
 		$this->curriculum_builder = $curriculum_builder;
@@ -50,23 +45,10 @@ class ilLSPlayer
 	public function render(array $get, array $post=null)
 	{
 		//init state and current item
-		$stored = $this->state_db->getCurrentItemsFor(
-			$this->lso_ref_id,
-			[$this->usr_id]
-		);
-
-		if( count($stored) === 0 ||
-			$stored[$this->usr_id] < 0 //returns -1 if there is no current item
-		) {
-			$current_item = $this->items[0];
-			$current_item_ref_id = $current_item->getRefId();
-		} else {
-			$current_item_ref_id = $stored[$this->usr_id];
-			list($position, $current_item) = $this->findItemByRefId($current_item_ref_id);
-		}
-
+		$current_item = $this->getCurrentItem();
+		$current_item_ref_id = $current_item->getRefId();
 		$view = $this->view_factory->getViewFor($current_item);
-		$state = $current_item->getState();
+		$state = $this->ls_items->getStateFor($current_item);
 		$state = $this->updateViewState($state, $view, $get, $post);
 
 		//now, digest parameter:
@@ -77,7 +59,7 @@ class ilLSPlayer
 			case self::LSO_CMD_SUSPEND:
 			case self::LSO_CMD_FINISH:
 				//store state and exit
-				$this->storeState($state, $current_item_ref_id, $current_item_ref_id);
+				$this->ls_items->storeState($state, $current_item_ref_id, $current_item_ref_id);
 				return 'EXIT::'. $command;
 			case self::LSO_CMD_NEXT:
 				$next_item = $this->getNextItem($current_item, $param);
@@ -89,7 +71,7 @@ class ilLSPlayer
 				$next_item = $current_item;
 		}
 		//write State to DB
-		$this->storeState($state, $current_item_ref_id, $next_item->getRefId());
+		$this->ls_items->storeState($state, $current_item_ref_id, $next_item->getRefId());
 
 		//get proper view
 		if($next_item !== $current_item) {
@@ -106,7 +88,7 @@ class ilLSPlayer
 
 		//content
 		$obj_title = $next_item->getTitle();
-		$icon = $this->ui_factory->icon()
+		$icon = $this->ui_factory->symbol()->icon()
 			->standard($next_item->getType(), $next_item->getType(), 'medium');
 
 		$curriculum = $this->curriculum_builder->getLearnerCurriculum(true)
@@ -129,18 +111,14 @@ class ilLSPlayer
 		);
 	}
 
-	protected function storeState(
-		ILIAS\KioskMode\State $state,
-		int $state_item_ref_id,
-		int $current_item_ref_id
-	) {
-		$this->state_db->updateState(
-			$this->lso_ref_id,
-			$this->usr_id,
-			$state_item_ref_id,
-			$state,
-			$current_item_ref_id
-		);
+	protected function getCurrentItem() {
+		$current_item_ref_id = $this->ls_items->getCurrentItemRefId();
+		if($current_item_ref_id === 0) {
+			$current_item = $this->items[0];
+		} else {
+			list($position, $current_item) = $this->findItemByRefId($current_item_ref_id);
+		}
+		return $current_item;
 	}
 
 	protected function updateViewState(
@@ -155,7 +133,6 @@ class ilLSPlayer
 		if(!is_null($command)) {
 			$state = $view->updateGet($state, $command, $param);
 		}
-		//$state = $view->updatePOST($state, $command, $post);
 		return $state;
 	}
 
@@ -248,6 +225,13 @@ class ilLSPlayer
 			[]
 		);
 		return $component;
+	}
+
+
+	public function getCurrentItemLearningProgress()
+	{
+		$item = $this->getCurrentItem();
+		return $item->getLearningProgressStatus();
 	}
 
 }

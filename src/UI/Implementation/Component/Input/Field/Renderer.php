@@ -578,7 +578,7 @@ class Renderer extends AbstractComponentRenderer
 
 			if ($input->getValue() !== null) {
 				list($index, $subvalues) = $input->getValue();
-				if((int)$index === $key) {
+				if($index === $key) {
 					$input_tpl->setVariable("CHECKED", 'checked="checked"');
 				}
 			}
