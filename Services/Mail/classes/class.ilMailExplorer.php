@@ -79,7 +79,7 @@ class ilMailExplorer implements TreeRecursion
 
         $this->store = new ilSessionIStorage('expl2');
         $openNodes = $this->store->get('mail_tree');
-        $this->open_nodes = unserialize($openNodes);
+        $this->open_nodes = $this->open_nodes = is_string($openNodes) ? unserialize($openNodes) : [];
         if (!is_array($this->open_nodes)) {
             $this->open_nodes = [];
         }
@@ -101,17 +101,16 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * Get Tree UI
-     *
-     * @return Tree|object
+     * @return Tree
      */
-    public function getTreeComponent()
+    public function getTreeComponent() : Tree
     {
         $f = $this->ui->factory();
+
         /** @var ilTree $tree */
         $tree = $this->tree;
 
-        $subtree = $tree->getChilds($tree->readRootId());
+        $subtree = $tree->getChilds((int) $tree->readRootId());
         $data = $subtree;
 
         $tree = $f->tree()
@@ -123,12 +122,7 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * Get a list of records (that list can also be empty).
-     * Each record will be relayed to $this->build to retrieve a Node.
-     * Also, each record will be asked for Sub-Nodes using this function.
-     * @param      $record
-     * @param null $environment
-     * @return array
+     * @inheritDoc
      */
     public function getChildren($record, $environment = null) : array
     {
@@ -136,15 +130,7 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * Build and return a Node.
-     * The renderer will provide the $factory-parameter which is the UI-factory
-     * for nodes, as well as the (unspecified) $environment as configured at the Tree.
-     * $record is the data the node should be build for.
-     *
-     * @param Factory $factory
-     * @param         $record
-     * @param null    $environment
-     * @return Node
+     * @inheritDoc
      */
     public function build(
         Factory $factory,
@@ -160,7 +146,7 @@ class ilMailExplorer implements TreeRecursion
             $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
         }
 
-        if ($this->isNodeOpen($record['child'])) {
+        if ($this->isNodeOpen((int) $record['child'])) {
             $node = $node->withExpanded(true);
         }
 
@@ -188,11 +174,9 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * Get HTML
-     *
-     * @return string html
+     * @return string
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $this->preloadChildren();
 
@@ -200,14 +184,14 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * @param $factory
-     * @param $node
-     * @return mixed
+     * @param Factory $factory
+     * @param array $node
+     * @return Node
      */
     private function createNode(
         Factory $factory,
-        $node
-    ) {
+        array $node
+    ) : Node {
         global $DIC;
 
         $path = $this->getNodeIcon($node);
@@ -223,13 +207,11 @@ class ilMailExplorer implements TreeRecursion
         return $simple;
     }
 
-
     /**
-     * Get childs of node
-     * @param int $parentNodeId parent id
-     * @return array childs
+     * @param int $parentNodeId
+     * @return array
      */
-    private function getChildrenByParentId($parentNodeId)
+    private function getChildrenByParentId(int $parentNodeId) : array
     {
         if ($this->preloaded && $this->search_term == '') {
             if (is_array($this->children[$parentNodeId])) {
@@ -252,21 +234,22 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * Get all open nodes
-     * @param
+     * @param int $nodeId
      * @return bool
      */
-    private function isNodeOpen($nodeId)
+    private function isNodeOpen(int $nodeId) : bool
     {
-        return ($this->getNodeId($this->getRootNode()) == $nodeId
-            || in_array($nodeId, $this->open_nodes)
-            || in_array($nodeId, $this->custom_open_nodes));
+        return (
+            $this->getNodeId($this->getRootNode()) == $nodeId ||
+            in_array($nodeId, $this->open_nodes) ||
+            in_array($nodeId, $this->custom_open_nodes)
+        );
     }
 
     /**
      * Preload childs
      */
-    private function preloadChildren()
+    private function preloadChildren() : void
     {
         $subtree = $this->tree->getSubTree($this->getRootNode());
         foreach ($subtree as $subNode) {
@@ -285,7 +268,7 @@ class ilMailExplorer implements TreeRecursion
             }
         }
 
-        // sort childs and store prev/next reference
+        // sort children and store prev/next reference
         if ($this->order_field == '') {
             $this->all_children = ilUtil::sortArray(
                 $this->all_children,
@@ -310,11 +293,9 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * Render tree
-     *
      * @return string
      */
-    private function render()
+    private function render() : string
     {
         $renderer = $this->ui->renderer();
 
@@ -324,21 +305,18 @@ class ilMailExplorer implements TreeRecursion
     }
 
     /**
-     * Get id for node
-     * @param array $node node object/array
-     * @return string id
+     * @param array $node
+     * @return int
      */
     private function getNodeId(array $node)
     {
-        return $node['child'];
+        return (int) $node['child'];
     }
 
     /**
-     * Get root node
-     *
-     * @return mixed node object/array
+     * @return array
      */
-    private function getRootNode()
+    private function getRootNode() : array
     {
         if (!isset($this->root_node_data)) {
             $this->root_node_data = $this->tree->getNodeData($this->getRootId());
@@ -347,21 +325,20 @@ class ilMailExplorer implements TreeRecursion
         return $this->root_node_data;
     }
 
-
-    private function getRootId()
+    /**
+     * @return int
+     */
+    private function getRootId() : int
     {
-        return $this->root_id
-            ? $this->root_id
-            : $this->tree->readRootId();
+        return (int) ($this->root_id ? $this->root_id : $this->tree->readRootId());
     }
 
     /**
      * Does a node match a search term (or is search term empty)
-     *
      * @param array
      * @return bool
      */
-    private function matches($node) : bool
+    private function matches(array $node) : bool
     {
         if (
             $this->search_term == '' ||
@@ -373,7 +350,11 @@ class ilMailExplorer implements TreeRecursion
         return false;
     }
 
-    private function getNodeContent(array $node)
+    /**
+     * @param array $node
+     * @return string
+     */
+    private function getNodeContent(array $node) : string
     {
         $content = $node['title'];
 
@@ -386,7 +367,11 @@ class ilMailExplorer implements TreeRecursion
         return $content;
     }
 
-    private function getNodeIcon(array $node)
+    /**
+     * @param array $node
+     * @return string
+     */
+    private function getNodeIcon(array $node) : string
     {
         if ($node['child'] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
@@ -402,7 +387,11 @@ class ilMailExplorer implements TreeRecursion
         return $icon;
     }
 
-    private function getNodeHref(array $node)
+    /**
+     * @param array $node
+     * @return string
+     */
+    private function getNodeHref(array $node) : string
     {
         if ($node['child'] == $this->getNodeId($this->getRootNode())) {
             $node['child'] = 0;
