@@ -28,7 +28,7 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
 	 */
 	protected $max_answers;
 	/**
-	 * @var int
+	 * @var int?
 	 */
 	protected $thumbnail_size;
     /**
@@ -48,7 +48,7 @@ class MultipleChoiceEditorConfiguration extends AbstractConfiguration {
      */
 	static function create(bool $shuffle_answers = false,
                            int $max_answers = 1,
-                           int $thumbnail_size = 0,
+                           int $thumbnail_size = null,
                            bool $single_line = true) : MultipleChoiceEditorConfiguration
     {
 		$object = new MultipleChoiceEditorConfiguration();

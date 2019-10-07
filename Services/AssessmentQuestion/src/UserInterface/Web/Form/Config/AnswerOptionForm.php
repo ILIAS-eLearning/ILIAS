@@ -14,7 +14,7 @@ use ilRadioOption;
 use ilTemplate;
 use ilTextInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
-use ilButton;
+use ilHiddenInputGUI;
 
 /**
  * Class AnswerOptionForm
@@ -32,10 +32,6 @@ class AnswerOptionForm extends ilTextInputGUI {
 
 	const OPTION_ORDER = 'AnswerOptionOrder';
 
-    /**
-     * @var int
-     */
-    private $question_ind_id;
 	/**
 	 * @var array
 	 */
@@ -54,10 +50,9 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private $form_configuration;
 
-	public function __construct(string $title, int $question_int_id, ?QuestionPlayConfiguration $configuration, AnswerOptions $options, array $definitions = null) {
+	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, AnswerOptions $options, array $definitions = null) {
 		parent::__construct($title);
 
-		$this->question_ind_id = $question_int_id;
 		//TODO every question that needs answer options requires them until now, if not --> dont set by default
 		$this->setRequired(true);
 		$this->configuration = $configuration;
@@ -73,7 +68,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 		    $this->form_configuration = $this->collectConfigurations($configuration);
 		}
 		
-		$this->options = new AnswerOptions($question_int_id);
+		$this->options = new AnswerOptions();
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		    $this->readAnswerOptions();
 		} else {
@@ -250,6 +245,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 	            return $this->generateDropDownField($row_id . $definition->getPostVar(), $value, $definition->getOptions());
 	        case AnswerOptionFormFieldDefinition::TYPE_BUTTON:
 	            return $this->generateButton($row_id . $definition->getPostVar(), $definition->getOptions());
+	        case AnswerOptionFormFieldDefinition::TYPE_HIDDEN:
+	            return $this->generateHiddenField($row_id . $definition->getPostVar(), $definition->getOptions()[0]);
 	        default:
 	            throw new Exception('Please implement all fieldtypes you define');
 	    }
@@ -344,6 +341,10 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    }
 	    
 	    return sprintf('<input type="Button" id="%s" class="%s" value="%s" />', $id, $css, $title);
+	}
+	
+	private function generateHiddenField(string $post_var, $value) {
+	    return sprintf('<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />', $post_var, $value);
 	}
 	
 	/**

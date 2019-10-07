@@ -9,6 +9,10 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormField
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
 use ilSelectInputGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditor;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoring;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition;
 
 /**
  * Class SingleChoiceQuestionGUI
@@ -21,17 +25,6 @@ use ilSelectInputGUI;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class SingleChoiceQuestionGUI extends LegacyFormGUIBase {
-	const VAR_MCE_SHUFFLE = 'shuffle';
-	const VAR_MCE_THUMB_SIZE = 'thumbsize';
-	const VAR_MCE_IS_SINGLELINE = 'singleline';
-	
-	const STR_TRUE = "true";
-	const STR_FALSE = "false";
-	
-	const VAR_MCDD_TEXT = 'mcdd_text' ;
-	const VAR_MCDD_IMAGE = 'mcdd_image';
-	const VAR_MCSD_SELECTED = 'mcsd_selected';
-
 	protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
 	{
 	    return QuestionPlayConfiguration::create
@@ -40,87 +33,36 @@ class SingleChoiceQuestionGUI extends LegacyFormGUIBase {
 	        new MultipleChoiceScoringConfiguration());
 	}
 	
-	/**
-	 * @param QuestionPlayConfiguration $play
-	 *
-	 * @return array
-	 */
-	protected function collectFields() : array {
-	    $fields = [];
-	    $fields[] = new AnswerOptionFormFieldDefinition(
-	        $this->lang->txt('asq_label_answer_text'),
-	        AnswerOptionFormFieldDefinition::TYPE_TEXT,
-	        self::VAR_MCDD_TEXT
-	        );
-	    
-	    $fields[] = new AnswerOptionFormFieldDefinition(
-	        $this->lang->txt('asq_label_answer_image'),
-	        AnswerOptionFormFieldDefinition::TYPE_IMAGE,
-	        self::VAR_MCDD_IMAGE
-	        );
-
-	    $fields[] = new AnswerOptionFormFieldDefinition(
-	        $this->lang->txt('asq_label_checked'),
-	        AnswerOptionFormFieldDefinition::TYPE_NUMBER,
-	        self::VAR_MCSD_SELECTED
-	        );
-
-		return $fields;
+	protected function readPlayConfiguration(): QuestionPlayConfiguration
+	{
+	    return QuestionPlayConfiguration::create(
+	        MultipleChoiceEditor::readConfig(),
+	        new MultipleChoiceScoringConfiguration());
 	}
-
-	/**
-	 * @param QuestionPlayConfiguration $play
-	 */
-	protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void {
-	    $shuffle = new ilCheckboxInputGUI(
-	        $this->lang->txt('asq_label_shuffle'),
-	        self::VAR_MCE_SHUFFLE);
+	
+	protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void
+	{
+	    $fields = MultipleChoiceEditor::generateFields($play->getEditorConfiguration());
 	    
-	    $shuffle->setValue(1);
-	    $this->addItem($shuffle);
+	    $fields = $this->hideField($fields, MultipleChoiceEditor::VAR_MCE_MAX_ANSWERS, 1);
 	    
-	    $singleline = new ilSelectInputGUI(
-	        $this->lang->txt('asq_label_editor'),
-	        self::VAR_MCE_IS_SINGLELINE);
-	    
-	    $singleline->setOptions([
-	        self::STR_TRUE => $this->lang->txt('asq_option_single_line'),
-	        self::STR_FALSE => $this->lang->txt('asq_option_multi_line')]);
-	    
-	    $this->addItem($singleline);
-	    
-	    $thumb_size = new ilNumberInputGUI(
-	        $this->lang->txt('asq_label_thumb_size'),
-	        self::VAR_MCE_THUMB_SIZE);
-	    $thumb_size->setInfo($this->lang->txt('asq_description_thumb_size'));
-	    $thumb_size->setSuffix($this->lang->txt('asq_pixel'));
-	    $thumb_size->setMinValue(20);
-	    $thumb_size->setDecimals(0);
-	    $thumb_size->setSize(6);
-	    $this->addItem($thumb_size);
-	    
-	    if ($play !== null) {
-	        /** @var MultipleChoiceEditorConfiguration $config */
-	        $config = $play->getEditorConfiguration();
-	        $shuffle->setChecked($config->isShuffleAnswers());
-	        $thumb_size->setValue($config->getThumbnailSize());
-	        $singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
+	    foreach ($fields as $field) {
+	        $this->addItem($field);
 	    }
 	}
-
-	/**
-	 * @return QuestionPlayConfiguration
-	 */
-	protected function readPlayConfiguration(): QuestionPlayConfiguration {
-
-		return QuestionPlayConfiguration::create(
-			MultipleChoiceEditorConfiguration::create(
-				$_POST[self::VAR_MCE_SHUFFLE],
-				1,
-			    intval($_POST[self::VAR_MCE_THUMB_SIZE]),
-			    $_POST[self::VAR_MCE_IS_SINGLELINE] === self::STR_TRUE
-			),
-		    new MultipleChoiceScoringConfiguration()
-		);
+	
+	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : array {
+	    global $DIC;
+	    
+	    $definitions = array_merge(ImageAndTextDisplayDefinition::getFields($play),
+	                               MultipleChoiceScoringDefinition::getFields());
+	    
+	    $definitions = $this->renameColumn($definitions, 
+	                                       MultipleChoiceScoringDefinition::VAR_MCSD_SELECTED, 
+	                                       $DIC->language()->txt('asq_label_points'));
+	    
+	    $definitions = $this->hideColumn($definitions, MultipleChoiceScoringDefinition::VAR_MCSD_UNSELECTED, 0);
+	    
+	    return $definitions;
 	}
 }

@@ -20,6 +20,7 @@ class AnswerOptionFormFieldDefinition {
     const TYPE_RADIO = 5; 
     const TYPE_DROPDOWN = 6;
     const TYPE_BUTTON = 7;
+    const TYPE_HIDDEN = 8;
 	
 	/**
 	 * @var string
@@ -34,7 +35,7 @@ class AnswerOptionFormFieldDefinition {
 	 */
 	private $post_var;
 	/**
-	 * @var array
+	 * @var ?array
 	 */
 	private $options;
 
@@ -78,7 +79,7 @@ class AnswerOptionFormFieldDefinition {
 	/**
 	 * @return array
 	 */
-	public function getOptions(): array {
+	public function getOptions(): ?array {
 		return $this->options;
 	}
 }

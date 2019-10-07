@@ -17,6 +17,7 @@ use ilTextAreaInputGUI;
 use ilTextInputGUI;
 use ilSelectInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 
 /**
  * Class MultipleChoiceQuestionGUI
@@ -105,11 +106,16 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
         $this->option_form = new AnswerOptionForm(
             $this->lang->txt('asq_label_answer'),
             $question->getPlayConfiguration(),
-            $question->getAnswerOptions());
+            $question->getAnswerOptions(),
+            $this->getAnswerOptionDefinitions($question->getPlayConfiguration()));
         
         $this->addItem($this->option_form);
 	}
 
+	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : array {
+	    return null;
+	}
+	
     /**
      * @return QuestionDto
      * @throws Exception
@@ -200,6 +206,82 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	 */
 	protected abstract function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void ;
 
+	/**
+	 * @param array $fields
+	 * @param string $post_var
+	 * @param $value
+	 * @return array
+	 */
+	protected function hideField(array $fields, string $post_var, $value) : array {
+	    $new_fields = [];
+	    
+	    /** @var $field \ilFormPropertyGUI */
+	    foreach ($fields as $field) {
+	        if ($field->getPostVar() === $post_var) {
+	            $hidden = new \ilHiddenInputGUI($post_var);
+	            $hidden->setValue($value);
+	            $new_fields[] = $hidden;
+	        }
+	        else {
+	            $new_fields[] = $field;
+	        }
+	    }
+	    
+	    return $new_fields;
+	}
+	
+	/**
+	 * @param array $definitions
+	 * @param string $post_var
+	 * @param $value
+	 * @return array
+	 */
+	protected function hideColumn(array $definitions, string $post_var, $value) : array {
+	    $new_definitions = [];
+	    
+	    /** @var $definition AnswerOptionFormFieldDefinition */
+	    foreach ($definitions as $definition) {
+	        if ($definition->getPostVar() === $post_var) {
+	            $new_definitions[] = new AnswerOptionFormFieldDefinition(
+	                '',
+	                AnswerOptionFormFieldDefinition::TYPE_HIDDEN,
+	                $post_var,
+	                [$value]);
+	        }
+	        else {
+	            $new_definitions[] = $definition;
+	        }
+	    }
+	    
+	    return $new_definitions;
+	}
+
+	/**
+	 * @param array $definitions
+	 * @param string $post_var
+	 * @param $value
+	 * @return array
+	 */
+	protected function renameColumn(array $definitions, string $post_var, string $new_name) : array {
+	    $new_definitions = [];
+	    
+	    /** @var $definition AnswerOptionFormFieldDefinition */
+	    foreach ($definitions as $definition) {
+	        if ($definition->getPostVar() === $post_var) {
+	            $new_definitions[] = new AnswerOptionFormFieldDefinition(
+	                $new_name,
+	                $definition->getType(),
+	                $post_var,
+	                $definition->getOptions());
+	        }
+	        else {
+	            $new_definitions[] = $definition;
+	        }
+	    }
+	    
+	    return $new_definitions;
+	}
+	
 	/**
 	 * @return QuestionData
 	 * @throws Exception

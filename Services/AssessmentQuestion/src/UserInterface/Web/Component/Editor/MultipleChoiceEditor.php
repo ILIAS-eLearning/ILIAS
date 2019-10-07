@@ -202,8 +202,8 @@ class MultipleChoiceEditor extends AbstractEditor {
 	public static function readConfig() : ?AbstractConfiguration {
 		return MultipleChoiceEditorConfiguration::create(
 			boolval($_POST[self::VAR_MCE_SHUFFLE]),
-			intval($_POST[self::VAR_MCE_MAX_ANSWERS]),
-			intval($_POST[self::VAR_MCE_THUMB_SIZE]),
+		    intval($_POST[self::VAR_MCE_MAX_ANSWERS]),
+		    empty($_POST[self::VAR_MCE_THUMB_SIZE]) ? null : intval($_POST[self::VAR_MCE_THUMB_SIZE]),
 		    $_POST[self::VAR_MCE_IS_SINGLELINE] === self::STR_TRUE
 		);
 	}
