@@ -159,6 +159,34 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     }
 
     /**
+     * Toggle explorer node
+     */
+    protected function toggleExplorerNodeStateObject()
+    {
+        $nodeId = (int) ($this->httpRequest->getQueryParams()['node_id'] ?? 0);
+        $priorState = (int) ($this->httpRequest->getQueryParams()['prior_state'] ?? 0);
+
+        if ($nodeId > 0) {
+            $treeId = 'frm_exp_' . $this->objCurrentTopic->getId();
+
+            $store = new ilSessionIStorage('expl2');
+            $value = $store->get($treeId);
+
+            $openNodes = is_string($value) ? (array) unserialize($value) : [];
+            if (0 === $priorState && !in_array($nodeId, $openNodes)) {
+                $openNodes[] = $nodeId;
+                $store->set($treeId, serialize($openNodes));
+            } elseif (1 === $priorState && in_array($nodeId, $openNodes)) {
+                $key = array_search($nodeId, $openNodes);
+                unset($openNodes[$key]);
+                $store->set($treeId, serialize($openNodes));
+            }
+        }
+        exit();
+    }
+    
+
+    /**
      * @param array       $subtree_nodes
      * @param array       $pagedPostings
      * @param int         $pageSize
@@ -2451,7 +2479,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $bottom_toolbar                    = clone $this->toolbar;
         $bottom_toolbar_split_button_items = array();
 
-        $this->tpl->addCss('./Modules/Forum/css/forum_tree.css');
         if (!isset($_SESSION['viewmode'])) {
             $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
         }
