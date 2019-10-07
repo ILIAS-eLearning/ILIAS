@@ -168,9 +168,9 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     public function languageProvider() : array
     {
         return [
-            [$this->expectedInitialValue, $this->englishLanguageTranslation],
-            [$this->expectedAfterFormSubmitValue, $this->germanLanguageTranslation],
-            ['invalid_lng', ''],
+            'English Language' => [$this->expectedInitialValue, $this->englishLanguageTranslation],
+            'German Language' => [$this->expectedAfterFormSubmitValue, $this->germanLanguageTranslation],
+            'Invalid Languages' => ['invalid_lng', ''],
         ];
     }
 
@@ -196,7 +196,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(
             $this->getCriterionConfig(['lng' => $lng]),
-            $this->dic->ui()->factory()
+            $this->getUiFactoryMock()
         );
 
         $this->assertInstanceOf(Component::class, $actual);
@@ -212,13 +212,16 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         $criterion = $this->getInstance();
 
         return [
-            [$criterion, $this->getCriterionConfig(['lng' => 'en'])],
-            [$criterion, $this->getCriterionConfig(['lng' => []])],
-            [$criterion, $this->getCriterionConfig(['lng' => new stdClass()])],
-            [$criterion, $this->getCriterionConfig(['lng' => 1.0])],
-            [$criterion, $this->getCriterionConfig(['lng' => 1])],
-            [$criterion, $this->getCriterionConfig(['another_config_key' => true])],
-            [$criterion, $this->getCriterionConfig()],
+            'English Language where German is Expected' => [$criterion, $this->getCriterionConfig(['lng' => 'en'])],
+            'Array' => [$criterion, $this->getCriterionConfig(['lng' => []])],
+            'Object' => [$criterion, $this->getCriterionConfig(['lng' => new stdClass()])],
+            'Double' => [$criterion, $this->getCriterionConfig(['lng' => 1.0])],
+            'Integer' => [$criterion, $this->getCriterionConfig(['lng' => 1])],
+            'Wrong Key Provided for Extracting Language' => [
+                $criterion,
+                $this->getCriterionConfig(['another_config_key' => true])
+            ],
+            'Empty Configuration' => [$criterion, $this->getCriterionConfig()],
         ];
     }
 
@@ -230,8 +233,8 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         $criterion = $this->getInstance();
 
         return [
-            [$criterion, $this->getCriterionConfig(['lng' => 'de'])],
-            [$criterion, $this->getCriterionConfig(['lng' => 'DE'])],
+            'German Language' => [$criterion, $this->getCriterionConfig(['lng' => 'de'])],
+            'German Language Uppercase' => [$criterion, $this->getCriterionConfig(['lng' => 'DE'])],
         ];
     }
 

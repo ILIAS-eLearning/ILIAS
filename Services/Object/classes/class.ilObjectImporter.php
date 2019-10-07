@@ -32,6 +32,7 @@ class ilObjectImporter extends ilXmlImporter
 		include_once("./Services/Object/classes/class.ilObjectDataSet.php");
 		$this->ds = new ilObjectDataSet();
 		$this->ds->setDSPrefix("ds");
+        $this->ds->setImportDirectory($this->getImportDirectory());
 	}
 
 

@@ -354,13 +354,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			);
 			
 			if(!$this->object->getAnonymity()) {
-				$factory = new ilCertificateFactory();
-
-				$certificate = $factory->create($this->object);
-
-				if($certificate->isComplete(new ilTestCertificateAdapter($this->object))) {
+				$userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->cert());
+				try {
+					$userCertificateRepository->fetchActiveCertificate($DIC->user()->getId(), $this->object->getId());
 					$options['certificate'] = $this->lng->txt('exp_type_certificate');
-				}
+				} catch (ilException $e) {}
 			}
 
 			$export_type->setOptions($options);
@@ -875,11 +873,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$database = $DIC->database();
 		$logger = $DIC->logger()->root();
 
-		$factory = new ilCertificateFactory();
+		$pathFactory = new ilCertificatePathFactory();
+		$objectId    = $this->object->getId();
+		$zipAction = new ilUserCertificateZip(
+			$objectId,
+			$pathFactory->create($this->object)
+		);
 
-		$certificate = $factory->create($this->object);
-
-		$archive_dir = $certificate->createArchiveDirectory();
+		$archive_dir = $zipAction->createArchiveDirectory();
 		$total_users = array();
 		
 		$this->object->setAccessFilteredParticipantList(
@@ -898,7 +899,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
 				
-				if( !$certValidator->isCertificateDownloadable($user_id, $this->object->getId()) )
+				if( !$certValidator->isCertificateDownloadable($user_id, $objectId) )
 				{
 					continue;
 				}
@@ -910,13 +911,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					$this->lng->txt('error_creating_certificate_pdf')
 				);
 
-				$pdf = $pdfAction->createPDF($user_id, $this->object->getid());
+				$pdf = $pdfAction->createPDF($user_id, $objectId);
 				if (strlen($pdf))
 				{
-					$certificate->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
+					$zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
 				}
 			}
-			$zipArchive = $certificate->zipCertificatesInArchiveDirectory($archive_dir, TRUE);
+			$zipArchive = $zipAction->zipCertificatesInArchiveDirectory($archive_dir, TRUE);
 		}
 
 	}

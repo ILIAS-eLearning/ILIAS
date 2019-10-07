@@ -33,7 +33,8 @@ class EstimatedReadingTime implements Transformation
     /**
      * @inheritdoc
      */
-    public function transform($from) {
+    public function transform($from)
+    {
         if (!is_string($from)) {
             throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }
@@ -66,6 +67,10 @@ class EstimatedReadingTime implements Transformation
             foreach ($textNodes as $textNode) {
                 /** @var \DOMText $textNode */
                 $wordsInContent = array_filter(preg_split('/\s+/', $textNode->textContent));
+
+                $wordsInContent = array_filter($wordsInContent, function (string $word) {
+                    return preg_replace('/^\pP$/', '', $word) !== '';
+                });
                 
                 $numberOfWords += count($wordsInContent);
             }

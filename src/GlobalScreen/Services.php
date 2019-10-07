@@ -2,10 +2,11 @@
 
 use ILIAS\GlobalScreen\Collector\CollectorFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
+use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
 use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
@@ -22,7 +23,7 @@ class Services
      */
     private static $instance = null;
     /**
-     * @var ProviderFactoryInterface
+     * @var ProviderFactory
      */
     private $provider_factory;
 
@@ -30,20 +31,20 @@ class Services
     /**
      * Services constructor.
      *
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory $provider_factory
      */
-    public function __construct(ProviderFactoryInterface $provider_factory)
+    public function __construct(ProviderFactory $provider_factory)
     {
         $this->provider_factory = $provider_factory;
     }
 
 
     /**
-     * @param ProviderFactoryInterface $provider_factory
+     * @param ProviderFactory $provider_factory
      *
      * @return Services
      */
-    public static function getInstance(ProviderFactoryInterface $provider_factory)
+    public static function getInstance(ProviderFactory $provider_factory)
     {
         if (!isset(self::$instance)) {
             self::$instance = new self($provider_factory);
@@ -89,6 +90,15 @@ class Services
     public function layout() : LayoutServices
     {
         return $this->get(LayoutServices::class);
+    }
+
+
+    /**
+     * @return NotificationServices
+     */
+    public function notifications() : NotificationServices
+    {
+        return $this->get(NotificationServices::class);
     }
 
 

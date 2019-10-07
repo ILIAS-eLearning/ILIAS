@@ -311,7 +311,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 			if(ilBuddySystem::getInstance()->isEnabled() && $a_set['usr_id'] != $ilUser->getId())
 			{
 				require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemLinkButton.php';
-				$this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId($a_set['usr_id'])->getHtml());
+				$this->tpl->setVariable('CONTACT_ACTIONS', ilBuddySystemLinkButton::getInstanceByUserId((int) $a_set['usr_id'])->getHtml());
 			}
 			else
 			{

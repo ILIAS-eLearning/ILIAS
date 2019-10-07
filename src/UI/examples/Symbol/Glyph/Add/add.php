@@ -4,5 +4,14 @@ function add() {
 	$f = $DIC->ui()->factory();
 	$renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->add("#"));
+	$glyph = $f->symbol()->glyph()->add("#");
+
+	//Showcase the various states of this Glyph
+	$list = $f->listing()->descriptive([
+		"Active"=>$glyph,
+		"Inactive"=>$glyph->withUnavailableAction(),
+		"Highlighted"=>$glyph->withHighlight()
+	]);
+
+	return $renderer->render($list);
 }

@@ -7,7 +7,7 @@
 class ilUserCertificateRepository
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     private $database;
 
@@ -79,7 +79,7 @@ class ilUserCertificateRepository
             'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
             'template_values'        => array('clob', $userCertificate->getTemplateValues()),
             'valid_until'            => array('integer', $userCertificate->getValidUntil()),
-            'version'                => array('text', $version),
+            'version'                => array('integer', $version),
             'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
             'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
             'background_image_path'  => array('text', $userCertificate->getBackgroundImagePath()),
@@ -142,7 +142,7 @@ AND currently_active = 1';
             $result[] = $presentation;
         }
 
-        $this->logger->debug(sprintf('Actual results:', json_encode($result)));
+        $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result)));
         $this->logger->info(sprintf('END - All active certificates for user: "%s" total: "%s"', $userId, count($result)));
 
         return $result;
@@ -201,7 +201,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
             $result[] = $presentation;
         }
 
-        $this->logger->debug(sprintf('Actual results:', json_encode($result)));
+        $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result)));
         $this->logger->info(sprintf('END - All active certificates for user: "%s" total: "%s"', $userId, count($result)));
 
         return $result;
@@ -457,7 +457,7 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
                 json_encode($row, JSON_PRETTY_PRINT)
             ));
 
-            $this->logger->info(sprintf('Certificate: ', json_encode($row)));
+            $this->logger->info(sprintf('Certificate: "%s"', json_encode($row)));
 
             $result[] = $this->createUserCertificate($row);
         }
@@ -494,7 +494,7 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
         }
 
         $this->logger->info(sprintf(
-            'END -  fetching of latest certificates of object(user id: "%s", object id: "%s") with verision',
+            'END -  fetching of latest certificates of object(user id: "%s", object id: "%s") with version "%s"',
             $userId,
             $objId,
             $version

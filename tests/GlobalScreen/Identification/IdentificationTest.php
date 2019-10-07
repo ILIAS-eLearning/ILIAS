@@ -6,7 +6,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\Serializer\CoreSerializer;
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
 use ILIAS\GlobalScreen\Provider\Provider;
-use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
+use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ilPlugin;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -30,7 +30,7 @@ class IdentificationTest extends TestCase
     use MockeryPHPUnitIntegration;
     const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
-     * @var Mockery\MockInterface|ProviderFactoryInterface
+     * @var Mockery\MockInterface|ProviderFactory
      */
     private $provider_factory;
     /**
@@ -59,7 +59,7 @@ class IdentificationTest extends TestCase
         $this->provider_mock = Mockery::mock(Provider::class);
         $this->provider_mock->shouldReceive('getProviderNameForPresentation')->andReturn('Provider')->byDefault();
 
-        $this->provider_factory = Mockery::mock(ProviderFactoryInterface::class);
+        $this->provider_factory = Mockery::mock(ProviderFactory::class);
         $this->provider_factory->shouldReceive('getProviderByClassName')->with(self::MOCKED_PROVIDER_CLASSNAME)->andReturn($this->provider_mock);
         $this->provider_factory->shouldReceive('isInstanceCreationPossible')->andReturn(true);
         $this->provider_factory->shouldReceive('isRegistered')->andReturn(true);

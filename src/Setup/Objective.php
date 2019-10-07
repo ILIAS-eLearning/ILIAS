@@ -53,7 +53,6 @@ interface Objective {
 	 *
 	 * @throw \LogicException if there are unfullfilled preconditions.
 	 * @throw \RuntimeException if there are missing resources.
-	 * @return void
 	 */
 	public function achieve(Environment $environment) : Environment;
 }

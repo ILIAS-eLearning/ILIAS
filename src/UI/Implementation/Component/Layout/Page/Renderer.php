@@ -51,6 +51,10 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
+		if($component->hasFooter()) {
+			$tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
+		}
+
 		$component = $component->withOnLoadCode(
 			function($id) {
 				return "$(document).ready(function() {
@@ -147,7 +151,6 @@ class Renderer extends AbstractComponentRenderer {
 		foreach ($css_files as $css_file) {
 			$tpl->setCurrentBlock("css_file");
 			$tpl->setVariable("CSS_FILE", $css_file['file']);
-			$tpl->setVariable("CSS_MEDIA", $css_file['media']);
 			$tpl->parseCurrentBlock();
 		}
 

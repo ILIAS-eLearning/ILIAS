@@ -20,7 +20,7 @@ class Custom extends Icon implements C\Symbol\Icon\Custom {
 		$this->checkArgIsElement(
 			"size", $size,
 			self::$possible_sizes,
-			implode(self::$possible_sizes, '/')
+			implode('/', self::$possible_sizes)
 		);
 		$this->checkBoolArg("is_disabled", $is_disabled);
 		$this->name = 'custom';

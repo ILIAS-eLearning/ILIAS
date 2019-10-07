@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Legacy;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -141,7 +141,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(
             $this->getCriterionConfig(),
-            $this->dic->ui()->factory()
+            $this->getUiFactoryMock()
         );
 
         $this->assertInstanceOf(Component::class, $actual);

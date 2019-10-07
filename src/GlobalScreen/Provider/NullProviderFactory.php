@@ -7,7 +7,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class NullProviderFactory implements ProviderFactoryInterface
+class NullProviderFactory implements ProviderFactory
 {
 
     /**
@@ -50,6 +50,15 @@ class NullProviderFactory implements ProviderFactoryInterface
      * @inheritDoc
      */
     public function getMetaBarProvider() : array
+    {
+        return [];
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getNotificationsProvider() : array
     {
         return [];
     }

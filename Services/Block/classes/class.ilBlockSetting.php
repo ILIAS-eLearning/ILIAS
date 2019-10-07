@@ -282,6 +282,30 @@ class ilBlockSetting
 				" AND type = ".$ilDB->quote($a_block_type, "text"));
 		}
 	}
-	
+
+	/**
+	 * Clone block settings
+	 *
+	 * @param string $block_type
+	 * @param int $block_id
+	 * @param int $new_block_id
+	 */
+	static public function cloneSettingsOfBlock(string $block_type, int $block_id, int $new_block_id)
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$set = $db->queryF("SELECT * FROM il_block_setting ".
+			" WHERE block_id = %s AND type = %s AND user_id = %s",
+			array("integer", "text", "integer"),
+			array($block_id, $block_type, 0)
+			);
+		while ($rec = $db->fetchAssoc($set))
+		{
+			self::_write($block_type, $rec["setting"], $rec["value"], 0, $new_block_id);
+		}
+	}
+
 }
 ?>

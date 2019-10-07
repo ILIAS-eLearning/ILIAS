@@ -32,8 +32,8 @@ class LinkListItemRenderer extends BaseTypeRenderer
         $slate = $this->addOnloadCode($slate, $item);
 
         foreach ($item->getLinks() as $link) {
-            $button = $this->ui_factory->button()->bulky($this->getStandardSymbol($link), $link->getTitle(), $link->getAction());
-            $slate = $slate->withAdditionalEntry($button);
+            $link = $this->ui_factory->link()->bulky($this->getStandardSymbol($link), $link->getTitle(), $this->getURI($link->getAction()));
+            $slate = $slate->withAdditionalEntry($link);
         }
 
         return $slate;

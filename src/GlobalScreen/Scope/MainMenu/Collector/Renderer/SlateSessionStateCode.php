@@ -2,7 +2,10 @@
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
 
 /**
@@ -23,27 +26,60 @@ trait SlateSessionStateCode
      */
     public function addOnloadCode(Slate $slate, isItem $item) : Slate
     {
-        $show_signal = $slate->getToggleSignal();
-        $identification = $this->hash($item->getProviderIdentification()->serialize());
+        if ($item instanceof Tool) {
+            $signal = $slate->getShowSignal();
+        } else {
+            $signal = $slate->getToggleSignal();
+        }
 
-        if (isset($_COOKIE[$identification])) {
+        $identification = $item->getProviderIdentification()->serialize();
+
+        $item_state = new ItemState($item->getProviderIdentification());
+
+        if ($item_state->isItemActive()) {
             $slate = $slate->withEngaged(true);
         }
 
-        return $slate->withAdditionalOnLoadCode(
-            function ($id) use ($show_signal, $identification) {
+        $level = $this->getLevel($item);
+
+        $slate = $slate->withAdditionalOnLoadCode(
+            function ($id) use ($signal, $identification, $level) {
+                $identification = addslashes($identification);
+
                 return "
-				$(document).on('{$show_signal}', function(event, signalData) {
-					console.log('{$identification} opened/closed (js-id {$id})');
-					if(document.cookie.indexOf('{$identification}') >= 0) {
-						document.cookie = '{$identification}' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-					}else {
-						document.cookie = '{$identification}' + '=' + true
-					}
-					return false;
-				});
-			";
+                il.GS.Client.register(il.GS.Identification.getFromServerSideString('{$identification}'), '{$id}', {$level});
+                
+                $(document).on('{$signal}', function(event, signalData) {
+                    il.GS.Client.trigger('$id');
+                    return false;
+                });
+                ";
             }
         );
+
+        /** @var Slate $slate */
+        return $slate;
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return int
+     */
+    private function getLevel(isItem $item) : int
+    {
+        switch (true) {
+            case ($item instanceof Tool):
+                $level = ItemState::LEVEL_OF_TOOL;
+                break;
+            case ($item instanceof isTopItem):
+                $level = ItemState::LEVEL_OF_TOPITEM;
+                break;
+            default:
+                $level = ItemState::LEVEL_OF_SUBITEM;
+        }
+
+        return $level;
     }
 }

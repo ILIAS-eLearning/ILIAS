@@ -78,7 +78,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/
 	function getDays()
 	{
-		return $this->days;
+		return (int) $this->days;
 	}
 
 	/**
@@ -98,7 +98,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/
 	function getHours()
 	{
-		return $this->hours;
+		return (int) $this->hours;
 	}
 
 	/**
@@ -118,7 +118,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/
 	function getMinutes()
 	{
-		return $this->minutes;
+		return (int) $this->minutes;
 	}
 
 	/**
@@ -151,7 +151,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	 */
 	public function getMonths()
 	{
-	 	return $this->months;
+	 	return (int) $this->months;
 	}
 
 	/**
@@ -161,7 +161,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/
 	function getSeconds()
 	{
-		return $this->seconds;
+		return (int) $this->seconds;
 	}
 	
 	/**

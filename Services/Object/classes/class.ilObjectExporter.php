@@ -50,6 +50,7 @@ class ilObjectExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
+        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 	}
 
@@ -63,19 +64,24 @@ class ilObjectExporter extends ilXmlExporter
 	function getValidSchemaVersions($a_entity)
 	{
 		return array (
+            "5.4.0" => array(
+                "namespace" => "http://www.ilias.de/Services/Object/obj/5_4",
+                "xsd_file" => "ilias_obj_5_4.xsd",
+                "uses_dataset" => true,
+                "min" => "5.4.0",
+                "max" => ""),
+            "5.1.0" => array(
+                "namespace" => "http://www.ilias.de/Services/Object/obj/5_1",
+                "xsd_file" => "ilias_obj_5_1.xsd",
+                "uses_dataset" => true,
+                "min" => "5.1.0",
+                "max" => "5.3.99"),
 			"4.4.0" => array(
 				"namespace" => "http://www.ilias.de/Services/Object/obj/4_4",
 				"xsd_file" => "ilias_obj_4_4.xsd",
 				"uses_dataset" => true,
 				"min" => "4.4.0",
-				"max" => "5.0.99"),
-			"5.1.0" => array(
-				"namespace" => "http://www.ilias.de/Services/Object/obj/5_1",
-				"xsd_file" => "ilias_obj_5_1.xsd",
-				"uses_dataset" => true,
-				"min" => "5.1.0",
-				"max" => "")
-
+				"max" => "5.0.99")
 		);
 	}
 

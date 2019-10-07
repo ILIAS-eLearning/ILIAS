@@ -12,6 +12,8 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 
 class AgentCollectionTest extends \PHPUnit\Framework\TestCase {
+	use Helper;
+
 	public function testHasConfig() {
 		$ff = $this->createMock(FieldFactory::class);
 		$refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
@@ -284,57 +286,4 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertInstanceOf(Setup\ObjectiveCollection::class, $g);
 		$this->assertEquals([$g1, $g2], $g->getObjectives());
 	}
-
-	protected function newAgent() {
-		static $no = 0;
-
-		$consumer = $this
-			->getMockBuilder(Setup\Agent::class)
-			->setMethods(["hasConfig", "getDefaultConfig", "getConfigInput", "getArrayToConfigTransformation", "getInstallObjective", "getUpdateObjective"])
-			->setMockClassName("Mock_AgentNo".($no++))
-			->getMock();
-
-		return $consumer;
-	}
-
-	protected function newObjective() {
-		static $no = 0;
-
-		$goal = $this
-			->getMockBuilder(Setup\Objective::class)
-			->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
-			->setMockClassName("Mock_ObjectiveNo".($no++))
-			->getMock();
-
-		$goal
-			->method("getHash")
-			->willReturn("".$no);
-
-		return $goal;
-	}
-
-	protected function newInput() {
-		static $no = 0;
-
-		$input = $this
-			->getMockBuilder(Input::class)
-			->setMethods([])
-			->setMockClassName("Mock_InputNo".($no++))
-			->getMock();
-
-		return $input;
-	}
-
-	protected function newConfig() {
-		static $no = 0;
-
-		$config = $this
-			->getMockBuilder(Setup\Config::class)
-			->setMethods([])
-			->setMockClassName("Mock_ConfigNo".($no++))
-			->getMock();
-
-		return $config;
-	}
-
 }

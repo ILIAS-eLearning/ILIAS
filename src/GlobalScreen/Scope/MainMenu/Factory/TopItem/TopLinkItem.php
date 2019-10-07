@@ -2,17 +2,23 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class TopLinkItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTopItem
+class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTopItem, hasSymbol
 {
 
+    /**
+     * @var Symbol
+     */
+    protected $symbol;
     /**
      * @var bool
      */
@@ -93,5 +99,35 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
     public function isLinkWithExternalAction() : bool
     {
         return $this->is_external_action;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withSymbol(Symbol $symbol) : hasSymbol
+    {
+        $clone = clone $this;
+        $clone->symbol = $symbol;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getSymbol() : Symbol
+    {
+        return $this->symbol;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasSymbol() : bool
+    {
+        return $this->symbol instanceof Symbol;
     }
 }

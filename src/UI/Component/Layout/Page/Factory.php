@@ -39,10 +39,11 @@ interface Factory
 	 *
 	 * ----
 	 *
+	 * @param  \ILIAS\UI\Component\Component[] $content
 	 * @param  \ILIAS\UI\Component\MainControls\Metabar $metabar
 	 * @param  \ILIAS\UI\Component\MainControls\Mainbar $mainbar
-	 * @param  \ILIAS\UI\Component\Component[] $content
 	 * @param  \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs $locator
+	 * @param  \ILIAS\UI\Component\MainControls\Footer $footer
 	 * @return \ILIAS\UI\Component\Layout\Page\Standard
 	 */
 	public function standard(
@@ -50,7 +51,8 @@ interface Factory
 		MainControls\Metabar $metabar = null,
 		MainControls\Mainbar $mainbar = null,
 		Breadcrumbs $locator = null,
-		Image $logo = null
+		Image $logo = null,
+		MainControls\Footer $footer = null
 	): Standard;
 
 }

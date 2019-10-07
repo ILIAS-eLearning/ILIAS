@@ -23,14 +23,22 @@ if ($_GET['new_ui'] == '1') {
 	$content = pagedemoContent($f);
 	$metabar = pagedemoMetabar($f);
 	$mainbar = pagedemoMainbar($f, $renderer)
-		->withActive("pws");
+		->withActive("pws")
+		/**
+		 * You can also activate a tool initially, e.g.:
+		 * ->withActive("tool2")
+		 */
+		;
+
+	$footer = pagedemoFooter($f);
 
 	$page = $f->layout()->page()->standard(
 		$content,
 		$metabar,
 		$mainbar,
 		$breadcrumbs,
-		$logo
+		$logo,
+		$footer
 	)
 	->withUIDemo(true);
 	;
@@ -73,6 +81,32 @@ function pagedemoContent($f)
 		$f->panel()->standard('Demo Content 4',
 			$f->legacy("some content<br>some content<br>some content<br>x."))
 	);
+}
+
+
+
+function pagedemoFooter($f)
+{
+	$df = new \ILIAS\Data\Factory();
+	$text = 'Additional info:';
+	$links = [];
+	$links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
+	$links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
+
+	$footer = $f->mainControls()->footer($links, $text)
+		->withPermanentURL(
+			$df->uri(
+				$_SERVER['REQUEST_SCHEME'].
+				'://'.
+				$_SERVER['SERVER_NAME'].
+				':'.
+				$_SERVER['SERVER_PORT'].
+				$_SERVER['SCRIPT_NAME'].
+				'?'.
+				$_SERVER['QUERY_STRING']
+			)
+		);
+	return $footer;
 }
 
 function pagedemoMetabar($f)
@@ -155,13 +189,28 @@ function getDemoEntryRepository($f)
 		'./src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1'
 	);
 
+	$df = new \ILIAS\Data\Factory();
+	$url = $df->uri(
+		$_SERVER['REQUEST_SCHEME'].
+		'://'.
+		$_SERVER['SERVER_NAME'].
+		':'.
+		$_SERVER['SERVER_PORT'].
+		$_SERVER['SCRIPT_NAME'].
+		'?'.
+		$_SERVER['QUERY_STRING']
+	);
+	$link1 = $f->link()->bulky($icon, 'Favorites (Link)', $url);
+	$link2 = $f->link()->bulky($icon, 'Courses (Link2)', $url);
+	$link3 = $f->link()->bulky($icon, 'Groups (Link)', $url);
+
 	$slate = $slate
 		->withAdditionalEntry($button->withLabel('Repository - Home'))
 		->withAdditionalEntry($button->withLabel('Repository - Tree'))
 		->withAdditionalEntry($button->withLabel('Repository - Last visited'))
-		->withAdditionalEntry($button->withLabel('Favorites'))
-		->withAdditionalEntry($button->withLabel('Courses'))
-		->withAdditionalEntry($button->withLabel('Groups'))
+		->withAdditionalEntry($link1)
+		->withAdditionalEntry($link2)
+		->withAdditionalEntry($link3)
 		->withAdditionalEntry($button->withLabel('Study Programme'))
 		->withAdditionalEntry($button->withLabel('Own Repository-Objects'))
 		;

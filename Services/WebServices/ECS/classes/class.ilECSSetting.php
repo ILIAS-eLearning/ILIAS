@@ -49,6 +49,7 @@ class ilECSSetting
 	const PROTOCOL_HTTPS = 1;
 	
 	protected static $instances = null;
+	protected static $configured;
 
 
 	private $server_id = 0;
@@ -121,6 +122,26 @@ class ilECSSetting
 	public static function lookupAuthMode()
 	{
 		return self::DEFAULT_AUTH_MODE;
+	}
+
+	/**
+	 * Checks if an ecs server is configured
+	 *
+	 * @return boolean
+	 */
+	public static function ecsConfigured(){
+		if(self::$configured === null)
+		{
+			global $DIC;
+			$ilDB = $DIC->database();
+
+			$query = "SELECT count(*) count FROM ecs_server";
+			$ret = $ilDB->query($query);
+			$c = $ret->fetchObject()->count;
+
+			self::$configured = $c > 0;
+		}
+		return self::$configured;
 	}
 
 	/**

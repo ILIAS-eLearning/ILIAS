@@ -26,13 +26,16 @@ class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cals", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/calender.svg"), "");
+
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_cal'))
                 ->withTitle($this->dic->language()->txt("mm_calendar"))
                 ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar")
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withPosition(30)
-	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("cals", "")->withIsOutlined(true))
+	            ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

@@ -767,7 +767,11 @@ class ilAccountRegistrationGUI
 			);
 			$mail->send();
 		} else {
-			$accountMail = new \ilAccountRegistrationMail($this->registration_settings, $this->lng);
+			$accountMail = new ilAccountRegistrationMail(
+				$this->registration_settings,
+				$this->lng,
+				ilLoggerFactory::getLogger('user')
+			);
 			$accountMail->withDirectRegistrationMode()->send($this->userObj, $password, $this->code_was_used);
 		}
 	}

@@ -220,7 +220,7 @@ class ilPCAMDPageList extends ilPageContent
 			}					 								
 		}
 		
-		if(sizeof($found_ids))
+		if(is_array($found_ids) && count($found_ids) > 0)
 		{
 			$sql = "SELECT id,title FROM il_wiki_page".
 				" WHERE ".$ilDB->in("id", $found_ids, "", "integer").

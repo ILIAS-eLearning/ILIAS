@@ -890,9 +890,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$ilTabs->addSubTabTarget("cont_sc_new_version",
 		$this->ctrl->getLinkTarget($this, "newModuleVersion"), array("edit", ""),
 		get_class($this));
-	
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(ilCertificate::isActive())
+
+		$validator = new ilCertificateActiveValidator();
+		if(true === $validator->validate())
 		{	
 			// // create and insert object in objecttree
 			// $ilTabs->addSubTabTarget("certificate",

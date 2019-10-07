@@ -1,17 +1,14 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\LinkItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLinkItem;
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
+use ILIAS\GlobalScreen\Client\ItemState;
+use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
-use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
-use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy as LegacyImplementation;
 use ilUtil;
 
@@ -25,6 +22,8 @@ use ilUtil;
 class StandardPagePartProvider implements PagePartProvider
 {
 
+    use isSupportedTrait;
+    use SlateSessionStateCode;
     /**
      * @var Legacy
      */
@@ -53,7 +52,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent() : Legacy
+    public function getContent() : ?Legacy
     {
         return $this->content ?? new LegacyImplementation("");
     }
@@ -62,33 +61,20 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar() : MetaBar
+    public function getMetaBar() : ?MetaBar
     {
+        $this->gs->collector()->metaBar()->collect();
+        if (!$this->gs->collector()->metaBar()->hasItems()) {
+            return null;
+        }
         $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
 
-        foreach ($this->gs->collector()->metaBar()->getStackedItems() as $item) {
-            switch (true) {
-                case ($item instanceof TopLinkItem):
-                    $slate = $f->button()->bulky($item->getSymbol(), $item->getTitle(), $item->getAction());
-                    break;
-                case ($item instanceof TopLegacyItem):
-                    $slate = $f->mainControls()->slate()->legacy($item->getTitle(), $item->getSymbol(), $item->getLegacyContent());
-                    break;
-                case ($item instanceof TopParentItem):
-                    $slate = $f->mainControls()->slate()->combined($item->getTitle(), $item->getSymbol());
-                    foreach ($item->getChildren() as $child) {
-                        switch (true) {
-                            case ($child instanceof LinkItem):
-                                $b = $f->button()->bulky($child->getSymbol(), $child->getTitle(), $child->getAction());
-                                $slate = $slate->withAdditionalEntry($b);
-                                break;
-                        }
-                    }
-                    break;
-            }
-            if (isset($slate) && ($slate instanceof Slate || $slate instanceof Bulky)) {
-                $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $slate);
+        foreach ($this->gs->collector()->metaBar()->getItems() as $item) {
+
+            $component = $item->getRenderer()->getComponentForItem($item);
+            if ($this->isComponentSupportedForCombinedSlate($component)) {
+                $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $component);
             }
         }
 
@@ -99,33 +85,51 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMainBar() : MainBar
+    public function getMainBar() : ?MainBar
     {
+        $this->gs->collector()->mainmenu()->collect();
+        if (!$this->gs->collector()->mainmenu()->hasItems()) {
+            return null;
+        }
+
         $f = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
-        foreach ($this->gs->collector()->mainmenu()->getStackedTopItemsForPresentation() as $item) {
+        foreach ($this->gs->collector()->mainmenu()->getItems() as $item) {
             /**
-             * @var $slate Combined
+             * @var $component Combined
              */
-            $slate = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
+            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
             $identifier = $item->getProviderIdentification()->getInternalIdentifier();
-            if ($slate instanceof Bulky || $slate instanceof Slate) {
-                $main_bar = $main_bar->withAdditionalEntry($identifier, $slate);
+
+            if ($this->isComponentSupportedForCombinedSlate($component)) {
+                $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
+            }
+
+            $item_state = new ItemState($item->getProviderIdentification());
+            if ($item_state->isItemActive()) {
+                $main_bar = $main_bar->withActive($identifier);
             }
         }
 
+        $grid_icon = $f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small");
         $main_bar = $main_bar->withMoreButton(
-            $f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#")
+            $f->button()->bulky($grid_icon, "More", "#")
         );
 
         // Tools
-        if ($this->gs->collector()->tool()->hasTools()) {
-            $main_bar = $main_bar->withToolsButton($f->button()->bulky($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small"), "More", "#"));
-            foreach ($this->gs->collector()->tool()->getTools() as $tool) {
-                $slate = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
-                $id = $tool->getProviderIdentification()->getInternalIdentifier();
-                $main_bar = $main_bar->withAdditionalToolEntry(md5(rand()), $slate);
+        $this->gs->collector()->tool()->collect();
+        if ($this->gs->collector()->tool()->hasItems()) {
+            $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
+            $main_bar = $main_bar->withToolsButton($tools_button);
+            foreach ($this->gs->collector()->tool()->getItems() as $tool) {
+                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
+                $identifier = $this->hash($tool->getProviderIdentification()->serialize());
+                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component);
+                $item_state = new ItemState($tool->getProviderIdentification());
+                if ($item_state->isItemActive()) {
+                    $main_bar = $main_bar->withActive($identifier);
+                }
             }
         }
 
@@ -136,7 +140,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs() : Breadcrumbs
+    public function getBreadCrumbs() : ?Breadcrumbs
     {
         // TODO this currently gets the items from ilLocatorGUI, should that serve be removed with
         // something like GlobalScreen\Scope\Locator\Item
@@ -155,7 +159,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo() : Image
+    public function getLogo() : ?Image
     {
         return $this->ui->factory()->image()->standard(ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS");
     }

@@ -47,3 +47,27 @@ Spaces MUST be added around a colon in return type declaration.
 ```php
 function () : void {}
 ```
+
+## Code Style Checks and Fixes
+
+The ILIAS code style can be checked/applied with/by different tools.
+
+When working with the `PhpStorm` IDE developers can import the
+[PhpStorm Code Style](/CI/PHP-CS-Fixer/example/PhpStorm/ILIAS_CodeStyle.xml) example.
+
+Furthermore multiple [Git Hooks](./git-hooks.md#code-style-hooks) are provided
+to check or fix the code style of changed files in a Git commit.
+
+Developers can additionally use the [PHP Coding Standards Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
+to check or fix one or multiple files.
+
+### Checking Code Style
+
+```bash
+libs/composer/vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs [FILE]
+```
+### Fixing Code Style
+
+```bash
+libs/composer/vendor/bin/php-cs-fixer fix --stop-on-violation --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs [FILE]
+```

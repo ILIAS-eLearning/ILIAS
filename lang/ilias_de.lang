@@ -342,6 +342,12 @@ exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Probleme
 exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
 exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
+crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
+crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
+crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
+crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
+crs#:#timings_reminder_notifications#:#Benachrichtigungen zur Lernplanung versenden
+crs#:#timings_reminder_notifications_info#:#Wenn aktiviert, werden Kursteilnehmer über überschrittene Lernplanungsmaterialien informiert.
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -364,7 +370,7 @@ administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anony
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
-administration#:#adm_basic#:#Allgemein
+administration#:#adm_layout_and_navigation#:#Layout und Navigation
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
@@ -848,6 +854,7 @@ assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit e
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
+assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erziehlen. Bitte geben Sie eine positive Punktezahl für das Auwählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
@@ -1880,6 +1887,7 @@ auth#:#auth_account_migration_new#:#Neues Benutzerkonto anlegen
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_login_editor#:#Loginseite gestalten
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
 auth#:#auth_rad_migration#:#Account-Migration:
 auth#:#auth_rad_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf Radius Authentifizierung umzustellen.
 auth#:#auth_radius_charset#:#Zeichenkodierung
@@ -5361,7 +5369,7 @@ content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_quick_navigation#:#Schnellzugriff
 content#:#glo_table_form#:#Tabelle
 content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in einer Übersichtstabelle dargestellt. Beim Anklicken eines Begriffes wird dieser mit der vollständigen Definition angezeigt.
-content#:#glo_term_is_used_n_times#:#Der Begriff wird %s in Lernmodulen verwendet.
+content#:#glo_term_is_used_n_times#:#Der Begriff wird %s Mal verwendet.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#glo_text_snippet_length#:#Länge der gekürzten Definitionen
 content#:#glo_text_snippet_length_info#:#Anzahl der Zeichen, nach der Definitionen in der Übersichtstabelle abgeschnitten werden.
@@ -6382,6 +6390,7 @@ file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 common#:#page_count#:#Anzahl Seiten
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
+file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 fold#:#fold_import#:#Ordner importieren
 form#:#form_alphabet_all#:#Alle
 form#:#form_days#:#Tage
@@ -8578,6 +8587,7 @@ skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzausprägung
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
+skmg#:#skmg_edit_sctp#:#Vorlagenkategorie bearbeiten
 skmg#:#skmg_create_skill_category#:#Kategorie erstellen
 skmg#:#skmg_create_skill_template#:#Vorlage erstellen
 skmg#:#skmg_create_skill_template_category#:#Vorlagenkategorie erstellen
@@ -8695,7 +8705,7 @@ style#:#sty_del_template#:#Templates und Klassen löschen
 style#:#sty_del_template_keep_classes#:#Löschen und Stylesheet-Klasse erhalten
 style#:#sty_delete_other_selected#:#Fortfahren
 style#:#sty_disable_auto_margins#:#Automatische Abstände unterdrücken
-style#:#sty_disable_auto_margins_info#:#Unterdrückt das automatische Setzen der linken und rechten Abstandes auf 0 Pixel, wenn Media-Objekte links- oder rechtsbündig angeordnete werden.
+style#:#sty_disable_auto_margins_info#:#Unterdrückt das automatische Setzen des linken und rechten Abstandes auf 0 Pixel, wenn Media-Objekte links- oder rechtsbündig angeordnet werden.
 style#:#sty_edit_template#:#Template bearbeiten
 style#:#sty_even_col_class#:#Einschließlich Spalten
 style#:#sty_even_row_class#:#Einschließlich Zeilen
@@ -8746,7 +8756,7 @@ style#:#sty_media_char#:#Medien
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
-style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
@@ -13566,13 +13576,13 @@ mcst#:#mcst_copy#:#Mediacast kopieren
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
-administration#:#adm_container#:#Containerobjekte
-administration#:#adm_content_objects#:#Inhaltsobjekte
-administration#:#adm_content_services#:#Content-Services
-administration#:#adm_learning_outcomes#:#Lernergebnisse
-administration#:#adm_maintenance#:#Wartung
+administration#:#adm_repository_and_objects#:#Magazin und Objekte
+administration#:#adm_extending_ilias#:#ILIAS Erweitern
+administration#:#adm_search_and_find#:#Suchen und Finden
+administration#:#adm_achievements#:#Lernerfolge
+administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
 administration#:#adm_user_administration#:#Benutzerverwaltung
-administration#:#adm_user_services#:#Benutzer-Services
+administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 common#:#enter_new_name#:#Bitte geben Sie einen Namen an
 rbac#:#awra_visible#:#Verwaltung der „Wer ist online?“-Anzeige ist sichtbar
 rbac#:#awra_read#:#Lesezugriff auf Verwaltung der „Wer ist online?“-Anzeige
@@ -13690,6 +13700,7 @@ logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
 logging#:#error_settings_saved#:#Einstellungen gespeichert
 logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog-Dateien
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
+logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
@@ -14143,7 +14154,6 @@ chatroom#:#chat_osc_user#:#Benutzer
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
-chatroom#:#chat_osc_section_head_other_rooms#:#Öffentlicher Chatraum
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
 chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
@@ -14180,6 +14190,8 @@ chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
 chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
+common#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
+common#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
@@ -15155,6 +15167,7 @@ validation#:#not_greater_than#:#'%s' ist nicht größer als '%s'.
 validation#:#not_less_than#:#'%s' ist nicht kleiner als '%s'.
 validation#:#not_min_length#:#Ihre Eingabe hat eine Länge von %d und liegt damit unter der Mindestlänge von %d.
 validation#:#not_numeric#:#'%s' ist nicht nummerisch.
+validation#:#not_numeric_empty_string#:#Ihre Eingabe ist nicht numerisch.
 validation#:#not_generic#:#Es ist nicht der Fall, dass %s
 validation#:#not_max_length#:#Der eingegebene Text hat eine Länge von mehr als '%s'.
 validation#:#not_an_array#:#'%s' ist kein Array.
@@ -15286,7 +15299,7 @@ common#:#mm_organisation#:#Organisation
 common#:#mm_staff_list#:#Mitarbeitendenliste
 common#:#mm_enrolments#:#Einschreibungen
 common#:#mm_communication#:#Kommunikation
-common#:#mm_contacts#:#Kotakte
+common#:#mm_contacts#:#Kontakte
 common#:#mm_mail#:#Mail
 common#:#mm_news#:#News
 common#:#mm_notes#:#Notizen
@@ -15308,3 +15321,13 @@ common#:#mm_portfolio#:#Portfolio
 common#:#mm_certificates#:#Zertifikate
 common#:#mm_personal_and_shared_r#:#Persönliche und geteilte Ressourcen
 common#:#mm_personal_workspace#:#Persönlicher Arbeitsraum
+content#:#lm_editing_view#:#Bearbeitungsansicht
+common#:#mm_repo_tree_view_act#:#Baumansicht an
+common#:#mm_repo_tree_view_deact#:#Baumansicht aus
+content#:#cont_tool_media#:#Media
+content#:#cont_tool_faq#:#FAQ
+exc#:#exc_text_saved#:#Der Text wurde gespeichert.
+common#:#nc_contact_requests_headline#:#Kontaktanfragen
+common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
+common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
+exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.

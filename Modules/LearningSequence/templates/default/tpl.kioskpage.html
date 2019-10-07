@@ -22,6 +22,9 @@
 	<!-- BEGIN js_file -->
 	<script type="text/javascript" src="{JS_FILE}"></script>
 	<!-- END js_file -->
+	<script type="text/javascript">
+		{JS_INLINE}
+	</script>
 </head>
 
 <body class="std">
@@ -114,11 +117,11 @@
 
 	<!-- BEGIN on_load_code -->
 	<script type="text/javascript">
-		il.Util.addOnLoad(function() {
 		<!-- BEGIN on_load_code_inner -->
-			{OLCODE}
+			il.Util.addOnLoad(function() {
+				{OLCODE}
+			});
 		<!-- END on_load_code_inner -->
-	});
 	</script>
 	<!-- END on_load_code -->
 

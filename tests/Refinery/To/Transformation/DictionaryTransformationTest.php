@@ -17,96 +17,96 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class DictionaryTransformationTest extends TestCase
 {
-	/**
-	 * @throws \ilException
-	 */
-	public function testDictionaryTransformationValid()
-	{
-		$transformation = new DictionaryTransformation(new StringTransformation());
+    /**
+     * @throws \ilException
+     */
+    public function testDictionaryTransformationValid()
+    {
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		$result = $transformation->transform(array('hello' => 'world'));
+        $result = $transformation->transform(array('hello' => 'world'));
 
-		$this->assertEquals(array('hello' => 'world'), $result);
-	}
+        $this->assertEquals(array('hello' => 'world'), $result);
+    }
 
-	public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testDictionaryTransformationInvalidBecauseKeyIsNotAString()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new DictionaryTransformation(new StringTransformation());
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		try {
-			$result = $transformation->transform(array('world'));
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $result = $transformation->transform(array('world'));
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testDictionaryTransformationInvalidBecauseValueIsNotAString()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testDictionaryTransformationInvalidBecauseValueIsNotAString()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new DictionaryTransformation(new StringTransformation());
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		try {
-			$result = $transformation->transform(array('hello' => 1));
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $result = $transformation->transform(array('hello' => 1));
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new DictionaryTransformation(new StringTransformation());
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		try {
-			$result = $transformation->transform(1);
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $result = $transformation->transform(1);
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testDictionaryApplyValid()
-	{
-		$transformation = new DictionaryTransformation(new StringTransformation());
+    public function testDictionaryApplyValid()
+    {
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		$result = $transformation->applyTo(new Ok(array('hello' => 'world')));
+        $result = $transformation->applyTo(new Ok(array('hello' => 'world')));
 
-		$this->assertEquals(array('hello' => 'world'), $result->value());
-	}
+        $this->assertEquals(array('hello' => 'world'), $result->value());
+    }
 
-	public function testDictionaryApplyInvalidBecauseKeyIsNotAString()
-	{
-		$transformation = new DictionaryTransformation(new StringTransformation());
+    public function testDictionaryApplyInvalidBecauseKeyIsNotAString()
+    {
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		$result = $transformation->applyTo(new Ok(array('world')));
+        $result = $transformation->applyTo(new Ok(array('world')));
 
-		$this->assertTrue($result->isError());
-	}
+        $this->assertTrue($result->isError());
+    }
 
-	public function testDictionaryApplyInvalidBecauseValueIsNotAString()
-	{
-		$transformation = new DictionaryTransformation(new StringTransformation());
+    public function testDictionaryApplyInvalidBecauseValueIsNotAString()
+    {
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		$result = $transformation->applyTo(new Ok(array('hello' => 1)));
+        $result = $transformation->applyTo(new Ok(array('hello' => 1)));
 
-		$this->assertTrue($result->isError());
-	}
+        $this->assertTrue($result->isError());
+    }
 
-	public function testDictonaryNonArrayToTransformThrowsException()
-	{
-		$transformation = new DictionaryTransformation(new StringTransformation());
+    public function testDictonaryNonArrayToTransformThrowsException()
+    {
+        $transformation = new DictionaryTransformation(new StringTransformation());
 
-		$result = $transformation->applyTo(new Ok(1));
+        $result = $transformation->applyTo(new Ok(1));
 
-		$this->assertTrue($result->isError());
-	}
+        $this->assertTrue($result->isError());
+    }
 }

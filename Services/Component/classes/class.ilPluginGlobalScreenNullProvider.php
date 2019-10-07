@@ -1,42 +1,39 @@
 <?php
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilPluginGlobalScreenNullProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-final class ilPluginGlobalScreenNullProvider extends AbstractStaticPluginMainMenuProvider {
+final class ilPluginGlobalScreenNullProvider extends AbstractStaticPluginMainMenuProvider implements StaticMainMenuProvider
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct() {
-
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public final function getPurpose(): string {
-		return "mainmenu";
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getAllIdentifications() : array
+    {
+        return [];
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public final function getStaticTopItems(): array {
-		return array();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getStaticTopItems() : array
+    {
+        return [];
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public final function getStaticSubItems(): array {
-		return array();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getStaticSubItems() : array
+    {
+        return [];
+    }
 }

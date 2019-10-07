@@ -25,12 +25,19 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        global $DIC;
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cert", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/docs.svg"), "");
+
+        $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_cert'))
                 ->withTitle($this->dic->language()->txt("mm_certificates"))
-                ->withAction("#")
+                ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI",
+                    "ilAchievementsGUI","ilUserCertificateGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
-	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("cert", "")->withIsOutlined(true))
+                ->withSymbol($icon)
                 ->withPosition(50),
         ];
     }

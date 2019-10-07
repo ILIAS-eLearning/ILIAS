@@ -1,12 +1,33 @@
 <?php
+declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\UI\Component\Tree\TreeRecursion;
 
 /**
  * Class ilForumExplorerGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilForumExplorerGUI extends ilExplorerBaseGUI
+class ilForumExplorerGUI implements TreeRecursion
 {
+    /**
+     * @var
+     */
+    private $parent_obj;
+
+    /**
+     * @var
+     */
+    private $id;
+
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    private $ui;
+
+    /** @var  */
+    private $parent_cmd;
+
     /**
      * @var string
      */
@@ -55,87 +76,33 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
     /** @var \ilForumAuthorInformation[] */
     protected $authorInformation = [];
 
+    /** @var array */
+    private $custom_open_nodes = array();
+
     /**
      * {@inheritdoc}
      */
-    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd)
+    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, ilForumTopic $thread)
     {
         global $DIC;
 
-        parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
+        $this->id = $a_expl_id;
 
-        $this->setSkipRootNode(false);
-        $this->setAjax(true);
-
+        $this->ui = $DIC->ui();
         $this->tpl  = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
+        $this->parent_obj = $a_parent_obj;
+        $this->parent_cmd = $a_parent_cmd;
 
         $frm               = new ilForum();
         $this->max_entries = (int) $frm->getPageHits();
-    }
 
-    /**
-     * @return ilForumTopic
-     */
-    public function getThread()
-    {
-        return $this->thread;
-    }
-
-    /**
-     * @param ilForumTopic $thread
-     */
-    public function setThread($thread)
-    {
         $this->thread    = $thread;
         $this->root_node = $thread->getFirstPostNode();
 
         $this->setNodeOpen($this->root_node->getId());
 
         $this->ctrl->setParameter($this->parent_obj, 'thr_pk', $this->thread->getId());
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isNodeClickable($a_node)
-    {
-        $result = parent::isNodeClickable($a_node);
-        if (!$result) {
-            return false;
-        }
-
-        return $this->root_node->getId() != $a_node['pos_pk'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRootNode()
-    {
-        if (null === $this->root_node) {
-            $this->root_node = $this->thread->getFirstPostNode();
-        }
-
-        return array(
-            'pos_pk'              => $this->root_node->getId(),
-            'pos_subject'         => $this->root_node->getSubject(),
-            'pos_author_id'       => $this->root_node->getPosAuthorId(),
-            'pos_display_user_id' => $this->root_node->getDisplayUserId(),
-            'pos_usr_alias'       => $this->root_node->getUserAlias(),
-            'pos_date'            => $this->root_node->getCreateDate(),
-            'import_name'         => $this->root_node->getImportName(),
-            'post_read'           => $this->root_node->isPostRead()
-        );
-    }
-
-    /**
-     * Factory method for a new instance of a node template
-     * @return ilTemplate
-     */
-    protected function getNodeTemplateInstance()
-    {
-        return new ilTemplate('tpl.tree_node_content.html', true, true, 'Modules/Forum');
     }
 
     /**
@@ -150,51 +117,6 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
         }
 
         return $this->thread->getNestedSetPostChildren($a_parent_node_id, 1);
-    }
-
-    /**
-     *
-     */
-    public function preloadChildren()
-    {
-        $this->preloaded_children            = array();
-        $this->node_id_to_parent_node_id_map = array();
-
-        $children = $this->thread->getNestedSetPostChildren($this->root_node->getId());
-
-        array_walk($children, function (&$a_node, $key) {
-            $this->node_id_to_parent_node_id_map[(int) $a_node['pos_pk']]             = (int) $a_node['parent_pos'];
-            $this->preloaded_children[(int) $a_node['parent_pos']][$a_node['pos_pk']] = $a_node;
-        });
-
-        $this->preloaded = true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeContent($a_node)
-    {
-        $tpl = $this->getNodeTemplateInstance();
-
-        $tpl->setCurrentBlock('node-content-block');
-        $tpl->setVariable('TITLE', $a_node['pos_subject']);
-        $tpl->setVariable('TITLE_CLASSES', implode(' ', $this->getNodeTitleClasses($a_node)));
-        $tpl->parseCurrentBlock();
-
-        if ($this->root_node->getId() == $a_node['pos_pk']) {
-            return $tpl->get();
-        }
-
-        $authorinfo = $this->getAuthorInformationByNode($a_node);
-
-        $tpl->setCurrentBlock('unlinked-node-content-block');
-        $tpl->setVariable('UNLINKED_CONTENT_CLASS', $this->getUnlinkedNodeContentClass());
-        $tpl->setVariable('AUTHOR', $authorinfo->getAuthorShortName());
-        $tpl->setVariable('DATE', ilDatePresentation::formatDate(new ilDateTime($a_node['pos_date'], IL_CAL_DATETIME)));
-        $tpl->parseCurrentBlock();
-
-        return $tpl->get();
     }
 
     /**
@@ -217,34 +139,141 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    protected function getUnlinkedNodeContentClass()
+    public function getHTML()
     {
-        return 'ilForumTreeUnlinkedContent';
+        $this->preloadChildren();
+
+        return $this->render();
     }
 
     /**
-     * {@inheritdoc}
+     * Get a list of records (that list can also be empty).
+     * Each record will be relayed to $this->build to retrieve a Node.
+     * Also, each record will be asked for Sub-Nodes using this function.
+     * @return array
      */
-    public function getNodeHref($a_node)
+    public function getChildren($record, $environment = null) : array
     {
-        $this->ctrl->setParameter($this->parent_obj, 'backurl', null);
-        $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $a_node['pos_pk']);
+        return $this->getChildsOfNode($record['pos_pk']);
+    }
 
-        if (isset($a_node['counter']) && $a_node['counter'] > 0) {
-            $this->ctrl->setParameter(
-                $this->parent_obj,
-                'page',
-                floor(($a_node['counter'] - 1) / $this->max_entries)
-            );
+    /**
+     * Get Tree UI
+     *
+     * @return Tree|object
+     */
+    public function getTreeComponent()
+    {
+        $f = $this->ui->factory();
+        /** @var ilTree $tree */
+
+        $rootNode = array(
+            'pos_pk'              => $this->root_node->getId(),
+            'pos_subject'         => $this->root_node->getSubject(),
+            'pos_author_id'       => $this->root_node->getPosAuthorId(),
+            'pos_display_user_id' => $this->root_node->getDisplayUserId(),
+            'pos_usr_alias'       => $this->root_node->getUserAlias(),
+            'pos_date'            => $this->root_node->getCreateDate(),
+            'import_name'         => $this->root_node->getImportName(),
+            'post_read'           => $this->root_node->isPostRead()
+        );
+
+        $endData = array($rootNode);
+
+        $tree = $f->tree()
+                  ->expandable($this)
+                  ->withData($endData)
+                  ->withHighlightOnNodeClick(false);
+
+        return $tree;
+    }
+
+    /**
+     * Build and return a Node.
+     * The renderer will provide the $factory-parameter which is the UI-factory
+     * for nodes, as well as the (unspecified) $environment as configured at the Tree.
+     * $record is the data the node should be build for.
+     * @param \ILIAS\UI\Component\Tree\Node\Factory $factory
+     * @param                                       $record
+     * @param null                                  $environment
+     * @return \ILIAS\UI\Component\Tree\Node\Node
+     * @throws ilDateTimeException
+     */
+    public function build(\ILIAS\UI\Component\Tree\Node\Factory $factory, $record, $environment = null) : \ILIAS\UI\Component\Tree\Node\Node
+    {
+        /** @var \ILIAS\UI\Component\Tree\Node\Node $node */
+        $node = $this->createNode($factory, $record);
+
+        if ($record['pos_pk'] != $this->root_node->getId()) {
+            $href = $this->getNodeHref($record);
+            if ($href) {
+                $node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
+            }
         }
 
-        if (isset($a_node['post_read']) && $a_node['post_read']) {
-            return $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, $a_node['pos_pk']);
+        return $node;
+    }
+
+    /**
+     * Render tree
+     *
+     * @return string
+     */
+    private function render()
+    {
+        $renderer = $this->ui->renderer();
+
+        return $renderer->render([
+            $this->getTreeComponent()
+        ]);
+    }
+
+    /**
+     * Set node to be opened (additional custom opened node, not standard expand behaviour)
+     *
+     * @param
+     * @return
+     */
+    private function setNodeOpen($a_id)
+    {
+        if (!in_array($a_id, $this->custom_open_nodes)) {
+            $this->custom_open_nodes[] = $a_id;
+        }
+    }
+
+    /**
+     * @param $factory
+     * @param $node
+     * @return mixed
+     * @throws ilDateTimeException
+     */
+    private function createNode(
+        \ILIAS\UI\Component\Tree\Node\Factory $factory,
+        $node
+    ) {
+        global $DIC;
+
+        $path = $this->getNodeIcon($node);
+
+        $icon = $DIC->ui()
+                    ->factory()
+                    ->symbol()
+                    ->icon()
+                    ->custom($path, 'forum');
+        
+        if ($node['pos_pk'] == $this->root_node->getId()) {
+            $treeNode = $factory->simple($node['pos_subject'], $icon);
         } else {
-            return $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', $a_node['pos_pk']);
+            $authorInfo = $this->getAuthorInformationByNode($node);
+            $creationDate = ilDatePresentation::formatDate(new ilDateTime($node['pos_date'], IL_CAL_DATETIME));
+            $bylineString = $authorInfo->getAuthorShortName() . ', ' . $creationDate;
+
+            $treeNode = $factory->bylined($node['pos_subject'], $bylineString, $icon);
         }
+
+        return $treeNode;
     }
 
     /**
@@ -268,15 +297,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
     /**
      * {@inheritdoc}
      */
-    public function getNodeId($a_node)
-    {
-        return $a_node['pos_pk'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeIcon($a_node)
+    private function getNodeIcon($a_node)
     {
         if ($this->root_node->getId() == $a_node['pos_pk']) {
             return ilObject::_getIcon(0, 'tiny', 'frm');
@@ -285,40 +306,39 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
         return $this->getAuthorInformationByNode($a_node)->getProfilePicture();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function beforeRendering()
+    private function preloadChildren()
     {
-        if (isset($_GET['post_created_below']) && (int) $_GET['post_created_below'] > 0) {
-            $parent = (int)$_GET['post_created_below'];
-            do {
-                $this->setNodeOpen((int) $parent);
-            } while ($parent = $this->node_id_to_parent_node_id_map[$parent]);
+        $this->preloaded_children            = array();
+        $this->node_id_to_parent_node_id_map = array();
 
-            $this->store->set("on_" . $this->id,
-                serialize(array_unique(array_merge($this->open_nodes, $this->custom_open_nodes))));
+        $children = $this->thread->getNestedSetPostChildren($this->root_node->getId());
+
+        array_walk($children, function (&$a_node, $key) {
+            $this->node_id_to_parent_node_id_map[(int) $a_node['pos_pk']]             = (int) $a_node['parent_pos'];
+            $this->preloaded_children[(int) $a_node['parent_pos']][$a_node['pos_pk']] = $a_node;
+        });
+
+        $this->preloaded = true;
+    }
+
+    private function getNodeHref($a_node)
+    {
+        $this->ctrl->setParameter($this->parent_obj, 'backurl', null);
+        $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $a_node['pos_pk']);
+
+        if (isset($a_node['counter']) && $a_node['counter'] > 0) {
+            $this->ctrl->setParameter(
+                $this->parent_obj,
+                'page',
+                floor(($a_node['counter'] - 1) / $this->max_entries)
+            );
         }
+
+        if (isset($a_node['post_read']) && $a_node['post_read']) {
+            return $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, $a_node['pos_pk'], false, false);
+        }
+
+        return $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', $a_node['pos_pk'], false, false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getHTML()
-    {
-        $this->preloadChildren();
-
-        $html = parent::getHTML();
-
-        $this->tpl->addOnLoadCode('il.ForumExplorer.init(' . json_encode(array(
-                'selectors' => array(
-                    'container'        => '#' . $this->getContainerId(),
-                    'unlinked_content' => '.' . $this->getUnlinkedNodeContentClass()
-                )
-            )) . ');');
-
-        $this->tpl->addJavascript($this->js_explorer_frm_path);
-
-        return $html;
-    }
 }

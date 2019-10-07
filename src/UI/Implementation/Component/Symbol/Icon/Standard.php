@@ -24,18 +24,14 @@ class Standard extends Icon implements C\Symbol\Icon\Standard {
 		,self::ADM
 		,self::USRF
 		,self::ROLF
-		,self::OBJF
 		,self::USR
 		,self::ROLT
 		,self::LNGF
 		,self::LNG
 		,self::ROLE
-		,self::DBK
 		,self::GLO
 		,self::ROOT
 		,self::LM
-		,self::NOTF
-		,self::NOTE
 		,self::FRM
 		,self::EXC
 		,self::AUTH
@@ -52,7 +48,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard {
 		,self::TRAC
 		,self::ASSF
 		,self::STYS
-		,self::CRSG
 		,self::WEBR
 		,self::SEAS
 		,self::EXTT
@@ -128,7 +123,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard {
 		$this->checkStringArg("name", $name);
 		$this->checkStringArg("string", $aria_label);
 		$this->checkArgIsElement("size", $size,	self::$possible_sizes,
-			implode(self::$possible_sizes, '/')
+			implode('/', self::$possible_sizes)
 		);
 		$this->checkBoolArg("is_disabled", $is_disabled);
 		$this->name = $name;

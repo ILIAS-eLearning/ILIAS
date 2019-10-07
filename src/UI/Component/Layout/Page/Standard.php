@@ -57,15 +57,15 @@ interface Standard extends Page, JavaScriptBindable {
 
 
 	/**
-	 * @return Metabar
+	 * @return Metabar|null
 	 */
-	public function getMetabar(): Metabar;
+	public function getMetabar();
 
 
 	/**
-	 * @return Mainbar
+	 * @return Mainbar|null
 	 */
-	public function getMainbar(): Mainbar;
+	public function getMainbar();
 
 
 	/**
@@ -78,4 +78,10 @@ interface Standard extends Page, JavaScriptBindable {
 	 * @return Image|null
 	 */
 	public function getLogo();
+
+	/**
+	 * @return Footer|null
+	 */
+	public function getFooter();
+
 }

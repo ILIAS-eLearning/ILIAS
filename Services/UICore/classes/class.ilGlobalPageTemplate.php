@@ -60,9 +60,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
     private function prepareOutputHeaders()
     {
-        $response = $this->http->response();
-        $this->http->saveResponse($response->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
-        $this->http->saveResponse($response->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
+        $this->http->saveResponse($this->http->response()->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
+        $this->http->saveResponse($this->http->response()->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
 
         if (defined("ILIAS_HTTP_PATH")) {
             $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
@@ -76,6 +75,18 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         \iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
+        \ilBuddySystemGUI::initializeFrontend($this);
+        \ilOnScreenChatGUI::initializeFrontend($this);
+
+        $sessionReminder = new ilSessionReminderGUI(
+            ilSessionReminder::createInstanceWithCurrentUserSession(),
+            $this,
+            $this->lng
+        );
+        $sessionReminder->populatePage();
+
+        $onScreenNotifier = new ilNotificationOSDGUI($this, $this->lng);
+        $onScreenNotifier->populatePage();
     }
 
 

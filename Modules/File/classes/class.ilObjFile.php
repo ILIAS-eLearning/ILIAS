@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\File\Sanitation\FilePathSanitizer;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\Location;
 
@@ -366,6 +368,7 @@ class ilObjFile extends ilObject2
      * @param $a_upload_file
      * @param $a_filename
      *
+     * @return \ILIAS\FileUpload\DTO\UploadResult
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
@@ -383,6 +386,14 @@ class ilObjFile extends ilObject2
     }
 
 
+    /**
+     * @param $a_upload_file
+     * @param $a_filename
+     *
+     * @return \ILIAS\FileUpload\DTO\UploadResult
+     * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     */
     public function addFileVersion($a_upload_file, $a_filename)
     {
         if ($result = $this->getUploadFile($a_upload_file, $a_filename, true)) {
@@ -815,15 +826,17 @@ class ilObjFile extends ilObject2
      */
     public function sendFile($a_hist_entry_id = null)
     {
+        $s = new FilePathSanitizer($this);
+        $s->sanitizeIfNeeded();
+
         if (is_null($a_hist_entry_id)) {
             $file = $this->getDirectory($this->getVersion()) . "/" . $this->getFileName();
+            $file = ilFileUtils::getValidFilename($file);
         } else {
             $entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
             $data = $this->parseInfoParams($entry);
             $file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
         }
-
-        $file = ilFileUtils::getValidFilename($file);
 
         if ($this->file_storage->fileExists($file)) {
             global $DIC;
@@ -859,7 +872,7 @@ class ilObjFile extends ilObject2
             return true;
         }
 
-        throw new \ILIAS\Filesystem\Exception\FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
+        throw new FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
     }
 
 
@@ -1240,30 +1253,19 @@ class ilObjFile extends ilObject2
 
 
     /**
-     * @param int $obj_id
-     * @param int $a_version
+     * @param      $obj_id
+     * @param null $a_version
      *
-     * @return string
-     * @throws ilFileUtilsException
+     * @return bool|string
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      */
     public static function _lookupAbsolutePath($obj_id, $a_version = null)
     {
-        global $DIC;
-
-        $fs = $DIC->filesystem()->storage();
-
         $file_object = new self($obj_id, false);
-        $file_path = $file_object->getFile($a_version);
-        $valid_file_path = ilFileUtils::getValidFilename($file_path);
-        if ($valid_file_path !== $file_path) {
-            if (!$fs->has(LegacyPathHelper::createRelativePath($file_path)) && $fs->has(LegacyPathHelper::createRelativePath($valid_file_path))) {
-                $file_object->setFileName(ilFileUtils::getValidFilename($file_object->getFileName()));
-                $file_object->update();
-                $file_path = $valid_file_path;
-            }
-        }
+        $s = new FilePathSanitizer($file_object);
+        $s->sanitizeIfNeeded();
 
-        return $file_path;
+        return $file_object->getFile($a_version);
     }
 
 
@@ -1484,15 +1486,18 @@ class ilObjFile extends ilObject2
      * @return array Returns an array containing the "filename" and "version" contained within the
      *               "info_params".
      */
-    function parseInfoParams($entry)
+    private function parseInfoParams($entry)
     {
-        $data = preg_split("/(.*),(.*),(.*)/", $entry["info_params"], 0, PREG_SPLIT_DELIM_CAPTURE
-            | PREG_SPLIT_NO_EMPTY);
+        $data = explode(",", $entry["info_params"]);
 
         // bugfix: first created file had no version number
         // this is a workaround for all files created before the bug was fixed
         if (empty($data[1])) {
             $data[1] = "1";
+        }
+
+        if (empty($data[2])) {
+            $data[2] = "1";
         }
 
         $result = array(

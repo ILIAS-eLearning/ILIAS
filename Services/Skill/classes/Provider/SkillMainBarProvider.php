@@ -26,14 +26,19 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        global $DIC;
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("skmg", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/magic-wand.svg"), "");
+
+        $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_skill'))
                 ->withTitle($this->dic->language()->txt("mm_skills"))
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills")
+                ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI","ilPersonalSkillsGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(20)
-	            ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("skmg", "")->withIsOutlined(true))
+	            ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

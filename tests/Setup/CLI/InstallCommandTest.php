@@ -13,12 +13,10 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 	public function testBasicFunctionality() {
 		$refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
-		$consumer = $this->createMock(Setup\Agent::class);
-		$command = $this
-			->getMockBuilder(Setup\CLI\InstallCommand::class)
-			->setMethods(["readConfigFile"])
-			->setConstructorArgs([$consumer])
-			->getMock();
+		$agent = $this->createMock(Setup\Agent::class);
+		$config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
+		$command = new Setup\CLI\InstallCommand($agent, $config_reader);
+
 		$tester = new CommandTester($command);
 
 		$config = $this->createMock(Setup\Config::class);
@@ -28,18 +26,18 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 		$objective = $this->createMock(Setup\Objective::class);
 		$env = $this->createMock(Setup\Environment::class);
 
-		$command
+		$config_reader
 			->expects($this->once())
 			->method("readConfigFile")
 			->with($config_file)
 			->willReturn($config_file_content);
 
-		$consumer
+		$agent
 			->expects($this->once())
 			->method("hasConfig")
 			->willReturn(true);
 
-		$consumer
+		$agent
 			->expects($this->once())
 			->method("getArrayToConfigTransformation")
 			->with()
@@ -48,7 +46,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 				return $config;
 			}));
 
-		$consumer
+		$agent
 			->expects($this->once())
 			->method("getInstallObjective")
 			->with($config)
@@ -67,24 +65,5 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 		$tester->execute([
 			"config" => $config_file
 		]);
-	}
-
-	public function testReadConfigFile() {
-		$filename = tempnam("/tmp", "ILIAS");
-		$expected = [
-			"some" => [
-				"nested" => "config"
-			]
-		];
-		file_put_contents($filename, json_encode($expected));
-		
-		$obj = new class extends Setup\CLI\InstallCommand {
-			public function __construct() {}
-			public function _readConfigFile($n) { return $this->readConfigFile($n); }
-		};
-
-		$config = $obj->_readConfigFile($filename);
-
-		$this->assertEquals($expected, $config);
 	}
 }

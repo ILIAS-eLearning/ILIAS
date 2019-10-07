@@ -725,7 +725,7 @@ class ilBlogGlobalTemplate implements ilGlobalTemplateInterface
 		}
 		foreach($this->inline_css as $css)
 		{
-			$this->setCurrentBlock("css_file");
+			$this->setCurrentBlock("css_inline");
 			$this->setVariable("CSS_INLINE", $css["css"]);
 			$this->parseCurrentBlock();
 		}
@@ -1523,15 +1523,6 @@ class ilBlogGlobalTemplate implements ilGlobalTemplateInterface
 					{
 						$this->getMainMenu();
 						$this->initHelp();
-					}
-
-					if($this->blockExists("content") && $this->variableExists('MAINMENU'))
-					{
-						$tpl = $DIC["tpl"];
-
-						include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
-						$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
-						$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
 					}
 
 					// these fill blocks in tpl.main.html

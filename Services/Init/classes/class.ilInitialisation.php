@@ -1327,54 +1327,6 @@ class ilInitialisation
 	}
 
 	/**
-	 * Try authentication
-	 *
-	 * This will basically validate the current session
-	 */
-	public static function authenticate()
-	{
-		global $ilAuth, $ilias, $ilErr;
-
-		$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
-
-		if(self::blockedAuthentication($current_script))
-		{
-			return;
-		}
-
-		$oldSid = session_id();
-
-		$ilAuth->start();
-		$ilias->setAuthError($ilErr->getLastError());
-
-		if($ilAuth->getAuth() && $ilAuth->getStatus() == '')
-		{
-			self::initUserAccount();
-
-			self::handleAuthenticationSuccess();
-		}
-		else
-		{
-			if (!self::showingLoginForm($current_script))
-			{
-				// :TODO: should be moved to context?!
-				$mandatory_auth = ($current_script != "shib_login.php"
-						&& $current_script != "shib_logout.php"
-						&& $current_script != "saml.php"
-						&& $current_script != "error.php"
-						&& $current_script != "chat.php"
-						&& $current_script != "wac.php"
-						&& $current_script != "index.php"); // #10316
-
-				if($mandatory_auth)
-				{
-					self::handleAuthenticationFail();
-				}
-			}
-		}
-	}
-
-	/**
 	 * @static
 	 */
 	protected static function handleAuthenticationSuccess()
@@ -1463,6 +1415,7 @@ class ilInitialisation
 			return new Services(new ilGSProviderFactory($c));
 		};
 		$c->globalScreen()->tool()->context()->stack()->main();
+        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool)DEVMODE);
 	}
 
 	/**
@@ -1639,19 +1592,22 @@ class ilInitialisation
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
+							, $c["refinery"]
 							),
 						  new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory
 							($c["ui.factory"]
 							, $c["ui.template_factory"]
 							, $c["lng"]
 							, $c["ui.javascript_binding"]
-							),
+							, $c["refinery"]
+						  ),
 						  new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory
 						  	($c["ui.factory"]
 						  	, $c["ui.template_factory"]
 						  	, $c["lng"]
 						  	, $c["ui.javascript_binding"]
-							)
+							, $c["refinery"]
+						  )
 						)
 					)
 				);
@@ -1672,6 +1628,19 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
 		};
 
+		$plugins = ilPluginAdmin::getActivePlugins();
+		foreach ($plugins as $plugin_data){
+			$plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"],$plugin_data["component_name"]
+				,$plugin_data["slot_id"],$plugin_data["name"]);
+
+			$c['ui.renderer'] =  $plugin->exchangeUIRendererAfterInitialization($c);
+
+			foreach ($c->keys() as $key){
+				if(strpos($key,"ui.factory") === 0){
+					$c[$key] = $plugin->exchangeUIFactoryAfterInitialization($key,$c);
+				}
+			}
+		}
 	}
 
 	/**
@@ -1945,27 +1914,6 @@ class ilInitialisation
 		}
 
 		ilLoggerFactory::getLogger('auth')->debug('Authentication required');
-		return false;
-	}
-
-	/**
-	 * Is current view the login form?
-	 *
-	 * @return boolean
-	 */
-	protected static function showingLoginForm($a_current_script)
-	{
-		if($a_current_script == "login.php")
-		{
-			return true;
-		}
-
-		if($_REQUEST["baseClass"] == "ilStartUpGUI" &&
-			self::getCurrentCmd() == "showLoginPage")
-		{
-			return true;
-		}
-
 		return false;
 	}
 

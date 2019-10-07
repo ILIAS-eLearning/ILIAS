@@ -14,6 +14,8 @@ var OSDNotifier, OSDNotifications = function (settings) {
 				lastRequest = 0,
 				items = {};
 
+			$("body").append('<div class="osdNotificationContainer"></div>');
+
 			$(settings.initialNotifications).each(function () {
 				items['osdNotification_' + this.notification_osd_id] = this;
 			});
@@ -85,6 +87,7 @@ var OSDNotifier, OSDNotifications = function (settings) {
 									+ '<div class="osdNotificationShortDescription">' + this.data.shortDescription + '</div>'
 									+ '</div>'
 							);
+							
 							$('.osdNotificationContainer').append(newElement);
 							if (getParam(this.data.handlerParams, 'osd.closable', true)) {
 								var href = newElement.find('.target_link').attr('href');

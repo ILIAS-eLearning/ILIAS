@@ -21,11 +21,11 @@ class ilMediaSvgSanitizer
 	 */
 	static function sanitizeFile($a_file)
 	{
-		include_once("./Services/MediaObjects/lib/svg-sanitizer-master/src/data/AttributeInterface.php");
+		/*include_once("./Services/MediaObjects/lib/svg-sanitizer-master/src/data/AttributeInterface.php");
 		include_once("./Services/MediaObjects/lib/svg-sanitizer-master/src/data/TagInterface.php");
 		include_once("./Services/MediaObjects/lib/svg-sanitizer-master/src/data/AllowedTags.php");
 		include_once("./Services/MediaObjects/lib/svg-sanitizer-master/src/data/AllowedAttributes.php");
-		include_once("./Services/MediaObjects/lib/svg-sanitizer-master/src/Sanitizer.php");
+		include_once("./Services/MediaObjects/lib/svg-sanitizer-master/src/Sanitizer.php");*/
 
 		$sanitizer = new Sanitizer();
 		$dirtySVG = file_get_contents($a_file);

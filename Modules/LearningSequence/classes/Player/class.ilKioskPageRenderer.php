@@ -5,6 +5,8 @@ declare(strict_types=1);
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Listing\Workflow\Workflow;
+use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
 /**
  * Class ilKioskPageRenderer
@@ -12,7 +14,8 @@ use ILIAS\UI\Component\Listing\Workflow\Workflow;
 class ilKioskPageRenderer
 {
 	public function __construct(
-		ilGlobalTemplate $il_global_template,
+		ilGlobalPageTemplate $il_global_template,
+		MetaContent $layout_meta_content,
 		Renderer $ui_renderer,
 		ilTemplate $kiosk_template,
 		ilLSTOCGUI $toc_gui,
@@ -20,6 +23,7 @@ class ilKioskPageRenderer
 		string $window_base_title
 	) {
 		$this->il_tpl = $il_global_template;
+		$this->layout_meta_content = $layout_meta_content;
 		$this->ui_renderer = $ui_renderer;
 		$this->tpl = $kiosk_template;
 		$this->toc_gui = $toc_gui;
@@ -67,6 +71,7 @@ class ilKioskPageRenderer
 		//also shift start control up front - this is for legacy-views only!
 		if($control_builder->getStartControl()) {
 			array_unshift($controls, $control_builder->getStartControl());
+			$this->tpl->setVariable("JS_INLINE", $control_builder->getAdditionalJS());
 		}
 
 
@@ -115,7 +120,6 @@ class ilKioskPageRenderer
 
 	protected function setHeaderVars(ilTemplate $tpl)
 	{
-		$this->initIlTemplate();
 		$js_files = $this->getJsFiles();
 		$js_olc = $this->getOnLoadCode();
 		$css_files = $this->getCSSFiles();
@@ -133,60 +137,60 @@ class ilKioskPageRenderer
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
+		$tpl->setVariable("CSS_INLINE", $css_inline);
 		$tpl->setVariable("OLCODE", $js_olc);
 
 		return $tpl;
 	}
 
-	protected function initIlTemplate()
+	protected function getJsFiles(): array
 	{
-		iljQueryUtil::initjQuery($this->il_tpl);
-		ilUIFramework::init($this->il_tpl);
-	}
-
-	protected function getJsFiles()
-	{
-		$il_js_files = $this->il_tpl->js_files_batch;
-		//asort($il_js_files);
-		$js_files = array_filter (
-			array_keys($il_js_files),
-			function($js_file) {
-				return strpos($js_file, 'Services/FileUpload/js') === false;
+		$js_files = [];
+		$basic = './Services/JavaScript/js/Basic.js';
+		foreach ($this->layout_meta_content->getJs()->getItemsInOrderOfDelivery() as $js_file) {
+			$file = $js_file->getContent();
+			if(strpos($file, 'Services/FileUpload/js')) {
+				continue;
 			}
-		);
+			if(! strpos($file, '/jquery') && ! in_array($basic, $js_files)) {
+				$js_files[] = $basic;
+			}
+			$js_files[] = $file;
+		}
 		return $js_files;
 	}
 
-	protected function getOnLoadCode()
+	protected function getOnLoadCode(): string
 	{
-		$olc = '';
-		if($this->il_tpl->on_load_code) {
-			foreach ($this->il_tpl->on_load_code as $key => $value) {
-				$olc .= implode(PHP_EOL, $value);
-			 }
+		$js_inline = [];
+		foreach ($this->layout_meta_content->getOnloadCode()->getItemsInOrderOfDelivery() as $on_load_code) {
+			$js_inline[] = $on_load_code->getContent();
 		}
-		return $olc;
+		return implode(PHP_EOL, $js_inline);
 	}
 
-	protected function getCSSFiles()
+	protected function getCSSFiles(): array
 	{
-		foreach($this->il_tpl->css_files as $il_css_file) {
-			$css_files[] = $il_css_file['file'];
-		}
-		foreach($this->il_tpl->css_files as $il_css_file) {
-			if(! in_array($il_css_file['file'], $css_files)) {
-				$css_files[] = $il_css_file['file'];
+		$css_files = $this->layout_meta_content->getCSS()->getItemsInOrderOfDelivery();
+		$css_files = array_map(
+			function($css_file) {
+				return $css_file->getContent();
 			}
-		}
+			,$css_files
+		);
 		$css_files[] = \ilUtil::getStyleSheetLocation("filesystem", "delos.css");
+		$css_files[] = \ilUtil::getStyleSheetLocation();
 		$css_files[] = \ilUtil::getNewContentStyleSheetLocation();
-
 		return $css_files;
 	}
-	protected function getInlineCSS()
+
+	protected function getInlineCSS(): string
 	{
-		return $this->il_tpl->inline_css;
+		$css_inline = [];
+		foreach ($this->layout_meta_content->getInlineCss()->getItemsInOrderOfDelivery() as $inline_css) {
+			$css_inline[] = $inline_css->getContent();
+		}
+		return implode(PHP_EOL, $css_inline);
 	}
 
 }

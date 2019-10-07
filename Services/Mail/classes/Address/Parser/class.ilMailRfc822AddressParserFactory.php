@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,12 +7,12 @@
  */
 class ilMailRfc822AddressParserFactory
 {
-	/**
-	 * @param string $a_address
-	 * @return \ilMailRecipientParser
-	 */
-	public function getParser(string $a_address): \ilMailRecipientParser
-	{
-		return new \ilMailRfc822AddressParser(new \ilMailPearRfc822WrapperAddressParser($a_address));
-	}
+    /**
+     * @param string $address
+     * @return ilMailRecipientParser
+     */
+    public function getParser(string $address) : ilMailRecipientParser
+    {
+        return new ilMailRfc822AddressParser(new ilMailPearRfc822WrapperAddressParser($address));
+    }
 }

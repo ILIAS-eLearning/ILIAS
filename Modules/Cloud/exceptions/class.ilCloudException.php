@@ -6,25 +6,23 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 /**
  * Class ilCloudException
  *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
  * @extends ilException
  * @ingroup ModulesCloud
  */
 class ilCloudException extends ilException
 {
-    const UNKNONW_EXCEPTION = -1;
 
-    const NO_SERVICE_ACTIVE   = 1001;
+    const UNKNONW_EXCEPTION = -1;
+    const NO_SERVICE_ACTIVE = 1001;
     const NO_SERVICE_SELECTED = 1002;
-    const SERVICE_NOT_ACTIVE  = 1003;
+    const SERVICE_NOT_ACTIVE = 1003;
     const SERVICE_CLASS_FILE_NOT_FOUND = 1004;
     const PLUGIN_HOOK_COULD_NOT_BE_INSTANTIATED = 1005;
-
     const FOLDER_NOT_EXISTING_ON_SERVICE = 1101;
     const FILE_NOT_EXISTING_ON_SERVICE = 1102;
     const FOLDER_ALREADY_EXISTING_ON_SERVICE = 1103;
-
     const AUTHENTICATION_FAILED = 2001;
     const DELETE_FAILED = 2101;
     const DOWNLOAD_FAILED = 2201;
@@ -32,19 +30,16 @@ class ilCloudException extends ilException
     const UPLOAD_FAILED = 2401;
     const UPLOAD_FAILED_MAX_FILESIZE = 2402;
     const ADD_ITEMS_FROM_SERVICE_FAILED = 2501;
-
     const INVALID_INPUT = 3001;
-
     const PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION = 4001;
     const ID_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION = 4002;
     const ID_ALREADY_EXISTS_IN_FILE_TREE_IN_SESSION = 4003;
-
     const PERMISSION_DENIED = 5001;
     const PERMISSION_TO_CHANGE_ROOT_FOLDER_DENIED = 5002;
-
     protected $message;
     protected $code;
     protected $add_info;
+
 
     /**
      * @param string $exception_code
@@ -58,15 +53,14 @@ class ilCloudException extends ilException
         $this->add_info = $exception_info;
         $this->assignMessageToCode();
         parent::__construct($this->message, $this->code);
-
     }
+
 
     protected function assignMessageToCode()
     {
         global $DIC;
         $lng = $DIC['lng'];
-        switch ($this->code)
-        {
+        switch ($this->code) {
             case self::NO_SERVICE_ACTIVE:
                 $this->message = $lng->txt("cld_no_service_active");
                 break;
@@ -134,14 +128,15 @@ class ilCloudException extends ilException
                 $this->message = $lng->txt("cld_unknown_exception");
                 break;
         }
-	    $this->message .= ($this->add_info ? ": " : "") . $this->add_info;
+        $this->message .= ($this->add_info ? ": " : "") . $this->add_info;
     }
+
 
     public function __toString()
     {
         return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
             . "{$this->getTraceAsString()}";
     }
-
 }
+
 ?>

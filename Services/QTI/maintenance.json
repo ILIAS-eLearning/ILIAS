@@ -1,6 +1,6 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
+    "first_maintainer": "bheyser(14300)",
     "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": [
@@ -10,5 +10,7 @@
     "testcase_writer": "",
     "path": "Services/QTI",
     "belong_to_component": "None",
-    "used_in_components": []
+    "used_in_components": [
+        "AssessmentQuestion"
+    ]
 }

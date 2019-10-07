@@ -75,7 +75,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
 		$this->tpl->setVariable("CHECKBOX",
 			ilUtil::formCheckBox("", "area[]", $i));
 		$this->tpl->setVariable("VAR_NAME", "name_".$i);
-		$this->tpl->setVariable("VAL_NAME", $a_set["Link"]["Title"]);
+		$this->tpl->setVariable("VAL_NAME", trim($a_set["Link"]["Title"]));
 		$this->tpl->setVariable("VAL_SHAPE", $a_set["Shape"]);
 		
 		$this->tpl->setVariable("VAL_HIGHL_MODE",

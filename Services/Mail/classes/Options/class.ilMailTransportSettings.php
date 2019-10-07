@@ -1,47 +1,54 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
- /**
+/**
  * @author Niels Theen <ntheen@databay.de>
  * @version $Id$
  */
 class ilMailTransportSettings
 {
-	private $mailOptions;
+    /** @var ilMailOptions */
+    private $mailOptions;
 
-	public function __construct(ilMailOptions $mailOptions)
-	{
-		$this->mailOptions = $mailOptions;
-	}
+    /**
+     * ilMailTransportSettings constructor.
+     * @param ilMailOptions $mailOptions
+     */
+    public function __construct(ilMailOptions $mailOptions)
+    {
+        $this->mailOptions = $mailOptions;
+    }
 
-	/**
-	 * Validates the current instance settings and eventually adjusts these
-	 * @param string $firstMail
-	 * @param string $secondMail
-	 * @return int|string|void
-	 */
-	public function adjust($firstMail, $secondMail)
-	{
-		if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
-			return;
-		}
+    /**
+     * Validates the current instance settings and eventually adjusts these
+     * @param string $firstMail
+     * @param string $secondMail
+     */
+    public function adjust(string $firstMail, string $secondMail) : void
+    {
+        if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
+            return;
+        }
 
-		$hasFirstEmail  = strlen($firstMail);
-		$hasSecondEmail = strlen($secondMail);
+        $hasFirstEmail = strlen($firstMail) > 0;
+        $hasSecondEmail = strlen($secondMail) > 0;
 
-		if (!$hasFirstEmail && !$hasSecondEmail) {
-			$this->mailOptions->setIncomingType(ilMailOptions::INCOMING_LOCAL);
-			return $this->mailOptions->updateOptions();
-		}
+        if (!$hasFirstEmail && !$hasSecondEmail) {
+            $this->mailOptions->setIncomingType(ilMailOptions::INCOMING_LOCAL);
+            $this->mailOptions->updateOptions();
+            return;
+        }
 
-		if (!$hasFirstEmail && $this->mailOptions->getMailAddressOption() !== ilMailOptions::SECOND_EMAIL) {
-			$this->mailOptions->setMailAddressOption(ilMailOptions::SECOND_EMAIL);
-			return $this->mailOptions->updateOptions();
-		}
+        if (!$hasFirstEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::SECOND_EMAIL) {
+            $this->mailOptions->setEmailAddressMode(ilMailOptions::SECOND_EMAIL);
+            $this->mailOptions->updateOptions();
+            return;
+        }
 
-		if (!$hasSecondEmail && $this->mailOptions->getMailAddressOption() !== ilMailOptions::FIRST_EMAIL) {
-			$this->mailOptions->setMailAddressOption(ilMailOptions::FIRST_EMAIL);
-			return $this->mailOptions->updateOptions();
-		}
-	}
+        if (!$hasSecondEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::FIRST_EMAIL) {
+            $this->mailOptions->setEmailAddressMode(ilMailOptions::FIRST_EMAIL);
+            $this->mailOptions->updateOptions();
+            return;
+        }
+    }
 }

@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes a multi-select input.
  */
-interface MultiSelect extends Input {
+interface MultiSelect extends FilterInput {
 
 	/**
 	 * Get options as value=>label.

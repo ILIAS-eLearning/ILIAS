@@ -28,7 +28,7 @@ class ilMailOptionsTest extends ilMailBaseTest
         $object->cronjob_notification = false;
         $object->signature = 'smth';
         $object->linebreak = false;
-        $object->incoming_type = 'MY';
+        $object->incoming_type = 1;
         $object->mail_address_option = 0;
         $object->email = 'test@test.com';
         $object->second_email = 'ilias@ilias.com';
@@ -50,7 +50,7 @@ class ilMailOptionsTest extends ilMailBaseTest
         $this->assertEquals($object->signature, $mailOptions->getSignature());
         $this->assertEquals($object->incoming_type, $mailOptions->getIncomingType());
         $this->assertEquals($object->linebreak, $mailOptions->getLinebreak());
-        $this->assertEquals($object->cronjob_notification, $mailOptions->getCronjobNotification());
+        $this->assertEquals($object->cronjob_notification, $mailOptions->isCronJobNotificationEnabled());
     }
 }
 
