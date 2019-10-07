@@ -13,6 +13,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
 
 const MSG_SUCCESS = "success";
@@ -142,8 +143,9 @@ class AuthoringApplicationService {
 
 	public function getQuestionPage(int $question_int_id) : \ilAsqQuestionPageGUI
     {
-        $page_factory = new PageFactory($this->container_obj_id,$question_int_id);
-        $page_gui = \ilAsqQuestionPageGUI::getGUI($page_factory->getQuestionPage());
+        global $DIC;
+        $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE,$this->container_obj_id,$question_int_id,$DIC->language()->getDefaultLanguage());
+        $page_gui = \ilAsqQuestionPageGUI::getGUI($page);
 
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
@@ -154,12 +156,9 @@ class AuthoringApplicationService {
 
 	public function getQuestionPageEditor(int $question_int_id) : \ilAsqQuestionPageGUI
     {
-        $page_factory = new PageFactory($this->container_obj_id,$question_int_id);
-
-
-
-
-        $page_gui = \ilAsqQuestionPageGUI::getGUI($page_factory->getQuestionPage());
+        global $DIC;
+        $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE,$this->container_obj_id,$question_int_id,$DIC->language()->getDefaultLanguage());
+        $page_gui = \ilAsqQuestionPageGUI::getGUI($page);
 
         $page_gui->setOutputMode('edit');
         $page_gui->setEditPreview(true);

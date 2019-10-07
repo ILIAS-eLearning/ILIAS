@@ -25,6 +25,8 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
  */
 class ilAsqQuestionPageGUI extends ilPageObjectGUI
 {
+    const PAGE_TYPE = 'asqq';
+
     const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 
     /**
@@ -88,6 +90,7 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
         $this->setPageObject($page);
         $this->setPageConfig($this->getPageObject()->getPageConfig());
 
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->log = $DIC->logger()->root();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();

@@ -38,7 +38,7 @@ class Page extends \ilPageObject
         $page = $reflector->newInstanceWithoutConstructor();
 
         $page->setParentType($page_type);
-        $page->__construct($parent_int_id,0,$lng_key);
+        $page->__construct($page_int_id,0,$lng_key);
 
         return $page;
     }
