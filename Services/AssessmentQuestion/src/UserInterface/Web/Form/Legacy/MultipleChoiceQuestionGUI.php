@@ -34,8 +34,8 @@ class MultipleChoiceQuestionGUI extends LegacyFormGUIBase {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            MultipleChoiceEditorConfiguration::readConfig(),
-            MultipleChoiceScoringConfiguration::readConfig());
+            MultipleChoiceEditor::readConfig(),
+            MultipleChoiceScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void

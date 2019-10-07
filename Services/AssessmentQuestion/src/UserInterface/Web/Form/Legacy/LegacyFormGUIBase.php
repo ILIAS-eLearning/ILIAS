@@ -112,7 +112,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
         $this->addItem($this->option_form);
 	}
 
-	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : array {
+	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : ?array {
 	    return null;
 	}
 	
