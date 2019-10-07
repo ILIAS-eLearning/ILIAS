@@ -2,12 +2,12 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableScorings;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableScorings;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
@@ -113,6 +113,7 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 		{
 		    $this->option_form = new AnswerOptionForm(
 		        $this->lang->txt('asq_label_answer'),
+                $question->getQuestionIntId(),
 		        $question->getPlayConfiguration(),
 		        $question->getAnswerOptions());
 		        
@@ -235,8 +236,8 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 
 		$scorings = $this->createSelectControl(
 		    $this->lang->txt('asq_label_selected_scoring'), 
-		    self::VAR_SCORING, 
-		    AvailableScorings::getAvailableScorings());
+		    self::VAR_SCORING,
+            AvailableScorings::getAvailableScorings());
 		
 		$this->addItem($scorings);
 

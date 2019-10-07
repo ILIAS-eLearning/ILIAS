@@ -4,10 +4,22 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
+use Exception;
+use ilAsqAnswerOptionFeedbackPageGUI;
+use ilAsqQuestionAuthoringGUI;
+use ilAsqQuestionFeedbackEditorGUI;
+use ilFormSectionHeaderGUI;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\AnswerFeedback;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackMode;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerCorrectFeedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerWrongFeedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
+use ILIAS\UI\Implementation\Component\Link\Standard;
 
 /**
  * Class QuestionFeedbackFormGUI
@@ -22,9 +34,6 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer
  */
 class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
 {
-    const VAR_FEEDBACK_CORRECT = 'feedback_correct';
-    const VAR_FEEDBACK_WRONG = 'feedback_wrong';
-
     /**
      * @var Page
      */
@@ -33,55 +42,35 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
     /**
      * @var QuestionDto
      */
-    protected $questionDto;
-
-    /**
-     * @var bool
-     */
-    protected $preventRteUsage;
-
+    protected $question_dto;
 
     /**
      * QuestionFeedbackFormGUI constructor.
      *
      * @param Page                      $page
      * @param QuestionDto               $questionDto
-     * @param bool                      $preventRteUsage
      */
     public function __construct(
-        Page $page,
-        QuestionDto $questionDto,
-        bool $preventRteUsage
+        QuestionDto $question_dto
     )
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         parent::__construct();
 
-        $this->page = $page;
-        $this->questionDto = $questionDto;
-        $this->preventRteUsage = $preventRteUsage;
+
+        $this->question_dto = $question_dto;
 
         $this->setTitle($DIC->language()->txt('asq_feedback_form_title'));
 
         $this->initForm();
     }
 
-    protected function initForm()
-    {
-        if( $this->questionDto->getContentEditingMode()->isRteTextarea() )
-        {
-            $this->initRteTextareaForm();
-        }
-        elseif( $this->questionDto->getContentEditingMode()->isPageObject() )
-        {
-            $this->initPageObjectForm();
-        }
-    }
 
+   /*
     protected function initRteTextareaForm()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
 
         $feedbackCorrectInput = $this->buildFeedbackContentInputFormProperty(
             $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
@@ -98,13 +87,14 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         $feedbackWrongInput->setValue($this->questionDto->getFeedbackWrong()->getContent());
 
         $this->addItem($feedbackWrongInput);
-    }
+    }*/
 
     /**
      * @param string $label
      * @param string $postVar
      * @return \ilTextAreaInputGUI
      */
+    /*
     protected function buildFeedbackContentInputFormProperty($label, $postVar)
     {
         $property = new \ilTextAreaInputGUI($label, $postVar);
@@ -128,58 +118,90 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         $property->setRTESupport($this->questionDto->getQuestionIntId(), 'asq', 'assessment');
 
         return $property;
-    }
+    }*/
 
-    protected function initPageObjectForm()
+    protected function initForm()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
 
-        $feedbackCorrectInput = $this->buildFeedbackPageObjectFormProperty(
-            $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
-        );
+        //$page_object_common_feedback_configuration = CommonPageObjectFeedbackConfiguration::create($this->page);
+        /*foreach(CommonPageObjectFeedback::generateFields($page_object_common_feedback_configuration) as $field) {
+            $this->addItem($field);
+        }*/
 
+        $this->addItem(AnswerCorrectFeedback::generateField($this->question_dto));
+        $this->addItem(AnswerWrongFeedback::generateField($this->question_dto));
 
-        $feedbackCorrectInput->setValue($this->getPageObjectNonEditableInputValueHtml($this->page));
+       /* foreach (AnswerFeedback::generateFields($this->question_dto->getId()) as $field) {
+            $this->addItem($field);
+        }*/
 
-        $this->addItem($feedbackCorrectInput);
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($DIC->language()->txt('asq_header_feedback_answers'));
+        $this->addItem($header);
 
-        $feedbackWrongInput = $this->buildFeedbackPageObjectFormProperty(
-            $DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
-        );
+        foreach (AnswerOptionFeedbackMode::generateField($this->question_dto->getFeedback()->getAnswerOptionFeedbackMode()) as $field) {
+            $this->addItem($field);
+        }
 
-        $feedbackWrongInput->setValue($this->getPageObjectNonEditableInputValueHtml($this->page));
+        foreach ($this->question_dto->getAnswerOptions()->getOptions() as $answer_option) {
 
-        $this->addItem($feedbackWrongInput);
+            $this->addItem(AnswerOptionFeedback::generateField($this->question_dto,$answer_option));
+/*
+
+            $answer_specific_feedback = new \ilNonEditableValueGUI('test', $answer_option->getOptionId(), true);
+
+            $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'page_type', ilAsqAnswerOptionFeedbackPageGUI::PAGE_TYPE);
+            $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID, $this->question_dto->getId());
+            $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), ilAsqAnswerOptionFeedbackPageGUI::VAR_ANSWER_OPTION_INT_ID, $answer_option->getOptionId());
+            $label = $DIC->language()->txt('asq_link_edit_feedback_page');
+
+            //TODO
+            $action = $DIC->ctrl()->getLinkTargetByClass([ilAsqQuestionFeedbackEditorGUI::class, ilAsqAnswerOptionFeedbackPageGUI::class], ilAsqAnswerOptionFeedbackPageGUI::CMD_EDIT);
+
+            $link = new Standard($label, $action);
+
+            $answer_specific_feedback->setValue($DIC->ui()->renderer()->render($link));
+
+            $this->addItem($answer_specific_feedback);
+            //            $answer_option->getFeedbackDefinition()->
+*/
+        }
     }
 
-    /**
-     * @param string $label
-     * @param string $postVar
-     * @return \ilNonEditableValueGUI
+        /*$page_object_specific_feedback_configuration = AnswerSpecificPageObjectFeedbackConfiguration::create($this->page, $this->question_dto->getAnswerOptions());
+        foreach(AnswerSpecificPageObjectFeedback::generateFields($page_object_specific_feedback_configuration) as $field) {
+            $this->addItem($field);
+        }
+    }*/
+
+     /**
+     * @return QuestionDto
+     * @throws Exception
      */
-    protected function buildFeedbackPageObjectFormProperty($label, $postVar)
-    {
-        $property = new \ilNonEditableValueGUI($label, $postVar, true);
-        return $property;
+     public function getQuestion() : QuestionDto {
+        $question = $this->question_dto;
+
+        $question->setFeedback(new Feedback(
+            AnswerCorrectFeedback::getValueFromPost(),
+            AnswerWrongFeedback::getValueFromPost(),
+            AnswerOptionFeedbackMode::getValueFromPost()));
+
+        $answer_options = new AnswerOptions();
+        foreach($question->getAnswerOptions()->getOptions() as $answer_option) {
+            $answer_option_new = new AnswerOption(
+                $answer_option->getOptionId(),
+                $answer_option->getDisplayDefinition(),
+                $answer_option->getScoringDefinition(),
+                AnswerOptionFeedback::getValueFromPost($answer_option->getOptionId())
+            );
+            $answer_options->addOption($answer_option_new);
+        }
+
+         $question->setAnswerOptions($answer_options);
+
+        return $question;
     }
 
-    /**
-     * @param $page Page
-     *
-     * @return string
-     */
-    protected function getPageObjectNonEditableInputValueHtml(Page $page):string
-    {
-        return $page->getPageEditingLink();
-    }
-
-    public function getFeedbackCorrect()
-    {
-        return $this->getInput(self::VAR_FEEDBACK_CORRECT);
-    }
-
-    public function getFeedbackWrong()
-    {
-        return $this->getInput(self::VAR_FEEDBACK_WRONG);
-    }
 }

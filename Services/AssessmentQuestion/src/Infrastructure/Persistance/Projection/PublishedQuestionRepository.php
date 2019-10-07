@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 
 class PublishedQuestionRepository
 {
@@ -64,6 +65,7 @@ class PublishedQuestionRepository
         $dto->setPlayConfiguration(AbstractValueObject::deserialize($question->getQuestionConfiguration()));
         $dto->setAnswerOptions(Answeroptions::deserialize($question->getAnswerOptions()));
         $dto->setLegacyData(QuestionLegacyData::create(0, $question->getContainerObjId(), $question->getObjectId()));
+        $dto->setFeedback(Feedback::deserialize($question->getFeedback()));
         return $dto;
     }
 

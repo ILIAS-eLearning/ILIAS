@@ -2,6 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Page;
 
+use ilAsqAnswerOptionFeedbackPageGUI;
+use ilAsqGenericFeedbackPageGUI;
+use ilAsqQuestionFeedbackEditorGUI;
 use ILIAS\UI\Implementation\Component\Link\Standard;
 use ReflectionClass;
 
@@ -24,9 +27,9 @@ class Page extends \ilPageObject
      *
      * @return Page
      */
-    public static function getPage(string $page_type, int $il_object_int_id, int $question_id, string $lng_key) : Page
+    public static function getPage(string $page_type, int $parent_int_id, int $page_int_id, string $lng_key) : Page
     {
-        self::createPageIfNotExists($page_type, $il_object_int_id, $question_id, $lng_key);
+        self::createPageIfNotExists($page_type, $parent_int_id, $page_int_id, $lng_key);
 
         $reflector = new ReflectionClass(self::class);
         /**
@@ -35,7 +38,7 @@ class Page extends \ilPageObject
         $page = $reflector->newInstanceWithoutConstructor();
 
         $page->setParentType($page_type);
-        $page->__construct($question_id,0,$lng_key);
+        $page->__construct($parent_int_id,0,$lng_key);
 
         return $page;
     }
@@ -58,16 +61,16 @@ class Page extends \ilPageObject
 
 
 
-    public static function createPageIfNotExists(string $page_type, int $il_object_int_id, int $question_id, string $lng_key)
+    public static function createPageIfNotExists(string $page_type, int $parent_int_id, int $page_int_id, string $lng_key)
     {
-        if (parent::_exists($page_type, $question_id, $lng_key) === false) {
+        if (parent::_exists($page_type, $page_int_id, $lng_key) === false) {
             /**
              * @var \ilPageObject $page
              */
             $page = new self();
             $page->setParentType($page_type);
-            $page->setParentId($il_object_int_id);
-            $page->setId($question_id);
+            $page->setParentId($parent_int_id);
+            $page->setId($page_int_id);
             $page->setLanguage($lng_key);
 
             $page->create();
@@ -98,11 +101,12 @@ class Page extends \ilPageObject
         global $DIC;
 
         $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'page_type', $this->getParentType());
-        $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'question_int_id', $this->getId());
+        $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'parent_int_id', $this->getParentId());
+        $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'answer_option_int_id', $this->getId());
         $label = $DIC->language()->txt('asq_link_edit_feedback_page');
 
         //TODO
-        $action = $DIC->ctrl()->getLinkTargetByClass($DIC->ctrl()->getCmdClass(), \ilAsqQuestionFeedbackEditorGUI::CMD_SHOW_FEEDBACK);
+        $action = $DIC->ctrl()->getLinkTargetByClass([ilAsqQuestionFeedbackEditorGUI::class,ilAsqAnswerOptionFeedbackPageGUI::class], ilAsqAnswerOptionFeedbackPageGUI::CMD_EDIT);
 
         $link = new Standard($label,$action);
 

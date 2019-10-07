@@ -95,8 +95,15 @@ class QuestionAr extends AbstractProjectionAr
      * @con_has_field  true
      * @con_fieldtype  clob
      */
-    protected $answer_options;  
-    
+    protected $answer_options;
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  clob
+     */
+    protected $feedback;
+
     /**
      * 
      * @param Question $question
@@ -188,6 +195,15 @@ class QuestionAr extends AbstractProjectionAr
     public function getAnswerOptions()
     {
         return $this->answer_options;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFeedback() : string
+    {
+        return $this->feedback;
     }
     
     /**
