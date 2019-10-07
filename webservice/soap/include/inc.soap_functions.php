@@ -1,5 +1,15 @@
 <?php
 
+use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\EmployeePositionId;
+use ILIAS\OrgUnit\Webservices\SOAP\ImportOrgUnitTree;
+use ILIAS\OrgUnit\Webservices\SOAP\OrgUnitTree;
+use ILIAS\OrgUnit\Webservices\SOAP\PositionIds;
+use ILIAS\OrgUnit\Webservices\SOAP\PositionTitle;
+use ILIAS\OrgUnit\Webservices\SOAP\RemoveUserIdFromPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
+use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
+
 require_once('./Services/Init/classes/class.ilInitialisation.php');
 require_once('./Services/WebServices/SOAP/classes/class.ilSoapHook.php');
 
@@ -24,7 +34,6 @@ require_once('./Services/WebServices/SOAP/classes/class.ilSoapHook.php');
  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
  +-----------------------------------------------------------------------------+
  */
-use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 
 /**
  * soap server
@@ -1082,6 +1091,77 @@ class ilSoapFunctions {
 		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 		$obj_handler = new ilSoapObjectAdministration();
 		return $obj_handler->removeDesktopItems($sid, $user_id, $reference_ids);
+	}
+
+
+	// OrgUnits
+	public static function addUserToPositionInOrgUnit(...$params) {
+		$h = new AddUserIdToPositionInOrgUnit();
+
+		return $h->execute($params);
+	}
+
+
+	public static function getEmployeePositionId(...$params) {
+		$h = new EmployeePositionId();
+
+		return $h->execute($params);
+	}
+
+
+	public static function importOrgUnitTree(...$params) {
+		$h = new ImportOrgUnitTree();
+
+		return $h->execute($params);
+	}
+
+
+	public static function getOrgUnitTree(...$params) {
+		$h = new OrgUnitTree();
+
+		return $h->execute($params);
+	}
+
+
+	public static function getPositionIds(...$params) {
+		$h = new PositionIds();
+
+		return $h->execute($params);
+	}
+
+
+	public static function getPositionTitle(...$params) {
+		$h = new PositionTitle();
+
+		return $h->execute($params);
+	}
+
+
+	public static function removeUserFromPositionInOrgUnit(...$params) {
+		$h = new RemoveUserIdFromPositionInOrgUnit();
+
+		return $h->execute($params);
+	}
+
+
+	public static function getSuperiorPositionId(...$params) {
+		$h = new RemoveUserIdFromPositionInOrgUnit();
+
+		return $h->execute($params);
+	}
+
+
+	public static function getUserIdsOfPosition(...$params) {
+		$h = new UserIdsOfPosition();
+
+		return $h->execute($params);
+	}
+
+
+	public function getUserIdsOfPositionAndOrgUnit(...$params) {
+		$h = new UserIdsOfPositionAndOrgUnit();
+
+		return $h->execute($params);
 	}
 
 	/**

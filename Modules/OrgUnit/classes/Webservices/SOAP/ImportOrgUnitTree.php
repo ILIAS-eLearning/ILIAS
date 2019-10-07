@@ -63,7 +63,7 @@ class ImportOrgUnitTree extends Base
      */
     public function getName()
     {
-        return "ImportOrgUnitTree";
+        return "importOrgUnitTree";
     }
 
 
