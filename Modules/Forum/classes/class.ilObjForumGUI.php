@@ -161,7 +161,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     /**
      * Toggle explorer node
      */
-    protected function toggleExplorerNodeStateObject()
+    protected function toggleExplorerNodeStateObject() : void
     {
         $nodeId = (int) ($this->httpRequest->getQueryParams()['node_id'] ?? 0);
         $priorState = (int) ($this->httpRequest->getQueryParams()['prior_state'] ?? 0);

@@ -50,7 +50,7 @@ class ilForumExplorerGUI implements TreeRecursion
     /** @var ilForumPost|null */
     protected $root_node = null;
 
-    /** @var \ilForumAuthorInformation[] */
+    /** @var ilForumAuthorInformation[] */
     protected $authorInformation = [];
 
     /** @var array */
@@ -261,14 +261,14 @@ class ilForumExplorerGUI implements TreeRecursion
     }
 
     /**
-     * @param $factory
-     * @param $node
-     * @return mixed
+     * @param \ILIAS\UI\Component\Tree\Node\Factory $factory
+     * @param array $node
+     * @return Node
      * @throws ilDateTimeException
      */
     private function createNode(
         \ILIAS\UI\Component\Tree\Node\Factory $factory,
-        $node
+        array $node
     ) : Node {
         global $DIC;
 
@@ -295,9 +295,9 @@ class ilForumExplorerGUI implements TreeRecursion
 
     /**
      * @param array $node
-     * @return \ilForumAuthorInformation
+     * @return ilForumAuthorInformation
      */
-    private function getAuthorInformationByNode(array $node) : \ilForumAuthorInformation
+    private function getAuthorInformationByNode(array $node) : ilForumAuthorInformation
     {
         if (isset($this->authorInformation[(int) $node['pos_pk']])) {
             return $this->authorInformation[(int) $node['pos_pk']];
