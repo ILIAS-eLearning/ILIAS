@@ -4,8 +4,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Listing;
 
-use ILIAS\UI\Component\Listing\CharacteristicValue\Factory as CharacteristicValueFactory;
-
 /**
  * Class Factory
  * @package ILIAS\UI\Implementation\Component\Listing
@@ -43,7 +41,7 @@ class Factory implements \ILIAS\UI\Component\Listing\Factory {
     /**
      * @inheritdoc
      */
-    public function characteristicValue() : CharacteristicValueFactory {
+    public function characteristicValue() : \ILIAS\UI\Component\Listing\CharacteristicValue\Factory {
         return new CharacteristicValue\Factory();
     }
 }

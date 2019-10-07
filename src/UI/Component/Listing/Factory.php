@@ -1,7 +1,6 @@
 <?php
 namespace ILIAS\UI\Component\Listing;
 
-use ILIAS\UI\Component\Listing\CharacteristicValue\Factory as CharacteristicValueFactory;
 
 /**
  * This is how a factory for listings looks like.
@@ -88,8 +87,8 @@ interface Factory {
      *        and a value describing the key.
      * ----
      *
-     * @return CharacteristicValueFactory
+     * @return CharacteristicValue\Factory
      */
-    public function characteristicValue() : CharacteristicValueFactory;
+    public function characteristicValue() : CharacteristicValue\Factory;
 
 }

@@ -4,7 +4,6 @@
 namespace ILIAS\UI\Implementation\Component\Listing\CharacteristicValue;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Listing\CharacteristicValue\Text as CharacteristicValueText;
 
 /**
  * Factory for report listings
@@ -15,7 +14,7 @@ class Factory implements C\Listing\CharacteristicValue\Factory
     /**
      * @inheritdoc
      */
-    public function text(array $items) : CharacteristicValueText
+    public function text(array $items) : C\Listing\CharacteristicValue\Text
     {
         return new Text($items);
     }

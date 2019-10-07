@@ -4,8 +4,6 @@
 
 namespace ILIAS\UI\Component\Listing\CharacteristicValue;
 
-use ILIAS\UI\Component\Listing\CharacteristicValue\Text as CharacteristicValueText;
-
 /**
  * This is the interface for a characteristic value factory.
  */
@@ -29,7 +27,7 @@ interface Factory
      *
      * @param array $items string => string
      *
-     * @return CharacteristicValueText
+     * @return Text
      */
-    public function text(array $items) : CharacteristicValueText;
+    public function text(array $items) : Text;
 }
