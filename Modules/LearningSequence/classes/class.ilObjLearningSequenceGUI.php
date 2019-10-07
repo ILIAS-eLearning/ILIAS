@@ -27,6 +27,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjExerciseGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjFileGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjIndividualAssessmentGUI
+ * @ilCtrl_Calls ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjTestGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSurveyGUI
 
@@ -111,7 +112,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->rbac_review = $DIC['rbacreview'];
 		$this->ui_factory = $DIC['ui.factory'];
 		$this->ui_renderer = $DIC['ui.renderer'];
-		$this->kiosk_mode_service = $DIC['service.kiosk_mode'];
+
 		$this->log = $DIC["ilLoggerFactory"]->getRootLogger();
 		$this->app_event_handler = $DIC['ilAppEventHandler'];
 		$this->navigation_history = $DIC['ilNavigationHistory'];
@@ -125,7 +126,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
 		$this->object = $this->getObject();
 		$this->data_factory = new \ILIAS\Data\Factory();
-
 	}
 
 	public function executeCommand()
@@ -184,6 +184,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('lso');
 				$this->ctrl->forwardCommand($cp);
+				break;
+			case 'ilobjindividualassessmentgui':
+				$struct = ['ilrepositorygui','ilobjindividualassessmentgui'];
+				if($cmd === 'edit') {
+					$struct[] = 'ilindividualassessmentsettingsgui';
+				}
+				$this->ctrl->redirectByClass($struct, $cmd);
 				break;
 
 			case false:
@@ -346,26 +353,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$this->addSubTabsForContent($cmd);
 		$this->tabs->activateSubTab(self::TAB_VIEW_CONTENT);
 
-		$usr_id = (int)$this->user->getId();
-		$items = $this->getLearnerItems($usr_id);
-		$current_item_ref_id = $this->getCurrentItemForLearner($usr_id);
-
-		$gui = new ilObjLearningSequenceLearnerGUI(
-			$this->getObject(),
-			$usr_id,
-			$items,
-			$current_item_ref_id,
-			$this->ctrl,
-			$this->lng,
-			$this->tpl,
-			$this->toolbar,
-			$this->kiosk_mode_service,
-			$this->access,
-			$this->settings,
-			$this->ui_factory,
-			$this->ui_renderer,
-			$this->data_factory
-		);
+		$gui = $this->object->getLocalDI()["gui.learner"];
 
 		$this->ctrl->setCmd($cmd);
 		$this->ctrl->forwardCommand($gui);
@@ -485,7 +473,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 	{
 		if($this->checkAccess('unparticipate')) {
 			$usr_id = (int)$this->user->getId();
-			$this->getObject()->leave($usr_id);
+			$this->getObject()->getLSRoles()->leave($usr_id);
 			$this->learnerView();
 		}
 	}
@@ -638,16 +626,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		$link .= ilLink::_getLink($this->object->getRefId());
 
 		return rawurlencode(base64_encode($link));
-	}
-
-	protected function getLearnerItems(int $usr_id): array
-	{
-		return $this->getObject()->getLSLearnerItems($usr_id);
-	}
-
-	protected function getCurrentItemForLearner(int $usr_id): int
-	{
-		return $this->getObject()->getCurrentItemForLearner($usr_id);
 	}
 
 	public function getObject()

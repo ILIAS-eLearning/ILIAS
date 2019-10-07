@@ -11,32 +11,36 @@ declare(strict_types=1);
 class ilLearnerProgressDB
 {
 	/**
-	 * @var ilLSStateDB
+	 * @var ilLSItemsDB
 	 */
-	protected $state_db;
+	protected $items_db;
+	/**
+	 * @var ilAccess
+	 */
+	protected $access;
 
-	public function __construct(ilLSStateDB $state_db, ilAccess $access)
-	{
-		$this->state_db = $state_db;
+	public function __construct(
+		ilLSItemsDB $items_db,
+		ilAccess $access
+	) {
+		$this->items_db = $items_db;
 		$this->access = $access;
 	}
-
 	/**
-	 * Decorate LSItems with learning progress, availability (from conditions)
-	 * kiosk-mode state information.
+	 * Decorate LSItems with learning progress and availability (from conditions)
 	 */
-	public function getLearnerItems(int $usr_id, int $container_ref_id, array $ls_items): array
+	public function getLearnerItems(int $usr_id, int $container_ref_id): array
 	{
 		$items =[];
-		$states = $this->state_db->getStatesFor($container_ref_id, [$usr_id]);
+		$ls_items = $this->items_db->getLSItems($container_ref_id);
+
 		foreach ($ls_items as $ls_item) {
 			if ($this->isItemVisibleForUser($usr_id, $ls_item) === false) {
 				continue;
 			}
 			$lp = $this->getLearningProgressFor($usr_id, $ls_item);
 			$av = $this->getAvailabilityFor($usr_id, $ls_item);
-			$state = $this->getStateFor($ls_item, $states[$usr_id]);
-			$items[] = new LSLearnerItem($usr_id, $lp, $av, $state, $ls_item);
+			$items[] = new LSLearnerItem($usr_id, $lp, $av, $ls_item);
 		}
 
 		return $items;
@@ -47,20 +51,10 @@ class ilLearnerProgressDB
 		return (int)ilObject::_lookupObjId($ref_id);
 	}
 
-	protected function getStateFor(LSItem $ls_item, array $states): ILIAS\KioskMode\State
-	{
-		if (array_key_exists($ls_item->getRefId(), $states)) {
-			return $states[$ls_item->getRefId()];
-		}
-
-		return new ILIAS\KioskMode\State();
-	}
-
 	protected function getLearningProgressFor(int $usr_id, LSItem $ls_item): int
 	{
 		$obj_id = $this->getObjIdForRefId($ls_item->getRefId());
 		$il_lp_status = ilLPStatus::_lookupStatus($obj_id, $usr_id, true);
-
 		return (int)$il_lp_status;
 	}
 
@@ -70,12 +64,7 @@ class ilLearnerProgressDB
 		$access = $this->access->checkAccessOfUser(
 			$usr_id, "visible", "", $ls_item->getRefId()
 		);
-
-		if (! ($online && $access)) {
-			return false;
-		}
-
-		return true;
+		return ($online && $access);
 	}
 
 	protected function getAvailabilityFor(int $usr_id, LSItem $ls_item): int
@@ -84,8 +73,6 @@ class ilLearnerProgressDB
 		if($readable) {
 			return ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE;
 		}
-
 		return ILIAS\UI\Component\Listing\Workflow\Step::NOT_AVAILABLE;
 	}
-
 }

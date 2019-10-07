@@ -203,7 +203,7 @@ class ilGSProviderFactory implements ProviderFactory
     public function isInstanceCreationPossible(string $class_name) : bool
     {
         try {
-            return class_exists($class_name);
+            return class_exists($class_name) && $class_name !== ilPluginGlobalScreenNullProvider::class;
         } catch (\Throwable $e) {
             return false;
         }

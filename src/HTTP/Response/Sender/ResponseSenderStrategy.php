@@ -20,5 +20,5 @@ interface ResponseSenderStrategy
      * @return void
      * @throws ResponseSendingException Thrown if the response was already sent to the client.
      */
-    public function sendResponse(ResponseInterface $response);
+    public function sendResponse(ResponseInterface $response) : void;
 }

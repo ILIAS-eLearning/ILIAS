@@ -20,7 +20,7 @@ class CookieFactoryImpl implements CookieFactory
     /**
      * @inheritdoc
      */
-    public function create($name, $value = null)
+    public function create(string $name, string $value = null) : \ILIAS\HTTP\Cookies\Cookie
     {
         return new CookieWrapper(SetCookie::create($name, $value));
     }
@@ -29,7 +29,7 @@ class CookieFactoryImpl implements CookieFactory
     /**
      * @inheritdoc
      */
-    public function createRememberedForLongTime($name, $value = null)
+    public function createRememberedForLongTime(string $name, string $value = null) : \ILIAS\HTTP\Cookies\Cookie
     {
         return new CookieWrapper(SetCookie::createRememberedForever($name, $value));
     }
@@ -38,7 +38,7 @@ class CookieFactoryImpl implements CookieFactory
     /**
      * @inheritdoc
      */
-    public function createExpired($name)
+    public function createExpired(string $name) : \ILIAS\HTTP\Cookies\Cookie
     {
         return new CookieWrapper(SetCookie::createExpired($name));
     }
@@ -47,7 +47,7 @@ class CookieFactoryImpl implements CookieFactory
     /**
      * @inheritdoc
      */
-    public function fromSetCookieString($string)
+    public function fromSetCookieString(string $string) : \ILIAS\HTTP\Cookies\Cookie
     {
         return new CookieWrapper(SetCookie::fromSetCookieString($string));
     }

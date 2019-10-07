@@ -3,61 +3,73 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * UI interface hook processor
+ * Class ilUIHookProcessor
  *
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
  */
 class ilUIHookProcessor
 {
 
     /**
+     * @var bool
+     */
+    private $replaced = false;
+    /**
      * @var ilPluginAdmin
      */
     protected $plugin_admin;
-    var $append = array();
-    var $prepend = array();
-    var $replace = "";
+    /**
+     * @var array
+     */
+    protected $append = [];
+    /**
+     * @var array
+     */
+    protected $prepend = [];
+    /**
+     * @var string
+     */
+    protected $replace = '';
 
 
     /**
-     * Constructor
+     * ilUIHookProcessor constructor.
      *
-     * @param
-     *
-     * @return
+     * @param $a_comp
+     * @param $a_part
+     * @param $a_pars
      */
-    function __construct($a_comp, $a_part, $a_pars)
+    public function __construct($a_comp, $a_part, $a_pars)
     {
         global $DIC;
 
         $this->plugin_admin = $DIC["ilPluginAdmin"];
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-
-        include_once("./Services/UIComponent/classes/class.ilUIHookPluginGUI.php");
 
         // user interface hook [uihk]
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        $this->replaced = false;
+        $pl_names = ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
         foreach ($pl_names as $pl) {
             $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+            /**
+             * @var $gui_class ilUIHookPluginGUI
+             */
             $gui_class = $ui_plugin->getUIClassInstance();
             $resp = $gui_class->getHTML($a_comp, $a_part, $a_pars);
 
-            if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
-                switch ($resp["mode"]) {
+            $mode = $resp['mode'];
+            if ($mode !== ilUIHookPluginGUI::KEEP) {
+                $html = $resp['html'];
+                switch ($mode) {
                     case ilUIHookPluginGUI::PREPEND:
-                        $this->prepend[] = $resp["html"];
+                        $this->prepend[] = $html;
                         break;
 
                     case ilUIHookPluginGUI::APPEND:
-                        $this->append[] = $resp["html"];
+                        $this->append[] = $html;
                         break;
 
                     case ilUIHookPluginGUI::REPLACE:
                         if (!$this->replaced) {
-                            $this->replace = $resp["html"];
+                            $this->replace = $html;
                             $this->replaced = true;
                         }
                         break;
@@ -68,24 +80,20 @@ class ilUIHookProcessor
 
 
     /**
-     * Should HTML be replaced completely?
-     *
-     * @return
+     * @return bool Should HTML be replaced completely?
      */
-    function replaced()
+    public function replaced()
     {
         return $this->replaced;
     }
 
 
     /**
-     * Get HTML
+     * @param string $html
      *
-     * @param string $html html
-     *
-     * @return string html
+     * @return string
      */
-    function getHTML($html)
+    public function getHTML($html)
     {
         if ($this->replaced) {
             $html = $this->replace;
