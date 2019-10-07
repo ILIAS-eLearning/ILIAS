@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\DomainModel\ContentEditingMode;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
 use ilPropertyFormGUI;
 use ilSelectInputGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 
 /**
  * Class QuestionTypeSelectForm
@@ -44,7 +45,7 @@ class QuestionTypeSelectForm extends ilPropertyFormGUI {
 		$select = new ilSelectInputGUI(
 		    $DIC->language()->txt('asq_input_question_type'), self::VAR_QUESTION_TYPE
         );
-		$select->setOptions(QuestionLegacyData::getQuestionTypes());
+		$select->setOptions(AsqGUIElementFactory::getQuestionTypes());
 		$this->addItem($select);
 
         if( \ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )

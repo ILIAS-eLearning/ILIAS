@@ -51,6 +51,13 @@ asq#:#asq_question_generic#:#Generic Question
 asq#:#asq_question_single_answer#:#Multiple Choice Question (Single Answer)
 asq#:#asq_question_multiple_answer#:#Multiple Choice Question (Multiple Answer)
 asq#:#asq_question_kprim_answer#:#Multiple Choice Question (Kprim Answer)
+asq#:#asq_question_error_text#:#Error Text
+asq#:#asq_question_image_map#:#Hot Spot / Image Map Question
+asq#:#asq_question_numeric#:#Numeric Question
+asq#:#asq_question_formula#:#Formula Question
+asq#:#asq_question_text_subset#:#Text Subset Question
+asq#:#asq_question_ordering#:#Ordering Question
+asq#:#asq_question_file_upload#:#File Upload Question
 asq#:#asq_label_answer#:#Answers
 asq#:#asq_label_title#:#Title
 asq#:#asq_label_author#:#Author

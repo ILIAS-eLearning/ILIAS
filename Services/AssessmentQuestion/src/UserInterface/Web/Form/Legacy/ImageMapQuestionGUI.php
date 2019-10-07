@@ -3,13 +3,13 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoring;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoringConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditor;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditorConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoring;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageMapEditor;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageMapEditorConfiguration;
 
 /**
- * Class MultipleChoiceQuestionGUI
+ * Class ImageMapQuestionGUI
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -18,30 +18,30 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEdito
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class KprimChoiceQuestionGUI extends LegacyFormGUIBase {
+class ImageMapQuestionGUI extends LegacyFormGUIBase {
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create
         (
-            new KprimChoiceEditorConfiguration(),
-            new KprimChoiceScoringConfiguration()
+            new ImageMapEditorConfiguration(),
+            new MultipleChoiceScoringConfiguration()
             );
     }
     
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            KprimChoiceEditor::readConfig(),
-            KprimChoiceScoring::readConfig());
+            ImageMapEditorConfiguration::readConfig(),
+            MultipleChoiceScoringConfiguration::readConfig());
     }
-
+    
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void
     {
-        foreach (KprimChoiceEditor::generateFields($play->getEditorConfiguration()) as $field) {
+        foreach (ImageMapEditor::generateFields($play->getEditorConfiguration()) as $field) {
             $this->addItem($field);
         }
         
-        foreach (KprimChoiceScoring::generateFields($play->getScoringConfiguration()) as $field) {
+        foreach (MultipleChoiceScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
         }
     }

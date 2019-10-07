@@ -179,6 +179,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    
 	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
 	    
+	    $this->options = new AnswerOptions();
 	    for ($i = 1; $i <= $count; $i++) {
 	        $this->options->addOption(new AnswerOption
 	            (

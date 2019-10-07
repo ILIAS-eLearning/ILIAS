@@ -3,13 +3,13 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoring;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\KprimChoiceScoringConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditor;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditorConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoring;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoringConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditor;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditorConfiguration;
 
 /**
- * Class MultipleChoiceQuestionGUI
+ * Class ErrorTextQuestionGUI
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -18,30 +18,30 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEdito
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class KprimChoiceQuestionGUI extends LegacyFormGUIBase {
+class ErrorTextQuestionGUI extends LegacyFormGUIBase {
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create
         (
-            new KprimChoiceEditorConfiguration(),
-            new KprimChoiceScoringConfiguration()
+            new ErrorTextEditorConfiguration(),
+            new ErrorTextScoringConfiguration()
             );
     }
     
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            KprimChoiceEditor::readConfig(),
-            KprimChoiceScoring::readConfig());
+            ErrorTextEditor::readConfig(),
+            ErrorTextScoring::readConfig());
     }
 
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void
     {
-        foreach (KprimChoiceEditor::generateFields($play->getEditorConfiguration()) as $field) {
+        foreach (ErrorTextEditor::generateFields($play->getEditorConfiguration()) as $field) {
             $this->addItem($field);
         }
         
-        foreach (KprimChoiceScoring::generateFields($play->getScoringConfiguration()) as $field) {
+        foreach (ErrorTextScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
         }
     }

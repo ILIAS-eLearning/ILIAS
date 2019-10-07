@@ -43,7 +43,7 @@ class FileUploadScoringConfiguration extends AbstractConfiguration {
     /**
      * @return int
      */
-    public function getPoints() : int {
+    public function getPoints() : ?int {
         return $this->points;
     }
     

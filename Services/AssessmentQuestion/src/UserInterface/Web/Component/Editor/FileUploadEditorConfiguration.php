@@ -65,7 +65,7 @@ class FileUploadEditorConfiguration extends AbstractConfiguration {
     /**
      * @return int
      */
-    public function getUploadType() : int {
+    public function getUploadType() : ?int {
         return $this->upload_type;
     }
     

@@ -51,6 +51,13 @@ asq#:#asq_question_generic#:#Generische Frage
 asq#:#asq_question_single_answer#:#Single Choice
 asq#:#asq_question_multiple_answer#:#Multiple Choice
 asq#:#asq_question_kprim_answer#:#Kprim Choice
+asq#:#asq_question_error_text#:#Fehler/Worte markieren
+asq#:#asq_question_image_map#:#Hotspot/Imagemap
+asq#:#asq_question_numeric#:#Numerische Antwort
+asq#:#asq_question_formula#:#Formelfrage
+asq#:#asq_question_text_subset#:#Begriffe benennen
+asq#:#asq_question_ordering#:#Anordnungsfrage
+asq#:#asq_question_file_upload#:#Datei hochladen
 asq#:#asq_label_answer#:#Antworten
 asq#:#asq_label_title#:#Titel
 asq#:#asq_label_author#:#Autor

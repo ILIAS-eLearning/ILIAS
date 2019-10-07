@@ -16,6 +16,7 @@ use ilPropertyFormGUI;
 use ilTextAreaInputGUI;
 use ilTextInputGUI;
 use ilSelectInputGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 
 /**
  * Class MultipleChoiceQuestionGUI
@@ -65,7 +66,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    
 	    $this->initForm($question);
 	    $this->setMultipart(true);
-	    $this->setTitle($question->getLegacyData()->getQuestionTypes()[$question->getLegacyData()->getAnswerTypeId()]);
+	    $this->setTitle(AsqGUIElementFactory::getQuestionTypes()[$question->getLegacyData()->getAnswerTypeId()]);
 	    
 	    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	        $this->setValuesByPost();
