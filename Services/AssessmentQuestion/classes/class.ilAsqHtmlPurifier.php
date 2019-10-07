@@ -36,7 +36,7 @@ class ilAsqHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
         return self::$instance;
     }
     
-    private function __construct() {
+    public function __construct() {
         parent::__construct();
     }
     
