@@ -87,7 +87,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup {
 	public function getValue() {
 		$key = Input::getValue();
 		if(is_null($key)){
-			return $key;
+			return null;
 		}
 		return [$key, $this->inputs[$key]->getValue()];
 	}
