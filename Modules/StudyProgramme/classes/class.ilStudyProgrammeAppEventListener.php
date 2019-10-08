@@ -49,6 +49,13 @@ class ilStudyProgrammeAppEventListener {
 						break;
 				}
 				break;
+			case "Services/ContainerReference":
+				switch ($a_event) {
+					case "deleteReference":
+						self::onServiceObjectDeleteOrToTrash($a_parameter);
+						break;
+				}
+				break;
 			default:
 				throw new ilException("ilStudyProgrammeAppEventListener::handleEvent: "
 									 ."Won't handle events of '$a_component'.");

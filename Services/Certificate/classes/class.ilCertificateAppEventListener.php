@@ -200,28 +200,64 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
 			$type  = $this->objectDataCache->lookupType($objectId);
 
+			$this->logger->info(sprintf(
+				"Certificate evaluation triggered, received 'completed' learning progress for: usr_id: %s/obj_id: %s/type: %s",
+				$userId, $objectId, $type
+			));
 
 			if ($this->certificateClassMap->typeExistsInMap($type)) {
 				try {
 					$template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
 					if (true === $template->isCurrentlyActive()) {
+						$this->logger->info(sprintf(
+							"Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
+							$userId, $objectId, $type, $template->getId()
+						));
 						$this->processEntry($type, $objectId, $userId, $template, $settings);
+					} else {
+						$this->logger->info(sprintf(
+							"Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
+							$userId, $objectId, $type, $template->getId()
+						));
 					}
 				} catch (ilException $exception) {
-					$this->logger->warning($exception->getMessage());
+					$this->logger->info(sprintf(
+						"Did not find an active certificate template for case: usr_id: %s/obj_id: %s/type: %s",
+						$userId, $objectId, $type
+					));
 				}
+			} else {
+				$this->logger->info(sprintf(
+					"Object type is not of interest, skipping certificate evaluation for this object"
+				));
 			}
 
 			if ($type === 'crs') {
+				$this->logger->info(
+					'Skipping handling for course, because courses cannot be certificate trigger '.
+					'(with globally disabled learning progress) for other certificate enabled objects'
+				);
 				return;
 			}
+
+			$this->logger->info(
+				'Triggering certificate evaluation of possible depending course objects ...'
+			);
 
 			foreach (\ilObject::_getAllReferences($objectId) as $refId) {
 				$templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
 				$progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
 				$templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
+				if (0 === count($templatesOfCompletedCourses)) {
+					$this->logger->info(sprintf(
+						"No dependent course certificate template configuration found for child object: usr_id: %s/obj_id: %s/ref_id: %s/type: %s",
+						$userId, $objectId, $refId, $type
+					));
+					continue;
+				}
+
 				foreach ($templatesOfCompletedCourses as $courseTemplate) {
 					// We do not check if we support the type anymore, because the type 'crs' is always supported
 					try {
@@ -230,7 +266,16 @@ class ilCertificateAppEventListener implements ilAppEventListener
 						if (true === $courseTemplate->isCurrentlyActive()) {
 							$type = $this->objectDataCache->lookupType($courseObjectId);
 
+							$this->logger->info(sprintf(
+								"Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
+								$userId, $courseObjectId, 'crs', $courseTemplate->getId()
+							));
 							$this->processEntry($type, $courseObjectId, $userId, $courseTemplate, $settings);
+						} else {
+							$this->logger->info(sprintf(
+								"Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
+								$userId, $objectId, $type, $courseTemplate->getId()
+							));
 						}
 					} catch (ilException $exception) {
 						$this->logger->warning($exception->getMessage());
@@ -238,6 +283,10 @@ class ilCertificateAppEventListener implements ilAppEventListener
 					}
 				}
 			}
+
+			$this->logger->info(
+				'Finished certificate evaluation'
+			);
 		}
 	}
 

@@ -59,6 +59,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 			$tmp_obj = new ilObjCourseGrouping($grouping_id);
 			
 			$data[$grouping_id]['id'] = $grouping_id;
+			$data[$grouping_id]['assigned'] = [];
 			$data[$grouping_id]['title'] = $tmp_obj->getTitle();
 			$data[$grouping_id]['unique'] = $this->lng->txt($tmp_obj->getUniqueField());
 
@@ -81,7 +82,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 
 	public function fillRow($a_set)
 	{						
-		if(count($a_set["assigned"]))
+		if(is_array($a_set["assigned"]) && count($a_set["assigned"]) > 0)
 		{			
 			foreach($a_set["assigned"] as $item)
 			{
