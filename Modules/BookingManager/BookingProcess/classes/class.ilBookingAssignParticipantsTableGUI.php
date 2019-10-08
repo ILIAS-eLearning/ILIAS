@@ -69,7 +69,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 	 * @param	int		$a_pool_id
 	 * @param	int		$a_booking_obj_id //booking object to assign users.
 	 */
-	function __construct(ilBookingObjectGUI $a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_booking_obj_id)
+	function __construct(ilBookingProcessGUI $a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_booking_obj_id)
 	{
 		global $DIC;
 
@@ -126,7 +126,6 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{
-		include_once "Modules/BookingManager/classes/class.ilBookingParticipant.php";
 		if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $data = ilBookingParticipant::getList($this->pool_id, []);
         } else {

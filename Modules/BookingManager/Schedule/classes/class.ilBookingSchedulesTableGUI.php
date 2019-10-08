@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * List booking schedules (for booking pool)
  *
@@ -66,7 +64,6 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 	 */
 	function getItems($a_pool_id)
 	{
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 		$data = ilBookingSchedule::getList($a_pool_id);
 		
 		$this->setMaxCount(sizeof($data));
@@ -96,7 +93,6 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
 		$ilCtrl->setParameter($this->parent_obj, 'schedule_id', $a_set['booking_schedule_id']);
 
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$alist = new ilAdvancedSelectionListGUI();
 		$alist->setId($a_set['booking_schedule_id']);
 		$alist->setListTitle($lng->txt("actions"));

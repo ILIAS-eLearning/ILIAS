@@ -15216,3 +15216,10 @@ wfld#:#wfld_creation_asc#:#Erstellungsdatum, aufst.
 wfld#:#wfld_creation_desc#:#Erstellungsdatum, abst.
 wsp#:#wsp_switch_to_repo_tree#:#Zum Magazin wechseln
 wsp#:#wsp_switch_to_wsp_tree#:#Zum Arbeitsraum wechseln
+book#:#book_select_pool#:#Pool auswählen
+book#:#book_pool_selection#:#Auswahl Buchungspool
+book#:#book_booked_in#:#Gebucht in
+obj#:#obj_tool_booking#:#Ressourcen
+obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
+obj#:#obj_tool_setting_booking#:#Ressourcen
+book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.

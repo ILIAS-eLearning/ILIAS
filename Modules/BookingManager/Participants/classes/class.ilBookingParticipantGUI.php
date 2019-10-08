@@ -80,7 +80,6 @@ class ilBookingParticipantGUI
 		switch($next_class)
 		{
 			case 'ilrepositorysearchgui':
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
 				$ref_id = $this->ref_id;
 				$rep_search->addUserAccessFilterCallable(function ($a_user_id) use ($ref_id)
@@ -126,7 +125,6 @@ class ilBookingParticipantGUI
 				)
 			);
 
-			include_once 'Modules/BookingManager/classes/class.ilBookingParticipantsTableGUI.php';
 			$table = new ilBookingParticipantsTableGUI($this, 'render', $this->ref_id, $this->pool_id);
 
 			$this->tpl->setContent($table->getHTML());
@@ -174,8 +172,6 @@ class ilBookingParticipantGUI
 		{
 			if(ilObject::_lookupType($user_id) === "usr")
 			{
-				require_once("./Modules/BookingManager/classes/class.ilBookingParticipant.php");
-
 				$participant_obj = new ilBookingParticipant($user_id, $this->pool_id);
 				if($participant_obj->getIsNew()) {
 					ilUtil::sendSuccess($this->lng->txt("book_participant_assigned"),true);
@@ -213,7 +209,6 @@ class ilBookingParticipantGUI
 
 	protected function applyFilterAction($a_filter_action)
 	{
-		include_once 'Modules/BookingManager/classes/class.ilBookingParticipantsTableGUI.php';
 		$table = new ilBookingParticipantsTableGUI($this, 'render', $this->ref_id, $this->pool_id);
 		$table->resetOffset();
 		if($a_filter_action === self::FILTER_ACTION_RESET) {
@@ -225,12 +220,14 @@ class ilBookingParticipantGUI
 		$this->render();
 	}
 
+	/**
+	 * Book objects for other users
+	 */
 	function assignObjects()
 	{
 		$this->tabs->clearTargets();
 		$this->tabs->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
 
-		include_once("./Modules/BookingManager/classes/class.ilBookingAssignObjectsTableGUI.php");
 		$table = new ilBookingAssignObjectsTableGUI($this, 'assignObjects', $this->ref_id, $this->pool_id);
 
 		$this->tpl->setContent($table->getHTML());

@@ -1427,3 +1427,63 @@ if(!$ilDB->tableExists('wfld_user_setting'))
 	$ilDB->addPrimaryKey('wfld_user_setting',array('user_id','wfld_id'));
 }
 ?>
+<#5525>
+<?php
+	if (!$ilDB->tableExists("book_obj_use_book"))
+	{
+		$fields = array(
+			"obj_id" => array(
+				"type" => "integer",
+				"notnull" => true,
+				"length" => 4,
+				"default" => 0
+			),
+			"book_obj_id" => array(
+				"type" => "integer",
+				"notnull" => true,
+				"length" => 4,
+				"default" => 0
+			)
+		);
+	 	$ilDB->createTable("book_obj_use_book", $fields);
+	 }
+?>
+<#5526>
+<?php
+	$ilDB->addPrimaryKey("book_obj_use_book", array("obj_id", "book_obj_id"));
+?>
+<#5527>
+<?php
+if(!$ilDB->tableColumnExists('booking_reservation','context_obj_id'))
+{
+	$ilDB->addTableColumn(
+		'booking_reservation',
+		'context_obj_id',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5528>
+<?php
+$ilDB->dropTableColumn('booking_reservation', 'context_obj_id');
+if(!$ilDB->tableColumnExists('booking_reservation','context_obj_id'))
+{
+	$ilDB->addTableColumn(
+		'booking_reservation',
+		'context_obj_id',
+		array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5529>
+<?php
+$ilDB->renameTableColumn('book_obj_use_book', "book_obj_id", 'book_ref_id');
+?>

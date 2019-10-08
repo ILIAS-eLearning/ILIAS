@@ -166,6 +166,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
 				"value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
 		}
 
+		// booking information
+		$repo = ilObjCourseAccess::getBookingInfoRepo();
+		$book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
+		$props = $book_info->appendProperties($this->obj_id, $props);
+
 		return $props;
 	}
 	

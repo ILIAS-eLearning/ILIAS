@@ -105,7 +105,6 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 		$this->filter["title"] = $title->getValue();
 
 		//user
-		require_once("./Modules/BookingManager/classes/class.ilBookingParticipant.php");
 		$options = array(""=>$this->lng->txt('book_all'))+
 			ilBookingParticipant::getUserFilter($this->pool_id);
 		$item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
@@ -142,8 +141,6 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 	 */
 	function getItems(array $filter)
 	{
-		include_once "Modules/BookingManager/classes/class.ilBookingParticipant.php";
-
 		if($filter["object"]) {
 			$data = ilBookingParticipant::getList($this->pool_id, $filter, $filter["object"]);
 		} else {
@@ -160,6 +157,9 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
 		$this->tpl->setVariable("TXT_NAME", $a_set['name']);
 		$this->tpl->setCurrentBlock('object_titles');
 		foreach($a_set['object_title'] as $obj_title)
@@ -168,8 +168,47 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		// determin actions form data
+		// action assign only if user did not booked all objects.
+		$actions = [];
+		if($a_set['obj_count'] < ilBookingObject::getNumberOfObjectsForPool($this->pool_id))
+		{
+			$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', $a_set['user_id']);
+			$actions[] = array(
+				'text' => $lng->txt("book_assign_object"),
+				'url' => $ctrl->getLinkTargetByClass("ilbookingparticipantgui", 'assignObjects')
+			);
+			$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
+		}
+
+		$bp = new ilObjBookingPool($this->pool_id, false);
+		if($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $a_set['obj_count'] == 1)
+		{
+			$ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $a_set['user_id']);
+			$ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $a_set['object_ids'][0]);
+			$ctrl->setParameterByClass('ilbookingobjectgui', 'part_view',ilBookingParticipantGUI::PARTICIPANT_VIEW);
+
+			$actions[] = array(
+				'text' => $lng->txt("book_deassign"),
+				'url' => $ctrl->getLinkTargetByClass("ilbookingobjectgui", 'rsvConfirmCancelUser')
+			);
+
+			$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
+			$ctrl->setParameterByClass('ilbookingparticipantgui', 'object_id', '');
+			$ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', '');
+		}
+		else if($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $a_set['obj_count'] > 1)
+		{
+			$ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', $a_set['user_id']);
+			$actions[] = array(
+				'text' => $lng->txt("book_deassign"),
+				'url' => $ctrl->getLinkTargetByClass("ilobjbookingpoolgui", 'log')
+			);
+			$ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', '');
+		}
+
 		$this->tpl->setCurrentBlock('actions');
-		foreach($a_set['actions'] as $key => $action)
+		foreach($actions as $action)
 		{
 			$this->tpl->setVariable("TXT_ACTION", $action['text']);
 			$this->tpl->setVariable("URL_ACTION", $action['url']);

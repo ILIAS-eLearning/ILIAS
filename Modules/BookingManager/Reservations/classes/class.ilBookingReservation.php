@@ -25,8 +25,18 @@ class ilBookingReservation
 	protected $group_id;	// int
 	protected $assigner_id;	// int
 
+	/**
+	 * @var int 
+	 */
+	protected $context_obj_id = 0;
+
 	const STATUS_IN_USE = 2;
 	const STATUS_CANCELLED = 5;
+
+	/**
+	 * @var ilBookingReservationDBRepository
+	 */
+	protected $repo;
 
 	/**
 	 * Constructor
@@ -41,6 +51,10 @@ class ilBookingReservation
 
 		$this->db = $DIC->database();
 		$this->id = (int)$a_id;
+
+		$f = new ilBookingReservationDBRepositoryFactory();
+		$this->repo = $f->getRepo();
+
 		$this->read();
 	}
 
@@ -201,18 +215,34 @@ class ilBookingReservation
 	}
 
 	/**
+	 * Set context object id
+	 *
+	 * @param int $a_val context object id (e.g. course id)	
+	 */
+	function setContextObjId($a_val)
+	{
+		$this->context_obj_id = $a_val;
+	}
+	
+	/**
+	 * Get context object id
+	 *
+	 * @return int context object id (e.g. course id)
+	 */
+	function getContextObjId()
+	{
+		return $this->context_obj_id;
+	}
+	
+	
+	/**
 	 * Get dataset from db
 	 */
 	protected function read()
 	{
-		$ilDB = $this->db;
-		
-		if($this->id)
+		if ($this->id)
 		{
-			$set = $ilDB->query('SELECT *'.
-				' FROM booking_reservation'.
-				' WHERE booking_reservation_id = '.$ilDB->quote($this->id, 'integer'));
-			$row = $ilDB->fetchAssoc($set);
+			$row = $this->repo->getForId($this->id);
 			$this->setUserId($row['user_id']);
 			$this->setAssignerId($row['assigner_id']);
 			$this->setObjectId($row['object_id']);
@@ -220,97 +250,62 @@ class ilBookingReservation
 			$this->setTo($row['date_to']);
 			$this->setStatus($row['status']);
 			$this->setGroupId($row['group_id']);
+			$this->setContextObjId($row['context_obj_id']);
 		}
 	}
 
 	/**
 	 * Create new entry in db
-	 * @return	bool
+	 * @return bool
 	 */
 	function save()
 	{
-		$ilDB = $this->db;
-
 		if($this->id)
 		{
 			return false;
 		}
 
-		$this->id = $ilDB->nextId('booking_reservation');
-		
-		return $ilDB->manipulate('INSERT INTO booking_reservation'.
-			' (booking_reservation_id,user_id,assigner_id,object_id,date_from,date_to,status,group_id)'.
-			' VALUES ('.$ilDB->quote($this->id, 'integer').
-			','.$ilDB->quote($this->getUserId(), 'integer').
-			','.$ilDB->quote($this->getAssignerId(), 'integer').
-			','.$ilDB->quote($this->getObjectId(), 'integer').
-			','.$ilDB->quote($this->getFrom(), 'integer').
-			','.$ilDB->quote($this->getTo(), 'integer').
-			','.$ilDB->quote($this->getStatus(), 'integer').
-			','.$ilDB->quote($this->getGroupId(), 'integer').')');
+		$this->id = $this->repo->create($this->getUserId(),
+				$this->getAssignerId(),
+				$this->getObjectId(),
+				$this->getContextObjId(),
+				$this->getFrom(),
+				$this->getTo(),
+				$this->getStatus(),
+				$this->getGroupId());
+		return ($this->id > 0);
 	}
 
 	/**
 	 * Update entry in db
-	 * @return	bool
 	 */
 	function update()
 	{
-		$ilDB = $this->db;
-
 		if(!$this->id)
 		{
 			return false;
 		}
 
-		/* there can only be 1
-		if($this->getStatus() == self::STATUS_IN_USE)
-		{
-			$ilDB->manipulate('UPDATE booking_reservation'.
-			' SET status = '.$ilDB->quote(NULL, 'integer').
-			' WHERE object_id = '.$ilDB->quote($this->getObjectId(), 'integer').
-			' AND status = '.$ilDB->quote(self::STATUS_IN_USE, 'integer'));
-		}
-		*/
-		
-		return $ilDB->manipulate('UPDATE booking_reservation'.
-			' SET object_id = '.$ilDB->quote($this->getObjectId(), 'text').
-			', user_id = '.$ilDB->quote($this->getUserId(), 'integer').
-			', assigner_id = '.$ilDB->quote($this->getAssignerId(), 'integer').
-			', date_from = '.$ilDB->quote($this->getFrom(), 'integer').
-			', date_to = '.$ilDB->quote($this->getTo(), 'integer').
-			', status = '.$ilDB->quote($this->getStatus(), 'integer').
-			', group_id = '.$ilDB->quote($this->getGroupId(), 'integer').
-			' WHERE booking_reservation_id = '.$ilDB->quote($this->id, 'integer'));
+		$this->repo->update($this->id,
+			$this->getUserId(),
+			$this->getAssignerId(),
+			$this->getObjectId(),
+			$this->getContextObjId(),
+			$this->getFrom(),
+			$this->getTo(),
+			$this->getStatus(),
+			$this->getGroupId());
+		return true;
 	}
 
 	/**
 	 * Delete single entry
-	 * @return bool
 	 */
 	function delete()
 	{
-		$ilDB = $this->db;
-
-		if($this->id)
-		{
-			return $ilDB->manipulate('DELETE FROM booking_reservation'.
-				' WHERE booking_reservation_id = '.$ilDB->quote($this->id, 'integer'));
-		}
+		$this->repo->delete($this->id);
 	}
 	
-	/**
-	 * Get next group id	
-	 * @return int
-	 */
-	public static function getNewGroupId()
-	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-		
-		return $ilDB->nextId('booking_reservation_group');
-	}
 
 	/**
 	 * Check if any of given objects are bookable
@@ -322,25 +317,13 @@ class ilBookingReservation
 	 */
 	static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true, $a_return_counter = false)
 	{
-		global $DIC;
-
-		$ilDB = $DIC->database();
-		
 		$nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
-		
-		$from = $ilDB->quote($a_from, 'integer');
-		$to = $ilDB->quote($a_to, 'integer');
-		
-		$set = $ilDB->query('SELECT count(*) cnt, object_id'.
-			' FROM booking_reservation'.
-			' WHERE '.$ilDB->in('object_id', $a_ids, '', 'integer').
-			' AND (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
-			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
-			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
-			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))'.
-			' GROUP BY object_id');
+
+		$f = new ilBookingReservationDBRepositoryFactory();
+		$repo = $f->getRepo();
+
 		$blocked = $counter = array();
-		while($row = $ilDB->fetchAssoc($set))
+		foreach ($repo->getNumberOfReservations($a_ids, $a_from, $a_to) as $row)
 		{
 			if($row['cnt'] >= $nr_map[$row['object_id']])
 			{
@@ -358,7 +341,6 @@ class ilBookingReservation
 			$bobj = new ilBookingObject($obj_id);
 			if($bobj->getScheduleId())
 			{
-				include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
 				$schedule = new ilBookingSchedule($bobj->getScheduleId());
 
 				$av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
@@ -421,22 +403,12 @@ class ilBookingReservation
 		{
 			return;
 		}
-		
-		$from = $ilDB->quote($a_from, 'integer');
-		$to = $ilDB->quote($a_to, 'integer');				
-		
-		// all bookings in period
-		$now = time();
-		$set = $ilDB->query('SELECT count(*) cnt'.
-			' FROM booking_reservation'.
-			' WHERE object_id = '.$ilDB->quote($a_obj_id, 'integer').
-			' AND (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
-			' AND date_to > '.$now.
-			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
-			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
-			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))');			
-		$row = $ilDB->fetchAssoc($set);
-		$booked_in_period = $row["cnt"];
+
+		// all nr of reservations in period that are not over yet (to >= now)
+		$f = new ilBookingReservationDBRepositoryFactory();
+		$repo = $f->getRepo();
+		$res = $repo->getNumberOfReservations([$a_obj_id], $a_from, $a_to, true);
+		$booked_in_period = $res[$a_obj_id]["cnt"];
 		
 		$per_slot = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));		
 		$per_slot = $per_slot[$a_obj_id];
@@ -457,7 +429,7 @@ class ilBookingReservation
 			? strtotime($a_schedule->getAvailabilityTo()->get(IL_CAL_DATE)." 23:59:59")
 			: null;
 		
-		// sum up max available items in period per (week)day
+		// sum up max available (to >= now) items in period per (week)day
 		$available_in_period = 0;
 		$loop = 0;
 		while($a_from < $a_to &&
@@ -686,161 +658,7 @@ class ilBookingReservation
 		return array('data'=>$res, 'counter'=>$counter);
 	}
 	
-	/**
-	 * List all reservations by date
-	 * @param	bool	$a_has_schedule has schedule
-	 * @param	array	$a_object_ids object ids
-	 * @param	array	$filter filter
-	 * @param	array	$a_pool_ids pool ids
-	 * @return	array
-	 */
-	static function getListByDate($a_has_schedule, array $a_object_ids = null, array $filter = null,
-								  array $a_pool_ids = null)
-	{		
-		global $DIC;
 
-		$ilDB = $DIC->database();
-		
-		$res = array();
-		
-		$sql = 'SELECT r.*, o.title, o.pool_id'.
-			' FROM booking_reservation r'.
-			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
-
-		if ($a_pool_ids !== null)
-		{
-			$where = array($ilDB->in('pool_id', $a_pool_ids, '', 'integer'));
-		}
-
-		if ($a_object_ids !== null)
-		{
-			$where = array($ilDB->in('object_id', $a_object_ids, '', 'integer'));
-		}
-
-		if($filter['status'])
-		{
-			if($filter['status'] > 0)
-			{
-				$where[] = 'status = '.$ilDB->quote($filter['status'], 'integer');
-			}
-			else
-			{
-				$where[] = '(status != '.$ilDB->quote(-$filter['status'], 'integer').
-					' OR status IS NULL)';
-			}
-		}
-		if($filter['title'])
-		{
-			$where[] = '('.$ilDB->like('title', 'text', '%'.$filter['title'].'%').
-				' OR '.$ilDB->like('description', 'text', '%'.$filter['title'].'%').')';
-		}
-		if($a_has_schedule)
-		{
-			if($filter['from'])
-			{
-				$where[] = 'date_from >= '.$ilDB->quote($filter['from'], 'integer');
-			}
-			if($filter['to'])
-			{
-				$where[] = 'date_to <= '.$ilDB->quote($filter['to'], 'integer');
-			}		
-			if(!$filter['past'])
-			{
-				$where[] = 'date_to > '.$ilDB->quote(time(), 'integer');
-			}
-		}
-		if($filter['user_id']) // #16584
-		{
-			$where[] = 'user_id = '.$ilDB->quote($filter['user_id'], 'integer');
-		}	
-		/*
-		if($a_group_id)
-		{
-			$where[] = 'group_id = '.$ilDB->quote(substr($a_group_id, 1), 'integer');
-		}		 
-		*/		
-		if(sizeof($where))
-		{
-			$sql .= ' WHERE '.implode(' AND ', $where);		
-		}
-		
-		if($a_has_schedule)
-		{			
-			$sql .= ' ORDER BY date_from DESC';			
-		}
-		else
-		{
-			// #16155 - could be cancelled and re-booked
-			$sql .= ' ORDER BY status';
-		}
-				
-		$set = $ilDB->query($sql);			
-		while($row = $ilDB->fetchAssoc($set))
-		{								
-			$obj_id = $row["object_id"];
-			$user_id = $row["user_id"];
-						
-			if($a_has_schedule)
-			{
-				$slot = $row["date_from"]."_".$row["date_to"];		
-				$idx = $obj_id."_".$user_id."_".$slot;										
-			}
-			else
-			{
-				$idx = $obj_id."_".$user_id;
-			}
-			
-			if($a_has_schedule && $filter["slot"])
-			{
-				$slot_idx = date("w",  $row["date_from"])."_".date("H:i", $row["date_from"]).
-					"-".date("H:i", $row["date_to"]+1);
-				if($filter["slot"] != $slot_idx)
-				{
-					continue;
-				}
-			}
-			
-			if(!isset($res[$idx]))
-			{					
-				$uname = ilObjUser::_lookupName($user_id);
-				
-				$res[$idx] = array(					
-					"object_id" => $obj_id
-					,"title" => $row["title"]
-					,"pool_id" => $row["pool_id"]
-					,"user_id" => $user_id
-					,"counter" => 1						
-					,"user_name" => $uname["lastname"].", ".$uname["firstname"] // #17862
-				);
-				
-				if($a_has_schedule)
-				{
-					$res[$idx]["booking_reservation_id"] = $idx;
-					$res[$idx]["date"] = date("Y-m-d", $row["date_from"]);
-					$res[$idx]["slot"] = date("H:i", $row["date_from"])." - ".
-						date("H:i", $row["date_to"]+1);
-					$res[$idx]["week"] = date("W",  $row["date_from"]);				
-					$res[$idx]["weekday"] = date("w",  $row["date_from"]);				
-					$res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED &&
-						$row["date_from"] > time());	
-					$res[$idx]["_sortdate"] = $row["date_from"]; 
-				}
-				else
-				{
-					$res[$idx]["booking_reservation_id"] = $row["booking_reservation_id"];
-					$res[$idx]["status"] = $row["status"];
-					$res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED);					
-				}
-			}
-			else
-			{
-				$res[$idx]["counter"]++;
-			}
-		}				
-		
-		return $res;
-	}
-	
 	/**
 	 * Get all users who have reservations for object(s)
 	 * 
@@ -871,253 +689,6 @@ class ilBookingReservation
 		return $res;		
 	}
 	
-	/**
-	 * List all reservations
-	 * @param	array	$a_object_ids
-	 * @param	int		$a_limit
-	 * @param	int		$a_offset
-	 * @param	array	$filter
-	 * @param	array	$a_group_id
-	 * @return	array
-	 */
-	/*
-	static function getGroupedList($a_object_ids, $a_limit = 10, $a_offset = 0, array $filter = null, $a_group_id = null)
-	{
-		global $ilDB;
-		
-		// CURRENTLY UNUSED!!!
-		return;
-		
-		// find matching groups / reservations
-		
-		$sql = 'SELECT booking_reservation_id, group_id'.
-			' FROM booking_reservation';
-
-		$where = array($ilDB->in('object_id', $a_object_ids, '', 'integer'));		
-		if($filter['status'])
-		{
-			if($filter['status'] > 0)
-			{
-				$where[] = 'status = '.$ilDB->quote($filter['status'], 'integer');
-			}
-			else
-			{
-				$where[] = '(status != '.$ilDB->quote(-$filter['status'], 'integer').
-					' OR status IS NULL)';
-			}
-		}
-		if($filter['from'])
-		{
-			$where[] = 'date_from >= '.$ilDB->quote($filter['from'], 'integer');
-		}
-		if($filter['to'])
-		{
-			$where[] = 'date_to <= '.$ilDB->quote($filter['to'], 'integer');
-		}
-		if($filter['user_id'])
-		{
-			$where[] = 'user_id = '.$ilDB->quote($filter['user_id'], 'integer');
-		}		
-		if($a_group_id)
-		{
-			$where[] = 'group_id = '.$ilDB->quote(substr($a_group_id, 1), 'integer');
-		}		
-		if(sizeof($where))
-		{
-			$sql .= ' WHERE '.implode(' AND ', $where);		
-		}
-		
-		$grp_ids = $rsv_ids = array();
-		$set = $ilDB->query($sql);			
-		while($row = $ilDB->fetchAssoc($set))
-		{	
-			if($row["group_id"])
-			{
-				$grp_ids[] = $row["group_id"];
-			}			
-			else 
-			{
-				$rsv_ids[] = $row["booking_reservation_id"];
-			}			
-		}				
-		
-		$res = array();
-		
-		// get complete groups (and/or reservations)
-		
-		if($grp_ids || $rsv_ids)
-		{		
-			$grp_ids = array_unique($grp_ids);
-			
-			// if result is on last page, reduce limit to entries on last page
-			$max_page = sizeof($grp_ids)+sizeof($rsv_ids);
-			$max_page = min($a_limit, $max_page-$a_offset);
-			
-			$sql = 'SELECT r.*,o.title'.
-				' FROM booking_reservation r'.
-				' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
-			
-			$where = array();			
-			if($grp_ids)
-			{
-				$where[] = $ilDB->in('group_id', $grp_ids, '', 'integer');
-			}
-			if($rsv_ids)
-			{
-				$where[] = $ilDB->in('booking_reservation_id', $rsv_ids, '', 'integer');
-			}
-
-			$sql .= ' WHERE ('.implode(' OR ', $where).')'.
-				' ORDER BY date_from DESC, booking_reservation_id DESC';
-			
-			$set = $ilDB->query($sql);
-			$grps = array();
-			$counter = 0;		
-			while($row = $ilDB->fetchAssoc($set))
-			{							
-				if($row["group_id"] && !$a_group_id)
-				{										
-					if(!isset($grps[$row["group_id"]]))
-					{
-						$grps[$row["group_id"]] = 1;
-						$counter++;
-					}
-					else
-					{
-						$grps[$row["group_id"]]++;		
-					}
-				}
-				else
-				{				
-					$counter++;
-				}								
-	
-				if($a_group_id || 					
-					($counter > $a_offset && 
-						(sizeof($res) < $max_page ||
-							// if group is current page we have to get all group entries, regardless of booking period
-							($row["group_id"] && isset($res["g".$row["group_id"]])))))
-				{
-					if($row["group_id"] && !$a_group_id)
-					{						
-						$group_id = "g".$row["group_id"];
-						$res[$group_id]["group_id"] = $group_id;
-						$res[$group_id]["details"][] = $row;
-					}
-					else
-					{
-						unset($row["group_id"]);
-						$res[] = $row;
-					}				
-				}					
-			}
-		}
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-	 
-		foreach($res as $idx => $item)
-		{
-			if(isset($item["details"]))
-			{
-				$res[$idx]["date_from"] = null;
-				$res[$idx]["date_to"] = null;	
-	 
-				$weekdays = $week_counter = array();
-				$recur = $last = 0;			
-				
-				foreach($item["details"] as $detail)
-				{
-					// same for each item
-					$res[$idx]["user_id"] = $detail["user_id"];
-					$res[$idx]["object_id"] = $detail["object_id"];
-					$res[$idx]["title"] = $detail["title"];
-					$res[$idx]["booking_reservation_id"] = $detail["booking_reservation_id"];
-					
-					// recurrence/weekdays 
-					$sortkey = date("wHi", $detail["date_from"])."_".date("wHi", $detail["date_to"]);				
-					$weekdays[$sortkey] = ilCalendarUtil::_numericDayToString(date("w", $detail["date_from"]), false).
-						", ".date("H:i", $detail["date_from"]).
-						" - ".date("H:i", $detail["date_to"]);		
-					
-					if($detail["status"] != self::STATUS_CANCELLED)
-					{
-						$week_counter[$sortkey][date("WHi", $detail["date_from"])."_".date("WHi", $detail["date_to"])]++;
-					}
-					else if(!isset($week_counter[$sortkey][date("WHi", $detail["date_from"])."_".date("WHi", $detail["date_to"])]))
-					{
-						$week_counter[$sortkey][date("WHi", $detail["date_from"])."_".date("WHi", $detail["date_to"])] = 0;
-					}
-					
-					if($last && $last-$detail["date_to"] > $recur)
-					{
-						$recur = $last-$detail["date_to"];
-					}					
-					
-					// min/max period
-					if(!$res[$idx]["date_from"] || $detail["date_from"] < $res[$idx]["date_from"])
-					{
-						$res[$idx]["date_from"] = $detail["date_from"];
-					}
-					if(!$res[$idx]["date_to"] || $detail["date_to"] > $res[$idx]["date_to"])
-					{
-						$res[$idx]["date_to"] = $detail["date_to"];
-					}			
-					
-					$last = $detail["date_to"];
-				}
-				
-				if(sizeof($item["details"]) > 1)
-				{			
-					$weekdays = array_unique($weekdays);					
-					ksort($weekdays);
-					
-					foreach($weekdays as $week_id => $weekday)
-					{
-						$min = min($week_counter[$week_id]);
-						$max = max($week_counter[$week_id]);
-						if($min == $max)
-						{
-							$weekdays[$week_id] .= " (".$min.")";
-						}
-						else
-						{
-							$weekdays[$week_id] .= " (".$min."-".$max.")";
-						}
-					}					
-					
-					
-					$res[$idx]["weekdays"] = array_values($weekdays);
-					if($recur)
-					{
-						if(date("YW", $res[$idx]["date_to"]) != date("YW", $res[$idx]["date_from"]))
-						{
-							$recur = ceil(($recur/(60*60*24))/7); 
-						}
-						else
-						{
-							$recur = 0;
-						}
-					}
-					$res[$idx]["recurrence"] = (int)$recur;	
-	 					
-					$res[$idx]["booking_reservation_id"] = $idx;								
-					$res[$idx]["title"] .= " (".sizeof($item["details"]).")";
-					
-				}
-				else
-				{
-					// undo grouping
-					$res[$idx] = array_pop($item["details"]);
-					unset($res[$idx]["group_id"]);
-				}				
-			}			
-		}
-		
-		$res = ilUtil::sortArray($res, "date_from", "desc", true);
-		
-		return array('data'=>$res, 'counter'=>$counter);
-	}
-	*/
 
 	/**
 	 * Batch update reservation status
@@ -1144,8 +715,7 @@ class ilBookingReservation
 	{
 		$ilDB = $this->db;
 		
-		include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
-		
+
 		$set = $ilDB->query("SELECT ce.cal_id FROM cal_entries ce".
 			" JOIN cal_cat_assignments cca ON ce.cal_id = cca.cal_id".
 			" JOIN cal_categories cc ON cca.cat_id = cc.cat_id".

@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
  * List booking objects (for booking type)
@@ -35,7 +34,12 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	protected $filter; // [array]
 	protected $ui_factory;
 	protected $ui_renderer;
-	
+
+	/**
+	 * @var bool
+	 */
+	protected $active_management;
+
 	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
@@ -45,7 +49,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 * @param	bool	$a_pool_has_schedule
 	 * @param	int		$a_pool_overall_limit
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_pool_has_schedule, $a_pool_overall_limit)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_pool_has_schedule, $a_pool_overall_limit,
+		bool $active_management = true)
 	{
 		global $DIC;
 
@@ -63,9 +68,12 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->pool_id = $a_pool_id;
 		$this->has_schedule = $a_pool_has_schedule;
 		$this->overall_limit = $a_pool_overall_limit;
-		$this->may_edit = $ilAccess->checkAccess('write', '', $this->ref_id);
-		$this->may_assign = $ilAccess->checkAccess('edit_permission', '', $this->ref_id);
-		
+		$this->active_management = $active_management;
+		$this->may_edit = ($this->active_management &&
+			$ilAccess->checkAccess('write', '', $this->ref_id));
+		$this->may_assign = ($this->active_management &&
+			$ilAccess->checkAccess('write', '', $this->ref_id));
+
 		$this->advmd = ilObjBookingPool::getAdvancedMDFields($this->ref_id);
 		
 		$this->setId("bkobj");
@@ -144,12 +152,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	{		
 		$ilUser = $this->user;
 		
-		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$data = ilBookingObject::getList($this->pool_id, $this->filter["title"]);
 		
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		
+
 		// check schedule availability
 		if($this->has_schedule)
 		{			
@@ -241,12 +246,10 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		if($this->advmd)
 		{						
 			// advanced metadata
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 			$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, "book", $this->pool_id, "bobj");
 			$this->record_gui->setTableGUI($this);
 			$this->record_gui->parse();
 			
-			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
 			$data = ilAdvancedMDValues::queryForRecords(
 				$this->ref_id, "book", "bobj",
 				$this->pool_id, "bobj", $data, "pool_id", "booking_object_id", $this->record_gui->getFilterElements());
@@ -383,7 +386,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 				$ilCtrl->setParameter($this->parent_obj, 'sseed', $this->filter['period']['from']->get(IL_CAL_DATE));
 			}
 
-			$items[] = $this->ui_factory->button()->shy($lng->txt('book_book'),$ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			$items[] = $this->ui_factory->button()->shy($lng->txt('book_book'),
+				$ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'book'));
 
 			$ilCtrl->setParameter($this->parent_obj, 'sseed', '');
 		}
@@ -393,16 +397,18 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		{						
 			if(trim($a_set['post_text']) || $a_set['post_file'])
 			{
-				$items[] = $this->ui_factory->button()->shy($lng->txt('book_post_booking_information'), $ilCtrl->getLinkTarget($this->parent_obj, 'displayPostInfo'));
+				$items[] = $this->ui_factory->button()->shy($lng->txt('book_post_booking_information'),
+					$ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'displayPostInfo'));
 			}
 			$items[] = $this->ui_factory->button()->shy($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancelUser'));
 		}
 			
 		if($this->may_edit || $has_booking)
 		{
-			$ilCtrl->setParameterByClass('ilObjBookingPoolGUI', 'object_id', $a_set['booking_object_id']);
-			$items[] = $this->ui_factory->button()->shy($lng->txt('book_log'), $ilCtrl->getLinkTargetByClass('ilObjBookingPoolGUI', 'log'));
-			$ilCtrl->setParameterByClass('ilObjBookingPoolGUI', 'object_id', '');
+			$ilCtrl->setParameterByClass('ilBookingReservationsGUI', 'object_id', $a_set['booking_object_id']);
+			$items[] = $this->ui_factory->button()->shy($lng->txt('book_log'),
+				$ilCtrl->getLinkTargetByClass('ilBookingReservationsGUI', 'log'));
+			$ilCtrl->setParameterByClass('ilBookingReservationsGUI', 'object_id', '');
 		}
 
 		if($this->may_assign && $assign_possible)

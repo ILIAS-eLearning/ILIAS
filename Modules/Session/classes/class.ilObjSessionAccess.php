@@ -37,6 +37,11 @@ class ilObjSessionAccess extends ilObjectAccess
 	protected static $registered = null;
 
 	/**
+	 * @var ilBookingReservationDBRepository
+	 */
+	protected static $booking_repo = null;
+
+	/**
 	 * get list of command/permission combinations
 	 *
 	 * @access public
@@ -205,6 +210,26 @@ class ilObjSessionAccess extends ilObjectAccess
 		}
 		return (bool) self::$registered[$a_usr_id][$a_obj_id];
 	}
-	
+
+	/**
+	 * Preload data
+	 *
+	 * @param array $a_obj_ids array of object ids
+	 */
+	static function _preloadData($a_obj_ids, $a_ref_ids)
+	{
+		$f = new ilBookingReservationDBRepositoryFactory();
+		self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
+	}
+
+	/**
+	 * Get booking info repo
+	 * @return ilBookingReservationDBRepository
+	 */
+	static public function getBookingInfoRepo()
+	{
+		return self::$booking_repo;
+	}
+
 }
 ?>
