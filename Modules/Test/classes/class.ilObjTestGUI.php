@@ -2335,11 +2335,11 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$table_gui->init();
 
-		$questionListAssocArray = $DIC->assessment()->questionProcessing(
+		$asqQuestionListAssocArray = $DIC->assessment()->questionProcessing(
 		    $this->object->getId(), $DIC->user()->getId()
         )->questionList()->getQuestionsOfContainerAsAssocArray();
 		
-		$table_gui->setData($questionListAssocArray);
+		$table_gui->setData($asqQuestionListAssocArray);
 		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
