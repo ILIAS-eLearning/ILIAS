@@ -30,7 +30,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 
 	const OPTION_ORDER = 'AnswerOptionOrder';
 	const OPTION_HIDE_ADD_REMOVE = 'AnswerOptionHideAddRemove';
-
+    const OPTION_HIDE_EMPTY = 'AnswerOptionHideEmpty';
+	
 	/**
 	 * @var array
 	 */
@@ -111,16 +112,22 @@ class AnswerOptionForm extends ilTextInputGUI {
 		$tpl->setCurrentBlock('commands');
 		$tpl->setVariable('COMMANDS_TEXT', $DIC->language()->txt('asq_label_actions'));
 		$tpl->parseCurrentBlock();
-
-		if (!in_array(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
+		
+		if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
 		    $tpl->touchBlock('add');
 		}
 		
 		$row_id = 1;
 
+		$empty = false;
 		//add dummy object if no options are defined so that one empty line will be printed
 		if (count($this->options->getOptions()) === 0) {
 		    $this->options->addOption(null);
+		    $empty = true;
+		}
+
+		if ($empty && array_key_exists(self::OPTION_HIDE_EMPTY, $this->form_configuration)) {
+		    $tpl->touchBlock('hide');
 		}
 		
 		/** @var AnswerOption $option */
@@ -133,11 +140,11 @@ class AnswerOptionForm extends ilTextInputGUI {
 				$tpl->parseCurrentBlock();
 			}
 
-			if (in_array(self::OPTION_ORDER, $this->form_configuration)) {
+			if (array_key_exists(self::OPTION_ORDER, $this->form_configuration)) {
     			$tpl->touchBlock('move');
 			}
 
-			if (!in_array(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
+			if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
 			    $tpl->touchBlock('remove');
 			}
 			
@@ -259,6 +266,8 @@ class AnswerOptionForm extends ilTextInputGUI {
 	            return $this->generateButton($row_id . $definition->getPostVar(), $definition->getOptions());
 	        case AnswerOptionFormFieldDefinition::TYPE_HIDDEN:
 	            return $this->generateHiddenField($row_id . $definition->getPostVar(), $definition->getOptions()[0]);
+	        case AnswerOptionFormFieldDefinition::TYPE_LABEL:
+	            return $this->generateLabel($value, $definition->getPostVar());
 	        default:
 	            throw new Exception('Please implement all fieldtypes you define');
 	    }
@@ -357,6 +366,10 @@ class AnswerOptionForm extends ilTextInputGUI {
 	
 	private function generateHiddenField(string $post_var, $value) {
 	    return sprintf('<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />', $post_var, $value);
+	}
+	
+	private function generateLabel($text, $name) {
+	    return sprintf('<span class="%s">%s</span>', $name,  $text);
 	}
 	
 	/**
