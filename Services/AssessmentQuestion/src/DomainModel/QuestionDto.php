@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto as QuestionDtoInterface;
 
 /**
  * Class QuestionDto
@@ -15,7 +16,7 @@ use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionDto {
+class QuestionDto implements QuestionDtoInterface {
 
     const IL_COMPONENT_ID = 'asq';
 
@@ -116,7 +117,7 @@ class QuestionDto {
 	/**
      * @return int
      */
-    public function getQuestionIntId()
+    public function getQuestionIntId(): int
     {
         return $this->question_int_id;
     }

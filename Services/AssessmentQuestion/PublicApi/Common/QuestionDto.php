@@ -16,6 +16,11 @@ interface QuestionDto
     public function getId(): string;
 
     /**
+     * @return int
+     */
+    public function getQuestionIntId(): int;
+
+    /**
      * @return string
      */
     public function getRevisionId(): string;
