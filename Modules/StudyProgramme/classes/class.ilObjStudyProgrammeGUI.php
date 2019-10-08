@@ -699,7 +699,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				) {
 					$this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('prg_adv_settings'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
 				}
-				if(ilCertificate::isActive())
+				$validator = new ilCertificateActiveValidator();
+				if(true === $validator->validate())
 				{
 					$this->tabs_gui->addSubTabTarget(
 						"certificate",

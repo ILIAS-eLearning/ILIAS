@@ -65,31 +65,26 @@ class ilObjStudyProgrammeSettingsGUI {
 	/**
 	 * @var \ILIAS\Refinery\Factory
 	 */
-	protected $trafo_factory;
-	private $refinery;
+	protected $refinery_factory;
 
 	public function __construct(
-		\ilTemplate $tpl,
+		\ilGlobalTemplateInterface $tpl,
 		\ilCtrl $ilCtrl,
 		\ilLanguage $lng,
 		\ILIAS\UI\Component\Input\Factory $input_factory,
 		\ILIAS\UI\Renderer $renderer,
 		\GuzzleHttp\Psr7\ServerRequest $request,
-		\ILIAS\Transformation\Factory $trafo_factory,
-		\ILIAS\Validation\Factory $validation,
+		\ILIAS\Refinery\Factory $refinery_factory,
 		\ILIAS\Data\Factory $data_factory,
 		ilStudyProgrammeTypeRepository $type_repository
 	) {
-		global $DIC;
-        $refinery = $DIC->refinery();
-        $this->refinery = $refinery;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->input_factory = $input_factory;
 		$this->renderer = $renderer;
 		$this->request = $request;
-		$this->trafo_factory = $trafo_factory; // TODO: replace this with the version from the DIC once available
+        $this->refinery_factory = $refinery_factory;
 		$this->validation = $validation;
 		$this->data_factory = $data_factory;
 		$this->type_repository = $type_repository;
@@ -237,73 +232,64 @@ class ilObjStudyProgrammeSettingsGUI {
 			$submit_action,
 			$this->buildFormElements(
 				$ff,
-				$tf,
 				$txt,
 				$trans,
 				$sp_types,
 				$prg
 			)
-		)
-        $this->refinery->custom()->transformation(function($values) use ($prg){
+		)->withAdditionalTransformation($this->refinery_factory->custom()->transformation(function($values) use ($prg) {
 			// values now contains the results of the single sections,
 			// i.e. a list of arrays that each contains keys according
 			// to the section they originated from.
 			$object_data = $values[0];
 			$prg->setTitle($object_data[self::PROP_TITLE]);
 			$prg->setDescription($object_data[self::PROP_DESC]);
-
 			$type_data = $values[1];
 			if($prg->getSubtypeId() != $type_data[self::PROP_TYPE]) {
 				$prg->setSubtypeId($type_data[self::PROP_TYPE]);
 				$prg->updateCustomIcon();
 				$this->parent_gui->setTitleAndDescription();
 			}
-
 			$points_data = $values[2];
 			$prg->setPoints($points_data[self::PROP_POINTS]);
 			$prg->setStatus($points_data[self::PROP_STATUS]);
-
-			$deadline_data = $values[3];
-
-			if(array_key_exists(self::PROP_DEADLINE,$deadline_data)) {
-				if(is_array($deadline_data[self::PROP_DEADLINE]) && array_key_exists('value', $deadline_data[self::PROP_DEADLINE])) {
-					if($deadline_data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_PERIOD) {
-						$prg->setDeadlinePeriod((int)$deadline_data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_PERIOD]);
-					}
-					if($deadline_data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_DATE) {
-						$date = $deadline_data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_DATE];
-						$prg->setDeadlineDate($date);
-					}
-				}
-				if($deadline_data[self::PROP_DEADLINE] === self::OPT_NO_DEADLINE) {
-					$prg->setDeadlineDate(null); // deadline period will be set to 0 automatically
-				}
+			$deadline_data = $values[3][self::PROP_DEADLINE];
+			$deadline_type = $deadline_data[0];
+			switch($deadline_type) {
+				case self::OPT_NO_DEADLINE:
+					$prg->setDeadlineDate(null);
+					break;
+				case self::OPT_DEADLINE_PERIOD:
+					$prg->setDeadlinePeriod((int)array_shift($deadline_data[1]));
+					break;
+				case self::OPT_DEADLINE_DATE:
+					$prg->setDeadlineDate(\DateTime::createFromFormat('d.m.Y',array_shift($deadline_data[1])));
+					break;
+				//default:
+				//	throw new Exception('invalid deadline type '.$deadline_type);
 			}
-
-			$vq_data = $values[4];
-			if(array_key_exists(self::PROP_VALIDITY_OF_QUALIFICATION,$vq_data)) {
-				if(is_array($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]) && array_key_exists('value', $vq_data[self::PROP_VALIDITY_OF_QUALIFICATION])) {
-					if($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['value'] === self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD) {
-						$prg->setValidityOfQualificationPeriod((int)$vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['group_values'][self::PROP_VALIDITY_OF_QUALIFICATION_PERIOD]);
-					}
-					if($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['value'] === self::OPT_VALIDITY_OF_QUALIFICATION_DATE) {
-						$date = $vq_data[self::PROP_VALIDITY_OF_QUALIFICATION]['group_values'][self::PROP_VALIDITY_OF_QUALIFICATION_DATE];
-						$prg->setValidityOfQualificationDate($date);
-					}
-				}
-				if($vq_data[self::PROP_VALIDITY_OF_QUALIFICATION] === self::OPT_NO_VALIDITY_OF_QUALIFICATION) {
-					$prg->setValidityOfQualificationDate(null); // vq period will be set to 0 automatically
-				}
+			$vq_data = $values[4][self::PROP_VALIDITY_OF_QUALIFICATION];
+			$vq_type = $vq_data[0];
+			switch($vq_type) {
+				case self::OPT_NO_VALIDITY_OF_QUALIFICATION:
+					$prg->setValidityOfQualificationDate(null);
+					break;
+				case self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD:
+					$prg->setValidityOfQualificationPeriod((int)array_shift($vq_data[1]));
+					break;
+				case self::OPT_VALIDITY_OF_QUALIFICATION_DATE:
+					$prg->setValidityOfQualificationDate(\DateTime::createFromFormat('d.m.Y',array_shift($vq_data[1])));
+					break;
 			}
-			if(array_key_exists(self::PROP_RESTART,$vq_data)) {
-				if(is_array($vq_data[self::PROP_RESTART]) && array_key_exists('value', $vq_data[self::PROP_RESTART])) {
-					if($vq_data[self::PROP_RESTART]['value'] === self::OPT_RESTART_PERIOD) {
-						$prg->setRestartPeriod((int)$vq_data[self::PROP_RESTART]['group_values'][self::PROP_RESTART_PERIOD]);
-					}
-				}
-				if($vq_data[self::PROP_RESTART] === self::OPT_NO_RESTART) {
+			$restart_data = $values[4][self::PROP_RESTART];
+			$restart_type = $restart_data[0];
+			switch($restart_type) {
+				case self::OPT_NO_RESTART:
 					$prg->setRestartPeriod(ilStudyProgrammeSettings::NO_RESTART);
-				}
+					break;
+				case self::OPT_RESTART_PERIOD:
+					$prg->setRestartPeriod((int)array_shift($restart_data[1]));
+					break;
 			}
 			if(array_key_exists(5, $values)) {
 				$prg->setAccessControlByOrguPositions(
@@ -311,12 +297,11 @@ class ilObjStudyProgrammeSettingsGUI {
 				);
 			}
 			return $prg;
-		}));
+		}));;
 	}
 
 	protected function buildFormElements(
 		InputFieldFactory $ff,
-		\ILIAS\Transformation\Factory $tf,
 		Closure $txt,
 		ilObjectTranslation $trans,
 		array $sp_types,
@@ -344,7 +329,7 @@ class ilObjStudyProgrammeSettingsGUI {
 					self::PROP_TYPE =>
 						$ff->select($txt("type"), $sp_types)
 							->withValue($prg->getSubtypeId() == 0 ? "" : $prg->getSubtypeId())
-							->withAdditionalTransformation($this->refinery->custom()->transformation(function($v) {
+							->withAdditionalTransformation($this->refinery_factory->custom()->transformation(function($v) {
 								if ($v == "") {
 									return 0;
 								}
@@ -359,7 +344,7 @@ class ilObjStudyProgrammeSettingsGUI {
 					self::PROP_POINTS =>
 						$ff->numeric($txt("prg_points"))
 							->withValue((string)$prg->getPoints())
-							->withAdditionalConstraint($this->validation->greaterThan(-1)),
+							->withAdditionalTransformation($this->refinery_factory->int()->isGreaterThan(-1)),
 					self::PROP_STATUS =>
 						$ff->select($txt("prg_status"), $this->getStatusOptions())
 							->withValue((string)$prg->getStatus())
@@ -419,46 +404,38 @@ class ilObjStudyProgrammeSettingsGUI {
 		$ff = $this->input_factory->field();
 		$txt = function($id) { return $this->lng->txt($id); };
 		$deadline_period_subform = $ff->numeric('',$txt('prg_deadline_period_desc'))
-										->withAdditionalConstraint(
-											$this->validation->greaterThan(-1)
+										->withAdditionalTransformation(
+											$this->refinery_factory->int()->isGreaterThan(-1)
 									);
 		$period = $prg->getDeadlinePeriod();
-		$radio_option = self::OPT_NO_DEADLINE;
+		$option = self::OPT_NO_DEADLINE;
 		if($period > 0) {
-			$deadline_period_subform = $deadline_period_subform->withValue($period);
-			$radio_option = self::OPT_DEADLINE_PERIOD;
+			$deadline_period_subform = $deadline_period_subform->withValue($period)->withAdditionalTransformation($this->refinery_factory->int()->isGreaterThan(-1));
+			$option = self::OPT_DEADLINE_PERIOD;
 		}
 		$deadline_date = $prg->getDeadlineDate();
 		$format = $this->data_factory->dateFormat()->germanShort();
 		$deadline_date_subform = $ff
 			->dateTime('',$txt('prg_deadline_date_desc'))
 			->withFormat($format)
-			->withMinValue(new DateTime())
+			->withMinValue(new DateTimeImmutable())
 			;
 		if($deadline_date !== null) {
 			$deadline_date_subform = $deadline_date_subform->withValue($deadline_date->format($format->toString()));
-			$radio_option = self::OPT_DEADLINE_DATE;
+			$option = self::OPT_DEADLINE_DATE;
 		}
-		$radio = $ff->radio("","")
-			->withOption(
-				self::OPT_NO_DEADLINE,
-				$txt('prg_no_deadline'),
-				''
-			)
-			->withOption(
-				self::OPT_DEADLINE_PERIOD,
-				$txt('prg_deadline_period'),
-				'',
-				[self::PROP_DEADLINE_PERIOD => $deadline_period_subform]
-			)
-			->withOption(
-				self::OPT_DEADLINE_DATE,
-				$txt('prg_deadline_date'),
-				'',
-				[self::PROP_DEADLINE_DATE => $deadline_date_subform]
-			);
-
-		return $radio->withValue($radio_option);
+		$sg = $ff->switchableGroup(
+			[
+				self::OPT_NO_DEADLINE =>
+					$ff->group([],$txt('prg_no_deadline')),
+				self::OPT_DEADLINE_PERIOD =>
+					$ff->group([$deadline_period_subform],$txt('prg_deadline_period')),
+				self::OPT_DEADLINE_DATE =>
+					$ff->group([$deadline_date_subform],$txt('prg_deadline_date'))
+			],
+			''
+		);
+		return $sg->withValue($option);
 	}
 
 	protected function getValidityOfQualificationSubform($prg)
@@ -467,45 +444,38 @@ class ilObjStudyProgrammeSettingsGUI {
 		$txt = function($id) { return $this->lng->txt($id); };
 		$vq_period_subform = $ff
 			->numeric('',$txt('validity_qalification_period_desc'))
-			->withAdditionalConstraint(
-				$this->validation->greaterThan(-1)
+			->withAdditionalTransformation(
+				$this->refinery_factory->int()->isGreaterThan(-1)
 			);
-		$radio_option = self::OPT_NO_VALIDITY_OF_QUALIFICATION;
+		$option = self::OPT_NO_VALIDITY_OF_QUALIFICATION;
 		$period = $prg->getValidityOfQualificationPeriod();
 		if($period !== ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD) {
-			$vq_period_subform = $vq_period_subform->withValue($period);
-			$radio_option = self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD;
+			$vq_period_subform = $vq_period_subform->withValue($period)->withAdditionalTransformation($this->refinery_factory->int()->isGreaterThan(-1));
+			$option = self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD;
 		}
 		$format = $this->data_factory->dateFormat()->germanShort();
 		$vq_date_subform = $ff
 			->dateTime('',$txt('validity_qalification_date_desc'))
-			->withMinValue(new DateTime())
+			->withMinValue(new DateTimeImmutable())
 			->withFormat($format);
 		$date = $prg->getValidityOfQualificationDate();
 		if($date !== null) {
 			$vq_date_subform = $vq_date_subform->withValue($date->format($format->toString()));
-			$radio_option = self::OPT_VALIDITY_OF_QUALIFICATION_DATE;
+			$option = self::OPT_VALIDITY_OF_QUALIFICATION_DATE;
 		}
-		$radio = $ff->radio($txt('prg_validity_of_qualification_limit'),"")
-			->withOption(
-				self::OPT_NO_VALIDITY_OF_QUALIFICATION,
-				$txt('prg_no_validity_qalification'),
-				''
-			)
-			->withOption(
-				self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD,
-				$txt('validity_qalification_period'),
-				'',
-				[self::PROP_VALIDITY_OF_QUALIFICATION_PERIOD => $vq_period_subform]
-			)
-			->withOption(
-				self::OPT_VALIDITY_OF_QUALIFICATION_DATE,
-				$txt('validity_qalification_date'),
-				'',
-				[self::PROP_VALIDITY_OF_QUALIFICATION_DATE => $vq_date_subform]
-			);
 
-		return $radio->withValue($radio_option);
+		$sg = $ff->switchableGroup(
+			[
+				self::OPT_NO_VALIDITY_OF_QUALIFICATION =>
+					$ff->group([],$txt('prg_no_validity_qalification')),
+				self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD =>
+					$ff->group([$vq_period_subform],$txt('validity_qalification_period')),
+				self::OPT_VALIDITY_OF_QUALIFICATION_DATE =>
+					$ff->group([$vq_date_subform],$txt('validity_qalification_date'))
+			],
+			''
+		);
+		return $sg->withValue($option);
 	}
 
 	protected function getRestartSubform($prg)
@@ -514,28 +484,28 @@ class ilObjStudyProgrammeSettingsGUI {
 		$txt = function($id) { return $this->lng->txt($id); };
 		$restart_period_subform = $ff
 			->numeric('',$txt('restart_period_desc'))
-			->withAdditionalConstraint(
-				$this->validation->greaterThan(-1)
+			->withAdditionalTransformation(
+				$this->refinery_factory->int()->isGreaterThan(-1)
 			);
-		$radio_option = self::OPT_NO_RESTART;
+		$option = self::OPT_NO_RESTART;
 		$restart_period = $prg->getRestartPeriod();
 		if($restart_period !== ilStudyProgrammeSettings::NO_RESTART) {
-			$radio_option = self::OPT_RESTART_PERIOD;
+			$option = self::OPT_RESTART_PERIOD;
 			$restart_period_subform = $restart_period_subform->withValue($restart_period);
 		}
-		$radio = $ff->radio($txt('prg_validity_of_qualification_restart'),"")
-			->withOption(
-				self::OPT_NO_RESTART,
-				$txt('prg_no_restart'),
-				''
-			)
-			->withOption(
-				self::OPT_RESTART_PERIOD,
-				$txt('restart_period'),
-				'',
-				[self::PROP_RESTART_PERIOD => $restart_period_subform]
-			);
-		return $radio->withValue($radio_option);
+
+
+
+		$sg = $ff->switchableGroup(
+			[
+				self::OPT_NO_RESTART =>
+					$ff->group([],$txt('prg_no_restart')),
+				self::OPT_RESTART_PERIOD =>
+					$ff->group([$restart_period_subform],$txt('restart_period'))
+			],
+			''
+		);
+		return $sg->withValue($option);
 	}
 
 	protected function getObject() {

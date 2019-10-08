@@ -16,7 +16,6 @@ class ilStudyProgrammeDIC
 	protected static function buildDIC() : Container
 	{
 		global $DIC;
-
 		$dic = new Container();
 
 		$dic['ilStudyProgrammeEvents'] = function($dic) use ($DIC) {
@@ -72,8 +71,7 @@ class ilStudyProgrammeDIC
 				$DIC->ui()->factory()->input(),
 				$DIC->ui()->renderer(),
 				$DIC->http()->request(),
-				$dic['TransformationFactory'],
-				$dic['ValidationFactory'],
+				$DIC->refinery(),
 				$dic['DataFactory'],
 				$dic['model.Type.ilStudyProgrammeTypeRepository']
 			);
