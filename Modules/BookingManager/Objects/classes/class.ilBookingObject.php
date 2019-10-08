@@ -313,7 +313,6 @@ class ilBookingObject
 	{
 		if($this->id)
 		{
-			include_once "Modules/BookingManager/classes/class.ilFSStorageBooking.php";
 			$storage = new ilFSStorageBooking($this->id);
 			$storage->delete();
 			
@@ -331,7 +330,6 @@ class ilBookingObject
 	 */
 	public static function initStorage($a_id, $a_subdir = null)
 	{		
-		include_once "Modules/BookingManager/classes/class.ilFSStorageBooking.php";
 		$storage = new ilFSStorageBooking($a_id);
 		$storage->create();
 		

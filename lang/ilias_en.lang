@@ -15217,3 +15217,10 @@ wfld#:#wfld_creation_asc#:#Creation Date, asc.
 wfld#:#wfld_creation_desc#:#Creation Date, desc.
 wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
 wsp#:#wsp_switch_to_wsp_tree#:#Switch to Workspace
+obj#:#obj_tool_setting_booking#:#Resources
+book#:#book_select_pool#:#Select Pool
+book#:#book_pool_selection#:#Booking Pool Selection
+book#:#book_booked_in#:#Booked in
+obj#:#obj_tool_booking#:#Resources
+obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
+book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.

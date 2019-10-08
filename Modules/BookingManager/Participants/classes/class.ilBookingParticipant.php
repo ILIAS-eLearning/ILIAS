@@ -202,6 +202,7 @@ class ilBookingParticipant
 			$res[$index]['user_id'] = $row['user_id'];
 		}
 
+		// obsolete...?
 		$bp = new ilObjBookingPool($a_booking_pool, false);
 
 		foreach ($res as $index => $val)
@@ -222,7 +223,7 @@ class ilBookingParticipant
 				);
 				$ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
 			}
-			
+
 
 			if($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $val['obj_count'] == 1)
 			{
@@ -251,6 +252,8 @@ class ilBookingParticipant
 
 			//add the actions
 			$res[$index]['actions'] = $actions;
+			$res[$index]['object_ids'][] = $row['object_id'];
+
 		}
 		//echo "<pre>"; print_r($res); exit;
 		return $res;

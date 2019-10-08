@@ -103,7 +103,6 @@ class ilBookingScheduleGUI
 		$ilCtrl = $this->ctrl;
 		$ilAccess = $this->access;
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedulesTableGUI.php';
 		$table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
 		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
@@ -111,14 +110,12 @@ class ilBookingScheduleGUI
 			// if we have schedules but no objects - show info
 			if(sizeof($table->getData()))
 			{
-				include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
 				if(!sizeof(ilBookingObject::getList(ilObject::_lookupObjId($this->ref_id))))
 				{
 					ilUtil::sendInfo($lng->txt("book_type_warning"));
 				}
 			}
 			
-			include_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 			$bar = new ilToolbarGUI;
 			$bar->addButton($lng->txt('book_add_schedule'), $ilCtrl->getLinkTarget($this, 'create'));
 			$bar = $bar->getHTML();
@@ -182,8 +179,6 @@ class ilBookingScheduleGUI
 
 		$lng->loadLanguageModule("dateplaner");
 
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
 		$form_gui = new ilPropertyFormGUI();
 
 		$title = new ilTextInputGUI($lng->txt("title"), "title");
@@ -192,7 +187,6 @@ class ilBookingScheduleGUI
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
 
-		include_once "Modules/BookingManager/classes/class.ilScheduleInputGUI.php";
 		$definition = new ilScheduleInputGUI($lng->txt("book_schedule_days"), "days");
 		$definition->setInfo($lng->txt("book_schedule_days_info"));
 		$definition->setRequired(true);
@@ -221,7 +215,6 @@ class ilBookingScheduleGUI
 		
 		if ($a_mode == "edit")
 		{			
-			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 			$schedule = new ilBookingSchedule($id);
 		}		
 		
@@ -248,7 +241,6 @@ class ilBookingScheduleGUI
 			$item->setValue($id);
 			$form_gui->addItem($item);
 
-			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 			$schedule = new ilBookingSchedule($id);
 			$title->setValue($schedule->getTitle());
 			$from->setDate($schedule->getAvailabilityFrom());
@@ -310,7 +302,6 @@ class ilBookingScheduleGUI
 		$form = $this->initForm();
 		if($form->checkInput())
 		{
-			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 			$obj = new ilBookingSchedule;
 			$this->formToObject($form, $obj);
 			$obj->save();
@@ -337,7 +328,6 @@ class ilBookingScheduleGUI
 		$form = $this->initForm('edit', $this->schedule_id);
 		if($form->checkInput())
 		{
-			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 			$obj = new ilBookingSchedule($this->schedule_id);
 			$this->formToObject($form, $obj);
 			$obj->update();
@@ -452,12 +442,10 @@ class ilBookingScheduleGUI
 		$ilHelp->setSubScreenId("delete");
 
 
-		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($ilCtrl->getFormAction($this));
 		$conf->setHeaderText($lng->txt('book_confirm_delete'));
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 		$type = new ilBookingSchedule($this->schedule_id);
 		$conf->addItem('schedule_id', $this->schedule_id, $type->getTitle());
 		$conf->setConfirm($lng->txt('delete'), 'delete');
@@ -474,7 +462,6 @@ class ilBookingScheduleGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 		$obj = new ilBookingSchedule($this->schedule_id);
 		$obj->delete();
 
