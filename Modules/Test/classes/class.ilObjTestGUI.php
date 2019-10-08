@@ -2334,8 +2334,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$table_gui->setTotalWorkingTime($this->object->getFixedQuestionSetTotalWorkingTime());
 		
 		$table_gui->init();
+
+		$questionListAssocArray = $DIC->assessment()->questionProcessing(
+		    $this->object->getId(), $DIC->user()->getId()
+        )->questionList()->getQuestionsOfContainerAsAssocArray();
 		
-		$table_gui->setData($this->object->getTestQuestions());
+		$table_gui->setData($questionListAssocArray);
 		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
