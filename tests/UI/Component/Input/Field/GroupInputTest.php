@@ -272,4 +272,18 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->group, $new_group);
         $this->assertTrue($new_group->getContent()->isError());
     }
+
+    public function testWithoutChildren()
+    {
+        $group = new Group(
+            $this->data_factory,
+            $this->refinery,
+            [],
+            "LABEL",
+            "BYLINE"
+        );
+        $content = $group->getContent();
+        $this->assertInstanceOf(\ILIAS\Data\Result\Ok::class,$content);
+        $this->assertCount(0,$content->value());
+    }
 }
