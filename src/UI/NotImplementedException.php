@@ -8,5 +8,6 @@ namespace ILIAS\UI;
  * This exception indicates that an UI component was accepted by the JF but is
  * not backed by a real implementation.
  */
-class NotImplementedException extends \Exception {
+class NotImplementedException extends \Exception
+{
 }

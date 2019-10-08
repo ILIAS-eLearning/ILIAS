@@ -10,5 +10,6 @@ use \ILIAS\UI\Component as C;
  * Class Listing
  * @package ILIAS\UI\Implementation\Component\Listing\Listing
  */
-class Unordered extends Listing  implements C\Listing\Unordered {
+class Unordered extends Listing implements C\Listing\Unordered
+{
 }

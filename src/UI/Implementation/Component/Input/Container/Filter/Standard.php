@@ -9,6 +9,6 @@ use ILIAS\UI\Component as C;
 /**
  * This implements a Standard Filter.
  */
-class Standard extends Filter implements C\Input\Container\Filter\Standard {
-
+class Standard extends Filter implements C\Input\Container\Filter\Standard
+{
 }

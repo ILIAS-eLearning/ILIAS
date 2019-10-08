@@ -9,14 +9,13 @@ use \ILIAS\UI\Component as C;
  *
  * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
-class LayoutFactoryTest extends AbstractFactoryTest {
-
-	public $kitchensink_info_settings = array
-		(
-			"page" => array(
-					"context" => false,
-					"rules" => false
-			)
-	);
-	public $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
+class LayoutFactoryTest extends AbstractFactoryTest
+{
+    public $kitchensink_info_settings = array(
+            "page" => array(
+                    "context" => false,
+                    "rules" => false
+            )
+    );
+    public $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
 }

@@ -28,139 +28,140 @@ use ILIAS\UI\Component\OnUpdateable;
  * into other types of data. This means, that e.g. the value of an input could
  * be some id, while the content could be some object referenced by that id.
  */
-interface Input extends Component, JavaScriptBindable, OnUpdateable {
+interface Input extends Component, JavaScriptBindable, OnUpdateable
+{
 
-	/**
-	 * Get the label of the input.
-	 *
-	 * @return    string
-	 */
-	public function getLabel();
-
-
-	/**
-	 * Get an input like this, but with a replaced label.
-	 *
-	 * @param    string $label
-	 *
-	 * @return    Input
-	 */
-	public function withLabel($label);
+    /**
+     * Get the label of the input.
+     *
+     * @return    string
+     */
+    public function getLabel();
 
 
-	/**
-	 * Get the byline of the input.
-	 *
-	 * @return    string|null
-	 */
-	public function getByline();
+    /**
+     * Get an input like this, but with a replaced label.
+     *
+     * @param    string $label
+     *
+     * @return    Input
+     */
+    public function withLabel($label);
 
 
-	/**
-	 * Get an input like this, but with an additional/replaced label.
-	 *
-	 * @param    string|null $byline
-	 *
-	 * @return    Input
-	 */
-	public function withByline($byline);
+    /**
+     * Get the byline of the input.
+     *
+     * @return    string|null
+     */
+    public function getByline();
 
 
-	/**
-	 * Is this field required?
-	 *
-	 * @return    bool
-	 */
-	public function isRequired();
+    /**
+     * Get an input like this, but with an additional/replaced label.
+     *
+     * @param    string|null $byline
+     *
+     * @return    Input
+     */
+    public function withByline($byline);
 
 
-	/**
-	 * Get an input like this, but set the field to be required (or not).
-	 *
-	 * @param    bool $is_required
-	 *
-	 * @return    Input
-	 */
-	public function withRequired($is_required);
+    /**
+     * Is this field required?
+     *
+     * @return    bool
+     */
+    public function isRequired();
 
 
-	/**
-	 * Is this input disabled?
-	 *
-	 * @return    bool
-	 */
-	public function isDisabled();
+    /**
+     * Get an input like this, but set the field to be required (or not).
+     *
+     * @param    bool $is_required
+     *
+     * @return    Input
+     */
+    public function withRequired($is_required);
 
 
-	/**
-	 * Get an input like this, but set it to a disabled state.
-	 *
-	 * @param    bool $is_disabled
-	 *
-	 * @return    Input
-	 */
-	public function withDisabled($is_disabled);
+    /**
+     * Is this input disabled?
+     *
+     * @return    bool
+     */
+    public function isDisabled();
 
 
-	/**
-	 * Get the value that is displayed in the input client side.
-	 *
-	 * @return    mixed
-	 */
-	public function getValue();
+    /**
+     * Get an input like this, but set it to a disabled state.
+     *
+     * @param    bool $is_disabled
+     *
+     * @return    Input
+     */
+    public function withDisabled($is_disabled);
 
 
-	/**
-	 * Get an input like this with another value displayed on the
-	 * client side.
-	 *
-	 * @param    mixed
-	 *
-	 * @throws  \InvalidArgumentException    if value does not fit client side input
-	 * @return Input
-	 */
-	public function withValue($value);
+    /**
+     * Get the value that is displayed in the input client side.
+     *
+     * @return    mixed
+     */
+    public function getValue();
 
 
-	/**
-	 * The error of the input as used in HTML.
-	 *
-	 * @return string|null
-	 */
-	public function getError();
+    /**
+     * Get an input like this with another value displayed on the
+     * client side.
+     *
+     * @param    mixed
+     *
+     * @throws  \InvalidArgumentException    if value does not fit client side input
+     * @return Input
+     */
+    public function withValue($value);
 
 
-	/**
-	 * Get an input like this one, with a different error.
-	 *
-	 * @param    string
-	 *
-	 * @return    Input
-	 */
-	public function withError($error);
+    /**
+     * The error of the input as used in HTML.
+     *
+     * @return string|null
+     */
+    public function getError();
 
 
-	/**
-	 * Apply a transformation to the content of the input.
-	 *
-	 * @param    Transformation $trafo
-	 *
-	 * @return    Input
-	 */
-	public function withAdditionalTransformation(Transformation $trafo);
+    /**
+     * Get an input like this one, with a different error.
+     *
+     * @param    string
+     *
+     * @return    Input
+     */
+    public function withError($error);
 
 
-	/**
-	 * Get update code
-	 *
-	 * This method has to return JS code that calls
-	 * il.UI.filter.onFieldUpdate(event, '$id', string_value);
-	 * - initially "onload" and
-	 * - on every input change.
-	 * It must pass a readable string representation of its value in parameter 'string_value'.
-	 *
-	 * @param \Closure $binder
-	 * @return string
-	 */
-	public function getUpdateOnLoadCode(): \Closure;
+    /**
+     * Apply a transformation to the content of the input.
+     *
+     * @param    Transformation $trafo
+     *
+     * @return    Input
+     */
+    public function withAdditionalTransformation(Transformation $trafo);
+
+
+    /**
+     * Get update code
+     *
+     * This method has to return JS code that calls
+     * il.UI.filter.onFieldUpdate(event, '$id', string_value);
+     * - initially "onload" and
+     * - on every input change.
+     * It must pass a readable string representation of its value in parameter 'string_value'.
+     *
+     * @param \Closure $binder
+     * @return string
+     */
+    public function getUpdateOnLoadCode() : \Closure;
 }

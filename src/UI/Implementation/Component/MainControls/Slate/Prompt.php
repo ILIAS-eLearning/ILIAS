@@ -16,42 +16,42 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 abstract class Prompt extends Slate implements ISlate\Prompt
 {
-	/**
-	 * @var ILIAS\UI\Component\Counter\Factory
-	 */
-	protected $counter_factory;
+    /**
+     * @var ILIAS\UI\Component\Counter\Factory
+     */
+    protected $counter_factory;
 
-	public function __construct(
-		SignalGeneratorInterface $signal_generator,
-		CounterFactory $counter_factory,
-		string $name,
-		Glyph $symbol
-	) {
-		$this->counter_factory = $counter_factory;
-		parent::__construct($signal_generator, $name, $symbol);
-	}
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        CounterFactory $counter_factory,
+        string $name,
+        Glyph $symbol
+    ) {
+        $this->counter_factory = $counter_factory;
+        parent::__construct($signal_generator, $name, $symbol);
+    }
 
-	protected function getCounterFactory(): CounterFactory
-	{
-		return $this->counter_factory;
-	}
+    protected function getCounterFactory() : CounterFactory
+    {
+        return $this->counter_factory;
+    }
 
-	protected function updateCounter(Counter $counter): ISlate\Prompt
-	{
-		$clone = clone $this;
-		$clone->symbol = $clone->symbol->withCounter($counter);
-		return $clone;
-	}
+    protected function updateCounter(Counter $counter) : ISlate\Prompt
+    {
+        $clone = clone $this;
+        $clone->symbol = $clone->symbol->withCounter($counter);
+        return $clone;
+    }
 
-	public function	withUpdatedStatusCounter(int $count): ISlate\Prompt
-	{
-		$counter = $this->getCounterFactory()->status($count);
-		return $this->updateCounter($counter);
-	}
+    public function withUpdatedStatusCounter(int $count) : ISlate\Prompt
+    {
+        $counter = $this->getCounterFactory()->status($count);
+        return $this->updateCounter($counter);
+    }
 
-	public function withUpdatedNoveltyCounter(int $count): ISlate\Prompt
-	{
-		$counter = $this->getCounterFactory()->novelty($count);
-		return $this->updateCounter($counter);
-	}
+    public function withUpdatedNoveltyCounter(int $count) : ISlate\Prompt
+    {
+        $counter = $this->getCounterFactory()->novelty($count);
+        return $this->updateCounter($counter);
+    }
 }

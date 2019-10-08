@@ -11,20 +11,19 @@ use ILIAS\UI\Component\Symbol\Symbol;
 
 class Factory implements L\Factory
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function standard(string $label, string $action): L\Standard
-	{
-		return new Standard($label, $action);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function standard(string $label, string $action) : L\Standard
+    {
+        return new Standard($label, $action);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function bulky(Symbol $symbol, string $label, \ILIAS\Data\URI $action): L\Bulky
-	{
-		return new Bulky($symbol, $label, $action);
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function bulky(Symbol $symbol, string $label, \ILIAS\Data\URI $action) : L\Bulky
+    {
+        return new Bulky($symbol, $label, $action);
+    }
 }

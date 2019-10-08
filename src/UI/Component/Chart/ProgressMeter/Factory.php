@@ -8,7 +8,8 @@ namespace ILIAS\UI\Component\Chart\ProgressMeter;
  * Interface Factory
  * @package ILIAS\UI\Component\Chart\ProgressMeter
  */
-interface Factory {
+interface Factory
+{
 
     /**
      * ---
@@ -77,5 +78,4 @@ interface Factory {
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Mini
      */
     public function mini($maximum, $main, $required = null);
-
 }

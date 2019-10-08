@@ -6,11 +6,13 @@ namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+
 /**
  * Class ProgressMeter
  * @package ILIAS\UI\Implementation\Component\Chart\ProgressMeter
  */
-class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
+class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
+{
     use ComponentHelper;
 
     /**
@@ -43,14 +45,14 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
         $this->checkIntArg("main", $main);
         $this->main = $this->getSafe($main);
 
-        if($required != null) {
+        if ($required != null) {
             $this->checkIntArg("required", $required);
             $this->required = $this->getSafe($required);
         } else {
             $this->checkIntArg("required", $maximum);
             $this->required = $this->getSafe($maximum);
         }
-        if($comparison != null) {
+        if ($comparison != null) {
             $this->checkIntArg("comparison", $comparison);
             $this->comparison = $this->getSafe($comparison);
         } else {
@@ -121,7 +123,6 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter {
      */
     protected function getAsPercentage($a_int)
     {
-        return round(100 / $this->getMaximum() * $this->getSafe($a_int), 0 , PHP_ROUND_HALF_UP);
+        return round(100 / $this->getMaximum() * $this->getSafe($a_int), 0, PHP_ROUND_HALF_UP);
     }
-
 }

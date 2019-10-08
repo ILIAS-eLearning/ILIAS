@@ -34,28 +34,25 @@ class Text implements C\Listing\CharacteristicValue\Text
      */
     private function validateItems(array $items)
     {
-        if( !count($items) )
-        {
+        if (!count($items)) {
             throw new \InvalidArgumentException('expected non empty array, got empty array');
         }
 
-        $this->checkArgList("Characteristic Value List Items", $items,
-            function($k, $v)
-            {
-                if( !is_string($k) || !strlen($k) )
-                {
+        $this->checkArgList(
+            "Characteristic Value List Items",
+            $items,
+            function ($k, $v) {
+                if (!is_string($k) || !strlen($k)) {
                     return false;
                 }
 
-                if( !is_string($v) && !strlen($v) )
-                {
+                if (!is_string($v) && !strlen($v)) {
                     return false;
                 }
 
                 return true;
             },
-            function($k, $v)
-            {
+            function ($k, $v) {
                 return "expected keys of type string and values of type string, got ($k => $v)";
             }
         );

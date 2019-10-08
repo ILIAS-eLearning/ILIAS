@@ -1,5 +1,6 @@
 <?php
-function base() {
+function base()
+{
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();

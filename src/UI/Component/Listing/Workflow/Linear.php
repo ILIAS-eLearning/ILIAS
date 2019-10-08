@@ -6,6 +6,6 @@ namespace ILIAS\UI\Component\Listing\Workflow;
 /**
  * This describes a Linear Workflow.
  */
-interface Linear extends Workflow {
-
+interface Linear extends Workflow
+{
 }

@@ -11,9 +11,11 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  * Vertical Divider
  * @author Alex Killing <killing@leifos.de>
  */
-class Vertical implements C\Divider\Vertical {
-	use ComponentHelper;
+class Vertical implements C\Divider\Vertical
+{
+    use ComponentHelper;
 
-	public function __construct() {
-	}
+    public function __construct()
+    {
+    }
 }

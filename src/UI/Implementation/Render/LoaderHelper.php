@@ -8,20 +8,22 @@ use ILIAS\UI\Factory as RootFactory;
 use ILIAS\UI\Component\Component;
 
 /**
- * Helpers for loaders of component renderers. 
+ * Helpers for loaders of component renderers.
  */
-trait LoaderHelper {
-	/**
-	 * Get and collapse the names of the passes components.
-	 *
-	 * @param	Component[]	$contexts
-	 * @return	string[]
-	 */
-	protected function getContextNames(array $contexts) {
-		$names = [];
-		foreach ($contexts as $context) {
-			$names[] = str_replace(" ", "", $context->getCanonicalName());
-		}
-		return $names;
-	}
+trait LoaderHelper
+{
+    /**
+     * Get and collapse the names of the passes components.
+     *
+     * @param	Component[]	$contexts
+     * @return	string[]
+     */
+    protected function getContextNames(array $contexts)
+    {
+        $names = [];
+        foreach ($contexts as $context) {
+            $names[] = str_replace(" ", "", $context->getCanonicalName());
+        }
+        return $names;
+    }
 }

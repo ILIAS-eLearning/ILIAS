@@ -7,11 +7,11 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes select field.
  */
-interface Select extends FilterInput {
+interface Select extends FilterInput
+{
 
-	/**
-	 * @return array<string,string> of key=>value options.
-	 */
-	public function getOptions();
-
+    /**
+     * @return array<string,string> of key=>value options.
+     */
+    public function getOptions();
 }

@@ -8,6 +8,6 @@ namespace ILIAS\UI\Component\Chart\ProgressMeter;
  * Interface Mini
  * @package ILIAS\UI\Component\Chart\ProgressMeter
  */
-interface Mini extends ProgressMeter {
-
+interface Mini extends ProgressMeter
+{
 }

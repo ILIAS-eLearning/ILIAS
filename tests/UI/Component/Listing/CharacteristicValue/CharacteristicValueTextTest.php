@@ -17,18 +17,14 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
     {
         $f = $this->getCharacteristicValueFactory();
 
-        foreach($this->getInvalidTextItemsMocks() as $invalidItemsMock)
-        {
-            try
-            {
+        foreach ($this->getInvalidTextItemsMocks() as $invalidItemsMock) {
+            try {
                 $f->text($invalidItemsMock);
 
                 $this->throwException(new Exception(
                     'expected InvalidArgumentException, catched none'
                 ));
-            }
-            catch(InvalidArgumentException $e)
-            {
+            } catch (InvalidArgumentException $e) {
                 $this->assertInstanceOf('InvalidArgumentException', $e);
             }
         }

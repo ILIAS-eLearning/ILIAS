@@ -7,12 +7,11 @@ use ILIAS\UI\Component\Layout;
 
 class Factory implements Layout\Factory
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function page(): Layout\Page\Factory
-	{
-		return new Page\Factory();
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function page() : Layout\Page\Factory
+    {
+        return new Page\Factory();
+    }
 }

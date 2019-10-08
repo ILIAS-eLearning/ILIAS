@@ -31,8 +31,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
-        if( $component instanceof Text )
-        {
+        if ($component instanceof Text) {
             return $this->render_text($component);
         }
 
@@ -48,8 +47,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getReportTemplate();
 
-        foreach($component->getItems() as $label => $item)
-        {
+        foreach ($component->getItems() as $label => $item) {
             $this->renderItem($tpl, 'text_value', $label, $item);
             $this->renderRow($tpl);
         }

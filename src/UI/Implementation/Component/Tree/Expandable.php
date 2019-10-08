@@ -14,5 +14,5 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  */
 class Expandable extends Tree implements ITree\Expandable
 {
-	use JavaScriptBindable;
+    use JavaScriptBindable;
 }

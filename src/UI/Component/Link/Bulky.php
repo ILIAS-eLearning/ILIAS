@@ -13,13 +13,13 @@ use ILIAS\UI\Component\Symbol;
  */
 interface Bulky extends Link
 {
-	/**
-	 * Get the label of the link
-	 */
-	public function getLabel(): string;
+    /**
+     * Get the label of the link
+     */
+    public function getLabel() : string;
 
-	/**
-	 * Get the Icon or Glyph the Link was created with.
-	 */
-	public function getSymbol(): Symbol\Symbol;
+    /**
+     * Get the Icon or Glyph the Link was created with.
+     */
+    public function getSymbol() : Symbol\Symbol;
 }

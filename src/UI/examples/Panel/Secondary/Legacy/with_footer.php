@@ -2,22 +2,22 @@
 
 function with_footer()
 {
-	global $DIC;
+    global $DIC;
 
-	$factory = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+    $factory = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	$tags = ["PHP", "ILIAS", "Sofware", "SOLID", "Domain Driven"];
+    $tags = ["PHP", "ILIAS", "Sofware", "SOLID", "Domain Driven"];
 
-	$html = "";
-	foreach ($tags as $tag) {
-		$html .= $renderer->render($factory->button()->tag($tag, ""));
-	}
+    $html = "";
+    foreach ($tags as $tag) {
+        $html .= $renderer->render($factory->button()->tag($tag, ""));
+    }
 
-	$legacy = $factory->legacy($html);
-	$link = $factory->button()->Shy("Edit Keywords", "");
+    $legacy = $factory->legacy($html);
+    $link = $factory->button()->Shy("Edit Keywords", "");
 
-	$panel = $factory->panel()->secondary()->legacy("panel title", $legacy)->withFooter($link);
+    $panel = $factory->panel()->secondary()->legacy("panel title", $legacy)->withFooter($link);
 
-	return $renderer->render($panel);
+    return $renderer->render($panel);
 }

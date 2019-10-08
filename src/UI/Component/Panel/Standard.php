@@ -7,5 +7,6 @@ namespace ILIAS\UI\Component\Panel;
 /**
  * This describes a Standard Panel.
  */
-interface Standard extends Panel {
+interface Standard extends Panel
+{
 }

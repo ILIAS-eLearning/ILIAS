@@ -8,6 +8,6 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes numeric inputs.
  */
-interface Numeric extends FilterInput {
-
+interface Numeric extends FilterInput
+{
 }

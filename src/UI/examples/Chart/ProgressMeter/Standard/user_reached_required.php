@@ -2,7 +2,8 @@
 /**
  * Example for rendering a standard Progress Meter when the required value was reached
  */
-function user_reached_required() {
+function user_reached_required()
+{
     //Loading factories
     global $DIC;
     $f = $DIC->ui()->factory();
