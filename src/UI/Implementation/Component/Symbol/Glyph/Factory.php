@@ -288,4 +288,12 @@ class Factory implements G\Factory {
 	{
 		return new Glyph(G\Glyph::TIME, "time", $action);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function close($action = null): G\Glyph
+	{
+		return new Glyph(G\Glyph::CLOSE, "close", $action);
+	}
 }

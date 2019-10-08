@@ -47,6 +47,7 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, \ILIAS\UI\Component\J
 	const HELP = "help";
 	const CALENDAR = "calendar";
 	const TIME = "time";
+	const CLOSE = "close";
 
 	/**
 	 * Get the type of the glyph.
