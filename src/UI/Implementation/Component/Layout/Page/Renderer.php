@@ -49,6 +49,7 @@ class Renderer extends AbstractComponentRenderer {
 			}
 		}
 
+		$tpl->setVariable("TITLE", $component->getTitle());
 		$tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
 		if($component->hasFooter()) {

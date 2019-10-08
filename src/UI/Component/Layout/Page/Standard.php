@@ -21,14 +21,12 @@ interface Standard extends Page, JavaScriptBindable {
 	 */
 	public function withMetabar(Metabar $meta_bar): Standard;
 
-
 	/**
 	 * @param Mainbar $main_bar
 	 *
 	 * @return Standard
 	 */
 	public function withMainbar(MainBar $main_bar): Standard;
-
 
 	/**
 	 * @param Image $logo
@@ -37,42 +35,35 @@ interface Standard extends Page, JavaScriptBindable {
 	 */
 	public function withLogo(Image $logo): Standard;
 
-
 	/**
 	 * @return bool
 	 */
 	public function hasMetabar(): bool;
-
 
 	/**
 	 * @return bool
 	 */
 	public function hasMainbar(): bool;
 
-
 	/**
 	 * @return bool
 	 */
 	public function hasLogo(): bool;
-
 
 	/**
 	 * @return Metabar|null
 	 */
 	public function getMetabar();
 
-
 	/**
 	 * @return Mainbar|null
 	 */
 	public function getMainbar();
 
-
 	/**
 	 * @return Breadcrumbs|null
 	 */
 	public function getBreadcrumbs();
-
 
 	/**
 	 * @return Image|null
@@ -84,4 +75,7 @@ interface Standard extends Page, JavaScriptBindable {
 	 */
 	public function getFooter();
 
+	public function withTitle(string $title): Standard;
+
+	public function getTitle(): string;
 }

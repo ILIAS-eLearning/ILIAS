@@ -26,6 +26,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
 		$this->crumbs = $this->createMock(Breadcrumbs::class);
 		$this->logo = $this->createMock(Image::class);
 		$this->contents = array(new Legacy('some content'));
+		$this->title = 'pagetitle';
 
 		$this->factory = new Page\Factory();
 		$this->stdpage = $this->factory->standard(
@@ -33,7 +34,9 @@ class StandardPageTest extends ILIAS_UI_TestBase
 			$this->metabar,
 			$this->mainbar,
 			$this->crumbs,
-			$this->logo
+			$this->logo,
+			null,
+			$this->title
 		);
 	}
 
@@ -94,6 +97,23 @@ class StandardPageTest extends ILIAS_UI_TestBase
 			'string is not allowed here',
 			$this->crumbs,
 			$this->logo
+		);
+	}
+
+	public function testGetTitle()
+	{
+		$this->assertEquals(
+			$this->title,
+			$this->stdpage->getTitle()
+		);
+	}
+
+	public function testWithTitle()
+	{
+		$title = 'some title';
+		$this->assertEquals(
+			$title,
+			$this->stdpage->withTitle($title)->getTitle()
 		);
 	}
 }
