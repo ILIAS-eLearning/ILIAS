@@ -307,7 +307,7 @@ class ilDclExpressionParser
             self::$cache_fields[$placeholder] = $field;
         }
 
-        return $this->record->getRecordFieldHTML($field->getId());
+        return $this->record->getRecordFieldFormulaValue($field->getId());
     }
 
 
