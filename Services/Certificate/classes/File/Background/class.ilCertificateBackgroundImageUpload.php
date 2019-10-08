@@ -170,6 +170,56 @@ class ilCertificateBackgroundImageUpload
 	}
 
 	/**
+	 * Copy the default background image for the certificate. Creates a new directory for the
+	 * certificate if needed.
+	 *
+	 * @param int $version - Version of the current certifcate template
+	 * @return integer An errorcode if the image upload fails, 0 otherwise
+	 * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
+	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilException
+	 */
+	public function copyDefaultBackgroundImage( int $version)
+	{
+		$imagepath = $this->rootDirectory . $this->certificatePath;
+
+		if (!$this->fileSystem->hasDir($imagepath)) {
+			ilUtil::makeDirParents($imagepath);
+		}
+
+		$globalBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
+		$globalBackgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalBackgroundImagePath);
+
+		if($globalBackgroundImagePath !== ''){
+			$backgroundImagePath = $this->certificatePath . 'background_' . $version . '.jpg';
+
+			$this->fileSystem->copy($globalBackgroundImagePath, $backgroundImagePath);
+
+			$backgroundImageThumbnailPath = $this->createBackgroundImageThumbPath();
+
+			$this->utilHelper->convertImage(
+				$this->rootDirectory . $backgroundImagePath,
+				$backgroundImageThumbnailPath,
+				'JPEG',
+				100
+			);
+
+			$convert_filename = self::BACKGROUND_IMAGE_NAME;
+
+			if ($this->fileSystem->has($backgroundImagePath)) {
+				return $backgroundImagePath;
+			} else {
+				// something went wrong converting the file. use the original file and hope, that PDF can work with it
+				if (!ilUtil::moveUploadedFile($globalBackgroundImagePath, $convert_filename, $this->rootDirectory . $backgroundImagePath)) {
+					throw new ilException('Unable to convert the file and the original file');
+				}
+			}
+		}
+		return '';
+	}
+
+	/**
 	 * @param string $temporaryFilename
 	 * @param string $targetFileName
 	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
