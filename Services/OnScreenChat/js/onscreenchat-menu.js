@@ -87,12 +87,19 @@
 								participantNames.push(participants[key].name);
 							}
 
-							participantUserIds.push(participants[key].id);
+							participantUserIds.push(parseInt(participants[key].id));
 						}
 					}
 
+					// use Array.includes if IE 11 is dropped
+					let is_last_user_in_conversation = $.inArray(parseInt(latestMessage.userId), participantUserIds) !== -1;
+
 					var displayUserId = (function() {
-						if (latestMessage.userId != getModule().config.userId && latestMessage.userId > 0) {
+						if (
+							latestMessage.userId != getModule().config.userId &&
+							latestMessage.userId > 0 &&
+							is_last_user_in_conversation
+						) {
 							return latestMessage.userId;
 						} else {
 							return participantUserIds[0];
@@ -112,9 +119,13 @@
 						numMessagesCounter.addClass('iosOnScreenChatHidden');
 					}
 					template = template.replace("[[badge]]", numMessagesCounter.wrap("<div></div>").parent().html());
-					template = template.replace('[[last_message]]', getModule().getMessageFormatter().format(latestMessage.message));
 					template = template.replace('[[last_message_time]]', momentFromNowToTime(latestMessage.timestamp));
 					template = template.replace('[[last_message_time_raw]]', latestMessage.timestamp);
+					if (is_last_user_in_conversation) {
+						template = template.replace('[[last_message]]', getModule().getMessageFormatter().format(latestMessage.message));
+					} else {
+						template = template.replace('[[last_message]]', '');
+					}
 
 					conversation_templates += template;
 				}
