@@ -3,7 +3,8 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
 
@@ -17,7 +18,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ErrorTextScoringDefinition extends ScoringDefinition {
+class ErrorTextScoringDefinition extends AnswerDefinition {
     
     const VAR_WORD_INDEX = 'etsd_word_index';
     const VAR_CORRECT_TEXT = 'etsd_correct_text' ;
@@ -72,7 +73,7 @@ class ErrorTextScoringDefinition extends ScoringDefinition {
         return $this->points;
     }
     
-    public static function getFields(): array {
+    public static function getFields(QuestionPlayConfiguration $play): array {
         global $DIC;
         
         $fields = [];

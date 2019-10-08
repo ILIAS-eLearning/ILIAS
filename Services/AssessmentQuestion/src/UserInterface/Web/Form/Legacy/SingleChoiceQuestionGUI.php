@@ -53,7 +53,7 @@ class SingleChoiceQuestionGUI extends LegacyFormGUIBase {
 	    global $DIC;
 	    
 	    $definitions = array_merge(ImageAndTextDisplayDefinition::getFields($play),
-	                               MultipleChoiceScoringDefinition::getFields());
+	                               MultipleChoiceScoringDefinition::getFields($play));
 	    
 	    $definitions = $this->renameColumn($definitions, 
 	                                       MultipleChoiceScoringDefinition::VAR_MCSD_SELECTED, 

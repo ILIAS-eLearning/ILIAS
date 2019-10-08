@@ -3,7 +3,8 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 
 /**
@@ -16,7 +17,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormField
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ImageMapEditorDisplayDefinition extends DisplayDefinition {
+class ImageMapEditorDisplayDefinition extends AnswerDefinition {
     const VAR_TOOLTIP = 'imedd_tooltip';
     const VAR_TYPE = 'imedd_type';
     const VAR_COORDINATES = 'imedd_coordinates';
@@ -70,7 +71,7 @@ class ImageMapEditorDisplayDefinition extends DisplayDefinition {
         return $this->coordinates;
     }
     
-    public static function getFields(): array {
+    public static function getFields(QuestionPlayConfiguration $play): array {
         global $DIC;
         
         $fields = [];

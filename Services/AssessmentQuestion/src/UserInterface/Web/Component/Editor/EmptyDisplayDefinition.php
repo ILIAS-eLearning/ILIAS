@@ -2,7 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 
 /**
  * Class EmptyDisplayDefinition
@@ -14,8 +15,8 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class EmptyDisplayDefinition extends DisplayDefinition {        
-    public static function getFields(): array {
+class EmptyDisplayDefinition extends AnswerDefinition {        
+    public static function getFields(QuestionPlayConfiguration $play): array {
         return [];
     }
     

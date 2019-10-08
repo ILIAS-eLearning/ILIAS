@@ -2,7 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
 
@@ -16,7 +17,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class MultipleChoiceScoringDefinition extends ScoringDefinition {
+class MultipleChoiceScoringDefinition extends AnswerDefinition {
 
 	const VAR_MCSD_SELECTED = 'mcsd_selected';
 	const VAR_MCSD_UNSELECTED = 'mcsd_unselected';
@@ -58,7 +59,7 @@ class MultipleChoiceScoringDefinition extends ScoringDefinition {
 		return $this->points_unselected;
 	}
 
-	public static function getFields(): array {
+	public static function getFields(QuestionPlayConfiguration $play): array {
 	    global $DIC;
 	    
 	    $fields = [];

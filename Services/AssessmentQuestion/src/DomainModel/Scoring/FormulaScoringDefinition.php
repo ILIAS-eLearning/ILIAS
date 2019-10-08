@@ -3,7 +3,8 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
 
@@ -17,7 +18,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class FormulaScoringDefinition extends ScoringDefinition {
+class FormulaScoringDefinition extends AnswerDefinition {
     const VAR_TYPE = 'fsd_type';
     const VAR_MIN = 'fsd_min';
     const VAR_MAX = 'fsd_max';
@@ -124,7 +125,7 @@ class FormulaScoringDefinition extends ScoringDefinition {
         return $this->points;
     }
 
-    public static function getFields(): array
+    public static function getFields(QuestionPlayConfiguration $play): array
     {
         global $DIC;
         

@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\DisplayDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
@@ -19,7 +19,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ImageAndTextDisplayDefinition extends DisplayDefinition {
+class ImageAndTextDisplayDefinition extends AnswerDefinition {
 
 	const VAR_MCDD_TEXT = 'mcdd_text' ;
 	const VAR_MCDD_IMAGE = 'mcdd_image';
@@ -50,7 +50,7 @@ class ImageAndTextDisplayDefinition extends DisplayDefinition {
 		return $this->image;
 	}
 
-	public static function getFields(QuestionPlayConfiguration $play = null): array {
+	public static function getFields(QuestionPlayConfiguration $play): array {
 	    global $DIC;
 	    
 	    $fields = [];

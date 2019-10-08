@@ -3,7 +3,8 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
 
@@ -17,7 +18,7 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class TextSubsetScoringDefinition extends ScoringDefinition {
+class TextSubsetScoringDefinition extends AnswerDefinition {
     
     const VAR_TSSD_POINTS = 'tssd_points';
     const VAR_TSSD_TEXT = 'tsdd_text' ;
@@ -56,7 +57,7 @@ class TextSubsetScoringDefinition extends ScoringDefinition {
         return $this->text;
     }
     
-    public static function getFields(): array {
+    public static function getFields(QuestionPlayConfiguration $play): array {
         global $DIC;
         
         $fields = [];

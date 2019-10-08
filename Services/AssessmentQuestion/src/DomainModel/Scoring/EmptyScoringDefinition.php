@@ -2,7 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 
 /**
  * Class EmptyScoringDefinition
@@ -14,9 +15,9 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class EmptyScoringDefinition extends ScoringDefinition {
+class EmptyScoringDefinition extends AnswerDefinition {
     
-    public static function getFields(): array {
+    public static function getFields(QuestionPlayConfiguration $play): array {
         return [];
     }
     

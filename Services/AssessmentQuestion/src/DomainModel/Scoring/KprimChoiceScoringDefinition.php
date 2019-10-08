@@ -2,11 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditorConfiguration;
 
 /**
  * Class KprimChoiceScoringDefinition
@@ -18,7 +17,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEdito
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class KprimChoiceScoringDefinition extends ScoringDefinition {
+class KprimChoiceScoringDefinition extends AnswerDefinition {
 
     const VAR_KPSD_CORRECT = 'kpsd_correct';
     
@@ -65,10 +64,6 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
         return $fields;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition::getValues()
-     */
     public function getValues(): array
     {
         return [self::VAR_KPSD_CORRECT => $this->correct_value ? self::STR_TRUE : self::STR_FALSE];
